@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C9F283C40
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 18:19:38 +0200 (CEST)
-Received: from localhost ([::1]:47216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE12C283BCF
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 17:58:38 +0200 (CEST)
+Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPTD7-0008FA-2a
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 12:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59964)
+	id 1kPSsn-0006DN-Qs
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 11:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPSq6-00044i-HG; Mon, 05 Oct 2020 11:55:50 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:52141)
+ id 1kPSq8-00045T-Ao; Mon, 05 Oct 2020 11:55:52 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:53643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPSq4-0001VY-Hm; Mon, 05 Oct 2020 11:55:50 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id a17so20285pju.1;
- Mon, 05 Oct 2020 08:55:46 -0700 (PDT)
+ id 1kPSq5-0001Vu-UE; Mon, 05 Oct 2020 11:55:52 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id t7so13125pjd.3;
+ Mon, 05 Oct 2020 08:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ws9urbd+LWYd/UwlLgt9Qd/2sSOE/uXLdAEJSjpCLJg=;
- b=riE+IYspqj/qwjvO+Z8j41EXHDd5RA993fJ/FRrGeFIXYpgOWSn6G9ibiYrBK4pn9r
- xSblf40fNZi3x+QAHap2QoN/KAGJvAGXjxW+gmwu9Z8APWIYV/rMotshQ3pnLKuPkw/+
- No8AFX69mbYhTJUeatcIx4xSnBnU3jk18hEVpucR+GvhJejgbDC2SYk6zbhkoTxKEA9g
- T1bm8V5zZeqN7u506Oa3kR/4SbFAVv7DUbEedDB826Ffpf6SOqk/ZGgJUSPWwcxOnELN
- b8YG1j2kk2t6EpbKjlFcDUjWKtN5maDSsDWURT1gPzyLE1+KH64wWe2WVxCDZlyKmdu4
- xSIg==
+ bh=2WqjhroH5SRwZnm2hg+MQdn9o9Rvim5vvZIGkwtpMCA=;
+ b=VtHluAbmnyEkFe4ffbt+2z5d89mFnZRTcVrz7BvsYoaluZBIfhwfBz2MB63ZTivZhM
+ 4oMRx1wPoVQJ88FlNZbPoz28yknSa73RJbBgUVO8qO4iPCt1owRvlCNgA00SxVJFd/lM
+ 7y9bfueWhj4Poda5VYSQu2myaF5ZyxTLsAqGp1QASyvuewJw4vw4089YZjrYdjlPv+8A
+ 7gtGHaG060zkRYbfHxLGWFyIkSpgb1QlTuo+KpnKpAF/7U5Uq6pQfw3quGEFGvmwqac7
+ AQzT/ls6E0ZwdLIlch8bAEq13aku6eLM+v3BGk2SSkeDbtTCAaS2KIgP0zpb8RWtLHF5
+ ziSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ws9urbd+LWYd/UwlLgt9Qd/2sSOE/uXLdAEJSjpCLJg=;
- b=oBE6rjXY5r26hGoENSIx0LKEBNcdqO2FmTI2jGc+C8Emd2qF8sHJpDemlXrhIdRTpj
- VxVC8QDuc8NJZR8wgY8ekjy4+L6NItWSGS4scVM0u1JYRJgUHw6FePo6M9nHs+tXFJJw
- DYKhJihTE7c14SZ20u3hlYfTmdqjB2mrmNLXbAU7zF+61+MNzMjo/9dWbLmE1aO+utEA
- d8P/JNi5eTWlh19LmCLad2uqciSbr+GsgzaMYJ19vw+bJ5g2mAtUGp3VeHP9Zdga66Om
- 3b7JuShsK0/X/aW4dSTFix0W1FNp7h64L3ch98oxjIQuEEKkBdExLQ72XrrtUkHFyGsN
- isZA==
-X-Gm-Message-State: AOAM531M2eKO2oOLqeZCaCdmRf2vF7676FPmsF4r+bYe/G1hsYa1BSrI
- bVM+mFPb/awRP25w742rxs0klvcYfNVKSQ==
-X-Google-Smtp-Source: ABdhPJwOfLMcz8k3PnWC4y/OFcI60tj8VzCny6xoBCvZXKhGfmV9+iKjP/+eHmziFzLzRocAUb7YKw==
-X-Received: by 2002:a17:90a:71c3:: with SMTP id m3mr81488pjs.68.1601913344586; 
- Mon, 05 Oct 2020 08:55:44 -0700 (PDT)
+ bh=2WqjhroH5SRwZnm2hg+MQdn9o9Rvim5vvZIGkwtpMCA=;
+ b=HPnN/xRBDKBvR0nXshh9xr2VC3xU+nBKbSFpBHC9at2VzQTWYuGO6CaE5B55a/NHWz
+ pIYvv6jRBBCV4LSu3tdLsmXkTyY3fDbsNq/CtIWbHjgabRWdgC1NHDvysJA3Ez6ULBjX
+ TvhVvpV7XBJ2+7yCi3v3QxTZsvAlnju6Gn/CDDXV1DvNtCrHX0u/XBaE/5JTzLpWKZVA
+ zPvZpXuUZqz4TeEyX6hR3d/1TG6clNOJnN/hijMTlwUiToznc69B+JUAX6Aa3KTLOikf
+ hznlbne10zBkzu0nNqKdjAzQ738uaq7xu+1F0YrUy+yIOWUmK82cimrrCWiXUdNRyAid
+ Purw==
+X-Gm-Message-State: AOAM531/OMCIcyehxGHOS7aABXe73p/l1vJaasapCyEl3ZKf+Z482HTP
+ 4WNFmXu60vQTvjSmE9vG1zyVzHZ0kxkrfg==
+X-Google-Smtp-Source: ABdhPJxKxJ31YBgCHp1kyAkGHIbBtZ+ckjbH09U8GbTQcRpMRyEdQG8yeXRh8UYtwqPIAquq6LtTeA==
+X-Received: by 2002:a17:90b:3109:: with SMTP id gc9mr79842pjb.74.1601913347839; 
+ Mon, 05 Oct 2020 08:55:47 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id u22sm34803pgi.85.2020.10.05.08.55.41
+ by smtp.googlemail.com with ESMTPSA id u22sm34803pgi.85.2020.10.05.08.55.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 08:55:43 -0700 (PDT)
+ Mon, 05 Oct 2020 08:55:47 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v8 1/4] configure: fixes indent of $meson setup
-Date: Mon,  5 Oct 2020 23:55:21 +0800
-Message-Id: <20201005155524.442-2-luoyonggang@gmail.com>
+Subject: [PATCH v8 2/4] curses: Fixes compiler error that complain don't have
+ langinfo.h on msys2/mingw
+Date: Mon,  5 Oct 2020 23:55:22 +0800
+Message-Id: <20201005155524.442-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201005155524.442-1-luoyonggang@gmail.com>
 References: <20201005155524.442-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,39 +94,102 @@ Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-convert these line from tab to space
+msys2/mingw lacks the POSIX-required langinfo.h.
+
+gcc test.c -DNCURSES_WIDECHAR -I/mingw64/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+test.c:4:10: fatal error: langinfo.h: No such file or directory
+    4 | #include <langinfo.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+So we using g_get_codeset instead of nl_langinfo(CODESET)
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- configure | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ configure   |  5 +----
+ ui/curses.c | 10 +++++-----
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/configure b/configure
-index 66641099fc..7d5ffee29a 100755
+index 7d5ffee29a..6acdd6fa88 100755
 --- a/configure
 +++ b/configure
-@@ -7315,13 +7315,13 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
--	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
--	-Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
--	-Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
--	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
--	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
--	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
--	-Dcapstone=$capstone \
-+        -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
-+        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
-+        -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
-+        -Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
-+        -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-+        -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
-+        -Dcapstone=$capstone \
-         $cross_arg \
-         "$PWD" "$source_path"
+@@ -3522,17 +3522,14 @@ if test "$curses" != "no" ; then
+ #include <locale.h>
+ #include <curses.h>
+ #include <wchar.h>
+-#include <langinfo.h>
+ int main(void) {
+-  const char *codeset;
+   wchar_t wch = L'w';
+   setlocale(LC_ALL, "");
+   resize_term(0, 0);
+   addwstr(L"wide chars\n");
+   addnwstr(&wch, 1);
+   add_wch(WACS_DEGREE);
+-  codeset = nl_langinfo(CODESET);
+-  return codeset != 0;
++  return 0;
+ }
+ EOF
+   IFS=:
+diff --git a/ui/curses.c b/ui/curses.c
+index a59b23a9cf..12bc682cf9 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -30,7 +30,6 @@
+ #endif
+ #include <locale.h>
+ #include <wchar.h>
+-#include <langinfo.h>
+ #include <iconv.h>
  
+ #include "qapi/error.h"
+@@ -526,6 +525,7 @@ static void font_setup(void)
+     iconv_t nativecharset_to_ucs2;
+     iconv_t font_conv;
+     int i;
++    g_autofree gchar *local_codeset = g_get_codeset();
+ 
+     /*
+      * Control characters are normally non-printable, but VGA does have
+@@ -566,14 +566,14 @@ static void font_setup(void)
+       0x25bc
+     };
+ 
+-    ucs2_to_nativecharset = iconv_open(nl_langinfo(CODESET), "UCS-2");
++    ucs2_to_nativecharset = iconv_open(local_codeset, "UCS-2");
+     if (ucs2_to_nativecharset == (iconv_t) -1) {
+         fprintf(stderr, "Could not convert font glyphs from UCS-2: '%s'\n",
+                         strerror(errno));
+         exit(1);
+     }
+ 
+-    nativecharset_to_ucs2 = iconv_open("UCS-2", nl_langinfo(CODESET));
++    nativecharset_to_ucs2 = iconv_open("UCS-2", local_codeset);
+     if (nativecharset_to_ucs2 == (iconv_t) -1) {
+         iconv_close(ucs2_to_nativecharset);
+         fprintf(stderr, "Could not convert font glyphs to UCS-2: '%s'\n",
+@@ -581,7 +581,7 @@ static void font_setup(void)
+         exit(1);
+     }
+ 
+-    font_conv = iconv_open(nl_langinfo(CODESET), font_charset);
++    font_conv = iconv_open(local_codeset, font_charset);
+     if (font_conv == (iconv_t) -1) {
+         iconv_close(ucs2_to_nativecharset);
+         iconv_close(nativecharset_to_ucs2);
+@@ -602,7 +602,7 @@ static void font_setup(void)
+     /* DEL */
+     convert_ucs(0x7F, 0x2302, ucs2_to_nativecharset);
+ 
+-    if (strcmp(nl_langinfo(CODESET), "UTF-8")) {
++    if (strcmp(local_codeset, "UTF-8")) {
+         /* Non-Unicode capable, use termcap equivalents for those available */
+         for (i = 0; i <= 0xFF; i++) {
+             wchar_t wch[CCHARW_MAX];
 -- 
 2.28.0.windows.1
 
