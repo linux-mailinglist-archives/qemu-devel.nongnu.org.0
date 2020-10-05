@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D235D283FE5
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 21:54:34 +0200 (CEST)
-Received: from localhost ([::1]:38110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A4F283FF4
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 21:59:08 +0200 (CEST)
+Received: from localhost ([::1]:54928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPWZ7-0001Sv-Re
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 15:54:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56648)
+	id 1kPWdX-0000KZ-4g
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 15:59:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWn-00085s-2G
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59302)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWp-00089w-60
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWk-00075T-93
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:08 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWm-00075o-ST
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601927525;
+ s=mimecast20190719; t=1601927528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ohrdQGTiKYwe6i4vImD7u4uMwi88xOIcSmLMqT35uAI=;
- b=dUymPvdFFuym7T4nk03yz7IKrQdz1xFU5/J3sFd+kVPryovdV+E4L6XBhIOxqaSs+Ob5mF
- K7qB+p9Ibr4z6L6DLUIW1wrfP/XU+EIjjrjBeRECHTC5eS9EhoMuzG0NlSVM38ues1KDzi
- mW0WEdpJoGmoyrT+0SoB4zz6yOfx7Mc=
+ bh=WS8G4EB3uMjRTAdSL/uAmi0SBEyRCxw5zt9u7xPUyHI=;
+ b=J6mHWX+6UYq+zi/foVgS9wscPPO2yFl+o3qatfK6U3vuHUaPWi5A7/kKTr8rzQiTwAFex+
+ VDfHrNuC/JZ8FfcCvBaGFTjMdtYZSDJklBIP1N3G56uIca8/VdFZUnojYbfqsyBdvqtyMy
+ uULXz6n6urkdDec++nJEWshIAVGtxJ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-Gs9Zp1STOqegRaYynEAL-Q-1; Mon, 05 Oct 2020 15:52:03 -0400
-X-MC-Unique: Gs9Zp1STOqegRaYynEAL-Q-1
+ us-mta-338-VBkoNrW_PJGUPkGOROBw0g-1; Mon, 05 Oct 2020 15:52:06 -0400
+X-MC-Unique: VBkoNrW_PJGUPkGOROBw0g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54A76873088
- for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67FC41DDF7
+ for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:05 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE38D5C1BD;
- Mon,  5 Oct 2020 19:52:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7703E5C1BD;
+ Mon,  5 Oct 2020 19:52:02 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 04/36] qapi: move generator entrypoint into module
-Date: Mon,  5 Oct 2020 15:51:26 -0400
-Message-Id: <20201005195158.2348217-5-jsnow@redhat.com>
+Subject: [PATCH v5 05/36] qapi: Prefer explicit relative imports
+Date: Mon,  5 Oct 2020 15:51:27 -0400
+Message-Id: <20201005195158.2348217-6-jsnow@redhat.com>
 In-Reply-To: <20201005195158.2348217-1-jsnow@redhat.com>
 References: <20201005195158.2348217-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,39 +83,141 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As part of delinting and adding type hints to the QAPI generator, it's
-helpful for the entrypoint to be part of the package, only leaving a
-very tiny entrypoint shim outside of the module.
+All of the QAPI include statements are changed to be package-aware, as
+explicit relative imports.
+
+A quirk of Python packages is that the name of the package exists only
+*outside* of the package. This means that to a module inside of the qapi
+folder, there is inherently no such thing as the "qapi" package. The
+reason these imports work is because the "qapi" package exists in the
+context of the caller -- the execution shim, where sys.path includes a
+directory that has a 'qapi' folder in it.
+
+When we write "from qapi import sibling", we are NOT referencing the folder
+'qapi', but rather "any package named qapi in sys.path". If you should
+so happen to have a 'qapi' package in your path, it will use *that*
+package.
+
+When we write "from .sibling import foo", we always reference explicitly
+our sibling module; guaranteeing consistency in *where* we are importing
+these modules from.
+
+This can be useful when working with virtual environments and packages
+in development mode. In development mode, a package is installed as a
+series of symlinks that forwards to your same source files. The problem
+arises because code quality checkers will follow "import qapi.x" to the
+"installed" version instead of the sibling file and -- even though they
+are the same file -- they have different module paths, and this causes
+cyclic import problems, false positive type mismatch errors, and more.
+
+It can also be useful when dealing with hierarchical packages, e.g. if
+we allow qemu.core.qmp, qemu.qapi.parser, etc.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi-gen.py  | 88 +++----------------------------------------
- scripts/qapi/main.py | 89 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 95 insertions(+), 82 deletions(-)
- create mode 100644 scripts/qapi/main.py
+ scripts/qapi/commands.py   |  4 ++--
+ scripts/qapi/events.py     |  8 ++++----
+ scripts/qapi/expr.py       |  4 ++--
+ scripts/qapi/gen.py        |  4 ++--
+ scripts/qapi/introspect.py |  8 ++++----
+ scripts/qapi/main.py       | 14 +++++++-------
+ scripts/qapi/parser.py     |  4 ++--
+ scripts/qapi/schema.py     |  8 ++++----
+ scripts/qapi/types.py      |  6 +++---
+ scripts/qapi/visit.py      |  6 +++---
+ 10 files changed, 33 insertions(+), 33 deletions(-)
 
-diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
-index 117b396a595..f3518d29a54 100644
---- a/scripts/qapi-gen.py
-+++ b/scripts/qapi-gen.py
-@@ -4,92 +4,16 @@
- # See the COPYING file in the top-level directory.
- 
- """
--QAPI Generator
-+QAPI code generation execution shim.
- 
--This script is the main entry point for generating C code from the QAPI schema.
-+This standalone script exists primarily to facilitate the running of the QAPI
-+code generator without needing to install the python module to the current
-+execution environment.
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 3cf9e1110b2..ce5926146a4 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -13,8 +13,8 @@
+ See the COPYING file in the top-level directory.
  """
  
--import argparse
--import re
+-from qapi.common import *
+-from qapi.gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
++from .common import *
++from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
+ 
+ 
+ def gen_command_decl(name, arg_type, boxed, ret_type):
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index b544af5a1ce..04672724388 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -12,10 +12,10 @@
+ See the COPYING file in the top-level directory.
+ """
+ 
+-from qapi.common import *
+-from qapi.gen import QAPISchemaModularCVisitor, ifcontext
+-from qapi.schema import QAPISchemaEnumMember
+-from qapi.types import gen_enum, gen_enum_lookup
++from .common import *
++from .gen import QAPISchemaModularCVisitor, ifcontext
++from .schema import QAPISchemaEnumMember
++from .types import gen_enum, gen_enum_lookup
+ 
+ 
+ def build_event_send_proto(name, arg_type, boxed):
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 2942520399a..03b31ecfc19 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -16,8 +16,8 @@
+ 
+ import re
+ from collections import OrderedDict
+-from qapi.common import c_name
+-from qapi.error import QAPISemError
++from .common import c_name
++from .error import QAPISemError
+ 
+ 
+ # Names must be letters, numbers, -, and _.  They must start with letter,
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index dc7b94aa115..fc57fdca5b9 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -17,8 +17,8 @@
+ import re
+ from contextlib import contextmanager
+ 
+-from qapi.common import *
+-from qapi.schema import QAPISchemaVisitor
++from .common import *
++from .schema import QAPISchemaVisitor
+ 
+ 
+ class QAPIGen:
+diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+index 23652be8102..2a34cd1e8ea 100644
+--- a/scripts/qapi/introspect.py
++++ b/scripts/qapi/introspect.py
+@@ -10,10 +10,10 @@
+ See the COPYING file in the top-level directory.
+ """
+ 
+-from qapi.common import *
+-from qapi.gen import QAPISchemaMonolithicCVisitor
+-from qapi.schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
+-                         QAPISchemaType)
++from .common import *
++from .gen import QAPISchemaMonolithicCVisitor
++from .schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
++                     QAPISchemaType)
+ 
+ 
+ def _make_tree(obj, ifcond, features, extra=None):
+diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
+index 9210a0e1a80..1b168a9771a 100644
+--- a/scripts/qapi/main.py
++++ b/scripts/qapi/main.py
+@@ -11,13 +11,13 @@
+ import re
  import sys
  
 -from qapi.commands import gen_commands
@@ -125,176 +227,84 @@ index 117b396a595..f3518d29a54 100644
 -from qapi.schema import QAPISchema
 -from qapi.types import gen_types
 -from qapi.visit import gen_visit
--
--
--DEFAULT_OUTPUT_DIR = ''
--DEFAULT_PREFIX = ''
--
--
--def generate(schema_file: str,
--             output_dir: str,
--             prefix: str,
--             unmask: bool = False,
--             builtins: bool = False) -> None:
--    """
--    generate uses a given schema to produce C code in the target directory.
--
--    :param schema_file: The primary QAPI schema file.
--    :param output_dir: The output directory to store generated code.
--    :param prefix: Optional C-code prefix for symbol names.
--    :param unmask: Expose non-ABI names through introspection?
--    :param builtins: Generate code for built-in types?
--
--    :raise QAPIError: On failures.
--    """
--    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
--    if match.end() != len(prefix):
--        msg = "funny character '{:s}' in prefix '{:s}'".format(
--            prefix[match.end()], prefix)
--        raise QAPIError('', None, msg)
--
--    schema = QAPISchema(schema_file)
--    gen_types(schema, output_dir, prefix, builtins)
--    gen_visit(schema, output_dir, prefix, builtins)
--    gen_commands(schema, output_dir, prefix)
--    gen_events(schema, output_dir, prefix)
--    gen_introspect(schema, output_dir, prefix, unmask)
--
--
--def main() -> int:
--    """
--    gapi-gen shell script entrypoint.
--    Expects arguments via sys.argv, see --help for details.
--
--    :return: int, 0 on success, 1 on failure.
--    """
--    parser = argparse.ArgumentParser(
--        description='Generate code from a QAPI schema')
--    parser.add_argument('-b', '--builtins', action='store_true',
--                        help="generate code for built-in types")
--    parser.add_argument('-o', '--output-dir', action='store',
--                        default=DEFAULT_OUTPUT_DIR,
--                        help="write output to directory OUTPUT_DIR")
--    parser.add_argument('-p', '--prefix', action='store',
--                        default=DEFAULT_PREFIX,
--                        help="prefix for symbols")
--    parser.add_argument('-u', '--unmask-non-abi-names', action='store_true',
--                        dest='unmask',
--                        help="expose non-ABI names in introspection")
--    parser.add_argument('schema', action='store')
--    args = parser.parse_args()
--
--    try:
--        generate(args.schema,
--                 output_dir=args.output_dir,
--                 prefix=args.prefix,
--                 unmask=args.unmask,
--                 builtins=args.builtins)
--    except QAPIError as err:
--        print(f"{sys.argv[0]}: {str(err)}", file=sys.stderr)
--        return 1
--    return 0
--
-+from qapi import main
++from .commands import gen_commands
++from .error import QAPIError
++from .events import gen_events
++from .introspect import gen_introspect
++from .schema import QAPISchema
++from .types import gen_types
++from .visit import gen_visit
  
- if __name__ == '__main__':
--    sys.exit(main())
-+    sys.exit(main.main())
-diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-new file mode 100644
-index 00000000000..9210a0e1a80
---- /dev/null
-+++ b/scripts/qapi/main.py
-@@ -0,0 +1,89 @@
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+
-+"""
-+QAPI Generator
-+
-+This is the main entry point for generating C code from the QAPI schema.
-+"""
-+
-+import argparse
-+import re
-+import sys
-+
-+from qapi.commands import gen_commands
-+from qapi.error import QAPIError
-+from qapi.events import gen_events
-+from qapi.introspect import gen_introspect
-+from qapi.schema import QAPISchema
-+from qapi.types import gen_types
-+from qapi.visit import gen_visit
-+
-+
-+DEFAULT_OUTPUT_DIR = ''
-+DEFAULT_PREFIX = ''
-+
-+
-+def generate(schema_file: str,
-+             output_dir: str,
-+             prefix: str,
-+             unmask: bool = False,
-+             builtins: bool = False) -> None:
-+    """
-+    generate uses a given schema to produce C code in the target directory.
-+
-+    :param schema_file: The primary QAPI schema file.
-+    :param output_dir: The output directory to store generated code.
-+    :param prefix: Optional C-code prefix for symbol names.
-+    :param unmask: Expose non-ABI names through introspection?
-+    :param builtins: Generate code for built-in types?
-+
-+    :raise QAPIError: On failures.
-+    """
-+    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
-+    if match.end() != len(prefix):
-+        msg = "funny character '{:s}' in prefix '{:s}'".format(
-+            prefix[match.end()], prefix)
-+        raise QAPIError('', None, msg)
-+
-+    schema = QAPISchema(schema_file)
-+    gen_types(schema, output_dir, prefix, builtins)
-+    gen_visit(schema, output_dir, prefix, builtins)
-+    gen_commands(schema, output_dir, prefix)
-+    gen_events(schema, output_dir, prefix)
-+    gen_introspect(schema, output_dir, prefix, unmask)
-+
-+
-+def main() -> int:
-+    """
-+    gapi-gen shell script entrypoint.
-+    Expects arguments via sys.argv, see --help for details.
-+
-+    :return: int, 0 on success, 1 on failure.
-+    """
-+    parser = argparse.ArgumentParser(
-+        description='Generate code from a QAPI schema')
-+    parser.add_argument('-b', '--builtins', action='store_true',
-+                        help="generate code for built-in types")
-+    parser.add_argument('-o', '--output-dir', action='store',
-+                        default=DEFAULT_OUTPUT_DIR,
-+                        help="write output to directory OUTPUT_DIR")
-+    parser.add_argument('-p', '--prefix', action='store',
-+                        default=DEFAULT_PREFIX,
-+                        help="prefix for symbols")
-+    parser.add_argument('-u', '--unmask-non-abi-names', action='store_true',
-+                        dest='unmask',
-+                        help="expose non-ABI names in introspection")
-+    parser.add_argument('schema', action='store')
-+    args = parser.parse_args()
-+
-+    try:
-+        generate(args.schema,
-+                 output_dir=args.output_dir,
-+                 prefix=args.prefix,
-+                 unmask=args.unmask,
-+                 builtins=args.builtins)
-+    except QAPIError as err:
-+        print(f"{sys.argv[0]}: {str(err)}", file=sys.stderr)
-+        return 1
-+    return 0
+ 
+ DEFAULT_OUTPUT_DIR = ''
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 31bc2e6dca9..68d8a1ce1cf 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -18,8 +18,8 @@
+ import re
+ from collections import OrderedDict
+ 
+-from qapi.error import QAPIParseError, QAPISemError
+-from qapi.source import QAPISourceInfo
++from .error import QAPIParseError, QAPISemError
++from .source import QAPISourceInfo
+ 
+ 
+ class QAPISchemaParser:
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 78309a00f0a..a835ee6fde3 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -18,10 +18,10 @@
+ import re
+ from collections import OrderedDict
+ 
+-from qapi.common import c_name, pointer_suffix
+-from qapi.error import QAPIError, QAPISemError
+-from qapi.expr import check_exprs
+-from qapi.parser import QAPISchemaParser
++from .common import c_name, pointer_suffix
++from .error import QAPIError, QAPISemError
++from .expr import check_exprs
++from .parser import QAPISchemaParser
+ 
+ 
+ class QAPISchemaEntity:
+diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+index 3640f17cd67..ca9a5aacb39 100644
+--- a/scripts/qapi/types.py
++++ b/scripts/qapi/types.py
+@@ -13,9 +13,9 @@
+ # See the COPYING file in the top-level directory.
+ """
+ 
+-from qapi.common import *
+-from qapi.gen import QAPISchemaModularCVisitor, ifcontext
+-from qapi.schema import QAPISchemaEnumMember, QAPISchemaObjectType
++from .common import *
++from .gen import QAPISchemaModularCVisitor, ifcontext
++from .schema import QAPISchemaEnumMember, QAPISchemaObjectType
+ 
+ 
+ # variants must be emitted before their container; track what has already
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index cdabc5fa283..7850f6e8480 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -13,9 +13,9 @@
+ See the COPYING file in the top-level directory.
+ """
+ 
+-from qapi.common import *
+-from qapi.gen import QAPISchemaModularCVisitor, ifcontext
+-from qapi.schema import QAPISchemaObjectType
++from .common import *
++from .gen import QAPISchemaModularCVisitor, ifcontext
++from .schema import QAPISchemaObjectType
+ 
+ 
+ def gen_visit_decl(name, scalar=False):
 -- 
 2.26.2
 
