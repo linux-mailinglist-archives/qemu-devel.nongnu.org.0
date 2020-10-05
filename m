@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CB4283297
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:54:27 +0200 (CEST)
-Received: from localhost ([::1]:44254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA38283305
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 11:17:35 +0200 (CEST)
+Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPMGI-0006bn-GW
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38544)
+	id 1kPMcg-00058D-2P
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 05:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kPLtS-0007r6-HH
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:30:50 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:33292)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kPLtO-0008Of-IQ
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:30:50 -0400
-Received: by mail-lf1-x141.google.com with SMTP id 77so9844990lfj.0
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bGpHgmFALb5nN7cwzPzCKDIbrvSvN3WF59KON2eM8BU=;
- b=m5ZapRUEGC9lr9pL6OTuH1DAZnc9qZSrcixSiDUAEMBFA2zcriFUbBfUAMbe7l3oQZ
- HQGT20le7AwB/8MCFM0+qbLbCETBkiH0DVR2DRPgE5U/aYZvn1C06AU735tnFYjaSR3U
- WQNagGxdFX7GUoUjROaIW6uZPQdnYqplHwT+bhjS4eG26qN/OKTHl+06jOrAppFs9KuQ
- CMlAtBBB2ZKptJxxqvELcMJohmvOhVgomcA4JPWnkA0CKlucJKJI75mtzAZTOcI5W+xW
- re7jY9jJ3sS8/TE5rhtiq3uJyi9jQhPfJm0zZcOOOG00DIBqxNVDDEjpduAJPYFYwy5I
- vdsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bGpHgmFALb5nN7cwzPzCKDIbrvSvN3WF59KON2eM8BU=;
- b=j+GhMI9awVGLx914Hca2tnSbhtOXrXfDIWM/H8WLCBkRtm2PTCwD0UXGP6waX7vY3n
- K4nbagd8ZoJx+C8pynRTFi8CMmu+lVyOqM7u/YRbeqhUuoJcggfm67oFemlBf1RdksMX
- Dbm+5FylidY8I83pdYs0C3gL5R0o3BYXJEo32XrhmrhaAKU3NZty8zoX0pOeHUkPUKSd
- WuzOzPp5vOJhqXnw5/GE6kjMOizVIeb7Fydpvqn97al3zqNAFwxNy85wXdjHaYlD0BT3
- 0SbQfuRqOWN0b/Bj6H3KAJupRbPr8ki21s5kprOQBzCDdzjY0wgki7mlR1XokrntCpTw
- rTfg==
-X-Gm-Message-State: AOAM530enEmUb9qzoX0sI4dV8er468PLteOLU1Am+BchYC7mGnl1bznc
- kWO9lYzUixX1y+FzqbRFLQeyMzv3+uNLDg==
-X-Google-Smtp-Source: ABdhPJy4TerNR8Brc/L67h4p37/AM1OerC0p9GwGISmphizgcdhnpqPUVVlALA2g1tryD2K6hvgHoA==
-X-Received: by 2002:ac2:4c19:: with SMTP id t25mr4928931lfq.375.1601886642423; 
- Mon, 05 Oct 2020 01:30:42 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id o27sm2585693lfb.306.2020.10.05.01.30.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 01:30:41 -0700 (PDT)
-From: andrew@daynix.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] hw/virtio-pci Added AER capability.
-Date: Mon,  5 Oct 2020 12:01:40 +0300
-Message-Id: <20201005090140.90461-3-andrew@daynix.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201005090140.90461-1-andrew@daynix.com>
-References: <20201005090140.90461-1-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1kPMb7-0004eA-1u
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 05:16:01 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:56070)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1kPMb0-00063c-Ns
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 05:15:54 -0400
+Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
+ (vla1-fdfb804fb3f3.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 2A54F2E142E;
+ Mon,  5 Oct 2020 12:15:41 +0300 (MSK)
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ dvHdMv0dd7-Feweqwur; Mon, 05 Oct 2020 12:15:41 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1601889341; bh=8X1TQfsRH1XmCWFQ7w3wZdQZsWrpoohX8nONLz6bcvw=;
+ h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
+ b=U4F4xVnRb0qS9wanoeNnAvnmQ9sZuuN/0Q7wlz7+PM3PzDlZMAoMTFdxFXCkEv8nk
+ TxpaG6e1tu7ROwTjwKWpetxFnLTMoq4WudWHbLHu1MmhbABAJBgayJ+YFswdyJg4Pb
+ xzxhkjEliNJ+5AyeTdQjNEFjTlUWaQ5q5nmNBgWM=
+Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b080:8325::1:7])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ XUICDKoxTI-Fem02h4l; Mon, 05 Oct 2020 12:15:40 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Mon, 5 Oct 2020 12:15:39 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 20/21] contrib/gitdm: Add Yandex to the domain map
+Message-ID: <20201005091539.GB2954434@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Alexey Kirillov <lekiravi@yandex-team.ru>,
+ Alexey Krasikov <alex-krasikov@yandex-team.ru>,
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Dima Stepanov <dimastep@yandex-team.ru>,
+ Evgeny Yakovlev <wrfsh@yandex-team.ru>,
+ Yury Kotov <yury-kotov@yandex-team.ru>
+References: <20201004180443.2035359-1-f4bug@amsat.org>
+ <20201004180443.2035359-21-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::141;
- envelope-from=andrew@daynix.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201004180443.2035359-21-f4bug@amsat.org>
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 05:15:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,87 +88,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: Alexey Krasikov <alex-krasikov@yandex-team.ru>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Yury Kotov <yury-kotov@yandex-team.ru>,
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Alexey Kirillov <lekiravi@yandex-team.ru>,
+ Dima Stepanov <dimastep@yandex-team.ru>,
+ Evgeny Yakovlev <wrfsh@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew <andrew@daynix.com>
+On Sun, Oct 04, 2020 at 08:04:42PM +0200, Philippe Mathieu-Daudé wrote:
+> There is a number of contributors from this domain,
+> add its own entry to the gitdm domain map.
+> 
+> Cc: Alexey Kirillov <lekiravi@yandex-team.ru>
+> Cc: Alexey Krasikov <alex-krasikov@yandex-team.ru>
+> Cc: Anton Kuchin <antonkuchin@yandex-team.ru>
+> Cc: Dima Stepanov <dimastep@yandex-team.ru>
+> Cc: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+> Cc: Roman Kagan <rvkagan@yandex-team.ru>
+> Cc: Yury Kotov <yury-kotov@yandex-team.ru>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> One Reviewed-by/Ack-by from someone from this domain
+> should be sufficient to get this patch merged.
+> ---
+>  contrib/gitdm/domain-map | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+> index 7170ddea7a..4e6bf16e4e 100644
+> --- a/contrib/gitdm/domain-map
+> +++ b/contrib/gitdm/domain-map
+> @@ -42,3 +42,4 @@ wdc.com         Western Digital
+>  windriver.com   Wind River
+>  xilinx.com      Xilinx
+>  yadro.com       YADRO
+> +yandex-team.ru  Yandex
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1857668
-Added AER capability for virtio-pci devices.
-Also added property for devices, by default AER is enabled.
+Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/virtio/virtio-pci.c | 16 ++++++++++++++++
- hw/virtio/virtio-pci.h |  4 ++++
- 2 files changed, 20 insertions(+)
-
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ae60c1e249..e0a7936f9c 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1807,6 +1807,12 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-          */
-         pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
- 
-+        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
-+            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
-+                          PCI_ERR_SIZEOF, NULL);
-+            last_pcie_cap_offset += PCI_ERR_SIZEOF;
-+        }
-+
-         if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
-             /* Init error enabling flags */
-             pcie_cap_deverr_init(pci_dev);
-@@ -1848,7 +1854,15 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
- 
- static void virtio_pci_exit(PCIDevice *pci_dev)
- {
-+    VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
-+    bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
-+                     !pci_bus_is_root(pci_get_bus(pci_dev));
-+
-     msix_uninit_exclusive_bar(pci_dev);
-+    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
-+        pci_is_express(pci_dev)) {
-+        pcie_aer_exit(pci_dev);
-+    }
- }
- 
- static void virtio_pci_reset(DeviceState *qdev)
-@@ -1901,6 +1915,8 @@ static Property virtio_pci_properties[] = {
-                     VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
-     DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
-                     VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
-+    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
-+                    VIRTIO_PCI_FLAG_AER_BIT, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index 91096f0291..3986b4f0e3 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -45,6 +45,7 @@ enum {
-     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
-     VIRTIO_PCI_FLAG_INIT_PM_BIT,
-     VIRTIO_PCI_FLAG_INIT_FLR_BIT,
-+    VIRTIO_PCI_FLAG_AER_BIT,
- };
- 
- /* Need to activate work-arounds for buggy guests at vmstate load. */
-@@ -84,6 +85,9 @@ enum {
- /* Init Function Level Reset capability */
- #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
- 
-+/* Advanced Error Reporting capability */
-+#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
-+
- typedef struct {
-     MSIMessage msg;
-     int virq;
--- 
-2.28.0
-
+Thanks!
+Roman.
 
