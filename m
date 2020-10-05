@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68286284003
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 22:02:05 +0200 (CEST)
-Received: from localhost ([::1]:34998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D774E283FE3
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 21:53:41 +0200 (CEST)
+Received: from localhost ([::1]:36686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPWgO-00047b-9j
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 16:02:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56714)
+	id 1kPWYG-0000pG-Ih
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 15:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWq-0008DV-U5
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPWWo-00076B-6I
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 15:52:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601927529;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3saeIxa7PIxm1F0H+3B3t04DIBwkpKHOwsL4xf8RPLw=;
- b=ZpGlkJDNXh36+ezLNehubAXz7+1b9qC0mt9ex348qdYmFoGm0wdVIyePQVadhrD2N5JTFg
- cfE/oYsildYpX41jqVTAQt+kB0G2GxVR7yxC7UmPcZdBe9SeGwlCFtP3fq2v+aykj8kSOZ
- 7Twj8zSRVC5aMZQ12UzmHFWS2XDT19M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-4DW2ju7CMLy_Mcxd3mxO1g-1; Mon, 05 Oct 2020 15:52:07 -0400
-X-MC-Unique: 4DW2ju7CMLy_Mcxd3mxO1g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4708F873084
- for <qemu-devel@nongnu.org>; Mon,  5 Oct 2020 19:52:06 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88D2F5C1BD;
- Mon,  5 Oct 2020 19:52:05 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPWWW-0007lp-8J; Mon, 05 Oct 2020 15:51:52 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:44899)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPWWS-00074Z-Fx; Mon, 05 Oct 2020 15:51:51 -0400
+Received: by mail-pf1-x436.google.com with SMTP id n136so1682615pfd.11;
+ Mon, 05 Oct 2020 12:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YL8KLigaBn/LrPDDLKeSFNKEGwXVc6l1Oo2NoRSVZgU=;
+ b=qzpPnrsVnLMEP2XCoAPAv5lX/si084AqqjUN8VfQCrmRbgLtN8dNuQ//ZnlcuXnuER
+ qwRrtJM0YVYlQbRiIW/ZJ6wef7gG5ogNftrGP670ZQz17aKIsTcLybcquUZvIysoz8uY
+ VVsKzK3zuWbx1rxFrK6n92N49W2Hct3DN5O2ywX8BoYNVkMLOKMkmmh7A+11tJ/6DtlF
+ XrBwo7XIojsDi5jZgSmwriYQg4wa3DZ8VtqiibzCXtkfNuwdOlUFaRzQBFdik2hEgAeU
+ 4G43vj1CksDTnwTWCfwoC8mnA/Mh6Bso4HRvj8NBuOTR0ekpPoRVmgFrd1em+t9DTgg9
+ RVSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YL8KLigaBn/LrPDDLKeSFNKEGwXVc6l1Oo2NoRSVZgU=;
+ b=kAx/aVP9sOyu8TrMZ1r8jH4N+6F5ThHYijPsYl1aO+aAufVr9/S6lx4gbA42jPu2DW
+ c8IawO4K5jfsT+kL1iWq/abZf6LVgnjR13hawmHXGgaThmHyE38lYNDZWvPQyi4LLp8o
+ OFuld/hpbf0rEln3+l5rLAsAsLH3fiSVtm+uCMj47veGhW8W/1d+64bfDbvHBOD2OvxZ
+ DYK5Q8pJSGiy1WOFqOE3pZ9pL+q6Cc4YL3fMQcmWjMXy2EE9uNK0vv4eM6s+dCRjhWP/
+ pd0XosBh3Oz+xW6PBFfqg4P3GsdRG4HiDuDV2sY5qTETlF340pX6Ml1Cd9rQRoyj5C0U
+ t/zQ==
+X-Gm-Message-State: AOAM531nhmcstpDrWHfj3lBofc7TOIoLyUxTFQxVOiHFv/KzHbBY1Fb3
+ 6HaXWz2axFjdMDZWeBYWv5k1MbxiAEE0WQ==
+X-Google-Smtp-Source: ABdhPJxSoHrGrcAUz0m7Jsu8LxGMaei0kZiVQwb5yKZHdMpcAvq7pztqP/R8ECm/SsZCxK2q/qoYvg==
+X-Received: by 2002:a63:705c:: with SMTP id a28mr1065165pgn.266.1601927506163; 
+ Mon, 05 Oct 2020 12:51:46 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id ep11sm358985pjb.55.2020.10.05.12.51.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 12:51:45 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 06/36] qapi: Remove wildcard includes
-Date: Mon,  5 Oct 2020 15:51:28 -0400
-Message-Id: <20201005195158.2348217-7-jsnow@redhat.com>
-In-Reply-To: <20201005195158.2348217-1-jsnow@redhat.com>
-References: <20201005195158.2348217-1-jsnow@redhat.com>
+Subject: [PATCH v3] scripts: Convert qemu-version.sh to qemu-version.py
+Date: Tue,  6 Oct 2020 03:51:29 +0800
+Message-Id: <20201005195129.1507-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x436.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,148 +80,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wildcard includes become hard to manage when refactoring and dealing
-with circular dependencies with strictly typed mypy.
+The sh script are harder to maintain for compatible different
+xsh environment so convert it to python script
+Also incorporate the fixes in
+https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.com/
 
-flake8 also flags each one as a warning, as it is not smart enough to
-know which names exist in the imported file.
+Testing args length and if not enough, setting pkgversion and version to ''
 
-Remove them and include things explicitly by name instead.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- scripts/qapi/commands.py   |  2 +-
- scripts/qapi/events.py     |  7 ++++++-
- scripts/qapi/gen.py        | 12 +++++++++---
- scripts/qapi/introspect.py |  7 ++++++-
- scripts/qapi/types.py      |  8 +++++++-
- scripts/qapi/visit.py      | 10 +++++++++-
- 6 files changed, 38 insertions(+), 8 deletions(-)
+ meson.build             |  2 +-
+ scripts/qemu-version.py | 37 +++++++++++++++++++++++++++++++++++++
+ scripts/qemu-version.sh | 25 -------------------------
+ 3 files changed, 38 insertions(+), 26 deletions(-)
+ create mode 100644 scripts/qemu-version.py
+ delete mode 100755 scripts/qemu-version.sh
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index ce5926146a4..64ed5278f93 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -13,7 +13,7 @@
- See the COPYING file in the top-level directory.
- """
+diff --git a/meson.build b/meson.build
+index 95a532bd29..20f653b6eb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1072,7 +1072,7 @@ tracetool = [
+    '--backend=' + config_host['TRACE_BACKENDS']
+ ]
  
--from .common import *
-+from .common import build_params, c_name, mcgen
- from .gen import QAPIGenCCode, QAPISchemaModularCVisitor, ifcontext
- 
- 
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 04672724388..6b3afa14d72 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -12,7 +12,12 @@
- See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    build_params,
-+    c_enum_const,
-+    c_name,
-+    mcgen,
-+)
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import QAPISchemaEnumMember
- from .types import gen_enum, gen_enum_lookup
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index fc57fdca5b9..1fed712b43b 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -11,13 +11,19 @@
- # This work is licensed under the terms of the GNU GPL, version 2.
- # See the COPYING file in the top-level directory.
- 
+-qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
++qemu_version_cmd = [find_program('scripts/qemu-version.py'),
+                     meson.current_source_dir(),
+                     config_host['PKGVERSION'], meson.project_version()]
+ qemu_version = custom_target('qemu-version.h',
+diff --git a/scripts/qemu-version.py b/scripts/qemu-version.py
+new file mode 100644
+index 0000000000..fc1531ef2b
+--- /dev/null
++++ b/scripts/qemu-version.py
+@@ -0,0 +1,37 @@
++#!/usr/bin/env python3
++
++#
++# Script for retrieve qemu git version information
++#
++# Author: Yonggang Luo <luoyonggang@gmail.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2.  See
++# the COPYING file in the top-level directory.
++#
++
++import sys
++import subprocess
++
++def main(args):
++    pkgversion = ''
++    version = ''
++    if len(args) > 3:
++        dir = args[1]
++        pkgversion = args[2]
++        version = args[3]
++        if len(pkgversion) == 0:
++            pc = subprocess.run(['git', 'describe', '--match', "'v*'", '--dirty', '--always'],
++                                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, cwd=dir)
++            if pc.returncode == 0:
++                pkgversion = pc.stdout.decode('utf8').strip()
++
++    fullversion = version
++    if len(pkgversion) > 0:
++        fullversion = "{} ({})".format(version, pkgversion)
++
++    version_header = '''#define QEMU_PKGVERSION "{}"
++#define QEMU_FULL_VERSION "{}"'''.format(pkgversion, fullversion)
++    sys.stdout.buffer.write(version_header.encode('utf8'))
++
++if __name__ == "__main__":
++    main(sys.argv)
+diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
+deleted file mode 100755
+index 03128c56a2..0000000000
+--- a/scripts/qemu-version.sh
++++ /dev/null
+@@ -1,25 +0,0 @@
+-#!/bin/sh
 -
-+from contextlib import contextmanager
- import errno
- import os
- import re
--from contextlib import contextmanager
- 
--from .common import *
-+from .common import (
-+    c_fname,
-+    gen_endif,
-+    gen_if,
-+    guardend,
-+    guardstart,
-+    mcgen,
-+)
- from .schema import QAPISchemaVisitor
- 
- 
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 2a34cd1e8ea..b036fcf9ce7 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -10,7 +10,12 @@
- See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    c_name,
-+    gen_endif,
-+    gen_if,
-+    mcgen,
-+)
- from .gen import QAPISchemaMonolithicCVisitor
- from .schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
-                      QAPISchemaType)
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index ca9a5aacb39..53b47f9e58a 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -13,7 +13,13 @@
- # See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    c_enum_const,
-+    c_name,
-+    gen_endif,
-+    gen_if,
-+    mcgen,
-+)
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import QAPISchemaEnumMember, QAPISchemaObjectType
- 
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 7850f6e8480..ea277e7704b 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -13,7 +13,15 @@
- See the COPYING file in the top-level directory.
- """
- 
--from .common import *
-+from .common import (
-+    c_enum_const,
-+    c_name,
-+    gen_endif,
-+    gen_if,
-+    mcgen,
-+    pop_indent,
-+    push_indent,
-+)
- from .gen import QAPISchemaModularCVisitor, ifcontext
- from .schema import QAPISchemaObjectType
- 
+-set -eu
+-
+-dir="$1"
+-pkgversion="$2"
+-version="$3"
+-
+-if [ -z "$pkgversion" ]; then
+-    cd "$dir"
+-    if [ -e .git ]; then
+-        pkgversion=$(git describe --match 'v*' --dirty | echo "")
+-    fi
+-fi
+-
+-if [ -n "$pkgversion" ]; then
+-    fullversion="$version ($pkgversion)"
+-else
+-    fullversion="$version"
+-fi
+-
+-cat <<EOF
+-#define QEMU_PKGVERSION "$pkgversion"
+-#define QEMU_FULL_VERSION "$fullversion"
+-EOF
 -- 
-2.26.2
+2.28.0.windows.1
 
 
