@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B053283BB3
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 17:53:52 +0200 (CEST)
-Received: from localhost ([::1]:59466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53852283B9E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 17:49:52 +0200 (CEST)
+Received: from localhost ([::1]:44334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPSoB-0001AY-Dm
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 11:53:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57002)
+	id 1kPSkH-00037B-3V
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 11:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kPSfT-0006Ez-SR
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:44:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kPSfN-0008Lh-OE
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:44:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601912684;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O5QARRmCXxm1BipHqnlxMxzhlAY+C26xXKhU5QRMwDk=;
- b=Ig+ZQm1fSe4hoOqdXzgFUINjPf0nAUuH7Jyq78ZzYtG/MEES09vWpCHZlWirc89YWhIwOv
- vSabNIhNi6ZO+MlhTN1w4z1jfGstaUF51LG0mcXZXzgZ9iJja1OsstoP40J8ahBHrWCM4J
- M4vNjsWFap3avgYGBsdsjOwusdzho3A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-WztZws8SPfSs7fqSa-iuwQ-1; Mon, 05 Oct 2020 11:44:42 -0400
-X-MC-Unique: WztZws8SPfSs7fqSa-iuwQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7FE91019627;
- Mon,  5 Oct 2020 15:44:40 +0000 (UTC)
-Received: from localhost (ovpn-112-117.ams2.redhat.com [10.36.112.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2893F19C4F;
- Mon,  5 Oct 2020 15:44:34 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 17/17] util/vfio-helpers: Rework the IOVA allocator to avoid
- IOVA reserved regions
-Date: Mon,  5 Oct 2020 16:43:23 +0100
-Message-Id: <20201005154323.31347-18-stefanha@redhat.com>
-In-Reply-To: <20201005154323.31347-1-stefanha@redhat.com>
-References: <20201005154323.31347-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kPSgj-0007zz-Rk
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:46:10 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kPSgg-0000Dz-G6
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:46:09 -0400
+Received: by mail-wr1-x444.google.com with SMTP id j2so10151079wrx.7
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 08:46:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=JZKuhGFzfHPjhry18zf7BYX9WOO14izstBDB8CGwCbY=;
+ b=MEYfMq/7Z3E+K+swflKXw+OwgI2wCVOAn5PPavD4exKlFZhhAZyyhkWvBXsTfizC2x
+ gu8pcceqECS0HVWSPRTnlQQnr2D4U3WXhQsQK+RR5lP37Cm0NO7nI9P0Ad2+0JVTkiXh
+ kTJ0XptqBGDRj6Q6a8wAhHfCGBtog6fvJdDo3zEklOWVtv2xIrpg+bWma7NKLaPFFUMT
+ sZR91AGrVKp7EHF+7DlZ8QqxYh3MkCOcasnKG6cHGOYB7ov1/VyRFyX3YrmHP2ruos0Y
+ p0OK6PPV5djTZBgHiHY32mjnsCuWZQr41P9QaxSsK9Lc+LxuQRfy900hhjR6O76gJaRQ
+ mWjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=JZKuhGFzfHPjhry18zf7BYX9WOO14izstBDB8CGwCbY=;
+ b=CLpsfGIBfhhl5ZlBlojGVCjQPRU81Uqcu+EQRxwb8IsQzRxQnFLRHMh3mj4l/eNNlB
+ 7Tp9ZGLDe4Pjxc9HS11NY81EYw2U+CvqWdyG2eh37iJFHox5x+A9sdA7fCetRq1hjYKa
+ o4pSAr08O4hGPyMR6eY7g+L2DzD2KJ/sKEGqojISLjtAP2ekaFq9JJjAoJEHimkTR+s9
+ F89LpZNsjbyD1yPXRJVhPfLl59uov41KwnWEDzdNxfnN1Hwtd1bYCIShngvJT8VqUfRh
+ V1Yjk5pkFdIQ3S8Ws7KXw/ycfglaxxKjzfjKdu84fnpe80zGwqX1m3QJp2b9wv6h224o
+ 65Bw==
+X-Gm-Message-State: AOAM530RP/P88JbDEDHJ29NSfpfqkS/Yd1omBMLzvBSA5SSOa68JDJfY
+ nbMxXCcUFs/7ai4rlvFL2u5osA==
+X-Google-Smtp-Source: ABdhPJw2Xw/6/S3CtCz+eDMJI8xtPp0OHiWmfKRSR2Ifq+JXQVrcB4cIDwUxRgy2MjmGq104SK75Mw==
+X-Received: by 2002:a5d:6744:: with SMTP id l4mr28417wrw.18.1601912762827;
+ Mon, 05 Oct 2020 08:46:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u66sm627409wme.1.2020.10.05.08.46.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Oct 2020 08:46:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8BA2E1FF7E;
+ Mon,  5 Oct 2020 16:46:00 +0100 (BST)
+References: <20201001163429.1348-1-luoyonggang@gmail.com>
+ <20201001163429.1348-6-luoyonggang@gmail.com> <87pn5x2bjm.fsf@linaro.org>
+ <CAE2XoE8GQ3K0gp6Pr2eeq3R=X_1Mc9tPkmjVKx-TeS0G+WFJcw@mail.gmail.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: luoyonggang@gmail.com
+Subject: Re: [PATCH v3 5/6] plugin: getting qemu_plugin_get_hwaddr only
+ expose one function prototype
+In-reply-to: <CAE2XoE8GQ3K0gp6Pr2eeq3R=X_1Mc9tPkmjVKx-TeS0G+WFJcw@mail.gmail.com>
+Date: Mon, 05 Oct 2020 16:46:00 +0100
+Message-ID: <87k0w43ccn.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 01:25:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,76 +91,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogRXJpYyBBdWdlciA8ZXJpYy5hdWdlckByZWRoYXQuY29tPgoKSW50cm9kdWNlIHRoZSBx
-ZW11X3ZmaW9fZmluZF9maXhlZC90ZW1wX2lvdmEgaGVscGVycyB3aGljaApyZXNwZWN0aXZlbHkg
-YWxsb2NhdGUgSU9WQXMgZnJvbSB0aGUgYm90dG9tL3RvcCBwYXJ0cyBvZiB0aGUKdXNhYmxlIElP
-VkEgcmFuZ2UsIHdpdGhvdXQgcGlja2luZyB3aXRoaW4gaG9zdCBJT1ZBIHJlc2VydmVkCndpbmRv
-d3MuIFRoZSBhbGxvY2F0aW9uIHJlbWFpbnMgYmFzaWM6IGlmIHRoZSBzaXplIGlzIHRvbyBiaWcK
-Zm9yIHRoZSByZW1haW5pbmcgb2YgdGhlIGN1cnJlbnQgdXNhYmxlIElPVkEgcmFuZ2UsIHdlIGp1
-bXAKdG8gdGhlIG5leHQgb25lLCBsZWF2aW5nIGEgaG9sZSBpbiB0aGUgYWRkcmVzcyBtYXAuCgpT
-aWduZWQtb2ZmLWJ5OiBFcmljIEF1Z2VyIDxlcmljLmF1Z2VyQHJlZGhhdC5jb20+Ck1lc3NhZ2Ut
-aWQ6IDIwMjAwOTI5MDg1NTUwLjMwOTI2LTMtZXJpYy5hdWdlckByZWRoYXQuY29tClNpZ25lZC1v
-ZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0tCiB1dGlsL3Zm
-aW8taGVscGVycy5jIHwgNTcgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KystLS0tCiAxIGZpbGUgY2hhbmdlZCwgNTMgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS91dGlsL3ZmaW8taGVscGVycy5jIGIvdXRpbC92ZmlvLWhlbHBlcnMuYwpp
-bmRleCBmZTljYTljZTM4Li5jNDY5YmViMDYxIDEwMDY0NAotLS0gYS91dGlsL3ZmaW8taGVscGVy
-cy5jCisrKyBiL3V0aWwvdmZpby1oZWxwZXJzLmMKQEAgLTY2Nyw2ICs2NjcsNTAgQEAgc3RhdGlj
-IGJvb2wgcWVtdV92ZmlvX3ZlcmlmeV9tYXBwaW5ncyhRRU1VVkZJT1N0YXRlICpzKQogICAgIHJl
-dHVybiB0cnVlOwogfQogCitzdGF0aWMgaW50CitxZW11X3ZmaW9fZmluZF9maXhlZF9pb3ZhKFFF
-TVVWRklPU3RhdGUgKnMsIHNpemVfdCBzaXplLCB1aW50NjRfdCAqaW92YSkKK3sKKyAgICBpbnQg
-aTsKKworICAgIGZvciAoaSA9IDA7IGkgPCBzLT5uYl9pb3ZhX3JhbmdlczsgaSsrKSB7CisgICAg
-ICAgIGlmIChzLT51c2FibGVfaW92YV9yYW5nZXNbaV0uZW5kIDwgcy0+bG93X3dhdGVyX21hcmsp
-IHsKKyAgICAgICAgICAgIGNvbnRpbnVlOworICAgICAgICB9CisgICAgICAgIHMtPmxvd193YXRl
-cl9tYXJrID0KKyAgICAgICAgICAgIE1BWChzLT5sb3dfd2F0ZXJfbWFyaywgcy0+dXNhYmxlX2lv
-dmFfcmFuZ2VzW2ldLnN0YXJ0KTsKKworICAgICAgICBpZiAocy0+dXNhYmxlX2lvdmFfcmFuZ2Vz
-W2ldLmVuZCAtIHMtPmxvd193YXRlcl9tYXJrICsgMSA+PSBzaXplIHx8CisgICAgICAgICAgICBz
-LT51c2FibGVfaW92YV9yYW5nZXNbaV0uZW5kIC0gcy0+bG93X3dhdGVyX21hcmsgKyAxID09IDAp
-IHsKKyAgICAgICAgICAgICppb3ZhID0gcy0+bG93X3dhdGVyX21hcms7CisgICAgICAgICAgICBz
-LT5sb3dfd2F0ZXJfbWFyayArPSBzaXplOworICAgICAgICAgICAgcmV0dXJuIDA7CisgICAgICAg
-IH0KKyAgICB9CisgICAgcmV0dXJuIC1FTk9NRU07Cit9CisKK3N0YXRpYyBpbnQKK3FlbXVfdmZp
-b19maW5kX3RlbXBfaW92YShRRU1VVkZJT1N0YXRlICpzLCBzaXplX3Qgc2l6ZSwgdWludDY0X3Qg
-KmlvdmEpCit7CisgICAgaW50IGk7CisKKyAgICBmb3IgKGkgPSBzLT5uYl9pb3ZhX3JhbmdlcyAt
-IDE7IGkgPj0gMDsgaS0tKSB7CisgICAgICAgIGlmIChzLT51c2FibGVfaW92YV9yYW5nZXNbaV0u
-c3RhcnQgPiBzLT5oaWdoX3dhdGVyX21hcmspIHsKKyAgICAgICAgICAgIGNvbnRpbnVlOworICAg
-ICAgICB9CisgICAgICAgIHMtPmhpZ2hfd2F0ZXJfbWFyayA9CisgICAgICAgICAgICBNSU4ocy0+
-aGlnaF93YXRlcl9tYXJrLCBzLT51c2FibGVfaW92YV9yYW5nZXNbaV0uZW5kICsgMSk7CisKKyAg
-ICAgICAgaWYgKHMtPmhpZ2hfd2F0ZXJfbWFyayAtIHMtPnVzYWJsZV9pb3ZhX3Jhbmdlc1tpXS5z
-dGFydCArIDEgPj0gc2l6ZSB8fAorICAgICAgICAgICAgcy0+aGlnaF93YXRlcl9tYXJrIC0gcy0+
-dXNhYmxlX2lvdmFfcmFuZ2VzW2ldLnN0YXJ0ICsgMSA9PSAwKSB7CisgICAgICAgICAgICAqaW92
-YSA9IHMtPmhpZ2hfd2F0ZXJfbWFyayAtIHNpemU7CisgICAgICAgICAgICBzLT5oaWdoX3dhdGVy
-X21hcmsgPSAqaW92YTsKKyAgICAgICAgICAgIHJldHVybiAwOworICAgICAgICB9CisgICAgfQor
-ICAgIHJldHVybiAtRU5PTUVNOworfQorCiAvKiBNYXAgW2hvc3QsIGhvc3QgKyBzaXplKSBhcmVh
-IGludG8gYSBjb250aWd1b3VzIElPVkEgYWRkcmVzcyBzcGFjZSwgYW5kIHN0b3JlCiAgKiB0aGUg
-cmVzdWx0IGluIEBpb3ZhIGlmIG5vdCBOVUxMLiBUaGUgY2FsbGVyIG5lZWQgdG8gbWFrZSBzdXJl
-IHRoZSBhcmVhIGlzCiAgKiBhbGlnbmVkIHRvIHBhZ2Ugc2l6ZSwgYW5kIG11c3RuJ3Qgb3Zlcmxh
-cCB3aXRoIGV4aXN0aW5nIG1hcHBpbmcgYXJlYXMgKHNwbGl0CkBAIC02OTMsNyArNzM3LDExIEBA
-IGludCBxZW11X3ZmaW9fZG1hX21hcChRRU1VVkZJT1N0YXRlICpzLCB2b2lkICpob3N0LCBzaXpl
-X3Qgc2l6ZSwKICAgICAgICAgICAgIGdvdG8gb3V0OwogICAgICAgICB9CiAgICAgICAgIGlmICgh
-dGVtcG9yYXJ5KSB7Ci0gICAgICAgICAgICBpb3ZhMCA9IHMtPmxvd193YXRlcl9tYXJrOworICAg
-ICAgICAgICAgaWYgKHFlbXVfdmZpb19maW5kX2ZpeGVkX2lvdmEocywgc2l6ZSwgJmlvdmEwKSkg
-eworICAgICAgICAgICAgICAgIHJldCA9IC1FTk9NRU07CisgICAgICAgICAgICAgICAgZ290byBv
-dXQ7CisgICAgICAgICAgICB9CisKICAgICAgICAgICAgIG1hcHBpbmcgPSBxZW11X3ZmaW9fYWRk
-X21hcHBpbmcocywgaG9zdCwgc2l6ZSwgaW5kZXggKyAxLCBpb3ZhMCk7CiAgICAgICAgICAgICBp
-ZiAoIW1hcHBpbmcpIHsKICAgICAgICAgICAgICAgICByZXQgPSAtRU5PTUVNOwpAQCAtNzA1LDE1
-ICs3NTMsMTYgQEAgaW50IHFlbXVfdmZpb19kbWFfbWFwKFFFTVVWRklPU3RhdGUgKnMsIHZvaWQg
-Kmhvc3QsIHNpemVfdCBzaXplLAogICAgICAgICAgICAgICAgIHFlbXVfdmZpb191bmRvX21hcHBp
-bmcocywgbWFwcGluZywgTlVMTCk7CiAgICAgICAgICAgICAgICAgZ290byBvdXQ7CiAgICAgICAg
-ICAgICB9Ci0gICAgICAgICAgICBzLT5sb3dfd2F0ZXJfbWFyayArPSBzaXplOwogICAgICAgICAg
-ICAgcWVtdV92ZmlvX2R1bXBfbWFwcGluZ3Mocyk7CiAgICAgICAgIH0gZWxzZSB7Ci0gICAgICAg
-ICAgICBpb3ZhMCA9IHMtPmhpZ2hfd2F0ZXJfbWFyayAtIHNpemU7CisgICAgICAgICAgICBpZiAo
-cWVtdV92ZmlvX2ZpbmRfdGVtcF9pb3ZhKHMsIHNpemUsICZpb3ZhMCkpIHsKKyAgICAgICAgICAg
-ICAgICByZXQgPSAtRU5PTUVNOworICAgICAgICAgICAgICAgIGdvdG8gb3V0OworICAgICAgICAg
-ICAgfQogICAgICAgICAgICAgcmV0ID0gcWVtdV92ZmlvX2RvX21hcHBpbmcocywgaG9zdCwgc2l6
-ZSwgaW92YTApOwogICAgICAgICAgICAgaWYgKHJldCkgewogICAgICAgICAgICAgICAgIGdvdG8g
-b3V0OwogICAgICAgICAgICAgfQotICAgICAgICAgICAgcy0+aGlnaF93YXRlcl9tYXJrIC09IHNp
-emU7CiAgICAgICAgIH0KICAgICB9CiAgICAgaWYgKGlvdmEpIHsKLS0gCjIuMjYuMgoK
 
+=E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> writes:
+
+> On Mon, Oct 5, 2020 at 6:48 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+>>
+>>
+>> Yonggang Luo <luoyonggang@gmail.com> writes:
+>>
+>> > This is used for counting how much function are export to qemu plugin.
+>> >
+>> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+>> > ---
+>> >  plugins/api.c | 8 +++-----
+>> >  1 file changed, 3 insertions(+), 5 deletions(-)
+>> >
+>> > diff --git a/plugins/api.c b/plugins/api.c
+>> > index f16922ca8b..d325084385 100644
+>> > --- a/plugins/api.c
+>> > +++ b/plugins/api.c
+>> > @@ -252,10 +252,12 @@ bool
+> qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info)
+>> >
+>> >  #ifdef CONFIG_SOFTMMU
+>> >  static __thread struct qemu_plugin_hwaddr hwaddr_info;
+>> > +#endif
+>> >
+>> >  struct qemu_plugin_hwaddr
+> *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
+>> >                                                    uint64_t vaddr)
+>> >  {
+>> > +#ifdef CONFIG_SOFTMMU
+>> >      CPUState *cpu =3D current_cpu;
+>> >      unsigned int mmu_idx =3D info >> TRACE_MEM_MMU_SHIFT;
+>> >      hwaddr_info.is_store =3D info & TRACE_MEM_ST;
+>> > @@ -267,14 +269,10 @@ struct qemu_plugin_hwaddr
+> *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
+>> >      }
+>> >
+>> >      return &hwaddr_info;
+>> > -}
+>> >  #else
+>> > -struct qemu_plugin_hwaddr
+> *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
+>> > -                                                  uint64_t vaddr)
+>> > -{
+>> >      return NULL;
+>> > -}
+>> >  #endif
+>> > +}
+>>
+>> Hmm I'm not sure about this, surely you want the plugin system to
+>> complain early if your plugin is going to use a function that is
+>> incorrect for the mode you are running in?
+> I merged these two function for couting how much function are exported, so
+> getting the code easier to review, otherwise
+>  function qemu_plugin_get_hwaddr   would be exported twice.
+
+Ahh I see now..
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
