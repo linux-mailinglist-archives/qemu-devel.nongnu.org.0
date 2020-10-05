@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B92A2839B5
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 17:28:37 +0200 (CEST)
-Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD291283A67
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 17:34:03 +0200 (CEST)
+Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPSPk-0003fs-2m
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 11:28:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50426)
+	id 1kPSV0-0005oN-RE
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 11:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPSOk-00037j-SJ
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:27:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31175)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPSOi-0005Jk-Av
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 11:27:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601911650;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ThhMUjjLg+/D2yAGmDv83K8pC0Dc18gDxERoM4qHJ1g=;
- b=GsuFAH5FrufAMnaW/qtY062BlDKPLHuE1CwCtT88V/c866gbOsx/h4yFnRSgSkR0Z+xrjg
- YTGex+a0sgE6HiMp2ML1vnr3QY+Sfgvb1l5fkTMhRoGL3dK68zbPSLxaelK99uXvPj98eJ
- 8ASC8STNBsD+GCOA2VjgPrvj4ZdUm6E=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-mBhHYuRNMzmVOiYCUS95lQ-1; Mon, 05 Oct 2020 11:27:29 -0400
-X-MC-Unique: mBhHYuRNMzmVOiYCUS95lQ-1
-Received: by mail-wm1-f69.google.com with SMTP id d76so1360854wmd.8
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 08:27:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPSSw-0004jp-2O; Mon, 05 Oct 2020 11:31:54 -0400
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:45354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPSSm-00060F-QV; Mon, 05 Oct 2020 11:31:53 -0400
+Received: by mail-lf1-x129.google.com with SMTP id r127so6849573lff.12;
+ Mon, 05 Oct 2020 08:31:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=/kd3h6Lk0txhbpOzzK0wE+D/MA9izizv8l3Jkb17SBw=;
+ b=nghIAoavzaIFJmtH9PQ9hMLzAx9AqmwiMUPuJa6VHO9UEV6N56cUchBtqbjdXhxg+h
+ PMOBFc1Dii5PAHA838nLsWxk5kAjBmSlcfwTrx7KiX76Lhw+rdl725VMkFkBuH/Ix9d2
+ 8JK33T5Ft3UnYhPrfvwWSlynuEaSR4ZIo0eXwD/tPJFHCMc5viIi9qiYWM3+2Q0/KujE
+ 1DRWQoXusmR09aI8k08TSRV5mXe+KKfot7fDdRAs2ZfjJPZl1+qp5cas/Vc5wvtd4O2j
+ reiBfqr2dgPfy5xj0dw4kvYld9O0VLgzu8MSzal7gLpOVsH8YJhBKE8Iy4wi2LMALX7W
+ Xmog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ThhMUjjLg+/D2yAGmDv83K8pC0Dc18gDxERoM4qHJ1g=;
- b=UsHRbyLe4hXVL1+M/751JsbMNVs6bavSSMUhvOElHqTcxb0byzZDVdzmhsAUVo66hR
- eXBjUyYS262+ZgFbUA558qSaRaBHFCdLL/CEYItzjDZwpcFnRL4NrgQA5crXMswdGUjR
- fpYgJyAO7mfPisV4qbB7lvi4cIQMLXkUf+NqlKV3ItIZy+m2itlATjYO0Ng5KRPNOytY
- uLtFkCylTpxy7vIno5isL9329aACOVeasZvI90B9akWl3CGMKMdTgksr8l9dlHly9E4e
- +tGFc8vaeDeKi6iyR2lDLNbhFf8FiQnHxTOHaaDzDT4OVLXE7O0iYlgNYSaCmq9NxfUm
- IH1A==
-X-Gm-Message-State: AOAM533mpcqc2jPhqrg90Bj6XqmuKwy9OCL+lcZfbnCA6jXcxxEPGWQ2
- qF+ukVJMimxr0fNoCb57UlZLNQwj4RvJgOkgaNUI3QTAi/8cnLGua5kqpkp/ld+WYDGWd4w6sW+
- 2q7yaAEicNaHZKmQ=
-X-Received: by 2002:a5d:630a:: with SMTP id i10mr17956446wru.137.1601911647827; 
- Mon, 05 Oct 2020 08:27:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzoEDbNmaVqtq4LuuFziMdkP4O4nZd4TYjoG7erWESeywLb1BGqqQcWLru2VufEjnloXdmeNA==
-X-Received: by 2002:a5d:630a:: with SMTP id i10mr17956419wru.137.1601911647578; 
- Mon, 05 Oct 2020 08:27:27 -0700 (PDT)
-Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id c4sm84612wme.27.2020.10.05.08.27.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 08:27:26 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] softmmu/memory: Log invalid memory accesses
-Date: Mon,  5 Oct 2020 17:27:25 +0200
-Message-Id: <20201005152725.2143444-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=/kd3h6Lk0txhbpOzzK0wE+D/MA9izizv8l3Jkb17SBw=;
+ b=oCB1QZRsVLIbU9IwlWDHyLrCz5YJHao/TMmhzBNgEaXoa4uE9U1qpsCgKfdwqCWtY/
+ BziZV+JMonDT0eKQDrKVR80EWt+qBTuEf+uNk1rWXNZjopRyRlNKeVuuDT/rayZvHNwb
+ 6L4QeAATKnAYxHUzcGjx+Giy8Prz7OWmWcqIwWENn2DkO4bkh+IadR/qJZanLvZjZXai
+ 6W7o6zh0meXe+xOxnMpkijw4EfpIZ+hEOcgkBjLdshKydkwpcHYkdbo6bgnEeXlXmqM2
+ WlHBb6jj0aA1slTRLxS8KtDcLqgrdeq/svqwoHNyE1tPLeXa/HUIYUkiFk8vwzsB5Bm2
+ 9J2Q==
+X-Gm-Message-State: AOAM5310aNflq/G5OzIRrqHx4KU9rwdLb8XpO6YWwvZD/5t7VGGys+pu
+ qgP8UdYT0LFs0WfEp5Bjiy7S7Zqz23gtsGDfdiE=
+X-Google-Smtp-Source: ABdhPJwMtauOd3cIruCKrazEbadOkkD7ZHj/scRsBUQ38KUDOWBYsv3QzHm2FLHwTwxsCY9noekAOzmft4f+j3TNm1s=
+X-Received: by 2002:a19:9141:: with SMTP id y1mr6647lfj.554.1601911898126;
+ Mon, 05 Oct 2020 08:31:38 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 02:11:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201002180838.2047-1-luoyonggang@gmail.com>
+ <20201005082254.GE2385272@redhat.com>
+In-Reply-To: <20201005082254.GE2385272@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Mon, 5 Oct 2020 23:31:28 +0800
+Message-ID: <CAE2XoE9Ss7K0Q-sgQ268Ww7X1wmgmSRMk3-4byChn5_4GVYARA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/4] Fixes curses on msys2/mingw
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000a63e0005b0ee2dc0"
+Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x129.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,69 +78,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Reply-To: luoyonggang@gmail.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Log invalid memory accesses with as GUEST_ERROR.
+--000000000000a63e0005b0ee2dc0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is particularly useful since commit 5d971f9e67 which reverted
-("memory: accept mismatching sizes in memory_region_access_valid").
+On Mon, Oct 5, 2020 at 4:23 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+>
+wrote:
+>
+> Only one of the 4 patches in this series appears to have been sent.
+All other are revied and preserve the same, I prefer not disturb by re
+sending same patches
+as other contributor suggested
+>
+> On Sat, Oct 03, 2020 at 02:08:37AM +0800, Yonggang Luo wrote:
+> > V6-V7
+> > Update the configure script for
+> > * curses: Fixes compiler error that complain don't have langinfo.h on
+msys2/m=3D
+> > ingw
+> >
+> > V5-V6
+> > Dropping configure: Fixes ncursesw detection under msys2/mingw by
+convert the=3D
+> > m to meson first.
+> > That need the meson 0.56 upstream to fixes the curses detection.
+> > Add
+> > * configure: fixes indent of $meson setup
+> >
+> > Yonggang Luo (4):
+> >   configure: fixes indent of $meson setup
+> >   curses: Fixes compiler error that complain don't have langinfo.h on
+> >     msys2/mingw
+> >   curses: Fixes curses compiling errors.
+> >   win32: Simplify gmtime_r detection not depends on if  _POSIX_C_SOURCE
+> >     are defined on msys2/mingw
+> >
+> >  configure                 | 47 +++++----------------------------------
+> >  include/sysemu/os-win32.h |  4 ++--
+> >  ui/curses.c               | 14 ++++++------
+> >  util/oslib-win32.c        |  4 ++--
+> >  4 files changed, 16 insertions(+), 53 deletions(-)
+> >
+> > --=3D20
+> > 2.28.0.windows.1
+> >
+> >
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+https://www.instagram.com/dberrange :|
+>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- softmmu/memory.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index fa280a19f7..403ff3abc9 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -14,6 +14,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "exec/memory.h"
-@@ -1353,10 +1354,18 @@ bool memory_region_access_valid(MemoryRegion *mr,
- {
-     if (mr->ops->valid.accepts
-         && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
-+                                       "0x%" HWADDR_PRIX ", size %u, "
-+                                       "region '%s', reason: rejected\n",
-+                      addr, size, memory_region_name(mr));
-         return false;
-     }
- 
-     if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
-+                                       "0x%" HWADDR_PRIX ", size %u, "
-+                                       "region '%s', reason: unaligned\n",
-+                      addr, size, memory_region_name(mr));
-         return false;
-     }
- 
-@@ -1367,6 +1376,13 @@ bool memory_region_access_valid(MemoryRegion *mr,
- 
-     if (size > mr->ops->valid.max_access_size
-         || size < mr->ops->valid.min_access_size) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
-+                                       "0x%" HWADDR_PRIX ", size %u, "
-+                                       "region '%s', reason: invalid size "
-+                                       "(min:%u max:%u)\n",
-+                      addr, size, memory_region_name(mr),
-+                      mr->ops->valid.min_access_size,
-+                      mr->ops->valid.max_access_size);
-         return false;
-     }
-     return true;
--- 
-2.26.2
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
+--000000000000a63e0005b0ee2dc0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Mon, Oct 5, 2020 at 4:23 PM Daniel P. Berrang=
+=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&g=
+t; wrote:<br>&gt;<br>&gt; Only one of the 4 patches in this series appears =
+to have been sent.<div>All other are revied and preserve the same, I prefer=
+ not disturb=C2=A0by re sending same patches</div><div>as other contributor=
+ suggested<br>&gt;<br>&gt; On Sat, Oct 03, 2020 at 02:08:37AM +0800, Yongga=
+ng Luo wrote:<br>&gt; &gt; V6-V7<br>&gt; &gt; Update the configure script f=
+or<br>&gt; &gt; * curses: Fixes compiler error that complain don&#39;t have=
+ langinfo.h on msys2/m=3D<br>&gt; &gt; ingw<br>&gt; &gt;<br>&gt; &gt; V5-V6=
+<br>&gt; &gt; Dropping configure: Fixes ncursesw detection under msys2/ming=
+w by convert the=3D<br>&gt; &gt; m to meson first.<br>&gt; &gt; That need t=
+he meson 0.56 upstream to fixes the curses detection.<br>&gt; &gt; Add<br>&=
+gt; &gt; * configure: fixes indent of $meson setup<br>&gt; &gt;<br>&gt; &gt=
+; Yonggang Luo (4):<br>&gt; &gt; =C2=A0 configure: fixes indent of $meson s=
+etup<br>&gt; &gt; =C2=A0 curses: Fixes compiler error that complain don&#39=
+;t have langinfo.h on<br>&gt; &gt; =C2=A0 =C2=A0 msys2/mingw<br>&gt; &gt; =
+=C2=A0 curses: Fixes curses compiling errors.<br>&gt; &gt; =C2=A0 win32: Si=
+mplify gmtime_r detection not depends on if =C2=A0_POSIX_C_SOURCE<br>&gt; &=
+gt; =C2=A0 =C2=A0 are defined on msys2/mingw<br>&gt; &gt;<br>&gt; &gt; =C2=
+=A0configure =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 47 +=
+++++----------------------------------<br>&gt; &gt; =C2=A0include/sysemu/os=
+-win32.h | =C2=A04 ++--<br>&gt; &gt; =C2=A0ui/curses.c =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 14 ++++++------<br>&gt; &gt; =C2=A0util/osli=
+b-win32.c =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A04 ++--<br>&gt; &gt; =C2=A04 fi=
+les changed, 16 insertions(+), 53 deletions(-)<br>&gt; &gt;<br>&gt; &gt; --=
+=3D20<br>&gt; &gt; 2.28.0.windows.1<br>&gt; &gt;<br>&gt; &gt;<br>&gt;<br>&g=
+t; Regards,<br>&gt; Daniel<br>&gt; --<br>&gt; |: <a href=3D"https://berrang=
+e.com">https://berrange.com</a> =C2=A0 =C2=A0 =C2=A0-o- =C2=A0 =C2=A0<a hre=
+f=3D"https://www.flickr.com/photos/dberrange">https://www.flickr.com/photos=
+/dberrange</a> :|<br>&gt; |: <a href=3D"https://libvirt.org">https://libvir=
+t.org</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 -o- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0<a href=3D"https://fstop138.berrange.com">https://fstop138.berran=
+ge.com</a> :|<br>&gt; |: <a href=3D"https://entangle-photo.org">https://ent=
+angle-photo.org</a> =C2=A0 =C2=A0-o- =C2=A0 =C2=A0<a href=3D"https://www.in=
+stagram.com/dberrange">https://www.instagram.com/dberrange</a> :|<br>&gt;<b=
+r><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=
+=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<=
+br>Yonggang Luo</div></div>
+
+--000000000000a63e0005b0ee2dc0--
 
