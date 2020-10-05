@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E592831FC
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:28:34 +0200 (CEST)
-Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA44283266
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 10:45:16 +0200 (CEST)
+Received: from localhost ([::1]:49762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPLrE-00044R-N8
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37028)
+	id 1kPM7P-0005Ra-95
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 04:45:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPLmu-0008Ca-GR
+ id 1kPLmu-0008Bm-8d
  for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:04 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34893)
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPLmr-0007KU-Ej
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:04 -0400
-Received: by mail-wm1-x341.google.com with SMTP id y15so7826181wmi.0
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:24:00 -0700 (PDT)
+ id 1kPLmr-0007Ka-S0
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 04:24:03 -0400
+Received: by mail-wm1-x333.google.com with SMTP id j136so7820215wmj.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 01:24:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1g9VuHLi8A5b1a5exAFedNus2vU2AytC6R92SQi8h7E=;
- b=oh5vPMJxmmWjg5ANcQh6QmWMSTd5oWq7WbMgoh+dLDeZziOZ7p3mluILtKU1/aAXBz
- RpgLXK8D30WxElJoI6EYbjVapvW5fFLeS+tOL03qacNVTKdiKLRmQBN4+eYxKLSe9Mrl
- 9RoPsZfHAEAnd6VIEGdZsm7Auy1+HXV0+k2XYdks3Gk0wQRrIlhPObOzDM7dXSgsPptp
- kkKqJg9petulCVsaCQX/vRT22TUDSThgWUcUd+WtBJh4Lu5E1JnLvobMOVHXUCjmCNUt
- SaatLA7LAUW0Sgvuf1k9wThU29rBqpYxZ/Grpk6Vj0MBTuretzFtC35ikC/hY5D67YUZ
- G5TA==
+ bh=WbvNVyyQpGtC2FSjWBIrKLh9s7jbXnVwEiQ8gZ/iym8=;
+ b=SrWb8gs4zEToXhB+B/ASeqhT9xzaWAsI76zNuJ68wMyB5xc/qBSFxTJNDMOgy0hz6+
+ H0GR0TlorFZ24LvHZvxCcM69SmhYkqW23BEfy5H0mDBUsAizGVtfEvINAQiaAHuen6Po
+ Hb3/K4iHYlM2BNZTDq4sjroQI4z2umj9Ur74SXW8UTREA6mqKN4KWSI9CHQYtExspDZK
+ 5AN6eR1ZilYCSWJ3HIKPWxPqlH9hfo3mfCWQ7REPg8dqpajgeCSbsiJhT8nqri563E8K
+ veT2U5zZSMJJ263NW+8Imbh1f+NSkhn+cPQovD14UIDWHstUNlkFwvfxR9jUv3EfB0gm
+ TwYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1g9VuHLi8A5b1a5exAFedNus2vU2AytC6R92SQi8h7E=;
- b=UIpb1mBtKrB10xVkrTvRiBJvfUZVhROLOYQmD+4ORyKuNsE3qUqXfwg4sDq0GleeWu
- /5kITnPuSmm2We0PAXW4YR39Kp8J7qtIsfBuCPz4A2wjm++DiVlFbyYSydSrdLJ7syLn
- m3UF+4GMMgxVJHYLT3s9AXQYzrEM/YC0a1fQ2qqTBiTdQZYe8egjQFgtzY9KnzhINrVh
- pobvjHlJJ3ko+6hpRcLqv4Qp8SrDI6sAP3LFONTYswpLW9RLKLJUcIf0hBm90ykOMqKg
- XdAvrYrBRfwq64qgOW9pPZhraZ7Xe4Qx+7LSZLIiga6Kuc09SgfqrfNHN7YHxXCGYWNG
- s6vA==
-X-Gm-Message-State: AOAM533rQY/H8mS2llV4qV/QhCKiQsJbvYx3q4kQOvUJhi4ryp+CjVUM
- OZ/rY10ASLJZ8QfsTp1DAYDg5dpjcwg=
-X-Google-Smtp-Source: ABdhPJwNgRRRRy7huOYkZsY3+36VKzQrCfEFdyTkLSYgMK1TE801LF8vqEb1N+TiOXn7hesCvvT1Mg==
-X-Received: by 2002:a1c:ded7:: with SMTP id
- v206mr11399041wmg.183.1601886239193; 
+ bh=WbvNVyyQpGtC2FSjWBIrKLh9s7jbXnVwEiQ8gZ/iym8=;
+ b=LTAmtJ2K7tGD4l3NQh8vvX2PsyAcSXDIWSmPLgJ5i1mDuy3C6jSbyRJaOkRoiFEj+m
+ SQNxA7PVVsC1yDZqUCOZ0gWFbW4NIbPdhCurqfI9ru6T/s6ZZ2ZvPRGrjrhjSZwqt5WX
+ lfVDOSzyTu5EAoKg/wPfowAnBboWKhLJ3+sjuDu83KPP1B9kk2iWN95GvJF4US5sQI7I
+ CySdufEc4J4Krwo6nUCD7ZZwhdzp/sL5b4mRcYARd3rmMaS3aueMyEcGwEmivsbC3kkP
+ vogBayAKPvOQI5xka9U7rVabxwYjqGqeYPjHHfO6u4am9JbBHKxNlJkLtvMIow2a+IDz
+ 3GnQ==
+X-Gm-Message-State: AOAM530G2JaLnkKNJHz/j5gFzdF25zz4fxYxkWiD9plBzOd2O93nzFJt
+ DViXNUxCYxVLzJttv6WxKy6zRmuf0mk=
+X-Google-Smtp-Source: ABdhPJyKaM17wgOHpkP+COrmquak3CkldpR5kT075od6+5J+MqOR8c8qmman/xdiDLud4jD/f0HN0A==
+X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr16486446wmk.128.1601886239979; 
  Mon, 05 Oct 2020 01:23:59 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:2e86:3d8b:8b70:920c])
- by smtp.gmail.com with ESMTPSA id z15sm11931434wrv.94.2020.10.05.01.23.58
+ by smtp.gmail.com with ESMTPSA id z15sm11931434wrv.94.2020.10.05.01.23.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 01:23:58 -0700 (PDT)
+ Mon, 05 Oct 2020 01:23:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/19] default-configs: remove redundant keys
-Date: Mon,  5 Oct 2020 10:23:43 +0200
-Message-Id: <20201005082349.354095-14-pbonzini@redhat.com>
+Subject: [PULL 14/19] meson: move sparse detection to Meson and rewrite
+ check_sparse.py
+Date: Mon,  5 Oct 2020 10:23:44 +0200
+Message-Id: <20201005082349.354095-15-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201005082349.354095-1-pbonzini@redhat.com>
 References: <20201005082349.354095-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -90,656 +90,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TARGET_BASE_ARCH and TARGET_ABI_DIR are 99% of the time the same
-as TARGET_ARCH, remove them if so.
+Pass the path to the program to scripts/check_sparse.py, which
+previously was not included in config-host.mak.  Change
+scripts/check_sparse.py to work with cgcc, which seems to
+work better with sparse 0.6.x.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- default-configs/targets/aarch64-linux-user.mak      | 1 -
- default-configs/targets/aarch64_be-linux-user.mak   | 1 -
- default-configs/targets/alpha-linux-user.mak        | 2 --
- default-configs/targets/alpha-softmmu.mak           | 1 -
- default-configs/targets/arm-linux-user.mak          | 2 --
- default-configs/targets/arm-softmmu.mak             | 1 -
- default-configs/targets/armeb-linux-user.mak        | 2 --
- default-configs/targets/avr-softmmu.mak             | 1 -
- default-configs/targets/cris-linux-user.mak         | 2 --
- default-configs/targets/cris-softmmu.mak            | 1 -
- default-configs/targets/hppa-linux-user.mak         | 2 --
- default-configs/targets/hppa-softmmu.mak            | 1 -
- default-configs/targets/i386-bsd-user.mak           | 2 --
- default-configs/targets/i386-linux-user.mak         | 2 --
- default-configs/targets/i386-softmmu.mak            | 1 -
- default-configs/targets/lm32-softmmu.mak            | 1 -
- default-configs/targets/m68k-linux-user.mak         | 2 --
- default-configs/targets/m68k-softmmu.mak            | 1 -
- default-configs/targets/microblaze-linux-user.mak   | 2 --
- default-configs/targets/microblaze-softmmu.mak      | 1 -
- default-configs/targets/microblazeel-linux-user.mak | 2 --
- default-configs/targets/microblazeel-softmmu.mak    | 1 -
- default-configs/targets/mips-linux-user.mak         | 2 --
- default-configs/targets/mips-softmmu.mak            | 1 -
- default-configs/targets/mips64-linux-user.mak       | 1 -
- default-configs/targets/mips64el-linux-user.mak     | 1 -
- default-configs/targets/mipsel-linux-user.mak       | 2 --
- default-configs/targets/mipsel-softmmu.mak          | 1 -
- default-configs/targets/mipsn32-linux-user.mak      | 1 -
- default-configs/targets/mipsn32el-linux-user.mak    | 1 -
- default-configs/targets/moxie-softmmu.mak           | 1 -
- default-configs/targets/nios2-linux-user.mak        | 2 --
- default-configs/targets/nios2-softmmu.mak           | 1 -
- default-configs/targets/or1k-linux-user.mak         | 2 --
- default-configs/targets/or1k-softmmu.mak            | 1 -
- default-configs/targets/ppc-linux-user.mak          | 2 --
- default-configs/targets/ppc-softmmu.mak             | 1 -
- default-configs/targets/rx-softmmu.mak              | 1 -
- default-configs/targets/s390x-linux-user.mak        | 2 --
- default-configs/targets/s390x-softmmu.mak           | 1 -
- default-configs/targets/sh4-linux-user.mak          | 2 --
- default-configs/targets/sh4-softmmu.mak             | 1 -
- default-configs/targets/sh4eb-linux-user.mak        | 2 --
- default-configs/targets/sh4eb-softmmu.mak           | 1 -
- default-configs/targets/sparc-bsd-user.mak          | 2 --
- default-configs/targets/sparc-linux-user.mak        | 2 --
- default-configs/targets/sparc-softmmu.mak           | 1 -
- default-configs/targets/sparc64-bsd-user.mak        | 1 -
- default-configs/targets/sparc64-linux-user.mak      | 1 -
- default-configs/targets/tilegx-linux-user.mak       | 2 --
- default-configs/targets/tricore-softmmu.mak         | 1 -
- default-configs/targets/unicore32-softmmu.mak       | 1 -
- default-configs/targets/x86_64-bsd-user.mak         | 1 -
- default-configs/targets/x86_64-linux-user.mak       | 1 -
- default-configs/targets/xtensa-linux-user.mak       | 2 --
- default-configs/targets/xtensa-softmmu.mak          | 1 -
- default-configs/targets/xtensaeb-linux-user.mak     | 2 --
- default-configs/targets/xtensaeb-softmmu.mak        | 1 -
- meson.build                                         | 8 ++++++++
- 59 files changed, 8 insertions(+), 81 deletions(-)
+ configure               | 24 +++---------------
+ meson.build             | 10 +++++---
+ meson_options.txt       |  2 ++
+ scripts/check_sparse.py | 56 +++++++++++++++++++++++++++++++++--------
+ 4 files changed, 57 insertions(+), 35 deletions(-)
 
-diff --git a/default-configs/targets/aarch64-linux-user.mak b/default-configs/targets/aarch64-linux-user.mak
-index d6c4a35c39..163c9209f4 100644
---- a/default-configs/targets/aarch64-linux-user.mak
-+++ b/default-configs/targets/aarch64-linux-user.mak
-@@ -1,5 +1,4 @@
- TARGET_ARCH=aarch64
- TARGET_BASE_ARCH=arm
--TARGET_ABI_DIR=aarch64
- TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
- TARGET_HAS_BFLT=y
-diff --git a/default-configs/targets/aarch64_be-linux-user.mak b/default-configs/targets/aarch64_be-linux-user.mak
-index 5e2d615c11..4c953cf8c5 100644
---- a/default-configs/targets/aarch64_be-linux-user.mak
-+++ b/default-configs/targets/aarch64_be-linux-user.mak
-@@ -1,6 +1,5 @@
- TARGET_ARCH=aarch64
- TARGET_BASE_ARCH=arm
--TARGET_ABI_DIR=aarch64
- TARGET_WORDS_BIGENDIAN=y
- TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
- TARGET_HAS_BFLT=y
-diff --git a/default-configs/targets/alpha-linux-user.mak b/default-configs/targets/alpha-linux-user.mak
-index e21f7cdefd..7e62fd796a 100644
---- a/default-configs/targets/alpha-linux-user.mak
-+++ b/default-configs/targets/alpha-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=alpha
--TARGET_BASE_ARCH=alpha
--TARGET_ABI_DIR=alpha
- TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/alpha-softmmu.mak b/default-configs/targets/alpha-softmmu.mak
-index 8ba1b4e403..e4b874a19e 100644
---- a/default-configs/targets/alpha-softmmu.mak
-+++ b/default-configs/targets/alpha-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=alpha
--TARGET_BASE_ARCH=alpha
- TARGET_ALIGNED_ONLY=y
- TARGET_SUPPORTS_MTTCG=y
-diff --git a/default-configs/targets/arm-linux-user.mak b/default-configs/targets/arm-linux-user.mak
-index 1b9bac9d3a..c7cd872e86 100644
---- a/default-configs/targets/arm-linux-user.mak
-+++ b/default-configs/targets/arm-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=arm
--TARGET_BASE_ARCH=arm
--TARGET_ABI_DIR=arm
- TARGET_SYSTBL_ABI=common,oabi
- TARGET_SYSTBL=syscall.tbl
- TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-diff --git a/default-configs/targets/arm-softmmu.mak b/default-configs/targets/arm-softmmu.mak
-index 8af1d3ee1d..9b1a7f37c6 100644
---- a/default-configs/targets/arm-softmmu.mak
-+++ b/default-configs/targets/arm-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=arm
--TARGET_BASE_ARCH=arm
- TARGET_SUPPORTS_MTTCG=y
- TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-diff --git a/default-configs/targets/armeb-linux-user.mak b/default-configs/targets/armeb-linux-user.mak
-index d2b0d9e26e..79bf10e99b 100644
---- a/default-configs/targets/armeb-linux-user.mak
-+++ b/default-configs/targets/armeb-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=arm
--TARGET_BASE_ARCH=arm
--TARGET_ABI_DIR=arm
- TARGET_SYSTBL_ABI=common,oabi
- TARGET_SYSTBL=syscall.tbl
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/avr-softmmu.mak b/default-configs/targets/avr-softmmu.mak
-index 547c2986b6..e3f921c019 100644
---- a/default-configs/targets/avr-softmmu.mak
-+++ b/default-configs/targets/avr-softmmu.mak
-@@ -1,3 +1,2 @@
- TARGET_ARCH=avr
--TARGET_BASE_ARCH=avr
- TARGET_XML_FILES= gdb-xml/avr-cpu.xml
-diff --git a/default-configs/targets/cris-linux-user.mak b/default-configs/targets/cris-linux-user.mak
-index 7d3f6eb36d..e483c42066 100644
---- a/default-configs/targets/cris-linux-user.mak
-+++ b/default-configs/targets/cris-linux-user.mak
-@@ -1,3 +1 @@
- TARGET_ARCH=cris
--TARGET_BASE_ARCH=cris
--TARGET_ABI_DIR=cris
-diff --git a/default-configs/targets/cris-softmmu.mak b/default-configs/targets/cris-softmmu.mak
-index a132cec8d9..e483c42066 100644
---- a/default-configs/targets/cris-softmmu.mak
-+++ b/default-configs/targets/cris-softmmu.mak
-@@ -1,2 +1 @@
- TARGET_ARCH=cris
--TARGET_BASE_ARCH=cris
-diff --git a/default-configs/targets/hppa-linux-user.mak b/default-configs/targets/hppa-linux-user.mak
-index 05ef4568ad..f01e0a7b9e 100644
---- a/default-configs/targets/hppa-linux-user.mak
-+++ b/default-configs/targets/hppa-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=hppa
--TARGET_BASE_ARCH=hppa
--TARGET_ABI_DIR=hppa
- TARGET_SYSTBL_ABI=common,32
- TARGET_SYSTBL=syscall.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/hppa-softmmu.mak b/default-configs/targets/hppa-softmmu.mak
-index bd7eaaf9a5..e3e71eb21b 100644
---- a/default-configs/targets/hppa-softmmu.mak
-+++ b/default-configs/targets/hppa-softmmu.mak
-@@ -1,5 +1,4 @@
- TARGET_ARCH=hppa
--TARGET_BASE_ARCH=hppa
- TARGET_ALIGNED_ONLY=y
- TARGET_WORDS_BIGENDIAN=y
- TARGET_SUPPORTS_MTTCG=y
-diff --git a/default-configs/targets/i386-bsd-user.mak b/default-configs/targets/i386-bsd-user.mak
-index aa4d8c55e1..0283bb62a0 100644
---- a/default-configs/targets/i386-bsd-user.mak
-+++ b/default-configs/targets/i386-bsd-user.mak
-@@ -1,4 +1,2 @@
- TARGET_ARCH=i386
--TARGET_BASE_ARCH=i386
--TARGET_ABI_DIR=i386
- TARGET_XML_FILES= gdb-xml/i386-32bit.xml
-diff --git a/default-configs/targets/i386-linux-user.mak b/default-configs/targets/i386-linux-user.mak
-index 5117f59222..5b2546a430 100644
---- a/default-configs/targets/i386-linux-user.mak
-+++ b/default-configs/targets/i386-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=i386
--TARGET_BASE_ARCH=i386
--TARGET_ABI_DIR=i386
- TARGET_SYSTBL_ABI=i386
- TARGET_SYSTBL=syscall_32.tbl
- TARGET_XML_FILES= gdb-xml/i386-32bit.xml
-diff --git a/default-configs/targets/i386-softmmu.mak b/default-configs/targets/i386-softmmu.mak
-index 7371e87982..5babf71895 100644
---- a/default-configs/targets/i386-softmmu.mak
-+++ b/default-configs/targets/i386-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=i386
--TARGET_BASE_ARCH=i386
- TARGET_SUPPORTS_MTTCG=y
- TARGET_XML_FILES= gdb-xml/i386-32bit.xml
-diff --git a/default-configs/targets/lm32-softmmu.mak b/default-configs/targets/lm32-softmmu.mak
-index 6e55873788..55e7184a3d 100644
---- a/default-configs/targets/lm32-softmmu.mak
-+++ b/default-configs/targets/lm32-softmmu.mak
-@@ -1,3 +1,2 @@
- TARGET_ARCH=lm32
--TARGET_BASE_ARCH=lm32
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/m68k-linux-user.mak b/default-configs/targets/m68k-linux-user.mak
-index 186d1117cf..805d16c6ab 100644
---- a/default-configs/targets/m68k-linux-user.mak
-+++ b/default-configs/targets/m68k-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=m68k
--TARGET_BASE_ARCH=m68k
--TARGET_ABI_DIR=m68k
- TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/m68k-softmmu.mak b/default-configs/targets/m68k-softmmu.mak
-index fd8975978c..5df1a2b7d7 100644
---- a/default-configs/targets/m68k-softmmu.mak
-+++ b/default-configs/targets/m68k-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=m68k
--TARGET_BASE_ARCH=m68k
- TARGET_WORDS_BIGENDIAN=y
- TARGET_XML_FILES= gdb-xml/cf-core.xml gdb-xml/cf-fp.xml gdb-xml/m68k-core.xml gdb-xml/m68k-fp.xml
-diff --git a/default-configs/targets/microblaze-linux-user.mak b/default-configs/targets/microblaze-linux-user.mak
-index 249a22295a..2a25bf2fa3 100644
---- a/default-configs/targets/microblaze-linux-user.mak
-+++ b/default-configs/targets/microblaze-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=microblaze
--TARGET_BASE_ARCH=microblaze
--TARGET_ABI_DIR=microblaze
- TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/microblaze-softmmu.mak b/default-configs/targets/microblaze-softmmu.mak
-index 8e5126f0f1..0b5c78ef00 100644
---- a/default-configs/targets/microblaze-softmmu.mak
-+++ b/default-configs/targets/microblaze-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=microblaze
--TARGET_BASE_ARCH=microblaze
- TARGET_WORDS_BIGENDIAN=y
- TARGET_SUPPORTS_MTTCG=y
-diff --git a/default-configs/targets/microblazeel-linux-user.mak b/default-configs/targets/microblazeel-linux-user.mak
-index f59156c63b..d0e775d840 100644
---- a/default-configs/targets/microblazeel-linux-user.mak
-+++ b/default-configs/targets/microblazeel-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=microblaze
--TARGET_BASE_ARCH=microblaze
--TARGET_ABI_DIR=microblaze
- TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_HAS_BFLT=y
-diff --git a/default-configs/targets/microblazeel-softmmu.mak b/default-configs/targets/microblazeel-softmmu.mak
-index 2d465cf6b4..dc822219d8 100644
---- a/default-configs/targets/microblazeel-softmmu.mak
-+++ b/default-configs/targets/microblazeel-softmmu.mak
-@@ -1,3 +1,2 @@
- TARGET_ARCH=microblaze
--TARGET_BASE_ARCH=microblaze
- TARGET_SUPPORTS_MTTCG=y
-diff --git a/default-configs/targets/mips-linux-user.mak b/default-configs/targets/mips-linux-user.mak
-index 5b8000dfb0..19f5779831 100644
---- a/default-configs/targets/mips-linux-user.mak
-+++ b/default-configs/targets/mips-linux-user.mak
-@@ -1,7 +1,5 @@
- TARGET_ARCH=mips
- TARGET_ABI_MIPSO32=y
--TARGET_BASE_ARCH=mips
--TARGET_ABI_DIR=mips
- TARGET_SYSTBL_ABI=o32
- TARGET_SYSTBL=syscall_o32.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/mips-softmmu.mak b/default-configs/targets/mips-softmmu.mak
-index e391801a0e..8a49999a47 100644
---- a/default-configs/targets/mips-softmmu.mak
-+++ b/default-configs/targets/mips-softmmu.mak
-@@ -1,5 +1,4 @@
- TARGET_ARCH=mips
--TARGET_BASE_ARCH=mips
- TARGET_ALIGNED_ONLY=y
- TARGET_WORDS_BIGENDIAN=y
- TARGET_SUPPORTS_MTTCG=y
-diff --git a/default-configs/targets/mips64-linux-user.mak b/default-configs/targets/mips64-linux-user.mak
-index 811df35427..32fd1acdf2 100644
---- a/default-configs/targets/mips64-linux-user.mak
-+++ b/default-configs/targets/mips64-linux-user.mak
-@@ -1,7 +1,6 @@
- TARGET_ARCH=mips64
- TARGET_ABI_MIPSN64=y
- TARGET_BASE_ARCH=mips
--TARGET_ABI_DIR=mips64
- TARGET_SYSTBL_ABI=n64
- TARGET_SYSTBL=syscall_n64.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/mips64el-linux-user.mak b/default-configs/targets/mips64el-linux-user.mak
-index f9de5d7857..f348f35997 100644
---- a/default-configs/targets/mips64el-linux-user.mak
-+++ b/default-configs/targets/mips64el-linux-user.mak
-@@ -1,7 +1,6 @@
- TARGET_ARCH=mips64
- TARGET_ABI_MIPSN64=y
- TARGET_BASE_ARCH=mips
--TARGET_ABI_DIR=mips64
- TARGET_SYSTBL_ABI=n64
- TARGET_SYSTBL=syscall_n64.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/mipsel-linux-user.mak b/default-configs/targets/mipsel-linux-user.mak
-index 11c3556665..e23793070c 100644
---- a/default-configs/targets/mipsel-linux-user.mak
-+++ b/default-configs/targets/mipsel-linux-user.mak
-@@ -1,7 +1,5 @@
- TARGET_ARCH=mips
- TARGET_ABI_MIPSO32=y
--TARGET_BASE_ARCH=mips
--TARGET_ABI_DIR=mips
- TARGET_SYSTBL_ABI=o32
- TARGET_SYSTBL=syscall_o32.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/mipsel-softmmu.mak b/default-configs/targets/mipsel-softmmu.mak
-index a9fc3b2647..c7c41f4fb7 100644
---- a/default-configs/targets/mipsel-softmmu.mak
-+++ b/default-configs/targets/mipsel-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=mips
--TARGET_BASE_ARCH=mips
- TARGET_ALIGNED_ONLY=y
- TARGET_SUPPORTS_MTTCG=y
-diff --git a/default-configs/targets/mipsn32-linux-user.mak b/default-configs/targets/mipsn32-linux-user.mak
-index 040022ce87..b8c2441ad0 100644
---- a/default-configs/targets/mipsn32-linux-user.mak
-+++ b/default-configs/targets/mipsn32-linux-user.mak
-@@ -2,7 +2,6 @@ TARGET_ARCH=mips64
- TARGET_ABI_MIPSN32=y
- TARGET_ABI32=y
- TARGET_BASE_ARCH=mips
--TARGET_ABI_DIR=mips64
- TARGET_SYSTBL_ABI=n32
- TARGET_SYSTBL=syscall_n32.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/mipsn32el-linux-user.mak b/default-configs/targets/mipsn32el-linux-user.mak
-index faeca7752e..f31a9c394b 100644
---- a/default-configs/targets/mipsn32el-linux-user.mak
-+++ b/default-configs/targets/mipsn32el-linux-user.mak
-@@ -2,7 +2,6 @@ TARGET_ARCH=mips64
- TARGET_ABI_MIPSN32=y
- TARGET_ABI32=y
- TARGET_BASE_ARCH=mips
--TARGET_ABI_DIR=mips64
- TARGET_SYSTBL_ABI=n32
- TARGET_SYSTBL=syscall_n32.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/moxie-softmmu.mak b/default-configs/targets/moxie-softmmu.mak
-index b9d8d97031..183e6b0ebd 100644
---- a/default-configs/targets/moxie-softmmu.mak
-+++ b/default-configs/targets/moxie-softmmu.mak
-@@ -1,3 +1,2 @@
- TARGET_ARCH=moxie
--TARGET_BASE_ARCH=moxie
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/nios2-linux-user.mak b/default-configs/targets/nios2-linux-user.mak
-index 57ddc32838..9a372f0717 100644
---- a/default-configs/targets/nios2-linux-user.mak
-+++ b/default-configs/targets/nios2-linux-user.mak
-@@ -1,3 +1 @@
- TARGET_ARCH=nios2
--TARGET_BASE_ARCH=nios2
--TARGET_ABI_DIR=nios2
-diff --git a/default-configs/targets/nios2-softmmu.mak b/default-configs/targets/nios2-softmmu.mak
-index 787d1d1be1..9a372f0717 100644
---- a/default-configs/targets/nios2-softmmu.mak
-+++ b/default-configs/targets/nios2-softmmu.mak
-@@ -1,2 +1 @@
- TARGET_ARCH=nios2
--TARGET_BASE_ARCH=nios2
-diff --git a/default-configs/targets/or1k-linux-user.mak b/default-configs/targets/or1k-linux-user.mak
-index 88175f039b..1dfb93e46d 100644
---- a/default-configs/targets/or1k-linux-user.mak
-+++ b/default-configs/targets/or1k-linux-user.mak
-@@ -1,4 +1,2 @@
- TARGET_ARCH=openrisc
--TARGET_BASE_ARCH=openrisc
--TARGET_ABI_DIR=openrisc
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/or1k-softmmu.mak b/default-configs/targets/or1k-softmmu.mak
-index 4c0c4165aa..1dfb93e46d 100644
---- a/default-configs/targets/or1k-softmmu.mak
-+++ b/default-configs/targets/or1k-softmmu.mak
-@@ -1,3 +1,2 @@
- TARGET_ARCH=openrisc
--TARGET_BASE_ARCH=openrisc
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/ppc-linux-user.mak b/default-configs/targets/ppc-linux-user.mak
-index dda377508b..ca4187e4aa 100644
---- a/default-configs/targets/ppc-linux-user.mak
-+++ b/default-configs/targets/ppc-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=ppc
--TARGET_BASE_ARCH=ppc
--TARGET_ABI_DIR=ppc
- TARGET_SYSTBL_ABI=common,nospu,32
- TARGET_SYSTBL=syscall.tbl
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/ppc-softmmu.mak b/default-configs/targets/ppc-softmmu.mak
-index b02f1fe51a..ef69037a2c 100644
---- a/default-configs/targets/ppc-softmmu.mak
-+++ b/default-configs/targets/ppc-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=ppc
--TARGET_BASE_ARCH=ppc
- TARGET_WORDS_BIGENDIAN=y
- TARGET_XML_FILES= gdb-xml/power-core.xml gdb-xml/power-fpu.xml gdb-xml/power-altivec.xml gdb-xml/power-spe.xml
-diff --git a/default-configs/targets/rx-softmmu.mak b/default-configs/targets/rx-softmmu.mak
-index 07abc5cd55..2d410e0b0c 100644
---- a/default-configs/targets/rx-softmmu.mak
-+++ b/default-configs/targets/rx-softmmu.mak
-@@ -1,3 +1,2 @@
- TARGET_ARCH=rx
--TARGET_BASE_ARCH=rx
- TARGET_XML_FILES= gdb-xml/rx-core.xml
-diff --git a/default-configs/targets/s390x-linux-user.mak b/default-configs/targets/s390x-linux-user.mak
-index f7e4244f43..9e31ce6457 100644
---- a/default-configs/targets/s390x-linux-user.mak
-+++ b/default-configs/targets/s390x-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=s390x
--TARGET_BASE_ARCH=s390x
--TARGET_ABI_DIR=s390x
- TARGET_SYSTBL_ABI=common,64
- TARGET_SYSTBL=syscall.tbl
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/s390x-softmmu.mak b/default-configs/targets/s390x-softmmu.mak
-index 080682f07b..fd9fbd870d 100644
---- a/default-configs/targets/s390x-softmmu.mak
-+++ b/default-configs/targets/s390x-softmmu.mak
-@@ -1,5 +1,4 @@
- TARGET_ARCH=s390x
--TARGET_BASE_ARCH=s390x
- TARGET_WORDS_BIGENDIAN=y
- TARGET_SUPPORTS_MTTCG=y
- TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
-diff --git a/default-configs/targets/sh4-linux-user.mak b/default-configs/targets/sh4-linux-user.mak
-index db395a4886..0152d6621e 100644
---- a/default-configs/targets/sh4-linux-user.mak
-+++ b/default-configs/targets/sh4-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=sh4
--TARGET_BASE_ARCH=sh4
--TARGET_ABI_DIR=sh4
- TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/sh4-softmmu.mak b/default-configs/targets/sh4-softmmu.mak
-index 037cdac1d2..95896376c4 100644
---- a/default-configs/targets/sh4-softmmu.mak
-+++ b/default-configs/targets/sh4-softmmu.mak
-@@ -1,3 +1,2 @@
- TARGET_ARCH=sh4
--TARGET_BASE_ARCH=sh4
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/sh4eb-linux-user.mak b/default-configs/targets/sh4eb-linux-user.mak
-index b498e99ac2..9b6fb4c1bb 100644
---- a/default-configs/targets/sh4eb-linux-user.mak
-+++ b/default-configs/targets/sh4eb-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=sh4
--TARGET_BASE_ARCH=sh4
--TARGET_ABI_DIR=sh4
- TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/sh4eb-softmmu.mak b/default-configs/targets/sh4eb-softmmu.mak
-index e0fc9715e0..382e9a80f8 100644
---- a/default-configs/targets/sh4eb-softmmu.mak
-+++ b/default-configs/targets/sh4eb-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=sh4
--TARGET_BASE_ARCH=sh4
- TARGET_ALIGNED_ONLY=y
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/sparc-bsd-user.mak b/default-configs/targets/sparc-bsd-user.mak
-index bb83a268b6..9ba3d7b07f 100644
---- a/default-configs/targets/sparc-bsd-user.mak
-+++ b/default-configs/targets/sparc-bsd-user.mak
-@@ -1,5 +1,3 @@
- TARGET_ARCH=sparc
--TARGET_BASE_ARCH=sparc
--TARGET_ABI_DIR=sparc
- TARGET_ALIGNED_ONLY=y
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/sparc-linux-user.mak b/default-configs/targets/sparc-linux-user.mak
-index 72a4a90219..53dc7aaed5 100644
---- a/default-configs/targets/sparc-linux-user.mak
-+++ b/default-configs/targets/sparc-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=sparc
--TARGET_BASE_ARCH=sparc
--TARGET_ABI_DIR=sparc
- TARGET_SYSTBL_ABI=common,32
- TARGET_SYSTBL=syscall.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/sparc-softmmu.mak b/default-configs/targets/sparc-softmmu.mak
-index dab69263bb..9ba3d7b07f 100644
---- a/default-configs/targets/sparc-softmmu.mak
-+++ b/default-configs/targets/sparc-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=sparc
--TARGET_BASE_ARCH=sparc
- TARGET_ALIGNED_ONLY=y
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/sparc64-bsd-user.mak b/default-configs/targets/sparc64-bsd-user.mak
-index 3202825dc3..8dd3217800 100644
---- a/default-configs/targets/sparc64-bsd-user.mak
-+++ b/default-configs/targets/sparc64-bsd-user.mak
-@@ -1,5 +1,4 @@
- TARGET_ARCH=sparc64
- TARGET_BASE_ARCH=sparc
--TARGET_ABI_DIR=sparc64
- TARGET_ALIGNED_ONLY=y
- TARGET_WORDS_BIGENDIAN=y
-diff --git a/default-configs/targets/sparc64-linux-user.mak b/default-configs/targets/sparc64-linux-user.mak
-index 87d880032e..846924201a 100644
---- a/default-configs/targets/sparc64-linux-user.mak
-+++ b/default-configs/targets/sparc64-linux-user.mak
-@@ -1,6 +1,5 @@
- TARGET_ARCH=sparc64
- TARGET_BASE_ARCH=sparc
--TARGET_ABI_DIR=sparc64
- TARGET_SYSTBL_ABI=common,64
- TARGET_SYSTBL=syscall.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/tilegx-linux-user.mak b/default-configs/targets/tilegx-linux-user.mak
-index dfa00f4327..10480e74c9 100644
---- a/default-configs/targets/tilegx-linux-user.mak
-+++ b/default-configs/targets/tilegx-linux-user.mak
-@@ -1,3 +1 @@
- TARGET_ARCH=tilegx
--TARGET_BASE_ARCH=tilegx
--TARGET_ABI_DIR=tilegx
-diff --git a/default-configs/targets/tricore-softmmu.mak b/default-configs/targets/tricore-softmmu.mak
-index 6f4193717f..96b10af853 100644
---- a/default-configs/targets/tricore-softmmu.mak
-+++ b/default-configs/targets/tricore-softmmu.mak
-@@ -1,2 +1 @@
- TARGET_ARCH=tricore
--TARGET_BASE_ARCH=tricore
-diff --git a/default-configs/targets/unicore32-softmmu.mak b/default-configs/targets/unicore32-softmmu.mak
-index 23d02da953..57331e94fe 100644
---- a/default-configs/targets/unicore32-softmmu.mak
-+++ b/default-configs/targets/unicore32-softmmu.mak
-@@ -1,2 +1 @@
- TARGET_ARCH=unicore32
--TARGET_BASE_ARCH=unicore32
-diff --git a/default-configs/targets/x86_64-bsd-user.mak b/default-configs/targets/x86_64-bsd-user.mak
-index 83ac877606..799cd4acd4 100644
---- a/default-configs/targets/x86_64-bsd-user.mak
-+++ b/default-configs/targets/x86_64-bsd-user.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=x86_64
- TARGET_BASE_ARCH=i386
--TARGET_ABI_DIR=x86_64
- TARGET_XML_FILES= gdb-xml/i386-64bit.xml
-diff --git a/default-configs/targets/x86_64-linux-user.mak b/default-configs/targets/x86_64-linux-user.mak
-index 6ccc10597b..9ceefbb615 100644
---- a/default-configs/targets/x86_64-linux-user.mak
-+++ b/default-configs/targets/x86_64-linux-user.mak
-@@ -1,6 +1,5 @@
- TARGET_ARCH=x86_64
- TARGET_BASE_ARCH=i386
--TARGET_ABI_DIR=x86_64
- TARGET_SYSTBL_ABI=common,64
- TARGET_SYSTBL=syscall_64.tbl
- TARGET_XML_FILES= gdb-xml/i386-64bit.xml
-diff --git a/default-configs/targets/xtensa-linux-user.mak b/default-configs/targets/xtensa-linux-user.mak
-index 83ac59dbc9..fc95cc60f5 100644
---- a/default-configs/targets/xtensa-linux-user.mak
-+++ b/default-configs/targets/xtensa-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=xtensa
--TARGET_BASE_ARCH=xtensa
--TARGET_ABI_DIR=xtensa
- TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/xtensa-softmmu.mak b/default-configs/targets/xtensa-softmmu.mak
-index 7ea404f8be..26c0285655 100644
---- a/default-configs/targets/xtensa-softmmu.mak
-+++ b/default-configs/targets/xtensa-softmmu.mak
-@@ -1,4 +1,3 @@
- TARGET_ARCH=xtensa
--TARGET_BASE_ARCH=xtensa
- TARGET_ALIGNED_ONLY=y
- TARGET_SUPPORTS_MTTCG=y
-diff --git a/default-configs/targets/xtensaeb-linux-user.mak b/default-configs/targets/xtensaeb-linux-user.mak
-index 954e798fbe..cfc3518118 100644
---- a/default-configs/targets/xtensaeb-linux-user.mak
-+++ b/default-configs/targets/xtensaeb-linux-user.mak
-@@ -1,6 +1,4 @@
- TARGET_ARCH=xtensa
--TARGET_BASE_ARCH=xtensa
--TARGET_ABI_DIR=xtensa
- TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_ALIGNED_ONLY=y
-diff --git a/default-configs/targets/xtensaeb-softmmu.mak b/default-configs/targets/xtensaeb-softmmu.mak
-index c22832d236..14cb9289a6 100644
---- a/default-configs/targets/xtensaeb-softmmu.mak
-+++ b/default-configs/targets/xtensaeb-softmmu.mak
-@@ -1,5 +1,4 @@
- TARGET_ARCH=xtensa
--TARGET_BASE_ARCH=xtensa
- TARGET_ALIGNED_ONLY=y
- TARGET_WORDS_BIGENDIAN=y
- TARGET_SUPPORTS_MTTCG=y
+diff --git a/configure b/configure
+index b31bf24d60..baa245b5ad 100755
+--- a/configure
++++ b/configure
+@@ -303,7 +303,7 @@ sdl_image="auto"
+ virtfs=""
+ mpath="auto"
+ vnc="enabled"
+-sparse="no"
++sparse="auto"
+ vde=""
+ vnc_sasl="auto"
+ vnc_jpeg="auto"
+@@ -1040,9 +1040,9 @@ for opt do
+   ;;
+   --disable-tsan) tsan="no"
+   ;;
+-  --enable-sparse) sparse="yes"
++  --enable-sparse) sparse="enabled"
+   ;;
+-  --disable-sparse) sparse="no"
++  --disable-sparse) sparse="disabled"
+   ;;
+   --disable-strip) strip_opt="no"
+   ;;
+@@ -2875,19 +2875,6 @@ if test "$gettext" != "false" ; then
+   fi
+ fi
+ 
+-##########################################
+-# Sparse probe
+-if test "$sparse" != "no" ; then
+-  if has sparse; then
+-    sparse=yes
+-  else
+-    if test "$sparse" = "yes" ; then
+-      feature_not_found "sparse" "Install sparse binary"
+-    fi
+-    sparse=no
+-  fi
+-fi
+-
+ ##########################################
+ # X11 probe
+ if $pkg_config --exists "x11"; then
+@@ -7127,9 +7114,6 @@ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
+ echo "QEMU_INCLUDES=$QEMU_INCLUDES" >> $config_host_mak
+ echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
+ echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
+-if test "$sparse" = "yes" ; then
+-  echo "SPARSE_CFLAGS = -Wbitwise -Wno-transparent-union -Wno-old-initializer -Wno-non-pointer-null" >> $config_host_mak
+-fi
+ echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
+ echo "LDFLAGS_NOPIE=$LDFLAGS_NOPIE" >> $config_host_mak
+ echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
+@@ -7382,7 +7366,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+-	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim \
++	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
+ 	-Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
+ 	-Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
+ 	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
 diff --git a/meson.build b/meson.build
-index 5f5d916364..9a90d19113 100644
+index 9a90d19113..1dd3f49011 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -782,6 +782,14 @@ foreach target : target_dirs
-   config_target += keyval.load('default-configs/targets' / target + '.mak')
-   config_target += { 'TARGET_' + config_target['TARGET_ARCH'].to_upper(): 'y' }
+@@ -102,11 +102,13 @@ if host_machine.system() == 'darwin'
+   add_languages('objc', required: false, native: false)
+ endif
  
-+  # Add default keys
-+  if 'TARGET_BASE_ARCH' not in config_target
-+    config_target += {'TARGET_BASE_ARCH': config_target['TARGET_ARCH']}
-+  endif
-+  if 'TARGET_ABI_DIR' not in config_target
-+    config_target += {'TARGET_ABI_DIR': config_target['TARGET_ARCH']}
-+  endif
+-if 'SPARSE_CFLAGS' in config_host
++sparse = find_program('cgcc', required: get_option('sparse'))
++if sparse.found()
+   run_target('sparse',
+              command: [find_program('scripts/check_sparse.py'),
+-                       config_host['SPARSE_CFLAGS'].split(),
+-                       'compile_commands.json'])
++                       'compile_commands.json', sparse.full_path(), '-Wbitwise',
++                       '-Wno-transparent-union', '-Wno-old-initializer',
++                       '-Wno-non-pointer-null'])
+ endif
+ 
+ ###########################################
+@@ -1557,7 +1559,7 @@ summary_info += {'host CPU':          cpu}
+ summary_info += {'host endianness':   build_machine.endian()}
+ summary_info += {'target list':       ' '.join(target_dirs)}
+ summary_info += {'gprof enabled':     config_host.has_key('CONFIG_GPROF')}
+-summary_info += {'sparse enabled':    meson.get_compiler('c').cmd_array().contains('cgcc')}
++summary_info += {'sparse enabled':    sparse.found()}
+ summary_info += {'strip binaries':    get_option('strip')}
+ summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
+ summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
+diff --git a/meson_options.txt b/meson_options.txt
+index 05adc7a179..bc5c674642 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -5,6 +5,8 @@ option('docdir', type : 'string', value : 'doc',
+ 
+ option('gettext', type : 'boolean', value : true,
+        description: 'Localization of the GTK+ user interface')
++option('sparse', type : 'feature', value : 'auto',
++       description: 'sparse checker')
+ 
+ option('malloc_trim', type : 'feature', value : 'auto',
+        description: 'enable libc malloc_trim() for memory optimization')
+diff --git a/scripts/check_sparse.py b/scripts/check_sparse.py
+index 0de7aa55d9..2956124442 100644
+--- a/scripts/check_sparse.py
++++ b/scripts/check_sparse.py
+@@ -1,25 +1,59 @@
+ #! /usr/bin/env python3
+ 
+-# Invoke sparse based on the contents of compile_commands.json
++# Invoke sparse based on the contents of compile_commands.json,
++# also working around several deficiencies in cgcc's command line
++# parsing
+ 
+ import json
+ import subprocess
++import os
+ import sys
+ import shlex
+ 
+-def extract_cflags(shcmd):
+-    cflags = shlex.split(shcmd)
+-    return [x for x in cflags
+-            if x.startswith('-D') or x.startswith('-I') or x.startswith('-W')
+-               or x.startswith('-std=')]
++def cmdline_for_sparse(sparse, cmdline):
++    # Do not include the C compiler executable
++    skip = True
++    arg = False
++    out = sparse + ['-no-compile']
++    for x in cmdline:
++        if arg:
++            out.append(x)
++            arg = False
++            continue
++        if skip:
++            skip = False
++            continue
++        # prevent sparse from treating output files as inputs
++        if x == '-MF' or x == '-MQ' or x == '-o':
++            skip = True
++            continue
++        # cgcc ignores -no-compile if it sees -M or -MM?
++        if x.startswith('-M'):
++            continue
++        # sparse does not understand these!
++        if x == '-iquote' or x == '-isystem':
++            x = '-I'
++        if x == '-I':
++            arg = True
++        out.append(x)
++    return out
+ 
+-cflags = sys.argv[1:-1]
+-with open(sys.argv[-1], 'r') as fd:
++root_path = os.getenv('MESON_BUILD_ROOT')
++def build_path(s):
++    return s if not root_path else os.path.join(root_path, s)
 +
-   foreach k, v: disassemblers
-     if config_host['ARCH'].startswith(k) or config_target['TARGET_BASE_ARCH'].startswith(k)
-       foreach sym: v
++ccjson_path = build_path(sys.argv[1])
++with open(ccjson_path, 'r') as fd:
+     compile_commands = json.load(fd)
+ 
++sparse = sys.argv[2:]
++sparse_env = os.environ.copy()
+ for cmd in compile_commands:
+-    cmd = ['sparse'] + cflags + extract_cflags(cmd['command']) + [cmd['file']]
+-    print(' '.join((shlex.quote(x) for x in cmd)))
+-    r = subprocess.run(cmd)
++    cmdline = shlex.split(cmd['command'])
++    cmd = cmdline_for_sparse(sparse, cmdline)
++    print('REAL_CC=%s' % shlex.quote(cmdline[0]),
++          ' '.join((shlex.quote(x) for x in cmd)))
++    sparse_env['REAL_CC'] = cmdline[0]
++    r = subprocess.run(cmd, env=sparse_env, cwd=root_path)
+     if r.returncode != 0:
+         sys.exit(r.returncode)
 -- 
 2.26.2
 
