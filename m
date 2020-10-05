@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3F228344F
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 12:57:20 +0200 (CEST)
-Received: from localhost ([::1]:36446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8821528345E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Oct 2020 12:58:57 +0200 (CEST)
+Received: from localhost ([::1]:43036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPOBD-0005W0-Ml
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 06:57:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40374)
+	id 1kPOCm-0008Bj-Ka
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 06:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPO8y-0003iP-36
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 06:55:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36326)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPO93-0003tM-AB
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 06:55:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPO8w-0001rK-Bi
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 06:54:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPO90-0001sa-Tw
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 06:55:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601895297;
+ s=mimecast20190719; t=1601895302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m8MSMvH0EGCYLgtqlWbOI3p4RLhGZ+KMS1a1Fylf9ro=;
- b=i6kmcmEmhtdREccXEMG1fN4hO0neFMxnCyDwaC2xmyh5dDh8oFooilRb3YlrkDy2TNcpl9
- G6GGYwh1ydFM0F7Tmfr42d+40RbCHihuyyEpuct20RoU4MG0+286HQAqcHkBv6sejWtg0g
- K1ztGUVKcvH94f3w4W4K95Jkz653mEU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-nMqIjDq0Nb-HdIk_P7S-2g-1; Mon, 05 Oct 2020 06:54:55 -0400
-X-MC-Unique: nMqIjDq0Nb-HdIk_P7S-2g-1
-Received: by mail-wr1-f72.google.com with SMTP id g6so3861353wrv.3
- for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 03:54:55 -0700 (PDT)
+ bh=/z9yRp8+WHql3Xgj+kTqlTxcqqInaLF1iEEzvMMLOY8=;
+ b=hqAvztmErrmA0gddHWR52YuDk0zRxaiqdCgke1UODTscU6FO8llP3OXElU3jvcVfCJJ8iU
+ u8J74+OaLvRAd1jqRPwV6GZJ/z880tk0proHM06nCBvVbhSBPmAJc2ZzTneU8b7lMxG2yq
+ QwZNvcMc4VpDDF4wq+kec5dWnI5moME=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-WZj1WodbPZCdU3fziuFFww-1; Mon, 05 Oct 2020 06:55:00 -0400
+X-MC-Unique: WZj1WodbPZCdU3fziuFFww-1
+Received: by mail-wr1-f71.google.com with SMTP id w7so3868767wrp.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Oct 2020 03:55:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m8MSMvH0EGCYLgtqlWbOI3p4RLhGZ+KMS1a1Fylf9ro=;
- b=eGYXPVVNeFZnIG0CoN0WMjN4vUoGEyWor9OioBYbRS2fcIhwFhZ7FuUdsNspxnNmmN
- XQzViBfUWi6wobED0j98SBgQEKguI98FHpRd30bQw5c/0pAIj2TXrpvrllk3ZsYwI43h
- xkXXgpXtpkGWQQudFHhkLGtAnQ/As8VESa1eFKjYJISiGd7cfSiXO7gCFN2yQZQG9muI
- vjRQJrJtZfgVt6cKVEZs+FxKbxRrQ++NYInPPTS7blypc6v+KrlvCXKG8yroTjc7AWGC
- CLUzGNbYQzJVtWjXFcEoK06WTAhmOJNDj2amnKEun4YTethluUKKfV/WyVe2S59bR4P1
- oT+g==
-X-Gm-Message-State: AOAM533UuzoYgceU1R7wDpcyns1T/SbHKTc2/y4yGXI0pAXTLujmB1Cj
- XAgryhrubPsJQNZ4ZsZXyadcIrleiJ2YuXXso8lk8xbS9hyVmTU3ar3AYJ1lOfhzCON0QPY1VdP
- Oye4Lh+e1jJoxAuQ=
-X-Received: by 2002:a5d:51ca:: with SMTP id n10mr17005543wrv.222.1601895294375; 
- Mon, 05 Oct 2020 03:54:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx5I1CyuSubTUSQDDYiGGWISM9QKMHHSJxB5MgymvpXAzBUx49+X69fI5+2zxRSaJqWgqK3YQ==
-X-Received: by 2002:a5d:51ca:: with SMTP id n10mr17005533wrv.222.1601895294236; 
- Mon, 05 Oct 2020 03:54:54 -0700 (PDT)
+ bh=/z9yRp8+WHql3Xgj+kTqlTxcqqInaLF1iEEzvMMLOY8=;
+ b=D19Vlr0CEPDGoePJtPvk29UFVrq43kqQ5OoMLuECIiZUQKWsOV5CkJGRMdJ73y68zm
+ dVEl3A5ajVE+HLrHGuVm7uNIpUDfNfYLYcVaUmMScK5lv/ZnL8+xcY9J5Ey0keaUAcbj
+ hsrnHfkozgYHLy46ZmxisAjTqvIeTo718PpDJJPKexaB55tBfQHbbUENqK2iEW8Qhj2S
+ XDkVbuL67hHQNoOOdXrXFe9TiUyqjpfcCiSGr5rPNZbMZWTv/A9yQmup0dAq3Ixuygck
+ +93Myh4DTQF0Iuf6xMKeIOmldbKFqKpHqW4t8CvuuYC76IiNEfN2wykZMKnocuIM2Ux0
+ rEpA==
+X-Gm-Message-State: AOAM530pykNYBvXCmoaQ6lGaD6KHCiLQ4JPLnjxiEc10RDYJdMQOEWBs
+ xf8Ve2K7zRe7kQX4FqAiX3eqgPZG5qpeOlILL8n9bJLd3ulQ78UoJfOXgNp6UbpXQRN2IRZAI3B
+ X7DBUbRf8D1c2cDo=
+X-Received: by 2002:a1c:a949:: with SMTP id s70mr6315259wme.17.1601895299457; 
+ Mon, 05 Oct 2020 03:54:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzReQJ75SoObycGxzGbogKef3teUeSgq/xjMcZfRZMX1mVnciDi3ttxM3qyhlYq80FpIZK4Mw==
+X-Received: by 2002:a1c:a949:: with SMTP id s70mr6315241wme.17.1601895299253; 
+ Mon, 05 Oct 2020 03:54:59 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id q2sm3640992wrw.40.2020.10.05.03.54.53
+ by smtp.gmail.com with ESMTPSA id a15sm13811809wrn.3.2020.10.05.03.54.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Oct 2020 03:54:53 -0700 (PDT)
+ Mon, 05 Oct 2020 03:54:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/3] tests: Only build socket_scm_helper when a softmmu
- target is available
-Date: Mon,  5 Oct 2020 12:54:41 +0200
-Message-Id: <20201005105442.2093105-3-philmd@redhat.com>
+Subject: [RFC PATCH 3/3] tests: Add a trivial qemu-storage-daemon test
+Date: Mon,  5 Oct 2020 12:54:42 +0200
+Message-Id: <20201005105442.2093105-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201005105442.2093105-1-philmd@redhat.com>
 References: <20201005105442.2093105-1-philmd@redhat.com>
@@ -104,32 +103,54 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not try to build socket_scm_helper if not softmmu target
-is available. This fixes:
+This test fails on top of commit 69699f3055
+("crypto/tls-cipher-suites: Produce fw_cfg consumable blob")
+because the TYPE_FW_CFG_DATA_GENERATOR_INTERFACE registered
+in hw/nvram/fw_cfg.c is not linked into qemu-storage-daemon:
 
   $ make check-block
   Generating qemu-version.h with a meson_exe.py custom command
-  make: *** No rule to make target 'tests/qemu-iotests/socket_scm_helper', needed by 'check-block'.  Stop.
+    qemu-storage-daemon
+  tests/qemu-storage-daemon.sh: line 10: 2089929 Aborted                 (core dumped)
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/Makefile.include | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/Makefile.include       |  3 +++
+ tests/qemu-storage-daemon.sh | 10 ++++++++++
+ 2 files changed, 13 insertions(+)
+ create mode 100755 tests/qemu-storage-daemon.sh
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 40d909badc..d257777560 100644
+index d257777560..be12581c77 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -136,7 +136,9 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
- check:
- 
- ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
-+ifneq ($(TARGET_DIRS),)
- QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
-+endif
+@@ -142,7 +142,10 @@ endif
  check: check-block
  check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
  		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
++		storage-daemon/qemu-storage-daemon \
+ 		$(patsubst %-softmmu,qemu-system-%,$(filter %-softmmu,$(TARGET_DIRS)))
++	$(call quiet-command, \
++			$(SRC_PATH)/tests/qemu-storage-daemon.sh, "qemu-storage-daemon")
+ 	@$<
+ endif
+ 
+diff --git a/tests/qemu-storage-daemon.sh b/tests/qemu-storage-daemon.sh
+new file mode 100755
+index 0000000000..9fd4c73400
+--- /dev/null
++++ b/tests/qemu-storage-daemon.sh
+@@ -0,0 +1,10 @@
++#!/bin/sh
++
++# Test all QOM dependencies are resolved
++storage-daemon/qemu-storage-daemon \
++  --chardev stdio,id=qmp0  --monitor qmp0 \
++  > /dev/null << 'EOF'
++{"execute": "qmp_capabilities"}
++{"execute": "qom-list-types"}
++{"execute": "quit"}
++EOF
 -- 
 2.26.2
 
