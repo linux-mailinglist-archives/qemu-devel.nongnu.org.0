@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE9A2851CA
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:42:16 +0200 (CEST)
-Received: from localhost ([::1]:60618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDABC2851D0
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:44:03 +0200 (CEST)
+Received: from localhost ([::1]:38076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPruh-0004u6-Nd
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57588)
+	id 1kPrwQ-0007Iu-VB
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:44:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrkt-00038F-2h
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:32:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52986)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrky-0003DT-0M
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:32:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrkq-0006SY-J6
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:32:06 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrku-0006TH-Ku
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:32:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602009123;
+ s=mimecast20190719; t=1602009126;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=EZv8pIPA7LU9OgUgEDUhL6HYRrYj/hNMme/Zf2EHFxk=;
- b=QRY5uQofXEITzxP5RtILCvdWFcK7DKWRjAIx0qJycMwSQ+7X9xJDNRmhs5y/+Ah2rk4Or5
- 3cBYJTfUtI8PSD1JTfXvZL63+Yzxi97LzQJq4UFtc0QJZmmM5VhB6Wqxu0LibFd06nt2ke
- gl9bRXyfkZRBpLmPKKZaw1jyXHYCXyM=
+ references:references; bh=WtwDc9uoIARLLDq0qD5HvAZGCav1uxxS0aRTtSBdIi8=;
+ b=JE3SrRpcN7Dr4a1VAWoFX5bv6DezqyJQnMSwGRO22BhIbQTA5pjciPqot+q2Nnc3A756X6
+ FdV0df1gdLTC1sKWg7ebVSbfTKt7yrI45TkxK4HpHgYxwoVHxCPF093+Rw0Q8Iz9dtzDWH
+ HE0kWgFqOpGiTOh/4fCoSH/9mvT1Vew=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-WxlLRyDaOmmZ1T9C-Y3thA-1; Tue, 06 Oct 2020 14:32:01 -0400
-X-MC-Unique: WxlLRyDaOmmZ1T9C-Y3thA-1
+ us-mta-509-BHoNRXJ5M369xqDcUee2zQ-1; Tue, 06 Oct 2020 14:32:04 -0400
+X-MC-Unique: BHoNRXJ5M369xqDcUee2zQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 239EB8018A1;
- Tue,  6 Oct 2020 18:32:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78C9556BE4;
+ Tue,  6 Oct 2020 18:32:02 +0000 (UTC)
 Received: from thuth.com (ovpn-113-60.ams2.redhat.com [10.36.113.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A0B16EF43;
- Tue,  6 Oct 2020 18:31:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 842D66EF43;
+ Tue,  6 Oct 2020 18:32:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/16] pc-bios: s390x: Save PSW rework
-Date: Tue,  6 Oct 2020 20:31:18 +0200
-Message-Id: <20201006183122.155609-13-thuth@redhat.com>
+Subject: [PULL 13/16] pc-bios: s390x: Use reset PSW if avaliable
+Date: Tue,  6 Oct 2020 20:31:19 +0200
+Message-Id: <20201006183122.155609-14-thuth@redhat.com>
 In-Reply-To: <20201006183122.155609-1-thuth@redhat.com>
 References: <20201006183122.155609-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
@@ -83,72 +83,115 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-We don't need to save the ipl_continue variable in lowcore and have it
-limited to 32 bits because of the lowcore layout. Let's move it to a
-new 64 bit variable and get rid of the reset info struct.
+If a blob provides a reset PSW then we should use it instead of
+branching to the PSW address and using our own mask.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201006094249.50640-3-frankja@linux.ibm.com>
+Message-Id: <20201006094249.50640-4-frankja@linux.ibm.com>
+[thuth: Use Elvis operator to shorten long line]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/jump2ipl.c | 33 +++++++++++++--------------------
- 1 file changed, 13 insertions(+), 20 deletions(-)
+ pc-bios/s390-ccw/bootmap.c  |  6 ++++--
+ pc-bios/s390-ccw/jump2ipl.c | 26 +++++++++++++++++++-------
+ pc-bios/s390-ccw/s390-ccw.h |  1 +
+ 3 files changed, 24 insertions(+), 9 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
-index 767012bf0c..b6aad32def 100644
---- a/pc-bios/s390-ccw/jump2ipl.c
-+++ b/pc-bios/s390-ccw/jump2ipl.c
-@@ -13,20 +13,17 @@
- #define KERN_IMAGE_START 0x010000UL
- #define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_64)
+diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
+index 73471801de..44df7d16af 100644
+--- a/pc-bios/s390-ccw/bootmap.c
++++ b/pc-bios/s390-ccw/bootmap.c
+@@ -273,7 +273,8 @@ static void run_eckd_boot_script(block_number_t bmt_block_nr,
  
--typedef struct ResetInfo {
--    uint64_t ipl_psw;
--    uint32_t ipl_continue;
--} ResetInfo;
-+static uint64_t *reset_psw = 0, save_psw, ipl_continue;
- 
--static ResetInfo save;
--
--static void jump_to_IPL_2(void)
-+static void jump_to_IPL_addr(void)
- {
--    ResetInfo *current = 0;
-+    __attribute__((noreturn)) void (*ipl)(void) = (void *)ipl_continue;
-+
-+    /* Restore reset PSW */
-+    *reset_psw = save_psw;
- 
--    void (*ipl)(void) = (void *) (uint64_t) current->ipl_continue;
--    *current = save;
--    ipl(); /* should not return */
-+    ipl();
-+    /* should not return */
+     IPL_assert(bms->entry[i].type == BOOT_SCRIPT_EXEC,
+                "Unknown script entry type");
+-    jump_to_IPL_code(bms->entry[i].address.load_address); /* no return */
++    write_reset_psw(bms->entry[i].address.load_address); /* no return */
++    jump_to_IPL_code(0); /* no return */
  }
  
- void jump_to_IPL_code(uint64_t address)
-@@ -46,15 +43,11 @@ void jump_to_IPL_code(uint64_t address)
+ static void ipl_eckd_cdl(void)
+@@ -527,7 +528,8 @@ static void zipl_run(ScsiBlockPtr *pte)
+     IPL_assert(entry->component_type == ZIPL_COMP_ENTRY_EXEC, "No EXEC entry");
+ 
+     /* should not return */
+-    jump_to_IPL_code(entry->compdat.load_psw & PSW_MASK_SHORT_ADDR);
++    write_reset_psw(entry->compdat.load_psw);
++    jump_to_IPL_code(0);
+ }
+ 
+ static void ipl_scsi(void)
+diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+index b6aad32def..fbae45b03c 100644
+--- a/pc-bios/s390-ccw/jump2ipl.c
++++ b/pc-bios/s390-ccw/jump2ipl.c
+@@ -12,15 +12,21 @@
+ 
+ #define KERN_IMAGE_START 0x010000UL
+ #define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_64)
++#define RESET_PSW ((uint64_t)&jump_to_IPL_addr | RESET_PSW_MASK)
+ 
+ static uint64_t *reset_psw = 0, save_psw, ipl_continue;
+ 
++void write_reset_psw(uint64_t psw)
++{
++    *reset_psw = psw;
++}
++
+ static void jump_to_IPL_addr(void)
+ {
+     __attribute__((noreturn)) void (*ipl)(void) = (void *)ipl_continue;
+ 
+     /* Restore reset PSW */
+-    *reset_psw = save_psw;
++    write_reset_psw(save_psw);
+ 
+     ipl();
+     /* should not return */
+@@ -43,11 +49,12 @@ void jump_to_IPL_code(uint64_t address)
       * content of non-BIOS memory after we loaded the guest, so we
       * save the original content and restore it in jump_to_IPL_2.
       */
--    ResetInfo *current = 0;
--
--    save = *current;
--
--    current->ipl_psw = (uint64_t) &jump_to_IPL_2;
--    current->ipl_psw |= RESET_PSW_MASK;
--    current->ipl_continue = address & PSW_MASK_SHORT_ADDR;
--
--    debug_print_int("set IPL addr to", current->ipl_continue);
-+    save_psw = *reset_psw;
-+    *reset_psw = (uint64_t) &jump_to_IPL_addr;
-+    *reset_psw |= RESET_PSW_MASK;
-+    ipl_continue = address;
-+    debug_print_int("set IPL addr to", ipl_continue);
+-    save_psw = *reset_psw;
+-    *reset_psw = (uint64_t) &jump_to_IPL_addr;
+-    *reset_psw |= RESET_PSW_MASK;
+-    ipl_continue = address;
+-    debug_print_int("set IPL addr to", ipl_continue);
++    if (address) {
++        save_psw = *reset_psw;
++        write_reset_psw(RESET_PSW);
++        ipl_continue = address;
++    }
++    debug_print_int("set IPL addr to", address ?: *reset_psw & PSW_MASK_SHORT_ADDR);
  
      /* Ensure the guest output starts fresh */
      sclp_print("\n");
+@@ -77,7 +84,12 @@ void jump_to_low_kernel(void)
+ 
+     /* Trying to get PSW at zero address */
+     if (*((uint64_t *)0) & RESET_PSW_MASK) {
+-        jump_to_IPL_code((*((uint64_t *)0)) & PSW_MASK_SHORT_ADDR);
++        /*
++         * Surely nobody will try running directly from lowcore, so
++         * let's use 0 as an indication that we want to load the reset
++         * psw at 0x0 and not jump to the entry.
++         */
++        jump_to_IPL_code(0);
+     }
+ 
+     /* No other option left, so use the Linux kernel start address */
+diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
+index 9b86c120b4..6cd92669e9 100644
+--- a/pc-bios/s390-ccw/s390-ccw.h
++++ b/pc-bios/s390-ccw/s390-ccw.h
+@@ -76,6 +76,7 @@ int virtio_read(ulong sector, void *load_addr);
+ void zipl_load(void);
+ 
+ /* jump2ipl.c */
++void write_reset_psw(uint64_t psw);
+ void jump_to_IPL_code(uint64_t address);
+ void jump_to_low_kernel(void);
+ 
 -- 
 2.18.2
 
