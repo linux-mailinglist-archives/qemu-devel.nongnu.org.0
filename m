@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E29284795
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:41:50 +0200 (CEST)
-Received: from localhost ([::1]:44420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272E828480B
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:03:10 +0200 (CEST)
+Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhbZ-0001Bf-D5
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39766)
+	id 1kPhwC-0006nb-Rp
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQK-00030G-5f
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:12 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50457)
+ id 1kPhQL-00034j-Jz
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:13 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQI-0001TB-Ew
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:11 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 13so1845667wmf.0
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:10 -0700 (PDT)
+ id 1kPhQJ-0001TO-I4
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:13 -0400
+Received: by mail-wm1-x334.google.com with SMTP id q5so1203347wmq.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cpyQLJv0wdPNrXTFIzMBIsZDapctBMjUV4cbdzJBuo8=;
- b=vG67bz7ebTOVQJz9RT/YmTd7evzbpRD3qQJl3fsAohvrZX4eQpbbGBPe6VgEEx7ONv
- W1zMLyRAPjQhLgKmnyKFOflPD9PzgL6lPhrNyG3p+j6x/6xjvftVJjePBksiMbJwTaXI
- YStHhPZ+y88HcpkFvrDpFHDaavpMvNFBSK5jroDTS+qy1PvpHTsAEucpYGGd0ncqbG49
- vm6qnQZn1Wf9KFIm1RsyiM6t8VhfNmDAUFW9BYqCrPLl4qMckK/S4rJGhVbunf6rnMZL
- Y15qmfA+I44kmbyqZ5C0MEB+9eNg1yHNCSPIRaeLTI4izu887mEy/nebHAALTfi+qYKZ
- b+8A==
+ bh=0sroHSxG+CDkmdBtRayI+aa5wxYg8jTsjHn44flQrBg=;
+ b=KZbyErKhi0j2XPt4s/tuXwyy3bVQKfEx4SF+5wSa73uvUF4wzNAmbmqFFpQ3aEexkP
+ h2386QAMsacltax89c2dro0Uth0bIiPcCaFnwuDDR/Kg8wraDlBLCShSDBTnJbvrjJ73
+ npE0AYxslvX6Ca90mpV2EUe1liBbWe5V5FbWxbwp+wlwooTfR9yF4uAHgRI5CoT37RZ7
+ hNbmshUX4g2Ptqn3ly6P/jwdwCpP80zFbfeqH5gCt7cX1MaDM4+zoVMvqSNMbOmOddrO
+ Gjy4BbX/PCxnPgIYCbgfkbjuBJLGmHaw2M+k+hkwLs37gDnH4VddRFdGQt3Mes/jp10M
+ aeFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cpyQLJv0wdPNrXTFIzMBIsZDapctBMjUV4cbdzJBuo8=;
- b=DS9dbGN6RMR4ViM9EBOnCNFHIebtBTFQz/AM84/gtsWYlf3R8ST4cvp/Hh0CWRDOBK
- owvbupzZ8T/2zdCYfDd1VlDxdtKZ9K3hucRPOr0ok4wIgz2Z8vFEczxVBheGS1X79ZJC
- qra33kzmkjYa2LZM6UcTVZnLZ7IEIWW9rwy/iR3s5QTsBUGdoaqyMxVXqJbB1ZYgj0LN
- F9M4szsTJcJt7sngemmCf9g2Z9DJWUBP0ReJ6OFT3mSoC42lJf1b+08EmtL44citbABD
- 26Q8QJx6ki8TylZtPYTcwWlvt0UIgbdAjJDpuT6s/jhiQcX/NwMpjXdyVkPyObi3tjNv
- cyHg==
-X-Gm-Message-State: AOAM5339mqe3LT65qfN7p085wVx2AVref/m3C/tBwylmexjViFDCYCsC
- fT0Qz4StUK1FE7+92pdxFcOkLfg0Yfo=
-X-Google-Smtp-Source: ABdhPJyleGGaJRe8grVKKfHjm09vYC/FDyF56I2nW7N/1xd7te3g9UIR8VIm9pWMuVo1okKF7ggRMQ==
-X-Received: by 2002:a7b:c081:: with SMTP id r1mr3219414wmh.158.1601969408843; 
- Tue, 06 Oct 2020 00:30:08 -0700 (PDT)
+ bh=0sroHSxG+CDkmdBtRayI+aa5wxYg8jTsjHn44flQrBg=;
+ b=EpUQJg5VOnwofpGtrrh8YcBUkad8gwgWt0/0rQTprU1FwdFT43SpW1oP9uETG/OOwI
+ ke6Vh8FLLKAraL+tec9xv/pDXmpZDWc0STxaXy44Wi1gAQiuAbuRm5H3dV+rSqmBqNf0
+ zSizY+iKBVvoZQf29rRj50c39oHZJEpY9+tgvnJVrVUBft/jv0eZjONr1BPZNzLvD62b
+ gmNw4MM5KSFTPhN9bHMaBbdzWHBMQTcpoB6APAmJOXwsoyRFQvpXvqGMucmdjkGDWE66
+ yUjZZQMzn+TZodGzIdxCB2TxmldR1kDKog3WBKoYiqCvli7C9oY8O0G4c7epIQv2N6Gf
+ CSYQ==
+X-Gm-Message-State: AOAM533TglT14ARleVUR9cjZghLBZsm869DSXudeTlRRaKE0ZOklJxDz
+ XsDT6v3o6Esa+06FawiXHnuARGuZ0js=
+X-Google-Smtp-Source: ABdhPJzKbg7lUVCv/kSkXECurZUqqLorZUhXXQ+Z4tXL1jLeN7sdbja/zF60gL6pAvcIQjYoiQwewg==
+X-Received: by 2002:a1c:c342:: with SMTP id t63mr3081494wmf.145.1601969409736; 
+ Tue, 06 Oct 2020 00:30:09 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
  by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:30:08 -0700 (PDT)
+ Tue, 06 Oct 2020 00:30:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/37] replay: provide an accessor for rr filename
-Date: Tue,  6 Oct 2020 09:29:35 +0200
-Message-Id: <20201006072947.487729-26-pbonzini@redhat.com>
+Subject: [PULL 26/37] qcow2: introduce icount field for snapshots
+Date: Tue,  6 Oct 2020 09:29:36 +0200
+Message-Id: <20201006072947.487729-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006072947.487729-1-pbonzini@redhat.com>
 References: <20201006072947.487729-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -86,55 +85,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
- Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
-This patch adds an accessor function for the name of the record/replay
-log file. Adding an accessor instead of making variable global,
-prevents accidental modification of this variable by other modules.
+This patch introduces the icount field for saving within the snapshot.
+It is required for navigation between the snapshots in record/replay mode.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <160174517710.12451.17645787545733927488.stgit@pasha-ThinkPad-X280>
+Acked-by: Kevin Wolf <kwolf@redhat.com>
+
+--
+
+v7 changes:
+ - also fix the test which checks qcow2 snapshot extra data
+Message-Id: <160174518284.12451.2301137308458777398.stgit@pasha-ThinkPad-X280>
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/sysemu/replay.h | 2 ++
- replay/replay.c         | 5 +++++
- 2 files changed, 7 insertions(+)
+ block/qcow2-snapshot.c     |  7 ++++++
+ block/qcow2.h              |  3 +++
+ docs/interop/qcow2.txt     |  5 ++++
+ tests/qemu-iotests/261     | 15 ++++++-----
+ tests/qemu-iotests/261.out | 51 +++++++++++++++++++++++++-------------
+ 5 files changed, 58 insertions(+), 23 deletions(-)
 
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index a140d69a73..7d963139e5 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -72,6 +72,8 @@ void replay_start(void);
- void replay_finish(void);
- /*! Adds replay blocker with the specified error description */
- void replay_add_blocker(Error *reason);
-+/* Returns name of the replay log file */
-+const char *replay_get_filename(void);
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index 9b68690f56..d68b25e0c5 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -164,6 +164,12 @@ static int qcow2_do_read_snapshots(BlockDriverState *bs, bool repair,
+             sn->disk_size = bs->total_sectors * BDRV_SECTOR_SIZE;
+         }
  
- /* Processing the instructions */
- 
-diff --git a/replay/replay.c b/replay/replay.c
-index 4c1457b07e..797b6a5b15 100644
---- a/replay/replay.c
-+++ b/replay/replay.c
-@@ -399,3 +399,8 @@ void replay_add_blocker(Error *reason)
- {
-     replay_blockers = g_slist_prepend(replay_blockers, reason);
- }
++        if (sn->extra_data_size >= endof(QCowSnapshotExtraData, icount)) {
++            sn->icount = be64_to_cpu(extra.icount);
++        } else {
++            sn->icount = -1ULL;
++        }
 +
-+const char *replay_get_filename(void)
-+{
-+    return replay_filename;
-+}
+         if (sn->extra_data_size > sizeof(extra)) {
+             uint64_t extra_data_end;
+             size_t unknown_extra_data_size;
+@@ -333,6 +339,7 @@ int qcow2_write_snapshots(BlockDriverState *bs)
+         memset(&extra, 0, sizeof(extra));
+         extra.vm_state_size_large = cpu_to_be64(sn->vm_state_size);
+         extra.disk_size = cpu_to_be64(sn->disk_size);
++        extra.icount = cpu_to_be64(sn->icount);
+ 
+         id_str_size = strlen(sn->id_str);
+         name_size = strlen(sn->name);
+diff --git a/block/qcow2.h b/block/qcow2.h
+index b71e444fca..125ea9679b 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -206,6 +206,7 @@ typedef struct QEMU_PACKED QCowSnapshotHeader {
+ typedef struct QEMU_PACKED QCowSnapshotExtraData {
+     uint64_t vm_state_size_large;
+     uint64_t disk_size;
++    uint64_t icount;
+ } QCowSnapshotExtraData;
+ 
+ 
+@@ -219,6 +220,8 @@ typedef struct QCowSnapshot {
+     uint32_t date_sec;
+     uint32_t date_nsec;
+     uint64_t vm_clock_nsec;
++    /* icount value for the moment when snapshot was taken */
++    uint64_t icount;
+     /* Size of all extra data, including QCowSnapshotExtraData if available */
+     uint32_t extra_data_size;
+     /* Data beyond QCowSnapshotExtraData, if any */
+diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
+index 7da0d81df8..0463f761ef 100644
+--- a/docs/interop/qcow2.txt
++++ b/docs/interop/qcow2.txt
+@@ -707,6 +707,11 @@ Snapshot table entry:
+ 
+                     Byte 48 - 55:   Virtual disk size of the snapshot in bytes
+ 
++                    Byte 56 - 63:   icount value which corresponds to
++                                    the record/replay instruction count
++                                    when the snapshot was taken. Set to -1
++                                    if icount was disabled
++
+                     Version 3 images must include extra data at least up to
+                     byte 55.
+ 
+diff --git a/tests/qemu-iotests/261 b/tests/qemu-iotests/261
+index ddcb04f285..848ffa760d 100755
+--- a/tests/qemu-iotests/261
++++ b/tests/qemu-iotests/261
+@@ -91,7 +91,10 @@ print_snapshot_table()
+         if [ $extra_len -ge 16 ]; then
+             echo "    Disk size: $(peek_file_be "$1" $((extra_ofs + 8)) 8)"
+         fi
+-        if [ $extra_len -gt 16 ]; then
++        if [ $extra_len -ge 24 ]; then
++            echo "    Icount: $(peek_file_be "$1" $((extra_ofs + 16)) 8)"
++        fi
++        if [ $extra_len -gt 24 ]; then
+             echo '    Unknown extra data:' \
+                 "$(peek_file_raw "$1" $((extra_ofs + 16)) $((extra_len - 16)) \
+                    | tr -d '\0')"
+@@ -198,12 +201,12 @@ truncate -s 0 "$TEST_DIR/sn0-extra"
+ truncate -s $(($(snapshot_table_entry_size "$TEST_DIR/sn0-pre") - 40)) \
+     "$TEST_DIR/sn0-post"
+ 
+-# Set sn1's extra data size to 42
+-poke_file "$TEST_DIR/sn1-pre" 36 '\x00\x00\x00\x2a'
+-truncate -s 42 "$TEST_DIR/sn1-extra"
+-poke_file "$TEST_DIR/sn1-extra" 16 'very important data'
++# Set sn1's extra data size to 50
++poke_file "$TEST_DIR/sn1-pre" 36 '\x00\x00\x00\x32'
++truncate -s 50 "$TEST_DIR/sn1-extra"
++poke_file "$TEST_DIR/sn1-extra" 24 'very important data'
+ # Grow sn1-post to pad
+-truncate -s $(($(snapshot_table_entry_size "$TEST_DIR/sn1-pre") - 82)) \
++truncate -s $(($(snapshot_table_entry_size "$TEST_DIR/sn1-pre") - 90)) \
+     "$TEST_DIR/sn1-post"
+ 
+ # Set sn2's extra data size to 8
+diff --git a/tests/qemu-iotests/261.out b/tests/qemu-iotests/261.out
+index 2600354566..612433ae40 100644
+--- a/tests/qemu-iotests/261.out
++++ b/tests/qemu-iotests/261.out
+@@ -12,9 +12,10 @@ Snapshots in TEST_DIR/t.IMGFMT.v2.orig:
+   [1]
+     ID: 2
+     Name: sn1
+-    Extra data size: 42
++    Extra data size: 50
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 0
+     Unknown extra data: very important data
+   [2]
+     ID: 3
+@@ -29,22 +30,25 @@ Snapshots in TEST_DIR/t.IMGFMT.v3.orig:
+   [0]
+     ID: 1
+     Name: sn0
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+   [1]
+     ID: 2
+     Name: sn1
+-    Extra data size: 42
++    Extra data size: 50
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 0
+     Unknown extra data: very important data
+   [2]
+     ID: 3
+     Name: sn2
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+ 
+ === Repair botched v3 ===
+ 
+@@ -61,22 +65,25 @@ Snapshots in TEST_DIR/t.IMGFMT:
+   [0]
+     ID: 1
+     Name: sn0
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+   [1]
+     ID: 2
+     Name: sn1
+-    Extra data size: 42
++    Extra data size: 50
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 0
+     Unknown extra data: very important data
+   [2]
+     ID: 3
+     Name: sn2
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+ 
+ === Add new snapshot ===
+ 
+@@ -85,28 +92,32 @@ Snapshots in TEST_DIR/t.IMGFMT:
+   [0]
+     ID: 1
+     Name: sn0
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+   [1]
+     ID: 2
+     Name: sn1
+-    Extra data size: 42
++    Extra data size: 50
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 0
+     Unknown extra data: very important data
+   [2]
+     ID: 3
+     Name: sn2
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+   [3]
+     ID: 4
+     Name: sn3
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 0
+ 
+ === Remove different snapshots ===
+ 
+@@ -116,16 +127,18 @@ Snapshots in TEST_DIR/t.IMGFMT:
+   [0]
+     ID: 2
+     Name: sn1
+-    Extra data size: 42
++    Extra data size: 50
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 0
+     Unknown extra data: very important data
+   [1]
+     ID: 3
+     Name: sn2
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+ 
+ --- sn1 ---
+ No errors were found on the image.
+@@ -133,15 +146,17 @@ Snapshots in TEST_DIR/t.IMGFMT:
+   [0]
+     ID: 1
+     Name: sn0
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+   [1]
+     ID: 3
+     Name: sn2
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+ 
+ --- sn2 ---
+ No errors were found on the image.
+@@ -149,15 +164,17 @@ Snapshots in TEST_DIR/t.IMGFMT:
+   [0]
+     ID: 1
+     Name: sn0
+-    Extra data size: 16
++    Extra data size: 24
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 18446744073709551615
+   [1]
+     ID: 2
+     Name: sn1
+-    Extra data size: 42
++    Extra data size: 50
+     VM state size: 0
+     Disk size: 67108864
++    Icount: 0
+     Unknown extra data: very important data
+ 
+ === Reject too much unknown extra data ===
 -- 
 2.26.2
 
