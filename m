@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD87285512
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 02:01:51 +0200 (CEST)
-Received: from localhost ([::1]:59042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3887A285543
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 02:13:14 +0200 (CEST)
+Received: from localhost ([::1]:54508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPwty-0001uo-82
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 20:01:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38498)
+	id 1kPx4z-0003h1-8M
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 20:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwqw-0007tS-F0
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:58:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46496)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwqv-0007sm-Pz
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:58:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwqs-0002Jr-3Y
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:58:42 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwqs-0002K2-36
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:58:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602028715;
+ s=mimecast20190719; t=1602028716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aXtAa28vJz2L/wQ3Jh/YpBLJMIWsXeQxkfChMSZykRs=;
- b=bR48DZNmc0U7oersonoSPfIEhR4t06S1IWJrfZ9nYNJYqyReU5P0wFxwI34eCqt/PF/ZOD
- GmOi9WY75G1vOgMzVkq8nNkAC0MlrhkGRsVfucpAjHZzFavSPgNWZoUPrxOq23TMIg0aPT
- CRRgGhOdYnPAiRK40Hq7LiphqdbnKxU=
+ bh=m8hN6lCWw4mZZXn+2POwMA4lzqzGKKOBza3JkPyASJA=;
+ b=RqjW+1sfztc22c9Ap/8R+8QZelYfzD6jkDdBFD4ceaadm7gO1rHVn0kaKCF/XQMRLEXfMA
+ HBwjc2H+i8A9JCLgVsomUWvynVWnuiv3EnRnh8w4+RApFbXeD79ogMzUY8SzX4LsHo/qcU
+ 5+zoZ08ei8OKR3KQZanrg7tw9+AwzMM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-EkqOACcdN7iQEezyTsYhgg-1; Tue, 06 Oct 2020 19:58:33 -0400
-X-MC-Unique: EkqOACcdN7iQEezyTsYhgg-1
+ us-mta-529-rzmBAxG2Onm28GEjvgHZ7A-1; Tue, 06 Oct 2020 19:58:34 -0400
+X-MC-Unique: rzmBAxG2Onm28GEjvgHZ7A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60EBA802ED5;
- Tue,  6 Oct 2020 23:58:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C3FE802ED7;
+ Tue,  6 Oct 2020 23:58:33 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9DFE6BABA;
- Tue,  6 Oct 2020 23:58:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83C1760BFA;
+ Tue,  6 Oct 2020 23:58:32 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/20] python/machine.py: Add _qmp access shim
-Date: Tue,  6 Oct 2020 19:58:04 -0400
-Message-Id: <20201006235817.3280413-8-jsnow@redhat.com>
+Subject: [PATCH 08/20] python/machine.py: fix _popen access
+Date: Tue,  6 Oct 2020 19:58:05 -0400
+Message-Id: <20201006235817.3280413-9-jsnow@redhat.com>
 In-Reply-To: <20201006235817.3280413-1-jsnow@redhat.com>
 References: <20201006235817.3280413-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,85 +84,70 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like many other Optional[] types, it's not always a given that this
-object will be set. Wrap it in a type-shim that raises a meaningful
-error and will always return a concrete type.
+As always, Optional[T] causes problems with unchecked access. Add a
+helper that asserts the pipe is present before we attempt to talk with
+it.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine.py | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ python/qemu/machine.py | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index d788e8aba8c..3e9cf09fd2d 100644
+index 3e9cf09fd2d..4e762fcd529 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -135,7 +135,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
+@@ -131,7 +131,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
+         # Runstate
+         self._qemu_log_path = None
+         self._qemu_log_file = None
+-        self._popen = None
++        self._popen: Optional['subprocess.Popen[bytes]'] = None
          self._events = []
          self._iolog = None
          self._qmp_set = True   # Enable QMP monitor by default.
--        self._qmp = None
-+        self._qmp_connection: Optional[qmp.QEMUMonitorProtocol] = None
-         self._qemu_full_args = None
-         self._temp_dir = None
-         self._launched = False
-@@ -302,14 +302,14 @@ def _pre_launch(self):
-             if self._remove_monitor_sockfile:
-                 assert isinstance(self._monitor_address, str)
-                 self._remove_files.append(self._monitor_address)
--            self._qmp = qmp.QEMUMonitorProtocol(
-+            self._qmp_connection = qmp.QEMUMonitorProtocol(
-                 self._monitor_address,
-                 server=True,
-                 nickname=self._name
-             )
+@@ -244,6 +244,12 @@ def is_running(self):
+         """Returns true if the VM is running."""
+         return self._popen is not None and self._popen.poll() is None
  
-     def _post_launch(self):
--        if self._qmp:
-+        if self._qmp_connection:
-             self._qmp.accept()
- 
-     def _post_shutdown(self):
-@@ -320,9 +320,9 @@ def _post_shutdown(self):
-         # Comprehensive reset for the failed launch case:
-         self._early_cleanup()
- 
--        if self._qmp:
-+        if self._qmp_connection:
-             self._qmp.close()
--            self._qmp = None
-+            self._qmp_connection = None
- 
-         self._load_io_log()
- 
-@@ -434,7 +434,7 @@ def _soft_shutdown(self, timeout: Optional[int],
-         """
-         self._early_cleanup()
- 
--        if self._qmp is not None:
-+        if self._qmp_connection:
-             if not has_quit:
-                 # Might raise ConnectionReset
-                 self._qmp.cmd('quit')
-@@ -515,11 +515,13 @@ def set_qmp_monitor(self, enabled=True):
-                         line. Default is True.
-         @note: call this function before launch().
-         """
--        if enabled:
--            self._qmp_set = True
--        else:
--            self._qmp_set = False
--            self._qmp = None
-+        self._qmp_set = enabled
-+
 +    @property
-+    def _qmp(self) -> qmp.QEMUMonitorProtocol:
-+        if self._qmp_connection is None:
-+            raise QEMUMachineError("Attempt to access QMP with no connection")
-+        return self._qmp_connection
++    def _subp(self) -> 'subprocess.Popen[bytes]':
++        if self._popen is None:
++            raise QEMUMachineError('Subprocess pipe not present')
++        return self._popen
++
+     def exitcode(self):
+         """Returns the exit code if possible, or None."""
+         if self._popen is None:
+@@ -254,7 +260,7 @@ def get_pid(self):
+         """Returns the PID of the running process, or None."""
+         if not self.is_running():
+             return None
+-        return self._popen.pid
++        return self._subp.pid
  
-     @classmethod
-     def _qmp_args(cls, _conv_keys: bool = True, **args: Any) -> Dict[str, Any]:
+     def _load_io_log(self):
+         if self._qemu_log_path is not None:
+@@ -415,8 +421,8 @@ def _hard_shutdown(self) -> None:
+             waiting for the QEMU process to terminate.
+         """
+         self._early_cleanup()
+-        self._popen.kill()
+-        self._popen.wait(timeout=60)
++        self._subp.kill()
++        self._subp.wait(timeout=60)
+ 
+     def _soft_shutdown(self, timeout: Optional[int],
+                        has_quit: bool = False) -> None:
+@@ -440,7 +446,7 @@ def _soft_shutdown(self, timeout: Optional[int],
+                 self._qmp.cmd('quit')
+ 
+         # May raise subprocess.TimeoutExpired
+-        self._popen.wait(timeout=timeout)
++        self._subp.wait(timeout=timeout)
+ 
+     def _do_shutdown(self, timeout: Optional[int],
+                      has_quit: bool = False) -> None:
 -- 
 2.26.2
 
