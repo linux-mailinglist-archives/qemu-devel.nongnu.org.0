@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7CA285388
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 22:57:41 +0200 (CEST)
-Received: from localhost ([::1]:39134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB79F285450
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:08:47 +0200 (CEST)
+Received: from localhost ([::1]:40504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPu1j-0005tx-Sf
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 16:57:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50482)
+	id 1kPv8Y-0005kG-Cs
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:08:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brian.turek@gmail.com>)
- id 1kPtWn-0005zi-RK
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 16:25:41 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brian.turek@gmail.com>)
- id 1kPtWm-0002Pf-Ak
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 16:25:41 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v12so147049wmh.3
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 13:25:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=t3EWFtYWy1PxrutwWixMHjNhMppH8NW5awcdMGVYfFc=;
- b=dajVL1mK+BaLvDHq0A1APC3AKRo2ljyolEK971j8wpMbRhL+vZnKn8PXqAU3/+zXeX
- Ri8Cll7okZtYUh9mXg2e15OL6Ti9NuSsS5NtLSpnKp0DmiIIV8Y7tapBhT4fCipLp0jt
- J+e4LXp2hPRLi4Xci308nBEfNgYZVc+Q3tHXwC699q4+v2zqDhUgwfWdoaF/87vhIc0Y
- nH0M2t5PhHbAxrijQOFxuh6mU3Gir/77NsbnnhZpSbnDzZacsEGFZx87qzzIo5j2Bk3k
- PV53vIJ7ytreTiy8p0yTVmvW08PPYwJg9bb4oEx/oJdjTv0vy73J6iaIH86jaR0tMYRC
- 89nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=t3EWFtYWy1PxrutwWixMHjNhMppH8NW5awcdMGVYfFc=;
- b=eKowW/i3VhmpeQ3PBpQ0ppUye579UcoFjG0VMmWfXuZJ8Eyo41JpFNkLX7NIP2Hweg
- 2W2ddZp0f7NGPkcq8tnuDn1f+4IxK9o9/rKlKgL++5T2Fr4DHdVXQl1OgZHai2Ib76Lo
- joAR3AT4MqfZtEqkgqUMz+goDh008OTAUreXsrkGJbgGHpwTwv/ShcI7N/8HAmP46oab
- ByqxwFKoP5BnY5TrLJ/B6Kz9t90B+QX4Wvq4QuPCaYdFBMV678GRZ/zZd0m0id6lExLJ
- zV+6J/ur8sk6mT19ee/YA7PVrfPhfi43FG4486n+ubAyXEut9nt1XZ4OZy7l64G29ECd
- o98w==
-X-Gm-Message-State: AOAM531VgsR33dewrv1uv+miyAaHgpz0arGDyzQsPuY+2FeCaSl79U1r
- hKtG4xp4QlClK3U/u6JPiDYT5Kny4fTN4i/F
-X-Google-Smtp-Source: ABdhPJy/z+5W9dR+K2E0qa6yckZv47v6UOGDSRkKeUJd8niKy4fGXBWFsLWKrnyyxpQsYYo0awmOlw==
-X-Received: by 2002:a1c:f005:: with SMTP id a5mr6600521wmb.160.1602015938360; 
- Tue, 06 Oct 2020 13:25:38 -0700 (PDT)
-Received: from localhost.localdomain
- (cpc75556-harg6-2-0-cust35.7-1.cable.virginm.net. [86.3.36.36])
- by smtp.gmail.com with ESMTPSA id o15sm5402131wmh.29.2020.10.06.13.25.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 13:25:37 -0700 (PDT)
-From: Brian Turek <brian.turek@gmail.com>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kPv6l-0004z6-95
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:06:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kPv6i-0006Ao-O0
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:06:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602022011;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=ils0BP+cNaOMg3GKRSynEad9TgRvNzhouxtHidMz3tU=;
+ b=D6nOfBl4radBOL4DZWVzcNNKDDD2e8DzlzP4P3Xs7h1nAJOQ6ElJdTOarmQjL4z0/GZLAD
+ G9RTMRrVkWL8QFGd5Wa+5zNuifnyegzBB2BCQ1ErC+Ljt2XbpGCA/4KjA6Ulwlo82vtCpq
+ c8lQ/W8Jso9EQH0EQ/fP2+CwUOO2hLU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-406-8-4HMb4qOeK2eQbEzfTxIw-1; Tue, 06 Oct 2020 18:06:49 -0400
+X-MC-Unique: 8-4HMb4qOeK2eQbEzfTxIw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A7DA1018F7A;
+ Tue,  6 Oct 2020 22:06:48 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F20495D9CD;
+ Tue,  6 Oct 2020 22:06:47 +0000 (UTC)
+Date: Tue, 6 Oct 2020 18:06:47 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] docs: Clarify formatting for 'fmode' and 'dmode'
-Date: Tue,  6 Oct 2020 21:25:01 +0100
-Message-Id: <20201006202501.81537-2-brian.turek@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201006202501.81537-1-brian.turek@gmail.com>
-References: <20201006202501.81537-1-brian.turek@gmail.com>
+Subject: Purpose of QOM properties registered at realize time?
+Message-ID: <20201006220647.GR7303@habkost.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=brian.turek@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 06 Oct 2020 16:56:11 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,44 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brian Turek <brian.turek@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Explictly state that the 'fmode' and 'dmode' values for a fsdev/virtfs
-must be formatted with a preceeding 0 to be interpreted as base-8.
-Currently the code will parse a value like "644" as base-10 which leads
-to unexpected behavior.
+Hi,
 
-Signed-off-by: Brian Turek <brian.turek@gmail.com>
----
- qemu-options.hx | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+While trying to understand how QOM properties are used in QEMU, I
+stumbled upon multiple cases where alias properties are added at
+realize time.
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 1da52a269c..b92f32005a 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1492,12 +1492,16 @@ SRST
-     ``fmode=fmode``
-         Specifies the default mode for newly created files on the host.
-         Works only with security models "mapped-xattr" and
--        "mapped-file".
-+        "mapped-file". Must be formatted with a preceeding 0 to be
-+        interpreted as a octal value (e.g. 0644). The setuid, setgid,
-+        and sticky bit are all ignored.
- 
-     ``dmode=dmode``
-         Specifies the default mode for newly created directories on the
-         host. Works only with security models "mapped-xattr" and
--        "mapped-file".
-+        "mapped-file". Must be formatted with a preceeding 0 to be
-+        interpreted as a octal value (e.g. 0755). The setuid, setgid,
-+        and sticky bit are all ignored.
- 
-     ``throttling.bps-total=b,throttling.bps-read=r,throttling.bps-write=w``
-         Specify bandwidth throttling limits in bytes per second, either
+Now, I don't understand why those properties exist.  As the
+properties are added at realize time, I assume they aren't
+supposed to be touched by the user at all.  If they are not
+supposed to be touched by the user, what exactly is the purpose
+of those QOM properties?
+
+For reference, these are the cases I've found:
+
+$ git grep -nwpE 'object_property_add_alias|qdev_pass_gpios|qdev_alias_all_properties' | grep -A1 realize
+hw/arm/allwinner-a10.c=71=static void aw_a10_realize(DeviceState *dev, Error **errp)
+hw/arm/allwinner-a10.c:89:    qdev_pass_gpios(DEVICE(&s->intc), dev, NULL);
+--
+hw/arm/allwinner-h3.c=232=static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+hw/arm/allwinner-h3.c:359:    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->mmc0),
+--
+hw/arm/armsse.c=429=static void armsse_realize(DeviceState *dev, Error **errp)
+hw/arm/armsse.c:1092:    qdev_pass_gpios(dev_secctl, dev, "mscexp_status");
+--
+hw/arm/armv7m.c=149=static void armv7m_realize(DeviceState *dev, Error **errp)
+hw/arm/armv7m.c:219:    qdev_pass_gpios(DEVICE(&s->nvic), dev, NULL);
+--
+hw/arm/bcm2835_peripherals.c=128=static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+hw/arm/bcm2835_peripherals.c:322:    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->gpio), "sd-bus");
+--
+hw/arm/bcm2836.c=69=static void bcm2836_realize(DeviceState *dev, Error **errp)
+hw/arm/bcm2836.c:87:    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->peripherals),
+hw/arm/msf2-soc.c=79=static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
+hw/arm/msf2-soc.c:170:        object_property_add_alias(OBJECT(s), bus_name,
+--
+hw/arm/nrf51_soc.c=58=static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
+hw/arm/nrf51_soc.c:138:    qdev_pass_gpios(DEVICE(&s->gpio), dev_soc, NULL);
+--
+hw/arm/xlnx-zynqmp.c=276=static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+hw/arm/xlnx-zynqmp.c:522:        object_property_add_alias(OBJECT(s), bus_name, sdhci, "sd-bus");
+--
+hw/misc/mac_via.c=1011=static void mac_via_realize(DeviceState *dev, Error **errp)
+hw/misc/mac_via.c:1028:    object_property_add_alias(OBJECT(dev), "irq[0]", OBJECT(ms),
+--
+hw/ppc/spapr_drc.c=511=static void realize(DeviceState *d, Error **errp)
+hw/ppc/spapr_drc.c:530:    object_property_add_alias(root_container, link_name,
+hw/riscv/sifive_e.c=186=static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
+hw/riscv/sifive_e.c:233:    qdev_pass_gpios(DEVICE(&s->gpio), dev, NULL);
+hw/riscv/sifive_u.c=651=static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+hw/riscv/sifive_u.c:743:    qdev_pass_gpios(DEVICE(&s->gpio), dev, NULL);
+
 -- 
-2.25.1
+Eduardo
 
 
