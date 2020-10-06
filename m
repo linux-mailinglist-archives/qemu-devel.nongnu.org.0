@@ -2,86 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88D8284B10
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:45:57 +0200 (CEST)
-Received: from localhost ([::1]:44336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A064D284B07
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:37:21 +0200 (CEST)
+Received: from localhost ([::1]:35694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPlPo-0007NP-Fk
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39114)
+	id 1kPlHU-0003TO-KL
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPlCL-0007XV-9b
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:32:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55392)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPlDz-0000kP-B3
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:33:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPlCJ-0007u6-2G
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:32:00 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPlDx-00082h-Az
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:33:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601983917;
+ s=mimecast20190719; t=1601984020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZtHDWeHzF5RmSRN7Zn51lQt7lObIFNSLYM1dZxlY6+o=;
- b=d2bLdb3FFpWztfvqF9ptJv55uXmlJXsAKpLmpKmAJ6cs9Jo6Oo3a0L7GBtwwtyy83m/RY6
- 7KokPvooIUZhGBXTq4Fmqp3CmbqisQHs4kdJXdN41vF7tqguFbjBcPOMEGUaSWyKFwU23x
- Ey4xQhuUo93txDiJkMK48MxzFOBJF0c=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-1ExA92fKNwmHaHSO8SNLYQ-1; Tue, 06 Oct 2020 07:31:56 -0400
-X-MC-Unique: 1ExA92fKNwmHaHSO8SNLYQ-1
-Received: by mail-wm1-f72.google.com with SMTP id 13so1013620wmf.0
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 04:31:55 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2B+DD3ctGRt8Cywo9yb29QDLcgK+CfHXL7MYU3VdqJ8=;
+ b=PkIqSYRg/GWLfu02aPuZarqCzoELXPkRhUa5xNnNW4ChmUGOaJdYzQ/QyovPzjci/ZlV+/
+ ibxgQ7y0/cZOs0kooxy3tWOA8oJMz6JsLabosm8SI1Gbwbfo9tg7fiU7XA+uCW+7PwBPmI
+ ZLrfOQkhpKUYCG8sbCMcuLB/st9JISQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-omQQ97IKNdOE7DFTu9-BJg-1; Tue, 06 Oct 2020 07:33:38 -0400
+X-MC-Unique: omQQ97IKNdOE7DFTu9-BJg-1
+Received: by mail-wm1-f71.google.com with SMTP id m14so603006wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 04:33:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZtHDWeHzF5RmSRN7Zn51lQt7lObIFNSLYM1dZxlY6+o=;
- b=CjW7Fx0yAmtr/hlHciQI9eY91T6+bTbpTdGSBG+HHH0KVn3OxVo0Cglj+bjlLhi0ok
- NMYyYi8q21QnaU9QV6BMbTjG/UviG0g7DId5FouT4kSFcu6YOiFCiW3DfIpf/zACnSgz
- d6fsz7bxoh/pLLGW/RRrkp+SYB/t/Lyny0uRUBMj4pZjFSUWr+FFdlhQmSCZj4bCxNw6
- No8qqO0es9cRi6Ex+9pp0u4VdPTeNogUbhcBqE78xAHA+p0PXGRHS8kIKGvczVNfXElX
- A2MfHHfLDrN7WWiHTTdi8r7esduKnJR9MfM/XGmjM7F72swt4JgxL9U9s6F28q3m33y0
- DPxg==
-X-Gm-Message-State: AOAM530yz6iQ+6bf9QHjY82YN+0ieEWM0bYSuDAOpb/Z3HVsm83mnfHU
- fOAE/NLx7mke81+CKWiKGibHjJCf8IYH9o02yN9HDcRSMJesy9PWh86WJS5tynhujLe1Rbra5IT
- qh2GhI3ypS216aFI=
-X-Received: by 2002:adf:f7d0:: with SMTP id a16mr4198889wrq.381.1601983914775; 
- Tue, 06 Oct 2020 04:31:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4FVJysAXwQpWdPzJPvKNfEfN1Ho9NzgZ3WezaxObGI7qyMbBqOkSpfOzFpfpO5nxiGX4Yog==
-X-Received: by 2002:adf:f7d0:: with SMTP id a16mr4198862wrq.381.1601983914470; 
- Tue, 06 Oct 2020 04:31:54 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e?
- ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id u81sm3393679wmg.43.2020.10.06.04.31.53
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=2B+DD3ctGRt8Cywo9yb29QDLcgK+CfHXL7MYU3VdqJ8=;
+ b=iMhZSDjsupc4AuCOGYdykIVitX3DzPnnN3odYzqJg8lIV8aApYuptIEUEV5p3qfgda
+ WzZd4c7P76gwPW4mEfa+Qv3E4g49NLi1EseKHwd1Qky4HMxCFyeX7J6OiSHhGo4Qo2kk
+ suXWjnzNvaNfufLXwT5OT3kdU4YxyjiZrsAdMA3Xe1G42ntJXTbFVdzx6ErAvk+rg01P
+ t6+N9GJkhK8xMG44C7hrdPog+6WtfsAd9wHSIH3lbT7Mzo939hdetPBYgTAZz7k7RfBw
+ IIpEscIosxMeTtA6vMV769qzwXhIouk3ee9+skPq8vuNqWUsyU85UudQw09yLur+zZBP
+ 53mg==
+X-Gm-Message-State: AOAM5319k1Aw61nOT7o1omu4ePy3lpFzdsqr9PMHyxQJ5BOyVArqlDRV
+ 9Z699N6qMfjy0u2MHUSXnEFDuTJ1NFduAcacSk4dJutvNYL88gj/ofzZ2U8g1e7hxAY2ZQ85S6V
+ qK4I6iw2hvj7SXk4=
+X-Received: by 2002:adf:a28a:: with SMTP id s10mr4435133wra.300.1601984017037; 
+ Tue, 06 Oct 2020 04:33:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2vvvpoz5u2PsgcW8t2tn8Q/+ltosRKHZ9sWm95AonVx6u9A3iLjXB060T9ezIi1zU2WbyYw==
+X-Received: by 2002:adf:a28a:: with SMTP id s10mr4435118wra.300.1601984016803; 
+ Tue, 06 Oct 2020 04:33:36 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id f189sm3715850wmf.16.2020.10.06.04.33.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Oct 2020 04:31:53 -0700 (PDT)
-Subject: Re: [PATCH v2 1/1] hw/nvram: Always register
- FW_CFG_DATA_GENERATOR_INTERFACE
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201006111909.2302081-1-philmd@redhat.com>
- <20201006111909.2302081-2-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <73dd0b58-b52c-a0ba-988a-430205a3a2e6@redhat.com>
-Date: Tue, 6 Oct 2020 13:31:53 +0200
+ Tue, 06 Oct 2020 04:33:36 -0700 (PDT)
+Subject: Re: [PATCH v5 05/36] qapi: Prefer explicit relative imports
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20201005195158.2348217-1-jsnow@redhat.com>
+ <20201005195158.2348217-6-jsnow@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <fed558a5-8529-7b3b-5790-79b368e4d897@redhat.com>
+Date: Tue, 6 Oct 2020 13:33:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201006111909.2302081-2-philmd@redhat.com>
+In-Reply-To: <20201005195158.2348217-6-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -105,115 +123,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-block@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/10/20 13:19, Philippe Mathieu-Daudé wrote:
-> While the FW_CFG_DATA_GENERATOR_INTERFACE is only consumed
-> by a device only available using system-mode (fw_cfg), it is
-> implemented by a crypto component (tls-cipher-suites) which
-> is always available when crypto is used.
+On 10/5/20 9:51 PM, John Snow wrote:
+> All of the QAPI include statements are changed to be package-aware, as
+> explicit relative imports.
 > 
-> Commit 69699f3055 introduced the following error in the
-> qemu-storage-daemon binary:
+> A quirk of Python packages is that the name of the package exists only
+> *outside* of the package. This means that to a module inside of the qapi
+> folder, there is inherently no such thing as the "qapi" package. The
+> reason these imports work is because the "qapi" package exists in the
+> context of the caller -- the execution shim, where sys.path includes a
+> directory that has a 'qapi' folder in it.
 > 
->   $ echo -e \
->     '{"execute": "qmp_capabilities"}\r\n{"execute": "qom-list-types"}\r\n{"execute": "quit"}\r\n' \
->     | storage-daemon/qemu-storage-daemon --chardev stdio,id=qmp0  --monitor qmp0
->   {"QMP": {"version": {"qemu": {"micro": 50, "minor": 1, "major": 5}, "package": ""}, "capabilities": ["oob"]}}
->   {"return": {}}
->   missing interface 'fw_cfg-data-generator' for object 'tls-creds'
->   Aborted (core dumped)
+> When we write "from qapi import sibling", we are NOT referencing the folder
+> 'qapi', but rather "any package named qapi in sys.path". If you should
+> so happen to have a 'qapi' package in your path, it will use *that*
+> package.
 > 
-> Since QOM dependencies are resolved at runtime, this issue
-> could not be triggered at linktime, and we don't have test
-> running the qemu-storage-daemon binary.
+> When we write "from .sibling import foo", we always reference explicitly
+> our sibling module; guaranteeing consistency in *where* we are importing
+> these modules from.
 > 
-> Fix by always registering the QOM interface.
+> This can be useful when working with virtual environments and packages
+> in development mode. In development mode, a package is installed as a
+> series of symlinks that forwards to your same source files. The problem
+> arises because code quality checkers will follow "import qapi.x" to the
+> "installed" version instead of the sibling file and -- even though they
+> are the same file -- they have different module paths, and this causes
+> cyclic import problems, false positive type mismatch errors, and more.
 > 
-> Reported-by: Kevin Wolf <kwolf@redhat.com>
-> Fixes: 69699f3055 ("crypto/tls-cipher-suites: Produce fw_cfg consumable blob")
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> It can also be useful when dealing with hierarchical packages, e.g. if
+> we allow qemu.core.qmp, qemu.qapi.parser, etc.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  hw/nvram/fw_cfg-interface.c | 15 +++++++++++++++
->  hw/nvram/fw_cfg.c           |  7 -------
->  MAINTAINERS                 |  2 +-
->  hw/nvram/meson.build        |  3 +++
->  4 files changed, 19 insertions(+), 8 deletions(-)
->  create mode 100644 hw/nvram/fw_cfg-interface.c
-> 
-> diff --git a/hw/nvram/fw_cfg-interface.c b/hw/nvram/fw_cfg-interface.c
-> new file mode 100644
-> index 0000000000..2b19502ffe
-> --- /dev/null
-> +++ b/hw/nvram/fw_cfg-interface.c
-> @@ -0,0 +1,15 @@
-> +#include "qemu/osdep.h"
-> +#include "hw/nvram/fw_cfg.h"
-> +
-> +static const TypeInfo fw_cfg_data_generator_interface_info = {
-> +    .parent = TYPE_INTERFACE,
-> +    .name = TYPE_FW_CFG_DATA_GENERATOR_INTERFACE,
-> +    .class_size = sizeof(FWCfgDataGeneratorClass),
-> +};
-> +
-> +static void fw_cfg_register_types(void)
-> +{
-> +    type_register_static(&fw_cfg_data_generator_interface_info);
-> +}
-> +
-> +type_init(fw_cfg_register_types)
-> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-> index 0e95d057fd..08539a1aab 100644
-> --- a/hw/nvram/fw_cfg.c
-> +++ b/hw/nvram/fw_cfg.c
-> @@ -1360,18 +1360,11 @@ static const TypeInfo fw_cfg_mem_info = {
->      .class_init    = fw_cfg_mem_class_init,
->  };
->  
-> -static const TypeInfo fw_cfg_data_generator_interface_info = {
-> -    .parent = TYPE_INTERFACE,
-> -    .name = TYPE_FW_CFG_DATA_GENERATOR_INTERFACE,
-> -    .class_size = sizeof(FWCfgDataGeneratorClass),
-> -};
-> -
->  static void fw_cfg_register_types(void)
->  {
->      type_register_static(&fw_cfg_info);
->      type_register_static(&fw_cfg_io_info);
->      type_register_static(&fw_cfg_mem_info);
-> -    type_register_static(&fw_cfg_data_generator_interface_info);
->  }
->  
->  type_init(fw_cfg_register_types)
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b76fb31861..a45d908ebd 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2054,7 +2054,7 @@ R: Laszlo Ersek <lersek@redhat.com>
->  R: Gerd Hoffmann <kraxel@redhat.com>
->  S: Supported
->  F: docs/specs/fw_cfg.txt
-> -F: hw/nvram/fw_cfg.c
-> +F: hw/nvram/fw_cfg*.c
->  F: stubs/fw_cfg.c
->  F: include/hw/nvram/fw_cfg.h
->  F: include/standard-headers/linux/qemu_fw_cfg.h
-> diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
-> index 1f2ed013b2..fd2951a860 100644
-> --- a/hw/nvram/meson.build
-> +++ b/hw/nvram/meson.build
-> @@ -1,3 +1,6 @@
-> +# QOM interfaces must be available anytime QOM is used.
-> +qom_ss.add(files('fw_cfg-interface.c'))
-> +
->  softmmu_ss.add(files('fw_cfg.c'))
->  softmmu_ss.add(when: 'CONFIG_CHRP_NVRAM', if_true: files('chrp_nvram.c'))
->  softmmu_ss.add(when: 'CONFIG_DS1225Y', if_true: files('ds1225y.c'))
-> 
+>  scripts/qapi/commands.py   |  4 ++--
+>  scripts/qapi/events.py     |  8 ++++----
+>  scripts/qapi/expr.py       |  4 ++--
+>  scripts/qapi/gen.py        |  4 ++--
+>  scripts/qapi/introspect.py |  8 ++++----
+>  scripts/qapi/main.py       | 14 +++++++-------
+>  scripts/qapi/parser.py     |  4 ++--
+>  scripts/qapi/schema.py     |  8 ++++----
+>  scripts/qapi/types.py      |  6 +++---
+>  scripts/qapi/visit.py      |  6 +++---
+>  10 files changed, 33 insertions(+), 33 deletions(-)
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
