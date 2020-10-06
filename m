@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5328128476A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:37:25 +0200 (CEST)
-Received: from localhost ([::1]:55740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7593B2847DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:51:30 +0200 (CEST)
+Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhXI-0002ZT-BX
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39648)
+	id 1kPhkv-0004dM-Ge
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:51:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQB-0002gX-TN
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:03 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46270)
+ id 1kPhQC-0002hB-6g
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:04 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:51955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQ9-0001PU-Av
+ id 1kPhQA-0001Ph-9i
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:03 -0400
-Received: by mail-wr1-x431.google.com with SMTP id o5so12221901wrn.13
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:00 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id d81so1835639wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1wBDqPu0Mh/k8EUaxsOa5LE93l3x7HmJK/nuzfwKfPY=;
- b=CiG+Ndfb7Yi+VakfHFYwq2ofJZZMpJX9NyRJhEuz00uucRfDIZ72jMnGwSHzzz3I+D
- mDXoLXNey7xtU1bBFO/lP/M7wJOkTbSdIJCRutlbNdO53zBbU0BDPbbj+LkDul20e86o
- MfuHwXqQCu79GsnPGTy9DiV1NA2Xq800pLBXYW30mFo8/SjnDTTKPmzRqr2xI13Ewapp
- MRTyjPPIWDWpAcq/Qlsqn6psdhroYKZukjs+KaXybmivhEVTDza3tsoBkNJzhe8p0Sge
- 7OtsSiflsaXi2fHIMVhoC1Rf9eaQVINjrG4xuBqrejfWRKxlUnZDakGpWkTZsBml+F+E
- Y5KQ==
+ bh=McojN4hgI2v8lMIA/0vIa8DUoBcoEwCymxJZE7NE5hM=;
+ b=fFDt0KojN8zQR9IVBJ+icCKNvvLKDjnRP4iBHVkL8keuPLAw8/klDMzIx3r+dWzj+N
+ bvE3VCB11ai9FGokMmLgzdZ8i2pGO6wW37dfo47S1qMoIUSOtgsTe4WuI8Lygenc2JKt
+ mZ+sH+wXEBEa063R75XVH72V7wISSjfFyfUcYURurTvjXB14Nb6YfZMYTqpsaU7i3uzL
+ MSXx1kIB0FzWWPd01MJ9b0KBwdzoa+o+nkD+Hnf/FRGprftFRm2b3Ib8s5+qrNsrQMrI
+ Qq1tyUMRaLRJtxa072r9ig2prMSKTIfXY0Fe9SgMSYS3GdEbko9wetZaYpaVXI14UddX
+ bBhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1wBDqPu0Mh/k8EUaxsOa5LE93l3x7HmJK/nuzfwKfPY=;
- b=MJH3TX4mC2zkG8RNuGJaUZ1OOKQgjF107TurOiS5Mmo8GC+sxaoGW+6QMQQcXR/9LC
- UW5n3ZRcDILlzTfg0GdlVf0Vy3vV6CXUZ/lNLy+woiMWygRce49W+ZowvNAhaGxEcs2a
- LQraoX8gk0yjrBLugxH8zDylVOwOgw+KwRZd2TU1TiLrLtwIYyKGRKUhjj0qVdB0yfGs
- 5ZF7MqleRPNXlcQakiDRYB9TTYExCe4U9iwEyUu03/Qrcgpnm9yxaEMG+owLGJFCAljW
- uFp6dYftqhk51AZEg1jpE7k3lmnoVbgwIA8qLcb87lGV8+BNzPMmJdHXC3WXZxa1mBvG
- c5Ww==
-X-Gm-Message-State: AOAM532rLaAfYuXJsSzKFyazyBiLOYWa6cDDkb4myTwACIRCiNX8DCGC
- 3cDKPWncFb4FW6UqJJsJZh1FDKMnPJU=
-X-Google-Smtp-Source: ABdhPJy7KQfpbD1gvvSG0FyhBXW9pm3+j0ZoKdNJSlwXm/f4uoRi8qTvpCQ697TUyGdDtfs+23ysZw==
-X-Received: by 2002:adf:f504:: with SMTP id q4mr3217147wro.353.1601969399730; 
- Tue, 06 Oct 2020 00:29:59 -0700 (PDT)
+ bh=McojN4hgI2v8lMIA/0vIa8DUoBcoEwCymxJZE7NE5hM=;
+ b=e6/7yTrmL3EHZLudmBhvAxNlbn0ZwU3dbzJgL2IbNzhRE8A6yzsvOPJd4ULpcq+ySQ
+ /Lh9vVHaEWKzEnGFZZVfk4F3uP1ORKDoWcBk7XfzZVq+XGKDCR9dP4vM9UiOAH3XM7BH
+ wtjr4aqylpRegbJlFC9WuFKJt3RKGvb3k1K4lYia890bE0yGhUC/K9dk4MzqIdeOa7Mj
+ i/pifdWjBW5awpN62WGLmJOqA3EZxZn5w0SlsK0AhU6yO4UaYcIZ3tTz1m/fUS9/83h4
+ akhhxS1YJvd359SstNrA2Hbkud5ShdCvnd3wt0TlGPTLUmlDlwf366rT74+K9KgPCsdg
+ uLTg==
+X-Gm-Message-State: AOAM533k2SQ7RUXRSRO1srsJxl5KjPw+TkTNHKM4HXSVFTC9wUgWniS4
+ e+i4Am3rSRW3aeAE3CgcWTH6UNF/FE8=
+X-Google-Smtp-Source: ABdhPJzFERkBba6rm09u5DrrABvfxBt8C8M0KaEImWlih2J/7WsC5VGEuxVnJhSZi5tosbLEFLHyqQ==
+X-Received: by 2002:a7b:c92c:: with SMTP id h12mr3204449wml.121.1601969400582; 
+ Tue, 06 Oct 2020 00:30:00 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.29.58
+ by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.29.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:29:59 -0700 (PDT)
+ Tue, 06 Oct 2020 00:30:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/37] hax: remove hax specific functions from global includes
-Date: Tue,  6 Oct 2020 09:29:25 +0200
-Message-Id: <20201006072947.487729-16-pbonzini@redhat.com>
+Subject: [PULL 16/37] kvm: remove kvm specific functions from global includes
+Date: Tue,  6 Oct 2020 09:29:26 +0200
+Message-Id: <20201006072947.487729-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006072947.487729-1-pbonzini@redhat.com>
 References: <20201006072947.487729-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -96,172 +96,92 @@ Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/stubs/hax-stub.c    | 10 ----------
- include/sysemu/hax.h      | 17 -----------------
- target/i386/hax-all.c     |  1 -
- target/i386/hax-cpus.c    |  1 -
- target/i386/hax-cpus.h    | 16 ++++++++++++++++
- target/i386/hax-mem.c     |  2 +-
- target/i386/hax-posix.c   |  3 +--
- target/i386/hax-windows.c |  2 +-
- target/i386/hax-windows.h |  2 ++
- 9 files changed, 21 insertions(+), 33 deletions(-)
+ accel/kvm/kvm-cpus.h   |  7 +++++++
+ accel/stubs/kvm-stub.c | 22 ----------------------
+ include/sysemu/kvm.h   |  7 -------
+ 3 files changed, 7 insertions(+), 29 deletions(-)
 
-diff --git a/accel/stubs/hax-stub.c b/accel/stubs/hax-stub.c
-index 7ad190cae2..1a9da83185 100644
---- a/accel/stubs/hax-stub.c
-+++ b/accel/stubs/hax-stub.c
-@@ -21,13 +21,3 @@ int hax_sync_vcpus(void)
+diff --git a/accel/kvm/kvm-cpus.h b/accel/kvm/kvm-cpus.h
+index 547fbee111..60c5a554c2 100644
+--- a/accel/kvm/kvm-cpus.h
++++ b/accel/kvm/kvm-cpus.h
+@@ -14,4 +14,11 @@
+ 
+ extern const CpusAccel kvm_cpus;
+ 
++int kvm_init_vcpu(CPUState *cpu);
++int kvm_cpu_exec(CPUState *cpu);
++void kvm_destroy_vcpu(CPUState *cpu);
++void kvm_cpu_synchronize_post_reset(CPUState *cpu);
++void kvm_cpu_synchronize_post_init(CPUState *cpu);
++void kvm_cpu_synchronize_pre_loadvm(CPUState *cpu);
++
+ #endif /* KVM_CPUS_H */
+diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+index 69f8a842da..680e099463 100644
+--- a/accel/stubs/kvm-stub.c
++++ b/accel/stubs/kvm-stub.c
+@@ -32,15 +32,6 @@ bool kvm_readonly_mem_allowed;
+ bool kvm_ioeventfd_any_length_allowed;
+ bool kvm_msi_use_devid;
+ 
+-void kvm_destroy_vcpu(CPUState *cpu)
+-{
+-}
+-
+-int kvm_init_vcpu(CPUState *cpu)
+-{
+-    return -ENOSYS;
+-}
+-
+ void kvm_flush_coalesced_mmio_buffer(void)
  {
-     return 0;
  }
--
--int hax_init_vcpu(CPUState *cpu)
--{
--    return -ENOSYS;
--}
--
--int hax_smp_cpu_exec(CPUState *cpu)
--{
--    return -ENOSYS;
--}
-diff --git a/include/sysemu/hax.h b/include/sysemu/hax.h
-index 9b27e65cc7..12fb54f990 100644
---- a/include/sysemu/hax.h
-+++ b/include/sysemu/hax.h
-@@ -22,29 +22,12 @@
- #ifndef QEMU_HAX_H
- #define QEMU_HAX_H
- 
--
- int hax_sync_vcpus(void);
--int hax_init_vcpu(CPUState *cpu);
--int hax_smp_cpu_exec(CPUState *cpu);
--int hax_populate_ram(uint64_t va, uint64_t size);
--
--void hax_cpu_synchronize_state(CPUState *cpu);
--void hax_cpu_synchronize_post_reset(CPUState *cpu);
--void hax_cpu_synchronize_post_init(CPUState *cpu);
--void hax_cpu_synchronize_pre_loadvm(CPUState *cpu);
- 
- #ifdef CONFIG_HAX
- 
- int hax_enabled(void);
- 
--#include "qemu/bitops.h"
--#include "exec/memory.h"
--int hax_vcpu_destroy(CPUState *cpu);
--void hax_raise_event(CPUState *cpu);
--void hax_reset_vcpu_state(void *opaque);
--#include "target/i386/hax-interface.h"
--#include "target/i386/hax-i386.h"
--
- #else /* CONFIG_HAX */
- 
- #define hax_enabled() (0)
-diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
-index fd1ab673d7..fecfe8cd6e 100644
---- a/target/i386/hax-all.c
-+++ b/target/i386/hax-all.c
-@@ -28,7 +28,6 @@
- #include "exec/address-spaces.h"
- 
- #include "qemu-common.h"
--#include "hax-i386.h"
- #include "sysemu/accel.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-diff --git a/target/i386/hax-cpus.c b/target/i386/hax-cpus.c
-index 9aad98bc7a..99770e590c 100644
---- a/target/i386/hax-cpus.c
-+++ b/target/i386/hax-cpus.c
-@@ -22,7 +22,6 @@
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
--#include "hax-i386.h"
- #include "sysemu/runstate.h"
- #include "sysemu/cpus.h"
- #include "qemu/guest-random.h"
-diff --git a/target/i386/hax-cpus.h b/target/i386/hax-cpus.h
-index a64417fe2d..ee8ab7a631 100644
---- a/target/i386/hax-cpus.h
-+++ b/target/i386/hax-cpus.h
-@@ -14,4 +14,20 @@
- 
- extern const CpusAccel hax_cpus;
- 
-+#include "hax-interface.h"
-+#include "hax-i386.h"
-+
-+int hax_init_vcpu(CPUState *cpu);
-+int hax_smp_cpu_exec(CPUState *cpu);
-+int hax_populate_ram(uint64_t va, uint64_t size);
-+
-+void hax_cpu_synchronize_state(CPUState *cpu);
-+void hax_cpu_synchronize_post_reset(CPUState *cpu);
-+void hax_cpu_synchronize_post_init(CPUState *cpu);
-+void hax_cpu_synchronize_pre_loadvm(CPUState *cpu);
-+
-+int hax_vcpu_destroy(CPUState *cpu);
-+void hax_raise_event(CPUState *cpu);
-+void hax_reset_vcpu_state(void *opaque);
-+
- #endif /* HAX_CPUS_H */
-diff --git a/target/i386/hax-mem.c b/target/i386/hax-mem.c
-index 6bb5a24917..71e637cf16 100644
---- a/target/i386/hax-mem.c
-+++ b/target/i386/hax-mem.c
-@@ -13,7 +13,7 @@
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h"
- 
--#include "target/i386/hax-i386.h"
-+#include "hax-cpus.h"
- #include "qemu/queue.h"
- 
- #define DEBUG_HAX_MEM 0
-diff --git a/target/i386/hax-posix.c b/target/i386/hax-posix.c
-index 6fb7867d11..735a749d4b 100644
---- a/target/i386/hax-posix.c
-+++ b/target/i386/hax-posix.c
-@@ -14,9 +14,8 @@
- #include "qemu/osdep.h"
- #include <sys/ioctl.h>
- 
--#include "target/i386/hax-i386.h"
--
- #include "sysemu/cpus.h"
-+#include "hax-cpus.h"
- 
- hax_fd hax_mod_open(void)
+@@ -49,19 +40,6 @@ void kvm_cpu_synchronize_state(CPUState *cpu)
  {
-diff --git a/target/i386/hax-windows.c b/target/i386/hax-windows.c
-index 469b48e608..6c82dfb54f 100644
---- a/target/i386/hax-windows.c
-+++ b/target/i386/hax-windows.c
-@@ -12,7 +12,7 @@
+ }
  
- #include "qemu/osdep.h"
- #include "cpu.h"
--#include "hax-i386.h"
-+#include "hax-cpus.h"
+-void kvm_cpu_synchronize_post_reset(CPUState *cpu)
+-{
+-}
+-
+-void kvm_cpu_synchronize_post_init(CPUState *cpu)
+-{
+-}
+-
+-int kvm_cpu_exec(CPUState *cpu)
+-{
+-    abort();
+-}
+-
+ bool kvm_has_sync_mmu(void)
+ {
+     return false;
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 07937454d2..fe7dab1466 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -223,10 +223,6 @@ int kvm_has_many_ioeventfds(void);
+ int kvm_has_gsi_routing(void);
+ int kvm_has_intx_set_mask(void);
  
- /*
-  * return 0 when success, -1 when driver not loaded,
-diff --git a/target/i386/hax-windows.h b/target/i386/hax-windows.h
-index 12cbd813dc..a5ce12d663 100644
---- a/target/i386/hax-windows.h
-+++ b/target/i386/hax-windows.h
-@@ -23,6 +23,8 @@
- #include <winioctl.h>
- #include <windef.h>
+-int kvm_init_vcpu(CPUState *cpu);
+-int kvm_cpu_exec(CPUState *cpu);
+-void kvm_destroy_vcpu(CPUState *cpu);
+-
+ /**
+  * kvm_arm_supports_user_irq
+  *
+@@ -486,9 +482,6 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
+ #endif /* NEED_CPU_H */
  
-+#include "hax-cpus.h"
-+
- #define HAX_INVALID_FD INVALID_HANDLE_VALUE
+ void kvm_cpu_synchronize_state(CPUState *cpu);
+-void kvm_cpu_synchronize_post_reset(CPUState *cpu);
+-void kvm_cpu_synchronize_post_init(CPUState *cpu);
+-void kvm_cpu_synchronize_pre_loadvm(CPUState *cpu);
  
- static inline void hax_mod_close(struct hax_state *hax)
+ void kvm_init_cpu_signals(CPUState *cpu);
+ 
 -- 
 2.26.2
 
