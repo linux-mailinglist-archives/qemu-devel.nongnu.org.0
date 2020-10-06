@@ -2,95 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926E6284827
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:10:42 +0200 (CEST)
-Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142F42847DB
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:51:39 +0200 (CEST)
+Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPi3V-0003tx-MB
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41982)
+	id 1kPhl3-0004qx-Hk
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPhby-0003Bv-S7
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:42:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPhbx-0002xw-0p
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:42:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601970131;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BgId7LstDm7tdDrDOesKhRCBO+RL7ifS3kYl+H00O8g=;
- b=VciRwD0XJWKmYO3DJOkREAHnV85VXQskBCmjCYaAz2S5HkkIxpbBxODXkFuQasMvinQ8sY
- 46x50UQfxzaCuK7cpMjfYNvppN7Mc14ysAlKyKdHU/till8rWaCv2V2yDZnO8Jw0Yt6dE3
- E/odgqcCQe0vmaRk3Y0lbSRyhuJ2v38=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-Tj_jdBSmNp6Tf5YPq1zMWA-1; Tue, 06 Oct 2020 03:42:08 -0400
-X-MC-Unique: Tj_jdBSmNp6Tf5YPq1zMWA-1
-Received: by mail-wr1-f70.google.com with SMTP id r16so4991887wrm.18
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:42:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
+ id 1kPhcl-0004dA-IA; Tue, 06 Oct 2020 03:43:03 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:43776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
+ id 1kPhch-0003As-MY; Tue, 06 Oct 2020 03:43:03 -0400
+Received: by mail-il1-x144.google.com with SMTP id t7so4976397ilf.10;
+ Tue, 06 Oct 2020 00:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=EpNOyjJEoGEqkUe5g40gxaSooCGpNy6YOittGiTUrOg=;
+ b=F+imbLJzEv4PYSQQUvKYEtwaTGq3yGaPYHAQDOusbGc75v5edHj6caQZE0kQqNUWsw
+ 6koR4aS1SeJhHhwHS4gryARVcE64VbwWup6e5am4NuxFC7DhAPWhF9BU3QGrFicrSTBY
+ YXKosWkWEjMm4ldFnS7bXPQ2pl5Rxqkdg9IiajtU2QgPF9r+DL5UdhjOjh84IcsKYNZH
+ jVE4GRh++5M1rRxFQp+TL1T8Znv0sb1dEX0kdPjSbfUACmIxAlRMgkQEbfRfsB8b+j30
+ +5r+12YTECFFoDPa3eRMA8X15gU5BKix8O1sz1CUgM9gnl+9njLqwv8GMhTSgIn6ocXU
+ 4ClQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BgId7LstDm7tdDrDOesKhRCBO+RL7ifS3kYl+H00O8g=;
- b=CQbSJcNkAQJQwqpoBaaIQDgfLxvYxCWrVyONQLbHjroGpZQF/mGaRCJyKdi88W7GFj
- RnZx57VFhvI/1Vi/Nw59OYJbghODTdl2ThcCXw5P2Vg9W4yMa6KkyFIKl21k8/sQSOi9
- 2fJWEEsusRDvckdPdJBL55x6lonaNcdNh2YcgCrPinSddpV/ZhCjX60uvCCLvZmUVNRF
- q2iWSM9Vv1TL/dYU/svBIgFqNlHO1sQgaFbOTCjUJZO7yjax0vPNEiKMI7CVv31SoH4V
- KKuDd3rTbF7fY/MPuJC3t5QsVtBw39IBHIpv93Sy8BKQNANGntPLsw1qFZHQLNqdFcAN
- VV4w==
-X-Gm-Message-State: AOAM531KRJe5qsgBMJlkQfisdc5aYxiQ8VjSunlRz8DxJrv2uHixlACG
- glvzh7Yux817+u+avSPL0bLtrQWjFnc1Zk4FXEEha66zwvlb3MTlxorSazkkXKyon+dX2ZI5hd9
- xCptUdPel6VlRQPA=
-X-Received: by 2002:a1c:a593:: with SMTP id o141mr3352646wme.88.1601970126747; 
- Tue, 06 Oct 2020 00:42:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHM1zfXwthC7OTHyqntKgn8EiG/SZjcN514t2ZqVLFf3YTtTgs4CjaCN71VEkIEw/Dt/9e+w==
-X-Received: by 2002:a1c:a593:: with SMTP id o141mr3352616wme.88.1601970126489; 
- Tue, 06 Oct 2020 00:42:06 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e?
- ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id h76sm2818079wme.10.2020.10.06.00.42.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Oct 2020 00:42:05 -0700 (PDT)
-Subject: Re: [PATCH v2] scripts: Convert qemu-version.sh to qemu-version.py
-To: Peter Maydell <peter.maydell@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>
-References: <20201005172109.416-1-luoyonggang@gmail.com>
- <CAFEAcA95r2FZibphrO0N_rckWOKigM_d80Qi0grtpWWzN3d19A@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7f6f412b-03f8-b8f3-9708-0080277999a6@redhat.com>
-Date: Tue, 6 Oct 2020 09:42:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=EpNOyjJEoGEqkUe5g40gxaSooCGpNy6YOittGiTUrOg=;
+ b=HJ33nNNSjVnO7gn1CP/EyyPPmzBGW5Cy2EwuEnH/HZ5e3pl6InmUQDsLKg0JodxufA
+ rLCdTxOmgm993kNLCdx95lN0AXRvCsHL1LFLTeSnkhFymHung+TKbqP4fzW3VyRrGEY7
+ /EJSvwmq2+3lNhAkoHxoT20zclOw8Dl4C6ToJdMWxRgS2na1lJIc+JYTcjb7f3ebRrvo
+ 4AuuRT0dM2FfHYkkkM/uRsGRIX5xqSJ6i8UTM6O6kowR7aktHQFtGtO82hQ7NNhlEzn7
+ tKGAZfA8jZ19E+7Kcb1+VZSCRSMEwlUBj87Ac9/YItsK1L5h2WqwBsYSoNrruRhPOE1O
+ se/Q==
+X-Gm-Message-State: AOAM531iugkOp9W3Q6IeJ1RsORpSl1jFPkitJH7LldPHqpp7RQMFlYZl
+ 4AbNbQ/hwX7V8wvW50qdkKQoPcID12CBmKL76hU=
+X-Google-Smtp-Source: ABdhPJy2/JojQvJjFqufGOBXzrpxj6rDm+pl4kf5qOsU1jCjvZAkGUrFY4DKTawn7LKM3gu4yL0V+aHKQc73VLVcMkM=
+X-Received: by 2002:a92:9ec7:: with SMTP id s68mr2475643ilk.143.1601970176959; 
+ Tue, 06 Oct 2020 00:42:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA95r2FZibphrO0N_rckWOKigM_d80Qi0grtpWWzN3d19A@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <47dbcad4-3121-b1c3-06fa-abec7c353fb6@gmail.com>
+ <87sgatanti.fsf@linaro.org>
+ <CAFEAcA_ZMLV3DZ_R_SHvPLdEf=i-xpspD5itBmfYeqyMhgtLWQ@mail.gmail.com>
+ <875z7p3t9e.fsf@linaro.org> <e43be86d-1847-199f-4cbd-2e3bd124d70a@gmail.com>
+ <CADBGO794+ZPD=B=dFuA7SC96g3GDJXF1A8j=VP6MeiSw1Sf4oQ@mail.gmail.com>
+ <d8d79b4c-aeb4-4f07-7110-91d8d1afd701@gmail.com>
+In-Reply-To: <d8d79b4c-aeb4-4f07-7110-91d8d1afd701@gmail.com>
+From: Paul Zimmerman <pauldzim@gmail.com>
+Date: Tue, 6 Oct 2020 00:42:30 -0700
+Message-ID: <CADBGO7_vtjOtQ4k_FH_0=W4w2pZpX8Z6qiuhJT2szdHJCcdw6A@mail.gmail.com>
+Subject: Re: Emulate Rpi with QEMU fails
+To: Thomas Schneider <74cmonty@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=pauldzim@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,52 +83,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/20 21:22, Peter Maydell wrote:
->> +def main(args):
->> +    if len(args) <= 3:
->> +        sys.exit(0)
->> +
->> +    dir = args[1]
->> +    pkgversion = args[2]
->> +    version = args[3]
+On Mon, Oct 5, 2020 at 11:58 PM Thomas Schneider <74cmonty@gmail.com> wrote=
+:
+>
+> Hello Paul,
+>
+> many thanks for sharing this info.
+>
+> Can you confirm that the emulated RPi with your command will use
+> "internal QEMU" network, means the client cannot be accessed from any
+> other device in LAN?
+> If yes, what is required to setup a TAP connected to host's network bridg=
+e?
+>
+> Regards
+> Thomas
 
-In addition to what Peter pointed out, all these lines can be changed to
+That sets up User networking, so yes, generally you cannot access the
+client from the outside network.
 
-    def main(dir, pkgversion, version, *unused):
+If you set up a bridge device on the host using TAP, then you can change
+the "-netdev user,id=3Dnet0" in the command line to
+"-netdev tap,helper=3D/usr/local/libexec/qemu-bridge-helper,id=3Dnet0"
+(assuming your qemu was installed in /usr/local) and you should get a fully
+functional network connection. I found that the bridge device must be named
+"br0" or this will not work.
 
-and below
+I found that setting up a bridge device is pretty finicky, though. You can
+google for instructions on how to do it. I *think* these are the steps I
+followed to make it work for me. This is on Ubuntu, other Linux
+distributions work differently I believe. My ethernet device is 'eth0'
+and my host ip address is '192.168.0.54', so you should change those
+as needed for your environment.
 
-    if __name__ == "__main__":
-        main(*sys.argv)
+sudo ip link add br0 type bridge
+sudo ip tuntap add dev tap0 mode tap
+sudo ip link set dev tap0 master br0
+sudo ip link set dev eth0 master br0
+sudo ip link set dev br0 up
+sudo ip address delete 192.168.0.54/24 dev eth0
+sudo ip address add 192.168.0.54/24 dev br0
+sudo ip route add default via 192.168.0.1 dev br0
 
->> +    pc = subprocess.run(['git', 'describe', '--match', "'v*'", '--dirty', '--always'],
->> +        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, cwd=dir)
->> +    if pc.returncode == 0:
->> +        pkgversion = pc.stdout.decode('utf8').strip()
->> +    fullversion = version
->> +    if len(pkgversion) > 0:
+- Paul
 
-Just "if pkgversion:" please.
-
->> +        fullversion = "{} ({})".format(version, pkgversion)
->> +
->> +    version_header = '''#define QEMU_PKGVERSION "{}"
->> +#define QEMU_FULL_VERSION "{}"'''.format(pkgversion, fullversion)
->> +    sys.stdout.buffer.write(version_header.encode('utf8'))
-
-No need to use buffer and encode, just
-
-    print('#define QEMU_PKGVERSION "%s"' % pkgversion)
-    print('#define QEMU_FULLVERSION "%s"' % fullversion)
-
-It is still a bit more clunky than a shell script, but at least not as much.
-
-Paolo
-
+>
+> Am 06.10.2020 um 00:08 schrieb Paul Zimmerman:
+> > If you can upgrade to Qemu 5.1 or newer, you should be able to use the
+> > builtin raspi2 or raspi3 emulation directly. Version 5.1 adds support f=
+or the
+> > USB controller on the Pi.
+> >
+> > There is no limitation on the amount of memory you can use with this
+> > method, and the networking should work.
+> >
+> > Here is the command line I use to run the Raspbian image
+> > 2019-09-26-raspbian-buster. I extracted bcm2709-rpi-2-b and
+> > kernel7.img from the FAT partition inside the image file.
+> >
+> > qemu-system-arm -M raspi2 -drive
+> > file=3Dbootpi/2019-09-26-raspbian-buster.img,format=3Draw,if=3Dsd -dtb
+> > bcm2709-rpi-2-b.dtb -kernel kernel7.img -append 'rw
+> > earlycon=3Dpl011,0x3f201000 console=3DttyAMA0 loglevel=3D8
+> > root=3D/dev/mmcblk0p2 fsck.repair=3Dyes net.ifnames=3D0 rootwait memtes=
+t=3D1
+> > dwc_otg.fiq_fsm_enable=3D0' -serial stdio -no-reboot -netdev
+> > user,id=3Dnet0 -usb -device usb-kbd -device usb-tablet -device
+> > usb-net,netdev=3Dnet0
+> >
+> > Hope this helps.
+> >
+> > On Mon, Oct 5, 2020 at 3:51 AM Thomas Schneider <74cmonty@gmail.com> wr=
+ote:
+> >> Hello,
+> >>
+> >> thanks for your replies.
+> >>
+> >> I must admit that I don't fully understand your analysis.
+> >> However you made some conclusions that are correct.
+> >>
+> >> In fact I have found a Github repo
+> >> <https://github.com/dhruvvyas90/qemu-rpi-kernel> where a specific kern=
+el
+> >> and versatile-pb are provided + instructions for lauching the emulatio=
+n
+> >> with the original RPi image file:
+> >> $ qemu-system-arm \
+> >>     -M versatilepb \
+> >>     -cpu arm1176 \
+> >>     -m 256 \
+> >>     -drive
+> >> "file=3D/.../2020-05-27-raspios-buster-lite-armhf.img,if=3Dnone,index=
+=3D0,media=3Ddisk,format=3Draw,id=3Ddisk0"
+> >> \
+> >>     -device
+> >> "virtio-blk-pci,drive=3Ddisk0,disable-modern=3Don,disable-legacy=3Doff=
+" \
+> >>     -net "user,hostfwd=3Dtcp::5022-:22" \
+> >>     -dtb /.../versatile-pb-buster-5.4.51.dtb \
+> >>     -kernel /.../kernel-qemu-5.4.51-buster \
+> >>     -append 'root=3D/dev/vda2 panic=3D1' \
+> >>     -no-reboot
+> >>
+> >> This means it is more recent than the Raspberry Pi Geek article, and t=
+he
+> >> emulation works.
+> >> But I'm not sure if this usable considering the added models -M raspi2
+> >> and -M raspi3.
+> >>
+> >> Can you please advise how to proceed?
+> >>
+> >> In addition I would like to know if there's a memory limitation using
+> >> models -M raspi2 and -M raspi3?
+> >> To my understanding there's a limitation to 256MB using -M versatilepb=
+.
+> >> If yes, I consider to another raw image located on host's temporary
+> >> filesystem and use this a swap in the client.
+> >>
+> >> And how can I make use of a client network device that is based on
+> >> host's tap device connected to a network bridge?
+> >>
+> >> THX
+> >>
+> >>
+> >> Am 05.10.2020 um 11:40 schrieb Alex Benn=C3=A9e:
+> >>> Peter Maydell <peter.maydell@linaro.org> writes:
+> >>>
+> >>>> On Sun, 4 Oct 2020 at 18:44, Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g> wrote:
+> >>>>> Thomas <74cmonty@gmail.com> writes:
+> >>>>>> I'm trying to emulate Rpi with QEMU.
+> >>>>>> I found
+> >>>>>> [url=3D1]this[/url]
+> >>>>>> arcticle in Raspberry Pi Geek documenting the steps including pers=
+istent
+> >>>>>> storage on host.
+> >>>>>>
+> >>>>>> However when starting the emulation with command
+> >>>>>> qemu-system-arm -M versatilepb -cpu arm1176 -m 256 -serial stdio -=
+hda
+> >>>>>> 2020-08-20-raspios-buster-armhf-lite.img -net
+> >>>>>> "user,hostfwd=3Dtcp::5022-:22" -dtb versatile-pb-buster.dtb -kerne=
+l
+> >>>>>> kernel-qemu-5.4.51-buster -append "root=3D/dev/sda2 rootfstype=3De=
+xt4 rw
+> >>>>>> panic=3D1" -no-reboot
+> >>>>> Let's start with the fact you are using a versatilepb machine type =
+with
+> >>>>> a versatilepb dtb and not the rasppi model.
+> >>>> Given the name of the kernel image, this probably actually *is*
+> >>>> built for versatilepb, or it wouldn't have got as far as failing
+> >>>> to mount the root partition. There seems to be a lot of confusion
+> >>>> in the raspberry pi community about the difference between
+> >>>> running the raspi userspace plus a for-versatilepb kernel
+> >>>> versus running a full raspi setup.
+> >>> Ahh your German is considerably better than mine ;-) Looking more
+> >>> closely at the blog it seems to be predicated on extracting a Raspbia=
+n
+> >>> kernel which at least stands a fighting chance of being a multi_confi=
+g
+> >>> kernel - like the buster above.
+> >>>
+> >>> I can see why these sorts of shenanigans used to be pulled when there
+> >>> where no RaspPi models although if all you want to do is run an ARM u=
+ser
+> >>> space what's wrong with using linux-user for this sort of thing?
+> >>>
+> >>>> Anyway, failing to mount the rootfs and not listing any
+> >>>> sda devices is not a problem with the fstab, because the system
+> >>>> hasn't got as far as being able to mount the filesystem with a
+> >>>> fstab on it yet. One possibility is that the kernel is
+> >>>> missing the device drivers for either PCI or for the SCSI
+> >>>> controller that gets plugged in to versatilepb by default.
+> >>>>
+> >>>> My guess at the cause is that you're trying to boot a Linux 5.someth=
+ing
+> >>>> kernel and you've run into the issue described in this thread:
+> >>>> https://lists.gnu.org/archive/html/qemu-discuss/2020-09/msg00023.htm=
+l
+> >>>> where the Linux 5.x sym53c8xx scsi driver is not compatible with QEM=
+U's
+> >>>> emulation of that device. If that's the case then you should see
+> >>>> earlier in the kernel boot log error messages similar to the ones
+> >>>> that Roger reported. The fix would be either to use an older
+> >>>> kernel, or to change the QEMU commandline to use a different
+> >>>> SCSI controller (or to use a virtio block device).
+> >>> Do we have any documentation for the RaspPi models? The acceptance te=
+sts
+> >>> look like they support the inbuilt MMC/SD controller device:
+> >>>
+> >>>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+> >>>                                  serial_kernel_cmdline[uart_id] +
+> >>>                                  ' root=3D/dev/mmcblk0p2 rootwait ' +
+> >>>                                  'dwc_otg.fiq_fsm_enable=3D0')
+> >>>
+> >>> It would be useful to fill the hole in the documentation so gently st=
+eer
+> >>> people away from these hybrid franken-machine approaches.
+> >>>
+> >>>> thanks
+> >>>> -- PMM
+> >>
+>
 
