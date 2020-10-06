@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2B0285554
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 02:18:53 +0200 (CEST)
-Received: from localhost ([::1]:37282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBDB285523
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 02:10:16 +0200 (CEST)
+Received: from localhost ([::1]:48950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPxAS-0008Mx-Om
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 20:18:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38722)
+	id 1kPx27-0001Et-LS
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 20:10:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwrN-00006t-08
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:59:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56005)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwrP-00007S-Iv
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:59:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwrK-0002O1-7M
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:59:08 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwrM-0002OG-EE
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:59:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602028745;
+ s=mimecast20190719; t=1602028747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BZ43iMFAKxgPY+wuGSTsbc0IkhP4uN7aBNnMX+enmSg=;
- b=Pn4xjoyJAx7Cc338hHVE564+DHUGOUJ9CmZjCVsNxB3Z/FEAGQEyFd3S4fihHZhU5F4wWK
- BzmQqkmDP1vEpmf++E2yrYokA+DYugn0vIWu4qVoSGyvmPoKdywCyb64BPNh6w7DpO1am7
- 3djCFFkwDaV6l7rqcvPv83kZrT/e+rk=
+ bh=I/SVgIYDVZxyfxzMfHshHtaT2i9zL5q4OFi2bVre86c=;
+ b=iL7J14rFzQ0NgzquCrU30YWqTe/O+uw8hSIhhRak5afGN8YfDsY72cmiBZ0SKZIAfFJKtC
+ 2Xg50o0DuOxAwtJPX0w/rAX/7sk2nBNP+a3UQRBwcsesX78/M0DUFOE/gDk1/nuGnk72Uh
+ M0okb8MyeQCyD/4d2QUY5vY6NS6MQKU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-d5Rout71MdG4qMJzPHrjZQ-1; Tue, 06 Oct 2020 19:59:02 -0400
-X-MC-Unique: d5Rout71MdG4qMJzPHrjZQ-1
+ us-mta-209-4kMwYobwN8Crt8rGGH7poA-1; Tue, 06 Oct 2020 19:59:06 -0400
+X-MC-Unique: 4kMwYobwN8Crt8rGGH7poA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAAA618C5206;
- Tue,  6 Oct 2020 23:59:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03B6F64156;
+ Tue,  6 Oct 2020 23:59:05 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 399586115F;
- Tue,  6 Oct 2020 23:59:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C26C6115F;
+ Tue,  6 Oct 2020 23:59:01 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/20] python/qemu/console_socket.py: fix typing of settimeout
-Date: Tue,  6 Oct 2020 19:58:10 -0400
-Message-Id: <20201006235817.3280413-14-jsnow@redhat.com>
+Subject: [PATCH 14/20] python/qemu/console_socket.py: Clarify type of
+ drain_thread
+Date: Tue,  6 Oct 2020 19:58:11 -0400
+Message-Id: <20201006235817.3280413-15-jsnow@redhat.com>
 In-Reply-To: <20201006235817.3280413-1-jsnow@redhat.com>
 References: <20201006235817.3280413-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,49 +85,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The types and names of the parameters must match the socket.socket interface.
+Mypy needs just a little help to guess the type here.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/console_socket.py | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ python/qemu/console_socket.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-index cb3400a0385..39456825064 100644
+index 39456825064..d4669c441d0 100644
 --- a/python/qemu/console_socket.py
 +++ b/python/qemu/console_socket.py
-@@ -17,6 +17,7 @@
- import socket
- import threading
- import time
-+from typing import Optional
+@@ -41,10 +41,9 @@ def __init__(self, address, file=None, drain=False):
+         if file:
+             self._logfile = open(file, "w")
+         self._open = True
++        self._drain_thread = None
+         if drain:
+             self._drain_thread = self._thread_start()
+-        else:
+-            self._drain_thread = None
  
- 
- class ConsoleSocket(socket.socket):
-@@ -31,6 +32,7 @@ class ConsoleSocket(socket.socket):
-     """
-     def __init__(self, address, file=None, drain=False):
-         self._recv_timeout_sec = 300
-+        self._recv_timeout_sec = 300.0
-         self._sleep_time = 0.5
-         self._buffer = deque()
-         socket.socket.__init__(self, socket.AF_UNIX, socket.SOCK_STREAM)
-@@ -120,11 +122,11 @@ def setblocking(self, value):
-         if self._drain_thread is None:
-             socket.socket.setblocking(self, value)
- 
--    def settimeout(self, seconds):
-+    def settimeout(self, value: Optional[float]) -> None:
-         """When not draining we pass thru to the socket,
-            since when draining we control the timeout.
-         """
--        if seconds is not None:
--            self._recv_timeout_sec = seconds
-+        if value is not None:
-+            self._recv_timeout_sec = value
-         if self._drain_thread is None:
--            socket.socket.settimeout(self, seconds)
-+            socket.socket.settimeout(self, value)
+     def _drain_fn(self):
+         """Drains the socket and runs while the socket is open."""
 -- 
 2.26.2
 
