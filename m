@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C7C284AE1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:27:37 +0200 (CEST)
-Received: from localhost ([::1]:42482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B5B284AF0
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:30:35 +0200 (CEST)
+Received: from localhost ([::1]:48444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPl84-0002QU-Bq
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:27:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36504)
+	id 1kPlAw-00050O-Oy
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPl2d-0005CQ-L4; Tue, 06 Oct 2020 07:21:59 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:36841)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPl2b-0006TG-C7; Tue, 06 Oct 2020 07:21:59 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id s19so1061949plp.3;
- Tue, 06 Oct 2020 04:21:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IVrvxOUsYiShuvVwfOqOW7Y32dz8mgeWzYfDdIYjZq4=;
- b=kmGxAOHvW3lkdEe5GatiS1wOBBP7Mg0YbBl8vbCwjjxpPUYjEGvPFuKxFywFHYamYO
- quVhymddOnJQiH3fLQbQbRteoB49qWx3aXG9qIvOoRrEG/t5VQgC9A4q2mnVlrOeXZ2V
- XOvq3WV8Vkiz9tAJV2QHNI/Rxp2p8oqO4GiIcb1IhCg3AyvKk2gJK7BmAkKJ44iq85gU
- QSK461GkPwpf8xdUpURcE4BuhpPElMbev8KOcJ/nqikzZ3XwTd5/83i64/WkOu7EOQyD
- P0q1sD98E9gx11h2XYj/pLrmyieb03pSfZB7OkYzfh3TronbU6Q8qZ95TgTuUdSp4lrC
- 5mdw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kPl4y-0007fg-JK
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:24:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kPl4w-0006gm-Qe
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:24:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601983461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UL5vFfMkn2QUfgjwb3pXPmts+GWRxaYcY07Haqd8G/s=;
+ b=MHcwVciz0M95ViVLnC+foQEPzjEZ6AyayUXUElKTSsxeuF23QxHdQOHjboP9c7RcvqpJ6u
+ lTt/kAJRh77uRHkZlwLRNDJwv6PBcUW0MvzkJMyIe5m8ZdP/JySOEBGBj6bX7qJZwOgJRI
+ 4ZlAhOk6rlTmmQzbvYHGJW92j4VIKXY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-wQ4-xjB1MrSeQuKrPKDNyA-1; Tue, 06 Oct 2020 07:24:20 -0400
+X-MC-Unique: wQ4-xjB1MrSeQuKrPKDNyA-1
+Received: by mail-wm1-f69.google.com with SMTP id g125so1003511wme.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 04:24:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IVrvxOUsYiShuvVwfOqOW7Y32dz8mgeWzYfDdIYjZq4=;
- b=aeNFazSHenBvXIvAOrTtxextS8FBaB34EVibeGdMGa5K8ibXk40gd4PAiZ6ykwIb9d
- x4ydSjK5jeM8r+sjPI4qhyDIarLQmguvUh/v8NUPnXajxchHy9g7NxUSFOpXhfkZIuhW
- iVrr/lJzXkeY7uxVhXv/TVyV+Td3wil9BSLhnvZL8UxlKeUZCi0i35hOM225+U6+7/va
- rPUxhTrK0lM45tpumrhi5YS7ol8JRs4jivT1+NhdttNfQpm/kOjMsuy9v6unhksaPo1B
- yf4YTXOzhWo+ni1PFX/6PCUbsArQ5Xdgeya0hF/ySNtW5a6TYnIUj24QGVvep5csklJX
- 9PXQ==
-X-Gm-Message-State: AOAM530LUetE84RKXeaIr57uFn2Ph5ti8MB5DbfOYFWA8AFoQyFakCfn
- kwzqWJLdZT0UQzvmZ7FUTUXe6mELxMqxyQ==
-X-Google-Smtp-Source: ABdhPJyQK737y3aJY3hIYbB0NQfhrTDNoMRVyK229Faidi+31li38fTPgdQZ/AWX4xWc2fFSvVoPuQ==
-X-Received: by 2002:a17:90a:128d:: with SMTP id
- g13mr3779868pja.35.1601983314940; 
- Tue, 06 Oct 2020 04:21:54 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id x3sm2941386pgg.54.2020.10.06.04.21.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 04:21:54 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5] scripts: Convert qemu-version.sh to qemu-version.py
-Date: Tue,  6 Oct 2020 19:21:39 +0800
-Message-Id: <20201006112139.700-1-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
+ bh=UL5vFfMkn2QUfgjwb3pXPmts+GWRxaYcY07Haqd8G/s=;
+ b=o0dt+pLBaJPCnzJnGF8FaiqcPCQeoLbII+Yp838ij6N6rf4qRrXCp468Fk8hL1Ezkl
+ T6dzynOuBFyOZXtUl1Zs9KtA9WBtl3bs/0JY72wqV5jGeX42Hd2+O2Cx3cuRuvYpMA6v
+ cYo35X0gLDcUZ1RSGhSI71oYFBK7q3bqgmjzFSGykJZycYhhEHcOyKuE0+LZ6ZNi3Dto
+ DjhaJwXiEMmLqGvxDQSyL4hR+OjPFQm5tz+NrT82lfbHot7PGwxxTcRSN03g4VMUDLcc
+ 9LYy+Ia2OspXaezcwvS7zIjC8OqYmn3eROjTyYctyE1TehIXeH9m8zAlO1y/G/7RIG/Y
+ rRqg==
+X-Gm-Message-State: AOAM532+hlRhqcXFKcVHYrEyguudUZaNLm7UpebyviB/iNWUs/ofd/7t
+ mmLT3JJdwuaLxf5DfxpLhhyFWvezYWMb13zb9zbkk60PP8WXSiq6YiVE6folMkQzGcTJV1hzEeq
+ 40jSuid8PqHSRMJA=
+X-Received: by 2002:adf:e690:: with SMTP id r16mr4298682wrm.15.1601983458975; 
+ Tue, 06 Oct 2020 04:24:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUVo6Q3oS/g8xLWRUigoq6SItam+NRVuketLFEl1SR2FX+ME+28QFkol/MbK1MKQa/CV2YLQ==
+X-Received: by 2002:adf:e690:: with SMTP id r16mr4298656wrm.15.1601983458714; 
+ Tue, 06 Oct 2020 04:24:18 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e?
+ ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
+ by smtp.gmail.com with ESMTPSA id s6sm3997254wrg.92.2020.10.06.04.24.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Oct 2020 04:24:18 -0700 (PDT)
+Subject: Re: [PATCH 02/10] meson.build: Add comments to clarify code
+ organization
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201006111219.2300921-1-philmd@redhat.com>
+ <20201006111219.2300921-3-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <85c401bd-6e83-2d08-a924-3bd86443ac95@redhat.com>
+Date: Tue, 6 Oct 2020 13:24:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
+In-Reply-To: <20201006111219.2300921-3-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x62e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,111 +104,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=E8=8C=85?= <f4bug@amsat.org>,
- Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sh script are harder to maintain for compatible different
-xsh environment so convert it to python script
-Also incorporate the fixes in
-https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.com/
+On 06/10/20 13:12, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  meson.build | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/meson.build b/meson.build
+> index a02c743794..eaff16d482 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1323,6 +1323,10 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
+>                               capture: true,
+>                               command: [undefsym, nm, '@INPUT@'])
+>  
+> +########################
+> +# Library dependencies #
+> +########################
+> +
+>  block_ss = block_ss.apply(config_host, strict: false)
+>  libblock = static_library('block', block_ss.sources() + genh,
+>                            dependencies: block_ss.dependencies(),
+> @@ -1363,6 +1367,10 @@ common_all = static_library('common',
+>                              dependencies: common_all.dependencies(),
+>                              name_suffix: 'fa')
+>  
+> +###########
+> +# Targets #
+> +###########
+> +
+>  feature_to_c = find_program('scripts/feature_to_c.sh')
+>  
+>  emulators = {}
+> 
 
-Testing args length and if not enough, setting pkgversion and version to ''
+Much appreciated. :)
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- meson.build             |  2 +-
- scripts/qemu-version.py | 31 +++++++++++++++++++++++++++++++
- scripts/qemu-version.sh | 25 -------------------------
- 3 files changed, 32 insertions(+), 26 deletions(-)
- create mode 100644 scripts/qemu-version.py
- delete mode 100755 scripts/qemu-version.sh
-
-diff --git a/meson.build b/meson.build
-index 95a532bd29..20f653b6eb 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1072,7 +1072,7 @@ tracetool = [
-    '--backend=' + config_host['TRACE_BACKENDS']
- ]
- 
--qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
-+qemu_version_cmd = [find_program('scripts/qemu-version.py'),
-                     meson.current_source_dir(),
-                     config_host['PKGVERSION'], meson.project_version()]
- qemu_version = custom_target('qemu-version.h',
-diff --git a/scripts/qemu-version.py b/scripts/qemu-version.py
-new file mode 100644
-index 0000000000..e6eb548220
---- /dev/null
-+++ b/scripts/qemu-version.py
-@@ -0,0 +1,31 @@
-+#!/usr/bin/env python3
-+
-+#
-+# Script for retrieve qemu git version information
-+#
-+# Authors:
-+#  Yonggang Luo <luoyonggang@gmail.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2
-+# or, at your option, any later version.  See the COPYING file in
-+# the top-level directory.
-+
-+import sys
-+import subprocess
-+
-+def main(_program, dir, pkgversion, version, *unused):
-+    if len(pkgversion) == 0:
-+        pc = subprocess.run(['git', 'describe', '--match', "'v*'", '--dirty', '--always'],
-+                            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, cwd=dir)
-+        if pc.returncode == 0:
-+            pkgversion = pc.stdout.decode('utf8').strip()
-+
-+    fullversion = version
-+    if pkgversion:
-+        fullversion = "{} ({})".format(version, pkgversion)
-+
-+    print('#define QEMU_PKGVERSION "%s"' % pkgversion)
-+    print('#define QEMU_FULL_VERSION "%s"' % fullversion)
-+
-+if __name__ == "__main__":
-+    main(*sys.argv)
-diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
-deleted file mode 100755
-index 03128c56a2..0000000000
---- a/scripts/qemu-version.sh
-+++ /dev/null
-@@ -1,25 +0,0 @@
--#!/bin/sh
--
--set -eu
--
--dir="$1"
--pkgversion="$2"
--version="$3"
--
--if [ -z "$pkgversion" ]; then
--    cd "$dir"
--    if [ -e .git ]; then
--        pkgversion=$(git describe --match 'v*' --dirty | echo "")
--    fi
--fi
--
--if [ -n "$pkgversion" ]; then
--    fullversion="$version ($pkgversion)"
--else
--    fullversion="$version"
--fi
--
--cat <<EOF
--#define QEMU_PKGVERSION "$pkgversion"
--#define QEMU_FULL_VERSION "$fullversion"
--EOF
--- 
-2.28.0.windows.1
+Paolo
 
 
