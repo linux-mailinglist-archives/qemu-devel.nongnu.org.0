@@ -2,70 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0E72847DF
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:53:23 +0200 (CEST)
-Received: from localhost ([::1]:49792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926E6284827
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:10:42 +0200 (CEST)
+Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhmk-0006ou-95
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43470)
+	id 1kPi3V-0003tx-MB
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:10:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kPhkQ-0005A2-72
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:50:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kPhkO-0004Cn-2P
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:50:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kPhkL-0000gT-8R
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 07:50:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 65ABB2E8138
- for <qemu-devel@nongnu.org>; Tue,  6 Oct 2020 07:50:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kPhby-0003Bv-S7
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:42:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kPhbx-0002xw-0p
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:42:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601970131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BgId7LstDm7tdDrDOesKhRCBO+RL7ifS3kYl+H00O8g=;
+ b=VciRwD0XJWKmYO3DJOkREAHnV85VXQskBCmjCYaAz2S5HkkIxpbBxODXkFuQasMvinQ8sY
+ 46x50UQfxzaCuK7cpMjfYNvppN7Mc14ysAlKyKdHU/till8rWaCv2V2yDZnO8Jw0Yt6dE3
+ E/odgqcCQe0vmaRk3Y0lbSRyhuJ2v38=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-Tj_jdBSmNp6Tf5YPq1zMWA-1; Tue, 06 Oct 2020 03:42:08 -0400
+X-MC-Unique: Tj_jdBSmNp6Tf5YPq1zMWA-1
+Received: by mail-wr1-f70.google.com with SMTP id r16so4991887wrm.18
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:42:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BgId7LstDm7tdDrDOesKhRCBO+RL7ifS3kYl+H00O8g=;
+ b=CQbSJcNkAQJQwqpoBaaIQDgfLxvYxCWrVyONQLbHjroGpZQF/mGaRCJyKdi88W7GFj
+ RnZx57VFhvI/1Vi/Nw59OYJbghODTdl2ThcCXw5P2Vg9W4yMa6KkyFIKl21k8/sQSOi9
+ 2fJWEEsusRDvckdPdJBL55x6lonaNcdNh2YcgCrPinSddpV/ZhCjX60uvCCLvZmUVNRF
+ q2iWSM9Vv1TL/dYU/svBIgFqNlHO1sQgaFbOTCjUJZO7yjax0vPNEiKMI7CVv31SoH4V
+ KKuDd3rTbF7fY/MPuJC3t5QsVtBw39IBHIpv93Sy8BKQNANGntPLsw1qFZHQLNqdFcAN
+ VV4w==
+X-Gm-Message-State: AOAM531KRJe5qsgBMJlkQfisdc5aYxiQ8VjSunlRz8DxJrv2uHixlACG
+ glvzh7Yux817+u+avSPL0bLtrQWjFnc1Zk4FXEEha66zwvlb3MTlxorSazkkXKyon+dX2ZI5hd9
+ xCptUdPel6VlRQPA=
+X-Received: by 2002:a1c:a593:: with SMTP id o141mr3352646wme.88.1601970126747; 
+ Tue, 06 Oct 2020 00:42:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHM1zfXwthC7OTHyqntKgn8EiG/SZjcN514t2ZqVLFf3YTtTgs4CjaCN71VEkIEw/Dt/9e+w==
+X-Received: by 2002:a1c:a593:: with SMTP id o141mr3352616wme.88.1601970126489; 
+ Tue, 06 Oct 2020 00:42:06 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e?
+ ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
+ by smtp.gmail.com with ESMTPSA id h76sm2818079wme.10.2020.10.06.00.42.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Oct 2020 00:42:05 -0700 (PDT)
+Subject: Re: [PATCH v2] scripts: Convert qemu-version.sh to qemu-version.py
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Yonggang Luo <luoyonggang@gmail.com>
+References: <20201005172109.416-1-luoyonggang@gmail.com>
+ <CAFEAcA95r2FZibphrO0N_rckWOKigM_d80Qi0grtpWWzN3d19A@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <7f6f412b-03f8-b8f3-9708-0080277999a6@redhat.com>
+Date: Tue, 6 Oct 2020 09:42:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Oct 2020 07:38:38 -0000
-From: Dims <1772165@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm usb
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aditya-govardhan andrew-pennebaker clemd davbac
- dims dougrabson kraxel-redhat pauldzim pmaydell vortelf weberkai
-X-Launchpad-Bug-Reporter: George (vortelf)
-X-Launchpad-Bug-Modifier: Dims (dims)
-References: <152673688616.9061.7617411809661975686.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160196991810.4883.10416874322597825081.malone@soybean.canonical.com>
-Subject: [Bug 1772165] Re: arm raspi2/raspi3 emulation has no USB support
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: d2cd9abc5405b6f194ffbc68af8eab981eb3d98f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 03:50:54
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA95r2FZibphrO0N_rckWOKigM_d80Qi0grtpWWzN3d19A@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,87 +103,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1772165 <1772165@bugs.launchpad.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Command lines I use are like following
+On 05/10/20 21:22, Peter Maydell wrote:
+>> +def main(args):
+>> +    if len(args) <= 3:
+>> +        sys.exit(0)
+>> +
+>> +    dir = args[1]
+>> +    pkgversion = args[2]
+>> +    version = args[3]
 
-$QEMU_EXE \
-    -kernel qemu-rpi-kernel/kernel-qemu-4.4.34-jessie \
-    -cpu arm1176 \
-    -m 256 \
-    -M versatilepb \
-    -append "dwc_otg.lpm_enable=3D0 root=3D/dev/sda2 panic=3D1" \
-    -hda 2017-07-05-raspbian-jessie.img \
-    -usb \
-    -nic user \
-    -serial stdio \
-    -no-reboot \
+In addition to what Peter pointed out, all these lines can be changed to
 
+    def main(dir, pkgversion, version, *unused):
 
-# -device usb-dwc2 \
-# -device usb-host,hostbus=3D1,hostport=3D3 \
+and below
 
+    if __name__ == "__main__":
+        main(*sys.argv)
 
-# -usb \
-# -device qemu-xhci,id=3Dxhci \
-    =
+>> +    pc = subprocess.run(['git', 'describe', '--match', "'v*'", '--dirty', '--always'],
+>> +        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, cwd=dir)
+>> +    if pc.returncode == 0:
+>> +        pkgversion = pc.stdout.decode('utf8').strip()
+>> +    fullversion = version
+>> +    if len(pkgversion) > 0:
 
+Just "if pkgversion:" please.
 
-# -device usb-net,netdev=3Dmynet0 \
-# -netdev user,id=3Dmynet0,net=3D192.168.10.0/24,dhcpstart=3D192.168.10.1 \
-    =
+>> +        fullversion = "{} ({})".format(version, pkgversion)
+>> +
+>> +    version_header = '''#define QEMU_PKGVERSION "{}"
+>> +#define QEMU_FULL_VERSION "{}"'''.format(pkgversion, fullversion)
+>> +    sys.stdout.buffer.write(version_header.encode('utf8'))
 
+No need to use buffer and encode, just
 
-#-usb \
-   =
+    print('#define QEMU_PKGVERSION "%s"' % pkgversion)
+    print('#define QEMU_FULLVERSION "%s"' % fullversion)
 
-# -device qemu-xhci \
-# -device usb-ehci,id=3Dehci \
+It is still a bit more clunky than a shell script, but at least not as much.
 
--- =
+Paolo
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1772165
-
-Title:
-  arm raspi2/raspi3 emulation has no USB support
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Using Qemu 2.12.0 on ArchLinux.
-
-  Trying to emulate arm device with `qemu-system-arm` and attach usb
-  device for unput using
-
-  ` -usb -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=3D0x0002 `
-
-  # lsusb returns
-
-  Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-  Bus 001 Device 014: ID 13d3:3487 IMC Networks =
-
-  Bus 001 Device 004: ID 0457:11af Silicon Integrated Systems Corp. =
-
-  Bus 001 Device 003: ID 0bda:57e6 Realtek Semiconductor Corp. =
-
-  Bus 001 Device 002: ID 0bda:0129 Realtek Semiconductor Corp. RTS5129 Card=
- Reader Controller
-  Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-
-  # qemu returns
-  qemu-system-arm: -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=
-=3D0x0002: Bus '001' not found
-
-  =
-
-  Tried with connecting external usb keyboard but that didn't seem to work =
-either.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1772165/+subscriptions
 
