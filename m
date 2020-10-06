@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0160284AB1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:14:48 +0200 (CEST)
-Received: from localhost ([::1]:33148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F188284ABC
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:18:29 +0200 (CEST)
+Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPkvf-0003Nr-SU
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:14:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
+	id 1kPkzE-0001AZ-HX
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:18:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPktZ-0001gM-CL
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:12:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33073)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPktl-0001jj-Ik
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:12:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPktX-0005JC-Cs
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:12:37 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPktd-0005Jw-Rb
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:12:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601982754;
+ s=mimecast20190719; t=1601982760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XHSMU3H8MAqIi6xWpwYEGX/4wsnCDrIc6FNRKW4vl4w=;
- b=X1/zp4y3z9qqCq9MqVy8BW1quzuihsENAySas69OaIaDYDPndx5PbCNT6bTSA93EEHd1kj
- NtsK9HGcAwN4pfssp/3ZN3QPq1MIm7s46AVwF9IgHTbfTqmC4hmIUUfawF+LOJm5mVkfvr
- PJnFZAKwNBfYcFPyfX5y+zi98XvDqwk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-EJRalVpgP_-AV8dzRrBVOA-1; Tue, 06 Oct 2020 07:12:33 -0400
-X-MC-Unique: EJRalVpgP_-AV8dzRrBVOA-1
-Received: by mail-wm1-f70.google.com with SMTP id p17so577437wmi.7
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 04:12:32 -0700 (PDT)
+ bh=PYkBU6VF5ZzK1I4YI1vWYKaFknMzqMpMtEs81El0mHU=;
+ b=Wg222ZM3UHwlDjyzxuiU0tIRe1wpCzxebEraqYNmdBK8uVOJO1uYwOsUtwRGoyc8l/A0rQ
+ c0xr8ZLZu0QX149iJ1j+EwmltzxqN8tH7J08xAfPOhNclm2bNmZAYxz4VYuNRaFeXKkCHU
+ s+Sb8cC6dGOVkYbOL67gwTXcek6S9Mg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-298-fS2aNTz0OJqlicIBzYTsAA-1; Tue, 06 Oct 2020 07:12:38 -0400
+X-MC-Unique: fS2aNTz0OJqlicIBzYTsAA-1
+Received: by mail-wm1-f71.google.com with SMTP id f2so577564wml.6
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 04:12:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XHSMU3H8MAqIi6xWpwYEGX/4wsnCDrIc6FNRKW4vl4w=;
- b=j+9RWLKaimh7rFn4pKswpo69WV1Q4YZFq0KycNbk8HNjzGjncFtDVmdP0L7rCjNIDO
- VRdzbdrUzqFMD0w1dwL8XBUGmd6yTyBiPp/CXohAJE+ms499+v63FPp5bYBCPOcGM82n
- 4Ley3iUrJ14jXSZ+naey867lzwRoXmwojUnbGt7Mfc5NKbK084SLF5alE8Z2qofJpypc
- +wwU44kvceYohdOUU9Y1rgn+ykckjLTc9n+nTU8UJJNZPFlLgcNr5q3zEIUmQHBBvhds
- 4XbOUvZ92eJBBSY9qOaXBcy9crPOUirO4RTfEmZuSjO/NtJpreER3FDex1uaxvcnLYMr
- OqPg==
-X-Gm-Message-State: AOAM530w5rB7Xe1OnIKIQ2fmfveSUig3I1tmrfDooVxm1ZFcjapjmV4y
- MtBRWa2MRe/zN5ccATxTH86C+h0HvE5DFfKY96N6k9WTnFBKHcITwrRx471Ni+Kz42E+X9Sd/Qh
- 0JBDK+WuTMNMv3lc=
-X-Received: by 2002:a5d:4f82:: with SMTP id d2mr4242753wru.65.1601982751757;
- Tue, 06 Oct 2020 04:12:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztuI5MQgQsEFig4ahjsGUeWII8UCfOclJz6/4FmneUnD62NeONMVNzTjOwf7MmT8Zph3Ageg==
-X-Received: by 2002:a5d:4f82:: with SMTP id d2mr4242730wru.65.1601982751552;
- Tue, 06 Oct 2020 04:12:31 -0700 (PDT)
+ bh=PYkBU6VF5ZzK1I4YI1vWYKaFknMzqMpMtEs81El0mHU=;
+ b=DZqEJGkbs+Zg08C2zdmOBy5q/sTcMd9jaI6IVh65CLwg4xBGDBRDAn4ZcgSQjQOkgv
+ eTbv060BbwkY//RddWFfIgKriAgckOeX1MzAQfggKjAF8eSh7Z3RL9GobvVTJ97fqMKr
+ po0FgUfy7MTkeTgKbKeaJaiLDAeJf54/wex1OYnJ4E3PZKSi4QWkltXakNQaIE/DaRGI
+ ZyeqG5XdM4chCtcu+h/8mL+kHFf4/fFYZ/43HmE4mHTU9MC7TfoGy2mlBBtI9B4pwMLl
+ PbpilBlISWKTR+ynUbjH9KxfGqV/EWzSVGhO0BJONVpWgWPpmSOtljgPgZ7Eg8YwovHv
+ NJXw==
+X-Gm-Message-State: AOAM5305dF5w8RAzNyMs2PyF/bE2x/Hob6ypWuaDJm+/KpcLdeEjIGo1
+ AdAi66jZEDbspPx9ywhHeRFLuS7VS96EBgS/rtA/3jVCxY3D43/13Ap9Nwo+u1IxXBnHb98BuJL
+ lWy7HtfLfupVP1Eg=
+X-Received: by 2002:adf:ffca:: with SMTP id x10mr4701396wrs.342.1601982756820; 
+ Tue, 06 Oct 2020 04:12:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhGhdihiyG8syFi/DhBcvQlSeDSbWVfJPx6xBrlh/vCCnxcssjdTYuqHUFld06u0bU1sePdw==
+X-Received: by 2002:adf:ffca:: with SMTP id x10mr4701380wrs.342.1601982756679; 
+ Tue, 06 Oct 2020 04:12:36 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id g144sm1302861wmg.30.2020.10.06.04.12.30
+ by smtp.gmail.com with ESMTPSA id t124sm3713371wmg.31.2020.10.06.04.12.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 04:12:30 -0700 (PDT)
+ Tue, 06 Oct 2020 04:12:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/10] meson.build: Add comments to clarify code organization
-Date: Tue,  6 Oct 2020 13:12:11 +0200
-Message-Id: <20201006111219.2300921-3-philmd@redhat.com>
+Subject: [PATCH 03/10] meson.build: Sort sourcesets alphabetically
+Date: Tue,  6 Oct 2020 13:12:12 +0200
+Message-Id: <20201006111219.2300921-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006111219.2300921-1-philmd@redhat.com>
 References: <20201006111219.2300921-1-philmd@redhat.com>
@@ -72,16 +72,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,35 +106,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meson.build | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index a02c743794..eaff16d482 100644
+index eaff16d482..fc7792b769 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1323,6 +1323,10 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
-                              capture: true,
-                              command: [undefsym, nm, '@INPUT@'])
+@@ -1059,19 +1059,19 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
  
-+########################
-+# Library dependencies #
-+########################
-+
- block_ss = block_ss.apply(config_host, strict: false)
- libblock = static_library('block', block_ss.sources() + genh,
-                           dependencies: block_ss.dependencies(),
-@@ -1363,6 +1367,10 @@ common_all = static_library('common',
-                             dependencies: common_all.dependencies(),
-                             name_suffix: 'fa')
+ # Collect sourcesets.
  
-+###########
-+# Targets #
-+###########
-+
- feature_to_c = find_program('scripts/feature_to_c.sh')
+-util_ss = ss.source_set()
++blockdev_ss = ss.source_set()
++block_ss = ss.source_set()
++bsd_user_ss = ss.source_set()
++common_ss = ss.source_set()
++linux_user_ss = ss.source_set()
++qmp_ss = ss.source_set()
++softmmu_ss = ss.source_set()
++specific_fuzz_ss = ss.source_set()
++specific_ss = ss.source_set()
+ stub_ss = ss.source_set()
+ trace_ss = ss.source_set()
+-block_ss = ss.source_set()
+-blockdev_ss = ss.source_set()
+-qmp_ss = ss.source_set()
+-common_ss = ss.source_set()
+-softmmu_ss = ss.source_set()
+ user_ss = ss.source_set()
+-bsd_user_ss = ss.source_set()
+-linux_user_ss = ss.source_set()
+-specific_ss = ss.source_set()
+-specific_fuzz_ss = ss.source_set()
++util_ss = ss.source_set()
  
- emulators = {}
+ modules = {}
+ hw_arch = {}
 -- 
 2.26.2
 
