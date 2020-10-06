@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957C3284F97
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 18:12:49 +0200 (CEST)
-Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67B0284FA3
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 18:15:15 +0200 (CEST)
+Received: from localhost ([::1]:48290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPpa4-0004AI-KT
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 12:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53394)
+	id 1kPpcQ-0007nP-QA
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 12:15:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kPpUU-0005iF-0t
+ id 1kPpUV-0005iU-P2
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 12:07:03 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35574)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kPpUR-0003zk-Sz
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 12:07:01 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q5so2958268wmq.0
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 09:06:59 -0700 (PDT)
+ id 1kPpUT-0003zp-OC
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 12:07:02 -0400
+Received: by mail-wr1-x443.google.com with SMTP id m6so14141907wrn.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 09:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D3VDR/9d2hzi8lxo3Nu2LpF4CoSrWU5Yw/0MhLqY02Q=;
- b=d96Oz6Hn25AF565foWMMNtgALM3AMe9NEyYb4z6KGSKlbZQmkfwbiYvwEMppPngfhm
- VGVG5u5G4HJtIrhmDWkFc5Qjw3VK/J9MFOXR3qAD+MgXvE/cXtg14U/FyjClel06rKmw
- iheeS65m0mK++q0BnsOFKqYVoK/+C3R01Rg0Gz9UZANGH6YSrAovjFHjGRoPEqhx4L4A
- 5MWVNtrAxVIvd98PFmBms0iZw7A9YKGh+ey2K4ZlucrILADxeBDkEX+m54n5b8zjLFWU
- UOF4DUi0if6TbJio7C/Pasuyo7+SRuC9q0ljnkGZIQfJh4uA0japaHKSv5ZWAIyBc/nN
- vZzg==
+ bh=klEJXyyNmOkLckjLcCINpsQA4XGYzHNPMYjdTmsewc4=;
+ b=ScbijrEvh46G9PAU+bBBY7qPyq+fyFCL3meJYzUcBZlGvt4z107DQPglZKDnd/wnwY
+ kjZBQSU9BkS0/45QhHMEpdd4a4uDtm06h8l+MwYyB4DOnhRhFGONzMpUp2f4QsA+hFzf
+ PUZv61qTFO5BTIid8ywLWPd7Go5oUj8aQTsezJckAW9mrpCYusxYNLYA2sRlTEgiTzH5
+ vKIsNgxYr5LVEx131LHkQury+kN4tIyVfo0cJyPhjPSauDCdVgELVzETqQ2sRvsLbZud
+ 0neR5JIe5PRCQfLNeZA0NqvKphjhYN590OcnW7GtUbvYPg/tXF7yHWaA59sjtsWApo4t
+ 8X1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=D3VDR/9d2hzi8lxo3Nu2LpF4CoSrWU5Yw/0MhLqY02Q=;
- b=GPVDUHq2/hGkMeuUudTMq+uMhjEF9ly6u7XM3diTAIjUag5SDlJzATfCy4T+fmCHNE
- TH0miED1dmzJf7vT6ELLJsL0F2yoVooD5MKKutG8eVgrYVZLEe69KaW8B/l87nNlZnX9
- 7T+pjhwQMzqt5gnQyEvH64IfbXaxGnx/66/CL/3jh07t2YncjTsApQVgKvSNYV7af4Yc
- X7soEC/5ckTOBTLlRx3Db1yqFPl6xvXCRjWEG67P6As+f0EBETPQec7797c90ixoN+nK
- s6a2uCSnGhQ4vyX/ZT6YoA75ZSGgrj3R5tU6psGFKb/Cb/0pdrVIHzPfsEOu3mrj6Czz
- CTcQ==
-X-Gm-Message-State: AOAM530tMKso09C+oSiNFKRGEoeYMEdRbF7UFVUi3BZ5TEzxOM78/Ymu
- LrkHZvVOQw1Qw0pnAnl5weI=
-X-Google-Smtp-Source: ABdhPJxc/er874MHOAjy0K3Vfpu2KRaGXxVruOaTo4ADV/9xVyqwc6PXUSvattEpuB9Y0LSyTCu5bw==
-X-Received: by 2002:a1c:417:: with SMTP id 23mr5515858wme.1.1602000417968;
- Tue, 06 Oct 2020 09:06:57 -0700 (PDT)
+ bh=klEJXyyNmOkLckjLcCINpsQA4XGYzHNPMYjdTmsewc4=;
+ b=as1DcP7aLmhGzrP8foLTYKiLvOihxMi8iA8soyGn42+fl2d55CDCmPYPdAetiS2ftk
+ HTsi9M+A6kCXqo1DU+1W08EZ7+3wGzcu/tCsIY9CXIen1aSaRRxAbxB2caE3h4+lKMlG
+ brhKFoAQCOoS/ieS5h1DZ/CyAZrWLBSIFTW7ytc0xLc/ZZtVQHcOvObF3MGrheNqqLcs
+ 3m3BoZBTb8s1LNocaJVhPfqRCO3FtYwLJmtoC2nPSAFSH/Grf/icY5jOXMRfig9Vh2n+
+ ZjBMfEJo6dsQwXkG2DM/G89pfeoA6kwm75RuzT+X0b4sKC+29964emkXEJHUuX6sId3F
+ rDLA==
+X-Gm-Message-State: AOAM530+UGrG8WsRVULWa7eOH9ZrXEI8I3TW+GmNul6pJS96l7h7Pxzl
+ uoFER6toH+hBNaD3LLlvlrM=
+X-Google-Smtp-Source: ABdhPJxVjR66tRIXlKbjlOF5r6Ju0/+FJhc/zYK0P7wx8djCsdRDFHmRldkUveJSmhbk54HklH/oKA==
+X-Received: by 2002:adf:f784:: with SMTP id q4mr5733770wrp.126.1602000419208; 
+ Tue, 06 Oct 2020 09:06:59 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j17sm5204629wrw.68.2020.10.06.09.06.56
+ by smtp.gmail.com with ESMTPSA id j17sm5204629wrw.68.2020.10.06.09.06.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 09:06:56 -0700 (PDT)
+ Tue, 06 Oct 2020 09:06:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH 02/12] contrib/gitdm: Add more individual contributors
-Date: Tue,  6 Oct 2020 18:06:43 +0200
-Message-Id: <20201006160653.2391972-3-f4bug@amsat.org>
+Subject: [PATCH 03/12] contrib/gitdm: Add Baidu to the domain map
+Date: Tue,  6 Oct 2020 18:06:44 +0200
+Message-Id: <20201006160653.2391972-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006160653.2391972-1-f4bug@amsat.org>
 References: <20201006160653.2391972-1-f4bug@amsat.org>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -89,45 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Helge Deller <deller@gmx.de>,
- =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
- David Carlier <devnexen@gmail.com>, Finn Thain <fthain@telegraphics.com.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>,
- Paul Zimmerman <pauldzim@gmail.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Chai Wen <chaiwen@baidu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These individual contributors have a number of contributions,
-add them to the 'individual' group map.
+There is a number of contributors from this domain,
+add its own entry to the gitdm domain map.
 
-Acked-by: Helge Deller <deller@gmx.de>
-Acked-by: Stefan Weil <sw@weilnetz.de>
-Acked-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Acked-by: David Carlier <devnexen@gmail.com>
-Acked-by: Paul Zimmerman <pauldzim@gmail.com>
-Acked-by: Volker Rümelin <vr_qemu@t-online.de>
-Acked-by: Finn Thain <fthain@telegraphics.com.au>
+Reviewed-by: Chai Wen <chaiwen@baidu.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- contrib/gitdm/group-map-individuals | 7 +++++++
- 1 file changed, 7 insertions(+)
+ contrib/gitdm/domain-map | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index cf8a2ce367..641169fa63 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -16,3 +16,10 @@ aurelien@aurel32.net
- balaton@eik.bme.hu
- e.emanuelegiuseppe@gmail.com
- andrew.smirnov@gmail.com
-+sw@weilnetz.de
-+deller@gmx.de
-+fthain@telegraphics.com.au
-+vr_qemu@t-online.de
-+nieklinnenbank@gmail.com
-+devnexen@gmail.com
-+pauldzim@gmail.com
+diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+index dd79147c76..a4102154b6 100644
+--- a/contrib/gitdm/domain-map
++++ b/contrib/gitdm/domain-map
+@@ -5,6 +5,7 @@
+ #
+ 
+ amd.com         AMD
++baidu.com       Baidu
+ cmss.chinamobile.com China Mobile
+ citrix.com      Citrix
+ greensocs.com   GreenSocs
 -- 
 2.26.2
 
