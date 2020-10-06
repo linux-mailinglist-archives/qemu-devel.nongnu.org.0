@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78CB7284A18
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 12:05:36 +0200 (CEST)
-Received: from localhost ([::1]:34886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C01284A1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 12:06:59 +0200 (CEST)
+Received: from localhost ([::1]:38474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPjqh-0001Vn-HW
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 06:05:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46120)
+	id 1kPjs2-00035o-EZ
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 06:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kPjow-0000OS-Iw
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 06:03:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53856)
+ id 1kPjqS-0001ji-Am
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 06:05:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kPjou-0004yM-E3
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 06:03:46 -0400
+ id 1kPjqQ-000573-E5
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 06:05:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601978623;
+ s=mimecast20190719; t=1601978717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1UzfAy4AiNRLXvyZYJt+S+Qw1dTQnfVAVZaSVNgm+HU=;
- b=iPeO64sAF1tIrONx/NHnPjt/Q4r4i3w9a5IrEWCjf8UcZ77g67mjT1YcIF6sdpXEbzY6xR
- 31hbSm1qUfQwWOLaVjyrLhgpuOvC/LrYukrTv+uQjFxIQtVEND2WHd65LdxrDhGFxntesY
- 6zx+spmZRkPk2Wmdlsfcsy+JgMghg7E=
+ bh=RrblmXBARzc9SOzmVezVfLhBelLQC35BvSdrmk3nDlA=;
+ b=X9u2uXtwquxgsPii6W3DtC8ZTci2+CLrch8ShP7UfMEmYBa6eA7oDB1F/zMBO2X+0Wz5++
+ /zXzqxOGylNXrT/0qpAlZL0xcdNBD/idVq8tGwDlZ4vkiTdlv79KMYgrqXrOx/ra4cTdgM
+ SwJwZLmP5ZgnE9LWZJs2t4JcGSp4KSU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-729mivNsMVeEPRL2vBYf7w-1; Tue, 06 Oct 2020 06:03:41 -0400
-X-MC-Unique: 729mivNsMVeEPRL2vBYf7w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-128--OEqxv9qOQ-17xYSyGtzzw-1; Tue, 06 Oct 2020 06:05:13 -0400
+X-MC-Unique: -OEqxv9qOQ-17xYSyGtzzw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E0A9801817;
- Tue,  6 Oct 2020 10:03:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A13EF100F7C8;
+ Tue,  6 Oct 2020 10:05:09 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F4DC9CBA;
- Tue,  6 Oct 2020 10:03:28 +0000 (UTC)
-Date: Tue, 6 Oct 2020 12:03:26 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DE3B10001B3;
+ Tue,  6 Oct 2020 10:05:07 +0000 (UTC)
+Date: Tue, 6 Oct 2020 12:05:06 +0200
 From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 4/9] microvm: add usb support
-Message-ID: <20201006120326.765e4e61@redhat.com>
-In-Reply-To: <20201001082834.15821-5-kraxel@redhat.com>
-References: <20201001082834.15821-1-kraxel@redhat.com>
- <20201001082834.15821-5-kraxel@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH v2] hw/arm: Restrict APEI tables generation to the
+ 'virt' machine
+Message-ID: <20201006120506.115c7f9c@redhat.com>
+In-Reply-To: <20201001162207.1566127-1-philmd@redhat.com>
+References: <20201001162207.1566127-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
@@ -68,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,120 +81,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Xiang Zheng <zhengxiang9@huawei.com>,
+ qemu-arm@nongnu.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  1 Oct 2020 10:28:29 +0200
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Thu,  1 Oct 2020 18:22:07 +0200
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-> Wire up "usb=on" machine option, when enabled add
-> a sysbus xhci controller with 8 ports.
+> While APEI is a generic ACPI feature (usable by X86 and ARM64), only
+> the 'virt' machine uses it, by enabling the RAS Virtualization. See
+> commit 2afa8c8519: "hw/arm/virt: Introduce a RAS machine option").
+>=20
+> Restrict the APEI tables generation code to the single user: the virt
+> machine. If another machine wants to use it, it simply has to 'select
+> ACPI_APEI' in its Kconfig.
+>=20
+> Fixes: aa16508f1d ("ACPI: Build related register address fields via hardw=
+are error fw_cfg blob")
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-first pci, and now usb - not so micro anymore.
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-why not just reuse pci to add usb controller?
-what/how much do we win avoiding PCI?
-
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  include/hw/i386/microvm.h |  5 ++++-
->  hw/i386/acpi-microvm.c    |  9 +++++++++
->  hw/i386/microvm.c         | 13 +++++++++++++
->  3 files changed, 26 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
-> index 91b064575d55..0fc216007777 100644
-> --- a/include/hw/i386/microvm.h
-> +++ b/include/hw/i386/microvm.h
-> @@ -41,7 +41,7 @@
->   *   7     |  parallel  |
->   *   8     |  rtc       | rtc (rtc=on)
->   *   9     |  acpi      | acpi (ged)
-> - *  10     |  pci lnk   |
-> + *  10     |  pci lnk   | xhci (usb=on)
->   *  11     |  pci lnk   |
->   *  12     |  ps2       | pcie
->   *  13     |  fpu       | pcie
-> @@ -60,6 +60,9 @@
->  #define GED_MMIO_BASE_REGS    (GED_MMIO_BASE + 0x200)
->  #define GED_MMIO_IRQ          9
->  
-> +#define MICROVM_XHCI_BASE     0xfe900000
-> +#define MICROVM_XHCI_IRQ      10
-> +
->  #define PCIE_MMIO_BASE        0xc0000000
->  #define PCIE_MMIO_SIZE        0x20000000
->  #define PCIE_ECAM_BASE        0xe0000000
-> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-> index f16f2311955c..7e8a6894ba26 100644
-> --- a/hw/i386/acpi-microvm.c
-> +++ b/hw/i386/acpi-microvm.c
-> @@ -35,6 +35,7 @@
->  #include "hw/i386/microvm.h"
->  #include "hw/pci/pci.h"
->  #include "hw/pci/pcie_host.h"
-> +#include "hw/usb/xhci.h"
->  #include "hw/virtio/virtio-mmio.h"
->  
->  #include "acpi-common.h"
-> @@ -89,6 +90,13 @@ static void acpi_dsdt_add_virtio(Aml *scope,
->      }
->  }
->  
-> +static void acpi_dsdt_add_xhci(Aml *scope, MicrovmMachineState *mms)
-> +{
-> +    if (machine_usb(MACHINE(mms))) {
-> +        xhci_sysbus_build_aml(scope, MICROVM_XHCI_BASE, MICROVM_XHCI_IRQ);
-> +    }
-> +}
-> +
->  static void acpi_dsdt_add_pci(Aml *scope, MicrovmMachineState *mms)
->  {
->      if (mms->pcie != ON_OFF_AUTO_ON) {
-> @@ -123,6 +131,7 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
->                    GED_MMIO_IRQ, AML_SYSTEM_MEMORY, GED_MMIO_BASE);
->      acpi_dsdt_add_power_button(sb_scope);
->      acpi_dsdt_add_virtio(sb_scope, mms);
-> +    acpi_dsdt_add_xhci(sb_scope, mms);
->      acpi_dsdt_add_pci(sb_scope, mms);
->      aml_append(dsdt, sb_scope);
->  
-> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 17e3f2f15265..0f61fc61ca44 100644
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -47,6 +47,7 @@
->  #include "hw/acpi/acpi.h"
->  #include "hw/acpi/generic_event_device.h"
->  #include "hw/pci-host/gpex.h"
-> +#include "hw/usb/xhci.h"
->  
->  #include "cpu.h"
->  #include "elf.h"
-> @@ -197,6 +198,18 @@ static void microvm_devices_init(MicrovmMachineState *mms)
->          x86ms->acpi_dev = HOTPLUG_HANDLER(dev);
->      }
->  
-> +    if (x86_machine_is_acpi_enabled(x86ms) && machine_usb(MACHINE(mms))) {
-> +        DeviceState *dev = qdev_new(TYPE_XHCI_SYSBUS);
-> +        qdev_prop_set_uint32(dev, "intrs", 1);
-> +        qdev_prop_set_uint32(dev, "slots", XHCI_MAXSLOTS);
-> +        qdev_prop_set_uint32(dev, "p2", 8);
-> +        qdev_prop_set_uint32(dev, "p3", 8);
-> +        sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
-> +        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, MICROVM_XHCI_BASE);
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
-> +                           x86ms->gsi[MICROVM_XHCI_IRQ]);
-> +    }
-> +
->      if (x86_machine_is_acpi_enabled(x86ms) && mms->pcie == ON_OFF_AUTO_ON) {
->          /* use topmost 25% of the address space available */
->          hwaddr phys_size = (hwaddr)1 << X86_CPU(first_cpu)->phys_bits;
+> v2: Reworded
+>=20
+> Cc: Laszlo Ersek <lersek@redhat.com>
+> Cc: Xiang Zheng <zhengxiang9@huawei.com>
+> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> ---
+>  default-configs/arm-softmmu.mak | 1 -
+>  hw/arm/Kconfig                  | 1 +
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmm=
+u.mak
+> index 9a94ebd0be..08a32123b4 100644
+> --- a/default-configs/arm-softmmu.mak
+> +++ b/default-configs/arm-softmmu.mak
+> @@ -43,4 +43,3 @@ CONFIG_FSL_IMX7=3Dy
+>  CONFIG_FSL_IMX6UL=3Dy
+>  CONFIG_SEMIHOSTING=3Dy
+>  CONFIG_ALLWINNER_H3=3Dy
+> -CONFIG_ACPI_APEI=3Dy
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index f303c6bead..7d040827af 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -26,6 +26,7 @@ config ARM_VIRT
+>      select ACPI_MEMORY_HOTPLUG
+>      select ACPI_HW_REDUCED
+>      select ACPI_NVDIMM
+> +    select ACPI_APEI
+> =20
+>  config CHEETAH
+>      bool
 
 
