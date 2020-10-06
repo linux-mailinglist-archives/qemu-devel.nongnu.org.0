@@ -2,50 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15FD284453
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 05:39:06 +0200 (CEST)
-Received: from localhost ([::1]:58194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0F628447D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 06:02:59 +0200 (CEST)
+Received: from localhost ([::1]:36332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPdof-00086G-Kd
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 23:39:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
+	id 1kPeBm-00052r-80
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 00:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kPdnQ-0007Vh-GN
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 23:37:48 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:42033)
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1kPeAX-0004XP-SQ
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 00:01:41 -0400
+Received: from goliath.siemens.de ([192.35.17.28]:54594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kPdnO-0006cf-Kk
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 23:37:47 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0963Z1xJ015781
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 5 Oct 2020 23:35:05 -0400
-Date: Mon, 5 Oct 2020 23:35:01 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 2/2] contrib/gitdm: Add more academic domains
-Message-ID: <20201006033501.2s3mhnlbxzvfovrc@mozz.bu.edu>
-References: <20201004204010.2048608-1-f4bug@amsat.org>
- <20201004204010.2048608-3-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <jan.kiszka@siemens.com>)
+ id 1kPeAV-0006Sj-JF
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 00:01:41 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+ by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 09641PxC006902
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Oct 2020 06:01:25 +0200
+Received: from [167.87.160.159] ([167.87.160.159])
+ by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 09641KBP014130;
+ Tue, 6 Oct 2020 06:01:21 +0200
+Subject: Re: [RFC PATCH 08/21] contrib/gitdm: Add Mentor Graphics to the
+ domain map
+To: Joseph Myers <joseph@codesourcery.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201004180443.2035359-1-f4bug@amsat.org>
+ <20201004180443.2035359-9-f4bug@amsat.org>
+ <alpine.DEB.2.21.2010051327090.312@digraph.polyomino.org.uk>
+ <87eemc3b1q.fsf@linaro.org>
+ <alpine.DEB.2.21.2010052047250.11145@digraph.polyomino.org.uk>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <e1818fb3-4c63-6b2a-17cc-f3b7bc7d393b@siemens.com>
+Date: Tue, 6 Oct 2020 06:01:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <alpine.DEB.2.21.2010052047250.11145@digraph.polyomino.org.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201004204010.2048608-3-f4bug@amsat.org>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/05 23:37:44
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.794, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=192.35.17.28; envelope-from=jan.kiszka@siemens.com;
+ helo=goliath.siemens.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:01:33
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,110 +67,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mike Ryan <mikeryan@isi.edu>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
- Vince Weaver <vince@csl.cornell.edu>, qemu-devel@nongnu.org,
- Xinyu Li <precinct@mail.ustc.edu.cn>,
- Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>,
- Amir Charif <amir.charif@cea.fr>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Alex Barcelo <abarcelo@ac.upc.edu>,
- =?utf-8?B?TGx1w61z?= Vilanova <vilanova@ac.upc.edu>,
- linzhecheng <linzc@zju.edu.cn>,
- Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>,
- Dayeol Lee <dayeol@berkeley.edu>, Nickolai Zeldovich <nickolai@csail.mit.edu>,
- Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>,
- Brian Wheeler <bdwheele@indiana.edu>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
- Christoffer Dall <cdall@cs.columbia.edu>, Colin Lord <cdlord2@illinois.edu>,
- Gabriel Somlo <somlo@cmu.edu>, Fan Yang <Fan_Yang@sjtu.edu.cn>,
- Fabrice Desclaux <fabrice.desclaux@cea.fr>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?utf-8?B?Q8Opc2Fy?= Belley <cesar.belley@lse.epita.fr>,
- Akkarit Sangpetch <asangpet@andrew.cmu.edu>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- Chen Wei-Ren <chenwj@iis.sinica.edu.tw>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Zhang Mengchi <zhangmengchi@mprc.pku.edu.cn>,
- Timothy Edward Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
+Cc: Kwok Cheung Yeung <kcy@codesourcery.com>,
+ Andrew Jenner <andrew@codesourcery.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Julian Brown <julian@codesourcery.com>,
+ Sandra Loosemore <sandra@codesourcery.com>,
+ Taimoor Mirza <tmirza@codesourcery.com>,
+ Thomas Schwinge <thomas@codesourcery.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201004 2240, Philippe Mathieu-Daudé wrote:
-> There is a number of contributions from these academic domains.
-> Add the entries to the gitdm 'academic' domain map.
+On 05.10.20 22:52, Joseph Myers wrote:
+> On Mon, 5 Oct 2020, Alex Bennée wrote:
 > 
-> Cc: Akkarit Sangpetch <asangpet@andrew.cmu.edu>
-> Cc: Alexander Bulekov <alxndr@bu.edu>
-> Cc: Alexander Oleinik <alxndr@bu.edu>
-> Cc: Alex Barcelo <abarcelo@ac.upc.edu>
-> Cc: Brian Wheeler <bdwheele@indiana.edu>
-> Cc: Chen Wei-Ren <chenwj@iis.sinica.edu.tw>
-> Cc: Christoffer Dall <cdall@cs.columbia.edu>
-> Cc: Colin Lord <cdlord2@illinois.edu>
-> Cc: Dayeol Lee <dayeol@berkeley.edu>
-> Cc: Fan Yang <Fan_Yang@sjtu.edu.cn>
-> Cc: Gabriel Somlo <somlo@cmu.edu>
-> Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
-> Cc: linzhecheng <linzc@zju.edu.cn>
-> Cc: Lluís Vilanova <vilanova@ac.upc.edu>
-> Cc: Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
-> Cc: Mike Ryan <mikeryan@isi.edu>
-> Cc: Nickolai Zeldovich <nickolai@csail.mit.edu>
-> Cc: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-> Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> Cc: Vince Weaver <vince@csl.cornell.edu>
-> Cc: Xinyu Li <precinct@mail.ustc.edu.cn>
-> Cc: Zhang Mengchi <zhangmengchi@mprc.pku.edu.cn>
-> Cc: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
-> Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> Cc: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
-> Cc: Timothy Edward Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
-> Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-> Cc: César Belley <cesar.belley@lse.epita.fr>
-> Cc: Amir Charif <amir.charif@cea.fr>
-> Cc: Fabrice Desclaux <fabrice.desclaux@cea.fr>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-For both Alexander {Bulekov, Oleinik} <alxndr@bu.edu>
-
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-
-> ---
-> To the developers Cc'ed: If you agree with the entry of your
-> domain, please reply with a Reviewed-by/Acked-by tag. If you
-> disagree or doesn't care, please either reply with Nack-by or
-> ignore this patch.
-> I'll repost in 2 weeks as formal patch (not RFC) with only the
-> entries acked by their author.
-> One Reviewed-by/Ack-by from someone from a domain should be
-> sufficient to get the domain included in the final patch.
-> ---
->  contrib/gitdm/group-map-academics | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>> Joseph Myers <joseph@codesourcery.com> writes:
+>>
+>>> On Sun, 4 Oct 2020, Philippe Mathieu-Daudé wrote:
+>>>
+>>>> There is a number of contributors from this domain,
+>>>> add its own entry to the gitdm domain map.
+>>>
+>>> At some point the main branding will be Siemens; not sure how you want to 
+>>> handle that.
+>>
+>> We've already done something similar with WaveComp who have rolled up
+>> the various mips and imgtec contributions into
+>> contrib/gitdm/group-map-wavecomp.
+>>
+>> It's really up to you and which corporate entity would like internet
+>> bragging points. The only Siemens contributor I could find is Jan Kiszka
+>> but he has contributed a fair amount ;-)
 > 
-> diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
-> index c7b0dd46a3..fd42bb8069 100644
-> --- a/contrib/gitdm/group-map-academics
-> +++ b/contrib/gitdm/group-map-academics
-> @@ -11,9 +11,17 @@ ispras.ru
->  pavel.dovgaluk@gmail.com
->  
->  # Columbia University
-> -cs.columbia.edu
->  cota@braap.org
->  
->  jiaxun.yang@flygoat.com
->  
->  artem.k.pisarenko@gmail.com
-> +
-> +uni-paderborn.de
-> +edu
-> +ac.uk
-> +edu.cn
-> +edu.tw
-> +cmp.felk.cvut.cz
-> +epita.fr
-> +cea.fr
-> -- 
-> 2.26.2
+> Given that the Mentor branding is going away (and the "Mentor Graphics" 
+> version largely has gone away, "Mentor, a Siemens Business" is what's 
+> currently used as a Mentor brand), probably it makes sense to use Siemens 
+> for both codesourcery.com and mentor.com addresses.
 > 
+
+I think the key question is what this map is used for: Is it supposed to
+document the historic status, who was who at the time of contribution?
+Or is its purpose to help identifying the copyright holder of a
+contribution today?
+
+Jan
+
+-- 
+Siemens AG, T RDA IOT
+Corporate Competence Center Embedded Linux
 
