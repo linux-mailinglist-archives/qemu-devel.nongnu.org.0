@@ -2,95 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDFD3284F3E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 17:50:53 +0200 (CEST)
-Received: from localhost ([::1]:48176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B67284F38
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 17:47:24 +0200 (CEST)
+Received: from localhost ([::1]:42434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPpEq-00082Q-Su
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 11:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47918)
+	id 1kPpBT-0005XF-8b
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 11:47:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPp78-0003ZJ-OQ
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 11:42:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20947)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPp76-0008Ur-UZ
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 11:42:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601998972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VeODI9k5384rL5mulo7Rsm9VhHr1r042VXkHn7akJ6E=;
- b=UxOheNS7Eiv9hmOR9qFw7LXVcuCQsUWVvNV7W/psaTK76nETMOb2inoNVofYuXtk7m6ode
- Rh5eWRnpNQVaIz6K+PbzXmIYpSwJ1gT8Y4hnRm0bk5WlGb3zb0ogzKVmrgLSb0INl+m+wa
- XDRjOttBRIb2xc/xlosd2FYeKSoVN+M=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-1Ye9YB15MdmEqSeTUR5kVg-1; Tue, 06 Oct 2020 11:42:48 -0400
-X-MC-Unique: 1Ye9YB15MdmEqSeTUR5kVg-1
-Received: by mail-wr1-f70.google.com with SMTP id y3so5506111wrl.21
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 08:42:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kPp7M-0003hS-RU
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 11:43:09 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37066)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kPp7J-000056-Np
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 11:43:08 -0400
+Received: by mail-wm1-x342.google.com with SMTP id j136so3609843wmj.2
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 08:43:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jwTWURE/eDrPEvo24EEaW5PvQHWcRQAeKjfZiY++ilU=;
+ b=qthoGYAKTo0dQJAG1T3Kx2lmANdfA1BWauNjM9bWd0PxaIwVXV3pIABkX60KLACr+q
+ V5NpQtXMxVgpYHFM6/W5gX+OPrvq3QPiw4CqcaJBGjDIJUwPV5GUcnei6/1ogZVdDzrv
+ awDVUHBHs2zzTU4K3TjglRnYEOF/i/tVAROWdcbq1qe8v8cxdW9vXN/QTIAktxb3Pfus
+ dQqxbu6dQZTCxuvSVKZDqD2G0XDJ24k6ijG883oo4eB5Y7cefGaWsss7szhDvYY9zhKF
+ XrIJxd+lfOjCRUT9ehzyITI2WgsfhBTiXTfT/8NoADG6kSPuVeY0X0GMQ6F6c+fk6AhV
+ C3xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=VeODI9k5384rL5mulo7Rsm9VhHr1r042VXkHn7akJ6E=;
- b=Ss0DH/KniZHT7fzZUArQVLLByfKCLxub/tnBjwJBcUMK1lolKkzh1W/+z+c7WHoPbC
- hLHmnnT5ALlD1bkf1ePUwAB5iIgw1UzqlMpq9OECPKQcj//ojur44kpLvi/q6BOkTys/
- CtYKQHOSJYG8XAlul5ZsdfhTqOgpoW8Rl4dAAQx1dbKmM0XCpKsEWcB25QzJtLTjaqHf
- Y6pUIPR7+wC8OMoHS4nVhTM2d/5958S2uuWaNcpEg3zvm2/laLMFkqHjPTE9SfnBv6r5
- hbTGH+ZqL3KRdvKs9lM4LoiqlEbSqz9VAosc8NA8vjUhQgOpOgVeNeEUDVrpaDvjYAcQ
- ZmqQ==
-X-Gm-Message-State: AOAM532Lzc1BHNK2hOMFz8bIRN7YRasai7XAh70yqiHUlmLjafZ/iGuU
- x3TcyInx68s9qdbq2b6fgQUOJtGS3DIebjEKCg3QHcOULXUSPWAku2GsSSmFbZ40MUlHobdb5BC
- Xp5sU97GCK13kmyA=
-X-Received: by 2002:a5d:5543:: with SMTP id g3mr5796099wrw.154.1601998966982; 
- Tue, 06 Oct 2020 08:42:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxG1sBa4dtbKSPz5CcTN8UyZHrUT4uVQjtuqld9v+RLTG6TcXPbeYQfRBd1jc/mf1CqLlIjyg==
-X-Received: by 2002:a5d:5543:: with SMTP id g3mr5796076wrw.154.1601998966686; 
- Tue, 06 Oct 2020 08:42:46 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e?
- ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id c18sm2350686wrq.5.2020.10.06.08.42.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Oct 2020 08:42:45 -0700 (PDT)
-Subject: Re: [PATCH v3 1/1] hw/nvram: Always register
- FW_CFG_DATA_GENERATOR_INTERFACE
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201006153636.2383248-1-philmd@redhat.com>
- <20201006153636.2383248-2-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b24ef7d4-f60f-9243-74d4-7691fe910c3c@redhat.com>
-Date: Tue, 6 Oct 2020 17:42:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=jwTWURE/eDrPEvo24EEaW5PvQHWcRQAeKjfZiY++ilU=;
+ b=jTn17OFCokJHxV9pfwIds5rvGDFqJY58ma5Gjcy5qeiBzGA8mcoh+3TXbp6RozpVsJ
+ WbTKpt7Fx9/+ETWpzDdoQOwEp50RaoYcBtEMh5jjktHFfdp3yynvAqLw5UZB1wcuMOi/
+ uuM/tqeyXQMxlVzdHmaNUzCCPFsibM85L/ErTxp1lkk3kOUJlq8/F6jYg1wkHrmtmAJU
+ j0CEBdKzB/E7I4jujRG775MJ2ANZCLZ/yvWkWq6qdB7DEy3sxXdx96db9UKUwt65o6an
+ 9bzfSTVER/xl/nWknmc2GHPs+T4kfs+021ehremptz/bhqvIndU73oicdc277GwfX/Pp
+ DgwA==
+X-Gm-Message-State: AOAM533QlHx+QGyyDFGMAcsQPgD1302dEZFcB+tkP0IfFgkvJwHcHg8h
+ efjAl8QbpM6dwdLX91/6RjfxhA==
+X-Google-Smtp-Source: ABdhPJw/65NWn+8ikmIW8naqbci9Bow00qqGqtDo9mROFRXt8baDx1dpT2W3kXg7+tvrYrYrZq+Uyg==
+X-Received: by 2002:a1c:e48b:: with SMTP id b133mr5382275wmh.0.1601998981960; 
+ Tue, 06 Oct 2020 08:43:01 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v9sm5601133wrv.35.2020.10.06.08.43.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Oct 2020 08:43:00 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 267C11FF7E;
+ Tue,  6 Oct 2020 16:43:00 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/ide/ahci: silence a compiler warning
+Date: Tue,  6 Oct 2020 16:42:56 +0100
+Message-Id: <20201006154256.17392-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201006153636.2383248-2-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,118 +86,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org
+Cc: John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "open list:IDE" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/10/20 17:36, Philippe Mathieu-Daudé wrote:
-> While the FW_CFG_DATA_GENERATOR_INTERFACE is only consumed
-> by a device only available using system-mode (fw_cfg), it is
-> implemented by a crypto component (tls-cipher-suites) which
-> is always available when crypto is used.
-> 
-> Commit 69699f3055 introduced the following error in the
-> qemu-storage-daemon binary:
-> 
->   $ echo -e \
->     '{"execute": "qmp_capabilities"}\r\n{"execute": "qom-list-types"}\r\n{"execute": "quit"}\r\n' \
->     | storage-daemon/qemu-storage-daemon --chardev stdio,id=qmp0  --monitor qmp0
->   {"QMP": {"version": {"qemu": {"micro": 50, "minor": 1, "major": 5}, "package": ""}, "capabilities": ["oob"]}}
->   {"return": {}}
->   missing interface 'fw_cfg-data-generator' for object 'tls-creds'
->   Aborted (core dumped)
-> 
-> Since QOM dependencies are resolved at runtime, this issue
-> could not be triggered at linktime, and we don't have test
-> running the qemu-storage-daemon binary.
-> 
-> Fix by always registering the QOM interface.
-> 
-> Reported-by: Kevin Wolf <kwolf@redhat.com>
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> Fixes: 69699f3055 ("crypto/tls-cipher-suites: Produce fw_cfg consumable blob")
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/nvram/fw_cfg-interface.c | 15 +++++++++++++++
->  hw/nvram/fw_cfg.c           |  7 -------
->  MAINTAINERS                 |  2 +-
->  hw/nvram/meson.build        |  3 +++
->  4 files changed, 19 insertions(+), 8 deletions(-)
->  create mode 100644 hw/nvram/fw_cfg-interface.c
-> 
-> diff --git a/hw/nvram/fw_cfg-interface.c b/hw/nvram/fw_cfg-interface.c
-> new file mode 100644
-> index 0000000000..bcc7b1edbc
-> --- /dev/null
-> +++ b/hw/nvram/fw_cfg-interface.c
-> @@ -0,0 +1,15 @@
-> +#include "qemu/osdep.h"
-> +#include "hw/nvram/fw_cfg.h"
-> +
-> +static const TypeInfo fw_cfg_data_generator_interface_info = {
-> +    .parent = TYPE_INTERFACE,
-> +    .name = TYPE_FW_CFG_DATA_GENERATOR_INTERFACE,
-> +    .class_size = sizeof(FWCfgDataGeneratorClass),
-> +};
-> +
-> +static void fw_cfg_register_interfaces(void)
-> +{
-> +    type_register_static(&fw_cfg_data_generator_interface_info);
-> +}
-> +
-> +type_init(fw_cfg_register_interfaces)
-> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-> index 0e95d057fd..08539a1aab 100644
-> --- a/hw/nvram/fw_cfg.c
-> +++ b/hw/nvram/fw_cfg.c
-> @@ -1360,18 +1360,11 @@ static const TypeInfo fw_cfg_mem_info = {
->      .class_init    = fw_cfg_mem_class_init,
->  };
->  
-> -static const TypeInfo fw_cfg_data_generator_interface_info = {
-> -    .parent = TYPE_INTERFACE,
-> -    .name = TYPE_FW_CFG_DATA_GENERATOR_INTERFACE,
-> -    .class_size = sizeof(FWCfgDataGeneratorClass),
-> -};
-> -
->  static void fw_cfg_register_types(void)
->  {
->      type_register_static(&fw_cfg_info);
->      type_register_static(&fw_cfg_io_info);
->      type_register_static(&fw_cfg_mem_info);
-> -    type_register_static(&fw_cfg_data_generator_interface_info);
->  }
->  
->  type_init(fw_cfg_register_types)
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b76fb31861..a45d908ebd 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2054,7 +2054,7 @@ R: Laszlo Ersek <lersek@redhat.com>
->  R: Gerd Hoffmann <kraxel@redhat.com>
->  S: Supported
->  F: docs/specs/fw_cfg.txt
-> -F: hw/nvram/fw_cfg.c
-> +F: hw/nvram/fw_cfg*.c
->  F: stubs/fw_cfg.c
->  F: include/hw/nvram/fw_cfg.h
->  F: include/standard-headers/linux/qemu_fw_cfg.h
-> diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
-> index 1f2ed013b2..fd2951a860 100644
-> --- a/hw/nvram/meson.build
-> +++ b/hw/nvram/meson.build
-> @@ -1,3 +1,6 @@
-> +# QOM interfaces must be available anytime QOM is used.
-> +qom_ss.add(files('fw_cfg-interface.c'))
-> +
->  softmmu_ss.add(files('fw_cfg.c'))
->  softmmu_ss.add(when: 'CONFIG_CHRP_NVRAM', if_true: files('chrp_nvram.c'))
->  softmmu_ss.add(when: 'CONFIG_DS1225Y', if_true: files('ds1225y.c'))
-> 
+When built with -Og -ggdb with gcc 8.3 the compiler gets confused
+reporting:
 
-Queued, thanks.
+  ../../hw/ide/ahci.c: In function ‘ahci_populate_sglist’:
+  ../../hw/ide/ahci.c:965:58: error: ‘tbl_entry_size’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
 
-Paolo
+As prdtl being > 0 is a prerequisite for running the code which
+guarantees we execute the loop at least once although not necessarily
+resetting off_pos/off_idx which should short-circuit the test anyway.
+
+To save grey hair initialise the value to zero and move the variable
+to the local block so future changes can't accidentally use it.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ hw/ide/ahci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index 680304a24c..f5c20c7d55 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -925,7 +925,6 @@ static int ahci_populate_sglist(AHCIDevice *ad, QEMUSGList *sglist,
+     uint64_t sum = 0;
+     int off_idx = -1;
+     int64_t off_pos = -1;
+-    int tbl_entry_size;
+     IDEBus *bus = &ad->port;
+     BusState *qbus = BUS(bus);
+ 
+@@ -952,6 +951,7 @@ static int ahci_populate_sglist(AHCIDevice *ad, QEMUSGList *sglist,
+     /* Get entries in the PRDT, init a qemu sglist accordingly */
+     if (prdtl > 0) {
+         AHCI_SG *tbl = (AHCI_SG *)prdt;
++        int tbl_entry_size = 0;
+         sum = 0;
+         for (i = 0; i < prdtl; i++) {
+             tbl_entry_size = prdt_tbl_entry_size(&tbl[i]);
+-- 
+2.20.1
 
 
