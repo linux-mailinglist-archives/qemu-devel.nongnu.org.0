@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783FA284797
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:42:05 +0200 (CEST)
-Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2F32847CF
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:46:25 +0200 (CEST)
+Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhbo-0001XP-Gb
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39934)
+	id 1kPhg0-0007lj-IA
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQS-0003NE-Nv
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:20 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55005)
+ id 1kPhQT-0003OZ-Bp
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:21 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:38718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQQ-0001Wu-M0
+ id 1kPhQR-0001XJ-CC
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:20 -0400
-Received: by mail-wm1-x333.google.com with SMTP id p15so1815678wmi.4
+Received: by mail-wm1-x333.google.com with SMTP id v12so1934195wmh.3
  for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wM70NITwc42Whej4N3YEEzYrn9T/JQZRJIsTDSZHZoE=;
- b=Qmh/8Cr+8nRP6Wc4PiP/9tv05Ms5AnFm8ufjCDwjLAi/Q9oyFbgbV6hG1MQKpLPBEF
- jtDCTiO8vRipGlA3eecoTjg0bfmnqXFnQY4s2G8sW8skBo0dazWQFLXxN2I62CRdGplu
- f+I4ygXh074fNeaxIe+RSlH0eAlxGCSfsmCd9kGmhCYfN0JR/nVClwYqdCZ9gHwzyfeL
- 3Hvapk66wv3jkV5l053nK7HWI3dfkknF5Jhro9trTOPuUQ1CGAmfXsxoU7GvHPIwWEcw
- N6Xu5Pm6v+7LjsXiDS/6gVshWW9RtXBhkMW7Wyjr8m7WPE78FHfAYqgHDOBnjPBvQrSP
- p9SQ==
+ bh=6WD9Ks2QvGXimCjR6xfwgm6lrYby8X5mCiKe4m027WE=;
+ b=R0sn1ef50AyVUmtCZIuzV/uNjf7h55rB0BfPToTyp2qCxgA8H7dbyFDOqLl6gSMS3Y
+ SaAS2CzMgFSI2sSFGLnrJeeBfdKtiJinLt+Pg7o62Y53Ji2vuralqIeVtK9bUuz4mwTV
+ d4idtc/sr33biXhpWdaRWzUpT1okxKsPo6AWcegTQt0qKsfpF7YJcEIM58MT9F0FafZp
+ 3CkRuhlG6DrlvUSjgvXvy8B6K0SYzGKC/c2Av6jm6WrdqBgHCiEqaeAiioVbUHJz2uxc
+ 2VPAsE9sGLrQ6Qd6n3oprWZebnsVhYNIPGL18B6BVOyo22RLFRa7AhFNh03hf5JJyS5G
+ s1+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wM70NITwc42Whej4N3YEEzYrn9T/JQZRJIsTDSZHZoE=;
- b=s7Rk7ocu1Xnn0WTfufiEjirQpFfHCMi5b2MfQiui4D515Z42bzbgOFtJPO+vGqxaFh
- jzddsI09xVWr3hkD2BFnp4Ui6h4Z/IVI7sNYp6Vc92yejP7G5OVLwuGgtBTFQtH++sjx
- 50g0sAyzqw2q5eWSXMrtgTz7vGFdbkGfN7zoop9UYKVKAmpBvPNtEM1AcaC4Ytj5QpbT
- 78AWY/1e0/jAG4aEJgIApp46lw1ue9LlhLSy5/2JhRfARa21WRGNZkfNc0SBR26ajvCQ
- vFZ6M/+iwNwL/F1wYx0yHQoz5bpWPzy150HTQJlzzEQMIzcheIMMeOh0ZRb7pIr7r9zI
- bVZA==
-X-Gm-Message-State: AOAM53295l8gp1SqkMmlIS0jTal8ufZ+8wBypi+87Gy7KDm9vQTltrU4
- tTPJ7hj6LNKv5GgrvLlbqukQJsyMDYk=
-X-Google-Smtp-Source: ABdhPJywduqkFWtWNaOviBmnC1TdQqDDJoYRV9+dPXUcL3Yf+KTiksg2RGHcgQgqC0W7CT+7ZsJtYg==
-X-Received: by 2002:a05:600c:214c:: with SMTP id
- v12mr1505271wml.23.1601969416925; 
- Tue, 06 Oct 2020 00:30:16 -0700 (PDT)
+ bh=6WD9Ks2QvGXimCjR6xfwgm6lrYby8X5mCiKe4m027WE=;
+ b=ENmU+jcZTy16X7iRxU7jTKRonTGkmCZVsnmzO7Ee2GH0zQDjuZl0pS85NOi+LW5MGs
+ orjUVgMbJ7zuUlMOmIP90KgF9qkt6srTzQEJmlI2k+92sL01A0i0dAOlCtcf+vDuBzft
+ mvPH9jIj5hyBAh7CZ6doOChfaYcqiMpwVgcGKrZ+tsnwr56JmZG3BU4FS0wa/KmOXule
+ GdkESJagGISNWI9v/tfEz2wdRU4HkOkyNot+JnVexBD4DxQe2V6j7aZdD3FWhVV12sX9
+ LN8eQ420yF+0UxcPf+Ta6hg5rLmRuo5AZ1iaYFeE9CRy2eEtfuMRgEMXlspol2zlhBjr
+ T8TA==
+X-Gm-Message-State: AOAM5331/eppFZZ9x6cNO4XbDc8+MePzJN4lOqB7k60B+9BOH3AIa52U
+ /SSegEnz1Im4G8Md8hGmBD6rlWWUPAA=
+X-Google-Smtp-Source: ABdhPJztGnKN3vKINbbFKytqlgzKRP8Q6EFVNGUGjqw8SI/VUpdx1ckBO/IB8Uvo6vca0SKtaOSogQ==
+X-Received: by 2002:a1c:6a0a:: with SMTP id f10mr3302175wmc.86.1601969417737; 
+ Tue, 06 Oct 2020 00:30:17 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
  by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:30:16 -0700 (PDT)
+ Tue, 06 Oct 2020 00:30:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/37] gdbstub: add reverse continue support in replay mode
-Date: Tue,  6 Oct 2020 09:29:44 +0200
-Message-Id: <20201006072947.487729-35-pbonzini@redhat.com>
+Subject: [PULL 35/37] replay: describe reverse debugging in docs/replay.txt
+Date: Tue,  6 Oct 2020 09:29:45 +0200
+Message-Id: <20201006072947.487729-36-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006072947.487729-1-pbonzini@redhat.com>
 References: <20201006072947.487729-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::333;
  envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
@@ -86,215 +86,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
  Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch adds support of the reverse continue operation for gdbstub.
-Reverse continue finds the last breakpoint that would happen in normal
-execution from the beginning to the current moment.
-Implementation of the reverse continue replays the execution twice:
-to find the breakpoints that were hit and to seek to the last breakpoint.
-Reverse continue loads the previous snapshot and tries to find the breakpoint
-since that moment. If there are no such breakpoints, it proceeds to
-the earlier snapshot, and so on. When no breakpoints or watchpoints were
-hit at all, execution stops at the beginning of the replay log.
+This patch updates the documentation and describes usage of the reverse
+debugging in QEMU+GDB.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Message-Id: <160174522930.12451.6994758004725016836.stgit@pasha-ThinkPad-X280>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+
+--
+
+v4 changes:
+ - added an example of the command line for reverse debugging of
+   the diskless machine
+Message-Id: <160174523509.12451.1409905901920738979.stgit@pasha-ThinkPad-X280>
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- exec.c                    |  1 +
- gdbstub.c                 | 10 +++++-
- include/sysemu/replay.h   |  8 +++++
- replay/replay-debugging.c | 72 +++++++++++++++++++++++++++++++++++++++
- softmmu/cpus.c            |  5 +++
- stubs/replay.c            |  5 +++
- 6 files changed, 100 insertions(+), 1 deletion(-)
+ docs/replay.txt | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/exec.c b/exec.c
-index d8072668ea..ec68f4a9ca 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2753,6 +2753,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                  * Don't process the watchpoints when we are
-                  * in a reverse debugging operation.
-                  */
-+                replay_breakpoint();
-                 return;
-             }
-             if (flags == BP_MEM_READ) {
-diff --git a/gdbstub.c b/gdbstub.c
-index 79e8ccc050..ac92273018 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -1907,6 +1907,13 @@ static void handle_backward(GdbCmdContext *gdb_ctx, void *user_ctx)
-                 put_packet("E14");
-             }
-             return;
-+        case 'c':
-+            if (replay_reverse_continue()) {
-+                gdb_continue();
-+            } else {
-+                put_packet("E14");
-+            }
-+            return;
-         }
-     }
+diff --git a/docs/replay.txt b/docs/replay.txt
+index 8952e6d852..87a64ae068 100644
+--- a/docs/replay.txt
++++ b/docs/replay.txt
+@@ -265,6 +265,16 @@ of the original disk image, use overlay files linked to the original images.
+ Therefore all new snapshots (including the starting one) will be saved in
+ overlays and the original image remains unchanged.
  
-@@ -2161,7 +2168,8 @@ static void handle_query_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
-     }
++When you need to use snapshots with diskless virtual machine,
++it must be started with 'orphan' qcow2 image. This image will be used
++for storing VM snapshots. Here is the example of the command line for this:
++
++  qemu-system-i386 -icount shift=3,rr=replay,rrfile=record.bin,rrsnapshot=init \
++    -net none -drive file=empty.qcow2,if=none,id=rr
++
++empty.qcow2 drive does not connected to any virtual block device and used
++for VM snapshots only.
++
+ Network devices
+ ---------------
  
-     if (replay_mode == REPLAY_MODE_PLAY) {
--        g_string_append(gdbserver_state.str_buf, ";ReverseStep+");
-+        g_string_append(gdbserver_state.str_buf,
-+            ";ReverseStep+;ReverseContinue+");
-     }
+@@ -294,6 +304,42 @@ for recording and replaying must contain identical number of ports in record
+ and replay modes, but their backends may differ.
+ E.g., '-serial stdio' in record mode, and '-serial null' in replay mode.
  
-     if (gdb_ctx->num_params &&
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index 90bbb5d825..172b20c60c 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -81,11 +81,19 @@ const char *replay_get_filename(void);
-  * Returns true on success.
-  */
- bool replay_reverse_step(void);
-+/*
-+ * Start searching the last breakpoint/watchpoint.
-+ * Used by gdbstub for backwards debugging.
-+ * Returns true if the process successfully started.
-+ */
-+bool replay_reverse_continue(void);
- /*
-  * Returns true if replay module is processing
-  * reverse_continue or reverse_step request
-  */
- bool replay_running_debug(void);
-+/* Called in reverse debugging mode to collect breakpoint information */
-+void replay_breakpoint(void);
++Reverse debugging
++-----------------
++
++Reverse debugging allows "executing" the program in reverse direction.
++GDB remote protocol supports "reverse step" and "reverse continue"
++commands. The first one steps single instruction backwards in time,
++and the second one finds the last breakpoint in the past.
++
++Recorded executions may be used to enable reverse debugging. QEMU can't
++execute the code in backwards direction, but can load a snapshot and
++replay forward to find the desired position or breakpoint.
++
++The following GDB commands are supported:
++ - reverse-stepi (or rsi) - step one instruction backwards
++ - reverse-continue (or rc) - find last breakpoint in the past
++
++Reverse step loads the nearest snapshot and replays the execution until
++the required instruction is met.
++
++Reverse continue may include several passes of examining the execution
++between the snapshots. Each of the passes include the following steps:
++ 1. loading the snapshot
++ 2. replaying to examine the breakpoints
++ 3. if breakpoint or watchpoint was met
++    - loading the snaphot again
++    - replaying to the required breakpoint
++ 4. else
++    - proceeding to the p.1 with the earlier snapshot
++
++Therefore usage of the reverse debugging requires at least one snapshot
++created in advance. This can be done by omitting 'snapshot' option
++for the block drives and adding 'rrsnapshot' for both record and replay
++command lines.
++See the "Snapshotting" section to learn more about running record/replay
++and creating the snapshot in these modes.
++
+ Replay log format
+ -----------------
  
- /* Processing the instructions */
- 
-diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
-index 1e1dec0295..30ca38e5dd 100644
---- a/replay/replay-debugging.c
-+++ b/replay/replay-debugging.c
-@@ -23,6 +23,8 @@
- #include "migration/snapshot.h"
- 
- static bool replay_is_debugging;
-+static int64_t replay_last_breakpoint;
-+static int64_t replay_last_snapshot;
- 
- bool replay_running_debug(void)
- {
-@@ -246,3 +248,73 @@ bool replay_reverse_step(void)
- 
-     return false;
- }
-+
-+static void replay_continue_end(void)
-+{
-+    replay_is_debugging = false;
-+    vm_stop(RUN_STATE_DEBUG);
-+    replay_delete_break();
-+}
-+
-+static void replay_continue_stop(void *opaque)
-+{
-+    Error *err = NULL;
-+    if (replay_last_breakpoint != -1LL) {
-+        replay_seek(replay_last_breakpoint, replay_stop_vm_debug, &err);
-+        if (err) {
-+            error_free(err);
-+            replay_continue_end();
-+        }
-+        return;
-+    }
-+    /*
-+     * No breakpoints since the last snapshot.
-+     * Find previous snapshot and try again.
-+     */
-+    if (replay_last_snapshot != 0) {
-+        replay_seek(replay_last_snapshot - 1, replay_continue_stop, &err);
-+        if (err) {
-+            error_free(err);
-+            replay_continue_end();
-+        }
-+        replay_last_snapshot = replay_get_current_icount();
-+        return;
-+    } else {
-+        /* Seek to the very first step */
-+        replay_seek(0, replay_stop_vm_debug, &err);
-+        if (err) {
-+            error_free(err);
-+            replay_continue_end();
-+        }
-+        return;
-+    }
-+    replay_continue_end();
-+}
-+
-+bool replay_reverse_continue(void)
-+{
-+    Error *err = NULL;
-+
-+    assert(replay_mode == REPLAY_MODE_PLAY);
-+
-+    if (replay_get_current_icount() != 0) {
-+        replay_seek(replay_get_current_icount() - 1,
-+                    replay_continue_stop, &err);
-+        if (err) {
-+            error_free(err);
-+            return false;
-+        }
-+        replay_last_breakpoint = -1LL;
-+        replay_is_debugging = true;
-+        replay_last_snapshot = replay_get_current_icount();
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+void replay_breakpoint(void)
-+{
-+    assert(replay_mode == REPLAY_MODE_PLAY);
-+    replay_last_breakpoint = replay_get_current_icount();
-+}
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 95c557fac5..9e33416b4d 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -286,6 +286,11 @@ void cpu_handle_guest_debug(CPUState *cpu)
- {
-     if (replay_running_debug()) {
-         if (!cpu->singlestep_enabled) {
-+            /*
-+             * Report about the breakpoint and
-+             * make a single step to skip it
-+             */
-+            replay_breakpoint();
-             cpu_single_step(cpu, SSTEP_ENABLE);
-         } else {
-             cpu_single_step(cpu, 0);
-diff --git a/stubs/replay.c b/stubs/replay.c
-index d5b52302e9..45ebe77fb9 100644
---- a/stubs/replay.c
-+++ b/stubs/replay.c
-@@ -98,3 +98,8 @@ bool replay_reverse_step(void)
- {
-     return false;
- }
-+
-+bool replay_reverse_continue(void)
-+{
-+    return false;
-+}
 -- 
 2.26.2
 
