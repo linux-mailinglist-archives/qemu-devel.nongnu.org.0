@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB38B284ACD
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:25:44 +0200 (CEST)
-Received: from localhost ([::1]:36692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C7C284AE1
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:27:37 +0200 (CEST)
+Received: from localhost ([::1]:42482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPl6F-0008Mi-NL
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36466)
+	id 1kPl84-0002QU-Bq
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:27:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kPl26-0004Gr-2u
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:21:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kPl23-0006RU-WC
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:21:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601983283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=swrIDlQslW1TY3XEz6OoCoLjRo344H/Ib8ic+QdfZLg=;
- b=QTsvjrHLO3ATxc3fUPLm3f+m5gl+oXAhjZt1rWXXkrT0HhB3M7yfDZh+PO6Hnb/GGxsaOw
- ebwd7HDDsQKCt+ZUYWTVzQI5Vj7WBq3UFnzq3us8ta7pG7l1cPDugWDrdtcmU2JskVTRSO
- Mcx3sBb0896iY8zDKMFCZpW9q/jW/js=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-rxY39N0SOzyzxANHJD8QYQ-1; Tue, 06 Oct 2020 07:21:20 -0400
-X-MC-Unique: rxY39N0SOzyzxANHJD8QYQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21DE19CC0E
- for <qemu-devel@nongnu.org>; Tue,  6 Oct 2020 11:21:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6D1210013D7;
- Tue,  6 Oct 2020 11:21:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 78F5711329C1; Tue,  6 Oct 2020 13:21:06 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v5 02/36] qapi: modify docstrings to be sphinx-compatible
-References: <20201005195158.2348217-1-jsnow@redhat.com>
- <20201005195158.2348217-3-jsnow@redhat.com>
-Date: Tue, 06 Oct 2020 13:21:06 +0200
-In-Reply-To: <20201005195158.2348217-3-jsnow@redhat.com> (John Snow's message
- of "Mon, 5 Oct 2020 15:51:24 -0400")
-Message-ID: <87r1qbtxb1.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPl2d-0005CQ-L4; Tue, 06 Oct 2020 07:21:59 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:36841)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kPl2b-0006TG-C7; Tue, 06 Oct 2020 07:21:59 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id s19so1061949plp.3;
+ Tue, 06 Oct 2020 04:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IVrvxOUsYiShuvVwfOqOW7Y32dz8mgeWzYfDdIYjZq4=;
+ b=kmGxAOHvW3lkdEe5GatiS1wOBBP7Mg0YbBl8vbCwjjxpPUYjEGvPFuKxFywFHYamYO
+ quVhymddOnJQiH3fLQbQbRteoB49qWx3aXG9qIvOoRrEG/t5VQgC9A4q2mnVlrOeXZ2V
+ XOvq3WV8Vkiz9tAJV2QHNI/Rxp2p8oqO4GiIcb1IhCg3AyvKk2gJK7BmAkKJ44iq85gU
+ QSK461GkPwpf8xdUpURcE4BuhpPElMbev8KOcJ/nqikzZ3XwTd5/83i64/WkOu7EOQyD
+ P0q1sD98E9gx11h2XYj/pLrmyieb03pSfZB7OkYzfh3TronbU6Q8qZ95TgTuUdSp4lrC
+ 5mdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IVrvxOUsYiShuvVwfOqOW7Y32dz8mgeWzYfDdIYjZq4=;
+ b=aeNFazSHenBvXIvAOrTtxextS8FBaB34EVibeGdMGa5K8ibXk40gd4PAiZ6ykwIb9d
+ x4ydSjK5jeM8r+sjPI4qhyDIarLQmguvUh/v8NUPnXajxchHy9g7NxUSFOpXhfkZIuhW
+ iVrr/lJzXkeY7uxVhXv/TVyV+Td3wil9BSLhnvZL8UxlKeUZCi0i35hOM225+U6+7/va
+ rPUxhTrK0lM45tpumrhi5YS7ol8JRs4jivT1+NhdttNfQpm/kOjMsuy9v6unhksaPo1B
+ yf4YTXOzhWo+ni1PFX/6PCUbsArQ5Xdgeya0hF/ySNtW5a6TYnIUj24QGVvep5csklJX
+ 9PXQ==
+X-Gm-Message-State: AOAM530LUetE84RKXeaIr57uFn2Ph5ti8MB5DbfOYFWA8AFoQyFakCfn
+ kwzqWJLdZT0UQzvmZ7FUTUXe6mELxMqxyQ==
+X-Google-Smtp-Source: ABdhPJyQK737y3aJY3hIYbB0NQfhrTDNoMRVyK229Faidi+31li38fTPgdQZ/AWX4xWc2fFSvVoPuQ==
+X-Received: by 2002:a17:90a:128d:: with SMTP id
+ g13mr3779868pja.35.1601983314940; 
+ Tue, 06 Oct 2020 04:21:54 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id x3sm2941386pgg.54.2020.10.06.04.21.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Oct 2020 04:21:54 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5] scripts: Convert qemu-version.sh to qemu-version.py
+Date: Tue,  6 Oct 2020 19:21:39 +0800
+Message-Id: <20201006112139.700-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x62e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,83 +81,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=E8=8C=85?= <f4bug@amsat.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+The sh script are harder to maintain for compatible different
+xsh environment so convert it to python script
+Also incorporate the fixes in
+https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.com/
 
-> A precise style guide and a package-wide overhaul is forthcoming pending
-> further discussion and consensus. At present, we are avoiding obvious
-> errors that cause sphinx documentation build problems.
->
-> A preliminary style guide is loosely based on PEP 257 and Sphinx
-> Autodoc. It is chosen for interoperability with our existing Sphinx
-> framework, and because it has loose recognition in the Pycharm IDE.
->
-> - Use Triple-double quotes (""").
-> - Opening and closing quotes appear on their own lines for multi-line docs.
-> - A single-sentence summary should be the first line of the docstring.
-> - A blank line follows.
-> - Further prose, if needed, is written next and can be multiple paragraphs,
->   contain RST markup, etc.
-> - The :param x: desc, :returns: desc, and :raises z: desc info fields follow.
+Testing args length and if not enough, setting pkgversion and version to ''
 
-Mandatory when they apply?
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ meson.build             |  2 +-
+ scripts/qemu-version.py | 31 +++++++++++++++++++++++++++++++
+ scripts/qemu-version.sh | 25 -------------------------
+ 3 files changed, 32 insertions(+), 26 deletions(-)
+ create mode 100644 scripts/qemu-version.py
+ delete mode 100755 scripts/qemu-version.sh
 
-> - Additional examples, diagrams, or other metadata follows below.
->
-> See also:
->
-> https://www.python.org/dev/peps/pep-0257/
-> https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#info-field-lists
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/gen.py    | 6 ++++--
->  scripts/qapi/parser.py | 1 +
->  2 files changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-> index ca66c82b5b8..dc7b94aa115 100644
-> --- a/scripts/qapi/gen.py
-> +++ b/scripts/qapi/gen.py
-> @@ -154,9 +154,11 @@ def _bottom(self):
->  
->  @contextmanager
->  def ifcontext(ifcond, *args):
-> -    """A 'with' statement context manager to wrap with start_if()/end_if()
-> +    """
-> +    A with-statement context manager that wraps with `start_if()` / `end_if()`.
->  
-> -    *args: any number of QAPIGenCCode
-> +    :param ifcond: A list of conditionals, passed to `start_if()`.
-> +    :param args: any number of `QAPIGenCCode`.
->  
->      Example::
->  
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index 9d1a3e2eea9..31bc2e6dca9 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -381,6 +381,7 @@ def append(self, line):
->  
->          The way that the line is dealt with depends on which part of
->          the documentation we're parsing right now:
-> +
->          * The body section: ._append_line is ._append_body_line
->          * An argument section: ._append_line is ._append_args_line
->          * A features section: ._append_line is ._append_features_line
-
-I'm asking because you're not adding :param line: here.
-
-Same for several other functions in this file.
-
-In schema.py:
-
-    class QAPISchemaMember:
-        """ Represents object members, enum members and features """
-
-Are the spaces next to """ okay?
+diff --git a/meson.build b/meson.build
+index 95a532bd29..20f653b6eb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1072,7 +1072,7 @@ tracetool = [
+    '--backend=' + config_host['TRACE_BACKENDS']
+ ]
+ 
+-qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
++qemu_version_cmd = [find_program('scripts/qemu-version.py'),
+                     meson.current_source_dir(),
+                     config_host['PKGVERSION'], meson.project_version()]
+ qemu_version = custom_target('qemu-version.h',
+diff --git a/scripts/qemu-version.py b/scripts/qemu-version.py
+new file mode 100644
+index 0000000000..e6eb548220
+--- /dev/null
++++ b/scripts/qemu-version.py
+@@ -0,0 +1,31 @@
++#!/usr/bin/env python3
++
++#
++# Script for retrieve qemu git version information
++#
++# Authors:
++#  Yonggang Luo <luoyonggang@gmail.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2
++# or, at your option, any later version.  See the COPYING file in
++# the top-level directory.
++
++import sys
++import subprocess
++
++def main(_program, dir, pkgversion, version, *unused):
++    if len(pkgversion) == 0:
++        pc = subprocess.run(['git', 'describe', '--match', "'v*'", '--dirty', '--always'],
++                            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, cwd=dir)
++        if pc.returncode == 0:
++            pkgversion = pc.stdout.decode('utf8').strip()
++
++    fullversion = version
++    if pkgversion:
++        fullversion = "{} ({})".format(version, pkgversion)
++
++    print('#define QEMU_PKGVERSION "%s"' % pkgversion)
++    print('#define QEMU_FULL_VERSION "%s"' % fullversion)
++
++if __name__ == "__main__":
++    main(*sys.argv)
+diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
+deleted file mode 100755
+index 03128c56a2..0000000000
+--- a/scripts/qemu-version.sh
++++ /dev/null
+@@ -1,25 +0,0 @@
+-#!/bin/sh
+-
+-set -eu
+-
+-dir="$1"
+-pkgversion="$2"
+-version="$3"
+-
+-if [ -z "$pkgversion" ]; then
+-    cd "$dir"
+-    if [ -e .git ]; then
+-        pkgversion=$(git describe --match 'v*' --dirty | echo "")
+-    fi
+-fi
+-
+-if [ -n "$pkgversion" ]; then
+-    fullversion="$version ($pkgversion)"
+-else
+-    fullversion="$version"
+-fi
+-
+-cat <<EOF
+-#define QEMU_PKGVERSION "$pkgversion"
+-#define QEMU_FULL_VERSION "$fullversion"
+-EOF
+-- 
+2.28.0.windows.1
 
 
