@@ -2,75 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B71E28497B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 11:41:44 +0200 (CEST)
-Received: from localhost ([::1]:45956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDEF28499D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 11:46:58 +0200 (CEST)
+Received: from localhost ([::1]:56832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPjTb-0006u9-5I
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 05:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40842)
+	id 1kPjYf-0003AM-4A
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 05:46:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kPjSo-0006Pb-Rg
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:40:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30904)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kPjSm-00022K-Th
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:40:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601977251;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=OFV8TnhdqroiWL8YIZL5W4hL51Qr8ixqyz5z9kLoT30=;
- b=iY1dIV73TMKZNR0RF0qOnBCBxr1GNQasHoPcwMJw4VF67uii3/A3tzjlMHdqdOz8uJv1uK
- 5+1qe3tGitqgZCtkfgTNHEQuXZR6cNJEoWKlk4590uFYkXZAohLxGEOvulJwa9z3JkLUGp
- 57NgxdWFyHnL4jtpOH4MgRcnGHLtsFg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-t7evruisPmOdBADcpbAJHw-1; Tue, 06 Oct 2020 05:40:47 -0400
-X-MC-Unique: t7evruisPmOdBADcpbAJHw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B5C08D984C;
- Tue,  6 Oct 2020 09:40:46 +0000 (UTC)
-Received: from redhat.com (ovpn-114-125.ams2.redhat.com [10.36.114.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD68C7366A;
- Tue,  6 Oct 2020 09:40:34 +0000 (UTC)
-Date: Tue, 6 Oct 2020 10:40:32 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: QEMU API cleanup initiative - Let's chat during the KVM call
-Message-ID: <20201006094032.GF2482221@redhat.com>
-References: <1f0b0576-eb07-bf5a-a4d8-c6a2d18d1a94@redhat.com>
- <20201005134552.GC5029@stefanha-x1.localdomain>
- <8e8a7b4d-e3a8-efe0-47b0-d20186970cee@redhat.com>
- <9b6c8327-7e53-ef1d-e576-1e091ca1e04f@redhat.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1kPjUw-0007ZJ-BY
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:43:06 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36332
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1kPjUt-0002Ds-DT
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:43:06 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0969VGj5122999
+ for <qemu-devel@nongnu.org>; Tue, 6 Oct 2020 05:43:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=syB6xU1sAclaOx/9Z+DIXVLQhMr2St/MEouHTWAoBkU=;
+ b=EDF42zWVqflc+6JDCIoKqNJEPrORBPKgAUbEnIBocf9L0yo+yNI2NL16JJRX1riTGZC/
+ wZnZgebiJAdJ6YK2wsrolDVfpd9JCTuopwWK+S2y8u1a1q+Wzc/cCgbujS9YxYL3GATF
+ BvUxtS3aotqrvw6sBanmOCWKYKGnzbmVNb4xy7YU0e26kwjY+5ANrBYd6HPSEzVbcp6g
+ wiu5XjDiNcrRq6zAbeo03hJq6jhdpU3veEsUZwr9+76W1DOzq9pXn+OSb1XOYGq1j3ki
+ yH7263Z/gbaAwTjaEvX3qH5jEdCtEp+la21eWaXicj0JFsCTsPzMqUxA0tbnG7FYAf/o ng== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 340nct1nbm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:43:01 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0969VK1K123348
+ for <qemu-devel@nongnu.org>; Tue, 6 Oct 2020 05:43:00 -0400
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 340nct1nad-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Oct 2020 05:43:00 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0969S9un000395;
+ Tue, 6 Oct 2020 09:42:58 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03fra.de.ibm.com with ESMTP id 33xgx7sk6j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Oct 2020 09:42:58 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0969guqq17498452
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Oct 2020 09:42:56 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F18755204E;
+ Tue,  6 Oct 2020 09:42:55 +0000 (GMT)
+Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 534AE5204F;
+ Tue,  6 Oct 2020 09:42:55 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/4] pc-bios: s390x: Cleanup part 2
+Date: Tue,  6 Oct 2020 05:42:45 -0400
+Message-Id: <20201006094249.50640-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <9b6c8327-7e53-ef1d-e576-1e091ca1e04f@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-10-06_03:2020-10-06,
+ 2020-10-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 phishscore=0 mlxscore=0 impostorscore=0 bulkscore=0
+ mlxlogscore=999 malwarescore=0 suspectscore=0 priorityscore=1501
+ clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2010060058
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 05:43:01
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,126 +106,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 06, 2020 at 11:30:20AM +0200, Paolo Bonzini wrote:
-> On 05/10/20 16:52, John Snow wrote:
-> > - Markus considers the platonic ideal of a CLI one in which each flag is
-> > a configuration directive, and each directive that references another
-> > directive must appear after the directive in which it references.
-> > 
-> > - I tend to consider the ideal configuration to be a static object that
-> > has no inherent order from one key to the next, e.g. a JSON object or
-> > static flat file that can be used to configure the sysemu.
-> > 
-> > They're not compatible visions; and they have implications for error
-> > ordering and messages and so on.
-> 
-> I think they aren't incompatible.  Even your idea would probably forbid
-> cycles, so it only takes a topological sort to go from an unordered
-> configuration to an ordered one.  The only difference is whether it's
-> the user or the program that does it.
-> 
-> > For the meantime, Markus's vision is closer to what QEMU already does,
-> > so it's likely the winning answer for now and if a conversion to the
-> > other idea is required at a time later, we'll have to tackle it then. (I
-> > think.)
-> > 
-> > It's a good subject of discussion. (Also relevant: if parsing is to
-> > occur in more than the CLI context, the existing contextual CLI parser
-> > error system needs to be reworked to avoid monitor-unsafe error calls.
-> > It's not trivial, I think.)
-> 
-> I think parsing should occur in CLI context only, but errors can occur
-> elsewhere too.
-> 
-> I think the idea for this kind of refactoring is always to first make
-> the code behave the way you want, and only then change the
-> implementation to look the way you want.
-> 
-> Currently we have:
-> 
->     switch (...) {
->         case QEMU_OPT_...:
->             /* something has side effects, something is just parsing */
->     }
-> 
->     init1();
->     qemu_opts_foreach(something_opts, configure_something);
->     init2();
->     qemu_opts_foreach(some_more_opts, configure_some_more);
->     init3();
-> 
->     enter_preconfig();
-> 
-> We should first of all change it to
-> 
->     parse_command_line() {
->         apply_simple_options()l
->         qemu_opts_foreach(something_opts, configure_something);
->         qemu_opts_foreach(some_more_opts, configure_some_more);
->     }
-> 
->     switch (...) {
->         case QEMU_OPT_...:
->         /* no side effects on the initN() calls below */
->     }
-> 
->     init1();
->     init2();
->     init3();
-> 
->     parse_command_line()
-> 
->     enter_preconfig();
-> 
->     more_init_that_needs_side_effects();
-> 
-> This way, the parse_command_line() and its qemu_opts_foreach callbacks
-> can become changed into a series of qmp_*() commands.  The commands can
-> be called within the appropriate loc_push() though.
-> 
-> Problem is, it's 1000 lines of initialization interspersed with
-> qemu_opts_foreach calls.  But it's doable.
+So, here are a few more cleanup patches mostly cleaning up ipl code
+and some of the assembly.
 
-I feel that both of these approaches are equally broken, as they don't
-honour the order in which arguments are passed by the caller when
-creating resources.
+The patches are available here:
+https://github.com/frankjaa/qemu/pull/new/cleanup_bios2
 
-This leads to the crazy hacks we have with -object where we have to
-create certain objects at certain stages.
+CI:
+https://gitlab.com/frankja/qemu/-/pipelines/198568601
 
-To make QEMU CLI parsing sane we need to be able to create objects as
-we parse them.
+v4:
+	* Dropped ext/io new PSW patch to speed up review
 
-   while (n++ < argc) {
-        switch (argv[n]) {
-           case QEMU_OPT_foo:
-             ...parse argv[n]...
-             ...create argv[n]...
-        }
-   }
+v3:
+	* Split PSW save rework again
+	* Added noreturn annotation
+	* Minor cleanup
 
-IOW, all usage of 'qemu_opts_foreach' should be targetted for complete
-elimination.
+v2:
+	* Fixed psw saving in use reset psw patch (thanks Jason)
+	* Dropped a lot of patches which weren't strictly necessary
+	* Added disabled wait patch
+	* Added RFC PSW save patch
 
-I'm not convinced that your proposed change takes us in direction, if
-anything it is encoding the current split of parsing vs creation even
-more strongly.
+Janosch Frank (4):
+  pc-bios: s390x: Fix bootmap.c zipl component entry data handling
+  pc-bios: s390x: Save PSW rework
+  pc-bios: s390x: Use reset PSW if avaliable
+  pc-bios: s390x: Go into disabled wait when encountering a PGM
+    exception
 
-Regards,
-Daniel
+ pc-bios/s390-ccw/bootmap.c  |  9 ++++---
+ pc-bios/s390-ccw/bootmap.h  |  7 +++++-
+ pc-bios/s390-ccw/jump2ipl.c | 47 ++++++++++++++++++++-----------------
+ pc-bios/s390-ccw/s390-ccw.h |  1 +
+ pc-bios/s390-ccw/start.S    |  5 +++-
+ 5 files changed, 43 insertions(+), 26 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.25.1
 
 
