@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974712848B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:36:49 +0200 (CEST)
-Received: from localhost ([::1]:41394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5D9284899
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:29:27 +0200 (CEST)
+Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPiSm-0003ch-Mu
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54386)
+	id 1kPiLd-0000ry-Oy
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kPiRk-0003D3-C5
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 04:35:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kPiRi-0002IW-22
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 04:35:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kPiRg-0007rr-3d
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 08:35:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1A4872E80E9
- for <qemu-devel@nongnu.org>; Tue,  6 Oct 2020 08:35:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kPiKp-0000Ki-Db
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 04:28:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53297)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kPiKn-0001Aa-FQ
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 04:28:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601972912;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+DF/jcvVN/dTbVQOJC/V6E1VowJvWwnMrc6yIBNNZuk=;
+ b=clzDDH11JPVi2dPU7+ljQ61XqwMGjo+CIHvDl8GnnXTKrofSI7Vvp9cVUoSSyCXk8FhPLY
+ zPTnBuqGENyBX+HMzJcNdxtX0u2w5coQbqylCwrNLrDzesKJgp+CAyaYbz9VLR1l0cWUKf
+ 8e0r7FKLwyYD14PxaqYlgUKvYxHkcFg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-1-QHBkCSOf29pmQYtNAl5w-1; Tue, 06 Oct 2020 04:28:30 -0400
+X-MC-Unique: 1-QHBkCSOf29pmQYtNAl5w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 828988D9864;
+ Tue,  6 Oct 2020 08:28:29 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-235.ams2.redhat.com
+ [10.36.112.235])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B7141A8AC;
+ Tue,  6 Oct 2020 08:28:24 +0000 (UTC)
+Subject: Re: [RFC PATCH 1/3] qom: Always register
+ FW_CFG_DATA_GENERATOR_INTERFACE
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201005105442.2093105-1-philmd@redhat.com>
+ <20201005105442.2093105-2-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <ab0313b0-57e1-c6ab-0415-1d0c3bde05df@redhat.com>
+Date: Tue, 6 Oct 2020 10:28:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Oct 2020 08:27:12 -0000
-From: Paul Zimmerman <1772165@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm usb
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aditya-govardhan andrew-pennebaker clemd davbac
- dims dougrabson kraxel-redhat pauldzim pmaydell vortelf weberkai
-X-Launchpad-Bug-Reporter: George (vortelf)
-X-Launchpad-Bug-Modifier: Paul Zimmerman (pauldzim)
-References: <152673688616.9061.7617411809661975686.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160197283236.9718.5332984148780804081.malone@wampee.canonical.com>
-Subject: [Bug 1772165] Re: arm raspi2/raspi3 emulation has no USB support
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 9c5b23ca30a195df564159804ea4b9e3e9dbe066
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 03:50:54
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201005105442.2093105-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,78 +84,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1772165 <1772165@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You need to use -M raspi2 (or -M raspi3 for 64-bit kernels) to enable
-the Raspberry Pi emulation. And you need version 5.1 or newer of Qemu to
-get the dwc2 USB emulation. I don't think any Linux distributions
-provide that new of a Qemu, so you might have to build it yourself.
+On 10/05/20 12:54, Philippe Mathieu-Daudé wrote:
+> While the FW_CFG_DATA_GENERATOR_INTERFACE is only consumed
+> by a device only available using system-mode (fw_cfg), it is
+> implemented by a crypto component (tls-cipher-suites) which
+> is always available when crypto is used.
+> 
+> Commit 69699f3055 introduced the following error in the
+> qemu-storage-daemon binary:
+> 
+>   $ echo -e \
+>     '{"execute": "qmp_capabilities"}\r\n{"execute": "qom-list-types"}\r\n{"execute": "quit"}\r\n' \
+>     | storage-daemon/qemu-storage-daemon --chardev stdio,id=qmp0  --monitor qmp0
+>   {"QMP": {"version": {"qemu": {"micro": 50, "minor": 1, "major": 5}, "package": ""}, "capabilities": ["oob"]}}
+>   {"return": {}}
+>   missing interface 'fw_cfg-data-generator' for object 'tls-creds'
+>   Aborted (core dumped)
+> 
+> Since QOM dependencies are resolved at runtime, this issue
+> could not be triggered at linktime,
 
-Here is the command line I use to run the Raspbian image 2019-09-26
--raspbian-buster.img. I extracted bcm2709-rpi-2-b.dtb and kernel7.img
-from the FAT partition inside the image file.
+O_o
 
-qemu-system-arm -M raspi2 -drive file=3D2019-09-26-raspbian-
-buster.img,format=3Draw,if=3Dsd -dtb bcm2709-rpi-2-b.dtb -kernel kernel7.img
--append 'rw earlycon=3Dpl011,0x3f201000 console=3DttyAMA0 loglevel=3D8
-root=3D/dev/mmcblk0p2 fsck.repair=3Dyes net.ifnames=3D0 rootwait memtest=3D1
-dwc_otg.fiq_fsm_enable=3D0' -serial stdio -no-reboot -netdev user,id=3Dnet0
--usb -device usb-kbd -device usb-tablet -device usb-net,netdev=3Dnet0
+I'll defer the review of this work to others with actual QOM knowledge.
 
-That should give you a graphical emulation with working keyboard, mouse
-and networking. Mass-storage also works, but I left that out for
-simplicity.
+Please ping me when the series is otherwise ready; I'll be happy to ACK
+the fw_cfg parts (if any).
 
-But note that if you absolutely must pass-through a USB device from the
-host, it probably won't work. That's because the dwc2 controller
-emulation is connected through a full-speed hub emulation, so unless
-your USB device is connected at full-speed on the host, it probably
-won't work.
+Laszlo
 
--- =
+> and we don't have test
+> running the qemu-storage-daemon binary.
+> 
+> Fix by always registering the QOM interface.
+> 
+> Reported-by: Kevin Wolf <kwolf@redhat.com>
+> Fixes: 69699f3055 ("crypto/tls-cipher-suites: Produce fw_cfg consumable blob")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> I first used:
+> 
+> +if config_host.has_key('CONFIG_GNUTLS') or have_system
+> +  qom_ss.add(files('fw_cfg_interface.c'))
+> +endif
+> 
+> but then realized anything could implement a QOM interface,
+> so better keep this generic.
+> ---
+>  hw/nvram/fw_cfg.c      |  7 -------
+>  qom/fw_cfg_interface.c | 15 +++++++++++++++
+>  MAINTAINERS            |  1 +
+>  qom/meson.build        |  5 +++++
+>  4 files changed, 21 insertions(+), 7 deletions(-)
+>  create mode 100644 qom/fw_cfg_interface.c
+> 
+> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> index 0e95d057fd..08539a1aab 100644
+> --- a/hw/nvram/fw_cfg.c
+> +++ b/hw/nvram/fw_cfg.c
+> @@ -1360,18 +1360,11 @@ static const TypeInfo fw_cfg_mem_info = {
+>      .class_init    = fw_cfg_mem_class_init,
+>  };
+>  
+> -static const TypeInfo fw_cfg_data_generator_interface_info = {
+> -    .parent = TYPE_INTERFACE,
+> -    .name = TYPE_FW_CFG_DATA_GENERATOR_INTERFACE,
+> -    .class_size = sizeof(FWCfgDataGeneratorClass),
+> -};
+> -
+>  static void fw_cfg_register_types(void)
+>  {
+>      type_register_static(&fw_cfg_info);
+>      type_register_static(&fw_cfg_io_info);
+>      type_register_static(&fw_cfg_mem_info);
+> -    type_register_static(&fw_cfg_data_generator_interface_info);
+>  }
+>  
+>  type_init(fw_cfg_register_types)
+> diff --git a/qom/fw_cfg_interface.c b/qom/fw_cfg_interface.c
+> new file mode 100644
+> index 0000000000..2b19502ffe
+> --- /dev/null
+> +++ b/qom/fw_cfg_interface.c
+> @@ -0,0 +1,15 @@
+> +#include "qemu/osdep.h"
+> +#include "hw/nvram/fw_cfg.h"
+> +
+> +static const TypeInfo fw_cfg_data_generator_interface_info = {
+> +    .parent = TYPE_INTERFACE,
+> +    .name = TYPE_FW_CFG_DATA_GENERATOR_INTERFACE,
+> +    .class_size = sizeof(FWCfgDataGeneratorClass),
+> +};
+> +
+> +static void fw_cfg_register_types(void)
+> +{
+> +    type_register_static(&fw_cfg_data_generator_interface_info);
+> +}
+> +
+> +type_init(fw_cfg_register_types)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b76fb31861..9c89d54b41 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2055,6 +2055,7 @@ R: Gerd Hoffmann <kraxel@redhat.com>
+>  S: Supported
+>  F: docs/specs/fw_cfg.txt
+>  F: hw/nvram/fw_cfg.c
+> +F: qom/fw_cfg_interface.c
+>  F: stubs/fw_cfg.c
+>  F: include/hw/nvram/fw_cfg.h
+>  F: include/standard-headers/linux/qemu_fw_cfg.h
+> diff --git a/qom/meson.build b/qom/meson.build
+> index a1cd03c82c..7335f8c8a2 100644
+> --- a/qom/meson.build
+> +++ b/qom/meson.build
+> @@ -7,6 +7,11 @@ qom_ss.add(files(
+>    'qom-qobject.c',
+>  ))
+>  
+> +# interfaces any object might implement
+> +qom_ss.add(files(
+> +  'fw_cfg_interface.c',
+> +))
+> +
+>  qmp_ss.add(files('qom-qmp-cmds.c'))
+>  softmmu_ss.add(files('qom-hmp-cmds.c'))
+>  
+> 
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1772165
-
-Title:
-  arm raspi2/raspi3 emulation has no USB support
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Using Qemu 2.12.0 on ArchLinux.
-
-  Trying to emulate arm device with `qemu-system-arm` and attach usb
-  device for unput using
-
-  ` -usb -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=3D0x0002 `
-
-  # lsusb returns
-
-  Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-  Bus 001 Device 014: ID 13d3:3487 IMC Networks =
-
-  Bus 001 Device 004: ID 0457:11af Silicon Integrated Systems Corp. =
-
-  Bus 001 Device 003: ID 0bda:57e6 Realtek Semiconductor Corp. =
-
-  Bus 001 Device 002: ID 0bda:0129 Realtek Semiconductor Corp. RTS5129 Card=
- Reader Controller
-  Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-
-  # qemu returns
-  qemu-system-arm: -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=
-=3D0x0002: Bus '001' not found
-
-  =
-
-  Tried with connecting external usb keyboard but that didn't seem to work =
-either.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1772165/+subscriptions
 
