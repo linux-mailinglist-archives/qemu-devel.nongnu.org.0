@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021C428546D
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:21:17 +0200 (CEST)
-Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363B2285467
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:19:41 +0200 (CEST)
+Received: from localhost ([::1]:35426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPvKe-0001Qj-08
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:21:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45312)
+	id 1kPvJ6-0007Hp-9g
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9d-0006rB-DP
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:09:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24599)
+ id 1kPv9e-0006uX-LX
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:09:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9b-0006Ow-FI
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:09:53 -0400
+ id 1kPv9c-0006PO-MC
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:09:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602022190;
+ s=mimecast20190719; t=1602022191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=msMKr4jy4cvV0aBat9MPAID6/pVxztok8ewRpD09LUY=;
- b=cWXsHGpG4+YvjQtffHD4X312S3Oq/r9In0gZdPPNVbzNJE38Nh2XCxf6gGoTZwRfBgbHBs
- 6FmxWa4ZINmPo1qCm7WIiuOJesNsQ+urTGuxqaasj1vEulv/3nTliWNQ56FC1GwIO8WHNf
- 3eI3E3l7wLF2SNX/Fx4IVCSM6mTV+tc=
+ bh=OsOiiuvqOs2Dd30cGtUozQ7z6HBtUUrHJem2QryIQsk=;
+ b=WbO+jqhS1A7xsDr6jLI22lD19Je/vOaLoWltNzRfqCWNJe/Zg2QqB8obnphWflqCqahJZC
+ rklklmWXYpw5PNPK1ak4h4P0QYAuyqz9d8QS9U246+I3+TrQPCCx//orHBeskp1+gVEyF5
+ HByrohu4yXlWGyvB4D9oE8gDQ9q6Y5s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-MdLodyApO9WpkLfuom-Olg-1; Tue, 06 Oct 2020 18:09:48 -0400
-X-MC-Unique: MdLodyApO9WpkLfuom-Olg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-148-TFUQ_w45OcK76NjybXH3DA-1; Tue, 06 Oct 2020 18:09:49 -0400
+X-MC-Unique: TFUQ_w45OcK76NjybXH3DA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 521BE1091069;
- Tue,  6 Oct 2020 22:09:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F54180400C;
+ Tue,  6 Oct 2020 22:09:48 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04FFB6EF44;
- Tue,  6 Oct 2020 22:09:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 366299F54;
+ Tue,  6 Oct 2020 22:09:48 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 09/21] qom: Improve error message displayed with missing object
- properties
-Date: Tue,  6 Oct 2020 18:09:18 -0400
-Message-Id: <20201006220930.908275-10-ehabkost@redhat.com>
+Subject: [PULL 10/21] qom: Fix DECLARE_*CHECKER documentation
+Date: Tue,  6 Oct 2020 18:09:19 -0400
+Message-Id: <20201006220930.908275-11-ehabkost@redhat.com>
 In-Reply-To: <20201006220930.908275-1-ehabkost@redhat.com>
 References: <20201006220930.908275-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,43 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Correct copy/paste mistake in the DECLARE_INSTANCE_CHECKER and
+DECLARE_CLASS_CHECKERS documentation.
 
-Instead of only displaying the property missing, also display
-the object name. This help developer to quickly figure out the
-mistake without opening a debugger.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200920155340.401482-1-f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20201003025424.199291-2-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- qom/object.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/qom/object.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qom/object.c b/qom/object.c
-index c335dce7e4..1065355233 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1291,7 +1291,8 @@ ObjectProperty *object_property_find_err(Object *obj, const char *name,
- {
-     ObjectProperty *prop = object_property_find(obj, name);
-     if (!prop) {
--        error_setg(errp, "Property '.%s' not found", name);
-+        error_setg(errp, "Property '%s.%s' not found",
-+                   object_get_typename(obj), name);
-     }
-     return prop;
- }
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 27aaa67e63..de121d8d8e 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -170,7 +170,7 @@ struct Object
+  * Direct usage of this macro should be avoided, and the complete
+  * OBJECT_DECLARE_TYPE macro is recommended instead.
+  *
+- * This macro will provide the three standard type cast functions for a
++ * This macro will provide the instance type cast functions for a
+  * QOM type.
+  */
+ #define DECLARE_INSTANCE_CHECKER(InstanceType, OBJ_NAME, TYPENAME) \
+@@ -187,7 +187,7 @@ struct Object
+  * Direct usage of this macro should be avoided, and the complete
+  * OBJECT_DECLARE_TYPE macro is recommended instead.
+  *
+- * This macro will provide the three standard type cast functions for a
++ * This macro will provide the class type cast functions for a
+  * QOM type.
+  */
+ #define DECLARE_CLASS_CHECKERS(ClassType, OBJ_NAME, TYPENAME) \
 -- 
 2.26.2
 
