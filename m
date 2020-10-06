@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB77284AC6
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:21:34 +0200 (CEST)
-Received: from localhost ([::1]:54246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6B5284AC8
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:23:15 +0200 (CEST)
+Received: from localhost ([::1]:58594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPl2D-0003rB-7U
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34808)
+	id 1kPl3p-0005i4-0Z
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:23:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPkuI-0001zF-7i
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:13:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38558)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPkuW-0002an-Sx
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:13:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPkuD-0005Mk-Nq
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:13:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPkuT-0005QK-UQ
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:13:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601982794;
+ s=mimecast20190719; t=1601982813;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zHE0euJosau7rC4y0W3F/SPC4SETHEhDg1f1N9tjW8w=;
- b=MDxCLWQhbXknEy+8YIkkEY69XsCjQdhK0RZInB2dHVTb8e490k2xpA78LwWFPoc9CfYCfT
- KuqrmQ2hvjedidQ22bcPNCeKzbvvIo2VuJiceai0yWL+VPorhpbtmN62uOyEp0VvHIHJr8
- kYo2/d467pGzNvjrDkHDSca3HVQ8svc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-Xsu15Ee6PN-3Xz9TBSPs_A-1; Tue, 06 Oct 2020 07:13:12 -0400
-X-MC-Unique: Xsu15Ee6PN-3Xz9TBSPs_A-1
-Received: by mail-wm1-f70.google.com with SMTP id r19so977560wmh.9
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 04:13:12 -0700 (PDT)
+ bh=mPf2uclSCMKvJzabCYV++5DDS/lhd3Wt8bVfXYSncVs=;
+ b=iLWwqRDE89WXjOpXtJla2KiumkBENjF00uQPHzrfqTACkd743MFr6WnzARxe3tcH2a2zzP
+ X/oNgoM0MqSYdAqfgxaDxnMz+tfufjR/qFc9S66d3SHkyVQNel39SMxgoVw8MIF13FbkFh
+ Er8o9xsWWQACQn7g04oC8oYmmTZqN34=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-Y5j80eVuMfWTI7iGf3eMhg-1; Tue, 06 Oct 2020 07:13:31 -0400
+X-MC-Unique: Y5j80eVuMfWTI7iGf3eMhg-1
+Received: by mail-oi1-f200.google.com with SMTP id w200so591139oiw.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 04:13:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zHE0euJosau7rC4y0W3F/SPC4SETHEhDg1f1N9tjW8w=;
- b=Bd/j1XGX9Bq+oouN5xHivuCHp62KUZ544hZBbEnaP/g5w8JOzlz54UKxGPNdVYxqzK
- Lg11sGTrNkaOC5v4O1NCcxPeUf6E01jbKZx1KaJVNQqUug0rR6GFVz9JN2Cee45gJn4M
- U0rjhOBwZJL/p6c81IXZr3qonmJq/848V1xKume8GfHygPgvFLgSE/k11SmhrL86Luio
- lFP2j0JXwMAv/5ZtCcqlvmkqWnGrAEz6iTL/nC3DYZKmcjuhBSxVEmlxtt8QlShqVLVl
- OKIqyD0m0IKRPupfGEdiJ36ZRRhKktngekwA0UOfOxqzpKF85qOAB2XGwZaaZH4TFYoO
- 24SQ==
-X-Gm-Message-State: AOAM532A47gVBnzf8lTCsWz8PMCy47UD7EdgIvmOj4xuzxWUI5NCXcHP
- kzBZ/yjDR31QA7rBMgkKIRgClVMQeZPH1MT7eDNt3IdbNO0ojKTM2SqHxQGtWoWGqKtMAgt1TUN
- MsS/bHq8oJpUSjyg=
-X-Received: by 2002:adf:e802:: with SMTP id o2mr4220702wrm.309.1601982791378; 
- Tue, 06 Oct 2020 04:13:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6jWQHDML3fi5h/wIrbokDwSQgimm0127XS5oL31MDFZKP4gAxEKEhWCq7bQ+POWPZDfQQHg==
-X-Received: by 2002:adf:e802:: with SMTP id o2mr4220689wrm.309.1601982791175; 
- Tue, 06 Oct 2020 04:13:11 -0700 (PDT)
-Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j134sm3800716wmj.7.2020.10.06.04.13.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 04:13:10 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 10/10] qom: Move the creation of the library to the main
- meson.build
-Date: Tue,  6 Oct 2020 13:12:19 +0200
-Message-Id: <20201006111219.2300921-11-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201006111219.2300921-1-philmd@redhat.com>
-References: <20201006111219.2300921-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mPf2uclSCMKvJzabCYV++5DDS/lhd3Wt8bVfXYSncVs=;
+ b=IImBRSwjnOVUXJi1vcMxO5P3cYW8NHzV1iYOlrFWU8cjUeTtqUObNYxUa4wT28de1Y
+ yEwDgKS92vBrXoLiQW5U5Txzje39t8IkcuECdvWUlVKuJhb7lkJ8C9UY2R8WMRuGyqCD
+ DwrMw+7cbaOTrIKGpc2HXxYY9lPq2p/9jhg+/lea3iDb+2XVfDxDHlo8kEWhzd+/hyjF
+ hBxblz0Gw1h160i8aSdtvM7baJjyHOWhCjYRImzChy3AhnDTdoIsN7WXP2PslhrTvXz9
+ 3JzcT5sBtJ2YOu4CdGkOuFFWEMPHG5sXsAgOm7NQ8RO8TmPsx8HD74UUU3r94cD92XND
+ 4BWA==
+X-Gm-Message-State: AOAM532ntlwalJBnllQ5lmEaELrTJC3R/N5lFbwR9cKM2XGlWlDpRhEz
+ j/PzpdRVbXBwiDzhx8iakukHZAYbIa2Gsw5mJ/pZQOuXA9qPbsPKXxYWFx3KcEj75Qm/ftvJ1SF
+ FCh2lhKFbU86+FfKqWB17Kz7k4Bw103g=
+X-Received: by 2002:a4a:4845:: with SMTP id p66mr2769637ooa.68.1601982810659; 
+ Tue, 06 Oct 2020 04:13:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweWdMTOot6+4QSOkHNTaOp4nx85jA1is0Zk6YP8pavj5ViFB8A26mmPJJ2DAzUrimJ7Ru2sv9glvYPuvvue0o=
+X-Received: by 2002:a4a:4845:: with SMTP id p66mr2769625ooa.68.1601982810459; 
+ Tue, 06 Oct 2020 04:13:30 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201006111219.2300921-1-philmd@redhat.com>
+ <20201006111219.2300921-2-philmd@redhat.com>
+In-Reply-To: <20201006111219.2300921-2-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Tue, 6 Oct 2020 13:13:19 +0200
+Message-ID: <CAP+75-WhgxvQpmH7VS6hN9t0trHNA6fW5f8zYnvZu3X-23wF+g@mail.gmail.com>
+Subject: Re: [RFC PATCH 01/10] migration: Only add migration files to the
+ Meson sourceset
+To: QEMU Developers <qemu-devel@nongnu.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
@@ -96,71 +91,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Be consistent creating all the libraries in the main meson.build file.
+On Tue, Oct 6, 2020 at 1:12 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> I'm not sure how that works, but keep the use of Meson
+> sourcesets consistent, only add source files.
+>
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- meson.build     | 8 ++++++++
- qom/meson.build | 8 --------
- 2 files changed, 8 insertions(+), 8 deletions(-)
+Eventually:
+Fixes: 5516623020 ("meson: convert migration directory to Meson")
 
-diff --git a/meson.build b/meson.build
-index 9ecfe93503..29e397f285 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1069,6 +1069,7 @@ crypto_ss = ss.source_set()
- io_ss = ss.source_set()
- linux_user_ss = ss.source_set()
- qmp_ss = ss.source_set()
-+qom_ss = ss.source_set()
- softmmu_ss = ss.source_set()
- specific_fuzz_ss = ss.source_set()
- specific_ss = ss.source_set()
-@@ -1331,6 +1332,13 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
- # Library dependencies #
- ########################
- 
-+qom_ss = qom_ss.apply(config_host, strict: false)
-+libqom = static_library('qom', qom_ss.sources() + genh,
-+                        dependencies: [qom_ss.dependencies()],
-+                        name_suffix: 'fa')
-+
-+qom = declare_dependency(link_whole: libqom)
-+
- authz_ss = authz_ss.apply(config_host, strict: false)
- libauthz = static_library('authz', authz_ss.sources() + genh,
-                           dependencies: [authz_ss.dependencies()],
-diff --git a/qom/meson.build b/qom/meson.build
-index a1cd03c82c..062a3789d8 100644
---- a/qom/meson.build
-+++ b/qom/meson.build
-@@ -1,4 +1,3 @@
--qom_ss = ss.source_set()
- qom_ss.add(genh)
- qom_ss.add(files(
-   'container.c',
-@@ -9,10 +8,3 @@ qom_ss.add(files(
- 
- qmp_ss.add(files('qom-qmp-cmds.c'))
- softmmu_ss.add(files('qom-hmp-cmds.c'))
--
--qom_ss = qom_ss.apply(config_host, strict: false)
--libqom = static_library('qom', qom_ss.sources() + genh,
--                        dependencies: [qom_ss.dependencies()],
--                        name_suffix: 'fa')
--
--qom = declare_dependency(link_whole: libqom)
--- 
-2.26.2
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  migration/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/migration/meson.build b/migration/meson.build
+> index b5b71c8060..55c9e1329f 100644
+> --- a/migration/meson.build
+> +++ b/migration/meson.build
+> @@ -14,7 +14,7 @@ libmigration =3D static_library('migration', sources: m=
+igration_files + genh,
+>                                build_by_default: false)
+>  migration =3D declare_dependency(link_with: libmigration,
+>                                 dependencies: [zlib, qom, io])
+> -softmmu_ss.add(migration)
+> +softmmu_ss.add(migration_files)
+>
+>  softmmu_ss.add(files(
+>    'block-dirty-bitmap.c',
+> --
+> 2.26.2
+>
 
 
