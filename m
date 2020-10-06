@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F188284ABC
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:18:29 +0200 (CEST)
-Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282A2284AB5
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 13:16:56 +0200 (CEST)
+Received: from localhost ([::1]:41392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPkzE-0001AZ-HX
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
+	id 1kPkxj-0006pY-8m
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 07:16:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPktl-0001jj-Ik
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:12:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29577)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPkto-0001js-9J
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:12:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPktd-0005Jw-Rb
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:12:45 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPkti-0005KM-5C
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 07:12:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601982760;
+ s=mimecast20190719; t=1601982764;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PYkBU6VF5ZzK1I4YI1vWYKaFknMzqMpMtEs81El0mHU=;
- b=Wg222ZM3UHwlDjyzxuiU0tIRe1wpCzxebEraqYNmdBK8uVOJO1uYwOsUtwRGoyc8l/A0rQ
- c0xr8ZLZu0QX149iJ1j+EwmltzxqN8tH7J08xAfPOhNclm2bNmZAYxz4VYuNRaFeXKkCHU
- s+Sb8cC6dGOVkYbOL67gwTXcek6S9Mg=
+ bh=8HCla72Ii7oikn9r1xa5R26+ZMQNPzJ2LVPz4WtA74I=;
+ b=Zk8YOeo5bgxTYK/jqetSwbwn2VQTRXngRPUswoZ+qp83NkLvh+R9zCJnI/K6DQhcQDkxrm
+ Ske3BM/q4QMmtrOJ/oOdvc011Sv+ryODPoNnB5fwDCKhL6GSmiJaOJyGmlkJTwGxvG8+xd
+ BbXjsr3d8ptNYk3AP0XatxJ6sy4ieGA=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-fS2aNTz0OJqlicIBzYTsAA-1; Tue, 06 Oct 2020 07:12:38 -0400
-X-MC-Unique: fS2aNTz0OJqlicIBzYTsAA-1
-Received: by mail-wm1-f71.google.com with SMTP id f2so577564wml.6
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 04:12:38 -0700 (PDT)
+ us-mta-39-xq9k0j18OQWFh-bBf7X2bg-1; Tue, 06 Oct 2020 07:12:43 -0400
+X-MC-Unique: xq9k0j18OQWFh-bBf7X2bg-1
+Received: by mail-wm1-f71.google.com with SMTP id 73so579921wma.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 04:12:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PYkBU6VF5ZzK1I4YI1vWYKaFknMzqMpMtEs81El0mHU=;
- b=DZqEJGkbs+Zg08C2zdmOBy5q/sTcMd9jaI6IVh65CLwg4xBGDBRDAn4ZcgSQjQOkgv
- eTbv060BbwkY//RddWFfIgKriAgckOeX1MzAQfggKjAF8eSh7Z3RL9GobvVTJ97fqMKr
- po0FgUfy7MTkeTgKbKeaJaiLDAeJf54/wex1OYnJ4E3PZKSi4QWkltXakNQaIE/DaRGI
- ZyeqG5XdM4chCtcu+h/8mL+kHFf4/fFYZ/43HmE4mHTU9MC7TfoGy2mlBBtI9B4pwMLl
- PbpilBlISWKTR+ynUbjH9KxfGqV/EWzSVGhO0BJONVpWgWPpmSOtljgPgZ7Eg8YwovHv
- NJXw==
-X-Gm-Message-State: AOAM5305dF5w8RAzNyMs2PyF/bE2x/Hob6ypWuaDJm+/KpcLdeEjIGo1
- AdAi66jZEDbspPx9ywhHeRFLuS7VS96EBgS/rtA/3jVCxY3D43/13Ap9Nwo+u1IxXBnHb98BuJL
- lWy7HtfLfupVP1Eg=
-X-Received: by 2002:adf:ffca:: with SMTP id x10mr4701396wrs.342.1601982756820; 
- Tue, 06 Oct 2020 04:12:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhGhdihiyG8syFi/DhBcvQlSeDSbWVfJPx6xBrlh/vCCnxcssjdTYuqHUFld06u0bU1sePdw==
-X-Received: by 2002:adf:ffca:: with SMTP id x10mr4701380wrs.342.1601982756679; 
- Tue, 06 Oct 2020 04:12:36 -0700 (PDT)
+ bh=8HCla72Ii7oikn9r1xa5R26+ZMQNPzJ2LVPz4WtA74I=;
+ b=EAhyeDv8PF1s9EA9Gp9mafSAAzLRlFlVRxIxVGfZWaP9l/RPCGqMZBnmQ43dKxZQu0
+ RTvwp3nSVEPP3NzRZ14Mik0ggpnhEIWLOJzoheaBvgEKyiVFoCdNsp17eBrPp09gK5OH
+ EAWzT2h8fAGYlzHXyGbey7zAcyPFf4HQwLr+4W7s66+nlerC72CIlvpsePhn+jTMiJdH
+ /qzj+MjuB4VCWPMMJRF09hIIVOz6GrOsvWkdcQzA6Q02vM8rFSVy3Gd8CcycNE1TQctW
+ S9NzSSZHLrKCkiINk7L2R4UIbUJN6ehbBQB1WExHY0DL9OV/mZXutss1llTK5VXAgf3r
+ 22+A==
+X-Gm-Message-State: AOAM533bwZrr9hGaI6180zNb3KV7ryrYu/KPGUbFm+6woaVahtB2Skgm
+ hBbE1S1fhuYlhCkhsOO31TN57Y4kTaH2SWmUYajlCJVx94CiujM+Rc86nfw48Cv1l+Srg6BfS4d
+ zZUFAMH55GTnaUbM=
+X-Received: by 2002:a1c:c908:: with SMTP id f8mr2390575wmb.28.1601982761861;
+ Tue, 06 Oct 2020 04:12:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlneto9wIwjvwYY63A2wQ5BaGTqaKUG2HUWPejnDShumhTXIWs8vBeDDYbU6Ra3PjrBL1Yhw==
+X-Received: by 2002:a1c:c908:: with SMTP id f8mr2390549wmb.28.1601982761662;
+ Tue, 06 Oct 2020 04:12:41 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id t124sm3713371wmg.31.2020.10.06.04.12.35
+ by smtp.gmail.com with ESMTPSA id a5sm4026965wrp.37.2020.10.06.04.12.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 04:12:35 -0700 (PDT)
+ Tue, 06 Oct 2020 04:12:40 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/10] meson.build: Sort sourcesets alphabetically
-Date: Tue,  6 Oct 2020 13:12:12 +0200
-Message-Id: <20201006111219.2300921-4-philmd@redhat.com>
+Subject: [PATCH 04/10] hw/core: Move the creation of the library to the main
+ meson.build
+Date: Tue,  6 Oct 2020 13:12:13 +0200
+Message-Id: <20201006111219.2300921-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006111219.2300921-1-philmd@redhat.com>
 References: <20201006111219.2300921-1-philmd@redhat.com>
@@ -72,16 +73,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,45 +105,50 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Be consistent creating all the libraries in the main meson.build file.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ meson.build         | 7 +++++++
+ hw/core/meson.build | 6 ------
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index eaff16d482..fc7792b769 100644
+index fc7792b769..ccfa3e9531 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1059,19 +1059,19 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
+@@ -1346,6 +1346,13 @@ libqmp = static_library('qmp', qmp_ss.sources() + genh,
  
- # Collect sourcesets.
+ qmp = declare_dependency(link_whole: [libqmp])
  
--util_ss = ss.source_set()
-+blockdev_ss = ss.source_set()
-+block_ss = ss.source_set()
-+bsd_user_ss = ss.source_set()
-+common_ss = ss.source_set()
-+linux_user_ss = ss.source_set()
-+qmp_ss = ss.source_set()
-+softmmu_ss = ss.source_set()
-+specific_fuzz_ss = ss.source_set()
-+specific_ss = ss.source_set()
- stub_ss = ss.source_set()
- trace_ss = ss.source_set()
--block_ss = ss.source_set()
--blockdev_ss = ss.source_set()
--qmp_ss = ss.source_set()
--common_ss = ss.source_set()
--softmmu_ss = ss.source_set()
- user_ss = ss.source_set()
--bsd_user_ss = ss.source_set()
--linux_user_ss = ss.source_set()
--specific_ss = ss.source_set()
--specific_fuzz_ss = ss.source_set()
-+util_ss = ss.source_set()
++libhwcore = static_library('hwcore', sources: hwcore_files + genh,
++                           name_suffix: 'fa',
++                           build_by_default: false)
++hwcore = declare_dependency(link_whole: libhwcore)
++common_ss.add(hwcore)
++
++
+ foreach m : block_mods + softmmu_mods
+   shared_module(m.name(),
+                 name_prefix: '',
+diff --git a/hw/core/meson.build b/hw/core/meson.build
+index fc91f98075..4a744f3b5e 100644
+--- a/hw/core/meson.build
++++ b/hw/core/meson.build
+@@ -14,12 +14,6 @@ hwcore_files = files(
+   'qdev-clock.c',
+ )
  
- modules = {}
- hw_arch = {}
+-libhwcore = static_library('hwcore', sources: hwcore_files + genh,
+-                           name_suffix: 'fa',
+-                           build_by_default: false)
+-hwcore = declare_dependency(link_whole: libhwcore)
+-common_ss.add(hwcore)
+-
+ common_ss.add(files('cpu.c'))
+ common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
+ common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
 -- 
 2.26.2
 
