@@ -2,90 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54748285226
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 21:12:50 +0200 (CEST)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 172C728531A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 22:29:52 +0200 (CEST)
+Received: from localhost ([::1]:53896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPsOG-000218-UN
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 15:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37782)
+	id 1kPtao-000764-Mc
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 16:29:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPsMr-0001Rr-Dz
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 15:11:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPsMn-0002nU-T3
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 15:11:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602011476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gu7uILQ5q6vtIVjI7AlaXqDPWX2hrIPmZYov77uRlw4=;
- b=J/XU+j/86H2dQHtt7UZhaCffnZk2qtcaSwqC/Cvv3eG+7h+cS34r9JNv9CxcDouiS+33LR
- GJSPuTLh9Do39SuRmzpx60aUoF6LeuvpUikKW3uEWyYy1KGO61m7g0cHZidt2Jqs77QjcY
- lyPIW27Yq3N06quX6G8tqHwMzb4iAZs=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-oGMQCo85PEKzrIbTZhm2jA-1; Tue, 06 Oct 2020 15:11:13 -0400
-X-MC-Unique: oGMQCo85PEKzrIbTZhm2jA-1
-Received: by mail-ej1-f69.google.com with SMTP id c20so6200820ejs.12
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 12:11:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <snizovtsev@gmail.com>)
+ id 1kPsVv-0003LD-R7; Tue, 06 Oct 2020 15:20:43 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:45951)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <snizovtsev@gmail.com>)
+ id 1kPsVs-0003nd-Gv; Tue, 06 Oct 2020 15:20:43 -0400
+Received: by mail-lf1-x143.google.com with SMTP id r127so11762281lff.12;
+ Tue, 06 Oct 2020 12:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=6AkVONyoTkSImby3ZNRNogUCs9cq0OC9dqQa6gInFYI=;
+ b=MBrJhfO1pVMR6KL7AbXpcEAh9AGQ/iWA7Qluz6HJ8SHhjkXqHygkHdVDNy69H/6ZXT
+ DemX8aLNm30UBhL+dCLWIRP7JHGIYQMfACAU7qImVpMqhFm4k6If1BspuTYm7KaJMRwU
+ Dw10UJU/HZbR77JN61e0iRLRnGMwAP2iJio7qIiCOFPm8tWI0FikRzkOBIeSxmQPu/bk
+ QuI6qwp3WduUThtaaKz5l44ESRVgAMsxkMD/noz4VNNfDvSI1TC/0hmLIgAfvjkWG6YT
+ hUKZVyUH8UUz6aFRugtJZMn8unGVDQ3pKt9ZG6oh5dIW9qQf25Oq3dxiOhH4uA6wdhGa
+ IZdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gu7uILQ5q6vtIVjI7AlaXqDPWX2hrIPmZYov77uRlw4=;
- b=PF2jKISujR4zhR53FJW0o81rEkC7RaTW8vw5/3Oin1Nag+sROacWmhubcvZ4PTZvX0
- y3f/SVr9jHOaBvQZEmr1vc+hPrR1OlPxbV6x+kbpchTrraCF4eSk43nuoEUBc1249GVz
- o18ap3EfLvOgur3eg6fau83RPtyb6IA1Z0HFHK3rBEdMARJ0VaYsE8lfdLxOpegVovXG
- qDH9NuI4vRGPdQh62lx7UFEojCCeHDlHHytuV18WhmK0uyMa7psEQesrArca/s4dJvPg
- KkJ8BmE93cAAMx2Bxm2MKzwtYTB1dfZYKe1HQOlqpqmFjZkF8bely77adSgo31Qd4ZAQ
- ssMA==
-X-Gm-Message-State: AOAM531KGa/Ac15jjbBzWeLJyO1raF5k5I/8sW5Fld7fqnoiK2WQHaxl
- nLBqS+aqisMFuHxJx9KZU1Ee8EvPoPko2vR0rI/UVWQtS8jFLJTC+8pK+fou7YnAlTwsXCghjFf
- y0lsqFNGMWfzrmHC35YH1WAWaLiKOta4=
-X-Received: by 2002:a17:906:b043:: with SMTP id
- bj3mr991484ejb.543.1602011471961; 
- Tue, 06 Oct 2020 12:11:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbzdfngIVyXS8qFRnjbL4Q9CRAzTWNVShuauLSvolaN9twQENpMS2WM2eoGRexANvaQNstMdWXcE96vod1uvw=
-X-Received: by 2002:a17:906:b043:: with SMTP id
- bj3mr991458ejb.543.1602011471641; 
- Tue, 06 Oct 2020 12:11:11 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=6AkVONyoTkSImby3ZNRNogUCs9cq0OC9dqQa6gInFYI=;
+ b=RfQ2LIosoal7K6D80FrZqxhh7Plg2vi7ueWxQh7l74EHHtpO1YnMmOzfLUpewuZHrB
+ S4cUi4QP6ZeMTGDDm922DrgZ++L52hupXTAeO0n5Kh/n6pq3GKUHygBwPiHa8Od5+A0m
+ u7v4wAzgFKstQrxpikJZInmq0STUKBiUas6Ym6uFbfTt3d/77amtk894LJgqLcfsyANp
+ hfetfaefsXlhFq5nCqbJiUY8aaCuXpTvgd1c6mcH1gUFCbRlfiiNT//weyQ6TWD9sEWC
+ krfuNg9V7w8Op5mw/uSl9rf3OWITU8ikLnT7l7910QpzK1FDdYOrSJpbvcyTK32g79wL
+ IgdQ==
+X-Gm-Message-State: AOAM5300oRIaB6zS5GQVDQ2NSywKXmWRBG0qxTshGUFR/LsrKyKKAxYN
+ Y8qlPSbX72v580zzMplpZf8=
+X-Google-Smtp-Source: ABdhPJzp2Esgs4zuW9KK01JW3LLcymg4CNAKSBUSPd9rsG/uJsGcTmf8dsaMgLb4m7IGebC/PzbR2w==
+X-Received: by 2002:a19:ae0e:: with SMTP id f14mr922046lfc.249.1602012037821; 
+ Tue, 06 Oct 2020 12:20:37 -0700 (PDT)
+Received: from winnie ([2a02:2168:a1e1:7f00:efc9:8465:4b3a:8d04])
+ by smtp.gmail.com with ESMTPSA id m22sm712725lfb.27.2020.10.06.12.20.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Oct 2020 12:20:36 -0700 (PDT)
+Message-ID: <ea2f637545fb0dbc21cb7d6ff2b7839307d06b3f.camel@gmail.com>
+Subject: Re: [PATCH] qom: fix objects with improper parent type
+From: snizovtsev@gmail.com
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Tue, 06 Oct 2020 22:20:35 +0300
+In-Reply-To: <20201006015528-mutt-send-email-mst@kernel.org>
+References: <CAHOaf96qxm6_qigD+DuoJ5GpS9rOqXe4Gv=2UnujiiwcfN0HHQ@mail.gmail.com>
+ <20201006015528-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 
 MIME-Version: 1.0
-References: <20201005211000.710404-1-ehabkost@redhat.com>
- <CAFEAcA_+4b4HHP_8BBqqy+QmoyF6Lx1jmuFvcsbW5THZQDrXww@mail.gmail.com>
- <20201006143637.GP7303@habkost.net>
- <CAFEAcA97upqUtasSsg+wxLFvak5rz+t3DBD7zMu4dnwvpw73AQ@mail.gmail.com>
- <20201006144215.GK2482221@redhat.com>
- <deb55fbb-637b-0b94-6efb-c508c5dc691a@redhat.com>
-In-Reply-To: <deb55fbb-637b-0b94-6efb-c508c5dc691a@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 6 Oct 2020 21:10:59 +0200
-Message-ID: <CABgObfbMLLGaw7XcjxtjyXrXSWNcUo_S6HnTsmVgC=7LHiV1kg@mail.gmail.com>
-Subject: Re: [PULL 00/21] machine + QOM queue, 2020-10-05
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000b243b905b1055cf1"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::143;
+ envelope-from=snizovtsev@gmail.com; helo=mail-lf1-x143.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 06 Oct 2020 16:27:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,69 +85,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b243b905b1055cf1
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 2020-10-06 at 01:55 -0400, Michael S. Tsirkin wrote:
+> On Tue, Sep 29, 2020 at 04:47:14PM -0700, Sergey Nizovtsev wrote:
+> > Some objects accidentally inherit ObjectClass instead of Object.
+> > They compile silently but may crash after downcasting.
+> > 
+> > In this patch, we introduce a coccinelle script to find broken
+> > declarations and fix them manually with proper base type.
+> > 
+> > Signed-off-by: Sergey Nizovtsev <snizovtsev@gmail.com>
+> 
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> which tree should this go in through?
 
-Il mar 6 ott 2020, 20:47 Thomas Huth <thuth@redhat.com> ha scritto:
+Well, since this may only affect some generic QOM walking code, i
+suggest it goes in QOM/QObject/QMP related tree.
 
-> I think Cirrus-CI needs a github account? Is there a way to use Gitlab now
-> instead? (just like Travis recently added Gitlab support?)
->
+So, `scripts/get_maintainer.pl -f qom/object.c`:
 
-It does only support GitHub. In theory you can set up an automatic push
-from Gitlab to GitHub but it doesn't work well if you force push to the
-Gitlab repository.
++CC Paolo Bonzini <pbonzini@redhat.com>
+-CC Ben Warren <ben@skyportsystems.com>
 
-We should eventually set up the cirrus-run tool, so we can use gitlab, too,
-> but I think you then still need at least a dummy github account to be able
-> to use it, don't you?
->
+On Tue, 2020-10-06 at 00:06 +0400, Marc-André Lureau wrote:
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Yes, that's correct.
+On Mon, 2020-10-05 at 18:47 +0200, Igor Mammedov wrote:
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-Paolo
-
-
->   Thomas
->
->
-
---000000000000b243b905b1055cf1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mar 6 ott 2020, 20:47 Thomas Huth &lt;<a href=3D"ma=
-ilto:thuth@redhat.com" target=3D"_blank" rel=3D"noreferrer">thuth@redhat.co=
-m</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I think Cirru=
-s-CI needs a github account? Is there a way to use Gitlab now <br>
-instead? (just like Travis recently added Gitlab support?)<br></blockquote>=
-</div></div><div dir=3D"auto"><br></div><div dir=3D"auto">It does only supp=
-ort GitHub. In theory you can set up an automatic push from Gitlab to GitHu=
-b but it doesn&#39;t work well if you force push to the Gitlab repository.<=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quot=
-e"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">We should eventually set up the cirrus-ru=
-n tool, so we can use gitlab, too, <br>
-but I think you then still need at least a dummy github account to be able =
-<br>
-to use it, don&#39;t you?<br></blockquote></div></div><div dir=3D"auto"><br=
-></div><div dir=3D"auto">Yes, that&#39;s correct.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-=C2=A0 Thomas<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000b243b905b1055cf1--
+> 
+> > ---
+> >  scripts/coccinelle/qobject-parent-type.cocci | 26
+> > ++++++++++++++++++++
+> >  include/hw/acpi/vmgenid.h                    |  2 +-
+> >  include/hw/misc/vmcoreinfo.h                 |  2 +-
+> >  include/net/can_host.h                       |  2 +-
+> >  MAINTAINERS                                  |  1 +
+> >  5 files changed, 30 insertions(+), 3 deletions(-)
+> >  create mode 100644 scripts/coccinelle/qobject-parent-type.cocci
+> > 
+> > diff --git a/scripts/coccinelle/qobject-parent-type.cocci
+> > b/scripts/coccinelle/qobject-parent-type.cocci
+> > new file mode 100644
+> > index 0000000000..9afb3edd97
+> > --- /dev/null
+> > +++ b/scripts/coccinelle/qobject-parent-type.cocci
+> > @@ -0,0 +1,26 @@
+> > +// Highlight object declarations that don't look like object class
+> > but
+> > +// accidentally inherit from it.
+> > +
+> > +@match@
+> > +identifier obj_t, fld;
+> > +type parent_t =~ ".*Class$";
+> > +@@
+> > +struct obj_t {
+> > +    parent_t fld;
+> > +    ...
+> > +};
+> > +
+> > +@script:python filter depends on match@
+> > +obj_t << match.obj_t;
+> > +@@
+> > +is_class_obj = obj_t.endswith('Class')
+> > +cocci.include_match(not is_class_obj)
+> > +
+> > +@replacement depends on filter@
+> > +identifier match.obj_t, match.fld;
+> > +type match.parent_t;
+> > +@@
+> > +struct obj_t {
+> > +*   parent_t fld;
+> > +    ...
+> > +};
+> > diff --git a/include/hw/acpi/vmgenid.h b/include/hw/acpi/vmgenid.h
+> > index d50fbacb8e..cb4ad37fc5 100644
+> > --- a/include/hw/acpi/vmgenid.h
+> > +++ b/include/hw/acpi/vmgenid.h
+> > @@ -19,7 +19,7 @@
+> >  OBJECT_DECLARE_SIMPLE_TYPE(VmGenIdState, VMGENID)
+> > 
+> >  struct VmGenIdState {
+> > -    DeviceClass parent_obj;
+> > +    DeviceState parent_obj;
+> >      QemuUUID guid;                /* The 128-bit GUID seen by the
+> > guest */
+> >      uint8_t vmgenid_addr_le[8];   /* Address of the GUID (little-
+> > endian) */
+> >  };
+> > diff --git a/include/hw/misc/vmcoreinfo.h
+> > b/include/hw/misc/vmcoreinfo.h
+> > index ebada6617a..0b7b55d400 100644
+> > --- a/include/hw/misc/vmcoreinfo.h
+> > +++ b/include/hw/misc/vmcoreinfo.h
+> > @@ -24,7 +24,7 @@ DECLARE_INSTANCE_CHECKER(VMCoreInfoState,
+> > VMCOREINFO,
+> >  typedef struct fw_cfg_vmcoreinfo FWCfgVMCoreInfo;
+> > 
+> >  struct VMCoreInfoState {
+> > -    DeviceClass parent_obj;
+> > +    DeviceState parent_obj;
+> > 
+> >      bool has_vmcoreinfo;
+> >      FWCfgVMCoreInfo vmcoreinfo;
+> > diff --git a/include/net/can_host.h b/include/net/can_host.h
+> > index 4e3ce3f954..caab71bdda 100644
+> > --- a/include/net/can_host.h
+> > +++ b/include/net/can_host.h
+> > @@ -35,7 +35,7 @@
+> >  OBJECT_DECLARE_TYPE(CanHostState, CanHostClass, CAN_HOST)
+> > 
+> >  struct CanHostState {
+> > -    ObjectClass oc;
+> > +    Object oc;
+> > 
+> >      CanBusState *bus;
+> >      CanBusClientState bus_client;
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 5eed1e692b..2160b8196a 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -2402,6 +2402,7 @@ F: qobject/
+> >  F: include/qapi/qmp/
+> >  X: include/qapi/qmp/dispatch.h
+> >  F: scripts/coccinelle/qobject.cocci
+> > +F: scripts/coccinelle/qobject-parent-type.cocci
+> >  F: tests/check-qdict.c
+> >  F: tests/check-qjson.c
+> >  F: tests/check-qlist.c
+> > -- 
+> > 2.28.0
 
 
