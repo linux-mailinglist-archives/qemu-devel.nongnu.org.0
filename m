@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB14128545C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:15:37 +0200 (CEST)
-Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF1C285458
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:12:10 +0200 (CEST)
+Received: from localhost ([::1]:46526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPvFA-00032N-Ml
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:15:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45234)
+	id 1kPvBp-0008TK-5b
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9X-0006dH-CD
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:09:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53417)
+ id 1kPv9W-0006aI-2Q
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:09:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9V-0006Nw-6B
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:09:47 -0400
+ id 1kPv9U-0006Np-Dz
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:09:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602022184;
+ s=mimecast20190719; t=1602022183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TQrJR/6dMGOXDTDBtU3yQvNtbCLkiFO0qMnbgwdKuNQ=;
- b=SVyrGzXb0L0hf4gIISAneLlzPb+gflk9NL8AkQVFsRYo5ELhOggSszqfxl7A9zSc4DtWJy
- c0hyCdveu8c3OTqqMHpZq7Z9LUJHJawuCJsHRDMTi9/U933tfBKdY0Ex26uOOXxPb0Ej0K
- Lg1xQTeGuC/m4GwaJBfDwqSo9PHrKjc=
+ bh=Tob52WJXbRQTgBbAGe3gjemoLfoU6QvcwdYp5p4ZS+c=;
+ b=KUBiJBYmPek7+Z1SMSJCpO8nC17yLZIj9xz165L8s9DNyZpBvJlkGiLFhVszYytTQcFtKy
+ uChM+PuCHuHn7mr0nVEslWRB36PX01BdbjVzI40d/dzh5dWIpcM9DXWchiLxMv44KDDjCg
+ TAObOPlV9+vQ1dT2fvChOS7wEIxTmvo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-mpwyeuacO7OeOVp3ydzRXQ-1; Tue, 06 Oct 2020 18:09:40 -0400
-X-MC-Unique: mpwyeuacO7OeOVp3ydzRXQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-493-EMHPQUpKM6KyZD61LhpHmQ-1; Tue, 06 Oct 2020 18:09:41 -0400
+X-MC-Unique: EMHPQUpKM6KyZD61LhpHmQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D13B1007472;
- Tue,  6 Oct 2020 22:09:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D9A8804015;
+ Tue,  6 Oct 2020 22:09:40 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0089B55770;
- Tue,  6 Oct 2020 22:09:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 25ED76115F;
+ Tue,  6 Oct 2020 22:09:39 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/21] hw/core/qdev-properties: Use qemu_strtoul() in
- set_pci_host_devaddr()
-Date: Tue,  6 Oct 2020 18:09:11 -0400
-Message-Id: <20201006220930.908275-3-ehabkost@redhat.com>
+Subject: [PULL 03/21] hw/core/qdev-properties: Fix code style
+Date: Tue,  6 Oct 2020 18:09:12 -0400
+Message-Id: <20201006220930.908275-4-ehabkost@redhat.com>
 In-Reply-To: <20201006220930.908275-1-ehabkost@redhat.com>
 References: <20201006220930.908275-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,78 +91,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Replace strtoul() by qemu_strtoul() so checkpatch.pl won't complain
-if we move this code later.
+We will soon move this code, fix its style to avoid checkpatch.pl
+to complain.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200930164949.1425294-4-philmd@redhat.com>
+Message-Id: <20200930164949.1425294-5-philmd@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/core/qdev-properties.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ hw/core/qdev-properties.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 080ba319a1..a1190a5db9 100644
+index a1190a5db9..071fd5864a 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -951,7 +951,7 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
-     Property *prop = opaque;
-     PCIHostDeviceAddress *addr = qdev_get_prop_ptr(dev, prop);
-     char *str, *p;
--    char *e;
-+    const char *e;
-     unsigned long val;
-     unsigned long dom = 0, bus = 0;
-     unsigned int slot = 0, func = 0;
-@@ -966,23 +966,23 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
-     }
- 
-     p = str;
--    val = strtoul(p, &e, 16);
--    if (e == p || *e != ':') {
-+    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xffff || e == p) {
-+        goto inval;
-+    }
-+    if (*e != ':') {
-         goto inval;
-     }
-     bus = val;
- 
--    p = e + 1;
--    val = strtoul(p, &e, 16);
--    if (e == p) {
-+    p = (char *)e + 1;
-+    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
-         goto inval;
-     }
-     if (*e == ':') {
-         dom = bus;
-         bus = val;
--        p = e + 1;
--        val = strtoul(p, &e, 16);
--        if (e == p) {
-+        p = (char *)e + 1;
-+        if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
+@@ -543,15 +543,15 @@ static void set_mac(Object *obj, Visitor *v, const char *name, void *opaque,
+         if (!qemu_isxdigit(str[pos])) {
              goto inval;
          }
-     }
-@@ -991,14 +991,13 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
-     if (*e != '.') {
-         goto inval;
-     }
--    p = e + 1;
--    val = strtoul(p, &e, 10);
--    if (e == p) {
-+    p = (char *)e + 1;
-+    if (qemu_strtoul(p, &e, 10, &val) < 0 || val > 7 || e == p) {
-         goto inval;
-     }
-     func = val;
- 
--    if (dom > 0xffff || bus > 0xff || slot > 0x1f || func > 7) {
-+    if (bus > 0xff) {
-         goto inval;
+-        if (!qemu_isxdigit(str[pos+1])) {
++        if (!qemu_isxdigit(str[pos + 1])) {
+             goto inval;
+         }
+         if (i == 5) {
+-            if (str[pos+2] != '\0') {
++            if (str[pos + 2] != '\0') {
+                 goto inval;
+             }
+         } else {
+-            if (str[pos+2] != ':' && str[pos+2] != '-') {
++            if (str[pos + 2] != ':' && str[pos + 2] != '-') {
+                 goto inval;
+             }
+         }
+@@ -898,8 +898,8 @@ static void set_blocksize(Object *obj, Visitor *v, const char *name,
+     /* We rely on power-of-2 blocksizes for bitmasks */
+     if ((value & (value - 1)) != 0) {
+         error_setg(errp,
+-                  "Property %s.%s doesn't take value '%" PRId64 "', it's not a power of 2",
+-                  dev->id ?: "", name, (int64_t)value);
++                  "Property %s.%s doesn't take value '%" PRId64 "', "
++                  "it's not a power of 2", dev->id ?: "", name, (int64_t)value);
+         return;
      }
  
 -- 
