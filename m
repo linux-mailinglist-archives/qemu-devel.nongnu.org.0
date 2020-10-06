@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985B62847DE
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:53:22 +0200 (CEST)
-Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0E72847DF
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:53:23 +0200 (CEST)
+Received: from localhost ([::1]:49792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhmj-0006ll-LB
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:53:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43472)
+	id 1kPhmk-0006ou-95
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:53:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kPhkR-0005A8-0U
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:50:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47266)
+ id 1kPhkQ-0005A2-72
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:50:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kPhkO-0004Cm-59
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:50:58 -0400
+ id 1kPhkO-0004Cn-2P
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:50:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kPhkK-0000hH-Vv
+ id 1kPhkL-0000gT-8R
  for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 07:50:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E829A2E80F1
- for <qemu-devel@nongnu.org>; Tue,  6 Oct 2020 07:50:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 65ABB2E8138
+ for <qemu-devel@nongnu.org>; Tue,  6 Oct 2020 07:50:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Oct 2020 07:36:36 -0000
+Date: Tue, 06 Oct 2020 07:38:38 -0000
 From: Dims <1772165@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,14 +44,14 @@ X-Launchpad-Bug-Commenters: aditya-govardhan andrew-pennebaker clemd davbac
 X-Launchpad-Bug-Reporter: George (vortelf)
 X-Launchpad-Bug-Modifier: Dims (dims)
 References: <152673688616.9061.7617411809661975686.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160196979615.8923.16612148173448828382.malone@wampee.canonical.com>
+Message-Id: <160196991810.4883.10416874322597825081.malone@soybean.canonical.com>
 Subject: [Bug 1772165] Re: arm raspi2/raspi3 emulation has no USB support
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 0fce5cbd20c3c80414bc7c33d59fd8e666a1668d
+X-Launchpad-Hash: d2cd9abc5405b6f194ffbc68af8eab981eb3d98f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 03:50:54
@@ -78,17 +78,40 @@ Reply-To: Bug 1772165 <1772165@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I did this, but still can't access USB device, connected to host, from
-guest.
+Command lines I use are like following
 
-Also I have
+$QEMU_EXE \
+    -kernel qemu-rpi-kernel/kernel-qemu-4.4.34-jessie \
+    -cpu arm1176 \
+    -m 256 \
+    -M versatilepb \
+    -append "dwc_otg.lpm_enable=3D0 root=3D/dev/sda2 panic=3D1" \
+    -hda 2017-07-05-raspbian-jessie.img \
+    -usb \
+    -nic user \
+    -serial stdio \
+    -no-reboot \
 
-$ lsusb
-unable to initalize libusb: -99
 
-on guest.
+# -device usb-dwc2 \
+# -device usb-host,hostbus=3D1,hostport=3D3 \
 
-Playing with usb options gave nothing.
+
+# -usb \
+# -device qemu-xhci,id=3Dxhci \
+    =
+
+
+# -device usb-net,netdev=3Dmynet0 \
+# -netdev user,id=3Dmynet0,net=3D192.168.10.0/24,dhcpstart=3D192.168.10.1 \
+    =
+
+
+#-usb \
+   =
+
+# -device qemu-xhci \
+# -device usb-ehci,id=3Dehci \
 
 -- =
 
