@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AA028547A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:24:24 +0200 (CEST)
-Received: from localhost ([::1]:48960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3125C285488
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:26:56 +0200 (CEST)
+Received: from localhost ([::1]:55374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPvNf-0004Uk-SZ
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:24:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45390)
+	id 1kPvQ7-0007Dt-7N
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9p-0006x9-9G
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33894)
+ id 1kPv9w-0006yu-A6
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9g-0006QK-IH
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:03 -0400
+ id 1kPv9k-0006Qb-DO
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602022195;
+ s=mimecast20190719; t=1602022197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0/DM8LdvkAX3OKo9k6OAPh30L61ayGkkr7+pmXORRKQ=;
- b=ReRCt/lz55Ke98ol9aD+3ZtZbaK3SQy4//wyjduMd5lvfgK/+V4XXBd3SG4YWvl5z43ER7
- qVs9VddwyjcuYyfyTq5uzaoSsXNhTWvEj3uYqELEfQXBQlI7uIL3ZeoUyZhCN7NpBT1PDP
- 2QahbfXvFZA0xPqKQWeE5OP/b0FT01M=
+ bh=TxzBiWyZbfg1Cf7kyIFDKW2qT3du2mroxbtRPNPBeLQ=;
+ b=HXET2XzU6TjfHDit1VWjV+UErFMiC1U8v20J6W9BZRQKalrQomAASz1zMKl1VQHC31xdmN
+ q56bSJtY7zdOk429DS3l81uTr0prszzY9zIks0UGJQc9M9noKK7tiYO9nW3xPHXRZLkodA
+ mnx8AoDQ6Zee6Q0cCHKpAa8HRNWXCFg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-NUA-zrhyNSG48PNjeFtcRA-1; Tue, 06 Oct 2020 18:09:53 -0400
-X-MC-Unique: NUA-zrhyNSG48PNjeFtcRA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-285-_YMKmGEHMlu6-I5vOGuJRw-1; Tue, 06 Oct 2020 18:09:54 -0400
+X-MC-Unique: _YMKmGEHMlu6-I5vOGuJRw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CBD180400D;
- Tue,  6 Oct 2020 22:09:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98BB510082E6;
+ Tue,  6 Oct 2020 22:09:53 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43A8038A;
- Tue,  6 Oct 2020 22:09:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C98C76641;
+ Tue,  6 Oct 2020 22:09:53 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 13/21] docs/devel/qom: Use *emphasis* for emphasis
-Date: Tue,  6 Oct 2020 18:09:22 -0400
-Message-Id: <20201006220930.908275-14-ehabkost@redhat.com>
+Subject: [PULL 14/21] docs/devel/qom: Remove usage of <code>
+Date: Tue,  6 Oct 2020 18:09:23 -0400
+Message-Id: <20201006220930.908275-15-ehabkost@redhat.com>
 In-Reply-To: <20201006220930.908275-1-ehabkost@redhat.com>
 References: <20201006220930.908275-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
@@ -83,47 +83,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-<emphasis> is not valid reST syntax.
+<code> is not valid reST syntax.
+
+Function @argument references don't need additional markup, so
+just remove <code></code>.
+
+Constants were changed to use reST ``code`` syntax
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201003025424.199291-5-ehabkost@redhat.com>
+Message-Id: <20201003025424.199291-6-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- docs/devel/qom.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/qom/object.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-index a47e1b9a23..0c610e20d6 100644
---- a/docs/devel/qom.rst
-+++ b/docs/devel/qom.rst
-@@ -174,17 +174,17 @@ dynamically cast it to an object that implements the interface.
- Methods
- =======
- 
--A <emphasis>method</emphasis> is a function within the namespace scope of
-+A *method* is a function within the namespace scope of
- a class. It usually operates on the object instance by passing it as a
- strongly-typed first argument.
- If it does not operate on an object instance, it is dubbed
--<emphasis>class method</emphasis>.
-+*class method*.
- 
- Methods cannot be overloaded. That is, the #ObjectClass and method name
- uniquely identity the function to be called; the signature does not vary
- except for trailing varargs.
- 
--Methods are always <emphasis>virtual</emphasis>. Overriding a method in
-+Methods are always *virtual*. Overriding a method in
- #TypeInfo.class_init of a subclass leads to any user of the class obtained
- via OBJECT_GET_CLASS() accessing the overridden function.
- The original function is not automatically invoked. It is the responsibility
+diff --git a/include/qom/object.h b/include/qom/object.h
+index de121d8d8e..e80092f349 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1256,7 +1256,7 @@ char *object_property_get_str(Object *obj, const char *name,
+  * Writes an object's canonical path to a property.
+  *
+  * If the link property was created with
+- * <code>OBJ_PROP_LINK_STRONG</code> bit, the old target object is
++ * %OBJ_PROP_LINK_STRONG bit, the old target object is
+  * unreferenced, and a reference is added to the new target object.
+  *
+  * Returns: %true on success, %false on failure.
+@@ -1603,16 +1603,16 @@ void object_property_allow_set_link(const Object *obj, const char *name,
+  *
+  * Links form the graph in the object model.
+  *
+- * The <code>@check()</code> callback is invoked when
++ * The @check() callback is invoked when
+  * object_property_set_link() is called and can raise an error to prevent the
+- * link being set.  If <code>@check</code> is NULL, the property is read-only
++ * link being set.  If @check is NULL, the property is read-only
+  * and cannot be set.
+  *
+  * Ownership of the pointer that @child points to is transferred to the
+- * link property.  The reference count for <code>*@child</code> is
++ * link property.  The reference count for *@child is
+  * managed by the property from after the function returns till the
+  * property is deleted with object_property_del().  If the
+- * <code>@flags</code> <code>OBJ_PROP_LINK_STRONG</code> bit is set,
++ * @flags %OBJ_PROP_LINK_STRONG bit is set,
+  * the reference count is decremented when the property is deleted or
+  * modified.
+  *
+@@ -1823,7 +1823,7 @@ ObjectProperty *object_class_property_add_uint64_ptr(ObjectClass *klass,
+  * Add an alias for a property on an object.  This function will add a property
+  * of the same type as the forwarded property.
+  *
+- * The caller must ensure that <code>@target_obj</code> stays alive as long as
++ * The caller must ensure that @target_obj stays alive as long as
+  * this property exists.  In the case of a child object or an alias on the same
+  * object this will be the case.  For aliases to other objects the caller is
+  * responsible for taking a reference.
 -- 
 2.26.2
 
