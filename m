@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1542B284BD6
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 14:42:37 +0200 (CEST)
-Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94E9284BE9
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 14:45:35 +0200 (CEST)
+Received: from localhost ([::1]:56870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPmIe-00033a-4M
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 08:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56008)
+	id 1kPmLW-0006g1-Ra
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 08:45:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kPmFh-00017n-V1
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:39:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43495)
+ id 1kPmFq-0001Eh-3I
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:39:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kPmFe-0007uV-9c
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:39:33 -0400
+ id 1kPmFn-0007ux-PQ
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:39:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601987969;
+ s=mimecast20190719; t=1601987979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b7kcWylIzEeeuI/BDC+p1ghoUDjqkSMgRnDXz2QMLN0=;
- b=Etgfz7sMCoehM8qKrzBCTop6MU6vAFYrwb4T/b9LUwH32v5dtNrVF1d+lXyWKuYg2Pdc1Q
- dnFsOjytWfXg6ekTTLZjI2JYmeDqlW1xnDGQDTJ4eYuNmy2ZILn5NnC1po5KcWIKiqLC3c
- ahPrrn/39HFxkUXYLijNDxM3qdz6ZsQ=
+ bh=LUacnfjmsfZENYi2/nUXJJfEyX9gS6a5ILJs/13HHIU=;
+ b=HTcP4tWAvnlt4cQ88+KNEhfXa8VsGM8MsBBT9R9y0oowErC6DySwinExHJH1BV7al7HQS6
+ 9Olmu5tpRZT6+72cNGnTZv+Vd4oPLr+62m+KN2zKcX8woAPl0+c5vy77ze7kWa+0X9Ddgm
+ fJepdbimq5SVxdxMHGaYRB9XVQdFn9E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-0yojUnTFOx-OeC1oAfELzw-1; Tue, 06 Oct 2020 08:39:27 -0400
-X-MC-Unique: 0yojUnTFOx-OeC1oAfELzw-1
+ us-mta-253-8EBCAX8LN9aEE9lldLY8EQ-1; Tue, 06 Oct 2020 08:39:34 -0400
+X-MC-Unique: 8EBCAX8LN9aEE9lldLY8EQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 673E187950F;
- Tue,  6 Oct 2020 12:39:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 910A01015ECB;
+ Tue,  6 Oct 2020 12:39:33 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87DE555760;
- Tue,  6 Oct 2020 12:39:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D02442C31E;
+ Tue,  6 Oct 2020 12:39:26 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 03/13] qtest: switch users back to qtest_qmp_receive
-Date: Tue,  6 Oct 2020 15:38:54 +0300
-Message-Id: <20201006123904.610658-4-mlevitsk@redhat.com>
+Subject: [PATCH v7 04/13] qdev: add "check if address free" callback for buses
+Date: Tue,  6 Oct 2020 15:38:55 +0300
+Message-Id: <20201006123904.610658-5-mlevitsk@redhat.com>
 In-Reply-To: <20201006123904.610658-1-mlevitsk@redhat.com>
 References: <20201006123904.610658-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -92,340 +92,141 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only remaining users of qtest_qmp_receive_dict are tests
-that fuzz the QMP protocol.
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Tested with 'make check-qtest'.
+Check if an address is free on the bus before plugging in the
+device.  This makes it possible to do the check without any
+side effects, and to detect the problem early without having
+to do it in the realize callback.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/ahci-test.c         |  4 +-
- tests/qtest/device-plug-test.c  |  2 +-
- tests/qtest/drive_del-test.c    |  9 ++---
- tests/qtest/libqos/libqtest.h   | 17 ---------
- tests/qtest/libqtest.c          | 65 ++++-----------------------------
- tests/qtest/migration-helpers.c | 25 ++++++++++---
- tests/qtest/pvpanic-test.c      |  4 +-
- tests/qtest/tpm-util.c          |  8 +++-
- 8 files changed, 41 insertions(+), 93 deletions(-)
+ hw/core/qdev.c         | 17 +++++++++++++++--
+ hw/net/virtio-net.c    |  2 +-
+ hw/sd/core.c           |  3 ++-
+ include/hw/qdev-core.h | 13 ++++++++++++-
+ 4 files changed, 30 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
-index d42ebaeb4c..5e1954852e 100644
---- a/tests/qtest/ahci-test.c
-+++ b/tests/qtest/ahci-test.c
-@@ -1590,7 +1590,7 @@ static void test_atapi_tray(void)
-     qtest_qmp_send(ahci->parent->qts, "{'execute': 'blockdev-open-tray', "
-                     "'arguments': {'id': 'cd0'}}");
-     atapi_wait_tray(ahci, true);
--    rsp = qtest_qmp_receive_dict(ahci->parent->qts);
-+    rsp = qtest_qmp_receive(ahci->parent->qts);
-     qobject_unref(rsp);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 96772a15bd..74db78df36 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -94,13 +94,23 @@ static void bus_add_child(BusState *bus, DeviceState *child)
+                              0);
+ }
  
-     qmp_discard_response(ahci->parent->qts,
-@@ -1620,7 +1620,7 @@ static void test_atapi_tray(void)
-     qtest_qmp_send(ahci->parent->qts, "{'execute': 'blockdev-close-tray', "
-                    "'arguments': {'id': 'cd0'}}");
-     atapi_wait_tray(ahci, false);
--    rsp = qtest_qmp_receive_dict(ahci->parent->qts);
-+    rsp = qtest_qmp_receive(ahci->parent->qts);
-     qobject_unref(rsp);
- 
-     /* Now, to convince ATAPI we understand the media has changed... */
-diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index a2247856be..9214892741 100644
---- a/tests/qtest/device-plug-test.c
-+++ b/tests/qtest/device-plug-test.c
-@@ -23,7 +23,7 @@ static void device_del_start(QTestState *qtest, const char *id)
- 
- static void device_del_finish(QTestState *qtest)
- {
--    QDict *resp = qtest_qmp_receive_dict(qtest);
-+    QDict *resp = qtest_qmp_receive(qtest);
- 
-     g_assert(qdict_haskey(resp, "return"));
-     qobject_unref(resp);
-diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
-index ba0cd77445..9d20a1ed8b 100644
---- a/tests/qtest/drive_del-test.c
-+++ b/tests/qtest/drive_del-test.c
-@@ -15,9 +15,6 @@
- #include "libqos/virtio.h"
- #include "qapi/qmp/qdict.h"
- 
--/* TODO actually test the results and get rid of this */
--#define qmp_discard_response(q, ...) qobject_unref(qtest_qmp(q, __VA_ARGS__))
--
- static void drive_add(QTestState *qts)
- {
-     char *resp = qtest_hmp(qts, "drive_add 0 if=none,id=drive0");
-@@ -38,13 +35,13 @@ static void device_del(QTestState *qts)
- {
-     QDict *response;
- 
--    /* Complication: ignore DEVICE_DELETED event */
--    qmp_discard_response(qts, "{'execute': 'device_del',"
-+    response = qtest_qmp(qts, "{'execute': 'device_del',"
-                          " 'arguments': { 'id': 'dev0' } }");
--    response = qtest_qmp_receive_dict(qts);
-     g_assert(response);
-     g_assert(qdict_haskey(response, "return"));
-     qobject_unref(response);
+-void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
++static bool bus_check_address(BusState *bus, DeviceState *child, Error **errp)
++{
++    BusClass *bc = BUS_GET_CLASS(bus);
++    return !bc->check_address || bc->check_address(bus, child, errp);
++}
 +
-+    qtest_qmp_eventwait(qts, "DEVICE_DELETED");
- }
- 
- static void test_drive_without_dev(void)
-diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-index 19429a536d..a91e9e02e9 100644
---- a/tests/qtest/libqos/libqtest.h
-+++ b/tests/qtest/libqos/libqtest.h
-@@ -240,23 +240,6 @@ QDict *qtest_qmp_eventwait_ref(QTestState *s, const char *event);
-  */
- QDict *qtest_qmp_event_ref(QTestState *s, const char *event);
- 
--/**
-- * qtest_qmp_receive_success:
-- * @s: #QTestState instance to operate on
-- * @event_cb: Event callback
-- * @opaque: Argument for @event_cb
-- *
-- * Poll QMP messages until a command success response is received.
-- * If @event_cb, call it for each event received, passing @opaque,
-- * the event's name and data.
-- * Return the success response's "return" member.
-- */
--QDict *qtest_qmp_receive_success(QTestState *s,
--                                 void (*event_cb)(void *opaque,
--                                                  const char *name,
--                                                  QDict *data),
--                                 void *opaque);
--
- /**
-  * qtest_hmp:
-  * @s: #QTestState instance to operate on.
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index d4c49a52ff..08929f5ff6 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -324,7 +324,7 @@ QTestState *qtest_init(const char *extra_args)
-     QDict *greeting;
- 
-     /* Read the QMP greeting and then do the handshake */
--    greeting = qtest_qmp_receive_dict(s);
-+    greeting = qtest_qmp_receive(s);
-     qobject_unref(greeting);
-     qobject_unref(qtest_qmp(s, "{ 'execute': 'qmp_capabilities' }"));
- 
-@@ -700,7 +700,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
-     qtest_qmp_vsend_fds(s, fds, fds_num, fmt, ap);
- 
-     /* Receive reply */
--    return qtest_qmp_receive_dict(s);
-+    return qtest_qmp_receive(s);
- }
- 
- QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
-@@ -708,7 +708,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
-     qtest_qmp_vsend(s, fmt, ap);
- 
-     /* Receive reply */
--    return qtest_qmp_receive_dict(s);
-+    return qtest_qmp_receive(s);
- }
- 
- QDict *qmp_fd(int fd, const char *fmt, ...)
-@@ -850,12 +850,6 @@ char *qtest_vhmp(QTestState *s, const char *fmt, va_list ap)
-                      " 'arguments': {'command-line': %s}}",
-                      cmd);
-     ret = g_strdup(qdict_get_try_str(resp, "return"));
--    while (ret == NULL && qdict_get_try_str(resp, "event")) {
--        /* Ignore asynchronous QMP events */
--        qobject_unref(resp);
--        resp = qtest_qmp_receive_dict(s);
--        ret = g_strdup(qdict_get_try_str(resp, "return"));
--    }
-     g_assert(ret);
-     qobject_unref(resp);
-     g_free(cmd);
-@@ -1291,35 +1285,6 @@ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
-     qobject_unref(response);
- }
- 
--QDict *qtest_qmp_receive_success(QTestState *s,
--                                 void (*event_cb)(void *opaque,
--                                                  const char *event,
--                                                  QDict *data),
--                                 void *opaque)
--{
--    QDict *response, *ret, *data;
--    const char *event;
--
--    for (;;) {
--        response = qtest_qmp_receive_dict(s);
--        g_assert(!qdict_haskey(response, "error"));
--        ret = qdict_get_qdict(response, "return");
--        if (ret) {
--            break;
--        }
--        event = qdict_get_str(response, "event");
--        data = qdict_get_qdict(response, "data");
--        if (event_cb) {
--            event_cb(opaque, event, data);
--        }
--        qobject_unref(response);
--    }
--
--    qobject_ref(ret);
--    qobject_unref(response);
--    return ret;
--}
--
- /*
-  * Generic hot-plugging test via the device_add QMP commands.
-  */
-@@ -1355,13 +1320,6 @@ void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
-     qobject_unref(args);
- }
- 
--static void device_deleted_cb(void *opaque, const char *name, QDict *data)
--{
--    bool *got_event = opaque;
--
--    g_assert_cmpstr(name, ==, "DEVICE_DELETED");
--    *got_event = true;
--}
- 
- /*
-  * Generic hot-unplugging test via the device_del QMP command.
-@@ -1378,24 +1336,17 @@ static void device_deleted_cb(void *opaque, const char *name, QDict *data)
-  * and this one:
-  *
-  * {"return": {}}
-- *
-- * But the order of arrival may vary - so we've got to detect both.
-  */
- void qtest_qmp_device_del(QTestState *qts, const char *id)
++bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
  {
--    bool got_event = false;
-     QDict *rsp;
+     BusState *old_parent_bus = dev->parent_bus;
+     DeviceClass *dc = DEVICE_GET_CLASS(dev);
  
--    qtest_qmp_send(qts, "{'execute': 'device_del', 'arguments': {'id': %s}}",
--                   id);
--    rsp = qtest_qmp_receive_success(qts, device_deleted_cb, &got_event);
-+    rsp = qtest_qmp(qts, "{'execute': 'device_del', 'arguments': {'id': %s}}",
-+                    id);
+     assert(dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type));
+ 
++    if (!bus_check_address(bus, dev, errp)) {
++        return false;
++    }
 +
-+    g_assert(qdict_haskey(rsp, "return"));
-     qobject_unref(rsp);
--    if (!got_event) {
--        rsp = qtest_qmp_receive_dict(qts);
--        g_assert_cmpstr(qdict_get_try_str(rsp, "event"),
--                        ==, "DEVICE_DELETED");
--        qobject_unref(rsp);
--    }
-+    qtest_qmp_eventwait(qts, "DEVICE_DELETED");
- }
- 
- bool qmp_rsp_is_err(QDict *rsp)
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index 516093b39a..b799dbafb7 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -17,10 +17,12 @@
- 
- bool got_stop;
- 
--static void stop_cb(void *opaque, const char *name, QDict *data)
-+static void check_stop_event(QTestState *who)
- {
--    if (!strcmp(name, "STOP")) {
-+    QDict *event = qtest_qmp_event_ref(who, "STOP");
-+    if (event) {
-         got_stop = true;
-+        qobject_unref(event);
+     if (old_parent_bus) {
+         trace_qdev_update_parent_bus(dev, object_get_typename(OBJECT(dev)),
+             old_parent_bus, object_get_typename(OBJECT(old_parent_bus)),
+@@ -126,6 +136,7 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
+         object_unref(OBJECT(old_parent_bus));
+         object_unref(OBJECT(dev));
      }
++    return true;
  }
  
-@@ -30,12 +32,19 @@ static void stop_cb(void *opaque, const char *name, QDict *data)
- QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
- {
-     va_list ap;
-+    QDict *resp;
+ DeviceState *qdev_new(const char *name)
+@@ -371,7 +382,9 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
+     assert(!dev->realized && !dev->parent_bus);
  
-     va_start(ap, command);
-     qtest_qmp_vsend_fds(who, &fd, 1, command, ap);
-     va_end(ap);
+     if (bus) {
+-        qdev_set_parent_bus(dev, bus);
++        if (!qdev_set_parent_bus(dev, bus, errp)) {
++            return false;
++        }
+     } else {
+         assert(!DEVICE_GET_CLASS(dev)->bus_type);
+     }
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 7bf27b9db7..268cecc498 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3142,7 +3142,7 @@ static bool failover_replug_primary(VirtIONet *n, Error **errp)
+         error_setg(errp, "virtio_net: couldn't find primary bus");
+         return false;
+     }
+-    qdev_set_parent_bus(n->primary_dev, n->primary_bus);
++    qdev_set_parent_bus(n->primary_dev, n->primary_bus, &error_abort);
+     n->primary_should_be_hidden = false;
+     if (!qemu_opt_set_bool(n->primary_device_opts,
+                            "partially_hotplugged", true, errp)) {
+diff --git a/hw/sd/core.c b/hw/sd/core.c
+index 957d116f1a..08c93b5903 100644
+--- a/hw/sd/core.c
++++ b/hw/sd/core.c
+@@ -23,6 +23,7 @@
+ #include "hw/qdev-core.h"
+ #include "hw/sd/sd.h"
+ #include "qemu/module.h"
++#include "qapi/error.h"
+ #include "trace.h"
  
--    return qtest_qmp_receive_success(who, stop_cb, NULL);
-+    resp = qtest_qmp_receive(who);
-+    check_stop_event(who);
-+
-+    g_assert(!qdict_haskey(resp, "error"));
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    return qdict_get_qdict(resp, "return");
+ static inline const char *sdbus_name(SDBus *sdbus)
+@@ -240,7 +241,7 @@ void sdbus_reparent_card(SDBus *from, SDBus *to)
+     readonly = sc->get_readonly(card);
+ 
+     sdbus_set_inserted(from, false);
+-    qdev_set_parent_bus(DEVICE(card), &to->qbus);
++    qdev_set_parent_bus(DEVICE(card), &to->qbus, &error_abort);
+     sdbus_set_inserted(to, true);
+     sdbus_set_readonly(to, readonly);
  }
- 
- /*
-@@ -44,12 +53,18 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
- QDict *wait_command(QTestState *who, const char *command, ...)
- {
-     va_list ap;
-+    QDict *resp;
- 
-     va_start(ap, command);
--    qtest_qmp_vsend(who, command, ap);
-+    resp = qtest_vqmp(who, command, ap);
-     va_end(ap);
- 
--    return qtest_qmp_receive_success(who, stop_cb, NULL);
-+    check_stop_event(who);
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 72064f4dd4..14d476c587 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -210,13 +210,24 @@ struct BusClass {
+     /* FIXME first arg should be BusState */
+     void (*print_dev)(Monitor *mon, DeviceState *dev, int indent);
+     char *(*get_dev_path)(DeviceState *dev);
 +
-+    g_assert(!qdict_haskey(resp, "error"));
-+    g_assert(qdict_haskey(resp, "return"));
+     /*
+      * This callback is used to create Open Firmware device path in accordance
+      * with OF spec http://forthworks.com/standards/of1275.pdf. Individual bus
+      * bindings can be found at http://playground.sun.com/1275/bindings/.
+      */
+     char *(*get_fw_dev_path)(DeviceState *dev);
 +
-+    return qdict_get_qdict(resp, "return");
- }
- 
- /*
-diff --git a/tests/qtest/pvpanic-test.c b/tests/qtest/pvpanic-test.c
-index b0b20ad340..0657de797f 100644
---- a/tests/qtest/pvpanic-test.c
-+++ b/tests/qtest/pvpanic-test.c
-@@ -24,9 +24,7 @@ static void test_panic(void)
- 
-     qtest_outb(qts, 0x505, 0x1);
- 
--    response = qtest_qmp_receive_dict(qts);
--    g_assert(qdict_haskey(response, "event"));
--    g_assert_cmpstr(qdict_get_str(response, "event"), ==, "GUEST_PANICKED");
-+    response = qtest_qmp_eventwait_ref(qts, "GUEST_PANICKED");
-     g_assert(qdict_haskey(response, "data"));
-     data = qdict_get_qdict(response, "data");
-     g_assert(qdict_haskey(data, "action"));
-diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-index 3ed6c8548a..5a33a6ef0f 100644
---- a/tests/qtest/tpm-util.c
-+++ b/tests/qtest/tpm-util.c
-@@ -237,12 +237,16 @@ void tpm_util_migrate(QTestState *who, const char *uri)
- void tpm_util_wait_for_migration_complete(QTestState *who)
- {
-     while (true) {
-+        QDict *rsp;
-         QDict *rsp_return;
-         bool completed;
-         const char *status;
- 
--        qtest_qmp_send(who, "{ 'execute': 'query-migrate' }");
--        rsp_return = qtest_qmp_receive_success(who, NULL, NULL);
-+        rsp = qtest_qmp(who, "{ 'execute': 'query-migrate' }");
-+        g_assert(qdict_haskey(rsp, "return"));
-+        rsp_return = qdict_get_qdict(rsp, "return");
+     void (*reset)(BusState *bus);
 +
-+        g_assert(!qdict_haskey(rsp_return, "error"));
-         status = qdict_get_str(rsp_return, "status");
-         completed = strcmp(status, "completed") == 0;
-         g_assert_cmpstr(status, !=,  "failed");
++    /*
++     * Return whether the device can be added to @bus,
++     * based on the address that was set (via device properties)
++     * before realize.  If not, on return @errp contains the
++     * human-readable error message.
++     */
++    bool (*check_address)(BusState *bus, DeviceState *dev, Error **errp);
++
+     BusRealize realize;
+     BusUnrealize unrealize;
+ 
+@@ -788,7 +799,7 @@ const char *qdev_fw_name(DeviceState *dev);
+ Object *qdev_get_machine(void);
+ 
+ /* FIXME: make this a link<> */
+-void qdev_set_parent_bus(DeviceState *dev, BusState *bus);
++bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp);
+ 
+ extern bool qdev_hotplug;
+ extern bool qdev_hot_removed;
 -- 
 2.26.2
 
