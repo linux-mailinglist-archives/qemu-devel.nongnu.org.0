@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D9E284796
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:42:01 +0200 (CEST)
-Received: from localhost ([::1]:44962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051C028478F
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:39:25 +0200 (CEST)
+Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhbk-0001QL-Id
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39558)
+	id 1kPhZD-0006AW-VT
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:39:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQ6-0002S9-AJ
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:29:58 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36541)
+ id 1kPhQ7-0002Vm-M5
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:29:59 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQ4-0001Od-RT
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:29:58 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z1so12223703wrt.3
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:29:56 -0700 (PDT)
+ id 1kPhQ5-0001Ow-Vv
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:29:59 -0400
+Received: by mail-wm1-x336.google.com with SMTP id l15so1591244wmh.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:29:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XxU4JUy0D8PVTLSMbq2V+3PgAaQreqZ5rvwSi2NUvwk=;
- b=Ob51tosDyW2KApUJTZUWjhiBmWvKH4VpcNnK9j6A+zQrWhTnE/lqCn7Ai/Tlw3M+ZW
- 0KALosaH8ZxMro6bv4Rguwc+WyUai6h2ebtzAdpSj2bDqAzHLiBJp1p3ciTF85FgwmtN
- 4iKa8pjkuPopMM7jtz9NPFL7uiqrQTipbwKtMdB/Ru6XVwHYH1PlB70WmE0oTsllDEIQ
- coIAzU7CFjt4H2k1OXZLwjoohPxCr2RDfqTas0owc+zDgJ1NGHXC8eJ7F/iVegmHI6ni
- PUZWLyk8ZChQ2Urp0WB1i0VgWG48tvTcxNPxgEB3bI+lpK/+l2XLaPkxwTJv72iLuwXQ
- O6tg==
+ bh=uRdMRxER7cb8oQTA+SlFFqVRv1uiq/QJ/9qurTpeFuY=;
+ b=I5RxjlOyRFyDCOx7B2cHVipakBL84ekWCpjwOvzgBsEmNxB62h9R+u9yxpvDaFcykg
+ dBzb4k9fzdlGBNYybAa09bN/8qIBzhR86PqinruMgjYuQCkw7tHrTYlhYtSJWMAEIdAg
+ 8RJmEaTDYvHWkc8LdoMCva5cOlIli3SPLExfnsflP6e1Rcl4qVoP4BFMROQ1oaf/6oL0
+ ljKLf94Jv+GupLHuG3UKWH0zJfKCWcHFr+kxUOxXHC9Mf4sblx9iYkUNZRv0uWKPb0MX
+ BFrn/qGvC+gkvSpMzFkR59qmO2VMdmHi7EIIduy9Oxhl+EqRp5pZmDdR7qQPUM45MNzY
+ X6gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XxU4JUy0D8PVTLSMbq2V+3PgAaQreqZ5rvwSi2NUvwk=;
- b=JLy3LdL9CWeXyYu6EVZSIoyT0SlWWzXCB8qvClS4XQd6SCpRB6PMf/EqZhSzhWUyiB
- LquO7NRY3GzTFfcB+n3K8i7lDkgxi/AlfCxVFgw63dEalsMpIaQ7PLoOS0+TkIYx6Iib
- F7JtSjIHKczMm5OW18X5qsYjLq9L3FTEi1dKsJi3s5/7D8Qb/NMeQdH4tUyL0giITTdh
- oprbBADlPFA3dytxSaylxS/aXFhzbbfIi7UK3Wwz8RYYlzgxD/d26r2DPz9Lo4rQDZ+q
- yeaTItO/qVqYh/6ZR491aZfpeJa7Q8S7ZycHWXlldk/i+poA0cWOXBAsWE6kjFcOePZ6
- o5YQ==
-X-Gm-Message-State: AOAM531F8UqnW0KqHXsF5LVIue6de9EWVTvWbn7GrlTOuN+AG20ZOpfz
- gvjCFqiBVyfJ4yYYNpkNtW18rTyqfQ8=
-X-Google-Smtp-Source: ABdhPJzaxJ9eQ6RMMm1H6MLLJwHvmI1z9xvwMN7+Xo1+uQDn1Xa2ZvZiC+qQF2Am+tO2BtPX2kVcLg==
-X-Received: by 2002:adf:f552:: with SMTP id j18mr3536256wrp.128.1601969395331; 
- Tue, 06 Oct 2020 00:29:55 -0700 (PDT)
+ bh=uRdMRxER7cb8oQTA+SlFFqVRv1uiq/QJ/9qurTpeFuY=;
+ b=YDK5s6VMASCD+734IRRhbZaQoCLC9+R2AKj9YrnciDVVWtwaGwZjd2wdexyhfmeGqf
+ PR0ph4cC4f0kLuHWemTAkxxf7QQSPsWyKOoY3+/CASdg+OuwfFQ7b11IDJJTGzCz7wPR
+ tCvgZgAiYh4TGT/wyBmb7ZfdMdiIOeo6z3NQP/4zaI/C+UJiSHDA4pH+tPQSQPNK69ju
+ tfiqQwdhHhyuxAS934vvcngc6eHw982DZqW77lWriHNUK5UocJYa/waDsiHBs6m/Rf9H
+ /ccKYrjXBHJbwn+tNy9pmGl1kSLJhHCd2tY6ZsnQdJ21b8NnXZ+lGUwo8apuHJO34opn
+ mW7Q==
+X-Gm-Message-State: AOAM531EmuzSgozXoBsxNwmFABUwRsJYklqhpl+5lZwQq8zzj0prCwI0
+ 0EK7spvcx0Ue90W06qQnM5qIJju8HdY=
+X-Google-Smtp-Source: ABdhPJx0qPeCsMpmH7psxhr6lfDulKqVL9lep2Umi6rMuFnwdJXvTAwgahb/0mQMebOPcvGjIpdX+Q==
+X-Received: by 2002:a1c:2cc4:: with SMTP id s187mr3289979wms.30.1601969396276; 
+ Tue, 06 Oct 2020 00:29:56 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.29.54
+ by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.29.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:29:54 -0700 (PDT)
+ Tue, 06 Oct 2020 00:29:55 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/37] cpus: cleanup now unneeded includes
-Date: Tue,  6 Oct 2020 09:29:20 +0200
-Message-Id: <20201006072947.487729-11-pbonzini@redhat.com>
+Subject: [PULL 11/37] cpus: remove checks for non-NULL cpus_accel
+Date: Tue,  6 Oct 2020 09:29:21 +0200
+Message-Id: <20201006072947.487729-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006072947.487729-1-pbonzini@redhat.com>
 References: <20201006072947.487729-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -86,47 +85,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
  Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
+now that all accelerators support the CpusAccel interface,
+we can remove most checks for non-NULL cpus_accel,
+we just add a sanity check/assert at vcpu creation.
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/cpus.c | 7 -------
- 1 file changed, 7 deletions(-)
+ softmmu/cpus.c | 33 +++++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
 diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index adc20eb3de..1180103ede 100644
+index 1180103ede..99f418437b 100644
 --- a/softmmu/cpus.c
 +++ b/softmmu/cpus.c
-@@ -29,20 +29,13 @@
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-events-run-state.h"
- #include "qapi/qmp/qerror.h"
--#include "sysemu/tcg.h"
- #include "exec/gdbstub.h"
- #include "sysemu/hw_accel.h"
--#include "sysemu/kvm.h"
- #include "exec/exec-all.h"
- #include "qemu/thread.h"
- #include "qemu/plugin.h"
- #include "sysemu/cpus.h"
--#include "qemu/main-loop.h"
--#include "qemu/option.h"
--#include "qemu/bitmap.h"
--#include "qemu/seqlock.h"
- #include "qemu/guest-random.h"
--#include "tcg/tcg.h"
- #include "hw/nmi.h"
- #include "sysemu/replay.h"
- #include "sysemu/runstate.h"
+@@ -166,34 +166,46 @@ void cpu_synchronize_all_pre_loadvm(void)
+ 
+ void cpu_synchronize_state(CPUState *cpu)
+ {
+-    if (cpus_accel && cpus_accel->synchronize_state) {
++    if (cpus_accel->synchronize_state) {
+         cpus_accel->synchronize_state(cpu);
+     }
+ }
+ 
+ void cpu_synchronize_post_reset(CPUState *cpu)
+ {
+-    if (cpus_accel && cpus_accel->synchronize_post_reset) {
++    if (cpus_accel->synchronize_post_reset) {
+         cpus_accel->synchronize_post_reset(cpu);
+     }
+ }
+ 
+ void cpu_synchronize_post_init(CPUState *cpu)
+ {
+-    if (cpus_accel && cpus_accel->synchronize_post_init) {
++    if (cpus_accel->synchronize_post_init) {
+         cpus_accel->synchronize_post_init(cpu);
+     }
+ }
+ 
+ void cpu_synchronize_pre_loadvm(CPUState *cpu)
+ {
+-    if (cpus_accel && cpus_accel->synchronize_pre_loadvm) {
++    if (cpus_accel->synchronize_pre_loadvm) {
+         cpus_accel->synchronize_pre_loadvm(cpu);
+     }
+ }
+ 
+ int64_t cpus_get_virtual_clock(void)
+ {
++    /*
++     * XXX
++     *
++     * need to check that cpus_accel is not NULL, because qcow2 calls
++     * qemu_get_clock_ns(CLOCK_VIRTUAL) without any accel initialized and
++     * with ticks disabled in some io-tests:
++     * 030 040 041 060 099 120 127 140 156 161 172 181 191 192 195 203 229 249 256 267
++     *
++     * is this expected?
++     *
++     * XXX
++     */
+     if (cpus_accel && cpus_accel->get_virtual_clock) {
+         return cpus_accel->get_virtual_clock();
+     }
+@@ -207,7 +219,7 @@ int64_t cpus_get_virtual_clock(void)
+  */
+ int64_t cpus_get_elapsed_ticks(void)
+ {
+-    if (cpus_accel && cpus_accel->get_elapsed_ticks) {
++    if (cpus_accel->get_elapsed_ticks) {
+         return cpus_accel->get_elapsed_ticks();
+     }
+     return cpu_get_ticks();
+@@ -399,7 +411,7 @@ void cpus_kick_thread(CPUState *cpu)
+ void qemu_cpu_kick(CPUState *cpu)
+ {
+     qemu_cond_broadcast(cpu->halt_cond);
+-    if (cpus_accel && cpus_accel->kick_vcpu_thread) {
++    if (cpus_accel->kick_vcpu_thread) {
+         cpus_accel->kick_vcpu_thread(cpu);
+     } else { /* default */
+         cpus_kick_thread(cpu);
+@@ -573,12 +585,9 @@ void qemu_init_vcpu(CPUState *cpu)
+         cpu_address_space_init(cpu, 0, "cpu-memory", cpu->memory);
+     }
+ 
+-    if (cpus_accel) {
+-        /* accelerator already implements the CpusAccel interface */
+-        cpus_accel->create_vcpu_thread(cpu);
+-    } else {
+-        g_assert_not_reached();
+-    }
++    /* accelerators all implement the CpusAccel interface */
++    g_assert(cpus_accel != NULL && cpus_accel->create_vcpu_thread != NULL);
++    cpus_accel->create_vcpu_thread(cpu);
+ 
+     while (!cpu->created) {
+         qemu_cond_wait(&qemu_cpu_cond, &qemu_global_mutex);
 -- 
 2.26.2
 
