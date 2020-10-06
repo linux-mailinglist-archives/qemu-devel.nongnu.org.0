@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272E828480B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:03:10 +0200 (CEST)
-Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BD72847C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:44:04 +0200 (CEST)
+Received: from localhost ([::1]:52578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhwC-0006nb-Rp
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:03:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39790)
+	id 1kPhdj-0004av-Dx
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQL-00034j-Jz
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:13 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35485)
+ id 1kPhQM-00038M-QZ
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:14 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQJ-0001TO-I4
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:13 -0400
-Received: by mail-wm1-x334.google.com with SMTP id q5so1203347wmq.0
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:11 -0700 (PDT)
+ id 1kPhQK-0001Ta-Ez
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:14 -0400
+Received: by mail-wr1-x434.google.com with SMTP id n18so4415784wrs.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0sroHSxG+CDkmdBtRayI+aa5wxYg8jTsjHn44flQrBg=;
- b=KZbyErKhi0j2XPt4s/tuXwyy3bVQKfEx4SF+5wSa73uvUF4wzNAmbmqFFpQ3aEexkP
- h2386QAMsacltax89c2dro0Uth0bIiPcCaFnwuDDR/Kg8wraDlBLCShSDBTnJbvrjJ73
- npE0AYxslvX6Ca90mpV2EUe1liBbWe5V5FbWxbwp+wlwooTfR9yF4uAHgRI5CoT37RZ7
- hNbmshUX4g2Ptqn3ly6P/jwdwCpP80zFbfeqH5gCt7cX1MaDM4+zoVMvqSNMbOmOddrO
- Gjy4BbX/PCxnPgIYCbgfkbjuBJLGmHaw2M+k+hkwLs37gDnH4VddRFdGQt3Mes/jp10M
- aeFw==
+ bh=vqm6/4FMvwrI7h0blvL6bknr7fh+GWarVad7IzR7GgY=;
+ b=b6gz9/aykmhl5qKu60HMo4KR9iFUxOoeYE8B0MrBS2lSDn05UTwU2D30m4UAPpBcf1
+ uGp6+5PVAlaBr/yI2JwXdSM4yJa5bumRu1A6I49OiVPgEKBEwOctnrTSZmOzcPEhnDGF
+ oLEU08WJOtPcd6Ph4lFgRXBBsXqzcVqWl4nYDSuhpkEM+iQWe/YkdzDLDmOJsTMRl6oD
+ 5jlF8be2lmf0MdedPrSztPpC9+7HFLMjfyUmujjOosVqmsr1tLZuRNwQyTE9NNe3/1+Q
+ 9WVHvZzoz+M+ijfSEAS/frj9aTqqqD5fsAOgWEtru4ikR+zuDgvG5ggG2aUbFKxubMl7
+ ooXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0sroHSxG+CDkmdBtRayI+aa5wxYg8jTsjHn44flQrBg=;
- b=EpUQJg5VOnwofpGtrrh8YcBUkad8gwgWt0/0rQTprU1FwdFT43SpW1oP9uETG/OOwI
- ke6Vh8FLLKAraL+tec9xv/pDXmpZDWc0STxaXy44Wi1gAQiuAbuRm5H3dV+rSqmBqNf0
- zSizY+iKBVvoZQf29rRj50c39oHZJEpY9+tgvnJVrVUBft/jv0eZjONr1BPZNzLvD62b
- gmNw4MM5KSFTPhN9bHMaBbdzWHBMQTcpoB6APAmJOXwsoyRFQvpXvqGMucmdjkGDWE66
- yUjZZQMzn+TZodGzIdxCB2TxmldR1kDKog3WBKoYiqCvli7C9oY8O0G4c7epIQv2N6Gf
- CSYQ==
-X-Gm-Message-State: AOAM533TglT14ARleVUR9cjZghLBZsm869DSXudeTlRRaKE0ZOklJxDz
- XsDT6v3o6Esa+06FawiXHnuARGuZ0js=
-X-Google-Smtp-Source: ABdhPJzKbg7lUVCv/kSkXECurZUqqLorZUhXXQ+Z4tXL1jLeN7sdbja/zF60gL6pAvcIQjYoiQwewg==
-X-Received: by 2002:a1c:c342:: with SMTP id t63mr3081494wmf.145.1601969409736; 
- Tue, 06 Oct 2020 00:30:09 -0700 (PDT)
+ bh=vqm6/4FMvwrI7h0blvL6bknr7fh+GWarVad7IzR7GgY=;
+ b=FN8YP4EBrjQcKY0fzMpwrX/9Cg6ERsC3cFBINGp6OIbCfNAUJLqzkptQ0CXeCqx380
+ 1bIzIY6PggwuMUDMhjUilfZ88+X5TRZYggCcS/H7t18Ntq0uHLstFxJDFuPFA2wEVf3U
+ v+LyuKTqKGCotHDmmlJfcFwZi5unexi52yDkJLS6mjTRhcn6VwRDZeYRokjQHD38CwnO
+ /f/kj5kbW6DpXiKJIbL+9K18G98pDkH4K6itRYpgIpnp0sNLJbKNXJscpLcuuYwwz1NI
+ JIt/3572WrA8ilk5t9Ug7GsUWZnhColWmmgkb+a9G3Li6M9w4TiVu684ipzGpnUBqGbv
+ hFAg==
+X-Gm-Message-State: AOAM532eE6VbVXvWnuZBu+cqlMZHu9WYp4CkqHXHIuQX06rANjhhjh9x
+ 8AbahKVuSOqZRqKLGFbP4HCRa8bwvp0=
+X-Google-Smtp-Source: ABdhPJyzJ8Z8DQrny924FudeajllNsT7I66BeWLFSGSsQTT3oCqalUCzfsxzN6aoA96HLwWbgrFfVQ==
+X-Received: by 2002:adf:e4c9:: with SMTP id v9mr3185026wrm.375.1601969410615; 
+ Tue, 06 Oct 2020 00:30:10 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.08
+ by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:30:09 -0700 (PDT)
+ Tue, 06 Oct 2020 00:30:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/37] qcow2: introduce icount field for snapshots
-Date: Tue,  6 Oct 2020 09:29:36 +0200
-Message-Id: <20201006072947.487729-27-pbonzini@redhat.com>
+Subject: [PULL 27/37] migration: introduce icount field for snapshots
+Date: Tue,  6 Oct 2020 09:29:37 +0200
+Message-Id: <20201006072947.487729-28-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006072947.487729-1-pbonzini@redhat.com>
 References: <20201006072947.487729-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -85,301 +85,384 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Cc: Kevin Wolf <kwolf@redhat.com>, Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
-This patch introduces the icount field for saving within the snapshot.
-It is required for navigation between the snapshots in record/replay mode.
+Saving icount as a parameters of the snapshot allows navigation between
+them in the execution replay scenario.
+This information can be used for finding a specific snapshot for proceeding
+the recorded execution to the specific moment of the time.
+E.g., 'reverse step' action (introduced in one of the following patches)
+needs to load the nearest snapshot which is prior to the current moment
+of time.
+This patch also updates snapshot test which verifies qemu monitor output.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Acked-by: Markus Armbruster <armbru@redhat.com>
 Acked-by: Kevin Wolf <kwolf@redhat.com>
 
 --
 
+v4 changes:
+ - squashed format update with test output update
 v7 changes:
- - also fix the test which checks qcow2 snapshot extra data
-Message-Id: <160174518284.12451.2301137308458777398.stgit@pasha-ThinkPad-X280>
+ - introduced the spaces between the fields in snapshot info output
+ - updated the test to match new field widths
+Message-Id: <160174518865.12451.14327573383978752463.stgit@pasha-ThinkPad-X280>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/qcow2-snapshot.c     |  7 ++++++
- block/qcow2.h              |  3 +++
- docs/interop/qcow2.txt     |  5 ++++
- tests/qemu-iotests/261     | 15 ++++++-----
- tests/qemu-iotests/261.out | 51 +++++++++++++++++++++++++-------------
- 5 files changed, 58 insertions(+), 23 deletions(-)
+ block/qapi.c               | 18 ++++++++++----
+ block/qcow2-snapshot.c     |  2 ++
+ blockdev.c                 | 10 ++++++++
+ include/block/snapshot.h   |  1 +
+ migration/savevm.c         |  5 ++++
+ qapi/block-core.json       | 10 ++++++--
+ stubs/replay.c             |  5 ++++
+ tests/qemu-iotests/261     |  4 ++--
+ tests/qemu-iotests/267.out | 48 +++++++++++++++++++-------------------
+ 9 files changed, 71 insertions(+), 32 deletions(-)
 
+diff --git a/block/qapi.c b/block/qapi.c
+index f423ece98c..036da085ee 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -230,6 +230,8 @@ int bdrv_query_snapshot_info_list(BlockDriverState *bs,
+         info->date_nsec     = sn_tab[i].date_nsec;
+         info->vm_clock_sec  = sn_tab[i].vm_clock_nsec / 1000000000;
+         info->vm_clock_nsec = sn_tab[i].vm_clock_nsec % 1000000000;
++        info->icount        = sn_tab[i].icount;
++        info->has_icount    = sn_tab[i].icount != -1ULL;
+ 
+         info_list = g_new0(SnapshotInfoList, 1);
+         info_list->value = info;
+@@ -694,14 +696,15 @@ BlockStatsList *qmp_query_blockstats(bool has_query_nodes,
+ void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
+ {
+     char date_buf[128], clock_buf[128];
++    char icount_buf[128] = {0};
+     struct tm tm;
+     time_t ti;
+     int64_t secs;
+     char *sizing = NULL;
+ 
+     if (!sn) {
+-        qemu_printf("%-10s%-20s%11s%20s%15s",
+-                    "ID", "TAG", "VM SIZE", "DATE", "VM CLOCK");
++        qemu_printf("%-10s%-18s%7s%20s%13s%11s",
++                    "ID", "TAG", "VM SIZE", "DATE", "VM CLOCK", "ICOUNT");
+     } else {
+         ti = sn->date_sec;
+         localtime_r(&ti, &tm);
+@@ -715,11 +718,16 @@ void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
+                  (int)(secs % 60),
+                  (int)((sn->vm_clock_nsec / 1000000) % 1000));
+         sizing = size_to_str(sn->vm_state_size);
+-        qemu_printf("%-10s%-20s%11s%20s%15s",
++        if (sn->icount != -1ULL) {
++            snprintf(icount_buf, sizeof(icount_buf),
++                "%"PRId64, sn->icount);
++        }
++        qemu_printf("%-9s %-17s %7s%20s%13s%11s",
+                     sn->id_str, sn->name,
+                     sizing,
+                     date_buf,
+-                    clock_buf);
++                    clock_buf,
++                    icount_buf);
+     }
+     g_free(sizing);
+ }
+@@ -881,6 +889,8 @@ void bdrv_image_info_dump(ImageInfo *info)
+                 .date_nsec = elem->value->date_nsec,
+                 .vm_clock_nsec = elem->value->vm_clock_sec * 1000000000ULL +
+                                  elem->value->vm_clock_nsec,
++                .icount = elem->value->has_icount ?
++                          elem->value->icount : -1ULL,
+             };
+ 
+             pstrcpy(sn.id_str, sizeof(sn.id_str), elem->value->id);
 diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index 9b68690f56..d68b25e0c5 100644
+index d68b25e0c5..2e98c7f4b6 100644
 --- a/block/qcow2-snapshot.c
 +++ b/block/qcow2-snapshot.c
-@@ -164,6 +164,12 @@ static int qcow2_do_read_snapshots(BlockDriverState *bs, bool repair,
-             sn->disk_size = bs->total_sectors * BDRV_SECTOR_SIZE;
-         }
+@@ -663,6 +663,7 @@ int qcow2_snapshot_create(BlockDriverState *bs, QEMUSnapshotInfo *sn_info)
+     sn->date_sec = sn_info->date_sec;
+     sn->date_nsec = sn_info->date_nsec;
+     sn->vm_clock_nsec = sn_info->vm_clock_nsec;
++    sn->icount = sn_info->icount;
+     sn->extra_data_size = sizeof(QCowSnapshotExtraData);
  
-+        if (sn->extra_data_size >= endof(QCowSnapshotExtraData, icount)) {
-+            sn->icount = be64_to_cpu(extra.icount);
-+        } else {
-+            sn->icount = -1ULL;
-+        }
-+
-         if (sn->extra_data_size > sizeof(extra)) {
-             uint64_t extra_data_end;
-             size_t unknown_extra_data_size;
-@@ -333,6 +339,7 @@ int qcow2_write_snapshots(BlockDriverState *bs)
-         memset(&extra, 0, sizeof(extra));
-         extra.vm_state_size_large = cpu_to_be64(sn->vm_state_size);
-         extra.disk_size = cpu_to_be64(sn->disk_size);
-+        extra.icount = cpu_to_be64(sn->icount);
+     /* Allocate the L1 table of the snapshot and copy the current one there. */
+@@ -1007,6 +1008,7 @@ int qcow2_snapshot_list(BlockDriverState *bs, QEMUSnapshotInfo **psn_tab)
+         sn_info->date_sec = sn->date_sec;
+         sn_info->date_nsec = sn->date_nsec;
+         sn_info->vm_clock_nsec = sn->vm_clock_nsec;
++        sn_info->icount = sn->icount;
+     }
+     *psn_tab = sn_tab;
+     return s->nb_snapshots;
+diff --git a/blockdev.c b/blockdev.c
+index bebd3ba1c3..a6ae475dac 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -59,6 +59,7 @@
+ #include "sysemu/arch_init.h"
+ #include "sysemu/qtest.h"
+ #include "sysemu/runstate.h"
++#include "sysemu/replay.h"
+ #include "qemu/cutils.h"
+ #include "qemu/help_option.h"
+ #include "qemu/main-loop.h"
+@@ -1190,6 +1191,10 @@ SnapshotInfo *qmp_blockdev_snapshot_delete_internal_sync(const char *device,
+     info->vm_state_size = sn.vm_state_size;
+     info->vm_clock_nsec = sn.vm_clock_nsec % 1000000000;
+     info->vm_clock_sec = sn.vm_clock_nsec / 1000000000;
++    if (sn.icount != -1ULL) {
++        info->icount = sn.icount;
++        info->has_icount = true;
++    }
  
-         id_str_size = strlen(sn->id_str);
-         name_size = strlen(sn->name);
-diff --git a/block/qcow2.h b/block/qcow2.h
-index b71e444fca..125ea9679b 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -206,6 +206,7 @@ typedef struct QEMU_PACKED QCowSnapshotHeader {
- typedef struct QEMU_PACKED QCowSnapshotExtraData {
-     uint64_t vm_state_size_large;
-     uint64_t disk_size;
-+    uint64_t icount;
- } QCowSnapshotExtraData;
+     return info;
  
+@@ -1350,6 +1355,11 @@ static void internal_snapshot_prepare(BlkActionState *common,
+     sn->date_sec = tv.tv_sec;
+     sn->date_nsec = tv.tv_usec * 1000;
+     sn->vm_clock_nsec = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    if (replay_mode != REPLAY_MODE_NONE) {
++        sn->icount = replay_get_current_icount();
++    } else {
++        sn->icount = -1ULL;
++    }
  
-@@ -219,6 +220,8 @@ typedef struct QCowSnapshot {
-     uint32_t date_sec;
+     ret1 = bdrv_snapshot_create(bs, sn);
+     if (ret1 < 0) {
+diff --git a/include/block/snapshot.h b/include/block/snapshot.h
+index 2bfcd57578..b0fe42993d 100644
+--- a/include/block/snapshot.h
++++ b/include/block/snapshot.h
+@@ -42,6 +42,7 @@ typedef struct QEMUSnapshotInfo {
+     uint32_t date_sec; /* UTC date of the snapshot */
      uint32_t date_nsec;
-     uint64_t vm_clock_nsec;
-+    /* icount value for the moment when snapshot was taken */
-+    uint64_t icount;
-     /* Size of all extra data, including QCowSnapshotExtraData if available */
-     uint32_t extra_data_size;
-     /* Data beyond QCowSnapshotExtraData, if any */
-diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
-index 7da0d81df8..0463f761ef 100644
---- a/docs/interop/qcow2.txt
-+++ b/docs/interop/qcow2.txt
-@@ -707,6 +707,11 @@ Snapshot table entry:
+     uint64_t vm_clock_nsec; /* VM clock relative to boot */
++    uint64_t icount; /* record/replay step */
+ } QEMUSnapshotInfo;
  
-                     Byte 48 - 55:   Virtual disk size of the snapshot in bytes
+ int bdrv_snapshot_find(BlockDriverState *bs, QEMUSnapshotInfo *sn_info,
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 34e4b71052..0e8dc78684 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2723,6 +2723,11 @@ int save_snapshot(const char *name, Error **errp)
+     sn->date_sec = tv.tv_sec;
+     sn->date_nsec = tv.tv_usec * 1000;
+     sn->vm_clock_nsec = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    if (replay_mode != REPLAY_MODE_NONE) {
++        sn->icount = replay_get_current_icount();
++    } else {
++        sn->icount = -1ULL;
++    }
  
-+                    Byte 56 - 63:   icount value which corresponds to
-+                                    the record/replay instruction count
-+                                    when the snapshot was taken. Set to -1
-+                                    if icount was disabled
+     if (name) {
+         ret = bdrv_snapshot_find(bs, old_sn, name);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 12a24772b5..fdc2e5cb28 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -27,13 +27,18 @@
+ #
+ # @vm-clock-nsec: fractional part in nano seconds to be used with vm-clock-sec
+ #
++# @icount: Current instruction count. Appears when execution record/replay
++#          is enabled. Used for "time-traveling" to match the moment
++#          in the recorded execution with the snapshots. (since 5.2)
++#
+ # Since: 1.3
+ #
+ ##
+ { 'struct': 'SnapshotInfo',
+   'data': { 'id': 'str', 'name': 'str', 'vm-state-size': 'int',
+             'date-sec': 'int', 'date-nsec': 'int',
+-            'vm-clock-sec': 'int', 'vm-clock-nsec': 'int' } }
++            'vm-clock-sec': 'int', 'vm-clock-nsec': 'int',
++            '*icount': 'int' } }
+ 
+ ##
+ # @ImageInfoSpecificQCow2EncryptionBase:
+@@ -5363,7 +5368,8 @@
+ #                    "date-sec": 1000012,
+ #                    "date-nsec": 10,
+ #                    "vm-clock-sec": 100,
+-#                    "vm-clock-nsec": 20
++#                    "vm-clock-nsec": 20,
++#                    "icount": 220414
+ #      }
+ #    }
+ #
+diff --git a/stubs/replay.c b/stubs/replay.c
+index 5974ec1f50..eacb366aa8 100644
+--- a/stubs/replay.c
++++ b/stubs/replay.c
+@@ -88,3 +88,8 @@ int replay_read_random(void *buf, size_t len)
+ {
+     return 0;
+ }
 +
-                     Version 3 images must include extra data at least up to
-                     byte 55.
- 
++uint64_t replay_get_current_icount(void)
++{
++    return 0;
++}
 diff --git a/tests/qemu-iotests/261 b/tests/qemu-iotests/261
-index ddcb04f285..848ffa760d 100755
+index 848ffa760d..847b4c6a37 100755
 --- a/tests/qemu-iotests/261
 +++ b/tests/qemu-iotests/261
-@@ -91,7 +91,10 @@ print_snapshot_table()
-         if [ $extra_len -ge 16 ]; then
-             echo "    Disk size: $(peek_file_be "$1" $((extra_ofs + 8)) 8)"
-         fi
--        if [ $extra_len -gt 16 ]; then
-+        if [ $extra_len -ge 24 ]; then
-+            echo "    Icount: $(peek_file_be "$1" $((extra_ofs + 16)) 8)"
-+        fi
-+        if [ $extra_len -gt 24 ]; then
-             echo '    Unknown extra data:' \
-                 "$(peek_file_raw "$1" $((extra_ofs + 16)) $((extra_len - 16)) \
-                    | tr -d '\0')"
-@@ -198,12 +201,12 @@ truncate -s 0 "$TEST_DIR/sn0-extra"
- truncate -s $(($(snapshot_table_entry_size "$TEST_DIR/sn0-pre") - 40)) \
-     "$TEST_DIR/sn0-post"
+@@ -392,7 +392,7 @@ _check_test_img -r all
  
--# Set sn1's extra data size to 42
--poke_file "$TEST_DIR/sn1-pre" 36 '\x00\x00\x00\x2a'
--truncate -s 42 "$TEST_DIR/sn1-extra"
--poke_file "$TEST_DIR/sn1-extra" 16 'very important data'
-+# Set sn1's extra data size to 50
-+poke_file "$TEST_DIR/sn1-pre" 36 '\x00\x00\x00\x32'
-+truncate -s 50 "$TEST_DIR/sn1-extra"
-+poke_file "$TEST_DIR/sn1-extra" 24 'very important data'
- # Grow sn1-post to pad
--truncate -s $(($(snapshot_table_entry_size "$TEST_DIR/sn1-pre") - 82)) \
-+truncate -s $(($(snapshot_table_entry_size "$TEST_DIR/sn1-pre") - 90)) \
-     "$TEST_DIR/sn1-post"
+ echo
+ echo "$((sn_count - 1)) snapshots should remain:"
+-echo "  qemu-img info reports $(_img_info | grep -c '^ \{34\}') snapshots"
++echo "  qemu-img info reports $(_img_info | grep -c '^ \{32\}') snapshots"
+ echo "  Image header reports $(peek_file_be "$TEST_IMG" 60 4) snapshots"
  
- # Set sn2's extra data size to 8
-diff --git a/tests/qemu-iotests/261.out b/tests/qemu-iotests/261.out
-index 2600354566..612433ae40 100644
---- a/tests/qemu-iotests/261.out
-+++ b/tests/qemu-iotests/261.out
-@@ -12,9 +12,10 @@ Snapshots in TEST_DIR/t.IMGFMT.v2.orig:
-   [1]
-     ID: 2
-     Name: sn1
--    Extra data size: 42
-+    Extra data size: 50
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 0
-     Unknown extra data: very important data
-   [2]
-     ID: 3
-@@ -29,22 +30,25 @@ Snapshots in TEST_DIR/t.IMGFMT.v3.orig:
-   [0]
-     ID: 1
-     Name: sn0
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
-   [1]
-     ID: 2
-     Name: sn1
--    Extra data size: 42
-+    Extra data size: 50
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 0
-     Unknown extra data: very important data
-   [2]
-     ID: 3
-     Name: sn2
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
+ echo
+@@ -519,7 +519,7 @@ _check_test_img -r all
  
- === Repair botched v3 ===
+ echo
+ echo '65536 snapshots should remain:'
+-echo "  qemu-img info reports $(_img_info | grep -c '^ \{34\}') snapshots"
++echo "  qemu-img info reports $(_img_info | grep -c '^ \{32\}') snapshots"
+ echo "  Image header reports $(peek_file_be "$TEST_IMG" 60 4) snapshots"
  
-@@ -61,22 +65,25 @@ Snapshots in TEST_DIR/t.IMGFMT:
-   [0]
-     ID: 1
-     Name: sn0
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
-   [1]
-     ID: 2
-     Name: sn1
--    Extra data size: 42
-+    Extra data size: 50
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 0
-     Unknown extra data: very important data
-   [2]
-     ID: 3
-     Name: sn2
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
+ # success, all done
+diff --git a/tests/qemu-iotests/267.out b/tests/qemu-iotests/267.out
+index 215902b3ad..27471ffae8 100644
+--- a/tests/qemu-iotests/267.out
++++ b/tests/qemu-iotests/267.out
+@@ -33,8 +33,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+ (qemu) info snapshots
+ List of snapshots present on all disks:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ (qemu) loadvm snap0
+ (qemu) quit
  
- === Add new snapshot ===
+@@ -44,8 +44,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+ (qemu) info snapshots
+ List of snapshots present on all disks:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ (qemu) loadvm snap0
+ (qemu) quit
  
-@@ -85,28 +92,32 @@ Snapshots in TEST_DIR/t.IMGFMT:
-   [0]
-     ID: 1
-     Name: sn0
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
-   [1]
-     ID: 2
-     Name: sn1
--    Extra data size: 42
-+    Extra data size: 50
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 0
-     Unknown extra data: very important data
-   [2]
-     ID: 3
-     Name: sn2
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
-   [3]
-     ID: 4
-     Name: sn3
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 0
+@@ -69,8 +69,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+ (qemu) info snapshots
+ List of snapshots present on all disks:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ (qemu) loadvm snap0
+ (qemu) quit
  
- === Remove different snapshots ===
+@@ -94,8 +94,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+ (qemu) info snapshots
+ List of snapshots present on all disks:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ (qemu) loadvm snap0
+ (qemu) quit
  
-@@ -116,16 +127,18 @@ Snapshots in TEST_DIR/t.IMGFMT:
-   [0]
-     ID: 2
-     Name: sn1
--    Extra data size: 42
-+    Extra data size: 50
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 0
-     Unknown extra data: very important data
-   [1]
-     ID: 3
-     Name: sn2
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
+@@ -105,8 +105,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+ (qemu) info snapshots
+ List of snapshots present on all disks:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ (qemu) loadvm snap0
+ (qemu) quit
  
- --- sn1 ---
- No errors were found on the image.
-@@ -133,15 +146,17 @@ Snapshots in TEST_DIR/t.IMGFMT:
-   [0]
-     ID: 1
-     Name: sn0
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
-   [1]
-     ID: 3
-     Name: sn2
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
+@@ -119,8 +119,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+ (qemu) info snapshots
+ List of snapshots present on all disks:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ (qemu) loadvm snap0
+ (qemu) quit
  
- --- sn2 ---
- No errors were found on the image.
-@@ -149,15 +164,17 @@ Snapshots in TEST_DIR/t.IMGFMT:
-   [0]
-     ID: 1
-     Name: sn0
--    Extra data size: 16
-+    Extra data size: 24
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 18446744073709551615
-   [1]
-     ID: 2
-     Name: sn1
--    Extra data size: 42
-+    Extra data size: 50
-     VM state size: 0
-     Disk size: 67108864
-+    Icount: 0
-     Unknown extra data: very important data
+@@ -134,8 +134,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+ (qemu) info snapshots
+ List of snapshots present on all disks:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ (qemu) loadvm snap0
+ (qemu) quit
  
- === Reject too much unknown extra data ===
+@@ -145,15 +145,15 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+ (qemu) info snapshots
+ List of snapshots present on all disks:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ (qemu) loadvm snap0
+ (qemu) quit
+ 
+ Internal snapshots on overlay:
+ Snapshot list:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+-1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ Internal snapshots on backing file:
+ 
+ === -blockdev with NBD server on the backing file ===
+@@ -166,17 +166,17 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm snap0
+ (qemu) info snapshots
+ List of snapshots present on all disks:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+---        snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++--        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ (qemu) loadvm snap0
+ (qemu) quit
+ 
+ Internal snapshots on overlay:
+ Snapshot list:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+-1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ Internal snapshots on backing file:
+ Snapshot list:
+-ID        TAG                 VM SIZE                DATE       VM CLOCK
+-1         snap0                  SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
++1         snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000           
+ *** done
 -- 
 2.26.2
 
