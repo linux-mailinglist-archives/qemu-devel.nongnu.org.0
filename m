@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8B7284C14
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 14:58:11 +0200 (CEST)
-Received: from localhost ([::1]:34138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BBE0284C3E
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 15:08:32 +0200 (CEST)
+Received: from localhost ([::1]:57930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPmXi-0004Q2-MU
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 08:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60146)
+	id 1kPmhj-0006gb-Le
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 09:08:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmVt-0002hz-P2
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37043)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmVy-0002rl-7r
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmVq-0001sX-0c
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:16 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmVw-0001t0-Cf
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601988973;
+ s=mimecast20190719; t=1601988979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3byOrKG4yoU+gNrvvNZ8ALCAT6xbaRmzFtpysRfVokw=;
- b=Qqy2iBleHSYN+EXSaCxOoqxk9N8BClfL730qhn3OT11ryIT+6ORW5H44x4PCFIAcbx1OzJ
- DXajy4oO2aC+mP0H34fcU/IFbxBOZv7FiOI+JgT27pbXMSwKPkYpGEEbFX1A91QEQvv2Y7
- +kPB2So1rMdbI/pe4l0LA6uy3fP1sqM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-AavFQc4EO8CVTRdiAsJK-A-1; Tue, 06 Oct 2020 08:56:11 -0400
-X-MC-Unique: AavFQc4EO8CVTRdiAsJK-A-1
-Received: by mail-wr1-f72.google.com with SMTP id g7so513118wrm.2
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:56:11 -0700 (PDT)
+ bh=VHqbyXPiJRDV4C8FnQjUpTXWXPI5vIxp7C25lKKq3Fo=;
+ b=T+Qub80d9oSouka5gX6nk9r2rgzTBPDfgKb5ouOXbidd9aYWJMeo+kBoencC5KwJi3nAjJ
+ gchZSkfJHmrm70Tb9PpubDP4rpo2vwHXZlfWLx9vzHMnieZS6w0MGQEXkzD8lwtyUtzyDh
+ EPR26L66TYdWzyI2CAoXblMjxd2jiZg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-0b98J307OFint8Mr_-sreQ-1; Tue, 06 Oct 2020 08:56:16 -0400
+X-MC-Unique: 0b98J307OFint8Mr_-sreQ-1
+Received: by mail-wr1-f71.google.com with SMTP id y3so5312094wrl.21
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:56:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3byOrKG4yoU+gNrvvNZ8ALCAT6xbaRmzFtpysRfVokw=;
- b=YgNghLSLFv/7XvxY9X+12aTsqHhkAiJhQ+VnUsmZmtd5mlKjWK/CsY1XHfTSEpwq+F
- ukPK+loKnvyIBEjgbgf79Yeo1Lz2LOwPPsTQa7/3+JQJ0RlOrwv+lc4mTYgsL8hnb8Pp
- 8Q0QTIU/TeffEkPJnp5Tq+CAe5K0ngEs9wRVCx08XXrX/KHcz6BxHRPS3XEDI6I9WAUb
- dFbP5KvBChh+ozWBABSelvtLGF3k9sYkvhAkZEbMfZHLrvLY4xroBsbOVWw+gIGfA6FW
- fA/DrWZeJsdm5jk3ZurOL8gSvgCDDeSkYgJ2XXPsGoOIUUegOaUo3yRuMpAHPppeCbgz
- 3QIA==
-X-Gm-Message-State: AOAM532yGHH5UIWC3O/65+kZp69PMZseNQ5Cb/BILsmIpEhNmFXTbN56
- J++iZrrXh3LdZrpHnmEptbw170GiUzi+oaQ1mE8Vmhjzop4NoJaCQL0NC1PKAXC0qcnKqc7AgeF
- Qm8R6bSfopCSSV0g=
-X-Received: by 2002:adf:dbc3:: with SMTP id e3mr4829674wrj.1.1601988970228;
- Tue, 06 Oct 2020 05:56:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxzLcZlkn6uo2uvxGkfw+8T1ws23uwy2hfnjafpWPvBbmUmIrAN35ZWunoNhYKLY2v1AsoGZg==
-X-Received: by 2002:adf:dbc3:: with SMTP id e3mr4829643wrj.1.1601988969996;
- Tue, 06 Oct 2020 05:56:09 -0700 (PDT)
+ bh=VHqbyXPiJRDV4C8FnQjUpTXWXPI5vIxp7C25lKKq3Fo=;
+ b=HCBHBmqDVysfAel1KNsLi5pZLq7JTNdsOtPViLPMMjRmF7HeNoyBJkRoB/CyVFn+qd
+ BEhUJeak/qDLYH5kLtWiF1zMaefBGQSKQ4CWRE3A6uOMgXegp82En7OcbIqUty/TAoNZ
+ JdrGDXEXN4n7422w+Rqj8KksjNZJ4//9y00YpgB/efGzj8M9eRHbLI1CgF6tLQrMIFIz
+ M6TTpS+mha+sMdLS8MdNaZMEu1BrqJoeQrenmF2xh5PxiC5Q5mC9JiLZf1JszfYMdFHw
+ qeo5U0DigM6yiA8frsxRT3VyTtuxIw0xOiZmKJGAwx1vpSr2yDfip5sk4PBab5/Lktkw
+ 575A==
+X-Gm-Message-State: AOAM530UWLbSaz+iRu1M2RQmSSm6TepwEMLB19MaCiTVwcPn/93E/Pma
+ E1RWR2N8kJaNtAibFXhISlTwRajyfcAnTEaJCjS4S5CA8iSn73QCZL/OujU/yq9xfbsE+z7HECy
+ cqG3EvpxCF8kZ/ss=
+X-Received: by 2002:a5d:6a85:: with SMTP id s5mr2832708wru.90.1601988975096;
+ Tue, 06 Oct 2020 05:56:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzeqrQWQCRK1EX2S+oD40CiZSTZfJhoZAZ8DHL2+3uZ/MK8Gtyhjz0sp06K+9lSMCE2NytQGg==
+X-Received: by 2002:a5d:6a85:: with SMTP id s5mr2832685wru.90.1601988974951;
+ Tue, 06 Oct 2020 05:56:14 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id v2sm4202033wme.19.2020.10.06.05.56.08
+ by smtp.gmail.com with ESMTPSA id f14sm4761594wrv.72.2020.10.06.05.56.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 05:56:09 -0700 (PDT)
+ Tue, 06 Oct 2020 05:56:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/9] meson.build: Add comments to clarify code organization
-Date: Tue,  6 Oct 2020 14:55:54 +0200
-Message-Id: <20201006125602.2311423-2-philmd@redhat.com>
+Subject: [PATCH v2 2/9] meson.build: Sort sourcesets alphabetically
+Date: Tue,  6 Oct 2020 14:55:55 +0200
+Message-Id: <20201006125602.2311423-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006125602.2311423-1-philmd@redhat.com>
 References: <20201006125602.2311423-1-philmd@redhat.com>
@@ -106,35 +106,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meson.build | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index a02c743794..4101620777 100644
+index 4101620777..60497f5615 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1323,6 +1323,10 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
-                              capture: true,
-                              command: [undefsym, nm, '@INPUT@'])
+@@ -1059,19 +1059,19 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
  
-+########################
-+# Library dependencies #
-+########################
-+
- block_ss = block_ss.apply(config_host, strict: false)
- libblock = static_library('block', block_ss.sources() + genh,
-                           dependencies: block_ss.dependencies(),
-@@ -1342,6 +1346,10 @@ libqmp = static_library('qmp', qmp_ss.sources() + genh,
+ # Collect sourcesets.
  
- qmp = declare_dependency(link_whole: [libqmp])
+-util_ss = ss.source_set()
++blockdev_ss = ss.source_set()
++block_ss = ss.source_set()
++bsd_user_ss = ss.source_set()
++common_ss = ss.source_set()
++linux_user_ss = ss.source_set()
++qmp_ss = ss.source_set()
++softmmu_ss = ss.source_set()
++specific_fuzz_ss = ss.source_set()
++specific_ss = ss.source_set()
+ stub_ss = ss.source_set()
+ trace_ss = ss.source_set()
+-block_ss = ss.source_set()
+-blockdev_ss = ss.source_set()
+-qmp_ss = ss.source_set()
+-common_ss = ss.source_set()
+-softmmu_ss = ss.source_set()
+ user_ss = ss.source_set()
+-bsd_user_ss = ss.source_set()
+-linux_user_ss = ss.source_set()
+-specific_ss = ss.source_set()
+-specific_fuzz_ss = ss.source_set()
++util_ss = ss.source_set()
  
-+###########
-+# Targets #
-+###########
-+
- foreach m : block_mods + softmmu_mods
-   shared_module(m.name(),
-                 name_prefix: '',
+ modules = {}
+ hw_arch = {}
 -- 
 2.26.2
 
