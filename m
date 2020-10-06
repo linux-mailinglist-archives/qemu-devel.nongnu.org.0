@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C78284767
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:36:36 +0200 (CEST)
-Received: from localhost ([::1]:54344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97388284804
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:00:04 +0200 (CEST)
+Received: from localhost ([::1]:37626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhWV-00020y-6F
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:36:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39744)
+	id 1kPhtD-00058R-H9
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:00:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQI-0002w4-BE
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:10 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46267)
+ id 1kPhQJ-0002yd-Fg
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:11 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQG-0001Su-NB
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:09 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id o5so12222378wrn.13
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:08 -0700 (PDT)
+ id 1kPhQH-0001T3-Kr
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:11 -0400
+Received: by mail-wr1-x433.google.com with SMTP id w5so12225513wrp.8
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rX/2cdjF+IuOQnPp1vgFSyENqGKo+72G+GCVvdtD8j4=;
- b=OJ7EvcrZsBtrqbmDuOZlKzZwGCzCSBYc2kJZcrl1IlOcG5jjYSogfxeXAXwaOTT1Eg
- 4s/5AX9PkqWdgybN8O0RVEhmCzbhz7J0u8iB2Xf8ag13WzkLNoU/jEqsmh0ifshqcul2
- VDj3RZIkvqcrdxtnS4dxZ3rnB3QQteDc+JK5zp9SaYlzA0up/wpSvZSXuVxOw5/JtX3X
- cYMxKveYswS7zvGfOjJOCxAfVVXt+BFHICE6ovFN1qLbZXm/+dJaqNbDX1RrTcUMiNsS
- P3oGMCgbks2MViCbbf3jBs9/N1wegFXx7V0SDfaiXeYsUzNdtwmGhAWpmp7UwJCfP8FH
- +uSQ==
+ bh=tgn9X5Mgui13Q+dtY55MzZygmKQubhoFj4bw4p092H0=;
+ b=hy188HPhkYVS2OOefQzrhKPFfpS799eBb4iLxp6A3Yaxkwv3HFlNk8vNUBEDSp469o
+ 7vE8IJwKW8yBe8LJGNWNX8LA+H/+XxUtG06J2vsYqRXr4KyK+y/2ATTEIedp2L79bsr9
+ AGsl4c9wZzIVvskbTg7ILjbTsaAcMZtoQ2voDkQWpgnoDt6eAucs+JEC4q/srKEjNeQN
+ 2hpwvpgGX4FLj2gQX2oeZowsUMG+I7T2i2AgN9xBzJUDVREILGwVFtOjgaL6zIDAp+Sn
+ FXG09LkDhs99BZTiSfv9QZbuvrx1mI1m1Zsf7oJv0svyvCjhr4qp4kNxEHI5tJ1ymzHO
+ 5ODA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rX/2cdjF+IuOQnPp1vgFSyENqGKo+72G+GCVvdtD8j4=;
- b=bj+Au3SjebL2D9o58n2T8EiwDYyCQRJyhUq6lNDHCmRM2lm/A5l1i6Nv6bfACkWRXu
- SC0+FI5p3BWT0VFdefAo/atMtvAOTOBlpIxFN/goxo5fHlVoOzaEHJ5sJFhW6KeNi8Lg
- G9wxJVDp6SiyRKb8ggroYHd+QxScTNC8VNW9kITno57MzE03oPs1TNaSQv5LF+izyX/U
- BXQPU+/ipt0GOY6DpGUB0bv9MpXrpk3Ae+x4Ha7qhjj/i4K46j2JUiqizrtZ+ebU1FJn
- ojruXJt7c2VrcDjwWx4Dh4C9KR+jA1hUDNxl7L40CLhaHvF4ElbYJ30OEUT3BYau5LJB
- Na4A==
-X-Gm-Message-State: AOAM533CHeIcQQ8+1/mMKXMA1ykjk3Eg8k9jZTczgR6LEXQueBX8x+L1
- EEAU1gIPPMcUaS3b+g++hGMYCT2uGhw=
-X-Google-Smtp-Source: ABdhPJxgp8MbFnQ8Po0YZis6YYKlhiSbdxBD9e8P7vo8sZsb7qKn+kbeL4lwgwCPulYDD6mocoz9iA==
-X-Received: by 2002:adf:90a2:: with SMTP id i31mr3606709wri.276.1601969407103; 
+ bh=tgn9X5Mgui13Q+dtY55MzZygmKQubhoFj4bw4p092H0=;
+ b=J7Q1j6kK0ldv8hkdNjG4npnSvQsK8LQbIJnn24cQunfydt5pQMvRWKLy0AlZnCn7yX
+ Q0FwU1vzVgBkqZt9py67qPDjBj/mc+Rm3tlhd5bylBmytzS514wciR9fqm7mV8fY8Vhf
+ txB3fvALX7Rw8YrrMfuJs1oj0Q0lagBJZME7Rb0HSS4UZfUOHfsNDWlHwHxEHiT+YI9k
+ l832FfSt6OBYuR2pt7rv8q8OfbE0EkduE3M2LJuU957ByKPHkkn4xpOzSFPqX2LNC+DQ
+ Juk7G249aBsCtrFri1hBMj2cq/0RveaAvaESzSp1+Zo+9CgOYEaoEEijzoMhdV23pBKI
+ km/A==
+X-Gm-Message-State: AOAM532BWFlKEPC/6D7m59zTdgjkUfFcDT0O3JHnKvoSPHDWCv5FZs+M
+ cCLWUFQ6EL+V7RblLfE5Yf06CDOoiPg=
+X-Google-Smtp-Source: ABdhPJxAk1CYIrx2ddZyo8Y37CV26h9DSy3VHODQf/GiBVnAG77heCVDo7JC2wphp50ANmSuEH/pYA==
+X-Received: by 2002:adf:d18c:: with SMTP id v12mr3241864wrc.131.1601969407980; 
  Tue, 06 Oct 2020 00:30:07 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.06
+ by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:30:06 -0700 (PDT)
+ Tue, 06 Oct 2020 00:30:07 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/37] configure: don't enable ASLR for --enable-debug Windows
- builds
-Date: Tue,  6 Oct 2020 09:29:33 +0200
-Message-Id: <20201006072947.487729-24-pbonzini@redhat.com>
+Subject: [PULL 24/37] replay: don't record interrupt poll
+Date: Tue,  6 Oct 2020 09:29:34 +0200
+Message-Id: <20201006072947.487729-25-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006072947.487729-1-pbonzini@redhat.com>
 References: <20201006072947.487729-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -86,47 +86,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
-Unlike other OSs it is not possible for gdb to temporarily disable ASLR when
-debugging executables on Windows which causes gdb to fail with memory access
-errors when trying to debug QEMU.
+Interrupt poll is not a real interrupt event. It is needed only for
+thread safety. This interrupt is used for i386 and converted
+to hardware interrupt by cpu_handle_interrupt function.
+Therefore it is not needed to be recorded, because hardware
+interrupt will be recorded after converting.
 
-Keep ASLR enabled by default on Windows via the --dynamicbase compiler flag
-except for --enable-debug builds when there is a clear expectation that a
-functioning gdb is expected at the cost of slightly less security.
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20201005133434.12614-1-mark.cave-ayland@ilande.co.uk>
+--
+
+v4 changes:
+ - Condition check refactoring (suggested by Alex Bennée)
+Message-Id: <160174517124.12451.12983410242461131737.stgit@pasha-ThinkPad-X280>
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ accel/tcg/cpu-exec.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/configure b/configure
-index 04c8cc017c..28df227db5 100755
---- a/configure
-+++ b/configure
-@@ -5882,7 +5882,14 @@ fi
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 0dbe67acf5..58aea605d8 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -436,8 +436,7 @@ static inline bool cpu_handle_halt(CPUState *cpu)
+ {
+     if (cpu->halted) {
+ #if defined(TARGET_I386) && !defined(CONFIG_USER_ONLY)
+-        if ((cpu->interrupt_request & CPU_INTERRUPT_POLL)
+-            && replay_interrupt()) {
++        if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
+             X86CPU *x86_cpu = X86_CPU(cpu);
+             qemu_mutex_lock_iothread();
+             apic_poll_irq(x86_cpu->apic_state);
+@@ -533,6 +532,20 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
+     return false;
+ }
  
- # Use ASLR, no-SEH and DEP if available
- if test "$mingw32" = "yes" ; then
--    for flag in --dynamicbase --no-seh --nxcompat; do
-+    flags="--no-seh --nxcompat"
++/*
++ * CPU_INTERRUPT_POLL is a virtual event which gets converted into a
++ * "real" interrupt event later. It does not need to be recorded for
++ * replay purposes.
++ */
++static inline bool need_replay_interrupt(int interrupt_request)
++{
++#if defined(TARGET_I386)
++    return !(interrupt_request & CPU_INTERRUPT_POLL);
++#else
++    return true;
++#endif
++}
 +
-+    # Disable ASLR for debug builds to allow debugging with gdb
-+    if test "$debug" = "no" ; then
-+        flags="--dynamicbase $flags"
-+    fi
-+
-+    for flag in $flags; do
-         if ld_has $flag ; then
-             QEMU_LDFLAGS="-Wl,$flag $QEMU_LDFLAGS"
-         fi
+ static inline bool cpu_handle_interrupt(CPUState *cpu,
+                                         TranslationBlock **last_tb)
+ {
+@@ -594,7 +607,9 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
+            and via longjmp via cpu_loop_exit.  */
+         else {
+             if (cc->cpu_exec_interrupt(cpu, interrupt_request)) {
+-                replay_interrupt();
++                if (need_replay_interrupt(interrupt_request)) {
++                    replay_interrupt();
++                }
+                 /*
+                  * After processing the interrupt, ensure an EXCP_DEBUG is
+                  * raised when single-stepping so that GDB doesn't miss the
 -- 
 2.26.2
 
