@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74FB3285487
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:26:27 +0200 (CEST)
-Received: from localhost ([::1]:54292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBDF285491
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:28:23 +0200 (CEST)
+Received: from localhost ([::1]:57606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPvPe-0006nQ-0W
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:26:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45486)
+	id 1kPvRW-00088i-PE
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPvA0-00079O-5S
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23577)
+ id 1kPv9y-00074M-6C
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9v-0006RA-Qv
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:15 -0400
+ id 1kPv9v-0006RV-Sv
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602022204;
+ s=mimecast20190719; t=1602022207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wabzeqjx4gl9MHSoxV5ky7HBWx939+T9xiX3U/dgbwI=;
- b=XjH0piKSixdASl90jFcQU5OSAp5CAu+g+9z9duDpHhRPA2lJ19Dkcu/ynU6DC9TDk68J09
- s+3KfU3rQu3Justtk6DstrGChNimQFGSekqaZKHR3xWf9eJ2UyQV2lB167Vr9Wjf6Y+h5Q
- z2ioo+umZjbB0dqwg75wUwFVDayLvT0=
+ bh=adKz+t15Ay7dYk3xI2XJtbX9dWYumdGT/9CD6sJlYlk=;
+ b=RXFfSw7HXDs1wFTZzQ9VCPnOv3MkeoViPFR3CQuiz5UnsvYUdE0twmjKjXuiqhi5YzfwOW
+ n87w+I1K2Pr8yB6BgoPx2tJ+QdsXEJ9mci6ETbEU/AJYvVgyeIO+ITIFGzVdCDOkQl8iZG
+ yZTh5NDuhpfDL0lOY9hzZqhuMaG0CHc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-zGoc1BbMMFmmseS-qe6DSA-1; Tue, 06 Oct 2020 18:10:01 -0400
-X-MC-Unique: zGoc1BbMMFmmseS-qe6DSA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-527-JWsNrgsnNOatUJOe7hCnZw-1; Tue, 06 Oct 2020 18:10:02 -0400
+X-MC-Unique: JWsNrgsnNOatUJOe7hCnZw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B501580400C;
- Tue,  6 Oct 2020 22:10:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB85310082EC;
+ Tue,  6 Oct 2020 22:10:01 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 770406EF43;
- Tue,  6 Oct 2020 22:10:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88CAE1A835;
+ Tue,  6 Oct 2020 22:10:01 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 20/21] kernel-doc: Remove $decl_type='type name' hack
-Date: Tue,  6 Oct 2020 18:09:29 -0400
-Message-Id: <20201006220930.908275-21-ehabkost@redhat.com>
+Subject: [PULL 21/21] numa: hmat: require parent cache description before the
+ next level one
+Date: Tue,  6 Oct 2020 18:09:30 -0400
+Message-Id: <20201006220930.908275-22-ehabkost@redhat.com>
 In-Reply-To: <20201006220930.908275-1-ehabkost@redhat.com>
 References: <20201006220930.908275-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,57 +84,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The $decl_type='type name' hack makes it impossible to document
-macros with uppercase names (e.g. most of the macros in
-object.h).
+From: Igor Mammedov <imammedo@redhat.com>
 
-Now that we have explicitly tagged the struct and typedef doc
-comments in memory.h and object.h, we don't need that hack
-anymore.  This will make the documentation for the macros in
-object.h finally be rendered as expected.
+Spec[1] defines 0 - 3 level memory side cache, however QEMU
+CLI allows to specify an intermediate cache level without
+specifying previous level. Such option(s) silently ignored
+when building HMAT table, which leads to incomplete cache
+information.
+Make sure that previous level exists and error out
+if it hasn't been provided.
 
+1) ACPI 6.2A 5.2.27.5 Memory Side Cache Information Structure
+
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1842877
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201003024123.193840-6-ehabkost@redhat.com>
+Message-Id: <20201006150002.1601845-1-imammedo@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- scripts/kernel-doc | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ hw/core/numa.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 57b911ff17..0ff62bb6a2 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1064,14 +1064,6 @@ sub output_blockhead {
- sub dump_declaration($$) {
-     no strict 'refs';
-     my ($prototype, $file) = @_;
--    if ($decl_type eq 'type name') {
--       if ($prototype =~ /^(enum|struct|union)\s+/) {
--	   $decl_type = $1;
--	} else {
--	   return;
--       }
--    }
--
-     my $func = "dump_" . $decl_type;
-     &$func(@_);
- }
-@@ -1928,9 +1920,7 @@ sub process_name($$) {
- 	    ++$warnings;
- 	}
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 7d5d413001..7c4dd4e68e 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -424,7 +424,13 @@ void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
+     }
  
--	if ($identifier =~ m/^[A-Z]/) {
--	    $decl_type = 'type name';
--	} elsif ($identifier =~ m/^struct\b/) {
-+	if ($identifier =~ m/^struct\b/) {
- 	    $decl_type = 'struct';
- 	} elsif ($identifier =~ m/^union\b/) {
- 	    $decl_type = 'union';
+     if ((node->level > 1) &&
+-        ms->numa_state->hmat_cache[node->node_id][node->level - 1] &&
++        ms->numa_state->hmat_cache[node->node_id][node->level - 1] == NULL) {
++        error_setg(errp, "Cache level=%u shall be defined first",
++                   node->level - 1);
++        return;
++    }
++
++    if ((node->level > 1) &&
+         (node->size <=
+             ms->numa_state->hmat_cache[node->node_id][node->level - 1]->size)) {
+         error_setg(errp, "Invalid size=%" PRIu64 ", the size of level=%" PRIu8
 -- 
 2.26.2
 
