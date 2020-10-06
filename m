@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CE0284B6E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 14:12:08 +0200 (CEST)
-Received: from localhost ([::1]:46990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5F5284B77
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 14:13:09 +0200 (CEST)
+Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPlp9-00058I-U1
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 08:12:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
+	id 1kPlq8-00073C-9E
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 08:13:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPlnA-0003Mm-BE
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:10:04 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44550)
+ id 1kPlnC-0003OQ-7x
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:10:06 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPln7-0004Dm-Vr
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:10:04 -0400
-Received: by mail-pl1-x641.google.com with SMTP id h2so1117082pll.11
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:10:01 -0700 (PDT)
+ id 1kPlnA-0004EN-Fv
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:10:05 -0400
+Received: by mail-pl1-x642.google.com with SMTP id h2so1117125pll.11
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ChWuKq12YEBlrVQq4Iva9E7cg0lDlX98+uvW3A3EDFU=;
- b=Q0nHtbtgCA/rPt07KzbJ9+UaXJUZvRdskOPP47GpIoRdVyz4D2ik6TezGtkoIaxmHF
- fARW2a/0bPMCv7REiIAxMILK+aAEJGvnS2Ghcgej6DjKGFPR7thCIDn1+ZYLBmRsio9W
- fJ3Da+54SDY+DPCkxD1NvbwD1xhPrJicivJNTTVH6RsL17YbzjWpvBcAZIzgXris3pOg
- IzZUl3DBteHS30S+uuTiNTJfweWCpPk4Wh6CfPK8pv8MK9clMbgI2bfatMEnFJ+QBMqT
- zk6WXLUExYtHEdSQgI/gNXJYHmzQtGCKj8xdAKPIAXnkNDI4tBrdJQ/uHwhywbH9x3Ft
- WBXg==
+ bh=dUzCYJf1zGH8bjxVLC2B7lv4j1gP+ZwtRM63BTbI6Lk=;
+ b=vbzT3j4Y1pCF30z/9/Ro3kcDdY9cjeq1lyJQdrx7sGwqicbjs1mRTGXJEStrS1xYJ9
+ BiEWpc7m0VWM/iSy2nx1J9b3HYQRJCUk6zAfyHBp66zHokUhlOC5kZIJmC2dY8kl5PC2
+ JUI4BrU1adsjDiwUMZd33dNiRtsicBnzXmFmicrDMXYtM8iGoiXydogR4AtIhvCvqXfb
+ arzaV94kYMB+76BOpseREmquhNVEi0Ts9oJc00rcqmCmNBXMfTVlYl6yr0aCQS1BKXLI
+ u+9WbBpJWhXVHEEHNO7lvH9AZElxmQxhI9vtdDNg8Zvw4GqyJbCaCLVmbk5OreSff+3y
+ d1Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ChWuKq12YEBlrVQq4Iva9E7cg0lDlX98+uvW3A3EDFU=;
- b=EVvaHXdJOVSjSSh5bdCpO0ICK/0cHrys8p4vjXMuS6G+PUPud5a6OO8tuFJXYf+1FZ
- PbNfnyeuZ7hDQTBqQWuQGgts0HS4Rk30ISrltIWPPhmQrqNkieYeu9Tszm/yttdAwwVk
- GnZ7EG4EFiVDp6mOt0hYTl1I1HFYsHP3J7kXQ1H6FddPWmOpa9kRkQZW5xfDt4vLOFQf
- zTO/5KD3FLxERX/dB+fjWi7/mEYYWRajfVOxE0bPw8Xy1dvctzBViARx0K9ZqosQYlYQ
- YCKoqZbW6//JwO3JfBOs27XCt2YWgXHZ+3xojurpAannjQGKMoQMcVht/qvLCeqjOPAF
- ZL/w==
-X-Gm-Message-State: AOAM532U4S54JtZLNsY6tyg9B10VwHp8FUuF4FFsUMjlL3h+/hDVgBwB
- lAqQGtVE6CpPM6m5+g2RCO+JWJl8ufVy0A==
-X-Google-Smtp-Source: ABdhPJxnPS65Yk4e6fTu4UvMdrVzT9i8MaRPkgWO1SUeMLIXcHjDVX8kOcLU2GSjf/WYnxmklQsjxA==
-X-Received: by 2002:a17:90a:e088:: with SMTP id
- q8mr4260818pjy.172.1601986200303; 
- Tue, 06 Oct 2020 05:10:00 -0700 (PDT)
+ bh=dUzCYJf1zGH8bjxVLC2B7lv4j1gP+ZwtRM63BTbI6Lk=;
+ b=PMi7cb46XeyrT0uSOmbJ14KEiNxNg4nCqL8YgDTbsjeML0l/+OSPWxhvpyhmirFw0J
+ 19ur1ZMUpIRZrv+voPrMLU79vD9PH7I1D/WJzP8lVzTswXcCd4Z45iY0Zkfd47q/C9LM
+ +Z7IUN+cgxcKXbrT/4HUNm40kNBwTztcJOgjwJiiC/hmeGvXObUAphvaqBg/jH0bWFu/
+ d5ng3q3AGow/OrD0fOo0e1ehQpDAs91GSvmJxxM+58ZBdD+u2U84KcFvDjpsOP2DmqrX
+ kEbkvciHO4dyx00SkAjaNwcFInusSzG+vODJvOdS1u4KCjsAPRg8nJ2p5rwXtHQx4heB
+ Bd/g==
+X-Gm-Message-State: AOAM5303lsSb98TT+SaftyAXWs55dp06BvyxCqOpI0o0+RUzuHFpkC7H
+ uLMQXxnrR1zSRebPKnLk5Aqq3o03iim5DQ==
+X-Google-Smtp-Source: ABdhPJwvEqs1rpiA5GDP41oPh7zHTbuvm6dRzzWOn6YR48IL6+VfM25vVQqQnSdB/xmAcxD2woX1Vw==
+X-Received: by 2002:a17:90a:ae12:: with SMTP id
+ t18mr4148025pjq.147.1601986202638; 
+ Tue, 06 Oct 2020 05:10:02 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id f4sm2965681pgk.19.2020.10.06.05.09.58
+ by smtp.googlemail.com with ESMTPSA id f4sm2965681pgk.19.2020.10.06.05.10.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 05:09:59 -0700 (PDT)
+ Tue, 06 Oct 2020 05:10:01 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/7] plugin: getting qemu_plugin_get_hwaddr only expose one
- function prototype
-Date: Tue,  6 Oct 2020 20:08:56 +0800
-Message-Id: <20201006120900.1579-4-luoyonggang@gmail.com>
+Subject: [PATCH v5 4/7] plugin: Fixes typo in qemu-plugin.h
+Date: Tue,  6 Oct 2020 20:08:57 +0800
+Message-Id: <20201006120900.1579-5-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201006120900.1579-1-luoyonggang@gmail.com>
 References: <20201006120900.1579-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,47 +91,35 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is used for counting how much function are export to qemu plugin.
+Getting the comment consistence with the function name
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- plugins/api.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ include/qemu/qemu-plugin.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/plugins/api.c b/plugins/api.c
-index bbdc5a4eb4..13177d3578 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -251,10 +251,12 @@ bool qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info)
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index bab8b0d4b3..daac8291b8 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -218,7 +218,7 @@ void qemu_plugin_register_vcpu_tb_trans_cb(qemu_plugin_id_t id,
+                                            qemu_plugin_vcpu_tb_trans_cb_t cb);
  
- #ifdef CONFIG_SOFTMMU
- static __thread struct qemu_plugin_hwaddr hwaddr_info;
-+#endif
+ /**
+- * qemu_plugin_register_vcpu_tb_trans_exec_cb() - register execution callback
++ * qemu_plugin_register_vcpu_tb_exec_cb() - register execution callback
+  * @tb: the opaque qemu_plugin_tb handle for the translation
+  * @cb: callback function
+  * @flags: does the plugin read or write the CPU's registers?
+@@ -236,7 +236,7 @@ enum qemu_plugin_op {
+ };
  
- struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
-                                                   uint64_t vaddr)
- {
-+#ifdef CONFIG_SOFTMMU
-     CPUState *cpu = current_cpu;
-     unsigned int mmu_idx = info >> TRACE_MEM_MMU_SHIFT;
-     hwaddr_info.is_store = info & TRACE_MEM_ST;
-@@ -266,14 +268,10 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
-     }
- 
-     return &hwaddr_info;
--}
- #else
--struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
--                                                  uint64_t vaddr)
--{
-     return NULL;
--}
- #endif
-+}
- 
- bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr)
- {
+ /**
+- * qemu_plugin_register_vcpu_tb_trans_exec_inline() - execution inline op
++ * qemu_plugin_register_vcpu_tb_exec_inline() - execution inline op
+  * @tb: the opaque qemu_plugin_tb handle for the translation
+  * @op: the type of qemu_plugin_op (e.g. ADD_U64)
+  * @ptr: the target memory location for the op
 -- 
 2.28.0.windows.1
 
