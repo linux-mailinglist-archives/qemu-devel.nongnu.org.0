@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91F9284B7C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 14:13:59 +0200 (CEST)
-Received: from localhost ([::1]:54392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD379284B7F
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 14:16:52 +0200 (CEST)
+Received: from localhost ([::1]:60498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPlqw-00088G-Qz
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 08:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49098)
+	id 1kPltj-0002Pz-Ue
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 08:16:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPlnM-0003UU-97
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:10:16 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36836)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPlnK-0004FM-JF
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:10:15 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id x16so7890923pgj.3
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:10:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9ZjByY0MppOyobXen+0uddzbK8uVuelULUAbb8n9Gk0=;
- b=urNh0aSPHimYCDbh5F40nns7wONq/7IYIack8l1bO+X1G5FlSsXi1/ywEpubiS0bbp
- nXGOnzYrkbX6ybuHKOLkhjSaU8kfq1vuPpJGGpZTAHK3DgKea0+4xYo86FdhdFQT/exX
- aaVrcV4t9g6WeLrIix7vGfI5RXPC7JWUsJ/QAOpi/2igpbJOocAuPp816VLd4AwJ7AgO
- W9vbUWO9iwxVY1tgTSk48DdYOedK1wjZyA08qXzPCPKBuMDFEpKxZTb1h81v51Xs+1nD
- Tg8oNwvwK6R6kHCCo/Re9H97e8x+VEkqiBpWtjVRQc55p5pbzU8uJyRq+224C2rePbJA
- HgiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9ZjByY0MppOyobXen+0uddzbK8uVuelULUAbb8n9Gk0=;
- b=sd2ulPTFLezsvycHIDb6GLuRNe2G6IaWMJOt7WXG2XGDeC0UM7MVuJfi9sx/ItWtJg
- djtvKeGoROfyIOW3aDPOXOLFXAEbZ8+D6kkgt3EH+RNhVUq8e/dpx0OiT+uWSlrayPtq
- pgaqz3iSEQ7C0PRTjnsEphparLfZLxnJm9O8Ai/c79eRtGp4J0m6fOQ9AfH6053Fsw3w
- 61hvULVwztRkffsV5wWakGOiJJgrjGVEa2E0itGg5eeBsrwJrHcfMDZ7dJ6Rbco22Uxn
- mVPjc6ch47U9yjt7vYp8Af7uj9WAUVURDA/1m6PC6XBJi0W8TG7vePB9E8Ds3jDyxnY2
- Vn3A==
-X-Gm-Message-State: AOAM533+eNxpgHjyiMl3UEgdimwZVO6YsNKSYmZwSYHR3cKRVdno1QVr
- v0BI3SGiqNAnb5nYAtMhKaF9xgWKXNdYIA==
-X-Google-Smtp-Source: ABdhPJz+zAsFQLJjeVAvi8mKrGy3hNxXDZLy1GKjzQn9OunR1Ye4PN9/CDQMH68EKemOPOANVS1BLg==
-X-Received: by 2002:a63:fe03:: with SMTP id p3mr3773610pgh.100.1601986211368; 
- Tue, 06 Oct 2020 05:10:11 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id f4sm2965681pgk.19.2020.10.06.05.10.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 05:10:10 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 7/7] cirrus: Enable plugin in cirrus for windows
-Date: Tue,  6 Oct 2020 20:09:00 +0800
-Message-Id: <20201006120900.1579-8-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20201006120900.1579-1-luoyonggang@gmail.com>
-References: <20201006120900.1579-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kPlsG-0001cf-8U
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:15:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kPlsD-0004sN-Fg
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:15:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601986515;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=26xgIK7jbc1EPcc81EYzt3KKdARv/T8c8yaGc5r9LKA=;
+ b=IOZ2DD/XhW3iyo5jXbzEdiJIiMMKe4j4/rND+UWxgt8mX9CxMGdN73m1GUK1HDghLPaJYD
+ J8Li8NSNPTdF5C9j0PUSAHhwOH127ZUVuJgaYf3jtSJPpbLfnwjrl2l0DrahNMr08sCzve
+ nqCOPtDHhcACMweH8jNLzmMB2hIYTeU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-y0LPUX5_N72s_G3XV6SopQ-1; Tue, 06 Oct 2020 08:15:14 -0400
+X-MC-Unique: y0LPUX5_N72s_G3XV6SopQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B4FC9CC12;
+ Tue,  6 Oct 2020 12:15:13 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-113-147.ams2.redhat.com [10.36.113.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B56F91A837;
+ Tue,  6 Oct 2020 12:15:08 +0000 (UTC)
+Date: Tue, 6 Oct 2020 14:15:07 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 1/1] hw/nvram: Always register
+ FW_CFG_DATA_GENERATOR_INTERFACE
+Message-ID: <20201006121507.GE4202@linux.fritz.box>
+References: <20201006111909.2302081-1-philmd@redhat.com>
+ <20201006111909.2302081-2-philmd@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20201006111909.2302081-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,32 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- .cirrus.yml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Am 06.10.2020 um 13:19 hat Philippe Mathieu-Daudé geschrieben:
+> While the FW_CFG_DATA_GENERATOR_INTERFACE is only consumed
+> by a device only available using system-mode (fw_cfg), it is
+> implemented by a crypto component (tls-cipher-suites) which
+> is always available when crypto is used.
+> 
+> Commit 69699f3055 introduced the following error in the
+> qemu-storage-daemon binary:
+> 
+>   $ echo -e \
+>     '{"execute": "qmp_capabilities"}\r\n{"execute": "qom-list-types"}\r\n{"execute": "quit"}\r\n' \
+>     | storage-daemon/qemu-storage-daemon --chardev stdio,id=qmp0  --monitor qmp0
+>   {"QMP": {"version": {"qemu": {"micro": 50, "minor": 1, "major": 5}, "package": ""}, "capabilities": ["oob"]}}
+>   {"return": {}}
+>   missing interface 'fw_cfg-data-generator' for object 'tls-creds'
+>   Aborted (core dumped)
+> 
+> Since QOM dependencies are resolved at runtime, this issue
+> could not be triggered at linktime, and we don't have test
+> running the qemu-storage-daemon binary.
+> 
+> Fix by always registering the QOM interface.
+> 
+> Reported-by: Kevin Wolf <kwolf@redhat.com>
+> Fixes: 69699f3055 ("crypto/tls-cipher-suites: Produce fw_cfg consumable blob")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 86ea33926a..5363142373 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -104,7 +104,8 @@ windows_msys2_task:
-     - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure
-       --python=python3 --ninja=ninja
--      --target-list-exclude=i386-softmmu,arm-softmmu,ppc-softmmu,mips-softmmu"
-+      --target-list-exclude=i386-softmmu,arm-softmmu,ppc-softmmu,mips-softmmu
-+      --enable-plugins"
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j$NUMBER_OF_PROCESSORS"
-   test_script:
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
--- 
-2.28.0.windows.1
+This fails to build for me:
+
+../hw/nvram/meson.build:2:7: ERROR: Unknown method "add" in object.
+
+Kevin
 
 
