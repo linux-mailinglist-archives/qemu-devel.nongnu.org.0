@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B5228518B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:23:06 +0200 (CEST)
-Received: from localhost ([::1]:34068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D872851A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:34:49 +0200 (CEST)
+Received: from localhost ([::1]:40474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPrc7-0001Pk-KB
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:23:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55600)
+	id 1kPrnU-0004tu-FJ
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:34:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kPrar-0000tK-8Z
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:21:45 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:53489)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kPrap-000594-6w
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:21:44 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id x5so1310905pjv.3
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 11:21:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qIaZQS3HbyTjv/g2etusfT9JyxHP7d3TupGt6jXqf4k=;
- b=Y6QQZn1wwnKJXhr96kGWtiLTpC3WX56lIkP63/ACCL8LQPC732fk7yBYbwq3mmM7EL
- 0gvNtTlxOuD5RrOiPm1w9pkgrDySNEmGj0CNjk/nb60iau3+h8FSfssHxBCCZrszLgu3
- G8f0rpwcYlgFsQwXboBZavsE3wYr+5nEToe+eTentoSztN6QKzhfhNFgNXwzmOiaflfI
- 6/Q78T0qnqbXD5pi0KhstmuSM3zu4sPhHbPvmX2qpUvLakN/Diy13lOS2CrXHA1LMN2u
- amkpD7Oulf0XF75NSKIOInJGA56fiVFOzz5K71BrKRYvGCykIot4y3q8Z/KNNvOfTRKt
- zzCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qIaZQS3HbyTjv/g2etusfT9JyxHP7d3TupGt6jXqf4k=;
- b=eN0A71DnR4wz0MvWM5uzY86X+WW/u6QAUhaAvi8AXh7r1NUNkFr+JBbqHEzGO4OjM9
- +dQ4+clfpmvWwepAQl4lXbgHMgH7xuKby7r61uV7Is0LeH9ZoOZJTTR1VlUXwjtn2CiJ
- ta3B8rFn2WUIVFISOB6dLTda8l/+px4z2Vw91sbwLIq5vX6FpNw6X/kHcLrX3ntxKA+L
- ImYQCQt1IMl0llA+iXyq9q/MA6v5K/XlwlHkrq2wykK208u/DIoVFdXLvnXvo91FS+ap
- EGbSZ8MHirrrypgVG6cwkfJj9yJ6kQyyyvfMPkj1fSseuOaM03A+sbdWinwsBIFHDzYj
- rQkw==
-X-Gm-Message-State: AOAM531NTJXVoMr07zlEFyEiSGZIcxFgryur4M8OA5adv0Uw2tpCvGMw
- yhlsUNggHTjsCV+BZupJMaVUSRZPzTiIVSesAXg=
-X-Google-Smtp-Source: ABdhPJyYTL6qaF1uzL8mYEsobTUFEL2o0oBnqlqTWbmnwWMhzXoORfy4bhVuPclvoC7G0TSFLNYCwy5p+jYMQYBq9mE=
-X-Received: by 2002:a17:902:7687:b029:d2:8d1f:1079 with SMTP id
- m7-20020a1709027687b02900d28d1f1079mr4452269pll.2.1602008501199; Tue, 06 Oct
- 2020 11:21:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrke-0002zr-CT
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:31:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43295)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrkR-0006Np-04
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:31:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602009096;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=px390/cbU5fRijvT9BgBdVcgqRCtywOOscTZCvwFeZc=;
+ b=c/3Vhnbm+TP9KsO5PcsH7Xczts+eJuby4MCLV+kfBB0TcQORuwhFV3V2aP5axL9Vy28EcC
+ SDsbcm+Uf+mL+DvSlRQ1Dfi/vQ26tPD7Uehf01o+nGTaiNbuK5wFT4MqGiiZw0ib/wk5+k
+ CRlWMH5XITf0BrPyeDnF4APiW3peSq4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-573-UnRi0o1iOW6Efmz3bvaFgA-1; Tue, 06 Oct 2020 14:31:33 -0400
+X-MC-Unique: UnRi0o1iOW6Efmz3bvaFgA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77EF680365F;
+ Tue,  6 Oct 2020 18:31:31 +0000 (UTC)
+Received: from thuth.com (ovpn-113-60.ams2.redhat.com [10.36.113.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 972A06EF43;
+ Tue,  6 Oct 2020 18:31:29 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/16] s390-ccw bios update
+Date: Tue,  6 Oct 2020 20:31:06 +0200
+Message-Id: <20201006183122.155609-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <874kndm1t3.fsf@secure.mitica>
- <20201005144615.GE5029@stefanha-x1.localdomain>
-In-Reply-To: <20201005144615.GE5029@stefanha-x1.localdomain>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 6 Oct 2020 19:21:29 +0100
-Message-ID: <CAJSP0QVZcEQueXG1gjwuLszdUtXWi1tgB5muLL6QHJjNTOmyfQ@mail.gmail.com>
-Subject: Re: KVM call for agenda for 2020-10-06
-To: Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=stefanha@gmail.com; helo=mail-pj1-x1044.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,108 +76,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- kvm-devel <kvm@vger.kernel.org>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Marc Hartmayer <mhartmay@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you everyone who joined the call. The meeting notes are below.
+ Hi Peter,
 
-Stefan
----
-*KVM Community Call - Tue Oct 6th
-*Topic: QEMU CLI QAPI conversion
+the following changes since commit d7c5b788295426c1ef48a9ffc3432c51220f69ba:
 
-    * John Snow's summary of command-line options:
-https://docs.google.com/spreadsheets/d/1OJvzDwLpo2XsGytNp9Pr-vYIrb0pWrFKBNP=
-tOyH80ew/edit?usp=3Dsharing
-    * What is the first milestone?
-        * Is it QemuOpts for everything? Straight to QAPI? something else?
-        * Markus: The goal is to represent the configuration interface
-in QAPI types
-            * Don't parse QemuOpts, go straight to QAPI
-    * How do we distribute this work to multiple engineers?
-        * Examples:
-            * --blockdev API is used on the command-line
-            * --display
-            * qemu-storage-daemon command-line is largely QAPI-fied
-    * Alex Bennee:
-        * We should have a gold-standard reference with documentation
-if we are to expect maintainers to convert their own flags
-        * -> John Snow will work on this document
-    * Do we have good examples of turning QemuOpts to QAPI?
-        * 53 of our 93 CLI flags that take arguments are QemuOpts, so
-this is a major component
-        * Kevin: -monitor for the Qemu Storage Daemon, recently
-    * John Snow: Final milestone might be an automated QAPI-based CLI
-parser, but only once QAPI types have been defined
+  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2020-10-06 12:15:59 +0100)
 
-    * Does command-line order matter?
-        * Two options: allow any order OR left-to-right ordering
-        * Andrea Bolognani: Most users expect left-to-right ordering,
-why allow any order?
-        * Eduardo Habkost: Can we enforce left-to-right ordering or do
-we need to follow the deprecation process?
-        * Daniel Berrange: Solve compability by introducing new
-binaries without the burden of backwards compability
-            * Unclear whether we will reach consensus on this call
-about this. Maybe raise it on qemu-devel. [stefanha]
-            * Philippe: Easy command-line options (-drive) and
-managent-friendly options (-blockdev) could be offered by different
-binaries
-                * Daniel Berrange: Focussing on one new binary is more
-achievable
+are available in the Git repository at:
 
-    * Board defaults, configuration file options
-        * How to set properties on existing objects (e.g. board defaults)?
-        * Andrea Bolognani: Perhaps represent the board defaults as a
-list of ordered options, append user-provided options, and *only then*
-create the object?
-            * Currently the boards create QOM objects directly, they
-don't involve QAPI
-        * Stefan: How do QOM objects/properties fit into QAPI
-CLI/configuration parsing?
-            * QAPI objects are processed by functions that will create
-QOM objects
-        * Markus: -global is broken
+  https://gitlab.com/huth/qemu.git tags/pull-request-2020-10-06
 
-    * Eduardo: Long-term goal to describe QOM properties in QAPI
-        * Daniel Berrange: eliminate QOM boilerplate by describing
-object properties in QAPI
-        * Markus: It's hard to use QAPI because QOM properties are
-dynamic and can change at runtime
+for you to fetch changes up to eb32abd8d931994d10327bd965a4fb12d765a0fb:
 
-    * Next steps
-        * John Snow and Markus will work on reference documentation
+  tests/qtest/cdrom: Add more s390x-related boot tests (2020-10-06 20:14:48 +0200)
 
+----------------------------------------------------------------
+* Don't stop at the first unbootable device, continue scanning
+* Fix corner cases in booting from ECKD
+* s390x-ccw bios cleanup part 2​
+----------------------------------------------------------------
 
+Janosch Frank (4):
+      pc-bios: s390x: Fix bootmap.c zipl component entry data handling
+      pc-bios: s390x: Save PSW rework
+      pc-bios: s390x: Use reset PSW if avaliable
+      pc-bios: s390x: Go into disabled wait when encountering a PGM exception
 
-Bluejeans Chat Log
-    [ 9:02] Stefan Hajnoczi: https://etherpad.opendev.org/p/QEMUCLI
-    [ 9:05] John Ferlan: @stefan - there are some people in a different roo=
-m....
-    [ 9:08] Daniel Berrange: if you're not talking please mute
-    [ 9:24] Alex Benn=C3=A9e: I ran into this ordering stuff w.r.t
-semihosting and chardevs so knowing how to properly order things in
-the "new world" would be useful
-    [ 9:33] Phil: YAML &anchor symbol is helpful to use a definition
-from a previous layer
-    [ 9:34] Mdasoh: It makes sense to have ordered options when you're
-talking about putting objects within objects; at the same time it
-doesn't make so much sense to order them when you're talking about
-running them all through a BNF parser (flex+yacc?) for user-friendly
-configuration. So of course there would be two layers, and you would
-translate the unordered options into a set of encapsulating or ordered
-options.
-    [ 9:49] Andrea Bolognani: It Will Be Totally Different This Time=E2=84=
-=A2
-    [ 9:50] John Snow: ^ that's partly why I wanted to discuss this,
-to set concrete goals and to be able to measure progress
-    [ 9:51] Alex Benn=C3=A9e: I'm afraid I have to drop off for the school
-run - look forward to reading the reference docs ;-)
-    [ 9:51] John Snow: ^ ty Alex
-    [10:00] Stefan Hajnoczi: I need to drop now. I'll send the meeting
-notes to the mailing list. Bye!
-    [10:00] Kevin: Same for me
-    [10:00] John Snow: OK!
+Marc Hartmayer (2):
+      pc-bios/s390-ccw: fix off-by-one error
+      pc-bios/s390-ccw: break loop if a null block number is reached
+
+Thomas Huth (10):
+      pc-bios/s390-ccw/Makefile: Compile with -std=gnu99, -fwrapv and -fno-common
+      pc-bios/s390-ccw: Move ipl-related code from main() into a separate function
+      pc-bios/s390-ccw: Introduce ENODEV define and remove guards of others
+      pc-bios/s390-ccw: Move the inner logic of find_subch() to a separate function
+      pc-bios/s390-ccw: Do not bail out early if not finding a SCSI disk
+      pc-bios/s390-ccw: Scan through all devices if no boot device specified
+      pc-bios/s390-ccw: Allow booting in case the first virtio-blk disk is bad
+      pc-bios/s390-ccw/main: Remove superfluous call to enable_subchannel()
+      pc-bios/s390: Update the s390-ccw bios binaries
+      tests/qtest/cdrom: Add more s390x-related boot tests
+
+ pc-bios/s390-ccw.img             | Bin 42608 -> 42608 bytes
+ pc-bios/s390-ccw/Makefile        |   7 +-
+ pc-bios/s390-ccw/bootmap.c       |  47 +++++++----
+ pc-bios/s390-ccw/bootmap.h       |   7 +-
+ pc-bios/s390-ccw/jump2ipl.c      |  45 +++++-----
+ pc-bios/s390-ccw/main.c          | 172 ++++++++++++++++++++++++---------------
+ pc-bios/s390-ccw/s390-ccw.h      |   9 +-
+ pc-bios/s390-ccw/start.S         |   5 +-
+ pc-bios/s390-ccw/virtio-blkdev.c |   7 +-
+ pc-bios/s390-ccw/virtio-scsi.c   |  28 +++++--
+ pc-bios/s390-ccw/virtio-scsi.h   |   2 +-
+ pc-bios/s390-netboot.img         | Bin 67232 -> 67232 bytes
+ tests/qtest/cdrom-test.c         |  12 +++
+ 13 files changed, 218 insertions(+), 123 deletions(-)
+
 
