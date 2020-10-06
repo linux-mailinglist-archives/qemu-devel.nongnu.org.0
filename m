@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDBC2851BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:40:26 +0200 (CEST)
-Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8DB42851AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:37:18 +0200 (CEST)
+Received: from localhost ([::1]:48898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPrsv-0003Xy-9L
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:40:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
+	id 1kPrpt-0008SN-R1
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrkr-000374-13
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrkr-000371-0z
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:32:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49826)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrkc-0006Q4-LR
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrke-0006QR-Qd
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:32:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602009109;
+ s=mimecast20190719; t=1602009112;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=MnWZwUdy4Q6HkOQDCypZN0dlkm5RNq9Fpgh72pTp3Sk=;
- b=hGgYRS+/bndExhN56Nqd0pennwgwUQ191ZilAiC55lJxBjq72NpU78hTsW1kTs3pdCzGWm
- Fyql3GYXpTdd4mh4uE8Gj6fwEb9xvx7z1QujzhwnZ6uyDgKz6MHHnIRNjMYnRy88cYSSpp
- 6b3xTG3i+wFLM6qDxh6Rll/+emm0d0o=
+ references:references; bh=oXmN++jhEaNJnngbfUargtNjzn1XA9jM2TKvsuKwQJg=;
+ b=A0ktQrIlQvUxVmTX+DgR9Gk9bLzjvuZOwmXy8LZELRWSMd1QS/Tm8e8U9t+Vl9m/UI37Ps
+ 8oNrG/LIEXVSZe91PBp5+mEl8pTHqIt7cGrTn2DgLX0HJiOtGlMblsIzNm0qx8YukKOTTE
+ 7ppngBT4B//B4O7YBV5qQwfxYsGAnPw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-1nGCefFENruyeOMjCzFKkQ-1; Tue, 06 Oct 2020 14:31:45 -0400
-X-MC-Unique: 1nGCefFENruyeOMjCzFKkQ-1
+ us-mta-560-ShqeSJNKP-WNZn3EGFzxvA-1; Tue, 06 Oct 2020 14:31:48 -0400
+X-MC-Unique: ShqeSJNKP-WNZn3EGFzxvA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB74B18A8223;
- Tue,  6 Oct 2020 18:31:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43C1210BBEC4;
+ Tue,  6 Oct 2020 18:31:46 +0000 (UTC)
 Received: from thuth.com (ovpn-113-60.ams2.redhat.com [10.36.113.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9DD86EF43;
- Tue,  6 Oct 2020 18:31:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24A7A6EF46;
+ Tue,  6 Oct 2020 18:31:43 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/16] pc-bios/s390-ccw: Do not bail out early if not finding a
- SCSI disk
-Date: Tue,  6 Oct 2020 20:31:11 +0200
-Message-Id: <20201006183122.155609-6-thuth@redhat.com>
+Subject: [PULL 06/16] pc-bios/s390-ccw: Scan through all devices if no boot
+ device specified
+Date: Tue,  6 Oct 2020 20:31:12 +0200
+Message-Id: <20201006183122.155609-7-thuth@redhat.com>
 In-Reply-To: <20201006183122.155609-1-thuth@redhat.com>
 References: <20201006183122.155609-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
@@ -82,200 +82,102 @@ Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case the user did not specify a boot device, we want to continue
-looking for other devices if there are no valid SCSI disks on a virtio-
-scsi controller. As a first step, do not panic in this case and let
-the control flow carry the error to the upper functions instead.
+If no boot device has been specified (via "bootindex=..."), the s390-ccw
+bios scans through all devices to find a bootable device. But so far, it
+stops at the very first block device (including virtio-scsi controllers
+without attached devices) that it finds, no matter whether it is bootable
+or not. That leads to some weird situatation where it is e.g. possible
+to boot via:
 
-Message-Id: <20200806105349.632-6-thuth@redhat.com>
+ qemu-system-s390x -hda /path/to/disk.qcow2
+
+but not if there is e.g. a virtio-scsi controller specified before:
+
+ qemu-system-s390x -device virtio-scsi -hda /path/to/disk.qcow2
+
+While using "bootindex=..." is clearly the preferred way of booting
+on s390x, we still can make the life for the users at least a little
+bit easier if we look at all available devices to find a bootable one.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1846975
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200806105349.632-7-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/main.c          | 14 ++++++++++----
- pc-bios/s390-ccw/s390-ccw.h      |  2 +-
- pc-bios/s390-ccw/virtio-blkdev.c |  7 +++++--
- pc-bios/s390-ccw/virtio-scsi.c   | 28 ++++++++++++++++++++--------
- pc-bios/s390-ccw/virtio-scsi.h   |  2 +-
- 5 files changed, 37 insertions(+), 16 deletions(-)
+ pc-bios/s390-ccw/main.c | 46 +++++++++++++++++++++++++++--------------
+ 1 file changed, 31 insertions(+), 15 deletions(-)
 
 diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
-index 0d2aabbc58..7bdd12ab2e 100644
+index 7bdd12ab2e..9b581074a1 100644
 --- a/pc-bios/s390-ccw/main.c
 +++ b/pc-bios/s390-ccw/main.c
-@@ -218,7 +218,7 @@ static void find_boot_device(void)
-     IPL_assert(found, "Boot device not found\n");
- }
- 
--static void virtio_setup(void)
-+static int virtio_setup(void)
+@@ -182,20 +182,8 @@ static void boot_setup(void)
+ static void find_boot_device(void)
  {
      VDev *vdev = virtio_get_device();
-     QemuIplParameters *early_qipl = (QemuIplParameters *)QIPL_ADDRESS;
-@@ -233,9 +233,14 @@ static void virtio_setup(void)
-         sclp_print("Network boot device detected\n");
-         vdev->netboot_start_addr = qipl.netboot_start_addr;
-     } else {
--        virtio_blk_setup_device(blk_schid);
-+        int ret = virtio_blk_setup_device(blk_schid);
-+        if (ret) {
-+            return ret;
-+        }
-         IPL_assert(virtio_ipl_disk_is_valid(), "No valid IPL device detected");
+-    int ssid;
+     bool found;
+ 
+-    if (!have_iplb) {
+-        for (ssid = 0; ssid < 0x3; ssid++) {
+-            blk_schid.ssid = ssid;
+-            found = find_subch(-1);
+-            if (found) {
+-                return;
+-            }
+-        }
+-        panic("Could not find a suitable boot device (none specified)\n");
+-    }
+-
+     switch (iplb.pbt) {
+     case S390_IPL_TYPE_CCW:
+         debug_print_int("device no. ", iplb.ccw.devno);
+@@ -261,14 +249,42 @@ static void ipl_boot_device(void)
      }
-+
-+    return 0;
  }
  
- static void ipl_boot_device(void)
-@@ -246,8 +251,9 @@ static void ipl_boot_device(void)
-         dasd_ipl(blk_schid, cutype); /* no return */
-         break;
-     case CU_TYPE_VIRTIO:
--        virtio_setup();
--        zipl_load(); /* no return */
-+        if (virtio_setup() == 0) {
-+            zipl_load(); /* no return */
-+        }
-         break;
-     default:
-         print_int("Attempting to boot from unexpected device type", cutype);
-diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
-index dbc4c64851..9b86c120b4 100644
---- a/pc-bios/s390-ccw/s390-ccw.h
-+++ b/pc-bios/s390-ccw/s390-ccw.h
-@@ -69,7 +69,7 @@ int sclp_read(char *str, size_t count);
- unsigned long virtio_load_direct(ulong rec_list1, ulong rec_list2,
-                                  ulong subchan_id, void *load_addr);
- bool virtio_is_supported(SubChannelId schid);
--void virtio_blk_setup_device(SubChannelId schid);
-+int virtio_blk_setup_device(SubChannelId schid);
- int virtio_read(ulong sector, void *load_addr);
- 
- /* bootmap.c */
-diff --git a/pc-bios/s390-ccw/virtio-blkdev.c b/pc-bios/s390-ccw/virtio-blkdev.c
-index 11c56261ca..7d35050292 100644
---- a/pc-bios/s390-ccw/virtio-blkdev.c
-+++ b/pc-bios/s390-ccw/virtio-blkdev.c
-@@ -263,9 +263,10 @@ uint64_t virtio_get_blocks(void)
-     return 0;
- }
- 
--void virtio_blk_setup_device(SubChannelId schid)
-+int virtio_blk_setup_device(SubChannelId schid)
- {
-     VDev *vdev = virtio_get_device();
-+    int ret = 0;
- 
-     vdev->schid = schid;
-     virtio_setup_ccw(vdev);
-@@ -288,9 +289,11 @@ void virtio_blk_setup_device(SubChannelId schid)
-             "Config: CDB size mismatch");
- 
-         sclp_print("Using virtio-scsi.\n");
--        virtio_scsi_setup(vdev);
-+        ret = virtio_scsi_setup(vdev);
-         break;
-     default:
-         panic("\n! No IPL device available !\n");
-     }
-+
-+    return ret;
- }
-diff --git a/pc-bios/s390-ccw/virtio-scsi.c b/pc-bios/s390-ccw/virtio-scsi.c
-index eddfb8a7ad..2c8d0f3097 100644
---- a/pc-bios/s390-ccw/virtio-scsi.c
-+++ b/pc-bios/s390-ccw/virtio-scsi.c
-@@ -194,7 +194,12 @@ static bool scsi_read_capacity(VDev *vdev,
- 
- /* virtio-scsi routines */
- 
--static void virtio_scsi_locate_device(VDev *vdev)
 +/*
-+ * Tries to locate a SCSI device and and adds the information for the found
-+ * device to the vdev->scsi_device structure.
-+ * Returns 0 if SCSI device could be located, or a error code < 0 otherwise
++ * No boot device has been specified, so we have to scan through the
++ * channels to find one.
 + */
-+static int virtio_scsi_locate_device(VDev *vdev)
- {
-     const uint16_t channel = 0; /* again, it's what QEMU does */
-     uint16_t target;
-@@ -220,7 +225,7 @@ static void virtio_scsi_locate_device(VDev *vdev)
-         IPL_check(sdev->channel == 0, "non-zero channel requested");
-         IPL_check(sdev->target <= vdev->config.scsi.max_target, "target# high");
-         IPL_check(sdev->lun <= vdev->config.scsi.max_lun, "LUN# high");
--        return;
-+        return 0;
-     }
- 
-     for (target = 0; target <= vdev->config.scsi.max_target; target++) {
-@@ -247,18 +252,20 @@ static void virtio_scsi_locate_device(VDev *vdev)
-              */
-             sdev->lun = r->lun[0].v16[0]; /* it's returned this way */
-             debug_print_int("Have to use LUN", sdev->lun);
--            return; /* we have to use this device */
-+            return 0; /* we have to use this device */
-         }
-         for (i = 0; i < luns; i++) {
-             if (r->lun[i].v64) {
-                 /* Look for non-zero LUN - we have where to choose from */
-                 sdev->lun = r->lun[i].v16[0];
-                 debug_print_int("Will use LUN", sdev->lun);
--                return; /* we have found a device */
-+                return 0; /* we have found a device */
-             }
-         }
-     }
--    panic("\n! Cannot locate virtio-scsi device !\n");
++static void probe_boot_device(void)
++{
++    int ssid, sch_no, ret;
 +
-+    sclp_print("Warning: Could not locate a usable virtio-scsi device\n");
-+    return -ENODEV;
- }
- 
- int virtio_scsi_read_many(VDev *vdev,
-@@ -322,17 +329,20 @@ static void scsi_parse_capacity_report(void *data,
-     }
- }
- 
--void virtio_scsi_setup(VDev *vdev)
-+int virtio_scsi_setup(VDev *vdev)
++    for (ssid = 0; ssid < 0x3; ssid++) {
++        blk_schid.ssid = ssid;
++        for (sch_no = 0; sch_no < 0x10000; sch_no++) {
++            ret = is_dev_possibly_bootable(-1, sch_no);
++            if (ret < 0) {
++                break;
++            }
++            if (ret == true) {
++                ipl_boot_device();      /* Only returns if unsuccessful */
++            }
++        }
++    }
++
++    sclp_print("Could not find a suitable boot device (none specified)\n");
++}
++
+ int main(void)
  {
-     int retry_test_unit_ready = 3;
-     uint8_t data[256];
-     uint32_t data_size = sizeof(data);
-     ScsiInquiryEvpdPages *evpd = &scsi_inquiry_evpd_pages_response;
-     ScsiInquiryEvpdBl *evpd_bl = &scsi_inquiry_evpd_bl_response;
--    int i;
-+    int i, ret;
- 
-     vdev->scsi_device = &default_scsi_device;
--    virtio_scsi_locate_device(vdev);
-+    ret = virtio_scsi_locate_device(vdev);
-+    if (ret < 0) {
-+        return ret;
+     sclp_setup();
+     css_setup();
+     boot_setup();
+-    find_boot_device();
+-    enable_subchannel(blk_schid);
+-    ipl_boot_device();
++    if (have_iplb) {
++        find_boot_device();
++        enable_subchannel(blk_schid);
++        ipl_boot_device();
++    } else {
++        probe_boot_device();
 +    }
  
-     /* We have to "ping" the device before it becomes readable */
-     while (!scsi_test_unit_ready(vdev)) {
-@@ -417,4 +427,6 @@ void virtio_scsi_setup(VDev *vdev)
-     }
-     scsi_parse_capacity_report(data, &vdev->scsi_last_block,
-                                (uint32_t *) &vdev->scsi_block_size);
-+
-+    return 0;
- }
-diff --git a/pc-bios/s390-ccw/virtio-scsi.h b/pc-bios/s390-ccw/virtio-scsi.h
-index 4c4f4bbc31..4b14c2c2f9 100644
---- a/pc-bios/s390-ccw/virtio-scsi.h
-+++ b/pc-bios/s390-ccw/virtio-scsi.h
-@@ -67,7 +67,7 @@ static inline bool virtio_scsi_response_ok(const VirtioScsiCmdResp *r)
-         return r->response == VIRTIO_SCSI_S_OK && r->status == CDB_STATUS_GOOD;
- }
- 
--void virtio_scsi_setup(VDev *vdev);
-+int virtio_scsi_setup(VDev *vdev);
- int virtio_scsi_read_many(VDev *vdev,
-                           ulong sector, void *load_addr, int sec_num);
- 
+     panic("Failed to load OS from hard disk\n");
+     return 0; /* make compiler happy */
 -- 
 2.18.2
 
