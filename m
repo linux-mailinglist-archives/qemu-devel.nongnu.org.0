@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86226284C52
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 15:11:43 +0200 (CEST)
-Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24DE284C30
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 15:05:05 +0200 (CEST)
+Received: from localhost ([::1]:49000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPmko-0001qq-IS
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 09:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60198)
+	id 1kPmeO-0002ri-EH
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 09:05:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmW3-00033H-09
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31150)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmW8-00039u-1F
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmW1-0001tS-3z
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:26 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmW5-0001tv-20
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601988984;
+ s=mimecast20190719; t=1601988988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iu4VFbji1NYalAxtgTpGrAQFcSu9AmIxH2mbp91RPjA=;
- b=J0dOZer1FfVU0kC16LT2sptU2GeHr+1z2otsTJXMCqZvvlbT5fjGw7siPBL82cVcAbmBdu
- N+rMUSpvqtoyMD4NkbznOgoKupMcr5465a44zPf8NAaDzoIux3pJEcUe3qshEGsAqN9x/V
- v4W9KD374OvqY5k/AiEy/2iVKts3z40=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-gcrpu401PBqahDuh3j51fg-1; Tue, 06 Oct 2020 08:56:21 -0400
-X-MC-Unique: gcrpu401PBqahDuh3j51fg-1
-Received: by mail-wr1-f70.google.com with SMTP id 33so2988314wrf.22
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:56:21 -0700 (PDT)
+ bh=8XFQO4+C4ntP2b83qPWVKeB3auO8XBYBXJzdLRqnK/M=;
+ b=DBg6QuafqjDcMyIBmd3DGZnJLel1expxVczPG0J6o45A7LW5nMuQKlU6c4Rxp6B1K6Y+3v
+ G9Wd6YX6IQiXho9NK5znazx1IdDb8Ix5xlh/jtP1jWYNpVBBu+oogeb30Fv6yt9RoYVL/S
+ stNesbJsGje6WYV2p9akijDiQ/VKkRI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-R83JbxZcNqCqHZQM1mFPqg-1; Tue, 06 Oct 2020 08:56:26 -0400
+X-MC-Unique: R83JbxZcNqCqHZQM1mFPqg-1
+Received: by mail-wm1-f72.google.com with SMTP id u5so664935wme.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:56:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iu4VFbji1NYalAxtgTpGrAQFcSu9AmIxH2mbp91RPjA=;
- b=d2kjqVkKXx6iuUTTBKd6/dy6yAvq3Vya4iIo7v+1X300sTVxXUyqMLr+J2ZqN3hG9r
- h37eA3MtZmfi1D15yfw9N/D9UZgDvKzSECVLQzy/aCwB86nMR7H72CARSab9fHl+44MW
- MHc4w4HBjNcp0UVW4kcm6diQsYEb3uB3egpVr6g7l6JLMDljIvxbFSLFvgiOTequywaK
- vPtXzTsbtWFX6xWEchK5l5UWB8XH6TTUwXvqedfrwukeTpmz/XC3Nr+rjVT0/lzXNeYJ
- PpUa/T63/PFd1kbe9eWySEE6CqjWuclAPjVy3TvWXnTGO1jvAEzpaBIGdqzk0KngjcGG
- DnYQ==
-X-Gm-Message-State: AOAM530yzhQI/hn0Qq1T7Dna1GpPbO2KHg9puwdt4BWVXY0iCkcqssOm
- d+439mN3qnEgZihvBMeCmkv8N5ChjFxmF7v76xORVjulBfUTAKUnp5AyjvVBJVhIGZXAqS0vZhL
- hcLcMOrULkAHQKWo=
-X-Received: by 2002:adf:f584:: with SMTP id f4mr4590311wro.383.1601988980104; 
- Tue, 06 Oct 2020 05:56:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+WUzcbY4Qb1+NBLQViKKYuMdVWkEAjiUpRbAfy8WJwU2jgXQJd/r6+HrmRrPY5XIl/x7DLg==
-X-Received: by 2002:adf:f584:: with SMTP id f4mr4590284wro.383.1601988979900; 
- Tue, 06 Oct 2020 05:56:19 -0700 (PDT)
+ bh=8XFQO4+C4ntP2b83qPWVKeB3auO8XBYBXJzdLRqnK/M=;
+ b=Gtu6F5RFvizHBmM6wuOlsr6i+T3iMbDRWBMihxGDICQKYAXZfb/+69av9BMAqDZOAD
+ GAF40U80qkR1Ndoy9SzWASBx4951HB9/gMf19zuJX3M65JeVJ37EDgYfVIwz1kYJ9U7J
+ oLQNdUIi3yos43azRfGhirgAKCuoZRxEwrMGKaj1SFKOVI0koNk7i7GcGNVPxLi9wgoD
+ Rmm+VTSNI06F1s7BwfMVNwLOClJe0mV2MWPVph2XfKozutAhhRSOHpsQUFr0Aq5KkTI0
+ oq0S9AE2QFVD90jYok7Im8A0mtrx6/oVfJC+v9BXpdeuQ2GrsFDjOHwstyWrYaWtImum
+ 2ywQ==
+X-Gm-Message-State: AOAM530Nlae4GWn1sCbr4Q8GQ5RNXqNUwz1azeb82OHI/pIfuOgKIXx4
+ 6qM8CtacIsu43Phf9wlPNsFY8rimpyN8Qp7LFMOXuRfBu8AC2h0GIn2tIrHdff5kKQnxs5spEqY
+ degL6l5ta96dxWcI=
+X-Received: by 2002:a5d:6311:: with SMTP id i17mr4576649wru.243.1601988985347; 
+ Tue, 06 Oct 2020 05:56:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwp9TFYXdx8eKlKnz69xteHGW/NyBhHnCt25BlfDngVePi8xiWeZZb2/mGFxP6YCeosXeHWCw==
+X-Received: by 2002:a5d:6311:: with SMTP id i17mr4576632wru.243.1601988985189; 
+ Tue, 06 Oct 2020 05:56:25 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id b8sm3850769wmb.4.2020.10.06.05.56.18
+ by smtp.gmail.com with ESMTPSA id c4sm3950738wme.27.2020.10.06.05.56.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 05:56:19 -0700 (PDT)
+ Tue, 06 Oct 2020 05:56:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/9] hw/core: Move the creation of the library to the main
+Subject: [PATCH v2 4/9] chardev: Move the creation of the library to the main
  meson.build
-Date: Tue,  6 Oct 2020 14:55:56 +0200
-Message-Id: <20201006125602.2311423-4-philmd@redhat.com>
+Date: Tue,  6 Oct 2020 14:55:57 +0200
+Message-Id: <20201006125602.2311423-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006125602.2311423-1-philmd@redhat.com>
 References: <20201006125602.2311423-1-philmd@redhat.com>
@@ -73,16 +73,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,44 +110,56 @@ Be consistent creating all the libraries in the main meson.build file.
 Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build         | 6 ++++++
- hw/core/meson.build | 6 ------
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ meson.build         | 7 +++++++
+ chardev/meson.build | 6 ------
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 60497f5615..47eb7d3709 100644
+index 47eb7d3709..3c0d7b4d44 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1346,6 +1346,12 @@ libqmp = static_library('qmp', qmp_ss.sources() + genh,
+@@ -1062,6 +1062,7 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
+ blockdev_ss = ss.source_set()
+ block_ss = ss.source_set()
+ bsd_user_ss = ss.source_set()
++chardev_ss = ss.source_set()
+ common_ss = ss.source_set()
+ linux_user_ss = ss.source_set()
+ qmp_ss = ss.source_set()
+@@ -1346,6 +1347,12 @@ libqmp = static_library('qmp', qmp_ss.sources() + genh,
  
  qmp = declare_dependency(link_whole: [libqmp])
  
-+libhwcore = static_library('hwcore', sources: hwcore_files + genh,
-+                           name_suffix: 'fa',
-+                           build_by_default: false)
-+hwcore = declare_dependency(link_whole: libhwcore)
-+common_ss.add(hwcore)
++libchardev = static_library('chardev', chardev_ss.sources() + genh,
++                            name_suffix: 'fa',
++                            build_by_default: false)
 +
- ###########
- # Targets #
- ###########
-diff --git a/hw/core/meson.build b/hw/core/meson.build
-index fc91f98075..4a744f3b5e 100644
---- a/hw/core/meson.build
-+++ b/hw/core/meson.build
-@@ -14,12 +14,6 @@ hwcore_files = files(
-   'qdev-clock.c',
- )
++chardev = declare_dependency(link_whole: libchardev)
++
+ libhwcore = static_library('hwcore', sources: hwcore_files + genh,
+                            name_suffix: 'fa',
+                            build_by_default: false)
+diff --git a/chardev/meson.build b/chardev/meson.build
+index 54e88d0310..dd2699a11b 100644
+--- a/chardev/meson.build
++++ b/chardev/meson.build
+@@ -1,4 +1,3 @@
+-chardev_ss = ss.source_set()
+ chardev_ss.add(files(
+   'char-fe.c',
+   'char-file.c',
+@@ -25,11 +24,6 @@ chardev_ss.add(when: 'CONFIG_WIN32', if_true: files(
+ ))
  
--libhwcore = static_library('hwcore', sources: hwcore_files + genh,
--                           name_suffix: 'fa',
--                           build_by_default: false)
--hwcore = declare_dependency(link_whole: libhwcore)
--common_ss.add(hwcore)
+ chardev_ss = chardev_ss.apply(config_host, strict: false)
+-libchardev = static_library('chardev', chardev_ss.sources() + genh,
+-                            name_suffix: 'fa',
+-                            build_by_default: false)
 -
- common_ss.add(files('cpu.c'))
- common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
- common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
+-chardev = declare_dependency(link_whole: libchardev)
+ 
+ softmmu_ss.add(files('chardev-sysemu.c', 'msmouse.c', 'wctablet.c', 'testdev.c'))
+ softmmu_ss.add(when: ['CONFIG_SPICE', spice], if_true: files('spice.c'))
 -- 
 2.26.2
 
