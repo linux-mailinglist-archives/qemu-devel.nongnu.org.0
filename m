@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7B62847D5
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:49:30 +0200 (CEST)
-Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195E42847E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:54:11 +0200 (CEST)
+Received: from localhost ([::1]:54308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhiz-0002eX-FB
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42252)
+	id 1kPhnW-0000Cw-1u
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:54:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPhd7-0005Jw-Tt
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:43:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56773)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kPhd5-0003Cf-3u
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:43:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601970201;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=42beawBw5KhBW4GEpH6o392CQfSZGLffzjgdNgIBlcU=;
- b=Aw9uXZSyiOkVUNsiwQKH+2O7M7jKt7KXA4QAfCiQtlNhWkxsIF0OmPxFolIUn0umHDYjTH
- unaZPUlWzAN+G26jHq/RYwBeJ1mjXjHTdHoqH8N2CCihXdNsng0C8V71EvE8AJLxMQkXgi
- /Kn1VcxF/NQeYUq1Kkn9ts5Qt9awhvg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-z7IqRVPmNtOgWK5fAHsfqw-1; Tue, 06 Oct 2020 03:43:18 -0400
-X-MC-Unique: z7IqRVPmNtOgWK5fAHsfqw-1
-Received: by mail-wm1-f70.google.com with SMTP id f2so394631wml.6
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:43:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kPhi3-0002gt-JK
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:48:31 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39237)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kPhi2-0003lD-1t
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:48:31 -0400
+Received: by mail-wr1-x443.google.com with SMTP id k10so12273228wru.6
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:48:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oFWLyt6kWARZltFpBlg1mJTxorWVjFMh4mO9BoqNxBs=;
+ b=PYugD1hKhEzYHvUXlbxLS8m9aNtp/jmcAXFLx8LlWwyk7dfWwI+zpkQ19MU/L0tvEX
+ 4rPvHeHVSil6JUWsCLQ4f14xcJmdyPzGamGC30bmSM4JYYqJXoPD0tavL8EwpSB9Kyjf
+ /pMgW6ryoRk2ru1CfDAztF207MDPlBgEtXpmbK01IS1bDY7Z5ELycy7hG71BXU4SaKC7
+ Ow0H9LaUwo6uVilgYMYuDcHi/8XD4EWwk+Uwwz2lNfIxY4zhjvrq80H8qqlg7uWoXaxZ
+ BHRRAKwM61O6CB+AVbbwf2oar+TfviblgqBOMq7XhxpR8seyyBu8p+DMI51l6kT+jdCh
+ YNoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=42beawBw5KhBW4GEpH6o392CQfSZGLffzjgdNgIBlcU=;
- b=LP6/HYlQUJ94BgHn6HxXf/ON3YSASGy4l+BsctUhDmXfXlyHiN8sT4xjNCIYIfwita
- 2yl/mL2Ctlg1TrO0U8m+gcDVEShhhFthxcbI61O6q8QYA7ImHaO/PS5n+GAQlxTFINWv
- t1VtDw+rz+woa+LjrGUq/C4LqMkG5unS82FN6zFTcJQ3FZLFft0Di+G4WIeLA4hboJBg
- c1HsI0UmsnM5stm95AuMhpQpKKvxAqX2+FkeWAUgEOANVphF3qYIRY42of6DL6avO73/
- PDzJAVheuVLv8WshWccim1/Aj2E4gRX7Yz70uzojsmn9nINn+bdA50YDocuVVQaH2tFi
- ZmXA==
-X-Gm-Message-State: AOAM533obVeWRVPJoWCMuah49sa5Wcbrrdlg0V00Xi/wgLwYLYgo4fj5
- IS8kVWdRTVkefdXbrZ07OGnxg0w2NBJQAefvl71jJbqWjoq9KUpvmDs8PpBaZZ1/jWKDEW1ZQGM
- sCji50yu6Ejyz5/Y=
-X-Received: by 2002:a1c:4e0e:: with SMTP id g14mr459790wmh.69.1601970197393;
- Tue, 06 Oct 2020 00:43:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwbKa4t9GLjeBaB4C5E7NJdow4bS4hu1RHicA4HEOY1LpgAZm3qfuZP79sP8OwZZkeWyySXWQ==
-X-Received: by 2002:a1c:4e0e:: with SMTP id g14mr459770wmh.69.1601970197162;
- Tue, 06 Oct 2020 00:43:17 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e?
- ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id w7sm2583449wmc.43.2020.10.06.00.43.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Oct 2020 00:43:16 -0700 (PDT)
-Subject: Re: [PATCH v3] scripts: Convert qemu-version.sh to qemu-version.py
-To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
-References: <20201005195129.1507-1-luoyonggang@gmail.com>
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=oFWLyt6kWARZltFpBlg1mJTxorWVjFMh4mO9BoqNxBs=;
+ b=euAmZJ8dBNvKYHf0NO3Ceoj4fkeV/UDnw6YQgV++qKGaLbhY/Zv2BDrDV8H4iN/vn3
+ W2jCDrdoYOuCpMPMtERIXd/FEqfqO8AM2/9YGz78gAAkmzF64Vag+PbAQTHqVP9FjgDW
+ +wSc1k469K9BHFm7XKJmpeelj0QmulOGPkHfL5L4kbxvhZ3OohzERc1GfSBYauWeuv4M
+ WMmNR5KCPCURrtBOskndXn9yS5cu9k536MKj6tRdySZR/yET+n4stSEDNGCl1PFEVwbU
+ k/urWdSPDaXu/O2qQwqi2v2zAOUZslJ0UqN1KPj5PBzBSKkTzaC2pQE37t5QehAcNd8/
+ z3Pg==
+X-Gm-Message-State: AOAM531LkPTKCkHrdz/0HaZ+vZtbPhNZtYrFiO0NYzjf1FO0bEEkYl75
+ i7lNohgLCKxTFGOy2o8cRBcBb1YpZTY=
+X-Google-Smtp-Source: ABdhPJyMrfrOURnL5Hk8+Mh1yxwNkL+XN30U1X/f+55ZiyucPIZf20apkJ4GDKnkyZfyJ7Dhhbr43g==
+X-Received: by 2002:adf:90a2:: with SMTP id i31mr3698157wri.276.1601970508005; 
+ Tue, 06 Oct 2020 00:48:28 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
+ by smtp.gmail.com with ESMTPSA id a17sm3195272wra.29.2020.10.06.00.48.27
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Oct 2020 00:48:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f484d69a-6208-df83-1393-8c14e8568069@redhat.com>
-Date: Tue, 6 Oct 2020 09:43:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/i386: avoid theoretical leak on MCE injection
+Date: Tue,  6 Oct 2020 09:48:29 +0200
+Message-Id: <20201006074829.488968-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201005195129.1507-1-luoyonggang@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,121 +84,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/20 21:51, Yonggang Luo wrote:
-> The sh script are harder to maintain for compatible different
-> xsh environment so convert it to python script
-> Also incorporate the fixes in
-> https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.com/
-> 
-> Testing args length and if not enough, setting pkgversion and version to ''
-> 
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> ---
->  meson.build             |  2 +-
->  scripts/qemu-version.py | 37 +++++++++++++++++++++++++++++++++++++
->  scripts/qemu-version.sh | 25 -------------------------
->  3 files changed, 38 insertions(+), 26 deletions(-)
->  create mode 100644 scripts/qemu-version.py
->  delete mode 100755 scripts/qemu-version.sh
-> 
-> diff --git a/meson.build b/meson.build
-> index 95a532bd29..20f653b6eb 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1072,7 +1072,7 @@ tracetool = [
->     '--backend=' + config_host['TRACE_BACKENDS']
->  ]
->  
-> -qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
-> +qemu_version_cmd = [find_program('scripts/qemu-version.py'),
->                      meson.current_source_dir(),
->                      config_host['PKGVERSION'], meson.project_version()]
->  qemu_version = custom_target('qemu-version.h',
-> diff --git a/scripts/qemu-version.py b/scripts/qemu-version.py
-> new file mode 100644
-> index 0000000000..fc1531ef2b
-> --- /dev/null
-> +++ b/scripts/qemu-version.py
-> @@ -0,0 +1,37 @@
-> +#!/usr/bin/env python3
-> +
-> +#
-> +# Script for retrieve qemu git version information
-> +#
-> +# Author: Yonggang Luo <luoyonggang@gmail.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2.  See
-> +# the COPYING file in the top-level directory.
-> +#
-> +
-> +import sys
-> +import subprocess
-> +
-> +def main(args):
-> +    pkgversion = ''
-> +    version = ''
-> +    if len(args) > 3:
-> +        dir = args[1]
-> +        pkgversion = args[2]
-> +        version = args[3]
-> +        if len(pkgversion) == 0:
-> +            pc = subprocess.run(['git', 'describe', '--match', "'v*'", '--dirty', '--always'],
-> +                                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, cwd=dir)
-> +            if pc.returncode == 0:
-> +                pkgversion = pc.stdout.decode('utf8').strip()
-> +
-> +    fullversion = version
-> +    if len(pkgversion) > 0:
-> +        fullversion = "{} ({})".format(version, pkgversion)
-> +
-> +    version_header = '''#define QEMU_PKGVERSION "{}"
-> +#define QEMU_FULL_VERSION "{}"'''.format(pkgversion, fullversion)
-> +    sys.stdout.buffer.write(version_header.encode('utf8'))
-> +
-> +if __name__ == "__main__":
-> +    main(sys.argv)
+g_strdup_printf is used twice to write to the same variable, which
+can theoretically cause a leak.  In practice, it is extremely
+unlikely that a guest is seeing a recursive MCE and has disabled
+CR4.MCE between the first and the second error, but we can fix it
+and we can also make a slight improvement on the logic: CR4.MCE=0
+causes a triple fault even for a non-recursive machine check, so
+let's place its test first.
 
-Can you apply the changes I suggested in v2?
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/helper.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-Paolo
-
-> diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
-> deleted file mode 100755
-> index 03128c56a2..0000000000
-> --- a/scripts/qemu-version.sh
-> +++ /dev/null
-> @@ -1,25 +0,0 @@
-> -#!/bin/sh
-> -
-> -set -eu
-> -
-> -dir="$1"
-> -pkgversion="$2"
-> -version="$3"
-> -
-> -if [ -z "$pkgversion" ]; then
-> -    cd "$dir"
-> -    if [ -e .git ]; then
-> -        pkgversion=$(git describe --match 'v*' --dirty | echo "")
-> -    fi
-> -fi
-> -
-> -if [ -n "$pkgversion" ]; then
-> -    fullversion="$version ($pkgversion)"
-> -else
-> -    fullversion="$version"
-> -fi
-> -
-> -cat <<EOF
-> -#define QEMU_PKGVERSION "$pkgversion"
-> -#define QEMU_FULL_VERSION "$fullversion"
-> -EOF
-> 
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 32fa21a7bb..f64379367d 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -908,16 +908,14 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+             return;
+         }
+ 
+-        if (recursive) {
+-            need_reset = true;
+-            msg = g_strdup_printf("CPU %d: Previous MCE still in progress, "
+-                                  "raising triple fault", cs->cpu_index);
+-        }
+-
+         if (!(cenv->cr[4] & CR4_MCE_MASK)) {
+             need_reset = true;
+             msg = g_strdup_printf("CPU %d: MCE capability is not enabled, "
+                                   "raising triple fault", cs->cpu_index);
++        } else if (recursive) {
++            need_reset = true;
++            msg = g_strdup_printf("CPU %d: Previous MCE still in progress, "
++                                  "raising triple fault", cs->cpu_index);
+         }
+ 
+         if (need_reset) {
+-- 
+2.26.2
 
 
