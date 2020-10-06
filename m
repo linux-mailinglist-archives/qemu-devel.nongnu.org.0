@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BB42849A1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 11:47:32 +0200 (CEST)
-Received: from localhost ([::1]:59004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADAE2849AB
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 11:51:07 +0200 (CEST)
+Received: from localhost ([::1]:39898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPjZD-000452-9a
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 05:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42008)
+	id 1kPjcg-0007vT-56
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 05:51:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kPjWo-0001pG-W0
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:45:03 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35747)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kPjWm-0002aN-Ta
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:45:02 -0400
-Received: by mail-wm1-x342.google.com with SMTP id q5so1635793wmq.0
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 02:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=w9EnONwsfY1KaGk5ySXcKILGhZdJZ3hjmO662AB5Fso=;
- b=cLhKZZk8kxvAj7b1hpCMNT5OrUv0yzxBoCd8knGYOEc7lddnWJNzgaoO09Lc1ZsM5B
- SO7BUt5E3akGz5R4uvz0ZOWvxhaLBMzgImjv9fzAYQluktj9qHfi4ASTqWeJc8XBNT3L
- L5wsWQ+tBHZquvC6TM8vE8m/3miFL1pr0Inoe5WEPQxWNf4yQ9JHofqar1DufgQOFydv
- A8pWWRx9LL+tbjjFest8LL6WumSPlk89UMt5vUgpE86EjdzlUj28c0QCq/Ktd39RmUMj
- 4ny3vfYdgLAsoN0UXudHW6pgfULjdXwFyB0aKVxzV1U6KhQjQ82yHnKIDUhBLBLrVyTr
- xslw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=w9EnONwsfY1KaGk5ySXcKILGhZdJZ3hjmO662AB5Fso=;
- b=hVwz8/TQzeIbIWmy1CBeOZEcwIEfu35IlW4WoJpKULIWRYOBMUyox2PR62eiVtt+wW
- ZMO7IZ4og3JCqjZROLzmdP5nbBfYq1WErFXIkF5bOfkjzJSRsUA6OUq3LOuSxfWBWhP8
- qus1RGCInoP5P/FzHTeOVOBSmH5JZXXc4LhxkfMFeSVShPLTUdVsQTq1yrkHszSmS643
- 1UMcuBw/Q8FwHxtQP6Lp31pjYWdTE0nD51lkMHCu9ZTPn5IiqIxQ1HKksZMAoe0UDG/v
- onBQmkVYpwidXPkVNxSpHj5QlOkejCDTuxhfJrtq/HsjioXlkMaoBI+UwX920g7MhBDy
- pwLw==
-X-Gm-Message-State: AOAM530I9JuQfWKeINFJLnWtyVqFgFz8CCu5N56lkMT7TLEBFyLDsU5p
- zEiGac9GaW4Gua0ZUj/p4J+kHA==
-X-Google-Smtp-Source: ABdhPJzhuYmfJ3czTJHeDZkN57XuXb37pRJ8S+M1cFbhx5urWA3ByC5yEoVwq+5fKP5/p3IN26WWzQ==
-X-Received: by 2002:a1c:7302:: with SMTP id d2mr4019002wmb.133.1601977498073; 
- Tue, 06 Oct 2020 02:44:58 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x6sm3398516wmb.17.2020.10.06.02.44.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 02:44:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1F1391FF7E;
- Tue,  6 Oct 2020 10:44:56 +0100 (BST)
-References: <20201004180443.2035359-1-f4bug@amsat.org>
- <20201004180443.2035359-9-f4bug@amsat.org>
- <alpine.DEB.2.21.2010051327090.312@digraph.polyomino.org.uk>
- <87eemc3b1q.fsf@linaro.org>
- <alpine.DEB.2.21.2010052047250.11145@digraph.polyomino.org.uk>
- <e1818fb3-4c63-6b2a-17cc-f3b7bc7d393b@siemens.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [RFC PATCH 08/21] contrib/gitdm: Add Mentor Graphics to the
- domain map
-In-reply-to: <e1818fb3-4c63-6b2a-17cc-f3b7bc7d393b@siemens.com>
-Date: Tue, 06 Oct 2020 10:44:56 +0100
-Message-ID: <878scj3cyv.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kPja0-00067s-JO
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:48:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56516)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kPjZx-00031T-Vk
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:48:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601977696;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AIOuN3SbO3JQ+uMWIFcC8XvL9VH1bJV6uU7iqZW5qKU=;
+ b=BI0/rw+LefEBpwOKaEoF9N7YokhuHn7fqzuSpCS6VfOycZOBoWbTZHtymoNVsDenRZfv5M
+ 6+oWIjhf0Vy6ICwfOONjsxhpYFlvOftsz8gIVbiFZgeZAV8DbpnxI+oesSc8B+SE12Wd8s
+ V3PjmECKvKRYSZ4ogJsKL5mPTillp8s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-128-aLUoN2zlMLKVwVVMVsGUoQ-1; Tue, 06 Oct 2020 05:48:13 -0400
+X-MC-Unique: aLUoN2zlMLKVwVVMVsGUoQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B6DC420EB;
+ Tue,  6 Oct 2020 09:48:12 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A657E1A800;
+ Tue,  6 Oct 2020 09:48:03 +0000 (UTC)
+Date: Tue, 6 Oct 2020 11:48:01 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jiajun Chen <chenjiajun8@huawei.com>
+Subject: Re: [PATCH] vhost-user: add separate memslot counter for vhost-user
+Message-ID: <20201006114801.6833a72d@redhat.com>
+In-Reply-To: <20200928131731.69684-1-chenjiajun8@huawei.com>
+References: <20200928131731.69684-1-chenjiajun8@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,70 +80,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kwok Cheung Yeung <kcy@codesourcery.com>,
- Andrew Jenner <andrew@codesourcery.com>,
- Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Julian Brown <julian@codesourcery.com>,
- Sandra Loosemore <sandra@codesourcery.com>,
- Taimoor Mirza <tmirza@codesourcery.com>,
- Thomas Schwinge <thomas@codesourcery.com>,
- Joseph Myers <joseph@codesourcery.com>
+Cc: raphael.s.norwitz@gmail.com, zhang.zhanghailiang@huawei.com, mst@redhat.com,
+ jasowang@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 28 Sep 2020 21:17:31 +0800
+Jiajun Chen <chenjiajun8@huawei.com> wrote:
 
-Jan Kiszka <jan.kiszka@siemens.com> writes:
+> Used_memslots is equal to dev->mem->nregions now, it is true for
+> vhost kernel, but not for vhost user, which uses the memory regions
+> that have file descriptor. In fact, not all of the memory regions
+> have file descriptor.
+> It is usefully in some scenarios, e.g. used_memslots is 8, and only
+> 5 memory slots can be used by vhost user, it is failed to hot plug
+> a new memory RAM because vhost_has_free_slot just returned false,
+> but we can hot plug it safely in fact.
 
-> On 05.10.20 22:52, Joseph Myers wrote:
->> On Mon, 5 Oct 2020, Alex Benn=C3=A9e wrote:
->>=20
->>> Joseph Myers <joseph@codesourcery.com> writes:
->>>
->>>> On Sun, 4 Oct 2020, Philippe Mathieu-Daud=C3=A9 wrote:
->>>>
->>>>> There is a number of contributors from this domain,
->>>>> add its own entry to the gitdm domain map.
->>>>
->>>> At some point the main branding will be Siemens; not sure how you want=
- to=20
->>>> handle that.
->>>
->>> We've already done something similar with WaveComp who have rolled up
->>> the various mips and imgtec contributions into
->>> contrib/gitdm/group-map-wavecomp.
->>>
->>> It's really up to you and which corporate entity would like internet
->>> bragging points. The only Siemens contributor I could find is Jan Kiszka
->>> but he has contributed a fair amount ;-)
->>=20
->> Given that the Mentor branding is going away (and the "Mentor Graphics"=
-=20
->> version largely has gone away, "Mentor, a Siemens Business" is what's=20
->> currently used as a Mentor brand), probably it makes sense to use Siemen=
-s=20
->> for both codesourcery.com and mentor.com addresses.
->>=20
->
-> I think the key question is what this map is used for: Is it supposed to
-> document the historic status, who was who at the time of contribution?
-> Or is its purpose to help identifying the copyright holder of a
-> contribution today?
+I had an impression that all guest RAM has to be shared with vhost,
+so combination of anon and fd based RAM couldn't work.
+Am I wrong?
 
-I don't know what others use them for but for me it was just an easy way
-to get a survey of the companies and individuals involved over the last
-year (2y, 3y, 5y... etc) of development. The consolidation of
-contributions isn't overly distorting IMO. The biggest user is probably
-the end of year state of the nation surveys wanting to see what impact
-various organisations are having on a project and consolidation just
-helps push you up the table a little more.
+> 
+> --
+> ChangeList:
+> v3:
+> -make used_memslots a member of struct vhost_dev instead of a global static value
+it's global resource, so why?
 
-The biggest counter example we have at the moment is RedHat/IBM which
-AFAICT is because the RedHat guys are treated as a separate business
-unit with their own unique identity.
+> 
+> v2:
+> -eliminating useless used_memslots_exceeded variable and used_memslots_is_exceeded() API
+> 
+> v1:
+> -vhost-user: add separate memslot counter for vhost-user
+> 
+> Signed-off-by: Jiajun Chen <chenjiajun8@huawei.com>
+> Signed-off-by: Jianjay Zhou <jianjay.zhou@huawei.com>
+> ---
+>  hw/virtio/vhost-backend.c         | 12 ++++++++++
+>  hw/virtio/vhost-user.c            | 25 +++++++++++++++++++++
+>  hw/virtio/vhost.c                 | 37 +++++++++++++++++++++++--------
+>  include/hw/virtio/vhost-backend.h |  5 +++++
+>  include/hw/virtio/vhost.h         |  1 +
+>  net/vhost-user.c                  |  7 ++++++
+>  6 files changed, 78 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+> index 782b1d67d9..7016f23ec5 100644
+> --- a/hw/virtio/vhost-backend.c
+> +++ b/hw/virtio/vhost-backend.c
+> @@ -238,6 +238,16 @@ static void vhost_kernel_set_iotlb_callback(struct vhost_dev *dev,
+>          qemu_set_fd_handler((uintptr_t)dev->opaque, NULL, NULL, NULL);
+>  }
+>  
+> +static void vhost_kernel_set_used_memslots(struct vhost_dev *dev)
+> +{
+> +    dev->used_memslots = dev->mem->nregions;
+> +}
+> +
+> +static unsigned int vhost_kernel_get_used_memslots(struct vhost_dev *dev)
+> +{
+> +    return dev->used_memslots;
+> +}
+> +
+>  static const VhostOps kernel_ops = {
+>          .backend_type = VHOST_BACKEND_TYPE_KERNEL,
+>          .vhost_backend_init = vhost_kernel_init,
+> @@ -269,6 +279,8 @@ static const VhostOps kernel_ops = {
+>  #endif /* CONFIG_VHOST_VSOCK */
+>          .vhost_set_iotlb_callback = vhost_kernel_set_iotlb_callback,
+>          .vhost_send_device_iotlb_msg = vhost_kernel_send_device_iotlb_msg,
+> +        .vhost_set_used_memslots = vhost_kernel_set_used_memslots,
+> +        .vhost_get_used_memslots = vhost_kernel_get_used_memslots,
+>  };
+>  #endif
+>  
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index 31231218dc..5dea64d8a8 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -2354,6 +2354,29 @@ void vhost_user_cleanup(VhostUserState *user)
+>      user->chr = NULL;
+>  }
+>  
+> +static void vhost_user_set_used_memslots(struct vhost_dev *dev)
+> +{
+> +    int i;
+> +    dev->used_memslots = 0;
+> +
+> +    for (i = 0; i < dev->mem->nregions; ++i) {
+> +        struct vhost_memory_region *reg = dev->mem->regions + i;
+> +        ram_addr_t offset;
+> +        MemoryRegion *mr;
+> +        int fd;
+> +
+> +        mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
+> +        if (mr && fd > 0) {
+> +            dev->used_memslots++;
+> +        }
+> +    }
+> +}
+> +
+> +static unsigned int vhost_user_get_used_memslots(struct vhost_dev *dev)
+> +{
+> +    return dev->used_memslots;
+> +}
+> +
+>  const VhostOps user_ops = {
+>          .backend_type = VHOST_BACKEND_TYPE_USER,
+>          .vhost_backend_init = vhost_user_backend_init,
+> @@ -2387,4 +2410,6 @@ const VhostOps user_ops = {
+>          .vhost_backend_mem_section_filter = vhost_user_mem_section_filter,
+>          .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
+>          .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
+> +        .vhost_set_used_memslots = vhost_user_set_used_memslots,
+> +        .vhost_get_used_memslots = vhost_user_get_used_memslots,
+>  };
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index 1a1384e7a6..98b967669b 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -45,20 +45,20 @@
+>  static struct vhost_log *vhost_log;
+>  static struct vhost_log *vhost_log_shm;
+>  
+> -static unsigned int used_memslots;
+>  static QLIST_HEAD(, vhost_dev) vhost_devices =
+>      QLIST_HEAD_INITIALIZER(vhost_devices);
+>  
+>  bool vhost_has_free_slot(void)
+>  {
+> -    unsigned int slots_limit = ~0U;
+>      struct vhost_dev *hdev;
+>  
+>      QLIST_FOREACH(hdev, &vhost_devices, entry) {
+> -        unsigned int r = hdev->vhost_ops->vhost_backend_memslots_limit(hdev);
+> -        slots_limit = MIN(slots_limit, r);
+> +        if (hdev->vhost_ops->vhost_get_used_memslots(hdev) >=
+> +            hdev->vhost_ops->vhost_backend_memslots_limit(hdev)) {
+> +            return false;
+> +        }
+>      }
+> -    return slots_limit > used_memslots;
+> +    return true;
+>  }
+>  
+>  static void vhost_dev_sync_region(struct vhost_dev *dev,
+> @@ -502,7 +502,6 @@ static void vhost_commit(MemoryListener *listener)
+>                         dev->n_mem_sections * sizeof dev->mem->regions[0];
+>      dev->mem = g_realloc(dev->mem, regions_size);
+>      dev->mem->nregions = dev->n_mem_sections;
+> -    used_memslots = dev->mem->nregions;
+>      for (i = 0; i < dev->n_mem_sections; i++) {
+>          struct vhost_memory_region *cur_vmr = dev->mem->regions + i;
+>          struct MemoryRegionSection *mrs = dev->mem_sections + i;
+> @@ -678,6 +677,7 @@ static void vhost_region_add_section(struct vhost_dev *dev,
+>          dev->tmp_sections[dev->n_tmp_sections - 1].fv = NULL;
+>          memory_region_ref(section->mr);
+>      }
+> +    dev->vhost_ops->vhost_set_used_memslots(dev);
+>  }
+>  
+>  /* Used for both add and nop callbacks */
+> @@ -693,6 +693,17 @@ static void vhost_region_addnop(MemoryListener *listener,
+>      vhost_region_add_section(dev, section);
+>  }
+>  
+> +static void vhost_region_del(MemoryListener *listener,
+> +                             MemoryRegionSection *section)
+> +{
+> +    struct vhost_dev *dev = container_of(listener, struct vhost_dev,
+> +                                         memory_listener);
+> +    if (!vhost_section(dev, section)) {
+> +        return;
+> +    }
+> +    dev->vhost_ops->vhost_set_used_memslots(dev);
+> +}
+> +
+>  static void vhost_iommu_unmap_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+>  {
+>      struct vhost_iommu *iommu = container_of(n, struct vhost_iommu, n);
+> @@ -1300,6 +1311,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+>      hdev->memory_listener = (MemoryListener) {
+>          .begin = vhost_begin,
+>          .commit = vhost_commit,
+> +        .region_del = vhost_region_del,
+>          .region_add = vhost_region_addnop,
+>          .region_nop = vhost_region_addnop,
+>          .log_start = vhost_log_start,
+> @@ -1346,9 +1358,16 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+>      memory_listener_register(&hdev->memory_listener, &address_space_memory);
+>      QLIST_INSERT_HEAD(&vhost_devices, hdev, entry);
+>  
+> -    if (used_memslots > hdev->vhost_ops->vhost_backend_memslots_limit(hdev)) {
+> -        error_report("vhost backend memory slots limit is less"
+> -                " than current number of present memory slots");
+> +    /*
+> +     * If we started a VM without any vhost device,
+> +     * for the first time vhost device hot-plug
+> +     * (vhost_get_used_memslots is always 0),
+> +     * so it needs to double check here.
+> +     */
+> +    if (hdev->vhost_ops->vhost_get_used_memslots(hdev) >
+> +        hdev->vhost_ops->vhost_backend_memslots_limit(hdev)) {
+> +        error_report("vhost backend memory slots limit is less than"
+> +                     " current number of present memory slots");
+>          r = -1;
+>          if (busyloop_timeout) {
+>              goto fail_busyloop;
+> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+> index 8825bd278f..6569c95a43 100644
+> --- a/include/hw/virtio/vhost-backend.h
+> +++ b/include/hw/virtio/vhost-backend.h
+> @@ -124,6 +124,9 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
+>  
+>  typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+>  
+> +typedef void (*vhost_set_used_memslots_op)(struct vhost_dev *dev);
+> +typedef unsigned int (*vhost_get_used_memslots_op)(struct vhost_dev *dev);
+> +
+>  typedef struct VhostOps {
+>      VhostBackendType backend_type;
+>      vhost_backend_init vhost_backend_init;
+> @@ -168,6 +171,8 @@ typedef struct VhostOps {
+>      vhost_vq_get_addr_op  vhost_vq_get_addr;
+>      vhost_get_device_id_op vhost_get_device_id;
+>      vhost_force_iommu_op vhost_force_iommu;
+> +    vhost_set_used_memslots_op vhost_set_used_memslots;
+> +    vhost_get_used_memslots_op vhost_get_used_memslots;
+>  } VhostOps;
+>  
+>  extern const VhostOps user_ops;
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index 767a95ec0b..5ded21f86d 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -90,6 +90,7 @@ struct vhost_dev {
+>      QLIST_HEAD(, vhost_iommu) iommu_list;
+>      IOMMUNotifier n;
+>      const VhostDevConfigOps *config_ops;
+> +    unsigned int used_memslots;
+>  };
+>  
+>  struct vhost_net {
+> diff --git a/net/vhost-user.c b/net/vhost-user.c
+> index 17532daaf3..7e93955537 100644
+> --- a/net/vhost-user.c
+> +++ b/net/vhost-user.c
+> @@ -20,6 +20,7 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/option.h"
+>  #include "trace.h"
+> +#include "include/hw/virtio/vhost.h"
+>  
+>  typedef struct NetVhostUserState {
+>      NetClientState nc;
+> @@ -347,6 +348,12 @@ static int net_vhost_user_init(NetClientState *peer, const char *device,
+>          qemu_chr_fe_set_handlers(&s->chr, NULL, NULL,
+>                                   net_vhost_user_event, NULL, nc0->name, NULL,
+>                                   true);
+> +
+> +        if (!vhost_has_free_slot()) {
+> +            error_report("used memslots exceeded the backend limit, quit "
+> +                         "loop");
+> +            goto err;
+> +        }
+>      } while (!s->started);
+>  
+>      assert(s->vhost_net);
 
-Either way I don't think it's a major issue - hence it is up to the
-hackers to make the choice.
-
---=20
-Alex Benn=C3=A9e
 
