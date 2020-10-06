@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2FD28555B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 02:21:49 +0200 (CEST)
-Received: from localhost ([::1]:45292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A37285548
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 02:14:24 +0200 (CEST)
+Received: from localhost ([::1]:56772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPxDI-0003Ij-Vo
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 20:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38810)
+	id 1kPx67-0004fU-D2
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 20:14:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwrS-00008z-EK
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwrT-0000AZ-1U
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:59:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27168)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwrP-0002Om-MO
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPwrP-0002Oa-0T
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:59:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602028751;
+ s=mimecast20190719; t=1602028750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cdt/gQSbEXPPZSDuvxQh3WndeeNgVlHo7TYDs2B3umE=;
- b=gnJn+LVEOjqdNa6Oq03JEswwdsrmeYsugLDkb+U5dM3AVk3GCxmgO+JaJ/5OcEjUovsiGJ
- Pwf+y0NrTlNAyouNT58yA4ij2FakX23k9JSHcL59ZSdN2e94DSzYXd81OF1T0EhEdbqBtY
- Vq9WVGFvSUbompIazMk0GdUMxFCVRqY=
+ bh=bi8KTrLebYMpML/77oR/Ex/2wVBs+0QzkhpIjMNk71Y=;
+ b=QAmWXHprdqs72GAvdwWL4JdzT7V/9LFPv+PpCClk2D6VfPcUWzsyalqFydBcqMZOFNbAu7
+ AC9bdeQYecZQgYLzCMH5g6Df/mGiIR8r8tbcOvo5yPAw/L+IdL26rKBRB2Syttlm3Vfcuw
+ Ne4XymvFWC9dWDEEfeoY34Xv8pZU/lg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-BTT9eBsDOGuaHIRs81hOpA-1; Tue, 06 Oct 2020 19:59:07 -0400
-X-MC-Unique: BTT9eBsDOGuaHIRs81hOpA-1
+ us-mta-435-AYpSl5aLNwmVyVnM7StgUg-1; Tue, 06 Oct 2020 19:59:08 -0400
+X-MC-Unique: AYpSl5aLNwmVyVnM7StgUg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7662064145;
- Tue,  6 Oct 2020 23:59:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1CFE8064BD;
+ Tue,  6 Oct 2020 23:59:07 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25DE360BFA;
- Tue,  6 Oct 2020 23:59:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A6EF460BFA;
+ Tue,  6 Oct 2020 23:59:06 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/20] python/qemu/console_socket.py: Add type hint annotations
-Date: Tue,  6 Oct 2020 19:58:12 -0400
-Message-Id: <20201006235817.3280413-16-jsnow@redhat.com>
+Subject: [PATCH 16/20] python/console_socket: avoid encoding to/from string
+Date: Tue,  6 Oct 2020 19:58:13 -0400
+Message-Id: <20201006235817.3280413-17-jsnow@redhat.com>
 In-Reply-To: <20201006235817.3280413-1-jsnow@redhat.com>
 References: <20201006235817.3280413-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,87 +84,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Finish the typing of console_socket.py with annotations and no code
-changes.
+We can work directly in bytes instead of translating back and forth to
+string, which removes the question of which encodings to use.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/console_socket.py | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ python/qemu/console_socket.py | 20 +++++---------------
+ 1 file changed, 5 insertions(+), 15 deletions(-)
 
 diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-index d4669c441d0..57e6eee0176 100644
+index 57e6eee0176..f060d79e06d 100644
 --- a/python/qemu/console_socket.py
 +++ b/python/qemu/console_socket.py
-@@ -17,7 +17,7 @@
- import socket
- import threading
- import time
--from typing import Optional
-+from typing import Deque, Optional
- 
- 
- class ConsoleSocket(socket.socket):
-@@ -30,11 +30,11 @@ class ConsoleSocket(socket.socket):
-     Optionally a file path can be passed in and we will also
-     dump the characters to this file for debugging purposes.
-     """
--    def __init__(self, address, file=None, drain=False):
--        self._recv_timeout_sec = 300
-+    def __init__(self, address: str, file: Optional[str] = None,
-+                 drain: bool = False):
+@@ -34,12 +34,12 @@ def __init__(self, address: str, file: Optional[str] = None,
+                  drain: bool = False):
          self._recv_timeout_sec = 300.0
          self._sleep_time = 0.5
--        self._buffer = deque()
-+        self._buffer: Deque[str] = deque()
+-        self._buffer: Deque[str] = deque()
++        self._buffer: Deque[int] = deque()
          socket.socket.__init__(self, socket.AF_UNIX, socket.SOCK_STREAM)
          self.connect(address)
          self._logfile = None
-@@ -45,7 +45,7 @@ def __init__(self, address, file=None, drain=False):
+         if file:
+-            self._logfile = open(file, "w")
++            self._logfile = open(file, "bw")
+         self._open = True
+         self._drain_thread = None
          if drain:
-             self._drain_thread = self._thread_start()
- 
--    def _drain_fn(self):
-+    def _drain_fn(self) -> None:
-         """Drains the socket and runs while the socket is open."""
-         while self._open:
-             try:
-@@ -56,7 +56,7 @@ def _drain_fn(self):
-                 # self._open is set to False.
-                 time.sleep(self._sleep_time)
- 
--    def _thread_start(self):
-+    def _thread_start(self) -> threading.Thread:
-         """Kick off a thread to drain the socket."""
-         # Configure socket to not block and timeout.
-         # This allows our drain thread to not block
-@@ -68,7 +68,7 @@ def _thread_start(self):
-         drain_thread.start()
-         return drain_thread
- 
--    def close(self):
-+    def close(self) -> None:
-         """Close the base object and wait for the thread to terminate"""
-         if self._open:
-             self._open = False
-@@ -80,7 +80,7 @@ def close(self):
-                 self._logfile.close()
-                 self._logfile = None
- 
--    def _drain_socket(self):
-+    def _drain_socket(self) -> None:
+@@ -83,15 +83,10 @@ def close(self) -> None:
+     def _drain_socket(self) -> None:
          """process arriving characters into in memory _buffer"""
          data = socket.socket.recv(self, 1)
-         # latin1 is needed since there are some chars
-@@ -114,7 +114,7 @@ def recv(self, bufsize: int = 1, flags: int = 0) -> bytes:
-         # socket w/o our intervention.
-         return chars.encode("latin1")
+-        # latin1 is needed since there are some chars
+-        # we are receiving that cannot be encoded to utf-8
+-        # such as 0xe2, 0x80, 0xA6.
+-        string = data.decode("latin1")
+         if self._logfile:
+-            self._logfile.write("{}".format(string))
++            self._logfile.write(data)
+             self._logfile.flush()
+-        for c in string:
+-            self._buffer.extend(c)
++        self._buffer.extend(data)
  
--    def setblocking(self, value):
-+    def setblocking(self, value: bool) -> None:
+     def recv(self, bufsize: int = 1, flags: int = 0) -> bytes:
+         """Return chars from in memory buffer.
+@@ -107,12 +102,7 @@ def recv(self, bufsize: int = 1, flags: int = 0) -> bytes:
+             elapsed_sec = time.time() - start_time
+             if elapsed_sec > self._recv_timeout_sec:
+                 raise socket.timeout
+-        chars = ''.join([self._buffer.popleft() for i in range(bufsize)])
+-        # We choose to use latin1 to remain consistent with
+-        # handle_read() and give back the same data as the user would
+-        # receive if they were reading directly from the
+-        # socket w/o our intervention.
+-        return chars.encode("latin1")
++        return bytes((self._buffer.popleft() for i in range(bufsize)))
+ 
+     def setblocking(self, value: bool) -> None:
          """When not draining we pass thru to the socket,
-            since when draining we control socket blocking.
-         """
 -- 
 2.26.2
 
