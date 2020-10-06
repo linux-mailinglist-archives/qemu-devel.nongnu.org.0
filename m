@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B272851DD
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:45:39 +0200 (CEST)
-Received: from localhost ([::1]:46466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4AA2851E3
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:49:03 +0200 (CEST)
+Received: from localhost ([::1]:53816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPrxy-0002Gk-Hw
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59926)
+	id 1kPs1G-0005Yw-GY
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrwH-0008TY-Fq
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:43:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26482)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrzv-0004gX-Ur
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:47:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrwE-0007mz-PJ
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:43:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrzs-0008Jc-Nl
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:47:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602009829;
+ s=mimecast20190719; t=1602010055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O4g4BA7Y0pIakV3phrNQoZVvs0BcJUXvDAVYOUnUZCo=;
- b=ZGvDltEJwmg0DkY0ZczvvVWUVt3jlra86MtMww63yZEYNQLAwKfDDmQhcIrdKXHfKlXaEG
- LHr5YxgjBkEdAixEmSNlJ841bsNojQi22TM/+04Agvyu8U31YLOHQYAWvrX6iE7O+MRX1m
- A2Pb4/qto6UL3NpKohUmWxZnRM5G4mQ=
+ bh=+3BgmtmVZtC6OD5dDU313/fWVDPz3+h8v8GpfL93hqg=;
+ b=JJCZcWake0moM6cieKDMeRk9uNdr4rWyJADpZ11XfEgFCVQ/arpuLjoSps+4jz1tB6QAVs
+ u0K++eo/H5JtJSTnwnPAdnIazokKVJBDHVKYJuaFf1NG5BVVNQ+2xOpoxuA3NJRv0+/GK5
+ C623IlvOxuR0QvMqavUX8hfoWfA4CpQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-_G8mW_9AOm-BMCB966c-5w-1; Tue, 06 Oct 2020 14:43:47 -0400
-X-MC-Unique: _G8mW_9AOm-BMCB966c-5w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-244-w8vP9TkVMayC1paCwCS2AQ-1; Tue, 06 Oct 2020 14:47:33 -0400
+X-MC-Unique: w8vP9TkVMayC1paCwCS2AQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4571101FFA9;
- Tue,  6 Oct 2020 18:43:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 631B11074651;
+ Tue,  6 Oct 2020 18:47:32 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-113-60.ams2.redhat.com [10.36.113.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 34E1119D7C;
- Tue,  6 Oct 2020 18:43:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E68D95D9F1;
+ Tue,  6 Oct 2020 18:47:30 +0000 (UTC)
 Subject: Re: [PULL 00/21] machine + QOM queue, 2020-10-05
-To: Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 References: <20201005211000.710404-1-ehabkost@redhat.com>
  <CAFEAcA_+4b4HHP_8BBqqy+QmoyF6Lx1jmuFvcsbW5THZQDrXww@mail.gmail.com>
- <20201006143637.GP7303@habkost.net> <20201006170418.67bc8ce6@redhat.com>
- <20201006172309.36585fe1@redhat.com>
- <42392f2d-c8b6-6a79-022b-ba8ca5e3ff46@redhat.com>
- <20201006181423.20931695@redhat.com>
+ <20201006143637.GP7303@habkost.net>
+ <CAFEAcA97upqUtasSsg+wxLFvak5rz+t3DBD7zMu4dnwvpw73AQ@mail.gmail.com>
+ <20201006144215.GK2482221@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b8e64d9b-dcc2-52b0-6902-1118d714b158@redhat.com>
-Date: Tue, 6 Oct 2020 20:43:44 +0200
+Message-ID: <deb55fbb-637b-0b94-6efb-c508c5dc691a@redhat.com>
+Date: Tue, 6 Oct 2020 20:47:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201006181423.20931695@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20201006144215.GK2482221@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,40 +87,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/10/2020 18.14, Igor Mammedov wrote:
-> On Tue, 6 Oct 2020 17:42:28 +0200
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
-> 
->> On 06/10/20 17:23, Igor Mammedov wrote:
->>> Looks like travis-ci lost previous authorizations to my github repo,
->>> but giving a new one didn't help.
+On 06/10/2020 16.42, Daniel P. Berrangé wrote:
+> On Tue, Oct 06, 2020 at 03:38:56PM +0100, Peter Maydell wrote:
+>> On Tue, 6 Oct 2020 at 15:36, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >>>
->>> Something wrong with current QEMU master, travis-ci doesn't recognize QEMU repo a valid anymore.
->>>    
+>>> On Tue, Oct 06, 2020 at 03:03:57PM +0100, Peter Maydell wrote:
+>>>> Compile failure on OSX:
+>>>>
+>>>> ../../hw/core/numa.c:429:20: error: format specifies type 'unsigned
+>>>> char' but the argument has type 'int' [-Werror,-Wformat]
+>>>>                     node->level - 1);
+>>>>                     ^~~~~~~~~~~~~~~~
+>>>> /Users/pm215/src/qemu-for-merges/include/qapi/error.h:319:35: note:
+>>>> expanded from macro 'error_setg'
+>>>>                          (fmt), ## __VA_ARGS__)
+>>>>                           ~~~      ^~~~~~~~~~~
+>>>> 1 error generated.
+>>>
+>>> Is there a CI system where this is tested?  I'd like to be able
+>>> to detect this kind of failure before sending pull requests.
 >>
->> Interesting, I use Travis->Gitlab integration and even though builds are
->> still triggered, they don't appear in the Gitlab CI page.  So the
->> configuration is okay, but something seems to be wrong on the Travis side.
+>> Currently this is still my ad-hoc setup. I think there is
+>> some CI that tests OSX compiles, though I have no idea how
+>> individual maintainers set up to use it.
 > 
-> If one enables access to all repositories on account, then even if travis-ci
-> doesn't show QEMU repo as accessible one, it seems that there is a new build in
-> 'received' state, maybe it will start building eventually.
+> Cirrus CI will cover macOS builds.  You just need to register with
+> Cirrus CI via your GitLab login, then pushing a branch to gitlab
+> should trigger both GitLab CI and Cirrus CI, which covers a vast
+> majority of combinations.
 
-It works for me (via my github account):
+I think Cirrus-CI needs a github account? Is there a way to use Gitlab now 
+instead? (just like Travis recently added Gitlab support?)
 
-  https://travis-ci.com/github/huth/qemu/builds/188441775
-
-... maybe it was just a temporary hickup?
-
-Anyway, we do not test macOS on Travis anymore (see commit 22a231950c50d3), 
-so this is likely not helpful for Eduardo's original problem... Cirrus-CI is 
-the way to go if you need macOS test coverage.
+We should eventually set up the cirrus-run tool, so we can use gitlab, too, 
+but I think you then still need at least a dummy github account to be able 
+to use it, don't you?
 
   Thomas
 
