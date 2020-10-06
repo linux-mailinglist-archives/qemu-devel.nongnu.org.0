@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BE82851AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:37:17 +0200 (CEST)
-Received: from localhost ([::1]:48716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE732851A1
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 20:34:41 +0200 (CEST)
+Received: from localhost ([::1]:40318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPrps-0008Ny-5U
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:37:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57342)
+	id 1kPrnM-0004pz-Dw
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 14:34:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrke-0002zt-Or
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:31:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36840)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrkc-0002zF-UF
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:31:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrkY-0006OP-GF
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:31:52 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kPrkY-0006PB-Fb
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 14:31:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602009102;
+ s=mimecast20190719; t=1602009105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=sLIn+FGQAWTEZgbaO4083ah3ZttjRz20DY3Xv8EoCfE=;
- b=i4HJi1aU+HRUJpoP+cqLUkIP6/i4y/RETHUL1bh9iVpk4RdR5sxlAB4UJJdnwjRJUcEzPS
- kJs397aUwP8AR1D5aqcOcTSlxe6pDxVQu4p1MD/lKCtUQPagtMQ8FGgP2XXHSoRm2Aq1gX
- o2if7qaQKEcLIfr2G3TwGz5ciq7lsxA=
+ references:references; bh=T6YP8hrHQXev/+boFaf2AQK9gihkEjg8LhNi5eosoCs=;
+ b=JabQMd9QHURcPaLmHMN4KKnw0JUerEQIT+xZnMRN1I8r3fnJ2oyZbx0Ak+SChGLD6ZTLin
+ 5gPASvIy9BwJud5+d3CoZYkMU7dGkzYs7LxeZnvTcftpsXyYtKLiK3hb+YY1/LIEWXfHyC
+ NT1XoY0XpD6EBeTMulq3Sn2wa6L31BM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-0OFCYIJtPsu7no4qLUGdOQ-1; Tue, 06 Oct 2020 14:31:38 -0400
-X-MC-Unique: 0OFCYIJtPsu7no4qLUGdOQ-1
+ us-mta-279-VNXk1h8mNZuWXpI81M38VQ-1; Tue, 06 Oct 2020 14:31:40 -0400
+X-MC-Unique: VNXk1h8mNZuWXpI81M38VQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C526418A822F;
- Tue,  6 Oct 2020 18:31:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DEC618A8230;
+ Tue,  6 Oct 2020 18:31:39 +0000 (UTC)
 Received: from thuth.com (ovpn-113-60.ams2.redhat.com [10.36.113.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E7B06EF43;
- Tue,  6 Oct 2020 18:31:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E9FB6EF46;
+ Tue,  6 Oct 2020 18:31:36 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 02/16] pc-bios/s390-ccw: Move ipl-related code from main() into
- a separate function
-Date: Tue,  6 Oct 2020 20:31:08 +0200
-Message-Id: <20201006183122.155609-3-thuth@redhat.com>
+Subject: [PULL 03/16] pc-bios/s390-ccw: Introduce ENODEV define and remove
+ guards of others
+Date: Tue,  6 Oct 2020 20:31:09 +0200
+Message-Id: <20201006183122.155609-4-thuth@redhat.com>
 In-Reply-To: <20201006183122.155609-1-thuth@redhat.com>
 References: <20201006183122.155609-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
@@ -53,16 +53,16 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,58 +82,40 @@ Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's move this part of the code into a separate function to be able
-to use it from multiple spots later.
+Remove the "#ifndef E..." guards from the defines here - the header
+guard S390_CCW_H at the top of the file should avoid double definition,
+and if the error code is defined in a different file already, we're in
+trouble anyway, then it's better to see the error at compile time instead
+of hunting weird behavior during runtime later.
+Also define ENODEV - we will use this in a later patch.
 
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Message-Id: <20200806105349.632-4-thuth@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
-Message-Id: <20200806105349.632-3-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/main.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ pc-bios/s390-ccw/s390-ccw.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
-index 146a50760b..9b64eb0c24 100644
---- a/pc-bios/s390-ccw/main.c
-+++ b/pc-bios/s390-ccw/main.c
-@@ -223,14 +223,8 @@ static void virtio_setup(void)
-     }
- }
+diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
+index 36b884cced..dbc4c64851 100644
+--- a/pc-bios/s390-ccw/s390-ccw.h
++++ b/pc-bios/s390-ccw/s390-ccw.h
+@@ -27,12 +27,10 @@ typedef unsigned long long __u64;
+ #define false 0
+ #define PAGE_SIZE 4096
  
--int main(void)
-+static void ipl_boot_device(void)
- {
--    sclp_setup();
--    css_setup();
--    boot_setup();
--    find_boot_device();
--    enable_subchannel(blk_schid);
--
-     switch (cutype) {
-     case CU_TYPE_DASD_3990:
-     case CU_TYPE_DASD_2107:
-@@ -242,8 +236,18 @@ int main(void)
-         break;
-     default:
-         print_int("Attempting to boot from unexpected device type", cutype);
--        panic("");
-+        panic("\nBoot failed.\n");
-     }
-+}
+-#ifndef EIO
+ #define EIO     1
+-#endif
+-#ifndef EBUSY
+ #define EBUSY   2
+-#endif
++#define ENODEV  3
 +
-+int main(void)
-+{
-+    sclp_setup();
-+    css_setup();
-+    boot_setup();
-+    find_boot_device();
-+    enable_subchannel(blk_schid);
-+    ipl_boot_device();
- 
-     panic("Failed to load OS from hard disk\n");
-     return 0; /* make compiler happy */
+ #ifndef NULL
+ #define NULL    0
+ #endif
 -- 
 2.18.2
 
