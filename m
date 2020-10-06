@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F554285389
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 22:58:06 +0200 (CEST)
-Received: from localhost ([::1]:39574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7CA285388
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 22:57:41 +0200 (CEST)
+Received: from localhost ([::1]:39134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPu29-00066k-Jy
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 16:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50460)
+	id 1kPu1j-0005tx-Sf
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 16:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <brian.turek@gmail.com>)
- id 1kPtWa-0005z2-OG
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 16:25:28 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46999)
+ id 1kPtWn-0005zi-RK
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 16:25:41 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <brian.turek@gmail.com>)
- id 1kPtWZ-0002Ju-6h
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 16:25:28 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o5so14908856wrn.13
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 13:25:26 -0700 (PDT)
+ id 1kPtWm-0002Pf-Ak
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 16:25:41 -0400
+Received: by mail-wm1-x341.google.com with SMTP id v12so147049wmh.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 13:25:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XQsOkmRYLuPhwzofzg/0dnEmyL/kcD6eH0BzATzy0r4=;
- b=NiEgOnQJxofw0Awb4EHGA1ynMYzuXJdu3PmD31gftN8t/2eui46P8S12QmOqTlns8A
- 0BUA0WjPUk+iv5xh5IUACVkT0COwvAzImLoTpha9nBp1DwRoGDR31V7WirLlkZH/K29Q
- F+XN8Zmu85R/kd2AdMwIl0fq5WIAMVJzCMeXEDcTdLlExT/v/2JRnKRnAAsqEhTpG98r
- U/maGGgzQg3LPgGpOz5TD6V2xiA26JMnUKzVvNrZNawA+Uh7t5dZ+w1ib4taKf730MTI
- kUHE0nLOoZ0sW6FcKHJv2SM8t64XrjBJI6/VSImWRmTYRa0zM18L1hrDMKIRaK2tX5TZ
- bT3g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=t3EWFtYWy1PxrutwWixMHjNhMppH8NW5awcdMGVYfFc=;
+ b=dajVL1mK+BaLvDHq0A1APC3AKRo2ljyolEK971j8wpMbRhL+vZnKn8PXqAU3/+zXeX
+ Ri8Cll7okZtYUh9mXg2e15OL6Ti9NuSsS5NtLSpnKp0DmiIIV8Y7tapBhT4fCipLp0jt
+ J+e4LXp2hPRLi4Xci308nBEfNgYZVc+Q3tHXwC699q4+v2zqDhUgwfWdoaF/87vhIc0Y
+ nH0M2t5PhHbAxrijQOFxuh6mU3Gir/77NsbnnhZpSbnDzZacsEGFZx87qzzIo5j2Bk3k
+ PV53vIJ7ytreTiy8p0yTVmvW08PPYwJg9bb4oEx/oJdjTv0vy73J6iaIH86jaR0tMYRC
+ 89nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XQsOkmRYLuPhwzofzg/0dnEmyL/kcD6eH0BzATzy0r4=;
- b=IuEymrZDrV/aWSulGOesIiAAIkcx4SIO99C7q9rYwsAcMW5U0hENBn7fUKZk403XOS
- Os1aAIcmBgH5X5ONtQ+tqZ+Wis29nWtJnZ22T86jo8oWoEs+DOkL227DeDsM+DfuHwPk
- iGigNZUxRuxzg0zDe5tMPzJiaUlEAX1RvvUL7dMSUgDFe3OcoAuUubA7WNyGnKK09cZz
- /8xTFb52me5Ylg2+uqac7az6Pg+7coD9bCW6ROIHSFtRW5RaMkNd3xKS+Vw+jla2bBFl
- Z/2kJpS8ZhBUe9nsNmOoyyqyzuqyP1vMyAZ1apKa2KaxvDO/IBHjBkkNsN6O3juYQl3r
- lyNA==
-X-Gm-Message-State: AOAM530eJstFFhe/FMnzWa5kH4IfpoXZrL3YqWwTMu4SJIxPL5Scz5g2
- SHUs7zLk2jdkZ/6UfcLvHv4svO6mGVPubRu6
-X-Google-Smtp-Source: ABdhPJzmaYtgfUMqx+2NHt8uueSNCQZ52IWfNwjuWguA5Tatmh6YYhOktSYu74vluBgpKwMdvTTnRg==
-X-Received: by 2002:adf:d4c7:: with SMTP id w7mr6956887wrk.263.1602015925077; 
- Tue, 06 Oct 2020 13:25:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=t3EWFtYWy1PxrutwWixMHjNhMppH8NW5awcdMGVYfFc=;
+ b=eKowW/i3VhmpeQ3PBpQ0ppUye579UcoFjG0VMmWfXuZJ8Eyo41JpFNkLX7NIP2Hweg
+ 2W2ddZp0f7NGPkcq8tnuDn1f+4IxK9o9/rKlKgL++5T2Fr4DHdVXQl1OgZHai2Ib76Lo
+ joAR3AT4MqfZtEqkgqUMz+goDh008OTAUreXsrkGJbgGHpwTwv/ShcI7N/8HAmP46oab
+ ByqxwFKoP5BnY5TrLJ/B6Kz9t90B+QX4Wvq4QuPCaYdFBMV678GRZ/zZd0m0id6lExLJ
+ zV+6J/ur8sk6mT19ee/YA7PVrfPhfi43FG4486n+ubAyXEut9nt1XZ4OZy7l64G29ECd
+ o98w==
+X-Gm-Message-State: AOAM531VgsR33dewrv1uv+miyAaHgpz0arGDyzQsPuY+2FeCaSl79U1r
+ hKtG4xp4QlClK3U/u6JPiDYT5Kny4fTN4i/F
+X-Google-Smtp-Source: ABdhPJy/z+5W9dR+K2E0qa6yckZv47v6UOGDSRkKeUJd8niKy4fGXBWFsLWKrnyyxpQsYYo0awmOlw==
+X-Received: by 2002:a1c:f005:: with SMTP id a5mr6600521wmb.160.1602015938360; 
+ Tue, 06 Oct 2020 13:25:38 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc75556-harg6-2-0-cust35.7-1.cable.virginm.net. [86.3.36.36])
- by smtp.gmail.com with ESMTPSA id o15sm5402131wmh.29.2020.10.06.13.25.24
+ by smtp.gmail.com with ESMTPSA id o15sm5402131wmh.29.2020.10.06.13.25.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 13:25:24 -0700 (PDT)
+ Tue, 06 Oct 2020 13:25:37 -0700 (PDT)
 From: Brian Turek <brian.turek@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/1] docs: Clarify formatting for 'fmode' and 'dmode'
-Date: Tue,  6 Oct 2020 21:25:00 +0100
-Message-Id: <20201006202501.81537-1-brian.turek@gmail.com>
+Subject: [PATCH 1/1] docs: Clarify formatting for 'fmode' and 'dmode'
+Date: Tue,  6 Oct 2020 21:25:01 +0100
+Message-Id: <20201006202501.81537-2-brian.turek@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201006202501.81537-1-brian.turek@gmail.com>
+References: <20201006202501.81537-1-brian.turek@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=brian.turek@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=brian.turek@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,22 +90,39 @@ Cc: Brian Turek <brian.turek@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current documentation for the 'fmode' and 'dmode' options for
-fsdev/virtfs is ambiguous for the expected format of the values.  The
-code itself parses the value using a call to strtoull with base=0 which
-causes values like "644" and "755" to be parsed as base-10 rather than
-base-8. This can cause unexpected behavior.
+Explictly state that the 'fmode' and 'dmode' values for a fsdev/virtfs
+must be formatted with a preceeding 0 to be interpreted as base-8.
+Currently the code will parse a value like "644" as base-10 which leads
+to unexpected behavior.
 
-This patch changes the docmentation to be explicit on the expected
-format and mentions the fact that the setuid, setgid, and sticky bit are
-dropped.
-
-Brian Turek (1):
-  docs: Clarify formatting for 'fmode' and 'dmode'
-
+Signed-off-by: Brian Turek <brian.turek@gmail.com>
+---
  qemu-options.hx | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 1da52a269c..b92f32005a 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1492,12 +1492,16 @@ SRST
+     ``fmode=fmode``
+         Specifies the default mode for newly created files on the host.
+         Works only with security models "mapped-xattr" and
+-        "mapped-file".
++        "mapped-file". Must be formatted with a preceeding 0 to be
++        interpreted as a octal value (e.g. 0644). The setuid, setgid,
++        and sticky bit are all ignored.
+ 
+     ``dmode=dmode``
+         Specifies the default mode for newly created directories on the
+         host. Works only with security models "mapped-xattr" and
+-        "mapped-file".
++        "mapped-file". Must be formatted with a preceeding 0 to be
++        interpreted as a octal value (e.g. 0755). The setuid, setgid,
++        and sticky bit are all ignored.
+ 
+     ``throttling.bps-total=b,throttling.bps-read=r,throttling.bps-write=w``
+         Specify bandwidth throttling limits in bytes per second, either
 -- 
 2.25.1
 
