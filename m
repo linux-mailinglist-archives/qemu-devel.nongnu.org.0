@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DDD3284818
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:08:08 +0200 (CEST)
-Received: from localhost ([::1]:48844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841182847B4
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:43:41 +0200 (CEST)
+Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPi11-0001kr-5V
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39852)
+	id 1kPhdM-0004Oy-B8
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:43:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQP-0003DH-1d
+ id 1kPhQP-0003EL-F1
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:17 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51964)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQM-0001UL-P9
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:16 -0400
-Received: by mail-wm1-x335.google.com with SMTP id d81so1836303wmc.1
+ id 1kPhQN-0001Ub-87
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:17 -0400
+Received: by mail-wr1-x443.google.com with SMTP id h7so8607896wre.4
  for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NxHtyaguhmZyrZzSrjBoVZDX5Qr8ne7K4mckqDbFwHo=;
- b=eCO4XVTgwP8Vd4y/uHgwpLxmjs3MNVtDdZ0vF/SFUi4ldO8H/JHAtsPfVIpPZliZdk
- b5BWfnwo7j0b7nE5zslvfrYHb3/PD8xWjbR/eF2p121r+IAd3F7qX0D97Ejvbxor9mld
- YOgAPGl6XWDbb5Vjy2K/4Lz03BsZCcvoXUFFu/fBxzPFJiY5ASUToM1xC+HOmGmMGYf9
- rf3g5YTKcD1XK7cxHoHOwOBxL67pyIvkoHHuDlJRmCk4fTvYzBIOlhC7pEBFoWHRI3PO
- IhUiciKDX6GqP6FvhfgapJRP092DFdpdOtkDgw+XZLQ3KSUU7OAaLGYv7AH+oa+VJUA3
- pYuQ==
+ bh=Lx7aepaU4oeb9uUi81d1ARWCm8iq4HU6ykoV7TnaemU=;
+ b=PGNlu6zxpVH14oq6A36NwLzFob6q8ObPwMOZKYwfy657B/3WxmKcl4OOgnkm4HU0vo
+ ci8hNFDElMIGDzjI8hicitGOF4TKsm/HPB7ufH6KkxpZkl4GautPNiIoIezXf3cXT1Uy
+ 7sqX/q2p9dUk9b9DW94C/pL1FEb6AuxLj3f1/hiD62OJ8sGMY0s+MA3pZaF1f0V0EU1s
+ P7wQVBYFhpfCSEZfvqEmGhc2Bjy586Ay9BU6vk8T8FLN+XrGtWu5F4KDqDBCoCFazbGR
+ EJpbvDPOz7TfRAEjHdtgMxBHfuNRHQuvod5gv1WRA7CAgfO4Wu7bfb14vJjUscR7f78n
+ cMDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NxHtyaguhmZyrZzSrjBoVZDX5Qr8ne7K4mckqDbFwHo=;
- b=MBtysHnOvuQqLQxEQheMyK0/9jnRM9jp2GNMMpAeT0XBX2NtDfyWsw+1/AXDpQy/+w
- Yd2EK8OVGlHdLAYyoUl9Hly7S+waKv3PDtaHZm6fX601VPH5UlbOi8QMjzdhcYUYZZUL
- pjz0jwNPuhTEMf+CJ8fPJBCtUOy2Ecq1yBWO7RaLcvzwCj7hTXbO7Fm7UBXRuq+g+Nb5
- lWSb6mCri6DD8BrqJowqIHAbJjwjlW335cvDmnzqxQsdMIyPf2fafYZT0UyoeUw/2Hk9
- /kdxO5De7+IP0+X18ULpP8GMBcP+Y8NozJVOAIl+sGLqs7Msvr4SUdCqhPJ4iPncBPAW
- OUHw==
-X-Gm-Message-State: AOAM5335m3dBPbNZBPPrRFUq8uPGfKJRJLTNFATelC0Mu8Dr+ffhu7IP
- KZFQ9rvUzTKAL5tUVLRovKCAS17cjY0=
-X-Google-Smtp-Source: ABdhPJzWE1aPmN94PEgA04c32Pi52Vmgl4vusjWNYLXDNQvOwTZcB7i9E3ednZRl1ZBri+2q7DDn6A==
-X-Received: by 2002:a1c:9e0e:: with SMTP id h14mr3186823wme.18.1601969412602; 
- Tue, 06 Oct 2020 00:30:12 -0700 (PDT)
+ bh=Lx7aepaU4oeb9uUi81d1ARWCm8iq4HU6ykoV7TnaemU=;
+ b=MIQf7RJhmo6i4aTq2zs9m2QcRaI3KU4TfrIyPiCtWymHRbckaaDv9dFdmqLPwrwnFn
+ SjWANEpsijhLV46etJ+Pyts/bU+eHzDMb4TuFG/5UUp443VL0T0XcSmqUixd7cxVlSsB
+ SZN5RyD/lt84WBI5NJCjtpXfQWEsojq66QgqNVaANqVXax579I1I2IP6fev/mT/T2CZA
+ ccEeMwqUNo9DyWSPqUJhJuGV9j96vnIBcbckxyJvGk/Pf6JhsNYvt2Af426adMeijQ46
+ 5YiKBPmOYWzoNxgvV5TWmNUo4xpj0ywIg9znJJg+1Ov/9u6ie7uD/Ul3KdOKY/gyqNMQ
+ RpCg==
+X-Gm-Message-State: AOAM531kH4dF3+gdtpN6OB+JU8ylxhq8ljqbfLTScvvB3juqYDwqbu25
+ FLlElU4qFpKF9tISSg4tjnH+SU3BSqk=
+X-Google-Smtp-Source: ABdhPJy+Sbx6KKFR+eYAA3jYg/j5sbjECPkJcQa5kwUdxXkckbqvC/4hVAh8IqUc133BAYQ9aeNChg==
+X-Received: by 2002:adf:ecc1:: with SMTP id s1mr3289616wro.120.1601969413371; 
+ Tue, 06 Oct 2020 00:30:13 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.11
+ by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 06 Oct 2020 00:30:12 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/37] replay: introduce info hmp/qmp command
-Date: Tue,  6 Oct 2020 09:29:39 +0200
-Message-Id: <20201006072947.487729-30-pbonzini@redhat.com>
+Subject: [PULL 30/37] replay: introduce breakpoint at the specified step
+Date: Tue,  6 Oct 2020 09:29:40 +0200
+Message-Id: <20201006072947.487729-31-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006072947.487729-1-pbonzini@redhat.com>
 References: <20201006072947.487729-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -86,187 +86,300 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
- Markus Armbruster <armbru@redhat.com>
+ Markus Armbruster <armbru@redhat.com>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch introduces 'info replay' monitor command and
-corresponding qmp request.
-These commands request the current record/replay mode, replay log file
-name, and the instruction count (number of recorded/replayed
-instructions).  The instruction count can be used with the
-replay_seek/replay_break commands added in the next two patches.
+This patch introduces replay_break, replay_delete_break
+qmp and hmp commands.
+These commands allow stopping at the specified instruction.
+It may be useful for debugging when there are some known
+events that should be investigated.
+replay_break command has one argument - number of instructions
+executed since the start of the replay.
+replay_delete_break removes previously set breakpoint.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Acked-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <160174520026.12451.13112161947433306561.stgit@pasha-ThinkPad-X280>
+
+--
+
+v4 changes:
+ - removed useless error_free call
+Message-Id: <160174520606.12451.7056879546045599378.stgit@pasha-ThinkPad-X280>
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hmp-commands-info.hx      | 11 ++++++++++
- include/monitor/hmp.h     |  1 +
- qapi/block-core.json      |  3 ++-
- qapi/replay.json          | 39 +++++++++++++++++++++++++++++++++++
- replay/meson.build        |  1 +
- replay/replay-debugging.c | 43 +++++++++++++++++++++++++++++++++++++++
- 6 files changed, 97 insertions(+), 1 deletion(-)
- create mode 100644 replay/replay-debugging.c
+ hmp-commands.hx           | 32 +++++++++++++++
+ include/monitor/hmp.h     |  2 +
+ qapi/replay.json          | 36 +++++++++++++++++
+ replay/replay-debugging.c | 84 +++++++++++++++++++++++++++++++++++++++
+ replay/replay-internal.h  |  4 ++
+ replay/replay.c           | 17 ++++++++
+ 6 files changed, 175 insertions(+)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 30209e3903..117ba25f91 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -881,4 +881,15 @@ SRST
-     Show SEV information.
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 1088d64503..7680d0b380 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1804,6 +1804,38 @@ SRST
+   Set QOM property *property* of object at location *path* to value *value*
  ERST
  
 +    {
-+        .name       = "replay",
++        .name       = "replay_break",
++        .args_type  = "icount:i",
++        .params     = "icount",
++        .help       = "set breakpoint at the specified instruction count",
++        .cmd        = hmp_replay_break,
++    },
++
++SRST
++``replay_break`` *icount*
++  Set replay breakpoint at instruction count *icount*.
++  Execution stops when the specified instruction is reached.
++  There can be at most one breakpoint. When breakpoint is set, any prior
++  one is removed.  The breakpoint may be set only in replay mode and only
++  "in the future", i.e. at instruction counts greater than the current one.
++  The current instruction count can be observed with ``info replay``.
++ERST
++
++    {
++        .name       = "replay_delete_break",
 +        .args_type  = "",
 +        .params     = "",
-+        .help       = "show record/replay information",
-+        .cmd        = hmp_info_replay,
++        .help       = "remove replay breakpoint",
++        .cmd        = hmp_replay_delete_break,
 +    },
- 
++
 +SRST
-+  ``info replay``
-+    Display the record/replay information: mode and the current icount.
++``replay_delete_break``
++  Remove replay breakpoint which was previously set with ``replay_break``.
++  The command is ignored when there are no replay breakpoints.
 +ERST
++
+     {
+         .name       = "info",
+         .args_type  = "item:s?",
 diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 642e9e91f9..f297fccce8 100644
+index f297fccce8..809ad638bb 100644
 --- a/include/monitor/hmp.h
 +++ b/include/monitor/hmp.h
-@@ -129,5 +129,6 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict);
- void hmp_info_vm_generation_id(Monitor *mon, const QDict *qdict);
+@@ -130,5 +130,7 @@ void hmp_info_vm_generation_id(Monitor *mon, const QDict *qdict);
  void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict);
  void hmp_info_sev(Monitor *mon, const QDict *qdict);
-+void hmp_info_replay(Monitor *mon, const QDict *qdict);
+ void hmp_info_replay(Monitor *mon, const QDict *qdict);
++void hmp_replay_break(Monitor *mon, const QDict *qdict);
++void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
  
  #endif
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index fdc2e5cb28..3758ea9912 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -29,7 +29,8 @@
- #
- # @icount: Current instruction count. Appears when execution record/replay
- #          is enabled. Used for "time-traveling" to match the moment
--#          in the recorded execution with the snapshots. (since 5.2)
-+#          in the recorded execution with the snapshots. This counter may
-+#          be obtained through @query-replay command (since 5.2)
- #
- # Since: 1.3
- #
 diff --git a/qapi/replay.json b/qapi/replay.json
-index 9e13551d20..e6b3f6001d 100644
+index e6b3f6001d..173ba76107 100644
 --- a/qapi/replay.json
 +++ b/qapi/replay.json
-@@ -24,3 +24,42 @@
+@@ -63,3 +63,39 @@
  ##
- { 'enum': 'ReplayMode',
-   'data': [ 'none', 'record', 'play' ] }
+ { 'command': 'query-replay',
+   'returns': 'ReplayInfo' }
 +
 +##
-+# @ReplayInfo:
++# @replay-break:
 +#
-+# Record/replay information.
++# Set replay breakpoint at instruction count @icount.
++# Execution stops when the specified instruction is reached.
++# There can be at most one breakpoint. When breakpoint is set, any prior
++# one is removed.  The breakpoint may be set only in replay mode and only
++# "in the future", i.e. at instruction counts greater than the current one.
++# The current instruction count can be observed with @query-replay.
 +#
-+# @mode: current mode.
-+#
-+# @filename: name of the record/replay log file.
-+#            It is present only in record or replay modes, when the log
-+#            is recorded or replayed.
-+#
-+# @icount: current number of executed instructions.
-+#
-+# Since: 5.2
-+#
-+##
-+{ 'struct': 'ReplayInfo',
-+  'data': { 'mode': 'ReplayMode', '*filename': 'str', 'icount': 'int' } }
-+
-+##
-+# @query-replay:
-+#
-+# Retrieve the record/replay information.
-+# It includes current instruction count which may be used for
-+# @replay-break and @replay-seek commands.
-+#
-+# Returns: record/replay information.
++# @icount: instruction count to stop at
 +#
 +# Since: 5.2
 +#
 +# Example:
 +#
-+# -> { "execute": "query-replay" }
-+# <- { "return": { "mode": "play", "filename": "log.rr", "icount": 220414 } }
++# -> { "execute": "replay-break", "data": { "icount": 220414 } }
 +#
 +##
-+{ 'command': 'query-replay',
-+  'returns': 'ReplayInfo' }
-diff --git a/replay/meson.build b/replay/meson.build
-index 8783aea7c8..f91163fb1e 100644
---- a/replay/meson.build
-+++ b/replay/meson.build
-@@ -9,4 +9,5 @@ softmmu_ss.add(files(
-   'replay-net.c',
-   'replay-audio.c',
-   'replay-random.c',
-+  'replay-debugging.c',
- ))
++{ 'command': 'replay-break', 'data': { 'icount': 'int' } }
++
++##
++# @replay-delete-break:
++#
++# Remove replay breakpoint which was set with @replay-break.
++# The command is ignored when there are no replay breakpoints.
++#
++# Since: 5.2
++#
++# Example:
++#
++# -> { "execute": "replay-delete-break" }
++#
++##
++{ 'command': 'replay-delete-break' }
 diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
-new file mode 100644
-index 0000000000..51a6de4e81
---- /dev/null
+index 51a6de4e81..3dc23b84fc 100644
+--- a/replay/replay-debugging.c
 +++ b/replay/replay-debugging.c
-@@ -0,0 +1,43 @@
-+/*
-+ * replay-debugging.c
-+ *
-+ * Copyright (c) 2010-2020 Institute for System Programming
-+ *                         of the Russian Academy of Sciences.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
+@@ -12,10 +12,13 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "sysemu/replay.h"
++#include "sysemu/runstate.h"
+ #include "replay-internal.h"
+ #include "monitor/hmp.h"
+ #include "monitor/monitor.h"
+ #include "qapi/qapi-commands-replay.h"
++#include "qapi/qmp/qdict.h"
++#include "qemu/timer.h"
+ 
+ void hmp_info_replay(Monitor *mon, const QDict *qdict)
+ {
+@@ -41,3 +44,84 @@ ReplayInfo *qmp_query_replay(Error **errp)
+     retval->icount = replay_get_current_icount();
+     return retval;
+ }
 +
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "sysemu/replay.h"
-+#include "replay-internal.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
-+#include "qapi/qapi-commands-replay.h"
-+
-+void hmp_info_replay(Monitor *mon, const QDict *qdict)
++static void replay_break(uint64_t icount, QEMUTimerCB callback, void *opaque)
 +{
-+    if (replay_mode == REPLAY_MODE_NONE) {
-+        monitor_printf(mon, "Record/replay is not active\n");
++    assert(replay_mode == REPLAY_MODE_PLAY);
++    assert(replay_mutex_locked());
++    assert(replay_break_icount >= replay_get_current_icount());
++    assert(callback);
++
++    replay_break_icount = icount;
++
++    if (replay_break_timer) {
++        timer_del(replay_break_timer);
++    }
++    replay_break_timer = timer_new_ns(QEMU_CLOCK_REALTIME,
++                                      callback, opaque);
++}
++
++static void replay_delete_break(void)
++{
++    assert(replay_mode == REPLAY_MODE_PLAY);
++    assert(replay_mutex_locked());
++
++    if (replay_break_timer) {
++        timer_del(replay_break_timer);
++        timer_free(replay_break_timer);
++        replay_break_timer = NULL;
++    }
++    replay_break_icount = -1ULL;
++}
++
++static void replay_stop_vm(void *opaque)
++{
++    vm_stop(RUN_STATE_PAUSED);
++    replay_delete_break();
++}
++
++void qmp_replay_break(int64_t icount, Error **errp)
++{
++    if (replay_mode == REPLAY_MODE_PLAY) {
++        if (icount >= replay_get_current_icount()) {
++            replay_break(icount, replay_stop_vm, NULL);
++        } else {
++            error_setg(errp,
++                "cannot set breakpoint at the instruction in the past");
++        }
 +    } else {
-+        monitor_printf(mon,
-+            "%s execution '%s': instruction count = %"PRId64"\n",
-+            replay_mode == REPLAY_MODE_RECORD ? "Recording" : "Replaying",
-+            replay_get_filename(), replay_get_current_icount());
++        error_setg(errp, "setting the breakpoint is allowed only in play mode");
 +    }
 +}
 +
-+ReplayInfo *qmp_query_replay(Error **errp)
++void hmp_replay_break(Monitor *mon, const QDict *qdict)
 +{
-+    ReplayInfo *retval = g_new0(ReplayInfo, 1);
++    int64_t icount = qdict_get_try_int(qdict, "icount", -1LL);
++    Error *err = NULL;
 +
-+    retval->mode = replay_mode;
-+    if (replay_get_filename()) {
-+        retval->filename = g_strdup(replay_get_filename());
-+        retval->has_filename = true;
++    qmp_replay_break(icount, &err);
++    if (err) {
++        error_report_err(err);
++        return;
 +    }
-+    retval->icount = replay_get_current_icount();
-+    return retval;
 +}
++
++void qmp_replay_delete_break(Error **errp)
++{
++    if (replay_mode == REPLAY_MODE_PLAY) {
++        replay_delete_break();
++    } else {
++        error_setg(errp, "replay breakpoints are allowed only in play mode");
++    }
++}
++
++void hmp_replay_delete_break(Monitor *mon, const QDict *qdict)
++{
++    Error *err = NULL;
++
++    qmp_replay_delete_break(&err);
++    if (err) {
++        error_report_err(err);
++        return;
++    }
++}
+diff --git a/replay/replay-internal.h b/replay/replay-internal.h
+index 33ac551e78..2f6145ec7c 100644
+--- a/replay/replay-internal.h
++++ b/replay/replay-internal.h
+@@ -94,6 +94,10 @@ extern ReplayState replay_state;
+ 
+ /* File for replay writing */
+ extern FILE *replay_file;
++/* Instruction count of the replay breakpoint */
++extern uint64_t replay_break_icount;
++/* Timer for the replay breakpoint callback */
++extern QEMUTimer *replay_break_timer;
+ 
+ void replay_put_byte(uint8_t byte);
+ void replay_put_event(uint8_t event);
+diff --git a/replay/replay.c b/replay/replay.c
+index 797b6a5b15..d4c228ab28 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -34,6 +34,10 @@ static char *replay_filename;
+ ReplayState replay_state;
+ static GSList *replay_blockers;
+ 
++/* Replay breakpoints */
++uint64_t replay_break_icount = -1ULL;
++QEMUTimer *replay_break_timer;
++
+ bool replay_next_event_is(int event)
+ {
+     bool res = false;
+@@ -73,6 +77,13 @@ int replay_get_instructions(void)
+     replay_mutex_lock();
+     if (replay_next_event_is(EVENT_INSTRUCTION)) {
+         res = replay_state.instruction_count;
++        if (replay_break_icount != -1LL) {
++            uint64_t current = replay_get_current_icount();
++            assert(replay_break_icount >= current);
++            if (current + res > replay_break_icount) {
++                res = replay_break_icount - current;
++            }
++        }
+     }
+     replay_mutex_unlock();
+     return res;
+@@ -99,6 +110,12 @@ void replay_account_executed_instructions(void)
+                    will be read from the log. */
+                 qemu_notify_event();
+             }
++            /* Execution reached the break step */
++            if (replay_break_icount == replay_state.current_icount) {
++                /* Cannot make callback directly from the vCPU thread */
++                timer_mod_ns(replay_break_timer,
++                    qemu_clock_get_ns(QEMU_CLOCK_REALTIME));
++            }
+         }
+     }
+ }
 -- 
 2.26.2
 
