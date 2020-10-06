@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FF228444B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 05:35:28 +0200 (CEST)
-Received: from localhost ([::1]:55650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051C9284461
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 05:51:05 +0200 (CEST)
+Received: from localhost ([::1]:60634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPdl8-0006Tp-Md
-	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 23:35:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55138)
+	id 1kPe0E-0001TV-Ih
+	for lists+qemu-devel@lfdr.de; Mon, 05 Oct 2020 23:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Fan_Yang@sjtu.edu.cn>)
- id 1kPdab-0005L4-Vb
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 23:24:33 -0400
-Received: from smtp180.sjtu.edu.cn ([202.120.2.180]:41106)
+ id 1kPdh3-0006WB-Pl
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 23:31:13 -0400
+Received: from smtp180.sjtu.edu.cn ([202.120.2.180]:41248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Fan_Yang@sjtu.edu.cn>)
- id 1kPdaZ-0001pq-1K
- for qemu-devel@nongnu.org; Mon, 05 Oct 2020 23:24:33 -0400
+ id 1kPdh0-0004bg-S9
+ for qemu-devel@nongnu.org; Mon, 05 Oct 2020 23:31:13 -0400
 Received: from proxy01.sjtu.edu.cn (smtp185.sjtu.edu.cn [202.120.2.185])
- by smtp180.sjtu.edu.cn (Postfix) with ESMTPS id B69F81008CA20;
- Tue,  6 Oct 2020 11:24:17 +0800 (CST)
+ by smtp180.sjtu.edu.cn (Postfix) with ESMTPS id 2E2551008CBC4;
+ Tue,  6 Oct 2020 11:31:01 +0800 (CST)
 Received: from localhost (localhost [127.0.0.1])
- by proxy01.sjtu.edu.cn (Postfix) with ESMTP id 82B6F2042423F;
- Tue,  6 Oct 2020 11:24:17 +0800 (CST)
+ by proxy01.sjtu.edu.cn (Postfix) with ESMTP id 024A02042423E;
+ Tue,  6 Oct 2020 11:31:01 +0800 (CST)
 X-Virus-Scanned: amavisd-new at proxy01.sjtu.edu.cn
 Received: from proxy01.sjtu.edu.cn ([127.0.0.1])
  by localhost (proxy01.sjtu.edu.cn [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id I5ZhisZY17JA; Tue,  6 Oct 2020 11:24:17 +0800 (CST)
+ with ESMTP id Z4FL2R6RAjCa; Tue,  6 Oct 2020 11:31:00 +0800 (CST)
 Received: from [192.168.1.103] (unknown [58.23.236.228])
  (Authenticated sender: Fan_Yang@sjtu.edu.cn)
- by proxy01.sjtu.edu.cn (Postfix) with ESMTPSA id C790620424202;
- Tue,  6 Oct 2020 11:23:46 +0800 (CST)
+ by proxy01.sjtu.edu.cn (Postfix) with ESMTPSA id 751DD2042423F;
+ Tue,  6 Oct 2020 11:30:34 +0800 (CST)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
 Subject: Re: [RFC PATCH 2/2] contrib/gitdm: Add more academic domains
 From: Fan Yang <Fan_Yang@sjtu.edu.cn>
 In-Reply-To: <20201004204010.2048608-3-f4bug@amsat.org>
-Date: Tue, 6 Oct 2020 11:23:45 +0800
+Date: Tue, 6 Oct 2020 11:30:33 +0800
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <351A36BA-E9CD-41C5-B014-059CBFD66802@sjtu.edu.cn>
+Message-Id: <465E4C6C-0B01-4485-8B99-0BAF253DC990@sjtu.edu.cn>
 References: <20201004204010.2048608-1-f4bug@amsat.org>
  <20201004204010.2048608-3-f4bug@amsat.org>
 To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
@@ -67,8 +67,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mike Ryan <mikeryan@isi.edu>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+Cc: Stephen Checkoway <stephen.checkoway@oberlin.edu>,
  Vince Weaver <vince@csl.cornell.edu>, qemu-devel@nongnu.org,
  Xinyu Li <precinct@mail.ustc.edu.cn>,
  Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>,
@@ -77,19 +76,18 @@ Cc: Mike Ryan <mikeryan@isi.edu>,
  =?utf-8?Q?Llu=C3=ADs_Vilanova?= <vilanova@ac.upc.edu>,
  linzhecheng <linzc@zju.edu.cn>,
  Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>,
- Dayeol Lee <dayeol@berkeley.edu>, Nickolai Zeldovich <nickolai@csail.mit.edu>,
+ Dayeol Lee <dayeol@berkeley.edu>,
  Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>,
  Brian Wheeler <bdwheele@indiana.edu>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
  Christoffer Dall <cdall@cs.columbia.edu>, Colin Lord <cdlord2@illinois.edu>,
  Gabriel Somlo <somlo@cmu.edu>, Alexander Bulekov <alxndr@bu.edu>,
  Fabrice Desclaux <fabrice.desclaux@cea.fr>,
  =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?utf-8?Q?C=C3=A9sar_Belley?= <cesar.belley@lse.epita.fr>,
  Akkarit Sangpetch <asangpet@andrew.cmu.edu>,
+ =?utf-8?Q?C=C3=A9sar_Belley?= <cesar.belley@lse.epita.fr>,
  Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- Chen Wei-Ren <chenwj@iis.sinica.edu.tw>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Zhang Mengchi <zhangmengchi@mprc.pku.edu.cn>,
+ Nickolai Zeldovich <nickolai@csail.mit.edu>,
  Timothy Edward Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -98,7 +96,7 @@ Acked-by: Fan Yang <Fan_Yang@sjtu.edu.cn>
 
 On Mon, Oct 05, 2020 at 4:40AM +0800=EF=BC=8CPhilippe Mathieu-Daud=C3=A9 =
 <f4bug@amsat.org> wrote=EF=BC=9A
-
+>=20
 > There is a number of contributions from these academic domains.
 > Add the entries to the gitdm 'academic' domain map.
 >=20
@@ -172,6 +170,6 @@ b/contrib/gitdm/group-map-academics
 > +cea.fr
 > --=20
 > 2.26.2
-
+>=20
 
 
