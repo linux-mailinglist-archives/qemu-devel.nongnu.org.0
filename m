@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38604284F1C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 17:39:31 +0200 (CEST)
-Received: from localhost ([::1]:55424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372EA284F26
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 17:42:57 +0200 (CEST)
+Received: from localhost ([::1]:35828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPp3l-0007Qj-2h
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 11:39:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46430)
+	id 1kPp7A-0002gN-9k
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 11:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPp1D-0005lm-6g
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 11:36:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24450)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPp1I-0005oY-Fz
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 11:36:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPp1A-0007Fm-Td
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 11:36:46 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPp1E-0007GH-TK
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 11:36:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601998602;
+ s=mimecast20190719; t=1601998606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tD0RbHXO8qeiYR+9HbT8vdwMzUHwkUETl4BgnGpbddA=;
- b=XK2kExuk3lITNvVdWWP9sS9MdxuUVf9a0I6hPOSog8mGXPREzb4QhkzGzyyaC43nuEPQiJ
- N17CW7HnhgUzU7diXEpEcKfHHn52aJIq0qTSYvrdUrt2oxa2RkQuCR/Q6uVOgx9BcAaZaQ
- /dnNVLbVJc6x4nZCBff8E6kpMgrTNfM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-cvVAgRGNMNaUL0SuzvxEOw-1; Tue, 06 Oct 2020 11:36:40 -0400
-X-MC-Unique: cvVAgRGNMNaUL0SuzvxEOw-1
-Received: by mail-wm1-f71.google.com with SMTP id 21so1254753wma.7
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 08:36:40 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A2NhhHmyKoCsBTvmZ7fN8i5on5WUvhiptL/RbfJsOjA=;
+ b=ZjzEZBBze5ZrNoq3yk4K7I5bRSqkrisYjbUcq1BZkBX4BE27S0K+NYdqkH7zUitDj5N3rH
+ OKC7Joq8hJ7KP7/P8pUauAzEierM2FZ5KvR+2P7xiQpMEvXmH+0BRIaKWNGtEeIXQ/AnRy
+ hm36Kd1/aP1z6/ikQTQf6PCK6TPpPsg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-ZY_nWeD8P7anzSoDDGsqjQ-1; Tue, 06 Oct 2020 11:36:45 -0400
+X-MC-Unique: ZY_nWeD8P7anzSoDDGsqjQ-1
+Received: by mail-wr1-f70.google.com with SMTP id r16so5476665wrm.18
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 08:36:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tD0RbHXO8qeiYR+9HbT8vdwMzUHwkUETl4BgnGpbddA=;
- b=GZ0tkTUpL6DirrT5/ghtXBoFKrqIGY84S84GC1u2eScH5xcm3To0k3RCFzIgEJJRPf
- ojrFGGNgfXPVVq6pNO+ttQk2NP9nYCKb2Ti+OQ6vs0o/Swt0rTO3HgqhahTHDgZP7opU
- 1oq7R6XHPc2ngBiwmOYgzd+tyIZlnnTsQKSseu9zuR0eY38SUSqdwhkUosgjxYusFj2T
- vVGn1/mgxAXne3fCUPSkwsf7FIAAZU0qIsWD7TlAxO/v/OamBoWsl7gC3o7bAnAEvWdi
- doY7z6zfopUoYcA0RQdcmoORa8Sm6D0/MbtBbNau8aCTmJjclPEaYV+3bPYJDsv0uch6
- aEzw==
-X-Gm-Message-State: AOAM5329Eqaf440q2IPt1zg/za9E8fGEpqwEum5UbLfNNpIdZkP/GRuV
- 7igurR2hpK7wW1qMjqU+22B7xHR60YITSeOGH5Fioa8qnIzJ/8Z1Td6ayRabbynlBcz3FIjzKxJ
- pZ2cpCezul4ZC5as=
-X-Received: by 2002:adf:94e6:: with SMTP id 93mr5402384wrr.190.1601998598807; 
- Tue, 06 Oct 2020 08:36:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNSiVRjq4gWwpRTMUnUp/XwEXnxVJmYJwbWjENXSB9FpgxfErsK0CmCuqaFc6Qc0OWecgoIg==
-X-Received: by 2002:adf:94e6:: with SMTP id 93mr5402365wrr.190.1601998598610; 
- Tue, 06 Oct 2020 08:36:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=A2NhhHmyKoCsBTvmZ7fN8i5on5WUvhiptL/RbfJsOjA=;
+ b=nJJdFWSCz+h0Bqxz/w1IfdrwLAQvKTddkJ+QdEXUqOVFq3B7stgHp9WIvUXRydHdgM
+ uiw6ZdAMeAxapqXTvMiPqS4UuyoBhN2unNeT7DkwA2pbIX0PupReCY9pjmMCiOvB32UM
+ IqP3NwMTohCPKGl5VVebfrTYVDE6m1x90y/UPh7FgnbFOufBvK5oacfruE+SX6NHwTen
+ nSc44wIK10TX9jn9H5onQscBGikxx6Sqc5yCm+tBmr7s6vk2NfDII3K2BiQEPl1WWwej
+ fqM/8J69N+pourTyBhbBidwuHH5Z7gGUi7R7JcL8miNJx+6tIuMvuacs6N7XCJL02qv9
+ HRIg==
+X-Gm-Message-State: AOAM532YAHiTV5JO1l50lN/52I3uCIf3tskph7iWSssWvyae6pjVUiaN
+ lvtKHhcdl9UzSfNa4NDVxlIbnEg8AIHuo466Xvj74TCz9j/MJkxuLyTQstKALxudNTTbs6wmYCC
+ juqj5IzRrZDAF8rU=
+X-Received: by 2002:a1c:a444:: with SMTP id n65mr5411397wme.122.1601998603931; 
+ Tue, 06 Oct 2020 08:36:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzE1afOkEaLvCyOXRNcmsc2zAsFDK9aCgvWyWFJrqIZKeaSKDJHTn6WL9oI+4kBM3+FLAvbKw==
+X-Received: by 2002:a1c:a444:: with SMTP id n65mr5411379wme.122.1601998603674; 
+ Tue, 06 Oct 2020 08:36:43 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id x6sm4820356wmb.17.2020.10.06.08.36.37
+ by smtp.gmail.com with ESMTPSA id x64sm4599526wmg.33.2020.10.06.08.36.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 08:36:37 -0700 (PDT)
+ Tue, 06 Oct 2020 08:36:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/1] qom: Fix missing interface in qemu-storage-daemon
-Date: Tue,  6 Oct 2020 17:36:35 +0200
-Message-Id: <20201006153636.2383248-1-philmd@redhat.com>
+Subject: [PATCH v3 1/1] hw/nvram: Always register
+ FW_CFG_DATA_GENERATOR_INTERFACE
+Date: Tue,  6 Oct 2020 17:36:36 +0200
+Message-Id: <20201006153636.2383248-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201006153636.2383248-1-philmd@redhat.com>
+References: <20201006153636.2383248-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
@@ -92,30 +96,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Attempt to fix the issue reported by Kevin.
+While the FW_CFG_DATA_GENERATOR_INTERFACE is only consumed
+by a device only available using system-mode (fw_cfg), it is
+implemented by a crypto component (tls-cipher-suites) which
+is always available when crypto is used.
 
-Since v2:
-- Rename function (lersek)
+Commit 69699f3055 introduced the following error in the
+qemu-storage-daemon binary:
 
-Since RFC(v1):
-- Keep it local to hw/nvram (danpb)
-- Based on Meson cleanup
+  $ echo -e \
+    '{"execute": "qmp_capabilities"}\r\n{"execute": "qom-list-types"}\r\n{"execute": "quit"}\r\n' \
+    | storage-daemon/qemu-storage-daemon --chardev stdio,id=qmp0  --monitor qmp0
+  {"QMP": {"version": {"qemu": {"micro": 50, "minor": 1, "major": 5}, "package": ""}, "capabilities": ["oob"]}}
+  {"return": {}}
+  missing interface 'fw_cfg-data-generator' for object 'tls-creds'
+  Aborted (core dumped)
 
-Based-on: <20201006125602.2311423-1-philmd@redhat.com>
+Since QOM dependencies are resolved at runtime, this issue
+could not be triggered at linktime, and we don't have test
+running the qemu-storage-daemon binary.
 
-Base is available in the Git repository at:
+Fix by always registering the QOM interface.
 
-  https://gitlab.com/philmd/qemu.git branches/meson_libraries_consistency
-
-Philippe Mathieu-Daudé (1):
-  hw/nvram: Always register FW_CFG_DATA_GENERATOR_INTERFACE
-
+Reported-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Fixes: 69699f3055 ("crypto/tls-cipher-suites: Produce fw_cfg consumable blob")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
  hw/nvram/fw_cfg-interface.c | 15 +++++++++++++++
  hw/nvram/fw_cfg.c           |  7 -------
  MAINTAINERS                 |  2 +-
@@ -123,6 +137,74 @@ Philippe Mathieu-Daudé (1):
  4 files changed, 19 insertions(+), 8 deletions(-)
  create mode 100644 hw/nvram/fw_cfg-interface.c
 
+diff --git a/hw/nvram/fw_cfg-interface.c b/hw/nvram/fw_cfg-interface.c
+new file mode 100644
+index 0000000000..bcc7b1edbc
+--- /dev/null
++++ b/hw/nvram/fw_cfg-interface.c
+@@ -0,0 +1,15 @@
++#include "qemu/osdep.h"
++#include "hw/nvram/fw_cfg.h"
++
++static const TypeInfo fw_cfg_data_generator_interface_info = {
++    .parent = TYPE_INTERFACE,
++    .name = TYPE_FW_CFG_DATA_GENERATOR_INTERFACE,
++    .class_size = sizeof(FWCfgDataGeneratorClass),
++};
++
++static void fw_cfg_register_interfaces(void)
++{
++    type_register_static(&fw_cfg_data_generator_interface_info);
++}
++
++type_init(fw_cfg_register_interfaces)
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 0e95d057fd..08539a1aab 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -1360,18 +1360,11 @@ static const TypeInfo fw_cfg_mem_info = {
+     .class_init    = fw_cfg_mem_class_init,
+ };
+ 
+-static const TypeInfo fw_cfg_data_generator_interface_info = {
+-    .parent = TYPE_INTERFACE,
+-    .name = TYPE_FW_CFG_DATA_GENERATOR_INTERFACE,
+-    .class_size = sizeof(FWCfgDataGeneratorClass),
+-};
+-
+ static void fw_cfg_register_types(void)
+ {
+     type_register_static(&fw_cfg_info);
+     type_register_static(&fw_cfg_io_info);
+     type_register_static(&fw_cfg_mem_info);
+-    type_register_static(&fw_cfg_data_generator_interface_info);
+ }
+ 
+ type_init(fw_cfg_register_types)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b76fb31861..a45d908ebd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2054,7 +2054,7 @@ R: Laszlo Ersek <lersek@redhat.com>
+ R: Gerd Hoffmann <kraxel@redhat.com>
+ S: Supported
+ F: docs/specs/fw_cfg.txt
+-F: hw/nvram/fw_cfg.c
++F: hw/nvram/fw_cfg*.c
+ F: stubs/fw_cfg.c
+ F: include/hw/nvram/fw_cfg.h
+ F: include/standard-headers/linux/qemu_fw_cfg.h
+diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
+index 1f2ed013b2..fd2951a860 100644
+--- a/hw/nvram/meson.build
++++ b/hw/nvram/meson.build
+@@ -1,3 +1,6 @@
++# QOM interfaces must be available anytime QOM is used.
++qom_ss.add(files('fw_cfg-interface.c'))
++
+ softmmu_ss.add(files('fw_cfg.c'))
+ softmmu_ss.add(when: 'CONFIG_CHRP_NVRAM', if_true: files('chrp_nvram.c'))
+ softmmu_ss.add(when: 'CONFIG_DS1225Y', if_true: files('ds1225y.c'))
 -- 
 2.26.2
 
