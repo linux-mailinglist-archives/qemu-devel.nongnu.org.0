@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195E42847E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:54:11 +0200 (CEST)
-Received: from localhost ([::1]:54308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974712848B1
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:36:49 +0200 (CEST)
+Received: from localhost ([::1]:41394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhnW-0000Cw-1u
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:54:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42916)
+	id 1kPiSm-0003ch-Mu
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhi3-0002gt-JK
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:48:31 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39237)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kPiRk-0003D3-C5
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 04:35:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhi2-0003lD-1t
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:48:31 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k10so12273228wru.6
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:48:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oFWLyt6kWARZltFpBlg1mJTxorWVjFMh4mO9BoqNxBs=;
- b=PYugD1hKhEzYHvUXlbxLS8m9aNtp/jmcAXFLx8LlWwyk7dfWwI+zpkQ19MU/L0tvEX
- 4rPvHeHVSil6JUWsCLQ4f14xcJmdyPzGamGC30bmSM4JYYqJXoPD0tavL8EwpSB9Kyjf
- /pMgW6ryoRk2ru1CfDAztF207MDPlBgEtXpmbK01IS1bDY7Z5ELycy7hG71BXU4SaKC7
- Ow0H9LaUwo6uVilgYMYuDcHi/8XD4EWwk+Uwwz2lNfIxY4zhjvrq80H8qqlg7uWoXaxZ
- BHRRAKwM61O6CB+AVbbwf2oar+TfviblgqBOMq7XhxpR8seyyBu8p+DMI51l6kT+jdCh
- YNoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=oFWLyt6kWARZltFpBlg1mJTxorWVjFMh4mO9BoqNxBs=;
- b=euAmZJ8dBNvKYHf0NO3Ceoj4fkeV/UDnw6YQgV++qKGaLbhY/Zv2BDrDV8H4iN/vn3
- W2jCDrdoYOuCpMPMtERIXd/FEqfqO8AM2/9YGz78gAAkmzF64Vag+PbAQTHqVP9FjgDW
- +wSc1k469K9BHFm7XKJmpeelj0QmulOGPkHfL5L4kbxvhZ3OohzERc1GfSBYauWeuv4M
- WMmNR5KCPCURrtBOskndXn9yS5cu9k536MKj6tRdySZR/yET+n4stSEDNGCl1PFEVwbU
- k/urWdSPDaXu/O2qQwqi2v2zAOUZslJ0UqN1KPj5PBzBSKkTzaC2pQE37t5QehAcNd8/
- z3Pg==
-X-Gm-Message-State: AOAM531LkPTKCkHrdz/0HaZ+vZtbPhNZtYrFiO0NYzjf1FO0bEEkYl75
- i7lNohgLCKxTFGOy2o8cRBcBb1YpZTY=
-X-Google-Smtp-Source: ABdhPJyMrfrOURnL5Hk8+Mh1yxwNkL+XN30U1X/f+55ZiyucPIZf20apkJ4GDKnkyZfyJ7Dhhbr43g==
-X-Received: by 2002:adf:90a2:: with SMTP id i31mr3698157wri.276.1601970508005; 
- Tue, 06 Oct 2020 00:48:28 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id a17sm3195272wra.29.2020.10.06.00.48.27
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:48:27 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: avoid theoretical leak on MCE injection
-Date: Tue,  6 Oct 2020 09:48:29 +0200
-Message-Id: <20201006074829.488968-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kPiRi-0002IW-22
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 04:35:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kPiRg-0007rr-3d
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 08:35:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1A4872E80E9
+ for <qemu-devel@nongnu.org>; Tue,  6 Oct 2020 08:35:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 06 Oct 2020 08:27:12 -0000
+From: Paul Zimmerman <1772165@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm usb
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aditya-govardhan andrew-pennebaker clemd davbac
+ dims dougrabson kraxel-redhat pauldzim pmaydell vortelf weberkai
+X-Launchpad-Bug-Reporter: George (vortelf)
+X-Launchpad-Bug-Modifier: Paul Zimmerman (pauldzim)
+References: <152673688616.9061.7617411809661975686.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160197283236.9718.5332984148780804081.malone@wampee.canonical.com>
+Subject: [Bug 1772165] Re: arm raspi2/raspi3 emulation has no USB support
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
+X-Launchpad-Hash: 9c5b23ca30a195df564159804ea4b9e3e9dbe066
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 03:50:54
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,48 +74,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1772165 <1772165@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_strdup_printf is used twice to write to the same variable, which
-can theoretically cause a leak.  In practice, it is extremely
-unlikely that a guest is seeing a recursive MCE and has disabled
-CR4.MCE between the first and the second error, but we can fix it
-and we can also make a slight improvement on the logic: CR4.MCE=0
-causes a triple fault even for a non-recursive machine check, so
-let's place its test first.
+You need to use -M raspi2 (or -M raspi3 for 64-bit kernels) to enable
+the Raspberry Pi emulation. And you need version 5.1 or newer of Qemu to
+get the dwc2 USB emulation. I don't think any Linux distributions
+provide that new of a Qemu, so you might have to build it yourself.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/helper.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Here is the command line I use to run the Raspbian image 2019-09-26
+-raspbian-buster.img. I extracted bcm2709-rpi-2-b.dtb and kernel7.img
+from the FAT partition inside the image file.
 
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 32fa21a7bb..f64379367d 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -908,16 +908,14 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
-             return;
-         }
- 
--        if (recursive) {
--            need_reset = true;
--            msg = g_strdup_printf("CPU %d: Previous MCE still in progress, "
--                                  "raising triple fault", cs->cpu_index);
--        }
--
-         if (!(cenv->cr[4] & CR4_MCE_MASK)) {
-             need_reset = true;
-             msg = g_strdup_printf("CPU %d: MCE capability is not enabled, "
-                                   "raising triple fault", cs->cpu_index);
-+        } else if (recursive) {
-+            need_reset = true;
-+            msg = g_strdup_printf("CPU %d: Previous MCE still in progress, "
-+                                  "raising triple fault", cs->cpu_index);
-         }
- 
-         if (need_reset) {
--- 
-2.26.2
+qemu-system-arm -M raspi2 -drive file=3D2019-09-26-raspbian-
+buster.img,format=3Draw,if=3Dsd -dtb bcm2709-rpi-2-b.dtb -kernel kernel7.img
+-append 'rw earlycon=3Dpl011,0x3f201000 console=3DttyAMA0 loglevel=3D8
+root=3D/dev/mmcblk0p2 fsck.repair=3Dyes net.ifnames=3D0 rootwait memtest=3D1
+dwc_otg.fiq_fsm_enable=3D0' -serial stdio -no-reboot -netdev user,id=3Dnet0
+-usb -device usb-kbd -device usb-tablet -device usb-net,netdev=3Dnet0
 
+That should give you a graphical emulation with working keyboard, mouse
+and networking. Mass-storage also works, but I left that out for
+simplicity.
+
+But note that if you absolutely must pass-through a USB device from the
+host, it probably won't work. That's because the dwc2 controller
+emulation is connected through a full-speed hub emulation, so unless
+your USB device is connected at full-speed on the host, it probably
+won't work.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1772165
+
+Title:
+  arm raspi2/raspi3 emulation has no USB support
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Using Qemu 2.12.0 on ArchLinux.
+
+  Trying to emulate arm device with `qemu-system-arm` and attach usb
+  device for unput using
+
+  ` -usb -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=3D0x0002 `
+
+  # lsusb returns
+
+  Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+  Bus 001 Device 014: ID 13d3:3487 IMC Networks =
+
+  Bus 001 Device 004: ID 0457:11af Silicon Integrated Systems Corp. =
+
+  Bus 001 Device 003: ID 0bda:57e6 Realtek Semiconductor Corp. =
+
+  Bus 001 Device 002: ID 0bda:0129 Realtek Semiconductor Corp. RTS5129 Card=
+ Reader Controller
+  Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+  # qemu returns
+  qemu-system-arm: -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=
+=3D0x0002: Bus '001' not found
+
+  =
+
+  Tried with connecting external usb keyboard but that didn't seem to work =
+either.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1772165/+subscriptions
 
