@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF0A2847FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:58:33 +0200 (CEST)
-Received: from localhost ([::1]:35190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C78284767
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:36:36 +0200 (CEST)
+Received: from localhost ([::1]:54344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhrk-00045Y-5c
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:58:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39740)
+	id 1kPhWV-00020y-6F
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQH-0002vB-Ux
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:09 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43086)
+ id 1kPhQI-0002w4-BE
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:10 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQF-0001Sp-U4
+ id 1kPhQG-0001Su-NB
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:09 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id g12so6786389wrp.10
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:07 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id o5so12222378wrn.13
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QD62H5XkAmpd2dqgC0nz663beoGd0ich9bGXwmd81oM=;
- b=ZyU213aWb/FUh7lDABIArF7Qyn6GBo/fEcAf4QoVMz2rBRatuR3k+8z2H+Ls+83Vz1
- uC2Krdmx/oAQnxuJqvpYYgZoX3NgABvh4MqVztmpQHI1J7JkbxRofxAlvzzx9Q6P8jqa
- GE7t3zBOpDdBhWtiYlH2Z7+5HaK0NE3/TcTTjijkJM8B/3GyVcIaFhAHVbXJSgrNnbA0
- xvcOREczN0Xi3KEkS5zdyAXVStoc6t3IOOr17MyLwdfptyrp9YzzwwirEQNUO0OasZcF
- cdvxTgaWRuVyhZ71qw6sIO20Ub6T1t8f1FkWXvJw50nQqhGtc24FLajIP1lrVfW9Z1BL
- GiIw==
+ bh=rX/2cdjF+IuOQnPp1vgFSyENqGKo+72G+GCVvdtD8j4=;
+ b=OJ7EvcrZsBtrqbmDuOZlKzZwGCzCSBYc2kJZcrl1IlOcG5jjYSogfxeXAXwaOTT1Eg
+ 4s/5AX9PkqWdgybN8O0RVEhmCzbhz7J0u8iB2Xf8ag13WzkLNoU/jEqsmh0ifshqcul2
+ VDj3RZIkvqcrdxtnS4dxZ3rnB3QQteDc+JK5zp9SaYlzA0up/wpSvZSXuVxOw5/JtX3X
+ cYMxKveYswS7zvGfOjJOCxAfVVXt+BFHICE6ovFN1qLbZXm/+dJaqNbDX1RrTcUMiNsS
+ P3oGMCgbks2MViCbbf3jBs9/N1wegFXx7V0SDfaiXeYsUzNdtwmGhAWpmp7UwJCfP8FH
+ +uSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QD62H5XkAmpd2dqgC0nz663beoGd0ich9bGXwmd81oM=;
- b=jWgV+CFPoZ6eejDAV6gaWQEfaQYVWUdXlyqEUSRwmxmEznW9P+wnLtcDgMxg35Tt+I
- /C3rFtTazKTt/TpdN8qPAEwouZZnzaoFufveJkRVEoO909KtxNTYdojJPlZmwZBR6l1l
- VALMDMRfyqonrjA3SPrgkTrrPe3DOI8q6kXrJzVgcTmkZlnY5GWCZ01oHRbOl0WPtv5A
- ZJTuSz42SPySoGsDomo8G//Kc8FpCgYoLQ77EP2ZEsRE9mAxaU9bZ/RZNP3lBB4W76uk
- MfNga8ISl3skMYP17GSwv7lmEwGPRBV01chGvfSs7XOklx3BNcROEEGdLeLS70StyyCP
- /3aQ==
-X-Gm-Message-State: AOAM533Bee9/u30tDpCJM97TJdBxPYxjabvjsTI8M1fblPF8t+Jgw555
- v9oaVDyFNC3RHk6LSt12miaivXdVNF4=
-X-Google-Smtp-Source: ABdhPJwXIgZ+eC+ZPkFFuy1qZ0WVh+wwNkIh0jrLe9LW77PDPVEFLnSNbMpj8rbwunDHf115eas5dg==
-X-Received: by 2002:a5d:51ca:: with SMTP id n10mr3339504wrv.222.1601969406311; 
- Tue, 06 Oct 2020 00:30:06 -0700 (PDT)
+ bh=rX/2cdjF+IuOQnPp1vgFSyENqGKo+72G+GCVvdtD8j4=;
+ b=bj+Au3SjebL2D9o58n2T8EiwDYyCQRJyhUq6lNDHCmRM2lm/A5l1i6Nv6bfACkWRXu
+ SC0+FI5p3BWT0VFdefAo/atMtvAOTOBlpIxFN/goxo5fHlVoOzaEHJ5sJFhW6KeNi8Lg
+ G9wxJVDp6SiyRKb8ggroYHd+QxScTNC8VNW9kITno57MzE03oPs1TNaSQv5LF+izyX/U
+ BXQPU+/ipt0GOY6DpGUB0bv9MpXrpk3Ae+x4Ha7qhjj/i4K46j2JUiqizrtZ+ebU1FJn
+ ojruXJt7c2VrcDjwWx4Dh4C9KR+jA1hUDNxl7L40CLhaHvF4ElbYJ30OEUT3BYau5LJB
+ Na4A==
+X-Gm-Message-State: AOAM533CHeIcQQ8+1/mMKXMA1ykjk3Eg8k9jZTczgR6LEXQueBX8x+L1
+ EEAU1gIPPMcUaS3b+g++hGMYCT2uGhw=
+X-Google-Smtp-Source: ABdhPJxgp8MbFnQ8Po0YZis6YYKlhiSbdxBD9e8P7vo8sZsb7qKn+kbeL4lwgwCPulYDD6mocoz9iA==
+X-Received: by 2002:adf:90a2:: with SMTP id i31mr3606709wri.276.1601969407103; 
+ Tue, 06 Oct 2020 00:30:07 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.05
+ by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:30:05 -0700 (PDT)
+ Tue, 06 Oct 2020 00:30:06 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/37] configure: consistently pass CFLAGS/CXXFLAGS/LDFLAGS to
- meson
-Date: Tue,  6 Oct 2020 09:29:32 +0200
-Message-Id: <20201006072947.487729-23-pbonzini@redhat.com>
+Subject: [PULL 23/37] configure: don't enable ASLR for --enable-debug Windows
+ builds
+Date: Tue,  6 Oct 2020 09:29:33 +0200
+Message-Id: <20201006072947.487729-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006072947.487729-1-pbonzini@redhat.com>
 References: <20201006072947.487729-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -86,101 +86,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Environment variables like CFLAGS are easy to accidentally change.  Meson
-warns if that happens, but in a project with a lot of configuration that
-is easy to lose.  It is also surprising behavior since meson caches -D
-options and remembers those on reconfiguration (which we rely on,
-since configure options become -D options).
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-By placing the user-provided CFLAGS, CXXFLAGS and LDFLAGS in the
-cross file, we at least get consistent behavior.  These environment
-variables are still ugly and not really recommended, but there are
-distros that rely on them.  For the gory details, refer to
-https://github.com/mesonbuild/meson/issues/4664.
+Unlike other OSs it is not possible for gdb to temporarily disable ASLR when
+debugging executables on Windows which causes gdb to fail with memory access
+errors when trying to debug QEMU.
 
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200923092617.1593722-5-pbonzini@redhat.com>
+Keep ASLR enabled by default on Windows via the --dynamicbase compiler flag
+except for --enable-debug builds when there is a clear expectation that a
+functioning gdb is expected at the cost of slightly less security.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-Id: <20201005133434.12614-1-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 25 +++++++++++++++----------
- meson.build | 14 ++++++++++++--
- 2 files changed, 27 insertions(+), 12 deletions(-)
+ configure | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 1b173276ea..04c8cc017c 100755
+index 04c8cc017c..28df227db5 100755
 --- a/configure
 +++ b/configure
-@@ -7130,24 +7130,29 @@ echo "export PYTHON='$python'" >> "$iotests_common_env"
- if test "$skip_meson" = no; then
- cross="config-meson.cross.new"
- meson_quote() {
--    echo "['$(echo $* | sed "s/ /','/g")']"
-+    echo "'$(echo $* | sed "s/ /','/g")'"
- }
+@@ -5882,7 +5882,14 @@ fi
  
- echo "# Automatically generated by configure - do not modify" > $cross
- echo "[properties]" >> $cross
- test -z "$cxx" && echo "link_language = 'c'" >> $cross
-+echo "[built-in options]" >> $cross
-+echo "c_args = [${CFLAGS:+$(meson_quote $CFLAGS)}]" >> $cross
-+echo "cpp_args = [${CXXFLAGS:+$(meson_quote $CXXFLAGS)}]" >> $cross
-+echo "c_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
-+echo "cpp_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
- echo "[binaries]" >> $cross
--echo "c = $(meson_quote $cc)" >> $cross
--test -n "$cxx" && echo "cpp = $(meson_quote $cxx)" >> $cross
--echo "ar = $(meson_quote $ar)" >> $cross
--echo "nm = $(meson_quote $nm)" >> $cross
--echo "pkgconfig = $(meson_quote $pkg_config_exe)" >> $cross
--echo "ranlib = $(meson_quote $ranlib)" >> $cross
-+echo "c = [$(meson_quote $cc)]" >> $cross
-+test -n "$cxx" && echo "cpp = [$(meson_quote $cxx)]" >> $cross
-+echo "ar = [$(meson_quote $ar)]" >> $cross
-+echo "nm = [$(meson_quote $nm)]" >> $cross
-+echo "pkgconfig = [$(meson_quote $pkg_config_exe)]" >> $cross
-+echo "ranlib = [$(meson_quote $ranlib)]" >> $cross
- if has $sdl2_config; then
--  echo "sdl2-config = $(meson_quote $sdl2_config)" >> $cross
-+  echo "sdl2-config = [$(meson_quote $sdl2_config)]" >> $cross
- fi
--echo "strip = $(meson_quote $strip)" >> $cross
--echo "windres = $(meson_quote $windres)" >> $cross
-+echo "strip = [$(meson_quote $strip)]" >> $cross
-+echo "windres = [$(meson_quote $windres)]" >> $cross
- if test -n "$cross_prefix"; then
-     cross_arg="--cross-file config-meson.cross"
-     echo "[host_machine]" >> $cross
-diff --git a/meson.build b/meson.build
-index 8904f7d79b..17c89c87c6 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1771,8 +1771,18 @@ if targetos == 'darwin'
-   summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
- endif
- summary_info += {'ARFLAGS':           config_host['ARFLAGS']}
--summary_info += {'CFLAGS':            '-O' + get_option('optimization')
--                                           + (get_option('debug') ? ' -g' : '')}
-+summary_info += {'CFLAGS':            ' '.join(get_option('c_args')
-+                                               + ['-O' + get_option('optimization')]
-+                                               + (get_option('debug') ? ['-g'] : []))}
-+if link_language == 'cpp'
-+  summary_info += {'CXXFLAGS':        ' '.join(get_option('cpp_args')
-+                                               + ['-O' + get_option('optimization')]
-+                                               + (get_option('debug') ? ['-g'] : []))}
-+endif
-+link_args = get_option(link_language + '_link_args')
-+if link_args.length() > 0
-+  summary_info += {'LDFLAGS':         ' '.join(link_args)}
-+endif
- summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
- summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
- summary_info += {'make':              config_host['MAKE']}
+ # Use ASLR, no-SEH and DEP if available
+ if test "$mingw32" = "yes" ; then
+-    for flag in --dynamicbase --no-seh --nxcompat; do
++    flags="--no-seh --nxcompat"
++
++    # Disable ASLR for debug builds to allow debugging with gdb
++    if test "$debug" = "no" ; then
++        flags="--dynamicbase $flags"
++    fi
++
++    for flag in $flags; do
+         if ld_has $flag ; then
+             QEMU_LDFLAGS="-Wl,$flag $QEMU_LDFLAGS"
+         fi
 -- 
 2.26.2
 
