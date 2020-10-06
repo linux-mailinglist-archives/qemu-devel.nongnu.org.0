@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DD328499C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 11:46:57 +0200 (CEST)
-Received: from localhost ([::1]:56816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81549284987
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 11:44:47 +0200 (CEST)
+Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPjYe-00039s-Ed
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 05:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41428)
+	id 1kPjWX-0000Q6-0v
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 05:44:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1kPjUx-0007ZX-6n
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:43:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54958)
+ id 1kPjUw-0007ZR-SF
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:43:06 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58454
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1kPjUu-0002Dr-28
+ id 1kPjUt-0002E0-OJ
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 05:43:06 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0969Vonc193822
- for <qemu-devel@nongnu.org>; Tue, 6 Oct 2020 05:43:01 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0969Uc5v183518
+ for <qemu-devel@nongnu.org>; Tue, 6 Oct 2020 05:43:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=4DwvKU+klFJRrmZu4dlvRVnUY3gvooEZ199bNOhdDIA=;
- b=OPbHXdsKo1/0Mz6fYMDk52ISG6pMs8MK9+yJfZ/fAj1UaFnscHNLftQxMNI9SE7AwW1M
- jU6owXYKz3vtsAnbq8x/ZDsPqs18SNiofPRpdLF6cX7HUWgoJVSNP5mDZF1OaPLAUT34
- qUqzQyNNgeU6c9bmMhjp6T0UhjbNdKI9aWNFL1sdfaBxlVUHxW9f0mbyJdtXIkBZnSOp
- g++MmgAJasU/aVHBSVupHqVsLK9D1rk/dwx+3ODOH6hzy7xGrfCJEAUJ7r8ZUZiMDrO2
- EQfzMI1bzYrnv4pwZyOZgvuY26hwSHF6ndq4EorkBC9Wj4sb0wuUsHGhTDn3sFFV4Hts vA== 
+ bh=pOYN3D6eRtOl+bQ+IMNL0ENNCvUrMDsumJMcxXKpJKU=;
+ b=SBo9IEVhr7GMzw222ewmsQUt0BNRsAVvOQmvzZB1c/WYXl4MPHeCJANv5mGTPBTT4AWs
+ 4vZ98UW1JHz36ftfwjfolOR9yW5BCAWZJXT7LGCY9uBZNVsz1IYVxEPVNnUG3/Q8Mpq5
+ cbqOZFNb0L+9f5nBSUP0VncLEph6tVilZRmbMmKudLLOfa/ED0bDAq+jiKQGeaM0hVWu
+ mJz0BowPsM44b+2LApYnX8WSYWzF/PV1vKot4G438RpAYDT7Wh2Clhxrr9boEIQSpY2G
+ mjgYhcc8FLcth+Q4Yy/f5V4ei5UaPIbCoYnRtkMHv/QYL9ZEkVJwPuRsE6ZZn1cxY2u0 tg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 340nej9k1s-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 340n5ut357-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:43:01 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0969W3OF194814
- for <qemu-devel@nongnu.org>; Tue, 6 Oct 2020 05:43:00 -0400
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:43:02 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0969X8Qu191696
+ for <qemu-devel@nongnu.org>; Tue, 6 Oct 2020 05:43:01 -0400
 Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
  [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 340nej9k19-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 340n5ut347-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Oct 2020 05:43:00 -0400
+ Tue, 06 Oct 2020 05:43:01 -0400
 Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0969R5Ec006359;
+ by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0969R10E005971;
  Tue, 6 Oct 2020 09:42:59 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma01fra.de.ibm.com with ESMTP id 33xgx7ske7-1
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma01fra.de.ibm.com with ESMTP id 33xgx7skea-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Oct 2020 09:42:58 +0000
+ Tue, 06 Oct 2020 09:42:59 +0000
 Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
  [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0969guC617498454
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0969gv4M26804548
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 6 Oct 2020 09:42:56 GMT
+ Tue, 6 Oct 2020 09:42:57 GMT
 Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AC67152051;
- Tue,  6 Oct 2020 09:42:56 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6831C52059;
+ Tue,  6 Oct 2020 09:42:57 +0000 (GMT)
 Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 1A3725204F;
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C8DFC52052;
  Tue,  6 Oct 2020 09:42:56 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/4] pc-bios: s390x: Fix bootmap.c zipl component entry
- data handling
-Date: Tue,  6 Oct 2020 05:42:46 -0400
-Message-Id: <20201006094249.50640-2-frankja@linux.ibm.com>
+Subject: [PATCH v4 2/4] pc-bios: s390x: Save PSW rework
+Date: Tue,  6 Oct 2020 05:42:47 -0400
+Message-Id: <20201006094249.50640-3-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201006094249.50640-1-frankja@linux.ibm.com>
 References: <20201006094249.50640-1-frankja@linux.ibm.com>
@@ -81,13 +81,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-10-06_03:2020-10-06,
  2020-10-06 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- mlxscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 priorityscore=1501
- suspectscore=1 phishscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010060058
+ spamscore=0 bulkscore=0
+ adultscore=0 suspectscore=1 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
+ clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2010060058
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 05:43:01
 X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -26
@@ -114,76 +114,70 @@ Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The two main types of zipl component entries are execute and
-load/data. The last member of the component entry struct therefore
-denotes either a PSW or an address. Let's make this a bit more clear
-by introducing a union and cleaning up the code that uses that struct
-member.
-
-The execute type component entries written by zipl contain short PSWs,
-not addresses. Let's mask them and only pass the address part to
-jump_to_IPL_code(uint64_t address) because it expects an address as
-visible by the name of the argument.
+We don't need to save the ipl_continue variable in lowcore and have it
+limited to 32 bits because of the lowcore layout. Let's move it to a
+new 64 bit variable and get rid of the reset info struct.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/bootmap.c | 5 +++--
- pc-bios/s390-ccw/bootmap.h | 7 ++++++-
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ pc-bios/s390-ccw/jump2ipl.c | 33 +++++++++++++--------------------
+ 1 file changed, 13 insertions(+), 20 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-index 97205674e5..8747c4ea26 100644
---- a/pc-bios/s390-ccw/bootmap.c
-+++ b/pc-bios/s390-ccw/bootmap.c
-@@ -10,6 +10,7 @@
+diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+index 767012bf0c..b6aad32def 100644
+--- a/pc-bios/s390-ccw/jump2ipl.c
++++ b/pc-bios/s390-ccw/jump2ipl.c
+@@ -13,20 +13,17 @@
+ #define KERN_IMAGE_START 0x010000UL
+ #define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_64)
  
- #include "libc.h"
- #include "s390-ccw.h"
-+#include "s390-arch.h"
- #include "bootmap.h"
- #include "virtio.h"
- #include "bswap.h"
-@@ -436,7 +437,7 @@ static void zipl_load_segment(ComponentEntry *entry)
-     char *blk_no = &err_msg[30]; /* where to print blockno in (those ZZs) */
+-typedef struct ResetInfo {
+-    uint64_t ipl_psw;
+-    uint32_t ipl_continue;
+-} ResetInfo;
++static uint64_t *reset_psw = 0, save_psw, ipl_continue;
  
-     blockno = entry->data.blockno;
--    address = entry->load_address;
-+    address = entry->compdat.load_addr;
+-static ResetInfo save;
+-
+-static void jump_to_IPL_2(void)
++static void jump_to_IPL_addr(void)
+ {
+-    ResetInfo *current = 0;
++    __attribute__((noreturn)) void (*ipl)(void) = (void *)ipl_continue;
  
-     debug_print_int("loading segment at block", blockno);
-     debug_print_int("addr", address);
-@@ -514,7 +515,7 @@ static void zipl_run(ScsiBlockPtr *pte)
-     IPL_assert(entry->component_type == ZIPL_COMP_ENTRY_EXEC, "No EXEC entry");
- 
-     /* should not return */
--    jump_to_IPL_code(entry->load_address);
-+    jump_to_IPL_code(entry->compdat.load_psw & PSW_MASK_SHORT_ADDR);
+-    void (*ipl)(void) = (void *) (uint64_t) current->ipl_continue;
+-    *current = save;
+-    ipl(); /* should not return */
++    /* Restore reset PSW */
++    *reset_psw = save_psw;
++
++    ipl();
++    /* should not return */
  }
  
- static void ipl_scsi(void)
-diff --git a/pc-bios/s390-ccw/bootmap.h b/pc-bios/s390-ccw/bootmap.h
-index 12a0166aae..3946aa3f8d 100644
---- a/pc-bios/s390-ccw/bootmap.h
-+++ b/pc-bios/s390-ccw/bootmap.h
-@@ -64,11 +64,16 @@ typedef struct BootMapTable {
-     BootMapPointer entry[];
- } __attribute__ ((packed)) BootMapTable;
+ void jump_to_IPL_code(uint64_t address)
+@@ -46,15 +43,11 @@ void jump_to_IPL_code(uint64_t address)
+      * content of non-BIOS memory after we loaded the guest, so we
+      * save the original content and restore it in jump_to_IPL_2.
+      */
+-    ResetInfo *current = 0;
+-
+-    save = *current;
+-
+-    current->ipl_psw = (uint64_t) &jump_to_IPL_2;
+-    current->ipl_psw |= RESET_PSW_MASK;
+-    current->ipl_continue = address & PSW_MASK_SHORT_ADDR;
+-
+-    debug_print_int("set IPL addr to", current->ipl_continue);
++    save_psw = *reset_psw;
++    *reset_psw = (uint64_t) &jump_to_IPL_addr;
++    *reset_psw |= RESET_PSW_MASK;
++    ipl_continue = address;
++    debug_print_int("set IPL addr to", ipl_continue);
  
-+typedef union ComponentEntryData {
-+    uint64_t load_psw;
-+    uint64_t load_addr;
-+} ComponentEntryData;
-+
- typedef struct ComponentEntry {
-     ScsiBlockPtr data;
-     uint8_t pad[7];
-     uint8_t component_type;
--    uint64_t load_address;
-+    ComponentEntryData compdat;
- } __attribute((packed)) ComponentEntry;
- 
- typedef struct ComponentHeader {
+     /* Ensure the guest output starts fresh */
+     sclp_print("\n");
 -- 
 2.25.1
 
