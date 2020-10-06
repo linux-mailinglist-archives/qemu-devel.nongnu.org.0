@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACBDF285491
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:28:23 +0200 (CEST)
-Received: from localhost ([::1]:57606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CDC2854D3
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 01:08:19 +0200 (CEST)
+Received: from localhost ([::1]:41552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPvRW-00088i-PE
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
+	id 1kPw49-0007tE-Un
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 19:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9y-00074M-6C
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39379)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPw3Q-0007Te-SO
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:07:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9v-0006RV-Sv
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:13 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kPw3N-0004jP-Qz
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 19:07:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602022207;
+ s=mimecast20190719; t=1602025648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=adKz+t15Ay7dYk3xI2XJtbX9dWYumdGT/9CD6sJlYlk=;
- b=RXFfSw7HXDs1wFTZzQ9VCPnOv3MkeoViPFR3CQuiz5UnsvYUdE0twmjKjXuiqhi5YzfwOW
- n87w+I1K2Pr8yB6BgoPx2tJ+QdsXEJ9mci6ETbEU/AJYvVgyeIO+ITIFGzVdCDOkQl8iZG
- yZTh5NDuhpfDL0lOY9hzZqhuMaG0CHc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jAJuIgJh2u7qaRB0dGPFsWKSjKqE/VNRfHE+BqH1DtA=;
+ b=XS2d8ZjXOOf7iRhuqeiEuMVucEphtnA+IaMZm7bYx9AEjXZFLhsxKYn0kZj0mzb5JdUhES
+ I2zKgtyhATR3r/JbZLyIAX9e7BOsSUzaOl/LPDy3/ZFl8KHbPgtn60FrULFwegvqlDzQKi
+ kZk/7hlD1lQz73LJ0+C3bqvdJdU/tf8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-JWsNrgsnNOatUJOe7hCnZw-1; Tue, 06 Oct 2020 18:10:02 -0400
-X-MC-Unique: JWsNrgsnNOatUJOe7hCnZw-1
+ us-mta-521-hxLScgUtPtWJHiflFmWyFA-1; Tue, 06 Oct 2020 19:07:26 -0400
+X-MC-Unique: hxLScgUtPtWJHiflFmWyFA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB85310082EC;
- Tue,  6 Oct 2020 22:10:01 +0000 (UTC)
-Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88CAE1A835;
- Tue,  6 Oct 2020 22:10:01 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 21/21] numa: hmat: require parent cache description before the
- next level one
-Date: Tue,  6 Oct 2020 18:09:30 -0400
-Message-Id: <20201006220930.908275-22-ehabkost@redhat.com>
-In-Reply-To: <20201006220930.908275-1-ehabkost@redhat.com>
-References: <20201006220930.908275-1-ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EED3805EF7;
+ Tue,  6 Oct 2020 23:07:25 +0000 (UTC)
+Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EAD4B1A886;
+ Tue,  6 Oct 2020 23:07:24 +0000 (UTC)
+To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+From: John Snow <jsnow@redhat.com>
+Subject: acceptance-system-fedora failures
+Message-ID: <f9e09f0b-3915-382c-d670-8d33d164ad7b@redhat.com>
+Date: Tue, 6 Oct 2020 19:07:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -69,7 +66,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,53 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+I'm seeing this gitlab test fail quite often in my Python work; I don't 
+*think* this has anything to do with my patches, but maybe I need to try 
+and bisect this more aggressively.
 
-Spec[1] defines 0 - 3 level memory side cache, however QEMU
-CLI allows to specify an intermediate cache level without
-specifying previous level. Such option(s) silently ignored
-when building HMAT table, which leads to incomplete cache
-information.
-Make sure that previous level exists and error out
-if it hasn't been provided.
+The very first hint of an error I see is on line 154:
 
-1) ACPI 6.2A 5.2.27.5 Memory Side Cache Information Structure
+https://gitlab.com/jsnow/qemu/-/jobs/776334918#L154
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1842877
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20201006150002.1601845-1-imammedo@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- hw/core/numa.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+22:05:36 ERROR|
+22:05:36 ERROR| Reproduced traceback from: 
+/builds/jsnow/qemu/build/tests/venv/lib64/python3.8/site-packages/avocado/core/test.py:753
+22:05:36 ERROR| Traceback (most recent call last):
+22:05:36 ERROR|   File 
+"/builds/jsnow/qemu/build/tests/acceptance/avocado_qemu/__init__.py", 
+line 171, in setUp
+22:05:36 ERROR|     self.cancel("No QEMU binary defined or found in the 
+build tree")
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 7d5d413001..7c4dd4e68e 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -424,7 +424,13 @@ void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
-     }
- 
-     if ((node->level > 1) &&
--        ms->numa_state->hmat_cache[node->node_id][node->level - 1] &&
-+        ms->numa_state->hmat_cache[node->node_id][node->level - 1] == NULL) {
-+        error_setg(errp, "Cache level=%u shall be defined first",
-+                   node->level - 1);
-+        return;
-+    }
-+
-+    if ((node->level > 1) &&
-         (node->size <=
-             ms->numa_state->hmat_cache[node->node_id][node->level - 1]->size)) {
-         error_setg(errp, "Invalid size=%" PRIu64 ", the size of level=%" PRIu8
--- 
-2.26.2
+Is this a known problem?
+
+--js
 
 
