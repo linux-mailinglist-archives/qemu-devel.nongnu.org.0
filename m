@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C756D284FB1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 18:17:07 +0200 (CEST)
-Received: from localhost ([::1]:53486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F567284FA6
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 18:16:25 +0200 (CEST)
+Received: from localhost ([::1]:51172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPpeE-0001YQ-R1
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 12:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53504)
+	id 1kPpdY-0000Vi-Eg
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 12:16:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kPpUb-0005lr-Ih
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 12:07:11 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37683)
+ id 1kPpUd-0005mL-Bu
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 12:07:13 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kPpUZ-00040w-Rc
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 12:07:09 -0400
-Received: by mail-wr1-x433.google.com with SMTP id h7so10485062wre.4
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 09:07:07 -0700 (PDT)
+ id 1kPpUa-000415-W2
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 12:07:10 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id t9so5475494wrq.11
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 09:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zWZNUQCszXHr18/+jnmR72HKCbr/Q8n5xwOgMRUpq6s=;
- b=qqHh1HEdi+PrO4P9wThX9uS3xp6guO+XT47tpDjImg12l8mgBMg86pXWAyKqQasY2z
- wkmgUFVYCNekdCJiWbkQ2bJ72IsOnNmAjH1S0tHUYN7qGFKxBIT+8mkmNW20u2BEjd7Z
- EZYBYc1mDcIsHthqeY+J/u7m+E1YIjIvrDIr/6YeLHR3v4W7omAXZQmPYLv1ZFTn67fy
- 97g5HKCBOyazOxY2iPCcEKLRWpM37PSMEQkaR/hjj7Mxh1lYJeuD4zFCyd+YVwX6tm/P
- YwWy4d5JD8Dx5/JU6tYx+d7RUvayWIxGXPufCrxtrgni5UyuwsJfj4MvQ6WH9PcYHyEE
- Wgjg==
+ bh=7u3MXT7cMtXMFn6cSa9ako8EHB+wadlH89G6kATSljE=;
+ b=tNA3+b1A9RIz9ExfxZR5fYtO3gm2ENaeAQnpxtk19XxEDVbDOu/vncDOJ9y+QEWm+T
+ e96zbcwods4cVrZF5eiHvMVnPcXg/1YyimaOFJuJCJAKftyynwDVXNWOft5+ZIN3CRHg
+ XWYtinn11H9Gb8B0RV6qZzj6FetJir41tGXj9pwaf4S/v/zShk1MgP6xOi/w74Zb6+9x
+ R1gMRAohDqB6JeljpBwu3bZgQYQG9/s8dqTQRdg5LaKDTHUEQABPpwVuiY5aapmMllxM
+ neroGXAaQmXGH8L8Y5P6dIR8YuFqYRU53G5e1aYLIOpY0p6FSVR/REDQaGnJj20nd0yE
+ yJRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zWZNUQCszXHr18/+jnmR72HKCbr/Q8n5xwOgMRUpq6s=;
- b=ez/f5uC0CC0JYum+ORrbtJ+ylRkealdmusIfH241c/6aA0d6KdjVckfhxd7YIZOHsP
- HqYAVFLt7nyAa2T/N6u6EGyXo5GFerfjskLPuDhBojZuNf5EECdADELEKc7K71bd/qza
- 3+Owjq8ILePQz0OUqPLIzzBmj3gW8gktstDFecgkGGshPYnlksWByrv9T/AnxwZkjXlP
- aJE350ywqkO+cgPFmA7jtMJWEFebS6CaGW8kM41vrHLuazSV5LbUsqQgoSsJGKVxbAKh
- 2MMsHVZAjr+uGRgN9dzN/Y0mHuHXVtL8Vcps+0UzcH1aA3wlPIlmr3FIhJnt4s90ai4I
- G8xA==
-X-Gm-Message-State: AOAM531pHfKa7t3Fbf2IZGy3uyWthLtLCDyZsyz3wWg1HDalQwNYMiMF
- MM2BACtrKX3lCBOWwlScmhk=
-X-Google-Smtp-Source: ABdhPJy+gguTGTwyGGD4/SeUA0djJEiZDSQ/4rcGSTX++YPP5XQ6eYjJmeGgItABWmVzZNcvAU9Fkg==
-X-Received: by 2002:adf:ce12:: with SMTP id p18mr3334084wrn.52.1602000426605; 
- Tue, 06 Oct 2020 09:07:06 -0700 (PDT)
+ bh=7u3MXT7cMtXMFn6cSa9ako8EHB+wadlH89G6kATSljE=;
+ b=SgMkCKFF/VUVjZ9cHMJq/OYIUT1AsXutogSRSOUMtbdJr9LLyI4rvUldTcHPDWczy+
+ W8DmZdUrOQiBJqtrF9WJe0ks9mNVNStMGExduup3SOqhxk64X2fLpLlCz2WnbCLDIUU4
+ wR7fjLUe64Q2nDwhg7f/JEEFzbFNTMFa3uwK/XZ1NfSkMzxE4mt8/OKPpCdiw5qLLjqp
+ ucqQQYpbc60sfZ5Bj1ytSprtPWWZxuptVT4KBN4bwWJVpNk9aTCuTAS9aDABm4tJHYrg
+ /0VcWv3tf9PeQ/oXwfqU3nU4/dk8ribqwLSit/RJgAG3t2/+SDII4/1o9IVsC9f6oVuP
+ kmBA==
+X-Gm-Message-State: AOAM533LeU3+TuXHYxa0d28hDiIINpHfjjNGLbeMJSjIKLLvbGdmWUZs
+ g1IfIhFK0quPrtULJ5V1VyA=
+X-Google-Smtp-Source: ABdhPJznxM2oPF5fgtdQ2utEfm8wy9hCKrhdPUCE4diEEiOPcVHT9TCI/1qq0jS8wRLoFvVrOTsDng==
+X-Received: by 2002:a5d:550d:: with SMTP id b13mr5675349wrv.125.1602000427685; 
+ Tue, 06 Oct 2020 09:07:07 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j17sm5204629wrw.68.2020.10.06.09.07.05
+ by smtp.gmail.com with ESMTPSA id j17sm5204629wrw.68.2020.10.06.09.07.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 09:07:06 -0700 (PDT)
+ Tue, 06 Oct 2020 09:07:07 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH 09/12] contrib/gitdm: Add SUSE to the domain map
-Date: Tue,  6 Oct 2020 18:06:50 +0200
-Message-Id: <20201006160653.2391972-10-f4bug@amsat.org>
+Subject: [PATCH 10/12] contrib/gitdm: Add Yadro to the domain map
+Date: Tue,  6 Oct 2020 18:06:51 +0200
+Message-Id: <20201006160653.2391972-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006160653.2391972-1-f4bug@amsat.org>
 References: <20201006160653.2391972-1-f4bug@amsat.org>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -89,32 +89,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Bruce Rogers <brogers@suse.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a number of contributors from this domain,
+There is a number of contributions from this domain,
 add its own entry to the gitdm domain map.
 
-Acked-by: Bruce Rogers <brogers@suse.com>
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  contrib/gitdm/domain-map | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 6c5c92260d..d767620837 100644
+index d767620837..1572070cf4 100644
 --- a/contrib/gitdm/domain-map
 +++ b/contrib/gitdm/domain-map
-@@ -27,6 +27,7 @@ redhat.com      Red Hat
- rt-rk.com       RT-RK
- siemens.com     Siemens
- sifive.com      SiFive
-+suse.com        SUSE
- suse.de         SUSE
+@@ -32,3 +32,4 @@ suse.de         SUSE
  virtuozzo.com   Virtuozzo
  wdc.com         Western Digital
+ xilinx.com      Xilinx
++yadro.com       YADRO
 -- 
 2.26.2
 
