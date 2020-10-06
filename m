@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97388284804
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 10:00:04 +0200 (CEST)
-Received: from localhost ([::1]:37626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E29284795
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 09:41:50 +0200 (CEST)
+Received: from localhost ([::1]:44420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPhtD-00058R-H9
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 04:00:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39762)
+	id 1kPhbZ-0001Bf-D5
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 03:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQJ-0002yd-Fg
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:11 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41041)
+ id 1kPhQK-00030G-5f
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:12 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kPhQH-0001T3-Kr
+ id 1kPhQI-0001TB-Ew
  for qemu-devel@nongnu.org; Tue, 06 Oct 2020 03:30:11 -0400
-Received: by mail-wr1-x433.google.com with SMTP id w5so12225513wrp.8
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:09 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 13so1845667wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 00:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tgn9X5Mgui13Q+dtY55MzZygmKQubhoFj4bw4p092H0=;
- b=hy188HPhkYVS2OOefQzrhKPFfpS799eBb4iLxp6A3Yaxkwv3HFlNk8vNUBEDSp469o
- 7vE8IJwKW8yBe8LJGNWNX8LA+H/+XxUtG06J2vsYqRXr4KyK+y/2ATTEIedp2L79bsr9
- AGsl4c9wZzIVvskbTg7ILjbTsaAcMZtoQ2voDkQWpgnoDt6eAucs+JEC4q/srKEjNeQN
- 2hpwvpgGX4FLj2gQX2oeZowsUMG+I7T2i2AgN9xBzJUDVREILGwVFtOjgaL6zIDAp+Sn
- FXG09LkDhs99BZTiSfv9QZbuvrx1mI1m1Zsf7oJv0svyvCjhr4qp4kNxEHI5tJ1ymzHO
- 5ODA==
+ bh=cpyQLJv0wdPNrXTFIzMBIsZDapctBMjUV4cbdzJBuo8=;
+ b=vG67bz7ebTOVQJz9RT/YmTd7evzbpRD3qQJl3fsAohvrZX4eQpbbGBPe6VgEEx7ONv
+ W1zMLyRAPjQhLgKmnyKFOflPD9PzgL6lPhrNyG3p+j6x/6xjvftVJjePBksiMbJwTaXI
+ YStHhPZ+y88HcpkFvrDpFHDaavpMvNFBSK5jroDTS+qy1PvpHTsAEucpYGGd0ncqbG49
+ vm6qnQZn1Wf9KFIm1RsyiM6t8VhfNmDAUFW9BYqCrPLl4qMckK/S4rJGhVbunf6rnMZL
+ Y15qmfA+I44kmbyqZ5C0MEB+9eNg1yHNCSPIRaeLTI4izu887mEy/nebHAALTfi+qYKZ
+ b+8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tgn9X5Mgui13Q+dtY55MzZygmKQubhoFj4bw4p092H0=;
- b=J7Q1j6kK0ldv8hkdNjG4npnSvQsK8LQbIJnn24cQunfydt5pQMvRWKLy0AlZnCn7yX
- Q0FwU1vzVgBkqZt9py67qPDjBj/mc+Rm3tlhd5bylBmytzS514wciR9fqm7mV8fY8Vhf
- txB3fvALX7Rw8YrrMfuJs1oj0Q0lagBJZME7Rb0HSS4UZfUOHfsNDWlHwHxEHiT+YI9k
- l832FfSt6OBYuR2pt7rv8q8OfbE0EkduE3M2LJuU957ByKPHkkn4xpOzSFPqX2LNC+DQ
- Juk7G249aBsCtrFri1hBMj2cq/0RveaAvaESzSp1+Zo+9CgOYEaoEEijzoMhdV23pBKI
- km/A==
-X-Gm-Message-State: AOAM532BWFlKEPC/6D7m59zTdgjkUfFcDT0O3JHnKvoSPHDWCv5FZs+M
- cCLWUFQ6EL+V7RblLfE5Yf06CDOoiPg=
-X-Google-Smtp-Source: ABdhPJxAk1CYIrx2ddZyo8Y37CV26h9DSy3VHODQf/GiBVnAG77heCVDo7JC2wphp50ANmSuEH/pYA==
-X-Received: by 2002:adf:d18c:: with SMTP id v12mr3241864wrc.131.1601969407980; 
- Tue, 06 Oct 2020 00:30:07 -0700 (PDT)
+ bh=cpyQLJv0wdPNrXTFIzMBIsZDapctBMjUV4cbdzJBuo8=;
+ b=DS9dbGN6RMR4ViM9EBOnCNFHIebtBTFQz/AM84/gtsWYlf3R8ST4cvp/Hh0CWRDOBK
+ owvbupzZ8T/2zdCYfDd1VlDxdtKZ9K3hucRPOr0ok4wIgz2Z8vFEczxVBheGS1X79ZJC
+ qra33kzmkjYa2LZM6UcTVZnLZ7IEIWW9rwy/iR3s5QTsBUGdoaqyMxVXqJbB1ZYgj0LN
+ F9M4szsTJcJt7sngemmCf9g2Z9DJWUBP0ReJ6OFT3mSoC42lJf1b+08EmtL44citbABD
+ 26Q8QJx6ki8TylZtPYTcwWlvt0UIgbdAjJDpuT6s/jhiQcX/NwMpjXdyVkPyObi3tjNv
+ cyHg==
+X-Gm-Message-State: AOAM5339mqe3LT65qfN7p085wVx2AVref/m3C/tBwylmexjViFDCYCsC
+ fT0Qz4StUK1FE7+92pdxFcOkLfg0Yfo=
+X-Google-Smtp-Source: ABdhPJyleGGaJRe8grVKKfHjm09vYC/FDyF56I2nW7N/1xd7te3g9UIR8VIm9pWMuVo1okKF7ggRMQ==
+X-Received: by 2002:a7b:c081:: with SMTP id r1mr3219414wmh.158.1601969408843; 
+ Tue, 06 Oct 2020 00:30:08 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5aca:cd0b:c4a1:9c2e])
- by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.07
+ by smtp.gmail.com with ESMTPSA id i9sm2576329wma.47.2020.10.06.00.30.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 00:30:07 -0700 (PDT)
+ Tue, 06 Oct 2020 00:30:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/37] replay: don't record interrupt poll
-Date: Tue,  6 Oct 2020 09:29:34 +0200
-Message-Id: <20201006072947.487729-25-pbonzini@redhat.com>
+Subject: [PULL 25/37] replay: provide an accessor for rr filename
+Date: Tue,  6 Oct 2020 09:29:35 +0200
+Message-Id: <20201006072947.487729-26-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006072947.487729-1-pbonzini@redhat.com>
 References: <20201006072947.487729-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,79 +88,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-Interrupt poll is not a real interrupt event. It is needed only for
-thread safety. This interrupt is used for i386 and converted
-to hardware interrupt by cpu_handle_interrupt function.
-Therefore it is not needed to be recorded, because hardware
-interrupt will be recorded after converting.
+This patch adds an accessor function for the name of the record/replay
+log file. Adding an accessor instead of making variable global,
+prevents accidental modification of this variable by other modules.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
---
-
-v4 changes:
- - Condition check refactoring (suggested by Alex Bennée)
-Message-Id: <160174517124.12451.12983410242461131737.stgit@pasha-ThinkPad-X280>
-
+Message-Id: <160174517710.12451.17645787545733927488.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/tcg/cpu-exec.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ include/sysemu/replay.h | 2 ++
+ replay/replay.c         | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 0dbe67acf5..58aea605d8 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -436,8 +436,7 @@ static inline bool cpu_handle_halt(CPUState *cpu)
- {
-     if (cpu->halted) {
- #if defined(TARGET_I386) && !defined(CONFIG_USER_ONLY)
--        if ((cpu->interrupt_request & CPU_INTERRUPT_POLL)
--            && replay_interrupt()) {
-+        if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
-             X86CPU *x86_cpu = X86_CPU(cpu);
-             qemu_mutex_lock_iothread();
-             apic_poll_irq(x86_cpu->apic_state);
-@@ -533,6 +532,20 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-     return false;
- }
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index a140d69a73..7d963139e5 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -72,6 +72,8 @@ void replay_start(void);
+ void replay_finish(void);
+ /*! Adds replay blocker with the specified error description */
+ void replay_add_blocker(Error *reason);
++/* Returns name of the replay log file */
++const char *replay_get_filename(void);
  
-+/*
-+ * CPU_INTERRUPT_POLL is a virtual event which gets converted into a
-+ * "real" interrupt event later. It does not need to be recorded for
-+ * replay purposes.
-+ */
-+static inline bool need_replay_interrupt(int interrupt_request)
-+{
-+#if defined(TARGET_I386)
-+    return !(interrupt_request & CPU_INTERRUPT_POLL);
-+#else
-+    return true;
-+#endif
-+}
-+
- static inline bool cpu_handle_interrupt(CPUState *cpu,
-                                         TranslationBlock **last_tb)
+ /* Processing the instructions */
+ 
+diff --git a/replay/replay.c b/replay/replay.c
+index 4c1457b07e..797b6a5b15 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -399,3 +399,8 @@ void replay_add_blocker(Error *reason)
  {
-@@ -594,7 +607,9 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-            and via longjmp via cpu_loop_exit.  */
-         else {
-             if (cc->cpu_exec_interrupt(cpu, interrupt_request)) {
--                replay_interrupt();
-+                if (need_replay_interrupt(interrupt_request)) {
-+                    replay_interrupt();
-+                }
-                 /*
-                  * After processing the interrupt, ensure an EXCP_DEBUG is
-                  * raised when single-stepping so that GDB doesn't miss the
+     replay_blockers = g_slist_prepend(replay_blockers, reason);
+ }
++
++const char *replay_get_filename(void)
++{
++    return replay_filename;
++}
 -- 
 2.26.2
 
