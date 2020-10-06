@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1580628545D
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:16:11 +0200 (CEST)
-Received: from localhost ([::1]:55026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D444E285466
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 00:19:38 +0200 (CEST)
+Received: from localhost ([::1]:35162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPvFi-0003b6-1X
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:16:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45478)
+	id 1kPvJ3-0007BM-R6
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 18:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9x-00072L-OD
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23002)
+ id 1kPv9z-00076q-4P
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kPv9t-0006R3-Ts
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:13 -0400
+ id 1kPv9t-0006Qs-Tm
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 18:10:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602022204;
+ s=mimecast20190719; t=1602022202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oPydp3bkYwR6GH+LZESlXGy3MqkTdWCORJFCS9/vfSs=;
- b=Om1Q5cg1P7WEvEYa20BQSqBvo5q6gXMOy3v6PPjGxR8I9J7i6u8RM+HOE2cw9xSZnVUqg+
- Pu2d9xpf62TqNiBVNqaimARDzTaKOOaBAo1EM3Hs6ke1bOWiWHrE/oSzHkm/i43IGoDvsi
- TE3UUPbqnaasPTK4aGdwYjEBW0ZMhic=
+ bh=UYwFN2wkjmvGZMKWCU1JjrjkGzTCLANtS6KjRc+D2pI=;
+ b=CCmba1nPKVBMYDFVg2CABMofSMgr7LCygdWnMS3bPg2itq3qlh4eh8pwt0iIMBQO4RTw0O
+ zT1mLBS/upzaPI6siM4DEVloJHnlUJTOi8hEK8vNQhHvDGmDDsiujEB8cKWz4ZFk/3TLlq
+ bNKD1U5sfp6TzOGVbED5Nr3F4ZmhJYs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-3h1kuw24Pv6iXN1KLTJH0g-1; Tue, 06 Oct 2020 18:09:57 -0400
-X-MC-Unique: 3h1kuw24Pv6iXN1KLTJH0g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-110-hw4yifdOOHu7MkWkiJlXFQ-1; Tue, 06 Oct 2020 18:09:58 -0400
+X-MC-Unique: hw4yifdOOHu7MkWkiJlXFQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD246804018;
- Tue,  6 Oct 2020 22:09:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 836D980400D;
+ Tue,  6 Oct 2020 22:09:57 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 840761A835;
- Tue,  6 Oct 2020 22:09:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42D591002C25;
+ Tue,  6 Oct 2020 22:09:57 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 16/21] kernel-doc: Handle function typedefs that return pointers
-Date: Tue,  6 Oct 2020 18:09:25 -0400
-Message-Id: <20201006220930.908275-17-ehabkost@redhat.com>
+Subject: [PULL 17/21] kernel-doc: Handle function typedefs without asterisks
+Date: Tue,  6 Oct 2020 18:09:26 -0400
+Message-Id: <20201006220930.908275-18-ehabkost@redhat.com>
 In-Reply-To: <20201006220930.908275-1-ehabkost@redhat.com>
 References: <20201006220930.908275-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,35 +87,31 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One example that was not being parsed correctly by kernel-doc is:
+Example of typedef that was not parsed by kernel-doc:
 
-  typedef Object *(ObjectPropertyResolve)(Object *obj,
-                                          void *opaque,
-                                          const char *part);
+  typedef void (ObjectUnparent)(Object *obj);
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201003024123.193840-2-ehabkost@redhat.com>
+Message-Id: <20201003024123.193840-3-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- scripts/kernel-doc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 40ad782e34..57a4a72970 100755
+index 57a4a72970..57b911ff17 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1318,8 +1318,8 @@ sub dump_typedef($$) {
+@@ -1318,7 +1318,7 @@ sub dump_typedef($$) {
      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
  
      # Parse function prototypes
--    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
--	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
-+    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-+	$x =~ /typedef\s+(\w+\s*\**)\s*(\w\S+)\s*\s*\((.*)\);/) {
+-    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
++    if ($x =~ /typedef\s+(\w+\s*\**)\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+ 	$x =~ /typedef\s+(\w+\s*\**)\s*(\w\S+)\s*\s*\((.*)\);/) {
  
  	# Function typedefs
- 	$return_type = $1;
 -- 
 2.26.2
 
