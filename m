@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBE0284C3E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 15:08:32 +0200 (CEST)
-Received: from localhost ([::1]:57930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86226284C52
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Oct 2020 15:11:43 +0200 (CEST)
+Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPmhj-0006gb-Le
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 09:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60166)
+	id 1kPmko-0001qq-IS
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 09:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmVy-0002rl-7r
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55445)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmW3-00033H-09
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmVw-0001t0-Cf
- for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kPmW1-0001tS-3z
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 08:56:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601988979;
+ s=mimecast20190719; t=1601988984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VHqbyXPiJRDV4C8FnQjUpTXWXPI5vIxp7C25lKKq3Fo=;
- b=T+Qub80d9oSouka5gX6nk9r2rgzTBPDfgKb5ouOXbidd9aYWJMeo+kBoencC5KwJi3nAjJ
- gchZSkfJHmrm70Tb9PpubDP4rpo2vwHXZlfWLx9vzHMnieZS6w0MGQEXkzD8lwtyUtzyDh
- EPR26L66TYdWzyI2CAoXblMjxd2jiZg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-0b98J307OFint8Mr_-sreQ-1; Tue, 06 Oct 2020 08:56:16 -0400
-X-MC-Unique: 0b98J307OFint8Mr_-sreQ-1
-Received: by mail-wr1-f71.google.com with SMTP id y3so5312094wrl.21
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:56:16 -0700 (PDT)
+ bh=iu4VFbji1NYalAxtgTpGrAQFcSu9AmIxH2mbp91RPjA=;
+ b=J0dOZer1FfVU0kC16LT2sptU2GeHr+1z2otsTJXMCqZvvlbT5fjGw7siPBL82cVcAbmBdu
+ N+rMUSpvqtoyMD4NkbznOgoKupMcr5465a44zPf8NAaDzoIux3pJEcUe3qshEGsAqN9x/V
+ v4W9KD374OvqY5k/AiEy/2iVKts3z40=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-gcrpu401PBqahDuh3j51fg-1; Tue, 06 Oct 2020 08:56:21 -0400
+X-MC-Unique: gcrpu401PBqahDuh3j51fg-1
+Received: by mail-wr1-f70.google.com with SMTP id 33so2988314wrf.22
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 05:56:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VHqbyXPiJRDV4C8FnQjUpTXWXPI5vIxp7C25lKKq3Fo=;
- b=HCBHBmqDVysfAel1KNsLi5pZLq7JTNdsOtPViLPMMjRmF7HeNoyBJkRoB/CyVFn+qd
- BEhUJeak/qDLYH5kLtWiF1zMaefBGQSKQ4CWRE3A6uOMgXegp82En7OcbIqUty/TAoNZ
- JdrGDXEXN4n7422w+Rqj8KksjNZJ4//9y00YpgB/efGzj8M9eRHbLI1CgF6tLQrMIFIz
- M6TTpS+mha+sMdLS8MdNaZMEu1BrqJoeQrenmF2xh5PxiC5Q5mC9JiLZf1JszfYMdFHw
- qeo5U0DigM6yiA8frsxRT3VyTtuxIw0xOiZmKJGAwx1vpSr2yDfip5sk4PBab5/Lktkw
- 575A==
-X-Gm-Message-State: AOAM530UWLbSaz+iRu1M2RQmSSm6TepwEMLB19MaCiTVwcPn/93E/Pma
- E1RWR2N8kJaNtAibFXhISlTwRajyfcAnTEaJCjS4S5CA8iSn73QCZL/OujU/yq9xfbsE+z7HECy
- cqG3EvpxCF8kZ/ss=
-X-Received: by 2002:a5d:6a85:: with SMTP id s5mr2832708wru.90.1601988975096;
- Tue, 06 Oct 2020 05:56:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzeqrQWQCRK1EX2S+oD40CiZSTZfJhoZAZ8DHL2+3uZ/MK8Gtyhjz0sp06K+9lSMCE2NytQGg==
-X-Received: by 2002:a5d:6a85:: with SMTP id s5mr2832685wru.90.1601988974951;
- Tue, 06 Oct 2020 05:56:14 -0700 (PDT)
+ bh=iu4VFbji1NYalAxtgTpGrAQFcSu9AmIxH2mbp91RPjA=;
+ b=d2kjqVkKXx6iuUTTBKd6/dy6yAvq3Vya4iIo7v+1X300sTVxXUyqMLr+J2ZqN3hG9r
+ h37eA3MtZmfi1D15yfw9N/D9UZgDvKzSECVLQzy/aCwB86nMR7H72CARSab9fHl+44MW
+ MHc4w4HBjNcp0UVW4kcm6diQsYEb3uB3egpVr6g7l6JLMDljIvxbFSLFvgiOTequywaK
+ vPtXzTsbtWFX6xWEchK5l5UWB8XH6TTUwXvqedfrwukeTpmz/XC3Nr+rjVT0/lzXNeYJ
+ PpUa/T63/PFd1kbe9eWySEE6CqjWuclAPjVy3TvWXnTGO1jvAEzpaBIGdqzk0KngjcGG
+ DnYQ==
+X-Gm-Message-State: AOAM530yzhQI/hn0Qq1T7Dna1GpPbO2KHg9puwdt4BWVXY0iCkcqssOm
+ d+439mN3qnEgZihvBMeCmkv8N5ChjFxmF7v76xORVjulBfUTAKUnp5AyjvVBJVhIGZXAqS0vZhL
+ hcLcMOrULkAHQKWo=
+X-Received: by 2002:adf:f584:: with SMTP id f4mr4590311wro.383.1601988980104; 
+ Tue, 06 Oct 2020 05:56:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+WUzcbY4Qb1+NBLQViKKYuMdVWkEAjiUpRbAfy8WJwU2jgXQJd/r6+HrmRrPY5XIl/x7DLg==
+X-Received: by 2002:adf:f584:: with SMTP id f4mr4590284wro.383.1601988979900; 
+ Tue, 06 Oct 2020 05:56:19 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id f14sm4761594wrv.72.2020.10.06.05.56.13
+ by smtp.gmail.com with ESMTPSA id b8sm3850769wmb.4.2020.10.06.05.56.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 05:56:14 -0700 (PDT)
+ Tue, 06 Oct 2020 05:56:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/9] meson.build: Sort sourcesets alphabetically
-Date: Tue,  6 Oct 2020 14:55:55 +0200
-Message-Id: <20201006125602.2311423-3-philmd@redhat.com>
+Subject: [PATCH v2 3/9] hw/core: Move the creation of the library to the main
+ meson.build
+Date: Tue,  6 Oct 2020 14:55:56 +0200
+Message-Id: <20201006125602.2311423-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201006125602.2311423-1-philmd@redhat.com>
 References: <20201006125602.2311423-1-philmd@redhat.com>
@@ -72,16 +73,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 00:55:20
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 01:55:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,45 +105,49 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Be consistent creating all the libraries in the main meson.build file.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ meson.build         | 6 ++++++
+ hw/core/meson.build | 6 ------
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 4101620777..60497f5615 100644
+index 60497f5615..47eb7d3709 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1059,19 +1059,19 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
+@@ -1346,6 +1346,12 @@ libqmp = static_library('qmp', qmp_ss.sources() + genh,
  
- # Collect sourcesets.
+ qmp = declare_dependency(link_whole: [libqmp])
  
--util_ss = ss.source_set()
-+blockdev_ss = ss.source_set()
-+block_ss = ss.source_set()
-+bsd_user_ss = ss.source_set()
-+common_ss = ss.source_set()
-+linux_user_ss = ss.source_set()
-+qmp_ss = ss.source_set()
-+softmmu_ss = ss.source_set()
-+specific_fuzz_ss = ss.source_set()
-+specific_ss = ss.source_set()
- stub_ss = ss.source_set()
- trace_ss = ss.source_set()
--block_ss = ss.source_set()
--blockdev_ss = ss.source_set()
--qmp_ss = ss.source_set()
--common_ss = ss.source_set()
--softmmu_ss = ss.source_set()
- user_ss = ss.source_set()
--bsd_user_ss = ss.source_set()
--linux_user_ss = ss.source_set()
--specific_ss = ss.source_set()
--specific_fuzz_ss = ss.source_set()
-+util_ss = ss.source_set()
++libhwcore = static_library('hwcore', sources: hwcore_files + genh,
++                           name_suffix: 'fa',
++                           build_by_default: false)
++hwcore = declare_dependency(link_whole: libhwcore)
++common_ss.add(hwcore)
++
+ ###########
+ # Targets #
+ ###########
+diff --git a/hw/core/meson.build b/hw/core/meson.build
+index fc91f98075..4a744f3b5e 100644
+--- a/hw/core/meson.build
++++ b/hw/core/meson.build
+@@ -14,12 +14,6 @@ hwcore_files = files(
+   'qdev-clock.c',
+ )
  
- modules = {}
- hw_arch = {}
+-libhwcore = static_library('hwcore', sources: hwcore_files + genh,
+-                           name_suffix: 'fa',
+-                           build_by_default: false)
+-hwcore = declare_dependency(link_whole: libhwcore)
+-common_ss.add(hwcore)
+-
+ common_ss.add(files('cpu.c'))
+ common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
+ common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
 -- 
 2.26.2
 
