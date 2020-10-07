@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF482858CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 08:52:15 +0200 (CEST)
-Received: from localhost ([::1]:47668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFE72858C7
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 08:47:01 +0200 (CEST)
+Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ3J9-0005d4-0G
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 02:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54126)
+	id 1kQ3E4-0002ue-P0
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 02:47:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
- id 1kQ3HV-00053Q-EP; Wed, 07 Oct 2020 02:50:34 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:36147)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kQ3AC-0001AZ-9A
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 02:43:00 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
- id 1kQ3HT-0005sZ-Dt; Wed, 07 Oct 2020 02:50:33 -0400
-Received: by mail-il1-x141.google.com with SMTP id t12so1342893ilh.3;
- Tue, 06 Oct 2020 23:50:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kQ3A8-00053p-Tb
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 02:43:00 -0400
+Received: by mail-pl1-x641.google.com with SMTP id h2so492552pll.11
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 23:42:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=K65nqW5b51X5LzxkVyAKNheO+CdmApsdfUMTcPTC+r4=;
- b=sdHfuh/3s6eK0ysaw8qKRu0w8+DjnoRyoM3/Vd6oKtmRARV33Hu47y7rq2RBlVOwGv
- xAngM+ALkkDZrilDmlR3yJsy9duNFb2b7r836y+Nk7LBGs0+x1hpTrYBc5TqVi4Le58n
- UIMllrHkdAr3IidXNVqhxGWoxxrQ/LS9otEHJ2IlR7TlneObln5uEUpo6zTtW0xYNkV4
- BQW2alOG4pAN1S4J/gMBxblx67I0xTtm5KTFpH6h3PAkgFtGOurlQUTnYOX2wQSECzXf
- yRlmrcUeRqaQz130CID6l1xQlHQr1AZZ7h5CAcl+XR862udeNPrT4LZJ1me8mjUenKPb
- s9gw==
+ :cc; bh=oqjm9UYQaC0KbkHDlW58it8LWpqAFUADrAYka5eOyFI=;
+ b=ydzedP03pBSaU+91G/aiwJa3NM+bvyX+IbKvgBMGoYdgj/jBAZ/dj8Lrb9NEd+yw5z
+ 8NUcW5o8AcABX0Tf0v/ao1vTCz695qm4VvD9weW90KNl+Ch4tCglwpZzQPasNmZhVI5w
+ aAVc3OqhLqCd13Z6b4+rbYJ5NXQzNMF+uevG6HJLSSLX7TWTz4brLjnk3wpSfpdCN7sV
+ Z2btjvGKjCDqKnZWsI+b6AUb3wSvnAXld+U4VG7K0ee/BGdoil3tjrdGpIU72VjNevWO
+ 2HS/k79swkKd2sG5bGdnb0QFxuo6Tg+JoPhvS19P/RtoPQz47fYWgCCchkl1FKwHhoNd
+ hueA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=K65nqW5b51X5LzxkVyAKNheO+CdmApsdfUMTcPTC+r4=;
- b=ZKjMz0iDZPJ7ItJqUG6PgQvH8pamHdP1j9q0p54ATP1/x5pfDHVoQ9UEAdmhKqewRh
- Y85tlKDllGgCkNuAF+j+pjqtldI2mmj192Dpmey5gdnYcyfcZgcLcHi/9gCnNpwSB5Jp
- EjhO1z2b+Z4lAM+mEfD9qH7KmDo6l18a3rhg/Ok2pXj1j4g5AWTNt7ASeIaclioKoLlt
- ka5Ym2RioiMDbyIpRSfScUZXe8wcQlVaMZEnIn5vdu8SP+kA2ulgC6VW4hoGtWUibr2B
- FQedAJiOtTCOi0zB1ijozSNJaMuvVvejya+gpvcO4imn7G38HgEY7KzxPXSNfw0CU6L5
- 7COg==
-X-Gm-Message-State: AOAM532gyQ9yFSwNDIbuKzVrLA4jjdzX3S0Gxo1SWajsBoNsi+HZRJTz
- YhPscU3FYrE/Akv0DwUzrQgiBjJmgTOpReoziG8=
-X-Google-Smtp-Source: ABdhPJw8CkUJFKjIe9mJWcgBgxiXlMYlOBGCLBHQttkveUP1AzZQFxtLeKPd+Yf96Zm8PxGr+JWpZ+UlbQ1dfQwohCQ=
-X-Received: by 2002:a92:907:: with SMTP id y7mr1549294ilg.276.1602053428977;
- Tue, 06 Oct 2020 23:50:28 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=oqjm9UYQaC0KbkHDlW58it8LWpqAFUADrAYka5eOyFI=;
+ b=KcJkhTfGVNry4oG7BNRhZEYMp46GYlAok291PX/XtHtoPthi8ShkZ20NHMW39mU0IX
+ JXA7gz8ZzIfYv4rRbGg49IUHBUCfaTNfedR5EtCCIccZA4Zvjko11fLHEKijwXE+9WeB
+ VRt62MR34CmOoFycnDEwkFCGqXGoFp3VSQMJAwDt2uWWVAWddeLNDlFsoOl4K2jucc9F
+ XbeGESMubXoHkLfkD3JHmG+rJrvt8EM6BnUsceES7CyaPwzOBXNYTVPWeOPCzba/OwAF
+ LhHg9pyaB063VHz07qc+0UXScP4xvSMK78h57YPFBjxRH3gssp/TlIygyDQNYgmeAVhx
+ AIAA==
+X-Gm-Message-State: AOAM531eVH69hbSaWRorCWuarY+HodSuH0wzYuuKQRwuYBYf3s+UE9kT
+ AC5S9BwlZhNQiO5PzEh692narbol1TuRdlBbPeiuPA==
+X-Google-Smtp-Source: ABdhPJwUE2c3DenpndHdafPuLFFz5L6N1wEDOnoQLvefN9NcOr+XVr8iCAqXLf8siam4OGoCLq+5AJmT5ay+H7VrDOI=
+X-Received: by 2002:a17:902:204:b029:d3:9c43:3715 with SMTP id
+ 4-20020a1709020204b02900d39c433715mr1635622plc.74.1602052974871; Tue, 06 Oct
+ 2020 23:42:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <47dbcad4-3121-b1c3-06fa-abec7c353fb6@gmail.com>
- <87sgatanti.fsf@linaro.org>
- <CAFEAcA_ZMLV3DZ_R_SHvPLdEf=i-xpspD5itBmfYeqyMhgtLWQ@mail.gmail.com>
- <875z7p3t9e.fsf@linaro.org> <e43be86d-1847-199f-4cbd-2e3bd124d70a@gmail.com>
- <CADBGO794+ZPD=B=dFuA7SC96g3GDJXF1A8j=VP6MeiSw1Sf4oQ@mail.gmail.com>
- <d8d79b4c-aeb4-4f07-7110-91d8d1afd701@gmail.com> <87362r3cbt.fsf@linaro.org>
- <61c49583-c548-a8b2-7106-59011196f430@gmail.com>
-In-Reply-To: <61c49583-c548-a8b2-7106-59011196f430@gmail.com>
-From: Paul Zimmerman <pauldzim@gmail.com>
-Date: Tue, 6 Oct 2020 23:50:01 -0700
-Message-ID: <CADBGO7-BaTH3MBZa6Dbv2+uxKNbv3ztwQ=iu_FCgrcrKBUzCPw@mail.gmail.com>
-Subject: Re: Emulate Rpi with QEMU fails
-To: Thomas <74cmonty@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=pauldzim@gmail.com; helo=mail-il1-x141.google.com
+References: <20201005115601.103791-1-andrew@daynix.com>
+ <20201005115601.103791-3-andrew@daynix.com>
+ <20201005134406-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20201005134406-mutt-send-email-mst@kernel.org>
+From: Andrew Melnichenko <andrew@daynix.com>
+Date: Wed, 7 Oct 2020 10:13:52 +0300
+Message-ID: <CABcq3pFnRzfbnBgYtYd7ocy1C6qEdCNeT0M_L5bv9v_PQccrqA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] hw/virtio-pci Added AER capability.
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000007a9a9205b10f063b"
+Received-SPF: none client-ip=2607:f8b0:4864:20::641;
+ envelope-from=andrew@daynix.com; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,65 +79,271 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Yan Vugenfirer <yan@daynix.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 6, 2020 at 11:28 PM Thomas <74cmonty@gmail.com> wrote:
->
-> Hello!
->
-> Many thanks for your support.
->
-> I managed to get emulated RPi starting.
->
-> However there's one question I want to ask:
-> How can I accelerate the startup sequence?
-> I mean booting the emulated RPi takes more than 3 minutes.
->
-> Regards
-> Thomas
+--0000000000007a9a9205b10f063b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Get a faster computer? ;)
+Ok,
+Main motivation:
 
-On my Intel i7 desktop it takes about 40 seconds to boot to the login:
-prompt on the serial console, and about 1 min 8 seconds before the
-GUI is up. On my 5 year old laptop it's probably twice that. I don't know
-of any way to make it go faster.
-
-- Paul
-
+> According to Microsoft driver\device certification requirements for next
+> version of Window Server, PCIe device must support AER.
+> The exact quote of Microsoft certification requirements:
+> "Windows Server PCI Express devices are required to support Advanced
+> Error Reporting [AER] as defined in PCI Express Base Specification versio=
+n
+> 2.1.*=E2=80=9D*
 >
-> Am 06.10.20 um 11:58 schrieb Alex Benn=C3=A9e:
-> > Thomas Schneider <74cmonty@gmail.com> writes:
+ and
+
+> Does management need ability to enable this capability?
+>
+Actually, yes. Can you provide their email address?
+
+I'll prepare a new patch and I'll remove bugzilla link.
+
+On Mon, Oct 5, 2020 at 8:46 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+
+> On Mon, Oct 05, 2020 at 02:56:01PM +0300, andrew@daynix.com wrote:
+> > From: Andrew <andrew@daynix.com>
 > >
-> >> Hello Paul,
-> >>
-> >> many thanks for sharing this info.
-> >>
-> >> Can you confirm that the emulated RPi with your command will use
-> >> "internal QEMU" network, means the client cannot be accessed from any
-> >> other device in LAN?
-> > The support for user-mode and TAP networking is orthogonal to the
-> > emulated device. However if you only want a few ports it's quite easy t=
-o
-> > use port forwarding, e.g:
+> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1878465
+>
+> That's a private bug - what information can you share about
+> the motivation for the patch?
+>
+> > Added AER capability for virtio-pci devices.
+> > Also added property for devices, by default AER is disabled.
 > >
-> >   -netdev user,id=3Dunet,hostfwd=3Dtcp::2222-:22
+> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> > ---
+> >  hw/virtio/virtio-pci.c | 16 ++++++++++++++++
+> >  hw/virtio/virtio-pci.h |  4 ++++
+> >  2 files changed, 20 insertions(+)
 > >
-> > which forwards 2222 to port 22 on the device. I have an alias in
-> > .ssh/config for accessing my QEMU devices.
+> > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> > index ae60c1e249..e0a7936f9c 100644
+> > --- a/hw/virtio/virtio-pci.c
+> > +++ b/hw/virtio/virtio-pci.c
+> > @@ -1807,6 +1807,12 @@ static void virtio_pci_realize(PCIDevice
+> *pci_dev, Error **errp)
+> >           */
+> >          pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
 > >
-> >> If yes, what is required to setup a TAP connected to host's network
-> >> bridge?
-> > I'll defer to others for this but generally when I want proper bridged
-> > networking for a VM I use virt-manager/libvirt to configure it because
-> > it can be quite fiddly to do by hand.
+> > +        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
+> > +            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
+> > +                          PCI_ERR_SIZEOF, NULL);
+> > +            last_pcie_cap_offset +=3D PCI_ERR_SIZEOF;
+> > +        }
+> > +
+> >          if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
+> >              /* Init error enabling flags */
+> >              pcie_cap_deverr_init(pci_dev);
+> > @@ -1848,7 +1854,15 @@ static void virtio_pci_realize(PCIDevice
+> *pci_dev, Error **errp)
+> >
+> >  static void virtio_pci_exit(PCIDevice *pci_dev)
+> >  {
+> > +    VirtIOPCIProxy *proxy =3D VIRTIO_PCI(pci_dev);
+> > +    bool pcie_port =3D pci_bus_is_express(pci_get_bus(pci_dev)) &&
+> > +                     !pci_bus_is_root(pci_get_bus(pci_dev));
+> > +
+> >      msix_uninit_exclusive_bar(pci_dev);
+> > +    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
+> > +        pci_is_express(pci_dev)) {
+> > +        pcie_aer_exit(pci_dev);
+> > +    }
+> >  }
+> >
+> >  static void virtio_pci_reset(DeviceState *qdev)
+> > @@ -1901,6 +1915,8 @@ static Property virtio_pci_properties[] =3D {
+> >                      VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
+> >      DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
+> >                      VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
+> > +    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
+> > +                    VIRTIO_PCI_FLAG_AER_BIT, false),
+> >      DEFINE_PROP_END_OF_LIST(),
+> >  };
 > >
 >
+> Does management need ability to enable this capability?
+> If yes let's cc them. If no let's rename to x-aer so we don't
+> commit to a stable interface ...
+>
+>
+> > diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
+> > index 91096f0291..3986b4f0e3 100644
+> > --- a/hw/virtio/virtio-pci.h
+> > +++ b/hw/virtio/virtio-pci.h
+> > @@ -45,6 +45,7 @@ enum {
+> >      VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
+> >      VIRTIO_PCI_FLAG_INIT_PM_BIT,
+> >      VIRTIO_PCI_FLAG_INIT_FLR_BIT,
+> > +    VIRTIO_PCI_FLAG_AER_BIT,
+> >  };
+> >
+> >  /* Need to activate work-arounds for buggy guests at vmstate load. */
+> > @@ -84,6 +85,9 @@ enum {
+> >  /* Init Function Level Reset capability */
+> >  #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
+> >
+> > +/* Advanced Error Reporting capability */
+> > +#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
+> > +
+> >  typedef struct {
+> >      MSIMessage msg;
+> >      int virq;
+> > --
+> > 2.28.0
+>
+>
+
+--0000000000007a9a9205b10f063b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Ok,</div><div>Main motivation:</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div><div></div><div>According to Microsof=
+t driver\device certification requirements for next version of Window Serve=
+r, PCIe device must support AER.</div><div>The exact quote of Microsoft cer=
+tification requirements:</div><div>&quot;<span style=3D"color:rgb(0,0,0);fo=
+nt-family:Arial;font-size:9pt;font-style:italic">Windows
+ Server PCI Express devices are required to support Advanced Error=20
+Reporting [AER] as defined in PCI Express Base Specification version=20
+2.1.</span><font face=3D"Arial" color=3D"#000000"><span><i>=E2=80=9D</i></s=
+pan></font></div></div></blockquote><div>=C2=A0and</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div>Does management need ability to enabl=
+e this capability?</div></blockquote><div>Actually, yes. Can you provide th=
+eir email address?<br></div><div><br></div><div>I&#39;ll prepare a new patc=
+h and I&#39;ll remove bugzilla link.<br></div></div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 5, 2020 at 8:46 P=
+M Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" target=3D"_blank=
+">mst@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">On Mon, Oct 05, 2020 at 02:56:01PM +0300, <a href=3D"mailto=
+:andrew@daynix.com" target=3D"_blank">andrew@daynix.com</a> wrote:<br>
+&gt; From: Andrew &lt;<a href=3D"mailto:andrew@daynix.com" target=3D"_blank=
+">andrew@daynix.com</a>&gt;<br>
+&gt; <br>
+&gt; Buglink: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1878=
+465" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_=
+bug.cgi?id=3D1878465</a><br>
+<br>
+That&#39;s a private bug - what information can you share about<br>
+the motivation for the patch?<br>
+<br>
+&gt; Added AER capability for virtio-pci devices.<br>
+&gt; Also added property for devices, by default AER is disabled.<br>
+&gt; <br>
+&gt; Signed-off-by: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.=
+com" target=3D"_blank">andrew@daynix.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/virtio/virtio-pci.c | 16 ++++++++++++++++<br>
+&gt;=C2=A0 hw/virtio/virtio-pci.h |=C2=A0 4 ++++<br>
+&gt;=C2=A0 2 files changed, 20 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c<br>
+&gt; index ae60c1e249..e0a7936f9c 100644<br>
+&gt; --- a/hw/virtio/virtio-pci.c<br>
+&gt; +++ b/hw/virtio/virtio-pci.c<br>
+&gt; @@ -1807,6 +1807,12 @@ static void virtio_pci_realize(PCIDevice *pci_d=
+ev, Error **errp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pci_set_word(pci_dev-&gt;config + po=
+s + PCI_PM_PMC, 0x3);<br>
+&gt;=C2=A0 <br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (proxy-&gt;flags &amp; VIRTIO_PCI_FLAG=
+_AER) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pcie_aer_init(pci_dev, PCI_=
+ERR_VER, last_pcie_cap_offset,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 PCI_ERR_SIZEOF, NULL);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 last_pcie_cap_offset +=3D P=
+CI_ERR_SIZEOF;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (proxy-&gt;flags &amp; VIRTIO_PCI=
+_FLAG_INIT_DEVERR) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Init error enabling=
+ flags */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pcie_cap_deverr_init(p=
+ci_dev);<br>
+&gt; @@ -1848,7 +1854,15 @@ static void virtio_pci_realize(PCIDevice *pci_d=
+ev, Error **errp)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static void virtio_pci_exit(PCIDevice *pci_dev)<br>
+&gt;=C2=A0 {<br>
+&gt; +=C2=A0 =C2=A0 VirtIOPCIProxy *proxy =3D VIRTIO_PCI(pci_dev);<br>
+&gt; +=C2=A0 =C2=A0 bool pcie_port =3D pci_bus_is_express(pci_get_bus(pci_d=
+ev)) &amp;&amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0!pci_bus_is_root(pci_get_bus(pci_dev));<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 msix_uninit_exclusive_bar(pci_dev);<br>
+&gt; +=C2=A0 =C2=A0 if (proxy-&gt;flags &amp; VIRTIO_PCI_FLAG_AER &amp;&amp=
+; pcie_port &amp;&amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pci_is_express(pci_dev)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pcie_aer_exit(pci_dev);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static void virtio_pci_reset(DeviceState *qdev)<br>
+&gt; @@ -1901,6 +1915,8 @@ static Property virtio_pci_properties[] =3D {<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 VIRTIO_PCI_FLAG_INIT_PM_BIT, true),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BIT(&quot;x-pcie-flr-init&quot;, VirtI=
+OPCIProxy, flags,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),<br>
+&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BIT(&quot;aer&quot;, VirtIOPCIProxy, flags,=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ VIRTIO_PCI_FLAG_AER_BIT, false),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_END_OF_LIST(),<br>
+&gt;=C2=A0 };<br>
+&gt; <br>
+<br>
+Does management need ability to enable this capability?<br>
+If yes let&#39;s cc them. If no let&#39;s rename to x-aer so we don&#39;t<b=
+r>
+commit to a stable interface ...<br>
+<br>
+<br>
+&gt; diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h<br>
+&gt; index 91096f0291..3986b4f0e3 100644<br>
+&gt; --- a/hw/virtio/virtio-pci.h<br>
+&gt; +++ b/hw/virtio/virtio-pci.h<br>
+&gt; @@ -45,6 +45,7 @@ enum {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 VIRTIO_PCI_FLAG_INIT_PM_BIT,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 VIRTIO_PCI_FLAG_INIT_FLR_BIT,<br>
+&gt; +=C2=A0 =C2=A0 VIRTIO_PCI_FLAG_AER_BIT,<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 /* Need to activate work-arounds for buggy guests at vmstate loa=
+d. */<br>
+&gt; @@ -84,6 +85,9 @@ enum {<br>
+&gt;=C2=A0 /* Init Function Level Reset capability */<br>
+&gt;=C2=A0 #define VIRTIO_PCI_FLAG_INIT_FLR (1 &lt;&lt; VIRTIO_PCI_FLAG_INI=
+T_FLR_BIT)<br>
+&gt;=C2=A0 <br>
+&gt; +/* Advanced Error Reporting capability */<br>
+&gt; +#define VIRTIO_PCI_FLAG_AER (1 &lt;&lt; VIRTIO_PCI_FLAG_AER_BIT)<br>
+&gt; +<br>
+&gt;=C2=A0 typedef struct {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 MSIMessage msg;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 int virq;<br>
+&gt; -- <br>
+&gt; 2.28.0<br>
+<br>
+</blockquote></div>
+
+--0000000000007a9a9205b10f063b--
 
