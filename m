@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546EA2857DB
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:42:08 +0200 (CEST)
-Received: from localhost ([::1]:53132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542C32857C9
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:33:16 +0200 (CEST)
+Received: from localhost ([::1]:33164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ1HD-0004PE-DN
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:42:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34420)
+	id 1kQ18d-0004It-BK
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:33:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQ15W-0002WF-Qm
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:30:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37602)
+ id 1kQ15F-0002Kp-KK
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQ15R-0005Px-BS
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:30:00 -0400
+ id 1kQ159-0005Lz-28
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kQ15E-00027X-3X
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:29:44 +0000
+ id 1kQ157-00027J-QR
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:29:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DD6CA2E8111
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 04:29:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BDC0A2E80E9
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 04:29:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Oct 2020 04:17:27 -0000
-From: Launchpad Bug Tracker <1219234@bugs.launchpad.net>
+Date: Wed, 07 Oct 2020 04:17:30 -0000
+From: Launchpad Bug Tracker <1462949@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: crobinso janitor jnsnow th-huth
-X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
+X-Launchpad-Bug-Commenters: janitor rjones-redhat th-huth
+X-Launchpad-Bug-Reporter: Richard Jones (rjones-redhat)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20130831150404.10743.73717.malonedeb@gac.canonical.com>
-Message-Id: <160204424800.20421.13422584301323802360.malone@loganberry.canonical.com>
-Subject: [Bug 1219234] Re: -device ide-hd will assign bus with with no free
- units
+References: <20150608093841.15980.73428.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160204425066.20421.12478787608380470098.malone@loganberry.canonical.com>
+Subject: [Bug 1462949] Re: vmdk files cause qemu-img to consume lots of time
+ and memory
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 2e0a7ad41a297a6a8d9128df7691cc758a57fbac
+X-Launchpad-Hash: 3828f0abf6c2d07363d7c5844d4b12433e8d3179
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 22:50:47
@@ -73,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1219234 <1219234@bugs.launchpad.net>
+Reply-To: Bug 1462949 <1462949@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,42 +86,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1219234
+https://bugs.launchpad.net/bugs/1462949
 
 Title:
-  -device ide-hd will assign bus with with no free units
+  vmdk files cause qemu-img to consume lots of time and memory
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Originally filed here:
-  https://bugzilla.redhat.com/show_bug.cgi?id=3D1000118
+  The two attached files cause 'qemu-img info' to consume lots of time
+  and memory.  Around 10-12 seconds of CPU time, and around 3-4 GB of
+  heap.
 
-  ./x86_64-softmmu/qemu-system-x86_64 -device ahci -drive id=3Daa,file=3D/t=
-mp/foo,if=3Dnone -drive id=3Dbb,file=3D/tmp/foo,if=3Dnone -device ide-hd,dr=
-ive=3Daa -device ide-hd,drive=3Dbb
-  qemu-system-x86_64: -device ide-hd,drive=3Dbb: Can't create IDE unit 1, b=
-us supports only 1 units
-  qemu-system-x86_64: -device ide-hd,drive=3Dbb: Device initialization fail=
-ed.
-  qemu-system-x86_64: -device ide-hd,drive=3Dbb: Device 'ide-hd' could not =
-be initialized
+  $ /usr/bin/time ~/d/qemu/qemu-img info afl10.img =
 
-  If a bus isn't specified for -device ide-hd, it just uses the first
-  bus it finds, not taking into account if that bus was already assigned
-  for another device. So users are forced to do -device ide-hd,bus=3Dide.0
-  -device ide-hd,bus=3Dide.1, etc.
+  qemu-img: Can't get size of device 'image': File too large
+  0.40user 11.57system 0:12.03elapsed 99%CPU (0avgtext+0avgdata 4197804maxr=
+esident)k
+  56inputs+0outputs (0major+1045672minor)pagefaults 0swaps
 
-  This isn't specific to -device ahci, but it's worse there since there
-  isn't any -drive if=3DIDE or -hda convenience option, which both seem to
-  get the logic correct.
+  $ /usr/bin/time ~/d/qemu/qemu-img info afl11.img =
 
-  I know -device is the 'build it yourself' approach so I understand if
-  this is WONTFIX.
+  image: afl11.img
+  file format: vmdk
+  virtual size: 12802T (14075741666803712 bytes)
+  disk size: 4.0K
+  cluster_size: 65536
+  Format specific information:
+      cid: 4294967295
+      parent cid: 4294967295
+      create type: monolithicSparse
+      extents:
+          [0]:
+              virtual size: 14075741666803712
+              filename: afl11.img
+              cluster size: 65536
+              format: =
 
-  This is affects qemu.git as of today (8-31-2013)
+  0.29user 9.10system 0:09.43elapsed 99%CPU (0avgtext+0avgdata 3297360maxre=
+sident)k
+  8inputs+0outputs (0major+820507minor)pagefaults 0swaps
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1219234/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1462949/+subscriptions
 
