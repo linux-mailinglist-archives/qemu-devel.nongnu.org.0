@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A36D28681A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 21:13:01 +0200 (CEST)
-Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2128286829
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 21:19:54 +0200 (CEST)
+Received: from localhost ([::1]:59502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQEs0-0000iq-GH
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 15:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50786)
+	id 1kQEyf-0006Oa-VC
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 15:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQEnl-0004Aq-NR
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 15:08:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQEnj-0005CE-LR
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 15:08:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602097714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vwmw/lWjME6i14BmmG0pUwrjtaiOPUgVNszRJnnOGNc=;
- b=NtVdBTck0s6DcHboA+2Xabw4dIGa8UqVOwsc1BllAKp6kEu9UF6DMBXeLCmj8kS9+Et7/o
- jxT5EITaDLmlCNFFn0WNTArUrOTxh8tS4ML2Iv4EXmqSuEBz1kcunownYFXj7JDQNH/p1p
- wv/WLFDRQpUX9vn4FikjNY6DI/njJOU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-UvkmISbeMj2wCYnak_XSEw-1; Wed, 07 Oct 2020 15:08:31 -0400
-X-MC-Unique: UvkmISbeMj2wCYnak_XSEw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDDA41007283;
- Wed,  7 Oct 2020 19:08:30 +0000 (UTC)
-Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3C435D9DD;
- Wed,  7 Oct 2020 19:08:29 +0000 (UTC)
-Subject: Re: [PATCH 20/20] python: add mypy config
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20201006235817.3280413-1-jsnow@redhat.com>
- <20201006235817.3280413-21-jsnow@redhat.com>
- <20201007113512.GM7212@linux.fritz.box>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <3bf02c13-c376-16f8-160a-c70e3abe835d@redhat.com>
-Date: Wed, 7 Oct 2020 15:08:29 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kQEta-0002W5-3N; Wed, 07 Oct 2020 15:14:38 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kQEtY-00061f-6t; Wed, 07 Oct 2020 15:14:37 -0400
+Received: by mail-lj1-x243.google.com with SMTP id r24so3128997ljm.3;
+ Wed, 07 Oct 2020 12:14:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=7d+aViir+vQO8ekOBot7fdQ+hRvsIh0oDMVBv+ckovc=;
+ b=LB/XogkiiKGHKysidKZm5000Pk4ejLkyCFaLMikQAto9hNQfvIMfeawO3lbusvLW3J
+ 9C9jaKXegyraBLX5Jn7muglIJIcYwtghBrD/m97t5U7l4S6nFrA91hc1OJvGycBVQj9c
+ 0DA7dvH66Iw+oSi48vxfBmp+MqyWQrX+KpI1ChrTAwFylTyF0TyXHvkrzLwOx1j0xEVO
+ xwQwg9jNxxcqkQbx+pIReaCM44IUyft3QmnW0jXOaNovJcLrcMnBH0ESpIwVAGBgtrQg
+ M/n3FDZJB5x0jyYIzbFMYuLyQM/t/vblfXtX06DZ6S5Ko0t5338NW2gwYdL0NHdXOVI7
+ qT6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=7d+aViir+vQO8ekOBot7fdQ+hRvsIh0oDMVBv+ckovc=;
+ b=ArQw01v7BYb7840KcWhXJXALslCE4rFM5hlG8fb5VwJEiwn5SZjxec0oH132wiPM1P
+ bQPjulH1VQnQTz2Qr6C37g9Wmx80ZVS1z8SwtXUg0OezmZ7dA9rgpySYU1mL2NHJnnBw
+ yulLJRqofGLvUTsaMUOAk5Gt+bfYOkly/SrF+JbZJk5fJPTMsYmXBM8Kw1ktXaTa1Acz
+ IPOwGnc14b2aVwhwFW3D92NDmXZenrH9EQoHU06XWtsk4Vz8fEEWZO8xSUYvL0IUni1v
+ djAcWBjSex0gitRee7IcQbwrY0yWlJZP9wcZPHmB7UIGjSWRTlT72fWetK6W21EmOzGN
+ LcKw==
+X-Gm-Message-State: AOAM531RPPIOtazNm3mBwWU8tMWS8iqfNj7ENn5tMw+xh76ObvDrEmyf
+ YzAGosMRXLSRXVmIWTDXL0k6WlcOnXLwwdOzde8=
+X-Google-Smtp-Source: ABdhPJwWlQw5E8FM9l3rZlHoXuofsM15Iq+eWULpUxMtG9/fgTLV/xuKeO9z4N6xNwgULO5N9LHo7/CflzFmYTR4LAY=
+X-Received: by 2002:a2e:9dc7:: with SMTP id x7mr1969728ljj.447.1602098073717; 
+ Wed, 07 Oct 2020 12:14:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201007113512.GM7212@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201007162138.425-1-luoyonggang@gmail.com>
+ <CAE2XoE9sf0p5QuG=dSqbOvmGvbzDaEBN8qSG1ejM=RH+D+zq1g@mail.gmail.com>
+ <798fb17d-fcf5-3234-1e17-37b3c0a18b8e@redhat.com>
+In-Reply-To: <798fb17d-fcf5-3234-1e17-37b3c0a18b8e@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Thu, 8 Oct 2020 03:14:21 +0800
+Message-ID: <CAE2XoE9eSkEiAynPy2b5zworFT23SEdS_yO0Tb-aeUdp=Ox3xw@mail.gmail.com>
+Subject: Re: [PATCH v6] scripts: Convert qemu-version.sh to qemu-version.py
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009451ad05b11986f9"
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x243.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,61 +79,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Reply-To: luoyonggang@gmail.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/20 7:35 AM, Kevin Wolf wrote:
-> Am 07.10.2020 um 01:58 hat John Snow geschrieben:
->> Formalize the options used for checking the python library. You can run
->> mypy from the directory that mypy.ini is in by typing `mypy qemu/`.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   python/mypy.ini | 4 ++++
->>   1 file changed, 4 insertions(+)
->>   create mode 100644 python/mypy.ini
->>
->> diff --git a/python/mypy.ini b/python/mypy.ini
->> new file mode 100644
->> index 00000000000..7a70eca47c6
->> --- /dev/null
->> +++ b/python/mypy.ini
->> @@ -0,0 +1,4 @@
->> +[mypy]
->> +strict = True
-> 
-> $ mypy --strict qemu
-> mypy.ini: [mypy]: Strict mode is not supported in configuration files: specify individual flags instead (see 'mypy -h' for the list of flags enabled in strict mode)
-> Success: no issues found in 6 source files
-> $ mypy --version
-> mypy 0.740
-> 
-> Did this change in newer mypy versions? I guess it's time that I get the
-> new laptop which will involve installing a newer Fedora release. :-)
-> 
->> +python_version = 3.6
->> +warn_unused_configs = True
->> \ No newline at end of file
-> 
-> Kevin
-> 
+--0000000000009451ad05b11986f9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-0.770 lets you use strict in the config file. Fairly modern. I intend to 
-use this version in the CI venv that I am cooking up to check these, so 
-no need to hurry and update your fedora.
+On Thu, Oct 8, 2020 at 12:43 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 07/10/20 18:23, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
+> >> +    if not pkgversion and os.path.exists('.git'):
+> >> +        # The quote of v* should preserve, otherwise git command
+> > would fail
+> >> +        pc =3D subprocess.run(['git', 'describe', '--match', "'v*'",
+> > '--dirty', '--always'],
+> >> +                            stdout=3Dsubprocess.PIPE,
+> > stderr=3Dsubprocess.DEVNULL, encoding=3D'utf8')
+>
+> It's a total mess.
+>
+> On Linux, if you use 'v*' git is invoked with an argument that looks
+> like 'v*', that is as if you used \'v\*\' on bash.
+>
+> On Windows, wildcard expansion is done by the program so you need to
+> pass a quoted value to stop the wildcard expansion.
+>
+> I have no idea how to fix it.  Probably it can be made to work using a
+> string argument and "shell=3DTrue", but at this point it makes more sense
+> to keep the shell script version.
+Even though the shell script version are work, but it's not working in good
+shape, when I running
+the shell script, it's executed very slow, and so with python shell=3DTrue,=
+ I
+guess it's because
+the v* character cause the program doing a lot IO operation. So i still
+think
+'--match=3Dv*' is a better solution, filename with --match=3Dv123 are rare,
+even sart with -- are rare.
+so this is acceptable, and also I've creating a pull request on python to
+resolve this issue completely
+https://github.com/python/cpython/pull/22590
+>
+> Paolo
+>
 
-'pip3 install --user mypy>=0.770' should work out just fine until then.
 
-Maybe I should drop back down to >=0.730, but I liked being able to 
-force the stricter options in the conf file directly. I also liked the 
-idea that if new strict options got added in the future, we'd acquire 
-them automatically.
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-I felt like anything we disabled should be a conscious and explicit 
-choice, instead of the opposite.
+--0000000000009451ad05b11986f9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---js
+<div dir=3D"ltr"><br><br>On Thu, Oct 8, 2020 at 12:43 AM Paolo Bonzini &lt;=
+<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<b=
+r>&gt;<br>&gt; On 07/10/20 18:23, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo)=
+ wrote:<br>&gt; &gt;&gt; + =C2=A0 =C2=A0if not pkgversion and os.path.exist=
+s(&#39;.git&#39;):<br>&gt; &gt;&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0# The quot=
+e of v* should preserve, otherwise git command<br>&gt; &gt; would fail<br>&=
+gt; &gt;&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0pc =3D subprocess.run([&#39;git&#=
+39;, &#39;describe&#39;, &#39;--match&#39;, &quot;&#39;v*&#39;&quot;,<br>&g=
+t; &gt; &#39;--dirty&#39;, &#39;--always&#39;],<br>&gt; &gt;&gt; + =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0stdout=3Dsubprocess.PIPE,<br>&gt; &gt; stderr=3Dsubprocess=
+.DEVNULL, encoding=3D&#39;utf8&#39;)<br>&gt;<br>&gt; It&#39;s a total mess.=
+<br>&gt;<br>&gt; On Linux, if you use &#39;v*&#39; git is invoked with an a=
+rgument that looks<br>&gt; like &#39;v*&#39;, that is as if you used \&#39;=
+v\*\&#39; on bash.<br>&gt;<br>&gt; On Windows, wildcard expansion is done b=
+y the program so you need to<br>&gt; pass a quoted value to stop the wildca=
+rd expansion.<br>&gt;<br>&gt; I have no idea how to fix it.=C2=A0 Probably =
+it can be made to work using a<br>&gt; string argument and &quot;shell=3DTr=
+ue&quot;, but at this point it makes more sense<br>&gt; to keep the shell s=
+cript version.<div>Even though the shell script version are work, but it&#3=
+9;s not working in good shape, when I running</div><div>the shell script, i=
+t&#39;s executed very slow, and so with python shell=3DTrue, I guess it&#39=
+;s because</div><div>the v* character cause the program doing a lot IO oper=
+ation. So i still think=C2=A0</div><div>&#39;--match=3Dv*&#39; is a better =
+solution, filename with --match=3Dv123 are rare, even sart with -- are rare=
+.</div><div>so this is acceptable, and also I&#39;ve creating a pull reques=
+t on python to resolve this issue completely</div><div><a href=3D"https://g=
+ithub.com/python/cpython/pull/22590">https://github.com/python/cpython/pull=
+/22590</a><br>&gt;<br>&gt; Paolo<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=
+=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
 
+--0000000000009451ad05b11986f9--
 
