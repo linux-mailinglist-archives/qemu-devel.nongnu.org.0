@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B50B28647A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:33:34 +0200 (CEST)
-Received: from localhost ([::1]:38332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401A128638C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:20:28 +0200 (CEST)
+Received: from localhost ([::1]:32830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCNh-0005DA-2g
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36348)
+	id 1kQCAz-0007FW-OL
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:20:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQC0l-0004FV-Dy
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:51 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46407)
+ id 1kQC0k-0004CM-HH
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:50 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQC0i-0003C9-0S
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:51 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n6so2554130wrm.13
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:09:47 -0700 (PDT)
+ id 1kQC0h-0003Bq-9p
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:49 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id g12so2839098wrp.10
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:09:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/pFB/VAsIjYSTZIScMCznIhiLzuDJIOTEgBnk08g4x4=;
- b=RbEwx0wp+p0DCDytz4X7v1B8m0c2wDPf8oiQVdZ0Vy5ysWZrLpDt+p+bQz6QSBdcmZ
- 5ryNDYRIzptSzaSLXAnE5C4JJ37+5vwLkxNphHcsEDTRyZ0VPkTEd3V45rZ30owTcNpE
- cKYQw7JN2ZCfL9VutYea3fmuKohoV50JkRNeEHMjBhwX+iGat5sLLnBQpmainXCvKNtb
- 3wVpyGJpE6ISRCNE7eTJk7QnQ/qlyoO2rTbM0FcLMwGVb6zlmsIAJp/NYu/UfSjCksy1
- 48R0RSyZF/68Jjzc5NXo8o4eKSvra5DdIpNBckz8MEg1pznlT6XA9uc0L9Wpk5AzfQf7
- LAPQ==
+ bh=DxeLu6aGWBvskvNncWpQH0bTFZxrTYaBhzESwlwiROA=;
+ b=rqX/iNZrYPFCy9PCxJww3ksToJvgCYc1MMJ9shADetfmnm0V37am99D7tWNwD7kuB7
+ 10Hq+zvSUI6d1cqNygU3oHDa9ZnNeXDXijfXHFeB+0MJF8dFf3B+r9q7+ZOpPBFhwT/Z
+ IseXru3ynXMMoR+2841Yz2Jn8dOb+jQBTUzsrsuDb0mqN4ILgLUnTtmYwPtzMoPs6Erk
+ Makki6xC4EF3Iv33PTRJmufGxsA2ERhbVt1e8hoZkioLBgueRH7YodlYaJXxc/Qpep5x
+ KH3ejxoLlCsjj2nLGJ4n4HS98+wsvKtK6qUAkyYHv/C65f7D2kGTgxKzBGDDRcKHFLbz
+ ElAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/pFB/VAsIjYSTZIScMCznIhiLzuDJIOTEgBnk08g4x4=;
- b=LOPzA1OoCfOyz9Bm/TS0AP149w49YVOwgk97qd4Wtarvy39S5OcXJ4hKrUTS3B+8MC
- H8uHL6bxF41s0rdf0htOXEmCPeQHsHoLHNz67cCcAcfcOKKqTRn9tLburUHyPipCK+9K
- PLZbVSq2A1jxrzgQI7mq5J5spvcj/o1zj+pODLNcZiRD1kbV5kEMwKI/cBE9ZYZ/126U
- Qry2Unq0Uv9udIK+H1HKwD6sMBAwlz+9yUbXNDYglRyrXJCj7EJQi+rZOZkWydK7JvmY
- sB+GETLLz6siAil9QCm7FAYEdpAy3i9d3CAdE3jbUJxu7xL4+PauH5djiEOU8P+NSjcM
- N6kQ==
-X-Gm-Message-State: AOAM531RmvjlB254FWbLttpoWf9FNpuD65vx9wkjkk8joEHh7CXU4Ou/
- wLwR/zCKAwdG+3bwmAate87fN6RfRdvsEg==
-X-Google-Smtp-Source: ABdhPJxPGQVw5fo3y51XsSpOvaxcdFz6YeG19d/OdnqLgpQN63Lpv+nVS+ZvD9Lk+J9XSm95Qbq4kw==
-X-Received: by 2002:a5d:4388:: with SMTP id i8mr4320679wrq.365.1602086986541; 
- Wed, 07 Oct 2020 09:09:46 -0700 (PDT)
+ bh=DxeLu6aGWBvskvNncWpQH0bTFZxrTYaBhzESwlwiROA=;
+ b=EpzBuPxqYZBdyfA6m53HObbE6+p8JoPc/1a7PArZadj8+xe9B0dzWb0K6iKP48O/od
+ hO2XqNc6QtgpOKSdoocCYWuc7wV7KBGhn2pgvmaGjRCau+XHaNnsb8sdQjhz7BXHr1rv
+ VCXuuZ+pfE3lZP+yrn7xpq2Qf2KD2IN+HoOYVgTze9xKuyUWonV2eOho4mFO5Hgu48kx
+ O5zTDmOSMERtgcaNKtbVZhdugzsEIsHM1HX1P+iRiXrGtQKszlp+sXtED6Di4fD6Cqhz
+ gWubdz0wyxS/d9CI7pAzUPlg3q1IEBBPm1rQw2SKAeB8Leosd+oxc1gHUwUdUznmL0M1
+ IuCA==
+X-Gm-Message-State: AOAM531qirNpEKl3ErJ4ZILSKlux6Z1HabTia4DqIutMcra2rhHUr2nU
+ LgNZS7mk1SfIM6qizWgxvdUUkA==
+X-Google-Smtp-Source: ABdhPJzhmef4nh6Xi4jrGbygq8X5doI4h8zPJmlJoQa7uibnslZ7WSHD3oyX6bIXXmneeYBli6DnPg==
+X-Received: by 2002:adf:f2c1:: with SMTP id d1mr4660400wrp.179.1602086985477; 
+ Wed, 07 Oct 2020 09:09:45 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c132sm3338077wmf.25.2020.10.07.09.09.43
+ by smtp.gmail.com with ESMTPSA id p21sm3331561wmc.28.2020.10.07.09.09.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 07 Oct 2020 09:09:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DAA371FFA9;
+ by zen.linaroharston (Postfix) with ESMTP id F12F41FFAA;
  Wed,  7 Oct 2020 17:00:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 19/22] plugins: Fixes a issue when dlsym failed,
- the handle not closed
-Date: Wed,  7 Oct 2020 17:00:35 +0100
-Message-Id: <20201007160038.26953-20-alex.bennee@linaro.org>
+Subject: [PATCH  v1 20/22] plugin: Fixes compiling errors on msys2/mingw
+Date: Wed,  7 Oct 2020 17:00:36 +0100
+Message-Id: <20201007160038.26953-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201007160038.26953-1-alex.bennee@linaro.org>
 References: <20201007160038.26953-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -100,23 +99,47 @@ From: Yonggang Luo <luoyonggang@gmail.com>
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20201001163429.1348-2-luoyonggang@gmail.com>
+Message-Id: <20201001163429.1348-3-luoyonggang@gmail.com>
 ---
- plugins/loader.c | 1 +
- 1 file changed, 1 insertion(+)
+ contrib/plugins/hotblocks.c | 2 +-
+ tests/plugin/bb.c           | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/plugins/loader.c b/plugins/loader.c
-index 685d334e1a..8ac5dbc20f 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
-@@ -235,6 +235,7 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
-     return rc;
+diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
+index 3942a2ca54..37435a3fc7 100644
+--- a/contrib/plugins/hotblocks.c
++++ b/contrib/plugins/hotblocks.c
+@@ -102,7 +102,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ {
+     ExecCount *cnt;
+     uint64_t pc = qemu_plugin_tb_vaddr(tb);
+-    unsigned long insns = qemu_plugin_tb_n_insns(tb);
++    size_t insns = qemu_plugin_tb_n_insns(tb);
+     uint64_t hash = pc ^ insns;
  
-  err_symbol:
-+    g_module_close(ctx->handle);
-  err_dlopen:
-     qemu_vfree(ctx);
-     return 1;
+     g_mutex_lock(&lock);
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+index e4cc7fdd6e..de09bdde4e 100644
+--- a/tests/plugin/bb.c
++++ b/tests/plugin/bb.c
+@@ -72,7 +72,7 @@ static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
+     CPUCount *count = max_cpus ?
+         g_ptr_array_index(counts, cpu_index) : &inline_count;
+ 
+-    unsigned long n_insns = (unsigned long)udata;
++    uintptr_t n_insns = (uintptr_t)udata;
+     g_mutex_lock(&count->lock);
+     count->insn_count += n_insns;
+     count->bb_count++;
+@@ -81,7 +81,7 @@ static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
+ 
+ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ {
+-    unsigned long n_insns = qemu_plugin_tb_n_insns(tb);
++    size_t n_insns = qemu_plugin_tb_n_insns(tb);
+ 
+     if (do_inline) {
+         qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
 -- 
 2.20.1
 
