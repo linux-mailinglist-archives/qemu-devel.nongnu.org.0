@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095CE286387
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:19:38 +0200 (CEST)
-Received: from localhost ([::1]:57074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8A9286381
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:18:41 +0200 (CEST)
+Received: from localhost ([::1]:53426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCAC-0005bb-VL
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33770)
+	id 1kQC9F-00042B-Rc
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:18:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBpv-0003VA-IQ
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:58:42 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53137)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kQBqI-0003yp-Fp
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:59:02 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:45807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBpr-0000XK-Gu
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:58:38 -0400
-Received: by mail-wm1-x344.google.com with SMTP id l11so2896860wmh.2
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 08:58:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kQBqF-0000Zb-Q0
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:59:02 -0400
+Received: by mail-ej1-x630.google.com with SMTP id dt13so3678785ejb.12
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 08:58:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=2drdNr/M1U24UH3JKKtdMLm6a3hL9FeW/33oM5mx0SE=;
- b=lozlnULpkc06EfM0cZx3HuvOvijJg09n1WmL4wUOp9C1FypkBya40TBQAroaG2pWZX
- z82FY9dmxMvTPG046KahebuEOcv8BSLuCGV1m/nkz+DIQUrwqogCB/0nhg2wZfxWht43
- Y38TVcofS8COPSb/tV6yJkroE+bzfdCJyIe+WvlyypmRMeqd/H8JMBKybqXSC2xSeybO
- jSCiS06bjdZL+yM1t17X8wKJTFFUBMr+3N3MbJdd5NDY67Va5FDQegOa+j3XBVR1d7Rw
- HWXyBPm7SiI/tZLzhRywnZ/b/SS5ZW/ghh4/wGgaBwa4ZkP1WBg+lMB34+sfpPzCUMW9
- taSw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7OyP3p/J0BJTuUMR+7M8eSTXEQKQJgp0W9yhB+Uzeec=;
+ b=fpXED4jJez9o+tGUuQt5fbq3Y9S8FcKGfdeUgSbaOC5TiZBP6wgdmvckuLx2XpdUaL
+ m0ZsojOb0ZN+Ce+b3nK/Y/JvkTNGcOqI+AoYsnN5KlCuvEr9PiXLb6yIBYg9G6w23epU
+ BuGjICsQSF0Vya6GA0a182kzIo38j5Iz++I4PSzT0tx8YXdcf4TSaD+yqCNInde3dkKT
+ ifIKUbjc/1r2UrqxN5Bc/9sm5feBOukGV4B6tf+JxoIEQKprnXLBVOqInUedf9eDWhoX
+ +8kVjyOOmKmFH8W3+GYrTUju7zh+GyPzJEc9elOCzTPG5az7lEC/0TRDekaBG5D7ppi6
+ lpxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=2drdNr/M1U24UH3JKKtdMLm6a3hL9FeW/33oM5mx0SE=;
- b=mQzf0Q9Wu5INEjsF43Q0VDvz4OJNPz619LVRiEUgQyo7Yfiwzy729H3v4EuZFV+3t9
- 9o+5oMaAStqunW7patJNlVU+7NcNFiPyIHHhqWyRGscBNe62IJBhyd/V0WiO8+uBwzqc
- 0WV3Da4UFwnACUt2PTuXpKkmGjGnE7AeCVNKZ4jOSytKiKBOJ0mifVuXtAtNV2QvQFaP
- inKw6egix3DUeZs3/3JX/pwcShXJ3544pZF0xpsBECcLqNLrQww7EIwwaLyTRyPeM1YZ
- LAIYy+xMxXUjhfedU4dVHoC9Tcja2pvwAtEN5eoPOidYLHLy8FZXWnYkX/I87pByYE7L
- lswA==
-X-Gm-Message-State: AOAM5304f1j0B5Gv2pBrVtSoA0cyV+m+fpMMYe4P5rtcEguQVzrdGXuy
- ThpPHFgXPmiZoq3jE9FItlC0sA==
-X-Google-Smtp-Source: ABdhPJwXNwYFQWjiX1GcAr7Nz7VrvmvQiSbJ8gFFU5M5cw1Po3jxOoP97adxK9vUC2m0sa/K2hQEBA==
-X-Received: by 2002:a1c:ac88:: with SMTP id v130mr3959424wme.43.1602086312699; 
- Wed, 07 Oct 2020 08:58:32 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p67sm3258951wmp.11.2020.10.07.08.58.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 08:58:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D86851FF7E;
- Wed,  7 Oct 2020 16:58:30 +0100 (BST)
-References: <20201007145300.1197-1-luoyonggang@gmail.com>
-User-agent: mu4e 1.5.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Yonggang Luo <luoyonggang@gmail.com>
-Subject: Re: [PATCH v5 0/2] Improve cirrus msys2
-In-reply-to: <20201007145300.1197-1-luoyonggang@gmail.com>
-Date: Wed, 07 Oct 2020 16:58:30 +0100
-Message-ID: <87imbmyqmx.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7OyP3p/J0BJTuUMR+7M8eSTXEQKQJgp0W9yhB+Uzeec=;
+ b=pW5uAzoQsHnmFUMFpXEaDK5/kUMfvIne7EVugvKxFnENawSAgUCOIVLn0LKTqVyJl1
+ MFIk8latzSFGxUMK5S07j6m8BI9ybQSIMJvINT7r07YSIJSQtWwmaqRNNkxX5EvXdXsk
+ +wH3y83q7DUUHq3bpiEVyLzLKciOufWh6Nec2I7WmKVpkzf/XodXHjtekvhoE7LqN3SS
+ HeMocdKoe9gm3yPHJoLtEJyrsthnoTS5ZaDySa04QMk+PkzJFfNNwxkXBrMXU6xQ/hQN
+ aBttZ4HNvgOGxdZfPyprKpo9DEH1V2dBHzEu1vWouFdj9NcsNKrwczPu7auJjW421A4m
+ A29g==
+X-Gm-Message-State: AOAM532+lAaFdAD5UHVefmR3M6a8s5zWzfc4pfkIQ+J6Phcoh2JKmd2Q
+ LEpbM8q/aMwoBD9MR0uW17hqMTutiZGMYt7zPtoHSw==
+X-Google-Smtp-Source: ABdhPJyw6uWzSTzDUK26HIZ8hn8FkB9EtIUsyDnj5w678rF0ngl7EQsIExq63jk95BQrO0xOf5FyRKoVofKi35ES7fY=
+X-Received: by 2002:a17:906:c7d9:: with SMTP id
+ dc25mr3999790ejb.482.1602086337977; 
+ Wed, 07 Oct 2020 08:58:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+References: <20201006220647.GR7303@habkost.net>
+ <a6e652d9-548f-4d4e-e451-48e3f5e11031@redhat.com>
+ <20201007130240.GU7303@habkost.net>
+ <659289e0-4133-b945-45fd-25e759c18b03@redhat.com>
+ <20201007142742.GV7303@habkost.net>
+ <117cb090-d9ce-6394-42a2-2ac99fd965b9@redhat.com>
+ <20201007155105.GX7303@habkost.net>
+In-Reply-To: <20201007155105.GX7303@habkost.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 7 Oct 2020 16:58:46 +0100
+Message-ID: <CAFEAcA9kaTa0P8g6qzEvGYq8fKqmjquH0+bBbAWLeLaa11ygHA@mail.gmail.com>
+Subject: Re: Purpose of QOM properties registered at realize time?
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,21 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 7 Oct 2020 at 16:51, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> Right now, I only want to know if the QOM property is part of a
+> supported stable external interface.  For the properties
+> registered at realize time, the answer seems to be "no".
 
-Yonggang Luo <luoyonggang@gmail.com> writes:
+I don't think that's inherently the case. But most QOM
+properties are not going to be part of an external
+interface (and definitely those for devices which are
+not user-creatable are not), so the chances are good
+that any particular QOM property is not external.
 
-> Fixes the broken msys2/mingw ci and speed it up.
+> Now, how do I locate the code that depends on those QOM
+> properties to work?  When the property name is visible in the
+> code, I can grep for the property name.  But I don't know how to
+> find users of the GPIOs exposed by qdev_pass_gpios().
 
-Queued to prepr/misc-testing-gitdm-plugin-fixes, thanks. I renamed the
-script to setup_script.
+GPIOs are wired up with the APIs documented in
+hw/qdev-core.h: typically qdev_get_gpio_in() to get
+an anonymous GPIO input, qdev_get_gpio_in_named()
+for a named GPIO line, similarly qdev_connect_gpio_out()
+and qdev_connect_gpio_out_named() for oubound GPIO lines.
+Most GPIOs are anonymous because that's the older set
+of APIs (and sometimes it's still the simplest). To find
+which code is wiring up the GPIOs from a particular
+device you're better off searching for the device name,
+because different devices can use the same name for a
+set of GPIO lines (and lots of devices have anonymous
+GPIO lines).
 
---=20
-Alex Benn=C3=A9e
+The GPIOs exposed by qdev_pass_gpios() are no different
+from those exposed when the device directly creates
+its own GPIOs.
+
+thanks
+-- PMM
 
