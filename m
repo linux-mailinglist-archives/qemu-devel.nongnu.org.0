@@ -2,71 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFE72858C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 08:47:01 +0200 (CEST)
-Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A61E285933
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 09:16:17 +0200 (CEST)
+Received: from localhost ([::1]:54048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ3E4-0002ue-P0
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 02:47:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
+	id 1kQ3gN-0002Wa-Pi
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 03:16:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kQ3AC-0001AZ-9A
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 02:43:00 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kQ3A8-00053p-Tb
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 02:43:00 -0400
-Received: by mail-pl1-x641.google.com with SMTP id h2so492552pll.11
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 23:42:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oqjm9UYQaC0KbkHDlW58it8LWpqAFUADrAYka5eOyFI=;
- b=ydzedP03pBSaU+91G/aiwJa3NM+bvyX+IbKvgBMGoYdgj/jBAZ/dj8Lrb9NEd+yw5z
- 8NUcW5o8AcABX0Tf0v/ao1vTCz695qm4VvD9weW90KNl+Ch4tCglwpZzQPasNmZhVI5w
- aAVc3OqhLqCd13Z6b4+rbYJ5NXQzNMF+uevG6HJLSSLX7TWTz4brLjnk3wpSfpdCN7sV
- Z2btjvGKjCDqKnZWsI+b6AUb3wSvnAXld+U4VG7K0ee/BGdoil3tjrdGpIU72VjNevWO
- 2HS/k79swkKd2sG5bGdnb0QFxuo6Tg+JoPhvS19P/RtoPQz47fYWgCCchkl1FKwHhoNd
- hueA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ3eE-0001UC-BI
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 03:14:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33348)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ3eB-000075-HN
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 03:14:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602054837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=YEtrNpXFcCMt/0WxaAGJxmsm4+hWcRA8A18HiNYOfJw=;
+ b=GqTIJtHD+izOwrxm8rezDA+TGqgKf/3rYectAFC+EAZUXH4crXAbFzevnrx9IdUe7ftWCe
+ l7dHgPMRUcUWv6/b3C/jp9whuBGSStjpOBPAGpzmAUb4D7xV3WE3KUgHrGtYwoQGnZPOnx
+ uDYVsnAqbmYGnpTdSGHM3g1NGQ4MPFI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-1E0PydVWOnSc2MUJG-Q6Yg-1; Wed, 07 Oct 2020 03:13:56 -0400
+X-MC-Unique: 1E0PydVWOnSc2MUJG-Q6Yg-1
+Received: by mail-wr1-f72.google.com with SMTP id c6so604670wrt.6
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 00:13:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oqjm9UYQaC0KbkHDlW58it8LWpqAFUADrAYka5eOyFI=;
- b=KcJkhTfGVNry4oG7BNRhZEYMp46GYlAok291PX/XtHtoPthi8ShkZ20NHMW39mU0IX
- JXA7gz8ZzIfYv4rRbGg49IUHBUCfaTNfedR5EtCCIccZA4Zvjko11fLHEKijwXE+9WeB
- VRt62MR34CmOoFycnDEwkFCGqXGoFp3VSQMJAwDt2uWWVAWddeLNDlFsoOl4K2jucc9F
- XbeGESMubXoHkLfkD3JHmG+rJrvt8EM6BnUsceES7CyaPwzOBXNYTVPWeOPCzba/OwAF
- LhHg9pyaB063VHz07qc+0UXScP4xvSMK78h57YPFBjxRH3gssp/TlIygyDQNYgmeAVhx
- AIAA==
-X-Gm-Message-State: AOAM531eVH69hbSaWRorCWuarY+HodSuH0wzYuuKQRwuYBYf3s+UE9kT
- AC5S9BwlZhNQiO5PzEh692narbol1TuRdlBbPeiuPA==
-X-Google-Smtp-Source: ABdhPJwUE2c3DenpndHdafPuLFFz5L6N1wEDOnoQLvefN9NcOr+XVr8iCAqXLf8siam4OGoCLq+5AJmT5ay+H7VrDOI=
-X-Received: by 2002:a17:902:204:b029:d3:9c43:3715 with SMTP id
- 4-20020a1709020204b02900d39c433715mr1635622plc.74.1602052974871; Tue, 06 Oct
- 2020 23:42:54 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=YEtrNpXFcCMt/0WxaAGJxmsm4+hWcRA8A18HiNYOfJw=;
+ b=NJyLqFZvD91BNWnv32J1po98C9JnIklzWfAk7rpZeTTVj8QPFoypH762D1FGQrvIx6
+ xcoWw5dWF2+WLd68B9Fzek+d8DIXaCr5KIra3RsyaRb01aHEE+0su1jmwdgqvrqPAdwd
+ S8zapgxvkgEayIIQ1XzkiQmttLzz4kbdNC+Iyxz9JphHJPAqu4n5SK3g84W0+y1kLuN9
+ XxNazo6sMirlPdPnMymcen7sFsycbAOyZk3HA//0/1yMR59EF5SLxFuxa5aGKX42Ts08
+ j+M8QSxU9cKbyuYdb2NrlJmd7H78/MNkqBpWGJMNe9R5EgnOvZas3PDge4suur1hLob7
+ ExEA==
+X-Gm-Message-State: AOAM531BRtbS96ay+RnV5vHjlba0WglerbdPG6AAj/xNuk2ZvgwqSg5z
+ ZwBgkZtjLds0a0nN0DwemgY/7P3EcakmPkp6NgqmmGk653QcylJ6u+93bNZH6dUqkjDO2x8Kr0Y
+ M6KoScA6RlocYVZ0=
+X-Received: by 2002:a1c:5602:: with SMTP id k2mr1710383wmb.25.1602054835156;
+ Wed, 07 Oct 2020 00:13:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyojem/vVuPc0qW47/3Yt7PDW5p9XkfIaLv5QI4Otcz5zcjyIKMgjU1S2sVlC7pxNdWz+qdEw==
+X-Received: by 2002:a1c:5602:: with SMTP id k2mr1710359wmb.25.1602054834916;
+ Wed, 07 Oct 2020 00:13:54 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id c16sm1623298wrx.31.2020.10.07.00.13.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Oct 2020 00:13:54 -0700 (PDT)
+Subject: Re: acceptance-system-fedora failures
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+References: <f9e09f0b-3915-382c-d670-8d33d164ad7b@redhat.com>
+ <4e191372-c332-8f69-85e2-1ff6ead0f40d@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <59d2a787-bcd4-7283-693b-09ea04c16dc6@redhat.com>
+Date: Wed, 7 Oct 2020 09:13:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20201005115601.103791-1-andrew@daynix.com>
- <20201005115601.103791-3-andrew@daynix.com>
- <20201005134406-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20201005134406-mutt-send-email-mst@kernel.org>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Wed, 7 Oct 2020 10:13:52 +0300
-Message-ID: <CABcq3pFnRzfbnBgYtYd7ocy1C6qEdCNeT0M_L5bv9v_PQccrqA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] hw/virtio-pci Added AER capability.
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007a9a9205b10f063b"
-Received-SPF: none client-ip=2607:f8b0:4864:20::641;
- envelope-from=andrew@daynix.com; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <4e191372-c332-8f69-85e2-1ff6ead0f40d@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,271 +124,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007a9a9205b10f063b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 10/7/20 7:20 AM, Philippe Mathieu-Daudé wrote:
+> On 10/7/20 1:07 AM, John Snow wrote:
+>> I'm seeing this gitlab test fail quite often in my Python work; I don't
+>> *think* this has anything to do with my patches, but maybe I need to try
+>> and bisect this more aggressively.
+>>
+>> The very first hint of an error I see is on line 154:
+>>
+>> https://gitlab.com/jsnow/qemu/-/jobs/776334918#L154
+>>
+>> 22:05:36 ERROR|
+>> 22:05:36 ERROR| Reproduced traceback from:
+>> /builds/jsnow/qemu/build/tests/venv/lib64/python3.8/site-packages/avocado/core/test.py:753
+>>
+>> 22:05:36 ERROR| Traceback (most recent call last):
+>> 22:05:36 ERROR|   File
+>> "/builds/jsnow/qemu/build/tests/acceptance/avocado_qemu/__init__.py",
+>> line 171, in setUp
+>> 22:05:36 ERROR|     self.cancel("No QEMU binary defined or found in the
+>> build tree")
+> 
+> Last year the Avocado developers said we could have a clearer
+> log error report, but meanwhile this verbose output is better
+> that not having anything ¯\_(ツ)_/¯
+> 
+>>
+>> Is this a known problem?
+> 
+> "No QEMU binary defined or found in the build tree" is not a
+> problem, it means a test is skipped because the qemu-system-$ARCH
+> binary is not found. In your case this is because your job
+> (acceptance-system-fedora) is based on build-system-fedora
+> which only build the following targets:
+> 
+>     TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
+>       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu
+>       sparc64-softmmu
+> 
+> Now I don't understand what binary the EmptyCPUModel/Migration tests
+> are expecting. Maybe these tests only work when a single target is
+> built? IOW not expecting that the python code searching for a binary
+> return multiple ones? -> Eduardo/Cleber.
+> 
+> w.r.t. the error in your build, I told Thomas about the
+> test_ppc_mac99/day15/invaders.elf timeouting but he said this is
+> not his area. Richard has been looking yesterday to see if it is
+> a TCG regression, and said the test either finished/crashed raising
+> SIGCHLD, but Avocado parent is still waiting for a timeout, so the
+> children become zombie and the test hang.
 
-Ok,
-Main motivation:
+Expected output:
 
-> According to Microsoft driver\device certification requirements for next
-> version of Window Server, PCIe device must support AER.
-> The exact quote of Microsoft certification requirements:
-> "Windows Server PCI Express devices are required to support Advanced
-> Error Reporting [AER] as defined in PCI Express Base Specification versio=
-n
-> 2.1.*=E2=80=9D*
->
- and
+Quiescing Open Firmware ...
+Booting Linux via __start() @ 0x01000000 ...
 
-> Does management need ability to enable this capability?
->
-Actually, yes. Can you provide their email address?
+But QEMU exits in replay_char_write_event_load():
 
-I'll prepare a new patch and I'll remove bugzilla link.
+Quiescing Open Firmware ...
+qemu-system-ppc: Missing character write event in the replay log
+$ echo $?
+1
 
-On Mon, Oct 5, 2020 at 8:46 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+Latest events are CHECKPOINT CHECKPOINT INTERRUPT INTERRUPT INTERRUPT.
 
-> On Mon, Oct 05, 2020 at 02:56:01PM +0300, andrew@daynix.com wrote:
-> > From: Andrew <andrew@daynix.com>
-> >
-> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1878465
->
-> That's a private bug - what information can you share about
-> the motivation for the patch?
->
-> > Added AER capability for virtio-pci devices.
-> > Also added property for devices, by default AER is disabled.
-> >
-> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> > ---
-> >  hw/virtio/virtio-pci.c | 16 ++++++++++++++++
-> >  hw/virtio/virtio-pci.h |  4 ++++
-> >  2 files changed, 20 insertions(+)
-> >
-> > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> > index ae60c1e249..e0a7936f9c 100644
-> > --- a/hw/virtio/virtio-pci.c
-> > +++ b/hw/virtio/virtio-pci.c
-> > @@ -1807,6 +1807,12 @@ static void virtio_pci_realize(PCIDevice
-> *pci_dev, Error **errp)
-> >           */
-> >          pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
-> >
-> > +        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
-> > +            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
-> > +                          PCI_ERR_SIZEOF, NULL);
-> > +            last_pcie_cap_offset +=3D PCI_ERR_SIZEOF;
-> > +        }
-> > +
-> >          if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
-> >              /* Init error enabling flags */
-> >              pcie_cap_deverr_init(pci_dev);
-> > @@ -1848,7 +1854,15 @@ static void virtio_pci_realize(PCIDevice
-> *pci_dev, Error **errp)
-> >
-> >  static void virtio_pci_exit(PCIDevice *pci_dev)
-> >  {
-> > +    VirtIOPCIProxy *proxy =3D VIRTIO_PCI(pci_dev);
-> > +    bool pcie_port =3D pci_bus_is_express(pci_get_bus(pci_dev)) &&
-> > +                     !pci_bus_is_root(pci_get_bus(pci_dev));
-> > +
-> >      msix_uninit_exclusive_bar(pci_dev);
-> > +    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
-> > +        pci_is_express(pci_dev)) {
-> > +        pcie_aer_exit(pci_dev);
-> > +    }
-> >  }
-> >
-> >  static void virtio_pci_reset(DeviceState *qdev)
-> > @@ -1901,6 +1915,8 @@ static Property virtio_pci_properties[] =3D {
-> >                      VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
-> >      DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
-> >                      VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
-> > +    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
-> > +                    VIRTIO_PCI_FLAG_AER_BIT, false),
-> >      DEFINE_PROP_END_OF_LIST(),
-> >  };
-> >
->
-> Does management need ability to enable this capability?
-> If yes let's cc them. If no let's rename to x-aer so we don't
-> commit to a stable interface ...
->
->
-> > diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-> > index 91096f0291..3986b4f0e3 100644
-> > --- a/hw/virtio/virtio-pci.h
-> > +++ b/hw/virtio/virtio-pci.h
-> > @@ -45,6 +45,7 @@ enum {
-> >      VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
-> >      VIRTIO_PCI_FLAG_INIT_PM_BIT,
-> >      VIRTIO_PCI_FLAG_INIT_FLR_BIT,
-> > +    VIRTIO_PCI_FLAG_AER_BIT,
-> >  };
-> >
-> >  /* Need to activate work-arounds for buggy guests at vmstate load. */
-> > @@ -84,6 +85,9 @@ enum {
-> >  /* Init Function Level Reset capability */
-> >  #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
-> >
-> > +/* Advanced Error Reporting capability */
-> > +#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
-> > +
-> >  typedef struct {
-> >      MSIMessage msg;
-> >      int virq;
-> > --
-> > 2.28.0
->
->
+Replay file is ~22MiB. End of record using "system_powerdown + quit"
+in HMP.
 
---0000000000007a9a9205b10f063b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Ok,</div><div>Main motivation:</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div><div></div><div>According to Microsof=
-t driver\device certification requirements for next version of Window Serve=
-r, PCIe device must support AER.</div><div>The exact quote of Microsoft cer=
-tification requirements:</div><div>&quot;<span style=3D"color:rgb(0,0,0);fo=
-nt-family:Arial;font-size:9pt;font-style:italic">Windows
- Server PCI Express devices are required to support Advanced Error=20
-Reporting [AER] as defined in PCI Express Base Specification version=20
-2.1.</span><font face=3D"Arial" color=3D"#000000"><span><i>=E2=80=9D</i></s=
-pan></font></div></div></blockquote><div>=C2=A0and</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div>Does management need ability to enabl=
-e this capability?</div></blockquote><div>Actually, yes. Can you provide th=
-eir email address?<br></div><div><br></div><div>I&#39;ll prepare a new patc=
-h and I&#39;ll remove bugzilla link.<br></div></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 5, 2020 at 8:46 P=
-M Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" target=3D"_blank=
-">mst@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">On Mon, Oct 05, 2020 at 02:56:01PM +0300, <a href=3D"mailto=
-:andrew@daynix.com" target=3D"_blank">andrew@daynix.com</a> wrote:<br>
-&gt; From: Andrew &lt;<a href=3D"mailto:andrew@daynix.com" target=3D"_blank=
-">andrew@daynix.com</a>&gt;<br>
-&gt; <br>
-&gt; Buglink: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1878=
-465" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_=
-bug.cgi?id=3D1878465</a><br>
-<br>
-That&#39;s a private bug - what information can you share about<br>
-the motivation for the patch?<br>
-<br>
-&gt; Added AER capability for virtio-pci devices.<br>
-&gt; Also added property for devices, by default AER is disabled.<br>
-&gt; <br>
-&gt; Signed-off-by: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.=
-com" target=3D"_blank">andrew@daynix.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/virtio/virtio-pci.c | 16 ++++++++++++++++<br>
-&gt;=C2=A0 hw/virtio/virtio-pci.h |=C2=A0 4 ++++<br>
-&gt;=C2=A0 2 files changed, 20 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c<br>
-&gt; index ae60c1e249..e0a7936f9c 100644<br>
-&gt; --- a/hw/virtio/virtio-pci.c<br>
-&gt; +++ b/hw/virtio/virtio-pci.c<br>
-&gt; @@ -1807,6 +1807,12 @@ static void virtio_pci_realize(PCIDevice *pci_d=
-ev, Error **errp)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pci_set_word(pci_dev-&gt;config + po=
-s + PCI_PM_PMC, 0x3);<br>
-&gt;=C2=A0 <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (proxy-&gt;flags &amp; VIRTIO_PCI_FLAG=
-_AER) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pcie_aer_init(pci_dev, PCI_=
-ERR_VER, last_pcie_cap_offset,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 PCI_ERR_SIZEOF, NULL);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 last_pcie_cap_offset +=3D P=
-CI_ERR_SIZEOF;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (proxy-&gt;flags &amp; VIRTIO_PCI=
-_FLAG_INIT_DEVERR) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Init error enabling=
- flags */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pcie_cap_deverr_init(p=
-ci_dev);<br>
-&gt; @@ -1848,7 +1854,15 @@ static void virtio_pci_realize(PCIDevice *pci_d=
-ev, Error **errp)<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static void virtio_pci_exit(PCIDevice *pci_dev)<br>
-&gt;=C2=A0 {<br>
-&gt; +=C2=A0 =C2=A0 VirtIOPCIProxy *proxy =3D VIRTIO_PCI(pci_dev);<br>
-&gt; +=C2=A0 =C2=A0 bool pcie_port =3D pci_bus_is_express(pci_get_bus(pci_d=
-ev)) &amp;&amp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0!pci_bus_is_root(pci_get_bus(pci_dev));<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 msix_uninit_exclusive_bar(pci_dev);<br>
-&gt; +=C2=A0 =C2=A0 if (proxy-&gt;flags &amp; VIRTIO_PCI_FLAG_AER &amp;&amp=
-; pcie_port &amp;&amp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pci_is_express(pci_dev)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pcie_aer_exit(pci_dev);<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static void virtio_pci_reset(DeviceState *qdev)<br>
-&gt; @@ -1901,6 +1915,8 @@ static Property virtio_pci_properties[] =3D {<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 VIRTIO_PCI_FLAG_INIT_PM_BIT, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BIT(&quot;x-pcie-flr-init&quot;, VirtI=
-OPCIProxy, flags,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BIT(&quot;aer&quot;, VirtIOPCIProxy, flags,=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- VIRTIO_PCI_FLAG_AER_BIT, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_END_OF_LIST(),<br>
-&gt;=C2=A0 };<br>
-&gt; <br>
-<br>
-Does management need ability to enable this capability?<br>
-If yes let&#39;s cc them. If no let&#39;s rename to x-aer so we don&#39;t<b=
-r>
-commit to a stable interface ...<br>
-<br>
-<br>
-&gt; diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h<br>
-&gt; index 91096f0291..3986b4f0e3 100644<br>
-&gt; --- a/hw/virtio/virtio-pci.h<br>
-&gt; +++ b/hw/virtio/virtio-pci.h<br>
-&gt; @@ -45,6 +45,7 @@ enum {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 VIRTIO_PCI_FLAG_INIT_PM_BIT,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 VIRTIO_PCI_FLAG_INIT_FLR_BIT,<br>
-&gt; +=C2=A0 =C2=A0 VIRTIO_PCI_FLAG_AER_BIT,<br>
-&gt;=C2=A0 };<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 /* Need to activate work-arounds for buggy guests at vmstate loa=
-d. */<br>
-&gt; @@ -84,6 +85,9 @@ enum {<br>
-&gt;=C2=A0 /* Init Function Level Reset capability */<br>
-&gt;=C2=A0 #define VIRTIO_PCI_FLAG_INIT_FLR (1 &lt;&lt; VIRTIO_PCI_FLAG_INI=
-T_FLR_BIT)<br>
-&gt;=C2=A0 <br>
-&gt; +/* Advanced Error Reporting capability */<br>
-&gt; +#define VIRTIO_PCI_FLAG_AER (1 &lt;&lt; VIRTIO_PCI_FLAG_AER_BIT)<br>
-&gt; +<br>
-&gt;=C2=A0 typedef struct {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 MSIMessage msg;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 int virq;<br>
-&gt; -- <br>
-&gt; 2.28.0<br>
-<br>
-</blockquote></div>
+I guess we have 2 bugs:
+- replay log
+- avocado doesn't catch children exit(1)
 
---0000000000007a9a9205b10f063b--
+
+Quick reproducer:
+
+$ make qemu-system-ppc check-venv
+$ tests/venv/bin/python -m \
+  avocado --show=app,console,replay \
+  run --job-timeout 300 -t machine:mac99 \
+  tests/acceptance/replay_kernel.py
+
+> 
+> Not sure that helps :)
+> 
+> Regards,
+> 
+> Phil.
+> 
+
 
