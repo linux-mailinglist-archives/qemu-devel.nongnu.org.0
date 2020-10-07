@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80478286534
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:49:54 +0200 (CEST)
-Received: from localhost ([::1]:57504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA2528650C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:46:18 +0200 (CEST)
+Received: from localhost ([::1]:45586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCdV-0000Kq-GP
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:49:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44444)
+	id 1kQCa1-0003bn-F1
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:46:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQCPm-0000AA-In
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:35:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50510)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQCUY-0005zB-Fm
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:40:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQCPi-0007fm-Bw
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:35:42 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQCUV-0000HC-O4
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:40:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602088530;
+ s=mimecast20190719; t=1602088834;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f59Tr3yLal+hTdQ7g/ImlN+a/DyVZOA5Qz+nlbKAc08=;
- b=iCh2lU/3V26/76vXq+NWq6Kyi1bZX0tyBQIVbq/PVvF5otue+sLAPCyYZGskUig5UMzzh5
- wGKSOe+xbSmK5J/7IhELSJtEXuaBt7KkYAOqHNGzqF7fiBcvkmX2rJAzKgBkLFb97nScUC
- 1TdFxZCTeRaLMg9IV6nKc+35acShruU=
+ bh=M4rammhDVci7tljBWsSpaZJZ8jEXATguLqcHs7Dw7/U=;
+ b=R9Bg4SUPyEJ6Sa1F1sg3FgtUIugZBEUfHMHbxlr5je7UE1m6cXFfcBAA0/yAihbz9gFdg8
+ HUSfOO8xCUwU9wIRRrX4lP9ytfpHJWFm987DbZiSRoc7v3jBRFb4rjpzdq9UpHFmMuHY6O
+ NOpD8r16u1VosrS+Xn4mNKJYul5Yy4E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-iub3khIIPnqicO6wmgGo1A-1; Wed, 07 Oct 2020 12:35:28 -0400
-X-MC-Unique: iub3khIIPnqicO6wmgGo1A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-593-3-xxFEHmMS2EG1fY8rbfYQ-1; Wed, 07 Oct 2020 12:40:31 -0400
+X-MC-Unique: 3-xxFEHmMS2EG1fY8rbfYQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46C9A1921FAA;
- Wed,  7 Oct 2020 16:35:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F25EF1888A32
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 16:40:30 +0000 (UTC)
 Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE21519C59;
- Wed,  7 Oct 2020 16:35:26 +0000 (UTC)
-Subject: Re: [PATCH v1 03/22] hw/ide: restore replay support of IDE
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20201007160038.26953-1-alex.bennee@linaro.org>
- <20201007160038.26953-4-alex.bennee@linaro.org>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73B3F76653;
+ Wed,  7 Oct 2020 16:40:30 +0000 (UTC)
+Subject: Re: [PATCH v5 34/36] qapi/visit.py: assert tag_member contains a
+ QAPISchemaEnumType
+To: Markus Armbruster <armbru@redhat.com>
+References: <20201005195158.2348217-1-jsnow@redhat.com>
+ <20201005195158.2348217-35-jsnow@redhat.com>
+ <87mu0yb40j.fsf@dusky.pond.sub.org>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <5739951f-b0ff-ec78-b306-8c0bbcf0e3f3@redhat.com>
-Date: Wed, 7 Oct 2020 12:35:26 -0400
+Message-ID: <e986d234-293e-a663-a9f5-74831af43c3e@redhat.com>
+Date: Wed, 7 Oct 2020 12:40:29 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201007160038.26953-4-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <87mu0yb40j.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,41 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
- "open list:IDE" <qemu-block@nongnu.org>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/20 12:00 PM, Alex Bennée wrote:
-> A recent change to weak reset handling broke replay due to the use of
-> aio_bh_schedule_oneshot instead of the replay aware
-> replay_bh_schedule_oneshot_event.
+On 10/7/20 8:43 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
 > 
-> Fixes: 55adb3c456 ("ide: cancel pending callbacks on SRST")
-> Suggested-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   hw/ide/core.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>> This is true by design, but not presently able to be expressed in the
+>> type system. An assertion helps mypy understand our constraints.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+>> ---
+>>   scripts/qapi/visit.py | 12 +++++++-----
+>>   1 file changed, 7 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+>> index 14f30c228b7..4f11fd325b8 100644
+>> --- a/scripts/qapi/visit.py
+>> +++ b/scripts/qapi/visit.py
+>> @@ -22,7 +22,7 @@
+>>       mcgen,
+>>   )
+>>   from .gen import QAPISchemaModularCVisitor, ifcontext
+>> -from .schema import QAPISchemaObjectType
+>> +from .schema import QAPISchemaEnumType, QAPISchemaObjectType
+>>   
+>>   
+>>   def gen_visit_decl(name, scalar=False):
+>> @@ -84,15 +84,17 @@ def gen_visit_object_members(name, base, members, variants):
+>>           ret += gen_endif(memb.ifcond)
+>>   
+>>       if variants:
+>> +        tag_member = variants.tag_member
+>> +        assert isinstance(tag_member.type, QAPISchemaEnumType)
 > 
-> diff --git a/hw/ide/core.c b/hw/ide/core.c
-> index 0e32abd779..693b352d5e 100644
-> --- a/hw/ide/core.c
-> +++ b/hw/ide/core.c
-> @@ -2289,8 +2289,8 @@ void ide_ctrl_write(void *opaque, uint32_t addr, uint32_t val)
->               s = &bus->ifs[i];
->               s->status |= BUSY_STAT;
->           }
-> -        aio_bh_schedule_oneshot(qemu_get_aio_context(),
-> -                                ide_bus_perform_srst, bus);
-> +        replay_bh_schedule_oneshot_event(qemu_get_aio_context(),
-> +                                         ide_bus_perform_srst, bus);
->       }
->   
->       bus->cmd = val;
+> I'm curious: do you need the local variable to make the assertion stick?
 > 
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-Acked-by: John Snow <jsnow@redhat.com>
+No, but it only sticks to the binding and not the data. i.e. assertions 
+to downcast work on the *name*.
+
+(This comes up somewhere in the schema.py patches where I make a change 
+that looks completely pointless, but it makes mypy happy.)
+
+I could have left it alone. I just saw a lot of repeated multi-dots and 
+habitually created a temporary local for the purpose.
+
+>> +
+>>           ret += mcgen('''
+>>       switch (obj->%(c_name)s) {
+>>   ''',
+>> -                     c_name=c_name(variants.tag_member.name))
+>> +                     c_name=c_name(tag_member.name))
+>>   
+>>           for var in variants.variants:
+>> -            case_str = c_enum_const(variants.tag_member.type.name,
+>> -                                    var.name,
+>> -                                    variants.tag_member.type.prefix)
+>> +            case_str = c_enum_const(tag_member.type.name, var.name,
+>> +                                    tag_member.type.prefix)
+>>               ret += gen_if(var.ifcond)
+>>               if var.type.name == 'q_empty':
+>>                   # valid variant and nothing to do
 
 
