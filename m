@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8DE2857FD
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:55:15 +0200 (CEST)
-Received: from localhost ([::1]:55436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 998732857FF
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:56:20 +0200 (CEST)
+Received: from localhost ([::1]:58984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ1Tu-0000Qi-3J
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:55:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37508)
+	id 1kQ1Ux-0001yG-MT
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:56:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ1ST-0007zn-2I
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:53:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29229)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ1TG-0000WX-OX
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:54:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ1SQ-000527-9v
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:53:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ1TD-0005Gy-Qi
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:54:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602046421;
+ s=mimecast20190719; t=1602046470;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=u8PfK++wwipUDp+cqr1CXkUEuM9oJMPnbjBlO2cpacI=;
- b=X7gFpyV7qN+7TWIdsGCo30PE51CV12litMocqwBgDgIcB3r782Js+fGtQeoBnN+QsqxmIE
- EZuTZPta6OAHwLd2lP6tfhfkEPnUyZmZXqAZeyjzsEgdvpmLC0Vb/Jw5Jp+qqsxh/xxvbW
- TxsLBzRiVxmtsLQ2n0zO8eE3FuXWtW0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-3lF7oBSgPJu1lOew-JdIdQ-1; Wed, 07 Oct 2020 00:53:39 -0400
-X-MC-Unique: 3lF7oBSgPJu1lOew-JdIdQ-1
-Received: by mail-wr1-f71.google.com with SMTP id 33so469265wrf.22
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 21:53:39 -0700 (PDT)
+ bh=V3U53vMetrOgmDdFjxR/Bvj8qDjlHSOraHAf7bERMsU=;
+ b=CrAK9C5OpjomcWq6AnJE/TBFg3Q0r1Pdqhzea2Ij94N0h2tkAMErNbQE9GwQJUq/aCfT3o
+ kvQ0GKiuPmCU+tRlIejNIQQRZFDOpEMkfZCa+mMDoVENvDQTuTOkex2aA6iDUHqe5+F9ZU
+ sy6ygVEv4QCip+9b9J57zPmepwiX+4o=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-57-FrHq9aeXNZ-d5PXDs6tRIQ-1; Wed, 07 Oct 2020 00:54:28 -0400
+X-MC-Unique: FrHq9aeXNZ-d5PXDs6tRIQ-1
+Received: by mail-wr1-f69.google.com with SMTP id g6so495646wrv.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 21:54:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=u8PfK++wwipUDp+cqr1CXkUEuM9oJMPnbjBlO2cpacI=;
- b=SURHHTaWlYNzK6DFehHtONfpuD0ATJpDdNXAQ88Go8RqMjPAse/m/Rvvnekpg1bPAv
- 0/qBupCdCHUseRSEQ4koFSX/oESKmjya6MKt6HOQ4Nzwsf1E8CycvEr6/RrV23rI2I+y
- YxZPvGY+rfSUHJJu7ENe+/EhsvmwUrjLfQK2u35Aq6pLdOyUraT2os6q9AlDJAoXG5zX
- IT058eoNESH6oZn+lY8I55WzUc9Rny0l0ecSp+kbnJQBKqtx1RimU3nMjME5O3XjfdtS
- 0MXyL2vHvt7MANDH623FP4rqSLGuMv6Xuqy+3ZLFCvvXzZbk0J64qooBbSTKBYB8/nbv
- sLTg==
-X-Gm-Message-State: AOAM532TszRVdlvfBzt55ig+r+L2cNOG8dlIn9dunI3JAGDCiaCu6fcD
- ohwebasBNDNDgTWvUwe7uGnpR4+vWQG28YCCjpF7fYp8sk9ViieMMT1mtYt0LwuVuBYTdoF6Agv
- KeyhcAzo1jEvePMY=
-X-Received: by 2002:adf:a455:: with SMTP id e21mr1438672wra.158.1602046418226; 
- Tue, 06 Oct 2020 21:53:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJysignYoTsD6hjth23CTypYzT3VZZtafuVHvdfUAuQ8gTkd6YQ9T10gisNIby89d7X3xlHVJA==
-X-Received: by 2002:adf:a455:: with SMTP id e21mr1438653wra.158.1602046417992; 
- Tue, 06 Oct 2020 21:53:37 -0700 (PDT)
+ bh=V3U53vMetrOgmDdFjxR/Bvj8qDjlHSOraHAf7bERMsU=;
+ b=pr5DRRfAOOZoU9keX6Z1J8wmH2NRwLP3/9DPvPEL45Mw51w7QP9ZzJKB7G0hRqtALF
+ Divxo57a5bSdNKrVdRg+2j2RcrrV+UOkqReRoUfuU34OyVJBR6GTtOoGx3l3+NQBgEYJ
+ iCApEWEZUMRv3Ph9vP6nDfhFh0oV7nzAhH30243lYOWEpXSr1VIbj/cojd97W312HcX1
+ Tyt4GvYjyI5GgrD/dcgQAfjtdLS+m3XpRjVHqJJuH+6cWVl86vTHsuaZi/n5xOG8yuid
+ KTeNQKfjj30HnhNsWhihnWryhCFz2GzWrF1s3igtlHGTHW6mDgy94kkQQ3wGz/naHKHI
+ 49sA==
+X-Gm-Message-State: AOAM533FYg101vkePLu0b7Vdl+qeJ7eEUqHRI8M7l8zLV9fDaxHUPaRG
+ h6aMdiQO3/GhT+5S6sH+dCwHa2vYdHDii6QPKfVSEuexnaD7eF1ZBpIzC+EiNeo3kCa6yX7a8Az
+ ShIgKBnqHs7cjhrc=
+X-Received: by 2002:adf:e9c1:: with SMTP id l1mr1310455wrn.68.1602046467397;
+ Tue, 06 Oct 2020 21:54:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybpkvM4e+xR5RwH9nz0EycMY0vRIc8RPRKOGC/TAR/Yzxh4EU/UsqvLjbqFRJTLR0eDXGHtw==
+X-Received: by 2002:adf:e9c1:: with SMTP id l1mr1310431wrn.68.1602046467194;
+ Tue, 06 Oct 2020 21:54:27 -0700 (PDT)
 Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id z11sm1060610wrh.70.2020.10.06.21.53.36
+ by smtp.gmail.com with ESMTPSA id u81sm910010wmg.43.2020.10.06.21.54.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Oct 2020 21:53:37 -0700 (PDT)
-Subject: Re: [PATCH 03/20] python/machine.py: reorder __init__
+ Tue, 06 Oct 2020 21:54:26 -0700 (PDT)
+Subject: Re: [PATCH 06/20] python/machine.py: use qmp.command
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20201006235817.3280413-1-jsnow@redhat.com>
- <20201006235817.3280413-4-jsnow@redhat.com>
+ <20201006235817.3280413-7-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -86,12 +86,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <c9b9f289-841c-a201-9629-5440ef84c212@redhat.com>
-Date: Wed, 7 Oct 2020 06:53:36 +0200
+Message-ID: <31258955-7d65-d82f-e742-3abd3c9d3369@redhat.com>
+Date: Wed, 7 Oct 2020 06:54:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201006235817.3280413-4-jsnow@redhat.com>
+In-Reply-To: <20201006235817.3280413-7-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,16 +99,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -130,14 +130,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/7/20 1:58 AM, John Snow wrote:
-> Put the init arg handling all at the top, and mostly in order (deviating
-> when one is dependent on another), and put what is effectively runtime
-> state declaration at the bottom.
+> machine.py and qmp.py both do the same thing here; refactor machine.py
+> to use qmp.py's functionality more directly.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  python/qemu/machine.py | 44 ++++++++++++++++++++++++------------------
->  1 file changed, 25 insertions(+), 19 deletions(-)
+>  python/qemu/machine.py | 32 ++++++++++++++++++++------------
+>  1 file changed, 20 insertions(+), 12 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
