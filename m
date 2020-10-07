@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393EB286815
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 21:09:38 +0200 (CEST)
-Received: from localhost ([::1]:36666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6B828681F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 21:15:33 +0200 (CEST)
+Received: from localhost ([::1]:50776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQEoj-0004vE-9g
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 15:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50012)
+	id 1kQEuS-0002Yh-4y
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 15:15:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kQEk2-0007yv-AR; Wed, 07 Oct 2020 15:04:46 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47294)
+ id 1kQEk5-00086U-05; Wed, 07 Oct 2020 15:04:49 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kQEk0-0004d5-CJ; Wed, 07 Oct 2020 15:04:46 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ id 1kQEk3-0004dS-BE; Wed, 07 Oct 2020 15:04:48 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 097J2LHi001711; Wed, 7 Oct 2020 15:04:43 -0400
+ 097J2WwK002851; Wed, 7 Oct 2020 15:04:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references; s=pp1;
- bh=C5JQCQIst+KDnNJxTvrs5f3/srqXPxtOEYLI+yitwj4=;
- b=ipACORIXsYzNJOYK2TWVWL4jBfKqkE81fNjDAjA93iiAKmbm7rkscFJupYylUdlW5zLA
- H2Lf0zgs5BzvTIMHtyolI+2joDwzZb1Z7V3CCKgCEAVyea2dFwD6GRgPneE88IbXJz9o
- ipvylhrcucYjAazbZGVQ/m3Yxslv0EVu52Bvl9fgthispDuR7SzvDByB+PXSmUMIpvaj
- NwQoAFazjLl6Y240xKxhTJvi4Am1URSJ0NBvW2+MrgZC7TpJPhZGqCEDWpbDmZ1+yCuy
- ka49uiLJEWRibTphw3Vkww4VIT+5rZ44MSaMhsvAeU5eATwUrzHw4zh91+n41ZfmqE4H DA== 
+ bh=41919ZYcUtzZsyRo0Z/E4r1Trw7GJFVpMTEJltbAuBk=;
+ b=aYmndi71aeEHpqEEvbLRkJjm8ullLHh66NtWU21mNyWbX6tF6nmmsb6eM9VyMd8wmm9/
+ UNbwzKubSs3IPjCc4yvVxJm4MAxuzuCkQE5WR3FZO9jndY+fgtHfyfpkYsXlBP4PXp4+
+ YJtznATSBJEeMkYaz0yJ+wKwklpxewt19mPQlrpDdn1/acZPV2Xt3FIdaDc1Xr7MMJI6
+ e0duTwTdmXy+3KAfm6t6RYvaDF8ZR8mzxKy080DmfeDcQ8VcnNSbF7Xnuy4BhHMzr7s9
+ p8tgpSl3bhQt3KhoFRd6kzXXHxNP3UfB8N7kXWgaW2C0VASHhrt1L76Q60m0bIjNYe60 pA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 341k6q8jse-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 341jwr0yhw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Oct 2020 15:04:43 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 097J2M17001920;
- Wed, 7 Oct 2020 15:04:42 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 341k6q8jry-1
+ Wed, 07 Oct 2020 15:04:45 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 097J2glB003330;
+ Wed, 7 Oct 2020 15:04:45 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 341jwr0yhk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Oct 2020 15:04:42 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 097IlU5t003053;
- Wed, 7 Oct 2020 19:04:42 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 33xgx9spbe-1
+ Wed, 07 Oct 2020 15:04:45 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 097IkiK1025460;
+ Wed, 7 Oct 2020 19:04:44 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04wdc.us.ibm.com with ESMTP id 33xgx9haex-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Oct 2020 19:04:42 +0000
+ Wed, 07 Oct 2020 19:04:44 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 097J4f0U54002064
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 097J4i4438470068
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Oct 2020 19:04:41 GMT
+ Wed, 7 Oct 2020 19:04:44 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 38BB0AC05E;
+ by IMSVA (Postfix) with ESMTP id D488CAC05F;
+ Wed,  7 Oct 2020 19:04:43 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7BE8DAC060;
  Wed,  7 Oct 2020 19:04:41 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BEF63AC05B;
- Wed,  7 Oct 2020 19:04:38 +0000 (GMT)
 Received: from oc4221205838.ibm.com (unknown [9.211.60.106])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  7 Oct 2020 19:04:38 +0000 (GMT)
+ Wed,  7 Oct 2020 19:04:41 +0000 (GMT)
 From: Matthew Rosato <mjrosato@linux.ibm.com>
 To: cohuck@redhat.com, thuth@redhat.com
-Subject: [PATCH v3 08/10] s390x/pci: use a PCI Function structure
-Date: Wed,  7 Oct 2020 15:04:13 -0400
-Message-Id: <1602097455-15658-9-git-send-email-mjrosato@linux.ibm.com>
+Subject: [PATCH v3 09/10] vfio: Add routine for finding VFIO_DEVICE_GET_INFO
+ capabilities
+Date: Wed,  7 Oct 2020 15:04:14 -0400
+Message-Id: <1602097455-15658-10-git-send-email-mjrosato@linux.ibm.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602097455-15658-1-git-send-email-mjrosato@linux.ibm.com>
 References: <1602097455-15658-1-git-send-email-mjrosato@linux.ibm.com>
@@ -76,15 +77,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-10-07_10:2020-10-07,
  2020-10-07 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- suspectscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=955 phishscore=0
- mlxscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2010070118
+ adultscore=0 spamscore=0
+ suspectscore=0 phishscore=0 mlxlogscore=999 lowpriorityscore=0
+ priorityscore=1501 clxscore=1015 impostorscore=0 malwarescore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2010070119
 Received-SPF: pass client-ip=148.163.158.5;
  envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 15:04:22
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -111,106 +112,49 @@ Cc: kvm@vger.kernel.org, pmorel@linux.ibm.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pierre Morel <pmorel@linux.ibm.com>
+Now that VFIO_DEVICE_GET_INFO supports capability chains, add a helper
+function to find specific capabilities in the chain.
 
-We use a ClpRspQueryPci structure to hold the information related to a
-zPCI Function.
-
-This allows us to be ready to support different zPCI functions and to
-retrieve the zPCI function information from the host.
-
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
 ---
- hw/s390x/s390-pci-bus.c         | 22 +++++++++++++++++-----
- hw/s390x/s390-pci-inst.c        |  8 ++------
- include/hw/s390x/s390-pci-bus.h |  1 +
- 3 files changed, 20 insertions(+), 11 deletions(-)
+ hw/vfio/common.c              | 10 ++++++++++
+ include/hw/vfio/vfio-common.h |  2 ++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index c34f14a..3dc8a10 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -777,6 +777,17 @@ static void s390_pci_init_default_group(void)
-     resgrp->version = 0;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index e47a4d7..7cda9d2 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -849,6 +849,16 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
+     return vfio_get_cap((void *)info, info->cap_offset, id);
  }
  
-+static void set_pbdev_info(S390PCIBusDevice *pbdev)
++struct vfio_info_cap_header *
++vfio_get_device_info_cap(struct vfio_device_info *info, uint16_t id)
 +{
-+    pbdev->zpci_fn.sdma = ZPCI_SDMA_ADDR;
-+    pbdev->zpci_fn.edma = ZPCI_EDMA_ADDR;
-+    pbdev->zpci_fn.pchid = 0;
-+    pbdev->zpci_fn.ug = ZPCI_DEFAULT_FN_GRP;
-+    pbdev->zpci_fn.fid = pbdev->fid;
-+    pbdev->zpci_fn.uid = pbdev->uid;
-+    pbdev->pci_group = s390_group_find(ZPCI_DEFAULT_FN_GRP);
++    if (!(info->flags & VFIO_DEVICE_FLAGS_CAPS)) {
++        return NULL;
++    }
++
++    return vfio_get_cap((void *)info, info->cap_offset, id);
 +}
 +
- static void s390_pcihost_realize(DeviceState *dev, Error **errp)
+ static int vfio_setup_region_sparse_mmaps(VFIORegion *region,
+                                           struct vfio_region_info *info)
  {
-     PCIBus *b;
-@@ -994,17 +1005,18 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-             }
-         }
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index c78f3ff..3c236ed 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -191,6 +191,8 @@ int vfio_get_dev_region_info(VFIODevice *vbasedev, uint32_t type,
+ bool vfio_has_region_cap(VFIODevice *vbasedev, int region, uint16_t cap_type);
+ struct vfio_info_cap_header *
+ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id);
++struct vfio_info_cap_header *
++vfio_get_device_info_cap(struct vfio_device_info *info, uint16_t id);
+ #endif
+ extern const MemoryListener vfio_prereg_listener;
  
-+        pbdev->pdev = pdev;
-+        pbdev->iommu = s390_pci_get_iommu(s, pci_get_bus(pdev), pdev->devfn);
-+        pbdev->iommu->pbdev = pbdev;
-+        pbdev->state = ZPCI_FS_DISABLED;
-+        set_pbdev_info(pbdev);
-+
-         if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
-             pbdev->fh |= FH_SHM_VFIO;
-         } else {
-             pbdev->fh |= FH_SHM_EMUL;
-         }
- 
--        pbdev->pdev = pdev;
--        pbdev->iommu = s390_pci_get_iommu(s, pci_get_bus(pdev), pdev->devfn);
--        pbdev->iommu->pbdev = pbdev;
--        pbdev->state = ZPCI_FS_DISABLED;
--
-         if (s390_pci_msix_init(pbdev)) {
-             error_setg(errp, "MSI-X support is mandatory "
-                        "in the S390 architecture");
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index aeb8b5f..cc3d274 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -267,6 +267,8 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
-             goto out;
-         }
- 
-+        memcpy(resquery, &pbdev->zpci_fn, sizeof(*resquery));
-+
-         for (i = 0; i < PCI_BAR_COUNT; i++) {
-             uint32_t data = pci_get_long(pbdev->pdev->config +
-                 PCI_BASE_ADDRESS_0 + (i * 4));
-@@ -280,12 +282,6 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
-                     resquery->bar_size[i]);
-         }
- 
--        stq_p(&resquery->sdma, ZPCI_SDMA_ADDR);
--        stq_p(&resquery->edma, ZPCI_EDMA_ADDR);
--        stl_p(&resquery->fid, pbdev->fid);
--        stw_p(&resquery->pchid, 0);
--        stw_p(&resquery->ug, ZPCI_DEFAULT_FN_GRP);
--        stl_p(&resquery->uid, pbdev->uid);
-         stw_p(&resquery->hdr.rsp, CLP_RC_OK);
-         break;
-     }
-diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
-index 52f6e7b..79206be 100644
---- a/include/hw/s390x/s390-pci-bus.h
-+++ b/include/hw/s390x/s390-pci-bus.h
-@@ -334,6 +334,7 @@ struct S390PCIBusDevice {
-     uint16_t maxstbl;
-     uint8_t sum;
-     S390PCIGroup *pci_group;
-+    ClpRspQueryPci zpci_fn;
-     S390MsixInfo msix;
-     AdapterRoutes routes;
-     S390PCIIOMMU *iommu;
 -- 
 1.8.3.1
 
