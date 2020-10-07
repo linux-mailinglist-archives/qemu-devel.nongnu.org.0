@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9FD286472
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:33:15 +0200 (CEST)
-Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002B52863AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:23:05 +0200 (CEST)
+Received: from localhost ([::1]:41326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCNO-0004Tb-Qr
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:33:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36438)
+	id 1kQCDY-0002Qk-W8
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:23:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQC0r-0004SP-3F
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:57 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46864)
+ id 1kQC0l-0004Gk-V7
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:51 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQC0p-0003Ep-6D
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:56 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id n6so2554583wrm.13
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:09:54 -0700 (PDT)
+ id 1kQC0j-0003Cd-8z
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:51 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id f21so2923719wml.3
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=05jC61y8B+Ibr2TYdyvTz5KnsGregGooUhgasKNJco8=;
- b=aZpK79nUdbYSSlpy2/YzAZz/IvlW/u1jUAk0DbEBdMEG6sjVwn/qllmW6GYjRfkO/i
- AcjlQ6f9/UJ8BA7vbbvPG2VrQPhyfEux44lWak1/fU05V2iACkF0H99TSaWQtxXd5sKr
- pVtiS079CEqDCqbjvak8cOILJ3qxUC4je+D2YebhB8b+iEQkqBP82X7f1BAwauqeFtgn
- f5yX7TJl+t9Xkpg45YUyVj5stdn8JJoa62Y7/pb+QEnjh/CmKxEcJIhEdMGuZIBBuWKH
- ayPN7c2xKH/NE4C7jVVJ8sXa0FAzig3G72uk+gDrBX3Xmi5x24WEozeY1U8OPVLQHzIr
- EeFQ==
+ bh=dLW+WFxYuV+/JL3KLfJgS68DPnL2AjABzgvMUp1N8QM=;
+ b=t4NBk/7DXzKeELG7iQ55KEz2nOtp/Ni6UqE0y9VLV9rWyVNq19qb4aSzbpPB+JL5dG
+ /aVAOEZPcH/OCIN/oiWbPi7iMuGrh6UtB87nnBU8a/fh7cJ2L3NZU9BBV7QH/hAATXTH
+ 5hU2nc4v5i9nkuxPl8r39757aLxQH4eFfXKekhdHjrBdsi8Pqhl23maKREiz3mPo4orO
+ Xcn29jQh9D6qHdyJAkSe8FgvA/iEO8CPcrC0euo79sig1CdMiz7BoRrDAf00lbbxkO9R
+ 5olDHAUKFW2Wtw3ixn4iKxZRhjVgK+Sk3RC3xeGhivJp+/qRhmV+1pXjo6PUNggLnBoR
+ yEUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=05jC61y8B+Ibr2TYdyvTz5KnsGregGooUhgasKNJco8=;
- b=S5M3FzjGOGePyp8ZqLoiR5zthskUNtYsm6Q+7xzZ/GW4WIvti88cn0vNfSyIELzWge
- SyCyksYb28CO1foVgEnzN4ZVkFz3dDZ8lWl/xJDuTAGP6DJmduL+rV7YNQEQNAxT6/j9
- g8lk95f47rarCQV+VBUo+JhrS3xyoHKg6jdb4Nl8BY2wM7Q+BjTzIxzUgnvjYUCvxNrG
- dfzqzED990/ybjFgKKII0Yl0HsKW9OrF/ECBU/jPIYGgvaZKkEJKfLJt0iHDXe2J1iGh
- 0RfbUZD9D0CcpyLjeV7/ofkKNmSv7pygIwR1JCH3vu27KD8UQnOHVWD3DtCKJBrQwW0W
- lS+w==
-X-Gm-Message-State: AOAM5319RN4qkve3VQnj+SiPamRnE7FzryHOsNzIFO9qU4se1sC1kk/g
- hgQS0mxn8CUMlgRtNcB878BnEQ==
-X-Google-Smtp-Source: ABdhPJx9M7unxUWWHvLMpgAbZ+3pKxyHfXshVRmYl+pM2rC1JghDm86XZ3qyt10GNQaX8TkiiQN/zw==
-X-Received: by 2002:adf:bbc6:: with SMTP id z6mr4378064wrg.298.1602086993867; 
- Wed, 07 Oct 2020 09:09:53 -0700 (PDT)
+ bh=dLW+WFxYuV+/JL3KLfJgS68DPnL2AjABzgvMUp1N8QM=;
+ b=tRci6PMvpvIxqi4qbq8U+qxWDMCk+kIc97ifYfLCTzRwCKQIT4mqPwebz03cZEXR8q
+ 1PyaQT6JlG4UolyLI6hQdD3pj4BveHm57r15cxM4q1oTbha1kyRaxRHD/decw6LXcrwW
+ lVdMAsstdXVBPOs+He1lfaxbP/Ol9JTQfc+SmehI+I+GXmm4MpQTR6fdpPaa7PBKdrEW
+ wpcehTC5/jgvz3seSoRsCF4ETxGM6Jyh/MNGblx8En9pNvccmzSLlg7/lqt8Y9Z0Xitt
+ 3IBd/IwpMrCoobDAwYR6XnDcNlHcABIRhvnEtETCcKrpfzQM4orugIUCZPcIgGhxLAXQ
+ ZN7A==
+X-Gm-Message-State: AOAM532/GhamNMuTAbjvFinu+ps4eDR9lA6iPWS51TbOGJZj3VmrxGce
+ snnOVQbs5Z4GHdi0MpB3/2mPIQ==
+X-Google-Smtp-Source: ABdhPJyoniFqxh/dDgKMbNwXQJ42abbtLT2FuPpjN6jp8E+KI1HW1Dci6qqkeMDqY1TViXX8qRhiAQ==
+X-Received: by 2002:a1c:a793:: with SMTP id q141mr4239967wme.137.1602086987831; 
+ Wed, 07 Oct 2020 09:09:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h16sm3549444wre.87.2020.10.07.09.09.45
+ by smtp.gmail.com with ESMTPSA id 13sm2837247wmk.20.2020.10.07.09.09.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 09:09:51 -0700 (PDT)
+ Wed, 07 Oct 2020 09:09:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4F5261FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 653501FF9D;
  Wed,  7 Oct 2020 17:00:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 13/22] contrib/gitdm: Add Qualcomm to the domain map
-Date: Wed,  7 Oct 2020 17:00:29 +0100
-Message-Id: <20201007160038.26953-14-alex.bennee@linaro.org>
+Subject: [PATCH  v1 14/22] contrib/gitdm: Add Nir Soffer to Red Hat domain
+Date: Wed,  7 Oct 2020 17:00:30 +0100
+Message-Id: <20201007160038.26953-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201007160038.26953-1-alex.bennee@linaro.org>
 References: <20201007160038.26953-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,37 +88,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Nir Soffer <nirsof@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-There is a number of contributions from this domain,
-add its own entry to the gitdm domain map.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-Message-Id: <20201006160653.2391972-8-f4bug@amsat.org>
+Acked-by: Nir Soffer <nirsof@gmail.com>
+Message-Id: <20201006160653.2391972-9-f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- contrib/gitdm/domain-map | 1 +
+ contrib/gitdm/group-map-redhat | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 14c0582060..6c5c92260d 100644
---- a/contrib/gitdm/domain-map
-+++ b/contrib/gitdm/domain-map
-@@ -22,6 +22,7 @@ nokia.com       Nokia
- nuviainc.com    NUVIA
- oracle.com      Oracle
- proxmox.com     Proxmox
-+quicinc.com     Qualcomm Innovation Center
- redhat.com      Red Hat
- rt-rk.com       RT-RK
- siemens.com     Siemens
+diff --git a/contrib/gitdm/group-map-redhat b/contrib/gitdm/group-map-redhat
+index d15db2d35e..02507b7b53 100644
+--- a/contrib/gitdm/group-map-redhat
++++ b/contrib/gitdm/group-map-redhat
+@@ -6,3 +6,4 @@ david@gibson.dropbear.id.au
+ laurent@vivier.eu
+ pjp@fedoraproject.org
+ armbru@pond.sub.org
++nirsof@gmail.com
 -- 
 2.20.1
 
