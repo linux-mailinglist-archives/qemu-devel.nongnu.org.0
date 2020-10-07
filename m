@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004ED2867B0
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 20:47:27 +0200 (CEST)
-Received: from localhost ([::1]:57658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237332867C1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 20:52:06 +0200 (CEST)
+Received: from localhost ([::1]:38652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQETG-0005qm-3C
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 14:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45824)
+	id 1kQEXl-0001UP-1z
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 14:52:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQERb-0004xR-Fy
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 14:45:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34632)
+ id 1kQEWW-0000Cb-CA
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 14:50:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQERZ-00023Y-NC
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 14:45:43 -0400
+ id 1kQEWU-0002dk-6D
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 14:50:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kQERX-0004I3-QJ
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 18:45:39 +0000
+ id 1kQEWR-0004ps-UN
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 18:50:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C601C2E80E8
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 18:45:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 92B382E8112
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 18:50:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Oct 2020 18:40:07 -0000
-From: Thomas Huth <1723161@bugs.launchpad.net>
+Date: Wed, 07 Oct 2020 18:42:02 -0000
+From: Thomas Huth <1722884@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h famz ftwilliam th-huth
-X-Launchpad-Bug-Reporter: William Tambe (ftwilliam)
+X-Launchpad-Bug-Commenters: gnif jens-nyberg th-huth
+X-Launchpad-Bug-Reporter: Geoffrey McRae (gnif)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <150782239801.1729.1327212510076491094.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160209600763.9105.9973933801813496023.malone@wampee.canonical.com>
-Subject: [Bug 1723161] Re: Migration failing in qemu-2.10.1 but working
- qemu-2.9.1 and earlier with same options
+References: <150774787109.964.13450141235232669497.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160209612256.6423.5418320409729486730.malone@soybean.canonical.com>
+Subject: [Bug 1722884] Re: keyboard input while mouse moving triggers mouse
+ failure
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 11f95454d994a65bb96a2925e6297202978dd62c
+X-Launchpad-Hash: c0a0e662d93fbc385b3a3ef4f5c1c6822b6027ec
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 12:55:34
@@ -73,65 +73,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1723161 <1723161@bugs.launchpad.net>
+Reply-To: Bug 1722884 <1722884@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... can you still reproduce this issue
-with the latest version of QEMU? Or could we close this ticket nowadays?
-
+Ok, so if this bug has been fixed, let's close this ticket.
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1723161
+https://bugs.launchpad.net/bugs/1722884
 
 Title:
-  Migration failing in qemu-2.10.1 but working qemu-2.9.1 and earlier
-  with same options
+  keyboard input while mouse moving triggers mouse failure
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  =
+  When QEMU is getting a ton of mouse input events if keys are pressed
+  on the keyboard the scan code will be corrupted causing erroneous
+  behavior. I have confirmed this problem in the latest version in git
+  (530049bc1dcc24c1178a29d99ca08b6dd08413e0).
 
-  Qemu-2.10.1 migration failing with the following error:
-  Receiving block device images
-  qemu-system-x86_64: error while loading section id 2(block)
-  qemu-system-x86_64: load of migration failed: Input/output error
+  After the erroneous behavior the operating system issues a keyboard
+  reset which prevents the mouse from functioning until the operating
+  system is restarted.
 
-  Migration is setup on the destination system of the migration using:
-  -incoming tcp:0:4444
+  This seems to only occur if the PS2 mouse is being used as the input,
+  the tablet input device doesn't exhibit this behavior.
 
-  Migration is initiated from the source using the following commands in it=
-s qemu monitor:
-  migrate -b "tcp:localhost:4444"
+  The same problem was reported here also:
+  https://openxt.atlassian.net/browse/OXT-562
 
-  The command-line used in both the source and destination is:
-  qemu-system-x86_64 \
-          -nodefaults \
-          -pidfile vm0.pid \
-          -enable-kvm \
-          -machine q35 \
-          -cpu host -smp 2 \
-          -m 4096M \
-          -drive if=3Dpflash,format=3Draw,unit=3D0,file=3DOVMF_CODE.fd,read=
-only \
-          -drive if=3Dpflash,format=3Draw,unit=3D1,file=3DOVMF_VARS.fd \
-          -drive file=3D${HDRIVE},format=3Dqcow2 \
-          -drive media=3Dcdrom \
-          -usb -device usb-tablet \
-          -vga std -vnc :0 \
-          -net nic,macaddr=3D${TAPMACADDR} -net user,net=3D192.168.2.0/24,d=
-hcpstart=3D192.168.2.10 \
-          -serial stdio \
-          -monitor unix:${MONITORSOCKET},server,nowait
+  Host  : Debian 9
+  CPU   : Ryzen 1700X
+  RAM   : 16GB
+  Kernel: 4.12.0-0.bpo.2-amd64
+
+  Guest : Windows 10 (KVM)
+  RAM   : 8GB (1GB Huge pages)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1723161/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1722884/+subscriptions
 
