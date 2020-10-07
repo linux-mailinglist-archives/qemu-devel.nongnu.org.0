@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939322862D3
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 17:58:39 +0200 (CEST)
-Received: from localhost ([::1]:41182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9449A286332
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:06:30 +0200 (CEST)
+Received: from localhost ([::1]:50974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQBpu-0002E6-Kq
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 11:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32792)
+	id 1kQBxV-0006q1-LR
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kQBmV-0000SG-5w; Wed, 07 Oct 2020 11:55:07 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:43146)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kQBmT-0008Is-7y; Wed, 07 Oct 2020 11:55:06 -0400
-Received: by mail-lf1-x143.google.com with SMTP id g2so2849816lfr.10;
- Wed, 07 Oct 2020 08:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=0SYZjT/U5yga+MqTmx2WBDt0rVnyLfq7H/0+t0WpKLw=;
- b=cKroUWUohtJEkBSE+BW1Ul86uDJy0Mwnnyd2fCG9owlASK513zWWky1ANmyuu+Zqnp
- iucZR/B5eto+qmu9l+aB6m0XmjJmUk7Vd/8P8RgiOpRlbyPt8brmJbThuneALD4z/UrS
- R3Z0aKE1QWpLb9D4I0swwSGQM+UVTSLu7wRTxzwKuxzrVGuvHY3WOI43pRmXwMLrc1Uf
- q7t5jAw0I4rMumfK2TihtzV5/iedZ83SxIHVKd28nazG1XW+pwiS0zZIS8lELNMcfL+s
- 43Kv63JNVTI6J8ZLNgP/C9ofw+SArSAXQqz6agqovyOYNtFQQHTiCDGAj2Jwfrtr/KqP
- vuHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=0SYZjT/U5yga+MqTmx2WBDt0rVnyLfq7H/0+t0WpKLw=;
- b=RN3iIycCrsjhjoGC/EpYD4eNrlpXmqfNlWiwp1ia+lOF4vKeM7oaY25y6bTp7YhGF3
- 28Wl8VSVhPIg7IG5yyNBd4ryV+RtZwHRrEjPptmv1Bjvog+o6PAhsv0lCOhNZxpEWw6/
- vSMWXgkgcJ2BktHEZ5Cq06NPpW22lkIaj3DJvQHybvV20APop4jVIMG4eQPiEkQvN7cA
- Jsrp+WO138Vfrv2o00AbeDKwFTP6TsZvalisEEBhnM0teh0yk36VAot7sijoLYIJY1Gj
- rUeL4S2q7RUd68r8r6i+lk8RGkEdL076sG2leEbQ9TlB08bvqOgHTI7V8nHVZLyx2Vp5
- qOyg==
-X-Gm-Message-State: AOAM532GpJJL7OplBukiCyXVYmbZRMDHOHx3HP2QOrC9x0IRVPMKxsLc
- TlzPqMZp2ARpLoB99UP3PhZMJcDrrQ3PhtpdhcU=
-X-Google-Smtp-Source: ABdhPJx9rNqK9GO+PcUsMZ3hymTt5QiSZN6Tz2qR6a8Db0dJBWq9ySPkr0vfsojHVbfb/xJed5zLGi888PhDhUmL+UQ=
-X-Received: by 2002:a05:6512:3f0:: with SMTP id
- n16mr1107814lfq.554.1602086102210; 
- Wed, 07 Oct 2020 08:55:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kQBnc-0001Cc-RG
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:56:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kQBna-0000F0-6O
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:56:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602086172;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KkHEj8jmk45TqPAjqKynHPSqVw2rKaJ/0+EBNaN2O28=;
+ b=MgA68b9nJOeTU2vGClVa7MhfIMLQ5m/0HiCBHObL6FBqXjPouyN7pslqTFigAzdxrnIU4H
+ LG0kUBCmomObv++Ri+zl3lSyW11ZQfGhWixAJuoV8Qd4JbQZvgALyyGAUcbmGEhWi8pD+C
+ rKrUXdiacmb+F9QIFFK//HWXEQvqAzw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-cnioxLUdMgyaU832IUuiug-1; Wed, 07 Oct 2020 11:56:10 -0400
+X-MC-Unique: cnioxLUdMgyaU832IUuiug-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE47318C5201;
+ Wed,  7 Oct 2020 15:56:09 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-112-50.ams2.redhat.com
+ [10.36.112.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 370BF10021AA;
+ Wed,  7 Oct 2020 15:56:02 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, alex.bennee@linaro.org, zhengchuan@huawei.com,
+ stefanha@redhat.com, peterx@redhat.com
+Subject: [PULL 00/10] migration queue
+Date: Wed,  7 Oct 2020 16:55:50 +0100
+Message-Id: <20201007155600.337316-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20201007145300.1197-1-luoyonggang@gmail.com>
- <20201007145300.1197-2-luoyonggang@gmail.com>
- <11e4e784-3ce9-a385-bf81-8c7e1034f42d@redhat.com>
-In-Reply-To: <11e4e784-3ce9-a385-bf81-8c7e1034f42d@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Wed, 7 Oct 2020 23:54:49 +0800
-Message-ID: <CAE2XoE89z44nA=N-U_r-C8RA5Vn+C3gqABt85PLFPcSg4ET5gw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] cirrus: Fixing and speedup the msys2/mingw CI
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000005a02a05b116bd1a"
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,117 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000005a02a05b116bd1a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-On Wed, Oct 7, 2020 at 11:12 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 07/10/2020 16.52, Yonggang Luo wrote:
-> > Use cache of cirrus caching msys2
-> > The install of msys2 are refer to https://github.com/msys2/setup-msys2
-> > The first time install msys2 would be time consuming, so increase
-timeout_in to 90m
-> > according to https://cirrus-ci.org/faq/#instance-timed-out
-> >
-> > Apply patch of
-https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg00072.html
-> >
-> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> > ---
-> >  .cirrus.yml | 110 +++++++++++++++++++++++++++++++---------------------
-> >  1 file changed, 66 insertions(+), 44 deletions(-)
-> >
-> > diff --git a/.cirrus.yml b/.cirrus.yml
-> > index d58782ce67..a1145d0366 100644
-> > --- a/.cirrus.yml
-> > +++ b/.cirrus.yml
-> > @@ -46,64 +46,86 @@ macos_xcode_task:
-> >      - gmake check
-> >
-> >  windows_msys2_task:
-> > +  timeout_in: 90m
-> >    windows_container:
-> > -    image: cirrusci/windowsservercore:cmake
-> > +    image: cirrusci/windowsservercore:2019
-> >      os_version: 2019
-> >      cpu: 8
-> >      memory: 8G
-> >    env:
-> > +    CIRRUS_SHELL: powershell
-> >      MSYS: winsymlinks:nativestrict
-> >      MSYSTEM: MINGW64
-> >      CHERE_INVOKING: 1
-> >    printenv_script:
-> > -    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
-> > +    - choco install -y --no-progress 7zip
->
-> Since you've now removed the 'printenv' line, I think the section should
-> maybe not be called "printenv_script" anymore, should it?
-May I name it install_7zip?
-Cause that's a deps need installed first.
->
->  Thomas
->
+The following changes since commit f2687fdb7571a444b5af3509574b659d35ddd601:
 
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2020-10-06 15:04:10 +0100)
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+are available in the Git repository at:
 
---00000000000005a02a05b116bd1a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  git://github.com/dagrh/qemu.git tags/pull-migration-20201007b
 
-<div dir=3D"ltr"><br><br>On Wed, Oct 7, 2020 at 11:12 PM Thomas Huth &lt;<a=
- href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br>&gt;<b=
-r>&gt; On 07/10/2020 16.52, Yonggang Luo wrote:<br>&gt; &gt; Use cache of c=
-irrus caching msys2<br>&gt; &gt; The install of msys2 are refer to <a href=
-=3D"https://github.com/msys2/setup-msys2">https://github.com/msys2/setup-ms=
-ys2</a><br>&gt; &gt; The first time install msys2 would be time consuming, =
-so increase timeout_in to 90m<br>&gt; &gt; according to <a href=3D"https://=
-cirrus-ci.org/faq/#instance-timed-out">https://cirrus-ci.org/faq/#instance-=
-timed-out</a><br>&gt; &gt;<br>&gt; &gt; Apply patch of <a href=3D"https://l=
-ists.gnu.org/archive/html/qemu-devel/2020-10/msg00072.html">https://lists.g=
-nu.org/archive/html/qemu-devel/2020-10/msg00072.html</a><br>&gt; &gt;<br>&g=
-t; &gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail=
-.com">luoyonggang@gmail.com</a>&gt;<br>&gt; &gt; ---<br>&gt; &gt; =C2=A0.ci=
-rrus.yml | 110 +++++++++++++++++++++++++++++++---------------------<br>&gt;=
- &gt; =C2=A01 file changed, 66 insertions(+), 44 deletions(-)<br>&gt; &gt;<=
-br>&gt; &gt; diff --git a/.cirrus.yml b/.cirrus.yml<br>&gt; &gt; index d587=
-82ce67..a1145d0366 100644<br>&gt; &gt; --- a/.cirrus.yml<br>&gt; &gt; +++ b=
-/.cirrus.yml<br>&gt; &gt; @@ -46,64 +46,86 @@ macos_xcode_task:<br>&gt; &gt=
-; =C2=A0 =C2=A0 =C2=A0- gmake check<br>&gt; &gt; <br>&gt; &gt; =C2=A0window=
-s_msys2_task:<br>&gt; &gt; + =C2=A0timeout_in: 90m<br>&gt; &gt; =C2=A0 =C2=
-=A0windows_container:<br>&gt; &gt; - =C2=A0 =C2=A0image: cirrusci/windowsse=
-rvercore:cmake<br>&gt; &gt; + =C2=A0 =C2=A0image: cirrusci/windowsservercor=
-e:2019<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0os_version: 2019<br>&gt; &gt; =C2=
-=A0 =C2=A0 =C2=A0cpu: 8<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0memory: 8G<br>&gt;=
- &gt; =C2=A0 =C2=A0env:<br>&gt; &gt; + =C2=A0 =C2=A0CIRRUS_SHELL: powershel=
-l<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0MSYS: winsymlinks:nativestrict<br>&gt; &=
-gt; =C2=A0 =C2=A0 =C2=A0MSYSTEM: MINGW64<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0C=
-HERE_INVOKING: 1<br>&gt; &gt; =C2=A0 =C2=A0printenv_script:<br>&gt; &gt; - =
-=C2=A0 =C2=A0- C:\tools\msys64\usr\bin\bash.exe -lc &#39;printenv&#39;<br>&=
-gt; &gt; + =C2=A0 =C2=A0- choco install -y --no-progress 7zip<br>&gt;<br>&g=
-t; Since you&#39;ve now removed the &#39;printenv&#39; line, I think the se=
-ction should<br>&gt; maybe not be called &quot;printenv_script&quot; anymor=
-e, should it?<div>May I name it install_7zip?</div><div>Cause that&#39;s a =
-deps need installed first.<br>&gt;<br>&gt; =C2=A0Thomas<br>&gt;<br><br><br>=
---<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=
-=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggan=
-g Luo</div></div>
+for you to fetch changes up to 1df31b8aca2aa4f83d5827d74700eeb6d711bbdf:
 
---00000000000005a02a05b116bd1a--
+  migration/dirtyrate: present dirty rate only when querying the rate has completed (2020-10-07 16:49:26 +0100)
+
+----------------------------------------------------------------
+Migration and virtiofs pull 2020-07-10
+
+Migration:
+  Dirtyrate measurement API cleanup
+  Postcopy recovery fixes
+
+Virtiofsd:
+  Missing qemu_init_exec_dir call
+  Support for setting the group on socket creation
+  Stop a gcc warning
+  Avoid tempdir in sandboxing
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      tools/virtiofsd: add support for --socket-group
+
+Chuan Zheng (2):
+      migration/dirtyrate: record start_time and calc_time while at the measuring state
+      migration/dirtyrate: present dirty rate only when querying the rate has completed
+
+Dr. David Alan Gilbert (2):
+      virtiofsd: Silence gcc warning
+      virtiofsd: Call qemu_init_exec_dir
+
+Peter Xu (4):
+      migration: Pass incoming state into qemu_ufd_copy_ioctl()
+      migration: Introduce migrate_send_rp_message_req_pages()
+      migration: Maintain postcopy faulted addresses
+      migration: Sync requested pages after postcopy recovery
+
+Stefan Hajnoczi (1):
+      virtiofsd: avoid /proc/self/fd tempdir
+
+ docs/tools/virtiofsd.rst         |  4 +++
+ migration/dirtyrate.c            | 16 ++++++-----
+ migration/migration.c            | 49 ++++++++++++++++++++++++++++++++--
+ migration/migration.h            | 21 ++++++++++++++-
+ migration/postcopy-ram.c         | 25 +++++++++++++-----
+ migration/savevm.c               | 57 ++++++++++++++++++++++++++++++++++++++++
+ migration/trace-events           |  3 +++
+ qapi/migration.json              |  8 +++---
+ tools/virtiofsd/fuse_i.h         |  1 +
+ tools/virtiofsd/fuse_lowlevel.c  |  6 +++++
+ tools/virtiofsd/fuse_virtio.c    | 21 +++++++++++++--
+ tools/virtiofsd/passthrough_ll.c | 38 ++++++++++-----------------
+ 12 files changed, 203 insertions(+), 46 deletions(-)
+
 
