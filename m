@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09A4286411
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:30:44 +0200 (CEST)
-Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A00F286478
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:33:32 +0200 (CEST)
+Received: from localhost ([::1]:38134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCKx-00017I-St
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:30:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34506)
+	id 1kQCNe-00057W-VZ
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBsC-0005F6-BH
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:01:00 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40223)
+ id 1kQBsI-0005KI-JL
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:01:06 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBs4-0000zB-4L
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:56 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id k18so2964257wmj.5
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:00:50 -0700 (PDT)
+ id 1kQBsE-00012c-34
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:01:06 -0400
+Received: by mail-wr1-x441.google.com with SMTP id e17so2796161wru.12
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:00:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IRAdzJ9Fz7lwIEn0uOrEMb6UUG23jZ5P/nghwH5F3rs=;
- b=dn5uKd9N4M+yJzBqA+TpW/E/u7+IphQ0ybtWhiLVd4BJuKj9/aCEJPqkI3Jnfrr/AI
- kzJs7hzBDuCTWu1LCy1WoXNd7627OYjozlUpJWsMZ4+nV5eF9lt5ltn9ZzT4lgrgmVZc
- re+puXb1F/hxr6nB8NnEEa3PITpebBcnlVvPNxeokmvSHtvDbbga0coxpOEYVCDN3TkR
- 5+i9E6PhhUylsyR/mJIh1hJSH18umUWiDgL3XyK8Ls8oRoOJAa9PZBAsCb9Rf24syTAy
- O4ykd5ZVTlI0n7ciydy5gJMfSVhpNkXnZIQi5xa2paPInIgDQJvlA9CngAC96qcs4J01
- gn+A==
+ bh=wShbQweM0QLxaD503QKQ0af5y+9OSC+PsKcb/w2fncE=;
+ b=E094pBIkGIt1sox6YYa0IhP7m1MCWbp2mXmtvLRokfjY8H8vnsfRB7Iy9U2x9qLBKh
+ 21HgNzGUfZ2wkmaJct6ZG4vRJMKJSJ1YqY33HwESBn6yf8NdocwSGzn4NPQyW+CHu3uL
+ 2RDhS2Bwi42a5EqKgLnRBJ9LtL/jAbLEromDJeqNxEGDQqmb0R2WoPat9uWmt286ovb5
+ R24o+kM6AzgJF3cWLBCZoLuwwEv3f7z/6hvuvIgur4Ki6eojyKGe4CB56FV0aBEkuXt0
+ GnC0QClfk3bJueZGR59VIWcGo4euvoKKVTeLQh4qx5HqMIPnaEDR8TC8TPVOGBexzNjY
+ PEJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IRAdzJ9Fz7lwIEn0uOrEMb6UUG23jZ5P/nghwH5F3rs=;
- b=D58zogtnmNS2OBnKmQSOJ4DYCMT2od/h39l28udq+cxoSZIEM0ZjLn4PoDEtfS1iTx
- 1fgitrda/9tS2TDt5m+H2PH3y327MCbIhzbpNTCK/EVmNjIuQtzPlS0tMvMzu4W2DjQr
- Ms0q3BJOj7B6hz5rmmGOIZ5D/14BBec5QpVJ8zzJO9s8ZBLqSe+ARZY13VJJLFANPKt4
- nvKnfXktyzReA/1TgSkc3jPaZmhskB8vcV3VN9uwFAca0yolgWPcmQmdp4+jA8CGnYMI
- 2G9S0E+8YQKLzYHVL8H46jvb6AuYuPVC2Zd+B+Rf2MKHS0hAIjvdU29sjU03BI1I3bZA
- Tbpg==
-X-Gm-Message-State: AOAM530kWvJMW5YQqqTQ5Eu9TgHH6C4ZQoLlix0J7ruiD6b345BEAdvY
- ye7y1XhC3h2bOOsCNXIYOAWubg==
-X-Google-Smtp-Source: ABdhPJxp2ssTVJ+yC+Hide5r8LP9CMniGq6QZxUxWjfrqmaC2CPmjevj2g2qQHafd+lx/um+IkaKEw==
-X-Received: by 2002:a7b:c847:: with SMTP id c7mr4191616wml.41.1602086449068;
- Wed, 07 Oct 2020 09:00:49 -0700 (PDT)
+ bh=wShbQweM0QLxaD503QKQ0af5y+9OSC+PsKcb/w2fncE=;
+ b=b6OYQAUi6SHlX05/hiEiWjE38+N76TkFSNj6YzgnJRK2xZp/TjW4P4WicKoUguGpCB
+ i1kn5ktTF5/okrNmKnnZP3cFdbxnouXNp5zpE3/bDdpEn8vgAzbKDv173DFfBqnrDaO4
+ ypTdvC9wjOfaus5CAQuGdA4cNcUAJOyiZwQlm5r+7RAZtDyglIc9deew5GJ9iaqFqAUc
+ SYI7FqWH8T7ZPxWbdWvV6IrtTikTo3mBrWyli6oxZftOqEg9cxKeAQ1WcRStCVW3xOxQ
+ QJb9GtfDLeB7xSJdqBsdGQg7801ENh+hB4G/NwHFmELSsuaZ2FSMNeHePb9y84sW+mqQ
+ 8fHw==
+X-Gm-Message-State: AOAM530uB75o8bWIrynwQRHDoKzC1FHlQohbeKiT789ti5QvpgzK9U0Z
+ IaHpeoezXRkVe4jCbYrnvETk4g==
+X-Google-Smtp-Source: ABdhPJyJWbsmOeHRCeQ86YWwUjbNw4fr/+jrwq9fxk1B29nj9Vas3bqs2QBvQNQLMb+Rj5FHxfcxqw==
+X-Received: by 2002:adf:82e5:: with SMTP id 92mr4156569wrc.192.1602086455739; 
+ Wed, 07 Oct 2020 09:00:55 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f14sm3318700wme.22.2020.10.07.09.00.40
+ by smtp.gmail.com with ESMTPSA id b189sm3107063wmb.37.2020.10.07.09.00.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 09:00:41 -0700 (PDT)
+ Wed, 07 Oct 2020 09:00:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AE4F31FF92;
+ by zen.linaroharston (Postfix) with ESMTP id C567E1FF93;
  Wed,  7 Oct 2020 17:00:38 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 06/22] tests/docker: Add genisoimage to the docker file
-Date: Wed,  7 Oct 2020 17:00:22 +0100
-Message-Id: <20201007160038.26953-7-alex.bennee@linaro.org>
+Subject: [PATCH  v1 07/22] contrib/gitdm: Add more academic domains
+Date: Wed,  7 Oct 2020 17:00:23 +0100
+Message-Id: <20201007160038.26953-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201007160038.26953-1-alex.bennee@linaro.org>
 References: <20201007160038.26953-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,76 +88,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
+Cc: Dayeol Lee <dayeol@berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Xinyu Li <precinct@mail.ustc.edu.cn>, Alexander Bulekov <alxndr@bu.edu>,
+ Fan Yang <Fan_Yang@sjtu.edu.cn>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-genisoimage is needed for running the tests/qtest/cdrom-test qtest.
+There is a number of contributions from these academic domains.
+Add the entries to the gitdm 'academic' domain map.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Dayeol Lee <dayeol@berkeley.edu>
+Acked-by: Fan Yang <Fan_Yang@sjtu.edu.cn>
+Acked-by: Xinyu Li <precinct@mail.ustc.edu.cn>
+Acked-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Message-Id: <20201006160653.2391972-2-f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201006174347.152040-1-thuth@redhat.com>
 ---
- tests/docker/dockerfiles/centos8.docker      | 1 +
- tests/docker/dockerfiles/debian-amd64.docker | 1 +
- tests/docker/dockerfiles/fedora.docker       | 1 +
- tests/docker/dockerfiles/ubuntu2004.docker   | 1 +
- 4 files changed, 4 insertions(+)
+ contrib/gitdm/group-map-academics | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index f435616d6a..0fc2697491 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -8,6 +8,7 @@ ENV PACKAGES \
-     dbus-daemon \
-     gcc \
-     gcc-c++ \
-+    genisoimage \
-     gettext \
-     git \
-     glib2-devel \
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-index d2500dcff1..314c6bae83 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -14,6 +14,7 @@ RUN apt update && \
- RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt install -y --no-install-recommends \
-+        genisoimage \
-         libbz2-dev \
-         liblzo2-dev \
-         libgcrypt20-dev \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index ec783418c8..85c975543d 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -15,6 +15,7 @@ ENV PACKAGES \
-     findutils \
-     gcc \
-     gcc-c++ \
-+    genisoimage \
-     gettext \
-     git \
-     glib2-devel \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index cafe8443fb..f4b9556b9e 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -3,6 +3,7 @@ ENV PACKAGES flex bison \
-     ccache \
-     clang-10\
-     gcc \
-+    genisoimage \
-     gettext \
-     git \
-     glusterfs-common \
+diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
+index 08f9d81d13..bf3c894821 100644
+--- a/contrib/gitdm/group-map-academics
++++ b/contrib/gitdm/group-map-academics
+@@ -12,3 +12,7 @@ ispras.ru
+ # Columbia University
+ cs.columbia.edu
+ cota@braap.org
++
++uni-paderborn.de
++edu
++edu.cn
 -- 
 2.20.1
 
