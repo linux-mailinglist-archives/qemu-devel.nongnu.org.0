@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F381A285A0E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:05:39 +0200 (CEST)
-Received: from localhost ([::1]:48570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59931285A14
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:06:16 +0200 (CEST)
+Received: from localhost ([::1]:50334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ4SA-0002uD-P2
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:05:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41664)
+	id 1kQ4Sl-0003kB-DG
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ4Qe-00027V-EE
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:04:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52875)
+ id 1kQ4Qt-0002MQ-Oj
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:04:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ4Qc-0006M0-Cb
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:04:03 -0400
+ id 1kQ4Qq-0006NY-Mn
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:04:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602057840;
+ s=mimecast20190719; t=1602057855;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ooDpHdi/zvpw0/qU0WVmY+LizHQA59RAizudT5Z9T1k=;
- b=CK8YK2EHV9V45+fcG6qFlAqOh9YyMWyPtW/33BBXdIAg388lKrMlC+uV+8l7RFKb53EUSE
- 8JmxjxwxvI1DHoOGrEX9i6MCELIuAm5DQnXHTea/3UjVEOVEjMd03JE+ZtvV9h/nRn3MCs
- 9ZrcRH4GOv8bvsOZQpTPjvP2x8QdZLs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yyOz4gChudRcDBkXc683lx3khv8tEJBu3NrOoB1QVkw=;
+ b=Z7ZjG7DOj3xcdRojQEV/lBMc/f5sR1fkMVuG/hMP/usBJ12XI9RihDjSN3fYe2LEBQIhcP
+ 3d2GskiCiD6mNeJlZIAjFq0f5lHXoZmZ85BuJnU9BBOqHig3olsFv9gFaP+F8wOkpvoZg2
+ WU7O1IdOraHd1huzE1VBGNl5vQvx5qM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-g4ZWE_i_OQyHwf4SbVquvQ-1; Wed, 07 Oct 2020 04:03:59 -0400
-X-MC-Unique: g4ZWE_i_OQyHwf4SbVquvQ-1
+ us-mta-253-iBq2NYnBNMCtyoHvRvnlMA-1; Wed, 07 Oct 2020 04:04:14 -0400
+X-MC-Unique: iBq2NYnBNMCtyoHvRvnlMA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C14EC805F1E
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 08:03:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 374E51054F99
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 08:03:13 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CE5355786
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F3C3755786
  for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 08:03:12 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] simplify tests/qtest/meson.build and update docs
-Date: Wed,  7 Oct 2020 04:03:10 -0400
-Message-Id: <20201007080312.566464-1-pbonzini@redhat.com>
+Subject: [PATCH 1/2] qtest: unify extra_qtest_srcs and extra_qtest_deps
+Date: Wed,  7 Oct 2020 04:03:11 -0400
+Message-Id: <20201007080312.566464-2-pbonzini@redhat.com>
+In-Reply-To: <20201007080312.566464-1-pbonzini@redhat.com>
+References: <20201007080312.566464-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
@@ -81,22 +84,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The instructions for adding new unit tests were not in
-build-system.rst and therefore I missed them in the Meson
-conversion.  Patch 2 updates them; before that, however,
-patch 1 applies the same trick to qtests that was used to
-simplify the unit tests conversion.
+Currently the extra sources and extra dependencies of qtests are held
+in two separate dictionaries.  Use the same trick as tests/meson.build
+to combine them into one.  This will make it easier to update the
+documentation for unit tests and qtests.
 
-Paolo Bonzini (2):
-  qtest: unify extra_qtest_srcs and extra_qtest_deps
-  docs/devel: update instruction on how to add new unit tests
-
- docs/devel/qtest.rst    | 30 +++++++++++++++-------
- docs/devel/testing.rst  | 19 +++++++-------
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
  tests/qtest/meson.build | 55 +++++++++++++++++++----------------------
- 3 files changed, 57 insertions(+), 47 deletions(-)
+ 1 file changed, 26 insertions(+), 29 deletions(-)
 
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index ad33ac311d..550a0b51a6 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -192,35 +192,25 @@ qos_test_ss.add(
+ qos_test_ss.add(when: 'CONFIG_VIRTFS', if_true: files('virtio-9p-test.c'))
+ qos_test_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user-test.c'))
+ 
+-extra_qtest_deps = {
+-  'bios-tables-test': [io],
+-  'ivshmem-test': [rt],
+-  'qos-test': [chardev, io],
+-  'tpm-crb-swtpm-test': [io],
+-  'tpm-crb-test': [io],
+-  'tpm-tis-swtpm-test': [io],
+-  'tpm-tis-test': [io],
+-  'tpm-tis-device-swtpm-test': [io],
+-  'tpm-tis-device-test': [io],
+-}
+-extra_qtest_srcs = {
+-  'bios-tables-test': files('boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'),
+-  'pxe-test': files('boot-sector.c'),
++tpmemu_files = ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
++
++qtests = {
++  'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
+   'cdrom-test': files('boot-sector.c'),
+-  'migration-test': files('migration-helpers.c'),
+-  'ivshmem-test': files('../../contrib/ivshmem-server/ivshmem-server.c'),
+   'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
++  'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
++  'migration-test': files('migration-helpers.c'),
++  'pxe-test': files('boot-sector.c'),
++  'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: false).sources()],
++  'tpm-crb-swtpm-test': [io, tpmemu_files],
++  'tpm-crb-test': [io, tpmemu_files],
++  'tpm-tis-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
++  'tpm-tis-test': [io, tpmemu_files, 'tpm-tis-util.c'],
++  'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
++  'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
+-  'tpm-crb-swtpm-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tests.c'),
+-  'tpm-crb-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tests.c'),
+-  'tpm-tis-device-swtpm-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
+-  'tpm-tis-device-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
+-  'tpm-tis-swtpm-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
+-  'tpm-tis-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
+-  'qos-test': qos_test_ss.apply(config_host, strict: false).sources()
+ }
+ 
+-
+ qtest_executables = {}
+ foreach dir : target_dirs
+   if not dir.endswith('-softmmu')
+@@ -229,7 +219,7 @@ foreach dir : target_dirs
+ 
+   target_base = dir.split('-')[0]
+   qtest_emulator = emulators['qemu-system-' + target_base]
+-  qtests = get_variable('qtests_' + target_base, []) + qtests_generic
++  target_qtests = get_variable('qtests_' + target_base, []) + qtests_generic
+ 
+   test_deps = []
+   qtest_env = environment()
+@@ -240,14 +230,21 @@ foreach dir : target_dirs
+   qtest_env.set('G_TEST_DBUS_DAEMON', meson.source_root() / 'tests/dbus-vmstate-daemon.sh')
+   qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
+   
+-  foreach test : qtests
++  foreach test : target_qtests
+     # Executables are shared across targets, declare them only the first time we
+     # encounter them
+     if not qtest_executables.has_key(test)
++      src = [test + '.c']
++      deps = [qemuutil, qos]
++      if test in qtests
++        # use a sourceset to quickly separate sources and deps
++        test_ss = ss.source_set()
++        test_ss.add(qtests[test])
++        src += test_ss.all_sources()
++        deps += test_ss.all_dependencies()
++      endif
+       qtest_executables += {
+-        test: executable(test,
+-                         files(test + '.c') + extra_qtest_srcs.get(test, []),
+-                         dependencies: [qemuutil, qos] + extra_qtest_deps.get(test, []))
++        test: executable(test, src, dependencies: deps)
+       }
+     endif
+     # FIXME: missing dependency on the emulator binary and qemu-img
 -- 
 2.26.2
+
 
 
