@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7A62863E4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:27:55 +0200 (CEST)
-Received: from localhost ([::1]:49814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4420E28649A
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:37:05 +0200 (CEST)
+Received: from localhost ([::1]:45710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCIE-0006Es-63
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:27:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36406)
+	id 1kQCR6-0008Ql-AT
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQC0o-0004Oc-Uw
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:54 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41082)
+ id 1kQC0x-0004VB-IR
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:10:03 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQC0n-0003De-7w
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:54 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id w5so2845236wrp.8
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:09:52 -0700 (PDT)
+ id 1kQC0t-0003G1-Ql
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:10:03 -0400
+Received: by mail-wr1-x441.google.com with SMTP id n18so2861684wrs.5
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:09:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M8BJz88tNpwx06kkxJHIQnU1OBsb0ZN2jgNx+Hq3Dfs=;
- b=qacvBNVsL20jcXizndb0qoPPgoRdFKL65pqycifo24e6QoGMUnoqxvdA+S7LGwq6wp
- L5lJNPc6dA9+s5pZAdICKigg1FbfJxjSdB/uOZFhGXW6zuIuWr/4L8cJFfNyU3urfXrS
- a7pWHM4dMGhmpxJQv6Y3eQvqYlpaRxSw+YGzZg+3iTcb40X+AfS8QOd1dnm3TfWal5Qg
- +TN+E6qnjcG/KZwxd5QnOjHNHER4H53Hoh6GIRYUwH4y4VhBSzG/Fjm9lib3BNcMNgmV
- 2vjX9JUKMs4oXtEJn0cMz4MlvQ8hFrNFJVhDNKie2zoB7fMkaYTvcLbBPotbwZ2UxJcT
- hKkA==
+ bh=T4OlA2fKjLB2JyoNuPi1vxgCv/+/8y6KBFdMXYJZSgU=;
+ b=dijSX8gwzjlbPx4Bm1VhiES6AApqzaNQeI6LhUXgVh1RDeUIU04SZN//GbzSudzSK/
+ JVSWQtek+6r06qEQQHgrO8Wy4AkFZsi47p1HWLLqe4i3FwhnApq9IOmZKgNwdKL9+EDs
+ qAbt2ZT8IUfiN9seShoXUUXKdglMoH5Tn8/QprPWveaix4Mpzo9H/SXnZMAeSJuKEKxy
+ miSgAPEu319Ny7oV7eASHuQn8+hl/lCBPGDm32nHtqmJ563q77g2L+anwQ2rgXUgSSL2
+ 14bJTPaU+O8g23LEHBcutJBi7OK/lrCeQSNVolRJ0vJZmtEqgRyGf3XHTYjv26c+2/8E
+ nJow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M8BJz88tNpwx06kkxJHIQnU1OBsb0ZN2jgNx+Hq3Dfs=;
- b=fGjNqCd+c7XeL0VraH54+DfAYbPTjMGfhvmJIbaK4Ll9fgqGjQt1TsYAXLssyOGSjb
- 4SrnkX+nND34H34Dpw35keA+VMi7YfQ6n0T07RyCGQVJKKOqUr3HxvAv8eEJsgyEap43
- aUq77Ujz8n/v+e5bZEUzrrdBvvFYMAK4dkb9oH3e2IlF/b+E1yAOgKtfofeEMMFh1Jif
- 3OPoW6hoJHp5gHo+iXE7JTta9ra1vuXp+3aJeObgDOYdqtctPJMXeoxzyw8CtY+kdshf
- uUayqdnOoo/kN6Y6a3lkzKPwlaJ2qp5yHzOwT2BgYJq9tX34xjknFRw/xgaW4wofOW9S
- yj3g==
-X-Gm-Message-State: AOAM531b4fZKuSWxkPNCZFta0ffEfiW3inKmXcob6fE9pW0Y4VMk8EDt
- wdjmtRw2dhg50Em0rDcmJ9asnA==
-X-Google-Smtp-Source: ABdhPJx5joaxSl0BC4CoXDQhwS5kJL4AuNBrZixFkqmZBLWUXk42TepuJMKWBO8GdF2pi4hzl7gxZg==
-X-Received: by 2002:a5d:6592:: with SMTP id q18mr4365106wru.293.1602086991366; 
- Wed, 07 Oct 2020 09:09:51 -0700 (PDT)
+ bh=T4OlA2fKjLB2JyoNuPi1vxgCv/+/8y6KBFdMXYJZSgU=;
+ b=Hf+GH5wT/bSQ080ZcmLoQz0O7aFwJywlJ3oXxlaX3VTPDxDRUvqHSaIjsjj9Zs/LrC
+ N8luMnalDu5vEpzuPxcQfMj/BrYL6w69nhRg/W3GxTESFpNBkiMvAK7isCqcdyqm1JsO
+ r34LYvgra435jsOrHxwoZkgVdsh4PCpNaAIFXNWFaG5Is8KH7wht3EZaDG8U+0kfQFtK
+ qCyGeBU1XD7yClk4YDhJfSPfpwUbfYPQvtbRtoqZyT16fNyvwHxdLU2oLBSTHRn4THuM
+ AcBRzRtyytOs5AFyiqEsKqqIZxLS0KpeKb3LeX38zMt6nezoz7MFuKZOAZT60GKZCmSD
+ IOrQ==
+X-Gm-Message-State: AOAM533IXC3bToJ1SeAMlvnzn82GksnlGZ8M9y323JZlRJ/MnlrBxz/m
+ mga/NSgJw3uOLFCcimpWfPZ3Oo9mFndiDQ==
+X-Google-Smtp-Source: ABdhPJyqT0R2/Ju/AAqXpw0J/QBIbkXpCWwBYdHps4h28nKSnKQot3Jg6Uo82Isy7p6GriIVv5wxOA==
+X-Received: by 2002:a5d:5146:: with SMTP id u6mr4623521wrt.255.1602086997956; 
+ Wed, 07 Oct 2020 09:09:57 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y7sm3271494wmg.40.2020.10.07.09.09.43
+ by smtp.gmail.com with ESMTPSA id c132sm3338295wmf.25.2020.10.07.09.09.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 09:09:44 -0700 (PDT)
+ Wed, 07 Oct 2020 09:09:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 136B61FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 29EAF1FFAB;
  Wed,  7 Oct 2020 17:00:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 21/22] cirrus: use V=1 when running tests on FreeBSD and
- macOS
-Date: Wed,  7 Oct 2020 17:00:37 +0100
-Message-Id: <20201007160038.26953-22-alex.bennee@linaro.org>
+Subject: [PATCH v1 22/22] tests/acceptance: disable machine_rx_gdbsim on GitLab
+Date: Wed,  7 Oct 2020 17:00:38 +0100
+Message-Id: <20201007160038.26953-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201007160038.26953-1-alex.bennee@linaro.org>
 References: <20201007160038.26953-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,58 +88,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Ed Maste <emaste@freebsd.org>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+While I can get the ssh test to fail on my test setup this seems a lot
+more stable except when on GitLab. Hopefully we can re-enable both
+once the serial timing patches have been added.
 
-Using "V=1" makes it easier to identify hanging tests, especially
-since they are run with -j1.  It is already used on Windows builds,
-do the same for FreeBSD and macOS.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201007140103.711142-1-pbonzini@redhat.com>
 ---
- .cirrus.yml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/acceptance/machine_rx_gdbsim.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 301a64f104..99d118239c 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -15,7 +15,7 @@ freebsd_12_task:
-     - cd build
-     - ../configure --enable-werror || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
--    - gmake -j$(sysctl -n hw.ncpu) check
-+    - gmake -j$(sysctl -n hw.ncpu) check V=1
+diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/machine_rx_gdbsim.py
+index 0c72506028..32b737b6d8 100644
+--- a/tests/acceptance/machine_rx_gdbsim.py
++++ b/tests/acceptance/machine_rx_gdbsim.py
+@@ -22,6 +22,7 @@ class RxGdbSimMachine(Test):
+     timeout = 30
+     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
  
- macos_task:
-   osx_instance:
-@@ -29,7 +29,7 @@ macos_task:
-                    --extra-cflags='-Wno-error=deprecated-declarations'
-                    || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check
-+    - gmake check V=1
- 
- macos_xcode_task:
-   osx_instance:
-@@ -43,7 +43,7 @@ macos_xcode_task:
-     - ../configure --extra-cflags='-Wno-error=deprecated-declarations'
-                    --enable-werror --cc=clang || { cat config.log; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check
-+    - gmake check V=1
- 
- windows_msys2_task:
-   timeout_in: 90m
++    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+     def test_uboot(self):
+         """
+         U-Boot and checks that the console is operational.
 -- 
 2.20.1
 
