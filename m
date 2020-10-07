@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6C62856E8
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 05:14:26 +0200 (CEST)
-Received: from localhost ([::1]:36170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B20928570D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 05:26:17 +0200 (CEST)
+Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPzuL-0001rJ-Oq
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 23:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50628)
+	id 1kQ05n-0005iT-OX
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 23:26:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPzsF-0000TZ-Md; Tue, 06 Oct 2020 23:12:15 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:32786)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPzsD-0005lY-Lg; Tue, 06 Oct 2020 23:12:15 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id t23so2193376pji.0;
- Tue, 06 Oct 2020 20:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ti82CZTFz3EhPzRXs4Twux3NzJ56A37z948Ppkw4Evw=;
- b=Wjc5u9crHCBTUzjT0wiTxspQ42JCtdjFStdZCMRsP17MBzEHJt3AiDKnoNx8TakhAj
- 4/PHQlP3jXd8hwOd49WIA1kWFqvkP0Lg0DiC94a2JNfnoTqCVEW+hnoXpUD1kPWYKZ7T
- Dw7Qzfr1aLuaQhTLWCb/cHqeCBtFH+x2h7+Cm0VK+dU+jIAqV4voT9a9nVdwsT56ZBz5
- GX1mfjIgYFFw2cQEXQfN8haMcb3rlqTTTohG1up8yDrVQJXluLsXlvk4dCQDePNxusd3
- w7j9lwNQgXw/mBHHM3R9h97DEVfDBH1ZddlhoaumR39rLJiCjDlKeW8xEa4ipno+AYQt
- IW4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ti82CZTFz3EhPzRXs4Twux3NzJ56A37z948Ppkw4Evw=;
- b=fSNdj0opVqxPJz+g9MliQbnm/34t0de/Rofs+DciFnMRTaAbwSNhuiEpzOu1Weqkzw
- du5LiojY4wYfLZ11Aj/+AqYz14ONwa8T4BTmKRrz8g7L4vYiUPoafUUH0fLSUd0fhBku
- eC1xEwaul/c15hNGXt1hlG7HG29NU40+Qm3eWVN2hHCjCtntldtHp85fi0+yLN1kry/x
- MmzBTeVirvtEbJJLDsYFPDaaPooGP3vBFmryJ6A5H72KpnRWhsdFFGjG/a3/5reJMmuG
- ZF77WAzGXarBdm/lzEJLbqnGMmkbCP7ZTJtw21+F6kMmj6Nrtvk+CFJ1oiu7vm+y1802
- v3zw==
-X-Gm-Message-State: AOAM530bnmPoWh+cft1XR0kgFURLGptYyVP9aKRRidJdMoK0pXFgzq47
- 1BQhfXQhHrlY/27tsMPf1Ii6ui0aqXDrmw==
-X-Google-Smtp-Source: ABdhPJzd333it522tIKmKwoFZc1B87iN5dN6XqRBriR724uaindA+1KOnil8v23BkQMVG23eJSLAlg==
-X-Received: by 2002:a17:902:8509:b029:d3:89e2:7931 with SMTP id
- bj9-20020a1709028509b02900d389e27931mr947151plb.51.1602040331263; 
- Tue, 06 Oct 2020 20:12:11 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id cs21sm9001614pjb.0.2020.10.06.20.12.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 20:12:10 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1kQ04E-0005Dm-Um
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 23:24:38 -0400
+Received: from mr85p00im-ztdg06011201.me.com ([17.58.23.181]:40618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1kQ04C-0001Gk-Jo
+ for qemu-devel@nongnu.org; Tue, 06 Oct 2020 23:24:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+ t=1602041075; bh=RUSVo/LlfiKQ4shovhCJZboxE/aCKjsmZnWSqeO3ztw=;
+ h=From:To:Subject:Date:Message-Id:MIME-Version;
+ b=vnuv3NonbQLSxOX6K6Aw46grrwZiyVCKq6EAcLiXYfGbeAlBQAKfNvHfvnzING3eK
+ 7tnMwMtVEbcqNZew3iPD+LrugCi2Q5qsjnN/PTfkfG0I8euNcE/9K9C59bR29NrVXB
+ 5brt0afU4nbBQAo0p6PmFdTusKcZ8lNnWdfl1zORkj7QNYGmvJpkJCO5U2Cw4KxMeg
+ Ovgkf56Wm1ZlljW7TOVNwriCEbbUG7weqnQnKqAelAKqpV2UPMVL8ZgRA/qWhb8UvT
+ XcU4q6nJNeCWOs4RG70SThDpTCDd3shqfAmMk1CgSsxTyzq1yBOcM6d34VtDdfd5HM
+ b+uOd3Y53WugQ==
+Received: from localhost.localdomain (c-67-180-181-196.hsd1.ca.comcast.net
+ [67.180.181.196])
+ by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id DF74E4004E7;
+ Wed,  7 Oct 2020 03:24:34 +0000 (UTC)
+From: Jason Thorpe <thorpej@me.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] cirrus: Fixing and speedup the msys2/mingw CI
-Date: Wed,  7 Oct 2020 11:11:48 +0800
-Message-Id: <20201007031148.232-3-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20201007031148.232-1-luoyonggang@gmail.com>
-References: <20201007031148.232-1-luoyonggang@gmail.com>
+Cc: Jason Thorpe <thorpej@me.com>
+Subject: [PATCH] Changes to support booting NetBSD/alpha
+Date: Tue,  6 Oct 2020 20:24:17 -0700
+Message-Id: <20201007032417.26044-1-thorpej@me.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-10-07_03:2020-10-06,
+ 2020-10-07 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1011 mlxscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-2006250000 definitions=main-2010070022
+Received-SPF: pass client-ip=17.58.23.181; envelope-from=thorpej@me.com;
+ helo=mr85p00im-ztdg06011201.me.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 23:24:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,101 +70,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using a prepared https://github.com/lygstate/qemu/releases/download/v5.1.0/msys2-x86_64.tar.xz
-for speed up the msys2/mingw prepare speed on the cirrus CI.
-This file are generated by the msys2.docker
+Along with the previous patch set for qemu-palcode, these changes
+allow NetBSD/alpha to run in qemu-system-alpha.
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+- Allow a the minimum PCI device number to be passed to typhoon_init().
+  Use this to specify a minimum PCI device number of 1 in the Clipper
+  system emulation, since that's the lowest PCI device number with
+  valid interrupt mappings on that system.
+- Instead of passing just the CPU count in trap_arg2, also pass other
+  configuration information.  Define the first config bit (bit 6) to
+  reflect the "-nographic" option; PALcode will use this to initialize
+  the Console Terminal Block to specify serial console.
+- Attach a minimal i82378 SIO PCI node; some operating systems won't
+  scan for ISA devices unless a PCI-ISA bridge is detected.  Real hardware
+  would have had a Cypress or ALI bridge, but many Alpha models shipped
+  with a i82378, and most operating sytems are not picky about the specific
+  model.
+- Modify the mc146818rtc emulation to ensure the timer is started as soon
+  as the device is realized, and update the PF bit in REG_C even if it is
+  not going to result in raising an interrupt, as the real hardware does.
+
+Signed-off-by: Jason Thorpe <thorpej@me.com>
 ---
- .cirrus.yml | 58 ++++++++++++++---------------------------------------
- 1 file changed, 15 insertions(+), 43 deletions(-)
+ hw/alpha/alpha_sys.h |   2 +-
+ hw/alpha/dp264.c     |  16 ++++++-
+ hw/alpha/typhoon.c   | 104 +++++++++++++++++++++++++++++++++++++++++--
+ hw/rtc/mc146818rtc.c |   7 +++
+ 4 files changed, 123 insertions(+), 6 deletions(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index d58782ce67..6fd884db7a 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -47,58 +47,30 @@ macos_xcode_task:
+diff --git a/hw/alpha/alpha_sys.h b/hw/alpha/alpha_sys.h
+index e2c02e2bbe..4835b3d5ee 100644
+--- a/hw/alpha/alpha_sys.h
++++ b/hw/alpha/alpha_sys.h
+@@ -11,7 +11,7 @@
  
- windows_msys2_task:
-   windows_container:
--    image: cirrusci/windowsservercore:cmake
-+    image: cirrusci/windowsservercore:2019
-     os_version: 2019
-     cpu: 8
-     memory: 8G
-   env:
-+    CIRRUS_SHELL: powershell
-     MSYS: winsymlinks:nativestrict
-     MSYSTEM: MINGW64
-     CHERE_INVOKING: 1
--  printenv_script:
--    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
-   install_script:
--    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools &&
--        curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
--    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools &&
--        curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
--    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools &&
--        pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
--    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Sy"
-+    - |
-+      Write-Output $env:PATH
-+      md C:\tools
-+      $start_time = Get-Date
-+      bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND https://github.com/lygstate/qemu/releases/download/v5.1.0/msys2-x86_64.tar.xz C:\tools\msys2-x86_64.tar.xz
-+      Write-Output "Download time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
-+      $start_time = Get-Date
-+      cd C:\tools
-+      choco install -y --no-progress 7zip
-+      cmd /C "7z x msys2-x86_64.tar.xz -so | 7z x -aoa -simsys2-x86_64.tar -ttar -omsys64"
-+      Write-Output "Extract time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
-     - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed
--        bash pacman pacman-mirrors msys2-runtime"
--    - taskkill /F /IM gpg-agent.exe
--    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Su"
--    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed
--        base-devel
--        git
--        mingw-w64-x86_64-python
--        mingw-w64-x86_64-python-setuptools
--        mingw-w64-x86_64-toolchain
--        mingw-w64-x86_64-capstone
--        mingw-w64-x86_64-SDL2
--        mingw-w64-x86_64-SDL2_image
--        mingw-w64-x86_64-gtk3
--        mingw-w64-x86_64-glib2
--        mingw-w64-x86_64-ninja
--        mingw-w64-x86_64-make
--        mingw-w64-x86_64-lzo2
--        mingw-w64-x86_64-zstd
--        mingw-w64-x86_64-libjpeg-turbo
--        mingw-w64-x86_64-pixman
--        mingw-w64-x86_64-libgcrypt
--        mingw-w64-x86_64-libpng
--        mingw-w64-x86_64-libssh
--        mingw-w64-x86_64-libxml2
--        mingw-w64-x86_64-snappy
--        mingw-w64-x86_64-libusb
--        mingw-w64-x86_64-usbredir
--        mingw-w64-x86_64-libtasn1
--        mingw-w64-x86_64-nettle
--        mingw-w64-x86_64-cyrus-sasl
--        mingw-w64-x86_64-curl
--        mingw-w64-x86_64-gnutls
--        mingw-w64-x86_64-zstd"
-+      mingw-w64-x86_64-python-sphinx"
+ 
+ PCIBus *typhoon_init(MemoryRegion *, ISABus **, qemu_irq *, AlphaCPU *[4],
+-                     pci_map_irq_fn);
++                     pci_map_irq_fn, uint8_t devfn_min);
+ 
+ /* alpha_pci.c.  */
+ extern const MemoryRegionOps alpha_pci_ignore_ops;
+diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+index 4d24518d1d..de59ae78cb 100644
+--- a/hw/alpha/dp264.c
++++ b/hw/alpha/dp264.c
+@@ -72,13 +72,25 @@ static void clipper_init(MachineState *machine)
+         cpus[i] = ALPHA_CPU(cpu_create(machine->cpu_type));
+     }
+ 
++    /* arg0 -> memory size
++       arg1 -> kernel entry point
++       arg2 -> config word
 +
-   script:
-     - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure
++       Config word: bits 0-5 -> ncpus
++		    bit  6   -> nographics option (for HWRPB CTB)
++
++       See init_hwrpb() in the PALcode.  */
++
+     cpus[0]->env.trap_arg0 = ram_size;
+     cpus[0]->env.trap_arg1 = 0;
+     cpus[0]->env.trap_arg2 = smp_cpus;
++    if (!machine->enable_graphics)
++      cpus[0]->env.trap_arg2 |= (1 << 6);
+ 
+-    /* Init the chipset.  */
++    /* Init the chipset.  Because we're using CLIPPER IRQ mappings,
++       the minimum PCI device IdSel is 1.  */
+     pci_bus = typhoon_init(machine->ram, &isa_bus, &rtc_irq, cpus,
+-                           clipper_pci_map_irq);
++                           clipper_pci_map_irq, PCI_DEVFN(1, 0));
+ 
+     /* Since we have an SRM-compatible PALcode, use the SRM epoch.  */
+     mc146818_rtc_init(isa_bus, 1900, rtc_irq);
+diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
+index a42b319812..cfe7fd5098 100644
+--- a/hw/alpha/typhoon.c
++++ b/hw/alpha/typhoon.c
+@@ -817,7 +817,8 @@ static void typhoon_alarm_timer(void *opaque)
+ }
+ 
+ PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
+-                     AlphaCPU *cpus[4], pci_map_irq_fn sys_map_irq)
++                     AlphaCPU *cpus[4], pci_map_irq_fn sys_map_irq,
++                     uint8_t devfn_min)
+ {
+     MemoryRegion *addr_space = get_system_memory();
+     DeviceState *dev;
+@@ -887,7 +888,7 @@ PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
+     b = pci_register_root_bus(dev, "pci",
+                               typhoon_set_irq, sys_map_irq, s,
+                               &s->pchip.reg_mem, &s->pchip.reg_io,
+-                              0, 64, TYPE_PCI_BUS);
++                              devfn_min, 64, TYPE_PCI_BUS);
+     phb->bus = b;
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+ 
+@@ -921,10 +922,21 @@ PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
+     /* Pchip1 PCI configuration, 0x802.FE00.0000, 16MB.  */
+ 
+     /* Init the ISA bus.  */
+-    /* ??? Technically there should be a cy82c693ub pci-isa bridge.  */
++    /* Init the PCI-ISA bridge.  Technically, this would have been
++       a cy82c693ub, but a i82378 SIO was also used on many Alpha
++       systems and is close enough.
++
++       ??? We are using a private, stripped down implementation of i82378
++       so that we can handle the way the ISA interrupts are wired up on
++       Tsunami-type systems.  We're leaving that (and the rest of the board
++       peripheral setup) untoucned; we merely need to instantiate the PCI
++       device node for the bridge, so that operating systems that expect
++       it to be there will see it.  */
+     {
+         qemu_irq *isa_irqs;
+ 
++        pci_create_simple(b, PCI_DEVFN(7, 0), "i82378-typhoon");
++
+         *isa_bus = isa_bus_new(NULL, get_system_memory(), &s->pchip.reg_io,
+                                &error_abort);
+         isa_irqs = i8259_init(*isa_bus,
+@@ -955,10 +967,96 @@ static const TypeInfo typhoon_iommu_memory_region_info = {
+     .class_init = typhoon_iommu_memory_region_class_init,
+ };
+ 
++/* The following was copied from hw/isa/i82378.c and modified to provide
++   only the minimal PCI device node.  */
++
++/*                            
++ * QEMU Intel i82378 emulation (PCI to ISA bridge) 
++ *                            
++ * Copyright (c) 2010-2011 Herv\xc3\xa9 Poussineau
++ *  
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *  
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *     
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */    
++
++#include "migration/vmstate.h"
++
++#define TYPE_I82378 "i82378-typhoon"
++#define I82378(obj) \
++    OBJECT_CHECK(I82378State, (obj), TYPE_I82378)
++
++typedef struct I82378State {
++    PCIDevice parent_obj;
++} I82378State;
++
++static const VMStateDescription vmstate_i82378 = {
++    .name = "pci-i82378-typhoon",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(parent_obj, I82378State), 
++        VMSTATE_END_OF_LIST()
++    },                        
++};                            
++
++static void i82378_realize(PCIDevice *pci, Error **errp)
++{
++    uint8_t *pci_conf;
++ 
++    pci_conf = pci->config;
++    pci_set_word(pci_conf + PCI_COMMAND,
++                 PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER);
++    pci_set_word(pci_conf + PCI_STATUS,
++                 PCI_STATUS_DEVSEL_MEDIUM);
++ 
++    pci_config_set_interrupt_pin(pci_conf, 1); /* interrupt pin 0 */
++}
++
++static void i82378_init(Object *obj)
++{
++}      
++
++static void i82378_class_init(ObjectClass *klass, void *data)
++{   
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    k->realize = i82378_realize; 
++    k->vendor_id = PCI_VENDOR_ID_INTEL;
++    k->device_id = PCI_DEVICE_ID_INTEL_82378;
++    k->revision = 0x03;
++    k->class_id = PCI_CLASS_BRIDGE_ISA;
++    dc->vmsd = &vmstate_i82378;
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++}                             
++
++static const TypeInfo i82378_typhoon_type_info = {
++    .name = TYPE_I82378,
++    .parent = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(I82378State),
++    .instance_init = i82378_init,
++    .class_init = i82378_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },     
++    },
++};  
++
+ static void typhoon_register_types(void)
+ {
+     type_register_static(&typhoon_pcihost_info);
+     type_register_static(&typhoon_iommu_memory_region_info);
++    type_register_static(&i82378_typhoon_type_info);
+ }
+ 
+ type_init(typhoon_register_types)
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index 7a38540cb9..596876cb43 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -155,9 +155,15 @@ static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+ {
+     int period_code;
+ 
++#if 0
++    /*
++     * Real hardware sets the PF bit rergardless if it actually
++     * raises an interrupt.
++     */
+     if (!(s->cmos_data[RTC_REG_B] & REG_B_PIE)) {
+         return 0;
+      }
++#endif
+ 
+     period_code = s->cmos_data[RTC_REG_A] & 0x0f;
+ 
+@@ -944,6 +950,7 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+     }
+ 
+     s->periodic_timer = timer_new_ns(rtc_clock, rtc_periodic_timer, s);
++    periodic_timer_update(s, qemu_clock_get_ns(rtc_clock), 0, true);
+     s->update_timer = timer_new_ns(rtc_clock, rtc_update_timer, s);
+     check_update_timer(s);
+ 
 -- 
-2.28.0.windows.1
+2.28.0
 
 
