@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A00F286478
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:33:32 +0200 (CEST)
-Received: from localhost ([::1]:38134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC56B28639E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:21:23 +0200 (CEST)
+Received: from localhost ([::1]:35696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCNe-00057W-VZ
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:33:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34608)
+	id 1kQCBu-0008OY-Td
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBsI-0005KI-JL
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:01:06 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45625)
+ id 1kQBsQ-0005P4-1H
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:01:15 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBsE-00012c-34
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:01:06 -0400
-Received: by mail-wr1-x441.google.com with SMTP id e17so2796161wru.12
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:00:56 -0700 (PDT)
+ id 1kQBsH-00016Q-0P
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:01:13 -0400
+Received: by mail-wr1-x441.google.com with SMTP id t9so2793732wrq.11
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wShbQweM0QLxaD503QKQ0af5y+9OSC+PsKcb/w2fncE=;
- b=E094pBIkGIt1sox6YYa0IhP7m1MCWbp2mXmtvLRokfjY8H8vnsfRB7Iy9U2x9qLBKh
- 21HgNzGUfZ2wkmaJct6ZG4vRJMKJSJ1YqY33HwESBn6yf8NdocwSGzn4NPQyW+CHu3uL
- 2RDhS2Bwi42a5EqKgLnRBJ9LtL/jAbLEromDJeqNxEGDQqmb0R2WoPat9uWmt286ovb5
- R24o+kM6AzgJF3cWLBCZoLuwwEv3f7z/6hvuvIgur4Ki6eojyKGe4CB56FV0aBEkuXt0
- GnC0QClfk3bJueZGR59VIWcGo4euvoKKVTeLQh4qx5HqMIPnaEDR8TC8TPVOGBexzNjY
- PEJA==
+ bh=Jw2XViD7O4aJW7QX1xeSFbHvlMihOtMa7tjoEe+WHc4=;
+ b=mkop9QU3Ex9u5Q0pMdRWTo8+Eb5jKy+BmEuRqeo9aS7IxbfGeeyo/p6XnfyqqjZmdH
+ SZ5EJKqSHZN6mBDLFoLRbCrb6EZfSvwq+5t3Z97nmm+2jIxUD186btFrmrEY6BMr+nrT
+ 0OvzD6D7gLJteRdsqjn8dNeD3mrRU5+6wueTycE5pZ6pgm6lhdYVU4R+kyZXFPKxbyLj
+ 47ORUiR7meANFRa+8Ip7M3wn40ELIF9i9IbX+xGbR5QtbN6QxIipzmCqf7kbJT1jk0Vl
+ YZDgh6597wanmWwBJrD8EWtkGOfu4ofnAnq3pVWKucjbBV2nzEPvFQTFsnbgcCrJ48jz
+ bupg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wShbQweM0QLxaD503QKQ0af5y+9OSC+PsKcb/w2fncE=;
- b=b6OYQAUi6SHlX05/hiEiWjE38+N76TkFSNj6YzgnJRK2xZp/TjW4P4WicKoUguGpCB
- i1kn5ktTF5/okrNmKnnZP3cFdbxnouXNp5zpE3/bDdpEn8vgAzbKDv173DFfBqnrDaO4
- ypTdvC9wjOfaus5CAQuGdA4cNcUAJOyiZwQlm5r+7RAZtDyglIc9deew5GJ9iaqFqAUc
- SYI7FqWH8T7ZPxWbdWvV6IrtTikTo3mBrWyli6oxZftOqEg9cxKeAQ1WcRStCVW3xOxQ
- QJb9GtfDLeB7xSJdqBsdGQg7801ENh+hB4G/NwHFmELSsuaZ2FSMNeHePb9y84sW+mqQ
- 8fHw==
-X-Gm-Message-State: AOAM530uB75o8bWIrynwQRHDoKzC1FHlQohbeKiT789ti5QvpgzK9U0Z
- IaHpeoezXRkVe4jCbYrnvETk4g==
-X-Google-Smtp-Source: ABdhPJyJWbsmOeHRCeQ86YWwUjbNw4fr/+jrwq9fxk1B29nj9Vas3bqs2QBvQNQLMb+Rj5FHxfcxqw==
-X-Received: by 2002:adf:82e5:: with SMTP id 92mr4156569wrc.192.1602086455739; 
- Wed, 07 Oct 2020 09:00:55 -0700 (PDT)
+ bh=Jw2XViD7O4aJW7QX1xeSFbHvlMihOtMa7tjoEe+WHc4=;
+ b=JzwVpqoyr0L/KLrNMpV8LPlZ649UmhfHhoaBnsiRGWHqLpUThYPHtiof2/yZIWrqqk
+ RiNORFT3fstbjlgsl7GWWu51cwXVXFlZGiyQnBItU0eRtYb0Rl2zH+M1azHPwxZVGTj8
+ 4cpPC4Q4aEw9eci2pBB/VnMt8dtDH7+BRP9wQwYYxM9nvUyNIdnijRRAdqQttByXp9CA
+ l+oSJO9H7KVgPK875YGFvFholIOvUoWNoSUCNnEW9Kq6qLO5KR6PtYf03qhC5Pf6JotJ
+ 9hELAXWJ2CEZT6x5/NWhisPOJ80VAtSE9NWtjOJ7+5bKqqI5QUEV16Nlt70ESaBi9Ld+
+ tM7A==
+X-Gm-Message-State: AOAM533B7xHrhvmsPLE1jiblfZfm7fV1Q+1XQTX0yzdVGHgQElmfuHUi
+ NJLxARU+5NnKZCKaiGj5m2iMJg==
+X-Google-Smtp-Source: ABdhPJyLZikolK0mNTKpV0K3DJAbKvV4PlPHFa0yJrmOpopfVQnyGr0j0+xeu4/7Khbk3BiFeGXBKg==
+X-Received: by 2002:adf:f707:: with SMTP id r7mr4347962wrp.413.1602086463067; 
+ Wed, 07 Oct 2020 09:01:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b189sm3107063wmb.37.2020.10.07.09.00.41
+ by smtp.gmail.com with ESMTPSA id b11sm3541132wrt.38.2020.10.07.09.00.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 07 Oct 2020 09:00:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C567E1FF93;
+ by zen.linaroharston (Postfix) with ESMTP id DB27C1FF96;
  Wed,  7 Oct 2020 17:00:38 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 07/22] contrib/gitdm: Add more academic domains
-Date: Wed,  7 Oct 2020 17:00:23 +0100
-Message-Id: <20201007160038.26953-8-alex.bennee@linaro.org>
+Subject: [PATCH  v1 08/22] contrib/gitdm: Add more individual contributors
+Date: Wed,  7 Oct 2020 17:00:24 +0100
+Message-Id: <20201007160038.26953-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201007160038.26953-1-alex.bennee@linaro.org>
 References: <20201007160038.26953-1-alex.bennee@linaro.org>
@@ -88,44 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dayeol Lee <dayeol@berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+Cc: Stefan Weil <sw@weilnetz.de>, Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ David Carlier <devnexen@gmail.com>, Finn Thain <fthain@telegraphics.com.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Xinyu Li <precinct@mail.ustc.edu.cn>, Alexander Bulekov <alxndr@bu.edu>,
- Fan Yang <Fan_Yang@sjtu.edu.cn>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-There is a number of contributions from these academic domains.
-Add the entries to the gitdm 'academic' domain map.
+These individual contributors have a number of contributions,
+add them to the 'individual' group map.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Dayeol Lee <dayeol@berkeley.edu>
-Acked-by: Fan Yang <Fan_Yang@sjtu.edu.cn>
-Acked-by: Xinyu Li <precinct@mail.ustc.edu.cn>
-Acked-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-Id: <20201006160653.2391972-2-f4bug@amsat.org>
+Acked-by: Helge Deller <deller@gmx.de>
+Acked-by: Stefan Weil <sw@weilnetz.de>
+Acked-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Acked-by: David Carlier <devnexen@gmail.com>
+Acked-by: Paul Zimmerman <pauldzim@gmail.com>
+Acked-by: Volker Rümelin <vr_qemu@t-online.de>
+Acked-by: Finn Thain <fthain@telegraphics.com.au>
+Message-Id: <20201006160653.2391972-3-f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- contrib/gitdm/group-map-academics | 4 ++++
- 1 file changed, 4 insertions(+)
+ contrib/gitdm/group-map-individuals | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
-index 08f9d81d13..bf3c894821 100644
---- a/contrib/gitdm/group-map-academics
-+++ b/contrib/gitdm/group-map-academics
-@@ -12,3 +12,7 @@ ispras.ru
- # Columbia University
- cs.columbia.edu
- cota@braap.org
-+
-+uni-paderborn.de
-+edu
-+edu.cn
+diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
+index cf8a2ce367..641169fa63 100644
+--- a/contrib/gitdm/group-map-individuals
++++ b/contrib/gitdm/group-map-individuals
+@@ -16,3 +16,10 @@ aurelien@aurel32.net
+ balaton@eik.bme.hu
+ e.emanuelegiuseppe@gmail.com
+ andrew.smirnov@gmail.com
++sw@weilnetz.de
++deller@gmx.de
++fthain@telegraphics.com.au
++vr_qemu@t-online.de
++nieklinnenbank@gmail.com
++devnexen@gmail.com
++pauldzim@gmail.com
 -- 
 2.20.1
 
