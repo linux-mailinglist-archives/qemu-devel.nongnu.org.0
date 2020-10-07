@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0CA62857CB
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:33:16 +0200 (CEST)
-Received: from localhost ([::1]:33174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9062857CF
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:36:10 +0200 (CEST)
+Received: from localhost ([::1]:41668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ18e-0004JB-0A
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:33:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34274)
+	id 1kQ1BR-0007pN-W4
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:36:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQ15F-0002KK-A7
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36936)
+ id 1kQ15H-0002O2-Tt
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQ158-0005L3-PW
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:44 -0400
+ id 1kQ15E-0005Mj-Vz
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kQ156-00027A-5N
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:29:36 +0000
+ id 1kQ159-00027J-7p
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:29:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 24A5A2E80EC
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 04:29:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1FE862E8106
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 04:29:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Oct 2020 04:17:33 -0000
-From: Launchpad Bug Tracker <1505041@bugs.launchpad.net>
+Date: Wed, 07 Oct 2020 04:17:34 -0000
+From: Launchpad Bug Tracker <1323758@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Expired; importance=Low; assignee=None; 
+X-Launchpad-Bug-Tags: upstream
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange fgouget janitor th-huth
-X-Launchpad-Bug-Reporter: Francois Gouget (fgouget)
+X-Launchpad-Bug-Commenters: janitor maarten256 rubenportier serge-hallyn
+ th-huth
+X-Launchpad-Bug-Reporter: Ruben Portier (rubenportier)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20151012003458.26359.57214.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160204425389.20421.11462990134619226294.malone@loganberry.canonical.com>
-Subject: [Bug 1505041] Re: Live snapshot revert times increases linearly with
- snapshot age
+References: <20140527170942.25223.59558.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160204425461.20421.5500088847802867900.malone@loganberry.canonical.com>
+Subject: [Bug 1323758] Re: Mouse stops working when connected
+ usb-storage-device
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: ccb105764b2721860bb66e40c56f78a93a7277c3
+X-Launchpad-Hash: 010a72f67835baa05f4fb861ded930bf747183a7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 22:50:47
@@ -73,7 +77,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1505041 <1505041@bugs.launchpad.net>
+Reply-To: Bug 1323758 <1323758@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,96 +90,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1505041
+https://bugs.launchpad.net/bugs/1323758
 
 Title:
-  Live snapshot revert times increases linearly with snapshot age
+  Mouse stops working when connected usb-storage-device
 
 Status in QEMU:
   Expired
+Status in qemu package in Ubuntu:
+  Expired
 
 Bug description:
-  The WineTestBot (https://testbot.winehq.org/) uses QEmu live snapshots
-  to ensure the Wine tests are always run in a pristine Windows
-  environment. However the revert times keep increasing linearly with
-  the age of the snapshot, going from tens of seconds to thousands.
-  While the revert takes place the qemu process takes 100% of a core and
-  there is no disk activity. Obviously waiting over 20 minutes before
-  being able to run a 10 second test is not viable.
+  I'm running a guest that has Windows 8 Pro (x64) installed. Every time
+  I pass through a usb storage device from the host to the guest, the
+  mouse stops working in the vnc client. When I remove the usb-device
+  the mouse works again.
 
-  Only some VMs are impacted. Based on libvirt's XML files the common
-  point appears to be the presence of the following <timer> tags:
+  The mouse only stops working when I pass through a usb storage device
+  and then make the vlc viewer (client) inactive by clicking on another
+  program on the local computer (where I'm running the vnc viewer
+  (client)). As long as I keep the vnc viewer active, the mouse works
+  without any problems. But as soon as I make the vnc viewer inactive
+  and then active again, the mouse will no longer work. I have to reboot
+  the guest or remove the usb storage device.
 
-      <clock offset=3D'localtime'>
-        <timer name=3D'rtc' tickpolicy=3D'delay'/>
-        <timer name=3D'pit' tickpolicy=3D'delay'/>
-        <timer name=3D'hpet' present=3D'no'/>
-      </clock>
+  I can't find any related problems on the internet, so it may be just
+  me?
 
-  Where the unaffected VMs have the following clock definition instead:
+  I hope someone can help me with this.
 
-      <clock offset=3D'localtime'/>
-
-  Yet shutting down the affected VMs, changing the clock definition,
-  creating a live snapshot and trying to revert to it 6 months later
-  results in slow revert times (>400 seconds).
-
-  Changing the tickpolicy to catchup for rtc and/or pit has no effect on
-  the revert time (and unsurprisingly causes the clock to run fast in
-  the guest).
-
-  =
-
-  To reproduce this problem do the following:
-  * Create a Windows VM (either 32 or 64 bits). This is known to happen wit=
-h at least Windows 2000, XP, 2003, 2008 and 10.
-  * That VM will have the <timer> tags shown above, with the possible addit=
-ion of an hypervclock timer.
-  * Shut down the VM.
-  * date -s "2014/04/01"
-  * Start the VM.
-  * Take a live snapshot.
-  * Shut down the VM.
-  * date -s "<your current date>"
-  * Revert to the live snapshot.
-
-  If the revert takes more than 2 minutes then there is a problem.
-
-  =
-
-  A workaround is to set track=3D'guest' on the rtc timer. This makes the r=
-evert fast and may even be the correct solution. But why is it not the defa=
-ult or better documented?
-   * It setting track=3D'wall' or omitting track, then the revert is slow a=
-nd the clock in the guest is not updated.
-   * It setting track=3D'guest' the revert is fast and the clock in the gue=
-st is not updated.
-
-  =
-
-  I found three past mentions of this issue but as far as I can tell none o=
-f them got anywhere:
-
-  * [Qemu-discuss] massive slowdown for reverts after given amount of time =
-on any newer versions
-     https://lists.gnu.org/archive/html/qemu-discuss/2013-02/msg00000.html
-
-  * The above post references another one from 2011 wrt qemu 0.14:
-     https://lists.gnu.org/archive/html/qemu-devel/2011-03/msg02645.html
-
-  * Comment #9 of Launchpad bug 1174654 matches this slow revert issue. How=
-ever
-     the bug was really about another issue so this was not followed on.
-     https://bugs.launchpad.net/qemu/+bug/1174654/comments/9
-
-  =
-
-  I'm currently running into this issue with QEmu 2.1 but it looks like thi=
-s bug has been there all along.
-  1:2.1+dfsg-12+deb8u2 qemu-kvm
-  1:2.1+dfsg-12+deb8u2 qemu-system-common
-  1:2.1+dfsg-12+deb8u2 qemu-system-x86
+  EDIT: I posted the extra/new information in comments. But as I know
+  see it might be wrong and maybe I should've posted them in this bug
+  description container (by editing)? Please tell me if I did it wrong
+  and I will change it. Sorry for this misunderstanding.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1505041/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1323758/+subscriptions
 
