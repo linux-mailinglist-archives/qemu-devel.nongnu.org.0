@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CBB285EB9
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 14:06:15 +0200 (CEST)
-Received: from localhost ([::1]:37236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454F6285EE0
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 14:15:53 +0200 (CEST)
+Received: from localhost ([::1]:58140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ8D0-0003IR-VV
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 08:06:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36166)
+	id 1kQ8MK-00043y-7U
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 08:15:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ84X-0001r6-DT
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:57:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35199)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kQ85c-0003ka-Bl
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:58:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ84U-0001o1-95
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:57:29 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kQ85a-0001rp-Gm
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:58:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602071845;
+ s=mimecast20190719; t=1602071913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U0UUOtrq1fQ0NSBTSHvIDAywl8g3kvLSProVYS7MmD4=;
- b=fnNnwnoSp4FCIfN2rJgQMPhUvfSmOuL1IPDn7hX6k4cgxb32BnpA06VzlXwxWDEfqdTaSx
- sO5MTYY2StsfvpaiCiDsY/BIO0pj3rNtrL3Qd/wScZNpupSvH+eqYDTZhp0jpRSqyxE5Kt
- yf6znsa+bEclYzNuxAKZGyuiQTp/4to=
+ bh=1x7AGLKGwFFZ84uuulZoxnCd0haGCggfP5WmSc7V4lw=;
+ b=WWfcK9G0vpXr9oSSiPrmQV7OI0BOEkZ2R9VNEmnx4LhUPF6wTDojTQhuv8uyO60wI7Y3iw
+ qE8oRu4SVXZpBrcfxBJj9YGDMsWS5bK26vAJ9Oshh7j4oFtOBJT1ZuMcAPOw5e4f6xL2xC
+ CNTl+SZjwW4Ro1GFTEgo1uNZCoUIiBI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-hyNJwnDAP0urlTjrtDPXDQ-1; Wed, 07 Oct 2020 07:57:21 -0400
-X-MC-Unique: hyNJwnDAP0urlTjrtDPXDQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-62-tZnq5Z3ePYeraL--KvmSGA-1; Wed, 07 Oct 2020 07:58:31 -0400
+X-MC-Unique: tZnq5Z3ePYeraL--KvmSGA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7023F10BBEC3;
- Wed,  7 Oct 2020 11:57:20 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E013160BEC;
- Wed,  7 Oct 2020 11:57:19 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 17/17] scsi/scsi_bus: fix races in REPORT LUNS
-Date: Wed,  7 Oct 2020 07:57:00 -0400
-Message-Id: <20201007115700.707938-18-pbonzini@redhat.com>
-In-Reply-To: <20201007115700.707938-1-pbonzini@redhat.com>
-References: <20201007115700.707938-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A83D257085;
+ Wed,  7 Oct 2020 11:58:29 +0000 (UTC)
+Received: from work-vm (ovpn-112-50.ams2.redhat.com [10.36.112.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A654D19D7D;
+ Wed,  7 Oct 2020 11:58:27 +0000 (UTC)
+Date: Wed, 7 Oct 2020 12:58:25 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Chuan Zheng <zhengchuan@huawei.com>
+Subject: Re: [PATCH v2 0/2] migration/dirtyrate: optimizations for showing of
+ querying dirtyrate
+Message-ID: <20201007115825.GD22258@work-vm>
+References: <1601350938-128320-1-git-send-email-zhengchuan@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <1601350938-128320-1-git-send-email-zhengchuan@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,138 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Maxim Levitsky <mlevitsk@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: alex.chen@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ david.edmondson@oracle.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+* Chuan Zheng (zhengchuan@huawei.com) wrote:
+> This series include two optimizations showing of dirtyrate against v1
+> 1) show start_time and calc_time when query while at the measuring state
+> 2) do not show dirtyrate when measuring is not finished
+> 
+> Chuan Zheng (2):
+>   migration/dirtyrate: record start_time and calc_time while at the
+>     measuring state
+>   migration/dirtyrate: present dirty rate only when querying the rate
+>     has completed
+> 
+>  migration/dirtyrate.c | 16 ++++++++++------
+>  qapi/migration.json   |  8 +++-----
+>  2 files changed, 13 insertions(+), 11 deletions(-)
 
-Currently scsi_target_emulate_report_luns iterates over the child device list
-twice, and there is no guarantee that this list is the same in both iterations.
+Queued
 
-The reason for iterating twice is that the first iteration calculates
-how much memory to allocate.  However if we use a dynamic array we can
-avoid iterating twice, and therefore we avoid this race.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1866707
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200913160259.32145-10-mlevitsk@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201006123904.610658-14-mlevitsk@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/scsi/scsi-bus.c | 68 ++++++++++++++++++++++------------------------
- 1 file changed, 33 insertions(+), 35 deletions(-)
-
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index eda8cb7e70..b901e701f0 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -438,19 +438,23 @@ struct SCSITargetReq {
- static void store_lun(uint8_t *outbuf, int lun)
- {
-     if (lun < 256) {
-+        /* Simple logical unit addressing method*/
-+        outbuf[0] = 0;
-         outbuf[1] = lun;
--        return;
-+    } else {
-+        /* Flat space addressing method */
-+        outbuf[0] = 0x40 | (lun >> 8);
-+        outbuf[1] = (lun & 255);
-     }
--    outbuf[1] = (lun & 255);
--    outbuf[0] = (lun >> 8) | 0x40;
- }
- 
- static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
- {
-     BusChild *kid;
--    int i, len, n;
-     int channel, id;
--    bool found_lun0;
-+    uint8_t tmp[8] = {0};
-+    int len = 0;
-+    GByteArray *buf;
- 
-     if (r->req.cmd.xfer < 16) {
-         return false;
-@@ -458,46 +462,40 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
-     if (r->req.cmd.buf[2] > 2) {
-         return false;
-     }
-+
-+    /* reserve space for 63 LUNs*/
-+    buf = g_byte_array_sized_new(512);
-+
-     channel = r->req.dev->channel;
-     id = r->req.dev->id;
--    found_lun0 = false;
--    n = 0;
- 
--    RCU_READ_LOCK_GUARD();
-+    /* add size (will be updated later to correct value */
-+    g_byte_array_append(buf, tmp, 8);
-+    len += 8;
- 
--    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
--        DeviceState *qdev = kid->child;
--        SCSIDevice *dev = SCSI_DEVICE(qdev);
-+    /* add LUN0 */
-+    g_byte_array_append(buf, tmp, 8);
-+    len += 8;
- 
--        if (dev->channel == channel && dev->id == id) {
--            if (dev->lun == 0) {
--                found_lun0 = true;
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
-+            DeviceState *qdev = kid->child;
-+            SCSIDevice *dev = SCSI_DEVICE(qdev);
-+
-+            if (dev->channel == channel && dev->id == id && dev->lun != 0) {
-+                store_lun(tmp, dev->lun);
-+                g_byte_array_append(buf, tmp, 8);
-+                len += 8;
-             }
--            n += 8;
-         }
-     }
--    if (!found_lun0) {
--        n += 8;
--    }
--
--    scsi_target_alloc_buf(&r->req, n + 8);
--
--    len = MIN(n + 8, r->req.cmd.xfer & ~7);
--    memset(r->buf, 0, len);
--    stl_be_p(&r->buf[0], n);
--    i = found_lun0 ? 8 : 16;
--    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
--        DeviceState *qdev = kid->child;
--        SCSIDevice *dev = SCSI_DEVICE(qdev);
- 
--        if (dev->channel == channel && dev->id == id) {
--            store_lun(&r->buf[i], dev->lun);
--            i += 8;
--        }
--    }
-+    r->buf_len = len;
-+    r->buf = g_byte_array_free(buf, FALSE);
-+    r->len = MIN(len, r->req.cmd.xfer & ~7);
- 
--    assert(i == n + 8);
--    r->len = len;
-+    /* store the LUN list length */
-+    stl_be_p(&r->buf[0], len - 8);
-     return true;
- }
- 
+> -- 
+> 1.8.3.1
+> 
+> 
 -- 
-2.26.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
