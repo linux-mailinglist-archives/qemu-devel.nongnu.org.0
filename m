@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63957285FB2
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 15:03:45 +0200 (CEST)
-Received: from localhost ([::1]:45194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3B0285FB6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 15:04:48 +0200 (CEST)
+Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ96d-00086v-EH
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 09:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
+	id 1kQ97f-0001O9-RE
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 09:04:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQ93P-0006vM-E7; Wed, 07 Oct 2020 09:00:23 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37460)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQ93L-0001Mz-Ue; Wed, 07 Oct 2020 09:00:23 -0400
-Received: by mail-wr1-x442.google.com with SMTP id h7so2061586wre.4;
- Wed, 07 Oct 2020 06:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7Jsy/q8OA//1LlL/ti38A+9F0oBCn2y5LmKl2c8z0V4=;
- b=VpZq99TeYBXnQ0B+fURN6LDtAHFbKPWYMoyiAxP05+rVFojqKfWywU3CseEn9Q0Ege
- YkeKk5H4g42VVNebJNx+5bmPSl0OlG0vmnGE6GY/li0GgPqhChpQJXDVFJYwNBRxGnUR
- Q7+dOV/TGvQ7OqCpTX5pPhnpvxUcuLH03uo3lWSjksc1B3UGsiATMtgw3/5avXj4Frfd
- ooRl4CTb8TXbfavybQZxnazPK/8CXXEBmnOSbwBYF7nCOK81EKx6cbC8t45cz84yLmfA
- RpVdHH4W7E3+PPeZsM59REjncEm2IiwVwIYmxvbp+05wQQK5Jtz+35ZRS6km3RDvFyBy
- FJKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=7Jsy/q8OA//1LlL/ti38A+9F0oBCn2y5LmKl2c8z0V4=;
- b=eDNkhBRwoEnFz4HNieIPJleOOyLHI7IwZ9+ZPd1sNemCW2TK0yOU3rdy5ByDohKduq
- u9OIoD7HAvUOvhxsMW+QASW0KLdmaL95GOl3bFgEvmX8LFHlIjds3g31bd6MmcS9N9pG
- 9pVCAN62LTh4lz6+ZQdLhyUCWpAgi3ipMdze7n+yWznbz5Ra8d8Z2ABxKu5jrgQ29+SQ
- Fk9BIVIlv21AX2viUYCdH74P3uuOgBglvRiJ4iA6t5QEg/aT8YV3ESmxbhwGH1Y6dlFW
- SDC1LG9SyfzAUK/GvxrQ5EWL/9JmjRnzpssc4ftIVgcnseITXnQU39m3xVVjUF+ISxRr
- 1Heg==
-X-Gm-Message-State: AOAM531BuBxFkCLGEngRM2dVcmeaXBBAnoELxUQaFrsl1zNow2ACT1zw
- spTebuzIDiJtYPYyc8PY62aJx8tUK9U=
-X-Google-Smtp-Source: ABdhPJyc6MweLMyE4pZLpCJJGqeXL34A/bRiJGQhanXxjoKG0DfmTcymwO3P+J7zJLk/G/3hNRbbww==
-X-Received: by 2002:adf:ecc1:: with SMTP id s1mr3387394wro.120.1602075617414; 
- Wed, 07 Oct 2020 06:00:17 -0700 (PDT)
-Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id h206sm2858812wmf.47.2020.10.07.06.00.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 06:00:16 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/intc: Rename NIOS2 kconfig as ALTERA_IIC
-Date: Wed,  7 Oct 2020 15:00:15 +0200
-Message-Id: <20201007130015.2531633-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQ95j-0008T5-SV
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 09:02:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQ95g-0001hL-Qc
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 09:02:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602075764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YAC7NOB+gtz3eLsj/JsOKrn9rwcp50yoW4Q24mtEiaQ=;
+ b=Bb62M9RfDzWHn3qI5kaYoxbCn9yjONVfOJ5H0WQVDP79cq3wtw8gW427Opq8MYrYb0vkjD
+ 2mxyBDd4hDEyGYR0cQQj8bGtB3/W0LJoL3x2rXdzthuoIjXJYZbCNy2Xzr0FMpCwOMoNPh
+ WBWa8ph+XoHzUf0sr6nmjNIKwIQjvP8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-6Tu-Sz0zO3ylFGAV9iP4mg-1; Wed, 07 Oct 2020 09:02:42 -0400
+X-MC-Unique: 6Tu-Sz0zO3ylFGAV9iP4mg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38B9A804013;
+ Wed,  7 Oct 2020 13:02:41 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B33BC60BF1;
+ Wed,  7 Oct 2020 13:02:40 +0000 (UTC)
+Date: Wed, 7 Oct 2020 09:02:40 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Purpose of QOM properties registered at realize time?
+Message-ID: <20201007130240.GU7303@habkost.net>
+References: <20201006220647.GR7303@habkost.net>
+ <a6e652d9-548f-4d4e-e451-48e3f5e11031@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <a6e652d9-548f-4d4e-e451-48e3f5e11031@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,67 +80,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, qemu-trivial@nongnu.org,
- Chris Wulff <crwulff@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'NIOS2' Kconfig symbol is used to select an generic interrupt
-controller, and has not much to do with the Nios2 target.
-Rename the symbol as 'ALTERA_IIC'.
+On Wed, Oct 07, 2020 at 02:04:23PM +0200, Paolo Bonzini wrote:
+> On 07/10/20 00:06, Eduardo Habkost wrote:
+> > Hi,
+> > 
+> > While trying to understand how QOM properties are used in QEMU, I
+> > stumbled upon multiple cases where alias properties are added at
+> > realize time.
+> > 
+> > Now, I don't understand why those properties exist.  As the
+> > properties are added at realize time, I assume they aren't
+> > supposed to be touched by the user at all.  If they are not
+> > supposed to be touched by the user, what exactly is the purpose
+> > of those QOM properties?
+> 
+> In the case of GPIOs, I think they will be used by other devices that
+> are added afterwards.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/intc/Kconfig     | 3 +++
- hw/intc/meson.build | 2 +-
- hw/nios2/Kconfig    | 7 ++-----
- 3 files changed, 6 insertions(+), 6 deletions(-)
+Do you know how exactly are they used?  Is this always wrapped
+behind a specific API for GPIOs, or the devices can look for the
+properties directly?
 
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index d07954086a..d940c09cde 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -73,3 +73,6 @@ config SIFIVE_CLINT
- 
- config SIFIVE_PLIC
-     bool
-+
-+config ALTERA_IIC
-+    bool
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index 3f82cc230a..47c6726b8e 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -37,7 +37,7 @@ specific_ss.add(when: 'CONFIG_IBEX', if_true: files('ibex_plic.c'))
- specific_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
- specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_true: files('loongson_liointc.c'))
- specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_gic.c'))
--specific_ss.add(when: 'CONFIG_NIOS2', if_true: files('nios2_iic.c'))
-+specific_ss.add(when: 'CONFIG_ALTERA_IIC', if_true: files('nios2_iic.c'))
- specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_intc.c'))
- specific_ss.add(when: 'CONFIG_OMPIC', if_true: files('ompic.c'))
- specific_ss.add(when: 'CONFIG_OPENPIC_KVM', if_true: files('openpic_kvm.c'))
-diff --git a/hw/nios2/Kconfig b/hw/nios2/Kconfig
-index b10ea640da..95e72186af 100644
---- a/hw/nios2/Kconfig
-+++ b/hw/nios2/Kconfig
-@@ -1,12 +1,9 @@
- config NIOS2_10M50
-     bool
--    select NIOS2
-+    select ALTERA_IIC
-     select SERIAL
-     select ALTERA_TIMER
- 
- config NIOS2_GENERIC_NOMMU
-     bool
--    select NIOS2
--
--config NIOS2
--    bool
-+    select ALTERA_IIC
+I'm concerned by the possibility of having QOM properties as an
+undocumented part of an internal API.
+
+
+> 
+> The remaining ones are:
+> 
+> > hw/arm/allwinner-h3.c=232=static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+> > hw/arm/allwinner-h3.c:359:    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->mmc0),
+> > --
+> > hw/arm/bcm2835_peripherals.c=128=static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+> > hw/arm/bcm2835_peripherals.c:322:    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->gpio), "sd-bus");
+> > --
+> > hw/arm/bcm2836.c=69=static void bcm2836_realize(DeviceState *dev, Error **errp)
+> > hw/arm/bcm2836.c:87:    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->peripherals),
+> > --
+> > hw/arm/xlnx-zynqmp.c=276=static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+> > hw/arm/xlnx-zynqmp.c:522:        object_property_add_alias(OBJECT(s), bus_name, sdhci, "sd-bus");
+> 
+> And this are probably usable with "bus=sd-bus" or something like that on
+> other devices, too.
+> 
+> Paolo
+> 
+
 -- 
-2.26.2
+Eduardo
 
 
