@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401A128638C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:20:28 +0200 (CEST)
-Received: from localhost ([::1]:32830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7A62863E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:27:55 +0200 (CEST)
+Received: from localhost ([::1]:49814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCAz-0007FW-OL
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:20:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
+	id 1kQCIE-0006Es-63
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQC0k-0004CM-HH
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:50 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43420)
+ id 1kQC0o-0004Oc-Uw
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:54 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQC0h-0003Bq-9p
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:49 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id g12so2839098wrp.10
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:09:46 -0700 (PDT)
+ id 1kQC0n-0003De-7w
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:54 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id w5so2845236wrp.8
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:09:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DxeLu6aGWBvskvNncWpQH0bTFZxrTYaBhzESwlwiROA=;
- b=rqX/iNZrYPFCy9PCxJww3ksToJvgCYc1MMJ9shADetfmnm0V37am99D7tWNwD7kuB7
- 10Hq+zvSUI6d1cqNygU3oHDa9ZnNeXDXijfXHFeB+0MJF8dFf3B+r9q7+ZOpPBFhwT/Z
- IseXru3ynXMMoR+2841Yz2Jn8dOb+jQBTUzsrsuDb0mqN4ILgLUnTtmYwPtzMoPs6Erk
- Makki6xC4EF3Iv33PTRJmufGxsA2ERhbVt1e8hoZkioLBgueRH7YodlYaJXxc/Qpep5x
- KH3ejxoLlCsjj2nLGJ4n4HS98+wsvKtK6qUAkyYHv/C65f7D2kGTgxKzBGDDRcKHFLbz
- ElAg==
+ bh=M8BJz88tNpwx06kkxJHIQnU1OBsb0ZN2jgNx+Hq3Dfs=;
+ b=qacvBNVsL20jcXizndb0qoPPgoRdFKL65pqycifo24e6QoGMUnoqxvdA+S7LGwq6wp
+ L5lJNPc6dA9+s5pZAdICKigg1FbfJxjSdB/uOZFhGXW6zuIuWr/4L8cJFfNyU3urfXrS
+ a7pWHM4dMGhmpxJQv6Y3eQvqYlpaRxSw+YGzZg+3iTcb40X+AfS8QOd1dnm3TfWal5Qg
+ +TN+E6qnjcG/KZwxd5QnOjHNHER4H53Hoh6GIRYUwH4y4VhBSzG/Fjm9lib3BNcMNgmV
+ 2vjX9JUKMs4oXtEJn0cMz4MlvQ8hFrNFJVhDNKie2zoB7fMkaYTvcLbBPotbwZ2UxJcT
+ hKkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DxeLu6aGWBvskvNncWpQH0bTFZxrTYaBhzESwlwiROA=;
- b=EpzBuPxqYZBdyfA6m53HObbE6+p8JoPc/1a7PArZadj8+xe9B0dzWb0K6iKP48O/od
- hO2XqNc6QtgpOKSdoocCYWuc7wV7KBGhn2pgvmaGjRCau+XHaNnsb8sdQjhz7BXHr1rv
- VCXuuZ+pfE3lZP+yrn7xpq2Qf2KD2IN+HoOYVgTze9xKuyUWonV2eOho4mFO5Hgu48kx
- O5zTDmOSMERtgcaNKtbVZhdugzsEIsHM1HX1P+iRiXrGtQKszlp+sXtED6Di4fD6Cqhz
- gWubdz0wyxS/d9CI7pAzUPlg3q1IEBBPm1rQw2SKAeB8Leosd+oxc1gHUwUdUznmL0M1
- IuCA==
-X-Gm-Message-State: AOAM531qirNpEKl3ErJ4ZILSKlux6Z1HabTia4DqIutMcra2rhHUr2nU
- LgNZS7mk1SfIM6qizWgxvdUUkA==
-X-Google-Smtp-Source: ABdhPJzhmef4nh6Xi4jrGbygq8X5doI4h8zPJmlJoQa7uibnslZ7WSHD3oyX6bIXXmneeYBli6DnPg==
-X-Received: by 2002:adf:f2c1:: with SMTP id d1mr4660400wrp.179.1602086985477; 
- Wed, 07 Oct 2020 09:09:45 -0700 (PDT)
+ bh=M8BJz88tNpwx06kkxJHIQnU1OBsb0ZN2jgNx+Hq3Dfs=;
+ b=fGjNqCd+c7XeL0VraH54+DfAYbPTjMGfhvmJIbaK4Ll9fgqGjQt1TsYAXLssyOGSjb
+ 4SrnkX+nND34H34Dpw35keA+VMi7YfQ6n0T07RyCGQVJKKOqUr3HxvAv8eEJsgyEap43
+ aUq77Ujz8n/v+e5bZEUzrrdBvvFYMAK4dkb9oH3e2IlF/b+E1yAOgKtfofeEMMFh1Jif
+ 3OPoW6hoJHp5gHo+iXE7JTta9ra1vuXp+3aJeObgDOYdqtctPJMXeoxzyw8CtY+kdshf
+ uUayqdnOoo/kN6Y6a3lkzKPwlaJ2qp5yHzOwT2BgYJq9tX34xjknFRw/xgaW4wofOW9S
+ yj3g==
+X-Gm-Message-State: AOAM531b4fZKuSWxkPNCZFta0ffEfiW3inKmXcob6fE9pW0Y4VMk8EDt
+ wdjmtRw2dhg50Em0rDcmJ9asnA==
+X-Google-Smtp-Source: ABdhPJx5joaxSl0BC4CoXDQhwS5kJL4AuNBrZixFkqmZBLWUXk42TepuJMKWBO8GdF2pi4hzl7gxZg==
+X-Received: by 2002:a5d:6592:: with SMTP id q18mr4365106wru.293.1602086991366; 
+ Wed, 07 Oct 2020 09:09:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p21sm3331561wmc.28.2020.10.07.09.09.43
+ by smtp.gmail.com with ESMTPSA id y7sm3271494wmg.40.2020.10.07.09.09.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 07 Oct 2020 09:09:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F12F41FFAA;
- Wed,  7 Oct 2020 17:00:39 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 136B61FF7E;
+ Wed,  7 Oct 2020 17:00:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 20/22] plugin: Fixes compiling errors on msys2/mingw
-Date: Wed,  7 Oct 2020 17:00:36 +0100
-Message-Id: <20201007160038.26953-21-alex.bennee@linaro.org>
+Subject: [PATCH v1 21/22] cirrus: use V=1 when running tests on FreeBSD and
+ macOS
+Date: Wed,  7 Oct 2020 17:00:37 +0100
+Message-Id: <20201007160038.26953-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201007160038.26953-1-alex.bennee@linaro.org>
 References: <20201007160038.26953-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,58 +89,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Ed Maste <emaste@freebsd.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Using "V=1" makes it easier to identify hanging tests, especially
+since they are run with -j1.  It is already used on Windows builds,
+do the same for FreeBSD and macOS.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20201001163429.1348-3-luoyonggang@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201007140103.711142-1-pbonzini@redhat.com>
 ---
- contrib/plugins/hotblocks.c | 2 +-
- tests/plugin/bb.c           | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ .cirrus.yml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
-index 3942a2ca54..37435a3fc7 100644
---- a/contrib/plugins/hotblocks.c
-+++ b/contrib/plugins/hotblocks.c
-@@ -102,7 +102,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
- {
-     ExecCount *cnt;
-     uint64_t pc = qemu_plugin_tb_vaddr(tb);
--    unsigned long insns = qemu_plugin_tb_n_insns(tb);
-+    size_t insns = qemu_plugin_tb_n_insns(tb);
-     uint64_t hash = pc ^ insns;
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 301a64f104..99d118239c 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -15,7 +15,7 @@ freebsd_12_task:
+     - cd build
+     - ../configure --enable-werror || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake -j$(sysctl -n hw.ncpu) check
++    - gmake -j$(sysctl -n hw.ncpu) check V=1
  
-     g_mutex_lock(&lock);
-diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
-index e4cc7fdd6e..de09bdde4e 100644
---- a/tests/plugin/bb.c
-+++ b/tests/plugin/bb.c
-@@ -72,7 +72,7 @@ static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
-     CPUCount *count = max_cpus ?
-         g_ptr_array_index(counts, cpu_index) : &inline_count;
+ macos_task:
+   osx_instance:
+@@ -29,7 +29,7 @@ macos_task:
+                    --extra-cflags='-Wno-error=deprecated-declarations'
+                    || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake check
++    - gmake check V=1
  
--    unsigned long n_insns = (unsigned long)udata;
-+    uintptr_t n_insns = (uintptr_t)udata;
-     g_mutex_lock(&count->lock);
-     count->insn_count += n_insns;
-     count->bb_count++;
-@@ -81,7 +81,7 @@ static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
+ macos_xcode_task:
+   osx_instance:
+@@ -43,7 +43,7 @@ macos_xcode_task:
+     - ../configure --extra-cflags='-Wno-error=deprecated-declarations'
+                    --enable-werror --cc=clang || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake check
++    - gmake check V=1
  
- static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
- {
--    unsigned long n_insns = qemu_plugin_tb_n_insns(tb);
-+    size_t n_insns = qemu_plugin_tb_n_insns(tb);
- 
-     if (do_inline) {
-         qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
+ windows_msys2_task:
+   timeout_in: 90m
 -- 
 2.20.1
 
