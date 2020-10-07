@@ -2,56 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58732864C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:44:18 +0200 (CEST)
-Received: from localhost ([::1]:39752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC5E2863E3
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:27:30 +0200 (CEST)
+Received: from localhost ([::1]:49336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCY5-0001D5-W3
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35214)
+	id 1kQCHp-00060o-TL
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kQBup-0006NM-5X; Wed, 07 Oct 2020 12:03:43 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:54926)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kQBuk-0001Sq-Nu; Wed, 07 Oct 2020 12:03:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=M6KJSNHjziQgjjDm3jqlOAWE3wt+M4set/Bj8vieMW0=; 
- b=XKvZvr0PrqWMthJf455u1R3hmqLzao9IqNCp/d0HY6DEIDqlaqoiGf21JXs2gjT0naEE65qdFgT9PXNZgG1djruxWOMZeBbhX/JzM5uf2TCztO4trkRcQXZzCYFKPrggmN3t5EB6bmRs3RKdmysy0hfdoXR4bNTOpFOR1UUZ85LflHdBhKigZSAHl/S0b0KPJ6Bp9qlbjMkfd56xtXQo/YoiM9PCJlWbPoqtcmTHUKa1CO9uLnCOkEQqSGBW3JtKX7R5M+JUrd18s9oIOYb8zxCjLQxIWHbNISDC/uFOMe54w74Q+sxNjk6zJBpRYXMdHTQ1x2vOuayq/iV9LVC0fg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kQBuf-0006am-W5; Wed, 07 Oct 2020 18:03:34 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1kQBuf-0006Hh-GK; Wed, 07 Oct 2020 18:03:33 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] qcow2: Document and enforce the QCowL2Meta invariants
-In-Reply-To: <9105bbe6-dd05-4568-b2ee-9eb8f943c535@virtuozzo.com>
-References: <20201007115217.18013-1-berto@igalia.com>
- <f53af87c-15e3-4de5-42e0-213363759231@virtuozzo.com>
- <w51d01uavxi.fsf@maestria.local.igalia.com>
- <9105bbe6-dd05-4568-b2ee-9eb8f943c535@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Wed, 07 Oct 2020 18:03:33 +0200
-Message-ID: <w51a6wyauqy.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQBvi-00073C-SY
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:04:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQBvd-0001es-Pu
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:04:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602086671;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iWleI57e3a4PMyjQLi9oMuP+VZ10hg/TYZIgZHs76A0=;
+ b=ay03qhK3UgEJzuFF6Rc1i3MgrM8CPUnsZt4Ij6FAE2LEd8/W7fTRG2msIAA0tY+5ceZo2f
+ CV4sh+YeAFzAYnW/bV0WSGa2VjZWXnOVoA2Mzv+K27mJ9YABhAmRnca/c3j5dSjubOO1pA
+ TPgUJSX86Hg523gqWeIS/wildGV2ELY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-Es-5BautOXmrcphl7ldU6A-1; Wed, 07 Oct 2020 12:04:29 -0400
+X-MC-Unique: Es-5BautOXmrcphl7ldU6A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE24218A822E
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 16:04:27 +0000 (UTC)
+Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E033C5C1BD;
+ Wed,  7 Oct 2020 16:04:26 +0000 (UTC)
+Subject: Re: [PATCH v5 24/36] qapi/source.py: add type hint annotations
+To: Markus Armbruster <armbru@redhat.com>
+References: <20201005195158.2348217-1-jsnow@redhat.com>
+ <20201005195158.2348217-25-jsnow@redhat.com>
+ <87lfgicktb.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <b4f6d2bb-37bb-5510-1fb5-479a3ca55b29@redhat.com>
+Date: Wed, 7 Oct 2020 12:04:26 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 11:38:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <87lfgicktb.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,63 +84,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 07 Oct 2020 05:47:32 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
-> 07.10.2020 18:38, Alberto Garcia wrote:
->> On Wed 07 Oct 2020 04:42:37 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
->>>>        /**
->>>> -     * The COW Region between the start of the first allocated cluster and the
->>>> -     * area the guest actually writes to.
->>>> +     * The COW Region immediately before the area the guest actually
->>>> +     * writes to. This (part of the) write request starts at
->>>> +     * cow_start.offset + cow_start.nb_bytes.
->>>
->>> "starts at" is a bit misleading.. As here is not guest offset, not
->>> host offset, but offset relative to QCowL2Meta.offset
->> 
->> I thought it was clear by the context since Qcow2COWRegion.offset is
->> defined to be relative to QCowL2Meta.offset
->> 
->>>> @@ -1049,6 +1049,8 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
->>>>        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
->>>>    
->>>>        assert(l2_index + m->nb_clusters <= s->l2_slice_size);
->>>> +    assert(m->cow_end.offset + m->cow_end.nb_bytes <=
->>>> +           m->nb_clusters << s->cluster_bits);
->>>
->>> should we also assert that cow_end.offset + cow_end.nb_bytes is not
->>> zero?
->> 
->> No, a write request that fills a complete cluster has no COW but still
->> needs to call qcow2_alloc_cluster_link_l2() to update the L2 metadata.
->
-> but cow_end.offset will not be zero still? I suggest it because you
-> actually rely on this fact by dropping written_to conditional
-> assignment.
+On 10/7/20 7:55 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> Annotations do not change runtime behavior.
+>> This commit *only* adds annotations.
+>>
+>> A note on typing of __init__: mypy requires init functions with no
+>> parameters to document a return type of None to be considered fully
+>> typed. In the case when there are input parameters, None may be omitted.
+>>
+>> Since __init__ may never return any value, it is preferred to omit the
+>> return annotation whenever possible.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+>> Tested-by: Cleber Rosa <crosa@redhat.com>
+>> ---
+>>   scripts/qapi/mypy.ini  |  5 -----
+>>   scripts/qapi/source.py | 31 ++++++++++++++++++-------------
+>>   2 files changed, 18 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
+>> index 8ab9ac52cc4..1b8555dfa39 100644
+>> --- a/scripts/qapi/mypy.ini
+>> +++ b/scripts/qapi/mypy.ini
+>> @@ -34,11 +34,6 @@ disallow_untyped_defs = False
+>>   disallow_incomplete_defs = False
+>>   check_untyped_defs = False
+>>   
+>> -[mypy-qapi.source]
+>> -disallow_untyped_defs = False
+>> -disallow_incomplete_defs = False
+>> -check_untyped_defs = False
+>> -
+>>   [mypy-qapi.types]
+>>   disallow_untyped_defs = False
+>>   disallow_incomplete_defs = False
+>> diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
+>> index e97b9a8e15e..1cc6a5b82dc 100644
+>> --- a/scripts/qapi/source.py
+>> +++ b/scripts/qapi/source.py
+>> @@ -11,37 +11,42 @@
+>>   
+>>   import copy
+>>   import sys
+>> +from typing import List, Optional, TypeVar
+>>   
+>>   
+>>   class QAPISchemaPragma:
+>> -    def __init__(self):
+>> +    def __init__(self) -> None:
+>>           # Are documentation comments required?
+>>           self.doc_required = False
+>>           # Whitelist of commands allowed to return a non-dictionary
+>> -        self.returns_whitelist = []
+>> +        self.returns_whitelist: List[str] = []
+>>           # Whitelist of entities allowed to violate case conventions
+>> -        self.name_case_whitelist = []
+>> +        self.name_case_whitelist: List[str] = []
+>>   
+>>   
+>>   class QAPISourceInfo:
+>> -    def __init__(self, fname, line, parent):
+>> +    T = TypeVar('T', bound='QAPISourceInfo')
+>> +
+>> +    def __init__(self: T, fname: str, line: int, parent: Optional[T]):
+> 
+> More ignorant questions (I'm abusing the review process to learn Python
+> type hints)...
+> 
+> Why do you need to annotate self here, but not elsewhere?
+> 
 
-No, cow_end.offset must not be 0 but the offset where the data region
-ends, this is already enforced by this assertion in perform_cow():
+This is admittedly me being a little extra, but I thought it was a good 
+way to show a pattern for people who maybe hadn't been exposed to it yet.
 
-    assert(start->offset + start->nb_bytes <= end->offset);
+This is a pattern that allows for subclassing. I am stating that this 
+__init__ method takes a parent of the same type as itself, whatever that 
+happens to actually be.
 
-And it is explicitly mentioned in the commit message:
+T is a TypeVar that we can use for Generics. By declaring the type of 
+self as that TypeVar, we bind T to self's type. When we annotate the 
+parent as a T, we are enforcing that the parent we receive is of the 
+same type as ourselves.
 
-    Even when those regions themselves are empty their offsets must be
-    correct because they are used to know the location of the middle
-    region.
+(Yep, we don't actually subclass QAPISourceInfo and I don't have plans 
+to. It felt slightly icky to hard-code the class type name, though. I 
+try to avoid that whenever I can. I'm not sure I would go so far as to 
+call it a code smell or an antipattern, but it's something I tend to 
+avoid anyway.)
 
-and also in qcow2.h:
+> Why do you use T instead of QAPISourceInfo?
+> 
+>>           self.fname = fname
+>>           self.line = line
+>>           self.parent = parent
+>> -        self.pragma = parent.pragma if parent else QAPISchemaPragma()
+>> -        self.defn_meta = None
+>> -        self.defn_name = None
+>> +        self.pragma: QAPISchemaPragma = (
+>> +            parent.pragma if parent else QAPISchemaPragma()
+>> +        )
+> 
+> Type inference fail?
+> 
 
-  /**
-   * The COW Region immediately after the area the guest actually
-   * writes to. This (part of the) write request ends at cow_end.offset
-   * (which must always be set even when cow_end.nb_bytes is 0).
-   */
-  Qcow2COWRegion cow_end;
+Yes:
 
-Berto
+qapi/source.py:34: error: Cannot determine type of 'pragma'
+Found 1 error in 1 file (checked 14 source files)
+
+>> +        self.defn_meta: Optional[str] = None
+>> +        self.defn_name: Optional[str] = None
+>>   
+>> -    def set_defn(self, meta, name):
+>> +    def set_defn(self, meta: str, name: str) -> None:
+>>           self.defn_meta = meta
+>>           self.defn_name = name
+>>   
+>> -    def next_line(self):
+>> +    def next_line(self: T) -> T:
+>>           info = copy.copy(self)
+>>           info.line += 1
+>>           return info
+>>   
+>> -    def loc(self):
+>> +    def loc(self) -> str:
+>>           if self.fname is None:
+>>               return sys.argv[0]
+>>           ret = self.fname
+>> @@ -49,13 +54,13 @@ def loc(self):
+>>               ret += ':%d' % self.line
+>>           return ret
+>>   
+>> -    def in_defn(self):
+>> +    def in_defn(self) -> str:
+>>           if self.defn_name:
+>>               return "%s: In %s '%s':\n" % (self.fname,
+>>                                             self.defn_meta, self.defn_name)
+>>           return ''
+>>   
+>> -    def include_path(self):
+>> +    def include_path(self) -> str:
+>>           ret = ''
+>>           parent = self.parent
+>>           while parent:
+>> @@ -63,5 +68,5 @@ def include_path(self):
+>>               parent = parent.parent
+>>           return ret
+>>   
+>> -    def __str__(self):
+>> +    def __str__(self) -> str:
+>>           return self.include_path() + self.in_defn() + self.loc()
+
 
