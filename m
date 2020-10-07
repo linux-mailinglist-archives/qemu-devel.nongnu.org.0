@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC5E2863E3
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:27:30 +0200 (CEST)
-Received: from localhost ([::1]:49336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B9328642B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:31:06 +0200 (CEST)
+Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCHp-00060o-TL
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35366)
+	id 1kQCLJ-0001MQ-Qq
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:31:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQBvi-00073C-SY
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:04:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46222)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQC0Y-0003tP-36
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQBvd-0001es-Pu
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:04:38 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQC0V-00039a-DN
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602086671;
+ s=mimecast20190719; t=1602086973;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iWleI57e3a4PMyjQLi9oMuP+VZ10hg/TYZIgZHs76A0=;
- b=ay03qhK3UgEJzuFF6Rc1i3MgrM8CPUnsZt4Ij6FAE2LEd8/W7fTRG2msIAA0tY+5ceZo2f
- CV4sh+YeAFzAYnW/bV0WSGa2VjZWXnOVoA2Mzv+K27mJ9YABhAmRnca/c3j5dSjubOO1pA
- TPgUJSX86Hg523gqWeIS/wildGV2ELY=
+ bh=katADo/Y/OL0goxHUzK5+bflziYjOe1d9usGMhtxLWk=;
+ b=MvxOoLSYV5Il01/AAs2483gSBgK5vhu38ZF0w0fbmULl0oh3mU6b7cdIKZFWaWEc8CHsOg
+ 1gtDeODhbcguxSLNrpAVn7BqU4aunHD8fyko+NuatErpQigig6XjpNU4sSRZeX9C2w3ePy
+ 6Yb4dyQ9bBP76urG9qU/o9ynOC0eA4Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-Es-5BautOXmrcphl7ldU6A-1; Wed, 07 Oct 2020 12:04:29 -0400
-X-MC-Unique: Es-5BautOXmrcphl7ldU6A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-584-qpbw-xOsP3eWq7jVoewbSw-1; Wed, 07 Oct 2020 12:09:30 -0400
+X-MC-Unique: qpbw-xOsP3eWq7jVoewbSw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE24218A822E
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 16:04:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03FF718A822E
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 16:09:30 +0000 (UTC)
 Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E033C5C1BD;
- Wed,  7 Oct 2020 16:04:26 +0000 (UTC)
-Subject: Re: [PATCH v5 24/36] qapi/source.py: add type hint annotations
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED9B97664C;
+ Wed,  7 Oct 2020 16:09:28 +0000 (UTC)
+Subject: Re: [PATCH v5 26/36] qapi/gen.py: Fix edge-case of _is_user_module
 To: Markus Armbruster <armbru@redhat.com>
 References: <20201005195158.2348217-1-jsnow@redhat.com>
- <20201005195158.2348217-25-jsnow@redhat.com>
- <87lfgicktb.fsf@dusky.pond.sub.org>
+ <20201005195158.2348217-27-jsnow@redhat.com>
+ <87eemackge.fsf@dusky.pond.sub.org>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <b4f6d2bb-37bb-5510-1fb5-479a3ca55b29@redhat.com>
-Date: Wed, 7 Oct 2020 12:04:26 -0400
+Message-ID: <7b2f0d13-ecbf-7e4a-4a68-bb31e833db41@redhat.com>
+Date: Wed, 7 Oct 2020 12:09:28 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <87lfgicktb.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <87eemackge.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,159 +89,53 @@ Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/20 7:55 AM, Markus Armbruster wrote:
+On 10/7/20 8:02 AM, Markus Armbruster wrote:
 > John Snow <jsnow@redhat.com> writes:
 > 
->> Annotations do not change runtime behavior.
->> This commit *only* adds annotations.
->>
->> A note on typing of __init__: mypy requires init functions with no
->> parameters to document a return type of None to be considered fully
->> typed. In the case when there are input parameters, None may be omitted.
->>
->> Since __init__ may never return any value, it is preferred to omit the
->> return annotation whenever possible.
+>> The edge case is that if the name is '', this expression returns a
+>> string instead of a bool, which violates our declared type.
+> 
+> The edge case is impossible, as discussed in review of v2.  I figure the
+> type checker can't see that, so we need to help it some.  Can we mention
+> this in the commit message?
+> 
+
+Sure. It's quite possible we will be able to better model and constrain 
+these types, but that will come after all of these patches.
+
+Mypy just has no way of knowing that '' is forbidden. That constraint 
+does not exist in the type system we have here at present.
+
+You could, by the way, create a type called NonEmptyString and create a 
+function that casts from str to NonEmptyString by means of an assertion 
+and then annotating the return type.
+
+Anyway, I'll update the commit message for now.
+
 >>
 >> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 >> Reviewed-by: Cleber Rosa <crosa@redhat.com>
->> Tested-by: Cleber Rosa <crosa@redhat.com>
+>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 >> ---
->>   scripts/qapi/mypy.ini  |  5 -----
->>   scripts/qapi/source.py | 31 ++++++++++++++++++-------------
->>   2 files changed, 18 insertions(+), 18 deletions(-)
+>>   scripts/qapi/gen.py | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
->> index 8ab9ac52cc4..1b8555dfa39 100644
->> --- a/scripts/qapi/mypy.ini
->> +++ b/scripts/qapi/mypy.ini
->> @@ -34,11 +34,6 @@ disallow_untyped_defs = False
->>   disallow_incomplete_defs = False
->>   check_untyped_defs = False
+>> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+>> index f2e2746fea5..1bad37fc06b 100644
+>> --- a/scripts/qapi/gen.py
+>> +++ b/scripts/qapi/gen.py
+>> @@ -243,7 +243,7 @@ def __init__(self, prefix, what, user_blurb, builtin_blurb, pydoc):
 >>   
->> -[mypy-qapi.source]
->> -disallow_untyped_defs = False
->> -disallow_incomplete_defs = False
->> -check_untyped_defs = False
->> -
->>   [mypy-qapi.types]
->>   disallow_untyped_defs = False
->>   disallow_incomplete_defs = False
->> diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
->> index e97b9a8e15e..1cc6a5b82dc 100644
->> --- a/scripts/qapi/source.py
->> +++ b/scripts/qapi/source.py
->> @@ -11,37 +11,42 @@
->>   
->>   import copy
->>   import sys
->> +from typing import List, Optional, TypeVar
->>   
->>   
->>   class QAPISchemaPragma:
->> -    def __init__(self):
->> +    def __init__(self) -> None:
->>           # Are documentation comments required?
->>           self.doc_required = False
->>           # Whitelist of commands allowed to return a non-dictionary
->> -        self.returns_whitelist = []
->> +        self.returns_whitelist: List[str] = []
->>           # Whitelist of entities allowed to violate case conventions
->> -        self.name_case_whitelist = []
->> +        self.name_case_whitelist: List[str] = []
->>   
->>   
->>   class QAPISourceInfo:
->> -    def __init__(self, fname, line, parent):
->> +    T = TypeVar('T', bound='QAPISourceInfo')
->> +
->> +    def __init__(self: T, fname: str, line: int, parent: Optional[T]):
+>>       @staticmethod
+>>       def _is_user_module(name):
+>> -        return name and not name.startswith('./')
+>> +        return bool(name and not name.startswith('./'))
 > 
-> More ignorant questions (I'm abusing the review process to learn Python
-> type hints)...
+>             return not (name is None or name.startswith('./')
 > 
-> Why do you need to annotate self here, but not elsewhere?
-> 
-
-This is admittedly me being a little extra, but I thought it was a good 
-way to show a pattern for people who maybe hadn't been exposed to it yet.
-
-This is a pattern that allows for subclassing. I am stating that this 
-__init__ method takes a parent of the same type as itself, whatever that 
-happens to actually be.
-
-T is a TypeVar that we can use for Generics. By declaring the type of 
-self as that TypeVar, we bind T to self's type. When we annotate the 
-parent as a T, we are enforcing that the parent we receive is of the 
-same type as ourselves.
-
-(Yep, we don't actually subclass QAPISourceInfo and I don't have plans 
-to. It felt slightly icky to hard-code the class type name, though. I 
-try to avoid that whenever I can. I'm not sure I would go so far as to 
-call it a code smell or an antipattern, but it's something I tend to 
-avoid anyway.)
-
-> Why do you use T instead of QAPISourceInfo?
-> 
->>           self.fname = fname
->>           self.line = line
->>           self.parent = parent
->> -        self.pragma = parent.pragma if parent else QAPISchemaPragma()
->> -        self.defn_meta = None
->> -        self.defn_name = None
->> +        self.pragma: QAPISchemaPragma = (
->> +            parent.pragma if parent else QAPISchemaPragma()
->> +        )
-> 
-> Type inference fail?
-> 
-
-Yes:
-
-qapi/source.py:34: error: Cannot determine type of 'pragma'
-Found 1 error in 1 file (checked 14 source files)
-
->> +        self.defn_meta: Optional[str] = None
->> +        self.defn_name: Optional[str] = None
+> Looks slightly clearer to me.
 >>   
->> -    def set_defn(self, meta, name):
->> +    def set_defn(self, meta: str, name: str) -> None:
->>           self.defn_meta = meta
->>           self.defn_name = name
->>   
->> -    def next_line(self):
->> +    def next_line(self: T) -> T:
->>           info = copy.copy(self)
->>           info.line += 1
->>           return info
->>   
->> -    def loc(self):
->> +    def loc(self) -> str:
->>           if self.fname is None:
->>               return sys.argv[0]
->>           ret = self.fname
->> @@ -49,13 +54,13 @@ def loc(self):
->>               ret += ':%d' % self.line
->>           return ret
->>   
->> -    def in_defn(self):
->> +    def in_defn(self) -> str:
->>           if self.defn_name:
->>               return "%s: In %s '%s':\n" % (self.fname,
->>                                             self.defn_meta, self.defn_name)
->>           return ''
->>   
->> -    def include_path(self):
->> +    def include_path(self) -> str:
->>           ret = ''
->>           parent = self.parent
->>           while parent:
->> @@ -63,5 +68,5 @@ def include_path(self):
->>               parent = parent.parent
->>           return ret
->>   
->> -    def __str__(self):
->> +    def __str__(self) -> str:
->>           return self.include_path() + self.in_defn() + self.loc()
+>>       @staticmethod
+>>       def _is_builtin_module(name):
 
 
