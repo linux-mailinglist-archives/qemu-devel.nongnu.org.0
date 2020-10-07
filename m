@@ -2,108 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C72128616B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 16:42:21 +0200 (CEST)
-Received: from localhost ([::1]:53278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6E028615D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 16:40:24 +0200 (CEST)
+Received: from localhost ([::1]:45988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQAe4-00054x-61
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 10:42:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43608)
+	id 1kQAcA-0001w1-Sp
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 10:40:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQAXO-00077b-Do
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 10:35:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29459)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kQAY3-0007i8-9Z
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 10:36:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQAXL-0004TZ-6s
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 10:35:26 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kQAY1-0004b0-Km
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 10:36:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602081322;
+ s=mimecast20190719; t=1602081365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=qTLCsJxcEE55/fFCKv8Kh44P3psul8EZEHtuNjVWP9M=;
- b=LiYPlimMEKoXMmzGgr0Dyp5asoiEN1FqcJ0QL/9LSinlRQAvXbKhFlpa/NLFQLMYQI3ytZ
- 6HwyHcCjLZ3hmUpr2gQv9A4JXqKIKXEzz31b0MEZFtmIIpSTLX6TIwN3skkmGdjkMFvhyZ
- kW3Weu/xLlkTXhJhh8yoMRH+xRVnfpg=
+ in-reply-to:in-reply-to:references:references;
+ bh=sVGM96qgYhfIvImvmMwk70cKAZRN3DPph2aVX9rihqk=;
+ b=eEw32lnNPQeW94XN5xnkNHIhjd/Ym0yHi4AsnfBW9y5mVyYyClei09SnudlGXTlEIFU5h2
+ bzsMCY3a6aRxZj46EEPvkBnTfmPgjf903iTPRy9bG47e+YKspyG5BM7TsebCo7LKzvi7pt
+ IjDZczzKqD0MIefl6DGaUSNEDgWD19s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-VGP4QC1HPFW5Iaz6fndDxQ-1; Wed, 07 Oct 2020 10:35:18 -0400
-X-MC-Unique: VGP4QC1HPFW5Iaz6fndDxQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-121-9CEvt6H0POubPSg8dk9T0g-1; Wed, 07 Oct 2020 10:36:00 -0400
+X-MC-Unique: 9CEvt6H0POubPSg8dk9T0g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3248107819D;
- Wed,  7 Oct 2020 14:34:05 +0000 (UTC)
-Received: from [10.3.113.66] (ovpn-113-66.phx2.redhat.com [10.3.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F9CE78831;
- Wed,  7 Oct 2020 14:34:04 +0000 (UTC)
-Subject: Re: [PATCH] qcow2: Document and enforce the QCowL2Meta invariants
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <20201007115217.18013-1-berto@igalia.com>
-From: Eric Blake <eblake@redhat.com>
-Autocrypt: addr=eblake@redhat.com; keydata=
- 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
-Organization: Red Hat, Inc.
-Message-ID: <21d332f9-5174-f552-ff07-8109b3673c52@redhat.com>
-Date: Wed, 7 Oct 2020 09:34:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB671100F96C;
+ Wed,  7 Oct 2020 14:34:46 +0000 (UTC)
+Received: from localhost (ovpn-115-47.ams2.redhat.com [10.36.115.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4299555760;
+ Wed,  7 Oct 2020 14:34:45 +0000 (UTC)
+Date: Wed, 7 Oct 2020 15:34:45 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: elena.ufimtseva@oracle.com
+Subject: Re: [PATCH v10 08/19] multi-process: Associate fd of a PCIDevice
+ with its object
+Message-ID: <20201007143445.GC113587@stefanha-x1.localdomain>
+References: <cover.1601923020.git.elena.ufimtseva@oracle.com>
+ <5d35602f436bb5b659f8ffba6be204aa1c3ab312.1601923020.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20201007115217.18013-1-berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <5d35602f436bb5b659f8ffba6be204aa1c3ab312.1601923020.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Mj1x30xMeXrv7dVGbYd2agmeKci3cmLOy"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ protocol="application/pgp-signature"; boundary="QRj9sO5tAVLaXnSD"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -112,9 +68,8 @@ X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -127,104 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
+ mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
+ felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
+ konrad.wilk@oracle.com, dgilbert@redhat.com, thanos.makatos@nutanix.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Mj1x30xMeXrv7dVGbYd2agmeKci3cmLOy
-Content-Type: multipart/mixed; boundary="dYPYqcNPdk5WsGUvEoRlifdhAUEYZ8F32";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
-Message-ID: <21d332f9-5174-f552-ff07-8109b3673c52@redhat.com>
-Subject: Re: [PATCH] qcow2: Document and enforce the QCowL2Meta invariants
-References: <20201007115217.18013-1-berto@igalia.com>
-In-Reply-To: <20201007115217.18013-1-berto@igalia.com>
+--QRj9sO5tAVLaXnSD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---dYPYqcNPdk5WsGUvEoRlifdhAUEYZ8F32
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On Mon, Oct 05, 2020 at 11:50:56AM -0700, elena.ufimtseva@oracle.com wrote:
+> +static void remote_object_machine_done(Notifier *notifier, void *data)
+> +{
+> +    RemoteObject *o = container_of(notifier, RemoteObject, machine_done);
+> +    DeviceState *dev = NULL;
+> +    QIOChannel *ioc = NULL;
+> +    Coroutine *co = NULL;
+> +    RemoteCommDev *comdev = NULL;
+> +    Error *err = NULL;
+> +
+> +    dev = qdev_find_recursive(sysbus_get_default(), o->devid);
+> +    if (!dev || !object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
+> +        error_report("%s is not a PCI device", o->devid);
+> +        return;
+> +    }
+> +
+> +    ioc = qio_channel_new_fd(o->fd, &err);
+> +    if (!ioc) {
+> +        error_report_err(err);
+> +        return;
+> +    }
+> +    qio_channel_set_blocking(ioc, false, NULL);
+> +    qio_channel_set_feature(ioc, QIO_CHANNEL_FEATURE_FD_PASS);
 
-On 10/7/20 6:52 AM, Alberto Garcia wrote:
-> The QCowL2Meta structure is used to store information about a part of
-> a write request that touches clusters that need changes in their L2
-> entries. This happens with newly-allocated clusters or subclusters.
->=20
-> This structure has changed a bit since it was first created and its
-> current documentation is not quite up-to-date.
->=20
-> A write request can span a region consisting on a combination of
+This flag is already set by qio_channel_socket_set_fd() from
+qio_channel_new_fd() so the call to qio_channel_set_feature() can be
+dropped.
 
-s/on/of/
+You may want to check the presence of the feature in case a non-AF_UNIX
+fd was passed though.
 
-> clusters of different types, and qcow2_alloc_host_offset() can
-> repeatedly call handle_copied() and handle_alloc() to add more
-> clusters to the mix as long as they all are contiguous on the image
-> file.
->=20
-> Because of this a write request has a list of QCowL2Meta structures,
-> one for each part of the request that needs changes in the L2
-> metadata.
->=20
-> Each one of them spans nb_clusters and has two copy-on-write regions
-> located immediately before and after the middle region that that part
-> of the write request touches. Even when those regions themselves are
-
-Grammatically correct, but the doubled 'that' caught me on my first
-read.  Maybe you want:
-
-s/that that part of the write request touches/touched by that part of
-the write request/
-
-> empty their offsets must be correct because they are used to know the
-> location of the middle region.
->=20
-> This was not always the case but it is not a problem anymore
-> because the only two places where QCowL2Meta structures are created
-> (calculate_l2_meta() and qcow2_co_truncate()) ensure that the
-> copy-on-write regions are correctly defined, and so do assertions like
-> the ones in perform_cow().
->=20
-> The conditional initialization of the 'written_to' variable is
-> therefore unnecessary and is removed by this patch.
->=20
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---dYPYqcNPdk5WsGUvEoRlifdhAUEYZ8F32--
-
---Mj1x30xMeXrv7dVGbYd2agmeKci3cmLOy
+--QRj9sO5tAVLaXnSD
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl990dwACgkQp6FrSiUn
-Q2rzpAgAkr7XUw2/IX6Gyxptats8RkOc/yCUq8jkFnJtoXS3FSmxemNtEBjDqGec
-gy2JjaTyp6iYg0TpqhuKmZ7xajwup37CvtjX0wduOi2qzSsQjuYpxe/AmjH95fzb
-1ijZ/w111+nSuBq3pHALIfs7HcoPsJJ3lDLafSmw59zzANjAz+VEmBh0j857hCna
-h5neh94BwsKbBbjvApaGKVJy319BQ17lNpeLjK67X2/D7vdExydYRUFPVsmX3ViR
-xmtctZi2S+sFJMHSUrSIbRgF7WZpOCW/IJ+/18dOFdYy0qiQJNhVw85vSAXWHWnJ
-tbLJT6L5q2tD2KU3BumUshIHNMsXAQ==
-=BBey
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl990gUACgkQnKSrs4Gr
+c8hhVAf/Sw8VCf5adXcx1EGb5WQmswoVj4qvEfCv9JIK/1g8yLbbhe/TSan6OGZr
+p6cqanbi0OE80suTuvfhpM600NDgmLExwV8+TE/DJGzcaMFy3uzKSbvtYsIqkwb1
+VodBJ1vLxTweRocYHbkPL4bAxAkRR3gg29RBbm8PndRS09QjtbZeVIgTdHHy188M
+K/z3fOW1HjzyjLIdg51zCy235B2k11Cc0hbuKxPaAwWQOUqm+w5Uk0riwhN5q8rS
+DlqkWuaUU/1vtOQzq7xcIHfZ0cSQ5DcqSsTf92FyYHHSkCRKw5JIgZ/ukAn4gcy0
+tFjypBw8jBYQaD9h4atOH+iooPcmjQ==
+=+7EJ
 -----END PGP SIGNATURE-----
 
---Mj1x30xMeXrv7dVGbYd2agmeKci3cmLOy--
+--QRj9sO5tAVLaXnSD--
 
 
