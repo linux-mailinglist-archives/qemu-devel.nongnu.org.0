@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB46A2863A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:22:16 +0200 (CEST)
-Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B49628635B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:14:45 +0200 (CEST)
+Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCCl-0001M5-QD
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34454)
+	id 1kQC5S-0007gF-AH
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBs1-0005DG-7y
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:49 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37131)
+ id 1kQBs2-0005DZ-Bx
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:50 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBrv-0000sp-0j
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:48 -0400
-Received: by mail-wr1-x429.google.com with SMTP id h7so2827314wre.4
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:00:42 -0700 (PDT)
+ id 1kQBrw-0000sw-VA
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:49 -0400
+Received: by mail-wr1-x442.google.com with SMTP id k10so2816318wru.6
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:00:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g9M+cLZqzZD6qLL9uvEMm0RktbZNa4FzWnuD4/zjCec=;
- b=J5OMXGIaTUhNwynMTd/Mn8H+wMlFaq7tTkOOe4tchT0uu+RUHVr86onCqFbB7+bTvR
- r7A7VaEJA3ndyhFr5frW4pGkDV953fQ0hCUpVW7u+3zWDqGc+Gl3cQML82xRYLdccwx7
- ogXyKhaCx8DO/DMBC8brbOLM47XZSJhQzAjHUesRmNxoQSopOlzPhav05NIfdLK7IIcQ
- T1S1UQyWNYgq/Cbk8y0nIiU4ANpTXTj1W6jsItFreYUbRFuxGEknfYqkiNynpA8/VLEL
- ZVq4EIq6kyYsdp23mUPAQHrbLjQd85h2trAncrPqGCTcwe3X5v+PVQizFekE4eNpz7XX
- KLdw==
+ bh=dNHnnNf2fBdlVjmyimawuNWkUDFu8uys3FqvGBSdx28=;
+ b=SASI/WURW4KwhFAVV5FUgG2sI/u7IoD5wkTSCJ+DSVuEk3jZJp+KICs3iu6oFBvHTT
+ m1WPxdWYY7BcxnyCgTqEQcJZW+sJSAtU3JxPWinDs4pkSqQ6AhoUFGdhUNpmkT7RwZk+
+ Uwxklvg+JwEfWG/wI6vd0zZm2lqTzwq5oCFR1F/Mec2ofcS39fzEixKxbXrXMOxaLqXT
+ 32xUNz8llskdkWl8uMjM81G2kUt7W8vY9NWcVjnOSJ71M3sbeTRP3oMSunNceQBawsfO
+ 8TPuYLnehHasHImipBshZLvHEC/Q6qeA+gTPpa3T5uiRX2O2HGVr/iAuG3rgvXFvAsrs
+ SExw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g9M+cLZqzZD6qLL9uvEMm0RktbZNa4FzWnuD4/zjCec=;
- b=KhJ9wKmXqQxF1AY7yIC7teWkFSHYIypjXR4sliHUutADg6TeFVCm/e8/wv2pK0hDIQ
- YcsVVgDJWYh6OJXu7Cmcjfn/kPLrwZy7a5mrFpjPboIgV5hLpfnx4+teXRZllORHeVt9
- UvDILFlu8Y0TS35drnHs23tpydBZZmotuH29yODYCXJQoHfTHnzVEJkuIT0XpwDr6h+Q
- ZVR6H2OuaWZKJoRHy8jlMTszFRmkZ748/Xe09oPpZPbLN3X0ulNKSMj1/ZmPMMF+cB8x
- H5SoyYbWp707BGAHGY1FODM0hbNptqvcsPX+Jxmo0drtsolJPtujbmF7zykWs5prF5Sn
- xNtw==
-X-Gm-Message-State: AOAM532RxQLGUAdUepYNG0RcUhPhk8Df1fPjs+lPif72r41cNzAp+dg7
- CoVXknHgaVUj2IzkPPyfzj7o+g==
-X-Google-Smtp-Source: ABdhPJzAEuvYTBMVzsTK8m7+pQ4qb70LUWVM2kyi/uLuyZjVdau0DqlyqmdGBlCBHadtc8m/FQoVGQ==
-X-Received: by 2002:adf:ed07:: with SMTP id a7mr4538305wro.326.1602086441007; 
- Wed, 07 Oct 2020 09:00:41 -0700 (PDT)
+ bh=dNHnnNf2fBdlVjmyimawuNWkUDFu8uys3FqvGBSdx28=;
+ b=P2KRF3ifWoYxqX8SJLnKE0X/2Zqn435U856vPw0cKhF93yKlOUs58HiEieqYaFTYHr
+ GBEoZhqryzq2KmiZxlq/PhAhH/DG3QnvxFmwxPSl8wH0r0nOhAXZBSOl4aGP1ebKasVs
+ rekQg+EZKxhOhHR268vTUsXW8wMKomquog65pdKkRHzwlah0WEAwJji0V58G1ZfWyo3f
+ +4N+5FWOhqt0LapVQBhavJRJnduQGMbiHTE9yEDlCgFH2FwJ/auYURGlKVcVcTiFruB5
+ b2SeJ1Px3y9eZYngvaVhdzDxBn1OBaHPFvGm3Av5d5xcUCmPy0170okPVZGS3w8A9pxr
+ o7eQ==
+X-Gm-Message-State: AOAM531ys1lPmK4u/K69550nYBbM2xw0nWqhDfPWPE5Hi809ebqg+gaZ
+ 2O1pAcUiAXvCXeSwwt+a2v38Gw==
+X-Google-Smtp-Source: ABdhPJyrOQwtRBzUFxyZ39Rc4MDM4q+aHhiQAYVc1zpuaA2Do53f5S5HZ9XJH9E6vpogEpotqM/Rew==
+X-Received: by 2002:adf:e74d:: with SMTP id c13mr4168973wrn.45.1602086442525; 
+ Wed, 07 Oct 2020 09:00:42 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c14sm3254936wrm.64.2020.10.07.09.00.38
+ by smtp.gmail.com with ESMTPSA id 10sm3158084wmn.9.2020.10.07.09.00.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 09:00:38 -0700 (PDT)
+ Wed, 07 Oct 2020 09:00:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 373AD1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 4D8061FF8C;
  Wed,  7 Oct 2020 17:00:38 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 01/22] configure: fix performance regression due to PIC
- objects
-Date: Wed,  7 Oct 2020 17:00:17 +0100
-Message-Id: <20201007160038.26953-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 02/22] hw/misc/mips_cpc: Start vCPU when powered on
+Date: Wed,  7 Oct 2020 17:00:18 +0100
+Message-Id: <20201007160038.26953-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201007160038.26953-1-alex.bennee@linaro.org>
 References: <20201007160038.26953-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,43 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Ahmed Karaman <ahmedkrmn@outlook.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Because most files in QEMU are grouped into static libraries, Meson conservatively
-compiles them with -fPIC.  This is overkill and produces slowdowns up to 20% on
-some TCG tests.
+In commit 102ca9667d we set "start-powered-off" on all vCPUs
+included in the CPS (Coherent Processing System) but forgot to
+start the vCPUS on when they are powered on in the CPC (Cluster
+Power Controller).
 
-As a stopgap measure, use the b_staticpic option to limit the slowdown to
---enable-pie.  https://github.com/mesonbuild/meson/pull/7760 will allow
-us to use b_staticpic=false and let Meson do the right thing.
+This fixes the following tests:
 
-Reported-by: Ahmed Karaman <ahmedkrmn@outlook.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200919155639.1045857-1-pbonzini@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+  $ avocado run tests/acceptance/machine_mips_malta.py
+   (1/3) test_mips_malta_i6400_framebuffer_logo_1core: PASS (3.67 s)
+   (2/3) test_mips_malta_i6400_framebuffer_logo_7cores: INTERRUPTED: Test interrupted by SIGTERM (30.22 s)
+   (3/3) test_mips_malta_i6400_framebuffer_logo_8cores: INTERRUPTED: Test interrupted by SIGTERM (30.25 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 2 | CANCEL 0
+
+Fixes: 102ca9667d ("mips/cps: Use start-powered-off CPUState property")
+Reported-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20201007113942.2523866-1-f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200924092314.1722645-57-pbonzini@redhat.com>
 ---
- configure | 1 +
+ hw/misc/mips_cpc.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/configure b/configure
-index 28df227db5..b553288c5e 100755
---- a/configure
-+++ b/configure
-@@ -7209,6 +7209,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-+        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
- 	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
- 	-Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
+diff --git a/hw/misc/mips_cpc.c b/hw/misc/mips_cpc.c
+index 2f7b2c9592..7c11fb3d44 100644
+--- a/hw/misc/mips_cpc.c
++++ b/hw/misc/mips_cpc.c
+@@ -38,6 +38,7 @@ static void mips_cpu_reset_async_work(CPUState *cs, run_on_cpu_data data)
+     MIPSCPCState *cpc = (MIPSCPCState *) data.host_ptr;
+ 
+     cpu_reset(cs);
++    cs->halted = 0;
+     cpc->vp_running |= 1ULL << cs->cpu_index;
+ }
+ 
 -- 
 2.20.1
 
