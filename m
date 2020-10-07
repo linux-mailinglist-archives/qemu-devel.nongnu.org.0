@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035F32856B9
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 04:44:23 +0200 (CEST)
-Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DB62856BB
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 04:44:35 +0200 (CEST)
+Received: from localhost ([::1]:48854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kPzRF-0001TD-GL
-	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 22:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42308)
+	id 1kPzRQ-0001m0-Rd
+	for lists+qemu-devel@lfdr.de; Tue, 06 Oct 2020 22:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPzOy-0008Su-5g; Tue, 06 Oct 2020 22:42:00 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:42493)
+ id 1kPzP0-00006P-Ph; Tue, 06 Oct 2020 22:42:02 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:36538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kPzOv-00057N-VH; Tue, 06 Oct 2020 22:41:59 -0400
-Received: by mail-pg1-x529.google.com with SMTP id n9so435729pgf.9;
- Tue, 06 Oct 2020 19:41:56 -0700 (PDT)
+ id 1kPzOy-00058b-OM; Tue, 06 Oct 2020 22:42:02 -0400
+Received: by mail-pg1-x530.google.com with SMTP id x16so459269pgj.3;
+ Tue, 06 Oct 2020 19:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dVr/fSApCdp1cCYQvU4K71KzhrNEn4Cfm+TTpJ7qcHg=;
- b=LWBjmTqqOE6wl+bOCinBF8vIf4Cb33El+FhN3KVxnq3IUB2SdDYam4yBm1YAsKL24f
- oZ+RtVpSuk3u6XYvXEY+Rxx7GJUogRhGhURSQz+mrKI1naenAq9t21yuud8PqIPh6jVX
- OknmR5JpTeBoEB8sI/dqT7HRajWjIa/lullMjEf0cGBU8VHQVPeyNpJhl1/IZVzPTCIH
- Zl7DCiRlN691ME5is0C1puRq3X/Rnm/nCeBpFBeHLp3gbGA3/O8lJm0Rw5q8DbNkEqBp
- n4VyGJ/KIqH3AVfH9N4Z4dNDAiLzgLXaFFtfmjfq98h5X+rW4QeN9uyRqY9sMSAlJ4D7
- YZ2A==
+ bh=yzyoT3EWoqbgFq5cOVihC5y3N/yquB50UxHbVSa/z7s=;
+ b=uCSQEndQ2UX5mqgFc5MRpH/s3SMpi7g/8RVDOYizk6R0vrO1MZ7f8Q3kpgzMgOeF/t
+ +yfq7feAq1iEV/Ljj6o5MIH95lE3YZQDMovENQo3Ez/3FqEKpqXvip6PGIh0WqTZsFoo
+ mLx8C7cp3eF0V3oQTg8dxnUAyqc2m8JI8fz9KGCrf1MGndffwggo4FPU/LwjMiLkhJWX
+ p2ccVwWyscBTbgD/GulgTu0h58WNkbwXhjp/n7LzD3W30UsF/V6eMxi7fd+JS9F6Boxk
+ 8YBTWG5AewC590Fv/CSHwZ5ZSx3xK8lMKRKmHxzwW+U/ibv2jsNys+0L84qO8DdLIq8E
+ Hfug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dVr/fSApCdp1cCYQvU4K71KzhrNEn4Cfm+TTpJ7qcHg=;
- b=lOIriYiWicbPT+ra+gbaPQm7mQsCT7dOWfBJg6QgkSVknDTiy9WWumWz7NHK0CWUJ4
- DiD8wPQNQECptD9TqySMG9wAmoHC+4xXsv5sm2szd5Qo+n9cLGWepvTn7yCjmMGyhi6U
- LWZ9zNNB7TTSTD3uha2kroVlOby1T6hWroH+p2RDhBPYBsWhAcBZ2YffE3j7gBlo7AXl
- BAjD9WNZd2nbZpfHnn+aU4npxd7HimAutnjYXMc4BEZRLrG8e7qL2UjlqOKw63OH86Px
- U+rdAStzjZ3GwRZdE60AXF/K+KalXsBPlLKIYlWlV2GHJGdFo+2f0viW9z0LK2BIER7J
- 1rYg==
-X-Gm-Message-State: AOAM530vsD0pEa7GC8pMrtyaLROITrJXJtScO70SSKeavxiSWbfNLczO
- ++j7c6Ldbnu9EsSA5SctES/H8Cl1sChSyA==
-X-Google-Smtp-Source: ABdhPJyl2X7Uti3MAQTofGD/wmrnJT2NI8hFcErf2yBeRs+kKNPdEg17q1JaJTl5rBNOnztq0U9wyQ==
-X-Received: by 2002:aa7:9712:0:b029:152:69ab:b507 with SMTP id
- a18-20020aa797120000b029015269abb507mr972175pfg.30.1602038515563; 
- Tue, 06 Oct 2020 19:41:55 -0700 (PDT)
+ bh=yzyoT3EWoqbgFq5cOVihC5y3N/yquB50UxHbVSa/z7s=;
+ b=Mj953KUBiyAtyJUKaJoAwrbnxwVp6iKl8q1G3j1uvCNp84aDL3eqVjgJ7kwp/PTEfz
+ 6Ht/hR0t+hVtOG3RUhKSa/j3ovaNDvkF5M6hkowx020UHH2DdvJWRRA7IeDzDK5a9Z2L
+ VVSeHawOMQnPksgBoRQJpPzLQ0I09u1yhhFxRiBXbVR1g/ZuJZuEscIOXQ1Y3ECcNAqx
+ Swo9FuUvK8WsojLgvMc/T6WgXrLGOtcikVYXqMzinIVFMZFn5qwMrYEPOUCdNW48DxTP
+ 1CVWq+i4yaifBMIWX+7FmgxIzypS5cvTrdyUO5SMUoec1EKk8toZXTfQZlzipXJcH9Uy
+ dy+A==
+X-Gm-Message-State: AOAM533uq8+S/4XjlmcKLYPnCmsARr0xf+Ne39YgOOqkecoxyt+89FVm
+ kpJ7Zs5SgXfntWvEzyIQk1zE1Yd1o52kwA==
+X-Google-Smtp-Source: ABdhPJzvVHSWvv02aX1y8pKfjmwqaQMc147olJEG2mSzN/J6KtYavbgz6l1+RwiFu8qg6+fpVuo4Pw==
+X-Received: by 2002:a63:1061:: with SMTP id 33mr1132660pgq.204.1602038518405; 
+ Tue, 06 Oct 2020 19:41:58 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id u27sm583913pgm.60.2020.10.06.19.41.52
+ by smtp.googlemail.com with ESMTPSA id u27sm583913pgm.60.2020.10.06.19.41.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Oct 2020 19:41:54 -0700 (PDT)
+ Tue, 06 Oct 2020 19:41:57 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] docker: Add win32/msys2/mingw64 docker
-Date: Wed,  7 Oct 2020 10:41:34 +0800
-Message-Id: <20201007024135.1885-2-luoyonggang@gmail.com>
+Subject: [PATCH 2/2] cirrus: Fixing and speedup the msys2/mingw CI
+Date: Wed,  7 Oct 2020 10:41:35 +0800
+Message-Id: <20201007024135.1885-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201007024135.1885-1-luoyonggang@gmail.com>
 References: <20201007024135.1885-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x530.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,77 +89,95 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This docker is used to preparing a msys2/mingw with basic software installed.
+Using a prepared https://github.com/lygstate/qemu/releases/download/v5.1.0/msys2-x86_64.tar.xz
+for speed up the msys2/mingw prepare speed on the cirrus CI.
+This file are generated by the msys2.docker
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- tests/docker/dockerfiles/msys2.docker | 57 +++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 tests/docker/dockerfiles/msys2.docker
+ .cirrus.yml | 60 ++++++++++++++---------------------------------------
+ 1 file changed, 16 insertions(+), 44 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/msys2.docker b/tests/docker/dockerfiles/msys2.docker
-new file mode 100644
-index 0000000000..ce1404cbb8
---- /dev/null
-+++ b/tests/docker/dockerfiles/msys2.docker
-@@ -0,0 +1,57 @@
-+FROM mcr.microsoft.com/windows/servercore:2004
-+RUN cmd /S /C powershell -NoLogo -NoProfile -Command netsh interface ipv4 show interfaces ; netsh interface ipv4 set subinterface 18 mtu=1460 store=persistent ; netsh interface ipv4 show interfaces ; Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) ;
-+RUN choco install -y --no-progress git 7zip
-+RUN cmd /S /C powershell -NoLogo -NoProfile -Command Remove-Item C:\ProgramData\chocolatey\logs -Force -Recurse ; Remove-Item C:\Users\ContainerAdministrator\AppData\Local\Temp -Force -Recurse
-+RUN mkdir C:\tools
-+RUN bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND https://github.com/msys2/msys2-installer/releases/download/2020-09-03/msys2-base-x86_64-20200903.sfx.exe C:\tools\base.exe
-+RUN cd /d C:\tools && base.exe -y
-+RUN cmd /S /C powershell -NoLogo -NoProfile -Command "((Get-Content -path C:\tools\msys64\etc\\post-install\\07-pacman-key.post -Raw) -replace '--refresh-keys', '--version') | Set-Content -Path C:\tools\msys64\etc\\post-install\\07-pacman-key.post"
-+RUN C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/^CheckSpace/#CheckSpace/g' /etc/pacman.conf"
-+RUN C:\tools\msys64\usr\bin\bash.exe -lc "echo $MSYSTEM" >nul 2>&1
-+# RUN C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/Server = http:\/\/repo.msys2.org\/msys\/.arch\///g' /etc/pacman.d/mirrorlist.msys"
-+# RUN C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/Server = http:\/\/repo.msys2.org\/mingw\/i686\///g' /etc/pacman.d/mirrorlist.mingw32"
-+# RUN C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/Server = http:\/\/repo.msys2.org\/mingw\/x86_64\///g' /etc/pacman.d/mirrorlist.mingw64"
-+RUN C:\tools\msys64\usr\bin\bash.exe -lc "grep -rl 'repo.msys2.org/' /etc/pacman.d/mirrorlist.* | xargs sed -i 's/repo.msys2.org\//mirrors.tuna.tsinghua.edu.cn\/msys2\//g'"
-+RUN C:\tools\msys64\usr\bin\pacman.exe --noconfirm -Sy
-+RUN echo Y | C:\tools\msys64\usr\bin\pacman.exe -Suu --noconfirm --needed
-+RUN taskkill /F /FI "MODULES eq msys-2.0.dll"
-+RUN tasklist
-+RUN C:\tools\msys64\usr\bin\bash.exe -lc "pacman.exe --noconfirm -S --needed \
-+base-devel \
-+git \
-+mingw-w64-x86_64-python \
-+mingw-w64-x86_64-python-setuptools \
-+mingw-w64-x86_64-toolchain \
-+mingw-w64-x86_64-SDL2 \
-+mingw-w64-x86_64-SDL2_image \
-+mingw-w64-x86_64-gtk3 \
-+mingw-w64-x86_64-glib2 \
-+mingw-w64-x86_64-ninja \
-+mingw-w64-x86_64-make \
-+mingw-w64-x86_64-jemalloc \
-+mingw-w64-x86_64-lzo2 \
-+mingw-w64-x86_64-zstd \
-+mingw-w64-x86_64-libjpeg-turbo \
-+mingw-w64-x86_64-pixman \
-+mingw-w64-x86_64-libgcrypt \
-+mingw-w64-x86_64-libpng \
-+mingw-w64-x86_64-libssh \
-+mingw-w64-x86_64-libxml2 \
-+mingw-w64-x86_64-snappy \
-+mingw-w64-x86_64-libusb \
-+mingw-w64-x86_64-usbredir \
-+mingw-w64-x86_64-libtasn1 \
-+mingw-w64-x86_64-nettle \
-+mingw-w64-x86_64-cyrus-sasl \
-+mingw-w64-x86_64-curl \
-+mingw-w64-x86_64-gnutls \
-+mingw-w64-x86_64-zstd"
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 5363142373..1c2a05abd4 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -47,59 +47,31 @@ macos_xcode_task:
+ 
+ windows_msys2_task:
+   windows_container:
+-    image: cirrusci/windowsservercore:cmake
++    image: cirrusci/windowsservercore:2019
+     os_version: 2019
+     cpu: 8
+     memory: 8G
+   env:
++    CIRRUS_SHELL: powershell
+     MSYS: winsymlinks:nativestrict
+     MSYSTEM: MINGW64
+     CHERE_INVOKING: 1
+-  printenv_script:
+-    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
+   install_script:
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools &&
+-        curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools &&
+-        curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "cd /c/tools &&
+-        pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Sy"
++    - |
++      Write-Output $env:PATH
++      md C:\tools
++      $start_time = Get-Date
++      bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND https://github.com/lygstate/qemu/releases/download/v5.1.0/msys2-x86_64.tar.xz C:\tools\msys2-x86_64.tar.xz
++      Write-Output "Download time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
++      $start_time = Get-Date
++      cd C:\tools
++      choco install -y --no-progress 7zip
++      cmd /C "7z x msys2-x86_64.tar.xz -so | 7z x -aoa -simsys2-x86_64.tar -ttar -omsys64"
++      Write-Output "Extract time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
+     - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed
+-        bash pacman pacman-mirrors msys2-runtime"
+-    - taskkill /F /IM gpg-agent.exe
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Su"
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed
+-        base-devel
+-        git
+-        mingw-w64-x86_64-python
+-        mingw-w64-x86_64-python-setuptools
+-        mingw-w64-x86_64-toolchain
+-        mingw-w64-x86_64-capstone
+-        mingw-w64-x86_64-SDL2
+-        mingw-w64-x86_64-SDL2_image
+-        mingw-w64-x86_64-gtk3
+-        mingw-w64-x86_64-glib2
+-        mingw-w64-x86_64-ninja
+-        mingw-w64-x86_64-make
+-        mingw-w64-x86_64-lzo2
+-        mingw-w64-x86_64-zstd
+-        mingw-w64-x86_64-libjpeg-turbo
+-        mingw-w64-x86_64-pixman
+-        mingw-w64-x86_64-libgcrypt
+-        mingw-w64-x86_64-libpng
+-        mingw-w64-x86_64-libssh
+-        mingw-w64-x86_64-libxml2
+-        mingw-w64-x86_64-snappy
+-        mingw-w64-x86_64-libusb
+-        mingw-w64-x86_64-usbredir
+-        mingw-w64-x86_64-libtasn1
+-        mingw-w64-x86_64-libnfs
+-        mingw-w64-x86_64-nettle
+-        mingw-w64-x86_64-cyrus-sasl
+-        mingw-w64-x86_64-curl
+-        mingw-w64-x86_64-gnutls
+-        mingw-w64-x86_64-zstd"
++      mingw-w64-x86_64-python-sphinx
++      mingw-w64-x86_64-libnfs"
 +
-+RUN C:\tools\msys64\usr\bin\bash.exe -lc "rm -rf /var/cache/pacman/pkg/*"
-+RUN del C:\tools\base.exe
-+RUN cd C:\tools\msys64 && cmd /C "7z a -ttar . -so | 7z a -txz -simsys2-x86_64.tar C:\tools\msys2-x86_64.tar.xz"
-+# docker build --tag lygstate/windowsservercore:msys2 -f "msys2.docker" .
-+# docker run -it --rm -v c:/work:c:/work lygstate/windowsservercore:msys2 cmd
-+# docker push lygstate/windowsservercore:msys2
-+# no cache
-+# docker build --no-cache --tag lygstate/windowsservercore:msys2 -f "msys2.docker" .
+   script:
+     - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
+     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure
 -- 
 2.28.0.windows.1
 
