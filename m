@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B73286342
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:09:33 +0200 (CEST)
-Received: from localhost ([::1]:59426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B89E286333
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:06:42 +0200 (CEST)
+Received: from localhost ([::1]:51692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQC0S-0002Ug-BF
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:09:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33172)
+	id 1kQBxh-00077R-LO
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:06:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQBne-0001GK-9H
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:56:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47088)
+ id 1kQBnf-0001KR-Q1
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:56:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQBnc-0000Fg-BP
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:56:17 -0400
+ id 1kQBnd-0000GK-C6
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:56:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602086175;
+ s=mimecast20190719; t=1602086176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hE5tVBwV/RnyMnB02VZVAukfGpAPywHYUJDs3ZCWRMw=;
- b=ClE6j059aAbygU8K1ACJREcXD9Fe12JI7UmFLg+xB15bmDxaVXzNE+BftkUWxi7PVkO7KD
- 33U9BMFpTusHk3crjORfX6TC/GxOUG2VFVG5w8Q1PLK7IfmXZ4q0V/uTF36JCs6ftbXcr0
- 65djb2+47c+9MFJvbX+oJ0fuC/hkAWU=
+ bh=MIs8GSYndujj/IUhzFBYJYVlEAHzu8gUjnP34Xj8hpI=;
+ b=YPMk4tZbOsxCDizQ9Vscc96vpRsjA49PuxA8Sm/JPqvfp3iRJTnnAQsnrpWJ6IwEtYNdBY
+ 1xZi6fqyQkyYa/5qXr+rmT3Hdq+BKb9HfQ7xZw7EPINUMuAL9PXYrL8wOmcgP7lcrtunxj
+ +ii+toqvXqGTW3dYhIfoaJ9DqgxAdmA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-1_M8imWXNm-gD52xX3WV3Q-1; Wed, 07 Oct 2020 11:56:12 -0400
-X-MC-Unique: 1_M8imWXNm-gD52xX3WV3Q-1
+ us-mta-76-r6xp1dd0OuO8FgalMMWa_g-1; Wed, 07 Oct 2020 11:56:14 -0400
+X-MC-Unique: r6xp1dd0OuO8FgalMMWa_g-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65732D6897;
- Wed,  7 Oct 2020 15:56:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18108804019;
+ Wed,  7 Oct 2020 15:56:13 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-50.ams2.redhat.com
  [10.36.112.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 052641002C27;
- Wed,  7 Oct 2020 15:56:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B10C110021AA;
+ Wed,  7 Oct 2020 15:56:11 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, alex.bennee@linaro.org, zhengchuan@huawei.com,
  stefanha@redhat.com, peterx@redhat.com
-Subject: [PULL 01/10] virtiofsd: Silence gcc warning
-Date: Wed,  7 Oct 2020 16:55:51 +0100
-Message-Id: <20201007155600.337316-2-dgilbert@redhat.com>
+Subject: [PULL 02/10] tools/virtiofsd: add support for --socket-group
+Date: Wed,  7 Oct 2020 16:55:52 +0100
+Message-Id: <20201007155600.337316-3-dgilbert@redhat.com>
 In-Reply-To: <20201007155600.337316-1-dgilbert@redhat.com>
 References: <20201007155600.337316-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -86,33 +86,123 @@ Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Gcc worries fd might be used unset, in reality it's always set if
-fi is set, and only used if fi is set so it's safe.  Initialise it to -1
-just to keep gcc happy for now.
+If you like running QEMU as a normal user (very common for TCG runs)
+but you have to run virtiofsd as a root user you run into connection
+problems. Adding support for an optional --socket-group allows the
+users to keep using the command line.
 
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+Message-Id: <20200925125147.26943-2-alex.bennee@linaro.org>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20200827153657.111098-2-dgilbert@redhat.com>
-Reviewed-by: Ján Tomko <jtomko@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  dgilbert: Split long line
 ---
- tools/virtiofsd/passthrough_ll.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/tools/virtiofsd.rst        |  4 ++++
+ tools/virtiofsd/fuse_i.h        |  1 +
+ tools/virtiofsd/fuse_lowlevel.c |  6 ++++++
+ tools/virtiofsd/fuse_virtio.c   | 21 +++++++++++++++++++--
+ 4 files changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 0b229ebd57..36ad46e0c0 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -620,7 +620,7 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-     struct lo_inode *inode;
-     int ifd;
-     int res;
--    int fd;
-+    int fd = -1;
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index ae02938a95..7ecee49834 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -87,6 +87,10 @@ Options
  
-     inode = lo_inode(req, ino);
-     if (!inode) {
+   Listen on vhost-user UNIX domain socket at PATH.
+ 
++.. option:: --socket-group=GROUP
++
++  Set the vhost-user UNIX domain socket gid to GROUP.
++
+ .. option:: --fd=FDNUM
+ 
+   Accept connections from vhost-user UNIX domain socket file descriptor FDNUM.
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 1240828208..492e002181 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -68,6 +68,7 @@ struct fuse_session {
+     size_t bufsize;
+     int error;
+     char *vu_socket_path;
++    char *vu_socket_group;
+     int   vu_listen_fd;
+     int   vu_socketfd;
+     struct fv_VuDev *virtio_dev;
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index 2dd36ec03b..4d1ba2925d 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -2523,6 +2523,7 @@ static const struct fuse_opt fuse_ll_opts[] = {
+     LL_OPTION("--debug", debug, 1),
+     LL_OPTION("allow_root", deny_others, 1),
+     LL_OPTION("--socket-path=%s", vu_socket_path, 0),
++    LL_OPTION("--socket-group=%s", vu_socket_group, 0),
+     LL_OPTION("--fd=%d", vu_listen_fd, 0),
+     LL_OPTION("--thread-pool-size=%d", thread_pool_size, 0),
+     FUSE_OPT_END
+@@ -2630,6 +2631,11 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
+                  "fuse: --socket-path and --fd cannot be given together\n");
+         goto out4;
+     }
++    if (se->vu_socket_group && !se->vu_socket_path) {
++        fuse_log(FUSE_LOG_ERR,
++                 "fuse: --socket-group can only be used with --socket-path\n");
++        goto out4;
++    }
+ 
+     se->bufsize = FUSE_MAX_MAX_PAGES * getpagesize() + FUSE_BUFFER_HEADER_SIZE;
+ 
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index d5c8e98253..89f537f79b 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -31,6 +31,8 @@
+ #include <sys/socket.h>
+ #include <sys/types.h>
+ #include <sys/un.h>
++#include <sys/types.h>
++#include <grp.h>
+ #include <unistd.h>
+ 
+ #include "contrib/libvhost-user/libvhost-user.h"
+@@ -924,15 +926,30 @@ static int fv_create_listen_socket(struct fuse_session *se)
+ 
+     /*
+      * Unfortunately bind doesn't let you set the mask on the socket,
+-     * so set umask to 077 and restore it later.
++     * so set umask appropriately and restore it later.
+      */
+-    old_umask = umask(0077);
++    if (se->vu_socket_group) {
++        old_umask = umask(S_IROTH | S_IWOTH | S_IXOTH);
++    } else {
++        old_umask = umask(S_IRGRP | S_IWGRP | S_IXGRP |
++                          S_IROTH | S_IWOTH | S_IXOTH);
++    }
+     if (bind(listen_sock, (struct sockaddr *)&un, addr_len) == -1) {
+         fuse_log(FUSE_LOG_ERR, "vhost socket bind: %m\n");
+         close(listen_sock);
+         umask(old_umask);
+         return -1;
+     }
++    if (se->vu_socket_group) {
++        struct group *g = getgrnam(se->vu_socket_group);
++        if (g) {
++            if (!chown(se->vu_socket_path, -1, g->gr_gid)) {
++                fuse_log(FUSE_LOG_WARNING,
++                         "vhost socket failed to set group to %s (%d)\n",
++                         se->vu_socket_group, g->gr_gid);
++            }
++        }
++    }
+     umask(old_umask);
+ 
+     if (listen(listen_sock, 1) == -1) {
 -- 
 2.28.0
 
