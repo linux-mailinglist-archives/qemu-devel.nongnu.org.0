@@ -2,71 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775F528652E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:47:22 +0200 (CEST)
-Received: from localhost ([::1]:47794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D9328654E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:53:55 +0200 (CEST)
+Received: from localhost ([::1]:40774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCb3-0004YK-HD
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:47:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42042)
+	id 1kQChP-0005a2-0h
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kQCGx-0006Oo-NL
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:26:38 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34348)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kQCGr-0006Ci-N9
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:26:35 -0400
-Received: by mail-wr1-x442.google.com with SMTP id t10so2940715wrv.1
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:26:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gXGbt2EcXK9Eso9SCkQZHIMAVN2Dg5XwOgS/3+wEzXM=;
- b=G2EpovNTZ+i4dmZlmR/jZhSWiO4tpw86VyuZ08j1oe903us/mIhoMAak8b2i/O6RnC
- G3B0W2l68nolXxvM7OebiuLbA9WzE+U/1eVEuasoWuLchWiARYAOXoJ0T1sOkjjytuzW
- cJpR5yvYvf8tV4XLUSyp0pNbiLgiaF4H++0WQd0yiGDDa/e+9bUIeJxKx9e72p/oujeu
- CxhYJ99LbGEy63xQeUIt7v0AXiHuVi2B7fGyGCdRfgSeMeAaKPEDVfUxmVIUNqPc7u7l
- Q5cIEoy4JXnR1kvstYctNB1Xk0bfUWqoJwWcxwuy3Nz+sSNpD03zS6sScvTJEiQRv67Q
- pFrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gXGbt2EcXK9Eso9SCkQZHIMAVN2Dg5XwOgS/3+wEzXM=;
- b=PmPxnPOEDxIxJVWsbNwj5Zf9BjeiV+MjtJiMLRpVg+WLbhu2WAfq1iMfKBl+mwPQGQ
- 83jzsF/C7Rq/ATquraEx9LHLJA0VFqUumDabOsAjz3PeTNPpC3TzDDX6o7JW5HCPLL8J
- TOrqWboyzGsp+5XbD1pf0s5HW/dlzaGNeA0k7ufCxSPdc0Y+RaoZ6V1CtWAnucyWXaAk
- mi8JbP49OU1cZsaMh2dXnkOPWtSD5AeiTuTS8NCAJ1AjKldGdjaN0B6lRZwYGAnb/g5z
- iC9NvfJcQ46J5gJXn+SM65xAYJDThwZbTSyTDEHuQqcKVTkbQJ3LqELNvtdcd3uCVPsx
- eFxg==
-X-Gm-Message-State: AOAM532hFLNhUO68smf7aojyiiRehLo0LKionCocETl87LeY5cPq2RR/
- PlNcNEHRzbK4WQFRE+OloY/ybc3KSV8BS8HxGooUDA==
-X-Google-Smtp-Source: ABdhPJzwXv6Ruep2dTyHTUCk8VLIEgpAArtaKtubAlAqA6ETr9Blz3NnieKyGBkzukuECp9ZDRA41R/GHMMr1YvhRk4=
-X-Received: by 2002:a5d:518b:: with SMTP id k11mr4309503wrv.369.1602087986725; 
- Wed, 07 Oct 2020 09:26:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kQCL5-0002ht-No
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:30:52 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:53408)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kQCL3-0006tX-IC
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:30:51 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-567-woNdAhJrNJaB4jyVptT_Dw-1; Wed, 07 Oct 2020 12:30:45 -0400
+X-MC-Unique: woNdAhJrNJaB4jyVptT_Dw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B77681F002;
+ Wed,  7 Oct 2020 16:30:44 +0000 (UTC)
+Received: from bahia.lan (ovpn-114-178.ams2.redhat.com [10.36.114.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22182756A8;
+ Wed,  7 Oct 2020 16:30:34 +0000 (UTC)
+Subject: [PATCH] vhost: Don't special case vq->used_phys in
+ vhost_get_log_size()
+From: Greg Kurz <groug@kaod.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
+Date: Wed, 07 Oct 2020 18:30:34 +0200
+Message-ID: <160208823418.29027.15172801181796272300.stgit@bahia.lan>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-References: <20201004180443.2035359-1-f4bug@amsat.org>
- <20201004180443.2035359-10-f4bug@amsat.org>
-In-Reply-To: <20201004180443.2035359-10-f4bug@amsat.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 7 Oct 2020 21:56:15 +0530
-Message-ID: <CAARzgwxSaePpn75Y6=YvCm9QG8OewSrEgt5DEtqt+ntnkxm=Vg@mail.gmail.com>
-Subject: Re: [RFC PATCH 09/21] contrib/gitdm: Add Nutanix to the domain map
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::442;
- envelope-from=ani@anisinha.ca; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 12:30:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,88 +64,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mike Cui <cui@nutanix.com>, Peter Turschmid <peter.turschm@nutanix.com>,
- Ani Sinha <ani.sinha@nutanix.com>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
- Prerna Saxena <prerna.saxena@nutanix.com>,
- Malcolm Crossley <malcolm@nutanix.com>,
- David Vrabel <david.vrabel@nutanix.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Felipe Franciosi <felipe@nutanix.com>,
- Jonathan Davies <jonathan.davies@nutanix.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 4, 2020 at 11:34 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> There is a number of contributors from this domain,
-> add its own entry to the gitdm domain map.
->
-> Cc: Ani Sinha <ani.sinha@nutanix.com>
-> Cc: David Vrabel <david.vrabel@nutanix.com>
-> Cc: Felipe Franciosi <felipe@nutanix.com>
-> Cc: Jonathan Davies <jonathan.davies@nutanix.com>
-> Cc: Malcolm Crossley <malcolm@nutanix.com>
-> Cc: Mike Cui <cui@nutanix.com>
-> Cc: Peter Turschmid <peter.turschm@nutanix.com>
-> Cc: Prerna Saxena <prerna.saxena@nutanix.com>
-> Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> Cc: Swapnil Ingle <swapnil.ingle@nutanix.com>
-> Cc: Ani Sinha <ani@anisinha.ca>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> One Reviewed-by/Ack-by from someone from this domain
-> should be sufficient to get this patch merged.
->
-> Ani, can you confirm the ani@anisinha.ca email?
-> Should it go into 'individual contributors' instead?
+The first loop in vhost_get_log_size() computes the size of the dirty log
+bitmap so that it allows to track changes in the entire guest memory, in
+terms of GPA.
 
-Sent a patch to reflect my status as an individual contributor.
+When not using a vIOMMU, the address of the vring's used structure,
+vq->used_phys, is a GPA. It is thus already covered by the first loop.
 
-> ---
->  contrib/gitdm/domain-map        | 1 +
->  contrib/gitdm/group-map-nutanix | 2 ++
->  gitdm.config                    | 1 +
->  3 files changed, 4 insertions(+)
->  create mode 100644 contrib/gitdm/group-map-nutanix
->
-> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-> index 4850eab4c4..39251fd97c 100644
-> --- a/contrib/gitdm/domain-map
-> +++ b/contrib/gitdm/domain-map
-> @@ -24,6 +24,7 @@ linaro.org      Linaro
->  codesourcery.com Mentor Graphics
->  microsoft.com   Microsoft
->  nokia.com       Nokia
-> +nutanix.com     Nutanix
->  oracle.com      Oracle
->  proxmox.com     Proxmox
->  redhat.com      Red Hat
-> diff --git a/contrib/gitdm/group-map-nutanix b/contrib/gitdm/group-map-nu=
-tanix
-> new file mode 100644
-> index 0000000000..a3f11425b3
-> --- /dev/null
-> +++ b/contrib/gitdm/group-map-nutanix
-> @@ -0,0 +1,2 @@
-> +raphael.s.norwitz@gmail.com
-> +ani@anisinha.ca
-> diff --git a/gitdm.config b/gitdm.config
-> index c01c219078..4f821ab8ba 100644
-> --- a/gitdm.config
-> +++ b/gitdm.config
-> @@ -37,6 +37,7 @@ GroupMap contrib/gitdm/group-map-cadence Cadence Design=
- Systems
->  GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
->  GroupMap contrib/gitdm/group-map-ibm IBM
->  GroupMap contrib/gitdm/group-map-janustech Janus Technologies
-> +GroupMap contrib/gitdm/group-map-nutanix Nutanix
->
->  # Also group together our prolific individual contributors
->  # and those working under academic auspices
-> --
-> 2.26.2
->
+When using a vIOMMU, vq->used_phys is a GIOVA that will be translated
+to an HVA when the vhost backend needs to update the used structure. It
+will log the corresponding GPAs into the bitmap but it certainly won't
+log the GIOVA.
+
+So in any case, vq->used_phys shouldn't be explicitly used to size the
+bitmap. Drop the second loop.
+
+This fixes a crash of the source when migrating a guest using in-kernel
+vhost-net and iommu_platform=3Don on POWER, because DMA regions are put
+over 0x800000000000000ULL. The resulting insanely huge log size causes
+g_malloc0() to abort.
+
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1879349
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+
+This supersedes "vhost: Ignore vrings in dirty log when using a vIOMMU"
+
+http://patchwork.ozlabs.org/project/qemu-devel/patch/160105498386.68108.214=
+5229309875282336.stgit@bahia.lan/
+---
+ hw/virtio/vhost.c |   10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 011951625442..c02b658b597f 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -172,16 +172,6 @@ static uint64_t vhost_get_log_size(struct vhost_dev *d=
+ev)
+                                        reg->memory_size);
+         log_size =3D MAX(log_size, last / VHOST_LOG_CHUNK + 1);
+     }
+-    for (i =3D 0; i < dev->nvqs; ++i) {
+-        struct vhost_virtqueue *vq =3D dev->vqs + i;
+-
+-        if (!vq->used_phys && !vq->used_size) {
+-            continue;
+-        }
+-
+-        uint64_t last =3D vq->used_phys + vq->used_size - 1;
+-        log_size =3D MAX(log_size, last / VHOST_LOG_CHUNK + 1);
+-    }
+     return log_size;
+ }
+=20
+
+
 
