@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A272857E0
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:43:28 +0200 (CEST)
-Received: from localhost ([::1]:57888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D09C2857D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:41:12 +0200 (CEST)
+Received: from localhost ([::1]:50040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ1IV-0006P8-Gz
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:43:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34498)
+	id 1kQ1GI-0002x2-VV
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQ15f-0002Zs-Pu
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:30:12 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37644)
+ id 1kQ15J-0002RB-E1
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQ15R-0005QV-FQ
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:30:11 -0400
+ id 1kQ15G-0005P6-EX
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kQ15E-0002BB-Kb
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:29:44 +0000
+ id 1kQ15D-00027L-Ko
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:29:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 68B6B2E810C
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 04:29:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4496B2E811C
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 04:29:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Oct 2020 04:17:24 -0000
-From: Launchpad Bug Tracker <1196145@bugs.launchpad.net>
+Date: Wed, 07 Oct 2020 04:17:25 -0000
+From: Launchpad Bug Tracker <1245543@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: usb
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor sascha-v th-huth
-X-Launchpad-Bug-Reporter: Sascha Krissler (sascha-v)
+X-Launchpad-Bug-Commenters: janitor p12 th-huth
+X-Launchpad-Bug-Reporter: Povilas Kanapickas (p12)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20130629221252.20061.54827.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160204424491.20421.6827275773165007494.malone@loganberry.canonical.com>
-Subject: [Bug 1196145] Re: usb-host: hostaddr=0XX is parsed as octal number
+References: <20131028155324.10487.34334.malonedeb@wampee.canonical.com>
+Message-Id: <160204424557.20421.8748268192879610058.malone@loganberry.canonical.com>
+Subject: [Bug 1245543] Re: Wrong implementation of SSE4.1 pmovzxbw and similar
+ instructions
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 1f98303e4e3a1f73e2e5dbf9d7d778e779e627b8
+X-Launchpad-Hash: d3c567432d437740eac5839672b457976c43044b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 22:50:47
@@ -73,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1196145 <1196145@bugs.launchpad.net>
+Reply-To: Bug 1245543 <1245543@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,35 +86,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1196145
+https://bugs.launchpad.net/bugs/1245543
 
 Title:
-  usb-host: hostaddr=3D0XX is parsed as octal number
+  Wrong implementation of SSE4.1 pmovzxbw and similar instructions
 
 Status in QEMU:
   Expired
 
 Bug description:
-  when doing
+  QEMU 1.5.0 (and git version, as far as I can tell from the source
+  code) has incorrect implementation of pmovzxbw and similar SSE4.1
+  instructions. The instruction zero-extends the first 8 8-bit elements
+  of a vector to 16bit vector and puts them to another vector. The
+  current implementation applies this operation only to the first
+  element and zeros out the rest.
 
-  device_add usb-host,hostaddr=3D010
+  To verify, compile the attached program for SSE4.1 (g++ -msse4.1
+  cvtint.cc). On real hardware, it produces the following output:
 
-  taking 010 in the format of both lsusb or udev, qemu parses an octal numb=
-er and assumes hostaddr=3D8.
-  (i used a 2.0 device on the ehci.0 bus)
-  at least to me that is confusing.
+  $ ./a.out
+  1 0 2 0 3 0 4 0 5 0 6 0 7 0 8 0
 
-  also:
+  On QEMU, the output is as follows:
 
-  when adding a non-existent usb device (bogus hostaddr), the following
-  is created according to 'usb info':
+  $ ./a.out
+  1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
-    Device 1.0, Port 1, Speed 1.5 Mb/s, Product USB Host Device
+  QEMU is invoked as:
 
-  in usb_qdev_init():
-  usb_claim_port is called but usb_device_init does not report an error and=
- thus usb_release_port is not called.
+  qemu-system-x86_64 \
+      -M pc -cpu Haswell,+sse4.1,+avx,+avx2,+fma,enforce -m 512 \
+      -serial stdio -no-reboot \
+      -kernel vmlinuz -initrd initrd.img \
+      -netdev user,id=3Duser.0 -device rtl8139,netdev=3Duser.0  -redir tcp:=
+2222::22 \
+      -hda ubuntu-amd64.ext3 \
+      --append "rw console=3Dtty root=3D/dev/sda"
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1196145/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1245543/+subscriptions
 
