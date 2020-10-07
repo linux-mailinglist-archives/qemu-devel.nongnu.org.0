@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA2528650C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:46:18 +0200 (CEST)
-Received: from localhost ([::1]:45586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997A9286533
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:49:12 +0200 (CEST)
+Received: from localhost ([::1]:55912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCa1-0003bn-F1
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:46:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45614)
+	id 1kQCcp-000845-Lt
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQCUY-0005zB-Fm
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:40:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40350)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQCXE-0001HG-3U
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:43:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQCUV-0000HC-O4
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:40:37 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQCXC-0000xf-DR
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:43:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602088834;
+ s=mimecast20190719; t=1602089001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M4rammhDVci7tljBWsSpaZJZ8jEXATguLqcHs7Dw7/U=;
- b=R9Bg4SUPyEJ6Sa1F1sg3FgtUIugZBEUfHMHbxlr5je7UE1m6cXFfcBAA0/yAihbz9gFdg8
- HUSfOO8xCUwU9wIRRrX4lP9ytfpHJWFm987DbZiSRoc7v3jBRFb4rjpzdq9UpHFmMuHY6O
- NOpD8r16u1VosrS+Xn4mNKJYul5Yy4E=
+ bh=0IvMuphZXDFaJXk8EW35MnwVYzak+tzZzLHJZo5eefA=;
+ b=iE0q20eeNscAm1VLf9JaOZdVYvylJ2Cijhh6cIegf3iUX7gCIPRIUCvIKzOaERJiJIgw6B
+ vKpP6kUFQQoTKns21NfiYc8y2EtlvIVlJEmJWuhFtcap3BZz94tKBrFj3yu7CVvnyAO80t
+ /cmyZibYeSNwsXD1SUr25y0HxNP30MM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-3-xxFEHmMS2EG1fY8rbfYQ-1; Wed, 07 Oct 2020 12:40:31 -0400
-X-MC-Unique: 3-xxFEHmMS2EG1fY8rbfYQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-527-JlYAXDy4N2OETTGNnA5r2w-1; Wed, 07 Oct 2020 12:43:19 -0400
+X-MC-Unique: JlYAXDy4N2OETTGNnA5r2w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F25EF1888A32
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 16:40:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27AA018BE165
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 16:43:18 +0000 (UTC)
 Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 73B3F76653;
- Wed,  7 Oct 2020 16:40:30 +0000 (UTC)
-Subject: Re: [PATCH v5 34/36] qapi/visit.py: assert tag_member contains a
- QAPISchemaEnumType
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73ABF5D9DD;
+ Wed,  7 Oct 2020 16:43:17 +0000 (UTC)
+Subject: Re: [PATCH v5 36/36] qapi/visit.py: add type hint annotations
 To: Markus Armbruster <armbru@redhat.com>
 References: <20201005195158.2348217-1-jsnow@redhat.com>
- <20201005195158.2348217-35-jsnow@redhat.com>
- <87mu0yb40j.fsf@dusky.pond.sub.org>
+ <20201005195158.2348217-37-jsnow@redhat.com>
+ <87sgaq9oo4.fsf@dusky.pond.sub.org>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <e986d234-293e-a663-a9f5-74831af43c3e@redhat.com>
-Date: Wed, 7 Oct 2020 12:40:29 -0400
+Message-ID: <17f48c68-5f28-37f8-9a6c-56a17421a9ab@redhat.com>
+Date: Wed, 7 Oct 2020 12:43:17 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <87mu0yb40j.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <87sgaq9oo4.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,66 +89,25 @@ Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/20 8:43 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> This is true by design, but not presently able to be expressed in the
->> type system. An assertion helps mypy understand our constraints.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
->> Reviewed-by: Cleber Rosa <crosa@redhat.com>
->> ---
->>   scripts/qapi/visit.py | 12 +++++++-----
->>   1 file changed, 7 insertions(+), 5 deletions(-)
->>
->> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
->> index 14f30c228b7..4f11fd325b8 100644
->> --- a/scripts/qapi/visit.py
->> +++ b/scripts/qapi/visit.py
->> @@ -22,7 +22,7 @@
->>       mcgen,
->>   )
->>   from .gen import QAPISchemaModularCVisitor, ifcontext
->> -from .schema import QAPISchemaObjectType
->> +from .schema import QAPISchemaEnumType, QAPISchemaObjectType
->>   
->>   
->>   def gen_visit_decl(name, scalar=False):
->> @@ -84,15 +84,17 @@ def gen_visit_object_members(name, base, members, variants):
->>           ret += gen_endif(memb.ifcond)
->>   
->>       if variants:
->> +        tag_member = variants.tag_member
->> +        assert isinstance(tag_member.type, QAPISchemaEnumType)
-> 
-> I'm curious: do you need the local variable to make the assertion stick?
-> 
+On 10/7/20 9:00 AM, Markus Armbruster wrote:
+> More abuse of review to learn: even through we initialize with False, we
+> still need the type hint?
 
-No, but it only sticks to the binding and not the data. i.e. assertions 
-to downcast work on the *name*.
+Dunno.
 
-(This comes up somewhere in the schema.py patches where I make a change 
-that looks completely pointless, but it makes mypy happy.)
+jsnow@scv ~/s/q/scripts (python-qapi-cleanup-pt1)> mypy 
+--config-file=qapi/mypy.ini qapi/;
+qapi/visit.py:40: error: Function is missing a type annotation for one 
+or more arguments
+Found 1 error in 1 file (checked 14 source files)
 
-I could have left it alone. I just saw a lot of repeated multi-dots and 
-habitually created a temporary local for the purpose.
+...yup.
 
->> +
->>           ret += mcgen('''
->>       switch (obj->%(c_name)s) {
->>   ''',
->> -                     c_name=c_name(variants.tag_member.name))
->> +                     c_name=c_name(tag_member.name))
->>   
->>           for var in variants.variants:
->> -            case_str = c_enum_const(variants.tag_member.type.name,
->> -                                    var.name,
->> -                                    variants.tag_member.type.prefix)
->> +            case_str = c_enum_const(tag_member.type.name, var.name,
->> +                                    tag_member.type.prefix)
->>               ret += gen_if(var.ifcond)
->>               if var.type.name == 'q_empty':
->>                   # valid variant and nothing to do
+It also serves the purpose of constraining the type to also avoid unions 
+with things that might be false-ish. Looks silly, but maybe future mypy 
+installments will afford us more chances to use inference. It doesn't 
+right now.
+
+--js
 
 
