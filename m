@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDD32867FB
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 21:03:25 +0200 (CEST)
-Received: from localhost ([::1]:48338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2822867CA
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 20:55:24 +0200 (CEST)
+Received: from localhost ([::1]:42228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQEii-0006DK-Ff
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 15:03:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48900)
+	id 1kQEax-00035S-Ku
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 14:55:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQEgG-0005D4-M0
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 15:00:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36836)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQEZd-0002Xx-IB
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 14:54:01 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQEgE-00049b-MH
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 15:00:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kQEgC-0005jg-Li
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 19:00:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9FC382E80EA
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 19:00:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQEZb-00038a-AB
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 14:54:00 -0400
+Received: by mail-wr1-x442.google.com with SMTP id t9so3470696wrq.11
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 11:53:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=S3H9CNAf/+5oVzXbSwp1bZVt6nJdDkvfclmGDmKWsHs=;
+ b=Slcgq3NcZX+JrwY5pHmqp+5/blUOjsym1UeQSY1uTZubDrx8hJhLH71tmG7g8LVTTT
+ 4wJqO0XcLvQaMf32AujUAFzqlDezqEKT/nG8VzZqe7S8TWcOCD/pNK1yLWppoj0/4KYx
+ ahxw8lB0hmUZ2y0naRed7dIfFyuvWvUaI2NzKtGOUD+j2EJXidsNrXU435+VxFkwXK8E
+ MaVUKZ/4PbgvE0lGJ37gQk3hsvAXBSP6mXt/cfdkF4dyNikIgR3V1029DLNnwhKtaYi6
+ INfcMGXtEpcC5vISFOHu1Bb9kFSgU1rBB9peozwyEnJfebIsUl131xIhX+Rquwv/zCKD
+ sSmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=S3H9CNAf/+5oVzXbSwp1bZVt6nJdDkvfclmGDmKWsHs=;
+ b=VFKm+NyZlK+t+92fSe1X3NmgaJWCPcZHyOMwyCiceBG0GBQVaKQ5sOWpX1Jo59GnMW
+ 4JP/aUMU0e2RfuU7Bj2dQ47QGfd8T/2euItssDFHBbD7aR/YZ+vQKzInJXidKAda0Gsw
+ dEwlv/1/Ae9uWqwYX/vUtH7k3BECy+od7eubPL7hikU8UFg2hBH8V9JhbpYckxajy2HD
+ 1A2ZaA4hn1iHFDeisklwWypdQcxK0ppir83oBI1M6F5RMse8SYkkQtpsCImLVXsGz0ep
+ spG9xa8Ks72fvESB2z+NpxSVIRyKXtbgOv4ZFTXy2KW0JPgGkC+zXtXYpJRaixmzFuY6
+ byGw==
+X-Gm-Message-State: AOAM532ho5i/2bsePGuaIs0bye2xKzmRA190o3HvbbgMGJCeJMYzj5o1
+ MZ5My2cISrrXnjOvOUizPpw1kA==
+X-Google-Smtp-Source: ABdhPJx3E+W67iKuYWR8YWgUC7KUjoYy3oMPz4xfGrgixZSTTWYfBlKG5WO/rrwCHpu1Crs3QiM4Ug==
+X-Received: by 2002:adf:e70a:: with SMTP id c10mr4894934wrm.425.1602096837525; 
+ Wed, 07 Oct 2020 11:53:57 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a82sm4061058wmc.44.2020.10.07.11.53.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 11:53:56 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B95CF1FF7E;
+ Wed,  7 Oct 2020 19:53:55 +0100 (BST)
+References: <20201007145300.1197-1-luoyonggang@gmail.com>
+ <20201007145300.1197-2-luoyonggang@gmail.com>
+ <11e4e784-3ce9-a385-bf81-8c7e1034f42d@redhat.com>
+ <CAE2XoE89z44nA=N-U_r-C8RA5Vn+C3gqABt85PLFPcSg4ET5gw@mail.gmail.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: luoyonggang@gmail.com
+Subject: Re: [PATCH v5 1/2] cirrus: Fixing and speedup the msys2/mingw CI
+In-reply-to: <CAE2XoE89z44nA=N-U_r-C8RA5Vn+C3gqABt85PLFPcSg4ET5gw@mail.gmail.com>
+Date: Wed, 07 Oct 2020 19:53:55 +0100
+Message-ID: <87d01tzx30.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Oct 2020 18:50:52 -0000
-From: Thomas Huth <1716510@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow th-huth uzytkownik2
-X-Launchpad-Bug-Reporter: Maciej Piechotka (uzytkownik2)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <150516743999.32018.10984089018227997839.malonedeb@soybean.canonical.com>
-Message-Id: <160209665301.9959.2497535790725795074.malone@wampee.canonical.com>
-Subject: [Bug 1716510] Re: qemu 2.10.0 cannot boot Windows 10 familly
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 058f5b5236a0f38d35360fd7c91e5947a82ce104
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 12:55:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,98 +91,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1716510 <1716510@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since this seems to be fixed when using EDK, I'm marking this ticket as
-Fix Released
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+=E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> writes:
 
--- =
+> On Wed, Oct 7, 2020 at 11:12 PM Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 07/10/2020 16.52, Yonggang Luo wrote:
+>> > Use cache of cirrus caching msys2
+>> > The install of msys2 are refer to https://github.com/msys2/setup-msys2
+>> > The first time install msys2 would be time consuming, so increase
+> timeout_in to 90m
+>> > according to https://cirrus-ci.org/faq/#instance-timed-out
+>> >
+>> > Apply patch of
+> https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg00072.html
+>> >
+>> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+>> > ---
+>> >  .cirrus.yml | 110 +++++++++++++++++++++++++++++++---------------------
+>> >  1 file changed, 66 insertions(+), 44 deletions(-)
+>> >
+>> > diff --git a/.cirrus.yml b/.cirrus.yml
+>> > index d58782ce67..a1145d0366 100644
+>> > --- a/.cirrus.yml
+>> > +++ b/.cirrus.yml
+>> > @@ -46,64 +46,86 @@ macos_xcode_task:
+>> >      - gmake check
+>> >
+>> >  windows_msys2_task:
+>> > +  timeout_in: 90m
+>> >    windows_container:
+>> > -    image: cirrusci/windowsservercore:cmake
+>> > +    image: cirrusci/windowsservercore:2019
+>> >      os_version: 2019
+>> >      cpu: 8
+>> >      memory: 8G
+>> >    env:
+>> > +    CIRRUS_SHELL: powershell
+>> >      MSYS: winsymlinks:nativestrict
+>> >      MSYSTEM: MINGW64
+>> >      CHERE_INVOKING: 1
+>> >    printenv_script:
+>> > -    - C:\tools\msys64\usr\bin\bash.exe -lc 'printenv'
+>> > +    - choco install -y --no-progress 7zip
+>>
+>> Since you've now removed the 'printenv' line, I think the section should
+>> maybe not be called "printenv_script" anymore, should it?
+> May I name it install_7zip?
+> Cause that's a deps need installed first.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1716510
+I renamed it setup_script: when I merged it.
 
-Title:
-  qemu 2.10.0 cannot boot Windows 10 familly
+>>
+>>  Thomas
+>>
 
-Status in QEMU:
-  Fix Released
 
-Bug description:
-  On qemu 2.10.0 Windows 10 and Windows Server 2016 hangs during boot.
-  Below is setup of Windows Server 2016. Downgrading to 2.9 fixes the
-  problem.
-
-  /usr/bin/qemu-system-x86_64 -name guest=3D<name>,debug-threads=3Don -S
-  -object
-  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-2=
--<name
-  >/master-key.aes -machine pc-q35-2.8,accel=3Dkvm,usb=3Doff,dump-guest-
-  core=3Doff -cpu
-  host,nx=3Don,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1000,hv_vpindex,hv_runt=
-ime,hv_synic,hv_reset,kvm=3Doff
-  -drive file=3D/usr/local/share/edk2.git/ovmf-x64/OVMF-pure-
-  efi.fd,if=3Dpflash,format=3Draw,unit=3D0 -drive
-  file=3D/var/lib/libvirt/qemu/nvram/<name>_VARS.fd,if=3Dpflash,format=3Dra=
-w,unit=3D1
-  -m 4096 -realtime mlock=3Doff -smp 12,sockets=3D1,cores=3D6,threads=3D2
-  -object iothread,id=3Diothread1 -object iothread,id=3Diothread2 -object
-  iothread,id=3Diothread3 -object iothread,id=3Diothread4 -object
-  iothread,id=3Diothread5 -object iothread,id=3Diothread6 -object
-  iothread,id=3Diothread7 -object iothread,id=3Diothread8 -object
-  iothread,id=3Diothread9 -object iothread,id=3Diothread10 -object
-  iothread,id=3Diothread11 -object iothread,id=3Diothread12 -uuid <uuid>
-  -no-user-config -nodefaults -chardev
-  socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-2-<name>/moni=
-tor.sock,server,nowait
-  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
-  base=3Dlocaltime,clock=3Dvm,driftfix=3Dslew -no-shutdown -boot strict=3Don
-  -device
-  ioh3420,port=3D0x10,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Do=
-n,addr=3D0x2
-  -device ioh3420,port=3D0x11,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,addr=3D0x=
-2.0x1
-  -device ioh3420,port=3D0x12,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,addr=3D0x=
-2.0x2
-  -device ioh3420,port=3D0x13,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x=
-2.0x3
-  -device ioh3420,port=3D0x14,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x=
-2.0x4
-  -device ioh3420,port=3D0x15,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,addr=3D0x=
-2.0x5
-  -device nec-usb-xhci,id=3Dusb,bus=3Dpci.3,addr=3D0x0 -drive
-  if=3Dnone,media=3Dcdrom,id=3Ddrive-sata0-0-0,readonly=3Don -device ide-
-  cd,bus=3Dide.0,drive=3Ddrive-sata0-0-0,id=3Dsata0-0-0,bootindex=3D2 -drive
-  if=3Dnone,media=3Dcdrom,id=3Ddrive-sata0-0-1,readonly=3Don -device ide-
-  cd,bus=3Dide.1,drive=3Ddrive-sata0-0-1,id=3Dsata0-0-1,bootindex=3D1 -drive
-  file=3D/dev/mapper/<boot disk>,format=3Draw,if=3Dnone,id=3Ddrive-sata0-0-2
-  -device ide-hd,bus=3Dide.2,drive=3Ddrive-
-  sata0-0-2,id=3Dsata0-0-2,bootindex=3D3 -netdev
-  tap,fd=3D21,id=3Dhostnet0,vhost=3Don,vhostfd=3D23 -device virtio-net-
-  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D<mac>,bus=3Dpci.1,addr=3D0x0 -netdev
-  tap,fd=3D24,id=3Dhostnet1,vhost=3Don,vhostfd=3D25 -device virtio-net-
-  pci,netdev=3Dhostnet1,id=3Dnet1,mac=3D<mac>,bus=3Dpci.2,addr=3D0x0 -devic=
-e usb-
-  tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 -spice
-  unix,addr=3D/var/lib/libvirt/qemu/domain-2-<name>/spice.sock,disable-
-  ticketing,image-compression=3Dauto_glz,seamless-migration=3Don -vnc
-  127.0.0.1:0 -device qxl-
-  vga,id=3Dvideo0,ram_size=3D67108864,vram_size=3D16777216,vram64_size_mb=
-=3D0,vgamem_mb=3D16,max_outputs=3D1,bus=3Dpcie.0,addr=3D0x1
-  -device vhost-scsi-
-  pci,wwpn=3D<wwpn>,vhostfd=3D26,id=3Dhostdev0,bus=3Dpcie.0,addr=3D0x9 -dev=
-ice
-  virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.4,addr=3D0x0 -object rng-
-  random,id=3Dobjrng0,filename=3D/dev/random -device virtio-rng-
-  pci,rng=3Dobjrng0,id=3Drng0,max-bytes=3D1024,period=3D1000,bus=3Dpci.5,ad=
-dr=3D0x0
-  -msg timestamp=3Do
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1716510/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
