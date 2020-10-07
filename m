@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96F4285B4F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:52:48 +0200 (CEST)
-Received: from localhost ([::1]:60700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BAC285AB6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:44:45 +0200 (CEST)
+Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ5Bn-0008R0-Pp
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51066)
+	id 1kQ540-0008GC-C3
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kQ54O-0001VW-7F
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:45:08 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:44491)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kQ54M-0002qd-0U
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:45:07 -0400
-Received: by mail-pl1-x635.google.com with SMTP id h2so641305pll.11
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 01:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=/nx0v7Y3v/7WYmx+DAfRIR0wl6I4NLnpVoOUzG4A1dE=;
- b=OzoYvzXWXwq6bFmDSH1I/cH8AMdDYSUudNlRSXcqogV/6mYWReyrufMboM8/MzMOpW
- ZKLT3ySCOBvQSnH1wLdoTzYlBn3sRpTjQSyXHBO9EW6SQZJ8rT9hRwRZEneg1EGCQqUt
- FbHlI41GRmiSPS2pARVxyhWCCf5YurFP/u7wgMdSo8xeEUy4/NxEr5hG2/GtHsvldwLX
- rTDgUlOJ7bxYxiH+eo1ddeEGoumlt0sTr1kU0SWm8aj6lgodJO+keYh5fj59aoWU/Vxz
- N2KtEj46cvTHcJcje4DdjXFs1c+iKnpLU+rUZcm6adQ4UozyeVI3Pt5rQDt8yCkJXefb
- YDpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=/nx0v7Y3v/7WYmx+DAfRIR0wl6I4NLnpVoOUzG4A1dE=;
- b=lHwUwug13usI84M+gS9KaBVn1jugx2crXgDs27wYhxBIlvaMQPocBk2v0hYNzoiqys
- a5HoVej7Mvsl3MKBpu6wEZkMhA3wOdtLEGTU1E6kbdXIEmD+raCGB5i+a5PFC/ZmozNY
- clHijSZf0z/cKHGSn0MjLl0H2LKMmbJhW7tJOk/uv4KX+rut0bRON5Z8AIiSCvOVXWF1
- hWFkvzauO++Vv4/pwWViZJP0XwtvVT1zreppS68IYqv0LsW/EH4XKZnAw8ZQn+CQHP2I
- KOxfHAgV9iFcHjRs1liBapxikm7P4PHK0Y+Gz8iZ5UCS2swWGsY1+jKwlUcO6fK7JG0U
- NiJw==
-X-Gm-Message-State: AOAM530zJSVX1tB4dYOeKR62AaK6D7wwWFolM3hKwcxmmkx1aqRx+l3k
- 1GTXdUKnqeil2C5ZOBcGYik=
-X-Google-Smtp-Source: ABdhPJz7XdFOD71Jd9WIGGiNAcdvT+xy26LeaH+dd2+mhFb96OD7x8ZPnQ/lp+vsbJBitidWhbU2sQ==
-X-Received: by 2002:a17:902:c40a:b029:d3:d448:98a8 with SMTP id
- k10-20020a170902c40ab02900d3d44898a8mr1921446plk.29.1602060303610; 
- Wed, 07 Oct 2020 01:45:03 -0700 (PDT)
-Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id i9sm1999692pfq.53.2020.10.07.01.45.00
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Oct 2020 01:45:02 -0700 (PDT)
-From: Huacai Chen <zltjiangshi@gmail.com>
-X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH V13 9/9] docs/system: Update MIPS machine documentation
-Date: Wed,  7 Oct 2020 16:39:35 +0800
-Message-Id: <1602059975-10115-10-git-send-email-chenhc@lemote.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
-References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x635.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kQ51J-0006uh-67
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:41:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kQ51F-0002WP-Iu
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:41:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602060112;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V1009n4Z6caqIe3csLzqMgl87E4wqFUTmrtk/WGx9OU=;
+ b=Qzdr+NPjUyY0zEisJ25CzK7UI76IFhxj2mNeNGHe5CB7OzWXJqMPs27/GeoMcUl2ybKLop
+ AG1RydNdun4JqbZ5n6fQ2TdoUOBdN8hy0TnX6Nd0m1T6ceM9PZMbWE9B2fCB56zaPrUDkl
+ QOs7xYjSgMC+gdz7T58M1h4LD8iNRkA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-bBbvQbtwNRe0z1ry28jcUQ-1; Wed, 07 Oct 2020 04:41:49 -0400
+X-MC-Unique: bBbvQbtwNRe0z1ry28jcUQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E93EB186E8C4;
+ Wed,  7 Oct 2020 08:41:47 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-72.ams2.redhat.com [10.36.113.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 596C119C4F;
+ Wed,  7 Oct 2020 08:41:46 +0000 (UTC)
+Subject: Re: [PATCH v3 2/3] cirrus: Fixing and speedup the msys2/mingw CI
+To: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo
+ <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+References: <20201007035154.109-1-luoyonggang@gmail.com>
+ <20201007035154.109-3-luoyonggang@gmail.com>
+ <6b4528dc-918d-ebf4-db27-cbd67fa96c11@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <90b2011a-3e58-1e91-d603-89e099162426@redhat.com>
+Date: Wed, 7 Oct 2020 10:41:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <6b4528dc-918d-ebf4-db27-cbd67fa96c11@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,67 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add Loongson-3A CPU models and Loongson-3 based machine description.
+On 07/10/2020 10.18, Paolo Bonzini wrote:
+[...]
+> 
+> On top of this, whoever commits this needs to replace the URL with
+> something under download.qemu.org, but that's the easy part.
 
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
----
- docs/system/cpu-models-mips.rst.inc | 10 ++++++++--
- docs/system/target-mips.rst         | 10 ++++++++++
- 2 files changed, 18 insertions(+), 2 deletions(-)
+I agree with Daniel - please let's not get go this way again. We've had this
+with the various Free-/Net-/OpenBSD images in the past, and then we were
+suddenly stuck with a fixed image where most people were not able to change
+it anymore. That was very frustrating.
 
-diff --git a/docs/system/cpu-models-mips.rst.inc b/docs/system/cpu-models-mips.rst.inc
-index 499b5b6..02cc4bb 100644
---- a/docs/system/cpu-models-mips.rst.inc
-+++ b/docs/system/cpu-models-mips.rst.inc
-@@ -48,11 +48,17 @@ across all desired hosts.
- ``I6400``
-     MIPS64 Processor (Release 6, 2014)
- 
-+``Loongson-2E``
-+    MIPS64 Processor (Loongson 2, 2006)
-+
- ``Loongson-2F``
-     MIPS64 Processor (Loongson 2, 2008)
- 
--``Loongson-2E``
--    MIPS64 Processor (Loongson 2, 2006)
-+``Loongson-3A1000``
-+    MIPS64 Processor (Loongson 3, 2010)
-+
-+``Loongson-3A4000``
-+    MIPS64 Processor (Loongson 3, 2018)
- 
- ``mips64dspr2``
-     MIPS64 Processor (Release 2, 2006)
-diff --git a/docs/system/target-mips.rst b/docs/system/target-mips.rst
-index cd2a931..1f86ccb 100644
---- a/docs/system/target-mips.rst
-+++ b/docs/system/target-mips.rst
-@@ -84,6 +84,16 @@ The Fuloong 2E emulation supports:
- 
- -  RTL8139D as a network card chipset
- 
-+The Loongson-3 virtual platform emulation supports:
-+
-+-  Loongson 3A CPU
-+
-+-  LIOINTC as interrupt controller
-+
-+-  GPEX and virtio as variable devices
-+
-+-  Both KVM and TCG supported
-+
- The mipssim pseudo board emulation provides an environment similar to
- what the proprietary MIPS emulator uses for running Linux. It supports:
- 
--- 
-2.7.0
+Apart from that, you also have to respect the GPL if you provide binaries
+... so you'd need to gather all the sources for that blob, too, and be ready
+to provide those in case somebody asks...
+
+Yonggang, could you please try to use the caching mechanism of Cirrus-CI
+instead? See https://cirrus-ci.org/guide/writing-tasks/#cache-instruction
+... then we're a little bit more independent from downloading the msys2 for
+each CI run.
+
+ Thomas
 
 
