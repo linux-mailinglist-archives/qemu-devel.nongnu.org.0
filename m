@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8A9286381
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:18:41 +0200 (CEST)
-Received: from localhost ([::1]:53426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45999286394
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:21:09 +0200 (CEST)
+Received: from localhost ([::1]:34696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQC9F-00042B-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
+	id 1kQCBg-0007zv-8M
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQBqI-0003yp-Fp
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:59:02 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:45807)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQBrz-0005B1-9J
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:48 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQBqF-0000Zb-Q0
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:59:02 -0400
-Received: by mail-ej1-x630.google.com with SMTP id dt13so3678785ejb.12
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 08:58:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQBrt-0000se-FP
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:46 -0400
+Received: by mail-wr1-x444.google.com with SMTP id h7so2827207wre.4
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:00:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7OyP3p/J0BJTuUMR+7M8eSTXEQKQJgp0W9yhB+Uzeec=;
- b=fpXED4jJez9o+tGUuQt5fbq3Y9S8FcKGfdeUgSbaOC5TiZBP6wgdmvckuLx2XpdUaL
- m0ZsojOb0ZN+Ce+b3nK/Y/JvkTNGcOqI+AoYsnN5KlCuvEr9PiXLb6yIBYg9G6w23epU
- BuGjICsQSF0Vya6GA0a182kzIo38j5Iz++I4PSzT0tx8YXdcf4TSaD+yqCNInde3dkKT
- ifIKUbjc/1r2UrqxN5Bc/9sm5feBOukGV4B6tf+JxoIEQKprnXLBVOqInUedf9eDWhoX
- +8kVjyOOmKmFH8W3+GYrTUju7zh+GyPzJEc9elOCzTPG5az7lEC/0TRDekaBG5D7ppi6
- lpxg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VjOULhkTXDSoaVBnrNj6AWvIOwwKNW7fA5FR7tjb1fI=;
+ b=RT+wdnFtBDRR0rT622mHLDZ23Qw6uAuQ7Ev7dnmqFeppN50jaOeRaAlo9xNoZsaZbK
+ vtpZ/QrQLajuZmVgK7cz6P4MWfhTZZIdTDk9ZvatgUAHbehxPJF/Evg4ONjN2kA5jKoj
+ Zejdo2a9MCV0ypTXsPBoTdmuHqlG6f1/F70HL3qW6c/SDp5E4pnQJcAmGCZ5wkVJnbpH
+ FFQvhcMaXeTwFHTTb086c/tQesrELCoi+jxC5ofOhzW4nry7mYMc5XHygF1wqNX/GPgh
+ bdnXi2VbDyuUZsiyNNAjVAfuBnqOwAixsbzedCMsYFe1lM6gyEH1DkU1yrRwf4lD21Lb
+ ZYfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7OyP3p/J0BJTuUMR+7M8eSTXEQKQJgp0W9yhB+Uzeec=;
- b=pW5uAzoQsHnmFUMFpXEaDK5/kUMfvIne7EVugvKxFnENawSAgUCOIVLn0LKTqVyJl1
- MFIk8latzSFGxUMK5S07j6m8BI9ybQSIMJvINT7r07YSIJSQtWwmaqRNNkxX5EvXdXsk
- +wH3y83q7DUUHq3bpiEVyLzLKciOufWh6Nec2I7WmKVpkzf/XodXHjtekvhoE7LqN3SS
- HeMocdKoe9gm3yPHJoLtEJyrsthnoTS5ZaDySa04QMk+PkzJFfNNwxkXBrMXU6xQ/hQN
- aBttZ4HNvgOGxdZfPyprKpo9DEH1V2dBHzEu1vWouFdj9NcsNKrwczPu7auJjW421A4m
- A29g==
-X-Gm-Message-State: AOAM532+lAaFdAD5UHVefmR3M6a8s5zWzfc4pfkIQ+J6Phcoh2JKmd2Q
- LEpbM8q/aMwoBD9MR0uW17hqMTutiZGMYt7zPtoHSw==
-X-Google-Smtp-Source: ABdhPJyw6uWzSTzDUK26HIZ8hn8FkB9EtIUsyDnj5w678rF0ngl7EQsIExq63jk95BQrO0xOf5FyRKoVofKi35ES7fY=
-X-Received: by 2002:a17:906:c7d9:: with SMTP id
- dc25mr3999790ejb.482.1602086337977; 
- Wed, 07 Oct 2020 08:58:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VjOULhkTXDSoaVBnrNj6AWvIOwwKNW7fA5FR7tjb1fI=;
+ b=mkW/qTH/SZAKXUgVgui6kknZV/NHgdL909t7wVK0bVIgzHrWkDvNOniUd5kSAhK3hF
+ X68ICbzICLhYz0/tM1JMXtVpX5WTWrxk55dHzYJL6s1Lz87Dyl1ySLhQ/TADmtz8e2dS
+ e182jy1Yo8LuXM067Pz8eWLc4N+6dob8swrHCYyiYA5uJ9NUhFw1Yj8WhiFRm5djted7
+ OMlhMndisIpQ+LuVQQo7MW+1ATwOkI1PYVE03ExrF8i0xVLw6N96uEB7+jXKggg/dd7t
+ UQFYVxA0IrTWQXQgT13h85EHKAR9f1niG6GAkFpft0CGkWwHEO5KSTM+Zt77vPOhUzDb
+ 874Q==
+X-Gm-Message-State: AOAM531pEa8RoW1VHT3Qe+CIVKJedvlgTBlH0a0u78n90BdUHgPIKQ2u
+ fPDUVy9jeseQrvIMHrONoLRxVw==
+X-Google-Smtp-Source: ABdhPJyN5x5lCKdHs6doQg5GdM/5xiu4kg6v6pyCIJWYRgPYANze+dORzig11YqWgFF7HR+U/tMOsQ==
+X-Received: by 2002:a5d:4a49:: with SMTP id v9mr4697465wrs.153.1602086440004; 
+ Wed, 07 Oct 2020 09:00:40 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h3sm3644156wrq.0.2020.10.07.09.00.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 09:00:38 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 235741FF7E;
+ Wed,  7 Oct 2020 17:00:38 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 00/22] testing and plugin fixes with gitdm updates (pre PR)
+Date: Wed,  7 Oct 2020 17:00:16 +0100
+Message-Id: <20201007160038.26953-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201006220647.GR7303@habkost.net>
- <a6e652d9-548f-4d4e-e451-48e3f5e11031@redhat.com>
- <20201007130240.GU7303@habkost.net>
- <659289e0-4133-b945-45fd-25e759c18b03@redhat.com>
- <20201007142742.GV7303@habkost.net>
- <117cb090-d9ce-6394-42a2-2ac99fd965b9@redhat.com>
- <20201007155105.GX7303@habkost.net>
-In-Reply-To: <20201007155105.GX7303@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 7 Oct 2020 16:58:46 +0100
-Message-ID: <CAFEAcA9kaTa0P8g6qzEvGYq8fKqmjquH0+bBbAWLeLaa11ygHA@mail.gmail.com>
-Subject: Re: Purpose of QOM properties registered at realize time?
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,47 +86,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 7 Oct 2020 at 16:51, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> Right now, I only want to know if the QOM property is part of a
-> supported stable external interface.  For the properties
-> registered at realize time, the answer seems to be "no".
+Hi,
 
-I don't think that's inherently the case. But most QOM
-properties are not going to be part of an external
-interface (and definitely those for devices which are
-not user-creatable are not), so the chances are good
-that any particular QOM property is not external.
+This is a pre-PR which fixes up the failing check-acceptance as well
+as some plugin fixes and the first batch of gitdm updates from
+Phillipe. I've also included one of Paolo's in-flight fixes for
+speeding up TCG. I've managed to get a green run across our CI with
+it.
 
-> Now, how do I locate the code that depends on those QOM
-> properties to work?  When the property name is visible in the
-> code, I can grep for the property name.  But I don't know how to
-> find users of the GPIOs exposed by qdev_pass_gpios().
+There are a couple of un-reviewed patches:
 
-GPIOs are wired up with the APIs documented in
-hw/qdev-core.h: typically qdev_get_gpio_in() to get
-an anonymous GPIO input, qdev_get_gpio_in_named()
-for a named GPIO line, similarly qdev_connect_gpio_out()
-and qdev_connect_gpio_out_named() for oubound GPIO lines.
-Most GPIOs are anonymous because that's the older set
-of APIs (and sometimes it's still the simplest). To find
-which code is wiring up the GPIOs from a particular
-device you're better off searching for the device name,
-because different devices can use the same name for a
-set of GPIO lines (and lots of devices have anonymous
-GPIO lines).
+ - tests/acceptance: disable machine_rx_gdbsim on GitLab
+ - hw/ide: restore replay support of IDE
 
-The GPIOs exposed by qdev_pass_gpios() are no different
-from those exposed when the device directly creates
-its own GPIOs.
+Alex Bennée (2):
+  hw/ide: restore replay support of IDE
+  tests/acceptance: disable machine_rx_gdbsim on GitLab
 
-thanks
--- PMM
+Paolo Bonzini (2):
+  configure: fix performance regression due to PIC objects
+  cirrus: use V=1 when running tests on FreeBSD and macOS
+
+Philippe Mathieu-Daudé (13):
+  hw/misc/mips_cpc: Start vCPU when powered on
+  contrib/gitdm: Add more academic domains
+  contrib/gitdm: Add more individual contributors
+  contrib/gitdm: Add Baidu to the domain map
+  contrib/gitdm: Add ByteDance to the domain map
+  contrib/gitdm: Add Google to the domain map
+  contrib/gitdm: Add Nuvia to the domain map
+  contrib/gitdm: Add Qualcomm to the domain map
+  contrib/gitdm: Add Nir Soffer to Red Hat domain
+  contrib/gitdm: Add SUSE to the domain map
+  contrib/gitdm: Add Yadro to the domain map
+  contrib/gitdm: Add Yandex to the domain map
+  .mailmap: Fix more contributor entries
+
+Thomas Huth (1):
+  tests/docker: Add genisoimage to the docker file
+
+Yonggang Luo (4):
+  cirrus: Fixing and speedup the msys2/mingw CI
+  cirrus: msys2/mingw speed is up, add excluded target back
+  plugins: Fixes a issue when dlsym failed, the handle not closed
+  plugin: Fixes compiling errors on msys2/mingw
+
+ configure                                    |   1 +
+ contrib/plugins/hotblocks.c                  |   2 +-
+ hw/ide/core.c                                |   4 +-
+ hw/misc/mips_cpc.c                           |   1 +
+ plugins/loader.c                             |   1 +
+ tests/plugin/bb.c                            |   4 +-
+ .cirrus.yml                                  | 121 +++++++++++--------
+ .mailmap                                     |   2 +
+ contrib/gitdm/domain-map                     |  10 +-
+ contrib/gitdm/group-map-academics            |   4 +
+ contrib/gitdm/group-map-individuals          |   7 ++
+ contrib/gitdm/group-map-redhat               |   1 +
+ tests/acceptance/machine_rx_gdbsim.py        |   1 +
+ tests/docker/dockerfiles/centos8.docker      |   1 +
+ tests/docker/dockerfiles/debian-amd64.docker |   1 +
+ tests/docker/dockerfiles/fedora.docker       |   1 +
+ tests/docker/dockerfiles/ubuntu2004.docker   |   1 +
+ 17 files changed, 107 insertions(+), 56 deletions(-)
+
+-- 
+2.20.1
+
 
