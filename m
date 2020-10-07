@@ -2,116 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0291D285A55
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:22:09 +0200 (CEST)
-Received: from localhost ([::1]:42036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C556E285A59
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:22:50 +0200 (CEST)
+Received: from localhost ([::1]:44836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ4i8-0004Mh-0f
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:22:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44896)
+	id 1kQ4in-0005Zy-T0
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ4fl-0002uA-Jv
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:19:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29180)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ4fj-000867-Rk
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:19:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602058779;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/bqT0yts++FYegCQzqbFikDxvze9DpzAErnr7TU/7ZE=;
- b=ONwLOM5rTcMBm13pxvIq0yTv31LaUrwc4Pkfe9QDPwRdd621/E8eIqPv4eg+q4vy2Qy2LQ
- JfltFP1RFaITiMcbjo+xfoBeVjLG5rb5jC1uvqSzKcXlg1Q0idewaSHq/p0ORfA6xIMC4q
- aTGHY2W7DrtSYyTISypILMTYGlKQdRg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-Yq_FHWVxPCKfQVikn8O_MQ-1; Wed, 07 Oct 2020 04:19:35 -0400
-X-MC-Unique: Yq_FHWVxPCKfQVikn8O_MQ-1
-Received: by mail-wm1-f72.google.com with SMTP id s25so212573wmj.7
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 01:19:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kQ4gY-0003yj-S2
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:20:30 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:44214)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kQ4gW-0008Kb-Ev
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:20:30 -0400
+Received: by mail-ej1-x644.google.com with SMTP id a3so1680894ejy.11
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 01:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FoYlNF0ZeC1mWa2Bb9mFQxF3pVglXZJnp7GH4u9e5xk=;
+ b=DrfPmNDDH0TMz00mMfe4KkSjQ5CP5T7ySzxHxktCCS/A+/VvPmu7/u+pQ6VpSPhxMZ
+ UpOG4MVmN+VkcIMRNsiISFzWI9jpHedTrYSE5icb6d1nv0TpwElgB1dZG6ITUP1Uih4h
+ fV2gdpToyQJNYEBX9Ix6O8pFZ95XqQytRGJGActc7Ye4CGksMzs64hMOpvpShauPhvnY
+ sW2DEQ3SSP8TDpoz/sFdyzgqZ2fVPi8OqL2s3pOCgtfDmIWacDRYUxNs9i6msP7vYUbv
+ DSE3F72xPLU7hN5q1PctR9nvRBA5fsdYHb5CkLtMv1iaqaorpm+F+YWpQuefroZMSWVK
+ NdyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=/bqT0yts++FYegCQzqbFikDxvze9DpzAErnr7TU/7ZE=;
- b=e/NW69sq2NaZtAGrsNhHVy2/OFsg4qfEBFF+XDsRGpwhh92U1yVHy9GB1SdoobsQxv
- 31JM7TC+xfcv29ieo3fZ4KPnRGCSz72tit6Suyqn43qbcrwhBCjOhSqiqU5WWIY2Kfom
- nDlRCs7AoUzZYOqBny5eo5iAhbKUXjx10ciat5hVvO+GfKkrWHXk14+eUN7cCTCNnbAh
- FRGgXGgCs3Yn18f9Ky/0HzRQOytA6DOm4vlxT7wIa7WfyMcB7h121T5gmz/9Jw6bfO2B
- jBD4hMs9EzCky97TobbXBGmdiL1lFfFsmd3kE4AX5+FR49yGuaT5DYmxcNlOn/Ahj48n
- Tqlw==
-X-Gm-Message-State: AOAM532kSFg0uRnYStUnvoDwjL5wM/Km+7j5SCQQXS2QMbyc50XyRNoL
- K/N0+cdE51tNTo1hXBWci+TxmkdIvk8lEfaoZuOWBjzkSS76+BnTu4sZr71+cK5uRFjYxQoLhi9
- TcobJimZC6RnLJ+w=
-X-Received: by 2002:a5d:5548:: with SMTP id g8mr2139493wrw.364.1602058774428; 
- Wed, 07 Oct 2020 01:19:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLdtsk6EsAaP7+K6PBBdn5FvERRK1VQ8AqBoUQD1zLnNCYBUa51s2+66Vfc9vmZIgRFUGg5A==
-X-Received: by 2002:a5d:5548:: with SMTP id g8mr2139471wrw.364.1602058774203; 
- Wed, 07 Oct 2020 01:19:34 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id v8sm1647013wmb.20.2020.10.07.01.19.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Oct 2020 01:19:33 -0700 (PDT)
-Subject: Re: acceptance-system-fedora failures
-To: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
-References: <f9e09f0b-3915-382c-d670-8d33d164ad7b@redhat.com>
- <4e191372-c332-8f69-85e2-1ff6ead0f40d@redhat.com>
- <e577dded-ed2b-6cd0-5119-9bde4ab0c492@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <0c0a2036-1927-e228-fb56-14ec1e75e488@redhat.com>
-Date: Wed, 7 Oct 2020 10:19:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FoYlNF0ZeC1mWa2Bb9mFQxF3pVglXZJnp7GH4u9e5xk=;
+ b=BPPvv8bnnnHbdbeuucogyZydDaC/Gh68xInJ9718AU+sNvUARZGFwyubCA5u+BQf2z
+ vvvD0FQUiwBAm6Dnyd0veQzlQk1NUlJHIIpHZDB6ncPOUjMEaK8ZT8NICRlxRnutLfMa
+ SEVSmMjwKgOnY0FhUFIkAgTy39xW4hEsMbz169L+p/iDp/rJ5gdmOJuLuVwvPgeggKH3
+ CoqgSyffphj80+GhrWZznZV8Zx84NGJo1dK7lgPE3RFbarYNeUajL0bXnXpJ4Hbjs5q1
+ yECEXOMgrGkwIrxc1IVHsP7x8qhRNx8SpadF0T1rN/L/5aLoY6CLwB3RnVYATZLU1n1Q
+ ZX5A==
+X-Gm-Message-State: AOAM5339mblQ1LFiEZPt/IV19N2zOlolo5L9Jbn5+6CjjvecP8BSwnY6
+ JMH7KZoTPxf0JPTrb9mul5lLg1ozUVXV+uJmPCM=
+X-Google-Smtp-Source: ABdhPJzRb6zDRuJXpaFpQrKbXuZrzLdB/M77XFqVuiW+WdJ5pj16yCWAGRIXPl5QrqlWXzEtQLHVDDTCiKBo2qwmC04=
+X-Received: by 2002:a17:906:515:: with SMTP id
+ j21mr2128924eja.105.1602058826478; 
+ Wed, 07 Oct 2020 01:20:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e577dded-ed2b-6cd0-5119-9bde4ab0c492@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <cover.1602056784.git.tgolembi@redhat.com>
+ <811a746b9a55adc0293ad80989dc9939e2490c1c.1602056784.git.tgolembi@redhat.com>
+In-Reply-To: <811a746b9a55adc0293ad80989dc9939e2490c1c.1602056784.git.tgolembi@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 7 Oct 2020 12:20:14 +0400
+Message-ID: <CAJ+F1CLUzkQqc91LcZy5hc4tvvHLJeW0xZeuZJ0kQGTM3Sgxdg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] qga: add implementation of guest-get-disks for
+ Windows
+To: =?UTF-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000042f86d05b110630c"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,80 +81,397 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/20 9:23 AM, Thomas Huth wrote:
-> On 07/10/2020 07.20, Philippe Mathieu-Daudé wrote:
->> On 10/7/20 1:07 AM, John Snow wrote:
->>> I'm seeing this gitlab test fail quite often in my Python work; I don't
->>> *think* this has anything to do with my patches, but maybe I need to try
->>> and bisect this more aggressively.
-> [...]
->> w.r.t. the error in your build, I told Thomas about the
->> test_ppc_mac99/day15/invaders.elf timeouting but he said this is
->> not his area. Richard has been looking yesterday to see if it is
->> a TCG regression, and said the test either finished/crashed raising
->> SIGCHLD, but Avocado parent is still waiting for a timeout, so the
->> children become zombie and the test hang.
->>
->> Not sure that helps :)
-> 
-> No clue why that invaders.elf is now failing with the replay test, but if
-> you look at the history of the CI runs:
-> 
->  https://gitlab.com/qemu-project/qemu/-/pipelines
-> 
-> ... you can clearly see that the problem started with John's
-> ide-pull-request 5 days ago:
-> 
->  https://gitlab.com/qemu-project/qemu/-/pipelines/197124608
-> 
-> So maybe it's worth the effort to have a look at the patches that got merged
-> here?
+--00000000000042f86d05b110630c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Great idea!
+Hi
 
-Bisected using:
+On Wed, Oct 7, 2020 at 11:46 AM Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi=
+@redhat.com>
+wrote:
 
-$ make qemu-system-ppc check-venv && \
-  tests/venv/bin/python -m \
-  avocado --show=app,console,replay \
-  run -t machine:mac99 \
-  tests/acceptance/replay_kernel.py
+> The command lists all the physical disk drives. Unlike for Linux
+> partitions and virtual volumes are not listed.
+>
+> Example output:
+>
+> {
+>   "return": [
+>     {
+>       "name": "\\\\.\\PhysicalDrive0",
+>       "partition": false,
+>       "address": {
+>         "serial": "QM00001",
+>         "bus-type": "sata",
+>         ...
+>       },
+>       "dependents": []
+>     }
+>   ]
+> }
+>
+> Signed-off-by: Tom=C3=A1=C5=A1 Golembiovsk=C3=BD <tgolembi@redhat.com>
+> ---
+>  qga/commands-win32.c | 98 +++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 92 insertions(+), 6 deletions(-)
+>
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index 0dd16315d7..7fe5676785 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -979,6 +979,92 @@ out:
+>      return list;
+>  }
+>
+> +GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+> +{
+>
 
-55adb3c45620c31f29978f209e2a44a08d34e2da is the first bad commit
-commit 55adb3c45620c31f29978f209e2a44a08d34e2da
-Author: John Snow <jsnow@redhat.com>
-Date:   Fri Jul 24 01:23:00 2020 -0400
+ERRP_GUARD?
 
-    ide: cancel pending callbacks on SRST
++    GuestDiskInfoList *new =3D NULL, *ret =3D NULL;
+> +    HDEVINFO dev_info;
+> +    SP_DEVICE_INTERFACE_DATA dev_iface_data;
+> +    int i;
+> +
+> +    dev_info =3D SetupDiGetClassDevs(&GUID_DEVINTERFACE_DISK, 0, 0,
+> +        DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
+> +    if (dev_info =3D=3D INVALID_HANDLE_VALUE) {
+> +        error_setg_win32(errp, GetLastError(), "failed to get device
+> tree");
+> +        return NULL;
+> +    }
+> +
+> +    g_debug("enumerating devices");
+> +    dev_iface_data.cbSize =3D sizeof(SP_DEVICE_INTERFACE_DATA);
+> +    for (i =3D 0;
+> +        SetupDiEnumDeviceInterfaces(dev_info, NULL,
+> &GUID_DEVINTERFACE_DISK,
+> +            i, &dev_iface_data);
+> +        i++) {
+> +        GuestDiskAddress *address =3D NULL;
+> +        GuestDiskInfo *disk =3D NULL;
+> +        Error *local_err =3D NULL;
+> +        g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA
+> +            pdev_iface_detail_data =3D NULL;
+> +        STORAGE_DEVICE_NUMBER sdn;
+> +        HANDLE dev_file;
+> +        DWORD size =3D 0;
+> +
+> +        g_debug("  getting device path");
+> +        while (!SetupDiGetDeviceInterfaceDetail(dev_info, &dev_iface_dat=
+a,
+> +                pdev_iface_detail_data,
+> +                size, &size,
+> +                NULL)) {
+> +            if (GetLastError() =3D=3D ERROR_INSUFFICIENT_BUFFER) {
+> +                pdev_iface_detail_data =3D g_realloc(pdev_iface_detail_d=
+ata,
+> +                    size);
+> +                pdev_iface_detail_data->cbSize =3D
+> +                    sizeof(*pdev_iface_detail_data);
+> +            } else {
+> +                g_debug("failed to get device interface details");
+> +                continue;
+>
 
-    The SRST implementation did not keep up with the rest of IDE;
-    it is possible to perform a weak reset on an IDE device to
-    remove the BSY/DRQ bits, and then issue writes to the
-    control/device registers which can cause chaos with the state
-    machine.
+Is "continue" appropriate here? Looks like this may loop forever easily.
 
-    Fix that by actually performing a real reset.
++            }
+> +        }
+> +
+> +        g_debug("  device: %s", pdev_iface_detail_data->DevicePath);
+> +        dev_file =3D CreateFile(pdev_iface_detail_data->DevicePath, 0,
+> +            FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+> +        if (!DeviceIoControl(dev_file, IOCTL_STORAGE_GET_DEVICE_NUMBER,
+> +                NULL, 0, &sdn, sizeof(sdn), &size, NULL)) {
+> +            CloseHandle(dev_file);
+> +            debug_error("failed to get storage device number");
+> +            continue;
+> +        }
+> +        CloseHandle(dev_file);
+> +
+> +        disk =3D g_new0(GuestDiskInfo, 1);
+> +        disk->name =3D g_strdup_printf("\\\\.\\PhysicalDrive%lu",
+> +            sdn.DeviceNumber);
+> +
+> +        g_debug("  number: %lu", sdn.DeviceNumber);
+> +        address =3D g_malloc0(sizeof(GuestDiskAddress));
+> +        address->has_dev =3D true;
+> +        address->dev =3D g_strdup(disk->name);
+> +        get_single_disk_info(sdn.DeviceNumber, address, &local_err);
+> +        if (local_err) {
+> +            g_debug("failed to get disk info: %s",
+> +                error_get_pretty(local_err));
+> +            error_free(local_err);
+> +            qapi_free_GuestDiskAddress(address);
+> +            address =3D NULL;
+> +        } else {
+> +            disk->address =3D address;
+> +            disk->has_address =3D true;
+> +        }
+> +
+> +        new =3D g_malloc0(sizeof(GuestDiskInfoList));
+> +        new->value =3D disk;
+> +        new->next =3D ret;
+> +        ret =3D new;
+> +    }
+> +
+> +    SetupDiDestroyDeviceInfoList(dev_info);
+> +    return ret;
+> +}
+> +
+>  #else
+>
+>  static GuestDiskAddressList *build_guest_disk_info(char *guid, Error
+> **errp)
+> @@ -986,6 +1072,12 @@ static GuestDiskAddressList
+> *build_guest_disk_info(char *guid, Error **errp)
+>      return NULL;
+>  }
+>
+> +GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+> +{
+> +    error_setg(errp, QERR_UNSUPPORTED);
+> +    return NULL;
+> +}
+> +
+>  #endif /* CONFIG_QGA_NTDDSCSI */
+>
+>  static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
+> @@ -2457,9 +2549,3 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error
+> **errp)
+>      }
+>      return head;
+>  }
+> -
+> -GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+> -{
+> -    error_setg(errp, QERR_UNSUPPORTED);
+> -    return NULL;
+> -}
+> --
+> 2.28.0
+>
+>
 
-    Reported-by: Alexander Bulekov <alxndr@bu.edu>
-    Fixes: https://bugs.launchpad.net/qemu/+bug/1878253
-    Fixes: https://bugs.launchpad.net/qemu/+bug/1887303
-    Fixes: https://bugs.launchpad.net/qemu/+bug/1887309
-    Signed-off-by: John Snow <jsnow@redhat.com>
+--=20
+Marc-Andr=C3=A9 Lureau
 
- hw/ide/core.c | 58
-++++++++++++++++++++++++++++++++++++++++------------------
- 1 file changed, 40 insertions(+), 18 deletions(-)
+--00000000000042f86d05b110630c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 7, 2020 at 11:46 AM Tom=
+=C3=A1=C5=A1 Golembiovsk=C3=BD &lt;<a href=3D"mailto:tgolembi@redhat.com">t=
+golembi@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">The command lists all the physical disk drives. Unlike fo=
+r Linux<br>
+partitions and virtual volumes are not listed.<br>
+<br>
+Example output:<br>
+<br>
+{<br>
+=C2=A0 &quot;return&quot;: [<br>
+=C2=A0 =C2=A0 {<br>
+=C2=A0 =C2=A0 =C2=A0 &quot;name&quot;: &quot;\\\\.\\PhysicalDrive0&quot;,<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 &quot;partition&quot;: false,<br>
+=C2=A0 =C2=A0 =C2=A0 &quot;address&quot;: {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;serial&quot;: &quot;QM00001&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;bus-type&quot;: &quot;sata&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ...<br>
+=C2=A0 =C2=A0 =C2=A0 },<br>
+=C2=A0 =C2=A0 =C2=A0 &quot;dependents&quot;: []<br>
+=C2=A0 =C2=A0 }<br>
+=C2=A0 ]<br>
+}<br>
+<br>
+Signed-off-by: Tom=C3=A1=C5=A1 Golembiovsk=C3=BD &lt;<a href=3D"mailto:tgol=
+embi@redhat.com" target=3D"_blank">tgolembi@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0qga/commands-win32.c | 98 +++++++++++++++++++++++++++++++++++++++++--=
+-<br>
+=C2=A01 file changed, 92 insertions(+), 6 deletions(-)<br>
+<br>
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+index 0dd16315d7..7fe5676785 100644<br>
+--- a/qga/commands-win32.c<br>
++++ b/qga/commands-win32.c<br>
+@@ -979,6 +979,92 @@ out:<br>
+=C2=A0 =C2=A0 =C2=A0return list;<br>
+=C2=A0}<br>
+<br>
++GuestDiskInfoList *qmp_guest_get_disks(Error **errp)<br>
++{<br></blockquote><div><br></div><div>ERRP_GUARD?</div><div> <br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 GuestDiskInfoList *new =3D NULL, *ret =3D NULL;<br>
++=C2=A0 =C2=A0 HDEVINFO dev_info;<br>
++=C2=A0 =C2=A0 SP_DEVICE_INTERFACE_DATA dev_iface_data;<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 dev_info =3D SetupDiGetClassDevs(&amp;GUID_DEVINTERFACE_DISK=
+, 0, 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);<br>
++=C2=A0 =C2=A0 if (dev_info =3D=3D INVALID_HANDLE_VALUE) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_win32(errp, GetLastError(), &quot;f=
+ailed to get device tree&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 g_debug(&quot;enumerating devices&quot;);<br>
++=C2=A0 =C2=A0 dev_iface_data.cbSize =3D sizeof(SP_DEVICE_INTERFACE_DATA);<=
+br>
++=C2=A0 =C2=A0 for (i =3D 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 SetupDiEnumDeviceInterfaces(dev_info, NULL, &a=
+mp;GUID_DEVINTERFACE_DISK,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i, &amp;dev_iface_data);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 GuestDiskAddress *address =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 GuestDiskInfo *disk =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pdev_iface_detail_data =3D NULL;=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 STORAGE_DEVICE_NUMBER sdn;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 HANDLE dev_file;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 DWORD size =3D 0;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;=C2=A0 getting device path&quot;=
+);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 while (!SetupDiGetDeviceInterfaceDetail(dev_in=
+fo, &amp;dev_iface_data,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pdev_iface_detail_=
+data,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size, &amp;size,<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (GetLastError() =3D=3D ERROR_=
+INSUFFICIENT_BUFFER) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pdev_iface_detail_=
+data =3D g_realloc(pdev_iface_detail_data,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size=
+);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pdev_iface_detail_=
+data-&gt;cbSize =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size=
+of(*pdev_iface_detail_data);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;fail=
+ed to get device interface details&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br></blo=
+ckquote><div><br></div><div>Is &quot;continue&quot; appropriate here? Looks=
+ like this may loop forever easily.<br></div><div><br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;=C2=A0 device: %s&quot;, pdev_if=
+ace_detail_data-&gt;DevicePath);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dev_file =3D CreateFile(pdev_iface_detail_data=
+-&gt;DevicePath, 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 FILE_SHARE_READ, NULL, OPEN_EXIS=
+TING, 0, NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!DeviceIoControl(dev_file, IOCTL_STORAGE_G=
+ET_DEVICE_NUMBER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, 0, &amp;sdn,=
+ sizeof(sdn), &amp;size, NULL)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CloseHandle(dev_file);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 debug_error(&quot;failed to get =
+storage device number&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 CloseHandle(dev_file);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 disk =3D g_new0(GuestDiskInfo, 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 disk-&gt;name =3D g_strdup_printf(&quot;\\\\.\=
+\PhysicalDrive%lu&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sdn.DeviceNumber);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;=C2=A0 number: %lu&quot;, sdn.De=
+viceNumber);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 address =3D g_malloc0(sizeof(GuestDiskAddress)=
+);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 address-&gt;has_dev =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 address-&gt;dev =3D g_strdup(disk-&gt;name);<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 get_single_disk_info(sdn.DeviceNumber, address=
+, &amp;local_err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (local_err) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;failed to get disk=
+ info: %s&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_get_pretty(l=
+ocal_err));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_free(local_err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qapi_free_GuestDiskAddress(addre=
+ss);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 address =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 disk-&gt;address =3D address;<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 disk-&gt;has_address =3D true;<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 new =3D g_malloc0(sizeof(GuestDiskInfoList));<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 new-&gt;value =3D disk;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 new-&gt;next =3D ret;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D new;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 SetupDiDestroyDeviceInfoList(dev_info);<br>
++=C2=A0 =C2=A0 return ret;<br>
++}<br>
++<br>
+=C2=A0#else<br>
+<br>
+=C2=A0static GuestDiskAddressList *build_guest_disk_info(char *guid, Error =
+**errp)<br>
+@@ -986,6 +1072,12 @@ static GuestDiskAddressList *build_guest_disk_info(ch=
+ar *guid, Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0}<br>
+<br>
++GuestDiskInfoList *qmp_guest_get_disks(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
++=C2=A0 =C2=A0 return NULL;<br>
++}<br>
++<br>
+=C2=A0#endif /* CONFIG_QGA_NTDDSCSI */<br>
+<br>
+=C2=A0static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **er=
+rp)<br>
+@@ -2457,9 +2549,3 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **er=
+rp)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0return head;<br>
+=C2=A0}<br>
+-<br>
+-GuestDiskInfoList *qmp_guest_get_disks(Error **errp)<br>
+-{<br>
+-=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
+-=C2=A0 =C2=A0 return NULL;<br>
+-}<br>
+-- <br>
+2.28.0<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-Phil.
-
+--00000000000042f86d05b110630c--
 
