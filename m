@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1752C286541
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:51:52 +0200 (CEST)
-Received: from localhost ([::1]:34174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F60286553
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:57:56 +0200 (CEST)
+Received: from localhost ([::1]:51112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCfP-0002ag-3w
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:51:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48102)
+	id 1kQClH-0001gS-Jo
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:57:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kQCcu-0000pz-VE
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:49:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54895)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kQCcy-0000xk-0D
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:49:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kQCcs-0002Fs-UX
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:49:16 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kQCcv-0002Hh-Up
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:49:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602089354;
+ s=mimecast20190719; t=1602089357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S+8nF3sZPt7aCEn1DTgrZp8IqMGZff+FXI0y9kdjhjw=;
- b=Y3tK1wYUDGGkbrH9VYBCTZHAeyxVsvScV/vqUFKDVa+jNSL08kjrhkWiZ0yg7M4B9OYK5C
- 62P1nOQ+mjB0auOvJ1rrQYwl5+2BbgaV8cIf8G8g14qCWMBOL8s/Z0D0zIag8Db+eNPemO
- aJYR1+l7vn2natI5JfEXUeSI9TeLg2M=
+ bh=0BmOmIIAwXFUASJ/6L++9i0/+tRzTllg+jM96vXHsns=;
+ b=C6Yk7uDaDP/nmlasbdI/Mh3inzIsZ5Bp41p/Xp2xb63uH/Cf1qyBPeRzB2b54YxK5HSwzQ
+ 6M4Qvxs/emKP2BDvzAbXFyqCj3Z5mfBXdg26ZmXJqgqA1YCf/dn7FSJ+kbKgBCaEUnNksL
+ 1FdiN1RZRfE1dIk84ZTlKCLWInTIKuk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-JOAnaPuUO1ilwKuDnpXZ5w-1; Wed, 07 Oct 2020 12:49:12 -0400
-X-MC-Unique: JOAnaPuUO1ilwKuDnpXZ5w-1
+ us-mta-117-UmcvboC8PRuxmTaI1tDyFQ-1; Wed, 07 Oct 2020 12:49:15 -0400
+X-MC-Unique: UmcvboC8PRuxmTaI1tDyFQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84E411021208;
- Wed,  7 Oct 2020 16:49:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A437810BBED2;
+ Wed,  7 Oct 2020 16:49:14 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-169.ams2.redhat.com
  [10.36.113.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 678A05D9DD;
- Wed,  7 Oct 2020 16:49:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC89A5D9DD;
+ Wed,  7 Oct 2020 16:49:11 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 2/4] qom: Factor out helpers from
- user_creatable_print_help()
-Date: Wed,  7 Oct 2020 18:49:01 +0200
-Message-Id: <20201007164903.282198-3-kwolf@redhat.com>
+Subject: [PATCH v3 3/4] qom: Add user_creatable_print_help_from_qdict()
+Date: Wed,  7 Oct 2020 18:49:02 +0200
+Message-Id: <20201007164903.282198-4-kwolf@redhat.com>
 In-Reply-To: <20201007164903.282198-1-kwolf@redhat.com>
 References: <20201007164903.282198-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,128 +83,73 @@ Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This creates separate helper functions for printing a list of user
-creatable object types and for printing a list of properties of a given
-type. This will allow using these parts without having a QemuOpts.
+This adds a function that, given a QDict of non-help options, prints
+help for user creatable objects.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- qom/object_interfaces.c | 90 ++++++++++++++++++++++++-----------------
- 1 file changed, 52 insertions(+), 38 deletions(-)
+ include/qom/object_interfaces.h | 21 ++++++++++++++++++---
+ qom/object_interfaces.c         |  9 +++++++++
+ 2 files changed, 27 insertions(+), 3 deletions(-)
 
+diff --git a/include/qom/object_interfaces.h b/include/qom/object_interfaces.h
+index f118fb516b..07d5cc8832 100644
+--- a/include/qom/object_interfaces.h
++++ b/include/qom/object_interfaces.h
+@@ -154,13 +154,28 @@ int user_creatable_add_opts_foreach(void *opaque,
+  * @type: the QOM type to be added
+  * @opts: options to create
+  *
+- * Prints help if requested in @opts.
++ * Prints help if requested in @type or @opts. Note that if @type is neither
++ * "help"/"?" nor a valid user creatable type, no help will be printed
++ * regardless of @opts.
+  *
+- * Returns: true if @opts contained a help option and help was printed, false
+- * if no help option was found.
++ * Returns: true if a help option was found and help was printed, false
++ * otherwise.
+  */
+ bool user_creatable_print_help(const char *type, QemuOpts *opts);
+ 
++/**
++ * user_creatable_print_help_from_qdict:
++ * @args: options to create
++ *
++ * Prints help considering the other options given in @args (if "qom-type" is
++ * given and valid, print properties for the type, otherwise print valid types)
++ *
++ * In contrast to user_creatable_print_help(), this function can't return that
++ * no help was requested. It should only be called if we know that help is
++ * requested and it will always print some help.
++ */
++void user_creatable_print_help_from_qdict(QDict *args);
++
+ /**
+  * user_creatable_del:
+  * @id: the unique ID for the object
 diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index e8e1523960..3fd1da157e 100644
+index 3fd1da157e..ed896fe764 100644
 --- a/qom/object_interfaces.c
 +++ b/qom/object_interfaces.c
-@@ -214,54 +214,68 @@ char *object_property_help(const char *name, const char *type,
-     return g_string_free(str, false);
- }
- 
--bool user_creatable_print_help(const char *type, QemuOpts *opts)
-+static void user_creatable_print_types(void)
-+{
-+    GSList *l, *list;
-+
-+    printf("List of user creatable objects:\n");
-+    list = object_class_get_list_sorted(TYPE_USER_CREATABLE, false);
-+    for (l = list; l != NULL; l = l->next) {
-+        ObjectClass *oc = OBJECT_CLASS(l->data);
-+        printf("  %s\n", object_class_get_name(oc));
-+    }
-+    g_slist_free(list);
-+}
-+
-+static bool user_creatable_print_type_properites(const char *type)
- {
-     ObjectClass *klass;
-+    ObjectPropertyIterator iter;
-+    ObjectProperty *prop;
-+    GPtrArray *array;
-+    int i;
- 
--    if (is_help_option(type)) {
--        GSList *l, *list;
-+    klass = object_class_by_name(type);
-+    if (!klass) {
-+        return false;
-+    }
- 
--        printf("List of user creatable objects:\n");
--        list = object_class_get_list_sorted(TYPE_USER_CREATABLE, false);
--        for (l = list; l != NULL; l = l->next) {
--            ObjectClass *oc = OBJECT_CLASS(l->data);
--            printf("  %s\n", object_class_get_name(oc));
-+    array = g_ptr_array_new();
-+    object_class_property_iter_init(&iter, klass);
-+    while ((prop = object_property_iter_next(&iter))) {
-+        if (!prop->set) {
-+            continue;
-         }
--        g_slist_free(list);
--        return true;
-+
-+        g_ptr_array_add(array,
-+                        object_property_help(prop->name, prop->type,
-+                                             prop->defval, prop->description));
-     }
-+    g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
-+    if (array->len > 0) {
-+        printf("%s options:\n", type);
-+    } else {
-+        printf("There are no options for %s.\n", type);
-+    }
-+    for (i = 0; i < array->len; i++) {
-+        printf("%s\n", (char *)array->pdata[i]);
-+    }
-+    g_ptr_array_set_free_func(array, g_free);
-+    g_ptr_array_free(array, true);
-+    return true;
-+}
- 
--    klass = object_class_by_name(type);
--    if (klass && qemu_opt_has_help_opt(opts)) {
--        ObjectPropertyIterator iter;
--        ObjectProperty *prop;
--        GPtrArray *array = g_ptr_array_new();
--        int i;
--
--        object_class_property_iter_init(&iter, klass);
--        while ((prop = object_property_iter_next(&iter))) {
--            if (!prop->set) {
--                continue;
--            }
--
--            g_ptr_array_add(array,
--                            object_property_help(prop->name, prop->type,
--                                                 prop->defval, prop->description));
--        }
--        g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
--        if (array->len > 0) {
--            printf("%s options:\n", type);
--        } else {
--            printf("There are no options for %s.\n", type);
--        }
--        for (i = 0; i < array->len; i++) {
--            printf("%s\n", (char *)array->pdata[i]);
--        }
--        g_ptr_array_set_free_func(array, g_free);
--        g_ptr_array_free(array, true);
-+bool user_creatable_print_help(const char *type, QemuOpts *opts)
-+{
-+    if (is_help_option(type)) {
-+        user_creatable_print_types();
-         return true;
-     }
- 
-+    if (qemu_opt_has_help_opt(opts)) {
-+        return user_creatable_print_type_properites(type);
-+    }
-+
+@@ -279,6 +279,15 @@ bool user_creatable_print_help(const char *type, QemuOpts *opts)
      return false;
  }
  
++void user_creatable_print_help_from_qdict(QDict *args)
++{
++    const char *type = qdict_get_try_str(args, "qom-type");
++
++    if (!type || !user_creatable_print_type_properites(type)) {
++        user_creatable_print_types();
++    }
++}
++
+ bool user_creatable_del(const char *id, Error **errp)
+ {
+     Object *container;
 -- 
 2.25.4
 
