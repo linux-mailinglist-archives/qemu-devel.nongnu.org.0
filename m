@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F2B2862E1
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 17:59:32 +0200 (CEST)
-Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095CE286387
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:19:38 +0200 (CEST)
+Received: from localhost ([::1]:57074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQBql-0003Lq-Hg
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 11:59:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33332)
+	id 1kQCAC-0005bb-VL
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQBnz-0001gG-FP
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:56:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57668)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQBnv-0000K6-GJ
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:56:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602086194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=04mH/EQN2FMbm79HfXdBhiaZTkRTdOPvt3HTGNa6fxc=;
- b=ZF5KlYXLjLO5fuvNZzQ+4qHfCcewfDdL8Ehs+GJ64BmUpk3VyM76Msy0a8/gSQaVpJEz9m
- RjGnXNAE/REtOS/WRHAcbwF3kBaZbi8W8vN7UDQSQ2ojQqPW2OuOeB2gG3ClVmIr8RE3ph
- NrKIoGMmJEsmTBk/xhsmNv+As2gaB/A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-63M_jL9JPUCbFvNkv8ngWw-1; Wed, 07 Oct 2020 11:56:33 -0400
-X-MC-Unique: 63M_jL9JPUCbFvNkv8ngWw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0E4C108E1A1;
- Wed,  7 Oct 2020 15:56:31 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-112-50.ams2.redhat.com
- [10.36.112.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8138D10021AA;
- Wed,  7 Oct 2020 15:56:30 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, alex.bennee@linaro.org, zhengchuan@huawei.com,
- stefanha@redhat.com, peterx@redhat.com
-Subject: [PULL 10/10] migration/dirtyrate: present dirty rate only when
- querying the rate has completed
-Date: Wed,  7 Oct 2020 16:56:00 +0100
-Message-Id: <20201007155600.337316-11-dgilbert@redhat.com>
-In-Reply-To: <20201007155600.337316-1-dgilbert@redhat.com>
-References: <20201007155600.337316-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQBpv-0003VA-IQ
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:58:42 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53137)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQBpr-0000XK-Gu
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:58:38 -0400
+Received: by mail-wm1-x344.google.com with SMTP id l11so2896860wmh.2
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 08:58:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=2drdNr/M1U24UH3JKKtdMLm6a3hL9FeW/33oM5mx0SE=;
+ b=lozlnULpkc06EfM0cZx3HuvOvijJg09n1WmL4wUOp9C1FypkBya40TBQAroaG2pWZX
+ z82FY9dmxMvTPG046KahebuEOcv8BSLuCGV1m/nkz+DIQUrwqogCB/0nhg2wZfxWht43
+ Y38TVcofS8COPSb/tV6yJkroE+bzfdCJyIe+WvlyypmRMeqd/H8JMBKybqXSC2xSeybO
+ jSCiS06bjdZL+yM1t17X8wKJTFFUBMr+3N3MbJdd5NDY67Va5FDQegOa+j3XBVR1d7Rw
+ HWXyBPm7SiI/tZLzhRywnZ/b/SS5ZW/ghh4/wGgaBwa4ZkP1WBg+lMB34+sfpPzCUMW9
+ taSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=2drdNr/M1U24UH3JKKtdMLm6a3hL9FeW/33oM5mx0SE=;
+ b=mQzf0Q9Wu5INEjsF43Q0VDvz4OJNPz619LVRiEUgQyo7Yfiwzy729H3v4EuZFV+3t9
+ 9o+5oMaAStqunW7patJNlVU+7NcNFiPyIHHhqWyRGscBNe62IJBhyd/V0WiO8+uBwzqc
+ 0WV3Da4UFwnACUt2PTuXpKkmGjGnE7AeCVNKZ4jOSytKiKBOJ0mifVuXtAtNV2QvQFaP
+ inKw6egix3DUeZs3/3JX/pwcShXJ3544pZF0xpsBECcLqNLrQww7EIwwaLyTRyPeM1YZ
+ LAIYy+xMxXUjhfedU4dVHoC9Tcja2pvwAtEN5eoPOidYLHLy8FZXWnYkX/I87pByYE7L
+ lswA==
+X-Gm-Message-State: AOAM5304f1j0B5Gv2pBrVtSoA0cyV+m+fpMMYe4P5rtcEguQVzrdGXuy
+ ThpPHFgXPmiZoq3jE9FItlC0sA==
+X-Google-Smtp-Source: ABdhPJwXNwYFQWjiX1GcAr7Nz7VrvmvQiSbJ8gFFU5M5cw1Po3jxOoP97adxK9vUC2m0sa/K2hQEBA==
+X-Received: by 2002:a1c:ac88:: with SMTP id v130mr3959424wme.43.1602086312699; 
+ Wed, 07 Oct 2020 08:58:32 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p67sm3258951wmp.11.2020.10.07.08.58.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 08:58:31 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D86851FF7E;
+ Wed,  7 Oct 2020 16:58:30 +0100 (BST)
+References: <20201007145300.1197-1-luoyonggang@gmail.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Yonggang Luo <luoyonggang@gmail.com>
+Subject: Re: [PATCH v5 0/2] Improve cirrus msys2
+In-reply-to: <20201007145300.1197-1-luoyonggang@gmail.com>
+Date: Wed, 07 Oct 2020 16:58:30 +0100
+Message-ID: <87imbmyqmx.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,73 +88,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chuan Zheng <zhengchuan@huawei.com>
 
-Make dirty_rate field optional, present dirty rate only when querying
-the rate has completed.
-The qmp results is shown as follow:
-@unstarted:
-{"return":{"status":"unstarted","start-time":0,"calc-time":0},"id":"libvirt-12"}
-@measuring:
-{"return":{"status":"measuring","start-time":102931,"calc-time":1},"id":"libvirt-85"}
-@measured:
-{"return":{"status":"measured","dirty-rate":4,"start-time":150146,"calc-time":1},"id":"libvirt-15"}
+Yonggang Luo <luoyonggang@gmail.com> writes:
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-Message-Id: <1601350938-128320-3-git-send-email-zhengchuan@huawei.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/dirtyrate.c | 3 +--
- qapi/migration.json   | 8 +++-----
- 2 files changed, 4 insertions(+), 7 deletions(-)
+> Fixes the broken msys2/mingw ci and speed it up.
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 40e41e793e..ab9e1301f6 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -69,9 +69,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
- 
-     if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
-+        info->has_dirty_rate = true;
-         info->dirty_rate = dirty_rate;
--    } else {
--        info->dirty_rate = -1;
-     }
- 
-     info->status = CalculatingState;
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 7f5e6fd681..974021a5c8 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1743,10 +1743,8 @@
- #
- # Information about current dirty page rate of vm.
- #
--# @dirty-rate: @dirtyrate describing the dirty page rate of vm
--#              in units of MB/s.
--#              If this field returns '-1', it means querying has not
--#              yet started or completed.
-+# @dirty-rate: an estimate of the dirty page rate of the VM in units of
-+#              MB/s, present only when estimating the rate has completed.
- #
- # @status: status containing dirtyrate query status includes
- #          'unstarted' or 'measuring' or 'measured'
-@@ -1759,7 +1757,7 @@
- #
- ##
- { 'struct': 'DirtyRateInfo',
--  'data': {'dirty-rate': 'int64',
-+  'data': {'*dirty-rate': 'int64',
-            'status': 'DirtyRateStatus',
-            'start-time': 'int64',
-            'calc-time': 'int64'} }
--- 
-2.28.0
+Queued to prepr/misc-testing-gitdm-plugin-fixes, thanks. I renamed the
+script to setup_script.
 
+--=20
+Alex Benn=C3=A9e
 
