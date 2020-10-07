@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC683285E8F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 13:58:54 +0200 (CEST)
-Received: from localhost ([::1]:45480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0370285E98
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 14:00:15 +0200 (CEST)
+Received: from localhost ([::1]:49040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ85u-00038W-07
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 07:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35614)
+	id 1kQ87B-0004b5-4J
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 08:00:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ84B-0001O6-64
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:57:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45566)
+ id 1kQ84H-0001T4-65
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:57:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ849-0001g9-Ds
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:57:06 -0400
+ id 1kQ84C-0001ge-RS
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:57:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602071824;
+ s=mimecast20190719; t=1602071828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FPTkqf6WJkhrShPR5axybp+wjVEJuJhv7BBbf18NsUw=;
- b=g3CRXfn69Ooq+IdSna9qP81VhlFn7+WqwNJ9h9rDzzU+9vZtZn/mwtgLyd2PP1FYpZw5gM
- dsZBYM8zMOuliUwzf8ax0M6pbYsj88lAeZpn5fZuYx73Fb1v/trx5kYEtASAjYvrcLbQbi
- gpSZM+vKKSJK0fh575ClOO2IkhgfJLk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mkBNPei9uMoqu12UG5Q0b8HB14/E7ipCviA8H8P7BJA=;
+ b=YjyAg3Czlfyaqf+xYa38zFYqU5/N/hhZYReec3iLObBsr4CAwvTj5cYth+9gbTkVJjd9Wz
+ 31xJufm+Hs7nom9iLpK2DQJkUhU/PR5YqpDgDttB5/yIBPDTB2kjlmBpnEySKo2iAHhF2D
+ uT+XMTBCvU14Prc2DMfA8FGycIOuB4E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-mQ9btBxmPXyyffNxCe-pDw-1; Wed, 07 Oct 2020 07:57:02 -0400
-X-MC-Unique: mQ9btBxmPXyyffNxCe-pDw-1
+ us-mta-168-LVEceakyO_GqGnslRwxHqw-1; Wed, 07 Oct 2020 07:57:05 -0400
+X-MC-Unique: LVEceakyO_GqGnslRwxHqw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D40318A076E;
- Wed,  7 Oct 2020 11:57:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D773C81F005;
+ Wed,  7 Oct 2020 11:57:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F47D55795;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A83235577B;
  Wed,  7 Oct 2020 11:57:01 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 00/17] Fix scsi devices plug/unplug races w.r.t virtio-scsi
- iothread
-Date: Wed,  7 Oct 2020 07:56:43 -0400
-Message-Id: <20201007115700.707938-1-pbonzini@redhat.com>
+Subject: [PATCH v8 01/17] qtest: rename qtest_qmp_receive to
+ qtest_qmp_receive_dict
+Date: Wed,  7 Oct 2020 07:56:44 -0400
+Message-Id: <20201007115700.707938-2-pbonzini@redhat.com>
+In-Reply-To: <20201007115700.707938-1-pbonzini@redhat.com>
+References: <20201007115700.707938-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
@@ -56,17 +59,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,64 +82,265 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: kwolf@redhat.com, Maxim Levitsky <mlevitsk@redhat.com>,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hopefully the final version of the patches, fixing the remaining
-testsuite issues.  Kevin or Max, please take a look at patches 6 and 7
-as they affect qemu-iotests.
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Paolo
+In the next patch a new version of qtest_qmp_receive will be
+reintroduced that will buffer received qmp events for later
+consumption in qtest_qmp_eventwait_ref
 
-Maxim Levitsky (11):
-  qtest: rename qtest_qmp_receive to qtest_qmp_receive_dict
-  qtest: Reintroduce qtest_qmp_receive
-  qtest: remove qtest_qmp_receive_success
-  qtest: switch users back to qtest_qmp_receive
-  scsi/scsi_bus: switch search direction in scsi_device_find
-  device_core: use drain_call_rcu in in qmp_device_add
-  device-core: use RCU for list of children of a bus
-  device-core: use atomic_set on .realized property
-  scsi/scsi_bus: Add scsi_device_get
-  virtio-scsi: use scsi_device_get
-  scsi/scsi_bus: fix races in REPORT LUNS
+No functional change intended.
 
-Paolo Bonzini (6):
-  device-plug-test: use qtest_qmp to send the device_del command
-  qtest: check that drives are really appearing and disappearing
-  qemu-iotests, qtest: rewrite test 067 as a qtest
-  qdev: add "check if address free" callback for buses
-  scsi: switch to bus->check_address
-  scsi/scsi-bus: scsi_device_find: don't return unrealized devices
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/qtest/ahci-test.c        |  4 ++--
+ tests/qtest/device-plug-test.c |  2 +-
+ tests/qtest/drive_del-test.c   |  2 +-
+ tests/qtest/libqos/libqtest.h  |  4 ++--
+ tests/qtest/libqtest.c         | 16 ++++++++--------
+ tests/qtest/pvpanic-test.c     |  2 +-
+ tests/qtest/qmp-test.c         | 18 +++++++++---------
+ 7 files changed, 24 insertions(+), 24 deletions(-)
 
- .gitlab-ci.yml                  |   2 +-
- hw/core/bus.c                   |  28 ++-
- hw/core/qdev.c                  |  73 ++++--
- hw/net/virtio-net.c             |   2 +-
- hw/scsi/scsi-bus.c              | 262 ++++++++++++--------
- hw/scsi/virtio-scsi.c           |  27 ++-
- hw/sd/core.c                    |   3 +-
- include/hw/qdev-core.h          |  24 +-
- include/hw/scsi/scsi.h          |   1 +
- softmmu/qdev-monitor.c          |  12 +
- tests/qemu-iotests/067          | 157 ------------
- tests/qemu-iotests/067.out      | 414 --------------------------------
- tests/qemu-iotests/group        |   1 -
- tests/qtest/device-plug-test.c  |  32 +--
- tests/qtest/drive_del-test.c    | 244 ++++++++++++++++---
- tests/qtest/libqos/libqtest.h   |  34 +--
- tests/qtest/libqtest.c          | 110 +++++----
- tests/qtest/meson.build         |   4 +-
- tests/qtest/migration-helpers.c |  25 +-
- tests/qtest/pvpanic-test.c      |   4 +-
- tests/qtest/qmp-test.c          |  18 +-
- tests/qtest/tpm-util.c          |   8 +-
- 22 files changed, 637 insertions(+), 848 deletions(-)
- delete mode 100755 tests/qemu-iotests/067
- delete mode 100644 tests/qemu-iotests/067.out
-
+diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
+index 5e1954852e..d42ebaeb4c 100644
+--- a/tests/qtest/ahci-test.c
++++ b/tests/qtest/ahci-test.c
+@@ -1590,7 +1590,7 @@ static void test_atapi_tray(void)
+     qtest_qmp_send(ahci->parent->qts, "{'execute': 'blockdev-open-tray', "
+                     "'arguments': {'id': 'cd0'}}");
+     atapi_wait_tray(ahci, true);
+-    rsp = qtest_qmp_receive(ahci->parent->qts);
++    rsp = qtest_qmp_receive_dict(ahci->parent->qts);
+     qobject_unref(rsp);
+ 
+     qmp_discard_response(ahci->parent->qts,
+@@ -1620,7 +1620,7 @@ static void test_atapi_tray(void)
+     qtest_qmp_send(ahci->parent->qts, "{'execute': 'blockdev-close-tray', "
+                    "'arguments': {'id': 'cd0'}}");
+     atapi_wait_tray(ahci, false);
+-    rsp = qtest_qmp_receive(ahci->parent->qts);
++    rsp = qtest_qmp_receive_dict(ahci->parent->qts);
+     qobject_unref(rsp);
+ 
+     /* Now, to convince ATAPI we understand the media has changed... */
+diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+index 9214892741..a2247856be 100644
+--- a/tests/qtest/device-plug-test.c
++++ b/tests/qtest/device-plug-test.c
+@@ -23,7 +23,7 @@ static void device_del_start(QTestState *qtest, const char *id)
+ 
+ static void device_del_finish(QTestState *qtest)
+ {
+-    QDict *resp = qtest_qmp_receive(qtest);
++    QDict *resp = qtest_qmp_receive_dict(qtest);
+ 
+     g_assert(qdict_haskey(resp, "return"));
+     qobject_unref(resp);
+diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
+index 2d765865ce..ba0cd77445 100644
+--- a/tests/qtest/drive_del-test.c
++++ b/tests/qtest/drive_del-test.c
+@@ -41,7 +41,7 @@ static void device_del(QTestState *qts)
+     /* Complication: ignore DEVICE_DELETED event */
+     qmp_discard_response(qts, "{'execute': 'device_del',"
+                          " 'arguments': { 'id': 'dev0' } }");
+-    response = qtest_qmp_receive(qts);
++    response = qtest_qmp_receive_dict(qts);
+     g_assert(response);
+     g_assert(qdict_haskey(response, "return"));
+     qobject_unref(response);
+diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
+index 209fcf6973..9b3f99b322 100644
+--- a/tests/qtest/libqos/libqtest.h
++++ b/tests/qtest/libqos/libqtest.h
+@@ -191,12 +191,12 @@ void qtest_qmp_vsend(QTestState *s, const char *fmt, va_list ap)
+     GCC_FMT_ATTR(2, 0);
+ 
+ /**
+- * qtest_receive:
++ * qtest_qmp_receive_dict:
+  * @s: #QTestState instance to operate on.
+  *
+  * Reads a QMP message from QEMU and returns the response.
+  */
+-QDict *qtest_qmp_receive(QTestState *s);
++QDict *qtest_qmp_receive_dict(QTestState *s);
+ 
+ /**
+  * qtest_qmp_eventwait:
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 58f58e1ece..dadc465825 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -322,7 +322,7 @@ QTestState *qtest_init(const char *extra_args)
+     QDict *greeting;
+ 
+     /* Read the QMP greeting and then do the handshake */
+-    greeting = qtest_qmp_receive(s);
++    greeting = qtest_qmp_receive_dict(s);
+     qobject_unref(greeting);
+     qobject_unref(qtest_qmp(s, "{ 'execute': 'qmp_capabilities' }"));
+ 
+@@ -603,7 +603,7 @@ QDict *qmp_fd_receive(int fd)
+     return qmp.response;
+ }
+ 
+-QDict *qtest_qmp_receive(QTestState *s)
++QDict *qtest_qmp_receive_dict(QTestState *s)
+ {
+     return qmp_fd_receive(s->qmp_fd);
+ }
+@@ -678,7 +678,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
+     qtest_qmp_vsend_fds(s, fds, fds_num, fmt, ap);
+ 
+     /* Receive reply */
+-    return qtest_qmp_receive(s);
++    return qtest_qmp_receive_dict(s);
+ }
+ 
+ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
+@@ -686,7 +686,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
+     qtest_qmp_vsend(s, fmt, ap);
+ 
+     /* Receive reply */
+-    return qtest_qmp_receive(s);
++    return qtest_qmp_receive_dict(s);
+ }
+ 
+ QDict *qmp_fd(int fd, const char *fmt, ...)
+@@ -776,7 +776,7 @@ QDict *qtest_qmp_eventwait_ref(QTestState *s, const char *event)
+     QDict *response;
+ 
+     for (;;) {
+-        response = qtest_qmp_receive(s);
++        response = qtest_qmp_receive_dict(s);
+         if ((qdict_haskey(response, "event")) &&
+             (strcmp(qdict_get_str(response, "event"), event) == 0)) {
+             return response;
+@@ -807,7 +807,7 @@ char *qtest_vhmp(QTestState *s, const char *fmt, va_list ap)
+     while (ret == NULL && qdict_get_try_str(resp, "event")) {
+         /* Ignore asynchronous QMP events */
+         qobject_unref(resp);
+-        resp = qtest_qmp_receive(s);
++        resp = qtest_qmp_receive_dict(s);
+         ret = g_strdup(qdict_get_try_str(resp, "return"));
+     }
+     g_assert(ret);
+@@ -1255,7 +1255,7 @@ QDict *qtest_qmp_receive_success(QTestState *s,
+     const char *event;
+ 
+     for (;;) {
+-        response = qtest_qmp_receive(s);
++        response = qtest_qmp_receive_dict(s);
+         g_assert(!qdict_haskey(response, "error"));
+         ret = qdict_get_qdict(response, "return");
+         if (ret) {
+@@ -1345,7 +1345,7 @@ void qtest_qmp_device_del(QTestState *qts, const char *id)
+     rsp = qtest_qmp_receive_success(qts, device_deleted_cb, &got_event);
+     qobject_unref(rsp);
+     if (!got_event) {
+-        rsp = qtest_qmp_receive(qts);
++        rsp = qtest_qmp_receive_dict(qts);
+         g_assert_cmpstr(qdict_get_try_str(rsp, "event"),
+                         ==, "DEVICE_DELETED");
+         qobject_unref(rsp);
+diff --git a/tests/qtest/pvpanic-test.c b/tests/qtest/pvpanic-test.c
+index e57639481e..b0b20ad340 100644
+--- a/tests/qtest/pvpanic-test.c
++++ b/tests/qtest/pvpanic-test.c
+@@ -24,7 +24,7 @@ static void test_panic(void)
+ 
+     qtest_outb(qts, 0x505, 0x1);
+ 
+-    response = qtest_qmp_receive(qts);
++    response = qtest_qmp_receive_dict(qts);
+     g_assert(qdict_haskey(response, "event"));
+     g_assert_cmpstr(qdict_get_str(response, "event"), ==, "GUEST_PANICKED");
+     g_assert(qdict_haskey(response, "data"));
+diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+index e1032c5a21..eb1cd8abb8 100644
+--- a/tests/qtest/qmp-test.c
++++ b/tests/qtest/qmp-test.c
+@@ -47,37 +47,37 @@ static void test_malformed(QTestState *qts)
+ 
+     /* syntax error */
+     qtest_qmp_send_raw(qts, "{]\n");
+-    resp = qtest_qmp_receive(qts);
++    resp = qtest_qmp_receive_dict(qts);
+     qmp_expect_error_and_unref(resp, "GenericError");
+     assert_recovered(qts);
+ 
+     /* lexical error: impossible byte outside string */
+     qtest_qmp_send_raw(qts, "{\xFF");
+-    resp = qtest_qmp_receive(qts);
++    resp = qtest_qmp_receive_dict(qts);
+     qmp_expect_error_and_unref(resp, "GenericError");
+     assert_recovered(qts);
+ 
+     /* lexical error: funny control character outside string */
+     qtest_qmp_send_raw(qts, "{\x01");
+-    resp = qtest_qmp_receive(qts);
++    resp = qtest_qmp_receive_dict(qts);
+     qmp_expect_error_and_unref(resp, "GenericError");
+     assert_recovered(qts);
+ 
+     /* lexical error: impossible byte in string */
+     qtest_qmp_send_raw(qts, "{'bad \xFF");
+-    resp = qtest_qmp_receive(qts);
++    resp = qtest_qmp_receive_dict(qts);
+     qmp_expect_error_and_unref(resp, "GenericError");
+     assert_recovered(qts);
+ 
+     /* lexical error: control character in string */
+     qtest_qmp_send_raw(qts, "{'execute': 'nonexistent', 'id':'\n");
+-    resp = qtest_qmp_receive(qts);
++    resp = qtest_qmp_receive_dict(qts);
+     qmp_expect_error_and_unref(resp, "GenericError");
+     assert_recovered(qts);
+ 
+     /* lexical error: interpolation */
+     qtest_qmp_send_raw(qts, "%%p");
+-    resp = qtest_qmp_receive(qts);
++    resp = qtest_qmp_receive_dict(qts);
+     qmp_expect_error_and_unref(resp, "GenericError");
+     assert_recovered(qts);
+ 
+@@ -111,7 +111,7 @@ static void test_qmp_protocol(void)
+     qts = qtest_init_without_qmp_handshake(common_args);
+ 
+     /* Test greeting */
+-    resp = qtest_qmp_receive(qts);
++    resp = qtest_qmp_receive_dict(qts);
+     q = qdict_get_qdict(resp, "QMP");
+     g_assert(q);
+     test_version(qdict_get(q, "version"));
+@@ -205,7 +205,7 @@ static void send_oob_cmd_that_fails(QTestState *s, const char *id)
+ 
+ static void recv_cmd_id(QTestState *s, const char *id)
+ {
+-    QDict *resp = qtest_qmp_receive(s);
++    QDict *resp = qtest_qmp_receive_dict(s);
+ 
+     g_assert_cmpstr(qdict_get_try_str(resp, "id"), ==, id);
+     qobject_unref(resp);
+@@ -222,7 +222,7 @@ static void test_qmp_oob(void)
+     qts = qtest_init_without_qmp_handshake(common_args);
+ 
+     /* Check the greeting message. */
+-    resp = qtest_qmp_receive(qts);
++    resp = qtest_qmp_receive_dict(qts);
+     q = qdict_get_qdict(resp, "QMP");
+     g_assert(q);
+     capabilities = qdict_get_qlist(q, "capabilities");
 -- 
 2.26.2
+
 
 
