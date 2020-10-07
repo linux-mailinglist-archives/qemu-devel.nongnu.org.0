@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056F0286248
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 17:38:59 +0200 (CEST)
-Received: from localhost ([::1]:41074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3E528625C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 17:41:10 +0200 (CEST)
+Received: from localhost ([::1]:44484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQBWs-0006N6-44
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 11:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57668)
+	id 1kQBYz-0007tw-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 11:41:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kQBW6-0005qv-1d; Wed, 07 Oct 2020 11:38:10 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:36781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kQBW2-0005rO-Ne; Wed, 07 Oct 2020 11:38:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=/eizcVXQGRkLxDWQ2lpdKa3LyG2ZJolxWQ4YaWXIfyM=; 
- b=Pl9m65Bv1vDVc1EzencOCOji00ypsXP6rrN7gPs3YxbijxPVNH4+j34fq1OfpmqDQZ+r5k5YtpZAzunHYsyWImUIr3FXLZ5+uX9tqkOVtgt91syDyQkJh0tP/sUuZTTjQx5QfzVh2Ap2BSdDYdXWY1749tXRcuKD4ByM0bPuUfywA3RrjCtSVL00XTld4/DtqSSlMplBvnqxwN8JnVhbb1bdWzHVQiVKsFRUjshch2CoWApSU8J9UCZKwnBYFaPuD3sGGlJ8ZRN//IZU+llrAGGvNcY5ZhbJrWNxVwgrggmo75wQg2T1UbwgcGTMOnDCIHwBADKp7cN8B3U7zJvS7Q==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kQBVx-0003WI-UD; Wed, 07 Oct 2020 17:38:01 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1kQBVx-0002re-Ia; Wed, 07 Oct 2020 17:38:01 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] qcow2: Document and enforce the QCowL2Meta invariants
-In-Reply-To: <f53af87c-15e3-4de5-42e0-213363759231@virtuozzo.com>
-References: <20201007115217.18013-1-berto@igalia.com>
- <f53af87c-15e3-4de5-42e0-213363759231@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Wed, 07 Oct 2020 17:38:01 +0200
-Message-ID: <w51d01uavxi.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQBXT-0006uP-Bj
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:39:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23571)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQBXR-0005xq-GU
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:39:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602085172;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OpGQSgL/tMTYnrcwO4ktwPOEPyrBu7GiAhbsq3PwJhU=;
+ b=E1+TJpTNEyQ0fb68gOoGIYD/VV4qdLn/7IZ8nEgRfkv+r3TACNEKSgZEuPZmNopf1WBEOr
+ DMN4zEmdrXTc3Wigt86uTO+vscEW1TIE6TF7TLwsQNUzZW2vE5cq6uWLzvA5m1wWfqO7A5
+ R9mSxbTAB1Kpo/hOiNOVKRtIG+sAoLU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-34-ZNsEmRZvPRuu_ew-1Ek37Q-1; Wed, 07 Oct 2020 11:39:30 -0400
+X-MC-Unique: ZNsEmRZvPRuu_ew-1Ek37Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DCAB81F000
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 15:39:29 +0000 (UTC)
+Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0895A1001281;
+ Wed,  7 Oct 2020 15:39:28 +0000 (UTC)
+Subject: Re: [PATCH v5 19/36] qapi/events.py: add type hint annotations
+To: Markus Armbruster <armbru@redhat.com>
+References: <20201005195158.2348217-1-jsnow@redhat.com>
+ <20201005195158.2348217-20-jsnow@redhat.com>
+ <87zh4ye0fh.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <bb656a3c-a92e-f934-5294-a4230842e322@redhat.com>
+Date: Wed, 7 Oct 2020 11:39:28 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 11:38:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <87zh4ye0fh.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,73 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 07 Oct 2020 04:42:37 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
->>       /**
->> -     * The COW Region between the start of the first allocated cluster and the
->> -     * area the guest actually writes to.
->> +     * The COW Region immediately before the area the guest actually
->> +     * writes to. This (part of the) write request starts at
->> +     * cow_start.offset + cow_start.nb_bytes.
->
-> "starts at" is a bit misleading.. As here is not guest offset, not
-> host offset, but offset relative to QCowL2Meta.offset
+On 10/7/20 7:32 AM, Markus Armbruster wrote:
+> Ignorant question: what's the difference between -> None (like here) and
+> nothing (like __init__() above?
 
-I thought it was clear by the context since Qcow2COWRegion.offset is
-defined to be relative to QCowL2Meta.offset
+This came up in Cleber's review, too.
 
->> @@ -1049,6 +1049,8 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
->>       qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
->>   
->>       assert(l2_index + m->nb_clusters <= s->l2_slice_size);
->> +    assert(m->cow_end.offset + m->cow_end.nb_bytes <=
->> +           m->nb_clusters << s->cluster_bits);
->
-> should we also assert that cow_end.offset + cow_end.nb_bytes is not
-> zero?
+Mypy supports a gradual typing paradigm; it is designed to facilitate 
+what we are doing here: the gradual adding of types until we are able to 
+enforce static typing everywhere.
 
-No, a write request that fills a complete cluster has no COW but still
-needs to call qcow2_alloc_cluster_link_l2() to update the L2 metadata.
+To that end, mypy uses a simple heuristic to determine if a function is 
+"typed" or "untyped": did you use any type annotations for it?
 
->> -        /* The end region must be immediately after the data (middle)
->> -         * region */
->> +        /* The write request should end immediately before the second
->> +         * COW region (see above for why it does not always happen) */
->>           if (m->offset + m->cow_end.offset != offset + bytes) {
->> +            assert(offset + bytes > m->offset + m->cow_end.offset);
->> +            assert(m->cow_end.nb_bytes == 0);
->>               continue;
->>           }
->
-> Then it's interesting, why not to merge if we have this zero-length
-> cow region? What's the problem with it?
+Meanwhile, __init__ never returns anything. You do not need to annotate 
+its return type. mypy knows what the return type is and must be. In the 
+case of __init__ with no parameters, it is both untyped and strictly typed!
 
-We do merge the request and the COW if one of the COW regions has zero
-length, visually:
+Annotating the return type for no-parameter init methods convinces mypy 
+that this is a strictly typed method. It doesn't do this automatically, 
+because doing so might enable more checks than you were ready for simply 
+because mypy was able to accurately surmise the typing of just __init__.
 
- 1)
-    <>                      <--- cow_end --->
-    <--- write request ---->
+So it's just a little flip switch to enable strict typing, really.
 
- 2)
-    <--- cow_start --->                      <>
-                       <--- write request ---->
+--js
 
-In this case however the problem is not that the region is empty, but
-that the request starts *before* (or after) that region and that there's
-probably another QCowL2Meta earlier (or later):
+https://mypy.readthedocs.io/en/stable/class_basics.html#annotating-init-methods
 
-    <----  1st QCowL2Meta  ---->         <---- 2nd QCowL2Meta ---->
-    <--- cow_start --->       <>         <>       <--- cow_end --->
-                       <---- write request ------>
-
-What we would need here is to merge all QCowL2Meta into one, but I don't
-think that we want to do that because it looks like complicating the
-code for a scenario that does not happen very often.
-
-Berto
 
