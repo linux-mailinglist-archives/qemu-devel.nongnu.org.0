@@ -2,93 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3CF285F17
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 14:24:27 +0200 (CEST)
-Received: from localhost ([::1]:44166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4109F285EFF
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 14:21:26 +0200 (CEST)
+Received: from localhost ([::1]:38372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ8Ub-00028H-Vz
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 08:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37572)
+	id 1kQ8Rg-0007xk-Ub
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 08:21:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ8BO-0002PQ-L9
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 08:04:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53979)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ8BJ-0002XL-Qg
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 08:04:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602072269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ANpKyxB7hmXVGI1rDwcbSfSbvlpPNoIeA5bKoXd/mlo=;
- b=IRbnyutmdIC4WpP6AC8CaAJYjBnc4g8f9h4sXf87VXlgAchzH+5p4Ef40oMEi/DonTbCgB
- +mNAMXTEXaDrOdmtyh/YGshUueZBu8Aoc0dyZgxN+4h+O2/vHKwRrgd74jdnaK2IjKQVDT
- n8LXAwdB/7SqbRHCu7R6LAVOkI+fMzk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161--zmxzIGjO8SmCTRS9ngBPw-1; Wed, 07 Oct 2020 08:04:27 -0400
-X-MC-Unique: -zmxzIGjO8SmCTRS9ngBPw-1
-Received: by mail-wm1-f70.google.com with SMTP id s25so411274wmj.7
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 05:04:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ANpKyxB7hmXVGI1rDwcbSfSbvlpPNoIeA5bKoXd/mlo=;
- b=s7RgQuOXHqPEhBF0YYtYFj8QXmwvclSmRdkF/AJxCjOWG66WO7TIRFBKzi8F5BgYtH
- V5E0VmLTd0WJ2U+GaoYKvyDwcJnalnEpbJQAq6WHVE+bsBORFyPVd5++/Y/LIm6wEhau
- MFvlpqUxXZMDOvGo5oHSWawAQdNIaCBHTeW3sQDM1vb6oybP1fKe1qWnfU8FA2StTKlk
- PZCovNzxyzdZXngTCCuvtQX3CNq1iWdUkp+nIqEe4OhoSX+tDA39AT4d7M83cfx4HnBr
- 87S7HFuATZAJ3Ggw0/uk45O6fB6uqhY9swfU5xFX5+/8bqDtJ5xfsuLgJVuD8b6Uigzl
- ShWA==
-X-Gm-Message-State: AOAM530aimDP080IKuNElWQE0U7vJQT9YRR5O6O03IMdCOHjTmXouvQl
- /XQ2A/eF4iB3+6ilrZaw4mMbw6UI8FGY5ZSN974fFjVwnGfTRU8aH/BCsYwPKXijqfDrDLPA5t/
- W4P1phRyrgTu1zAQ=
-X-Received: by 2002:adf:f2d0:: with SMTP id d16mr3049321wrp.332.1602072266364; 
- Wed, 07 Oct 2020 05:04:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwCu9OmnzlHdozLn01R7ao39zKoLvSiajbo9DdjcSgcF41i6s3srKg7o59huB9PY/x05GsrAw==
-X-Received: by 2002:adf:f2d0:: with SMTP id d16mr3049298wrp.332.1602072266085; 
- Wed, 07 Oct 2020 05:04:26 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:d2f4:5943:190c:39ff?
- ([2001:b07:6468:f312:d2f4:5943:190c:39ff])
- by smtp.gmail.com with ESMTPSA id y14sm2331564wma.48.2020.10.07.05.04.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Oct 2020 05:04:25 -0700 (PDT)
-Subject: Re: Purpose of QOM properties registered at realize time?
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20201006220647.GR7303@habkost.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a6e652d9-548f-4d4e-e451-48e3f5e11031@redhat.com>
-Date: Wed, 7 Oct 2020 14:04:23 +0200
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kQ8OX-0006hl-NH
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 08:18:11 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:56098)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kQ8OU-00042y-Sg
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 08:18:09 -0400
+Received: from [10.12.39.188] (unknown [85.142.117.224])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 783DB40D3BFF;
+ Wed,  7 Oct 2020 12:17:58 +0000 (UTC)
+Subject: Re: acceptance-system-fedora failures
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
+References: <f9e09f0b-3915-382c-d670-8d33d164ad7b@redhat.com>
+ <4e191372-c332-8f69-85e2-1ff6ead0f40d@redhat.com>
+ <59d2a787-bcd4-7283-693b-09ea04c16dc6@redhat.com>
+ <6068346f-b034-9321-0eea-29233c23a300@redhat.com>
+ <78ce9ac1-d2a1-9dc0-bf38-f9ac34b2f203@ispras.ru>
+ <14ee7cc6-42ca-fd86-241b-ed85e26693f7@redhat.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <a1689dcd-18e0-157f-6607-562a6a3e87c6@ispras.ru>
+Date: Wed, 7 Oct 2020 15:17:55 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201006220647.GR7303@habkost.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <14ee7cc6-42ca-fd86-241b-ed85e26693f7@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 08:18:04
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,45 +63,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/10/20 00:06, Eduardo Habkost wrote:
-> Hi,
+On 07.10.2020 12:57, Philippe Mathieu-Daudé wrote:
+> On 10/7/20 10:51 AM, Pavel Dovgalyuk wrote:
+>> On 07.10.2020 11:23, Thomas Huth wrote:
+>>> On 07/10/2020 09.13, Philippe Mathieu-Daudé wrote:
+>>>> On 10/7/20 7:20 AM, Philippe Mathieu-Daudé wrote:
+>>>>> On 10/7/20 1:07 AM, John Snow wrote:
+>>>>>> I'm seeing this gitlab test fail quite often in my Python work; I
+>>>>>> don't
+>>>>>> *think* this has anything to do with my patches, but maybe I need
+>>>>>> to try
+>>>>>> and bisect this more aggressively.
+>>> [...]
+>>>>> w.r.t. the error in your build, I told Thomas about the
+>>>>> test_ppc_mac99/day15/invaders.elf timeouting but he said this is
+>>>>> not his area. Richard has been looking yesterday to see if it is
+>>>>> a TCG regression, and said the test either finished/crashed raising
+>>>>> SIGCHLD, but Avocado parent is still waiting for a timeout, so the
+>>>>> children become zombie and the test hang.
+>>>>
+>>>> Expected output:
+>>>>
+>>>> Quiescing Open Firmware ...
+>>>> Booting Linux via __start() @ 0x01000000 ...
+>>>>
+>>>> But QEMU exits in replay_char_write_event_load():
+>>>>
+>>>> Quiescing Open Firmware ...
+>>>> qemu-system-ppc: Missing character write event in the replay log
+>>>> $ echo $?
+>>>> 1
+>>>>
+>>>> Latest events are CHECKPOINT CHECKPOINT INTERRUPT INTERRUPT INTERRUPT.
+>>>>
+>>>> Replay file is ~22MiB. End of record using "system_powerdown + quit"
+>>>> in HMP.
+>>>>
+>>>> I guess we have 2 bugs:
+>>>> - replay log
+>>>> - avocado doesn't catch children exit(1)
+>>>>
+>>>> Quick reproducer:
+>>>>
+>>>> $ make qemu-system-ppc check-venv
+>>>> $ tests/venv/bin/python -m \
+>>>>     avocado --show=app,console,replay \
+>>>>     run --job-timeout 300 -t machine:mac99 \
+>>>>     tests/acceptance/replay_kernel.py
+>>>
+>>> Thanks, that was helpful. ... and the winner is:
+>>>
+>>>       commit   55adb3c45620c31f29978f209e2a44a08d34e2da
+>>>       Author:  John Snow <jsnow@redhat.com>
+>>>       Date:    Fri Jul 24 01:23:00 2020 -0400
+>>>       Subject: ide: cancel pending callbacks on SRST
+>>>
+>>> ... starting with this commit, the tests starts failing. John, any
+>>> idea what
+>>> might be causing this?
+>>
+>> This patch includes the following lines:
+>>
+>> +        aio_bh_schedule_oneshot(qemu_get_aio_context(),
+>> +                                ide_bus_perform_srst, bus);
+>>
+>> replay_bh_schedule_oneshot_event should be used instead of this
+>> function, because it synchronizes non-deterministic BHs.
 > 
-> While trying to understand how QOM properties are used in QEMU, I
-> stumbled upon multiple cases where alias properties are added at
-> realize time.
+> Why do we have 2 different functions? BH are already complex
+> enough, and we need to also think about the replay API...
 > 
-> Now, I don't understand why those properties exist.  As the
-> properties are added at realize time, I assume they aren't
-> supposed to be touched by the user at all.  If they are not
-> supposed to be touched by the user, what exactly is the purpose
-> of those QOM properties?
 
-In the case of GPIOs, I think they will be used by other devices that
-are added afterwards.
+There is note about it in docs/devel/replay.txt
+It's hard to protect the guest state from incorrect operations.
+There was the similar problem with icount - everyone who modify 
+translate modules, needs to take it info account.
+But now we have record/replay tests that assert that patches do not 
+break icount/rr.
 
-The remaining ones are:
+> What about the other cases such vhost-user (blk/net), virtio-blk?
 
-> hw/arm/allwinner-h3.c=232=static void allwinner_h3_realize(DeviceState *dev, Error **errp)
-> hw/arm/allwinner-h3.c:359:    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->mmc0),
-> --
-> hw/arm/bcm2835_peripherals.c=128=static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-> hw/arm/bcm2835_peripherals.c:322:    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->gpio), "sd-bus");
-> --
-> hw/arm/bcm2836.c=69=static void bcm2836_realize(DeviceState *dev, Error **errp)
-> hw/arm/bcm2836.c:87:    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->peripherals),
-> --
-> hw/arm/xlnx-zynqmp.c=276=static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-> hw/arm/xlnx-zynqmp.c:522:        object_property_add_alias(OBJECT(s), bus_name, sdhci, "sd-bus");
+I do not know much about these modules.
+The main idea is the following: if the code works with the guest state, 
+it should deal with icount and rr functions.
 
-And this are probably usable with "bus=sd-bus" or something like that on
-other devices, too.
-
-Paolo
-
+Pavel Dovgalyuk
 
