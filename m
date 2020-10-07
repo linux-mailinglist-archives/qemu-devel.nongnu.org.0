@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2916A285804
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 07:01:09 +0200 (CEST)
-Received: from localhost ([::1]:40960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D71285808
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 07:10:14 +0200 (CEST)
+Received: from localhost ([::1]:52354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ1Zb-0006Ei-UH
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 01:01:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
+	id 1kQ1iP-0002vM-47
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 01:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ1XS-0005Kk-6f
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:58:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52083)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ1YE-0006A6-HI
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:59:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ1XP-0006iq-2Q
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:58:53 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQ1YB-00070G-Ln
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:59:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602046730;
+ s=mimecast20190719; t=1602046778;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Lia97u/DG4JEvThY1wwhQjtAv1D0qBpz04v1+NXMrI0=;
- b=AZggF7RsGzlMz31zOLAPBKb3MBj3fnbx9KFj62a+FxKml/b49stgCFdEWxofk/Pn7XCHS8
- 5L2YZN1adpMdWr7ArlEXjJh3etgpFicJrqJhTBmOsOo0IxNc6pGPytqv+tOXu2qCNit13c
- KdNrl1mlJC+IMh7NwRFZiK9K7HS6YFk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-YPMczhv3Nvq0oCZFkpDnvQ-1; Wed, 07 Oct 2020 00:58:48 -0400
-X-MC-Unique: YPMczhv3Nvq0oCZFkpDnvQ-1
-Received: by mail-wr1-f72.google.com with SMTP id b6so478986wrn.17
- for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 21:58:48 -0700 (PDT)
+ bh=t8py/E7QqGtVaJLAF23i3HPxh/+4NPgmmRTnLxwad4w=;
+ b=Xtdq5APekadE3GnyGiukARSf1gx5xgEBVumc0cjkhBpEEYDPZdjDWnvA3mapLHaBh/Id/e
+ w7BXTNSdNJz9GaZKXGuoTiUZpm8cpkIV0XXZ5DP5G/mBLzQCyQ875u8kega7IBDt+Oe+aj
+ FeGMalMB3PZoDZOTfaMUDKM1sWzkZO0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-ixAPlSpENNWg57azzK3qbg-1; Wed, 07 Oct 2020 00:59:37 -0400
+X-MC-Unique: ixAPlSpENNWg57azzK3qbg-1
+Received: by mail-wr1-f70.google.com with SMTP id u15so499409wrn.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Oct 2020 21:59:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Lia97u/DG4JEvThY1wwhQjtAv1D0qBpz04v1+NXMrI0=;
- b=RCx/bQ7prefJB1LTnp78dTlTPt0xyl6srq8zoUoJ1dfpU9+HLqZQskvr/JvKU6rSpL
- /tPMGmk3InG6tBSF9Td31C1tso5+ol7swnXpSVT5kVUBBSBJhnkPuqIahyHrOF/7X7Ig
- 6a1hladstXXCjfSfb0pPLHoPefasNeWIFnxJPcRWr0N3JFiLOwUE1J6o/E42NYkqreGI
- XS1QiszVEUpGl/uvKuOWZbJQD52LER4PJKtc/COAio87htlSUOIstNPycV3XYeRiBlrJ
- dng+O5By/uuDgxoCaJZYZaGgTQVOLHiXuv2PKG4mthvSUMTDvZo0Lzzm1CD3qcp/p93E
- xmyA==
-X-Gm-Message-State: AOAM533t0jO5QKKBGbApBVHAg9kcEcNa1jhtW3a0+wfhoNgZwP+hkEQ/
- f7K1f8F16wJ4rxjycaKoDz+OTjNnIoyWB+/oCwRtXJHljmJ7aSgDF1Hwp83Er2VQyaPiFNQgy8W
- OJq8yl7ph7ft2ovw=
-X-Received: by 2002:a05:6000:108a:: with SMTP id
- y10mr1384537wrw.41.1602046726875; 
- Tue, 06 Oct 2020 21:58:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWA6ZnQI0ePQmEz3LP3luHVvnmEtjqmSopnatOnHxt8TQRISPGRBauKumSRXIBoPknNSt2rg==
-X-Received: by 2002:a05:6000:108a:: with SMTP id
- y10mr1384520wrw.41.1602046726672; 
- Tue, 06 Oct 2020 21:58:46 -0700 (PDT)
+ bh=t8py/E7QqGtVaJLAF23i3HPxh/+4NPgmmRTnLxwad4w=;
+ b=gwX9bWXJrjzV9p6SoC5cLdHYy4hbL85T4+li+8YWK7yjNYKzbBwo12ZhpIlcAtdj2U
+ V8n2d8Et5nQPrr94eDrlZp70y+U4BX9aj5SrzxO8hZzGe6I3yD0RlZQPu2HhsBymWjTM
+ R9PI6aJYocCYAMzZoJ4YCJ6eEheJUpTbnZKN4uzI0Dt00ie7xCHrpoQMFzZCg5TdGc+F
+ 1pypgCvZSq617jfmteiAVkCGvFGcCajfIt/wRSQVES5NN5oKAUMxahyBwJDMKQ2bBl9I
+ xeXAiYXRezTR2MfcbQqP9kfLGozjbV81fPBtdTVhspoNaHQT5wLNjtc+oht8oEaHwKWF
+ ai/w==
+X-Gm-Message-State: AOAM5334q9aeKKi0jJAHznW2qMvMQkeK0LkYGf08CqF8BEgzZ1+EPihT
+ x1PU3bPZZceCMms1DKJnNghgSMTqABdMm76cvRKqVhlq/2PxlQPJo5aAkLZ/FAv4569uFoYq/fn
+ gZA1IyprS4MWkU5c=
+X-Received: by 2002:adf:f30a:: with SMTP id i10mr1378296wro.296.1602046775471; 
+ Tue, 06 Oct 2020 21:59:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx0VYLlBA3d44nHZSYoIBSaICvaKK9dsCLnWoFL4WWHGR4kb0Vf27Ww8KgweByrBWuUxxmMmA==
+X-Received: by 2002:adf:f30a:: with SMTP id i10mr1378283wro.296.1602046775302; 
+ Tue, 06 Oct 2020 21:59:35 -0700 (PDT)
 Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id p4sm1103598wru.39.2020.10.06.21.58.45
+ by smtp.gmail.com with ESMTPSA id n66sm944455wmb.35.2020.10.06.21.59.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Oct 2020 21:58:45 -0700 (PDT)
-Subject: Re: [PATCH 17/20] python/qemu/qmp.py: Preserve error context on
- re-raise
+ Tue, 06 Oct 2020 21:59:34 -0700 (PDT)
+Subject: Re: [PATCH 18/20] python/qemu/qmp.py: re-raise OSError when
+ encountered
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20201006235817.3280413-1-jsnow@redhat.com>
- <20201006235817.3280413-18-jsnow@redhat.com>
+ <20201006235817.3280413-19-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -89,12 +87,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <543e0ac0-1095-33db-b754-2892eb89c927@redhat.com>
-Date: Wed, 7 Oct 2020 06:58:44 +0200
+Message-ID: <c1f18b87-c8db-956b-154f-60d73054239b@redhat.com>
+Date: Wed, 7 Oct 2020 06:59:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201006235817.3280413-18-jsnow@redhat.com>
+In-Reply-To: <20201006235817.3280413-19-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -102,18 +100,18 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -133,36 +131,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/7/20 1:58 AM, John Snow wrote:
-> Use the "from ..." phrasing when re-raising errors to preserve their
-> initial context, to help aid debugging when things go wrong.
-> 
-> This also silences a pylint 2.6.0+ error.
+> Nested if conditions don't change when the exception block fires; we
+> need to explicitly re-raise the error if we didn't intend to capture and
+> suppress it.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/qmp.py | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+>  python/qemu/qmp.py | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-> index 9223307ed81..d911999da1f 100644
+> index d911999da1f..bdbd1e9bdbb 100644
 > --- a/python/qemu/qmp.py
 > +++ b/python/qemu/qmp.py
-> @@ -181,10 +181,11 @@ def __get_events(self, wait: Union[bool, float] = False) -> None:
->                  self.__sock.settimeout(wait)
->              try:
->                  ret = self.__json_read(only_event=True)
-> -            except socket.timeout:
-> -                raise QMPTimeoutError("Timeout waiting for event")
-> -            except:
-> -                raise QMPConnectError("Error while reading from socket")
-> +            except socket.timeout as err:
-> +                raise QMPTimeoutError("Timeout waiting for event") from err
-> +            except Exception as err:
-> +                msg = "Error while reading from socket"
-> +                raise QMPConnectError(msg) from err
->              if ret is None:
->                  raise QMPConnectError("Error while reading from socket")
->              self.__sock.settimeout(None)
+> @@ -169,9 +169,9 @@ def __get_events(self, wait: Union[bool, float] = False) -> None:
+>          try:
+>              self.__json_read()
+>          except OSError as err:
+> -            if err.errno == errno.EAGAIN:
+> -                # No data available
+> -                pass
+> +            # EAGAIN: No data available; not critical
+> +            if err.errno != errno.EAGAIN:
+> +                raise
+>          self.__sock.setblocking(True)
+>  
+>          # Wait for new events, if needed.
 > 
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
