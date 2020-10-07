@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3E9285E5E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 13:43:21 +0200 (CEST)
-Received: from localhost ([::1]:50372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A962E285E64
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 13:44:44 +0200 (CEST)
+Received: from localhost ([::1]:52850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ7qq-000177-Uq
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 07:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59934)
+	id 1kQ7sB-00028X-OB
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 07:44:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQ7nQ-0007zY-3M
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:39:48 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQ7nO-0007td-HY
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:39:47 -0400
-Received: by mail-wr1-x441.google.com with SMTP id z1so1768861wrt.3
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5+7THP4dY/8al2VHQ8XamujtFg9xFO4ttfHPSEDv+4I=;
- b=Ys9cJuu056cdEEG+tJK56Zabf2NT81/emyksgw4nwGBtIEvXZbxdK0SgVWPTWy3KNp
- ENoSBD0C4UNMlE66FUU06vFRyfGafpeDvy7P3Bt0yX7WINaOn18yPohsZ7G4mn3FPR33
- PzHiTjLUnHf/ICR1r57OINgWPlcBHkYBS9yjLj675syxuBwe9du8UsQuXfEKRsEm055y
- S5PH7B5J9uh7dkFdo+X7dG0GlTkJ2sVgt7I0v0BEHzJ7GVqMAU+nJcb4FNX6jRUBuzuq
- IKa6BVd0+IPdWcLXIcvJVDeJiVacubgpCV5L3Rdw2od3Wp83assja6yibLinHBfrQPXy
- 9xFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=5+7THP4dY/8al2VHQ8XamujtFg9xFO4ttfHPSEDv+4I=;
- b=KaXnWiRAv9mutOZ7HqajA12+lBgUx75KRaj3bBt5qDeYbeL4f3jxWgDRqin/AvBFKT
- U728ovJjV6qq1XNj78XacOg1ReoX9boJvoiDdldWE84qr6Vkzgekaq5oGMXjddYdsMVN
- rIeZWtS/mWiSoTgr0RwdIfX1kUuTM/I90k9ifyhr5vHjWNKarkF0WPPY1RZgdnVFhPsS
- NppAGsAyvaY1wFIRKsW6dzbFvDn1klqcIgjhGhOlsqIzuyCCxOBzWOR+nQ72vYy3UZAI
- cuKvgvs4p0ckORIEHiXlywKA4PzvLGiY48wkhH+7N02lTNjKLzKfJuGJ2hG5qXfCu5Ec
- hLPQ==
-X-Gm-Message-State: AOAM5313U8TOAXDkwhll/eQkouPqIKJqrXK4dgVWi4B9bqYdG3S9oES+
- eemYVNUaKncDjBxfcNKmCZVS8N8n/WQ=
-X-Google-Smtp-Source: ABdhPJwfQJghyz/IFYjkA7rwU7Vl16RLPCx4J0LNOD13VPk/dUg+VxRnxH/J+USUwRyB17JiRi+hJg==
-X-Received: by 2002:adf:ce01:: with SMTP id p1mr2871450wrn.33.1602070784757;
- Wed, 07 Oct 2020 04:39:44 -0700 (PDT)
-Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id u15sm2575279wrm.77.2020.10.07.04.39.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 04:39:44 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/misc/mips_cpc: Start vCPU when powered on
-Date: Wed,  7 Oct 2020 13:39:42 +0200
-Message-Id: <20201007113942.2523866-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQ7nX-00080y-H2
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:39:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20214)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQ7nU-0007ts-KU
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:39:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602070791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=std3IddxnHM5DjsjC83rndjtdwGlILxl+SzzXUq42fU=;
+ b=M6y1lXrna1yObkCAdjCxumDvZE1TpeJJfMbZWby7b++B7VDI0AFqXVPryOd7tK3o8TunuK
+ lfWlyAVba1Jr4CTdNK7bE70Z1NYzOxIFzyaMeWy8xjlPMDCrYjuZFSClirPBr/mV/j+lrV
+ rzsyxPupiIAvFLpT/siC+4MXhGIvt0s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-WeO8_TtBNcKwyHwyDMPfTA-1; Wed, 07 Oct 2020 07:39:50 -0400
+X-MC-Unique: WeO8_TtBNcKwyHwyDMPfTA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D59B804018
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 11:39:49 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D494819C4F;
+ Wed,  7 Oct 2020 11:39:48 +0000 (UTC)
+Date: Wed, 7 Oct 2020 07:39:47 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/3] docs/devel/qtest: Include protocol spec in document
+Message-ID: <20201007113947.GS7303@habkost.net>
+References: <20201005205228.697463-1-ehabkost@redhat.com>
+ <20201005205228.697463-3-ehabkost@redhat.com>
+ <27b0312b-cef9-9aea-3196-871eeca6760d@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <27b0312b-cef9-9aea-3196-871eeca6760d@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,52 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 102ca9667d we set "start-powered-off" on all vCPUs
-included in the CPS (Coherent Processing System) but forgot to
-start the vCPUS on when they are powered on in the CPC (Cluster
-Power Controller).
+On Wed, Oct 07, 2020 at 01:03:21PM +0200, Paolo Bonzini wrote:
+> On 05/10/20 22:52, Eduardo Habkost wrote:
+> > + * DOC: QTest Protocol
+> > + *
+> > + * .. highlight:: none
+> >   *
+> >   * Line based protocol, request/response based.  Server can send async messages
+> >   * so clients should always handle many async messages before the response
+> >   * comes in.
+> >   *
+> >   * Valid requests
+> > + * ^^^^^^^^^^^^^^
+> >   *
+> >   * Clock management:
+> > + * """""""""""""""""
+> >   *
+> >   * The qtest client is completely in charge of the QEMU_CLOCK_VIRTUAL.  qtest commands
+> >   * let you adjust the value of the clock (monotonically).  All the commands
+> >   * return the current value of the clock in nanoseconds.
+> >   *
+> > + * .. code-block::
+> 
+> What version of Sphinx do you have?  I need to have ".. code-block::
+> none" here, so presumably the "highlight" directive is newer than my
+> version (1.7.6, pretty old I admit)?
 
-This fixes the following tests:
+I have 2.2.2.
 
-  $ avocado run tests/acceptance/machine_mips_malta.py
-   (1/3) test_mips_malta_i6400_framebuffer_logo_1core: PASS (3.67 s)
-   (2/3) test_mips_malta_i6400_framebuffer_logo_7cores: INTERRUPTED: Test interrupted by SIGTERM (30.22 s)
-   (3/3) test_mips_malta_i6400_framebuffer_logo_8cores: INTERRUPTED: Test interrupted by SIGTERM (30.25 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 2 | CANCEL 0
+It looks like we should really add code to print a warning if not
+running Sphinx 2.x.
 
-Fixes: 102ca9667d ("mips/cps: Use start-powered-off CPUState property")
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/misc/mips_cpc.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/misc/mips_cpc.c b/hw/misc/mips_cpc.c
-index 2f7b2c9592..7c11fb3d44 100644
---- a/hw/misc/mips_cpc.c
-+++ b/hw/misc/mips_cpc.c
-@@ -38,6 +38,7 @@ static void mips_cpu_reset_async_work(CPUState *cs, run_on_cpu_data data)
-     MIPSCPCState *cpc = (MIPSCPCState *) data.host_ptr;
- 
-     cpu_reset(cs);
-+    cs->halted = 0;
-     cpc->vp_running |= 1ULL << cs->cpu_index;
- }
- 
 -- 
-2.26.2
+Eduardo
 
 
