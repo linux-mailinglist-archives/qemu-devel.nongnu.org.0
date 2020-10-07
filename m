@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103222861B4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 16:59:43 +0200 (CEST)
-Received: from localhost ([::1]:55370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1F02861CA
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 17:06:07 +0200 (CEST)
+Received: from localhost ([::1]:36356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQAus-0001m7-1r
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 10:59:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48420)
+	id 1kQB14-0006Aj-8g
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 11:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kQAru-0007hF-LD; Wed, 07 Oct 2020 10:56:38 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:45563)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQAvG-00033r-6S
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:00:06 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kQArs-0007EM-Jx; Wed, 07 Oct 2020 10:56:38 -0400
-Received: by mail-lj1-x241.google.com with SMTP id a4so2253463lji.12;
- Wed, 07 Oct 2020 07:56:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=KEBpAeWU5Zy5B8JqteBkDPWXaSVE6DdEnGqGKd7z9Bg=;
- b=FmhU+Qcx47GqcbQxXtCGk2FTG90LmY4W41GZ6ueA8X8dm/1mKVW/EaUlbudivzYMjl
- piEk9ztE4I5mjf9A4OeDcYHDYb78LPmCXnYa+/VndCHRdZkO+AqDL999QMwrEKMFA49I
- suarothr42qZ56gSPM7XtS51M+Ghw9PyGXFcyvskGsXTzA4Td/0f5f+HOhnCzC2OCWEQ
- 2hwz/54PPNCLVEEEDF2YG4b6FZmLzR5jhbtZnsrU4Qpn0k1DgvgkZjsCwhpgUff8CV5u
- deJ6IZNQcjyKqUjQO9OiF6F6CW3/dfPXwm33b5ywQIowrhW1VCsX/eGEqlmcw0ASEMSQ
- /ODw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQAvD-0007WP-VJ
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:00:05 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n18so2572775wrs.5
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 08:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Qi4UiNQj5hOPKgDoPmfBZqIKb5l9fjXDNTmOGcW1hKY=;
+ b=UEu3ZyKNif7Jv9IOkVOv4Yr/eyGif40QgnhWYTYvAdEwXm2Q5pZq/aGxS97YveUEY0
+ muDcqKXHp/vK9QxAWu5ryE8753TqfJ9Gv/nbqTdlnT/GeLQr7tyy6FvGDjCSAmgGAIj/
+ CPzu0fkjhgv7ONEAbvbwkD6eymcCt4gx51Ec+PAB+YMPjAZw9qfJKsJsLFdIm2N6AHdG
+ k2hyNbVb6DQ8BAN8+8n3dqhJm8/Cs5cPecdRSadUuM7eMxtBrjT4MaMA5r3/pyRGQXaz
+ 6AABDFxs+jz3nxsdWzcCmnOI93M1KBWBUu+31d8Ft1NPcNJ06AGgUzFDMDWTd4t2mTJN
+ FCIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=KEBpAeWU5Zy5B8JqteBkDPWXaSVE6DdEnGqGKd7z9Bg=;
- b=K3z1EvHwhTjfEUpyj19z49Q4iQNS7dbTFeQ3r0w8sS9jgyv3I9OWVko9aGdDbX+3LW
- odezjjJMxmYDYwAMCxxP4xNW1o8PIMVCEZbfMwj6K2Ho1CiOSu/KFRP1PoB0nhCxaFo7
- XD31Y3s9Puc4oPjxhMhu+GSzB/HpcvAY7rXlkHG/q6Nm/L/V9zAi1isxkCFxIMIkURgy
- BFvNO60sN3l2aH0KYReo9DWdGXIVIONWbzYzxLruq/fQ4jOQQeYCRajoCEG+7UPOOYLY
- kH6XT1DoM4uwfJcXr8r/tQJ6qdSRI9HezoGiJ7TDC1iwyFKt7l5K7BfxeZ99gs+1zDTg
- UpAA==
-X-Gm-Message-State: AOAM532XpIl7Al+WycSwSx8nv2DfYqtNwCaD5IQwc40reB8Vp2ReBPt6
- MHFLyZ9pcalhPaoiYMbJl/fiFOrcqDunhv1wbEuiQXX8V+g=
-X-Google-Smtp-Source: ABdhPJzsKfy+BuIV6jZwS0zw2LI03pl+2gynKLhXzwxlGRnZ9pXGYpMHN6BwLbgTgFfXeDwAkn5mMGRHOahwXLrYIBo=
-X-Received: by 2002:a2e:8983:: with SMTP id c3mr1432602lji.171.1602082593326; 
- Wed, 07 Oct 2020 07:56:33 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Qi4UiNQj5hOPKgDoPmfBZqIKb5l9fjXDNTmOGcW1hKY=;
+ b=bhG3tONcGTy/4LA71LpKq98evEexbINBbQmfCfLFuGVwZvu3ujO7Tx/2efXPG2QSik
+ NNQiBMtlLJRx6pHeR6cpN233whUROZVAUpGyuxpIbDT+onOkKiqNvFIPI8rIUNA/T0ix
+ XB1SmpGI2ayXenwFgdnnEBdEVoUKLrGmfJURz6Etjqoge/1wK7CVVCcJ2vyGOBaHQyIO
+ 7DUfcVIu9KaYjMUPBr2K+mp/OZ2s4YVZIfqSDFRUqjWC9pK5jd79WI0HEQPodhiT5dgk
+ HGN92Kj3WeqEppgak1H2xWzhpcTQRg75ciHNSjKYa4OWR9PZZXfHuMC5OcCQ/FHU+Orq
+ mjcA==
+X-Gm-Message-State: AOAM531QlSj5F0vL4n0shdjvD/tJtiQ0tglLDQOG7abe9a+P5mnG4I8C
+ X+16afHUbOrhUmKb/gJ3sGkU98NJFf6f2w==
+X-Google-Smtp-Source: ABdhPJw5MR1jTJ2ThrMQyiVbDd5jNFo3h/iDso+gsX2x7huCon1rgdq9kjsAm4VuPRspBPs9eUXD8A==
+X-Received: by 2002:a5d:6551:: with SMTP id z17mr4010033wrv.200.1602082801321; 
+ Wed, 07 Oct 2020 08:00:01 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f14sm3445233wrt.53.2020.10.07.07.59.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 07:59:59 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 354471FF7E;
+ Wed,  7 Oct 2020 15:59:59 +0100 (BST)
+References: <20201007140103.711142-1-pbonzini@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] cirrus: use V=1 when running tests on FreeBSD and macOS
+In-reply-to: <20201007140103.711142-1-pbonzini@redhat.com>
+Date: Wed, 07 Oct 2020 15:59:59 +0100
+Message-ID: <87o8leytcg.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20201007145300.1197-1-luoyonggang@gmail.com>
-In-Reply-To: <20201007145300.1197-1-luoyonggang@gmail.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Wed, 7 Oct 2020 22:56:21 +0800
-Message-ID: <CAE2XoE_5J07roLdUzPZzZx_KHvO-oLHSZGBSSw5wb42qD7vn0A@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] Improve cirrus msys2
-To: qemu-level <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000e04b0d05b115eb91"
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x241.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,88 +88,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e04b0d05b115eb91
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-CC Alex, now it's really fixed
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-On Wed, Oct 7, 2020 at 10:53 PM Yonggang Luo <luoyonggang@gmail.com> wrote:
+> Using "V=3D1" makes it easier to identify hanging tests, especially
+> since they are run with -j1.  It is already used on Windows builds,
+> do the same for FreeBSD and macOS.
 >
-> Fixes the broken msys2/mingw ci and speed it up.
+> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Queued to prepr/misc-testing-gitdm-plugin-fixes, thanks.
+
+> ---
+>  .cirrus.yml | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> V4-V5
-> Now the cache are usefull by using 7zip to archive msys64
-> Saved about 18min, compare
-> https://cirrus-ci.com/task/5093551157542912
-> https://cirrus-ci.com/task/6177196538593280
->
-> V3-V4
-> Using cirrus cache to speed up msys2 ci instead of downloading archive
-file
->
-> V2-V3
-> Add one more patch:
-> cirrus: msys2/mingw speed is up, add excluded target back
-> Do not build sphinx on windows, that's failing
-> set the number of parallel count to fixed number 8
->
-> V1-V2
-> Resolve the cirrus conflict
->
-> Yonggang Luo (2):
->   cirrus: Fixing and speedup the msys2/mingw CI
->   cirrus: msys2/mingw speed is up, add excluded target back
->
->  .cirrus.yml | 113 +++++++++++++++++++++++++++++++---------------------
->  1 file changed, 67 insertions(+), 46 deletions(-)
->
-> --
-> 2.28.0.windows.1
->
+> diff --git a/.cirrus.yml b/.cirrus.yml
+> index d58782ce67..4d236fdefa 100644
+> --- a/.cirrus.yml
+> +++ b/.cirrus.yml
+> @@ -15,7 +15,7 @@ freebsd_12_task:
+>      - cd build
+>      - ../configure --enable-werror || { cat config.log; exit 1; }
+>      - gmake -j$(sysctl -n hw.ncpu)
+> -    - gmake -j$(sysctl -n hw.ncpu) check
+> +    - gmake -j$(sysctl -n hw.ncpu) check V=3D1
+>=20=20
+>  macos_task:
+>    osx_instance:
+> @@ -29,7 +29,7 @@ macos_task:
+>                     --extra-cflags=3D'-Wno-error=3Ddeprecated-declaration=
+s'
+>                     || { cat config.log; exit 1; }
+>      - gmake -j$(sysctl -n hw.ncpu)
+> -    - gmake check
+> +    - gmake check V=3D1
+>=20=20
+>  macos_xcode_task:
+>    osx_instance:
+> @@ -43,7 +43,7 @@ macos_xcode_task:
+>      - ../configure --extra-cflags=3D'-Wno-error=3Ddeprecated-declaration=
+s'
+>                     --enable-werror --cc=3Dclang || { cat config.log; exi=
+t 1; }
+>      - gmake -j$(sysctl -n hw.ncpu)
+> -    - gmake check
+> +    - gmake check V=3D1
+>=20=20
+>  windows_msys2_task:
+>    windows_container:
 
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---000000000000e04b0d05b115eb91
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">CC Alex, now it&#39;s really fixed<div><br>On Wed, Oct 7, =
-2020 at 10:53 PM Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">=
-luoyonggang@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt; Fixes the broken msys2=
-/mingw ci and speed it up.<br>&gt;<br>&gt; V4-V5<br>&gt; Now the cache are =
-usefull by using 7zip to archive msys64<br>&gt; Saved about 18min, compare<=
-br>&gt; <a href=3D"https://cirrus-ci.com/task/5093551157542912">https://cir=
-rus-ci.com/task/5093551157542912</a><br>&gt; <a href=3D"https://cirrus-ci.c=
-om/task/6177196538593280">https://cirrus-ci.com/task/6177196538593280</a><b=
-r>&gt;<br>&gt; V3-V4<br>&gt; Using cirrus cache to speed up msys2 ci instea=
-d of downloading archive file<br>&gt;<br>&gt; V2-V3<br>&gt; Add one more pa=
-tch:<br>&gt; cirrus: msys2/mingw speed is up, add excluded target back<br>&=
-gt; Do not build sphinx on windows, that&#39;s failing<br>&gt; set the numb=
-er of parallel count to fixed number 8<br>&gt;<br>&gt; V1-V2<br>&gt; Resolv=
-e the cirrus conflict<br>&gt;<br>&gt; Yonggang Luo (2):<br>&gt; =C2=A0 cirr=
-us: Fixing and speedup the msys2/mingw CI<br>&gt; =C2=A0 cirrus: msys2/ming=
-w speed is up, add excluded target back<br>&gt;<br>&gt; =C2=A0.cirrus.yml |=
- 113 +++++++++++++++++++++++++++++++---------------------<br>&gt; =C2=A01 f=
-ile changed, 67 insertions(+), 46 deletions(-)<br>&gt;<br>&gt; --<br>&gt; 2=
-.28.0.windows.1<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=
-=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
-
---000000000000e04b0d05b115eb91--
+--=20
+Alex Benn=C3=A9e
 
