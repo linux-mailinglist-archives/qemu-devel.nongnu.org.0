@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57BAC285AB6
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:44:45 +0200 (CEST)
-Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6760D285B53
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:54:07 +0200 (CEST)
+Received: from localhost ([::1]:36046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ540-0008GC-C3
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:44:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50444)
+	id 1kQ5D4-0001WU-CW
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kQ51J-0006uh-67
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:41:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20916)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQ59t-00077H-9e
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:50:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kQ51F-0002WP-Iu
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:41:56 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQ59q-0003h8-P8
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:50:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602060112;
+ s=mimecast20190719; t=1602060645;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V1009n4Z6caqIe3csLzqMgl87E4wqFUTmrtk/WGx9OU=;
- b=Qzdr+NPjUyY0zEisJ25CzK7UI76IFhxj2mNeNGHe5CB7OzWXJqMPs27/GeoMcUl2ybKLop
- AG1RydNdun4JqbZ5n6fQ2TdoUOBdN8hy0TnX6Nd0m1T6ceM9PZMbWE9B2fCB56zaPrUDkl
- QOs7xYjSgMC+gdz7T58M1h4LD8iNRkA=
+ bh=Tb83igQB8d9DNVPoz1RNyetRGP9qbc9xdcs936Hrvis=;
+ b=iIloEt0wfXNAud+EwJ0Xxx+wI2/pTgmFtGxIbo6BN0t7or/XR8XllJHYiqkdyYZNA+q0Ys
+ orcR6IwUXMbYHmiaMguKo1MMiiCsI5+BcFJtstT0M5EMjWxYS0/2cPyGY+2Kxq660JU6kO
+ 8L+k+RnB4H2ITsOtZiwj1vaBWCP5Xno=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-bBbvQbtwNRe0z1ry28jcUQ-1; Wed, 07 Oct 2020 04:41:49 -0400
-X-MC-Unique: bBbvQbtwNRe0z1ry28jcUQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-546-si4LLtR0NGyRlXJXdobPtQ-1; Wed, 07 Oct 2020 04:50:43 -0400
+X-MC-Unique: si4LLtR0NGyRlXJXdobPtQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E93EB186E8C4;
- Wed,  7 Oct 2020 08:41:47 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-72.ams2.redhat.com [10.36.113.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 596C119C4F;
- Wed,  7 Oct 2020 08:41:46 +0000 (UTC)
-Subject: Re: [PATCH v3 2/3] cirrus: Fixing and speedup the msys2/mingw CI
-To: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo
- <luoyonggang@gmail.com>, qemu-devel@nongnu.org
-References: <20201007035154.109-1-luoyonggang@gmail.com>
- <20201007035154.109-3-luoyonggang@gmail.com>
- <6b4528dc-918d-ebf4-db27-cbd67fa96c11@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <90b2011a-3e58-1e91-d603-89e099162426@redhat.com>
-Date: Wed, 7 Oct 2020 10:41:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FDC0425E4
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 08:50:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DCE2560BEC;
+ Wed,  7 Oct 2020 08:50:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6712811329C1; Wed,  7 Oct 2020 10:50:40 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v5 11/36] qapi/common.py: Add indent manager
+References: <20201005195158.2348217-1-jsnow@redhat.com>
+ <20201005195158.2348217-12-jsnow@redhat.com>
+Date: Wed, 07 Oct 2020 10:50:40 +0200
+In-Reply-To: <20201005195158.2348217-12-jsnow@redhat.com> (John Snow's message
+ of "Mon, 5 Oct 2020 15:51:33 -0400")
+Message-ID: <87d01uifmn.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <6b4528dc-918d-ebf4-db27-cbd67fa96c11@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,9 +68,8 @@ X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,32 +82,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/10/2020 10.18, Paolo Bonzini wrote:
-[...]
-> 
-> On top of this, whoever commits this needs to replace the URL with
-> something under download.qemu.org, but that's the easy part.
+John Snow <jsnow@redhat.com> writes:
 
-I agree with Daniel - please let's not get go this way again. We've had this
-with the various Free-/Net-/OpenBSD images in the past, and then we were
-suddenly stuck with a fixed image where most people were not able to change
-it anymore. That was very frustrating.
+> Code style tools really dislike the use of global keywords, because it
+> generally involves re-binding the name at runtime which can have strange
+> effects depending on when and how that global name is referenced in
+> other modules.
+>
+> Make a little indent level manager instead.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
-Apart from that, you also have to respect the GPL if you provide binaries
-... so you'd need to gather all the sources for that blob, too, and be ready
-to provide those in case somebody asks...
+Intentation is a job for QAPIGen (and its subtypes).  But if this patch
+is easier to achieve this series' goal, I don't mind.
 
-Yonggang, could you please try to use the caching mechanism of Cirrus-CI
-instead? See https://cirrus-ci.org/guide/writing-tasks/#cache-instruction
-... then we're a little bit more independent from downloading the msys2 for
-each CI run.
+> ---
+>  scripts/qapi/common.py | 49 ++++++++++++++++++++++++++++--------------
+>  scripts/qapi/visit.py  |  7 +++---
+>  2 files changed, 36 insertions(+), 20 deletions(-)
+>
+> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> index cee63eb95c7..b35318b72cf 100644
+> --- a/scripts/qapi/common.py
+> +++ b/scripts/qapi/common.py
+> @@ -93,33 +93,50 @@ def c_name(name, protect=True):
+>  pointer_suffix = ' *' + eatspace
+>  
+>  
+> -def genindent(count):
+> -    ret = ''
+> -    for _ in range(count):
+> -        ret += ' '
+> -    return ret
+> +class Indentation:
+> +    """
+> +    Indentation level management.
+>  
+> +    :param initial: Initial number of spaces, default 0.
+> +    """
+> +    def __init__(self, initial: int = 0) -> None:
+> +        self._level = initial
+>  
+> -indent_level = 0
+> +    def __int__(self) -> int:
+> +        return self._level
+>  
+> +    def __repr__(self) -> str:
+> +        return "{}({:d})".format(type(self).__name__, self._level)
+>  
+> -def push_indent(indent_amount=4):
+> -    global indent_level
+> -    indent_level += indent_amount
+> +    def __str__(self) -> str:
+> +        """Return the current indentation as a string of spaces."""
+> +        return ' ' * self._level
+>  
+> +    def __bool__(self) -> bool:
+> +        """True when there is a non-zero indentation."""
+> +        return bool(self._level)
+>  
+> -def pop_indent(indent_amount=4):
+> -    global indent_level
+> -    indent_level -= indent_amount
+> +    def increase(self, amount: int = 4) -> None:
+> +        """Increase the indentation level by ``amount``, default 4."""
+> +        self._level += amount
+> +
+> +    def decrease(self, amount: int = 4) -> None:
+> +        """Decrease the indentation level by ``amount``, default 4."""
+> +        if self._level < amount:
+> +            raise ArithmeticError(
+> +                f"Can't remove {amount:d} spaces from {self!r}")
 
- Thomas
+Raise a fancy error when there's an actual need for it.  You're not
+coding a framework thousands of people you never heard of will put to
+uses you cannot imagine.
+
+> +        self._level -= amount
+> +
+> +
+> +indent = Indentation()
+>  
+>  
+>  # Generate @code with @kwds interpolated.
+> -# Obey indent_level, and strip eatspace.
+> +# Obey indent, and strip eatspace.
+>  def cgen(code, **kwds):
+>      raw = code % kwds
+> -    if indent_level:
+> -        indent = genindent(indent_level)
+> -        raw = re.sub(r'^(?!(#|$))', indent, raw, flags=re.MULTILINE)
+> +    if indent:
+> +        raw = re.sub(r'^(?!(#|$))', str(indent), raw, flags=re.MULTILINE)
+>      return re.sub(re.escape(eatspace) + r' *', '', raw)
+>  
+>  
+> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+> index 808410d6f1b..14f30c228b7 100644
+> --- a/scripts/qapi/visit.py
+> +++ b/scripts/qapi/visit.py
+> @@ -18,9 +18,8 @@
+>      c_name,
+>      gen_endif,
+>      gen_if,
+> +    indent,
+>      mcgen,
+> -    pop_indent,
+> -    push_indent,
+>  )
+>  from .gen import QAPISchemaModularCVisitor, ifcontext
+>  from .schema import QAPISchemaObjectType
+> @@ -69,7 +68,7 @@ def gen_visit_object_members(name, base, members, variants):
+>      if (visit_optional(v, "%(name)s", &obj->has_%(c_name)s)) {
+>  ''',
+>                           name=memb.name, c_name=c_name(memb.name))
+> -            push_indent()
+> +            indent.increase()
+>          ret += mcgen('''
+>      if (!visit_type_%(c_type)s(v, "%(name)s", &obj->%(c_name)s, errp)) {
+>          return false;
+> @@ -78,7 +77,7 @@ def gen_visit_object_members(name, base, members, variants):
+>                       c_type=memb.type.c_name(), name=memb.name,
+>                       c_name=c_name(memb.name))
+>          if memb.optional:
+> -            pop_indent()
+> +            indent.decrease()
+>              ret += mcgen('''
+>      }
+>  ''')
 
 
