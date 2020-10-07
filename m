@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B9328642B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:31:06 +0200 (CEST)
-Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F55928649D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:37:40 +0200 (CEST)
+Received: from localhost ([::1]:47282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCLJ-0001MQ-Qq
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:31:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
+	id 1kQCRf-0000oZ-93
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:37:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQC0Y-0003tP-36
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQC0V-00039a-DN
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:09:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602086973;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=katADo/Y/OL0goxHUzK5+bflziYjOe1d9usGMhtxLWk=;
- b=MvxOoLSYV5Il01/AAs2483gSBgK5vhu38ZF0w0fbmULl0oh3mU6b7cdIKZFWaWEc8CHsOg
- 1gtDeODhbcguxSLNrpAVn7BqU4aunHD8fyko+NuatErpQigig6XjpNU4sSRZeX9C2w3ePy
- 6Yb4dyQ9bBP76urG9qU/o9ynOC0eA4Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-qpbw-xOsP3eWq7jVoewbSw-1; Wed, 07 Oct 2020 12:09:30 -0400
-X-MC-Unique: qpbw-xOsP3eWq7jVoewbSw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03FF718A822E
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 16:09:30 +0000 (UTC)
-Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED9B97664C;
- Wed,  7 Oct 2020 16:09:28 +0000 (UTC)
-Subject: Re: [PATCH v5 26/36] qapi/gen.py: Fix edge-case of _is_user_module
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201005195158.2348217-1-jsnow@redhat.com>
- <20201005195158.2348217-27-jsnow@redhat.com>
- <87eemackge.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <7b2f0d13-ecbf-7e4a-4a68-bb31e833db41@redhat.com>
-Date: Wed, 7 Oct 2020 12:09:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kQC4Y-00084M-RU; Wed, 07 Oct 2020 12:13:47 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:49535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kQC4W-00040U-1q; Wed, 07 Oct 2020 12:13:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=SaVLv1MCCvjJEnd1v6sDBIjAvrIK/IZkqswk6U92goc=; 
+ b=Po7FEq3fYVYTjURB6tcT7V+G7eb9Oct4B302GWqDzeZnh90twP92rkYxiNtYe6fA4dwPeW+6wLV3+4UgvxmSo2oos/5VPSoNAJsF5ppvg+BNYFEMdRupkThacKUPHEJeZTKfvyp/nxGitcglVUrwqR2kltiq3aEHRLW9z7SBXAaWAN19rFDi6OVwCQw1+SgINp5nlBxI5/rWQCIadHUvZJGFBLvEr+ypyGYczM3VtUXZrlwmJ9ohpy1b+99WI/xxCCOge4iwH09xbMQGjWy7pImKPeVc161s+FsJ8+J6/e40iKo8ytpc5N+DdZOM4JD7CD79ML0GnJw5FHW60sRpkw==;
+Received: from [81.0.34.65] (helo=perseus.local)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1kQC4P-0007iY-P5; Wed, 07 Oct 2020 18:13:37 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1kQC4C-0001E3-PT; Wed, 07 Oct 2020 18:13:24 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] qcow2: Document and enforce the QCowL2Meta invariants
+Date: Wed,  7 Oct 2020 18:13:23 +0200
+Message-Id: <20201007161323.4667-1-berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <87eemackge.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 11:38:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,58 +59,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/20 8:02 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> The edge case is that if the name is '', this expression returns a
->> string instead of a bool, which violates our declared type.
-> 
-> The edge case is impossible, as discussed in review of v2.  I figure the
-> type checker can't see that, so we need to help it some.  Can we mention
-> this in the commit message?
-> 
+The QCowL2Meta structure is used to store information about a part of
+a write request that touches clusters that need changes in their L2
+entries. This happens with newly-allocated clusters or subclusters.
 
-Sure. It's quite possible we will be able to better model and constrain 
-these types, but that will come after all of these patches.
+This structure has changed a bit since it was first created and its
+current documentation is not quite up-to-date.
 
-Mypy just has no way of knowing that '' is forbidden. That constraint 
-does not exist in the type system we have here at present.
+A write request can span a region consisting of a combination of
+clusters of different types, and qcow2_alloc_host_offset() can
+repeatedly call handle_copied() and handle_alloc() to add more
+clusters to the mix as long as they all are contiguous on the image
+file.
 
-You could, by the way, create a type called NonEmptyString and create a 
-function that casts from str to NonEmptyString by means of an assertion 
-and then annotating the return type.
+Because of this a write request has a list of QCowL2Meta structures,
+one for each part of the request that needs changes in the L2
+metadata.
 
-Anyway, I'll update the commit message for now.
+Each one of them spans nb_clusters and has two copy-on-write regions
+located immediately before and after the middle region touched by that
+part of the write request. Even when those regions themselves are
+empty their offsets must be correct because they are used to know the
+location of the middle region.
 
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Cleber Rosa <crosa@redhat.com>
->> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
->> ---
->>   scripts/qapi/gen.py | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
->> index f2e2746fea5..1bad37fc06b 100644
->> --- a/scripts/qapi/gen.py
->> +++ b/scripts/qapi/gen.py
->> @@ -243,7 +243,7 @@ def __init__(self, prefix, what, user_blurb, builtin_blurb, pydoc):
->>   
->>       @staticmethod
->>       def _is_user_module(name):
->> -        return name and not name.startswith('./')
->> +        return bool(name and not name.startswith('./'))
-> 
->             return not (name is None or name.startswith('./')
-> 
-> Looks slightly clearer to me.
->>   
->>       @staticmethod
->>       def _is_builtin_module(name):
+This was not always the case but it is not a problem anymore
+because the only two places where QCowL2Meta structures are created
+(calculate_l2_meta() and qcow2_co_truncate()) ensure that the
+copy-on-write regions are correctly defined, and so do assertions like
+the ones in perform_cow().
+
+The conditional initialization of the 'written_to' variable is
+therefore unnecessary and is removed by this patch.
+
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/qcow2.h         | 19 +++++++++++--------
+ block/qcow2-cluster.c |  5 +++--
+ block/qcow2.c         | 19 +++++++++++++++----
+ 3 files changed, 29 insertions(+), 14 deletions(-)
+
+v2: Fix mistakes on the commit messages [Eric]
+
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 125ea9679b..2e0272a7b8 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -435,17 +435,18 @@ typedef struct Qcow2COWRegion {
+ 
+ /**
+  * Describes an in-flight (part of a) write request that writes to clusters
+- * that are not referenced in their L2 table yet.
++ * that need to have their L2 table entries updated (because they are
++ * newly allocated or need changes in their L2 bitmaps)
+  */
+ typedef struct QCowL2Meta
+ {
+-    /** Guest offset of the first newly allocated cluster */
++    /** Guest offset of the first updated cluster */
+     uint64_t offset;
+ 
+-    /** Host offset of the first newly allocated cluster */
++    /** Host offset of the first updated cluster */
+     uint64_t alloc_offset;
+ 
+-    /** Number of newly allocated clusters */
++    /** Number of updated clusters */
+     int nb_clusters;
+ 
+     /** Do not free the old clusters */
+@@ -458,14 +459,16 @@ typedef struct QCowL2Meta
+     CoQueue dependent_requests;
+ 
+     /**
+-     * The COW Region between the start of the first allocated cluster and the
+-     * area the guest actually writes to.
++     * The COW Region immediately before the area the guest actually
++     * writes to. This (part of the) write request starts at
++     * cow_start.offset + cow_start.nb_bytes.
+      */
+     Qcow2COWRegion cow_start;
+ 
+     /**
+-     * The COW Region between the area the guest actually writes to and the
+-     * end of the last allocated cluster.
++     * The COW Region immediately after the area the guest actually
++     * writes to. This (part of the) write request ends at cow_end.offset
++     * (which must always be set even when cow_end.nb_bytes is 0).
+      */
+     Qcow2COWRegion cow_end;
+ 
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index aa87d3e99b..485b4cb92e 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1049,6 +1049,8 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
+     qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+ 
+     assert(l2_index + m->nb_clusters <= s->l2_slice_size);
++    assert(m->cow_end.offset + m->cow_end.nb_bytes <=
++           m->nb_clusters << s->cluster_bits);
+     for (i = 0; i < m->nb_clusters; i++) {
+         uint64_t offset = cluster_offset + ((uint64_t)i << s->cluster_bits);
+         /* if two concurrent writes happen to the same unallocated cluster
+@@ -1070,8 +1072,7 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
+         if (has_subclusters(s) && !m->prealloc) {
+             uint64_t l2_bitmap = get_l2_bitmap(s, l2_slice, l2_index + i);
+             unsigned written_from = m->cow_start.offset;
+-            unsigned written_to = m->cow_end.offset + m->cow_end.nb_bytes ?:
+-                m->nb_clusters << s->cluster_bits;
++            unsigned written_to = m->cow_end.offset + m->cow_end.nb_bytes;
+             int first_sc, last_sc;
+             /* Narrow written_from and written_to down to the current cluster */
+             written_from = MAX(written_from, i << s->cluster_bits);
+diff --git a/block/qcow2.c b/block/qcow2.c
+index b05512718c..e7b27fdf25 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2361,15 +2361,26 @@ static bool merge_cow(uint64_t offset, unsigned bytes,
+             continue;
+         }
+ 
+-        /* The data (middle) region must be immediately after the
+-         * start region */
++        /*
++         * The write request should start immediately after the first
++         * COW region. This does not always happen because the area
++         * touched by the request can be larger than the one defined
++         * by @m (a single request can span an area consisting of a
++         * mix of previously unallocated and allocated clusters, that
++         * is why @l2meta is a list).
++         */
+         if (l2meta_cow_start(m) + m->cow_start.nb_bytes != offset) {
++            /* In this case the request starts before this region */
++            assert(offset < l2meta_cow_start(m));
++            assert(m->cow_start.nb_bytes == 0);
+             continue;
+         }
+ 
+-        /* The end region must be immediately after the data (middle)
+-         * region */
++        /* The write request should end immediately before the second
++         * COW region (see above for why it does not always happen) */
+         if (m->offset + m->cow_end.offset != offset + bytes) {
++            assert(offset + bytes > m->offset + m->cow_end.offset);
++            assert(m->cow_end.nb_bytes == 0);
+             continue;
+         }
+ 
+-- 
+2.20.1
 
 
