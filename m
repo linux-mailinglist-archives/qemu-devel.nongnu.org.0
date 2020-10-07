@@ -2,70 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94B0285A4C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:20:01 +0200 (CEST)
-Received: from localhost ([::1]:38338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18146285A57
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:22:46 +0200 (CEST)
+Received: from localhost ([::1]:44844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ4g4-0002hz-UX
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:20:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44552)
+	id 1kQ4ij-0005bo-6u
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kQ4eL-0001TB-8x; Wed, 07 Oct 2020 04:18:13 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:42007)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kQ4eI-0007yL-Hs; Wed, 07 Oct 2020 04:18:12 -0400
-Received: by mail-lf1-x143.google.com with SMTP id a7so203968lfk.9;
- Wed, 07 Oct 2020 01:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=N8V7+E9BHDwSicgFZ53Ky39lYpMAhXUlJyJskHLXTdI=;
- b=uZ44sU+yDuXivyM9+Z0eyVuYo+x3GGs/w5eKEFwlDDhihkMzMfx4bw3t2gWg/ADDCE
- vNQEA1sTbIpIIwqRnDFJmXfWrfMD5T3p6NitG2byByTFfKMhGvAveAItBnoHJQ0IHvxi
- ciBOq71mxZWRtoIJwRFTl08ouKvoQsTCXB8sA2gk3HlAKuV2+ygy1LvpyHLwzpeouW5X
- XmggsDQeaUfbrQep3EzW0Ld1nlgPDhUOHCzjFYgA0AmJIJ+xJSQrY2o8M/WAQmmeAd7n
- KjME5Jj6MkdcvB1Of89FbSZY4bi4YFCv3Xbi8VRJflIlEtUDHl7blZYhhYJLiibg6EDV
- sAaQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kQ4f6-00027v-Mo
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:19:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kQ4f4-00082X-Hn
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:19:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602058736;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vk+UbotGnWkQH7iWaY0/ec/+yIu08MozIyBU1LrOP2M=;
+ b=dxxT8DaCy595TNQ9rIbECUlyOW1eVYZOtpd683WAHgCeNx2Es28BgWzlyUq7rbItxE1Mgd
+ NHMQSt7eWFY+BppV5x4FSDBJsYdvihqDdZt299TZzGnHTH06HpRCIlyXil61M6CyHQ1EAv
+ Go9eeFHYlsQ/XQiM2hQKm3Jb0xTBSLs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-kFluVlUFMWKhjz3I0UwLBQ-1; Wed, 07 Oct 2020 04:18:52 -0400
+X-MC-Unique: kFluVlUFMWKhjz3I0UwLBQ-1
+Received: by mail-wm1-f71.google.com with SMTP id 13so259603wmf.0
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 01:18:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=N8V7+E9BHDwSicgFZ53Ky39lYpMAhXUlJyJskHLXTdI=;
- b=M2aeA+Rq1m/VB+bhU9oRCaCNZyIkTrT8kBuVECjf6fliqOUb5sebVqHCqPBabVkXVk
- chrRFW8O0OeGrugqosnOGitS3ghUCCc+k/z94StIX6GcGPO/7352xl35Ph0Ms9946/KC
- YwNXDc8JHcRG1EjzQd+nD7B0Xj9zR6WWe+mphVW5xheXApUdFXI2X1607ubGQF/Mnovg
- 05NxvGPAL07oG3vB6qYIyqFoV6Eyfack2WO6ntM9OVQRsDnctcKSdV+TSUWSmyt7dNYX
- cWkUM6GT3qBJAnrGg0JRplyzxZJKisyK8+hFJ6/mljBwiEq/fnGKAFJo4k/D9PTwdfRL
- oRVg==
-X-Gm-Message-State: AOAM530z+W+oUhsHbFrdgv/DCuSEFH9AvDAYI2sBCzJAdx9Hf2g5lsJ3
- kyHSekwWCZMv/nsBJ2sbWIJ1j9YHEM3tGu60tSI=
-X-Google-Smtp-Source: ABdhPJw0UzeTEi4GubPaivGh/xjP0lFklifuqNGIDN69eos8ggxDq6wNw66slqGuyRsPmCM8/afcOGq8HTDr4i16RxM=
-X-Received: by 2002:ac2:54ab:: with SMTP id w11mr524035lfk.50.1602058688074;
- Wed, 07 Oct 2020 01:18:08 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Vk+UbotGnWkQH7iWaY0/ec/+yIu08MozIyBU1LrOP2M=;
+ b=qF+F8STK+UkxFJ6XNlL3cKX2qQehrVZIMYbSqVfWTxbMFJOqMa4YMIs3amymIbu5rv
+ 8t1yMRhNYss85tFXSCraM0OlkGNH5wJUiKdcKFhPYSQyqYyIQAugrmlrkz3BDgnI3M38
+ I8QGL7cBFtrRn1gUGYp/Bad4bvv851Hqdifoh9WtFfo6bnydV1NeqZ+a0jyt/kQoJJkX
+ HwYZHdCJZeHGttGmDKeTJ+OMcpxXjtYx2sCd5H5OuK3429uShadbJn2Fd3zWU3tBkGYz
+ nMDnJlT898PuC8DkwxK7N26WTDQUX5oWlIofdHSgW/mimE/XRedk+24ZwtQfeuQ54/Ja
+ 3Evw==
+X-Gm-Message-State: AOAM533hwIUZElrMcqeFy23Vuub2Gr+lANfdiU1j/aMTHRJa5otQlk+m
+ CjED0MDUzjx7sKFr0bMzLR1tdeA6ve7XIBpStnWZgYftNJrjbFHPsS2K6c3EXU2MNmesie970Lj
+ Hl+0/8nwpbwfor14=
+X-Received: by 2002:adf:dd89:: with SMTP id x9mr2298255wrl.25.1602058730672;
+ Wed, 07 Oct 2020 01:18:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzAzm7GOjPLHXQtFYM1EpisscyAxwyCgpTUPj0oHAseRN6DVr5ieQ86b5BESbYM4c2cYfmvUg==
+X-Received: by 2002:adf:dd89:: with SMTP id x9mr2298221wrl.25.1602058730297;
+ Wed, 07 Oct 2020 01:18:50 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:d2f4:5943:190c:39ff?
+ ([2001:b07:6468:f312:d2f4:5943:190c:39ff])
+ by smtp.gmail.com with ESMTPSA id b189sm1588827wmb.37.2020.10.07.01.18.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Oct 2020 01:18:49 -0700 (PDT)
+Subject: Re: [PATCH v3 2/3] cirrus: Fixing and speedup the msys2/mingw CI
+To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+References: <20201007035154.109-1-luoyonggang@gmail.com>
+ <20201007035154.109-3-luoyonggang@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6b4528dc-918d-ebf4-db27-cbd67fa96c11@redhat.com>
+Date: Wed, 7 Oct 2020 10:18:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20201007024135.1885-1-luoyonggang@gmail.com>
- <20201007024135.1885-2-luoyonggang@gmail.com>
- <e437f0ed-20a9-c370-8c87-ceb845513805@redhat.com>
-In-Reply-To: <e437f0ed-20a9-c370-8c87-ceb845513805@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Wed, 7 Oct 2020 16:17:57 +0800
-Message-ID: <CAE2XoE9RyMFpLNWP+o13o7NOFXJAChR8Mf4QbF7ON3XRXEbkKA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] docker: Add win32/msys2/mingw64 docker
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000000318c005b1105b0f"
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20201007035154.109-3-luoyonggang@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,171 +102,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
 Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000318c005b1105b0f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 07/10/20 05:51, Yonggang Luo wrote:
+> Using a prepared https://github.com/lygstate/qemu/releases/download/v5.1.0/msys2-x86_64.tar.xz
+> for speed up the msys2/mingw prepare speed on the cirrus CI.
+> This file are generated by the msys2.docker
 
-On Wed, Oct 7, 2020 at 2:43 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 07/10/2020 04.41, Yonggang Luo wrote:
-> > This docker is used to preparing a msys2/mingw with basic software
-installed.
-> >
-> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> > ---
-> >  tests/docker/dockerfiles/msys2.docker | 57 +++++++++++++++++++++++++++
-> >  1 file changed, 57 insertions(+)
-> >  create mode 100644 tests/docker/dockerfiles/msys2.docker
-> >
-> > diff --git a/tests/docker/dockerfiles/msys2.docker
-b/tests/docker/dockerfiles/msys2.docker
-> > new file mode 100644
-> > index 0000000000..ce1404cbb8
-> > --- /dev/null
-> > +++ b/tests/docker/dockerfiles/msys2.docker
-> > @@ -0,0 +1,57 @@
-> > +FROM mcr.microsoft.com/windows/servercore:2004
-> > +RUN cmd /S /C powershell -NoLogo -NoProfile -Command netsh interface
-ipv4 show interfaces ; netsh interface ipv4 set subinterface 18 mtu=3D1460
-store=3Dpersistent ; netsh interface ipv4 show interfaces ;
-Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object
-System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-;
-> > +RUN choco install -y --no-progress git 7zip
-> > +RUN cmd /S /C powershell -NoLogo -NoProfile -Command Remove-Item
-C:\ProgramData\chocolatey\logs -Force -Recurse ; Remove-Item
-C:\Users\ContainerAdministrator\AppData\Local\Temp -Force -Recurse
-> > +RUN mkdir C:\tools
-> > +RUN bitsadmin /transfer msys_download /dynamic /download /priority
-FOREGROUND
-https://github.com/msys2/msys2-installer/releases/download/2020-09-03/msys2=
--base-x86_64-20200903.sfx.exe
-C:\tools\base.exe
-> > +RUN cd /d C:\tools && base.exe -y
-> > +RUN cmd /S /C powershell -NoLogo -NoProfile -Command "((Get-Content
--path C:\tools\msys64\etc\\post-install\\07-pacman-key.post -Raw) -replace
-'--refresh-keys', '--version') | Set-Content -Path
-C:\tools\msys64\etc\\post-install\\07-pacman-key.post"
-> > +RUN C:\tools\msys64\usr\bin\bash.exe -lc "sed -i
-'s/^CheckSpace/#CheckSpace/g' /etc/pacman.conf"
-> > +RUN C:\tools\msys64\usr\bin\bash.exe -lc "echo $MSYSTEM" >nul 2>&1
-> > +# RUN C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/Server =3D
-http:\/\/repo.msys2.org\/msys\/.arch\///g' /etc/pacman.d/mirrorlist.msys"
-> > +# RUN C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/Server =3D
-http:\/\/repo.msys2.org\/mingw\/i686\///g' /etc/pacman.d/mirrorlist.mingw32=
-"
-> > +# RUN C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/Server =3D
-http:\/\/repo.msys2.org\/mingw\/x86_64\///g'
-/etc/pacman.d/mirrorlist.mingw64"
-> > +RUN C:\tools\msys64\usr\bin\bash.exe -lc "grep -rl 'repo.msys2.org/'
-/etc/pacman.d/mirrorlist.* | xargs sed -i 's/repo.msys2.org\//
-mirrors.tuna.tsinghua.edu.cn\/msys2\//g'"
-> > +RUN C:\tools\msys64\usr\bin\pacman.exe --noconfirm -Sy
-> > +RUN echo Y | C:\tools\msys64\usr\bin\pacman.exe -Suu --noconfirm
---needed
-> > +RUN taskkill /F /FI "MODULES eq msys-2.0.dll"
-> > +RUN tasklist
-> > +RUN C:\tools\msys64\usr\bin\bash.exe -lc "pacman.exe --noconfirm -S
---needed \
-> > +base-devel \
->
-> base-devel pulls in a lot of stuff that we do not really need
-(automake...),
-> can you please replace it with the packages that are really required? See=
-:
-OK
->
-> https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg00072.html
->
->  Thanks,
->   Thomas
->
+The speedup is nice, but we need to be able to regenerate the tarball
+without access to a Windows machine.  Otherwise whoever adds a new
+dependency cannot test it himself with CI.
 
+Ideally, the tarball would be generated by the containers job in the
+Gitlab CI, but I'm not sure if that's possible.
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+On top of this, whoever commits this needs to replace the URL with
+something under download.qemu.org, but that's the easy part.
 
---0000000000000318c005b1105b0f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Paolo
 
-<div dir=3D"ltr"><br><br>On Wed, Oct 7, 2020 at 2:43 PM Thomas Huth &lt;<a =
-href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br>&gt;<br=
->&gt; On 07/10/2020 04.41, Yonggang Luo wrote:<br>&gt; &gt; This docker is =
-used to preparing a msys2/mingw with basic software installed.<br>&gt; &gt;=
-<br>&gt; &gt; Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang=
-@gmail.com">luoyonggang@gmail.com</a>&gt;<br>&gt; &gt; ---<br>&gt; &gt; =C2=
-=A0tests/docker/dockerfiles/msys2.docker | 57 +++++++++++++++++++++++++++<b=
-r>&gt; &gt; =C2=A01 file changed, 57 insertions(+)<br>&gt; &gt; =C2=A0creat=
-e mode 100644 tests/docker/dockerfiles/msys2.docker<br>&gt; &gt;<br>&gt; &g=
-t; diff --git a/tests/docker/dockerfiles/msys2.docker b/tests/docker/docker=
-files/msys2.docker<br>&gt; &gt; new file mode 100644<br>&gt; &gt; index 000=
-0000000..ce1404cbb8<br>&gt; &gt; --- /dev/null<br>&gt; &gt; +++ b/tests/doc=
-ker/dockerfiles/msys2.docker<br>&gt; &gt; @@ -0,0 +1,57 @@<br>&gt; &gt; +FR=
-OM <a href=3D"http://mcr.microsoft.com/windows/servercore:2004">mcr.microso=
-ft.com/windows/servercore:2004</a><br>&gt; &gt; +RUN cmd /S /C powershell -=
-NoLogo -NoProfile -Command netsh interface ipv4 show interfaces ; netsh int=
-erface ipv4 set subinterface 18 mtu=3D1460 store=3Dpersistent ; netsh inter=
-face ipv4 show interfaces ; Set-ExecutionPolicy Bypass -Scope Process -Forc=
-e; iex ((New-Object System.Net.WebClient).DownloadString(&#39;<a href=3D"ht=
-tps://chocolatey.org/install.ps1&#39;">https://chocolatey.org/install.ps1&#=
-39;</a>)) ;<br>&gt; &gt; +RUN choco install -y --no-progress git 7zip<br>&g=
-t; &gt; +RUN cmd /S /C powershell -NoLogo -NoProfile -Command Remove-Item C=
-:\ProgramData\chocolatey\logs -Force -Recurse ; Remove-Item C:\Users\Contai=
-nerAdministrator\AppData\Local\Temp -Force -Recurse<br>&gt; &gt; +RUN mkdir=
- C:\tools<br>&gt; &gt; +RUN bitsadmin /transfer msys_download /dynamic /dow=
-nload /priority FOREGROUND <a href=3D"https://github.com/msys2/msys2-instal=
-ler/releases/download/2020-09-03/msys2-base-x86_64-20200903.sfx.exe">https:=
-//github.com/msys2/msys2-installer/releases/download/2020-09-03/msys2-base-=
-x86_64-20200903.sfx.exe</a> C:\tools\base.exe<br>&gt; &gt; +RUN cd /d C:\to=
-ols &amp;&amp; base.exe -y<br>&gt; &gt; +RUN cmd /S /C powershell -NoLogo -=
-NoProfile -Command &quot;((Get-Content -path C:\tools\msys64\etc\\post-inst=
-all\\<a href=3D"http://07-pacman-key.post">07-pacman-key.post</a> -Raw) -re=
-place &#39;--refresh-keys&#39;, &#39;--version&#39;) | Set-Content -Path C:=
-\tools\msys64\etc\\post-install\\<a href=3D"http://07-pacman-key.post">07-p=
-acman-key.post</a>&quot;<br>&gt; &gt; +RUN C:\tools\msys64\usr\bin\bash.exe=
- -lc &quot;sed -i &#39;s/^CheckSpace/#CheckSpace/g&#39; /etc/pacman.conf&qu=
-ot;<br>&gt; &gt; +RUN C:\tools\msys64\usr\bin\bash.exe -lc &quot;echo $MSYS=
-TEM&quot; &gt;nul 2&gt;&amp;1<br>&gt; &gt; +# RUN C:\tools\msys64\usr\bin\b=
-ash.exe -lc &quot;sed -i &#39;s/Server =3D http:\/\/<a href=3D"http://repo.=
-msys2.org">repo.msys2.org</a>\/msys\/.arch\///g&#39; /etc/pacman.d/mirrorli=
-st.msys&quot;<br>&gt; &gt; +# RUN C:\tools\msys64\usr\bin\bash.exe -lc &quo=
-t;sed -i &#39;s/Server =3D http:\/\/<a href=3D"http://repo.msys2.org">repo.=
-msys2.org</a>\/mingw\/i686\///g&#39; /etc/pacman.d/mirrorlist.mingw32&quot;=
-<br>&gt; &gt; +# RUN C:\tools\msys64\usr\bin\bash.exe -lc &quot;sed -i &#39=
-;s/Server =3D http:\/\/<a href=3D"http://repo.msys2.org">repo.msys2.org</a>=
-\/mingw\/x86_64\///g&#39; /etc/pacman.d/mirrorlist.mingw64&quot;<br>&gt; &g=
-t; +RUN C:\tools\msys64\usr\bin\bash.exe -lc &quot;grep -rl &#39;<a href=3D=
-"http://repo.msys2.org/">repo.msys2.org/</a>&#39; /etc/pacman.d/mirrorlist.=
-* | xargs sed -i &#39;s/<a href=3D"http://repo.msys2.org">repo.msys2.org</a=
->\//<a href=3D"http://mirrors.tuna.tsinghua.edu.cn">mirrors.tuna.tsinghua.e=
-du.cn</a>\/msys2\//g&#39;&quot;<br>&gt; &gt; +RUN C:\tools\msys64\usr\bin\p=
-acman.exe --noconfirm -Sy<br>&gt; &gt; +RUN echo Y | C:\tools\msys64\usr\bi=
-n\pacman.exe -Suu --noconfirm --needed<br>&gt; &gt; +RUN taskkill /F /FI &q=
-uot;MODULES eq msys-2.0.dll&quot;<br>&gt; &gt; +RUN tasklist<br>&gt; &gt; +=
-RUN C:\tools\msys64\usr\bin\bash.exe -lc &quot;pacman.exe --noconfirm -S --=
-needed \<br>&gt; &gt; +base-devel \<br>&gt;<br>&gt; base-devel pulls in a l=
-ot of stuff that we do not really need (automake...),<br>&gt; can you pleas=
-e replace it with the packages that are really required? See:<div>OK<br>&gt=
-;<br>&gt; <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2020-10/=
-msg00072.html">https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg000=
-72.html</a><br>&gt;<br>&gt; =C2=A0Thanks,<br>&gt; =C2=A0 Thomas<br>&gt;<br>=
-<br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=
-=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<=
-br>Yonggang Luo</div></div>
-
---0000000000000318c005b1105b0f--
 
