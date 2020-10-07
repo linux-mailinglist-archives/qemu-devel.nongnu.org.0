@@ -2,96 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6898285B56
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:54:43 +0200 (CEST)
-Received: from localhost ([::1]:37482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98AFD285B57
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:55:19 +0200 (CEST)
+Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ5Df-00027J-0L
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:54:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52496)
+	id 1kQ5EE-0003Gg-NR
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:55:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ5At-0008Pu-Mk
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:51:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33237)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ5Ar-0003nk-Tp
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:51:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602060709;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x1FUXLdUR9dxHOuPdjb92xujb1Kr3CLsubnTA4Shn5Q=;
- b=MshUXTNCwl6GlfAai9i/z2y3cBfIS2fYuiuT8CZJvsUgLYnXbzrWbxxJmbf/5yAPf2W9/8
- KogHsntvtmujKvVDmrFccBwRw5MxRiYN9Fp47LpVnPmDTRZ59T0km4I2Dhz4U9FqLnG4AT
- YQFp8BhadCW2bQ7EZY42l2HgRjez2zg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-TRWgFJvoN8SNVcNeSetIzg-1; Wed, 07 Oct 2020 04:51:46 -0400
-X-MC-Unique: TRWgFJvoN8SNVcNeSetIzg-1
-Received: by mail-wm1-f70.google.com with SMTP id p17so281328wmi.7
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 01:51:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x1FUXLdUR9dxHOuPdjb92xujb1Kr3CLsubnTA4Shn5Q=;
- b=rEe1gahHCRMg1EG1UiUpj3qg13AxRdelAjRyQMMB431uovZv/1jkBYUXCXY06Hyzlk
- Dz17xiLAnBpIZEj3izUbH1DQXQYY7kO424VMRTSk58A9cB1q1HbGBxAARCXPXMjw0EjY
- KfUB9gHGMElctJgrOF7VdUh0pFgaEvziPfDDSCZcBd0GoVddWRLfdDwCzV+ZxmEpBHPs
- kn/ibc+ugOnSXfRusdbI0WwmFDwm32KxYecx3xFV6rSfCNt+8Gd/nbVOzeZtL70wN/Qr
- ULOZELYBzrsPmEjLC2lIaA67TRkNrjjuOONivLdasxOfJ/LHX/b+2L4OM+nzufoHEtie
- AVpQ==
-X-Gm-Message-State: AOAM530JwJJ0WISypC0qApljfXMrKjgGD4OspEBiIvZf+eVngX9RmvAh
- VEQI+gqY0nnk4FxV29dfccu+MYZ1xHj9gzMX3oU3+YWY3wyoyfoyN0Jyt3fg6hBdvXxFlj6ImzY
- Ty617MoDkJiMKwrk=
-X-Received: by 2002:a5d:548f:: with SMTP id h15mr2332973wrv.108.1602060704709; 
- Wed, 07 Oct 2020 01:51:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzswsax+C31xoWFziVfeBYDXgdZ5Vg0nETiylM/0ghfiBkOU/yXkD6ax6xGodL7yTfDaMdS4g==
-X-Received: by 2002:a5d:548f:: with SMTP id h15mr2332952wrv.108.1602060704488; 
- Wed, 07 Oct 2020 01:51:44 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:d2f4:5943:190c:39ff?
- ([2001:b07:6468:f312:d2f4:5943:190c:39ff])
- by smtp.gmail.com with ESMTPSA id v8sm1764583wmb.20.2020.10.07.01.51.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Oct 2020 01:51:43 -0700 (PDT)
-Subject: Re: [PATCH V13 2/9] meson.build: Re-enable KVM support for MIPS
-To: Huacai Chen <zltjiangshi@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
- <1602059975-10115-3-git-send-email-chenhc@lemote.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6947e0d6-30c3-cf31-03ad-c57499e4ae35@redhat.com>
-Date: Wed, 7 Oct 2020 10:51:42 +0200
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kQ5B2-00007i-BS
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:52:00 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:33138)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kQ5B0-0003oC-1B
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:52:00 -0400
+Received: from [192.168.0.183] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 6F21340A1DA4;
+ Wed,  7 Oct 2020 08:51:54 +0000 (UTC)
+Subject: Re: acceptance-system-fedora failures
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+References: <f9e09f0b-3915-382c-d670-8d33d164ad7b@redhat.com>
+ <4e191372-c332-8f69-85e2-1ff6ead0f40d@redhat.com>
+ <59d2a787-bcd4-7283-693b-09ea04c16dc6@redhat.com>
+ <6068346f-b034-9321-0eea-29233c23a300@redhat.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <78ce9ac1-d2a1-9dc0-bf38-f9ac34b2f203@ispras.ru>
+Date: Wed, 7 Oct 2020 11:51:54 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1602059975-10115-3-git-send-email-chenhc@lemote.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <6068346f-b034-9321-0eea-29233c23a300@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 04:51:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,42 +61,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/10/20 10:39, Huacai Chen wrote:
-> After converting from configure to meson, KVM support is lost for MIPS,
-> so re-enable it in meson.build.
+On 07.10.2020 11:23, Thomas Huth wrote:
+> On 07/10/2020 09.13, Philippe Mathieu-Daudé wrote:
+>> On 10/7/20 7:20 AM, Philippe Mathieu-Daudé wrote:
+>>> On 10/7/20 1:07 AM, John Snow wrote:
+>>>> I'm seeing this gitlab test fail quite often in my Python work; I don't
+>>>> *think* this has anything to do with my patches, but maybe I need to try
+>>>> and bisect this more aggressively.
+> [...]
+>>> w.r.t. the error in your build, I told Thomas about the
+>>> test_ppc_mac99/day15/invaders.elf timeouting but he said this is
+>>> not his area. Richard has been looking yesterday to see if it is
+>>> a TCG regression, and said the test either finished/crashed raising
+>>> SIGCHLD, but Avocado parent is still waiting for a timeout, so the
+>>> children become zombie and the test hang.
+>>
+>> Expected output:
+>>
+>> Quiescing Open Firmware ...
+>> Booting Linux via __start() @ 0x01000000 ...
+>>
+>> But QEMU exits in replay_char_write_event_load():
+>>
+>> Quiescing Open Firmware ...
+>> qemu-system-ppc: Missing character write event in the replay log
+>> $ echo $?
+>> 1
+>>
+>> Latest events are CHECKPOINT CHECKPOINT INTERRUPT INTERRUPT INTERRUPT.
+>>
+>> Replay file is ~22MiB. End of record using "system_powerdown + quit"
+>> in HMP.
+>>
+>> I guess we have 2 bugs:
+>> - replay log
+>> - avocado doesn't catch children exit(1)
+>>
+>> Quick reproducer:
+>>
+>> $ make qemu-system-ppc check-venv
+>> $ tests/venv/bin/python -m \
+>>    avocado --show=app,console,replay \
+>>    run --job-timeout 300 -t machine:mac99 \
+>>    tests/acceptance/replay_kernel.py
 > 
-> Fixes: fdb75aeff7c212e1afaaa3a43 ("configure: remove target configuration")
-> Fixes: 8a19980e3fc42239aae054bc9 ("configure: move accelerator logic to meson")
-> Cc: aolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> ---
->  meson.build | 2 ++
->  1 file changed, 2 insertions(+)
+> Thanks, that was helpful. ... and the winner is:
 > 
-> diff --git a/meson.build b/meson.build
-> index 17c89c8..b407ff4 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -59,6 +59,8 @@ elif cpu == 's390x'
->    kvm_targets = ['s390x-softmmu']
->  elif cpu in ['ppc', 'ppc64']
->    kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
-> +elif cpu in ['mips', 'mips64']
-> +  kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
->  else
->    kvm_targets = []
->  endif
+>      commit   55adb3c45620c31f29978f209e2a44a08d34e2da
+>      Author:  John Snow <jsnow@redhat.com>
+>      Date:    Fri Jul 24 01:23:00 2020 -0400
+>      Subject: ide: cancel pending callbacks on SRST
 > 
+> ... starting with this commit, the tests starts failing. John, any idea what
+> might be causing this?
 
-I'm queuing this one, sorry for the breakage. :(
+This patch includes the following lines:
 
-Paolo
++        aio_bh_schedule_oneshot(qemu_get_aio_context(),
++                                ide_bus_perform_srst, bus);
+
+replay_bh_schedule_oneshot_event should be used instead of this 
+function, because it synchronizes non-deterministic BHs.
+
+
+> 
+>   Thomas
+> 
 
 
