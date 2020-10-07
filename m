@@ -2,94 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A6F285DCE
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 13:06:53 +0200 (CEST)
-Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51DD285DDA
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 13:10:41 +0200 (CEST)
+Received: from localhost ([::1]:40592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ7HY-00073y-54
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 07:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51402)
+	id 1kQ7LE-0000g0-Nq
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 07:10:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ7EH-0004SC-7K
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:03:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58137)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQ7EF-0003B3-Af
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:03:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602068606;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hXqg3K9rUAwQUNTmT29UQkZLeax6GYa1KEGlE/GykaY=;
- b=Rn8iqxjirgxQRX8MrpG4NgT0jv6edh3MtUY4mSzd1+ZYAvZm+DjKj/QOlzjMIQBISmnpB3
- pJRjFg+FWiLdpkxAayaj5+c+wR6pNojOIwSVFKZNyPKp3IvjOfvxTw/CBaEHgu969vf2EM
- FaZHxvn2RtgZhqUis4cRPY7LcO4WMAk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-P-oDUu6tNeSznzWO0-Ipow-1; Wed, 07 Oct 2020 07:03:24 -0400
-X-MC-Unique: P-oDUu6tNeSznzWO0-Ipow-1
-Received: by mail-wm1-f71.google.com with SMTP id u207so292725wmu.4
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:03:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
+ id 1kQ7Jt-0008V3-17
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:09:17 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <graeme@nuviainc.com>)
+ id 1kQ7Jq-0003rj-S9
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 07:09:16 -0400
+Received: by mail-wr1-x443.google.com with SMTP id n18so1670622wrs.5
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=uiv3OaFqYCcpvMry9h+3mT4rKuYQPnJ3d9uSYnMJJUk=;
+ b=suo9jj9frBwbfUlXBrIEuXw310zzYfxAFOcvRPlR6tME+6ZqwgzczWUpoLkrJ7sAg9
+ UdeqCLr2F4/Ci+nEHFoS/f01NzkNl17vOEZnEaccATqxsj06LLigeLziWkXClaHJrYDp
+ ANySYNCag6CZz69z2tzMTwN6flwEkNPshZBufwqKl1Xy8c8oLK3Z6lVuKD7osiDuGVoG
+ klPrJZZYgkt2Tt3ZAvLDq4AS3SxAB2Zu89X/PO2pUtm9j630yNbrd4YHJ2FMWTnuBvKJ
+ XoGOb5tEcx1k4VyhRgTIXofGKzwKlqq7O1bDGwlpYDs5KNhL3Wlwbu1Ftu0IS9vsIuOZ
+ qIdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hXqg3K9rUAwQUNTmT29UQkZLeax6GYa1KEGlE/GykaY=;
- b=YjKjPCdyKwidhIXHB1kxzExcMP0O4slMukypiSQpOSAnziODTnXJhj5NFEs0dRSs8F
- I5g2fryB19ykdDTxnoDiRJHpP4j7VmD3efITGGZzOk5r8gS0G17WbcubX+NV78XvRJs2
- LNtDkjfQNNEi+XFAi8rYuCCFLxhr47jij9aac/oXbALXFyRDgOEZAamzL+QW7X/NNNWK
- m+3On2ohR94SrivN3HH46+DvhESTprht/Jk0kupDdp2e4XbmfqDYgf7Xep+jsAAbrfzM
- uHUAfX8Z5VDBLwJSRfOjKfqm0TcT2XZSuMh6xbmUVik9vUjKjGCz8ptvPvWeV40SHn42
- Qj8Q==
-X-Gm-Message-State: AOAM5338KcQOh6dnBm1GQkzsI6qtDZ0p28d4KYXsDwrinBqzjmQ2pozX
- tpRKeyX/4ArBFepZug8DZcoMMuQcnDBLsK6OskzS0Ko8luoUqI76Z8BwhgIiYMoIkqVvo1tA5ft
- OES7jYnIjq9B9xSA=
-X-Received: by 2002:a1c:6856:: with SMTP id d83mr2760588wmc.71.1602068603533; 
- Wed, 07 Oct 2020 04:03:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsnhV7I2v9uZT9yuSu6AqjtkgwAnOxzwPJ6OllCB8LMQpVUda6zsTKZ28EyWvFLBQxSfPpWw==
-X-Received: by 2002:a1c:6856:: with SMTP id d83mr2760564wmc.71.1602068603275; 
- Wed, 07 Oct 2020 04:03:23 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:d2f4:5943:190c:39ff?
- ([2001:b07:6468:f312:d2f4:5943:190c:39ff])
- by smtp.gmail.com with ESMTPSA id y6sm2394643wrn.41.2020.10.07.04.03.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Oct 2020 04:03:22 -0700 (PDT)
-Subject: Re: [PATCH 2/3] docs/devel/qtest: Include protocol spec in document
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20201005205228.697463-1-ehabkost@redhat.com>
- <20201005205228.697463-3-ehabkost@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <27b0312b-cef9-9aea-3196-871eeca6760d@redhat.com>
-Date: Wed, 7 Oct 2020 13:03:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=uiv3OaFqYCcpvMry9h+3mT4rKuYQPnJ3d9uSYnMJJUk=;
+ b=SiolujBAu53kUdOMBqsRwYXdEPw97Yej4Qox/+Xjs7dsBAplNUCMTP6V1AkxwYo0uh
+ N+r6RaGp6z92CbDmon2GTONDUp2Vlz/jRqnqsV3UAA5pDhucOFKxVu9B4ZsqjoWQfSZI
+ FQlNigSBQIiAM8S5BGpYI79nDGmMiDBhXBiZucAS/MoWq+74o72odGLUgEow6C5VLdfV
+ THhy8N+FPfHcdWLuEZW6AD9iiweWSnHVjT7VjjOwNEB373Gav2Wgm8v+NOUgy+/Wh8iV
+ /cIQwI1xtU7dn2Ef6naxivuFUGITpHiT4d9Nl2LsUHjJD5YGiY87mJ0lFaXTAZ9qs7ye
+ zAfg==
+X-Gm-Message-State: AOAM5331FDHisVjPhWtwCuqlcOCOrkUhRE+jIE0VEk/sOXwtNkxowEpP
+ SyDOit/qLzmuk9webVtLKkTBOw==
+X-Google-Smtp-Source: ABdhPJwKI628NMPkwrx3HBEqrB6ZXhBM5Et0IfnORMum8cIz6mfF4+wapdgihWZODrWEKBuoo0ncIA==
+X-Received: by 2002:adf:a29a:: with SMTP id s26mr2916710wra.197.1602068953194; 
+ Wed, 07 Oct 2020 04:09:13 -0700 (PDT)
+Received: from xora-monster ([2a02:8010:64d6::1d89])
+ by smtp.gmail.com with ESMTPSA id k8sm2278476wrl.42.2020.10.07.04.09.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 04:09:12 -0700 (PDT)
+Date: Wed, 7 Oct 2020 12:09:10 +0100
+From: Graeme Gregory <graeme@nuviainc.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 1/2] hw/arm/sbsa-ref : Fix SMMUv3 Initialisation
+Message-ID: <20201007110910.6tp6uwqj7qbeyi2j@xora-monster>
+References: <20201007100732.4103790-1-graeme@nuviainc.com>
+ <20201007100732.4103790-2-graeme@nuviainc.com>
+ <c518a446-94ca-f21a-2e49-e2cd8171e581@amsat.org>
+ <20201007103220.z5pc5qjoyxbowyrb@xora-monster>
+ <aafcbb37-dc5a-e608-21fe-6e65e36df5e4@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20201005205228.697463-3-ehabkost@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aafcbb37-dc5a-e608-21fe-6e65e36df5e4@amsat.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=graeme@nuviainc.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,35 +90,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: peter.maydell@linaro.org, leif@nuviainc.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, rad@semihalf.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/20 22:52, Eduardo Habkost wrote:
-> + * DOC: QTest Protocol
-> + *
-> + * .. highlight:: none
->   *
->   * Line based protocol, request/response based.  Server can send async messages
->   * so clients should always handle many async messages before the response
->   * comes in.
->   *
->   * Valid requests
-> + * ^^^^^^^^^^^^^^
->   *
->   * Clock management:
-> + * """""""""""""""""
->   *
->   * The qtest client is completely in charge of the QEMU_CLOCK_VIRTUAL.  qtest commands
->   * let you adjust the value of the clock (monotonically).  All the commands
->   * return the current value of the clock in nanoseconds.
->   *
-> + * .. code-block::
+On Wed, Oct 07, 2020 at 12:44:43PM +0200, Philippe Mathieu-Daudé wrote:
+> On 10/7/20 12:32 PM, Graeme Gregory wrote:
+> > On Wed, Oct 07, 2020 at 12:24:32PM +0200, Philippe Mathieu-DaudÃƒÂ© wrote:
+> >> On 10/7/20 12:07 PM, Graeme Gregory wrote:
+> >>> SMMUv3 has an error in a previous patch where an i was transposed to a 1
+> >>> meaning interrupts would not have been correctly assigned to the SMMUv3
+> >>> instance.
+> >>>
+> >>> Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
+> >>> Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+> >>
+> >> Again, this fix is already in Peter's queue:
+> >> https://www.mail-archive.com/qemu-devel@nongnu.org/msg732819.html
+> >>
+> >> But if you repost, please collect the reviewer tags,
+> >> so we don't have to review it again. This one has:
+> >> Reviewed-by: Philippe Mathieu-DaudÃƒÂ© <f4bug@amsat.org>
+> >> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> >>
+> > 
+> > Ah I thought splitting the patch invalidated Eric's reviewed by?
+> > 
+> > This is a different fix to the one you are referring to, previous one
+> > was in PCIe.
+> > 
+> > Apologies if I have missed an email from you but I have not received a
+> > Reviewed by from you for the SMMUv3 IRQ fix.
+> 
+> Oops sorry my bad, I thought this was a repost of the PCIe fix.
+> 
+> So:
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> Looking at 48ba18e6d3f3 I messed create_smmu() and
+> create_pcie() but you now fixed both cases.
+> 
+> And you are right, this patch isn't reviewed by Eric.
+> 
 
-What version of Sphinx do you have?  I need to have ".. code-block::
-none" here, so presumably the "highlight" directive is newer than my
-version (1.7.6, pretty old I admit)?
+Thanks, they are confusingly similar patches.
 
-Paolo
+Graeme
 
+> > 
+> > Thanks
+> > 
+> > Graeme
+> > 
+> >> Thanks,
+> >>
+> >> Phil.
+> >>
+> >>> ---
+> >>>  hw/arm/sbsa-ref.c | 2 +-
+> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> >>> index 9c3a893bed..65e64883b5 100644
+> >>> --- a/hw/arm/sbsa-ref.c
+> >>> +++ b/hw/arm/sbsa-ref.c
+> >>> @@ -525,7 +525,7 @@ static void create_smmu(const SBSAMachineState *sms, PCIBus *bus)
+> >>>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+> >>>      for (i = 0; i < NUM_SMMU_IRQS; i++) {
+> >>>          sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
+> >>> -                           qdev_get_gpio_in(sms->gic, irq + 1));
+> >>> +                           qdev_get_gpio_in(sms->gic, irq + i));
+> >>>      }
+> >>>  }
+> >>>  
+> >>>
+> > 
 
