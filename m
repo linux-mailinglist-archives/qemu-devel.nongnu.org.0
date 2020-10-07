@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0024B286558
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:59:29 +0200 (CEST)
-Received: from localhost ([::1]:56170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9C8286551
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:56:20 +0200 (CEST)
+Received: from localhost ([::1]:46908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCmm-0003mP-Va
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:59:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48188)
+	id 1kQCjh-0008Bd-DP
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:56:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kQCcy-0000yx-AS; Wed, 07 Oct 2020 12:49:20 -0400
-Resent-Date: Wed, 07 Oct 2020 12:49:20 -0400
-Resent-Message-Id: <E1kQCcy-0000yx-AS@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kQCcv-0002FX-L7; Wed, 07 Oct 2020 12:49:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1602089339; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ENb602Vy0UgRWm1SjzkkSlVstRr9WaZcv4+q28w5vupNRuVZB+VPKBMzJWIC6Wj7nhaWG8GFTEMHX4UYXtf6RMel8YHtdAYSFOnO8iPUCjtDWZhwZVpcLN8t3x6QnEqlCV2JWzBjdMHQL897/j5RPpeNcCkGmRfjPrdZDZQ0+Fs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1602089339;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=vgdCQ7ncc0N8wos2UXuVVF4IsIDp/Adj3TKinqYRmrU=; 
- b=VtRsAXvNnY5FtQnLRrYn6Fjs/xayLzWxeexxJWOjtnNeF5nuVRkhGrBTnS5kQHMXyk6925re3j6MHIt4uz6g1HdWfc5K/AGxwJ95AUWO2PPAWxVUAFuQByXjHH9wBnSIrPpyIqKjOzRgTwERWqHHEp2Zi7wfN+rrTzYMXu6D0hg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1602089336262670.5117220606605;
- Wed, 7 Oct 2020 09:48:56 -0700 (PDT)
-Subject: Re: [PATCH v6] scripts: Convert qemu-version.sh to qemu-version.py
-Message-ID: <160208933460.3664.3185538282247320794@66eaa9a8a123>
-In-Reply-To: <20201007162138.425-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kQCct-0000kw-9Y
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:49:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49372)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kQCcq-0002Fb-RM
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:49:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602089352;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gt7+y7EWj3qmKfn8754NYLNJAoa2kRa2zmAatmYIYRk=;
+ b=Ij6+mvB7Pkl/e42BKQEt10VNmBO4LyfBhFyGOlCoT0ZVLuEYRd1V8QVTpga61QZbRrWOJT
+ CQuFoRjCyqVywaGQpnKCVLewqNDnVueUUMAYxgKqGgQPgyYXryr+GKClDHw+bTgW1kgeN2
+ D9Q0jUdayonVx5jFqeWLZ7R41xiHKOA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-x2ySc7g8NRSK5Fow831hyw-1; Wed, 07 Oct 2020 12:49:10 -0400
+X-MC-Unique: x2ySc7g8NRSK5Fow831hyw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75C3864141;
+ Wed,  7 Oct 2020 16:49:09 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-113-169.ams2.redhat.com
+ [10.36.113.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 582765D9DD;
+ Wed,  7 Oct 2020 16:49:07 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 0/4] qemu-storage-daemon: Remove QemuOpts from --object
+ parser
+Date: Wed,  7 Oct 2020 18:48:59 +0200
+Message-Id: <20201007164903.282198-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: luoyonggang@gmail.com
-Date: Wed, 7 Oct 2020 09:48:56 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 12:49:11
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,45 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, thuth@redhat.com, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, f4bug@amsat.org, luoyonggang@gmail.com,
- pbonzini@redhat.com
+Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAwNzE2MjEzOC40MjUt
-MS1sdW95b25nZ2FuZ0BnbWFpbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTAwNzE2MjEzOC40MjUt
-MS1sdW95b25nZ2FuZ0BnbWFpbC5jb20KU3ViamVjdDogW1BBVENIIHY2XSBzY3JpcHRzOiBDb252
-ZXJ0IHFlbXUtdmVyc2lvbi5zaCB0byBxZW11LXZlcnNpb24ucHkKCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4
-aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1s
-b2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0g
-aGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBU
-RVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
-NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11
-CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDEwMDcxNjIxMzguNDI1LTEtbHVveW9u
-Z2dhbmdAZ21haWwuY29tIC0+IHBhdGNoZXcvMjAyMDEwMDcxNjIxMzguNDI1LTEtbHVveW9uZ2dh
-bmdAZ21haWwuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYzFjNmM5YyBzY3Jp
-cHRzOiBDb252ZXJ0IHFlbXUtdmVyc2lvbi5zaCB0byBxZW11LXZlcnNpb24ucHkKCj09PSBPVVRQ
-VVQgQkVHSU4gPT09CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
-ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzMzOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQK
-CldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM1ODogRklMRTogc2NyaXB0cy9xZW11
-LXZlcnNpb24ucHk6MjE6CisgICAgICAgIHBjID0gc3VicHJvY2Vzcy5ydW4oWydnaXQnLCAnZGVz
-Y3JpYmUnLCAnLS1tYXRjaCcsICIndionIiwgJy0tZGlydHknLCAnLS1hbHdheXMnXSwKCkVSUk9S
-OiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojNTk6IEZJTEU6IHNjcmlwdHMvcWVtdS12ZXJzaW9u
-LnB5OjIyOgorICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0ZG91dD1zdWJwcm9jZXNzLlBJ
-UEUsIHN0ZGVycj1zdWJwcm9jZXNzLkRFVk5VTEwsIGVuY29kaW5nPSd1dGY4JykKCnRvdGFsOiAx
-IGVycm9ycywgMiB3YXJuaW5ncywgNDIgbGluZXMgY2hlY2tlZAoKQ29tbWl0IGMxYzZjOWMwNDM0
-OSAoc2NyaXB0czogQ29udmVydCBxZW11LXZlcnNpb24uc2ggdG8gcWVtdS12ZXJzaW9uLnB5KSBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFu
-ZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
-Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMTAwNzE2MjEzOC40MjUtMS1sdW95b25nZ2FuZ0BnbWFp
-bC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0
-ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFz
-ZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+This replaces the QemuOpts-based help code for --object in the storage
+daemon with code based on the keyval parser.
+
+v3:
+- Always parse help options, no matter if the caller implements help or
+  not. If it doesn't, return an error. [Markus]
+- Document changes to the keyval parser grammar [Markus]
+- Support both 'help' and '?' [Eric]
+- Test case fixes [Eric]
+- Improved documentation of user_creatable_print_help(_from_qdict)
+  [Markus]
+
+v2:
+- Fixed double comma by reusing the existing key and value parsers [Eric]
+- More tests to cover the additional cases
+
+Kevin Wolf (4):
+  keyval: Parse help options
+  qom: Factor out helpers from user_creatable_print_help()
+  qom: Add user_creatable_print_help_from_qdict()
+  qemu-storage-daemon: Remove QemuOpts from --object parser
+
+ include/qemu/help_option.h           |   5 +
+ include/qemu/option.h                |   2 +-
+ include/qom/object_interfaces.h      |  21 ++-
+ qapi/qobject-input-visitor.c         |   2 +-
+ qom/object_interfaces.c              |  99 ++++++++-----
+ storage-daemon/qemu-storage-daemon.c |  15 +-
+ tests/test-keyval.c                  | 205 +++++++++++++++++++--------
+ util/keyval.c                        |  54 ++++++-
+ 8 files changed, 280 insertions(+), 123 deletions(-)
+
+-- 
+2.25.4
+
 
