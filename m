@@ -2,110 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB09286294
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 17:50:30 +0200 (CEST)
-Received: from localhost ([::1]:54722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380272862A8
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 17:54:18 +0200 (CEST)
+Received: from localhost ([::1]:34676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQBi1-00047n-OA
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 11:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59668)
+	id 1kQBlh-0007mk-AR
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 11:54:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kQBfN-0002gv-5V; Wed, 07 Oct 2020 11:47:45 -0400
-Received: from mail-eopbgr70095.outbound.protection.outlook.com
- ([40.107.7.95]:52754 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kQBfG-00075A-6p; Wed, 07 Oct 2020 11:47:43 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ODdnZzC9tGrwUEABy36cf2Z2lmD8x3tHUL5tbpEu2TQmRsa4xMcG4muwH5SxlX0TyQCXja8ndmnvf7NNauzvCnoSxjkogT2ZFCQs9BFTvssd7mMBoW1ZYU7cNraD0ngaxnmIK365kp9y4g+aJPMJ/k3v6MvROVR127JdOLSqCYtUFVE90yIr9xoLIdK+w5jt8w/Nf41lYXqV5yUhi3gx2C4Mf6Kv3hqK+hqiT+fsDy5rOl/BDqTcOWax6EIRjrWyGc/L9lLFR2xnq9aXeR+bzVMQCw9RmyuQ9Ha+YlIjGeajlsS6UsrBj4DYWlH2Sdh90qPJ/R8eALeSeOBX4WNRKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oTqFiVBJCOW19G8e52mLhViB6aVt/lZ7AUasG83uPR8=;
- b=koQc/0m2f5JLf1QbCPSvnQymUaFzkIQw6oUoqR+8nUpkOm7iMDN3qSZWIa+csg1B/OBiCPFu6TaUnFXZl6gAHrPLjHbuAAz+3E1xMTjxJjfjPp3eOJZx5u0wsQ8D6hp3P6VR0WSlQFQWGEKqpbZk3zeyvVe9/nrTCGAlDG6j64x9axMenMee5w2/7Huv+iBurTtPeGr3StlFLvaINvmDlG/pR8QhBeQ75y2/zoSXegd6XjPlgxNvkZgB8NWlAvddj7zzB+t6Y9BOCqDVyvW0Drmpbf9vvlP1n+5/hl3Ksr8NUosMmTY9xhFWD4NO8Jl/rgVnxebGc+nk3oaEqKV4Og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oTqFiVBJCOW19G8e52mLhViB6aVt/lZ7AUasG83uPR8=;
- b=Y5ZQLQ58TPLfFWgocJeEPKc3XM/INc/eZwQI+HZpRjU3U75SNgy+3rEXRBlvZ8zM5ZRUh3emmj5JDzSX+CZIWpYkOrqI9kooKeLGkBRriVRw2ukUMn0zQQAjBFtbk14NlXc+ahFtpyjAzYHeu6xdFn0v5NeDFlPaLnZTIB2FxjI=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1971.eurprd08.prod.outlook.com (2603:10a6:203:45::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.39; Wed, 7 Oct
- 2020 15:47:33 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3433.045; Wed, 7 Oct 2020
- 15:47:33 +0000
-Subject: Re: [PATCH] qcow2: Document and enforce the QCowL2Meta invariants
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>
-References: <20201007115217.18013-1-berto@igalia.com>
- <f53af87c-15e3-4de5-42e0-213363759231@virtuozzo.com>
- <w51d01uavxi.fsf@maestria.local.igalia.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <9105bbe6-dd05-4568-b2ee-9eb8f943c535@virtuozzo.com>
-Date: Wed, 7 Oct 2020 18:47:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-In-Reply-To: <w51d01uavxi.fsf@maestria.local.igalia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.87]
-X-ClientProxiedBy: AM0PR04CA0077.eurprd04.prod.outlook.com
- (2603:10a6:208:be::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQBfk-0003I7-Rv
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:48:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57936)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQBfh-000777-PE
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 11:48:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602085684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3bLGhH3VZCQrwNeTrqclwMhr30WXj6AmOhDSHN1dYQ8=;
+ b=WCY9dxhxpNWmuoBh+pQrqkv855R31Dphh+PBdL1PyG9j/FDBT1EkMeC7j8tm7c4/XGwVtj
+ c7OGdsI1AdzyljhzDbBCOBwuoqcHbX9lwMD4ehc9tFx2RBIALtGePGguq0dnnU57Wn7WJR
+ RMlksfbO7izqHu6fN2nt6cecpMQHUI8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-wxnZHm_RPJSJ_vbLHy2acw-1; Wed, 07 Oct 2020 11:48:02 -0400
+X-MC-Unique: wxnZHm_RPJSJ_vbLHy2acw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5146487951B;
+ Wed,  7 Oct 2020 15:48:01 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 111C75579B;
+ Wed,  7 Oct 2020 15:48:00 +0000 (UTC)
+Date: Wed, 7 Oct 2020 11:48:00 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Purpose of QOM properties registered at realize time?
+Message-ID: <20201007154800.GW7303@habkost.net>
+References: <20201006220647.GR7303@habkost.net>
+ <CAFEAcA_se7jErv9AFM2D7UdDMurB9Lb6W9aAXD6648spQ6idKg@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.87) by
- AM0PR04CA0077.eurprd04.prod.outlook.com (2603:10a6:208:be::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3455.23 via Frontend Transport; Wed, 7 Oct 2020 15:47:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a93d4386-8308-4329-5112-08d86ad84e9d
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1971:
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB1971E11F8B1429B3982053FDC10A0@AM5PR0801MB1971.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QTjDI5ei71SqBB0OJLXeBboWJ4YJY/A0WP14lsLBFhL0HXoWQT/3one8JXZI4Oaf2sYnKewHHVZOUijYvK7s+sb1x+Jwv4vn/tTXiE67aijJbvdDRcDAcgbq0MaBgsuQevMw7CBg27mEm2qw8u9YAgEoj1JlFbuncWIkrAlSpZlv1MNxqkA3zH9hl/QtIr6IClWhutTq2bAIWC/K+EODxPz5NzWvDIvgJ/CVeiTaoD0tx8vE7usDrEZ0ULX+6jk+IP5zesNZxX5SGxgO8SnR7JHlUpTy3Io3Lcf6IJdEG7NtaGzNpcrIZevGth2mCvayB1KwJ6oITwDhrcnjPnbkxPKb55UTyAuZBThWTnWaRRNCY+OANphM/RzbTC9tshk2
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(396003)(39840400004)(136003)(346002)(54906003)(2616005)(6486002)(52116002)(31686004)(956004)(316002)(16526019)(186003)(16576012)(478600001)(26005)(4326008)(8676002)(2906002)(5660300002)(8936002)(86362001)(83380400001)(36756003)(31696002)(66476007)(66556008)(66946007)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: Xp3Mo4SiAREN9T/W/DGMrqLeRMemm84Rt3/e3fcaK1KM7V1FuhyPhJ96YDXphej31bgKf5/OfdzP3oJqmlIlFGHSHwuFFTuNfEkfG6+BqGmTm70T2o1e/rMyqXvKVZphUPIDZ8dAPphozqJlvVqM+j2YZv8EtV2cwsc3fZSw0G6BaB+UDzbK3FwlodvPRoDP5mYR6pvh7bP6OsTVgAV7BOPFCrmImDCOW1ghwme3Tk+uGV+dU2+O8+TOJZyIMqmirXeDC0N4WwzGW2pNpbdaJmn1JBtvRVvzj61AKYjEyJAmGwdDB2f57MR1wwb+sSnw0CKDPpsz1Tm3NxiDrhYpmO7HQnZ4YldAZAtaelTo7BoNdvxk2oFOr9SrzQMobxQjOYvGn9PoKksNTIy7B8xy6GKvl7LMHYNdF5dNAXijG2Y1hVxmL8OqPfp6e0AMDuaP+7cFGbNLrjlr++a9tC7odidqHPVma5iLRM4x7t69cSIfslAvifyvuyzHCZJWaDwEpkaCioxTVzGRiW/WALLsOgiol3UIgCp1pz7OQzBnJiqE/aob9j9ZKNZLKd9N55QRK2hKDk3J8qKJol1a+LaNOXMJeflG7jtDRaye2YSbWQW35LcwQcNJ3tz3pbNxsjPeFZJYkhps7eHDbHAnXNGvRg==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a93d4386-8308-4329-5112-08d86ad84e9d
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2020 15:47:33.8054 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VUbiLzLo7/UVMnaddg5iZPzBSmr2Nmq9Mx+Fm8532fM/NoDMO+H9c1vPv6QbtFBpo8ojAsA01YBV8OGEuFsOtc3c9Eli1OxRaJqnrw0rUao=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1971
-Received-SPF: pass client-ip=40.107.7.95;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 11:47:35
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+In-Reply-To: <CAFEAcA_se7jErv9AFM2D7UdDMurB9Lb6W9aAXD6648spQ6idKg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:54:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,86 +80,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-07.10.2020 18:38, Alberto Garcia wrote:
-> On Wed 07 Oct 2020 04:42:37 PM CEST, Vladimir Sementsov-Ogievskiy wrote:
->>>        /**
->>> -     * The COW Region between the start of the first allocated cluster and the
->>> -     * area the guest actually writes to.
->>> +     * The COW Region immediately before the area the guest actually
->>> +     * writes to. This (part of the) write request starts at
->>> +     * cow_start.offset + cow_start.nb_bytes.
->>
->> "starts at" is a bit misleading.. As here is not guest offset, not
->> host offset, but offset relative to QCowL2Meta.offset
+On Wed, Oct 07, 2020 at 03:28:52PM +0100, Peter Maydell wrote:
+> On Tue, 6 Oct 2020 at 23:06, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> > While trying to understand how QOM properties are used in QEMU, I
+> > stumbled upon multiple cases where alias properties are added at
+> > realize time.
+> >
+> > Now, I don't understand why those properties exist.  As the
+> > properties are added at realize time, I assume they aren't
+> > supposed to be touched by the user at all.  If they are not
+> > supposed to be touched by the user, what exactly is the purpose
+> > of those QOM properties?
 > 
-> I thought it was clear by the context since Qcow2COWRegion.offset is
-> defined to be relative to QCowL2Meta.offset
-> 
->>> @@ -1049,6 +1049,8 @@ int qcow2_alloc_cluster_link_l2(BlockDriverState *bs, QCowL2Meta *m)
->>>        qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
->>>    
->>>        assert(l2_index + m->nb_clusters <= s->l2_slice_size);
->>> +    assert(m->cow_end.offset + m->cow_end.nb_bytes <=
->>> +           m->nb_clusters << s->cluster_bits);
->>
->> should we also assert that cow_end.offset + cow_end.nb_bytes is not
->> zero?
-> 
-> No, a write request that fills a complete cluster has no COW but still
-> needs to call qcow2_alloc_cluster_link_l2() to update the L2 metadata.
-
-but cow_end.offset will not be zero still? I suggest it because you actually rely on this fact by dropping written_to conditional assignment.
-
-> 
->>> -        /* The end region must be immediately after the data (middle)
->>> -         * region */
->>> +        /* The write request should end immediately before the second
->>> +         * COW region (see above for why it does not always happen) */
->>>            if (m->offset + m->cow_end.offset != offset + bytes) {
->>> +            assert(offset + bytes > m->offset + m->cow_end.offset);
->>> +            assert(m->cow_end.nb_bytes == 0);
->>>                continue;
->>>            }
->>
->> Then it's interesting, why not to merge if we have this zero-length
->> cow region? What's the problem with it?
-> 
-> We do merge the request and the COW if one of the COW regions has zero
-> length, visually:
-> 
->   1)
->      <>                      <--- cow_end --->
->      <--- write request ---->
-> 
->   2)
->      <--- cow_start --->                      <>
->                         <--- write request ---->
-> 
-> In this case however the problem is not that the region is empty, but
-> that the request starts *before* (or after) that region and that there's
-> probably another QCowL2Meta earlier (or later):
-> 
->      <----  1st QCowL2Meta  ---->         <---- 2nd QCowL2Meta ---->
->      <--- cow_start --->       <>         <>       <--- cow_end --->
->                         <---- write request ------>
+> QOM properties are not solely provided for the benefit of the user.
+> We also use them a lot in board and SoC code as the interface
+> by which C code says "create an object, configure it, connect it".
 > 
 
-In this picture it still seems possible to merge "write-request" to "1st QCowL2Meta",
-keeping "2nd QCowL2Meta" in separate.. Or, in this case we should create additional
-relation between these metas? OK, it's not so simple, thanks for the picture.
+Right.  I'm trying to get a better understand of how exactly QOM
+is used internally when it's not user-visible.  Not being able to
+distinguish internal and external usage when looking at the code
+makes it very difficult to clean up external QOM-based
+interfaces.
 
-> What we would need here is to merge all QCowL2Meta into one, but I don't
-> think that we want to do that because it looks like complicating the
-> code for a scenario that does not happen very often.
-> 
-> Berto
-> 
 
+> (This was partly motivated in the original QOM design I think by the idea
+> being that eventually one might be able to completely define a board model
+> purely declaratively by specifying all the devices and properties and
+> wiring everything up that way. Needless to say we've never really
+> taken any serious steps towards actually doing that.)
+
+Thanks for the explanation.
+
+Now, how do I locate the code that depends on those QOM
+properties to work?  When the property name is visible in the
+code, I can grep for the property name.  But I don't know how to
+find users of the GPIOs exposed by qdev_pass_gpios().
+
+> 
+> > For reference, these are the cases I've found:
+> >
+> > $ git grep -nwpE 'object_property_add_alias|qdev_pass_gpios|qdev_alias_all_properties' | grep -A1 realize
+> > hw/arm/allwinner-a10.c=71=static void aw_a10_realize(DeviceState *dev, Error **errp)
+> > hw/arm/allwinner-a10.c:89:    qdev_pass_gpios(DEVICE(&s->intc), dev, NULL);
+> 
+> This kind of thing, and also the sd-bus cases, is where an SoC device wants
+> to expose some GPIO lines or an sd-bus which is actually implemented by
+> a device which exists inside the SoC (and which the SoC has created and
+> wired up). The effect is that for the user of the SoC object the gpio/sd-bus
+> can be used as if it was directly implemented by the SoC object, when it's
+> actually just being passed through to the internal device.
+> 
+> I'd have to look at the code to find out whether it's really necessary in all
+> cases to do this pass-through setup at realize rather than instance-init.
+> 
+> In this case:
+> 
+> > hw/arm/armv7m.c=149=static void armv7m_realize(DeviceState *dev, Error **errp)
+> > hw/arm/armv7m.c:219:    qdev_pass_gpios(DEVICE(&s->nvic), dev, NULL);
+> 
+> there's a comment on the immediately preceding lines which explains what
+> the code is doing and why it is being done in realize:
+> 
+>  215     /* Alias the NVIC's input and output GPIOs as our own so the board
+>  216      * code can wire them up. (We do this in realize because the
+>  217      * NVIC doesn't create the input GPIO array until realize.)
+>  218      */
+> 
+> Possibly one could move the code in the devices which creates the
+> GPIO array/sdbus/whatever so that it does so in instance_init
+> rather than in realize, and then more of these "alias a connection
+> through" bits of code could also move to instance_init. But there are
+> cases where the GPiO/etc can only be created in realize because
+> the number of GPIOs depends on properties of the device and so isn't
+> know at instance_init time.
+> 
+> -- PMM
+> 
 
 -- 
-Best regards,
-Vladimir
+Eduardo
+
 
