@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3814286552
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:57:43 +0200 (CEST)
-Received: from localhost ([::1]:50304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0024B286558
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:59:29 +0200 (CEST)
+Received: from localhost ([::1]:56170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCl4-0001IX-Mb
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50894)
+	id 1kQCmm-0003mP-Va
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:59:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQCj9-0008IK-48
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:55:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40884)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQCj2-0003bL-7E
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:55:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kQCj0-0007WR-2k
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 16:55:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 09C262E80EA
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 16:55:34 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kQCcy-0000yx-AS; Wed, 07 Oct 2020 12:49:20 -0400
+Resent-Date: Wed, 07 Oct 2020 12:49:20 -0400
+Resent-Message-Id: <E1kQCcy-0000yx-AS@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kQCcv-0002FX-L7; Wed, 07 Oct 2020 12:49:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1602089339; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ENb602Vy0UgRWm1SjzkkSlVstRr9WaZcv4+q28w5vupNRuVZB+VPKBMzJWIC6Wj7nhaWG8GFTEMHX4UYXtf6RMel8YHtdAYSFOnO8iPUCjtDWZhwZVpcLN8t3x6QnEqlCV2JWzBjdMHQL897/j5RPpeNcCkGmRfjPrdZDZQ0+Fs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1602089339;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=vgdCQ7ncc0N8wos2UXuVVF4IsIDp/Adj3TKinqYRmrU=; 
+ b=VtRsAXvNnY5FtQnLRrYn6Fjs/xayLzWxeexxJWOjtnNeF5nuVRkhGrBTnS5kQHMXyk6925re3j6MHIt4uz6g1HdWfc5K/AGxwJ95AUWO2PPAWxVUAFuQByXjHH9wBnSIrPpyIqKjOzRgTwERWqHHEp2Zi7wfN+rrTzYMXu6D0hg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1602089336262670.5117220606605;
+ Wed, 7 Oct 2020 09:48:56 -0700 (PDT)
+Subject: Re: [PATCH v6] scripts: Convert qemu-version.sh to qemu-version.py
+Message-ID: <160208933460.3664.3185538282247320794@66eaa9a8a123>
+In-Reply-To: <20201007162138.425-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Oct 2020 16:48:09 -0000
-From: Olivier Robert <1898490@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ethannij novhak
-X-Launchpad-Bug-Reporter: Ethan (ethannij)
-X-Launchpad-Bug-Modifier: Olivier Robert (novhak)
-References: <160185589302.24503.10461684970761806737.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160208928993.24197.8454251269568238324.malone@chaenomeles.canonical.com>
-Subject: [Bug 1898490] Re: gtk with virtio and opengl black screen
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: 395d57848a5fc1d67787518424660d8fc7ee1e59
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 12:55:34
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: luoyonggang@gmail.com
+Date: Wed, 7 Oct 2020 09:48:56 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 12:49:11
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,109 +67,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1898490 <1898490@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, thuth@redhat.com, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, f4bug@amsat.org, luoyonggang@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Christian,
-
-I should have pointed that the log is from the Android system, not Qemu
-or my host system=E2=80=AF!
-
-I got the failure message running the following command in an Android
-shell=C2=A0:
-
-logcat '*:F'
-
-(which means display log entries from all facilities (*), with the Fatal
-(F) severity)
-
-It seems indeed that Fosshub has a hosting problem with the Android-x86
-images, I'll have to report this to the project maintainer.
-
-You seem to experience the same crash as I do. Bootloader OK, the GUI is
-responsive at the beginning, and it crashes after a variable amount of
-time.
-
-You're right, the bug #1898490 looks like it could be related, I don't
-see the virgl=3Don option, but I suppose it's on by default.
-
-I normally have those messages on my Qemu instance=C2=A0:
-gl_version 45 - core profile enabled
-GLSL feature level 430
-virtio_input_hid_handle_status: unknown type 20
-virtio_input_hid_handle_status: unknown type 20
-
-The virtio_input_hid messages don't seem to be a problem, and certainly
-unrelated to the Android 9.0 crashing problem since at the time I tried
-with other, non-virtio input devices, I didn't have that message but it
-was still crashing the same way.
-
-It happens that I have that "stale GL error" from time to time, that
-almost always corresponds to an app not displaying properly in Android.
-Generally, quitting and restarting the app solves the problem, but not
-always, there are cases and Android apps that never worked correctly
-with virglrenderer, such as Armello.
-
-So, virglrenderer seems less stable with Android (or is it virtio-vga
-?). In particular, switching from the surfaceflinger OpenGL display to a
-VGA, non-OpenGL console display (Alt+F1) never worked correctly (Alt+F7
-to go back to the surfaceflinger display).
-
-However, as I said before, it seems to me it shouldn't behave
-differently depending on which display, GTK or SDL, is used.
-
-Concerning other frontends, I'm not familiar with those since my setup
-isn't headless=C2=A0: I'm not a server guy, I run the emulator on my laptop,
-so apart from GTK and SDL, it's not clear to me if I could run something
-else that would give me 3D acceleration. Moreover, my hardware is more
-than 6 years old now, and lacks some virtualisation capabilities that
-could serve as an alternative to virglrenderer.
-
-Anyway virglrenderer is still pre 1.0 so I guess it's the prime suspect
-after all.
-
-I will upgrade to Groovy next month, I'll keep you informed on that (I
-may even try Qemu 5.0 before upgrading).
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1898490
-
-Title:
-  gtk with virtio and opengl black screen
-
-Status in QEMU:
-  New
-
-Bug description:
-  qemu-system-x86_64 -name manjaro -enable-kvm -cpu host -smp
-  cores=3D4,threads=3D1 -M q35 -m 8G -cdrom /mnt/Storage/ISO/manjaro-
-  gnome-20.0.3-minimal-200606-linux56.iso -machine type=3Dpc,accel=3Dkvm
-  -vga virtio -display sdl,gl=3Don Boots properly and has working 3d
-  acceleration with virgl.
-
-  Running qemu-system-x86_64 -name manjaro -enable-kvm -cpu host -smp
-  cores=3D4,threads=3D1 -M q35 -m 8G -cdrom /mnt/Storage/ISO/manjaro-
-  gnome-20.0.3-minimal-200606-linux56.iso -machine type=3Dpc,accel=3Dkvm
-  -vga virtio -display gtk,gl=3Don however, (difference being gtk instead
-  of sdl), the screen is black, and the vm still starts.
-
-  System Specs
-  Gentoo Linux 64bit
-  Gentoo-Sources 5.8.13 Kernel
-  Qemu 5.10.0-r1 compiled with USE=3D"aio bzip2 caps curl fdt filecaps gtk =
-jpeg ncurses nls opengl oss pin-upstream-blobs png pulseaudio sdl seccomp s=
-lirp spice usb usbredir vhost-net virgl vnc xattr xkb" PYTHON_TARGETS=3D"py=
-thon3_7" QEMU_SOFTMMU_TARGETS=3D"x86_64" QEMU_USER_TARGETS=3D"x86_64"
-
-  Ryzen 7 2700x
-  Nvidia 1070ti GPU
-
-  I can confirm the same issue when using libvirt with opengl.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1898490/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAwNzE2MjEzOC40MjUt
+MS1sdW95b25nZ2FuZ0BnbWFpbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTAwNzE2MjEzOC40MjUt
+MS1sdW95b25nZ2FuZ0BnbWFpbC5jb20KU3ViamVjdDogW1BBVENIIHY2XSBzY3JpcHRzOiBDb252
+ZXJ0IHFlbXUtdmVyc2lvbi5zaCB0byBxZW11LXZlcnNpb24ucHkKCj09PSBURVNUIFNDUklQVCBC
+RUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4
+aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0g
+aGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBU
+RVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
+NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11
+CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDEwMDcxNjIxMzguNDI1LTEtbHVveW9u
+Z2dhbmdAZ21haWwuY29tIC0+IHBhdGNoZXcvMjAyMDEwMDcxNjIxMzguNDI1LTEtbHVveW9uZ2dh
+bmdAZ21haWwuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYzFjNmM5YyBzY3Jp
+cHRzOiBDb252ZXJ0IHFlbXUtdmVyc2lvbi5zaCB0byBxZW11LXZlcnNpb24ucHkKCj09PSBPVVRQ
+VVQgQkVHSU4gPT09CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
+ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzMzOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQK
+CldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM1ODogRklMRTogc2NyaXB0cy9xZW11
+LXZlcnNpb24ucHk6MjE6CisgICAgICAgIHBjID0gc3VicHJvY2Vzcy5ydW4oWydnaXQnLCAnZGVz
+Y3JpYmUnLCAnLS1tYXRjaCcsICIndionIiwgJy0tZGlydHknLCAnLS1hbHdheXMnXSwKCkVSUk9S
+OiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojNTk6IEZJTEU6IHNjcmlwdHMvcWVtdS12ZXJzaW9u
+LnB5OjIyOgorICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0ZG91dD1zdWJwcm9jZXNzLlBJ
+UEUsIHN0ZGVycj1zdWJwcm9jZXNzLkRFVk5VTEwsIGVuY29kaW5nPSd1dGY4JykKCnRvdGFsOiAx
+IGVycm9ycywgMiB3YXJuaW5ncywgNDIgbGluZXMgY2hlY2tlZAoKQ29tbWl0IGMxYzZjOWMwNDM0
+OSAoc2NyaXB0czogQ29udmVydCBxZW11LXZlcnNpb24uc2ggdG8gcWVtdS12ZXJzaW9uLnB5KSBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFu
+ZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
+Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMTAwNzE2MjEzOC40MjUtMS1sdW95b25nZ2FuZ0BnbWFp
+bC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0
+ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFz
+ZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
