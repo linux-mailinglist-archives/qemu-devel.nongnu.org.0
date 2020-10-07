@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E7C2864B3
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:41:16 +0200 (CEST)
-Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37702864C1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:43:36 +0200 (CEST)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCV9-0005FG-Oa
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:41:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
+	id 1kQCXP-0000UI-PD
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:43:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kQCAU-0007d2-P2
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:19:54 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:43039)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kQCCZ-0002B2-Ud; Wed, 07 Oct 2020 12:22:03 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:32912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kQCAS-00051O-Sy
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:19:54 -0400
-Received: by mail-pf1-x442.google.com with SMTP id a200so1587377pfa.10
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:19:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=hcRAOCfuF8XPx2+9nsCqvwz545nb6aVskVQEO7EWm7M=;
- b=bdfEMKRAt5YAw2Ag/Eoc1UTE3MBTm8El0cKEeFRIPV1NpDJBW8uAO8blIXparIIbQV
- 2lGb2LV3UIHU5cB75onn5EoEKeyDjevTqyntgsyLJGXeLoiCRYbH85YzOW0ZjzNeuk0T
- rmJAHT9uPt0TfhWu+6TaqWBHXrx5lWTyKOix3ZcLq0PhATq9dS+5xaMUBB83Gdq02K5u
- Fq18US3SUhyYliX2iT3Kx0GFHvTLoM2B34y8PUTao2+zcBhBzw01xnpT8LO0I8kbr1DY
- JlxG9LrSQJh5cjeXmRO8+VjBiflkpL2Ue3PNUS+NuOb/1lXgySsiSYIoomaU79idtGL+
- Ow/A==
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kQCCX-0005WQ-De; Wed, 07 Oct 2020 12:22:03 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id o25so1703494pgm.0;
+ Wed, 07 Oct 2020 09:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zSsDnCu2xfO7roPjdDMghbRXhd6/t/v6INO/sWdZhMs=;
+ b=Q5grEhYmho5ZZoCZ2KWdZGDsHc79ZJ+GHZSlkfL9Y8+wQ9ckBJKNZHc9BDdhofXAtp
+ Eu4krlgI7yvuM2Y99hvBMaKlavwhbBb6s+6NTeHtcq3ey9RCpu2QnBolAXc+ky3IbB/1
+ XYJnElM3YMkxjCVvi5KHOJ7gMY0Az/6ZPGjtfHJzNIFADZqXTTNVPmy9cdl3Ai3J9tcN
+ OxBHaydqHyF8RDEuy9KN5aixOjkocGmP/ViZg0lG56vLRB6lo56V6pxbg1o7B9AjMI9m
+ UhXPHzyCWvkYJOI2m4G+M67Nw8gJxDJsTqsvCWEhHEBmWmqiEpWmkRIAiBR3rO662Frn
+ A/NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=hcRAOCfuF8XPx2+9nsCqvwz545nb6aVskVQEO7EWm7M=;
- b=AR0OB8tMX6biGk8SAIDg+sA87UWgeTo03GWG9uIh56Bz10AOQ/9Bqlbyv1PXVRgPi4
- 2D/LHsNzCBlpP0qgUGmKevyO4rZMdTUGWiw0n+qoknjC96r5qNSft8Syb7KSpAINr2bp
- sFFb4vf3j/0tA1yKWZY3vOxHYjpcP8WuDnLUTG6jt5cNfWvAKvAYfRi11nUW+kdGfyas
- gXiKGrA/59Kw8Gtev5UCkmxRLgbA5RVTxgo4Ns2rwP6yx0NcHh4EXuoXfQFJ60Ct+Gvf
- VkQLhhzsTGnROQj0/0GIyxt7a5PHywAiq7wFJ4Yx0lfR+kTjqu/LK0fg+pWhE+mSJIDw
- cztA==
-X-Gm-Message-State: AOAM533EAQMcsUkoKl6NRgzCruZ7C7hVC0lolUpMxTz3W8ptX3h9DiaI
- ZHOWeqM1iUUbGZ2wubxOLrYNNPEnsanV89L0
-X-Google-Smtp-Source: ABdhPJxIZBGpKb+LZ6U9Xv1Cj2D6ux35fO7hBsYwBIANRCl0URWeleZOZd07eXRyyzQ3bgj4Fe0qzg==
-X-Received: by 2002:a65:5b09:: with SMTP id y9mr3550531pgq.155.1602087590951; 
- Wed, 07 Oct 2020 09:19:50 -0700 (PDT)
-Received: from localhost.localdomain ([115.96.123.22])
- by smtp.googlemail.com with ESMTPSA id 78sm3718892pfz.211.2020.10.07.09.19.48
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zSsDnCu2xfO7roPjdDMghbRXhd6/t/v6INO/sWdZhMs=;
+ b=n3IDbFOWYs5ccuzXv/IvKwt9isG7/BIqRh9ccp0gTGPqqgARSC3Q/wY0Yo5gUqaExZ
+ Rzz/lXO5YMRhSS4EvwJL6JlCaVu8iyd9TJHcZuYC3fEr73no68saPjTGqB9gx6iiAhog
+ akHjVahmMd3tcw4GtYn0B/2vQhMjOe4MGajAoz8J79VGQXt7s+EpAPJfHcyzQlOfJQ6e
+ VdERftsNEJPZGNk8W12wm0H0zYCmR+z82I1j2HrvYlj1RowPH6fw+fhan40t22mumJCO
+ kZxrRJBk2S192xtJMm+YczCv1kxe6rN1lr1sytz1eBpyFN0nMz4e/6vM1SsPPKHWuwBF
+ mf4A==
+X-Gm-Message-State: AOAM532z7kjtuQ7JKheTqs4If7stVYxcqE0ezSMmyzwsrzWsx0Bv8JZ4
+ 537bCQYwuhvuHasQ1sFeSnK7vagsohclBg==
+X-Google-Smtp-Source: ABdhPJzkq89oSb5m9tDu2iBDhB4My26rW5lAFMTI+k0hY/xxhbiInyXmHtdj01aAxe6YT91wQqv5Vw==
+X-Received: by 2002:aa7:9712:0:b029:152:69ab:b507 with SMTP id
+ a18-20020aa797120000b029015269abb507mr3731651pfg.30.1602087718039; 
+ Wed, 07 Oct 2020 09:21:58 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id v10sm2974021pjf.34.2020.10.07.09.21.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 09:19:49 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
+ Wed, 07 Oct 2020 09:21:57 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] Adding ani's email as an individual contributor
-Date: Wed,  7 Oct 2020 21:49:40 +0530
-Message-Id: <20201007161940.1478-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: none client-ip=2607:f8b0:4864:20::442;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x442.google.com
+Subject: [PATCH v6] scripts: Convert qemu-version.sh to qemu-version.py
+Date: Thu,  8 Oct 2020 00:21:38 +0800
+Message-Id: <20201007162138.425-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,33 +81,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ani is an individual contributor into qemu project. Adding my email into the
-correct file to reflect so.
+The sh script are harder to maintain for compatible different
+xsh environment so convert it to python script
+Also incorporate the fixes in
+https://patchew.org/QEMU/20200929143654.518157-1-marcandre.lureau@redhat.com/
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
+The quote of v* should preserve, otherwise git command would fail
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Message-Id: <20201006112139.700-1-luoyonggang@gmail.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- contrib/gitdm/group-map-individuals | 1 +
- 1 file changed, 1 insertion(+)
+ meson.build             |  2 +-
+ scripts/qemu-version.py | 34 ++++++++++++++++++++++++++++++++++
+ scripts/qemu-version.sh | 25 -------------------------
+ 3 files changed, 35 insertions(+), 26 deletions(-)
+ create mode 100644 scripts/qemu-version.py
+ delete mode 100755 scripts/qemu-version.sh
 
-changelog:
-v2: removed accidentally added submodule update into this commit
-v1: initial patch
-
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index cf8a2ce367..64cb859193 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -16,3 +16,4 @@ aurelien@aurel32.net
- balaton@eik.bme.hu
- e.emanuelegiuseppe@gmail.com
- andrew.smirnov@gmail.com
-+ani@anisinha.ca
+diff --git a/meson.build b/meson.build
+index 26230614ba..1d3bb25bc6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1132,7 +1132,7 @@ tracetool = [
+    '--backend=' + config_host['TRACE_BACKENDS']
+ ]
+ 
+-qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
++qemu_version_cmd = [find_program('scripts/qemu-version.py'),
+                     meson.current_source_dir(),
+                     config_host['PKGVERSION'], meson.project_version()]
+ qemu_version = custom_target('qemu-version.h',
+diff --git a/scripts/qemu-version.py b/scripts/qemu-version.py
+new file mode 100644
+index 0000000000..019911b270
+--- /dev/null
++++ b/scripts/qemu-version.py
+@@ -0,0 +1,34 @@
++#!/usr/bin/env python3
++
++#
++# Script for retrieve qemu git version information
++#
++# Authors:
++#  Yonggang Luo <luoyonggang@gmail.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2
++# or, at your option, any later version.  See the COPYING file in
++# the top-level directory.
++
++import sys
++import subprocess
++import os, os.path
++
++def main(_program, dir, pkgversion, version, *unused):
++    os.chdir(dir)
++    if not pkgversion and os.path.exists('.git'):
++        # The quote of v* should preserve, otherwise git command would fail
++        pc = subprocess.run(['git', 'describe', '--match', "'v*'", '--dirty', '--always'],
++                            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, encoding='utf8')
++        if pc.returncode == 0:
++            pkgversion = pc.stdout.strip()
++
++    fullversion = version
++    if pkgversion:
++        fullversion = "{} ({})".format(version, pkgversion)
++
++    print('#define QEMU_PKGVERSION "%s"' % pkgversion)
++    print('#define QEMU_FULL_VERSION "%s"' % fullversion)
++
++if __name__ == "__main__":
++    main(*sys.argv)
+diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
+deleted file mode 100755
+index 03128c56a2..0000000000
+--- a/scripts/qemu-version.sh
++++ /dev/null
+@@ -1,25 +0,0 @@
+-#!/bin/sh
+-
+-set -eu
+-
+-dir="$1"
+-pkgversion="$2"
+-version="$3"
+-
+-if [ -z "$pkgversion" ]; then
+-    cd "$dir"
+-    if [ -e .git ]; then
+-        pkgversion=$(git describe --match 'v*' --dirty | echo "")
+-    fi
+-fi
+-
+-if [ -n "$pkgversion" ]; then
+-    fullversion="$version ($pkgversion)"
+-else
+-    fullversion="$version"
+-fi
+-
+-cat <<EOF
+-#define QEMU_PKGVERSION "$pkgversion"
+-#define QEMU_FULL_VERSION "$fullversion"
+-EOF
 -- 
-2.17.1
+2.28.0.windows.1
 
 
