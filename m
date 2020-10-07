@@ -2,94 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC20286812
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 21:09:28 +0200 (CEST)
-Received: from localhost ([::1]:35732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 529AD286818
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 21:11:19 +0200 (CEST)
+Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQEoZ-0004Wc-Jd
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 15:09:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49938)
+	id 1kQEqM-0007OK-Dw
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 15:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kQEjn-0007gS-3l; Wed, 07 Oct 2020 15:04:31 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53148)
+ id 1kQEjp-0007lY-7n; Wed, 07 Oct 2020 15:04:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kQEjl-0004bf-Bz; Wed, 07 Oct 2020 15:04:30 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ id 1kQEjn-0004bu-9x; Wed, 07 Oct 2020 15:04:32 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 097J3bpE003571; Wed, 7 Oct 2020 15:04:27 -0400
+ 097IY3CY003206; Wed, 7 Oct 2020 15:04:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=1gi5s1Tx693BWL7xgcm3etVQVG7BMtLGNWjUnVDwD3o=;
- b=czRC9F6cgphZt+mVSPYB7yZNVDB2aS4DYzWIrtQPPlWcMs7jb0uwkQc4mJE8oFKwuW3J
- 0fnKU9vf3q2ASDYayN1JieMhagupQuzRpGvoNXTa1Laizvss1/HaMwAKEUYntcTepLeB
- JFzVo9k7NmDCFVnVpMet8etrPTCVhGVLwKZ7piTL1f09I2HzLKjbTOUUOXX8z5tx8ZTI
- +HlQ5UhBsvcrXb/raW1Pc22+ANh/gS7XfOHEllT5pdwzwuD96RRm+/j6USjWll1XcC+C
- Ok+yKksYsBrDlmwKdCtitmhPEJYaq97JvMp5u4sRPA2ndVSg2t6i80Kki2ynnlI+19P+ /w== 
+ : date : message-id : in-reply-to : references; s=pp1;
+ bh=AI6G3uU93CU8bLdSMBhPGAx8YLkIta1L8iMvDrv9MmY=;
+ b=JtU6NNSHIySYHRcgiJ+4C5GeMEN+En8lvCZ/ZWmWMKuLIvyl10GZoVdPMAqWPCKy82Y+
+ qsbHEsPEjbE1fQzN7cnYoUr6p4E5BOjlPLCpOVGEQVO5h1LgqnMKFweAYID6XrkiaCcC
+ bYYuD0ko3wLKxjuUpBXFk86ZNY1p+GucBOdPcs8wTzA3GYzCxRD6TU5SQjqkghzc9uIr
+ CpSVrVqRR2uIIeUd+pIzrgH179clZ3sd15YZUhYewwLP1vJS70Wl5QD7WBWxxdavor45
+ 1cq5X8B88PWEDdGTSi4J9lfyDiWhP5ROBDL5hSWugga06s32TvRboT78HS6T+z2lijSD ng== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 341k6tggyd-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 341hb2v5uf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Oct 2020 15:04:27 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 097J4F9b007311;
- Wed, 7 Oct 2020 15:04:27 -0400
+ Wed, 07 Oct 2020 15:04:30 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 097IZZsv009307;
+ Wed, 7 Oct 2020 15:04:29 -0400
 Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
  [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 341k6tggy2-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 341hb2v5u0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Oct 2020 15:04:27 -0400
+ Wed, 07 Oct 2020 15:04:29 -0400
 Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 097IlUXp003048;
- Wed, 7 Oct 2020 19:04:26 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 33xgx9sp93-1
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 097IlTqL002905;
+ Wed, 7 Oct 2020 19:04:28 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 33xgx9sp9d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Oct 2020 19:04:26 +0000
+ Wed, 07 Oct 2020 19:04:28 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 097J4PIJ42205672
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 097J4RIV30278120
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Oct 2020 19:04:25 GMT
+ Wed, 7 Oct 2020 19:04:28 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3D9E4AC05E;
+ by IMSVA (Postfix) with ESMTP id DFA96AC05B;
+ Wed,  7 Oct 2020 19:04:27 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A863AC05E;
  Wed,  7 Oct 2020 19:04:25 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D8B77AC05B;
- Wed,  7 Oct 2020 19:04:22 +0000 (GMT)
 Received: from oc4221205838.ibm.com (unknown [9.211.60.106])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  7 Oct 2020 19:04:22 +0000 (GMT)
+ Wed,  7 Oct 2020 19:04:25 +0000 (GMT)
 From: Matthew Rosato <mjrosato@linux.ibm.com>
 To: cohuck@redhat.com, thuth@redhat.com
-Subject: [PATCH v3 02/10] vfio: Create shared routine for scanning info
- capabilities
-Date: Wed,  7 Oct 2020 15:04:07 -0400
-Message-Id: <1602097455-15658-3-git-send-email-mjrosato@linux.ibm.com>
+Subject: [PATCH v3 03/10] update-linux-headers: Add vfio_zdev.h
+Date: Wed,  7 Oct 2020 15:04:08 -0400
+Message-Id: <1602097455-15658-4-git-send-email-mjrosato@linux.ibm.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602097455-15658-1-git-send-email-mjrosato@linux.ibm.com>
 References: <1602097455-15658-1-git-send-email-mjrosato@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
  definitions=2020-10-07_10:2020-10-07,
  2020-10-07 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0 suspectscore=0
- bulkscore=0 phishscore=0 impostorscore=0 adultscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2010070119
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 15:04:27
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+ adultscore=0 spamscore=0
+ impostorscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0
+ clxscore=1015 bulkscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2010070116
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 15:04:22
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -116,58 +111,28 @@ Cc: kvm@vger.kernel.org, pmorel@linux.ibm.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than duplicating the same loop in multiple locations,
-create a static function to do the work.
+vfio_zdev.h is used by s390x zPCI support to pass device-specific
+CLP information between host and userspace.
 
 Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/vfio/common.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ scripts/update-linux-headers.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 13471ae..e47a4d7 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -825,17 +825,12 @@ static void vfio_listener_release(VFIOContainer *container)
-     }
- }
+diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+index 29c27f4..9efbaf2 100755
+--- a/scripts/update-linux-headers.sh
++++ b/scripts/update-linux-headers.sh
+@@ -141,7 +141,7 @@ done
  
--struct vfio_info_cap_header *
--vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-+static struct vfio_info_cap_header *
-+vfio_get_cap(void *ptr, uint32_t cap_offset, uint16_t id)
- {
-     struct vfio_info_cap_header *hdr;
--    void *ptr = info;
--
--    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
--        return NULL;
--    }
- 
--    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-+    for (hdr = ptr + cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-         if (hdr->id == id) {
-             return hdr;
-         }
-@@ -844,6 +839,16 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-     return NULL;
- }
- 
-+struct vfio_info_cap_header *
-+vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-+{
-+    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
-+        return NULL;
-+    }
-+
-+    return vfio_get_cap((void *)info, info->cap_offset, id);
-+}
-+
- static int vfio_setup_region_sparse_mmaps(VFIORegion *region,
-                                           struct vfio_region_info *info)
- {
+ rm -rf "$output/linux-headers/linux"
+ mkdir -p "$output/linux-headers/linux"
+-for header in kvm.h vfio.h vfio_ccw.h vhost.h \
++for header in kvm.h vfio.h vfio_ccw.h vfio_zdev.h vhost.h \
+               psci.h psp-sev.h userfaultfd.h mman.h; do
+     cp "$tmpdir/include/linux/$header" "$output/linux-headers/linux"
+ done
 -- 
 1.8.3.1
 
