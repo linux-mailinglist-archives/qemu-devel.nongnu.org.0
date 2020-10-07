@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA722861BF
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 17:02:17 +0200 (CEST)
-Received: from localhost ([::1]:59180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 103222861B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 16:59:43 +0200 (CEST)
+Received: from localhost ([::1]:55370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQAxM-0003NC-MA
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 11:02:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48096)
+	id 1kQAus-0001m7-1r
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 10:59:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQAqG-00065D-TU
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 10:54:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36204)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQAqE-0006sR-Ky
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 10:54:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602082493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ddiuB38payEMwfEes7mKTrBeZFuSQ93aiV4yYQX0ChI=;
- b=fy4M7FImupdqcuBpBtFuzvjqV/EcV115DgCfrqllrap0F/aew6XlcOFdopKp1wcyipe5bm
- iHLM5nv2eKc+gvq5F77kAqMJWvdCDC577VTSB6tmB3xEbnxYKN0KR8rJW88X3wVoSSR00u
- +d4G5+a2+Q4xoKUPpTtAv676tC/mXys=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-Df6W-xGjPv6yqTMgr99KlQ-1; Wed, 07 Oct 2020 10:54:51 -0400
-X-MC-Unique: Df6W-xGjPv6yqTMgr99KlQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E37A1835B47
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 14:54:50 +0000 (UTC)
-Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 343805C1BD;
- Wed,  7 Oct 2020 14:54:50 +0000 (UTC)
-Subject: Re: [PATCH v5 08/36] qapi: delint using flake8
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201005195158.2348217-1-jsnow@redhat.com>
- <20201005195158.2348217-9-jsnow@redhat.com>
- <87imbmih3d.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <699585c8-d063-b48c-05ea-dc4b231ed4b0@redhat.com>
-Date: Wed, 7 Oct 2020 10:54:49 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kQAru-0007hF-LD; Wed, 07 Oct 2020 10:56:38 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:45563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kQArs-0007EM-Jx; Wed, 07 Oct 2020 10:56:38 -0400
+Received: by mail-lj1-x241.google.com with SMTP id a4so2253463lji.12;
+ Wed, 07 Oct 2020 07:56:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=KEBpAeWU5Zy5B8JqteBkDPWXaSVE6DdEnGqGKd7z9Bg=;
+ b=FmhU+Qcx47GqcbQxXtCGk2FTG90LmY4W41GZ6ueA8X8dm/1mKVW/EaUlbudivzYMjl
+ piEk9ztE4I5mjf9A4OeDcYHDYb78LPmCXnYa+/VndCHRdZkO+AqDL999QMwrEKMFA49I
+ suarothr42qZ56gSPM7XtS51M+Ghw9PyGXFcyvskGsXTzA4Td/0f5f+HOhnCzC2OCWEQ
+ 2hwz/54PPNCLVEEEDF2YG4b6FZmLzR5jhbtZnsrU4Qpn0k1DgvgkZjsCwhpgUff8CV5u
+ deJ6IZNQcjyKqUjQO9OiF6F6CW3/dfPXwm33b5ywQIowrhW1VCsX/eGEqlmcw0ASEMSQ
+ /ODw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=KEBpAeWU5Zy5B8JqteBkDPWXaSVE6DdEnGqGKd7z9Bg=;
+ b=K3z1EvHwhTjfEUpyj19z49Q4iQNS7dbTFeQ3r0w8sS9jgyv3I9OWVko9aGdDbX+3LW
+ odezjjJMxmYDYwAMCxxP4xNW1o8PIMVCEZbfMwj6K2Ho1CiOSu/KFRP1PoB0nhCxaFo7
+ XD31Y3s9Puc4oPjxhMhu+GSzB/HpcvAY7rXlkHG/q6Nm/L/V9zAi1isxkCFxIMIkURgy
+ BFvNO60sN3l2aH0KYReo9DWdGXIVIONWbzYzxLruq/fQ4jOQQeYCRajoCEG+7UPOOYLY
+ kH6XT1DoM4uwfJcXr8r/tQJ6qdSRI9HezoGiJ7TDC1iwyFKt7l5K7BfxeZ99gs+1zDTg
+ UpAA==
+X-Gm-Message-State: AOAM532XpIl7Al+WycSwSx8nv2DfYqtNwCaD5IQwc40reB8Vp2ReBPt6
+ MHFLyZ9pcalhPaoiYMbJl/fiFOrcqDunhv1wbEuiQXX8V+g=
+X-Google-Smtp-Source: ABdhPJzsKfy+BuIV6jZwS0zw2LI03pl+2gynKLhXzwxlGRnZ9pXGYpMHN6BwLbgTgFfXeDwAkn5mMGRHOahwXLrYIBo=
+X-Received: by 2002:a2e:8983:: with SMTP id c3mr1432602lji.171.1602082593326; 
+ Wed, 07 Oct 2020 07:56:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87imbmih3d.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201007145300.1197-1-luoyonggang@gmail.com>
+In-Reply-To: <20201007145300.1197-1-luoyonggang@gmail.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Wed, 7 Oct 2020 22:56:21 +0800
+Message-ID: <CAE2XoE_5J07roLdUzPZzZx_KHvO-oLHSZGBSSw5wb42qD7vn0A@mail.gmail.com>
+Subject: Re: [PATCH v5 0/2] Improve cirrus msys2
+To: qemu-level <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000e04b0d05b115eb91"
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,154 +78,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Reply-To: luoyonggang@gmail.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/20 4:19 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> Petty style guide fixes and line length enforcement.  Not a big win, not
->> a big loss, but flake8 passes 100% on the qapi module, which gives us an
->> easy baseline to enforce hereafter.
->>
->> A note on the flake8 exception: flake8 will warn on *any* bare except,
->> but pylint's is context-aware and will suppress the warning if you
->> re-raise the exception.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
->> Reviewed-by: Cleber Rosa <crosa@redhat.com>
->> ---
->>   scripts/qapi/.flake8     |  2 ++
->>   scripts/qapi/commands.py |  3 ++-
->>   scripts/qapi/schema.py   |  8 +++++---
->>   scripts/qapi/visit.py    | 16 +++++++++++-----
->>   4 files changed, 20 insertions(+), 9 deletions(-)
->>   create mode 100644 scripts/qapi/.flake8
->>
->> diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
->> new file mode 100644
->> index 00000000000..6b158c68b84
->> --- /dev/null
->> +++ b/scripts/qapi/.flake8
->> @@ -0,0 +1,2 @@
->> +[flake8]
->> +extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
->> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
->> index 64ed5278f93..5dc2f5a9fa8 100644
->> --- a/scripts/qapi/commands.py
->> +++ b/scripts/qapi/commands.py
->> @@ -65,7 +65,8 @@ def gen_call(name, arg_type, boxed, ret_type):
->>   def gen_marshal_output(ret_type):
->>       return mcgen('''
->>   
->> -static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out, Error **errp)
->> +static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in,
->> +                                QObject **ret_out, Error **errp)
->>   {
->>       Visitor *v;
->>   
->> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
->> index 093f7a38d88..cfc52e1ae44 100644
->> --- a/scripts/qapi/schema.py
->> +++ b/scripts/qapi/schema.py
->> @@ -536,7 +536,7 @@ def set_defined_in(self, name):
->>               v.set_defined_in(name)
->>   
->>       def check(self, schema, seen):
->> -        if not self.tag_member: # flat union
->> +        if not self.tag_member:  # flat union
->>               self.tag_member = seen.get(c_name(self._tag_name))
->>               base = "'base'"
->>               # Pointing to the base type when not implicit would be
->> @@ -821,7 +821,7 @@ def __init__(self, fname):
->>           self._entity_dict = {}
->>           self._module_dict = OrderedDict()
->>           self._schema_dir = os.path.dirname(fname)
->> -        self._make_module(None) # built-ins
->> +        self._make_module(None)  # built-ins
->>           self._make_module(fname)
->>           self._predefining = True
->>           self._def_predefineds()
->> @@ -965,7 +965,9 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
->>               # But it's not tight: the disjunction need not imply it.  We
->>               # may end up compiling useless wrapper types.
->>               # TODO kill simple unions or implement the disjunction
->> -            assert (ifcond or []) == typ._ifcond # pylint: disable=protected-access
->> +
->> +            # pylint: disable=protected-access
->> +            assert (ifcond or []) == typ._ifcond
->>           else:
->>               self._def_entity(QAPISchemaObjectType(
->>                   name, info, None, ifcond, None, None, members, None))
->> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
->> index ea277e7704b..808410d6f1b 100644
->> --- a/scripts/qapi/visit.py
->> +++ b/scripts/qapi/visit.py
->> @@ -31,7 +31,9 @@ def gen_visit_decl(name, scalar=False):
->>       if not scalar:
->>           c_type += '*'
->>       return mcgen('''
->> -bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_type)sobj, Error **errp);
->> +
->> +bool visit_type_%(c_name)s(Visitor *v, const char *name,
->> +                 %(c_type)sobj, Error **errp);
->>   ''',
->>                    c_name=c_name(name), c_type=c_type)
->>   
->> @@ -125,7 +127,8 @@ def gen_visit_object_members(name, base, members, variants):
->>   def gen_visit_list(name, element_type):
->>       return mcgen('''
->>   
->> -bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
->> +bool visit_type_%(c_name)s(Visitor *v, const char *name,
->> +                 %(c_name)s **obj, Error **errp)
->>   {
->>       bool ok = false;
->>       %(c_name)s *tail;
->> @@ -158,7 +161,8 @@ def gen_visit_list(name, element_type):
->>   def gen_visit_enum(name):
->>       return mcgen('''
->>   
->> -bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s *obj, Error **errp)
->> +bool visit_type_%(c_name)s(Visitor *v, const char *name,
->> +                 %(c_name)s *obj, Error **errp)
->>   {
->>       int value = *obj;
->>       bool ok = visit_type_enum(v, name, &value, &%(c_name)s_lookup, errp);
->> @@ -172,7 +176,8 @@ def gen_visit_enum(name):
->>   def gen_visit_alternate(name, variants):
->>       ret = mcgen('''
->>   
->> -bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
->> +bool visit_type_%(c_name)s
->> +    (Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
-> 
-> Please break this line the same way as the ones above:
-> 
->     bool visit_type_%(c_name)s(Visitor *v, const char *name,
->                      %(c_name)s **obj, Error **errp)
-> 
->>   {
->>       bool ok = false;
->>   
->> @@ -247,7 +252,8 @@ def gen_visit_alternate(name, variants):
->>   def gen_visit_object(name, base, members, variants):
->>       return mcgen('''
->>   
->> -bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
->> +bool visit_type_%(c_name)s
->> +    (Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
->>   {
->>       bool ok = false;
-> 
-> Likewise.
-> 
+--000000000000e04b0d05b115eb91
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Whupps. Bad conflict resolution on my part. Didn't mean to do this.
+CC Alex, now it's really fixed
 
---js
+On Wed, Oct 7, 2020 at 10:53 PM Yonggang Luo <luoyonggang@gmail.com> wrote:
+>
+> Fixes the broken msys2/mingw ci and speed it up.
+>
+> V4-V5
+> Now the cache are usefull by using 7zip to archive msys64
+> Saved about 18min, compare
+> https://cirrus-ci.com/task/5093551157542912
+> https://cirrus-ci.com/task/6177196538593280
+>
+> V3-V4
+> Using cirrus cache to speed up msys2 ci instead of downloading archive
+file
+>
+> V2-V3
+> Add one more patch:
+> cirrus: msys2/mingw speed is up, add excluded target back
+> Do not build sphinx on windows, that's failing
+> set the number of parallel count to fixed number 8
+>
+> V1-V2
+> Resolve the cirrus conflict
+>
+> Yonggang Luo (2):
+>   cirrus: Fixing and speedup the msys2/mingw CI
+>   cirrus: msys2/mingw speed is up, add excluded target back
+>
+>  .cirrus.yml | 113 +++++++++++++++++++++++++++++++---------------------
+>  1 file changed, 67 insertions(+), 46 deletions(-)
+>
+> --
+> 2.28.0.windows.1
+>
 
+
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--000000000000e04b0d05b115eb91
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">CC Alex, now it&#39;s really fixed<div><br>On Wed, Oct 7, =
+2020 at 10:53 PM Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">=
+luoyonggang@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt; Fixes the broken msys2=
+/mingw ci and speed it up.<br>&gt;<br>&gt; V4-V5<br>&gt; Now the cache are =
+usefull by using 7zip to archive msys64<br>&gt; Saved about 18min, compare<=
+br>&gt; <a href=3D"https://cirrus-ci.com/task/5093551157542912">https://cir=
+rus-ci.com/task/5093551157542912</a><br>&gt; <a href=3D"https://cirrus-ci.c=
+om/task/6177196538593280">https://cirrus-ci.com/task/6177196538593280</a><b=
+r>&gt;<br>&gt; V3-V4<br>&gt; Using cirrus cache to speed up msys2 ci instea=
+d of downloading archive file<br>&gt;<br>&gt; V2-V3<br>&gt; Add one more pa=
+tch:<br>&gt; cirrus: msys2/mingw speed is up, add excluded target back<br>&=
+gt; Do not build sphinx on windows, that&#39;s failing<br>&gt; set the numb=
+er of parallel count to fixed number 8<br>&gt;<br>&gt; V1-V2<br>&gt; Resolv=
+e the cirrus conflict<br>&gt;<br>&gt; Yonggang Luo (2):<br>&gt; =C2=A0 cirr=
+us: Fixing and speedup the msys2/mingw CI<br>&gt; =C2=A0 cirrus: msys2/ming=
+w speed is up, add excluded target back<br>&gt;<br>&gt; =C2=A0.cirrus.yml |=
+ 113 +++++++++++++++++++++++++++++++---------------------<br>&gt; =C2=A01 f=
+ile changed, 67 insertions(+), 46 deletions(-)<br>&gt;<br>&gt; --<br>&gt; 2=
+.28.0.windows.1<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=
+=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
+
+--000000000000e04b0d05b115eb91--
 
