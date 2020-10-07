@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF45285D4E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 12:50:02 +0200 (CEST)
-Received: from localhost ([::1]:60560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784FE285DAD
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 12:57:21 +0200 (CEST)
+Received: from localhost ([::1]:39576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ71F-0001dg-LD
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 06:50:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48202)
+	id 1kQ78K-00056p-9N
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 06:57:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQ6za-0000l2-44
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 06:48:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQ6zY-0001Ca-2k
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 06:48:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602067695;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ya6O5cqck50WgGNUT5w2qYKSjg7Ab2CofO7s+gDR1Hk=;
- b=SrcAbS4dqjU7VO7IkzVhNBjiX/fXERkEVYRkgORgE7O8xfPNsjZe/rQf4oc6n2tm16upBC
- e6oiiaOg+OEniV/4KryAlGm95Z8U4g839QOt6fjoR6i1exbnOOwFMxiP4CXF57YHD1WhEq
- eSvodPkOKOel1wSy5ft7KJv2MnJbD40=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-1DK8heIuM4eNb_aMJAorLA-1; Wed, 07 Oct 2020 06:48:11 -0400
-X-MC-Unique: 1DK8heIuM4eNb_aMJAorLA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19A09420F0;
- Wed,  7 Oct 2020 10:48:09 +0000 (UTC)
-Received: from work-vm (ovpn-112-50.ams2.redhat.com [10.36.112.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBF7C5C1BD;
- Wed,  7 Oct 2020 10:48:02 +0000 (UTC)
-Date: Wed, 7 Oct 2020 11:48:00 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH  01/19] tools/virtiofsd: add support for --socket-group
-Message-ID: <20201007104800.GB3085@work-vm>
-References: <20200925125147.26943-1-alex.bennee@linaro.org>
- <20200925125147.26943-2-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kQ76h-00044L-G1; Wed, 07 Oct 2020 06:55:39 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:38549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kQ76f-0002Al-Jo; Wed, 07 Oct 2020 06:55:39 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id j33so1141859pgj.5;
+ Wed, 07 Oct 2020 03:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aU0/ppJ4UFoywdQxLOg8ORAl3MTzk8SpPwA+YB/UwyQ=;
+ b=lIF+N4KZQY5UVY1fYGx9n/mXDSBF+UAfRhmx7gjudGjDw9mwU53ckucMuU86BQCROc
+ sy+GAp5IguohbvLrnE54qzsMhA22Ufz4lbGrVeqgte+YQCsEPmU9HHXxmtj7prhZMaEP
+ WWLXyhwHm7gO5oJK/08J9I48AGq6iBEwcWpDYi3QiS/cGqrLz32qDUSfbm468geoJFOt
+ bhLfyARbec045WRGPZym9FzGAcM19nSzDyULhuTbov6yvx4iqOtVK3/S2ylGxvKoEykn
+ tIpY48CuJr9TUBpV6Bi8XOch5Qm0p2P+/fzWr6j+WQ+aKvXjqMiD6IhPbCbTfsEJmn5M
+ NwKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aU0/ppJ4UFoywdQxLOg8ORAl3MTzk8SpPwA+YB/UwyQ=;
+ b=GV5TNUxg2bKBeXqaCQo+VAlhU0EDGUhIdEt9Oq7IQqF6xDIbpJ0XdFHikt7SOTyBn9
+ JW/O/K1XdhftM0ko8Nc+1gTi9zU8o9jXZ9mfCVXo8u9Tj+HxIIN4JLUqXzKJ4Za9Un0L
+ JUyX/EQXLRY6ov/Pq+kiWtw/GCg+bzik485sAVfOomChkfFf3O+4KzO6WBFuGZaN+7iR
+ X4xvCe1TJmEmcL7W0Cx2UV/ustvb+shbdFihVla1isn62UCt/zwrMjy77LlTEp9JoVvA
+ lGW7OvFCkIl/eUGVx0SQNr5Pyx90eU8i2iHUI8mc+ZnBLRdOJJngjETgWfb1PDFDZdiq
+ EX2w==
+X-Gm-Message-State: AOAM531Q5XYuEpsq71rDVaY6WXfyfDyOYtsRCW9+OKiNkPcDxjpvKFiX
+ AGb2mxYCqDPq3/+IE4J23JTEXSvgwdK1sg==
+X-Google-Smtp-Source: ABdhPJw8Xwoe1pUM6hsIOISdGFI+qh4d4dY9qhmGqB6ogXnm6Qq/hn3FpukUwHR+VDITfsySN+xMaQ==
+X-Received: by 2002:a63:2145:: with SMTP id s5mr2354266pgm.288.1602068135152; 
+ Wed, 07 Oct 2020 03:55:35 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id d6sm1947351pjz.12.2020.10.07.03.55.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Oct 2020 03:55:34 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/2] Improve cirrus msys2
+Date: Wed,  7 Oct 2020 18:55:16 +0800
+Message-Id: <20201007105518.1019-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20200925125147.26943-2-alex.bennee@linaro.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 00:44:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.733,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,136 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jean-philippe@linaro.org, maxim.uvarov@linaro.org, bing.zhu@intel.com,
- Matti.Moell@opensynergy.com, virtualization@lists.linuxfoundation.org,
- ilias.apalodimas@linaro.org, qemu-devel@nongnu.org, arnd@linaro.org,
- hmo@opensynergy.com, takahiro.akashi@linaro.org,
- Stefan Hajnoczi <stefanha@redhat.com>, joakim.bech@linaro.org,
- stratos-dev@op-lists.linaro.org, tomas.winkler@intel.com, yang.huang@intel.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Alex Bennée (alex.bennee@linaro.org) wrote:
-> If you like running QEMU as a normal user (very common for TCG runs)
-> but you have to run virtiofsd as a root user you run into connection
-> problems. Adding support for an optional --socket-group allows the
-> users to keep using the command line.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
-Queued
-
-> ---
-> v1
->   - tweak documentation and commentary
-> ---
->  docs/tools/virtiofsd.rst        |  4 ++++
->  tools/virtiofsd/fuse_i.h        |  1 +
->  tools/virtiofsd/fuse_lowlevel.c |  6 ++++++
->  tools/virtiofsd/fuse_virtio.c   | 20 ++++++++++++++++++--
->  4 files changed, 29 insertions(+), 2 deletions(-)
-> 
-> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> index e33c81ed41f1..085f9b12a6a3 100644
-> --- a/docs/tools/virtiofsd.rst
-> +++ b/docs/tools/virtiofsd.rst
-> @@ -87,6 +87,10 @@ Options
->  
->    Listen on vhost-user UNIX domain socket at PATH.
->  
-> +.. option:: --socket-group=GROUP
-> +
-> +  Set the vhost-user UNIX domain socket gid to GROUP.
-> +
->  .. option:: --fd=FDNUM
->  
->    Accept connections from vhost-user UNIX domain socket file descriptor FDNUM.
-> diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
-> index 1240828208ab..492e002181e2 100644
-> --- a/tools/virtiofsd/fuse_i.h
-> +++ b/tools/virtiofsd/fuse_i.h
-> @@ -68,6 +68,7 @@ struct fuse_session {
->      size_t bufsize;
->      int error;
->      char *vu_socket_path;
-> +    char *vu_socket_group;
->      int   vu_listen_fd;
->      int   vu_socketfd;
->      struct fv_VuDev *virtio_dev;
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index 2dd36ec03b6e..4d1ba2925d1b 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -2523,6 +2523,7 @@ static const struct fuse_opt fuse_ll_opts[] = {
->      LL_OPTION("--debug", debug, 1),
->      LL_OPTION("allow_root", deny_others, 1),
->      LL_OPTION("--socket-path=%s", vu_socket_path, 0),
-> +    LL_OPTION("--socket-group=%s", vu_socket_group, 0),
->      LL_OPTION("--fd=%d", vu_listen_fd, 0),
->      LL_OPTION("--thread-pool-size=%d", thread_pool_size, 0),
->      FUSE_OPT_END
-> @@ -2630,6 +2631,11 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
->                   "fuse: --socket-path and --fd cannot be given together\n");
->          goto out4;
->      }
-> +    if (se->vu_socket_group && !se->vu_socket_path) {
-> +        fuse_log(FUSE_LOG_ERR,
-> +                 "fuse: --socket-group can only be used with --socket-path\n");
-> +        goto out4;
-> +    }
->  
->      se->bufsize = FUSE_MAX_MAX_PAGES * getpagesize() + FUSE_BUFFER_HEADER_SIZE;
->  
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index 9e5537506c16..7942d3d11a87 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -31,6 +31,8 @@
->  #include <sys/socket.h>
->  #include <sys/types.h>
->  #include <sys/un.h>
-> +#include <sys/types.h>
-> +#include <grp.h>
->  #include <unistd.h>
->  
->  #include "contrib/libvhost-user/libvhost-user.h"
-> @@ -924,15 +926,29 @@ static int fv_create_listen_socket(struct fuse_session *se)
->  
->      /*
->       * Unfortunately bind doesn't let you set the mask on the socket,
-> -     * so set umask to 077 and restore it later.
-> +     * so set umask appropriately and restore it later.
->       */
-> -    old_umask = umask(0077);
-> +    if (se->vu_socket_group) {
-> +        old_umask = umask(S_IROTH | S_IWOTH | S_IXOTH);
-> +    } else {
-> +        old_umask = umask(S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
-> +    }
->      if (bind(listen_sock, (struct sockaddr *)&un, addr_len) == -1) {
->          fuse_log(FUSE_LOG_ERR, "vhost socket bind: %m\n");
->          close(listen_sock);
->          umask(old_umask);
->          return -1;
->      }
-> +    if (se->vu_socket_group) {
-> +        struct group *g = getgrnam(se->vu_socket_group);
-> +        if (g) {
-> +            if (!chown(se->vu_socket_path, -1, g->gr_gid)) {
-> +                fuse_log(FUSE_LOG_WARNING,
-> +                         "vhost socket failed to set group to %s (%d)\n",
-> +                         se->vu_socket_group, g->gr_gid);
-> +            }
-> +        }
-> +    }
->      umask(old_umask);
->  
->      if (listen(listen_sock, 1) == -1) {
-> -- 
-> 2.20.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Fixes the broken msys2/mingw ci and speed it up.=0D
+=0D
+V3-V4=0D
+Using cirrus cache to speed up msys2 ci instead of downloading archive file=
+=0D
+=0D
+V2-V3=0D
+Add one more patch:=0D
+cirrus: msys2/mingw speed is up, add excluded target back=0D
+Do not build sphinx on windows, that's failing=0D
+set the number of parallel count to fixed number 8=0D
+=0D
+V1-V2=0D
+Resolve the cirrus conflict=0D
+=0D
+Yonggang Luo (2):=0D
+  cirrus: Fixing and speedup the msys2/mingw CI=0D
+  cirrus: msys2/mingw speed is up, add excluded target back=0D
+=0D
+ .cirrus.yml | 107 +++++++++++++++++++++++++++++-----------------------=0D
+ 1 file changed, 60 insertions(+), 47 deletions(-)=0D
+=0D
+-- =0D
+2.28.0.windows.1=0D
+=0D
 
