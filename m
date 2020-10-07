@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D09C2857D7
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:41:12 +0200 (CEST)
-Received: from localhost ([::1]:50040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE74C2857CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 06:36:10 +0200 (CEST)
+Received: from localhost ([::1]:41530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ1GI-0002x2-VV
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
+	id 1kQ1BR-0007lq-OF
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 00:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQ15J-0002RB-E1
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37530)
+ id 1kQ15H-0002NM-LZ
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQ15G-0005P6-EX
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:49 -0400
+ id 1kQ15F-0005OW-RI
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 00:29:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kQ15D-00027L-Ko
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:29:43 +0000
+ id 1kQ15C-00027L-9j
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 04:29:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4496B2E811C
- for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 04:29:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EECBC2E8118
+ for <qemu-devel@nongnu.org>; Wed,  7 Oct 2020 04:29:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Oct 2020 04:17:25 -0000
-From: Launchpad Bug Tracker <1245543@bugs.launchpad.net>
+Date: Wed, 07 Oct 2020 04:17:26 -0000
+From: Launchpad Bug Tracker <1280521@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: bell labs plan
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor p12 th-huth
-X-Launchpad-Bug-Reporter: Povilas Kanapickas (p12)
+X-Launchpad-Bug-Commenters: janitor silverwerwolf13 th-huth
+X-Launchpad-Bug-Reporter: Jinx (silverwerwolf13)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20131028155324.10487.34334.malonedeb@wampee.canonical.com>
-Message-Id: <160204424557.20421.8748268192879610058.malone@loganberry.canonical.com>
-Subject: [Bug 1245543] Re: Wrong implementation of SSE4.1 pmovzxbw and similar
- instructions
+References: <20140215035259.1834.30563.malonedeb@wampee.canonical.com>
+Message-Id: <160204424677.20421.14816106578334618610.malone@loganberry.canonical.com>
+Subject: [Bug 1280521] Re: Plan 9 can't use GUI well emulating a RTL8139 card
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d50d1e75c500726862802414f880ee3e3bb759bf"; Instance="production"
-X-Launchpad-Hash: d3c567432d437740eac5839672b457976c43044b
+X-Launchpad-Hash: 9b81001faa58d61203b33bb27998d8f6cdd33033
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/06 22:50:47
@@ -73,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1245543 <1245543@bugs.launchpad.net>
+Reply-To: Bug 1280521 <1280521@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,44 +86,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1245543
+https://bugs.launchpad.net/bugs/1280521
 
 Title:
-  Wrong implementation of SSE4.1 pmovzxbw and similar instructions
+  Plan 9 can't use GUI well emulating a RTL8139 card
 
 Status in QEMU:
   Expired
 
 Bug description:
-  QEMU 1.5.0 (and git version, as far as I can tell from the source
-  code) has incorrect implementation of pmovzxbw and similar SSE4.1
-  instructions. The instruction zero-extends the first 8 8-bit elements
-  of a vector to 16bit vector and puts them to another vector. The
-  current implementation applies this operation only to the first
-  element and zeros out the rest.
-
-  To verify, compile the attached program for SSE4.1 (g++ -msse4.1
-  cvtint.cc). On real hardware, it produces the following output:
-
-  $ ./a.out
-  1 0 2 0 3 0 4 0 5 0 6 0 7 0 8 0
-
-  On QEMU, the output is as follows:
-
-  $ ./a.out
-  1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-
-  QEMU is invoked as:
-
-  qemu-system-x86_64 \
-      -M pc -cpu Haswell,+sse4.1,+avx,+avx2,+fma,enforce -m 512 \
-      -serial stdio -no-reboot \
-      -kernel vmlinuz -initrd initrd.img \
-      -netdev user,id=3Duser.0 -device rtl8139,netdev=3Duser.0  -redir tcp:=
-2222::22 \
-      -hda ubuntu-amd64.ext3 \
-      --append "rw console=3Dtty root=3D/dev/sda"
+  The OS Plan 9 from Bell Labs runs fine in QEMU/KVM for the most part
+  buy is unable to boot its GUI when emulating a RTL8139 WiFi card. I
+  hear someone was able to get it working under a Windows XP host but I
+  can't seem to do it under a Gentoo host. If you have any idea what may
+  be doing this I would love to hear it.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1245543/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1280521/+subscriptions
 
