@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B88D286939
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 22:39:10 +0200 (CEST)
-Received: from localhost ([::1]:55556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3AE286948
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 22:41:19 +0200 (CEST)
+Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQGDN-0001Zn-Ks
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 16:39:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40230)
+	id 1kQGFS-00048q-Uw
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 16:41:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1kQGBn-0000It-Ua
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 16:37:31 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36188)
+ id 1kQGBo-0000JC-Uh
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 16:37:32 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1kQGBm-0000f4-Dv
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 16:37:31 -0400
-Received: by mail-wm1-x341.google.com with SMTP id e2so4035475wme.1
+ id 1kQGBn-0000fA-0E
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 16:37:32 -0400
+Received: by mail-wm1-x344.google.com with SMTP id d3so4020306wma.4
  for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 13:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GafXqa426HzZ2OyxbkkhzXpXgv6Bqp75Rh5uU2w03mw=;
- b=MxLJ6FG793Xg5O6NA/4J1hntNX3P+yt+kgjKoa6+XNNwJfg4pan6YeiA+Dr66YKKr3
- QBnWQpHXeqxET9MEW18wIzIx20nLJaZonQ+wZV6YGTkAY8r40P4AFEcw0A6IIOiN85r8
- SuX5IzzVngwVOohiWViUOooFBG7Dr/eCHDxCvtKjIYe46Riobz1K5UkMmOh9O1ovJg9P
- fNVFikoCFSovH9uNG3JXCS0b5v2GBJ7vXxcTN9tXziFg9syun8AMwvt7xfyq3cyKDyLY
- bP5er4hJkmMgRjOYm1jzaUEng5OkySYHjM9qhjw5mT0KJJR1KqTTrEWNxaqYvUCBtTpc
- 5BdA==
+ bh=WdyVXUc2deHqtDmYixw/LLsWT34INAaf3aGNIyqajvQ=;
+ b=c2uowbmMmArlc5W/H31QV7rRo4wS/DXVGcHBYVeXfaUbZnzGcHVBGt8Wx3sBtlkrSM
+ avXSsbGFOP3Iop0DIxuApBsCGoUhrIAKM81krjzXTMuAt6bXKZCCTwCWOmlYF9g85Tak
+ As8nQ5HZrld48/IdlDv0/4Xp7WuzEavKqd9mGNlaVdRpltxkW7OCrXhNXpvTptnQIqX6
+ SBAK8PCr8/FLx5bxhAMWkmn532j2CF1HHF78thDabBjZcXWP33cl7evjrx3mAPmaZZ+x
+ arSACOFoXBI84t61ZAn/lECvYf1IF8LPYYD7JSt7U0ADsNmPQcVENHOAi6DdP6nHU0qy
+ 336A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=GafXqa426HzZ2OyxbkkhzXpXgv6Bqp75Rh5uU2w03mw=;
- b=rPPnDjcaiv5xxEIupo5/vETpXsAfHJwCkbsB0ASjp+rApn+Vq4R8EFR/IhnCI8ZLEb
- PrbJJXsNh2FIR+TaCIG2SaZtVP8Jykr6FDoSJf+qq9x9u0zY4yDV57oRlxMgYjuxc5kW
- 92XmDxceb/qAwaNcRXC3lMKiLH9nl0m0pfsUATABYhXjC9cNgYUU/CnrkdSdrc64N2YJ
- 7XExlAsxMpAAD+KpK2+OswHQ1uS3k1veuoxyjP/XHuuIL0GEXgShzpPnCfJrTErDBj0b
- pUamss6x4o3hgCWHeKd03GSyt3QvQSz8r4WY3Jmn+hUHldv03k4cfAzXgmNJO6QSQNKj
- JXlQ==
-X-Gm-Message-State: AOAM532Y2nT9nGK+0MI5zoExGlkSBaqnutJwRD+qTZyrQde2VHms42Nd
- FSx88utJFBM3f2MiRBjqMxlIEXOSG8c=
-X-Google-Smtp-Source: ABdhPJxw9zJ/H8vHFRKX09VYq2XxKeiPTeKkGXC+BQTiJFJwHwhAKIL9A0JS285vL5k0AlTF3U8Y/Q==
-X-Received: by 2002:a1c:e919:: with SMTP id q25mr5005318wmc.142.1602103048849; 
- Wed, 07 Oct 2020 13:37:28 -0700 (PDT)
+ bh=WdyVXUc2deHqtDmYixw/LLsWT34INAaf3aGNIyqajvQ=;
+ b=dxbXB3paTFO68DLeO47ZtnYC+OMmHwcDmwnQx5/HWkgCLjdieB5HITFz0toCUgj7K+
+ d4z+clvQ1eCQ4gO7nkeOYS48lnvUkfYAouIn9Jd+0T+VJXaOFl2yuUFn6IyVLU6cIidJ
+ 8zA5WtW0CQRLbrHokvImY7JaQbBgO39YZlRNcjM1xxgLg1WQoz0MgW5/rNA1hsmyCTNE
+ QozVV+EqgdTo22MySeDDBbEMWzGSR3mR68bRfQm0CBSCU5xHpoxZ3sYUdaVxleR1Glf6
+ dRU4iTW8WLXgqx8u3uKNiTCYsftiVufGw8ZVreyPuSrjvCF2i3jHY7oOWkzR6TGW6kVa
+ mSLg==
+X-Gm-Message-State: AOAM533ZyKhXtcsatpEI08F4pBb0YEwjMQmffD2AOisUAKf8LM/Y9S7G
+ Kv3wmL6JscGzssiN3JmkrBmJ/tZ8r1c=
+X-Google-Smtp-Source: ABdhPJzj8GbBmUo8GHDFtNnSySFQAVmn/mxFvfb7LK6JGfKMxjq0lpuPGxQV3GlCD+oThB2Zi/60CQ==
+X-Received: by 2002:a1c:8088:: with SMTP id b130mr4895175wmd.132.1602103049666; 
+ Wed, 07 Oct 2020 13:37:29 -0700 (PDT)
 Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
  by smtp.gmail.com with ESMTPSA id d2sm4359083wro.34.2020.10.07.13.37.28
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Oct 2020 13:37:28 -0700 (PDT)
+ Wed, 07 Oct 2020 13:37:29 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] target/mips: Demacro helpers for <ABS|CHS>.<D|S|PS>
-Date: Wed,  7 Oct 2020 22:37:17 +0200
-Message-Id: <1602103041-32017-2-git-send-email-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH v2 2/5] target/mips: Demacro helpers for M<ADD|SUB>F.<D|S>
+Date: Wed,  7 Oct 2020 22:37:18 +0200
+Message-Id: <1602103041-32017-3-git-send-email-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1602103041-32017-1-git-send-email-aleksandar.qemu.devel@gmail.com>
 References: <1602103041-32017-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,81 +91,85 @@ Remove function definitions via macros to achieve better code clarity.
 
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 ---
- target/mips/fpu_helper.c | 61 +++++++++++++++++++++++++++++++-----------------
- 1 file changed, 40 insertions(+), 21 deletions(-)
+ target/mips/fpu_helper.c | 63 +++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 46 insertions(+), 17 deletions(-)
 
 diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index 56beda4..f851723 100644
+index f851723..b3c7154 100644
 --- a/target/mips/fpu_helper.c
 +++ b/target/mips/fpu_helper.c
-@@ -983,27 +983,46 @@ uint32_t helper_float_floor_2008_w_s(CPUMIPSState *env, uint32_t fst0)
+@@ -1666,25 +1666,54 @@ uint64_t helper_float_nmsub_ps(CPUMIPSState *env, uint64_t fdt0,
  }
  
- /* unary operations, not modifying fp status  */
--#define FLOAT_UNOP(name)                                       \
--uint64_t helper_float_ ## name ## _d(uint64_t fdt0)                \
--{                                                              \
--    return float64_ ## name(fdt0);                             \
--}                                                              \
--uint32_t helper_float_ ## name ## _s(uint32_t fst0)                \
--{                                                              \
--    return float32_ ## name(fst0);                             \
--}                                                              \
--uint64_t helper_float_ ## name ## _ps(uint64_t fdt0)               \
--{                                                              \
--    uint32_t wt0;                                              \
--    uint32_t wth0;                                             \
--                                                               \
--    wt0 = float32_ ## name(fdt0 & 0XFFFFFFFF);                 \
--    wth0 = float32_ ## name(fdt0 >> 32);                       \
--    return ((uint64_t)wth0 << 32) | wt0;                       \
--}
--FLOAT_UNOP(abs)
--FLOAT_UNOP(chs)
--#undef FLOAT_UNOP
-+
-+uint64_t helper_float_abs_d(uint64_t fdt0)
-+{
-+   return float64_abs(fdt0);
-+}
-+
-+uint32_t helper_float_abs_s(uint32_t fst0)
-+{
-+    return float32_abs(fst0);
-+}
-+
-+uint64_t helper_float_abs_ps(uint64_t fdt0)
-+{
-+    uint32_t wt0;
-+    uint32_t wth0;
-+
-+    wt0 = float32_abs(fdt0 & 0XFFFFFFFF);
-+    wth0 = float32_abs(fdt0 >> 32);
-+    return ((uint64_t)wth0 << 32) | wt0;
-+}
-+
-+uint64_t helper_float_chs_d(uint64_t fdt0)
-+{
-+   return float64_chs(fdt0);
-+}
-+
-+uint32_t helper_float_chs_s(uint32_t fst0)
-+{
-+    return float32_chs(fst0);
-+}
-+
-+uint64_t helper_float_chs_ps(uint64_t fdt0)
-+{
-+    uint32_t wt0;
-+    uint32_t wth0;
-+
-+    wt0 = float32_chs(fdt0 & 0XFFFFFFFF);
-+    wth0 = float32_chs(fdt0 >> 32);
-+    return ((uint64_t)wth0 << 32) | wt0;
-+}
  
- /* MIPS specific unary operations */
- uint64_t helper_float_recip_d(CPUMIPSState *env, uint64_t fdt0)
+-#define FLOAT_FMADDSUB(name, bits, muladd_arg)                          \
+-uint ## bits ## _t helper_float_ ## name(CPUMIPSState *env,             \
+-                                         uint ## bits ## _t fs,         \
+-                                         uint ## bits ## _t ft,         \
+-                                         uint ## bits ## _t fd)         \
+-{                                                                       \
+-    uint ## bits ## _t fdret;                                           \
+-                                                                        \
+-    fdret = float ## bits ## _muladd(fs, ft, fd, muladd_arg,            \
+-                                     &env->active_fpu.fp_status);       \
+-    update_fcr31(env, GETPC());                                         \
+-    return fdret;                                                       \
++uint32_t helper_float_maddf_s(CPUMIPSState *env, uint32_t fs,
++                              uint32_t ft, uint32_t fd)
++{
++    uint32_t fdret;
++
++    fdret = float32_muladd(fs, ft, fd, 0,
++                           &env->active_fpu.fp_status);
++
++    update_fcr31(env, GETPC());
++    return fdret;
++}
++
++uint64_t helper_float_maddf_d(CPUMIPSState *env, uint64_t fs,
++                              uint64_t ft, uint64_t fd)
++{
++    uint64_t fdret;
++
++    fdret = float64_muladd(fs, ft, fd, 0,
++                           &env->active_fpu.fp_status);
++
++    update_fcr31(env, GETPC());
++    return fdret;
++}
++
++uint32_t helper_float_msubf_s(CPUMIPSState *env, uint32_t fs,
++                              uint32_t ft, uint32_t fd)
++{
++    uint32_t fdret;
++
++    fdret = float32_muladd(fs, ft, fd, float_muladd_negate_product,
++                           &env->active_fpu.fp_status);
++
++    update_fcr31(env, GETPC());
++    return fdret;
++}
++
++uint64_t helper_float_msubf_d(CPUMIPSState *env, uint64_t fs,
++                              uint64_t ft, uint64_t fd)
++{
++    uint64_t fdret;
++
++    fdret = float64_muladd(fs, ft, fd, float_muladd_negate_product,
++                           &env->active_fpu.fp_status);
++
++    update_fcr31(env, GETPC());
++    return fdret;
+ }
+ 
+-FLOAT_FMADDSUB(maddf_s, 32, 0)
+-FLOAT_FMADDSUB(maddf_d, 64, 0)
+-FLOAT_FMADDSUB(msubf_s, 32, float_muladd_negate_product)
+-FLOAT_FMADDSUB(msubf_d, 64, float_muladd_negate_product)
+-#undef FLOAT_FMADDSUB
+ 
+ /* compare operations */
+ #define FOP_COND_D(op, cond)                                   \
 -- 
 2.7.4
 
