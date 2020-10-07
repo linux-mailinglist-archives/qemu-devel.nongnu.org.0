@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB7D286530
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:48:09 +0200 (CEST)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E7C2864B3
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:41:16 +0200 (CEST)
+Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCbo-00060R-1x
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:48:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38068)
+	id 1kQCV9-0005FG-Oa
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kQC5s-0000sL-VE
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:15:09 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:35520)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kQCAU-0007d2-P2
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:19:54 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:43039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kQC5r-0004Kj-39
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:15:08 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id h4so1289043pjk.0
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:15:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kQCAS-00051O-Sy
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:19:54 -0400
+Received: by mail-pf1-x442.google.com with SMTP id a200so1587377pfa.10
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:19:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id;
- bh=DG2nrlvatmFFRKoNdt2NAWFpJu3wf9C7KKq+Fb3UDB8=;
- b=WePvgcq9GSF1PTApteE+tsDsYI2C2g6shs548u6ADIgnULczIIrqA9wZdeQ9jF+zSf
- m6JG0tWN6XcxH62nRRT+AzlCi8FEGqxRnbXlmVOGGo6MfrUXe2b2aYC3UWMC0CPi/NaW
- GR2if4iKJpUV1dKrDgwzBhhQz89r7yJRWsSy471PZpvhCvX6nJ3F7yyg+1FJzeMlcpPu
- ADPnybigpEyYrsm+ab7peK6Q50rg8aCxuaisL/79CPfngVvJqyl108KWmHZXj37Cqnkt
- FyAjjCaaJcwUeLoJNjyV2asLyEHTJXuSbrV0N2mDkWLCM5d3XdoHX0g0GoT1XMfHiXxE
- PBpQ==
+ bh=hcRAOCfuF8XPx2+9nsCqvwz545nb6aVskVQEO7EWm7M=;
+ b=bdfEMKRAt5YAw2Ag/Eoc1UTE3MBTm8El0cKEeFRIPV1NpDJBW8uAO8blIXparIIbQV
+ 2lGb2LV3UIHU5cB75onn5EoEKeyDjevTqyntgsyLJGXeLoiCRYbH85YzOW0ZjzNeuk0T
+ rmJAHT9uPt0TfhWu+6TaqWBHXrx5lWTyKOix3ZcLq0PhATq9dS+5xaMUBB83Gdq02K5u
+ Fq18US3SUhyYliX2iT3Kx0GFHvTLoM2B34y8PUTao2+zcBhBzw01xnpT8LO0I8kbr1DY
+ JlxG9LrSQJh5cjeXmRO8+VjBiflkpL2Ue3PNUS+NuOb/1lXgySsiSYIoomaU79idtGL+
+ Ow/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=DG2nrlvatmFFRKoNdt2NAWFpJu3wf9C7KKq+Fb3UDB8=;
- b=ttX5+LzBYEmZJ+dgytiNghRXdEaOWfnQq6RX58hk6Hm1TNzlAxKiNRhhWiDMg+HTju
- oB3XVN2Mx6A8j9vax0+YAU77MKW0dtjEwlKyQsjNPYNcX3N9hCCHjg0GwoPad4srud3h
- h82gK545tqqkhcRgjtmj0qxih2NtcspnbtL7VRw7VM6ia8DAPg7Hgb6GmO+dLR919vm0
- DqVnpQvAFEUmKuBSY+BshZ8ttpYVUOO6nXzq9cWa2jpwvFzHm8xig3H93F9yGmZ+QNXI
- PxR3aJgVveW5UBRdF+ulTs73yRRjEeN2x+UCOeaIEGwEbcEF/rnQOCwFK4x9eyUqcmPF
- vV6w==
-X-Gm-Message-State: AOAM530u5FIDGIpYgM7NXQ6hgdCT+imqmKP0EtiQuVQ6KUpLtiOYO67S
- r+ARikGnZxJOqQjXiRh4iX/uWHCkTy8coSes
-X-Google-Smtp-Source: ABdhPJzlcUkAtuzRv2rSeCaIPTgW7qDIoS6yNodQ0I7fR9U43N4fzJ/sagtS18G3sVZ/49E1651ZwQ==
-X-Received: by 2002:a17:90a:8e82:: with SMTP id
- f2mr3476492pjo.142.1602087304049; 
- Wed, 07 Oct 2020 09:15:04 -0700 (PDT)
+ bh=hcRAOCfuF8XPx2+9nsCqvwz545nb6aVskVQEO7EWm7M=;
+ b=AR0OB8tMX6biGk8SAIDg+sA87UWgeTo03GWG9uIh56Bz10AOQ/9Bqlbyv1PXVRgPi4
+ 2D/LHsNzCBlpP0qgUGmKevyO4rZMdTUGWiw0n+qoknjC96r5qNSft8Syb7KSpAINr2bp
+ sFFb4vf3j/0tA1yKWZY3vOxHYjpcP8WuDnLUTG6jt5cNfWvAKvAYfRi11nUW+kdGfyas
+ gXiKGrA/59Kw8Gtev5UCkmxRLgbA5RVTxgo4Ns2rwP6yx0NcHh4EXuoXfQFJ60Ct+Gvf
+ VkQLhhzsTGnROQj0/0GIyxt7a5PHywAiq7wFJ4Yx0lfR+kTjqu/LK0fg+pWhE+mSJIDw
+ cztA==
+X-Gm-Message-State: AOAM533EAQMcsUkoKl6NRgzCruZ7C7hVC0lolUpMxTz3W8ptX3h9DiaI
+ ZHOWeqM1iUUbGZ2wubxOLrYNNPEnsanV89L0
+X-Google-Smtp-Source: ABdhPJxIZBGpKb+LZ6U9Xv1Cj2D6ux35fO7hBsYwBIANRCl0URWeleZOZd07eXRyyzQ3bgj4Fe0qzg==
+X-Received: by 2002:a65:5b09:: with SMTP id y9mr3550531pgq.155.1602087590951; 
+ Wed, 07 Oct 2020 09:19:50 -0700 (PDT)
 Received: from localhost.localdomain ([115.96.123.22])
- by smtp.googlemail.com with ESMTPSA id g126sm3783452pfb.32.2020.10.07.09.15.00
+ by smtp.googlemail.com with ESMTPSA id 78sm3718892pfz.211.2020.10.07.09.19.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Oct 2020 09:15:02 -0700 (PDT)
+ Wed, 07 Oct 2020 09:19:49 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] Adding ani's email as an individual contributor
-Date: Wed,  7 Oct 2020 21:44:46 +0530
-Message-Id: <20201007161446.1327-1-ani@anisinha.ca>
+Subject: [PATCH v2] Adding ani's email as an individual contributor
+Date: Wed,  7 Oct 2020 21:49:40 +0530
+Message-Id: <20201007161940.1478-1-ani@anisinha.ca>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: none client-ip=2607:f8b0:4864:20::1043;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1043.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::442;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -87,17 +86,13 @@ correct file to reflect so.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- capstone                            | 2 +-
  contrib/gitdm/group-map-individuals | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ 1 file changed, 1 insertion(+)
 
-diff --git a/capstone b/capstone
-index f8b1b83301..22ead3e0bf 160000
---- a/capstone
-+++ b/capstone
-@@ -1 +1 @@
--Subproject commit f8b1b833015a4ae47110ed068e0deb7106ced66d
-+Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
+changelog:
+v2: removed accidentally added submodule update into this commit
+v1: initial patch
+
 diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
 index cf8a2ce367..64cb859193 100644
 --- a/contrib/gitdm/group-map-individuals
