@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45999286394
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:21:09 +0200 (CEST)
-Received: from localhost ([::1]:34696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB46A2863A2
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 18:22:16 +0200 (CEST)
+Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQCBg-0007zv-8M
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34432)
+	id 1kQCCl-0001M5-QD
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 12:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBrz-0005B1-9J
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:48 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37784)
+ id 1kQBs1-0005DG-7y
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:49 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQBrt-0000se-FP
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:46 -0400
-Received: by mail-wr1-x444.google.com with SMTP id h7so2827207wre.4
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:00:41 -0700 (PDT)
+ id 1kQBrv-0000sp-0j
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 12:00:48 -0400
+Received: by mail-wr1-x429.google.com with SMTP id h7so2827314wre.4
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 09:00:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VjOULhkTXDSoaVBnrNj6AWvIOwwKNW7fA5FR7tjb1fI=;
- b=RT+wdnFtBDRR0rT622mHLDZ23Qw6uAuQ7Ev7dnmqFeppN50jaOeRaAlo9xNoZsaZbK
- vtpZ/QrQLajuZmVgK7cz6P4MWfhTZZIdTDk9ZvatgUAHbehxPJF/Evg4ONjN2kA5jKoj
- Zejdo2a9MCV0ypTXsPBoTdmuHqlG6f1/F70HL3qW6c/SDp5E4pnQJcAmGCZ5wkVJnbpH
- FFQvhcMaXeTwFHTTb086c/tQesrELCoi+jxC5ofOhzW4nry7mYMc5XHygF1wqNX/GPgh
- bdnXi2VbDyuUZsiyNNAjVAfuBnqOwAixsbzedCMsYFe1lM6gyEH1DkU1yrRwf4lD21Lb
- ZYfw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=g9M+cLZqzZD6qLL9uvEMm0RktbZNa4FzWnuD4/zjCec=;
+ b=J5OMXGIaTUhNwynMTd/Mn8H+wMlFaq7tTkOOe4tchT0uu+RUHVr86onCqFbB7+bTvR
+ r7A7VaEJA3ndyhFr5frW4pGkDV953fQ0hCUpVW7u+3zWDqGc+Gl3cQML82xRYLdccwx7
+ ogXyKhaCx8DO/DMBC8brbOLM47XZSJhQzAjHUesRmNxoQSopOlzPhav05NIfdLK7IIcQ
+ T1S1UQyWNYgq/Cbk8y0nIiU4ANpTXTj1W6jsItFreYUbRFuxGEknfYqkiNynpA8/VLEL
+ ZVq4EIq6kyYsdp23mUPAQHrbLjQd85h2trAncrPqGCTcwe3X5v+PVQizFekE4eNpz7XX
+ KLdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VjOULhkTXDSoaVBnrNj6AWvIOwwKNW7fA5FR7tjb1fI=;
- b=mkW/qTH/SZAKXUgVgui6kknZV/NHgdL909t7wVK0bVIgzHrWkDvNOniUd5kSAhK3hF
- X68ICbzICLhYz0/tM1JMXtVpX5WTWrxk55dHzYJL6s1Lz87Dyl1ySLhQ/TADmtz8e2dS
- e182jy1Yo8LuXM067Pz8eWLc4N+6dob8swrHCYyiYA5uJ9NUhFw1Yj8WhiFRm5djted7
- OMlhMndisIpQ+LuVQQo7MW+1ATwOkI1PYVE03ExrF8i0xVLw6N96uEB7+jXKggg/dd7t
- UQFYVxA0IrTWQXQgT13h85EHKAR9f1niG6GAkFpft0CGkWwHEO5KSTM+Zt77vPOhUzDb
- 874Q==
-X-Gm-Message-State: AOAM531pEa8RoW1VHT3Qe+CIVKJedvlgTBlH0a0u78n90BdUHgPIKQ2u
- fPDUVy9jeseQrvIMHrONoLRxVw==
-X-Google-Smtp-Source: ABdhPJyN5x5lCKdHs6doQg5GdM/5xiu4kg6v6pyCIJWYRgPYANze+dORzig11YqWgFF7HR+U/tMOsQ==
-X-Received: by 2002:a5d:4a49:: with SMTP id v9mr4697465wrs.153.1602086440004; 
- Wed, 07 Oct 2020 09:00:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=g9M+cLZqzZD6qLL9uvEMm0RktbZNa4FzWnuD4/zjCec=;
+ b=KhJ9wKmXqQxF1AY7yIC7teWkFSHYIypjXR4sliHUutADg6TeFVCm/e8/wv2pK0hDIQ
+ YcsVVgDJWYh6OJXu7Cmcjfn/kPLrwZy7a5mrFpjPboIgV5hLpfnx4+teXRZllORHeVt9
+ UvDILFlu8Y0TS35drnHs23tpydBZZmotuH29yODYCXJQoHfTHnzVEJkuIT0XpwDr6h+Q
+ ZVR6H2OuaWZKJoRHy8jlMTszFRmkZ748/Xe09oPpZPbLN3X0ulNKSMj1/ZmPMMF+cB8x
+ H5SoyYbWp707BGAHGY1FODM0hbNptqvcsPX+Jxmo0drtsolJPtujbmF7zykWs5prF5Sn
+ xNtw==
+X-Gm-Message-State: AOAM532RxQLGUAdUepYNG0RcUhPhk8Df1fPjs+lPif72r41cNzAp+dg7
+ CoVXknHgaVUj2IzkPPyfzj7o+g==
+X-Google-Smtp-Source: ABdhPJzAEuvYTBMVzsTK8m7+pQ4qb70LUWVM2kyi/uLuyZjVdau0DqlyqmdGBlCBHadtc8m/FQoVGQ==
+X-Received: by 2002:adf:ed07:: with SMTP id a7mr4538305wro.326.1602086441007; 
+ Wed, 07 Oct 2020 09:00:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h3sm3644156wrq.0.2020.10.07.09.00.38
+ by smtp.gmail.com with ESMTPSA id c14sm3254936wrm.64.2020.10.07.09.00.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 07 Oct 2020 09:00:38 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 235741FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 373AD1FF87;
  Wed,  7 Oct 2020 17:00:38 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 00/22] testing and plugin fixes with gitdm updates (pre PR)
-Date: Wed,  7 Oct 2020 17:00:16 +0100
-Message-Id: <20201007160038.26953-1-alex.bennee@linaro.org>
+Subject: [PATCH v1 01/22] configure: fix performance regression due to PIC
+ objects
+Date: Wed,  7 Oct 2020 17:00:17 +0100
+Message-Id: <20201007160038.26953-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201007160038.26953-1-alex.bennee@linaro.org>
+References: <20201007160038.26953-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,74 +89,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ahmed Karaman <ahmedkrmn@outlook.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-This is a pre-PR which fixes up the failing check-acceptance as well
-as some plugin fixes and the first batch of gitdm updates from
-Phillipe. I've also included one of Paolo's in-flight fixes for
-speeding up TCG. I've managed to get a green run across our CI with
-it.
+Because most files in QEMU are grouped into static libraries, Meson conservatively
+compiles them with -fPIC.  This is overkill and produces slowdowns up to 20% on
+some TCG tests.
 
-There are a couple of un-reviewed patches:
+As a stopgap measure, use the b_staticpic option to limit the slowdown to
+--enable-pie.  https://github.com/mesonbuild/meson/pull/7760 will allow
+us to use b_staticpic=false and let Meson do the right thing.
 
- - tests/acceptance: disable machine_rx_gdbsim on GitLab
- - hw/ide: restore replay support of IDE
+Reported-by: Ahmed Karaman <ahmedkrmn@outlook.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20200919155639.1045857-1-pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200924092314.1722645-57-pbonzini@redhat.com>
+---
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
 
-Alex Bennée (2):
-  hw/ide: restore replay support of IDE
-  tests/acceptance: disable machine_rx_gdbsim on GitLab
-
-Paolo Bonzini (2):
-  configure: fix performance regression due to PIC objects
-  cirrus: use V=1 when running tests on FreeBSD and macOS
-
-Philippe Mathieu-Daudé (13):
-  hw/misc/mips_cpc: Start vCPU when powered on
-  contrib/gitdm: Add more academic domains
-  contrib/gitdm: Add more individual contributors
-  contrib/gitdm: Add Baidu to the domain map
-  contrib/gitdm: Add ByteDance to the domain map
-  contrib/gitdm: Add Google to the domain map
-  contrib/gitdm: Add Nuvia to the domain map
-  contrib/gitdm: Add Qualcomm to the domain map
-  contrib/gitdm: Add Nir Soffer to Red Hat domain
-  contrib/gitdm: Add SUSE to the domain map
-  contrib/gitdm: Add Yadro to the domain map
-  contrib/gitdm: Add Yandex to the domain map
-  .mailmap: Fix more contributor entries
-
-Thomas Huth (1):
-  tests/docker: Add genisoimage to the docker file
-
-Yonggang Luo (4):
-  cirrus: Fixing and speedup the msys2/mingw CI
-  cirrus: msys2/mingw speed is up, add excluded target back
-  plugins: Fixes a issue when dlsym failed, the handle not closed
-  plugin: Fixes compiling errors on msys2/mingw
-
- configure                                    |   1 +
- contrib/plugins/hotblocks.c                  |   2 +-
- hw/ide/core.c                                |   4 +-
- hw/misc/mips_cpc.c                           |   1 +
- plugins/loader.c                             |   1 +
- tests/plugin/bb.c                            |   4 +-
- .cirrus.yml                                  | 121 +++++++++++--------
- .mailmap                                     |   2 +
- contrib/gitdm/domain-map                     |  10 +-
- contrib/gitdm/group-map-academics            |   4 +
- contrib/gitdm/group-map-individuals          |   7 ++
- contrib/gitdm/group-map-redhat               |   1 +
- tests/acceptance/machine_rx_gdbsim.py        |   1 +
- tests/docker/dockerfiles/centos8.docker      |   1 +
- tests/docker/dockerfiles/debian-amd64.docker |   1 +
- tests/docker/dockerfiles/fedora.docker       |   1 +
- tests/docker/dockerfiles/ubuntu2004.docker   |   1 +
- 17 files changed, 107 insertions(+), 56 deletions(-)
-
+diff --git a/configure b/configure
+index 28df227db5..b553288c5e 100755
+--- a/configure
++++ b/configure
+@@ -7209,6 +7209,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
+         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
++        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+ 	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
+ 	-Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
 -- 
 2.20.1
 
