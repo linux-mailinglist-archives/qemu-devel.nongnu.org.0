@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A0F285AB5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:44:34 +0200 (CEST)
-Received: from localhost ([::1]:39450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E688285B39
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Oct 2020 10:48:16 +0200 (CEST)
+Received: from localhost ([::1]:46630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQ53p-0007vE-VP
-	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:44:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50286)
+	id 1kQ57P-0002Zy-Ih
+	for lists+qemu-devel@lfdr.de; Wed, 07 Oct 2020 04:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kQ50r-0006g5-VZ
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:41:30 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44994)
+ id 1kQ51e-00075H-Rl
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:42:19 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:46183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kQ50l-0002TZ-Im
- for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:41:26 -0400
-Received: by mail-pf1-x444.google.com with SMTP id f19so925504pfj.11
- for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 01:41:20 -0700 (PDT)
+ id 1kQ51b-0002YI-Nl
+ for qemu-devel@nongnu.org; Wed, 07 Oct 2020 04:42:18 -0400
+Received: by mail-pg1-x541.google.com with SMTP id 34so915546pgo.13
+ for <qemu-devel@nongnu.org>; Wed, 07 Oct 2020 01:42:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=gC/v3JT/r1lly+MtSlE0m/I9VM9pxF+ogvQS5ITK4ig=;
- b=OArBqD0Y9lvTx6HjyxXxvCH9A5lEPJemjoe0FpwnaqW3CNUvg+U+sFhrNto1FPMh/K
- yL+UtpC3mPLO7aJtO34XJg5OK5Y3nMWcwxp5r0jWX2v15xQ+5KtYjLy5xn8D55wNU7Js
- jXsG3NaHCCEPsR5URH1C/8So79saDwHvVv6f6pKdkyBqY+O375e+I/InP1H2yNerbB8v
- FSJ+YwK09l5KhTwNEHXvkq/cWRu5fnEqCOUkNg6P5hwoqKa+dOFu7zi30q/HFS2V0Nm7
- PxkcGgvrmGw5xSzSS1Qh5t/UsAa5lY/T+wepNuNUhMlAq0SKErU/0vghkleJDjSxuoMH
- o5DA==
+ bh=XI3/oWaJG+zKphVr0DS9JO4bnux88sWNKgA4LOVVoN0=;
+ b=IujCPyn3BXdlRsJfXUfZjFZhrTEoQ1dpjfYmOXWXzax3k2Q9bhmLHsJaNgZyXnyyOT
+ GUzz7nP0AJLNe02etJQspWq8ekn5yMofUK5ZrLEhP2LKsoVFOpXgMVQiOzcZXnoOG6pe
+ JYi78FEDDB6mDKC5qNW0f75nEDpGYNRpumrgrvly1Mf7aeQJpHUKQS/7VH7vvHS0wZA4
+ TrK9o2uJUqgUz5BeFwgflhQFwsmBJoxTQ7P1zX3LQC5fY0bvp47s/xRr8ynT1vN3xZ99
+ HAf1/nCoB2BO6oF8LKt8jvO+jgIBcQ05+tlvYJNoz7cPAgX2lgttJbXMROPcfBU+WKuF
+ y0Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=gC/v3JT/r1lly+MtSlE0m/I9VM9pxF+ogvQS5ITK4ig=;
- b=cFtbvUS4nXiZxr+1VEy9lpsJV7fXiHrgDDqayFsJ5UyS9zabwlZXrVU0tYWQJTZzZy
- L2oyrgKe2wIfjviCBRXzL5r9C9be292QTqIVH/h2/Xx3z1XoUGxcceUArjSBjSOsWePI
- 8B97bEaZEG9VkMzkB2M4kPJ3Wrzeul/2Y5HXwbJe+dOGlvaS+AaQKRpy9bjI35EMZmXj
- mWsLYNm0y2e3ygg6FFzOZL1ZcJngnLQCzihJfxv7QB387+xQqRMwVv3hNMx7gv4/5wI2
- mfHx12nr7VbNsfcnrgug7W0TBGfUj5Ce57jtTU+4Vxgk8fH1ITF7TLSk0nnrkcATI2fp
- p+sw==
-X-Gm-Message-State: AOAM531Ug8dicVbsrDQ8xXjZPI/+WmYpFPzhQ82T4DQVktKrufJ3UdWZ
- UbcJkuWDV3rU6ayW1kB4MA0=
-X-Google-Smtp-Source: ABdhPJwRFeYfc/SN/hCkul6vzr1NWDm4pxwQhVmldkja1HdgK36gzqtGdhIQheSWq5Hu5iuHclnDrg==
-X-Received: by 2002:a65:5ace:: with SMTP id d14mr2079354pgt.323.1602060079655; 
- Wed, 07 Oct 2020 01:41:19 -0700 (PDT)
+ bh=XI3/oWaJG+zKphVr0DS9JO4bnux88sWNKgA4LOVVoN0=;
+ b=XkRYkiqEX/FCw6Om/FEppZJ8tDBd1kdm4FZuQKR8nHQ1ouKDazvFiuCm2bmp/cqjxp
+ d6QGjayfMPZl0X85a9H2+lnM9LcYGq5hGmUtyGWVNxuC0yje7CwteRfQla4EgMlo2PiD
+ b6LEe2c+URibpbzZFtDcPBUQosLQ5futx8U24COe0h0G0Hw2b2FpIbdFL+eYn3A1Dyey
+ ufISa1/N9QF5thE/mGPltLPE4Eo3BRmIvIAvorHgQWHiRQyl0tXGcdHNBLFZNhh85xqy
+ xEyFExch0ekEgCvNrndTqjb4A32nIjZ2X0snPmR6JEb7bmr+TbUZgAxOElysLUooYqga
+ iGZw==
+X-Gm-Message-State: AOAM533WQb6wl+6jKx/d5Rc7P1jzZyX0t+i7u+EUxFaVjP9vsUw+tstS
+ S7BZIYtikJPcJm5GvHkop4Y=
+X-Google-Smtp-Source: ABdhPJwg5+f5jBwFOLQQ2LmAYLSEfe2fuQuMoQWDRGOoToee/xNLMjE/48SCy95ZdNR1uKUavknaWA==
+X-Received: by 2002:a65:6883:: with SMTP id e3mr2052742pgt.250.1602060134495; 
+ Wed, 07 Oct 2020 01:42:14 -0700 (PDT)
 Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id i9sm1999692pfq.53.2020.10.07.01.41.15
+ by smtp.gmail.com with ESMTPSA id i9sm1999692pfq.53.2020.10.07.01.42.10
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Oct 2020 01:41:18 -0700 (PDT)
+ Wed, 07 Oct 2020 01:42:13 -0700 (PDT)
 From: Huacai Chen <zltjiangshi@gmail.com>
 X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH V13 2/9] meson.build: Re-enable KVM support for MIPS
-Date: Wed,  7 Oct 2020 16:39:28 +0800
-Message-Id: <1602059975-10115-3-git-send-email-chenhc@lemote.com>
+Subject: [PATCH V13 3/9] target/mips: Fix PageMask with variable page size
+Date: Wed,  7 Oct 2020 16:39:29 +0800
+Message-Id: <1602059975-10115-4-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
 References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,35 +85,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, aolo Bonzini <pbonzini@redhat.com>,
- Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After converting from configure to meson, KVM support is lost for MIPS,
-so re-enable it in meson.build.
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-Fixes: fdb75aeff7c212e1afaaa3a43 ("configure: remove target configuration")
-Fixes: 8a19980e3fc42239aae054bc9 ("configure: move accelerator logic to meson")
-Cc: aolo Bonzini <pbonzini@redhat.com>
+Our current code assumed the target page size is always 4k
+when handling PageMask and VPN2, however, variable page size
+was just added to mips target and that's no longer true.
+
+Fixes: ee3863b9d414 ("target/mips: Support variable page size")
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- meson.build | 2 ++
- 1 file changed, 2 insertions(+)
+ target/mips/cp0_helper.c | 36 +++++++++++++++++++++++++++++-------
+ target/mips/cpu.h        |  1 +
+ 2 files changed, 30 insertions(+), 7 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 17c89c8..b407ff4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -59,6 +59,8 @@ elif cpu == 's390x'
-   kvm_targets = ['s390x-softmmu']
- elif cpu in ['ppc', 'ppc64']
-   kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
-+elif cpu in ['mips', 'mips64']
-+  kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
- else
-   kvm_targets = []
- endif
+diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
+index de64add..f3478d8 100644
+--- a/target/mips/cp0_helper.c
++++ b/target/mips/cp0_helper.c
+@@ -867,13 +867,35 @@ void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
+ 
+ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
+ {
+-    uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
+-    if (!(env->insn_flags & ISA_MIPS32R6) || (arg1 == ~0) ||
+-        (mask == 0x0000 || mask == 0x0003 || mask == 0x000F ||
+-         mask == 0x003F || mask == 0x00FF || mask == 0x03FF ||
+-         mask == 0x0FFF || mask == 0x3FFF || mask == 0xFFFF)) {
+-        env->CP0_PageMask = arg1 & (0x1FFFFFFF & (TARGET_PAGE_MASK << 1));
++    unsigned long mask;
++    int maskbits;
++
++    if (env->insn_flags & ISA_MIPS32R6) {
++        return;
++    }
++    /* Don't care MASKX as we don't support 1KB page */
++    mask = extract32((uint32_t)arg1, CP0PM_MASK, 16);
++    maskbits = find_first_zero_bit(&mask, 32);
++
++    /* Ensure no more set bit after first zero */
++    if (mask >> maskbits) {
++        goto invalid;
++    }
++    /* We don't support VTLB entry smaller than target page */
++    if ((maskbits + 12) < TARGET_PAGE_BITS) {
++        goto invalid;
+     }
++    env->CP0_PageMask = mask << CP0PM_MASK;
++
++    return;
++
++invalid:
++    /*
++     * When invalid, ensure the value is bigger than or equal to
++     * the minimal but smaller than or equal to the maxium.
++     */
++    maskbits = MIN(16, MAX(maskbits, TARGET_PAGE_BITS - 12));
++    env->CP0_PageMask = ((1 << (16 + 1)) - 1) << CP0PM_MASK;
+ }
+ 
+ void helper_mtc0_pagemask(CPUMIPSState *env, target_ulong arg1)
+@@ -1104,7 +1126,7 @@ void helper_mthc0_saar(CPUMIPSState *env, target_ulong arg1)
+ void helper_mtc0_entryhi(CPUMIPSState *env, target_ulong arg1)
+ {
+     target_ulong old, val, mask;
+-    mask = (TARGET_PAGE_MASK << 1) | env->CP0_EntryHi_ASID_mask;
++    mask = ~((1 << 14) - 1) | env->CP0_EntryHi_ASID_mask;
+     if (((env->CP0_Config4 >> CP0C4_IE) & 0x3) >= 2) {
+         mask |= 1 << CP0EnHi_EHINV;
+     }
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 7cf7f52..9c8bb23 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -618,6 +618,7 @@ struct CPUMIPSState {
+  * CP0 Register 5
+  */
+     int32_t CP0_PageMask;
++#define CP0PM_MASK 13
+     int32_t CP0_PageGrain_rw_bitmask;
+     int32_t CP0_PageGrain;
+ #define CP0PG_RIE 31
 -- 
 2.7.0
 
