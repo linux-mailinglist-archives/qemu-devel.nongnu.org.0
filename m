@@ -2,59 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604E6287D97
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 23:00:09 +0200 (CEST)
-Received: from localhost ([::1]:33128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB57287A57
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 18:51:37 +0200 (CEST)
+Received: from localhost ([::1]:55344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQd1E-0002rD-D0
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 17:00:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43494)
+	id 1kQZ8h-0002v2-TA
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 12:51:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jb-gnumlists@wisemo.com>)
- id 1kQZ6p-0001lJ-Gx; Thu, 08 Oct 2020 12:49:39 -0400
-Received: from smtpv6n-hq2.wisemo.com ([2a01:4f0:4018::24b]:14194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jb-gnumlists@wisemo.com>)
- id 1kQZ6j-0002vV-UW; Thu, 08 Oct 2020 12:49:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wisemo.com;
- s=v2016; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject;
- bh=uTrzYsQs4KsYRnZkapeSkkj7Ijtcpy3+9Jx3LZAVU00=; 
- b=Dkb5TMqPipAyQaEdLSJ1utQRWzzGV2H0bJ0ERraXiAJht+WYZLe7Gx3mh0Qqgb9yo050+OaXhd1tw680biOd6ONwcSnw1+ltOd8bhVXe8OqqnjdpoNYv4kNB0Jg0XdkmIdyjuAVxPIH6+rjgeEvc061uWHL+IeItKYsf7MxJ/q209LD8Po/znOIWsTgLYxt/d1gEFdgjvGqaBmirU4ZTxPIopiDp7rtnzWd6B4o/t/lUymhfQXlZHigYotNcaqpH6baEFovXsAmTL3JO57wpdkwIILLDzVv+M2Lc5MevUWJZFva3kdkwD2vmDNkuJ1g3y1RjPH4EftQMGcHwJIPYpA==;
-Received: from [2a01:4f0:4018:f0:658a:ada3:5fda:4897]
- by mailout.i.wisemo.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <jb-gnumlists@wisemo.com>)
- id 1kQZ6Q-0000N3-Re; Thu, 08 Oct 2020 18:49:14 +0200
-Subject: Re: Which qemu change corresponds to RedHat bug 1655408
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-discuss@nongnu.org, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>
-References: <2d9c8525-470f-a4e5-5d71-895046e2d782@wisemo.com>
- <653b9595-ae60-181a-2975-2e351ade9788@redhat.com>
-From: Jakob Bohm <jb-gnumlists@wisemo.com>
-Organization: WiseMo A/S
-Message-ID: <43072820-c04f-b706-4b37-2d2e37e8499f@wisemo.com>
-Date: Thu, 8 Oct 2020 18:49:14 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQZ7Z-0002FU-BM
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:50:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQZ7T-00036c-FF
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:50:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602175818;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WtdkPTyC9mwyIN1xqW7XZPtqvWnWLXBS/soDqjx9LKw=;
+ b=IFqAd+YeN47nmlNmXDiYsCSLFZkE/AkyX2nK89S0uPbohujrNERThcTaGSOHu3RzOL8Svy
+ sKp38E/JOANngPoq9QZOX3RXKuYYuG2Hb/Q6e1irvTsRkMyNuHz/aHESMZZqJJfNUIHPwm
+ 8MAxEjnB2+Hl5wZS+C+lZKzv/mX3o7M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-Drepa_KGO82XiIrPUqPbaA-1; Thu, 08 Oct 2020 12:50:15 -0400
+X-MC-Unique: Drepa_KGO82XiIrPUqPbaA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4760F1062720
+ for <qemu-devel@nongnu.org>; Thu,  8 Oct 2020 16:50:14 +0000 (UTC)
+Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90E4B19D7D;
+ Thu,  8 Oct 2020 16:50:13 +0000 (UTC)
+Subject: Re: [PATCH v5 03/36] qapi-gen: Separate arg-parsing from generation
+To: Markus Armbruster <armbru@redhat.com>
+References: <20201005195158.2348217-1-jsnow@redhat.com>
+ <20201005195158.2348217-4-jsnow@redhat.com>
+ <877ds2jw6t.fsf@dusky.pond.sub.org>
+ <007985f2-2872-1ab7-16aa-19414ba8cc78@redhat.com>
+ <87d01t43de.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <b062539d-622b-ea0c-f6b0-8f71774d1875@redhat.com>
+Date: Thu, 8 Oct 2020 12:50:13 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <653b9595-ae60-181a-2975-2e351ade9788@redhat.com>
+In-Reply-To: <87d01t43de.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a01:4f0:4018::24b;
- envelope-from=jb-gnumlists@wisemo.com; helo=smtpv6n-hq2.wisemo.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.214,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 08 Oct 2020 16:58:00 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,70 +86,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(Top posting because previous reply did so):
-
-If the bug was closed as "can't reproduce", why was a very similar bug 
-listed as fixed in RHSA-2019:2553-01 ?
-
-
-On 2020-10-08 18:41, Philippe Mathieu-Daudé wrote:
-> Hi Jakob,
+On 10/8/20 2:51 AM, Markus Armbruster wrote:
+> It can be executed by any process.  See execve(2):
 > 
-> On 10/8/20 6:32 PM, Jakob Bohm wrote:
->> Red Hat bugzilla bug 1655408 against qemu is listed by Red Hat as fixed in
->> April 2019, but I cannot find the corresponding change on qemu.org (the
->> Changelog in the wiki is not a traditional changelog and doesn't cover
->> bugfix releases such as 5.0.1, the git commit log is too detailed to
->> search, the Red Hat bugzilla and security advisory pages do not link
->> red hat bugs back to upstream (launchpad) bugs or git changes.
->>
->> Here is the bug title (which also affects my Debian packaged qemu 5.0):
->>
->> VM can not boot up due to "Failed to lock byte 100" if cdrom has been
->> mounted on the host
->>
->> Further observation:
->>
->> The basic problem is that qemu-system refuses to start with the error
->> message "Failed to lock byte 100" when -drive points to a read-only
->> ISO file.  For the reporter of the Red Hat bug, that was a mount-induced
->> read-only condition, in my case it is an NFS mount of a read-only
->> directory.
->>
->> The error message itself seams meaningless, as there is no particular
->> reason to request file locks on a read-only raw disk image.
->>
->> my qemu-system-x86_64 invocation contains the option (on one line):
->>
->> -drive if=none,id=drive-ide0-1-0,readonly=on,
->> file=/mnt/someshare/path/gparted-live-1.1.0-5-amd64.iso,format=raw
+>         pathname must be either a binary executable, or a script starting  with
+>         a line of the form:
 > 
-> https://bugzilla.redhat.com/show_bug.cgi?id=1655408 has been
-> closed due to lack of reproducer. Can you amend your information
-> to the BZ? It will likely be re-opened. Thanks!
+>             #!interpreter [optional-arg]
 > 
->>
->> Enjoy
->>
->> Jakob
->> -- 
->> Jakob Bohm, CIO, Partner, WiseMo A/S.  https://www.wisemo.com
->> Transformervej 29, 2860 Søborg, Denmark.  Direct +45 31 13 16 10
->> This public discussion message is non-binding and may contain errors.
->> WiseMo - Remote Service Management for PCs, Phones and Embedded
->>
+>         For details of the latter case, see "Interpreter scripts" below.
 > 
+> "Entry point" makes sense in Python context, "script entry point" also
+> makes sense (since every Python program is a script, script is
+> redundant, but not wrong).  "Shell script entry point" is misleading.
 
+You know, I don't think I was actually explicitly aware that the #! 
+shebang was not something the shell actually processed itself. Always 
+learning new things.
 
-Enjoy
+(No, I don't think I have ever execve'd something that wasn't a binary.)
 
-Jakob
--- 
-Jakob Bohm, CIO, Partner, WiseMo A/S.  https://www.wisemo.com
-Transformervej 29, 2860 Søborg, Denmark.  Direct +45 31 13 16 10
-This public discussion message is non-binding and may contain errors.
-WiseMo - Remote Service Management for PCs, Phones and Embedded
+"entry point" is a little vague, an entry point for what? by whom? I was 
+trying to call attention to the idea specifically that main() was 
+intended as python's "console script entry point", but used the word 
+"shell" instead.
+
+"console script entrypoint" is also a lot of jargon. What I really want 
+to communicate is: "When you run `qapi-gen` on your command-line, this 
+is the function that runs!"
+
+So I guess something like:
+
+"qapi-gen executable entry point." will suffice. Please further adjust 
+to your liking when staging.
+
+--js
+
 
