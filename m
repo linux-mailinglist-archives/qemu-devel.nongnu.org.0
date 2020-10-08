@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F39528780F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 17:52:08 +0200 (CEST)
-Received: from localhost ([::1]:39754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBF3428786F
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 17:54:26 +0200 (CEST)
+Received: from localhost ([::1]:47824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQYD9-0006pn-Hn
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 11:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58192)
+	id 1kQYFN-0001xu-W9
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 11:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQYAZ-0005PB-Hc
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:49:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25035)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kQYBf-0006cS-1o
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:50:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQYAX-0002SB-1p
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:49:26 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kQYBa-0002cP-Nv
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:50:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602172164;
+ s=mimecast20190719; t=1602172230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vh89ze9xd+EWtVHFBPaOOqel3MQAorfH7tny45RTgSA=;
- b=SZMuZw34Iv9Cyz0lr12G79JTp2niV8ifz3LZ3bOI/4Y3ye5anfi94mnbZHCK3h7KxrDqLf
- UxhENvPwhZ7gWa8PSr6O5Z+HtbBrVpnn69DSNTuvrXFWiLQ+uJS1T3D2vLCY+EcJbpiELe
- MB6wprcALqPKuheIKsCmGkBqK2r6WuI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=s1woty3NW0yTXYnh6x7CtUrcLpPLI4XsLMjwMq0zmN8=;
+ b=Mu0H5D6GerOjCCJeFNzv/6nnXnyDRvrInZDDRXz8lWnmFEO6AER/skRKdr/Pet0zC5D9Le
+ igJnbEoFuAqGbJnfmTpNbRwt0khGVYv1xF/p4gaeN3vh945WXA6J5zv/pqNVKvbgTlsDh/
+ 0Axyyi0NIsQCC5DDESzoQTc2OyARf7M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-PbpMlZKlO92pgkrvwxTtgA-1; Thu, 08 Oct 2020 11:49:21 -0400
-X-MC-Unique: PbpMlZKlO92pgkrvwxTtgA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-217-H5hI6rY1OBCccRz89G6p3w-1; Thu, 08 Oct 2020 11:50:26 -0400
+X-MC-Unique: H5hI6rY1OBCccRz89G6p3w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 441DE8F68FD
- for <qemu-devel@nongnu.org>; Thu,  8 Oct 2020 15:49:20 +0000 (UTC)
-Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3378277D42;
- Thu,  8 Oct 2020 15:49:19 +0000 (UTC)
-Subject: Re: [PATCH v5 34/36] qapi/visit.py: assert tag_member contains a
- QAPISchemaEnumType
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201005195158.2348217-1-jsnow@redhat.com>
- <20201005195158.2348217-35-jsnow@redhat.com>
- <87mu0yb40j.fsf@dusky.pond.sub.org>
- <e986d234-293e-a663-a9f5-74831af43c3e@redhat.com>
- <87zh4x13z6.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <23ca848a-b472-cb34-31d2-a0cefbdf27d8@redhat.com>
-Date: Thu, 8 Oct 2020 11:49:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 616DB803F5A;
+ Thu,  8 Oct 2020 15:50:06 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.36.110.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71EE25C1BD;
+ Thu,  8 Oct 2020 15:50:02 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 00/10] migration: bring improved savevm/loadvm/delvm to QMP
+Date: Thu,  8 Oct 2020 16:49:51 +0100
+Message-Id: <20201008155001.3357288-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87zh4x13z6.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,119 +77,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/8/20 5:06 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> On 10/7/20 8:43 AM, Markus Armbruster wrote:
->>> John Snow <jsnow@redhat.com> writes:
->>>
->>>> This is true by design, but not presently able to be expressed in the
->>>> type system. An assertion helps mypy understand our constraints.
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
->>>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
->>>> ---
->>>>    scripts/qapi/visit.py | 12 +++++++-----
->>>>    1 file changed, 7 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
->>>> index 14f30c228b7..4f11fd325b8 100644
->>>> --- a/scripts/qapi/visit.py
->>>> +++ b/scripts/qapi/visit.py
->>>> @@ -22,7 +22,7 @@
->>>>        mcgen,
->>>>    )
->>>>    from .gen import QAPISchemaModularCVisitor, ifcontext
->>>> -from .schema import QAPISchemaObjectType
->>>> +from .schema import QAPISchemaEnumType, QAPISchemaObjectType
->>>>      
->>>>    def gen_visit_decl(name, scalar=False):
->>>> @@ -84,15 +84,17 @@ def gen_visit_object_members(name, base, members, variants):
->>>>            ret += gen_endif(memb.ifcond)
->>>>          if variants:
->>>> +        tag_member = variants.tag_member
->>>> +        assert isinstance(tag_member.type, QAPISchemaEnumType)
->>> I'm curious: do you need the local variable to make the assertion
->>> stick?
->>>
->>
->> No, but it only sticks to the binding and not the
->> data. i.e. assertions to downcast work on the *name*.
-> 
-> Would it stick to variants.tag_member, too?
-> 
-
-As long as variants isn't re-bound in that scope, it should stick within 
-that scope, yeah. (I think. Didn't test. It's my expectation.)
-
-> I'm asking to learn, not to find a reason to make you change your patch.
-> 
->> (This comes up somewhere in the schema.py patches where I make a
->> change that looks completely pointless, but it makes mypy happy.)
->>
->> I could have left it alone. I just saw a lot of repeated multi-dots
->> and habitually created a temporary local for the purpose.
-> 
-> Matter of taste.  Long chains of dots make the code hard to read because
-> they are so long.  Temporary variable make it hard to read because you
-> have to remember what they mean.  Tradeoff.  I come up with cases I find
-> hard to decide all too often.
-> 
-> In case the local variable isn't needed for mypy: when you throw in
-> something that isn't needed for the patch's stated purpose, it's best to
-> mention it in the commit message, because not mentioning it is a review
-> comment magnet :)
-> 
-> Put yourself in the reviewers shoes.  Your lovingly crafted commit
-> message puts him into a positive mood.  He nods along while reading your
-> obvious patch at a good pace.  And then he runs smack into the
-> unexpected unrelated part, and stops: oh, what's going on here?  Back up
-> some and read more slowly to make sure I understand.
-> 
-
-Yeah, understood. Well, part of it is knowing the review style of your 
-reviewer too. It's been a while since we've personally swapped patches.
-
-The actual process for much of this was: "There is an error! let me fix 
-that error."
-
-And then I do that, but I do so using idioms and patterns I'm familiar 
-or comfortable with. And then post-hoc, not 100% of them were 
-necessarily required, strictly, to fix the problem. Most of this series 
-was written "one file at a time", and then split out post-fact into 
-little per-warning changes.
-
-I didn't even send part 1 until I finished typing the *entire* package, 
-to make sure that things were as correct as possible from the very first 
-commit.
-
-I often don't really even notice that little changes aren't strictly 
-necessary until they're challenged, it's usually not a conscious choice 
-to try and sneak stuff in.
-
-Still always trying to find a balance between "Easy to maintain and 
-iterate" and "easy to review." Tough line for me.
-
->>>> +
->>>>            ret += mcgen('''
->>>>        switch (obj->%(c_name)s) {
->>>>    ''',
->>>> -                     c_name=c_name(variants.tag_member.name))
->>>> +                     c_name=c_name(tag_member.name))
->>>>              for var in variants.variants:
->>>> -            case_str = c_enum_const(variants.tag_member.type.name,
->>>> -                                    var.name,
->>>> -                                    variants.tag_member.type.prefix)
->>>> +            case_str = c_enum_const(tag_member.type.name, var.name,
->>>> +                                    tag_member.type.prefix)
->>>>                ret += gen_if(var.ifcond)
->>>>                if var.type.name == 'q_empty':
->>>>                    # valid variant and nothing to do
+ v1: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg00866.html=0D
+ v2: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg07523.html=0D
+ v3: https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg07076.html=0D
+ v4: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg05221.html=0D
+ v5: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg00587.html=0D
+=0D
+This series aims to provide a better designed replacement for the=0D
+savevm/loadvm/delvm HMP commands, which despite their flaws continue=0D
+to be actively used in the QMP world via the HMP command passthrough=0D
+facility.=0D
+=0D
+The main problems addressed are:=0D
+=0D
+ - The logic to pick which disk to store the vmstate in is not=0D
+   satsifactory.=0D
+=0D
+   The first block driver state cannot be assumed to be the root disk=0D
+   image, it might be OVMF varstore and we don't want to store vmstate=0D
+   in there.=0D
+=0D
+ - The logic to decide which disks must be snapshotted is hardwired=0D
+   to all disks which are writable=0D
+=0D
+   Again with OVMF there might be a writable varstore, but this can be=0D
+   raw rather than qcow2 format, and thus unable to be snapshotted.=0D
+   While users might wish to snapshot their varstore, in some/many/most=0D
+   cases it is entirely uneccessary. Users are blocked from snapshotting=0D
+   their VM though due to this varstore.=0D
+=0D
+ - The commands are synchronous blocking execution and returning=0D
+   errors immediately.=0D
+=0D
+   This is partially addressed by integrating with the job framework.=0D
+   This forces the client to use the async commands to determine=0D
+   the completion status or error message from the operations.=0D
+=0D
+In the block code I've only dealt with node names for block devices, as=0D
+IIUC, this is all that libvirt should need in the -blockdev world it now=0D
+lives in. IOW, I've made not attempt to cope with people wanting to use=0D
+these QMP commands in combination with -drive args, as libvirt will=0D
+never use -drive with a QEMU new enough to have these new commands.=0D
+=0D
+The main limitations of this current impl=0D
+=0D
+ - The snapshot process runs serialized in the main thread. ie QEMU=0D
+   guest execution is blocked for the duration. The job framework=0D
+   lets us fix this in future without changing the QMP semantics=0D
+   exposed to the apps.=0D
+=0D
+ - Most vmstate loading errors just go to stderr, as they are not=0D
+   using Error **errp reporting. Thus the job framework just=0D
+   reports a fairly generic message=0D
+=0D
+     "Error -22 while loading VM state"=0D
+=0D
+   Again this can be fixed later without changing the QMP semantics=0D
+   exposed to apps.=0D
+=0D
+I've done some minimal work in libvirt to start to make use of the new=0D
+commands to validate their functionality, but this isn't finished yet.=0D
+=0D
+My ultimate goal is to make the GNOME Boxes maintainer happy again by=0D
+having internal snapshots work with OVMF:=0D
+=0D
+  https://gitlab.gnome.org/GNOME/gnome-boxes/-/commit/c486da262f6566326fbcb=
+5e=3D=0D
+f45c5f64048f16a6e=0D
+=0D
+Changed in v6:=0D
+=0D
+ - Resolve many conflicts with recent replay changes=0D
+ - Misc typos in QAPI=0D
+=0D
+Changed in v5:=0D
+=0D
+ - Fix prevention of tag overwriting=0D
+ - Refactor and expand test suite coverage to validate=0D
+   more negative scenarios=0D
+=0D
+Changed in v4:=0D
+=0D
+ - Make the device lists mandatory, dropping all support for=0D
+   QEMU's built-in heuristics to select devices.=0D
+=0D
+ - Improve some error reporting and I/O test coverage=0D
+=0D
+Changed in v3:=0D
+=0D
+ - Schedule a bottom half to escape from coroutine context in=0D
+   the jobs. This is needed because the locking in the snapshot=0D
+   code goes horribly wrong when run from a background coroutine=0D
+   instead of the main event thread.=0D
+=0D
+ - Re-factor way we iterate over devices, so that we correctly=0D
+   report non-existant devices passed by the user over QMP.=0D
+=0D
+ - Add QAPI docs notes about limitations wrt vmstate error=0D
+   reporting (it all goes to stderr not an Error **errp)=0D
+   so QMP only gets a fairly generic error message currently.=0D
+=0D
+ - Add I/O test to validate many usage scenarios / errors=0D
+=0D
+ - Add I/O test helpers to handle QMP events with a deterministic=0D
+   ordering=0D
+=0D
+ - Ensure 'delete-snapshot' reports an error if requesting=0D
+   delete from devices that don't support snapshot, instead of=0D
+   silently succeeding with no erro.=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Use new command names "snapshot-{load,save,delete}" to make it=0D
+   clear that these are different from the "savevm|loadvm|delvm"=0D
+   as they use the Job framework=0D
+=0D
+ - Use an include list for block devs, not an exclude list=0D
+=0D
+Daniel P. Berrang=3DC3=3DA9 (10):=0D
+  block: push error reporting into bdrv_all_*_snapshot functions=0D
+  migration: stop returning errno from load_snapshot()=0D
+  block: add ability to specify list of blockdevs during snapshot=0D
+  block: allow specifying name of block device for vmstate storage=0D
+  block: rename and alter bdrv_all_find_snapshot semantics=0D
+  migration: control whether snapshots are ovewritten=0D
+  migration: wire up support for snapshot device selection=0D
+  migration: introduce a delete_snapshot wrapper=0D
+  iotests: add support for capturing and matching QMP events=0D
+  migration: introduce snapshot-{save,load,delete} QMP commands=0D
+=0D
+ block/monitor/block-hmp-cmds.c |   7 +-=0D
+ block/snapshot.c               | 256 +++++++++++++++------=0D
+ include/block/snapshot.h       |  23 +-=0D
+ include/migration/snapshot.h   |  14 +-=0D
+ migration/savevm.c             | 280 ++++++++++++++++++++---=0D
+ monitor/hmp-cmds.c             |  12 +-=0D
+ qapi/job.json                  |   9 +-=0D
+ qapi/migration.json            | 121 ++++++++++=0D
+ replay/replay-debugging.c      |  12 +-=0D
+ replay/replay-snapshot.c       |   5 +-=0D
+ softmmu/vl.c                   |   2 +-=0D
+ tests/qemu-iotests/267.out     |  12 +-=0D
+ tests/qemu-iotests/310         | 385 +++++++++++++++++++++++++++++++=0D
+ tests/qemu-iotests/310.out     | 407 +++++++++++++++++++++++++++++++++=0D
+ tests/qemu-iotests/common.qemu | 107 ++++++++-=0D
+ tests/qemu-iotests/group       |   1 +=0D
+ 16 files changed, 1508 insertions(+), 145 deletions(-)=0D
+ create mode 100755 tests/qemu-iotests/310=0D
+ create mode 100644 tests/qemu-iotests/310.out=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
 
