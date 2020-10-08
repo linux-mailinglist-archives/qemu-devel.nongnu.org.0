@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1131291261
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:28:07 +0200 (CEST)
-Received: from localhost ([::1]:50062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47CA287C5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:18:46 +0200 (CEST)
+Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTnBn-0001DZ-1t
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:28:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40654)
+	id 1kQbR7-0003Eb-Na
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <8b44f1c852cf323a4831279ccebbede60c8f3464@lizzy.crudebyte.com>)
- id 1kTn8b-0005wS-56
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:24:49 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:50029)
+ (envelope-from <81fc4b3b6b6c9bf7999e79f5e7cbc364a5f09ddb@lizzy.crudebyte.com>)
+ id 1kQbMj-00075h-6f
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:14:14 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:59949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <8b44f1c852cf323a4831279ccebbede60c8f3464@lizzy.crudebyte.com>)
- id 1kTn8Z-00061m-6i
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:24:48 -0400
+ (envelope-from <81fc4b3b6b6c9bf7999e79f5e7cbc364a5f09ddb@lizzy.crudebyte.com>)
+ id 1kQbMf-0005KR-QG
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:14:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=UXdORMhNTzUaXATYfFlOjsg4HMQM6pqpJfi/o477dzE=; b=XyxH8
- 4ziOD36j5evJvso3C2EJ/PghbZDsCV+xz80dBrgbdSufp1LmaXl7YBFL1GNwtLj3K7ZZ0VYoNfomt
- QqVNJo8N87kF+cI0UHxiXVH6B7awwru+XAb8BHC/Xj7mY46V8dfwW5fuyNZK1EqoRbyKYBf8pKgd+
- tXDIHvAm+kqBPWb5+k+9swmEHjVxx8zW7w1oD3VptL9pwJkRefqyKjCVtAz5B5QKMQGETlQUd4xPr
- D7vI/Oy1LhFB/xZgykS7vNLVLecUuOE6TGSmmaeL15aV5MLuhzup/7qslX66Y5TLh3m6opDDwSm7n
- BjOMANC3KFEnQNlqGTL41FR7gx/rw==;
-Message-Id: <8b44f1c852cf323a4831279ccebbede60c8f3464.1602943547.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1602943547.git.qemu_oss@crudebyte.com>
-References: <cover.1602943547.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=yWCyjpMX6/vDhFgq9a+1Ll6Hc2MmzCRgMNYo8rlkO2s=; b=d7r8e
+ BY8tDE3UYQmbnOF0uIz/XQ1VOxFHMOrDiCCti4vdxwOXXQoGFdAOrtv5oJbrK3cXNDPgIOvO72xXI
+ 1Pgk6m/2uKlsCjfeVRFiHqGkVVeaCWeyOW/4RBblPCwGz/W6mY+onrCCboMDjZ5cq46PRJi8RbexG
+ OyyWtZ5iWCiFxQ+C0tginNGPDa0XfgbFQqilLCsMYFYPBw9zpElTH+4MyMCRk35/R6qeXjkSa8sAc
+ AXZ4ZgH2z7bgKy/htPOjtWxlj2aNmRlwFDNwkxqwza/WRRNO/ZKQBphKXS6Sbj56WIbHWryBuBQ0i
+ h2S8uzaPm85vDkTJU++koCrOzqvfA==;
+Message-Id: <81fc4b3b6b6c9bf7999e79f5e7cbc364a5f09ddb.1602182956.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1602182956.git.qemu_oss@crudebyte.com>
+References: <cover.1602182956.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 8 Oct 2020 20:34:56 +0200
-Subject: [PULL v2 2/5] tests/9pfs: introduce local tests
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
+Subject: [PATCH v4 09/12] tests/9pfs: introduce local tests
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+    Laurent Vivier <lvivier@redhat.com>,
+    Paolo Bonzini <pbonzini@redhat.com>,
+    Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+    Greg Kurz <groug@kaod.org>,
+    "Daniel P. Berrangé" <berrange@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=8b44f1c852cf323a4831279ccebbede60c8f3464@lizzy.crudebyte.com;
+ envelope-from=81fc4b3b6b6c9bf7999e79f5e7cbc364a5f09ddb@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 10:23:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 15:12:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,8 +81,6 @@ is created (with world rwx permissions) under the current working
 directory. At this point that test directory is not auto deleted yet.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <81fc4b3b6b6c9bf7999e79f5e7cbc364a5f09ddb.1602182956.git.qemu_oss@crudebyte.com>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
  tests/qtest/libqos/virtio-9p.c | 81 ++++++++++++++++++++++++++++++++++
  tests/qtest/libqos/virtio-9p.h |  5 +++
@@ -86,7 +88,7 @@ Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
  3 files changed, 116 insertions(+), 14 deletions(-)
 
 diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index 2e300063e3..ee331166de 100644
+index 2e300063e3..9cb284cb3c 100644
 --- a/tests/qtest/libqos/virtio-9p.c
 +++ b/tests/qtest/libqos/virtio-9p.c
 @@ -24,6 +24,34 @@
@@ -103,9 +105,9 @@ index 2e300063e3..ee331166de 100644
 +
 +static void init_local_test_path(void)
 +{
-+    char *pwd = g_get_current_dir();
++    char *pwd = get_current_dir_name();
 +    local_test_path = concat_path(pwd, "qtest-9p-local");
-+    g_free(pwd);
++    free(pwd);
 +}
 +
 +/* Creates the directory for the 9pfs 'local' filesystem driver to access. */
