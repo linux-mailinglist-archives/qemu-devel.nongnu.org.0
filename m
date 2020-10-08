@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0626528760E
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:30:07 +0200 (CEST)
-Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3453B2875FF
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:28:01 +0200 (CEST)
+Received: from localhost ([::1]:45018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQWvm-0000mI-0X
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:30:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38110)
+	id 1kQWtk-0005lY-7i
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:28:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWrv-0004B2-1I
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:07 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41882)
+ id 1kQWrw-0004BJ-SB
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:08 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWrs-0005y5-Cf
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:06 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id w5so6835368wrp.8
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:03 -0700 (PDT)
+ id 1kQWrt-0005yA-Gu
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:08 -0400
+Received: by mail-wr1-x444.google.com with SMTP id i1so721129wro.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=15TOMWdMbV0LEopJFhIt4fA//f4P0yQsJTt3fedk460=;
- b=vUveLQWW+sygA6daERBU++h/VL1X77e//KmVsbL/lgu3082A7FN1z3G+E2kvnUjD2Z
- LvT+3s/B60nn1u1rtwm5Mh2KFOd8/0eESGbhN4rr5ibo6IC9C2jIXnlm7yt/n2cHWkBP
- JXfJtFD+L7wHVPq2q+MVoOtt15SEpzUjXDHJV6dXCMgefmLjCkqJ2wUy36E52dvcIL2u
- AGKQDHJcGdrDgXraZJpmc3N/JiVH+YkbT0JYAwUd829OCYq0wbUfMSssJQDUqQbGPatv
- 4MWKdwDCiwO2CzZZj5F6yEozXmKokVRU0dVppa8XCPoa43YTBYQpytlS45Np5O8+q2o0
- kwbg==
+ bh=TbWCRJ0BVkq6j07LdMSc/WFxA1HsyjcaL+7Jf66AQ7w=;
+ b=YDQ3vaem4ICMjOVnbiqey4nL89QKVk13emEsRvcQQm/ut4obgmVAuMCOjHwq1NI3e+
+ SmCjxybbevPAq2Z6+xNMXeeAt4xoAjb9Z4yfHnyrpu0KUdI1vpNKG/dE+H8sChe6wijY
+ gqzP4idO++OcAa9++aEvDKOzywADrwIqWW7sX4nGfVPcu7uff7GkcL7L4TmOtsaBVNzB
+ 4F94I7G2UWmqJFDCI8AjzJYi9L9yZyGL1hPOgjAZ2WYoI7I8l7yTs/9O+zc+ZQMdTnFV
+ 9ftkFj2pG/6tYCZga5VRufxr+pnpayVEBpzB68wOfCM6t0cyBkGFpvITm4UNGamveilr
+ CN2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=15TOMWdMbV0LEopJFhIt4fA//f4P0yQsJTt3fedk460=;
- b=n0eJnB1DySZG9ard4pKcl3YN+SZIIM9yG3XmnsTvBHYfq/Qkegm06qN5V/WrJlHFQB
- QnmVNboz+lNXyZVb7w3usEMNx7eqVos93exbRDi0YZk0qUw6T2NpiCXmz0C+wre1VxIi
- pht9ehwcc5IC8dh6LMhNoJu3Pra62x9HBtxAQb/5wVQGDBRRUSGAzm8mApm/KLBoHgW+
- YjQvK/ueYTzAAiq9nK/nRevMOqRWm47OM3CnWG0RG7k/KwkS6b+iymN4bQelR4apIDoX
- 1Lbzx62ZuIyq70DGP0khK/6Ttr35yow8eSb90v0o/RM4qaPKH+7vH8SxJupNm1WtJZUk
- I0lA==
-X-Gm-Message-State: AOAM530g15e5XLUqchy8Q87ciKsVWFRJSsac0WfF5lgzJYQPUsqOVRR6
- LUPZyYgE3meyilOdHRYPvzWeWqScflcTa14X
-X-Google-Smtp-Source: ABdhPJxD6iyXzxcUFdZj2VTJX3ZpMKIgmx1c4dSGEAEyFPyFsa/CpF5P/oPzCcwjhRJTKkELd4dqNg==
-X-Received: by 2002:adf:9ec2:: with SMTP id b2mr9798466wrf.107.1602167162690; 
- Thu, 08 Oct 2020 07:26:02 -0700 (PDT)
+ bh=TbWCRJ0BVkq6j07LdMSc/WFxA1HsyjcaL+7Jf66AQ7w=;
+ b=Ypiq6poSzQ/ikdJortlPanPjBwJrot5/iLiP4SWio4Whw1Aw+2l4qLNlYxagebkFfi
+ 5Cd9ZT3WhVuv1HlmsRRQMORdIAvVjyTpvbuEgNW2XLn4qRHy1FRy9BvFyiVcZNkuCjbL
+ AxteSCRrUHXPniIdD5FS7htQkSjgTBCqaULRIpCP3ztswU/fkC0RANnK3x6k8rHQcSk6
+ h9cJ1WcPC++tYGBCIVxW0xhHuoPAPezHj2niX2RbO7JwI96k5DnCDlf2kkO0EixeKVnU
+ WyrbSeo7380HhlcJKV0nQD+uj0uKECzKSGmdNzf8UyLuPdqKnUD2Qy045rETmBooemlJ
+ W+WA==
+X-Gm-Message-State: AOAM532lHA205mHv7qXvfUzR3AfgRa8YPZ4GKmjxrAC4my8TXn1lzR2p
+ mHfx7UqGjYRBjVW1L+G2yWSPQxnckBFUFxcS
+X-Google-Smtp-Source: ABdhPJzLE6wM4Bw79RbfLk7iclCb7xJ+uXH8Y0xvdosuzPhItjg0aaAJhBhNaYkRzOihfCpYBWEUnQ==
+X-Received: by 2002:a5d:4c52:: with SMTP id n18mr9396386wrt.267.1602167163710; 
+ Thu, 08 Oct 2020 07:26:03 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j1sm7905104wrc.28.2020.10.08.07.26.01
+ by smtp.gmail.com with ESMTPSA id j1sm7905104wrc.28.2020.10.08.07.26.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 07:26:01 -0700 (PDT)
+ Thu, 08 Oct 2020 07:26:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/12] hw/arm/fsl-imx25: Fix a typo
-Date: Thu,  8 Oct 2020 15:25:47 +0100
-Message-Id: <20201008142557.9845-3-peter.maydell@linaro.org>
+Subject: [PULL 03/12] hw/arm/sbsa-ref : Fix SMMUv3 Initialisation
+Date: Thu,  8 Oct 2020 15:25:48 +0100
+Message-Id: <20201008142557.9845-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201008142557.9845-1-peter.maydell@linaro.org>
 References: <20201008142557.9845-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,29 +89,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Graeme Gregory <graeme@nuviainc.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201002080935.1660005-1-f4bug@amsat.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+SMMUv3 has an error in a previous patch where an i was transposed to a 1
+meaning interrupts would not have been correctly assigned to the SMMUv3
+instance.
+
+Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
+Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 20201007100732.4103790-2-graeme@nuviainc.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/fsl-imx25.h | 2 +-
+ hw/arm/sbsa-ref.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
-index 971f35dd161..c1603b2ac21 100644
---- a/include/hw/arm/fsl-imx25.h
-+++ b/include/hw/arm/fsl-imx25.h
-@@ -179,7 +179,7 @@ struct FslIMX25State {
-  * 0xBB00_0000 0xBB00_0FFF 4 Kbytes     NAND flash main area buffer
-  * 0xBB00_1000 0xBB00_11FF 512 B        NAND flash spare area buffer
-  * 0xBB00_1200 0xBB00_1DFF 3 Kbytes     Reserved
-- * 0xBB00_1E00 0xBB00_1FFF 512 B        NAND flash control regisers
-+ * 0xBB00_1E00 0xBB00_1FFF 512 B        NAND flash control registers
-  * 0xBB01_2000 0xBFFF_FFFF 96 Mbytes (minus 8 Kbytes) Reserved
-  * 0xC000_0000 0xFFFF_FFFF 1024 Mbytes  Reserved
-  */
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 9c3a893bedf..65e64883b51 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -525,7 +525,7 @@ static void create_smmu(const SBSAMachineState *sms, PCIBus *bus)
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+     for (i = 0; i < NUM_SMMU_IRQS; i++) {
+         sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
+-                           qdev_get_gpio_in(sms->gic, irq + 1));
++                           qdev_get_gpio_in(sms->gic, irq + i));
+     }
+ }
+ 
 -- 
 2.20.1
 
