@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C22287631
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:36:16 +0200 (CEST)
-Received: from localhost ([::1]:40342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D76287637
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:38:27 +0200 (CEST)
+Received: from localhost ([::1]:44754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQX1j-0007Ky-NX
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38300)
+	id 1kQX3q-0000pG-Dn
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:38:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWs6-0004Uq-Jr
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:18 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35424)
+ id 1kQWsM-0004mX-9g
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:34 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:40730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWs3-00061D-V3
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:18 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q5so6728669wmq.0
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:15 -0700 (PDT)
+ id 1kQWsK-00063L-7U
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:33 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id p13so6042549edi.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=7WypgywffyK5TRi7PnYgrX30P78iXnGl8x7fIn/+Sxg=;
- b=YG4C3v1xccGZJdaRmDz5XSS7dbfYzYSSJoRPP97+KYtvEsBt11JchWP5dCaIiWMeeO
- 3eCbTUxH82I+nct59BD84/zLkywPrISE1OTKd4W1UGl+bTGLyBayt71esAYCRd/XnBR7
- Td3HUIewWGOw0HsF6Zcb77XrDcZET9uHNRMjJg2K7jJfnaCdmVfV4xVmujty1OpaIPHy
- D7TPHuDKtbvzQ3ov3FHieP97rtKANUB6v4lNL0PYxoEKdTdlgYWq7MpoyhTZhM1763xc
- MLkb9aYG3efaxiKftEWcGe5t2QBKd2uLGdZbU0NpeVkAkS7KtrPAvguhywiciKarLYs8
- +5Fw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ENzPui0FFSiuhabXv2sBl7CjwRphAxv2OmzMN9IQUJ4=;
+ b=s2nq1e5huZLlVZZDqqB0pxl9w7rNf5biwJ8s0xT+EuMnhmi2dMHsYH72dxyaE8DS5N
+ VL30xgY3CZdaTIeDQOJ5x8x/bec3gVem70RBxPHvqrWhXmRanoiTq9bJM87QyDlFV3d2
+ X9bh2Cfur/6aYqgDjHExcgHp30ivNeWmcYQz0fKJuEhBctferCdQSgpFqsakjWzEm5aL
+ GUiqbyR74fh+cazCnKWWOdzndZgK6rUaJyanvzzBwNMYLNL3XM3XbbalDvHlFbGChox2
+ YcnlvO4bDi2RWFF6szs0lfIAUhfPVeJU7XdlEVfIQKEupSadzG972ntAlpe7WJm6ul5c
+ BTFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7WypgywffyK5TRi7PnYgrX30P78iXnGl8x7fIn/+Sxg=;
- b=r66seSgNAhrBXWqArIKKZBTJwOjc0Ccocp7lfS7nZfNrdNkt2ZWnKRu0zzomq7AwwJ
- kdgtKWheZ7msbAcLRrZX89pnczjbi/XvXHT2uYIa0pQxVk06ZG3iSK60L7qeLdzI5LHX
- y9leoQuSPOl3yWyQ5BerthJzjKJzyWirf68kEbs1jZsKlEXcEbTr5rj/8IL5NJPo1t7T
- pZ1GywwBZGIx9YzWVjJwf5yfUOIjmLyzBXeNFDV/9l8WhHql6Zz+PQqiX/E/Tgxb0cl3
- JN67/dCkMIEI6ZRTbHmmQlxPhxHHKyFPlYz7/aNZzKGI1GG//G3YaGJKDgg7Odw5UkTT
- EEPw==
-X-Gm-Message-State: AOAM532qJcvUM+KFuwIz4hwbcn1z/HT45FPSNemIMBxukRtrdWyofY3C
- VVB/PY0hCYwoZOcyka8vc9+E3PxfoR4ilMIo
-X-Google-Smtp-Source: ABdhPJy3Ub/m9TUnoKIHdcFe+qG+5mMGcFHZ75TUwO9aOc1XRr5t8kkAFUdpbZq5JTX2pkWz7T8/Lg==
-X-Received: by 2002:a7b:cb8d:: with SMTP id m13mr328793wmi.59.1602167174165;
- Thu, 08 Oct 2020 07:26:14 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j1sm7905104wrc.28.2020.10.08.07.26.13
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 07:26:13 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] target/arm: Make '-cpu max' have a 48-bit PA
-Date: Thu,  8 Oct 2020 15:25:57 +0100
-Message-Id: <20201008142557.9845-13-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201008142557.9845-1-peter.maydell@linaro.org>
-References: <20201008142557.9845-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ENzPui0FFSiuhabXv2sBl7CjwRphAxv2OmzMN9IQUJ4=;
+ b=HpKao+WcCGvbmDVnSpp5pDFgzo8kC7BtF6I5iDHcJvVyP+9TmyFDox9/IAj7ahx4R/
+ PyJW31O5NaZK29Df5sxPc0iW2EBqtn+cKZEq7M5dm4ZAyas/kataoFdXg250sZj9Vj6i
+ rpWdqK5umASRrQ0luiB3EC8LnMQ6tiqGHyfYdq5gLo7AQmBOPgrknZ8Csy47mHiATji1
+ WySWaQ2F1acTbKqwhyiizX70MBdLace7qRc6lCdIljs4+sF4AGAChMddXM6DFp4fBMwQ
+ 1qn3qHydVG+8LP3KGb9Z4JNpRh15002FwXjnGijvoj7uDeW1b7IZevxXG1BcTDxl8Cmh
+ qRuQ==
+X-Gm-Message-State: AOAM532rFrqQre+RkuJgwVmdGo6NpxpeeZ0zdbLLXrgWwQ9V3wZJX7Y4
+ U9W0YWt44SgbLTtjkudWPU/nGkyuUu9v6sEJgFf4Zg==
+X-Google-Smtp-Source: ABdhPJwMedzinlUFJ/wAFOoqYIV7zG5GmqHPqkOEmzgUMzmpohrJ0p1Na1o70qd6LxfutZK81t5/SE8MsZXW70Rv9BQ=
+X-Received: by 2002:aa7:c302:: with SMTP id l2mr9398249edq.204.1602167190635; 
+ Thu, 08 Oct 2020 07:26:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+References: <20201006220930.908275-1-ehabkost@redhat.com>
+In-Reply-To: <20201006220930.908275-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 8 Oct 2020 15:26:19 +0100
+Message-ID: <CAFEAcA_fUUWRWLTExQQ_YZFzZB5PzyT56Ci+iHj-OCFgCjdJfQ@mail.gmail.com>
+Subject: Re: [PULL 00/21] machine + QOM queue, 2020-10-06
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,38 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU supports a 48-bit physical address range, but we don't currently
-expose it in the '-cpu max' ID registers (you get the same range as
-Cortex-A57, which is 44 bits).
+On Tue, 6 Oct 2020 at 23:09, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit d7c5b788295426c1ef48a9ffc3432c51220f69=
+ba:
+>
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-r=
+equest' into staging (2020-10-06 12:15:59 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+>
+> for you to fetch changes up to 1b5e843ab68c4afa611da22f303a5b0daa979ad8:
+>
+>   numa: hmat: require parent cache description before the next level one =
+(2020-10-06 11:09:41 -0400)
+>
+> ----------------------------------------------------------------
+> machine + QOM queue, 2020-10-06
+>
+> * QOM documentation fixes and cleanups (Eduardo Habkost)
+> * user-mode: Prune build dependencies (Philippe Mathieu-Daud=C3=A9)
+> * qom: Improve error message (Philippe Mathieu-Daud=C3=A9)
+> * numa: hmat: require parent cache description before the next
+>   level one (Igor Mammedov)
+>
 
-Set the ID_AA64MMFR0.PARange field to indicate 48 bits.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201001160116.18095-1-peter.maydell@linaro.org
----
- target/arm/cpu64.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Applied, thanks.
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index e00271b932f..649213082ff 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -653,6 +653,10 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
-         cpu->isar.id_aa64pfr1 = t;
- 
-+        t = cpu->isar.id_aa64mmfr0;
-+        t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 5); /* PARange: 48 bits */
-+        cpu->isar.id_aa64mmfr0 = t;
-+
-         t = cpu->isar.id_aa64mmfr1;
-         t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
-         t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
--- 
-2.20.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
+-- PMM
 
