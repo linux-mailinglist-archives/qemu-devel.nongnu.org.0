@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10BA22870BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:33:16 +0200 (CEST)
-Received: from localhost ([::1]:58762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995E52870D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:37:49 +0200 (CEST)
+Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQRMR-0000ce-4P
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:33:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42912)
+	id 1kQRQq-0005ax-Ml
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:37:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKK-0007fX-OA
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38138)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKM-0007hh-CT
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKI-0006UL-Rs
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:04 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKK-0006UU-Ds
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602145862;
+ s=mimecast20190719; t=1602145863;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aTdtN2zUAy19rHWMCKzZPiBGRVnWwjTvuku/uO8M91Y=;
- b=hCsFv7GB/F1OdaLqXkz/QakpiPNdHcQr7mY9wKkVk5D3sPqv9nrd3XQMoCuVY/zUUJHnFV
- pe9qjOjVfihYNfKBjUMmI4mIUI6zDTO6OgiG/0eK7RD3llhG/5S1sREu4h1lJzOIjh8Suz
- HrnUhC6ux0xF1rHZ8kNq3ayS4oqqtGo=
+ bh=SQaLfRo2tu54l3MsruxQvJ4m6XbDXmEWRfBKrb12I7w=;
+ b=gIbGTqm+3H9YkSBDBM2NXTW3uB4MluNtYlBc4pBx+4Zaisbc33d2/kdXtbvqTUvDKpMt59
+ GS3Oz1/vQHGJyDQaNbPAg+i2Wssg5eOLcZkUCMppCkJAo05TRq5GycKtM0f0QxyndpF2bT
+ Qi1/6bWMjCx0TuhPCUw1NN+zxOHMbXM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-DUJhYAWGMy22dKuxdOe13A-1; Thu, 08 Oct 2020 04:31:00 -0400
-X-MC-Unique: DUJhYAWGMy22dKuxdOe13A-1
+ us-mta-506-PK5zdy3TNdO7ZPdS3ABI8Q-1; Thu, 08 Oct 2020 04:31:01 -0400
+X-MC-Unique: PK5zdy3TNdO7ZPdS3ABI8Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B58FF18BE164;
- Thu,  8 Oct 2020 08:30:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A359881EE69;
+ Thu,  8 Oct 2020 08:31:00 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1DA65C1BD;
- Thu,  8 Oct 2020 08:30:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FFA15C1BD;
+ Thu,  8 Oct 2020 08:30:58 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/6] memory-device: Support big alignment requirements
-Date: Thu,  8 Oct 2020 10:30:27 +0200
-Message-Id: <20201008083029.9504-5-david@redhat.com>
+Subject: [PATCH v3 5/6] memory-device: Add get_min_alignment() callback
+Date: Thu,  8 Oct 2020 10:30:28 +0200
+Message-Id: <20201008083029.9504-6-david@redhat.com>
 In-Reply-To: <20201008083029.9504-1-david@redhat.com>
 References: <20201008083029.9504-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 01:56:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,14 +85,13 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's warn instead of bailing out - the worst thing that can happen is
-that we'll fail hot/coldplug later. The user got warned, and this should
-be rare.
+Add a callback that can be used to express additional alignment
+requirements (exceeding the ones from the memory region).
 
-This will be necessary for memory devices with rather big (user-defined)
-alignment requirements - say a virtio-mem device with a 2G block size -
-which will become important, for example, when supporting vfio in the
-future.
+Will be used by virtio-mem to express special alignment requirements due
+to manually configured, big block sizes (e.g., 1GB with an ordinary
+memory-backend-ram). This avoids failing later when realizing, because
+auto-detection wasn't able to assign a properly aligned address.
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -102,36 +101,60 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/mem/memory-device.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/mem/memory-device.c         | 11 +++++++++--
+ include/hw/mem/memory-device.h | 10 ++++++++++
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
 diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
-index 4bc9cf0917..8a736f1a26 100644
+index 8a736f1a26..cf0627fd01 100644
 --- a/hw/mem/memory-device.c
 +++ b/hw/mem/memory-device.c
-@@ -119,9 +119,10 @@ static uint64_t memory_device_get_free_addr(MachineState *ms,
+@@ -259,7 +259,7 @@ void memory_device_pre_plug(MemoryDeviceState *md, MachineState *ms,
+ {
+     const MemoryDeviceClass *mdc = MEMORY_DEVICE_GET_CLASS(md);
+     Error *local_err = NULL;
+-    uint64_t addr, align;
++    uint64_t addr, align = 0;
+     MemoryRegion *mr;
  
-     /* start of address space indicates the maximum alignment we expect */
-     if (!QEMU_IS_ALIGNED(range_lob(&as), align)) {
--        error_setg(errp, "the alignment (0x%" PRIx64 ") is not supported",
--                   align);
--        return 0;
-+        warn_report("the alignment (0x%" PRIx64 ") exceeds the expected"
-+                    " maximum alignment, memory will get fragmented and not"
-+                    " all 'maxmem' might be usable for memory devices.",
-+                    align);
+     mr = mdc->get_memory_region(md, &local_err);
+@@ -267,7 +267,14 @@ void memory_device_pre_plug(MemoryDeviceState *md, MachineState *ms,
+         goto out;
      }
  
-     memory_device_check_addable(ms, size, &err);
-@@ -151,7 +152,7 @@ static uint64_t memory_device_get_free_addr(MachineState *ms,
-             return 0;
-         }
-     } else {
--        if (range_init(&new, range_lob(&as), size)) {
-+        if (range_init(&new, QEMU_ALIGN_UP(range_lob(&as), align), size)) {
-             error_setg(errp, "can't add memory device, device too big");
-             return 0;
-         }
+-    align = legacy_align ? *legacy_align : memory_region_get_alignment(mr);
++    if (legacy_align) {
++        align = *legacy_align;
++    } else {
++        if (mdc->get_min_alignment) {
++            align = mdc->get_min_alignment(md);
++        }
++        align = MAX(align, memory_region_get_alignment(mr));
++    }
+     addr = mdc->get_addr(md);
+     addr = memory_device_get_free_addr(ms, !addr ? NULL : &addr, align,
+                                        memory_region_size(mr), &local_err);
+diff --git a/include/hw/mem/memory-device.h b/include/hw/mem/memory-device.h
+index 30d7e99f52..48d2611fc5 100644
+--- a/include/hw/mem/memory-device.h
++++ b/include/hw/mem/memory-device.h
+@@ -88,6 +88,16 @@ struct MemoryDeviceClass {
+      */
+     MemoryRegion *(*get_memory_region)(MemoryDeviceState *md, Error **errp);
+ 
++    /*
++     * Optional: Return the desired minimum alignment of the device in guest
++     * physical address space. The final alignment is computed based on this
++     * alignment and the alignment requirements of the memory region.
++     *
++     * Called when plugging the memory device to detect the required alignment
++     * during address assignment.
++     */
++    uint64_t (*get_min_alignment)(const MemoryDeviceState *md);
++
+     /*
+      * Translate the memory device into #MemoryDeviceInfo.
+      */
 -- 
 2.26.2
 
