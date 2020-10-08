@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40AD287BFF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:02:57 +0200 (CEST)
-Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2253287C09
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:05:58 +0200 (CEST)
+Received: from localhost ([::1]:51534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQbBo-0001GF-Sf
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:02:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46782)
+	id 1kQbEj-0003xp-TA
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:05:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQb92-0007sa-Bm
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQb92-0007sy-M5
  for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:00:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45975)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQb8y-0003eh-Q9
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:00:03 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQb8z-0003eq-8f
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:00:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602183600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rMbqo0xt+T/OQzwlre+9lBBzOy3KdXiaGhZEG3FlEfc=;
- b=GOlWO45AinmphwLyCb+3Ii2AnZoJwgJT7RJoZ6FJPLdZVGonLZXVbtX8WrKh5OJdurUL1r
- CcQhGrj+FJH1qcZioSF5XyvswJuZiaW69p+mEyT0+l/s/fwcIKkDh4YW1Cot93RIXn2+nV
- Ij82l4gM6/QDkT+VfQ7ml9/QebZAVVA=
+ bh=er1dq4UvrjPdK8E4Wjs2FYeYIdtl7Wpn3tEwzUuFp1w=;
+ b=BrIJMwukwC8ScJprtRQk7Mt+BrywOJt6hOPgS9yBfdOF4HWOl+o2iwoUbk4W4m9GvAA9sq
+ ThHGISRKN7jeDeQiJuAWJjM9Mqrd4agyqBx9sIiZFnkxSf2JSjfCY6i3N9XgKyaoXP+xC8
+ 5yRmkd7n9HRc0bevyFEQ/etCMoSEW4c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-DV8XQzGrMcikI7NI_t6FGQ-1; Thu, 08 Oct 2020 14:59:56 -0400
-X-MC-Unique: DV8XQzGrMcikI7NI_t6FGQ-1
+ us-mta-593-z8VMtOJGMXag00_1_c6Teg-1; Thu, 08 Oct 2020 14:59:56 -0400
+X-MC-Unique: z8VMtOJGMXag00_1_c6Teg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0C131018F83;
- Thu,  8 Oct 2020 18:59:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 552A48070E3;
+ Thu,  8 Oct 2020 18:59:55 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-14.phx2.redhat.com [10.3.113.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FA0A5D9E8;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DCB1F5D9E8;
  Thu,  8 Oct 2020 18:59:54 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/8] nbd: silence maybe-uninitialized warnings
-Date: Thu,  8 Oct 2020 13:59:44 -0500
-Message-Id: <20201008185951.1026052-2-eblake@redhat.com>
+Subject: [PULL 2/8] block/nbd: fix drain dead-lock because of nbd
+ reconnect-delay
+Date: Thu,  8 Oct 2020 13:59:45 -0500
+Message-Id: <20201008185951.1026052-3-eblake@redhat.com>
 In-Reply-To: <20201008185951.1026052-1-eblake@redhat.com>
 References: <20201008185951.1026052-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
@@ -78,50 +79,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christian Borntraeger <borntraeger@de.ibm.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-gcc 10 from Fedora 32 gives me:
+We pause reconnect process during drained section. So, if we have some
+requests, waiting for reconnect we should cancel them, otherwise they
+deadlock the drained section.
 
-Compiling C object libblock.fa.p/nbd_server.c.o
-../nbd/server.c: In function ‘nbd_co_client_start’:
-../nbd/server.c:625:14: error: ‘namelen’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  625 |         rc = nbd_negotiate_send_info(client, NBD_INFO_NAME, namelen, name,
-      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  626 |                                      errp);
-      |                                      ~~~~~
-../nbd/server.c:564:14: note: ‘namelen’ was declared here
-  564 |     uint32_t namelen;
-      |              ^~~~~~~
-cc1: all warnings being treated as errors
+How to reproduce:
 
-As I cannot see how this can happen, let uns silence the warning.
+1. Create an image:
+   qemu-img create -f qcow2 xx 100M
 
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-Id: <20200930155859.303148-3-borntraeger@de.ibm.com>
+2. Start NBD server:
+   qemu-nbd xx
+
+3. Start vm with second nbd disk on node2, like this:
+
+  ./build/x86_64-softmmu/qemu-system-x86_64 -nodefaults -drive \
+     file=/work/images/cent7.qcow2 -drive \
+     driver=nbd,server.type=inet,server.host=192.168.100.5,server.port=10809,reconnect-delay=60 \
+     -vnc :0 -m 2G -enable-kvm -vga std
+
+4. Access the vm through vnc (or some other way?), and check that NBD
+   drive works:
+
+   dd if=/dev/sdb of=/dev/null bs=1M count=10
+
+   - the command should succeed.
+
+5. Now, kill the nbd server, and run dd in the guest again:
+
+   dd if=/dev/sdb of=/dev/null bs=1M count=10
+
+Now Qemu is trying to reconnect, and dd-generated requests are waiting
+for the connection (they will wait up to 60 seconds (see
+reconnect-delay option above) and than fail). But suddenly, vm may
+totally hang in the deadlock. You may need to increase reconnect-delay
+period to catch the dead-lock.
+
+VM doesn't respond because drain dead-lock happens in cpu thread with
+global mutex taken. That's not good thing by itself and is not fixed
+by this commit (true way is using iothreads). Still this commit fixes
+drain dead-lock itself.
+
+Note: probably, we can instead continue to reconnect during drained
+section. To achieve this, we may move negotiation to the connect thread
+to make it independent of bs aio context. But expanding drained section
+doesn't seem good anyway. So, let's now fix the bug the simplest way.
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200903190301.367620-2-vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- nbd/server.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/nbd.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/nbd/server.c b/nbd/server.c
-index f74766add7b7..f25cffa334fa 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -556,7 +556,7 @@ static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
-     NBDExport *exp;
-     uint16_t requests;
-     uint16_t request;
--    uint32_t namelen;
-+    uint32_t namelen = 0;
-     bool sendname = false;
-     bool blocksize = false;
-     uint32_t sizes[3];
+diff --git a/block/nbd.c b/block/nbd.c
+index 9daf003bea30..912ea27be7d8 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -242,6 +242,11 @@ static void coroutine_fn nbd_client_co_drain_begin(BlockDriverState *bs)
+     }
+
+     nbd_co_establish_connection_cancel(bs, false);
++
++    if (s->state == NBD_CLIENT_CONNECTING_WAIT) {
++        s->state = NBD_CLIENT_CONNECTING_NOWAIT;
++        qemu_co_queue_restart_all(&s->free_sema);
++    }
+ }
+
+ static void coroutine_fn nbd_client_co_drain_end(BlockDriverState *bs)
 -- 
 2.28.0
 
