@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25739287EA2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 00:23:25 +0200 (CEST)
-Received: from localhost ([::1]:44782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41378287F11
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 01:24:45 +0200 (CEST)
+Received: from localhost ([::1]:39628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQeJn-0000FZ-A0
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 18:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37456)
+	id 1kQfHA-0005Si-BD
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 19:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1kQeGC-0007wV-NK
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 18:19:40 -0400
-Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:20308)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kQeG9-0003D7-78
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 18:19:40 -0400
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 098MIPLd023646;
- Fri, 9 Oct 2020 00:18:25 +0200 (CEST)
- (envelope-from pisa@cmp.felk.cvut.cz)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 098MIPYM001395; Fri, 9 Oct 2020 00:18:25 +0200
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 098MIPH3001393;
- Fri, 9 Oct 2020 00:18:25 +0200
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
- pisa@cmp.felk.cvut.cz using -f
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 2/3] can-host-socketcan: Fix crash when 'if' option is not
- set
-Date: Fri, 9 Oct 2020 00:18:24 +0200
-User-Agent: KMail/1.9.10
-References: <20201008202713.1416823-1-ehabkost@redhat.com>
- <20201008202713.1416823-3-ehabkost@redhat.com>
-In-Reply-To: <20201008202713.1416823-3-ehabkost@redhat.com>
-X-KMail-QuotePrefix: > 
-MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-Message-Id: <202010090018.24802.pisa@cmp.felk.cvut.cz>
-X-FELK-MailScanner-Information: 
-X-MailScanner-ID: 098MIPLd023646
-X-FELK-MailScanner: Found to be clean
-X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
- score=-0.436, required 6, autolearn=not spam, BAYES_00 -0.50,
- KHOP_HELO_FCRDNS 0.28, NICE_REPLY_A -0.21, SPF_HELO_NONE 0.00,
- SPF_NONE 0.00)
-X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
-X-FELK-MailScanner-Watermark: 1602800307.27792@M6MNmp1d0dLGwC3wtyMVdg
-Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
- envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 18:19:32
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.214,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3Ip9_XwsKCmEGRJHMMDLNDMFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--hskinnemoen.bounces.google.com>)
+ id 1kQfEl-0003p1-Ji
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 19:22:15 -0400
+Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a]:41718)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3Ip9_XwsKCmEGRJHMMDLNDMFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--hskinnemoen.bounces.google.com>)
+ id 1kQfEj-0002rt-26
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 19:22:15 -0400
+Received: by mail-pg1-x54a.google.com with SMTP id 24so4958181pgm.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 16:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=58MsYfVPTykH+Uq+RyP2WGX8cjctL3dx/QC7x4Rsb40=;
+ b=bFtF0F1lKvfJF45AKX+rpDQ91xLvZGR673vb7ska+44jVKReysMF3hquAWseAvl2Ew
+ bVlbdCr5SlPv8gxngZRRSmEz2xKX35f/GF/7YGtYiuKE7Uie19JomQcqJ8Ma/xCPw4uc
+ hY1+NJtvx5abFVQPIvodITnxMpo+tbcdYzuA82qQxAOqn9kIQHkRJIcWswlbFAP13T8b
+ q6lOKXrM6ZQ7mNP//qrB1ANkKdFI0/6AaxnmroVQaH5yFDovMf0zVwQkYj7/96dJHrPR
+ 3VvBN8l8qF3cUy3nUuQlXYKs4ggEZYTqSG1BohlVQnPVfLDYVT5WKwNK+Y/RwgIRpd50
+ szqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=58MsYfVPTykH+Uq+RyP2WGX8cjctL3dx/QC7x4Rsb40=;
+ b=q2LiBMULAxWf4aJtWMaZgntMkAUoyXP3CMB1gyLJK7NpP4vdTUeFOJC5SH5xePf7yX
+ cGtKlOcExZ25w2GbD3UFq1Z8QTQrV+BPEMamEpV5+RC3nABHd6VnGLzeOcwCA5lGIkBQ
+ civPBUKgPXJyIzjXOvVxPxuOpLC/AgQ/jCpwOdEcFGTjcokjD4CpfOlQQKD5ZjchBYCl
+ YHhZn2+JbawPeTLFzs4/B4AauEPTUuNJ41MZR7E6bx1XacHzVtfOGCDC64pcjItIEgDR
+ 8oW4oXZfQxM/e6DSllRo0UG1Rt+fKPP7ATRH9X/0c70RA33AzIywyqjKm1GWA3IPtdOz
+ F0kA==
+X-Gm-Message-State: AOAM532G8mIEXYkhiNwi4IHTo7ky95FDG1cWdoFRWWkBz5WGPxleaTQm
+ GPMfaAawy8VOC058gGl0Ukh8GOEfiEcd7kmrCwbL9Ovzk3Kv+4Zf3Fk1ivufKYwbToFSldZ8X+a
+ fB79pk7CaHXPlIhQ79GNEn7OQ4qR+0/V0LUmBJ7IpWVELZKGu6KhjrBcpW9vRbiLEGFuAfFFBLg
+ ==
+X-Google-Smtp-Source: ABdhPJxz1JBT2J5Ywl7aS7+6IHYzIScGiU85wfej23qKUkHDgw+jpubMCI3T6KyhlJZmIJYfqj91UO8glS0C6i4yAw==
+X-Received: from skybert.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:3107])
+ (user=hskinnemoen job=sendgmr) by 2002:a63:7d8:: with SMTP id
+ 207mr1027106pgh.173.1602199330154; Thu, 08 Oct 2020 16:22:10 -0700 (PDT)
+Date: Thu,  8 Oct 2020 16:21:48 -0700
+Message-Id: <20201008232154.94221-1-hskinnemoen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.1011.ga647a8990f-goog
+Subject: [PATCH 0/6] Additional NPCM7xx features, devices and tests
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org, Avi.Fishman@nuvoton.com, 
+ kfting@nuvoton.com, f4bug@amsat.org, clg@kaod.org, 
+ Havard Skinnemoen <hskinnemoen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
+ envelope-from=3Ip9_XwsKCmEGRJHMMDLNDMFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--hskinnemoen.bounces.google.com;
+ helo=mail-pg1-x54a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,60 +85,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vikram Garhwal <fnu.vikram@xilinx.com>,
- "Daniel P. =?iso-8859-1?q?Berrang=E9?=" <berrange@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?iso-8859-1?q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Havard Skinnemoen <hskinnemoen@google.com>
+From: Havard Skinnemoen via <qemu-devel@nongnu.org>
 
-Thanks for catching missing test
+This is an update to the initial NPCM7xx patch series adding
 
-On Thursday 08 of October 2020 22:27:12 Eduardo Habkost wrote:
-> Fix the following crash:
->
->   $ qemu-system-x86_64 -object can-host-socketcan,id=obj0
->   Segmentation fault (core dumped)
->
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-> Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: qemu-devel@nongnu.org
-> ---
->  net/can/can_socketcan.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
-> index 92b1f79385..4b68f60c6b 100644
-> --- a/net/can/can_socketcan.c
-> +++ b/net/can/can_socketcan.c
-> @@ -194,6 +194,11 @@ static void can_host_socketcan_connect(CanHostState
-> *ch, Error **errp) struct sockaddr_can addr;
->      struct ifreq ifr;
->
-> +    if (!c->ifname) {
-> +        error_setg(errp, "'if' property not set");
-> +        return;
-> +    }
-> +
->      /* open socket */
->      s = qemu_socket(PF_CAN, SOCK_RAW, CAN_RAW);
->      if (s < 0) {
+  - A timer test that found several issues that were fixed in the final version
+    of the series (see
+    https://www.mail-archive.com/qemu-devel@nongnu.org/msg739516.html).
+  - Watchdog timer support. This makes the reboot command work.
+  - Random Number Generator device.
+  - USB Host Controllers.
+  - GPIO Controllers.
 
-Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+The watchdog was implemented by my new teammate Hao Wu. Expect to see more
+patches from him in the near future.
+
+This series has also been pushed to the npcm7xx-5.2-update branch of my github
+repository at
+
+  https://github.com/hskinnemoen/qemu
+
+Again, thanks a lot for reviewing!
+
+Havard
+
+Hao Wu (1):
+  hw/timer: Adding watchdog for NPCM7XX Timer.
+
+Havard Skinnemoen (5):
+  tests/qtest: Add npcm7xx timer test
+  Move npcm7xx_timer_reached_zero call out of npcm7xx_timer_pause
+  hw/misc: Add npcm7xx random number generator
+  hw/arm/npcm7xx: Add EHCI and OHCI controllers
+  hw/gpio: Add GPIO model for Nuvoton NPCM7xx
+
+ docs/system/arm/nuvoton.rst               |   6 +-
+ hw/usb/hcd-ehci.h                         |   1 +
+ include/hw/arm/npcm7xx.h                  |   8 +
+ include/hw/gpio/npcm7xx_gpio.h            |  55 +++
+ include/hw/misc/npcm7xx_clk.h             |   9 +
+ include/hw/misc/npcm7xx_rng.h             |  34 ++
+ include/hw/timer/npcm7xx_timer.h          |  43 +-
+ hw/arm/npcm7xx.c                          | 125 ++++-
+ hw/gpio/npcm7xx_gpio.c                    | 409 ++++++++++++++++
+ hw/misc/npcm7xx_clk.c                     |  20 +
+ hw/misc/npcm7xx_rng.c                     | 179 +++++++
+ hw/timer/npcm7xx_timer.c                  | 279 +++++++++--
+ hw/usb/hcd-ehci-sysbus.c                  |  19 +
+ tests/qtest/npcm7xx_gpio-test.c           | 385 +++++++++++++++
+ tests/qtest/npcm7xx_rng-test.c            | 278 +++++++++++
+ tests/qtest/npcm7xx_timer-test.c          | 562 ++++++++++++++++++++++
+ tests/qtest/npcm7xx_watchdog_timer-test.c | 313 ++++++++++++
+ MAINTAINERS                               |   1 +
+ hw/gpio/meson.build                       |   1 +
+ hw/gpio/trace-events                      |   7 +
+ hw/misc/meson.build                       |   1 +
+ hw/misc/trace-events                      |   4 +
+ tests/qtest/meson.build                   |   4 +
+ 23 files changed, 2682 insertions(+), 61 deletions(-)
+ create mode 100644 include/hw/gpio/npcm7xx_gpio.h
+ create mode 100644 include/hw/misc/npcm7xx_rng.h
+ create mode 100644 hw/gpio/npcm7xx_gpio.c
+ create mode 100644 hw/misc/npcm7xx_rng.c
+ create mode 100644 tests/qtest/npcm7xx_gpio-test.c
+ create mode 100644 tests/qtest/npcm7xx_rng-test.c
+ create mode 100644 tests/qtest/npcm7xx_timer-test.c
+ create mode 100644 tests/qtest/npcm7xx_watchdog_timer-test.c
 
 -- 
-                Pavel Pisa
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://dce.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    projects:   https://www.openhub.net/accounts/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
+2.28.0.1011.ga647a8990f-goog
 
 
