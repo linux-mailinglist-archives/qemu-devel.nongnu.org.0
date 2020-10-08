@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913802874F2
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:09:03 +0200 (CEST)
-Received: from localhost ([::1]:42330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4712874DE
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:06:38 +0200 (CEST)
+Received: from localhost ([::1]:34162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQVfK-0007kE-MB
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:09:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
+	id 1kQVcz-0004Ma-FW
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVU1-0003sC-1g
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:21 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33945)
+ id 1kQVU4-0003ui-4f
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:26 -0400
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:41590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVTz-0001zb-BX
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:20 -0400
-Received: by mail-oi1-x243.google.com with SMTP id n2so6207918oij.1
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:18 -0700 (PDT)
+ id 1kQVU1-0001zt-2t
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:23 -0400
+Received: by mail-ot1-x333.google.com with SMTP id q21so5351496ota.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WANLQRCpycKiqrfSXuwWnjHW6iUlbU2o8NExmAhiBGo=;
- b=QXF5TV0BxmDTyIbxpCbgR2bu7kOgo49+AdaYR4dQ6Ll7eLyjcWRMWncxYC0vCahXw6
- KL1PV/e1IAmCFF59wjidHoSKT99d5VfONgQjJDAWmxwvpbiOiOw/68Nj82Pf1gpDALcc
- FtiCvK6ARNDZhiS8nVv2ifdsWql13zbAV4kg9woy4rVXZR4vSz3uARhPScKM8bO9li04
- y0PIDbnfcauk0I4nb+tY0J6xErDCkOlMGLOPeqobJQdBSbgdeW7WHPF40mnLYjZ6o7aA
- woxIZK7yEjyuRYH5kA30gejs9wqqFIoMZH5kF+LcJDvfemw77qC5bTNAQz+JZG9GhuQ3
- 1oWw==
+ bh=3WLaue+ohvo+ZmGquck7e37eq47w4KHNDVCyGwhwpsE=;
+ b=asyC2R8OX0WPqNzMwC/sBb/N/5pYUvJ8+JIAbbXPEDRS8VSjJ8FCJSi6jg8lQK1I6o
+ cBrXkvEddLkwcN8fpiSB9FKzZEXCG1Ph/AG6fiMvC622n5pLNf/Mo1qBB9kwPEH6pm98
+ 5scTeT63oMpC3Hl0TSttwrxbu/2jqzYNJ8GYqdHwNdd7ww48HzZRGMtIrCDgapeHRQgB
+ wYPUofTy5mg+chVr1fMJGVLHfdTIHclOpcUFE6TfgvErGQDHy67yxDKwSXiilhu2olin
+ BQLBJBkQsLStjvyb7g1Fp5HrruyMLtTEKZmWxchKKvXphgyruGE0huxU8JZS0/KyBTMX
+ IWoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WANLQRCpycKiqrfSXuwWnjHW6iUlbU2o8NExmAhiBGo=;
- b=tCw5D1bvuBmFhdmSJWIxISqT4bAtysYBckzSqNKALwaKpcG4zYCZLH0Jam+M7lIL4O
- H74DSNM8zS5pEDz77d2dZnr+Q8tSsalH7m9JK1P6XabhLTrq9vDRgtBwn7OY2qrjoPHr
- Adq/gGJhvM/72LL8wkZoxVELf5DXFSEb+gMvyrK2tzhwniZ/Qs43Nkzz+Z+7roUrj1Bi
- ryo/L0i0i5VOohQi5jnWbpknQjCp1Gy6hgJU5MxfcbNy9OL/lACIMm/+1oQUABSJ43cx
- 8fvXP2zQuGRui0EIKAekL6SyAXh8+7LnLRz15AMCz271Tnx3Jk1JplKnxv5YNZTGbVh+
- ocTg==
-X-Gm-Message-State: AOAM533rWl7jN85MBa8agsjlne52yCI4/xIEXbtKp+yfThyPojELeQ07
- fYMbXouWNfF4MJyiP5Stc3ivpg5Sx5rxmqqT
-X-Google-Smtp-Source: ABdhPJzMNz47BsNq2eUTd7xppwUyA5V82k4zPp6DD0k1Se9smXfXLm6UBqtjL3U6MtNXHHKTutaLVg==
-X-Received: by 2002:aca:5058:: with SMTP id e85mr3872845oib.79.1602161837812; 
- Thu, 08 Oct 2020 05:57:17 -0700 (PDT)
+ bh=3WLaue+ohvo+ZmGquck7e37eq47w4KHNDVCyGwhwpsE=;
+ b=WuHBB887vMxu1AbP3UJegi/RHIQCqN2qJATsOWgAJFsVEENlMGiIG7M+Dz15WMk4vz
+ ZhiGFpAOiezgPyLsW+I1Qn1AfOAjpQAm5uEZ11DGJyRJRJvmavqCNGGe6ZevURHWhSS7
+ diKVpD0wfhHXJbYGyjC+t6Q4qqPzRWRurSZyR59Wu86vC956OyfghUYatgDruOLOkmz4
+ 6+E0NwC9QxPMsdHzQZW5rDPzn6kq9ENtvgR2pqL52damuAmmsswOhykzzjIW3OzsmN0j
+ SfpxZfGBWepu2mG9doXMFKT3d4wQHqD0Wcv+SFOO80VKU32F5USvIrBgEzZjm/r8A7gj
+ Wozw==
+X-Gm-Message-State: AOAM530nDENCWP+8+8HoBWf7cHu7kmiNNDfD1ufw9o4JI/kcd/3ilZnU
+ lABpHbGLbKkDBVkzum3VRx9PWQL7ECLlDuMe
+X-Google-Smtp-Source: ABdhPJwJtBPj6YzcbiiL4mZ1F1FzwrkRkddMiycQ+oQwv2ZEc22TLwTVBVPeyIyjUljKJ9X5PMjieg==
+X-Received: by 2002:a9d:6488:: with SMTP id g8mr4789878otl.211.1602161839641; 
+ Thu, 08 Oct 2020 05:57:19 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.16
+ by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 05:57:17 -0700 (PDT)
+ Thu, 08 Oct 2020 05:57:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/11] tcg/optimize: Fold dup2_vec
-Date: Thu,  8 Oct 2020 07:56:57 -0500
-Message-Id: <20201008125659.49857-10-richard.henderson@linaro.org>
+Subject: [PULL 10/11] tcg: Remove TCG_TARGET_HAS_cmp_vec
+Date: Thu,  8 Oct 2020 07:56:58 -0500
+Message-Id: <20201008125659.49857-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201008125659.49857-1-richard.henderson@linaro.org>
 References: <20201008125659.49857-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,44 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the two arguments are identical, this can be reduced to
-dup_vec or to mov_vec from a tcg_constant_vec.
+The cmp_vec opcode is mandatory; this symbol is unused.
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ tcg/aarch64/tcg-target.h | 1 -
+ tcg/i386/tcg-target.h    | 1 -
+ tcg/ppc/tcg-target.h     | 1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 53aa8e5329..220f4601d5 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -1109,6 +1109,21 @@ void tcg_optimize(TCGContext *s)
-             }
-             goto do_default;
- 
-+        case INDEX_op_dup2_vec:
-+            assert(TCG_TARGET_REG_BITS == 32);
-+            if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
-+                tmp = arg_info(op->args[1])->val;
-+                if (tmp == arg_info(op->args[2])->val) {
-+                    tcg_opt_gen_movi(s, op, op->args[0], tmp);
-+                    break;
-+                }
-+            } else if (args_are_copies(op->args[1], op->args[2])) {
-+                op->opc = INDEX_op_dup_vec;
-+                TCGOP_VECE(op) = MO_32;
-+                nb_iargs = 1;
-+            }
-+            goto do_default;
-+
-         CASE_OP_32_64(not):
-         CASE_OP_32_64(neg):
-         CASE_OP_32_64(ext8s):
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index 9bc2a5ecbe..663dd0b95e 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -139,7 +139,6 @@ typedef enum {
+ #define TCG_TARGET_HAS_shi_vec          1
+ #define TCG_TARGET_HAS_shs_vec          0
+ #define TCG_TARGET_HAS_shv_vec          1
+-#define TCG_TARGET_HAS_cmp_vec          1
+ #define TCG_TARGET_HAS_mul_vec          1
+ #define TCG_TARGET_HAS_sat_vec          1
+ #define TCG_TARGET_HAS_minmax_vec       1
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index d2baf796b0..abd4ac7fc0 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -189,7 +189,6 @@ extern bool have_avx2;
+ #define TCG_TARGET_HAS_shi_vec          1
+ #define TCG_TARGET_HAS_shs_vec          1
+ #define TCG_TARGET_HAS_shv_vec          have_avx2
+-#define TCG_TARGET_HAS_cmp_vec          1
+ #define TCG_TARGET_HAS_mul_vec          1
+ #define TCG_TARGET_HAS_sat_vec          1
+ #define TCG_TARGET_HAS_minmax_vec       1
+diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+index aee38157a2..be10363956 100644
+--- a/tcg/ppc/tcg-target.h
++++ b/tcg/ppc/tcg-target.h
+@@ -169,7 +169,6 @@ extern bool have_vsx;
+ #define TCG_TARGET_HAS_shi_vec          0
+ #define TCG_TARGET_HAS_shs_vec          0
+ #define TCG_TARGET_HAS_shv_vec          1
+-#define TCG_TARGET_HAS_cmp_vec          1
+ #define TCG_TARGET_HAS_mul_vec          1
+ #define TCG_TARGET_HAS_sat_vec          1
+ #define TCG_TARGET_HAS_minmax_vec       1
 -- 
 2.25.1
 
