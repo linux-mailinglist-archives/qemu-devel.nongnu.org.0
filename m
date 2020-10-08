@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A602879EF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 18:24:37 +0200 (CEST)
-Received: from localhost ([::1]:51230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7C02879F2
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 18:26:31 +0200 (CEST)
+Received: from localhost ([::1]:57960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQYia-00047m-KN
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 12:24:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37318)
+	id 1kQYkQ-00074M-RB
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 12:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQYgL-0002Uv-2B
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:22:17 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33248)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQYgC-0007eS-VQ
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:22:12 -0400
-Received: by mail-oi1-x244.google.com with SMTP id m7so6921509oie.0
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 09:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QyvlAwVml9YHe9kwFtSW/ZPwkyIj+P8DM/oa1e0Xc6w=;
- b=rwtKfjCK8hje9Jvfy+6vADhrgbNjBCbTVp2UQ4VX5jGFO0aLke+PVfEOoZvLcvEeFr
- D8shsBeyQMPc/nmwiD5jv/2iU83PioDcTHNPrgGRmMcvxPaqsZOG4bAv3SV6nAD/fLXl
- 2uOV+mMJ8o93WZwQsOwRC8GdPC0o2nFO4fC4X+Fe1x6A1KfJ3Wxr/SJSgqBNjAiLUP10
- FUyriBOzSwUi1k9QkPSq2SsR44oi+JpmXGbvz/UEsCwfYWARtbpsSTlIQUgtoP1h5H0H
- zRXzWA90Z4XINVKxhxpkzeH90+iygLpoUuTRmOXviOuVUdOAPylm2Z11pKkDFdVnUGKl
- 6L/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QyvlAwVml9YHe9kwFtSW/ZPwkyIj+P8DM/oa1e0Xc6w=;
- b=ucj8hm05D/jCzavwzCmzCRYp0jSPe3B8tHLhuz2p09+9kx13YVCbFDxOwZPvFvsklh
- 0KradD43Xf1aszhFVM0jbZZnQddxelRXepPF4djT4pCB25KAO/YT0/JKmeNViQ3dzn8v
- d+k37MfDND1VshTlu+nhu9wleH5prw8/0byXKBBuZ0ioSl65P+PawtLBDnlqtSAbqUOa
- djfnL0DTHAI1LGw6ZuC6tb6TNTOYf9nEegDOQuzGVdmuk2ulLv+WJrdk9FwQq3TK+RBp
- HaWfdjIulpXzHMyPGvaPWVfIqTwe+0V7rDvqgvB5xzdsOiNTDCP42IS8x+9i0c8AwcFW
- gUCQ==
-X-Gm-Message-State: AOAM533vdvhcctN+Od5m/VD0h/0+Ma4VshFCujdbimoBMfAbaUe38lG+
- d2guSUtkG52Jex3UFPNr8DzVHZq4gAprWRzO
-X-Google-Smtp-Source: ABdhPJzQhkhsRl3XSjyTXcGrDBvYwzxtMZRN+TGpTJnBcfXLl8XaPUKM4ojnrMpLcnxYwp4ojgwcyg==
-X-Received: by 2002:aca:38c1:: with SMTP id f184mr5219577oia.145.1602174123111; 
- Thu, 08 Oct 2020 09:22:03 -0700 (PDT)
-Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id l138sm5076218oih.32.2020.10.08.09.22.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 09:22:02 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/arm: Ignore HCR_EL2.ATA when {E2H,TGE} != 11
-Date: Thu,  8 Oct 2020 11:21:55 -0500
-Message-Id: <20201008162155.161886-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201008162155.161886-1-richard.henderson@linaro.org>
-References: <20201008162155.161886-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQYjJ-0005oc-VQ
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:25:21 -0400
+Received: from mx2.suse.de ([195.135.220.15]:42774)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQYjG-0007vP-1g
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:25:21 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 79FD1AD33;
+ Thu,  8 Oct 2020 16:25:12 +0000 (UTC)
+Subject: Re: does make check now require TCG? Or is it a parallelism issue?
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <11ef73ff-4178-b3e8-2e49-44ff014a13ed@suse.de>
+ <569520f6-adf6-6212-9625-a184bf499e24@redhat.com>
+ <e6300199-39e3-4f11-d97e-e2e7d9a9e8ef@suse.de>
+Message-ID: <16b01645-7a80-7f79-aba0-fd6c6c8ba6e8@suse.de>
+Date: Thu, 8 Oct 2020 18:25:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e6300199-39e3-4f11-d97e-e2e7d9a9e8ef@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 23:49:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.214,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,66 +58,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, vincenzo.frascino@arm.com
+Cc: Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unlike many other bits in HCR_EL2, the description for this
-bit does not contain the phrase "if ... this field behaves
-as 0 for all purposes other than", so do not squash the bit
-in arm_hcr_el2_eff.
+On 10/8/20 5:34 PM, Claudio Fontana wrote:
+> On 10/8/20 5:02 PM, Paolo Bonzini wrote:
+>> On 08/10/20 16:48, Claudio Fontana wrote:
+>>> on master, a build without tcg like:
+>>>
+>>> exec '../configure' '--disable-tcg' '--enable-kvm' '--enable-hax' "$@"
+>>>
+>>> make -j120 check
+>>> Generating qemu-version.h with a meson_exe.py custom command
+>>> make: *** No rule to make target 'qemu-system-aarch64', needed by 'check-block'.  Stop.
+>>> make: *** Waiting for unfinished jobs....
+>>>
+>>> qemu-system-aarch64 is required for check-block now?
+>>
+>> No, it's not, it's an unnecessary dependency.  This will fix it:
+>>
+>> diff --git a/tests/Makefile.include b/tests/Makefile.include
+>> index 5aca98e60c..1ca70d88ce 100644
+>> --- a/tests/Makefile.include
+>> +++ b/tests/Makefile.include
+>> @@ -140,7 +140,7 @@ QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXE
+>>  check: check-block
+>>  check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
+>>  		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
+>> -		$(patsubst %-softmmu,qemu-system-%,$(filter %-softmmu,$(TARGET_DIRS)))
+>> +		qemu-system-$(patsubst ppc64%,ppc64, $(shell uname -m))
+>>  	@$<
+>>  endif
+>>  
+>>
+>>
+> 
+> thanks this works!
+> 
+>>> If I run without -j:
+>>>
+>>> Running test qtest-i386: qmp-cmd-test
+>>> Broken pipe
+>>> ../tests/qtest/libqtest.c:175: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
+>>> ERROR qtest-i386: qmp-cmd-test - too few tests run (expected 53, got 45)
+>>> make: *** [Makefile.mtest:1074: run-test-151] Error 1
+>>
+>> This one is different and I've never seen it.
+> 
+> This one seems an additional, non-tcg build only error, will update when I have more details.
+> 
+>>
+>> Paolo
+>>
+> 
+> Ciao,
+> 
+> Claudio
+> 
 
-Instead, replicate the E2H+TGE test in the two places that
-require it.
+Seems to be some QMP calls to icount code from replay happening during the tests, which of course do not find any icount there..
 
-Reported-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/internals.h | 9 +++++----
- target/arm/helper.c    | 9 +++++----
- 2 files changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index ae99725d2b..5460678756 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1252,10 +1252,11 @@ static inline bool allocation_tag_access_enabled(CPUARMState *env, int el,
-         && !(env->cp15.scr_el3 & SCR_ATA)) {
-         return false;
-     }
--    if (el < 2
--        && arm_feature(env, ARM_FEATURE_EL2)
--        && !(arm_hcr_el2_eff(env) & HCR_ATA)) {
--        return false;
-+    if (el < 2 && arm_feature(env, ARM_FEATURE_EL2)) {
-+        uint64_t hcr = arm_hcr_el2_eff(env);
-+        if (!(hcr & HCR_ATA) && (!(hcr & HCR_E2H) || !(hcr & HCR_TGE))) {
-+            return false;
-+        }
-     }
-     sctlr &= (el == 0 ? SCTLR_ATA0 : SCTLR_ATA);
-     return sctlr != 0;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index cd0779ff5f..0620572e44 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6874,10 +6874,11 @@ static CPAccessResult access_mte(CPUARMState *env, const ARMCPRegInfo *ri,
- {
-     int el = arm_current_el(env);
- 
--    if (el < 2 &&
--        arm_feature(env, ARM_FEATURE_EL2) &&
--        !(arm_hcr_el2_eff(env) & HCR_ATA)) {
--        return CP_ACCESS_TRAP_EL2;
-+    if (el < 2 && arm_feature(env, ARM_FEATURE_EL2)) {
-+        uint64_t hcr = arm_hcr_el2_eff(env);
-+        if (!(hcr & HCR_ATA) && (!(hcr & HCR_E2H) || !(hcr & HCR_TGE))) {
-+            return CP_ACCESS_TRAP_EL2;
-+        }
-     }
-     if (el < 3 &&
-         arm_feature(env, ARM_FEATURE_EL3) &&
--- 
-2.25.1
+(gdb) bt
+#0  0x00007f2b4d115520 in raise () at /lib64/libc.so.6
+#1  0x00007f2b4d116b01 in abort () at /lib64/libc.so.6
+#2  0x000056295aaf5889 in icount_get_raw () at ../stubs/icount.c:20
+#3  0x000056295a7934a5 in replay_get_current_icount () at ../replay/replay.c:71
+#4  0x000056295a78719d in qmp_query_replay (errp=errp@entry=0x7ffe727a4538) at ../replay/replay-debugging.c:55
+#5  0x000056295aac0137 in qmp_marshal_query_replay (args=<optimized out>, ret=0x7ffe727a45a0, errp=0x7ffe727a4598)
+    at qapi/qapi-commands-replay.c:55
+#6  0x000056295aae88a3 in qmp_dispatch
+    (cmds=0x56295b3b5ce0 <qmp_commands>, request=request@entry=0x7f2b3c004db0, allow_oob=<optimized out>) at ../qapi/qmp-dispatch.c:155
+#7  0x000056295aa6ab7f in monitor_qmp_dispatch (mon=0x56295bee7f80, req=0x7f2b3c004db0) at ../monitor/qmp.c:145
+#8  0x000056295aa6b3ba in monitor_qmp_bh_dispatcher (data=<optimized out>) at ../monitor/qmp.c:234
+#9  0x000056295aaeb5b8 in aio_bh_poll (ctx=ctx@entry=0x56295bcd5130) at ../util/async.c:164
+#10 0x000056295aad76de in aio_dispatch (ctx=0x56295bcd5130) at ../util/aio-posix.c:380
+#11 0x000056295aaeb49e in aio_ctx_dispatch (source=<optimized out>, callback=<optimized out>, user_data=<optimized out>)
+    at ../util/async.c:306
+#12 0x00007f2b4e268f07 in g_main_context_dispatch () at /usr/lib64/libglib-2.0.so.0
+#13 0x000056295aac96fa in glib_pollfds_poll () at ../util/main-loop.c:221
+#14 0x000056295aac96fa in os_host_main_loop_wait (timeout=-1) at ../util/main-loop.c:244
+#15 0x000056295aac96fa in main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:520
+#16 0x000056295a99083d in qemu_main_loop () at ../softmmu/vl.c:1677
+#17 0x000056295a71b17e in main (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at ../softmmu/main.c:50
 
 
