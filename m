@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CD7286EF5
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 09:04:00 +0200 (CEST)
-Received: from localhost ([::1]:57046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457CE286EFA
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 09:05:52 +0200 (CEST)
+Received: from localhost ([::1]:33850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQPy3-0001vW-UF
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 03:03:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53492)
+	id 1kQPzr-000492-AJ
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 03:05:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kQPuq-00004s-46
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 03:00:40 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:44160)
+ id 1kQPwG-0000p4-QC; Thu, 08 Oct 2020 03:02:09 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:37306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kQPuo-0002aP-7N
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 03:00:39 -0400
-Received: by mail-ej1-x641.google.com with SMTP id a3so6478487ejy.11
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 00:00:37 -0700 (PDT)
+ id 1kQPwE-0002wm-1o; Thu, 08 Oct 2020 03:02:08 -0400
+Received: by mail-ej1-x642.google.com with SMTP id e22so6546217ejr.4;
+ Thu, 08 Oct 2020 00:02:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5nKLpZCOGzI5yDMC9dJOG4dUHgA3bxB1eIZ9nDRk9Vg=;
- b=RXnFxZMPCAN1tc+cKQlgWjBLbGrppmrSozmVePOVP7vOry9ZzeGssJG9EXJ5uDwC75
- 5fTfVSgdUybevP5s1QhD9umIhn6VmtBlsE7OwUrtsl8/jzGRx1/5/9dYYmC6HeHANg6Q
- CIcoQ3045CvD/neFmyClJfuHJQ8zcuGjSNUceZ3r9+iMDOF3+SJ+H4PgSEaF9Biu9pCT
- Z+cnhTpA/uS0LWKDn8g09GTZjHPcye3Z9XGi3FoiBgUE0izFJ0EGi5Z2oyZFY59sAchJ
- W/Dfnr/Qlw8Xu6qQPps6mTDcl/LRg8816J7No65TMM+5s4xNS2EdlXpTws0bQO5ozJgW
- DoXg==
+ :cc; bh=JeRqgtDBYnHt5SiMKhN4RpRt4Xe1xXTtzB3loz7l9lE=;
+ b=aXfaXYLutYEFPbA811Sjsv3WJPjDJao+A4UYGzOWwtnjC5+nSoqbpIMuEjez82ivhX
+ 0gmul1O0IyyzKzQ7wD1C3Y9T7lxHiLilPogwYUnrWI9I+AcYqV/Q7sowLwx2TWqLm9gD
+ 6Pn1P6veaD9beAI+IEbNZoRw4j6zwiLU/JuC+V0fVosy4OolYdaE7U3LFQHnv3XJcKy0
+ Wc1omKCkd+XEiBgAnz5JAYioCtzfNFPLTo5bcNGwMwjPOZT6nAp6ApstROPkLzuo0NVE
+ lBtzqykztoR0Qim2pvZEkUmY0es5KMKq4I52lhsCpHvpTfINda6vPrEV5JookdiPGCIt
+ cqWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5nKLpZCOGzI5yDMC9dJOG4dUHgA3bxB1eIZ9nDRk9Vg=;
- b=q5Zo00cYDshgwrDKzcLBEiZRTpDaKS7VKKwdi+lQMeCT9PeVdibzqqa7s/mJU7zhJ+
- JVu0DL9wMSx5/qWSVPpdXkNQp2QqSg/fObT+bI16yQd6e2tZLs7Jz/YwxBlsOSnie1O7
- oPqVuQPE/oaohbFoaa14GustGKKn5ag4tte7Xg980iwUEd87VLVnfLMsMlC/ybkZmGwj
- LF1+CPi3gOKFi2CUciijx/RvCIefVZzUxd0o4avKgbxJhkzO3tcJZ6yNcv8KM+axbI3/
- adEVDhNXx51krDcMvRewrMCeB1LIWA9PX5wIqILbuLScJbitr0qL2VqSLJP9+1fk1iZY
- O9gw==
-X-Gm-Message-State: AOAM532mZ6gRAinUkFmzHgauUt3h6Vjhren8Q7dc1F7IoQ/Ti5fhL/vq
- Ig7SEgc2I1W1gDlsvcPHU1uvDHmiXLf5KQPtksY=
-X-Google-Smtp-Source: ABdhPJzqenvt1aw6xTBhsTx1+408Gs1oa0EjOBVWu+D2AExoqtMe6MAu4+ni6dAJR67qe+BJ3P3bgIhP3mDi2ECzE9g=
+ bh=JeRqgtDBYnHt5SiMKhN4RpRt4Xe1xXTtzB3loz7l9lE=;
+ b=bnLmBXz69WWZj8Eu5Sq9H2LM5uBT6u3HsfNZaxLqaZMRonTXoQf5oixAN9ulJodEPj
+ 8PGODMXLKzEzmAscXQ8iYS4j4xYPop0shn5OPZP6/uG+ProiNrUqoz+x9oo0xwTGMKNS
+ oNQyzEFOkHyKAS0nsUKf7QIWhYj9AOlwW9b9c8stWRAh3gv1TTQGs486ObjTfCXeBGZ7
+ LEwUpa5N338IIduamfidjvMBZ7kCCjItt7Qns1IKo20Icghrnf2wLHhTnSL2mQ1mwQC5
+ uVdBl65a7PEMT7ea3pqp1yq5lY9LWxvR2EnW1TLEUpZuVC8v5+mdnUilcSjcNU/tLbkE
+ VFQA==
+X-Gm-Message-State: AOAM531L48Snid/CTqsVDabUHLEOSjdpDEUIsPPs2rqO+ElxwkjMQpCI
+ z4i3BlZMaemZT+SUd2M5DsbeNYK7yfFhCiTj9wk=
+X-Google-Smtp-Source: ABdhPJxZx/OeEvTmIYzGl25AD13iihRSWkEsRRkJFCZu6VT1ac53IMKaMb73pibS8ZgvuxR+T8WlRHVET3gEe+9VeaY=
 X-Received: by 2002:a17:906:4e16:: with SMTP id
- z22mr1175710eju.527.1602140436883; 
- Thu, 08 Oct 2020 00:00:36 -0700 (PDT)
+ z22mr1182161eju.527.1602140523901; 
+ Thu, 08 Oct 2020 00:02:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200921221045.699690-1-ehabkost@redhat.com>
- <20200921221045.699690-22-ehabkost@redhat.com>
-In-Reply-To: <20200921221045.699690-22-ehabkost@redhat.com>
+References: <20201007220255.1170167-1-ehabkost@redhat.com>
+In-Reply-To: <20201007220255.1170167-1-ehabkost@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 8 Oct 2020 11:00:24 +0400
-Message-ID: <CAJ+F1CLOS948hqSc2fim9WC6BBTHtTpnYdyiz9paqmGgu=WCBA@mail.gmail.com>
-Subject: Re: [PATCH 21/24] vga-pci: Register "big-endian-framebuffer" as class
- property
+Date: Thu, 8 Oct 2020 11:01:52 +0400
+Message-ID: <CAJ+F1C+G-oU9qQMUFKqQqWxPqvA2k_qSJnYcYCPMu=Y8T+Hw5A@mail.gmail.com>
+Subject: Re: [PATCH] qom: Fix "typddef" typo
 To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000009eee3605b12363fd"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x641.google.com
+Content-Type: multipart/alternative; boundary="000000000000ceb96405b12368ce"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,78 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu trival <qemu-trivial@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009eee3605b12363fd
+--000000000000ceb96405b12368ce
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2020 at 2:28 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
-:
+On Thu, Oct 8, 2020 at 2:04 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-> Class properties make QOM introspection simpler and easier, as
-> they don't require an object to be instantiated.
+> Fix typo introduced in the C11 #ifdef for qemu_max_align_t.  It
+> never caused any problems because we always compile using
+> -std=3Dgnu99.
 >
+> Fixes: 4c880f363e9e ("qom: Allow objects to be allocated with increased
+> alignment")
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 >
 
-
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
----
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: qemu-devel@nongnu.org
+
 > ---
->  hw/display/vga-pci.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
+>  qom/object.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-> index 3b45fa3bad0..b2a7d03c5d5 100644
-> --- a/hw/display/vga-pci.c
-> +++ b/hw/display/vga-pci.c
-> @@ -269,13 +269,6 @@ static void pci_std_vga_realize(PCIDevice *dev, Erro=
-r
-> **errp)
->      }
->  }
+> diff --git a/qom/object.c b/qom/object.c
+> index c335dce7e4..125dabd28b 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -692,7 +692,7 @@ static void object_finalize(void *data)
 >
-> -static void pci_std_vga_init(Object *obj)
-> -{
-> -    /* Expose framebuffer byteorder via QOM */
-> -    object_property_add_bool(obj, "big-endian-framebuffer",
-> -                             vga_get_big_endian_fb,
-> vga_set_big_endian_fb);
-> -}
-> -
->  static void pci_secondary_vga_realize(PCIDevice *dev, Error **errp)
->  {
->      PCIVGAState *d =3D PCI_VGA(dev);
-> @@ -388,6 +381,10 @@ static void vga_class_init(ObjectClass *klass, void
-> *data)
->      k->class_id =3D PCI_CLASS_DISPLAY_VGA;
->      device_class_set_props(dc, vga_pci_properties);
->      dc->hotpluggable =3D false;
-> +
-> +    /* Expose framebuffer byteorder via QOM */
-> +    object_class_property_add_bool(klass, "big-endian-framebuffer",
-> +                                   vga_get_big_endian_fb,
-> vga_set_big_endian_fb);
->  }
->
->  static void secondary_class_init(ObjectClass *klass, void *data)
-> @@ -405,7 +402,6 @@ static void secondary_class_init(ObjectClass *klass,
-> void *data)
->  static const TypeInfo vga_info =3D {
->      .name          =3D "VGA",
->      .parent        =3D TYPE_PCI_VGA,
-> -    .instance_init =3D pci_std_vga_init,
->      .class_init    =3D vga_class_init,
->  };
->
+>  /* Find the minimum alignment guaranteed by the system malloc. */
+>  #if __STDC_VERSION__ >=3D 201112L
+> -typddef max_align_t qemu_max_align_t;
+> +typedef max_align_t qemu_max_align_t;
+>  #else
+>  typedef union {
+>      long l;
 > --
 > 2.26.2
 >
@@ -162,90 +128,50 @@ r
 --=20
 Marc-Andr=C3=A9 Lureau
 
---0000000000009eee3605b12363fd
+--000000000000ceb96405b12368ce
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 22, 2020 at 2:28 AM Eduar=
-do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" target=3D"_blank">eha=
-bkost@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">Class properties make QOM introspection simpler and easier,=
- as<br>
-they don&#39;t require an object to be instantiated.<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 8, 2020 at 2:04 AM Eduard=
+o Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fix=
+ typo introduced in the C11 #ifdef for qemu_max_align_t.=C2=A0 It<br>
+never caused any problems because we always compile using<br>
+-std=3Dgnu99.<br>
 <br>
+Fixes: 4c880f363e9e (&quot;qom: Allow objects to be allocated with increase=
+d alignment&quot;)<br>
 Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
 arget=3D"_blank">ehabkost@redhat.com</a>&gt;<br></blockquote><div><br></div=
-><div> <font color=3D"#888888">=C2=A0 </font><br><div>Reviewed-by: Marc-And=
-r=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" target=3D=
-"_blank">marcandre.lureau@redhat.com</a>&gt;</div><div><br></div></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
+><div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcan=
+dre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt=
+;</div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-Cc: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank=
-">kraxel@redhat.com</a>&gt;<br>
-Cc: <a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_blank">qemu-devel@n=
-ongnu.org</a><br>
----<br>
-=C2=A0hw/display/vga-pci.c | 12 ++++--------<br>
-=C2=A01 file changed, 4 insertions(+), 8 deletions(-)<br>
+=C2=A0qom/object.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
-diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c<br>
-index 3b45fa3bad0..b2a7d03c5d5 100644<br>
---- a/hw/display/vga-pci.c<br>
-+++ b/hw/display/vga-pci.c<br>
-@@ -269,13 +269,6 @@ static void pci_std_vga_realize(PCIDevice *dev, Error =
-**errp)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
+diff --git a/qom/object.c b/qom/object.c<br>
+index c335dce7e4..125dabd28b 100644<br>
+--- a/qom/object.c<br>
++++ b/qom/object.c<br>
+@@ -692,7 +692,7 @@ static void object_finalize(void *data)<br>
 <br>
--static void pci_std_vga_init(Object *obj)<br>
--{<br>
--=C2=A0 =C2=A0 /* Expose framebuffer byteorder via QOM */<br>
--=C2=A0 =C2=A0 object_property_add_bool(obj, &quot;big-endian-framebuffer&q=
-uot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vga_get_big_endian_fb, vga_set_big_endian_fb=
-);<br>
--}<br>
--<br>
-=C2=A0static void pci_secondary_vga_realize(PCIDevice *dev, Error **errp)<b=
-r>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0PCIVGAState *d =3D PCI_VGA(dev);<br>
-@@ -388,6 +381,10 @@ static void vga_class_init(ObjectClass *klass, void *d=
-ata)<br>
-=C2=A0 =C2=A0 =C2=A0k-&gt;class_id =3D PCI_CLASS_DISPLAY_VGA;<br>
-=C2=A0 =C2=A0 =C2=A0device_class_set_props(dc, vga_pci_properties);<br>
-=C2=A0 =C2=A0 =C2=A0dc-&gt;hotpluggable =3D false;<br>
-+<br>
-+=C2=A0 =C2=A0 /* Expose framebuffer byteorder via QOM */<br>
-+=C2=A0 =C2=A0 object_class_property_add_bool(klass, &quot;big-endian-frame=
-buffer&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vga_get_big_endian_fb, =
-vga_set_big_endian_fb);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void secondary_class_init(ObjectClass *klass, void *data)<br>
-@@ -405,7 +402,6 @@ static void secondary_class_init(ObjectClass *klass, vo=
-id *data)<br>
-=C2=A0static const TypeInfo vga_info =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;VGA&q=
-uot;,<br>
-=C2=A0 =C2=A0 =C2=A0.parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_PCI_VGA,<br=
->
--=C2=A0 =C2=A0 .instance_init =3D pci_std_vga_init,<br>
-=C2=A0 =C2=A0 =C2=A0.class_init=C2=A0 =C2=A0 =3D vga_class_init,<br>
-=C2=A0};<br>
-<br>
+=C2=A0/* Find the minimum alignment guaranteed by the system malloc. */<br>
+=C2=A0#if __STDC_VERSION__ &gt;=3D 201112L<br>
+-typddef max_align_t qemu_max_align_t;<br>
++typedef max_align_t qemu_max_align_t;<br>
+=C2=A0#else<br>
+=C2=A0typedef union {<br>
+=C2=A0 =C2=A0 =C2=A0long l;<br>
 -- <br>
 2.26.2<br>
 <br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---0000000000009eee3605b12363fd--
+--000000000000ceb96405b12368ce--
 
