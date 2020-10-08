@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D375287266
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 12:19:37 +0200 (CEST)
-Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9FB287279
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 12:23:51 +0200 (CEST)
+Received: from localhost ([::1]:33718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQT1M-0000OT-7E
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 06:19:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33836)
+	id 1kQT5S-0003Sa-Tm
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 06:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kQT0O-0008Jv-5Z
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 06:18:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kQT0L-0003XE-9I
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 06:18:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602152311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dTsAr4L86S0toDmX0b/7rWXFq99GSpHLg1+rR/o5ino=;
- b=hJtBqJtGXhs12qXHdVbAlvjr+sXlOiXi2vXfnomvJk4dIQXAf1kuDE6SrTdiklRV5FUSuR
- JTU1REH6KFkfmTbqVD9WEx+FNIfnkX9DUBrK9LEoKowEMaYMwrFG4h9TWSTUJOZ4XkoOOP
- u2Vn63Ro4r9q1xwCHxWaAf5hIrCzFsU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-f1-XfL1OMtmIbNi7UxwPkQ-1; Thu, 08 Oct 2020 06:18:28 -0400
-X-MC-Unique: f1-XfL1OMtmIbNi7UxwPkQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFC49106C0D9;
- Thu,  8 Oct 2020 10:18:07 +0000 (UTC)
-Received: from localhost (ovpn-115-14.ams2.redhat.com [10.36.115.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54F535D9D5;
- Thu,  8 Oct 2020 10:18:07 +0000 (UTC)
-Date: Thu, 8 Oct 2020 11:18:06 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2] block/nvme: Add driver statistics for access
- alignment and hw errors
-Message-ID: <20201008101806.GB17253@stefanha-x1.localdomain>
-References: <20201001162939.1567915-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kQT30-0001Ua-Sn
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 06:21:18 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36139)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kQT2z-0003vb-0h
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 06:21:18 -0400
+Received: by mail-wr1-x441.google.com with SMTP id z1so5960026wrt.3
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 03:21:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kVNcupSJPs5zDcgWvxV3AS6oca/hcA8uS+fS/IY/ww0=;
+ b=evcJSi6MRApUbFGv8UCjWb9g199ayHpVC58x1H2JrNCwQ4CYd3XmYoxx1vJeKvI5TK
+ ASjirO3nkpIrljs5tP43y7RLoPCgtjuaLNK9dyt34FwQHT2H/BZDUw9Ua9szRTDMSgFw
+ o4oAYYDcS+TykQ9L+gbSrFwBvHl7fgjTfBLc1PASPQS+SWjIiut07HzK8/feu+HVVwhw
+ u2ZSCcSAw0ZCFJH4C5f+NPBxbMkMIGPRSo7ZO8In+zZKoJH/FCf3P1IBXrTRG3tcAzwm
+ IQBb6l28Yz+bT57trXNLcdZynk+ev+Vw/Nxzia1CF/xkZR6eby9nLSyCijSZy765g613
+ 0Jvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kVNcupSJPs5zDcgWvxV3AS6oca/hcA8uS+fS/IY/ww0=;
+ b=YZpAupiwArQbG9CkKBRgiDBWpHPjsBPL3JBlTBmd+ce1vb3byaKqgm6bZPEEvkZ4yF
+ /9/ce0axIU2qur5DuUNpX6Dw7geJ1+TcwPhTeBbBkDMJqdo+u0xiWEvIOghKEp9gZZBA
+ HjwYfIcpayJX6Pvs2WYKAKheReHUep36nknwCvgpZ1zx1GwE9RLhQ02KFT8oLzv1BCmK
+ jDqabxLWXEsFkFGYTLeh1DwIl465abP7Sgt/nZF06naG2R3+0eLg38d9BVFYYn1l9K+N
+ cMQ8QQMLvAUQ8cze5f0yDI6Jk3TQzshmQlb78FD7jE3Wjlfnc3y/eyiYJ39vzsRIk8Vq
+ I3pg==
+X-Gm-Message-State: AOAM532OkUNZHGp5r99mPfPcOFV/8qER+WFcu9l5ZL9Z0wKB4Ompplg0
+ /QHQYsPbpmMikWy1+uaoHVg=
+X-Google-Smtp-Source: ABdhPJwwOqPgD+/U1yUTP1z8bVuk1QoawjUGTLtg7Q2jA2o2NkXcKg1lku8MM3u+E2DvE8kjc3sFdg==
+X-Received: by 2002:adf:d4c7:: with SMTP id w7mr8632945wrk.263.1602152474763; 
+ Thu, 08 Oct 2020 03:21:14 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id z13sm6397342wro.97.2020.10.08.03.21.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Oct 2020 03:21:14 -0700 (PDT)
+Subject: Re: [PATCH v2 5/5] MAINTAINERS: Remove myself
+To: chen huacai <zltjiangshi@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <1602103041-32017-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+ <1602103041-32017-6-git-send-email-aleksandar.qemu.devel@gmail.com>
+ <CABDp7VppBsH74X8rvFzYEdQ_nM7dxYndd1SSKqTpZGDNA2w86A@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <5a69fc78-2c9e-f8a4-7503-888e40e39bc7@amsat.org>
+Date: Thu, 8 Oct 2020 12:21:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201001162939.1567915-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Y7xTucakfITjPcLV"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 01:56:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CABDp7VppBsH74X8rvFzYEdQ_nM7dxYndd1SSKqTpZGDNA2w86A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,90 +93,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ qemu-level <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ hpoussin@reactos.org, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Y7xTucakfITjPcLV
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/8/20 9:21 AM, chen huacai wrote:
+> Hi, Aleksandar,
+> 
+> On Thu, Oct 8, 2020 at 4:40 AM Aleksandar Markovic
+> <aleksandar.qemu.devel@gmail.com> wrote:
+>>
+>> I have been working on project other than QEMU for some time, and would
+>> like to devote myself to that project. It is imposible for me to find
+>> enough time to perform maintainer's duties with needed meticulousness
+>> and patience.
 
-On Thu, Oct 01, 2020 at 06:29:39PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Keep statistics of some hardware errors, and number of
-> aligned/unaligned I/O accesses.
->=20
-> QMP example booting a full RHEL 8.3 aarch64 guest:
->=20
-> { "execute": "query-blockstats" }
-> {
->     "return": [
->         {
->             "device": "",
->             "node-name": "drive0",
->             "stats": {
->                 "flush_total_time_ns": 6026948,
->                 "wr_highest_offset": 3383991230464,
->                 "wr_total_time_ns": 807450995,
->                 "failed_wr_operations": 0,
->                 "failed_rd_operations": 0,
->                 "wr_merged": 3,
->                 "wr_bytes": 50133504,
->                 "failed_unmap_operations": 0,
->                 "failed_flush_operations": 0,
->                 "account_invalid": false,
->                 "rd_total_time_ns": 1846979900,
->                 "flush_operations": 130,
->                 "wr_operations": 659,
->                 "rd_merged": 1192,
->                 "rd_bytes": 218244096,
->                 "account_failed": false,
->                 "idle_time_ns": 2678641497,
->                 "rd_operations": 7406,
->             },
->             "driver-specific": {
->                 "driver": "nvme",
->                 "completion-errors": 0,
->                 "unaligned-accesses": 2959,
->                 "aligned-accesses": 4477
->             },
->             "qdev": "/machine/peripheral-anon/device[0]/virtio-backend"
->         }
->     ]
-> }
->=20
-> Suggested-by: Stefan Hajnoczi <stefanha@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
-> v2: 'access-nb' -> 'accesses' (Stefan)
-> ---
->  qapi/block-core.json | 24 +++++++++++++++++++++++-
->  block/nvme.c         | 27 +++++++++++++++++++++++++++
->  2 files changed, 50 insertions(+), 1 deletion(-)
+Thanks Aleksandar for your contributions and keeping MIPS in good
+shape during 2 years!
 
-Thanks, applied to my block tree:
-https://github.com/stefanha/qemu/commits/block
+>>
+>> I wish prosperous future to QEMU and all colegues in QEMU community.
+> I'm very sorry to hear that. I hope you can be still here if possible...
+> I found that there are many reviewers, so, if it is a must that
+> Aleksandar will leave us, can these reviewers be maintainers?
 
-Stefan
+Thanks for volunteering! Aleksandar Rikalo hasn't sent anything
+to the list since 4 months. Is Jiaxun Yang also volunteering?
 
---Y7xTucakfITjPcLV
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Phil.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl9+514ACgkQnKSrs4Gr
-c8iQPwf/dYaRHZ1WgY5/Et+Ohq75oZT+Q+DAZjrBz5r8E4cTEG67XFD2svOQtJt5
-11GCAX3i1qNLNad2Z74FbgToGAadn4YeFwj3XceT3Q4tYlBmJgUO3AsGtk1D7L5q
-/AfaTOAs95LZFwbixQndFXoANFkjqZF7RY34vaPfLcix5dK8sh8qC9I8nVWkgCd3
-j52GbgfEMm+P3yauTKENGFpvi5AO/gl9XZtSKUhe5kFZjLAWAolBTeRdjUD9MzRD
-wAoX2H6H5y7JExNMiiCSNi2+ORQml7lrk9qYp27SUfIhGuyafLK9cmFw2grV4qdP
-2n3IXWvumRs2oKDf9GKs+hSwUqQUmw==
-=5Y+x
------END PGP SIGNATURE-----
-
---Y7xTucakfITjPcLV--
-
+> 
+> Huacai
+>>
+>> Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>> ---
+>>  MAINTAINERS | 17 +++++------------
+>>  1 file changed, 5 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index e9d85cc..426f52c 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -221,11 +221,10 @@ F: hw/microblaze/
+>>  F: disas/microblaze.c
+>>
+>>  MIPS TCG CPUs
+>> -M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>>  R: Aurelien Jarno <aurelien@aurel32.net>
+>>  R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+>> -S: Maintained
+>> +S: Orphaned
+>>  F: target/mips/
+>>  F: default-configs/*mips*
+>>  F: disas/*mips*
+>> @@ -387,7 +386,6 @@ F: target/arm/kvm.c
+>>
+>>  MIPS KVM CPUs
+>>  M: Huacai Chen <chenhc@lemote.com>
+>> -M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>>  S: Odd Fixes
+>>  F: target/mips/kvm.c
+>>
+>> @@ -1124,10 +1122,9 @@ F: hw/display/jazz_led.c
+>>  F: hw/dma/rc4030.c
+>>
+>>  Malta
+>> -M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>>  M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>  R: Aurelien Jarno <aurelien@aurel32.net>
+>> -S: Maintained
+>> +S: Odd Fixes
+>>  F: hw/isa/piix4.c
+>>  F: hw/acpi/piix4.c
+>>  F: hw/mips/malta.c
+>> @@ -1137,14 +1134,12 @@ F: tests/acceptance/linux_ssh_mips_malta.py
+>>  F: tests/acceptance/machine_mips_malta.py
+>>
+>>  Mipssim
+>> -M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+>> -S: Odd Fixes
+>> +S: Orphaned
+>>  F: hw/mips/mipssim.c
+>>  F: hw/net/mipsnet.c
+>>
+>>  R4000
+>> -M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>>  R: Aurelien Jarno <aurelien@aurel32.net>
+>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+>>  S: Obsolete
+>> @@ -1153,7 +1148,6 @@ F: hw/mips/r4k.c
+>>  Fuloong 2E
+>>  M: Huacai Chen <chenhc@lemote.com>
+>>  M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> -M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>>  R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>  S: Odd Fixes
+>>  F: hw/mips/fuloong2e.c
+>> @@ -2821,12 +2815,11 @@ F: tcg/i386/
+>>  F: disas/i386.c
+>>
+>>  MIPS TCG target
+>> -M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>>  R: Aurelien Jarno <aurelien@aurel32.net>
+>>  R: Huacai Chen <chenhc@lemote.com>
+>>  R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+>> -S: Maintained
+>> +S: Orphaned
+>>  F: tcg/mips/
+>>
+>>  PPC TCG target
+>> @@ -3167,7 +3160,7 @@ S: Odd Fixes
+>>  F: scripts/git-submodule.sh
+>>
+>>  UI translations
+>> -M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>> +S: Orphaned
+>>  F: po/*.po
+>>
+>>  Sphinx documentation configuration and build machinery
+>> --
+>> 2.7.4
+>>
+>>
+> 
+> 
 
