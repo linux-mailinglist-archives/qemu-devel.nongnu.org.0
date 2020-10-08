@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FF628751A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:14:18 +0200 (CEST)
-Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4F3287503
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:13:29 +0200 (CEST)
+Received: from localhost ([::1]:55290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQVkP-0005jW-0d
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:14:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48456)
+	id 1kQVjc-0004vd-9c
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kQVfY-0000zD-8y
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:09:16 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:57077)
+ id 1kQVhr-0003mm-Jm
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:11:39 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:48147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kQVfV-0003cr-W7
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:09:15 -0400
+ id 1kQVhp-0003zs-6n
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:11:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=wLjjOB7SPox5da0izpNeAC0Gn7cQCvOmKVxCljbxKQ8=; b=ef6VPpn84q3LgZqO4wQ1xXUopS
- tppiT7KXsK3MRQuC4ao9eTJ52L6TfHgcsFaIrds6lvQrUyX9reu9ksCnZ4ecMWRj9bPEQeOxaqESG
- CW42q5tgptSvL2gLDTqHbNQ2ydhvovPuhOZPU7JSE7nP8fZE3nvtjiqCZqTvA3/MiZpcZdVYGavTX
- 4PhP6l7uTFmC3c5JUAv7MB2Mrl4ZLHDPWSJU7Z3jXoDDdji/XYCkw5ABdUu9TNJmLanSVjEgep8Pi
- DMVdO6DCG/666sdWUHgRl7pDgLJNXl3IOAYXFeb3au3PvbVZvxD/sAGZyVrXo4Rdcj/HZP7wg5Za8
- ug0wb2CA==;
+ bh=JJjv+FONZLgijtpklT4ZZEVzcXMU1dWsgI7fiZPGDMs=; b=OeoYAGXdCRBh4IUofIX6uddJA/
+ 3TlkUt/txVX7uAlzCq59MGbxxs/8sZWf1zOC9U+9YkujEdFKXH01xeVXU4FsD0cCzSDxRsBGMc8Av
+ Z+uCla07DtC/du4O+mZtV3RMzl5b7XIRLrRbvIu0Qm+F1tmGyN0bISJcbMj6oqxmCAdj17SNc/UNy
+ G0+ORna2jhg51oZwAjbtRKuXOv8CgG0Ee49uur0oYAlsT5/FdDZfL+tvIr3Fou9xfV3wMwYXX7l1X
+ GdmydZfHuf8qDu8/jf6XjK5Qj/3cOXl4ta/U1ApaR0GXuEhrVqmBq1kL8IEBmgEj9EH75p7HB/Spm
+ 4U5FHkATTjy1ApsPkalEuRzHofebkId01Gkfzc3O6mP5vR5S+WRwC+IpkOIYZW3toBk5J58LQaN+J
+ ZGkIawSx+BkKbIH8PEfHKg1BOsvUc+dvY1OtiVoyCX1+PzefG0kWJXqivv8Y1y7ZUax9a8xZIfp8w
+ mg3b+VfWhPG581H864tsYg97Vor9yDmg+8aopUs9XcfEVmIyAKrlYaGceTRjYiye8nPW2+iL6LReE
+ RjrdrtQDSDQXPwMe0mKNc/AjTdy5zXVj8R7cSLJfxiLrJUyQTZNlcycOqot1zBjtP71i/teMSOUHQ
+ 1+ndGjou/RZYoLvubxGl8Tqo6wN37p2iWIlKL1dOA=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  berrange@redhat.com, Thomas Huth <thuth@redhat.com>,
  Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
  Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v3 05/11] tests/qtest/qos-test: dump environment variables
- if verbose
-Date: Thu, 08 Oct 2020 15:09:10 +0200
-Message-ID: <1836979.gfKjIU19vi@silver>
-In-Reply-To: <ff76657f-4da1-5131-f981-02ea975cf1a3@redhat.com>
+Subject: Re: [PATCH v3 06/11] tests/qtest/qos-test: dump QEMU command if
+ verbose
+Date: Thu, 08 Oct 2020 15:11:33 +0200
+Message-ID: <11127871.8IYHytKs81@silver>
+In-Reply-To: <68eaa9ac-0de6-a426-52bb-8a91f03664de@redhat.com>
 References: <cover.1601655308.git.qemu_oss@crudebyte.com>
- <8d8b242f38caccd81c27125167862f4457e8a22f.1601655308.git.qemu_oss@crudebyte.com>
- <ff76657f-4da1-5131-f981-02ea975cf1a3@redhat.com>
+ <54781ff3e3231fa1b7e1bea8d16e825c5084a74f.1601655308.git.qemu_oss@crudebyte.com>
+ <68eaa9ac-0de6-a426-52bb-8a91f03664de@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 08:26:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 09:11:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -71,47 +75,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 8. Oktober 2020 14:37:00 CEST Paolo Bonzini wrote:
+On Donnerstag, 8. Oktober 2020 14:36:11 CEST Paolo Bonzini wrote:
 > On 02/10/20 18:15, Christian Schoenebeck wrote:
-> > -int main(int argc, char **argv)
-> > +int main(int argc, char **argv, char** envp)
+> > If qtests are run in verbose mode (i.e. if --verbose CL argument
+> > was provided) then print the assembled qemu command line for each
+> > test.
 > > 
+> > Instead of using g_test_message() rather use printf() in combination
+> > with g_test_verbose(), to avoid g_test_message() cluttering the
+> > output.
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> > 
+> >  tests/qtest/qos-test.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
+> > index fe240b32a7..b9f0942386 100644
+> > --- a/tests/qtest/qos-test.c
+> > +++ b/tests/qtest/qos-test.c
+> > @@ -89,6 +89,9 @@ static void qos_set_machines_devices_available(void)
+> > 
+> >  static void restart_qemu_or_continue(char *path)
 > >  {
-> >  
-> >      g_test_init(&argc, &argv, NULL);
 > > 
 > > +    if (g_test_verbose()) {
-> > +        printf("ENVIRONMENT VARIABLES: {\n");
-> > +        for (char **env = envp; *env != 0; env++) {
-> > +            printf("\t%s\n", *env);
-> > +        }
-> > +        printf("}\n");
+> > +        printf("Run QEMU with: '%s'\n", path);
 > > +    }
+> > 
+> >      /* compares the current command line with the
+> >      
+> >       * one previously executed: if they are the same,
+> >       * don't restart QEMU, if they differ, stop previous
 > 
-> But doesn't this (and patch 6 as well) break TAP output?  Using
-> g_test_message + g_test_verbose would be the best of both worlds.
+> This need not even be made verbose I think.
 
-If there was TAP output then yes, patches 4, 5, 6 would probably break it.
-
-How/when is TAP output enabled? I don't see any TAP output by default.
-
-> In fact using printf in tests should be forbidden, since glib 2.62 and
-> newer _always_ emit TAP.
-> 
-> Paolo
-
-The reason why I used printf() was because g_test_message() clutters the 
-output tremendously, as it always wraps the text of each g_test_message() call 
-into:
-
-	"(MSG: %s)\n"
-
-which is inappropriate for multi-line messages as these proposed patches do.
-
-Is that actually a real-life problem? I mean these patches only output 
-anything if --verbose CL switch is used, and I don't see any TAP output 
-enabled by default. And the --verbose CL switch is usually just used by 
-developers for debugging test case issues, isn't it?
+I actually find that handy in this way. By default I prefer the current output 
+where I just see the name of the test currently running. I only need to see 
+the actual QEMU command if there is some kind of problem to fix.
 
 Best regards,
 Christian Schoenebeck
