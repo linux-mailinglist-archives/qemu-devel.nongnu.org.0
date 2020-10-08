@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C0E2877F6
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 17:49:39 +0200 (CEST)
-Received: from localhost ([::1]:35086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F622287810
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 17:52:10 +0200 (CEST)
+Received: from localhost ([::1]:39772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQYAk-0004gw-KU
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 11:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55580)
+	id 1kQYDB-0006qO-6g
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 11:52:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kQXzz-0005P0-3q
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:38:32 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:54911)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kQXzv-0000iH-1Z
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:38:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Ex5exmGyPALsm1eGtkacdZmeJMniTvLYx8VMxu3dHX4=; b=PabK6MD4647njOjRDenJWkp1ia
- EoVEW+G7EIB0REIMOPbLeLYrehcwGS4oUcj4USRnHNIYmomcmLnPgZZE4z4E6wDqhpHbGwJ2z0qn4
- hiPyVTR+jEejXBOCzfATJgsxYACXLtF9nzE9A+XDHe78It6FMtR4ad3Aetq3s+u4vweryJVQeYmpD
- wHLANe1lU4LbqixjuWglPJQ871tlXICdwSgIN9zOCm1avn0KdXq+UPa4XUF4NBHj9gmM/lq3oTNGm
- CaLHb5LMU0ozE6ETa1ZwBTeUGlr+48BNr53iXLIXGKorggCiRA6QTPQW/U0ZoqPv7U4yAjQa8LiVW
- E/Nfk4gg==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- berrange@redhat.com, Thomas Huth <thuth@redhat.com>,
- Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v3 05/11] tests/qtest/qos-test: dump environment variables
- if verbose
-Date: Thu, 08 Oct 2020 17:38:23 +0200
-Message-ID: <25035671.SGzBP4Y90E@silver>
-In-Reply-To: <d7603332-3bad-6fd1-0140-79bdec9fa4f1@redhat.com>
-References: <cover.1601655308.git.qemu_oss@crudebyte.com>
- <2996442.YqjEYQNFnd@silver> <d7603332-3bad-6fd1-0140-79bdec9fa4f1@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kQY3E-00080m-Ks
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:41:53 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:33920)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kQY3C-0001TB-GQ
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:41:52 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id x1so6328628eds.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 08:41:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=r64ZZx9bjWtXBdUUIcYa87604w1d3wlv8wpaQqXSNBs=;
+ b=NEDom/NUNRHB0eufjsiezHXHVVl45V0GGbwJhWvFJMChVLUzwWm0LdtQyUx/2kLUW2
+ 3mjJUN5twjjA3D2j5hFMD//sTd69aSj9rYgGf02FsR8q+GXyPPAdXWly5nyDm2ZRLPV/
+ Hdq6MulXotThxagrGzZ9KWlnhTCDCv+ylinS/ZuK718DmBMcCyrhQ4XxTWz4CcV+riFS
+ EeZMUrKrcPEWoGjr6lf5J5bo98Af/6WKffzgUSYvUc3jMcyrGJJ7GMbW8rd8s7p8HV/6
+ ShVo7y+ADjpjynyEnuDDKSgCGA8ezToXcjg5WH9lZk6Xskoz767JIHj2xOQwLvnDWEze
+ O2wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=r64ZZx9bjWtXBdUUIcYa87604w1d3wlv8wpaQqXSNBs=;
+ b=eqpMl3n4d7q9ZMvXwj5DYVbRe4zS2KbA0rrq77yseSRX/nWYQch0ndj8F/LXNVSDXi
+ KzXB4xNXl6yZPE+79Xz6QrsD7t77DYVGXyZlPeNkKBWMRuUF/EUB4weKrH62ngYRhnTq
+ AqKNcbaaZdzSP5Ey9UDQCDGF+XPmBchG3T5u/n8Mdf8qt+iNpQky0Pwn/u++XDdE/eIQ
+ FEE62U8hVJe40Iz8xZ0Vr95NAofiJ4fQq/pbIZnVhU2O4mM8WGetdXA83MaeR+qCU85W
+ Mf9nRRw/UVGpPyJDdboRLEvQwNRGWZp8Vulxm5zyDWTp+1F10k74w01qaNTyYEwUGGNB
+ lfFA==
+X-Gm-Message-State: AOAM532rfb37pe1SoUsojldF4tCegtgjr4l/o1k/Ap8gEYeZ4cK0DWM9
+ d6bpMIhzGPaiaFjvO5pUas7/OBFj9PuOfK8pWMPx9Q==
+X-Google-Smtp-Source: ABdhPJymr1L5xyunOcy4oj3bbm8HgyYr61RxhBc7l7QJilRUQfiAJFgGnhWuhtR/KZxpBVlq/CL6OcBGzcAMuDYbO/w=
+X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr9421777edw.251.1602171708747; 
+ Thu, 08 Oct 2020 08:41:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 08:26:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201006220647.GR7303@habkost.net>
+ <CAFEAcA_se7jErv9AFM2D7UdDMurB9Lb6W9aAXD6648spQ6idKg@mail.gmail.com>
+ <87mu0xyrtn.fsf@dusky.pond.sub.org> <20201008151521.GB7303@habkost.net>
+In-Reply-To: <20201008151521.GB7303@habkost.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 8 Oct 2020 16:41:37 +0100
+Message-ID: <CAFEAcA_=uScLjGR6vHbjsQK0-jgNuwNK+jcNf-u1yAh-863+2A@mail.gmail.com>
+Subject: Re: Purpose of QOM properties registered at realize time?
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,38 +80,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 8. Oktober 2020 15:52:08 CEST Paolo Bonzini wrote:
-> On 08/10/20 15:42, Christian Schoenebeck wrote:
-> >> I'm okay I guess with using g_test_message on 2.62 or newer, and
-> >> assuming people don't use --tap --verbose on older versions.
-> > 
-> > Simpler solution: just appending '#' character in front of each printf()
-> > line, that would be both fine for TAP and regular output:
-> > http://testanything.org/tap-specification.html#diagnostics
-> 
-> I'm not sure how it would be simpler than a
-> 
-> #if !GLIB_CHECK_VERSION(2, 62, 0)
-> #define qemu_test_message printf
-> #else
-> #define qemu_test_message g_test_message
-> #endif
-> 
-> but you choose.
-> 
-> Paolo
+On Thu, 8 Oct 2020 at 16:15, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> On Thu, Oct 08, 2020 at 11:45:08AM +0200, Markus Armbruster wrote:
+> > A first class static array property, where the size of the array is part
+> > of the value could perhaps cover this case.
+>
+> This is an interesting idea, I think we should explore that.
+>
+> qdev_pass_gpios() would become unnecessary and could be replaced
+> by a single (static) alias property.
 
-Simple yes, but it would not fix the cluttered output problem of 
-g_test_message().
+At least in the current implementation, aliasing properties
+is not the only thing qdev_pass_gpios() does -- it also
+updates the NamedGPIOList data structures. It might be
+possible to reimplement it so that we really are just
+aliasing properties, though.
 
-So I'll go with prepending '#' for now, and if one day there will be a public 
-glib function to check for TAP mode, it can easily be adjusted.
-
-Best regards,
-Christian Schoenebeck
-
-
+thanks
+-- PMM
 
