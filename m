@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B4712874DE
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:06:38 +0200 (CEST)
-Received: from localhost ([::1]:34162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4CC62874F8
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:11:05 +0200 (CEST)
+Received: from localhost ([::1]:49506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQVcz-0004Ma-FW
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45482)
+	id 1kQVhI-0002Tp-Kq
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVU4-0003ui-4f
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:26 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:41590)
+ id 1kQVU5-0003us-V1
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:28 -0400
+Received: from mail-oo1-xc34.google.com ([2607:f8b0:4864:20::c34]:42606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVU1-0001zt-2t
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:23 -0400
-Received: by mail-ot1-x333.google.com with SMTP id q21so5351496ota.8
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:20 -0700 (PDT)
+ id 1kQVU3-000205-Qk
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:25 -0400
+Received: by mail-oo1-xc34.google.com with SMTP id l18so1432728ooa.9
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3WLaue+ohvo+ZmGquck7e37eq47w4KHNDVCyGwhwpsE=;
- b=asyC2R8OX0WPqNzMwC/sBb/N/5pYUvJ8+JIAbbXPEDRS8VSjJ8FCJSi6jg8lQK1I6o
- cBrXkvEddLkwcN8fpiSB9FKzZEXCG1Ph/AG6fiMvC622n5pLNf/Mo1qBB9kwPEH6pm98
- 5scTeT63oMpC3Hl0TSttwrxbu/2jqzYNJ8GYqdHwNdd7ww48HzZRGMtIrCDgapeHRQgB
- wYPUofTy5mg+chVr1fMJGVLHfdTIHclOpcUFE6TfgvErGQDHy67yxDKwSXiilhu2olin
- BQLBJBkQsLStjvyb7g1Fp5HrruyMLtTEKZmWxchKKvXphgyruGE0huxU8JZS0/KyBTMX
- IWoQ==
+ bh=UI+D9Y2q+l7wpNPIYlQftKzl9o1sUbD+xWKlt5UhcEY=;
+ b=Ecgs47trmO9AC1abcvx4fDdhcGgeygFWEBSLEaSla4Z7IW37M7Md5KhHY4n8Ggppj1
+ quHIOftV5QRvg0/OulAWrg/Ioxm/9obYD8lnszj/3xknzLX4b7rVmUy6D88WdFem8RsO
+ 91PNkyUU0wokFr2J3spBhLkVgyEJAzhQYODDj9jwL6zDxbQfax63JBu8cMGbIUK8PhT1
+ 61QAAKeaom7FXRSq6qMASTkP4BSGSgzecqVMhJgNY/FCIdsqd+tvkpbHF6uUjgh5xMgH
+ jWNlfKg6T2H1zhMRjRAI9vaQcSkCDO6KLLgo8LymvHqk7J8NSfPNwUBRntVRS+Z6TQ02
+ aJVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3WLaue+ohvo+ZmGquck7e37eq47w4KHNDVCyGwhwpsE=;
- b=WuHBB887vMxu1AbP3UJegi/RHIQCqN2qJATsOWgAJFsVEENlMGiIG7M+Dz15WMk4vz
- ZhiGFpAOiezgPyLsW+I1Qn1AfOAjpQAm5uEZ11DGJyRJRJvmavqCNGGe6ZevURHWhSS7
- diKVpD0wfhHXJbYGyjC+t6Q4qqPzRWRurSZyR59Wu86vC956OyfghUYatgDruOLOkmz4
- 6+E0NwC9QxPMsdHzQZW5rDPzn6kq9ENtvgR2pqL52damuAmmsswOhykzzjIW3OzsmN0j
- SfpxZfGBWepu2mG9doXMFKT3d4wQHqD0Wcv+SFOO80VKU32F5USvIrBgEzZjm/r8A7gj
- Wozw==
-X-Gm-Message-State: AOAM530nDENCWP+8+8HoBWf7cHu7kmiNNDfD1ufw9o4JI/kcd/3ilZnU
- lABpHbGLbKkDBVkzum3VRx9PWQL7ECLlDuMe
-X-Google-Smtp-Source: ABdhPJwJtBPj6YzcbiiL4mZ1F1FzwrkRkddMiycQ+oQwv2ZEc22TLwTVBVPeyIyjUljKJ9X5PMjieg==
-X-Received: by 2002:a9d:6488:: with SMTP id g8mr4789878otl.211.1602161839641; 
- Thu, 08 Oct 2020 05:57:19 -0700 (PDT)
+ bh=UI+D9Y2q+l7wpNPIYlQftKzl9o1sUbD+xWKlt5UhcEY=;
+ b=WHcy2RpQiQ7PM0xbB6DZSJPb2NAKUVQUz+Mqf7MhoB/rRJtVmqPzl/NJB3mecz3e7b
+ s7dKwHhNJ6qFcrYY32FsVvH3VMNNgtY3m3GmnrhoftkA0QKqLdyoESjwIj6a5znmBnyz
+ 5gbp8p5+RoujsuFDCWlZ6IvryASY1WNo3GryWagPRf9EA6E9JGb8BFTyoSOixO4sDSWf
+ Y1rgL6gACAoVNikZ5b6PH4wLwFB4sdU/hMbn/7tam0LvPpwOBZKi7Fb6rU5oFB2kS0vm
+ RincUh5HCwyTI5FAEqcxVI/nGZfRZPQW6073HMPSTiUQPz551NSNgnfWhVl8Y1EV2jBE
+ KfkQ==
+X-Gm-Message-State: AOAM530vvg+LxEAVEf6BVPzLq3FHKDEAIIZ3nYVFbUymQF5c8vEurIBf
+ dthpnQLH4Pyrc3ChX8MvL65mSgJyLLvgNX6+
+X-Google-Smtp-Source: ABdhPJxDEnX+dgbgcizZshxT//Q4LdBPvXD1pdqjbma1+jIZrPuvXVsDRv/4qrkhS93x4QkntwDc1A==
+X-Received: by 2002:a4a:e1bc:: with SMTP id 28mr277379ooy.53.1602161841204;
+ Thu, 08 Oct 2020 05:57:21 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.17
+ by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 05:57:18 -0700 (PDT)
+ Thu, 08 Oct 2020 05:57:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/11] tcg: Remove TCG_TARGET_HAS_cmp_vec
-Date: Thu,  8 Oct 2020 07:56:58 -0500
-Message-Id: <20201008125659.49857-11-richard.henderson@linaro.org>
+Subject: [PULL 11/11] accel/tcg: Fix computing of is_write for MIPS
+Date: Thu,  8 Oct 2020 07:56:59 -0500
+Message-Id: <20201008125659.49857-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201008125659.49857-1-richard.henderson@linaro.org>
 References: <20201008125659.49857-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x333.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc34.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,57 +85,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, Xu Zou <iwatchnima@gmail.com>,
+ Kele Huang <kele.hwang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cmp_vec opcode is mandatory; this symbol is unused.
+From: Kele Huang <kele.hwang@gmail.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Detect all MIPS store instructions in cpu_signal_handler for all available
+MIPS versions, and set is_write if encountering such store instructions.
+
+This fixed the error while dealing with self-modified code for MIPS.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Kele Huang <kele.hwang@gmail.com>
+Signed-off-by: Xu Zou <iwatchnima@gmail.com>
+Message-Id: <20201002081420.10814-1-kele.hwang@gmail.com>
+[rth: Use uintptr_t for pc to fix n32 build error.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h | 1 -
- tcg/i386/tcg-target.h    | 1 -
- tcg/ppc/tcg-target.h     | 1 -
- 3 files changed, 3 deletions(-)
+ accel/tcg/user-exec.c | 43 +++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 39 insertions(+), 4 deletions(-)
 
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index 9bc2a5ecbe..663dd0b95e 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -139,7 +139,6 @@ typedef enum {
- #define TCG_TARGET_HAS_shi_vec          1
- #define TCG_TARGET_HAS_shs_vec          0
- #define TCG_TARGET_HAS_shv_vec          1
--#define TCG_TARGET_HAS_cmp_vec          1
- #define TCG_TARGET_HAS_mul_vec          1
- #define TCG_TARGET_HAS_sat_vec          1
- #define TCG_TARGET_HAS_minmax_vec       1
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index d2baf796b0..abd4ac7fc0 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -189,7 +189,6 @@ extern bool have_avx2;
- #define TCG_TARGET_HAS_shi_vec          1
- #define TCG_TARGET_HAS_shs_vec          1
- #define TCG_TARGET_HAS_shv_vec          have_avx2
--#define TCG_TARGET_HAS_cmp_vec          1
- #define TCG_TARGET_HAS_mul_vec          1
- #define TCG_TARGET_HAS_sat_vec          1
- #define TCG_TARGET_HAS_minmax_vec       1
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index aee38157a2..be10363956 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -169,7 +169,6 @@ extern bool have_vsx;
- #define TCG_TARGET_HAS_shi_vec          0
- #define TCG_TARGET_HAS_shs_vec          0
- #define TCG_TARGET_HAS_shv_vec          1
--#define TCG_TARGET_HAS_cmp_vec          1
- #define TCG_TARGET_HAS_mul_vec          1
- #define TCG_TARGET_HAS_sat_vec          1
- #define TCG_TARGET_HAS_minmax_vec       1
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 5c96819ded..4ebe25461a 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -702,16 +702,51 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+ 
+ #elif defined(__mips__)
+ 
++#if defined(__misp16) || defined(__mips_micromips)
++#error "Unsupported encoding"
++#endif
++
+ int cpu_signal_handler(int host_signum, void *pinfo,
+                        void *puc)
+ {
+     siginfo_t *info = pinfo;
+     ucontext_t *uc = puc;
+-    greg_t pc = uc->uc_mcontext.pc;
+-    int is_write;
++    uintptr_t pc = uc->uc_mcontext.pc;
++    uint32_t insn = *(uint32_t *)pc;
++    int is_write = 0;
++
++    /* Detect all store instructions at program counter. */
++    switch((insn >> 26) & 077) {
++    case 050: /* SB */
++    case 051: /* SH */
++    case 052: /* SWL */
++    case 053: /* SW */
++    case 054: /* SDL */
++    case 055: /* SDR */
++    case 056: /* SWR */
++    case 070: /* SC */
++    case 071: /* SWC1 */
++    case 074: /* SCD */
++    case 075: /* SDC1 */
++    case 077: /* SD */
++#if !defined(__mips_isa_rev) || __mips_isa_rev < 6
++    case 072: /* SWC2 */
++    case 076: /* SDC2 */
++#endif
++        is_write = 1;
++        break;
++    case 023: /* COP1X */
++        /* Required in all versions of MIPS64 since
++           MIPS64r1 and subsequent versions of MIPS32r2. */
++        switch (insn & 077) {
++        case 010: /* SWXC1 */
++        case 011: /* SDXC1 */
++        case 015: /* SUXC1 */
++            is_write = 1;
++        }
++        break;
++    }
+ 
+-    /* XXX: compute is_write */
+-    is_write = 0;
+     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
+ }
+ 
 -- 
 2.25.1
 
