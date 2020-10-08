@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D76287637
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:38:27 +0200 (CEST)
-Received: from localhost ([::1]:44754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60205287648
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:41:29 +0200 (CEST)
+Received: from localhost ([::1]:50262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQX3q-0000pG-Dn
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:38:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38358)
+	id 1kQX6m-0003KL-FF
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:41:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWsM-0004mX-9g
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:34 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:40730)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWsK-00063L-7U
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:33 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id p13so6042549edi.7
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ENzPui0FFSiuhabXv2sBl7CjwRphAxv2OmzMN9IQUJ4=;
- b=s2nq1e5huZLlVZZDqqB0pxl9w7rNf5biwJ8s0xT+EuMnhmi2dMHsYH72dxyaE8DS5N
- VL30xgY3CZdaTIeDQOJ5x8x/bec3gVem70RBxPHvqrWhXmRanoiTq9bJM87QyDlFV3d2
- X9bh2Cfur/6aYqgDjHExcgHp30ivNeWmcYQz0fKJuEhBctferCdQSgpFqsakjWzEm5aL
- GUiqbyR74fh+cazCnKWWOdzndZgK6rUaJyanvzzBwNMYLNL3XM3XbbalDvHlFbGChox2
- YcnlvO4bDi2RWFF6szs0lfIAUhfPVeJU7XdlEVfIQKEupSadzG972ntAlpe7WJm6ul5c
- BTFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ENzPui0FFSiuhabXv2sBl7CjwRphAxv2OmzMN9IQUJ4=;
- b=HpKao+WcCGvbmDVnSpp5pDFgzo8kC7BtF6I5iDHcJvVyP+9TmyFDox9/IAj7ahx4R/
- PyJW31O5NaZK29Df5sxPc0iW2EBqtn+cKZEq7M5dm4ZAyas/kataoFdXg250sZj9Vj6i
- rpWdqK5umASRrQ0luiB3EC8LnMQ6tiqGHyfYdq5gLo7AQmBOPgrknZ8Csy47mHiATji1
- WySWaQ2F1acTbKqwhyiizX70MBdLace7qRc6lCdIljs4+sF4AGAChMddXM6DFp4fBMwQ
- 1qn3qHydVG+8LP3KGb9Z4JNpRh15002FwXjnGijvoj7uDeW1b7IZevxXG1BcTDxl8Cmh
- qRuQ==
-X-Gm-Message-State: AOAM532rFrqQre+RkuJgwVmdGo6NpxpeeZ0zdbLLXrgWwQ9V3wZJX7Y4
- U9W0YWt44SgbLTtjkudWPU/nGkyuUu9v6sEJgFf4Zg==
-X-Google-Smtp-Source: ABdhPJwMedzinlUFJ/wAFOoqYIV7zG5GmqHPqkOEmzgUMzmpohrJ0p1Na1o70qd6LxfutZK81t5/SE8MsZXW70Rv9BQ=
-X-Received: by 2002:aa7:c302:: with SMTP id l2mr9398249edq.204.1602167190635; 
- Thu, 08 Oct 2020 07:26:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kQX5U-0002nr-A8
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:40:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32117)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kQX5S-0007lo-9K
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:40:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602168005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EayCCTW471vOIO35BjIuG/9QGzaE3kW46GGjyRXApCM=;
+ b=YfeGHmf4QaqZtyzlZlWXntA+zTI1pD5h6hp2XiSEfkrX3DmmINmijRjjS0M9moDRBf1Y97
+ fRvXMQRsHFYht/oZXT+vjuEgur933VQLx++2j7jTK4lFcSDeWVvCnlfuhywcJZnEOyd7DH
+ IOety7VERtEuRv3NeHchqlf38Fk4wcg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-hkJSl5sePfSOekowljkjkQ-1; Thu, 08 Oct 2020 10:40:03 -0400
+X-MC-Unique: hkJSl5sePfSOekowljkjkQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA6F01007469;
+ Thu,  8 Oct 2020 14:40:01 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A1A06EF61;
+ Thu,  8 Oct 2020 14:39:54 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] mingw: fix error __USE_MINGW_ANSI_STDIO redefined
+Date: Thu,  8 Oct 2020 18:39:51 +0400
+Message-Id: <20201008143951.820084-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20201006220930.908275-1-ehabkost@redhat.com>
-In-Reply-To: <20201006220930.908275-1-ehabkost@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Oct 2020 15:26:19 +0100
-Message-ID: <CAFEAcA_fUUWRWLTExQQ_YZFzZB5PzyT56Ci+iHj-OCFgCjdJfQ@mail.gmail.com>
-Subject: Re: [PULL 00/21] machine + QOM queue, 2020-10-06
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,44 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: sw@weilnetz.de, armbru@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Oct 2020 at 23:09, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> The following changes since commit d7c5b788295426c1ef48a9ffc3432c51220f69=
-ba:
->
->   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-r=
-equest' into staging (2020-10-06 12:15:59 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
->
-> for you to fetch changes up to 1b5e843ab68c4afa611da22f303a5b0daa979ad8:
->
->   numa: hmat: require parent cache description before the next level one =
-(2020-10-06 11:09:41 -0400)
->
-> ----------------------------------------------------------------
-> machine + QOM queue, 2020-10-06
->
-> * QOM documentation fixes and cleanups (Eduardo Habkost)
-> * user-mode: Prune build dependencies (Philippe Mathieu-Daud=C3=A9)
-> * qom: Improve error message (Philippe Mathieu-Daud=C3=A9)
-> * numa: hmat: require parent cache description before the next
->   level one (Igor Mammedov)
->
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Always put osdep.h first.
 
-Applied, thanks.
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ migration/dirtyrate.c | 3 ++-
+ tests/test-bitmap.c   | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 68577ef250..47f761e67a 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -10,8 +10,9 @@
+  * See the COPYING file in the top-level directory.
+  */
+ 
+-#include <zlib.h>
+ #include "qemu/osdep.h"
++
++#include <zlib.h>
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "qemu/config-file.h"
+diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
+index 2f5b71458a..0a5775fb37 100644
+--- a/tests/test-bitmap.c
++++ b/tests/test-bitmap.c
+@@ -8,8 +8,9 @@
+  * Author: Peter Xu <peterx@redhat.com>
+  */
+ 
+-#include <stdlib.h>
+ #include "qemu/osdep.h"
++
++#include <stdlib.h>
+ #include "qemu/bitmap.h"
+ 
+ #define BMAP_SIZE  1024
+-- 
+2.28.0
 
--- PMM
 
