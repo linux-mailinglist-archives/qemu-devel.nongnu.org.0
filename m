@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023E5287C93
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:39:28 +0200 (CEST)
-Received: from localhost ([::1]:33590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69D3287C60
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:19:40 +0200 (CEST)
+Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQbl9-0008Pc-33
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55082)
+	id 1kQbRz-0005VK-Mp
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <b563d3c73c6391ec927a2622c9f65c09ca56bd83@lizzy.crudebyte.com>)
- id 1kQbk5-0007Yt-P5
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:38:21 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:42847)
+ (envelope-from <c9a6671914385d0ec6dcd3aee1371d73e09ee33a@lizzy.crudebyte.com>)
+ id 1kQbLi-0004u2-Jw
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:10 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:56121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <b563d3c73c6391ec927a2622c9f65c09ca56bd83@lizzy.crudebyte.com>)
- id 1kQbk3-0007wn-Nz
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:38:21 -0400
+ (envelope-from <c9a6671914385d0ec6dcd3aee1371d73e09ee33a@lizzy.crudebyte.com>)
+ id 1kQbLh-0005F8-3u
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=MaW9AGz3TC/jD9p/paco9fK6sQsRANI0w8QNYjkewy4=; b=APk9Q
- HWIjm7D+5SIjsD9yYGhrAf3xLBOAu2Qs5f8BD3vQ33yodSjY1ymitVjFNu5YeekrPbh21jc6/kKqq
- rpKcPS1u/II1C/wF6gjWLupCADkX4TL8jmvtnnPopdNWeJwGOQsVPIlaxClDoBcAFfatx6dP79g7i
- c+MR371Qx3wukukr0b3BVCmNuUjgJ829g+bZeU2jK5cUFkPLJ+DtONRF2MTNtTVrDWroLufD76de6
- foNLuPOcr2+XMuGPC3kx3pPZzUk0rGC5863ZFelhwkG3mko/cI19fX9LOH89dz/ch0fRtUYCHOwkb
- vxOFKMsnRcAJ/D8RzDcM65tEwFJ5A==;
-Message-Id: <b563d3c73c6391ec927a2622c9f65c09ca56bd83.1602182956.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=GZyTCxmYrj69i/SVm0Mbovz8XYMGA8mLuCNmRo809OE=; b=eRGAt
+ cVindMGDvgD3CtWfCIETnEx9Kc5mdA6zlIr1JGV1/4LWay0fNeD94Mq/kPGKS1Jc81TcBVRz3OHtF
+ nctYNWJv3yvLTqKyigtTevqk8XxlFm3kG/Ysh5O6QYGJBqQ4/4ldUnKXl7K64p6PViWwcwK1Fw8Xi
+ R2LlNLWbBCxL0k5olX53CFucDCjV+bv8HD7z0Iu+SwGH8h3FRrdiQJiIH4OrHGX1kb0BMlJ17uPkl
+ w5yc7HlCTvwONipkZBb1ZkvJnJpPbvSpuFsn+dEJja3wvE6wDb92p2Mkfe8WjuBT/tvC5pFD+HHan
+ 4BYZVP+1gctj2XmHIsXh9QvDArlHw==;
+Message-Id: <c9a6671914385d0ec6dcd3aee1371d73e09ee33a.1602182956.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1602182956.git.qemu_oss@crudebyte.com>
 References: <cover.1602182956.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 8 Oct 2020 20:34:56 +0200
-Subject: [PATCH v4 11/12] tests/9pfs: add virtio_9p_test_path()
+Subject: [PATCH v4 01/12] libqos/qgraph: add qemu_name to QOSGraphNode
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
     Laurent Vivier <lvivier@redhat.com>,
@@ -44,7 +44,7 @@ Cc: Thomas Huth <thuth@redhat.com>,
     Greg Kurz <groug@kaod.org>,
     "Daniel P. Berrangé" <berrange@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=b563d3c73c6391ec927a2622c9f65c09ca56bd83@lizzy.crudebyte.com;
+ envelope-from=c9a6671914385d0ec6dcd3aee1371d73e09ee33a@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 15:12:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -69,48 +69,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new public function virtio_9p_test_path() allows 9pfs
-'local' tests to translate a path from guest scope to host
-scope. For instance by passing an empty string it would
-return the root path on host of the exported 9pfs tree.
+Add new member variable 'qemu_name' to struct QOSGraphNode.
+
+This new member may be optionally set in case a different
+name for the node (which must always be a unique name) vs.
+its actually associated QEMU (QMP) device name is required.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/libqos/virtio-9p.c | 6 ++++++
- tests/qtest/libqos/virtio-9p.h | 5 +++++
- 2 files changed, 11 insertions(+)
+ tests/qtest/libqos/qgraph.c          | 1 +
+ tests/qtest/libqos/qgraph_internal.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index bd53498041..1524982634 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -65,6 +65,12 @@ static void remove_local_test_dir(void)
-     g_free(cmd);
- }
- 
-+char *virtio_9p_test_path(const char *path)
-+{
-+    g_assert(local_test_path);
-+    return concat_path(local_test_path, path);
-+}
-+
- static void virtio_9p_cleanup(QVirtio9P *interface)
+diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
+index fc49cfa879..e42f3eaafa 100644
+--- a/tests/qtest/libqos/qgraph.c
++++ b/tests/qtest/libqos/qgraph.c
+@@ -153,6 +153,7 @@ static QOSGraphNode *create_node(const char *name, QOSNodeType type)
+ static void destroy_node(void *val)
  {
-     qvirtqueue_cleanup(interface->vdev->bus, interface->vq, alloc);
-diff --git a/tests/qtest/libqos/virtio-9p.h b/tests/qtest/libqos/virtio-9p.h
-index 326a603f72..19a4d97454 100644
---- a/tests/qtest/libqos/virtio-9p.h
-+++ b/tests/qtest/libqos/virtio-9p.h
-@@ -49,4 +49,9 @@ struct QVirtio9PDevice {
-  */
- void virtio_9p_assign_local_driver(GString *cmd_line, const char *args);
- 
-+/**
-+ * Returns path on host to the passed guest path. Result must be freed.
-+ */
-+char *virtio_9p_test_path(const char *path);
-+
- #endif
+     QOSGraphNode *node = val;
++    g_free(node->qemu_name);
+     g_free(node->command_line);
+     g_free(node);
+ }
+diff --git a/tests/qtest/libqos/qgraph_internal.h b/tests/qtest/libqos/qgraph_internal.h
+index 968fa69450..974985dce9 100644
+--- a/tests/qtest/libqos/qgraph_internal.h
++++ b/tests/qtest/libqos/qgraph_internal.h
+@@ -56,6 +56,7 @@ struct QOSGraphNode {
+     bool available;     /* set by QEMU via QMP, used during graph walk */
+     bool visited;       /* used during graph walk */
+     char *name;         /* used to identify the node */
++    char *qemu_name;    /* optional: see qos_node_create_driver_named() */
+     char *command_line; /* used to start QEMU at test execution */
+     union {
+         struct {
 -- 
 2.20.1
 
