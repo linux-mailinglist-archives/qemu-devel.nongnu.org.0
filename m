@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEE92874CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:05:00 +0200 (CEST)
-Received: from localhost ([::1]:56490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CF62874C3
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:03:37 +0200 (CEST)
+Received: from localhost ([::1]:53392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQVbO-0001nT-Rm
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:04:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45346)
+	id 1kQVa4-0000Sm-MC
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:03:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVTu-0003d0-JB
+ id 1kQVTu-0003ds-U2
  for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:14 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:41019)
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:35632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVTr-0001xD-VF
+ id 1kQVTs-0001yW-VQ
  for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:14 -0400
-Received: by mail-oi1-x231.google.com with SMTP id q136so4988905oic.8
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:11 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id w141so6192465oia.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W+OIgxh1X4FjLRLRziiRSeMVMSIyenZxG7ukb0+dNkc=;
- b=g+qQeB4c/T1d7UYugCcJMwKOiHlEoytlKEfHf6Nxr3+33afnWlUnDS492wW01iQiLL
- JIRREpe0/mSiCkwmwnQ1PjiM+OanhkyVNEk4bHB4ondZVvBXOcwN4xtVZk7PRSe3tY7w
- gtEu8buA0jO/LGZsUvbxHlcL+zn1zzPscj3kNSyvoaosHxCOvvxCU12xu1KJsmLDrLyC
- M+We3EUpUGR7n/amYUeSdGuH1skDJF3ucn/Syb54Nn2gyUmD0iCxNIeiiNzTYj6dBsqb
- Bq2OoVvvi0wH/NHE7/QvXTiyCkl79Z/E61oLLoamFn5LppQfpiMtWFsdJ6Q41GIUli/E
- ABMw==
+ bh=g67AaWSNMDVXjRU+vP3LKCD0hiHwTorrb1XmdieL2IE=;
+ b=Fgi3twoc1HVrcIetOSBYpE9HtjSkihuYNxLQBYm2S3UohpajeIH7AeYnxVFWGfB4yi
+ 9gqqri2qdUPe43YJpNAnZsK7QCtDfUeJ1yL9nG4JkYgxq0RqW1JjNh1/lHdmOXK9Q7K3
+ dmvzSuv3t8T4perpgIY72PZ7ofn4aNWDmxu2JNRKmVEUPjfnY4QCigJNnVIgIivLI3Zk
+ ICaZv2/K4Ub4NVSzzjMCflKhXJ2lWRmdDqVPWmXuM4sX8v/vBxKk1t/yEZbGi9YEw+IX
+ EEBiU4YRZX/7QVczwmBo/+5oUNg2+Zg/rQuXQyWxRvgEDJUhDmrAd39XbXzpZSBJP330
+ olIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W+OIgxh1X4FjLRLRziiRSeMVMSIyenZxG7ukb0+dNkc=;
- b=dORgRM42RE8pl2gt6N2zGdwal7fZV+wg0rH5c10f3cY0VsPLDBMZEu9txgrK4u3EV1
- 5eR2o/pS7z+Lyw00dAEFdmvn5nMRlR4FFmVzRotpsxygunqa/33Mz5cR4DN2adjnyuev
- YMWJYvnQCaS4gvoEqOTCrCy81ZYOR06HSs2lAPdrhL6aJI1DITDCocZZwRkttHGQsS/0
- pfW4i0MDbbiokx+B0LP33Ej/9+1ft0jSspRU+8HeB7lhZOL07TgykxkItEsljb4911JA
- IO8YMPi3KFxBZrNb2Pqd+wg2YCyZr17bl/uB5fMffaZXbCu6k78QdLVCwMSbOHvKEfzq
- A2Zw==
-X-Gm-Message-State: AOAM532FOAOP3UfPHXjCl53Qxlz8TatOARPp9zN11cfv+BmG4gk2+QjM
- xYvydlHJwxMZBX5cVqDDjmMWrMPbA/XbEvd9
-X-Google-Smtp-Source: ABdhPJwBKUrQWGLtnKIHKBRhedwJ37T212hsZgOWSpA0qpwBIBJpv8nJp4DDUpG8Dkf2Ufi2WmmkHg==
-X-Received: by 2002:aca:ba07:: with SMTP id k7mr5195890oif.159.1602161829948; 
- Thu, 08 Oct 2020 05:57:09 -0700 (PDT)
+ bh=g67AaWSNMDVXjRU+vP3LKCD0hiHwTorrb1XmdieL2IE=;
+ b=IaZD7wulDmHjqDHSyuxuJRuezzqhiDAlvgiEydLIXNMf438ik5ueZDqHzYgHE6Z768
+ kMn51Q8iylRAGJdkMvjI/teLsc8lEc/aUUU507l6Eq8mcy5vkiNXJVQZd+xwtdjtjAQU
+ /R15+JiBhFv1kfDPcn9xr/JSB0YuNjuXN9BNJhCWSujnIbL5i5pkopNLbSilRheO/LzV
+ Ym2vhjNMQPYz5TIQcq881TGvx52Mvr7bBWmojm4Expgdi1IfyJCC+V+y/jtKQBnbVstK
+ 5G8nO3uEvmDVvoC/PQsoqnqkxhb39JogooeFXIlWeiKT2vAWCsTv+JHnYyuk7RtUu6vL
+ eU6A==
+X-Gm-Message-State: AOAM5337vWg2ksbeArhk4eFYfStVeebm4wjSFPK9QaKk4gKxt2Sx2Ity
+ h88bBc8Y+Ie+ep6ZT1jDQl7xCuD/DWa3DrSm
+X-Google-Smtp-Source: ABdhPJznlJPgeg2iY0nVtR6jAy+QTGL8s0O7OWojMrwRKGAyDcCjtrU9n3QlEe12wHgebNuqu5pSTg==
+X-Received: by 2002:aca:3607:: with SMTP id d7mr5000347oia.168.1602161831449; 
+ Thu, 08 Oct 2020 05:57:11 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.08
+ by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 05:57:09 -0700 (PDT)
+ Thu, 08 Oct 2020 05:57:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/11] tcg: Remove TCG_CT_REG
-Date: Thu,  8 Oct 2020 07:56:52 -0500
-Message-Id: <20201008125659.49857-5-richard.henderson@linaro.org>
+Subject: [PULL 05/11] tcg: Move some TCG_CT_* bits to TCGArgConstraint
+ bitfields
+Date: Thu,  8 Oct 2020 07:56:53 -0500
+Message-Id: <20201008125659.49857-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201008125659.49857-1-richard.henderson@linaro.org>
 References: <20201008125659.49857-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x231.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x229.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,327 +90,143 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This wasn't actually used for anything, really.  All variable
-operands must accept registers, and which are indicated by the
-set in TCGArgConstraint.regs.
+These are easier to set and test when they have their own fields.
+Reduce the size of alias_index and sort_index to 4 bits, which is
+sufficient for TCG_MAX_OP_ARGS.  This leaves only the bits indicating
+constants within the ct field.
+
+Move all initialization to allocation time, rather than init
+individual fields in process_op_defs.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h            |  1 -
- tcg/tcg.c                    | 15 ++++-----------
- tcg/aarch64/tcg-target.c.inc |  3 ---
- tcg/arm/tcg-target.c.inc     |  3 ---
- tcg/i386/tcg-target.c.inc    | 11 -----------
- tcg/mips/tcg-target.c.inc    |  3 ---
- tcg/ppc/tcg-target.c.inc     |  5 -----
- tcg/riscv/tcg-target.c.inc   |  2 --
- tcg/s390/tcg-target.c.inc    |  4 ----
- tcg/sparc/tcg-target.c.inc   |  5 -----
- tcg/tci/tcg-target.c.inc     |  1 -
- 11 files changed, 4 insertions(+), 49 deletions(-)
+ include/tcg/tcg.h | 14 +++++++-------
+ tcg/tcg.c         | 28 ++++++++++++----------------
+ 2 files changed, 19 insertions(+), 23 deletions(-)
 
 diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 63955ac85b..3168315bb8 100644
+index 3168315bb8..e8629b58c8 100644
 --- a/include/tcg/tcg.h
 +++ b/include/tcg/tcg.h
-@@ -979,7 +979,6 @@ void tcg_dump_op_count(void);
- #define TCG_CT_ALIAS  0x80
- #define TCG_CT_IALIAS 0x40
- #define TCG_CT_NEWREG 0x20 /* output requires a new register */
--#define TCG_CT_REG    0x01
- #define TCG_CT_CONST  0x02 /* any constant of register size */
+@@ -976,15 +976,15 @@ int64_t tcg_cpu_exec_time(void);
+ void tcg_dump_info(void);
+ void tcg_dump_op_count(void);
+ 
+-#define TCG_CT_ALIAS  0x80
+-#define TCG_CT_IALIAS 0x40
+-#define TCG_CT_NEWREG 0x20 /* output requires a new register */
+-#define TCG_CT_CONST  0x02 /* any constant of register size */
++#define TCG_CT_CONST  1 /* any constant of register size */
  
  typedef struct TCGArgConstraint {
+-    uint16_t ct;
+-    uint8_t alias_index;
+-    uint8_t sort_index;
++    unsigned ct : 16;
++    unsigned alias_index : 4;
++    unsigned sort_index : 4;
++    bool oalias : 1;
++    bool ialias : 1;
++    bool newreg : 1;
+     TCGRegSet regs;
+ } TCGArgConstraint;
+ 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index da01e39fe4..55b2fc3ae3 100644
+index 55b2fc3ae3..a8c28440e2 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -2194,21 +2194,14 @@ static void tcg_dump_ops(TCGContext *s, bool have_prefs)
- /* we give more priority to constraints with less registers */
- static int get_constraint_priority(const TCGOpDef *def, int k)
- {
--    const TCGArgConstraint *arg_ct;
-+    const TCGArgConstraint *arg_ct = &def->args_ct[k];
-+    int n;
+@@ -958,7 +958,7 @@ void tcg_context_init(TCGContext *s)
+         total_args += n;
+     }
  
--    int i, n;
--    arg_ct = &def->args_ct[k];
-     if (arg_ct->ct & TCG_CT_ALIAS) {
+-    args_ct = g_malloc(sizeof(TCGArgConstraint) * total_args);
++    args_ct = g_new0(TCGArgConstraint, total_args);
+ 
+     for(op = 0; op < NB_OPS; op++) {
+         def = &tcg_op_defs[op];
+@@ -2197,7 +2197,7 @@ static int get_constraint_priority(const TCGOpDef *def, int k)
+     const TCGArgConstraint *arg_ct = &def->args_ct[k];
+     int n;
+ 
+-    if (arg_ct->ct & TCG_CT_ALIAS) {
++    if (arg_ct->oalias) {
          /* an alias is equivalent to a single register */
          n = 1;
      } else {
--        if (!(arg_ct->ct & TCG_CT_REG))
--            return 0;
--        n = 0;
--        for(i = 0; i < TCG_TARGET_NB_REGS; i++) {
--            if (tcg_regset_test_reg(arg_ct->regs, i))
--                n++;
--        }
-+        n = ctpop64(arg_ct->regs);
-     }
-     return TCG_TARGET_NB_REGS - n + 1;
- }
-@@ -2276,7 +2269,7 @@ static void process_op_defs(TCGContext *s)
-                         int oarg = *ct_str - '0';
+@@ -2260,8 +2260,6 @@ static void process_op_defs(TCGContext *s)
+             /* Incomplete TCGTargetOpDef entry. */
+             tcg_debug_assert(ct_str != NULL);
+ 
+-            def->args_ct[i].regs = 0;
+-            def->args_ct[i].ct = 0;
+             while (*ct_str != '\0') {
+                 switch(*ct_str) {
+                 case '0' ... '9':
+@@ -2270,18 +2268,18 @@ static void process_op_defs(TCGContext *s)
                          tcg_debug_assert(ct_str == tdefs->args_ct_str[i]);
                          tcg_debug_assert(oarg < def->nb_oargs);
--                        tcg_debug_assert(def->args_ct[oarg].ct & TCG_CT_REG);
-+                        tcg_debug_assert(def->args_ct[oarg].regs != 0);
-                         /* TCG_CT_ALIAS is for the output arguments.
-                            The input is tagged with TCG_CT_IALIAS. */
+                         tcg_debug_assert(def->args_ct[oarg].regs != 0);
+-                        /* TCG_CT_ALIAS is for the output arguments.
+-                           The input is tagged with TCG_CT_IALIAS. */
                          def->args_ct[i] = def->args_ct[oarg];
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index dbe5c6a14c..26f71cb599 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -128,15 +128,12 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
- {
-     switch (*ct_str++) {
-     case 'r': /* general registers */
--        ct->ct |= TCG_CT_REG;
-         ct->regs |= 0xffffffffu;
-         break;
-     case 'w': /* advsimd registers */
--        ct->ct |= TCG_CT_REG;
-         ct->regs |= 0xffffffff00000000ull;
-         break;
-     case 'l': /* qemu_ld / qemu_st address, data_reg */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffffu;
- #ifdef CONFIG_SOFTMMU
-         /* x0 and x1 will be overwritten when reading the tlb entry,
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 978eb1dd70..62c37a954b 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -253,13 +253,11 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
-         break;
+-                        def->args_ct[oarg].ct |= TCG_CT_ALIAS;
++                        /* The output sets oalias.  */
++                        def->args_ct[oarg].oalias = true;
+                         def->args_ct[oarg].alias_index = i;
+-                        def->args_ct[i].ct |= TCG_CT_IALIAS;
++                        /* The input sets ialias. */
++                        def->args_ct[i].ialias = true;
+                         def->args_ct[i].alias_index = oarg;
+                     }
+                     ct_str++;
+                     break;
+                 case '&':
+-                    def->args_ct[i].ct |= TCG_CT_NEWREG;
++                    def->args_ct[i].newreg = true;
+                     ct_str++;
+                     break;
+                 case 'i':
+@@ -2848,7 +2846,7 @@ static void liveness_pass_1(TCGContext *s)
+                     set = *pset;
  
-     case 'r':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffff;
-         break;
+                     set &= ct->regs;
+-                    if (ct->ct & TCG_CT_IALIAS) {
++                    if (ct->ialias) {
+                         set &= op->output_pref[ct->alias_index];
+                     }
+                     /* If the combination is not possible, restart.  */
+@@ -3665,7 +3663,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+         }
  
-     /* qemu_ld address */
-     case 'l':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffff;
- #ifdef CONFIG_SOFTMMU
-         /* r0-r2,lr will be overwritten when reading the tlb entry,
-@@ -274,7 +272,6 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+         i_preferred_regs = o_preferred_regs = 0;
+-        if (arg_ct->ct & TCG_CT_IALIAS) {
++        if (arg_ct->ialias) {
+             o_preferred_regs = op->output_pref[arg_ct->alias_index];
+             if (ts->fixed_reg) {
+                 /* if fixed register, we must allocate a new register
+@@ -3688,8 +3686,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+                     reg = ts->reg;
+                     for (k2 = 0 ; k2 < k ; k2++) {
+                         i2 = def->args_ct[nb_oargs + k2].sort_index;
+-                        if ((def->args_ct[i2].ct & TCG_CT_IALIAS) &&
+-                            reg == new_args[i2]) {
++                        if (def->args_ct[i2].ialias && reg == new_args[i2]) {
+                             goto allocate_in_reg;
+                         }
+                     }
+@@ -3760,10 +3757,9 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+             /* ENV should not be modified.  */
+             tcg_debug_assert(!ts->fixed_reg);
  
-     /* qemu_st address & data */
-     case 's':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffff;
-         /* r0-r2 will be overwritten when reading the tlb entry (softmmu only)
-            and r0-r1 doing the byte swapping, so don't use these. */
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 8661ec3393..2f696074ab 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -208,42 +208,33 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
- {
-     switch(*ct_str++) {
-     case 'a':
--        ct->ct |= TCG_CT_REG;
-         tcg_regset_set_reg(ct->regs, TCG_REG_EAX);
-         break;
-     case 'b':
--        ct->ct |= TCG_CT_REG;
-         tcg_regset_set_reg(ct->regs, TCG_REG_EBX);
-         break;
-     case 'c':
--        ct->ct |= TCG_CT_REG;
-         tcg_regset_set_reg(ct->regs, TCG_REG_ECX);
-         break;
-     case 'd':
--        ct->ct |= TCG_CT_REG;
-         tcg_regset_set_reg(ct->regs, TCG_REG_EDX);
-         break;
-     case 'S':
--        ct->ct |= TCG_CT_REG;
-         tcg_regset_set_reg(ct->regs, TCG_REG_ESI);
-         break;
-     case 'D':
--        ct->ct |= TCG_CT_REG;
-         tcg_regset_set_reg(ct->regs, TCG_REG_EDI);
-         break;
-     case 'q':
-         /* A register that can be used as a byte operand.  */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = TCG_TARGET_REG_BITS == 64 ? 0xffff : 0xf;
-         break;
-     case 'Q':
-         /* A register with an addressable second byte (e.g. %ah).  */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xf;
-         break;
-     case 'r':
-         /* A general register.  */
--        ct->ct |= TCG_CT_REG;
-         ct->regs |= ALL_GENERAL_REGS;
-         break;
-     case 'W':
-@@ -252,13 +243,11 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
-         break;
-     case 'x':
-         /* A vector register.  */
--        ct->ct |= TCG_CT_REG;
-         ct->regs |= ALL_VECTOR_REGS;
-         break;
- 
-         /* qemu_ld/st address constraint */
-     case 'L':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = TCG_TARGET_REG_BITS == 64 ? 0xffff : 0xff;
-         tcg_regset_reset_reg(ct->regs, TCG_REG_L0);
-         tcg_regset_reset_reg(ct->regs, TCG_REG_L1);
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index aae4fd187b..41be574e89 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -195,11 +195,9 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
- {
-     switch(*ct_str++) {
-     case 'r':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         break;
-     case 'L': /* qemu_ld input arg constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         tcg_regset_reset_reg(ct->regs, TCG_REG_A0);
- #if defined(CONFIG_SOFTMMU)
-@@ -209,7 +207,6 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
- #endif
-         break;
-     case 'S': /* qemu_st constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         tcg_regset_reset_reg(ct->regs, TCG_REG_A0);
- #if defined(CONFIG_SOFTMMU)
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 0bd947b788..18ee989f95 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -224,19 +224,15 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
- {
-     switch (*ct_str++) {
-     case 'A': case 'B': case 'C': case 'D':
--        ct->ct |= TCG_CT_REG;
-         tcg_regset_set_reg(ct->regs, 3 + ct_str[0] - 'A');
-         break;
-     case 'r':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         break;
-     case 'v':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff00000000ull;
-         break;
-     case 'L':                   /* qemu_ld constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
- #ifdef CONFIG_SOFTMMU
-@@ -245,7 +241,6 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
- #endif
-         break;
-     case 'S':                   /* qemu_st constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
- #ifdef CONFIG_SOFTMMU
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 0a69839adb..d536f3ccc1 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -137,12 +137,10 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
- {
-     switch (*ct_str++) {
-     case 'r':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         break;
-     case 'L':
-         /* qemu_ld/qemu_st constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         /* qemu_ld/qemu_st uses TCG_REG_TMP0 */
- #if defined(CONFIG_SOFTMMU)
-diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-index 9cd266a2d0..c5e096449b 100644
---- a/tcg/s390/tcg-target.c.inc
-+++ b/tcg/s390/tcg-target.c.inc
-@@ -408,23 +408,19 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
- {
-     switch (*ct_str++) {
-     case 'r':                  /* all registers */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffff;
-         break;
-     case 'L':                  /* qemu_ld/st constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffff;
-         tcg_regset_reset_reg(ct->regs, TCG_REG_R2);
-         tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
-         tcg_regset_reset_reg(ct->regs, TCG_REG_R4);
-         break;
-     case 'a':                  /* force R2 for division */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0;
-         tcg_regset_set_reg(ct->regs, TCG_REG_R2);
-         break;
-     case 'b':                  /* force R3 for division */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0;
-         tcg_regset_set_reg(ct->regs, TCG_REG_R3);
-         break;
-diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index e2de749af7..6775bd30fc 100644
---- a/tcg/sparc/tcg-target.c.inc
-+++ b/tcg/sparc/tcg-target.c.inc
-@@ -325,15 +325,12 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
- {
-     switch (*ct_str++) {
-     case 'r':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         break;
-     case 'R':
--        ct->ct |= TCG_CT_REG;
-         ct->regs = ALL_64;
-         break;
-     case 'A': /* qemu_ld/st address constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = TARGET_LONG_BITS == 64 ? ALL_64 : 0xffffffff;
-     reserve_helpers:
-         tcg_regset_reset_reg(ct->regs, TCG_REG_O0);
-@@ -341,11 +338,9 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
-         tcg_regset_reset_reg(ct->regs, TCG_REG_O2);
-         break;
-     case 's': /* qemu_st data 32-bit constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = 0xffffffff;
-         goto reserve_helpers;
-     case 'S': /* qemu_st data 64-bit constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = ALL_64;
-         goto reserve_helpers;
-     case 'I':
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index a7215f346f..231b9b1775 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -392,7 +392,6 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
-     case 'r':
-     case 'L':                   /* qemu_ld constraint */
-     case 'S':                   /* qemu_st constraint */
--        ct->ct |= TCG_CT_REG;
-         ct->regs = BIT(TCG_TARGET_NB_REGS) - 1;
-         break;
-     default:
+-            if ((arg_ct->ct & TCG_CT_ALIAS)
+-                && !const_args[arg_ct->alias_index]) {
++            if (arg_ct->oalias && !const_args[arg_ct->alias_index]) {
+                 reg = new_args[arg_ct->alias_index];
+-            } else if (arg_ct->ct & TCG_CT_NEWREG) {
++            } else if (arg_ct->newreg) {
+                 reg = tcg_reg_alloc(s, arg_ct->regs,
+                                     i_allocated_regs | o_allocated_regs,
+                                     op->output_pref[k], ts->indirect_base);
 -- 
 2.25.1
 
