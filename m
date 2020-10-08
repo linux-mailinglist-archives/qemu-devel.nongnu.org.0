@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB9A2870C3
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:34:42 +0200 (CEST)
-Received: from localhost ([::1]:35046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9EC2870BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:32:51 +0200 (CEST)
+Received: from localhost ([::1]:57920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQRNp-0002Yc-CA
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42802)
+	id 1kQRM2-0000GK-D2
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:32:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRK3-0007Hl-WA
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:30:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46012)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRK8-0007Nh-RW
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:30:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRK0-0006NI-Rs
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:30:47 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRK7-0006QM-4D
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:30:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602145842;
+ s=mimecast20190719; t=1602145850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t6zqV+AyAhTSGtPn5qMdrNUSsD5BWWFvlLdrBa+5zcU=;
- b=Vb9k9Rq3uR79igiB2P/o9MUW9B8pHdMoJb2b+iXt1EWAKWT2wtwxTpHB3JPCJVppYEskxs
- 97ZIvRLeJYsRA9ycKZ5x9tN29/Ss05AtgOEEXPoTS4g+177X9dxJ7eicCUd7TJToIpLshB
- nw1pwdVhc2cPPxkq6+8nJU8MTQ603hM=
+ bh=znSSftCiTDEJXvd3zETjilAovlbdj+oV9Iiq3iMkwc8=;
+ b=HL45feDOiP4kBkavm0DPhYCvQ1t7+s+2ZpzskaPRJuicMIKP/RUWuehxTkYimY9j94Xqoe
+ 14WajJS7fxrqWXPV8JJxOiSvP+RgU6/DQKfdokOs34w2CFUtOBwitU3QuhV0pROZuChVKk
+ NMB49ToWHdTlL0tYYrp2k79HQ5RIJxQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-byP_qzlFOuKhRlwbuh-k6w-1; Thu, 08 Oct 2020 04:30:41 -0400
-X-MC-Unique: byP_qzlFOuKhRlwbuh-k6w-1
+ us-mta-359-I7UBe0TdNfmZ3Jpi9UoRSQ-1; Thu, 08 Oct 2020 04:30:48 -0400
+X-MC-Unique: I7UBe0TdNfmZ3Jpi9UoRSQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA345101FFA7;
- Thu,  8 Oct 2020 08:30:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F6FF101FFA8;
+ Thu,  8 Oct 2020 08:30:47 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65AC75C1C2;
- Thu,  8 Oct 2020 08:30:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4ADC45C1BD;
+ Thu,  8 Oct 2020 08:30:40 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/6] virtio-mem: Make sure "addr" is always multiples of
- the block size
-Date: Thu,  8 Oct 2020 10:30:24 +0200
-Message-Id: <20201008083029.9504-2-david@redhat.com>
+Subject: [PATCH v3 2/6] virtio-mem: Make sure "usable_region_size" is always
+ multiples of the block size
+Date: Thu,  8 Oct 2020 10:30:25 +0200
+Message-Id: <20201008083029.9504-3-david@redhat.com>
 In-Reply-To: <20201008083029.9504-1-david@redhat.com>
 References: <20201008083029.9504-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 01:56:49
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,17 +90,12 @@ The spec states:
   "The device MUST set addr, region_size, usable_region_size, plugged_size,
    requested_size to multiples of block_size."
 
-In some cases, we currently don't guarantee that for "addr": For example,
-when starting a VM with 4 GiB boot memory and a virtio-mem device with a
-block size of 2 GiB, "memaddr"/"addr" will be auto-assigned to
-0x140000000 (5 GiB).
+With block sizes > 256MB, we currently wouldn't guarantee that for the
+usable_region_size.
 
-We'll try to improve auto-assignment for memory devices next, to avoid
-bailing out in case memory device code selects a bad address.
+Note that we cannot exceed the region_size, as we already enforce the
+alignment there properly.
 
-Note: The Linux driver doesn't support such big block sizes yet.
-
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Fixes: 910b25766b33 ("virtio-mem: Paravirtualized memory hot(un)plug")
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Wei Yang <richardw.yang@linux.intel.com>
@@ -109,25 +104,23 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/virtio/virtio-mem.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 7c8ca9f28b..70200b4eac 100644
+index 70200b4eac..461ac68ee8 100644
 --- a/hw/virtio/virtio-mem.c
 +++ b/hw/virtio/virtio-mem.c
-@@ -449,6 +449,11 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-                    ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
-                    VIRTIO_MEM_BLOCK_SIZE_PROP, vmem->block_size);
-         return;
-+    } else if (!QEMU_IS_ALIGNED(vmem->addr, vmem->block_size)) {
-+        error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
-+                   ")", VIRTIO_MEM_ADDR_PROP, VIRTIO_MEM_BLOCK_SIZE_PROP,
-+                   vmem->block_size);
-+        return;
-     } else if (!QEMU_IS_ALIGNED(memory_region_size(&vmem->memdev->mr),
-                                 vmem->block_size)) {
-         error_setg(errp, "'%s' property memdev size has to be multiples of"
+@@ -227,6 +227,9 @@ static void virtio_mem_resize_usable_region(VirtIOMEM *vmem,
+     uint64_t newsize = MIN(memory_region_size(&vmem->memdev->mr),
+                            requested_size + VIRTIO_MEM_USABLE_EXTENT);
+ 
++    /* The usable region size always has to be multiples of the block size. */
++    newsize = QEMU_ALIGN_UP(newsize, vmem->block_size);
++
+     if (!requested_size) {
+         newsize = 0;
+     }
 -- 
 2.26.2
 
