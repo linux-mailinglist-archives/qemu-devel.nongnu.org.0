@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D8E287DE0
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 23:20:09 +0200 (CEST)
-Received: from localhost ([::1]:49162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D5C287DE6
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 23:25:00 +0200 (CEST)
+Received: from localhost ([::1]:54162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQdKa-0002No-5T
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 17:20:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52686)
+	id 1kQdPH-0004js-4t
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 17:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kQdId-0001uQ-NY
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 17:18:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57197)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kQdMu-0003xK-Be
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 17:22:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kQdIb-0004Je-9M
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 17:18:07 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kQdMr-0004nq-K9
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 17:22:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602191884;
+ s=mimecast20190719; t=1602192148;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HklCUJj3ebY0ZbV/anRIuCNx1RMlWT60ok4l58QKp7E=;
- b=JgrjDLrIAFdgorVM/JrCRh0GNsRFSr9UtvJa5eVBhcB1+lEad1ngvGvdN1ZOXJCEbg4K9v
- KDkZ6Qc5Hn/Vq/c1AzC7YPOZm55So6bWTJGjfGnr5P83zR5Qo72QaN7j5RVo9+dSkbg6Hu
- TUu2WPguAuPAqUVJCq5wIiQnF87jO1M=
+ bh=foe8IvXTZgjpuNZ07X2ksFCt/nw0A/GnkEBbWA83SbU=;
+ b=FN0S6se12RWfkEASOU9loHzY7XRHYnLlSFkD2ZsPbfNCXJITfnT/ITU+vtLX3X716Q+j+P
+ AzEicyY8hejzd4/VLeT52Dq6E4rNEhOFItOLvkdFYZRmCYtpSoyzZpT5AJddN8/s/1y+tm
+ mII9hg59dfFofb3fawA/6yXLZwjVkGI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-DflgVBX9OA2ahbGn6qvPDQ-1; Thu, 08 Oct 2020 17:18:02 -0400
-X-MC-Unique: DflgVBX9OA2ahbGn6qvPDQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-427-YFt3FEODNzeHlAFjzzGRuw-1; Thu, 08 Oct 2020 17:22:24 -0400
+X-MC-Unique: YFt3FEODNzeHlAFjzzGRuw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 309851084D6F;
- Thu,  8 Oct 2020 21:18:01 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 810E31972A;
- Thu,  8 Oct 2020 21:17:57 +0000 (UTC)
-Date: Thu, 8 Oct 2020 17:17:55 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 1/3] authz-list-file: Fix crash when filename is not set
-Message-ID: <20201008211755.GJ240186@localhost.localdomain>
-References: <20201008202713.1416823-1-ehabkost@redhat.com>
- <20201008202713.1416823-2-ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69F5C1019625;
+ Thu,  8 Oct 2020 21:22:23 +0000 (UTC)
+Received: from w520.home (ovpn-113-244.phx2.redhat.com [10.3.113.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F0A355797;
+ Thu,  8 Oct 2020 21:22:15 +0000 (UTC)
+Date: Thu, 8 Oct 2020 15:22:14 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v10 10/10] vfio: Don't issue full 2^64 unmap
+Message-ID: <20201008152214.3cb1425b@w520.home>
+In-Reply-To: <20201008171558.410886-11-jean-philippe@linaro.org>
+References: <20201008171558.410886-1-jean-philippe@linaro.org>
+ <20201008171558.410886-11-jean-philippe@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201008202713.1416823-2-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8tZVdKiiYitVG083"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 01:56:49
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,76 +82,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vikram Garhwal <fnu.vikram@xilinx.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eric.auger@redhat.com, pbonzini@redhat.com, bbhushan2@marvell.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---8tZVdKiiYitVG083
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu,  8 Oct 2020 19:15:58 +0200
+Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 
-On Thu, Oct 08, 2020 at 04:27:11PM -0400, Eduardo Habkost wrote:
-> Fix the following crash:
->=20
->   $ qemu-system-x86_64 -object authz-list-file,id=3Dobj0
->   qemu-system-x86_64: -object authz-list-file,id=3Dobj0: GLib: g_file_get=
-_contents: assertion 'filename !=3D NULL' failed
->   Segmentation fault (core dumped)
->=20
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> IOMMUs may declare memory regions spanning from 0 to UINT64_MAX. When
+> attempting to deal with such region, vfio_listener_region_del() passes a
+> size of 2^64 to int128_get64() which throws an assertion failure.  Even
+> ignoring this, the VFIO_IOMMU_DMA_MAP ioctl cannot handle this size
+> since the size field is 64-bit. Split the request in two.
+> 
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 > ---
-> Cc: "Daniel P. Berrang=E9" <berrange@redhat.com>
-> Cc: qemu-devel@nongnu.org
-
-Out of curiosity, are those notes intended for git-publish? (If so, I
-didn't realize it would read them).
-
+> For me this happens when memory_region_iommu_set_page_size_mask()
+> returns an error because a hotplugged endpoint uses an incompatible page
+> mask. vfio_connect_container() releases the memory listener which calls
+> region_del() with the 2^64 IOMMU region. There are probably other ways
+> to reach this.
 > ---
->  authz/listfile.c | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/authz/listfile.c b/authz/listfile.c
-> index cd6163aa40..aaf930453d 100644
-> --- a/authz/listfile.c
-> +++ b/authz/listfile.c
-> @@ -122,6 +122,11 @@ qauthz_list_file_complete(UserCreatable *uc, Error *=
-*errp)
->      QAuthZListFile *fauthz =3D QAUTHZ_LIST_FILE(uc);
->      gchar *dir =3D NULL, *file =3D NULL;
-> =20
-> +    if (!fauthz->filename) {
-> +        error_setg(errp, "filename not provided");
+>  hw/vfio/common.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index e66054b02a7..e90a89c389e 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -797,6 +797,17 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>      }
+>  
+>      if (try_unmap) {
+> +        if (llsize == int128_2_64()) {
+> +            /* The unmap ioctl doesn't accept a full 64-bit span. */
+> +            llsize = int128_rshift(llsize, 1);
+> +            ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
+> +            if (ret) {
+> +                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+> +                             "0x%"HWADDR_PRIx") = %d (%m)",
+> +                             container, iova, int128_get64(llsize), ret);
+> +            }
+> +            iova += int128_get64(llsize);
+> +        }
+>          ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
+>          if (ret) {
+>              error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
 
-Nitpick: all other similar error messages start capitalized.
+We're still susceptible that splitting the range in two could result in
+unmap calls that attempt to bisect a mapping that spans both ranges.
+Both unmap calls would fail in that case.  I think we could solve this
+more completely with a high water marker, but this probably good enough
+for now.
 
-- Cleber.
-
---8tZVdKiiYitVG083
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl9/ggEACgkQZX6NM6Xy
-CfOz5Q//Tb1GnfBa72fCZQtfP9sqbrqZExsydxjiE2kXy49hrUPM50Pld56/3IAG
-enBpAyATB8v2d/HuvKCtKatwyRF1Q5M7Z86fu7EZgb5mIYzZXBOQsPLaw18VAV5E
-4Hh8lrg+rWItbpGijaYvM8l1djRg8OfyaX4YCVHoiFq9nR22+rTMDuYMwdyQ+rQo
-gj5Flp4hhBnP1G4Lri8ur2a3ifMgQxSDyORmuxMLFBCwBY46Mu41DVUuaHzbLWmX
-JnXc0wLym52RusBShXxqM0rBtz/StpIShW2l0aN1D2qe9bWAe6QVwvN1G75WGUeW
-XUc95Qs+nhoH2CxudqLIdwsFEVIozPG9qQxt4qRaBeYSMAKoTJXEjEEKB2l5rSLv
-/EAvO3DJcpSb0po5EULYmZfMGfX0vKEbSyNF/4SFOF64ommB5RvR2HZlm+ufFe09
-IRLvk2Q597L/8bXBroQHLnrM7x9fm4gwAELghZXHey/X1yUdD9Hk/er880K1BbgM
-jmcCEmcwqsNFpq90mmaM4QO27FLF8f223zo1288mpe2UHOmXrRR4prneOkHk/2O6
-tFZUinjbTzbMNjoyos+E33cgWlsFaopAEpUGvG3VVMWRNh6KtOn7njio1HeOp1E8
-YlZw5WKf6JmMIjHagLW6/PSCaps2qWU7D7KDrO1jmebiDqIG4XU=
-=Q8oc
------END PGP SIGNATURE-----
-
---8tZVdKiiYitVG083--
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
 
 
