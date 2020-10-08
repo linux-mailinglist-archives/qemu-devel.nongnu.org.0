@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3453B2875FF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:28:01 +0200 (CEST)
-Received: from localhost ([::1]:45018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8285728761B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:34:07 +0200 (CEST)
+Received: from localhost ([::1]:32944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQWtk-0005lY-7i
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:28:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38144)
+	id 1kQWze-0004BN-Ak
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWrw-0004BJ-SB
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:08 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34314)
+ id 1kQWrx-0004Bi-O3
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:09 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWrt-0005yA-Gu
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:08 -0400
-Received: by mail-wr1-x444.google.com with SMTP id i1so721129wro.1
+ id 1kQWru-0005yQ-GC
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:09 -0400
+Received: by mail-wm1-x333.google.com with SMTP id d3so6722620wma.4
  for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=TbWCRJ0BVkq6j07LdMSc/WFxA1HsyjcaL+7Jf66AQ7w=;
- b=YDQ3vaem4ICMjOVnbiqey4nL89QKVk13emEsRvcQQm/ut4obgmVAuMCOjHwq1NI3e+
- SmCjxybbevPAq2Z6+xNMXeeAt4xoAjb9Z4yfHnyrpu0KUdI1vpNKG/dE+H8sChe6wijY
- gqzP4idO++OcAa9++aEvDKOzywADrwIqWW7sX4nGfVPcu7uff7GkcL7L4TmOtsaBVNzB
- 4F94I7G2UWmqJFDCI8AjzJYi9L9yZyGL1hPOgjAZ2WYoI7I8l7yTs/9O+zc+ZQMdTnFV
- 9ftkFj2pG/6tYCZga5VRufxr+pnpayVEBpzB68wOfCM6t0cyBkGFpvITm4UNGamveilr
- CN2w==
+ bh=kVcdD0KzUJAO3jRrFwWmt99n+ZYoK7ZLoVAUEZINIj4=;
+ b=kCT2ewGmGfgub88ar9ltrPiiRo6Jzw4UK4iAJ/zLevuIOlw2RxB7pif8xQt1LUMWho
+ YUJ1CY+zriqUVq3z90Ez31xW/VUhhGShgM0fY37sYiZCJxaSMJ7bXzr8U3QrTaYt3Dqv
+ djob/hd4fBZxjKuMI1gYza7Hvjw8+EzuBmQG2ANlU0HWnPk0RRSys+MWp3UnbbD/CdtY
+ 36gof5AW2ZfG7Afv3ldZaYAeflwZ5t2LidDu4NzuavB08l/tnJHbZYLhB4wig9Ju9Dj6
+ gcTNVj+tng8hu2Rfr6tJO+s88uEuvxu0uiJKyQ4ecq7rkrLUwaKylnz7r91vMgiZzBJb
+ SMpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TbWCRJ0BVkq6j07LdMSc/WFxA1HsyjcaL+7Jf66AQ7w=;
- b=Ypiq6poSzQ/ikdJortlPanPjBwJrot5/iLiP4SWio4Whw1Aw+2l4qLNlYxagebkFfi
- 5Cd9ZT3WhVuv1HlmsRRQMORdIAvVjyTpvbuEgNW2XLn4qRHy1FRy9BvFyiVcZNkuCjbL
- AxteSCRrUHXPniIdD5FS7htQkSjgTBCqaULRIpCP3ztswU/fkC0RANnK3x6k8rHQcSk6
- h9cJ1WcPC++tYGBCIVxW0xhHuoPAPezHj2niX2RbO7JwI96k5DnCDlf2kkO0EixeKVnU
- WyrbSeo7380HhlcJKV0nQD+uj0uKECzKSGmdNzf8UyLuPdqKnUD2Qy045rETmBooemlJ
- W+WA==
-X-Gm-Message-State: AOAM532lHA205mHv7qXvfUzR3AfgRa8YPZ4GKmjxrAC4my8TXn1lzR2p
- mHfx7UqGjYRBjVW1L+G2yWSPQxnckBFUFxcS
-X-Google-Smtp-Source: ABdhPJzLE6wM4Bw79RbfLk7iclCb7xJ+uXH8Y0xvdosuzPhItjg0aaAJhBhNaYkRzOihfCpYBWEUnQ==
-X-Received: by 2002:a5d:4c52:: with SMTP id n18mr9396386wrt.267.1602167163710; 
- Thu, 08 Oct 2020 07:26:03 -0700 (PDT)
+ bh=kVcdD0KzUJAO3jRrFwWmt99n+ZYoK7ZLoVAUEZINIj4=;
+ b=bOTZ6NIwdEqnpIykDeeZhYHU+OGVgMRYPKfa49OtQfTQg50Q/EHEoY7oG5pwUKH5TS
+ yXpzYlEh02TS27M3QkLdlmEUoc1Ex/T9Tm/gJRuTsflLYJQWR6ziGeWD4SVVXkhaCCxf
+ VhVMYhGCrBF1W96um0eVqKBmnWs1PvuGoK9OVWRecgksLI/70evzSHEnIyJjKJrcTWNy
+ zs+F1djv+W1wznk5VTqR8J7rngoaQibqMGrBMBR1ajxENKAmkbF0Ds+KfSzYzJvlF/fu
+ ZpndHv25pRw5HWb63NH6Yk2BHyyftGBDrcB+jdjtAP0eCC0xqdM7KASPAwnErd4rIvFP
+ FFhw==
+X-Gm-Message-State: AOAM531ZZMMPa2F31bWluyqS2rXsoJV1Llpr617Es8WgHOe6HX3wB/fr
+ S2gHEX/VoUxPq6tkD4ayBLUS1lSbjlmlEKtT
+X-Google-Smtp-Source: ABdhPJwUKmppUgRKJTfm0XMn2McqTBLyIhTFTmjzmnJLZEXhdygTJ+XqhDRngYysXjoOh/+e28SmIQ==
+X-Received: by 2002:a1c:1bd1:: with SMTP id b200mr9521154wmb.171.1602167164754; 
+ Thu, 08 Oct 2020 07:26:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j1sm7905104wrc.28.2020.10.08.07.26.02
+ by smtp.gmail.com with ESMTPSA id j1sm7905104wrc.28.2020.10.08.07.26.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 07:26:03 -0700 (PDT)
+ Thu, 08 Oct 2020 07:26:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/12] hw/arm/sbsa-ref : Fix SMMUv3 Initialisation
-Date: Thu,  8 Oct 2020 15:25:48 +0100
-Message-Id: <20201008142557.9845-4-peter.maydell@linaro.org>
+Subject: [PULL 04/12] hw/arm/sbsa-ref : allocate IRQs for SMMUv3
+Date: Thu,  8 Oct 2020 15:25:49 +0100
+Message-Id: <20201008142557.9845-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201008142557.9845-1-peter.maydell@linaro.org>
 References: <20201008142557.9845-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,33 +91,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Graeme Gregory <graeme@nuviainc.com>
 
-SMMUv3 has an error in a previous patch where an i was transposed to a 1
-meaning interrupts would not have been correctly assigned to the SMMUv3
-instance.
+Original commit did not allocate IRQs for the SMMUv3 in the irqmap
+effectively using irq 0->3 (shared with other devices). Assuming
+original intent was to allocate unique IRQs then add an allocation
+to the irqmap.
 
-Fixes: 48ba18e6d3f3 ("hw/arm/sbsa-ref: Simplify by moving the gic in the machine state")
-Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
+Fixes: e9fdf453240 ("hw/arm: Add arm SBSA reference machine, devices part")
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20201007100732.4103790-2-graeme@nuviainc.com
+Message-id: 20201007100732.4103790-3-graeme@nuviainc.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/sbsa-ref.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/sbsa-ref.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 9c3a893bedf..65e64883b51 100644
+index 65e64883b51..01863510d0f 100644
 --- a/hw/arm/sbsa-ref.c
 +++ b/hw/arm/sbsa-ref.c
-@@ -525,7 +525,7 @@ static void create_smmu(const SBSAMachineState *sms, PCIBus *bus)
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-     for (i = 0; i < NUM_SMMU_IRQS; i++) {
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
--                           qdev_get_gpio_in(sms->gic, irq + 1));
-+                           qdev_get_gpio_in(sms->gic, irq + i));
-     }
- }
+@@ -133,6 +133,7 @@ static const int sbsa_ref_irqmap[] = {
+     [SBSA_SECURE_UART_MM] = 9,
+     [SBSA_AHCI] = 10,
+     [SBSA_EHCI] = 11,
++    [SBSA_SMMU] = 12, /* ... to 15 */
+ };
  
+ static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
 -- 
 2.20.1
 
