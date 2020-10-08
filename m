@@ -2,98 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517802875D5
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:16:39 +0200 (CEST)
-Received: from localhost ([::1]:37292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D695F287641
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:39:52 +0200 (CEST)
+Received: from localhost ([::1]:48118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQWij-0001a2-SY
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:16:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36176)
+	id 1kQX5D-0002I7-Ut
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQWhb-00012p-Ac
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:15:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQWhX-0004RR-60
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:15:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602166521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bjhr21aSsRJ5tXiLgKrndxaDa4eu0MrzGpsG+lYcc64=;
- b=NgnNIFVJvT7c4lNTLqwnaPaz+vq6Ra1EA5gJ7QhXvTlLxGg9melL1nFdfVZUXwtqlZYvVz
- aVY/HRA787bZz0tSQ790Q5MjJXCuuMBgVHBQoKet5hoSu8MlI7/qSmuyNf+jR9aCA3YRD4
- 0Mcu3/4j9TFD3stUKzAFG5DFl0/HzhM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-Fxb5CD1TN62VWp3zn_zDDg-1; Thu, 08 Oct 2020 10:15:20 -0400
-X-MC-Unique: Fxb5CD1TN62VWp3zn_zDDg-1
-Received: by mail-wm1-f70.google.com with SMTP id y83so3209134wmc.8
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:15:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bjhr21aSsRJ5tXiLgKrndxaDa4eu0MrzGpsG+lYcc64=;
- b=XyTlaRWKcWO/ltDivEqcYKz9k5nl9n+doM5lzJYBmF0OsPIGft3oGlMEyZDfpzHlp9
- XrZDTHJ8coofzwB2OlkcmlbhX6YuKpLNFS03EFgswZqfZMA2zYmByc9hJjt86bafGNzr
- OOWpbQ2zqkyUh0MvIOF2Zhi0wkHhHAtTzqoGWqI1vX11f0LVPU4xD1t+ROKfznq0Bz4c
- kgNyYz/hdMrTJpEO7x2h4nCk1e6i2FzulQz8qfLtQIdgaDVNAQRUGKNyx2Si/VHfGLvF
- h0kYQe2bfNcWMqPrhZqUZoendQTHi4m9ba9RJL5Yh5X+9BNvipyo2s88OW8ulYIrjhZ7
- EVNA==
-X-Gm-Message-State: AOAM533eJrwGPJrVIZlj2J6auw46i2GQuOngqyx/ph5Foh+PbNWo+xb9
- idsYE6+ahS7FKPw4hqsmS+7paXqexPbB4HymJ2bMYF0JrPkqjLhVgyAS7/BgvvM+TEteS7HgWLg
- wU639R9o7vpf5ajI=
-X-Received: by 2002:adf:fd07:: with SMTP id e7mr9188237wrr.377.1602166518684; 
- Thu, 08 Oct 2020 07:15:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzKXhWOWCMYprz5YdVnK8pbDploupp7kZZ7lRm7tvunRvnLArwt+lAHqrYnruBG3qs+SXnt+Q==
-X-Received: by 2002:adf:fd07:: with SMTP id e7mr9188213wrr.377.1602166518440; 
- Thu, 08 Oct 2020 07:15:18 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:bb8c:429c:6de1:f4ec?
- ([2001:b07:6468:f312:bb8c:429c:6de1:f4ec])
- by smtp.gmail.com with ESMTPSA id f14sm7570622wme.22.2020.10.08.07.15.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Oct 2020 07:15:17 -0700 (PDT)
-Subject: Re: KVM call for agenda for 2020-10-06
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <874kndm1t3.fsf@secure.mitica>
- <20201005144615.GE5029@stefanha-x1.localdomain>
- <CAJSP0QVZcEQueXG1gjwuLszdUtXWi1tgB5muLL6QHJjNTOmyfQ@mail.gmail.com>
- <8fce8f99-56bd-6a87-9789-325d6ffff54d@redhat.com>
- <20201007180429.GI2505881@redhat.com> <87h7r5yn6z.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a35bad26-7ed6-fea8-10ab-ea340f8fc6e2@redhat.com>
-Date: Thu, 8 Oct 2020 16:15:16 +0200
+ (Exim 4.90_1) (envelope-from <heecheol.yang@outlook.com>)
+ id 1kQX3l-0001QA-Bg
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:38:21 -0400
+Received: from mail-co1nam11olkn2050.outbound.protection.outlook.com
+ ([40.92.18.50]:56801 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <heecheol.yang@outlook.com>)
+ id 1kQX3h-0007ao-9x
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:38:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cAO7MSkQ2f+9N0xQBZa3hH9XxbKHX+JYuXAKlTesz2DWEVUecoobQMUxmQr2SBprjNvY/GvSfuvMLUPbg6CbvT5rtWEshBV5azggXi9l5vsWW0QTB4vdiq5moSGWA2+JcZU3KV/CiaAQIH3NTE6qegWjHjP2vlyrc55BT8kuTWN09k+NFUJgYGeol2wTflag9VoHamkW6gci34ieSWGBf1QbxtQxc8biUdguB5tB1r1JXDL4mcT0do4PzoSaXe92kxe097QGxlF/7rJidhpJxg0HRUB8+ZWsBHnnG2n0a4F94Bn8ACoPJi6tLxQt0gkESnXc1cgI8rDjZZgBtFSqRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BsVaqxIervkG/dJx9YRxCysdT7XkygoUXAyG0TQHttk=;
+ b=RtKQN3Fqg8ECM1D4Vv0JcSYMyICuGpgD1nEJ2ZiQ+BDYCq+dpz41JsEuUj6yHnJ//+fmrLIAhnx7ACDXYkvU/bh875crLFDio/o4c+K0ltKfN/L7Q62f/vlFvv3xGvoc/zakuxM/yYLste0pzPLNSq4vy6N3BJvCkaz05OVCX/MzLJD318SS1cHYY0xeZ2kk+en7Dc4lj1UNg0ilx2VLDdmuSpXe3SCHKwf1JHTghobjmSGeFIRcnVCfRQUStMM8llK2c1RaKVcaRjw4F33sjA92uhuUo2yuIp2W0F8ilvQgB9iwETR7sJO8Li/wslIB1iCSqmAOGNSQq8D9n2nCHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BsVaqxIervkG/dJx9YRxCysdT7XkygoUXAyG0TQHttk=;
+ b=jEAu61TRTzxz5peZ8Y7WR+rdcyS247aBHYKNUaDZz/jXEpT3kZYROb6XawRBg/rGpSrKLhctKLW0f/8+e5jPUpOQyI4KSQygke/Z7q+E25KvL+2+Y8j0PJSzCTlVcecJRP/W4by1xPecOy8dFY4eelCdZd8xbUeRv45Y+Xnc0qwQw8WlWcUxqOckckkXlTPuZKI/uD/Rbed+d1OshiBi4VCrXJSJtmp4Fi8m+b9HOJKm1xm9vIQLBR8CzVnI9oq3xL3EP1JmTQDqhjNGQzJvark61y+cT/Mp4SbnhQLTFWiErpKhF7nCmMGXTNJB8jwUjqy3OAutkF43Nr3oZPggEw==
+Received: from CO1NAM11FT041.eop-nam11.prod.protection.outlook.com
+ (2a01:111:e400:3861::45) by
+ CO1NAM11HT161.eop-nam11.prod.protection.outlook.com (2a01:111:e400:3861::163)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23; Thu, 8 Oct
+ 2020 14:23:10 +0000
+Received: from DM6PR16MB2473.namprd16.prod.outlook.com
+ (2a01:111:e400:3861::50) by CO1NAM11FT041.mail.protection.outlook.com
+ (2a01:111:e400:3861::217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend
+ Transport; Thu, 8 Oct 2020 14:23:10 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:97CCF229649D41EB5E9FF2F8876AD9F4E275844425C974CCE58BFFC1590365B6;
+ UpperCasedChecksum:1A9A62D3BBD9766A9DEE107E468A4077AD30368F9959E565B13D84B5BFCEF78A;
+ SizeAsReceived:8827; Count:48
+Received: from DM6PR16MB2473.namprd16.prod.outlook.com
+ ([fe80::ec2c:246a:b4d4:48b1]) by DM6PR16MB2473.namprd16.prod.outlook.com
+ ([fe80::ec2c:246a:b4d4:48b1%3]) with mapi id 15.20.3455.024; Thu, 8 Oct 2020
+ 14:23:10 +0000
+Subject: Re: [PATCH v5] hw/avr: Add limited support for avr gpio registers
+To: qemu-devel@nongnu.org
+References: <DM6PR16MB2473681AE7F2EE705C7300A6E60D0@DM6PR16MB2473.namprd16.prod.outlook.com>
+From: Heecheol Yang <heecheol.yang@outlook.com>
+Message-ID: <DM6PR16MB2473942A5014037E46AE2659E60B0@DM6PR16MB2473.namprd16.prod.outlook.com>
+Date: Thu, 8 Oct 2020 23:23:04 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <87h7r5yn6z.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ Thunderbird/68.10.0
+In-Reply-To: <DM6PR16MB2473681AE7F2EE705C7300A6E60D0@DM6PR16MB2473.namprd16.prod.outlook.com>
+Content-Type: text/plain; charset=euc-kr; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 01:56:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-TMN: [hBvUY3JWirNJ0Tn0dIpeG4u4Irpueqwz]
+X-ClientProxiedBy: SLXP216CA0010.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:100:6::20) To DM6PR16MB2473.namprd16.prod.outlook.com
+ (2603:10b6:5:6e::28)
+X-Microsoft-Original-Message-ID: <57d9efb2-c6f9-0b23-43ea-cd0efb5adfd3@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [121.168.203.43] (121.168.203.43) by
+ SLXP216CA0010.KORP216.PROD.OUTLOOK.COM (2603:1096:100:6::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3455.21 via Frontend Transport; Thu, 8 Oct 2020 14:23:09 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: d50552bc-e2bb-4dd6-5782-08d86b95aee8
+X-MS-TrafficTypeDiagnostic: CO1NAM11HT161:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j8rCQQDnnrwkCUQiacyLURG5WRhRaOldfzf3+MmsSrU6XJUJ1dh53Qa4EMzM/9QT4mNR9Bcc4RD7yI6wl4RtDlP4x6ki7aWh1i0oey7AE34cwjC+Z2X0mEps/aBjlWUVwzWBFuUjjDBcJcBVuLiP0j7RHP4QoAcUFDQs/foLbHdZ7rFhRdQl7yRP3GVX8r4cEeuq/5D2Rs9P47cjA1xDT9VNhfXY77p16GnywCEHSx/NVENWxJ7GCitfFpsPHGoY
+X-MS-Exchange-AntiSpam-MessageData: CH1niOkyHONYyBScwxTWsx6VxU9CtcqLk0+/0NsktXoxFSW7LoAC63OD3l4ZmpTVOb2OpsMm0qW/iq807WYYLZjaQBFRt5+d6WWqToeU7OUttFC02vzyoHH1G+yHALXpCRoAFL40fhmku0iJEyvrfw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d50552bc-e2bb-4dd6-5782-08d86b95aee8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2020 14:23:10.7883 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT041.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1NAM11HT161
+Received-SPF: pass client-ip=40.92.18.50;
+ envelope-from=heecheol.yang@outlook.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 10:38:14
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FORGED_MUA_MOZILLA=2.309, FREEMAIL_FROM=0.001, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,57 +118,319 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm-devel <kvm@vger.kernel.org>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/10/20 13:25, Markus Armbruster wrote:
-> CLI, config file and QMP are differently convenient for different use
-> cases. [...]
-> 
-> If we could afford just one of the three, we'd probably want to pick
-> QMP, because it's the most flexible (it's supports queries naturally),
-> and because picking something else can't eliminate QMP.  Fortunately, we
-> don't have to pick just one if we base on initial configuration on QAPI.
+Hello,
 
-On the other hand, we don't have to pick just one because we already
-have a CLI (though one that is full of warts) so the question is not
-whether we want to have a CLI, but whether we want to have a *second* CLI.
+I've submitted this patch below, but couldn't get any review for it.
 
-So my point is essentially that:
+Because I am very first at this kind of work, I'm afraid that I am doing 
+something wrong or rude.
 
-* as you said, you cannot get rid of QMP
+Please can I know if there was something inappropriate?
 
-* we can make the existing CLI a QMP wrapper just like we did with HMP
+Thanks a lot!
 
-* any work on QMP-based configuration would apply just as well to both
-binaries, so developers could still mix CLI+QMP when (or if) desirable
 
-* once you have a (warty but well-known) CLI and QMP, there are
-diminishing returns in going all the way down to QAPI even for the two
-hardest commands (device-add and object-add).  That time is better
-invested in minimizing the differences between the two binaries, because
-we all know that you won't pry the qemu-system-* command line from the
-cold dead hands of users and developers.
+Best regards
 
-(not coincidentially, this goes from least to most controversial).
+Heecheol Yang
 
-Of course you may say this is "whataboutism", on the other hand time is
-limited so I prefer to make the interesting tasks clear from the
-beginning and allow better collaboration.
 
-> I'd like to take a serious swing at QAPIfying them, with a loose schema.
-
-What do you mean by "loose schema"?  Is it anything other than
-"represent a QDict with a QAPI list of key-value pairs"?
-
-Paolo
-
-> Good enough for QAPI-based initial configuration interfaces.  Not good
-> enough for introspection, but a better QOM introspection could fill that
-> gap.
-> 
-
+> Add some of these features for AVR GPIO:
+>
+>    - GPIO I/O : PORTx registers
+>    - Data Direction : DDRx registers
+>    - DDRx toggling : PINx registers
+>
+> Following things are not supported yet:
+>    - MCUR registers
+>
+> Signed-off-by: Heecheol Yang <heecheol.yang@outlook.com>
+> ---
+>   hw/avr/Kconfig             |   1 +
+>   hw/avr/atmega.c            |   7 +-
+>   hw/avr/atmega.h            |   2 +
+>   hw/gpio/Kconfig            |   3 +
+>   hw/gpio/avr_gpio.c         | 136 +++++++++++++++++++++++++++++++++++++
+>   hw/gpio/meson.build        |   2 +
+>   include/hw/gpio/avr_gpio.h |  53 +++++++++++++++
+>   7 files changed, 202 insertions(+), 2 deletions(-)
+>   create mode 100644 hw/gpio/avr_gpio.c
+>   create mode 100644 include/hw/gpio/avr_gpio.h
+>
+> diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
+> index d31298c3cc..16a57ced11 100644
+> --- a/hw/avr/Kconfig
+> +++ b/hw/avr/Kconfig
+> @@ -3,6 +3,7 @@ config AVR_ATMEGA_MCU
+>       select AVR_TIMER16
+>       select AVR_USART
+>       select AVR_POWER
+> +    select AVR_GPIO
+>   
+>   config ARDUINO
+>       select AVR_ATMEGA_MCU
+> diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+> index 44c6afebbb..ad942028fd 100644
+> --- a/hw/avr/atmega.c
+> +++ b/hw/avr/atmega.c
+> @@ -283,8 +283,11 @@ static void atmega_realize(DeviceState *dev, Error **errp)
+>               continue;
+>           }
+>           devname = g_strdup_printf("atmega-gpio-%c", 'a' + (char)i);
+> -        create_unimplemented_device(devname,
+> -                                    OFFSET_DATA + mc->dev[idx].addr, 3);
+> +        object_initialize_child(OBJECT(dev), devname, &s->gpio[i],
+> +                                TYPE_AVR_GPIO);
+> +        sysbus_realize(SYS_BUS_DEVICE(&s->gpio[i]), &error_abort);
+> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio[i]), 0,
+> +            OFFSET_DATA + mc->dev[idx].addr);
+>           g_free(devname);
+>       }
+>   
+> diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
+> index a99ee15c7e..e2289d5744 100644
+> --- a/hw/avr/atmega.h
+> +++ b/hw/avr/atmega.h
+> @@ -13,6 +13,7 @@
+>   
+>   #include "hw/char/avr_usart.h"
+>   #include "hw/timer/avr_timer16.h"
+> +#include "hw/gpio/avr_gpio.h"
+>   #include "hw/misc/avr_power.h"
+>   #include "target/avr/cpu.h"
+>   #include "qom/object.h"
+> @@ -44,6 +45,7 @@ struct AtmegaMcuState {
+>       DeviceState *io;
+>       AVRMaskState pwr[POWER_MAX];
+>       AVRUsartState usart[USART_MAX];
+> +    AVRGPIOState gpio[GPIO_MAX];
+>       AVRTimer16State timer[TIMER_MAX];
+>       uint64_t xtal_freq_hz;
+>   };
+> diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
+> index b6fdaa2586..1752d0ce56 100644
+> --- a/hw/gpio/Kconfig
+> +++ b/hw/gpio/Kconfig
+> @@ -10,3 +10,6 @@ config GPIO_KEY
+>   
+>   config SIFIVE_GPIO
+>       bool
+> +
+> +config AVR_GPIO
+> +    bool
+> diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c
+> new file mode 100644
+> index 0000000000..29e799670d
+> --- /dev/null
+> +++ b/hw/gpio/avr_gpio.c
+> @@ -0,0 +1,136 @@
+> +/*
+> + * AVR processors GPIO registers emulation.
+> + *
+> + * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
+> + *
+> + * This program is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU General Public License as
+> + * published by the Free Software Foundation; either version 2 or
+> + * (at your option) version 3 of the License.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along
+> + * with this program; if not, see <https://eur06.safelinks.protection.outlook.com/?url=http%3A%2F%2Fwww.gnu.org%2Flicenses%2F&amp;data=02%7C01%7C%7Ce26698a8102d4e9717a408d869ff32ea%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C637375892070440761&amp;sdata=aG9o2gjQXkz9otB3VItryZUyfUCgbBZgpSkuDtvR4xg%3D&amp;reserved=0>.
+> + */
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "qemu/module.h"
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/irq.h"
+> +#include "hw/gpio/avr_gpio.h"
+> +#include "hw/qdev-properties.h"
+> +
+> +static void avr_gpio_reset(DeviceState *dev)
+> +{
+> +    AVRGPIOState *gpio = AVR_GPIO(dev);
+> +    gpio->reg.pin = 0u;
+> +    gpio->reg.ddr = 0u;
+> +    gpio->reg.port = 0u;
+> +}
+> +
+> +static void avr_gpio_write_port(AVRGPIOState *s, uint64_t value)
+> +{
+> +    uint8_t pin;
+> +    uint8_t cur_port_val = s->reg.port;
+> +    uint8_t cur_ddr_val = s->reg.ddr;
+> +
+> +    for (pin = 0u; pin < 8u ; pin++) {
+> +        uint8_t cur_port_pin_val = cur_port_val & 0x01u;
+> +        uint8_t cur_ddr_pin_val = cur_ddr_val & 0x01u;
+> +        uint8_t new_port_pin_val = value & 0x01u;
+> +
+> +        if (cur_ddr_pin_val && (cur_port_pin_val != new_port_pin_val)) {
+> +            qemu_set_irq(s->out[pin], new_port_pin_val);
+> +        }
+> +        cur_port_val >>= 1u;
+> +        cur_ddr_val >>= 1u;
+> +        value >>= 1u;
+> +    }
+> +    s->reg.port = value & s->reg.ddr;
+> +}
+> +static uint64_t avr_gpio_read(void *opaque, hwaddr offset, unsigned int size)
+> +{
+> +    AVRGPIOState *s = (AVRGPIOState *)opaque;
+> +    switch (offset) {
+> +    case GPIO_PIN:
+> +        return s->reg.pin;
+> +    case GPIO_DDR:
+> +        return s->reg.ddr;
+> +    case GPIO_PORT:
+> +        return s->reg.port;
+> +    default:
+> +        g_assert_not_reached();
+> +        break;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static void avr_gpio_write(void *opaque, hwaddr offset, uint64_t value,
+> +                                unsigned int size)
+> +{
+> +    AVRGPIOState *s = (AVRGPIOState *)opaque;
+> +    value = value & 0xF;
+> +    switch (offset) {
+> +    case GPIO_PIN:
+> +        s->reg.pin = value;
+> +        s->reg.port ^= s->reg.pin;
+> +        break;
+> +    case GPIO_DDR:
+> +        s->reg.ddr = value;
+> +        break;
+> +    case GPIO_PORT:
+> +        avr_gpio_write_port(s, value);
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +        break;
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps avr_gpio_ops = {
+> +    .read = avr_gpio_read,
+> +    .write = avr_gpio_write,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +};
+> +
+> +static void avr_gpio_init(Object *obj)
+> +{
+> +    AVRGPIOState *s = AVR_GPIO(obj);
+> +    qdev_init_gpio_out(DEVICE(obj), s->out, ARRAY_SIZE(s->out));
+> +    memory_region_init_io(&s->mmio, obj, &avr_gpio_ops, s, TYPE_AVR_GPIO, 3);
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+> +}
+> +static void avr_gpio_realize(DeviceState *dev, Error **errp)
+> +{
+> +    /* Do nothing currently */
+> +}
+> +
+> +
+> +static void avr_gpio_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->reset = avr_gpio_reset;
+> +    dc->realize = avr_gpio_realize;
+> +}
+> +
+> +static const TypeInfo avr_gpio_info = {
+> +    .name          = TYPE_AVR_GPIO,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(AVRGPIOState),
+> +    .instance_init = avr_gpio_init,
+> +    .class_init    = avr_gpio_class_init,
+> +};
+> +
+> +static void avr_gpio_register_types(void)
+> +{
+> +    type_register_static(&avr_gpio_info);
+> +}
+> +
+> +type_init(avr_gpio_register_types)
+> diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
+> index 86cae9a0f3..258bd5dcfc 100644
+> --- a/hw/gpio/meson.build
+> +++ b/hw/gpio/meson.build
+> @@ -11,3 +11,5 @@ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gpio.c'))
+>   softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_gpio.c'))
+>   softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_gpio.c'))
+>   softmmu_ss.add(when: 'CONFIG_SIFIVE_GPIO', if_true: files('sifive_gpio.c'))
+> +
+> +softmmu_ss.add(when: 'CONFIG_AVR_GPIO', if_true: files('avr_gpio.c'))
+> diff --git a/include/hw/gpio/avr_gpio.h b/include/hw/gpio/avr_gpio.h
+> new file mode 100644
+> index 0000000000..498a7275f0
+> --- /dev/null
+> +++ b/include/hw/gpio/avr_gpio.h
+> @@ -0,0 +1,53 @@
+> +/*
+> + * AVR processors GPIO registers definition.
+> + *
+> + * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
+> + *
+> + * This program is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU General Public License as
+> + * published by the Free Software Foundation; either version 2 or
+> + * (at your option) version 3 of the License.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along
+> + * with this program; if not, see <https://eur06.safelinks.protection.outlook.com/?url=http%3A%2F%2Fwww.gnu.org%2Flicenses%2F&amp;data=02%7C01%7C%7Ce26698a8102d4e9717a408d869ff32ea%7C84df9e7fe9f640afb435aaaaaaaaaaaa%7C1%7C0%7C637375892070440761&amp;sdata=aG9o2gjQXkz9otB3VItryZUyfUCgbBZgpSkuDtvR4xg%3D&amp;reserved=0>.
+> + */
+> +
+> +#ifndef AVR_GPIO_H
+> +#define AVR_GPIO_H
+> +
+> +#include "hw/sysbus.h"
+> +#include "qom/object.h"
+> +
+> +/* Offsets of registers. */
+> +#define GPIO_PIN   0x00
+> +#define GPIO_DDR   0x01
+> +#define GPIO_PORT  0x02
+> +
+> +#define TYPE_AVR_GPIO "avr-gpio"
+> +OBJECT_DECLARE_SIMPLE_TYPE(AVRGPIOState, AVR_GPIO)
+> +#define AVR_GPIO_COUNT 8
+> +
+> +struct AVRGPIOState {
+> +    /*< private >*/
+> +    SysBusDevice parent_obj;
+> +
+> +    /*< public >*/
+> +    MemoryRegion mmio;
+> +
+> +    struct {
+> +        uint8_t pin;
+> +        uint8_t ddr;
+> +        uint8_t port;
+> +    } reg;
+> +
+> +    /* PORTx data changed IRQs */
+> +    qemu_irq out[8u];
+> +
+> +};
+> +
+> +#endif /* AVR_GPIO_H */
 
