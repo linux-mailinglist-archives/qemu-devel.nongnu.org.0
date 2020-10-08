@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DAD287C6F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:24:09 +0200 (CEST)
-Received: from localhost ([::1]:49612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DBCF287C6B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:22:00 +0200 (CEST)
+Received: from localhost ([::1]:43774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQbWK-0002Ft-ST
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49894)
+	id 1kQbUF-0008Cb-5i
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <c477717430aa4b6d4b9cf688b587d369b5c66637@lizzy.crudebyte.com>)
- id 1kQbLw-0005To-G4
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:24 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:49897)
+ (envelope-from <95e6f85d8d0c4e05f11991ba528e3d474f08789b@lizzy.crudebyte.com>)
+ id 1kQbMS-0006he-20
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:56 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:37925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <c477717430aa4b6d4b9cf688b587d369b5c66637@lizzy.crudebyte.com>)
- id 1kQbLu-0005Fr-Ux
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:24 -0400
+ (envelope-from <95e6f85d8d0c4e05f11991ba528e3d474f08789b@lizzy.crudebyte.com>)
+ id 1kQbMQ-0005Il-Hq
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=PFFmgNGyfC+nMCQ95QvPope9mXT2GQdf/3JbIMDlfLo=; b=NMMbQ
- 0FOIecHW07EiIZlMMJUt5kMLvlgNbKq4DRft8cdT50odJ1pm/GDNjd+Lvt2KQkk7lpA7VKRFEC1Q5
- F65FWlxheCjOLfxMGzaMFFjrWLubR7F+vrpLxjH3YUm2zZf3beYW6/dEda0/eFU17xQA2c11uS0sR
- 3lUUn1u7c9I6BlIvjzu9YlRzi98sOs5cf+E1Wsbh0kwpyJuKkEsTJcBSg+EVA1zBVNDDf3/QHZ3+W
- V6b9/J0yGFDZZWVaC/tmKePB1TgN/V2aHmofEONp7WqNan8VpP67E5NUlfIIt5qQL2hZz6CBTAjWe
- FSDyqjRg9Czj/Db+UMufIwev5bbQQ==;
-Message-Id: <c477717430aa4b6d4b9cf688b587d369b5c66637.1602182956.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=lRzWEo6b7k9+kApoB+89gLCgSlgbKdep1hgOxL6/O8s=; b=lojf9
+ cHvdn3vQgxKSwi7J2X2xnakyLUPbDHsWv0xgcd6WjEuAHltPQ2LFb9H7EfYbJsw5cUUveS+HC33YV
+ nEiPUEFPb44qqeZ2ztKELUsdMigB26Jx/hQkwW+PJlfC1/pvyykZoN7EcPJ/Z7gbZr3Z9aUxr8Jbh
+ cpr1gKFhK5c2LdOO5qmQhDG5MuvKOVt6MoIU1TSMOHNf8nNTOhNWJNv1X+d+ECEauoCzgLFgq0YJH
+ aYvVVkdUy94BF48bLJ54PyHQXsmv2PUCsWk+1L/Y3aY6ae5Bq4OEgFQ7nFhPvJTND/rLfqiYs98fP
+ jtq1VnggkJwRVu8v6wX7zuismVNHg==;
+Message-Id: <95e6f85d8d0c4e05f11991ba528e3d474f08789b.1602182956.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1602182956.git.qemu_oss@crudebyte.com>
 References: <cover.1602182956.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 8 Oct 2020 20:34:56 +0200
-Subject: [PATCH v4 03/12] libqos/qgraph_internal: add qos_printf() and
- qos_printf_literal()
+Subject: [PATCH v4 07/12] tests/qtest/qos-test: dump QEMU command if verbose
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
     Laurent Vivier <lvivier@redhat.com>,
@@ -45,7 +44,7 @@ Cc: Thomas Huth <thuth@redhat.com>,
     Greg Kurz <groug@kaod.org>,
     "Daniel P. Berrangé" <berrange@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=c477717430aa4b6d4b9cf688b587d369b5c66637@lizzy.crudebyte.com;
+ envelope-from=95e6f85d8d0c4e05f11991ba528e3d474f08789b@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 15:12:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,42 +69,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These two are macros wrapping regular printf() call. They are intended
-to be used instead of calling printf() directly in order to avoid
-breaking TAP output format.
+If qtests are run in verbose mode (i.e. if --verbose CL argument
+was provided) then print the assembled qemu command line for each
+test.
 
-TAP output format is enabled by using --tap command line argument.
-Starting with glib 2.62 it is enabled by default.
-
-Unfortunately there is currently no public glib API available to check
-whether TAP output format is enabled. For that reason qos_printf()
-simply always prepends a '#' character for now.
+Use qos_printf() instead of g_test_message() to avoid the latter
+cluttering the output.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/libqos/qgraph_internal.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ tests/qtest/qos-test.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qtest/libqos/qgraph_internal.h b/tests/qtest/libqos/qgraph_internal.h
-index 974985dce9..c0025f5ab9 100644
---- a/tests/qtest/libqos/qgraph_internal.h
-+++ b/tests/qtest/libqos/qgraph_internal.h
-@@ -255,4 +255,15 @@ void qos_delete_cmd_line(const char *name);
-  */
- void qos_graph_node_set_availability(const char *node, bool av);
+diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
+index b279b6f816..f97d0a08fd 100644
+--- a/tests/qtest/qos-test.c
++++ b/tests/qtest/qos-test.c
+@@ -89,6 +89,9 @@ static void qos_set_machines_devices_available(void)
  
-+/*
-+ * Prepends a '#' character in front for not breaking TAP output format.
-+ */
-+#define qos_printf(...) printf("# " __VA_ARGS__)
-+
-+/*
-+ * Intended for printing something literally, i.e. for appending text as is
-+ * to a line already been started by qos_printf() before.
-+ */
-+#define qos_printf_literal printf
-+
- #endif
+ static void restart_qemu_or_continue(char *path)
+ {
++    if (g_test_verbose()) {
++        qos_printf("Run QEMU with: '%s'\n", path);
++    }
+     /* compares the current command line with the
+      * one previously executed: if they are the same,
+      * don't restart QEMU, if they differ, stop previous
 -- 
 2.20.1
 
