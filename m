@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E939287798
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 17:38:53 +0200 (CEST)
-Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D052877B4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 17:41:11 +0200 (CEST)
+Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQY0K-0004sk-CM
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 11:38:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54898)
+	id 1kQY2X-0006kd-ST
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 11:41:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQXxQ-0003Cc-3U
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:35:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQXxM-0000Fz-UB
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:35:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602171347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aj78Hg5WX+au4jbKeZXF5XxH5K3aj2i/SjPxWAfD+60=;
- b=dlY0xWkduypznvJc35JaedFzVTGqtu526sfWmmxctUHbZkm9VqdC/1jAp5b4WiuFlK7U10
- TQeQQAsYfLAjMbrkfiwQ0S1M6qEOkZf02D0ZVviIcxuO16DqCp15e+mGL1OdcII5mR7oHQ
- GEM4ngFVRq37YDn+adVtJiP09d6ZqL8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-lzo9Rj8yPXOfGhCD4UTJ1g-1; Thu, 08 Oct 2020 11:35:44 -0400
-X-MC-Unique: lzo9Rj8yPXOfGhCD4UTJ1g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8791F1054F8A
- for <qemu-devel@nongnu.org>; Thu,  8 Oct 2020 15:35:43 +0000 (UTC)
-Received: from [10.10.120.38] (ovpn-120-38.rdu2.redhat.com [10.10.120.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A62860BFA;
- Thu,  8 Oct 2020 15:35:43 +0000 (UTC)
-Subject: Re: [PATCH v5 19/36] qapi/events.py: add type hint annotations
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201005195158.2348217-1-jsnow@redhat.com>
- <20201005195158.2348217-20-jsnow@redhat.com>
- <87zh4ye0fh.fsf@dusky.pond.sub.org>
- <bb656a3c-a92e-f934-5294-a4230842e322@redhat.com>
- <87r1q92mi4.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <1fd25ea2-50cb-a518-c105-498d5dd0978f@redhat.com>
-Date: Thu, 8 Oct 2020 11:35:42 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <87r1q92mi4.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1kQXyx-0004I7-NS
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:37:27 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:43231)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1kQXys-0000Ui-5I
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:37:27 -0400
+Received: by mail-qk1-x744.google.com with SMTP id c2so7420249qkf.10
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 08:37:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=tC+strVV+B+K5HjAihiX4yitBIFB+2qfVBtZ+9OjiTQ=;
+ b=NOlmXW8j1FNLs+EF0SboO9o25gLy3tiNVyH4ggxJygLBFWnZejLtJScDtDBDpXk//x
+ O/BM4Jz/O5c497nBC+OhH6pEh0NxldSdUo9Y15aK5wHR1A9fmpvnb6DaXs/rrV8mFq3e
+ wrAhLeuchfroKY4V/qx9JwO9A0O4rs+yR7qamn9bv5Bh/jPSPkg8T4GDFwWw0xlOQDys
+ YCepBh03gMrc3IioFs7txZEEi22qWoY5e2eqIO/iaaTRl4huUrgM6qSPoen8sVDq8GUo
+ bV4ZYCdpiy9v6cUUSQloGf1m371U08ldN8ugAMT2bQkxP6bi2e4pFuZ9OfGFhbvBiSBV
+ 3iMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=tC+strVV+B+K5HjAihiX4yitBIFB+2qfVBtZ+9OjiTQ=;
+ b=bUtgspsbiJXfjPifRT9557NJ5M1qEiH5usRmNZKFyOd4s9iSPAGpX0wIa4sELuLdnM
+ 7FaCkKPkvlhzPtWlIw/ch3QCcaMDwH3mpExU5oKDlWIAFJs6c4/4TcUvNLVKhMKGMVGK
+ kHC/aH9k7TpbP4aWLuUHWFHFTetL1qSV+vPpp9Yc/oSbCoVZSsS4kcyyGE5Dbc82M/A/
+ Hydtq6B5Ox2WaYRVsyAsHt2t1huwR/U+ac4qycLC6txVznz1M1E1yO5ZmkI39BR8Nq2T
+ TVAeKidYPxvaHA7yaO+P/3ll/fFr1wTiQ9LDeCM/SNUek0cXFChgwGhrDiCExMdXR+gK
+ 9HIQ==
+X-Gm-Message-State: AOAM532YSjxis0IBoGLH4H/ccxkwGSK56FfYd6ktNlRmwzreaEWszPvG
+ mO13Ax5pjPrUvPOis2KNV44/oQ==
+X-Google-Smtp-Source: ABdhPJyyS70MkJX3lEVC4IyEMXiOCiIhrNlllL3n41AuHpDOZSjpw05/kjoClnEIsZjwsI5dHTzBSA==
+X-Received: by 2002:a37:7d44:: with SMTP id y65mr1518461qkc.2.1602171440944;
+ Thu, 08 Oct 2020 08:37:20 -0700 (PDT)
+Received: from master.ht.home ([2607:fea8:e2a0:e950::d884])
+ by smtp.googlemail.com with ESMTPSA id t186sm4170533qkf.48.2020.10.08.08.37.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Oct 2020 08:37:19 -0700 (PDT)
+From: Shashi Mallela <shashi.mallela@linaro.org>
+To: peter.maydell@linaro.org,
+	leif@nuviainc.com,
+	rad@semihalf.com
+Subject: [PATCH v4 0/2] Add watchdog support for SbsaQemu
+Date: Thu,  8 Oct 2020 11:37:16 -0400
+Message-Id: <20201008153718.20143-1-shashi.mallela@linaro.org>
+X-Mailer: git-send-email 2.18.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x744.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,57 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/8/20 3:41 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> On 10/7/20 7:32 AM, Markus Armbruster wrote:
->>> Ignorant question: what's the difference between -> None (like here) and
->>> nothing (like __init__() above?
->>
->> This came up in Cleber's review, too.
->>
->> Mypy supports a gradual typing paradigm; it is designed to facilitate
->> what we are doing here: the gradual adding of types until we are able
->> to enforce static typing everywhere.
->>
->> To that end, mypy uses a simple heuristic to determine if a function
->> is "typed" or "untyped": did you use any type annotations for it?
->>
->> Meanwhile, __init__ never returns anything. You do not need to
->> annotate its return type. mypy knows what the return type is and must
->> be. In the case of __init__ with no parameters, it is both untyped and
->> strictly typed!
->>
->> Annotating the return type for no-parameter init methods convinces
->> mypy that this is a strictly typed method. It doesn't do this
->> automatically, because doing so might enable more checks than you were
->> ready for simply because mypy was able to accurately surmise the
->> typing of just __init__.
->>
->> So it's just a little flip switch to enable strict typing, really.
->>
->> --js
->>
->> https://mypy.readthedocs.io/en/stable/class_basics.html#annotating-init-methods
-> 
-> I now understand we can omit -> None, except when it's the only type
-> hint, because omitting it then would make it untyped, which is not what
-> we want.
-> 
-> Is this just for __init__(), or is it for any function that doesn't
-> return anything?
-> 
+This patch series adds watchdog timer support for SbsaQemu platform.
 
-*just* __init__. Some other dunders have types that could be assumed, 
-but aren't. I asked about this for some other well-known but 
-hard-to-type dunders like __exit__ on the Typing-SIG list. Not a strong 
-response yet, I might push again later.
+The watchdog timer has been implemented first based on the generic
+watchdog timer specifications from ARM BSA v0.9 and then used 
+in the SbsaQemu reference platform
 
---js
+Changes in v4:
+- addressed review comments(interrupt no. added to dtb)
+
+Shashi Mallela (2):
+  hw/watchdog: Implement SBSA watchdog device
+  hw/arm/sbsa-ref: add SBSA watchdog device
+
+ hw/arm/Kconfig                      |   1 +
+ hw/arm/sbsa-ref.c                   |  49 ++++
+ hw/watchdog/Kconfig                 |   4 +
+ hw/watchdog/meson.build             |   1 +
+ hw/watchdog/wdt_sbsa_gwdt.c         | 346 ++++++++++++++++++++++++++++
+ include/hw/watchdog/wdt_sbsa_gwdt.h |  70 ++++++
+ 6 files changed, 471 insertions(+)
+ create mode 100644 hw/watchdog/wdt_sbsa_gwdt.c
+ create mode 100644 include/hw/watchdog/wdt_sbsa_gwdt.h
+
+-- 
+2.18.4
 
 
