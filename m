@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19204287C70
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:24:22 +0200 (CEST)
-Received: from localhost ([::1]:50278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5E8287C6E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:23:16 +0200 (CEST)
+Received: from localhost ([::1]:46560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQbWX-0002YA-3z
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50078)
+	id 1kQbVT-0000xi-16
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:23:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e04e75acb849b085c6d6320b2433a15fa935bcff@lizzy.crudebyte.com>)
- id 1kQbMb-0006zZ-8h
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:14:05 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:53715)
+ (envelope-from <cd6975a177d3664b593861e94eb3027430523f31@lizzy.crudebyte.com>)
+ id 1kQbMB-00063W-4p
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:39 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:51553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e04e75acb849b085c6d6320b2433a15fa935bcff@lizzy.crudebyte.com>)
- id 1kQbMY-0005JC-8k
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:14:04 -0400
+ (envelope-from <cd6975a177d3664b593861e94eb3027430523f31@lizzy.crudebyte.com>)
+ id 1kQbM9-0005GT-NR
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=61K9IPek47Lb/jUIgvqHI9x1BIex8Psn2YIHGCS3rpk=; b=Q23oc
- s1W8xK8ENvKqRkxIvAYJ+B3m8Gkuh9zaOX7CPnvffB/lfxVVm7qSTxY8DYHHc0oV1U0Shf4O8P+8L
- NZR4Zo/eRRR/Qnn8SYNO4uLimsHbCBEAsFnvMMV4oF8kn5UCJ386N+kWOkJtJr/cESSXIn31BAPYR
- TjbyPTgqB2MLTJrpvCB2fSQmVxSDyQVivJMy7UVReayC/LR7DuRjgiX4cvcX7S1Pw9rvieHrzTeWX
- pPA11uRo21ZSi00LlhwIEAt4SbeY2VDKGRKg9Z4webZmouM452VXIYwT0guM2fBYaHUS2/6hJH2Iq
- wakfOGtyVXBT0XgzR03LTqokKUCkQ==;
-Message-Id: <e04e75acb849b085c6d6320b2433a15fa935bcff.1602182956.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=Cyyld5a/6X2z/GHtUILwJZBN75BuasEc9WQ7betFIyk=; b=oucZx
+ BHQQbm+cxkoSB/2rhtDymtg9SBsQ4xnEkEsv8yPzVsTr5U/S6M8L9IDfLB1WwiDXIYaTVCVKwMQYf
+ fuYKbEUextCi4gI7DEnbCrJiwWRShWuPyJHKPvHpZdpveuw5tqxTqkgGJr5+BprTaevJ088+jqqg0
+ LROSXza6W/9WQ1KxlqRRAVtuwKpjeWWyZ57SdYfm9NEd4PmXbU9uciHnvK+V9ie3ekK4jbkaElC7w
+ Nj0BjI/1dt+vzDA575BJ7Rtv0Zf38enuKtlriHb0IppZTCSj/FVGgyhhnktw5kbImPPJGccB2Sfiv
+ kSzxQI0k7Iffs1rSwdODQJa+E0Nyg==;
+Message-Id: <cd6975a177d3664b593861e94eb3027430523f31.1602182956.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1602182956.git.qemu_oss@crudebyte.com>
 References: <cover.1602182956.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 8 Oct 2020 20:34:56 +0200
-Subject: [PATCH v4 08/12] tests/9pfs: change qtest name prefix to synth
+Subject: [PATCH v4 05/12] tests/qtest/qos-test: dump qos graph if verbose
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
     Laurent Vivier <lvivier@redhat.com>,
@@ -44,7 +44,7 @@ Cc: Thomas Huth <thuth@redhat.com>,
     Greg Kurz <groug@kaod.org>,
     "Daniel P. Berrangé" <berrange@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=e04e75acb849b085c6d6320b2433a15fa935bcff@lizzy.crudebyte.com;
+ envelope-from=cd6975a177d3664b593861e94eb3027430523f31@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 15:12:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -69,65 +69,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All existing 9pfs test cases are using the 'synth' fs driver so far, which
-means they are not accessing real files, but a purely simulated (in RAM
-only) file system.
+If qtests were run in verbose mode (i.e. if --verbose CL argument was
+provided) then dump the generated qos graph (all nodes and edges,
+along with their current individual availability status) to stdout.
 
-Let's make this clear by changing the prefix of the individual qtest case
-names from 'fs/' to 'synth/'. That way they'll be easily distinguishable
-from upcoming new 9pfs test cases supposed to be using a different fs
-driver.
+See API doc comment on function qos_dump_graph() for details.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ tests/qtest/qos-test.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index de30b717b6..3281153b9c 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -897,26 +897,26 @@ static void fs_readdir_split_512(void *obj, void *data,
+diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
+index 8fdf87b183..d98ef78613 100644
+--- a/tests/qtest/qos-test.c
++++ b/tests/qtest/qos-test.c
+@@ -322,6 +322,9 @@ int main(int argc, char **argv)
+     qos_set_machines_devices_available();
  
- static void register_virtio_9p_test(void)
- {
--    qos_add_test("config", "virtio-9p", pci_config, NULL);
--    qos_add_test("fs/version/basic", "virtio-9p", fs_version, NULL);
--    qos_add_test("fs/attach/basic", "virtio-9p", fs_attach, NULL);
--    qos_add_test("fs/walk/basic", "virtio-9p", fs_walk, NULL);
--    qos_add_test("fs/walk/no_slash", "virtio-9p", fs_walk_no_slash,
-+    qos_add_test("synth/config", "virtio-9p", pci_config, NULL);
-+    qos_add_test("synth/version/basic", "virtio-9p", fs_version, NULL);
-+    qos_add_test("synth/attach/basic", "virtio-9p", fs_attach, NULL);
-+    qos_add_test("synth/walk/basic", "virtio-9p", fs_walk, NULL);
-+    qos_add_test("synth/walk/no_slash", "virtio-9p", fs_walk_no_slash,
-                  NULL);
--    qos_add_test("fs/walk/dotdot_from_root", "virtio-9p",
-+    qos_add_test("synth/walk/dotdot_from_root", "virtio-9p",
-                  fs_walk_dotdot, NULL);
--    qos_add_test("fs/lopen/basic", "virtio-9p", fs_lopen, NULL);
--    qos_add_test("fs/write/basic", "virtio-9p", fs_write, NULL);
--    qos_add_test("fs/flush/success", "virtio-9p", fs_flush_success,
-+    qos_add_test("synth/lopen/basic", "virtio-9p", fs_lopen, NULL);
-+    qos_add_test("synth/write/basic", "virtio-9p", fs_write, NULL);
-+    qos_add_test("synth/flush/success", "virtio-9p", fs_flush_success,
-                  NULL);
--    qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
-+    qos_add_test("synth/flush/ignored", "virtio-9p", fs_flush_ignored,
-                  NULL);
--    qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
--    qos_add_test("fs/readdir/split_512", "virtio-9p",
-+    qos_add_test("synth/readdir/basic", "virtio-9p", fs_readdir, NULL);
-+    qos_add_test("synth/readdir/split_512", "virtio-9p",
-                  fs_readdir_split_512, NULL);
--    qos_add_test("fs/readdir/split_256", "virtio-9p",
-+    qos_add_test("synth/readdir/split_256", "virtio-9p",
-                  fs_readdir_split_256, NULL);
--    qos_add_test("fs/readdir/split_128", "virtio-9p",
-+    qos_add_test("synth/readdir/split_128", "virtio-9p",
-                  fs_readdir_split_128, NULL);
- }
- 
+     qos_graph_foreach_test_path(walk_path);
++    if (g_test_verbose()) {
++        qos_dump_graph();
++    }
+     g_test_run();
+     qtest_end();
+     qos_graph_destroy();
 -- 
 2.20.1
 
