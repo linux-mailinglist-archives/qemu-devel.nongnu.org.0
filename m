@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A882870C5
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:34:52 +0200 (CEST)
-Received: from localhost ([::1]:35672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED892870DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:41:22 +0200 (CEST)
+Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQRNy-0002py-ML
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:34:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42948)
+	id 1kQRUH-0007BQ-Lz
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKP-0007jo-2X
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23973)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKN-0006Ut-1K
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602145866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hVXJXNjHsvOKf6S0WioACs9CM2puZr3YT6vs5QNLmmU=;
- b=Uw7OnGPxz1ClzJIW4zshAhsnJrG4KI9t4Ca8IIqwyImTlxxnxwtaVGh6blbwqfdGez6VLm
- nbLodZxUeiw4uuHiTvFWWwbikH1QRjrPi0NkNjDDzberVQtaM2JWWVyazQClfHejIacjqX
- PSXQ1XtT+1E5a6BTecPs9dTVqyTITQA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-aa_5A1E_PtaLLgJh42YEhA-1; Thu, 08 Oct 2020 04:31:03 -0400
-X-MC-Unique: aa_5A1E_PtaLLgJh42YEhA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88721835B67;
- Thu,  8 Oct 2020 08:31:02 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F01D15C1BD;
- Thu,  8 Oct 2020 08:31:00 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/6] virito-mem: Implement get_min_alignment()
-Date: Thu,  8 Oct 2020 10:30:29 +0200
-Message-Id: <20201008083029.9504-7-david@redhat.com>
-In-Reply-To: <20201008083029.9504-1-david@redhat.com>
-References: <20201008083029.9504-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
+ id 1kQRTG-0006b2-VY; Thu, 08 Oct 2020 04:40:18 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:42272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
+ id 1kQRTE-0007Uy-EP; Thu, 08 Oct 2020 04:40:18 -0400
+Received: by mail-il1-x144.google.com with SMTP id c5so4928257ilr.9;
+ Thu, 08 Oct 2020 01:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Yo8eawsYt25LHabU7xyYGWra2pm7iePuuilWGf4A5jo=;
+ b=MZZKr7Jh44969O3Tyaasauofrg7fcFBfBeDg3zieIrTrXrN2hiSXQ0dZj4cIlu8wTa
+ rG0NPosgyZL0qbT0r2agPhGatkhkC/SNE0sl6hZ2EG+jexRwUQgMG0LxqZJMXraxMwWE
+ WMjRxgU3xBtgPh28nH1/uHj5AIhg4BZq9SsBK2wZiYwk6l4HJ7vA9OGOM78bnzMY9Xzv
+ Ms90kwwBnGHg9nbRETe5ef239fUeyp7aBahWCIbI72pW0tnGGSXdJadKpX04C350fReE
+ 7fduhuTzpEjADmyQl6aFKoeEzBUHkR+UzMfhq6IWeKsX3OmG75vymbcmklMAizt93ldK
+ M+KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Yo8eawsYt25LHabU7xyYGWra2pm7iePuuilWGf4A5jo=;
+ b=KrpK29OnrTDd/tZGbFV2FCtefQIPwhRu0O5aqEkCfKnRVyUolGv8hD7nao6ddM7C4y
+ zPVzsb6EI+Xj9SxCBgzmX8o28Wp82l0cYK/gCwAZ1B5gAR3jXszZ9DQhzO/CQgtThjze
+ 7IKgSuLNMPBQ+EIeUPYDaf2TUrZYY8JhsrCQ+YvvPdBnZDJKHmuKWydcMNZX503yQyLh
+ 30arCaD9DU3YPmLOTPvOeLAmwaZjz+W8Qc1Gr34HpQnGb4KM2VNFbIa8Nwj+dx1LyPN+
+ iMYEzLFGlVRG3UrUX5S75wM35Kqe17RtfEgom9W47doJiAOQQFPsNMiUPs21FWno0ZdN
+ CRGw==
+X-Gm-Message-State: AOAM531juumFzIbGmwOYstH9+wdWn4KPImBMoX5PEjCy+cQ3T+vKlWPs
+ lzAhjcj8V3Q87pJKbqxHnqF1aE+u5ihEIkoj0xk=
+X-Google-Smtp-Source: ABdhPJx2j4FIOwQMvNSAGpbi9ZvZqtrjtuafXCf2I/APtsvVFHtypcfUmMo9+anK8UeDKeJvKUnrsntMmfZUdPkkkNo=
+X-Received: by 2002:a92:cb8c:: with SMTP id z12mr5453670ilo.123.1602146415004; 
+ Thu, 08 Oct 2020 01:40:15 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201008060528.68579-1-chetan4windows@gmail.com>
+ <df199cc8-c383-ed03-6244-7a204e92397b@redhat.com>
+ <ba4f81dd-8e5c-1d50-311c-fdc41f9cc504@redhat.com>
+In-Reply-To: <ba4f81dd-8e5c-1d50-311c-fdc41f9cc504@redhat.com>
+From: Chetan <chetan4windows@gmail.com>
+Date: Thu, 8 Oct 2020 14:10:01 +0530
+Message-ID: <CAPPKfOHQV44b+kkcc3QYsLXya-5Ttcbve51uqRUS0e5GyouX6w@mail.gmail.com>
+Subject: Re: [PATCH] Fixing LGPL version number
+To: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f1d1b005b124c7dc"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=chetan4windows@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,58 +79,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The block size determines the alignment requirements. Implement
-get_min_alignment() of the TYPE_MEMORY_DEVICE interface.
+--000000000000f1d1b005b124c7dc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This allows auto-assignment of a properly aligned address in guest
-physical address space. For example, when specifying a 2GB block size
-for a virtio-mem device with 10GB with a memory setup "-m 4G, 20G",
-we'll no longer fail when realizing.
+Hello,
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Wei Yang <richardw.yang@linux.intel.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/virtio/virtio-mem-pci.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+I'll be working on replacing the license text in LGPL licensed files with
+the SPDX identifier tag and will submit it as a separate patch.
 
-diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
-index 913f4a3326..fa5395cd88 100644
---- a/hw/virtio/virtio-mem-pci.c
-+++ b/hw/virtio/virtio-mem-pci.c
-@@ -76,6 +76,12 @@ static void virtio_mem_pci_fill_device_info(const MemoryDeviceState *md,
-     info->type = MEMORY_DEVICE_INFO_KIND_VIRTIO_MEM;
- }
- 
-+static uint64_t virtio_mem_pci_get_min_alignment(const MemoryDeviceState *md)
-+{
-+    return object_property_get_uint(OBJECT(md), VIRTIO_MEM_BLOCK_SIZE_PROP,
-+                                    &error_abort);
-+}
-+
- static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
- {
-     VirtIOMEMPCI *pci_mem = container_of(notifier, VirtIOMEMPCI,
-@@ -110,6 +116,7 @@ static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
-     mdc->get_plugged_size = virtio_mem_pci_get_plugged_size;
-     mdc->get_memory_region = virtio_mem_pci_get_memory_region;
-     mdc->fill_device_info = virtio_mem_pci_fill_device_info;
-+    mdc->get_min_alignment = virtio_mem_pci_get_min_alignment;
- }
- 
- static void virtio_mem_pci_instance_init(Object *obj)
--- 
-2.26.2
 
+*On 08/10/2020 09.54, Philippe Mathieu-Daud=C3=A9 wrote: *
+
+
+*> --- > *
+
+* >Also, if you use a script to do that cleanup, it would be >useful to
+include it in the commit description.*
+
+Sure, I'll be including the commands/script I use.
+
+Chetan
+
+On Thu, Oct 8, 2020 at 1:27 PM Thomas Huth <thuth@redhat.com> wrote:
+
+> On 08/10/2020 09.54, Philippe Mathieu-Daud=C3=A9 wrote:
+> > Hi,
+> >
+> > On 10/8/20 8:05 AM, Chetan Pant wrote:
+> >> There is no "version 2" of the "Lesser" General Public License. It is
+> >> either "GPL version 2.0" or "LGPL version 2.1". This patch replaces al=
+l
+> >> occurrences of "LGPL version 2" with "LGPL version 2.1" in comment
+> section.
+> >
+> > This looks like a good cleanup!
+> >
+> > Since you already listed all the files using this license,
+> > it can be a good opportunity to correct and use the full
+> > license text (which is miswritten in various places):
+> >
+> > ---
+> >
+> >  Copyright (C) <year> <name of author>
+> >
+> > This library is free software; you can redistribute it and/or modify it
+> > under the terms of the GNU Lesser General Public License as published b=
+y
+> > the Free Software Foundation; either version 2.1 of the License, or (at
+> > your option) any later version.
+> >
+> > This library is distributed in the hope that it will be useful, but
+> > WITHOUT ANY WARRANTY; without even the implied warranty of
+> > MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+> > General Public License for more details.
+> >
+> > You should have received a copy of the GNU Lesser General Public Licens=
+e
+> > along with this library; if not, write to the Free Software Foundation,
+> > Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+>
+> Please don't use that version. If the FSF move to another office again, w=
+e
+> have to update the whole mess again.
+>
+> > Or simpler, add the SPDX identifier tag:
+> >
+> >   SPDX-License-Identifier: LGPL-2.1-or-later
+>
+> SPDX tags would be cool, of course, but it could also be done in a separa=
+te
+> patch later.
+>
+>  Thomas
+>
+>
+
+--000000000000f1d1b005b124c7dc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hello,</div><div><br></div><div>I&#3=
+9;ll be working on replacing the license text in LGPL licensed files with t=
+he SPDX identifier tag and will submit it as a separate patch.
+
+</div><div><br></div><div>
+<i><span class=3D"gmail-im">On 08/10/2020 09.54, Philippe Mathieu-Daud=C3=
+=A9 wrote:</span> <br></i></div><div>
+<i><span class=3D"gmail-im">&gt; ---<br>
+&gt; <br></span></i></div><div><span class=3D"gmail-im"><i>
+&gt;Also, if you use a script to do that cleanup, it would be<br>
+&gt;useful to include it in the commit description.</i>
+
+</span>
+
+</div><div><br></div><div>Sure, I&#39;ll be including the commands/script I=
+ use.<br></div><div><br></div><div>Chetan<br></div></div><br><div class=3D"=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 8, 2020 at 1=
+:27 PM Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_blank=
+">thuth@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 08/10/2020 09.54, Philippe Mathieu-Daud=C3=A9 wrote:<b=
+r>
+&gt; Hi,<br>
+&gt; <br>
+&gt; On 10/8/20 8:05 AM, Chetan Pant wrote:<br>
+&gt;&gt; There is no &quot;version 2&quot; of the &quot;Lesser&quot; Genera=
+l Public License. It is<br>
+&gt;&gt; either &quot;GPL version 2.0&quot; or &quot;LGPL version 2.1&quot;=
+. This patch replaces all<br>
+&gt;&gt; occurrences of &quot;LGPL version 2&quot; with &quot;LGPL version =
+2.1&quot; in comment section.<br>
+&gt; <br>
+&gt; This looks like a good cleanup!<br>
+&gt; <br>
+&gt; Since you already listed all the files using this license,<br>
+&gt; it can be a good opportunity to correct and use the full<br>
+&gt; license text (which is miswritten in various places):<br>
+&gt; <br>
+&gt; ---<br>
+&gt; <br>
+&gt;=C2=A0 Copyright (C) &lt;year&gt; &lt;name of author&gt;<br>
+&gt; <br>
+&gt; This library is free software; you can redistribute it and/or modify i=
+t<br>
+&gt; under the terms of the GNU Lesser General Public License as published =
+by<br>
+&gt; the Free Software Foundation; either version 2.1 of the License, or (a=
+t<br>
+&gt; your option) any later version.<br>
+&gt; <br>
+&gt; This library is distributed in the hope that it will be useful, but<br=
+>
+&gt; WITHOUT ANY WARRANTY; without even the implied warranty of<br>
+&gt; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesse=
+r<br>
+&gt; General Public License for more details.<br>
+&gt; <br>
+&gt; You should have received a copy of the GNU Lesser General Public Licen=
+se<br>
+&gt; along with this library; if not, write to the Free Software Foundation=
+,<br>
+&gt; Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA<br>
+<br>
+Please don&#39;t use that version. If the FSF move to another office again,=
+ we<br>
+have to update the whole mess again.<br>
+<br>
+&gt; Or simpler, add the SPDX identifier tag:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0SPDX-License-Identifier: LGPL-2.1-or-later<br>
+<br>
+SPDX tags would be cool, of course, but it could also be done in a separate=
+<br>
+patch later.<br>
+<br>
+=C2=A0Thomas<br>
+<br>
+</blockquote></div></div>
+
+--000000000000f1d1b005b124c7dc--
 
