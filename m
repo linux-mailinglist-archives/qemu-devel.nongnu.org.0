@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAAA287C5B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:18:59 +0200 (CEST)
-Received: from localhost ([::1]:33512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F739287C36
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:15:06 +0200 (CEST)
+Received: from localhost ([::1]:49796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQbRK-0003mH-6t
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49392)
+	id 1kQbNZ-00074l-9d
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:15:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQbJw-0002Ok-4S
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:11:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52850)
+ id 1kQbJy-0002Uu-Ph
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:11:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQbJu-0005B2-7Q
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:11:19 -0400
+ id 1kQbJw-0005BC-Sn
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:11:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602184277;
+ s=mimecast20190719; t=1602184280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fqIuVZSLTsHJ7zWi6B3v7Jb9InR1IFs/G1h6Do57lEU=;
- b=NQV0tSdcgUTpLBoja41fu9+il/E7JAoqtm14UCaNRfQuFGWlxoBDCKT5qJ7SH9sjR/Bxy4
- mFnEClMsBAO7k6N6i+LN6LMD23V0zI/C19naKPoBIaDrXQx7opIGKO6KMBXdpiiyszuNgN
- rRVMXfOhExaZVTMowNhVdfoxEE5J9hc=
+ bh=U0f7a6Fc7A+7mZcGUG5Hm7ANHiCXaOvgGvgfUjI3+ow=;
+ b=HCiQzGr3vdGdwa8HEhjPMbcpB4pHncFO1lOW0y8AJXVsl1B40oeqP4xCrlzLbaT5cqvg9o
+ 2rtgymWiJuTTJBdNLbQH/DZyHTBC8AZmiY3I5ZGRbLJHMgSt9GaTzlN7BkfllNnyXB7MEm
+ RoPmbc7tALgmlJUF2vAEPj+qlYzDA6w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-1navZJ8CPoCd28yiKgubQQ-1; Thu, 08 Oct 2020 15:11:15 -0400
-X-MC-Unique: 1navZJ8CPoCd28yiKgubQQ-1
+ us-mta-284-RIDE__bcNpmKMJLUVYvlzw-1; Thu, 08 Oct 2020 15:11:18 -0400
+X-MC-Unique: RIDE__bcNpmKMJLUVYvlzw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DDF3107B470;
- Thu,  8 Oct 2020 19:11:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44FCBAE823;
+ Thu,  8 Oct 2020 19:11:16 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-212.ams2.redhat.com
  [10.36.114.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6E945C1A3;
- Thu,  8 Oct 2020 19:11:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C8F065C1BD;
+ Thu,  8 Oct 2020 19:11:14 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, alex.bennee@linaro.org, zhengchuan@huawei.com,
  stefanha@redhat.com, peterx@redhat.com
-Subject: [PULL 08/10] migration: Sync requested pages after postcopy recovery
-Date: Thu,  8 Oct 2020 20:10:44 +0100
-Message-Id: <20201008191046.272549-9-dgilbert@redhat.com>
+Subject: [PULL 09/10] migration/dirtyrate: record start_time and calc_time
+ while at the measuring state
+Date: Thu,  8 Oct 2020 20:10:45 +0100
+Message-Id: <20201008191046.272549-10-dgilbert@redhat.com>
 In-Reply-To: <20201008191046.272549-1-dgilbert@redhat.com>
 References: <20201008191046.272549-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,16 +60,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 01:56:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,109 +87,70 @@ Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Chuan Zheng <zhengchuan@huawei.com>
 
-We synchronize the requested pages right after a postcopy recovery happens.
-This helps to synchronize the prioritized pages on source so that the faulted
-threads can be served faster.
+Querying could include both the start-time and the calc-time while at the measuring
+state, allowing a caller to determine when they should expect to come back looking
+for a result.
 
-Reported-by: Xiaohui Li <xiaohli@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20201002175336.30858-5-peterx@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
+Message-Id: <1601350938-128320-2-git-send-email-zhengchuan@huawei.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/savevm.c     | 57 ++++++++++++++++++++++++++++++++++++++++++
- migration/trace-events |  1 +
- 2 files changed, 58 insertions(+)
+ migration/dirtyrate.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index d2e141f7b1..33acbba1a4 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2011,6 +2011,49 @@ static int loadvm_postcopy_handle_run(MigrationIncomingState *mis)
-     return LOADVM_QUIT;
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 68577ef250..40e41e793e 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -83,14 +83,14 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+     return info;
  }
  
-+/* We must be with page_request_mutex held */
-+static gboolean postcopy_sync_page_req(gpointer key, gpointer value,
-+                                       gpointer data)
-+{
-+    MigrationIncomingState *mis = data;
-+    void *host_addr = (void *) key;
-+    ram_addr_t rb_offset;
-+    RAMBlock *rb;
-+    int ret;
-+
-+    rb = qemu_ram_block_from_host(host_addr, true, &rb_offset);
-+    if (!rb) {
-+        /*
-+         * This should _never_ happen.  However be nice for a migrating VM to
-+         * not crash/assert.  Post an error (note: intended to not use *_once
-+         * because we do want to see all the illegal addresses; and this can
-+         * never be triggered by the guest so we're safe) and move on next.
-+         */
-+        error_report("%s: illegal host addr %p", __func__, host_addr);
-+        /* Try the next entry */
-+        return FALSE;
-+    }
-+
-+    ret = migrate_send_rp_message_req_pages(mis, rb, rb_offset);
-+    if (ret) {
-+        /* Please refer to above comment. */
-+        error_report("%s: send rp message failed for addr %p",
-+                     __func__, host_addr);
-+        return FALSE;
-+    }
-+
-+    trace_postcopy_page_req_sync(host_addr);
-+
-+    return FALSE;
-+}
-+
-+static void migrate_send_rp_req_pages_pending(MigrationIncomingState *mis)
-+{
-+    WITH_QEMU_LOCK_GUARD(&mis->page_request_mutex) {
-+        g_tree_foreach(mis->page_requested, postcopy_sync_page_req, mis);
-+    }
-+}
-+
- static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
+-static void reset_dirtyrate_stat(void)
++static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
  {
-     if (mis->state != MIGRATION_STATUS_POSTCOPY_RECOVER) {
-@@ -2033,6 +2076,20 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
-     /* Tell source that "we are ready" */
-     migrate_send_rp_resume_ack(mis, MIGRATION_RESUME_ACK_VALUE);
- 
-+    /*
-+     * After a postcopy recovery, the source should have lost the postcopy
-+     * queue, or potentially the requested pages could have been lost during
-+     * the network down phase.  Let's re-sync with the source VM by re-sending
-+     * all the pending pages that we eagerly need, so these threads won't get
-+     * blocked too long due to the recovery.
-+     *
-+     * Without this procedure, the faulted destination VM threads (waiting for
-+     * page requests right before the postcopy is interrupted) can keep hanging
-+     * until the pages are sent by the source during the background copying of
-+     * pages, or another thread faulted on the same address accidentally.
-+     */
-+    migrate_send_rp_req_pages_pending(mis);
-+
-     return 0;
+     DirtyStat.total_dirty_samples = 0;
+     DirtyStat.total_sample_count = 0;
+     DirtyStat.total_block_mem_MB = 0;
+     DirtyStat.dirty_rate = -1;
+-    DirtyStat.start_time = 0;
+-    DirtyStat.calc_time = 0;
++    DirtyStat.start_time = start_time;
++    DirtyStat.calc_time = calc_time;
  }
  
-diff --git a/migration/trace-events b/migration/trace-events
-index e4d5eb94ca..0fbfd2da60 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -49,6 +49,7 @@ vmstate_save(const char *idstr, const char *vmsd_name) "%s, %s"
- vmstate_load(const char *idstr, const char *vmsd_name) "%s, %s"
- postcopy_pause_incoming(void) ""
- postcopy_pause_incoming_continued(void) ""
-+postcopy_page_req_sync(void *host_addr) "sync page req %p"
+ static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
+@@ -335,7 +335,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+     int64_t initial_time;
  
- # vmstate.c
- vmstate_load_field_error(const char *field, int ret) "field \"%s\" load failed, ret = %d"
+     rcu_register_thread();
+-    reset_dirtyrate_stat();
+     rcu_read_lock();
+     initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+     if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) {
+@@ -365,6 +364,8 @@ void *get_dirtyrate_thread(void *arg)
+ {
+     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
+     int ret;
++    int64_t start_time;
++    int64_t calc_time;
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
+                               DIRTY_RATE_STATUS_MEASURING);
+@@ -373,6 +374,10 @@ void *get_dirtyrate_thread(void *arg)
+         return NULL;
+     }
+ 
++    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
++    calc_time = config.sample_period_seconds;
++    init_dirtyrate_stat(start_time, calc_time);
++
+     calculate_dirtyrate(config);
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEASURING,
 -- 
 2.28.0
 
