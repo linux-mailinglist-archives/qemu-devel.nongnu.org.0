@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BEF3287635
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:38:21 +0200 (CEST)
-Received: from localhost ([::1]:44574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA305287630
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:36:13 +0200 (CEST)
+Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQX3k-0000kk-MO
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:38:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38210)
+	id 1kQX1g-0007Cs-Ui
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWs0-0004IR-Hg
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:12 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39917)
+ id 1kQWry-0004CK-7P
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:10 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWry-0005zD-J3
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:12 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id d3so6722834wma.4
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:10 -0700 (PDT)
+ id 1kQWrw-0005yj-Gz
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:09 -0400
+Received: by mail-wm1-x336.google.com with SMTP id d4so6649573wmd.5
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=+vfXC1GgsBMwnsH6E6kbQ/y0jQGmL+x6ugfMXRWI8gA=;
- b=EeIebk0dG75HOMschTihPaxztknWltWItiQQn4qMVGL2jTkeZRP8lsW3f6Y/Bh9RUB
- Fz9w2G5VfFR2tIgeGSk4IuXabcnHH3fZw00FKRDBmFBJrWobfV0A0/WCGFxE19HItCfj
- IWDMTNm0PkiXnIUEoDhogduw0/SB/QJkSVfPLft8saBXIpZna+rDonNB4QZ41rfmQbK+
- j3hcAwxmHEzuflG5owxt6VijsatpqDa1Fpy8BK2u3Nt6YS+g4YDBZWyKLxXlk+m4whdp
- fQklEYWwVFVlcy0m9kCSMtvoXl5v5fkfvVHtV6rg0VPJ4emLxkxbhbi5w3+uUt+g558L
- wqlw==
+ bh=Cib7h5O8hVbj+spr2llldc/VxswC85k/oqNZL/L3+bw=;
+ b=wuqsaS5Og1u/eW9LszG31h+NHB5rtFm1sm747FDgLlMdpXRhlGKbtkbcPH5f/QrbOb
+ 3KEc+hFhfcywF7+FjmcYoSzadN21ECEv5oPLK3g4EAiN74CK16DnuRHNMGrYr/vT+4a7
+ yvs20zt+4DanpJVR8vLDPcOzSj0kFBkRCjs97lblwkGSnw1+liv8vMc8TuYxIlL14z+9
+ EIy4wBLMRKakzSOFEtwzO14Umio0RF4ZAauzSld8y7kf5/fNkyZ2qg1OS61Kvd37OmWa
+ gjYu+hJXGI7cQ7aMJNWp8Ffl7avKWSduil6wBWjSP5/25/uuSZR19sYTMd6YMV3yHLZT
+ mDbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+vfXC1GgsBMwnsH6E6kbQ/y0jQGmL+x6ugfMXRWI8gA=;
- b=r/MXRTVLUJXsm6TEobfj6R2OPXKWhClY0DlQte1X4EeGuGM5Zd7nVmYv1jCreiTiXI
- vVeEuWP91WBcCAXpA6gjgOjP6qGaWLNbp7biJVpVQ9tjOssDtJ6Q6whSM4hrLq0qW8Lj
- 9oEGcFQeQoKVbnPd6NI8SsHxialJEz7ebn4XGUdrRbll87JLGwJ4118F2PDnjqbZOshX
- NHEWys8TvwzfVh0f2lydvuLujJaQDzP8M/WbUPxWotrajRcgaX9GaQ/mBDT86CbNJiUn
- aOx76bV4DtFTIb5X3860k4uitUyg74tOhROoNzDtVXDYuXNSPMsaMR6B/99G3/LSWV2b
- lo2Q==
-X-Gm-Message-State: AOAM533QWUOUsPi7ykyoC6dlfSqidGySdPgxmKcgoqiUyr2Xw/NjedFt
- yicjLL5o2mzSLILbQfE0an91qYinRthBrHCz
-X-Google-Smtp-Source: ABdhPJyK3t04ARNtSEnUNnaIJAZviTAhbH71ZdU1X9AJCe3cdYDyAwfGboYMZg1/qo21+9ekKtXD+A==
-X-Received: by 2002:a1c:ed05:: with SMTP id l5mr9154961wmh.106.1602167165781; 
- Thu, 08 Oct 2020 07:26:05 -0700 (PDT)
+ bh=Cib7h5O8hVbj+spr2llldc/VxswC85k/oqNZL/L3+bw=;
+ b=c/OWRPOWe5p9owCdaqTePKJ9SK5NxtnB+cd3ebUhsZoSjj/Mu02uH2a/cr9qKrP50n
+ h+HFieT1C4UuJSj57HCDvdJZbMJO+g2wxZ9DUZB9ZGR6Zm5WbqT0L8MGju0DIrFKvSOJ
+ 6Ez11YR0UGbr39C4ATv87L8Xzvffl1+micKPZJUlM6JUex0muXQM5ionCW64cYa3c2jG
+ uCwDTM1IxuJeFrN/znrDi9YPzgrZOBhldEGpXkhtscooVAY8mzxxgQtQOo/BMGawlCNN
+ SH2TtDtBtXB2NqI7wlSTb8FHmdolOYlDpA1QV2JxCC23hFbIjWLZZECUF1DbeCMXgxrB
+ LHHg==
+X-Gm-Message-State: AOAM530KpRBipOJlxpXl3r5TCv3gQRBbJd7sH9ST8AgAwNPygV44rRlk
+ 6LNzVLBrheEp+pLmHYH16symF6hvwQrLdXTH
+X-Google-Smtp-Source: ABdhPJyaA+NOFA9UvQHBfpBWGYoFUk8Cvi5jc2e9EnVOGjnlRbAsLwovsHDldtd3zLWSDZIf/VqQZw==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr9082696wmr.179.1602167166653; 
+ Thu, 08 Oct 2020 07:26:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j1sm7905104wrc.28.2020.10.08.07.26.04
+ by smtp.gmail.com with ESMTPSA id j1sm7905104wrc.28.2020.10.08.07.26.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 07:26:05 -0700 (PDT)
+ Thu, 08 Oct 2020 07:26:06 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/12] hw/char/bcm2835_aux: Allow less than 32-bit accesses
-Date: Thu,  8 Oct 2020 15:25:50 +0100
-Message-Id: <20201008142557.9845-6-peter.maydell@linaro.org>
+Subject: [PULL 06/12] linux headers: sync to 5.9-rc7
+Date: Thu,  8 Oct 2020 15:25:51 +0100
+Message-Id: <20201008142557.9845-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201008142557.9845-1-peter.maydell@linaro.org>
 References: <20201008142557.9845-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,46 +88,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Andrew Jones <drjones@redhat.com>
 
-The "BCM2835 ARM Peripherals" datasheet [*] chapter 2
-("Auxiliaries: UART1 & SPI1, SPI2"), list the register
-sizes as 3/8/16/32 bits. We assume this means this
-peripheral allows 8-bit accesses.
+Update against Linux 5.9-rc7.
 
-This was not an issue until commit 5d971f9e67 which reverted
-("memory: accept mismatching sizes in memory_region_access_valid").
-
-The model is implemented as 32-bit accesses (see commit 97398d900c,
-all registers are 32-bit) so replace MemoryRegionOps.valid as
-MemoryRegionOps.impl, and re-introduce MemoryRegionOps.valid
-with a 8/32-bit range.
-
-[*] https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
-
-Fixes: 97398d900c ("bcm2835_aux: add emulation of BCM2835 AUX (aka UART1) block")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201002181032.1899463-1-f4bug@amsat.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+Message-id: 20201001061718.101915-2-drjones@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/char/bcm2835_aux.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ linux-headers/linux/kvm.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/char/bcm2835_aux.c b/hw/char/bcm2835_aux.c
-index ee3dd40e3c7..dade2ab5fd5 100644
---- a/hw/char/bcm2835_aux.c
-+++ b/hw/char/bcm2835_aux.c
-@@ -249,7 +249,9 @@ static const MemoryRegionOps bcm2835_aux_ops = {
-     .read = bcm2835_aux_read,
-     .write = bcm2835_aux_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
--    .valid.min_access_size = 4,
-+    .impl.min_access_size = 4,
-+    .impl.max_access_size = 4,
-+    .valid.min_access_size = 1,
-     .valid.max_access_size = 4,
- };
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 6683e2e1b0a..43580c767c3 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -790,9 +790,10 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_VM_PPC_HV 1
+ #define KVM_VM_PPC_PR 2
+ 
+-/* on MIPS, 0 forces trap & emulate, 1 forces VZ ASE */
+-#define KVM_VM_MIPS_TE		0
++/* on MIPS, 0 indicates auto, 1 forces VZ ASE, 2 forces trap & emulate */
++#define KVM_VM_MIPS_AUTO	0
+ #define KVM_VM_MIPS_VZ		1
++#define KVM_VM_MIPS_TE		2
+ 
+ #define KVM_S390_SIE_PAGE_OFFSET 1
+ 
+@@ -1035,6 +1036,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_LAST_CPU 184
+ #define KVM_CAP_SMALLER_MAXPHYADDR 185
+ #define KVM_CAP_S390_DIAG318 186
++#define KVM_CAP_STEAL_TIME 187
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
  
 -- 
 2.20.1
