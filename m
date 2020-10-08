@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA672879ED
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 18:24:21 +0200 (CEST)
-Received: from localhost ([::1]:50356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3AC2879F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 18:26:11 +0200 (CEST)
+Received: from localhost ([::1]:57116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQYiJ-0003l7-6C
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 12:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37260)
+	id 1kQYk6-0006ic-Jh
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 12:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQYgD-0002Rw-9W
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:22:09 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:45951)
+ id 1kQYgL-0002Wk-Pv
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:22:17 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQYg3-0007dt-Sf
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:22:05 -0400
-Received: by mail-ot1-x333.google.com with SMTP id f37so5958610otf.12
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 09:21:59 -0700 (PDT)
+ id 1kQYgC-0007e3-W5
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 12:22:17 -0400
+Received: by mail-ot1-x341.google.com with SMTP id q21so5999940ota.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 09:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=94Z0jUkUzmfUn5U+1GJavLRJ+p/K0pJn87QewJivFBY=;
- b=f9W3ge+Movwd8twHI8VvsMejpdOToEATUscBDM1oa4DKnLFT73ge/UoiTX0c/0zhhi
- hOKZRt5LULKbGq7my4nYuBDFrfOlg+iPNwi0myomZlDyyNaq+IOePyywrmOtXMypxQ8T
- D1JQ3LWyh3jE8pHFzxlrFNCt5bL0FHey7OJA+jGb9dbaA2gOqhcAsgmGoAxlpyhZnQ7/
- gG54RYNexgFnqJvK498znxV/GIC3+pnraW3oesIgjchnbrdlIhsDSPvIU/arvwq619MH
- DF5UpJ+PW04fqCKBIfoRtucMGpIudgEWTXa7pA+igwA6V4bZVUbvtg9Q45oXGWsT3hFV
- cgdA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=siDQkbvJh9Bvpko0a5lV9YTIkAumZtHw2Xcw/++VZdY=;
+ b=Wye5DEjHWxQHtc/xyy4JqjU0Jj/GF+1CrQloR02V1GTG4c/t8gNQqdXxBJwSVgW3Nq
+ 9Jubj0jphT3qdYuPh2t0kJA0SeRHDZMHqkxd8Y0PZN33xV+FIdJ8j3kYq0H0+gZEE0TF
+ cm2AI5VBuACe1OWLCqBLYu8YR3FKYTEtSIyCDpO45klC+gB9fhM4Sg3gnIlpUmSuBdQx
+ AM2LKgjyCuIpCU9ca8vDQvWrZaTehsZOMBvRO5lVuGrIY/B7cx4rtWe1mdPB122a7dGf
+ i9lyREBIJfUy4EfTRrC6zggXbW9ybd5UWSBmOGti1/GduE1FQz9Gcdmc8voz1A9ZZ+TO
+ 0Cpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=94Z0jUkUzmfUn5U+1GJavLRJ+p/K0pJn87QewJivFBY=;
- b=cR504tPmWXerRe4sFXzxaY98gWMSzGgilLRe6L8YGaZ/4aB1qMdXmB9hyR1/4SJKR+
- ivASAajjGA0uNhGx19P9fOFx1azxJKoK5PCRW6LiLV320OLygFdtMmztrPaHGONHVMSh
- o7bHlc9TnuFpzwigO4Uc4NV+YHLPNr533OyuVNIvibcl8R1o2owES/FlYm4TuNe4+hY5
- ofVEEP2rWGPfFPV3BNJDiVJVYqZYRTGlR3iEWhZVwUHbm35ZN2FYPuQE1N4xMqzPWcHK
- 3Jpr2WT9L5j2kBWrJPECY0T8ksfHAeTLxKOhoBTh9C/kTyp0D+Y52oLKUwT+n9JtoGsU
- 2lAA==
-X-Gm-Message-State: AOAM533CX8L8eSkphz/iauF3vwVOHxJxioHvgxrVC1n3pASZaHtUedKJ
- 0LgS0RRFXy/mH/msO17sDtC/hiX+tEUtNEQi
-X-Google-Smtp-Source: ABdhPJwPFYB8fScArqG5bVbI7LDrX+gjFfXX7H4rpG6Zko/h+13Wid/bC/0T6Ie6U4Dkhusd6pD0bg==
-X-Received: by 2002:a9d:4e18:: with SMTP id p24mr5918518otf.190.1602174118112; 
- Thu, 08 Oct 2020 09:21:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=siDQkbvJh9Bvpko0a5lV9YTIkAumZtHw2Xcw/++VZdY=;
+ b=DmhmXmeht5Oif8Ok/WHuI0/9D5KrMQSvYHs65F5d13QaCY6kypRBsc3OGM1ENQHJcv
+ krJBqCJjF63qU+YYJ0zy+qvn7hdhoZAUctJw9p40+sdVTN/BPeRviTWNsfXVbqVf1mX4
+ HPZO93Arvi3tSBdtbn9TRHc3cag8QTc5101myyizGG6eWE/3LpuUSOPV3Cxdtw/+QTKU
+ rx2uPrm75BryvbO60xRIeXppdPlYhqhA4sixl5T6B2o+Ybbgfs4dOO98XOqoHmlPEUUQ
+ zdMp9+3kHAVRLhs+m3D3qEd5QlsbFG8NT/Zc4ZU5y/rktv7dt48tloUl/eZnkNI4t0JV
+ cUGQ==
+X-Gm-Message-State: AOAM533CFhm2VJAOPbqY+eq9zLULOER+1WaUS3EwklBqSDy1m8iPux5s
+ tkBtVpJUNc1u7t81ruU27GJ4ZnynaAJmdrZU
+X-Google-Smtp-Source: ABdhPJwaMIc4XJkw5ujvlIY4ORtvV1HrNmIFf/xfNfOQNNvrovZjYJYQ17iVQMaRJc41wQKnZeT6rg==
+X-Received: by 2002:a9d:2a83:: with SMTP id e3mr5346596otb.237.1602174119678; 
+ Thu, 08 Oct 2020 09:21:59 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id l138sm5076218oih.32.2020.10.08.09.21.56
+ by smtp.gmail.com with ESMTPSA id l138sm5076218oih.32.2020.10.08.09.21.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 09:21:57 -0700 (PDT)
+ Thu, 08 Oct 2020 09:21:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] target/arm: MTE fixes
-Date: Thu,  8 Oct 2020 11:21:52 -0500
-Message-Id: <20201008162155.161886-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/3] target/arm: Remove redundant mmu_idx lookup
+Date: Thu,  8 Oct 2020 11:21:53 -0500
+Message-Id: <20201008162155.161886-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201008162155.161886-1-richard.henderson@linaro.org>
+References: <20201008162155.161886-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x333.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,25 +89,33 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, vincenzo.frascino@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One code cleanup and two bug fixes for MTE.
+We already have the full ARMMMUIdx as computed from the
+function parameter.
 
-Vincenzo, thanks for the clear report.  Can you please run
-this through your test case?
+For the purpose of regime_has_2_ranges, we can ignore any
+difference between AccType_Normal and AccType_Unpriv, which
+would be the only difference between the passed mmu_idx
+and arm_mmu_idx_el.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/mte_helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-r~
-
-
-Richard Henderson (3):
-  target/arm: Remove redundant mmu_idx lookup
-  target/arm: Fix reported EL for mte_check_fail
-  target/arm: Ignore HCR_EL2.ATA when {E2H,TGE} != 11
-
- target/arm/internals.h  |  9 +++++----
- target/arm/helper.c     |  9 +++++----
- target/arm/mte_helper.c | 13 ++++---------
- 3 files changed, 14 insertions(+), 17 deletions(-)
-
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 5615c6706c..734cc5ca67 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -563,8 +563,7 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
+ 
+     case 2:
+         /* Tag check fail causes asynchronous flag set.  */
+-        mmu_idx = arm_mmu_idx_el(env, el);
+-        if (regime_has_2_ranges(mmu_idx)) {
++        if (regime_has_2_ranges(arm_mmu_idx)) {
+             select = extract64(dirty_ptr, 55, 1);
+         } else {
+             select = 0;
 -- 
 2.25.1
 
