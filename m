@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF68287E11
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 23:36:03 +0200 (CEST)
-Received: from localhost ([::1]:59954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25739287EA2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 00:23:25 +0200 (CEST)
+Received: from localhost ([::1]:44782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQdZy-00081J-5L
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 17:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56262)
+	id 1kQeJn-0000FZ-A0
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 18:23:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQdYL-00071u-T5
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 17:34:21 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:42418)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQdYK-00063X-5P
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 17:34:21 -0400
-Received: by mail-ed1-x531.google.com with SMTP id v19so7309431edx.9
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 14:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=CJFZU7OvhEA0OFwOs3IlUoXTq0YNZ9MZeYgG+3QmGxk=;
- b=AtkOqN3Kqoa349Hkhv8aeBk5coJ6e+4MUo1ItCz6ynR7L0ii15f68datNWlR65sspK
- znJATl5BjJ+lKLElYFg9GGR4FUXEHRdug/iAjESa+QDRqaioXlx0rn9XxQefrJSkG+p3
- NWmAGy4k2JBf6xx6HNWLCBXXEfESdnCgbioMCxzSMC6PlOrB315w/sGaU9IamnA1CMcX
- FFH8kgG//C6KhLZ1wvhWYYFCFz9thn+bbQxlGCzq2SyI7qC6Qdauf+BVh7rd52kjYYIo
- oTGmT6bid0oCy+rtM39ZVbAR1PHU3R4t/+dN5Ln5vT+3Bl+eePIXl26BWKNL5ODCfMGE
- Rtpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=CJFZU7OvhEA0OFwOs3IlUoXTq0YNZ9MZeYgG+3QmGxk=;
- b=Lvj0lURDIlj/XJA7imkLl3smS27ylJzbuALDZEfTy2LCxy98cASnGpEZzJg0mKV6h5
- Rb8qr9uAMVP7v3IOONOGqLGIN9Jz44ska1fV9RHcEy9k95VFVrKFQkvxtp9deglPASMD
- A51/ZN1koyCx41C6eOdq8HMq5BswhigWaCzAyhtdvisYo/t/MZxPcYp4pvpEa5aQ+vgH
- REQDuyoWuzaty7/O+6RpPpWAQZ2NqU6m0+7ksEpvxyY6O8AO91kvieYzXXqRJhMPMApR
- tNVL7IhQm+p2RYcAjzBUseTT4lAc3WchatBsvIW6z7Tr/ARmlYoJ93PQ8rbyW9AD/HYu
- CMGw==
-X-Gm-Message-State: AOAM530EIbCD049qz1WIZp5cl+1ouREbs8TaRoumSqHXzgdCJk4LZUq4
- nqJMMMUlHvUIpbMy7dctPpGPNgWbAS6g+M1/TZluiaoTqUMsVw==
-X-Google-Smtp-Source: ABdhPJzLv0JUnva9fzgjwQXyJBpibO66MJWVTN7lgRNE5u7ejiSZlOeWxVZlHqU7ZVbMOx1AaShFTQma9uJ10eeqZMM=
-X-Received: by 2002:aa7:c683:: with SMTP id n3mr10910050edq.146.1602192858532; 
- Thu, 08 Oct 2020 14:34:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1kQeGC-0007wV-NK
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 18:19:40 -0400
+Received: from relay.felk.cvut.cz ([2001:718:2:1611:0:1:0:70]:20308)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <pisa@cmp.felk.cvut.cz>) id 1kQeG9-0003D7-78
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 18:19:40 -0400
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by relay.felk.cvut.cz (8.15.2/8.15.2) with ESMTP id 098MIPLd023646;
+ Fri, 9 Oct 2020 00:18:25 +0200 (CEST)
+ (envelope-from pisa@cmp.felk.cvut.cz)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 098MIPYM001395; Fri, 9 Oct 2020 00:18:25 +0200
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 098MIPH3001393;
+ Fri, 9 Oct 2020 00:18:25 +0200
+X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
+ pisa@cmp.felk.cvut.cz using -f
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 2/3] can-host-socketcan: Fix crash when 'if' option is not
+ set
+Date: Fri, 9 Oct 2020 00:18:24 +0200
+User-Agent: KMail/1.9.10
+References: <20201008202713.1416823-1-ehabkost@redhat.com>
+ <20201008202713.1416823-3-ehabkost@redhat.com>
+In-Reply-To: <20201008202713.1416823-3-ehabkost@redhat.com>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-References: <20201008204106.26629-1-peter.maydell@linaro.org>
-In-Reply-To: <20201008204106.26629-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Oct 2020 22:34:07 +0100
-Message-ID: <CAFEAcA8Vk8qO5RhmL_+3OoQr2RysarqBFgYcAsxSMg8qHEVLHg@mail.gmail.com>
-Subject: Re: [PULL v2 00/12] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Message-Id: <202010090018.24802.pisa@cmp.felk.cvut.cz>
+X-FELK-MailScanner-Information: 
+X-MailScanner-ID: 098MIPLd023646
+X-FELK-MailScanner: Found to be clean
+X-FELK-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-0.436, required 6, autolearn=not spam, BAYES_00 -0.50,
+ KHOP_HELO_FCRDNS 0.28, NICE_REPLY_A -0.21, SPF_HELO_NONE 0.00,
+ SPF_NONE 0.00)
+X-FELK-MailScanner-From: pisa@cmp.felk.cvut.cz
+X-FELK-MailScanner-Watermark: 1602800307.27792@M6MNmp1d0dLGwC3wtyMVdg
+Received-SPF: none client-ip=2001:718:2:1611:0:1:0:70;
+ envelope-from=pisa@cmp.felk.cvut.cz; helo=relay.felk.cvut.cz
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 18:19:32
+X-ACL-Warn: Detected OS   = ???
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.214,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,41 +76,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vikram Garhwal <fnu.vikram@xilinx.com>,
+ "Daniel P. =?iso-8859-1?q?Berrang=E9?=" <berrange@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?iso-8859-1?q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Oct 2020 at 21:41, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> v2: minor tweak to fix format string issue on Windows hosts...
->
->
-> The following changes since commit 6eeea6725a70e6fcb5abba0764496bdab07ddfb3:
->
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-10-06' into staging (2020-10-06 21:13:34 +0100)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201008-1
->
-> for you to fetch changes up to d1b6b7017572e8d82f26eb827a1dba0e8cf3cae6:
->
->   target/arm: Make '-cpu max' have a 48-bit PA (2020-10-08 21:40:01 +0100)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * hw/ssi/npcm7xx_fiu: Fix handling of unsigned integer
->  * hw/arm/fsl-imx25: Fix a typo
->  * hw/arm/sbsa-ref : Fix SMMUv3 Initialisation
->  * hw/arm/sbsa-ref : allocate IRQs for SMMUv3
->  * hw/char/bcm2835_aux: Allow less than 32-bit accesses
->  * hw/arm/virt: Implement kvm-steal-time
->  * target/arm: Make '-cpu max' have a 48-bit PA
+Thanks for catching missing test
 
+On Thursday 08 of October 2020 22:27:12 Eduardo Habkost wrote:
+> Fix the following crash:
+>
+>   $ qemu-system-x86_64 -object can-host-socketcan,id=obj0
+>   Segmentation fault (core dumped)
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+> Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  net/can/can_socketcan.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
+> index 92b1f79385..4b68f60c6b 100644
+> --- a/net/can/can_socketcan.c
+> +++ b/net/can/can_socketcan.c
+> @@ -194,6 +194,11 @@ static void can_host_socketcan_connect(CanHostState
+> *ch, Error **errp) struct sockaddr_can addr;
+>      struct ifreq ifr;
+>
+> +    if (!c->ifname) {
+> +        error_setg(errp, "'if' property not set");
+> +        return;
+> +    }
+> +
+>      /* open socket */
+>      s = qemu_socket(PF_CAN, SOCK_RAW, CAN_RAW);
+>      if (s < 0) {
 
-Applied, thanks.
+Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+-- 
+                Pavel Pisa
+    e-mail:     pisa@cmp.felk.cvut.cz
+    Department of Control Engineering FEE CVUT
+    Karlovo namesti 13, 121 35, Prague 2
+    university: http://dce.fel.cvut.cz/
+    personal:   http://cmp.felk.cvut.cz/~pisa
+    projects:   https://www.openhub.net/accounts/ppisa
+    CAN related:http://canbus.pages.fel.cvut.cz/
 
--- PMM
 
