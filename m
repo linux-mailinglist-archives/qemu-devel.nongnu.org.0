@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C20B286DB5
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 06:27:03 +0200 (CEST)
-Received: from localhost ([::1]:55566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9254286DC4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 06:34:14 +0200 (CEST)
+Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQNW9-00087B-O5
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 00:27:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56718)
+	id 1kQNd7-0004LI-PF
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 00:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chengang@emindsoft.com.cn>)
- id 1kQNUj-0007DL-8b
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 00:25:33 -0400
-Received: from lucky1.263xmail.com ([211.157.147.132]:43458)
+ id 1kQNaY-00030X-5h
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 00:31:34 -0400
+Received: from lucky1.263xmail.com ([211.157.147.133]:52998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chengang@emindsoft.com.cn>)
- id 1kQNUf-0001gt-CB
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 00:25:32 -0400
-Received: from localhost (unknown [192.168.167.8])
- by lucky1.263xmail.com (Postfix) with ESMTP id 3A972EF1F0;
- Thu,  8 Oct 2020 12:25:18 +0800 (CST)
+ id 1kQNaV-0003ur-76
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 00:31:33 -0400
+Received: from localhost (unknown [192.168.167.16])
+ by lucky1.263xmail.com (Postfix) with ESMTP id D4B8EC974E;
+ Thu,  8 Oct 2020 12:31:25 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ADDR-CHECKED4: 1
@@ -29,36 +29,35 @@ X-ANTISPAM-LEVEL: 2
 X-ABS-CHECKED: 0
 Received: from localhost.localdomain (unknown [111.30.214.76])
  by smtp.263.net (postfix) whith ESMTP id
- P2452T140206445422336S1602131103681870_; 
- Thu, 08 Oct 2020 12:25:18 +0800 (CST)
-X-UNIQUE-TAG: <6b4f0a22e018b87b7eb2b0dc47b5f28d>
+ P30220T139797897148160S1602131473193031_; 
+ Thu, 08 Oct 2020 12:31:26 +0800 (CST)
+X-UNIQUE-TAG: <9ca2866c13437ba1c64229f912200d3d>
 X-RL-SENDER: chengang@emindsoft.com.cn
 X-SENDER: chengang@emindsoft.com.cn
 X-LOGIN-NAME: chengang@emindsoft.com.cn
-X-FST-TO: laurent@vivier.eu
+X-FST-TO: riku.voipio@iki.fi
 X-SENDER-IP: 111.30.214.76
 X-ATTACHMENT-NUM: 0
 X-DNS-TYPE: 0
 X-System-Flag: 0
 From: chengang@emindsoft.com.cn
-To: laurent@vivier.eu,
-	riku.voipio@iki.fi
-Subject: [PATCH] linux-user: signal: Support TARGET_SS_AUTODISARM
-Date: Thu,  8 Oct 2020 12:25:01 +0800
-Message-Id: <20201008042501.16857-1-chengang@emindsoft.com.cn>
+To: riku.voipio@iki.fi,
+	laurent@vivier.eu
+Subject: [PATCH] linux-user: target: signal: Support TARGET_SS_AUTODISARM
+Date: Thu,  8 Oct 2020 12:31:05 +0800
+Message-Id: <20201008043105.21058-1-chengang@emindsoft.com.cn>
 X-Mailer: git-send-email 2.24.0.308.g228f53135a
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=211.157.147.132;
+Received-SPF: none client-ip=211.157.147.133;
  envelope-from=chengang@emindsoft.com.cn; helo=lucky1.263xmail.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 00:25:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 00:31:26
 X-ACL-Warn: Detected OS   = ???
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,101 +76,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Gang <chengang@emindsoft.com.cn>
 
-Microsoft sqlserver 2017 x86_64 uses it. The implementation references
-from the linux kernel.
+Add definitions to pass building.
 
 Signed-off-by: Chen Gang <chengang@emindsoft.com.cn>
 ---
- linux-user/generic/signal.h |  6 ++++++
- linux-user/signal.c         | 23 ++++++++++++++++++-----
- 2 files changed, 24 insertions(+), 5 deletions(-)
+ linux-user/alpha/target_signal.h  | 6 ++++++
+ linux-user/hppa/target_signal.h   | 5 +++++
+ linux-user/mips/target_signal.h   | 6 ++++++
+ linux-user/mips64/target_signal.h | 5 +++++
+ linux-user/sparc/target_signal.h  | 6 ++++++
+ 5 files changed, 28 insertions(+)
 
-diff --git a/linux-user/generic/signal.h b/linux-user/generic/signal.h
-index e1083f8fba..943bc1a1e2 100644
---- a/linux-user/generic/signal.h
-+++ b/linux-user/generic/signal.h
-@@ -54,4 +54,10 @@
- #define TARGET_SIG_BLOCK          0    /* for blocking signals */
- #define TARGET_SIG_UNBLOCK        1    /* for unblocking signals */
- #define TARGET_SIG_SETMASK        2    /* for setting the signal mask */
+diff --git a/linux-user/alpha/target_signal.h b/linux-user/alpha/target_signal.h
+index cd63d59fde..241e207815 100644
+--- a/linux-user/alpha/target_signal.h
++++ b/linux-user/alpha/target_signal.h
+@@ -93,4 +93,10 @@ typedef struct target_sigaltstack {
+ #define TARGET_GEN_SUBRNG7     -25
+ 
+ #define TARGET_ARCH_HAS_SETUP_FRAME
 +
 +/* bit-flags */
 +#define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
 +/* mask for all SS_xxx flags */
 +#define TARGET_SS_FLAG_BITS  TARGET_SS_AUTODISARM
 +
- #endif
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 8cf51ffecd..b5f04ae160 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -263,6 +263,10 @@ int on_sig_stack(unsigned long sp)
- {
-     TaskState *ts = (TaskState *)thread_cpu->opaque;
+ #endif /* ALPHA_TARGET_SIGNAL_H */
+diff --git a/linux-user/hppa/target_signal.h b/linux-user/hppa/target_signal.h
+index c2a0102ed7..2c9d4e611e 100644
+--- a/linux-user/hppa/target_signal.h
++++ b/linux-user/hppa/target_signal.h
+@@ -66,4 +66,9 @@ typedef struct target_sigaltstack {
+ #define TARGET_MINSIGSTKSZ	2048
+ #define TARGET_SIGSTKSZ		8192
  
-+    if (ts->sigaltstack_used.ss_flags & TARGET_SS_AUTODISARM) {
-+        return 0;
-+    }
++/* bit-flags */
++#define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
++/* mask for all SS_xxx flags */
++#define TARGET_SS_FLAG_BITS  TARGET_SS_AUTODISARM
 +
-     return (sp - ts->sigaltstack_used.ss_sp
-             < ts->sigaltstack_used.ss_size);
- }
-@@ -293,8 +297,13 @@ void target_save_altstack(target_stack_t *uss, CPUArchState *env)
-     TaskState *ts = (TaskState *)thread_cpu->opaque;
+ #endif /* HPPA_TARGET_SIGNAL_H */
+diff --git a/linux-user/mips/target_signal.h b/linux-user/mips/target_signal.h
+index 66e1ad44a6..4fdf15e279 100644
+--- a/linux-user/mips/target_signal.h
++++ b/linux-user/mips/target_signal.h
+@@ -73,4 +73,10 @@ typedef struct target_sigaltstack {
+ /* compare linux/arch/mips/kernel/signal.c:setup_frame() */
+ #define TARGET_ARCH_HAS_SETUP_FRAME
+ #endif
++
++/* bit-flags */
++#define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
++/* mask for all SS_xxx flags */
++#define TARGET_SS_FLAG_BITS  TARGET_SS_AUTODISARM
++
+ #endif /* MIPS_TARGET_SIGNAL_H */
+diff --git a/linux-user/mips64/target_signal.h b/linux-user/mips64/target_signal.h
+index 753e91fbd6..93c64df3b7 100644
+--- a/linux-user/mips64/target_signal.h
++++ b/linux-user/mips64/target_signal.h
+@@ -68,4 +68,9 @@ typedef struct target_sigaltstack {
+ #define TARGET_MINSIGSTKSZ    2048
+ #define TARGET_SIGSTKSZ       8192
  
-     __put_user(ts->sigaltstack_used.ss_sp, &uss->ss_sp);
--    __put_user(sas_ss_flags(get_sp_from_cpustate(env)), &uss->ss_flags);
-+    __put_user(ts->sigaltstack_used.ss_flags, &uss->ss_flags);
-     __put_user(ts->sigaltstack_used.ss_size, &uss->ss_size);
-+    if (ts->sigaltstack_used.ss_flags & TARGET_SS_AUTODISARM) {
-+        ts->sigaltstack_used.ss_sp = 0;
-+        ts->sigaltstack_used.ss_size = 0;
-+        ts->sigaltstack_used.ss_flags = TARGET_SS_DISABLE;
-+    }
- }
++/* bit-flags */
++#define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
++/* mask for all SS_xxx flags */
++#define TARGET_SS_FLAG_BITS  TARGET_SS_AUTODISARM
++
+ #endif /* MIPS64_TARGET_SIGNAL_H */
+diff --git a/linux-user/sparc/target_signal.h b/linux-user/sparc/target_signal.h
+index 5cc40327d2..a465d699d2 100644
+--- a/linux-user/sparc/target_signal.h
++++ b/linux-user/sparc/target_signal.h
+@@ -68,4 +68,10 @@ typedef struct target_sigaltstack {
+ #define TARGET_SIGSTKSZ		16384
  
- /* siginfo conversion */
-@@ -768,7 +777,7 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
-     {
-         __put_user(ts->sigaltstack_used.ss_sp, &oss.ss_sp);
-         __put_user(ts->sigaltstack_used.ss_size, &oss.ss_size);
--        __put_user(sas_ss_flags(sp), &oss.ss_flags);
-+        __put_user(ts->sigaltstack_used.ss_flags, &oss.ss_flags);
-     }
- 
-     if(uss_addr)
-@@ -776,6 +785,7 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
-         struct target_sigaltstack *uss;
-         struct target_sigaltstack ss;
-         size_t minstacksize = TARGET_MINSIGSTKSZ;
-+        int ss_mode;
- 
- #if defined(TARGET_PPC64)
-         /* ELF V2 for PPC64 has a 4K minimum stack size for signal handlers */
-@@ -799,10 +809,12 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
-             goto out;
- 
-         ret = -TARGET_EINVAL;
--        if (ss.ss_flags != TARGET_SS_DISABLE
--            && ss.ss_flags != TARGET_SS_ONSTACK
--            && ss.ss_flags != 0)
-+        ss_mode = ss.ss_flags & ~TARGET_SS_FLAG_BITS;
-+        if (ss_mode != TARGET_SS_DISABLE
-+            && ss_mode != TARGET_SS_ONSTACK
-+            && ss_mode != 0) {
-             goto out;
-+        }
- 
-         if (ss.ss_flags == TARGET_SS_DISABLE) {
-             ss.ss_size = 0;
-@@ -814,6 +826,7 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
-             }
-         }
- 
-+        ts->sigaltstack_used.ss_flags = ss.ss_flags;
-         ts->sigaltstack_used.ss_sp = ss.ss_sp;
-         ts->sigaltstack_used.ss_size = ss.ss_size;
-     }
+ #define TARGET_ARCH_HAS_SETUP_FRAME
++
++/* bit-flags */
++#define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
++/* mask for all SS_xxx flags */
++#define TARGET_SS_FLAG_BITS  TARGET_SS_AUTODISARM
++
+ #endif /* SPARC_TARGET_SIGNAL_H */
 -- 
 2.24.0.308.g228f53135a
 
