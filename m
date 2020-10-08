@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995E52870D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:37:49 +0200 (CEST)
-Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A882870C5
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:34:52 +0200 (CEST)
+Received: from localhost ([::1]:35672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQRQq-0005ax-Ml
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
+	id 1kQRNy-0002py-ML
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKM-0007hh-CT
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60314)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKP-0007jo-2X
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKK-0006UU-Ds
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:06 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRKN-0006Ut-1K
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:31:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602145863;
+ s=mimecast20190719; t=1602145866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SQaLfRo2tu54l3MsruxQvJ4m6XbDXmEWRfBKrb12I7w=;
- b=gIbGTqm+3H9YkSBDBM2NXTW3uB4MluNtYlBc4pBx+4Zaisbc33d2/kdXtbvqTUvDKpMt59
- GS3Oz1/vQHGJyDQaNbPAg+i2Wssg5eOLcZkUCMppCkJAo05TRq5GycKtM0f0QxyndpF2bT
- Qi1/6bWMjCx0TuhPCUw1NN+zxOHMbXM=
+ bh=hVXJXNjHsvOKf6S0WioACs9CM2puZr3YT6vs5QNLmmU=;
+ b=Uw7OnGPxz1ClzJIW4zshAhsnJrG4KI9t4Ca8IIqwyImTlxxnxwtaVGh6blbwqfdGez6VLm
+ nbLodZxUeiw4uuHiTvFWWwbikH1QRjrPi0NkNjDDzberVQtaM2JWWVyazQClfHejIacjqX
+ PSXQ1XtT+1E5a6BTecPs9dTVqyTITQA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-PK5zdy3TNdO7ZPdS3ABI8Q-1; Thu, 08 Oct 2020 04:31:01 -0400
-X-MC-Unique: PK5zdy3TNdO7ZPdS3ABI8Q-1
+ us-mta-477-aa_5A1E_PtaLLgJh42YEhA-1; Thu, 08 Oct 2020 04:31:03 -0400
+X-MC-Unique: aa_5A1E_PtaLLgJh42YEhA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A359881EE69;
- Thu,  8 Oct 2020 08:31:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88721835B67;
+ Thu,  8 Oct 2020 08:31:02 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FFA15C1BD;
- Thu,  8 Oct 2020 08:30:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F01D15C1BD;
+ Thu,  8 Oct 2020 08:31:00 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/6] memory-device: Add get_min_alignment() callback
-Date: Thu,  8 Oct 2020 10:30:28 +0200
-Message-Id: <20201008083029.9504-6-david@redhat.com>
+Subject: [PATCH v3 6/6] virito-mem: Implement get_min_alignment()
+Date: Thu,  8 Oct 2020 10:30:29 +0200
+Message-Id: <20201008083029.9504-7-david@redhat.com>
 In-Reply-To: <20201008083029.9504-1-david@redhat.com>
 References: <20201008083029.9504-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 01:56:49
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,13 +85,13 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a callback that can be used to express additional alignment
-requirements (exceeding the ones from the memory region).
+The block size determines the alignment requirements. Implement
+get_min_alignment() of the TYPE_MEMORY_DEVICE interface.
 
-Will be used by virtio-mem to express special alignment requirements due
-to manually configured, big block sizes (e.g., 1GB with an ordinary
-memory-backend-ram). This avoids failing later when realizing, because
-auto-detection wasn't able to assign a properly aligned address.
+This allows auto-assignment of a properly aligned address in guest
+physical address space. For example, when specifying a 2GB block size
+for a virtio-mem device with 10GB with a memory setup "-m 4G, 20G",
+we'll no longer fail when realizing.
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -101,60 +101,34 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/mem/memory-device.c         | 11 +++++++++--
- include/hw/mem/memory-device.h | 10 ++++++++++
- 2 files changed, 19 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-mem-pci.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
-index 8a736f1a26..cf0627fd01 100644
---- a/hw/mem/memory-device.c
-+++ b/hw/mem/memory-device.c
-@@ -259,7 +259,7 @@ void memory_device_pre_plug(MemoryDeviceState *md, MachineState *ms,
- {
-     const MemoryDeviceClass *mdc = MEMORY_DEVICE_GET_CLASS(md);
-     Error *local_err = NULL;
--    uint64_t addr, align;
-+    uint64_t addr, align = 0;
-     MemoryRegion *mr;
+diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
+index 913f4a3326..fa5395cd88 100644
+--- a/hw/virtio/virtio-mem-pci.c
++++ b/hw/virtio/virtio-mem-pci.c
+@@ -76,6 +76,12 @@ static void virtio_mem_pci_fill_device_info(const MemoryDeviceState *md,
+     info->type = MEMORY_DEVICE_INFO_KIND_VIRTIO_MEM;
+ }
  
-     mr = mdc->get_memory_region(md, &local_err);
-@@ -267,7 +267,14 @@ void memory_device_pre_plug(MemoryDeviceState *md, MachineState *ms,
-         goto out;
-     }
- 
--    align = legacy_align ? *legacy_align : memory_region_get_alignment(mr);
-+    if (legacy_align) {
-+        align = *legacy_align;
-+    } else {
-+        if (mdc->get_min_alignment) {
-+            align = mdc->get_min_alignment(md);
-+        }
-+        align = MAX(align, memory_region_get_alignment(mr));
-+    }
-     addr = mdc->get_addr(md);
-     addr = memory_device_get_free_addr(ms, !addr ? NULL : &addr, align,
-                                        memory_region_size(mr), &local_err);
-diff --git a/include/hw/mem/memory-device.h b/include/hw/mem/memory-device.h
-index 30d7e99f52..48d2611fc5 100644
---- a/include/hw/mem/memory-device.h
-+++ b/include/hw/mem/memory-device.h
-@@ -88,6 +88,16 @@ struct MemoryDeviceClass {
-      */
-     MemoryRegion *(*get_memory_region)(MemoryDeviceState *md, Error **errp);
- 
-+    /*
-+     * Optional: Return the desired minimum alignment of the device in guest
-+     * physical address space. The final alignment is computed based on this
-+     * alignment and the alignment requirements of the memory region.
-+     *
-+     * Called when plugging the memory device to detect the required alignment
-+     * during address assignment.
-+     */
-+    uint64_t (*get_min_alignment)(const MemoryDeviceState *md);
++static uint64_t virtio_mem_pci_get_min_alignment(const MemoryDeviceState *md)
++{
++    return object_property_get_uint(OBJECT(md), VIRTIO_MEM_BLOCK_SIZE_PROP,
++                                    &error_abort);
++}
 +
-     /*
-      * Translate the memory device into #MemoryDeviceInfo.
-      */
+ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
+ {
+     VirtIOMEMPCI *pci_mem = container_of(notifier, VirtIOMEMPCI,
+@@ -110,6 +116,7 @@ static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
+     mdc->get_plugged_size = virtio_mem_pci_get_plugged_size;
+     mdc->get_memory_region = virtio_mem_pci_get_memory_region;
+     mdc->fill_device_info = virtio_mem_pci_fill_device_info;
++    mdc->get_min_alignment = virtio_mem_pci_get_min_alignment;
+ }
+ 
+ static void virtio_mem_pci_instance_init(Object *obj)
 -- 
 2.26.2
 
