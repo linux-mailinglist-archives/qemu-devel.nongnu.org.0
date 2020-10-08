@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3E82874B8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:01:29 +0200 (CEST)
-Received: from localhost ([::1]:47892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367F52874AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:00:05 +0200 (CEST)
+Received: from localhost ([::1]:45346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQVY0-0006QQ-Ji
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:01:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45258)
+	id 1kQVWe-0005Hu-4k
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:00:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVTo-0003RM-3X
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:08 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:32951)
+ id 1kQVTr-0003X2-O4
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:11 -0400
+Received: from mail-oo1-xc36.google.com ([2607:f8b0:4864:20::c36]:46412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVTm-0001wa-8D
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:07 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id t15so5409329otk.0
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:05 -0700 (PDT)
+ id 1kQVTp-0001ww-2Q
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:11 -0400
+Received: by mail-oo1-xc36.google.com with SMTP id c25so773303ooe.13
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Sng81+Lojn0PspAFm2XXXoAzolkJuyUQkxTQ83xLlw4=;
- b=g9thzgBkM+VsqEe7rcXKIAd4prDkT/DLsgbUnE2XwYTUVpcZOdxhMd4C/xkKdIbzgy
- iQezoWttsbp/NTBKJ+sHJd+rJFn816BwrJhI6xjA31dJwJJRe5Ao57ZanspYfWhgNSqv
- ZEpyFXTgVLWRYjr1hKBt9VD0OlXyI9v7r0NnDptzYI5uLusXHuh7OUuYawo/x9Pyvatv
- VEEAnbzYy9iwUMjFZthP5xxwxZrD4BKNYdKvGpNLWl7xBylpPV/CUrNwZx1KpX4n3eY2
- xQyXj994eARL9yGtIWfseB+qDlUABvHzEe02w2p7HdOI9K3WlIpkCVgCmXOR/ba5Y//4
- imKg==
+ bh=g33TexuYH6rB4UUNBCMbt8mxbFAKdagQmJ2x4vq5KFk=;
+ b=TIxev3lwvlWSPm1EMQ8UgETGgLXhHkSHIFVRbKF8hhLHg3kp6r3zLR1nyd3jq6DEqp
+ qypVasmIXheXV9bMQAvDkUOsQweARJmu6Ct/OBCsaXGyBPII8kbI3XJ9onqfNYaMfHPj
+ JkaGo2Zs6gp9BWSMVo9S/WcTjNTlro30LY1kZtqynkHRCShxVwxJd57DOOu6Vr9ue69r
+ Gqyc9Veh8cBHM7bTq1AsujpBhhZYKdAICEh71P5kc1eZrCbNtdx8/pttILxIEN5KvVvs
+ LpJ+YQyBQ7B5ceMp1tQe7GfWOmA4tsD3oBPwITRU6peZJJLeUV/MBNi2vDngoMsPRxA7
+ ryeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Sng81+Lojn0PspAFm2XXXoAzolkJuyUQkxTQ83xLlw4=;
- b=kVHjnQXFy7zWuGtqVqO/4cA9iAFOk7JWX1ruCe/ZhZkncTXZV+PmdQ78u7p9ZrAoY7
- 94yuELeIAMC4/liQ/0vyondeUdCymWC9zv6w/m+/2IHmVQ3blXGxRWFJQDB0l+RH6dA6
- WxSAqXpXN8jTq4dkWEcnWmElgQDzGEjT/Vo+a70vepURj00hno9tUUDo1dKjUAe67xTK
- wcfzSxNwTRP0OWWTmjFWYydqVi2y2QVybueYTs4UYbJlDgmBkwTyTUuKPQm+HOJnGim+
- AL2lu6gYpN5FsTbe0lPgWLfpPCDLNVtNr8iY9sypAEeyVFc/RtPSujrzp+ATiCprD0R3
- WTIg==
-X-Gm-Message-State: AOAM533KbN2Z+EprowZ3YNF9XPZZGi8940tN6LYkVeL24SByEss5CGan
- W1aGan+GkEGmbA5Adm79lHS6jMdnGsmzSa81
-X-Google-Smtp-Source: ABdhPJzQWgVRmgBeRmytQBcdHgTk/stntxXJRIL86QefT5o3cn3KyyM8ZrEhiGD8gbT0VaIweTcYUA==
-X-Received: by 2002:a9d:2047:: with SMTP id n65mr4884061ota.178.1602161824518; 
- Thu, 08 Oct 2020 05:57:04 -0700 (PDT)
+ bh=g33TexuYH6rB4UUNBCMbt8mxbFAKdagQmJ2x4vq5KFk=;
+ b=LPC6ZqL05iV1EH6d/wO6Iu4Xz2iYMGf2r7FrOVY6oI6DQQT4BiTYMMBShJR5aGd68h
+ PQtlNIff/IMDxcNCAAaKq0YRqlpCj//ipPHhfwMUn90vbay+/eDHra4D6CXOH4wZQWtN
+ jvekytQvX8eLmhB5kcBYj0MPIIr5VhYqqy8O7xyR1b+uRucdMZe3u4DeDS3G/XV426No
+ meH6Y6qesCRiG5JW/dvzgV+djSKxo4ezk6BrrN1oDBAPJJaNQu78Upz+ejljxAPg7bWx
+ 17KUWbhKaPvgtlHXj2WgW+VI4YiPKkkPcGVClFIC2tH/xkf1R51whT1/ygyoHQ1+/XqQ
+ zWMA==
+X-Gm-Message-State: AOAM530RjMR+rgctq9EjtZlwqb8wKiEv2fi/VcdhGtinrwFSxlr5q1Kx
+ +DkJt29T+LmtXtn+qn4KX8cKE83zueiRW5ch
+X-Google-Smtp-Source: ABdhPJx2eW6e8uQYHKNs/yDikF0v7ho+E3u4oOeLx9fLbc+St33dhqLI4WOWcUCoW0V/m5kxREC3cw==
+X-Received: by 2002:a4a:7055:: with SMTP id b21mr5325917oof.26.1602161826711; 
+ Thu, 08 Oct 2020 05:57:06 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.02
+ by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 05:57:03 -0700 (PDT)
+ Thu, 08 Oct 2020 05:57:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/11] tcg: Adjust simd_desc size encoding
-Date: Thu,  8 Oct 2020 07:56:49 -0500
-Message-Id: <20201008125659.49857-2-richard.henderson@linaro.org>
+Subject: [PULL 02/11] tcg: Drop union from TCGArgConstraint
+Date: Thu,  8 Oct 2020 07:56:50 -0500
+Message-Id: <20201008125659.49857-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201008125659.49857-1-richard.henderson@linaro.org>
 References: <20201008125659.49857-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc36.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,142 +86,512 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, peter.maydell@linaro.org,
+Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With larger vector sizes, it turns out oprsz == maxsz, and we only
-need to represent mismatch for oprsz <= 32.  We do, however, need
-to represent larger oprsz and do so without reducing SIMD_DATA_BITS.
+The union is unused; let "regs" appear in the main structure
+without the "u.regs" wrapping.
 
-Reduce the size of the oprsz field and increase the maxsz field.
-Steal the oprsz value of 24 to indicate equality with maxsz.
-
-Tested-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-gvec-desc.h | 38 ++++++++++++++++++++++++-------------
- tcg/tcg-op-gvec.c           | 35 ++++++++++++++++++++++++++--------
- 2 files changed, 52 insertions(+), 21 deletions(-)
+ include/tcg/tcg.h            |  4 +---
+ tcg/tcg.c                    | 22 +++++++++++-----------
+ tcg/aarch64/tcg-target.c.inc | 14 +++++++-------
+ tcg/arm/tcg-target.c.inc     | 26 +++++++++++++-------------
+ tcg/i386/tcg-target.c.inc    | 26 +++++++++++++-------------
+ tcg/mips/tcg-target.c.inc    | 18 +++++++++---------
+ tcg/ppc/tcg-target.c.inc     | 24 ++++++++++++------------
+ tcg/riscv/tcg-target.c.inc   | 14 +++++++-------
+ tcg/s390/tcg-target.c.inc    | 18 +++++++++---------
+ tcg/sparc/tcg-target.c.inc   | 16 ++++++++--------
+ tcg/tci/tcg-target.c.inc     |  2 +-
+ 11 files changed, 91 insertions(+), 93 deletions(-)
 
-diff --git a/include/tcg/tcg-gvec-desc.h b/include/tcg/tcg-gvec-desc.h
-index 0224ac3e78..704bd86454 100644
---- a/include/tcg/tcg-gvec-desc.h
-+++ b/include/tcg/tcg-gvec-desc.h
-@@ -20,29 +20,41 @@
- #ifndef TCG_TCG_GVEC_DESC_H
- #define TCG_TCG_GVEC_DESC_H
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 53ce94c2c5..a5a0ea4ada 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -985,9 +985,7 @@ void tcg_dump_op_count(void);
+ typedef struct TCGArgConstraint {
+     uint16_t ct;
+     uint8_t alias_index;
+-    union {
+-        TCGRegSet regs;
+-    } u;
++    TCGRegSet regs;
+ } TCGArgConstraint;
  
--/* ??? These bit widths are set for ARM SVE, maxing out at 256 byte vectors. */
--#define SIMD_OPRSZ_SHIFT   0
--#define SIMD_OPRSZ_BITS    5
-+/*
-+ * This configuration allows MAXSZ to represent 2048 bytes, and
-+ * OPRSZ to match MAXSZ, or represent the smaller values 8, 16, or 32.
-+ *
-+ * Encode this with:
-+ *   0, 1, 3 -> 8, 16, 32
-+ *   2       -> maxsz
-+ *
-+ * This steals the input that would otherwise map to 24 to match maxsz.
-+ */
-+#define SIMD_MAXSZ_SHIFT   0
-+#define SIMD_MAXSZ_BITS    8
+ #define TCG_MAX_OP_ARGS 16
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 164a141d74..8e0df353ec 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -2210,7 +2210,7 @@ static int get_constraint_priority(const TCGOpDef *def, int k)
+             return 0;
+         n = 0;
+         for(i = 0; i < TCG_TARGET_NB_REGS; i++) {
+-            if (tcg_regset_test_reg(arg_ct->u.regs, i))
++            if (tcg_regset_test_reg(arg_ct->regs, i))
+                 n++;
+         }
+     }
+@@ -2268,7 +2268,7 @@ static void process_op_defs(TCGContext *s)
+             /* Incomplete TCGTargetOpDef entry. */
+             tcg_debug_assert(ct_str != NULL);
  
--#define SIMD_MAXSZ_SHIFT   (SIMD_OPRSZ_SHIFT + SIMD_OPRSZ_BITS)
--#define SIMD_MAXSZ_BITS    5
-+#define SIMD_OPRSZ_SHIFT   (SIMD_MAXSZ_SHIFT + SIMD_MAXSZ_BITS)
-+#define SIMD_OPRSZ_BITS    2
+-            def->args_ct[i].u.regs = 0;
++            def->args_ct[i].regs = 0;
+             def->args_ct[i].ct = 0;
+             while (*ct_str != '\0') {
+                 switch(*ct_str) {
+@@ -2855,13 +2855,13 @@ static void liveness_pass_1(TCGContext *s)
+                     pset = la_temp_pref(ts);
+                     set = *pset;
  
--#define SIMD_DATA_SHIFT    (SIMD_MAXSZ_SHIFT + SIMD_MAXSZ_BITS)
-+#define SIMD_DATA_SHIFT    (SIMD_OPRSZ_SHIFT + SIMD_OPRSZ_BITS)
- #define SIMD_DATA_BITS     (32 - SIMD_DATA_SHIFT)
+-                    set &= ct->u.regs;
++                    set &= ct->regs;
+                     if (ct->ct & TCG_CT_IALIAS) {
+                         set &= op->output_pref[ct->alias_index];
+                     }
+                     /* If the combination is not possible, restart.  */
+                     if (set == 0) {
+-                        set = ct->u.regs;
++                        set = ct->regs;
+                     }
+                     *pset = set;
+                 }
+@@ -3551,8 +3551,8 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
+         return;
+     }
  
- /* Create a descriptor from components.  */
- uint32_t simd_desc(uint32_t oprsz, uint32_t maxsz, int32_t data);
+-    dup_out_regs = tcg_op_defs[INDEX_op_dup_vec].args_ct[0].u.regs;
+-    dup_in_regs = tcg_op_defs[INDEX_op_dup_vec].args_ct[1].u.regs;
++    dup_out_regs = tcg_op_defs[INDEX_op_dup_vec].args_ct[0].regs;
++    dup_in_regs = tcg_op_defs[INDEX_op_dup_vec].args_ct[1].regs;
  
--/* Extract the operation size from a descriptor.  */
--static inline intptr_t simd_oprsz(uint32_t desc)
--{
--    return (extract32(desc, SIMD_OPRSZ_SHIFT, SIMD_OPRSZ_BITS) + 1) * 8;
--}
--
- /* Extract the max vector size from a descriptor.  */
- static inline intptr_t simd_maxsz(uint32_t desc)
- {
--    return (extract32(desc, SIMD_MAXSZ_SHIFT, SIMD_MAXSZ_BITS) + 1) * 8;
-+    return extract32(desc, SIMD_MAXSZ_SHIFT, SIMD_MAXSZ_BITS) * 8 + 8;
-+}
-+
-+/* Extract the operation size from a descriptor.  */
-+static inline intptr_t simd_oprsz(uint32_t desc)
-+{
-+    uint32_t f = extract32(desc, SIMD_OPRSZ_SHIFT, SIMD_OPRSZ_BITS);
-+    intptr_t o = f * 8 + 8;
-+    intptr_t m = simd_maxsz(desc);
-+    return f == 2 ? m : o;
- }
+     /* Allocate the output register now.  */
+     if (ots->val_type != TEMP_VAL_REG) {
+@@ -3706,10 +3706,10 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+             }
+         }
  
- /* Extract the operation-specific data from a descriptor.  */
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 7ebd9e8298..ddbe06b71a 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -37,11 +37,21 @@ static const TCGOpcode vecop_list_empty[1] = { 0 };
-    of the operand offsets so that we can check them all at once.  */
- static void check_size_align(uint32_t oprsz, uint32_t maxsz, uint32_t ofs)
- {
--    uint32_t opr_align = oprsz >= 16 ? 15 : 7;
--    uint32_t max_align = maxsz >= 16 || oprsz >= 16 ? 15 : 7;
--    tcg_debug_assert(oprsz > 0);
--    tcg_debug_assert(oprsz <= maxsz);
--    tcg_debug_assert((oprsz & opr_align) == 0);
-+    uint32_t max_align;
-+
-+    switch (oprsz) {
-+    case 8:
-+    case 16:
-+    case 32:
-+        tcg_debug_assert(oprsz <= maxsz);
-+        break;
-+    default:
-+        tcg_debug_assert(oprsz == maxsz);
-+        break;
-+    }
-+    tcg_debug_assert(maxsz <= (8 << SIMD_MAXSZ_BITS));
-+
-+    max_align = maxsz >= 16 ? 15 : 7;
-     tcg_debug_assert((maxsz & max_align) == 0);
-     tcg_debug_assert((ofs & max_align) == 0);
- }
-@@ -77,12 +87,21 @@ uint32_t simd_desc(uint32_t oprsz, uint32_t maxsz, int32_t data)
- {
-     uint32_t desc = 0;
+-        temp_load(s, ts, arg_ct->u.regs, i_allocated_regs, i_preferred_regs);
++        temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
+         reg = ts->reg;
  
--    assert(oprsz % 8 == 0 && oprsz <= (8 << SIMD_OPRSZ_BITS));
--    assert(maxsz % 8 == 0 && maxsz <= (8 << SIMD_MAXSZ_BITS));
--    assert(data == sextract32(data, 0, SIMD_DATA_BITS));
-+    check_size_align(oprsz, maxsz, 0);
-+    tcg_debug_assert(data == sextract32(data, 0, SIMD_DATA_BITS));
+-        if (tcg_regset_test_reg(arg_ct->u.regs, reg)) {
++        if (tcg_regset_test_reg(arg_ct->regs, reg)) {
+             /* nothing to do : the constraint is satisfied */
+         } else {
+         allocate_in_reg:
+@@ -3717,7 +3717,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+                and move the temporary register into it */
+             temp_load(s, ts, tcg_target_available_regs[ts->type],
+                       i_allocated_regs, 0);
+-            reg = tcg_reg_alloc(s, arg_ct->u.regs, i_allocated_regs,
++            reg = tcg_reg_alloc(s, arg_ct->regs, i_allocated_regs,
+                                 o_preferred_regs, ts->indirect_base);
+             if (!tcg_out_mov(s, ts->type, reg, ts->reg)) {
+                 /*
+@@ -3772,11 +3772,11 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+                 && !const_args[arg_ct->alias_index]) {
+                 reg = new_args[arg_ct->alias_index];
+             } else if (arg_ct->ct & TCG_CT_NEWREG) {
+-                reg = tcg_reg_alloc(s, arg_ct->u.regs,
++                reg = tcg_reg_alloc(s, arg_ct->regs,
+                                     i_allocated_regs | o_allocated_regs,
+                                     op->output_pref[k], ts->indirect_base);
+             } else {
+-                reg = tcg_reg_alloc(s, arg_ct->u.regs, o_allocated_regs,
++                reg = tcg_reg_alloc(s, arg_ct->regs, o_allocated_regs,
+                                     op->output_pref[k], ts->indirect_base);
+             }
+             tcg_regset_set_reg(o_allocated_regs, reg);
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 2607fe4ab9..dbe5c6a14c 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -129,22 +129,22 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+     switch (*ct_str++) {
+     case 'r': /* general registers */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs |= 0xffffffffu;
++        ct->regs |= 0xffffffffu;
+         break;
+     case 'w': /* advsimd registers */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs |= 0xffffffff00000000ull;
++        ct->regs |= 0xffffffff00000000ull;
+         break;
+     case 'l': /* qemu_ld / qemu_st address, data_reg */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffffu;
++        ct->regs = 0xffffffffu;
+ #ifdef CONFIG_SOFTMMU
+         /* x0 and x1 will be overwritten when reading the tlb entry,
+            and x2, and x3 for helper args, better to avoid using them. */
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_X0);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_X1);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_X2);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_X3);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_X0);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_X1);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_X2);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_X3);
+ #endif
+         break;
+     case 'A': /* Valid for arithmetic immediate (positive or negative).  */
+diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+index bc1e1b5a71..978eb1dd70 100644
+--- a/tcg/arm/tcg-target.c.inc
++++ b/tcg/arm/tcg-target.c.inc
+@@ -254,40 +254,40 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
  
-     oprsz = (oprsz / 8) - 1;
-     maxsz = (maxsz / 8) - 1;
-+
-+    /*
-+     * We have just asserted in check_size_align that either
-+     * oprsz is {8,16,32} or matches maxsz.  Encode the final
-+     * case with '2', as that would otherwise map to 24.
-+     */
-+    if (oprsz == maxsz) {
-+        oprsz = 2;
-+    }
-+
-     desc = deposit32(desc, SIMD_OPRSZ_SHIFT, SIMD_OPRSZ_BITS, oprsz);
-     desc = deposit32(desc, SIMD_MAXSZ_SHIFT, SIMD_MAXSZ_BITS, maxsz);
-     desc = deposit32(desc, SIMD_DATA_SHIFT, SIMD_DATA_BITS, data);
+     case 'r':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffff;
++        ct->regs = 0xffff;
+         break;
+ 
+     /* qemu_ld address */
+     case 'l':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffff;
++        ct->regs = 0xffff;
+ #ifdef CONFIG_SOFTMMU
+         /* r0-r2,lr will be overwritten when reading the tlb entry,
+            so don't use these. */
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R0);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R1);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R2);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R3);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R14);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R0);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R1);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R2);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R14);
+ #endif
+         break;
+ 
+     /* qemu_st address & data */
+     case 's':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffff;
++        ct->regs = 0xffff;
+         /* r0-r2 will be overwritten when reading the tlb entry (softmmu only)
+            and r0-r1 doing the byte swapping, so don't use these. */
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R0);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R1);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R0);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R1);
+ #if defined(CONFIG_SOFTMMU)
+         /* Avoid clashes with registers being used for helper args */
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R2);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R2);
+ #if TARGET_LONG_BITS == 64
+         /* Avoid clashes with registers being used for helper args */
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R3);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
+ #endif
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R14);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R14);
+ #endif
+         break;
+ 
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 0155c0691c..8661ec3393 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -209,42 +209,42 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+     switch(*ct_str++) {
+     case 'a':
+         ct->ct |= TCG_CT_REG;
+-        tcg_regset_set_reg(ct->u.regs, TCG_REG_EAX);
++        tcg_regset_set_reg(ct->regs, TCG_REG_EAX);
+         break;
+     case 'b':
+         ct->ct |= TCG_CT_REG;
+-        tcg_regset_set_reg(ct->u.regs, TCG_REG_EBX);
++        tcg_regset_set_reg(ct->regs, TCG_REG_EBX);
+         break;
+     case 'c':
+         ct->ct |= TCG_CT_REG;
+-        tcg_regset_set_reg(ct->u.regs, TCG_REG_ECX);
++        tcg_regset_set_reg(ct->regs, TCG_REG_ECX);
+         break;
+     case 'd':
+         ct->ct |= TCG_CT_REG;
+-        tcg_regset_set_reg(ct->u.regs, TCG_REG_EDX);
++        tcg_regset_set_reg(ct->regs, TCG_REG_EDX);
+         break;
+     case 'S':
+         ct->ct |= TCG_CT_REG;
+-        tcg_regset_set_reg(ct->u.regs, TCG_REG_ESI);
++        tcg_regset_set_reg(ct->regs, TCG_REG_ESI);
+         break;
+     case 'D':
+         ct->ct |= TCG_CT_REG;
+-        tcg_regset_set_reg(ct->u.regs, TCG_REG_EDI);
++        tcg_regset_set_reg(ct->regs, TCG_REG_EDI);
+         break;
+     case 'q':
+         /* A register that can be used as a byte operand.  */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = TCG_TARGET_REG_BITS == 64 ? 0xffff : 0xf;
++        ct->regs = TCG_TARGET_REG_BITS == 64 ? 0xffff : 0xf;
+         break;
+     case 'Q':
+         /* A register with an addressable second byte (e.g. %ah).  */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xf;
++        ct->regs = 0xf;
+         break;
+     case 'r':
+         /* A general register.  */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs |= ALL_GENERAL_REGS;
++        ct->regs |= ALL_GENERAL_REGS;
+         break;
+     case 'W':
+         /* With TZCNT/LZCNT, we can have operand-size as an input.  */
+@@ -253,15 +253,15 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+     case 'x':
+         /* A vector register.  */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs |= ALL_VECTOR_REGS;
++        ct->regs |= ALL_VECTOR_REGS;
+         break;
+ 
+         /* qemu_ld/st address constraint */
+     case 'L':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = TCG_TARGET_REG_BITS == 64 ? 0xffff : 0xff;
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_L0);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_L1);
++        ct->regs = TCG_TARGET_REG_BITS == 64 ? 0xffff : 0xff;
++        tcg_regset_reset_reg(ct->regs, TCG_REG_L0);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_L1);
+         break;
+ 
+     case 'e':
+diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+index 7aa2073520..aae4fd187b 100644
+--- a/tcg/mips/tcg-target.c.inc
++++ b/tcg/mips/tcg-target.c.inc
+@@ -196,28 +196,28 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+     switch(*ct_str++) {
+     case 'r':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
++        ct->regs = 0xffffffff;
+         break;
+     case 'L': /* qemu_ld input arg constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_A0);
++        ct->regs = 0xffffffff;
++        tcg_regset_reset_reg(ct->regs, TCG_REG_A0);
+ #if defined(CONFIG_SOFTMMU)
+         if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
+-            tcg_regset_reset_reg(ct->u.regs, TCG_REG_A2);
++            tcg_regset_reset_reg(ct->regs, TCG_REG_A2);
+         }
+ #endif
+         break;
+     case 'S': /* qemu_st constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_A0);
++        ct->regs = 0xffffffff;
++        tcg_regset_reset_reg(ct->regs, TCG_REG_A0);
+ #if defined(CONFIG_SOFTMMU)
+         if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
+-            tcg_regset_reset_reg(ct->u.regs, TCG_REG_A2);
+-            tcg_regset_reset_reg(ct->u.regs, TCG_REG_A3);
++            tcg_regset_reset_reg(ct->regs, TCG_REG_A2);
++            tcg_regset_reset_reg(ct->regs, TCG_REG_A3);
+         } else {
+-            tcg_regset_reset_reg(ct->u.regs, TCG_REG_A1);
++            tcg_regset_reset_reg(ct->regs, TCG_REG_A1);
+         }
+ #endif
+         break;
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 7cb40b0466..0bd947b788 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -225,33 +225,33 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+     switch (*ct_str++) {
+     case 'A': case 'B': case 'C': case 'D':
+         ct->ct |= TCG_CT_REG;
+-        tcg_regset_set_reg(ct->u.regs, 3 + ct_str[0] - 'A');
++        tcg_regset_set_reg(ct->regs, 3 + ct_str[0] - 'A');
+         break;
+     case 'r':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
++        ct->regs = 0xffffffff;
+         break;
+     case 'v':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff00000000ull;
++        ct->regs = 0xffffffff00000000ull;
+         break;
+     case 'L':                   /* qemu_ld constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R3);
++        ct->regs = 0xffffffff;
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
+ #ifdef CONFIG_SOFTMMU
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R4);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R5);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R4);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R5);
+ #endif
+         break;
+     case 'S':                   /* qemu_st constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R3);
++        ct->regs = 0xffffffff;
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
+ #ifdef CONFIG_SOFTMMU
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R4);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R5);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R6);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R4);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R5);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R6);
+ #endif
+         break;
+     case 'I':
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index 2dfb07e247..0a69839adb 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -138,19 +138,19 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+     switch (*ct_str++) {
+     case 'r':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
++        ct->regs = 0xffffffff;
+         break;
+     case 'L':
+         /* qemu_ld/qemu_st constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
++        ct->regs = 0xffffffff;
+         /* qemu_ld/qemu_st uses TCG_REG_TMP0 */
+ #if defined(CONFIG_SOFTMMU)
+-        tcg_regset_reset_reg(ct->u.regs, tcg_target_call_iarg_regs[0]);
+-        tcg_regset_reset_reg(ct->u.regs, tcg_target_call_iarg_regs[1]);
+-        tcg_regset_reset_reg(ct->u.regs, tcg_target_call_iarg_regs[2]);
+-        tcg_regset_reset_reg(ct->u.regs, tcg_target_call_iarg_regs[3]);
+-        tcg_regset_reset_reg(ct->u.regs, tcg_target_call_iarg_regs[4]);
++        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[0]);
++        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[1]);
++        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[2]);
++        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[3]);
++        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[4]);
+ #endif
+         break;
+     case 'I':
+diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+index 985115acfb..9cd266a2d0 100644
+--- a/tcg/s390/tcg-target.c.inc
++++ b/tcg/s390/tcg-target.c.inc
+@@ -409,24 +409,24 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+     switch (*ct_str++) {
+     case 'r':                  /* all registers */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffff;
++        ct->regs = 0xffff;
+         break;
+     case 'L':                  /* qemu_ld/st constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffff;
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R2);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R3);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_R4);
++        ct->regs = 0xffff;
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R2);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_R4);
+         break;
+     case 'a':                  /* force R2 for division */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0;
+-        tcg_regset_set_reg(ct->u.regs, TCG_REG_R2);
++        ct->regs = 0;
++        tcg_regset_set_reg(ct->regs, TCG_REG_R2);
+         break;
+     case 'b':                  /* force R3 for division */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0;
+-        tcg_regset_set_reg(ct->u.regs, TCG_REG_R3);
++        ct->regs = 0;
++        tcg_regset_set_reg(ct->regs, TCG_REG_R3);
+         break;
+     case 'A':
+         ct->ct |= TCG_CT_CONST_S33;
+diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+index 40bc12290c..e2de749af7 100644
+--- a/tcg/sparc/tcg-target.c.inc
++++ b/tcg/sparc/tcg-target.c.inc
+@@ -326,27 +326,27 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+     switch (*ct_str++) {
+     case 'r':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
++        ct->regs = 0xffffffff;
+         break;
+     case 'R':
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = ALL_64;
++        ct->regs = ALL_64;
+         break;
+     case 'A': /* qemu_ld/st address constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = TARGET_LONG_BITS == 64 ? ALL_64 : 0xffffffff;
++        ct->regs = TARGET_LONG_BITS == 64 ? ALL_64 : 0xffffffff;
+     reserve_helpers:
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_O0);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_O1);
+-        tcg_regset_reset_reg(ct->u.regs, TCG_REG_O2);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_O0);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_O1);
++        tcg_regset_reset_reg(ct->regs, TCG_REG_O2);
+         break;
+     case 's': /* qemu_st data 32-bit constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = 0xffffffff;
++        ct->regs = 0xffffffff;
+         goto reserve_helpers;
+     case 'S': /* qemu_st data 64-bit constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = ALL_64;
++        ct->regs = ALL_64;
+         goto reserve_helpers;
+     case 'I':
+         ct->ct |= TCG_CT_CONST_S11;
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 992d50cb1e..a7215f346f 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -393,7 +393,7 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+     case 'L':                   /* qemu_ld constraint */
+     case 'S':                   /* qemu_st constraint */
+         ct->ct |= TCG_CT_REG;
+-        ct->u.regs = BIT(TCG_TARGET_NB_REGS) - 1;
++        ct->regs = BIT(TCG_TARGET_NB_REGS) - 1;
+         break;
+     default:
+         return NULL;
 -- 
 2.25.1
 
