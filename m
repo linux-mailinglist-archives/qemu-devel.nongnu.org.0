@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D942874EF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:08:28 +0200 (CEST)
-Received: from localhost ([::1]:39718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6649D2874E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:07:34 +0200 (CEST)
+Received: from localhost ([::1]:37704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQVel-0006gi-5z
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47176)
+	id 1kQVdt-0005pi-Di
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQVaI-0001t8-44
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:03:51 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33836)
+ id 1kQVaX-0002Fv-FS
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:04:05 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:41367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQVaF-0002qf-FU
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:03:49 -0400
-Received: by mail-ej1-x644.google.com with SMTP id u8so8020213ejg.1
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 06:03:45 -0700 (PDT)
+ id 1kQVaV-0002sA-JI
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:04:05 -0400
+Received: by mail-ed1-x544.google.com with SMTP id l24so5746187edj.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 06:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8VE0OJTYu/kfj7Ku7R4xwIwNrgngP0Ve9pQKoTkgoL8=;
- b=CQjHHCBHyuj/ChjPmkA1qIR0nkaWlqwScCKE06dQzJOMNsL0kgCvsZ0eKOL4A8zTJr
- TxP5YAvxDmAb+MAA5nfyCNknRbBfp0l+8sqF/y1V2094gHLxZObF+wW5y+df+x6TB82e
- YBfOm2UHugq5Z9dInbxS5W2AkRZ9vC3Jo1KBii369e2lUrkw1i4olX4XvE3vo1JNw1w3
- lkfg0IKrydYQHD6wlKq+olJfJVtUSz/rFc43LEeXECEhJ59xeHADQ0CcYou2hb7ziyxJ
- OEWP0TjOBK9aLtp5//ipFvyYuerkdYAQDRVxVyOnetUzzRk3PeFF6iVS6CS2tzYOt5DK
- JESw==
+ :cc; bh=c+1D4f03yVA463ZeH3DdyuLhiwzm+9v0rsGvKpr+4wM=;
+ b=QITGun6giRJzKt1HzgtoH1XWyakzw9Xek9TQRqAKyaX+ymWY+I6oQlQXwf1wPb453W
+ EGYQHYEVixTzK8t0ZxCkImR8Tdrj4KIXr0iqosj9UDwTKOwhwQBEMYp//B8DHxLX+vyT
+ Dc73jP1zrmcjl9E0QxEzr2B8SvekRrKNFlceiWjr2jKvjsiBWvf6+ZjWcYmekNFURxXj
+ ZBUaNixS/N+cofa/e/qns575fDJ32WfqKyBIZPXxejX8QCjl/JRDqT6+2KG6UTXRZ6Bz
+ R6ZXNw20g4p0SlZq99Lk+B4bWuoiz1Laiuvrid0kcuTcv1P2IhYKz6oCkO77II2Hvo8S
+ WBZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8VE0OJTYu/kfj7Ku7R4xwIwNrgngP0Ve9pQKoTkgoL8=;
- b=IOovWrToREWMf3Uw7vR445zG+2SrfEe30l527/ddTMSWXOvuJt47OQHjNJ9kDJ+xCI
- YzbE6Ad3kPUmp4uUsth6qxlTHr64AWVBbezQWb6RIjRq8jdmYeKE1iqwVCgUUec2nlqr
- aFjhw68X/nCHk2DPnHTnyrFFoaO0HAxv+kwp8p2xgTACvP7PMFeukzKBvBTOW/D9nsAs
- dHX39re7+14PIFdeZemAKq410duG94stHx++6L1hMh6VS05AdksExbfXrfqRCE93Yt3Y
- GcPfnwgpqLR3EDxSfy8ottKWQC79noCRy/C8U6cKOIzZyDN+nEzH1/peZ2dTXh+jPWru
- bppw==
-X-Gm-Message-State: AOAM532guwqAmobemNTkd/FXEK3myUaK/kZuonqKpkb2obrpzka6TlTl
- /XMM4gUP21bi7UjpZYZvVwk7pCrlN0ccvWCWACz0Dw==
-X-Google-Smtp-Source: ABdhPJz9QFa0Hdal5/YdDCfwYTYHhcnJTmUJch8jr1LKSi/PVsi/1GL5EaEUAZhWlMjyqzllgAyjcn2uqNUmAMeQ6ws=
-X-Received: by 2002:a17:906:1f42:: with SMTP id
- d2mr8524433ejk.407.1602162224590; 
- Thu, 08 Oct 2020 06:03:44 -0700 (PDT)
+ bh=c+1D4f03yVA463ZeH3DdyuLhiwzm+9v0rsGvKpr+4wM=;
+ b=aF+XAv3Eso2Nw9sR1sH3hvR4SvNvjZlGINL+j1jNtzZw0sZ3Swb3gOL6sAhuFQU/Zn
+ H/6tLNLGzJXfVHW+fzOo+8VSjhaGnNJUvKlf2Rv3+E+IgX7R9dTqkAe69CeW4gUk3YQ6
+ WaYsmSE2+U7kDoqgw0ql7w+KY+VDdu4q7vh/RdV4DPoO19/PSyX0nu5FcoM9Ap304aRH
+ gOji/UpBCWnkBU+yeewsDQI2s24if7U+b/FnNRS2CmlXSKg0Pd43haWSg8MAJEG1IAoY
+ 12AP8y+NyR6klSjGaPqftAS3mXqnwNcZVxulkz5cK9m9qABR21fgu8cgZie4XierEQPQ
+ iKxw==
+X-Gm-Message-State: AOAM530C1ceyomhWMhMDJFOcpuFBh5+izkbQwKNYd+pGrRA29YEXamox
+ 0ZGHBtcI8rrPAGE3VSLbUCzcq/yvplqmKj1DS/Mpsg==
+X-Google-Smtp-Source: ABdhPJxHE57IWwlHyOtwYV/KvG51MmSnf4JRnEHkWSUT/UI0f0hEvw66pbxn9mQOKjFEW4jjqo/0vqg7RKaCTd/Lnxo=
+X-Received: by 2002:aa7:dd4b:: with SMTP id o11mr8685420edw.251.1602162242124; 
+ Thu, 08 Oct 2020 06:04:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201002215955.254866-1-richard.henderson@linaro.org>
- <20201002215955.254866-5-richard.henderson@linaro.org>
-In-Reply-To: <20201002215955.254866-5-richard.henderson@linaro.org>
+ <20201002215955.254866-6-richard.henderson@linaro.org>
+In-Reply-To: <20201002215955.254866-6-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Oct 2020 14:03:32 +0100
-Message-ID: <CAFEAcA-y_PtciTq0+GQAL6cAKhJvdV+PZU1y5T5rZa8hX+S5Qg@mail.gmail.com>
-Subject: Re: [PATCH v10 4/8] linux-user/elfload: Fix coding style in
- load_elf_image
+Date: Thu, 8 Oct 2020 14:03:50 +0100
+Message-ID: <CAFEAcA_oOGrLAWDPOn=PEaoixYb+MdU-6BbW1uuoLC0ij7WXeg@mail.gmail.com>
+Subject: Re: [PATCH v10 5/8] linux-user/elfload: Adjust iteration over phdr
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,12 +88,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 2 Oct 2020 at 23:00, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Fixing this now will clarify following patches.
+> The second loop uses a loop induction variable, and the first
+> does not.  Transform the first to match the second, to simplify
+> a following patch moving code between them.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/elfload.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
+>  linux-user/elfload.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
