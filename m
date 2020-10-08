@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D658F2874C5
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:04:32 +0200 (CEST)
-Received: from localhost ([::1]:55074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913802874F2
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:09:03 +0200 (CEST)
+Received: from localhost ([::1]:42330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQVaq-0001C6-Ja
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45432)
+	id 1kQVfK-0007kE-MB
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVTz-0003oR-A4
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:19 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38567)
+ id 1kQVU1-0003sC-1g
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:21 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVTx-0001zH-M1
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:18 -0400
-Received: by mail-oi1-x244.google.com with SMTP id 26so6169955ois.5
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:17 -0700 (PDT)
+ id 1kQVTz-0001zb-BX
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:20 -0400
+Received: by mail-oi1-x243.google.com with SMTP id n2so6207918oij.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iyDgOefakgRBrjZznHAuamMZUpzKL16pwL2bnPHHK48=;
- b=A5mO9wtfs/osS0/64tyJ0M2N0oIvR06pB+X7+t8AFVp4fAqam2/wK2HdMpADmiyM9T
- A97VoElYKntSmGxEtUS+qpohYUVUPd4YvvSCuoKtysLsElJssYWiZ13yN3dzL4FNb0SL
- TSi3Rhz+LIIdIlxvd9ew7qTTopHdcfUOeWlo6Uh7AipK8cCTorUJoIwTp5MZcws/rF2C
- Tc33V2fxBEvWXD5eHHwyf6Fb1VUKGqX6b/4FfxnupR/b7KFb/27WUrqoLSUU987+ETZb
- jbbqxRChZjgMT6Drb4vxxYCpQtX5hZ4HhLgcUYzp1+7TvoYeGI6LeOA20OWHemAIQqT8
- 57zg==
+ bh=WANLQRCpycKiqrfSXuwWnjHW6iUlbU2o8NExmAhiBGo=;
+ b=QXF5TV0BxmDTyIbxpCbgR2bu7kOgo49+AdaYR4dQ6Ll7eLyjcWRMWncxYC0vCahXw6
+ KL1PV/e1IAmCFF59wjidHoSKT99d5VfONgQjJDAWmxwvpbiOiOw/68Nj82Pf1gpDALcc
+ FtiCvK6ARNDZhiS8nVv2ifdsWql13zbAV4kg9woy4rVXZR4vSz3uARhPScKM8bO9li04
+ y0PIDbnfcauk0I4nb+tY0J6xErDCkOlMGLOPeqobJQdBSbgdeW7WHPF40mnLYjZ6o7aA
+ woxIZK7yEjyuRYH5kA30gejs9wqqFIoMZH5kF+LcJDvfemw77qC5bTNAQz+JZG9GhuQ3
+ 1oWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iyDgOefakgRBrjZznHAuamMZUpzKL16pwL2bnPHHK48=;
- b=YyQVGtdENT1D7yoAHECLokIM5rnxySZOxjGvap6tJboasfk5I4GAuyjdPlucrtJ2gf
- VEOI1TEXwHxtErSihS6Zf02P5LLTvZFkCDOuUuGaMqZvGqXSlddKJmAsUAXmpMpqWhe3
- ySAGLN53/fZ5F3HqLaulq08kZcR5xRnd/MNFTphtbWDcqfkd0PZfhVrrt1NV/O+8K56Q
- JyA10a+yCW7mlH7Uy5sNUTCHiMMNexYKIrKj/g7jncDJ1sP+T+hXvb6vRv/6I0HcEDKW
- 6TN5C6EAz9AVOvddGlM1TQ4/j2UnHSr309NHPSDjB+6+81KHy89W4KOpTI3llIlCyMVn
- l4dA==
-X-Gm-Message-State: AOAM530VGv/vWImrfn37EEo0rzuvTKBasAmRPe4sVj0JGHLeK3eFNeHp
- 8zrHN7zWIsZ0XpyOUZSM6nL0OUlMo/60CDvk
-X-Google-Smtp-Source: ABdhPJzxc6u4wNoKhuZRKznByAsRs9I9zo5M5wZFEYf3CBazDXLSW6FWiXHtdW1Fd9cL2DTC7FWCzg==
-X-Received: by 2002:aca:ef03:: with SMTP id n3mr4956311oih.67.1602161836191;
- Thu, 08 Oct 2020 05:57:16 -0700 (PDT)
+ bh=WANLQRCpycKiqrfSXuwWnjHW6iUlbU2o8NExmAhiBGo=;
+ b=tCw5D1bvuBmFhdmSJWIxISqT4bAtysYBckzSqNKALwaKpcG4zYCZLH0Jam+M7lIL4O
+ H74DSNM8zS5pEDz77d2dZnr+Q8tSsalH7m9JK1P6XabhLTrq9vDRgtBwn7OY2qrjoPHr
+ Adq/gGJhvM/72LL8wkZoxVELf5DXFSEb+gMvyrK2tzhwniZ/Qs43Nkzz+Z+7roUrj1Bi
+ ryo/L0i0i5VOohQi5jnWbpknQjCp1Gy6hgJU5MxfcbNy9OL/lACIMm/+1oQUABSJ43cx
+ 8fvXP2zQuGRui0EIKAekL6SyAXh8+7LnLRz15AMCz271Tnx3Jk1JplKnxv5YNZTGbVh+
+ ocTg==
+X-Gm-Message-State: AOAM533rWl7jN85MBa8agsjlne52yCI4/xIEXbtKp+yfThyPojELeQ07
+ fYMbXouWNfF4MJyiP5Stc3ivpg5Sx5rxmqqT
+X-Google-Smtp-Source: ABdhPJzMNz47BsNq2eUTd7xppwUyA5V82k4zPp6DD0k1Se9smXfXLm6UBqtjL3U6MtNXHHKTutaLVg==
+X-Received: by 2002:aca:5058:: with SMTP id e85mr3872845oib.79.1602161837812; 
+ Thu, 08 Oct 2020 05:57:17 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.15
+ by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 05:57:15 -0700 (PDT)
+ Thu, 08 Oct 2020 05:57:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/11] tcg: Fix generation of dupi_vec for 32-bit host
-Date: Thu,  8 Oct 2020 07:56:56 -0500
-Message-Id: <20201008125659.49857-9-richard.henderson@linaro.org>
+Subject: [PULL 09/11] tcg/optimize: Fold dup2_vec
+Date: Thu,  8 Oct 2020 07:56:57 -0500
+Message-Id: <20201008125659.49857-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201008125659.49857-1-richard.henderson@linaro.org>
 References: <20201008125659.49857-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,54 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-stable@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The definition of INDEX_op_dupi_vec is that it operates on
-units of tcg_target_ulong -- in this case 32 bits.  It does
-not work to use this for a uint64_t value that happens to be
-small enough to fit in tcg_target_ulong.
+When the two arguments are identical, this can be reduced to
+dup_vec or to mov_vec from a tcg_constant_vec.
 
-Fixes: d2fd745fe8b
-Fixes: db432672dc5
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-op-vec.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ tcg/optimize.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-index ed6fb55fe1..cdbf11c573 100644
---- a/tcg/tcg-op-vec.c
-+++ b/tcg/tcg-op-vec.c
-@@ -252,10 +252,10 @@ TCGv_vec tcg_const_ones_vec_matching(TCGv_vec m)
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 53aa8e5329..220f4601d5 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -1109,6 +1109,21 @@ void tcg_optimize(TCGContext *s)
+             }
+             goto do_default;
  
- void tcg_gen_dup64i_vec(TCGv_vec r, uint64_t a)
- {
--    if (TCG_TARGET_REG_BITS == 32 && a == deposit64(a, 32, 32, a)) {
--        do_dupi_vec(r, MO_32, a);
--    } else if (TCG_TARGET_REG_BITS == 64 || a == (uint64_t)(int32_t)a) {
-+    if (TCG_TARGET_REG_BITS == 64) {
-         do_dupi_vec(r, MO_64, a);
-+    } else if (a == dup_const(MO_32, a)) {
-+        do_dupi_vec(r, MO_32, a);
-     } else {
-         TCGv_i64 c = tcg_const_i64(a);
-         tcg_gen_dup_i64_vec(MO_64, r, c);
-@@ -280,7 +280,11 @@ void tcg_gen_dup8i_vec(TCGv_vec r, uint32_t a)
- 
- void tcg_gen_dupi_vec(unsigned vece, TCGv_vec r, uint64_t a)
- {
--    do_dupi_vec(r, MO_REG, dup_const(vece, a));
-+    if (vece == MO_64) {
-+        tcg_gen_dup64i_vec(r, a);
-+    } else {
-+        do_dupi_vec(r, MO_REG, dup_const(vece, a));
-+    }
- }
- 
- void tcg_gen_dup_i64_vec(unsigned vece, TCGv_vec r, TCGv_i64 a)
++        case INDEX_op_dup2_vec:
++            assert(TCG_TARGET_REG_BITS == 32);
++            if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
++                tmp = arg_info(op->args[1])->val;
++                if (tmp == arg_info(op->args[2])->val) {
++                    tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                    break;
++                }
++            } else if (args_are_copies(op->args[1], op->args[2])) {
++                op->opc = INDEX_op_dup_vec;
++                TCGOP_VECE(op) = MO_32;
++                nb_iargs = 1;
++            }
++            goto do_default;
++
+         CASE_OP_32_64(not):
+         CASE_OP_32_64(neg):
+         CASE_OP_32_64(ext8s):
 -- 
 2.25.1
 
