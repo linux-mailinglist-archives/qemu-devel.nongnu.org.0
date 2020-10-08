@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36CE2874A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 14:59:53 +0200 (CEST)
-Received: from localhost ([::1]:44788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3E82874B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:01:29 +0200 (CEST)
+Received: from localhost ([::1]:47892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQVWS-00052v-M6
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 08:59:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45240)
+	id 1kQVY0-0006QQ-Ji
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:01:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVTm-0003R9-UZ
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:06 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:36073)
+ id 1kQVTo-0003RM-3X
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:08 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:32951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQVTk-0001wR-IA
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:06 -0400
-Received: by mail-ot1-x336.google.com with SMTP id 60so5384108otw.3
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:03 -0700 (PDT)
+ id 1kQVTm-0001wa-8D
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:57:07 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id t15so5409329otk.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mPIyfTm041fTvU3FUvByVd+GgdIdYXOlVkaF050SeRQ=;
- b=LyCKhUK+MEI20OsEtd8GP+HLX47qwexhjbROdWCqxoAfUQyVr9MqlO2vrzct9gw6ZO
- Y2gQT22yMEaFwjb0MOK5blbXAadT2tps1gRNOapA6/XjFjJlsQJe7w7FrzD9myp+D1Wc
- iqCP2UW8cM9ofAAaL6WnWVOgw8iLJnwSLWx3bpctPATR87NMCYK/8lFB4a/s1g7N0fEN
- vfor+MMTYvRILEU/Hfxbn5qK1vNIGRlY5hAWQm8buBENwuztiJT3RQRb1+cUiJeK+T3Y
- nMgjPM4Rj542Mt/iYVWZ36PUvNbQ2Y2Xu1TpnwsHHUK7ux58J/oRIQlh4mU7uJvE+h4k
- 5qJA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Sng81+Lojn0PspAFm2XXXoAzolkJuyUQkxTQ83xLlw4=;
+ b=g9thzgBkM+VsqEe7rcXKIAd4prDkT/DLsgbUnE2XwYTUVpcZOdxhMd4C/xkKdIbzgy
+ iQezoWttsbp/NTBKJ+sHJd+rJFn816BwrJhI6xjA31dJwJJRe5Ao57ZanspYfWhgNSqv
+ ZEpyFXTgVLWRYjr1hKBt9VD0OlXyI9v7r0NnDptzYI5uLusXHuh7OUuYawo/x9Pyvatv
+ VEEAnbzYy9iwUMjFZthP5xxwxZrD4BKNYdKvGpNLWl7xBylpPV/CUrNwZx1KpX4n3eY2
+ xQyXj994eARL9yGtIWfseB+qDlUABvHzEe02w2p7HdOI9K3WlIpkCVgCmXOR/ba5Y//4
+ imKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mPIyfTm041fTvU3FUvByVd+GgdIdYXOlVkaF050SeRQ=;
- b=GlemayijJP6MlRuGWfkOTVsG8Y/qHXuIOeQm99cSyTVHq1sLSx5FvV6Ztd5/l5FUyO
- HhWvkItQceGX78jbvR6XR84+EPhpaR1hPcNagvWopZ3ittBZaTPeFtIiAwYXL2LuRIRa
- ASVlO/8ph7nRyC+WYxrOyZYJRgs09Eh6rgdNJzn7uuAvntDP0WRYp/hqEwKDarG3OMbW
- b7lyAgKnUYKR3ns0kPtPc73SVX1N0YSzBWHF6QFUfbZdeD6oSODFG2evuqQ5aFycqyU1
- qRAeG2ka/1raSyi7C5rYodcsDSNbKBXl8fMD3kvxHLP5GKq3t2dniymEqsYWRBCkA2vV
- 8wPw==
-X-Gm-Message-State: AOAM532lEt6EDGafeGe7Zzt6JUljrlrpBhnGamgy80fGSm3eIYhpUIt0
- rJ4I5V8lBgGBAg9iXQk1+SHmFX2d8ZYeg/7h
-X-Google-Smtp-Source: ABdhPJyPfLvuDx6AG0ovz4tx/JDHEs4MJEPzeWPXlMX3fnYwAgbOjCANjXf2z8lcaeaEuVSwJjZzkw==
-X-Received: by 2002:a9d:4b10:: with SMTP id q16mr4961618otf.274.1602161822621; 
- Thu, 08 Oct 2020 05:57:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Sng81+Lojn0PspAFm2XXXoAzolkJuyUQkxTQ83xLlw4=;
+ b=kVHjnQXFy7zWuGtqVqO/4cA9iAFOk7JWX1ruCe/ZhZkncTXZV+PmdQ78u7p9ZrAoY7
+ 94yuELeIAMC4/liQ/0vyondeUdCymWC9zv6w/m+/2IHmVQ3blXGxRWFJQDB0l+RH6dA6
+ WxSAqXpXN8jTq4dkWEcnWmElgQDzGEjT/Vo+a70vepURj00hno9tUUDo1dKjUAe67xTK
+ wcfzSxNwTRP0OWWTmjFWYydqVi2y2QVybueYTs4UYbJlDgmBkwTyTUuKPQm+HOJnGim+
+ AL2lu6gYpN5FsTbe0lPgWLfpPCDLNVtNr8iY9sypAEeyVFc/RtPSujrzp+ATiCprD0R3
+ WTIg==
+X-Gm-Message-State: AOAM533KbN2Z+EprowZ3YNF9XPZZGi8940tN6LYkVeL24SByEss5CGan
+ W1aGan+GkEGmbA5Adm79lHS6jMdnGsmzSa81
+X-Google-Smtp-Source: ABdhPJzQWgVRmgBeRmytQBcdHgTk/stntxXJRIL86QefT5o3cn3KyyM8ZrEhiGD8gbT0VaIweTcYUA==
+X-Received: by 2002:a9d:2047:: with SMTP id n65mr4884061ota.178.1602161824518; 
+ Thu, 08 Oct 2020 05:57:04 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.00
+ by smtp.gmail.com with ESMTPSA id w64sm4701933oig.31.2020.10.08.05.57.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 05:57:01 -0700 (PDT)
+ Thu, 08 Oct 2020 05:57:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/11] tcg patch queue
-Date: Thu,  8 Oct 2020 07:56:48 -0500
-Message-Id: <20201008125659.49857-1-richard.henderson@linaro.org>
+Subject: [PULL 01/11] tcg: Adjust simd_desc size encoding
+Date: Thu,  8 Oct 2020 07:56:49 -0500
+Message-Id: <20201008125659.49857-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201008125659.49857-1-richard.henderson@linaro.org>
+References: <20201008125659.49857-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,62 +86,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Frank Chang <frank.chang@sifive.com>, peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6eeea6725a70e6fcb5abba0764496bdab07ddfb3:
+With larger vector sizes, it turns out oprsz == maxsz, and we only
+need to represent mismatch for oprsz <= 32.  We do, however, need
+to represent larger oprsz and do so without reducing SIMD_DATA_BITS.
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-10-06' into staging (2020-10-06 21:13:34 +0100)
+Reduce the size of the oprsz field and increase the maxsz field.
+Steal the oprsz value of 24 to indicate equality with maxsz.
 
-are available in the Git repository at:
+Tested-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/tcg/tcg-gvec-desc.h | 38 ++++++++++++++++++++++++-------------
+ tcg/tcg-op-gvec.c           | 35 ++++++++++++++++++++++++++--------
+ 2 files changed, 52 insertions(+), 21 deletions(-)
 
-  https://github.com/rth7680/qemu.git tags/pull-tcg-20201008
+diff --git a/include/tcg/tcg-gvec-desc.h b/include/tcg/tcg-gvec-desc.h
+index 0224ac3e78..704bd86454 100644
+--- a/include/tcg/tcg-gvec-desc.h
++++ b/include/tcg/tcg-gvec-desc.h
+@@ -20,29 +20,41 @@
+ #ifndef TCG_TCG_GVEC_DESC_H
+ #define TCG_TCG_GVEC_DESC_H
+ 
+-/* ??? These bit widths are set for ARM SVE, maxing out at 256 byte vectors. */
+-#define SIMD_OPRSZ_SHIFT   0
+-#define SIMD_OPRSZ_BITS    5
++/*
++ * This configuration allows MAXSZ to represent 2048 bytes, and
++ * OPRSZ to match MAXSZ, or represent the smaller values 8, 16, or 32.
++ *
++ * Encode this with:
++ *   0, 1, 3 -> 8, 16, 32
++ *   2       -> maxsz
++ *
++ * This steals the input that would otherwise map to 24 to match maxsz.
++ */
++#define SIMD_MAXSZ_SHIFT   0
++#define SIMD_MAXSZ_BITS    8
+ 
+-#define SIMD_MAXSZ_SHIFT   (SIMD_OPRSZ_SHIFT + SIMD_OPRSZ_BITS)
+-#define SIMD_MAXSZ_BITS    5
++#define SIMD_OPRSZ_SHIFT   (SIMD_MAXSZ_SHIFT + SIMD_MAXSZ_BITS)
++#define SIMD_OPRSZ_BITS    2
+ 
+-#define SIMD_DATA_SHIFT    (SIMD_MAXSZ_SHIFT + SIMD_MAXSZ_BITS)
++#define SIMD_DATA_SHIFT    (SIMD_OPRSZ_SHIFT + SIMD_OPRSZ_BITS)
+ #define SIMD_DATA_BITS     (32 - SIMD_DATA_SHIFT)
+ 
+ /* Create a descriptor from components.  */
+ uint32_t simd_desc(uint32_t oprsz, uint32_t maxsz, int32_t data);
+ 
+-/* Extract the operation size from a descriptor.  */
+-static inline intptr_t simd_oprsz(uint32_t desc)
+-{
+-    return (extract32(desc, SIMD_OPRSZ_SHIFT, SIMD_OPRSZ_BITS) + 1) * 8;
+-}
+-
+ /* Extract the max vector size from a descriptor.  */
+ static inline intptr_t simd_maxsz(uint32_t desc)
+ {
+-    return (extract32(desc, SIMD_MAXSZ_SHIFT, SIMD_MAXSZ_BITS) + 1) * 8;
++    return extract32(desc, SIMD_MAXSZ_SHIFT, SIMD_MAXSZ_BITS) * 8 + 8;
++}
++
++/* Extract the operation size from a descriptor.  */
++static inline intptr_t simd_oprsz(uint32_t desc)
++{
++    uint32_t f = extract32(desc, SIMD_OPRSZ_SHIFT, SIMD_OPRSZ_BITS);
++    intptr_t o = f * 8 + 8;
++    intptr_t m = simd_maxsz(desc);
++    return f == 2 ? m : o;
+ }
+ 
+ /* Extract the operation-specific data from a descriptor.  */
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 7ebd9e8298..ddbe06b71a 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -37,11 +37,21 @@ static const TCGOpcode vecop_list_empty[1] = { 0 };
+    of the operand offsets so that we can check them all at once.  */
+ static void check_size_align(uint32_t oprsz, uint32_t maxsz, uint32_t ofs)
+ {
+-    uint32_t opr_align = oprsz >= 16 ? 15 : 7;
+-    uint32_t max_align = maxsz >= 16 || oprsz >= 16 ? 15 : 7;
+-    tcg_debug_assert(oprsz > 0);
+-    tcg_debug_assert(oprsz <= maxsz);
+-    tcg_debug_assert((oprsz & opr_align) == 0);
++    uint32_t max_align;
++
++    switch (oprsz) {
++    case 8:
++    case 16:
++    case 32:
++        tcg_debug_assert(oprsz <= maxsz);
++        break;
++    default:
++        tcg_debug_assert(oprsz == maxsz);
++        break;
++    }
++    tcg_debug_assert(maxsz <= (8 << SIMD_MAXSZ_BITS));
++
++    max_align = maxsz >= 16 ? 15 : 7;
+     tcg_debug_assert((maxsz & max_align) == 0);
+     tcg_debug_assert((ofs & max_align) == 0);
+ }
+@@ -77,12 +87,21 @@ uint32_t simd_desc(uint32_t oprsz, uint32_t maxsz, int32_t data)
+ {
+     uint32_t desc = 0;
+ 
+-    assert(oprsz % 8 == 0 && oprsz <= (8 << SIMD_OPRSZ_BITS));
+-    assert(maxsz % 8 == 0 && maxsz <= (8 << SIMD_MAXSZ_BITS));
+-    assert(data == sextract32(data, 0, SIMD_DATA_BITS));
++    check_size_align(oprsz, maxsz, 0);
++    tcg_debug_assert(data == sextract32(data, 0, SIMD_DATA_BITS));
+ 
+     oprsz = (oprsz / 8) - 1;
+     maxsz = (maxsz / 8) - 1;
++
++    /*
++     * We have just asserted in check_size_align that either
++     * oprsz is {8,16,32} or matches maxsz.  Encode the final
++     * case with '2', as that would otherwise map to 24.
++     */
++    if (oprsz == maxsz) {
++        oprsz = 2;
++    }
++
+     desc = deposit32(desc, SIMD_OPRSZ_SHIFT, SIMD_OPRSZ_BITS, oprsz);
+     desc = deposit32(desc, SIMD_MAXSZ_SHIFT, SIMD_MAXSZ_BITS, maxsz);
+     desc = deposit32(desc, SIMD_DATA_SHIFT, SIMD_DATA_BITS, data);
+-- 
+2.25.1
 
-for you to fetch changes up to 62475e9d007d83db4d0a6ccebcda8914f392e9c9:
-
-  accel/tcg: Fix computing of is_write for MIPS (2020-10-08 05:57:32 -0500)
-
-----------------------------------------------------------------
-Extend maximum gvec vector size
-Fix i386 avx2 dupi
-Fix mips host user-only write detection
-Misc cleanups.
-
-----------------------------------------------------------------
-Kele Huang (1):
-      accel/tcg: Fix computing of is_write for MIPS
-
-Richard Henderson (10):
-      tcg: Adjust simd_desc size encoding
-      tcg: Drop union from TCGArgConstraint
-      tcg: Move sorted_args into TCGArgConstraint.sort_index
-      tcg: Remove TCG_CT_REG
-      tcg: Move some TCG_CT_* bits to TCGArgConstraint bitfields
-      tcg: Remove TCGOpDef.used
-      tcg/i386: Fix dupi for avx2 32-bit hosts
-      tcg: Fix generation of dupi_vec for 32-bit host
-      tcg/optimize: Fold dup2_vec
-      tcg: Remove TCG_TARGET_HAS_cmp_vec
-
- include/tcg/tcg-gvec-desc.h  | 38 ++++++++++++------
- include/tcg/tcg.h            | 22 ++++------
- tcg/aarch64/tcg-target.h     |  1 -
- tcg/i386/tcg-target.h        |  1 -
- tcg/ppc/tcg-target.h         |  1 -
- accel/tcg/user-exec.c        | 43 ++++++++++++++++++--
- tcg/optimize.c               | 15 +++++++
- tcg/tcg-op-gvec.c            | 35 ++++++++++++----
- tcg/tcg-op-vec.c             | 12 ++++--
- tcg/tcg.c                    | 96 +++++++++++++++++++-------------------------
- tcg/aarch64/tcg-target.c.inc | 17 ++++----
- tcg/arm/tcg-target.c.inc     | 29 ++++++-------
- tcg/i386/tcg-target.c.inc    | 39 +++++++-----------
- tcg/mips/tcg-target.c.inc    | 21 +++++-----
- tcg/ppc/tcg-target.c.inc     | 29 ++++++-------
- tcg/riscv/tcg-target.c.inc   | 16 ++++----
- tcg/s390/tcg-target.c.inc    | 22 +++++-----
- tcg/sparc/tcg-target.c.inc   | 21 ++++------
- tcg/tci/tcg-target.c.inc     |  3 +-
- 19 files changed, 244 insertions(+), 217 deletions(-)
 
