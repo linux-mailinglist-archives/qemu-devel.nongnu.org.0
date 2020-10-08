@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA0029125D
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:26:22 +0200 (CEST)
-Received: from localhost ([::1]:43796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB57287C55
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:18:01 +0200 (CEST)
+Received: from localhost ([::1]:58146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTnA5-00075A-9R
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:26:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40632)
+	id 1kQbQO-0002HV-2J
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <49220110c8fb16b9d52ad7485ccf2c2b51157035@lizzy.crudebyte.com>)
- id 1kTn8U-0005hu-9b
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:24:42 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:46975)
+ (envelope-from <be342f236842272275f65dbe05587f0a5409ad77@lizzy.crudebyte.com>)
+ id 1kQbLe-0004o2-2o
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:06 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:38193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <49220110c8fb16b9d52ad7485ccf2c2b51157035@lizzy.crudebyte.com>)
- id 1kTn8S-00061e-Kw
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:24:41 -0400
+ (envelope-from <be342f236842272275f65dbe05587f0a5409ad77@lizzy.crudebyte.com>)
+ id 1kQbLa-0005Em-RN
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:13:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=uYCOhtjPf6+B9BmnvExTz7BoHTRQm0BF5tGsJnw9wkM=; b=HU86b
- JBO2L706iJhIxiBymfEgXum2DlFih35DpZ3l2bBTSIuMOX0Xzw1OqSWSoHhxEuQtz25TyKJgAdiPn
- AX6TIdSCsPVTQN6/7AMUb7DVivVqhRhZbROpqv3cTFxYKhPChFH3RskTo3gCqAGuKT5/oWkRXWO7K
- pMyxq300vIhb9e/msVn7B4NyhD/JSsuIA+tAqaknXMBvVehJ8l6b1WqAvrjtv6CZpl+BuC1o/cyuq
- YxUV0CvC4ObkBqAqdFqJyiJRRg80rV5+Ihe6OXBn4yiUYHjVEfBEpLlKCOjxnqDb2Baoc3zfdu763
- qiE4hsPOk9yliPxfUyHvK+FExCjTg==;
-Message-Id: <49220110c8fb16b9d52ad7485ccf2c2b51157035.1602943547.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1602943547.git.qemu_oss@crudebyte.com>
-References: <cover.1602943547.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=3gdsJ6pjvCU0FrWJrVN6xDBTz3l1XPfDosQSPb3Og7M=; b=PTO7D
+ plBYOxAhYQwHpG5UVMKLzt7PrGsAL0qeQ/CRlbM8/U4Pux7Zmz8LSvPCxi5icrzeWP0pYv9+sJDvd
+ 6aIwaLNr3VNruk1maIYzd/HucZ+BHZRk/dXzRJSm/pLjUPslyA6kVf+RM7LIGCg6mnu4bQ5e5fFny
+ 4qstxH8e5vG4sUcjj8Puu01PcNHDbq2nPCqseMWtljg3bUr/mLYv48caA6Zvyy6QB10+ZCxPbEJXf
+ +pLb78BHAKHLmMqxTeIAlgGoKEliAeU3l0+qXtbNGXM0fweyDzzgJI8rYDA7wo6PwXngicShPZwf6
+ vxMcg05a1cQTplNgCm3uUC/hmq0FQ==;
+Message-Id: <cover.1602182956.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 8 Oct 2020 20:34:56 +0200
-Subject: [PULL v2 1/5] tests/9pfs: change qtest name prefix to synth
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
+Date: Thu, 8 Oct 2020 20:49:16 +0200
+Subject: [PATCH v4 00/12] 9pfs: add tests using local fs driver
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+    Laurent Vivier <lvivier@redhat.com>,
+    Paolo Bonzini <pbonzini@redhat.com>,
+    Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+    Greg Kurz <groug@kaod.org>,
+    "Daniel P. Berrangé" <berrange@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=49220110c8fb16b9d52ad7485ccf2c2b51157035@lizzy.crudebyte.com;
+ envelope-from=be342f236842272275f65dbe05587f0a5409ad77@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 10:23:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 15:12:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,67 +67,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All existing 9pfs test cases are using the 'synth' fs driver so far, which
-means they are not accessing real files, but a purely simulated (in RAM
-only) file system.
+The currently existing 9pfs test cases are all solely using the 9pfs 'synth'
+fileystem driver, which is a very simple and purely simulated (in RAM only)
+filesystem. There are issues though where the 'synth' fs driver is not
+sufficient. For example the following two bugs need test cases running the
+9pfs 'local' fs driver:
 
-Let's make this clear by changing the prefix of the individual qtest case
-names from 'fs/' to 'synth/'. That way they'll be easily distinguishable
-from upcoming new 9pfs test cases supposed to be using a different fs
-driver.
+https://bugs.launchpad.net/qemu/+bug/1336794
+https://bugs.launchpad.net/qemu/+bug/1877384
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <e04e75acb849b085c6d6320b2433a15fa935bcff.1602182956.git.qemu_oss@crudebyte.com>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- tests/qtest/virtio-9p-test.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+This patch set for that reason introduces 9pfs test cases using the 9pfs
+'local' filesystem driver along to the already existing tests on 'synth'.
+It consists of 3 parts:
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index de30b717b6..3281153b9c 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -897,26 +897,26 @@ static void fs_readdir_split_512(void *obj, void *data,
- 
- static void register_virtio_9p_test(void)
- {
--    qos_add_test("config", "virtio-9p", pci_config, NULL);
--    qos_add_test("fs/version/basic", "virtio-9p", fs_version, NULL);
--    qos_add_test("fs/attach/basic", "virtio-9p", fs_attach, NULL);
--    qos_add_test("fs/walk/basic", "virtio-9p", fs_walk, NULL);
--    qos_add_test("fs/walk/no_slash", "virtio-9p", fs_walk_no_slash,
-+    qos_add_test("synth/config", "virtio-9p", pci_config, NULL);
-+    qos_add_test("synth/version/basic", "virtio-9p", fs_version, NULL);
-+    qos_add_test("synth/attach/basic", "virtio-9p", fs_attach, NULL);
-+    qos_add_test("synth/walk/basic", "virtio-9p", fs_walk, NULL);
-+    qos_add_test("synth/walk/no_slash", "virtio-9p", fs_walk_no_slash,
-                  NULL);
--    qos_add_test("fs/walk/dotdot_from_root", "virtio-9p",
-+    qos_add_test("synth/walk/dotdot_from_root", "virtio-9p",
-                  fs_walk_dotdot, NULL);
--    qos_add_test("fs/lopen/basic", "virtio-9p", fs_lopen, NULL);
--    qos_add_test("fs/write/basic", "virtio-9p", fs_write, NULL);
--    qos_add_test("fs/flush/success", "virtio-9p", fs_flush_success,
-+    qos_add_test("synth/lopen/basic", "virtio-9p", fs_lopen, NULL);
-+    qos_add_test("synth/write/basic", "virtio-9p", fs_write, NULL);
-+    qos_add_test("synth/flush/success", "virtio-9p", fs_flush_success,
-                  NULL);
--    qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
-+    qos_add_test("synth/flush/ignored", "virtio-9p", fs_flush_ignored,
-                  NULL);
--    qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
--    qos_add_test("fs/readdir/split_512", "virtio-9p",
-+    qos_add_test("synth/readdir/basic", "virtio-9p", fs_readdir, NULL);
-+    qos_add_test("synth/readdir/split_512", "virtio-9p",
-                  fs_readdir_split_512, NULL);
--    qos_add_test("fs/readdir/split_256", "virtio-9p",
-+    qos_add_test("synth/readdir/split_256", "virtio-9p",
-                  fs_readdir_split_256, NULL);
--    qos_add_test("fs/readdir/split_128", "virtio-9p",
-+    qos_add_test("synth/readdir/split_128", "virtio-9p",
-                  fs_readdir_split_128, NULL);
- }
- 
+1. libqos patches 1 and 2 remove a limitation of the qtest/libqos subsystem:
+   support for more than one device using the same (official) QEMU device
+   name.
+
+2. Patches 3 to 7 enhance debugging issues with the qtest framework.
+
+3. Patches 8 to 12 actually introduce 9pfs 'local' test cases using the qtest
+   framework. These 'local' tests are adding a test directory 'qtest-9p-local'
+   inside the current working directory (using get_current_dir()), which is
+   typically the build directory, before running the tests. That test
+   directory is automatically recreated next time the test suite is run again,
+   to ensure the 9pfs 'local' tests always run consistently on a clean test
+   directory. The test directory is used by the 'local' driver as root of its
+   export path. So it will add/read/write/delete real files and directories
+   inside that test directory.
+
+v3->v4:
+
+  * Added qos_printf() and qos_printf_literal() (NEW patch 3).
+
+  * Use qos_printf() and qos_printf_literal() instead of printf() for not
+    breaking TAP output (patch 4, 6, 7).
+
+  * Added private function regex_replace() to simplify and deduplicate code
+    (patch 9).
+
+  * RegEx pattern hardening in virtio_9p_assign_local_driver() to avoid
+    potential issues with future changes (patch 9).
+
+  * Updated commit log comments.
+
+v2->v3:
+
+  * concat_path() is now just a wrapper for g_build_filename() (patch 8).
+
+  * Dropped function strpr(), using g_strdup_printf() instead (patch 8, 9).
+
+  * Fixed incorrect size for array allocation in split() function
+    (patch 11).
+
+v1->v2:
+
+  * The libqos debugging features are now turned on by command line argument
+    '--verbose' instead of using environment variables (patches 4, 5, 6).
+
+  * The new 9pfs 'local' tests no longer depend on patches 1 and 2 by no
+    longer using a libqos multi-device approach, but rather modifying the
+    final QEMU command line for each test instead; see discussion of v1
+    for reason (patches 7 to 11).
+
+  * Use GCC_FMT_ATTR on helper function strpr() (patch 8).
+
+  * Updated commit log comments.
+
+Christian Schoenebeck (12):
+  libqos/qgraph: add qemu_name to QOSGraphNode
+  libqos/qgraph: add qos_node_create_driver_named()
+  libqos/qgraph_internal: add qos_printf() and qos_printf_literal()
+  libqos/qgraph: add qos_dump_graph()
+  tests/qtest/qos-test: dump qos graph if verbose
+  tests/qtest/qos-test: dump environment variables if verbose
+  tests/qtest/qos-test: dump QEMU command if verbose
+  tests/9pfs: change qtest name prefix to synth
+  tests/9pfs: introduce local tests
+  tests/9pfs: wipe local 9pfs test directory
+  tests/9pfs: add virtio_9p_test_path()
+  tests/9pfs: add local Tmkdir test
+
+ tests/qtest/libqos/qgraph.c          | 110 ++++++++++++++-
+ tests/qtest/libqos/qgraph.h          |  36 +++++
+ tests/qtest/libqos/qgraph_internal.h |  12 ++
+ tests/qtest/libqos/virtio-9p.c       | 100 ++++++++++++++
+ tests/qtest/libqos/virtio-9p.h       |  10 ++
+ tests/qtest/qos-test.c               |  15 +-
+ tests/qtest/virtio-9p-test.c         | 197 ++++++++++++++++++++++++---
+ 7 files changed, 455 insertions(+), 25 deletions(-)
+
 -- 
 2.20.1
 
