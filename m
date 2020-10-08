@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8285728761B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:34:07 +0200 (CEST)
-Received: from localhost ([::1]:32944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEF3287635
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 16:38:21 +0200 (CEST)
+Received: from localhost ([::1]:44574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQWze-0004BN-Ak
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:34:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38166)
+	id 1kQX3k-0000kk-MO
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 10:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWrx-0004Bi-O3
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:09 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39923)
+ id 1kQWs0-0004IR-Hg
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:12 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQWru-0005yQ-GC
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:09 -0400
-Received: by mail-wm1-x333.google.com with SMTP id d3so6722620wma.4
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:05 -0700 (PDT)
+ id 1kQWry-0005zD-J3
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 10:26:12 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id d3so6722834wma.4
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 07:26:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=kVcdD0KzUJAO3jRrFwWmt99n+ZYoK7ZLoVAUEZINIj4=;
- b=kCT2ewGmGfgub88ar9ltrPiiRo6Jzw4UK4iAJ/zLevuIOlw2RxB7pif8xQt1LUMWho
- YUJ1CY+zriqUVq3z90Ez31xW/VUhhGShgM0fY37sYiZCJxaSMJ7bXzr8U3QrTaYt3Dqv
- djob/hd4fBZxjKuMI1gYza7Hvjw8+EzuBmQG2ANlU0HWnPk0RRSys+MWp3UnbbD/CdtY
- 36gof5AW2ZfG7Afv3ldZaYAeflwZ5t2LidDu4NzuavB08l/tnJHbZYLhB4wig9Ju9Dj6
- gcTNVj+tng8hu2Rfr6tJO+s88uEuvxu0uiJKyQ4ecq7rkrLUwaKylnz7r91vMgiZzBJb
- SMpg==
+ bh=+vfXC1GgsBMwnsH6E6kbQ/y0jQGmL+x6ugfMXRWI8gA=;
+ b=EeIebk0dG75HOMschTihPaxztknWltWItiQQn4qMVGL2jTkeZRP8lsW3f6Y/Bh9RUB
+ Fz9w2G5VfFR2tIgeGSk4IuXabcnHH3fZw00FKRDBmFBJrWobfV0A0/WCGFxE19HItCfj
+ IWDMTNm0PkiXnIUEoDhogduw0/SB/QJkSVfPLft8saBXIpZna+rDonNB4QZ41rfmQbK+
+ j3hcAwxmHEzuflG5owxt6VijsatpqDa1Fpy8BK2u3Nt6YS+g4YDBZWyKLxXlk+m4whdp
+ fQklEYWwVFVlcy0m9kCSMtvoXl5v5fkfvVHtV6rg0VPJ4emLxkxbhbi5w3+uUt+g558L
+ wqlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kVcdD0KzUJAO3jRrFwWmt99n+ZYoK7ZLoVAUEZINIj4=;
- b=bOTZ6NIwdEqnpIykDeeZhYHU+OGVgMRYPKfa49OtQfTQg50Q/EHEoY7oG5pwUKH5TS
- yXpzYlEh02TS27M3QkLdlmEUoc1Ex/T9Tm/gJRuTsflLYJQWR6ziGeWD4SVVXkhaCCxf
- VhVMYhGCrBF1W96um0eVqKBmnWs1PvuGoK9OVWRecgksLI/70evzSHEnIyJjKJrcTWNy
- zs+F1djv+W1wznk5VTqR8J7rngoaQibqMGrBMBR1ajxENKAmkbF0Ds+KfSzYzJvlF/fu
- ZpndHv25pRw5HWb63NH6Yk2BHyyftGBDrcB+jdjtAP0eCC0xqdM7KASPAwnErd4rIvFP
- FFhw==
-X-Gm-Message-State: AOAM531ZZMMPa2F31bWluyqS2rXsoJV1Llpr617Es8WgHOe6HX3wB/fr
- S2gHEX/VoUxPq6tkD4ayBLUS1lSbjlmlEKtT
-X-Google-Smtp-Source: ABdhPJwUKmppUgRKJTfm0XMn2McqTBLyIhTFTmjzmnJLZEXhdygTJ+XqhDRngYysXjoOh/+e28SmIQ==
-X-Received: by 2002:a1c:1bd1:: with SMTP id b200mr9521154wmb.171.1602167164754; 
- Thu, 08 Oct 2020 07:26:04 -0700 (PDT)
+ bh=+vfXC1GgsBMwnsH6E6kbQ/y0jQGmL+x6ugfMXRWI8gA=;
+ b=r/MXRTVLUJXsm6TEobfj6R2OPXKWhClY0DlQte1X4EeGuGM5Zd7nVmYv1jCreiTiXI
+ vVeEuWP91WBcCAXpA6gjgOjP6qGaWLNbp7biJVpVQ9tjOssDtJ6Q6whSM4hrLq0qW8Lj
+ 9oEGcFQeQoKVbnPd6NI8SsHxialJEz7ebn4XGUdrRbll87JLGwJ4118F2PDnjqbZOshX
+ NHEWys8TvwzfVh0f2lydvuLujJaQDzP8M/WbUPxWotrajRcgaX9GaQ/mBDT86CbNJiUn
+ aOx76bV4DtFTIb5X3860k4uitUyg74tOhROoNzDtVXDYuXNSPMsaMR6B/99G3/LSWV2b
+ lo2Q==
+X-Gm-Message-State: AOAM533QWUOUsPi7ykyoC6dlfSqidGySdPgxmKcgoqiUyr2Xw/NjedFt
+ yicjLL5o2mzSLILbQfE0an91qYinRthBrHCz
+X-Google-Smtp-Source: ABdhPJyK3t04ARNtSEnUNnaIJAZviTAhbH71ZdU1X9AJCe3cdYDyAwfGboYMZg1/qo21+9ekKtXD+A==
+X-Received: by 2002:a1c:ed05:: with SMTP id l5mr9154961wmh.106.1602167165781; 
+ Thu, 08 Oct 2020 07:26:05 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j1sm7905104wrc.28.2020.10.08.07.26.03
+ by smtp.gmail.com with ESMTPSA id j1sm7905104wrc.28.2020.10.08.07.26.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 07:26:04 -0700 (PDT)
+ Thu, 08 Oct 2020 07:26:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/12] hw/arm/sbsa-ref : allocate IRQs for SMMUv3
-Date: Thu,  8 Oct 2020 15:25:49 +0100
-Message-Id: <20201008142557.9845-5-peter.maydell@linaro.org>
+Subject: [PULL 05/12] hw/char/bcm2835_aux: Allow less than 32-bit accesses
+Date: Thu,  8 Oct 2020 15:25:50 +0100
+Message-Id: <20201008142557.9845-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201008142557.9845-1-peter.maydell@linaro.org>
 References: <20201008142557.9845-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,35 +89,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Graeme Gregory <graeme@nuviainc.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Original commit did not allocate IRQs for the SMMUv3 in the irqmap
-effectively using irq 0->3 (shared with other devices). Assuming
-original intent was to allocate unique IRQs then add an allocation
-to the irqmap.
+The "BCM2835 ARM Peripherals" datasheet [*] chapter 2
+("Auxiliaries: UART1 & SPI1, SPI2"), list the register
+sizes as 3/8/16/32 bits. We assume this means this
+peripheral allows 8-bit accesses.
 
-Fixes: e9fdf453240 ("hw/arm: Add arm SBSA reference machine, devices part")
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Graeme Gregory <graeme@nuviainc.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20201007100732.4103790-3-graeme@nuviainc.com
+This was not an issue until commit 5d971f9e67 which reverted
+("memory: accept mismatching sizes in memory_region_access_valid").
+
+The model is implemented as 32-bit accesses (see commit 97398d900c,
+all registers are 32-bit) so replace MemoryRegionOps.valid as
+MemoryRegionOps.impl, and re-introduce MemoryRegionOps.valid
+with a 8/32-bit range.
+
+[*] https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
+
+Fixes: 97398d900c ("bcm2835_aux: add emulation of BCM2835 AUX (aka UART1) block")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20201002181032.1899463-1-f4bug@amsat.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/sbsa-ref.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/char/bcm2835_aux.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 65e64883b51..01863510d0f 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -133,6 +133,7 @@ static const int sbsa_ref_irqmap[] = {
-     [SBSA_SECURE_UART_MM] = 9,
-     [SBSA_AHCI] = 10,
-     [SBSA_EHCI] = 11,
-+    [SBSA_SMMU] = 12, /* ... to 15 */
+diff --git a/hw/char/bcm2835_aux.c b/hw/char/bcm2835_aux.c
+index ee3dd40e3c7..dade2ab5fd5 100644
+--- a/hw/char/bcm2835_aux.c
++++ b/hw/char/bcm2835_aux.c
+@@ -249,7 +249,9 @@ static const MemoryRegionOps bcm2835_aux_ops = {
+     .read = bcm2835_aux_read,
+     .write = bcm2835_aux_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+-    .valid.min_access_size = 4,
++    .impl.min_access_size = 4,
++    .impl.max_access_size = 4,
++    .valid.min_access_size = 1,
+     .valid.max_access_size = 4,
  };
  
- static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
 -- 
 2.20.1
 
