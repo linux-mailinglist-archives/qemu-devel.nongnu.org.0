@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E07287AEE
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 19:23:14 +0200 (CEST)
-Received: from localhost ([::1]:37776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3382287AF2
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 19:24:46 +0200 (CEST)
+Received: from localhost ([::1]:42016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQZdJ-0004eL-W1
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 13:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50612)
+	id 1kQZen-0006NB-Q9
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 13:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kQZXH-0004qG-1S
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 13:16:59 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44870)
+ id 1kQZXI-0004tL-Ad
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 13:17:00 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kQZXF-0006fM-DC
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 13:16:58 -0400
-Received: by mail-wr1-x444.google.com with SMTP id t9so7447621wrq.11
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 10:16:57 -0700 (PDT)
+ id 1kQZXG-0006fW-N2
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 13:16:59 -0400
+Received: by mail-wr1-x441.google.com with SMTP id e17so7441976wru.12
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 10:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+aXjyG0i9oQTA80CkQjiRbI+6mZLaGZ14n2CNbod0io=;
- b=W8K24xAan3nU461ZtUCOJDnTvMW8hiJpuiuR+l0BiT6hp/MaLrTs/mPdK610q8iff2
- h3khiJ/AvmxtnO4UGE38f0TRsVf2rjop4Um+LPsUl6Z/ZlH9fg32zkrxnKgQzdJyykim
- 6wjoUqhW/Y7i3rM00i4OC7eW7UKkFzH99i0evDP/FbclG0ywi7wMD0wBbeAWe3q9qkY9
- PHpAtwv/derzbP7jZhq5YhfMP3NhnMc4ssIDudguGfaP/q+V43PVamSJld+8P5halW1i
- Ikz7qqp7h4q0269BwbLLz7VLstT8b2emi5chL4K2B0Kjr1tzaNZFU02w7yVlkfijETzR
- B/MQ==
+ bh=L1iwuBZlH4emBp6JRkoZKYjiVdXM0akqIZ599ofxEZI=;
+ b=EyrxZREVUHgy5vw5UiEmWm03eUn0arKOFhK+mjzTZ7AeN/CRCExxvbDQ6i6krXVuKe
+ 9UFs4pVf6DVAHtgUO6pf2MNpnc8BdOkkcJU958m577J4kFZMZPVdvEQCUHhYFQ+VLdrx
+ txNKQIIhOwSYvr8xV5DGNiIkAf972NCmn8JKUVa1lR05vRXh37sRheKkUw0S9H4cY0wk
+ T/+FQQuKpwFB9C6hrT0Jg/Tj5RZ8KaOq5RS4A1bFs+xoV3JcEUHhLpFqdnDGgcX96tNB
+ DBaWdY4tfrXFvEO6cjSiV9GE3DMh39O2Q1q86+QrS6/N4UoEMNBTa1LO63XzJ10wx3wp
+ 6vgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+aXjyG0i9oQTA80CkQjiRbI+6mZLaGZ14n2CNbod0io=;
- b=NwQOtu8ehBpg3olmQrzQ8M3hBJAjJ22snwxs/wbuoIf1taYjQzYPPMQSSBbCX7Ab/c
- BxEbhq0pn4i2BBTlXbM7pe5RqKkGiuPEndq8E2fPSjnyx12Hy8iB20yCDtrfD/E295aT
- l9UoyjAR2gBZOT6AN3FeUtLV9Vzi8wtev+n04IxQ6pqD4n+Eshdv4PqIYhr9HnAxaG+s
- WLvBI2Hkvw5hPyhZLhvaRSOH+KxqFrSARiGH7M87ynzTFkx0doBE7cwoblOOMIekQhIA
- IZqeAp7nAJZy+VCSBe+2clqXqtjZI3/MyKPdGKaBb1tsyxPr+iTja31iY4nKDczuzZB0
- /w9Q==
-X-Gm-Message-State: AOAM530Oxq7AD/ESXr4P9ejEQK3FqisyMud9TgbbwaBRdx2Z3LBmroLw
- 1hASNrGhtQSL6P6yhDBtjPg8Jw==
-X-Google-Smtp-Source: ABdhPJxoYgK5NxUIsI+NyZx99DfZ0TKTcLWZnW0VkuBDeHAa7nLJ/VEaTVU+dl3Zhbk8KvWiTNOdCg==
-X-Received: by 2002:a5d:5482:: with SMTP id h2mr1057165wrv.165.1602177416053; 
- Thu, 08 Oct 2020 10:16:56 -0700 (PDT)
+ bh=L1iwuBZlH4emBp6JRkoZKYjiVdXM0akqIZ599ofxEZI=;
+ b=mPlDbWP+GL/VBMVT6hgjpAju1gp3hZ0BxDR1XMgGeenDUNdceswJby8DpWKGnBjoJP
+ 86Q4p/7aYhezczNoVIfX9KjM6FWI3/jNlYUgB+bQK+DMLnHT7Am8HhCD+Hda/fZBzkIG
+ nWQRnGux/QhW5N6B6MatQqUhV49MH2Sg5KSpTndDiZQAa8KRx33wFZ5Ielseaersop3u
+ LF9WdgAokWdLJuoNfavQia4eviRoelep8QDq25xQJ3hdf0YpUrJJrLpKgO855HGkvxtY
+ 1sdn8kR/b8IhnE4V/Z64a/qkfXO/5VXUcN/+oowtEds1rcR39JXiU57bhIkq36rfcoqY
+ 9aYg==
+X-Gm-Message-State: AOAM5320+PBYlewNvX5KLDBRNj2KaSp3vGqew1e5IybRRRhM+BZYvkFd
+ NFWrFIwGZg4lOtPtQhUWs5zcdA==
+X-Google-Smtp-Source: ABdhPJwUD5wqrfTkVf7dJLrztglZojWpDXiWoQLF71FQHxzME82ACP02kH50uvUg3wnfQsj9ZFwVzQ==
+X-Received: by 2002:a5d:5146:: with SMTP id u6mr11122776wrt.255.1602177417377; 
+ Thu, 08 Oct 2020 10:16:57 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id x1sm719413wrl.41.2020.10.08.10.16.55
+ by smtp.gmail.com with ESMTPSA id x1sm719413wrl.41.2020.10.08.10.16.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 10:16:55 -0700 (PDT)
+ Thu, 08 Oct 2020 10:16:56 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: eric.auger@redhat.com,
 	alex.williamson@redhat.com
-Subject: [PATCH v10 07/10] memory: Add interface to set iommu page size mask
-Date: Thu,  8 Oct 2020 19:15:55 +0200
-Message-Id: <20201008171558.410886-8-jean-philippe@linaro.org>
+Subject: [PATCH v10 08/10] vfio: Set IOMMU page size as per host supported
+ page size
+Date: Thu,  8 Oct 2020 19:15:56 +0200
+Message-Id: <20201008171558.410886-9-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201008171558.410886-1-jean-philippe@linaro.org>
 References: <20201008171558.410886-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -94,87 +95,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bharat Bhushan <bbhushan2@marvell.com>
 
-Allow to set the page size mask supported by an iommu memory region.
-This enables a vIOMMU to communicate the page size granule supported by
-an assigned device, on hosts that use page sizes greater than 4kB.
+Set IOMMU supported page size mask same as host Linux supported page
+size mask.
 
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
-v10: Add errp parameter
----
- include/exec/memory.h | 26 ++++++++++++++++++++++++++
- softmmu/memory.c      | 13 +++++++++++++
- 2 files changed, 39 insertions(+)
+ hw/vfio/common.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index dee09851622..c2da8381bec 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -382,6 +382,20 @@ struct IOMMUMemoryRegionClass {
-      * @iommu: the IOMMUMemoryRegion
-      */
-     int (*num_indexes)(IOMMUMemoryRegion *iommu);
-+
-+    /*
-+     * Set supported IOMMU page size
-+     *
-+     * If supported, allows to restrict the page size mask that can be supported
-+     * with a given IOMMU memory region. For example, to propagate host physical
-+     * IOMMU page size mask limitations to the virtual IOMMU.
-+     *
-+     * Returns 0 on success, or a negative error. In case of failure, the error
-+     * object must be created.
-+     */
-+     int (*iommu_set_page_size_mask)(IOMMUMemoryRegion *iommu,
-+                                     uint64_t page_size_mask,
-+                                     Error **errp);
- };
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 13471ae2943..e66054b02a7 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -636,6 +636,14 @@ static void vfio_listener_region_add(MemoryListener *listener,
+                             int128_get64(llend),
+                             iommu_idx);
  
- typedef struct CoalescedMemoryRange CoalescedMemoryRange;
-@@ -1389,6 +1403,18 @@ int memory_region_iommu_attrs_to_index(IOMMUMemoryRegion *iommu_mr,
-  */
- int memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr);
- 
-+/**
-+ * memory_region_iommu_set_page_size_mask: set the supported page
-+ * sizes for a given IOMMU memory region
-+ *
-+ * @iommu_mr: IOMMU memory region
-+ * @page_size_mask: supported page size mask
-+ * @errp: pointer to Error*, to store an error if it happens.
-+ */
-+int memory_region_iommu_set_page_size_mask(IOMMUMemoryRegion *iommu_mr,
-+                                           uint64_t page_size_mask,
-+                                           Error **errp);
++        ret = memory_region_iommu_set_page_size_mask(giommu->iommu,
++                                                     container->pgsizes,
++                                                     &err);
++        if (ret) {
++            g_free(giommu);
++            goto fail;
++        }
 +
- /**
-  * memory_region_name: get a memory region's name
-  *
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index fa280a19f7f..5c855a02704 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1811,6 +1811,19 @@ static int memory_region_update_iommu_notify_flags(IOMMUMemoryRegion *iommu_mr,
-     return ret;
- }
- 
-+int memory_region_iommu_set_page_size_mask(IOMMUMemoryRegion *iommu_mr,
-+                                           uint64_t page_size_mask,
-+                                           Error **errp)
-+{
-+    IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
-+    int ret = 0;
-+
-+    if (imrc->iommu_set_page_size_mask) {
-+        ret = imrc->iommu_set_page_size_mask(iommu_mr, page_size_mask, errp);
-+    }
-+    return ret;
-+}
-+
- int memory_region_register_iommu_notifier(MemoryRegion *mr,
-                                           IOMMUNotifier *n, Error **errp)
- {
+         ret = memory_region_register_iommu_notifier(section->mr, &giommu->n,
+                                                     &err);
+         if (ret) {
 -- 
 2.28.0
 
