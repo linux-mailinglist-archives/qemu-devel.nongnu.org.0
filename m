@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E068287C4B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:16:53 +0200 (CEST)
-Received: from localhost ([::1]:53408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A63287C22
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 21:13:14 +0200 (CEST)
+Received: from localhost ([::1]:41700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQbPI-000075-Kq
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:16:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49306)
+	id 1kQbLk-0003k7-V1
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 15:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQbJk-00022a-JD
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:11:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50600)
+ id 1kQbJn-00026m-84
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:11:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQbJi-00059y-Mb
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:11:08 -0400
+ id 1kQbJl-0005AL-D7
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 15:11:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602184265;
+ s=mimecast20190719; t=1602184268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xiPfig7jG9VC0GE1wxVAHcnqkY098QwCgL+T1oBSk+E=;
- b=Vx6k2tRRMMB5uvMIUr9eUOKSGaalSkBwicBdSwPL9Pom6tVrMdEA/UM/PR0VcVyN63rX9Q
- FeCjEzPp57/xsEBjMmp0un8/WL6Di/cx40lGy/kbV9XIZgSpFzRery61hLjKUIizdI1ihO
- w329dny6uY9WDaqQBzC6GEFy+yy4xlo=
+ bh=W85WJLLeimVgYQvZmhoPM6kQHkNmqQwrNZAwhc++t9I=;
+ b=d2xvpemJc71UEZSEqf/aNcAizl4iXOvHfC7Q7EaN/8IgUyl7kxfE8Dnc5bHj4xpgh9kFsx
+ 8hs3lcmu+xZvZJfhDXJXrQvk+EMnVhURf02CTyejxzAQCDHIRL7F39KTLMzHD5SguxkTiq
+ KeGZaRWFdiAXWgDaJHOzdcXq3agUW8U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-Jp9XRHudMkCXvjjWDvrCEA-1; Thu, 08 Oct 2020 15:11:03 -0400
-X-MC-Unique: Jp9XRHudMkCXvjjWDvrCEA-1
+ us-mta-172-8VRy5tluNey0CSBwsjWzaA-1; Thu, 08 Oct 2020 15:11:05 -0400
+X-MC-Unique: 8VRy5tluNey0CSBwsjWzaA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9484818CBC42;
- Thu,  8 Oct 2020 19:11:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A436107AFDB;
+ Thu,  8 Oct 2020 19:11:04 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-212.ams2.redhat.com
  [10.36.114.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 450635C1BD;
- Thu,  8 Oct 2020 19:11:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE2655C1BD;
+ Thu,  8 Oct 2020 19:11:02 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, alex.bennee@linaro.org, zhengchuan@huawei.com,
  stefanha@redhat.com, peterx@redhat.com
-Subject: [PULL 04/10] virtiofsd: avoid /proc/self/fd tempdir
-Date: Thu,  8 Oct 2020 20:10:40 +0100
-Message-Id: <20201008191046.272549-5-dgilbert@redhat.com>
+Subject: [PULL 05/10] migration: Pass incoming state into qemu_ufd_copy_ioctl()
+Date: Thu,  8 Oct 2020 20:10:41 +0100
+Message-Id: <20201008191046.272549-6-dgilbert@redhat.com>
 In-Reply-To: <20201008191046.272549-1-dgilbert@redhat.com>
 References: <20201008191046.272549-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -86,122 +86,55 @@ Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Peter Xu <peterx@redhat.com>
 
-In order to prevent /proc/self/fd escapes a temporary directory is
-created where /proc/self/fd is bind-mounted. This doesn't work on
-read-only file systems.
+It'll be used in follow up patches to access more fields out of it.  Meanwhile
+fetch the userfaultfd inside the function.
 
-Avoid the temporary directory by bind-mounting /proc/self/fd over /proc.
-This does not affect other processes since we remounted / with MS_REC |
-MS_SLAVE. /proc must exist and virtiofsd does not use it so it's safe to
-do this.
-
-Path traversal can be tested with the following function:
-
-  static void test_proc_fd_escape(struct lo_data *lo)
-  {
-      int fd;
-      int level = 0;
-      ino_t last_ino = 0;
-
-      fd = lo->proc_self_fd;
-      for (;;) {
-          struct stat st;
-
-          if (fstat(fd, &st) != 0) {
-              perror("fstat");
-              return;
-          }
-          if (last_ino && st.st_ino == last_ino) {
-              fprintf(stderr, "inode number unchanged, stopping\n");
-              return;
-          }
-          last_ino = st.st_ino;
-
-          fprintf(stderr, "Level %d dev %lu ino %lu\n", level,
-                  (unsigned long)st.st_dev,
-                  (unsigned long)last_ino);
-          fd = openat(fd, "..", O_PATH | O_DIRECTORY | O_NOFOLLOW);
-          level++;
-      }
-  }
-
-Before and after this patch only Level 0 is displayed. Without
-/proc/self/fd bind-mount protection it is possible to traverse parent
-directories.
-
-Fixes: 397ae982f4df4 ("virtiofsd: jail lo->proc_self_fd")
-Cc: Miklos Szeredi <mszeredi@redhat.com>
-Cc: Jens Freimann <jfreimann@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201006095826.59813-1-stefanha@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Tested-by: Jens Freimann <jfreimann@redhat.com>
-Reviewed-by: Jens Freimann <jfreimann@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20201002175336.30858-2-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 34 +++++++++++---------------------
- 1 file changed, 11 insertions(+), 23 deletions(-)
+ migration/postcopy-ram.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 477e6ee0b5..ff53df4451 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2393,8 +2393,6 @@ static void setup_wait_parent_capabilities(void)
- static void setup_namespaces(struct lo_data *lo, struct fuse_session *se)
- {
-     pid_t child;
--    char template[] = "virtiofsd-XXXXXX";
--    char *tmpdir;
- 
-     /*
-      * Create a new pid namespace for *child* processes.  We'll have to
-@@ -2458,33 +2456,23 @@ static void setup_namespaces(struct lo_data *lo, struct fuse_session *se)
-         exit(1);
-     }
- 
--    tmpdir = mkdtemp(template);
--    if (!tmpdir) {
--        fuse_log(FUSE_LOG_ERR, "tmpdir(%s): %m\n", template);
--        exit(1);
--    }
--
--    if (mount("/proc/self/fd", tmpdir, NULL, MS_BIND, NULL) < 0) {
--        fuse_log(FUSE_LOG_ERR, "mount(/proc/self/fd, %s, MS_BIND): %m\n",
--                 tmpdir);
-+    /*
-+     * We only need /proc/self/fd. Prevent ".." from accessing parent
-+     * directories of /proc/self/fd by bind-mounting it over /proc. Since / was
-+     * previously remounted with MS_REC | MS_SLAVE this mount change only
-+     * affects our process.
-+     */
-+    if (mount("/proc/self/fd", "/proc", NULL, MS_BIND, NULL) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "mount(/proc/self/fd, MS_BIND): %m\n");
-         exit(1);
-     }
- 
--    /* Now we can get our /proc/self/fd directory file descriptor */
--    lo->proc_self_fd = open(tmpdir, O_PATH);
-+    /* Get the /proc (actually /proc/self/fd, see above) file descriptor */
-+    lo->proc_self_fd = open("/proc", O_PATH);
-     if (lo->proc_self_fd == -1) {
--        fuse_log(FUSE_LOG_ERR, "open(%s, O_PATH): %m\n", tmpdir);
-+        fuse_log(FUSE_LOG_ERR, "open(/proc, O_PATH): %m\n");
-         exit(1);
-     }
--
--    if (umount2(tmpdir, MNT_DETACH) < 0) {
--        fuse_log(FUSE_LOG_ERR, "umount2(%s, MNT_DETACH): %m\n", tmpdir);
--        exit(1);
--    }
--
--    if (rmdir(tmpdir) < 0) {
--        fuse_log(FUSE_LOG_ERR, "rmdir(%s): %m\n", tmpdir);
--    }
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 0a2f88a87d..722034dc01 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -1128,10 +1128,12 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
+     return 0;
  }
  
- /*
+-static int qemu_ufd_copy_ioctl(int userfault_fd, void *host_addr,
++static int qemu_ufd_copy_ioctl(MigrationIncomingState *mis, void *host_addr,
+                                void *from_addr, uint64_t pagesize, RAMBlock *rb)
+ {
++    int userfault_fd = mis->userfault_fd;
+     int ret;
++
+     if (from_addr) {
+         struct uffdio_copy copy_struct;
+         copy_struct.dst = (uint64_t)(uintptr_t)host_addr;
+@@ -1185,7 +1187,7 @@ int postcopy_place_page(MigrationIncomingState *mis, void *host, void *from,
+      * which would be slightly cheaper, but we'd have to be careful
+      * of the order of updating our page state.
+      */
+-    if (qemu_ufd_copy_ioctl(mis->userfault_fd, host, from, pagesize, rb)) {
++    if (qemu_ufd_copy_ioctl(mis, host, from, pagesize, rb)) {
+         int e = errno;
+         error_report("%s: %s copy host: %p from: %p (size: %zd)",
+                      __func__, strerror(e), host, from, pagesize);
+@@ -1212,7 +1214,7 @@ int postcopy_place_page_zero(MigrationIncomingState *mis, void *host,
+      * but it's not available for everything (e.g. hugetlbpages)
+      */
+     if (qemu_ram_is_uf_zeroable(rb)) {
+-        if (qemu_ufd_copy_ioctl(mis->userfault_fd, host, NULL, pagesize, rb)) {
++        if (qemu_ufd_copy_ioctl(mis, host, NULL, pagesize, rb)) {
+             int e = errno;
+             error_report("%s: %s zero host: %p",
+                          __func__, strerror(e), host);
 -- 
 2.28.0
 
