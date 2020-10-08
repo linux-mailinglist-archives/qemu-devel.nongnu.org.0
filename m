@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6859287AD4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 19:19:04 +0200 (CEST)
-Received: from localhost ([::1]:50808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96767287AF1
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 19:24:45 +0200 (CEST)
+Received: from localhost ([::1]:41912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQZZH-0006ev-Nc
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 13:19:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50656)
+	id 1kQZem-0006Kf-BK
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 13:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kQZXJ-0004wR-R7
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 13:17:01 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39760)
+ id 1kQZXK-0004yX-Mw
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 13:17:02 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kQZXH-0006fh-W2
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 13:17:01 -0400
-Received: by mail-wm1-x343.google.com with SMTP id d3so7298077wma.4
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 10:16:59 -0700 (PDT)
+ id 1kQZXJ-0006fr-0P
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 13:17:02 -0400
+Received: by mail-wr1-x444.google.com with SMTP id m6so7473672wrn.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 10:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7wgbcRbIFliMePbKm6Q5mkeuUC4ljzQPMAK2NaADXH4=;
- b=rgYl28lo9ds5EHPl0QJhjUSisk9hqTi+rpnJ+tzy1oNSxphqXM+RSDQ+kUTk5a3SeO
- OHw4Hr8d4NQsXhQdJI+0jRq8+kqTArBO47w2Kun2wxsye3bNsGj41MlpTcGYwOoGn6+0
- VT1detNeMxGshnx85IFnUMLBK7LmrvzT9bRDNoGSrJl1fMiPzRljktUvHXHPuqDAENzU
- HfCfYwdnjKaFLRy6+ctuyQNS9+qEvrn1IXRjdwBWizSiWOr6dloJjVJl6tEJ5/RqHua2
- A3clYucgXXTD5kUkD6lxjM+ka4Trt4ObNM7vRpFBhPu+aE0Ckiy5s1ohlfPKdjgk/KG1
- OxVg==
+ bh=p50MWhGLP7hiQqo9k1Cd/hlKchaRnczIO062DRXykeA=;
+ b=yIw1MAKayAf8CcmYBRcz1zSVjIHA2H8NHC5brGv6QPyhJgr59niuFEFagtORN2/L+6
+ SBrmOgZrXrubkw/AYVv5yvyRT8vpolsAF2dvulie5Jhh17xRagfltp8WJ0RiYsx8DeeN
+ VRNkCa7H9gpm9aa3znGgwNLHsIcFovDaosH/88DzCkMZjFjbkJ7NAjcvcg2XbK2Lz3/x
+ UimfQmNn1qHLhsud3Yq+W3j5p4FQPsE5b2kTt3uMe9RdaY4E9oSUpN5lkQ9qvOMvgpDp
+ 7uiI2AIpUu1FEoUpnvqhPPf/APQ4MZtV/SajK83EaqHUw9gdqtfRtkZ5hyExbyLZ09XP
+ Q2XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7wgbcRbIFliMePbKm6Q5mkeuUC4ljzQPMAK2NaADXH4=;
- b=ZTwh1BpvyWMoKXh5fqjPfD2lwYBNbZspih0WowPYn8+/eovcyILFk6RcSlGfXjkD5A
- +bXcbJEoJoRSTUhoGWMch/WR0ca3THTLhW3nU5y2nNQUvyK7Ns6qbeWhPVQBKFTkmOqJ
- 8THrf6QpdNu8W4BlPT16Wd5Hfw8H2FjFb5ETxYOYwvgRvkHg6zBwsrF8KiZdx/3Si4rV
- rfK+LjQ7bg94PyPmc10Gn1bSbtbvePIgGJRArS0WKyyG6P0qC5lGqSmhLSWFdLBZEw00
- 7RjVme3J8XD+94GSxw63BcWoXAJ1jxSAZJZCo9ePEX4fK3fJiNUL9yJj2CM4pRMm75Co
- D3bw==
-X-Gm-Message-State: AOAM533PoLcWfmVLLTl2iqLIZAJvhSoth/rtBZXf8MI9NI7yP3JbxLsF
- mTLrMsEofI/P7uw2sV1UGGzUDQ==
-X-Google-Smtp-Source: ABdhPJw7Hs3XKpGnf7TX8L0e5srtXTzJGGpauZIcG45vs78HB+CHxcBJCukiCuECFnYOQ8zOoW8XDg==
-X-Received: by 2002:a1c:b103:: with SMTP id a3mr10049448wmf.68.1602177418602; 
- Thu, 08 Oct 2020 10:16:58 -0700 (PDT)
+ bh=p50MWhGLP7hiQqo9k1Cd/hlKchaRnczIO062DRXykeA=;
+ b=OG0v0mVV/b27B/iW+JL8+IEGKOWSaHL0wqYm8aJhky8YmqAMNkCpmX6U069Ap1GzQT
+ mLWyRfLEJUoaZkcjd1ZRRc00U6Mj427dR4oqNNo4bXraqzyYSAkrY2XZ+47sYx/1oxmw
+ jrWrz4ZL8jzdEg0WTnTcqkWgahXnR8JxXw/VAACjldPDUdG8SLsE4eNw8UaMzJ3LD6tn
+ P0JskkKQmP0KVXHAABpM3QYlAAH1TL++l212u5ekIQNQibrFJBUXUVEoL5MpVdTD0zLO
+ e2mI4d9D8HVzr+T3isH7grn2HDRybpX2tddT2bbvvOBd8B88M/s8CZQMWYTxhLbURJtt
+ Fawg==
+X-Gm-Message-State: AOAM530nDnL+Wr51gdb7yYttYS1GBvj/Tz4hD1wojka+k7smBhKl7mMs
+ BXlTgs74QvVYK66Hb57Udje94A==
+X-Google-Smtp-Source: ABdhPJz4WnokWMCtKF28HBnMb9p1e5OoHBhB5yOGo+66ZSP6TVJY6+dY+UIDqeJLVinwMxq9tkMbVw==
+X-Received: by 2002:a5d:4d01:: with SMTP id z1mr10377411wrt.366.1602177419675; 
+ Thu, 08 Oct 2020 10:16:59 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id x1sm719413wrl.41.2020.10.08.10.16.57
+ by smtp.gmail.com with ESMTPSA id x1sm719413wrl.41.2020.10.08.10.16.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 10:16:57 -0700 (PDT)
+ Thu, 08 Oct 2020 10:16:59 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: eric.auger@redhat.com,
 	alex.williamson@redhat.com
-Subject: [PATCH v10 09/10] virtio-iommu: Set supported page size mask
-Date: Thu,  8 Oct 2020 19:15:57 +0200
-Message-Id: <20201008171558.410886-10-jean-philippe@linaro.org>
+Subject: [PATCH v10 10/10] vfio: Don't issue full 2^64 unmap
+Date: Thu,  8 Oct 2020 19:15:58 +0200
+Message-Id: <20201008171558.410886-11-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201008171558.410886-1-jean-philippe@linaro.org>
 References: <20201008171558.410886-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,94 +92,45 @@ Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bharat Bhushan <bbhushan2@marvell.com>
+IOMMUs may declare memory regions spanning from 0 to UINT64_MAX. When
+attempting to deal with such region, vfio_listener_region_del() passes a
+size of 2^64 to int128_get64() which throws an assertion failure.  Even
+ignoring this, the VFIO_IOMMU_DMA_MAP ioctl cannot handle this size
+since the size field is 64-bit. Split the request in two.
 
-The virtio-iommu device can deal with arbitrary page sizes for virtual
-endpoints, but for endpoints assigned with VFIO it must follow the page
-granule used by the host IOMMU driver.
-
-Implement the interface to set the vIOMMU page size mask, called by VFIO
-for each endpoint. We assume that all host IOMMU drivers use the same
-page granule (the host page granule). Override the page_size_mask field
-in the virtio config space.
-
-Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
-v10: Use global page mask, allowing VFIO to override it until boot.
+For me this happens when memory_region_iommu_set_page_size_mask()
+returns an error because a hotplugged endpoint uses an incompatible page
+mask. vfio_connect_container() releases the memory listener which calls
+region_del() with the 2^64 IOMMU region. There are probably other ways
+to reach this.
 ---
- hw/virtio/virtio-iommu.c | 51 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ hw/vfio/common.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 8823bfc804a..dd0b3093d1b 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -914,6 +914,56 @@ static int virtio_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu_mr,
-     return 0;
- }
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index e66054b02a7..e90a89c389e 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -797,6 +797,17 @@ static void vfio_listener_region_del(MemoryListener *listener,
+     }
  
-+static int virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
-+                                           uint64_t page_size_mask,
-+                                           Error **errp)
-+{
-+    int new_granule, old_granule;
-+    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
-+    VirtIOIOMMU *s = sdev->viommu;
-+
-+    if (!page_size_mask) {
-+        return -1;
-+    }
-+
-+    new_granule = ctz64(page_size_mask);
-+    old_granule = ctz64(s->config.page_size_mask);
-+
-+    /*
-+     * Modifying the page size after machine initialization isn't supported.
-+     * Having a different mask is possible but the guest will use sub-optimal
-+     * block sizes, so warn about it.
-+     */
-+    if (qdev_hotplug) {
-+        if (new_granule != old_granule) {
-+            error_setg(errp,
-+                       "virtio-iommu page mask 0x%"PRIx64
-+                       " is incompatible with mask 0x%"PRIx64,
-+                       s->config.page_size_mask, page_size_mask);
-+            return -1;
-+        } else if (page_size_mask != s->config.page_size_mask) {
-+            warn_report("virtio-iommu page mask 0x%"PRIx64
-+                        " does not match 0x%"PRIx64,
-+                        s->config.page_size_mask, page_size_mask);
+     if (try_unmap) {
++        if (llsize == int128_2_64()) {
++            /* The unmap ioctl doesn't accept a full 64-bit span. */
++            llsize = int128_rshift(llsize, 1);
++            ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
++            if (ret) {
++                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
++                             "0x%"HWADDR_PRIx") = %d (%m)",
++                             container, iova, int128_get64(llsize), ret);
++            }
++            iova += int128_get64(llsize);
 +        }
-+        return 0;
-+    }
-+
-+    /*
-+     * Disallow shrinking the page size. For example if an endpoint only
-+     * supports 64kB pages, we can't globally enable 4kB pages. But that
-+     * shouldn't happen, the host is unlikely to setup differing page granules.
-+     * The other bits are only hints describing optimal block sizes.
-+     */
-+    if (new_granule < old_granule) {
-+        error_setg(errp, "memory region shrinks the virtio-iommu page granule");
-+        return -1;
-+    }
-+
-+    s->config.page_size_mask = page_size_mask;
-+    return 0;
-+}
-+
- static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-@@ -1146,6 +1196,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
-     imrc->translate = virtio_iommu_translate;
-     imrc->replay = virtio_iommu_replay;
-     imrc->notify_flag_changed = virtio_iommu_notify_flag_changed;
-+    imrc->iommu_set_page_size_mask = virtio_iommu_set_page_size_mask;
- }
- 
- static const TypeInfo virtio_iommu_info = {
+         ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
+         if (ret) {
+             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
 -- 
 2.28.0
 
