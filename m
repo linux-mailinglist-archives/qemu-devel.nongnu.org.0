@@ -2,49 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F6F287794
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 17:37:54 +0200 (CEST)
-Received: from localhost ([::1]:41728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BC8287799
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 17:38:55 +0200 (CEST)
+Received: from localhost ([::1]:44504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQXzN-0003cS-DQ
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 11:37:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54552)
+	id 1kQY0M-0004vf-E5
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 11:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQXwX-0002PO-B9
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:34:57 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51942)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kQXwZ-0002Qv-Nj
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:34:59 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:39765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQXwV-0008TA-JC
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:34:57 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 52778AE0C;
- Thu,  8 Oct 2020 15:34:53 +0000 (UTC)
-Subject: Re: does make check now require TCG? Or is it a parallelism issue?
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <11ef73ff-4178-b3e8-2e49-44ff014a13ed@suse.de>
- <569520f6-adf6-6212-9625-a184bf499e24@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <e6300199-39e3-4f11-d97e-e2e7d9a9e8ef@suse.de>
-Date: Thu, 8 Oct 2020 17:34:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kQXwX-0008TO-Of
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 11:34:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=8L0VymRe7eL/gjDwLMl6xE3ajlTXdcui9vvd3+1IVks=; b=OVp7bHABVXQvM60DIxVrkpSDdF
+ I1jY1G0JUNpCiuUikzKgmdrjyBp3Nmsl8Js0og8TVBioEG4dVvSSaQHmkcQHHJfPRlB+fF0GbMezZ
+ lf82Ii1TolfthOeZV2zGC1LfVYbXkXV63C9HWFPRWAvlVIKcS8lTgMlKJbwlXYvs9zSjPOPG+9xS4
+ 6hGrciOCbgsQ/JsjYwRgJeuPyeTo7su7f/CL19CMrWnPqHT6iGuRKnhqr+Wq32X2O4QC5QDSnFJKY
+ JhgsoMOHktxaMYX0TqNZJnW6XuLn5VYIcnLD0yDQqJ5j94kpta2oyZdxiTeSX1vOEw2EBXz5InAwl
+ tx+CFg4A==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
+ Greg Kurz <groug@kaod.org>, berrange@redhat.com
+Subject: Re: [PATCH v3 09/11] tests/9pfs: wipe local 9pfs test directory
+Date: Thu, 08 Oct 2020 17:34:54 +0200
+Message-ID: <1992016.PhV0Fcqi1k@silver>
+In-Reply-To: <10015241.kaXt91Qapa@silver>
+References: <cover.1601655308.git.qemu_oss@crudebyte.com>
+ <0c54a2ca2049e9824df9805324cac8dac029c113.1601655308.git.qemu_oss@crudebyte.com>
+ <10015241.kaXt91Qapa@silver>
 MIME-Version: 1.0
-In-Reply-To: <569520f6-adf6-6212-9625-a184bf499e24@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/07 23:49:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.214,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 08:26:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,60 +67,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/8/20 5:02 PM, Paolo Bonzini wrote:
-> On 08/10/20 16:48, Claudio Fontana wrote:
->> on master, a build without tcg like:
->>
->> exec '../configure' '--disable-tcg' '--enable-kvm' '--enable-hax' "$@"
->>
->> make -j120 check
->> Generating qemu-version.h with a meson_exe.py custom command
->> make: *** No rule to make target 'qemu-system-aarch64', needed by 'check-block'.  Stop.
->> make: *** Waiting for unfinished jobs....
->>
->> qemu-system-aarch64 is required for check-block now?
+On Donnerstag, 8. Oktober 2020 14:26:28 CEST Christian Schoenebeck wrote:
+> On Freitag, 2. Oktober 2020 18:15:05 CEST Christian Schoenebeck wrote:
+> > Before running the first 9pfs test case, make sure the test directory
+> > for running the 9pfs 'local' tests on is entirely empty. For that
+> > reason simply delete the test directory (if any) before (re)creating
+> > it on test suite startup.
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> > 
+> >  tests/qtest/libqos/virtio-9p.c | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
+> > 
+> > diff --git a/tests/qtest/libqos/virtio-9p.c
+> > b/tests/qtest/libqos/virtio-9p.c index 1bada47af1..41a7c2baaa 100644
+> > --- a/tests/qtest/libqos/virtio-9p.c
+> > +++ b/tests/qtest/libqos/virtio-9p.c
+> > @@ -53,6 +53,18 @@ static void create_local_test_dir(void)
+> > 
+> >      g_assert((st.st_mode & S_IFMT) == S_IFDIR);
+> >  
+> >  }
+> > 
+> > +/* Deletes directory previously created by create_local_test_dir(). */
+> > +static void remove_local_test_dir(void)
+> > +{
+> > +    g_assert(local_test_path != NULL);
+> > +    char *cmd = g_strdup_printf("rm -r '%s'\n", local_test_path);
+> > +    int res = system(cmd);
+> > +    if (res < 0) {
+> > +        /* ignore error, dummy check to prevent compiler error */
+> > +    }
+> > +    g_free(cmd);
+> > +}
+> > +
+> > 
+> >  static void virtio_9p_cleanup(QVirtio9P *interface)
+> >  {
+> >  
+> >      qvirtqueue_cleanup(interface->vdev->bus, interface->vq, alloc);
+> > 
+> > @@ -220,6 +232,7 @@ static void virtio_9p_register_nodes(void)
+> > 
+> >      /* make sure test dir for the 'local' tests exists and is clean */
+> >      init_local_test_path();
+> > 
+> > +    remove_local_test_dir();
+> > 
+> >      create_local_test_dir();
+> >      
+> >      QPCIAddress addr = {
+> >      
+> >          .devfn = QPCI_DEVFN(4, 0),
+> >      
+> >      };
+> >      
+> >      QOSGraphEdgeOptions opts = {
+> >      
+> >          .before_cmd_line = "-fsdev synth,id=fsdev0",
+> >      
+> >      };
+> >      
+> >      /* virtio-9p-device */
+> >      opts.extra_device_opts = str_simple,
+> >      qos_node_create_driver("virtio-9p-device", virtio_9p_device_create);
+> >      qos_node_consumes("virtio-9p-device", "virtio-bus", &opts);
+> >      qos_node_produces("virtio-9p-device", "virtio");
+> >      qos_node_produces("virtio-9p-device", "virtio-9p");
+> >      
+> >      /* virtio-9p-pci */
+> >      opts.extra_device_opts = str_addr;
+> >      add_qpci_address(&opts, &addr);
+> >      qos_node_create_driver("virtio-9p-pci", virtio_9p_pci_create);
+> >      qos_node_consumes("virtio-9p-pci", "pci-bus", &opts);
+> >      qos_node_produces("virtio-9p-pci", "pci-device");
+> >      qos_node_produces("virtio-9p-pci", "virtio");
+> >      qos_node_produces("virtio-9p-pci", "virtio-9p");
+> > 
+> > }
+> > 
+> > libqos_init(virtio_9p_register_nodes);
 > 
-> No, it's not, it's an unnecessary dependency.  This will fix it:
+> I wonder why libqos is calling virtio_9p_register_nodes() again after all
+> qtests ended.
 > 
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 5aca98e60c..1ca70d88ce 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -140,7 +140,7 @@ QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXE
->  check: check-block
->  check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
->  		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
-> -		$(patsubst %-softmmu,qemu-system-%,$(filter %-softmmu,$(TARGET_DIRS)))
-> +		qemu-system-$(patsubst ppc64%,ppc64, $(shell uname -m))
->  	@$<
->  endif
->  
+> That's somewhat suboptimal here, as it causes remove_local_test_dir() to be
+> called again after all qtests completed. My intention was actually only to
+> wipe the "qtest-9p-local" test directory at the *start* of the test suite
+> run. Not at the end of the test suite. Because it would allow developers to
+> look at the actual dirs/files created after the tests completed.
 > 
-> 
+> I could of course misuse and add a dedicated "wipedir" test as workaround,
+> but that OTOH would break the option of running individual tests with the
+> -p CL switch.
 
-thanks this works!
+I probably leave that issue unfixed for now.
 
->> If I run without -j:
->>
->> Running test qtest-i386: qmp-cmd-test
->> Broken pipe
->> ../tests/qtest/libqtest.c:175: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
->> ERROR qtest-i386: qmp-cmd-test - too few tests run (expected 53, got 45)
->> make: *** [Makefile.mtest:1074: run-test-151] Error 1
-> 
-> This one is different and I've never seen it.
+There seems to be no easy way to fix this, as libqos does not having something 
+like "run this function once per test suite run", and due to the multi process 
+approach a static variable hack would not be viable either.
 
-This one seems an additional, non-tcg build only error, will update when I have more details.
+Fortunately though, if a test case fails virtio_9p_register_nodes() would not 
+be called again, so at least in case of failures the test dir is note wiped.
 
-> 
-> Paolo
-> 
+So I don't think it's worth to drill another hole into libqos just for this.
 
-Ciao,
+Best regards,
+Christian Schoenebeck
 
-Claudio
+
 
