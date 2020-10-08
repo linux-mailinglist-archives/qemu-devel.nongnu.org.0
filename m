@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B182870BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:32:43 +0200 (CEST)
-Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB9A2870C3
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 10:34:42 +0200 (CEST)
+Received: from localhost ([::1]:35046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQRLu-0008NP-GB
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:32:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
+	id 1kQRNp-0002Yc-CA
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 04:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRK3-0007HK-85
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:30:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42511)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRK3-0007Hl-WA
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:30:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRK1-0006NH-6f
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:30:46 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kQRK0-0006NI-Rs
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 04:30:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602145842;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FTmMH04fqsaRqzPsj6E9qcOHdzljqjQWvgI/t4Jka8M=;
- b=fHOHFTUyf1aFdO64/0FYHENOItV2NP24o/ronoiJhbLvnHqooLI7mpiCDenkKbgx5L9vU/
- WTuJHbAcjnB59FGqSKg90fso1DoYTKre60bPU/+HQXgPHm/iqsWMONXK4swi9fkKqHtEVT
- p776Cp9zdblTlQrbOzbLNucW/vlWE40=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t6zqV+AyAhTSGtPn5qMdrNUSsD5BWWFvlLdrBa+5zcU=;
+ b=Vb9k9Rq3uR79igiB2P/o9MUW9B8pHdMoJb2b+iXt1EWAKWT2wtwxTpHB3JPCJVppYEskxs
+ 97ZIvRLeJYsRA9ycKZ5x9tN29/Ss05AtgOEEXPoTS4g+177X9dxJ7eicCUd7TJToIpLshB
+ nw1pwdVhc2cPPxkq6+8nJU8MTQ603hM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-ed-w1e0TNF2wHG0n_4DgyQ-1; Thu, 08 Oct 2020 04:30:39 -0400
-X-MC-Unique: ed-w1e0TNF2wHG0n_4DgyQ-1
+ us-mta-246-byP_qzlFOuKhRlwbuh-k6w-1; Thu, 08 Oct 2020 04:30:41 -0400
+X-MC-Unique: byP_qzlFOuKhRlwbuh-k6w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1125B101FFA2;
- Thu,  8 Oct 2020 08:30:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA345101FFA7;
+ Thu,  8 Oct 2020 08:30:39 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2D645C1BD;
- Thu,  8 Oct 2020 08:30:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65AC75C1C2;
+ Thu,  8 Oct 2020 08:30:38 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/6] virtio-mem: block size and address-assignment
- optimizations
-Date: Thu,  8 Oct 2020 10:30:23 +0200
-Message-Id: <20201008083029.9504-1-david@redhat.com>
+Subject: [PATCH v3 1/6] virtio-mem: Make sure "addr" is always multiples of
+ the block size
+Date: Thu,  8 Oct 2020 10:30:24 +0200
+Message-Id: <20201008083029.9504-2-david@redhat.com>
+In-Reply-To: <20201008083029.9504-1-david@redhat.com>
+References: <20201008083029.9504-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
@@ -78,69 +81,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The spec states:
+  "The device MUST set addr, region_size, usable_region_size, plugged_size,
+   requested_size to multiples of block_size."
 
+In some cases, we currently don't guarantee that for "addr": For example,
+when starting a VM with 4 GiB boot memory and a virtio-mem device with a
+block size of 2 GiB, "memaddr"/"addr" will be auto-assigned to
+0x140000000 (5 GiB).
 
-Let's try to detect the actual THP size and use it as default block size
-(unless the page size of the backend indicates that THP don't apply).
-Always allow to set a block size of 1 MiB, but warn if the configured block
-size is smaller than the default. Handle large block sizes better, avoiding
-a virtio-spec violation and optimizing address auto-detection.
+We'll try to improve auto-assignment for memory devices next, to avoid
+bailing out in case memory device code selects a bad address.
 
-For existing setups (x86-64), the default block size won't change (was, and
-will be 2 MiB on anonymous memory). For existing x86-64 setups, the address
-auto-detection won't change in relevant setups (esp., anonymous memory
-and hugetlbfs with 2 MiB pages and no manual configuration of the block
-size). I don't see the need for compatibility handling (especially, as
-virtio-mem is still not considered production-ready).
+Note: The Linux driver doesn't support such big block sizes yet.
 
-Most of this is a preparation for future architectures, using hugetlbfs
-to full extend, and using manually configured, larger block sizes
-(relevant for vfio in the future).
+Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Fixes: 910b25766b33 ("virtio-mem: Paravirtualized memory hot(un)plug")
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Wei Yang <richardw.yang@linux.intel.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/virtio/virtio-mem.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-v1 -> v2:
-- Reordered patches to have fixes upfront
-- Tweaked some patch descriptions
-- "virtio-mem: Check that "memaddr" is multiples of the block size"
--- Renamed to "virtio-mem: Make sure "addr" is always multiples of the
-   block size"
-- "virtio-mem: Make sure "usable_region_size" is always multiples of the
-   block size"
--- Added
-
-v1 -> v2:
-- Tweak some patch descriptions
-- "virtio-mem: Probe THP size to determine default block size"
--- Beautify THP detection a bit.
--- Assume THP might only get used if the memory backend page size corresponds
-   to the real hostpage size.
--- Use virtio_mem_default_block_size(RAMBlock *rb) to handle selection
-   of the default block size for a RAMBlock.
--- Implement virtio_mem_get_block_size() as preparation for patch #5
-- "memory-device: Add get_min_alignment() callback"
--- Simplify documentation.
-- "virito-mem: Implement get_min_alignment()"
--- Simplify due to changes in patch #1.
-
-David Hildenbrand (6):
-  virtio-mem: Make sure "addr" is always multiples of the block size
-  virtio-mem: Make sure "usable_region_size" is always multiples of the
-    block size
-  virtio-mem: Probe THP size to determine default block size
-  memory-device: Support big alignment requirements
-  memory-device: Add get_min_alignment() callback
-  virito-mem: Implement get_min_alignment()
-
- hw/mem/memory-device.c         |  20 ++++--
- hw/virtio/virtio-mem-pci.c     |   7 ++
- hw/virtio/virtio-mem.c         | 113 +++++++++++++++++++++++++++++++--
- include/hw/mem/memory-device.h |  10 +++
- 4 files changed, 140 insertions(+), 10 deletions(-)
-
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 7c8ca9f28b..70200b4eac 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -449,6 +449,11 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+                    ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
+                    VIRTIO_MEM_BLOCK_SIZE_PROP, vmem->block_size);
+         return;
++    } else if (!QEMU_IS_ALIGNED(vmem->addr, vmem->block_size)) {
++        error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
++                   ")", VIRTIO_MEM_ADDR_PROP, VIRTIO_MEM_BLOCK_SIZE_PROP,
++                   vmem->block_size);
++        return;
+     } else if (!QEMU_IS_ALIGNED(memory_region_size(&vmem->memdev->mr),
+                                 vmem->block_size)) {
+         error_setg(errp, "'%s' property memdev size has to be multiples of"
 -- 
 2.26.2
 
