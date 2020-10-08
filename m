@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B954B28705B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 09:58:24 +0200 (CEST)
-Received: from localhost ([::1]:37446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E5928705F
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 09:58:57 +0200 (CEST)
+Received: from localhost ([::1]:39856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQQoh-0006Gh-Qi
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 03:58:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36120)
+	id 1kQQpE-0007G4-7V
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 03:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQQnK-0005YJ-Fr
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 03:56:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55943)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kQQnv-00069e-1i
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 03:57:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQQnH-0001eG-FQ
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 03:56:58 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kQQnt-0001id-G1
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 03:57:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602143814;
+ s=mimecast20190719; t=1602143852;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/tgFYYn0xylUARznVgI294k0oqH9AsmHLrx6KUieeBg=;
- b=K5wtk+oVNqFugQgsmkDya1hQGRz48leCLnT/MQQrbvH0J2Ex/b/OYpRiLRQnktMxdvBIe6
- aoMTxYbyRHJsCV9x7JwVo6Tu+0/f5yEV6g+CfpkLDjmLUc4KLyHeC260/2HzMTGJb1b7jC
- 4FKIVj8YO8j4mNWsmafOEjZXfueCsn4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-lMP9tlv-Pd2XEnuXaBQA_w-1; Thu, 08 Oct 2020 03:56:53 -0400
-X-MC-Unique: lMP9tlv-Pd2XEnuXaBQA_w-1
-Received: by mail-wr1-f72.google.com with SMTP id v5so3579325wrr.0
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 00:56:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/tgFYYn0xylUARznVgI294k0oqH9AsmHLrx6KUieeBg=;
- b=rF73rQKt4PHiOMISNKJLNSUHvOiTvSnjIEWjHhaujgpdlxVJ0uX08Hqe7n9ez7jcW9
- 6ApltkUkDaCWoPBPPlnT/pDhqHdAkobrsnORcBZrm01t+Yd1hYm5o4SdX1KVDZH1CN5e
- i4Al6EipHCHL7m8oWQJ2AHm1KeDSb1JGb+wh9Erbav/vZsp/YyWSsuYtGKmE1YpnzKgY
- Julu1cQQYd8z60wPZWF0f2oDrOTwYt3X200IBSi2cbjkyqL9+zKDUno5vPbWX96PAtIR
- FF69FGUbprVfOwsEOTgtbmltftEEvZKjlqndKZ/sFMqngTtQEtSLUV73BUkK7nb67lnA
- nYmQ==
-X-Gm-Message-State: AOAM5338MPFcMvODxJPDVTNXmnnj1S53GbNtGpVI5OqXu2/KpUlJNazo
- KaLWWi3orGymK7nCcpziGGuyQGfNGnH7ALPAR/2IC1u7C4Pw0YKRDH/EPyVI6tnodRsMvEPeerH
- yjOjpI+/6B6Q3nCA=
-X-Received: by 2002:adf:f191:: with SMTP id h17mr6312822wro.73.1602143811687; 
- Thu, 08 Oct 2020 00:56:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxmsun2k8s0gOXjO2YXJL2ECZlBT55WwfnJNHfpW59akidOIy/jFUTBeg2SQ7nZKCJxST7tKQ==
-X-Received: by 2002:adf:f191:: with SMTP id h17mr6312802wro.73.1602143811463; 
- Thu, 08 Oct 2020 00:56:51 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:bb8c:429c:6de1:f4ec?
- ([2001:b07:6468:f312:bb8c:429c:6de1:f4ec])
- by smtp.gmail.com with ESMTPSA id c16sm6372311wrx.31.2020.10.08.00.56.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Oct 2020 00:56:50 -0700 (PDT)
-Subject: Re: [PATCH 2/2] exec: split out non-softmmu-specific parts
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
-References: <20201006091922.331832-1-pbonzini@redhat.com>
- <20201006091922.331832-3-pbonzini@redhat.com>
- <cb553da1-9cd1-1933-d678-8580a3c0d8f3@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <027d0f5c-d5c4-911b-b349-f63895fc164d@redhat.com>
-Date: Thu, 8 Oct 2020 09:56:49 +0200
+ bh=jY/me8RecKqxHYw7vq1NTViBU6rH0MTw53W0jHT7OFw=;
+ b=NHj5thLAeijrP5PvHSbQ5YviOI3IiCiJwSjWXOlPhApzDWZ0VImEh7GvdEaWpJllfx8hjO
+ +npCEVLgE20ETN+ED38fvwyySPcI0rnIAd343320ogCVhXoXQkkggtcjnCnSzJXf77u6CM
+ 9nRD0UACb5RXK8HzEJfYx87MlrvTz/E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-kHWoJH0bP4G4C6OEgcHt2g-1; Thu, 08 Oct 2020 03:57:29 -0400
+X-MC-Unique: kHWoJH0bP4G4C6OEgcHt2g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE6441018F83;
+ Thu,  8 Oct 2020 07:57:27 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-40.ams2.redhat.com [10.36.113.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 38D035DA2A;
+ Thu,  8 Oct 2020 07:57:21 +0000 (UTC)
+Subject: Re: [PATCH] Fixing LGPL version number
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Chetan Pant <chetan4windows@gmail.com>, qemu-trivial@nongnu.org
+References: <20201008060528.68579-1-chetan4windows@gmail.com>
+ <df199cc8-c383-ed03-6244-7a204e92397b@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <ba4f81dd-8e5c-1d50-311c-fdc41f9cc504@redhat.com>
+Date: Thu, 8 Oct 2020 09:57:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <cb553da1-9cd1-1933-d678-8580a3c0d8f3@suse.de>
+In-Reply-To: <df199cc8-c383-ed03-6244-7a204e92397b@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 02:56:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -90,7 +71,7 @@ X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,47 +84,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/10/20 09:47, Claudio Fontana wrote:
-> On 10/6/20 11:19 AM, Paolo Bonzini wrote:
->> Over the years, most parts of exec.c that were not specific to softmmu
->> have been moved to accel/tcg; what's left is mostly the low-level part
->> of the memory API, which includes RAMBlock and AddressSpaceDispatch.
->> However exec.c also hosts 4-500 lines of code for the target specific
->> parts of the CPU QOM object, plus a few functions for user-mode
->> emulation that do not have a better place (they are not TCG-specific so
->> accel/tcg/user-exec.c is not a good place either).
->>
->> Move these parts to a new file, so that exec.c can be moved to
->> softmmu/physmem.c.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 08/10/2020 09.54, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
-> Hi Paolo,
+> On 10/8/20 8:05 AM, Chetan Pant wrote:
+>> There is no "version 2" of the "Lesser" General Public License. It is
+>> either "GPL version 2.0" or "LGPL version 2.1". This patch replaces all
+>> occurrences of "LGPL version 2" with "LGPL version 2.1" in comment section.
 > 
-> the comment does not talk about cpu.c, which is now created in the top source directory.
-> What is the role of this new module?
-
-It's actually in the commit message: "4-500 lines of code for the target
-specific parts of the CPU QOM object, plus a few functions for user-mode
-emulation that do not have a better place".
-
-It's basically sitting between hw/core/cpu.c and target/*/cpu.c.  Hence
-the non-descriptive name. :)
-
-> Also, could we find a more descriptive file name than cpu.c?
-> Do you plan further renaming of this new module functions?
+> This looks like a good cleanup!
 > 
-> Or its this basically a "leftovers" file for which we did not find a proper role yet?
+> Since you already listed all the files using this license,
+> it can be a good opportunity to correct and use the full
+> license text (which is miswritten in various places):
+> 
+> ---
+> 
+>  Copyright (C) <year> <name of author>
+> 
+> This library is free software; you can redistribute it and/or modify it
+> under the terms of the GNU Lesser General Public License as published by
+> the Free Software Foundation; either version 2.1 of the License, or (at
+> your option) any later version.
+> 
+> This library is distributed in the hope that it will be useful, but
+> WITHOUT ANY WARRANTY; without even the implied warranty of
+> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+> General Public License for more details.
+> 
+> You should have received a copy of the GNU Lesser General Public License
+> along with this library; if not, write to the Free Software Foundation,
+> Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-The user-mode parts are, but most of it is implementing the QOM CPU
-object.  We can move those functions to hw/core/cpu.c and make that file
-target-dependent, I wouldn't object to that.  But since there are some
-opportunities for simplification, I'd rather do that in a separate patch
-and keep the pure code-movement in this one.
+Please don't use that version. If the FSF move to another office again, we
+have to update the whole mess again.
 
-Paolo
+> Or simpler, add the SPDX identifier tag:
+> 
+>   SPDX-License-Identifier: LGPL-2.1-or-later
+
+SPDX tags would be cool, of course, but it could also be done in a separate
+patch later.
+
+ Thomas
 
 
