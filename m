@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA0B2927E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 15:06:37 +0200 (CEST)
-Received: from localhost ([::1]:54888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3750F28FA66
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 23:07:40 +0200 (CEST)
+Received: from localhost ([::1]:40586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUUs1-0001kB-1X
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 09:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35966)
+	id 1kTATL-0006ns-9l
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 17:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e55b178b5e139fc1b951ac8f56e48db716909006@lizzy.crudebyte.com>)
- id 1kUUij-0001Qb-1R
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:57:01 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43641)
+ (envelope-from <ccab9ba783b738793b7d3c67d84fb6e6ce28757c@lizzy.crudebyte.com>)
+ id 1kTARl-00058b-T1
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:06:02 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:53509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e55b178b5e139fc1b951ac8f56e48db716909006@lizzy.crudebyte.com>)
- id 1kUUig-0001EQ-PM
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:57:00 -0400
+ (envelope-from <ccab9ba783b738793b7d3c67d84fb6e6ce28757c@lizzy.crudebyte.com>)
+ id 1kTARj-0007rE-RG
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:06:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=M1h+8JuW+VSud8WRZ5tHr7+ecRGCn44dlLdNtw0kNQU=; b=olYVL
- 44tScUrBK9DElAsAGR4zIuCeAACI8WyVoyKL2pWn3K4lbwKWvTt4co5DGEq+YEvufQlnA73jbUrZD
- t7H/YhlnIgpgwpV2NR81YaS6xqwjy40mFxbDAQIK8XNCnmn46wnQ6GmvBC4LAIJmRX1kI0hYmNUIL
- NMGCEJtAMUaUs40P2sjoDIkJri6OMXtCd+NXjyh8srptqnWJ98Os23/15eqO8dJpannND3PgcEsNM
- QUExVwdc3Ne540up4ez0GioioCFllzQlM2XXn5wev0ocEDfpjaKrqG7SvA1c4ZTecl5YbUIisLHgW
- YXCTJ7AhhX6XV4i/wXJX+tF+05UVg==;
-Message-Id: <e55b178b5e139fc1b951ac8f56e48db716909006.1603111175.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1603111175.git.qemu_oss@crudebyte.com>
-References: <cover.1603111175.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=LBqY2tnnZKXgYG95EKIKRIwOqV1lV4Ng2MCnhZpaEnQ=; b=mzht/
+ 7bN8+mSd4MyjHqsOIoue5i97zGsFOJA+fHRphP3wPN6ICI9gzrHG6DVx/JRgwQuAi7kvOEFHcvXng
+ t1NEcMI4x9l1LyBHAVSAWoFZ11Oen1lNNbgy6tcYwx46XdSY0VBWHU436vzvPP12os0UZkG/15ne3
+ VUIhiYZNba2N9JZmn+FAanqJUaFKgJmJ4wcs2pkulGXtsQhLO0i+40mXosKFZo2WlcnRnIq/YD3g8
+ wEb+SnGE3ZTF5YjOK1zABlCTlocycaNU3SejmD0FBtg9gTrr/c/qdzwL+uZiffxRTh9DCxFjbOji7
+ TVS9gtSkb4iNKW1MVyki9uYQRpmbw==;
+Message-Id: <ccab9ba783b738793b7d3c67d84fb6e6ce28757c.1602771296.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1602771296.git.qemu_oss@crudebyte.com>
+References: <cover.1602771296.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 8 Oct 2020 20:34:56 +0200
-Subject: [PULL v3 5/6] tests/9pfs: add virtio_9p_test_path()
+Subject: [PULL 4/5] tests/9pfs: add virtio_9p_test_path()
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=e55b178b5e139fc1b951ac8f56e48db716909006@lizzy.crudebyte.com;
+ envelope-from=ccab9ba783b738793b7d3c67d84fb6e6ce28757c@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 06:27:23
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 17:04:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: 13
 X-Spam_score: 1.3
@@ -79,7 +79,7 @@ Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
  2 files changed, 11 insertions(+)
 
 diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index 8ee2a134bc..d43647b3b7 100644
+index bd53498041..1524982634 100644
 --- a/tests/qtest/libqos/virtio-9p.c
 +++ b/tests/qtest/libqos/virtio-9p.c
 @@ -65,6 +65,12 @@ static void remove_local_test_dir(void)
