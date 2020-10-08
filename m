@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00AB2874F4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:09:46 +0200 (CEST)
-Received: from localhost ([::1]:45720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C052874FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Oct 2020 15:12:18 +0200 (CEST)
+Received: from localhost ([::1]:52054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQVg1-0000lj-ME
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46250)
+	id 1kQViT-0003Vw-V3
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 09:12:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQVWS-0006Ne-I4
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:59:52 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:39758)
+ id 1kQVY4-0007ws-Bu
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:01:33 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:36765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQVWG-0002FF-CL
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 08:59:51 -0400
-Received: by mail-ej1-x643.google.com with SMTP id lw21so7971736ejb.6
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 05:59:39 -0700 (PDT)
+ id 1kQVXz-0002Za-37
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 09:01:32 -0400
+Received: by mail-ed1-x543.google.com with SMTP id l16so5748366eds.3
+ for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 06:01:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OGY/uIp2EDPhm6ZC96lZgvI3+mtwjY2iX53QRwnCPxY=;
- b=muqzXu2+kq4+YjZIs2kroXkbvrqVObe4XtuZp5AfdTUM4zh3xdepJId80zkZEhB3T4
- PSB6SUMZ6ZvTbHHKDHgHgh8NyWFQuUR+TfJLvweI33wby20MLg6pkdqdRxz98KUnGc1n
- sKavpN98NG9ZhWXiSPxnt/iVs0zpGwkbRVqj1WYvZc8Y7QxYeCZucqxdjcgFh1QakkBR
- rljuXZCbzQUoyXqZypl48CBDFry4/0b6KtnrU5xxTfQDNuPNd/hyOaThTppkDxWEc3pc
- hF+Gf8OgFDFVvNc7matcjWO5hWayT/N/Ejq4zPjKgY+6ohiFaekOZfqqEc9NEsy1MOJy
- Zp2A==
+ :cc; bh=gtCY0H0tDDkagqZGl/vsnIabsWlIPf7O8k8VgvISuf8=;
+ b=Tf22zBFr87pkjIFAFKhNWRxi8mcbvUV7F+I70KvjtGCsytn4XKlPHl70kpo8ybFbtd
+ oTRGbH66k8djj53fFVaj1ArS2jC5l3JQFCZqy6feMfMfDS94CSyaia4yxmdHd68o2vH5
+ tzs578mPc2eaydlvAoP2A5lXcP69GYi1OpMyugmT80u0ev6zm+7OHYxAfzvWZ7Wb5gwj
+ kpvYfOFmMouL88E9A8S+KPrYaW1Dnqb1vkkwi3YDpuruYgWjCi9sVFmyPNNfzqTXMuQp
+ 93A69BAADjCRdsN0VwVMaoqd0WqDZfR7d2BWozY1AIIHnASo7Q52dTo8PuxUh/qfFLy6
+ VfNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OGY/uIp2EDPhm6ZC96lZgvI3+mtwjY2iX53QRwnCPxY=;
- b=ilHycrRL/X9SXkAU4Q63V2q5U40JnJPdZuFwOR7UZDO89innCbwmOAhaOyvwzpGQyG
- vCLGlwcyGhIaqcnAnYHgy7yisqMJzWpmqZOyXo+f9czrlxfoL7EFlSOxd1EgEev0dntK
- uTqOYmIEepod6PcKZDP7TLU+NjWkp4GO8m6jEZYrG0XNX8jD00KQJfWD2uQWPmEdxaHK
- +sV+pNLvUVbHCPDMMJIFHCU/3fR+7nRq64yWinzTOGg0cWThO9Wm1G9COSheSHKvable
- /immefe0bkpMORTRcUC3J26XzqbjWYwE4tYWYlZ9nd9WzoMJjG/b4adDG/a+HsZZQoDc
- WQ/g==
-X-Gm-Message-State: AOAM531NZZadRvpWTCQo65DSyVBW7asPx7bYuaiROOFbiNIOAsNFEAyj
- k8+MMC7CmnxuKOPIOcz1pFvp/6Ii6QRF8qoqbHpv3w==
-X-Google-Smtp-Source: ABdhPJz3AW/zWW8rw9qHFR15rAMB+LySpjAsC8NGgNETyC7TM6djxlZ4Xa3g4ZE1xON9GIZ2XZIJ7Z7wmHtgryNwrKI=
-X-Received: by 2002:a17:907:4365:: with SMTP id
- nd5mr8867865ejb.56.1602161978581; 
- Thu, 08 Oct 2020 05:59:38 -0700 (PDT)
+ bh=gtCY0H0tDDkagqZGl/vsnIabsWlIPf7O8k8VgvISuf8=;
+ b=kbC/NvWHMR4pkEvBd/BbvJvmaqxsx0R9hUFcZWwu5DNHScySMA3J+Toe53oPey91L2
+ rEuRn/QGoQKvKOAER4D99fw2Ys0O59BxpjUXjP8aLdq0tR4f01KGYPNXMz0fPcw0lBDG
+ Rg3CkMHNP6tii9yjvWcEPJ9QB8/1dplppOdToucuE+j9PAkpy1QBTkgcrJb5wtsAHXAu
+ ZAggEA9g2w8N2acZ0TiXxdSQ1qw/V50ML4FUR3RBndMD9aWgCHehXyB5e8UDYiKZou8o
+ 7x+/g0652A0tEFkbbxS66DFMJ6IRaQVKLmFcMid6EsEt3WqBiV8FHXyWK/7/sJGsDxom
+ ZRXw==
+X-Gm-Message-State: AOAM533lCV15dXMGgKcuVWKo4lTd5RJxhSD3fajdoqJ7A/yZrNXktZVf
+ qMmNsplLgrlhIVl/8Q3jPWpm1SP09HnzVTsRBv1LgA==
+X-Google-Smtp-Source: ABdhPJxlb+ybGJgK1sO6DggPgMWtwbMbRiXQBpdKsYBWjXN6u5lx+HT3lv/A/hb4gY7muR2CU6JlUA4zEDgrGQvyq40=
+X-Received: by 2002:a50:e68a:: with SMTP id z10mr9145545edm.100.1602162082163; 
+ Thu, 08 Oct 2020 06:01:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201001170752.82063-1-richard.henderson@linaro.org>
- <20201001170752.82063-3-richard.henderson@linaro.org>
-In-Reply-To: <20201001170752.82063-3-richard.henderson@linaro.org>
+References: <20201001061718.101915-1-drjones@redhat.com>
+In-Reply-To: <20201001061718.101915-1-drjones@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Oct 2020 13:59:27 +0100
-Message-ID: <CAFEAcA8pgsS8rKaSZcs3Dq5yGepV7h2v4AOtRrRMAAkPbNGezQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/2] target/arm: Use tlb_flush_page_bits_by_mmuidx*
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 8 Oct 2020 14:01:11 +0100
+Message-ID: <CAFEAcA-KntvrdrxL33CdxAt2gPyxF=EuQ_iGsLK4NvSNyNrZvg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] hw/arm/virt: Introduce kvm-steal-time
+To: Andrew Jones <drjones@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,27 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jordan Frank <jordanfrank@fb.com>, qemu-arm <qemu-arm@nongnu.org>,
+Cc: Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 1 Oct 2020 at 18:08, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 1 Oct 2020 at 07:17, Andrew Jones <drjones@redhat.com> wrote:
 >
-> When TBI is enabled in a given regime, 56 bits of the address
-> are significant and we need to clear out any other matching
-> virtual addresses with differing tags.
+> v4:
+>   - Rebased to latest master
+>   - Added an official linux header synch patch, replacing the
+>     hack patch used in v3
+>   - Added a patch to restore the arm-cpu-features test for AArch64
+>     that got lost in the meson shuffle
+>   - Added Eric's R-b's
 >
-> The other uses of tlb_flush_page (without mmuidx) in this file
-> are only used by aarch32 mode.
+> v3:
+>   - Rebased: 5.2 machine type and kvm32 drop now included
+>   - Switched to using new KVM cap that has been merged upstream
+>   - Picked up some r-b's and some of Eric's comments from v2
 >
-> Fixes: 38d931687fa1
-> Reported-by: Jordan Frank <jordanfrank@fb.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727588.html
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
+
+Applied to target-arm.next, thanks.
+
 -- PMM
 
