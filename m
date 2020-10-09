@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA004288326
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:00:53 +0200 (CEST)
-Received: from localhost ([::1]:57026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E73288339
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:07:41 +0200 (CEST)
+Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQmOZ-0006Kx-NS
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:00:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56884)
+	id 1kQmVA-0006Tm-3s
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDF-00008I-CD
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44726)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDH-00009x-8S
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDC-0001Zh-CF
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDE-0001aC-PB
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602226143;
+ s=mimecast20190719; t=1602226147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=fSOz6XF4Imbu1oaMRGmSndDOX/5VPBYGRJHWpX9x1DI=;
- b=UNPcE01p8wB56mO+SJZggTSuXDkkYm2TglWRJJIvHPuTepgimqKlmH61nciBJ5TDiDuMDv
- OGx8WaFQkxLPANh7fBhBX5xgavezuR47+Y0R85Epv8gOdginpGFoNxNJgrMGj6Qtdr3l5T
- sn238VRB1pIP7aaDSvF7WFYZhpcO1fc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jnQ1XXBShemBdeQxqX+TEAIgc/npcLrb5M/nVdh5n5o=;
+ b=OXN35m29OeXWFh+kWXlnnUifemyre/1VzHz800X1HAoW4j0FqFqTW7w4DCf8EICZkRw3oj
+ 0kixNxxfoIKZVB08kNALEpiSBG4xFKhrp4gHzaXgQS4X3SHA7S8lSi4cUEQTdXJ7OJ+YSE
+ +MWe9bISIQnQeM23qjCGuwMvZIIfVlw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-8IVd4hoyNzWG8F2gE8YYig-1; Fri, 09 Oct 2020 02:49:01 -0400
-X-MC-Unique: 8IVd4hoyNzWG8F2gE8YYig-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-543-WTUU5pOoM0OgTeL0BYdQPA-1; Fri, 09 Oct 2020 02:49:04 -0400
+X-MC-Unique: WTUU5pOoM0OgTeL0BYdQPA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 490C587950B;
- Fri,  9 Oct 2020 06:49:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82D0A1018F83;
+ Fri,  9 Oct 2020 06:49:03 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A68160BFA;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E60519481;
  Fri,  9 Oct 2020 06:49:00 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8FA1E112CE10; Fri,  9 Oct 2020 08:48:58 +0200 (CEST)
+ id 943F8112CE12; Fri,  9 Oct 2020 08:48:58 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Error reporting patches for 2020-10-09
-Date: Fri,  9 Oct 2020 08:48:56 +0200
-Message-Id: <20201009064858.323624-1-armbru@redhat.com>
+Subject: [PULL 1/2] error: Remove NULL checks on error_propagate() calls
+ (again)
+Date: Fri,  9 Oct 2020 08:48:57 +0200
+Message-Id: <20201009064858.323624-2-armbru@redhat.com>
+In-Reply-To: <20201009064858.323624-1-armbru@redhat.com>
+References: <20201009064858.323624-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,38 +82,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Jens Freimann <jfreimann@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 497d415d76b9f59fcae27f22df1ca2c3fa4df64e:
+Patch created mechanically by rerunning:
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20201008-1' into staging (2020-10-08 21:41:20 +0100)
+    $ spatch --sp-file scripts/coccinelle/error_propagate_null.cocci \
+             --macro-file scripts/cocci-macro-file.h \
+             --use-gitgrep .
 
-are available in the Git repository at:
+Cc: Jens Freimann <jfreimann@redhat.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20200722084048.1726105-4-armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ hw/net/virtio-net.c   | 8 ++------
+ migration/colo.c      | 4 +---
+ migration/migration.c | 8 ++------
+ 3 files changed, 5 insertions(+), 15 deletions(-)
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-error-2020-10-09
-
-for you to fetch changes up to 805d44961b9015716cc13c1d3e49457af3970d82:
-
-  error: Use error_fatal to simplify obvious fatal errors (again) (2020-10-09 08:36:23 +0200)
-
-----------------------------------------------------------------
-Error reporting patches for 2020-10-09
-
-----------------------------------------------------------------
-Markus Armbruster (2):
-      error: Remove NULL checks on error_propagate() calls (again)
-      error: Use error_fatal to simplify obvious fatal errors (again)
-
- exec.c                     | 11 +++--------
- hw/net/virtio-net.c        |  8 ++------
- hw/s390x/s390-virtio-ccw.c |  7 +------
- hw/virtio/vhost.c          | 10 +++-------
- migration/colo.c           |  4 +---
- migration/migration.c      |  8 ++------
- 6 files changed, 12 insertions(+), 36 deletions(-)
-
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 7bf27b9db7..a160a9da9c 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -817,9 +817,7 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
+             "sure primary device has parameter"
+             " failover_pair_id=<virtio-net-id>\n");
+ }
+-    if (err) {
+-        error_propagate(errp, err);
+-    }
++    error_propagate(errp, err);
+ }
+ 
+ static int is_my_primary(void *opaque, QemuOpts *opts, Error **errp)
+@@ -873,9 +871,7 @@ static DeviceState *virtio_connect_failover_devices(VirtIONet *n,
+         n->primary_device_id = g_strdup(prim_dev->id);
+         n->primary_device_opts = prim_dev->opts;
+     } else {
+-        if (err) {
+-            error_propagate(errp, err);
+-        }
++        error_propagate(errp, err);
+     }
+ 
+     return prim_dev;
+diff --git a/migration/colo.c b/migration/colo.c
+index 80788d46b5..3f1d3dfd95 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -798,9 +798,7 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+ 
+     colo_send_message(mis->to_src_file, COLO_MESSAGE_VMSTATE_LOADED,
+                  &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-    }
++    error_propagate(errp, local_err);
+ }
+ 
+ static void colo_wait_handle_message(MigrationIncomingState *mis,
+diff --git a/migration/migration.c b/migration/migration.c
+index aca7fdcd0b..0575ecb379 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -623,9 +623,7 @@ void migration_fd_process_incoming(QEMUFile *f, Error **errp)
+     }
+ 
+     if (migration_incoming_setup(f, &local_err)) {
+-        if (local_err) {
+-            error_propagate(errp, local_err);
+-        }
++        error_propagate(errp, local_err);
+         return;
+     }
+     migration_incoming_process();
+@@ -647,9 +645,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+         }
+ 
+         if (migration_incoming_setup(f, &local_err)) {
+-            if (local_err) {
+-                error_propagate(errp, local_err);
+-            }
++            error_propagate(errp, local_err);
+             return;
+         }
+ 
 -- 
 2.26.2
 
