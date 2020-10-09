@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35317288C8F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 17:28:13 +0200 (CEST)
-Received: from localhost ([::1]:41830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9267A288C9E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 17:31:27 +0200 (CEST)
+Received: from localhost ([::1]:49780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQuJY-0005J1-0E
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 11:28:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51260)
+	id 1kQuMe-0000AE-Ij
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 11:31:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQuHC-00032I-MW
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:25:46 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46418)
+ id 1kQuL9-0007Bp-Oy
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:29:52 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQuHA-0005UE-I8
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:25:46 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n6so10422060wrm.13
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 08:25:44 -0700 (PDT)
+ id 1kQuL6-0005vW-OS
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:29:51 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f21so10219757wml.3
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 08:29:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oLmpc8phkt8TfYjheqEATKdDv9YxbDnhtUrYNgM8bhc=;
- b=YKil2ma5yq1r9Xf+0TZm6lDQDM+WDFcaIlpuL1TJfiQ5WINJ1DcoWxqugVDJoAMwyI
- JZHwpaJIP+bG/xj7ijc9rYVdslV2u6K9c1UwPBuk/x6FaTH2JrLyj1yMtNar3vRVs8R9
- oTzloAcISEQieaPU0mBhF4YaNoKwCXkrb+MFjr8QQyMiWpi6SU0opLDsHIcrDkUUNsY6
- FxLOErf+S/ZJZGqj3g79cjf4GQirBmsjDS5zy9sj/yq3/PxRlFCsJtwtuAWI42LsNpp/
- UdoRRmGUisN71S8RLpRbwbCbdm+ulfaOlkWBCfXMHNSjOVu8nnO5O0sSOvJ/yTWHG4eK
- ALgA==
+ bh=zGSnkxFwUCC85DbHw70Gn9uGnGE12ESGX+8RM8MsmJs=;
+ b=XlWKXcMwLq0o0piPYPknkJw5QgXJd8s65D67Zadv3LBqRC7St4CriLbMlqqo6LxJlS
+ EBGPAlkp1ZukLlz3jYJ+b+6WuJXgT2o3y7LN3YFh9hpTxBLIVvll8o/w1exm336SdgEl
+ oRI0uUfYedvzxUGo44dDuliDjjYDhPPVkb37pzhHCOrmrH+tHTDJOGUtTtVK3zZFJOul
+ EjOl/aRgGqzBtzWyWA8aG2f9fqrnzfh3sw0ERIEKNUpGTNNqg4ZKxdaRUCwYcSt8gU26
+ +mLMASlanLFE/eMSdAn2MULQQIRVC9yKDPORHzNFQnsxH90IyGQDc9VIh4y1+r4FpI9K
+ nKbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oLmpc8phkt8TfYjheqEATKdDv9YxbDnhtUrYNgM8bhc=;
- b=SpLwCJamVjbwOeCZMBxqdlRZ2976mNmNQqavgM/4XLOoWz1evOJjzrZh/MNxZ/R/FF
- w+6hihkOtA8Uod1M+Us0LJEs/5NhK8kjv0zovlEr5SQTK0ZyA+U/Lqx154lMB9EPcc2v
- EPPmmCw6pzQCryMLaXV+PZcVBLZRVaUksshDem/eAUAiQPymU4IaNZtRAE4yLMn1+DYy
- ch/pDi1OIxHAm5YD23h6Fr+U+b+Q0TjxHv1JE74xFQqKmekewgyMWidhX8Gu3TyOXtx9
- vkY/p1uX64FwJ7qF18YNWX8yD/S5GjbmcNfgEoqbp0UR3JWYZSxDj1oOdLyJKilSBTIF
- Zu3g==
-X-Gm-Message-State: AOAM530CjTKXHIlaLe7+77j5N9GU1LMWULEf2pi/Fn9BzQ6iWxeHSuE5
- kEg3DjC6u1eDSsRR/zZDWZc=
-X-Google-Smtp-Source: ABdhPJyZDBKQ4OQzF0mc4Wk18/tKlCNs8+o6xXWrLXPh5Q37+qDP/DytziVJC2XGB2sh8Dg7tIYCRA==
-X-Received: by 2002:adf:c392:: with SMTP id p18mr15113318wrf.88.1602257142938; 
- Fri, 09 Oct 2020 08:25:42 -0700 (PDT)
+ bh=zGSnkxFwUCC85DbHw70Gn9uGnGE12ESGX+8RM8MsmJs=;
+ b=i7Rr3QoYYH9sZnLAzcnkK2OoVvJVJQ0n0W5HmKxUGQGKJkyl762yQpxT3vLAJ9jfhc
+ doZmuyIupP1TiC5ya5i9tJi0ETdIIkv8C8APzhJjCtOLGMrV3Iwkakyx0MLmAPJIYX81
+ YXPOBKMXQUj7miEkjUuVupRPJmUP/uM+lOWzKqLvcG1GMvTYdm+G4Dn+RbSuClwa6fad
+ jtRSmen5yySAwAcvIsc56DB30N9MhWV+Dwr7QJqbGPiXu2Dtue+GWmotCwdx2D0QSwvE
+ RUlLojRH/2NZn03yaKEk75BNlQzsAxjKMEllLSEcgUddfZ09y8FQFONWfExn0T6KLnaU
+ yubA==
+X-Gm-Message-State: AOAM531QgKkGlhwxx66eUjei5wS9u4dQM6Q3fklacOFDEiwdhiWqQFne
+ g5UgLiZIZt56monjcaKoN+U=
+X-Google-Smtp-Source: ABdhPJyOU2MijNV7Kcub7BzmvdWknMkRjjdN0S99Efv2oTF5wKfUEer3fl+dxr3m3qrFIArGzZCG5g==
+X-Received: by 2002:a1c:19c1:: with SMTP id 184mr15438548wmz.114.1602257386938; 
+ Fri, 09 Oct 2020 08:29:46 -0700 (PDT)
 Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id e15sm12093834wro.13.2020.10.09.08.25.41
+ by smtp.gmail.com with ESMTPSA id w5sm12482153wmg.42.2020.10.09.08.29.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Oct 2020 08:25:42 -0700 (PDT)
-Subject: Re: [PATCH 18/63] mips: Rename TYPE_MIPS_BOSTON to TYPE_BOSTON
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20200902224311.1321159-1-ehabkost@redhat.com>
- <20200902224311.1321159-19-ehabkost@redhat.com>
+ Fri, 09 Oct 2020 08:29:46 -0700 (PDT)
+Subject: Re: [PATCH V13 9/9] docs/system: Update MIPS machine documentation
+To: Huacai Chen <zltjiangshi@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
+ <1602059975-10115-10-git-send-email-chenhc@lemote.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f03cc567-ff86-ca8a-36c9-1ebe8978d008@amsat.org>
-Date: Fri, 9 Oct 2020 17:25:41 +0200
+Message-ID: <a4b8cb9d-d4ed-0acc-e40f-d4914a8adb51@amsat.org>
+Date: Fri, 9 Oct 2020 17:29:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200902224311.1321159-19-ehabkost@redhat.com>
+In-Reply-To: <1602059975-10115-10-git-send-email-chenhc@lemote.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -19
@@ -91,33 +92,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, berrange@redhat.com,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paul Burton <paulburton@kernel.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/20 12:42 AM, Eduardo Habkost wrote:
-> This will make the type name constant consistent with the name of
-> the type checking macro.
+Hi Huacai,
+
+On 10/7/20 10:39 AM, Huacai Chen wrote:
+> Add Loongson-3A CPU models and Loongson-3 based machine description.
 > 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
 > ---
-> Cc: Paul Burton <paulburton@kernel.org>
-> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
-> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Cc: qemu-devel@nongnu.org
-> ---
->   hw/mips/boston.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>   docs/system/cpu-models-mips.rst.inc | 10 ++++++++--
+>   docs/system/target-mips.rst         | 10 ++++++++++
+>   2 files changed, 18 insertions(+), 2 deletions(-)
+> 
+> diff --git a/docs/system/cpu-models-mips.rst.inc b/docs/system/cpu-models-mips.rst.inc
+> index 499b5b6..02cc4bb 100644
+> --- a/docs/system/cpu-models-mips.rst.inc
+> +++ b/docs/system/cpu-models-mips.rst.inc
+> @@ -48,11 +48,17 @@ across all desired hosts.
+>   ``I6400``
+>       MIPS64 Processor (Release 6, 2014)
+>   
+> +``Loongson-2E``
+> +    MIPS64 Processor (Loongson 2, 2006)
+> +
+>   ``Loongson-2F``
+>       MIPS64 Processor (Loongson 2, 2008)
+>   
+> -``Loongson-2E``
+> -    MIPS64 Processor (Loongson 2, 2006)
+> +``Loongson-3A1000``
+> +    MIPS64 Processor (Loongson 3, 2010)
+> +
+> +``Loongson-3A4000``
+> +    MIPS64 Processor (Loongson 3, 2018)
+>   
+>   ``mips64dspr2``
+>       MIPS64 Processor (Release 2, 2006)
+> diff --git a/docs/system/target-mips.rst b/docs/system/target-mips.rst
+> index cd2a931..1f86ccb 100644
+> --- a/docs/system/target-mips.rst
+> +++ b/docs/system/target-mips.rst
+> @@ -84,6 +84,16 @@ The Fuloong 2E emulation supports:
+>   
+>   -  RTL8139D as a network card chipset
+>   
+> +The Loongson-3 virtual platform emulation supports:
+> +
+> +-  Loongson 3A CPU
+> +
+> +-  LIOINTC as interrupt controller
+> +
+> +-  GPEX and virtio as variable devices
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+What do you mean by "as variable devices"?
 
-And queued to mips-next, thanks.
-
-Phil.
+> +
+> +-  Both KVM and TCG supported
+> +
+>   The mipssim pseudo board emulation provides an environment similar to
+>   what the proprietary MIPS emulator uses for running Linux. It supports:
+>   
+> 
 
