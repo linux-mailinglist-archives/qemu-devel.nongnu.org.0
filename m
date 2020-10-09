@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40762288013
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 03:42:37 +0200 (CEST)
-Received: from localhost ([::1]:57764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D64288042
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 04:11:38 +0200 (CEST)
+Received: from localhost ([::1]:49190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQhQZ-0000Ir-RO
-	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 21:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53464)
+	id 1kQhsf-0001uF-Ew
+	for lists+qemu-devel@lfdr.de; Thu, 08 Oct 2020 22:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kQhOi-00089R-Ix
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 21:40:40 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:41441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kQhOg-00035i-N1
- for qemu-devel@nongnu.org; Thu, 08 Oct 2020 21:40:40 -0400
-Received: by mail-qk1-x741.google.com with SMTP id b69so9094178qkg.8
- for <qemu-devel@nongnu.org>; Thu, 08 Oct 2020 18:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QlT9PQlD20lDDwPwpTfgzrYAeIuaceg3BeSZVBxq+nQ=;
- b=dHd+fxAHNVTy/T0n9jc4flI+Qdxih9jyOYqdvA4/XrjtTI+YzqhAngTVQpLVAGULxg
- 9+ZqbwJNva/vpov+5T4osn21PADopFcXCDXvaHfomxdY0ObxJiWwcopbY1a5DJUpyRl3
- ooIwaIbC7A0DPKxV2x5M0GN/1h2vRCyOpa3dvOO/YKmCK5LWTvaijNq4kR+Q6ENez5y2
- hV5zMOaYyZo9GpqMUtzhg/NhZgAIe94AqleTJc33nQZ4No2oLTKMEpTAXHvX5re3lt4M
- sn5c+EtuauUU5Ha82kufhmNXPMzwNb+uBdXq3so38ulRcN3TyCRMXzn3BT/Y9sbMJknP
- e81w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QlT9PQlD20lDDwPwpTfgzrYAeIuaceg3BeSZVBxq+nQ=;
- b=fzePQ9zJLRzRzOw/DPW9L1KKN8xeMk5Jb/tTDWicBx7AZ4n6i0y781yDit7thUtLy/
- a1zIPc1AgunB048zZIVtakSUS6hCyNon2nuVQZ07jOFfbAD8KLYBOJdPw4NSAP6Kua92
- qAdGHdAem+bbcNOEFb8hMgdLBfVkBt0moCsmeO/Bhn6W3a6yLKRbnwJ9zWyu6Ues2Y10
- YLbRs8u+FXdLkoTmKjzp8EodD+C1+6ChuEbQpHayqwmm3ficHqcmG7UyggjJcGDm81yu
- 7LtLJcNmf5MXVwy6CD8iKKm/jIU2RUEN22dAgnQWvGPx4M8JTBVfrelyl6ctZkuGs3xg
- laVw==
-X-Gm-Message-State: AOAM530dVuGq0CCrtltfiSTRDsG+Ov25w64n+IqfyJIG1beI2gXq0wF0
- XI9XHeGOlT7dvDwp+YXdEaY=
-X-Google-Smtp-Source: ABdhPJzKkVuVfhY4iAqGfWkgs8tMLXqK336J4azAKSNDCg5fV/Zqzio5BApypXXXg1KMmYiQDIIg4w==
-X-Received: by 2002:a37:9a55:: with SMTP id c82mr11614658qke.38.1602207637163; 
- Thu, 08 Oct 2020 18:40:37 -0700 (PDT)
-Received: from shine.lan ([2001:470:8:67e:d16e:135d:7295:3992])
- by smtp.gmail.com with ESMTPSA id z26sm2160260qtb.85.2020.10.08.18.40.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 18:40:36 -0700 (PDT)
-From: Jason Andryuk <jandryuk@gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH] vnc-stubs: Allow -vnc none
-Date: Thu,  8 Oct 2020 21:40:32 -0400
-Message-Id: <20201009014032.3507-1-jandryuk@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQhon-00064j-Of
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 22:07:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQhof-0006sH-PW
+ for qemu-devel@nongnu.org; Thu, 08 Oct 2020 22:07:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602209248;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=s9m3+R8yE7Y80bW6r260IfS4ye1Ft7F4+DbPcRAR138=;
+ b=JTE8ENCvpfFvXeuh6yUVz7cn4Udc2b6MBZysoFuVYyZEpTSbkquAWqhZsFdgR7rOh8qnWI
+ mETt/MSW5ojH+sRn5GaayCEH4lErsh7ffJsEIph41rfOvXrsCwT3mYE4k5VNWQLvyrB/nk
+ 8mOu0njq4mTV3hQ/2IDScpB7W7+T0+k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-F6cZ4JNzM420kb1esaUhgg-1; Thu, 08 Oct 2020 22:07:20 -0400
+X-MC-Unique: F6cZ4JNzM420kb1esaUhgg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE06B18C5201;
+ Fri,  9 Oct 2020 02:07:18 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-14.phx2.redhat.com [10.3.113.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5756876651;
+ Fri,  9 Oct 2020 02:07:15 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/6] Exposing backing-chain allocation over NBD
+Date: Thu,  8 Oct 2020 21:07:08 -0500
+Message-Id: <20201009020714.1074061-1-eblake@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
- envelope-from=jandryuk@gmail.com; helo=mail-qk1-x741.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 22:07:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Andryuk <jandryuk@gmail.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, vsementsov@virtuozzo.com,
+ rjones@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently `-vnc none` is fatal when built with `--disable-vnc`.  Make
-vnc_parse accept "none", so QEMU still run without using vnc.
+v2 was here:
+https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg10926.html
 
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
----
- ui/vnc-stubs.c | 3 +++
- 1 file changed, 3 insertions(+)
+Since then:
+rebase to master
+patches 1-3/5 of v2 are in pull request
+patch 4/5 in v2 (1/6 here) includes improvements from Vladimir
+patches 3-6/6 here are new (and I hope to have public patches to
+libnbd's 'nbdinfo --map' to take advantage of it posted soon...)
 
-diff --git a/ui/vnc-stubs.c b/ui/vnc-stubs.c
-index 06c4ac6296..c6b737dcec 100644
---- a/ui/vnc-stubs.c
-+++ b/ui/vnc-stubs.c
-@@ -12,6 +12,9 @@ int vnc_display_pw_expire(const char *id, time_t expires)
- };
- QemuOpts *vnc_parse(const char *str, Error **errp)
- {
-+    if (strcmp(str, "none") == 0) {
-+        return NULL;
-+    }
-     error_setg(errp, "VNC support is disabled");
-     return NULL;
- }
+Based-on: <20201008185951.1026052-1-eblake@redhat.com>
+([PULL 0/8] NBD patches through 2020-10-08)
+
+Also available at:
+https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/nbd-alloc-depth-v3
+
+001/6:[0056] [FC] 'nbd: Add new qemu:allocation-depth metacontext'
+002/6:[0002] [FC] 'nbd: Add 'qemu-nbd -A' to expose allocation depth'
+003/6:[down] 'nbd: Update qapi to support multiple bitmaps'
+004/6:[down] 'nbd: Simplify qemu bitmap context name'
+005/6:[down] 'nbd: Refactor counting of meta contexts'
+006/6:[down] 'nbd: Allow export of multiple bitmaps for one device'
+
+Eric Blake (6):
+  nbd: Add new qemu:allocation-depth metacontext
+  nbd: Add 'qemu-nbd -A' to expose allocation depth
+  nbd: Update qapi to support multiple bitmaps
+  nbd: Simplify qemu bitmap context name
+  nbd: Refactor counting of meta contexts
+  nbd: Allow export of multiple bitmaps for one device
+
+ docs/interop/nbd.txt       |  23 +++-
+ docs/tools/qemu-nbd.rst    |   6 ++
+ qapi/block-core.json       |   7 +-
+ qapi/block-export.json     |  20 +++-
+ include/block/nbd.h        |   8 +-
+ blockdev-nbd.c             |  20 +++-
+ nbd/server.c               | 210 +++++++++++++++++++++++++++++--------
+ qemu-nbd.c                 |  25 +++--
+ tests/qemu-iotests/291     |   6 +-
+ tests/qemu-iotests/309     |  73 +++++++++++++
+ tests/qemu-iotests/309.out |  22 ++++
+ tests/qemu-iotests/group   |   1 +
+ 12 files changed, 350 insertions(+), 71 deletions(-)
+ create mode 100755 tests/qemu-iotests/309
+ create mode 100644 tests/qemu-iotests/309.out
+
 -- 
-2.25.1
+2.28.0
 
 
