@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BBC288A7F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 16:16:24 +0200 (CEST)
-Received: from localhost ([::1]:34364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15EA1288AD7
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 16:27:30 +0200 (CEST)
+Received: from localhost ([::1]:40474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQtC2-0005UN-Pl
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 10:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
+	id 1kQtMn-0000Tv-5m
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 10:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQtAc-0004in-9w
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 10:14:54 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45757)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kQtL9-0007sv-9T
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 10:25:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kQtAZ-0004mu-Jl
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 10:14:53 -0400
-Received: by mail-oi1-x244.google.com with SMTP id z26so10289143oih.12
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 07:14:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=i9LyY563dyk+VeLh1PfeD2P5rMx+jlsmbVOzgw8XLXQ=;
- b=WmWQOV6HQIPssuDu6kG8N9u+QqS+fh4rOFtIXJhi7ZVC+wosGNBv9MlKhl3CLkYs/7
- kmSlg74nwBDsVq6jTQa61fULGfgrDxXU72KCv/ijpGAMM2p5E7KXJMXonzCE1Ry/r9Lu
- kEavOZrgq3ilnTxGohw3q10Ta+e9HsZr1nvbpFwj3qozYzUUlJ1GmYdtL55DGGXQAODc
- QT5v5Do+kL3HnIubP04UDI3wtPG/IXRafCeUUoSw/RgPr9X1U0Jxnyh5Un8w8OrM0Dcx
- o+/hrMB3b1rONcDNQ30XGXw/slgeCEhUo6PAzjuwP12g8jeeHnwDX2K2QcqCEkgnrBvA
- aMcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=i9LyY563dyk+VeLh1PfeD2P5rMx+jlsmbVOzgw8XLXQ=;
- b=em+GiyI0tci+3E30QtaW1m8lUM3CLFkQwecLQbZqKoRQhiZkpvAg7kDphvEh6DORih
- AQrHr3CNKn+TYNeBl/q8fGXOX0++pJswzOs/Ofywf4S7VrCDYdVf3hgcJzvskpubb7En
- elKiY+Ft+F+ACmNFRix1zxW0DIDK7ekKulI0Q8bCyeRvqKVc9rovbvrFQONZh1gnjfY2
- r5mxl5K8h5cIF+PyqNijxvn8J+uRkusOR8pxBuh9S/SRq4+hiZeQjEY8OCebILkYl1FH
- SH5MNVQypCH7WKZ0bC1S5082PvfTsdUnaC93YcTCeDTfeqKtdIBWYtAZ64hdUQ5FnHRT
- Jyjw==
-X-Gm-Message-State: AOAM531eWbZooiLB5fOWSw4/5oYuw8gVrUHZZEG1XtPpnlfVl2VYTrYm
- G7gzv7H72YSjYw85RG+dWG/FdA==
-X-Google-Smtp-Source: ABdhPJx34/qvIo8/NbsjYltNsmH3l536bzjxEDMnyzAT/O5l7EE4B13P+SvXQxaWqDgMMSUUTTjGYQ==
-X-Received: by 2002:a05:6808:3bc:: with SMTP id
- n28mr903550oie.171.1602252890179; 
- Fri, 09 Oct 2020 07:14:50 -0700 (PDT)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id a82sm7432220oii.44.2020.10.09.07.14.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Oct 2020 07:14:49 -0700 (PDT)
-Subject: Re: [PATCH] hw/net: move allocation to the heap due to very large
- stack frame
-To: Elena Afanasova <eafanasova@gmail.com>, david@gibson.dropbear.id.au,
- jasowang@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f5c2c746-e648-a2b6-e09c-069423c752cb@linaro.org>
-Date: Fri, 9 Oct 2020 09:14:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kQtL6-0006Ck-M5
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 10:25:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kQtL3-0004C8-NS
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 14:25:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 772A72E8083
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 14:25:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.208,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 09 Oct 2020 14:18:56 -0000
+From: Richard Henderson <1898883@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: azuk bmeng-cn rth
+X-Launchpad-Bug-Reporter: Azuk 443 (azuk)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <160208094339.8985.13177411264868514958.malonedeb@wampee.canonical.com>
+Message-Id: <160225313697.2692.16080481909753840048.malone@soybean.canonical.com>
+Subject: [Bug 1898883] Re: qemu-system-riscv64 failed to load binary kernel
+ into memory
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
+X-Launchpad-Hash: 39096368bbfc5359b53b6e1045b2e3292c38d893
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 10:25:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,24 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Reply-To: Bug 1898883 <1898883@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/9/20 9:02 AM, Elena Afanasova wrote:
-> From 09905773a00e417d3a37c12350d9e55466fdce8a Mon Sep 17 00:00:00 2001
-> From: Elena Afanasova <eafanasova@gmail.com>
-> Date: Fri, 9 Oct 2020 06:41:36 -0700
-> Subject: [PATCH] hw/net: move allocation to the heap due to very large stack
->  frame
-> 
-> Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
-> ---
->  hw/net/spapr_llan.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+As per Bin Meng, closing as not-a-bug.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+** Changed in: qemu
+       Status: New =3D> Invalid
 
+-- =
 
-r~
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1898883
+
+Title:
+  qemu-system-riscv64 failed to load binary kernel into memory
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  QEMU Version: 5.1.0
+  Compiled in Ubuntu 20.04 for riscv64, following the guide https://risc-v-=
+getting-started-guide.readthedocs.io/en/latest/linux-qemu.html.
+
+  In qemu-system-riscv64, code at 0x80000000 will be executed by virtual CP=
+U.
+  For example, using `qemu-system-riscv64 -nographic -machine virt -bios no=
+ne -kernel vmlinux -S -s`, my homebrew kernel(ELF file) will load at 0x8000=
+0000. If I strip the kernel using `riscv64-linux-gnu-objcopy -O binary vmli=
+nux Image`, qemu-system-riscv64 will not load the binary machine code into =
+the riscv64 load address, but `-bios Image` will.
+
+  In `qemu-system-aarch64` compiled by Ubuntu team, I can use `qemu-
+  system-aarch64 -M raspi3 -kernel Image_aarch64 -S -s` to load a
+  specific machine code binary into 0x80000. And the elf kernel can be
+  loaded to that address, too.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1898883/+subscriptions
 
