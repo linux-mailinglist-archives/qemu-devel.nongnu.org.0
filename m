@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D56E28832B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:03:19 +0200 (CEST)
-Received: from localhost ([::1]:35956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D16E288313
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 08:57:47 +0200 (CEST)
+Received: from localhost ([::1]:46560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQmQw-0001EF-IA
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:03:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56370)
+	id 1kQmLa-0001qU-4K
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 02:57:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kQmAe-00068o-39; Fri, 09 Oct 2020 02:46:28 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:55224 helo=huawei.com)
+ id 1kQmAX-00066R-74; Fri, 09 Oct 2020 02:46:21 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5163 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kQmAS-0001K2-IA; Fri, 09 Oct 2020 02:46:27 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id DB459A45892EB9F0360D;
- Fri,  9 Oct 2020 14:46:07 +0800 (CST)
-Received: from localhost (10.174.186.238) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Fri, 9 Oct 2020
+ id 1kQmAS-0001K8-Gv; Fri, 09 Oct 2020 02:46:20 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 00A93FCF439F12BC3E80;
+ Fri,  9 Oct 2020 14:46:09 +0800 (CST)
+Received: from localhost (10.174.186.238) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Fri, 9 Oct 2020
  14:45:58 +0800
 From: zhaolichang <zhaolichang@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH V2 08/14] m68k/: fix some comment spelling errors
-Date: Fri, 9 Oct 2020 14:44:43 +0800
-Message-ID: <20201009064449.2336-9-zhaolichang@huawei.com>
+Subject: [PATCH V2 09/14] sh4/: fix some comment spelling errors
+Date: Fri, 9 Oct 2020 14:44:44 +0800
+Message-ID: <20201009064449.2336-10-zhaolichang@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20201009064449.2336-1-zhaolichang@huawei.com>
 References: <20201009064449.2336-1-zhaolichang@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.186.238]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
+Received-SPF: pass client-ip=45.249.212.190;
  envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:45:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:45:16
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -59,99 +59,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: David
- Edmondson <david.edmondson@oracle.com>, Laurent Vivier <laurent@vivier.eu>,
- zhaolichang <zhaolichang@huawei.com>, qemu-devel@nongnu.org,
- Philippe Mathieu-Daude <f4bug@amsat.org>
+ Edmondson <david.edmondson@oracle.com>, zhaolichang <zhaolichang@huawei.com>,
+ qemu-devel@nongnu.org, Philippe Mathieu-Daude <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I found that there are many spelling errors in the comments of qemu/target/m68k.
+I found that there are many spelling errors in the comments of qemu/target/sh4.
 I used spellcheck to check the spelling errors and found some errors in the folder.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Philippe Mathieu-Daude<f4bug@amsat.org>
-Reviewed-by: Laurent Vivier<laurent@vivier.eu>
 ---
- target/m68k/translate.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ target/sh4/cpu.h       | 2 +-
+ target/sh4/op_helper.c | 2 +-
+ target/sh4/translate.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 3fc67aa452..133a404919 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -438,7 +438,7 @@ static TCGv gen_addr_index(DisasContext *s, uint16_t ext, TCGv tmp)
- }
- 
- /*
-- * Handle a base + index + displacement effective addresss.
-+ * Handle a base + index + displacement effective address.
-  * A NULL_QREG base means pc-relative.
-  */
- static TCGv gen_lea_indexed(CPUM68KState *env, DisasContext *s, TCGv base)
-@@ -1696,7 +1696,7 @@ static void bcd_add(TCGv dest, TCGv src)
- 
-     /*
-      * t1 = (src + 0x066) + dest + X
--     *    = result with some possible exceding 0x6
-+     *    = result with some possible exceeding 0x6
-      */
- 
-     t0 = tcg_const_i32(0x066);
-@@ -1706,7 +1706,7 @@ static void bcd_add(TCGv dest, TCGv src)
-     tcg_gen_add_i32(t1, t0, dest);
-     tcg_gen_add_i32(t1, t1, QREG_CC_X);
- 
--    /* we will remove exceding 0x6 where there is no carry */
-+    /* we will remove exceeding 0x6 where there is no carry */
- 
-     /*
-      * t0 = (src + 0x0066) ^ dest
-@@ -1736,7 +1736,7 @@ static void bcd_add(TCGv dest, TCGv src)
-     tcg_temp_free(t0);
- 
-     /*
--     * remove the exceding 0x6
-+     * remove the exceeding 0x6
-      * for digits that have not generated a carry
-      */
- 
-@@ -2638,7 +2638,7 @@ DISAS_INSN(negx)
-     gen_flush_flags(s); /* compute old Z */
- 
-     /*
--     * Perform substract with borrow.
-+     * Perform subtract with borrow.
-      * (X, N) =  -(src + X);
-      */
- 
-@@ -2653,7 +2653,7 @@ DISAS_INSN(negx)
-     /*
-      * Compute signed-overflow for negation.  The normal formula for
-      * subtraction is (res ^ src) & (src ^ dest), but with dest==0
--     * this simplies to res & src.
-+     * this simplifies to res & src.
-      */
- 
-     tcg_gen_and_i32(QREG_CC_V, QREG_CC_N, src);
-@@ -3159,7 +3159,7 @@ static inline void gen_subx(DisasContext *s, TCGv src, TCGv dest, int opsize)
-     gen_flush_flags(s); /* compute old Z */
- 
-     /*
--     * Perform substract with borrow.
-+     * Perform subtract with borrow.
-      * (X, N) = dest - (src + X);
-      */
- 
-@@ -3169,7 +3169,7 @@ static inline void gen_subx(DisasContext *s, TCGv src, TCGv dest, int opsize)
-     gen_ext(QREG_CC_N, QREG_CC_N, opsize, 1);
-     tcg_gen_andi_i32(QREG_CC_X, QREG_CC_X, 1);
- 
--    /* Compute signed-overflow for substract.  */
-+    /* Compute signed-overflow for subtract.  */
- 
-     tcg_gen_xor_i32(QREG_CC_V, QREG_CC_N, dest);
-     tcg_gen_xor_i32(tmp, dest, src);
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index dbe58c7888..91fa9498f0 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -160,7 +160,7 @@ typedef struct CPUSH4State {
+     uint32_t pteh;		/* page table entry high register */
+     uint32_t ptel;		/* page table entry low register */
+     uint32_t ptea;		/* page table entry assistance register */
+-    uint32_t ttb;		/* tranlation table base register */
++    uint32_t ttb;		/* translation table base register */
+     uint32_t tea;		/* TLB exception address register */
+     uint32_t tra;		/* TRAPA exception register */
+     uint32_t expevt;		/* exception event register */
+diff --git a/target/sh4/op_helper.c b/target/sh4/op_helper.c
+index 14c3db0f48..9de4152735 100644
+--- a/target/sh4/op_helper.c
++++ b/target/sh4/op_helper.c
+@@ -400,7 +400,7 @@ float32 helper_fsrra_FT(CPUSH4State *env, float32 t0)
+     t0 = float32_div(float32_one, t0, &env->fp_status);
+     /* Since this is supposed to be an approximation, an imprecision
+        exception is required.  One supposes this also follows the usual
+-       IEEE rule that other exceptions take precidence.  */
++       IEEE rule that other exceptions take precedence.  */
+     if (get_float_exception_flags(&env->fp_status) == 0) {
+         set_float_exception_flags(float_flag_inexact, &env->fp_status);
+     }
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index 60c863d9e1..c57218eb7d 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -1959,7 +1959,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+     NEXT_INSN;
+     switch (ctx->opcode & 0xf00f) {
+     case 0x6003: /* mov Rm,Rn */
+-        /* Here we want to recognize ld_dst being saved for later consumtion,
++        /* Here we want to recognize ld_dst being saved for later consumption,
+            or for another input register being copied so that ld_dst need not
+            be clobbered during the operation.  */
+         op_dst = B11_8;
 -- 
 2.26.2.windows.1
 
