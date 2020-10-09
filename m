@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D4A2886F9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:31:35 +0200 (CEST)
-Received: from localhost ([::1]:41506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B5A28870B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:35:44 +0200 (CEST)
+Received: from localhost ([::1]:53938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQpgU-00089H-6x
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:31:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43068)
+	id 1kQpkV-0004kx-KZ
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVV-0005GK-LS
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:14 -0400
-Received: from ozlabs.org ([203.11.71.1]:56381)
+ id 1kQpVb-0005Q7-DP
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:19 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45971 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVT-0001nH-Qm
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:13 -0400
+ id 1kQpVY-0001nr-3K
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:19 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4C73wY1kmXz9sW8; Fri,  9 Oct 2020 21:19:56 +1100 (AEDT)
+ id 4C73wc1k38z9sWP; Fri,  9 Oct 2020 21:19:58 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1602238797;
- bh=WcyYV+kZY+086wNw+Z/Sbe9MiDsZS9bDNtuk6FQ7o84=;
+ d=gibson.dropbear.id.au; s=201602; t=1602238800;
+ bh=OAaG0EfHUCTPTYELPg04P7dVR70GRYrY3vEIgbH0kBk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LgwDRzb8US2vMVl60mseFjIkYu43O+TvaE+Yuxi9043gnzUNlYwT6z6mEacf2Z3gN
- YMnx7+JiOFkgjrJJ7qF173tQo5pbE+29eh0J286dIz8ef1lX/6DpqlyHBf1Tq1eit2
- 7A7g9zy2bZNXXN8T0RhnsYl9T8NVTkLXvC3ov7gg=
+ b=D/CRotbMhdfvLinWZPrKW/QVqMGcUOK8myuGDpdXgj7GMjl6oHPB0ZHnUxKF9zEnK
+ TPNv2/nlBeJuKZXUDC6rKWXnaDEdEHC8U46p1M50dFYUknocHvq18kGyXGaWgGZEh3
+ QK5FdpLvHVppx9ouj4F8SgNsXy/kHYr3lmqFoVEk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/20] spapr: Add a return value to spapr_nvdimm_validate()
-Date: Fri,  9 Oct 2020 21:19:44 +1100
-Message-Id: <20201009101951.1569252-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/20] spapr: Add a return value to spapr_check_pagesize()
+Date: Fri,  9 Oct 2020 21:19:45 +1100
+Message-Id: <20201009101951.1569252-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 References: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 06:19:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -75,102 +75,75 @@ As recommended in "qapi/error.h", return true on success and false on
 failure. This allows to reduce error propagation overhead in the callers.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20200914123505.612812-13-groug@kaod.org>
+Message-Id: <20200914123505.612812-14-groug@kaod.org>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c                |  4 +---
- hw/ppc/spapr_nvdimm.c         | 14 ++++++++------
- include/hw/ppc/spapr_nvdimm.h |  2 +-
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ hw/ppc/spapr.c         | 4 +---
+ hw/ppc/spapr_caps.c    | 7 +++++--
+ include/hw/ppc/spapr.h | 2 +-
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index c6af456cfc..7f3a620d41 100644
+index 7f3a620d41..4256794f3b 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3478,9 +3478,7 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+@@ -3490,9 +3490,7 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     memdev = object_property_get_link(OBJECT(dimm), PC_DIMM_MEMDEV_PROP,
+                                       &error_abort);
+     pagesize = host_memory_backend_pagesize(MEMORY_BACKEND(memdev));
+-    spapr_check_pagesize(spapr, pagesize, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!spapr_check_pagesize(spapr, pagesize, errp)) {
+         return;
      }
  
-     if (is_nvdimm) {
--        spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (!spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, errp)) {
-             return;
-         }
-     } else if (size % SPAPR_MEMORY_BLOCK_SIZE) {
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index c06f903e5b..b3a489e9fe 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -33,7 +33,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/ppc/spapr_numa.h"
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index 10a80a8159..9341e9782a 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -310,13 +310,13 @@ static void cap_safe_indirect_branch_apply(SpaprMachineState *spapr,
  
--void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-+bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-                            uint64_t size, Error **errp)
+ #define VALUE_DESC_TRISTATE     " (broken, workaround, fixed)"
+ 
+-void spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
++bool spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
+                           Error **errp)
  {
-     const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
-@@ -45,7 +45,7 @@ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+     hwaddr maxpagesize = (1ULL << spapr->eff.caps[SPAPR_CAP_HPT_MAXPAGESIZE]);
  
-     if (!mc->nvdimm_supported) {
-         error_setg(errp, "NVDIMM hotplug not supported for this machine");
+     if (!kvmppc_hpt_needs_host_contiguous_pages()) {
 -        return;
-+        return false;
++        return true;
      }
  
-     /*
-@@ -59,20 +59,20 @@ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-      */
-     if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
-         error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
--        return;
-+        return false;
-     }
- 
-     if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
-                                 &error_abort) == 0) {
-         error_setg(errp, "PAPR requires NVDIMM devices to have label-size set");
--        return;
-+        return false;
-     }
- 
-     if (size % SPAPR_MINIMUM_SCM_BLOCK_SIZE) {
-         error_setg(errp, "PAPR requires NVDIMM memory size (excluding label)"
-                    " to be a multiple of %" PRIu64 "MB",
-                    SPAPR_MINIMUM_SCM_BLOCK_SIZE / MiB);
--        return;
-+        return false;
-     }
- 
-     uuidstr = object_property_get_str(OBJECT(nvdimm), NVDIMM_UUID_PROP,
-@@ -82,8 +82,10 @@ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
- 
-     if (qemu_uuid_is_null(&uuid)) {
-         error_setg(errp, "NVDIMM device requires the uuid to be set");
--        return;
+     if (maxpagesize > pagesize) {
+@@ -324,7 +324,10 @@ void spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
+                    "Can't support %"HWADDR_PRIu" kiB guest pages with %"
+                    HWADDR_PRIu" kiB host pages with this KVM implementation",
+                    maxpagesize >> 10, pagesize >> 10);
 +        return false;
      }
 +
 +    return true;
  }
  
+ static void cap_hpt_maxpagesize_apply(SpaprMachineState *spapr,
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 02f3c29838..bba8736269 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -934,7 +934,7 @@ void spapr_caps_cpu_apply(SpaprMachineState *spapr, PowerPCCPU *cpu);
+ void spapr_caps_add_properties(SpaprMachineClass *smc);
+ int spapr_caps_post_migration(SpaprMachineState *spapr);
  
-diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
-index 3eb344e8e9..b834d82f55 100644
---- a/include/hw/ppc/spapr_nvdimm.h
-+++ b/include/hw/ppc/spapr_nvdimm.h
-@@ -28,7 +28,7 @@ QEMU_BUILD_BUG_ON(SPAPR_MINIMUM_SCM_BLOCK_SIZE % SPAPR_MEMORY_BLOCK_SIZE);
- int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
-                            void *fdt, int *fdt_start_offset, Error **errp);
- void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt);
--void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-+bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-                            uint64_t size, Error **errp);
- void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
- void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr);
+-void spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
++bool spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
+                           Error **errp);
+ /*
+  * XIVE definitions
 -- 
 2.26.2
 
