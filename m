@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B442D288F11
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:40:15 +0200 (CEST)
-Received: from localhost ([::1]:47860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CEE1288F92
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:06:49 +0200 (CEST)
+Received: from localhost ([::1]:46210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvRG-0001qL-JB
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:40:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38458)
+	id 1kQvqy-0002Wf-89
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:06:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvJU-0000T6-Ah
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:32:12 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55076)
+ id 1kQvRA-00033R-8p
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:08 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvJS-0005CJ-2u
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:32:11 -0400
-Received: by mail-wm1-x331.google.com with SMTP id p15so10407033wmi.4
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:32:09 -0700 (PDT)
+ id 1kQvR8-0006Gt-5e
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:07 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id k18so10445809wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2mjhIgPQlZZ2dWxmPr6UjFQVI7sVVbQp3ne8yo3G79Y=;
- b=IuNPB9EHkyUKOEPwIxYAh50A0XHxN61a3xMHDbhAX5MIucQ1EW62x1O7147HmboKQJ
- KIHWpVeuYn4AXtVHcLqwsuYtbkNBla8B/avrG9cuwhj4QqSHl4GytX25wS1ep4nrBTTN
- gsu9bMR84Vb1zjQIukdPeZSFgxaob+0/H/B18Ler7UvKd94lcXBVcoI12URIQ94DSPAK
- A4T+vTOjNSX8GlL+ZTsrpHEnQgPNs5kF8ZFVton8W5eoXXLU3hnU+Ldb0pq88qWtxBZl
- mpUw7L6HN3VarZLsCGYsjLBtJEgA3rjmJRDoYngVaYnQreoxFD4x2mVBeOeGMhuG2iTx
- 8avA==
+ bh=Eo8B8eKqtkFxDAM1X6l0cuBE2xXVCT/RIfGH6pwI/V0=;
+ b=IEx5/i1FFh1fj5Fe+D3Cnm7pWus0uzfQC0T2XgG2XvIa4/1dtinv0hjS1czQxtl2j4
+ UKNk+AEUBPDwi6vU3GFWhh9XdRUUUENvr0miDMHaTEmckuU6AtzGzbXH1CKT38AW+Hjf
+ JAho3VnFi8GVPuHyX34ZdVkjmjWgmi4qopqC/Y826aC3lrPQY11nO/6HU5/i7Juoo9k5
+ 3V4j/Ym1a/lH5CYzUdmyGTnEV2PPEmR/BtNoVyAAjR2iR68roTC33JNs4gAmgUgcDYJr
+ AYfxiJHxAQYtWOthWW1cmUBi9oDKn4TM4UiBmuzviLqiYxFZYudqRTuoUqUiaIb/3Azt
+ vmPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2mjhIgPQlZZ2dWxmPr6UjFQVI7sVVbQp3ne8yo3G79Y=;
- b=tzHR4VhClMSS8cyNkXOmJbEy4ZkQRuGNBC8PfSXTOf/hEKA1LCz/LjDDJzx9j/S7Pz
- CI6um7ZGVhpFM0lvIL5+JHQdW/3CSauFL7b4kKWjuTSTiYzs2BGaupW5xqNGk2hl/LTk
- NMJkiQERCog9kVl2Vv/liLqIySaalZKdzMhq4QnJBeCixThFAsO5sT/VEB9R+gbKbWRf
- 4Fome8rCHBYc3vYGNqmn8YsioF+X6Oe//NBhG1pZsrFvNUNPjmNIbTear9BzJhB5Jnl1
- hsHX4ga+0myL/q2i1ixoCI1+hSvzM9q3Hz558fJSgcvChlTg8tFzOCNbMK+7L6qrdvw+
- PVGA==
-X-Gm-Message-State: AOAM531PMquxzWUe3CnmUU9E/6MqC8OZ52asBNbTtJkbE3W7jw4NXYlV
- SrZ8PglPqky6EAh3YbXUUHi2SA==
-X-Google-Smtp-Source: ABdhPJyJPOUkWmpZTyX++8dNr/EhBuhWLj6ek8tTVjfMyqoKXCJK4qQsldSsn/Fc5So5gzZv6sVEQw==
-X-Received: by 2002:a1c:ed09:: with SMTP id l9mr15378014wmh.89.1602261128468; 
- Fri, 09 Oct 2020 09:32:08 -0700 (PDT)
+ bh=Eo8B8eKqtkFxDAM1X6l0cuBE2xXVCT/RIfGH6pwI/V0=;
+ b=jK6j39RvRsqK6YliucVd3wYTfIxm+tV0F7x2S/0QRWc03qSwke17c1Fe3u8G+UQ+sp
+ 8qnAupDVcWIrdYG7qXCZ9SH67lrjUg67NpIrIm8jPL2QUXSnIZuxxDV+tFHPTqtPSDtp
+ AjfsxzaQ7LZXWc3TQs49guqhCXMKmouJodGy1zaRf2LsYzTxkv+CdUbelrBoeBH6zqHb
+ pGefyq1DWK6Ek4PRaKbhtuNZc0Im7f38BUyoqkKdILSFBdqdspRt0tR//qkRfm3hk4pE
+ SpdRkGzrtFvBqLpPrL1kYO9o0OD/eH4tIBUwIXebS64aVR0RWRiB3u2JzB16uUhPrFjl
+ NItw==
+X-Gm-Message-State: AOAM531atQNAAQt8YhXrTAKdFO8uC/qcZrNghD0ZxOiKAn0c66nKoXGh
+ FxlXQvFCorjajD0tmpOANdWGXQ==
+X-Google-Smtp-Source: ABdhPJyi/3rpYGdyVgTpXoYA1QpFUwrVrT2DeoOw2zPerQZx4+xLUXVTrRYRA5nGTXQnBG/kwyRZrw==
+X-Received: by 2002:a7b:cb07:: with SMTP id u7mr14534701wmj.57.1602261604638; 
+ Fri, 09 Oct 2020 09:40:04 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o129sm12855418wmb.25.2020.10.09.09.31.55
+ by smtp.gmail.com with ESMTPSA id q10sm12913973wrp.83.2020.10.09.09.40.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 09:32:06 -0700 (PDT)
+ Fri, 09 Oct 2020 09:40:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 537C51FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 6830B1FF9E;
  Fri,  9 Oct 2020 17:31:48 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 14/22] contrib/gitdm: Add Nir Soffer to Red Hat domain
-Date: Fri,  9 Oct 2020 17:31:39 +0100
-Message-Id: <20201009163147.28512-15-alex.bennee@linaro.org>
+Subject: [PULL 15/22] contrib/gitdm: Add SUSE to the domain map
+Date: Fri,  9 Oct 2020 17:31:40 +0100
+Message-Id: <20201009163147.28512-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201009163147.28512-1-alex.bennee@linaro.org>
 References: <20201009163147.28512-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,29 +88,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Nir Soffer <nirsof@gmail.com>,
+Cc: Bruce Rogers <brogers@suse.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+There is a number of contributors from this domain,
+add its own entry to the gitdm domain map.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Nir Soffer <nirsof@gmail.com>
-Message-Id: <20201006160653.2391972-9-f4bug@amsat.org>
-Message-Id: <20201007160038.26953-15-alex.bennee@linaro.org>
+Acked-by: Bruce Rogers <brogers@suse.com>
+Message-Id: <20201006160653.2391972-10-f4bug@amsat.org>
+Message-Id: <20201007160038.26953-16-alex.bennee@linaro.org>
 
-diff --git a/contrib/gitdm/group-map-redhat b/contrib/gitdm/group-map-redhat
-index d15db2d35e..02507b7b53 100644
---- a/contrib/gitdm/group-map-redhat
-+++ b/contrib/gitdm/group-map-redhat
-@@ -6,3 +6,4 @@ david@gibson.dropbear.id.au
- laurent@vivier.eu
- pjp@fedoraproject.org
- armbru@pond.sub.org
-+nirsof@gmail.com
+diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+index 6c5c92260d..d767620837 100644
+--- a/contrib/gitdm/domain-map
++++ b/contrib/gitdm/domain-map
+@@ -27,6 +27,7 @@ redhat.com      Red Hat
+ rt-rk.com       RT-RK
+ siemens.com     Siemens
+ sifive.com      SiFive
++suse.com        SUSE
+ suse.de         SUSE
+ virtuozzo.com   Virtuozzo
+ wdc.com         Western Digital
 -- 
 2.20.1
 
