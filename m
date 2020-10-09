@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C1128836C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:25:13 +0200 (CEST)
-Received: from localhost ([::1]:53648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AA02883B1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:36:45 +0200 (CEST)
+Received: from localhost ([::1]:35052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQmm8-0004Gv-Bw
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:25:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35196)
+	id 1kQmxI-0000iA-CR
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:36:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQml5-0003no-3f
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:24:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQml3-0005g5-N3
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:24:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602228245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2YKeueW6kF1PA4w7QlEeWe4jM0h0CsNWReWYYI3S8fw=;
- b=jB+X2TNY+08pEGeR7hytkri3GMT+xeKu8SDMG71AE+/LMfN9oACPOi9irmJ6By8RkZ63sG
- YJtgBTXBuPZ7ZRGi3AMChSemX0RlCs9t3waS7xzESRuXkmF9t7o2UdZkUVOtvT29p6jVrZ
- GjtJl79Ep7fBKZSKp0EiK/gdL+narUk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-1isyoRAoN16yYVZTo-bVBQ-1; Fri, 09 Oct 2020 03:24:03 -0400
-X-MC-Unique: 1isyoRAoN16yYVZTo-bVBQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B3721007465
- for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 07:24:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B35C6EF4F;
- Fri,  9 Oct 2020 07:24:02 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 18D46112CE10; Fri,  9 Oct 2020 09:24:01 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v5 34/36] qapi/visit.py: assert tag_member contains a
- QAPISchemaEnumType
-References: <20201005195158.2348217-1-jsnow@redhat.com>
- <20201005195158.2348217-35-jsnow@redhat.com>
- <87mu0yb40j.fsf@dusky.pond.sub.org>
- <e986d234-293e-a663-a9f5-74831af43c3e@redhat.com>
- <87zh4x13z6.fsf@dusky.pond.sub.org>
- <23ca848a-b472-cb34-31d2-a0cefbdf27d8@redhat.com>
-Date: Fri, 09 Oct 2020 09:24:01 +0200
-In-Reply-To: <23ca848a-b472-cb34-31d2-a0cefbdf27d8@redhat.com> (John Snow's
- message of "Thu, 8 Oct 2020 11:49:18 -0400")
-Message-ID: <875z7jrhf2.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kQmw9-00008K-Vv
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:35:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kQmw8-0007Dn-6t
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:35:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kQmw6-0004Uo-PX
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 07:35:30 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B1A122E80DE
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 07:35:30 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 09 Oct 2020 07:25:50 -0000
+From: Bin Meng <1898883@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: azuk bmeng-cn
+X-Launchpad-Bug-Reporter: Azuk 443 (azuk)
+X-Launchpad-Bug-Modifier: Bin Meng (bmeng-cn)
+References: <160208094339.8985.13177411264868514958.malonedeb@wampee.canonical.com>
+Message-Id: <CAEUhbmU3fjgVT3_cLEo6AyDW6KtUgO+tvSX5uEoBu2+1k21Dtg@mail.gmail.com>
+Subject: Re: [Bug 1898883] [NEW] qemu-system-riscv64 failed to load binary
+ kernel into memory
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
+X-Launchpad-Hash: d45ea018b17d628727618264949db16e33ca25ef
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:10:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,19 +72,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Reply-To: Bug 1898883 <1898883@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On Wed, Oct 7, 2020 at 10:37 PM Azuk 443 <1898883@bugs.launchpad.net> wrote:
+>
+> Public bug reported:
+>
+> QEMU Version: 5.1.0
+> Compiled in Ubuntu 20.04 for riscv64, following the guide https://risc-v-=
+getting-started-guide.readthedocs.io/en/latest/linux-qemu.html.
+>
+> In qemu-system-riscv64, code at 0x80000000 will be executed by virtual CP=
+U.
+> For example, using `qemu-system-riscv64 -nographic -machine virt -bios no=
+ne -kernel vmlinux -S -s`, my homebrew kernel(ELF file) will load at 0x8000=
+0000. If I strip the kernel using `riscv64-linux-gnu-objcopy -O binary vmli=
+nux Image`, qemu-system-riscv64 will not load the binary machine code into =
+the riscv64 load address, but `-bios Image` will.
 
-[...]
-> Still always trying to find a balance between "Easy to maintain and
-> iterate" and "easy to review." Tough line for me.
+This is not a bug. As you said, please use `-bios Image` for your
+special purpose.
 
-I assure you it's a tough line for everyone.
+>
+> In `qemu-system-aarch64` compiled by Ubuntu team, I can use `qemu-
+> system-aarch64 -M raspi3 -kernel Image_aarch64 -S -s` to load a specific
+> machine code binary into 0x80000. And the elf kernel can be loaded to
+> that address, too.
+>
+> ** Affects: qemu
+>      Importance: Undecided
+>          Status: New
+>
 
-[...]
+Regards,
+Bin
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1898883
+
+Title:
+  qemu-system-riscv64 failed to load binary kernel into memory
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU Version: 5.1.0
+  Compiled in Ubuntu 20.04 for riscv64, following the guide https://risc-v-=
+getting-started-guide.readthedocs.io/en/latest/linux-qemu.html.
+
+  In qemu-system-riscv64, code at 0x80000000 will be executed by virtual CP=
+U.
+  For example, using `qemu-system-riscv64 -nographic -machine virt -bios no=
+ne -kernel vmlinux -S -s`, my homebrew kernel(ELF file) will load at 0x8000=
+0000. If I strip the kernel using `riscv64-linux-gnu-objcopy -O binary vmli=
+nux Image`, qemu-system-riscv64 will not load the binary machine code into =
+the riscv64 load address, but `-bios Image` will.
+
+  In `qemu-system-aarch64` compiled by Ubuntu team, I can use `qemu-
+  system-aarch64 -M raspi3 -kernel Image_aarch64 -S -s` to load a
+  specific machine code binary into 0x80000. And the elf kernel can be
+  loaded to that address, too.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1898883/+subscriptions
 
