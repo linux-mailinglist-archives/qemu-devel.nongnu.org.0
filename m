@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F59288F50
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:59:04 +0200 (CEST)
-Received: from localhost ([::1]:55586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E84B9288FE1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:18:32 +0200 (CEST)
+Received: from localhost ([::1]:53380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvjT-0002vN-8E
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42740)
+	id 1kQw2K-0000N0-1F
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:18:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQvcv-0002gc-Dd
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:17 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43916)
+ id 1kQvcw-0002iY-8V
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:18 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQvct-0007iZ-OQ
+ id 1kQvcu-0007ig-NX
  for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:17 -0400
-Received: by mail-wr1-x443.google.com with SMTP id g12so10982970wrp.10
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:52:15 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id 13so10490564wmf.0
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:52:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DiAeLSURx5/8to7pD3+MAvZ/fh+QMuvoNDWO9Nmn9Jg=;
- b=tHNoAKHMys+JykYiBYxqrBnU0se1jGKAAN6yiyvJfG8bMHwge7Pu7VaYnUh44wLXu8
- jb0qoN6ZmMzeSOpBt3N4qSsC8yzt9ZbMin3qa/WDQorA0qXbhkxofAoZXDNsy6OG1Dwu
- xGEIeibfKqIX9Ux8KQBqpo0inergiysSGIPkM2datTDzlznba22aFcstNn52bQylmyOJ
- j/83mrAqzHN2TIGOgYinwubavmWsUAAJyGe3jiMcaFK1oBfusly3tf/XhM68eO2/DO74
- hrNpzUhHkIcRbCCccNILy0R6Tj9B9zhoNRkrzaSEQFqfaPD4a+atix36Qbki1GBMxln2
- oOPA==
+ bh=gzKMTpfzwgqoBRPDRCgc9oD8o1aB2gP5trer2RP085Q=;
+ b=BtCUCJLvtgjHhXQ5Bg2Mya52NyU2jsVN8gthEu1cxE69DTCDlcZ+T2kOZlegt/baFE
+ OASTVBVub2W0McLShk1eQG9ej+LZ/xEKsdaT7ADRKcTjeKcHY6m1rznADysjB6L3/Tvy
+ g/bjJJ/SpfjrIGuvgEfFYFmPRf74A+kR73P7C4y91824F+P3it6k6B90XprttzLfWU3B
+ qNMOiaiYB2P3zd3Ur5wIDJ1IoFl6GVAKkzwYxRNVO1QK1gsReLJgDpaicbjO/5KolyOw
+ 7JQs+CCUk7/3oIUc8wcWuVUgR+CtdyMIpktRzeEQ6BdOEj7KRQgv/hDZaoEuMTc4/7c8
+ QP3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DiAeLSURx5/8to7pD3+MAvZ/fh+QMuvoNDWO9Nmn9Jg=;
- b=LmOTpSGa1qMY0ua/0QCKm1jOeMUSN3GZgUNcOnHw0gGssEMwyDO16EbBll+XtnAXRc
- rodn1Jr/6AzzdF8yoHzadWhdBs7EoCkchS/N4bSGRD+wPm0QHj4m7Qoczl7MwXliv6JG
- JsZ0j+UoY1eQUKKiksPAx+kUC0UFvzDExxwiQuNMaexH0FRffJYfxzj58TVRUOgGzDI2
- 1qM51t/vU8oK8WUGJ8cv+E3HvgQJM9kchqGnoQLSjJA6gJ8k0R2ABkC6gNMUzvxB/siv
- 8QRbBsPfw+Z/OGX9+5g4H+EOJLjS4ADEtfkK4IybeR5FXY6TvGLKX6VfjVKu6GHxbcgW
- e/mg==
-X-Gm-Message-State: AOAM533YPo+9VjA1cYxzBDhRpa+X4L9Zv9br/F2h5/zBMUo9pZyDzttj
- 3AHaJwBGz0ydOcjH8ok3losfgsGAjPI=
-X-Google-Smtp-Source: ABdhPJzkYIoY9CYj0Hhc1mxNYZjVoIgGGfCWghJBFd1mostDwj9eDqbSHzLbxUO2bjodtUnxtVtEww==
-X-Received: by 2002:adf:fc0d:: with SMTP id i13mr16388222wrr.156.1602262334194; 
- Fri, 09 Oct 2020 09:52:14 -0700 (PDT)
+ bh=gzKMTpfzwgqoBRPDRCgc9oD8o1aB2gP5trer2RP085Q=;
+ b=oMHHdmrQhqyJIOTWoThYdE93bTCi5JZOZPgh+iNOxnlfQ4E3kZ9ru5bpz0S1OgnL35
+ ceTpeKakRS+YMjVRzxKBurtIxA0MZbsm88HoMVYMlLwDJzHhFdm+FW+RXN4QRL9zRP+9
+ ieSIrEv1rVmSkBEonCAWC3mfnvPxt2GH505s5zuXw0QNlEjiHtz4sB9qfJlNAUEOWr8V
+ UVDQVKehr8HAf2mlb3deqKQ6h3Hwsl2/N1Ue2yLaYCrJXdwjQTV6zq3wGqbKNKIkA8eM
+ KeV+pDI3OmusV12/3tCU1wjlacvz9E1Z6meW0bbev8E1u/QKXk4HgFUu9oDQDmGXazcE
+ wrgA==
+X-Gm-Message-State: AOAM53268KMojl1/T7WB4k2SFFppTeQsrdYfmyDbowERFG2nKNnqW1zx
+ CyINnbWIpPH56y4hi6oeUVTVGLo4c/U=
+X-Google-Smtp-Source: ABdhPJyQz/eYbJOyU3PqisG6CLh+Trz5RqlFyuzsaL3Dgyk1FiIatGlnWG7xHfWLjnJiY6COh0203w==
+X-Received: by 2002:a1c:e045:: with SMTP id x66mr15227567wmg.104.1602262335256; 
+ Fri, 09 Oct 2020 09:52:15 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id p13sm12777125wmb.5.2020.10.09.09.52.13
+ by smtp.gmail.com with ESMTPSA id p13sm12777125wmb.5.2020.10.09.09.52.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 09:52:13 -0700 (PDT)
+ Fri, 09 Oct 2020 09:52:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] MAINTAINERS: Downgrade status of MIPS Boston to "Odd
- Fixes"
-Date: Fri,  9 Oct 2020 18:52:06 +0200
-Message-Id: <20201009165208.2905569-4-f4bug@amsat.org>
+Subject: [PATCH 4/5] MAINTAINERS: Update Paul Burton email address
+Date: Fri,  9 Oct 2020 18:52:07 +0200
+Message-Id: <20201009165208.2905569-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009165208.2905569-1-f4bug@amsat.org>
 References: <20201009165208.2905569-1-f4bug@amsat.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -97,15 +96,9 @@ Cc: Chen Huacai <zltjiangshi@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paul's Wavecomp email has been bouncing for months. He told us
-he "no longer has access to modern MIPS CPUs or Boston hardware,
-and wouldn't currently have time to spend on them if he did." [1]
-but "perhaps that might change in the future." [2].
-Be fair and downgrade the status of the Boston board to "Odd Fixes"
-(has a maintainer but they don't have time to do much other).
-
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718739.html
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg728605.html
+Paul's Wavecomp email has been bouncing for months, and in
+commit 2b107c2c1c (".mailmap: Update Paul Burton email address")
+we already removed the expired email.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
@@ -113,18 +106,18 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 2de5943e388..782743b7ef0 100644
+index 782743b7ef0..702f73823fc 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1163,7 +1163,7 @@ F: hw/intc/loongson_liointc.c
+@@ -1161,7 +1161,7 @@ S: Maintained
+ F: hw/intc/loongson_liointc.c
+ 
  Boston
- M: Paul Burton <pburton@wavecomp.com>
+-M: Paul Burton <pburton@wavecomp.com>
++M: Paul Burton <paulburton@kernel.org>
  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
--S: Maintained
-+S: Odd Fixes
+ S: Odd Fixes
  F: hw/core/loader-fit.c
- F: hw/mips/boston.c
- F: hw/pci-host/xilinx-pcie.c
 -- 
 2.26.2
 
