@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE732886DD
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:26:56 +0200 (CEST)
-Received: from localhost ([::1]:57154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF602886F4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:31:24 +0200 (CEST)
+Received: from localhost ([::1]:41300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQpbz-0002m3-0m
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43010)
+	id 1kQpgJ-00084C-AL
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:31:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVT-0005DG-P6
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:11 -0400
-Received: from ozlabs.org ([203.11.71.1]:33371)
+ id 1kQpVV-0005GL-MY
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:14 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:47915 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVQ-0001mj-HU
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:11 -0400
+ id 1kQpVT-0001nA-R6
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:13 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4C73wX2sWnz9sVf; Fri,  9 Oct 2020 21:19:56 +1100 (AEDT)
+ id 4C73wX5xPGz9sWC; Fri,  9 Oct 2020 21:19:56 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1602238796;
- bh=GCVvCgAulmR9wxpnL37H/iZHOe2HDKMcMtUSBbCHEZ0=;
+ bh=yMi9JSvWq3PL1j2sqg+bqydZgz5XuxXnbO6AYlAUWUE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OziiSDI4hTPMdn3YyOHwlRRNwbeBf7LtxgvPG3/mhVy288fIb+IJ+6fKLu5pPcnhy
- KMvBmQ4E3cHafv2E6jQCj+Scs0bm2HXbGLQKABUlVhk8eQZrI+Aj4hJyeaoo1zVS5X
- 81FoVPq9f3P/l8w4koLcBU8jVxb/GvWM9BXYzr18=
+ b=Nw8ZNMEWw5YY+v/Rkw1w9qjzyW0bkvoKZ3AyvUypxDrfRKuvIBolMN/lAYPvDLvTH
+ MPCug/A9J2Y67EMrbWiYnFYBWl/xffgrJWJ319lvoho4BW3CwnNzzjDyTyaXUaRRjP
+ cwRbRDrackuglLKQNDHtbl2fUzzgfdy2AyWCVFyY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/20] spapr: Add a return value to spapr_drc_attach()
-Date: Fri,  9 Oct 2020 21:19:40 +1100
-Message-Id: <20201009101951.1569252-10-david@gibson.dropbear.id.au>
+Subject: [PULL 10/20] spapr: Simplify error handling in prop_get_fdt()
+Date: Fri,  9 Oct 2020 21:19:41 +1100
+Message-Id: <20201009101951.1569252-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 References: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 06:19:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -63,180 +62,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  dbarboza@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nonngu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nonngu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-As recommended in "qapi/error.h", return true on success and false on
-failure. This allows to reduce error propagation overhead in the callers.
+Use the return value of visit_check_struct() and visit_check_list()
+for error checking instead of local_err. This allows to get rid of
+the error propagation overhead.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20200914123505.612812-9-groug@kaod.org>
+Message-Id: <20200914123505.612812-10-groug@kaod.org>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c             | 15 +++------------
- hw/ppc/spapr_drc.c         |  5 +++--
- hw/ppc/spapr_nvdimm.c      |  5 +----
- hw/ppc/spapr_pci.c         |  5 +----
- include/hw/ppc/spapr_drc.h |  2 +-
- 5 files changed, 9 insertions(+), 23 deletions(-)
+ hw/ppc/spapr_drc.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 0f82e657e3..26b3432fe4 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3371,22 +3371,19 @@ static void spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
-     int i;
-     uint64_t addr = addr_start;
-     bool hotplugged = spapr_drc_hotplugged(dev);
--    Error *local_err = NULL;
- 
-     for (i = 0; i < nr_lmbs; i++) {
-         drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-                               addr / SPAPR_MEMORY_BLOCK_SIZE);
-         g_assert(drc);
- 
--        spapr_drc_attach(drc, dev, &local_err);
--        if (local_err) {
-+        if (!spapr_drc_attach(drc, dev, errp)) {
-             while (addr > addr_start) {
-                 addr -= SPAPR_MEMORY_BLOCK_SIZE;
-                 drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-                                       addr / SPAPR_MEMORY_BLOCK_SIZE);
-                 spapr_drc_detach(drc);
-             }
--            error_propagate(errp, local_err);
-             return;
-         }
-         if (!hotplugged) {
-@@ -3767,7 +3764,6 @@ static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     CPUCore *cc = CPU_CORE(dev);
-     CPUState *cs;
-     SpaprDrc *drc;
--    Error *local_err = NULL;
-     CPUArchId *core_slot;
-     int index;
-     bool hotplugged = spapr_drc_hotplugged(dev);
-@@ -3785,9 +3781,7 @@ static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     g_assert(drc || !mc->has_hotpluggable_cpus);
- 
-     if (drc) {
--        spapr_drc_attach(drc, dev, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (!spapr_drc_attach(drc, dev, errp)) {
-             return;
-         }
- 
-@@ -3939,7 +3933,6 @@ static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(dev);
-     SpaprDrc *drc;
-     bool hotplugged = spapr_drc_hotplugged(dev);
--    Error *local_err = NULL;
- 
-     if (!smc->dr_phb_enabled) {
-         return;
-@@ -3949,9 +3942,7 @@ static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     /* hotplug hooks should check it's enabled before getting this far */
-     assert(drc);
- 
--    spapr_drc_attach(drc, dev, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!spapr_drc_attach(drc, dev, errp)) {
-         return;
-     }
- 
 diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index fe998d8108..04a6bf134e 100644
+index 04a6bf134e..697b28c343 100644
 --- a/hw/ppc/spapr_drc.c
 +++ b/hw/ppc/spapr_drc.c
-@@ -371,13 +371,13 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
-     } while (fdt_depth != 0);
- }
- 
--void spapr_drc_attach(SpaprDrc *drc, DeviceState *d, Error **errp)
-+bool spapr_drc_attach(SpaprDrc *drc, DeviceState *d, Error **errp)
+@@ -302,7 +302,6 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
  {
-     trace_spapr_drc_attach(spapr_drc_index(drc));
+     SpaprDrc *drc = SPAPR_DR_CONNECTOR(obj);
+     QNull *null = NULL;
+-    Error *err = NULL;
+     int fdt_offset_next, fdt_offset, fdt_depth;
+     void *fdt;
  
-     if (drc->dev) {
-         error_setg(errp, "an attached device is still awaiting release");
--        return;
-+        return false;
-     }
-     g_assert((drc->state == SPAPR_DRC_STATE_LOGICAL_UNUSABLE)
-              || (drc->state == SPAPR_DRC_STATE_PHYSICAL_POWERON));
-@@ -388,6 +388,7 @@ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d, Error **errp)
-                              object_get_typename(OBJECT(drc->dev)),
-                              (Object **)(&drc->dev),
-                              NULL, 0);
-+    return true;
- }
+@@ -321,6 +320,7 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
+         const struct fdt_property *prop = NULL;
+         int prop_len = 0, name_len = 0;
+         uint32_t tag;
++        bool ok;
  
- static void spapr_drc_release(SpaprDrc *drc)
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index 63872054f3..c06f903e5b 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -91,14 +91,11 @@ void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
- {
-     SpaprDrc *drc;
-     bool hotplugged = spapr_drc_hotplugged(dev);
--    Error *local_err = NULL;
- 
-     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_PMEM, slot);
-     g_assert(drc);
- 
--    spapr_drc_attach(drc, dev, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!spapr_drc_attach(drc, dev, errp)) {
-         return;
-     }
- 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 5db912b48c..3999392b32 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1539,7 +1539,6 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
-     PCIDevice *pdev = PCI_DEVICE(plugged_dev);
-     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(plugged_dev);
-     SpaprDrc *drc = drc_from_dev(phb, pdev);
--    Error *local_err = NULL;
-     PCIBus *bus = PCI_BUS(qdev_get_parent_bus(DEVICE(pdev)));
-     uint32_t slotnr = PCI_SLOT(pdev->devfn);
- 
-@@ -1578,9 +1577,7 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
-         return;
-     }
- 
--    spapr_drc_attach(drc, DEVICE(pdev), &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
-+    if (!spapr_drc_attach(drc, DEVICE(pdev), errp)) {
-         return;
-     }
- 
-diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-index f270860769..165b281496 100644
---- a/include/hw/ppc/spapr_drc.h
-+++ b/include/hw/ppc/spapr_drc.h
-@@ -235,7 +235,7 @@ SpaprDrc *spapr_drc_by_index(uint32_t index);
- SpaprDrc *spapr_drc_by_id(const char *type, uint32_t id);
- int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask);
- 
--void spapr_drc_attach(SpaprDrc *drc, DeviceState *d, Error **errp);
-+bool spapr_drc_attach(SpaprDrc *drc, DeviceState *d, Error **errp);
- void spapr_drc_detach(SpaprDrc *drc);
- 
- /* Returns true if a hot plug/unplug request is pending */
+         tag = fdt_next_tag(fdt, fdt_offset, &fdt_offset_next);
+         switch (tag) {
+@@ -334,10 +334,9 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
+         case FDT_END_NODE:
+             /* shouldn't ever see an FDT_END_NODE before FDT_BEGIN_NODE */
+             g_assert(fdt_depth > 0);
+-            visit_check_struct(v, &err);
++            ok = visit_check_struct(v, errp);
+             visit_end_struct(v, NULL);
+-            if (err) {
+-                error_propagate(errp, err);
++            if (!ok) {
+                 return;
+             }
+             fdt_depth--;
+@@ -355,10 +354,9 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
+                     return;
+                 }
+             }
+-            visit_check_list(v, &err);
++            ok = visit_check_list(v, errp);
+             visit_end_list(v, NULL);
+-            if (err) {
+-                error_propagate(errp, err);
++            if (!ok) {
+                 return;
+             }
+             break;
 -- 
 2.26.2
 
