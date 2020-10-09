@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E059288887
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 14:19:24 +0200 (CEST)
-Received: from localhost ([::1]:37718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C5D2888A7
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 14:29:02 +0200 (CEST)
+Received: from localhost ([::1]:59298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQrMp-0007ft-4l
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 08:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37656)
+	id 1kQrW7-00006y-W3
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 08:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQrKF-0006gS-0p
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:16:43 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:45573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQrKD-0007jP-3U
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:16:42 -0400
-Received: by mail-ed1-x544.google.com with SMTP id dg9so6753351edb.12
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 05:16:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Yn0kblmzf0znt1St/jcqzNWz4E4y7g4ifHANsNjv9qo=;
- b=Rh1O8giyOmdFm77SpqUvSb1t50WG9U5F5n0ouoGqNP8v2WXRlFfpKg7yJ3TAAMitMC
- XlvqBujX0C0hx4DJDcCbIk1XLNDfGTu1UVi05T6rcmPxyyaSyhG+q4okENVFYFbKduuq
- WBP2BB4yUjhkzBXZJlemWNrmJL3vD6CTTdPmwcboOKumd4g3lA5Oe8jXRYr1HVWaz5jQ
- zu2xvphBe8jNr3ofC3mt7Y14i9SxeU6KJIUcZWPZ5e0yOQk0rW0a4hH9g5vjyNFj/qds
- WwLEWzDodCspgxO5mWwUT4uYw21oX7yUm8/I/nFcbr7AVLiDybjtd5NsaRcbRogkF3Jp
- hvYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Yn0kblmzf0znt1St/jcqzNWz4E4y7g4ifHANsNjv9qo=;
- b=o0LmMJhgo3jd4JVnlJCwaFhqVZ25cTjb8wfMw5XrFARkWM0d0zY+H3DNZkSuJK3mh9
- lEHfr1Zfw0q/+3K1rIoQBGorZZ3a/Rc+9TOtb5l9AH09QtVKckzDMHS31LPLcEPzAPqf
- 3O6hRuwI5WRnfzf4dBU181+5MdQya9EaLb9I29Ffl6+nnTeBLSgPMknRcDsNIby2TgVg
- R1ERuOqjAdOrkud8ln8HbRtMA5k/bTyFeNfqPWVRkso+KbHEPiIt7oZYHcCeSQD9nDkr
- o/r4Y6xw6leuqcs3Zl/bRbKT370/1of/NN56UCNNtqKRdetOF050hEkiF0/C3dcR1q4o
- yCaw==
-X-Gm-Message-State: AOAM533o3OKoMHDnEBCM+peGe3LMPIIzlttjKw0c38Qd+akeiSUVjGAu
- MQdFcfYvVWI4z1Ne+8lp2nUgoTnu8NT98S3OTrJekA==
-X-Google-Smtp-Source: ABdhPJxkUCAU5YoQZpXn0+H5FEyyjtlPvSAKcstZ7VCKuslRVW0HPrn9KA6Uf20zejOj4s9IpU/GJWh3BL7avwn5pKM=
-X-Received: by 2002:a50:e68a:: with SMTP id z10mr14631104edm.100.1602245798941; 
- Fri, 09 Oct 2020 05:16:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kQrMJ-00085r-0p
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:18:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52817)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kQrMG-0007tB-QZ
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:18:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602245927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=r2dy6VyzVqM/+uH8zQ00z+zsZiVOxWZqCNJ5Gg+oQlE=;
+ b=VJiML/iBHouW618AeaWD7BTuHAcQsqSJPhwX5vUIUV+exlbYzkE7NA7pynEcKtPAaKsQ/0
+ 4YXkFLqe6bfzUw5q34UrijfEtF9drOKip/WiBTqpxPzhxwASJxTUoCZTdUmDlVNUJWjJvJ
+ Doo9LQmuaBlvfINCIXELT/8aJKuluE0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-418-HJlqJZiZNySdFl2VOS-WFQ-1; Fri, 09 Oct 2020 08:18:46 -0400
+X-MC-Unique: HJlqJZiZNySdFl2VOS-WFQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24204805F0B
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 12:18:45 +0000 (UTC)
+Received: from vitty.brq.redhat.com (unknown [10.40.195.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3EDE95C1BB;
+ Fri,  9 Oct 2020 12:18:43 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFC v3 00/23] i386: KVM: expand Hyper-V features early
+Date: Fri,  9 Oct 2020 14:18:19 +0200
+Message-Id: <20201009121842.1938010-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-References: <20201008185951.1026052-1-eblake@redhat.com>
-In-Reply-To: <20201008185951.1026052-1-eblake@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 9 Oct 2020 13:16:27 +0100
-Message-ID: <CAFEAcA-EO9C+JsH_J+teH9RPFM17OVaYY4x=OF6wnC-d-YwSog@mail.gmail.com>
-Subject: Re: [PULL 0/8] NBD patches through 2020-10-08
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,40 +77,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Oct 2020 at 20:03, Eric Blake <eblake@redhat.com> wrote:
->
-> The following changes since commit e64cf4d569f6461d6b9072e00d6e78d0ab8bd4a7:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20201008' into staging (2020-10-08 17:18:46 +0100)
->
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-10-08
->
-> for you to fetch changes up to 82cd3c26889adbd41756de121d38a3aa7c9351c7:
->
->   nbd: Simplify meta-context parsing (2020-10-08 13:35:07 -0500)
->
-> ----------------------------------------------------------------
-> nbd patches for 2020-10-08
->
-> - silence compilation warnings
-> - more fixes to prevent reconnect hangs
-> - improve 'qemu-nbd' termination behavior
-> - cleaner NBD protocol compliance on string handling
+Another week another RFC. KVM patches are still in flight, so RFC again.
 
-Build failure, OSX, FreeBSD, NetBSD:
+Changes since RFCv2:
+- Rebase.
+- Split "i386: drop FEAT_HYPERV feature leaves" into several patches and
+  re-shuffle patches to minimize the code churn and make it easier to
+  review. [Eduardo]
+- Added "i386: provide simple 'hyperv=on' option to x86 machine types" on
+  top.
 
-Linking static target libqemuutil.a
-../../qemu-nbd.c:591:29: error: use of undeclared identifier 'termsig_handler'
-    sa_sigterm.sa_handler = termsig_handler;
-                            ^
-1 error generated.
+This pairs with
+https://lore.kernel.org/kvm/20200929150944.1235688-1-vkuznets@redhat.com/T/#t
 
-thanks
--- PMM
+Upper layer tools like libvirt want to figure out which Hyper-V features are
+supported by the underlying stack (QEMU/KVM) but currently they are unable to
+do so. We have a nice 'hv_passthrough' CPU flag supported by QEMU but it has
+no effect on e.g. QMP's 
+
+query-cpu-model-expansion type=full model={"name":"host","props":{"hv-passthrough":true}}
+
+command as we parse Hyper-V features after creating KVM vCPUs and not at
+feature expansion time. To support the use-case we first need to make 
+KVM_GET_SUPPORTED_HV_CPUID ioctl a system-wide ioctl as the existing
+vCPU version can't be used that early. This is what KVM part does. With
+that done, we can make early Hyper-V feature expansion (this series).
+
+In addition, add a simple 'hyperv=on' option to x86 machine types which
+enables (and requires from KVM) all currently supported Hyper-V enlightenments.
+Unlike 'hv_passthrough' mode, this is going to be migratable.
+
+Vitaly Kuznetsov (23):
+  WIP: update linux/headers
+  i386: fill in FEAT_HYPERV_EDX from edx instead of eax
+  i386: drop x86_cpu_get_supported_feature_word() forward declaration
+  i386: move hyperv_vendor_id initialization to x86_cpu_realizefn()
+  i386: move hyperv_interface_id initialization to x86_cpu_realizefn()
+  i386: move hyperv_version_id initialization to x86_cpu_realizefn()
+  i386: move hyperv_limits initialization to x86_cpu_realizefn()
+  i386: keep hyperv_vendor string up-to-date
+  i386: invert hyperv_spinlock_attempts setting logic with
+    hv_passthrough
+  i386: always fill Hyper-V CPUID feature leaves from X86CPU data
+  i386: stop using env->features[] for filling Hyper-V CPUIDs
+  i386: introduce hyperv_feature_supported()
+  i386: introduce hv_cpuid_get_host()
+  i386: drop FEAT_HYPERV feature leaves
+  i386: introduce hv_cpuid_cache
+  i386: split hyperv_handle_properties() into
+    hyperv_expand_features()/hyperv_fill_cpuids()
+  i386: move eVMCS enablement to hyperv_init_vcpu()
+  i386: switch hyperv_expand_features() to using error_setg()
+  i386: adjust the expected KVM_GET_SUPPORTED_HV_CPUID array size
+  i386: prefer system KVM_GET_SUPPORTED_HV_CPUID ioctl over vCPU's one
+  i386: use global kvm_state in hyperv_enabled() check
+  i386: expand Hyper-V features during CPU feature expansion time
+  i386: provide simple 'hyperv=on' option to x86 machine types
+
+ docs/hyperv.txt             |   8 +
+ hw/i386/x86.c               |  30 ++
+ include/hw/i386/x86.h       |   7 +
+ linux-headers/asm-x86/kvm.h |  20 ++
+ linux-headers/linux/kvm.h   |  27 +-
+ target/i386/cpu.c           | 149 ++++------
+ target/i386/cpu.h           |  12 +-
+ target/i386/kvm-stub.c      |   5 +
+ target/i386/kvm.c           | 526 ++++++++++++++++++++----------------
+ target/i386/kvm_i386.h      |   1 +
+ 10 files changed, 457 insertions(+), 328 deletions(-)
+
+-- 
+2.25.4
+
 
