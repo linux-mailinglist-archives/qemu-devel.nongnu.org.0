@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DCE2886DA
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:25:46 +0200 (CEST)
-Received: from localhost ([::1]:55294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AFC2886C9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:22:42 +0200 (CEST)
+Received: from localhost ([::1]:46838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQpar-00022H-7P
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42936)
+	id 1kQpXt-00070u-Lg
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:22:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVN-00059o-0J
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:05 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:33201 helo=ozlabs.org)
+ id 1kQpVQ-0005AH-2f
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:08 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:38173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVK-0001m0-03
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:04 -0400
+ id 1kQpVM-0001m2-Oq
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:07 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4C73wW37XGz9sTq; Fri,  9 Oct 2020 21:19:55 +1100 (AEDT)
+ id 4C73wW4Qxrz9sTr; Fri,  9 Oct 2020 21:19:55 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1602238795;
- bh=5q6vMK0QcqvywwwDzfcaUZlet4OuaQreYsVD/rZXy/w=;
+ bh=t2a0wVw8BUpc8Oi6sR1W1FEskafg0a3eFZnFnRt8yNI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VJAhHC/f976Y/0UASI/1s4ICNRKgQAesRY0HXlwWpfa3IkBHr6ZA71G1m72CMcmAh
- U1O3iaHOdF+1hMwSMvWA88yole8xPRXcefMGJLSOqN6ceMgxk5UNehcH2P+xxJEofM
- dknVwfPPRwJ/THs4BWw4Vi6Twd6HuKL66I7UX7Xs=
+ b=Y4DG8FQx90iWMr4j+FS+4wF2SIaQy76d1eboBQzQybht6gmhrfYDbSQq5gtNN/zjW
+ H80wIAMIcAXDrT1m+Uk65UkQPReIini1FfAysaYeur8Go8MO+kjtQkxiufRECsSxg6
+ CpCTHo2EdnMU9Zxfy83/9cMMhDgc7kGSKaC9my+0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/20] spapr: Fix error leak in spapr_realize_vcpu()
-Date: Fri,  9 Oct 2020 21:19:33 +1100
-Message-Id: <20201009101951.1569252-3-david@gibson.dropbear.id.au>
+Subject: [PULL 03/20] ppc: Add a return value to ppc_set_compat() and
+ ppc_set_compat_all()
+Date: Fri,  9 Oct 2020 21:19:34 +1100
+Message-Id: <20201009101951.1569252-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 References: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 06:19:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -62,50 +62,132 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- dbarboza@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, groug@kaod.org,
- qemu-ppc@nonngu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ dbarboza@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nonngu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-If spapr_irq_cpu_intc_create() fails, local_err isn't propagated and
-thus leaked.
+As recommended in "qapi/error.h", indicate success / failure with a
+return value. Since ppc_set_compat() is called from a VMState handler,
+let's make it an int so that it propagates any negative errno returned
+by kvmppc_set_compat(). Do the same for ppc_set_compat_all() for
+consistency, even if it isn't called in a context where a negative errno
+is required on failure.
 
-Fixes: 992861fb1e4c ("error: Eliminate error_propagate() manually")
-Cc: armbru@redhat.com
+This will allow to simplify error handling in the callers.
+
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20200914123505.612812-2-groug@kaod.org>
+Message-Id: <20200914123505.612812-3-groug@kaod.org>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_cpu_core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/ppc/compat.c | 26 +++++++++++++++-----------
+ target/ppc/cpu.h    |  4 ++--
+ 2 files changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index 2125fdac34..3e4f402b2e 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -232,7 +232,6 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+diff --git a/target/ppc/compat.c b/target/ppc/compat.c
+index 08aede88dc..e9bec5ffed 100644
+--- a/target/ppc/compat.c
++++ b/target/ppc/compat.c
+@@ -158,7 +158,7 @@ bool ppc_type_check_compat(const char *cputype, uint32_t compat_pvr,
+     return pcc_compat(pcc, compat_pvr, min_compat_pvr, max_compat_pvr);
+ }
+ 
+-void ppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr, Error **errp)
++int ppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr, Error **errp)
  {
+     const CompatInfo *compat = compat_by_pvr(compat_pvr);
      CPUPPCState *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
--    Error *local_err = NULL;
- 
-     if (!qdev_realize(DEVICE(cpu), NULL, errp)) {
-         return;
-@@ -244,7 +243,7 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     cpu_ppc_set_vhyp(cpu, PPC_VIRTUAL_HYPERVISOR(spapr));
-     kvmppc_set_papr(cpu);
- 
--    if (spapr_irq_cpu_intc_create(spapr, cpu, &local_err) < 0) {
-+    if (spapr_irq_cpu_intc_create(spapr, cpu, errp) < 0) {
-         cpu_remove_sync(CPU(cpu));
-         return;
+@@ -169,11 +169,11 @@ void ppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr, Error **errp)
+         pcr = 0;
+     } else if (!compat) {
+         error_setg(errp, "Unknown compatibility PVR 0x%08"PRIx32, compat_pvr);
+-        return;
++        return -EINVAL;
+     } else if (!ppc_check_compat(cpu, compat_pvr, 0, 0)) {
+         error_setg(errp, "Compatibility PVR 0x%08"PRIx32" not valid for CPU",
+                    compat_pvr);
+-        return;
++        return -EINVAL;
+     } else {
+         pcr = compat->pcr;
      }
+@@ -185,17 +185,19 @@ void ppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr, Error **errp)
+         if (ret < 0) {
+             error_setg_errno(errp, -ret,
+                              "Unable to set CPU compatibility mode in KVM");
+-            return;
++            return ret;
+         }
+     }
+ 
+     cpu->compat_pvr = compat_pvr;
+     env->spr[SPR_PCR] = pcr & pcc->pcr_mask;
++    return 0;
+ }
+ 
+ typedef struct {
+     uint32_t compat_pvr;
+-    Error *err;
++    Error **errp;
++    int ret;
+ } SetCompatState;
+ 
+ static void do_set_compat(CPUState *cs, run_on_cpu_data arg)
+@@ -203,26 +205,28 @@ static void do_set_compat(CPUState *cs, run_on_cpu_data arg)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     SetCompatState *s = arg.host_ptr;
+ 
+-    ppc_set_compat(cpu, s->compat_pvr, &s->err);
++    s->ret = ppc_set_compat(cpu, s->compat_pvr, s->errp);
+ }
+ 
+-void ppc_set_compat_all(uint32_t compat_pvr, Error **errp)
++int ppc_set_compat_all(uint32_t compat_pvr, Error **errp)
+ {
+     CPUState *cs;
+ 
+     CPU_FOREACH(cs) {
+         SetCompatState s = {
+             .compat_pvr = compat_pvr,
+-            .err = NULL,
++            .errp = errp,
++            .ret = 0,
+         };
+ 
+         run_on_cpu(cs, do_set_compat, RUN_ON_CPU_HOST_PTR(&s));
+ 
+-        if (s.err) {
+-            error_propagate(errp, s.err);
+-            return;
++        if (s.ret < 0) {
++            return s.ret;
+         }
+     }
++
++    return 0;
+ }
+ 
+ int ppc_compat_max_vthreads(PowerPCCPU *cpu)
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 766e9c5c26..e8aa185d4f 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1352,10 +1352,10 @@ bool ppc_check_compat(PowerPCCPU *cpu, uint32_t compat_pvr,
+ bool ppc_type_check_compat(const char *cputype, uint32_t compat_pvr,
+                            uint32_t min_compat_pvr, uint32_t max_compat_pvr);
+ 
+-void ppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr, Error **errp);
++int ppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr, Error **errp);
+ 
+ #if !defined(CONFIG_USER_ONLY)
+-void ppc_set_compat_all(uint32_t compat_pvr, Error **errp);
++int ppc_set_compat_all(uint32_t compat_pvr, Error **errp);
+ #endif
+ int ppc_compat_max_vthreads(PowerPCCPU *cpu);
+ void ppc_compat_add_property(Object *obj, const char *name,
 -- 
 2.26.2
 
