@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A93288F9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:11:03 +0200 (CEST)
-Received: from localhost ([::1]:58582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5201288F8C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:05:20 +0200 (CEST)
+Received: from localhost ([::1]:42080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvv4-0007f5-U4
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:11:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40380)
+	id 1kQvpX-0000gw-Ua
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:05:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvRI-0003Ey-FP
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:16 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53323)
+ id 1kQvR9-00033N-H7
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:08 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvRG-0006IU-64
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:16 -0400
-Received: by mail-wm1-x336.google.com with SMTP id f21so10431379wml.3
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:40:13 -0700 (PDT)
+ id 1kQvR7-0006Ga-GX
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:07 -0400
+Received: by mail-wm1-x336.google.com with SMTP id f21so10430911wml.3
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z81qFU9MDMz+ow4A3PTc5iA9Aj8adQBNAwreyQQkkos=;
- b=SdUYeQJPK5bA6H5D+mc+U8pu512UTsRBuu+5bP8asfBcuzFaINnOMmX9UZMNdJS1VF
- zU3rvuII2+iWST/SmHrTytlXS5mz/zUtTo579sxPsi9Gi3JpmYC8nqz+EYU3gEN6Qz7u
- 59ytpN3p0B6wXKF+ZQfVuSddUlt+04klh7RoIunckVeJjgaXeA4xlMxL3oVV96xmFV/2
- Lsoq4AdRkwXiTmohow4jd9xfBPm3Aqv+87JBbI4z/nOZdd5Yc+ZBpi88R6kbQCzCKaHR
- lvKgquYYs+jVsmnOdajMtXrlytMsjbtY8lBE9NMEdE6pUAnk3B7xuqJBQw/wzqCrcEX4
- I5mA==
+ bh=BN5pU+5tBBzX4KE1P4q+qJbBN4nkulfbKpNhgOuiWjw=;
+ b=T6VK+5YEXCZGIGpRbfnVVtUWhZKH9D3VjyaclgWTb5272TyTvVtWyRSiKjTeDQFdKQ
+ Ejtt1+M/MZ4o2BACuO+kXCgDz/Vx71hOo7i3ic45HCQN5b1flu81jmO0JYSw1jvvsayT
+ J67fyCn6doAGkg37Glf5XHnLI8OofY6KSLygP22GZvQk2ScixmJlNN/AbDmp0NK6euXK
+ ztTTYLAwLqJqkrose91K79KQpXQnrLkg4GoygvdpvtsMxLzqkeJRo+yE+Vod/XA2FP8+
+ U2yn30NLEhTLceEheoeyWttsCjZQXexqE1Iz9RwaqV22nj3CekIbG2+JFFMzW9gGJvfF
+ rw/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z81qFU9MDMz+ow4A3PTc5iA9Aj8adQBNAwreyQQkkos=;
- b=qVDsJ8HAEAcJmWV3ySkf6Neh0jTucqpDm9XW9nC9jEz1zsYIdFdqjMudFQWH4T8Ia4
- l8vU3JSq/HZxXa1GXz7r1xPK7++Vd+Psi6MYWI/ckl/lfXt1Lcz1bBLcC48kkov22Pye
- gr0o/lGT4x9KfkIHya9h0gstWWfED1KSS7cnp+RZiKek6zHleQHijdEv3rCYhaNYP3zw
- SiwqLS0YY8obKzOlIR1vzptNh6l1knq5bRAgS/KWPtus+GOd49el6GHgWkzZK8OaltPc
- n04vA7W64bBc+Qjj2XqNYF2PBCCFHD2FfNsuSAjM7/Scula0Bu9h5mFdSH+3FCeJxpL4
- bvWQ==
-X-Gm-Message-State: AOAM530Osn8znfkrwcYvOvymd+/uTn5zDzfpMBGTjEEtZLz+Lc12bjyK
- 0mIAbfWjVrmv7xkT+burV22fDw==
-X-Google-Smtp-Source: ABdhPJzIGV7UzXnE1VwqIEWE7uTAw/8eNjlYSsmr5jgYCrkkcPaLsjm28TJeALCyYTP1dHJDeAOFDw==
-X-Received: by 2002:a1c:a70d:: with SMTP id q13mr14172224wme.132.1602261612875; 
- Fri, 09 Oct 2020 09:40:12 -0700 (PDT)
+ bh=BN5pU+5tBBzX4KE1P4q+qJbBN4nkulfbKpNhgOuiWjw=;
+ b=Hmz+MagSVN1QwryEK2+QYlQ3+iC+iahG3k5SKIZ+Z8hN5aQXwcgpRo3HiCeiSpQ6aW
+ yqgiYBm4hxRzYf0G0E/A4epOhhTWRamKD39l0hS4mxtYOinBGanzSBOgjUJ/LnOII3GC
+ G8GEjZV0UDJYLPXPTE6ysfkyjbULxVtOT9I/wZtAmacwViRACyrRiYLWYUyZzvLWZH/y
+ 9CZH5Lr0BHXYVUW8QCBL5m3szQKUHIll7Uaj0YTFe2OHs+ehp8WWX3iANicolUhBSaW1
+ LDX0eQaHbaF2EzXpGI7iak3seaOEcNC4IsTCUA2YSw1KgEetXmKmqnuL6lmIpnOBaUcY
+ oPVw==
+X-Gm-Message-State: AOAM531pxpB1TTFSLaWhw1gPbRfB+svPulaaOOBW2/zdaJ/9DY+Uhd7L
+ F9r1LdD4JFJRwx1on2LXrTl8Wg==
+X-Google-Smtp-Source: ABdhPJwOs6Jx9PdoJKirQ3V6sw3gSE+z5Nm6fy8vvDT5Rb/xti4oQEOSuC98BiF5fFQeJSQo2ckHEQ==
+X-Received: by 2002:a1c:2bc2:: with SMTP id r185mr7075111wmr.53.1602261603505; 
+ Fri, 09 Oct 2020 09:40:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o3sm8790939wru.15.2020.10.09.09.40.03
+ by smtp.gmail.com with ESMTPSA id y7sm12711954wmg.40.2020.10.09.09.40.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 09:40:09 -0700 (PDT)
+ Fri, 09 Oct 2020 09:40:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7CA021FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id 917571FFA5;
  Fri,  9 Oct 2020 17:31:48 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 16/22] contrib/gitdm: Add Yadro to the domain map
-Date: Fri,  9 Oct 2020 17:31:41 +0100
-Message-Id: <20201009163147.28512-17-alex.bennee@linaro.org>
+Subject: [PULL 17/22] contrib/gitdm: Add Yandex to the domain map
+Date: Fri,  9 Oct 2020 17:31:42 +0100
+Message-Id: <20201009163147.28512-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201009163147.28512-1-alex.bennee@linaro.org>
 References: <20201009163147.28512-1-alex.bennee@linaro.org>
@@ -88,7 +88,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+Cc: Roman Kagan <rvkagan@yandex-team.ru>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -96,24 +96,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-There is a number of contributions from this domain,
+There is a number of contributors from this domain,
 add its own entry to the gitdm domain map.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20201006160653.2391972-11-f4bug@amsat.org>
-Message-Id: <20201007160038.26953-17-alex.bennee@linaro.org>
+Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
+Message-Id: <20201006160653.2391972-12-f4bug@amsat.org>
+Message-Id: <20201007160038.26953-18-alex.bennee@linaro.org>
 
 diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index d767620837..1572070cf4 100644
+index 1572070cf4..0074da618f 100644
 --- a/contrib/gitdm/domain-map
 +++ b/contrib/gitdm/domain-map
-@@ -32,3 +32,4 @@ suse.de         SUSE
- virtuozzo.com   Virtuozzo
+@@ -33,3 +33,4 @@ virtuozzo.com   Virtuozzo
  wdc.com         Western Digital
  xilinx.com      Xilinx
-+yadro.com       YADRO
+ yadro.com       YADRO
++yandex-team.ru  Yandex
 -- 
 2.20.1
 
