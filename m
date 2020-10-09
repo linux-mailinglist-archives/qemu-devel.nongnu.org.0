@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD5F288A41
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 16:04:20 +0200 (CEST)
-Received: from localhost ([::1]:56100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17BBC288A7F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 16:16:24 +0200 (CEST)
+Received: from localhost ([::1]:34364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQt0N-0001sj-Gr
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 10:04:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60030)
+	id 1kQtC2-0005UN-Pl
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 10:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
- id 1kQszP-0001Rv-0l; Fri, 09 Oct 2020 10:03:19 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:38227)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kQtAc-0004in-9w
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 10:14:54 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
- id 1kQszN-0003S8-71; Fri, 09 Oct 2020 10:03:18 -0400
-Received: by mail-lf1-x142.google.com with SMTP id c141so4189299lfg.5;
- Fri, 09 Oct 2020 07:03:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:user-agent:mime-version
- :content-transfer-encoding;
- bh=IAbwpPmzgr1V5gG2lEeRiHos45MFc3LZ0SMyVzcC7XI=;
- b=P7Z/9isnL9EQAoPVXufuPp4Cu85Dy5bEo4gN+NYjIKdZt1hWy0iASPc4M8gm3w3tB1
- 6wQ2D8XoAKwJs7J3y7o47Ryce5Y3n8tF+1ptfuLRotVRW0Wkj3a8A12YyUAuHNCNGT0s
- JJi3anziEjpIGh/RLz4oCHSqiMVhTtIq+9iY9QSf5APwe0gg5KSjJWM5UwFwYeGve5Dt
- oePl0lbuPnWZMZQS4dtYeR3WvgDvKcDqqFAevbHWbQdD0HYZMiuRdgs8Kkb/hfvUFC7U
- hNAy2Qo1RXwaidsq50amv4BkrJiDBF7POCqrA3O3MZAa6W8jdmhsuMxLkV3KrJLmRjgC
- 1c6A==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kQtAZ-0004mu-Jl
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 10:14:53 -0400
+Received: by mail-oi1-x244.google.com with SMTP id z26so10289143oih.12
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 07:14:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=i9LyY563dyk+VeLh1PfeD2P5rMx+jlsmbVOzgw8XLXQ=;
+ b=WmWQOV6HQIPssuDu6kG8N9u+QqS+fh4rOFtIXJhi7ZVC+wosGNBv9MlKhl3CLkYs/7
+ kmSlg74nwBDsVq6jTQa61fULGfgrDxXU72KCv/ijpGAMM2p5E7KXJMXonzCE1Ry/r9Lu
+ kEavOZrgq3ilnTxGohw3q10Ta+e9HsZr1nvbpFwj3qozYzUUlJ1GmYdtL55DGGXQAODc
+ QT5v5Do+kL3HnIubP04UDI3wtPG/IXRafCeUUoSw/RgPr9X1U0Jxnyh5Un8w8OrM0Dcx
+ o+/hrMB3b1rONcDNQ30XGXw/slgeCEhUo6PAzjuwP12g8jeeHnwDX2K2QcqCEkgnrBvA
+ aMcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
- :mime-version:content-transfer-encoding;
- bh=IAbwpPmzgr1V5gG2lEeRiHos45MFc3LZ0SMyVzcC7XI=;
- b=KqSF18EfsbAKhhMjJr+seXrzr9z7qIRHhRlHpkIXpaFZXT9CygfFrcLOt69LCXrslJ
- bwXSswWE82Z5dx6tXFn/fLdgsa/M4Ww2qMIwWd/mvuajhTm3HB9xjlhihwYSsH6llwLM
- 4Fb/t+Dpo6xKNaqzcqp+DUaetOTxfMd2nYYFnd9VAA6rYQK79BLQhH2RgaB4VOKZ3nWQ
- pzCpY2Fl7gbL8SVU8hM3Hj3+/cvI9G9Lq8/qoWHfbTm8tjzZOcwSBo8VHOP4WpH0NtoV
- 0v4qVvP21xgYQMKERJcmc4zN+CyTDil/wBxVGmoguI18/cCDCrZnnP6jrZ8hMFufqAjG
- gxGQ==
-X-Gm-Message-State: AOAM531q7NBl4ASCFKXtZwRaZdJ3Bq0etye7ckAPC2ZZH54QxhCX2OUu
- rwzXmU1YMCI2wfrf0QN3R00=
-X-Google-Smtp-Source: ABdhPJyXHNP2v826p/f3O7d0jc9DU/RghENILNHdfu+l0Cjrtcnc8pQ4R55xcS9oJOvyTzjdl56Yng==
-X-Received: by 2002:ac2:4e92:: with SMTP id o18mr4478220lfr.543.1602252194406; 
- Fri, 09 Oct 2020 07:03:14 -0700 (PDT)
-Received: from [192.168.167.128] (37-145-186-126.broadband.corbina.ru.
- [37.145.186.126])
- by smtp.gmail.com with ESMTPSA id h25sm1498622lfp.81.2020.10.09.07.03.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 07:03:13 -0700 (PDT)
-Message-ID: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
-Subject: [PATCH] hw/net: move allocation to the heap due to very large stack
- frame
-From: Elena Afanasova <eafanasova@gmail.com>
-To: david@gibson.dropbear.id.au, jasowang@redhat.com, qemu-ppc@nongnu.org, 
- qemu-devel@nongnu.org
-Date: Fri, 09 Oct 2020 07:02:56 -0700
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i9LyY563dyk+VeLh1PfeD2P5rMx+jlsmbVOzgw8XLXQ=;
+ b=em+GiyI0tci+3E30QtaW1m8lUM3CLFkQwecLQbZqKoRQhiZkpvAg7kDphvEh6DORih
+ AQrHr3CNKn+TYNeBl/q8fGXOX0++pJswzOs/Ofywf4S7VrCDYdVf3hgcJzvskpubb7En
+ elKiY+Ft+F+ACmNFRix1zxW0DIDK7ekKulI0Q8bCyeRvqKVc9rovbvrFQONZh1gnjfY2
+ r5mxl5K8h5cIF+PyqNijxvn8J+uRkusOR8pxBuh9S/SRq4+hiZeQjEY8OCebILkYl1FH
+ SH5MNVQypCH7WKZ0bC1S5082PvfTsdUnaC93YcTCeDTfeqKtdIBWYtAZ64hdUQ5FnHRT
+ Jyjw==
+X-Gm-Message-State: AOAM531eWbZooiLB5fOWSw4/5oYuw8gVrUHZZEG1XtPpnlfVl2VYTrYm
+ G7gzv7H72YSjYw85RG+dWG/FdA==
+X-Google-Smtp-Source: ABdhPJx34/qvIo8/NbsjYltNsmH3l536bzjxEDMnyzAT/O5l7EE4B13P+SvXQxaWqDgMMSUUTTjGYQ==
+X-Received: by 2002:a05:6808:3bc:: with SMTP id
+ n28mr903550oie.171.1602252890179; 
+ Fri, 09 Oct 2020 07:14:50 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id a82sm7432220oii.44.2020.10.09.07.14.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Oct 2020 07:14:49 -0700 (PDT)
+Subject: Re: [PATCH] hw/net: move allocation to the heap due to very large
+ stack frame
+To: Elena Afanasova <eafanasova@gmail.com>, david@gibson.dropbear.id.au,
+ jasowang@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f5c2c746-e648-a2b6-e09c-069423c752cb@linaro.org>
+Date: Fri, 9 Oct 2020 09:14:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=eafanasova@gmail.com; helo=mail-lf1-x142.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.208,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,42 +96,20 @@ Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 09905773a00e417d3a37c12350d9e55466fdce8a Mon Sep 17 00:00:00 2001
-From: Elena Afanasova <eafanasova@gmail.com>
-Date: Fri, 9 Oct 2020 06:41:36 -0700
-Subject: [PATCH] hw/net: move allocation to the heap due to very large stack
- frame
+On 10/9/20 9:02 AM, Elena Afanasova wrote:
+> From 09905773a00e417d3a37c12350d9e55466fdce8a Mon Sep 17 00:00:00 2001
+> From: Elena Afanasova <eafanasova@gmail.com>
+> Date: Fri, 9 Oct 2020 06:41:36 -0700
+> Subject: [PATCH] hw/net: move allocation to the heap due to very large stack
+>  frame
+> 
+> Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+> ---
+>  hw/net/spapr_llan.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 
-Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
----
- hw/net/spapr_llan.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/hw/net/spapr_llan.c b/hw/net/spapr_llan.c
-index 2093f1bad0..581320a0e7 100644
---- a/hw/net/spapr_llan.c
-+++ b/hw/net/spapr_llan.c
-@@ -688,7 +688,8 @@ static target_ulong h_send_logical_lan(PowerPCCPU *cpu,
-     SpaprVioDevice *sdev = spapr_vio_find_by_reg(spapr->vio_bus, reg);
-     SpaprVioVlan *dev = VIO_SPAPR_VLAN_DEVICE(sdev);
-     unsigned total_len;
--    uint8_t *lbuf, *p;
-+    uint8_t *p;
-+    g_autofree uint8_t *lbuf = NULL;
-     int i, nbufs;
-     int ret;
- 
-@@ -729,7 +730,7 @@ static target_ulong h_send_logical_lan(PowerPCCPU *cpu,
-         return H_RESOURCE;
-     }
- 
--    lbuf = alloca(total_len);
-+    lbuf = g_malloc(total_len);
-     p = lbuf;
-     for (i = 0; i < nbufs; i++) {
-         ret = spapr_vio_dma_read(sdev, VLAN_BD_ADDR(bufs[i]),
--- 
-2.25.1
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
+r~
 
