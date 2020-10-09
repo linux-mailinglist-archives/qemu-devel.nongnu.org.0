@@ -2,80 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371D7288FA2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:12:10 +0200 (CEST)
-Received: from localhost ([::1]:35602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88226288FAB
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:14:33 +0200 (CEST)
+Received: from localhost ([::1]:41830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvw9-0001Sc-9O
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46696)
+	id 1kQvyS-00040A-JV
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvs6-0004eB-5G
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:58 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvs4-0001Jp-2M
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:57 -0400
-Received: by mail-wm1-x344.google.com with SMTP id e23so3502183wme.2
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:07:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PVp+3SZoiBidmYUzudMKJXMJHPS5QgRn7t+s2x5BNPU=;
- b=NaBUfz3x+ZRd3OG7DSuoRY7/ptq0o+d/mIN50vFjfzN1m13XIx+3fYTaLNxJVDTLgk
- ZWyz4LbxWcP5jbI1Wbbfll44vW8Qj8UUsDSxyVbSCFcTow2pbOgRKgwJTIBa8jhdjbvo
- 7dK4fV00t3E/YIGz0dSwRhU1ye80PL8xM2/QUw8yYfLa+iFtgvRaTMHr5d4WH26eMjsd
- yavscVKZsU7cC7DnNOA6RVXrJ28v+AYGeohVl1aqVrl8B5M+Lh+eY/lFBwDmKAeuRNy8
- 7nMRwy7Zup66cj+Ff0wykrXItjndHQPd/EktLPD+1fhsppPcswuy18JX5fMI/WQ4p10o
- ACHw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kQvum-0008Rt-NX
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:10:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43418)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kQvuc-0001bK-Rv
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:10:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602263430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eBdp0r2SMHQVM6vHLqba+AgtgWEvRrOcgtedA5Cysy0=;
+ b=YVEt/nfNLX5TyFCtGjoCwFIPZdaepmnj3glrHjakCSswJ/7RWVjJK2Vi4FORcLM691UT1Z
+ Q/VFlJkCLSX98mDUZUDZ9Hb7BnqpLZJulGXi8ENQ/LJgV3e3ZuY30lmUhoH5hO5pwhUmvY
+ Obupbu+6Cxdcdd4p6KZfHFR3ug2tdhQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-522-TAt9pMYBMRqT9wocLT1SBw-1; Fri, 09 Oct 2020 13:10:29 -0400
+X-MC-Unique: TAt9pMYBMRqT9wocLT1SBw-1
+Received: by mail-wm1-f71.google.com with SMTP id o198so21111wme.8
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:10:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PVp+3SZoiBidmYUzudMKJXMJHPS5QgRn7t+s2x5BNPU=;
- b=AhlMk8xZHe3/A8hLE4+BD8UprkyeAuAfOn4oHfNCc/StIwfiqU3OQfqRo/HLSv7sj6
- /JtytXD0Unx5UVgmLPdtpO9qdcrQ+TcincnYyC7pZY5LumhEDGy5pQl8dSrftc1FtyTg
- Bqw47GO/pAATMvSgj3y24G/MXjeGd+IozttmuDnXY17+mHsP6O4ZGLYhXpGBepngHWBR
- 1NbluxX3wVbdpwMWdFm3voJNF2bo1WW0oV0rmRns94aAYUnE1SPWYXN05QlfKLjqjzIy
- eWwRCmqQL4PdSHzFDSnB1M49S215UFn9SaawV4t9akl3esvfQ1scXFpatNDy7lLLorp0
- kpWw==
-X-Gm-Message-State: AOAM533loQrpw/62BTLX+SULqDtRZ2vTf6goBfMOndHTEjUa2FaCEGV6
- qWIinihZ5JXvFXD/8H0XzMxIDg==
-X-Google-Smtp-Source: ABdhPJyTtKCuSA1tJG8uzXn9hLxtvNGMhVPEKuTabr9I5CuNqdL0JxfCiaob2O8iTlniAtrfp4+M0A==
-X-Received: by 2002:a1c:5988:: with SMTP id n130mr15912119wmb.95.1602263274526; 
- Fri, 09 Oct 2020 10:07:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x1sm5234530wrl.41.2020.10.09.10.07.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 10:07:49 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6F2EB1FF90;
- Fri,  9 Oct 2020 18:07:43 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 4/4] generic_loader: allow the insertion of /chosen/module
- stanzas
-Date: Fri,  9 Oct 2020 18:07:42 +0100
-Message-Id: <20201009170742.23695-5-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201009170742.23695-1-alex.bennee@linaro.org>
-References: <20201009170742.23695-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eBdp0r2SMHQVM6vHLqba+AgtgWEvRrOcgtedA5Cysy0=;
+ b=EH1bF0L77oF4qMpi1vsYVIOrJPB8GrrBog5xg7lK855frxfYvJHz1ZFOz3MkyC7Mfx
+ YNoYl+HK/GPVPrJZ6XYL29jDyx8MtIljHkF47Tkr7AfmpblSSS0fnihTj3TG08vm6bfo
+ sKpYFBtskHoKu+g40fLFCmSEpsBakXOJyTalOHtabWP3kl8WoKtfmRD8Ov70U8+GXK5q
+ sSMkscZEpADSF/jvvHh6AKevLx6QBcPE4NWszqj/PYEzJo34jZYeS+YkIBeBvXnC/dK8
+ J0zNuBnO4FtM0yUBzg7C+JcIav9TBDpCsZkG/CBd6/I2MIKsRg6pYC6BNBj4Iir+4ZZX
+ 4wJQ==
+X-Gm-Message-State: AOAM531vcRAbuE8j6pJL5e2p/mMIpO1Mp8pdWCXxPwV2VlraUb4kytVv
+ zw+GN1KqaJgrHkjBx+AAIwMG792Hv+ztMQGEhrjpCFZQA0FVyQj2hlpw8t/M1uDKw+wItKbcyuk
+ S4lJi+TWReP51Uug=
+X-Received: by 2002:a7b:cf13:: with SMTP id l19mr15190077wmg.74.1602263427240; 
+ Fri, 09 Oct 2020 10:10:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzbBWvUpKtn9yBxMrApXKjRnbS5NM4v8lk7mpZxgJXX7Rg/7ule0+f7en6AO0pEG524i5uUKA==
+X-Received: by 2002:a7b:cf13:: with SMTP id l19mr15190053wmg.74.1602263426967; 
+ Fri, 09 Oct 2020 10:10:26 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:cee1:4797:6958:7698?
+ ([2001:b07:6468:f312:cee1:4797:6958:7698])
+ by smtp.gmail.com with ESMTPSA id v4sm12427953wmg.35.2020.10.09.10.10.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Oct 2020 10:10:25 -0700 (PDT)
+Subject: Re: [RFC v1 1/4] tests/Makefile.include: unbreak non-tcg builds
+To: Claudio Fontana <cfontana@suse.de>
+References: <20201009152108.16120-1-cfontana@suse.de>
+ <20201009152108.16120-2-cfontana@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d6c154aa-03f3-77a0-0af1-90e2f33390fa@redhat.com>
+Date: Fri, 9 Oct 2020 19:10:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20201009152108.16120-2-cfontana@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,128 +102,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>, julien@xen.org,
- masami.hiramatsu@linaro.org, andre.przywara@arm.com,
- stefano.stabellini@linaro.org, takahiro.akashi@linaro.org,
- stefano.stabellini@xilinx.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- stratos-dev@op-lists.linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The /chosen FDT node is how the firmware indicates information about
-the kernel to the loader code. In a full boot chain this would come
-from something like a boot loader. However if we use the generic
-loader to load blobs into RAM before launching a hypervisor for
-example we can boot directly:
+On 09/10/20 17:21, Claudio Fontana wrote:
+> From: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> XXX known to be wrong, this breaks other non-native builds
+> 
+> remove dependency of check-block from non-native archs
+> 
+> 
+> ---
+>  tests/Makefile.include | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 5aca98e60c..1ca70d88ce 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -140,7 +140,7 @@ QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXE
+>  check: check-block
+>  check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
+>  		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
+> -		$(patsubst %-softmmu,qemu-system-%,$(filter %-softmmu,$(TARGET_DIRS)))
+> +		qemu-system-$(patsubst ppc64%,ppc64, $(shell uname -m))
+>  	@$<
+>  endif
+>  
+> 
 
-  $QEMU $ARGS  -kernel ~/xen.git/xen/xen \
-    -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
-    -device loader,addr=0x47000000,\
-    file=Image,\
-    len-fdt-compat=2,\
-    fdt-compat[0]='multiboot,,module',\
-    fdt-compat[1]='multiboot,,kernel',\
-    fdt-bootargs="root=/dev/mapper/vg0-root ro console=hvc0 earlyprintk=xen"
+This is a better one:
 
-Note the ,, escapes required for the command line parser.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/hw/core/generic-loader.h |  4 +++
- hw/core/generic-loader.c         | 42 ++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
-
-diff --git a/include/hw/core/generic-loader.h b/include/hw/core/generic-loader.h
-index 19d87b39c8..98b0452430 100644
---- a/include/hw/core/generic-loader.h
-+++ b/include/hw/core/generic-loader.h
-@@ -39,6 +39,10 @@ struct GenericLoaderState {
-     bool force_raw;
-     bool data_be;
-     bool set_pc;
-+
-+    char **fdt_compat;
-+    uint32_t fdt_compat_count;
-+    char *fdt_bootargs;
- };
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 5aca98e60c..ceeda65da2 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -140,7 +140,7 @@ QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXE
+ check: check-block
+ check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
+ 		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
+-		$(patsubst %-softmmu,qemu-system-%,$(filter %-softmmu,$(TARGET_DIRS)))
++		$(filter qemu-system-%, $(ninja-targets-c_LINKER) $(ninja-targets-cpp_LINKER))
+ 	@$<
+ endif
  
- #define TYPE_GENERIC_LOADER "loader"
-diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
-index a242c076f6..8bd8a33e80 100644
---- a/hw/core/generic-loader.c
-+++ b/hw/core/generic-loader.c
-@@ -40,6 +40,8 @@
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "hw/core/generic-loader.h"
-+#include "sysemu/device_tree.h"
-+#include "hw/boards.h"
- 
- #define CPU_NONE 0xFFFFFFFF
- 
-@@ -61,6 +63,39 @@ static void generic_loader_reset(void *opaque)
-     }
- }
- 
-+/*
-+ * Insert some FDT nodes for the loaded blob.
-+ */
-+static void loader_insert_fdt(GenericLoaderState *s, int size, Error **errp)
-+{
-+    MachineState *machine = MACHINE(qdev_get_machine());
-+    void *fdt = machine->fdt;
-+    g_autofree char *node = g_strdup_printf("/chosen/module@%#08lx", s->addr);
-+    uint64_t reg_attr[2] = {cpu_to_be64(s->addr), cpu_to_be64(size)};
-+
-+    if (!fdt) {
-+        error_setg(errp, "Cannot modify FDT fields if the machine has none");
-+        return;
-+    }
-+
-+    qemu_fdt_add_subnode(fdt, node);
-+    qemu_fdt_setprop(fdt, node, "reg", &reg_attr, sizeof(reg_attr));
-+
-+    if (s->fdt_compat) {
-+        if (qemu_fdt_setprop_string_array
-+            (fdt, node, "compatible", s->fdt_compat, s->fdt_compat_count) < 0) {
-+            error_setg(errp, "couldn't set %s/compatible", node);
-+            return;
-+        }
-+    }
-+
-+    if (s->fdt_bootargs) {
-+        if (qemu_fdt_setprop_string(fdt, node, "bootargs", s->fdt_bootargs) < 0) {
-+            error_setg(errp, "couldn't set %s/bootargs", node);
-+        }
-+    }
-+}
-+
- static void generic_loader_realize(DeviceState *dev, Error **errp)
- {
-     GenericLoaderState *s = GENERIC_LOADER(dev);
-@@ -171,6 +206,10 @@ static void generic_loader_realize(DeviceState *dev, Error **errp)
-     } else {
-         s->data = cpu_to_le64(s->data);
-     }
-+
-+    if (s->fdt_compat || s->fdt_bootargs) {
-+        loader_insert_fdt(s, size, errp);
-+    }
- }
- 
- static void generic_loader_unrealize(DeviceState *dev)
-@@ -186,6 +225,9 @@ static Property generic_loader_props[] = {
-     DEFINE_PROP_UINT32("cpu-num", GenericLoaderState, cpu_num, CPU_NONE),
-     DEFINE_PROP_BOOL("force-raw", GenericLoaderState, force_raw, false),
-     DEFINE_PROP_STRING("file", GenericLoaderState, file),
-+    DEFINE_PROP_ARRAY("fdt-compat", GenericLoaderState, fdt_compat_count,
-+                      fdt_compat, qdev_prop_string, char *),
-+    DEFINE_PROP_STRING("fdt-bootargs", GenericLoaderState, fdt_bootargs),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--- 
-2.20.1
 
 
