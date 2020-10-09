@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34652882DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 08:44:09 +0200 (CEST)
-Received: from localhost ([::1]:38676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360D12882F9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 08:49:40 +0200 (CEST)
+Received: from localhost ([::1]:49826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQm8O-0002nf-Sp
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 02:44:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53976)
+	id 1kQmDj-0007o0-9X
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 02:49:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQlzN-0002BD-He
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:34:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54214)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQlzJ-00020D-3j
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:34:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQlzK-0008Vj-BB
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:34:49 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQlzG-0008Uk-Sf
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:34:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602225285;
+ s=mimecast20190719; t=1602225282;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lyc0nP3wSxqrGG1ZvIQufgDbDyfxbVgN+LU++ks7MPs=;
- b=BcuisGP1WgAE10PhC8OKoUv2IUb3icfXcmC2amV5ovJ8KMH7jR1rGwLZUjUcbt09qcc3Kt
- BtH/qEkTJuN6CnobTjA9T2gfMdQPhFkGyN7/CPvR0vLZ0IRf4k9Y/RI3FNHlL/dJiJlFcj
- h696d9E3JTSKQYIMkidJQ9qjB2hZkOY=
+ bh=1klNddQ1EsfOTyg/MTQM8HmrEtFuJAGy9UnFoQNHaWg=;
+ b=Mcv7WMXbZ/oxtdanEsQ13/A9VKL89QLR0B23xwFRoMf9CZcr6RHsXSP47HWX5+WlZA73ct
+ rvg51yqdAvjuLdWPR2RufRfJWgkO8Wn/hxjdKEC/Hx9ggMfn9jxmXsHwa8iklK+ikFh0Au
+ 4KLup7iMH3xgzimu0qxV4TGt+AReTRQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-Lsvy-sakOuSYb3ervZDjzg-1; Fri, 09 Oct 2020 02:34:43 -0400
-X-MC-Unique: Lsvy-sakOuSYb3ervZDjzg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-417-HxTe5YqoPGmvbPbEfoZdFA-1; Fri, 09 Oct 2020 02:34:40 -0400
+X-MC-Unique: HxTe5YqoPGmvbPbEfoZdFA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE5796414A
- for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 06:34:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4F7D80B71D
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 06:34:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 70EE77367C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7128A10013C1;
  Fri,  9 Oct 2020 06:34:39 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2DB3D1129942; Fri,  9 Oct 2020 08:34:33 +0200 (CEST)
+ id 384F11129947; Fri,  9 Oct 2020 08:34:33 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/14] block: Add bdrv_lock()/unlock()
-Date: Fri,  9 Oct 2020 08:34:31 +0200
-Message-Id: <20201009063432.303441-14-armbru@redhat.com>
+Subject: [PULL 14/14] block: Convert 'block_resize' to coroutine
+Date: Fri,  9 Oct 2020 08:34:32 +0200
+Message-Id: <20201009063432.303441-15-armbru@redhat.com>
 In-Reply-To: <20201009063432.303441-1-armbru@redhat.com>
 References: <20201009063432.303441-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,86 +87,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kevin Wolf <kwolf@redhat.com>
 
-Inside of coroutine context, we can't directly use aio_context_acquire()
-for the AioContext of a block node because we already own the lock of
-the current AioContext and we need to avoid double locking to prevent
-deadlocks.
+block_resize performs some I/O that could potentially take quite some
+time, so use it as an example for the new 'coroutine': true annotation
+in the QAPI schema.
 
-This provides helper functions to lock the AioContext of a node only if
-it's not the same as the current AioContext.
+bdrv_truncate() requires that we're already in the right AioContext for
+the BlockDriverState if called in coroutine context. So instead of just
+taking the AioContext lock, move the QMP handler coroutine to the
+context.
+
+Call blk_unref() only after switching back because blk_unref() may only
+be called in the main thread.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20201005155855.256490-14-kwolf@redhat.com>
+Message-Id: <20201005155855.256490-15-kwolf@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/block/block.h | 14 ++++++++++++++
- block.c               | 27 +++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+ qapi/block-core.json |  3 ++-
+ blockdev.c           | 16 ++++++++--------
+ hmp-commands.hx      |  1 +
+ 3 files changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 1027c58a41..d16c401cb4 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -657,6 +657,20 @@ AioContext *coroutine_fn bdrv_co_enter(BlockDriverState *bs);
-  */
- void coroutine_fn bdrv_co_leave(BlockDriverState *bs, AioContext *old_ctx);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 3758ea9912..ee5ebef7f2 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1310,7 +1310,8 @@
+ { 'command': 'block_resize',
+   'data': { '*device': 'str',
+             '*node-name': 'str',
+-            'size': 'int' } }
++            'size': 'int' },
++  'coroutine': true }
  
-+/**
-+ * Locks the AioContext of @bs if it's not the current AioContext. This avoids
-+ * double locking which could lead to deadlocks: This is a coroutine_fn, so we
-+ * know we already own the lock of the current AioContext.
-+ *
-+ * May only be called in the main thread.
-+ */
-+void coroutine_fn bdrv_co_lock(BlockDriverState *bs);
-+
-+/**
-+ * Unlocks the AioContext of @bs if it's not the current AioContext.
-+ */
-+void coroutine_fn bdrv_co_unlock(BlockDriverState *bs);
-+
- /**
-  * Transfer control to @co in the aio context of @bs
-  */
-diff --git a/block.c b/block.c
-index 8d9b9017d3..430edf79bb 100644
---- a/block.c
-+++ b/block.c
-@@ -6326,6 +6326,33 @@ void coroutine_fn bdrv_co_leave(BlockDriverState *bs, AioContext *old_ctx)
-     bdrv_dec_in_flight(bs);
+ ##
+ # @NewImageMode:
+diff --git a/blockdev.c b/blockdev.c
+index a6ae475dac..fe6fb5dc1d 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2449,14 +2449,14 @@ BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
+     return ret;
  }
  
-+void coroutine_fn bdrv_co_lock(BlockDriverState *bs)
-+{
-+    AioContext *ctx = bdrv_get_aio_context(bs);
-+
-+    /* In the main thread, bs->aio_context won't change concurrently */
-+    assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-+
-+    /*
-+     * We're in coroutine context, so we already hold the lock of the main
-+     * loop AioContext. Don't lock it twice to avoid deadlocks.
-+     */
-+    assert(qemu_in_coroutine());
-+    if (ctx != qemu_get_aio_context()) {
-+        aio_context_acquire(ctx);
-+    }
-+}
-+
-+void coroutine_fn bdrv_co_unlock(BlockDriverState *bs)
-+{
-+    AioContext *ctx = bdrv_get_aio_context(bs);
-+
-+    assert(qemu_in_coroutine());
-+    if (ctx != qemu_get_aio_context()) {
-+        aio_context_release(ctx);
-+    }
-+}
-+
- void bdrv_coroutine_enter(BlockDriverState *bs, Coroutine *co)
+-void qmp_block_resize(bool has_device, const char *device,
+-                      bool has_node_name, const char *node_name,
+-                      int64_t size, Error **errp)
++void coroutine_fn qmp_block_resize(bool has_device, const char *device,
++                                   bool has_node_name, const char *node_name,
++                                   int64_t size, Error **errp)
  {
-     aio_co_enter(bdrv_get_aio_context(bs), co);
+     Error *local_err = NULL;
+     BlockBackend *blk = NULL;
+     BlockDriverState *bs;
+-    AioContext *aio_context;
++    AioContext *old_ctx;
+ 
+     bs = bdrv_lookup_bs(has_device ? device : NULL,
+                         has_node_name ? node_name : NULL,
+@@ -2466,9 +2466,6 @@ void qmp_block_resize(bool has_device, const char *device,
+         return;
+     }
+ 
+-    aio_context = bdrv_get_aio_context(bs);
+-    aio_context_acquire(aio_context);
+-
+     if (size < 0) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "size", "a >0 size");
+         goto out;
+@@ -2485,12 +2482,15 @@ void qmp_block_resize(bool has_device, const char *device,
+     }
+ 
+     bdrv_drained_begin(bs);
++    old_ctx = bdrv_co_enter(bs);
+     blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
++    bdrv_co_leave(bs, old_ctx);
+     bdrv_drained_end(bs);
+ 
+ out:
++    bdrv_co_lock(bs);
+     blk_unref(blk);
+-    aio_context_release(aio_context);
++    bdrv_co_unlock(bs);
+ }
+ 
+ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index e43ce600b8..cd068389de 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -76,6 +76,7 @@ ERST
+         .params     = "device size",
+         .help       = "resize a block image",
+         .cmd        = hmp_block_resize,
++        .coroutine  = true,
+     },
+ 
+ SRST
 -- 
 2.26.2
 
