@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C9D288EA6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:19:37 +0200 (CEST)
-Received: from localhost ([::1]:34862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC2F288DD4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:11:53 +0200 (CEST)
+Received: from localhost ([::1]:43204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQv7I-0006GK-65
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:19:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59182)
+	id 1kQuzo-00060x-CO
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQuqN-0003uZ-O1
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:02:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52161)
+ id 1kQuqP-0003wM-AB
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:02:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQuqJ-0001AU-Pe
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:02:07 -0400
+ id 1kQuqM-0001Cx-Bk
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:02:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602259318;
+ s=mimecast20190719; t=1602259324;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NiK1eGhRYiWBwFt5WcyRbVIOl/6mfFts0JPaOb20ZeA=;
- b=QIaq0T0wPG/rVgkJhonDL5rlzxwsjv7/5NP7YFbjho8t7UN5so1AsSbfbAMusAfEoeqQ+o
- SqOeldkh3irtmmUjgWq9HhJhhQIFSCyDklYsBKjCzKU7ilyA/EzL66lTOzVtpId99DGu92
- YMmxIUZ60f0Gy5cUKON6HhH+CBRp0d0=
+ bh=x/0WU02UGw93rIL/U7xfUdD3VvJQmzc6XB5lCRxb7ac=;
+ b=OjbjTYWYVrO6uhi9N9LVHpB9XGlgtyyvHD2j110uW/zMi+uZNXluaerlrX8uEAGMKN+Ns6
+ XAvl3uY/sHNKV9q0jsoWJlD1x9vBWsvreIfsuTEMZmqFjdwfcvegSFL3j8CsBE996CGdzP
+ /XzFEZWHnGEVL1NRB+hWI6+Ic7fnyKQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-000dvkytMsaQqpl0ocHdJA-1; Fri, 09 Oct 2020 12:01:56 -0400
-X-MC-Unique: 000dvkytMsaQqpl0ocHdJA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-344-OPSQWlvbPbKlaXr9hbZ92w-1; Fri, 09 Oct 2020 12:02:03 -0400
+X-MC-Unique: OPSQWlvbPbKlaXr9hbZ92w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F6A0803F74;
- Fri,  9 Oct 2020 16:01:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E2E2835B50
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 16:02:02 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 575637EB77;
- Fri,  9 Oct 2020 16:01:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D6815C1C7;
+ Fri,  9 Oct 2020 16:01:56 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/12] netfilter: Use class properties
-Date: Fri,  9 Oct 2020 12:01:19 -0400
-Message-Id: <20201009160122.1662082-10-ehabkost@redhat.com>
+Subject: [PATCH 10/12] input: Use class properties
+Date: Fri,  9 Oct 2020 12:01:20 -0400
+Message-Id: <20201009160122.1662082-11-ehabkost@redhat.com>
 In-Reply-To: <20201009160122.1662082-1-ehabkost@redhat.com>
 References: <20201009160122.1662082-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,11 +80,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,206 +92,118 @@ Instance properties make introspection hard and are not shown by
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Zhang Chen <chen.zhang@intel.com>
-Cc: Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- net/dump.c            | 10 +++++-----
- net/filter-buffer.c   | 12 ++++--------
- net/filter-mirror.c   | 28 ++++++++++++++--------------
- net/filter-rewriter.c |  7 ++++---
- net/filter.c          | 24 ++++++++++++------------
- 5 files changed, 39 insertions(+), 42 deletions(-)
+ ui/input-barrier.c | 44 ++++++++++++++++++++++----------------------
+ ui/input-linux.c   | 27 ++++++++++++++-------------
+ 2 files changed, 36 insertions(+), 35 deletions(-)
 
-diff --git a/net/dump.c b/net/dump.c
-index 7fd448d2e1..4d538d82a6 100644
---- a/net/dump.c
-+++ b/net/dump.c
-@@ -224,11 +224,6 @@ static void filter_dump_instance_init(Object *obj)
-     NetFilterDumpState *nfds = FILTER_DUMP(obj);
- 
-     nfds->maxlen = 65536;
+diff --git a/ui/input-barrier.c b/ui/input-barrier.c
+index a047919fde..8e886a6495 100644
+--- a/ui/input-barrier.c
++++ b/ui/input-barrier.c
+@@ -689,34 +689,34 @@ static void input_barrier_instance_init(Object *obj)
+     ib->y_origin = 0;
+     ib->width = 1920;
+     ib->height = 1080;
 -
--    object_property_add(obj, "maxlen", "uint32", filter_dump_get_maxlen,
--                        filter_dump_set_maxlen, NULL, NULL);
--    object_property_add_str(obj, "file", file_dump_get_filename,
--                            file_dump_set_filename);
+-    object_property_add_str(obj, "name",
+-                            input_barrier_get_name,
+-                            input_barrier_set_name);
+-    object_property_add_str(obj, "server",
+-                            input_barrier_get_server,
+-                            input_barrier_set_server);
+-    object_property_add_str(obj, "port",
+-                            input_barrier_get_port,
+-                            input_barrier_set_port);
+-    object_property_add_str(obj, "x-origin",
+-                            input_barrier_get_x_origin,
+-                            input_barrier_set_x_origin);
+-    object_property_add_str(obj, "y-origin",
+-                            input_barrier_get_y_origin,
+-                            input_barrier_set_y_origin);
+-    object_property_add_str(obj, "width",
+-                            input_barrier_get_width,
+-                            input_barrier_set_width);
+-    object_property_add_str(obj, "height",
+-                            input_barrier_get_height,
+-                            input_barrier_set_height);
  }
  
- static void filter_dump_instance_finalize(Object *obj)
-@@ -242,6 +237,11 @@ static void filter_dump_class_init(ObjectClass *oc, void *data)
+ static void input_barrier_class_init(ObjectClass *oc, void *data)
  {
-     NetFilterClass *nfc = NETFILTER_CLASS(oc);
- 
-+    object_class_property_add(oc, "maxlen", "uint32", filter_dump_get_maxlen,
-+                              filter_dump_set_maxlen, NULL, NULL);
-+    object_class_property_add_str(oc, "file", file_dump_get_filename,
-+                                  file_dump_set_filename);
-+
-     nfc->setup = filter_dump_setup;
-     nfc->cleanup = filter_dump_cleanup;
-     nfc->receive_iov = filter_dump_receive_iov;
-diff --git a/net/filter-buffer.c b/net/filter-buffer.c
-index 95e384865f..283dc9cbe6 100644
---- a/net/filter-buffer.c
-+++ b/net/filter-buffer.c
-@@ -176,24 +176,20 @@ static void filter_buffer_class_init(ObjectClass *oc, void *data)
- {
-     NetFilterClass *nfc = NETFILTER_CLASS(oc);
- 
-+    object_class_property_add(oc, "interval", "uint32",
-+                              filter_buffer_get_interval,
-+                              filter_buffer_set_interval, NULL, NULL);
-+
-     nfc->setup = filter_buffer_setup;
-     nfc->cleanup = filter_buffer_cleanup;
-     nfc->receive_iov = filter_buffer_receive_iov;
-     nfc->status_changed = filter_buffer_status_changed;
- }
- 
--static void filter_buffer_init(Object *obj)
--{
--    object_property_add(obj, "interval", "uint32",
--                        filter_buffer_get_interval,
--                        filter_buffer_set_interval, NULL, NULL);
--}
--
- static const TypeInfo filter_buffer_info = {
-     .name = TYPE_FILTER_BUFFER,
-     .parent = TYPE_NETFILTER,
-     .class_init = filter_buffer_class_init,
--    .instance_init = filter_buffer_init,
-     .instance_size = sizeof(FilterBufferState),
- };
- 
-diff --git a/net/filter-mirror.c b/net/filter-mirror.c
-index 26b783011a..f8e65007c0 100644
---- a/net/filter-mirror.c
-+++ b/net/filter-mirror.c
-@@ -374,6 +374,12 @@ static void filter_mirror_class_init(ObjectClass *oc, void *data)
- {
-     NetFilterClass *nfc = NETFILTER_CLASS(oc);
- 
-+    object_class_property_add_str(oc, "outdev", filter_mirror_get_outdev,
-+                                  filter_mirror_set_outdev);
-+    object_class_property_add_bool(oc, "vnet_hdr_support",
-+                                   filter_mirror_get_vnet_hdr,
-+                                   filter_mirror_set_vnet_hdr);
-+
-     nfc->setup = filter_mirror_setup;
-     nfc->cleanup = filter_mirror_cleanup;
-     nfc->receive_iov = filter_mirror_receive_iov;
-@@ -383,6 +389,14 @@ static void filter_redirector_class_init(ObjectClass *oc, void *data)
- {
-     NetFilterClass *nfc = NETFILTER_CLASS(oc);
- 
-+    object_class_property_add_str(oc, "indev", filter_redirector_get_indev,
-+                                  filter_redirector_set_indev);
-+    object_class_property_add_str(oc, "outdev", filter_redirector_get_outdev,
-+                                  filter_redirector_set_outdev);
-+    object_class_property_add_bool(oc, "vnet_hdr_support",
-+                                   filter_redirector_get_vnet_hdr,
-+                                   filter_redirector_set_vnet_hdr);
-+
-     nfc->setup = filter_redirector_setup;
-     nfc->cleanup = filter_redirector_cleanup;
-     nfc->receive_iov = filter_redirector_receive_iov;
-@@ -392,28 +406,14 @@ static void filter_mirror_init(Object *obj)
- {
-     MirrorState *s = FILTER_MIRROR(obj);
- 
--    object_property_add_str(obj, "outdev", filter_mirror_get_outdev,
--                            filter_mirror_set_outdev);
--
-     s->vnet_hdr = false;
--    object_property_add_bool(obj, "vnet_hdr_support",
--                             filter_mirror_get_vnet_hdr,
--                             filter_mirror_set_vnet_hdr);
- }
- 
- static void filter_redirector_init(Object *obj)
- {
-     MirrorState *s = FILTER_REDIRECTOR(obj);
- 
--    object_property_add_str(obj, "indev", filter_redirector_get_indev,
--                            filter_redirector_set_indev);
--    object_property_add_str(obj, "outdev", filter_redirector_get_outdev,
--                            filter_redirector_set_outdev);
--
-     s->vnet_hdr = false;
--    object_property_add_bool(obj, "vnet_hdr_support",
--                             filter_redirector_get_vnet_hdr,
--                             filter_redirector_set_vnet_hdr);
- }
- 
- static void filter_mirror_fini(Object *obj)
-diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
-index dc3c27a489..ae358059d9 100644
---- a/net/filter-rewriter.c
-+++ b/net/filter-rewriter.c
-@@ -416,15 +416,16 @@ static void filter_rewriter_init(Object *obj)
- 
-     s->vnet_hdr = false;
-     s->failover_mode = FAILOVER_MODE_OFF;
--    object_property_add_bool(obj, "vnet_hdr_support",
--                             filter_rewriter_get_vnet_hdr,
--                             filter_rewriter_set_vnet_hdr);
- }
- 
- static void colo_rewriter_class_init(ObjectClass *oc, void *data)
- {
-     NetFilterClass *nfc = NETFILTER_CLASS(oc);
- 
-+    object_class_property_add_bool(oc, "vnet_hdr_support",
-+                                   filter_rewriter_get_vnet_hdr,
-+                                   filter_rewriter_set_vnet_hdr);
-+
-     nfc->setup = colo_rewriter_setup;
-     nfc->cleanup = colo_rewriter_cleanup;
-     nfc->receive_iov = colo_rewriter_receive_iov;
-diff --git a/net/filter.c b/net/filter.c
-index eac8ba1e9c..3fe88fa43f 100644
---- a/net/filter.c
-+++ b/net/filter.c
-@@ -212,18 +212,6 @@ static void netfilter_init(Object *obj)
-     nf->on = true;
-     nf->insert_before_flag = false;
-     nf->position = g_strdup("tail");
--
--    object_property_add_str(obj, "netdev",
--                            netfilter_get_netdev_id, netfilter_set_netdev_id);
--    object_property_add_enum(obj, "queue", "NetFilterDirection",
--                             &NetFilterDirection_lookup,
--                             netfilter_get_direction, netfilter_set_direction);
--    object_property_add_str(obj, "status",
--                            netfilter_get_status, netfilter_set_status);
--    object_property_add_str(obj, "position",
--                            netfilter_get_position, netfilter_set_position);
--    object_property_add_str(obj, "insert",
--                            netfilter_get_insert, netfilter_set_insert);
- }
- 
- static void netfilter_complete(UserCreatable *uc, Error **errp)
-@@ -350,6 +338,18 @@ static void netfilter_class_init(ObjectClass *oc, void *data)
      UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
-     NetFilterClass *nfc = NETFILTER_CLASS(oc);
  
-+    object_class_property_add_str(oc, "netdev",
-+                                  netfilter_get_netdev_id, netfilter_set_netdev_id);
-+    object_class_property_add_enum(oc, "queue", "NetFilterDirection",
-+                                   &NetFilterDirection_lookup,
-+                                   netfilter_get_direction, netfilter_set_direction);
-+    object_class_property_add_str(oc, "status",
-+                                  netfilter_get_status, netfilter_set_status);
-+    object_class_property_add_str(oc, "position",
-+                                  netfilter_get_position, netfilter_set_position);
-+    object_class_property_add_str(oc, "insert",
-+                                  netfilter_get_insert, netfilter_set_insert);
++    object_class_property_add_str(oc, "name",
++                                  input_barrier_get_name,
++                                  input_barrier_set_name);
++    object_class_property_add_str(oc, "server",
++                                  input_barrier_get_server,
++                                  input_barrier_set_server);
++    object_class_property_add_str(oc, "port",
++                                  input_barrier_get_port,
++                                  input_barrier_set_port);
++    object_class_property_add_str(oc, "x-origin",
++                                  input_barrier_get_x_origin,
++                                  input_barrier_set_x_origin);
++    object_class_property_add_str(oc, "y-origin",
++                                  input_barrier_get_y_origin,
++                                  input_barrier_set_y_origin);
++    object_class_property_add_str(oc, "width",
++                                  input_barrier_get_width,
++                                  input_barrier_set_width);
++    object_class_property_add_str(oc, "height",
++                                  input_barrier_get_height,
++                                  input_barrier_set_height);
 +
-     ucc->complete = netfilter_complete;
-     nfc->handle_event = default_handle_event;
+     ucc->complete = input_barrier_complete;
  }
+ 
+diff --git a/ui/input-linux.c b/ui/input-linux.c
+index ab351a4187..df3dff8898 100644
+--- a/ui/input-linux.c
++++ b/ui/input-linux.c
+@@ -489,25 +489,26 @@ static void input_linux_set_grab_toggle(Object *obj, int value,
+ 
+ static void input_linux_instance_init(Object *obj)
+ {
+-    object_property_add_str(obj, "evdev",
+-                            input_linux_get_evdev,
+-                            input_linux_set_evdev);
+-    object_property_add_bool(obj, "grab_all",
+-                             input_linux_get_grab_all,
+-                             input_linux_set_grab_all);
+-    object_property_add_bool(obj, "repeat",
+-                             input_linux_get_repeat,
+-                             input_linux_set_repeat);
+-    object_property_add_enum(obj, "grab-toggle", "GrabToggleKeys",
+-                             &GrabToggleKeys_lookup,
+-                             input_linux_get_grab_toggle,
+-                             input_linux_set_grab_toggle);
+ }
+ 
+ static void input_linux_class_init(ObjectClass *oc, void *data)
+ {
+     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
+ 
++    object_class_property_add_str(oc, "evdev",
++                                  input_linux_get_evdev,
++                                  input_linux_set_evdev);
++    object_class_property_add_bool(oc, "grab_all",
++                                   input_linux_get_grab_all,
++                                   input_linux_set_grab_all);
++    object_class_property_add_bool(oc, "repeat",
++                                   input_linux_get_repeat,
++                                   input_linux_set_repeat);
++    object_class_property_add_enum(oc, "grab-toggle", "GrabToggleKeys",
++                                   &GrabToggleKeys_lookup,
++                                   input_linux_get_grab_toggle,
++                                   input_linux_set_grab_toggle);
++
+     ucc->complete = input_linux_complete;
+ }
+ 
 -- 
 2.26.2
 
