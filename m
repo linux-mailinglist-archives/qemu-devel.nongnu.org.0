@@ -2,119 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF3F288922
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 14:45:53 +0200 (CEST)
-Received: from localhost ([::1]:47618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D457A288909
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 14:42:06 +0200 (CEST)
+Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQrmS-0001jV-GX
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 08:45:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39632)
+	id 1kQrin-0006cL-UE
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 08:42:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQrTI-0007OH-KA
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:26:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48242)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQrTD-0000NW-LK
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:26:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602246357;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5btRQ9nNajoFndv7oy5IG7rVzdtDPwQSs/3VrOsOYfU=;
- b=MzqAilTVlM79ugq5pzs1Ak631RA6SVYzCaceHiM024pcL/S4NBdKGPPBSabTD6A00SUxpz
- ydRWB+plM51fJApahY77MFsJzpIifQ90VXhUwvPzNu6OoXWKoWvr9gg9TdVM0KDkNer+eE
- sTWQhkA/hfPjbm+HaVAdilOh+daOy7k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486--UYU27JRPOGGSsft5m8VOQ-1; Fri, 09 Oct 2020 08:25:55 -0400
-X-MC-Unique: -UYU27JRPOGGSsft5m8VOQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 556A118A0786;
- Fri,  9 Oct 2020 12:25:54 +0000 (UTC)
-Received: from [10.3.113.14] (ovpn-113-14.phx2.redhat.com [10.3.113.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 117735DA79;
- Fri,  9 Oct 2020 12:25:54 +0000 (UTC)
-Subject: Re: [PULL 0/8] NBD patches through 2020-10-08
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20201008185951.1026052-1-eblake@redhat.com>
- <CAFEAcA-EO9C+JsH_J+teH9RPFM17OVaYY4x=OF6wnC-d-YwSog@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Autocrypt: addr=eblake@redhat.com; keydata=
- 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
-Organization: Red Hat, Inc.
-Message-ID: <fbd990fb-e32c-c0c6-b993-876ce7ae757f@redhat.com>
-Date: Fri, 9 Oct 2020 07:25:53 -0500
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kQrcA-0007eY-6s
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:35:14 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kQrc6-00012u-PZ
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:35:13 -0400
+Received: by mail-ot1-x342.google.com with SMTP id i12so8852960ota.5
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 05:35:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=pvE/fIzmY8+yjBzmWb+mhNBdlD98xrY92H8dYNorfXk=;
+ b=rAeC2Fp7p+VrLeCmj+5mdUU3kHHiKi8jqJLn4dUeMCBuAD6bSgoQNF6+EawOrZZoFd
+ c74R2cMaToAtoszjr7JHXkjs4FJGHnuw6PD6TfkVYLCBir4O9BZglPHnqgOqs9r/515C
+ ZJJpNYQB1J7huGf0v5h/cw88rXc8/5HF766R2f8rQcRVUphmz7mMcq3KuilL4ytfLkAm
+ cCqtgxjsXAMeYYcJmQx7dxAieOPfLnXDrbzUWUCG3itEv+hvsrxeBnHXtRUCh6AAGCtT
+ qvLwqG6Q5w9IlQNzegk8MM8G0kmIK7t7CBsQaKbimZi7ET21KzB4OpxXW/5agE+xKH6K
+ nG3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pvE/fIzmY8+yjBzmWb+mhNBdlD98xrY92H8dYNorfXk=;
+ b=BQf6rBTdToC6QBe9hzFw+gzOnyv0eFXwVM1X1X9KiWHlQT2MmDU3pwEr1zmIkDEfpd
+ 9do16z5U7gWVY8F9FZmN9b83AMsTfzizJT6dgQZPxtTiM6M1OM6EOZSSXUrjz5f+swrf
+ lVu9kIQ9rHzSIJB89gRVmL/BPsJdDikYHqfdZB/XrKdXOlIaHCrEbsJFin1zo7H7s10K
+ 9LqjjAt28Sr1AFkQnk6wrCcCxQISYdeutQ+B625bfSiU0ChVAAkE2F3tklSgAGv54apM
+ IHnD84C5aX1lym0sbUa+8c4d9a//HI94eERYrQIFup7u6apuE6GOLWnuaXh22sUenKlB
+ witw==
+X-Gm-Message-State: AOAM531Y3dNtHyGuRKUS8SrEbtXS4Qb1pf7Xl5tcO1zTAZR00L/cNFqZ
+ bsa/kEsAgMOb9wfwfoGjDLglhg==
+X-Google-Smtp-Source: ABdhPJynfrnGJxopm7SpTGIpZqyG9E3ot9FSpjKJlwJbCVoUy4zkSvfvMBscS+OrozZzPKl7rmBGWg==
+X-Received: by 2002:a05:6830:199:: with SMTP id
+ q25mr8139503ota.263.1602246909244; 
+ Fri, 09 Oct 2020 05:35:09 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id u68sm6295760otb.9.2020.10.09.05.35.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Oct 2020 05:35:08 -0700 (PDT)
+Subject: Re: [PATCH v3 45/81] target/arm: Implement SVE2 HISTCNT, HISTSEG
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ Stephen Long <steplong@quicinc.com>
+References: <20200918183751.2787647-1-richard.henderson@linaro.org>
+ <20200918183751.2787647-46-richard.henderson@linaro.org>
+ <46ba7fd1-cffb-f9e2-e727-c487b0531a12@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7fbc8088-c7b7-4d4e-919b-1fcc9ec46284@linaro.org>
+Date: Fri, 9 Oct 2020 07:35:05 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-EO9C+JsH_J+teH9RPFM17OVaYY4x=OF6wnC-d-YwSog@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Tu5u6bk6ngIffrnWka1IVbLwIHtRYv2Vn"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <46ba7fd1-cffb-f9e2-e727-c487b0531a12@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.208,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -128,73 +93,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Tu5u6bk6ngIffrnWka1IVbLwIHtRYv2Vn
-Content-Type: multipart/mixed; boundary="vPgxHS06ZMa6aEmYqtmqljyFK1gVOqEJh";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Message-ID: <fbd990fb-e32c-c0c6-b993-876ce7ae757f@redhat.com>
-Subject: Re: [PULL 0/8] NBD patches through 2020-10-08
-References: <20201008185951.1026052-1-eblake@redhat.com>
- <CAFEAcA-EO9C+JsH_J+teH9RPFM17OVaYY4x=OF6wnC-d-YwSog@mail.gmail.com>
-In-Reply-To: <CAFEAcA-EO9C+JsH_J+teH9RPFM17OVaYY4x=OF6wnC-d-YwSog@mail.gmail.com>
-
---vPgxHS06ZMa6aEmYqtmqljyFK1gVOqEJh
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 10/9/20 7:16 AM, Peter Maydell wrote:
-
->> ----------------------------------------------------------------
->> nbd patches for 2020-10-08
+On 10/9/20 1:13 AM, LIU Zhiwei wrote:
+> 
+> 
+> On 2020/9/19 2:37, Richard Henderson wrote:
+>> From: Stephen Long <steplong@quicinc.com>
 >>
->> - silence compilation warnings
->> - more fixes to prevent reconnect hangs
->> - improve 'qemu-nbd' termination behavior
->> - cleaner NBD protocol compliance on string handling
->=20
-> Build failure, OSX, FreeBSD, NetBSD:
->=20
-> Linking static target libqemuutil.a
-> ../../qemu-nbd.c:591:29: error: use of undeclared identifier 'termsig_han=
-dler'
->     sa_sigterm.sa_handler =3D termsig_handler;
->                             ^
+>> Signed-off-by: Stephen Long <steplong@quicinc.com>
+>> Message-Id: <20200416173109.8856-1-steplong@quicinc.com>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>> v2: Fix overlap between output and input vectors.
+>> ---
+>>   target/arm/helper-sve.h    |   7 +++
+>>   target/arm/sve.decode      |   6 ++
+>>   target/arm/sve_helper.c    | 124 +++++++++++++++++++++++++++++++++++++
+>>   target/arm/translate-sve.c |  19 ++++++
+>>   4 files changed, 156 insertions(+)
+>>
+>> diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+>> index 9e8641e1c0..34bbb767ef 100644
+>> --- a/target/arm/helper-sve.h
+>> +++ b/target/arm/helper-sve.h
+>> @@ -2551,6 +2551,13 @@ DEF_HELPER_FLAGS_5(sve2_nmatch_ppzz_b, TCG_CALL_NO_RWG,
+>>   DEF_HELPER_FLAGS_5(sve2_nmatch_ppzz_h, TCG_CALL_NO_RWG,
+>>                      i32, ptr, ptr, ptr, ptr, i32)
+>>   +DEF_HELPER_FLAGS_5(sve2_histcnt_s, TCG_CALL_NO_RWG,
+>> +                   void, ptr, ptr, ptr, ptr, i32)
+>> +DEF_HELPER_FLAGS_5(sve2_histcnt_d, TCG_CALL_NO_RWG,
+>> +                   void, ptr, ptr, ptr, ptr, i32)
+>> +
+>> +DEF_HELPER_FLAGS_4(sve2_histseg, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+>> +
+>>   DEF_HELPER_FLAGS_6(sve2_faddp_zpzz_h, TCG_CALL_NO_RWG,
+>>                      void, ptr, ptr, ptr, ptr, ptr, i32)
+>>   DEF_HELPER_FLAGS_6(sve2_faddp_zpzz_s, TCG_CALL_NO_RWG,
+>> diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+>> index 3121eabbf8..0edb72d4fb 100644
+>> --- a/target/arm/sve.decode
+>> +++ b/target/arm/sve.decode
+>> @@ -146,6 +146,7 @@
+>>                   &rprrr_esz rn=%reg_movprfx
+>>   @rdn_pg_rm_ra   ........ esz:2 . ra:5  ... pg:3 rm:5 rd:5 \
+>>                   &rprrr_esz rn=%reg_movprfx
+>> +@rd_pg_rn_rm   ........ esz:2 . rm:5 ... pg:3 rn:5 rd:5       &rprr_esz
+>>     # One register operand, with governing predicate, vector element size
+>>   @rd_pg_rn       ........ esz:2 ... ... ... pg:3 rn:5 rd:5       &rpr_esz
+>> @@ -1336,6 +1337,11 @@ RSUBHNT         01000101 .. 1 ..... 011 111 .....
+>> .....  @rd_rn_rm
+>>   MATCH           01000101 .. 1 ..... 100 ... ..... 0 .... @pd_pg_rn_rm
+>>   NMATCH          01000101 .. 1 ..... 100 ... ..... 1 .... @pd_pg_rn_rm
+>>   +### SVE2 Histogram Computation
+>> +
+>> +HISTCNT         01000101 .. 1 ..... 110 ... ..... .....  @rd_pg_rn_rm
+>> +HISTSEG         01000101 .. 1 ..... 101 000 ..... .....  @rd_rn_rm
+>> +
+>>   ## SVE2 floating-point pairwise operations
+>>     FADDP           01100100 .. 010 00 0 100 ... ..... ..... @rdn_pg_rm
+>> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+>> index 19fbf94189..fa4848bc5c 100644
+>> --- a/target/arm/sve_helper.c
+>> +++ b/target/arm/sve_helper.c
+>> @@ -7095,3 +7095,127 @@ DO_PPZZ_MATCH(sve2_nmatch_ppzz_b, MO_8, true)
+>>   DO_PPZZ_MATCH(sve2_nmatch_ppzz_h, MO_16, true)
+>>     #undef DO_PPZZ_MATCH
+>> +
+>> +void HELPER(sve2_histcnt_s)(void *vd, void *vn, void *vm, void *vg,
+>> +                            uint32_t desc)
+>> +{
+>> +    ARMVectorReg scratch;
+>> +    intptr_t i, j;
+>> +    intptr_t opr_sz = simd_oprsz(desc);
+>> +    uint32_t *d = vd, *n = vn, *m = vm;
+>> +    uint8_t *pg = vg;
+>> +
+>> +    if (d == n) {
+>> +        n = memcpy(&scratch, n, opr_sz);
+>> +        if (d == m) {
+>> +            m = n;
+>> +        }
+>> +    } else if (d == m) {
+>> +        m = memcpy(&scratch, m, opr_sz);
+>> +    }
+>> +
+>> +    for (i = 0; i < opr_sz; i += 4) {
+>> +        uint64_t count = 0;
+>> +        uint8_t pred;
+>> +
+>> +        pred = pg[H1(i >> 3)] >> (i & 7);
+>> +        if (pred & 1) {
+>> +            uint32_t nn = n[H4(i >> 2)];
+>> +
+>> +            for (j = 0; j <= i; j += 4) {
+>> +                pred = pg[H1(j >> 3)] >> (j & 7);
+>> +                if ((pred & 1) && nn == m[H4(j >> 2)]) {
+>> +                    ++count;
+>> +                }
+>> +            }
+>> +        }
+>> +        d[H4(i >> 2)] = count;
+>> +    }
+>> +}
+>> +
+>> +void HELPER(sve2_histcnt_d)(void *vd, void *vn, void *vm, void *vg,
+>> +                            uint32_t desc)
+>> +{
+>> +    ARMVectorReg scratch;
+>> +    intptr_t i, j;
+>> +    intptr_t opr_sz = simd_oprsz(desc);
+>> +    uint64_t *d = vd, *n = vn, *m = vm;
+>> +    uint8_t *pg = vg;
+>> +
+>> +    if (d == n) {
+>> +        n = memcpy(&scratch, n, opr_sz);
+>> +        if (d == m) {
+>> +            m = n;
+>> +        }
+>> +    } else if (d == m) {
+>> +        m = memcpy(&scratch, m, opr_sz);
+>> +    }
+>> +
+>> +    for (i = 0; i < opr_sz / 8; ++i) {
+>> +        uint64_t count = 0;
+>> +        if (pg[H1(i)] & 1) {
+>> +            uint64_t nn = n[i];
+>> +            for (j = 0; j <= i; ++j) {
+>> +                if ((pg[H1(j)] & 1) && nn == m[j]) {
+>> +                    ++count;
+>> +                }
+>> +            }
+>> +        }
+>> +        d[i] = count;
+>> +    }
+>> +}
+>> +
+>> +/*
+>> + * Returns the number of bytes in m0 and m1 that match n.
+>> + * See comment for do_match2().
+>> + * */
+>> +static inline uint64_t do_histseg_cnt(uint8_t n, uint64_t m0, uint64_t m1)
+>> +{
+>> +    int esz = MO_8;
+>> +    int bits = 8 << esz;
+>> +    uint64_t ones = dup_const(esz, 1);
+>> +    uint64_t signs = ones << (bits - 1);
+>> +    uint64_t cmp0, cmp1;
+>> +
+>> +    cmp1 = dup_const(esz, n);
+>> +    cmp0 = cmp1 ^ m0;
+>> +    cmp1 = cmp1 ^ m1;
+>> +    cmp0 = (cmp0 - ones) & ~cmp0 & signs;
+>> +    cmp1 = (cmp1 - ones) & ~cmp1 & signs;
+>> +
+> Hi Richard,
+> 
+> Although we can detect zero byte with this method, we can't use it to count the
+> zero bytes.
+> 
+> For example,
+> IF
+>     cmp1 =  0x0100010001000100 , ones = 0x101010101010101, signs =
+> 0x8080808080808080,
+> THEN
+>     cmp1 = (cmp1 - ones) & ~cmp1 & signs = 0x8080808080808080
+> So
+>     cmp1 will have 6 zeros by this method. In fact, cmp1 only have 4 zeros
+> instead of 6 zeros.
+> 
+> I don't  find  a "bit twiddling" way,  if you find it, please let me know.
 
-I see it; inconsistent #ifdefs.  Will spin v2 shortly.
+Thanks for noticing the error.  We already have a bit twiddling example in qemu
+for this in target/alpha:
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+uint64_t helper_cmpbe0(uint64_t a)
+{
+    uint64_t m = 0x7f7f7f7f7f7f7f7fULL;
+    uint64_t c = ~(((a & m) + m) | a | m);
+    ...
+
+which produces the exact results that we need here.
 
 
---vPgxHS06ZMa6aEmYqtmqljyFK1gVOqEJh--
-
---Tu5u6bk6ngIffrnWka1IVbLwIHtRYv2Vn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl+AVtEACgkQp6FrSiUn
-Q2rkrAf+P6hf98uJqcKjLPD01RGaE8EOa2genwr6tV/mdyf30B0ubUzWGOqyfSFy
-9ngd2iYy/SLY0bzrSVxKPibfYpwUUjZNi7JDp/rYB1OXyZFbOaHCxsX8kx/6Sot9
-ugzb4HNjFz1XPsGVfGdO82gP1+1+8w0N0MuhxytVdLUUJzcjIY2VXMRZorfkvUeN
-Hknh/wxf9qqxJIXYajp0q3ONuVpFeBLsNWKbcXH8Sxit2ipQYyMDmhvqOURDPSS8
-cTDBs5G9CtHPZhw1y70aUGJv4r3CSTUzZdnpwIe/4k65KYebWpI3xCcwj95BjHjx
-fZbPR/C57x3INCckfuqZFZO35lFpxw==
-=Cymo
------END PGP SIGNATURE-----
-
---Tu5u6bk6ngIffrnWka1IVbLwIHtRYv2Vn--
-
+r~
 
