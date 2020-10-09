@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A5B2882FE
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 08:51:52 +0200 (CEST)
-Received: from localhost ([::1]:56484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CCF28830B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 08:55:33 +0200 (CEST)
+Received: from localhost ([::1]:39104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQmFr-0002Ad-Pi
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 02:51:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55412)
+	id 1kQmJR-00071i-03
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 02:55:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kQm5R-0000qp-3w; Fri, 09 Oct 2020 02:41:05 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:32784)
+ id 1kQm76-0001wy-2g; Fri, 09 Oct 2020 02:42:48 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:44318)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kQm5K-0000mF-24; Fri, 09 Oct 2020 02:41:04 -0400
-Received: by mail-pf1-x441.google.com with SMTP id q123so6043262pfb.0;
- Thu, 08 Oct 2020 23:40:57 -0700 (PDT)
+ id 1kQm6v-0000vI-K2; Fri, 09 Oct 2020 02:42:43 -0400
+Received: by mail-pl1-x643.google.com with SMTP id h2so3984166pll.11;
+ Thu, 08 Oct 2020 23:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=kl4RldwHvqm7s5RNmcKmSdI5LkNKTJPHMG/4l3i2UMk=;
- b=WqLGrKE+PnCMi08bS+dr8P/oi6WwmJkgCUXtZO1ATzWKSTK78rpCUc+PpMWLLFWN24
- gUUL7JPhSJ5BPagd9e36BDN6ILR3+aLdZLo0BnIx5EA2Uqn6vmJjkTCTv+fmlJF3rqIw
- CiC2GiRV5M6yT27zXYXK5Zc9R+Byyh3nT1pN5qvXUqjSx5ooH2cLn1y+iDwSH6nCCrPG
- a0PUnNmA2RqlhBT0L9PKUqm0KB58U+yArgSxkFKKko7Yfn0q0QtrOArphIYkUOoCRTiB
- YXTb3LxghWXcYEjTdQXX14fiooAQVHlfZFdlqMTJ/FBiRcF68OSdJPJ5FJ/DjEjflbVU
- F7jg==
+ bh=sQy1HBjpiU1Vti4ARlN69b2jsDNxmJuiz70GahnHgs0=;
+ b=KKnvFlLMwVNtNirRAItollkcJQufEjVeOwcz3bQfCcY24SiSGH+TfsijX71C3kkkT4
+ D+0ldITuU7iAFuKmObjxS93hYGGFt3wCMqJhj8fad0zISdalFbLWRTk7zJw8rK+/nWfx
+ glgPwZSM9Yr5XtuuEv2Xfz432QjXn7crZdzRRPHQOFO4lxAvj7zDNhi46aRHCMtHVrJj
+ QnmPYziZNYkFWbUnTOpR8kpewV8A4W7/6unBJA0CKivmKZMgCsV2b4IHSmZfycmYgjft
+ EITVyPoePezvdX5ACu9ylhxoDNE3vNLzpZLa/YiJyeAs5fl0VPDServwqhvwiwZzU8AG
+ M7TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=kl4RldwHvqm7s5RNmcKmSdI5LkNKTJPHMG/4l3i2UMk=;
- b=PUE3qlwOuGj6H6/5U1kpFfdnhG5z648w8MTi5gRajQV8Aidtt/grlk9UX38BEgzT1f
- +LRRLra0V40zHbi1e7vGKy1UoupMadzu4wKYJ++Tg9Ccs7zkwxFcHN7u0wg8FnAWv7Ni
- lNxyBZ1VmUPf19XiP3FrWQf9+PEyPHnrku/R7eTPKkW2S5C1+goakOeA5cI814S7hK6n
- e6+VW6qH2ruJS93ilGlsEu5Xz1uBIutHqi1vkdHdXdh/XGiRn4hujYQXw9p8MJWRnPFB
- pJ+jptyXeslT06PT6J+aaDDRQyyidmfGJ31f6wP9l+1kRujtPw96mP46cK/bs7Pv28TM
- bTkg==
-X-Gm-Message-State: AOAM530DiE/pWrhXOAkTpARKusa6YS9hGqoepu82fEmM+XCF2Iyi5LCc
- aLd+EMelCiNle6RhY8e5rNsGNCtUcG6y36AE
-X-Google-Smtp-Source: ABdhPJxPjPWx4aUrrxUlP+Nl8M8czcxpPfb5Rgj7ifrOoqJ6lQ3294oixafDYiqhMvD+FNykaILgkQ==
-X-Received: by 2002:aa7:86ce:0:b029:152:1702:d791 with SMTP id
- h14-20020aa786ce0000b02901521702d791mr10860549pfo.13.1602225653160; 
- Thu, 08 Oct 2020 23:40:53 -0700 (PDT)
+ bh=sQy1HBjpiU1Vti4ARlN69b2jsDNxmJuiz70GahnHgs0=;
+ b=UMGO6uIP+BKak1Y1UsoXwcvlmzTy2bWMXoVGMaIn+jyj9yI2lvGD3BQe7FQY+dFQzr
+ a77phrhgHE9P76R3XqWkyW2Ye1yL/M/R2OFR1BFNcZDX/s5WfDlbDlITNQaZvPQtyt8k
+ MaJGBJujZZobnPmm9ND1fRtp2L5g2vlWDQ8lu/jtANNIweKbjnMmcPtMROcHGH/rLGvS
+ y93+ylhLX2M8C89yzrQKJaBRh0qZ634yMTmupr21A/4MXPaLBE8CK8TAeupj2MKcKzaF
+ fyeSfpy4NRjkZil11fksjhN3nLfSdNg0qpNtb//kU0sJjnqlVf3c5QkrrKuCD1qN6GFk
+ UHAA==
+X-Gm-Message-State: AOAM533UO7Ls3Q47Nmel6xyCXbAxmqicsqg/0Z0er00cauH0jCDyshCm
+ pUwjsjVhVVQVOt+ZtArmWLWYHaf000CAnCzq
+X-Google-Smtp-Source: ABdhPJwBHhxQuFvuU/exSDFB8ifk1i6utc7jdbs+uBAEJDExLZrpt5JJgWKW91/+d7Wi/RUYcRRHvw==
+X-Received: by 2002:a17:902:b096:b029:d3:e6c5:507c with SMTP id
+ p22-20020a170902b096b02900d3e6c5507cmr11160457plr.71.1602225751065; 
+ Thu, 08 Oct 2020 23:42:31 -0700 (PDT)
 Received: from pulp100.localdomain ([103.199.158.131])
- by smtp.gmail.com with ESMTPSA id y12sm9417051pga.53.2020.10.08.23.40.48
+ by smtp.gmail.com with ESMTPSA id e16sm9317127pgv.81.2020.10.08.23.42.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Oct 2020 23:40:52 -0700 (PDT)
+ Thu, 08 Oct 2020 23:42:30 -0700 (PDT)
 From: Chetan Pant <chetan4windows@gmail.com>
 To: qemu-trivial@nongnu.org
-Subject: [PATCH 2/5] Fixing Lesser GPL version number [2/5]
-Date: Fri,  9 Oct 2020 06:39:34 +0000
-Message-Id: <20201009063934.2679-1-chetan4windows@gmail.com>
+Subject: [PATCH 3/5] Fixing Lesser GPL version number [3/5]
+Date: Fri,  9 Oct 2020 06:41:06 +0000
+Message-Id: <20201009064106.2818-1-chetan4windows@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=chetan4windows@gmail.com; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=chetan4windows@gmail.com; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,8 +93,8 @@ This patch is divided in 5 parts, directory wise, in order to make reviewing pro
 Below listed are the parts of the patch, where asterisk denotes the part you are currently viewing.
 
 	[ ] Files in authz/backends/block/linux-user/tests/migration directory (82 Files)
-	[*] Files in hw/include/disas (100 files)
-	[ ] Files inside target/ 'alpha,arm,cris,hppa,i386' (96 files)
+	[ ] Files in hw/include/disas (100 files)
+	[*] Files inside target/ 'alpha,arm,cris,hppa,i386' (96 files)
 	[ ] Files inside target/ 'lm32,microblaze,mips,ppc,rx,sparc,tilegx,tricore,xtensa' (63 files)
 	[ ] Files in ui/util/include/scripts and QEMU root directory (76 Files)
 
@@ -113,119 +113,110 @@ Below is how the license version was corrected:
 	sed -i "s/version 2 /version 2.1 /g" $(cat one_timers.dat)
    For rest of 7 files, correction was done manually.
 
-Note:
-During validating this patch (2/5), It was noticed that "hw/i2c/mpc_i2c.c" file had below license text mentioned:
-"You should have received a copy of the GNU Lesser General Public"
-But the file was actually using "GNU General Public License, version 2 or later," which was confusing
-so I've not included the that change in this patch. So in fact, only 99 files are changed in this patch.
-
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
 ---
- disas/lm32.c                          |  2 +-
- hw/acpi/core.c                        |  2 +-
- hw/acpi/hmat.c                        |  2 +-
- hw/acpi/hmat.h                        |  2 +-
- hw/acpi/ich9.c                        |  2 +-
- hw/acpi/nvdimm.c                      |  2 +-
- hw/acpi/pcihp.c                       |  2 +-
- hw/acpi/piix4.c                       |  2 +-
- hw/audio/milkymist-ac97.c             |  2 +-
- hw/block/pflash_cfi01.c               |  2 +-
- hw/block/pflash_cfi02.c               |  2 +-
- hw/char/lm32_juart.c                  |  2 +-
- hw/char/lm32_uart.c                   |  2 +-
- hw/char/milkymist-uart.c              |  2 +-
- hw/core/bus.c                         |  2 +-
- hw/core/loader-fit.c                  |  2 +-
- hw/core/platform-bus.c                |  2 +-
- hw/core/qdev.c                        |  2 +-
- hw/core/sysbus.c                      |  2 +-
- hw/display/bcm2835_fb.c               |  2 +-
- hw/display/milkymist-tmu2.c           |  2 +-
- hw/display/milkymist-vgafb.c          |  2 +-
- hw/display/milkymist-vgafb_template.h |  2 +-
- hw/gpio/mpc8xxx.c                     |  2 +-
- hw/i2c/pm_smbus.c                     |  2 +-
- hw/ide/ahci.c                         |  2 +-
- hw/ide/ahci_internal.h                |  2 +-
- hw/ide/ich.c                          |  2 +-
- hw/ide/qdev.c                         |  2 +-
- hw/input/milkymist-softusb.c          |  2 +-
- hw/intc/apic.c                        |  2 +-
- hw/intc/apic_common.c                 |  2 +-
- hw/intc/arm_gicv2m.c                  |  2 +-
- hw/intc/arm_gicv3_its_kvm.c           |  2 +-
- hw/intc/ioapic.c                      |  2 +-
- hw/intc/ioapic_common.c               |  2 +-
- hw/intc/lm32_pic.c                    |  2 +-
- hw/intc/xics_pnv.c                    |  2 +-
- hw/isa/apm.c                          |  2 +-
- hw/isa/i82378.c                       |  2 +-
- hw/isa/isa-bus.c                      |  2 +-
- hw/lm32/lm32_boards.c                 |  2 +-
- hw/lm32/lm32_hwsetup.h                |  2 +-
- hw/lm32/milkymist.c                   |  2 +-
- hw/mem/nvdimm.c                       |  2 +-
- hw/mem/pc-dimm.c                      |  2 +-
- hw/mips/boston.c                      |  2 +-
- hw/mips/cps.c                         |  2 +-
- hw/misc/applesmc.c                    |  2 +-
- hw/misc/milkymist-hpdmc.c             |  2 +-
- hw/misc/milkymist-pfpu.c              |  2 +-
- hw/misc/mips_cpc.c                    |  2 +-
- hw/misc/mips_itu.c                    |  2 +-
- hw/net/e1000.c                        |  2 +-
- hw/net/e1000e.c                       | 66 +++++++++++++--------------
- hw/net/e1000e_core.c                  | 66 +++++++++++++--------------
- hw/net/e1000e_core.h                  | 66 +++++++++++++--------------
- hw/net/e1000x_common.c                | 44 +++++++++---------
- hw/net/e1000x_common.h                | 44 +++++++++---------
- hw/net/milkymist-minimac2.c           |  2 +-
- hw/pci-bridge/i82801b11.c             |  2 +-
- hw/pci-host/designware.c              |  2 +-
- hw/pci-host/xilinx-pcie.c             |  2 +-
- hw/ppc/pnv.c                          |  2 +-
- hw/ppc/pnv_core.c                     |  2 +-
- hw/ppc/pnv_lpc.c                      |  2 +-
- hw/ppc/pnv_psi.c                      |  2 +-
- hw/ppc/pnv_xscom.c                    |  2 +-
- hw/ppc/ppce500_spin.c                 |  2 +-
- hw/ppc/spapr_iommu.c                  |  2 +-
- hw/ppc/spapr_vio.c                    |  2 +-
- hw/scsi/megasas.c                     |  2 +-
- hw/scsi/mptconfig.c                   |  2 +-
- hw/scsi/mptendian.c                   |  2 +-
- hw/scsi/mptsas.c                      |  2 +-
- hw/sd/milkymist-memcard.c             |  2 +-
- hw/timer/hpet.c                       |  2 +-
- hw/timer/lm32_timer.c                 |  2 +-
- hw/timer/milkymist-sysctl.c           |  2 +-
- hw/tpm/tpm_prop.h                     |  2 +-
- hw/tricore/tricore_testboard.c        |  2 +-
- hw/usb/hcd-ohci.c                     |  2 +-
- hw/usb/hcd-xhci-nec.c                 |  2 +-
- hw/usb/hcd-xhci-pci.c                 |  2 +-
- hw/usb/hcd-xhci-pci.h                 |  2 +-
- hw/usb/hcd-xhci.c                     |  2 +-
- hw/usb/hcd-xhci.h                     |  2 +-
- hw/xen/xen_pvdev.c                    |  2 +-
- io/channel-buffer.c                   |  2 +-
- io/channel-command.c                  |  2 +-
- io/channel-file.c                     |  2 +-
- io/channel-socket.c                   |  2 +-
- io/channel-tls.c                      |  2 +-
- io/channel-util.c                     |  2 +-
- io/channel-watch.c                    |  2 +-
- io/channel-websock.c                  |  2 +-
- io/channel.c                          |  2 +-
- io/dns-resolver.c                     |  2 +-
- io/task.c                             |  2 +-
- 99 files changed, 237 insertions(+), 237 deletions(-)
+ target/alpha/cpu.h                  |  2 +-
+ target/alpha/fpu_helper.c           |  2 +-
+ target/alpha/gdbstub.c              |  2 +-
+ target/alpha/helper.c               |  2 +-
+ target/alpha/int_helper.c           |  2 +-
+ target/alpha/mem_helper.c           |  2 +-
+ target/alpha/sys_helper.c           |  2 +-
+ target/alpha/translate.c            |  2 +-
+ target/alpha/vax_helper.c           |  2 +-
+ target/arm/a32-uncond.decode        |  2 +-
+ target/arm/a32.decode               |  2 +-
+ target/arm/arm_ldst.h               |  2 +-
+ target/arm/cpu.h                    |  2 +-
+ target/arm/crypto_helper.c          |  2 +-
+ target/arm/gdbstub.c                |  2 +-
+ target/arm/gdbstub64.c              |  2 +-
+ target/arm/helper-a64.c             |  2 +-
+ target/arm/helper-a64.h             |  2 +-
+ target/arm/helper-sve.h             |  2 +-
+ target/arm/iwmmxt_helper.c          |  2 +-
+ target/arm/neon-dp.decode           |  2 +-
+ target/arm/neon-ls.decode           |  2 +-
+ target/arm/neon-shared.decode       |  2 +-
+ target/arm/op_helper.c              |  2 +-
+ target/arm/pauth_helper.c           |  2 +-
+ target/arm/sve.decode               |  2 +-
+ target/arm/sve_helper.c             |  2 +-
+ target/arm/t16.decode               |  2 +-
+ target/arm/t32.decode               |  2 +-
+ target/arm/translate-a64.c          |  2 +-
+ target/arm/translate-a64.h          |  2 +-
+ target/arm/translate-neon.c.inc     |  2 +-
+ target/arm/translate-sve.c          |  2 +-
+ target/arm/translate-vfp.c.inc      |  2 +-
+ target/arm/translate.c              |  2 +-
+ target/arm/vec_helper.c             |  2 +-
+ target/arm/vec_internal.h           |  2 +-
+ target/arm/vfp-uncond.decode        |  2 +-
+ target/arm/vfp.decode               |  2 +-
+ target/cris/cpu.h                   |  2 +-
+ target/cris/crisv10-decode.h        |  2 +-
+ target/cris/crisv32-decode.h        |  2 +-
+ target/cris/gdbstub.c               |  2 +-
+ target/cris/helper.c                |  2 +-
+ target/cris/machine.c               |  2 +-
+ target/cris/mmu.c                   |  2 +-
+ target/cris/op_helper.c             |  2 +-
+ target/cris/translate.c             |  2 +-
+ target/cris/translate_v10.c.inc     |  2 +-
+ target/hppa/cpu.h                   |  2 +-
+ target/hppa/gdbstub.c               |  2 +-
+ target/hppa/helper.c                |  2 +-
+ target/hppa/insns.decode            |  2 +-
+ target/hppa/int_helper.c            |  2 +-
+ target/hppa/machine.c               |  2 +-
+ target/hppa/mem_helper.c            |  2 +-
+ target/hppa/op_helper.c             |  2 +-
+ target/hppa/translate.c             |  2 +-
+ target/i386/bpt_helper.c            |  2 +-
+ target/i386/cc_helper.c             |  2 +-
+ target/i386/cc_helper_template.h    |  2 +-
+ target/i386/cpu.c                   |  2 +-
+ target/i386/cpu.h                   |  2 +-
+ target/i386/excp_helper.c           |  2 +-
+ target/i386/fpu_helper.c            |  2 +-
+ target/i386/gdbstub.c               |  2 +-
+ target/i386/helper.c                |  2 +-
+ target/i386/hvf/panic.h             |  2 +-
+ target/i386/hvf/vmx.h               |  2 +-
+ target/i386/hvf/x86.c               |  2 +-
+ target/i386/hvf/x86.h               |  2 +-
+ target/i386/hvf/x86_cpuid.c         |  2 +-
+ target/i386/hvf/x86_decode.c        |  2 +-
+ target/i386/hvf/x86_decode.h        |  2 +-
+ target/i386/hvf/x86_descr.c         |  2 +-
+ target/i386/hvf/x86_descr.h         |  2 +-
+ target/i386/hvf/x86_emu.c           | 38 ++++++++++++++---------------
+ target/i386/hvf/x86_emu.h           |  2 +-
+ target/i386/hvf/x86_flags.c         | 38 ++++++++++++++---------------
+ target/i386/hvf/x86_flags.h         | 38 ++++++++++++++---------------
+ target/i386/hvf/x86_mmu.c           |  2 +-
+ target/i386/hvf/x86_mmu.h           |  2 +-
+ target/i386/hvf/x86hvf.c            |  2 +-
+ target/i386/hvf/x86hvf.h            |  2 +-
+ target/i386/int_helper.c            |  2 +-
+ target/i386/mem_helper.c            |  2 +-
+ target/i386/misc_helper.c           |  2 +-
+ target/i386/mpx_helper.c            |  2 +-
+ target/i386/ops_sse.h               |  2 +-
+ target/i386/ops_sse_header.h        |  2 +-
+ target/i386/seg_helper.c            |  2 +-
+ target/i386/shift_helper_template.h |  2 +-
+ target/i386/smm_helper.c            |  2 +-
+ target/i386/svm_helper.c            |  2 +-
+ target/i386/tcg-stub.c              |  2 +-
+ target/i386/translate.c             |  2 +-
+ 96 files changed, 150 insertions(+), 150 deletions(-)
 
-diff --git a/disas/lm32.c b/disas/lm32.c
-index c0ef816..4fbb124 100644
---- a/disas/lm32.c
-+++ b/disas/lm32.c
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index be29bdd..82df108 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -235,101 +226,140 @@ index c0ef816..4fbb124 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index ade9158..b77b202 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
+diff --git a/target/alpha/fpu_helper.c b/target/alpha/fpu_helper.c
+index df8b589..3ff8bb4 100644
+--- a/target/alpha/fpu_helper.c
++++ b/target/alpha/fpu_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/alpha/gdbstub.c b/target/alpha/gdbstub.c
+index 0cd76dd..7db14f4 100644
+--- a/target/alpha/gdbstub.c
++++ b/target/alpha/gdbstub.c
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+index 55d7274..4f56fe4 100644
+--- a/target/alpha/helper.c
++++ b/target/alpha/helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/alpha/int_helper.c b/target/alpha/int_helper.c
+index e43b50a..5672696 100644
+--- a/target/alpha/int_helper.c
++++ b/target/alpha/int_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/alpha/mem_helper.c b/target/alpha/mem_helper.c
+index 934faa1..75e72bc 100644
+--- a/target/alpha/mem_helper.c
++++ b/target/alpha/mem_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/alpha/sys_helper.c b/target/alpha/sys_helper.c
+index 3922923..25f6cb8 100644
+--- a/target/alpha/sys_helper.c
++++ b/target/alpha/sys_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/alpha/translate.c b/target/alpha/translate.c
+index 8870284..ba5bba7 100644
+--- a/target/alpha/translate.c
++++ b/target/alpha/translate.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/alpha/vax_helper.c b/target/alpha/vax_helper.c
+index 2b0c178..f94fb51 100644
+--- a/target/alpha/vax_helper.c
++++ b/target/alpha/vax_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/a32-uncond.decode b/target/arm/a32-uncond.decode
+index 60ccfc5..2339de2 100644
+--- a/target/arm/a32-uncond.decode
++++ b/target/arm/a32-uncond.decode
 @@ -5,7 +5,7 @@
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-- * License version 2 as published by the Free Software Foundation.
-+ * License version 2.1 as published by the Free Software Foundation.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-index 7c24bb5..37806f7 100644
---- a/hw/acpi/hmat.c
-+++ b/hw/acpi/hmat.c
-@@ -13,7 +13,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
-index 437dbc6..e9031ca 100644
---- a/hw/acpi/hmat.h
-+++ b/hw/acpi/hmat.h
-@@ -13,7 +13,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 95cb0f9..5ff4e01 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -10,7 +10,7 @@
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-- * License version 2 as published by the Free Software Foundation.
-+ * License version 2.1 as published by the Free Software Foundation.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 8f7cc16..e17734d 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -15,7 +15,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 32ae8b2..245bdd8 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -10,7 +10,7 @@
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-- * License version 2 as published by the Free Software Foundation.
-+ * License version 2.1 as published by the Free Software Foundation.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 894d357..842bc38 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/a32.decode b/target/arm/a32.decode
+index 4dfd913..fcd8cd4 100644
+--- a/target/arm/a32.decode
++++ b/target/arm/a32.decode
 @@ -5,7 +5,7 @@
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-- * License version 2 as published by the Free Software Foundation.
-+ * License version 2.1 as published by the Free Software Foundation.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/audio/milkymist-ac97.c b/hw/audio/milkymist-ac97.c
-index 04b39f8..7d2e057 100644
---- a/hw/audio/milkymist-ac97.c
-+++ b/hw/audio/milkymist-ac97.c
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/arm_ldst.h b/target/arm/arm_ldst.h
+index 45edb10..057160e 100644
+--- a/target/arm/arm_ldst.h
++++ b/target/arm/arm_ldst.h
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -339,10 +369,36 @@ index 04b39f8..7d2e057 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index f0fcd63..daae965 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 6036f61..36205a9 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/crypto_helper.c b/target/arm/crypto_helper.c
+index c76806d..28a84c2 100644
+--- a/target/arm/crypto_helper.c
++++ b/target/arm/crypto_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  */
+ 
+ #include "qemu/osdep.h"
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index ecfa88f..866595b 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
 @@ -7,7 +7,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -352,10 +408,10 @@ index f0fcd63..daae965 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index eb02fcc..1b3d94e 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
+diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
+index 35d0b80..251539e 100644
+--- a/target/arm/gdbstub64.c
++++ b/target/arm/gdbstub64.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -365,10 +421,10 @@ index eb02fcc..1b3d94e 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/char/lm32_juart.c b/hw/char/lm32_juart.c
-index b97aacb..aced357 100644
---- a/hw/char/lm32_juart.c
-+++ b/hw/char/lm32_juart.c
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index 0308214..30b2ad1 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -378,10 +434,10 @@ index b97aacb..aced357 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/char/lm32_uart.c b/hw/char/lm32_uart.c
-index 0e8b4e4..2f58e29 100644
---- a/hw/char/lm32_uart.c
-+++ b/hw/char/lm32_uart.c
+diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
+index 5b0b699..7bd6aed 100644
+--- a/target/arm/helper-a64.h
++++ b/target/arm/helper-a64.h
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -391,10 +447,10 @@ index 0e8b4e4..2f58e29 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/char/milkymist-uart.c b/hw/char/milkymist-uart.c
-index 1e83dbc..a817c51 100644
---- a/hw/char/milkymist-uart.c
-+++ b/hw/char/milkymist-uart.c
+diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+index 4411c47..e4cadd2 100644
+--- a/target/arm/helper-sve.h
++++ b/target/arm/helper-sve.h
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -404,36 +460,10 @@ index 1e83dbc..a817c51 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 6b987b6..c547f8e 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/core/loader-fit.c b/hw/core/loader-fit.c
-index c465921..b7c7b3b 100644
---- a/hw/core/loader-fit.c
-+++ b/hw/core/loader-fit.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/core/platform-bus.c b/hw/core/platform-bus.c
-index 5037ca2..b8487b2 100644
---- a/hw/core/platform-bus.c
-+++ b/hw/core/platform-bus.c
+diff --git a/target/arm/iwmmxt_helper.c b/target/arm/iwmmxt_helper.c
+index 24244d0..610b1b2 100644
+--- a/target/arm/iwmmxt_helper.c
++++ b/target/arm/iwmmxt_helper.c
 @@ -8,7 +8,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -443,322 +473,49 @@ index 5037ca2..b8487b2 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 96772a1..69b882d 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-index 68e8dc8..aaae8e2 100644
---- a/hw/core/sysbus.c
-+++ b/hw/core/sysbus.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
-index 986c994..2be77bd 100644
---- a/hw/display/bcm2835_fb.c
-+++ b/hw/display/bcm2835_fb.c
-@@ -10,7 +10,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/display/milkymist-tmu2.c b/hw/display/milkymist-tmu2.c
-index 64636db..02a28c8 100644
---- a/hw/display/milkymist-tmu2.c
-+++ b/hw/display/milkymist-tmu2.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/display/milkymist-vgafb.c b/hw/display/milkymist-vgafb.c
-index 6f2b11d..e2c587e 100644
---- a/hw/display/milkymist-vgafb.c
-+++ b/hw/display/milkymist-vgafb.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/display/milkymist-vgafb_template.h b/hw/display/milkymist-vgafb_template.h
-index 4883780..96137f9 100644
---- a/hw/display/milkymist-vgafb_template.h
-+++ b/hw/display/milkymist-vgafb_template.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/gpio/mpc8xxx.c b/hw/gpio/mpc8xxx.c
-index e60c919..cb42acb 100644
---- a/hw/gpio/mpc8xxx.c
-+++ b/hw/gpio/mpc8xxx.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/i2c/pm_smbus.c b/hw/i2c/pm_smbus.c
-index 4728540..06e1e53 100644
---- a/hw/i2c/pm_smbus.c
-+++ b/hw/i2c/pm_smbus.c
-@@ -6,7 +6,7 @@
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-- * License version 2 as published by the Free Software Foundation.
-+ * License version 2.1 as published by the Free Software Foundation.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index ee1d47f..71b0678 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -9,7 +9,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ide/ahci_internal.h b/hw/ide/ahci_internal.h
-index ac9bdea..7f32e87 100644
---- a/hw/ide/ahci_internal.h
-+++ b/hw/ide/ahci_internal.h
-@@ -9,7 +9,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ide/ich.c b/hw/ide/ich.c
-index 51cd2f3..1007a51 100644
---- a/hw/ide/ich.c
-+++ b/hw/ide/ich.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 27ff1f7..1086b7a 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/input/milkymist-softusb.c b/hw/input/milkymist-softusb.c
-index 5acd7a6..d885c70 100644
---- a/hw/input/milkymist-softusb.c
-+++ b/hw/input/milkymist-softusb.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-index b6a05e5..1c8be40 100644
---- a/hw/intc/apic.c
-+++ b/hw/intc/apic.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-index 81addd6..502e94e 100644
---- a/hw/intc/apic_common.c
-+++ b/hw/intc/apic_common.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/intc/arm_gicv2m.c b/hw/intc/arm_gicv2m.c
-index 596fa66..d564b85 100644
---- a/hw/intc/arm_gicv2m.c
-+++ b/hw/intc/arm_gicv2m.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
-index 4ee9875..057cb53 100644
---- a/hw/intc/arm_gicv3_its_kvm.c
-+++ b/hw/intc/arm_gicv3_its_kvm.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
-index bca71b5..a3021a4 100644
---- a/hw/intc/ioapic.c
-+++ b/hw/intc/ioapic.c
-@@ -9,7 +9,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/intc/ioapic_common.c b/hw/intc/ioapic_common.c
-index 5538b5b..3cccfc1 100644
---- a/hw/intc/ioapic_common.c
-+++ b/hw/intc/ioapic_common.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/intc/lm32_pic.c b/hw/intc/lm32_pic.c
-index 0c48a9c..991a90b 100644
---- a/hw/intc/lm32_pic.c
-+++ b/hw/intc/lm32_pic.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/intc/xics_pnv.c b/hw/intc/xics_pnv.c
-index 35f3811..753c067 100644
---- a/hw/intc/xics_pnv.c
-+++ b/hw/intc/xics_pnv.c
+diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
+index 51aa0f0..ec83f10 100644
+--- a/target/arm/neon-dp.decode
++++ b/target/arm/neon-dp.decode
 @@ -5,7 +5,7 @@
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public License
-- * as published by the Free Software Foundation; either version 2 of
-+ * as published by the Free Software Foundation; either version 2.1 of
-  * the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful, but
-diff --git a/hw/isa/apm.c b/hw/isa/apm.c
-index bce266b..dfe9020 100644
---- a/hw/isa/apm.c
-+++ b/hw/isa/apm.c
-@@ -6,7 +6,7 @@
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-- * License version 2 as published by the Free Software Foundation.
-+ * License version 2.1 as published by the Free Software Foundation.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index 8285b06..2a2ff05 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 10bb7ff..7820068 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
-index b842f74..b5d97dd 100644
---- a/hw/lm32/lm32_boards.c
-+++ b/hw/lm32/lm32_boards.c
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/neon-ls.decode b/target/arm/neon-ls.decode
+index c7b03a7..c17f501 100644
+--- a/target/arm/neon-ls.decode
++++ b/target/arm/neon-ls.decode
+@@ -5,7 +5,7 @@
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/neon-shared.decode b/target/arm/neon-shared.decode
+index a9d0108..ca0c699 100644
+--- a/target/arm/neon-shared.decode
++++ b/target/arm/neon-shared.decode
+@@ -5,7 +5,7 @@
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index b106521..b84d6d5 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -768,10 +525,10 @@ index b842f74..b5d97dd 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/lm32/lm32_hwsetup.h b/hw/lm32/lm32_hwsetup.h
-index de94de1..e6cd30a 100644
---- a/hw/lm32/lm32_hwsetup.h
-+++ b/hw/lm32/lm32_hwsetup.h
+diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
+index 6dbab03..564c48f 100644
+--- a/target/arm/pauth_helper.c
++++ b/target/arm/pauth_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -781,10 +538,23 @@ index de94de1..e6cd30a 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
-index 9f8fe9f..9ef9488 100644
---- a/hw/lm32/milkymist.c
-+++ b/hw/lm32/milkymist.c
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index 6425396..5c90603 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -5,7 +5,7 @@
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 4758d46..5f037c3 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -794,36 +564,36 @@ index 9f8fe9f..9ef9488 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-index e1574bc..03c2201 100644
---- a/hw/mem/nvdimm.c
-+++ b/hw/mem/nvdimm.c
-@@ -11,7 +11,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index c303510..50a04dd 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 1b3f69e..0e9c771 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
+diff --git a/target/arm/t16.decode b/target/arm/t16.decode
+index 43b9a26..646c749 100644
+--- a/target/arm/t16.decode
++++ b/target/arm/t16.decode
+@@ -5,7 +5,7 @@
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index 7069d82..06d16b3 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -5,7 +5,7 @@
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 7188808..6cb8d5a 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -833,11 +603,11 @@ index 1b3f69e..0e9c771 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-index 23c0f87..ea58d82 100644
---- a/hw/mips/cps.c
-+++ b/hw/mips/cps.c
-@@ -6,7 +6,7 @@
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index 2e0d16d..3668b67 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -4,7 +4,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
@@ -846,10 +616,10 @@ index 23c0f87..ea58d82 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
-index a4deb3e..1b9acaf 100644
---- a/hw/misc/applesmc.c
-+++ b/hw/misc/applesmc.c
+diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
+index 4d1a292..0c6db4d 100644
+--- a/target/arm/translate-neon.c.inc
++++ b/target/arm/translate-neon.c.inc
 @@ -9,7 +9,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -859,10 +629,10 @@ index a4deb3e..1b9acaf 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/misc/milkymist-hpdmc.c b/hw/misc/milkymist-hpdmc.c
-index 5e26d90..09a3875 100644
---- a/hw/misc/milkymist-hpdmc.c
-+++ b/hw/misc/milkymist-hpdmc.c
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index e4cd6b6..bf1ce67 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -872,10 +642,36 @@ index 5e26d90..09a3875 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/misc/milkymist-pfpu.c b/hw/misc/milkymist-pfpu.c
-index 83491db..e4ee209 100644
---- a/hw/misc/milkymist-pfpu.c
-+++ b/hw/misc/milkymist-pfpu.c
+diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
+index 28e0dba..4a05312 100644
+--- a/target/arm/translate-vfp.c.inc
++++ b/target/arm/translate-vfp.c.inc
+@@ -9,7 +9,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index d34c1d3..0329648 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -8,7 +8,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index a973454..86ad8b1 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -885,10 +681,10 @@ index 83491db..e4ee209 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/misc/mips_cpc.c b/hw/misc/mips_cpc.c
-index 2f7b2c9..692c0db 100644
---- a/hw/misc/mips_cpc.c
-+++ b/hw/misc/mips_cpc.c
+diff --git a/target/arm/vec_internal.h b/target/arm/vec_internal.h
+index 00a8277..e3eb3e7 100644
+--- a/target/arm/vec_internal.h
++++ b/target/arm/vec_internal.h
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -898,10 +694,166 @@ index 2f7b2c9..692c0db 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/misc/mips_itu.c b/hw/misc/mips_itu.c
-index 3540985..1333995 100644
---- a/hw/misc/mips_itu.c
-+++ b/hw/misc/mips_itu.c
+diff --git a/target/arm/vfp-uncond.decode b/target/arm/vfp-uncond.decode
+index 8891ab3..5c50447 100644
+--- a/target/arm/vfp-uncond.decode
++++ b/target/arm/vfp-uncond.decode
+@@ -5,7 +5,7 @@
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
+index 51f143b..1300ba0 100644
+--- a/target/arm/vfp.decode
++++ b/target/arm/vfp.decode
+@@ -5,7 +5,7 @@
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+index 8f08d76..d3b6492 100644
+--- a/target/cris/cpu.h
++++ b/target/cris/cpu.h
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/crisv10-decode.h b/target/cris/crisv10-decode.h
+index 028179b..9c531f3 100644
+--- a/target/cris/crisv10-decode.h
++++ b/target/cris/crisv10-decode.h
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/crisv32-decode.h b/target/cris/crisv32-decode.h
+index cdc2f8c..fa0a7f0 100644
+--- a/target/cris/crisv32-decode.h
++++ b/target/cris/crisv32-decode.h
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/gdbstub.c b/target/cris/gdbstub.c
+index b01b2aa..2418d57 100644
+--- a/target/cris/gdbstub.c
++++ b/target/cris/gdbstub.c
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/helper.c b/target/cris/helper.c
+index b5159b8..ed45c3d 100644
+--- a/target/cris/helper.c
++++ b/target/cris/helper.c
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/machine.c b/target/cris/machine.c
+index be38a89..f370f33 100644
+--- a/target/cris/machine.c
++++ b/target/cris/machine.c
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/mmu.c b/target/cris/mmu.c
+index 2acbcfd..a279b7f 100644
+--- a/target/cris/mmu.c
++++ b/target/cris/mmu.c
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/op_helper.c b/target/cris/op_helper.c
+index 6b1e7ae..d55a18a 100644
+--- a/target/cris/op_helper.c
++++ b/target/cris/op_helper.c
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index c312e6f..c893f87 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
+index 7f38fd2..86d78a8 100644
+--- a/target/cris/translate_v10.c.inc
++++ b/target/cris/translate_v10.c.inc
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index fb6c59d..61178fa 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -911,11 +863,11 @@ index 3540985..1333995 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index 83347cb..d7d05ae 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -13,7 +13,7 @@
+diff --git a/target/hppa/gdbstub.c b/target/hppa/gdbstub.c
+index a6428a2..729c37b 100644
+--- a/target/hppa/gdbstub.c
++++ b/target/hppa/gdbstub.c
+@@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
@@ -924,419 +876,548 @@ index 83347cb..d7d05ae 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
-index b6f1ae3..2beb150 100644
---- a/hw/net/e1000e.c
-+++ b/hw/net/e1000e.c
-@@ -1,37 +1,37 @@
- /*
--* QEMU INTEL 82574 GbE NIC emulation
--*
--* Software developer's manuals:
--* http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
--*
--* Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
--* Developed by Daynix Computing LTD (http://www.daynix.com)
--*
--* Authors:
--* Dmitry Fleytman <dmitry@daynix.com>
--* Leonid Bloch <leonid@daynix.com>
--* Yan Vugenfirer <yan@daynix.com>
--*
--* Based on work done by:
--* Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
--* Copyright (c) 2008 Qumranet
--* Based on work done by:
--* Copyright (c) 2007 Dan Aloni
--* Copyright (c) 2004 Antony T Curtis
--*
--* This library is free software; you can redistribute it and/or
--* modify it under the terms of the GNU Lesser General Public
--* License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
--*
--* This library is distributed in the hope that it will be useful,
--* but WITHOUT ANY WARRANTY; without even the implied warranty of
--* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--* Lesser General Public License for more details.
--*
--* You should have received a copy of the GNU Lesser General Public
--* License along with this library; if not, see <http://www.gnu.org/licenses/>.
--*/
-+ * QEMU INTEL 82574 GbE NIC emulation
-+ *
-+ * Software developer's manuals:
-+ * http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
-+ *
-+ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
-+ * Developed by Daynix Computing LTD (http://www.daynix.com)
-+ *
-+ * Authors:
-+ * Dmitry Fleytman <dmitry@daynix.com>
-+ * Leonid Bloch <leonid@daynix.com>
-+ * Yan Vugenfirer <yan@daynix.com>
-+ *
-+ * Based on work done by:
-+ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
-+ * Copyright (c) 2008 Qumranet
-+ * Based on work done by:
-+ * Copyright (c) 2007 Dan Aloni
-+ * Copyright (c) 2004 Antony T Curtis
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
+diff --git a/target/hppa/helper.c b/target/hppa/helper.c
+index 0dcd105..1ccff57 100644
+--- a/target/hppa/helper.c
++++ b/target/hppa/helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
 + * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/hppa/insns.decode b/target/hppa/insns.decode
+index dceaad6..d4eefc0 100644
+--- a/target/hppa/insns.decode
++++ b/target/hppa/insns.decode
+@@ -6,7 +6,7 @@
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/hppa/int_helper.c b/target/hppa/int_helper.c
+index 462747b..349495d 100644
+--- a/target/hppa/int_helper.c
++++ b/target/hppa/int_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/hppa/machine.c b/target/hppa/machine.c
+index 7030101..b60b654 100644
+--- a/target/hppa/machine.c
++++ b/target/hppa/machine.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/hppa/mem_helper.c b/target/hppa/mem_helper.c
+index 5a465db..afc5b56 100644
+--- a/target/hppa/mem_helper.c
++++ b/target/hppa/mem_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
+index 39361d3..7ae31e1 100644
+--- a/target/hppa/op_helper.c
++++ b/target/hppa/op_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+index f5765ef..64af1e0 100644
+--- a/target/hppa/translate.c
++++ b/target/hppa/translate.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/bpt_helper.c b/target/i386/bpt_helper.c
+index c3a8ea7..e6cc292 100644
+--- a/target/i386/bpt_helper.c
++++ b/target/i386/bpt_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/cc_helper.c b/target/i386/cc_helper.c
+index c9c90e1..924dd3c 100644
+--- a/target/i386/cc_helper.c
++++ b/target/i386/cc_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/cc_helper_template.h b/target/i386/cc_helper_template.h
+index 607311f..bb611fe 100644
+--- a/target/i386/cc_helper_template.h
++++ b/target/i386/cc_helper_template.h
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 3ffd877..3ff1cdf 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index f519d2b..97f2b4b 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/excp_helper.c b/target/i386/excp_helper.c
+index b10c7ec..1914717 100644
+--- a/target/i386/excp_helper.c
++++ b/target/i386/excp_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
+index 4ea7387..03b3544 100644
+--- a/target/i386/fpu_helper.c
++++ b/target/i386/fpu_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index 9ae43bd..4a3de5f 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 70be53e..d46999b 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/panic.h b/target/i386/hvf/panic.h
+index 411ef43..a3eabeb 100644
+--- a/target/i386/hvf/panic.h
++++ b/target/i386/hvf/panic.h
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
+index 587b1b8..24c4cdf 100644
+--- a/target/i386/hvf/vmx.h
++++ b/target/i386/hvf/vmx.h
+@@ -8,7 +8,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86.c b/target/i386/hvf/x86.c
+index fdb11c8..cd04518 100644
+--- a/target/i386/hvf/x86.c
++++ b/target/i386/hvf/x86.c
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
+index bacade7..9e2c003 100644
+--- a/target/i386/hvf/x86.h
++++ b/target/i386/hvf/x86.h
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c
+index 16762b6..ac731c2 100644
+--- a/target/i386/hvf/x86_cpuid.c
++++ b/target/i386/hvf/x86_cpuid.c
+@@ -7,7 +7,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86_decode.c b/target/i386/hvf/x86_decode.c
+index 34c5e30..062713b 100644
+--- a/target/i386/hvf/x86_decode.c
++++ b/target/i386/hvf/x86_decode.c
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86_decode.h b/target/i386/hvf/x86_decode.h
+index ef79601..a2d7a2a 100644
+--- a/target/i386/hvf/x86_decode.h
++++ b/target/i386/hvf/x86_decode.h
+@@ -4,7 +4,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86_descr.c b/target/i386/hvf/x86_descr.c
+index 8c05c34..9f539e7 100644
+--- a/target/i386/hvf/x86_descr.c
++++ b/target/i386/hvf/x86_descr.c
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86_descr.h b/target/i386/hvf/x86_descr.h
+index 049ef9a..c356932 100644
+--- a/target/i386/hvf/x86_descr.h
++++ b/target/i386/hvf/x86_descr.h
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
+index d3e289e..91668be 100644
+--- a/target/i386/hvf/x86_emu.c
++++ b/target/i386/hvf/x86_emu.c
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+@@ -16,24 +16,24 @@
+  * License along with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-/////////////////////////////////////////////////////////////////////////
+-//
+-//  Copyright (C) 2001-2012  The Bochs Project
+-//
+-//  This library is free software; you can redistribute it and/or
+-//  modify it under the terms of the GNU Lesser General Public
+-//  License as published by the Free Software Foundation; either
+-//  version 2 of the License, or (at your option) any later version.
+-//
+-//  This library is distributed in the hope that it will be useful,
+-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-//  Lesser General Public License for more details.
+-//
+-//  You should have received a copy of the GNU Lesser General Public
+-//  License along with this library; if not, write to the Free Software
+-//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
+-/////////////////////////////////////////////////////////////////////////
++/*
 + *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
++ *  Copyright (C) 2001-2012  The Bochs Project
 + *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *  This library is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU Lesser General Public
++ *  License as published by the Free Software Foundation; either
++ *  version 2.1 of the License, or (at your option) any later version.
++ *
++ *  This library is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ *  Lesser General Public License for more details.
++ *
++ *  You should have received a copy of the GNU Lesser General Public
++ *  License along with this library; if not, write to the Free Software
++ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
 + */
  
  #include "qemu/osdep.h"
- #include "qemu/units.h"
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index bcfd466..93f377a 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -1,37 +1,37 @@
- /*
--* Core code for QEMU e1000e emulation
--*
--* Software developer's manuals:
--* http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
--*
--* Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
--* Developed by Daynix Computing LTD (http://www.daynix.com)
--*
--* Authors:
--* Dmitry Fleytman <dmitry@daynix.com>
--* Leonid Bloch <leonid@daynix.com>
--* Yan Vugenfirer <yan@daynix.com>
--*
--* Based on work done by:
--* Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
--* Copyright (c) 2008 Qumranet
--* Based on work done by:
--* Copyright (c) 2007 Dan Aloni
--* Copyright (c) 2004 Antony T Curtis
--*
--* This library is free software; you can redistribute it and/or
--* modify it under the terms of the GNU Lesser General Public
--* License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
--*
--* This library is distributed in the hope that it will be useful,
--* but WITHOUT ANY WARRANTY; without even the implied warranty of
--* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--* Lesser General Public License for more details.
--*
--* You should have received a copy of the GNU Lesser General Public
--* License along with this library; if not, see <http://www.gnu.org/licenses/>.
--*/
-+ * Core code for QEMU e1000e emulation
-+ *
-+ * Software developer's manuals:
-+ * http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
-+ *
-+ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
-+ * Developed by Daynix Computing LTD (http://www.daynix.com)
-+ *
-+ * Authors:
-+ * Dmitry Fleytman <dmitry@daynix.com>
-+ * Leonid Bloch <leonid@daynix.com>
-+ * Yan Vugenfirer <yan@daynix.com>
-+ *
-+ * Based on work done by:
-+ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
-+ * Copyright (c) 2008 Qumranet
-+ * Based on work done by:
-+ * Copyright (c) 2007 Dan Aloni
-+ * Copyright (c) 2004 Antony T Curtis
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
-index aee32f7..b8f38c4 100644
---- a/hw/net/e1000e_core.h
-+++ b/hw/net/e1000e_core.h
-@@ -1,37 +1,37 @@
- /*
--* Core code for QEMU e1000e emulation
--*
--* Software developer's manuals:
--* http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
--*
--* Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
--* Developed by Daynix Computing LTD (http://www.daynix.com)
--*
--* Authors:
--* Dmitry Fleytman <dmitry@daynix.com>
--* Leonid Bloch <leonid@daynix.com>
--* Yan Vugenfirer <yan@daynix.com>
--*
--* Based on work done by:
--* Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
--* Copyright (c) 2008 Qumranet
--* Based on work done by:
--* Copyright (c) 2007 Dan Aloni
--* Copyright (c) 2004 Antony T Curtis
--*
--* This library is free software; you can redistribute it and/or
--* modify it under the terms of the GNU Lesser General Public
--* License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
--*
--* This library is distributed in the hope that it will be useful,
--* but WITHOUT ANY WARRANTY; without even the implied warranty of
--* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--* Lesser General Public License for more details.
--*
--* You should have received a copy of the GNU Lesser General Public
--* License along with this library; if not, see <http://www.gnu.org/licenses/>.
--*/
-+ * Core code for QEMU e1000e emulation
-+ *
-+ * Software developer's manuals:
-+ * http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf
-+ *
-+ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
-+ * Developed by Daynix Computing LTD (http://www.daynix.com)
-+ *
-+ * Authors:
-+ * Dmitry Fleytman <dmitry@daynix.com>
-+ * Leonid Bloch <leonid@daynix.com>
-+ * Yan Vugenfirer <yan@daynix.com>
-+ *
-+ * Based on work done by:
-+ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
-+ * Copyright (c) 2008 Qumranet
-+ * Based on work done by:
-+ * Copyright (c) 2007 Dan Aloni
-+ * Copyright (c) 2004 Antony T Curtis
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
- 
- #ifndef HW_NET_E1000E_CORE_H
- #define HW_NET_E1000E_CORE_H
-diff --git a/hw/net/e1000x_common.c b/hw/net/e1000x_common.c
-index 717f9df..83ffb76 100644
---- a/hw/net/e1000x_common.c
-+++ b/hw/net/e1000x_common.c
-@@ -1,26 +1,26 @@
- /*
--* QEMU e1000(e) emulation - shared code
--*
--* Copyright (c) 2008 Qumranet
--*
--* Based on work done by:
--* Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
--* Copyright (c) 2007 Dan Aloni
--* Copyright (c) 2004 Antony T Curtis
--*
--* This library is free software; you can redistribute it and/or
--* modify it under the terms of the GNU Lesser General Public
--* License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
--*
--* This library is distributed in the hope that it will be useful,
--* but WITHOUT ANY WARRANTY; without even the implied warranty of
--* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--* Lesser General Public License for more details.
--*
--* You should have received a copy of the GNU Lesser General Public
--* License along with this library; if not, see <http://www.gnu.org/licenses/>.
--*/
-+ * QEMU e1000(e) emulation - shared code
-+ *
-+ * Copyright (c) 2008 Qumranet
-+ *
-+ * Based on work done by:
-+ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
-+ * Copyright (c) 2007 Dan Aloni
-+ * Copyright (c) 2004 Antony T Curtis
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
-index 19c56f4..bc1ee75 100644
---- a/hw/net/e1000x_common.h
-+++ b/hw/net/e1000x_common.h
-@@ -1,26 +1,26 @@
- /*
--* QEMU e1000(e) emulation - shared code
--*
--* Copyright (c) 2008 Qumranet
--*
--* Based on work done by:
--* Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
--* Copyright (c) 2007 Dan Aloni
--* Copyright (c) 2004 Antony T Curtis
--*
--* This library is free software; you can redistribute it and/or
--* modify it under the terms of the GNU Lesser General Public
--* License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
--*
--* This library is distributed in the hope that it will be useful,
--* but WITHOUT ANY WARRANTY; without even the implied warranty of
--* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--* Lesser General Public License for more details.
--*
--* You should have received a copy of the GNU Lesser General Public
--* License along with this library; if not, see <http://www.gnu.org/licenses/>.
--*/
-+ * QEMU e1000(e) emulation - shared code
-+ *
-+ * Copyright (c) 2008 Qumranet
-+ *
-+ * Based on work done by:
-+ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
-+ * Copyright (c) 2007 Dan Aloni
-+ * Copyright (c) 2004 Antony T Curtis
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
- 
- #ifndef HW_NET_E1000X_COMMON_H
- #define HW_NET_E1000X_COMMON_H
-diff --git a/hw/net/milkymist-minimac2.c b/hw/net/milkymist-minimac2.c
-index 78c20c9..5826944 100644
---- a/hw/net/milkymist-minimac2.c
-+++ b/hw/net/milkymist-minimac2.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
-index 2b39076..f28181e 100644
---- a/hw/pci-bridge/i82801b11.c
-+++ b/hw/pci-bridge/i82801b11.c
-@@ -30,7 +30,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-index 8492c18..f9fb97a 100644
---- a/hw/pci-host/designware.c
-+++ b/hw/pci-host/designware.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/pci-host/xilinx-pcie.c b/hw/pci-host/xilinx-pcie.c
-index 3b32142..38d5901 100644
---- a/hw/pci-host/xilinx-pcie.c
-+++ b/hw/pci-host/xilinx-pcie.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 6670967..79d322e 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index 4724ddf..bd2bf2e 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
+ #include "panic.h"
+diff --git a/target/i386/hvf/x86_emu.h b/target/i386/hvf/x86_emu.h
+index f92a9c5..233f7b8 100644
+--- a/target/i386/hvf/x86_emu.h
++++ b/target/i386/hvf/x86_emu.h
 @@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
   *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public License
-- * as published by the Free Software Foundation; either version 2 of
-+ * as published by the Free Software Foundation; either version 2.1 of
-  * the License, or (at your option) any later version.
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86_flags.c b/target/i386/hvf/x86_flags.c
+index 5ca4f41..d8b09ea 100644
+--- a/target/i386/hvf/x86_flags.c
++++ b/target/i386/hvf/x86_flags.c
+@@ -1,22 +1,22 @@
+-/////////////////////////////////////////////////////////////////////////
+-//
+-//  Copyright (C) 2001-2012  The Bochs Project
+-//  Copyright (C) 2017 Google Inc.
+-//
+-//  This library is free software; you can redistribute it and/or
+-//  modify it under the terms of the GNU Lesser General Public
+-//  License as published by the Free Software Foundation; either
+-//  version 2 of the License, or (at your option) any later version.
+-//
+-//  This library is distributed in the hope that it will be useful,
+-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-//  Lesser General Public License for more details.
+-//
+-//  You should have received a copy of the GNU Lesser General Public
+-//  License along with this library; if not, write to the Free Software
+-//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
+-/////////////////////////////////////////////////////////////////////////
++/*
++ *
++ *  Copyright (C) 2001-2012  The Bochs Project
++ *  Copyright (C) 2017 Google Inc.
++ *
++ *  This library is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU Lesser General Public
++ *  License as published by the Free Software Foundation; either
++ *  version 2.1 of the License, or (at your option) any later version.
++ *
++ *  This library is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ *  Lesser General Public License for more details.
++ *
++ *  You should have received a copy of the GNU Lesser General Public
++ *  License along with this library; if not, write to the Free Software
++ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
++ */
+ /*
+  * flags functions
+  */
+diff --git a/target/i386/hvf/x86_flags.h b/target/i386/hvf/x86_flags.h
+index 785e80c..636446e 100644
+--- a/target/i386/hvf/x86_flags.h
++++ b/target/i386/hvf/x86_flags.h
+@@ -1,22 +1,22 @@
+-/////////////////////////////////////////////////////////////////////////
+-//
+-//  Copyright (C) 2001-2012  The Bochs Project
+-//  Copyright (C) 2017 Google Inc.
+-//
+-//  This library is free software; you can redistribute it and/or
+-//  modify it under the terms of the GNU Lesser General Public
+-//  License as published by the Free Software Foundation; either
+-//  version 2 of the License, or (at your option) any later version.
+-//
+-//  This library is distributed in the hope that it will be useful,
+-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-//  Lesser General Public License for more details.
+-//
+-//  You should have received a copy of the GNU Lesser General Public
+-//  License along with this library; if not, write to the Free Software
+-//  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
+-/////////////////////////////////////////////////////////////////////////
++/*
++ *
++ *  Copyright (C) 2001-2012  The Bochs Project
++ *  Copyright (C) 2017 Google Inc.
++ *
++ *  This library is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU Lesser General Public
++ *  License as published by the Free Software Foundation; either
++ *  version 2.1 of the License, or (at your option) any later version.
++ *
++ *  This library is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ *  Lesser General Public License for more details.
++ *
++ *  You should have received a copy of the GNU Lesser General Public
++ *  License along with this library; if not, write to the Free Software
++ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA B 02110-1301 USA
++ */
+ /*
+  * x86 eflags functions
+  */
+diff --git a/target/i386/hvf/x86_mmu.c b/target/i386/hvf/x86_mmu.c
+index 65d4603..882a623 100644
+--- a/target/i386/hvf/x86_mmu.c
++++ b/target/i386/hvf/x86_mmu.c
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
   *
-  * This library is distributed in the hope that it will be useful, but
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index 23f1e09..5903590 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86_mmu.h b/target/i386/hvf/x86_mmu.h
+index cd6e137..9ae8a54 100644
+--- a/target/i386/hvf/x86_mmu.h
++++ b/target/i386/hvf/x86_mmu.h
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
+index 5cbcb32..f267698 100644
+--- a/target/i386/hvf/x86hvf.c
++++ b/target/i386/hvf/x86hvf.c
+@@ -6,7 +6,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
+index 79539f7..860bd2e 100644
+--- a/target/i386/hvf/x86hvf.h
++++ b/target/i386/hvf/x86hvf.h
+@@ -5,7 +5,7 @@
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/i386/int_helper.c b/target/i386/int_helper.c
+index 334469c..4f89436 100644
+--- a/target/i386/int_helper.c
++++ b/target/i386/int_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1346,10 +1427,10 @@ index 23f1e09..5903590 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index 6a479ca..3e868c8 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
+diff --git a/target/i386/mem_helper.c b/target/i386/mem_helper.c
+index 3a6d3ae..21ca3e3 100644
+--- a/target/i386/mem_helper.c
++++ b/target/i386/mem_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1359,10 +1440,10 @@ index 6a479ca..3e868c8 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index b681c72..e9ae156 100644
---- a/hw/ppc/pnv_xscom.c
-+++ b/hw/ppc/pnv_xscom.c
+diff --git a/target/i386/misc_helper.c b/target/i386/misc_helper.c
+index b6b1d41..ae259d9 100644
+--- a/target/i386/misc_helper.c
++++ b/target/i386/misc_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1372,23 +1453,10 @@ index b681c72..e9ae156 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ppc/ppce500_spin.c b/hw/ppc/ppce500_spin.c
-index 25c9ce7..d57b199 100644
---- a/hw/ppc/ppce500_spin.c
-+++ b/hw/ppc/ppce500_spin.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ppc/spapr_iommu.c b/hw/ppc/spapr_iommu.c
-index 0fecabc..0790239 100644
---- a/hw/ppc/spapr_iommu.c
-+++ b/hw/ppc/spapr_iommu.c
+diff --git a/target/i386/mpx_helper.c b/target/i386/mpx_helper.c
+index ade5d24..fd96617 100644
+--- a/target/i386/mpx_helper.c
++++ b/target/i386/mpx_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1398,23 +1466,10 @@ index 0fecabc..0790239 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-index 731080d..32cdc36 100644
---- a/hw/ppc/spapr_vio.c
-+++ b/hw/ppc/spapr_vio.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index e90c008..ebcbab3 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
+diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+index c7614f8..6f1fc17 100644
+--- a/target/i386/ops_sse.h
++++ b/target/i386/ops_sse.h
 @@ -7,7 +7,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1424,49 +1479,10 @@ index e90c008..ebcbab3 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/scsi/mptconfig.c b/hw/scsi/mptconfig.c
-index 3b2a857..19d01f3 100644
---- a/hw/scsi/mptconfig.c
-+++ b/hw/scsi/mptconfig.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/scsi/mptendian.c b/hw/scsi/mptendian.c
-index 313f40e..0d5abb4 100644
---- a/hw/scsi/mptendian.c
-+++ b/hw/scsi/mptendian.c
-@@ -9,7 +9,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-index 135e7d9..f866165 100644
---- a/hw/scsi/mptsas.c
-+++ b/hw/scsi/mptsas.c
-@@ -11,7 +11,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/sd/milkymist-memcard.c b/hw/sd/milkymist-memcard.c
-index 8cde320..a1235aa 100644
---- a/hw/sd/milkymist-memcard.c
-+++ b/hw/sd/milkymist-memcard.c
+diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
+index 094aafc..6c0c849 100644
+--- a/target/i386/ops_sse_header.h
++++ b/target/i386/ops_sse_header.h
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1476,75 +1492,10 @@ index 8cde320..a1235aa 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index 05fd86a..9520471 100644
---- a/hw/timer/hpet.c
-+++ b/hw/timer/hpet.c
-@@ -9,7 +9,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/timer/lm32_timer.c b/hw/timer/lm32_timer.c
-index be87c65..eeaf0ad 100644
---- a/hw/timer/lm32_timer.c
-+++ b/hw/timer/lm32_timer.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/timer/milkymist-sysctl.c b/hw/timer/milkymist-sysctl.c
-index 950437b..9ecea63 100644
---- a/hw/timer/milkymist-sysctl.c
-+++ b/hw/timer/milkymist-sysctl.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/tpm/tpm_prop.h b/hw/tpm/tpm_prop.h
-index 85e1ae5..d19e40c 100644
---- a/hw/tpm/tpm_prop.h
-+++ b/hw/tpm/tpm_prop.h
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboard.c
-index 8ec2b5b..12ea149 100644
---- a/hw/tricore/tricore_testboard.c
-+++ b/hw/tricore/tricore_testboard.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index 8b912e9..f8c64c8 100644
---- a/hw/usb/hcd-ohci.c
-+++ b/hw/usb/hcd-ohci.c
+diff --git a/target/i386/seg_helper.c b/target/i386/seg_helper.c
+index b96de06..16311e5 100644
+--- a/target/i386/seg_helper.c
++++ b/target/i386/seg_helper.c
 @@ -7,7 +7,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1554,75 +1505,10 @@ index 8b912e9..f8c64c8 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/usb/hcd-xhci-nec.c b/hw/usb/hcd-xhci-nec.c
-index 2efa6fa..65fde63 100644
---- a/hw/usb/hcd-xhci-nec.c
-+++ b/hw/usb/hcd-xhci-nec.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
-index a6d746e..3920099 100644
---- a/hw/usb/hcd-xhci-pci.c
-+++ b/hw/usb/hcd-xhci-pci.c
-@@ -12,7 +12,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/usb/hcd-xhci-pci.h b/hw/usb/hcd-xhci-pci.h
-index aa2e890..c193f79 100644
---- a/hw/usb/hcd-xhci-pci.h
-+++ b/hw/usb/hcd-xhci-pci.h
-@@ -10,7 +10,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 5e8bed9..e68ae2a 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
-index f859a17..fbe9981 100644
---- a/hw/usb/hcd-xhci.h
-+++ b/hw/usb/hcd-xhci.h
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/xen/xen_pvdev.c b/hw/xen/xen_pvdev.c
-index 43a336a..8ab4589 100644
---- a/hw/xen/xen_pvdev.c
-+++ b/hw/xen/xen_pvdev.c
+diff --git a/target/i386/shift_helper_template.h b/target/i386/shift_helper_template.h
+index cf91a2d..54f15d6 100644
+--- a/target/i386/shift_helper_template.h
++++ b/target/i386/shift_helper_template.h
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1632,10 +1518,10 @@ index 43a336a..8ab4589 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-buffer.c b/io/channel-buffer.c
-index 5402e0c..baa4e2b 100644
---- a/io/channel-buffer.c
-+++ b/io/channel-buffer.c
+diff --git a/target/i386/smm_helper.c b/target/i386/smm_helper.c
+index eb5aa6e..d20e8ed 100644
+--- a/target/i386/smm_helper.c
++++ b/target/i386/smm_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1645,10 +1531,10 @@ index 5402e0c..baa4e2b 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-command.c b/io/channel-command.c
-index 368dd62..b2a9e27 100644
---- a/io/channel-command.c
-+++ b/io/channel-command.c
+diff --git a/target/i386/svm_helper.c b/target/i386/svm_helper.c
+index 6224387..3893158 100644
+--- a/target/i386/svm_helper.c
++++ b/target/i386/svm_helper.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1658,10 +1544,10 @@ index 368dd62..b2a9e27 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-file.c b/io/channel-file.c
-index 2ed3b75..c4bf799 100644
---- a/io/channel-file.c
-+++ b/io/channel-file.c
+diff --git a/target/i386/tcg-stub.c b/target/i386/tcg-stub.c
+index b00e23d..8d45579 100644
+--- a/target/i386/tcg-stub.c
++++ b/target/i386/tcg-stub.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -1671,101 +1557,10 @@ index 2ed3b75..c4bf799 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index e1b4667..de259f7 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-tls.c b/io/channel-tls.c
-index 7ec8cef..388f019 100644
---- a/io/channel-tls.c
-+++ b/io/channel-tls.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-util.c b/io/channel-util.c
-index 423d798..848a7a4 100644
---- a/io/channel-util.c
-+++ b/io/channel-util.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-watch.c b/io/channel-watch.c
-index 8640d1c..0289b36 100644
---- a/io/channel-watch.c
-+++ b/io/channel-watch.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-websock.c b/io/channel-websock.c
-index 47a0e94..bb545fa 100644
---- a/io/channel-websock.c
-+++ b/io/channel-websock.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel.c b/io/channel.c
-index e4376eb..93d449d 100644
---- a/io/channel.c
-+++ b/io/channel.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/dns-resolver.c b/io/dns-resolver.c
-index b55d8cc..743a0ef 100644
---- a/io/dns-resolver.c
-+++ b/io/dns-resolver.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/task.c b/io/task.c
-index 53c0bed..451f26f 100644
---- a/io/task.c
-+++ b/io/task.c
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index caea6f5..4c57307 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
