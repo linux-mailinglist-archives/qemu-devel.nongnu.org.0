@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38D0288EE1
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:29:55 +0200 (CEST)
-Received: from localhost ([::1]:41600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737C5288EC4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:25:22 +0200 (CEST)
+Received: from localhost ([::1]:53226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvHG-00045V-Ne
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34270)
+	id 1kQvCr-0005W7-DO
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:25:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQv42-0003o0-FP
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQv42-0003oe-QO
  for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:16:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23757)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQv40-0003EM-Jp
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQv40-0003Ea-NL
  for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:16:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602260168;
@@ -23,28 +23,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ksAvwBgTkP36TK2l/cDDZbXxzNHg6nzwET102AvLoQY=;
- b=akcaVvdqWOWOYqKgEKZ9z5MuC+6v5sf2ux1oJ6/ljaPzCjhhtkNK3yuPh0ZI3RLQ9hwlfE
- RCSB26zwUFCHtc3+UN8/0Tdt/iHG0Ho71hDyuNSiVoq7CrXhwXTvwucwKXrf0gflQ7nONO
- klv6g/4hgZbJf1PzBk2QOFTlHxsUWJs=
+ bh=0Jfb+bdIMSiZN7tkd6saMYGS35LZrC9sw8FjbzbOQqk=;
+ b=Mkh/mn8Uv3w29gfhvPB2n8Wtkq0VEjjc6lfjlLpZbHdjomaLzs0WDj1kz0FCb84lGjJejv
+ RzZYrlpT+svJSEUJjMXjeGF8ZFhFZCix2RQ3BXP7MIec7aB2F4zg6+1mkMxjBiAsk888p9
+ 7fWpDIHy8a3+vsM2vUC7EN3ARdo3fn8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-JGXXNCjUP3--7hoXXaxryQ-1; Fri, 09 Oct 2020 12:16:05 -0400
-X-MC-Unique: JGXXNCjUP3--7hoXXaxryQ-1
+ us-mta-34-BwuiF7BIMSGl0urV_tWoOA-1; Fri, 09 Oct 2020 12:16:06 -0400
+X-MC-Unique: BwuiF7BIMSGl0urV_tWoOA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D49381019627;
- Fri,  9 Oct 2020 16:16:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C11431084D71;
+ Fri,  9 Oct 2020 16:16:05 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-203.rdu2.redhat.com [10.10.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B249638A;
- Fri,  9 Oct 2020 16:16:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 08FF81A925;
+ Fri,  9 Oct 2020 16:16:04 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 02/36] qapi: modify docstrings to be sphinx-compatible
-Date: Fri,  9 Oct 2020 12:15:24 -0400
-Message-Id: <20201009161558.107041-3-jsnow@redhat.com>
+Subject: [PATCH v6 03/36] qapi-gen: Separate arg-parsing from generation
+Date: Fri,  9 Oct 2020 12:15:25 -0400
+Message-Id: <20201009161558.107041-4-jsnow@redhat.com>
 In-Reply-To: <20201009161558.107041-1-jsnow@redhat.com>
 References: <20201009161558.107041-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,40 +84,145 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A precise style guide and a package-wide overhaul is forthcoming pending
-further discussion and consensus. For now, merely avoid obvious errors
-that cause Sphinx documentation build problems, using a style loosely
-based on PEP 257 and Sphinx Autodoc. It is chosen for interoperability
-with our existing Sphinx framework, and because it has loose recognition
-in the Pycharm IDE.
+This is a minor re-work of the entrypoint script. It isolates a
+generate() method from the actual command-line mechanism.
 
-See also:
-
-https://www.python.org/dev/peps/pep-0257/
-https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#info-field-lists
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/gen.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/qapi-gen.py | 89 ++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 67 insertions(+), 22 deletions(-)
 
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index ca66c82b5b8..dc7b94aa115 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -154,9 +154,11 @@ def _bottom(self):
+diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
+index 541e8c1f55d..054554ed846 100644
+--- a/scripts/qapi-gen.py
++++ b/scripts/qapi-gen.py
+@@ -1,30 +1,77 @@
+ #!/usr/bin/env python3
+-# QAPI generator
+-#
++
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+ # See the COPYING file in the top-level directory.
  
- @contextmanager
- def ifcontext(ifcond, *args):
--    """A 'with' statement context manager to wrap with start_if()/end_if()
++"""
++QAPI Generator
++
++This is the main entry point for generating C code from the QAPI schema.
++"""
+ 
+ import argparse
+ import re
+ import sys
++from typing import Optional
+ 
+ from qapi.commands import gen_commands
++from qapi.error import QAPIError
+ from qapi.events import gen_events
+ from qapi.introspect import gen_introspect
+-from qapi.schema import QAPIError, QAPISchema
++from qapi.schema import QAPISchema
+ from qapi.types import gen_types
+ from qapi.visit import gen_visit
+ 
+ 
+-def main(argv):
++def invalid_char(prefix: str) -> Optional[str]:
++    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
++    if match.end() != len(prefix):
++        return prefix[match.end()]
++    return None
++
++
++def generate(schema_file: str,
++             output_dir: str,
++             prefix: str,
++             unmask: bool = False,
++             builtins: bool = False) -> None:
 +    """
-+    A with-statement context manager that wraps with `start_if()` / `end_if()`.
++    Generate C code for the given schema into the target directory.
++
++    :param schema_file: The primary QAPI schema file.
++    :param output_dir: The output directory to store generated code.
++    :param prefix: Optional C-code prefix for symbol names.
++    :param unmask: Expose non-ABI names through introspection?
++    :param builtins: Generate code for built-in types?
++
++    :raise QAPIError: On failures.
++    """
++    assert invalid_char(prefix) is None
++
++    schema = QAPISchema(schema_file)
++    gen_types(schema, output_dir, prefix, builtins)
++    gen_visit(schema, output_dir, prefix, builtins)
++    gen_commands(schema, output_dir, prefix)
++    gen_events(schema, output_dir, prefix)
++    gen_introspect(schema, output_dir, prefix, unmask)
++
++
++def main() -> int:
++    """
++    gapi-gen executable entry point.
++    Expects arguments via sys.argv, see --help for details.
++
++    :return: int, 0 on success, 1 on failure.
++    """
+     parser = argparse.ArgumentParser(
+         description='Generate code from a QAPI schema')
+     parser.add_argument('-b', '--builtins', action='store_true',
+                         help="generate code for built-in types")
+-    parser.add_argument('-o', '--output-dir', action='store', default='',
++    parser.add_argument('-o', '--output-dir', action='store',
++                        default='',
+                         help="write output to directory OUTPUT_DIR")
+-    parser.add_argument('-p', '--prefix', action='store', default='',
++    parser.add_argument('-p', '--prefix', action='store',
++                        default='',
+                         help="prefix for symbols")
+     parser.add_argument('-u', '--unmask-non-abi-names', action='store_true',
+                         dest='unmask',
+@@ -32,25 +79,23 @@ def main(argv):
+     parser.add_argument('schema', action='store')
+     args = parser.parse_args()
  
--    *args: any number of QAPIGenCCode
-+    :param ifcond: A list of conditionals, passed to `start_if()`.
-+    :param args: any number of `QAPIGenCCode`.
+-    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', args.prefix)
+-    if match.end() != len(args.prefix):
+-        print("%s: 'funny character '%s' in argument of --prefix"
+-              % (sys.argv[0], args.prefix[match.end()]),
+-              file=sys.stderr)
+-        sys.exit(1)
++    funny_char = invalid_char(args.prefix)
++    if funny_char:
++        msg = f"funny character '{funny_char}' in argument of --prefix"
++        print(f"{sys.argv[0]}: {msg}", file=sys.stderr)
++        return 1
  
-     Example::
+     try:
+-        schema = QAPISchema(args.schema)
++        generate(args.schema,
++                 output_dir=args.output_dir,
++                 prefix=args.prefix,
++                 unmask=args.unmask,
++                 builtins=args.builtins)
+     except QAPIError as err:
+-        print(err, file=sys.stderr)
+-        exit(1)
+-
+-    gen_types(schema, args.output_dir, args.prefix, args.builtins)
+-    gen_visit(schema, args.output_dir, args.prefix, args.builtins)
+-    gen_commands(schema, args.output_dir, args.prefix)
+-    gen_events(schema, args.output_dir, args.prefix)
+-    gen_introspect(schema, args.output_dir, args.prefix, args.unmask)
++        print(f"{sys.argv[0]}: {str(err)}", file=sys.stderr)
++        return 1
++    return 0
  
+ 
+ if __name__ == '__main__':
+-    main(sys.argv)
++    sys.exit(main())
 -- 
 2.26.2
 
