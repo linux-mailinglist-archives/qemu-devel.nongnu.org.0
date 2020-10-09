@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFB7288F94
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:09:00 +0200 (CEST)
-Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF35288F39
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:54:36 +0200 (CEST)
+Received: from localhost ([::1]:40754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvt5-0004HV-Mn
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:08:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40344)
+	id 1kQvf9-0005Kk-A8
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvRF-000371-HY
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:13 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38622)
+ id 1kQvRG-0003Bz-W9
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:15 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvRD-0006Hm-TZ
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:13 -0400
-Received: by mail-wr1-x432.google.com with SMTP id n18so10969415wrs.5
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:40:11 -0700 (PDT)
+ id 1kQvRF-0006IG-64
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:40:14 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id d81so10449691wmc.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KDLLYMFneKPqV8ITU48ica/gOmqj87zpo4SyEfB4DLU=;
- b=aVTGfNNWc2ObbLzDmCzy1vBROcuaOtjNCW62aGjbLKQlp7tXPIN3OVPjKRw8ULKAI5
- 7JKodz36GMPf5k7Fj4z7dyEAp2zKhvHM4VMFohaYaHoMAlFBSJKhKcPkylGKBH3P8J6W
- Chj7n0tOmHxDYG/49o+j2PlOeJePIYwQPozRuoZNImxOXzO5U2ETcEBN8cskMop+KxQH
- UDa3qUvoXu457OdXC5ptmgdFnq6sT8dKUhgBuWfN4gkYbP9313vwiKMpU9LfdPBOdTw/
- 9kDH0nD+OzUmgrh8+mo3ELdQAZbfVbYcE/lc1SC0vhHh0Hrt2hPniU1LgI979N7wlH5r
- qVgg==
+ bh=5SSb91lE5qyANttReMxR3EV3dROMQzH23SGqYPpptZI=;
+ b=ObR/Cce79MlUvFwVuynnNMcuz/uwPTrnyhtepw5nzaUcTnEtEwtvS23DqUR80RN0GI
+ LL09g23icvt6rtp4UhgQwVIjxa5xOF2cjfpFBkSQiLA5zdQOd+p5VKCky57wOezVkDSv
+ DWjixVnlHOyheSxJmcpXDsTLZfHlf9f2a9hmH3dv3uwQTGeCPpv0uuTvRLJmfX6MrzxV
+ 2dTpLn55Xl2yhFDNEu1TxN2GLwSXppjZiUbjt5iszkBUnhwyK6OdlxA/AoNqlr7qLZpp
+ QuFLJ2UbtVFVFx6D3pAI09sOmhHi6BxbFOfdeGi+6/8prcMnegOtYZ2vEsjmmmNN9S2d
+ JY6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KDLLYMFneKPqV8ITU48ica/gOmqj87zpo4SyEfB4DLU=;
- b=c++HpKcYLkxtM6EZhCojJedadhjm+3CAG/+dScQXExKvfDzxQzWC0n/6+vccYeoDyk
- G/BFGeLKlMQvfEs0j0C2wLi3mzV1EFBnBVmzF/cdpSdp4yBR54ypR5geaY//FVtJv/S1
- HAdIQRUgxm1ZDq6Z0mkS/D6pOpIO5KIzygWUY2vIfOWzMEdMoiUzGWUNVPtf03k1Fl0N
- i0YbmrXW8iiNAIgZ4jF3L726dx6Esn609zr0B1KD1l54Pgcr+DN5dfm68u6iFzSZssF9
- q5Y6H5ap2Pg/oqg0g6TIAj1Hr5egja6FxPEvTmd+6iXlZS8+kGr61apEhtel20B3/ET9
- xOLg==
-X-Gm-Message-State: AOAM530G45fJbpTzO72XhDwqPKIOVhCC4BjXfnWCxcsMONgu7KOYQgGn
- V4JDfwx31uGgrKAd/Jkbpn+rrQ==
-X-Google-Smtp-Source: ABdhPJyxbWLEjpOdd/cXt92jDhHXHFXHgl36KU7fFVodfcFL1AeV27KuqXOM6SmZUn5OluTD+shN8w==
-X-Received: by 2002:adf:f2c9:: with SMTP id d9mr60808wrp.319.1602261609627;
- Fri, 09 Oct 2020 09:40:09 -0700 (PDT)
+ bh=5SSb91lE5qyANttReMxR3EV3dROMQzH23SGqYPpptZI=;
+ b=I7EeqQhd24+mCof2zYXcRjZxCG23+gnEv1ZCp0D7gYTmauhfJwX1v8g0OsQOS4N3Dx
+ XTejzdKO9D9igb9y6lTNVu2noZClKMqYnEdpGsaiZiwpo127TAdz40i5cOFoxbfBRssk
+ 6C1nEX+Xg0CiCoteyRR/EMt2isTHczPXTeSQFmjRtM6ktJtY49CrEkp+hHtwtIAPzyFG
+ 8rrI/oVVeb8BrtPXlhOFS+ZVK05s743REUxm+zyGr93/J0q0ZWfuVnIaFfykv4A4T4IY
+ MQeu0iswnvPmTCeEUo+ELj38tTgxGn4RGs8SSfsaAJUNsVyz7Fn/v1eXPpi05LU7g05v
+ ntdg==
+X-Gm-Message-State: AOAM530V9QTEZtQ0aNB06YFhzLQxYsA2jZhio/QV127m0GjpXhN4DErl
+ W7MwMw9kr6tSIe/QJcRLizvHbg==
+X-Google-Smtp-Source: ABdhPJwcpqGOpK9idu++GR+oNfaHujSRqgRK4nlHXFM40iR7KNWA78H3IuMY6L+giYXITPQ96OoIwA==
+X-Received: by 2002:a1c:b657:: with SMTP id g84mr15107101wmf.0.1602261611751; 
+ Fri, 09 Oct 2020 09:40:11 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f63sm12877130wme.38.2020.10.09.09.40.02
+ by smtp.gmail.com with ESMTPSA id z13sm12469291wro.97.2020.10.09.09.40.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 09:40:02 -0700 (PDT)
+ Fri, 09 Oct 2020 09:40:09 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AE0021FFA6;
+ by zen.linaroharston (Postfix) with ESMTP id C3DA61FFA9;
  Fri,  9 Oct 2020 17:31:48 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 18/22] .mailmap: Fix more contributor entries
-Date: Fri,  9 Oct 2020 17:31:43 +0100
-Message-Id: <20201009163147.28512-19-alex.bennee@linaro.org>
+Subject: [PULL 19/22] plugins: Fixes a issue when dlsym failed,
+ the handle not closed
+Date: Fri,  9 Oct 2020 17:31:44 +0100
+Message-Id: <20201009163147.28512-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201009163147.28512-1-alex.bennee@linaro.org>
 References: <20201009163147.28512-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,46 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Erik Smit <erik.lucas.smit@gmail.com>,
- Stefan Berger <stefanb@linux.ibm.com>,
+Cc: Yonggang Luo <luoyonggang@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-These authors have some incorrect author email field.
-For each of them, there is one commit with the replaced
-entry.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-Acked-by: Erik Smit <erik.lucas.smit@gmail.com>
-Message-Id: <20201006160653.2391972-13-f4bug@amsat.org>
-Message-Id: <20201007160038.26953-19-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201001163429.1348-2-luoyonggang@gmail.com>
+Message-Id: <20201007160038.26953-20-alex.bennee@linaro.org>
 
-diff --git a/.mailmap b/.mailmap
-index b914c9e290..663819fb01 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -85,6 +85,7 @@ Christophe Lyon <christophe.lyon@st.com>
- Collin L. Walling <walling@linux.ibm.com>
- Daniel P. Berrangé <berrange@redhat.com>
- Eduardo Otubo <otubo@redhat.com>
-+Erik Smit <erik.lucas.smit@gmail.com>
- Fabrice Desclaux <fabrice.desclaux@cea.fr>
- Fernando Luis Vázquez Cao <fernando_b1@lab.ntt.co.jp>
- Fernando Luis Vázquez Cao <fernando@oss.ntt.co.jp>
-@@ -142,6 +143,7 @@ Roger Pau Monné <roger.pau@citrix.com>
- Shin'ichiro Kawasaki <kawasaki@juno.dti.ne.jp>
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
- Sochin Jiang <sochin.jiang@huawei.com>
-+Stefan Berger <stefanb@linux.vnet.ibm.com> <stefanb@linux.ibm.com>
- Takashi Yoshii <takasi-y@ops.dti.ne.jp>
- Thomas Huth <thuth@redhat.com>
- Thomas Knych <thomaswk@google.com>
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 685d334e1a..8ac5dbc20f 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -235,6 +235,7 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
+     return rc;
+ 
+  err_symbol:
++    g_module_close(ctx->handle);
+  err_dlopen:
+     qemu_vfree(ctx);
+     return 1;
 -- 
 2.20.1
 
