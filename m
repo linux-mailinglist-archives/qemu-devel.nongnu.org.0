@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CA0288249
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 08:37:30 +0200 (CEST)
-Received: from localhost ([::1]:49806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A973128824C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 08:37:33 +0200 (CEST)
+Received: from localhost ([::1]:50260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQm1w-0003kH-KJ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 02:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53788)
+	id 1kQm20-0003ve-Mq
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 02:37:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQlzG-0001ws-3s
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:34:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21223)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQlzH-0001xb-Rb
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:34:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQlzD-0008Tw-78
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:34:41 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQlzF-0008UQ-SR
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:34:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602225277;
+ s=mimecast20190719; t=1602225280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VuXdYM6etcvUwJ5R2PrYu0vd1gWeG/r5KPCH50xhNU8=;
- b=dVwXE9qASpakGvM2gwnA/bNehn5RvRcJ5NVN9dQyj2ukXA/bIz6gPX2UtMm1t6Ovx+wIIe
- 5Cel9HOYTqZ7zuoHTo7lJco2tHOOtbmZgrgAxlh7uIx9BbHC1Zlc33uw8Q5iJgANcSpS4/
- bwQLIDEi+S+huOOj+gwZuxojzORyTkc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XdXfbd71VnvQSGDTayJ67mVOXGGwmcfjlhu8p5Zlhm0=;
+ b=GiAZM9i8rXyjieuNiDWXgu7yLnqX3m0u6Bq+XX/6uesgWj1qRHUHRp5A1HNrwEWbVdmR0q
+ pOHRyZp8Ejn6lw3ok2Pl2H3HLXPki8BljtPqJWcFGE0kbEHoY8Lfqqkgs7GzelxgyCKyVA
+ PYYfNo/yB/N8DGj7oAdVELswZADVlNA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-J1LpNc8CO-uk4eR9Djgr3w-1; Fri, 09 Oct 2020 02:34:35 -0400
-X-MC-Unique: J1LpNc8CO-uk4eR9Djgr3w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-174-Hz_ieRKTPGyfIbB3GXYYpA-1; Fri, 09 Oct 2020 02:34:38 -0400
+X-MC-Unique: Hz_ieRKTPGyfIbB3GXYYpA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDB27101FFA2
- for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 06:34:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 053E218BA288
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 06:34:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BF1D5C1BB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BF6460BFA;
  Fri,  9 Oct 2020 06:34:34 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 046C1112CE10; Fri,  9 Oct 2020 08:34:33 +0200 (CEST)
+ id 0750F112CE12; Fri,  9 Oct 2020 08:34:33 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/14] Monitor patches for 2020-10-09
-Date: Fri,  9 Oct 2020 08:34:18 +0200
-Message-Id: <20201009063432.303441-1-armbru@redhat.com>
+Subject: [PULL 01/14] monitor: Add Monitor parameter to monitor_set_cpu()
+Date: Fri,  9 Oct 2020 08:34:19 +0200
+Message-Id: <20201009063432.303441-2-armbru@redhat.com>
+In-Reply-To: <20201009063432.303441-1-armbru@redhat.com>
+References: <20201009063432.303441-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,100 +81,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com
+Cc: kwolf@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 497d415d76b9f59fcae27f22df1ca2c3fa4df64e:
+From: Kevin Wolf <kwolf@redhat.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20201008-1' into staging (2020-10-08 21:41:20 +0100)
+Most callers actually don't have to rely on cur_mon, but already know
+for which monitor they call monitor_set_cpu().
 
-are available in the Git repository at:
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20201005155855.256490-2-kwolf@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ include/monitor/monitor.h |  2 +-
+ monitor/hmp-cmds.c        |  2 +-
+ monitor/misc.c            | 10 +++++-----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2020-10-09
-
-for you to fetch changes up to eb94b81a94bce112e6b206df846c1551aaf6cab6:
-
-  block: Convert 'block_resize' to coroutine (2020-10-09 07:08:20 +0200)
-
-----------------------------------------------------------------
-Monitor patches for 2020-10-09
-
-* QMP command block-resize and HMP command block_resize no longer
-  block the main loop.
-
-----------------------------------------------------------------
-Kevin Wolf (14):
-      monitor: Add Monitor parameter to monitor_set_cpu()
-      monitor: Add Monitor parameter to monitor_get_cpu_index()
-      monitor: Use getter/setter functions for cur_mon
-      hmp: Update current monitor only in handle_hmp_command()
-      qmp: Assert that no other monitor is active
-      qmp: Call monitor_set_cur() only in qmp_dispatch()
-      monitor: Make current monitor a per-coroutine property
-      qapi: Add a 'coroutine' flag for commands
-      qmp: Move dispatcher to a coroutine
-      hmp: Add support for coroutine command handlers
-      util/async: Add aio_co_reschedule_self()
-      block: Add bdrv_co_enter()/leave()
-      block: Add bdrv_lock()/unlock()
-      block: Convert 'block_resize' to coroutine
-
- docs/devel/qapi-code-gen.txt            |  29 +++++++
- docs/sphinx/qapidoc.py                  |   2 +-
- qapi/block-core.json                    |   3 +-
- include/block/aio.h                     |  10 +++
- include/block/block.h                   |  31 ++++++++
- include/monitor/monitor.h               |   7 +-
- include/qapi/qmp/dispatch.h             |   5 +-
- monitor/monitor-internal.h              |   7 +-
- audio/wavcapture.c                      |   8 +-
- block.c                                 |  50 ++++++++++++
- blockdev.c                              |  16 ++--
- dump/dump.c                             |   2 +-
- hw/core/machine-hmp-cmds.c              |   2 +-
- hw/scsi/vhost-scsi.c                    |   2 +-
- hw/virtio/vhost-vsock.c                 |   2 +-
- migration/fd.c                          |   4 +-
- monitor/hmp-cmds.c                      |   4 +-
- monitor/hmp.c                           |  44 ++++++++---
- monitor/misc.c                          |  38 +++++----
- monitor/monitor.c                       | 101 +++++++++++++++++++++---
- monitor/qmp-cmds-control.c              |   2 +
- monitor/qmp-cmds.c                      |   2 +-
- monitor/qmp.c                           | 131 +++++++++++++++++++++++---------
- net/socket.c                            |   2 +-
- net/tap.c                               |   6 +-
- qapi/qmp-dispatch.c                     |  65 +++++++++++++++-
- qapi/qmp-registry.c                     |   3 +
- qga/main.c                              |   2 +-
- softmmu/cpus.c                          |   2 +-
- stubs/monitor-core.c                    |  10 ++-
- tests/test-qmp-cmds.c                   |  10 ++-
- tests/test-util-sockets.c               |  12 +--
- trace/control.c                         |   2 +-
- util/aio-posix.c                        |   8 +-
- util/async.c                            |  30 ++++++++
- util/qemu-error.c                       |   6 +-
- util/qemu-print.c                       |   3 +-
- util/qemu-sockets.c                     |   1 +
- hmp-commands.hx                         |   1 +
- scripts/qapi/commands.py                |  10 ++-
- scripts/qapi/expr.py                    |  11 ++-
- scripts/qapi/introspect.py              |   2 +-
- scripts/qapi/schema.py                  |  13 +++-
- tests/qapi-schema/meson.build           |   1 +
- tests/qapi-schema/oob-coroutine.err     |   2 +
- tests/qapi-schema/oob-coroutine.json    |   2 +
- tests/qapi-schema/oob-coroutine.out     |   0
- tests/qapi-schema/qapi-schema-test.json |   1 +
- tests/qapi-schema/qapi-schema-test.out  |   2 +
- tests/qapi-schema/test-qapi.py          |   7 +-
- 50 files changed, 573 insertions(+), 143 deletions(-)
- create mode 100644 tests/qapi-schema/oob-coroutine.err
- create mode 100644 tests/qapi-schema/oob-coroutine.json
- create mode 100644 tests/qapi-schema/oob-coroutine.out
-
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index c0170773d4..04f472ac4f 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -33,7 +33,7 @@ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
+     GCC_FMT_ATTR(2, 0);
+ int monitor_printf(Monitor *mon, const char *fmt, ...) GCC_FMT_ATTR(2, 3);
+ void monitor_flush(Monitor *mon);
+-int monitor_set_cpu(int cpu_index);
++int monitor_set_cpu(Monitor *mon, int cpu_index);
+ int monitor_get_cpu_index(void);
+ 
+ void monitor_read_command(MonitorHMP *mon, int show_prompt);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index dc0de39219..0c0a03f824 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -998,7 +998,7 @@ void hmp_cpu(Monitor *mon, const QDict *qdict)
+     /* XXX: drop the monitor_set_cpu() usage when all HMP commands that
+             use it are converted to the QAPI */
+     cpu_index = qdict_get_int(qdict, "index");
+-    if (monitor_set_cpu(cpu_index) < 0) {
++    if (monitor_set_cpu(mon, cpu_index) < 0) {
+         monitor_printf(mon, "invalid CPU index\n");
+     }
+ }
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 6e0da0cb96..25b42593cc 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -129,7 +129,7 @@ char *qmp_human_monitor_command(const char *command_line, bool has_cpu_index,
+     cur_mon = &hmp.common;
+ 
+     if (has_cpu_index) {
+-        int ret = monitor_set_cpu(cpu_index);
++        int ret = monitor_set_cpu(&hmp.common, cpu_index);
+         if (ret < 0) {
+             cur_mon = old_mon;
+             error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cpu-index",
+@@ -255,7 +255,7 @@ static void monitor_init_qmp_commands(void)
+ }
+ 
+ /* Set the current CPU defined by the user. Callers must hold BQL. */
+-int monitor_set_cpu(int cpu_index)
++int monitor_set_cpu(Monitor *mon, int cpu_index)
+ {
+     CPUState *cpu;
+ 
+@@ -263,8 +263,8 @@ int monitor_set_cpu(int cpu_index)
+     if (cpu == NULL) {
+         return -1;
+     }
+-    g_free(cur_mon->mon_cpu_path);
+-    cur_mon->mon_cpu_path = object_get_canonical_path(OBJECT(cpu));
++    g_free(mon->mon_cpu_path);
++    mon->mon_cpu_path = object_get_canonical_path(OBJECT(cpu));
+     return 0;
+ }
+ 
+@@ -285,7 +285,7 @@ static CPUState *mon_get_cpu_sync(bool synchronize)
+         if (!first_cpu) {
+             return NULL;
+         }
+-        monitor_set_cpu(first_cpu->cpu_index);
++        monitor_set_cpu(cur_mon, first_cpu->cpu_index);
+         cpu = first_cpu;
+     }
+     assert(cpu != NULL);
 -- 
 2.26.2
 
