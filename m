@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C5D2888A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 14:29:02 +0200 (CEST)
-Received: from localhost ([::1]:59298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F104288891
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 14:21:27 +0200 (CEST)
+Received: from localhost ([::1]:42818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQrW7-00006y-W3
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 08:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38278)
+	id 1kQrOo-0001VU-3f
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 08:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kQrMJ-00085r-0p
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:18:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52817)
+ id 1kQrMK-00088b-JN
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:18:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kQrMG-0007tB-QZ
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:18:50 -0400
+ id 1kQrMI-0007tW-Oa
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:18:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602245927;
+ s=mimecast20190719; t=1602245930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=r2dy6VyzVqM/+uH8zQ00z+zsZiVOxWZqCNJ5Gg+oQlE=;
- b=VJiML/iBHouW618AeaWD7BTuHAcQsqSJPhwX5vUIUV+exlbYzkE7NA7pynEcKtPAaKsQ/0
- 4YXkFLqe6bfzUw5q34UrijfEtF9drOKip/WiBTqpxPzhxwASJxTUoCZTdUmDlVNUJWjJvJ
- Doo9LQmuaBlvfINCIXELT/8aJKuluE0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2gHtymYiG0Jue5klJotwsT3ynD0ksSXNSyXr3nVsQF8=;
+ b=TYSqKjGNGD2JkM8vAKyuWmkrkoJmWskmon3GpzRsrTiF4/j42ZeArJixhcgUxdSFaTvzl4
+ KCcl/VVKeYAsQTZF1quayRL3pT41McU4fWdIy/4TyWn7F3dv2LJv2zL3ckKbeAX9yBjf1j
+ hmDn2sfcQppgWRpLIpSYZzFc/K7L83E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-HJlqJZiZNySdFl2VOS-WFQ-1; Fri, 09 Oct 2020 08:18:46 -0400
-X-MC-Unique: HJlqJZiZNySdFl2VOS-WFQ-1
+ us-mta-222-aCyoPDflOgqXfvmmvxrhfw-1; Fri, 09 Oct 2020 08:18:48 -0400
+X-MC-Unique: aCyoPDflOgqXfvmmvxrhfw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24204805F0B
- for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 12:18:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49BD0108E1AB
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 12:18:47 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.195.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EDE95C1BB;
- Fri,  9 Oct 2020 12:18:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C5625C1BB;
+ Fri,  9 Oct 2020 12:18:45 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v3 00/23] i386: KVM: expand Hyper-V features early
-Date: Fri,  9 Oct 2020 14:18:19 +0200
-Message-Id: <20201009121842.1938010-1-vkuznets@redhat.com>
+Subject: [PATCH RFC v3 01/23] WIP: update linux/headers
+Date: Fri,  9 Oct 2020 14:18:20 +0200
+Message-Id: <20201009121842.1938010-2-vkuznets@redhat.com>
+In-Reply-To: <20201009121842.1938010-1-vkuznets@redhat.com>
+References: <20201009121842.1938010-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
@@ -83,75 +86,119 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Another week another RFC. KVM patches are still in flight, so RFC again.
+KVM_CAP_SYS_HYPERV_CPUID definition is needed for this series.
 
-Changes since RFCv2:
-- Rebase.
-- Split "i386: drop FEAT_HYPERV feature leaves" into several patches and
-  re-shuffle patches to minimize the code churn and make it easier to
-  review. [Eduardo]
-- Added "i386: provide simple 'hyperv=on' option to x86 machine types" on
-  top.
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ linux-headers/asm-x86/kvm.h | 20 ++++++++++++++++++++
+ linux-headers/linux/kvm.h   | 27 ++++++++++++++++++++++++---
+ 2 files changed, 44 insertions(+), 3 deletions(-)
 
-This pairs with
-https://lore.kernel.org/kvm/20200929150944.1235688-1-vkuznets@redhat.com/T/#t
-
-Upper layer tools like libvirt want to figure out which Hyper-V features are
-supported by the underlying stack (QEMU/KVM) but currently they are unable to
-do so. We have a nice 'hv_passthrough' CPU flag supported by QEMU but it has
-no effect on e.g. QMP's 
-
-query-cpu-model-expansion type=full model={"name":"host","props":{"hv-passthrough":true}}
-
-command as we parse Hyper-V features after creating KVM vCPUs and not at
-feature expansion time. To support the use-case we first need to make 
-KVM_GET_SUPPORTED_HV_CPUID ioctl a system-wide ioctl as the existing
-vCPU version can't be used that early. This is what KVM part does. With
-that done, we can make early Hyper-V feature expansion (this series).
-
-In addition, add a simple 'hyperv=on' option to x86 machine types which
-enables (and requires from KVM) all currently supported Hyper-V enlightenments.
-Unlike 'hv_passthrough' mode, this is going to be migratable.
-
-Vitaly Kuznetsov (23):
-  WIP: update linux/headers
-  i386: fill in FEAT_HYPERV_EDX from edx instead of eax
-  i386: drop x86_cpu_get_supported_feature_word() forward declaration
-  i386: move hyperv_vendor_id initialization to x86_cpu_realizefn()
-  i386: move hyperv_interface_id initialization to x86_cpu_realizefn()
-  i386: move hyperv_version_id initialization to x86_cpu_realizefn()
-  i386: move hyperv_limits initialization to x86_cpu_realizefn()
-  i386: keep hyperv_vendor string up-to-date
-  i386: invert hyperv_spinlock_attempts setting logic with
-    hv_passthrough
-  i386: always fill Hyper-V CPUID feature leaves from X86CPU data
-  i386: stop using env->features[] for filling Hyper-V CPUIDs
-  i386: introduce hyperv_feature_supported()
-  i386: introduce hv_cpuid_get_host()
-  i386: drop FEAT_HYPERV feature leaves
-  i386: introduce hv_cpuid_cache
-  i386: split hyperv_handle_properties() into
-    hyperv_expand_features()/hyperv_fill_cpuids()
-  i386: move eVMCS enablement to hyperv_init_vcpu()
-  i386: switch hyperv_expand_features() to using error_setg()
-  i386: adjust the expected KVM_GET_SUPPORTED_HV_CPUID array size
-  i386: prefer system KVM_GET_SUPPORTED_HV_CPUID ioctl over vCPU's one
-  i386: use global kvm_state in hyperv_enabled() check
-  i386: expand Hyper-V features during CPU feature expansion time
-  i386: provide simple 'hyperv=on' option to x86 machine types
-
- docs/hyperv.txt             |   8 +
- hw/i386/x86.c               |  30 ++
- include/hw/i386/x86.h       |   7 +
- linux-headers/asm-x86/kvm.h |  20 ++
- linux-headers/linux/kvm.h   |  27 +-
- target/i386/cpu.c           | 149 ++++------
- target/i386/cpu.h           |  12 +-
- target/i386/kvm-stub.c      |   5 +
- target/i386/kvm.c           | 526 ++++++++++++++++++++----------------
- target/i386/kvm_i386.h      |   1 +
- 10 files changed, 457 insertions(+), 328 deletions(-)
-
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 0780f97c1850..89e5f3d1bba8 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -192,6 +192,26 @@ struct kvm_msr_list {
+ 	__u32 indices[0];
+ };
+ 
++/* Maximum size of any access bitmap in bytes */
++#define KVM_MSR_FILTER_MAX_BITMAP_SIZE 0x600
++
++/* for KVM_X86_SET_MSR_FILTER */
++struct kvm_msr_filter_range {
++#define KVM_MSR_FILTER_READ  (1 << 0)
++#define KVM_MSR_FILTER_WRITE (1 << 1)
++	__u32 flags;
++	__u32 nmsrs; /* number of msrs in bitmap */
++	__u32 base;  /* MSR index the bitmap starts at */
++	__u8 *bitmap; /* a 1 bit allows the operations in flags, 0 denies */
++};
++
++#define KVM_MSR_FILTER_MAX_RANGES 16
++struct kvm_msr_filter {
++#define KVM_MSR_FILTER_DEFAULT_ALLOW (0 << 0)
++#define KVM_MSR_FILTER_DEFAULT_DENY  (1 << 0)
++	__u32 flags;
++	struct kvm_msr_filter_range ranges[KVM_MSR_FILTER_MAX_RANGES];
++};
+ 
+ struct kvm_cpuid_entry {
+ 	__u32 function;
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 6683e2e1b0a0..b28b806530b7 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -248,6 +248,8 @@ struct kvm_hyperv_exit {
+ #define KVM_EXIT_IOAPIC_EOI       26
+ #define KVM_EXIT_HYPERV           27
+ #define KVM_EXIT_ARM_NISV         28
++#define KVM_EXIT_X86_RDMSR        29
++#define KVM_EXIT_X86_WRMSR        30
+ 
+ /* For KVM_EXIT_INTERNAL_ERROR */
+ /* Emulate instruction failed. */
+@@ -413,6 +415,17 @@ struct kvm_run {
+ 			__u64 esr_iss;
+ 			__u64 fault_ipa;
+ 		} arm_nisv;
++		/* KVM_EXIT_X86_RDMSR / KVM_EXIT_X86_WRMSR */
++		struct {
++			__u8 error; /* user -> kernel */
++			__u8 pad[7];
++#define KVM_MSR_EXIT_REASON_INVAL	(1 << 0)
++#define KVM_MSR_EXIT_REASON_UNKNOWN	(1 << 1)
++#define KVM_MSR_EXIT_REASON_FILTER	(1 << 2)
++			__u32 reason; /* kernel -> user */
++			__u32 index; /* kernel -> user */
++			__u64 data; /* kernel <-> user */
++		} msr;
+ 		/* Fix the size of the union. */
+ 		char padding[256];
+ 	};
+@@ -790,9 +803,10 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_VM_PPC_HV 1
+ #define KVM_VM_PPC_PR 2
+ 
+-/* on MIPS, 0 forces trap & emulate, 1 forces VZ ASE */
+-#define KVM_VM_MIPS_TE		0
++/* on MIPS, 0 indicates auto, 1 forces VZ ASE, 2 forces trap & emulate */
++#define KVM_VM_MIPS_AUTO	0
+ #define KVM_VM_MIPS_VZ		1
++#define KVM_VM_MIPS_TE		2
+ 
+ #define KVM_S390_SIE_PAGE_OFFSET 1
+ 
+@@ -1035,6 +1049,10 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_LAST_CPU 184
+ #define KVM_CAP_SMALLER_MAXPHYADDR 185
+ #define KVM_CAP_S390_DIAG318 186
++#define KVM_CAP_STEAL_TIME 187
++#define KVM_CAP_X86_USER_SPACE_MSR 188
++#define KVM_CAP_X86_MSR_FILTER 189
++#define KVM_CAP_SYS_HYPERV_CPUID 190
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1493,7 +1511,7 @@ struct kvm_enc_region {
+ /* Available with KVM_CAP_MANUAL_DIRTY_LOG_PROTECT_2 */
+ #define KVM_CLEAR_DIRTY_LOG          _IOWR(KVMIO, 0xc0, struct kvm_clear_dirty_log)
+ 
+-/* Available with KVM_CAP_HYPERV_CPUID */
++/* Available with KVM_CAP_HYPERV_CPUID (vcpu) / KVM_CAP_SYS_HYPERV_CPUID (system) */
+ #define KVM_GET_SUPPORTED_HV_CPUID _IOWR(KVMIO, 0xc1, struct kvm_cpuid2)
+ 
+ /* Available with KVM_CAP_ARM_SVE */
+@@ -1536,6 +1554,9 @@ struct kvm_pv_cmd {
+ /* Available with KVM_CAP_S390_PROTECTED */
+ #define KVM_S390_PV_COMMAND		_IOWR(KVMIO, 0xc5, struct kvm_pv_cmd)
+ 
++/* Available with KVM_CAP_X86_MSR_FILTER */
++#define KVM_X86_SET_MSR_FILTER	_IOW(KVMIO,  0xc6, struct kvm_msr_filter)
++
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+ 	/* Guest initialization commands */
 -- 
 2.25.4
 
