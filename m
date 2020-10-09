@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237A12891E1
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 21:41:51 +0200 (CEST)
-Received: from localhost ([::1]:56220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11B328997C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 22:12:05 +0200 (CEST)
+Received: from localhost ([::1]:41204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQyH0-0006jN-3M
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 15:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47664)
+	id 1kQykH-0002Tv-1H
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 16:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQyBK-0000Oz-M1
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:35:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56187)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQyEh-0005Vj-1Z
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:39:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kQyBJ-0002sR-0E
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:35:58 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQyEf-0003Dt-Cp
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:39:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602272156;
+ s=mimecast20190719; t=1602272364;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fvR8MGaS/ODPdBVgqT7NJIgT+tboahOcIKFyQerLJcg=;
- b=YzHSmeUd7ZXs6xRFuGaRL7M+ipqa3VwMvMc0t0QqQxbWimKXC+pnAAqqSwpco+iW7SDOoS
- 1Sm11JOvywIn1/4fw4HaNg6snEJBgzvqqzvDm00Tp2BHmePdv+RNe/mVKN/x9+uBr6bMbP
- JQb4DAu5uObcyfO8DD5JVphafAIJqvU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-L2PZjbz8Msm1poVpRPjLXA-1; Fri, 09 Oct 2020 15:35:52 -0400
-X-MC-Unique: L2PZjbz8Msm1poVpRPjLXA-1
-Received: by mail-wm1-f70.google.com with SMTP id s25so4527998wmj.7
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 12:35:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fvR8MGaS/ODPdBVgqT7NJIgT+tboahOcIKFyQerLJcg=;
- b=D4mJYxz94k4PfTuL8VEpRcM+Yq3vfMbwBMXrm7BUL9sU3X2sgGomGEJzOdgB/1iTWc
- harqwU+lQOjjLPJ6Vv/6r3yCRMC1F9cxXilIW1OikkX10WktRkrmAvdjcqEBlOgAwzHq
- se1spZq3K7QvQw0pG73BsbDp0Slw9HKi1RUOvb1soeyAXC+zJdkK102ABxLSeBLDKH5M
- g2Nt7RFIQgaRtznIZ++f9vB2K52F8w4AK/wdEfOPKLI4nKgwSxYtoiFTb3qCR3tuf8TW
- 80V5NMJ8/REOEYjyRcXWOxWROHTf4xkFHgVgTh6ViZ/jfT3GRSuQTNGr7+pCdyai77Qz
- S58A==
-X-Gm-Message-State: AOAM533IM+KyJ8+LsbNtAKurUKkPHqvozMGrlE0sKPjjZMjbQ0jNNw6Q
- H8ORInsiztscHDFOu/igtdQiPGAv2eFKBp5HDD6oCwbEi7//tflewycnRBZpojUQmJN8FcCm89P
- y21Oc1liSUHvaheQ=
-X-Received: by 2002:a5d:6a0d:: with SMTP id m13mr5706975wru.161.1602272151050; 
- Fri, 09 Oct 2020 12:35:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZDGzRlLZzZ9k+x6kms8DUp9pBk4Nx9nzVIoGUq6QND1ez4FhDayVcNnFMQyA1Q0O8VMmQxQ==
-X-Received: by 2002:a5d:6a0d:: with SMTP id m13mr5706960wru.161.1602272150886; 
- Fri, 09 Oct 2020 12:35:50 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id u202sm2572175wmu.23.2020.10.09.12.35.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Oct 2020 12:35:50 -0700 (PDT)
-Subject: Re: [PATCH 3/3] python/qemu/qmp.py: Fix settimeout operation
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20201009175123.249009-1-jsnow@redhat.com>
- <20201009175123.249009-4-jsnow@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <75b4cd8f-f7b1-a182-ce5a-27bf2c9f1612@redhat.com>
-Date: Fri, 9 Oct 2020 21:35:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=Zpv5aRyHwKrOjXiebuCGyXAPsQt46KMT2z2CzAmRlkQ=;
+ b=WeE+tzlLebQSL0LmPJZzRdgu2FyC3ihlHbKzeDE1oIZVwEYxSjeT/Y5XoQojvpvcvK1gLv
+ 3Pa0oKkbkWy4+PGIkd7dJ7kABjudcSIYeKRDZdmYPw7lw4aGA2NSeryWmLJd0DQ0+R2X+/
+ tFdUBglODLB3pphmRTwxVeIHoFvFlsA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-569-rdACh4AYMQ2Li0U9be1jiw-1; Fri, 09 Oct 2020 15:39:22 -0400
+X-MC-Unique: rdACh4AYMQ2Li0U9be1jiw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40CA9101FFA8;
+ Fri,  9 Oct 2020 19:39:21 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 993FA1002C01;
+ Fri,  9 Oct 2020 19:39:20 +0000 (UTC)
+Date: Fri, 9 Oct 2020 15:39:19 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org, Roman Kagan <rkagan@virtuozzo.com>,
+ "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Subject: Who uses TYPE_VMBUS_DEVICE?
+Message-ID: <20201009193919.GF7303@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20201009175123.249009-4-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,33 +77,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/9/20 7:51 PM, John Snow wrote:
-> We enabled callers to interface directly with settimeout, but this
-> reacts poorly with blocking/nonblocking operation; as they are using the
-> same internal mechanism.
-> 
-> 1. Whenever we change the blocking mechanism temporarily, always set it
-> back to what it was afterwards.
-> 
-> 2. Disallow callers from setting a timeout of "0", which means
-> Non-blocking mode. This is going to create more weird problems than
-> anybody wants, so just forbid it.
-> 
-> I opt not to coerce '0' to 'None' to maintain the principal of least
-> surprise in mirroring the semantics of Python's interface.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   python/qemu/qmp.py | 23 +++++++++++++++++------
->   1 file changed, 17 insertions(+), 6 deletions(-)
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I've just stumbled upon hw/hyperv/vmbus.c and I'm a bit confused:
+I haven't found any subclasses of the abstract type
+TYPE_VMBUS_DEVICE in the QEMU tree.
+
+I see a few patches in qemu-devel implementing a few vmbus
+devices, but none were merged to qemu.git master.  Are there any
+short term plans to merge vmbus device implementations in QEMU?
+
+-- 
+Eduardo
 
 
