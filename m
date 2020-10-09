@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D7A289B5F
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 00:01:34 +0200 (CEST)
-Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C69289B81
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 00:05:27 +0200 (CEST)
+Received: from localhost ([::1]:33958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR0SB-0007Fh-L0
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 18:01:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50198)
+	id 1kR0Vy-0002WT-7V
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 18:05:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kR0Mg-0002nN-Qa
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 17:55:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54308)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kR0Mh-0002q2-OA
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 17:55:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kR0Mc-0003Qn-U0
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 17:55:50 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kR0Md-0003R5-6j
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 17:55:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602280545;
+ s=mimecast20190719; t=1602280546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rSfMFBnZnRAzDs0pTuNNEDvhqb00qLJkPnApeMiPzUM=;
- b=Q1AtgTV7pjgwvCNIud7UQI8mDNQI2HNVCUtYp/rDd8hYxIw6SYqVBMa+53m51NanZAt6KK
- xxfYXwtMJNkhVvpluGx7QWIh84xzICdfPopWvIVXrReHX8zyDkxOvUOvTLgmVlW5MzdqVk
- EMvgjPZ84HPvaTVbkBD4nCaT7UBdRy4=
+ bh=0Eq/ITB/lBTrJF+4U2MK0ADeZ12u6qsK6QK2p7tcG2U=;
+ b=Uy/TN3dqWBs4ZcDgc38vS7c7ahmIfhYMQVxMrQVf7Q16KpCZ5YaHb5upcycocXKUsMOPJU
+ 2Akhna1z6jFHlBAyj83csCoqwua+1uK4NLaSTVU9Vz2XlYRVfLS9XJrbFZhgXM6Wz1jz9p
+ HKnmXzHznc1ExniB5E+G19CIyifwsOQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-pyr-Y5B8MA6i_G-N9PIMFw-1; Fri, 09 Oct 2020 17:55:44 -0400
-X-MC-Unique: pyr-Y5B8MA6i_G-N9PIMFw-1
+ us-mta-256-uLDmrEnTPrqF6EeoK3mzFQ-1; Fri, 09 Oct 2020 17:55:44 -0400
+X-MC-Unique: uLDmrEnTPrqF6EeoK3mzFQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E33201DDE0;
- Fri,  9 Oct 2020 21:55:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A8451DDE1;
+ Fri,  9 Oct 2020 21:55:43 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-14.phx2.redhat.com [10.3.113.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 645C510013C4;
- Fri,  9 Oct 2020 21:55:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1860210013C4;
+ Fri,  9 Oct 2020 21:55:43 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/7] nbd: Simplify qemu bitmap context name
-Date: Fri,  9 Oct 2020 16:55:31 -0500
-Message-Id: <20201009215533.1194742-6-eblake@redhat.com>
+Subject: [PATCH v4 6/7] nbd: Refactor counting of metadata contexts
+Date: Fri,  9 Oct 2020 16:55:32 -0500
+Message-Id: <20201009215533.1194742-7-eblake@redhat.com>
 In-Reply-To: <20201009215533.1194742-1-eblake@redhat.com>
 References: <20201009215533.1194742-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -83,80 +83,95 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each dirty bitmap already knows its name; by reducing the scope of the
-places where we construct "qemu:dirty-bitmap:NAME" strings, tracking
-the name is more localized, and there are fewer per-export fields to
-worry about.  This in turn will make it easier for an upcoming patch
-to export more than one bitmap at once.
+Rather than open-code the count of negotiated contexts at several
+sites, embed it directly into the struct.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- nbd/server.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ nbd/server.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
 diff --git a/nbd/server.c b/nbd/server.c
-index 884ffa00f1bd..05a8154975a1 100644
+index 05a8154975a1..27d943529409 100644
 --- a/nbd/server.c
 +++ b/nbd/server.c
-@@ -97,7 +97,6 @@ struct NBDExport {
+@@ -106,8 +106,7 @@ static QTAILQ_HEAD(, NBDExport) exports = QTAILQ_HEAD_INITIALIZER(exports);
+  * NBD_OPT_LIST_META_CONTEXT. */
+ typedef struct NBDExportMetaContexts {
+     NBDExport *exp;
+-    bool valid; /* means that negotiation of the option finished without
+-                   errors */
++    size_t count; /* number of negotiated contexts */
+     bool base_allocation; /* export base:allocation context (block status) */
+     bool allocation_depth; /* export qemu:allocation-depth */
+     bool bitmap; /* export qemu:dirty-bitmap:<export bitmap name> */
+@@ -448,7 +447,9 @@ static int nbd_negotiate_handle_list(NBDClient *client, Error **errp)
 
-     bool allocation_depth;
-     BdrvDirtyBitmap *export_bitmap;
--    char *export_bitmap_context;
- };
+ static void nbd_check_meta_export(NBDClient *client)
+ {
+-    client->export_meta.valid &= client->exp == client->export_meta.exp;
++    if (client->exp != client->export_meta.exp) {
++        client->export_meta.count = 0;
++    }
+ }
 
- static QTAILQ_HEAD(, NBDExport) exports = QTAILQ_HEAD_INITIALIZER(exports);
-@@ -882,14 +881,15 @@ static bool nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
+ /* Send a reply to NBD_OPT_EXPORT_NAME.
+@@ -956,6 +957,7 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+     NBDExportMetaContexts local_meta;
+     uint32_t nb_queries;
+     int i;
++    size_t count = 0;
+
+     if (!client->structured_reply) {
+         return nbd_opt_invalid(client, errp,
+@@ -1013,6 +1015,7 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+         if (ret < 0) {
+             return ret;
+         }
++        count++;
      }
 
-     if (nbd_strshift(&query, "dirty-bitmap:")) {
-+        const char *bm_name;
-+
-         trace_nbd_negotiate_meta_query_parse("dirty-bitmap:");
-         if (!meta->exp->export_bitmap) {
-             trace_nbd_negotiate_meta_query_skip("no dirty-bitmap exported");
-             return true;
+     if (meta->allocation_depth) {
+@@ -1022,6 +1025,7 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+         if (ret < 0) {
+             return ret;
          }
--        if (nbd_meta_empty_or_pattern(client,
--                                      meta->exp->export_bitmap_context +
--                                      strlen("qemu:dirty-bitmap:"), query)) {
-+        bm_name = bdrv_dirty_bitmap_name(meta->exp->export_bitmap);
-+        if (nbd_meta_empty_or_pattern(client, bm_name, query)) {
-             meta->bitmap = true;
-         }
-         return true;
-@@ -1025,8 +1025,11 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
++        count++;
      }
 
      if (meta->bitmap) {
--        ret = nbd_negotiate_send_meta_context(client,
--                                              meta->exp->export_bitmap_context,
-+        const char *bm_name = bdrv_dirty_bitmap_name(meta->exp->export_bitmap);
-+        g_autofree char *context = g_strdup_printf("qemu:dirty-bitmap:%s",
-+                                                   bm_name);
-+
-+        ret = nbd_negotiate_send_meta_context(client, context,
-                                               NBD_META_ID_DIRTY_BITMAP,
-                                               errp);
+@@ -1035,11 +1039,12 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
          if (ret < 0) {
-@@ -1599,9 +1602,6 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-         bdrv_dirty_bitmap_set_busy(bm, true);
-         exp->export_bitmap = bm;
-         assert(strlen(bitmap) <= BDRV_BITMAP_MAX_NAME_SIZE);
--        exp->export_bitmap_context = g_strdup_printf("qemu:dirty-bitmap:%s",
--                                                     bitmap);
--        assert(strlen(exp->export_bitmap_context) < NBD_MAX_STRING_SIZE);
+             return ret;
+         }
++        count++;
      }
 
-     exp->allocation_depth = arg->allocation_depth;
-@@ -1681,7 +1681,6 @@ static void nbd_export_delete(BlockExport *blk_exp)
-
-     if (exp->export_bitmap) {
-         bdrv_dirty_bitmap_set_busy(exp->export_bitmap, false);
--        g_free(exp->export_bitmap_context);
+     ret = nbd_negotiate_send_rep(client, NBD_REP_ACK, errp);
+     if (ret == 0) {
+-        meta->valid = true;
++        meta->count = count;
      }
- }
 
+     return ret;
+@@ -2400,15 +2405,9 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
+             return nbd_send_generic_reply(client, request->handle, -EINVAL,
+                                           "need non-zero length", errp);
+         }
+-        if (client->export_meta.valid &&
+-            (client->export_meta.base_allocation ||
+-             client->export_meta.allocation_depth ||
+-             client->export_meta.bitmap))
+-        {
++        if (client->export_meta.count) {
+             bool dont_fragment = request->flags & NBD_CMD_FLAG_REQ_ONE;
+-            int contexts_remaining = client->export_meta.base_allocation +
+-                client->export_meta.allocation_depth +
+-                client->export_meta.bitmap;
++            int contexts_remaining = client->export_meta.count;
+
+             if (client->export_meta.base_allocation) {
+                 ret = nbd_co_send_block_status(client, request->handle,
 -- 
 2.28.0
 
