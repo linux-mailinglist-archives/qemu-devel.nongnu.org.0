@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D995D289053
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:54:53 +0200 (CEST)
-Received: from localhost ([::1]:40264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AC5289068
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:58:55 +0200 (CEST)
+Received: from localhost ([::1]:51618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQwbU-0002vt-TE
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55856)
+	id 1kQwfO-0007kl-5z
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQwZe-0001FQ-0k
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:52:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40689)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQwZc-0007NF-BO
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:52:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602265975;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qum4skhSNnMOUYsKviRzDwtyp5ToL3hy4RQFfond46E=;
- b=IbpU44V6lOU4d+488dKo2Nh7M5YkNbrmPy0N3KGM3mOeucNO6zJBPHN5/0RjEdeFb4La6e
- ChPpWlqAn0SZVRvhmnq+zXzuV9TzrpiIv0WYl8Bvimtkbhb6U0aWs5fPkFfxzxQGFYuQ9Y
- Dwg7wjEGbCu2Cv8/x5Tr6vVUf9UCLnA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-tGPjWtOoMWy7HPOcxvaIUQ-1; Fri, 09 Oct 2020 13:52:53 -0400
-X-MC-Unique: tGPjWtOoMWy7HPOcxvaIUQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0904280B71D
- for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 17:52:52 +0000 (UTC)
-Received: from [10.10.112.203] (ovpn-112-203.rdu2.redhat.com [10.10.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A38D5C1C7;
- Fri,  9 Oct 2020 17:52:48 +0000 (UTC)
-Subject: Re: [PATCH 0/3] python/qemu: strictly typed mypy conversion, pt3
-To: qemu-devel@nongnu.org
-References: <20201009175123.249009-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <cbab18b3-be20-ad05-232b-2ed7f7a8198c@redhat.com>
-Date: Fri, 9 Oct 2020 13:52:47 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kQwe0-0006tP-Ht
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:57:28 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:35903)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kQwdy-0007y1-UE
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:57:28 -0400
+Received: by mail-oi1-x230.google.com with SMTP id u17so11084257oie.3
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=VWXoUlhrihZHdeYv9Q6pYpDUJLFdpFM3zZJeR3athUQ=;
+ b=pMmU0brWHROdC8egsL7tibGSPKgk9SBqjJODnfpSDaYLOmehA+z30BPNZZrylMUmyO
+ aCeQDrhZIp28aolGel/CITVyndtPB6wWHL1/Vpa5uH7b1iG2ZD3CZ2Yz1tiibGYe4pDt
+ H6kweI7osq2T1ZZ4mAACyHuR9E3qGpsZSYppXdySYFojdQthhJ0dw1rzxYRoNiMKMqaX
+ J5h5LxeSVq+CLi8le7UTc7gyv66DeOgim4B/DXBfNRiHaGVtM+jxH2XZc1FV3/pn+zdo
+ iD4nr7A65FLsnSLLcFXWYdlVXXwT+5bwdwND9D8M5RK+RgXCiq4hG//d2dMaBJg3H0Xm
+ rVRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VWXoUlhrihZHdeYv9Q6pYpDUJLFdpFM3zZJeR3athUQ=;
+ b=j/vcwR2LSb0F4kzrb7N7W9kvfQ0ASta6s6xx0PjM7Wvse92qhCAgCNYKYG1vys8fyt
+ yzQKDILqM8M2CVEcXYsyjlx+GOJWK7na02omrd6Qzgf0nBVG6xdP6dc4DDpjQ6CLUpcV
+ a4uDn5DGE7LYtItebsL+QGdeMntHVfUz5q0GbE3YtXZG4bLLgTO3PtqmB+vikGGLjVP2
+ AwkNHGOW7GAyFfpiwCgUXLkMWkjMTkeEF3RECbA7faTQPR4ngKCoVeliwRewow7xdzw1
+ MB96BiJtZYa/s+WsFKwifw3ywu9octp3XJe5TjMAk34v8kXb+wJJ3zZK6LOpZq9pNYDs
+ 3eQg==
+X-Gm-Message-State: AOAM533DepY6hqNu9aynfa1LkH4mtjw+opkJrj3TY3nKvJX4KI/TiXAM
+ +TJy9AZgzZVNAofvjH/FgdRieCCFsraxao7R
+X-Google-Smtp-Source: ABdhPJx0dVCDZUsv71uP1qzUqYEfk3GL/juufW+s7hWZaxmEKawtlSt3r5ics4WgAyp3fpel8+n+dg==
+X-Received: by 2002:aca:e0d5:: with SMTP id x204mr3042000oig.160.1602266245219; 
+ Fri, 09 Oct 2020 10:57:25 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id d9sm7375737oig.56.2020.10.09.10.57.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Oct 2020 10:57:24 -0700 (PDT)
+Subject: Re: [PATCH] target/arm: Fix SMLAD incorrect setting of Q bit
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20201009144712.11187-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9b6bcfac-922d-675c-d7b4-35491a3efe60@linaro.org>
+Date: Fri, 9 Oct 2020 12:57:21 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201009175123.249009-1-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201009144712.11187-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x230.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.208,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,36 +90,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/9/20 1:51 PM, John Snow wrote:
-> This is actually quite short; it's already fully typed. Attached are two
-> fixes for settimeout and error handling. There are actually more fixes
-> that need to be made here, because use of readline() in non-blocking
-> mode is actually undefined behavior, so a more thorough re-work of the
-> error classes used by this library must be put on hold pending a more
-> aggressive re-write.
-> 
-> That's a problem for later, so for now, call the initial conversion to
-> the statically typed subset of python done so we can move on to adding
-> the regression tests that will maintain this baseline for us.
-> 
-> John Snow (3):
->    python: add mypy config
->    python/qemu/qmp.py: re-raise OSError when encountered
->    python/qemu/qmp.py: Fix settimeout operation
-> 
->   python/mypy.ini    |  4 ++++
->   python/qemu/qmp.py | 30 +++++++++++++++++++++---------
->   2 files changed, 25 insertions(+), 9 deletions(-)
->   create mode 100644 python/mypy.ini
-> 
+On 10/9/20 9:47 AM, Peter Maydell wrote:
+> +        /*
+> +         * t1 is the low half of the result which goes into Rd.
+> +         * We have overflow and must set Q if the high half (t2)
+> +         * is different from the sign-extension of t1.
+> +         */
+> +        t3 = tcg_temp_new_i32();
+> +        tcg_gen_sari_i32(t3, t1, 31);
+> +        qf = load_cpu_field(QF);
+> +        one = tcg_const_i32(1);
+> +        tcg_gen_movcond_i32(TCG_COND_NE, qf, t2, t3, one, qf);
+> +        store_cpu_field(qf, QF);
 
-Based on: https://gitlab.com/jsnow/qemu/-/tree/python
+This works, however, QF is not restricted to {0,1}.
 
+Perhaps this is simpler?
+
+	qf = load_cpu_field(QF);
+	/* t1 is the low half; extract the sign bit */
+	tcg_gen_shri_i32(t3, t1, 31);
+	/* t2 is the high half; must be 0 or -1,
+	   and the extension of the sign bit.  adding them
+	   must equal 0 (0 + 0 = 0; -1 + 1 = 0). */
+	tcg_gen_add_i32(t3, t3, t2);
+	/* Any non-zero result sets QF */
+	tcg_gen_or_i32(qf, qf, t3);
+	store_cpu_field(qf, QF);
+
+Either way,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
