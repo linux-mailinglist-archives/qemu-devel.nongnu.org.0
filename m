@@ -2,92 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B74288FDC
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:17:12 +0200 (CEST)
-Received: from localhost ([::1]:48258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BF5288FF3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:27:04 +0200 (CEST)
+Received: from localhost ([::1]:35582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQw10-0006hU-SZ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:17:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47354)
+	id 1kQwAZ-0004lh-GN
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:27:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQvuo-0008TU-S7
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:10:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40230)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQw8A-00042l-6q
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:24:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQvum-0001dz-2j
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:10:46 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQw86-0003ah-Tc
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:24:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602263441;
+ s=mimecast20190719; t=1602264268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yrm5HRoA1y/1AV68xMyVfIJD89zVqjfTna6ivmKxDak=;
- b=gCFqQCrn/0mmJqj5z7+jSFGOwzysyDEokb6lBmI+mss5fu2eSl8nrTP1Iqa7VajvcyA6pE
- VMNPtYICoDfby4EX7HuxfDuEiVnR44algCBC2z49TEmVE3zs56dnWcVaHUBjd8DjloDrXo
- ct60mRM2jJpCMvCJMKtuYYP4FNypXQU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-v6TkpX79PpqN3zOwpkUSvg-1; Fri, 09 Oct 2020 13:10:38 -0400
-X-MC-Unique: v6TkpX79PpqN3zOwpkUSvg-1
-Received: by mail-wm1-f72.google.com with SMTP id o198so21261wme.8
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:10:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Yrm5HRoA1y/1AV68xMyVfIJD89zVqjfTna6ivmKxDak=;
- b=lS8yIOAU6pXQx2U/tNtbOr0bMDTIEVqXHNPsvSHe/LtDZVb9vMXKUhTSu5ZOG9YwZD
- Gqlzhzra/MB3ObJrZJuB/slk/MxN73G6NaZ9126Eoq6xNg30XuYT+IJiITYcqROKKclk
- XH1qypgy41Vt+T9rhk76GhCZj1z07H2lcoHs/F6Z9aFW78pZRxvsEkmkd4v7AljwTx3G
- 5Lu2ulhOdRtV8j+HvdmjQDYOYu0Jr3eARfa9+JoV4DLi8ghD1bCu/lkLnl0Ka90deMVp
- ZmlCmAzhPp1QBNrXzZR5ruzN5KbYuhRv5vSLwVngcezRCZ8A0UhOOpRhpaRp35/h6Qky
- +I2Q==
-X-Gm-Message-State: AOAM530qmOWWwH7KsY+otF+0W+nDRsIlwc0l9y/WFy3ZagDOTNqP+7rU
- WQZGndUrYNBubPjmLtrQEYi4KYuQR6lRMJ6r3/fB7K2gV4NSGgespJR7El9oShGD0H4MvMp6/7U
- P3HKT+r9+JfODb4Y=
-X-Received: by 2002:a1c:e1d7:: with SMTP id y206mr110341wmg.48.1602263437318; 
- Fri, 09 Oct 2020 10:10:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzBtRCGvCaCKva5MxMNohsQ/HmMwXPOuaWK/mdUZISDYj0IMXL1n9qdGp1BD/SXBUTylB/ruw==
-X-Received: by 2002:a1c:e1d7:: with SMTP id y206mr110318wmg.48.1602263437136; 
- Fri, 09 Oct 2020 10:10:37 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:cee1:4797:6958:7698?
- ([2001:b07:6468:f312:cee1:4797:6958:7698])
- by smtp.gmail.com with ESMTPSA id a199sm13091426wmd.8.2020.10.09.10.10.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Oct 2020 10:10:36 -0700 (PDT)
-Subject: Re: does make check now require TCG? Or is it a parallelism issue?
-To: Claudio Fontana <cfontana@suse.de>
-References: <11ef73ff-4178-b3e8-2e49-44ff014a13ed@suse.de>
- <569520f6-adf6-6212-9625-a184bf499e24@redhat.com>
- <d21dff22-90b1-4769-0948-6bc37eaeb885@linaro.org>
- <6fe91a5a-c136-9af3-c48a-97ccdca7a543@suse.de>
- <3c527b0f-afa1-4b86-4fa5-9acca2a296bd@linaro.org>
- <CABgObfYWK2E8PsSFOcHpuA2vuA3HWgvtuLbrtQCWA=9=r07=5w@mail.gmail.com>
- <a1694fe3-9bc8-df93-345f-29f0de37b923@suse.de>
- <8cedd3e4-dc6a-30ee-fd71-f4776aa8c953@redhat.com>
- <48641901-68e7-7e34-5046-31eea3967701@suse.de>
- <eba000db-c0d1-8474-15cc-6fa6e864bb88@redhat.com>
- <41cce7d1-ed3e-46ff-aaee-98ded342f6a2@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f4fd629b-3f19-3cd0-f15f-94ee81060f08@redhat.com>
-Date: Fri, 9 Oct 2020 19:10:35 +0200
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=xknGgovBxYjUrLvzp1Eohp1Bhbd/29WkYh5O2I28ZM4=;
+ b=RnixN2okvV0KWrPKm3L+Im3tFA4ktfZLdt6xZqLL4fB8c7PDfca/YiS9a1pQjNLG9PkFx2
+ 8SI/flKY4Z5H/txAgHKh+39Y7Ad7iADGTIidF3zifMc+QvSuVuU+8zR1oO8K9Zd65ISP/7
+ SjbGGqrS2qFMSvbW99G68EueDiY9pIE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-NaLUUVSlMgWYdaCxFDeqYA-1; Fri, 09 Oct 2020 13:24:24 -0400
+X-MC-Unique: NaLUUVSlMgWYdaCxFDeqYA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBF6418BE169
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 17:24:23 +0000 (UTC)
+Received: from [10.3.113.14] (ovpn-113-14.phx2.redhat.com [10.3.113.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A58419D7C;
+ Fri,  9 Oct 2020 17:24:20 +0000 (UTC)
+Subject: Re: [PATCH 03/12] qom: Make object_class_property_add_uint*_ptr() get
+ offset
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20201009160122.1662082-1-ehabkost@redhat.com>
+ <20201009160122.1662082-4-ehabkost@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Autocrypt: addr=eblake@redhat.com; keydata=
+ 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
+Organization: Red Hat, Inc.
+Message-ID: <eeb91413-2a1e-5c83-e756-11dbe3be1b6f@redhat.com>
+Date: Fri, 9 Oct 2020 12:24:19 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <41cce7d1-ed3e-46ff-aaee-98ded342f6a2@suse.de>
+In-Reply-To: <20201009160122.1662082-4-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="U4sRo2CWbh3RiQouaZSNN4TcGQJtTweYO"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -111,25 +129,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/20 15:32, Claudio Fontana wrote:
->>   QTEST_QEMU_IMG=./qemu-img \
->>     G_TEST_DBUS_DAEMON=/home/pbonzini/work/upstream/qemu/tests/dbus-vmstate-daemon.sh \
->>     QTEST_QEMU_BINARY=./qemu-system-x86_64 \
->>     tests/qtest/bios-tables-test --tap -k
->>
->> Paolo
->>
-> Hi Paolo,
-> 
-> I now just found out that bios-tables-test actually was segfaulting
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--U4sRo2CWbh3RiQouaZSNN4TcGQJtTweYO
+Content-Type: multipart/mixed; boundary="g0DSJlBoBcBmbyI1dxxl3tVObrEoBQ52O";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Message-ID: <eeb91413-2a1e-5c83-e756-11dbe3be1b6f@redhat.com>
+Subject: Re: [PATCH 03/12] qom: Make object_class_property_add_uint*_ptr() get
+ offset
+References: <20201009160122.1662082-1-ehabkost@redhat.com>
+ <20201009160122.1662082-4-ehabkost@redhat.com>
+In-Reply-To: <20201009160122.1662082-4-ehabkost@redhat.com>
 
-Yes, that's what "too few tests run" usually means.
+--g0DSJlBoBcBmbyI1dxxl3tVObrEoBQ52O
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On 10/9/20 11:01 AM, Eduardo Habkost wrote:
+> The existing object_class_property_add_uint*_ptr() functions are
+> not very useful, because they need a pointer to the property
+> value, which can't really be provided before the object is
+> created.
+>=20
+> Replace the pointer parameter in those functions with a
+> `ptrdiff_t offset` parameter.
+>=20
+> Include a uint8 class property in check-qom-proplist unit tests,
+> to ensure the feature is working.
+>=20
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+
+>  static void *pointer_property_get_ptr(Object *obj, PointerProperty *prop=
+)
+>  {
+> -    return prop->ptr;
+> +    if (prop->is_offset) {
+> +        return (void *)obj + prop->offset;
+
+Addition on void* is a gcc extension.  Does clang support it as well, or
+should you be casting to char* instead?
+
+> +    } else {
+> +        return prop->ptr;
+> +    }
+>  }
+> =20
+
+> +++ b/tests/check-qom-proplist.c
+> @@ -61,6 +61,7 @@ struct DummyObject {
+>      bool bv;
+>      DummyAnimal av;
+>      char *sv;
+> +    uint8_t u8v;
+>  };
+> =20
+>  struct DummyObjectClass {
+> @@ -141,6 +142,9 @@ static void dummy_class_init(ObjectClass *cls, void *=
+data)
+>                                     &dummy_animal_map,
+>                                     dummy_get_av,
+>                                     dummy_set_av);
+> +    object_class_property_add_uint8_ptr(cls, "u8v",
+> +                                        offsetof(DummyObject, u8v),
+> +                                        OBJ_PROP_FLAG_READWRITE);
+
+I like how it turns out.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--g0DSJlBoBcBmbyI1dxxl3tVObrEoBQ52O--
+
+--U4sRo2CWbh3RiQouaZSNN4TcGQJtTweYO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl+AnMMACgkQp6FrSiUn
+Q2qFAQf/TL0kVXCRpfTdIEJ22x+D+2g6wRG77CRJKmLLO11Ip4WVWmHtiQr4i6s5
+c8P0XTcS7l+rlAG6uGjspATQt4tKPYW0G/IPFCssez3vn0OgL2KrwUP6to58MB8h
+iVtEqKW1scxu6o+FVqXsfZ45/iKik+zMsk/7NuD8PiMSmMBHaWSdVF9Tx5Fvv4Yl
+neMf3gcLEl/YHEwAfJJLlTBla3RhzGFC4ULvw4zAyc/5HvFuir4hUCvQg9tDim6V
+gNHCE2EfP7dJzI24+1cMWt24SuRjrLDqmO+KpCsKHLKcBjaOiPCadXd4QI36JmEC
+Mf4wPZMGhVsffJ76/pNzUmLV5fhZLQ==
+=mI2Z
+-----END PGP SIGNATURE-----
+
+--U4sRo2CWbh3RiQouaZSNN4TcGQJtTweYO--
 
 
