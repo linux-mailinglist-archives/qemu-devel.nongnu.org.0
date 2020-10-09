@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E096F288886
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 14:18:41 +0200 (CEST)
-Received: from localhost ([::1]:36384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2992128888B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 14:21:18 +0200 (CEST)
+Received: from localhost ([::1]:42486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQrM8-00075A-UI
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 08:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37016)
+	id 1kQrOf-0001NM-2N
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 08:21:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQrHL-0005Uc-KW
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:13:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kQrHJ-0007MA-Eq
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:13:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602245620;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=js5CP0Qql0dPLWIH2kAUBJqrOzLXC60+IR24383gV4E=;
- b=UD2YNMdGQG3S4CXTFpguJDABpr8DlVpYx/qEfdfdDTSU38gYXnx0c07Tp3Ckqx4ukK8zXs
- Drz68GS0FcJo62y1uLzp3j+23Q5Q9x5+nx8cMzjpkowSHNiPwXgxCJTwt1zFGxJ3vxabLQ
- kefP1X3mN/cSWbYiNbVidUa+CFmP0K4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-PqJwGeDpMaO_CkyRt_SkGQ-1; Fri, 09 Oct 2020 08:13:37 -0400
-X-MC-Unique: PqJwGeDpMaO_CkyRt_SkGQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B3DC8C2C4A;
- Fri,  9 Oct 2020 12:13:36 +0000 (UTC)
-Received: from work-vm (ovpn-113-175.ams2.redhat.com [10.36.113.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E1545D9E8;
- Fri,  9 Oct 2020 12:13:31 +0000 (UTC)
-Date: Fri, 9 Oct 2020 13:13:29 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH v2] configure: add option for virtiofsd
-Message-ID: <20201009121329.GH3071@work-vm>
-References: <20201008103133.2722903-1-misono.tomohiro@jp.fujitsu.com>
- <ea7dc73c-7ca5-924e-756e-02a5e66f85c7@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kQrHT-0005WR-T2
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:13:53 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:46171)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kQrHO-0007MQ-5Z
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 08:13:51 -0400
+Received: by mail-ej1-x635.google.com with SMTP id t25so12675627ejd.13
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 05:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dWkBET5tBsxLh7ba+vaUAKo61YT9Lqku+ANmsx4sxX4=;
+ b=lVgnRI9Oq9OyH7C/1FUdV1qnJSzdldz/Ia654qU/0shGf4ou0hQuyWE0Xg+HOICGbv
+ nv1wWwHGQNG033dQNOVfKslJICH+cOg6KAPqCbiB4iMqvwPHXkENk+yDo5RyqM0BR/Dm
+ x/KxFNZEr/UYv3B/SQ6gZuYahEELCeorWyWDa/DGRzxahepdEpromo71JLyLD2+8xPMn
+ wnATPVaDhxMJYOoJBn5/356GhMZBC/dbhaIp+bV/ZrhUa8SplAifxCOEb31/Ra0wHNIr
+ 5ImZ6R571pad82/4CM9jEUAXCN/nxTRYlV7BoCLJKwI0Xpt14FfcVQm4Nt8DcJuY5DEW
+ TmGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dWkBET5tBsxLh7ba+vaUAKo61YT9Lqku+ANmsx4sxX4=;
+ b=qF6+bG4tF+mwWiQXS4FXL3xU7rma3q745rGRN7TpvY0vdegOdPI4ijDZBmYNwTWGcZ
+ a5j0ml51Aj0ZUOFHoXJtfogzpPGXY4Vo8DnXCyHTI8qHtQm6OvpKmpMYrLPN0OgQNGDF
+ tNve2h7KhAlFFaM6TYiiHeOIYDlf+Zn8/9Ie5038OyfMY7ZqJDLUXoQmRtJUX4/YqOHm
+ wwa+ZoHZZw0F5BnRAtpJe6JATZheFBYYT1Sk+O4jrYVoBi+aJths4RmnT6R47yiSF73p
+ aSYaAKJ0b7o3Wsu7ZL2kAxG3ENqNVp2nxcvnMa6eje01ejwoAReZVRe/IByoW938zjBj
+ hM8A==
+X-Gm-Message-State: AOAM531ePN5vZV9kC9I92ctIfW24r5rMpZQH/EXE70S+EmOz2P3oSSzM
+ QvBg58S8jyQc1ijEUVgep/pOZYBgnj7K+LhMYW3EVw==
+X-Google-Smtp-Source: ABdhPJzIE03G7vH9nvgt5oWCgifeCuCNq9gnDquMD4s8EDJ66AR88XC4lEf1xqHR0eba5cmmEKLotQh3n3bLCj0t2bs=
+X-Received: by 2002:a17:906:ce21:: with SMTP id
+ sd1mr14327026ejb.4.1602245624353; 
+ Fri, 09 Oct 2020 05:13:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ea7dc73c-7ca5-924e-756e-02a5e66f85c7@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <11ef73ff-4178-b3e8-2e49-44ff014a13ed@suse.de>
+ <569520f6-adf6-6212-9625-a184bf499e24@redhat.com>
+ <d21dff22-90b1-4769-0948-6bc37eaeb885@linaro.org>
+ <6fe91a5a-c136-9af3-c48a-97ccdca7a543@suse.de>
+ <3c527b0f-afa1-4b86-4fa5-9acca2a296bd@linaro.org>
+ <CABgObfYWK2E8PsSFOcHpuA2vuA3HWgvtuLbrtQCWA=9=r07=5w@mail.gmail.com>
+ <a1694fe3-9bc8-df93-345f-29f0de37b923@suse.de>
+ <8cedd3e4-dc6a-30ee-fd71-f4776aa8c953@redhat.com>
+ <48641901-68e7-7e34-5046-31eea3967701@suse.de>
+ <eba000db-c0d1-8474-15cc-6fa6e864bb88@redhat.com>
+In-Reply-To: <eba000db-c0d1-8474-15cc-6fa6e864bb88@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Oct 2020 13:13:33 +0100
+Message-ID: <CAFEAcA8YBF3Cq6pTHtq6EK6Qmb62FvwidT0a0rn7ZTC_3d-73Q@mail.gmail.com>
+Subject: Re: does make check now require TCG? Or is it a parallelism issue?
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,158 +88,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>,
- qemu-devel@nongnu.org
+Cc: Alex Bennee <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
-> On 08/10/20 12:31, Misono Tomohiro wrote:
-> > Currently it is unknown whether virtiofsd will be built at
-> > configuration time. It will be automatically built when dependency
-> > is met. Also, required libraries are not clear.
-> > 
-> > To make this clear, add configure option --{enable,disable}-virtiofsd.
-> > The default is the same as current (enabled if available) like many
-> > other options. When --enable-virtiofsd is given and dependency is not
-> > met, we get:
-> > 
-> >   ERROR: Problem encountered: virtiofsd requires libcap-ng-devel and seccomp-devel
-> > or
-> >   ERROR: Problem encountered: virtiofsd needs tools and vhost-user support
-> > 
-> > In addition, configuration summary now includes virtiofsd entry:
-> > 
-> >   build virtiofs daemon: YES/NO
-> > 
-> > Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> > ---
-> > This patch is based on current master branch
-> > 
-> > v1 ... https://lore.kernel.org/qemu-devel/20201007092913.1524199-1-misono.tomohiro@jp.fujitsu.com/
-> > v1 -> v2: Update to follow the current meson build style
-> > 
-> >  configure         |  8 +++++++-
-> >  meson.build       |  1 +
-> >  meson_options.txt |  2 ++
-> >  tools/meson.build | 17 +++++++++++++++--
-> >  4 files changed, 25 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/configure b/configure
-> > index 28df227db5..2bd8419b1f 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -302,6 +302,7 @@ netmap="no"
-> >  sdl="auto"
-> >  sdl_image="auto"
-> >  virtfs=""
-> > +virtiofsd="auto"
-> >  mpath="auto"
-> >  vnc="enabled"
-> >  sparse="auto"
-> > @@ -1004,6 +1005,10 @@ for opt do
-> >    ;;
-> >    --enable-virtfs) virtfs="yes"
-> >    ;;
-> > +  --disable-virtiofsd) virtiofsd="disabled"
-> > +  ;;
-> > +  --enable-virtiofsd) virtiofsd="enabled"
-> > +  ;;
-> >    --disable-mpath) mpath="disabled"
-> >    ;;
-> >    --enable-mpath) mpath="enabled"
-> > @@ -1761,6 +1766,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-> >    vnc-png         PNG compression for VNC server
-> >    cocoa           Cocoa UI (Mac OS X only)
-> >    virtfs          VirtFS
-> > +  virtiofsd       build virtiofs daemon (virtiofsd)
-> >    mpath           Multipath persistent reservation passthrough
-> >    xen             xen backend driver support
-> >    xen-pci-passthrough    PCI passthrough support for Xen
-> > @@ -7215,7 +7221,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-> >  	-Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
-> >  	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
-> >  	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-> > -	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
-> > +	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
-> >  	-Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
-> >          $cross_arg \
-> >          "$PWD" "$source_path"
-> > diff --git a/meson.build b/meson.build
-> > index 17c89c87c6..a087239009 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -1843,6 +1843,7 @@ summary_info += {'Audio drivers':     config_host['CONFIG_AUDIO_DRIVERS']}
-> >  summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
-> >  summary_info += {'Block whitelist (ro)': config_host['CONFIG_BDRV_RO_WHITELIST']}
-> >  summary_info += {'VirtFS support':    config_host.has_key('CONFIG_VIRTFS')}
-> > +summary_info += {'build virtiofs daemon': have_virtiofsd}
-> >  summary_info += {'Multipath support': mpathpersist.found()}
-> >  summary_info += {'VNC support':       vnc.found()}
-> >  if vnc.found()
-> > diff --git a/meson_options.txt b/meson_options.txt
-> > index 1d3c94840a..80637ada63 100644
-> > --- a/meson_options.txt
-> > +++ b/meson_options.txt
-> > @@ -48,6 +48,8 @@ option('vnc_sasl', type : 'feature', value : 'auto',
-> >         description: 'SASL authentication for VNC server')
-> >  option('xkbcommon', type : 'feature', value : 'auto',
-> >         description: 'xkbcommon support')
-> > +option('virtiofsd', type: 'feature', value: 'auto',
-> > +       description: 'build virtiofs daemon (virtiofsd)')
-> >  
-> >  option('capstone', type: 'combo', value: 'auto',
-> >         choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
-> > diff --git a/tools/meson.build b/tools/meson.build
-> > index 513bd2ff4f..76bf84df52 100644
-> > --- a/tools/meson.build
-> > +++ b/tools/meson.build
-> > @@ -1,10 +1,23 @@
-> > -have_virtiofsd = (have_system and
-> > +have_virtiofsd = (targetos == 'linux' and
-> >      have_tools and
-> > -    'CONFIG_LINUX' in config_host and 
-> >      'CONFIG_SECCOMP' in config_host and
-> >      'CONFIG_LIBCAP_NG' in config_host and
-> >      'CONFIG_VHOST_USER' in config_host)
-> >  
-> > +if get_option('virtiofsd').enabled()
-> > +  if not have_virtiofsd
-> > +    if targetos != 'linux'
-> > +      error('virtiofsd requires Linux')
-> > +    elif 'CONFIG_SECCOMP' not in config_host or 'CONFIG_LIBCAP_NG' not in config_host
-> > +      error('virtiofsd requires libcap-ng-devel and seccomp-devel')
-> > +    elif not have_tools or 'CONFIG_VHOST_USER' not in config_host
-> > +      error('virtiofsd needs tools and vhost-user support')
-> > +    endif
-> > +  endif
-> > +elif get_option('virtiofsd').disabled() or not have_system
-> > +  have_virtiofsd = false
-> > +endif
-> > +
-> >  if have_virtiofsd
-> >    subdir('virtiofsd')
-> >  endif
-> > 
-> 
-> This looks good and the way you solved --enable-virtiofsd
-> --disable-tools makes sense.  I'll let David pick it up or decide if he
-> wants a different approach.
+On Fri, 9 Oct 2020 at 12:51, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 09/10/20 12:28, Claudio Fontana wrote:
+> > Running test qtest-x86_64: qos-test
+> > ERROR qtest-x86_64: bios-tables-test - too few tests run (expected 23, got 22)
+> > make: *** [Makefile.mtest:1326: run-test-187] Error 1
+> > make: *** Waiting for unfinished jobs....
+> >
+> > What am I missing here?
+>
+> This is something else that is crashing.
 
-In that case I'll take your word the meson bit is OK, so:
+It would be great if we could improve the error reporting for
+this kind of failure, incidentally. I fairly often get
+intermittents where there is nothing useful in the log
+files, just one of these "too few tests run" lines (and
+perhaps somewhere miles back up in the build output
+interleaved with that from the other tests being run
+in parallel with the one that fell over, there might
+be more information, but it's basically unfindable).
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-(I've also hit this, wondering why virtiofsd hasn't been built and
-realising I was missing capng on a new host).
-
-> Paolo
-> 
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://www.redhat.com/mailman/listinfo/virtio-fs
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+thanks
+-- PMM
 
