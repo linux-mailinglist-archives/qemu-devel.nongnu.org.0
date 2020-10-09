@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBCA289BE6
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 00:46:01 +0200 (CEST)
-Received: from localhost ([::1]:57756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A23A289BCB
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 00:36:24 +0200 (CEST)
+Received: from localhost ([::1]:51230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR19D-0006yz-WC
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 18:46:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58558)
+	id 1kR0zv-0003kH-CO
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 18:36:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kR17d-0006D2-Cv; Fri, 09 Oct 2020 18:44:21 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:40035)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kR0xm-00033r-Ij
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 18:34:10 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kR17b-0000MV-EY; Fri, 09 Oct 2020 18:44:21 -0400
-Received: by mail-il1-x143.google.com with SMTP id y16so6609782ila.7;
- Fri, 09 Oct 2020 15:44:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6JlNophxr07QZAYQYDmAIRDy73nN1wG4j7eAmQEPDFY=;
- b=E3yk3blIy1iPfYeIodca52obg3s0HKMKqXbBTQwFKiA2vAeoPmc4HwZM71tch8JtaH
- phX4D03R6fkiWOMOFTghDeoe54N/anr3xYwLo0eLnXFYqHmickbteHQ/AF98wWobp5sd
- CUB1Ra3UHVhzYgZwX5Y8PMC1ssiIQj+/Ac0IQ2lYdkx0XeKpMAk0xx91aYcIlVRCyDts
- sBCjpuYICMnOLin6EA3hEGfX28bksqbdkt7Rv9rHmCS2hV8yOq3tYGe45MFXRnVA3VJS
- ZcvNHx7LAj62uh7UT5eDSvwwoZExsAgM2OU48nX9Ti+k78S/y1+YSycNn7DA7nKhZ99z
- q6Ag==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kR0xk-0007YJ-81
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 18:34:10 -0400
+Received: by mail-oi1-x243.google.com with SMTP id n2so11825296oij.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 15:34:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=s+SoOCi13C4EVmQ8xozsTYLCeZGrYVp/feQrf9CbVsY=;
+ b=KvL84/RwEvQV9V2wvU1YiCjWSWECbRrqHRGS6AltcC/ip9gnwoEXs5+Oym4JuvQOav
+ LqjbqBy7N7dSQlAkoAkwuVFbjMpKOPL2fiMoo4T7NBnBsjUKXx5gRcYinIZeH6oVkg+7
+ wCKo6yY6g02GDccnvR0NT9TGOUS7XQ58L+WO1SAdh75XAZSV+k55VeFeK/WZo+PhaU3M
+ K04yHNUGJ/1wVy/rppjyJk+tMF/t9ZbYU7L0aWv5G4P60VUaNrdsiaMlklRV7hVvZ41s
+ XvR+dfTjwOgZLD7w72swJpz57OQlhb6hDxTjsDHEpWGncw0Rqn59UlQC8m861ZmANyuJ
+ GOXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6JlNophxr07QZAYQYDmAIRDy73nN1wG4j7eAmQEPDFY=;
- b=X9zUFo8UmJrk2f/CuOx0hOO+WC1Hz1eAGF3qPLBhsNazdIBre73AugWw0H18ha/Dou
- ptbw8i5PVpZBbBpOhhUPsWS1IGZD8SkoViijcYszZvGQ7M+pSanhRrFildtxAojyEm3U
- qxd/Q/CNayI0bZLtw9v2vY/Xy/xdOUiNAIl8GwCMoBNAbtLxMdISHtT9g0qF6S87xmTO
- VuOgEO7LGgdthAEaDT/lQAqwme4NFhe1E41wHKv5avDoAborInUHnGee8PGrrxD7wxtk
- LbAQ20SPWxoHA0biygwXutZsoB58krMOUwEjBJ9WufLRi+qCVKCUuOmttUvNuWBmOCdd
- RSyg==
-X-Gm-Message-State: AOAM533qTzLrq8kPJXyHsbHP6EuXE3LBzTdrrfc6Db5816YrFiLo+SIO
- rifpwmv3mGLxQJhB4gupaJhfU1KBz7fNX+Y9GNk=
-X-Google-Smtp-Source: ABdhPJwNRczg//TSUrHknCJtS66SxtZ8jI9sC/03V7Accw020bj8wdNyWYZWShpJy8JgqvrMT3/Se1RYvz0f37ziQb4=
-X-Received: by 2002:a05:6e02:49:: with SMTP id
- i9mr12303929ilr.40.1602283457977; 
- Fri, 09 Oct 2020 15:44:17 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s+SoOCi13C4EVmQ8xozsTYLCeZGrYVp/feQrf9CbVsY=;
+ b=BAcwkDmcit69/HuHblpa3gG4Gq46ZgsG/6Z5Y6m+IziM7RUyPlDUdsFiU+kBrtdDQT
+ Z0TbIx3G1jAQPQs50w+DXSR1wyYQV+bhG8etR32qOLuZ7vZNB8cQLcH/vZhPl6xXVaZx
+ YiRy+Fp5G7dL9wg6S0IRKXge+rmmphtlReCyZ9m1HXNMCQbbgRMSBU0Q105zmN3j1Lbv
+ 5aqEIH5CSEwGHxCBtiOohS5Z7MkPTfh2pom8Zb8wmuLrTpgroEKHwmKkzUwaZUuIFctX
+ 7w7wz9otFnRRWrSSJwtTpJaVAyEPy86SoJ4jSer2LY7vrHGURYUzda1uiILvr5gF1eJi
+ L+jg==
+X-Gm-Message-State: AOAM532QIM1DzOY/BmYVp+RGnyUbqiBGk5Xg6Jaz3MbNAhBPaxPXxB3O
+ nVqa3EUrzTxMiUwU0MkFIA+75H8TmsyC+NsC
+X-Google-Smtp-Source: ABdhPJx4enhGLEtUuU5pQdBadaswTjsWUxzqrJfvDS4+6+mpzkQ8UYNvz1S1T7EFIf9vFQh1vIJRYg==
+X-Received: by 2002:aca:d856:: with SMTP id p83mr4123655oig.57.1602282846596; 
+ Fri, 09 Oct 2020 15:34:06 -0700 (PDT)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id b3sm7492159oie.49.2020.10.09.15.34.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Oct 2020 15:34:05 -0700 (PDT)
+Subject: Re: [PATCH] target/arm: Fix SMLAD incorrect setting of Q bit
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201009144712.11187-1-peter.maydell@linaro.org>
+ <9b6bcfac-922d-675c-d7b4-35491a3efe60@linaro.org>
+ <CAFEAcA_TZQOFtQn=MhvaF7wvXCgQLHfhpekHb29kb-p8VgWfYA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5702c321-0d70-6e26-4aea-8ac9e6f90cbc@linaro.org>
+Date: Fri, 9 Oct 2020 17:34:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <cover.1601652616.git.alistair.francis@wdc.com>
- <CAEUhbmXhFv8m3uFQ8z7XeEcXnTCJLCVokWp5ZQ-C3PDHdXJn1Q@mail.gmail.com>
-In-Reply-To: <CAEUhbmXhFv8m3uFQ8z7XeEcXnTCJLCVokWp5ZQ-C3PDHdXJn1Q@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 9 Oct 2020 15:32:44 -0700
-Message-ID: <CAKmqyKPSkso+81kxXMBkJXu9stUTTLb+iH+3=07X+nOYWWi73w@mail.gmail.com>
-Subject: Re: [PATCH v1 0/4] Allow loading a no MMU kernel
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+In-Reply-To: <CAFEAcA_TZQOFtQn=MhvaF7wvXCgQLHfhpekHb29kb-p8VgWfYA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.208,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,79 +91,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 9, 2020 at 2:53 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Alistair,
->
-> On Fri, Oct 2, 2020 at 11:50 PM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
-> >
-> > This series allows loading a noMMU kernel using the -kernel option.
-> > Currently if using -kernel QEMU assumes you also have firmware and loads
-> > the kernel at a hardcoded offset. This series changes that so we only
-> > load the kernel at an offset if a firmware (-bios) was loaded.
-> >
-> > This series also adds a function to check if the CPU is 32-bit. This is
-> > a step towards running 32-bit and 64-bit CPUs on the 64-bit RISC-V build
-> > by using run time checks instead of compile time checks. We also allow
-> > the user to sepcify a CPU for the sifive_u machine.
->
-> Could you please provide test scenarios for this series? I want to
-> have a try. Thanks.
+On 10/9/20 1:47 PM, Peter Maydell wrote:
+> On Fri, 9 Oct 2020 at 18:57, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 10/9/20 9:47 AM, Peter Maydell wrote:
+>>> +        /*
+>>> +         * t1 is the low half of the result which goes into Rd.
+>>> +         * We have overflow and must set Q if the high half (t2)
+>>> +         * is different from the sign-extension of t1.
+>>> +         */
+>>> +        t3 = tcg_temp_new_i32();
+>>> +        tcg_gen_sari_i32(t3, t1, 31);
+>>> +        qf = load_cpu_field(QF);
+>>> +        one = tcg_const_i32(1);
+>>> +        tcg_gen_movcond_i32(TCG_COND_NE, qf, t2, t3, one, qf);
+>>> +        store_cpu_field(qf, QF);
+>>
+>> This works, however, QF is not restricted to {0,1}.
+> 
+> I'm not sure if you mean "this code doesn't maintain that
+> invariant" or "there is no such invariant". If the former,
+> the declaration of the field in cpu.h disagrees:
+>     uint32_t QF; /* 0 or 1 */
 
-Yep.
+Oops, I confused QF with QC, the neon saturation bit.
 
-Build a noMMU kernel (you need the latest master commit a78c6f5956a9):
-$ CROSS_COMPILE=riscv64-elf- ARCH=riscv make nommu_virt_defconfig
-$ CROSS_COMPILE=riscv64-elf- ARCH=riscv make -j
 
-Build a noMMU RISC-V userspace
-$ git clonehttps://github.com/damien-lemoal/buildroot.git
-$ make kendryte_k210_defconfig
-$ make
-
-Run QEMU:
-./build/riscv64-softmmu/qemu-system-riscv64 -machine virt -m 64M \
--cpu rv64,mmu=false \
--serial mon:stdio -serial null -nographic \
--append "root=/dev/vda rw highres=off  console=ttyS0 mem=1G ip=dhcp
-earlycon=sbi" \
--device virtio-net-device,netdev=net0,mac=52:54:00:12:34:02 -netdev
-user,id=net0 \
--object rng-random,filename=/dev/urandom,id=rng0 -device
-virtio-rng-device,rng=rng0 \
--smp 1 -d guest_errors \
--kernel ./Image \
--drive id=disk0,file=./nommu-rootfs.ext2,if=none,format=raw -device
-virtio-blk-device,drive=disk0 -bios none
-
-Alistair
-
->
-> >
-> > Alistair Francis (4):
-> >   hw/riscv: sifive_u: Allow specifying the CPU
-> >   hw/riscv: Return the end address of the loaded firmware
-> >   hw/riscv: Add a riscv_is_32_bit() function
-> >   hw/riscv: Load the kernel after the firmware
-> >
-> >  include/hw/riscv/boot.h     | 11 +++++----
-> >  include/hw/riscv/sifive_u.h |  1 +
-> >  hw/riscv/boot.c             | 47 ++++++++++++++++++++++++-------------
-> >  hw/riscv/opentitan.c        |  3 ++-
-> >  hw/riscv/sifive_e.c         |  3 ++-
-> >  hw/riscv/sifive_u.c         | 31 ++++++++++++++++++------
-> >  hw/riscv/spike.c            | 14 ++++++++---
-> >  hw/riscv/virt.c             | 14 ++++++++---
-> >  8 files changed, 89 insertions(+), 35 deletions(-)
->
-> Regards,
-> Bin
+r~
 
