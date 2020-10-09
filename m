@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3D1288FE0
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:17:41 +0200 (CEST)
-Received: from localhost ([::1]:48930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371D7288FA2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:12:10 +0200 (CEST)
+Received: from localhost ([::1]:35602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQw1U-0006z6-EB
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:17:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46682)
+	id 1kQvw9-0001Sc-9O
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvs4-0004am-Ri
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:56 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40736)
+ id 1kQvs6-0004eB-5G
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:58 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvs1-0001Je-1Q
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:56 -0400
-Received: by mail-wr1-x444.google.com with SMTP id h5so977613wrv.7
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:07:52 -0700 (PDT)
+ id 1kQvs4-0001Jp-2M
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:57 -0400
+Received: by mail-wm1-x344.google.com with SMTP id e23so3502183wme.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:07:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZdPHbQWRDkMxBC6O5/k+6hitBUPm7MDCOKjfSyNLevM=;
- b=QxJ8VjkOoFEw2blUOaL6YrmJYKFr72+rBo+ePvs8Q+7ts+IZdW24CKmosMAaP+DIzp
- 13qs66HVHwI3w348BC+87IO2Q9kwrog6OuO6O2F5WwRhI3ULVNUWBcHjpD9qffBwsC2A
- GySUQP0ArfaaCZEyRP23tIxRANgrNCLF1PAKWXcLN2VdbauTMSupSJzDc68JE61dDrZ3
- XXNjrMIPWRlEMJ3wLLBoN6HElc+M2UtyVufb83/F0MGb3siQXOFUk0IQXN+4XQ5ttIVg
- Dkq3KUduwiCR14ZIr8lpZ33m+IS1tPnkYBaP6JwOdrZY3KvPM8gKR1cA16IuxlzMAdly
- zlMA==
+ bh=PVp+3SZoiBidmYUzudMKJXMJHPS5QgRn7t+s2x5BNPU=;
+ b=NaBUfz3x+ZRd3OG7DSuoRY7/ptq0o+d/mIN50vFjfzN1m13XIx+3fYTaLNxJVDTLgk
+ ZWyz4LbxWcP5jbI1Wbbfll44vW8Qj8UUsDSxyVbSCFcTow2pbOgRKgwJTIBa8jhdjbvo
+ 7dK4fV00t3E/YIGz0dSwRhU1ye80PL8xM2/QUw8yYfLa+iFtgvRaTMHr5d4WH26eMjsd
+ yavscVKZsU7cC7DnNOA6RVXrJ28v+AYGeohVl1aqVrl8B5M+Lh+eY/lFBwDmKAeuRNy8
+ 7nMRwy7Zup66cj+Ff0wykrXItjndHQPd/EktLPD+1fhsppPcswuy18JX5fMI/WQ4p10o
+ ACHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZdPHbQWRDkMxBC6O5/k+6hitBUPm7MDCOKjfSyNLevM=;
- b=TAPBTAG25JWh8MG0hP3VqD22tC7OV8VcD5rXmRTd0Twu2PKsQ12PFu1cllWeUZDV9p
- is3CW0jY+gZYNjUXF14yYEhZgAupo75i/UQRtIgoyUZG8bwj0i+QJmsUrsrJvTajzTu7
- siiyIzZoRaVz9PL+XLPHDB33tsaIax69YQ0kyhPunoII0Wu98YdkRPq79RYXPmEMqE+Y
- qO3uqniy3k6eU11DA3RA8xkdnvNzeGx5tALlmIErN+6KD8L/c0rfja3qzEQGUrlVA4hZ
- A6CRQq7W9EuPg7WW2qTpMNtCndM+lbfE3ZI9Rp69b14SbFn5BEaW0mczsaT5YtHFrQIv
- Zb8g==
-X-Gm-Message-State: AOAM531C6k1SOF188KFt358ZC6FR7RgRawi2A0I40Z29LXaBS5JNRq4X
- 9HQ8bh/ZdAaR9LWSc71vx/y0Fj5iKn/b4Q==
-X-Google-Smtp-Source: ABdhPJzBTG8S2iDQv3fYepAE31HOUZQZmfqUfnAmzKqE2VuZs4KUujdBtI985biN7gAxGTvEVk0wAA==
-X-Received: by 2002:a5d:5449:: with SMTP id w9mr17032286wrv.182.1602263271620; 
- Fri, 09 Oct 2020 10:07:51 -0700 (PDT)
+ bh=PVp+3SZoiBidmYUzudMKJXMJHPS5QgRn7t+s2x5BNPU=;
+ b=AhlMk8xZHe3/A8hLE4+BD8UprkyeAuAfOn4oHfNCc/StIwfiqU3OQfqRo/HLSv7sj6
+ /JtytXD0Unx5UVgmLPdtpO9qdcrQ+TcincnYyC7pZY5LumhEDGy5pQl8dSrftc1FtyTg
+ Bqw47GO/pAATMvSgj3y24G/MXjeGd+IozttmuDnXY17+mHsP6O4ZGLYhXpGBepngHWBR
+ 1NbluxX3wVbdpwMWdFm3voJNF2bo1WW0oV0rmRns94aAYUnE1SPWYXN05QlfKLjqjzIy
+ eWwRCmqQL4PdSHzFDSnB1M49S215UFn9SaawV4t9akl3esvfQ1scXFpatNDy7lLLorp0
+ kpWw==
+X-Gm-Message-State: AOAM533loQrpw/62BTLX+SULqDtRZ2vTf6goBfMOndHTEjUa2FaCEGV6
+ qWIinihZ5JXvFXD/8H0XzMxIDg==
+X-Google-Smtp-Source: ABdhPJyTtKCuSA1tJG8uzXn9hLxtvNGMhVPEKuTabr9I5CuNqdL0JxfCiaob2O8iTlniAtrfp4+M0A==
+X-Received: by 2002:a1c:5988:: with SMTP id n130mr15912119wmb.95.1602263274526; 
+ Fri, 09 Oct 2020 10:07:54 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n9sm12345629wrq.72.2020.10.09.10.07.43
+ by smtp.gmail.com with ESMTPSA id x1sm5234530wrl.41.2020.10.09.10.07.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 10:07:45 -0700 (PDT)
+ Fri, 09 Oct 2020 10:07:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 57A231FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 6F2EB1FF90;
  Fri,  9 Oct 2020 18:07:43 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 3/4] device_tree: add qemu_fdt_setprop_string_array helper
-Date: Fri,  9 Oct 2020 18:07:41 +0100
-Message-Id: <20201009170742.23695-4-alex.bennee@linaro.org>
+Subject: [RFC PATCH 4/4] generic_loader: allow the insertion of /chosen/module
+ stanzas
+Date: Fri,  9 Oct 2020 18:07:42 +0100
+Message-Id: <20201009170742.23695-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201009170742.23695-1-alex.bennee@linaro.org>
 References: <20201009170742.23695-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,97 +89,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
+Cc: Alistair Francis <alistair@alistair23.me>, julien@xen.org,
+ masami.hiramatsu@linaro.org, andre.przywara@arm.com,
  stefano.stabellini@linaro.org, takahiro.akashi@linaro.org,
- Alistair Francis <alistair.francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>, stefano.stabellini@xilinx.com,
+ stefano.stabellini@xilinx.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A string array in device tree is simply a series of \0 terminated
-strings next to each other. As libfdt doesn't support that directly
-we need to build it ourselves.
+The /chosen FDT node is how the firmware indicates information about
+the kernel to the loader code. In a full boot chain this would come
+from something like a boot loader. However if we use the generic
+loader to load blobs into RAM before launching a hypervisor for
+example we can boot directly:
+
+  $QEMU $ARGS  -kernel ~/xen.git/xen/xen \
+    -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
+    -device loader,addr=0x47000000,\
+    file=Image,\
+    len-fdt-compat=2,\
+    fdt-compat[0]='multiboot,,module',\
+    fdt-compat[1]='multiboot,,kernel',\
+    fdt-bootargs="root=/dev/mapper/vg0-root ro console=hvc0 earlyprintk=xen"
+
+Note the ,, escapes required for the command line parser.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/sysemu/device_tree.h | 17 +++++++++++++++++
- device_tree.c                | 26 ++++++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
+ include/hw/core/generic-loader.h |  4 +++
+ hw/core/generic-loader.c         | 42 ++++++++++++++++++++++++++++++++
+ 2 files changed, 46 insertions(+)
 
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index 982c89345f..8a2fe55622 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -70,6 +70,23 @@ int qemu_fdt_setprop_u64(void *fdt, const char *node_path,
-                          const char *property, uint64_t val);
- int qemu_fdt_setprop_string(void *fdt, const char *node_path,
-                             const char *property, const char *string);
+diff --git a/include/hw/core/generic-loader.h b/include/hw/core/generic-loader.h
+index 19d87b39c8..98b0452430 100644
+--- a/include/hw/core/generic-loader.h
++++ b/include/hw/core/generic-loader.h
+@@ -39,6 +39,10 @@ struct GenericLoaderState {
+     bool force_raw;
+     bool data_be;
+     bool set_pc;
 +
-+/**
-+ * qemu_fdt_setprop_string_array: set a string array property
-+ *
-+ * @fdt: pointer to the dt blob
-+ * @name: node name
-+ * @prop: property array
-+ * @array: pointer to an array of string pointers
-+ * @len: length of array
-+ *
-+ * assigns a string array to a property. This function converts and
-+ * array of strings to a sequential string with \0 separators before
-+ * setting the property.
-+ */
-+int qemu_fdt_setprop_string_array(void *fdt, const char *node_path,
-+                                  const char *prop, char **array, int len);
-+
- int qemu_fdt_setprop_phandle(void *fdt, const char *node_path,
-                              const char *property,
-                              const char *target_node_path);
-diff --git a/device_tree.c b/device_tree.c
-index b335dae707..a19873316a 100644
---- a/device_tree.c
-+++ b/device_tree.c
-@@ -21,6 +21,7 @@
- #include "qemu/error-report.h"
- #include "qemu/option.h"
- #include "qemu/bswap.h"
-+#include "qemu/cutils.h"
- #include "sysemu/device_tree.h"
- #include "sysemu/sysemu.h"
- #include "hw/loader.h"
-@@ -397,6 +398,31 @@ int qemu_fdt_setprop_string(void *fdt, const char *node_path,
-     return r;
++    char **fdt_compat;
++    uint32_t fdt_compat_count;
++    char *fdt_bootargs;
+ };
+ 
+ #define TYPE_GENERIC_LOADER "loader"
+diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
+index a242c076f6..8bd8a33e80 100644
+--- a/hw/core/generic-loader.c
++++ b/hw/core/generic-loader.c
+@@ -40,6 +40,8 @@
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "hw/core/generic-loader.h"
++#include "sysemu/device_tree.h"
++#include "hw/boards.h"
+ 
+ #define CPU_NONE 0xFFFFFFFF
+ 
+@@ -61,6 +63,39 @@ static void generic_loader_reset(void *opaque)
+     }
  }
  
 +/*
-+ * libfdt doesn't allow us to add string arrays directly but they are
-+ * test a series of null terminated strings with a length. We build
-+ * the string up here so we can calculate the final length.
++ * Insert some FDT nodes for the loaded blob.
 + */
-+int qemu_fdt_setprop_string_array(void *fdt, const char *node_path, const char *prop,
-+                                  char **array, int len)
++static void loader_insert_fdt(GenericLoaderState *s, int size, Error **errp)
 +{
-+    int ret, i, total_len = 0;
-+    char *str, *p;
-+    for (i = 0; i < len; i++) {
-+        total_len += strlen(array[i]) + 1;
-+    }
-+    p = str = g_malloc0(total_len);
-+    for (i = 0; i < len; i++) {
-+        int len = strlen(array[i]) + 1;
-+        pstrcpy(p, len, array[i]);
-+        p += len;
++    MachineState *machine = MACHINE(qdev_get_machine());
++    void *fdt = machine->fdt;
++    g_autofree char *node = g_strdup_printf("/chosen/module@%#08lx", s->addr);
++    uint64_t reg_attr[2] = {cpu_to_be64(s->addr), cpu_to_be64(size)};
++
++    if (!fdt) {
++        error_setg(errp, "Cannot modify FDT fields if the machine has none");
++        return;
 +    }
 +
-+    ret = qemu_fdt_setprop(fdt, node_path, prop, str, total_len);
-+    g_free(str);
-+    return ret;
++    qemu_fdt_add_subnode(fdt, node);
++    qemu_fdt_setprop(fdt, node, "reg", &reg_attr, sizeof(reg_attr));
++
++    if (s->fdt_compat) {
++        if (qemu_fdt_setprop_string_array
++            (fdt, node, "compatible", s->fdt_compat, s->fdt_compat_count) < 0) {
++            error_setg(errp, "couldn't set %s/compatible", node);
++            return;
++        }
++    }
++
++    if (s->fdt_bootargs) {
++        if (qemu_fdt_setprop_string(fdt, node, "bootargs", s->fdt_bootargs) < 0) {
++            error_setg(errp, "couldn't set %s/bootargs", node);
++        }
++    }
 +}
 +
- const void *qemu_fdt_getprop(void *fdt, const char *node_path,
-                              const char *property, int *lenp, Error **errp)
+ static void generic_loader_realize(DeviceState *dev, Error **errp)
  {
+     GenericLoaderState *s = GENERIC_LOADER(dev);
+@@ -171,6 +206,10 @@ static void generic_loader_realize(DeviceState *dev, Error **errp)
+     } else {
+         s->data = cpu_to_le64(s->data);
+     }
++
++    if (s->fdt_compat || s->fdt_bootargs) {
++        loader_insert_fdt(s, size, errp);
++    }
+ }
+ 
+ static void generic_loader_unrealize(DeviceState *dev)
+@@ -186,6 +225,9 @@ static Property generic_loader_props[] = {
+     DEFINE_PROP_UINT32("cpu-num", GenericLoaderState, cpu_num, CPU_NONE),
+     DEFINE_PROP_BOOL("force-raw", GenericLoaderState, force_raw, false),
+     DEFINE_PROP_STRING("file", GenericLoaderState, file),
++    DEFINE_PROP_ARRAY("fdt-compat", GenericLoaderState, fdt_compat_count,
++                      fdt_compat, qdev_prop_string, char *),
++    DEFINE_PROP_STRING("fdt-bootargs", GenericLoaderState, fdt_bootargs),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.20.1
 
