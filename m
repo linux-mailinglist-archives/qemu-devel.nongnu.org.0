@@ -2,94 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58FB288DC2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:08:04 +0200 (CEST)
-Received: from localhost ([::1]:59670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9032288DCC
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:10:24 +0200 (CEST)
+Received: from localhost ([::1]:39872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQuw7-0000ze-TN
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58896)
+	id 1kQuyN-0004eL-Tf
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQupg-0003RV-Lo
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60551)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQupn-0003dR-9K
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kQupc-000169-HP
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:23 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQupl-00016d-En
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602259279;
+ s=mimecast20190719; t=1602259288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Tjxa3rofeulycW2BydD2ocQU7BSPW5oYkj+yLVafrjI=;
- b=XMycY+drlP84v/2zAGo59vKJmczk66XLe3b6namQ/uojTu1CNefoLq4ukIk+ze+vzmM3eW
- e0twSR+1PLXLsLVI7mctfJVk539xb/ZZa1jiQ6SB3HMlFpXnRFiYMk+62LGRK1WXo56Khl
- ycBUQGA6HcqYCDicOSN0MKtXRaReTT0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-1ohjZ7qiM16qD9snpCj_zw-1; Fri, 09 Oct 2020 12:01:16 -0400
-X-MC-Unique: 1ohjZ7qiM16qD9snpCj_zw-1
-Received: by mail-wm1-f72.google.com with SMTP id l15so4285962wmh.9
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:01:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Tjxa3rofeulycW2BydD2ocQU7BSPW5oYkj+yLVafrjI=;
- b=WURujFJXxnYg742koXmuqzbyChakWKKZaMTIOUQJSIL+b4ikbAugcIh8aMm55goqfH
- QAhH9YHllz0u2WybdOzf87MDhWI5ys7LKQ5e7IP7ji0QF6yUk/G86jnjeIUWXmKUh+xO
- G5aI21estKJoTQVwPGJxdSs1sTsZrlp4qT5y9Po5Y6lIkIlN11Mdl5pB/VFEpZ4YAmck
- +K8Tzs9JqGO3XMKfnd2BFjbzXkT2AqHcupEP0PEpriL/a3U2DTrFf/H+dtHBt2WzmCMp
- i08H2wzxnL9Q67jKgSLqnCKpJOui+i+SaOqWcQjms5Y4pCU3fJgisnJMOQdBaVAjJ/nc
- OVSg==
-X-Gm-Message-State: AOAM531g8oCdxrbCeS/8/DJT4Ul4ldMdJehMJVpmWOZiFao8Pjwiie5o
- g9bKMkDCgDc0C38eKDoy+ePFzR/j6D2HrqM6awOGepduvD2pzbumUpWmqycktyLGwEigoTG05He
- C2m6G7DFFWHO1NHQ=
-X-Received: by 2002:a1c:a70d:: with SMTP id q13mr13986814wme.132.1602259274984; 
- Fri, 09 Oct 2020 09:01:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzWziwIWvQeibPncvKyjqzAeEzu9tsqRbyleX+ODDeyYiGo73KbsMz1Ged9RYrgAxKsugZMtQ==
-X-Received: by 2002:a1c:a70d:: with SMTP id q13mr13986771wme.132.1602259274644; 
- Fri, 09 Oct 2020 09:01:14 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:cee1:4797:6958:7698?
- ([2001:b07:6468:f312:cee1:4797:6958:7698])
- by smtp.gmail.com with ESMTPSA id y23sm13021953wra.55.2020.10.09.09.01.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Oct 2020 09:01:12 -0700 (PDT)
-Subject: Re: [RFC v1 4/4] replay: do not build if TCG is not available
-To: Claudio Fontana <cfontana@suse.de>
-References: <20201009152108.16120-1-cfontana@suse.de>
- <20201009152108.16120-5-cfontana@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4f4b4f12-0fdb-9c20-da3d-af222a69265e@redhat.com>
-Date: Fri, 9 Oct 2020 18:01:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/SYhszIXA0xCmoEZQMOxUX9tfGF1A44jM698h/Hu00Y=;
+ b=a6uQzgD5VwfTBAZW01Awr9s/aMf6aIGhVYMwa4n3RlG5mGnneZu225A/2FKcRNtAHPMhQ3
+ bvdO7zi+Pbb68xkeYyLAO1o1A9FufdIDafU/rVmGklENGdIxM1W4+2b4Z40bi+Nb0bd1gP
+ 95K0SGGk4l2n8jmHi61+1NIonlpn/ks=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-_9IxrQuyPEu2mGgAIHhdbA-1; Fri, 09 Oct 2020 12:01:26 -0400
+X-MC-Unique: _9IxrQuyPEu2mGgAIHhdbA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7188802B6A
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 16:01:25 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF15D6EF6C;
+ Fri,  9 Oct 2020 16:01:22 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/12] qom: Make all -object types use only class properties
+Date: Fri,  9 Oct 2020 12:01:10 -0400
+Message-Id: <20201009160122.1662082-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201009152108.16120-5-cfontana@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,194 +77,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/20 17:21, Claudio Fontana wrote:
-> replay requires icount, which needs TCG.
-> 
-> stub the needed functions in stub/,
-> including errors for hmp and qmp commands.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-
-Looks plausible, though probably I'd put it in replay/stubs.c and use
-if_false to link it.
-
-Paolo
-
-> ---
->  migration/savevm.c         | 11 +++--
->  replay/meson.build         |  2 +-
->  stubs/replay.c             | 99 ++++++++++++++++++++++++++++++++++++++
->  tests/qtest/qmp-cmd-test.c |  3 ++
->  4 files changed, 110 insertions(+), 5 deletions(-)
-> 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index d2e141f7b1..d9181ca520 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -63,6 +63,7 @@
->  #include "migration/colo.h"
->  #include "qemu/bitmap.h"
->  #include "net/announce.h"
-> +#include "sysemu/tcg.h"
->  
->  const unsigned int postcopy_ram_discard_version = 0;
->  
-> @@ -2674,10 +2675,12 @@ int save_snapshot(const char *name, Error **errp)
->          return ret;
->      }
->  
-> -    if (!replay_can_snapshot()) {
-> -        error_setg(errp, "Record/replay does not allow making snapshot "
-> -                   "right now. Try once more later.");
-> -        return ret;
-> +    if (tcg_enabled()) {
-> +        if (!replay_can_snapshot()) {
-> +            error_setg(errp, "Record/replay does not allow making snapshot "
-> +                       "right now. Try once more later.");
-> +            return ret;
-> +        }
->      }
->  
->      if (!bdrv_all_can_snapshot(&bs)) {
-> diff --git a/replay/meson.build b/replay/meson.build
-> index f91163fb1e..cb3207740a 100644
-> --- a/replay/meson.build
-> +++ b/replay/meson.build
-> @@ -1,4 +1,4 @@
-> -softmmu_ss.add(files(
-> +softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
->    'replay.c',
->    'replay-internal.c',
->    'replay-events.c',
-> diff --git a/stubs/replay.c b/stubs/replay.c
-> index 45ebe77fb9..ff35daf198 100644
-> --- a/stubs/replay.c
-> +++ b/stubs/replay.c
-> @@ -103,3 +103,102 @@ bool replay_reverse_continue(void)
->  {
->      return false;
->  }
-> +
-> +void replay_add_blocker(Error *reason)
-> +{
-> +}
-> +void replay_audio_in(size_t *recorded, void *samples, size_t *wpos, size_t size)
-> +{
-> +}
-> +void replay_audio_out(size_t *played)
-> +{
-> +}
-> +void replay_bh_schedule_event(QEMUBH *bh)
-> +{
-> +}
-> +void replay_breakpoint(void)
-> +{
-> +}
-> +bool replay_can_snapshot(void)
-> +{
-> +    return false;
-> +}
-> +void replay_configure(struct QemuOpts *opts)
-> +{
-> +}
-> +void replay_flush_events(void)
-> +{
-> +}
-> +void replay_gdb_attached(void)
-> +{
-> +}
-> +void replay_input_event(QemuConsole *src, InputEvent *evt)
-> +{
-> +}
-> +void replay_input_sync_event(void)
-> +{
-> +}
-> +void replay_net_packet_event(ReplayNetState *rns, unsigned flags,
-> +                             const struct iovec *iov, int iovcnt)
-> +{
-> +}
-> +ReplayNetState *replay_register_net(NetFilterState *nfs)
-> +{
-> +    return NULL;
-> +}
-> +bool replay_running_debug(void)
-> +{
-> +    return false;
-> +}
-> +void replay_shutdown_request(ShutdownCause cause)
-> +{
-> +}
-> +void replay_start(void)
-> +{
-> +}
-> +void replay_unregister_net(ReplayNetState *rns)
-> +{
-> +}
-> +void replay_vmstate_init(void)
-> +{
-> +}
-> +
-> +#include "monitor/monitor.h"
-> +#include "monitor/hmp.h"
-> +#include "qapi/qapi-commands-replay.h"
-> +#include "qapi/error.h"
-> +#include "qemu/error-report.h"
-> +
-> +void hmp_info_replay(Monitor *mon, const QDict *qdict)
-> +{
-> +    error_report("replay support not available\n");
-> +}
-> +void hmp_replay_break(Monitor *mon, const QDict *qdict)
-> +{
-> +    error_report("replay support not available\n");
-> +}
-> +void hmp_replay_delete_break(Monitor *mon, const QDict *qdict)
-> +{
-> +    error_report("replay support not available\n");
-> +}
-> +void hmp_replay_seek(Monitor *mon, const QDict *qdict)
-> +{
-> +    error_report("replay support not available\n");
-> +}
-> +ReplayInfo *qmp_query_replay(Error **errp)
-> +{
-> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
-> +    return NULL;
-> +}
-> +void qmp_replay_break(int64_t icount, Error **errp)
-> +{
-> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
-> +}
-> +void qmp_replay_delete_break(Error **errp)
-> +{
-> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
-> +}
-> +void qmp_replay_seek(int64_t icount, Error **errp)
-> +{
-> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
-> +}
-> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-> index 8a4c570e83..1c7186e53c 100644
-> --- a/tests/qtest/qmp-cmd-test.c
-> +++ b/tests/qtest/qmp-cmd-test.c
-> @@ -31,6 +31,9 @@ static int query_error_class(const char *cmd)
->  #ifndef CONFIG_SPICE
->          { "query-spice", ERROR_CLASS_COMMAND_NOT_FOUND },
->  #endif
-> +#ifndef CONFIG_TCG
-> +        { "query-replay", ERROR_CLASS_COMMAND_NOT_FOUND },
-> +#endif
->  #ifndef CONFIG_VNC
->          { "query-vnc", ERROR_CLASS_GENERIC_ERROR },
->          { "query-vnc-servers", ERROR_CLASS_GENERIC_ERROR },
-> 
+To make introspection possible, make all TYPE_USER_CREATABLE=0D
+classes use only class properties, and add a mechanism to lock=0D
+QOM properties so writable instance properties won't be allowed=0D
+anymore.=0D
+=0D
+Eduardo Habkost (12):=0D
+  qom: Helpers for pointer properties=0D
+  qom: Introduce PointerProperty struct=0D
+  qom: Make object_class_property_add_uint*_ptr() get offset=0D
+  sev: Use class properties=0D
+  rng: Use class properties=0D
+  can_host: Use class properties=0D
+  colo: Use class properties=0D
+  netfilter: Reorder functions=0D
+  netfilter: Use class properties=0D
+  input: Use class properties=0D
+  [RFC] qom: Property lock mechanism=0D
+  [RFC] qom: Lock properties of all TYPE_USER_CREATABLE types=0D
+=0D
+ include/qom/object.h           |  25 +++-=0D
+ backends/rng-egd.c             |  10 +-=0D
+ backends/rng-random.c          |   8 +-=0D
+ backends/rng.c                 |   6 +-=0D
+ net/can/can_host.c             |  16 +--=0D
+ net/colo-compare.c             |  57 ++++----=0D
+ net/dump.c                     |  10 +-=0D
+ net/filter-buffer.c            |  26 ++--=0D
+ net/filter-mirror.c            |  64 ++++-----=0D
+ net/filter-rewriter.c          |   7 +-=0D
+ net/filter.c                   |  24 ++--=0D
+ qom/object.c                   | 256 ++++++++++++++++++---------------=0D
+ qom/object_interfaces.c        |  11 ++=0D
+ target/i386/sev.c              |  22 +--=0D
+ tests/check-qom-proplist.c     |  10 +-=0D
+ tests/test-qdev-global-props.c |  70 +++++++++=0D
+ ui/input-barrier.c             |  44 +++---=0D
+ ui/input-linux.c               |  27 ++--=0D
+ 18 files changed, 407 insertions(+), 286 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
