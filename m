@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2404928833A
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:07:43 +0200 (CEST)
-Received: from localhost ([::1]:48590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA004288326
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:00:53 +0200 (CEST)
+Received: from localhost ([::1]:57026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQmVC-0006Xn-6X
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:07:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56398)
+	id 1kQmOZ-0006Kx-NS
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:00:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kQmAf-0006B6-05; Fri, 09 Oct 2020 02:46:29 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5213 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kQmAS-0001KR-Jy; Fri, 09 Oct 2020 02:46:28 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 3BAF7A5FC36138034763;
- Fri,  9 Oct 2020 14:46:13 +0800 (CST)
-Received: from localhost (10.174.186.238) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Fri, 9 Oct 2020
- 14:46:04 +0800
-From: zhaolichang <zhaolichang@huawei.com>
-To: <qemu-trivial@nongnu.org>
-Subject: [PATCH V2 14/14] target/: fix some comment spelling errors
-Date: Fri, 9 Oct 2020 14:44:49 +0800
-Message-ID: <20201009064449.2336-15-zhaolichang@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
-In-Reply-To: <20201009064449.2336-1-zhaolichang@huawei.com>
-References: <20201009064449.2336-1-zhaolichang@huawei.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDF-00008I-CD
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDC-0001Zh-CF
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602226143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fSOz6XF4Imbu1oaMRGmSndDOX/5VPBYGRJHWpX9x1DI=;
+ b=UNPcE01p8wB56mO+SJZggTSuXDkkYm2TglWRJJIvHPuTepgimqKlmH61nciBJ5TDiDuMDv
+ OGx8WaFQkxLPANh7fBhBX5xgavezuR47+Y0R85Epv8gOdginpGFoNxNJgrMGj6Qtdr3l5T
+ sn238VRB1pIP7aaDSvF7WFYZhpcO1fc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-476-8IVd4hoyNzWG8F2gE8YYig-1; Fri, 09 Oct 2020 02:49:01 -0400
+X-MC-Unique: 8IVd4hoyNzWG8F2gE8YYig-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 490C587950B;
+ Fri,  9 Oct 2020 06:49:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A68160BFA;
+ Fri,  9 Oct 2020 06:49:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8FA1E112CE10; Fri,  9 Oct 2020 08:48:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] Error reporting patches for 2020-10-09
+Date: Fri,  9 Oct 2020 08:48:56 +0200
+Message-Id: <20201009064858.323624-1-armbru@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.186.238]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:45:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,64 +78,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David
- Edmondson <david.edmondson@oracle.com>, zhaolichang <zhaolichang@huawei.com>,
- qemu-devel@nongnu.org, Philippe Mathieu-Daude <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I found that there are many spelling errors in the comments of qemu/target.
-I used spellcheck to check the spelling errors and found some errors in the folder.
+The following changes since commit 497d415d76b9f59fcae27f22df1ca2c3fa4df64e:
 
-Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-Reviewed-by: Philippe Mathieu-Daude<f4bug@amsat.org>
----
- target/openrisc/cpu.h        | 2 +-
- target/sparc/asi.h           | 2 +-
- target/unicore32/translate.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20201008-1' into staging (2020-10-08 21:41:20 +0100)
 
-diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index bd42faf144..8ca8605301 100644
---- a/target/openrisc/cpu.h
-+++ b/target/openrisc/cpu.h
-@@ -291,7 +291,7 @@ typedef struct CPUOpenRISCState {
-     int is_counting;
- 
-     uint32_t picmr;         /* Interrupt mask register */
--    uint32_t picsr;         /* Interrupt contrl register*/
-+    uint32_t picsr;         /* Interrupt control register*/
- #endif
-     void *irq[32];          /* Interrupt irq input */
- } CPUOpenRISCState;
-diff --git a/target/sparc/asi.h b/target/sparc/asi.h
-index bb58735ddb..4e9f1d59ed 100644
---- a/target/sparc/asi.h
-+++ b/target/sparc/asi.h
-@@ -231,7 +231,7 @@
- #define ASI_INTR_ID		0x63 /* (CMT) Interrupt ID register	*/
- #define ASI_CORE_ID		0x63 /* (CMT) LP ID register		*/
- #define ASI_CESR_ID		0x63 /* (CMT) CESR ID register		*/
--#define ASI_IC_INSTR		0x66 /* Insn cache instrucion ram diag	*/
-+#define ASI_IC_INSTR		0x66 /* Insn cache instruction ram diag	*/
- #define ASI_IC_TAG		0x67 /* Insn cache tag/valid ram diag 	*/
- #define ASI_IC_STAG		0x68 /* (III) Insn cache snoop tag ram	*/
- #define ASI_IC_PRE_DECODE	0x6e /* Insn cache pre-decode ram diag	*/
-diff --git a/target/unicore32/translate.c b/target/unicore32/translate.c
-index d4b06df672..2e91b05c15 100644
---- a/target/unicore32/translate.c
-+++ b/target/unicore32/translate.c
-@@ -119,7 +119,7 @@ static void load_reg_var(DisasContext *s, TCGv var, int reg)
- {
-     if (reg == 31) {
-         uint32_t addr;
--        /* normaly, since we updated PC */
-+        /* normally, since we updated PC */
-         addr = (long)s->pc;
-         tcg_gen_movi_i32(var, addr);
-     } else {
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/armbru.git tags/pull-error-2020-10-09
+
+for you to fetch changes up to 805d44961b9015716cc13c1d3e49457af3970d82:
+
+  error: Use error_fatal to simplify obvious fatal errors (again) (2020-10-09 08:36:23 +0200)
+
+----------------------------------------------------------------
+Error reporting patches for 2020-10-09
+
+----------------------------------------------------------------
+Markus Armbruster (2):
+      error: Remove NULL checks on error_propagate() calls (again)
+      error: Use error_fatal to simplify obvious fatal errors (again)
+
+ exec.c                     | 11 +++--------
+ hw/net/virtio-net.c        |  8 ++------
+ hw/s390x/s390-virtio-ccw.c |  7 +------
+ hw/virtio/vhost.c          | 10 +++-------
+ migration/colo.c           |  4 +---
+ migration/migration.c      |  8 ++------
+ 6 files changed, 12 insertions(+), 36 deletions(-)
+
 -- 
-2.26.2.windows.1
+2.26.2
 
 
