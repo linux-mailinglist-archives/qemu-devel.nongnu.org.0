@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BAF288C7C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 17:23:40 +0200 (CEST)
-Received: from localhost ([::1]:56686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF69288C7E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 17:23:43 +0200 (CEST)
+Received: from localhost ([::1]:56932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQuF9-00086m-A0
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 11:23:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50150)
+	id 1kQuFC-0008EE-3K
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 11:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCo-0006uB-OA
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:14 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56886)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCu-0006wf-5n
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:20 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCm-0004hb-L8
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:14 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCm-0004hk-Lx
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:19 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CDD70B245;
- Fri,  9 Oct 2020 15:21:10 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 2E8CAB24C;
+ Fri,  9 Oct 2020 15:21:11 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [RFC v1 3/4] qtest: do not build ide-test if TCG is not available
-Date: Fri,  9 Oct 2020 17:21:07 +0200
-Message-Id: <20201009152108.16120-4-cfontana@suse.de>
+Subject: [RFC v1 4/4] replay: do not build if TCG is not available
+Date: Fri,  9 Oct 2020 17:21:08 +0200
+Message-Id: <20201009152108.16120-5-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009152108.16120-1-cfontana@suse.de>
 References: <20201009152108.16120-1-cfontana@suse.de>
@@ -61,28 +61,179 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it seems that ide-test depends on TCG currently.
+replay requires icount, which needs TCG.
+
+stub the needed functions in stub/,
+including errors for hmp and qmp commands.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- tests/qtest/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ migration/savevm.c         | 11 +++--
+ replay/meson.build         |  2 +-
+ stubs/replay.c             | 99 ++++++++++++++++++++++++++++++++++++++
+ tests/qtest/qmp-cmd-test.c |  3 ++
+ 4 files changed, 110 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index ad33ac311d..3418f65e2a 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -46,9 +46,9 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
-+  (config_all.has_key('CONFIG_TCG') ? ['ide-test'] : []) +                                  \
-   qtests_pci +                                                                              \
-   ['fdc-test',
--   'ide-test',
-    'hd-geo-test',
-    'boot-order-test',
-    'bios-tables-test',
+diff --git a/migration/savevm.c b/migration/savevm.c
+index d2e141f7b1..d9181ca520 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -63,6 +63,7 @@
+ #include "migration/colo.h"
+ #include "qemu/bitmap.h"
+ #include "net/announce.h"
++#include "sysemu/tcg.h"
+ 
+ const unsigned int postcopy_ram_discard_version = 0;
+ 
+@@ -2674,10 +2675,12 @@ int save_snapshot(const char *name, Error **errp)
+         return ret;
+     }
+ 
+-    if (!replay_can_snapshot()) {
+-        error_setg(errp, "Record/replay does not allow making snapshot "
+-                   "right now. Try once more later.");
+-        return ret;
++    if (tcg_enabled()) {
++        if (!replay_can_snapshot()) {
++            error_setg(errp, "Record/replay does not allow making snapshot "
++                       "right now. Try once more later.");
++            return ret;
++        }
+     }
+ 
+     if (!bdrv_all_can_snapshot(&bs)) {
+diff --git a/replay/meson.build b/replay/meson.build
+index f91163fb1e..cb3207740a 100644
+--- a/replay/meson.build
++++ b/replay/meson.build
+@@ -1,4 +1,4 @@
+-softmmu_ss.add(files(
++softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'replay.c',
+   'replay-internal.c',
+   'replay-events.c',
+diff --git a/stubs/replay.c b/stubs/replay.c
+index 45ebe77fb9..ff35daf198 100644
+--- a/stubs/replay.c
++++ b/stubs/replay.c
+@@ -103,3 +103,102 @@ bool replay_reverse_continue(void)
+ {
+     return false;
+ }
++
++void replay_add_blocker(Error *reason)
++{
++}
++void replay_audio_in(size_t *recorded, void *samples, size_t *wpos, size_t size)
++{
++}
++void replay_audio_out(size_t *played)
++{
++}
++void replay_bh_schedule_event(QEMUBH *bh)
++{
++}
++void replay_breakpoint(void)
++{
++}
++bool replay_can_snapshot(void)
++{
++    return false;
++}
++void replay_configure(struct QemuOpts *opts)
++{
++}
++void replay_flush_events(void)
++{
++}
++void replay_gdb_attached(void)
++{
++}
++void replay_input_event(QemuConsole *src, InputEvent *evt)
++{
++}
++void replay_input_sync_event(void)
++{
++}
++void replay_net_packet_event(ReplayNetState *rns, unsigned flags,
++                             const struct iovec *iov, int iovcnt)
++{
++}
++ReplayNetState *replay_register_net(NetFilterState *nfs)
++{
++    return NULL;
++}
++bool replay_running_debug(void)
++{
++    return false;
++}
++void replay_shutdown_request(ShutdownCause cause)
++{
++}
++void replay_start(void)
++{
++}
++void replay_unregister_net(ReplayNetState *rns)
++{
++}
++void replay_vmstate_init(void)
++{
++}
++
++#include "monitor/monitor.h"
++#include "monitor/hmp.h"
++#include "qapi/qapi-commands-replay.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++
++void hmp_info_replay(Monitor *mon, const QDict *qdict)
++{
++    error_report("replay support not available\n");
++}
++void hmp_replay_break(Monitor *mon, const QDict *qdict)
++{
++    error_report("replay support not available\n");
++}
++void hmp_replay_delete_break(Monitor *mon, const QDict *qdict)
++{
++    error_report("replay support not available\n");
++}
++void hmp_replay_seek(Monitor *mon, const QDict *qdict)
++{
++    error_report("replay support not available\n");
++}
++ReplayInfo *qmp_query_replay(Error **errp)
++{
++    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
++    return NULL;
++}
++void qmp_replay_break(int64_t icount, Error **errp)
++{
++    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
++}
++void qmp_replay_delete_break(Error **errp)
++{
++    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
++}
++void qmp_replay_seek(int64_t icount, Error **errp)
++{
++    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
++}
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index 8a4c570e83..1c7186e53c 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -31,6 +31,9 @@ static int query_error_class(const char *cmd)
+ #ifndef CONFIG_SPICE
+         { "query-spice", ERROR_CLASS_COMMAND_NOT_FOUND },
+ #endif
++#ifndef CONFIG_TCG
++        { "query-replay", ERROR_CLASS_COMMAND_NOT_FOUND },
++#endif
+ #ifndef CONFIG_VNC
+         { "query-vnc", ERROR_CLASS_GENERIC_ERROR },
+         { "query-vnc-servers", ERROR_CLASS_GENERIC_ERROR },
 -- 
 2.26.2
 
