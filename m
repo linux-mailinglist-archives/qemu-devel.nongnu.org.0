@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC2F288DD4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:11:53 +0200 (CEST)
-Received: from localhost ([::1]:43204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230BC288DCA
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:09:54 +0200 (CEST)
+Received: from localhost ([::1]:37878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQuzo-00060x-CO
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59192)
+	id 1kQuxt-0003rD-5F
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:09:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQuqP-0003wM-AB
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:02:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34825)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kQupn-0003cn-5x
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQuqM-0001Cx-Bk
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:02:08 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kQupk-00016W-Od
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602259324;
+ s=mimecast20190719; t=1602259288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x/0WU02UGw93rIL/U7xfUdD3VvJQmzc6XB5lCRxb7ac=;
- b=OjbjTYWYVrO6uhi9N9LVHpB9XGlgtyyvHD2j110uW/zMi+uZNXluaerlrX8uEAGMKN+Ns6
- XAvl3uY/sHNKV9q0jsoWJlD1x9vBWsvreIfsuTEMZmqFjdwfcvegSFL3j8CsBE996CGdzP
- /XzFEZWHnGEVL1NRB+hWI6+Ic7fnyKQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-OPSQWlvbPbKlaXr9hbZ92w-1; Fri, 09 Oct 2020 12:02:03 -0400
-X-MC-Unique: OPSQWlvbPbKlaXr9hbZ92w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E2E2835B50
- for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 16:02:02 +0000 (UTC)
-Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D6815C1C7;
- Fri,  9 Oct 2020 16:01:56 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 10/12] input: Use class properties
-Date: Fri,  9 Oct 2020 12:01:20 -0400
-Message-Id: <20201009160122.1662082-11-ehabkost@redhat.com>
-In-Reply-To: <20201009160122.1662082-1-ehabkost@redhat.com>
-References: <20201009160122.1662082-1-ehabkost@redhat.com>
+ bh=WzfW2G2YyArVvPSRfAD+ZcXcvWq+k4EkN7y6hBkUoCM=;
+ b=Rc+9Wp+7a07A0AjayI16W2wuzSZYnRtF6PyPLtpvOTles+CsSJwY5R+QouDTwXvIq8xEyk
+ LZz5r8lAKbe95ELPvuigWlKbiNHwInBOzy0IAZBWcBqTA0sF0KKwL2eoRo/NYXNU0naOTu
+ WcV5Xk71D3EzMqRZCTo2UMhZy32KPpU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-pPgIaW-NOQ6XKZjV8Jtihw-1; Fri, 09 Oct 2020 12:01:23 -0400
+X-MC-Unique: pPgIaW-NOQ6XKZjV8Jtihw-1
+Received: by mail-wm1-f70.google.com with SMTP id w23so4279408wmi.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:01:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WzfW2G2YyArVvPSRfAD+ZcXcvWq+k4EkN7y6hBkUoCM=;
+ b=PMRtrc18uroFbl36uV4zaKtK6U1s6CuFnf8qyCT5bX/DmHKF03t/miVvMGwLkQM6rb
+ Rl4gJp5JVtpMQBkPenna0WhZc3c6tI9x4xGyvNViBHqQvg87sjD5UH/84H65Bx8HMyHm
+ ye5N/7bM0WdbSPHa/2SmiQoGkJlmLQrABePkRW+wNoLGmMGJBwvN6V2aOLTugvrApH2Z
+ KeYvtkGV4AVwS+y9q1lCVUIgwhmdsfSixBEytqnVfkI8M7ZPj4JDJQqL6Zmv3Ddiceso
+ albWi2GAryQ16+yk+Xzdy80zlipLTwj6qVsFZUGX/9QGrdCLUQ4fwaSRr/psRDzTG0ud
+ 0HTA==
+X-Gm-Message-State: AOAM531babNZZsNs3L6C9Xw1k7hnEbh2Co/+FZ88lYpakOuJZBdij3kC
+ PzoqXMC1HuiRsljrClXb8JakW1orsh51fXkYAITef4wo6avOYVwHSGhTt/KJlENzs5FsHvJQcNp
+ GnlZ3DGTMC3BiElw=
+X-Received: by 2002:a5d:6a43:: with SMTP id t3mr16295853wrw.426.1602259282511; 
+ Fri, 09 Oct 2020 09:01:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbJ4919KL0TjSqGLFKGoKgwxjShxGH6C65OV6Y7M14mIo9t3NMAZVojut/VQaD3wqpThW1Cw==
+X-Received: by 2002:a5d:6a43:: with SMTP id t3mr16295826wrw.426.1602259282298; 
+ Fri, 09 Oct 2020 09:01:22 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:cee1:4797:6958:7698?
+ ([2001:b07:6468:f312:cee1:4797:6958:7698])
+ by smtp.gmail.com with ESMTPSA id w11sm12782744wrn.27.2020.10.09.09.01.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Oct 2020 09:01:21 -0700 (PDT)
+Subject: Re: [RFC v1 3/4] qtest: do not build ide-test if TCG is not available
+To: Claudio Fontana <cfontana@suse.de>
+References: <20201009152108.16120-1-cfontana@suse.de>
+ <20201009152108.16120-4-cfontana@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <673c52e5-e22e-bda1-b262-ec476a966f3f@redhat.com>
+Date: Fri, 9 Oct 2020 18:01:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201009152108.16120-4-cfontana@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,131 +102,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instance properties make introspection hard and are not shown by
-"-object ...,help".  Convert them to class properties.
+On 09/10/20 17:21, Claudio Fontana wrote:
+> it seems that ide-test depends on TCG currently.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>  tests/qtest/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index ad33ac311d..3418f65e2a 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -46,9 +46,9 @@ qtests_i386 = \
+>    (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-test'] : []) +              \
+>    (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
+>    (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
+> +  (config_all.has_key('CONFIG_TCG') ? ['ide-test'] : []) +                                  \
+>    qtests_pci +                                                                              \
+>    ['fdc-test',
+> -   'ide-test',
+>     'hd-geo-test',
+>     'boot-order-test',
+>     'bios-tables-test',
+> 
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org
----
- ui/input-barrier.c | 44 ++++++++++++++++++++++----------------------
- ui/input-linux.c   | 27 ++++++++++++++-------------
- 2 files changed, 36 insertions(+), 35 deletions(-)
+Interesting, why?...
 
-diff --git a/ui/input-barrier.c b/ui/input-barrier.c
-index a047919fde..8e886a6495 100644
---- a/ui/input-barrier.c
-+++ b/ui/input-barrier.c
-@@ -689,34 +689,34 @@ static void input_barrier_instance_init(Object *obj)
-     ib->y_origin = 0;
-     ib->width = 1920;
-     ib->height = 1080;
--
--    object_property_add_str(obj, "name",
--                            input_barrier_get_name,
--                            input_barrier_set_name);
--    object_property_add_str(obj, "server",
--                            input_barrier_get_server,
--                            input_barrier_set_server);
--    object_property_add_str(obj, "port",
--                            input_barrier_get_port,
--                            input_barrier_set_port);
--    object_property_add_str(obj, "x-origin",
--                            input_barrier_get_x_origin,
--                            input_barrier_set_x_origin);
--    object_property_add_str(obj, "y-origin",
--                            input_barrier_get_y_origin,
--                            input_barrier_set_y_origin);
--    object_property_add_str(obj, "width",
--                            input_barrier_get_width,
--                            input_barrier_set_width);
--    object_property_add_str(obj, "height",
--                            input_barrier_get_height,
--                            input_barrier_set_height);
- }
- 
- static void input_barrier_class_init(ObjectClass *oc, void *data)
- {
-     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
- 
-+    object_class_property_add_str(oc, "name",
-+                                  input_barrier_get_name,
-+                                  input_barrier_set_name);
-+    object_class_property_add_str(oc, "server",
-+                                  input_barrier_get_server,
-+                                  input_barrier_set_server);
-+    object_class_property_add_str(oc, "port",
-+                                  input_barrier_get_port,
-+                                  input_barrier_set_port);
-+    object_class_property_add_str(oc, "x-origin",
-+                                  input_barrier_get_x_origin,
-+                                  input_barrier_set_x_origin);
-+    object_class_property_add_str(oc, "y-origin",
-+                                  input_barrier_get_y_origin,
-+                                  input_barrier_set_y_origin);
-+    object_class_property_add_str(oc, "width",
-+                                  input_barrier_get_width,
-+                                  input_barrier_set_width);
-+    object_class_property_add_str(oc, "height",
-+                                  input_barrier_get_height,
-+                                  input_barrier_set_height);
-+
-     ucc->complete = input_barrier_complete;
- }
- 
-diff --git a/ui/input-linux.c b/ui/input-linux.c
-index ab351a4187..df3dff8898 100644
---- a/ui/input-linux.c
-+++ b/ui/input-linux.c
-@@ -489,25 +489,26 @@ static void input_linux_set_grab_toggle(Object *obj, int value,
- 
- static void input_linux_instance_init(Object *obj)
- {
--    object_property_add_str(obj, "evdev",
--                            input_linux_get_evdev,
--                            input_linux_set_evdev);
--    object_property_add_bool(obj, "grab_all",
--                             input_linux_get_grab_all,
--                             input_linux_set_grab_all);
--    object_property_add_bool(obj, "repeat",
--                             input_linux_get_repeat,
--                             input_linux_set_repeat);
--    object_property_add_enum(obj, "grab-toggle", "GrabToggleKeys",
--                             &GrabToggleKeys_lookup,
--                             input_linux_get_grab_toggle,
--                             input_linux_set_grab_toggle);
- }
- 
- static void input_linux_class_init(ObjectClass *oc, void *data)
- {
-     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
- 
-+    object_class_property_add_str(oc, "evdev",
-+                                  input_linux_get_evdev,
-+                                  input_linux_set_evdev);
-+    object_class_property_add_bool(oc, "grab_all",
-+                                   input_linux_get_grab_all,
-+                                   input_linux_set_grab_all);
-+    object_class_property_add_bool(oc, "repeat",
-+                                   input_linux_get_repeat,
-+                                   input_linux_set_repeat);
-+    object_class_property_add_enum(oc, "grab-toggle", "GrabToggleKeys",
-+                                   &GrabToggleKeys_lookup,
-+                                   input_linux_get_grab_toggle,
-+                                   input_linux_set_grab_toggle);
-+
-     ucc->complete = input_linux_complete;
- }
- 
--- 
-2.26.2
+Paolo
 
 
