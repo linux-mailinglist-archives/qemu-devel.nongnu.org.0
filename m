@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0EC6288F2F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:52:10 +0200 (CEST)
-Received: from localhost ([::1]:59566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2584288F2D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:49:53 +0200 (CEST)
+Received: from localhost ([::1]:52388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvcn-0001WC-RK
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34882)
+	id 1kQvaa-0006xq-L6
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:49:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQv4a-0004Wc-Ea
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:16:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40659)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQv4Y-0004Rj-8e
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:16:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQv4W-0003Ln-CT
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:16:48 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kQv4W-0003M9-7t
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:16:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602260197;
+ s=mimecast20190719; t=1602260199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F5apthK+JxyMfvvIZd6yAMPltzFKRI+88ZPYYQLfkSM=;
- b=arOuAeVSkxJlwDeB3Pl6/9vfynGazsOedFuz1gTX2me5AE2UeGmujxSceABUmUK+HqVYav
- xKu0esGjT96V+/6q+W9OgRjeVWxzt/iEvDMB/czE7np2D9yLQY8MfxfHScNYA/qZlCCZce
- TMLXLFuzIZyqVJCYTscCtvs+0o3kki8=
+ bh=sPjifP2+5n1lXhEe2k7KoPcz05HQPVwHmBY5e5Aozlg=;
+ b=fNAa2rd0iirVRI3VGCtwWl5IvIg5+eJ0jVnjgPj4bTOwroG9zhriKQzaPvETlEfBh6AdGB
+ lWy0iEXRCZPB1MAkDGnr+jSqtZfK1YCu5AoGZmLbypWRmdcOxu6PZ+uR1X+1LTcC+m3dRZ
+ 5dYy+PdRQWKmVfd/lUXwiQs3x8Y9XCI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-1wW5w32kNH28MOcjANO1OA-1; Fri, 09 Oct 2020 12:16:36 -0400
-X-MC-Unique: 1wW5w32kNH28MOcjANO1OA-1
+ us-mta-189-2eAcXdxlMRGPjEaEzUM8HQ-1; Fri, 09 Oct 2020 12:16:37 -0400
+X-MC-Unique: 2eAcXdxlMRGPjEaEzUM8HQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26B5D100746B;
- Fri,  9 Oct 2020 16:16:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E85418829D4;
+ Fri,  9 Oct 2020 16:16:36 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-203.rdu2.redhat.com [10.10.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A2B119936;
- Fri,  9 Oct 2020 16:16:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FC6C1A925;
+ Fri,  9 Oct 2020 16:16:35 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 29/36] qapi/gen.py: Remove unused parameter
-Date: Fri,  9 Oct 2020 12:15:51 -0400
-Message-Id: <20201009161558.107041-30-jsnow@redhat.com>
+Subject: [PATCH v6 30/36] qapi/gen.py: update write() to be more idiomatic
+Date: Fri,  9 Oct 2020 12:15:52 -0400
+Message-Id: <20201009161558.107041-31-jsnow@redhat.com>
 In-Reply-To: <20201009161558.107041-1-jsnow@redhat.com>
 References: <20201009161558.107041-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,37 +84,66 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-_module_dirname doesn't use the 'what' argument, so remove it.
+Make the file handling here just a tiny bit more idiomatic.
+(I realize this is heavily subjective.)
+
+Use exist_ok=True for os.makedirs and remove the exception,
+use fdopen() to wrap the file descriptor in a File-like object,
+and use a context manager for managing the file pointer.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/gen.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/qapi/gen.py | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 6b1007a0351..8b851c6262a 100644
+index 8b851c6262a..670c21e2109 100644
 --- a/scripts/qapi/gen.py
 +++ b/scripts/qapi/gen.py
-@@ -257,7 +257,7 @@ def _is_user_module(name: Optional[str]) -> bool:
-     def _is_builtin_module(name: Optional[str]) -> bool:
-         return not name
+@@ -12,7 +12,6 @@
+ # See the COPYING file in the top-level directory.
  
--    def _module_dirname(self, what: str, name: Optional[str]) -> str:
-+    def _module_dirname(self, name: Optional[str]) -> str:
-         if self._is_user_module(name):
-             return os.path.dirname(name)
-         return ''
-@@ -275,7 +275,7 @@ def _module_basename(self, what: str, name: Optional[str]) -> str:
-         return ret
+ from contextlib import contextmanager
+-import errno
+ import os
+ import re
+ from typing import (
+@@ -65,21 +64,19 @@ def write(self, output_dir: str) -> None:
+             return
+         pathname = os.path.join(output_dir, self.fname)
+         odir = os.path.dirname(pathname)
++
+         if odir:
+-            try:
+-                os.makedirs(odir)
+-            except os.error as e:
+-                if e.errno != errno.EEXIST:
+-                    raise
++            os.makedirs(odir, exist_ok=True)
++
++        # use os.open for O_CREAT to create and read a non-existant file
+         fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
+-        f = open(fd, 'r+', encoding='utf-8')
+-        text = self.get_content()
+-        oldtext = f.read(len(text) + 1)
+-        if text != oldtext:
+-            f.seek(0)
+-            f.truncate(0)
+-            f.write(text)
+-        f.close()
++        with os.fdopen(fd, 'r+', encoding='utf-8') as fp:
++            text = self.get_content()
++            oldtext = fp.read(len(text) + 1)
++            if text != oldtext:
++                fp.seek(0)
++                fp.truncate(0)
++                fp.write(text)
  
-     def _module_filename(self, what: str, name: Optional[str]) -> str:
--        return os.path.join(self._module_dirname(what, name),
-+        return os.path.join(self._module_dirname(name),
-                             self._module_basename(what, name))
  
-     def _add_module(self, name: Optional[str], blurb: str) -> None:
+ def _wrap_ifcond(ifcond: List[str], before: str, after: str) -> str:
 -- 
 2.26.2
 
