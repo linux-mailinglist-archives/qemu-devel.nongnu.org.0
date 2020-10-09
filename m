@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C072C288F96
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:10:08 +0200 (CEST)
-Received: from localhost ([::1]:55114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3D1288FE0
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:17:41 +0200 (CEST)
+Received: from localhost ([::1]:48930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvuB-0006Fe-Qq
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:10:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46626)
+	id 1kQw1U-0006z6-EB
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:17:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvrx-0004Kc-Mm
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:49 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37562)
+ id 1kQvs4-0004am-Ri
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:56 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvrv-0001J1-VR
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:49 -0400
-Received: by mail-wm1-x344.google.com with SMTP id j136so10534341wmj.2
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:07:47 -0700 (PDT)
+ id 1kQvs1-0001Je-1Q
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:56 -0400
+Received: by mail-wr1-x444.google.com with SMTP id h5so977613wrv.7
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:07:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=H1zBaXIPUFkoRX522wNIGvBuniNlrLtU+nW3sIqZkhk=;
- b=a1UJY9UUndOq/LM+zjcD4nSmLuV1s0Xc6DJ1lJbq8GujJOJKZ9agpdBHdtM1rQyArc
- Y7SUFRAjetL3Aq9jM7ulzCeBA7kZMCXx7NjJkWJ5+/6qjExXr89fEzfNBpnxd31jUgrE
- kp1A/GiNWKr2TERmq0A0q+H6LuZRIURRVzhaFKSgG+N9ADvfHqvk5Ej0BGZqMto/wIIQ
- 2jELF/Pn9i8FLna2zd7RzgcUBUh2ORV3jrbPqIfa5mtMblQ9OQRBj+Geq/Y7U5Owl/B+
- fkTqcBVyu1lyG5O6soA2zDA290qCgF1sNb/4noOmPB4DxaMwvc6zRm0iEuJCiX5Wi/IA
- JTPw==
+ bh=ZdPHbQWRDkMxBC6O5/k+6hitBUPm7MDCOKjfSyNLevM=;
+ b=QxJ8VjkOoFEw2blUOaL6YrmJYKFr72+rBo+ePvs8Q+7ts+IZdW24CKmosMAaP+DIzp
+ 13qs66HVHwI3w348BC+87IO2Q9kwrog6OuO6O2F5WwRhI3ULVNUWBcHjpD9qffBwsC2A
+ GySUQP0ArfaaCZEyRP23tIxRANgrNCLF1PAKWXcLN2VdbauTMSupSJzDc68JE61dDrZ3
+ XXNjrMIPWRlEMJ3wLLBoN6HElc+M2UtyVufb83/F0MGb3siQXOFUk0IQXN+4XQ5ttIVg
+ Dkq3KUduwiCR14ZIr8lpZ33m+IS1tPnkYBaP6JwOdrZY3KvPM8gKR1cA16IuxlzMAdly
+ zlMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=H1zBaXIPUFkoRX522wNIGvBuniNlrLtU+nW3sIqZkhk=;
- b=BbA89aV0bbzfW8Sw8OQyjppDyVsxgQt/oiy2IKd807QFcKwm7/h95ikoyAG7YfEqfp
- c3jHjCEZ4DVEnrc/q8Ur8A9WQsfVisL7afsHLL+EQ2qeq5r8LjPH5FIji4QDoE/msZlY
- b8QZhJAIkhWFpLUPfn8zvCx38LJ0Rmt7mQVpFSmhE05ZBgN2OwgVdrqLEPVZhjeTRjW5
- RaA0b9I1pJo+1qHJG4ht4DmXdUIzVRNzq+UtIXrdjwj70FC/K9XTVIctKM6ceFzUNLrF
- ZYk1BslwxNzzjct+7IU6OtDNntm+9xtrabIp2jbtCq+PTXW/+VsWm+gWYBrqGpmTOC0/
- 8kDQ==
-X-Gm-Message-State: AOAM532EYhEeghZ3CTgCRgcdbXoqVq3MD3MdpXmb1yvY0OtEUZU1wOyO
- zLJ4MEv0V+T1f4DISbXDenQ0LA==
-X-Google-Smtp-Source: ABdhPJw8FRMgfC7wNrTD6RRMQN2j4IoWnGsmeodKV4EKmU7C84r/n8cbeIQE+V1x4aXKRgAEu00miQ==
-X-Received: by 2002:a1c:35c5:: with SMTP id c188mr15663479wma.11.1602263266496; 
- Fri, 09 Oct 2020 10:07:46 -0700 (PDT)
+ bh=ZdPHbQWRDkMxBC6O5/k+6hitBUPm7MDCOKjfSyNLevM=;
+ b=TAPBTAG25JWh8MG0hP3VqD22tC7OV8VcD5rXmRTd0Twu2PKsQ12PFu1cllWeUZDV9p
+ is3CW0jY+gZYNjUXF14yYEhZgAupo75i/UQRtIgoyUZG8bwj0i+QJmsUrsrJvTajzTu7
+ siiyIzZoRaVz9PL+XLPHDB33tsaIax69YQ0kyhPunoII0Wu98YdkRPq79RYXPmEMqE+Y
+ qO3uqniy3k6eU11DA3RA8xkdnvNzeGx5tALlmIErN+6KD8L/c0rfja3qzEQGUrlVA4hZ
+ A6CRQq7W9EuPg7WW2qTpMNtCndM+lbfE3ZI9Rp69b14SbFn5BEaW0mczsaT5YtHFrQIv
+ Zb8g==
+X-Gm-Message-State: AOAM531C6k1SOF188KFt358ZC6FR7RgRawi2A0I40Z29LXaBS5JNRq4X
+ 9HQ8bh/ZdAaR9LWSc71vx/y0Fj5iKn/b4Q==
+X-Google-Smtp-Source: ABdhPJzBTG8S2iDQv3fYepAE31HOUZQZmfqUfnAmzKqE2VuZs4KUujdBtI985biN7gAxGTvEVk0wAA==
+X-Received: by 2002:a5d:5449:: with SMTP id w9mr17032286wrv.182.1602263271620; 
+ Fri, 09 Oct 2020 10:07:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p9sm12037660wmm.4.2020.10.09.10.07.43
+ by smtp.gmail.com with ESMTPSA id n9sm12345629wrq.72.2020.10.09.10.07.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 10:07:43 -0700 (PDT)
+ Fri, 09 Oct 2020 10:07:45 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 360001FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 57A231FF8F;
  Fri,  9 Oct 2020 18:07:43 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  2/4] hw/riscv: migrate fdt field to generic MachineState
-Date: Fri,  9 Oct 2020 18:07:40 +0100
-Message-Id: <20201009170742.23695-3-alex.bennee@linaro.org>
+Subject: [RFC PATCH 3/4] device_tree: add qemu_fdt_setprop_string_array helper
+Date: Fri,  9 Oct 2020 18:07:41 +0100
+Message-Id: <20201009170742.23695-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201009170742.23695-1-alex.bennee@linaro.org>
 References: <20201009170742.23695-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,95 +88,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- masami.hiramatsu@linaro.org, andre.przywara@arm.com,
+Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
  stefano.stabellini@linaro.org, takahiro.akashi@linaro.org,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>, stefano.stabellini@xilinx.com,
+ Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>, stefano.stabellini@xilinx.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
  stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a mechanical change to make the fdt available through
-MachineState.
+A string array in device tree is simply a series of \0 terminated
+strings next to each other. As libfdt doesn't support that directly
+we need to build it ourselves.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/hw/riscv/virt.h |  1 -
- hw/riscv/virt.c         | 18 +++++++++---------
- 2 files changed, 9 insertions(+), 10 deletions(-)
+ include/sysemu/device_tree.h | 17 +++++++++++++++++
+ device_tree.c                | 26 ++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index b4ed9a32eb..6505ae8d23 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -41,7 +41,6 @@ struct RISCVVirtState {
-     DeviceState *plic[VIRT_SOCKETS_MAX];
-     PFlashCFI01 *flash[2];
- 
--    void *fdt;
-     int fdt_size;
- };
- 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 41bd2f38ba..17c0706156 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -194,7 +194,7 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
-     hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
-     hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
- 
--    fdt = s->fdt = create_device_tree(&s->fdt_size);
-+    fdt = mc->fdt = create_device_tree(&s->fdt_size);
-     if (!fdt) {
-         error_report("create_device_tree() failed");
-         exit(1);
-@@ -434,12 +434,12 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
-     g_free(name);
- 
-     name = g_strdup_printf("/soc/flash@%" PRIx64, flashbase);
--    qemu_fdt_add_subnode(s->fdt, name);
--    qemu_fdt_setprop_string(s->fdt, name, "compatible", "cfi-flash");
--    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "cfi-flash");
-+    qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg",
-                                  2, flashbase, 2, flashsize,
-                                  2, flashbase + flashsize, 2, flashsize);
--    qemu_fdt_setprop_cell(s->fdt, name, "bank-width", 4);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "bank-width", 4);
-     g_free(name);
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index 982c89345f..8a2fe55622 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -70,6 +70,23 @@ int qemu_fdt_setprop_u64(void *fdt, const char *node_path,
+                          const char *property, uint64_t val);
+ int qemu_fdt_setprop_string(void *fdt, const char *node_path,
+                             const char *property, const char *string);
++
++/**
++ * qemu_fdt_setprop_string_array: set a string array property
++ *
++ * @fdt: pointer to the dt blob
++ * @name: node name
++ * @prop: property array
++ * @array: pointer to an array of string pointers
++ * @len: length of array
++ *
++ * assigns a string array to a property. This function converts and
++ * array of strings to a sequential string with \0 separators before
++ * setting the property.
++ */
++int qemu_fdt_setprop_string_array(void *fdt, const char *node_path,
++                                  const char *prop, char **array, int len);
++
+ int qemu_fdt_setprop_phandle(void *fdt, const char *node_path,
+                              const char *property,
+                              const char *target_node_path);
+diff --git a/device_tree.c b/device_tree.c
+index b335dae707..a19873316a 100644
+--- a/device_tree.c
++++ b/device_tree.c
+@@ -21,6 +21,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/option.h"
+ #include "qemu/bswap.h"
++#include "qemu/cutils.h"
+ #include "sysemu/device_tree.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/loader.h"
+@@ -397,6 +398,31 @@ int qemu_fdt_setprop_string(void *fdt, const char *node_path,
+     return r;
  }
  
-@@ -613,9 +613,9 @@ static void virt_machine_init(MachineState *machine)
-             hwaddr end = riscv_load_initrd(machine->initrd_filename,
-                                            machine->ram_size, kernel_entry,
-                                            &start);
--            qemu_fdt_setprop_cell(s->fdt, "/chosen",
-+            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-                                   "linux,initrd-start", start);
--            qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-+            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
-                                   end);
-         }
-     } else {
-@@ -636,11 +636,11 @@ static void virt_machine_init(MachineState *machine)
- 
-     /* Compute the fdt load address in dram */
-     fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
--                                   machine->ram_size, s->fdt);
-+                                   machine->ram_size, machine->fdt);
-     /* load the reset vector */
-     riscv_setup_rom_reset_vec(start_addr, virt_memmap[VIRT_MROM].base,
-                               virt_memmap[VIRT_MROM].size, kernel_entry,
--                              fdt_load_addr, s->fdt);
-+                              fdt_load_addr, machine->fdt);
- 
-     /* SiFive Test MMIO device */
-     sifive_test_create(memmap[VIRT_TEST].base);
++/*
++ * libfdt doesn't allow us to add string arrays directly but they are
++ * test a series of null terminated strings with a length. We build
++ * the string up here so we can calculate the final length.
++ */
++int qemu_fdt_setprop_string_array(void *fdt, const char *node_path, const char *prop,
++                                  char **array, int len)
++{
++    int ret, i, total_len = 0;
++    char *str, *p;
++    for (i = 0; i < len; i++) {
++        total_len += strlen(array[i]) + 1;
++    }
++    p = str = g_malloc0(total_len);
++    for (i = 0; i < len; i++) {
++        int len = strlen(array[i]) + 1;
++        pstrcpy(p, len, array[i]);
++        p += len;
++    }
++
++    ret = qemu_fdt_setprop(fdt, node_path, prop, str, total_len);
++    g_free(str);
++    return ret;
++}
++
+ const void *qemu_fdt_getprop(void *fdt, const char *node_path,
+                              const char *property, int *lenp, Error **errp)
+ {
 -- 
 2.20.1
 
