@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D4B28997E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 22:12:18 +0200 (CEST)
-Received: from localhost ([::1]:41476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F4128982C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 22:06:51 +0200 (CEST)
+Received: from localhost ([::1]:60242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQykT-0002ag-Pd
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 16:12:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54542)
+	id 1kQyfC-00072q-F1
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 16:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQyWC-0008WK-58
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:57:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59559)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQybp-0005Z6-3G
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 16:03:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQyW9-0005qI-7G
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:57:31 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQybk-0006fR-TL
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 16:03:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602273414;
+ s=mimecast20190719; t=1602273790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OPFeCcoMQP/e2elK3jSrN60RnVqJbxdMoTQQ5fcokBw=;
- b=bKVpccsSFDoxpfJZiizwPEPGyznuNVYImRlLrGA5XiHfp5OkOov3gwEZGyOm1tk5y/CpLq
- 1pbLx4mkddoCgeCqWasmZOfdvyY++1h2epQCJGNxRtvfgK2L30LKQAbfKBssxhC7P7O1ph
- OycPpi8c0UsTZNRRYhDnCcwgUWYJzfg=
+ bh=qU/bPSK5PU8PtjXex0oF/MHIAfy7WWkuZM2pTLFLyBM=;
+ b=XDTEpm06tJf7VNW1ktpj6N/2cls72vpiQjYZoUOe8NVzPw7UqmqPcHahDUnzUo1NRfkF/k
+ UCfccjaU2dsxEBsxE7VAKafB2fQuu+QBc6Pho8eQs7tswvQZc61vVcuwiDk2bbzn6MR7pP
+ gStE7uj3lygeTSn5utud4saiCbI2mEM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-cmpz0bItMXG4M9qUdjccOg-1; Fri, 09 Oct 2020 15:56:52 -0400
-X-MC-Unique: cmpz0bItMXG4M9qUdjccOg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-161-jr_9uMuiPKa22HlZMnj0Xw-1; Fri, 09 Oct 2020 16:03:08 -0400
+X-MC-Unique: jr_9uMuiPKa22HlZMnj0Xw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECC50186DD29;
- Fri,  9 Oct 2020 19:56:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CB1A85B685;
+ Fri,  9 Oct 2020 20:03:07 +0000 (UTC)
 Received: from [10.3.113.14] (ovpn-113-14.phx2.redhat.com [10.3.113.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 687546266E;
- Fri,  9 Oct 2020 19:56:50 +0000 (UTC)
-Subject: Re: [PATCH] block/blkdebug: fix memory leak
-To: Elena Afanasova <eafanasova@gmail.com>, kwolf@redhat.com,
- mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <1e903f928eb3da332cc95e2a6f87243bd9fe66e4.camel@gmail.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CBA4019728;
+ Fri,  9 Oct 2020 20:02:59 +0000 (UTC)
+Subject: Re: [PATCH 3/3] qom: Simplify and merge pointer property
+ getters/setters
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20201009191520.1799419-1-ehabkost@redhat.com>
+ <20201009191520.1799419-4-ehabkost@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Autocrypt: addr=eblake@redhat.com; keydata=
  mQENBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
@@ -90,32 +91,32 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  0t/Wx0llylWVG6mjD6pY/8+lIJNNu/9xlIxx6/FpHi9Xs1nqWA2O1kqF8H6AC9lF2LDAK/7l
  J3EipX47wK4bHo9EuM26optmWOkvGkVsPeCd20ryUfjcG7N+Bj0w+D4=
 Organization: Red Hat, Inc.
-Message-ID: <2a2b524b-337b-ff2d-d4c9-39e04f4a7a55@redhat.com>
-Date: Fri, 9 Oct 2020 14:56:49 -0500
+Message-ID: <3f01d20b-b172-5fb0-6659-8aafad2ed4be@redhat.com>
+Date: Fri, 9 Oct 2020 15:02:58 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <1e903f928eb3da332cc95e2a6f87243bd9fe66e4.camel@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201009191520.1799419-4-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="f5gABgER9E4urbxanJoJ5GuAP3En4TSBz"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ boundary="lhtWAuC9dW82qkX9jDKNe2TQdvXe4Gfli"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,53 +129,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---f5gABgER9E4urbxanJoJ5GuAP3En4TSBz
-Content-Type: multipart/mixed; boundary="8cSYvKjBfVQSf1VLLQwjUXdHYsFKRspzu";
+--lhtWAuC9dW82qkX9jDKNe2TQdvXe4Gfli
+Content-Type: multipart/mixed; boundary="BeibW0gvqK1fCNnpweBmgJw5Di4OaClbL";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
-To: Elena Afanasova <eafanasova@gmail.com>, kwolf@redhat.com,
- mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-Message-ID: <2a2b524b-337b-ff2d-d4c9-39e04f4a7a55@redhat.com>
-Subject: Re: [PATCH] block/blkdebug: fix memory leak
-References: <1e903f928eb3da332cc95e2a6f87243bd9fe66e4.camel@gmail.com>
-In-Reply-To: <1e903f928eb3da332cc95e2a6f87243bd9fe66e4.camel@gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Message-ID: <3f01d20b-b172-5fb0-6659-8aafad2ed4be@redhat.com>
+Subject: Re: [PATCH 3/3] qom: Simplify and merge pointer property
+ getters/setters
+References: <20201009191520.1799419-1-ehabkost@redhat.com>
+ <20201009191520.1799419-4-ehabkost@redhat.com>
+In-Reply-To: <20201009191520.1799419-4-ehabkost@redhat.com>
 
---8cSYvKjBfVQSf1VLLQwjUXdHYsFKRspzu
+--BeibW0gvqK1fCNnpweBmgJw5Di4OaClbL
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 10/9/20 2:09 PM, Elena Afanasova wrote:
-> Spotted by PVS-Studio
+On 10/9/20 2:15 PM, Eduardo Habkost wrote:
+> Both the property getter and setter for pointer properties can
+> simply call the visitor functions directly, instead of making
+> extra copies and requiring additional logic.
 >=20
-> Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+> Remove the extra copying logic, and merge the getter and setter
+> functions in object_visit_uint*_ptr() accessors.
+>=20
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  block/blkdebug.c | 1 +
->  1 file changed, 1 insertion(+)
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
+>  qom/object.c | 114 ++++++++++-----------------------------------------
+>  1 file changed, 22 insertions(+), 92 deletions(-)
 >=20
-> diff --git a/block/blkdebug.c b/block/blkdebug.c
-> index eecbf3e5c4..54da719dd1 100644
-> --- a/block/blkdebug.c
-> +++ b/block/blkdebug.c
-> @@ -215,6 +215,7 @@ static int add_rule(void *opaque, QemuOpts *opts, Err=
-or **errp)
->                                   BLKDEBUG_IO_TYPE__MAX, &local_error);
->          if (local_error) {
->              error_propagate(errp, local_error);
-> +            g_free(rule);
->              return -1;
->          }
->          if (iotype !=3D BLKDEBUG_IO_TYPE__MAX) {
->=20
+> diff --git a/qom/object.c b/qom/object.c
+> index 6b4dfc279a..3b343fd118 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -2496,119 +2496,57 @@ static void *pointer_property_get_ptr(Object *ob=
+j, PointerProperty *prop)
+>      }
+>  }
+> =20
+> -static void property_get_uint8_ptr(Object *obj, Visitor *v, const char *=
+name,
+> +static void property_visit_uint8_ptr(Object *obj, Visitor *v, const char=
+ *name,
+>                                     void *opaque, Error **errp)
+
+Indentation is now off.  Several instances.
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -182,25 +201,25 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---8cSYvKjBfVQSf1VLLQwjUXdHYsFKRspzu--
+--BeibW0gvqK1fCNnpweBmgJw5Di4OaClbL--
 
---f5gABgER9E4urbxanJoJ5GuAP3En4TSBz
+--lhtWAuC9dW82qkX9jDKNe2TQdvXe4Gfli
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl+AwIEACgkQp6FrSiUn
-Q2od4Qf7Bx6zO/LOrmDqT+SByeWAw0ntHYB3jkLW45qxIr2itTwouWwpydU083tV
-LLeUGHjrxpdz+HrQQOi5vxxLX8W0QAKP7PFBUDmHsXW12LReUCaUO69gEEtUVpBx
-tXlClkNBcr3hX/VZD+lZCMX1NHKfl9jnRW7uZEWqVmkwSaXAdPwLeIBUVLKuS2pW
-bHWIKopkt0NQ06vhcmOA/rGkJieQA+IaqKWOcHdSBIW7OAvBmYKI/d6DEVSEGQyD
-dv0VxPlN3P4+4bSuceou78fsRrbEosUIf8h43/3zMWe+xSbI/sg/rlfB5c/h//EU
-to6vfLoRPPIk5UQ6wwKzVt2EQjeuwg==
-=Fxdp
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl+AwfIACgkQp6FrSiUn
+Q2oeSAgAq25pZZyKX4Pu+U6DdahaAgpJcs/HUPhNQUu7VnWoh4NdPbrWokFG9tFN
+Mqy5f2oXu1HddEmC7JoeK1AyEzkdZFd4VjJS4IkACNqSGn5EKJbYpORWXfR2Cm/v
+JLrU6HjQjivCckGeOGYFgPPVNYBfQ+w5Tmy43LFhV9sxLOgu/VMeptUTnXu2dKWj
+kWAb+rZgsVY79OafVCXlPkPZKx+sErzE5XQ2Qu3ww8ZIOzibUMnZIwRpBOc5jhoG
+Tz/dENlb6kXrgUkHZ3OIMWZ75BIQ3q5GJjdDmiu7zW2XL5/fWTClrCgnr0JQ4EEJ
+IYuX/yRpBnJNQn2Ri0BzWEHulC1+LQ==
+=4mGK
 -----END PGP SIGNATURE-----
 
---f5gABgER9E4urbxanJoJ5GuAP3En4TSBz--
+--lhtWAuC9dW82qkX9jDKNe2TQdvXe4Gfli--
 
 
