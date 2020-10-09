@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E194288E8B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:16:55 +0200 (CEST)
-Received: from localhost ([::1]:56780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3FE288DB9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:06:26 +0200 (CEST)
+Received: from localhost ([::1]:54180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQv4g-0003Ju-9F
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:16:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59022)
+	id 1kQuuX-0006zc-NV
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQupz-0003jz-0i
+ id 1kQuq0-0003ku-MT
  for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60883)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQupw-00018W-5e
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:42 -0400
+ id 1kQupx-00018i-UW
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602259299;
+ s=mimecast20190719; t=1602259301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+D4Qlu6faHWzWrvhTA7LnAXy7RbcEPbMekSs3yKkXRI=;
- b=YeHUtGBumwAtdIcgcvm+6vq4uSfAaHBETjF8R9QDhUXNBNxQH8UybzUobHmvb0fJkoungv
- TUHLSzKKyT1W5bn5OzCPghvIwXuV7MzD+4cLcGY0mjxl1kqMZ0CxwRJYLk4Odyw1V31Kej
- evDk8KlPMJLV5IbyfnpZX2575k2FR/Y=
+ bh=IZtbwbBnXHyx61GM0CmVgiZpiaLakMIl9udCynleo4I=;
+ b=M/3981KXkWp1IqAORCoCmETmdq5aR03IMDjHWW+bB1iKUiaNteNaYbL0FAqSakI76SqQOI
+ Cc9IMiMuNbh3uZczmJf1UbLeHafZ86pnpZKdUnVzi+CHf6wj8qyyrvv5nwkiBKkRyKnHjN
+ 4NL60C71MF+CiCk1Rupbm5W8Nc1Y3K8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-AwNJIaxkOXa0qXn5HTcZUg-1; Fri, 09 Oct 2020 12:01:37 -0400
-X-MC-Unique: AwNJIaxkOXa0qXn5HTcZUg-1
+ us-mta-358-iO6RfbCOOUOBVrQ9XvZ5mw-1; Fri, 09 Oct 2020 12:01:38 -0400
+X-MC-Unique: iO6RfbCOOUOBVrQ9XvZ5mw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89B00879519
- for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 16:01:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E5B41074643;
+ Fri,  9 Oct 2020 16:01:37 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43A3A6266E;
- Fri,  9 Oct 2020 16:01:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6069855776;
+ Fri,  9 Oct 2020 16:01:37 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/12] qom: Make object_class_property_add_uint*_ptr() get
- offset
-Date: Fri,  9 Oct 2020 12:01:13 -0400
-Message-Id: <20201009160122.1662082-4-ehabkost@redhat.com>
+Subject: [PATCH 04/12] sev: Use class properties
+Date: Fri,  9 Oct 2020 12:01:14 -0400
+Message-Id: <20201009160122.1662082-5-ehabkost@redhat.com>
 In-Reply-To: <20201009160122.1662082-1-ehabkost@redhat.com>
 References: <20201009160122.1662082-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -56,8 +55,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
@@ -81,240 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing object_class_property_add_uint*_ptr() functions are
-not very useful, because they need a pointer to the property
-value, which can't really be provided before the object is
-created.
-
-Replace the pointer parameter in those functions with a
-`ptrdiff_t offset` parameter.
-
-Include a uint8 class property in check-qom-proplist unit tests,
-to ensure the feature is working.
+Instance properties make introspection hard and are not shown by
+"-object ...,help".  Convert them to class properties.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/qom/object.h       |  8 ++++----
- qom/object.c               | 36 +++++++++++++++++++++++-------------
- tests/check-qom-proplist.c | 10 ++++++++--
- 3 files changed, 35 insertions(+), 19 deletions(-)
+ target/i386/sev.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index d378f13a11..1634294e4f 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1747,7 +1747,7 @@ ObjectProperty *object_property_add_uint8_ptr(Object *obj, const char *name,
- 
- ObjectProperty *object_class_property_add_uint8_ptr(ObjectClass *klass,
-                                          const char *name,
--                                         const uint8_t *v,
-+                                         ptrdiff_t offset,
-                                          ObjectPropertyFlags flags);
- 
- /**
-@@ -1768,7 +1768,7 @@ ObjectProperty *object_property_add_uint16_ptr(Object *obj, const char *name,
- 
- ObjectProperty *object_class_property_add_uint16_ptr(ObjectClass *klass,
-                                           const char *name,
--                                          const uint16_t *v,
-+                                          ptrdiff_t offset,
-                                           ObjectPropertyFlags flags);
- 
- /**
-@@ -1789,7 +1789,7 @@ ObjectProperty *object_property_add_uint32_ptr(Object *obj, const char *name,
- 
- ObjectProperty *object_class_property_add_uint32_ptr(ObjectClass *klass,
-                                           const char *name,
--                                          const uint32_t *v,
-+                                          ptrdiff_t offset,
-                                           ObjectPropertyFlags flags);
- 
- /**
-@@ -1810,7 +1810,7 @@ ObjectProperty *object_property_add_uint64_ptr(Object *obj, const char *name,
- 
- ObjectProperty *object_class_property_add_uint64_ptr(ObjectClass *klass,
-                                           const char *name,
--                                          const uint64_t *v,
-+                                          ptrdiff_t offset,
-                                           ObjectPropertyFlags flags);
- 
- /**
-diff --git a/qom/object.c b/qom/object.c
-index 17692ed5c3..bb32f5d3ad 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -2450,13 +2450,22 @@ static char *object_get_type(Object *obj, Error **errp)
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 93c4d60b82..d1c9247c14 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -298,6 +298,19 @@ sev_guest_class_init(ObjectClass *oc, void *data)
+                                   sev_guest_set_session_file);
+     object_class_property_set_description(oc, "session-file",
+             "guest owners session parameters (encoded with base64)");
++
++    object_class_property_add_uint32_ptr(oc, "policy",
++                                         offsetof(SevGuestState, policy),
++                                         OBJ_PROP_FLAG_READWRITE);
++    object_class_property_add_uint32_ptr(oc, "handle",
++                                         offsetof(SevGuestState, handle),
++                                         OBJ_PROP_FLAG_READWRITE);
++    object_class_property_add_uint32_ptr(oc, "cbitpos",
++                                         offsetof(SevGuestState, cbitpos),
++                                         OBJ_PROP_FLAG_READWRITE);
++    object_class_property_add_uint32_ptr(oc, "reduced-phys-bits",
++                                         offsetof(SevGuestState, reduced_phys_bits),
++                                         OBJ_PROP_FLAG_READWRITE);
  }
  
- typedef struct {
--    /* Pointer to property value */
--    void *ptr;
-+    bool is_offset;
-+    union {
-+        /* Pointer to property value.  Valid if is_offset=false */
-+        void *ptr;
-+        /* Offset in Object struct.  Valid if is_offset=true */
-+        ptrdiff_t offset;
-+    };
- } PointerProperty;
+ static void
+@@ -307,15 +320,6 @@ sev_guest_instance_init(Object *obj)
  
- static void *pointer_property_get_ptr(Object *obj, PointerProperty *prop)
- {
--    return prop->ptr;
-+    if (prop->is_offset) {
-+        return (void *)obj + prop->offset;
-+    } else {
-+        return prop->ptr;
-+    }
+     sev->sev_device = g_strdup(DEFAULT_SEV_DEVICE);
+     sev->policy = DEFAULT_GUEST_POLICY;
+-    object_property_add_uint32_ptr(obj, "policy", &sev->policy,
+-                                   OBJ_PROP_FLAG_READWRITE);
+-    object_property_add_uint32_ptr(obj, "handle", &sev->handle,
+-                                   OBJ_PROP_FLAG_READWRITE);
+-    object_property_add_uint32_ptr(obj, "cbitpos", &sev->cbitpos,
+-                                   OBJ_PROP_FLAG_READWRITE);
+-    object_property_add_uint32_ptr(obj, "reduced-phys-bits",
+-                                   &sev->reduced_phys_bits,
+-                                   OBJ_PROP_FLAG_READWRITE);
  }
  
- static void property_get_uint8_ptr(Object *obj, Visitor *v, const char *name,
-@@ -2573,10 +2582,11 @@ object_class_property_add_uint_ptr(ObjectClass *oc, const char *name,
-                                    ObjectPropertyAccessor getter,
-                                    ObjectPropertyAccessor setter,
-                                    ObjectPropertyFlags flags,
--                                   void *ptr)
-+                                   ptrdiff_t offset)
- {
-     PointerProperty *prop = g_new0(PointerProperty, 1);
--    prop->ptr = ptr;
-+    prop->is_offset = true;
-+    prop->offset = offset;
-     return object_class_property_add(oc, name, type,
-                                      (flags & OBJ_PROP_FLAG_READ) ? getter : NULL,
-                                      (flags & OBJ_PROP_FLAG_WRITE) ? setter : NULL,
-@@ -2597,13 +2607,13 @@ object_property_add_uint8_ptr(Object *obj, const char *name,
- 
- ObjectProperty *
- object_class_property_add_uint8_ptr(ObjectClass *klass, const char *name,
--                                    const uint8_t *v,
-+                                    ptrdiff_t offset,
-                                     ObjectPropertyFlags flags)
- {
-     return object_class_property_add_uint_ptr(klass, name, "uint8",
-                                               property_get_uint8_ptr,
-                                               property_set_uint8_ptr,
--                                              flags, (void *)v);
-+                                              flags, offset);
- }
- 
- ObjectProperty *
-@@ -2620,13 +2630,13 @@ object_property_add_uint16_ptr(Object *obj, const char *name,
- 
- ObjectProperty *
- object_class_property_add_uint16_ptr(ObjectClass *klass, const char *name,
--                                     const uint16_t *v,
-+                                     ptrdiff_t offset,
-                                      ObjectPropertyFlags flags)
- {
-     return object_class_property_add_uint_ptr(klass, name, "uint16",
-                                               property_get_uint16_ptr,
-                                               property_set_uint16_ptr,
--                                              flags, (void *)v);
-+                                              flags, offset);
- }
- 
- ObjectProperty *
-@@ -2643,13 +2653,13 @@ object_property_add_uint32_ptr(Object *obj, const char *name,
- 
- ObjectProperty *
- object_class_property_add_uint32_ptr(ObjectClass *klass, const char *name,
--                                     const uint32_t *v,
-+                                     ptrdiff_t offset,
-                                      ObjectPropertyFlags flags)
- {
-     return object_class_property_add_uint_ptr(klass, name, "uint32",
-                                               property_get_uint32_ptr,
-                                               property_set_uint32_ptr,
--                                              flags, (void *)v);
-+                                              flags, offset);
- }
- 
- ObjectProperty *
-@@ -2666,13 +2676,13 @@ object_property_add_uint64_ptr(Object *obj, const char *name,
- 
- ObjectProperty *
- object_class_property_add_uint64_ptr(ObjectClass *klass, const char *name,
--                                     const uint64_t *v,
-+                                     ptrdiff_t offset,
-                                      ObjectPropertyFlags flags)
- {
-     return object_class_property_add_uint_ptr(klass, name, "uint64",
-                                               property_get_uint64_ptr,
-                                               property_set_uint64_ptr,
--                                              flags, (void *)v);
-+                                              flags, offset);
- }
- 
- typedef struct {
-diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
-index 1b76581980..fba30c20b2 100644
---- a/tests/check-qom-proplist.c
-+++ b/tests/check-qom-proplist.c
-@@ -61,6 +61,7 @@ struct DummyObject {
-     bool bv;
-     DummyAnimal av;
-     char *sv;
-+    uint8_t u8v;
- };
- 
- struct DummyObjectClass {
-@@ -141,6 +142,9 @@ static void dummy_class_init(ObjectClass *cls, void *data)
-                                    &dummy_animal_map,
-                                    dummy_get_av,
-                                    dummy_set_av);
-+    object_class_property_add_uint8_ptr(cls, "u8v",
-+                                        offsetof(DummyObject, u8v),
-+                                        OBJ_PROP_FLAG_READWRITE);
- }
- 
- 
-@@ -385,12 +389,14 @@ static void test_dummy_createlist(void)
-                    "bv", "yes",
-                    "sv", "Hiss hiss hiss",
-                    "av", "platypus",
-+                   "u8v", "42",
-                    NULL));
- 
-     g_assert(err == NULL);
-     g_assert_cmpstr(dobj->sv, ==, "Hiss hiss hiss");
-     g_assert(dobj->bv == true);
-     g_assert(dobj->av == DUMMY_PLATYPUS);
-+    g_assert_cmpint(dobj->u8v, ==, 42);
- 
-     g_assert(object_resolve_path_component(parent, "dummy0")
-              == OBJECT(dobj));
-@@ -531,7 +537,7 @@ static void test_dummy_iterator(void)
- {
-     const char *expected[] = {
-         "type",                 /* inherited from TYPE_OBJECT */
--        "sv", "av",             /* class properties */
-+        "sv", "av", "u8v",      /* class properties */
-         "bv"};                  /* instance property */
-     Object *parent = object_get_objects_root();
-     DummyObject *dobj = DUMMY_OBJECT(
-@@ -552,7 +558,7 @@ static void test_dummy_iterator(void)
- 
- static void test_dummy_class_iterator(void)
- {
--    const char *expected[] = { "type", "av", "sv" };
-+    const char *expected[] = { "type", "av", "sv", "u8v" };
-     ObjectPropertyIterator iter;
-     ObjectClass *klass = object_class_by_name(TYPE_DUMMY);
- 
+ /* sev guest info */
 -- 
 2.26.2
 
