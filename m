@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4AA6288F9C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:11:43 +0200 (CEST)
-Received: from localhost ([::1]:34442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15A2288F40
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:56:52 +0200 (CEST)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvvi-0000zv-Ol
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42686)
+	id 1kQvhL-0000IL-UF
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQvcs-0002Ze-6N
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:14 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39158)
+ id 1kQvct-0002bb-1E
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:15 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQvcq-0007iA-LP
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:13 -0400
-Received: by mail-wm1-x341.google.com with SMTP id d3so10489330wma.4
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:52:12 -0700 (PDT)
+ id 1kQvcr-0007iF-GR
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:14 -0400
+Received: by mail-wr1-x443.google.com with SMTP id e17so10973528wru.12
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:52:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xxXWxKizn/lVyR11Xmdsd0GJ0izeub2T+HCp1i8nNh0=;
- b=O47yN3Nm17qWQV0H58o9A7N7YrEk4q3ZI7DxXbfWXrl0QNQhHl05Vt+DtWXAiMmhHs
- ZsdCSxRNbeqgFOXiAAemZrYEXj2bHlkn5hBNqYa5VIYzyvxGEqMUvDEPikIMLIykf+HH
- y7uVg6DGqBnikzVjtLvTS2PiLy0U+ScUFQCM6v1x2eUnvp7rbMqLxZ5F7WGS8DmCnIiZ
- OrYtDNQ17WBmCOKTXOMoHKPQ4xYyfJjfqUl8qBqzLRGQtkLx7aWpxG9rbTs0FcH3oh2H
- JdhtjaBXEsQlsrDnjSYTLTbrQeNAH5188DV/5SAgO7UXoxjugy11uEbkNtmQmzrmy2oZ
- vhSQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ED9ctdoCK+AGBSvVR1uFGDxKqs1IT3566nbTYT2S4dU=;
+ b=cT5edKb+3luGr3fwd+TyfChIspEXb6AZbUatl1YGG7M+g6VsxQujwzW7JnwLiwAcpJ
+ SVc2q27f56vm4xr8OjP87YG2gtC1Yygknz2Mte+6oV5fqEYHT6Nqs3kqdQnSPwDzBbDJ
+ lV+29cuGmDdVL0dEekVIHkkXZEhvujp5nryk4BQxD2TC6o/5Dcjqkw/tdyFJTaoedqKY
+ tIfqTjr5OMMbxSBlXcTcWLML/XDgwMr+QUWKNeLW3Km8At7ofStr+LZWJeskk03aU05d
+ RfwmozU/DdpfirDF7UN0YC+ebUqLxsYb4YsG6YNutSg8eQdnexJnGnDCbNG+TqO2kkIa
+ S/Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xxXWxKizn/lVyR11Xmdsd0GJ0izeub2T+HCp1i8nNh0=;
- b=n5O3xvGe3z0/0qy2O1KxbFiDC2g7i8qLLXJqgOGwxMfNxqhdk8NqZe6Yfr1NfqKu5b
- L5q+p9rTxrL+AHMFMDoqv8bqTuQz7JZxtNkmUgTyxZjASxO3rtzu677iQxypEcG03XVJ
- FuhiP+RjdhX+rhsmVvIU0u+0dDxpAiZW4nibsgbXAEtow/kmgx+ga7GUsMDP2LX3chbE
- BTis4GB1nvKVqbUbPj+dMlp1BlvuSXSygGvisSgRiqGwpigUJvWEFWr7UX5jxenEje2B
- MLD4XqBbkJmT2XSgk7vk0UZm9Ca6yFKwmEOv3r22Xy1lqidO+mJOiRbixNyMwjLILE3K
- XrcQ==
-X-Gm-Message-State: AOAM530QLq9yqAZvqOcCLjETgIDsnjfQLWPvHJnUCvbJF1JUUR0tCTvr
- VAyoaW9a/m8asbt5DIrpa6x38fp/9KM=
-X-Google-Smtp-Source: ABdhPJwzHObGhcLEkFFTjkXBVho96KxnM8Nz3gpwY+mmXWeI9uGUafxQQ5bUIDtpL2Zbua8IQVBZzA==
-X-Received: by 2002:a1c:6488:: with SMTP id y130mr14887823wmb.94.1602262330751; 
- Fri, 09 Oct 2020 09:52:10 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ED9ctdoCK+AGBSvVR1uFGDxKqs1IT3566nbTYT2S4dU=;
+ b=S2/lvGnSTnOvZYHsvx0W192PyfIm/p794emXaGO/vGKNVxk5BVbMdB36YCiuqPiCc8
+ HrvNyrmyhS6FF8igp7w23YjWfDzKzU5ks5/A7ua84ic40tJlnp6ukGUed+5CcvWLmbg3
+ f54JFkCK+SXvjz7i8PLUljvV9kRcNcnjnNkXVZGNF/437bvgQYqFjKOcOSEYrFN8BNzQ
+ 7FqyG6i6cMhccOTuq7HriOnE5nj28P9ovOmoNI7Y4sKkDXiRDhLpR3g99eHIG0DikNrz
+ 0oHYFXQGICObpbOkt4b0CroUR4WdaDWwiTMvgV/8h7/F1TWMso4/zJC63d8xPYcXTm+J
+ umcQ==
+X-Gm-Message-State: AOAM532WiJSMsSU1i0F20hN3jTLvmO1yxspK5VFXlFQniJyJWfbJ0slv
+ RX6KQQJPJ0aqRcxQr28HVYKhPYIEdR8=
+X-Google-Smtp-Source: ABdhPJzSo5YBcDC6Sfj2HX87r0VrvpdBBv4jJmrHx9I3JNaHgSnpxSTsTJayQt5w85qO6mP08U/BDA==
+X-Received: by 2002:adf:9dd1:: with SMTP id q17mr9330396wre.317.1602262331861; 
+ Fri, 09 Oct 2020 09:52:11 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id p13sm12777125wmb.5.2020.10.09.09.52.09
+ by smtp.gmail.com with ESMTPSA id p13sm12777125wmb.5.2020.10.09.09.52.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 09:52:10 -0700 (PDT)
+ Fri, 09 Oct 2020 09:52:11 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] MAINTAINERS: Update MIPS sections
-Date: Fri,  9 Oct 2020 18:52:03 +0200
-Message-Id: <20201009165208.2905569-1-f4bug@amsat.org>
+Subject: [PATCH 1/5] MAINTAINERS: Put myself forward for MIPS target
+Date: Fri,  9 Oct 2020 18:52:04 +0200
+Message-Id: <20201009165208.2905569-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201009165208.2905569-1-f4bug@amsat.org>
+References: <20201009165208.2905569-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -93,24 +96,45 @@ Cc: Chen Huacai <zltjiangshi@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Volunteer to maintain MIPS TCG.
-As discussed on list, Huacai will likely send a similar patch.
+To avoid the MIPS target being orphan, volunteer to keep an eye
+on it and put together pull requests.
 
-Few more adjustments (in particular around Boston board).
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ MAINTAINERS | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Based-on: <1602103041-32017-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg01974.html
-
-Philippe Mathieu-Daudé (5):
-  MAINTAINERS: Put myself forward for MIPS target
-  MAINTAINERS: Remove duplicated Malta test entries
-  MAINTAINERS: Downgrade status of MIPS Boston to "Odd Fixes"
-  MAINTAINERS: Update Paul Burton email address
-  MAINTAINERS: Move MIPS GIC timer files to Boston board section
-
- MAINTAINERS | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 426f52c1f63..d59e5c05c10 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -221,10 +221,11 @@ F: hw/microblaze/
+ F: disas/microblaze.c
+ 
+ MIPS TCG CPUs
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+-S: Orphaned
++S: Odd Fixes
+ F: target/mips/
+ F: default-configs/*mips*
+ F: disas/*mips*
+@@ -2815,11 +2816,12 @@ F: tcg/i386/
+ F: disas/i386.c
+ 
+ MIPS TCG target
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+ R: Huacai Chen <chenhc@lemote.com>
+ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+-S: Orphaned
++S: Odd Fixes
+ F: tcg/mips/
+ 
+ PPC TCG target
 -- 
 2.26.2
 
