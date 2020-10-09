@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CC4288FAA
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:14:13 +0200 (CEST)
-Received: from localhost ([::1]:40608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2319288F95
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:10:02 +0200 (CEST)
+Received: from localhost ([::1]:54536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvy8-0003Vh-1F
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:14:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42772)
+	id 1kQvu5-00061N-HM
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQvd0-0002sd-5C
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:22 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39161)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQvrw-0004Ig-Nb
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:48 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQvcy-0007j3-Oi
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:21 -0400
-Received: by mail-wm1-x343.google.com with SMTP id d3so10489764wma.4
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:52:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=II5s3PrMx9JAfE6WS0RKBXpeNP3nxGPfnMgubn1ABWk=;
- b=VNmTp/mBphBw/u1iYjn8uX9qv4TA3xSy6r8T1JQEbfeTUuQ2K2SnjNHM8UkaSvAN+C
- vB+ffrGfpJoWKhrvSJeKjsGEwrgFPKWMzQ7rAin5wySCNsH3h4p7R6D5v4XRjreGD24t
- bVdMi1troDM8fvmPa4pj7i3uIg+4v1yLhP3VuVfMnNViGCS3lySeDsQyrTJBQ7C2bewf
- r6D1A8waxkNXtN02FDnYVcffa7X2D7SeAWJpdZ0xsCyAW0Hhxwe3nxmoXy4uhMtzbnUw
- ljzLO5sJZEa0eMU3FXQ70XG4l8y2cnPVPI48AUTvYvhLKnitTG78tFqykqDdYtkZ3TuZ
- Aqsw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQvru-0001Ix-PN
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:07:48 -0400
+Received: by mail-wr1-x442.google.com with SMTP id x7so2451725wrl.3
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UKB3B/oOABY9cP+HWO8RbNw0KpptfT1tg2NNxPLwvWg=;
+ b=Lt0YhTZxl33eEKvrr7u4yyDiJHBnforevQ9Pte7p4PmbGh5XgSFMw9nqnJkgiMbXc3
+ WXyKlnxQ0E4A2CnNJ/hoBBdVSXE++oKBHeJ/FYU6jDeFUtV8tHjSlBMFzccEohMx4NOX
+ 5NHv/yi2PxAKzPZ8j6Abu7lZcoDIX4QfRPcjf4FSNOUkvSBYtugl5u0y7PTBEhCHIivD
+ AxeLeKoBH1SGVn9dleZ5eSNT9BPABebm3aR95PklKSB1U9jeI62wZscBONpAYPCuUaDf
+ Q3hJ6XjkpaOKqLh3A2mBjeXq1qE0CCHh/lNh7OSLEoEeP2esW0j87+IM5TPETFE0X88H
+ AAPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=II5s3PrMx9JAfE6WS0RKBXpeNP3nxGPfnMgubn1ABWk=;
- b=VoOjXy6L3xE4FgzYg0QhjPVSXHwg67QTWCVeJoG+nh/TTZxqARr1+KH0KQYkUkbV+a
- I+UBL9aAdi/Brdbls3AgCUOfUni0l1PiZ58rVae44KGv/L7Bai1GqBZiSBZVPQfTldkJ
- /iaN0hBG4INHn6pihZL2GX6/p4zLO1X8pL4gg7H84a4m2y2NWZ0WIuA5koxuPBuyapCe
- H/u2x0TkyTuIxncySe4jqDcIhItmtftY5DyKZJjxGjqS7sQsql1SFmNF0dldYWNceKe/
- CLYBe9JQoyrOhlsiXAO7Tzr/GYLxJTi2vL+YvnDzg8Y9kYG/mMICS7ygnj13DabKh94w
- lRTQ==
-X-Gm-Message-State: AOAM531KV7mnLZxkKCDTbrYJuJ+tzKwIM+iF9QIEohQ2dXyUdD2RQ3A0
- N5BkWm3Rh1qEb8XIlKjyWkmKE9gQPsA=
-X-Google-Smtp-Source: ABdhPJzRaVThMZD+kZ+tZbfusKhA+3+eD/b9QrIuSa2/xsOAXV/ibqvSUnchdv5Vl0i+1bS3AWvZHA==
-X-Received: by 2002:a1c:f407:: with SMTP id z7mr15094987wma.110.1602262336315; 
- Fri, 09 Oct 2020 09:52:16 -0700 (PDT)
-Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id p13sm12777125wmb.5.2020.10.09.09.52.15
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UKB3B/oOABY9cP+HWO8RbNw0KpptfT1tg2NNxPLwvWg=;
+ b=sPdoXX55VaZVrTIPooagqDJ7JoQWQ2ka2LIPMMelA+1poXpkc/tlJ1s1HYiUyLXZbu
+ tmhZSdwe4ZiI3N+yZIZlDkriEbGjLUhMojrlsPoiZ4YZiOQQMKaFlogSkVsX0hFuV+W+
+ kLL9uIJ9I+P0UtSq05NNYjmeHNe9NOakTIki8CUEd/09bKmbOE+6QsFuROnX143XJ8b9
+ RVgrYu76T2iMRozHid82A1XJq0LObxC8aB8kppt0U14RsEngjs2XpN5EYQVUYxHvmwp0
+ SoTDOufefZT0EZVx3YUf/h1gcJRwxmfPBRLyBoWsJYdjPZJwCe27pOyL7MdIa5D1UpUY
+ aqIw==
+X-Gm-Message-State: AOAM531ssr3vQbhegivulUQgxbjxNrB6BJvBY75Rl+s5uAJwpF7Oykl1
+ bxDQu/bI5EeoOfOECCRbwCHoQA==
+X-Google-Smtp-Source: ABdhPJwg8uO7dXx0hESM8JGyAxT4TshaogFZNee63Rd2Jb8BN2V/JnFUcDWvqAX7Z+uC1/I8Nf43DQ==
+X-Received: by 2002:adf:ba85:: with SMTP id p5mr2332196wrg.64.1602263265176;
+ Fri, 09 Oct 2020 10:07:45 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a15sm12119778wrt.1.2020.10.09.10.07.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 09:52:15 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Fri, 09 Oct 2020 10:07:43 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 00F741FF7E;
+ Fri,  9 Oct 2020 18:07:42 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] MAINTAINERS: Move MIPS GIC timer files to Boston board
- section
-Date: Fri,  9 Oct 2020 18:52:08 +0200
-Message-Id: <20201009165208.2905569-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201009165208.2905569-1-f4bug@amsat.org>
-References: <20201009165208.2905569-1-f4bug@amsat.org>
+Subject: [RFC PATCH  0/4] generic loader FDT support (for direct Xen boot)
+Date: Fri,  9 Oct 2020 18:07:38 +0100
+Message-Id: <20201009170742.23695-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,48 +86,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chen Huacai <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <rth@twiddle.net>
+Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
+ stefano.stabellini@linaro.org, takahiro.akashi@linaro.org,
+ stefano.stabellini@xilinx.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MIPS GIC timer is only used by the Boston board.
+Hi,
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This series adds the ability to append FDT data for blobs loaded by
+the generic loader. My principle use-case was to be able to directly
+boot Xen with a kernel image which avoided having to:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 702f73823fc..62db288bfc4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -233,11 +233,9 @@ F: docs/system/cpu-models-mips.rst.inc
- F: hw/intc/mips_gic.c
- F: hw/mips/
- F: hw/misc/mips_*
--F: hw/timer/mips_gictimer.c
- F: include/hw/intc/mips_gic.h
- F: include/hw/mips/
- F: include/hw/misc/mips_*
--F: include/hw/timer/mips_gictimer.h
- F: tests/tcg/mips/
- K: ^Subject:.*(?i)mips
- 
-@@ -1167,7 +1165,9 @@ S: Odd Fixes
- F: hw/core/loader-fit.c
- F: hw/mips/boston.c
- F: hw/pci-host/xilinx-pcie.c
-+F: hw/timer/mips_gictimer.c
- F: include/hw/pci-host/xilinx-pcie.h
-+F: include/hw/timer/mips_gictimer.h
- 
- OpenRISC Machines
- -----------------
+  - get the kernel image into my system image
+  - deal with bugs in FDT munging by -bios firmware and/or grub
+
+as such this currently a developer hack that makes *my* life easy and
+is thus presented as an RFC for discussion. While I've tested it with
+Xen I'm sure the approach would be applicable to other hypervisors or
+firmware which expect to consume FDT data pointing at various blobs.
+
+An example command line that launches this is (magic from -kernel):
+
+  ./aarch64-softmmu/qemu-system-aarch64 -cpu cortex-a57 \
+    -machine type=virt,virtualization=on -display none \
+    -serial mon:stdio \
+    -netdev user,id=unet,hostfwd=tcp::2222-:22 \
+    -device virtio-net-pci,netdev=unet,id=virt-net,disable-legacy=on \
+    -device virtio-scsi-pci,id=virt-scsi,disable-legacy=on \
+    -blockdev driver=raw,node-name=hd,discard=unmap,file.driver=host_device,file.filename=/dev/zen-disk/debian-buster-arm64 \
+    -device scsi-hd,drive=hd,id=virt-scsi-hd \
+    -smp 4 -m 4096 \
+    -kernel ~/lsrc/xen.git/xen/xen \
+    -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
+    -device loader,addr=0x47000000,file=$HOME/lsrc/linux.git/builds/arm64/arch/arm64/boot/Image,len-fdt-compat=2,fdt-compat[0]='multiboot,,module',fdt-compat[1]='multiboot,,kernel',fdt-bootargs="root=/dev/sda2 ro console=hvc0 earlyprintk=xen"
+
+So a couple of choices I've made doing this:
+
+Promoting *fdt to MachineState
+
+This seemed the simplest approach to making the fdt available to the
+global state, especially as MachineState already has a *dtb pointer.
+I've converted the ARM virt machine and a RISCV machine but if this is
+acceptable I can convert the others.
+
+"Polluting" the generic loader arguments
+
+This was mainly out of convenience as the loader already knows the
+size of the blob being loaded. However you could certainly argue it
+makes sense to have a more generic "FDT expander" virtual device that
+could for example query the QOM model somehow to find the details it
+needs.
+
+FDT isn't the only way of passing system information up the boot
+chain. We could reasonably want to do a similar thing with ACPI which
+is what should be being used on SBSA like devices to communicate with
+the hypervisor.
+
+Also relying on ,, in the QemuOpt parser is ugly. It might be worth
+having better quoting support if I press on with this.
+
+So what do people think? Something worth developing?
+
+
+Alex Bennée (4):
+  hw/board: promote fdt from ARM VirtMachineState to MachineState
+  hw/riscv: migrate fdt field to generic MachineState
+  device_tree: add qemu_fdt_setprop_string_array helper
+  generic_loader: allow the insertion of /chosen/module stanzas
+
+ include/hw/arm/virt.h            |   1 -
+ include/hw/boards.h              |   1 +
+ include/hw/core/generic-loader.h |   4 +
+ include/hw/riscv/virt.h          |   1 -
+ include/sysemu/device_tree.h     |  17 ++
+ device_tree.c                    |  26 +++
+ hw/arm/virt.c                    | 322 ++++++++++++++++---------------
+ hw/core/generic-loader.c         |  42 ++++
+ hw/riscv/virt.c                  |  18 +-
+ 9 files changed, 268 insertions(+), 164 deletions(-)
+
 -- 
-2.26.2
+2.20.1
 
 
