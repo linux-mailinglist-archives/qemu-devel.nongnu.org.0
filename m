@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA9728839F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:32:24 +0200 (CEST)
-Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C334288365
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:23:39 +0200 (CEST)
+Received: from localhost ([::1]:50328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQmt5-00073P-Tw
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:32:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36770)
+	id 1kQmkc-0002qd-3A
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:23:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQmrX-0006LU-6m
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:30:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55872)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kQmrU-0006kT-HQ
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:30:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kQmrS-0004CC-F9
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 07:30:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6D3EB2E80AB
- for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 07:30:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmiz-0001lv-AZ
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:21:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25388)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmix-0005Q2-JL
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:21:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602228114;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9mz08fcE9MmDH3IUp5mh1sqk8yhl0sjwSDxoYX7NJc8=;
+ b=h1u6Zc/Gx1dg6bRTuZG3xTeqLRp+Dvt5RvCapCukdt0wfb2ZPUM2VTtlk5ndqj/x3gSzSV
+ LUC36fig6T9ip+eOn42kCmejO1owyCIFDDE/ax013UNnKbl45XHr9KozIswxoc5cVWNCV8
+ wW1ZO2wtf9huZur1emmPjX0aDO3XUyM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-224-LaGgeM2pPQqzrcVdramjag-1; Fri, 09 Oct 2020 03:21:53 -0400
+X-MC-Unique: LaGgeM2pPQqzrcVdramjag-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 471358030CE
+ for <qemu-devel@nongnu.org>; Fri,  9 Oct 2020 07:21:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1837565F5E;
+ Fri,  9 Oct 2020 07:21:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AE8C4112CE10; Fri,  9 Oct 2020 09:21:50 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v5 19/36] qapi/events.py: add type hint annotations
+References: <20201005195158.2348217-1-jsnow@redhat.com>
+ <20201005195158.2348217-20-jsnow@redhat.com>
+ <87zh4ye0fh.fsf@dusky.pond.sub.org>
+ <87pn5ucl3n.fsf@dusky.pond.sub.org>
+ <69622744-fb05-2db7-47cf-533a3a3d89ac@redhat.com>
+ <87v9fl13ij.fsf@dusky.pond.sub.org>
+ <7bc02d33-e3ab-38cd-3620-4eee501fe311@redhat.com>
+Date: Fri, 09 Oct 2020 09:21:50 +0200
+In-Reply-To: <7bc02d33-e3ab-38cd-3620-4eee501fe311@redhat.com> (John Snow's
+ message of "Thu, 8 Oct 2020 12:19:39 -0400")
+Message-ID: <87a6wvrhip.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Oct 2020 07:21:36 -0000
-From: Pavel Dovgalyuk <1899082@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: acceptance pc replay test x86
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cleber-gnu dovgalyuk
-X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
-X-Launchpad-Bug-Modifier: Pavel Dovgalyuk (dovgalyuk)
-References: <160219062643.30310.16188463455229225461.malonedeb@gac.canonical.com>
-Message-Id: <160222809687.1876.5895051421616608857.malone@soybean.canonical.com>
-Subject: [Bug 1899082] Re: ReplayKernel.test_x86_64_pc fails intermittently
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
-X-Launchpad-Hash: 8d3d68e95eb5263aa3fb102c5fc032beef38e0ab
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:10:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,79 +87,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1899082 <1899082@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-But I can't reproduce it outside the avocado toolchain, by running qemu
-directly.
+John Snow <jsnow@redhat.com> writes:
 
--- =
+[...]
+> I just find it difficult to predict what reviewers will want.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1899082
+Capricious bunch, those reviewers.
 
-Title:
-  ReplayKernel.test_x86_64_pc fails intermittently
+[...]
 
-Status in QEMU:
-  New
-
-Bug description:
-  Even though this acceptance test is already skipped on GitLab CI, the
-  intermittent failures can be seen on other environments too.
-
-  The record phase works fine, but during the replay phase fail to
-  finish booting the kernel (until the expected place):
-
-  16:34:47 DEBUG| [    0.034498] Last level dTLB entries: 4KB 0, 2MB 0, 4MB=
- 0, 1GB 0
-  16:34:47 DEBUG| [    0.034790] Spectre V2 : Spectre mitigation: LFENCE no=
-t serializing, switching to generic retpoline
-  16:34:47 DEBUG| [    0.035093] Spectre V2 : Mitigation: Full generic retp=
-oline
-  16:34:47 DEBUG| [    0.035347] Spectre V2 : Spectre v2 / SpectreRSB mitig=
-ation: Filling RSB on context switch
-  16:34:47 DEBUG| [    0.035667]
-  16:36:02 ERROR| =
-
-  16:36:02 ERROR| Reproduced traceback from: /home/cleber/src/avocado/avoca=
-do/avocado/core/test.py:767
-  16:36:02 ERROR| Traceback (most recent call last):
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/replay_kernel.py", line 92, in test_x86_64_pc
-  16:36:02 ERROR|     self.run_rr(kernel_path, kernel_command_line, console=
-_pattern, shift=3D5)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/replay_kernel.py", line 73, in run_rr
-  16:36:02 ERROR|     False, shift, args, replay_path)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/replay_kernel.py", line 55, in run_vm
-  16:36:02 ERROR|     self.wait_for_console_pattern(console_pattern, vm)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/boot_linux_console.py", line 53, in wait_for_console_pattern
-  16:36:02 ERROR|     vm=3Dvm)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/avocado_qemu/__init__.py", line 130, in wait_for_console_pattern
-  16:36:02 ERROR|     _console_interaction(test, success_message, failure_m=
-essage, None, vm=3Dvm)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/avocado_qemu/__init__.py", line 82, in _console_interaction
-  16:36:02 ERROR|     msg =3D console.readline().strip()
-  16:36:02 ERROR|   File "/usr/lib64/python3.7/socket.py", line 575, in rea=
-dinto
-  16:36:02 ERROR|     def readinto(self, b):
-  16:36:02 ERROR|   File "/home/cleber/src/avocado/avocado/avocado/plugins/=
-runner.py", line 77, in sigterm_handler
-  16:36:02 ERROR|     raise RuntimeError("Test interrupted by SIGTERM")
-  16:36:02 ERROR| RuntimeError: Test interrupted by SIGTERM
-  16:36:02 ERROR| =
-
-
-  On my workstation, I can replicate the failure roughly once every 50
-  runs.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1899082/+subscriptions
 
