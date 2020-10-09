@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B13C2889BB
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 15:27:37 +0200 (CEST)
-Received: from localhost ([::1]:55682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 580DE2889BD
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 15:28:14 +0200 (CEST)
+Received: from localhost ([::1]:59806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQsQq-0002Ck-K7
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 09:27:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53844)
+	id 1kQsRR-0003p4-Fg
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 09:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vincenzo.frascino@arm.com>)
- id 1kQqFS-00035b-46; Fri, 09 Oct 2020 07:07:42 -0400
-Received: from foss.arm.com ([217.140.110.172]:40786)
+ id 1kQqFw-00038B-5Z; Fri, 09 Oct 2020 07:08:12 -0400
+Received: from foss.arm.com ([217.140.110.172]:40800)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <vincenzo.frascino@arm.com>)
- id 1kQqFP-0007vT-Io; Fri, 09 Oct 2020 07:07:41 -0400
+ id 1kQqFu-0007ym-AK; Fri, 09 Oct 2020 07:08:11 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E291D6E;
- Fri,  9 Oct 2020 04:07:36 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9411D6E;
+ Fri,  9 Oct 2020 04:08:06 -0700 (PDT)
 Received: from [10.37.12.22] (unknown [10.37.12.22])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4FCC23F66B;
- Fri,  9 Oct 2020 04:07:35 -0700 (PDT)
-Subject: Re: [PATCH 2/3] target/arm: Fix reported EL for mte_check_fail
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B50373F66B;
+ Fri,  9 Oct 2020 04:08:05 -0700 (PDT)
+Subject: Re: [PATCH 3/3] target/arm: Ignore HCR_EL2.ATA when {E2H,TGE} != 11
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20201008162155.161886-1-richard.henderson@linaro.org>
- <20201008162155.161886-3-richard.henderson@linaro.org>
+ <20201008162155.161886-4-richard.henderson@linaro.org>
 From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <3e2f2248-8810-bf72-a498-91fa65eeded9@arm.com>
-Date: Fri, 9 Oct 2020 12:10:16 +0100
+Message-ID: <d6829822-3e96-af18-1648-35ac25bd8287@arm.com>
+Date: Fri, 9 Oct 2020 12:10:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201008162155.161886-3-richard.henderson@linaro.org>
+In-Reply-To: <20201008162155.161886-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -67,12 +67,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 10/8/20 5:21 PM, Richard Henderson wrote:
-> The reporting in AArch64.TagCheckFail only depends on PSTATE.EL,
-> and not the AccType of the operation.  There are two guest
-> visible problems that affect LDTR and STTR because of this:
+> Unlike many other bits in HCR_EL2, the description for this
+> bit does not contain the phrase "if ... this field behaves
+> as 0 for all purposes other than", so do not squash the bit
+> in arm_hcr_el2_eff.
 > 
-> (1) Selecting TCF0 vs TCF1 to decide on reporting,
-> (2) Report "data abort same el" not "data abort lower el".
+> Instead, replicate the E2H+TGE test in the two places that
+> require it.
 > 
 > Reported-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
@@ -81,31 +82,50 @@ Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 Tested-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
 > ---
->  target/arm/mte_helper.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
+>  target/arm/internals.h | 9 +++++----
+>  target/arm/helper.c    | 9 +++++----
+>  2 files changed, 10 insertions(+), 8 deletions(-)
 > 
-> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-> index 734cc5ca67..153bd1e9df 100644
-> --- a/target/arm/mte_helper.c
-> +++ b/target/arm/mte_helper.c
-> @@ -525,14 +525,10 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
->      reg_el = regime_el(env, arm_mmu_idx);
->      sctlr = env->cp15.sctlr_el[reg_el];
->  
-> -    switch (arm_mmu_idx) {
-> -    case ARMMMUIdx_E10_0:
-> -    case ARMMMUIdx_E20_0:
-> -        el = 0;
-> +    el = arm_current_el(env);
-> +    if (el == 0) {
->          tcf = extract64(sctlr, 38, 2);
-> -        break;
-> -    default:
-> -        el = reg_el;
-> +    } else {
->          tcf = extract64(sctlr, 40, 2);
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index ae99725d2b..5460678756 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -1252,10 +1252,11 @@ static inline bool allocation_tag_access_enabled(CPUARMState *env, int el,
+>          && !(env->cp15.scr_el3 & SCR_ATA)) {
+>          return false;
 >      }
+> -    if (el < 2
+> -        && arm_feature(env, ARM_FEATURE_EL2)
+> -        && !(arm_hcr_el2_eff(env) & HCR_ATA)) {
+> -        return false;
+> +    if (el < 2 && arm_feature(env, ARM_FEATURE_EL2)) {
+> +        uint64_t hcr = arm_hcr_el2_eff(env);
+> +        if (!(hcr & HCR_ATA) && (!(hcr & HCR_E2H) || !(hcr & HCR_TGE))) {
+> +            return false;
+> +        }
+>      }
+>      sctlr &= (el == 0 ? SCTLR_ATA0 : SCTLR_ATA);
+>      return sctlr != 0;
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index cd0779ff5f..0620572e44 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -6874,10 +6874,11 @@ static CPAccessResult access_mte(CPUARMState *env, const ARMCPRegInfo *ri,
+>  {
+>      int el = arm_current_el(env);
 >  
+> -    if (el < 2 &&
+> -        arm_feature(env, ARM_FEATURE_EL2) &&
+> -        !(arm_hcr_el2_eff(env) & HCR_ATA)) {
+> -        return CP_ACCESS_TRAP_EL2;
+> +    if (el < 2 && arm_feature(env, ARM_FEATURE_EL2)) {
+> +        uint64_t hcr = arm_hcr_el2_eff(env);
+> +        if (!(hcr & HCR_ATA) && (!(hcr & HCR_E2H) || !(hcr & HCR_TGE))) {
+> +            return CP_ACCESS_TRAP_EL2;
+> +        }
+>      }
+>      if (el < 3 &&
+>          arm_feature(env, ARM_FEATURE_EL3) &&
 > 
 
 -- 
