@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FE0288E83
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:16:16 +0200 (CEST)
-Received: from localhost ([::1]:55008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01A34288EA9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:20:12 +0200 (CEST)
+Received: from localhost ([::1]:36682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQv43-0002Ym-7p
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:16:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59054)
+	id 1kQv7q-00072I-VN
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:20:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQuq4-0003m7-22
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48920)
+ id 1kQuq8-0003n2-RP
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQuq1-000190-5m
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:47 -0400
+ id 1kQuq5-00019J-QE
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602259304;
+ s=mimecast20190719; t=1602259308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=slIUVKk0+8beFrLh45o20cBpi9FInCOQBDpM1t0b5mc=;
- b=N9gjiUA1My0j0nQgRVaWJghslq5syCuk7MSaATK9z+nGXID45nS+bxkEt1MgpcglRAt2UV
- e/95/B5hLFFGi4lNXnufMCj4w7dd+jj2V0kLWeE6feL434n3iiFX47LYk2hYa7fa60la5/
- Wv9IxRUc8olScgU+1R9WLto5Y1qckEA=
+ bh=ll32Ld3oaLI3mIkeWOiZjUATzrWwfL5tTQJloVNDuu4=;
+ b=cq852Zw42g8Z/2aDAt3s7bFHSxCtIxiP3IaAO8htvpJ+Zbz9cXmQD+Pt9Q8WwAKGN1m0lT
+ BNlhNptA7m2AZQSxsQeQsid/F74ZfGBkSmaaFlsE7K+dX3+G+PSq23y22l0mvMrGy6TNtA
+ 64iFfGUt/oB/CLAle7lKLkqQ8cUvFAg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-xqKz9e7tMqK1I_X1i2Qvug-1; Fri, 09 Oct 2020 12:01:42 -0400
-X-MC-Unique: xqKz9e7tMqK1I_X1i2Qvug-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-192-PN1-52c7PTq3oa1YV_cm-g-1; Fri, 09 Oct 2020 12:01:47 -0400
+X-MC-Unique: PN1-52c7PTq3oa1YV_cm-g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F8B31019631;
- Fri,  9 Oct 2020 16:01:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF8AC107AFCC;
+ Fri,  9 Oct 2020 16:01:45 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AA997664F;
- Fri,  9 Oct 2020 16:01:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F63D5D9F3;
+ Fri,  9 Oct 2020 16:01:42 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/12] rng: Use class properties
-Date: Fri,  9 Oct 2020 12:01:15 -0400
-Message-Id: <20201009160122.1662082-6-ehabkost@redhat.com>
+Subject: [PATCH 06/12] can_host: Use class properties
+Date: Fri,  9 Oct 2020 12:01:16 -0400
+Message-Id: <20201009160122.1662082-7-ehabkost@redhat.com>
 In-Reply-To: <20201009160122.1662082-1-ehabkost@redhat.com>
 References: <20201009160122.1662082-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,10 +80,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Amit Shah <amit@kernel.org>, Markus Armbruster <armbru@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>
+ John Snow <jsnow@redhat.com>, Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,100 +92,53 @@ Instance properties make introspection hard and are not shown by
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Laurent Vivier <lvivier@redhat.com>
-Cc: Amit Shah <amit@kernel.org>
+Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
+Cc: Jason Wang <jasowang@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- backends/rng-egd.c    | 10 +++-------
- backends/rng-random.c |  8 ++++----
- backends/rng.c        |  6 +++---
- 3 files changed, 10 insertions(+), 14 deletions(-)
+ net/can/can_host.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/backends/rng-egd.c b/backends/rng-egd.c
-index 20198ff26e..600eef3f75 100644
---- a/backends/rng-egd.c
-+++ b/backends/rng-egd.c
-@@ -135,12 +135,6 @@ static char *rng_egd_get_chardev(Object *obj, Error **errp)
-     return NULL;
+diff --git a/net/can/can_host.c b/net/can/can_host.c
+index be4547d913..bec88b9620 100644
+--- a/net/can/can_host.c
++++ b/net/can/can_host.c
+@@ -72,21 +72,16 @@ static void can_host_complete(UserCreatable *uc, Error **errp)
+     can_host_connect(CAN_HOST(uc), errp);
  }
  
--static void rng_egd_init(Object *obj)
+-static void can_host_instance_init(Object *obj)
 -{
--    object_property_add_str(obj, "chardev",
--                            rng_egd_get_chardev, rng_egd_set_chardev);
+-    CanHostState *ch = CAN_HOST(obj);
+-
+-    object_property_add_link(obj, "canbus", TYPE_CAN_BUS,
+-                             (Object **)&ch->bus,
+-                             object_property_allow_set_link,
+-                             OBJ_PROP_LINK_STRONG);
 -}
 -
- static void rng_egd_finalize(Object *obj)
+ static void can_host_class_init(ObjectClass *klass,
+                                 void *class_data G_GNUC_UNUSED)
  {
-     RngEgd *s = RNG_EGD(obj);
-@@ -153,6 +147,9 @@ static void rng_egd_class_init(ObjectClass *klass, void *data)
- {
-     RngBackendClass *rbc = RNG_BACKEND_CLASS(klass);
+     UserCreatableClass *uc_klass = USER_CREATABLE_CLASS(klass);
  
-+    object_class_property_add_str(klass, "chardev",
-+                                  rng_egd_get_chardev, rng_egd_set_chardev);
++    object_class_property_add_link(klass, "canbus", TYPE_CAN_BUS,
++                                   offsetof(CanHostState, bus),
++                                   object_property_allow_set_link,
++                                   OBJ_PROP_LINK_STRONG);
 +
-     rbc->request_entropy = rng_egd_request_entropy;
-     rbc->opened = rng_egd_opened;
+     klass->unparent = can_host_unparent;
+     uc_klass->complete = can_host_complete;
  }
-@@ -162,7 +159,6 @@ static const TypeInfo rng_egd_info = {
-     .parent = TYPE_RNG_BACKEND,
-     .instance_size = sizeof(RngEgd),
-     .class_init = rng_egd_class_init,
--    .instance_init = rng_egd_init,
-     .instance_finalize = rng_egd_finalize,
- };
- 
-diff --git a/backends/rng-random.c b/backends/rng-random.c
-index 245b12ab24..27152b8cdb 100644
---- a/backends/rng-random.c
-+++ b/backends/rng-random.c
-@@ -108,10 +108,6 @@ static void rng_random_init(Object *obj)
- {
-     RngRandom *s = RNG_RANDOM(obj);
- 
--    object_property_add_str(obj, "filename",
--                            rng_random_get_filename,
--                            rng_random_set_filename);
--
-     s->filename = g_strdup("/dev/urandom");
-     s->fd = -1;
- }
-@@ -132,6 +128,10 @@ static void rng_random_class_init(ObjectClass *klass, void *data)
- {
-     RngBackendClass *rbc = RNG_BACKEND_CLASS(klass);
- 
-+    object_class_property_add_str(klass, "filename",
-+                                  rng_random_get_filename,
-+                                  rng_random_set_filename);
-+
-     rbc->request_entropy = rng_random_request_entropy;
-     rbc->opened = rng_random_opened;
- }
-diff --git a/backends/rng.c b/backends/rng.c
-index 484f04e891..f018c380da 100644
---- a/backends/rng.c
-+++ b/backends/rng.c
-@@ -106,9 +106,6 @@ static void rng_backend_init(Object *obj)
- 
-     QSIMPLEQ_INIT(&s->requests);
- 
--    object_property_add_bool(obj, "opened",
--                             rng_backend_prop_get_opened,
--                             rng_backend_prop_set_opened);
- }
- 
- static void rng_backend_finalize(Object *obj)
-@@ -122,6 +119,9 @@ static void rng_backend_class_init(ObjectClass *oc, void *data)
- {
-     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
- 
-+    object_class_property_add_bool(oc, "opened",
-+                                   rng_backend_prop_get_opened,
-+                                   rng_backend_prop_set_opened);
-     ucc->complete = rng_backend_complete;
- }
- 
+@@ -97,7 +92,6 @@ static const TypeInfo can_host_info = {
+     .instance_size = sizeof(CanHostState),
+     .class_size = sizeof(CanHostClass),
+     .abstract = true,
+-    .instance_init = can_host_instance_init,
+     .class_init = can_host_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
 -- 
 2.26.2
 
