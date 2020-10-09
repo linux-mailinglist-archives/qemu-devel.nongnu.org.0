@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2C2288F93
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:08:00 +0200 (CEST)
-Received: from localhost ([::1]:49480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266BD288FBF
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:14:43 +0200 (CEST)
+Received: from localhost ([::1]:42276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvs6-0003tO-Ji
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40186)
+	id 1kQvyc-0004CU-7l
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:14:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>)
- id 1kQvQn-0002lK-Lr; Fri, 09 Oct 2020 12:39:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>)
- id 1kQvQi-00069n-Ls; Fri, 09 Oct 2020 12:39:45 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQvWx-0003C3-EZ
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:46:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45513)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kQvWu-00070J-4H
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:46:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602261962;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/b0zF0/TyiFet3OydQ344pQSqN3hd50hw3UVtBEQrQw=;
+ b=ZE8vromu1XqEHVfhtk99O8tVRU7cprwSeLBtERUSct9KIC66kZqfi4K0zF2chqdzXVA59m
+ 3dcRMj/0N1vSONvWVCTGgyAxX85S8drdcf51xUybgXIoDv019kexHANB+fXU5Qdgz79g3A
+ /GrzC+7eZ8zYG+v3TTqYaDWij2nuUMA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-8YD8iDjNNDqw2d2aZBDc8Q-1; Fri, 09 Oct 2020 12:46:00 -0400
+X-MC-Unique: 8YD8iDjNNDqw2d2aZBDc8Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CC3B92227F;
- Fri,  9 Oct 2020 16:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602261577;
- bh=BijnUXUSrlZuxdom+hiKK3koCT7tWTVCca3CcvH/Y0c=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=2TX8s9cwrskazcYgdvvXIEk1DLTJqwZr1JhsmophCYTijzvSx5vfJ956ZuvG0j/0y
- LkVpYsTvQWy9p8LqAvnwiWhJHqVuPnPTbaatggXKqw4ECGfnPbTrldxaspcthIYvmh
- zVcJhlBlRNyDxbLvYNji6aYWjH9iiSw3rR6xXRPo=
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
- by disco-boy.misterjones.org with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <maz@kernel.org>)
- id 1kQvQd-0014Lz-Rd; Fri, 09 Oct 2020 17:39:35 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EE03107B278;
+ Fri,  9 Oct 2020 16:45:49 +0000 (UTC)
+Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB8D96266E;
+ Fri,  9 Oct 2020 16:45:48 +0000 (UTC)
+Date: Fri, 9 Oct 2020 12:45:48 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: KVM call for agenda for 2020-10-06
+Message-ID: <20201009164548.GC7303@habkost.net>
+References: <874kndm1t3.fsf@secure.mitica>
+ <20201005144615.GE5029@stefanha-x1.localdomain>
+ <CAJSP0QVZcEQueXG1gjwuLszdUtXWi1tgB5muLL6QHJjNTOmyfQ@mail.gmail.com>
+ <8fce8f99-56bd-6a87-9789-325d6ffff54d@redhat.com>
+ <20201008080345.GB4672@linux.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Fri, 09 Oct 2020 17:39:35 +0100
-From: Marc Zyngier <maz@kernel.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/intc/arm_gicv3_cpuif: Make GIC maintenance interrupts
- work
-In-Reply-To: <20201009153904.28529-1-peter.maydell@linaro.org>
-References: <20201009153904.28529-1-peter.maydell@linaro.org>
-User-Agent: Roundcube Webmail/1.4.8
-Message-ID: <849e61faa6da0bdc21845f0e95a516e5@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: peter.maydell@linaro.org, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, josemartins90@gmail.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 12:39:38
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201008080345.GB4672@linux.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,56 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jose Martins <josemartins90@gmail.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Daniel Berrange <berrange@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
-On 2020-10-09 16:39, Peter Maydell wrote:
-> In gicv3_init_cpuif() we copy the ARMCPU gicv3_maintenance_interrupt
-> into the GICv3CPUState struct's maintenance_irq field.  This will
-> only work if the board happens to have already wired up the CPU
-> maintenance IRQ before the GIC was realized.  Unfortunately this is
-> not the case for the 'virt' board, and so the value that gets copied
-> is NULL (since a qemu_irq is really a pointer to an IRQState struct
-> under the hood).  The effect is that the CPU interface code never
-> actually raises the maintenance interrupt line.
+On Thu, Oct 08, 2020 at 10:03:45AM +0200, Kevin Wolf wrote:
+> Am 07.10.2020 um 19:50 hat Paolo Bonzini geschrieben:
+> > On 06/10/20 20:21, Stefan Hajnoczi wrote:
+> > >     * Does command-line order matter?
+> > >         * Two options: allow any order OR left-to-right ordering
+> > >         * Andrea Bolognani: Most users expect left-to-right ordering,
+> > > why allow any order?
+> > >         * Eduardo Habkost: Can we enforce left-to-right ordering or do
+> > > we need to follow the deprecation process?
+> > >         * Daniel Berrange: Solve compability by introducing new
+> > > binaries without the burden of backwards compability
+> > 
+> > I think "new binaries" shouldn't even have a command line; all
+> > configuration should happen through QMP commands.  Those are naturally
+> > time-ordered, which is equivalent to left-to-right, and therefore the
+> > question is sidestepped.  Perhaps even having a command line in
+> > qemu-storage-daemon was a mistake.
+> > 
+> > For "old binaries" we are not adding too many options, so apart from the
+> > nasty distinction between early and late objects we're at least not
+> > making it worse.
+> > 
+> > The big question to me is whether the configuration should be
+> > QAPI-based, that is based on QAPI structs, or QMP-based.  If the latter,
+> > "object-add" (and to a lesser extent "device-add") are fine mechanisms
+> > for configuration.  There is still need for better QOM introspection,
+> > but it would be much simpler than doing QOM object creation via QAPI
+> > struct, if at all possible.
 > 
-> Instead, since the GICv3CPUState has a pointer to the CPUState, make
-> the dereference at the point where we want to raise the interrupt, to
-> avoid an implicit requirement on board code to wire things up in a
-> particular order.
+> I would strongly vote for QAPI-based. It doesn't have to be fully based
+> on QAPI structs internally, but the defining property for me is that the
+> external interface is described in the QAPI schema (which implies using
+> QAPI structs for the external facing code).
 > 
-> Reported-by: Jose Martins <josemartins90@gmail.com>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
+> Not only is it a PITA to work with things like "gen": false or "props":
+> "any", but having two systems to configure things side by side is also
+> highly inconsistent.
 > 
-> QEMU's implementation here is a bit odd because we've put all the
-> logic into the "GIC" device where in real hardware it's split between
-> a GIC device and the CPU interface part in the CPU.  If we had
-> arranged it in that way then we wouldn't have this odd bit of code
-> where the GIC device needs to raise an IRQ line that belongs to the
-> CPU.
+> I have recently discussed object-add with Markus, or to be more precise,
+> a QAPIfied --object in qsd wrapping it. This doesn't work well without
+> having a schema. I believe the right thing to do there is build a QAPI
+> schema describing the existing QOM properties in a first step (which
+> already gives you all of the advantages of QAPI like introspection), and
+> then in a second step generate the respective QOM code for initialising
+> the properties from the schema instead of duplicating it.
 > 
-> Not sure why we've never noticed this bug previously with KVM as a
-> guest, you'd think we'd have spotted "maintenance interrupts just
-> don't work"...
+> This can get challenging with dynamic properties, but as far as I can
+> see, user creatable objects only have class properties or object
+> properties created right in .instance_init (which should be equivalent).
 
-That's because the maintenance interrupt is only used in KVM to trigger
-an exit if nothing else causes one, and we end-up suppressing the cause
-of the maintenance interrupt (by turning the VGIC off) before actually
-coming to a point where we'd handle it.
+I've just submitted a series to ensure 100% of
+TYPE_USER_CREATABLE types have only class properties:
 
-The lack of MI would at worse delay the injection of new virtual 
-interrupts,
-not something you'd notice unless you start looking very closely at the
-delivery latency.
+https://lore.kernel.org/qemu-devel/20201009160122.1662082-1-ehabkost@redhat.com
 
-Thanks,
+> 
+> As the number of user creatable objects isn't too large, this shouldn't
+> be too hard. I'm less sure about device-add, though in theory the same
+> approch would probably result in the best interface.
 
-         M.
+Doing the same for all user creatable device types would be nice
+too.  We can use the property locking mechanism from the series above
+to find out how bad the situation is.
+
 -- 
-Jazz is not dead. It just smells funny...
+Eduardo
+
 
