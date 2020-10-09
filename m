@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55B6288FF5
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:27:32 +0200 (CEST)
-Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6EA288FFA
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:29:37 +0200 (CEST)
+Received: from localhost ([::1]:41246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQwB1-0005Jl-SP
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51316)
+	id 1kQwD2-0007Dd-Pg
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kQw8h-0004KP-Qu
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:25:07 -0400
-Resent-Date: Fri, 09 Oct 2020 13:25:07 -0400
-Resent-Message-Id: <E1kQw8h-0004KP-Qu@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kQw8Z-0003cz-PM
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:25:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1602264286; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MKmbK/1QNtlzo5ruGJgXxe0ZHdwoMWMn/Gy1FJb6eikn4mIK8CsoslRdrGr01WeekuovKQNq5tew2a8dDjcLAIOlf1zhHyHYEqfcgCj83GnuhfWzKJQb78x7dw6iUSBrvMNTWneSMYC5wCG8D6qbisTUu4gw6KiSxIqKvqQC0eU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1602264286;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=HT5yyVhmlCGXyEtoGA0BDR5xufCEOF4yb/7ulvjfAUM=; 
- b=fMnE4WsLEDF0vrbEXr+zJca2P+zdwwveeBcHBtU4Pl/zJ2Hyc+8PnGrw+qoyAb5o2XIFeEDs7UfDA3CTKMkKGpYTPeSm8FEBkuY11Ex6j3pc5m0geCj4YY/v4iQZQEu/GelHN+aRf14fAYjX2HWZBr5AYpi0M5CSLPOw1ss7QAI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1602264284877215.53485288076422;
- Fri, 9 Oct 2020 10:24:44 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/4] generic loader FDT support (for direct Xen boot)
-Message-ID: <160226428305.28248.1939040069586599654@66eaa9a8a123>
-In-Reply-To: <20201009170742.23695-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQw9o-0005Be-6q
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:26:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51843)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQw9g-0003uY-1j
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:26:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602264367;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uxl7JKjhCpcygQdnlesHhq3pYN+XRVdIQyxAc+9IpUk=;
+ b=BTzZ3ReAL9BsElQ3PIHsTQTQ/TbmcBdDU2LyLyVD+2LQ1bLMI9rVtlk/QbSMrmFMC4xIv/
+ x2iK712C8zGqQdpWtJ6/xwi6QfUsjkSwxmvI9OpXT5N0dC23Ma1KPPGB36kRCnh7t24Tc7
+ b34iDk6Pl4gE5WTHxf3lCD+jNLBSNDA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-539-_IJJQWtzOJCTMwLS6yQkmg-1; Fri, 09 Oct 2020 13:26:05 -0400
+X-MC-Unique: _IJJQWtzOJCTMwLS6yQkmg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CD8D101FFC8;
+ Fri,  9 Oct 2020 17:26:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BC1B5D9F7;
+ Fri,  9 Oct 2020 17:26:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3D30A11329AE; Fri,  9 Oct 2020 19:26:02 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v6 26/36] qapi/gen.py: Fix edge-case of _is_user_module
+References: <20201009161558.107041-1-jsnow@redhat.com>
+ <20201009161558.107041-27-jsnow@redhat.com>
+Date: Fri, 09 Oct 2020 19:26:02 +0200
+In-Reply-To: <20201009161558.107041-27-jsnow@redhat.com> (John Snow's message
+ of "Fri, 9 Oct 2020 12:15:48 -0400")
+Message-ID: <87zh4vcnv9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Fri, 9 Oct 2020 10:24:44 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 11:31:12
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,61 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
- stefano.stabellini@linaro.org, qemu-devel@nongnu.org,
- takahiro.akashi@linaro.org, stefano.stabellini@xilinx.com,
- alex.bennee@linaro.org, stratos-dev@op-lists.linaro.org
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAwOTE3MDc0Mi4yMzY5
-NS0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTAwOTE3MDc0Mi4y
-MzY5NS0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3ViamVjdDogW1JGQyBQQVRDSCAgMC80XSBn
-ZW5lcmljIGxvYWRlciBGRFQgc3VwcG9ydCAoZm9yIGRpcmVjdCBYZW4gYm9vdCkKCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
-dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
-bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
-ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2
-NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJv
-amVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDEwMDkxNzA3NDIuMjM2
-OTUtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMDEwMDkxNzA3NDIuMjM2
-OTUtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVz
-dCcKOGZiY2NiZSBnZW5lcmljX2xvYWRlcjogYWxsb3cgdGhlIGluc2VydGlvbiBvZiAvY2hvc2Vu
-L21vZHVsZSBzdGFuemFzCjJiYWYwN2EgZGV2aWNlX3RyZWU6IGFkZCBxZW11X2ZkdF9zZXRwcm9w
-X3N0cmluZ19hcnJheSBoZWxwZXIKZGQ2ZWVhMyBody9yaXNjdjogbWlncmF0ZSBmZHQgZmllbGQg
-dG8gZ2VuZXJpYyBNYWNoaW5lU3RhdGUKZGQ4ZWU4NiBody9ib2FyZDogcHJvbW90ZSBmZHQgZnJv
-bSBBUk0gVmlydE1hY2hpbmVTdGF0ZSB0byBNYWNoaW5lU3RhdGUKCj09PSBPVVRQVVQgQkVHSU4g
-PT09CjEvNCBDaGVja2luZyBjb21taXQgZGQ4ZWU4NmY1Y2RmIChody9ib2FyZDogcHJvbW90ZSBm
-ZHQgZnJvbSBBUk0gVmlydE1hY2hpbmVTdGF0ZSB0byBNYWNoaW5lU3RhdGUpCjIvNCBDaGVja2lu
-ZyBjb21taXQgZGQ2ZWVhM2U2ZTM0IChody9yaXNjdjogbWlncmF0ZSBmZHQgZmllbGQgdG8gZ2Vu
-ZXJpYyBNYWNoaW5lU3RhdGUpCjMvNCBDaGVja2luZyBjb21taXQgMmJhZjA3YTdhYmZjIChkZXZp
-Y2VfdHJlZTogYWRkIHFlbXVfZmR0X3NldHByb3Bfc3RyaW5nX2FycmF5IGhlbHBlcikKV0FSTklO
-RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzM1OiBGSUxFOiBkZXZpY2VfdHJlZS5jOjQwNjoK
-K2ludCBxZW11X2ZkdF9zZXRwcm9wX3N0cmluZ19hcnJheSh2b2lkICpmZHQsIGNvbnN0IGNoYXIg
-Km5vZGVfcGF0aCwgY29uc3QgY2hhciAqcHJvcCwKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5n
-cywgNjEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
-IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
-cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
-CjQvNCBDaGVja2luZyBjb21taXQgOGZiY2NiZWM5NjI4IChnZW5lcmljX2xvYWRlcjogYWxsb3cg
-dGhlIGluc2VydGlvbiBvZiAvY2hvc2VuL21vZHVsZSBzdGFuemFzKQpFUlJPUjogRG9uJ3QgdXNl
-ICcjJyBmbGFnIG9mIHByaW50ZiBmb3JtYXQgKCclIycpIGluIGZvcm1hdCBzdHJpbmdzLCB1c2Ug
-JzB4JyBwcmVmaXggaW5zdGVhZAojNTE6IEZJTEU6IGh3L2NvcmUvZ2VuZXJpYy1sb2FkZXIuYzo3
-MzoKKyAgICBnX2F1dG9mcmVlIGNoYXIgKm5vZGUgPSBnX3N0cmR1cF9wcmludGYoIi9jaG9zZW4v
-bW9kdWxlQCUjMDhseCIsIHMtPmFkZHIpOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
-cnMKIzcxOiBGSUxFOiBody9jb3JlL2dlbmVyaWMtbG9hZGVyLmM6OTM6CisgICAgICAgIGlmIChx
-ZW11X2ZkdF9zZXRwcm9wX3N0cmluZyhmZHQsIG5vZGUsICJib290YXJncyIsIHMtPmZkdF9ib290
-YXJncykgPCAwKSB7Cgp0b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3MsIDc2IGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDQvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQg
-PT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDEwMDkxNzA3NDIuMjM2OTUt
-MS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdl
-LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
-YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
-cmVkaGF0LmNvbQ==
+John Snow <jsnow@redhat.com> writes:
+
+> The edge case is that if the name is '', this expression returns a
+> string instead of a bool, which violates our declared type.
+>
+> In practice, module names are not allowed to be the empty string, but
+> this constraint is not modeled for the type system.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  scripts/qapi/gen.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> index fff0c0acb6d..2c305c4f82c 100644
+> --- a/scripts/qapi/gen.py
+> +++ b/scripts/qapi/gen.py
+> @@ -241,7 +241,7 @@ def __init__(self, prefix, what, user_blurb, builtin_=
+blurb, pydoc):
+> =20
+>      @staticmethod
+>      def _is_user_module(name):
+> -        return name and not name.startswith('./')
+> +        return bool(name and not name.startswith('./'))
+
+           return not (name is None or name.startswith('./')
+
+Looks slightly clearer to me.
+
+> =20
+>      @staticmethod
+>      def _is_builtin_module(name):
+
 
