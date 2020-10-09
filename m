@@ -2,71 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12EC2288C6F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 17:19:26 +0200 (CEST)
-Received: from localhost ([::1]:52448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A63AA288C7D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 17:23:41 +0200 (CEST)
+Received: from localhost ([::1]:56818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQuB3-00066q-56
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 11:19:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49284)
+	id 1kQuFA-0008A6-O6
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 11:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kQu9z-0005aA-MV
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:18:19 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1kQu9w-0004Fe-9L
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:18:19 -0400
-Received: by mail-oi1-x242.google.com with SMTP id w141so10572256oia.2
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 08:18:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6wWiax1fA3+EVw+HMK8qEHvCcvAxagBJg4UC6w3+UF8=;
- b=vR1xehxW1HZrWraNiB5WXDDPraeXQZ3RqIXzXsHrJ3+Kvvx7bqlh3d60OtTcnNJOZz
- qyaMYX+ruzL1IgILKHyaTwAiPrIGafMut5V9aJ24mZhIHwORwM9+RSN5rA57PfELgymd
- 7nT49B2OLPx3O+kry4Z4xa9NbqnThB0l0ta/TSCTycsdAui7zvaXAUdHmF0IKALvAH3G
- fw8fUnOJ4pOx6GhuEtJDxchDzTDhsHmEUvY0BdyackXRD+trltvLhh/cVFwv4ZrWaqIZ
- zbe8sjqEaSKprA/x3L6LvR3RYWraOITmTZ0+u7ITB0zL1qLwWnocBmgroW1DduHT8ZkX
- Cu3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6wWiax1fA3+EVw+HMK8qEHvCcvAxagBJg4UC6w3+UF8=;
- b=XRAPoURaclgiLzzO6pS1GcvAeEu5X3MP2vs0+TWigPk+vDxroFbjkNWkOi/pRFNLJ3
- Zohm7LVCL2AX6rII0fgmnMHluRTWLpl1azuqL7APpJ59AX/p01fPpqaGgcjVWuD4AqoR
- TK5/03f4fJuLZwo2pFyzWDOFss9PO3sV+DzQdSKaXCJIkEZ2Ta5j7Wv8bus6YEjsyRf5
- q0GJO2xjhTjSwXpdUPSYV7WLLTS0VDFOy/2ucaikhZGEgCO0UCyPgLm3MfFg/IsYkIvN
- C1Fsj1NLN2HruO3T5N2cHr/pFSvo+I3t/ZgxV+HPbo5rmzwzg3rUvpmHGeF3uPLIYLvS
- YgVg==
-X-Gm-Message-State: AOAM532feJ+LWfXYAGdh84bD7IrxykqoBuZBrq7P1IDCWyKiOh5yaMAJ
- Aik4pubK9Drt9FdAIzU9XcWHwW0TVa1fNhWq6io=
-X-Google-Smtp-Source: ABdhPJz/qn1ydHUXtdwX1341e69tZXIQG8fFYG0c3mP2gx8Gewx+f9OmZ3/adZ/33jPgw3J1QQhvMJDmdrkow2I+2Gk=
-X-Received: by 2002:a54:4d88:: with SMTP id y8mr2803869oix.97.1602256695142;
- Fri, 09 Oct 2020 08:18:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCp-0006uJ-SR
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCm-0004hJ-Ky
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:15 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id CE5DAB240;
+ Fri,  9 Oct 2020 15:21:09 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [RFC v1 0/4] unbreak non-tcg builds
+Date: Fri,  9 Oct 2020 17:21:04 +0200
+Message-Id: <20201009152108.16120-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201008202713.1416823-1-ehabkost@redhat.com>
- <20201008202713.1416823-3-ehabkost@redhat.com>
-In-Reply-To: <20201008202713.1416823-3-ehabkost@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 9 Oct 2020 23:17:39 +0800
-Message-ID: <CAKXe6S+-OyQGG3YRguuyXMngz=5AjO28_XY4qpskJ7jDJLOxKQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] can-host-socketcan: Fix crash when 'if' option is not
- set
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 23:20:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,56 +51,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vikram Garhwal <fnu.vikram@xilinx.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> =E4=BA=8E2020=E5=B9=B410=E6=9C=889=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=884:31=E5=86=99=E9=81=93=EF=BC=9A
->
-> Fix the following crash:
->
->   $ qemu-system-x86_64 -object can-host-socketcan,id=3Dobj0
->   Segmentation fault (core dumped)
->
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+please do not apply as-is, this is to track the current
+changes needed to unbreak non-tcg builds and for RFC only.
+This is to kick start the discussion on how to fix these problems.
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Claudio Fontana (3):
+  qtest: unbreak non-TCG builds in bios-tables-test
+  qtest: do not build ide-test if TCG is not available
+  replay: do not build if TCG is not available
 
-> ---
-> Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-> Cc: Vikram Garhwal <fnu.vikram@xilinx.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: qemu-devel@nongnu.org
-> ---
->  net/can/can_socketcan.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
-> index 92b1f79385..4b68f60c6b 100644
-> --- a/net/can/can_socketcan.c
-> +++ b/net/can/can_socketcan.c
-> @@ -194,6 +194,11 @@ static void can_host_socketcan_connect(CanHostState =
-*ch, Error **errp)
->      struct sockaddr_can addr;
->      struct ifreq ifr;
->
-> +    if (!c->ifname) {
-> +        error_setg(errp, "'if' property not set");
-> +        return;
-> +    }
-> +
->      /* open socket */
->      s =3D qemu_socket(PF_CAN, SOCK_RAW, CAN_RAW);
->      if (s < 0) {
-> --
-> 2.26.2
->
->
+Paolo Bonzini (1):
+  tests/Makefile.include: unbreak non-tcg builds
+
+ migration/savevm.c             | 11 ++--
+ replay/meson.build             |  2 +-
+ stubs/replay.c                 | 99 ++++++++++++++++++++++++++++++++++
+ tests/Makefile.include         |  2 +-
+ tests/qtest/bios-tables-test.c | 10 ++++
+ tests/qtest/meson.build        |  2 +-
+ tests/qtest/qmp-cmd-test.c     |  3 ++
+ 7 files changed, 122 insertions(+), 7 deletions(-)
+
+-- 
+2.26.2
+
 
