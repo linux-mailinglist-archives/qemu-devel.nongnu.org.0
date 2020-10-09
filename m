@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCECB288C8B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 17:27:08 +0200 (CEST)
-Received: from localhost ([::1]:38464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FAE1288C86
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 17:25:39 +0200 (CEST)
+Received: from localhost ([::1]:34336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQuIV-0003v7-VE
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 11:27:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50214)
+	id 1kQuH4-0002AA-En
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 11:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCr-0006va-S1
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56850)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCq-0006uQ-Gn
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCm-0004hL-Li
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:17 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQuCm-0004hQ-Lr
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 11:21:16 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 23D91ABE3;
+ by mx2.suse.de (Postfix) with ESMTP id 7801DAC8C;
  Fri,  9 Oct 2020 15:21:10 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [RFC v1 1/4] tests/Makefile.include: unbreak non-tcg builds
-Date: Fri,  9 Oct 2020 17:21:05 +0200
-Message-Id: <20201009152108.16120-2-cfontana@suse.de>
+Subject: [RFC v1 2/4] qtest: unbreak non-TCG builds in bios-tables-test
+Date: Fri,  9 Oct 2020 17:21:06 +0200
+Message-Id: <20201009152108.16120-3-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009152108.16120-1-cfontana@suse.de>
 References: <20201009152108.16120-1-cfontana@suse.de>
@@ -55,36 +55,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Claudio Fontana <cfontana@suse.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+the tests assume TCG is available, thus breaking
+for TCG-only tests, where only the TCG accelerator option
+is passed to the QEMU binary.
 
-XXX known to be wrong, this breaks other non-native builds
-
-remove dependency of check-block from non-native archs
-
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- tests/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/bios-tables-test.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 5aca98e60c..1ca70d88ce 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -140,7 +140,7 @@ QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXE
- check: check-block
- check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
- 		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
--		$(patsubst %-softmmu,qemu-system-%,$(filter %-softmmu,$(TARGET_DIRS)))
-+		qemu-system-$(patsubst ppc64%,ppc64, $(shell uname -m))
- 	@$<
- endif
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index e15f36c8c7..e783da54ba 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -122,6 +122,9 @@ static void free_test_data(test_data *data)
+ {
+     int i;
  
++    if (!data->tables) {
++        return;
++    }
+     for (i = 0; i < data->tables->len; ++i) {
+         cleanup_table_descriptor(&g_array_index(data->tables, AcpiSdtTable, i));
+     }
+@@ -651,6 +654,13 @@ static void test_acpi_one(const char *params, test_data *data)
+     char *args;
+     bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
+ 
++#ifndef CONFIG_TCG
++    if (data->tcg_only) {
++        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
++        return;
++    }
++#endif /* CONFIG_TCG */
++
+     if (use_uefi) {
+         /*
+          * TODO: convert '-drive if=pflash' to new syntax (see e33763be7cd3)
 -- 
 2.26.2
 
