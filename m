@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08CC288F3C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:55:56 +0200 (CEST)
-Received: from localhost ([::1]:46096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E981C288F4E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:58:55 +0200 (CEST)
+Received: from localhost ([::1]:54974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvgR-0007SC-Nb
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36282)
+	id 1kQvjL-0002ge-0r
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQvAO-0003VS-RP
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:22:49 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37398)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQvJB-0008NE-Qo
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:31:53 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kQvAN-00041v-4L
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:22:48 -0400
-Received: by mail-ed1-x536.google.com with SMTP id o18so9968585edq.4
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:22:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kQvJ9-00058M-6K
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:31:53 -0400
+Received: by mail-wm1-x333.google.com with SMTP id l15so9325028wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pWu/kzTPRkIETnPK0GSVo7E3PLlSPIL400aj8BSM0ds=;
- b=JGAwr1ShsIgtaTmXxUPkKy9LWv/HdrU8mdpUboZjmEM+2mjQhjBpO9CpIgsDJjjR9J
- prLG2dPu8LraJy4doeEm9+uWpLlIKVtt0FTkS4Jj07PF8va1UNfrR+YAGXpNGn3zFJEe
- lonye8gxIOV11GDMXnpzT1l+7OWogIBJlFFOnO481gft7ipXqxiu9KhoMQY3pLUKZU8q
- JxvKMoYrT/3mx484xpQf5I4fAnFiRBUHmuPGHn8fQQtSrppOTCWVBGriTUY7gy73pSuj
- 1lL+0zJfJc1nAwXZ2WOpmFlBevdAKTIAAZlm9gXvFFOgqr16oxCXDOvizAoyuJvw6CZh
- 5kZA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z/3FJnBAJGBqxaPVww8H3rWV4h9ZpETTH3GSqWuzYus=;
+ b=rw5+s/Y6vcTut6CHUf/1KSnxFtLMclfvu3wStQqa9PnciiAjJN7rHwTU0qBIoCWWzk
+ wsUVSR9IdEUa5hTEgB3jMQaXG2o2wcsTAERbnrbHuzjIwTWrb5oXHFvLIsGDF0wMYNex
+ NbzBzmJQwxHp1aeewCQ2UvjCJtJEbzFk8L3GPIQGaIYNP8N7XhOlP4No6IxZPNXIqIM9
+ FBW4VXa2Yf4zTTdrRHbxORMRSftFVCfYpXdOa/ETF2w1i95DST2jnF1GfsbruNuX0yon
+ nEXOQUdmzjEQruy+OzSry+wOBDDwhUwSv4KX2FxJuf6hpJNvZ9plnPLsYxfD2hhUuCAn
+ cu1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pWu/kzTPRkIETnPK0GSVo7E3PLlSPIL400aj8BSM0ds=;
- b=DPaldxxBIGgvrxwXyqqDVwYp4lzZhMqcf0EmhJjlzuehx3G91n2/jgTa0WYuHOTihs
- bMfzCbD8X8KOGFJ0/o15tmGLmqK6480NAG0fmYoR+NI6geIkPvwUMynz39zsbptCDtU+
- De11G33V2BgTnzUpBOPg00cehwmc0D5Q6WSMoDmwrbL4r3orN2v8CkBw3pnY6qxbH+yU
- g3BMP/SgWnDpCa+qsVjseTxufWLPvB+gDes2bNZy3UP3SYAda6hDM/Iug7V7hU0Z5rH7
- R17X52NIarAlg72DmcryfzVp+aDaqv72aDA4ThDICuKqPMb8YOnQ1CqfAlJD2IqXXgSk
- ClhQ==
-X-Gm-Message-State: AOAM530sCSqb6EhiPCkmQ8grmiK08QHUlCknK4Uuyw+7kYqNDt5zOwsz
- CRWS7dNBqErZAEHbEP1Cjde60pBOfb40zXENacJ9eQ==
-X-Google-Smtp-Source: ABdhPJyUtgNjYK0QpJAj+iFauayWb6O5uEjiG2FRpgJy+XiAZMIfgmrKyKBw6mmscqlzhC1QcXj5Xg1PyAGpQgWYe+M=
-X-Received: by 2002:a50:9ea6:: with SMTP id a35mr16060460edf.52.1602260565287; 
- Fri, 09 Oct 2020 09:22:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z/3FJnBAJGBqxaPVww8H3rWV4h9ZpETTH3GSqWuzYus=;
+ b=h0npknCpMGhNY63xSIjUhzfliNLboq7vOddgK40zpHL97wkWufUmpyYJCJD3cDFUUU
+ FUwaZaiVlcUpvXbYJ5gbzCn/vqvxKMOseb92zBlGHlGEri2gTlHU4JI6ZBGJzhGN+VsW
+ 862kLcHFbpnoJfDuiDy7REHaDLA2Chq7j/upboIMMv6AylF3DbA/Lt5h2ZGks1PXQdM7
+ +OqOjw2ncaeRtm12Gh8RUJBhhRYSZOnHgaSLy6clOi+7/tH7EEvK5aAwJTObPkImqdxu
+ I2koKdUTsis99FdeJ6UooS2cfWAl2X1rfDlmrnQ8wnl02jqbSERZ7Fzu1b6VC66uIuIL
+ LrKg==
+X-Gm-Message-State: AOAM5328yVNftNNokTnJ1ymP2QHnq6aMwHPXczi3WRDCDJ2iCbrO/wRq
+ XpCFcS2UXoPfZg+nPejhrPsw0w==
+X-Google-Smtp-Source: ABdhPJwf9zqpqowyjNtrx4w7XUCpmK2iVd9gdeVAw7P1A2WwtvfW2riyf6zwaowak5fwvlhKsHdvqg==
+X-Received: by 2002:a1c:b78a:: with SMTP id
+ h132mr15211997wmf.172.1602261109235; 
+ Fri, 09 Oct 2020 09:31:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q9sm12806167wrd.57.2020.10.09.09.31.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Oct 2020 09:31:47 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 16A341FF7E;
+ Fri,  9 Oct 2020 17:31:47 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/22] acceptance regressions, testing, gitdm, plugins
+Date: Fri,  9 Oct 2020 17:31:25 +0100
+Message-Id: <20201009163147.28512-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
-In-Reply-To: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 9 Oct 2020 17:22:33 +0100
-Message-ID: <CAFEAcA9Bv2WtaPOmWtps+bfV8pLbqHnai__m5k5ChzXcRbowXA@mail.gmail.com>
-Subject: Re: [PULL 00/20] ppc-for-5.2 queue 20201009
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,41 +87,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc@nonngu.org,
- Greg Kurz <groug@kaod.org>, dbarboza@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 9 Oct 2020 at 11:20, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> The following changes since commit 497d415d76b9f59fcae27f22df1ca2c3fa4df64e:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20201008-1' into staging (2020-10-08 21:41:20 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/dgibson/qemu.git tags/ppc-for-5.2-20201009
->
-> for you to fetch changes up to 307e7a34dc474c050f345eeb519d957a42f10c77:
->
->   specs/ppc-spapr-numa: update with new NUMA support (2020-10-09 15:06:14 +1100)
->
-> ----------------------------------------------------------------
-> ppc patch queue 2020-10-09
->
-> Here's the next set of ppc related patches for qemu-5.2.  There are
-> two main things here:
->
-> * Cleanups to error handling in spapr from Greg Kurz
-> * Improvements to NUMA handling for spapr from Daniel Barboza
->
-> There are also a handful of other bugfixes.
+The following changes since commit 4a7c0bd9dcb08798c6f82e55b5a3423f7ee669f1:
 
+  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.2-20201009' into staging (2020-10-09 15:48:04 +0100)
 
-Applied, thanks.
+are available in the Git repository at:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+  https://github.com/stsquad/qemu.git tags/pull-various-091020-1
 
--- PMM
+for you to fetch changes up to e5d402b28f1a325d46b7b0f08d04257f618e6d03:
+
+  tests/acceptance: disable machine_rx_gdbsim on GitLab (2020-10-09 17:27:55 +0100)
+
+----------------------------------------------------------------
+Testing, gitdm and plugin fixes:
+
+  - fix acceptance regressions in MIPS and IDE
+  - speed up cirrus msys2/mingw builds
+  - add genisoimage to more docker images
+  - slew of gitdb updates
+  - fix some windows compile issues for plugins
+  - add V=1 to cirrus output
+  - disable rxsim in gitlab CI
+
+----------------------------------------------------------------
+Alex Bennée (2):
+      hw/ide: restore replay support of IDE
+      tests/acceptance: disable machine_rx_gdbsim on GitLab
+
+Paolo Bonzini (2):
+      configure: fix performance regression due to PIC objects
+      cirrus: use V=1 when running tests on FreeBSD and macOS
+
+Philippe Mathieu-Daudé (13):
+      hw/misc/mips_cpc: Start vCPU when powered on
+      contrib/gitdm: Add more academic domains
+      contrib/gitdm: Add more individual contributors
+      contrib/gitdm: Add Baidu to the domain map
+      contrib/gitdm: Add ByteDance to the domain map
+      contrib/gitdm: Add Google to the domain map
+      contrib/gitdm: Add Nuvia to the domain map
+      contrib/gitdm: Add Qualcomm to the domain map
+      contrib/gitdm: Add Nir Soffer to Red Hat domain
+      contrib/gitdm: Add SUSE to the domain map
+      contrib/gitdm: Add Yadro to the domain map
+      contrib/gitdm: Add Yandex to the domain map
+      .mailmap: Fix more contributor entries
+
+Thomas Huth (1):
+      tests/docker: Add genisoimage to the docker file
+
+Yonggang Luo (4):
+      cirrus: Fixing and speedup the msys2/mingw CI
+      cirrus: msys2/mingw speed is up, add excluded target back
+      plugins: Fixes a issue when dlsym failed, the handle not closed
+      plugin: Fixes compiling errors on msys2/mingw
+
+ configure                                    |   1 +
+ contrib/plugins/hotblocks.c                  |   2 +-
+ hw/ide/core.c                                |   4 +-
+ hw/misc/mips_cpc.c                           |   1 +
+ plugins/loader.c                             |   1 +
+ tests/plugin/bb.c                            |   4 +-
+ .cirrus.yml                                  | 121 ++++++++++++++++-----------
+ .mailmap                                     |   2 +
+ contrib/gitdm/domain-map                     |  10 ++-
+ contrib/gitdm/group-map-academics            |   4 +
+ contrib/gitdm/group-map-individuals          |   7 ++
+ contrib/gitdm/group-map-redhat               |   1 +
+ tests/acceptance/machine_rx_gdbsim.py        |   1 +
+ tests/docker/dockerfiles/centos8.docker      |   1 +
+ tests/docker/dockerfiles/debian-amd64.docker |   1 +
+ tests/docker/dockerfiles/fedora.docker       |   1 +
+ tests/docker/dockerfiles/ubuntu2004.docker   |   1 +
+ 17 files changed, 107 insertions(+), 56 deletions(-)
+
+-- 
+2.20.1
+
 
