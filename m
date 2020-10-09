@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED60E288BE8
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 16:57:39 +0200 (CEST)
-Received: from localhost ([::1]:59558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DEA288C0B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 17:02:20 +0200 (CEST)
+Received: from localhost ([::1]:34356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQtpz-0004Q5-1X
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 10:57:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43616)
+	id 1kQtuV-0005v4-6I
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 11:02:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kQtow-0003nD-DD; Fri, 09 Oct 2020 10:56:34 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37174)
+ id 1kQtrp-000599-Fi; Fri, 09 Oct 2020 10:59:33 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kQtou-0001Ss-Sp; Fri, 09 Oct 2020 10:56:34 -0400
-Received: by mail-ot1-x344.google.com with SMTP id o8so9254776otl.4;
- Fri, 09 Oct 2020 07:56:31 -0700 (PDT)
+ id 1kQtrn-0001mT-NT; Fri, 09 Oct 2020 10:59:33 -0400
+Received: by mail-oi1-x244.google.com with SMTP id x62so10451217oix.11;
+ Fri, 09 Oct 2020 07:59:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=cwvcMoVEGULkCpiukNVGdWIa8siXf1a3XmAe3ERC6Sc=;
- b=IKme6Y9emfT7xlZS6Hw3l4udp8bvgUw+N5uA2Ex7suU67Z0u6+YRR/YIqgnPFiNuv2
- KZUSu6Wg5zfUSN+AwwT26j8xV9G9e0jGdmpF1zMBkuAGUGjWEd6BLcBc2P8D3mZW1yu4
- uRuQaUzHdRRgKg0RUNyQE9x8LlgP27YxEjKA5VWiethTC4Y8LrzUOxAemCjMjviLfPp3
- iycybWvyLZK3E+byfoO+8JkY+PLp8EgOOjKDlnir5WUkTcatZ3Kj5uxMnjmYTz2GuqKY
- ERrThUmuGrbEl/M2ANMmH4aEwbo4H6kLsqkU3YjvLTVraccjkVC+5/0PvqSTVuCX+xNK
- Yd+Q==
+ bh=+jG2DP2iJh0+zAnhwbYD3F7QwCkBTCr/X6nB+Vw5Lek=;
+ b=cDsdSRNIn+5U31Su3SgP5Ks1Fxoy2cYUYttAkVNrDg+bzNBHRWAn7Gps5G6fJaWWvz
+ kWtJLtGpro2yjXfsxG2gE9vYYJiVN3AzEeTSo7uCbuntq7pTVVU+um0uqDUYHFVhpcYU
+ YMgQoib93G458taP6S1gaCzic1/6gqEihxITel/2Mr7EOTG19AspW4vw8/FwOb0Oac5a
+ VxgLYK8+gWGj34og+3ztzhrgBPN2TtAhCVMAsfz/utSc2xzV47EQWF4SAXgoulipxQpv
+ P6EUVcXe715ubh9OtjVV4/+yseWPYj8zKHL2C4WQwJeszK3zkOhH8JotKcXf0WPrqU99
+ mRQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=cwvcMoVEGULkCpiukNVGdWIa8siXf1a3XmAe3ERC6Sc=;
- b=DzRWJeLJD8fWuwno5g94X/efPjSyGwx4he3qpEYrz7BRycUKuB6dOx84AppMQ/cjOv
- 36ZCaNlDQJScgWNMG8T0WlK+at0DsQqEV6R/FvsbZgc81Dy9RRwYUx9dJQq3XihgtcwZ
- 9ZxrjpZpfx/i2qHKaaB5cds4Dnrdnz907CxlfrSvYydaLcs7OXvrWdbG/eryVhX6KKZw
- aAK7jfXqJJNPm31Pv9JRdaox5tvQxIFXaJ2B0n22Tutf0DY2N1QHjqNrjnaYmUGbiTlt
- F0AqhtUF6QApKRdYRD2H3IaXfD0xNnuAqudIRjQPlmhxwBu4fefJqQtv1OWUvqkwnN2/
- U6gQ==
-X-Gm-Message-State: AOAM530WxXxIemqAj6/M/+q/URooHPvU7cySZFlxkwgldbZVA+vRe7LQ
- B2+dR3NnGhLxpE/yV5dXCfJkkNi/5SrkD52xDyE=
-X-Google-Smtp-Source: ABdhPJx0MG3okHUhDeYY6XZQbAPOsJRPKYah9gFTiszmM1VQ1f1Jmx4dYmsajCqiSI14/DfhuNb/ncZAaJT9MWdZBsw=
-X-Received: by 2002:a9d:5e11:: with SMTP id d17mr8731978oti.333.1602255390851; 
- Fri, 09 Oct 2020 07:56:30 -0700 (PDT)
+ bh=+jG2DP2iJh0+zAnhwbYD3F7QwCkBTCr/X6nB+Vw5Lek=;
+ b=LhQt5n44Wuy+P/JQqklWQr6Qe1hZKMRHySFDOhLmeyibsY44IvpH6koiNZ/uitC7IM
+ kxHRJzwiJqE4oEtnclcaLOCCJYPxllqTncYKVgJfoeXroE7FP/AdBFNxIk+CClbZScW7
+ ecrsbjpMkCFVm2hzqkEUKSpuwiwYxw7v57vETwiYZIbHNI7W3D1L9tlcpK9LjaLvDrc8
+ /+peV/7/xnQCl48HDTSyaeGkXiUKsb6XDCbrs3voM4MQYJAa8VqRAe1a9yuERy10PPby
+ nQjWUeyisuWAea+pj1T5oZwIeVGdYLfIwqQzoSWP9lWbM59DsdkE4+tjlneMo5snsW/C
+ OtbA==
+X-Gm-Message-State: AOAM532y07SFh7IGJVmaY8yPPq4K5lqz4Ibc6m+CN7h/PkDxQIyp/Tf/
+ LlLShicSpGR3xdLLPDTbvCXKJlAt+borbXpnKLE=
+X-Google-Smtp-Source: ABdhPJzyZP7rQIx2M6ZztelWeYebLmPugVDJ/+1ZYeiEUHpxw037WrTUm8u1NdH3yGOaH438CrSZDRNrO31qRdxwpEQ=
+X-Received: by 2002:a54:4d88:: with SMTP id y8mr2743122oix.97.1602255569913;
+ Fri, 09 Oct 2020 07:59:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
-In-Reply-To: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
+References: <20201009113843.60995-1-lvivier@redhat.com>
+In-Reply-To: <20201009113843.60995-1-lvivier@redhat.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 9 Oct 2020 22:55:55 +0800
-Message-ID: <CAKXe6SLdE=10OjDjjYTPS61T8ss7OZ_yp9CZdd1KXUsBc2+CpA@mail.gmail.com>
-Subject: Re: [PATCH] hw/net: move allocation to the heap due to very large
- stack frame
-To: Elena Afanasova <eafanasova@gmail.com>
+Date: Fri, 9 Oct 2020 22:58:53 +0800
+Message-ID: <CAKXe6SLbXTZMyT6XcSkUEhqZ2+V_SUCBu0U6nwmFYmSh_hrXMg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/char/serial: remove duplicate .class_init in
+ serial_mm_info
+To: Laurent Vivier <lvivier@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=liq3ea@gmail.com; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,59 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- qemu-ppc@nongnu.org, Qemu Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-riscv@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-trivial@nongnu.org, Anup Patel <anup.patel@wdc.com>,
+ Qemu Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Elena Afanasova <eafanasova@gmail.com> =E4=BA=8E2020=E5=B9=B410=E6=9C=889=
-=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8810:03=E5=86=99=E9=81=93=EF=BC=
-=9A
+Laurent Vivier <lvivier@redhat.com> =E4=BA=8E2020=E5=B9=B410=E6=9C=889=E6=
+=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=887:40=E5=86=99=E9=81=93=EF=BC=9A
 >
-> From 09905773a00e417d3a37c12350d9e55466fdce8a Mon Sep 17 00:00:00 2001
-> From: Elena Afanasova <eafanasova@gmail.com>
-> Date: Fri, 9 Oct 2020 06:41:36 -0700
-> Subject: [PATCH] hw/net: move allocation to the heap due to very large st=
-ack
->  frame
+> .class_init is already set to serial_mm_class_init.
 >
-> Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+> Remove the duplicate entry.
+>
+> Fixes: 17fd1a6490b1 ("serial-mm: add "regshift" property")
+> Cc: marcandre.lureau@redhat.com
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
->  hw/net/spapr_llan.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  hw/char/serial.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/hw/net/spapr_llan.c b/hw/net/spapr_llan.c
-> index 2093f1bad0..581320a0e7 100644
-> --- a/hw/net/spapr_llan.c
-> +++ b/hw/net/spapr_llan.c
-> @@ -688,7 +688,8 @@ static target_ulong h_send_logical_lan(PowerPCCPU *cp=
-u,
->      SpaprVioDevice *sdev =3D spapr_vio_find_by_reg(spapr->vio_bus, reg);
->      SpaprVioVlan *dev =3D VIO_SPAPR_VLAN_DEVICE(sdev);
->      unsigned total_len;
-> -    uint8_t *lbuf, *p;
-> +    uint8_t *p;
-> +    g_autofree uint8_t *lbuf =3D NULL;
->      int i, nbufs;
->      int ret;
+> diff --git a/hw/char/serial.c b/hw/char/serial.c
+> index 4386adabd466..97f71879ff2a 100644
+> --- a/hw/char/serial.c
+> +++ b/hw/char/serial.c
+> @@ -1120,7 +1120,6 @@ static const TypeInfo serial_mm_info =3D {
+>      .class_init =3D serial_mm_class_init,
+>      .instance_init =3D serial_mm_instance_init,
+>      .instance_size =3D sizeof(SerialMM),
+> -    .class_init =3D serial_mm_class_init,
+>  };
 >
-> @@ -729,7 +730,7 @@ static target_ulong h_send_logical_lan(PowerPCCPU *cp=
-u,
->          return H_RESOURCE;
->      }
->
-> -    lbuf =3D alloca(total_len);
-> +    lbuf =3D g_malloc(total_len);
->      p =3D lbuf;
->      for (i =3D 0; i < nbufs; i++) {
->          ret =3D spapr_vio_dma_read(sdev, VLAN_BD_ADDR(bufs[i]),
+>  static void serial_register_types(void)
 > --
-> 2.25.1
->
+> 2.26.2
 >
 >
 
