@@ -2,56 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA88B288725
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:43:25 +0200 (CEST)
-Received: from localhost ([::1]:45160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD3228875B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:56:12 +0200 (CEST)
+Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQprw-0004fA-Rt
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:43:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47800)
+	id 1kQq4J-0007eX-Mx
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:56:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kQpmq-0000ZT-VQ; Fri, 09 Oct 2020 06:38:10 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:36902)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kQpmm-000478-OZ; Fri, 09 Oct 2020 06:38:08 -0400
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 93D1440A1DCC;
- Fri,  9 Oct 2020 10:37:59 +0000 (UTC)
-Subject: Re: acceptance-system-fedora failures
-To: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <4e191372-c332-8f69-85e2-1ff6ead0f40d@redhat.com>
- <59d2a787-bcd4-7283-693b-09ea04c16dc6@redhat.com>
- <6068346f-b034-9321-0eea-29233c23a300@redhat.com>
- <78ce9ac1-d2a1-9dc0-bf38-f9ac34b2f203@ispras.ru>
- <14ee7cc6-42ca-fd86-241b-ed85e26693f7@redhat.com> <878sci1dt0.fsf@linaro.org>
- <d86c9425-dcb2-7fa7-1f6f-bd7b8dab53c1@ispras.ru>
- <c5e6f7ea-93c4-a46a-dfee-7699c08c1060@redhat.com>
- <4f4eee5e-e8cd-0595-cccc-8b648773c9ba@ispras.ru>
- <43eac2fb-7325-9e9f-ce13-d0774638753f@redhat.com>
- <20201008115018.GD4672@linux.fritz.box>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <a1230ec4-13ae-3a0b-5b8a-71c9c87250ac@ispras.ru>
-Date: Fri, 9 Oct 2020 13:37:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kQq2b-0007B5-HF
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:54:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29061)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kQq2V-0006CI-GA
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:54:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602240858;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UfUFjLKWmN3RUQmEbSIjpCLVxhLYAyziDiVSdthP/tw=;
+ b=aYjMsCrvOKru8tBUP/HxixZ2MayOowakU9IKkxp2RRweDnLJYdU0wwiFnYSGPm59goqYWv
+ b3U2pZ7lGmiUHoTFqk7mN0PHZiOUQeIhTCsiQwsfmdTVB1vVk3aBAZgkTA01RhZlAJ6D3i
+ sESUawLIK7yi3wHjHfuuGgiYU3xsunk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-TVqV_hQTORK67XsAG63rVA-1; Fri, 09 Oct 2020 06:54:13 -0400
+X-MC-Unique: TVqV_hQTORK67XsAG63rVA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B66A78030C8;
+ Fri,  9 Oct 2020 10:54:11 +0000 (UTC)
+Received: from gondolin (ovpn-113-40.ams2.redhat.com [10.36.113.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A72815D9E8;
+ Fri,  9 Oct 2020 10:54:00 +0000 (UTC)
+Date: Fri, 9 Oct 2020 12:53:57 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [PATCH v3 06/10] s390x/pci: use a PCI Group structure
+Message-ID: <20201009125357.5da021cf.cohuck@redhat.com>
+In-Reply-To: <1602097455-15658-7-git-send-email-mjrosato@linux.ibm.com>
+References: <1602097455-15658-1-git-send-email-mjrosato@linux.ibm.com>
+ <1602097455-15658-7-git-send-email-mjrosato@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20201008115018.GD4672@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 06:35:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.214,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,113 +76,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: thuth@redhat.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
+ david@redhat.com, schnelle@linux.ibm.com, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.10.2020 14:50, Kevin Wolf wrote:
-> Am 08.10.2020 um 12:26 hat Philippe Mathieu-DaudÃ© geschrieben:
->> On 10/7/20 3:11 PM, Pavel Dovgalyuk wrote:
->>> On 07.10.2020 15:49, Philippe Mathieu-DaudÃ© wrote:
->>>> On 10/7/20 2:20 PM, Pavel Dovgalyuk wrote:
->>>>> On 07.10.2020 14:22, Alex BennÃ©e wrote:
->>>>>>
->>>>>> Philippe Mathieu-DaudÃ© <philmd@redhat.com> writes:
->>>>>>
->>>>>>> On 10/7/20 10:51 AM, Pavel Dovgalyuk wrote:
->>>>>>>> On 07.10.2020 11:23, Thomas Huth wrote:
->>>>>>>>> On 07/10/2020 09.13, Philippe Mathieu-DaudÃ© wrote:
->>>>>>>>> Thanks, that was helpful. ... and the winner is:
->>>>>>>>>
->>>>>>>>> Â Â Â Â Â Â  commitÂ Â  55adb3c45620c31f29978f209e2a44a08d34e2da
->>>>>>>>> Â Â Â Â Â Â  Author:Â  John Snow <jsnow@redhat.com>
->>>>>>>>> Â Â Â Â Â Â  Date:Â Â Â  Fri Jul 24 01:23:00 2020 -0400
->>>>>>>>> Â Â Â Â Â Â  Subject: ide: cancel pending callbacks on SRST
->>>>>>>>>
->>>>>>>>> ... starting with this commit, the tests starts failing. John, any
->>>>>>>>> idea what
->>>>>>>>> might be causing this?
->>>>>>>>
->>>>>>>> This patch includes the following lines:
->>>>>>>>
->>>>>>>> +Â Â Â Â Â Â Â  aio_bh_schedule_oneshot(qemu_get_aio_context(),
->>>>>>>> +Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  ide_bus_perform_srst, bus);
->>>>>>>>
->>>>>>>> replay_bh_schedule_oneshot_event should be used instead of this
->>>>>>>> function, because it synchronizes non-deterministic BHs.
->>>>>>>
->>>>>>> Why do we have 2 different functions? BH are already complex
->>>>>>> enough, and we need to also think about the replay API...
->>>>>>>
->>>>>>> What about the other cases such vhost-user (blk/net), virtio-blk?
->>>>>>
->>>>>> This does seem like something that should be wrapped up inside
->>>>>> aio_bh_schedule_oneshot itself or maybe we need a
->>>>>> aio_bh_schedule_transaction_oneshot to distinguish it from the other
->>>>>> uses the function has.
->>>>>>
->>>>>
->>>>> Maybe there should be two functions:
->>>>> - one for the guest modification
->>>>
->>>> aio_bh_schedule_oneshot_deterministic()?
->>>>
->>>>> - one for internal qemu things
->>>>
->>>> Not sure why there is a difference, BH are used to
->>>> avoid delaying the guest, so there always something
->>>> related to "guest modification".
->>>
->>> Not exactly. At least there is one non-related-to-guest case
->>> in monitor_init_qmp:
->>> Â Â Â Â Â Â Â  /*
->>> Â Â Â Â Â Â Â Â  * We can't call qemu_chr_fe_set_handlers() directly here
->>> Â Â Â Â Â Â Â Â  * since chardev might be running in the monitor I/O
->>> Â Â Â Â Â Â Â Â  * thread.Â  Schedule a bottom half.
->>> Â Â Â Â Â Â Â Â  */
->>> Â Â Â Â Â Â Â  aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
->>> Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  monitor_qmp_setup_handlers_bh, mon);
->>
->> I don't understand the documentation in docs/devel/replay.txt:
->>
->> ---
->> Bottom halves
->> =============
->>
->> Bottom half callbacks, that affect the guest state, should be invoked
->> through
->> replay_bh_schedule_event or replay_bh_schedule_oneshot_event functions.
->> Their invocations are saved in record mode and synchronized with the
->> existing
->> log in replay mode.
->> ---
->>
->> But then it is only used in block drivers, which are not
->> related to guest state:
-> 
-> Pavel can tell you the details, but I think the idea was that you need
-> to use this function not when the code calling it modifies guest state,
-> but when the BH implementation can do so.
-> 
-> In the case of generic callbacks like provided by the blk_aio_*()
-> functions, we don't know whether this is the case, but it's generally
-> device emulation code, so chances are relatively high that they do.
-> 
-> I seem to remember that when reviewing the code that introduced
-> replay_bh_schedule_event(), I was relatively sure that we didn't catch
-> all necessary instances, but since it worked for Pavel and I didn't feel
-> like getting too involved with replay code, we just merged it anyway.
+On Wed,  7 Oct 2020 15:04:11 -0400
+Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 
-That's right.
-Block layer does not touch guest by itself.
-But it includes callbacks that may invoke interrupts on finishing disk 
-operations. That is why we synchronize these callbacks with vCPU through 
-the replay layer.
+> From: Pierre Morel <pmorel@linux.ibm.com>
+> 
+> We use a S390PCIGroup structure to hold the information related to a
+> zPCI Function group.
+> 
+> This allows us to be ready to support multiple groups and to retrieve
+> the group information from the host.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>  hw/s390x/s390-pci-bus.c         | 42 +++++++++++++++++++++++++++++++++++++++++
+>  hw/s390x/s390-pci-inst.c        | 23 +++++++++++++---------
+>  include/hw/s390x/s390-pci-bus.h | 10 ++++++++++
+>  3 files changed, 66 insertions(+), 9 deletions(-)
 
-Pavel Dovgalyuk
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
 
