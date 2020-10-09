@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8847E288F8B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:04:56 +0200 (CEST)
-Received: from localhost ([::1]:41042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2C2288F93
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:08:00 +0200 (CEST)
+Received: from localhost ([::1]:49480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvp9-0000Fm-IL
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38554)
+	id 1kQvs6-0003tO-Ji
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:07:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvJj-0000YC-NH
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:32:27 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvJZ-0005DF-Jc
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:32:27 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id d4so10391835wmd.5
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QSRJirT04KzPlTG554HUlrK3ZZFI9u30wr3rgSYwDnE=;
- b=YcUsIModY0W1po6WbK48GXm4vg57VZv3K04+OjhnusnKvw2GJCYNQESxAMYcS3X5wx
- xZ4eQb0pDDA4tTp27+x36rb0W6NSsC136QPDDNhoM/nxsFEEgPMbCJUPBPw8HSu6hK5r
- ptH4CsyUW0Hb7fexPx9KIGF27cb4+mu42Tyk4w4ETH2JFxDi4WO6C1myZBxG8hYJFejT
- FjLOaybpgzr4EqgEiHY7Ul7Ox46h2REh5sX6DJ7IzOYeZGtuNS4hiQTosCzX6xysD4Nl
- Xee357ZzZCQ/ueifrKr1ccECwyZ/jEFE+P7MCPYHx/hSxebA8jz953CR4uzRqbP8GiFQ
- SCLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QSRJirT04KzPlTG554HUlrK3ZZFI9u30wr3rgSYwDnE=;
- b=Xi50VHvzqWJcd7QPneLAYl5wb0wM/Q9h7MNqI3C7X7Ixmy1YzPFV+BUV9BnJ+PMLfZ
- QPiZd5F2bUhvE1n1YbwxOCQLfdqSAZO1jdJbZpAF2sA40r453On8zzMdqGGUIvBz7072
- OjdYVA+XBfbNHRwVJoAUlSGf+1IeXL08HxFfAf5E+iCeLXz+Idv1EqGFRTQ/NkqYhG34
- hYfH3tZxga+15j4ecuBbkiKN5XKKrlnwrUS+7KvaQRl+fXUJ1zgMpX4FhcSgMoFG7yGS
- 44f9ZDvuasNohAE4XjZqDcONuC5fi9LwcYPaMybSijIPA1EjDBd1oCCi54h1tZf4xQJc
- o7Mw==
-X-Gm-Message-State: AOAM531yYqT4PNFETZ5pFidmNCgXep4PH54n0cn2oBL2qAgaVYSaoJjQ
- XLhCv8Pk7+Bl1EAswq9GZkH+ug==
-X-Google-Smtp-Source: ABdhPJzwRHAk10l5mpe/BPFqsT+oeE4FNLzt3dbq7ro9UEeP6P4EE8oTW732nU3xsbtTGiPjIAp5Iw==
-X-Received: by 2002:a7b:c401:: with SMTP id k1mr14743509wmi.120.1602261136085; 
- Fri, 09 Oct 2020 09:32:16 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g2sm12119518wmg.38.2020.10.09.09.31.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 09:32:14 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1386E1FFAC;
- Fri,  9 Oct 2020 17:31:49 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 22/22] tests/acceptance: disable machine_rx_gdbsim on GitLab
-Date: Fri,  9 Oct 2020 17:31:47 +0100
-Message-Id: <20201009163147.28512-23-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201009163147.28512-1-alex.bennee@linaro.org>
-References: <20201009163147.28512-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1kQvQn-0002lK-Lr; Fri, 09 Oct 2020 12:39:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53426)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1kQvQi-00069n-Ls; Fri, 09 Oct 2020 12:39:45 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CC3B92227F;
+ Fri,  9 Oct 2020 16:39:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1602261577;
+ bh=BijnUXUSrlZuxdom+hiKK3koCT7tWTVCca3CcvH/Y0c=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=2TX8s9cwrskazcYgdvvXIEk1DLTJqwZr1JhsmophCYTijzvSx5vfJ956ZuvG0j/0y
+ LkVpYsTvQWy9p8LqAvnwiWhJHqVuPnPTbaatggXKqw4ECGfnPbTrldxaspcthIYvmh
+ zVcJhlBlRNyDxbLvYNji6aYWjH9iiSw3rR6xXRPo=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <maz@kernel.org>)
+ id 1kQvQd-0014Lz-Rd; Fri, 09 Oct 2020 17:39:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Fri, 09 Oct 2020 17:39:35 +0100
+From: Marc Zyngier <maz@kernel.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] hw/intc/arm_gicv3_cpuif: Make GIC maintenance interrupts
+ work
+In-Reply-To: <20201009153904.28529-1-peter.maydell@linaro.org>
+References: <20201009153904.28529-1-peter.maydell@linaro.org>
+User-Agent: Roundcube Webmail/1.4.8
+Message-ID: <849e61faa6da0bdc21845f0e95a516e5@kernel.org>
+X-Sender: maz@kernel.org
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, josemartins90@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 12:39:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,36 +78,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Jose Martins <josemartins90@gmail.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While I can get the ssh test to fail on my test setup this seems a lot
-more stable except when on GitLab. Hopefully we can re-enable both
-once the serial timing patches have been added.
+Hi Peter,
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20201007160038.26953-23-alex.bennee@linaro.org>
+On 2020-10-09 16:39, Peter Maydell wrote:
+> In gicv3_init_cpuif() we copy the ARMCPU gicv3_maintenance_interrupt
+> into the GICv3CPUState struct's maintenance_irq field.  This will
+> only work if the board happens to have already wired up the CPU
+> maintenance IRQ before the GIC was realized.  Unfortunately this is
+> not the case for the 'virt' board, and so the value that gets copied
+> is NULL (since a qemu_irq is really a pointer to an IRQState struct
+> under the hood).  The effect is that the CPU interface code never
+> actually raises the maintenance interrupt line.
+> 
+> Instead, since the GICv3CPUState has a pointer to the CPUState, make
+> the dereference at the point where we want to raise the interrupt, to
+> avoid an implicit requirement on board code to wire things up in a
+> particular order.
+> 
+> Reported-by: Jose Martins <josemartins90@gmail.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> 
+> QEMU's implementation here is a bit odd because we've put all the
+> logic into the "GIC" device where in real hardware it's split between
+> a GIC device and the CPU interface part in the CPU.  If we had
+> arranged it in that way then we wouldn't have this odd bit of code
+> where the GIC device needs to raise an IRQ line that belongs to the
+> CPU.
+> 
+> Not sure why we've never noticed this bug previously with KVM as a
+> guest, you'd think we'd have spotted "maintenance interrupts just
+> don't work"...
 
-diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/machine_rx_gdbsim.py
-index 0c72506028..32b737b6d8 100644
---- a/tests/acceptance/machine_rx_gdbsim.py
-+++ b/tests/acceptance/machine_rx_gdbsim.py
-@@ -22,6 +22,7 @@ class RxGdbSimMachine(Test):
-     timeout = 30
-     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
- 
-+    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-     def test_uboot(self):
-         """
-         U-Boot and checks that the console is operational.
+That's because the maintenance interrupt is only used in KVM to trigger
+an exit if nothing else causes one, and we end-up suppressing the cause
+of the maintenance interrupt (by turning the VGIC off) before actually
+coming to a point where we'd handle it.
+
+The lack of MI would at worse delay the injection of new virtual 
+interrupts,
+not something you'd notice unless you start looking very closely at the
+delivery latency.
+
+Thanks,
+
+         M.
 -- 
-2.20.1
-
+Jazz is not dead. It just smells funny...
 
