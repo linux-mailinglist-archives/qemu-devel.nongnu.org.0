@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D16E288313
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 08:57:47 +0200 (CEST)
-Received: from localhost ([::1]:46560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFE628832F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:04:25 +0200 (CEST)
+Received: from localhost ([::1]:39758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQmLa-0001qU-4K
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 02:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56336)
+	id 1kQmS0-0002oU-9u
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:04:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kQmAX-00066R-74; Fri, 09 Oct 2020 02:46:21 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5163 helo=huawei.com)
+ id 1kQmAY-00066v-FU; Fri, 09 Oct 2020 02:46:26 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:38566 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
- id 1kQmAS-0001K8-Gv; Fri, 09 Oct 2020 02:46:20 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 00A93FCF439F12BC3E80;
- Fri,  9 Oct 2020 14:46:09 +0800 (CST)
-Received: from localhost (10.174.186.238) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Fri, 9 Oct 2020
- 14:45:58 +0800
+ id 1kQmAS-0001Jw-45; Fri, 09 Oct 2020 02:46:22 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 481517CB3C467CBC3AEB;
+ Fri,  9 Oct 2020 14:46:07 +0800 (CST)
+Received: from localhost (10.174.186.238) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Fri, 9 Oct 2020
+ 14:46:00 +0800
 From: zhaolichang <zhaolichang@huawei.com>
 To: <qemu-trivial@nongnu.org>
-Subject: [PATCH V2 09/14] sh4/: fix some comment spelling errors
-Date: Fri, 9 Oct 2020 14:44:44 +0800
-Message-ID: <20201009064449.2336-10-zhaolichang@huawei.com>
+Subject: [PATCH V2 10/14] i386/: fix some comment spelling errors
+Date: Fri, 9 Oct 2020 14:44:45 +0800
+Message-ID: <20201009064449.2336-11-zhaolichang@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20201009064449.2336-1-zhaolichang@huawei.com>
 References: <20201009064449.2336-1-zhaolichang@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.186.238]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
+Received-SPF: pass client-ip=45.249.212.35;
  envelope-from=zhaolichang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:45:16
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:46:07
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -60,61 +60,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: David
  Edmondson <david.edmondson@oracle.com>, zhaolichang <zhaolichang@huawei.com>,
- qemu-devel@nongnu.org, Philippe Mathieu-Daude <f4bug@amsat.org>
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I found that there are many spelling errors in the comments of qemu/target/sh4.
+I found that there are many spelling errors in the comments of qemu/target/i386.
 I used spellcheck to check the spelling errors and found some errors in the folder.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-Reviewed-by: Philippe Mathieu-Daude<f4bug@amsat.org>
 ---
- target/sh4/cpu.h       | 2 +-
- target/sh4/op_helper.c | 2 +-
- target/sh4/translate.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ target/i386/cpu.c           | 4 ++--
+ target/i386/hax-interface.h | 4 ++--
+ target/i386/hax-windows.c   | 2 +-
+ target/i386/kvm.c           | 2 +-
+ target/i386/machine.c       | 6 +++---
+ target/i386/translate.c     | 8 ++++----
+ target/i386/whpx-all.c      | 2 +-
+ 7 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index dbe58c7888..91fa9498f0 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -160,7 +160,7 @@ typedef struct CPUSH4State {
-     uint32_t pteh;		/* page table entry high register */
-     uint32_t ptel;		/* page table entry low register */
-     uint32_t ptea;		/* page table entry assistance register */
--    uint32_t ttb;		/* tranlation table base register */
-+    uint32_t ttb;		/* translation table base register */
-     uint32_t tea;		/* TLB exception address register */
-     uint32_t tra;		/* TRAPA exception register */
-     uint32_t expevt;		/* exception event register */
-diff --git a/target/sh4/op_helper.c b/target/sh4/op_helper.c
-index 14c3db0f48..9de4152735 100644
---- a/target/sh4/op_helper.c
-+++ b/target/sh4/op_helper.c
-@@ -400,7 +400,7 @@ float32 helper_fsrra_FT(CPUSH4State *env, float32 t0)
-     t0 = float32_div(float32_one, t0, &env->fp_status);
-     /* Since this is supposed to be an approximation, an imprecision
-        exception is required.  One supposes this also follows the usual
--       IEEE rule that other exceptions take precidence.  */
-+       IEEE rule that other exceptions take precedence.  */
-     if (get_float_exception_flags(&env->fp_status) == 0) {
-         set_float_exception_flags(float_flag_inexact, &env->fp_status);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index f37eb7b675..79ecb1c370 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4677,7 +4677,7 @@ static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
+     return name;
+ }
+ 
+-/* Compatibily hack to maintain legacy +-feat semantic,
++/* Compatibility hack to maintain legacy +-feat semantic,
+  * where +-feat overwrites any feature set by
+  * feat=on|feat even if the later is parsed after +-feat
+  * (i.e. "-x2apic,x2apic=on" will result in x2apic disabled)
+@@ -6898,7 +6898,7 @@ static void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
+     GuestPanicInformation *panic_info;
+ 
+     if (!cs->crash_occurred) {
+-        error_setg(errp, "No crash occured");
++        error_setg(errp, "No crash occurred");
+         return;
      }
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 60c863d9e1..c57218eb7d 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -1959,7 +1959,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
-     NEXT_INSN;
-     switch (ctx->opcode & 0xf00f) {
-     case 0x6003: /* mov Rm,Rn */
--        /* Here we want to recognize ld_dst being saved for later consumtion,
-+        /* Here we want to recognize ld_dst being saved for later consumption,
-            or for another input register being copied so that ld_dst need not
-            be clobbered during the operation.  */
-         op_dst = B11_8;
+ 
+diff --git a/target/i386/hax-interface.h b/target/i386/hax-interface.h
+index 537ae084e9..edef4fdf5d 100644
+--- a/target/i386/hax-interface.h
++++ b/target/i386/hax-interface.h
+@@ -238,7 +238,7 @@ enum exit_status {
+     HAX_EXIT_UNKNOWN_VMEXIT,
+     /* HALT from guest */
+     HAX_EXIT_HLT,
+-    /* Reboot request, like because of tripple fault in guest */
++    /* Reboot request, like because of triple fault in guest */
+     HAX_EXIT_STATECHANGE,
+     /* the vcpu is now only paused when destroy, so simply return to hax */
+     HAX_EXIT_PAUSED,
+@@ -295,7 +295,7 @@ struct hax_qemu_version {
+     uint32_t min_version;
+ } __attribute__ ((__packed__));
+ 
+-/* The mac specfic interface to qemu, mostly is ioctl related */
++/* The mac specific interface to qemu, mostly is ioctl related */
+ struct hax_tunnel_info {
+     uint64_t va;
+     uint64_t io_va;
+diff --git a/target/i386/hax-windows.c b/target/i386/hax-windows.c
+index 6c82dfb54f..4297c457a2 100644
+--- a/target/i386/hax-windows.c
++++ b/target/i386/hax-windows.c
+@@ -174,7 +174,7 @@ int hax_mod_version(struct hax_state *hax, struct hax_module_version *version)
+     if (!ret) {
+         err = GetLastError();
+         if (err == ERROR_INSUFFICIENT_BUFFER || err == ERROR_MORE_DATA) {
+-            fprintf(stderr, "hax module verion is too long to hold.\n");
++            fprintf(stderr, "hax module version is too long to hold.\n");
+         }
+         fprintf(stderr, "Failed to get Hax module version:%lu\n", err);
+         return -EFAULT;
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 8b12387d30..e97315f394 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1164,7 +1164,7 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
+ /*
+  * Fill in Hyper-V CPUIDs. Returns the number of entries filled in cpuid_ent in
+  * case of success, errno < 0 in case of failure and 0 when no Hyper-V
+- * extentions are enabled.
++ * extensions are enabled.
+  */
+ static int hyperv_handle_properties(CPUState *cs,
+                                     struct kvm_cpuid_entry2 *cpuid_ent)
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 233e46bb70..03af4a1e5f 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -264,12 +264,12 @@ static int cpu_pre_save(void *opaque)
+      * hypervisor, its exception payload (CR2/DR6 on #PF/#DB)
+      * should not be set yet in the respective vCPU register.
+      * Thus, in case an exception is pending, it is
+-     * important to save the exception payload seperately.
++     * important to save the exception payload separately.
+      *
+      * Therefore, if an exception is not in a pending state
+      * or vCPU is not in guest-mode, it is not important to
+      * distinguish between a pending and injected exception
+-     * and we don't need to store seperately the exception payload.
++     * and we don't need to store separately the exception payload.
+      *
+      * In order to preserve better backwards-compatible migration,
+      * convert a pending exception to an injected exception in
+@@ -1156,7 +1156,7 @@ static int nested_state_post_load(void *opaque, int version_id)
+         return -EINVAL;
+     }
+     if (nested_state->size > max_nested_state_len) {
+-        error_report("Recieved unsupported nested state size: "
++        error_report("Received unsupported nested state size: "
+                      "nested_state->size=%d, max=%d",
+                      nested_state->size, max_nested_state_len);
+         return -EINVAL;
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index caea6f5fb1..5cdfe0ebc4 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -893,7 +893,7 @@ static CCPrepare gen_prepare_eflags_z(DisasContext *s, TCGv reg)
+ }
+ 
+ /* perform a conditional store into register 'reg' according to jump opcode
+-   value 'b'. In the fast case, T0 is guaranted not to be used. */
++   value 'b'. In the fast case, T0 is guaranteed not to be used. */
+ static CCPrepare gen_prepare_cc(DisasContext *s, int b, TCGv reg)
+ {
+     int inv, jcc_op, cond;
+@@ -1026,7 +1026,7 @@ static inline void gen_compute_eflags_c(DisasContext *s, TCGv reg)
+ }
+ 
+ /* generate a conditional jump to label 'l1' according to jump opcode
+-   value 'b'. In the fast case, T0 is guaranted not to be used. */
++   value 'b'. In the fast case, T0 is guaranteed not to be used. */
+ static inline void gen_jcc1_noeob(DisasContext *s, int b, TCGLabel *l1)
+ {
+     CCPrepare cc = gen_prepare_cc(s, b, s->T0);
+@@ -1043,7 +1043,7 @@ static inline void gen_jcc1_noeob(DisasContext *s, int b, TCGLabel *l1)
+ }
+ 
+ /* Generate a conditional jump to label 'l1' according to jump opcode
+-   value 'b'. In the fast case, T0 is guaranted not to be used.
++   value 'b'. In the fast case, T0 is guaranteed not to be used.
+    A translation block must end soon.  */
+ static inline void gen_jcc1(DisasContext *s, int b, TCGLabel *l1)
+ {
+@@ -6841,7 +6841,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         if (s->prefix & PREFIX_LOCK) {
+             switch (op) {
+             case 0: /* bt */
+-                /* Needs no atomic ops; we surpressed the normal
++                /* Needs no atomic ops; we suppressed the normal
+                    memory load for LOCK above so do it now.  */
+                 gen_op_ld_v(s, ot, s->T0, s->A0);
+                 break;
+diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
+index f4f3e33eac..9127c2749d 100644
+--- a/target/i386/whpx-all.c
++++ b/target/i386/whpx-all.c
+@@ -1235,7 +1235,7 @@ int whpx_init_vcpu(CPUState *cpu)
+     vcpu = g_malloc0(sizeof(struct whpx_vcpu));
+ 
+     if (!vcpu) {
+-        error_report("WHPX: Failed to allocte VCPU context.");
++        error_report("WHPX: Failed to allocate VCPU context.");
+         ret = -ENOMEM;
+         goto error;
+     }
 -- 
 2.26.2.windows.1
 
