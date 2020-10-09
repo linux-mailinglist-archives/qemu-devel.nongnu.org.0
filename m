@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71CBE2889BA
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 15:27:37 +0200 (CEST)
-Received: from localhost ([::1]:55716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5212889B9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 15:27:36 +0200 (CEST)
+Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQsQq-0002DV-Gm
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 09:27:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54262)
+	id 1kQsQp-0002C8-AO
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 09:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vincenzo.frascino@arm.com>)
- id 1kQqH5-0004CC-6R; Fri, 09 Oct 2020 07:09:23 -0400
-Received: from foss.arm.com ([217.140.110.172]:40842)
+ id 1kQqHe-0004tJ-EY; Fri, 09 Oct 2020 07:09:58 -0400
+Received: from foss.arm.com ([217.140.110.172]:40854)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <vincenzo.frascino@arm.com>)
- id 1kQqH2-00087O-6C; Fri, 09 Oct 2020 07:09:22 -0400
+ id 1kQqHc-0008D6-GM; Fri, 09 Oct 2020 07:09:58 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF013D6E;
- Fri,  9 Oct 2020 04:09:18 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 37B45D6E;
+ Fri,  9 Oct 2020 04:09:55 -0700 (PDT)
 Received: from [10.37.12.22] (unknown [10.37.12.22])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21FAD3F66B;
- Fri,  9 Oct 2020 04:09:17 -0700 (PDT)
-Subject: Re: [PATCH 0/3] target/arm: MTE fixes
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 45D9C3F66B;
+ Fri,  9 Oct 2020 04:09:54 -0700 (PDT)
+Subject: Re: [PATCH 1/3] target/arm: Remove redundant mmu_idx lookup
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20201008162155.161886-1-richard.henderson@linaro.org>
+ <20201008162155.161886-2-richard.henderson@linaro.org>
 From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <4a6344f2-3263-1852-27f7-b7818a6fbec6@arm.com>
-Date: Fri, 9 Oct 2020 12:11:59 +0100
+Message-ID: <9f06c3d1-982e-1c7e-b480-6978259432ab@arm.com>
+Date: Fri, 9 Oct 2020 12:12:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201008162155.161886-1-richard.henderson@linaro.org>
+In-Reply-To: <20201008162155.161886-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -63,31 +64,40 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+
 
 On 10/8/20 5:21 PM, Richard Henderson wrote:
-> One code cleanup and two bug fixes for MTE.
+> We already have the full ARMMMUIdx as computed from the
+> function parameter.
 > 
-> Vincenzo, thanks for the clear report.  Can you please run
-> this through your test case?
+> For the purpose of regime_has_2_ranges, we can ignore any
+> difference between AccType_Normal and AccType_Unpriv, which
+> would be the only difference between the passed mmu_idx
+> and arm_mmu_idx_el.
 > 
-> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-No problem, thank you for addressing the issues quickly. I did run my tests and
-added my tags to the relevant patches.
+Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Tested-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-> r~
+> ---
+>  target/arm/mte_helper.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> 
-> Richard Henderson (3):
->   target/arm: Remove redundant mmu_idx lookup
->   target/arm: Fix reported EL for mte_check_fail
->   target/arm: Ignore HCR_EL2.ATA when {E2H,TGE} != 11
-> 
->  target/arm/internals.h  |  9 +++++----
->  target/arm/helper.c     |  9 +++++----
->  target/arm/mte_helper.c | 13 ++++---------
->  3 files changed, 14 insertions(+), 17 deletions(-)
+> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+> index 5615c6706c..734cc5ca67 100644
+> --- a/target/arm/mte_helper.c
+> +++ b/target/arm/mte_helper.c
+> @@ -563,8 +563,7 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
+>  
+>      case 2:
+>          /* Tag check fail causes asynchronous flag set.  */
+> -        mmu_idx = arm_mmu_idx_el(env, el);
+> -        if (regime_has_2_ranges(mmu_idx)) {
+> +        if (regime_has_2_ranges(arm_mmu_idx)) {
+>              select = extract64(dirty_ptr, 55, 1);
+>          } else {
+>              select = 0;
 > 
 
 -- 
