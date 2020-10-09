@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89E0288373
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:27:06 +0200 (CEST)
-Received: from localhost ([::1]:55844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8374D2883A0
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:32:49 +0200 (CEST)
+Received: from localhost ([::1]:60900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQmnx-0005K8-Vh
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36020)
+	id 1kQmtU-0007ov-Ky
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kQmn3-0004uS-3R
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:26:09 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:32884)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kQmmx-000650-09
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:26:08 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id c3so6554517ybl.0
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 00:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vFplZKhhVDbkXyNgMBGgN6B7vlMdbvNAyiPS+SVtwDE=;
- b=ANckZpvSK2nZgCwS1TUnEEDa7pZbWY3L/EwYdcXETD1qu1PUKcVTfjd/ZFjYPaohZu
- 6xPzfBCjCydzaT4XfVbLX9T2vXdJb3EvWcDhk69Ua3jizYJIwrVfsUEZXokSRnLuNbIf
- CIiW3BqOgIvkFEVQscrVIMe5cnk6TJ5A3DM2mluqjT9NI5Jvns+FYToPZ6viIwB0iptl
- wteGzru/OYY0/5sDsDavarvd2zsmW1tTSGa7vWzqax/Y86WExTbSrzyCRRfC3hmbkIoM
- sRwg7H2ICAuQ4q8qah2361OAKYnOaglEWHgsCssQvLebMuS/3RzD/tPkUXfkpFI0ewDy
- q62w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vFplZKhhVDbkXyNgMBGgN6B7vlMdbvNAyiPS+SVtwDE=;
- b=eTh+MtwN/dCkyxKq0ytZqubXdCoclY+nvaf9soacFv1z/Kz9fAx2YvuJCis5+sd14+
- Shwrltcc7zZfQxmKxAY6YU03mLJ0j0gjDoreFkrv2HMXJOKg3k04+cWMCgsH4CyYtx/A
- E9/nMYtuhXO/AGerK6oq5a+DGlFnG2p7DCrXpXKtxMf8JizdOgiQN82QPZtatLEYWBz/
- mIItO8ugYgEh6wzMudevm7/kp2jPSDw1zfJMbpm8GTmL4MJmm/RF0PcHLRDjpDFc+Gvt
- MQrxgN37EVLqMwfs8FHzZXzQDe03+qdmCk7SfzbFNT8ZW0Y+EFj+OXb/+zY8uDBSqAl2
- e6Ow==
-X-Gm-Message-State: AOAM53371RK/GPezNStE4Ammyon49Jahp1YD1PDM32ZosC5KxhJM5jN2
- wnbMVGtEn29BixtqhUgrncnf+YDQ7IM9n3sH0NDWJ19Ljzg=
-X-Google-Smtp-Source: ABdhPJyFtd79L4a+nLjAYgjgNh6ditJApE8B7IKHjLBUWQaaVQaMTGCx4ugyR0lL+e8i+qGN8q1IEZEomXSz2JhcAWs=
-X-Received: by 2002:a25:705:: with SMTP id 5mr16496211ybh.239.1602228361776;
- Fri, 09 Oct 2020 00:26:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kQms8-0006gb-U0
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:31:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kQms6-0006uB-Vn
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 03:31:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602228682;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IAAgyDf8lsJ4HJgwL3qtS60L+U8ipZ66WzUSnd1eGVk=;
+ b=g48YsXHgvO93/2XPyn6ql2Hp2VNyhIWuHpm+ctnmfohPOKMokxypF4QD2/0a8S5A9MKxjb
+ yeqfUWfYwpZTE37lNrA3R1e1dkXjnLMpiDRhP5+tNXNkDjpsbq4hUyTxIo/JQZD/pHElww
+ HxZtqV8mTqBtPvvHhKu6iL6r3G0chNE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-tvo74Dh3OUqBTM5wFZuoAQ-1; Fri, 09 Oct 2020 03:31:18 -0400
+X-MC-Unique: tvo74Dh3OUqBTM5wFZuoAQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9F1418A076E;
+ Fri,  9 Oct 2020 07:31:16 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-47.ams2.redhat.com [10.36.112.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61A5860CD0;
+ Fri,  9 Oct 2020 07:31:15 +0000 (UTC)
+Subject: Re: [PATCH V2 07/14] s390x/: fix some comment spelling errors
+To: zhaolichang <zhaolichang@huawei.com>, qemu-trivial@nongnu.org
+References: <20201009064449.2336-1-zhaolichang@huawei.com>
+ <20201009064449.2336-8-zhaolichang@huawei.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <937308f7-a861-0930-4fd1-ecf815463012@redhat.com>
+Date: Fri, 9 Oct 2020 09:31:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <160208094339.8985.13177411264868514958.malonedeb@wampee.canonical.com>
-In-Reply-To: <160208094339.8985.13177411264868514958.malonedeb@wampee.canonical.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 9 Oct 2020 15:25:50 +0800
-Message-ID: <CAEUhbmU3fjgVT3_cLEo6AyDW6KtUgO+tvSX5uEoBu2+1k21Dtg@mail.gmail.com>
-Subject: Re: [Bug 1898883] [NEW] qemu-system-riscv64 failed to load binary
- kernel into memory
-To: Bug 1898883 <1898883@bugs.launchpad.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20201009064449.2336-8-zhaolichang@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.214, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,41 +83,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: David Edmondson <david.edmondson@oracle.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 7, 2020 at 10:37 PM Azuk 443 <1898883@bugs.launchpad.net> wrote=
-:
->
-> Public bug reported:
->
-> QEMU Version: 5.1.0
-> Compiled in Ubuntu 20.04 for riscv64, following the guide https://risc-v-=
-getting-started-guide.readthedocs.io/en/latest/linux-qemu.html.
->
-> In qemu-system-riscv64, code at 0x80000000 will be executed by virtual CP=
-U.
-> For example, using `qemu-system-riscv64 -nographic -machine virt -bios no=
-ne -kernel vmlinux -S -s`, my homebrew kernel(ELF file) will load at 0x8000=
-0000. If I strip the kernel using `riscv64-linux-gnu-objcopy -O binary vmli=
-nux Image`, qemu-system-riscv64 will not load the binary machine code into =
-the riscv64 load address, but `-bios Image` will.
+On 09/10/2020 08.44, zhaolichang wrote:
+> I found that there are many spelling errors in the comments of qemu/target/s390x.
+> I used spellcheck to check the spelling errors and found some errors in the folder.
+> 
+> Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+> ---
+>  target/s390x/cpu_models.h       | 4 ++--
+>  target/s390x/excp_helper.c      | 2 +-
+>  target/s390x/fpu_helper.c       | 2 +-
+>  target/s390x/insn-data.def      | 2 +-
+>  target/s390x/misc_helper.c      | 2 +-
+>  target/s390x/translate.c        | 4 ++--
+>  target/s390x/translate_vx.c.inc | 2 +-
+>  7 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/target/s390x/cpu_models.h b/target/s390x/cpu_models.h
+> index 74d1f87e4f..15c0f0dcfe 100644
+> --- a/target/s390x/cpu_models.h
+> +++ b/target/s390x/cpu_models.h
+> @@ -24,13 +24,13 @@ struct S390CPUDef {
+>      uint8_t gen;            /* hw generation identification */
+>      uint16_t type;          /* cpu type identification */
+>      uint8_t ec_ga;          /* EC GA version (on which also the BC is based) */
+> -    uint8_t mha_pow;        /* Maximum Host Adress Power, mha = 2^pow-1 */
+> +    uint8_t mha_pow;        /* Maximum Host Address Power, mha = 2^pow-1 */
+>      uint32_t hmfai;         /* hypervisor-managed facilities */
+>      /* base/min features, must never be changed between QEMU versions */
+>      S390FeatBitmap base_feat;
+>      /* used to init base_feat from generated data */
+>      S390FeatInit base_init;
+> -    /* deafault features, QEMU version specific */
+> +    /* default features, QEMU version specific */
+>      S390FeatBitmap default_feat;
+>      /* used to init default_feat from generated data */
+>      S390FeatInit default_init;
+> diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+> index 0adfbbda27..36ab5c7c43 100644
+> --- a/target/s390x/excp_helper.c
+> +++ b/target/s390x/excp_helper.c
+> @@ -538,7 +538,7 @@ try_deliver:
+>          /* don't trigger a cpu_loop_exit(), use an interrupt instead */
+>          cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HALT);
+>      } else if (cs->halted) {
+> -        /* unhalt if we had a WAIT PSW somehwere in our injection chain */
+> +        /* unhalt if we had a WAIT PSW somewhere in our injection chain */
+>          s390_cpu_unhalt(cpu);
+>      }
+>  }
+> diff --git a/target/s390x/fpu_helper.c b/target/s390x/fpu_helper.c
+> index f155bc048c..3e609b7fd0 100644
+> --- a/target/s390x/fpu_helper.c
+> +++ b/target/s390x/fpu_helper.c
+> @@ -89,7 +89,7 @@ static void handle_exceptions(CPUS390XState *env, bool XxC, uintptr_t retaddr)
+>      /*
+>       * invalid/divbyzero cannot coexist with other conditions.
+>       * overflow/underflow however can coexist with inexact, we have to
+> -     * handle it separatly.
+> +     * handle it separately.
+>       */
+>      if (s390_exc & ~S390_IEEE_MASK_INEXACT) {
+>          if (s390_exc & ~S390_IEEE_MASK_INEXACT & env->fpc >> 24) {
+> diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+> index d3bcdfd67b..2469415319 100644
+> --- a/target/s390x/insn-data.def
+> +++ b/target/s390x/insn-data.def
+> @@ -526,7 +526,7 @@
+>  /* LOAD LOGICAL HALFWORD RELATIVE LONG */
+>      C(0xc402, LLHRL,   RIL_b, GIE, 0, ri2, new, r1_32, ld16u, 0)
+>      C(0xc406, LLGHRL,  RIL_b, GIE, 0, ri2, r1, 0, ld16u, 0)
+> -/* LOAD LOGICAL IMMEDATE */
+> +/* LOAD LOGICAL IMMEDIATE */
+>      D(0xc00e, LLIHF,   RIL_a, EI, 0, i2_32u_shl, 0, r1, mov2, 0, 32)
+>      D(0xc00f, LLILF,   RIL_a, EI, 0, i2_32u_shl, 0, r1, mov2, 0, 0)
+>      D(0xa50c, LLIHH,   RI_a,  Z,  0, i2_16u_shl, 0, r1, mov2, 0, 48)
+> diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
+> index 58dbc023eb..929e509519 100644
+> --- a/target/s390x/misc_helper.c
+> +++ b/target/s390x/misc_helper.c
+> @@ -312,7 +312,7 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0, uint64_t r0, uint64_t r1)
+>              /* same as machine type number in STORE CPU ID, but in EBCDIC */
+>              snprintf(type, ARRAY_SIZE(type), "%X", cpu->model->def->type);
+>              ebcdic_put(sysib.sysib_111.type, type, 4);
+> -            /* model number (not stored in STORE CPU ID for z/Architecure) */
+> +            /* model number (not stored in STORE CPU ID for z/Architecture) */
+>              ebcdic_put(sysib.sysib_111.model, "QEMU            ", 16);
+>              ebcdic_put(sysib.sysib_111.sequence, "QEMU            ", 16);
+>              ebcdic_put(sysib.sysib_111.plant, "QEMU", 4);
+> diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+> index ac10f42f10..4395455e0a 100644
+> --- a/target/s390x/translate.c
+> +++ b/target/s390x/translate.c
+> @@ -433,7 +433,7 @@ static void gen_program_exception(DisasContext *s, int code)
+>  {
+>      TCGv_i32 tmp;
+>  
+> -    /* Remember what pgm exeption this was.  */
+> +    /* Remember what pgm exception this was.  */
+>      tmp = tcg_const_i32(code);
+>      tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUS390XState, int_pgm_code));
+>      tcg_temp_free_i32(tmp);
+> @@ -489,7 +489,7 @@ static TCGv_i64 get_address(DisasContext *s, int x2, int b2, int d2)
+>  
+>      /*
+>       * Note that d2 is limited to 20 bits, signed.  If we crop negative
+> -     * displacements early we create larger immedate addends.
+> +     * displacements early we create larger immediate addends.
+>       */
+>      if (b2 && x2) {
+>          tcg_gen_add_i64(tmp, regs[b2], regs[x2]);
+> diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
+> index eb767f5288..983da56b9d 100644
+> --- a/target/s390x/translate_vx.c.inc
+> +++ b/target/s390x/translate_vx.c.inc
+> @@ -789,7 +789,7 @@ static DisasJumpType op_vpk(DisasContext *s, DisasOps *o)
+>          }
+>          break;
+>      case 0x94:
+> -        /* If sources and destination dont't overlap -> fast path */
+> +        /* If sources and destination don't overlap -> fast path */
+>          if (v1 != v2 && v1 != v3) {
+>              const uint8_t src_es = get_field(s, m4);
+>              const uint8_t dst_es = src_es - 1;
+> 
 
-This is not a bug. As you said, please use `-bios Image` for your
-special purpose.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
->
-> In `qemu-system-aarch64` compiled by Ubuntu team, I can use `qemu-
-> system-aarch64 -M raspi3 -kernel Image_aarch64 -S -s` to load a specific
-> machine code binary into 0x80000. And the elf kernel can be loaded to
-> that address, too.
->
-> ** Affects: qemu
->      Importance: Undecided
->          Status: New
->
-
-Regards,
-Bin
 
