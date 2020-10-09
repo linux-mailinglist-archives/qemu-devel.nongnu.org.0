@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A17728870F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:37:06 +0200 (CEST)
-Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D4A2886F9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:31:35 +0200 (CEST)
+Received: from localhost ([::1]:41506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQplp-00079j-8T
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43146)
+	id 1kQpgU-00089H-6x
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:31:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVa-0005Np-KK
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:18 -0400
-Received: from ozlabs.org ([203.11.71.1]:55957)
+ id 1kQpVV-0005GK-LS
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:14 -0400
+Received: from ozlabs.org ([203.11.71.1]:56381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVX-0001nf-Nw
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:18 -0400
+ id 1kQpVT-0001nH-Qm
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:13 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4C73wb4qr1z9sWK; Fri,  9 Oct 2020 21:19:56 +1100 (AEDT)
+ id 4C73wY1kmXz9sW8; Fri,  9 Oct 2020 21:19:56 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1602238799;
- bh=7UAQ27JWZpmDGCPmSO/grFPvEyc6GK1bknvnZwBLyhw=;
+ d=gibson.dropbear.id.au; s=201602; t=1602238797;
+ bh=WcyYV+kZY+086wNw+Z/Sbe9MiDsZS9bDNtuk6FQ7o84=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=diKR/PwYDbQB2WSJ0XHoC+L74F5M9Fnc88a+7Km7uc5jgutDmviIPTQaCAzZGhGzd
- ja8hbbkLsxGvvFmbeoQoBLE1lJVIEgWnOvKn/r15k4he6faljmxgj6JWTW/ik35Zz9
- wexDBHlFs7HNPJbThsu5Ey60sDBm6Cd2abjFMwkI=
+ b=LgwDRzb8US2vMVl60mseFjIkYu43O+TvaE+Yuxi9043gnzUNlYwT6z6mEacf2Z3gN
+ YMnx7+JiOFkgjrJJ7qF173tQo5pbE+29eh0J286dIz8ef1lX/6DpqlyHBf1Tq1eit2
+ 7A7g9zy2bZNXXN8T0RhnsYl9T8NVTkLXvC3ov7gg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/20] spapr: Simplify error handling in
- spapr_cpu_core_realize()
-Date: Fri,  9 Oct 2020 21:19:43 +1100
-Message-Id: <20201009101951.1569252-13-david@gibson.dropbear.id.au>
+Subject: [PULL 13/20] spapr: Add a return value to spapr_nvdimm_validate()
+Date: Fri,  9 Oct 2020 21:19:44 +1100
+Message-Id: <20201009101951.1569252-14-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 References: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
@@ -72,91 +71,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-As recommended in "qapi/error.h", add a bool return value to
-spapr_realize_vcpu() and use it in spapr_cpu_core_realize()
-in order to get rid of the error propagation overhead.
+As recommended in "qapi/error.h", return true on success and false on
+failure. This allows to reduce error propagation overhead in the callers.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20200914123505.612812-12-groug@kaod.org>
+Message-Id: <20200914123505.612812-13-groug@kaod.org>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_cpu_core.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ hw/ppc/spapr.c                |  4 +---
+ hw/ppc/spapr_nvdimm.c         | 14 ++++++++------
+ include/hw/ppc/spapr_nvdimm.h |  2 +-
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index 0c879d4da2..b03620823a 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -227,14 +227,14 @@ static void spapr_cpu_core_unrealize(DeviceState *dev)
-     g_free(sc->threads);
- }
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index c6af456cfc..7f3a620d41 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3478,9 +3478,7 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     }
  
--static void spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
-+static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                                SpaprCpuCore *sc, Error **errp)
+     if (is_nvdimm) {
+-        spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        if (!spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, errp)) {
+             return;
+         }
+     } else if (size % SPAPR_MEMORY_BLOCK_SIZE) {
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index c06f903e5b..b3a489e9fe 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -33,7 +33,7 @@
+ #include "sysemu/sysemu.h"
+ #include "hw/ppc/spapr_numa.h"
+ 
+-void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
++bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp)
  {
-     CPUPPCState *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
+     const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
+@@ -45,7 +45,7 @@ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
  
-     if (!qdev_realize(DEVICE(cpu), NULL, errp)) {
+     if (!mc->nvdimm_supported) {
+         error_setg(errp, "NVDIMM hotplug not supported for this machine");
 -        return;
 +        return false;
      }
  
-     /* Set time-base frequency to 512 MHz */
-@@ -245,13 +245,14 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
- 
-     if (spapr_irq_cpu_intc_create(spapr, cpu, errp) < 0) {
-         cpu_remove_sync(CPU(cpu));
+     /*
+@@ -59,20 +59,20 @@ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+      */
+     if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
+         error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
 -        return;
 +        return false;
      }
  
-     if (!sc->pre_3_0_migration) {
-         vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
-                          cpu->machine_data);
+     if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
+                                 &error_abort) == 0) {
+         error_setg(errp, "PAPR requires NVDIMM devices to have label-size set");
+-        return;
++        return false;
      }
+ 
+     if (size % SPAPR_MINIMUM_SCM_BLOCK_SIZE) {
+         error_setg(errp, "PAPR requires NVDIMM memory size (excluding label)"
+                    " to be a multiple of %" PRIu64 "MB",
+                    SPAPR_MINIMUM_SCM_BLOCK_SIZE / MiB);
+-        return;
++        return false;
+     }
+ 
+     uuidstr = object_property_get_str(OBJECT(nvdimm), NVDIMM_UUID_PROP,
+@@ -82,8 +82,10 @@ void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+ 
+     if (qemu_uuid_is_null(&uuid)) {
+         error_setg(errp, "NVDIMM device requires the uuid to be set");
+-        return;
++        return false;
+     }
++
 +    return true;
  }
  
- static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
-@@ -312,7 +313,6 @@ static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
-                                                   TYPE_SPAPR_MACHINE);
-     SpaprCpuCore *sc = SPAPR_CPU_CORE(OBJECT(dev));
-     CPUCore *cc = CPU_CORE(OBJECT(dev));
--    Error *local_err = NULL;
-     int i, j;
  
-     if (!spapr) {
-@@ -322,15 +322,14 @@ static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
- 
-     sc->threads = g_new(PowerPCCPU *, cc->nr_threads);
-     for (i = 0; i < cc->nr_threads; i++) {
--        sc->threads[i] = spapr_create_vcpu(sc, i, &local_err);
--        if (local_err) {
-+        sc->threads[i] = spapr_create_vcpu(sc, i, errp);
-+        if (!sc->threads[i]) {
-             goto err;
-         }
-     }
- 
-     for (j = 0; j < cc->nr_threads; j++) {
--        spapr_realize_vcpu(sc->threads[j], spapr, sc, &local_err);
--        if (local_err) {
-+        if (!spapr_realize_vcpu(sc->threads[j], spapr, sc, errp)) {
-             goto err_unrealize;
-         }
-     }
-@@ -347,7 +346,6 @@ err:
-         spapr_delete_vcpu(sc->threads[i], sc);
-     }
-     g_free(sc->threads);
--    error_propagate(errp, local_err);
- }
- 
- static Property spapr_cpu_core_properties[] = {
+diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
+index 3eb344e8e9..b834d82f55 100644
+--- a/include/hw/ppc/spapr_nvdimm.h
++++ b/include/hw/ppc/spapr_nvdimm.h
+@@ -28,7 +28,7 @@ QEMU_BUILD_BUG_ON(SPAPR_MINIMUM_SCM_BLOCK_SIZE % SPAPR_MEMORY_BLOCK_SIZE);
+ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+                            void *fdt, int *fdt_start_offset, Error **errp);
+ void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt);
+-void spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
++bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp);
+ void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
+ void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr);
 -- 
 2.26.2
 
