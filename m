@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3FE288DB9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:06:26 +0200 (CEST)
-Received: from localhost ([::1]:54180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FE0288E83
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:16:16 +0200 (CEST)
+Received: from localhost ([::1]:55008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQuuX-0006zc-NV
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:06:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
+	id 1kQv43-0002Ym-7p
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:16:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQuq0-0003ku-MT
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40440)
+ id 1kQuq4-0003m7-22
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQupx-00018i-UW
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:44 -0400
+ id 1kQuq1-000190-5m
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602259301;
+ s=mimecast20190719; t=1602259304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IZtbwbBnXHyx61GM0CmVgiZpiaLakMIl9udCynleo4I=;
- b=M/3981KXkWp1IqAORCoCmETmdq5aR03IMDjHWW+bB1iKUiaNteNaYbL0FAqSakI76SqQOI
- Cc9IMiMuNbh3uZczmJf1UbLeHafZ86pnpZKdUnVzi+CHf6wj8qyyrvv5nwkiBKkRyKnHjN
- 4NL60C71MF+CiCk1Rupbm5W8Nc1Y3K8=
+ bh=slIUVKk0+8beFrLh45o20cBpi9FInCOQBDpM1t0b5mc=;
+ b=N9gjiUA1My0j0nQgRVaWJghslq5syCuk7MSaATK9z+nGXID45nS+bxkEt1MgpcglRAt2UV
+ e/95/B5hLFFGi4lNXnufMCj4w7dd+jj2V0kLWeE6feL434n3iiFX47LYk2hYa7fa60la5/
+ Wv9IxRUc8olScgU+1R9WLto5Y1qckEA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-iO6RfbCOOUOBVrQ9XvZ5mw-1; Fri, 09 Oct 2020 12:01:38 -0400
-X-MC-Unique: iO6RfbCOOUOBVrQ9XvZ5mw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-488-xqKz9e7tMqK1I_X1i2Qvug-1; Fri, 09 Oct 2020 12:01:42 -0400
+X-MC-Unique: xqKz9e7tMqK1I_X1i2Qvug-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E5B41074643;
- Fri,  9 Oct 2020 16:01:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F8B31019631;
+ Fri,  9 Oct 2020 16:01:41 +0000 (UTC)
 Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6069855776;
- Fri,  9 Oct 2020 16:01:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AA997664F;
+ Fri,  9 Oct 2020 16:01:38 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/12] sev: Use class properties
-Date: Fri,  9 Oct 2020 12:01:14 -0400
-Message-Id: <20201009160122.1662082-5-ehabkost@redhat.com>
+Subject: [PATCH 05/12] rng: Use class properties
+Date: Fri,  9 Oct 2020 12:01:15 -0400
+Message-Id: <20201009160122.1662082-6-ehabkost@redhat.com>
 In-Reply-To: <20201009160122.1662082-1-ehabkost@redhat.com>
 References: <20201009160122.1662082-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,10 +80,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Amit Shah <amit@kernel.org>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,54 +92,100 @@ Instance properties make introspection hard and are not shown by
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Amit Shah <amit@kernel.org>
 Cc: qemu-devel@nongnu.org
 ---
- target/i386/sev.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ backends/rng-egd.c    | 10 +++-------
+ backends/rng-random.c |  8 ++++----
+ backends/rng.c        |  6 +++---
+ 3 files changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 93c4d60b82..d1c9247c14 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -298,6 +298,19 @@ sev_guest_class_init(ObjectClass *oc, void *data)
-                                   sev_guest_set_session_file);
-     object_class_property_set_description(oc, "session-file",
-             "guest owners session parameters (encoded with base64)");
+diff --git a/backends/rng-egd.c b/backends/rng-egd.c
+index 20198ff26e..600eef3f75 100644
+--- a/backends/rng-egd.c
++++ b/backends/rng-egd.c
+@@ -135,12 +135,6 @@ static char *rng_egd_get_chardev(Object *obj, Error **errp)
+     return NULL;
+ }
+ 
+-static void rng_egd_init(Object *obj)
+-{
+-    object_property_add_str(obj, "chardev",
+-                            rng_egd_get_chardev, rng_egd_set_chardev);
+-}
+-
+ static void rng_egd_finalize(Object *obj)
+ {
+     RngEgd *s = RNG_EGD(obj);
+@@ -153,6 +147,9 @@ static void rng_egd_class_init(ObjectClass *klass, void *data)
+ {
+     RngBackendClass *rbc = RNG_BACKEND_CLASS(klass);
+ 
++    object_class_property_add_str(klass, "chardev",
++                                  rng_egd_get_chardev, rng_egd_set_chardev);
 +
-+    object_class_property_add_uint32_ptr(oc, "policy",
-+                                         offsetof(SevGuestState, policy),
-+                                         OBJ_PROP_FLAG_READWRITE);
-+    object_class_property_add_uint32_ptr(oc, "handle",
-+                                         offsetof(SevGuestState, handle),
-+                                         OBJ_PROP_FLAG_READWRITE);
-+    object_class_property_add_uint32_ptr(oc, "cbitpos",
-+                                         offsetof(SevGuestState, cbitpos),
-+                                         OBJ_PROP_FLAG_READWRITE);
-+    object_class_property_add_uint32_ptr(oc, "reduced-phys-bits",
-+                                         offsetof(SevGuestState, reduced_phys_bits),
-+                                         OBJ_PROP_FLAG_READWRITE);
+     rbc->request_entropy = rng_egd_request_entropy;
+     rbc->opened = rng_egd_opened;
+ }
+@@ -162,7 +159,6 @@ static const TypeInfo rng_egd_info = {
+     .parent = TYPE_RNG_BACKEND,
+     .instance_size = sizeof(RngEgd),
+     .class_init = rng_egd_class_init,
+-    .instance_init = rng_egd_init,
+     .instance_finalize = rng_egd_finalize,
+ };
+ 
+diff --git a/backends/rng-random.c b/backends/rng-random.c
+index 245b12ab24..27152b8cdb 100644
+--- a/backends/rng-random.c
++++ b/backends/rng-random.c
+@@ -108,10 +108,6 @@ static void rng_random_init(Object *obj)
+ {
+     RngRandom *s = RNG_RANDOM(obj);
+ 
+-    object_property_add_str(obj, "filename",
+-                            rng_random_get_filename,
+-                            rng_random_set_filename);
+-
+     s->filename = g_strdup("/dev/urandom");
+     s->fd = -1;
+ }
+@@ -132,6 +128,10 @@ static void rng_random_class_init(ObjectClass *klass, void *data)
+ {
+     RngBackendClass *rbc = RNG_BACKEND_CLASS(klass);
+ 
++    object_class_property_add_str(klass, "filename",
++                                  rng_random_get_filename,
++                                  rng_random_set_filename);
++
+     rbc->request_entropy = rng_random_request_entropy;
+     rbc->opened = rng_random_opened;
+ }
+diff --git a/backends/rng.c b/backends/rng.c
+index 484f04e891..f018c380da 100644
+--- a/backends/rng.c
++++ b/backends/rng.c
+@@ -106,9 +106,6 @@ static void rng_backend_init(Object *obj)
+ 
+     QSIMPLEQ_INIT(&s->requests);
+ 
+-    object_property_add_bool(obj, "opened",
+-                             rng_backend_prop_get_opened,
+-                             rng_backend_prop_set_opened);
  }
  
- static void
-@@ -307,15 +320,6 @@ sev_guest_instance_init(Object *obj)
+ static void rng_backend_finalize(Object *obj)
+@@ -122,6 +119,9 @@ static void rng_backend_class_init(ObjectClass *oc, void *data)
+ {
+     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
  
-     sev->sev_device = g_strdup(DEFAULT_SEV_DEVICE);
-     sev->policy = DEFAULT_GUEST_POLICY;
--    object_property_add_uint32_ptr(obj, "policy", &sev->policy,
--                                   OBJ_PROP_FLAG_READWRITE);
--    object_property_add_uint32_ptr(obj, "handle", &sev->handle,
--                                   OBJ_PROP_FLAG_READWRITE);
--    object_property_add_uint32_ptr(obj, "cbitpos", &sev->cbitpos,
--                                   OBJ_PROP_FLAG_READWRITE);
--    object_property_add_uint32_ptr(obj, "reduced-phys-bits",
--                                   &sev->reduced_phys_bits,
--                                   OBJ_PROP_FLAG_READWRITE);
++    object_class_property_add_bool(oc, "opened",
++                                   rng_backend_prop_get_opened,
++                                   rng_backend_prop_set_opened);
+     ucc->complete = rng_backend_complete;
  }
  
- /* sev guest info */
 -- 
 2.26.2
 
