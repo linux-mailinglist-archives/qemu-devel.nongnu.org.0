@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638942886CB
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:23:22 +0200 (CEST)
-Received: from localhost ([::1]:48686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DCE2886DA
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:25:46 +0200 (CEST)
+Received: from localhost ([::1]:55294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQpYX-0007kj-EN
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
+	id 1kQpar-00022H-7P
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:25:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVM-00059c-BR
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:04 -0400
-Received: from ozlabs.org ([203.11.71.1]:40495)
+ id 1kQpVN-00059o-0J
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:05 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:33201 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVK-0001lq-61
+ id 1kQpVK-0001m0-03
  for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4C73wW1hLSz9sTR; Fri,  9 Oct 2020 21:19:55 +1100 (AEDT)
+ id 4C73wW37XGz9sTq; Fri,  9 Oct 2020 21:19:55 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1602238795;
- bh=ReJY2aou6sp3rSgeP/ZOyb10zb5wURuuxehViZoJX7E=;
+ bh=5q6vMK0QcqvywwwDzfcaUZlet4OuaQreYsVD/rZXy/w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OsfWPTv7eYSVXeRyepAGA1autXz8l3nlvCTENQiaO7nCbW+5vTjUeq3SuAdtFb2Cp
- BqMW/+yjpDCG1bRHai6zy/B0P8MOJcZlFwOhVlgEhgwlzmE9tg7/3IfZn8MHMiky2e
- uG23r91MYeiAZXfQ8xgZtlNPTtucNkFNtttTqdzo=
+ b=VJAhHC/f976Y/0UASI/1s4ICNRKgQAesRY0HXlwWpfa3IkBHr6ZA71G1m72CMcmAh
+ U1O3iaHOdF+1hMwSMvWA88yole8xPRXcefMGJLSOqN6ceMgxk5UNehcH2P+xxJEofM
+ dknVwfPPRwJ/THs4BWw4Vi6Twd6HuKL66I7UX7Xs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/20] spapr: Handle HPT allocation failure in nested guest
-Date: Fri,  9 Oct 2020 21:19:32 +1100
-Message-Id: <20201009101951.1569252-2-david@gibson.dropbear.id.au>
+Subject: [PULL 02/20] spapr: Fix error leak in spapr_realize_vcpu()
+Date: Fri,  9 Oct 2020 21:19:33 +1100
+Message-Id: <20201009101951.1569252-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 References: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -60,55 +61,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dbarboza@redhat.com, Fabiano Rosas <farosas@linux.ibm.com>,
- qemu-devel@nongnu.org, groug@kaod.org,
- Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>, qemu-ppc@nonngu.org,
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ dbarboza@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, groug@kaod.org,
+ qemu-ppc@nonngu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Fabiano Rosas <farosas@linux.ibm.com>
+From: Greg Kurz <groug@kaod.org>
 
-The nested KVM code does not yet support HPT guests. Calling the
-KVM_CAP_PPC_ALLOC_HTAB ioctl currently leads to KVM setting the guest
-as HPT and erroneously executing code in L1 that should only run in
-hypervisor mode, leading to an exception in the L1 vcpu thread when it
-enters the nested guest.
+If spapr_irq_cpu_intc_create() fails, local_err isn't propagated and
+thus leaked.
 
-This can be reproduced with -machine max-cpu-compat=power8 in the L2
-guest command line.
-
-The KVM code has since been modified to fail the ioctl when running in
-a nested environment so QEMU needs to be able to handle that. This
-patch provides an error message informing the user about the lack of
-support for HPT in nested guests.
-
-Reported-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20200911043123.204162-1-farosas@linux.ibm.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Fixes: 992861fb1e4c ("error: Eliminate error_propagate() manually")
+Cc: armbru@redhat.com
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20200914123505.612812-2-groug@kaod.org>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/ppc/spapr_cpu_core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 2db810f73a..544a1947d9 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1483,6 +1483,12 @@ void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
-     spapr_free_hpt(spapr);
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 2125fdac34..3e4f402b2e 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -232,7 +232,6 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ {
+     CPUPPCState *env = &cpu->env;
+     CPUState *cs = CPU(cpu);
+-    Error *local_err = NULL;
  
-     rc = kvmppc_reset_htab(shift);
-+
-+    if (rc == -EOPNOTSUPP) {
-+        error_setg(errp, "HPT not supported in nested guests");
-+        return;
-+    }
-+
-     if (rc < 0) {
-         /* kernel-side HPT needed, but couldn't allocate one */
-         error_setg_errno(errp, errno,
+     if (!qdev_realize(DEVICE(cpu), NULL, errp)) {
+         return;
+@@ -244,7 +243,7 @@ static void spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     cpu_ppc_set_vhyp(cpu, PPC_VIRTUAL_HYPERVISOR(spapr));
+     kvmppc_set_papr(cpu);
+ 
+-    if (spapr_irq_cpu_intc_create(spapr, cpu, &local_err) < 0) {
++    if (spapr_irq_cpu_intc_create(spapr, cpu, errp) < 0) {
+         cpu_remove_sync(CPU(cpu));
+         return;
+     }
 -- 
 2.26.2
 
