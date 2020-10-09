@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 664022899AD
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 22:22:54 +0200 (CEST)
-Received: from localhost ([::1]:36910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D4B28997E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 22:12:18 +0200 (CEST)
+Received: from localhost ([::1]:41476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQyuj-0004JK-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 16:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52158)
+	id 1kQykT-0002ag-Pd
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 16:12:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQyRF-00048U-T2
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:52:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29809)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQyWC-0008WK-58
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:57:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQyRD-0004th-0l
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:52:25 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kQyW9-0005qI-7G
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 15:57:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602273140;
+ s=mimecast20190719; t=1602273414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sXzGR2fx8eWni6J1pew8zsdc3BIRQILR0PMaoL79EB8=;
- b=TqLo0YXcCedqrAg3ufzUkN+D5NciUaYHLY0iq92TOfc6S6RWptLs0uv5xNDlVLiaaoBxqE
- oMy2X1j9HrlQzooTeSBsE1ptkuzDljrXbvb22EH8P81r2CBGbk6mxFSdpwgKCiogcK3Q3M
- CfqlhX2g49RrklbbLFPPVOEJiB4osMQ=
+ bh=OPFeCcoMQP/e2elK3jSrN60RnVqJbxdMoTQQ5fcokBw=;
+ b=bKVpccsSFDoxpfJZiizwPEPGyznuNVYImRlLrGA5XiHfp5OkOov3gwEZGyOm1tk5y/CpLq
+ 1pbLx4mkddoCgeCqWasmZOfdvyY++1h2epQCJGNxRtvfgK2L30LKQAbfKBssxhC7P7O1ph
+ OycPpi8c0UsTZNRRYhDnCcwgUWYJzfg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-HfLHz6DrMGms0FjQ0Pt1og-1; Fri, 09 Oct 2020 15:52:16 -0400
-X-MC-Unique: HfLHz6DrMGms0FjQ0Pt1og-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-546-cmpz0bItMXG4M9qUdjccOg-1; Fri, 09 Oct 2020 15:56:52 -0400
+X-MC-Unique: cmpz0bItMXG4M9qUdjccOg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4849835B8D;
- Fri,  9 Oct 2020 19:52:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECC50186DD29;
+ Fri,  9 Oct 2020 19:56:50 +0000 (UTC)
 Received: from [10.3.113.14] (ovpn-113-14.phx2.redhat.com [10.3.113.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 59FE546;
- Fri,  9 Oct 2020 19:52:15 +0000 (UTC)
-Subject: Re: [PULL v2 0/8] NBD patches through 2020-10-08
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20201009135429.1122744-1-eblake@redhat.com>
- <CAFEAcA90sfus8hv8Ft79YzA+MuVPwr8t0iPTEWuaDmv+EVxaoQ@mail.gmail.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 687546266E;
+ Fri,  9 Oct 2020 19:56:50 +0000 (UTC)
+Subject: Re: [PATCH] block/blkdebug: fix memory leak
+To: Elena Afanasova <eafanasova@gmail.com>, kwolf@redhat.com,
+ mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <1e903f928eb3da332cc95e2a6f87243bd9fe66e4.camel@gmail.com>
 From: Eric Blake <eblake@redhat.com>
 Autocrypt: addr=eblake@redhat.com; keydata=
  mQENBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
@@ -90,32 +90,32 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  0t/Wx0llylWVG6mjD6pY/8+lIJNNu/9xlIxx6/FpHi9Xs1nqWA2O1kqF8H6AC9lF2LDAK/7l
  J3EipX47wK4bHo9EuM26optmWOkvGkVsPeCd20ryUfjcG7N+Bj0w+D4=
 Organization: Red Hat, Inc.
-Message-ID: <b4afa3b1-ca05-196c-a281-eb2e108feb01@redhat.com>
-Date: Fri, 9 Oct 2020 14:52:14 -0500
+Message-ID: <2a2b524b-337b-ff2d-d4c9-39e04f4a7a55@redhat.com>
+Date: Fri, 9 Oct 2020 14:56:49 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA90sfus8hv8Ft79YzA+MuVPwr8t0iPTEWuaDmv+EVxaoQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <1e903f928eb3da332cc95e2a6f87243bd9fe66e4.camel@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="u9VS45C9OMhoy7CYVSJuHsYimROQhbrlo"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ boundary="f5gABgER9E4urbxanJoJ5GuAP3En4TSBz"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,54 +128,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---u9VS45C9OMhoy7CYVSJuHsYimROQhbrlo
-Content-Type: multipart/mixed; boundary="E1qrYDCmHe2JVGGrOQ3HavBa74vTNZLqO";
+--f5gABgER9E4urbxanJoJ5GuAP3En4TSBz
+Content-Type: multipart/mixed; boundary="8cSYvKjBfVQSf1VLLQwjUXdHYsFKRspzu";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Message-ID: <b4afa3b1-ca05-196c-a281-eb2e108feb01@redhat.com>
-Subject: Re: [PULL v2 0/8] NBD patches through 2020-10-08
-References: <20201009135429.1122744-1-eblake@redhat.com>
- <CAFEAcA90sfus8hv8Ft79YzA+MuVPwr8t0iPTEWuaDmv+EVxaoQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA90sfus8hv8Ft79YzA+MuVPwr8t0iPTEWuaDmv+EVxaoQ@mail.gmail.com>
+To: Elena Afanasova <eafanasova@gmail.com>, kwolf@redhat.com,
+ mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+Message-ID: <2a2b524b-337b-ff2d-d4c9-39e04f4a7a55@redhat.com>
+Subject: Re: [PATCH] block/blkdebug: fix memory leak
+References: <1e903f928eb3da332cc95e2a6f87243bd9fe66e4.camel@gmail.com>
+In-Reply-To: <1e903f928eb3da332cc95e2a6f87243bd9fe66e4.camel@gmail.com>
 
---E1qrYDCmHe2JVGGrOQ3HavBa74vTNZLqO
+--8cSYvKjBfVQSf1VLLQwjUXdHYsFKRspzu
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 10/9/20 1:50 PM, Peter Maydell wrote:
-> On Fri, 9 Oct 2020 at 14:57, Eric Blake <eblake@redhat.com> wrote:
->>
->> The following changes since commit 497d415d76b9f59fcae27f22df1ca2c3fa4df=
-64e:
->>
->>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20=
-201008-1' into staging (2020-10-08 21:41:20 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-10-08-v2
->>
->> for you to fetch changes up to 351a587410eff515ee28da619867030217b62457:
->>
->>   nbd: Simplify meta-context parsing (2020-10-09 08:34:15 -0500)
->>
->> v2: fix BSD compilation error
+On 10/9/20 2:09 PM, Elena Afanasova wrote:
+> Spotted by PVS-Studio
 >=20
-> Compile failure on Windows:
-> ../../qemu-nbd.c:157:5: error: "CONFIG_POSIX" is not defined [-Werror=3Du=
-ndef]
->  #if CONFIG_POSIX
->      ^
+> Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+> ---
+>  block/blkdebug.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Oh, everywhere else uses #ifdef.  Urgh. v3 coming up.
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+>=20
+> diff --git a/block/blkdebug.c b/block/blkdebug.c
+> index eecbf3e5c4..54da719dd1 100644
+> --- a/block/blkdebug.c
+> +++ b/block/blkdebug.c
+> @@ -215,6 +215,7 @@ static int add_rule(void *opaque, QemuOpts *opts, Err=
+or **errp)
+>                                   BLKDEBUG_IO_TYPE__MAX, &local_error);
+>          if (local_error) {
+>              error_propagate(errp, local_error);
+> +            g_free(rule);
+>              return -1;
+>          }
+>          if (iotype !=3D BLKDEBUG_IO_TYPE__MAX) {
+>=20
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -183,25 +182,25 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---E1qrYDCmHe2JVGGrOQ3HavBa74vTNZLqO--
+--8cSYvKjBfVQSf1VLLQwjUXdHYsFKRspzu--
 
---u9VS45C9OMhoy7CYVSJuHsYimROQhbrlo
+--f5gABgER9E4urbxanJoJ5GuAP3En4TSBz
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl+Av24ACgkQp6FrSiUn
-Q2phtwf+O3ctv1NOJ1664AbPBiBZzrrB9RYQFmQDrrhY1HRpyjFxz7PsG4WZNuML
-9lP9FPavaFIGDkzVWVRQjO8hMyLzoy/5ETC5BNXWlZWACPucmVgAFr9Tiv/jHJoe
-nGsJJ5DeAAiwOo4tcIVIasft8KKnZa1Q8BxPKZtIVzJeHxW6/gkQPZ40lEI7llZM
-6iNEpAuB8C98TWU73O05ll6EYzJUlxeAMzpA7uX4wyGm0mhE6ppyqCzQ/03YKFzF
-0gPYiZRsjJoWgd4Ei3NxPHHBSngxt5skRoBQm7mQyVHDVEx7tGVbTFh0KFF5E1KF
-AIIS6Am7MAn5UB5EfKZB9WtIUdnFSw==
-=MvQk
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl+AwIEACgkQp6FrSiUn
+Q2od4Qf7Bx6zO/LOrmDqT+SByeWAw0ntHYB3jkLW45qxIr2itTwouWwpydU083tV
+LLeUGHjrxpdz+HrQQOi5vxxLX8W0QAKP7PFBUDmHsXW12LReUCaUO69gEEtUVpBx
+tXlClkNBcr3hX/VZD+lZCMX1NHKfl9jnRW7uZEWqVmkwSaXAdPwLeIBUVLKuS2pW
+bHWIKopkt0NQ06vhcmOA/rGkJieQA+IaqKWOcHdSBIW7OAvBmYKI/d6DEVSEGQyD
+dv0VxPlN3P4+4bSuceou78fsRrbEosUIf8h43/3zMWe+xSbI/sg/rlfB5c/h//EU
+to6vfLoRPPIk5UQ6wwKzVt2EQjeuwg==
+=Fxdp
 -----END PGP SIGNATURE-----
 
---u9VS45C9OMhoy7CYVSJuHsYimROQhbrlo--
+--f5gABgER9E4urbxanJoJ5GuAP3En4TSBz--
 
 
