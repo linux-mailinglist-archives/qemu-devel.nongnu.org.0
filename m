@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2C428870C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:35:47 +0200 (CEST)
-Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC39A2886F3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:31:21 +0200 (CEST)
+Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQpkY-0004pC-Fa
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43150)
+	id 1kQpgG-00080o-Pr
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:31:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVa-0005OB-NH
+ id 1kQpVa-0005OG-PJ
  for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:18 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41521 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34035 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVY-0001oM-3n
+ id 1kQpVX-0001oO-VR
  for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4C73wd1l5Pz9sWR; Fri,  9 Oct 2020 21:20:00 +1100 (AEDT)
+ id 4C73wd31h7z9sWV; Fri,  9 Oct 2020 21:20:00 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1602238801;
- bh=qJ4Ji0iyaU1fszfkvRKFJtc6r0OCUXI1lcF947bdAts=;
+ bh=uCDy2eT032X0jjKEb/Bj7R46DtU4RECqXdUasI0Wcpk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H5vhfWNwYlzkT7vvuvi7pE0kfzMO7zyHKnSkKUC7Bmqbqr2JXqqY02L7geebvVqKq
- Vbmqa09/NtwboOE90gFtayIvSElvxzEe6/We+z2VJIUYnOsldV9IiBIgT8lHNAAIYE
- eB//SjNcM0sSYAwTfQgAvlr6GeCktp2ei21QSY/o=
+ b=RX1FLq17ecaRylhVulE6gkOyDBnJVeo3XD0CsemeEJUC9nae6b407FEx2819rfe+w
+ LVkvTBbKqX/bNZwE4/2aHeoMeln1LVa3jLVlEUtjDW5Qr9vWBO6LDZLbNLAiq/wNpz
+ R06/8dr5IdCygs01uJBcfJilhHHGO9yC53svugOk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 17/20] spapr_numa: forbid asymmetrical NUMA setups
-Date: Fri,  9 Oct 2020 21:19:48 +1100
-Message-Id: <20201009101951.1569252-18-david@gibson.dropbear.id.au>
+Subject: [PULL 18/20] spapr_numa: change reference-points and maxdomain
+ settings
+Date: Fri,  9 Oct 2020 21:19:49 +1100
+Message-Id: <20201009101951.1569252-19-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 References: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
@@ -68,75 +69,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-The pSeries machine does not support asymmetrical NUMA
-configurations. This doesn't make much of a different
-since we're not using user input for pSeries NUMA setup,
-but this will change in the next patches.
+This is the first guest visible change introduced in
+spapr_numa.c. The previous settings of both reference-points
+and maxdomains were too restrictive, but enough for the
+existing associativity we're setting in the resources.
 
-To avoid breaking existing setups, gate this change by
-checking for legacy NUMA support.
+We'll change that in the following patches, populating the
+associativity arrays based on user input. For those changes
+to be effective, reference-points and maxdomains must be
+more flexible. After this patch, we'll have 4 distinct
+levels of NUMA (0x4, 0x3, 0x2, 0x1) and maxdomains will
+allow for any type of configuration the user intends to
+do - under the scope and limitations of PAPR itself, of
+course.
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20201007172849.302240-3-danielhb413@gmail.com>
+Message-Id: <20201007172849.302240-4-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_numa.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ hw/ppc/spapr_numa.c | 43 +++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 35 insertions(+), 8 deletions(-)
 
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 64fe567f5d..fe395e80a3 100644
+index fe395e80a3..16badb1f4b 100644
 --- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -19,6 +19,24 @@
- /* Moved from hw/ppc/spapr_pci_nvlink2.c */
- #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
- 
-+static bool spapr_numa_is_symmetrical(MachineState *ms)
-+{
-+    int src, dst;
-+    int nb_numa_nodes = ms->numa_state->num_nodes;
-+    NodeInfo *numa_info = ms->numa_state->nodes;
-+
-+    for (src = 0; src < nb_numa_nodes; src++) {
-+        for (dst = src; dst < nb_numa_nodes; dst++) {
-+            if (numa_info[src].distance[dst] !=
-+                numa_info[dst].distance[src]) {
-+                return false;
-+            }
-+        }
-+    }
-+
-+    return true;
-+}
-+
- void spapr_numa_associativity_init(SpaprMachineState *spapr,
-                                    MachineState *machine)
+@@ -178,24 +178,51 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
+  */
+ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
  {
-@@ -61,6 +79,22 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
++    MachineState *ms = MACHINE(spapr);
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+     uint32_t refpoints[] = {
+         cpu_to_be32(0x4),
+-        cpu_to_be32(0x4),
++        cpu_to_be32(0x3),
+         cpu_to_be32(0x2),
++        cpu_to_be32(0x1),
+     };
+     uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
+-    uint32_t maxdomain = cpu_to_be32(spapr->gpu_numa_id > 1 ? 1 : 0);
++    uint32_t maxdomain = ms->numa_state->num_nodes + spapr->gpu_numa_id;
+     uint32_t maxdomains[] = {
+         cpu_to_be32(4),
+-        maxdomain,
+-        maxdomain,
+-        maxdomain,
+-        cpu_to_be32(spapr->gpu_numa_id),
++        cpu_to_be32(maxdomain),
++        cpu_to_be32(maxdomain),
++        cpu_to_be32(maxdomain),
++        cpu_to_be32(maxdomain)
+     };
  
-         spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
-     }
-+
-+    /*
-+     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
-+     * 1 NUMA node) will not benefit from anything we're going to do
-+     * after this point.
-+     */
+-    if (smc->pre_5_1_assoc_refpoints) {
+-        nr_refpoints = 2;
 +    if (spapr_machine_using_legacy_numa(spapr)) {
-+        return;
-+    }
++        uint32_t legacy_refpoints[] = {
++            cpu_to_be32(0x4),
++            cpu_to_be32(0x4),
++            cpu_to_be32(0x2),
++        };
++        uint32_t legacy_maxdomain = spapr->gpu_numa_id > 1 ? 1 : 0;
++        uint32_t legacy_maxdomains[] = {
++            cpu_to_be32(4),
++            cpu_to_be32(legacy_maxdomain),
++            cpu_to_be32(legacy_maxdomain),
++            cpu_to_be32(legacy_maxdomain),
++            cpu_to_be32(spapr->gpu_numa_id),
++        };
 +
-+    if (!spapr_numa_is_symmetrical(machine)) {
-+        error_report("Asymmetrical NUMA topologies aren't supported "
-+                     "in the pSeries machine");
-+        exit(EXIT_FAILURE);
-+    }
++        G_STATIC_ASSERT(sizeof(legacy_refpoints) <= sizeof(refpoints));
++        G_STATIC_ASSERT(sizeof(legacy_maxdomains) <= sizeof(maxdomains));
 +
- }
++        nr_refpoints = 3;
++
++        memcpy(refpoints, legacy_refpoints, sizeof(legacy_refpoints));
++        memcpy(maxdomains, legacy_maxdomains, sizeof(legacy_maxdomains));
++
++        /* pseries-5.0 and older reference-points array is {0x4, 0x4} */
++        if (smc->pre_5_1_assoc_refpoints) {
++            nr_refpoints = 2;
++        }
+     }
  
- void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+     _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
 -- 
 2.26.2
 
