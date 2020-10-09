@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E981C288F4E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:58:55 +0200 (CEST)
-Received: from localhost ([::1]:54974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B3DA288F3B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:54:51 +0200 (CEST)
+Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvjL-0002ge-0r
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:58:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38242)
+	id 1kQvfO-00061l-IJ
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvJB-0008NE-Qo
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:31:53 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34628)
+ id 1kQvJD-0008Qz-I9
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:31:55 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kQvJ9-00058M-6K
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:31:53 -0400
-Received: by mail-wm1-x333.google.com with SMTP id l15so9325028wmh.1
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:31:50 -0700 (PDT)
+ id 1kQvJA-00058Z-0J
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:31:55 -0400
+Received: by mail-wr1-x432.google.com with SMTP id w5so10932778wrp.8
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:31:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Z/3FJnBAJGBqxaPVww8H3rWV4h9ZpETTH3GSqWuzYus=;
- b=rw5+s/Y6vcTut6CHUf/1KSnxFtLMclfvu3wStQqa9PnciiAjJN7rHwTU0qBIoCWWzk
- wsUVSR9IdEUa5hTEgB3jMQaXG2o2wcsTAERbnrbHuzjIwTWrb5oXHFvLIsGDF0wMYNex
- NbzBzmJQwxHp1aeewCQ2UvjCJtJEbzFk8L3GPIQGaIYNP8N7XhOlP4No6IxZPNXIqIM9
- FBW4VXa2Yf4zTTdrRHbxORMRSftFVCfYpXdOa/ETF2w1i95DST2jnF1GfsbruNuX0yon
- nEXOQUdmzjEQruy+OzSry+wOBDDwhUwSv4KX2FxJuf6hpJNvZ9plnPLsYxfD2hhUuCAn
- cu1Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2zl15kTFfsHZ2Bh7jmqvRG3PAJE7u2kyw5BRKdhzziI=;
+ b=iU5bVLo1FHbfFcM3Wxf8oxY9wbmPRPHZbg4TMlkSojQOecFFIupcWhuOB2If6Tfm2j
+ 4Lt5weSaDeyVC9T8beBAojs00d8xbx4ItlfyiD2iqqTvCyTURzp6jj144rZocGz8lAAs
+ U2BzTLBzpvnd8vLLaEB/xQLGOFPYqsVbvZlBG4OwZ3fKauim2PgmVH6nTMeuDAbFklq7
+ NUBdnreYlBTWp2S+mFkq3AvLuFP8Iqs/n/0zk2Y37o2+1u/s1oxeuX3cZTG5Xibkbg3m
+ FHeetR8n/xwe5bA82kcBvVN5Fu3wrrPf55pt7ciNlSl6tOQvA6uZXKx/owiS6kbNSzV7
+ /Feg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Z/3FJnBAJGBqxaPVww8H3rWV4h9ZpETTH3GSqWuzYus=;
- b=h0npknCpMGhNY63xSIjUhzfliNLboq7vOddgK40zpHL97wkWufUmpyYJCJD3cDFUUU
- FUwaZaiVlcUpvXbYJ5gbzCn/vqvxKMOseb92zBlGHlGEri2gTlHU4JI6ZBGJzhGN+VsW
- 862kLcHFbpnoJfDuiDy7REHaDLA2Chq7j/upboIMMv6AylF3DbA/Lt5h2ZGks1PXQdM7
- +OqOjw2ncaeRtm12Gh8RUJBhhRYSZOnHgaSLy6clOi+7/tH7EEvK5aAwJTObPkImqdxu
- I2koKdUTsis99FdeJ6UooS2cfWAl2X1rfDlmrnQ8wnl02jqbSERZ7Fzu1b6VC66uIuIL
- LrKg==
-X-Gm-Message-State: AOAM5328yVNftNNokTnJ1ymP2QHnq6aMwHPXczi3WRDCDJ2iCbrO/wRq
- XpCFcS2UXoPfZg+nPejhrPsw0w==
-X-Google-Smtp-Source: ABdhPJwf9zqpqowyjNtrx4w7XUCpmK2iVd9gdeVAw7P1A2WwtvfW2riyf6zwaowak5fwvlhKsHdvqg==
-X-Received: by 2002:a1c:b78a:: with SMTP id
- h132mr15211997wmf.172.1602261109235; 
- Fri, 09 Oct 2020 09:31:49 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2zl15kTFfsHZ2Bh7jmqvRG3PAJE7u2kyw5BRKdhzziI=;
+ b=BXiL4fjVjLPQYKNlAQOsCUpJ7ucaZ8wgZTIWyHm7RKYFC1AzY2Q1C0qs3OdVvohANH
+ XVlTDtF2niHH7I5R7pP39Wl0FlyTPyIGXibOPlqF3RsEUL3WVlstdg+DfKBuRA7RKxMb
+ xM8ODYDLVlnJKzYqMJ0T1Xa6I1gbjGAUwaCiTYQ8MNz5I3/gUm75Lq9A1Ugq57lusnJw
+ LaCTTrncUQDg6bFu166y3B2/NB4GZSbAHQWk+WSuZtFjoOuZXuoCjBc2gj7b2f1LoNvT
+ QH5NS/ymVXn4zaUigGokI/QedWO2+jRL2exd/WMCGupj0aFyElblyjwhCg19R4p9p2cP
+ 9r7A==
+X-Gm-Message-State: AOAM532Pg/dRUUzALGClJp1xrBKVxLRidvWxk9TeV/wBBwl84SxpUZJB
+ 5sseCg0Y18/ipGnO89+up4W+9w==
+X-Google-Smtp-Source: ABdhPJzg7a1or2kKK1+vI9gzDxRZxLa6t+v7Thq3YVWjJKlRxUJXX7SAtMltVL5ATnFO4MNq3cO3RA==
+X-Received: by 2002:adf:fd07:: with SMTP id e7mr15232931wrr.377.1602261110474; 
+ Fri, 09 Oct 2020 09:31:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q9sm12806167wrd.57.2020.10.09.09.31.47
+ by smtp.gmail.com with ESMTPSA id t124sm13215223wmg.31.2020.10.09.09.31.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 09 Oct 2020 09:31:47 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 16A341FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 2B3B71FF87;
  Fri,  9 Oct 2020 17:31:47 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/22] acceptance regressions, testing, gitdm, plugins
-Date: Fri,  9 Oct 2020 17:31:25 +0100
-Message-Id: <20201009163147.28512-1-alex.bennee@linaro.org>
+Subject: [PULL 01/22] configure: fix performance regression due to PIC objects
+Date: Fri,  9 Oct 2020 17:31:26 +0100
+Message-Id: <20201009163147.28512-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201009163147.28512-1-alex.bennee@linaro.org>
+References: <20201009163147.28512-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,85 +89,39 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ahmed Karaman <ahmedkrmn@outlook.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4a7c0bd9dcb08798c6f82e55b5a3423f7ee669f1:
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.2-20201009' into staging (2020-10-09 15:48:04 +0100)
+Because most files in QEMU are grouped into static libraries, Meson conservatively
+compiles them with -fPIC.  This is overkill and produces slowdowns up to 20% on
+some TCG tests.
 
-are available in the Git repository at:
+As a stopgap measure, use the b_staticpic option to limit the slowdown to
+--enable-pie.  https://github.com/mesonbuild/meson/pull/7760 will allow
+us to use b_staticpic=false and let Meson do the right thing.
 
-  https://github.com/stsquad/qemu.git tags/pull-various-091020-1
+Reported-by: Ahmed Karaman <ahmedkrmn@outlook.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200924092314.1722645-57-pbonzini@redhat.com>
+Message-Id: <20201007160038.26953-2-alex.bennee@linaro.org>
 
-for you to fetch changes up to e5d402b28f1a325d46b7b0f08d04257f618e6d03:
-
-  tests/acceptance: disable machine_rx_gdbsim on GitLab (2020-10-09 17:27:55 +0100)
-
-----------------------------------------------------------------
-Testing, gitdm and plugin fixes:
-
-  - fix acceptance regressions in MIPS and IDE
-  - speed up cirrus msys2/mingw builds
-  - add genisoimage to more docker images
-  - slew of gitdb updates
-  - fix some windows compile issues for plugins
-  - add V=1 to cirrus output
-  - disable rxsim in gitlab CI
-
-----------------------------------------------------------------
-Alex Bennée (2):
-      hw/ide: restore replay support of IDE
-      tests/acceptance: disable machine_rx_gdbsim on GitLab
-
-Paolo Bonzini (2):
-      configure: fix performance regression due to PIC objects
-      cirrus: use V=1 when running tests on FreeBSD and macOS
-
-Philippe Mathieu-Daudé (13):
-      hw/misc/mips_cpc: Start vCPU when powered on
-      contrib/gitdm: Add more academic domains
-      contrib/gitdm: Add more individual contributors
-      contrib/gitdm: Add Baidu to the domain map
-      contrib/gitdm: Add ByteDance to the domain map
-      contrib/gitdm: Add Google to the domain map
-      contrib/gitdm: Add Nuvia to the domain map
-      contrib/gitdm: Add Qualcomm to the domain map
-      contrib/gitdm: Add Nir Soffer to Red Hat domain
-      contrib/gitdm: Add SUSE to the domain map
-      contrib/gitdm: Add Yadro to the domain map
-      contrib/gitdm: Add Yandex to the domain map
-      .mailmap: Fix more contributor entries
-
-Thomas Huth (1):
-      tests/docker: Add genisoimage to the docker file
-
-Yonggang Luo (4):
-      cirrus: Fixing and speedup the msys2/mingw CI
-      cirrus: msys2/mingw speed is up, add excluded target back
-      plugins: Fixes a issue when dlsym failed, the handle not closed
-      plugin: Fixes compiling errors on msys2/mingw
-
- configure                                    |   1 +
- contrib/plugins/hotblocks.c                  |   2 +-
- hw/ide/core.c                                |   4 +-
- hw/misc/mips_cpc.c                           |   1 +
- plugins/loader.c                             |   1 +
- tests/plugin/bb.c                            |   4 +-
- .cirrus.yml                                  | 121 ++++++++++++++++-----------
- .mailmap                                     |   2 +
- contrib/gitdm/domain-map                     |  10 ++-
- contrib/gitdm/group-map-academics            |   4 +
- contrib/gitdm/group-map-individuals          |   7 ++
- contrib/gitdm/group-map-redhat               |   1 +
- tests/acceptance/machine_rx_gdbsim.py        |   1 +
- tests/docker/dockerfiles/centos8.docker      |   1 +
- tests/docker/dockerfiles/debian-amd64.docker |   1 +
- tests/docker/dockerfiles/fedora.docker       |   1 +
- tests/docker/dockerfiles/ubuntu2004.docker   |   1 +
- 17 files changed, 107 insertions(+), 56 deletions(-)
-
+diff --git a/configure b/configure
+index 28df227db5..b553288c5e 100755
+--- a/configure
++++ b/configure
+@@ -7209,6 +7209,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
+         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
++        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+ 	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
+ 	-Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
 -- 
 2.20.1
 
