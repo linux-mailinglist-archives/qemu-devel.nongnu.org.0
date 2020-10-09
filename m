@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9002A2886E4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:28:53 +0200 (CEST)
-Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F692886E2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:28:50 +0200 (CEST)
+Received: from localhost ([::1]:34842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQpds-0005Q2-KE
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:28:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43066)
+	id 1kQpdp-0005KZ-6C
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:28:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVV-0005FS-Ap
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:13 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36051 helo=ozlabs.org)
+ id 1kQpVT-0005Ct-HH
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:11 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52195 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kQpVS-0001ml-6s
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:12 -0400
+ id 1kQpVQ-0001me-IJ
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:20:11 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4C73wX246Dz9sVm; Fri,  9 Oct 2020 21:19:55 +1100 (AEDT)
+ id 4C73wX10Ldz9sVS; Fri,  9 Oct 2020 21:19:56 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1602238796;
- bh=uU2bvuuBHfIOdHxr5n2B5NhwOn/ignzorbQgCHxn99c=;
+ bh=P6GDoue4Fmo2XAOiOyb4TA3e4zSKC+OE9HjRXqaEWYU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EXSIN0WS2z2Z2/hjZqACV/eE3QN6vqERn83JoGU5taLB85knvFGXzJuRt+Qb+elwG
- cM/rUnd/0Jo1kWAauBzRuTpntWPCPWptMEeONSbT8Yo8pfM+ZXwqF5NonONHjlRm+D
- mToLTDZT73DQ9F55ETI2F+cqxgV+ssvIvoF0uKCA=
+ b=eOatJqYHzpb98WGMZtpl9eswgjsHGlCs5zYHZ6rjXVhvFt8pSOdplehSXbhyU3aPi
+ 0uTIHCps0QKT2NYJDKo65raeN/brehW1MYbo/LpawrC3i4s6qIa9UCBI1uO7dSCrWZ
+ uxq11gfurauwuoAfVDNgyZCpRQvzLSg474iVJ2tY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/20] spapr: Get rid of cas_check_pvr() error reporting
-Date: Fri,  9 Oct 2020 21:19:37 +1100
-Message-Id: <20201009101951.1569252-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/20] spapr: Simplify error handling in
+ do_client_architecture_support()
+Date: Fri,  9 Oct 2020 21:19:38 +1100
+Message-Id: <20201009101951.1569252-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 References: <20201009101951.1569252-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -62,93 +64,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  dbarboza@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nonngu.org, David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nonngu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The cas_check_pvr() function has two purposes:
-- finding the "best" logical PVR, ie. the most recent one supported by
-  the guest for this CPU type
-- checking if the guest supports the real PVR of this CPU type, which
-  is just an optional extra information to workaround the lack of
-  support for "compat" mode in PR KVM
-
-This logic doesn't need error reporting, really. If we don't find a
-suitable logical PVR, we return the special value 0 which is definitely
-not a valid PVR. Let the caller decide on whether it should error out
-or not.
-
-This doesn't change the behavior.
+Use the return value of ppc_set_compat_all() to check failures,
+which is preferred over hijacking local_err.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20200914123505.612812-6-groug@kaod.org>
+Message-Id: <20200914123505.612812-7-groug@kaod.org>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_hcall.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+ hw/ppc/spapr_hcall.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index c2776b6a7d..885ea60778 100644
+index 885ea60778..607740150f 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -1590,12 +1590,11 @@ static target_ulong h_signal_sys_reset(PowerPCCPU *cpu,
-     }
- }
- 
--static uint32_t cas_check_pvr(SpaprMachineState *spapr, PowerPCCPU *cpu,
--                              target_ulong *addr, bool *raw_mode_supported,
--                              Error **errp)
-+/* Returns either a logical PVR or zero if none was found */
-+static uint32_t cas_check_pvr(PowerPCCPU *cpu, uint32_t max_compat,
-+                              target_ulong *addr, bool *raw_mode_supported)
- {
-     bool explicit_match = false; /* Matched the CPU's real PVR */
--    uint32_t max_compat = spapr->max_compat_pvr;
-     uint32_t best_compat = 0;
-     int i;
- 
-@@ -1624,14 +1623,6 @@ static uint32_t cas_check_pvr(SpaprMachineState *spapr, PowerPCCPU *cpu,
-         }
-     }
- 
--    if ((best_compat == 0) && (!explicit_match || max_compat)) {
--        /* We couldn't find a suitable compatibility mode, and either
--         * the guest doesn't support "raw" mode for this CPU, or raw
--         * mode is disabled because a maximum compat mode is set */
--        error_setg(errp, "Couldn't negotiate a suitable PVR during CAS");
--        return 0;
--    }
--
-     *raw_mode_supported = explicit_match;
- 
-     /* Parsing finished */
-@@ -1680,6 +1671,7 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+@@ -1666,7 +1666,6 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+     uint32_t cas_pvr;
+     SpaprOptionVector *ov1_guest, *ov5_guest;
+     bool guest_radix;
+-    Error *local_err = NULL;
+     bool raw_mode_supported = false;
      bool guest_xive;
      CPUState *cs;
-     void *fdt;
-+    uint32_t max_compat = spapr->max_compat_pvr;
+@@ -1697,8 +1696,9 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
  
-     /* CAS is supposed to be called early when only the boot vCPU is active. */
-     CPU_FOREACH(cs) {
-@@ -1692,9 +1684,14 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+     /* Update CPUs */
+     if (cpu->compat_pvr != cas_pvr) {
+-        ppc_set_compat_all(cas_pvr, &local_err);
+-        if (local_err) {
++        Error *local_err = NULL;
++
++        if (ppc_set_compat_all(cas_pvr, &local_err) < 0) {
+             /* We fail to set compat mode (likely because running with KVM PR),
+              * but maybe we can fallback to raw mode if the guest supports it.
+              */
+@@ -1707,7 +1707,6 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+                 return H_HARDWARE;
+             }
+             error_free(local_err);
+-            local_err = NULL;
          }
-     }
- 
--    cas_pvr = cas_check_pvr(spapr, cpu, &vec, &raw_mode_supported, &local_err);
--    if (local_err) {
--        error_report_err(local_err);
-+    cas_pvr = cas_check_pvr(cpu, max_compat, &vec, &raw_mode_supported);
-+    if (!cas_pvr && (!raw_mode_supported || max_compat)) {
-+        /*
-+         * We couldn't find a suitable compatibility mode, and either
-+         * the guest doesn't support "raw" mode for this CPU, or "raw"
-+         * mode is disabled because a maximum compat mode is set.
-+         */
-+        error_report("Couldn't negotiate a suitable PVR during CAS");
-         return H_HARDWARE;
      }
  
 -- 
