@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8257288714
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:39:03 +0200 (CEST)
-Received: from localhost ([::1]:35306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596B4288718
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 12:40:23 +0200 (CEST)
+Received: from localhost ([::1]:39390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQpni-0000Q7-VZ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:39:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44962)
+	id 1kQpp0-0002B5-DS
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 06:40:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQpdA-0005gg-3S
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:28:08 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55298)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kQpd7-0002uE-IA
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 06:28:07 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3C0F6ADD2;
- Fri,  9 Oct 2020 10:28:04 +0000 (UTC)
-Subject: Re: does make check now require TCG? Or is it a parallelism issue?
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <11ef73ff-4178-b3e8-2e49-44ff014a13ed@suse.de>
- <569520f6-adf6-6212-9625-a184bf499e24@redhat.com>
- <d21dff22-90b1-4769-0948-6bc37eaeb885@linaro.org>
- <6fe91a5a-c136-9af3-c48a-97ccdca7a543@suse.de>
- <3c527b0f-afa1-4b86-4fa5-9acca2a296bd@linaro.org>
- <CABgObfYWK2E8PsSFOcHpuA2vuA3HWgvtuLbrtQCWA=9=r07=5w@mail.gmail.com>
- <a1694fe3-9bc8-df93-345f-29f0de37b923@suse.de>
- <8cedd3e4-dc6a-30ee-fd71-f4776aa8c953@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <48641901-68e7-7e34-5046-31eea3967701@suse.de>
-Date: Fri, 9 Oct 2020 12:28:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kQpee-000724-Ed; Fri, 09 Oct 2020 06:29:40 -0400
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:38486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kQpeZ-00030Z-CC; Fri, 09 Oct 2020 06:29:40 -0400
+Received: by mail-yb1-xb43.google.com with SMTP id b138so4562135yba.5;
+ Fri, 09 Oct 2020 03:29:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jdHLZ5UmuisLtiQ9SxzUGpfnMAV0yxeWHep9vOJ1Tz8=;
+ b=eLAFeX2giI6/Oe1JSgSWVvtfeZsFMqs5Q3UyUczkqNdcOolOJ1DR5Erjqxh3FLvnVg
+ cyZrDunzIQJpoojc/4td9rN3yX6+GZ7tWYIXXkXpftmHMeKa22NID6YCcvJfwpXrO5+H
+ ov4V1Uurf2vlOxnuASR6VA3V3w4XyJwgZtAi+SK11E5cC55PMoXNx4mShFDw4tAN9orj
+ TJHqGU3l2TLk5Q7nuvObmJWjzOquTfA3IX8t740fONbvrpv0FgZDIB322LdYG+iQUIfj
+ upYVOARzk8r/FsvglaMcv8Mblga1FFdBdi2p80Jg1xnvo0Xcaa2WG/8+OGiVPkuvKtGg
+ cqbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jdHLZ5UmuisLtiQ9SxzUGpfnMAV0yxeWHep9vOJ1Tz8=;
+ b=Do5r8fwaP9jPAUTosTM8aDED4MdoyoLB8Hle/49dHMak6uVe8FdG4/epnZxNO3BkqN
+ zc+WbtHQlAvQvkzt+n42qr5yBeKuCZsldjWZR22r8pgL/Sdm3W+VqYjnW4rAkDvraU6j
+ MnnHzWi0xKx6LCz4fP8LmlBdKHn9ymQNpjLlMTbNJQG5fl8wabuIsD3NMwh35OoERMR3
+ y7g/tqi/rnHFhfpfUR9X9ndbY5ubxIpzV1L7KmKKuw9moYOLBuAeeSjWhnPmPg11cZda
+ zHcyqG/BWvVpAwC0vv35ZC1ReihMs7mRlsV7hLy7WYI0WnPNT2+XMR2VdmhWYkHuOo3P
+ svHA==
+X-Gm-Message-State: AOAM5314UyfHjP+/bt/ZiQ7c0vXMWUPRbNYJizPcwnWG9fl6bc/bc61W
+ cTlL7kZteOOT6+q7exebgaVLq8JBJBJAqoPdAPA=
+X-Google-Smtp-Source: ABdhPJwnduWavKJzL4lZqB6mXNXkBFVtZYLfu/rV8H9BYfg3jV0LlyH6x7M7ZPZi31GDKxgiM63B208YyELjchUVqwM=
+X-Received: by 2002:a25:b78d:: with SMTP id n13mr16817451ybh.152.1602239373602; 
+ Fri, 09 Oct 2020 03:29:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8cedd3e4-dc6a-30ee-fd71-f4776aa8c953@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/08 23:20:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.214,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <cover.1601652616.git.alistair.francis@wdc.com>
+ <4f272c9fab34bedc34b22adb8f9e2fb2dbd338d2.1601652616.git.alistair.francis@wdc.com>
+In-Reply-To: <4f272c9fab34bedc34b22adb8f9e2fb2dbd338d2.1601652616.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 9 Oct 2020 18:29:22 +0800
+Message-ID: <CAEUhbmVZt1D=eFzb=cRP51URGyzrRLeRCeUevhHWaua6_aBHZw@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] hw/riscv: Load the kernel after the firmware
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,78 +77,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/9/20 9:40 AM, Paolo Bonzini wrote:
-> On 08/10/20 23:07, Claudio Fontana wrote:
->> qtests are also broken for me now with --disable-tcg build,
->> it _seems_ to me that TCG-only tests are being run for --disable-tcg too.
->>
->> I am not sure if this is a test problem (for example tests/qtest/bios-tables-test.c): data->tcg_only
->> or if it is a build system problem, or some combination.
-> 
-> Yes, this is due to tcg_only.  But since CONFIG_TCG is included in
-> config-host.mak, it should be easy to add a call to g_test_skip.
-> 
-> Paolo
-> 
-> 
+On Fri, Oct 2, 2020 at 11:55 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
 
-I am trying to wrap my head around this, but I got lost in scripts/tap-driver.pl .
+Please put some commit message to explain why the changes are necessary.
 
-I tried the following:
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  include/hw/riscv/boot.h |  1 +
+>  hw/riscv/boot.c         | 10 +++++-----
+>  hw/riscv/opentitan.c    |  3 ++-
+>  hw/riscv/sifive_e.c     |  3 ++-
+>  hw/riscv/sifive_u.c     | 13 +++++++++++--
+>  hw/riscv/spike.c        | 14 +++++++++++---
+>  hw/riscv/virt.c         | 14 +++++++++++---
+>  7 files changed, 43 insertions(+), 15 deletions(-)
+>
+> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+> index 2975ed1a31..85d3227ea6 100644
+> --- a/include/hw/riscv/boot.h
+> +++ b/include/hw/riscv/boot.h
+> @@ -34,6 +34,7 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+>                                   hwaddr firmware_load_addr,
+>                                   symbol_fn_t sym_cb);
+>  target_ulong riscv_load_kernel(const char *kernel_filename,
+> +                               target_ulong firmware_end_addr,
+>                                 symbol_fn_t sym_cb);
+>  hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
+>                           uint64_t kernel_entry, hwaddr *start);
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 5dea644f47..f8e55ca16a 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -33,10 +33,8 @@
+>  #include <libfdt.h>
+>
+>  #if defined(TARGET_RISCV32)
+> -# define KERNEL_BOOT_ADDRESS 0x80400000
+>  #define fw_dynamic_info_data(__val)     cpu_to_le32(__val)
+>  #else
+> -# define KERNEL_BOOT_ADDRESS 0x80200000
+>  #define fw_dynamic_info_data(__val)     cpu_to_le64(__val)
+>  #endif
+>
+> @@ -123,7 +121,9 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+>      exit(1);
+>  }
+>
+> -target_ulong riscv_load_kernel(const char *kernel_filename, symbol_fn_t sym_cb)
+> +target_ulong riscv_load_kernel(const char *kernel_filename,
+> +                               target_ulong kernel_start_addr,
+> +                               symbol_fn_t sym_cb)
+>  {
+>      uint64_t kernel_entry;
+>
+> @@ -138,9 +138,9 @@ target_ulong riscv_load_kernel(const char *kernel_filename, symbol_fn_t sym_cb)
+>          return kernel_entry;
+>      }
+>
+> -    if (load_image_targphys_as(kernel_filename, KERNEL_BOOT_ADDRESS,
+> +    if (load_image_targphys_as(kernel_filename, kernel_start_addr,
+>                                 ram_size, NULL) > 0) {
+> -        return KERNEL_BOOT_ADDRESS;
+> +        return kernel_start_addr;
+>      }
+>
+>      error_report("could not load kernel '%s'", kernel_filename);
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 0531bd879b..cc758b78b8 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -75,7 +75,8 @@ static void opentitan_board_init(MachineState *machine)
+>      }
+>
+>      if (machine->kernel_filename) {
+> -        riscv_load_kernel(machine->kernel_filename, NULL);
+> +        riscv_load_kernel(machine->kernel_filename,
+> +                          memmap[IBEX_DEV_RAM].base, NULL);
+>      }
+>  }
+>
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index fcfac16816..59bac4cc9a 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machine)
+>                            memmap[SIFIVE_E_DEV_MROM].base, &address_space_memory);
+>
+>      if (machine->kernel_filename) {
+> -        riscv_load_kernel(machine->kernel_filename, NULL);
+> +        riscv_load_kernel(machine->kernel_filename,
+> +                          memmap[SIFIVE_E_DEV_DTIM].base, NULL);
+>      }
+>  }
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 5f3ad9bc0f..08b0a3937d 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -415,6 +415,7 @@ static void sifive_u_machine_init(MachineState *machine)
+>      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+>      MemoryRegion *flash0 = g_new(MemoryRegion, 1);
+>      target_ulong start_addr = memmap[SIFIVE_U_DEV_DRAM].base;
+> +    target_ulong firmware_end_addr, kernel_start_addr;
+>      uint32_t start_addr_hi32 = 0x00000000;
+>      int i;
+>      uint32_t fdt_load_addr;
+> @@ -474,10 +475,18 @@ static void sifive_u_machine_init(MachineState *machine)
+>          break;
+>      }
+>
+> -    riscv_find_and_load_firmware(machine, BIOS_FILENAME, start_addr, NULL);
+> +    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> +                                                     start_addr, NULL);
+>
+>      if (machine->kernel_filename) {
+> -        kernel_entry = riscv_load_kernel(machine->kernel_filename, NULL);
+> +        if (riscv_is_32_bit(machine)) {
+> +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x400000);
 
-commit 27db7fa56fcb3d23e0f125701f65248a70fa1242
-Author: Claudio Fontana <cfontana@suse.de>
-Date:   Fri Oct 9 10:23:26 2020 +0200
+Use 4 * MiB
 
-    qtest: unbreak non-TCG builds in bios-tables-test
-    
-    the tests assume TCG is available, thus breaking
-    for TCG-only tests, where only the TCG accelerator option
-    is passed to the QEMU binary.
-    
-    Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-    Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> +        } else {
+> +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x200000);
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index e15f36c8c7..5f17289964 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -651,6 +651,13 @@ static void test_acpi_one(const char *params, test_data *data)
-     char *args;
-     bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
- 
-+#ifndef CONFIG_TCG
-+    if (data->tcg_only) {
-+        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
-+        return;
-+    }
-+#endif /* CONFIG_TCG */
-+
-     if (use_uefi) {
-         /*
-          * TODO: convert '-drive if=pflash' to new syntax (see e33763be7cd3)
----------------------------------------------------------------------------------------------------
+2 * MiB
 
-but I get:
+> +        }
+> +
+> +        kernel_entry = riscv_load_kernel(machine->kernel_filename,
+> +                                         kernel_start_addr, NULL);
+>
+>          if (machine->initrd_filename) {
+>              hwaddr start;
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index 3fd152a035..280fb1f328 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -195,6 +195,7 @@ static void spike_board_init(MachineState *machine)
+>      MemoryRegion *system_memory = get_system_memory();
+>      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+>      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+> +    target_ulong firmware_end_addr, kernel_start_addr;
+>      uint32_t fdt_load_addr;
+>      uint64_t kernel_entry;
+>      char *soc_name;
+> @@ -261,12 +262,19 @@ static void spike_board_init(MachineState *machine)
+>      memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
+>                                  mask_rom);
+>
+> -    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> -                                 memmap[SPIKE_DRAM].base,
+> -                                 htif_symbol_callback);
+> +    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> +                                                     memmap[SPIKE_DRAM].base,
+> +                                                     htif_symbol_callback);
+>
+>      if (machine->kernel_filename) {
+> +        if (riscv_is_32_bit(machine)) {
+> +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x400000);
 
-cd build-nontcg
-make -j12
-make -j12 check-qtest
+Ditto
 
-Running test qtest-x86_64: qos-test
-ERROR qtest-x86_64: bios-tables-test - too few tests run (expected 23, got 22)
-make: *** [Makefile.mtest:1326: run-test-187] Error 1
-make: *** Waiting for unfinished jobs....
+It looks like this same code logic is added in several machine codes,
+perhaps a new helper function in riscv/boot.c is needed to determine
+the kernel start address based on the firmware end address.
 
-What am I missing here?
+> +        } else {
+> +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x200000);
+> +        }
+> +
+>          kernel_entry = riscv_load_kernel(machine->kernel_filename,
+> +                                         kernel_start_addr,
+>                                           htif_symbol_callback);
+>
+>          if (machine->initrd_filename) {
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 41bd2f38ba..bf22d28eef 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -493,6 +493,7 @@ static void virt_machine_init(MachineState *machine)
+>      char *plic_hart_config, *soc_name;
+>      size_t plic_hart_config_len;
+>      target_ulong start_addr = memmap[VIRT_DRAM].base;
+> +    target_ulong firmware_end_addr, kernel_start_addr;
+>      uint32_t fdt_load_addr;
+>      uint64_t kernel_entry;
+>      DeviceState *mmio_plic, *virtio_plic, *pcie_plic;
+> @@ -602,11 +603,18 @@ static void virt_machine_init(MachineState *machine)
+>      memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
+>                                  mask_rom);
+>
+> -    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> -                                 memmap[VIRT_DRAM].base, NULL);
+> +    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> +                                                     start_addr, NULL);
+>
+>      if (machine->kernel_filename) {
+> -        kernel_entry = riscv_load_kernel(machine->kernel_filename, NULL);
+> +        if (riscv_is_32_bit(machine)) {
+> +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x400000);
+> +        } else {
+> +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x200000);
+> +        }
+> +
+> +        kernel_entry = riscv_load_kernel(machine->kernel_filename,
+> +                                         kernel_start_addr, NULL);
+>
+>          if (machine->initrd_filename) {
+>              hwaddr start;
 
-Thanks,
-
-Claudio
-
+Regards,
+Bin
 
