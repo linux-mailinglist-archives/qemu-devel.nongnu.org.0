@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42AB8289029
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:41:52 +0200 (CEST)
-Received: from localhost ([::1]:56122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD0328904F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 19:53:39 +0200 (CEST)
+Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQwOs-0005fG-Pk
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53838)
+	id 1kQwaI-00015S-Ci
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 13:53:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQwN6-0005AH-Ny
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:40:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52062)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kQwN1-0005Hk-PT
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:39:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602265194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HVRCvaMBTcZgGU9NMDvR8LZMMiMeLF1KwnHn03RmG3k=;
- b=E5nNCYPg4X6fyAnMLVHVNydLuqIJBqzn1dKfGZxuHZp+0kLTa2Gz+FFJz16BnaoV/Mf8Sb
- 4sjNtSKcYV5+aI77lXfTbE9igozOUCylB/OcoOTa+gOByaoBeAiWB8JnrGpZiGOYRtIeKJ
- 8ecpBrmEEmLDUduFd2+I9vtOng+JVoY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-i40kTQSPN0KdQA4j2ogAqg-1; Fri, 09 Oct 2020 13:39:52 -0400
-X-MC-Unique: i40kTQSPN0KdQA4j2ogAqg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 684F618829D4;
- Fri,  9 Oct 2020 17:39:51 +0000 (UTC)
-Received: from localhost (ovpn-119-102.rdu2.redhat.com [10.10.119.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EAD247664F;
- Fri,  9 Oct 2020 17:39:50 +0000 (UTC)
-Date: Fri, 9 Oct 2020 13:39:49 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v6 26/36] qapi/gen.py: Fix edge-case of _is_user_module
-Message-ID: <20201009173949.GE7303@habkost.net>
-References: <20201009161558.107041-1-jsnow@redhat.com>
- <20201009161558.107041-27-jsnow@redhat.com>
- <87zh4vcnv9.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kQwYH-0007zS-VE
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:51:33 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:34704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kQwYF-0007I8-4v
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 13:51:33 -0400
+Received: by mail-ej1-x636.google.com with SMTP id u8so14326409ejg.1
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 10:51:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1YplCQGGpub2zlaw7ENhKq/CRFojJ27h9P4zlJkUHQw=;
+ b=sr6pUWN0OWDHodVv8ykgx+XTwDO1lWO+ihseEVkxd1kLH/J1ZS1yOqBhXmyELCFFKw
+ 2CoZQiE32wU1P0YVYzdOwD4UfFwF0FF17de9XoAWjskcDsONYnz7WXPwgWYkmz5cNI84
+ Kd7dDy3ZoF4XfVxKdKicQ3nNh3sllX6SQ5oxjbIve1T8HomS1P65s7GNtmBlpz0YHNwn
+ JXBioc9rDOKAQSOTXK6dJQsPOcG0239jlL+3IlGLOj2oQHyaVD5+GQlQDZzMoveXx33L
+ m0/ETrtHpXsGZoKvB6dHCBYMHhibhBWwqoNTxymqprTI7Y996nAitQ4gd9Uy/9OiA8OC
+ IHLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1YplCQGGpub2zlaw7ENhKq/CRFojJ27h9P4zlJkUHQw=;
+ b=uQtFyEM84j4OGVX15i7Rx9ait1TEnO+47aEprQs8DZvfgJ8Ycst6HGKrS0Fi48ClF8
+ LjXgZHp7JwohA6MTuIrHloYIpjFuPRWG5OM9QpZ06fWpa0NjinxFoeuJw7ooMioTYSSN
+ UXjNyw7gUSb1KoqcX4BUFhjm5xU9khgcw0g3MzuDXWbEpjYw/Xi74fT18t7hIfTObnh2
+ CCjPFoH2WcvaJZgyWD6cL8UpdUFj5kHTIpq5m6OuaFwpAdKA0mHyqKf6cX39vWrFyjFs
+ LObGBxsfAqvnqvUH7TgEvZEcp3kmdjiYme2dyrz1RnJRf1h1BCrWnY9aOp704/bRNFhp
+ OMhw==
+X-Gm-Message-State: AOAM5322waQaZe9ZIk9I8ksCFGU2kjLtEcomr72z/2BDCJmRbUgOW7By
+ nHz+nxblwWuTIfhFy1gdLee7eteJJcDcLwk6Z7Ma0w==
+X-Google-Smtp-Source: ABdhPJzTWeV6AK9+mL1Tby+YKsYMm+t9rYm1XXN8dlhp6d76qPKaZ0dnwgi5dpebP+PH5xpima2qI9oxC8VqaYR48ms=
+X-Received: by 2002:a17:907:4365:: with SMTP id
+ nd5mr15773807ejb.56.1602265889313; 
+ Fri, 09 Oct 2020 10:51:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87zh4vcnv9.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <74151CBD-4750-4E68-9127-21076C019036@getmailspring.com>
+In-Reply-To: <74151CBD-4750-4E68-9127-21076C019036@getmailspring.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Oct 2020 18:51:17 +0100
+Message-ID: <CAFEAcA9cZPgaHGuCs0J20YJ48V2eXHFFRsb9a56xFULjtFtn3g@mail.gmail.com>
+Subject: Re: Re%3A [PATCH v4 1%2F2] hw%2Fwatchdog%3A Implement SBSA watchdog
+ device&In-Reply-To=<CAD8XO3YmTC7fzxttg%3DQLMpJbg7uLogatxN7q7vf-iGZjyQLjjQ%40mail.gmail.com>
+To: Shashi Mallela <shashi.mallela@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,49 +80,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Maxim Uvarov <maxim.uvarov@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 09, 2020 at 07:26:02PM +0200, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
-> > The edge case is that if the name is '', this expression returns a
-> > string instead of a bool, which violates our declared type.
-> >
-> > In practice, module names are not allowed to be the empty string, but
-> > this constraint is not modeled for the type system.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > Reviewed-by: Cleber Rosa <crosa@redhat.com>
-> > Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > ---
-> >  scripts/qapi/gen.py | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-> > index fff0c0acb6d..2c305c4f82c 100644
-> > --- a/scripts/qapi/gen.py
-> > +++ b/scripts/qapi/gen.py
-> > @@ -241,7 +241,7 @@ def __init__(self, prefix, what, user_blurb, builtin_blurb, pydoc):
-> >  
-> >      @staticmethod
-> >      def _is_user_module(name):
-> > -        return name and not name.startswith('./')
-> > +        return bool(name and not name.startswith('./'))
-> 
->            return not (name is None or name.startswith('./')
-> 
-> Looks slightly clearer to me.
+On Fri, 9 Oct 2020 at 18:30, Shashi Mallela <shashi.mallela@linaro.org> wrote:
+>
+> The value being returned here is 0 (initialized to 0 at the beginning of read function).
+> I have seen similar practices being followed in other qemu implementations like for example bcm2835_dma_read() in qemu/hw/dma/bcm2835_dma.c,a9_scu_read() in qemu/hw/misc/a9scu.c.
+>
+> Please confirm if you would still like to add specific value like 0xdeadbeef for bad read offset.
 
-That would have exactly the same behavior as the
-  name is not None and name.startswith('./')
-expression we had in v1.
+Judging by the subject line you've mangled the headers on this
+email so I'm not sure exactly what this was a reply to,
+but in general QEMU doesn't do that kind of "return
+specific marker values for bad register offsets". We
+typically log it with a qemu_log_mask(LOG_GUEST_ERROR) and
+return 0 (unless the h/w does something else).
 
--- 
-Eduardo
-
+thanks
+-- PMM
 
