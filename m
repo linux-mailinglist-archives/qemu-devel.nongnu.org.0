@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7110288DB4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:04:52 +0200 (CEST)
-Received: from localhost ([::1]:50710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58FB288DC2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:08:04 +0200 (CEST)
+Received: from localhost ([::1]:59670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQut1-0005ay-63
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58626)
+	id 1kQuw7-0000ze-TN
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQuov-0002m4-Hr
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:00:37 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35406)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQuot-0000yp-IJ
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:00:37 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n15so10841038wrq.2
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JEPggkBeI4VNTiOy1yfzZusKLxuhYM1OP47yibR9+tg=;
- b=IP0cnvW6t1ly0Ps0UwkTgu/LhT2hb/ZfTaCYT6QK/6TXkBzdcHGKQSyzKsOJ7PKVCy
- L0hvy12YmBnamN7KJPazLCmD8ojIzG69l9hnQFUrx0c1mNaozI6AuepJyG/zhhJPQBQL
- Q/dJgb9m8p0683wjw6cPCq3VKbgRdaqppyho4qLCz98wJ2FuZu7t1AACsLR8R3vfQFBZ
- mIt/8F+/s+bxsdhF3LYJ/apTuLy6U4/hc6MIVlFx6iJc4bsNYBV/MSCv26pfNEH9TbgG
- BtxO4P8f2Lh73RW4jag9Dr9ewl+s9aQ2vv4RgyA1NWES5lMyHBMu65CHwtBqmi4bc1dL
- d94w==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kQupg-0003RV-Lo
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kQupc-000169-HP
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:01:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602259279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tjxa3rofeulycW2BydD2ocQU7BSPW5oYkj+yLVafrjI=;
+ b=XMycY+drlP84v/2zAGo59vKJmczk66XLe3b6namQ/uojTu1CNefoLq4ukIk+ze+vzmM3eW
+ e0twSR+1PLXLsLVI7mctfJVk539xb/ZZa1jiQ6SB3HMlFpXnRFiYMk+62LGRK1WXo56Khl
+ ycBUQGA6HcqYCDicOSN0MKtXRaReTT0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-164-1ohjZ7qiM16qD9snpCj_zw-1; Fri, 09 Oct 2020 12:01:16 -0400
+X-MC-Unique: 1ohjZ7qiM16qD9snpCj_zw-1
+Received: by mail-wm1-f72.google.com with SMTP id l15so4285962wmh.9
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:01:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JEPggkBeI4VNTiOy1yfzZusKLxuhYM1OP47yibR9+tg=;
- b=cJN2SicLWvOJF7DQ3PS51SAGFE5MYHbD2h7HMA00JcEM6spTgCtA1EDhoBnutZ3bSW
- vXPAuGr8vlH2fuMpMy+xlV/iWE0yrR/dfP0tVdaf8DC2+wmV2Jg6IQH7jTXEjTe9lxXk
- hNm7UzO5k+veA6de0Ng5LJvDat/mZENKiJRi5yJ226QJucG8j8Hk0Ixwfhd/FnFzT7Kq
- SCb1tF2zc5k2vtwNbdbwn79fxFnafjkCXIKLfox1Fd7kI5+DJsNBGs7jo9a6bSdYU/XK
- 6snOVxdzbzIlZfIOAyzV7DIZ8m2ldg+AdvcMS9ggIQtuXQqiq4/O50lHI0ESoP1LoeRF
- XvIA==
-X-Gm-Message-State: AOAM531HjmMnHNuiTh3jwoQZXstWg0FyMxu0VwkZzc0kxKi7j9harbD1
- CFhMTsWj+4Wn0Yo71Cq/Zdo=
-X-Google-Smtp-Source: ABdhPJwTFcKGwaN3dSAetTQwMkiopdKrZ0ZgFPK8xEi+pZ229j0+b3iMLndPVFwDOyt0ckYZEbIpLA==
-X-Received: by 2002:adf:f212:: with SMTP id p18mr16260777wro.386.1602259233864; 
- Fri, 09 Oct 2020 09:00:33 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id v8sm12344013wmb.20.2020.10.09.09.00.32
+ bh=Tjxa3rofeulycW2BydD2ocQU7BSPW5oYkj+yLVafrjI=;
+ b=WURujFJXxnYg742koXmuqzbyChakWKKZaMTIOUQJSIL+b4ikbAugcIh8aMm55goqfH
+ QAhH9YHllz0u2WybdOzf87MDhWI5ys7LKQ5e7IP7ji0QF6yUk/G86jnjeIUWXmKUh+xO
+ G5aI21estKJoTQVwPGJxdSs1sTsZrlp4qT5y9Po5Y6lIkIlN11Mdl5pB/VFEpZ4YAmck
+ +K8Tzs9JqGO3XMKfnd2BFjbzXkT2AqHcupEP0PEpriL/a3U2DTrFf/H+dtHBt2WzmCMp
+ i08H2wzxnL9Q67jKgSLqnCKpJOui+i+SaOqWcQjms5Y4pCU3fJgisnJMOQdBaVAjJ/nc
+ OVSg==
+X-Gm-Message-State: AOAM531g8oCdxrbCeS/8/DJT4Ul4ldMdJehMJVpmWOZiFao8Pjwiie5o
+ g9bKMkDCgDc0C38eKDoy+ePFzR/j6D2HrqM6awOGepduvD2pzbumUpWmqycktyLGwEigoTG05He
+ C2m6G7DFFWHO1NHQ=
+X-Received: by 2002:a1c:a70d:: with SMTP id q13mr13986814wme.132.1602259274984; 
+ Fri, 09 Oct 2020 09:01:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzWziwIWvQeibPncvKyjqzAeEzu9tsqRbyleX+ODDeyYiGo73KbsMz1Ged9RYrgAxKsugZMtQ==
+X-Received: by 2002:a1c:a70d:: with SMTP id q13mr13986771wme.132.1602259274644; 
+ Fri, 09 Oct 2020 09:01:14 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:cee1:4797:6958:7698?
+ ([2001:b07:6468:f312:cee1:4797:6958:7698])
+ by smtp.gmail.com with ESMTPSA id y23sm13021953wra.55.2020.10.09.09.01.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Oct 2020 09:00:32 -0700 (PDT)
-Subject: Re: [PATCH 2/2] hw/arm: remove exit(1) in case of missing ROM
-To: Peter Maydell <peter.maydell@linaro.org>,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-References: <159480834629.15819.10175861928294983612.stgit@pasha-ThinkPad-X280>
- <159480835744.15819.10383908697966018668.stgit@pasha-ThinkPad-X280>
- <CAFEAcA9f18nwJQhX5EGtHWeHjw4DbRBmU1xmZm8gCgOkSgP+Mw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <be1c96a6-4d9f-a4e9-15b6-e7a6ef5827f0@amsat.org>
-Date: Fri, 9 Oct 2020 18:00:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ Fri, 09 Oct 2020 09:01:12 -0700 (PDT)
+Subject: Re: [RFC v1 4/4] replay: do not build if TCG is not available
+To: Claudio Fontana <cfontana@suse.de>
+References: <20201009152108.16120-1-cfontana@suse.de>
+ <20201009152108.16120-5-cfontana@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4f4b4f12-0fdb-9c20-da3d-af222a69265e@redhat.com>
+Date: Fri, 9 Oct 2020 18:01:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9f18nwJQhX5EGtHWeHjw4DbRBmU1xmZm8gCgOkSgP+Mw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201009152108.16120-5-cfontana@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.208,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.208, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,46 +102,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhc@lemote.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
- Antony Pavlov <antonynpavlov@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/20 11:56 AM, Peter Maydell wrote:
-> On Wed, 15 Jul 2020 at 11:19, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> wrote:
->>
->> This patch updates ARM-based machines to allow starting them without ROM.
->> In this case CPU starts to execute instructions from the empty memory,
->> but QEMU allows introspecting the machine configuration.
->>
->> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+On 09/10/20 17:21, Claudio Fontana wrote:
+> replay requires icount, which needs TCG.
 > 
-> I guess this makes sense -- this is how most of our machines
-> already behave, so consistency and being able to introspect
-> the machine config are both worth having. Also these errors
-> mostly pre-date the 'generic loader' device, which is another
-> way to load guest code that the error-exit prevents. (You could
-> even load guest code via the gdbstub if you wanted...)
-
-Note the 'generic loader' device allows you to select any CPU
-address space, while gdbstub is restricted to the first CPU.
-
+> stub the needed functions in stub/,
+> including errors for hmp and qmp commands.
 > 
-> Calling arm_load_kernel() must not be conditional -- it is the
-> function which makes sure the guest CPU is reset.
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+
+Looks plausible, though probably I'd put it in replay/stubs.c and use
+if_false to link it.
+
+Paolo
+
+> ---
+>  migration/savevm.c         | 11 +++--
+>  replay/meson.build         |  2 +-
+>  stubs/replay.c             | 99 ++++++++++++++++++++++++++++++++++++++
+>  tests/qtest/qmp-cmd-test.c |  3 ++
+>  4 files changed, 110 insertions(+), 5 deletions(-)
 > 
-> (A handful of boards will call arm_load_kernel() only if
-> !qtest_enabled(), but most call it unconditionally. We should
-> look at why those handful of boards seem to need the conditional
-> and either remove it if useless or see if it should be applied
-> in other places or if arm_load_kernel() itself could be improved
-> to make the check unnecessary for all boards.)
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index d2e141f7b1..d9181ca520 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -63,6 +63,7 @@
+>  #include "migration/colo.h"
+>  #include "qemu/bitmap.h"
+>  #include "net/announce.h"
+> +#include "sysemu/tcg.h"
+>  
+>  const unsigned int postcopy_ram_discard_version = 0;
+>  
+> @@ -2674,10 +2675,12 @@ int save_snapshot(const char *name, Error **errp)
+>          return ret;
+>      }
+>  
+> -    if (!replay_can_snapshot()) {
+> -        error_setg(errp, "Record/replay does not allow making snapshot "
+> -                   "right now. Try once more later.");
+> -        return ret;
+> +    if (tcg_enabled()) {
+> +        if (!replay_can_snapshot()) {
+> +            error_setg(errp, "Record/replay does not allow making snapshot "
+> +                       "right now. Try once more later.");
+> +            return ret;
+> +        }
+>      }
+>  
+>      if (!bdrv_all_can_snapshot(&bs)) {
+> diff --git a/replay/meson.build b/replay/meson.build
+> index f91163fb1e..cb3207740a 100644
+> --- a/replay/meson.build
+> +++ b/replay/meson.build
+> @@ -1,4 +1,4 @@
+> -softmmu_ss.add(files(
+> +softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+>    'replay.c',
+>    'replay-internal.c',
+>    'replay-events.c',
+> diff --git a/stubs/replay.c b/stubs/replay.c
+> index 45ebe77fb9..ff35daf198 100644
+> --- a/stubs/replay.c
+> +++ b/stubs/replay.c
+> @@ -103,3 +103,102 @@ bool replay_reverse_continue(void)
+>  {
+>      return false;
+>  }
+> +
+> +void replay_add_blocker(Error *reason)
+> +{
+> +}
+> +void replay_audio_in(size_t *recorded, void *samples, size_t *wpos, size_t size)
+> +{
+> +}
+> +void replay_audio_out(size_t *played)
+> +{
+> +}
+> +void replay_bh_schedule_event(QEMUBH *bh)
+> +{
+> +}
+> +void replay_breakpoint(void)
+> +{
+> +}
+> +bool replay_can_snapshot(void)
+> +{
+> +    return false;
+> +}
+> +void replay_configure(struct QemuOpts *opts)
+> +{
+> +}
+> +void replay_flush_events(void)
+> +{
+> +}
+> +void replay_gdb_attached(void)
+> +{
+> +}
+> +void replay_input_event(QemuConsole *src, InputEvent *evt)
+> +{
+> +}
+> +void replay_input_sync_event(void)
+> +{
+> +}
+> +void replay_net_packet_event(ReplayNetState *rns, unsigned flags,
+> +                             const struct iovec *iov, int iovcnt)
+> +{
+> +}
+> +ReplayNetState *replay_register_net(NetFilterState *nfs)
+> +{
+> +    return NULL;
+> +}
+> +bool replay_running_debug(void)
+> +{
+> +    return false;
+> +}
+> +void replay_shutdown_request(ShutdownCause cause)
+> +{
+> +}
+> +void replay_start(void)
+> +{
+> +}
+> +void replay_unregister_net(ReplayNetState *rns)
+> +{
+> +}
+> +void replay_vmstate_init(void)
+> +{
+> +}
+> +
+> +#include "monitor/monitor.h"
+> +#include "monitor/hmp.h"
+> +#include "qapi/qapi-commands-replay.h"
+> +#include "qapi/error.h"
+> +#include "qemu/error-report.h"
+> +
+> +void hmp_info_replay(Monitor *mon, const QDict *qdict)
+> +{
+> +    error_report("replay support not available\n");
+> +}
+> +void hmp_replay_break(Monitor *mon, const QDict *qdict)
+> +{
+> +    error_report("replay support not available\n");
+> +}
+> +void hmp_replay_delete_break(Monitor *mon, const QDict *qdict)
+> +{
+> +    error_report("replay support not available\n");
+> +}
+> +void hmp_replay_seek(Monitor *mon, const QDict *qdict)
+> +{
+> +    error_report("replay support not available\n");
+> +}
+> +ReplayInfo *qmp_query_replay(Error **errp)
+> +{
+> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
+> +    return NULL;
+> +}
+> +void qmp_replay_break(int64_t icount, Error **errp)
+> +{
+> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
+> +}
+> +void qmp_replay_delete_break(Error **errp)
+> +{
+> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
+> +}
+> +void qmp_replay_seek(int64_t icount, Error **errp)
+> +{
+> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND, "replay support not available");
+> +}
+> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+> index 8a4c570e83..1c7186e53c 100644
+> --- a/tests/qtest/qmp-cmd-test.c
+> +++ b/tests/qtest/qmp-cmd-test.c
+> @@ -31,6 +31,9 @@ static int query_error_class(const char *cmd)
+>  #ifndef CONFIG_SPICE
+>          { "query-spice", ERROR_CLASS_COMMAND_NOT_FOUND },
+>  #endif
+> +#ifndef CONFIG_TCG
+> +        { "query-replay", ERROR_CLASS_COMMAND_NOT_FOUND },
+> +#endif
+>  #ifndef CONFIG_VNC
+>          { "query-vnc", ERROR_CLASS_GENERIC_ERROR },
+>          { "query-vnc-servers", ERROR_CLASS_GENERIC_ERROR },
+> 
 
-Who should look at that? Maybe add that as a byte-sized task?
-
-Regards,
-
-Phil.
 
