@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E73288339
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:07:41 +0200 (CEST)
-Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD96F288343
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 09:09:20 +0200 (CEST)
+Received: from localhost ([::1]:54398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQmVA-0006Tm-3s
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56898)
+	id 1kQmWl-0000X0-T8
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 03:09:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDH-00009x-8S
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29599)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDI-0000EN-Nd
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDE-0001aC-PB
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:10 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kQmDG-0001aP-SI
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 02:49:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602226147;
+ s=mimecast20190719; t=1602226148;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jnQ1XXBShemBdeQxqX+TEAIgc/npcLrb5M/nVdh5n5o=;
- b=OXN35m29OeXWFh+kWXlnnUifemyre/1VzHz800X1HAoW4j0FqFqTW7w4DCf8EICZkRw3oj
- 0kixNxxfoIKZVB08kNALEpiSBG4xFKhrp4gHzaXgQS4X3SHA7S8lSi4cUEQTdXJ7OJ+YSE
- +MWe9bISIQnQeM23qjCGuwMvZIIfVlw=
+ bh=OMrLk0g04u5nH4vC+xcSxbxkdfMz69tDaASLL1Fon74=;
+ b=V4BQJkpo7959CgQ3sC1UVR0chit1uSfLUezGelq61mBNcwkDjEkROMrws0RKsV1N6OK5i9
+ Ron9KeZdt1raMViRu85FzaNqtTEY25UG1GwRcY9EKU+rUF7QunnHWr948M3msaQXFkOEiV
+ KuLky3su1oXcv2f5EYviUUKRwuK8z50=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-WTUU5pOoM0OgTeL0BYdQPA-1; Fri, 09 Oct 2020 02:49:04 -0400
-X-MC-Unique: WTUU5pOoM0OgTeL0BYdQPA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-226-eUmShL3cNm-84PKkPqjYog-1; Fri, 09 Oct 2020 02:49:06 -0400
+X-MC-Unique: eUmShL3cNm-84PKkPqjYog-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82D0A1018F83;
- Fri,  9 Oct 2020 06:49:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE8F284A61C;
+ Fri,  9 Oct 2020 06:49:05 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E60519481;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A94D7664F;
  Fri,  9 Oct 2020 06:49:00 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 943F8112CE12; Fri,  9 Oct 2020 08:48:58 +0200 (CEST)
+ id 99259112CE14; Fri,  9 Oct 2020 08:48:58 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/2] error: Remove NULL checks on error_propagate() calls
+Subject: [PULL 2/2] error: Use error_fatal to simplify obvious fatal errors
  (again)
-Date: Fri,  9 Oct 2020 08:48:57 +0200
-Message-Id: <20201009064858.323624-2-armbru@redhat.com>
+Date: Fri,  9 Oct 2020 08:48:58 +0200
+Message-Id: <20201009064858.323624-3-armbru@redhat.com>
 In-Reply-To: <20201009064858.323624-1-armbru@redhat.com>
 References: <20201009064858.323624-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/09 02:34:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,97 +82,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Jens Freimann <jfreimann@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: peter.maydell@linaro.org, David Hildenbrand <david@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Patch created mechanically by rerunning:
 
-    $ spatch --sp-file scripts/coccinelle/error_propagate_null.cocci \
-             --macro-file scripts/cocci-macro-file.h \
-             --use-gitgrep .
+    $ spatch --in-place --sp-file scripts/coccinelle/use-error_fatal.cocci \
+	     --macro-file scripts/cocci-macro-file.h --use-gitgrep .
 
-Cc: Jens Freimann <jfreimann@redhat.com>
-Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
-Cc: Juan Quintela <quintela@redhat.com>
+Variables now unused dropped manually.
+
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200722084048.1726105-4-armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200722084048.1726105-5-armbru@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- hw/net/virtio-net.c   | 8 ++------
- migration/colo.c      | 4 +---
- migration/migration.c | 8 ++------
- 3 files changed, 5 insertions(+), 15 deletions(-)
+ exec.c                     | 11 +++--------
+ hw/s390x/s390-virtio-ccw.c |  7 +------
+ hw/virtio/vhost.c          | 10 +++-------
+ 3 files changed, 7 insertions(+), 21 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 7bf27b9db7..a160a9da9c 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -817,9 +817,7 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
-             "sure primary device has parameter"
-             " failover_pair_id=<virtio-net-id>\n");
- }
--    if (err) {
--        error_propagate(errp, err);
--    }
-+    error_propagate(errp, err);
- }
+diff --git a/exec.c b/exec.c
+index ec68f4a9ca..bca441f7fd 100644
+--- a/exec.c
++++ b/exec.c
+@@ -623,8 +623,7 @@ static void tcg_register_iommu_notifier(CPUState *cpu,
+      */
+     MemoryRegion *mr = MEMORY_REGION(iommu_mr);
+     TCGIOMMUNotifier *notifier;
+-    Error *err = NULL;
+-    int i, ret;
++    int i;
  
- static int is_my_primary(void *opaque, QemuOpts *opts, Error **errp)
-@@ -873,9 +871,7 @@ static DeviceState *virtio_connect_failover_devices(VirtIONet *n,
-         n->primary_device_id = g_strdup(prim_dev->id);
-         n->primary_device_opts = prim_dev->opts;
-     } else {
--        if (err) {
--            error_propagate(errp, err);
+     for (i = 0; i < cpu->iommu_notifiers->len; i++) {
+         notifier = g_array_index(cpu->iommu_notifiers, TCGIOMMUNotifier *, i);
+@@ -653,12 +652,8 @@ static void tcg_register_iommu_notifier(CPUState *cpu,
+                             0,
+                             HWADDR_MAX,
+                             iommu_idx);
+-        ret = memory_region_register_iommu_notifier(notifier->mr, &notifier->n,
+-                                                    &err);
+-        if (ret) {
+-            error_report_err(err);
+-            exit(1);
 -        }
-+        error_propagate(errp, err);
++        memory_region_register_iommu_notifier(notifier->mr, &notifier->n,
++                                              &error_fatal);
      }
  
-     return prim_dev;
-diff --git a/migration/colo.c b/migration/colo.c
-index 80788d46b5..3f1d3dfd95 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -798,9 +798,7 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+     if (!notifier->active) {
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 28266a3a35..e52182f946 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -161,7 +161,6 @@ static void virtio_ccw_register_hcalls(void)
+ static void s390_memory_init(MemoryRegion *ram)
+ {
+     MemoryRegion *sysmem = get_system_memory();
+-    Error *local_err = NULL;
  
-     colo_send_message(mis->to_src_file, COLO_MESSAGE_VMSTATE_LOADED,
-                  &local_err);
+     /* allocate RAM for core */
+     memory_region_add_subregion(sysmem, 0, ram);
+@@ -170,11 +169,7 @@ static void s390_memory_init(MemoryRegion *ram)
+      * Configure the maximum page size. As no memory devices were created
+      * yet, this is the page size of initial memory only.
+      */
+-    s390_set_max_pagesize(qemu_maxrampagesize(), &local_err);
 -    if (local_err) {
--        error_propagate(errp, local_err);
+-        error_report_err(local_err);
+-        exit(EXIT_FAILURE);
 -    }
-+    error_propagate(errp, local_err);
- }
++    s390_set_max_pagesize(qemu_maxrampagesize(), &error_fatal);
+     /* Initialize storage key device */
+     s390_skeys_init();
+     /* Initialize storage attributes device */
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 68f0a75134..3077fa6ef5 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -712,9 +712,8 @@ static void vhost_iommu_region_add(MemoryListener *listener,
+                                          iommu_listener);
+     struct vhost_iommu *iommu;
+     Int128 end;
+-    int iommu_idx, ret;
++    int iommu_idx;
+     IOMMUMemoryRegion *iommu_mr;
+-    Error *err = NULL;
  
- static void colo_wait_handle_message(MigrationIncomingState *mis,
-diff --git a/migration/migration.c b/migration/migration.c
-index aca7fdcd0b..0575ecb379 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -623,9 +623,7 @@ void migration_fd_process_incoming(QEMUFile *f, Error **errp)
-     }
- 
-     if (migration_incoming_setup(f, &local_err)) {
--        if (local_err) {
--            error_propagate(errp, local_err);
--        }
-+        error_propagate(errp, local_err);
+     if (!memory_region_is_iommu(section->mr)) {
          return;
-     }
-     migration_incoming_process();
-@@ -647,9 +645,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
-         }
- 
-         if (migration_incoming_setup(f, &local_err)) {
--            if (local_err) {
--                error_propagate(errp, local_err);
--            }
-+            error_propagate(errp, local_err);
-             return;
-         }
- 
+@@ -737,11 +736,8 @@ static void vhost_iommu_region_add(MemoryListener *listener,
+     iommu->iommu_offset = section->offset_within_address_space -
+                           section->offset_within_region;
+     iommu->hdev = dev;
+-    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, &err);
+-    if (ret) {
+-        error_report_err(err);
+-        exit(1);
+-    }
++    memory_region_register_iommu_notifier(section->mr, &iommu->n,
++                                          &error_fatal);
+     QLIST_INSERT_HEAD(&dev->iommu_list, iommu, iommu_next);
+     /* TODO: can replay help performance here? */
+ }
 -- 
 2.26.2
 
