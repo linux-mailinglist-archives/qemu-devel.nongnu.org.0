@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4212E288F37
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:54:12 +0200 (CEST)
-Received: from localhost ([::1]:38166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F59288F50
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Oct 2020 18:59:04 +0200 (CEST)
+Received: from localhost ([::1]:55586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kQvel-0004He-A9
-	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42728)
+	id 1kQvjT-0002vN-8E
+	for lists+qemu-devel@lfdr.de; Fri, 09 Oct 2020 12:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQvcu-0002ej-G0
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:16 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33122)
+ id 1kQvcv-0002gc-Dd
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:17 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kQvcs-0007iL-Vk
- for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:16 -0400
-Received: by mail-wr1-x442.google.com with SMTP id m6so11017929wrn.0
- for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:52:14 -0700 (PDT)
+ id 1kQvct-0007iZ-OQ
+ for qemu-devel@nongnu.org; Fri, 09 Oct 2020 12:52:17 -0400
+Received: by mail-wr1-x443.google.com with SMTP id g12so10982970wrp.10
+ for <qemu-devel@nongnu.org>; Fri, 09 Oct 2020 09:52:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LmpqxRDOSD6Y0ROM5eXEsmel/Juskc7iItZ6lbtqH6w=;
- b=gi5yP8aCWN6zonsoX0iKI44zQcrufhqTpTIjB0A+Ob7OU2o1JYe65UqKz+YrOoFS2W
- Btj6DbAMZcf4DOsXf4AVO+0csvxy+oj1wEp47ZrQVjWsL7Gti/Is6RQ+1Q5COuRnEzfa
- c67s+mzp+Rwt8PhMa5+KLg6UPP1S0/JJ7cacPDPzXenLAbZKdEBdH8VpbwQkuuX9ImOI
- Y8FPG4F8lJszyqRZTEVZldqTL1cgzXZlIO3/35/w49E2zAOWdhOXABD10VO6s+hR6XaZ
- 1LUM04macVhus7dFOdT9f2a0D15PhUtb6v5HMPFNFb59K9x2ySvzGpYaF2BTDcSmB9Q8
- dyrQ==
+ bh=DiAeLSURx5/8to7pD3+MAvZ/fh+QMuvoNDWO9Nmn9Jg=;
+ b=tHNoAKHMys+JykYiBYxqrBnU0se1jGKAAN6yiyvJfG8bMHwge7Pu7VaYnUh44wLXu8
+ jb0qoN6ZmMzeSOpBt3N4qSsC8yzt9ZbMin3qa/WDQorA0qXbhkxofAoZXDNsy6OG1Dwu
+ xGEIeibfKqIX9Ux8KQBqpo0inergiysSGIPkM2datTDzlznba22aFcstNn52bQylmyOJ
+ j/83mrAqzHN2TIGOgYinwubavmWsUAAJyGe3jiMcaFK1oBfusly3tf/XhM68eO2/DO74
+ hrNpzUhHkIcRbCCccNILy0R6Tj9B9zhoNRkrzaSEQFqfaPD4a+atix36Qbki1GBMxln2
+ oOPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LmpqxRDOSD6Y0ROM5eXEsmel/Juskc7iItZ6lbtqH6w=;
- b=lj60sZpUh5axzfrSUiiI1ZTaEBnlZFcmbXWyki1JabCOgev6t1WNEOxS6KX+9GBhdI
- 5j86GMcjeffHUPKocdInlE91nLwGV1zPa1Eb+x/dlE0XZkmmyZSbnDA0c3FaYq+C/hUi
- uwT8erAyW/mIzOzw0ayFR9hslncSdvFm2jhmc3DsLwJQPyVFFiKr/tf8nat2vgBm5AGr
- WStRrCnrymxGLxVFO9jHqho4J9uOTm+OfraKakmbTtNZKv1Twq3C7er3Ve3ohwLqY0JG
- 5aBJ9Bbndq+to1B8i9svuExB0kslzOBaku93nh5AKSb2PHMvIn8125LSNJ+kKDxI4okd
- Uq9w==
-X-Gm-Message-State: AOAM533GRwyIxqvsR/JZXfsOfsA3XBHnNce+WqKqvCxRwxFxPlfHVIN3
- avrDn/bY1bbMJdxqxPoMs+y6MBB08zs=
-X-Google-Smtp-Source: ABdhPJzNtZhqAisbxfpFTLSEJb5KGOeqtrOWyJYuY5WzcgoyxQgMOuvLJE1xaSrobhu4T4dBVk524Q==
-X-Received: by 2002:adf:e806:: with SMTP id o6mr15824531wrm.42.1602262333022; 
- Fri, 09 Oct 2020 09:52:13 -0700 (PDT)
+ bh=DiAeLSURx5/8to7pD3+MAvZ/fh+QMuvoNDWO9Nmn9Jg=;
+ b=LmOTpSGa1qMY0ua/0QCKm1jOeMUSN3GZgUNcOnHw0gGssEMwyDO16EbBll+XtnAXRc
+ rodn1Jr/6AzzdF8yoHzadWhdBs7EoCkchS/N4bSGRD+wPm0QHj4m7Qoczl7MwXliv6JG
+ JsZ0j+UoY1eQUKKiksPAx+kUC0UFvzDExxwiQuNMaexH0FRffJYfxzj58TVRUOgGzDI2
+ 1qM51t/vU8oK8WUGJ8cv+E3HvgQJM9kchqGnoQLSjJA6gJ8k0R2ABkC6gNMUzvxB/siv
+ 8QRbBsPfw+Z/OGX9+5g4H+EOJLjS4ADEtfkK4IybeR5FXY6TvGLKX6VfjVKu6GHxbcgW
+ e/mg==
+X-Gm-Message-State: AOAM533YPo+9VjA1cYxzBDhRpa+X4L9Zv9br/F2h5/zBMUo9pZyDzttj
+ 3AHaJwBGz0ydOcjH8ok3losfgsGAjPI=
+X-Google-Smtp-Source: ABdhPJzkYIoY9CYj0Hhc1mxNYZjVoIgGGfCWghJBFd1mostDwj9eDqbSHzLbxUO2bjodtUnxtVtEww==
+X-Received: by 2002:adf:fc0d:: with SMTP id i13mr16388222wrr.156.1602262334194; 
+ Fri, 09 Oct 2020 09:52:14 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id p13sm12777125wmb.5.2020.10.09.09.52.11
+ by smtp.gmail.com with ESMTPSA id p13sm12777125wmb.5.2020.10.09.09.52.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Oct 2020 09:52:12 -0700 (PDT)
+ Fri, 09 Oct 2020 09:52:13 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] MAINTAINERS: Remove duplicated Malta test entries
-Date: Fri,  9 Oct 2020 18:52:05 +0200
-Message-Id: <20201009165208.2905569-3-f4bug@amsat.org>
+Subject: [PATCH 3/5] MAINTAINERS: Downgrade status of MIPS Boston to "Odd
+ Fixes"
+Date: Fri,  9 Oct 2020 18:52:06 +0200
+Message-Id: <20201009165208.2905569-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201009165208.2905569-1-f4bug@amsat.org>
 References: <20201009165208.2905569-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -96,26 +97,34 @@ Cc: Chen Huacai <zltjiangshi@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Malta tests are already covered in the Malta section.
+Paul's Wavecomp email has been bouncing for months. He told us
+he "no longer has access to modern MIPS CPUs or Boston hardware,
+and wouldn't currently have time to spend on them if he did." [1]
+but "perhaps that might change in the future." [2].
+Be fair and downgrade the status of the Boston board to "Odd Fixes"
+(has a maintainer but they don't have time to do much other).
+
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718739.html
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg728605.html
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- MAINTAINERS | 2 --
- 1 file changed, 2 deletions(-)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index d59e5c05c10..2de5943e388 100644
+index 2de5943e388..782743b7ef0 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -238,8 +238,6 @@ F: include/hw/intc/mips_gic.h
- F: include/hw/mips/
- F: include/hw/misc/mips_*
- F: include/hw/timer/mips_gictimer.h
--F: tests/acceptance/linux_ssh_mips_malta.py
--F: tests/acceptance/machine_mips_malta.py
- F: tests/tcg/mips/
- K: ^Subject:.*(?i)mips
- 
+@@ -1163,7 +1163,7 @@ F: hw/intc/loongson_liointc.c
+ Boston
+ M: Paul Burton <pburton@wavecomp.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+-S: Maintained
++S: Odd Fixes
+ F: hw/core/loader-fit.c
+ F: hw/mips/boston.c
+ F: hw/pci-host/xilinx-pcie.c
 -- 
 2.26.2
 
