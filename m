@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667FF28A105
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:33:03 +0200 (CEST)
-Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B90C28A0FF
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:29:24 +0200 (CEST)
+Received: from localhost ([::1]:34656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRIju-0005SL-EO
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54988)
+	id 1kRIgN-0002Dc-I6
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:29:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIdZ-0000Qs-Ga
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:29 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42069)
+ id 1kRIda-0000T3-T2
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIdX-0003qj-WD
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:29 -0400
-Received: by mail-wr1-x444.google.com with SMTP id e18so13666902wrw.9
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:26:27 -0700 (PDT)
+ id 1kRIdZ-0003qy-Ai
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:30 -0400
+Received: by mail-wr1-x441.google.com with SMTP id i1so7554568wro.1
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:26:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MCMj0TR+Fl9dY8Kl27uG0iFSZwgVew5RPBCHaa3rL38=;
- b=VNZIODbJL37JdFqCpr8kQ4CBc8EulYHr0VJqZx/+Orbb5nKbOzCXCSSo5SB0+FF8kZ
- DnMXv1pEC1DNxu3foBY+noVBDKvyYSdJUOLYqddyKwRkeU/NDFF3nCdbh8uuJY6lK/6J
- dJx6VTVZ/N7qtjHogWgQ6psBGWpq81OHQ67UVR3iHo0BzhsNqzezDmqFm/7V/HtYmrsq
- SLmtS/nTXTbWl9jdXDeB3hLY+gKiUHKf2DpZfj1jPMSh5sH9IpIklriETN0+Q9a//ubL
- viJpNFEgJDbo7sWmjTafCQssG3sIGs5npE3smZJRztLKTv3qS8ZYEC7TAtgD/3ItfCh/
- oigQ==
+ bh=w+Ww+Tb9ux5DYpk7DL28NdlwI2XqYxB/b3zmX73nSUY=;
+ b=aziUhqskN66qLugiFjiaKanCNVYoV2uzyECr7mXWx5V1tVLiPHlGvrp9t1X0EipdJ3
+ fXoyJibEoQCTDW6wT4aGJZPzHa31VyGWBZBU4LSQg5bpuKJQs/625F6W1JBC91+UzDQh
+ wUQJ8payE5095KDHcZxaFtdt2b9t98IuuL+OhsjL2pmzh4D9KPkEzHmWpeHXNiZHIj3l
+ AyDHhtl0DvQSW53e5sMmeZs/pOxV/sKQHkdU8DwI/wvuzzthZSIiZaeipiZKH447tCJZ
+ 5aR/eGGkkNxm9OBeyjIQLFJKuJf7rgBxdJCMUivsozRZctJht+MQl28IK+BuxBakoc7A
+ gyQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MCMj0TR+Fl9dY8Kl27uG0iFSZwgVew5RPBCHaa3rL38=;
- b=BpAmybVLDcqfwZkzdviBhda+2ZnzNrTqLn0TInZe//j18XXgROeXnm6WM/aFnLeS6y
- 8rxKZETYV45HNkeZ2+3YLQDZpPtnuDd5IS60xVAbjzxt4JRCBooT2RE63pPuILUJT0ZD
- HpJVcmNVXHwDmY0SVmvDhv/ybN3hwU68muhFkEdY/2F7XPbtwzBWAjWSnJYnUby7E7cQ
- NWWk1E1vldBRUMnKMPM7m5miNgf6CK7LZQujbBj8G/LAzzhD8ptiEunGnhnIJJik+F4k
- /AYc7yKxMxr/ewN03gmq+jNpltmhuIqlhuyiX3W7H/052EEoiGElhooFXf4vp1KY0O4B
- 81Ow==
-X-Gm-Message-State: AOAM532bXnlR5i/VVHpSBVaUIT6/YwOSpSwKUvNJ9o2bzsILXMCPI8M1
- WUr8WEcouwv6beH9C4Gu/FE2aPH6W0s=
-X-Google-Smtp-Source: ABdhPJz4lAvTPNnGvkCrGFLKN7Vg2JsNstR2Yc01E+EHwOft1i1t+TkkN39/E911C82DJ7yNtbgn8w==
-X-Received: by 2002:a5d:4d10:: with SMTP id z16mr1004043wrt.360.1602350786429; 
- Sat, 10 Oct 2020 10:26:26 -0700 (PDT)
+ bh=w+Ww+Tb9ux5DYpk7DL28NdlwI2XqYxB/b3zmX73nSUY=;
+ b=PZLLGd9Xt6ToEHrdsUCafhuR229FVzXGFLOo4+5IesDef1wIkmCoMk1Hxp67jT7096
+ hzGF74hNZQtmjVHYfYizZBf4P8Vr1hZrX8aNF4M86d9cbWodys0hIphU/KtU8qyPHHd8
+ ios5j2eYyFUIGqRBHk4hwnAxZvN/gHWOMyGrxd7rNLocp27loj046AHhiG6luJDXwzSZ
+ f9LqD9wsut6dbbbgO1KGSyBNPEZVGTtxJcEo5dXHy463yXMY5Ck4rnr7W5zCn2UtDtPQ
+ VHDtfBDQFuTOoKhmuNwjBx5AjRWSPNCSZTIKFinn2akGzdaFnFEpsIF4XtCsnHC2LYaX
+ ZchQ==
+X-Gm-Message-State: AOAM5321HUuFtsvoXj8OvHwERsxaSswMNd+gnT+c4NY/ugD+3QfmXBgv
+ ciOW5xE1NTDeLlMM02Lo3Z85NmA0X7U=
+X-Google-Smtp-Source: ABdhPJyg2MouUJ6BCn3Bt72zmWKeJ1PRFBTmNYJCz2QtbzzYwRLGojyUNDAx89Muhoo4KzG2Gi5ayw==
+X-Received: by 2002:adf:8030:: with SMTP id 45mr21406726wrk.177.1602350787800; 
+ Sat, 10 Oct 2020 10:26:27 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id i11sm16786068wre.32.2020.10.10.10.26.24
+ by smtp.gmail.com with ESMTPSA id i11sm16786068wre.32.2020.10.10.10.26.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 10:26:25 -0700 (PDT)
+ Sat, 10 Oct 2020 10:26:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/20] hw/core/clock: add the clock_new helper function
-Date: Sat, 10 Oct 2020 19:26:01 +0200
-Message-Id: <20201010172617.3079633-5-f4bug@amsat.org>
+Subject: [PATCH v2 05/20] target/mips: Move cpu_mips_get_random() with CP0
+ helpers
+Date: Sat, 10 Oct 2020 19:26:02 +0200
+Message-Id: <20201010172617.3079633-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201010172617.3079633-1-f4bug@amsat.org>
 References: <20201010172617.3079633-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -93,6 +94,7 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Luc Michel <luc@lmichel.fr>,
  Paul Burton <paulburton@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -100,76 +102,112 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luc Michel <luc@lmichel.fr>
+The get_random() helper uses the CP0_Wired register, which is
+unrelated to the CP0_Count register use as timer.
+Commit e16fe40c872 ("Move the MIPS CPU timer in a separate file")
+incorrectly moved this get_random() helper with timer specific
+code. Move it back to generic CP0 helpers.
 
-This function creates a clock and parents it to another object with a given
-name. It calls clock_setup_canonical_path before returning the new
-clock.
-
-This function is useful to create clocks in devices when one doesn't
-want to expose it at the qdev level (as an input or an output).
-
-Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Luc Michel <luc@lmichel.fr>
-Message-Id: <20201010135759.437903-4-luc@lmichel.fr>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/clock.h | 13 +++++++++++++
- hw/core/clock.c    | 15 +++++++++++++++
- 2 files changed, 28 insertions(+)
+ target/mips/internal.h   |  2 +-
+ target/mips/cp0_helper.c | 25 +++++++++++++++++++++++++
+ target/mips/cp0_timer.c  | 25 -------------------------
+ 3 files changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/include/hw/clock.h b/include/hw/clock.h
-index d357594df99..cbc5e6ced1e 100644
---- a/include/hw/clock.h
-+++ b/include/hw/clock.h
-@@ -90,6 +90,19 @@ extern const VMStateDescription vmstate_clock;
-  */
- void clock_setup_canonical_path(Clock *clk);
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index 7f159a9230c..087cabaa6d4 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -144,6 +144,7 @@ void r4k_helper_tlbr(CPUMIPSState *env);
+ void r4k_helper_tlbinv(CPUMIPSState *env);
+ void r4k_helper_tlbinvf(CPUMIPSState *env);
+ void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
++uint32_t cpu_mips_get_random(CPUMIPSState *env);
  
-+/**
-+ * clock_new:
-+ * @parent: the clock parent
-+ * @name: the clock object name
-+ *
-+ * Helper function to create a new clock and parent it to @parent. There is no
-+ * need to call clock_setup_canonical_path on the returned clock as it is done
-+ * by this function.
-+ *
-+ * @return the newly created clock
-+ */
-+Clock *clock_new(Object *parent, const char *name);
-+
- /**
-  * clock_set_callback:
-  * @clk: the clock to register the callback into
-diff --git a/hw/core/clock.c b/hw/core/clock.c
-index 7066282f7b9..f866717a835 100644
---- a/hw/core/clock.c
-+++ b/hw/core/clock.c
-@@ -23,6 +23,21 @@ void clock_setup_canonical_path(Clock *clk)
-     clk->canonical_path = object_get_canonical_path(OBJECT(clk));
+ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                     vaddr addr, unsigned size,
+@@ -209,7 +210,6 @@ void cpu_state_reset(CPUMIPSState *s);
+ void cpu_mips_realize_env(CPUMIPSState *env);
+ 
+ /* cp0_timer.c */
+-uint32_t cpu_mips_get_random(CPUMIPSState *env);
+ uint32_t cpu_mips_get_count(CPUMIPSState *env);
+ void cpu_mips_store_count(CPUMIPSState *env, uint32_t value);
+ void cpu_mips_store_compare(CPUMIPSState *env, uint32_t value);
+diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
+index de64add038b..12143ac55b9 100644
+--- a/target/mips/cp0_helper.c
++++ b/target/mips/cp0_helper.c
+@@ -203,6 +203,31 @@ static void sync_c0_entryhi(CPUMIPSState *cpu, int tc)
+     *tcst |= asid;
  }
  
-+Clock *clock_new(Object *parent, const char *name)
++/* XXX: do not use a global */
++uint32_t cpu_mips_get_random(CPUMIPSState *env)
 +{
-+    Object *obj;
-+    Clock *clk;
++    static uint32_t seed = 1;
++    static uint32_t prev_idx;
++    uint32_t idx;
++    uint32_t nb_rand_tlb = env->tlb->nb_tlb - env->CP0_Wired;
 +
-+    obj = object_new(TYPE_CLOCK);
-+    object_property_add_child(parent, name, obj);
-+    object_unref(obj);
++    if (nb_rand_tlb == 1) {
++        return env->tlb->nb_tlb - 1;
++    }
 +
-+    clk = CLOCK(obj);
-+    clock_setup_canonical_path(clk);
-+
-+    return clk;
++    /* Don't return same value twice, so get another value */
++    do {
++        /*
++         * Use a simple algorithm of Linear Congruential Generator
++         * from ISO/IEC 9899 standard.
++         */
++        seed = 1103515245 * seed + 12345;
++        idx = (seed >> 16) % nb_rand_tlb + env->CP0_Wired;
++    } while (idx == prev_idx);
++    prev_idx = idx;
++    return idx;
 +}
 +
- void clock_set_callback(Clock *clk, ClockCallback *cb, void *opaque)
+ /* CP0 helpers */
+ target_ulong helper_mfc0_mvpcontrol(CPUMIPSState *env)
  {
-     clk->callback = cb;
+diff --git a/target/mips/cp0_timer.c b/target/mips/cp0_timer.c
+index bd7efb152dd..9c38e9da1c8 100644
+--- a/target/mips/cp0_timer.c
++++ b/target/mips/cp0_timer.c
+@@ -29,31 +29,6 @@
+ 
+ #define TIMER_PERIOD 10 /* 10 ns period for 100 Mhz frequency */
+ 
+-/* XXX: do not use a global */
+-uint32_t cpu_mips_get_random(CPUMIPSState *env)
+-{
+-    static uint32_t seed = 1;
+-    static uint32_t prev_idx = 0;
+-    uint32_t idx;
+-    uint32_t nb_rand_tlb = env->tlb->nb_tlb - env->CP0_Wired;
+-
+-    if (nb_rand_tlb == 1) {
+-        return env->tlb->nb_tlb - 1;
+-    }
+-
+-    /* Don't return same value twice, so get another value */
+-    do {
+-        /*
+-         * Use a simple algorithm of Linear Congruential Generator
+-         * from ISO/IEC 9899 standard.
+-         */
+-        seed = 1103515245 * seed + 12345;
+-        idx = (seed >> 16) % nb_rand_tlb + env->CP0_Wired;
+-    } while (idx == prev_idx);
+-    prev_idx = idx;
+-    return idx;
+-}
+-
+ /* MIPS R4K timer */
+ static void cpu_mips_timer_update(CPUMIPSState *env)
+ {
 -- 
 2.26.2
 
