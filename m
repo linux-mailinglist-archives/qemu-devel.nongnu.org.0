@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC6B289F16
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:03:02 +0200 (CEST)
-Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9E4289F2C
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:11:19 +0200 (CEST)
+Received: from localhost ([::1]:42402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR9qH-00015k-T3
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41142)
+	id 1kR9yI-0006MW-Lc
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lK-00047p-Ar
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23943)
+ id 1kR9lL-00049m-1p
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lG-0006gi-2g
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:53 -0400
+ id 1kR9lG-0006gw-IV
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602316669;
+ s=mimecast20190719; t=1602316670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aQvkge0tNZd5H2eAWDkXPTFRir9tCSRBEj2P2UjR8r8=;
- b=iJrYeMtqDNVwz30y6rrrDKXOc5wLQuVo71chSUuR1XwwQWwuqqiltM390Ju/tu/JrToIck
- zVJj/1BzxWun4vcsw/U7L8q1shTq+jfv5K9R/3sw/3gbNaGXw9LGLClo5CRgnzulo5LTMC
- jjgLEefVda5vUN17+kXPqMlKsrAENvQ=
+ bh=ghd8ZWL76sQmgpqQsTOoZJeNOkrnTjpKi1BkFrLK1YE=;
+ b=cEG3Nk2/iIXE1wETx8kmfhUa2mdFmeurl+UwWD5FWEQNl+nBq6O/R08ZO/rAXbl3KnikGZ
+ NVfaZ0pSdpHB7J75jiB16DqKvAfBtlm3Pfugehd69sP3XY2Zh55F1pJdn7f5ZTBaY2nkOk
+ SzmuL8dIo4EOfRhbp6V2o+OAP5kYeO4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-OZ39FIlEPc-052B2jQci8Q-1; Sat, 10 Oct 2020 03:57:47 -0400
-X-MC-Unique: OZ39FIlEPc-052B2jQci8Q-1
+ us-mta-57-GyMOLD8LMx6blagGxEbW8A-1; Sat, 10 Oct 2020 03:57:48 -0400
+X-MC-Unique: GyMOLD8LMx6blagGxEbW8A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6F958030D0
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B4FF805F09
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6650F6EF4F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D060B6EF59;
  Sat, 10 Oct 2020 07:57:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/39] docs/devel/qtest: Include protocol spec in document
-Date: Sat, 10 Oct 2020 03:57:16 -0400
-Message-Id: <20201010075739.951385-17-pbonzini@redhat.com>
+Subject: [PULL 17/39] docs/devel/qtest: Include libqtest API reference
+Date: Sat, 10 Oct 2020 03:57:17 -0400
+Message-Id: <20201010075739.951385-18-pbonzini@redhat.com>
 In-Reply-To: <20201010075739.951385-1-pbonzini@redhat.com>
 References: <20201010075739.951385-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -68,8 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,234 +87,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-Include the QTest Protocol doc string in docs/devel/qtest.rst,
-after converting it to use Sphinx syntax.
-
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201005205228.697463-3-ehabkost@redhat.com>
+Message-Id: <20201005205228.697463-4-ehabkost@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/qtest.rst | 12 ++++++--
- softmmu/qtest.c      | 71 +++++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 73 insertions(+), 10 deletions(-)
+ docs/devel/qtest.rst          |  6 ++++++
+ tests/qtest/libqos/libqtest.h | 20 ++++++++++----------
+ 2 files changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/docs/devel/qtest.rst b/docs/devel/qtest.rst
-index 86dec84a0b..3bf9ebee7f 100644
+index 3bf9ebee7f..075fe5f7d5 100644
 --- a/docs/devel/qtest.rst
 +++ b/docs/devel/qtest.rst
-@@ -4,8 +4,8 @@ QTest Device Emulation Testing Framework
+@@ -64,3 +64,9 @@ QTest Protocol
  
- QTest is a device emulation testing framework.  It can be very useful to test
- device models; it could also control certain aspects of QEMU (such as virtual
--clock stepping), with a special purpose "qtest" protocol.  Refer to the
--documentation in ``qtest.c`` for more details of the protocol.
-+clock stepping), with a special purpose "qtest" protocol.  Refer to
-+:ref:`qtest-protocol` for more details of the protocol.
- 
- QTest cases can be executed with
- 
-@@ -56,3 +56,11 @@ from the output of
- 
- which you can run manually.
- 
+ .. kernel-doc:: softmmu/qtest.c
+    :doc: QTest Protocol
 +
-+.. _qtest-protocol:
 +
-+QTest Protocol
-+--------------
++libqtest API reference
++----------------------
 +
-+.. kernel-doc:: softmmu/qtest.c
-+   :doc: QTest Protocol
-diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-index 0d43cf8883..2c6e8dc858 100644
---- a/softmmu/qtest.c
-+++ b/softmmu/qtest.c
-@@ -49,92 +49,139 @@ static void *qtest_server_send_opaque;
- #define FMT_timeval "%ld.%06ld"
++.. kernel-doc:: tests/qtest/libqos/libqtest.h
+diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
+index a6ee1654f2..209fcf6973 100644
+--- a/tests/qtest/libqos/libqtest.h
++++ b/tests/qtest/libqos/libqtest.h
+@@ -24,7 +24,7 @@ typedef struct QTestState QTestState;
  
  /**
-- * QTest Protocol
-+ * DOC: QTest Protocol
+  * qtest_initf:
+- * @fmt...: Format for creating other arguments to pass to QEMU, formatted
++ * @fmt: Format for creating other arguments to pass to QEMU, formatted
+  * like sprintf().
   *
-  * Line based protocol, request/response based.  Server can send async messages
-  * so clients should always handle many async messages before the response
-  * comes in.
+  * Convenience wrapper around qtest_init().
+@@ -87,7 +87,7 @@ void qtest_quit(QTestState *s);
+  * @s: #QTestState instance to operate on.
+  * @fds: array of file descriptors
+  * @fds_num: number of elements in @fds
+- * @fmt...: QMP message to send to qemu, formatted like
++ * @fmt: QMP message to send to qemu, formatted like
+  * qobject_from_jsonf_nofail().  See parse_escape() for what's
+  * supported after '%'.
   *
-  * Valid requests
-+ * ^^^^^^^^^^^^^^
+@@ -100,7 +100,7 @@ QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
+ /**
+  * qtest_qmp:
+  * @s: #QTestState instance to operate on.
+- * @fmt...: QMP message to send to qemu, formatted like
++ * @fmt: QMP message to send to qemu, formatted like
+  * qobject_from_jsonf_nofail().  See parse_escape() for what's
+  * supported after '%'.
   *
-  * Clock management:
-+ * """""""""""""""""
+@@ -112,7 +112,7 @@ QDict *qtest_qmp(QTestState *s, const char *fmt, ...)
+ /**
+  * qtest_qmp_send:
+  * @s: #QTestState instance to operate on.
+- * @fmt...: QMP message to send to qemu, formatted like
++ * @fmt: QMP message to send to qemu, formatted like
+  * qobject_from_jsonf_nofail().  See parse_escape() for what's
+  * supported after '%'.
   *
-  * The qtest client is completely in charge of the QEMU_CLOCK_VIRTUAL.  qtest commands
-  * let you adjust the value of the clock (monotonically).  All the commands
-  * return the current value of the clock in nanoseconds.
+@@ -124,7 +124,7 @@ void qtest_qmp_send(QTestState *s, const char *fmt, ...)
+ /**
+  * qtest_qmp_send_raw:
+  * @s: #QTestState instance to operate on.
+- * @fmt...: text to send, formatted like sprintf()
++ * @fmt: text to send, formatted like sprintf()
   *
-+ * .. code-block:: none
-+ *
-  *  > clock_step
-  *  < OK VALUE
+  * Sends text to the QMP monitor verbatim.  Need not be valid JSON;
+  * this is useful for negative tests.
+@@ -201,7 +201,7 @@ QDict *qtest_qmp_receive(QTestState *s);
+ /**
+  * qtest_qmp_eventwait:
+  * @s: #QTestState instance to operate on.
+- * @s: #event event to wait for.
++ * @event: event to wait for.
   *
-- *     Advance the clock to the next deadline.  Useful when waiting for
-- *     asynchronous events.
-+ * Advance the clock to the next deadline.  Useful when waiting for
-+ * asynchronous events.
-+ *
-+ * .. code-block:: none
+  * Continuously polls for QMP responses until it receives the desired event.
+  */
+@@ -210,7 +210,7 @@ void qtest_qmp_eventwait(QTestState *s, const char *event);
+ /**
+  * qtest_qmp_eventwait_ref:
+  * @s: #QTestState instance to operate on.
+- * @s: #event event to wait for.
++ * @event: event to wait for.
   *
-  *  > clock_step NS
-  *  < OK VALUE
+  * Continuously polls for QMP responses until it receives the desired event.
+  * Returns a copy of the event for further investigation.
+@@ -237,7 +237,7 @@ QDict *qtest_qmp_receive_success(QTestState *s,
+ /**
+  * qtest_hmp:
+  * @s: #QTestState instance to operate on.
+- * @fmt...: HMP command to send to QEMU, formats arguments like sprintf().
++ * @fmt: HMP command to send to QEMU, formats arguments like sprintf().
   *
-- *     Advance the clock by NS nanoseconds.
-+ * Advance the clock by NS nanoseconds.
-+ *
-+ * .. code-block:: none
+  * Send HMP command to QEMU via QMP's human-monitor-command.
+  * QMP events are discarded.
+@@ -629,7 +629,7 @@ void qtest_add_abrt_handler(GHookFunc fn, const void *data);
+ /**
+  * qtest_qmp_assert_success:
+  * @qts: QTestState instance to operate on
+- * @fmt...: QMP message to send to qemu, formatted like
++ * @fmt: QMP message to send to qemu, formatted like
+  * qobject_from_jsonf_nofail().  See parse_escape() for what's
+  * supported after '%'.
   *
-  *  > clock_set NS
-  *  < OK VALUE
-  *
-- *     Advance the clock to NS nanoseconds (do nothing if it's already past).
-+ * Advance the clock to NS nanoseconds (do nothing if it's already past).
-  *
-  * PIO and memory access:
-+ * """"""""""""""""""""""
-+ *
-+ * .. code-block:: none
-  *
-  *  > outb ADDR VALUE
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > outw ADDR VALUE
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > outl ADDR VALUE
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > inb ADDR
-  *  < OK VALUE
-  *
-+ * .. code-block:: none
-+ *
-  *  > inw ADDR
-  *  < OK VALUE
-  *
-+ * .. code-block:: none
-+ *
-  *  > inl ADDR
-  *  < OK VALUE
-  *
-+ * .. code-block:: none
-+ *
-  *  > writeb ADDR VALUE
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > writew ADDR VALUE
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > writel ADDR VALUE
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > writeq ADDR VALUE
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > readb ADDR
-  *  < OK VALUE
-  *
-+ * .. code-block:: none
-+ *
-  *  > readw ADDR
-  *  < OK VALUE
-  *
-+ * .. code-block:: none
-+ *
-  *  > readl ADDR
-  *  < OK VALUE
-  *
-+ * .. code-block:: none
-+ *
-  *  > readq ADDR
-  *  < OK VALUE
-  *
-+ * .. code-block:: none
-+ *
-  *  > read ADDR SIZE
-  *  < OK DATA
-  *
-+ * .. code-block:: none
-+ *
-  *  > write ADDR SIZE DATA
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > b64read ADDR SIZE
-  *  < OK B64_DATA
-  *
-+ * .. code-block:: none
-+ *
-  *  > b64write ADDR SIZE B64_DATA
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > memset ADDR SIZE VALUE
-  *  < OK
-  *
-@@ -149,16 +196,21 @@ static void *qtest_server_send_opaque;
-  * If the sizes do not match, the data will be truncated.
-  *
-  * IRQ management:
-+ * """""""""""""""
-+ *
-+ * .. code-block:: none
-  *
-  *  > irq_intercept_in QOM-PATH
-  *  < OK
-  *
-+ * .. code-block:: none
-+ *
-  *  > irq_intercept_out QOM-PATH
-  *  < OK
-  *
-  * Attach to the gpio-in (resp. gpio-out) pins exported by the device at
-  * QOM-PATH.  When the pin is triggered, one of the following async messages
-- * will be printed to the qtest stream:
-+ * will be printed to the qtest stream::
-  *
-  *  IRQ raise NUM
-  *  IRQ lower NUM
-@@ -168,12 +220,15 @@ static void *qtest_server_send_opaque;
-  * NUM=0 even though it is remapped to GSI 2).
-  *
-  * Setting interrupt level:
-+ * """"""""""""""""""""""""
-+ *
-+ * .. code-block:: none
-  *
-  *  > set_irq_in QOM-PATH NAME NUM LEVEL
-  *  < OK
-  *
-- *  where NAME is the name of the irq/gpio list, NUM is an IRQ number and
-- *  LEVEL is an signed integer IRQ level.
-+ * where NAME is the name of the irq/gpio list, NUM is an IRQ number and
-+ * LEVEL is an signed integer IRQ level.
-  *
-  * Forcibly set the given interrupt pin to the given level.
+@@ -676,7 +676,7 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const char *drv,
+  * @qts: QTestState instance to operate on
+  * @driver: Name of the device that should be added
+  * @id: Identification string
+- * @fmt...: QMP message to send to qemu, formatted like
++ * @fmt: QMP message to send to qemu, formatted like
+  * qobject_from_jsonf_nofail().  See parse_escape() for what's
+  * supported after '%'.
   *
 -- 
 2.26.2
