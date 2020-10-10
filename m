@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2F6289FAA
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 11:57:33 +0200 (CEST)
-Received: from localhost ([::1]:44754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D61289FC0
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:03:17 +0200 (CEST)
+Received: from localhost ([::1]:33194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRBd6-000130-4l
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 05:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60400)
+	id 1kRBie-00086W-4u
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:03:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBas-0007dC-Nk
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54983)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBb1-0007pI-GO
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBaq-0002iB-H1
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBas-0002im-12
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602323711;
+ s=mimecast20190719; t=1602323713;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1C6WjMQDkhxvJrIxv4100CkrhC23vQyQsUOP9erkPC8=;
- b=WpNjtrWRMtmrdUVtK2ReU2QstOF0GRvrYurK9vwo9lB+AO5g92tg+YU9mhPd2NIAEJ0swS
- /+HaL5JfLKRHrpOoQEKCnOTuVEl+wF5Y3EZkPLWW8pwvMtPRdTGgEMBRidfWIHyiNlOBPP
- 7wQu61D3sb79M6n0GMrYdECJF0Z3J+o=
+ bh=fkp65gCVMkEUGO/a4godFvjAGRNcFpKqtvw1AMfufcA=;
+ b=jBfdyBKFrDVo7AJTLht3oeAPh1eDqS60swYL8S6pct3enmsPkZMXHOP34XBjySLXI9uAPC
+ 4ar3uPXVDuyhqfHIyexc5l5B65mFLNkKg242KxvNzODskUYHj6SXmGQZu/3E4Cu8KCdTMm
+ p0v5EV+3YbTi0v36A4T75UNbMJCFM7w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-wagdnGivP0SGK4KFXVtl-w-1; Sat, 10 Oct 2020 05:55:09 -0400
-X-MC-Unique: wagdnGivP0SGK4KFXVtl-w-1
+ us-mta-528-w9YbmKvJPOSMPlfecd-jIw-1; Sat, 10 Oct 2020 05:55:09 -0400
+X-MC-Unique: w9YbmKvJPOSMPlfecd-jIw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D777551B8;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D194051B5;
  Sat, 10 Oct 2020 09:55:08 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A678F672C6;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A271560C07;
  Sat, 10 Oct 2020 09:55:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C33FD1129C4C; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
+ id C693A1129C66; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/34] qapi/common.py: Replace one-letter 'c' variable
-Date: Sat, 10 Oct 2020 11:54:43 +0200
-Message-Id: <20201010095504.796182-14-armbru@redhat.com>
+Subject: [PULL 14/34] qapi/common.py: check with pylint
+Date: Sat, 10 Oct 2020 11:54:44 +0200
+Message-Id: <20201010095504.796182-15-armbru@redhat.com>
 In-Reply-To: <20201010095504.796182-1-armbru@redhat.com>
 References: <20201010095504.796182-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -56,18 +56,18 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 02:57:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 03:36:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,49 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
+Remove qapi/common.py from the pylintrc ignore list.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201009161558.107041-14-jsnow@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20201009161558.107041-15-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/common.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/qapi/pylintrc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index a417b6029c..338adedef4 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -30,14 +30,14 @@ def camel_to_upper(value):
-     new_name = ''
-     length = len(c_fun_str)
-     for i in range(length):
--        c = c_fun_str[i]
--        # When c is upper and no '_' appears before, do more checks
--        if c.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
-+        char = c_fun_str[i]
-+        # When char is upper case and no '_' appears before, do more checks
-+        if char.isupper() and (i > 0) and c_fun_str[i - 1] != '_':
-             if i < length - 1 and c_fun_str[i + 1].islower():
-                 new_name += '_'
-             elif c_fun_str[i - 1].isdigit():
-                 new_name += '_'
--        new_name += c
-+        new_name += char
-     return new_name.lstrip('_').upper()
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index 76d54c30f8..507f15537a 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -2,8 +2,7 @@
  
- 
+ # Add files or directories matching the regex patterns to the ignore list.
+ # The regex matches against base names, not paths.
+-ignore-patterns=common.py,
+-                error.py,
++ignore-patterns=error.py,
+                 expr.py,
+                 gen.py,
+                 parser.py,
 -- 
 2.26.2
 
