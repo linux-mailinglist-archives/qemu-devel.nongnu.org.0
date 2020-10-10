@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3C5289F29
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:09:27 +0200 (CEST)
-Received: from localhost ([::1]:36618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE01289F2D
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:12:11 +0200 (CEST)
+Received: from localhost ([::1]:44790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR9wU-0003wr-4A
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:09:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41438)
+	id 1kR9z8-0007QX-4b
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9ld-0004gC-2S
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:58:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22155)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lZ-0006mV-UY
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:58:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602316688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=amCd8MPJ5JbVAyhyBDOKUGF3E7N6O6LgOOnFLyzDDJI=;
- b=hWx7uehUYdidIbWuHcCLscA6ClCa159v78aLbKznNuEeqU2utHsf76IZ1OOVKbjUHKLppj
- kRND+lA9MdR8cdGbfPa7ZRSeln8UAoxHvumxJaPyQ5M0ycfw/BuRWDnZeD8wlm+wYSTXF7
- L3C2wOW5CC1XYNOaccM6NAN1l1SMI70=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-frPKyCWvO1ieO0uVYfamuA-1; Sat, 10 Oct 2020 03:58:06 -0400
-X-MC-Unique: frPKyCWvO1ieO0uVYfamuA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B51281005E6C
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:58:05 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83D091002393
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:58:05 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 39/39] meson: identify more sections of meson.build
-Date: Sat, 10 Oct 2020 03:57:39 -0400
-Message-Id: <20201010075739.951385-40-pbonzini@redhat.com>
-In-Reply-To: <20201010075739.951385-1-pbonzini@redhat.com>
-References: <20201010075739.951385-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
+ id 1kR9nV-0007z2-4h
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:00:09 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:34511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
+ id 1kR9nS-00070D-IB
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:00:08 -0400
+Received: by mail-pg1-x542.google.com with SMTP id u24so9221825pgi.1
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 01:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=wVNW4m/sWQPhrdPNlsV6HiXfvIJ1rNz3KP/MLB8lgoM=;
+ b=Yb0Qp0vEkcdqO0g1Ys+XPoXj4k/upQ8XPw/iNmFDcBHoHjD9NaCpXcFyD5HA88+tqg
+ +tuqgZ8sn6ygXGhscoXSg868zpnKRHonao/KEkAjQQLjvEpDjb1Y87+2JXCFZGiasRm/
+ S6COLbxI+C53K3IdZ9M0+n0sRRF0WPw7bH+6wQAasCBnhK6chvQZHyhpm+1pctAtD829
+ 4UtRxdJT6oHuA3AQIIYFOSfrAThDjuaB30/MVrGWU8i1f7g6+45PMvPUTIjjzBnqlC7S
+ Xq7lZR4PdrDm4vDuk4GUODW6foNuUiUD9Owly3+TyAlt+kMb4gUsRojvcin4MPMVclD+
+ PmVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wVNW4m/sWQPhrdPNlsV6HiXfvIJ1rNz3KP/MLB8lgoM=;
+ b=iq44lssuPnwa7w7gSsyA0wgcUR84Yukvy8cubzAXE9OPhQOrZFqWN4PgLOZ9yHgctC
+ dqssHWW3jL1+Qu/R62nVOUg6IZNGkFxcqG23dyNB/AEAZQNvG/s0mxYCXCSnZbA+CbnS
+ K6bQx5pgkD0h6sjPC48gXVN+cbIODxpU9OWSESS8SB2IefpDwnJDyg/Xo8H0eadIPsl+
+ lFV2adJGadeH8W8Id/lJdlpE/Rb8acqBwTOyXw538IpywXc0VfK3nfOGOvNbDiVxOX5O
+ QXq7gOyVK7C09ZHLQPCJ680JqvFvE+VjmR8nb/tQM/61lghJGcQZzw2sQYWUv7Xbd71F
+ CHcg==
+X-Gm-Message-State: AOAM533Em6yR/HbeXWApWpPLjoKXfsfo1k3FSK+2K9kyniojbXuqNnYv
+ Or3eazSy1EdXwx5+TCe4OA4=
+X-Google-Smtp-Source: ABdhPJxC0FDIbNd14uJZiyphnSCwm6unJXbkv4UYUPPBhVi85APe7jElvjQIkpiVrBqJadIkzSWUcA==
+X-Received: by 2002:a62:5ac3:0:b029:153:f1d4:37ee with SMTP id
+ o186-20020a625ac30000b0290153f1d437eemr15182638pfb.38.1602316803991; 
+ Sat, 10 Oct 2020 01:00:03 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+ by smtp.gmail.com with ESMTPSA id k128sm14830803pfd.99.2020.10.10.01.00.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 10 Oct 2020 01:00:03 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date: Sat, 10 Oct 2020 15:59:55 +0800
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v10 6/7] test: new qTest case to test the
+ vhost-user-blk-server
+Message-ID: <20201010075955.46fqgg4vodubvvlz@Rk>
+References: <20200918080912.321299-1-coiby.xu@gmail.com>
+ <20200918080912.321299-7-coiby.xu@gmail.com>
+ <20200923123606.GC51019@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 02:57:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20200923123606.GC51019@stefanha-x1.localdomain>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=coiby.xu@gmail.com; helo=mail-pg1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,121 +89,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, bharatlkmlkvm@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add more headers that clarify code organization.
+On Wed, Sep 23, 2020 at 01:36:06PM +0100, Stefan Hajnoczi wrote:
+>On Fri, Sep 18, 2020 at 04:09:11PM +0800, Coiby Xu wrote:
+>> +int qtest_socket_client(char *server_socket_path)
+>> +{
+>> +    struct sockaddr_un serv_addr;
+>> +    int sock;
+>> +    int ret;
+>> +    int retries = 0;
+>> +    sock = socket(PF_UNIX, SOCK_STREAM, 0);
+>> +    g_assert_cmpint(sock, !=, -1);
+>> +    serv_addr.sun_family = AF_UNIX;
+>> +    snprintf(serv_addr.sun_path, sizeof(serv_addr.sun_path), "%s",
+>> +             server_socket_path);
+>> +
+>> +    for (retries = 0; retries < 3; retries++) {
+>> +        ret = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+>> +        if (ret == 0) {
+>> +            break;
+>> +        }
+>> +        g_usleep(G_USEC_PER_SEC);
+>> +    }
+>
+>This is a race condition. On a heavily loaded machine the server might
+>not be available within 3 seconds and the test will fail randomly.
+>
+>Solutions:
+>1. Wait output from the server indicating it is ready (e.g. 'Listening
+>   on /path/to/foo.sock...') when spawning the server process.
+>2. Create the listen socket and pass the fd to the server process. This
+>   way the socket already exists can the client will block in connect
+>   until the server accepts the connection.
+>3. Create a socketpair. Pass one side to the server and use the other
+>   side in the client.
+>
+>However, I think this is okay for now. After my patch series that
+>converts the vhost-user-blk server to the new block exports API we can
+>consider how to pass file descriptors.
+>
+>> +static void quit_storage_daemon(void *qmp_test_state)
+>> +{
+>> +    const char quit_str[] = "{ 'execute': 'quit' }";
+>> +
+>> +    /* Before quiting storate-daemon, quit qemu to avoid dubious messages */
+>> +    qobject_unref(qtest_qmp(global_qtest, quit_str));
+>> +
+>> +    /*
+>> +     * Give storage-daemon enough time to wake up&terminate
+>> +     * vu_client_trip coroutine so the Coroutine object could
+>> +     * be cleaned up. Otherwise LeakSanitizer would complain
+>> +     * about memory leaks.
+>> +     */
+>> +    g_usleep(1000);
+>
+>Also a race that may cause random failures. This can be addressed after
+>the block exports API conversion.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 36 +++++++++++++++++++++++++-----------
- 1 file changed, 25 insertions(+), 11 deletions(-)
+Thank you for spotting two race conditions!
 
-diff --git a/meson.build b/meson.build
-index 0c676af194..652c37cceb 100644
---- a/meson.build
-+++ b/meson.build
-@@ -614,7 +614,9 @@ if not has_malloc_trim and get_option('malloc_trim').enabled()
-   endif
- endif
- 
--# Create config-host.h
-+#################
-+# config-host.h #
-+#################
- 
- config_host_data.set('CONFIG_COCOA', cocoa.found())
- config_host_data.set('CONFIG_LIBUDEV', libudev.found())
-@@ -660,6 +662,10 @@ foreach k, v: config_host
-   endif
- endforeach
- 
-+########################
-+# Target configuration #
-+########################
-+
- minikconf = find_program('scripts/minikconf.py')
- config_all = {}
- config_all_devices = {}
-@@ -866,7 +872,9 @@ config_all += {
-   'CONFIG_ALL': true,
- }
- 
--# Submodules
-+##############
-+# Submodules #
-+##############
- 
- capstone = not_found
- capstone_opt = get_option('capstone')
-@@ -1105,9 +1113,11 @@ config_host_data.set('CONFIG_CAPSTONE', capstone.found())
- config_host_data.set('CONFIG_FDT', fdt.found())
- config_host_data.set('CONFIG_SLIRP', slirp.found())
- 
--genh += configure_file(output: 'config-host.h', configuration: config_host_data)
-+#####################
-+# Generated sources #
-+#####################
- 
--# Generators
-+genh += configure_file(output: 'config-host.h', configuration: config_host_data)
- 
- hxtool = find_program('scripts/hxtool')
- shaderinclude = find_program('scripts/shaderinclude.pl')
-@@ -1182,7 +1192,9 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
-                         meson.source_root() / 'docs/sphinx/qmp_lexer.py',
-                         qapi_gen_depends ]
- 
--# Collect sourcesets.
-+###################
-+# Collect sources #
-+###################
- 
- authz_ss = ss.source_set()
- blockdev_ss = ss.source_set()
-@@ -1320,8 +1332,6 @@ if enable_modules
-   modulecommon = declare_dependency(link_whole: libmodulecommon, compile_args: '-DBUILD_DSO')
- endif
- 
--# Build targets from sourcesets
--
- stub_ss = stub_ss.apply(config_all, strict: false)
- 
- util_ss.add_all(trace_ss)
-@@ -1409,6 +1419,10 @@ specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
- subdir('tests/qtest/libqos')
- subdir('tests/qtest/fuzz')
- 
-+########################
-+# Library dependencies #
-+########################
-+
- block_mods = []
- softmmu_mods = []
- foreach d, list : modules
-@@ -1443,10 +1457,6 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
-                              capture: true,
-                              command: [undefsym, nm, '@INPUT@'])
- 
--########################
--# Library dependencies #
--########################
--
- qom_ss = qom_ss.apply(config_host, strict: false)
- libqom = static_library('qom', qom_ss.sources() + genh,
-                         dependencies: [qom_ss.dependencies()],
-@@ -1797,6 +1807,10 @@ if host_machine.system() == 'windows'
-   alias_target('installer', nsis)
- endif
- 
-+#########################
-+# Configuration summary #
-+#########################
-+
- summary_info = {}
- summary_info += {'Install prefix':    config_host['prefix']}
- summary_info += {'BIOS directory':    config_host['qemu_datadir']}
--- 
-2.26.2
-
+--
+Best regards,
+Coiby
 
