@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD7F28A157
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 22:50:18 +0200 (CEST)
-Received: from localhost ([::1]:47466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8169B28A15B
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 22:53:01 +0200 (CEST)
+Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRLon-0006Qq-C7
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 16:50:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51892)
+	id 1kRLrQ-0001Zy-IO
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 16:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRLiA-0000NB-Jf
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:43:26 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:40266)
+ id 1kRLiB-0000Q3-OS
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:43:27 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRLi8-0007RD-U6
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:43:26 -0400
-Received: by mail-wm1-x335.google.com with SMTP id k18so13263237wmj.5
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 13:43:24 -0700 (PDT)
+ id 1kRLiA-0007RT-2e
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:43:27 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b8so948152wrn.0
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 13:43:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gETh5/Gck0bTQVP31ZR4AiV0ecmQtPxoBf6GwvczWOs=;
- b=dn3QruZ0BeBNyJD7SOaGy2t1UJ/cXhGnwfkMltxP/mVqV4wNuHAYc8lIPlK+euxoHD
- 4BBfJ8IxFIk+f+7IKZyQccNDqb5U7NLfznVhWtZ8svJ8tXfYcK77cLa3ma9aK6HCCh72
- t0UU7hv016N8lEO1Ls9JKvX7D5oZLJW58wLiawd3aWufvLOe9/mp+0BhW+Hd3MqQmQmi
- hC4BHdNdkzVTtL3ynCuMjNuIjWDI/cH9nOKfHRoj2VWif8/P+I0PvdR8t8xc6lyGq5Ii
- vFvJ5VxvyWakt3pP/y+0TLPsAA+Ik7kzVgGtXulO7EbUIlO87ERa/4yOa6qfBW0+dwWa
- 2yBw==
+ bh=PwcUcNfmDXAXz3ZdCfHv1ZWyP4lS5DeJuKN8TDRFEM0=;
+ b=pkYTz2evODSTCIVzNSYqNs/Wu3LRBzHO564YrznUuNnUViWUOgDW9/UTfksKF1Ro6d
+ QGLDUmSxIgT0+1F3FnSV7kbMysQ797Yx0fCwKRwIFCDO6/OKXTS5CY6YPnOUAiZeQjy0
+ stZvtnoBUqgkBvcbCQHvdNMPu6+avkYfIiN1fO0pNrcEYt2FUxn4FHxqHjbeqtxm9575
+ ond3xSW1yt0pWiDofywzP71AUR57LPHRdbN7ue19nWqvuSejI6dWZn+a+IdDWYSwJ1Dn
+ gVTJEODm1506TOq0O+gnxg9g6FCgogT05HM47/CSfRMrkX1FGOuhv+/iK3A9K4Mr1OCl
+ HJ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gETh5/Gck0bTQVP31ZR4AiV0ecmQtPxoBf6GwvczWOs=;
- b=e41NQwh4c5TkvS4mmLlNbIoe/9lsnMUqvpTACmgokhw96L7nf3LlUP4DEZ7sI1Ra+B
- bv9GD8Arhl4TPQVIIWmGw6SP34bfK2N29khlx6g8qTNBuD4qK45/TDYyIa0ZgIhgJKDr
- fX6dSV59N6IjsHU/1mdfAHQNLE0D1HdqP8MQRyWY8rQVEf8EI9btkJubhMJFC4WrzL34
- OlSeI+dH6+c4sGPb2iTBLaJD89Cgl5L3RYuocVkSN1+i60N/bHP/GmoQEGxCppi82G6g
- 75okuP4e4OTL89jOfh6oKRrIr2Q5/mwSC3ZN8Gr3sPcv3MCstwvUQY0tPoOb8/sa0o4a
- dfPQ==
-X-Gm-Message-State: AOAM530gWqVLeyHEgy6YNZeZBv4BC1Y00f11azE55ZFsr5Nqe3v375UG
- S4fyqz6isceoOykH5eGEsWLQjuuIqzo=
-X-Google-Smtp-Source: ABdhPJwONZG/wcNaPy7XJYsbn0kuTCN4JQ/K/BQXQZ3Vj9543IOt8b8KF6DXV2VDfNXS1N5zdqQhZw==
-X-Received: by 2002:a1c:b388:: with SMTP id c130mr3963908wmf.175.1602362603126; 
- Sat, 10 Oct 2020 13:43:23 -0700 (PDT)
+ bh=PwcUcNfmDXAXz3ZdCfHv1ZWyP4lS5DeJuKN8TDRFEM0=;
+ b=cXuaalxRsCl/VaXMikZhqsVFyU+XJinoVy17tbDxvhroJZkIa9YyY3ej9O9nYorBIt
+ 3jmGA4i0pRXgPP/4aanTZ7jINxCnxaIoaLHYRr33OzJuj68PBJNl44PAIgN6tUche00C
+ GgedEtqFNelOjxi9epLYOUa08MnTb2C+F8YFKi7XVZIGHUXOq105sWBZLdFxqRPePrV6
+ GajBcuU29ezdm1El1dhkP56vYVvITbEGgMG5BUa5mJOEDkujcZfsRVpQDX0abRrmaleu
+ o6pMC6a/4CT1hnpjf3pvk1vPJQ1CSm14KTQpQQYNGZDdcYdPpT0o1BA9Z5pm47qknAUO
+ 4gWg==
+X-Gm-Message-State: AOAM530uy3aRpeYWJ8gXPKdqSJG8dtZiDEdTJUefvnGBJrowcTLNgmqk
+ WR5eXoBoi2vqV+WUltn6BvcxiFHAIEQ=
+X-Google-Smtp-Source: ABdhPJyKG18SUJWicNOEnW25JkO1pg40q1XYZSxXkR6vQR9z0ERwE9NcxMfyoKWY5wfiPjaa3w9lWw==
+X-Received: by 2002:adf:e289:: with SMTP id v9mr21472977wri.14.1602362604458; 
+ Sat, 10 Oct 2020 13:43:24 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id 205sm2705471wme.38.2020.10.10.13.43.21
+ by smtp.gmail.com with ESMTPSA id 205sm2705471wme.38.2020.10.10.13.43.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 13:43:22 -0700 (PDT)
+ Sat, 10 Oct 2020 13:43:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/20] util/cutils: Introduce freq_to_str() to display
- Hertz units
-Date: Sat, 10 Oct 2020 22:43:00 +0200
-Message-Id: <20201010204319.3119239-2-f4bug@amsat.org>
+Subject: [PATCH v3 02/20] qdev-monitor: Display frequencies scaled to SI unit
+Date: Sat, 10 Oct 2020 22:43:01 +0200
+Message-Id: <20201010204319.3119239-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201010204319.3119239-1-f4bug@amsat.org>
 References: <20201010204319.3119239-1-f4bug@amsat.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -103,66 +102,54 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce freq_to_str() to convert frequency values in human
-friendly units using the SI units for Hertz.
+Since commit 9f2ff99c7f2 ("qdev-monitor: print the device's clock
+with info qtree") we can display the clock frequencies in the
+monitor. Use the recently introduced freq_to_str() to display
+the frequencies using the closest SI unit (human friendlier).
 
-Suggested-by: Luc Michel <luc@lmichel.fr>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Before:
+
+  (qemu) info qtree
+  [...]
+  dev: xilinx,zynq_slcr, id ""
+    clock-in "ps_clk" freq_hz=3.333333e+07
+    mmio 00000000f8000000/0000000000001000
+
+After:
+
+  dev: xilinx,zynq_slcr, id ""
+    clock-in "ps_clk" freq_hz=33.3 MHz
+    mmio 00000000f8000000/0000000000001000
+
 Reviewed-by: Luc Michel <luc@lmichel.fr>
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/qemu/cutils.h | 12 ++++++++++++
- util/cutils.c         | 14 ++++++++++++++
- 2 files changed, 26 insertions(+)
+ qdev-monitor.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
-index 3a86ec0321e..4bbf4834ea5 100644
---- a/include/qemu/cutils.h
-+++ b/include/qemu/cutils.h
-@@ -158,6 +158,18 @@ int qemu_strtosz_metric(const char *nptr, const char **end, uint64_t *result);
- 
- char *size_to_str(uint64_t val);
- 
-+/**
-+ * freq_to_str:
-+ * @freq_hz: frequency to stringify
-+ *
-+ * Return human readable string for frequency @freq_hz.
-+ * Use SI units like KHz, MHz, and so forth.
-+ *
-+ * The caller is responsible for releasing the value returned
-+ * with g_free() after use.
-+ */
-+char *freq_to_str(uint64_t freq_hz);
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index e9b7228480d..a0301cfca81 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -747,11 +747,13 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
+         }
+     }
+     QLIST_FOREACH(ncl, &dev->clocks, node) {
+-        qdev_printf("clock-%s%s \"%s\" freq_hz=%e\n",
++        g_autofree char *freq = NULL;
 +
- /* used to print char* safely */
- #define STR_OR_NULL(str) ((str) ? (str) : "null")
- 
-diff --git a/util/cutils.c b/util/cutils.c
-index 8da34e04b0b..be4e43a9eff 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -885,6 +885,20 @@ char *size_to_str(uint64_t val)
-     return g_strdup_printf("%0.3g %sB", (double)val / div, suffixes[i]);
- }
- 
-+char *freq_to_str(uint64_t freq_hz)
-+{
-+    static const char *const suffixes[] = { "", "K", "M", "G", "T", "P", "E" };
-+    double freq = freq_hz;
-+    size_t idx = 0;
-+
-+    while (freq >= 1000.0 && idx < ARRAY_SIZE(suffixes)) {
-+        freq /= 1000.0;
-+        idx++;
-+    }
-+
-+    return g_strdup_printf("%0.3g %sHz", freq, suffixes[idx]);
-+}
-+
- int qemu_pstrcmp0(const char **str1, const char **str2)
- {
-     return g_strcmp0(*str1, *str2);
++        freq = freq_to_str(clock_get_hz(ncl->clock));
++        qdev_printf("clock-%s%s \"%s\" freq_hz=%s\n",
+                     ncl->output ? "out" : "in",
+                     ncl->alias ? " (alias)" : "",
+-                    ncl->name,
+-                    CLOCK_PERIOD_TO_HZ(1.0 * clock_get(ncl->clock)));
++                    ncl->name, freq);
+     }
+     class = object_get_class(OBJECT(dev));
+     do {
 -- 
 2.26.2
 
