@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C9B28A16D
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 23:04:54 +0200 (CEST)
-Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBFC28A16B
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 23:03:01 +0200 (CEST)
+Received: from localhost ([::1]:56418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRM2v-0007IW-RH
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 17:04:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52212)
+	id 1kRM16-0005Ve-2f
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 17:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRLic-0000xC-9Q
+ id 1kRLic-0000xF-FE
  for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:43:55 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44730)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRLia-0007Ww-08
+ id 1kRLia-0007X0-2K
  for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:43:54 -0400
-Received: by mail-wr1-x442.google.com with SMTP id t9so14147330wrq.11
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 13:43:49 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id b8so948772wrn.0
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 13:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VteZSfKnRVCLsYtZHNYo1AU9nWTlWiBOrpFD9RH1hDg=;
- b=RwAhmhqQzoWm28PJUhmuLlWgOD1rbb8fusxp9EwYg912hs44oYYykIWrpYMjCAravH
- qPjTMRx1pFLyynbibxi8f9ajm0dTXGa7fYGD80+OKSYmK2P3+MIKZIOj2p5YwPZpwDRl
- 6m59NFahnqC17sgM/702nbUe2+XKP1WA/Mw4whh1F7+wETE33XVPE3fb9R0DH2PFm4ca
- 3Mm9enyfT27ZW0k/4IjmXfvC6tKlXHV4A9A8bzHN/SqC/5+/LAPV+70AyoQohNb4lp0U
- 8f2+8+qRi/A8LOGX/wED4mmFROzaZ9QRX6/w7bI+bpJQZ2b4/GeWJK2yPzQnxfkNzslb
- Awcg==
+ bh=HmgC37wCjLUJVnf61J8zdojgJc5xhuHBXkX9blUA1GM=;
+ b=L2cCiuW1gh4KaQIQssXFB0b86mjkC7G5lKUM6vl1IOuEa7RYxGPDx+cp4HqfjrwADi
+ KV72V48Shrst0S1S7+kqekCHaMuxwvGq6MFh1tXKSlpY65ogy/y6vgKXESIvHM+CS8n2
+ L4AbE4wSmOB88hMcXlR5oy0iY7PC8zDxzN/ZHmm/Ej0sKi6CaJZhooujVnzbNN5vpytq
+ lxk44gLaEaHj3eTKH93hLhcxv1eSXPTcun88i269GDJZkdvK1ehCXoCj60cmzggzDmxR
+ HwkLIIMugb88KYYcAxa7JcBu07YkfcavjNfSwoQ4DSeqak2Gv3ttVPYy5/WeMrSFGM1F
+ oVJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VteZSfKnRVCLsYtZHNYo1AU9nWTlWiBOrpFD9RH1hDg=;
- b=t1nmo6aHqqDZheFmlygE1hPPqcF/OqMSis1fDSZgQncy+4pYU9L+2aASPzD0yu/hSK
- KBCD+lWV1QEoIM00HkI7T8qn/Gd3WODtRf6WUNfAZbisHBVcEoX/AHxh1Uik1/MljOb4
- PRygj00DuwZiuDx5ctlSqmLkQ98NTqT9G8eNboPkwUCrMnM3qRK+jrXNAhYanh+ej6X7
- eKnQxn+B/I7nKJRWbv3NKiaqssWkTc/0eb3A8oV9Rtd1B4gp3NY2vMwA4blrlkTvDC2z
- privr3+51SivgQElh/aMdW9V32yYtpEamccL76/a4ZkZzs/37k/8En/hfcXN9CEl8ZY/
- cDFA==
-X-Gm-Message-State: AOAM533AnARRgJjg3lcvBhXRl+ayuwm5ALvgvygTcpH7XuCxZ2JsOGBE
- XpXBw3OoZoajWZzYiwI0C9jKDgBxzno=
-X-Google-Smtp-Source: ABdhPJzEQhIuL6nbTfdCbWSKR6JpWMpjieMQWeK38qzhrMsGfgHDgK+gXbBQxaUaXRhgmTJTBFJOFQ==
-X-Received: by 2002:adf:f305:: with SMTP id i5mr16051782wro.346.1602362628265; 
- Sat, 10 Oct 2020 13:43:48 -0700 (PDT)
+ bh=HmgC37wCjLUJVnf61J8zdojgJc5xhuHBXkX9blUA1GM=;
+ b=kXiI5qUYonzToJo21rXbh54zlrm4S4kw/APbMVYAeRXTppM0p64ioeiXAwzuM/3nuA
+ 8mFwKLNIRPf/cyaBh1ExVSKm6MmzElht2Uc+XpzsRFmXKjhc8u2UudlW3+z8tdNRdUOA
+ jReEIkWw77BRDMKsTIvDuxLFMlUc1i1dh2INCiQAGUSwXebnnUrzL8KkSeuaUwpils6s
+ nBta8Oht1vFL5h7sZE/1Df+zePWF4mY04Em9PHoPh2zW++gAyvvLn03/Nm3B8xLfL5HD
+ MTlQTt7L1zOrc/Jwpms/aknZSPG1b7ywGh28JohUVwkT36IGAWAVwtIs9fMwTziYOs9E
+ tk/w==
+X-Gm-Message-State: AOAM532c2oG44EjNtrYyjd8jGiDjbSgw8i8ug6EWE00EnME/0WyLqFbn
+ 5VXRKWVWSOtPf6EBTvz9K74Ro61wwOs=
+X-Google-Smtp-Source: ABdhPJzrK6R/IBjIkkKex+DEZ6OJEqH8AmIait6xHkDT0ThvG0ifr9pZ7ThXNV+ZwiRz24lX8PHz/g==
+X-Received: by 2002:adf:e6c4:: with SMTP id y4mr21980726wrm.423.1602362629751; 
+ Sat, 10 Oct 2020 13:43:49 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id 205sm2705471wme.38.2020.10.10.13.43.46
+ by smtp.gmail.com with ESMTPSA id 205sm2705471wme.38.2020.10.10.13.43.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 13:43:47 -0700 (PDT)
+ Sat, 10 Oct 2020 13:43:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/20] hw/mips/cps: Do not allow use without input clock
-Date: Sat, 10 Oct 2020 22:43:18 +0200
-Message-Id: <20201010204319.3119239-20-f4bug@amsat.org>
+Subject: [PATCH v3 20/20] target/mips/cpu: Display warning when CPU is used
+ without input clock
+Date: Sat, 10 Oct 2020 22:43:19 +0200
+Message-Id: <20201010204319.3119239-21-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201010204319.3119239-1-f4bug@amsat.org>
 References: <20201010204319.3119239-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -101,38 +102,53 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now than all QOM users provides the input clock, do not allow
-using a CPS without input clock connected.
+All our QOM users provides an input clock. In order to avoid
+avoid future machines added without clock, display a warning.
+
+User-mode emulation use the CP0 timer with the RDHWR instruction
+(see commit cdfcad788394) so keep using the fixed 200 MHz clock
+without diplaying any warning. Only display it in system-mode
+emulation.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/cps.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/mips/cpu.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-index 915655b91e0..c624821315a 100644
---- a/hw/mips/cps.c
-+++ b/hw/mips/cps.c
-@@ -74,6 +74,11 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-     bool itu_present = false;
-     bool saar_present = false;
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 3deb0245e7c..60011068e4d 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -19,12 +19,14 @@
+  */
  
-+    if (!clock_get(s->clock)) {
-+        error_setg(errp, "CPS input clock is not connected to an output clock");
-+        return;
-+    }
+ #include "qemu/osdep.h"
++#include "qemu/cutils.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "internal.h"
+ #include "kvm_mips.h"
+ #include "qemu/module.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/qtest.h"
+ #include "exec/exec-all.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/qdev-clock.h"
+@@ -157,6 +159,14 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
+     Error *local_err = NULL;
+ 
+     if (!clock_get(cpu->clock)) {
++#ifndef CONFIG_USER_ONLY
++        if (!qtest_enabled()) {
++            g_autofree char *cpu_freq_str = freq_to_str(CPU_FREQ_HZ_DEFAULT);
 +
-     for (i = 0; i < s->num_vp; i++) {
-         cpu = MIPS_CPU(object_new(s->cpu_type));
- 
-@@ -82,6 +87,7 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
-                                       errp)) {
-             return;
-         }
-+        /* All cores use the same clock tree */
-         qdev_connect_clock_in(DEVICE(cpu), "clk-in", s->clock);
- 
-         if (!qdev_realize_and_unref(DEVICE(cpu), NULL, errp)) {
++            warn_report("CPU input clock is not connected to any output clock, "
++                        "using default frequency of %s.", cpu_freq_str);
++        }
++#endif
+         /* Initialize the frequency in case the clock remains unconnected. */
+         clock_set_hz(cpu->clock, CPU_FREQ_HZ_DEFAULT);
+     }
 -- 
 2.26.2
 
