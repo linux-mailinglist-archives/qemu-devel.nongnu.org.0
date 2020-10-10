@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA67289F18
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:03:24 +0200 (CEST)
-Received: from localhost ([::1]:40114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACE2289F1C
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:05:07 +0200 (CEST)
+Received: from localhost ([::1]:46094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR9qd-00022i-Vb
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:03:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41222)
+	id 1kR9sI-0004Wx-GR
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lO-0004If-AT
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27344)
+ id 1kR9lL-0004AL-AZ
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lJ-0006hw-Df
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:57 -0400
+ id 1kR9lH-0006hB-7T
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602316672;
+ s=mimecast20190719; t=1602316670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K3LXVZ6KMWOK4xQ4FlrQkIzFIzfkyJlH2adOkOKEJm4=;
- b=CaSAEQdqbeu6ctWPOoBiE5zruT899hcaNmDk9OVw9+ikyPtFqMB//R0kMN0Pj7tTXwO6l1
- kSYh/5BraIgSAGpa442zN/opb+FChd3ZUkDZ/Ym01FemZNgmvuI1r2lf1k693Ycx/fLgmh
- NGBVln8eHyB7+Z5aLYVhV6vVA8FxqZI=
+ bh=ap5B3O2G0s264ofaD39BatliuZQ27lLQn7/XxTv7jqk=;
+ b=AKQ8Qo+nUceCSmUhFT0477EPZnueI57P9iPssRRkFXlJjF0OMdaapTyEz9C4TgHMUr04vQ
+ 5YA9iwCBUZa+8IXrnA3PB8u8RWQCBPWXvOgdH64TZXeI0vnWMVlo8aTD+9khFKBg3W3q++
+ XiLYkcobC/z9WSFV1tFCfhWSuCGKDLc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-H0icSZqgNQCCIid7at6hYg-1; Sat, 10 Oct 2020 03:57:50 -0400
-X-MC-Unique: H0icSZqgNQCCIid7at6hYg-1
+ us-mta-13-O-kut3bJNmO4g76ua3Rbew-1; Sat, 10 Oct 2020 03:57:48 -0400
+X-MC-Unique: O-kut3bJNmO4g76ua3Rbew-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 764BC3FE7
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C281C1005E6C
  for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4585A6EF6E
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90FB56EF4F
  for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/39] qtest: unify extra_qtest_srcs and extra_qtest_deps
-Date: Sat, 10 Oct 2020 03:57:18 -0400
-Message-Id: <20201010075739.951385-19-pbonzini@redhat.com>
+Subject: [PULL 19/39] docs/devel: update instruction on how to add new unit
+ tests
+Date: Sat, 10 Oct 2020 03:57:19 -0400
+Message-Id: <20201010075739.951385-20-pbonzini@redhat.com>
 In-Reply-To: <20201010075739.951385-1-pbonzini@redhat.com>
 References: <20201010075739.951385-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +59,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 03:36:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 02:57:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,105 +85,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the extra sources and extra dependencies of qtests are held
-in two separate dictionaries.  Use the same trick as tests/meson.build
-to combine them into one.  This will make it easier to update the
-documentation for unit tests and qtests.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/meson.build | 55 +++++++++++++++++++----------------------
- 1 file changed, 26 insertions(+), 29 deletions(-)
+ docs/devel/qtest.rst   | 30 +++++++++++++++++++++---------
+ docs/devel/testing.rst | 19 ++++++++++---------
+ 2 files changed, 31 insertions(+), 18 deletions(-)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 0f32ca0895..28bafc02a2 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -193,35 +193,25 @@ qos_test_ss.add(
- qos_test_ss.add(when: 'CONFIG_VIRTFS', if_true: files('virtio-9p-test.c'))
- qos_test_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user-test.c'))
+diff --git a/docs/devel/qtest.rst b/docs/devel/qtest.rst
+index 075fe5f7d5..97c5a75626 100644
+--- a/docs/devel/qtest.rst
++++ b/docs/devel/qtest.rst
+@@ -33,15 +33,27 @@ Steps to add a new QTest case are:
+ 2. Write the test code with the glib and libqtest/libqos API. See also existing
+    tests and the library headers for reference.
  
--extra_qtest_deps = {
--  'bios-tables-test': [io],
--  'ivshmem-test': [rt],
--  'qos-test': [chardev, io],
--  'tpm-crb-swtpm-test': [io],
--  'tpm-crb-test': [io],
--  'tpm-tis-swtpm-test': [io],
--  'tpm-tis-test': [io],
--  'tpm-tis-device-swtpm-test': [io],
--  'tpm-tis-device-test': [io],
--}
--extra_qtest_srcs = {
--  'bios-tables-test': files('boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'),
--  'pxe-test': files('boot-sector.c'),
-+tpmemu_files = ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
-+
-+qtests = {
-+  'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
-   'cdrom-test': files('boot-sector.c'),
--  'migration-test': files('migration-helpers.c'),
--  'ivshmem-test': files('../../contrib/ivshmem-server/ivshmem-server.c'),
-   'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
-+  'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
-+  'migration-test': files('migration-helpers.c'),
-+  'pxe-test': files('boot-sector.c'),
-+  'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: false).sources()],
-+  'tpm-crb-swtpm-test': [io, tpmemu_files],
-+  'tpm-crb-test': [io, tpmemu_files],
-+  'tpm-tis-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-+  'tpm-tis-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-+  'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-+  'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
--  'tpm-crb-swtpm-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tests.c'),
--  'tpm-crb-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tests.c'),
--  'tpm-tis-device-swtpm-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
--  'tpm-tis-device-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
--  'tpm-tis-swtpm-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
--  'tpm-tis-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
--  'qos-test': qos_test_ss.apply(config_host, strict: false).sources()
- }
- 
+-3. Register the new test in ``tests/qtest/Makefile.include``. Add the test
+-   executable name to an appropriate ``check-qtest-*-y`` variable. For example:
 -
- qtest_executables = {}
- foreach dir : target_dirs
-   if not dir.endswith('-softmmu')
-@@ -230,7 +220,7 @@ foreach dir : target_dirs
+-   ``check-qtest-generic-y = tests/qtest/foo-test$(EXESUF)``
+-
+-4. Add object dependencies of the executable in the Makefile, including the
+-   test source file(s) and other interesting objects. For example:
+-
+-   ``tests/qtest/foo-test$(EXESUF): tests/qtest/foo-test.o $(libqos-obj-y)``
++3. Register the new test in ``tests/qtest/meson.build``. Add the test
++   executable name to an appropriate ``qtests_*`` variable. There is
++   one variable per architecture, plus ``qtests_generic`` for tests
++   that can be run for all architectures.  For example::
++
++     qtests_generic = [
++       ...
++       'foo-test',
++       ...
++     ]
++
++4. If the test has more than one source file or needs to be linked with any
++   dependency other than ``qemuutil`` and ``qos``, list them in the ``qtests``
++   dictionary.  For example a test that needs to use the ``QIO`` library
++   will have an entry like::
++
++     {
++       ...
++       'foo-test': [io],
++       ...
++     }
  
-   target_base = dir.split('-')[0]
-   qtest_emulator = emulators['qemu-system-' + target_base]
--  qtests = get_variable('qtests_' + target_base, []) + qtests_generic
-+  target_qtests = get_variable('qtests_' + target_base, []) + qtests_generic
+ Debugging a QTest failure is slightly harder than the unit test because the
+ tests look up QEMU program names in the environment variables, such as
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index a171494b4e..cecee6eaa1 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -41,15 +41,16 @@ add a new unit test:
+    test. The test code should be organized with the glib testing framework.
+    Copying and modifying an existing test is usually a good idea.
  
-   test_deps = []
-   qtest_env = environment()
-@@ -241,14 +231,21 @@ foreach dir : target_dirs
-   qtest_env.set('G_TEST_DBUS_DAEMON', meson.source_root() / 'tests/dbus-vmstate-daemon.sh')
-   qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
-   
--  foreach test : qtests
-+  foreach test : target_qtests
-     # Executables are shared across targets, declare them only the first time we
-     # encounter them
-     if not qtest_executables.has_key(test)
-+      src = [test + '.c']
-+      deps = [qemuutil, qos]
-+      if test in qtests
-+        # use a sourceset to quickly separate sources and deps
-+        test_ss = ss.source_set()
-+        test_ss.add(qtests[test])
-+        src += test_ss.all_sources()
-+        deps += test_ss.all_dependencies()
-+      endif
-       qtest_executables += {
--        test: executable(test,
--                         files(test + '.c') + extra_qtest_srcs.get(test, []),
--                         dependencies: [qemuutil, qos] + extra_qtest_deps.get(test, []))
-+        test: executable(test, src, dependencies: deps)
-       }
-     endif
-     # FIXME: missing dependency on the emulator binary and qemu-img
+-3. Add the test to ``tests/Makefile.include``. First, name the unit test
+-   program and add it to ``$(check-unit-y)``; then add a rule to build the
+-   executable.  For example:
+-
+-.. code::
+-
+-  check-unit-y += tests/foo-test$(EXESUF)
+-  tests/foo-test$(EXESUF): tests/foo-test.o $(test-util-obj-y)
+-  ...
++3. Add the test to ``tests/meson.build``. The unit tests are listed in a
++   dictionary called ``tests``.  The values are any additional sources and
++   dependencies to be linked with the test.  For a simple test whose source
++   is in ``tests/foo-test.c``, it is enough to add an entry like::
++
++     {
++       ...
++       'foo-test': [],
++       ...
++     }
+ 
+ Since unit tests don't require environment variables, the simplest way to debug
+ a unit test failure is often directly invoking it or even running it under
 -- 
 2.26.2
 
