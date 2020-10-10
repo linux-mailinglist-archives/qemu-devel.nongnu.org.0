@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82F528A114
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:40:47 +0200 (CEST)
-Received: from localhost ([::1]:40140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1B028A119
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:45:47 +0200 (CEST)
+Received: from localhost ([::1]:52452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRIrO-0007fg-Kp
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:40:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55246)
+	id 1kRIwE-0004SE-M7
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:45:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIe1-0000lP-B3
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:57 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53861)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kRIiW-0005Ut-Q7
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:31:36 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIdz-0003st-Dl
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:56 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f21so12874559wml.3
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:26:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AzmFEGnohCvn1W440dVAMj47SxdqWOdTt0i8s2oVyM8=;
- b=OspX0yPr7Xj5RvIU/nGUysSoWyPtK1GUzJz4KC82XCDc2iJD5UIUk1FPJBAb5Rv8sT
- LI0kbu1/foPAmnlp+yb0Kn+ifFzoMdX5h/pVB7eIr/E64AsVSo578Yc6RT1fAkkvk1BU
- 2uPKRmP8mxtjMiWuCWlDc8gpkfWuuSjHWhIs24scFJsDPMN851j5wC+ji6HPvuM7KxNA
- dDCpRA+JFk4UQdJe5MSbanfQ7VyDhGNxT+KTaWcu5Jo33k9+CwLkKW8UYM/ha2EDSZGz
- GJaHJlYgbpWuSmLeV8FCZMQW7/p3rT+o1y2ntxqq9cgIr+Kk0FZ1ze/3YeE4QNRIErHQ
- SoNw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kRIiU-0004Up-P8
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:31:36 -0400
+Received: by mail-ot1-x344.google.com with SMTP id f10so11976011otb.6
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hV5hJblGW3p/EPj5E1miRqBG8FtRIYgD4mxvFmMBiy0=;
+ b=lT3XxFmigGWOa+Z3otl6RzuGLE9Yx477yqWYpozLOW+2vHootJiamRtSsEtvHJAAtv
+ Xmhf6MWxoVxbKUPQkEytU1n+YcxmmPOwOR/i/VyTEH6cqc2f05p03562TppE0skPPSff
+ UtNxzXw/V9nYZtW3sK+5+06ScxNZNdPJMYYPWpCMeqFKTBXe5AMDjxL5Pky3RSfg6xAE
+ ROojw5+CmSK7y9QyT+dgQer2J63pveoB2UJ1ChQB3PAu4HZ+hrZ/m6HqNr7ySvTMYdiz
+ Smr8U9Q0LcCFHb+o3yW9MH5NCA/P9yipXWdRqKC83W1AM5Pp+GqRAwNR0Ru4RM/zZ9TR
+ mhEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AzmFEGnohCvn1W440dVAMj47SxdqWOdTt0i8s2oVyM8=;
- b=XsXqkfAC9yOzl5ZGs/aKVh0tcS3ikuSqNDLfTbC8g/oFRjR98M/c/S5IFk+UzkIrdf
- a44GLPvfr5nXsVbV27FYI+CltU7nUZ+JaLZwlip0LInWgTCTmLSpajxzv5TXMt9xPrS7
- Pp10PBFtOxguhnC3SStMz48nRZE8yucrnRXmKD/GKhGVfiUnJJjlalHHZdedNb76PPAW
- CwjGgYb6TDW4OenF0ZwkXw1tPVosLqwWgF86A0QpRZUC2UrhqcOysjnDXEP4TiLN3UnX
- sEiiHzKr9wlvQ1felrBXMNf10L+XBgQGY8r2jyFUH0/IXWi+cOlCjkGkcN+c9h9PyQth
- 8nBA==
-X-Gm-Message-State: AOAM533buEfcfaoDs7cllKSt7FHKnxBvPBgIZg9/0xG/JNGAPHO37cuZ
- Su3cT0A2Nq2fFzi7U7W60lDWHB056TU=
-X-Google-Smtp-Source: ABdhPJyXHdUBLGljPFHqIC/kRszrJeCdF+H9u3tgZs/XSnnZUlLzDSuDyB5WB1l/Q+h/lnyDuNVONA==
-X-Received: by 2002:a1c:63c3:: with SMTP id x186mr3652008wmb.66.1602350806437; 
- Sat, 10 Oct 2020 10:26:46 -0700 (PDT)
-Received: from localhost.localdomain
- (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id i11sm16786068wre.32.2020.10.10.10.26.45
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hV5hJblGW3p/EPj5E1miRqBG8FtRIYgD4mxvFmMBiy0=;
+ b=LwdyPLBt+DrbytyeB50gpzF5N1WM5QWO8Y7Pqboko6JdM6w4KdYIcOR71zWuRreJFk
+ 9QgZibwpVs/jV8B62k6GilmPcZDSoVB41GHxZcP0SGb4A+6keOXRcH10pnbucNuqShHU
+ ybCoP8st1Y682clpTdHj4cTWRbJ4s6zW6L+vqOoT63oGqH67necTdU+KpOOUA+KD5FfH
+ 09NGBA37R1P4fIrH7a6KVrqVKc9nMGOqZk8+bNq7Le9Lrh3g/8aEfodkN+poVjJI1M29
+ UbBpmInOl7xQipB71zSkLlnB+ZIzg+8pmFmOgcZlQLhz7GgvcQudIVi4sZumV6j2oxRe
+ h8kg==
+X-Gm-Message-State: AOAM530B/44yschu7hcGxih8TQagp06kiziIpIO03XApP6LVeQmR0Z8+
+ bEYVVRR1trrDuektOar+gw4do4NWpBbuHzal
+X-Google-Smtp-Source: ABdhPJzjauxz0OjyCmufk6J8mcqCzNyGYd+29V1s+wsRU8aLu6n4b4RkVimuHCmXoaEdPgd3BtIGMA==
+X-Received: by 2002:a9d:7387:: with SMTP id j7mr7067560otk.18.1602351092877;
+ Sat, 10 Oct 2020 10:31:32 -0700 (PDT)
+Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id n185sm7415032oia.28.2020.10.10.10.31.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 10:26:45 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Sat, 10 Oct 2020 10:31:32 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 20/20] target/mips/cpu: Display warning when CPU is used
- without input clock
-Date: Sat, 10 Oct 2020 19:26:17 +0200
-Message-Id: <20201010172617.3079633-21-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201010172617.3079633-1-f4bug@amsat.org>
-References: <20201010172617.3079633-1-f4bug@amsat.org>
+Subject: [PATCH 0/2] linux-user/microblaze: update signal handling
+Date: Sat, 10 Oct 2020 12:31:28 -0500
+Message-Id: <20201010173130.99652-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,64 +83,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Luc Michel <luc@lmichel.fr>,
- Paul Burton <paulburton@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: edgar.iglesias@gmail.com, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All our QOM users provides an input clock. In order to avoid
-avoid future machines added without clock, display a warning.
+The linux microblaze port only implements rt signal handing,
+not the old style.  This allows our linux-test to pass for mb,
+if you have a cross-compiler available for the build.
 
-User-mode emulation use the CP0 timer with the RDHWR instruction
-(see commit cdfcad788394) so keep using the fixed 200 MHz clock
-without diplaying any warning. Only display it in system-mode
-emulation.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/cpu.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+r~
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 3deb0245e7c..0c801a3a075 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -19,12 +19,14 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "internal.h"
- #include "kvm_mips.h"
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/qtest.h"
- #include "exec/exec-all.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-clock.h"
-@@ -157,6 +159,12 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
-     Error *local_err = NULL;
- 
-     if (!clock_get(cpu->clock)) {
-+#ifndef CONFIG_USER_ONLY
-+        g_autofree char *cpu_freq_str = freq_to_str(CPU_FREQ_HZ_DEFAULT);
-+
-+        warn_report("CPU input clock is not connected to any output clock, "
-+                    "using default frequency of %s.", cpu_freq_str);
-+#endif
-         /* Initialize the frequency in case the clock remains unconnected. */
-         clock_set_hz(cpu->clock, CPU_FREQ_HZ_DEFAULT);
-     }
+
+Richard Henderson (2):
+  linux-user/microblaze: Implement rt signal frames
+  linux-user/microblaze: Remove non-rt signal frames
+
+ linux-user/microblaze/target_signal.h |   1 -
+ linux-user/microblaze/signal.c        | 186 ++++++++++++--------------
+ 2 files changed, 83 insertions(+), 104 deletions(-)
+
 -- 
-2.26.2
+2.25.1
 
 
