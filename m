@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BAEF289FA0
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 11:44:24 +0200 (CEST)
-Received: from localhost ([::1]:37934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFD2289FB2
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 11:59:58 +0200 (CEST)
+Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRBQM-0005k6-Rb
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 05:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59102)
+	id 1kRBfR-0004TT-9o
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 05:59:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBPE-0005KG-QU
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:43:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59628)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBau-0007dQ-8z
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBPB-0001aE-CP
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:43:12 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBaq-0002hd-K6
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602322987;
+ s=mimecast20190719; t=1602323710;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LSmLFvU2ifQ2Owf+2YwauPgNWxgEROsJm16gx+k8t6U=;
- b=GpwGnNIG0lQIAvqZNSdUpUU1pa2umS3REpgq+8eVv0n+rZrAbSdriHiklXhJPyzg4cpvug
- kRMqela9eigxlnrX7YyU2E5AB2zVMuh+Wo9UHUE8WbVa+kerJkr8+E8HZ8GKSh2KxHkLFi
- tDtX/XyIO5cxRC0GK80fzXO6CNVyVzc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=j3qcexFUolzlrwc+mmM+WRBXkPlIJqGdFzdwMj0Ljzc=;
+ b=efLiKUNLLz+I+UL2ha0FBsbe4o3Z+UWmxc57wbZsu0TF2tSC3E/a++/NjY7vhljL2RXRbR
+ 4lH6KGyuryNVw1raiLScPjBGcnB2dskpgxA+u2y8Y5p9OvBrtDFZ5wd1MQrxUdLONYT+GU
+ D72XSOUN03UvmW+6e9dy4hAgFVotFaw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-hu2S3WJQNcepRyKn9k_Onw-1; Sat, 10 Oct 2020 05:43:06 -0400
-X-MC-Unique: hu2S3WJQNcepRyKn9k_Onw-1
+ us-mta-571-oAf9xB8ONDSzSvjxMz1Qdw-1; Sat, 10 Oct 2020 05:55:07 -0400
+X-MC-Unique: oAf9xB8ONDSzSvjxMz1Qdw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7C091074643;
- Sat, 10 Oct 2020 09:43:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 869F2107AD94;
+ Sat, 10 Oct 2020 09:55:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 747466EF6E;
- Sat, 10 Oct 2020 09:43:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 49C6D6EF58;
+ Sat, 10 Oct 2020 09:55:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0498F11329AE; Sat, 10 Oct 2020 11:43:01 +0200 (CEST)
+ id 9696811329AE; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v6 00/36] qapi: static typing conversion, pt1
-References: <20201009161558.107041-1-jsnow@redhat.com>
-Date: Sat, 10 Oct 2020 11:43:00 +0200
-In-Reply-To: <20201009161558.107041-1-jsnow@redhat.com> (John Snow's message
- of "Fri, 9 Oct 2020 12:15:22 -0400")
-Message-ID: <87blha8li3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/34] QAPI patches patches for 2020-10-10
+Date: Sat, 10 Oct 2020 11:54:30 +0200
+Message-Id: <20201010095504.796182-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 02:57:53
@@ -81,49 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+The following changes since commit 4a7c0bd9dcb08798c6f82e55b5a3423f7ee669f1:
 
-> Hi, this series adds static type hints to the QAPI module.
-> This is part one!
->
-> Part 1: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt1
-> Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6
->
-> - Requires Python 3.6+
-> - Requires mypy 0.770 or newer (for type analysis only)
-> - Requires pylint 2.6.0 or newer (for lint checking only)
->
-> In general, this series tackles the cleanup of one individual QAPI
-> module at a time. Once it passes pylint or mypy checks, those checks are
-> enabled for that file.
->
-> Type hints are added in patches that add *only* type hints and change no
-> other behavior. Any necessary changes to behavior to accommodate typing
-> are split out into their own tiny patches.
->
-> Notes:
->
-> - After patch 07, `isort -c` should pass 100% on this and every
->   future commit.
->
-> - After patch 08, `flake8 qapi/` should pass 100% on this and every
->   future commit.
->
-> - After patch 09, `pylint --rcfile=qapi/pylintrc qapi/` should pass 100%
->   on this and every future commit.
->
-> - After patch 18, `mypy --config-file=qapi/mypy.ini qapi/` should pass
->   100% on this and every future commit.
+  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.2-20201009' into staging (2020-10-09 15:48:04 +0100)
 
-Series
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+are available in the Git repository at:
 
-Queued, thanks!
+  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-10-10
+
+for you to fetch changes up to b4c0aa59aff520e2a55edd5fef393058ca6520de:
+
+  qapi/visit.py: add type hint annotations (2020-10-10 11:37:49 +0200)
+
+----------------------------------------------------------------
+QAPI patches patches for 2020-10-10
+
+----------------------------------------------------------------
+John Snow (34):
+      docs: repair broken references
+      qapi: modify docstrings to be sphinx-compatible
+      qapi-gen: Separate arg-parsing from generation
+      qapi: move generator entrypoint into package
+      qapi: Prefer explicit relative imports
+      qapi: Remove wildcard includes
+      qapi: enforce import order/styling with isort
+      qapi: delint using flake8
+      qapi: add pylintrc
+      qapi/common.py: Remove python compatibility workaround
+      qapi/common.py: Add indent manager
+      qapi/common.py: delint with pylint
+      qapi/common.py: Replace one-letter 'c' variable
+      qapi/common.py: check with pylint
+      qapi/common.py: add type hint annotations
+      qapi/common.py: Convert comments into docstrings, and elaborate
+      qapi/common.py: move build_params into gen.py
+      qapi: establish mypy type-checking baseline
+      qapi/events.py: add type hint annotations
+      qapi/events.py: Move comments into docstrings
+      qapi/commands.py: Don't re-bind to variable of different type
+      qapi/commands.py: add type hint annotations
+      qapi/source.py: add type hint annotations
+      qapi/source.py: delint with pylint
+      qapi/gen: Make _is_user_module() return bool
+      qapi/gen.py: add type hint annotations
+      qapi/gen.py: Remove unused parameter
+      qapi/gen.py: update write() to be more idiomatic
+      qapi/gen.py: delint with pylint
+      qapi/types.py: add type hint annotations
+      qapi/types.py: remove one-letter variables
+      qapi/visit.py: assert tag_member contains a QAPISchemaEnumType
+      qapi/visit.py: remove unused parameters from gen_visit_object
+      qapi/visit.py: add type hint annotations
+
+ docs/devel/multi-thread-tcg.rst |   2 +-
+ docs/devel/testing.rst          |   2 +-
+ scripts/qapi-gen.py             |  57 +++----------
+ scripts/qapi/.flake8            |   2 +
+ scripts/qapi/.isort.cfg         |   7 ++
+ scripts/qapi/commands.py        |  90 ++++++++++++++------
+ scripts/qapi/common.py          | 174 +++++++++++++++++++++-----------------
+ scripts/qapi/events.py          |  58 +++++++++----
+ scripts/qapi/expr.py            |   7 +-
+ scripts/qapi/gen.py             | 180 +++++++++++++++++++++++++---------------
+ scripts/qapi/introspect.py      |  16 +++-
+ scripts/qapi/main.py            |  95 +++++++++++++++++++++
+ scripts/qapi/mypy.ini           |  30 +++++++
+ scripts/qapi/parser.py          |   6 +-
+ scripts/qapi/pylintrc           |  70 ++++++++++++++++
+ scripts/qapi/schema.py          |  33 ++++----
+ scripts/qapi/source.py          |  35 +++++---
+ scripts/qapi/types.py           | 125 +++++++++++++++++++---------
+ scripts/qapi/visit.py           | 116 +++++++++++++++++++-------
+ 19 files changed, 764 insertions(+), 341 deletions(-)
+ create mode 100644 scripts/qapi/.flake8
+ create mode 100644 scripts/qapi/.isort.cfg
+ create mode 100644 scripts/qapi/main.py
+ create mode 100644 scripts/qapi/mypy.ini
+ create mode 100644 scripts/qapi/pylintrc
+
+-- 
+2.26.2
 
 
