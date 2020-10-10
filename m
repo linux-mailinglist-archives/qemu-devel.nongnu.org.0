@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67EF28A10A
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:34:57 +0200 (CEST)
-Received: from localhost ([::1]:51024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667FF28A105
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:33:03 +0200 (CEST)
+Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRIlk-0000V6-Uv
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:34:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54974)
+	id 1kRIju-0005SL-EO
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIdX-0000N0-Q7
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:27 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41766)
+ id 1kRIdZ-0000Qs-Ga
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:29 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIdW-0003qU-AR
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:27 -0400
-Received: by mail-wr1-x443.google.com with SMTP id s9so1576787wro.8
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:26:25 -0700 (PDT)
+ id 1kRIdX-0003qj-WD
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:29 -0400
+Received: by mail-wr1-x444.google.com with SMTP id e18so13666902wrw.9
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:26:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TJh7BI4acX0SbBZ5nZKwJOsX7BWS7AOVMyaKy5mLNnQ=;
- b=tj5rWkyrRBcdTGvn95AhoF0ecbN+HyDx5Mg+HCpwqyDncJ+kB2+0aT1wHPfq2g7pM4
- 4PjNu1iMSvvGUTkf0jq5Pbb5gN1r7U5cStOTvXutryDhf8DCJJb35PxO5XwtTf6QQSqQ
- B1NW7Q2EoDvqJ9GrlqWVT97YQNLr+F1oPr5wp7IW0d2h4AcrJCpntqWtIGP4OkG4wLrx
- QeE6P+pUJsHksF6Naw/CRTT4EYmvOjOOctsQLdLSshzY0Bx9WDOO99GeBWEEMh1gP6Ko
- jVPaXapFWmsflAFw2nYE29B3+3tqxGakph2O63jcE0h2UvDuFoeoEnTz2gpLlYSAsaGd
- ySVA==
+ bh=MCMj0TR+Fl9dY8Kl27uG0iFSZwgVew5RPBCHaa3rL38=;
+ b=VNZIODbJL37JdFqCpr8kQ4CBc8EulYHr0VJqZx/+Orbb5nKbOzCXCSSo5SB0+FF8kZ
+ DnMXv1pEC1DNxu3foBY+noVBDKvyYSdJUOLYqddyKwRkeU/NDFF3nCdbh8uuJY6lK/6J
+ dJx6VTVZ/N7qtjHogWgQ6psBGWpq81OHQ67UVR3iHo0BzhsNqzezDmqFm/7V/HtYmrsq
+ SLmtS/nTXTbWl9jdXDeB3hLY+gKiUHKf2DpZfj1jPMSh5sH9IpIklriETN0+Q9a//ubL
+ viJpNFEgJDbo7sWmjTafCQssG3sIGs5npE3smZJRztLKTv3qS8ZYEC7TAtgD/3ItfCh/
+ oigQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TJh7BI4acX0SbBZ5nZKwJOsX7BWS7AOVMyaKy5mLNnQ=;
- b=oZI/SDttd55iWWtnumRq/Xx/OLMrvWVs/lIKm0OLRlCto6awqREwLptPb8dB7Rolsg
- FfYhQ9QnZyk3SfMq6/MgsQIxhDPgH7xT4xxOIX/5i3KxwmzKwsARk6dVenSCgA+aJh8l
- LPuOz0crXCtlRJlXoACt+iDgdDmRPC5TS6JuqQG0PBqxIjynQOcWpzh5jN713BP+W+Du
- 293WVeq1pQgmfmwZ240fyjBh7uwL/lJRz7DsEK2w2JwHoY5URx8o99N3npo2fjUMz7RG
- tGj2yYiexlL4aJ3RDEy/1iFD5+OWxT130xB+HMkCOO+/ZAM79LDfDFRFouusIe3swUTC
- f7yw==
-X-Gm-Message-State: AOAM532mPUlEzcrCuSOkL1XfB0G4KwdfNKrGx8U7+hQ9D+FfiDskymz+
- 4SYeG3Sbbs5xTJDgQjS/QOktxMZpvjs=
-X-Google-Smtp-Source: ABdhPJwWpk8CB057JNTUPUOS4iPv4XY5zRlzctbyrJQMQOIm9+wq8eUDstnrt22T5nJEizeQlSUfNA==
-X-Received: by 2002:a5d:6a85:: with SMTP id s5mr21819857wru.90.1602350784688; 
- Sat, 10 Oct 2020 10:26:24 -0700 (PDT)
+ bh=MCMj0TR+Fl9dY8Kl27uG0iFSZwgVew5RPBCHaa3rL38=;
+ b=BpAmybVLDcqfwZkzdviBhda+2ZnzNrTqLn0TInZe//j18XXgROeXnm6WM/aFnLeS6y
+ 8rxKZETYV45HNkeZ2+3YLQDZpPtnuDd5IS60xVAbjzxt4JRCBooT2RE63pPuILUJT0ZD
+ HpJVcmNVXHwDmY0SVmvDhv/ybN3hwU68muhFkEdY/2F7XPbtwzBWAjWSnJYnUby7E7cQ
+ NWWk1E1vldBRUMnKMPM7m5miNgf6CK7LZQujbBj8G/LAzzhD8ptiEunGnhnIJJik+F4k
+ /AYc7yKxMxr/ewN03gmq+jNpltmhuIqlhuyiX3W7H/052EEoiGElhooFXf4vp1KY0O4B
+ 81Ow==
+X-Gm-Message-State: AOAM532bXnlR5i/VVHpSBVaUIT6/YwOSpSwKUvNJ9o2bzsILXMCPI8M1
+ WUr8WEcouwv6beH9C4Gu/FE2aPH6W0s=
+X-Google-Smtp-Source: ABdhPJz4lAvTPNnGvkCrGFLKN7Vg2JsNstR2Yc01E+EHwOft1i1t+TkkN39/E911C82DJ7yNtbgn8w==
+X-Received: by 2002:a5d:4d10:: with SMTP id z16mr1004043wrt.360.1602350786429; 
+ Sat, 10 Oct 2020 10:26:26 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id i11sm16786068wre.32.2020.10.10.10.26.23
+ by smtp.gmail.com with ESMTPSA id i11sm16786068wre.32.2020.10.10.10.26.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 10:26:24 -0700 (PDT)
+ Sat, 10 Oct 2020 10:26:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/20] hw/qdev-clock: Display error hint when clock is
- missing from device
-Date: Sat, 10 Oct 2020 19:26:00 +0200
-Message-Id: <20201010172617.3079633-4-f4bug@amsat.org>
+Subject: [PATCH v2 04/20] hw/core/clock: add the clock_new helper function
+Date: Sat, 10 Oct 2020 19:26:01 +0200
+Message-Id: <20201010172617.3079633-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201010172617.3079633-1-f4bug@amsat.org>
 References: <20201010172617.3079633-1-f4bug@amsat.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -91,8 +90,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
  Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, Luc Michel <luc@lmichel.fr>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Luc Michel <luc@lmichel.fr>,
  Paul Burton <paulburton@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -102,54 +100,76 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of directly aborting, display a hint to help the developer
-figure out the problem (likely trying to connect a clock to a device
-pre-dating the Clock API, thus not expecting clocks).
+From: Luc Michel <luc@lmichel.fr>
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+This function creates a clock and parents it to another object with a given
+name. It calls clock_setup_canonical_path before returning the new
+clock.
+
+This function is useful to create clocks in devices when one doesn't
+want to expose it at the qdev level (as an input or an output).
+
+Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Luc Michel <luc@lmichel.fr>
+Message-Id: <20201010135759.437903-4-luc@lmichel.fr>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/core/qdev-clock.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/hw/clock.h | 13 +++++++++++++
+ hw/core/clock.c    | 15 +++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
-index 47ecb5b4fae..6a9a340d0fb 100644
---- a/hw/core/qdev-clock.c
-+++ b/hw/core/qdev-clock.c
-@@ -12,6 +12,7 @@
+diff --git a/include/hw/clock.h b/include/hw/clock.h
+index d357594df99..cbc5e6ced1e 100644
+--- a/include/hw/clock.h
++++ b/include/hw/clock.h
+@@ -90,6 +90,19 @@ extern const VMStateDescription vmstate_clock;
   */
+ void clock_setup_canonical_path(Clock *clk);
  
- #include "qemu/osdep.h"
-+#include "qemu/error-report.h"
- #include "hw/qdev-clock.h"
- #include "hw/qdev-core.h"
- #include "qapi/error.h"
-@@ -153,6 +154,11 @@ Clock *qdev_get_clock_in(DeviceState *dev, const char *name)
-     assert(name);
++/**
++ * clock_new:
++ * @parent: the clock parent
++ * @name: the clock object name
++ *
++ * Helper function to create a new clock and parent it to @parent. There is no
++ * need to call clock_setup_canonical_path on the returned clock as it is done
++ * by this function.
++ *
++ * @return the newly created clock
++ */
++Clock *clock_new(Object *parent, const char *name);
++
+ /**
+  * clock_set_callback:
+  * @clk: the clock to register the callback into
+diff --git a/hw/core/clock.c b/hw/core/clock.c
+index 7066282f7b9..f866717a835 100644
+--- a/hw/core/clock.c
++++ b/hw/core/clock.c
+@@ -23,6 +23,21 @@ void clock_setup_canonical_path(Clock *clk)
+     clk->canonical_path = object_get_canonical_path(OBJECT(clk));
+ }
  
-     ncl = qdev_get_clocklist(dev, name);
-+    if (!ncl) {
-+        error_report("Can not find clock-in '%s' for device type '%s'",
-+                     name, object_get_typename(OBJECT(dev)));
-+        abort();
-+    }
-     assert(!ncl->output);
- 
-     return ncl->clock;
-@@ -165,6 +171,11 @@ Clock *qdev_get_clock_out(DeviceState *dev, const char *name)
-     assert(name);
- 
-     ncl = qdev_get_clocklist(dev, name);
-+    if (!ncl) {
-+        error_report("Can not find clock-out '%s' for device type '%s'",
-+                     name, object_get_typename(OBJECT(dev)));
-+        abort();
-+    }
-     assert(ncl->output);
- 
-     return ncl->clock;
++Clock *clock_new(Object *parent, const char *name)
++{
++    Object *obj;
++    Clock *clk;
++
++    obj = object_new(TYPE_CLOCK);
++    object_property_add_child(parent, name, obj);
++    object_unref(obj);
++
++    clk = CLOCK(obj);
++    clock_setup_canonical_path(clk);
++
++    return clk;
++}
++
+ void clock_set_callback(Clock *clk, ClockCallback *cb, void *opaque)
+ {
+     clk->callback = cb;
 -- 
 2.26.2
 
