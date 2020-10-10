@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79FD28A116
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:43:35 +0200 (CEST)
-Received: from localhost ([::1]:47310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2607628A118
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:44:21 +0200 (CEST)
+Received: from localhost ([::1]:49464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRIu6-0002K6-Pa
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55248)
+	id 1kRIuq-0003D6-8f
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIe1-0000lQ-B9
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:57 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:47076)
+ id 1kRIdz-0000iT-OJ
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:55 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIdz-0003sb-D1
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:56 -0400
-Received: by mail-wr1-x443.google.com with SMTP id n6so13370430wrm.13
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:26:43 -0700 (PDT)
+ id 1kRIdw-0003sf-TJ
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:54 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x7so5082488wrl.3
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:26:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5FmtWrPGtRrGLQ2kaslyRtSRGaDuo1hSoL/f+YzkQ9M=;
- b=fVKyDzTQal6dpYYSR2lcKtlVlrfWjTZ4AGwFz10B8Go9YJXuhfCRkiGtSJVArfznXr
- Y4IEIoJMk0/VijhvqT8Pc1kIITrw8JN20WEZPGslC4yPEAoEnfSIRqDMfURuOK0iRNsY
- Sc0O3f5kJAn4hl4rsJu3Euu8grmcuXNXNVMnFxgczkPrXcyIDHXExKEwQWWjh94ShW/j
- sSZYi/bGDgRhWqNngq+j58ou/NKjTKk29G9Ofc1bNVTHUrC/5lWpt4VwRmwi+wzRcoeu
- 3Wwwg/HxP8qZp8ngBDi2Mj3VGhp7ZLqY5AkHw8B6ZachNPIHQbAQadQSZJj0SrvdYpuB
- vfSA==
+ bh=dmH1PdHA/1En+SEzSBgyyb1Sf53UufFVZ9n5a0/mMSE=;
+ b=bRNurP37e66I9P1bx2It5L7GPBYBltasOd3VaM3lnpNyk5Aao6DCTyZ2FYq9PCMkYc
+ kZVzBBZrEFFcYEAL/tv/f8gQlvDIRmiPJxbX1c7sMyh2wZkk4gln46xaZ0GU8x9Q7Ifo
+ 2Gy2ZGIi5Whxaw/Agdw65P5hBfP67QZmamp2W8/8AX7EDSaYxcar9Rwpm6sPnrwGa17i
+ a881mE6L+9Fy5fUm8eQD4Z/DVIzvqtIO5oKkoy+x7/hMOIAH1h4ysPxq69wUM7v1VM1U
+ GqFQU9wCV5HzhstQkvTsnZ/DkaEb3hSDbxqEFW9UTb6HMw8RGPZl7xoEu2OsRtY3/Dyj
+ WkOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5FmtWrPGtRrGLQ2kaslyRtSRGaDuo1hSoL/f+YzkQ9M=;
- b=I+WCPy/n1fR4GErHzduUI6HPvOvq4kLj/ayyGRTlUCmY7QAOv9iQaD/fT39DGGYMk6
- qkYr9UrLJHivm2LUaseIJpgAQ7qpQ/jsPjqGhSg2k+YfTs55gQUWie770C/jkf23YzN+
- FNFXdFjWUkMplrhg7ofW3RkD5bXYYjWgphj8iMW5/OTPh/fRGTmEb3kKya8fpksg8E2M
- odPfaarKW5twOey27YqFuLVxyVdbhz6PfviVoODcVaDLc2cR4580QF8coWDVTEIr7kUg
- KdFo23mX6QH60VK1IBPdRv8vgmUHw6+FtYIkLbYQ5/wh5wZgLJubSJYnz1NjaxfFIYPM
- yNSw==
-X-Gm-Message-State: AOAM530SZ0D5/J7txmC5WKH+3tRYx350x5ha6X/zSfgpwV/F7GwfknXI
- 8uTH0r6zdHSgqfRCAyJLH0olmX5uguc=
-X-Google-Smtp-Source: ABdhPJyyEPnyPXsxpllYWbrE6qazQJxTUvqTYG0c0yhUamfbqD1XtHAGIQIDRd2LbSU+jmFWqWzWYg==
-X-Received: by 2002:adf:d841:: with SMTP id k1mr20957030wrl.227.1602350802958; 
- Sat, 10 Oct 2020 10:26:42 -0700 (PDT)
+ bh=dmH1PdHA/1En+SEzSBgyyb1Sf53UufFVZ9n5a0/mMSE=;
+ b=pts5kQl0rEe1hNgq8KeHrjUe4tWVX4B3OMFC9JSezwoL8zsYPBfUEYBm2K17npFO0y
+ 8Ybs0R2+oIKk8x2j31F/5wnKX4aog92dWsElUlc+vs6lAIPaysGfqXGzDCYaEqfaBEAU
+ 8eTk7aH6QpzshEx7aU1Po+daKUcjIXOjZXqm6//LPSYGxAgWJjxHTm4hMl4mMYX/B2ok
+ 54KRVCX+8W772+Q8ZNHlRjxpjAoIht9Y+rqtcm7og+PH8wtJn98tBMefQwTtUL74MZQQ
+ Fl7Y9vv/bKSgYAfb4T3Sg9jH8KwgUtiefPPwLisgk/QHI+hHLFpPBd+u0NV/WGiwIAe7
+ wOtw==
+X-Gm-Message-State: AOAM530tY8wwyZt+klP3zJLmoDLTZ3SyKaFWdhx2eItZT5peBBwJxZnS
+ pZNB9dINBtMwiXKPgQjk/jsjZPssZAQ=
+X-Google-Smtp-Source: ABdhPJxgDQLD8niyH1xw5l/wjfdv7zr3eFiwLwQgIJqfJ663DXZ8GN8Eo2GQRxxWoIno9DOw5VkFSw==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr20915934wrm.295.1602350804126; 
+ Sat, 10 Oct 2020 10:26:44 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id i11sm16786068wre.32.2020.10.10.10.26.41
+ by smtp.gmail.com with ESMTPSA id i11sm16786068wre.32.2020.10.10.10.26.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 10:26:42 -0700 (PDT)
+ Sat, 10 Oct 2020 10:26:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/20] hw/mips/boston: Set CPU frequency to 1 GHz
-Date: Sat, 10 Oct 2020 19:26:14 +0200
-Message-Id: <20201010172617.3079633-18-f4bug@amsat.org>
+Subject: [PATCH v2 18/20] hw/mips/malta: Set CPU frequency to 320 MHz
+Date: Sat, 10 Oct 2020 19:26:15 +0200
+Message-Id: <20201010172617.3079633-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201010172617.3079633-1-f4bug@amsat.org>
 References: <20201010172617.3079633-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -100,63 +100,91 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The I6400 can run at 1 GHz or more. Create a 'cpuclk'
-output clock and connect it to the CPU input clock.
+The CoreLV card with ID 0x420's CPU clocked at 320 MHz. Create
+a 'cpuclk' output clock and connect it to the CPU input clock.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/boston.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ hw/mips/malta.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 1b3f69e949c..c998140d7bb 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -30,6 +30,7 @@
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 4019c9dc1a8..c1e8fceeea7 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -57,6 +57,7 @@
+ #include "sysemu/kvm.h"
+ #include "hw/semihosting/semihost.h"
  #include "hw/mips/cps.h"
- #include "hw/mips/cpudevs.h"
- #include "hw/pci-host/xilinx-pcie.h"
 +#include "hw/qdev-clock.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-@@ -54,6 +55,7 @@ struct BostonState {
-     MachineState *mach;
-     MIPSCPSState cps;
-     SerialMM *uart;
+ 
+ #define ENVP_ADDR           0x80002000l
+ #define ENVP_NB_ENTRIES     16
+@@ -94,6 +95,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(MaltaState, MIPS_MALTA)
+ struct MaltaState {
+     SysBusDevice parent_obj;
+ 
 +    Clock *cpuclk;
- 
-     CharBackend lcd_display;
-     char lcd_content[8];
-@@ -251,10 +253,19 @@ static const MemoryRegionOps boston_platreg_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
+     MIPSCPSState cps;
+     qemu_irq i8259[ISA_NUM_IRQS];
  };
+@@ -1159,7 +1161,7 @@ static void main_cpu_reset(void *opaque)
+     }
+ }
  
-+static void mips_boston_instance_init(Object *obj)
-+{
-+    BostonState *s = BOSTON(obj);
-+
-+    s->cpuclk = qdev_init_clock_out(DEVICE(obj), "cpuclk-out");
-+    clock_set_hz(s->cpuclk, 1000000000); /* 1 GHz */
-+}
-+
- static const TypeInfo boston_device = {
-     .name          = TYPE_MIPS_BOSTON,
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(BostonState),
-+    .instance_init = mips_boston_instance_init,
- };
+-static void create_cpu_without_cps(MachineState *ms,
++static void create_cpu_without_cps(MachineState *ms, MaltaState *s,
+                                    qemu_irq *cbus_irq, qemu_irq *i8259_irq)
+ {
+     CPUMIPSState *env;
+@@ -1167,7 +1169,9 @@ static void create_cpu_without_cps(MachineState *ms,
+     int i;
  
- static void boston_register_types(void)
-@@ -462,6 +473,8 @@ static void boston_mach_init(MachineState *machine)
+     for (i = 0; i < ms->smp.cpus; i++) {
+-        cpu = MIPS_CPU(cpu_create(ms->cpu_type));
++        cpu = MIPS_CPU(object_new(ms->cpu_type));
++        qdev_connect_clock_in(DEVICE(cpu), "clk", s->cpuclk);
++        qdev_realize(DEVICE(cpu), NULL, &error_abort);
+ 
+         /* Init internal devices */
+         cpu_mips_irq_init_cpu(cpu);
+@@ -1189,6 +1193,7 @@ static void create_cps(MachineState *ms, MaltaState *s,
                              &error_fatal);
-     object_property_set_int(OBJECT(&s->cps), "num-vp", machine->smp.cpus,
+     object_property_set_int(OBJECT(&s->cps), "num-vp", ms->smp.cpus,
                              &error_fatal);
-+    qdev_connect_clock_in(DEVICE(&s->cps), "clk",
-+                          qdev_get_clock_out(dev, "cpuclk"));
++    qdev_connect_clock_in(DEVICE(&s->cps), "clk", s->cpuclk);
      sysbus_realize(SYS_BUS_DEVICE(&s->cps), &error_fatal);
  
      sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
+@@ -1203,7 +1208,7 @@ static void mips_create_cpu(MachineState *ms, MaltaState *s,
+     if ((ms->smp.cpus > 1) && cpu_supports_cps_smp(ms->cpu_type)) {
+         create_cps(ms, s, cbus_irq, i8259_irq);
+     } else {
+-        create_cpu_without_cps(ms, cbus_irq, i8259_irq);
++        create_cpu_without_cps(ms, s, cbus_irq, i8259_irq);
+     }
+ }
+ 
+@@ -1421,10 +1426,19 @@ void mips_malta_init(MachineState *machine)
+     pci_vga_init(pci_bus);
+ }
+ 
++static void mips_malta_instance_init(Object *obj)
++{
++    MaltaState *s = MIPS_MALTA(obj);
++
++    s->cpuclk = qdev_init_clock_out(DEVICE(obj), "cpuclk-out");
++    clock_set_hz(s->cpuclk, 320000000); /* 320 MHz */
++}
++
+ static const TypeInfo mips_malta_device = {
+     .name          = TYPE_MIPS_MALTA,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(MaltaState),
++    .instance_init = mips_malta_instance_init,
+ };
+ 
+ static void mips_malta_machine_init(MachineClass *mc)
 -- 
 2.26.2
 
