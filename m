@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36291289FAC
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 11:57:34 +0200 (CEST)
-Received: from localhost ([::1]:44872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5780D289FEA
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:08:43 +0200 (CEST)
+Received: from localhost ([::1]:52942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRBd7-00015s-8F
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 05:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60466)
+	id 1kRBnu-00086c-Dr
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBaw-0007ef-9J
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60824)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBb0-0007nT-OW
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBaq-0002hc-FY
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:17 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBar-0002iA-3g
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602323710;
+ s=mimecast20190719; t=1602323711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wxGB/5ARIvonADscRvJHjyGSLhRdiHhyObkj9cTTrCo=;
- b=ZhOg29qTjhNU09B0444rS2UhLPGdFDA8NtMdtwBu+Kyv4eUv/wCzlwWNxAB6ppTRGZy6uR
- ak7fpcANUlyLJTHNBe27ZpqfjlNcmataEpySfMqlE9kHJn25WMAQdFOyTOlQ/nQYSpjxdw
- KrNQV7+s8P1fF7PQBbl7H3QhSNFdN/E=
+ bh=SEOjiz7ygi/PFBy6z6UEdoO8RKMTBx4Hr52fyDUmGrA=;
+ b=ZA4xxstKmUSQ7iwyUgDUZ0tZBBidlgztTrap9qlbJZ5DcZb9ZSV4qXvOfPXygQQkPC3D1r
+ JxAHAovmisZfgHZmuR7OI4UjlJUuQQzKhwceAIHopzOszYyIcllyF6Cc8AFPgBHUMDvytQ
+ 2jgQZWfT/dQzuq78DzUHRyOzIhR3Vpo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-50Nw_I36PFy8-mrTBpIu4A-1; Sat, 10 Oct 2020 05:55:07 -0400
-X-MC-Unique: 50Nw_I36PFy8-mrTBpIu4A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-16-CTP-UkuePb6hnBWvdjXQCA-1; Sat, 10 Oct 2020 05:55:08 -0400
+X-MC-Unique: CTP-UkuePb6hnBWvdjXQCA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 912A4107AD96;
- Sat, 10 Oct 2020 09:55:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44D9F802B69;
+ Sat, 10 Oct 2020 09:55:07 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 49B0B76660;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 49E9527BB3;
  Sat, 10 Oct 2020 09:55:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9995011329AF; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
+ id 9CCB51132946; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/34] docs: repair broken references
-Date: Sat, 10 Oct 2020 11:54:31 +0200
-Message-Id: <20201010095504.796182-2-armbru@redhat.com>
+Subject: [PULL 02/34] qapi: modify docstrings to be sphinx-compatible
+Date: Sat, 10 Oct 2020 11:54:32 +0200
+Message-Id: <20201010095504.796182-3-armbru@redhat.com>
 In-Reply-To: <20201010095504.796182-1-armbru@redhat.com>
 References: <20201010095504.796182-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 02:57:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 03:36:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,44 +87,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-In two different places, we are not making a cross-reference to some
-resource correctly.
+A precise style guide and a package-wide overhaul is forthcoming pending
+further discussion and consensus. For now, merely avoid obvious errors
+that cause Sphinx documentation build problems, using a style loosely
+based on PEP 257 and Sphinx Autodoc. It is chosen for interoperability
+with our existing Sphinx framework, and because it has loose recognition
+in the Pycharm IDE.
 
+See also:
+
+https://www.python.org/dev/peps/pep-0257/
+https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#info-field-lists
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20201009161558.107041-2-jsnow@redhat.com>
+Message-Id: <20201009161558.107041-3-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/devel/multi-thread-tcg.rst | 2 +-
- docs/devel/testing.rst          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ scripts/qapi/gen.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tcg.rst
-index 21483870db..92a9eba13c 100644
---- a/docs/devel/multi-thread-tcg.rst
-+++ b/docs/devel/multi-thread-tcg.rst
-@@ -267,7 +267,7 @@ of view of external observers (e.g. another processor core). They can
- apply to any memory operations as well as just loads or stores.
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index ca66c82b5b..dc7b94aa11 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -154,9 +154,11 @@ class QAPIGenH(QAPIGenC):
  
- The Linux kernel has an excellent `write-up
--<https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt>`
-+<https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/Documentation/memory-barriers.txt>`_
- on the various forms of memory barrier and the guarantees they can
- provide.
+ @contextmanager
+ def ifcontext(ifcond, *args):
+-    """A 'with' statement context manager to wrap with start_if()/end_if()
++    """
++    A with-statement context manager that wraps with `start_if()` / `end_if()`.
  
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index bd64c1bdcd..8875a40a2b 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -953,7 +953,7 @@ compiler flags are needed to build for a given target.
- If you have the ability to run containers as the user you can also
- take advantage of the build systems "Docker" support. It will then use
- containers to build any test case for an enabled guest where there is
--no system compiler available. See :ref: `_docker-ref` for details.
-+no system compiler available. See :ref:`docker-ref` for details.
+-    *args: any number of QAPIGenCCode
++    :param ifcond: A list of conditionals, passed to `start_if()`.
++    :param args: any number of `QAPIGenCCode`.
  
- Running subset of tests
- -----------------------
+     Example::
+ 
 -- 
 2.26.2
 
