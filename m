@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE63289FEF
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:10:34 +0200 (CEST)
-Received: from localhost ([::1]:32916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42ED3289FF1
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:12:07 +0200 (CEST)
+Received: from localhost ([::1]:37798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRBph-00038E-Fs
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60662)
+	id 1kRBrC-0005EP-91
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:12:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBb4-0007yk-RQ
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBb4-0007xM-9P
  for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33742)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBas-0002iw-ED
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:26 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBas-0002ih-DB
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602323713;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Qh+iveEzj05w1NZBv7UxTO0vnhAxMhnCIiNtP/hqNo=;
- b=IePmH4fZyEg2q5e5ys6M67l7lHc6PerH/YD0Jjog8Aiiz8BnOmAvKpx53KICpk0MWpQ1Uq
- Ryw9oZOZVS9X27wBXPJmzvhXbQafMM+q0ih222T3j9vPGHrSlf0ulSpi4jqxtv4ozDwXPf
- YBHmawbDY3CrvNTHzippGmmlrXaFMCw=
+ bh=a2pkeL5Tbaz0M55VjxZIA8sto8qXIqnJnORl1/d3JHE=;
+ b=hI9f9q9SACtyEv4ai30/ioR3DS3bWe+1zXGn2dTOLMYZ/BU6LgNOJkhFu8AtCVW5elCzKw
+ gXZIyP8KGIwQSPzZeOhJp50Yg7hbN+VHYe6SdvVJpFqEqdcDjRD8T1OmH6zapDIpzzhkjb
+ sEn3tuP59SLInjKojedmwOLPe+jjdKE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-2ev8Ycg8MByszqtNr7V9BA-1; Sat, 10 Oct 2020 05:55:10 -0400
-X-MC-Unique: 2ev8Ycg8MByszqtNr7V9BA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-530-YrZy88FQMqWXqtpYr3S3hA-1; Sat, 10 Oct 2020 05:55:10 -0400
+X-MC-Unique: YrZy88FQMqWXqtpYr3S3hA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCBF451B4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E32E21005E75;
  Sat, 10 Oct 2020 09:55:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E83255786;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B48D876660;
  Sat, 10 Oct 2020 09:55:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E7F4A11275C0; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
+ id EB03711275C2; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/34] qapi/source.py: delint with pylint
-Date: Sat, 10 Oct 2020 11:54:54 +0200
-Message-Id: <20201010095504.796182-25-armbru@redhat.com>
+Subject: [PULL 25/34] qapi/gen: Make _is_user_module() return bool
+Date: Sat, 10 Oct 2020 11:54:55 +0200
+Message-Id: <20201010095504.796182-26-armbru@redhat.com>
 In-Reply-To: <20201010095504.796182-1-armbru@redhat.com>
 References: <20201010095504.796182-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 03:36:24
@@ -81,54 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Shush an error and leave a hint for future cleanups when we're allowed
-to use Python 3.7+.
+_is_user_module() returns thruth values.  The next commit wants it to
+return bool.  Make it so.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20201009161558.107041-26-jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201009161558.107041-27-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
+[Commit message rewritten]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/pylintrc  | 1 -
- scripts/qapi/source.py | 3 +++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ scripts/qapi/gen.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index 507f15537a..d840b15031 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -7,7 +7,6 @@ ignore-patterns=error.py,
-                 gen.py,
-                 parser.py,
-                 schema.py,
--                source.py,
-                 types.py,
-                 visit.py,
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index fff0c0acb6..2c305c4f82 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -241,7 +241,7 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
  
-diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
-index 27af5295a8..d7a79a9b8a 100644
---- a/scripts/qapi/source.py
-+++ b/scripts/qapi/source.py
-@@ -15,6 +15,9 @@ from typing import List, Optional, TypeVar
+     @staticmethod
+     def _is_user_module(name):
+-        return name and not name.startswith('./')
++        return bool(name and not name.startswith('./'))
  
- 
- class QAPISchemaPragma:
-+    # Replace with @dataclass in Python 3.7+
-+    # pylint: disable=too-few-public-methods
-+
-     def __init__(self) -> None:
-         # Are documentation comments required?
-         self.doc_required = False
+     @staticmethod
+     def _is_builtin_module(name):
 -- 
 2.26.2
 
