@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B257C289FFE
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:20:43 +0200 (CEST)
-Received: from localhost ([::1]:59054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6257B289FFA
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:17:28 +0200 (CEST)
+Received: from localhost ([::1]:54074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRBzW-0005p5-Qi
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:20:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60774)
+	id 1kRBwN-0003ea-G3
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBbF-0008AW-Qc
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45742)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBb7-00086R-PA
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBat-0002jo-0h
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBat-0002jx-D0
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602323714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qAR4lmWwTNeGbitePEvvKRHoFxOqY86cQSdL/sFt+zo=;
- b=DxtIXiPPIhya4d4bWBsMvsn5DC99obk15rdYp/txHrjn9ZU4gxuPKRjI118J4BrL/m4NQ0
- DlZSX9auxpdy4S+EowPeSgH9wLmYR65Yo6XU/1Yw8cEALsOhQL1NgIqP3I1AiIkQFH0HLu
- w7RmxbpwvZZrf/ZT8aiBHz4tQVXt62s=
+ bh=1UYXca317QJZ9amM5dAzh2qpCPvTHOyoioIt1dhofyo=;
+ b=Eg8LOUcib/O9Zi7mH1n/n8JBBlVbEtGSzW+YT/2ZpmFeuRkDbq1TucyjGv+uH2+3l7iXkP
+ rYZSUQ5mfMHDYFeT3lb+wjHc5wltuIJHeb4R0ZtwwwRDCZ5vR9YwvF99/OVKWznjOmykyr
+ iLfTZnULy2Q+QwKmHxT7e52MoKh8Wrw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-3s0-Lc5NNHuM3a0F9A4XRQ-1; Sat, 10 Oct 2020 05:55:11 -0400
-X-MC-Unique: 3s0-Lc5NNHuM3a0F9A4XRQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-357-_z_dXJXWO9GquQ_BYBPtMw-1; Sat, 10 Oct 2020 05:55:11 -0400
+X-MC-Unique: _z_dXJXWO9GquQ_BYBPtMw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58372107AD9B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CD68802B79;
  Sat, 10 Oct 2020 09:55:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29B446EF58;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C8395C1BB;
  Sat, 10 Oct 2020 09:55:10 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0B56211275DA; Sat, 10 Oct 2020 11:55:05 +0200 (CEST)
+ id 0E7B311275DE; Sat, 10 Oct 2020 11:55:05 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/34] qapi/types.py: remove one-letter variables
-Date: Sat, 10 Oct 2020 11:55:01 +0200
-Message-Id: <20201010095504.796182-32-armbru@redhat.com>
+Subject: [PULL 32/34] qapi/visit.py: assert tag_member contains a
+ QAPISchemaEnumType
+Date: Sat, 10 Oct 2020 11:55:02 +0200
+Message-Id: <20201010095504.796182-33-armbru@redhat.com>
 In-Reply-To: <20201010095504.796182-1-armbru@redhat.com>
 References: <20201010095504.796182-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 03:36:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 02:57:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,94 +89,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-"John, if pylint told you to jump off a bridge, would you?"
-Hey, if it looked like fun, I might.
-
-Now that this file is clean, enable pylint checks on this file.
+This is true by design, but not presently able to be expressed in the
+type system. An assertion helps mypy understand our constraints.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20201009161558.107041-34-jsnow@redhat.com>
+Message-Id: <20201009161558.107041-35-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/pylintrc |  1 -
- scripts/qapi/types.py | 29 +++++++++++++++--------------
- 2 files changed, 15 insertions(+), 15 deletions(-)
+ scripts/qapi/visit.py | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index 8badcb11cd..b3c4cf46db 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -6,7 +6,6 @@ ignore-patterns=error.py,
-                 expr.py,
-                 parser.py,
-                 schema.py,
--                types.py,
-                 visit.py,
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 708f72c4a1..e00f2a09d7 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -22,7 +22,7 @@ from .common import (
+     mcgen,
+ )
+ from .gen import QAPISchemaModularCVisitor, ifcontext
+-from .schema import QAPISchemaObjectType
++from .schema import QAPISchemaEnumType, QAPISchemaObjectType
  
  
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 766822feb3..2b4916cdaa 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -49,14 +49,14 @@ const QEnumLookup %(c_name)s_lookup = {
-     .array = (const char *const[]) {
- ''',
-                 c_name=c_name(name))
--    for m in members:
--        ret += gen_if(m.ifcond)
--        index = c_enum_const(name, m.name, prefix)
-+    for memb in members:
-+        ret += gen_if(memb.ifcond)
-+        index = c_enum_const(name, memb.name, prefix)
+ def gen_visit_decl(name, scalar=False):
+@@ -84,15 +84,17 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+         ret += gen_endif(memb.ifcond)
+ 
+     if variants:
++        tag_member = variants.tag_member
++        assert isinstance(tag_member.type, QAPISchemaEnumType)
++
          ret += mcgen('''
-         [%(index)s] = "%(name)s",
+     switch (obj->%(c_name)s) {
  ''',
--                     index=index, name=m.name)
--        ret += gen_endif(m.ifcond)
-+                     index=index, name=memb.name)
-+        ret += gen_endif(memb.ifcond)
+-                     c_name=c_name(variants.tag_member.name))
++                     c_name=c_name(tag_member.name))
  
-     ret += mcgen('''
-     },
-@@ -79,13 +79,13 @@ typedef enum %(c_name)s {
- ''',
-                 c_name=c_name(name))
- 
--    for m in enum_members:
--        ret += gen_if(m.ifcond)
-+    for memb in enum_members:
-+        ret += gen_if(memb.ifcond)
-         ret += mcgen('''
-     %(c_enum)s,
- ''',
--                     c_enum=c_enum_const(name, m.name, prefix))
--        ret += gen_endif(m.ifcond)
-+                     c_enum=c_enum_const(name, memb.name, prefix))
-+        ret += gen_endif(memb.ifcond)
- 
-     ret += mcgen('''
- } %(c_name)s;
-@@ -148,11 +148,12 @@ def gen_object(name: str, ifcond: List[str],
-     objects_seen.add(name)
- 
-     ret = ''
--    if variants:
--        for v in variants.variants:
--            if isinstance(v.type, QAPISchemaObjectType):
--                ret += gen_object(v.type.name, v.type.ifcond, v.type.base,
--                                  v.type.local_members, v.type.variants)
-+    for var in variants.variants if variants else ():
-+        obj = var.type
-+        if not isinstance(obj, QAPISchemaObjectType):
-+            continue
-+        ret += gen_object(obj.name, obj.ifcond, obj.base,
-+                          obj.local_members, obj.variants)
- 
-     ret += mcgen('''
- 
+         for var in variants.variants:
+-            case_str = c_enum_const(variants.tag_member.type.name,
+-                                    var.name,
+-                                    variants.tag_member.type.prefix)
++            case_str = c_enum_const(tag_member.type.name, var.name,
++                                    tag_member.type.prefix)
+             ret += gen_if(var.ifcond)
+             if var.type.name == 'q_empty':
+                 # valid variant and nothing to do
 -- 
 2.26.2
 
