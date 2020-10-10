@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A25289F24
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:08:49 +0200 (CEST)
-Received: from localhost ([::1]:33408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 945A6289F2F
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:13:50 +0200 (CEST)
+Received: from localhost ([::1]:49790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR9vs-0002cl-MG
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:08:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41068)
+	id 1kRA0j-00014b-L5
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lH-00041D-FM
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49790)
+ id 1kR9lI-00043Y-HR
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lB-0006fb-VY
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:51 -0400
+ id 1kR9lC-0006fg-Fr
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602316665;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vC9Xc63+jIBd+MkwETVUsRSra8ZBl2sNjTAEQ+tYSkM=;
- b=WIKrNBFNPjK0PDbC90PF0q39qmLKmKfO2KHxomaF2J5Mx4TBmdi8JEh8DB/L2Sfl1dRzgy
- 9wblg37IPVl9YCGdXOxVaKGpdUsPLw+ehBLzc7CAR7c6shiJjEzoMqcpVPYFNPO7EIvgQp
- 5IRGyx+GP2it9O9/tsE16eCILCGemQg=
+ bh=XVdRuRg0U4611TafRNU8359OYHvqgT50k8VHOOS8ikQ=;
+ b=BofikGDJvYBZlU7OJVcTDatkHZzcOGh/jeIXXG1MyRX233Y0tjatwDcOOWBTHVxoGhJplL
+ GGHRqXxEwx7h0i2nMJd6d+gyUXB2epsqY10SHAPGOxDHAyvF7aj/jxUi8eOkyK3m6q4Zbk
+ Dh0N2CBQebYvyhQfz3j9SNZu8SpvY7M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-po9Ue26RNkuHD74ZZ_f-XQ-1; Sat, 10 Oct 2020 03:57:43 -0400
-X-MC-Unique: po9Ue26RNkuHD74ZZ_f-XQ-1
+ us-mta-409-ulCSNd-QN1SSh88Zi3QwxQ-1; Sat, 10 Oct 2020 03:57:44 -0400
+X-MC-Unique: ulCSNd-QN1SSh88Zi3QwxQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABE09805F06
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 159DE107B473
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:43 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 691315576E;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C75985576E;
  Sat, 10 Oct 2020 07:57:42 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/39] crypto: Move the creation of the library to the main
+Subject: [PULL 08/39] authz: Move the creation of the library to the main
  meson.build
-Date: Sat, 10 Oct 2020 03:57:07 -0400
-Message-Id: <20201010075739.951385-8-pbonzini@redhat.com>
+Date: Sat, 10 Oct 2020 03:57:08 -0400
+Message-Id: <20201010075739.951385-9-pbonzini@redhat.com>
 In-Reply-To: <20201010075739.951385-1-pbonzini@redhat.com>
 References: <20201010075739.951385-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -92,66 +92,63 @@ Be consistent creating all the libraries in the main meson.build file.
 
 Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201006125602.2311423-8-philmd@redhat.com>
+Message-Id: <20201006125602.2311423-9-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- crypto/meson.build | 10 ----------
- meson.build        | 10 ++++++++++
+ authz/meson.build | 10 ----------
+ meson.build       | 10 ++++++++++
  2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/crypto/meson.build b/crypto/meson.build
-index f6f5ce1ecd..7f37b5d335 100644
---- a/crypto/meson.build
-+++ b/crypto/meson.build
+diff --git a/authz/meson.build b/authz/meson.build
+index 516d71f2e2..88fa7769cb 100644
+--- a/authz/meson.build
++++ b/authz/meson.build
 @@ -1,4 +1,3 @@
--crypto_ss = ss.source_set()
- crypto_ss.add(genh)
- crypto_ss.add(files(
-   'afsplit.c',
-@@ -52,15 +51,6 @@ if 'CONFIG_GNUTLS' in config_host
- endif
+-authz_ss = ss.source_set()
+ authz_ss.add(genh)
+ authz_ss.add(files(
+   'base.c',
+@@ -8,12 +7,3 @@ authz_ss.add(files(
+ ))
  
- 
--crypto_ss = crypto_ss.apply(config_host, strict: false)
--libcrypto = static_library('crypto', crypto_ss.sources() + genh,
--                           dependencies: [crypto_ss.dependencies()],
--                           name_suffix: 'fa',
--                           build_by_default: false)
+ authz_ss.add(when: ['CONFIG_AUTH_PAM', pam], if_true: files('pamacct.c'))
 -
--crypto = declare_dependency(link_whole: libcrypto,
--                            dependencies: [authz, qom])
+-authz_ss = authz_ss.apply(config_host, strict: false)
+-libauthz = static_library('authz', authz_ss.sources() + genh,
+-                          dependencies: [authz_ss.dependencies()],
+-                          name_suffix: 'fa',
+-                          build_by_default: false)
 -
- util_ss.add(files('aes.c'))
- util_ss.add(files('init.c'))
- 
+-authz = declare_dependency(link_whole: libauthz,
+-                           dependencies: qom)
 diff --git a/meson.build b/meson.build
-index 28f31e6022..9c199195bf 100644
+index 9c199195bf..2736f74b8f 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1187,6 +1187,7 @@ block_ss = ss.source_set()
+@@ -1182,6 +1182,7 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
+ 
+ # Collect sourcesets.
+ 
++authz_ss = ss.source_set()
+ blockdev_ss = ss.source_set()
+ block_ss = ss.source_set()
  bsd_user_ss = ss.source_set()
- chardev_ss = ss.source_set()
- common_ss = ss.source_set()
-+crypto_ss = ss.source_set()
- io_ss = ss.source_set()
- linux_user_ss = ss.source_set()
- qmp_ss = ss.source_set()
-@@ -1452,6 +1453,15 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
+@@ -1453,6 +1454,15 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
  # Library dependencies #
  ########################
  
-+crypto_ss = crypto_ss.apply(config_host, strict: false)
-+libcrypto = static_library('crypto', crypto_ss.sources() + genh,
-+                           dependencies: [crypto_ss.dependencies()],
-+                           name_suffix: 'fa',
-+                           build_by_default: false)
++authz_ss = authz_ss.apply(config_host, strict: false)
++libauthz = static_library('authz', authz_ss.sources() + genh,
++                          dependencies: [authz_ss.dependencies()],
++                          name_suffix: 'fa',
++                          build_by_default: false)
 +
-+crypto = declare_dependency(link_whole: libcrypto,
-+                            dependencies: [authz, qom])
++authz = declare_dependency(link_whole: libauthz,
++                           dependencies: qom)
 +
- io_ss = io_ss.apply(config_host, strict: false)
- libio = static_library('io', io_ss.sources() + genh,
-                        dependencies: [io_ss.dependencies()],
+ crypto_ss = crypto_ss.apply(config_host, strict: false)
+ libcrypto = static_library('crypto', crypto_ss.sources() + genh,
+                            dependencies: [crypto_ss.dependencies()],
 -- 
 2.26.2
 
