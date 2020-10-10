@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12810289FDE
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:05:19 +0200 (CEST)
-Received: from localhost ([::1]:41414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A114289FF4
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:13:31 +0200 (CEST)
+Received: from localhost ([::1]:41362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRBkc-00038z-30
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:05:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60504)
+	id 1kRBsY-0006ho-Du
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:13:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBay-0007ge-4b
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30514)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBbF-0008Ah-R7
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBaq-0002i4-J4
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBav-0002kR-IS
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602323711;
+ s=mimecast20190719; t=1602323715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ELrnHUm3FmPmEFoV//Ry0cEPisr1NwN4/ZIjDDz+JCY=;
- b=VbfmgjOsywwx8KW0PC8COxRvAWKzlY19sFL0kNjPZVe2eAzqiLAK7UgXNzgG5otb5ysJW6
- KM1PSZBkxIdByGNLxA9dil46ZwY0RkYwdZYjB6/hxtQoIKcbHjhVDqbICLmo3gINeXHdOh
- dAePBtcBB5uNscHkrfaUrEN72ocRhHU=
+ bh=Z422DjruzhSBV8FzouqoP+9b4hrlMFjtvsmigpNd8DA=;
+ b=e9GyS7A4lMPDi0jTRgiujDZGjlX83foaAQpbNVi+GmxoaUp7P1EtRxRxvYXlK8KGTbi9ti
+ QjZz/WkC7eACfc0ZwV2tGPlZGZzet/y6BJuZm2ACnjBwWXf5f76ZrfV7oLeMfTRRWfQnpH
+ Jk26Pkbr0UQi/EV8z3oj5ZFX9QNymJc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-49Vr-WV6Mty9aoxeBTz-WA-1; Sat, 10 Oct 2020 05:55:09 -0400
-X-MC-Unique: 49Vr-WV6Mty9aoxeBTz-WA-1
+ us-mta-587-_AP0vboWPNKdzZUgmYM4OA-1; Sat, 10 Oct 2020 05:55:09 -0400
+X-MC-Unique: _AP0vboWPNKdzZUgmYM4OA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74A9B107AD98;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DC481868412;
  Sat, 10 Oct 2020 09:55:08 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 207DA75128;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DBE855786;
  Sat, 10 Oct 2020 09:55:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B285C112CE1A; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
+ id B5C3F112CE1D; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/34] qapi: delint using flake8
-Date: Sat, 10 Oct 2020 11:54:38 +0200
-Message-Id: <20201010095504.796182-9-armbru@redhat.com>
+Subject: [PULL 09/34] qapi: add pylintrc
+Date: Sat, 10 Oct 2020 11:54:39 +0200
+Message-Id: <20201010095504.796182-10-armbru@redhat.com>
 In-Reply-To: <20201010095504.796182-1-armbru@redhat.com>
 References: <20201010095504.796182-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -88,138 +88,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Petty style guide fixes and line length enforcement.  Not a big win, not
-a big loss, but flake8 passes 100% on the qapi module, which gives us an
-easy baseline to enforce hereafter.
+Using `pylint --generate-rcfile > pylintrc`, generate a skeleton
+pylintrc file. Sections that are not presently relevant (by the end of
+this series) are removed leaving just the empty section as a search
+engine / documentation hint to future authors.
 
-A note on the flake8 exception: flake8 will warn on *any* bare except,
-but pylint's is context-aware and will suppress the warning if you
-re-raise the exception.
+I am targeting pylint 2.6.0. In the future (and hopefully before 5.2 is
+released), I aim to have gitlab CI running the specific targeted
+versions of pylint, mypy, flake8, etc in a job.
+
+2.5.x will work if you additionally pass --disable=bad-whitespace.
+This warning was removed from 2.6.x, for lack of consistent support.
+
+Right now, quite a few modules are ignored as they are known to fail as
+of this commit. modules will be removed from the known-bad list
+throughout this and following series as they are repaired.
+
+Note: Normally, pylintrc would go in the folder above the module, but as
+that folder is shared by many things, it is going inside the module
+folder (for now). Due to a bug in pylint 2.5+, pylint does not
+correctly recognize when it is being run from "inside" a package, and
+must be run *outside* of the package.
+
+Therefore, to run it, you must:
+
+ > pylint scripts/qapi/ --rcfile=scripts/qapi/pylintrc
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Tested-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20201009161558.107041-9-jsnow@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Message-Id: <20201009161558.107041-10-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/.flake8     |  2 ++
- scripts/qapi/commands.py |  3 ++-
- scripts/qapi/schema.py   |  8 +++++---
- scripts/qapi/visit.py    | 16 +++++++++++-----
- 4 files changed, 20 insertions(+), 9 deletions(-)
- create mode 100644 scripts/qapi/.flake8
+ scripts/qapi/pylintrc | 73 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+ create mode 100644 scripts/qapi/pylintrc
 
-diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
 new file mode 100644
-index 0000000000..6b158c68b8
+index 0000000000..76d54c30f8
 --- /dev/null
-+++ b/scripts/qapi/.flake8
-@@ -0,0 +1,2 @@
-+[flake8]
-+extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index e06c10afcd..cde0c1e777 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -65,7 +65,8 @@ def gen_call(name, arg_type, boxed, ret_type):
- def gen_marshal_output(ret_type):
-     return mcgen('''
- 
--static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in, QObject **ret_out, Error **errp)
-+static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in,
-+                                QObject **ret_out, Error **errp)
- {
-     Visitor *v;
- 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 71ebb1e396..afd750989e 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -536,7 +536,7 @@ class QAPISchemaVariants:
-             v.set_defined_in(name)
- 
-     def check(self, schema, seen):
--        if not self.tag_member: # flat union
-+        if not self.tag_member:  # flat union
-             self.tag_member = seen.get(c_name(self._tag_name))
-             base = "'base'"
-             # Pointing to the base type when not implicit would be
-@@ -824,7 +824,7 @@ class QAPISchema:
-         self._entity_dict = {}
-         self._module_dict = OrderedDict()
-         self._schema_dir = os.path.dirname(fname)
--        self._make_module(None) # built-ins
-+        self._make_module(None)  # built-ins
-         self._make_module(fname)
-         self._predefining = True
-         self._def_predefineds()
-@@ -968,7 +968,9 @@ class QAPISchema:
-             # But it's not tight: the disjunction need not imply it.  We
-             # may end up compiling useless wrapper types.
-             # TODO kill simple unions or implement the disjunction
--            assert (ifcond or []) == typ._ifcond # pylint: disable=protected-access
++++ b/scripts/qapi/pylintrc
+@@ -0,0 +1,73 @@
++[MASTER]
 +
-+            # pylint: disable=protected-access
-+            assert (ifcond or []) == typ._ifcond
-         else:
-             self._def_entity(QAPISchemaObjectType(
-                 name, info, None, ifcond, None, None, members, None))
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index ea277e7704..9fdbe5b9ef 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -31,7 +31,9 @@ def gen_visit_decl(name, scalar=False):
-     if not scalar:
-         c_type += '*'
-     return mcgen('''
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_type)sobj, Error **errp);
++# Add files or directories matching the regex patterns to the ignore list.
++# The regex matches against base names, not paths.
++ignore-patterns=common.py,
++                error.py,
++                expr.py,
++                gen.py,
++                parser.py,
++                schema.py,
++                source.py,
++                types.py,
++                visit.py,
 +
-+bool visit_type_%(c_name)s(Visitor *v, const char *name,
-+                 %(c_type)sobj, Error **errp);
- ''',
-                  c_name=c_name(name), c_type=c_type)
- 
-@@ -125,7 +127,8 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
- def gen_visit_list(name, element_type):
-     return mcgen('''
- 
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
-+bool visit_type_%(c_name)s(Visitor *v, const char *name,
-+                 %(c_name)s **obj, Error **errp)
- {
-     bool ok = false;
-     %(c_name)s *tail;
-@@ -158,7 +161,8 @@ out_obj:
- def gen_visit_enum(name):
-     return mcgen('''
- 
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s *obj, Error **errp)
-+bool visit_type_%(c_name)s(Visitor *v, const char *name,
-+                 %(c_name)s *obj, Error **errp)
- {
-     int value = *obj;
-     bool ok = visit_type_enum(v, name, &value, &%(c_name)s_lookup, errp);
-@@ -172,7 +176,8 @@ bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s *obj, Error
- def gen_visit_alternate(name, variants):
-     ret = mcgen('''
- 
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
-+bool visit_type_%(c_name)s(Visitor *v, const char *name,
-+                 %(c_name)s **obj, Error **errp)
- {
-     bool ok = false;
- 
-@@ -247,7 +252,8 @@ out_obj:
- def gen_visit_object(name, base, members, variants):
-     return mcgen('''
- 
--bool visit_type_%(c_name)s(Visitor *v, const char *name, %(c_name)s **obj, Error **errp)
-+bool visit_type_%(c_name)s(Visitor *v, const char *name,
-+                 %(c_name)s **obj, Error **errp)
- {
-     bool ok = false;
- 
++
++[MESSAGES CONTROL]
++
++# Disable the message, report, category or checker with the given id(s). You
++# can either give multiple identifiers separated by comma (,) or put this
++# option multiple times (only on the command line, not in the configuration
++# file where it should appear only once). You can also use "--disable=all" to
++# disable everything first and then reenable specific checks. For example, if
++# you want to run only the similarities checker, you can use "--disable=all
++# --enable=similarities". If you want to run only the classes checker, but have
++# no Warning level messages displayed, use "--disable=all --enable=classes
++# --disable=W".
++disable=fixme,
++        missing-docstring,
++        too-many-arguments,
++        too-many-branches,
++        too-many-statements,
++        too-many-instance-attributes,
++
++[REPORTS]
++
++[REFACTORING]
++
++[MISCELLANEOUS]
++
++[LOGGING]
++
++[BASIC]
++
++# Good variable names which should always be accepted, separated by a comma.
++good-names=i,
++           j,
++           k,
++           ex,
++           Run,
++           _
++
++[VARIABLES]
++
++[STRING]
++
++[SPELLING]
++
++[FORMAT]
++
++[SIMILARITIES]
++
++# Ignore import statements themselves when computing similarities.
++ignore-imports=yes
++
++[TYPECHECK]
++
++[CLASSES]
++
++[IMPORTS]
++
++[DESIGN]
++
++[EXCEPTIONS]
 -- 
 2.26.2
 
