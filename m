@@ -2,80 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE01289F2D
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:12:11 +0200 (CEST)
-Received: from localhost ([::1]:44790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F1E289F32
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:14:55 +0200 (CEST)
+Received: from localhost ([::1]:53262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR9z8-0007QX-4b
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41652)
+	id 1kRA1n-0002Uv-0l
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:14:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
- id 1kR9nV-0007z2-4h
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:00:09 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:34511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
- id 1kR9nS-00070D-IB
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:00:08 -0400
-Received: by mail-pg1-x542.google.com with SMTP id u24so9221825pgi.1
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 01:00:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:date:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=wVNW4m/sWQPhrdPNlsV6HiXfvIJ1rNz3KP/MLB8lgoM=;
- b=Yb0Qp0vEkcdqO0g1Ys+XPoXj4k/upQ8XPw/iNmFDcBHoHjD9NaCpXcFyD5HA88+tqg
- +tuqgZ8sn6ygXGhscoXSg868zpnKRHonao/KEkAjQQLjvEpDjb1Y87+2JXCFZGiasRm/
- S6COLbxI+C53K3IdZ9M0+n0sRRF0WPw7bH+6wQAasCBnhK6chvQZHyhpm+1pctAtD829
- 4UtRxdJT6oHuA3AQIIYFOSfrAThDjuaB30/MVrGWU8i1f7g6+45PMvPUTIjjzBnqlC7S
- Xq7lZR4PdrDm4vDuk4GUODW6foNuUiUD9Owly3+TyAlt+kMb4gUsRojvcin4MPMVclD+
- PmVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wVNW4m/sWQPhrdPNlsV6HiXfvIJ1rNz3KP/MLB8lgoM=;
- b=iq44lssuPnwa7w7gSsyA0wgcUR84Yukvy8cubzAXE9OPhQOrZFqWN4PgLOZ9yHgctC
- dqssHWW3jL1+Qu/R62nVOUg6IZNGkFxcqG23dyNB/AEAZQNvG/s0mxYCXCSnZbA+CbnS
- K6bQx5pgkD0h6sjPC48gXVN+cbIODxpU9OWSESS8SB2IefpDwnJDyg/Xo8H0eadIPsl+
- lFV2adJGadeH8W8Id/lJdlpE/Rb8acqBwTOyXw538IpywXc0VfK3nfOGOvNbDiVxOX5O
- QXq7gOyVK7C09ZHLQPCJ680JqvFvE+VjmR8nb/tQM/61lghJGcQZzw2sQYWUv7Xbd71F
- CHcg==
-X-Gm-Message-State: AOAM533Em6yR/HbeXWApWpPLjoKXfsfo1k3FSK+2K9kyniojbXuqNnYv
- Or3eazSy1EdXwx5+TCe4OA4=
-X-Google-Smtp-Source: ABdhPJxC0FDIbNd14uJZiyphnSCwm6unJXbkv4UYUPPBhVi85APe7jElvjQIkpiVrBqJadIkzSWUcA==
-X-Received: by 2002:a62:5ac3:0:b029:153:f1d4:37ee with SMTP id
- o186-20020a625ac30000b0290153f1d437eemr15182638pfb.38.1602316803991; 
- Sat, 10 Oct 2020 01:00:03 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
- by smtp.gmail.com with ESMTPSA id k128sm14830803pfd.99.2020.10.10.01.00.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 01:00:03 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Sat, 10 Oct 2020 15:59:55 +0800
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v10 6/7] test: new qTest case to test the
- vhost-user-blk-server
-Message-ID: <20201010075955.46fqgg4vodubvvlz@Rk>
-References: <20200918080912.321299-1-coiby.xu@gmail.com>
- <20200918080912.321299-7-coiby.xu@gmail.com>
- <20200923123606.GC51019@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kR9tz-00007W-G7; Sat, 10 Oct 2020 04:06:51 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5214 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kR9tx-0007nU-7I; Sat, 10 Oct 2020 04:06:51 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 29E402EAB6008F810988;
+ Sat, 10 Oct 2020 16:06:37 +0800 (CST)
+Received: from huawei.com (10.174.185.47) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sat, 10 Oct 2020
+ 16:06:26 +0800
+From: Yifei Jiang <jiangyifei@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+Subject: [PATCH V2 0/5] Support RISC-V migration
+Date: Sat, 10 Oct 2020 16:06:18 +0800
+Message-ID: <20201010080623.768-1-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200923123606.GC51019@stefanha-x1.localdomain>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=coiby.xu@gmail.com; helo=mail-pg1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.47]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=jiangyifei@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 04:06:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,71 +56,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, bharatlkmlkvm@gmail.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: zhang.zhanghailiang@huawei.com, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, victor.zhangxiaofeng@huawei.com,
+ richard.henderson@linaro.org, Yifei Jiang <jiangyifei@huawei.com>,
+ Alistair.Francis@wdc.com, yinyipeng1@huawei.com, palmer@dabbelt.com,
+ wu.wubin@huawei.com, dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 23, 2020 at 01:36:06PM +0100, Stefan Hajnoczi wrote:
->On Fri, Sep 18, 2020 at 04:09:11PM +0800, Coiby Xu wrote:
->> +int qtest_socket_client(char *server_socket_path)
->> +{
->> +    struct sockaddr_un serv_addr;
->> +    int sock;
->> +    int ret;
->> +    int retries = 0;
->> +    sock = socket(PF_UNIX, SOCK_STREAM, 0);
->> +    g_assert_cmpint(sock, !=, -1);
->> +    serv_addr.sun_family = AF_UNIX;
->> +    snprintf(serv_addr.sun_path, sizeof(serv_addr.sun_path), "%s",
->> +             server_socket_path);
->> +
->> +    for (retries = 0; retries < 3; retries++) {
->> +        ret = connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
->> +        if (ret == 0) {
->> +            break;
->> +        }
->> +        g_usleep(G_USEC_PER_SEC);
->> +    }
->
->This is a race condition. On a heavily loaded machine the server might
->not be available within 3 seconds and the test will fail randomly.
->
->Solutions:
->1. Wait output from the server indicating it is ready (e.g. 'Listening
->   on /path/to/foo.sock...') when spawning the server process.
->2. Create the listen socket and pass the fd to the server process. This
->   way the socket already exists can the client will block in connect
->   until the server accepts the connection.
->3. Create a socketpair. Pass one side to the server and use the other
->   side in the client.
->
->However, I think this is okay for now. After my patch series that
->converts the vhost-user-blk server to the new block exports API we can
->consider how to pass file descriptors.
->
->> +static void quit_storage_daemon(void *qmp_test_state)
->> +{
->> +    const char quit_str[] = "{ 'execute': 'quit' }";
->> +
->> +    /* Before quiting storate-daemon, quit qemu to avoid dubious messages */
->> +    qobject_unref(qtest_qmp(global_qtest, quit_str));
->> +
->> +    /*
->> +     * Give storage-daemon enough time to wake up&terminate
->> +     * vu_client_trip coroutine so the Coroutine object could
->> +     * be cleaned up. Otherwise LeakSanitizer would complain
->> +     * about memory leaks.
->> +     */
->> +    g_usleep(1000);
->
->Also a race that may cause random failures. This can be addressed after
->the block exports API conversion.
+This patches supported RISC-V migration based on tcg accel. And we have
+verified related migration features such as snapshot and live migration.
 
-Thank you for spotting two race conditions!
+A few weeks ago, we submitted RFC patches about supporting RISC-V migration
+based on kvm accel: https://www.spinics.net/lists/kvm/msg223605.html.
+And we found that tcg accelerated migration can be supported with a few
+changes. Most of the devices have already implemented the migration
+interface, so, to achieve the tcg accelerated migration, we just need to
+add vmstate of both cpu and sifive_plic.
 
---
-Best regards,
-Coiby
+Changes since v1:
+1. Add license head to target/riscv/machine.c.
+2. Regenerate some state of PMP at post_load hook.
+
+Yifei Jiang (5):
+  target/riscv: Add basic vmstate description of CPU
+  target/riscv: Add PMP state description
+  target/riscv: Add H extension state description
+  target/riscv: Add V extension state description
+  target/riscv: Add sifive_plic vmstate
+
+ hw/intc/sifive_plic.c    |  26 ++++-
+ hw/intc/sifive_plic.h    |   1 +
+ target/riscv/cpu.c       |   7 --
+ target/riscv/cpu.h       |   4 +
+ target/riscv/machine.c   | 203 +++++++++++++++++++++++++++++++++++++++
+ target/riscv/meson.build |   3 +-
+ target/riscv/pmp.c       |  29 +++---
+ target/riscv/pmp.h       |   2 +
+ 8 files changed, 255 insertions(+), 20 deletions(-)
+ create mode 100644 target/riscv/machine.c
+
+-- 
+2.19.1
+
 
