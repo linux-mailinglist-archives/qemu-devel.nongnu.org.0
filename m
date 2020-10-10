@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1B028A119
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:45:47 +0200 (CEST)
-Received: from localhost ([::1]:52452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C1B28A115
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:40:51 +0200 (CEST)
+Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRIwE-0004SE-M7
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:45:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55746)
+	id 1kRIrS-0007rD-O2
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kRIiW-0005Ut-Q7
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:31:36 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39756)
+ id 1kRIiX-0005Wu-P2
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:31:37 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kRIiU-0004Up-P8
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:31:36 -0400
-Received: by mail-ot1-x344.google.com with SMTP id f10so11976011otb.6
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:31:34 -0700 (PDT)
+ id 1kRIiV-0004Ut-S9
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:31:37 -0400
+Received: by mail-oi1-x242.google.com with SMTP id t77so13862889oie.4
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:31:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hV5hJblGW3p/EPj5E1miRqBG8FtRIYgD4mxvFmMBiy0=;
- b=lT3XxFmigGWOa+Z3otl6RzuGLE9Yx477yqWYpozLOW+2vHootJiamRtSsEtvHJAAtv
- Xmhf6MWxoVxbKUPQkEytU1n+YcxmmPOwOR/i/VyTEH6cqc2f05p03562TppE0skPPSff
- UtNxzXw/V9nYZtW3sK+5+06ScxNZNdPJMYYPWpCMeqFKTBXe5AMDjxL5Pky3RSfg6xAE
- ROojw5+CmSK7y9QyT+dgQer2J63pveoB2UJ1ChQB3PAu4HZ+hrZ/m6HqNr7ySvTMYdiz
- Smr8U9Q0LcCFHb+o3yW9MH5NCA/P9yipXWdRqKC83W1AM5Pp+GqRAwNR0Ru4RM/zZ9TR
- mhEw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tWwxwtj7BMWnBZPqROiASwhlhUSCyv+roj4cQ6E4cUE=;
+ b=InzNKlbMQZ/Sxoe9XugVIF6WWZr6Xh1nhXdSDBBr/OcNwQLo/dks6sIj3Nn4y/kRc1
+ rwfv5jEEfICUiPkT0yblV8qIR4TZ+GbRqZOZtT56ScuUJPDhLf6jFtWf2p3FpyDuJ9Vw
+ YBfaaRlFOuIJ5HUNOkvSFAA7+2MGDhg6tk5TKm6bmdht0fAKF87564XsJN7ab64EgQ4y
+ aaurVi3iyGy+oSVWbP3g0V4qh5eFrwLD/NfQgfOQE3sk4BHZU2Q8b0RyhGgf6Dskmx2/
+ NR8vQio5FUJgcgxj5CNfQlZGRuG3xGMsmkuQmX1NMmkp8aQ9+qiOmjrbu7ThxySBtxNV
+ CIfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hV5hJblGW3p/EPj5E1miRqBG8FtRIYgD4mxvFmMBiy0=;
- b=LwdyPLBt+DrbytyeB50gpzF5N1WM5QWO8Y7Pqboko6JdM6w4KdYIcOR71zWuRreJFk
- 9QgZibwpVs/jV8B62k6GilmPcZDSoVB41GHxZcP0SGb4A+6keOXRcH10pnbucNuqShHU
- ybCoP8st1Y682clpTdHj4cTWRbJ4s6zW6L+vqOoT63oGqH67necTdU+KpOOUA+KD5FfH
- 09NGBA37R1P4fIrH7a6KVrqVKc9nMGOqZk8+bNq7Le9Lrh3g/8aEfodkN+poVjJI1M29
- UbBpmInOl7xQipB71zSkLlnB+ZIzg+8pmFmOgcZlQLhz7GgvcQudIVi4sZumV6j2oxRe
- h8kg==
-X-Gm-Message-State: AOAM530B/44yschu7hcGxih8TQagp06kiziIpIO03XApP6LVeQmR0Z8+
- bEYVVRR1trrDuektOar+gw4do4NWpBbuHzal
-X-Google-Smtp-Source: ABdhPJzjauxz0OjyCmufk6J8mcqCzNyGYd+29V1s+wsRU8aLu6n4b4RkVimuHCmXoaEdPgd3BtIGMA==
-X-Received: by 2002:a9d:7387:: with SMTP id j7mr7067560otk.18.1602351092877;
- Sat, 10 Oct 2020 10:31:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tWwxwtj7BMWnBZPqROiASwhlhUSCyv+roj4cQ6E4cUE=;
+ b=FPtNMMvrsxSeoZ9Cle5LvVGbYPmejkAccTjAXx8FXIfAnSI5ppzvxyeScR7W1DOEkQ
+ bU3EkS8FpqwurlcFs8M7vKTaZrnioREg8OH7F4rEvwMYw8L68XgX0IkrBUdWLRoK6/aI
+ ldJuGnqrruwcIxivONSMlarhdhR7lJqFEENZ+0+kFrCPll4WL4fv9Hb6oYtq5MBY8CvM
+ LyFTNxv8VVby5FhL3uviNP+KE8NxvBG1wbLzTu10HWGEmJXcHss7DvSaNNHMbJtspyla
+ d1a1Yey5y6fl+MQGmcw4oDflExMOTV69K9U9l6QVK0TwCBEUGPC7ERSPTcxvehEMAhPr
+ JziA==
+X-Gm-Message-State: AOAM531yLUNWkhskhyKT4csEKvrsh0ftho14pSlbmsKur0MXORx85MFa
+ vSZ+gcDI3wLuifVhe07ST1Nn4sHC92HOX9CN
+X-Google-Smtp-Source: ABdhPJy8qYl9AjBMU3X0CXNeIDZCYTDe+OwUvHOYJ40FJkBU34y+FL8eWxBkaT0pqF7T7tMRnIT11g==
+X-Received: by 2002:a05:6808:605:: with SMTP id
+ y5mr6314969oih.172.1602351094268; 
+ Sat, 10 Oct 2020 10:31:34 -0700 (PDT)
 Received: from localhost.localdomain (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id n185sm7415032oia.28.2020.10.10.10.31.31
+ by smtp.gmail.com with ESMTPSA id n185sm7415032oia.28.2020.10.10.10.31.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 10:31:32 -0700 (PDT)
+ Sat, 10 Oct 2020 10:31:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] linux-user/microblaze: update signal handling
-Date: Sat, 10 Oct 2020 12:31:28 -0500
-Message-Id: <20201010173130.99652-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/2] linux-user/microblaze: Implement rt signal frames
+Date: Sat, 10 Oct 2020 12:31:29 -0500
+Message-Id: <20201010173130.99652-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201010173130.99652-1-richard.henderson@linaro.org>
+References: <20201010173130.99652-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,22 +90,135 @@ Cc: edgar.iglesias@gmail.com, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The linux microblaze port only implements rt signal handing,
-not the old style.  This allows our linux-test to pass for mb,
-if you have a cross-compiler available for the build.
+Allows microblaze to pass tests/tcg/multiarch/linux-test.c.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/microblaze/signal.c | 91 ++++++++++++++++++++++++++++++----
+ 1 file changed, 82 insertions(+), 9 deletions(-)
 
-r~
-
-
-Richard Henderson (2):
-  linux-user/microblaze: Implement rt signal frames
-  linux-user/microblaze: Remove non-rt signal frames
-
- linux-user/microblaze/target_signal.h |   1 -
- linux-user/microblaze/signal.c        | 186 ++++++++++++--------------
- 2 files changed, 83 insertions(+), 104 deletions(-)
-
+diff --git a/linux-user/microblaze/signal.c b/linux-user/microblaze/signal.c
+index b4eeef4673..3d316a22f1 100644
+--- a/linux-user/microblaze/signal.c
++++ b/linux-user/microblaze/signal.c
+@@ -35,9 +35,9 @@ struct target_stack_t {
+ struct target_ucontext {
+     abi_ulong tuc_flags;
+     abi_ulong tuc_link;
+-    struct target_stack_t tuc_stack;
++    target_stack_t tuc_stack;
+     struct target_sigcontext tuc_mcontext;
+-    uint32_t tuc_extramask[TARGET_NSIG_WORDS - 1];
++    target_sigset_t tuc_sigmask;
+ };
+ 
+ /* Signal frames. */
+@@ -47,9 +47,9 @@ struct target_signal_frame {
+     uint32_t tramp[2];
+ };
+ 
+-struct rt_signal_frame {
+-    siginfo_t info;
+-    ucontext_t uc;
++struct target_rt_sigframe {
++    target_siginfo_t info;
++    struct target_ucontext uc;
+     uint32_t tramp[2];
+ };
+ 
+@@ -200,7 +200,55 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+                     target_siginfo_t *info,
+                     target_sigset_t *set, CPUMBState *env)
+ {
+-    qemu_log_mask(LOG_UNIMP, "setup_rt_frame: not implemented\n");
++    struct target_rt_sigframe *frame;
++    abi_ulong frame_addr;
++
++    frame_addr = get_sigframe(ka, env, sizeof *frame);
++    trace_user_setup_rt_frame(env, frame_addr);
++
++    if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
++        force_sigsegv(sig);
++        return;
++    }
++
++    tswap_siginfo(&frame->info, info);
++
++    __put_user(0, &frame->uc.tuc_flags);
++    __put_user(0, &frame->uc.tuc_link);
++
++    target_save_altstack(&frame->uc.tuc_stack, env);
++    setup_sigcontext(&frame->uc.tuc_mcontext, env);
++
++    for (int i = 0; i < TARGET_NSIG_WORDS; i++) {
++        __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
++    }
++
++    /* Kernel does not use SA_RESTORER. */
++
++    /* addi r12, r0, __NR_sigreturn */
++    __put_user(0x31800000U | TARGET_NR_rt_sigreturn, frame->tramp + 0);
++    /* brki r14, 0x8 */
++    __put_user(0xb9cc0008U, frame->tramp + 1);
++
++    /*
++     * Return from sighandler will jump to the tramp.
++     * Negative 8 offset because return is rtsd r15, 8
++     */
++    env->regs[15] =
++        frame_addr + offsetof(struct target_rt_sigframe, tramp) - 8;
++
++    /* Set up registers for signal handler */
++    env->regs[1] = frame_addr;
++
++    /* Signal handler args: */
++    env->regs[5] = sig;
++    env->regs[6] = frame_addr + offsetof(struct target_rt_sigframe, info);
++    env->regs[7] = frame_addr + offsetof(struct target_rt_sigframe, uc);
++
++    /* Offset to handle microblaze rtid r14, 0 */
++    env->pc = (unsigned long)ka->_sa_handler;
++
++    unlock_user_struct(frame, frame_addr, 1);
+ }
+ 
+ long do_sigreturn(CPUMBState *env)
+@@ -239,7 +287,32 @@ badframe:
+ 
+ long do_rt_sigreturn(CPUMBState *env)
+ {
+-    trace_user_do_rt_sigreturn(env, 0);
+-    qemu_log_mask(LOG_UNIMP, "do_rt_sigreturn: not implemented\n");
+-    return -TARGET_ENOSYS;
++    struct target_rt_sigframe *frame = NULL;
++    abi_ulong frame_addr = env->regs[1];
++    sigset_t set;
++
++    trace_user_do_rt_sigreturn(env, frame_addr);
++
++    if  (!lock_user_struct(VERIFY_READ, frame, frame_addr, 1)) {
++        goto badframe;
++    }
++
++    target_to_host_sigset(&set, &frame->uc.tuc_sigmask);
++    set_sigmask(&set);
++
++    restore_sigcontext(&frame->uc.tuc_mcontext, env);
++
++    if (do_sigaltstack(frame_addr +
++                       offsetof(struct target_rt_sigframe, uc.tuc_stack),
++                       0, get_sp_from_cpustate(env)) == -EFAULT) {
++        goto badframe;
++    }
++
++    unlock_user_struct(frame, frame_addr, 0);
++    return -TARGET_QEMU_ESIGRETURN;
++
++ badframe:
++    unlock_user_struct(frame, frame_addr, 0);
++    force_sig(TARGET_SIGSEGV);
++    return -TARGET_QEMU_ESIGRETURN;
+ }
 -- 
 2.25.1
 
