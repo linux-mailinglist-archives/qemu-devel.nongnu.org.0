@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C50728A0B0
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 16:47:24 +0200 (CEST)
-Received: from localhost ([::1]:52800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B4C28A0C4
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 17:19:23 +0200 (CEST)
+Received: from localhost ([::1]:44986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRG9a-0004fN-S5
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 10:47:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52096)
+	id 1kRGeX-000746-Iq
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 11:19:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
- id 1kRG7i-00046e-Mk
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 10:45:26 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:37893)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kRGcp-0006CF-Tk; Sat, 10 Oct 2020 11:17:35 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
- id 1kRG7g-00020B-1r
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 10:45:26 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id f21so807428qko.5
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:45:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kRGcf-0006pd-5f; Sat, 10 Oct 2020 11:17:29 -0400
+Received: by mail-wm1-x343.google.com with SMTP id k18so12610109wmj.5;
+ Sat, 10 Oct 2020 08:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hPYZBmGaNPjwXtRHAD5o/az0iviVR2gj1ckI364wzrE=;
- b=BQxapqb1Fh2QyQ6DSuY1b3vk6HGftbWXNDkryeOak2M9fxr1aFNUVY8mWqcvaOS0zM
- ZloZS1eyI3WNEFFygW1mG18IOXktjyW1m4XfTEl8yJ0JFC9PFXX504ss1g4xYuYks6fL
- UO2TGlCjtgQvPHBXyT7nviTL1VG/5U6JHwXGHnYGV69gwOUhgyeXnjP5feG3NX2ckTAs
- oJRo6MOpVmkT+ACdsiZuArVyitgigSM7+K10bvcIlWYn7svNV6crPsKudCg6MmTqp0Wq
- HItr9jLd3FRWxuSOlx2S1OpbOAXjgpo1VNr5hAheIaDfA9zZqYJWO8g+gP3rfcWuh4uT
- Z3FA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rZUK4OpgM9LDSuM+PftlglNnkrsDkN4iy8skrvx7zaQ=;
+ b=a6yY7bpeVfflurfL3PA2HjXerIF+8xFrpPC2IekDNjdKP39IgixUjUQWkcC3R1V7fY
+ pGQ54AfoO/tSa36JWtFMSidUKg2bTYWRsD3OOHDks2AjZlPF72LWkWqf7SWyAJB8kB+q
+ xgMqzhbJQFO3tZ/FfhvXA7nVQNWrLEG1hMIoL6ZawOwFu598IaLAQI3XH5DXdnT1gcxY
+ iPfJ6AEmHXdNpqc3vF17zNtkbpZFEqDy4robbE0X4M5fTLW7q1qxDADH+FNsEmkh2UNn
+ K7+Mp1fTG7a+tFoh9tufu857NjqN+n4dWzjv2ERxp/eA1oIcdTUXPnYsB7fwhRPwgSPe
+ IJ4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hPYZBmGaNPjwXtRHAD5o/az0iviVR2gj1ckI364wzrE=;
- b=cuxBLKXjKylOspMjdzoN7p+3nvu9KPCgWy4GzBWHBtkkAPZ+8Gkqv38dopTHyoqb7y
- kcYkH0iZY06REZP5QfgntI5IdCwUbPYuqQgBf3LIJFd47I0BWI9Pco7h9ClxNTR6/jin
- nIJ3tIMDcoH/tk520VvAAy4DlNkDlCFlMIfXEdjDSEb4Xes0fgNPAM8SgY3mXKARJYdq
- dXOw73jD/Q6s03J0BgVHNdenoCdYlG4M/TXXZe2NhjaW0gmj066az8/dWqM24J4bxLXa
- wZQ/BboHVpMvHPRS3rNxG1yaH0i8EUbzDYRuZMf8lcMeoXG/LgiUMdRtDnleWu9gIkQk
- Z4rg==
-X-Gm-Message-State: AOAM5304q4DCvfsp4x5PXau23T7pnhLbJbnZABx66Wb4JYhwi0YHwJnH
- LcZvgP/0XRB6TolaJGio1FBvGpnVwjY0676jGhZPidzzCvg=
-X-Google-Smtp-Source: ABdhPJxyajpEN5bn7oqK3dGEvjLGioyuHqOp4NaPzUUA1qjLknS8senFHj68JoR9sJyOpdVLdnId7aVrMWB6KIHzkZQ=
-X-Received: by 2002:a05:620a:a84:: with SMTP id
- v4mr992008qkg.486.1602341122385; 
- Sat, 10 Oct 2020 07:45:22 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rZUK4OpgM9LDSuM+PftlglNnkrsDkN4iy8skrvx7zaQ=;
+ b=CEret54jJkUUlfuLOxrNqSP1qf0sdYFGZ6Zm0Htb0QPO+q+kUqjl6OJdTbdQC18LR/
+ TvVJ/073BYgBWighT5zCREHe+pXG52HcS9YO00KveM9c5sSBwTLgz863kkh10dCIhWQm
+ EGgp2IwAUnM09krJrK17a2F1cL9qqVgRfzprgMPiRHHBQI+cV3Cgnf3sxwlGOzHtTMNO
+ HiQEOuvsUH2Sq6lOjnrIOdqvw8R1mdd0KikcP2Ql80KxU9UR74U4bDl7erH6dX2tJOQm
+ o5Y/zSvYDCDXQFUniT1vqmGmZSqcgflf44b71cTmjpBUHznrox1YuxFIv/aMBLIElheP
+ 1ing==
+X-Gm-Message-State: AOAM530KFjD782GRBbZ4hGhjBRZzy3yJKN/nBJSOUtlfJd1GebBukmqk
+ EnAE8ndnv3V2uOVQhv/zysM=
+X-Google-Smtp-Source: ABdhPJyz1X96dX7SISI9t4HyezEPNdDrBQHH+RkdnIeTdXQ8v35Q1jRcDmUPZNW0WAz40rGBknWafQ==
+X-Received: by 2002:a7b:cb82:: with SMTP id m2mr3313045wmi.56.1602343037794;
+ Sat, 10 Oct 2020 08:17:17 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id g139sm16781658wme.2.2020.10.10.08.17.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 10 Oct 2020 08:17:16 -0700 (PDT)
+Subject: Re: [PATCH v3 03/15] hw/core/clock: add the clock_new helper function
+To: Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org
+References: <20201010135759.437903-1-luc@lmichel.fr>
+ <20201010135759.437903-4-luc@lmichel.fr>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f49f1c17-9343-c5dc-51fd-da0edb208314@amsat.org>
+Date: Sat, 10 Oct 2020 17:17:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20200803222049.2967aeda.hc981@poolhem.se>
- <20200919194712.1ddd62cf.hc94@poolhem.se>
-In-Reply-To: <20200919194712.1ddd62cf.hc94@poolhem.se>
-From: Artyom Tarasenko <atar4qemu@gmail.com>
-Date: Sat, 10 Oct 2020 17:44:57 +0300
-Message-ID: <CAAM0arOsdhkJoEoXuPRA=Z_dnjJ3EQMuSuJLuDg0Vm=2yvfwFQ@mail.gmail.com>
-Subject: Re: Ping2: [PATCH v2] Emulate dip switch language layout settings on
- SUN keyboard
-To: Henrik Carlqvist <hc94@poolhem.se>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: multipart/alternative; boundary="00000000000068ac2e05b1521daa"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=a.tarasenko@gmail.com; helo=mail-qk1-x72f.google.com
+In-Reply-To: <20201010135759.437903-4-luc@lmichel.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.207,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,495 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, hc981@poolhem.se
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000068ac2e05b1521daa
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 10/10/20 3:57 PM, Luc Michel wrote:
+> This function creates a clock and parents it to another object with a given
+> name. It calls clock_setup_canonical_path before returning the new
+> clock.
+> 
+> This function is useful to create clocks in devices when one doesn't
+> want to expose it at the qdev level (as an input or an output).
+> 
+> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Luc Michel <luc@lmichel.fr>
+> ---
+>   include/hw/clock.h | 13 +++++++++++++
+>   hw/core/clock.c    | 15 +++++++++++++++
+>   2 files changed, 28 insertions(+)
 
-Hi Mark,
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-could you please pick it up?
-
-Regards,
-Artyom
-
-=D1=81=D0=B1, 19 =D1=81=D0=B5=D0=BD=D1=82. 2020 =D0=B3., 20:47 Henrik Carlq=
-vist <hc94@poolhem.se>:
-
-> Just wanted to check that my patch hasn't been forgotten... I was hoping
-> that
-> it would make it into some branch in git.
->
-> Do you want me to do any more changes to the patch or the description?
->
-> Best regards Henrik
->
-> On Mon, 3 Aug 2020 22:20:49 +0200
-> Henrik Carlqvist <hc981@poolhem.se> wrote:
->
-> > This is my second attempt to contribute a patch which makes the -k swit=
-ch
-> > useful for sparc emulation as its value is used to emulate the dip swit=
-ch
-> > in a SUN keyboard for language layout setting.
-> >
-> > Unfortunately my glib version is too old to compile later versions of
-> qemu
-> > so even though this patch is made from latest git I have only been able
-> to
-> > test it myself with qemu version 4.1.1. I think and hope that this patc=
-h
-> > will compile and work also with the latest version of git as it only
-> affects
-> > one file and there hasn't been much changes to that file since tested
-> > version 4.1.1.
-> >
-> > Best regards Henrik
-> >
-> > From e302b02dec32c28297ed20d852c5fba2c1682f5a Mon Sep 17 00:00:00 2001
-> > From: Henrik Carlqvist <hc1245@poolhem.se>
-> > Date: Mon, 3 Aug 2020 22:11:55 +0200
-> > Subject: [PATCH] Emulating sun keyboard language layout dip switches,
-> taking
-> >  the value for the dip switches from the "-k" option to qemu.
-> >
-> > SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
-> > layout of the keyboard. Solaris makes an ioctl to query the value of th=
-e
-> > dipswitches and uses that value to select keyboard layout. Also the SUN
-> > bios like the one in the file ss5.bin uses this value to support at lea=
-st
-> > some keyboard layouts. However, the OpenBIOS provided with qemu is
-> > hardcoded to always use an US keyboard layout.
-> >
-> > Before this patch, qemu allways gave dip switch value 0x21 (US keyboard=
-),
-> > this patch uses the command line switch "-k" (keyboard layout) to selec=
-t
-> > dip switch value. A table is used to lookup values from arguments like:
-> >
-> > -k fr
-> > -k es
-> >
-> > But the patch also accepts numeric dip switch values directly to the -k
-> > switch:
-> >
-> > -k 0x2b
-> > -k 43
-> >
-> > Both values above are the same and select swedish keyboard as explained
-> in
-> > table 3-15 at
-> > https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
-> >
-> > Unless you want to do a full Solaris installation but happen to have
-> > access to a bios file, the easiest way to test that the patch works is
-> to:
-> >
-> > qemu-system-sparc -k sv -bios /path/to/ss5.bin
-> >
-> > If you already happen to have a Solaris installation in a qemu disk ima=
-ge
-> > file you can easily try different keyboard layouts after this patch is
-> > applied.
-> >
-> > Signed-off-by: Henrik Carlqvist <hc1245@poolhem.se>
-> > ---
-> >  hw/char/escc.c | 74
-> > +++++++++++++++++++++++++++++++++++++++++++++++++++++++++- 1 file
-> changed,
-> > 73 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/char/escc.c b/hw/char/escc.c
-> > index 7d16ee8688..7287056b5f 100644
-> > --- a/hw/char/escc.c
-> > +++ b/hw/char/escc.c
-> > @@ -30,6 +30,8 @@
-> >  #include "qemu/module.h"
-> >  #include "hw/char/escc.h"
-> >  #include "ui/console.h"
-> > +#include "sysemu/sysemu.h"
-> > +#include "qemu/cutils.h"
-> >  #include "trace.h"
-> >
-> >  /*
-> > @@ -175,6 +177,7 @@
-> >  #define R_MISC1I 14
-> >  #define R_EXTINT 15
-> >
-> > +static unsigned char sun_keyboard_layout_dip_switch(void);
-> >  static void handle_kbd_command(ESCCChannelState *s, int val);
-> >  static int serial_can_receive(void *opaque);
-> >  static void serial_receive_byte(ESCCChannelState *s, int ch);
-> > @@ -730,6 +733,75 @@ static QemuInputHandler sunkbd_handler =3D {
-> >      .event =3D sunkbd_handle_event,
-> >  };
-> >
-> > +static unsigned char sun_keyboard_layout_dip_switch(void)
-> > +{
-> > +    /* Return the value of the dip-switches in a SUN Type 5 keyboard *=
-/
-> > +    static unsigned char ret =3D 0xff;
-> > +
-> > +    if ((ret =3D=3D 0xff) && keyboard_layout) {
-> > +        int i;
-> > +        struct layout_values {
-> > +            const char *lang;
-> > +            unsigned char dip;
-> > +        } languages[] =3D
-> > +    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c
-> Keyboards
-> > */+            {
-> > +                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
-> > +                                 /* 0x22 is some other US
-> (US_UNIX5.kt)*/
-> > +                {"fr",    0x23}, /* France (France5.kt) */
-> > +                {"da",    0x24}, /* Denmark (Denmark5.kt) */
-> > +                {"de",    0x25}, /* Germany (Germany5.kt) */
-> > +                {"it",    0x26}, /* Italy (Italy5.kt) */
-> > +                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) *=
-/
-> > +                {"no",    0x28}, /* Norway (Norway.kt) */
-> > +                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
-> > +                {"es",    0x2a}, /* Spain (Spain5.kt) */
-> > +                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
-> > +                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt=
-)
-> */
-> > +                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt=
-)
-> */
-> > +                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
-> > +                {"ko",    0x2f}, /* Korea (Korea5.kt) */
-> > +                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
-> > +                {"ja",    0x31}, /* Japan (Japan5.kt) */
-> > +                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
-> > +                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
-> > +                {"pl",    0x34}, /* Poland (Poland5.kt) */
-> > +                {"cz",    0x35}, /* Czech (Czech5.kt) */
-> > +                {"ru",    0x36}, /* Russia (Russia5.kt) */
-> > +                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
-> > +                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
-> > +                {"gr",    0x39}, /* Greece (Greece5.kt) */
-> > +                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
-> > +                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
-> > +                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
-> > +                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
-> > +            };
-> > +
-> > +        for (i =3D 0;
-> > +             i < sizeof(languages) / sizeof(struct layout_values);
-> > +             i++) {
-> > +            if (!strcmp(keyboard_layout, languages[i].lang)) {
-> > +                ret =3D languages[i].dip;
-> > +                return ret;
-> > +            }
-> > +        }
-> > +        /* Found no known language code */
-> > +
-> > +        if ((keyboard_layout[0] >=3D '0') && (keyboard_layout[0] <=3D =
-'9'))
-> {
-> > +            unsigned int tmp;
-> > +            /* As a fallback we also accept numeric dip switch value *=
-/
-> > +            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
-> > +                ret =3D (unsigned char)tmp;
-> > +            }
-> > +        }
-> > +    }
-> > +    if (ret =3D=3D 0xff) {
-> > +        /* Final fallback if keyboard_layout was not set or recognized
-> */
-> > +        ret =3D 0x21; /* en-us layout */
-> > +    }
-> > +    return ret;
-> > +}
-> > +
-> >  static void handle_kbd_command(ESCCChannelState *s, int val)
-> >  {
-> >      trace_escc_kbd_command(val);
-> > @@ -751,7 +823,7 @@ static void handle_kbd_command(ESCCChannelState *s,
-> int
-> > val)     case 0xf:
-> >          clear_queue(s);
-> >          put_queue(s, 0xfe);
-> > -        put_queue(s, 0x21); /*  en-us layout */
-> > +        put_queue(s, sun_keyboard_layout_dip_switch());
-> >          break;
-> >      default:
-> >          break;
-> > --
-> > 2.14.5
->
-
---00000000000068ac2e05b1521daa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hi Mark,<div dir=3D"auto"><br></div><div dir=3D"auto">cou=
-ld you please pick it up?</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-">Regards,</div><div dir=3D"auto">Artyom</div></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">=D1=81=D0=B1, 19 =D1=81=D0=B5=
-=D0=BD=D1=82. 2020 =D0=B3., 20:47 Henrik Carlqvist &lt;<a href=3D"mailto:hc=
-94@poolhem.se">hc94@poolhem.se</a>&gt;:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">Just wanted to check that my patch hasn&#39;t been forgotten... I was =
-hoping that<br>
-it would make it into some branch in git.<br>
-<br>
-Do you want me to do any more changes to the patch or the description?<br>
-<br>
-Best regards Henrik<br>
-<br>
-On Mon, 3 Aug 2020 22:20:49 +0200<br>
-Henrik Carlqvist &lt;<a href=3D"mailto:hc981@poolhem.se" target=3D"_blank" =
-rel=3D"noreferrer">hc981@poolhem.se</a>&gt; wrote:<br>
-<br>
-&gt; This is my second attempt to contribute a patch which makes the -k swi=
-tch<br>
-&gt; useful for sparc emulation as its value is used to emulate the dip swi=
-tch<br>
-&gt; in a SUN keyboard for language layout setting.<br>
-&gt; <br>
-&gt; Unfortunately my glib version is too old to compile later versions of =
-qemu<br>
-&gt; so even though this patch is made from latest git I have only been abl=
-e to<br>
-&gt; test it myself with qemu version 4.1.1. I think and hope that this pat=
-ch<br>
-&gt; will compile and work also with the latest version of git as it only a=
-ffects<br>
-&gt; one file and there hasn&#39;t been much changes to that file since tes=
-ted<br>
-&gt; version 4.1.1.<br>
-&gt; <br>
-&gt; Best regards Henrik<br>
-&gt; <br>
-&gt; From e302b02dec32c28297ed20d852c5fba2c1682f5a Mon Sep 17 00:00:00 2001=
-<br>
-&gt; From: Henrik Carlqvist &lt;<a href=3D"mailto:hc1245@poolhem.se" target=
-=3D"_blank" rel=3D"noreferrer">hc1245@poolhem.se</a>&gt;<br>
-&gt; Date: Mon, 3 Aug 2020 22:11:55 +0200<br>
-&gt; Subject: [PATCH] Emulating sun keyboard language layout dip switches, =
-taking<br>
-&gt;=C2=A0 the value for the dip switches from the &quot;-k&quot; option to=
- qemu.<br>
-&gt; <br>
-&gt; SUN Type 4, 5 and 5c keyboards have dip switches to choose the languag=
-e<br>
-&gt; layout of the keyboard. Solaris makes an ioctl to query the value of t=
-he<br>
-&gt; dipswitches and uses that value to select keyboard layout. Also the SU=
-N<br>
-&gt; bios like the one in the file ss5.bin uses this value to support at le=
-ast<br>
-&gt; some keyboard layouts. However, the OpenBIOS provided with qemu is<br>
-&gt; hardcoded to always use an US keyboard layout.<br>
-&gt; <br>
-&gt; Before this patch, qemu allways gave dip switch value 0x21 (US keyboar=
-d),<br>
-&gt; this patch uses the command line switch &quot;-k&quot; (keyboard layou=
-t) to select<br>
-&gt; dip switch value. A table is used to lookup values from arguments like=
-:<br>
-&gt; <br>
-&gt; -k fr<br>
-&gt; -k es<br>
-&gt; <br>
-&gt; But the patch also accepts numeric dip switch values directly to the -=
-k<br>
-&gt; switch:<br>
-&gt; <br>
-&gt; -k 0x2b<br>
-&gt; -k 43<br>
-&gt; <br>
-&gt; Both values above are the same and select swedish keyboard as explaine=
-d in<br>
-&gt; table 3-15 at<br>
-&gt; <a href=3D"https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.=
-html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://docs.oracle.c=
-om/cd/E19683-01/806-6642/new-43/index.html</a><br>
-&gt; <br>
-&gt; Unless you want to do a full Solaris installation but happen to have<b=
-r>
-&gt; access to a bios file, the easiest way to test that the patch works is=
- to:<br>
-&gt; <br>
-&gt; qemu-system-sparc -k sv -bios /path/to/ss5.bin<br>
-&gt; <br>
-&gt; If you already happen to have a Solaris installation in a qemu disk im=
-age<br>
-&gt; file you can easily try different keyboard layouts after this patch is=
-<br>
-&gt; applied.<br>
-&gt; <br>
-&gt; Signed-off-by: Henrik Carlqvist &lt;<a href=3D"mailto:hc1245@poolhem.s=
-e" target=3D"_blank" rel=3D"noreferrer">hc1245@poolhem.se</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/char/escc.c | 74<br>
-&gt; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++- 1 file chan=
-ged,<br>
-&gt; 73 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/hw/char/escc.c b/hw/char/escc.c<br>
-&gt; index 7d16ee8688..7287056b5f 100644<br>
-&gt; --- a/hw/char/escc.c<br>
-&gt; +++ b/hw/char/escc.c<br>
-&gt; @@ -30,6 +30,8 @@<br>
-&gt;=C2=A0 #include &quot;qemu/module.h&quot;<br>
-&gt;=C2=A0 #include &quot;hw/char/escc.h&quot;<br>
-&gt;=C2=A0 #include &quot;ui/console.h&quot;<br>
-&gt; +#include &quot;sysemu/sysemu.h&quot;<br>
-&gt; +#include &quot;qemu/cutils.h&quot;<br>
-&gt;=C2=A0 #include &quot;trace.h&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 /*<br>
-&gt; @@ -175,6 +177,7 @@<br>
-&gt;=C2=A0 #define R_MISC1I 14<br>
-&gt;=C2=A0 #define R_EXTINT 15<br>
-&gt;=C2=A0 <br>
-&gt; +static unsigned char sun_keyboard_layout_dip_switch(void);<br>
-&gt;=C2=A0 static void handle_kbd_command(ESCCChannelState *s, int val);<br=
->
-&gt;=C2=A0 static int serial_can_receive(void *opaque);<br>
-&gt;=C2=A0 static void serial_receive_byte(ESCCChannelState *s, int ch);<br=
->
-&gt; @@ -730,6 +733,75 @@ static QemuInputHandler sunkbd_handler =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 .event =3D sunkbd_handle_event,<br>
-&gt;=C2=A0 };<br>
-&gt;=C2=A0 <br>
-&gt; +static unsigned char sun_keyboard_layout_dip_switch(void)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 /* Return the value of the dip-switches in a SUN Type 5=
- keyboard */<br>
-&gt; +=C2=A0 =C2=A0 static unsigned char ret =3D 0xff;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if ((ret =3D=3D 0xff) &amp;&amp; keyboard_layout) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 int i;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct layout_values {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *lang;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned char dip;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } languages[] =3D<br>
-&gt; +=C2=A0 =C2=A0 /* Dip values from table 3-16 Layouts for Type 4, 5, an=
-d 5c Keyboards<br>
-&gt; */+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;en-us&=
-quot;, 0x21}, /* U.S.A. (US5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 0x22 is some other US (=
-US_UNIX5.kt)*/<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;fr&quo=
-t;,=C2=A0 =C2=A0 0x23}, /* France (France5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;da&quo=
-t;,=C2=A0 =C2=A0 0x24}, /* Denmark (Denmark5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;de&quo=
-t;,=C2=A0 =C2=A0 0x25}, /* Germany (Germany5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;it&quo=
-t;,=C2=A0 =C2=A0 0x26}, /* Italy (Italy5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;nl&quo=
-t;,=C2=A0 =C2=A0 0x27}, /* The Netherlands (Netherland5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;no&quo=
-t;,=C2=A0 =C2=A0 0x28}, /* Norway (Norway.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;pt&quo=
-t;,=C2=A0 =C2=A0 0x29}, /* Portugal (Portugal5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;es&quo=
-t;,=C2=A0 =C2=A0 0x2a}, /* Spain (Spain5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;sv&quo=
-t;,=C2=A0 =C2=A0 0x2b}, /* Sweden (Sweden5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;fr-ch&=
-quot;, 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;de-ch&=
-quot;, 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;en-gb&=
-quot;, 0x2e}, /* Great Britain (UK5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;ko&quo=
-t;,=C2=A0 =C2=A0 0x2f}, /* Korea (Korea5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;tw&quo=
-t;,=C2=A0 =C2=A0 0x30}, /* Taiwan (Taiwan5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;ja&quo=
-t;,=C2=A0 =C2=A0 0x31}, /* Japan (Japan5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;fr-ca&=
-quot;, 0x32}, /* Canada/French (Canada_Fr5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;hu&quo=
-t;,=C2=A0 =C2=A0 0x33}, /* Hungary (Hungary5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;pl&quo=
-t;,=C2=A0 =C2=A0 0x34}, /* Poland (Poland5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;cz&quo=
-t;,=C2=A0 =C2=A0 0x35}, /* Czech (Czech5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;ru&quo=
-t;,=C2=A0 =C2=A0 0x36}, /* Russia (Russia5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;lv&quo=
-t;,=C2=A0 =C2=A0 0x37}, /* Latvia (Latvia5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;tr&quo=
-t;,=C2=A0 =C2=A0 0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;gr&quo=
-t;,=C2=A0 =C2=A0 0x39}, /* Greece (Greece5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;ar&quo=
-t;,=C2=A0 =C2=A0 0x3a}, /* Arabic (Arabic5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;lt&quo=
-t;,=C2=A0 =C2=A0 0x3b}, /* Lithuania (Lithuania5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;nl-be&=
-quot;, 0x3c}, /* Belgium (Belgian5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;be&quo=
-t;,=C2=A0 =C2=A0 0x3c}, /* Belgium (Belgian5.kt) */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i &lt; sizeof(languag=
-es) / sizeof(struct layout_values);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i++) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!strcmp(keyboard_layout=
-, languages[i].lang)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D langu=
-ages[i].dip;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Found no known language code */<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((keyboard_layout[0] &gt;=3D &#39;0&#3=
-9;) &amp;&amp; (keyboard_layout[0] &lt;=3D &#39;9&#39;)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int tmp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* As a fallback we also ac=
-cept numeric dip switch value */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!qemu_strtoui(keyboard_=
-layout, NULL, 0, &amp;tmp)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D (unsi=
-gned char)tmp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 if (ret =3D=3D 0xff) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Final fallback if keyboard_layout was =
-not set or recognized */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D 0x21; /* en-us layout */<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 return ret;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;=C2=A0 static void handle_kbd_command(ESCCChannelState *s, int val)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 trace_escc_kbd_command(val);<br>
-&gt; @@ -751,7 +823,7 @@ static void handle_kbd_command(ESCCChannelState *s=
-, int<br>
-&gt; val)=C2=A0 =C2=A0 =C2=A0case 0xf:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clear_queue(s);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 put_queue(s, 0xfe);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 put_queue(s, 0x21); /*=C2=A0 en-us layout=
- */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 put_queue(s, sun_keyboard_layout_dip_swit=
-ch());<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 default:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; -- <br>
-&gt; 2.14.5<br>
-</blockquote></div>
-
---00000000000068ac2e05b1521daa--
 
