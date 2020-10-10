@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE9428A151
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 22:45:26 +0200 (CEST)
-Received: from localhost ([::1]:34620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E5828A153
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 22:48:19 +0200 (CEST)
+Received: from localhost ([::1]:41850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRLk4-0000vz-2C
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 16:45:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51526)
+	id 1kRLms-000472-VF
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 16:48:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRLgE-0006pm-RM
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:41:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31339)
+ id 1kRLgQ-00072q-4g
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:41:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRLgB-000750-Sy
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:41:26 -0400
+ id 1kRLgO-00075Y-Lf
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:41:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602362482;
+ s=mimecast20190719; t=1602362495;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3UCYv0FVNWsyZHc4ICsi3ke9X+MJ+ZKH7qO99s/UI+w=;
- b=UYXBe3DSqo/9Y2XX92LsnQKSs4oPMGoQ8eEtkKvu785shyYaTcDRpGwcWH0bo6cpM8U0gB
- /bduKfOD1zHjzh4LwiA4RLy4PGRFQLn8kfAthtCOVAA8h3xy3njpyWh9t8NvcDeakTzwlv
- 8X1lDeCD+LDAj70l9+egndWq1vOp4vU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jfyUSzLpMg0aVhpMIGqjnBnWhwQ55mwb9u9gWmSSZ1k=;
+ b=YPWJN8JCdxWpGHUfICfutBsAPKd+e0HpMXFeT3gbjbTNo6bToX0R7WBAJ1Of0ZrzUz71OJ
+ NYxfFx//QjN+wj6UQOK6/8BO+VThoA3Y2XF5scuRkNr5f6qBxg74mt6KhcJF2a5H7JvLok
+ Afcfj5Sk8DxA5zd3/Q7jvEwkwjwGs9M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-lRqmJ6e_OIiEQTFZ7BFIrg-1; Sat, 10 Oct 2020 16:41:20 -0400
-X-MC-Unique: lRqmJ6e_OIiEQTFZ7BFIrg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-544-dThHvkfUM-e2UfrXsOEUVA-1; Sat, 10 Oct 2020 16:41:33 -0400
+X-MC-Unique: dThHvkfUM-e2UfrXsOEUVA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85441100746A
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 20:41:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A24081868423
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 20:41:32 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB2F876665;
- Sat, 10 Oct 2020 20:41:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B9C210013C4;
+ Sat, 10 Oct 2020 20:41:23 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] console: make QMP screendump use coroutine
-Date: Sun, 11 Oct 2020 00:41:03 +0400
-Message-Id: <20201010204106.1368710-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 1/3] coroutine: let CoQueue wake up outside a coroutine
+Date: Sun, 11 Oct 2020 00:41:04 +0400
+Message-Id: <20201010204106.1368710-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20201010204106.1368710-1-marcandre.lureau@redhat.com>
+References: <20201010204106.1368710-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,49 +88,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-Thanks to recent work by Kevin, it becomes possible to run HMP/QMP commands=
- i=3D=0D
-n a=0D
-coroutine. The screendump command is a good target, as it requires to re-en=
-ter=0D
-the main-loop in ordre to flush the display, and write to file in a non-blo=
-ck=3D=0D
-ing=0D
-way.=0D
-=0D
-Despite the flush, the dump may still have glitches. The graphic device may=
-=0D
-perform some operations during the write on the same framebuffer. Doing a m=
-em=3D=0D
-ory=0D
-copy could help, but it would also create a number of other issues. Keeping=
- t=3D=0D
-he=0D
-BQL would defeat a number of advantages of using a coroutine. Afaik, there =
-is=3D=0D
- no=0D
-mechanism to "freeze" the device either (and this could also have bad=0D
-consequences anyway). Good enough?=0D
-=0D
-Marc-Andr=3DC3=3DA9 Lureau (3):=0D
-  coroutine: let CoQueue wake up outside a coroutine=0D
-  console: modify ppm_save to take a pixman image ref=0D
-  console: make QMP/HMP screendump run in coroutine=0D
-=0D
- hmp-commands.hx            |  1 +=0D
- monitor/hmp-cmds.c         |  3 ++-=0D
- qapi/ui.json               |  3 ++-=0D
- ui/console.c               | 42 +++++++++++++++++++++++++++++---------=0D
- ui/trace-events            |  2 +-=0D
- util/qemu-coroutine-lock.c |  6 ++----=0D
- 6 files changed, 40 insertions(+), 17 deletions(-)=0D
-=0D
---=3D20=0D
-2.28.0=0D
-=0D
+The assert() was added in commit b681a1c73e15 ("block: Repair the
+throttling code."), when the qemu_co_queue_do_restart() function
+required to be running in a coroutine. It was later made unnecessary in
+commit a9d9235567e7 ("coroutine-lock: reschedule coroutine on the
+AioContext it was running on").
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ util/qemu-coroutine-lock.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 36927b5f88..5816bf8900 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -85,15 +85,13 @@ static bool qemu_co_queue_do_restart(CoQueue *queue, bool single)
+     return true;
+ }
+ 
+-bool coroutine_fn qemu_co_queue_next(CoQueue *queue)
++bool qemu_co_queue_next(CoQueue *queue)
+ {
+-    assert(qemu_in_coroutine());
+     return qemu_co_queue_do_restart(queue, true);
+ }
+ 
+-void coroutine_fn qemu_co_queue_restart_all(CoQueue *queue)
++void qemu_co_queue_restart_all(CoQueue *queue)
+ {
+-    assert(qemu_in_coroutine());
+     qemu_co_queue_do_restart(queue, false);
+ }
+ 
+-- 
+2.28.0
 
 
