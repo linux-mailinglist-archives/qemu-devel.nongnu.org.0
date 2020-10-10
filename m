@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F708289FE7
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:08:10 +0200 (CEST)
-Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DFA289FF8
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:16:29 +0200 (CEST)
+Received: from localhost ([::1]:52470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRBnN-0006en-5E
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60602)
+	id 1kRBvQ-0002zB-FK
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBb2-0007rH-6T
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56707)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBb7-000858-FT
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBas-0002iy-B7
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:23 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBas-0002jF-CZ
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602323713;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Uokmpig8B0oyx20KvqadDdlty5f9lKR2NbTPPhmgUeM=;
- b=O7sjCJPV+8KdqxwCdPr36j1BoOsO+IF+yQqKhJPKlyHn0htJMfdvjmTIbdjp5w592f1Xya
- R20gHwtPAE/Gy1bosTQ0gV0EY9bOhlBlHcY01TxtRhHWwrC75bihQobjSRbWFGI2eBsTVL
- Tcg5g++DJ06TvRilcHs7K93uxhX69wc=
+ bh=CBzmz0aqo8Vt+TOJfwiqFROPuBw6QcH6Q/y3cW3oJ44=;
+ b=HZvyagjQQQ2dpvI5mTFDPJK6p/bnxPzOZNUpDI5SNI+W/3RB1BwR8xaEGnguNngX6ce/8R
+ tirbuPdI5ZSIsjIZ2ltOxdXAHu54VGJEunONHP7DKsC1oVvxCSMGWv2WBG/RNj6GjJeBHK
+ LYRehJq/rN7nNp2evCOzSgEHb7QHTXM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-DAek4Oj5PPSNbksGUoYj8g-1; Sat, 10 Oct 2020 05:55:11 -0400
-X-MC-Unique: DAek4Oj5PPSNbksGUoYj8g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-239-lnmf_M48O92Qk_nWoY_PnA-1; Sat, 10 Oct 2020 05:55:11 -0400
+X-MC-Unique: lnmf_M48O92Qk_nWoY_PnA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 083A1805F0B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0747051BA;
  Sat, 10 Oct 2020 09:55:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CDB115DA2A;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCE1D6EF58;
  Sat, 10 Oct 2020 09:55:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F20D811275C7; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
+ id 0116111275CA; Sat, 10 Oct 2020 11:55:05 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/34] qapi/gen.py: Remove unused parameter
-Date: Sat, 10 Oct 2020 11:54:57 +0200
-Message-Id: <20201010095504.796182-28-armbru@redhat.com>
+Subject: [PULL 28/34] qapi/gen.py: update write() to be more idiomatic
+Date: Sat, 10 Oct 2020 11:54:58 +0200
+Message-Id: <20201010095504.796182-29-armbru@redhat.com>
 In-Reply-To: <20201010095504.796182-1-armbru@redhat.com>
 References: <20201010095504.796182-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,40 +88,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-_module_dirname doesn't use the 'what' argument, so remove it.
+Make the file handling here just a tiny bit more idiomatic.
+(I realize this is heavily subjective.)
+
+Use exist_ok=True for os.makedirs and remove the exception,
+use fdopen() to wrap the file descriptor in a File-like object,
+and use a context manager for managing the file pointer.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20201009161558.107041-30-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20201009161558.107041-31-jsnow@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/gen.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/qapi/gen.py | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 6b1007a035..8b851c6262 100644
+index 8b851c6262..670c21e210 100644
 --- a/scripts/qapi/gen.py
 +++ b/scripts/qapi/gen.py
-@@ -257,7 +257,7 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
-     def _is_builtin_module(name: Optional[str]) -> bool:
-         return not name
+@@ -12,7 +12,6 @@
+ # See the COPYING file in the top-level directory.
  
--    def _module_dirname(self, what: str, name: Optional[str]) -> str:
-+    def _module_dirname(self, name: Optional[str]) -> str:
-         if self._is_user_module(name):
-             return os.path.dirname(name)
-         return ''
-@@ -275,7 +275,7 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
-         return ret
+ from contextlib import contextmanager
+-import errno
+ import os
+ import re
+ from typing import (
+@@ -65,21 +64,19 @@ class QAPIGen:
+             return
+         pathname = os.path.join(output_dir, self.fname)
+         odir = os.path.dirname(pathname)
++
+         if odir:
+-            try:
+-                os.makedirs(odir)
+-            except os.error as e:
+-                if e.errno != errno.EEXIST:
+-                    raise
++            os.makedirs(odir, exist_ok=True)
++
++        # use os.open for O_CREAT to create and read a non-existant file
+         fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
+-        f = open(fd, 'r+', encoding='utf-8')
+-        text = self.get_content()
+-        oldtext = f.read(len(text) + 1)
+-        if text != oldtext:
+-            f.seek(0)
+-            f.truncate(0)
+-            f.write(text)
+-        f.close()
++        with os.fdopen(fd, 'r+', encoding='utf-8') as fp:
++            text = self.get_content()
++            oldtext = fp.read(len(text) + 1)
++            if text != oldtext:
++                fp.seek(0)
++                fp.truncate(0)
++                fp.write(text)
  
-     def _module_filename(self, what: str, name: Optional[str]) -> str:
--        return os.path.join(self._module_dirname(what, name),
-+        return os.path.join(self._module_dirname(name),
-                             self._module_basename(what, name))
  
-     def _add_module(self, name: Optional[str], blurb: str) -> None:
+ def _wrap_ifcond(ifcond: List[str], before: str, after: str) -> str:
 -- 
 2.26.2
 
