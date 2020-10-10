@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B94289F59
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:27:55 +0200 (CEST)
-Received: from localhost ([::1]:41504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E40289F57
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:26:48 +0200 (CEST)
+Received: from localhost ([::1]:35840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRAEM-0004BU-IT
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:27:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42920)
+	id 1kRADH-0001uo-Ln
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kR9uz-0002g8-Gq
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:07:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56884)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kR9ux-0007s7-A7
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:07:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602317269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xHqQnAwA7oXuSxTeGKkpLFQtNKGOeRfYuB4FhFcEEG0=;
- b=dqNQIeIQ5puHykhrg0kCoHXVmImefSIfFUQuyDnRFXJcaEjdxgCxIKzECtJpLyPACAjqix
- 6H5TQrThQQVjcjWrWa+bHWTrKIMKGG3I3zaHqdyZsVGHMiBUrfimpM23vLljzf7kGx4ORv
- T9nZtufyxq0973CUBICJbhNMVJAzGJQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196--QzCNAZVNU2ZNv0SWq7GoQ-1; Sat, 10 Oct 2020 04:07:45 -0400
-X-MC-Unique: -QzCNAZVNU2ZNv0SWq7GoQ-1
-Received: by mail-wr1-f72.google.com with SMTP id u15so6264127wrn.4
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 01:07:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kRABe-0008WL-Nz
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:25:06 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38203)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kRABd-00012Z-0c
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:25:06 -0400
+Received: by mail-wm1-x342.google.com with SMTP id v12so11941238wmh.3
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 01:25:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4cg7QNiKP+39eVLI/ZmJE37C1I6M1JRB/YJAbaM5g2E=;
+ b=MAkocZBPhuJkPZOf/Llg1ZzV7NZa5+hoxgBz+cNpFeh9JjrVaA+wVBb+tEOpT92Bi4
+ Xnlqow3btiVs4LfIZu/KPR1zRX8hhEw0g9sUc5GQCHsBhUCsA+nMg8TdLQweAeFtUPSU
+ wg01PXl0byPGbCnZ7qby/BTWyT9l9PQmNGLoLAIfOxa5oSEJj982hQFBbFYKwz0sn+eJ
+ q6nhsKwobeXYMxQJ6fd3Taqrb90ndlbruvn/aWEXsbp49jFCfAcXsZ8qySQV6j4N6z0X
+ VyN4NMV1HKkP1+NAVIlVkWwL5/hd+iu29soKkLZplmYalKbcI0KmnZvuTejUdO3TYxTc
+ dDWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xHqQnAwA7oXuSxTeGKkpLFQtNKGOeRfYuB4FhFcEEG0=;
- b=dYSD2r0CJ16EAR/33l9DAtUDhsnAKw8aKW4PW4Y78X3IRICod74iaLyw5x1e9afrEm
- KleWKwQPfkGOHcmm+goTMZbjpuoDLm+UCdQ01Nk8Px5b0cTJAGCge25YotpsZJowW+0b
- sXiw6PwdvF8iMwExJmiQDKzkD+5kTqM3IDa0OLvtQ9kGlTnFQjw7/4nPgzNxMsyOMXQ7
- CsR/DGZF+n9XBJ9G4xK2pye0iVaVyERfSjn0DSusNCELxE4KmKsvCCEBaFsJ5SR8pdoq
- GJbvv88Ui9wNjsMwTyw2YebLN/YtOfe7dMCwf7MN+9W7Tirt00LgKLMxLA41WfpZkm0d
- b95A==
-X-Gm-Message-State: AOAM533u3nJDNFucmWyXquxMNhTu+J3yjoG2CgoSh7b7uyJGJoCBXuoB
- 3mpFlB+DLQXXWefh3jjnKKULB+SbTDQJGOI7R2Vkv19PkZljOBesc3SOKPMc23UILSTnLOCGzMy
- fHgDr4zjAi+00IDM=
-X-Received: by 2002:a1c:8088:: with SMTP id b130mr1679156wmd.132.1602317264417; 
- Sat, 10 Oct 2020 01:07:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx70cAQzS/VoecjmTdwTk/mTMF8eBTCR1ZZCybe+HMwCVS95N6PgNzWef6XN/NSpLA0AkIdtQ==
-X-Received: by 2002:a1c:8088:: with SMTP id b130mr1679136wmd.132.1602317264219; 
- Sat, 10 Oct 2020 01:07:44 -0700 (PDT)
-Received: from localhost.localdomain
- (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id g83sm14695079wmf.15.2020.10.10.01.07.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 01:07:43 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs/devel/testing.rst: Update outdated Avocado URLs
-Date: Sat, 10 Oct 2020 10:07:41 +0200
-Message-Id: <20201010080741.2932406-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ bh=4cg7QNiKP+39eVLI/ZmJE37C1I6M1JRB/YJAbaM5g2E=;
+ b=in9G4jNVzXcT2KVkn5Njj1Nc/+9TQ2X3ySzofXkJos3Kiu7kL8RVLXMgL3px89Q4sj
+ lIXS9V5gQ808r+rJWrZlp1iwsUKI/x0V5yzpyYbTnMi15xxlUI/x6opAJFudFAmOBUYI
+ kDUbhXCWYhQMXlPwNRHo74r/WgfCI3ZvgKFNlMbMH6zsZNAEHJqTHrLCkOeG4kPDoh9u
+ f2SAVY/0EilT0zl5ISlBv7dqzQq+xrSZd9CjhckZnRoC48BSnTZNc1hnAtRYzC/rr8T5
+ yl1ztSVTh7ZVpxhUQgqeZREt3qL6nqfZFXmdD/3Gz5wSgqd+Mm+7yu4lE/xYpXX7p79Q
+ SYmQ==
+X-Gm-Message-State: AOAM532I5vNwa8aK4iFDQul7DUR6xMQWE9dECHqaIx7X2CgqgES39DW6
+ zPTRVfCewEZMvraS3yARsAI=
+X-Google-Smtp-Source: ABdhPJwl9q1kNSRTjlPaBs5iwdadLsx8ATXe2E2zC9RQNDcUFTC/EaNThFgRBDZjwcKi2oapTG45YQ==
+X-Received: by 2002:a05:600c:2241:: with SMTP id
+ a1mr1887238wmm.49.1602318302981; 
+ Sat, 10 Oct 2020 01:25:02 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id c16sm16224716wrx.31.2020.10.10.01.25.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 10 Oct 2020 01:25:02 -0700 (PDT)
+Subject: Re: [PATCH V13 1/9] linux-headers: Update MIPS KVM type defintition
+To: Huacai Chen <zltjiangshi@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <1602059975-10115-1-git-send-email-chenhc@lemote.com>
+ <1602059975-10115-2-git-send-email-chenhc@lemote.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <76fd94c4-0370-a20a-2007-43f478ce1940@amsat.org>
+Date: Sat, 10 Oct 2020 10:25:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <1602059975-10115-2-git-send-email-chenhc@lemote.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 03:36:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.208,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,43 +93,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: avocado-devel@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avocado documentation referred returns 404 error.
-Update the broken links.
+On 10/7/20 10:39 AM, Huacai Chen wrote:
+> Update MIPS KVM type defintition from Linux 5.9-rc6.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- docs/devel/testing.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index bd64c1bdcdd..23a1697d9f4 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -696,7 +696,7 @@ To manually install Avocado and its dependencies, run:
- 
- Alternatively, follow the instructions on this link:
- 
--  http://avocado-framework.readthedocs.io/en/latest/GetStartedGuide.html#installing-avocado
-+  https://avocado-framework.readthedocs.io/en/latest/guides/user/chapters/installing.html
- 
- Overview
- --------
-@@ -879,7 +879,7 @@ Parameter reference
- To understand how Avocado parameters are accessed by tests, and how
- they can be passed to tests, please refer to::
- 
--  http://avocado-framework.readthedocs.io/en/latest/WritingTests.html#accessing-test-parameters
-+  https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#accessing-test-parameters
- 
- Parameter values can be easily seen in the log files, and will look
- like the following:
--- 
-2.26.2
-
+> 
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> ---
+>   linux-headers/linux/kvm.h | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 6683e2e..c138b2f 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -790,9 +790,10 @@ struct kvm_ppc_resize_hpt {
+>   #define KVM_VM_PPC_HV 1
+>   #define KVM_VM_PPC_PR 2
+>   
+> -/* on MIPS, 0 forces trap & emulate, 1 forces VZ ASE */
+> -#define KVM_VM_MIPS_TE		0
+> +/* on MIPS, 0 indicates auto, 1 forces VZ ASE, 2 forces trap & emulate */
+> +#define KVM_VM_MIPS_AUTO	0
+>   #define KVM_VM_MIPS_VZ		1
+> +#define KVM_VM_MIPS_TE		2
+>   
+>   #define KVM_S390_SIE_PAGE_OFFSET 1
+>   
+> 
 
