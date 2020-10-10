@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1A128A14F
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 22:42:40 +0200 (CEST)
-Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE9428A151
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 22:45:26 +0200 (CEST)
+Received: from localhost ([::1]:34620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRLhP-0006Se-EE
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 16:42:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50890)
+	id 1kRLk4-0000vz-2C
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 16:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRLcG-0001zg-L9; Sat, 10 Oct 2020 16:37:21 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36018)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRLcE-0006dg-Ur; Sat, 10 Oct 2020 16:37:20 -0400
-Received: by mail-wm1-x341.google.com with SMTP id e2so13274641wme.1;
- Sat, 10 Oct 2020 13:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lr9XWjXVDUSEQoFZSyyozoh2chXy3lHKAs9QRDzRDc8=;
- b=DsT3sSq4ds8A8NxhET9nOPv7HkTLCGhv833G1LL/5aT5bKU3CcMuCohAb0Qo6CyFEy
- B+oTHKeBSanWFJcssx8Ax3bJbIMB1G8xkF1MuUunI6X40BdRWnY7gE1DCgCQAdlIy45m
- qgaAQHw6xVXjDq+Xxq4rkJj6VFsBxUfaOJuGLLo2Fw7xOi3gb6CSEsoyIBhdvuVcqOqf
- IoLCOWrOiRcTlsnNPHjbOloIuGaa3zArYBmbujm3kbw2iX0k6wgRmhhk0N8r9rjfHlJK
- 4vhuea1ZWwL8TonOjtLGcZfUyYRijmi1w2pLiXmUcnIe86dWGjBUzg43pJ31vMKEIGCa
- IQTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lr9XWjXVDUSEQoFZSyyozoh2chXy3lHKAs9QRDzRDc8=;
- b=a2u7sa4NjYxoNEEAYyvzTXZgBmeNdXBX9z+BEnoFUoqfeiVfP4ocQ1jjf3zOXocZQY
- ykl1/qBlFLUAUgKv8C01OwSIYfTkD3hUs4xBvIvcNyM7jvMCkq88cYhff4rBtS4w/r16
- OWS5ihi3OpY/KeeAPd1mtVQuYkfYr3gehkl9SnzJHA3VY7zTosIA9S6pdbemKvzDnOjc
- C+PpIjoJP0OQ4BgBg3O5/qmtvzEj0D+bqqmziYd4opkFspXQn8xT77wUOuzNcG51xu5c
- D0fF56NMyY41X7Ck/V5czoESulXDpADdADzSLxDAqqbEPkyq/0MuY3cJvNOPhC2lRAWk
- eksg==
-X-Gm-Message-State: AOAM531poVQasVChoJsLob292QAXZWaws6tgLilPQb3uwJAI89o0xdrE
- X2mU4+bOASO4UJEI/RE7ARQ/5xzx7Tg=
-X-Google-Smtp-Source: ABdhPJyPfjyHSwhqMuAeY+VMqUIINApJeRgHsxyzd7TRAJIxlZwb76Vi3IoCHrMAAXWYn/091OjFVw==
-X-Received: by 2002:a1c:4056:: with SMTP id n83mr3953706wma.186.1602362237181; 
- Sat, 10 Oct 2020 13:37:17 -0700 (PDT)
-Received: from localhost.localdomain
- (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id v17sm5661341wru.44.2020.10.10.13.37.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 13:37:16 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kRLgE-0006pm-RM
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:41:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31339)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kRLgB-000750-Sy
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 16:41:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602362482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3UCYv0FVNWsyZHc4ICsi3ke9X+MJ+ZKH7qO99s/UI+w=;
+ b=UYXBe3DSqo/9Y2XX92LsnQKSs4oPMGoQ8eEtkKvu785shyYaTcDRpGwcWH0bo6cpM8U0gB
+ /bduKfOD1zHjzh4LwiA4RLy4PGRFQLn8kfAthtCOVAA8h3xy3njpyWh9t8NvcDeakTzwlv
+ 8X1lDeCD+LDAj70l9+egndWq1vOp4vU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-520-lRqmJ6e_OIiEQTFZ7BFIrg-1; Sat, 10 Oct 2020 16:41:20 -0400
+X-MC-Unique: lRqmJ6e_OIiEQTFZ7BFIrg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85441100746A
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 20:41:19 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB2F876665;
+ Sat, 10 Oct 2020 20:41:09 +0000 (UTC)
+From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/4] hw/arm/bcm2835_peripherals: Correctly wire the
- SYS_timer IRQs
-Date: Sat, 10 Oct 2020 22:37:09 +0200
-Message-Id: <20201010203709.3116542-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201010203709.3116542-1-f4bug@amsat.org>
-References: <20201010203709.3116542-1-f4bug@amsat.org>
+Subject: [PATCH 0/3] console: make QMP screendump use coroutine
+Date: Sun, 11 Oct 2020 00:41:03 +0400
+Message-Id: <20201010204106.1368710-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 16:30:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,51 +78,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Paul Zimmerman <pauldzim@gmail.com>, qemu-arm@nongnu.org,
- Luc Michel <luc.michel@greensocs.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SYS_timer is not directly wired to the ARM core, but to the
-SoC (peripheral) interrupt controller.
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-Fixes: 0e5bbd74064 ("hw/arm/bcm2835_peripherals: Use the SYS_timer")
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/bcm2835_peripherals.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 15c5c72e465..48909a43c32 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -171,8 +171,17 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(&s->peri_mr, ST_OFFSET,
-                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systmr), 0));
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 0,
--        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_ARM_IRQ,
--                               INTERRUPT_ARM_TIMER));
-+        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-+                               INTERRUPT_TIMER0));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 1,
-+        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-+                               INTERRUPT_TIMER1));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 2,
-+        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-+                               INTERRUPT_TIMER2));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systmr), 3,
-+        qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
-+                               INTERRUPT_TIMER3));
- 
-     /* UART0 */
-     qdev_prop_set_chr(DEVICE(&s->uart0), "chardev", serial_hd(0));
--- 
-2.26.2
+Hi,=0D
+=0D
+Thanks to recent work by Kevin, it becomes possible to run HMP/QMP commands=
+ i=3D=0D
+n a=0D
+coroutine. The screendump command is a good target, as it requires to re-en=
+ter=0D
+the main-loop in ordre to flush the display, and write to file in a non-blo=
+ck=3D=0D
+ing=0D
+way.=0D
+=0D
+Despite the flush, the dump may still have glitches. The graphic device may=
+=0D
+perform some operations during the write on the same framebuffer. Doing a m=
+em=3D=0D
+ory=0D
+copy could help, but it would also create a number of other issues. Keeping=
+ t=3D=0D
+he=0D
+BQL would defeat a number of advantages of using a coroutine. Afaik, there =
+is=3D=0D
+ no=0D
+mechanism to "freeze" the device either (and this could also have bad=0D
+consequences anyway). Good enough?=0D
+=0D
+Marc-Andr=3DC3=3DA9 Lureau (3):=0D
+  coroutine: let CoQueue wake up outside a coroutine=0D
+  console: modify ppm_save to take a pixman image ref=0D
+  console: make QMP/HMP screendump run in coroutine=0D
+=0D
+ hmp-commands.hx            |  1 +=0D
+ monitor/hmp-cmds.c         |  3 ++-=0D
+ qapi/ui.json               |  3 ++-=0D
+ ui/console.c               | 42 +++++++++++++++++++++++++++++---------=0D
+ ui/trace-events            |  2 +-=0D
+ util/qemu-coroutine-lock.c |  6 ++----=0D
+ 6 files changed, 40 insertions(+), 17 deletions(-)=0D
+=0D
+--=3D20=0D
+2.28.0=0D
+=0D
 
 
