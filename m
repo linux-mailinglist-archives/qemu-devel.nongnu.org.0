@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B4C28A0C4
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 17:19:23 +0200 (CEST)
-Received: from localhost ([::1]:44986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B320828A0CE
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 17:46:11 +0200 (CEST)
+Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRGeX-000746-Iq
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 11:19:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34530)
+	id 1kRH4U-0004r3-Bs
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 11:46:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRGcp-0006CF-Tk; Sat, 10 Oct 2020 11:17:35 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40001)
+ id 1kRH2z-0004D7-LS; Sat, 10 Oct 2020 11:44:37 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRGcf-0006pd-5f; Sat, 10 Oct 2020 11:17:29 -0400
-Received: by mail-wm1-x343.google.com with SMTP id k18so12610109wmj.5;
- Sat, 10 Oct 2020 08:17:18 -0700 (PDT)
+ id 1kRH2x-00016h-Vj; Sat, 10 Oct 2020 11:44:37 -0400
+Received: by mail-wr1-x442.google.com with SMTP id g12so13446985wrp.10;
+ Sat, 10 Oct 2020 08:44:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rZUK4OpgM9LDSuM+PftlglNnkrsDkN4iy8skrvx7zaQ=;
- b=a6yY7bpeVfflurfL3PA2HjXerIF+8xFrpPC2IekDNjdKP39IgixUjUQWkcC3R1V7fY
- pGQ54AfoO/tSa36JWtFMSidUKg2bTYWRsD3OOHDks2AjZlPF72LWkWqf7SWyAJB8kB+q
- xgMqzhbJQFO3tZ/FfhvXA7nVQNWrLEG1hMIoL6ZawOwFu598IaLAQI3XH5DXdnT1gcxY
- iPfJ6AEmHXdNpqc3vF17zNtkbpZFEqDy4robbE0X4M5fTLW7q1qxDADH+FNsEmkh2UNn
- K7+Mp1fTG7a+tFoh9tufu857NjqN+n4dWzjv2ERxp/eA1oIcdTUXPnYsB7fwhRPwgSPe
- IJ4Q==
+ bh=4qMPhKMN+GYtgVaR7MAjuQFtHqQQ8jVSHZcM4SmpAF4=;
+ b=WczRigT+uCn8EZ4EgR/+ESR6Yjy5TKK1aITte6jcvAENlqw8P3ezTPh9d+SWxSWwom
+ VlQKpz1ijsgbh+DyjtgHrUWw+UtzxiAgWIWE6zhytY90bd3wnBKa0UEIEtnSn+HG8oqk
+ dXlHrYQ9i8pOlPWOD4zty/8XAlZoXQdekTbzTWYC/fApL32VtnHO7LDgaoi2bZTN5xr0
+ fSmp6zMBqff/M6BbnvKVqftIkOzdCO+3hdL/Ri5BUl0aXI/Gmo+fmAt11+myvrdkI2z7
+ QuQRxFGLu+duJ7KCknuJjsi76vdKFbXlZFQYq9zI7zA4xMvcH6LOByrdhSB2BbgIQ4gP
+ dHYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rZUK4OpgM9LDSuM+PftlglNnkrsDkN4iy8skrvx7zaQ=;
- b=CEret54jJkUUlfuLOxrNqSP1qf0sdYFGZ6Zm0Htb0QPO+q+kUqjl6OJdTbdQC18LR/
- TvVJ/073BYgBWighT5zCREHe+pXG52HcS9YO00KveM9c5sSBwTLgz863kkh10dCIhWQm
- EGgp2IwAUnM09krJrK17a2F1cL9qqVgRfzprgMPiRHHBQI+cV3Cgnf3sxwlGOzHtTMNO
- HiQEOuvsUH2Sq6lOjnrIOdqvw8R1mdd0KikcP2Ql80KxU9UR74U4bDl7erH6dX2tJOQm
- o5Y/zSvYDCDXQFUniT1vqmGmZSqcgflf44b71cTmjpBUHznrox1YuxFIv/aMBLIElheP
- 1ing==
-X-Gm-Message-State: AOAM530KFjD782GRBbZ4hGhjBRZzy3yJKN/nBJSOUtlfJd1GebBukmqk
- EnAE8ndnv3V2uOVQhv/zysM=
-X-Google-Smtp-Source: ABdhPJyz1X96dX7SISI9t4HyezEPNdDrBQHH+RkdnIeTdXQ8v35Q1jRcDmUPZNW0WAz40rGBknWafQ==
-X-Received: by 2002:a7b:cb82:: with SMTP id m2mr3313045wmi.56.1602343037794;
- Sat, 10 Oct 2020 08:17:17 -0700 (PDT)
+ bh=4qMPhKMN+GYtgVaR7MAjuQFtHqQQ8jVSHZcM4SmpAF4=;
+ b=Tk8mZp8HIFSind+QSxzAtce6T32pcJDtEGQH6JUNfZtxdtpDvPSLBLWjnHDubgGnsL
+ BEes9lF21ah5MIGnc2wqthq8I8HRiSZ7hzAcPZ/5sHAQoecOJtPBcTbrIMz9Qe6W23jv
+ anynCqz6HFpOwoTGcbg5WlJI/iWzHGwMr/0cKiSfUcP6tat8LMe5UqQnqJMoGoqt76x/
+ VUySShuxs0NWcg3cwKf1iXjHih5aOLVyErkS83ZYtmWI/nG/+FLjXNk/HSv+bCtLz5CF
+ khCjYKCSjcbrBIoeBsSCb5u7+mVbO0cktr7biPqimRsCzdyWYScShEVC8hsfG3T/5DCZ
+ xV3Q==
+X-Gm-Message-State: AOAM532Kz+Zn91+ec3yQZLe9bGkOht6VAgAhANBRYwmHdOE0sa/yCoiF
+ TS3GYLV2gd7kgcs7TOh42N8YXuy6jLg=
+X-Google-Smtp-Source: ABdhPJzgkiGxEhpsvCoAQBAXOLHTHkGJFiknityTv0yB9oB8XFtQNirOhnZLAXWgzwVLOC30OQbk/w==
+X-Received: by 2002:a5d:4d10:: with SMTP id z16mr653732wrt.360.1602344673810; 
+ Sat, 10 Oct 2020 08:44:33 -0700 (PDT)
 Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id g139sm16781658wme.2.2020.10.10.08.17.16
+ by smtp.gmail.com with ESMTPSA id u17sm18084328wri.45.2020.10.10.08.44.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 10 Oct 2020 08:17:16 -0700 (PDT)
+ Sat, 10 Oct 2020 08:44:33 -0700 (PDT)
 Subject: Re: [PATCH v3 03/15] hw/core/clock: add the clock_new helper function
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 To: Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org
 References: <20201010135759.437903-1-luc@lmichel.fr>
  <20201010135759.437903-4-luc@lmichel.fr>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f49f1c17-9343-c5dc-51fd-da0edb208314@amsat.org>
-Date: Sat, 10 Oct 2020 17:17:15 +0200
+ <f49f1c17-9343-c5dc-51fd-da0edb208314@amsat.org>
+Message-ID: <1b60a39a-00a2-9f2a-e022-df1d468a90e6@amsat.org>
+Date: Sat, 10 Oct 2020 17:44:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201010135759.437903-4-luc@lmichel.fr>
+In-Reply-To: <f49f1c17-9343-c5dc-51fd-da0edb208314@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -19
@@ -98,21 +99,25 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/20 3:57 PM, Luc Michel wrote:
-> This function creates a clock and parents it to another object with a given
-> name. It calls clock_setup_canonical_path before returning the new
-> clock.
+On 10/10/20 5:17 PM, Philippe Mathieu-Daudé wrote:
+> On 10/10/20 3:57 PM, Luc Michel wrote:
+>> This function creates a clock and parents it to another object with a 
+>> given
+>> name. It calls clock_setup_canonical_path before returning the new
+>> clock.
+>>
+>> This function is useful to create clocks in devices when one doesn't
+>> want to expose it at the qdev level (as an input or an output).
+>>
+>> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Signed-off-by: Luc Michel <luc@lmichel.fr>
+>> ---
+>>   include/hw/clock.h | 13 +++++++++++++
+>>   hw/core/clock.c    | 15 +++++++++++++++
+>>   2 files changed, 28 insertions(+)
 > 
-> This function is useful to create clocks in devices when one doesn't
-> want to expose it at the qdev level (as an input or an output).
-> 
-> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: Luc Michel <luc@lmichel.fr>
-> ---
->   include/hw/clock.h | 13 +++++++++++++
->   hw/core/clock.c    | 15 +++++++++++++++
->   2 files changed, 28 insertions(+)
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
