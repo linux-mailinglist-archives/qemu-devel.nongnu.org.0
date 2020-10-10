@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8800289F22
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:07:32 +0200 (CEST)
-Received: from localhost ([::1]:56660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20310289F33
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:15:01 +0200 (CEST)
+Received: from localhost ([::1]:53620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR9ud-0000a9-Qu
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:07:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41302)
+	id 1kRA1s-0002eF-5A
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lT-0004Wi-2B
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:58:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50673)
+ id 1kR9lU-0004Zx-AV
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:58:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lQ-0006jg-Id
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:58:02 -0400
+ id 1kR9lS-0006jr-Ke
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:58:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602316679;
+ s=mimecast20190719; t=1602316681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g4tBny8xHG7jaj/fwHAgSPIwRLxsSdPgqy4yBPAchHA=;
- b=KuWzM4gHZxFRJZy7PfJ327IcvrtuYG6Ae0DQmJlf3zB2VwSFlaYshHk/7Lkmwyxk5TR/Vm
- fzpGFKxNXMb4mWESEo8VpHqee63MTmAtjqNNSuRcCBps1Z87uo160DZwXo3UF00CYCGbS1
- SW37sFZ33Lk7k8BHHhP+v3ArEoqsc/g=
+ bh=CrmoymnzAgikECEklmSg1XDyOEymdcxw7MwzoWGtGiE=;
+ b=hoKGQAGRL5be1F4v/BYah2fDcQAo1at3wJ0o3lC53AQ0aIS1Xb7TU66xaMx9PKWgILB5Dj
+ dLX8nyeu/82m/8aOUaL8iJSV8GPTGgAM29LEN25NNqE65TnS0TbGHBpehaEH+dFMD7fHue
+ 6Lns36M3PSri2CRtJ28JCHK91ZMS2Ls=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-VdRnNoSQN-6yUAhssm2Zxg-1; Sat, 10 Oct 2020 03:57:56 -0400
-X-MC-Unique: VdRnNoSQN-6yUAhssm2Zxg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-345-tukO5uNsP7akmPqqomDs7w-1; Sat, 10 Oct 2020 03:58:00 -0400
+X-MC-Unique: tukO5uNsP7akmPqqomDs7w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3D1A8030D3
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 429CF186DD26
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:59 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A10DF60C07
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4465C1002C01;
+ Sat, 10 Oct 2020 07:57:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/39] qdev: add "check if address free" callback for buses
-Date: Sat, 10 Oct 2020 03:57:29 -0400
-Message-Id: <20201010075739.951385-30-pbonzini@redhat.com>
+Subject: [PULL 30/39] scsi/scsi_bus: switch search direction in
+ scsi_device_find
+Date: Sat, 10 Oct 2020 03:57:30 -0400
+Message-Id: <20201010075739.951385-31-pbonzini@redhat.com>
 In-Reply-To: <20201010075739.951385-1-pbonzini@redhat.com>
 References: <20201010075739.951385-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 03:36:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 02:57:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,144 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check if an address is free on the bus before plugging in the
-device.  This makes it possible to do the check without any
-side effects, and to detect the problem early without having
-to do it in the realize callback.
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201006123904.610658-5-mlevitsk@redhat.com>
+This change will allow us to convert the bus children list to RCU,
+while not changing the logic of this function
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200913160259.32145-2-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/qdev.c         | 17 +++++++++++++++--
- hw/net/virtio-net.c    |  2 +-
- hw/sd/core.c           |  3 ++-
- include/hw/qdev-core.h | 13 ++++++++++++-
- 4 files changed, 30 insertions(+), 5 deletions(-)
+ hw/scsi/scsi-bus.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 96772a15bd..74db78df36 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -94,13 +94,23 @@ static void bus_add_child(BusState *bus, DeviceState *child)
-                              0);
- }
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 3284a5d1fb..6b1ed7ae9a 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -1572,7 +1572,7 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+     BusChild *kid;
+     SCSIDevice *target_dev = NULL;
  
--void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
-+static bool bus_check_address(BusState *bus, DeviceState *child, Error **errp)
-+{
-+    BusClass *bc = BUS_GET_CLASS(bus);
-+    return !bc->check_address || bc->check_address(bus, child, errp);
-+}
+-    QTAILQ_FOREACH_REVERSE(kid, &bus->qbus.children, sibling) {
++    QTAILQ_FOREACH(kid, &bus->qbus.children, sibling) {
+         DeviceState *qdev = kid->child;
+         SCSIDevice *dev = SCSI_DEVICE(qdev);
+ 
+@@ -1580,7 +1580,15 @@ SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+             if (dev->lun == lun) {
+                 return dev;
+             }
+-            target_dev = dev;
 +
-+bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
- {
-     BusState *old_parent_bus = dev->parent_bus;
-     DeviceClass *dc = DEVICE_GET_CLASS(dev);
- 
-     assert(dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type));
- 
-+    if (!bus_check_address(bus, dev, errp)) {
-+        return false;
-+    }
++            /*
++             * If we don't find exact match (channel/bus/lun),
++             * we will return the first device which matches channel/bus
++             */
 +
-     if (old_parent_bus) {
-         trace_qdev_update_parent_bus(dev, object_get_typename(OBJECT(dev)),
-             old_parent_bus, object_get_typename(OBJECT(old_parent_bus)),
-@@ -126,6 +136,7 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
-         object_unref(OBJECT(old_parent_bus));
-         object_unref(OBJECT(dev));
++            if (!target_dev) {
++                target_dev = dev;
++            }
+         }
      }
-+    return true;
- }
- 
- DeviceState *qdev_new(const char *name)
-@@ -371,7 +382,9 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
-     assert(!dev->realized && !dev->parent_bus);
- 
-     if (bus) {
--        qdev_set_parent_bus(dev, bus);
-+        if (!qdev_set_parent_bus(dev, bus, errp)) {
-+            return false;
-+        }
-     } else {
-         assert(!DEVICE_GET_CLASS(dev)->bus_type);
-     }
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index a160a9da9c..277289d56e 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3138,7 +3138,7 @@ static bool failover_replug_primary(VirtIONet *n, Error **errp)
-         error_setg(errp, "virtio_net: couldn't find primary bus");
-         return false;
-     }
--    qdev_set_parent_bus(n->primary_dev, n->primary_bus);
-+    qdev_set_parent_bus(n->primary_dev, n->primary_bus, &error_abort);
-     n->primary_should_be_hidden = false;
-     if (!qemu_opt_set_bool(n->primary_device_opts,
-                            "partially_hotplugged", true, errp)) {
-diff --git a/hw/sd/core.c b/hw/sd/core.c
-index 957d116f1a..08c93b5903 100644
---- a/hw/sd/core.c
-+++ b/hw/sd/core.c
-@@ -23,6 +23,7 @@
- #include "hw/qdev-core.h"
- #include "hw/sd/sd.h"
- #include "qemu/module.h"
-+#include "qapi/error.h"
- #include "trace.h"
- 
- static inline const char *sdbus_name(SDBus *sdbus)
-@@ -240,7 +241,7 @@ void sdbus_reparent_card(SDBus *from, SDBus *to)
-     readonly = sc->get_readonly(card);
- 
-     sdbus_set_inserted(from, false);
--    qdev_set_parent_bus(DEVICE(card), &to->qbus);
-+    qdev_set_parent_bus(DEVICE(card), &to->qbus, &error_abort);
-     sdbus_set_inserted(to, true);
-     sdbus_set_readonly(to, readonly);
- }
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 72064f4dd4..14d476c587 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -210,13 +210,24 @@ struct BusClass {
-     /* FIXME first arg should be BusState */
-     void (*print_dev)(Monitor *mon, DeviceState *dev, int indent);
-     char *(*get_dev_path)(DeviceState *dev);
-+
-     /*
-      * This callback is used to create Open Firmware device path in accordance
-      * with OF spec http://forthworks.com/standards/of1275.pdf. Individual bus
-      * bindings can be found at http://playground.sun.com/1275/bindings/.
-      */
-     char *(*get_fw_dev_path)(DeviceState *dev);
-+
-     void (*reset)(BusState *bus);
-+
-+    /*
-+     * Return whether the device can be added to @bus,
-+     * based on the address that was set (via device properties)
-+     * before realize.  If not, on return @errp contains the
-+     * human-readable error message.
-+     */
-+    bool (*check_address)(BusState *bus, DeviceState *dev, Error **errp);
-+
-     BusRealize realize;
-     BusUnrealize unrealize;
- 
-@@ -788,7 +799,7 @@ const char *qdev_fw_name(DeviceState *dev);
- Object *qdev_get_machine(void);
- 
- /* FIXME: make this a link<> */
--void qdev_set_parent_bus(DeviceState *dev, BusState *bus);
-+bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp);
- 
- extern bool qdev_hotplug;
- extern bool qdev_hot_removed;
+     return target_dev;
 -- 
 2.26.2
 
