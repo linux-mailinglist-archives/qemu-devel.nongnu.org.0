@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A055128A10F
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:37:14 +0200 (CEST)
-Received: from localhost ([::1]:59378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF65D28A112
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 19:40:30 +0200 (CEST)
+Received: from localhost ([::1]:39464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRInx-0003yU-6w
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:37:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55066)
+	id 1kRIr6-0007NI-Fg
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 13:40:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIdi-0000dg-P5
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:40 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34189)
+ id 1kRIdm-0000eK-6V
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:43 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRIdf-0003rd-QQ
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:37 -0400
-Received: by mail-wr1-x444.google.com with SMTP id i1so7554807wro.1
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:26:35 -0700 (PDT)
+ id 1kRIdi-0003ro-HY
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 13:26:41 -0400
+Received: by mail-wm1-x344.google.com with SMTP id d81so12886841wmc.1
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 10:26:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i1cGbjc5Cl94JMQEfZlvF0v5MlNUEPZb+r7dtqjcBUs=;
- b=SKKtqH7MaIjmjoZzCPXDhMH+IUc5IO5PRCMeH50ranrtbo6BJnubq9H2E2oyTpPaNT
- hOajyPLpYYN/WZhtEkNIKPwVmsFbiooWU76zV1b1l31SoSNsCi1ALQhfGn3LUaX6+LIC
- zoXr388r31tGNsdoLot1pv96jY7XoPWLqFO0E6yqKC8M3+W/GYPXLTpru3RwifLuQ/X+
- om3FkmjeGzQ+k+0zQAR7Lg1ZOCugMM38x/XMQhjgHeOkifPY0gg5e6XfuDkfLFIjvset
- a+mIiun4Abr/RhP+hD6HekM+YjpdUS5ojhih4QYhtWdiP6pmqaEyhITTQ74IlPhPouUN
- ZMyg==
+ bh=GJs+vUPbnbBqVHsKvcVatNykiV7Rg7UUaqvKVc5FZic=;
+ b=eYaWz2r4mRDquzy6uPEASAgNB9lW5MXM+p33nvjo4eNH4/HLgmqjrrU3eA1UNEGiG5
+ KYi/9fzBjRD6ZTrcB2wzxiLIfiPOQTb3/A8ljKXrgxvsbxMaEt6xW0lmj6+bvjnZohr7
+ fmYwmA6GRa96eVLv0Yv4ymyZhJInfjJRXiVehjc7hOiU6rkZI5xtHuUlHOa+Cb0w9CJ9
+ UOo1mB2z5V82SfMp4/9RmfIeOoXpawAswsdeQNKtU1cAx9OExam5QoJPuD4O+26kFpKV
+ K3DjsboCL/H0ZDMVHa/H93p05RPi1Tqnjy+MyV8rlzaVUBTTu10HIXDU4C37MJNdftqN
+ 0O5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=i1cGbjc5Cl94JMQEfZlvF0v5MlNUEPZb+r7dtqjcBUs=;
- b=TmCED+fHDue9M0rjpuHSPQPuUTLokB2zirK1hb0GHBsNW9VPcX5xE68q+EkgqWHB64
- 6iQLgTuUJbsc0WP4hacqTpk3+Rxad4f8TxUR45cOyD9TVvx8cPHHjr40Wg9wJs0retht
- dYYz0wJIVXo0WeKJ9needprv11NhXCgV/5ZRBbJV+1DEXsUMTnrk+TfhOXEq/C1iAvLr
- JOa95Mbnfysqqpkrx9o8JfsKTpuloBEvowZubaLJYUZDQq+8QdZxv+Q1UumCzAswgwYw
- q4HRl+ZgQblI5+yRPJkRpZDeQiYJH2L7dZCwF0JmcXKXopS0dD+taeEpmdw1ncpVD/1d
- IjEg==
-X-Gm-Message-State: AOAM533SZrZiWkuIoT1eHavjCIcxlWQTATLGK8HZLQA0nIVEZ/HSQzE5
- xajr9NHCHvqEtoC19wAyyNtlxXSV9NU=
-X-Google-Smtp-Source: ABdhPJzAbaZ6zR9VIiJSLmay4Mk9SWsp+Y/6KB/Vzfw+vEooVmyzOYESI8DDN0ySMYrtB2zV3H3ulA==
-X-Received: by 2002:a5d:63c3:: with SMTP id c3mr20630624wrw.315.1602350794356; 
- Sat, 10 Oct 2020 10:26:34 -0700 (PDT)
+ bh=GJs+vUPbnbBqVHsKvcVatNykiV7Rg7UUaqvKVc5FZic=;
+ b=H/BPpTJ5ZwrqmfxTiyKK210P+GYO6p7JlCQAcc26BJXhtsaqTqEr747ilKAAdAjl/K
+ hNgnS3uUsplorcvsLGdg4t1YBFr3WLzhMk/fYrWJ2zlb3Vy/ey6mu74UDYv2AY75efk0
+ /r291Fx6cpvw2oF69adfj2PgjP8u5l99+bM/cZUoRbZgUOHaWS452jFc5+6T/oAM17a1
+ qXv6bFdj9N78o/Dhh+tKNNF65R0NUg2dkpPfVt8ZhgaOaoe1khxaK//CMp8bcSjlP/KH
+ bMeB0wJDADHcq9uXi7WS3ptiZ57Ww0SnNIpX+IjGELVzQUDrCxyzCY9fzdmhwdjvK8yp
+ Vaew==
+X-Gm-Message-State: AOAM532OvviJzKK53XYhnMxm8Yk1Lo6e1fFmea2sEAwYXrgoq57bN/rh
+ FFCEZNuB5FbBWH6JEgt0bkZi/eHv/WM=
+X-Google-Smtp-Source: ABdhPJxempHW8LfOowFAaxwgAsUhj6DQ5ykFG16WIUxFlaJuzZFMZyRjPbUSCsyVE5txDc4nM/8e9A==
+X-Received: by 2002:a1c:a9d1:: with SMTP id s200mr3458266wme.107.1602350795548; 
+ Sat, 10 Oct 2020 10:26:35 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id i11sm16786068wre.32.2020.10.10.10.26.33
+ by smtp.gmail.com with ESMTPSA id i11sm16786068wre.32.2020.10.10.10.26.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Oct 2020 10:26:33 -0700 (PDT)
+ Sat, 10 Oct 2020 10:26:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/20] target/mips/cpu: Make cp0_count_rate a property
-Date: Sat, 10 Oct 2020 19:26:07 +0200
-Message-Id: <20201010172617.3079633-11-f4bug@amsat.org>
+Subject: [PATCH v2 11/20] target/mips/cpu: Allow the CPU to use dynamic
+ frequencies
+Date: Sat, 10 Oct 2020 19:26:08 +0200
+Message-Id: <20201010172617.3079633-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201010172617.3079633-1-f4bug@amsat.org>
 References: <20201010172617.3079633-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -100,100 +101,89 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since not all CPU implementations use a cores use a CP0 timer
-at half the frequency of the CPU, make this variable a property.
+Use the Clock API and let the CPU object have an input clock.
+
+If no clock is connected, keep using the default frequency of
+200 MHz used since the introduction of the 'r4k' machine in
+commit 6af0bf9c7c3.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/cpu.h |  9 +++++++++
- target/mips/cpu.c | 19 +++++++++++--------
- 2 files changed, 20 insertions(+), 8 deletions(-)
+ target/mips/cpu.h |  4 ++++
+ target/mips/cpu.c | 10 ++++++++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 085a88e9550..baeceb892ef 100644
+index baeceb892ef..062a4ba6225 100644
 --- a/target/mips/cpu.h
 +++ b/target/mips/cpu.h
-@@ -1151,6 +1151,7 @@ struct CPUMIPSState {
+@@ -4,6 +4,7 @@
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+ #include "fpu/softfloat-types.h"
++#include "hw/clock.h"
+ #include "mips-defs.h"
+ 
+ #define TCG_GUEST_DEFAULT_MO (0)
+@@ -1151,6 +1152,8 @@ struct CPUMIPSState {
  /**
   * MIPSCPU:
   * @env: #CPUMIPSState
-+ * @cp0_count_rate: rate at which the coprocessor 0 counter increments
++ * @clock: this CPU input clock (may be connected
++ *         to an output clock from another device).
+  * @cp0_count_rate: rate at which the coprocessor 0 counter increments
   *
   * A MIPS CPU.
-  */
-@@ -1161,6 +1162,14 @@ struct MIPSCPU {
+@@ -1160,6 +1163,7 @@ struct MIPSCPU {
+     CPUState parent_obj;
+     /*< public >*/
  
++    Clock *clock;
      CPUNegativeOffsetState neg;
      CPUMIPSState env;
-+    /*
-+     * The Count register acts as a timer, incrementing at a constant rate,
-+     * whether or not an instruction is executed, retired, or any forward
-+     * progress is made through the pipeline. The rate at which the counter
-+     * increments is implementation dependent, and is a function of the
-+     * pipeline clock of the processor, not the issue width of the processor.
-+     */
-+    unsigned cp0_count_rate;
- };
- 
- 
+     /*
 diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 46188139b7b..461edfe22b7 100644
+index 461edfe22b7..3deb0245e7c 100644
 --- a/target/mips/cpu.c
 +++ b/target/mips/cpu.c
-@@ -26,7 +26,7 @@
- #include "qemu/module.h"
+@@ -27,6 +27,7 @@
  #include "sysemu/kvm.h"
  #include "exec/exec-all.h"
--
-+#include "hw/qdev-properties.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-clock.h"
  
  static void mips_cpu_set_pc(CPUState *cs, vaddr value)
  {
-@@ -135,12 +135,7 @@ static void mips_cpu_disas_set_info(CPUState *s, disassemble_info *info)
- }
- 
- /*
-- * Since commit 6af0bf9c7c3 this model assumes a CPU clocked at 200MHz
-- * and a CP0 timer running at half the clock of the CPU (cp0_count_rate = 2).
-- *
-- * TIMER_FREQ_HZ = CPU_FREQ_HZ / CP0_COUNT_RATE = 200 MHz / 2 = 100 MHz
-- *
-- * TIMER_PERIOD_NS = 1 / TIMER_FREQ_HZ = 10 ns
-+ * Since commit 6af0bf9c7c3 this model assumes a CPU clocked at 200MHz.
-  */
- #define CPU_FREQ_HZ_DEFAULT     200000000
- #define CP0_COUNT_RATE_DEFAULT  2
-@@ -149,7 +144,7 @@ static void mips_cp0_period_set(MIPSCPU *cpu)
+@@ -144,8 +145,8 @@ static void mips_cp0_period_set(MIPSCPU *cpu)
  {
      CPUMIPSState *env = &cpu->env;
  
--    env->cp0_count_ns = muldiv64(NANOSECONDS_PER_SECOND, CP0_COUNT_RATE_DEFAULT,
-+    env->cp0_count_ns = muldiv64(NANOSECONDS_PER_SECOND, cpu->cp0_count_rate,
-                                  CPU_FREQ_HZ_DEFAULT);
+-    env->cp0_count_ns = muldiv64(NANOSECONDS_PER_SECOND, cpu->cp0_count_rate,
+-                                 CPU_FREQ_HZ_DEFAULT);
++    env->cp0_count_ns = cpu->cp0_count_rate
++                        * clock_get_ns(MIPS_CPU(cpu)->clock);
  }
  
-@@ -202,6 +197,13 @@ static ObjectClass *mips_cpu_class_by_name(const char *cpu_model)
-     return oc;
+ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
+@@ -155,6 +156,10 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
+     MIPSCPUClass *mcc = MIPS_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
++    if (!clock_get(cpu->clock)) {
++        /* Initialize the frequency in case the clock remains unconnected. */
++        clock_set_hz(cpu->clock, CPU_FREQ_HZ_DEFAULT);
++    }
+     mips_cp0_period_set(cpu);
+ 
+     cpu_exec_realizefn(cs, &local_err);
+@@ -178,6 +183,7 @@ static void mips_cpu_initfn(Object *obj)
+     MIPSCPUClass *mcc = MIPS_CPU_GET_CLASS(obj);
+ 
+     cpu_set_cpustate_pointers(cpu);
++    cpu->clock = qdev_init_clock_in(DEVICE(obj), "clk-in", NULL, cpu);
+     env->cpu_model = mcc->cpu_def;
  }
  
-+static Property mips_cpu_properties[] = {
-+    /* CP0 timer running at half the clock of the CPU */
-+    DEFINE_PROP_UINT32("cp0-count-rate", MIPSCPU, cp0_count_rate,
-+                       CP0_COUNT_RATE_DEFAULT),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
- static void mips_cpu_class_init(ObjectClass *c, void *data)
- {
-     MIPSCPUClass *mcc = MIPS_CPU_CLASS(c);
-@@ -211,6 +213,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_realize(dc, mips_cpu_realizefn,
-                                     &mcc->parent_realize);
-     device_class_set_parent_reset(dc, mips_cpu_reset, &mcc->parent_reset);
-+    device_class_set_props(dc, mips_cpu_properties);
- 
-     cc->class_by_name = mips_cpu_class_by_name;
-     cc->has_work = mips_cpu_has_work;
 -- 
 2.26.2
 
