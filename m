@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EF2289FED
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:09:59 +0200 (CEST)
-Received: from localhost ([::1]:57788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933DD289FDD
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 12:05:14 +0200 (CEST)
+Received: from localhost ([::1]:41286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRBp8-0001hI-2Z
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60622)
+	id 1kRBkX-000362-KM
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 06:05:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBb2-0007tA-Ug
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26674)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBb1-0007q4-QS
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBas-0002ir-Bx
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:24 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRBas-0002is-AU
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 05:55:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602323713;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5IMU/5TekK8iNjCr/V/NVwjQCPdve+f7g0idPU0XfUU=;
- b=TCcOoJ87TavkkA+m+pYXNHLD3p/PwooKKwyne4jU9Aed/DCF2J23OjjvVYO/emectH4qhl
- ZiS9cviWM2kELf1oTO1rULzByqHhB3lIn8gROFb9bcUS7OR845B5XIGDIyNHWazW4RMYbU
- fsvQXRsYK1wETle040ej5ZNfBRHKkr8=
+ bh=FtNC5pUsBMShiV4klFZZ+bwTrxXC5/cEEE4VHi5Yd4o=;
+ b=YGcTXsz3uQuG5zQ0FtdUQT3/68jjozISsYT697LYiFanfHh/WW+8P7nrDnM1K4ev6UAVG8
+ wcN6KZyC1RZXztJO2i52K3fHHMFGyB7snFkaZH5flGLmaGlj0jrK049h8Ygx5ureH01PLg
+ MzgGn/fxKKXfoerVTjHkBn5U+suLL3Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-Q8xOceREP8qEUPk5aPxaTg-1; Sat, 10 Oct 2020 05:55:10 -0400
-X-MC-Unique: Q8xOceREP8qEUPk5aPxaTg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-144-NBWzOOXAMM27PM0QWcePcw-1; Sat, 10 Oct 2020 05:55:10 -0400
+X-MC-Unique: NBWzOOXAMM27PM0QWcePcw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7D63802B74;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA313805F0A;
  Sat, 10 Oct 2020 09:55:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9356A1001281;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B26176655;
  Sat, 10 Oct 2020 09:55:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DAE031129953; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
+ id DE1081129959; Sat, 10 Oct 2020 11:55:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/34] qapi/events.py: Move comments into docstrings
-Date: Sat, 10 Oct 2020 11:54:50 +0200
-Message-Id: <20201010095504.796182-21-armbru@redhat.com>
+Subject: [PULL 21/34] qapi/commands.py: Don't re-bind to variable of different
+ type
+Date: Sat, 10 Oct 2020 11:54:51 +0200
+Message-Id: <20201010095504.796182-22-armbru@redhat.com>
 In-Reply-To: <20201010095504.796182-1-armbru@redhat.com>
 References: <20201010095504.796182-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,36 +89,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Clarify them while we're here.
+Mypy isn't a fan of rebinding a variable with a new data type.
+It's easy enough to avoid.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20201009161558.107041-21-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20201009161558.107041-22-jsnow@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/events.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ scripts/qapi/commands.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 57e0939e96..599f3d1f56 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -44,8 +44,12 @@ def gen_event_send_decl(name: str,
-                  proto=build_event_send_proto(name, arg_type, boxed))
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 88ba11c40e..b0abb985a4 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -198,14 +198,12 @@ def gen_register_command(name, success_response, allow_oob, allow_preconfig,
+     if not options:
+         options = ['QCO_NO_OPTIONS']
  
- 
--# Declare and initialize an object 'qapi' using parameters from build_params()
- def gen_param_var(typ: QAPISchemaObjectType) -> str:
-+    """
-+    Generate a struct variable holding the event parameters.
-+
-+    Initialize it with the function arguments defined in `gen_event_send`.
-+    """
-     assert not typ.variants
+-    options = " | ".join(options)
+-
      ret = mcgen('''
-     %(c_name)s param = {
+     qmp_register_command(cmds, "%(name)s",
+                          qmp_marshal_%(c_name)s, %(opts)s);
+ ''',
+                 name=name, c_name=c_name(name),
+-                opts=options)
++                opts=" | ".join(options))
+     return ret
+ 
+ 
 -- 
 2.26.2
 
