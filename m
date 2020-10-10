@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EFCB289F21
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:07:08 +0200 (CEST)
-Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B555E289F1B
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:05:03 +0200 (CEST)
+Received: from localhost ([::1]:45780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR9uF-0007yL-Jf
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41176)
+	id 1kR9sE-0004PA-Pb
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:05:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lL-0004As-IH
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55790)
+ id 1kR9lJ-00045B-5M
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lH-0006hN-PE
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:55 -0400
+ id 1kR9lF-0006gS-Qe
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602316671;
+ s=mimecast20190719; t=1602316669;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5V85V7o8V9UHRuAkVbETa/SDKis2QIkDYLel6KxNo94=;
- b=fjBCjaJDKXzkNwXCQDtcajXWhJ24Z/ppTzvC9kmCWQXarFSfaErU9kD6FIMCLhliqVd2pB
- QCCMa5WvgwtWtGQSFSnFOD6Gls5l2g98dZHybGnpuHLygUK9arC7o9Wr7Hut53IeTBVqTK
- xHNQB1GBHRhaDuXemvTl3mPmohcl8CE=
+ bh=3lqNTXOaQxr2pFa/d900G8RiBNMQcy/fBz5WEaqc9co=;
+ b=ASdlEzLPy12Ng4PrZnEG/mui2sa3Lx4ZhRY6Cqsq27o8Zv/mU1s5kte1bUbaWruWSynFEf
+ huEyItKewv7t0xuq6NfejnubjFSWSMCMQhLOMsd65pRvSyTqwUyhROth8Opi5xO4ztPilG
+ 34ruBocBnWWkt2g3kmVWIbArQMeBMUY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-54W-ExAcNi-HFRhbg43-iA-1; Sat, 10 Oct 2020 03:57:46 -0400
-X-MC-Unique: 54W-ExAcNi-HFRhbg43-iA-1
+ us-mta-520-HgKSAX4JNZWx9WAfbizDmg-1; Sat, 10 Oct 2020 03:57:47 -0400
+X-MC-Unique: HgKSAX4JNZWx9WAfbizDmg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D46AC1868431;
- Sat, 10 Oct 2020 07:57:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B5151005E61
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8337B6EF4F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF3466EF6E;
  Sat, 10 Oct 2020 07:57:45 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/39] configure: fix performance regression due to PIC objects
-Date: Sat, 10 Oct 2020 03:57:14 -0400
-Message-Id: <20201010075739.951385-15-pbonzini@redhat.com>
+Subject: [PULL 15/39] docs: Move QTest documentation to its own document
+Date: Sat, 10 Oct 2020 03:57:15 -0400
+Message-Id: <20201010075739.951385-16-pbonzini@redhat.com>
 In-Reply-To: <20201010075739.951385-1-pbonzini@redhat.com>
 References: <20201010075739.951385-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,38 +81,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ahmed Karaman <ahmedkrmn@outlook.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because most files in QEMU are grouped into static libraries, Meson conservatively
-compiles them with -fPIC.  This is overkill and produces slowdowns up to 20% on
-some TCG tests.
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-As a stopgap measure, use the b_staticpic option to limit the slowdown to
---enable-pie.  https://github.com/mesonbuild/meson/pull/7760 will allow
-us to use b_staticpic=false and let Meson do the right thing.
+The qtest and libqtest doc comments will be parsed to generate
+API documentation, so move QTest documentation to its own
+document where the API and format documentation and will be
+included.
 
-Reported-by: Ahmed Karaman <ahmedkrmn@outlook.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200919155639.1045857-1-pbonzini@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20201005205228.697463-2-ehabkost@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 1 +
- 1 file changed, 1 insertion(+)
+ docs/devel/index.rst   |  1 +
+ docs/devel/qtest.rst   | 58 ++++++++++++++++++++++++++++++++++++++++++
+ docs/devel/testing.rst | 47 ++--------------------------------
+ 3 files changed, 61 insertions(+), 45 deletions(-)
+ create mode 100644 docs/devel/qtest.rst
 
-diff --git a/configure b/configure
-index 28df227db5..b553288c5e 100755
---- a/configure
-+++ b/configure
-@@ -7209,6 +7209,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-+        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
- 	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
- 	-Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index 5fda2d3509..77baae5c77 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -21,6 +21,7 @@ Contents:
+    atomics
+    stable-process
+    testing
++   qtest
+    decodetree
+    secure-coding-practices
+    tcg
+diff --git a/docs/devel/qtest.rst b/docs/devel/qtest.rst
+new file mode 100644
+index 0000000000..86dec84a0b
+--- /dev/null
++++ b/docs/devel/qtest.rst
+@@ -0,0 +1,58 @@
++========================================
++QTest Device Emulation Testing Framework
++========================================
++
++QTest is a device emulation testing framework.  It can be very useful to test
++device models; it could also control certain aspects of QEMU (such as virtual
++clock stepping), with a special purpose "qtest" protocol.  Refer to the
++documentation in ``qtest.c`` for more details of the protocol.
++
++QTest cases can be executed with
++
++.. code::
++
++   make check-qtest
++
++The QTest library is implemented by ``tests/qtest/libqtest.c`` and the API is
++defined in ``tests/qtest/libqtest.h``.
++
++Consider adding a new QTest case when you are introducing a new virtual
++hardware, or extending one if you are adding functionalities to an existing
++virtual device.
++
++On top of libqtest, a higher level library, ``libqos``, was created to
++encapsulate common tasks of device drivers, such as memory management and
++communicating with system buses or devices. Many virtual device tests use
++libqos instead of directly calling into libqtest.
++
++Steps to add a new QTest case are:
++
++1. Create a new source file for the test. (More than one file can be added as
++   necessary.) For example, ``tests/qtest/foo-test.c``.
++
++2. Write the test code with the glib and libqtest/libqos API. See also existing
++   tests and the library headers for reference.
++
++3. Register the new test in ``tests/qtest/Makefile.include``. Add the test
++   executable name to an appropriate ``check-qtest-*-y`` variable. For example:
++
++   ``check-qtest-generic-y = tests/qtest/foo-test$(EXESUF)``
++
++4. Add object dependencies of the executable in the Makefile, including the
++   test source file(s) and other interesting objects. For example:
++
++   ``tests/qtest/foo-test$(EXESUF): tests/qtest/foo-test.o $(libqos-obj-y)``
++
++Debugging a QTest failure is slightly harder than the unit test because the
++tests look up QEMU program names in the environment variables, such as
++``QTEST_QEMU_BINARY`` and ``QTEST_QEMU_IMG``, and also because it is not easy
++to attach gdb to the QEMU process spawned from the test. But manual invoking
++and using gdb on the test is still simple to do: find out the actual command
++from the output of
++
++.. code::
++
++  make check-qtest V=1
++
++which you can run manually.
++
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index bd64c1bdcd..a171494b4e 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -70,8 +70,8 @@ QTest
+ 
+ QTest is a device emulation testing framework.  It can be very useful to test
+ device models; it could also control certain aspects of QEMU (such as virtual
+-clock stepping), with a special purpose "qtest" protocol.  Refer to the
+-documentation in ``qtest.c`` for more details of the protocol.
++clock stepping), with a special purpose "qtest" protocol.  Refer to
++:doc:`qtest` for more details.
+ 
+ QTest cases can be executed with
+ 
+@@ -79,49 +79,6 @@ QTest cases can be executed with
+ 
+    make check-qtest
+ 
+-The QTest library is implemented by ``tests/qtest/libqtest.c`` and the API is
+-defined in ``tests/qtest/libqtest.h``.
+-
+-Consider adding a new QTest case when you are introducing a new virtual
+-hardware, or extending one if you are adding functionalities to an existing
+-virtual device.
+-
+-On top of libqtest, a higher level library, ``libqos``, was created to
+-encapsulate common tasks of device drivers, such as memory management and
+-communicating with system buses or devices. Many virtual device tests use
+-libqos instead of directly calling into libqtest.
+-
+-Steps to add a new QTest case are:
+-
+-1. Create a new source file for the test. (More than one file can be added as
+-   necessary.) For example, ``tests/qtest/foo-test.c``.
+-
+-2. Write the test code with the glib and libqtest/libqos API. See also existing
+-   tests and the library headers for reference.
+-
+-3. Register the new test in ``tests/qtest/Makefile.include``. Add the test
+-   executable name to an appropriate ``check-qtest-*-y`` variable. For example:
+-
+-   ``check-qtest-generic-y = tests/qtest/foo-test$(EXESUF)``
+-
+-4. Add object dependencies of the executable in the Makefile, including the
+-   test source file(s) and other interesting objects. For example:
+-
+-   ``tests/qtest/foo-test$(EXESUF): tests/qtest/foo-test.o $(libqos-obj-y)``
+-
+-Debugging a QTest failure is slightly harder than the unit test because the
+-tests look up QEMU program names in the environment variables, such as
+-``QTEST_QEMU_BINARY`` and ``QTEST_QEMU_IMG``, and also because it is not easy
+-to attach gdb to the QEMU process spawned from the test. But manual invoking
+-and using gdb on the test is still simple to do: find out the actual command
+-from the output of
+-
+-.. code::
+-
+-  make check-qtest V=1
+-
+-which you can run manually.
+-
+ QAPI schema tests
+ -----------------
+ 
 -- 
 2.26.2
 
