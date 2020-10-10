@@ -2,50 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FCD289F44
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:19:28 +0200 (CEST)
-Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B94289F59
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:27:55 +0200 (CEST)
+Received: from localhost ([::1]:41504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRA6B-0000iL-DH
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42730)
+	id 1kRAEM-0004BU-IT
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kR9u1-0000C1-2s; Sat, 10 Oct 2020 04:06:53 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5165 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kR9tz-0007oC-3D; Sat, 10 Oct 2020 04:06:52 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 493D5DB906F65E935498;
- Sat, 10 Oct 2020 16:06:47 +0800 (CST)
-Received: from huawei.com (10.174.185.47) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Sat, 10 Oct 2020
- 16:06:39 +0800
-From: Yifei Jiang <jiangyifei@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH V2 5/5] target/riscv: Add sifive_plic vmstate
-Date: Sat, 10 Oct 2020 16:06:23 +0800
-Message-ID: <20201010080623.768-6-jiangyifei@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
-In-Reply-To: <20201010080623.768-1-jiangyifei@huawei.com>
-References: <20201010080623.768-1-jiangyifei@huawei.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kR9uz-0002g8-Gq
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:07:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kR9ux-0007s7-A7
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 04:07:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602317269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xHqQnAwA7oXuSxTeGKkpLFQtNKGOeRfYuB4FhFcEEG0=;
+ b=dqNQIeIQ5puHykhrg0kCoHXVmImefSIfFUQuyDnRFXJcaEjdxgCxIKzECtJpLyPACAjqix
+ 6H5TQrThQQVjcjWrWa+bHWTrKIMKGG3I3zaHqdyZsVGHMiBUrfimpM23vLljzf7kGx4ORv
+ T9nZtufyxq0973CUBICJbhNMVJAzGJQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-196--QzCNAZVNU2ZNv0SWq7GoQ-1; Sat, 10 Oct 2020 04:07:45 -0400
+X-MC-Unique: -QzCNAZVNU2ZNv0SWq7GoQ-1
+Received: by mail-wr1-f72.google.com with SMTP id u15so6264127wrn.4
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 01:07:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xHqQnAwA7oXuSxTeGKkpLFQtNKGOeRfYuB4FhFcEEG0=;
+ b=dYSD2r0CJ16EAR/33l9DAtUDhsnAKw8aKW4PW4Y78X3IRICod74iaLyw5x1e9afrEm
+ KleWKwQPfkGOHcmm+goTMZbjpuoDLm+UCdQ01Nk8Px5b0cTJAGCge25YotpsZJowW+0b
+ sXiw6PwdvF8iMwExJmiQDKzkD+5kTqM3IDa0OLvtQ9kGlTnFQjw7/4nPgzNxMsyOMXQ7
+ CsR/DGZF+n9XBJ9G4xK2pye0iVaVyERfSjn0DSusNCELxE4KmKsvCCEBaFsJ5SR8pdoq
+ GJbvv88Ui9wNjsMwTyw2YebLN/YtOfe7dMCwf7MN+9W7Tirt00LgKLMxLA41WfpZkm0d
+ b95A==
+X-Gm-Message-State: AOAM533u3nJDNFucmWyXquxMNhTu+J3yjoG2CgoSh7b7uyJGJoCBXuoB
+ 3mpFlB+DLQXXWefh3jjnKKULB+SbTDQJGOI7R2Vkv19PkZljOBesc3SOKPMc23UILSTnLOCGzMy
+ fHgDr4zjAi+00IDM=
+X-Received: by 2002:a1c:8088:: with SMTP id b130mr1679156wmd.132.1602317264417; 
+ Sat, 10 Oct 2020 01:07:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx70cAQzS/VoecjmTdwTk/mTMF8eBTCR1ZZCybe+HMwCVS95N6PgNzWef6XN/NSpLA0AkIdtQ==
+X-Received: by 2002:a1c:8088:: with SMTP id b130mr1679136wmd.132.1602317264219; 
+ Sat, 10 Oct 2020 01:07:44 -0700 (PDT)
+Received: from localhost.localdomain
+ (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id g83sm14695079wmf.15.2020.10.10.01.07.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 10 Oct 2020 01:07:43 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] docs/devel/testing.rst: Update outdated Avocado URLs
+Date: Sat, 10 Oct 2020 10:07:41 +0200
+Message-Id: <20201010080741.2932406-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.47]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=jiangyifei@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 04:06:47
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 03:36:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,100 +92,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, victor.zhangxiaofeng@huawei.com,
- richard.henderson@linaro.org, Yifei Jiang <jiangyifei@huawei.com>,
- Alistair.Francis@wdc.com, yinyipeng1@huawei.com, palmer@dabbelt.com,
- wu.wubin@huawei.com, dengkai1@huawei.com
+Cc: avocado-devel@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add sifive_plic vmstate for supporting sifive_plic migration.
-Current vmstate framework only supports one structure parameter
-as num field to describe variable length arrays, so introduce
-num_enables.
+Avocado documentation referred returns 404 error.
+Update the broken links.
 
-Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/intc/sifive_plic.c | 26 +++++++++++++++++++++++++-
- hw/intc/sifive_plic.h |  1 +
- 2 files changed, 26 insertions(+), 1 deletion(-)
+ docs/devel/testing.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index f42fd695d8..97a1a27a9a 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -30,6 +30,7 @@
- #include "hw/intc/sifive_plic.h"
- #include "target/riscv/cpu.h"
- #include "sysemu/sysemu.h"
-+#include "migration/vmstate.h"
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index bd64c1bdcdd..23a1697d9f4 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -696,7 +696,7 @@ To manually install Avocado and its dependencies, run:
  
- #define RISCV_DEBUG_PLIC 0
+ Alternatively, follow the instructions on this link:
  
-@@ -448,11 +449,12 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
-                           TYPE_SIFIVE_PLIC, plic->aperture_size);
-     parse_hart_config(plic);
-     plic->bitfield_words = (plic->num_sources + 31) >> 5;
-+    plic->num_enables = plic->bitfield_words * plic->num_addrs;
-     plic->source_priority = g_new0(uint32_t, plic->num_sources);
-     plic->target_priority = g_new(uint32_t, plic->num_addrs);
-     plic->pending = g_new0(uint32_t, plic->bitfield_words);
-     plic->claimed = g_new0(uint32_t, plic->bitfield_words);
--    plic->enable = g_new0(uint32_t, plic->bitfield_words * plic->num_addrs);
-+    plic->enable = g_new0(uint32_t, plic->num_enables);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &plic->mmio);
-     qdev_init_gpio_in(dev, sifive_plic_irq_request, plic->num_sources);
+-  http://avocado-framework.readthedocs.io/en/latest/GetStartedGuide.html#installing-avocado
++  https://avocado-framework.readthedocs.io/en/latest/guides/user/chapters/installing.html
  
-@@ -472,12 +474,34 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
-     msi_nonbroken = true;
- }
+ Overview
+ --------
+@@ -879,7 +879,7 @@ Parameter reference
+ To understand how Avocado parameters are accessed by tests, and how
+ they can be passed to tests, please refer to::
  
-+static const VMStateDescription vmstate_sifive_plic = {
-+    .name = "riscv_sifive_plic",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+            VMSTATE_VARRAY_UINT32(source_priority, SiFivePLICState,
-+                                  num_sources, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(target_priority, SiFivePLICState,
-+                                  num_addrs, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(pending, SiFivePLICState, bitfield_words, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(claimed, SiFivePLICState, bitfield_words, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(enable, SiFivePLICState, num_enables, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_END_OF_LIST()
-+        }
-+};
-+
- static void sifive_plic_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
+-  http://avocado-framework.readthedocs.io/en/latest/WritingTests.html#accessing-test-parameters
++  https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#accessing-test-parameters
  
-     device_class_set_props(dc, sifive_plic_properties);
-     dc->realize = sifive_plic_realize;
-+    dc->vmsd = &vmstate_sifive_plic;
- }
- 
- static const TypeInfo sifive_plic_info = {
-diff --git a/hw/intc/sifive_plic.h b/hw/intc/sifive_plic.h
-index b75b1f145d..1e451a270c 100644
---- a/hw/intc/sifive_plic.h
-+++ b/hw/intc/sifive_plic.h
-@@ -52,6 +52,7 @@ struct SiFivePLICState {
-     uint32_t num_addrs;
-     uint32_t num_harts;
-     uint32_t bitfield_words;
-+    uint32_t num_enables;
-     PLICAddr *addr_config;
-     uint32_t *source_priority;
-     uint32_t *target_priority;
+ Parameter values can be easily seen in the log files, and will look
+ like the following:
 -- 
-2.19.1
+2.26.2
 
 
