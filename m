@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACE2289F1C
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:05:07 +0200 (CEST)
-Received: from localhost ([::1]:46094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1C5289F26
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Oct 2020 10:09:02 +0200 (CEST)
+Received: from localhost ([::1]:34194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kR9sI-0004Wx-GR
-	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41166)
+	id 1kR9w5-0002wd-ID
+	for lists+qemu-devel@lfdr.de; Sat, 10 Oct 2020 04:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lL-0004AL-AZ
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33073)
+ id 1kR9lO-0004Hu-3V
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kR9lH-0006hB-7T
- for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:54 -0400
+ id 1kR9lK-0006iJ-Tr
+ for qemu-devel@nongnu.org; Sat, 10 Oct 2020 03:57:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602316670;
+ s=mimecast20190719; t=1602316674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ap5B3O2G0s264ofaD39BatliuZQ27lLQn7/XxTv7jqk=;
- b=AKQ8Qo+nUceCSmUhFT0477EPZnueI57P9iPssRRkFXlJjF0OMdaapTyEz9C4TgHMUr04vQ
- 5YA9iwCBUZa+8IXrnA3PB8u8RWQCBPWXvOgdH64TZXeI0vnWMVlo8aTD+9khFKBg3W3q++
- XiLYkcobC/z9WSFV1tFCfhWSuCGKDLc=
+ bh=P0kTn7HQTEu9mz/vf0nqbO9WjMO4OPLQb9grbSPnkXg=;
+ b=NFu14ylKt6MwncL7HbcB5HimcD2vjsmQVmkLUb0sZXcMY91BFc5vDVVxjMCxLMtKdxa+C8
+ BglFOhXr8+BYnPLnyuUen9lZKhI+n1YAQi/Kz2pOltUBxq+ZvlxEBxqDEXYJZEGlJm8ABF
+ sUTUoQk6sXlhp6MFJgZRXAR8M5qiUuw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-O-kut3bJNmO4g76ua3Rbew-1; Sat, 10 Oct 2020 03:57:48 -0400
-X-MC-Unique: O-kut3bJNmO4g76ua3Rbew-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-488-ya2Ps2BLOGKyQ-1n3J8Enw-1; Sat, 10 Oct 2020 03:57:52 -0400
+X-MC-Unique: ya2Ps2BLOGKyQ-1n3J8Enw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C281C1005E6C
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AF83107B470
+ for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:51 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 90FB56EF4F
- for <qemu-devel@nongnu.org>; Sat, 10 Oct 2020 07:57:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2642B60C07;
+ Sat, 10 Oct 2020 07:57:48 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/39] docs/devel: update instruction on how to add new unit
- tests
-Date: Sat, 10 Oct 2020 03:57:19 -0400
-Message-Id: <20201010075739.951385-20-pbonzini@redhat.com>
+Subject: [PULL 20/39] build-sys: fix git version from -version
+Date: Sat, 10 Oct 2020 03:57:20 -0400
+Message-Id: <20201010075739.951385-21-pbonzini@redhat.com>
 In-Reply-To: <20201010075739.951385-1-pbonzini@redhat.com>
 References: <20201010075739.951385-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 02:57:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/10 03:36:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,86 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Typo introduced with the script.
+
+Fixes: 2c273f32d3 ("meson: generate qemu-version.h")
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reported-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Tested-by: Laszlo Ersek <lersek@redhat.com>
+Message-Id: <20200929143654.518157-1-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/qtest.rst   | 30 +++++++++++++++++++++---------
- docs/devel/testing.rst | 19 ++++++++++---------
- 2 files changed, 31 insertions(+), 18 deletions(-)
+ scripts/qemu-version.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/devel/qtest.rst b/docs/devel/qtest.rst
-index 075fe5f7d5..97c5a75626 100644
---- a/docs/devel/qtest.rst
-+++ b/docs/devel/qtest.rst
-@@ -33,15 +33,27 @@ Steps to add a new QTest case are:
- 2. Write the test code with the glib and libqtest/libqos API. See also existing
-    tests and the library headers for reference.
+diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
+index 03128c56a2..3f6e7e6d41 100755
+--- a/scripts/qemu-version.sh
++++ b/scripts/qemu-version.sh
+@@ -9,7 +9,7 @@ version="$3"
+ if [ -z "$pkgversion" ]; then
+     cd "$dir"
+     if [ -e .git ]; then
+-        pkgversion=$(git describe --match 'v*' --dirty | echo "")
++        pkgversion=$(git describe --match 'v*' --dirty) || :
+     fi
+ fi
  
--3. Register the new test in ``tests/qtest/Makefile.include``. Add the test
--   executable name to an appropriate ``check-qtest-*-y`` variable. For example:
--
--   ``check-qtest-generic-y = tests/qtest/foo-test$(EXESUF)``
--
--4. Add object dependencies of the executable in the Makefile, including the
--   test source file(s) and other interesting objects. For example:
--
--   ``tests/qtest/foo-test$(EXESUF): tests/qtest/foo-test.o $(libqos-obj-y)``
-+3. Register the new test in ``tests/qtest/meson.build``. Add the test
-+   executable name to an appropriate ``qtests_*`` variable. There is
-+   one variable per architecture, plus ``qtests_generic`` for tests
-+   that can be run for all architectures.  For example::
-+
-+     qtests_generic = [
-+       ...
-+       'foo-test',
-+       ...
-+     ]
-+
-+4. If the test has more than one source file or needs to be linked with any
-+   dependency other than ``qemuutil`` and ``qos``, list them in the ``qtests``
-+   dictionary.  For example a test that needs to use the ``QIO`` library
-+   will have an entry like::
-+
-+     {
-+       ...
-+       'foo-test': [io],
-+       ...
-+     }
- 
- Debugging a QTest failure is slightly harder than the unit test because the
- tests look up QEMU program names in the environment variables, such as
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index a171494b4e..cecee6eaa1 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -41,15 +41,16 @@ add a new unit test:
-    test. The test code should be organized with the glib testing framework.
-    Copying and modifying an existing test is usually a good idea.
- 
--3. Add the test to ``tests/Makefile.include``. First, name the unit test
--   program and add it to ``$(check-unit-y)``; then add a rule to build the
--   executable.  For example:
--
--.. code::
--
--  check-unit-y += tests/foo-test$(EXESUF)
--  tests/foo-test$(EXESUF): tests/foo-test.o $(test-util-obj-y)
--  ...
-+3. Add the test to ``tests/meson.build``. The unit tests are listed in a
-+   dictionary called ``tests``.  The values are any additional sources and
-+   dependencies to be linked with the test.  For a simple test whose source
-+   is in ``tests/foo-test.c``, it is enough to add an entry like::
-+
-+     {
-+       ...
-+       'foo-test': [],
-+       ...
-+     }
- 
- Since unit tests don't require environment variables, the simplest way to debug
- a unit test failure is often directly invoking it or even running it under
 -- 
 2.26.2
 
