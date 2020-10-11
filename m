@@ -2,75 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B8928A663
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 10:39:58 +0200 (CEST)
-Received: from localhost ([::1]:45268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF0928A78B
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:41:04 +0200 (CEST)
+Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRWtZ-0007k1-2R
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 04:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44196)
+	id 1kRbax-0008AI-VM
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:41:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kRWs9-0007Fv-6U
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 04:38:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kRWs7-00016W-6D
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 04:38:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602405505;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3ph+992TY/9lmJKlVtrR1Dq/TpsZuAH4Gz2ZiRr5vlk=;
- b=B9NsjvArh354x224EcTmj7jjK59fvH2exGJiHK2fDz+/xAQeoH1zAUETv92N12eBgPu5M2
- C2XksSlkocObMbBfCgGYJETsBwAwDKMAU2hcolVwz+bNXF6TqMh4d7O5rMN9K+9PQoruNx
- TgBi76RqhjcK8iHolXK8pVNRtgtIJ1o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-Fe0kRrQZP5a5KIkH8dgOLA-1; Sun, 11 Oct 2020 04:38:22 -0400
-X-MC-Unique: Fe0kRrQZP5a5KIkH8dgOLA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E78118030B9;
- Sun, 11 Oct 2020 08:38:20 +0000 (UTC)
-Received: from starship (unknown [10.35.206.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 253C2100239A;
- Sun, 11 Oct 2020 08:38:16 +0000 (UTC)
-Message-ID: <87581129083b0708a323001ac93c0583e6092860.camel@redhat.com>
-Subject: Re: [PATCH] qcow2: cleanup created file when qcow2_co_create
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-Date: Sun, 11 Oct 2020 11:38:15 +0300
-In-Reply-To: <w514koh8vzy.fsf@maestria.local.igalia.com>
-References: <20200716113359.15656-1-mlevitsk@redhat.com>
- <w514koh8vzy.fsf@maestria.local.igalia.com>
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
+ (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
+ id 1kRXv3-000186-Mc; Sun, 11 Oct 2020 05:45:33 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5170 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
+ id 1kRXv1-0007P0-1b; Sun, 11 Oct 2020 05:45:33 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 79F3994EFF560202831A;
+ Sun, 11 Oct 2020 17:45:12 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Sun, 11 Oct 2020
+ 17:45:02 +0800
+From: Bihong Yu <yubihong@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH v1 0/8] Fix some style problems in migration
+Date: Sun, 11 Oct 2020 18:17:01 +0800
+Message-ID: <1602411429-12043-1-git-send-email-yubihong@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 02:10:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=yubihong@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 05:45:13
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 11 Oct 2020 09:36:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,38 +56,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: alex.chen@huawei.com, zhengchuan@huawei.com, wanghao232@huawei.com,
+ dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2020-09-01 at 15:30 +0200, Alberto Garcia wrote:
-> On Thu 16 Jul 2020 01:33:59 PM CEST, Maxim Levitsky wrote:
-> >      if (ret < 0) {
-> > +
-> > +        Error *local_delete_err = NULL;
-> > +        int r_del = bdrv_co_delete_file(bs, &local_delete_err);
-> > +        /*
-> > +         * ENOTSUP will happen if the block driver doesn't support
-> > +         * the 'bdrv_co_delete_file' interface. This is a predictable
-> > +         * scenario and shouldn't be reported back to the user.
-> > +         */
-> > +        if ((r_del < 0) && (r_del != -ENOTSUP)) {
-> > +            error_report_err(local_delete_err);
-> > +        }
-> 
-> I think you're leaking the error on ENOTSUP.
+Recently I am reading migration related code, find some style problems in
+migration directory while using checkpatch.pl to check migration code. Fix the
+error style problems.
 
-Indeed, just like in the original code from where I copy&pasta'ed this from.
-I'll send a patch to fix this and update the patch as well.
+Bihong Yu (8):
+  migration: Do not use C99 // comments
+  migration: Don't use '#' flag of printf format
+  migration: Add spaces around operator
+  migration: Open brace '{' following struct go on the same line
+  migration: Add braces {} for if statement
+  migration: Do not initialise statics and globals to 0 or NULL
+  migration: Open brace '{' following function declarations go on the
+    next line
+  migration: Delete redundant spaces
 
-Thanks,
-Best regards,
-	Maxim Levitsky
+ migration/block.c        |  4 ++--
+ migration/migration.c    |  4 ++--
+ migration/migration.h    |  3 +--
+ migration/postcopy-ram.c |  2 +-
+ migration/ram.c          | 14 ++++++++------
+ migration/rdma.c         |  7 ++++---
+ migration/savevm.c       |  4 ++--
+ migration/vmstate.c      | 10 +++++-----
+ 8 files changed, 25 insertions(+), 23 deletions(-)
 
-> 
-> Berto
-> 
-
+-- 
+1.8.3.1
 
 
