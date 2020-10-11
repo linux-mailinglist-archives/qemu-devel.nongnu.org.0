@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28A928AA74
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:39:08 +0200 (CEST)
-Received: from localhost ([::1]:58028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4029D28AA77
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:39:44 +0200 (CEST)
+Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRi7X-0004b1-S8
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:39:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57352)
+	id 1kRi87-0005U3-9v
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRi4a-0000bj-1o
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:36:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32527)
+ id 1kRi4g-0000rU-4C
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:36:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRi4V-0005Rh-T1
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:36:03 -0400
+ id 1kRi4e-0005SJ-1D
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:36:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602448559;
+ s=mimecast20190719; t=1602448567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g62JLdVzZ+lYru1vuaaHc3s3y6QR6Xc2NvMfJYPMMUA=;
- b=AwnaOIPfcLMBbnv2hUjlhT1PNBLhsuVHE6ttkqg8FIj+qAFF1zyS93uUrmRbSvW+ZWtYMO
- dS4i8T77ZocrEi1VNoCLotUAWvTPvMWap1KvXnSKWLQTm2aGqDMCVDivVTmox4LNWTK1PN
- ByBFcHIuje+u4auwK7fMVgBnFO+LIUo=
+ bh=95axpi0IvDfLnJZoXZHGJcKk2SIGdhXysMCYnQ2+U+Y=;
+ b=J11BBcz6UKDT3DR/6gOyc9gu26LlelKHKaPTEMTyOx0a4sPTL/1/HEPzMHGaq3SZdvC9Vg
+ F7DvV/7/AsmZpE1+61+CqWjEJFSk3It2hwn+TeJOJ1x9Rus8HD8qSovBGl8889lTBIEQyf
+ kWr6yvBKl9F6DUDmPr1MJ5aWzP8NRGU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-ZysuvIkDNPivcUzTFJ8Owg-1; Sun, 11 Oct 2020 16:35:56 -0400
-X-MC-Unique: ZysuvIkDNPivcUzTFJ8Owg-1
+ us-mta-394-fYwgFLRaMW6Hr-fLflQp-g-1; Sun, 11 Oct 2020 16:36:01 -0400
+X-MC-Unique: fYwgFLRaMW6Hr-fLflQp-g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ACA52FD01
- for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 20:35:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E02F32FD02
+ for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 20:36:00 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2FC155DA30;
- Sun, 11 Oct 2020 20:35:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88D955DA30;
+ Sun, 11 Oct 2020 20:35:59 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PoCv2 03/15] build-sys: add --with-rust{-target} & basic build
- infrastructure
-Date: Mon, 12 Oct 2020 00:35:01 +0400
-Message-Id: <20201011203513.1621355-4-marcandre.lureau@redhat.com>
+Subject: [PoCv2 04/15] build-sys: add a cargo-wrapper script
+Date: Mon, 12 Oct 2020 00:35:02 +0400
+Message-Id: <20201011203513.1621355-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20201011203513.1621355-1-marcandre.lureau@redhat.com>
 References: <20201011203513.1621355-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +57,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 16:35:36
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 16:23:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,138 +89,148 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Add the build-sys infrastructure to build Rust code. Introduce a
-top-level workspace, so various sub-projects (libraries, executables
-etc) can be developed together, sharing the dependencies and output
-directory.
+Introduce a script to help calling cargo from Rust.
 
-If not Tier 1, many of the platforms QEMU supports are considered Tier
-2: https://doc.rust-lang.org/nightly/rustc/platform-support.html
+Cargo is the most convenient way to build Rust code, with various
+crates, and has many features that meson lacks in general for Rust.
+Trying to convert projects to meson automatically is an option I
+considered (see for ex https://github.com/badboy/bygge for ninja
+conversion), but the complexity of the task and the need of build.rs
+mechanism in various crates makes this endeavour out of scope at this
+point.
 
-Rust is generally available on various distributions (thanks to Firefox,
-I suppose). If not, it can usually be installed with rustup by
-developpers.
-
-configure will enable Rust support automatically if cargo is present.
-Rust support can be disabled --without-rust. When detecting windows
-cross building, it will use the $cpu-pc-windows-gnu target by
-default (more default mappings could be added over time). This can be
-changed with --with-rust-target=RTT.
+This script will help to invoke cargo in different ways. For now, it
+supports building static libraries. It sets up a common environment, run
+the compiler and grep its output for the linker flags. Finally it copies
+the built library to the expected meson output directory, and create a
+file with the linker arguments.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Cargo.toml  |  2 ++
- configure   | 18 ++++++++++++++++++
- meson.build | 23 +++++++++++++++++++++++
- 3 files changed, 43 insertions(+)
- create mode 100644 Cargo.toml
+ meson.build              |   1 +
+ scripts/cargo_wrapper.py | 101 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 102 insertions(+)
+ create mode 100644 scripts/cargo_wrapper.py
 
-diff --git a/Cargo.toml b/Cargo.toml
-new file mode 100644
-index 0000000000..c4b464ff15
---- /dev/null
-+++ b/Cargo.toml
-@@ -0,0 +1,2 @@
-+[workspace]
-+members = []
-diff --git a/configure b/configure
-index b553288c5e..7945ceac63 100755
---- a/configure
-+++ b/configure
-@@ -446,6 +446,8 @@ meson=""
- ninja=""
- skip_meson=no
- gettext=""
-+with_rust="auto"
-+with_rust_target=""
- 
- bogus_os="no"
- malloc_trim="auto"
-@@ -1519,6 +1521,12 @@ for opt do
-   ;;
-   --disable-libdaxctl) libdaxctl=no
-   ;;
-+  --with-rust) with_rust=yes
-+  ;;
-+  --without-rust) with_rust=no
-+  ;;
-+  --with-rust-target=*) with_rust_target="$optarg"
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1666,6 +1674,8 @@ Advanced options (experts only):
-   --extra-ldflags=LDFLAGS  append extra linker flags LDFLAGS
-   --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
-   --cross-cc-flags-ARCH=   use compiler flags when building ARCH guest tests
-+  --with-rust              enable Rust compilation
-+  --with-rust-target=RTT   use the given Rust target triple
-   --make=MAKE              use specified make [$make]
-   --python=PYTHON          use specified python [$python]
-   --sphinx-build=SPHINX    use specified sphinx-build [$sphinx_build]
-@@ -1918,6 +1928,10 @@ if test -z "$ninja"; then
-     done
- fi
- 
-+if test "$with_rust" = auto && has cargo; then
-+    with_rust=yes
-+fi
-+
- # Check that the C compiler works. Doing this here before testing
- # the host CPU ensures that we had a valid CC to autodetect the
- # $cpu var (and we should bail right here if that's not the case).
-@@ -7046,6 +7060,10 @@ fi
- if test "$safe_stack" = "yes"; then
-   echo "CONFIG_SAFESTACK=y" >> $config_host_mak
- fi
-+if test "$with_rust" = "yes" ; then
-+  echo "CONFIG_WITH_RUST=y" >> $config_host_mak
-+  echo "CONFIG_WITH_RUST_TARGET=$with_rust_target" >> $config_host_mak
-+fi
- 
- # If we're using a separate build tree, set it up now.
- # DIRS are directories which we simply mkdir in the build tree;
 diff --git a/meson.build b/meson.build
-index 17c89c87c6..d8526dc999 100644
+index d8526dc999..c30bb290c5 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -73,6 +73,28 @@ if cpu in ['x86', 'x86_64']
-   }
- endif
+@@ -75,6 +75,7 @@ endif
  
-+with_rust = 'CONFIG_WITH_RUST' in config_host
-+cargo = find_program('cargo', required: with_rust)
+ with_rust = 'CONFIG_WITH_RUST' in config_host
+ cargo = find_program('cargo', required: with_rust)
++cargo_wrapper = find_program('scripts/cargo_wrapper.py')
+ 
+ if with_rust
+   rs_target_triple = config_host['CONFIG_WITH_RUST_TARGET']
+diff --git a/scripts/cargo_wrapper.py b/scripts/cargo_wrapper.py
+new file mode 100644
+index 0000000000..164fad5123
+--- /dev/null
++++ b/scripts/cargo_wrapper.py
+@@ -0,0 +1,101 @@
++#!/usr/bin/env python3
++# Copyright (c) 2020 Red Hat, Inc.
++#
++# Author:
++#  Marc-André Lureau <marcandre.lureau@gmail.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
 +
-+if with_rust
-+  rs_target_triple = config_host['CONFIG_WITH_RUST_TARGET']
-+  if meson.is_cross_build()
-+    # more default target mappings may be added over time
-+    if rs_target_triple == '' and targetos == 'windows'
-+      rs_target_triple = host_machine.cpu() + '-pc-windows-gnu'
-+    endif
-+    if rs_target_triple == ''
-+      error('cross-compiling, but no Rust target-triple defined.')
-+    endif
-+  endif
-+endif
++import argparse
++import configparser
++import distutils.file_util
++import glob
++import os
++import os.path
++import re
++import subprocess
++import sys
++from typing import List
 +
-+if get_option('optimization') in ['0', '1', 'g']
-+  rs_build_type = 'debug'
-+else
-+  rs_build_type = 'release'
-+endif
 +
- ##################
- # Compiler flags #
- ##################
-@@ -1770,6 +1792,7 @@ endif
- if targetos == 'darwin'
-   summary_info += {'Objective-C compiler': meson.get_compiler('objc').cmd_array()[0]}
- endif
-+summary_info += {'Rust support':      with_rust}
- summary_info += {'ARFLAGS':           config_host['ARFLAGS']}
- summary_info += {'CFLAGS':            ' '.join(get_option('c_args')
-                                                + ['-O' + get_option('optimization')]
++def get_cargo_target_dir(args: argparse.Namespace) -> str:
++    # avoid conflict with qemu "target" directory
++    return os.path.join(args.build_dir, "rs-target")
++
++
++def get_manifest_path(args: argparse.Namespace) -> str:
++    return os.path.join(args.src_dir, "Cargo.toml")
++
++
++def build_lib(args: argparse.Namespace) -> None:
++    target_dir = get_cargo_target_dir(args)
++    manifest_path = get_manifest_path(args)
++    # let's pretend it's an INI file to avoid extra dependency
++    config = configparser.ConfigParser()
++    config.read(manifest_path)
++    package_name = config["package"]["name"].strip('"')
++    liba = os.path.join(
++        target_dir, args.target_triple, args.build_type, "lib" + package_name + ".a"
++    )
++    libargs = os.path.join(args.build_dir, "lib" + package_name + ".args")
++
++    env = {}
++    env["MESON_CURRENT_BUILD_DIR"] = args.build_dir
++    env["MESON_BUILD_ROOT"] = args.build_root
++    env["WINAPI_NO_BUNDLED_LIBRARIES"] = "1"
++    cargo_cmd = [
++        "cargo",
++        "rustc",
++        "--target-dir",
++        target_dir,
++        "--manifest-path",
++        manifest_path,
++    ]
++    if args.target_triple:
++        cargo_cmd += ["--target", args.target_triple]
++    if args.build_type == "release":
++        cargo_cmd += ["--release"]
++    cargo_cmd += ["--", "--print", "native-static-libs"]
++    cargo_cmd += args.EXTRA
++    try:
++        out = subprocess.check_output(
++            cargo_cmd,
++            env=dict(os.environ, **env),
++            stderr=subprocess.STDOUT,
++            universal_newlines=True,
++        )
++        native_static_libs = re.search(r"native-static-libs:(.*)", out)
++        link_args = native_static_libs.group(1)
++        with open(libargs, "w") as f:
++            print(link_args, file=f)
++
++        distutils.file_util.copy_file(liba, args.build_dir, update=True)
++    except subprocess.CalledProcessError as e:
++        print(
++            "Environment: " + " ".join(["{}={}".format(k, v) for k, v in env.items()])
++        )
++        print("Command: " + " ".join(cargo_cmd))
++        print(e.output)
++        sys.exit(1)
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser()
++    parser.add_argument("command")
++    parser.add_argument("build_dir")
++    parser.add_argument("src_dir")
++    parser.add_argument("build_root")
++    parser.add_argument("build_type")
++    parser.add_argument("target_triple")
++    parser.add_argument("EXTRA", nargs="*")
++    args = parser.parse_args()
++
++    if args.command == "build-lib":
++        build_lib(args)
++    else:
++        raise argparse.ArgumentTypeError("Unknown command: %s" % args.command)
++
++
++if __name__ == "__main__":
++    main()
 -- 
 2.28.0
 
