@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEAD528A79C
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:49:34 +0200 (CEST)
-Received: from localhost ([::1]:47366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C959828A79F
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:52:24 +0200 (CEST)
+Received: from localhost ([::1]:53738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRbjB-0004qI-IA
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:49:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56738)
+	id 1kRblv-0007to-Ru
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYY3-0000yP-VK; Sun, 11 Oct 2020 06:25:51 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:51950 helo=huawei.com)
+ id 1kRYY8-0000ze-1N; Sun, 11 Oct 2020 06:25:56 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:51952 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYY1-0003CG-W9; Sun, 11 Oct 2020 06:25:51 -0400
+ id 1kRYY3-0003CH-7d; Sun, 11 Oct 2020 06:25:55 -0400
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id CCB34F6EF7D28400F5FE;
+ by Forcepoint Email with ESMTP id DA5BC6A1EFA62AB7FFC6;
  Sun, 11 Oct 2020 18:25:43 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Sun, 11 Oct 2020
- 18:25:36 +0800
+ 18:25:37 +0800
 From: Bihong Yu <yubihong@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v1 1/8] migration: Do not use C99 // comments
-Date: Sun, 11 Oct 2020 18:57:36 +0800
-Message-ID: <1602413863-19513-2-git-send-email-yubihong@huawei.com>
+Subject: [PATCH v1 2/8] migration: Don't use '#' flag of printf format
+Date: Sun, 11 Oct 2020 18:57:37 +0800
+Message-ID: <1602413863-19513-3-git-send-email-yubihong@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602413863-19513-1-git-send-email-yubihong@huawei.com>
 References: <1602413863-19513-1-git-send-email-yubihong@huawei.com>
@@ -68,35 +68,44 @@ Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
 Signed-off-by: Bihong Yu <yubihong@huawei.com>
 ---
  migration/block.c | 2 +-
- migration/rdma.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ migration/ram.c   | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/migration/block.c b/migration/block.c
-index 737b649..4b8576b 100644
+index 4b8576b..399dfb8 100644
 --- a/migration/block.c
 +++ b/migration/block.c
-@@ -40,7 +40,7 @@
- #define MAX_IO_BUFFERS 512
- #define MAX_PARALLEL_IO 16
- 
--//#define DEBUG_BLK_MIGRATION
-+/* #define DEBUG_BLK_MIGRATION */
- 
- #ifdef DEBUG_BLK_MIGRATION
- #define DPRINTF(fmt, ...) \
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 0340841..0eb42b7 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -1288,7 +1288,7 @@ const char *print_wrid(int wrid)
-  * workload information or LRU information is available, do not attempt to use
-  * this feature except for basic testing.
-  */
--//#define RDMA_UNREGISTRATION_EXAMPLE
-+/* #define RDMA_UNREGISTRATION_EXAMPLE */
- 
- /*
-  * Perform a non-optimized memory unregistration after every transfer
+@@ -998,7 +998,7 @@ static int block_load(QEMUFile *f, void *opaque, int version_id)
+                    (addr == 100) ? '\n' : '\r');
+             fflush(stdout);
+         } else if (!(flags & BLK_MIG_FLAG_EOS)) {
+-            fprintf(stderr, "Unknown block migration flags: %#x\n", flags);
++            fprintf(stderr, "Unknown block migration flags: %0x\n", flags);
+             return -EINVAL;
+         }
+         ret = qemu_file_get_error(f);
+diff --git a/migration/ram.c b/migration/ram.c
+index 433489d..59bdd15 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3298,7 +3298,7 @@ static int ram_load_postcopy(QEMUFile *f)
+             multifd_recv_sync_main();
+             break;
+         default:
+-            error_report("Unknown combination of migration flags: %#x"
++            error_report("Unknown combination of migration flags: %0x"
+                          " (postcopy mode)", flags);
+             ret = -EINVAL;
+             break;
+@@ -3576,7 +3576,7 @@ static int ram_load_precopy(QEMUFile *f)
+             if (flags & RAM_SAVE_FLAG_HOOK) {
+                 ram_control_load_hook(f, RAM_CONTROL_HOOK, NULL);
+             } else {
+-                error_report("Unknown combination of migration flags: %#x",
++                error_report("Unknown combination of migration flags: %0x",
+                              flags);
+                 ret = -EINVAL;
+             }
 -- 
 1.8.3.1
 
