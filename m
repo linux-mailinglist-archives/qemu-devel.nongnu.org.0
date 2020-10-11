@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDAB28A797
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:46:39 +0200 (CEST)
-Received: from localhost ([::1]:36936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D96128A789
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:39:59 +0200 (CEST)
+Received: from localhost ([::1]:38848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRbgM-0000Kj-A2
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:46:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55260)
+	id 1kRbZu-0006OG-MA
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYPQ-0005QJ-SK; Sun, 11 Oct 2020 06:16:58 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:43880 helo=huawei.com)
+ id 1kRYPR-0005QL-KG; Sun, 11 Oct 2020 06:16:58 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:43878 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYPO-0002EK-SE; Sun, 11 Oct 2020 06:16:56 -0400
+ id 1kRYPO-0002EJ-Sa; Sun, 11 Oct 2020 06:16:57 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 38AF0A6106A99E8342E9;
+ by Forcepoint Email with ESMTP id 344BC6FD9A1E9A175A22;
  Sun, 11 Oct 2020 18:16:50 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Sun, 11 Oct 2020
- 18:16:39 +0800
+ 18:16:40 +0800
 From: Bihong Yu <yubihong@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v1 7/8] migration: Open brace '{' following function
- declarations go on the next line
-Date: Sun, 11 Oct 2020 18:48:40 +0800
-Message-ID: <1602413321-22252-8-git-send-email-yubihong@huawei.com>
+Subject: [PATCH v1 8/8] migration: Delete redundant spaces
+Date: Sun, 11 Oct 2020 18:48:41 +0800
+Message-ID: <1602413321-22252-9-git-send-email-yubihong@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
 References: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
@@ -68,23 +67,22 @@ Signed-off-by:Bihong Yu <yubihong@huawei.com>
 Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
 Signed-off-by: Bihong Yu <yubihong@huawei.com>
 ---
- migration/rdma.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ migration/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/migration/rdma.c b/migration/rdma.c
-index 0eb42b7..ca4d315 100644
+index ca4d315..00eac34 100644
 --- a/migration/rdma.c
 +++ b/migration/rdma.c
-@@ -273,7 +273,8 @@ static uint64_t htonll(uint64_t v)
-     return u.llv;
- }
+@@ -855,7 +855,7 @@ static int qemu_rdma_broken_ipv6_kernel(struct ibv_context *verbs, Error **errp)
+      */
+     if (!verbs) {
+         int num_devices, x;
+-        struct ibv_device ** dev_list = ibv_get_device_list(&num_devices);
++        struct ibv_device **dev_list = ibv_get_device_list(&num_devices);
+         bool roce_found = false;
+         bool ib_found = false;
  
--static uint64_t ntohll(uint64_t v) {
-+static uint64_t ntohll(uint64_t v)
-+{
-     union { uint32_t lv[2]; uint64_t llv; } u;
-     u.llv = v;
-     return ((uint64_t)ntohl(u.lv[0]) << 32) | (uint64_t) ntohl(u.lv[1]);
 -- 
 1.8.3.1
 
