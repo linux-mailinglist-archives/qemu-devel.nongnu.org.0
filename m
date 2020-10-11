@@ -2,33 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39A228A799
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:47:54 +0200 (CEST)
-Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4A228A794
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:45:28 +0200 (CEST)
+Received: from localhost ([::1]:33306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRbhZ-0001rG-TM
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:47:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55268)
+	id 1kRbfD-0007GP-Av
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:45:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYPU-0005R8-Gh; Sun, 11 Oct 2020 06:17:03 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5219 helo=huawei.com)
+ id 1kRYPQ-0005QH-9B; Sun, 11 Oct 2020 06:16:58 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5216 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYPM-0002Dv-7S; Sun, 11 Oct 2020 06:17:00 -0400
+ id 1kRYPM-0002E4-GM; Sun, 11 Oct 2020 06:16:56 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 288BD60FFC45561DC02D;
+ by Forcepoint Email with ESMTP id 31B7DCCB11DACA29D9D0;
  Sun, 11 Oct 2020 18:16:45 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Sun, 11 Oct 2020
- 18:16:35 +0800
+ 18:16:36 +0800
 From: Bihong Yu <yubihong@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v1 0/8] Fix some style problems in migration
-Date: Sun, 11 Oct 2020 18:48:33 +0800
-Message-ID: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
+Subject: [PATCH v1 1/8] migration: Do not use C99 // comments
+Date: Sun, 11 Oct 2020 18:48:34 +0800
+Message-ID: <1602413321-22252-2-git-send-email-yubihong@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
+References: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.124.27]
@@ -44,7 +46,7 @@ X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 11 Oct 2020 09:36:19 -0400
+X-Mailman-Approved-At: Sun, 11 Oct 2020 09:36:17 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,31 +63,40 @@ Cc: alex.chen@huawei.com, zhengchuan@huawei.com, wanghao232@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recently I am reading migration related code, find some style problems in
-migration directory while using checkpatch.pl to check migration code. Fix the
-error style problems.
+Signed-off-by:Bihong Yu <yubihong@huawei.com>
+Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
+Signed-off-by: Bihong Yu <yubihong@huawei.com>
+---
+ migration/block.c | 2 +-
+ migration/rdma.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Bihong Yu (8):
-  migration: Do not use C99 // comments
-  migration: Don't use '#' flag of printf format
-  migration: Add spaces around operator
-  migration: Open brace '{' following struct go on the same line
-  migration: Add braces {} for if statement
-  migration: Do not initialise statics and globals to 0 or NULL
-  migration: Open brace '{' following function declarations go on the
-    next line
-  migration: Delete redundant spaces
-
- migration/block.c        |  4 ++--
- migration/migration.c    |  4 ++--
- migration/migration.h    |  3 +--
- migration/postcopy-ram.c |  2 +-
- migration/ram.c          | 14 ++++++++------
- migration/rdma.c         |  7 ++++---
- migration/savevm.c       |  4 ++--
- migration/vmstate.c      | 10 +++++-----
- 8 files changed, 25 insertions(+), 23 deletions(-)
-
+diff --git a/migration/block.c b/migration/block.c
+index 737b649..4b8576b 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -40,7 +40,7 @@
+ #define MAX_IO_BUFFERS 512
+ #define MAX_PARALLEL_IO 16
+ 
+-//#define DEBUG_BLK_MIGRATION
++/* #define DEBUG_BLK_MIGRATION */
+ 
+ #ifdef DEBUG_BLK_MIGRATION
+ #define DPRINTF(fmt, ...) \
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 0340841..0eb42b7 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -1288,7 +1288,7 @@ const char *print_wrid(int wrid)
+  * workload information or LRU information is available, do not attempt to use
+  * this feature except for basic testing.
+  */
+-//#define RDMA_UNREGISTRATION_EXAMPLE
++/* #define RDMA_UNREGISTRATION_EXAMPLE */
+ 
+ /*
+  * Perform a non-optimized memory unregistration after every transfer
 -- 
 1.8.3.1
 
