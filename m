@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7985428A79B
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:48:55 +0200 (CEST)
-Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E7728A79A
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:48:07 +0200 (CEST)
+Received: from localhost ([::1]:41710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRbiY-0003kk-JW
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
+	id 1kRbhm-0002MD-BK
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYPX-0005RN-Lg; Sun, 11 Oct 2020 06:17:04 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5221 helo=huawei.com)
+ id 1kRYPW-0005RD-9o; Sun, 11 Oct 2020 06:17:03 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5220 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYPV-0002F1-Jr; Sun, 11 Oct 2020 06:17:03 -0400
+ id 1kRYPU-0002Ep-1M; Sun, 11 Oct 2020 06:17:02 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 5F7601E299D7A5A1C2F5;
+ by Forcepoint Email with ESMTP id 5B82D2EC4CDC31120019;
  Sun, 11 Oct 2020 18:16:45 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Sun, 11 Oct 2020
- 18:16:38 +0800
+ 18:16:39 +0800
 From: Bihong Yu <yubihong@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v1 5/8] migration: Add braces {} for if statement
-Date: Sun, 11 Oct 2020 18:48:38 +0800
-Message-ID: <1602413321-22252-6-git-send-email-yubihong@huawei.com>
+Subject: [PATCH v1 6/8] migration: Do not initialise statics and globals to 0
+ or NULL
+Date: Sun, 11 Oct 2020 18:48:39 +0800
+Message-ID: <1602413321-22252-7-git-send-email-yubihong@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
 References: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
@@ -67,32 +68,36 @@ Signed-off-by:Bihong Yu <yubihong@huawei.com>
 Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
 Signed-off-by: Bihong Yu <yubihong@huawei.com>
 ---
- migration/ram.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ migration/ram.c    | 2 +-
+ migration/savevm.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 90b277b..12e7296 100644
+index 12e7296..f71ff2b 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -101,14 +101,16 @@ static struct {
- 
- static void XBZRLE_cache_lock(void)
+@@ -2743,7 +2743,7 @@ static int load_xbzrle(QEMUFile *f, ram_addr_t addr, void *host)
+  */
+ static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
  {
--    if (migrate_use_xbzrle())
-+    if (migrate_use_xbzrle()) {
-         qemu_mutex_lock(&XBZRLE.lock);
-+    }
- }
+-    static RAMBlock *block = NULL;
++    static RAMBlock *block;
+     char id[256];
+     uint8_t len;
  
- static void XBZRLE_cache_unlock(void)
- {
--    if (migrate_use_xbzrle())
-+    if (migrate_use_xbzrle()) {
-         qemu_mutex_unlock(&XBZRLE.lock);
-+    }
- }
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 9e95df1..f808bc2 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -64,7 +64,7 @@
+ #include "qemu/bitmap.h"
+ #include "net/announce.h"
  
- /**
+-const unsigned int postcopy_ram_discard_version = 0;
++const unsigned int postcopy_ram_discard_version;
+ 
+ /* Subcommands for QEMU_VM_COMMAND */
+ enum qemu_vm_cmd {
 -- 
 1.8.3.1
 
