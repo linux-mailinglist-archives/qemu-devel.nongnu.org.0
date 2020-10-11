@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0722428A625
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 09:37:10 +0200 (CEST)
-Received: from localhost ([::1]:40662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5F828A62C
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 09:41:01 +0200 (CEST)
+Received: from localhost ([::1]:55896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRVum-0007tU-Qn
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 03:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35824)
+	id 1kRVyW-0005gj-8d
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 03:41:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRVsy-0006CW-2J
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 03:35:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32133)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRVt2-0006GC-J7
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 03:35:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRVst-0003GL-CC
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 03:35:15 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRVsx-0003H4-M5
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 03:35:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602401710;
+ s=mimecast20190719; t=1602401711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nqq9WXlOV9+QZ91BW/WxEh1wTlCTvfPI2ol0WEsH7YE=;
- b=JtL07gwNAVYInVq6jFp33ZgdkIT6I1+xnIrnGayQE2RQevLsdVUhS0EwgPzhUmg9Y80e8v
- LWwF52QbWKDlolnHFXTmq/2qxSFJEMUFK26MvmO3gh7ceJ8ifwpxbMxwfdcKe0tOWik0pe
- BlfGodIoqKn3oMnZ+MSk1A+8QfEAE+s=
+ bh=fHPYCqiyKGAD+Zc8/zz2fhKOml70BFrb+sHIjUM/cYM=;
+ b=fqqRQ0kZdWjF5iMPR8+QEa7j05tOMJy8w1EYH8zfcUu6GVnljBvBOo24FUck7EobjCvtHK
+ ZE9MzpYSK+/KyvRXi1mexzHgO2gRrlXoHX6ztJLpvNiMOQTvaQNzYOLLuu+diksdUTqtVt
+ 2o29IOojGx6rGIL+2oMrPOWAnECRKCI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326--0ojqNL2MzW48740habyuA-1; Sun, 11 Oct 2020 03:35:07 -0400
-X-MC-Unique: -0ojqNL2MzW48740habyuA-1
+ us-mta-445-RqBuCnqFO4msgEnCJJzFiA-1; Sun, 11 Oct 2020 03:35:07 -0400
+X-MC-Unique: RqBuCnqFO4msgEnCJJzFiA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC6E3835B67;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC192107AD96;
  Sun, 11 Oct 2020 07:35:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B63561177;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B5C160C07;
  Sun, 11 Oct 2020 07:35:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1838E1132946; Sun, 11 Oct 2020 09:35:05 +0200 (CEST)
+ id 1B7D4112CE10; Sun, 11 Oct 2020 09:35:05 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/7] test-keyval: Demonstrate misparse of ',
- ' with implied key
-Date: Sun, 11 Oct 2020 09:35:00 +0200
-Message-Id: <20201011073505.1185335-3-armbru@redhat.com>
+Subject: [PATCH v4 3/7] keyval: Fix parsing of ',' in value of implied key
+Date: Sun, 11 Oct 2020 09:35:01 +0200
+Message-Id: <20201011073505.1185335-4-armbru@redhat.com>
 In-Reply-To: <20201011073505.1185335-1-armbru@redhat.com>
 References: <20201011073505.1185335-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -59,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 00:55:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 02:10:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,34 +85,123 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test for "val,,ue" with implied key.  Documentation says this
-should parse as implied key with value "val", then fail.  The code
-parses it as implied key with value "val,ue", then succeeds.  The next
-commit will fix it.
+The previous commit demonstrated documentation and code disagree on
+parsing of ',' in the value of an implied key.  Fix the code to match
+the documentation.
+
+This breaks uses of keyval_parse() that pass an implied key and accept
+a value containing ','.  None of the existing uses does:
+
+* audiodev: implied key "driver" is enum AudiodevDriver, none of the
+  values contains ','
+
+* display: implied key "type" is enum DisplayType, none of the values
+  contains ','
+
+* blockdev: implied key "driver is enum BlockdevDriver, none of the
+  values contains ','
+
+* export: implied key "type" is enum BlockExportType, none of the
+  values contains ','
+
+* monitor: implied key "mode" is enum MonitorMode, none of the values
+  contains ','
+
+* nbd-server: no implied key.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-keyval.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/test-keyval.c |  8 +++-----
+ util/keyval.c       | 28 +++++++++++++++++-----------
+ 2 files changed, 20 insertions(+), 16 deletions(-)
 
 diff --git a/tests/test-keyval.c b/tests/test-keyval.c
-index e331a84149..f02bdf7029 100644
+index f02bdf7029..04c62cf045 100644
 --- a/tests/test-keyval.c
 +++ b/tests/test-keyval.c
-@@ -182,6 +182,13 @@ static void test_keyval_parse(void)
-     error_free_or_abort(&err);
+@@ -183,11 +183,9 @@ static void test_keyval_parse(void)
      g_assert(!qdict);
  
-+    /* Implied key's value can't have comma (qemu_opts_parse(): it can) */
-+    /* BUG: it can */
-+    qdict = keyval_parse("val,,ue", "implied", &error_abort);
-+    g_assert_cmpuint(qdict_size(qdict), ==, 1);
-+    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "val,ue");
-+    qobject_unref(qdict);
-+
+     /* Implied key's value can't have comma (qemu_opts_parse(): it can) */
+-    /* BUG: it can */
+-    qdict = keyval_parse("val,,ue", "implied", &error_abort);
+-    g_assert_cmpuint(qdict_size(qdict), ==, 1);
+-    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "val,ue");
+-    qobject_unref(qdict);
++    qdict = keyval_parse("val,,ue", "implied", &err);
++    error_free_or_abort(&err);
++    g_assert(!qdict);
+ 
      /* Empty key is not an implied key */
      qdict = keyval_parse("=val", "implied", &err);
-     error_free_or_abort(&err);
+diff --git a/util/keyval.c b/util/keyval.c
+index 82d8497c71..8f33a36a7c 100644
+--- a/util/keyval.c
++++ b/util/keyval.c
+@@ -173,7 +173,7 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
+                                     const char *implied_key,
+                                     Error **errp)
+ {
+-    const char *key, *key_end, *s, *end;
++    const char *key, *key_end, *val_end, *s, *end;
+     size_t len;
+     char key_in_cur[128];
+     QDict *cur;
+@@ -182,10 +182,12 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
+     QString *val;
+ 
+     key = params;
++    val_end = NULL;
+     len = strcspn(params, "=,");
+     if (implied_key && len && key[len] != '=') {
+         /* Desugar implied key */
+         key = implied_key;
++        val_end = params + len;
+         len = strlen(implied_key);
+     }
+     key_end = key + len;
+@@ -241,7 +243,11 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
+ 
+     if (key == implied_key) {
+         assert(!*s);
+-        s = params;
++        val = qstring_from_substr(params, 0, val_end - params);
++        s = val_end;
++        if (*s == ',') {
++            s++;
++        }
+     } else {
+         if (*s != '=') {
+             error_setg(errp, "Expected '=' after parameter '%.*s'",
+@@ -249,19 +255,19 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
+             return NULL;
+         }
+         s++;
+-    }
+ 
+-    val = qstring_new();
+-    for (;;) {
+-        if (!*s) {
+-            break;
+-        } else if (*s == ',') {
+-            s++;
+-            if (*s != ',') {
++        val = qstring_new();
++        for (;;) {
++            if (!*s) {
+                 break;
++            } else if (*s == ',') {
++                s++;
++                if (*s != ',') {
++                    break;
++                }
+             }
++            qstring_append_chr(val, *s++);
+         }
+-        qstring_append_chr(val, *s++);
+     }
+ 
+     if (!keyval_parse_put(cur, key_in_cur, val, key, key_end, errp)) {
 -- 
 2.26.2
 
