@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C8328A62B
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 09:39:18 +0200 (CEST)
-Received: from localhost ([::1]:50136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214B428A627
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 09:37:17 +0200 (CEST)
+Received: from localhost ([::1]:41534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRVwr-0003LY-1I
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 03:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35886)
+	id 1kRVuu-0008Fr-6I
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 03:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRVt0-0006Dx-OB
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 03:35:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38902)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRVt2-0006FH-7p
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 03:35:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRVst-0003Gc-Sl
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 03:35:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kRVsx-0003Gx-Ff
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 03:35:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602401710;
+ s=mimecast20190719; t=1602401711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZTl0kR94cDCo2wcg1ej3auFcYnpluSbKmityLUPHEcw=;
- b=br1lR/2wAlgKNdR3UvHzwp5f6Q09P5HB1SM6krJpBV8e2KCA2Me53h3smJAnBquaZOxvPS
- dxulmz1UTd4ffFo8qJqI/qX0wYsdj1Kd/N1CcrOSa4oRRtZso+WMutG1zkkyqXe5z5L+fz
- SnEem56WT+Jql3Kz5swqEIKgOrRrlA0=
+ bh=XKop1u7RPhHp0tHVpIDvStALvns7nF1iAQPtk7a6IfE=;
+ b=C6Ip1pGAfhDhLiIUDV+4I2P8VrvGl6Bhw6ReqCTyt3XyiyRdNxBgS5CND7wGCXyG6nZBcS
+ MlRnxQMHBKYd8ZYuHLwxwMwNvNAYvatRh2vvEX94nTBKwhYjQX0hpZf+Gx8HFoqVIkyUez
+ VJ/zUxX2VlXGSKoerYJb4lkZnhjyykw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-S9O-7PqTP-W8cEPRCII9BA-1; Sun, 11 Oct 2020 03:35:08 -0400
-X-MC-Unique: S9O-7PqTP-W8cEPRCII9BA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-368-GmX4ENotP1GrqXiIhZQIlA-1; Sun, 11 Oct 2020 03:35:09 -0400
+X-MC-Unique: GmX4ENotP1GrqXiIhZQIlA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47D47427FA;
- Sun, 11 Oct 2020 07:35:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 454301005E5C;
+ Sun, 11 Oct 2020 07:35:08 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B772709BB;
- Sun, 11 Oct 2020 07:35:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1362A10013C1;
+ Sun, 11 Oct 2020 07:35:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1F41A112CE12; Sun, 11 Oct 2020 09:35:05 +0200 (CEST)
+ id 226CA112CE14; Sun, 11 Oct 2020 09:35:05 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/7] keyval: Parse help options
-Date: Sun, 11 Oct 2020 09:35:02 +0200
-Message-Id: <20201011073505.1185335-5-armbru@redhat.com>
+Subject: [PATCH v4 5/7] qom: Factor out helpers from
+ user_creatable_print_help()
+Date: Sun, 11 Oct 2020 09:35:03 +0200
+Message-Id: <20201011073505.1185335-6-armbru@redhat.com>
 In-Reply-To: <20201011073505.1185335-1-armbru@redhat.com>
 References: <20201011073505.1185335-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,778 +88,126 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kevin Wolf <kwolf@redhat.com>
 
-This adds a special meaning for 'help' and '?' as options to the keyval
-parser. Instead of being an error (because of a missing value) or a
-value for an implied key, they now request help, which is a new boolean
-output of the parser in addition to the QDict.
-
-A new parameter 'p_help' is added to keyval_parse() that contains on
-return whether help was requested. If NULL is passed, requesting help
-results in an error and all other cases work like before.
-
-Turning previous error cases into help is a compatible extension. The
-behaviour potentially changes for implied keys: They could previously
-get 'help' as their value, which is now interpreted as requesting help.
-
-This is not a problem in practice because 'help' and '?' are not a valid
-values for the implied key of any option parsed with keyval_parse():
-
-* audiodev: union Audiodev, implied key "driver" is enum AudiodevDriver,
-  "help" and "?" are not among its values
-
-* display: union DisplayOptions, implied key "type" is enum
-  DisplayType, "help" and "?" are not among its values
-
-* blockdev: union BlockdevOptions, implied key "driver is enum
-  BlockdevDriver, "help" and "?" are not among its values
-
-* export: union BlockExport, implied key "type" is enum BlockExportType,
-  "help" and "?" are not among its values
-
-* monitor: struct MonitorOptions, implied key "mode" is enum MonitorMode,
-  "help" and "?" are not among its values
-
-* nbd-server: struct NbdServerOptions, no implied key.
+This creates separate helper functions for printing a list of user
+creatable object types and for printing a list of properties of a given
+type. This will allow using these parts without having a QemuOpts.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/qemu/help_option.h           |  11 ++
- include/qemu/option.h                |   2 +-
- qapi/qobject-input-visitor.c         |   2 +-
- storage-daemon/qemu-storage-daemon.c |   2 +-
- tests/test-keyval.c                  | 184 ++++++++++++++++++---------
- util/keyval.c                        |  63 +++++++--
- 6 files changed, 186 insertions(+), 78 deletions(-)
+ qom/object_interfaces.c | 90 ++++++++++++++++++++++++-----------------
+ 1 file changed, 52 insertions(+), 38 deletions(-)
 
-diff --git a/include/qemu/help_option.h b/include/qemu/help_option.h
-index 328d2a89fd..ca6389a154 100644
---- a/include/qemu/help_option.h
-+++ b/include/qemu/help_option.h
-@@ -19,4 +19,15 @@ static inline bool is_help_option(const char *s)
-     return !strcmp(s, "?") || !strcmp(s, "help");
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index e8e1523960..3fd1da157e 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -214,52 +214,66 @@ char *object_property_help(const char *name, const char *type,
+     return g_string_free(str, false);
  }
  
-+static inline int starts_with_help_option(const char *s)
+-bool user_creatable_print_help(const char *type, QemuOpts *opts)
++static void user_creatable_print_types(void)
 +{
-+    if (*s == '?') {
-+        return 1;
++    GSList *l, *list;
++
++    printf("List of user creatable objects:\n");
++    list = object_class_get_list_sorted(TYPE_USER_CREATABLE, false);
++    for (l = list; l != NULL; l = l->next) {
++        ObjectClass *oc = OBJECT_CLASS(l->data);
++        printf("  %s\n", object_class_get_name(oc));
 +    }
-+    if (g_str_has_prefix(s, "help")) {
-+        return 4;
-+    }
-+    return 0;
++    g_slist_free(list);
 +}
 +
- #endif
-diff --git a/include/qemu/option.h b/include/qemu/option.h
-index 05e8a15c73..ac69352e0e 100644
---- a/include/qemu/option.h
-+++ b/include/qemu/option.h
-@@ -149,6 +149,6 @@ void qemu_opts_free(QemuOptsList *list);
- QemuOptsList *qemu_opts_append(QemuOptsList *dst, QemuOptsList *list);
- 
- QDict *keyval_parse(const char *params, const char *implied_key,
--                    Error **errp);
-+                    bool *help, Error **errp);
- 
- #endif
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index f918a05e5f..7b184b50a7 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -757,7 +757,7 @@ Visitor *qobject_input_visitor_new_str(const char *str,
-         assert(args);
-         v = qobject_input_visitor_new(QOBJECT(args));
-     } else {
--        args = keyval_parse(str, implied_key, errp);
-+        args = keyval_parse(str, implied_key, NULL, errp);
-         if (!args) {
-             return NULL;
-         }
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 1ae1cda481..6f0e0cfb36 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -278,7 +278,7 @@ static void process_options(int argc, char *argv[])
-                 }
-                 qemu_opts_del(opts);
- 
--                args = keyval_parse(optarg, "qom-type", &error_fatal);
-+                args = keyval_parse(optarg, "qom-type", NULL, &error_fatal);
-                 user_creatable_add_dict(args, true, &error_fatal);
-                 qobject_unref(args);
-                 break;
-diff --git a/tests/test-keyval.c b/tests/test-keyval.c
-index 04c62cf045..7b459900af 100644
---- a/tests/test-keyval.c
-+++ b/tests/test-keyval.c
-@@ -1,3 +1,4 @@
-+
- /*
-  * Unit tests for parsing of KEY=VALUE,... strings
-  *
-@@ -27,27 +28,28 @@ static void test_keyval_parse(void)
-     QDict *qdict, *sub_qdict;
-     char long_key[129];
-     char *params;
-+    bool help;
- 
-     /* Nothing */
--    qdict = keyval_parse("", NULL, &error_abort);
-+    qdict = keyval_parse("", NULL, NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 0);
-     qobject_unref(qdict);
- 
-     /* Empty key (qemu_opts_parse() accepts this) */
--    qdict = keyval_parse("=val", NULL, &err);
-+    qdict = keyval_parse("=val", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Empty key fragment */
--    qdict = keyval_parse(".", NULL, &err);
-+    qdict = keyval_parse(".", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
--    qdict = keyval_parse("key.", NULL, &err);
-+    qdict = keyval_parse("key.", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Invalid non-empty key (qemu_opts_parse() doesn't care) */
--    qdict = keyval_parse("7up=val", NULL, &err);
-+    qdict = keyval_parse("7up=val", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-@@ -56,25 +58,25 @@ static void test_keyval_parse(void)
-     long_key[127] = 'z';
-     long_key[128] = 0;
-     params = g_strdup_printf("k.%s=v", long_key);
--    qdict = keyval_parse(params + 2, NULL, &err);
-+    qdict = keyval_parse(params + 2, NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Overlong key fragment */
--    qdict = keyval_parse(params, NULL, &err);
-+    qdict = keyval_parse(params, NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
-     g_free(params);
- 
-     /* Long key (qemu_opts_parse() accepts and truncates silently) */
-     params = g_strdup_printf("k.%s=v", long_key + 1);
--    qdict = keyval_parse(params + 2, NULL, &error_abort);
-+    qdict = keyval_parse(params + 2, NULL, NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 1);
-     g_assert_cmpstr(qdict_get_try_str(qdict, long_key + 1), ==, "v");
-     qobject_unref(qdict);
- 
-     /* Long key fragment */
--    qdict = keyval_parse(params, NULL, &error_abort);
-+    qdict = keyval_parse(params, NULL, NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 1);
-     sub_qdict = qdict_get_qdict(qdict, "k");
-     g_assert(sub_qdict);
-@@ -84,25 +86,25 @@ static void test_keyval_parse(void)
-     g_free(params);
- 
-     /* Crap after valid key */
--    qdict = keyval_parse("key[0]=val", NULL, &err);
-+    qdict = keyval_parse("key[0]=val", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Multiple keys, last one wins */
--    qdict = keyval_parse("a=1,b=2,,x,a=3", NULL, &error_abort);
-+    qdict = keyval_parse("a=1,b=2,,x,a=3", NULL, NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 2);
-     g_assert_cmpstr(qdict_get_try_str(qdict, "a"), ==, "3");
-     g_assert_cmpstr(qdict_get_try_str(qdict, "b"), ==, "2,x");
-     qobject_unref(qdict);
- 
-     /* Even when it doesn't in qemu_opts_parse() */
--    qdict = keyval_parse("id=foo,id=bar", NULL, &error_abort);
-+    qdict = keyval_parse("id=foo,id=bar", NULL, NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 1);
-     g_assert_cmpstr(qdict_get_try_str(qdict, "id"), ==, "bar");
-     qobject_unref(qdict);
- 
-     /* Dotted keys */
--    qdict = keyval_parse("a.b.c=1,a.b.c=2,d=3", NULL, &error_abort);
-+    qdict = keyval_parse("a.b.c=1,a.b.c=2,d=3", NULL, NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 2);
-     sub_qdict = qdict_get_qdict(qdict, "a");
-     g_assert(sub_qdict);
-@@ -115,48 +117,48 @@ static void test_keyval_parse(void)
-     qobject_unref(qdict);
- 
-     /* Inconsistent dotted keys */
--    qdict = keyval_parse("a.b=1,a=2", NULL, &err);
-+    qdict = keyval_parse("a.b=1,a=2", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
--    qdict = keyval_parse("a.b=1,a.b.c=2", NULL, &err);
-+    qdict = keyval_parse("a.b=1,a.b.c=2", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Trailing comma is ignored */
--    qdict = keyval_parse("x=y,", NULL, &error_abort);
-+    qdict = keyval_parse("x=y,", NULL, NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 1);
-     g_assert_cmpstr(qdict_get_try_str(qdict, "x"), ==, "y");
-     qobject_unref(qdict);
- 
-     /* Except when it isn't */
--    qdict = keyval_parse(",", NULL, &err);
-+    qdict = keyval_parse(",", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Value containing ,id= not misinterpreted as qemu_opts_parse() does */
--    qdict = keyval_parse("x=,,id=bar", NULL, &error_abort);
-+    qdict = keyval_parse("x=,,id=bar", NULL, NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 1);
-     g_assert_cmpstr(qdict_get_try_str(qdict, "x"), ==, ",id=bar");
-     qobject_unref(qdict);
- 
-     /* Anti-social ID is left to caller (qemu_opts_parse() rejects it) */
--    qdict = keyval_parse("id=666", NULL, &error_abort);
-+    qdict = keyval_parse("id=666", NULL, NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 1);
-     g_assert_cmpstr(qdict_get_try_str(qdict, "id"), ==, "666");
-     qobject_unref(qdict);
- 
-     /* Implied value not supported (unlike qemu_opts_parse()) */
--    qdict = keyval_parse("an,noaus,noaus=", NULL, &err);
-+    qdict = keyval_parse("an,noaus,noaus=", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Implied value, key "no" (qemu_opts_parse(): negated empty key) */
--    qdict = keyval_parse("no", NULL, &err);
-+    qdict = keyval_parse("no", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Implied key */
--    qdict = keyval_parse("an,aus=off,noaus=", "implied", &error_abort);
-+    qdict = keyval_parse("an,aus=off,noaus=", "implied", NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 3);
-     g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "an");
-     g_assert_cmpstr(qdict_get_try_str(qdict, "aus"), ==, "off");
-@@ -164,7 +166,7 @@ static void test_keyval_parse(void)
-     qobject_unref(qdict);
- 
-     /* Implied dotted key */
--    qdict = keyval_parse("val", "eins.zwei", &error_abort);
-+    qdict = keyval_parse("val", "eins.zwei", NULL, &error_abort);
-     g_assert_cmpuint(qdict_size(qdict), ==, 1);
-     sub_qdict = qdict_get_qdict(qdict, "eins");
-     g_assert(sub_qdict);
-@@ -173,24 +175,81 @@ static void test_keyval_parse(void)
-     qobject_unref(qdict);
- 
-     /* Implied key with empty value (qemu_opts_parse() accepts this) */
--    qdict = keyval_parse(",", "implied", &err);
-+    qdict = keyval_parse(",", "implied", NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Likewise (qemu_opts_parse(): implied key with comma value) */
--    qdict = keyval_parse(",,,a=1", "implied", &err);
-+    qdict = keyval_parse(",,,a=1", "implied", NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Implied key's value can't have comma (qemu_opts_parse(): it can) */
--    qdict = keyval_parse("val,,ue", "implied", &err);
-+    qdict = keyval_parse("val,,ue", "implied", NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Empty key is not an implied key */
--    qdict = keyval_parse("=val", "implied", &err);
-+    qdict = keyval_parse("=val", "implied", NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
-+
-+    /* "help" by itself, without implied key */
-+    qdict = keyval_parse("help", NULL, &help, &error_abort);
-+    g_assert_cmpuint(qdict_size(qdict), ==, 0);
-+    g_assert(help);
-+    qobject_unref(qdict);
-+
-+    /* "help" by itself, with implied key */
-+    qdict = keyval_parse("help", "implied", &help, &error_abort);
-+    g_assert_cmpuint(qdict_size(qdict), ==, 0);
-+    g_assert(help);
-+    qobject_unref(qdict);
-+
-+    /* "help" when no help is available, without implied key */
-+    qdict = keyval_parse("help", NULL, NULL, &err);
-+    error_free_or_abort(&err);
-+    g_assert(!qdict);
-+
-+    /* "help" when no help is available, with implied key */
-+    qdict = keyval_parse("help", "implied", NULL, &err);
-+    error_free_or_abort(&err);
-+    g_assert(!qdict);
-+
-+    /* Key "help" */
-+    qdict = keyval_parse("help=on", NULL, &help, &error_abort);
-+    g_assert_cmpuint(qdict_size(qdict), ==, 1);
-+    g_assert_cmpstr(qdict_get_try_str(qdict, "help"), ==, "on");
-+    g_assert(!help);
-+    qobject_unref(qdict);
-+
-+    /* "help" followed by crap, without implied key */
-+    qdict = keyval_parse("help.abc", NULL, &help, &err);
-+    error_free_or_abort(&err);
-+    g_assert(!qdict);
-+
-+    /* "help" followed by crap, with implied key */
-+    qdict = keyval_parse("help.abc", "implied", &help, &err);
-+    g_assert_cmpuint(qdict_size(qdict), ==, 1);
-+    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "help.abc");
-+    g_assert(!help);
-+    qobject_unref(qdict);
-+
-+    /* "help" with other stuff, without implied key */
-+    qdict = keyval_parse("number=42,help,foo=bar", NULL, &help, &error_abort);
-+    g_assert_cmpuint(qdict_size(qdict), ==, 2);
-+    g_assert_cmpstr(qdict_get_try_str(qdict, "number"), ==, "42");
-+    g_assert_cmpstr(qdict_get_try_str(qdict, "foo"), ==, "bar");
-+    g_assert(help);
-+    qobject_unref(qdict);
-+
-+    /* "help" with other stuff, with implied key */
-+    qdict = keyval_parse("val,help,foo=bar", "implied", &help, &error_abort);
-+    g_assert_cmpuint(qdict_size(qdict), ==, 2);
-+    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "val");
-+    g_assert_cmpstr(qdict_get_try_str(qdict, "foo"), ==, "bar");
-+    g_assert(help);
-+    qobject_unref(qdict);
- }
- 
- static void check_list012(QList *qlist)
-@@ -215,26 +274,26 @@ static void test_keyval_parse_list(void)
-     QDict *qdict, *sub_qdict;
- 
-     /* Root can't be a list */
--    qdict = keyval_parse("0=1", NULL, &err);
-+    qdict = keyval_parse("0=1", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* List elements need not be in order */
--    qdict = keyval_parse("list.0=null,list.2=zwei,list.1=eins",
--                         NULL, &error_abort);
-+    qdict = keyval_parse("list.0=null,list.2=zwei,list.1=eins", NULL, NULL,
-+                         &error_abort);
-     g_assert_cmpint(qdict_size(qdict), ==, 1);
-     check_list012(qdict_get_qlist(qdict, "list"));
-     qobject_unref(qdict);
- 
-     /* Multiple indexes, last one wins */
-     qdict = keyval_parse("list.1=goner,list.0=null,list.01=eins,list.2=zwei",
--                         NULL, &error_abort);
-+                         NULL, NULL, &error_abort);
-     g_assert_cmpint(qdict_size(qdict), ==, 1);
-     check_list012(qdict_get_qlist(qdict, "list"));
-     qobject_unref(qdict);
- 
-     /* List at deeper nesting */
--    qdict = keyval_parse("a.list.1=eins,a.list.00=null,a.list.2=zwei",
-+    qdict = keyval_parse("a.list.1=eins,a.list.00=null,a.list.2=zwei", NULL,
-                          NULL, &error_abort);
-     g_assert_cmpint(qdict_size(qdict), ==, 1);
-     sub_qdict = qdict_get_qdict(qdict, "a");
-@@ -243,18 +302,19 @@ static void test_keyval_parse_list(void)
-     qobject_unref(qdict);
- 
-     /* Inconsistent dotted keys: both list and dictionary */
--    qdict = keyval_parse("a.b.c=1,a.b.0=2", NULL, &err);
-+    qdict = keyval_parse("a.b.c=1,a.b.0=2", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
--    qdict = keyval_parse("a.0.c=1,a.b.c=2", NULL, &err);
-+    qdict = keyval_parse("a.0.c=1,a.b.c=2", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- 
-     /* Missing list indexes */
--    qdict = keyval_parse("list.1=lonely", NULL, &err);
-+    qdict = keyval_parse("list.1=lonely", NULL, NULL, &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
--    qdict = keyval_parse("list.0=null,list.2=eins,list.02=zwei", NULL, &err);
-+    qdict = keyval_parse("list.0=null,list.2=eins,list.02=zwei", NULL, NULL,
-+                         &err);
-     error_free_or_abort(&err);
-     g_assert(!qdict);
- }
-@@ -266,7 +326,7 @@ static void test_keyval_visit_bool(void)
-     QDict *qdict;
-     bool b;
- 
--    qdict = keyval_parse("bool1=on,bool2=off", NULL, &error_abort);
-+    qdict = keyval_parse("bool1=on,bool2=off", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -278,7 +338,7 @@ static void test_keyval_visit_bool(void)
-     visit_end_struct(v, NULL);
-     visit_free(v);
- 
--    qdict = keyval_parse("bool1=offer", NULL, &error_abort);
-+    qdict = keyval_parse("bool1=offer", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -296,7 +356,7 @@ static void test_keyval_visit_number(void)
-     uint64_t u;
- 
-     /* Lower limit zero */
--    qdict = keyval_parse("number1=0", NULL, &error_abort);
-+    qdict = keyval_parse("number1=0", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -307,7 +367,7 @@ static void test_keyval_visit_number(void)
-     visit_free(v);
- 
-     /* Upper limit 2^64-1 */
--    qdict = keyval_parse("number1=18446744073709551615,number2=-1",
-+    qdict = keyval_parse("number1=18446744073709551615,number2=-1", NULL,
-                          NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-@@ -321,8 +381,8 @@ static void test_keyval_visit_number(void)
-     visit_free(v);
- 
-     /* Above upper limit */
--    qdict = keyval_parse("number1=18446744073709551616",
--                         NULL, &error_abort);
-+    qdict = keyval_parse("number1=18446744073709551616", NULL, NULL,
-+                         &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -332,8 +392,8 @@ static void test_keyval_visit_number(void)
-     visit_free(v);
- 
-     /* Below lower limit */
--    qdict = keyval_parse("number1=-18446744073709551616",
--                         NULL, &error_abort);
-+    qdict = keyval_parse("number1=-18446744073709551616", NULL, NULL,
-+                         &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -343,8 +403,7 @@ static void test_keyval_visit_number(void)
-     visit_free(v);
- 
-     /* Hex and octal */
--    qdict = keyval_parse("number1=0x2a,number2=052",
--                         NULL, &error_abort);
-+    qdict = keyval_parse("number1=0x2a,number2=052", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -357,8 +416,7 @@ static void test_keyval_visit_number(void)
-     visit_free(v);
- 
-     /* Trailing crap */
--    qdict = keyval_parse("number1=3.14,number2=08",
--                         NULL, &error_abort);
-+    qdict = keyval_parse("number1=3.14,number2=08", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -378,7 +436,7 @@ static void test_keyval_visit_size(void)
-     uint64_t sz;
- 
-     /* Lower limit zero */
--    qdict = keyval_parse("sz1=0", NULL, &error_abort);
-+    qdict = keyval_parse("sz1=0", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -394,7 +452,7 @@ static void test_keyval_visit_size(void)
-     qdict = keyval_parse("sz1=9007199254740991,"
-                          "sz2=9007199254740992,"
-                          "sz3=9007199254740993",
--                         NULL, &error_abort);
-+                         NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -411,7 +469,7 @@ static void test_keyval_visit_size(void)
-     /* Close to signed upper limit 0x7ffffffffffffc00 (53 msbs set) */
-     qdict = keyval_parse("sz1=9223372036854774784," /* 7ffffffffffffc00 */
-                          "sz2=9223372036854775295", /* 7ffffffffffffdff */
--                         NULL, &error_abort);
-+                         NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -426,7 +484,7 @@ static void test_keyval_visit_size(void)
-     /* Close to actual upper limit 0xfffffffffffff800 (53 msbs set) */
-     qdict = keyval_parse("sz1=18446744073709549568," /* fffffffffffff800 */
-                          "sz2=18446744073709550591", /* fffffffffffffbff */
--                         NULL, &error_abort);
-+                         NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -441,7 +499,7 @@ static void test_keyval_visit_size(void)
-     /* Beyond limits */
-     qdict = keyval_parse("sz1=-1,"
-                          "sz2=18446744073709550592", /* fffffffffffffc00 */
--                         NULL, &error_abort);
-+                         NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -454,7 +512,7 @@ static void test_keyval_visit_size(void)
- 
-     /* Suffixes */
-     qdict = keyval_parse("sz1=8b,sz2=1.5k,sz3=2M,sz4=0.1G,sz5=16777215T",
--                         NULL, &error_abort);
-+                         NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -473,7 +531,7 @@ static void test_keyval_visit_size(void)
-     visit_free(v);
- 
-     /* Beyond limit with suffix */
--    qdict = keyval_parse("sz1=16777216T", NULL, &error_abort);
-+    qdict = keyval_parse("sz1=16777216T", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -483,7 +541,7 @@ static void test_keyval_visit_size(void)
-     visit_free(v);
- 
-     /* Trailing crap */
--    qdict = keyval_parse("sz1=0Z,sz2=16Gi", NULL, &error_abort);
-+    qdict = keyval_parse("sz1=0Z,sz2=16Gi", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -502,7 +560,7 @@ static void test_keyval_visit_dict(void)
-     QDict *qdict;
-     int64_t i;
- 
--    qdict = keyval_parse("a.b.c=1,a.b.c=2,d=3", NULL, &error_abort);
-+    qdict = keyval_parse("a.b.c=1,a.b.c=2,d=3", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -520,7 +578,7 @@ static void test_keyval_visit_dict(void)
-     visit_end_struct(v, NULL);
-     visit_free(v);
- 
--    qdict = keyval_parse("a.b=", NULL, &error_abort);
-+    qdict = keyval_parse("a.b=", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -542,7 +600,7 @@ static void test_keyval_visit_list(void)
-     QDict *qdict;
-     char *s;
- 
--    qdict = keyval_parse("a.0=,a.1=I,a.2.0=II", NULL, &error_abort);
-+    qdict = keyval_parse("a.0=,a.1=I,a.2.0=II", NULL, NULL, &error_abort);
-     /* TODO empty list */
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-@@ -566,7 +624,7 @@ static void test_keyval_visit_list(void)
-     visit_end_struct(v, NULL);
-     visit_free(v);
- 
--    qdict = keyval_parse("a.0=,b.0.0=head", NULL, &error_abort);
-+    qdict = keyval_parse("a.0=,b.0.0=head", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -595,7 +653,7 @@ static void test_keyval_visit_optional(void)
-     bool present;
-     int64_t i;
- 
--    qdict = keyval_parse("a.b=1", NULL, &error_abort);
-+    qdict = keyval_parse("a.b=1", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -631,7 +689,7 @@ static void test_keyval_visit_alternate(void)
-      * the string variant if there is one, else an error.
-      * TODO make it work for unambiguous cases like AltEnumBool below
-      */
--    qdict = keyval_parse("a=1,b=2,c=on", NULL, &error_abort);
-+    qdict = keyval_parse("a=1,b=2,c=on", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-@@ -655,7 +713,7 @@ static void test_keyval_visit_any(void)
-     QList *qlist;
-     QString *qstr;
- 
--    qdict = keyval_parse("a.0=null,a.1=1", NULL, &error_abort);
-+    qdict = keyval_parse("a.0=null,a.1=1", NULL, NULL, &error_abort);
-     v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
-     qobject_unref(qdict);
-     visit_start_struct(v, NULL, NULL, 0, &error_abort);
-diff --git a/util/keyval.c b/util/keyval.c
-index 8f33a36a7c..14fdd364fa 100644
---- a/util/keyval.c
-+++ b/util/keyval.c
-@@ -14,10 +14,11 @@
-  * KEY=VALUE,... syntax:
-  *
-  *   key-vals     = [ key-val { ',' key-val } [ ',' ] ]
-- *   key-val      = key '=' val
-+ *   key-val      = key '=' val | help
-  *   key          = key-fragment { '.' key-fragment }
-  *   key-fragment = / [^=,.]+ /
-  *   val          = { / [^,]+ / | ',,' }
-+ *   help         = 'help | '?'
-  *
-  * Semantics defined by reduction to JSON:
-  *
-@@ -54,6 +55,9 @@
-  *
-  * The length of any key-fragment must be between 1 and 127.
-  *
-+ * If any key-val is help, the object is to be treated as a help
-+ * request.
-+ *
-  * Design flaw: there is no way to denote an empty array or non-root
-  * object.  While interpreting "key absent" as empty seems natural
-  * (removing a key-val from the input string removes the member when
-@@ -75,7 +79,7 @@
-  *
-  *   key-vals     = [ key-val-1st { ',' key-val } [ ',' ] ]
-  *   key-val-1st  = val-no-key | key-val
-- *   val-no-key   = / [^=,]+ /
-+ *   val-no-key   = / [^=,]+ / - help
-  *
-  * where val-no-key is syntactic sugar for implied-key=val-no-key.
-  *
-@@ -89,6 +93,7 @@
- #include "qapi/qmp/qlist.h"
- #include "qapi/qmp/qstring.h"
- #include "qemu/cutils.h"
-+#include "qemu/help_option.h"
- #include "qemu/option.h"
- 
- /*
-@@ -162,15 +167,20 @@ static QObject *keyval_parse_put(QDict *cur,
- }
- 
- /*
-- * Parse one KEY=VALUE from @params, store result in @qdict.
-+ * Parse one parameter from @params.
-+ *
-+ * If we're looking at KEY=VALUE, store result in @qdict.
-  * The first fragment of KEY applies to @qdict.  Subsequent fragments
-  * apply to nested QDicts, which are created on demand.  @implied_key
-  * is as in keyval_parse().
-- * On success, return a pointer to the next KEY=VALUE, or else to '\0'.
-+ *
-+ * If we're looking at "help" or "?", set *help to true.
-+ *
-+ * On success, return a pointer to the next parameter, or else to '\0'.
-  * On failure, return NULL.
-  */
- static const char *keyval_parse_one(QDict *qdict, const char *params,
--                                    const char *implied_key,
-+                                    const char *implied_key, bool *help,
-                                     Error **errp)
++static bool user_creatable_print_type_properites(const char *type)
  {
-     const char *key, *key_end, *val_end, *s, *end;
-@@ -184,11 +194,21 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
-     key = params;
-     val_end = NULL;
-     len = strcspn(params, "=,");
--    if (implied_key && len && key[len] != '=') {
--        /* Desugar implied key */
--        key = implied_key;
--        val_end = params + len;
--        len = strlen(implied_key);
-+    if (len && key[len] != '=') {
-+        if (starts_with_help_option(key) == len) {
-+            *help = true;
-+            s = key + len;
-+            if (*s == ',') {
-+                s++;
-+            }
-+            return s;
-+        }
-+        if (implied_key) {
-+            /* Desugar implied key */
-+            key = implied_key;
-+            val_end = params + len;
-+            len = strlen(implied_key);
-+        }
-     }
-     key_end = key + len;
+     ObjectClass *klass;
++    ObjectPropertyIterator iter;
++    ObjectProperty *prop;
++    GPtrArray *array;
++    int i;
  
-@@ -398,21 +418,32 @@ static QObject *keyval_listify(QDict *cur, GSList *key_of_cur, Error **errp)
- 
- /*
-  * Parse @params in QEMU's traditional KEY=VALUE,... syntax.
-+ *
-  * If @implied_key, the first KEY= can be omitted.  @implied_key is
-  * implied then, and VALUE can't be empty or contain ',' or '='.
-+ *
-+ * A parameter "help" or "?" without a value isn't added to the
-+ * resulting dictionary, but instead is interpreted as help request.
-+ * All other options are parsed and returned normally so that context
-+ * specific help can be printed.
-+ *
-+ * If @p_help is not NULL, store whether help is requested there.
-+ * If @p_help is NULL and help is requested, fail.
-+ *
-  * On success, return a dictionary of the parsed keys and values.
-  * On failure, store an error through @errp and return NULL.
-  */
- QDict *keyval_parse(const char *params, const char *implied_key,
--                    Error **errp)
-+                    bool *p_help, Error **errp)
- {
-     QDict *qdict = qdict_new();
-     QObject *listified;
-     const char *s;
-+    bool help = false;
- 
-     s = params;
-     while (*s) {
--        s = keyval_parse_one(qdict, s, implied_key, errp);
-+        s = keyval_parse_one(qdict, s, implied_key, &help, errp);
-         if (!s) {
-             qobject_unref(qdict);
-             return NULL;
-@@ -420,6 +451,14 @@ QDict *keyval_parse(const char *params, const char *implied_key,
-         implied_key = NULL;
-     }
- 
-+    if (p_help) {
-+        *p_help = help;
-+    } else if (help) {
-+        error_setg(errp, "Help is not available for this option");
-+        qobject_unref(qdict);
-+        return NULL;
+-    if (is_help_option(type)) {
+-        GSList *l, *list;
++    klass = object_class_by_name(type);
++    if (!klass) {
++        return false;
 +    }
+ 
+-        printf("List of user creatable objects:\n");
+-        list = object_class_get_list_sorted(TYPE_USER_CREATABLE, false);
+-        for (l = list; l != NULL; l = l->next) {
+-            ObjectClass *oc = OBJECT_CLASS(l->data);
+-            printf("  %s\n", object_class_get_name(oc));
++    array = g_ptr_array_new();
++    object_class_property_iter_init(&iter, klass);
++    while ((prop = object_property_iter_next(&iter))) {
++        if (!prop->set) {
++            continue;
+         }
+-        g_slist_free(list);
 +
-     listified = keyval_listify(qdict, NULL, errp);
-     if (!listified) {
-         qobject_unref(qdict);
++        g_ptr_array_add(array,
++                        object_property_help(prop->name, prop->type,
++                                             prop->defval, prop->description));
++    }
++    g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
++    if (array->len > 0) {
++        printf("%s options:\n", type);
++    } else {
++        printf("There are no options for %s.\n", type);
++    }
++    for (i = 0; i < array->len; i++) {
++        printf("%s\n", (char *)array->pdata[i]);
++    }
++    g_ptr_array_set_free_func(array, g_free);
++    g_ptr_array_free(array, true);
++    return true;
++}
++
++bool user_creatable_print_help(const char *type, QemuOpts *opts)
++{
++    if (is_help_option(type)) {
++        user_creatable_print_types();
+         return true;
+     }
+ 
+-    klass = object_class_by_name(type);
+-    if (klass && qemu_opt_has_help_opt(opts)) {
+-        ObjectPropertyIterator iter;
+-        ObjectProperty *prop;
+-        GPtrArray *array = g_ptr_array_new();
+-        int i;
+-
+-        object_class_property_iter_init(&iter, klass);
+-        while ((prop = object_property_iter_next(&iter))) {
+-            if (!prop->set) {
+-                continue;
+-            }
+-
+-            g_ptr_array_add(array,
+-                            object_property_help(prop->name, prop->type,
+-                                                 prop->defval, prop->description));
+-        }
+-        g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
+-        if (array->len > 0) {
+-            printf("%s options:\n", type);
+-        } else {
+-            printf("There are no options for %s.\n", type);
+-        }
+-        for (i = 0; i < array->len; i++) {
+-            printf("%s\n", (char *)array->pdata[i]);
+-        }
+-        g_ptr_array_set_free_func(array, g_free);
+-        g_ptr_array_free(array, true);
+-        return true;
++    if (qemu_opt_has_help_opt(opts)) {
++        return user_creatable_print_type_properites(type);
+     }
+ 
+     return false;
 -- 
 2.26.2
 
