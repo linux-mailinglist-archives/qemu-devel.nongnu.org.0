@@ -2,74 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D251428A6F4
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 12:24:27 +0200 (CEST)
-Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39A228A799
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:47:54 +0200 (CEST)
+Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRYWg-00007W-Ue
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 06:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56016)
+	id 1kRbhZ-0001rG-TM
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kRYUC-0006AR-Nd
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 06:21:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23567)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kRYUA-0002ik-Nj
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 06:21:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602411709;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WS7e9eNz1602z5VO6+Cnu6hlA9RATysActZiIZR+G9U=;
- b=D8Y5Q7EjctumjDUAYwSCvWVi/DBL1eGTblv7B5GPrrPAxeBQQdlQocFcNnK+chXz/1YBNy
- HWLJwlpAIC069nAeBSaleon9xcX2UP87TxFw3wleKUY4cTabOHroaT53TO+Mep9ui67RZT
- QgBPBhZicu947JkwftJZuQhI+mEDiAs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-kWjCIBUJOyqhKlXgVWwvtg-1; Sun, 11 Oct 2020 06:21:47 -0400
-X-MC-Unique: kWjCIBUJOyqhKlXgVWwvtg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1DF5100746B;
- Sun, 11 Oct 2020 10:21:46 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.35.206.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D32526EF55;
- Sun, 11 Oct 2020 10:21:44 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] block: qcow2: remove the created file on
- initialization error
-Date: Sun, 11 Oct 2020 13:21:36 +0300
-Message-Id: <20201011102136.622361-3-mlevitsk@redhat.com>
-In-Reply-To: <20201011102136.622361-1-mlevitsk@redhat.com>
-References: <20201011102136.622361-1-mlevitsk@redhat.com>
+ (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
+ id 1kRYPU-0005R8-Gh; Sun, 11 Oct 2020 06:17:03 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5219 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
+ id 1kRYPM-0002Dv-7S; Sun, 11 Oct 2020 06:17:00 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 288BD60FFC45561DC02D;
+ Sun, 11 Oct 2020 18:16:45 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Sun, 11 Oct 2020
+ 18:16:35 +0800
+From: Bihong Yu <yubihong@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH v1 0/8] Fix some style problems in migration
+Date: Sun, 11 Oct 2020 18:48:33 +0800
+Message-ID: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 06:21:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=yubihong@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 06:16:45
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 11 Oct 2020 09:36:19 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,46 +56,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: alex.chen@huawei.com, zhengchuan@huawei.com, wanghao232@huawei.com,
+ dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the qcow initialization fails after we created the storage file,
-we should remove it to avoid leaving stale files around.
+Recently I am reading migration related code, find some style problems in
+migration directory while using checkpatch.pl to check migration code. Fix the
+error style problems.
 
-We already do this for luks raw images.
+Bihong Yu (8):
+  migration: Do not use C99 // comments
+  migration: Don't use '#' flag of printf format
+  migration: Add spaces around operator
+  migration: Open brace '{' following struct go on the same line
+  migration: Add braces {} for if statement
+  migration: Do not initialise statics and globals to 0 or NULL
+  migration: Open brace '{' following function declarations go on the
+    next line
+  migration: Delete redundant spaces
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- block/qcow2.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ migration/block.c        |  4 ++--
+ migration/migration.c    |  4 ++--
+ migration/migration.h    |  3 +--
+ migration/postcopy-ram.c |  2 +-
+ migration/ram.c          | 14 ++++++++------
+ migration/rdma.c         |  7 ++++---
+ migration/savevm.c       |  4 ++--
+ migration/vmstate.c      | 10 +++++-----
+ 8 files changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index b05512718c..4dc6102df8 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3834,6 +3834,18 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
-     /* Create the qcow2 image (format layer) */
-     ret = qcow2_co_create(create_options, errp);
-     if (ret < 0) {
-+
-+        Error *local_delete_err = NULL;
-+        int r_del = bdrv_co_delete_file(bs, &local_delete_err);
-+        /*
-+         * ENOTSUP will happen if the block driver doesn't support
-+         * the 'bdrv_co_delete_file' interface. This is a predictable
-+         * scenario and shouldn't be reported back to the user.
-+         */
-+        if ((r_del < 0) && (r_del != -ENOTSUP)) {
-+            error_report_err(local_delete_err);
-+        }
-+        error_free(local_delete_err);
-         goto finish;
-     }
- 
 -- 
-2.26.2
+1.8.3.1
 
 
