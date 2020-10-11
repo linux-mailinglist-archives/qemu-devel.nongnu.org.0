@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A1328AA83
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:52:33 +0200 (CEST)
-Received: from localhost ([::1]:36368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6344928AA80
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:50:27 +0200 (CEST)
+Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRiKV-00036g-QG
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:52:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57932)
+	id 1kRiIU-0001Rh-EK
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:50:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kRi6R-0003Fv-If
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:37:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51482)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kRi6P-0005cO-UK
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:37:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602448676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O99RZR/LeArbwxfDPdRIWx3Sw5cvxAOTgciJHtLY78w=;
- b=FTv6QrtkMODNmXuvQPOxK/Tl8DGKuO1P2psN3zA7/vn2WVwGIc6jXleqfGeAWTKGddokX3
- OwlDr57mdQg+MWbrgl6ofDQsA3SG2cLsXQPwgrUP9LsmaPmBW5eRTqYSMx85FbXXBiRgg/
- 9SO3MziWu/YKgy0HLwtPRd9gIdxDIj8=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-Jq4jw6MtPGmm8EW2pnL6NQ-1; Sun, 11 Oct 2020 16:37:54 -0400
-X-MC-Unique: Jq4jw6MtPGmm8EW2pnL6NQ-1
-Received: by mail-io1-f69.google.com with SMTP id j21so9319097iog.8
- for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 13:37:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kRiEU-0006Zk-I6
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:46:19 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:35368)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kRiER-0006YB-OJ
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:46:18 -0400
+Received: by mail-ej1-x641.google.com with SMTP id u21so20465770eja.2
+ for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 13:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Zd7z4Zeb1k14kVm7EXjC3JkEyZMOY9MA5z0PafSZ+sc=;
+ b=B3F6pgeO0Tn8KgvLLQ3yUAnVQ1ELii/Ue3tGgjguk8AYbFaAT1uG5HLzFF2hsMWdtB
+ wSn7br303hLqFQzfp1OgLtnCUGUX/4OHAFgqZ2E4D5lO0JFP9++wh44/wQnHpnZrMNc6
+ 1N854ZV2ZCrvwlySz5Fx6NcqBa2IhrE5fspiZEhyyoMrJSy/KaFI1lbPJXoqKmeoO2fg
+ EVFCbAR3AZ092bpKKyKZOoWCWu1gFtEpGvrfotQQuQyiv0y1JR1kxnq6pybym3hBu9Gj
+ /F3vxOeb29N+W/eyrrDyxow1o9luvHmPyoSnrtA/RusMWLhpKfNmmjRlY2GBhd3T1sqk
+ hRqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=O99RZR/LeArbwxfDPdRIWx3Sw5cvxAOTgciJHtLY78w=;
- b=o5oKM5tUJQrs6x3xQGJ7f59+/DkINHuCkfjSrall56HSAcYHzGhCbCMb6rh9RR5JOy
- TBzshQaoxkHnSZGIom5SlNF7WRoXJa+PofpGMTsD/IEcGGCNGIEgEg0+zOimJ+RABshN
- zcf+My2UxYn3IAPSG0R3xl0Yg4+TfbqJEFgKquY+Jsfqbo6uVQxcQMUa5H900s+uTMg7
- LV3RJAk83pJkYksv1g45h9qsdtNNobkJbFNJVpATUQjWCPIj+AsJymscDRwHZB9lgJiG
- I7Ldbg+TsBO2CWzV2wGBXcpHRWWH5BO6o/B5utng7+uK4uF/u8QvypOYdA5qozSrn1pj
- Jq/w==
-X-Gm-Message-State: AOAM533FKSsI9wGtBbgZJX5fE6pSywPueDt4zvIHFheazkD+6U8rvkTL
- x/X3ROfG6kJy/nXhOM2dNDMcRfEmNRl0fNuM/vYwAr4qITbOkMtIoUqaPLQoccGDG/mUWYeeyQr
- /2dNDQvgIHI9ODz8nZKsUP/inmcgcPcc=
-X-Received: by 2002:a92:d742:: with SMTP id e2mr16205104ilq.11.1602448674029; 
- Sun, 11 Oct 2020 13:37:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyg45Q8suwDx1gD0e7aAQEoSif5K1VTmh8skkxku2SQE7JN/vUHbmA4LchEG5UG4CAA+hP7aWhLp+QrlgMpTLM=
-X-Received: by 2002:a92:d742:: with SMTP id e2mr16205091ilq.11.1602448673808; 
- Sun, 11 Oct 2020 13:37:53 -0700 (PDT)
+ bh=Zd7z4Zeb1k14kVm7EXjC3JkEyZMOY9MA5z0PafSZ+sc=;
+ b=SqPHf0vuhru1KCLHH7KpoShlAgnspAOhNqoMBNQOCPEKCfawlMGTIKwBWJcM1znT15
+ PUgxD5sfiCn2+rMZMe1qhjrXofeBtHbVLbW1c1HD+6ZKC6EkGA5JMhxhx3BEcfkSYYlf
+ kIg5f6STWlC68joA1mAT330956J9VRH+1slfGkt/rBbycZEQ96UyvOEnqox7LOIY3JY0
+ kIL1f5vsDJEm8/0CEGuS7AtyIHH2i1soLfSZSGI5e+9Tffl9XF35rqzGCwsMKXBEtUgg
+ nCCkA441KmFKPY/klRahIO6vhInbWmbEQHbf0iOciIoBjXR7CKpO5VXVOPnytk9Mbx9p
+ X1dg==
+X-Gm-Message-State: AOAM533F71WLOcfkCAdOzxvTvYRb6kaGm0+K3VqyUI6pYn8B7prDhfF6
+ BVW/J0qlegFFcyvtnNG1WhNjnkw8f79bhPvuqOORfQ==
+X-Google-Smtp-Source: ABdhPJxocql7lB8canWSvJt1PqUPILVS6Md83pZvWOTIyQmRjhuDvkuehfWmq8SyYEP3bQCkcax6ga2CdgWJKWGj1Qk=
+X-Received: by 2002:a17:906:1f42:: with SMTP id
+ d2mr24587356ejk.407.1602449172696; 
+ Sun, 11 Oct 2020 13:46:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201011203513.1621355-1-marcandre.lureau@redhat.com>
- <20201011203513.1621355-2-marcandre.lureau@redhat.com>
-In-Reply-To: <20201011203513.1621355-2-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 12 Oct 2020 00:37:43 +0400
-Message-ID: <CAMxuvaxLnNH7KFyj1hni=RpwDffQoFL7FkiuBMiJBNF8_OYQEQ@mail.gmail.com>
-Subject: Re: [PoCv2 01/15] mingw: fix error __USE_MINGW_ANSI_STDIO redefined
-To: qemu-devel <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20201011194918.3219195-1-f4bug@amsat.org>
+ <20201011194918.3219195-4-f4bug@amsat.org>
+In-Reply-To: <20201011194918.3219195-4-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 11 Oct 2020 21:46:01 +0100
+Message-ID: <CAFEAcA8hbkrTo0VpLtjFDtXc5CL7zK+X8ppX==P9_+q_V8-pAw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] hw/pci-host/versatile: Add WINDOW_COUNT definition to
+ replace magic '3'
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 16:23:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,58 +83,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, "P. Berrange,
- Daniel" <berrange@redhat.com>, "Armbruster, Markus" <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Mon, Oct 12, 2020 at 12:35 AM <marcandre.lureau@redhat.com> wrote:
+On Sun, 11 Oct 2020 at 20:49, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Use self-explicit WINDOW_COUNT definition instead of a magic value.
 >
-> Always put osdep.h first, and remove redundant stdlib.h include.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-(ignore this patch, which was already sent earlier)
-
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  migration/dirtyrate.c | 3 ++-
->  tests/test-bitmap.c   | 1 -
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  hw/pci-host/versatile.c | 28 ++++++++++++++--------------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
 >
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 68577ef250..47f761e67a 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -10,8 +10,9 @@
->   * See the COPYING file in the top-level directory.
->   */
+> diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
+> index b4951023f4e..4d9565de4b1 100644
+> --- a/hw/pci-host/versatile.c
+> +++ b/hw/pci-host/versatile.c
+> @@ -72,6 +72,8 @@ enum {
+>      PCI_VPB_IRQMAP_FORCE_OK,
+>  };
 >
-> -#include <zlib.h>
->  #include "qemu/osdep.h"
+> +#define WINDOW_COUNT 3
 > +
-> +#include <zlib.h>
->  #include "qapi/error.h"
->  #include "cpu.h"
->  #include "qemu/config-file.h"
-> diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
-> index 2f5b71458a..8db4f67883 100644
-> --- a/tests/test-bitmap.c
-> +++ b/tests/test-bitmap.c
-> @@ -8,7 +8,6 @@
->   * Author: Peter Xu <peterx@redhat.com>
->   */
+>  struct PCIVPBState {
+>      PCIHostState parent_obj;
 >
-> -#include <stdlib.h>
->  #include "qemu/osdep.h"
->  #include "qemu/bitmap.h"
+> @@ -86,18 +88,18 @@ struct PCIVPBState {
+>       * The offsets into pci_mem_space are controlled by the imap registe=
+rs.
+>       */
+>      MemoryRegion pci_io_window;
+> -    MemoryRegion pci_mem_window[3];
+> +    MemoryRegion pci_mem_window[WINDOW_COUNT];
+>      PCIBus pci_bus;
+>      PCIDevice pci_dev;
 >
-> --
-> 2.28.0
+>      /* Constant for life of device: */
+>      int realview;
+> -    uint32_t mem_win_size[3];
+> +    uint32_t mem_win_size[WINDOW_COUNT];
+>      uint8_t irq_mapping_prop;
 >
+>      /* Variable state: */
+> -    uint32_t imap[3];
+> -    uint32_t smap[3];
+> +    uint32_t imap[WINDOW_COUNT];
+> +    uint32_t smap[WINDOW_COUNT];
 
+Strictly speaking, this is conflating two separate
+things which both happen to be equal to three.
+
+The versatile/realview PCI controller has:
+ * three memory windows in the system address space
+   - those are represented by the pci_mem_window[] array
+   - mem_win_size[] holds the size of each window
+     (which is fixed but varies between the different
+     implementations of this controller on different boards)
+   - the device IMAPn registers allow the guest to
+     configure the mapping from "a CPU access to an
+     address in window n" to "a PCI address on the PCI bus,
+     and our imap[] array holds those register values
+ * three PCI BARs which represent memory windows on the
+     PCI bus which bus-master PCI devices can use to
+     write back into the system address space
+   - the device SMAPn registers allow the guest to configure
+     the mapping from "a bus-master access to an address
+     on the PCI bus wherever the guest mapped BAR n"
+     to "a system address", and the smap[] array holds
+     those register values
+There's no inherent reason why the number of PCI BARs
+needs to be the same as the number of system address
+space memory windows, so they shouldn't really share
+the same constant.
+
+(We don't actually implement the behaviour of the SMAP
+registers and the BARs, because Linux always configures
+the PCI controller to a 1:1 mapping of PCI space to
+system address space. So we get away with just having
+our implementation be "always do direct accesses".)
+
+thanks
+-- PMM
 
