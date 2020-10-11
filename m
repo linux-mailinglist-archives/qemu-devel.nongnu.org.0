@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4029D28AA77
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:39:44 +0200 (CEST)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445CB28AA76
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:39:41 +0200 (CEST)
+Received: from localhost ([::1]:59892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRi87-0005U3-9v
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57376)
+	id 1kRi84-0005MH-B1
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRi4g-0000rU-4C
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:36:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48770)
+ id 1kRi4q-00012b-TD
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:36:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRi4e-0005SJ-1D
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:36:09 -0400
+ id 1kRi4m-0005UA-Vx
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:36:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602448567;
+ s=mimecast20190719; t=1602448575;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=95axpi0IvDfLnJZoXZHGJcKk2SIGdhXysMCYnQ2+U+Y=;
- b=J11BBcz6UKDT3DR/6gOyc9gu26LlelKHKaPTEMTyOx0a4sPTL/1/HEPzMHGaq3SZdvC9Vg
- F7DvV/7/AsmZpE1+61+CqWjEJFSk3It2hwn+TeJOJ1x9Rus8HD8qSovBGl8889lTBIEQyf
- kWr6yvBKl9F6DUDmPr1MJ5aWzP8NRGU=
+ bh=OHft3RD80FkUI2fpCOWT/+7Xhsx9FIeU/vkqD1Xscrk=;
+ b=VDWDE7X8u37yYQSuN5vg2swYu05L7ACnMyaf6AQcnIy59Iy5ZGcuqqhzaSpFdwz8U4p5SJ
+ pu6Pu/jdY79oyHdXsX9nE8hi0TQYq36Gv7PbDcZpS7sm3mQJBNKBURZXOpo/nYh81lp5sJ
+ irIe84l3OGTY2HnQvIOZAyjoW84MN3w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-fYwgFLRaMW6Hr-fLflQp-g-1; Sun, 11 Oct 2020 16:36:01 -0400
-X-MC-Unique: fYwgFLRaMW6Hr-fLflQp-g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-284-d9gvnVZqNh6Ri1XzLgyBEA-1; Sun, 11 Oct 2020 16:36:12 -0400
+X-MC-Unique: d9gvnVZqNh6Ri1XzLgyBEA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E02F32FD02
- for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 20:36:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72071107ACF5
+ for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 20:36:11 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88D955DA30;
- Sun, 11 Oct 2020 20:35:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF06B55790;
+ Sun, 11 Oct 2020 20:36:04 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PoCv2 04/15] build-sys: add a cargo-wrapper script
-Date: Mon, 12 Oct 2020 00:35:02 +0400
-Message-Id: <20201011203513.1621355-5-marcandre.lureau@redhat.com>
+Subject: [PoCv2 05/15] qga/rust: build and link an empty static library
+Date: Mon, 12 Oct 2020 00:35:03 +0400
+Message-Id: <20201011203513.1621355-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20201011203513.1621355-1-marcandre.lureau@redhat.com>
 References: <20201011203513.1621355-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,148 +89,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Introduce a script to help calling cargo from Rust.
+Meson doesn't integrate very smoothly with Cargo. Use the cargo-wrapper
+script as a custom_target() always stale to build the Rust code. The
+"build-lib" command will produce a static library in the meson expected
+output directory, as well as link flags that must be employed to do the
+final link.
 
-Cargo is the most convenient way to build Rust code, with various
-crates, and has many features that meson lacks in general for Rust.
-Trying to convert projects to meson automatically is an option I
-considered (see for ex https://github.com/badboy/bygge for ninja
-conversion), but the complexity of the task and the need of build.rs
-mechanism in various crates makes this endeavour out of scope at this
-point.
-
-This script will help to invoke cargo in different ways. For now, it
-supports building static libraries. It sets up a common environment, run
-the compiler and grep its output for the linker flags. Finally it copies
-the built library to the expected meson output directory, and create a
-file with the linker arguments.
+Those link flags can't be queried during configure time (Cargo doesn't
+have a user-queriable configure step), so we pass them to the linker
+thanks to @file argument support at build time.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build              |   1 +
- scripts/cargo_wrapper.py | 101 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 102 insertions(+)
- create mode 100644 scripts/cargo_wrapper.py
+ Cargo.toml      |  2 +-
+ qga/Cargo.toml  |  9 +++++++++
+ qga/lib.rs      |  0
+ qga/meson.build | 18 +++++++++++++++++-
+ 4 files changed, 27 insertions(+), 2 deletions(-)
+ create mode 100644 qga/Cargo.toml
+ create mode 100644 qga/lib.rs
 
-diff --git a/meson.build b/meson.build
-index d8526dc999..c30bb290c5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -75,6 +75,7 @@ endif
- 
- with_rust = 'CONFIG_WITH_RUST' in config_host
- cargo = find_program('cargo', required: with_rust)
-+cargo_wrapper = find_program('scripts/cargo_wrapper.py')
- 
- if with_rust
-   rs_target_triple = config_host['CONFIG_WITH_RUST_TARGET']
-diff --git a/scripts/cargo_wrapper.py b/scripts/cargo_wrapper.py
+diff --git a/Cargo.toml b/Cargo.toml
+index c4b464ff15..e69b04200f 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -1,2 +1,2 @@
+ [workspace]
+-members = []
++members = ["qga"]
+diff --git a/qga/Cargo.toml b/qga/Cargo.toml
 new file mode 100644
-index 0000000000..164fad5123
+index 0000000000..50c3415ab2
 --- /dev/null
-+++ b/scripts/cargo_wrapper.py
-@@ -0,0 +1,101 @@
-+#!/usr/bin/env python3
-+# Copyright (c) 2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Marc-André Lureau <marcandre.lureau@gmail.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
++++ b/qga/Cargo.toml
+@@ -0,0 +1,9 @@
++[package]
++name = "qga"
++version = "0.1.0"
++edition = "2018"
++license = "GPLv2"
 +
-+import argparse
-+import configparser
-+import distutils.file_util
-+import glob
-+import os
-+import os.path
-+import re
-+import subprocess
-+import sys
-+from typing import List
++[lib]
++path = "lib.rs"
++crate-type = ["staticlib"]
+diff --git a/qga/lib.rs b/qga/lib.rs
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/qga/meson.build b/qga/meson.build
+index cd08bd953a..62e13a11b3 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -45,9 +45,25 @@ qga_ss.add(when: 'CONFIG_WIN32', if_true: files(
+ 
+ qga_ss = qga_ss.apply(config_host, strict: false)
+ 
++qga_rs = declare_dependency()
++if with_rust
++  cargo_qga = custom_target('cargo-qga',
++                            build_by_default: true,
++                            output: ['libqga.args', 'libqga.a'],
++                            build_always_stale: true,
++                            command: [cargo_wrapper,
++                                      'build-lib',
++                                      meson.current_build_dir(),
++                                      meson.current_source_dir(),
++                                      meson.build_root(),
++                                      rs_build_type,
++                                      rs_target_triple])
++  qga_rs = declare_dependency(link_args: '@' + cargo_qga.full_path(), sources: cargo_qga)
++endif
 +
-+
-+def get_cargo_target_dir(args: argparse.Namespace) -> str:
-+    # avoid conflict with qemu "target" directory
-+    return os.path.join(args.build_dir, "rs-target")
-+
-+
-+def get_manifest_path(args: argparse.Namespace) -> str:
-+    return os.path.join(args.src_dir, "Cargo.toml")
-+
-+
-+def build_lib(args: argparse.Namespace) -> None:
-+    target_dir = get_cargo_target_dir(args)
-+    manifest_path = get_manifest_path(args)
-+    # let's pretend it's an INI file to avoid extra dependency
-+    config = configparser.ConfigParser()
-+    config.read(manifest_path)
-+    package_name = config["package"]["name"].strip('"')
-+    liba = os.path.join(
-+        target_dir, args.target_triple, args.build_type, "lib" + package_name + ".a"
-+    )
-+    libargs = os.path.join(args.build_dir, "lib" + package_name + ".args")
-+
-+    env = {}
-+    env["MESON_CURRENT_BUILD_DIR"] = args.build_dir
-+    env["MESON_BUILD_ROOT"] = args.build_root
-+    env["WINAPI_NO_BUNDLED_LIBRARIES"] = "1"
-+    cargo_cmd = [
-+        "cargo",
-+        "rustc",
-+        "--target-dir",
-+        target_dir,
-+        "--manifest-path",
-+        manifest_path,
-+    ]
-+    if args.target_triple:
-+        cargo_cmd += ["--target", args.target_triple]
-+    if args.build_type == "release":
-+        cargo_cmd += ["--release"]
-+    cargo_cmd += ["--", "--print", "native-static-libs"]
-+    cargo_cmd += args.EXTRA
-+    try:
-+        out = subprocess.check_output(
-+            cargo_cmd,
-+            env=dict(os.environ, **env),
-+            stderr=subprocess.STDOUT,
-+            universal_newlines=True,
-+        )
-+        native_static_libs = re.search(r"native-static-libs:(.*)", out)
-+        link_args = native_static_libs.group(1)
-+        with open(libargs, "w") as f:
-+            print(link_args, file=f)
-+
-+        distutils.file_util.copy_file(liba, args.build_dir, update=True)
-+    except subprocess.CalledProcessError as e:
-+        print(
-+            "Environment: " + " ".join(["{}={}".format(k, v) for k, v in env.items()])
-+        )
-+        print("Command: " + " ".join(cargo_cmd))
-+        print(e.output)
-+        sys.exit(1)
-+
-+
-+def main() -> None:
-+    parser = argparse.ArgumentParser()
-+    parser.add_argument("command")
-+    parser.add_argument("build_dir")
-+    parser.add_argument("src_dir")
-+    parser.add_argument("build_root")
-+    parser.add_argument("build_type")
-+    parser.add_argument("target_triple")
-+    parser.add_argument("EXTRA", nargs="*")
-+    args = parser.parse_args()
-+
-+    if args.command == "build-lib":
-+        build_lib(args)
-+    else:
-+        raise argparse.ArgumentTypeError("Unknown command: %s" % args.command)
-+
-+
-+if __name__ == "__main__":
-+    main()
+ qga = executable('qemu-ga', qga_ss.sources(),
+                  link_args: config_host['LIBS_QGA'].split(),
+-                 dependencies: [qemuutil, libudev],
++                 dependencies: [qemuutil, libudev, qga_rs],
+                  install: true)
+ all_qga = [qga]
+ 
 -- 
 2.28.0
 
