@@ -2,82 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0587C28AA9B
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 23:10:01 +0200 (CEST)
-Received: from localhost ([::1]:53708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A471828AB1D
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 01:56:26 +0200 (CEST)
+Received: from localhost ([::1]:44688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRibQ-00030q-0h
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 17:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34518)
+	id 1kRlCT-0001js-5A
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 19:56:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRiZ2-00010I-Am; Sun, 11 Oct 2020 17:07:32 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRiZ0-0000Iu-NU; Sun, 11 Oct 2020 17:07:32 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q5so15569915wmq.0;
- Sun, 11 Oct 2020 14:07:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bE3ar9sw2hBaOaG6Bp96M3jGWwC7xKV/hXut9gEwRyw=;
- b=fx/Xu2Bb3Wxqd3azlSQWLcVGF86n/jS7EpqsX8AdWarqqXA5ESAjzX2a5ok9+wi5GN
- sxMZvMMeOV2sCpshcRmpAzF3p1AgDVA5E3bZh6w4BQRYMvEPWfM+I6J1eesRue2XroJC
- xyJXlfUFsKkQ3HeQWWhCeGOloW+TLTmlqmncIxxvFlfiqTuNGzd2f5v52jPkrbCfafe1
- KB2i5TqqmCoXMWRlDRXHO5T0GLsfoMxEeT/wsGkZDK549Bvaujl7Yoivyc/bCUmveCbk
- ykMWupAQrMaxBAc2WU/lCNrTV49daXz5zK10mvPiP79v4TTLXrf3Azh9JlOPg4VxDIyv
- FvkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bE3ar9sw2hBaOaG6Bp96M3jGWwC7xKV/hXut9gEwRyw=;
- b=fSLdvTbP1tAqhMNR+GzrVoPVFkwL7zQ4DMpOLMHMVQxXlO9a81pWsAkb33vQDUZzWP
- PZ14H3ry47Ub0d7rlVayr+lIWefuj0XsT8U7yg0zbZb4fjFiTAaoEJ72OT6uKwd/7liU
- TxPqrQhpJG+n5coztItw1f40UkxMX5CiTIXPpVq6nbXCNyKgFC30TB0IRPy+fDyBxdzq
- i8UESfjH1zYe7SsdP/yl+i7sewW+FSY7pYl5GcWYcy3ueqNOEFBrWBEFbWCSpWazWW/b
- JCMjRrPjRljsQKKfmFSsWvcVuGda/Y6tPZCO/SsBKUkBOfgJ3naXGqlyAiOFWEriWCEb
- S8bg==
-X-Gm-Message-State: AOAM533rVBtB6cSw9BV/dFP/veQwbYQr+sHeNiDQiCMOIq8dYNxbs2qA
- 632CEUFClrZZ8TdQQeWBHu0=
-X-Google-Smtp-Source: ABdhPJzPd7Tzx6bZBXzh2hMoLDPU2ZVjlpPVi250LTSvgr2Mn/cAZe03VkkOtTRM58EZCS683obBVQ==
-X-Received: by 2002:a1c:6804:: with SMTP id d4mr7849875wmc.27.1602450447946;
- Sun, 11 Oct 2020 14:07:27 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id o3sm18593134wru.15.2020.10.11.14.07.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Oct 2020 14:07:27 -0700 (PDT)
-Subject: Re: [PATCH 04/10] hw/isa: Add the ISA_IRQ_TPM_DEFAULT definition
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20201011193229.3210774-1-f4bug@amsat.org>
- <20201011193229.3210774-5-f4bug@amsat.org>
- <1976a77d-8799-5f2a-1dcb-5c8dbdb21a3f@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8c8922be-6495-f50c-8924-497d8c98eda4@amsat.org>
-Date: Sun, 11 Oct 2020 23:07:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kRlBU-0001Bi-QU; Sun, 11 Oct 2020 19:55:24 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:55379)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kRlBQ-0007rK-HJ; Sun, 11 Oct 2020 19:55:23 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4C8dw74Ddxz9sTc; Mon, 12 Oct 2020 10:55:03 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1602460503;
+ bh=tl3553jy5atqaSpmLIyX+YPhno0a21nI5z2FCjopxsI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=C+jm4iSIEbXrECqy7eNEulvEp4ZNI1O8FsKgdai09dEk7Tmv7w5Www5GakPRqTnaN
+ dMr7vSTwNvPqKZbs2rAFtYiZBUkbAYRdmq59kMQ8Ba1/FCOUY7HmHjnUCvhFj49+8E
+ 0EX/VtHfcmRa4WUC3oAC0vcOxUtgWf2sR0nXHXv4=
+Date: Mon, 12 Oct 2020 09:34:46 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] hw/pci-host/grackle: Verify PIC link is properly set
+Message-ID: <20201011223446.GA4787@yekko.fritz.box>
+References: <20201011190332.3189611-1-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <1976a77d-8799-5f2a-1dcb-5c8dbdb21a3f@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9amGYk9869ThD9tj"
+Content-Disposition: inline
+In-Reply-To: <20201011190332.3189611-1-f4bug@amsat.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,117 +59,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Max Reitz <mreitz@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Corey Minyard <minyard@acm.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/20 10:28 PM, Stefan Berger wrote:
-> On 10/11/20 3:32 PM, Philippe Mathieu-Daudé wrote:
->> The TPM TIS device uses IRQ #5 by default. Add this
->> default definition to the IsaIrqNumber enum.
->>
->> Avoid magic values in the code, replace them by the
->> newly introduced definition.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   include/hw/isa/isa.h   | 1 +
->>   hw/i386/acpi-build.c   | 2 +-
->>   hw/ipmi/isa_ipmi_bt.c  | 2 +-
->>   hw/ipmi/isa_ipmi_kcs.c | 2 +-
->>   hw/tpm/tpm_tis_isa.c   | 2 +-
->>   5 files changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
->> index 519296d5823..e4f2aed004f 100644
->> --- a/include/hw/isa/isa.h
->> +++ b/include/hw/isa/isa.h
->> @@ -11,6 +11,7 @@
->>   enum IsaIrqNumber {
->>       ISA_IRQ_KBD_DEFAULT =  1,
->>       ISA_IRQ_SER_DEFAULT =  4,
->> +    ISA_IRQ_TPM_DEFAULT =  5,
->>       ISA_NUM_IRQS        = 16
->>   };
->>
->> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
->> index 45ad2f95334..2b6038ab015 100644
->> --- a/hw/i386/acpi-build.c
->> +++ b/hw/i386/acpi-build.c
->> @@ -1886,7 +1886,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->>                       Rewrite to take IRQ from TPM device model and
->>                       fix default IRQ value there to use some unused IRQ
->>                    */
->> -                /* aml_append(crs, aml_irq_no_flags(TPM_TIS_IRQ)); */
->> +                /* aml_append(crs, 
->> aml_irq_no_flags(ISA_IRQ_TPM_DEFAULT)); */
->>                   aml_append(dev, aml_name_decl("_CRS", crs));
->>
->>                   tpm_build_ppi_acpi(tpm, dev);
->> diff --git a/hw/ipmi/isa_ipmi_bt.c b/hw/ipmi/isa_ipmi_bt.c
->> index b7c2ad557b2..13a92bd2c44 100644
->> --- a/hw/ipmi/isa_ipmi_bt.c
->> +++ b/hw/ipmi/isa_ipmi_bt.c
->> @@ -137,7 +137,7 @@ static void 
->> *isa_ipmi_bt_get_backend_data(IPMIInterface *ii)
->>
->>   static Property ipmi_isa_properties[] = {
->>       DEFINE_PROP_UINT32("ioport", ISAIPMIBTDevice, bt.io_base,  0xe4),
->> -    DEFINE_PROP_INT32("irq",   ISAIPMIBTDevice, isairq,  5),
->> +    DEFINE_PROP_INT32("irq", ISAIPMIBTDevice, isairq, 
->> ISA_IRQ_TPM_DEFAULT),
->>       DEFINE_PROP_END_OF_LIST(),
->>   };
->>
->> diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
->> index 7dd6bf0040a..c956b539688 100644
->> --- a/hw/ipmi/isa_ipmi_kcs.c
->> +++ b/hw/ipmi/isa_ipmi_kcs.c
->> @@ -144,7 +144,7 @@ static void 
->> *isa_ipmi_kcs_get_backend_data(IPMIInterface *ii)
->>
->>   static Property ipmi_isa_properties[] = {
->>       DEFINE_PROP_UINT32("ioport", ISAIPMIKCSDevice, kcs.io_base,  
->> 0xca2),
->> -    DEFINE_PROP_INT32("irq",   ISAIPMIKCSDevice, isairq,  5),
->> +    DEFINE_PROP_INT32("irq", ISAIPMIKCSDevice, isairq, 
->> ISA_IRQ_TPM_DEFAULT),
->>       DEFINE_PROP_END_OF_LIST(),
->>   };
-> 
-> 
-> I don't know what these devices do but this looks like an unwanted clash.
 
-Yes, sorry :( Maybe better to drop this patch.
+--9amGYk9869ThD9tj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
->> diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
->> index 6fd876eebf1..5a4afda42df 100644
->> --- a/hw/tpm/tpm_tis_isa.c
->> +++ b/hw/tpm/tpm_tis_isa.c
->> @@ -91,7 +91,7 @@ static void tpm_tis_isa_reset(DeviceState *dev)
->>   }
->>
->>   static Property tpm_tis_isa_properties[] = {
->> -    DEFINE_PROP_UINT32("irq", TPMStateISA, state.irq_num, TPM_TIS_IRQ),
->> +    DEFINE_PROP_UINT32("irq", TPMStateISA, state.irq_num, 
->> ISA_IRQ_TPM_DEFAULT),
->>       DEFINE_PROP_TPMBE("tpmdev", TPMStateISA, state.be_driver),
->>       DEFINE_PROP_BOOL("ppi", TPMStateISA, state.ppi_enabled, true),
->>       DEFINE_PROP_END_OF_LIST(),
-> 
-> 
-> 
+On Sun, Oct 11, 2020 at 09:03:32PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> The Grackle PCI host model expects the interrupt controller
+> being set, but does not verify it is present. Add a check to
+> help developers using this model.
+
+I don't think thaqt's very likely, but, sure, applied to ppc-for-5.2
+
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> ---
+>  hw/pci-host/grackle.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+> index 57c29b20afb..20361d215ca 100644
+> --- a/hw/pci-host/grackle.c
+> +++ b/hw/pci-host/grackle.c
+> @@ -76,6 +76,10 @@ static void grackle_realize(DeviceState *dev, Error **=
+errp)
+>      GrackleState *s =3D GRACKLE_PCI_HOST_BRIDGE(dev);
+>      PCIHostState *phb =3D PCI_HOST_BRIDGE(dev);
+> =20
+> +    if (!s->pic) {
+> +        error_setg(errp, TYPE_GRACKLE_PCI_HOST_BRIDGE ": 'pic' link not =
+set");
+> +        return;
+> +    }
+>      phb->bus =3D pci_register_root_bus(dev, NULL,
+>                                       pci_grackle_set_irq,
+>                                       pci_grackle_map_irq,
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--9amGYk9869ThD9tj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+DiIUACgkQbDjKyiDZ
+s5L9JRAAuLh2A++Bp8GEpjetjJ+TqJA9o6Zj3qTzafH6n+4b+pBPEG4njRYakuvk
+XC+5Yg7aeDe8dWwyLj0VOeIXcfP5Sn7XLDmC7hvGE0Evl3di0UzVeZ+tODJ+U1DT
+hRxaKRuB+Hrt6Fgs0sBHVfTFhiQiaGA6XigNWTiRpqyuKQEwJAkq86El9ku1rW67
+RGWTh/EEc+Mf+M3j4Z/HvcAdM4vSFO/YzB37YaBMuXDwlR/k7KRRSSNx/XJ1Pgf4
+GJjhU32VNT/hrKz/EbYI22wId3GiQXj9Ez7Y6SsKZv1ZIWTRndsUHpV5C/bKppf+
+k3b7QEd1XDzIKCuFgZusJ5UQHsS6k9taoruunAR0qdBEbRQHpRmFfn7Moioz9YYo
+qNnI9i3qpYI8FFWkWvcwMWP7a+os+y5ESE+aIJ1ppz0fVUjJlcfWPKur1ZbS38Mk
+yBqW/3zbx6VB2iUdw8yVs/2jAiiJyrlLLuCoJInhnxiFLeqtmAKiZXqfPultz6wd
++PaKapWpMPJarYgeuLO7e9sd8dHvVcZ1WwxpSDColNHSlEM2ZwCqkSAeNdvSCGLv
+x8TQqY0e4xgs7wiva5ktKLTEJOTixwXPzmacEscY3QkB8a51lduTg3TLIuU9u03L
+TLkadFPja5v4AlMljRt+0Y0J5iNEs/wSO5IWw9NF4bdUNXxtKDk=
+=rDEb
+-----END PGP SIGNATURE-----
+
+--9amGYk9869ThD9tj--
 
