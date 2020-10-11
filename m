@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A36228AA72
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:37:58 +0200 (CEST)
-Received: from localhost ([::1]:51496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A5428AA73
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:38:01 +0200 (CEST)
+Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRi6O-0001p5-II
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57322)
+	id 1kRi6S-00022E-Dy
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:38:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRi4B-0008WK-50
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:35:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47529)
+ id 1kRi4N-0000FD-JS
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:35:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRi49-0005Qy-K7
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:35:38 -0400
+ id 1kRi4L-0005RK-JY
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:35:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602448536;
+ s=mimecast20190719; t=1602448548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DRDoZioQbQ1N48Nel/LGXnmQnrp9I+d1CojiZL58o3E=;
- b=FkQJBNEEMXGC47VajIGf+3AJkBYnEE5QAefxtgwatP3LEVogrFL9WjCWDv3R+DiXGOfWnM
- 7tnIoCBXa01ZiAQ0IZLL1ErPBIJHQeBps+xojrnpDdNnoJXT+RVGZsJNmbXJ3PC+ROEUZM
- b/QZy1qAl80IgulKnuAAYi5I0CHDuRs=
+ bh=YLHeBMskUZtqp132SdnBx+YQ+oQMCEZflKukbUd3w2w=;
+ b=NDGotNuN3dOAS9G9KcUr6veFjB1UtcbuLk6fwOvkupILsz6a6PJTUaSdiBLzYP/VGEU4uE
+ CyDU/7NXgQDSRPv3lzC1cFahH5DqP6wMXAjYAN+ts7OQfr/dys9oaAou101V2ZwyVSPrw3
+ EusGPmOv8M+6Ba8lplSkMl8ICg1XT78=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-FuKsiZDeMPSY5uutpIVV4w-1; Sun, 11 Oct 2020 16:35:35 -0400
-X-MC-Unique: FuKsiZDeMPSY5uutpIVV4w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-111-VGHrBFH8ORGgjotoD5yijQ-1; Sun, 11 Oct 2020 16:35:46 -0400
+X-MC-Unique: VGHrBFH8ORGgjotoD5yijQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A6E6802B4A
- for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 20:35:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AEB3107ACF5
+ for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 20:35:45 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0CBB100239A;
- Sun, 11 Oct 2020 20:35:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7AD2060C05;
+ Sun, 11 Oct 2020 20:35:38 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PoCv2 01/15] mingw: fix error __USE_MINGW_ANSI_STDIO redefined
-Date: Mon, 12 Oct 2020 00:34:59 +0400
-Message-Id: <20201011203513.1621355-2-marcandre.lureau@redhat.com>
+Subject: [PoCv2 02/15] scripts/qapi: teach c_param_type() to return const
+ argument type
+Date: Mon, 12 Oct 2020 00:35:00 +0400
+Message-Id: <20201011203513.1621355-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20201011203513.1621355-1-marcandre.lureau@redhat.com>
 References: <20201011203513.1621355-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,41 +90,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Always put osdep.h first, and remove redundant stdlib.h include.
+As it should be, since the argument isn't owned by the callee,
+but a lot of code in QEMU rely on non-const arguments to tweak it.
+
+Since Rust types / bindings are derived from the C version, we have to
+be more accurate there to do correct ownership conversions.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- migration/dirtyrate.c | 3 ++-
- tests/test-bitmap.c   | 1 -
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ scripts/qapi/schema.py | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 68577ef250..47f761e67a 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -10,8 +10,9 @@
-  * See the COPYING file in the top-level directory.
-  */
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index d1307ec661..ca85c7273a 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -167,8 +167,14 @@ class QAPISchemaType(QAPISchemaEntity):
+         pass
  
--#include <zlib.h>
- #include "qemu/osdep.h"
-+
-+#include <zlib.h>
- #include "qapi/error.h"
- #include "cpu.h"
- #include "qemu/config-file.h"
-diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
-index 2f5b71458a..8db4f67883 100644
---- a/tests/test-bitmap.c
-+++ b/tests/test-bitmap.c
-@@ -8,7 +8,6 @@
-  * Author: Peter Xu <peterx@redhat.com>
-  */
+     # Return the C type to be used in a parameter list.
+-    def c_param_type(self):
+-        return self.c_type()
++    #
++    # The argument should be considered const, since no ownership is given to the callee,
++    # but qemu C code frequently tweaks it. Set const=True for a stricter declaration.
++    def c_param_type(self, const=False):
++        c_type = self.c_type()
++        if const and c_type.endswith(pointer_suffix):
++            c_type = 'const ' + c_type
++        return c_type
  
--#include <stdlib.h>
- #include "qemu/osdep.h"
- #include "qemu/bitmap.h"
+     # Return the C type to be used where we suppress boxing.
+     def c_unboxed_type(self):
+@@ -221,10 +227,10 @@ class QAPISchemaBuiltinType(QAPISchemaType):
+     def c_type(self):
+         return self._c_type_name
  
+-    def c_param_type(self):
++    def c_param_type(self, const=False):
+         if self.name == 'str':
+             return 'const ' + self._c_type_name
+-        return self._c_type_name
++        return super().c_param_type(const)
+ 
+     def json_type(self):
+         return self._json_type_name
 -- 
 2.28.0
 
