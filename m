@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4040E28A9B5
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 21:36:49 +0200 (CEST)
-Received: from localhost ([::1]:58818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04CE28A9AE
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 21:34:37 +0200 (CEST)
+Received: from localhost ([::1]:51160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRh9E-0007Zd-AL
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 15:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47072)
+	id 1kRh76-0004Po-Sx
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 15:34:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRh5H-000296-Ar; Sun, 11 Oct 2020 15:32:43 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42985)
+ id 1kRh5M-0002Ks-Cq; Sun, 11 Oct 2020 15:32:48 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRh5F-0006qV-RK; Sun, 11 Oct 2020 15:32:43 -0400
-Received: by mail-wr1-x441.google.com with SMTP id e18so16555098wrw.9;
- Sun, 11 Oct 2020 12:32:40 -0700 (PDT)
+ id 1kRh5K-0006rA-Re; Sun, 11 Oct 2020 15:32:48 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n18so16576106wrs.5;
+ Sun, 11 Oct 2020 12:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fmlcfpwvQZt/h1AszpZppC7oD9iO0g2rLKUxf53gOoA=;
- b=NcaMislMSa6o2M9nrk/84IKWm5dGHuZv+nc/Y5349o6NNgIRrLhaJECEb9XqbZy/iP
- FJEBH+1yHoPomXvovucwcoHXfyV5MAEe8PtZ9xIevsX6JRO7zY2dJI8QCSE2gZfDQvVf
- 0LV3Xn7cffiBCxI2nPjyRsXlb1taDc4uo03PGy5bQXNIHUJxzCk8BRffsDy+B8iAbfyj
- YLwUSl2lCmat12M6ZHLdBREMFHpch1t33lvaOyLzH9no/iQCkM30yPLcN6YC/hJI82TM
- KFiXDx4daXw81RFX92NM2YTVGjEQFqX1Mw9G9o/6vd3vIDemOsPme+kinFp7Cf97uIFQ
- b6jw==
+ bh=KNrZ+qtKi0zNMWfipUbnBZPxCaUXk1d2Q2TEnE3E2xk=;
+ b=qyhEDrzJeDz52xoatSi74sFpVvUSxTWSOg9vhzvqcWGcIYm++zmA0hTZIWyOrg3tKX
+ BUhSMsCPhUf5mYYl+jYALWSWBU/iWa+d12aUl1Q0R+mkdIs2IZKv9xbAO7zdWX6UCmKJ
+ G9MBdkQuccs3QUov9AQa9KQWMhbh8hLZ3QOPeTny4n5o50W1suF8b93sNcWadmHcIvF9
+ R3xNufZsnx+n+nd4c+iRhj8c56xU7CL7VwwXgcQh8cQYTyShr/vpq8kiUZglqKQk5CUI
+ J02wJh357SsHTZPuV2XogXyQabSmXTLbbkgvYCoriswBxjePnSQYJLkxA5IbSFVUEQ54
+ Gq4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fmlcfpwvQZt/h1AszpZppC7oD9iO0g2rLKUxf53gOoA=;
- b=TO3LnUEZ9QU2/04FgrJfzPMYG9Zg//8pkgKnBCgdeqnLaJLhsFTe65nCChU1F1s7vh
- lqJKcQP33Im1zLStU20I8d3xE/Bgy2/xhIbA2lCrxuNtWUVQzWwLOvN37wCd1dR/r07m
- MZt7ED5eFWozRNEWwW2QGTfah/I3gy2ICvTcqjpZtFOHLNEmOFtDfhSQ4zHIdIMXylwK
- hl3Sug8hj2QYLpKU/S929owX8+opcUwNG60gTodseJpMu92eyD+6EzguZ0dQ+1aOiDuA
- HBa5YRGeReOgspQyJ8veT/0bMtdMz3LyixY7V/x+/HoSrs9H9fRCPn0tGL4+kpe9Fhd7
- EnYg==
-X-Gm-Message-State: AOAM533mcmhn1aYtrRS7HHaufIvaWUOT2cIGUp5wrEPA05YQphGQ5PHS
- YYkkenRjAfiM1SUg2HUyrXIxC+Kko1U=
-X-Google-Smtp-Source: ABdhPJwP4pvSU3pkp8ODHNw31Z3zzsI/u/U0SIw4XgY9isItuzQmKM/BuB8bCTlwgEcDb4/3n0RBbQ==
-X-Received: by 2002:adf:97cb:: with SMTP id t11mr27954881wrb.292.1602444759130; 
- Sun, 11 Oct 2020 12:32:39 -0700 (PDT)
+ bh=KNrZ+qtKi0zNMWfipUbnBZPxCaUXk1d2Q2TEnE3E2xk=;
+ b=ty9d3ySWVQj2fIwIA+TDLWrKaeIykdkdkXNQd5W6yC7mKCXr7DIoG2WX3l1nW2AEh6
+ qrZv2IMYPm1/MygD8DIGoIQGpe/6Bu+1N6IHZsLk14pi46VvGxezHuZGF5+p7YHJpKaF
+ 7WT8mBQX7X8LC8g4ejixd1HznDNkfnQjmG57YKFHU/zG+bM+mBYOQR+c/QQRGuBIxOXM
+ 1tcAaCwhFM4YImjT/tCOSJtn6FyGRTamZqSozVzWiTjKccUnfjy97ihCGoV8riv4eRB3
+ aTiMgGEjBfVjW7pRlZYxiIxkS7J28H/45Pq35F1bCNkxHMQnMCZ+hN8TbIX9inwGrAT3
+ dDZQ==
+X-Gm-Message-State: AOAM5332p5H8edBYJwTArCWSloSnMEDIwEQHumj3LCX/99jgiN8wrSWx
+ kXehBdq/uJeu8ciZoQH+Gyh44muzSqI=
+X-Google-Smtp-Source: ABdhPJyWUKibpQ3WuPa7rpong1wHY4Bi5G98qh48QJpelYdlg+Inl4jBHACkMDF6xUAJ/M05PA+UTw==
+X-Received: by 2002:adf:d4c5:: with SMTP id w5mr1270365wrk.226.1602444764214; 
+ Sun, 11 Oct 2020 12:32:44 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id a17sm21215068wra.29.2020.10.11.12.32.37
+ by smtp.gmail.com with ESMTPSA id 64sm1625675wmd.3.2020.10.11.12.32.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Oct 2020 12:32:38 -0700 (PDT)
+ Sun, 11 Oct 2020 12:32:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/10] hw/isa: Introduce IsaIrqNumber enum
-Date: Sun, 11 Oct 2020 21:32:20 +0200
-Message-Id: <20201011193229.3210774-2-f4bug@amsat.org>
+Subject: [PATCH 02/10] hw/isa: Add the ISA_IRQ_KBD_DEFAULT definition
+Date: Sun, 11 Oct 2020 21:32:21 +0200
+Message-Id: <20201011193229.3210774-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201011193229.3210774-1-f4bug@amsat.org>
 References: <20201011193229.3210774-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -102,29 +102,43 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to list all default ISA IRQs. As all the definitions
-are related, introduce the IsaIrqNumber type to enumerate them.
+The PS2 keyboard uses IRQ #1 by default. Add this
+default definition to the IsaIrqNumber enum.
+
+Avoid magic values in the code, replace them by the
+newly introduced definition.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/isa/isa.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/hw/isa/isa.h | 1 +
+ hw/sparc64/sun4u.c   | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index ddaae89a853..2a052ffa025 100644
+index 2a052ffa025..e139b88c992 100644
 --- a/include/hw/isa/isa.h
 +++ b/include/hw/isa/isa.h
-@@ -8,7 +8,9 @@
- #include "hw/qdev-core.h"
+@@ -9,6 +9,7 @@
  #include "qom/object.h"
  
--#define ISA_NUM_IRQS 16
-+enum IsaIrqNumber {
-+    ISA_NUM_IRQS        = 16
-+};
+ enum IsaIrqNumber {
++    ISA_IRQ_KBD_DEFAULT =  1,
+     ISA_NUM_IRQS        = 16
+ };
  
- #define TYPE_ISA_DEVICE "isa-device"
- OBJECT_DECLARE_TYPE(ISADevice, ISADeviceClass, ISA_DEVICE)
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index ad5ca2472a4..d4c39490cd9 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -615,7 +615,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+         qdev_get_gpio_in_named(DEVICE(sabre), "pbm-irq", OBIO_LPT_IRQ));
+     qdev_connect_gpio_out_named(DEVICE(ebus), "isa-irq", 6,
+         qdev_get_gpio_in_named(DEVICE(sabre), "pbm-irq", OBIO_FDD_IRQ));
+-    qdev_connect_gpio_out_named(DEVICE(ebus), "isa-irq", 1,
++    qdev_connect_gpio_out_named(DEVICE(ebus), "isa-irq", ISA_IRQ_KBD_DEFAULT,
+         qdev_get_gpio_in_named(DEVICE(sabre), "pbm-irq", OBIO_KBD_IRQ));
+     qdev_connect_gpio_out_named(DEVICE(ebus), "isa-irq", 12,
+         qdev_get_gpio_in_named(DEVICE(sabre), "pbm-irq", OBIO_MSE_IRQ));
 -- 
 2.26.2
 
