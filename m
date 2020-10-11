@@ -2,33 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF0928A78B
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:41:04 +0200 (CEST)
-Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873D728A78F
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:43:13 +0200 (CEST)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRbax-0008AI-VM
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51408)
+	id 1kRbd2-0003Ii-Jn
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:43:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRXv3-000186-Mc; Sun, 11 Oct 2020 05:45:33 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5170 helo=huawei.com)
+ id 1kRXvF-0001B5-To; Sun, 11 Oct 2020 05:45:46 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5174 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRXv1-0007P0-1b; Sun, 11 Oct 2020 05:45:33 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 79F3994EFF560202831A;
+ id 1kRXv6-0007SD-0P; Sun, 11 Oct 2020 05:45:44 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id A99115D73DC16BA43095;
  Sun, 11 Oct 2020 17:45:12 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS413-HUB.china.huawei.com
  (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Sun, 11 Oct 2020
- 17:45:02 +0800
+ 17:45:03 +0800
 From: Bihong Yu <yubihong@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v1 0/8] Fix some style problems in migration
-Date: Sun, 11 Oct 2020 18:17:01 +0800
-Message-ID: <1602411429-12043-1-git-send-email-yubihong@huawei.com>
+Subject: [PATCH v1 1/8] migration: Do not use C99 // comments
+Date: Sun, 11 Oct 2020 18:17:02 +0800
+Message-ID: <1602411429-12043-2-git-send-email-yubihong@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1602411429-12043-1-git-send-email-yubihong@huawei.com>
+References: <1602411429-12043-1-git-send-email-yubihong@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.124.27]
@@ -61,31 +63,40 @@ Cc: alex.chen@huawei.com, zhengchuan@huawei.com, wanghao232@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recently I am reading migration related code, find some style problems in
-migration directory while using checkpatch.pl to check migration code. Fix the
-error style problems.
+Signed-off-by:Bihong Yu <yubihong@huawei.com>
+Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
+Signed-off-by: Bihong Yu <yubihong@huawei.com>
+---
+ migration/block.c | 2 +-
+ migration/rdma.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Bihong Yu (8):
-  migration: Do not use C99 // comments
-  migration: Don't use '#' flag of printf format
-  migration: Add spaces around operator
-  migration: Open brace '{' following struct go on the same line
-  migration: Add braces {} for if statement
-  migration: Do not initialise statics and globals to 0 or NULL
-  migration: Open brace '{' following function declarations go on the
-    next line
-  migration: Delete redundant spaces
-
- migration/block.c        |  4 ++--
- migration/migration.c    |  4 ++--
- migration/migration.h    |  3 +--
- migration/postcopy-ram.c |  2 +-
- migration/ram.c          | 14 ++++++++------
- migration/rdma.c         |  7 ++++---
- migration/savevm.c       |  4 ++--
- migration/vmstate.c      | 10 +++++-----
- 8 files changed, 25 insertions(+), 23 deletions(-)
-
+diff --git a/migration/block.c b/migration/block.c
+index 737b649..4b8576b 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -40,7 +40,7 @@
+ #define MAX_IO_BUFFERS 512
+ #define MAX_PARALLEL_IO 16
+ 
+-//#define DEBUG_BLK_MIGRATION
++/* #define DEBUG_BLK_MIGRATION */
+ 
+ #ifdef DEBUG_BLK_MIGRATION
+ #define DPRINTF(fmt, ...) \
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 0340841..0eb42b7 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -1288,7 +1288,7 @@ const char *print_wrid(int wrid)
+  * workload information or LRU information is available, do not attempt to use
+  * this feature except for basic testing.
+  */
+-//#define RDMA_UNREGISTRATION_EXAMPLE
++/* #define RDMA_UNREGISTRATION_EXAMPLE */
+ 
+ /*
+  * Perform a non-optimized memory unregistration after every transfer
 -- 
 1.8.3.1
 
