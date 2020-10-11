@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A3928A7A3
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:53:53 +0200 (CEST)
-Received: from localhost ([::1]:55728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF0028A788
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:38:56 +0200 (CEST)
+Received: from localhost ([::1]:33484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRbnM-0000Ke-EP
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56878)
+	id 1kRbYt-0004Dz-Me
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:38:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYYB-00012B-F1; Sun, 11 Oct 2020 06:25:59 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:52170 helo=huawei.com)
+ id 1kRYYA-00011a-IF; Sun, 11 Oct 2020 06:25:58 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:52132 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYY9-0003Jj-Jd; Sun, 11 Oct 2020 06:25:59 -0400
+ id 1kRYY8-0003IF-LY; Sun, 11 Oct 2020 06:25:58 -0400
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id EB72EA4F2CD18C80B79F;
+ by Forcepoint Email with ESMTP id E3704467C09C55F082D0;
  Sun, 11 Oct 2020 18:25:48 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Sun, 11 Oct 2020
  18:25:40 +0800
 From: Bihong Yu <yubihong@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v1 6/8] migration: Do not initialise statics and globals to 0
- or NULL
-Date: Sun, 11 Oct 2020 18:57:41 +0800
-Message-ID: <1602413863-19513-7-git-send-email-yubihong@huawei.com>
+Subject: [PATCH v1 7/8] migration: Open brace '{' following function
+ declarations go on the next line
+Date: Sun, 11 Oct 2020 18:57:42 +0800
+Message-ID: <1602413863-19513-8-git-send-email-yubihong@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602413863-19513-1-git-send-email-yubihong@huawei.com>
 References: <1602413863-19513-1-git-send-email-yubihong@huawei.com>
@@ -68,36 +68,23 @@ Signed-off-by:Bihong Yu <yubihong@huawei.com>
 Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
 Signed-off-by: Bihong Yu <yubihong@huawei.com>
 ---
- migration/ram.c    | 2 +-
- migration/savevm.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ migration/rdma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 12e7296..f71ff2b 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2743,7 +2743,7 @@ static int load_xbzrle(QEMUFile *f, ram_addr_t addr, void *host)
-  */
- static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
- {
--    static RAMBlock *block = NULL;
-+    static RAMBlock *block;
-     char id[256];
-     uint8_t len;
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 0eb42b7..ca4d315 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -273,7 +273,8 @@ static uint64_t htonll(uint64_t v)
+     return u.llv;
+ }
  
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 9e95df1..f808bc2 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -64,7 +64,7 @@
- #include "qemu/bitmap.h"
- #include "net/announce.h"
- 
--const unsigned int postcopy_ram_discard_version = 0;
-+const unsigned int postcopy_ram_discard_version;
- 
- /* Subcommands for QEMU_VM_COMMAND */
- enum qemu_vm_cmd {
+-static uint64_t ntohll(uint64_t v) {
++static uint64_t ntohll(uint64_t v)
++{
+     union { uint32_t lv[2]; uint64_t llv; } u;
+     u.llv = v;
+     return ((uint64_t)ntohl(u.lv[0]) << 32) | (uint64_t) ntohl(u.lv[1]);
 -- 
 1.8.3.1
 
