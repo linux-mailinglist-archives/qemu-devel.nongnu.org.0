@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6995428AA7C
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:45:39 +0200 (CEST)
-Received: from localhost ([::1]:48304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE5928AA7F
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 22:49:20 +0200 (CEST)
+Received: from localhost ([::1]:56676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRiDq-0004RE-DQ
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57750)
+	id 1kRiHP-00083J-Ky
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 16:49:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRi5k-00027Z-BI
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:37:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46907)
+ id 1kRi5y-0002G6-Tt
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:37:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kRi5i-0005ZP-M0
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:37:15 -0400
+ id 1kRi5u-0005Zv-Jg
+ for qemu-devel@nongnu.org; Sun, 11 Oct 2020 16:37:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602448633;
+ s=mimecast20190719; t=1602448646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XlKLzn5XQx+MgQAM4EHXhVcJekM1LfEac+tlMU7Ov/E=;
- b=I7X17C6smd4vtpBWPnXTsTPr40hZyxZAltHebzhRwc0/t7GQy+HMuvHFNyJrHX+y9e/b+X
- ood9S8O8HbFDEEs0L0nmznNB08yU+ajQZewFc87KoAIwyoCVKtmnh6M1gl7oc4ON7z1xkD
- b2fr9diMJt4sUoCpBIXZ+sOZWqbRTOk=
+ bh=tMbEFUjxPSyAU3nqy9BsI64+jEiY61NYPw2mnJQxISc=;
+ b=KWw6Uay2My7yAixoM1SOKpKd2V70FvVQ+xL8JbUnY9dof3y1JSIqvj+oM/Krptcv41XWgL
+ 4wQg4DFHs26k+phDPj8lFa9ClDbkOAOLDHvo5/WMWN2hEKnpKc2fJEm7djlLTmKxIBoZgY
+ B19EGckYxFvR6ye4S8GliNv9uuVllrM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-tbs0h5hQO9S8vGCEgpbzTg-1; Sun, 11 Oct 2020 16:37:12 -0400
-X-MC-Unique: tbs0h5hQO9S8vGCEgpbzTg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-355-zhsTWrE0OyuzUIeZtOWrHg-1; Sun, 11 Oct 2020 16:37:22 -0400
+X-MC-Unique: zhsTWrE0OyuzUIeZtOWrHg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42468802B4A
- for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 20:37:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5617802B4A
+ for <qemu-devel@nongnu.org>; Sun, 11 Oct 2020 20:37:21 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC5B660C05;
- Sun, 11 Oct 2020 20:37:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD9771A8EC;
+ Sun, 11 Oct 2020 20:37:14 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PoCv2 11/15] qga: add qmp! macro helper
-Date: Mon, 12 Oct 2020 00:35:09 +0400
-Message-Id: <20201011203513.1621355-12-marcandre.lureau@redhat.com>
+Subject: [PoCv2 12/15] qga: implement get-host-name in Rust
+Date: Mon, 12 Oct 2020 00:35:10 +0400
+Message-Id: <20201011203513.1621355-13-marcandre.lureau@redhat.com>
 In-Reply-To: <20201011203513.1621355-1-marcandre.lureau@redhat.com>
 References: <20201011203513.1621355-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 16:23:51
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 16:35:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,66 +89,221 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Add a macro to help wrapping higher-level qmp handlers, by taking care
-of errors and return value pointer translation.
+Use the "hostname" crate (https://github.com/svartalf/hostname)
+
+(notice the wrong error message in our win32 implementation)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- qga/lib.rs     |  1 +
- qga/qmp/mod.rs | 36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
- create mode 100644 qga/qmp/mod.rs
+ include/qemu/osdep.h | 10 ----------
+ qga/Cargo.toml       |  1 +
+ qga/commands.c       | 20 ++++----------------
+ qga/lib.rs           |  2 ++
+ qga/qmp/hostname.rs  |  9 +++++++++
+ qga/qmp/mod.rs       |  7 +++++++
+ tests/test-qga.c     |  2 ++
+ util/oslib-posix.c   | 35 -----------------------------------
+ util/oslib-win32.c   | 13 -------------
+ 9 files changed, 25 insertions(+), 74 deletions(-)
+ create mode 100644 qga/qmp/hostname.rs
 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index f9ec8c84e9..1ea244fc06 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -664,16 +664,6 @@ static inline void qemu_reset_optind(void)
+ #endif
+ }
+ 
+-/**
+- * qemu_get_host_name:
+- * @errp: Error object
+- *
+- * Operating system agnostic way of querying host name.
+- *
+- * Returns allocated hostname (caller should free), NULL on failure.
+- */
+-char *qemu_get_host_name(Error **errp);
+-
+ /**
+  * qemu_get_host_physmem:
+  *
+diff --git a/qga/Cargo.toml b/qga/Cargo.toml
+index 9966057594..63a419255d 100644
+--- a/qga/Cargo.toml
++++ b/qga/Cargo.toml
+@@ -7,6 +7,7 @@ license = "GPLv2"
+ [dependencies]
+ common = { path = "../rust/common" }
+ libc = "^0.2.76"
++hostname = "^0.3.1"
+ 
+ [lib]
+ path = "lib.rs"
+diff --git a/qga/commands.c b/qga/commands.c
+index 3dcd5fbe5c..15478a16e7 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -512,25 +512,13 @@ int ga_parse_whence(GuestFileWhence *whence, Error **errp)
+     return -1;
+ }
+ 
++#ifndef CONFIG_WITH_RUST
+ GuestHostName *qmp_guest_get_host_name(Error **errp)
+ {
+-    GuestHostName *result = NULL;
+-    g_autofree char *hostname = qemu_get_host_name(errp);
+-
+-    /*
+-     * We want to avoid using g_get_host_name() because that
+-     * caches the result and we wouldn't reflect changes in the
+-     * host name.
+-     */
+-
+-    if (!hostname) {
+-        hostname = g_strdup("localhost");
+-    }
+-
+-    result = g_new0(GuestHostName, 1);
+-    result->host_name = g_steal_pointer(&hostname);
+-    return result;
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
+ }
++#endif
+ 
+ GuestTimezone *qmp_guest_get_timezone(Error **errp)
+ {
 diff --git a/qga/lib.rs b/qga/lib.rs
-index bff4107569..5fe08c25a3 100644
+index 5fe08c25a3..f4967f59e5 100644
 --- a/qga/lib.rs
 +++ b/qga/lib.rs
-@@ -1,2 +1,3 @@
+@@ -1,3 +1,5 @@
++pub use common::{err, Error, Result};
++
  mod qapi;
  mod qapi_sys;
-+mod qmp;
-diff --git a/qga/qmp/mod.rs b/qga/qmp/mod.rs
+ mod qmp;
+diff --git a/qga/qmp/hostname.rs b/qga/qmp/hostname.rs
 new file mode 100644
-index 0000000000..38060100af
+index 0000000000..c3eb1f6fd2
 --- /dev/null
-+++ b/qga/qmp/mod.rs
-@@ -0,0 +1,36 @@
-+use common::*;
-+
++++ b/qga/qmp/hostname.rs
+@@ -0,0 +1,9 @@
 +use crate::*;
 +
-+macro_rules! qmp {
-+    // the basic return value variant
-+    ($e:expr, $errp:ident, $errval:expr) => {{
-+        assert!(!$errp.is_null());
-+        unsafe {
-+            *$errp = std::ptr::null_mut();
-+        }
++pub(crate) fn get() -> Result<qapi::GuestHostName> {
++    let host_name = hostname::get()?
++        .into_string()
++        .or_else(|_| err!("Invalid hostname"))?;
 +
-+        match $e {
-+            Ok(val) => val,
-+            Err(err) => unsafe {
-+                *$errp = err.to_qemu_full();
-+                $errval
-+            },
-+        }
-+    }};
-+    // the ptr return value variant
-+    ($e:expr, $errp:ident) => {{
-+        assert!(!$errp.is_null());
-+        unsafe {
-+            *$errp = std::ptr::null_mut();
-+        }
-+
-+        match $e {
-+            Ok(val) => val.to_qemu_full().into(),
-+            Err(err) => unsafe {
-+                *$errp = err.to_qemu_full();
-+                std::ptr::null_mut()
-+            },
-+        }
-+    }};
++    Ok(qapi::GuestHostName { host_name })
 +}
+diff --git a/qga/qmp/mod.rs b/qga/qmp/mod.rs
+index 38060100af..e855aa4bd7 100644
+--- a/qga/qmp/mod.rs
++++ b/qga/qmp/mod.rs
+@@ -34,3 +34,10 @@ macro_rules! qmp {
+         }
+     }};
+ }
++
++mod hostname;
++
++#[no_mangle]
++extern "C" fn qmp_guest_get_host_name(errp: *mut *mut sys::Error) -> *mut qapi_sys::GuestHostName {
++    qmp!(hostname::get(), errp)
++}
+diff --git a/tests/test-qga.c b/tests/test-qga.c
+index c1b173b3cb..6190e93e0e 100644
+--- a/tests/test-qga.c
++++ b/tests/test-qga.c
+@@ -863,6 +863,7 @@ static void test_qga_guest_exec_invalid(gconstpointer fix)
+ 
+ static void test_qga_guest_get_host_name(gconstpointer fix)
+ {
++#ifdef CONFIG_WITH_RUST
+     const TestFixture *fixture = fix;
+     QDict *ret, *val;
+ 
+@@ -874,6 +875,7 @@ static void test_qga_guest_get_host_name(gconstpointer fix)
+     g_assert(qdict_haskey(val, "host-name"));
+ 
+     qobject_unref(ret);
++#endif
+ }
+ 
+ static void test_qga_guest_get_timezone(gconstpointer fix)
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index f15234b5c0..1722c269b8 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -804,41 +804,6 @@ void sigaction_invoke(struct sigaction *action,
+     action->sa_sigaction(info->ssi_signo, &si, NULL);
+ }
+ 
+-#ifndef HOST_NAME_MAX
+-# ifdef _POSIX_HOST_NAME_MAX
+-#  define HOST_NAME_MAX _POSIX_HOST_NAME_MAX
+-# else
+-#  define HOST_NAME_MAX 255
+-# endif
+-#endif
+-
+-char *qemu_get_host_name(Error **errp)
+-{
+-    long len = -1;
+-    g_autofree char *hostname = NULL;
+-
+-#ifdef _SC_HOST_NAME_MAX
+-    len = sysconf(_SC_HOST_NAME_MAX);
+-#endif /* _SC_HOST_NAME_MAX */
+-
+-    if (len < 0) {
+-        len = HOST_NAME_MAX;
+-    }
+-
+-    /* Unfortunately, gethostname() below does not guarantee a
+-     * NULL terminated string. Therefore, allocate one byte more
+-     * to be sure. */
+-    hostname = g_new0(char, len + 1);
+-
+-    if (gethostname(hostname, len) < 0) {
+-        error_setg_errno(errp, errno,
+-                         "cannot get hostname");
+-        return NULL;
+-    }
+-
+-    return g_steal_pointer(&hostname);
+-}
+-
+ size_t qemu_get_host_physmem(void)
+ {
+ #ifdef _SC_PHYS_PAGES
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 051afb217b..804e303c4f 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -822,19 +822,6 @@ bool qemu_write_pidfile(const char *filename, Error **errp)
+     return true;
+ }
+ 
+-char *qemu_get_host_name(Error **errp)
+-{
+-    wchar_t tmp[MAX_COMPUTERNAME_LENGTH + 1];
+-    DWORD size = G_N_ELEMENTS(tmp);
+-
+-    if (GetComputerNameW(tmp, &size) == 0) {
+-        error_setg_win32(errp, GetLastError(), "failed close handle");
+-        return NULL;
+-    }
+-
+-    return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
+-}
+-
+ size_t qemu_get_host_physmem(void)
+ {
+     MEMORYSTATUSEX statex;
 -- 
 2.28.0
 
