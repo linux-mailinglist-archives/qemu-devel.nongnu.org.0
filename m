@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2083D28A9F9
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 21:52:45 +0200 (CEST)
-Received: from localhost ([::1]:34200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D743F28A9FF
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 21:54:48 +0200 (CEST)
+Received: from localhost ([::1]:43052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRhOd-00052E-Iq
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 15:52:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49706)
+	id 1kRhQd-0000CT-Un
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 15:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRhLX-0002x1-3b; Sun, 11 Oct 2020 15:49:32 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37121)
+ id 1kRhLc-0002z9-Rg; Sun, 11 Oct 2020 15:49:38 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRhLT-0000HW-Vr; Sun, 11 Oct 2020 15:49:29 -0400
-Received: by mail-wm1-x343.google.com with SMTP id j136so15371696wmj.2;
- Sun, 11 Oct 2020 12:49:26 -0700 (PDT)
+ id 1kRhLZ-0000Hz-Em; Sun, 11 Oct 2020 15:49:35 -0400
+Received: by mail-wr1-x441.google.com with SMTP id e17so16582133wru.12;
+ Sun, 11 Oct 2020 12:49:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/fQo3DSJb6riAH6KnfckECiEhkMalNL1pPpYvWlbzCc=;
- b=fchLa3yE6WsO/FZ+TB5rqAIHERo2Wc0kfScuX4Nd1FAJjMJybOer7ydG7VO4fPRhUM
- byTxfmCYAFwlw73VF3USnknTVXPX77Ml+HloAqCxwp4ZRiFf1eaa6cQVpUE7nHAVewzR
- 2CICmGkLiY4fFTNAJcbjESHcyfORodUgr0ysfOzyI+XkeKB71lBmGoa6UsH0ozKWU7+Z
- ba639AW3CwlVdXtlEaaWUuFPcu/31i7bjxPW7ZIPXVpEB0PNcJUXdx9+aJ78uDX3L32M
- jnTT8a+bBoE2urRl3hVdSj1VuXC0SuWxuyEmpYtRxmRfu8SnnHw4VEPkbpFhWJyU409A
- 3Z2A==
+ bh=JY3Ndr1SwLa4aQQZxdcgHQ230u1S4q1Vxx6foe4GpMc=;
+ b=b5U728+2oqLyxZLK4gVj4hJFF5c7HoW2X5d0QI2a87MHPnJgyvbKCwWg8T53YDnYO7
+ KjIgq/5JFyG0MP5wq7hPVoPsYn4moSSjhsha7EpKdldGOrhmmhvL2uzFc8buzf9qGKRI
+ GjDSJCoiqrYM/+ChzcaJeyQ5965bSm8S0KR2iOM+1FbiKTntdQoOd4CrBxdzo/wuuSFs
+ Qvx1VW69GKaxcgxgM1RmZNd6E51sagjsNXFhE+vLpEyn6VnPSZwmjClikToWDlsnR5Rj
+ kIIuk65udgF1FRQzqHUR4nEJ0lgbU/ANVyeLdDkYfKv/xKdeSiY1zHgNeilymXP25Kt1
+ lWSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/fQo3DSJb6riAH6KnfckECiEhkMalNL1pPpYvWlbzCc=;
- b=isYmbhHzWSYxS4hT958WWAU7uDJiGNgjZj+Xdwe3CdR2pkGGeKQP2188p7Akm4lcja
- 8kfGs6qSHu1QYBwRldey8IiGm9yxzBKnF7xufbvmFK/hcQW6sLiS3ao0TpniBkVxSLe2
- KQ3kjunsWd4Ll2jHfCqMWxgWZEGADgsEroPoKFZmTHClH6sxiLlaeibzMdTZDXdZeL6s
- CXs1/2YeAXmYGHqlfcpcivNaEWa7dm8EuRi0S6XNF75kIC/SOIzdMd9ePJ4yqloM5n+E
- vnXSKXN3FpfCzn5YBqSebm0G4TnRS+h80RbYZdk+F/1vwVTY772sMOiQvtRKonmDsJoc
- Whrw==
-X-Gm-Message-State: AOAM532tXmVnhlFE+LtI71o3O+KJMHUjgB4LZddeZFqKt+nARvZ8uQtC
- v8OX2d9DZf4aty8sM/J781qjc+jFcac=
-X-Google-Smtp-Source: ABdhPJz6A99BRgIPa/1KR4ERdM5WL50IzAC2V7BytlJ8nFXrdYBkI/cd6vxwEbPTmcgpngPy+W2cgw==
-X-Received: by 2002:a1c:9949:: with SMTP id b70mr7946954wme.116.1602445765529; 
- Sun, 11 Oct 2020 12:49:25 -0700 (PDT)
+ bh=JY3Ndr1SwLa4aQQZxdcgHQ230u1S4q1Vxx6foe4GpMc=;
+ b=kwqtw+tBcBT+ygASApoUBPyoU+R/G3CvPpxXHWyN7xicpQyCYMf/vZlMnhwnaNLcZN
+ /DzMqoZayQutH70CttUKzRW4OnC/v0MWnhdvSlRuTv8OAkxj+EWW2lkGtjbuI9chWF3P
+ aaKrtz1X0fv15n2ysWCz496COzU1TG62rImqHm4iPrc+/RwRSCT0qCo2/DKM8H2ITvxY
+ j/Iei4PVcFtKci5K7s7OOMq+jEw68fiaOWXMuojvSEwm+yNyvP1f8aoq46WECiPXmGxF
+ tjZGpZW2POHMao+qzWKmR0Rrs6RyfaMa20NE7w+BbnCR1NTMCavpTHOm0HR61i7qcqXt
+ QsRA==
+X-Gm-Message-State: AOAM5309QbNYX8niMqNE1d9Rwca1qupmQ24rUc1wvKrV9XbX9+fEhFe+
+ PO40fhdhwf2XQnnWhMbWEXL7xYFivDY=
+X-Google-Smtp-Source: ABdhPJxhe4c/Rrv2QOxu3KWA6WEA0ZbB+4sMM43H46rAAHhqNpE96oGJiyinUINbzNT8ZV8E1p7JSw==
+X-Received: by 2002:a5d:4282:: with SMTP id k2mr24940583wrq.270.1602445770381; 
+ Sun, 11 Oct 2020 12:49:30 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id n9sm22111984wrq.72.2020.10.11.12.49.24
+ by smtp.gmail.com with ESMTPSA id i33sm23103929wri.79.2020.10.11.12.49.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Oct 2020 12:49:24 -0700 (PDT)
+ Sun, 11 Oct 2020 12:49:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] hw: Replace magic value by PCI_NUM_PINS definition
-Date: Sun, 11 Oct 2020 21:49:15 +0200
-Message-Id: <20201011194918.3219195-2-f4bug@amsat.org>
+Subject: [PATCH 2/4] hw/pci-host/pam: Use ARRAY_SIZE() instead of magic value
+Date: Sun, 11 Oct 2020 21:49:16 +0200
+Message-Id: <20201011194918.3219195-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201011194918.3219195-1-f4bug@amsat.org>
 References: <20201011194918.3219195-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -97,77 +97,26 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use self-explicit PCI_NUM_PINS definition instead of magic value.
+Replace the magic '4' by ARRAY_SIZE(mem->alias) which is more explicit.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/virt.c           | 4 ++--
- hw/mips/gt64xxx_pci.c   | 2 +-
- hw/pci-host/versatile.c | 6 +++---
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ hw/pci-host/pam.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index e465a988d68..ddad9621f79 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1117,11 +1117,11 @@ static void create_pcie_irq_map(const VirtMachineState *vms,
-                                 int first_irq, const char *nodename)
- {
-     int devfn, pin;
--    uint32_t full_irq_map[4 * 4 * 10] = { 0 };
-+    uint32_t full_irq_map[4 * PCI_NUM_PINS * 10] = { 0 };
-     uint32_t *irq_map = full_irq_map;
+diff --git a/hw/pci-host/pam.c b/hw/pci-host/pam.c
+index a4962057833..4712260025a 100644
+--- a/hw/pci-host/pam.c
++++ b/hw/pci-host/pam.c
+@@ -51,7 +51,7 @@ void init_pam(DeviceState *dev, MemoryRegion *ram_memory,
+                              start, size);
  
-     for (devfn = 0; devfn <= 0x18; devfn += 0x8) {
--        for (pin = 0; pin < 4; pin++) {
-+        for (pin = 0; pin < PCI_NUM_PINS; pin++) {
-             int irq_type = GIC_FDT_IRQ_TYPE_SPI;
-             int irq_nr = first_irq + ((pin + PCI_SLOT(devfn)) % PCI_NUM_PINS);
-             int irq_level = GIC_FDT_IRQ_FLAGS_LEVEL_HI;
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index e091bc4ed55..ff1a35755f6 100644
---- a/hw/mips/gt64xxx_pci.c
-+++ b/hw/mips/gt64xxx_pci.c
-@@ -1018,7 +1018,7 @@ static void gt64120_pci_set_irq(void *opaque, int irq_num, int level)
-     if (pic_irq < 16) {
-         /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-         pic_level = 0;
--        for (i = 0; i < 4; i++) {
-+        for (i = 0; i < PCI_NUM_PINS; i++) {
-             if (pic_irq == piix4_dev->config[PIIX_PIRQCA + i]) {
-                 pic_level |= pci_irq_levels[i];
-             }
-diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
-index 3553277f941..b4951023f4e 100644
---- a/hw/pci-host/versatile.c
-+++ b/hw/pci-host/versatile.c
-@@ -75,7 +75,7 @@ enum {
- struct PCIVPBState {
-     PCIHostState parent_obj;
- 
--    qemu_irq irq[4];
-+    qemu_irq irq[PCI_NUM_PINS];
-     MemoryRegion controlregs;
-     MemoryRegion mem_config;
-     MemoryRegion mem_config2;
-@@ -412,7 +412,7 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
- 
-     object_initialize(&s->pci_dev, sizeof(s->pci_dev), TYPE_VERSATILE_PCI_HOST);
- 
--    for (i = 0; i < 4; i++) {
-+    for (i = 0; i < PCI_NUM_PINS; i++) {
-         sysbus_init_irq(sbd, &s->irq[i]);
-     }
- 
-@@ -422,7 +422,7 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
-         mapfn = pci_vpb_map_irq;
-     }
- 
--    pci_bus_irqs(&s->pci_bus, pci_vpb_set_irq, mapfn, s->irq, 4);
-+    pci_bus_irqs(&s->pci_bus, pci_vpb_set_irq, mapfn, s->irq, PCI_NUM_PINS);
- 
-     /* Our memory regions are:
-      * 0 : our control registers
+     memory_region_transaction_begin();
+-    for (i = 0; i < 4; ++i) {
++    for (i = 0; i < ARRAY_SIZE(mem->alias); ++i) {
+         memory_region_set_enabled(&mem->alias[i], false);
+         memory_region_add_subregion_overlap(system_memory, start,
+                                             &mem->alias[i], 1);
 -- 
 2.26.2
 
