@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDBA28A793
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:44:58 +0200 (CEST)
-Received: from localhost ([::1]:60288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7985428A79B
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Oct 2020 15:48:55 +0200 (CEST)
+Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRbej-0006lD-Nu
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:44:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55264)
+	id 1kRbiY-0003kk-JW
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 09:48:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYPS-0005Qm-RQ; Sun, 11 Oct 2020 06:17:00 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5215 helo=huawei.com)
+ id 1kRYPX-0005RN-Lg; Sun, 11 Oct 2020 06:17:04 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5221 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRYPM-0002Dw-GJ; Sun, 11 Oct 2020 06:16:58 -0400
+ id 1kRYPV-0002F1-Jr; Sun, 11 Oct 2020 06:17:03 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 35D5ED4502AAD23BD250;
+ by Forcepoint Email with ESMTP id 5F7601E299D7A5A1C2F5;
  Sun, 11 Oct 2020 18:16:45 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Sun, 11 Oct 2020
- 18:16:37 +0800
+ 18:16:38 +0800
 From: Bihong Yu <yubihong@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v1 4/8] migration: Open brace '{' following struct go on the
- same line
-Date: Sun, 11 Oct 2020 18:48:37 +0800
-Message-ID: <1602413321-22252-5-git-send-email-yubihong@huawei.com>
+Subject: [PATCH v1 5/8] migration: Add braces {} for if statement
+Date: Sun, 11 Oct 2020 18:48:38 +0800
+Message-ID: <1602413321-22252-6-git-send-email-yubihong@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
 References: <1602413321-22252-1-git-send-email-yubihong@huawei.com>
@@ -47,7 +46,7 @@ X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 11 Oct 2020 09:36:17 -0400
+X-Mailman-Approved-At: Sun, 11 Oct 2020 09:36:19 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,23 +67,32 @@ Signed-off-by:Bihong Yu <yubihong@huawei.com>
 Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
 Signed-off-by: Bihong Yu <yubihong@huawei.com>
 ---
- migration/migration.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ migration/ram.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/migration/migration.h b/migration/migration.h
-index deb411a..99784b4 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -124,8 +124,7 @@ struct MigrationClass {
-     DeviceClass parent_class;
- };
+diff --git a/migration/ram.c b/migration/ram.c
+index 90b277b..12e7296 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -101,14 +101,16 @@ static struct {
  
--struct MigrationState
--{
-+struct MigrationState {
-     /*< private >*/
-     DeviceState parent_obj;
+ static void XBZRLE_cache_lock(void)
+ {
+-    if (migrate_use_xbzrle())
++    if (migrate_use_xbzrle()) {
+         qemu_mutex_lock(&XBZRLE.lock);
++    }
+ }
  
+ static void XBZRLE_cache_unlock(void)
+ {
+-    if (migrate_use_xbzrle())
++    if (migrate_use_xbzrle()) {
+         qemu_mutex_unlock(&XBZRLE.lock);
++    }
+ }
+ 
+ /**
 -- 
 1.8.3.1
 
