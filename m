@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C3F28B459
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:05:28 +0200 (CEST)
-Received: from localhost ([::1]:56998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D10B28B478
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:18:41 +0200 (CEST)
+Received: from localhost ([::1]:47250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRwZy-00059i-W3
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:05:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47142)
+	id 1kRwmm-0005CZ-DG
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:18:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRwWQ-0002Pn-4N; Mon, 12 Oct 2020 08:01:46 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRwWO-0002B1-8L; Mon, 12 Oct 2020 08:01:45 -0400
-Received: by mail-wm1-x344.google.com with SMTP id d81so16949988wmc.1;
- Mon, 12 Oct 2020 05:01:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6QR6d3zy6MQYEcou36efqNc5AUNkJxoiFHbV+BKd1Po=;
- b=YOI07ySwa7DI8kdf81y4igq4U8/uzmL7mjI6o5bN9pWNYzxNo0HZMSjVF7OFxd2Z2i
- yhCmvBEkH8GrQ4xj0dudTDXgxFpxemBMed9EsKkXZrbSQ3IiHZn0XsU9jnj2c4md48qM
- 31VCmjOTbitVFRuAtXt4qdlDAqTWD4giWHKlHq931+KIdBkhME+9HYdR9RAnu96DGBQ8
- zdv0h1KbuAs69ApZcff5VImLW8b03yMQWMFrn4/v2fKV+psdvhTPhpe3/SzhBVYqGmjJ
- hkjc+BM1MwqY5rzp5Wu7Y0jEQ4+v7ks3BffYnzdVrlR28t4E/t5XqWzsWZsZRJi6VM63
- 2w9g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRwjz-0003wr-4o
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:15:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44100)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRwjv-0004N5-KF
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:15:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602504941;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Y+hsLCC8trhTW5zkxm21k2wEJagIvsFiW8XPUIUWeYQ=;
+ b=gx9p3BcQq0oXAqAzBfOTf2DvUN0MDm56/dNCsPVIlstAox8BE7jAYSQCY05U1Cu4XB5D1A
+ u4lAx2tbCQOGaL/XUleIhmDCrJSBtMzVSs01Jebn0MCvGJpgiedVBekPLH0mKsJMrDGzPn
+ IDqzUBlBVai9kdqibjSTWMP0PWTGtdk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-1-btFFnoNLGxDfUagALIaw-1; Mon, 12 Oct 2020 08:15:40 -0400
+X-MC-Unique: 1-btFFnoNLGxDfUagALIaw-1
+Received: by mail-wr1-f70.google.com with SMTP id f11so9210645wro.15
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 05:15:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6QR6d3zy6MQYEcou36efqNc5AUNkJxoiFHbV+BKd1Po=;
- b=k/r7TV/N5L89pMPwK7Igw5L2QHTxBZeA9mbHLc/KrDfoTkx44H43owJ6u/iI09wsAx
- RCn686ikkYHBvOLiLJpQtwyScxZ978fYpIbjbCXJPKPFUu7f0Bhfw1c2hvxTEXU9SQbO
- 6LvpJmV8Jw8MBc+K2i3iEmMI0DBXmIztnp/ku9g0F+3P6O1s4XMBYpRnrfBFm5eCme1C
- npVb5mW5doQgjDnd9lnDdyBBMdDvrtWliAN+sUL+lrkU0rqtereWlqitOj46spnxXgHU
- cGXfuQ7+98gtK4DAa+Ga086w7MMVTXwZt52p2vtQsE5cRRy8tb2GXlr1gqglK6MM+nbc
- wPXA==
-X-Gm-Message-State: AOAM533z2ZU25ExFW5AXSY0Sf+ztvpm+ZwNSKlOuXTOg5D/Rrr/CitPI
- 8fOR8bwC2iws4qodnKLNuKU=
-X-Google-Smtp-Source: ABdhPJx3MEDik0kDKsrZr6M8ZDpNQVmBQi/3NjuV8wAK+5TNTBRONR5GilE0L5ZUL+z0PjAo+5Kqjw==
-X-Received: by 2002:a1c:cc07:: with SMTP id h7mr11040150wmb.55.1602504102203; 
- Mon, 12 Oct 2020 05:01:42 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id j5sm19194458wrx.88.2020.10.12.05.01.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Oct 2020 05:01:41 -0700 (PDT)
-Subject: Re: [PATCH] hw/pci-host/grackle: Verify PIC link is properly set
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20201011190332.3189611-1-f4bug@amsat.org>
- <85549ebe-6644-3c45-0e56-e4d5c509ea80@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <16a5dc5f-0ae9-b513-3579-6839a2db6cc6@amsat.org>
-Date: Mon, 12 Oct 2020 14:01:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ bh=Hx9oAa6orjAiRyrjMAlDExZ6I0zLe+yEo4wAyxHjb8c=;
+ b=F3fQ6SC8G7N6JMZGRGEsxftCVGPZHmcpzZ32Ttoc1wvzBkkE/EYFpvxMOiLdUJRsnv
+ HlsoUjk7phAlZctUfU7gibiliFOV/4xQUPCMIZhwiCq0mHQMc04S6easquwTzRDYCSQd
+ yR5NAMMReXeLS1sqVfby9sPUabQPRyoz6bkBVTeMaecqBJjo3/CuFqtPO27HiklJSOhs
+ XU+Ox5+miO0mglJ349kWDi+usphXdUiijkCXZTMcbdfBkqjXpQqX+Ijv7xJtJ2zBL5zC
+ 4Y6valA3LzEdHn+jnOAOSWkySEYx043pjcSNjCfgAh4yAshHUrY2JDhe+9PX1EwOR6ex
+ mkyQ==
+X-Gm-Message-State: AOAM532YdDdUPNf0fgtM6M7+Q3wdLjZRePD9VnEixpHe7xMhkl+3vasR
+ 8E4c9fW3Z75jpGEMhd/bbQSE7ijkOqehD3L02w5X2zBmg6w3uliuM+kiq0a92tuwDW94Xr19gWi
+ isxeAKoqyfubATpA=
+X-Received: by 2002:a7b:c309:: with SMTP id k9mr10206530wmj.125.1602504938622; 
+ Mon, 12 Oct 2020 05:15:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyF32zv2YEm93720qJs+KF7aqnBOkQp7KfDYLim+HY9XtFHyQAW8RLARHOA8XJYC1a6doCT4Q==
+X-Received: by 2002:a7b:c309:: with SMTP id k9mr10206514wmj.125.1602504938421; 
+ Mon, 12 Oct 2020 05:15:38 -0700 (PDT)
+Received: from localhost.localdomain
+ (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id j17sm24900598wrw.68.2020.10.12.05.15.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 05:15:37 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+Subject: [PATCH v2 0/5] qapi: Restrict machine (and migration) specific
+ commands
+Date: Mon, 12 Oct 2020 14:15:31 +0200
+Message-Id: <20201012121536.3381997-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <85549ebe-6644-3c45-0e56-e4d5c509ea80@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,52 +94,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/20 11:23 AM, Mark Cave-Ayland wrote:
-> On 11/10/2020 20:03, Philippe Mathieu-Daudé wrote:
-> 
->> The Grackle PCI host model expects the interrupt controller
->> being set, but does not verify it is present. Add a check to
->> help developers using this model.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   hw/pci-host/grackle.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
->> index 57c29b20afb..20361d215ca 100644
->> --- a/hw/pci-host/grackle.c
->> +++ b/hw/pci-host/grackle.c
->> @@ -76,6 +76,10 @@ static void grackle_realize(DeviceState *dev, Error **errp)
->>       GrackleState *s = GRACKLE_PCI_HOST_BRIDGE(dev);
->>       PCIHostState *phb = PCI_HOST_BRIDGE(dev);
->>   
->> +    if (!s->pic) {
->> +        error_setg(errp, TYPE_GRACKLE_PCI_HOST_BRIDGE ": 'pic' link not set");
->> +        return;
->> +    }
->>       phb->bus = pci_register_root_bus(dev, NULL,
->>                                        pci_grackle_set_irq,
->>                                        pci_grackle_map_irq,
-> 
-> Reviewing this now, my feeling is that both grackle and uninorth are doing the wrong
-> thing here by passing in a link to the PIC - certainly if I had written this more
-> recently than I originally did, I would simply use qdev_init_gpio_out() for the IRQ
-> lines and do the wiring during machine init.
-> 
-> I've got a few other things to look at first, but I'll post a patchset later which I
-> think will improve this for both Mac machines.
+Reduce the machine code pulled into qemu-storage-daemon.=0D
+=0D
+The series is fully Acked, but Markus wants it reviewed=0D
+by the Machine core maintainers.=0D
+=0D
+Since v1:=0D
+- Added A-b tags=0D
+- Rebased=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (5):=0D
+  qapi: Restrict 'inject-nmi' command to machine code=0D
+  qapi: Restrict 'system wakeup/reset/powerdown' commands to=0D
+    machine.json=0D
+  qapi: Restrict '(p)memsave' command to machine code=0D
+  qapi: Restrict 'query-kvm' command to machine code=0D
+  qapi: Restrict Xen migration commands to migration.json=0D
+=0D
+ qapi/machine.json      | 168 +++++++++++++++++++++++++++++++++=0D
+ qapi/migration.json    |  41 ++++++++=0D
+ qapi/misc.json         | 209 -----------------------------------------=0D
+ accel/stubs/xen-stub.c |   2 +-=0D
+ hw/i386/xen/xen-hvm.c  |   2 +-=0D
+ migration/savevm.c     |   1 -=0D
+ softmmu/cpus.c         |   1 +=0D
+ ui/gtk.c               |   1 +=0D
+ ui/cocoa.m             |   1 +=0D
+ 9 files changed, 214 insertions(+), 212 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-Awesome, thanks!
-
-> 
-> 
-> ATB,
-> 
-> Mark.
-> 
 
