@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF5328BF2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:47:17 +0200 (CEST)
-Received: from localhost ([::1]:58362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8536E28BF33
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:49:28 +0200 (CEST)
+Received: from localhost ([::1]:35668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS1um-0000pq-4x
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
+	id 1kS1wt-000393-Ke
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:49:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1sf-0007eD-O9; Mon, 12 Oct 2020 13:45:05 -0400
-Received: from relay.sw.ru ([185.231.240.75]:60716 helo=relay3.sw.ru)
+ id 1kS1tW-00009N-2Q; Mon, 12 Oct 2020 13:45:58 -0400
+Received: from relay.sw.ru ([185.231.240.75]:60972 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1sd-0007EC-U9; Mon, 12 Oct 2020 13:45:05 -0400
+ id 1kS1tR-0007PD-Kj; Mon, 12 Oct 2020 13:45:57 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1rh-0047iC-Pu; Mon, 12 Oct 2020 20:44:05 +0300
+ id 1kS1sT-0047iC-N0; Mon, 12 Oct 2020 20:44:54 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com, fam@euphon.net,
  stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
  libvir-list@redhat.com, eblake@redhat.com, den@openvz.org,
  vsementsov@virtuozzo.com, andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v11 01/13] copy-on-read: Support preadv/pwritev_part functions
-Date: Mon, 12 Oct 2020 20:43:13 +0300
-Message-Id: <1602524605-481160-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v11 02/13] copy-on-read: add filter append/drop functions
+Date: Mon, 12 Oct 2020 20:43:14 +0300
+Message-Id: <1602524605-481160-3-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -58,69 +58,189 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-Add support for the recently introduced functions
-bdrv_co_preadv_part()
-and
-bdrv_co_pwritev_part()
-to the COR-filter driver.
+Provide API for the COR-filter insertion/removal.
+Also, drop the filter child permissions for an inactive state when the
+filter node is being removed.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/copy-on-read.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ block/copy-on-read.c | 88 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ block/copy-on-read.h | 35 +++++++++++++++++++++
+ 2 files changed, 123 insertions(+)
+ create mode 100644 block/copy-on-read.h
 
 diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 2816e61..cb03e0f 100644
+index cb03e0f..bcccf0f 100644
 --- a/block/copy-on-read.c
 +++ b/block/copy-on-read.c
-@@ -74,21 +74,25 @@ static int64_t cor_getlength(BlockDriverState *bs)
- }
+@@ -23,11 +23,21 @@
+ #include "qemu/osdep.h"
+ #include "block/block_int.h"
+ #include "qemu/module.h"
++#include "qapi/error.h"
++#include "qapi/qmp/qdict.h"
++#include "block/copy-on-read.h"
++
++
++typedef struct BDRVStateCOR {
++    bool active;
++} BDRVStateCOR;
  
  
--static int coroutine_fn cor_co_preadv(BlockDriverState *bs,
--                                      uint64_t offset, uint64_t bytes,
--                                      QEMUIOVector *qiov, int flags)
-+static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
-+                                           uint64_t offset, uint64_t bytes,
-+                                           QEMUIOVector *qiov,
-+                                           size_t qiov_offset,
-+                                           int flags)
+ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+                     Error **errp)
  {
--    return bdrv_co_preadv(bs->file, offset, bytes, qiov,
--                          flags | BDRV_REQ_COPY_ON_READ);
-+    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
-+                               flags | BDRV_REQ_COPY_ON_READ);
++    BDRVStateCOR *state = bs->opaque;
++
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+                                false, errp);
+@@ -42,6 +52,13 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+         ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+             bs->file->bs->supported_zero_flags);
+ 
++    state->active = true;
++
++    /*
++     * We don't need to call bdrv_child_refresh_perms() now as the permissions
++     * will be updated later when the filter node gets its parent.
++     */
++
+     return 0;
  }
  
- 
--static int coroutine_fn cor_co_pwritev(BlockDriverState *bs,
--                                       uint64_t offset, uint64_t bytes,
--                                       QEMUIOVector *qiov, int flags)
-+static int coroutine_fn cor_co_pwritev_part(BlockDriverState *bs,
-+                                            uint64_t offset,
-+                                            uint64_t bytes,
-+                                            QEMUIOVector *qiov,
-+                                            size_t qiov_offset, int flags)
+@@ -57,6 +74,17 @@ static void cor_child_perm(BlockDriverState *bs, BdrvChild *c,
+                            uint64_t perm, uint64_t shared,
+                            uint64_t *nperm, uint64_t *nshared)
  {
--
--    return bdrv_co_pwritev(bs->file, offset, bytes, qiov, flags);
-+    return bdrv_co_pwritev_part(bs->file, offset, bytes, qiov, qiov_offset,
-+                                flags);
++    BDRVStateCOR *s = bs->opaque;
++
++    if (!s->active) {
++        /*
++         * While the filter is being removed
++         */
++        *nperm = 0;
++        *nshared = BLK_PERM_ALL;
++        return;
++    }
++
+     *nperm = perm & PERM_PASSTHROUGH;
+     *nshared = (shared & PERM_PASSTHROUGH) | PERM_UNCHANGED;
+ 
+@@ -135,6 +163,7 @@ static void cor_lock_medium(BlockDriverState *bs, bool locked)
+ 
+ static BlockDriver bdrv_copy_on_read = {
+     .format_name                        = "copy-on-read",
++    .instance_size                      = sizeof(BDRVStateCOR),
+ 
+     .bdrv_open                          = cor_open,
+     .bdrv_child_perm                    = cor_child_perm,
+@@ -159,4 +188,63 @@ static void bdrv_copy_on_read_init(void)
+     bdrv_register(&bdrv_copy_on_read);
  }
  
- 
-@@ -137,8 +141,8 @@ static BlockDriver bdrv_copy_on_read = {
- 
-     .bdrv_getlength                     = cor_getlength,
- 
--    .bdrv_co_preadv                     = cor_co_preadv,
--    .bdrv_co_pwritev                    = cor_co_pwritev,
-+    .bdrv_co_preadv_part                = cor_co_preadv_part,
-+    .bdrv_co_pwritev_part               = cor_co_pwritev_part,
-     .bdrv_co_pwrite_zeroes              = cor_co_pwrite_zeroes,
-     .bdrv_co_pdiscard                   = cor_co_pdiscard,
-     .bdrv_co_pwritev_compressed         = cor_co_pwritev_compressed,
++
++BlockDriverState *bdrv_cor_filter_append(BlockDriverState *bs,
++                                         QDict *node_options,
++                                         int flags, Error **errp)
++{
++    BlockDriverState *cor_filter_bs;
++    Error *local_err = NULL;
++
++    cor_filter_bs = bdrv_open(NULL, NULL, node_options, flags, errp);
++    if (cor_filter_bs == NULL) {
++        error_prepend(errp, "Could not create COR-filter node: ");
++        return NULL;
++    }
++
++    if (!qdict_get_try_str(node_options, "node-name")) {
++        cor_filter_bs->implicit = true;
++    }
++
++    bdrv_drained_begin(bs);
++    bdrv_replace_node(bs, cor_filter_bs, &local_err);
++    bdrv_drained_end(bs);
++
++    if (local_err) {
++        bdrv_unref(cor_filter_bs);
++        error_propagate(errp, local_err);
++        return NULL;
++    }
++
++    return cor_filter_bs;
++}
++
++
++void bdrv_cor_filter_drop(BlockDriverState *cor_filter_bs)
++{
++    BdrvChild *child;
++    BlockDriverState *bs;
++    BDRVStateCOR *s = cor_filter_bs->opaque;
++
++    child = bdrv_filter_child(cor_filter_bs);
++    if (!child) {
++        return;
++    }
++    bs = child->bs;
++
++    /* Retain the BDS until we complete the graph change. */
++    bdrv_ref(bs);
++    /* Hold a guest back from writing while permissions are being reset. */
++    bdrv_drained_begin(bs);
++    /* Drop permissions before the graph change. */
++    s->active = false;
++    bdrv_child_refresh_perms(cor_filter_bs, child, &error_abort);
++    bdrv_replace_node(cor_filter_bs, bs, &error_abort);
++
++    bdrv_drained_end(bs);
++    bdrv_unref(bs);
++    bdrv_unref(cor_filter_bs);
++}
++
++
+ block_init(bdrv_copy_on_read_init);
+diff --git a/block/copy-on-read.h b/block/copy-on-read.h
+new file mode 100644
+index 0000000..d6f2422
+--- /dev/null
++++ b/block/copy-on-read.h
+@@ -0,0 +1,35 @@
++/*
++ * Copy-on-read filter block driver
++ *
++ * The filter driver performs Copy-On-Read (COR) operations
++ *
++ * Copyright (c) 2018-2020 Virtuozzo International GmbH.
++ *
++ * Author:
++ *   Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef BLOCK_COPY_ON_READ
++#define BLOCK_COPY_ON_READ
++
++#include "block/block_int.h"
++
++BlockDriverState *bdrv_cor_filter_append(BlockDriverState *bs,
++                                         QDict *node_options,
++                                         int flags, Error **errp);
++void bdrv_cor_filter_drop(BlockDriverState *cor_filter_bs);
++
++#endif /* BLOCK_COPY_ON_READ */
 -- 
 1.8.3.1
 
