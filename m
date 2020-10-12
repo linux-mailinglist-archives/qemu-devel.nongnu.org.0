@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA9128BCF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:54:19 +0200 (CEST)
-Received: from localhost ([::1]:35174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1699528BD04
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:57:07 +0200 (CEST)
+Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS09S-0007z5-N0
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:54:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56880)
+	id 1kS0CA-0002TZ-3N
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:57:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqM-00072B-63
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:37 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55853)
+ id 1kRzqQ-00073c-4R
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:39 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqK-0007KB-CR
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:33 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a72so6921543wme.5
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:31 -0700 (PDT)
+ id 1kRzqL-0007KX-Q0
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:35 -0400
+Received: by mail-wm1-x342.google.com with SMTP id e2so17969383wme.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+rL5y+LPIlyoU3TM7H1gns6WWZrHXRx5K1wFTm/QiuM=;
- b=iYSLRaPqYYm55PYEe2u/gTksh2DYtlQokYWvM4HiWEY591jCkZjXlvE9Mz6wVNvzdj
- V7qOhCBqCi/pArufM/CE7v2jlImzg0wx76ZOQacNHpTAnJ0IBnhz9uC7sYU/GGebLldo
- e0U3FfKg4ytb0CxgMN/hzId/Y41ZdOCl9g3kUV9OKgtUmDBP1KjXuTgGcKHSf6YljeyT
- vU8p6NTtoHbUpBYKl8ighOGm7ygULVeUPcdqyFhRbEEFUxCcd4CFOFJbWbeIyB4V7xUJ
- f7Qh1svo9X+M8jEY+XB7ucnTrVmhfEgEWP2RLVUexTHUU0UnDAQEriJptvFGpt+GRcI4
- D5Ew==
+ bh=gRnzhB6CdonM/19XlgBuso003ocyxIuCfMZY1cNIpB4=;
+ b=LgeVVKXg78hozwZTdWLu2fJHYlQq4U5ka0HhWgb9QLbK1ggAKfrS5MbacohIPpQafY
+ oxv1cbQVxVtyDmjGKXprveYYnsIsvdYslP4cQ5IMQ7iWiPgv/CjrnItqWKF0sMpxKh1K
+ lcGxAeod9NA9P1TFrA2mysw/ozKIz+z6CllgVNBfFnkA1z0NrezP/747E8QmLZ+gYMIL
+ du1aRq1HOPL1JQqV4jjXd/+Z8GgYtVmcExi4Pa4pU21BYXV/YS9npUdCobe7YGBTxt46
+ PcW7a3ooGuE5o81xv5/E80lYkQOgenXN6cC3qLpmqvxWKu10zJSra9tCXw/aKnobzHIO
+ X8ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+rL5y+LPIlyoU3TM7H1gns6WWZrHXRx5K1wFTm/QiuM=;
- b=EnzDU+BQjP3PrHRviV8T9Lswwd4bLMN50IOBRF3TPhuURD4AlsCj3o6QYk8ezdZM8+
- bOkajBrZC1RFW9WirpkHtnVbIjmKaGEMZ0YkVeMbtSi1hhdRtMVLRdcayrH8JgFgjjCB
- Cgx1S4UXBDuFwqZmZGohoIFckKedRDWIj/A+8TxAHEOUmii3eCGKZzz6MNtF9xNKhuis
- +BV4xO1+JKeS1wbWzJa3zlF8aCZyoHesEEJUO87BFI+I/REr1SkCAywuD9A++UnWGHwD
- bd3FKrL/L3Aqm8SFyUzJQz0EZtH2YjOc/MOevBi9+G783izpj3YvvFPs9TGh2IO7FXyU
- RZOA==
-X-Gm-Message-State: AOAM533X67DQ7i7QDRgF4ezMhWPipjJSV2YCyH3lgowvWlYWOXIp0on6
- jlE98UmLfvpd+mdhDDFWC+S4aCa5o++MzwVF
-X-Google-Smtp-Source: ABdhPJwF+yWue4chDZSyrgNYqc2uiQYCfPFKmGc7jxqKUcC/k2E33P6KIKyDGKsAKe0EaL4fAyqfTQ==
-X-Received: by 2002:a1c:6457:: with SMTP id y84mr11141811wmb.36.1602516871079; 
- Mon, 12 Oct 2020 08:34:31 -0700 (PDT)
+ bh=gRnzhB6CdonM/19XlgBuso003ocyxIuCfMZY1cNIpB4=;
+ b=Na6fyIjrkD8r5fuEqyNM7sMlkN4/xp/8zlDn0DF7oJ8Wm5gSkjhM8BjzUyL3lLHpBp
+ hoKBz9ufn2x6aEMbuJjteh2nkWzQ8yUoYIMfg7E5fy5fcOZ6rTBMntBSIofDC/AHRn47
+ OPf5b+k7jy0tB1WCBnIti5dgy7kD6Q7iSDOPIZXuL7m9WHFQT7abg72+aLZrpQmaBE0i
+ oaG72HQvlYQ6v5XRuLSHKVniT5NJ+453RHTL+nPVvWHwDFAs3jI8bwGH1ZYJF92FpKaE
+ +kKQVnLJTuTy3xAlCVybthvkyeKrOTawMRlb/6WHudRsERyqF/1Fjg4FhM+4YnZO75B3
+ MkZw==
+X-Gm-Message-State: AOAM530/60pTL8dnH5XcDSa3y9qX7jx0tAJ14kG+BtcHxVEDONobM72T
+ BcaKR1MXRl+ABV8txmR0Qg/Q1A==
+X-Google-Smtp-Source: ABdhPJyGIly3cHa6mtDgpNOYPQ5o4bEJrDg7BTBDob4JuQm2Jyc8y+4MEBC1drxRf0R808xljbZjtw==
+X-Received: by 2002:a1c:59c3:: with SMTP id n186mr11469861wmb.32.1602516872259; 
+ Mon, 12 Oct 2020 08:34:32 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.30
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:30 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:31 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH] hw/timer/armv7m_systick: assert that board code set
- system_clock_scale
-Date: Mon, 12 Oct 2020 16:33:41 +0100
-Message-Id: <20201012153408.9747-19-peter.maydell@linaro.org>
+Subject: [PATCH for-5.1] hw/timer/imx_epit: Avoid assertion when CR.SWR is
+ written
+Date: Mon, 12 Oct 2020 16:33:42 +0100
+Message-Id: <20201012153408.9747-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,43 +90,57 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is the responsibility of board code for an armv7m system to set
-system_clock_scale appropriately for the CPU speed of the core.
-If it forgets to do this, then QEMU will hang if the guest tries
-to use the systick timer in the "tick at the CPU clock frequency" mode.
+The imx_epit device has a software-controllable reset triggered by
+setting the SWR bit in the CR register. An error in commit cc2722ec83ad9
+means that we will end up assert()ing if the guest does this, because
+the code in imx_epit_write() starts ptimer transactions, and then
+imx_epit_reset() also starts ptimre transactions, triggering
+"ptimer_transaction_begin: Assertion `!s->in_transaction' failed".
 
-We forgot that in a couple of our boards (see commits ce4f70e81ed23c93f,
-e7e5a9595ab1136). Add an assertion in the systick reset method so
-we don't let any new boards in with the same bug.
+The cleanest way to avoid this double-transaction is to move the
+start-transaction for the CR write handling down below the check of
+the SWR bit.
 
+Fixes: https://bugs.launchpad.net/qemu/+bug/1880424
+Fixes: cc2722ec83ad944505fe
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-In the longer term we should make this a clocktree input and
-plumb it through the armv7m container and so on, but for the
-moment this assert() improves the current situation.
+I don't have a test image for KZM so this is the minimal
+obviously-safe change. I'm pretty sure that actually we could
+add a "break" after the imx_epit_reset() call because all of
+the work done by the following code is duplicating the ptimer
+setup done by the reset function. But I'm not really happy making
+that change without a test image...
 ---
- hw/timer/armv7m_systick.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/timer/imx_epit.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
-index 74c58bcf245..a8cec7eb56b 100644
---- a/hw/timer/armv7m_systick.c
-+++ b/hw/timer/armv7m_systick.c
-@@ -202,6 +202,14 @@ static void systick_reset(DeviceState *dev)
- {
-     SysTickState *s = SYSTICK(dev);
+diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
+index baf6338e1a6..4f51e6e12da 100644
+--- a/hw/timer/imx_epit.c
++++ b/hw/timer/imx_epit.c
+@@ -199,15 +199,18 @@ static void imx_epit_write(void *opaque, hwaddr offset, uint64_t value,
  
-+    /*
-+     * Forgetting to set system_clock_scale is always a board code
-+     * bug. We can't check this earlier because for some boards
-+     * (like stellaris) it is not yet configured at the point where
-+     * the systick device is realized.
-+     */
-+    assert(system_clock_scale != 0);
+     switch (offset >> 2) {
+     case 0: /* CR */
+-        ptimer_transaction_begin(s->timer_cmp);
+-        ptimer_transaction_begin(s->timer_reload);
+ 
+         oldcr = s->cr;
+         s->cr = value & 0x03ffffff;
+         if (s->cr & CR_SWR) {
+             /* handle the reset */
+             imx_epit_reset(DEVICE(s));
+-        } else {
++        }
 +
-     s->control = 0;
-     s->reload = 0;
-     s->tick = 0;
++        ptimer_transaction_begin(s->timer_cmp);
++        ptimer_transaction_begin(s->timer_reload);
++
++        if (!(s->cr & CR_SWR)) {
+             imx_epit_set_freq(s);
+         }
+ 
 -- 
 2.20.1
 
