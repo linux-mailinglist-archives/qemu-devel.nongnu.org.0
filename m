@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B9728B4EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:48:52 +0200 (CEST)
-Received: from localhost ([::1]:53408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D77C28B4FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:51:42 +0200 (CEST)
+Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRxFy-00073T-No
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
+	id 1kRxIj-0003CS-1R
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCW-0004lc-Mt
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20548)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCb-0004yN-MS
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCT-0008SJ-5p
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:16 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCZ-0008TL-92
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602506711;
+ s=mimecast20190719; t=1602506718;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0VfM6Y1Z4oOM9AviCLT3C6cOeCH1n4rJ8RPo235glro=;
- b=VBbOWDvQSSdjtN9g2mulYJNfC31+ky2cslFVpOIEnMgFJ99frMoIk1NazuVFo+e+YX37Ow
- d+OQ07M1f+WGu5C1U9/YhQotPJXp1ItMXk/+KeIhCPmKzqpiGGqgG/ZrqBqTKPuxg+VeVc
- s/Ch5tXdWdTUcEPkMqM88HvwSBcMhqA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bwG8iSHLZW0tTYCnl2ic6/t6qmfYl8jGlMpgEnOotCs=;
+ b=LoZqtaFZ14PMiVG5YwWZDLriI0xjyU7gGSiWQDnxzOKLHb3cwadDmXh61qzcP0A40ySUE2
+ MdBHKQ2YyjyqH2/HvUpEO+g/Lj8MJVewGgFov7OAbbgBhTP9E7hVojhpHOr9/MiNsDaQfr
+ 5mQmXpW3qfQOevb7Xa+m/mWEKiM/jJg=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-Gtjf4e_eNLWwdrwGi9-t-w-1; Mon, 12 Oct 2020 08:45:10 -0400
-X-MC-Unique: Gtjf4e_eNLWwdrwGi9-t-w-1
-Received: by mail-wm1-f71.google.com with SMTP id m14so5192215wmi.0
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 05:45:10 -0700 (PDT)
+ us-mta-156-hoFV5ny6N6WiNJXhxgNeWQ-1; Mon, 12 Oct 2020 08:45:16 -0400
+X-MC-Unique: hoFV5ny6N6WiNJXhxgNeWQ-1
+Received: by mail-wm1-f71.google.com with SMTP id c204so5732218wmd.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 05:45:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UtSObLJfNIzbJcrgKRU5Cu+zNLd9lEQsFGBvfOC7Lok=;
- b=lf1nDdML4leYdsbsVcGvuWjIjm6PSEpiXaMEaFV/xjtKDzH30INW5parl4xxIQ+HbX
- 7bLAygSjnlaJfogMPMZ8ndKUGHWLmaqqJp7ko+JrPhiShyRl63mieZWNCOYSfOHXZSsn
- h9IA5i6x+aEphtD6au7y80c7UQ7KYDNAvaYcqRgkfcvMhqGUB1g4wckfCrDD3tHMjyr5
- wT1dOMQCAo0vQQ840dbi9EhJCGJvwUlzwS5R1BTXu8VUHizjHrmRwVAWQNJRraJBzOsc
- QUCoKYMVWePTdHnNCiFGCgoQqT1qD9ryV9IoZJWY565TGSVgNIBdFnnwr3+7tWVIM4Z/
- AhsA==
-X-Gm-Message-State: AOAM533cvNX2j/zSKouJk1ON9hqs6CRArGn4vNzlL0hOrscqceJlKmXj
- rGkD+VYvISsLjRjkl6RWEUCtWDE3sAjJDo3q57jGmPct12hfsT5HyRUyuZ+/U6+i4CWOLgHprJQ
- v69nQq7G6bJM+js8=
-X-Received: by 2002:a5d:46c1:: with SMTP id g1mr9137862wrs.101.1602506709379; 
- Mon, 12 Oct 2020 05:45:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyz6hFiVJHdaU7cfa/kbxEMNRyQTLhhCcs5f5STC6wr7DnE8rXhJdscPh109XPd+XACdRYSYQ==
-X-Received: by 2002:a5d:46c1:: with SMTP id g1mr9137815wrs.101.1602506709130; 
- Mon, 12 Oct 2020 05:45:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=bwG8iSHLZW0tTYCnl2ic6/t6qmfYl8jGlMpgEnOotCs=;
+ b=bjYMktBwwQbsEEJhy2/x5u2H7L/kIt8z/hyR6cYl8CzNPzjXS+s8oz3S7mjlUYAyJI
+ IL38Vfq9Sj3D9EhJxPDCQtz/jeEx92FQ7s59Ezov3eT4fTufJdPO/TF/r08Mng6kJQR2
+ tSwJhZ1lA0vz31JJ4ISw7wwP2GANeBIHVYJdDUufTRJ8jYpc8Fs4mT37FcsImzDt3ZPf
+ 77x8vzCVqVh2PHGkhPTf56hSLraf6cZSHG7TRXadYJXlIEOb/CnJX8Sm5baJNWVc4mud
+ yzKCAZ2SatBR61IRfZOnc4LZQj0JmCAzwFulh7Jhl0i3aXeRVnIhNbSkviwzZ4vMKfVz
+ ycSQ==
+X-Gm-Message-State: AOAM5300lW5ywZKB6nB8IeStYgpMqbcg5NQJhT11N0XSrGkB6VFjGcmq
+ TgSKtxE2iM6gOp1kDIu9gHyH4Wr2X6uc4bJDGF9/o5E/g87j9hQSBvOcezjGBOiEYWMNyBXfG3B
+ BfDp0jMfAxqUhqAE=
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr29753231wrm.295.1602506715237; 
+ Mon, 12 Oct 2020 05:45:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyueR4JjpNH2sLzfTjSqD0R65Ts5ka4vohHBW3dn4ShgyH1BUlk0MTIhNUHnqavD80ySjglhw==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr29753217wrm.295.1602506715091; 
+ Mon, 12 Oct 2020 05:45:15 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id d2sm14916054wrq.34.2020.10.12.05.45.07
+ by smtp.gmail.com with ESMTPSA id f6sm11016383wru.50.2020.10.12.05.45.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 05:45:08 -0700 (PDT)
+ Mon, 12 Oct 2020 05:45:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] hw: Use PCI macros from 'hw/pci/pci.h'
-Date: Mon, 12 Oct 2020 14:45:01 +0200
-Message-Id: <20201012124506.3406909-1-philmd@redhat.com>
+Subject: [PATCH 1/5] hw/pci-host/bonito: Make PCI_ADDR() macro more readable
+Date: Mon, 12 Oct 2020 14:45:02 +0200
+Message-Id: <20201012124506.3406909-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201012124506.3406909-1-philmd@redhat.com>
+References: <20201012124506.3406909-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,7 +103,6 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
  David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
@@ -111,30 +113,32 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trivial patches using the generic PCI macros from "hw/pci/pci.h".=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (5):=0D
-  hw/pci-host/bonito: Make PCI_ADDR() macro more readable=0D
-  hw/pci-host: Use the PCI_BUILD_BDF() macro from 'hw/pci/pci.h'=0D
-  hw/pci-host/uninorth: Use the PCI_FUNC() macro from 'hw/pci/pci.h'=0D
-  hw: Use the PCI_SLOT() macro from 'hw/pci/pci.h'=0D
-  hw: Use the PCI_DEVFN() macro from 'hw/pci/pci.h'=0D
-=0D
- hw/arm/virt.c          | 3 ++-=0D
- hw/hppa/dino.c         | 2 +-=0D
- hw/i386/xen/xen-hvm.c  | 2 +-=0D
- hw/isa/piix3.c         | 2 +-=0D
- hw/mips/gt64xxx_pci.c  | 2 +-=0D
- hw/pci-host/bonito.c   | 5 ++---=0D
- hw/pci-host/pnv_phb4.c | 2 +-=0D
- hw/pci-host/ppce500.c  | 2 +-=0D
- hw/pci-host/uninorth.c | 8 +++-----=0D
- hw/ppc/ppc4xx_pci.c    | 2 +-=0D
- hw/sh4/sh_pci.c        | 2 +-=0D
- 11 files changed, 15 insertions(+), 17 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+The PCI_ADDR() macro use generic PCI fields shifted by 8-bit.
+Rewrite it extracting the shift operation one layer.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/pci-host/bonito.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+index a99eced0657..abb3ee86769 100644
+--- a/hw/pci-host/bonito.c
++++ b/hw/pci-host/bonito.c
+@@ -196,8 +196,8 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
+ #define PCI_IDSEL_VIA686B          (1 << PCI_IDSEL_VIA686B_BIT)
+ 
+ #define PCI_ADDR(busno , devno , funno , regno)  \
+-    ((((busno) << 16) & 0xff0000) + (((devno) << 11) & 0xf800) + \
+-    (((funno) << 8) & 0x700) + (regno))
++    ((((busno) << 8) & 0xff00) + (((devno) << 3) & 0xf8) + \
++    (((funno) & 0x7) << 8) + (regno))
+ 
+ typedef struct BonitoState BonitoState;
+ 
+-- 
+2.26.2
 
 
