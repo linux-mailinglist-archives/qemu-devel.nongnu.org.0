@@ -2,76 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD6E28C213
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:10:34 +0200 (CEST)
-Received: from localhost ([::1]:55084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D7628C221
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:18:07 +0200 (CEST)
+Received: from localhost ([::1]:59556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS49S-00023B-1I
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:10:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
+	id 1kS4Gk-0004P2-Hi
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:18:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kS46z-0008M7-T2
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:08:01 -0400
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:40182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kS46y-0007qZ-9T
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:08:01 -0400
-Received: by mail-qv1-xf44.google.com with SMTP id o25so2413348qvf.7
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 13:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QY2243JX786fdUoHzoK1Y6Kh1lJrJoZtoq/K0Z9ICJs=;
- b=rYtSPe2K/v1dU7vZsTf27LfQRM1ImXctJlIOG3nIN7IH978uvQVPQCjWOd6D6XniNU
- mKQg27mvMRIXMCi4AnPhtDNCrMgkF9YnvVLyst07RQa3J7AoDV9twIKB9nD75/WM1SXf
- si7oE4eTR1Vtlc59TMUo6Ns6acrzagC9QRh6ajVF6vQJKUtHM3bRSpHWKiraNSDp0oTx
- PbbHDxkBMZjQDCuFP0KNmVOHAEZYT4PS/s0QVTFGjQsKkfTJRLfrtGTHABYgGkfMvWX9
- PaucQ1LQGfo7nU2F3n7cPK94O3Z3cTejLMuXEXktHME0VdOtuuhg8oNV+MVp3QdHgj+c
- eaiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QY2243JX786fdUoHzoK1Y6Kh1lJrJoZtoq/K0Z9ICJs=;
- b=Pf/3f8WdQuDNFtfV6dmm1Dyq3deaKL/Is3uApZ/JEp/E9yljSyiK+w6Ot/03asvBUe
- O1FVFcfeLkFWYgYUENGtH8YGF44dKIDU737ChDpxKYe2Tl6zOAVjqHjLsSA8FJLSuErn
- adK6iILyCsg5ygntfljph4w2kP+Z9mp07SRQv5QM2vI0e3IjB9CDtjSuDOFrdHo63Pcb
- 27oHjLmGbVNHbbzEVsjvwHNZsvVLij8romQU9N53QDTLa0UfEYKd03eUFZP+79hmsW0p
- YrYIfZppfO+DN0z8TywUYeMHmFnh3IfFGSrEQxdUBDBh5+zBAPr4V0PvaJd58V4ldDfP
- doww==
-X-Gm-Message-State: AOAM533jhS1ZZ5WscRw1dTsfCTDpbLIxPYDrys5nkOQAHtnGJhImTFVC
- xaZ2sreQWqoJ9deTfOKpLIZd1fJ9Rq4=
-X-Google-Smtp-Source: ABdhPJw3I51kN+J+TGXLaLkJTSdYuDYY97kg7N1G1MUPkpX1p5tdCYS7ebkzO/aJ0SAisDXB4fym3w==
-X-Received: by 2002:a0c:b29e:: with SMTP id r30mr27540725qve.38.1602533279090; 
- Mon, 12 Oct 2020 13:07:59 -0700 (PDT)
-Received: from shine.lan ([2001:470:8:67e:9802:d83e:b724:7fdf])
- by smtp.gmail.com with ESMTPSA id d129sm13418350qkg.127.2020.10.12.13.07.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 13:07:58 -0700 (PDT)
-From: Jason Andryuk <jandryuk@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] accel: Add xen CpusAccel using dummy-cpu
-Date: Mon, 12 Oct 2020 16:07:24 -0400
-Message-Id: <20201012200725.64137-3-jandryuk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201012200725.64137-1-jandryuk@gmail.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kS4Fj-0003yH-9x
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:17:03 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53090)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kS4Fh-0000U1-N8
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:17:03 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 0CCFFAC12;
+ Mon, 12 Oct 2020 20:17:00 +0000 (UTC)
+Subject: Re: [PATCH 0/2] Add Xen CpusAccel
+To: Jason Andryuk <jandryuk@gmail.com>
 References: <20201012200725.64137-1-jandryuk@gmail.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <c2b2ed9a-879c-f676-86f0-22b3a77b770f@suse.de>
+Date: Mon, 12 Oct 2020 22:16:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
- envelope-from=jandryuk@gmail.com; helo=mail-qv1-xf44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201012200725.64137-1-jandryuk@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 01:21:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,78 +56,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Jason Andryuk <jandryuk@gmail.com>
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Xen was broken by commit 1583a3898853 ("cpus: extract out qtest-specific
-code to accel/qtest").  Xen relied on qemu_init_vcpu() calling
-qemu_dummy_start_vcpu() in the default case, but that was replaced by
-g_assert_not_reached().
+On 10/12/20 10:07 PM, Jason Andryuk wrote:
+> Xen was left behind when CpusAccel became mandatory and fails the assert
+> in qemu_init_vcpu().  It relied on the same dummy cpu threads as qtest.
+> Move the qtest cpu functions to a common location and reuse them for
+> Xen.
+> 
+> Jason Andryuk (2):
+>   accel: move qtest CpusAccel functions to a common location
+>   accel: Add xen CpusAccel using dummy-cpu
+> 
+>  .../qtest-cpus.c => dummy/dummy-cpus.c}       | 22 +++++--------------
+>  .../qtest-cpus.h => dummy/dummy-cpus.h}       | 10 ++++-----
+>  accel/dummy/meson.build                       |  7 ++++++
+>  accel/meson.build                             |  1 +
+>  accel/qtest/meson.build                       |  1 -
+>  accel/qtest/qtest.c                           |  7 +++++-
+>  accel/xen/xen-all.c                           | 10 +++++++++
+>  7 files changed, 34 insertions(+), 24 deletions(-)
+>  rename accel/{qtest/qtest-cpus.c => dummy/dummy-cpus.c} (76%)
+>  rename accel/{qtest/qtest-cpus.h => dummy/dummy-cpus.h} (59%)
+>  create mode 100644 accel/dummy/meson.build
+> 
 
-Add a minimal "CpusAccel" for xen using the dummy-cpu implementation
-used by qtest.
+Yep, forgot completely, sorry.
 
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
----
- accel/dummy/meson.build |  1 +
- accel/xen/xen-all.c     | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+Acked-by: Claudio Fontana <cfontana@suse.de>
 
-diff --git a/accel/dummy/meson.build b/accel/dummy/meson.build
-index 5fbe27de90..cdff0ba746 100644
---- a/accel/dummy/meson.build
-+++ b/accel/dummy/meson.build
-@@ -4,3 +4,4 @@ dummy_ss.add(files(
- ))
- 
- specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: dummy_ss)
-+specific_ss.add_all(when: ['CONFIG_XEN'], if_true: dummy_ss)
-diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-index 60b971d0a8..2d243c58d4 100644
---- a/accel/xen/xen-all.c
-+++ b/accel/xen/xen-all.c
-@@ -16,12 +16,15 @@
- #include "hw/xen/xen_pt.h"
- #include "chardev/char.h"
- #include "sysemu/accel.h"
-+#include "sysemu/cpus.h"
- #include "sysemu/xen.h"
- #include "sysemu/runstate.h"
- #include "migration/misc.h"
- #include "migration/global_state.h"
- #include "hw/boards.h"
- 
-+#include "accel/dummy/dummy-cpus.h"
-+
- //#define DEBUG_XEN
- 
- #ifdef DEBUG_XEN
-@@ -153,6 +156,10 @@ static void xen_setup_post(MachineState *ms, AccelState *accel)
-     }
- }
- 
-+const CpusAccel xen_cpus = {
-+    .create_vcpu_thread = dummy_start_vcpu_thread,
-+};
-+
- static int xen_init(MachineState *ms)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-@@ -180,6 +187,9 @@ static int xen_init(MachineState *ms)
-      * opt out of system RAM being allocated by generic code
-      */
-     mc->default_ram_id = NULL;
-+
-+    cpus_register_accel(&xen_cpus);
-+
-     return 0;
- }
- 
--- 
-2.25.1
 
 
