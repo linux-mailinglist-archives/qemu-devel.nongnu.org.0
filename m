@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A0F28BD66
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:19:38 +0200 (CEST)
-Received: from localhost ([::1]:32816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B740F28BD60
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:18:52 +0200 (CEST)
+Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0Xx-0000QS-JK
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
+	id 1kS0XD-0007if-AS
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1kS0J6-0005Ii-5B
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 12:04:16 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:37534)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kS0Jw-0006Q5-NF
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 12:05:08 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1kS0J4-0002PI-HI
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 12:04:15 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id e22so23962985ejr.4
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 09:04:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kS0Jv-0002Sy-51
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 12:05:08 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id d81so17596007wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 09:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NxkWySHRBmEdV2f30WIUJSgluadBiD3FrSdAf1Zn4LU=;
- b=EWab9ZMJdF49e1oiTKRRjiW/VosYvO5gcKewG5X0te9+I9fMhoywXZnjMEpkTclmV2
- Dx2ZFvCIe5YZ9bwIzEz/Mp7tkA5mWzDH15jpfh/Pv2TVCiTyT0W+U5vtZlFblcxBQP2B
- Z+XmYBw7Jp9eBLBfS5/65VfXxdxlMHpY7VFKzGL1/yzz8K28x/OvFTOiQ0rd+5OGiSuy
- y8laGcT2GormbQVVM1d1XzeocN5YtyxoiUVimzvv8ltdt6rvbU2VP31AUDxdi8EHrjQk
- dm8r1nEbRBGJHEisH21shuMvDWjkajZSfr6kAlVDwI/LkLjPIoW0a+fglUlVN0w9PQ1h
- +11w==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5RjKW9cZZrgD/YoK0SgXEa7vWbpGc042rPJwJZwUOzg=;
+ b=Oic/7g82tUQ8imuaw+kkvmCFebcH8gP/+RZW97SYxOs6mQkDHcZu7KCzAATpFPoFJX
+ y/XcMLQnxeYonitI8nefa8nYocVB8kktBDQTpdJgpvKS+e0sXo/kuOf2Fl699KSjfL38
+ al6hqtrHfWgbOzJqjo64mRgc0kDwFM/y+61TEF1dNIxcLhkQ1W+g3ca6IRU3iaPPXPda
+ 6v8Hm5bX3h5OwH4YcowDYXifCjzW5o3KEYRdZp9GeL+veG027nYNHkM2w5ADAkyVjj45
+ nDhPXLNs9Yvmv2N8b2LyCqozezfG3gBekVnYAdgPga4lmrsO0iSlI78lo5HZsb6Uh1Hj
+ qjZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NxkWySHRBmEdV2f30WIUJSgluadBiD3FrSdAf1Zn4LU=;
- b=uZmpKUaIIc/0eF8jVui9HEOwTU98yIIKzxCF9Qsh0lndawuJM19y2yX4k6SXVvVVWe
- TuHvTftVENKMHT8dfV/dIleswaEaDVx4D07nWoJrcfCB9d5b6GkcPMJ+V1cvdLUaAMCn
- ScHreJiUD3u0RVu+v86473LG1SPjr9XDjrBHH3jra9+393aIJhQzVcF8C+WPY5tMETNq
- Ofl0O5W+7jHBOb1ZgEfKWFlW3LpBatvfguKBCQj5EP20Sr8LCkHKZohcUomrdx4i/F4X
- fFGysXAOhAK0e8LQwtg0P+DcWd8iNrZAPo0kkbBabaviYqX68YmUejqPmE4NMjODG79e
- Ld5g==
-X-Gm-Message-State: AOAM530zr79kjXceXvTZtMYZ0zrmOpCP1B285QfYRsOwivsm5Uk1ziVP
- 4kSlBb9GyR4qdw9hD6/b9HrhrjGYATlLfumPlEc=
-X-Google-Smtp-Source: ABdhPJx7sH0FAvzH8l/KOeGwaBkbxtgzHEz7zssS6meTIndjq1fN9y2+P0D7LAHGpowmtGHg3XFJBb/zSnHKAuWyfW4=
-X-Received: by 2002:a17:906:d8e:: with SMTP id
- m14mr29730095eji.448.1602518651484; 
- Mon, 12 Oct 2020 09:04:11 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=5RjKW9cZZrgD/YoK0SgXEa7vWbpGc042rPJwJZwUOzg=;
+ b=H+avo42s5K0P+hcEMK75eFA+jfLl0bfMFQzp20Inf+Rf5i0idQSi6haLhWerK3Ch7S
+ pJ/iCQGgpscJLZhTM4P+WU2vQjIjoG+z/xZ6FEppks1zkxMUCrX/9CaKjV7f3xbk8gCo
+ XXbo4QtfbzsI1eUHWSYTbWzrYOpX/HAXu6cyqaK5TR/RkWZwExd1dJ69rrUGtK08mV9L
+ U9TUjlSwWpyem4twNh8GJPi3eEEc+siYj3TaxOuwAzFIf2hkEcU5i3H4wnD38Yt7oIx0
+ krblljjZgD/baC9Ctaop2Ra+AfWAoxQsjdrFljeSq623cT5z02oaAZ4ghNSH9Z0tyQuy
+ K45w==
+X-Gm-Message-State: AOAM533310tX9o0OGJ/qB/c2oHnUlc02UNr1m4koFHaXRAlzPSPshPX/
+ WHbWKeno1sFJZBfqqH2JykT1xn9ypuY=
+X-Google-Smtp-Source: ABdhPJwR2WW/3OoC150ygBGqvfo2UDZICmgK3Uioe6GNVsLsTSTy+yTCmF0zbHf8J4T8z94q9YJb8g==
+X-Received: by 2002:a1c:2186:: with SMTP id
+ h128mr11191648wmh.113.1602518705452; 
+ Mon, 12 Oct 2020 09:05:05 -0700 (PDT)
+Received: from localhost.localdomain
+ (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id c9sm16096576wrs.66.2020.10.12.09.05.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 09:05:04 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] hw/mips/malta: Minor housekeeping in mips_malta_init()
+Date: Mon, 12 Oct 2020 18:05:01 +0200
+Message-Id: <20201012160503.3472140-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201009193919.GF7303@habkost.net>
- <5039480a-690a-314d-cab0-ca230a012990@maciej.szmigiero.name>
- <20201009212844.GH7303@habkost.net>
-In-Reply-To: <20201009212844.GH7303@habkost.net>
-From: Jon Doron <arilou@gmail.com>
-Date: Mon, 12 Oct 2020 19:04:00 +0300
-Message-ID: <CAP7QCog1XzO3gvJ638sKsP941gRuDZGVQUf48CSZExuZOPU0Cw@mail.gmail.com>
-Subject: Re: Who uses TYPE_VMBUS_DEVICE?
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=arilou@gmail.com; helo=mail-ej1-x62b.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,53 +86,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
- QEMU <qemu-devel@nongnu.org>, Roman Kagan <rkagan@virtuozzo.com>
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eduardo,
-
-Sorry for the late reply, in general there are also hv-net and hv-scsi
-implementations from Roman Kagan, which have not been merged in...
-
-I have a WIP component which does not use vmbus but Windows needs it
-to exist and function in order for it to work (it's the synthetic
-debugger interface for HyperV)
-
-On Sat, Oct 10, 2020 at 12:28 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> On Fri, Oct 09, 2020 at 11:05:31PM +0200, Maciej S. Szmigiero wrote:
-> > Hi Eduardo,
-> >
-> > On 09.10.2020 21:39, Eduardo Habkost wrote:
-> > > Hi,
-> > >
-> > > I've just stumbled upon hw/hyperv/vmbus.c and I'm a bit confused:
-> > > I haven't found any subclasses of the abstract type
-> > > TYPE_VMBUS_DEVICE in the QEMU tree.
-> > >
-> > > I see a few patches in qemu-devel implementing a few vmbus
-> > > devices, but none were merged to qemu.git master.  Are there any
-> > > short term plans to merge vmbus device implementations in QEMU?
-> > >
-> >
-> > Perhaps this depends on your definition of "short term".
-> > At least one VMBus driver (hv-balloon) is being actively worked on
-> > (by me).
->
-> Good to know, thanks!
->
-> >
-> > Also, a working VMBus implementation (even without any downstream
-> > devices) is apparently required for high-performance Windows
-> > kernel debugging interfaces.
->
-> Other code might be required, but TYPE_VMBUS_DEVICE seems to be
-> dead code (which can't be executed or tested at all) unless a
-> concrete class exists.
->
-> --
-> Eduardo
->
+Move some code around to make this big function=0D
+easier to review.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/mips/malta: Move gt64120 related code together=0D
+  hw/mips/malta: Use clearer qdev style=0D
+=0D
+ hw/mips/malta.c | 21 ++++++++++-----------=0D
+ 1 file changed, 10 insertions(+), 11 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
