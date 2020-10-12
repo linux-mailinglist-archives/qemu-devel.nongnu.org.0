@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04AF28BC31
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:40:14 +0200 (CEST)
-Received: from localhost ([::1]:45164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522A928BCAF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:45:05 +0200 (CEST)
+Received: from localhost ([::1]:33102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRzvp-0004sx-H1
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:40:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56526)
+	id 1kS00W-0003Jt-AP
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:45:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqA-0006ZX-7x
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:22 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43197)
+ id 1kRzqD-0006j0-TF
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:25 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzq8-0007G7-3j
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:21 -0400
-Received: by mail-wr1-x434.google.com with SMTP id g12so19669654wrp.10
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:19 -0700 (PDT)
+ id 1kRzq9-0007GM-DL
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:25 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id i1so13561521wro.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1jOZnrxRTG3Vn0Y7sOS02Z9FyMYbuYQPu1NRLX+duSw=;
- b=aAVbgCg7ymYaysAV0+xZzfgRqAaSq1bwnaWSwioOXyCfZiNVpbJgNcRp4nIXDrf1RG
- zBSReKxmV+RB+GedK1vI2c493F4PObKrRh2eUg1LNZ2f61hCrRNzZthICmd/d4HzpRYx
- fX+hJYqVk3xZFl9sO6ODbtMl2NNb16x1hO1/6DsILrTUfyQZrnKA/P2dGyN4jp6zc3dC
- gUV7JbmmOlsMGJUV4H9YcQ0fNpiq1dFvrQ55/FZjH13mEJw3/SSI9uhIMZhNb7O7Tk8S
- 76Wbn8TK/cX4+rQ0L/aXJrKLIi+GA0GVdBmnkxCCRZ/iQmNDhnoKphIKGrP+jpmqC1tS
- 2xww==
+ bh=9dCI9vVIHjGOIU15u/YnihvSC4K6HLaW4rgzCu/bPQI=;
+ b=UkSP7IvR3ZHZ0vB/gPLvDD39ym3SElSAtD6BQpwZggwMPzlDY/C4xvDMk82T8mJtCh
+ w4ERaZvRFN+WqbGzhac5PynNnAb88fpGeKelbrfi5blZCuvazGR3yTPuddzujXtUjo9j
+ KZoQ6qHR/D8Uv2cfFLyHH6wewMAz7IGejJDoDiK4BerSnK9waZ+50yVoVsa0C5u6wgv2
+ 1I0JtCeOxMPXGX3i6O/RcaPLizTNK7Nv5ZmzVDB+nbDredWeSlBVTBtf96EE/D+Ae0UE
+ WtfzhYIWdqbg5oNegwG6E2uEKmKH4k9Vc4TlXD3/SRtb83/DHYVoD6uXTGlyh7rYxFmK
+ aXtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1jOZnrxRTG3Vn0Y7sOS02Z9FyMYbuYQPu1NRLX+duSw=;
- b=qwBnZek1kgu9ndQ1Bd0GEH/U7Xtb2pHy0ZG6QrSF4CV1uVLsDPL1KvwI3KFq8jR5N9
- tdx9Dr80MVaHLz6+GqswAPdZbW2cIBiW4vH9M3JyWYp1io4JXjn4USJufvGhxFyCVi+E
- B51ssvS3N1j9Te+EdV9e3pU3KCKWI3QwTF3a1WsBQcd+a680z5nQsoGWQdbb5EcWwx/m
- cteR+n+lfYpsvP/pIohpMRYX8We8Sn7crqmTQsBsRbMPJE4jPKKkZAI+PbXW8QGxxwx8
- r7kSyMZgBTZdE4+H+ibZu1h3Z9/j3x+TxG8CGQvOA4DGkYKR78jAG2zcmtd2C4vXkcoz
- BsOA==
-X-Gm-Message-State: AOAM533BquDsvsvMgP2vBg31uWFeOXhIO/lrhX64YwWtQaBtJ4gh00+O
- 2izM3ATW0XtOj4ZiOrghStxAIg==
-X-Google-Smtp-Source: ABdhPJwkInOr6OW5iVS1NcpZTG2rCI2SkDmbgMKDNivA/JXyShS9XCMoT4FkXDt12saXAXomoKvyWQ==
-X-Received: by 2002:adf:bbc6:: with SMTP id z6mr30663849wrg.298.1602516858701; 
- Mon, 12 Oct 2020 08:34:18 -0700 (PDT)
+ bh=9dCI9vVIHjGOIU15u/YnihvSC4K6HLaW4rgzCu/bPQI=;
+ b=lV+iBESr24S0NcJoUhQ5R015x183WaONIPsmCzaL1FbQQMQ7IyNMmrvOubj129MUMb
+ TFQOUja/yEI29msxRD3XtN4An3SejqRchcDhypWytgDgCgNzWBoPHsUzzbKxnfNfd9H7
+ lrx6UqSLhWYvxhXcrtaDXWkGo5Wxdo8BHEjjzfYrVxLk7xjIXH3R6DtzugtYwBANtRz5
+ GCGpInJJJm6rGlBU2LM+JocJIu6+cP6/f5Ayz7BZDIyANheAFfikXg54DOxUa42sjPqz
+ UBseIIH8hF5dsDBKnrios/AEUQMshKO/DOFTKB+56QXWSxlrn7s18ySj4a1j1QLcw9OJ
+ uCkw==
+X-Gm-Message-State: AOAM530Xj5M7/doRtNN/Evc06RwjPQACe/pTyI7iof4KunGIgVaLC1Z1
+ PupHPmX8Ds9UdpaIFwpUnICkLA==
+X-Google-Smtp-Source: ABdhPJw4YZZR6kVhMgC98In1t20D47LraX5eIj+Z1+MGYeZu+KXKom/eAqshKgl76prZW6cMD12dBg==
+X-Received: by 2002:adf:e741:: with SMTP id c1mr19303102wrn.16.1602516859770; 
+ Mon, 12 Oct 2020 08:34:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.17
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:18 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH] configure: Test that gio libs from pkg-config work
-Date: Mon, 12 Oct 2020 16:33:30 +0100
-Message-Id: <20201012153408.9747-8-peter.maydell@linaro.org>
+Subject: [PATCH 01/10] decodetree: Fix codegen for non-overlapping group
+ inside overlapping group
+Date: Mon, 12 Oct 2020 16:33:31 +0100
+Message-Id: <20201012153408.9747-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,56 +90,49 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On some hosts (eg Ubuntu Bionic) pkg-config returns a set of
-libraries for gio-2.0 which don't actually work when compiling
-statically. (Specifically, the returned library string includes
--lmount, but not -lblkid which -lmount depends upon, so linking
-fails due to missing symbols.)
+For nested groups like:
 
-Check that the libraries work, and don't enable gio if they don't,
-in the same way we do for gnutls.
+  {
+    [
+      pattern 1
+      pattern 2
+    ]
+    pattern 3
+  }
 
+the intended behaviour is that patterns 1 and 2 must not
+overlap with each other; if the insn matches neither then
+we fall through to pattern 3 as the next thing in the
+outer overlapping group.
+
+Currently we generate incorrect code for this situation,
+because in the code path for a failed match inside the
+inner non-overlapping group we generate a "return" statement,
+which causes decode to stop entirely rather than continuing
+to the next thing in the outer group.
+
+Generate a "break" instead, so that decode flow behaves
+as required for this nested group case.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-I wanted a statically-linked system emulation binary (which, yes,
-I know is not really something we support :-)). I got one with
-suitably liberal use of --disable-foo configure options, and
-this was the only thing I couldn't work around that way.
-The patch is needed because there's no --disable-gio. I suppose
-we could add that instead (or as well)...
-Possibly meson offers a nicer way to do this, but this was
-simple and gnutls is doing the check this way already.
----
- configure | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ scripts/decodetree.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index e8e8e984f24..cd79227d763 100755
---- a/configure
-+++ b/configure
-@@ -3762,13 +3762,21 @@ if test "$static" = yes && test "$mingw32" = yes; then
- fi
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index 60fd3b5e5f6..c1bf3cfa85f 100644
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -548,7 +548,7 @@ class Tree:
+             output(ind, '    /* ',
+                    str_match_bits(innerbits, innermask), ' */\n')
+             s.output_code(i + 4, extracted, innerbits, innermask)
+-            output(ind, '    return false;\n')
++            output(ind, '    break;\n')
+         output(ind, '}\n')
+ # end Tree
  
- if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
--    gio=yes
-     gio_cflags=$($pkg_config --cflags gio-2.0)
-     gio_libs=$($pkg_config --libs gio-2.0)
-     gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
-     if [ ! -x "$gdbus_codegen" ]; then
-         gdbus_codegen=
-     fi
-+    # Check that the libraries actually work -- Ubuntu 18.04 ships
-+    # with pkg-config --static --libs data for gio-2.0 that is missing
-+    # -lblkid and will give a link error.
-+    write_c_skeleton
-+    if compile_prog "" "gio_libs" ; then
-+        gio=yes
-+    else
-+        gio=no
-+    fi
- else
-     gio=no
- fi
 -- 
 2.20.1
 
