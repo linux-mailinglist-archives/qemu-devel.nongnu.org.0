@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9210228B1CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 11:53:14 +0200 (CEST)
-Received: from localhost ([::1]:48214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D92E628B1D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 11:54:10 +0200 (CEST)
+Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRuW1-0005Qt-Jd
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 05:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44334)
+	id 1kRuWv-0006rV-Tp
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 05:54:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kRuTq-0004aq-FZ
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:50:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42560)
+ id 1kRuTr-0004cO-Mv
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:50:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kRuTn-0001xw-Us
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:50:58 -0400
+ id 1kRuTo-0001y7-I1
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:50:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kRuTk-0003sg-O7
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 09:50:52 +0000
+ id 1kRuTm-0003tC-AR
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 09:50:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8B11E2E811A
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 09:50:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2246F2E8118
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 09:50:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Oct 2020 09:44:42 -0000
-From: Launchpad Bug Tracker <1849644@bugs.launchpad.net>
+Date: Mon, 12 Oct 2020 09:44:51 -0000
+From: =?utf-8?q?=C5=81ukasz_Zemczak?= <1849644@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
@@ -47,17 +47,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: berrange janitor laurent-vivier npes87184 paelzer
  racb samuel-t sil2100 ubuntu-sru-bot
 X-Launchpad-Bug-Reporter: Samuel (samuel-t)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+X-Launchpad-Bug-Modifier: =?utf-8?q?=C5=81ukasz_Zemczak_=28sil2100=29?=
 References: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
-Message-Id: <160249588523.29606.12759895704348486626.malone@ackee.canonical.com>
-Subject: [Bug 1849644] Re: QEMU VNC websocket proxy requires non-standard
- 'binary' subprotocol
+Message-Id: <160249589201.2447.1398838603370479971.malone@soybean.canonical.com>
+Subject: [Bug 1849644] Update Released
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
-X-Launchpad-Hash: 5fd18d85d40da1e9775c85a91de8339042886d39
+X-Launchpad-Hash: fe1ccc794d75cf36c938394661387dd668f2cb86
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 05:21:18
@@ -84,24 +83,13 @@ Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This bug was fixed in the package qemu - 1:4.2-3ubuntu6.7
-
----------------
-qemu (1:4.2-3ubuntu6.7) focal; urgency=3Dmedium
-
-  * d/p/ubuntu/lp-1882774-*: add newer EPYC processor types (LP: #1887490)
-  * d/p/u/lp-1896751-exec-rom_reset-Free-rom-data-during-inmigrate-skip.pat=
-ch:
-    fix reboot after migration (LP: #1896751)
-  * d/p/u/lp-1849644-io-channel-websock-treat-binary-and-no-sub-protocol-.p=
-atch:
-    fix websocket compatibility with newer versions of noVNC (LP: #1849644)
-
- -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 27 Jul
-2020 11:45:26 +0200
-
-** Changed in: qemu (Ubuntu Focal)
-       Status: Fix Committed =3D> Fix Released
+The verification of the Stable Release Update for qemu has completed
+successfully and the package is now being released to -updates.
+Subsequently, the Ubuntu Stable Release Updates Team is being
+unsubscribed and will not receive messages about this bug report.  In
+the event that you encounter a regression using the package from
+-updates please report a new bug using ubuntu-bug and tag the bug report
+regression-update so we can easily find any regressions.
 
 -- =
 
