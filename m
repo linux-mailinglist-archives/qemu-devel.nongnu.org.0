@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC6F28C3B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 23:02:41 +0200 (CEST)
-Received: from localhost ([::1]:48056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC9428C35D
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:52:46 +0200 (CEST)
+Received: from localhost ([::1]:46754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS4xt-0005cu-2c
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 17:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38452)
+	id 1kS4oG-0001UN-2T
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:52:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4WW-0002xk-Vz
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59047)
+ id 1kS4WR-0002rc-E9
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4WO-0002jF-Ad
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:24 -0400
+ id 1kS4WM-0002iq-5Z
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602534854;
+ s=mimecast20190719; t=1602534852;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U0UUOtrq1fQ0NSBTSHvIDAywl8g3kvLSProVYS7MmD4=;
- b=gGfT2y4jBbrDMj/S73q5OPhFlGSIfjt7SaC5fj2SEzWmXet2Hg03JJYvIaJZfdN7OozLSS
- E2ULrL4emqfg2PyIuM4Jih4gaAcyWYOfp3xc2maeHrBmBQkFKCocaEppVeJoEMv0yMTsBI
- jymjN9Dss0ZRfiyk7VCAqvUAwtgcEgQ=
+ bh=amCd8MPJ5JbVAyhyBDOKUGF3E7N6O6LgOOnFLyzDDJI=;
+ b=OKaIDeIlit3UbBzwSoTJrS5C6mgR8GOwsRmUCIU1RU3eZTDH6rH2spIGdXAdpTiaSMYy3p
+ VjzVbtGufkY9l71LFbss/GfNGzj4OIAY72OD54r+YhhCEWyLlWR0qvXg/wiif2DJffUBpi
+ JIbdqwe9Z92yjMds83AXMfL1sed2RLQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-FvfBYzduOb-UUsAdC_mDiw-1; Mon, 12 Oct 2020 16:34:12 -0400
-X-MC-Unique: FvfBYzduOb-UUsAdC_mDiw-1
+ us-mta-19-EFTn3PNuMdCVwHisPWh0uA-1; Mon, 12 Oct 2020 16:34:11 -0400
+X-MC-Unique: EFTn3PNuMdCVwHisPWh0uA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5CA685B686
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:34:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EFC5D68A3
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:34:03 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 643476EF59;
- Mon, 12 Oct 2020 20:34:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6B796EF59
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:34:02 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/38] scsi/scsi_bus: fix races in REPORT LUNS
-Date: Mon, 12 Oct 2020 16:33:42 -0400
-Message-Id: <20201012203343.1105018-38-pbonzini@redhat.com>
+Subject: [PULL 38/38] meson: identify more sections of meson.build
+Date: Mon, 12 Oct 2020 16:33:43 -0400
+Message-Id: <20201012203343.1105018-39-pbonzini@redhat.com>
 In-Reply-To: <20201012203343.1105018-1-pbonzini@redhat.com>
 References: <20201012203343.1105018-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,137 +81,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+Add more headers that clarify code organization.
 
-Currently scsi_target_emulate_report_luns iterates over the child device list
-twice, and there is no guarantee that this list is the same in both iterations.
-
-The reason for iterating twice is that the first iteration calculates
-how much memory to allocate.  However if we use a dynamic array we can
-avoid iterating twice, and therefore we avoid this race.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1866707
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200913160259.32145-10-mlevitsk@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201006123904.610658-14-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-bus.c | 68 ++++++++++++++++++++++------------------------
- 1 file changed, 33 insertions(+), 35 deletions(-)
+ meson.build | 36 +++++++++++++++++++++++++-----------
+ 1 file changed, 25 insertions(+), 11 deletions(-)
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index eda8cb7e70..b901e701f0 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -438,19 +438,23 @@ struct SCSITargetReq {
- static void store_lun(uint8_t *outbuf, int lun)
- {
-     if (lun < 256) {
-+        /* Simple logical unit addressing method*/
-+        outbuf[0] = 0;
-         outbuf[1] = lun;
--        return;
-+    } else {
-+        /* Flat space addressing method */
-+        outbuf[0] = 0x40 | (lun >> 8);
-+        outbuf[1] = (lun & 255);
-     }
--    outbuf[1] = (lun & 255);
--    outbuf[0] = (lun >> 8) | 0x40;
+diff --git a/meson.build b/meson.build
+index 0c676af194..652c37cceb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -614,7 +614,9 @@ if not has_malloc_trim and get_option('malloc_trim').enabled()
+   endif
+ endif
+ 
+-# Create config-host.h
++#################
++# config-host.h #
++#################
+ 
+ config_host_data.set('CONFIG_COCOA', cocoa.found())
+ config_host_data.set('CONFIG_LIBUDEV', libudev.found())
+@@ -660,6 +662,10 @@ foreach k, v: config_host
+   endif
+ endforeach
+ 
++########################
++# Target configuration #
++########################
++
+ minikconf = find_program('scripts/minikconf.py')
+ config_all = {}
+ config_all_devices = {}
+@@ -866,7 +872,9 @@ config_all += {
+   'CONFIG_ALL': true,
  }
  
- static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
- {
-     BusChild *kid;
--    int i, len, n;
-     int channel, id;
--    bool found_lun0;
-+    uint8_t tmp[8] = {0};
-+    int len = 0;
-+    GByteArray *buf;
+-# Submodules
++##############
++# Submodules #
++##############
  
-     if (r->req.cmd.xfer < 16) {
-         return false;
-@@ -458,46 +462,40 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
-     if (r->req.cmd.buf[2] > 2) {
-         return false;
-     }
-+
-+    /* reserve space for 63 LUNs*/
-+    buf = g_byte_array_sized_new(512);
-+
-     channel = r->req.dev->channel;
-     id = r->req.dev->id;
--    found_lun0 = false;
--    n = 0;
+ capstone = not_found
+ capstone_opt = get_option('capstone')
+@@ -1105,9 +1113,11 @@ config_host_data.set('CONFIG_CAPSTONE', capstone.found())
+ config_host_data.set('CONFIG_FDT', fdt.found())
+ config_host_data.set('CONFIG_SLIRP', slirp.found())
  
--    RCU_READ_LOCK_GUARD();
-+    /* add size (will be updated later to correct value */
-+    g_byte_array_append(buf, tmp, 8);
-+    len += 8;
+-genh += configure_file(output: 'config-host.h', configuration: config_host_data)
++#####################
++# Generated sources #
++#####################
  
--    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
--        DeviceState *qdev = kid->child;
--        SCSIDevice *dev = SCSI_DEVICE(qdev);
-+    /* add LUN0 */
-+    g_byte_array_append(buf, tmp, 8);
-+    len += 8;
+-# Generators
++genh += configure_file(output: 'config-host.h', configuration: config_host_data)
  
--        if (dev->channel == channel && dev->id == id) {
--            if (dev->lun == 0) {
--                found_lun0 = true;
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
-+            DeviceState *qdev = kid->child;
-+            SCSIDevice *dev = SCSI_DEVICE(qdev);
-+
-+            if (dev->channel == channel && dev->id == id && dev->lun != 0) {
-+                store_lun(tmp, dev->lun);
-+                g_byte_array_append(buf, tmp, 8);
-+                len += 8;
-             }
--            n += 8;
-         }
-     }
--    if (!found_lun0) {
--        n += 8;
--    }
+ hxtool = find_program('scripts/hxtool')
+ shaderinclude = find_program('scripts/shaderinclude.pl')
+@@ -1182,7 +1192,9 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
+                         meson.source_root() / 'docs/sphinx/qmp_lexer.py',
+                         qapi_gen_depends ]
+ 
+-# Collect sourcesets.
++###################
++# Collect sources #
++###################
+ 
+ authz_ss = ss.source_set()
+ blockdev_ss = ss.source_set()
+@@ -1320,8 +1332,6 @@ if enable_modules
+   modulecommon = declare_dependency(link_whole: libmodulecommon, compile_args: '-DBUILD_DSO')
+ endif
+ 
+-# Build targets from sourcesets
 -
--    scsi_target_alloc_buf(&r->req, n + 8);
+ stub_ss = stub_ss.apply(config_all, strict: false)
+ 
+ util_ss.add_all(trace_ss)
+@@ -1409,6 +1419,10 @@ specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
+ subdir('tests/qtest/libqos')
+ subdir('tests/qtest/fuzz')
+ 
++########################
++# Library dependencies #
++########################
++
+ block_mods = []
+ softmmu_mods = []
+ foreach d, list : modules
+@@ -1443,10 +1457,6 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
+                              capture: true,
+                              command: [undefsym, nm, '@INPUT@'])
+ 
+-########################
+-# Library dependencies #
+-########################
 -
--    len = MIN(n + 8, r->req.cmd.xfer & ~7);
--    memset(r->buf, 0, len);
--    stl_be_p(&r->buf[0], n);
--    i = found_lun0 ? 8 : 16;
--    QTAILQ_FOREACH_RCU(kid, &r->req.bus->qbus.children, sibling) {
--        DeviceState *qdev = kid->child;
--        SCSIDevice *dev = SCSI_DEVICE(qdev);
+ qom_ss = qom_ss.apply(config_host, strict: false)
+ libqom = static_library('qom', qom_ss.sources() + genh,
+                         dependencies: [qom_ss.dependencies()],
+@@ -1797,6 +1807,10 @@ if host_machine.system() == 'windows'
+   alias_target('installer', nsis)
+ endif
  
--        if (dev->channel == channel && dev->id == id) {
--            store_lun(&r->buf[i], dev->lun);
--            i += 8;
--        }
--    }
-+    r->buf_len = len;
-+    r->buf = g_byte_array_free(buf, FALSE);
-+    r->len = MIN(len, r->req.cmd.xfer & ~7);
- 
--    assert(i == n + 8);
--    r->len = len;
-+    /* store the LUN list length */
-+    stl_be_p(&r->buf[0], len - 8);
-     return true;
- }
- 
++#########################
++# Configuration summary #
++#########################
++
+ summary_info = {}
+ summary_info += {'Install prefix':    config_host['prefix']}
+ summary_info += {'BIOS directory':    config_host['qemu_datadir']}
 -- 
 2.26.2
-
 
 
