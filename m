@@ -2,82 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545D828ACA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 05:53:22 +0200 (CEST)
-Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C27A28ADBF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 07:35:55 +0200 (CEST)
+Received: from localhost ([::1]:46918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRotk-0006so-Tb
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 23:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
+	id 1kRqV0-0007go-MM
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 01:35:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kRot0-0006Tk-7K
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 23:52:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kRosx-00085U-AE
- for qemu-devel@nongnu.org; Sun, 11 Oct 2020 23:52:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602474749;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6orbCPQT4FingZ/S5kxXT3V9s81rUKXFxrfBRSbe7ZA=;
- b=N2QOP1SB3y/qyfIXZCdkuoZKtnDevHuvPjA/sYedtU+HlyErkoF9lGSdLF34YTj7fcCGtr
- ni2mwriDX21kWiSHr3D7AFnhPKUAwe9qFJqx8lp9XWNjOmqIWWu7nuKxc8x2+rRHqI2OXp
- UIy6SmrDdB/CVAvpQtS1V7IXvV2xDEY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-3IFK8apFPUCoGfRAnWMIug-1; Sun, 11 Oct 2020 23:52:27 -0400
-X-MC-Unique: 3IFK8apFPUCoGfRAnWMIug-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0471835B47;
- Mon, 12 Oct 2020 03:52:25 +0000 (UTC)
-Received: from [10.72.13.74] (ovpn-13-74.pek2.redhat.com [10.72.13.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D648310013D7;
- Mon, 12 Oct 2020 03:52:06 +0000 (UTC)
-Subject: Re: Outline for VHOST_USER_PROTOCOL_F_VDPA
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20200928092537.GA44353@stefanha-x1.localdomain>
- <20200929020114-mutt-send-email-mst@kernel.org>
- <20200929085751.GA181609@stefanha-x1.localdomain>
- <20200929055110-mutt-send-email-mst@kernel.org>
- <20200929183824.GC191675@stefanha-x1.localdomain>
- <20200930034807-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <fcc7cdd8-fb94-8325-ad50-ccbfd9d3f95d@redhat.com>
-Date: Mon, 12 Oct 2020 11:52:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kRqTG-0005vK-G9; Mon, 12 Oct 2020 01:34:06 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44499 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kRqTD-0001rG-TM; Mon, 12 Oct 2020 01:34:06 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4C8nR909Xhz9sTf; Mon, 12 Oct 2020 16:33:56 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1602480837;
+ bh=fJRBR9H0OeieY2l5W9ufyUHl6YiO6fQeoecx66TpFoE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KoQs+INXHCNFr7HbHzilPWf2ivIt3R7SuQciVNZXaGPLQpJ9izP1P/Mt9D2hWb3x7
+ 6HsINRUff2/9G1zHqMUYIteRO9trAT++0T8hqhbRi19HD8fH+8URh1lQgKLcEGT5HR
+ nx2Sg5isVVy6dT7j+/ygXqMqhzuHneBCaH705RfA=
+Date: Mon, 12 Oct 2020 16:28:36 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Li Qiang <liq3ea@gmail.com>
+Subject: Re: [PATCH] hw/net: move allocation to the heap due to very large
+ stack frame
+Message-ID: <20201012052836.GC4787@yekko.fritz.box>
+References: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
+ <20201010060745.GK1025389@yekko.fritz.box>
+ <CAKXe6S+k7b0A_wB7uvthfn-jt3Q_jXxxGhg7uy=r6=uYZvvp3w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200930034807-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="z6Eq5LdranGa6ru8"
+Content-Disposition: inline
+In-Reply-To: <CAKXe6S+k7b0A_wB7uvthfn-jt3Q_jXxxGhg7uy=r6=uYZvvp3w@mail.gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URI_DOTEDU=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,83 +63,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lulu@redhat.com, tiwei.bie@intel.com, qemu-devel@nongnu.org,
- raphael.norwitz@nutanix.com, maxime.coquelin@redhat.com, kraxel@redhat.com,
- Felipe Franciosi <felipe@nutanix.com>, marcandre.lureau@redhat.com,
- Nikos Dragazis <ndragazis@arrikto.com>, changpeng.liu@intel.com,
- Daniele Buono <dbuono@us.ibm.com>
+Cc: Elena Afanasova <eafanasova@gmail.com>, qemu-trivial@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, qemu-ppc@nongnu.org,
+ Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/9/30 下午4:07, Michael S. Tsirkin wrote:
-> On Tue, Sep 29, 2020 at 07:38:24PM +0100, Stefan Hajnoczi wrote:
->> On Tue, Sep 29, 2020 at 06:04:34AM -0400, Michael S. Tsirkin wrote:
->>> On Tue, Sep 29, 2020 at 09:57:51AM +0100, Stefan Hajnoczi wrote:
->>>> On Tue, Sep 29, 2020 at 02:09:55AM -0400, Michael S. Tsirkin wrote:
->>>>> On Mon, Sep 28, 2020 at 10:25:37AM +0100, Stefan Hajnoczi wrote:
->>>>>> Why extend vhost-user with vDPA?
->>>>>> ================================
->>>>>> Reusing VIRTIO emulation code for vhost-user backends
->>>>>> -----------------------------------------------------
->>>>>> It is a common misconception that a vhost device is a VIRTIO device.
->>>>>> VIRTIO devices are defined in the VIRTIO specification and consist of a
->>>>>> configuration space, virtqueues, and a device lifecycle that includes
->>>>>> feature negotiation. A vhost device is a subset of the corresponding
->>>>>> VIRTIO device. The exact subset depends on the device type, and some
->>>>>> vhost devices are closer to the full functionality of their
->>>>>> corresponding VIRTIO device than others. The most well-known example is
->>>>>> that vhost-net devices have rx/tx virtqueues and but lack the virtio-net
->>>>>> control virtqueue. Also, the configuration space and device lifecycle
->>>>>> are only partially available to vhost devices.
->>>>>>
->>>>>> This difference makes it impossible to use a VIRTIO device as a
->>>>>> vhost-user device and vice versa. There is an impedance mismatch and
->>>>>> missing functionality. That's a shame because existing VIRTIO device
->>>>>> emulation code is mature and duplicating it to provide vhost-user
->>>>>> backends creates additional work.
->>>>> The biggest issue facing vhost-user and absent in vdpa is
->>>>> backend disconnect handling. This is the reason control path
->>>>> is kept under QEMU control: we do not need any logic to
->>>>> restore control path data, and we can verify a new backend
->>>>> is consistent with old one.
->>>> I don't think using vhost-user with vDPA changes that. The VMM still
->>>> needs to emulate a virtio-pci/ccw/mmio device that the guest interfaces
->>>> with. If the device backend goes offline it's possible to restore that
->>>> state upon reconnection. What have I missed?
->>> The need to maintain the state in a way that is robust
->>> against backend disconnects and can be restored.
->> QEMU is only bypassed for virtqueue accesses. Everything else still
->> goes through the virtio-pci emulation in QEMU (VIRTIO configuration
->> space, status register). vDPA doesn't change this.
->>
->> Existing vhost-user messages can be kept if they are useful (e.g.
->> virtqueue state tracking). So I think the situation is no different than
->> with the existing vhost-user protocol.
->>
->>>> Regarding reconnection in general, it currently seems like a partially
->>>> solved problem in vhost-user. There is the "Inflight I/O tracking"
->>>> mechanism in the spec and some wording about reconnecting the socket,
->>>> but in practice I wouldn't expect all device types, VMMs, or device
->>>> backends to actually support reconnection. This is an area where a
->>>> uniform solution would be very welcome too.
->>> I'm not aware of big issues. What are they?
->> I think "Inflight I/O tracking" can only be used when request processing
->> is idempotent? In other words, it can only be used when submitting the
->> same request multiple times is safe.
-> Not inherently it just does not attempt to address this problem.
->
->
-> Inflight tracking only tries to address issues on the guest side,
-> that is, making sure the same buffer is used exactly once.
->
+--z6Eq5LdranGa6ru8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As discussed, if we design virito ring carefully, there's probably no 
-need for using extra metadata for inflight tracking.
+On Sun, Oct 11, 2020 at 10:23:49AM +0800, Li Qiang wrote:
+> David Gibson <david@gibson.dropbear.id.au> =E4=BA=8E2020=E5=B9=B410=E6=9C=
+=8810=E6=97=A5=E5=91=A8=E5=85=AD =E4=B8=8B=E5=8D=882:34=E5=86=99=E9=81=93=
+=EF=BC=9A
+> >
+> > On Fri, Oct 09, 2020 at 07:02:56AM -0700, Elena Afanasova wrote:
+> > > >From 09905773a00e417d3a37c12350d9e55466fdce8a Mon Sep 17 00:00:00 20=
+01
+> > > From: Elena Afanasova <eafanasova@gmail.com>
+> > > Date: Fri, 9 Oct 2020 06:41:36 -0700
+> > > Subject: [PATCH] hw/net: move allocation to the heap due to very larg=
+e stack
+> > >  frame
+> >
+> > Patch looks fine, but some more details of the motivation would be
+> > nice.  I wouldn't have thought that the size of a network packet
+> > counted as a "very large" stack frame by userspace standards.
+> >
+>=20
+> It is also a best practice to avoid large stack allocation according.
+> -->https://wiki.sei.cmu.edu/confluence/display/c/MEM05-C.+Avoid+large+sta=
+ck+allocations
 
-And I remember that the current inflight tracking doesn't support packed 
-virtqueue.
+Hm, yeah, it's not really clear what "large" means in that context.
+It mostly seems to be concerned with allocations controlled by an
+external attacker, in which case we could be talking up to INT_MAX.
+Even with jumbo frames the most we're talking here is ~64kiB.
 
-Thanks
+>=20
+> Though I don't see any issue here.
+>=20
+> Thanks,
+> Li Qiang
+>=20
+> > > Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+> > > ---
+> > >  hw/net/spapr_llan.c | 5 +++--
+> > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/hw/net/spapr_llan.c b/hw/net/spapr_llan.c
+> > > index 2093f1bad0..581320a0e7 100644
+> > > --- a/hw/net/spapr_llan.c
+> > > +++ b/hw/net/spapr_llan.c
+> > > @@ -688,7 +688,8 @@ static target_ulong h_send_logical_lan(PowerPCCPU=
+ *cpu,
+> > >      SpaprVioDevice *sdev =3D spapr_vio_find_by_reg(spapr->vio_bus, r=
+eg);
+> > >      SpaprVioVlan *dev =3D VIO_SPAPR_VLAN_DEVICE(sdev);
+> > >      unsigned total_len;
+> > > -    uint8_t *lbuf, *p;
+> > > +    uint8_t *p;
+> > > +    g_autofree uint8_t *lbuf =3D NULL;
+> > >      int i, nbufs;
+> > >      int ret;
+> > >
+> > > @@ -729,7 +730,7 @@ static target_ulong h_send_logical_lan(PowerPCCPU=
+ *cpu,
+> > >          return H_RESOURCE;
+> > >      }
+> > >
+> > > -    lbuf =3D alloca(total_len);
+> > > +    lbuf =3D g_malloc(total_len);
+> > >      p =3D lbuf;
+> > >      for (i =3D 0; i < nbufs; i++) {
+> > >          ret =3D spapr_vio_dma_read(sdev, VLAN_BD_ADDR(bufs[i]),
+> >
+>=20
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--z6Eq5LdranGa6ru8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+D6YQACgkQbDjKyiDZ
+s5JuhQ//XWXc96/u1+mCdVlZpo7A+icE/HGh5fqoObfUY5Otbl0OCtdqN1a3/a8r
+JtkxGVreCoFkb4hGO1i3duv469bJMApALFb1RC26KCyLoUOa5yKfnyQdyYMP1Oux
+vAoYTTvsORnIG6InNxuDRm3bd9kq/kkDg22JsAS3Gx4udF2sh7rPIVy+eni9dLOs
+a5vDPXYcRPC29/Mhcntjnewht6/ncglq+oTwtC2qyiIzgnwRrU0f8XF4q0a8+o5B
+84ewWLr8s2bjyFVnw9FjxzGqRLA9jCox9ZRES/Sb746CyI+36CtBLsVqy5USrp4B
+w4Q1PciouSwVY6x1JHiT0QRUjdjIOOhSdsJsgWj+me9a7P991MhVgKdsM4KwrOvR
+j6NQxqm2jSP8ukWcnVAWTveYAieqoFB4bNOG95uQkJToIpA75gnK6bYqz+EKPuZJ
+cb+c9QOQUhoxJCirfbrky8d43ZJbxOwElZNmssQ/+3FYO8HkynYl3IZROyIFe2j4
+ipSw5WYROJHOAAovGGaNmKnpqxsY01uKKVuE6oxZpn4UKjypVIvHiFYktZbD8lgs
+4671AY5yQAysoPEC83pSGozDB+5fxwY/vTmkq3Xi/chl7REMAfGIDAc9XpB4VXVh
+1NPNpB0mZSzvetQ1uR5wR39rWei7wYJQ7L/VzznIBruXV0SDNlo=
+=Pr40
+-----END PGP SIGNATURE-----
+
+--z6Eq5LdranGa6ru8--
 
