@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFE528B4C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:41:08 +0200 (CEST)
-Received: from localhost ([::1]:35298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB3128B4CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:43:18 +0200 (CEST)
+Received: from localhost ([::1]:41110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRx8V-0007qA-Fb
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59732)
+	id 1kRxAb-0001nl-6K
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:43:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRx50-0003EP-9T; Mon, 12 Oct 2020 08:37:31 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5228 helo=huawei.com)
+ id 1kRx52-0003GC-BK; Mon, 12 Oct 2020 08:37:33 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5229 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRx4v-0007bQ-LK; Mon, 12 Oct 2020 08:37:29 -0400
+ id 1kRx4v-0007bR-P4; Mon, 12 Oct 2020 08:37:31 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 136A941C519B93C818FD;
+ by Forcepoint Email with ESMTP id 1789E762ABCFB19DC7F7;
  Mon, 12 Oct 2020 20:37:04 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS409-HUB.china.huawei.com
  (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Mon, 12 Oct 2020
- 20:36:56 +0800
+ 20:36:57 +0800
 From: Bihong Yu <yubihong@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 4/8] migration: Open brace '{' following struct go on the
- same line
-Date: Mon, 12 Oct 2020 21:08:56 +0800
-Message-ID: <1602508140-11372-5-git-send-email-yubihong@huawei.com>
+Subject: [PATCH v2 5/8] migration: Add braces {} for if statement
+Date: Mon, 12 Oct 2020 21:08:57 +0800
+Message-ID: <1602508140-11372-6-git-send-email-yubihong@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602508140-11372-1-git-send-email-yubihong@huawei.com>
 References: <1602508140-11372-1-git-send-email-yubihong@huawei.com>
@@ -66,23 +65,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Bihong Yu <yubihong@huawei.com>
 Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- migration/migration.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ migration/ram.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/migration/migration.h b/migration/migration.h
-index deb411a..99784b4 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -124,8 +124,7 @@ struct MigrationClass {
-     DeviceClass parent_class;
- };
+diff --git a/migration/ram.c b/migration/ram.c
+index 0aea78f..09178cc 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -101,14 +101,16 @@ static struct {
  
--struct MigrationState
--{
-+struct MigrationState {
-     /*< private >*/
-     DeviceState parent_obj;
+ static void XBZRLE_cache_lock(void)
+ {
+-    if (migrate_use_xbzrle())
++    if (migrate_use_xbzrle()) {
+         qemu_mutex_lock(&XBZRLE.lock);
++    }
+ }
  
+ static void XBZRLE_cache_unlock(void)
+ {
+-    if (migrate_use_xbzrle())
++    if (migrate_use_xbzrle()) {
+         qemu_mutex_unlock(&XBZRLE.lock);
++    }
+ }
+ 
+ /**
 -- 
 1.8.3.1
 
