@@ -2,77 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5201A28B845
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:51:13 +0200 (CEST)
-Received: from localhost ([::1]:45006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEADD28B8E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:57:39 +0200 (CEST)
+Received: from localhost ([::1]:60028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRyEK-0002jV-Dc
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52508)
+	id 1kRyKY-0000cf-Th
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRyDF-0001kZ-0o
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:50:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58289)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRyDD-0000ji-6x
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:50:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602510602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CVZY04nvOE1qgvoPm3COFlRUQxgDmu2OY51x1jomjxk=;
- b=cNbq4pBwG3JxaERclQVjPWQbgOMwBAThxB298CB0lh1uNO44NDmh/kp6XmdwmdLRExyZlh
- TgJqIrekP9nM0WTx3VKv+Xx3pJ6L0TPZnwwGFb6bOMVUYrmJaJrJb3k3xO++I90DsUZriS
- NHk9Rg7CHsHNMMzpS9yrx2B01vLAcJ8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-IcgQ_j-nMbChNJ-J1kGs7A-1; Mon, 12 Oct 2020 09:50:00 -0400
-X-MC-Unique: IcgQ_j-nMbChNJ-J1kGs7A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 540D518A8221;
- Mon, 12 Oct 2020 13:49:59 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-114-60.ams2.redhat.com [10.36.114.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C6BF5C22B;
- Mon, 12 Oct 2020 13:49:49 +0000 (UTC)
-Subject: Re: [PATCH v7 02/13] qtest: Reintroduce qtest_qmp_receive
-To: Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky
- <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20201006123904.610658-1-mlevitsk@redhat.com>
- <20201006123904.610658-3-mlevitsk@redhat.com>
- <3dd3b467-6784-470c-cbfb-b7baf611abde@redhat.com>
- <f3098b68-2d6b-6c99-4658-5b3c32227832@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <a09865ae-40ec-0fc7-0b95-2f039284d546@redhat.com>
-Date: Mon, 12 Oct 2020 15:49:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kRyIW-000749-1Z; Mon, 12 Oct 2020 09:55:32 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:39018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kRyIQ-0001YS-3J; Mon, 12 Oct 2020 09:55:29 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0E74074594E;
+ Mon, 12 Oct 2020 15:55:19 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E0E53745712; Mon, 12 Oct 2020 15:55:18 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id DF31F745702;
+ Mon, 12 Oct 2020 15:55:18 +0200 (CEST)
+Date: Mon, 12 Oct 2020 15:55:18 +0200 (CEST)
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/5] hw/pci-host/bonito: Make PCI_ADDR() macro more
+ readable
+In-Reply-To: <20201012124506.3406909-2-philmd@redhat.com>
+Message-ID: <3894edd-a214-3edf-8cbe-3566842e8a4@eik.bme.hu>
+References: <20201012124506.3406909-1-philmd@redhat.com>
+ <20201012124506.3406909-2-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f3098b68-2d6b-6c99-4658-5b3c32227832@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-694601815-1602510918=:97629"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,45 +58,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
+ qemu-devel@nongnu.org, Huacai Chen <chenhc@lemote.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
+ Helge Deller <deller@gmx.de>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-arm@nongnu.org,
+ =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On 12/10/2020 15.47, Paolo Bonzini wrote:
-> On 12/10/20 13:14, Thomas Huth wrote:
->>> +/**
->>> + * qtest_qmp_receive:
->>> + * @s: #QTestState instance to operate on.
->>> + *
->>> + * Reads a QMP message from QEMU and returns the response.
->>> + * Buffers all the events received meanwhile, until a
->>> + * call to qtest_qmp_eventwait
->>> + */
->>> +QDict *qtest_qmp_receive(QTestState *s);
->> Re-introducing qtest_qmp_receive() with different behavior than before will
->> likely make backports of other later patches a pain, and might also break
->> other patches that use this function but are not merged yet. Could you
->> please use a different name for this function instead? Maye
->> qtest_qmp_receive_buffered() or something like that?
-> 
-> We chose to use the same name because the new version generally is the
-> one you want and, except for the handling of events, is exactly the same
-> as before.  In other words, I'm treating the new semantics more as a
-> bugfix than a feature.
-> 
-> The only trap that backports of later patches could fall into is if they
-> want to look at events, but it would be caught easily because the test
-> would fail.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Ok, thanks for the explanation! ... but I think it might be good to have
-this information in the patch description, though.
+--3866299591-694601815-1602510918=:97629
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
- Thomas
+On Mon, 12 Oct 2020, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>
+> The PCI_ADDR() macro use generic PCI fields shifted by 8-bit.
+> Rewrite it extracting the shift operation one layer.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> hw/pci-host/bonito.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+> index a99eced0657..abb3ee86769 100644
+> --- a/hw/pci-host/bonito.c
+> +++ b/hw/pci-host/bonito.c
+> @@ -196,8 +196,8 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
+> #define PCI_IDSEL_VIA686B          (1 << PCI_IDSEL_VIA686B_BIT)
+>
+> #define PCI_ADDR(busno , devno , funno , regno)  \
+> -    ((((busno) << 16) & 0xff0000) + (((devno) << 11) & 0xf800) + \
+> -    (((funno) << 8) & 0x700) + (regno))
+> +    ((((busno) << 8) & 0xff00) + (((devno) << 3) & 0xf8) + \
+> +    (((funno) & 0x7) << 8) + (regno))
 
+Are you missing a << 8 somewhere before + (regno) or both of these are 
+equally unreadable and I've missed something? This seems to be completely 
+replaced by next patch so what's the point of this change?
+
+Regards,
+BALATON Zoltan
+
+>
+> typedef struct BonitoState BonitoState;
+>
+>
+--3866299591-694601815-1602510918=:97629--
 
