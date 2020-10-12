@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259FB28C574
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 01:50:54 +0200 (CEST)
-Received: from localhost ([::1]:49068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677CE28C561
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 01:47:28 +0200 (CEST)
+Received: from localhost ([::1]:42944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS7af-000656-7y
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 19:50:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
+	id 1kS7XL-0003P5-FL
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 19:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kS7UQ-0000Fk-7I; Mon, 12 Oct 2020 19:44:26 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:40870)
+ id 1kS7UX-0000PI-5q; Mon, 12 Oct 2020 19:44:33 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:36971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kS7UO-0007ji-1A; Mon, 12 Oct 2020 19:44:25 -0400
-Received: by mail-pg1-x542.google.com with SMTP id i2so16023198pgh.7;
- Mon, 12 Oct 2020 16:44:23 -0700 (PDT)
+ id 1kS7US-0007k0-6G; Mon, 12 Oct 2020 19:44:32 -0400
+Received: by mail-pf1-x429.google.com with SMTP id 144so15259766pfb.4;
+ Mon, 12 Oct 2020 16:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kb7zkZJauBf/oSDNgYK6+uglPqh8gIaGZ4A3meEW04U=;
- b=IMIwXl2KPBuZWXOanJ4qyGSlmY0ujwkk+K/6sflytZUpHMidYbpa9+1L2/1gR/4f4D
- ZdKPJTpccdP4E8p5L4vZFA3FBOHhVt5hYPJHZBWg0S5Iv+FW9cDiJtxYft7zlm0cADIK
- 5bIoiryiBUTDQ+Yoy2IdukUnd1KYe48DMdRPdWkH3btkjq7trYhx9nCsBXMcOEBoG+9g
- FMAMdKlhk5gPTRZn5x1nFiSzYmdkWqBuuiiJnv4nBJBMkUjjazfPjejCNPKcYkg7rF/f
- 6JW4XTSVkTAXurfKBSgsDr1QrBja0xV/coFQs+RQlccaFN03Y0lpzLY8sKqdzoIOT/4P
- sioQ==
+ bh=UA3F8s/BXSq76zUIOLr9d6u5/XdTz5OeWjQXz+7ww2E=;
+ b=BwHbrneq/frl7kRBmaw/X99sftzcdIbYZIQfR8Wu7j5yFY8ynJpjWDokQmFUOg6Yli
+ 2AlfRhcCY3OR5UOR+fT1DGZBJaORX59/nbOqYB5zweAMxY8PurpJjHx+ha5dkqFmkp0J
+ kfgqxiRwRyLYGnlXGUCdNWA7BkSfw29Tevt/+uvhWTCSfzytW4a+sH3fD97jXptsBwWK
+ 2o1A4arbGoAwjtoOuBK30JxoYhwN7oiDbgTf0Lawl16hcnndFZ+0586li6v+TlsMNr7X
+ YLiWk3KWEl28IvXIkNv9ELXm2Wxbq+KZz8BaLqrkizqXF0I0KcYyLvJp/BobD/o9nhTH
+ AITg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kb7zkZJauBf/oSDNgYK6+uglPqh8gIaGZ4A3meEW04U=;
- b=uS24vR0lkdRLkih/7w0f0L5FKsqxKdgP+En3rbVbkx3hhJXj2YnpN2QS3H0NZyBaDJ
- svOGfAW14cMr1OuxMrG2baYzD4CrYwlC6VaXK4kkvI5W0XnDF7foEWmSs73aVF5rmw1s
- W2StuASot0myWmho1kL58Kdg7zngU1+P+OBOr6XtfM2FpCJFufngzUxeJtYf0TitwAy4
- vWVD7Hi9w6JFEzQR7r6zrwbz7J+zSi5VDhUUG51XsE0oOFT3holt2kSyJgWOsvJQPyGr
- sWro8WfS9RPHHBU3JisWfpH/BKVznTBVa4+RsYmi84MCxCDnHrJyXC2YBNBA5Hu+pmTv
- k1Uw==
-X-Gm-Message-State: AOAM5334BVVXiGjsslB1vMarrR8zGnMoB1xdE0mQHLkLsv3mProWGzSZ
- P91Fe/kc1Ffy7oK7xZcup3Qd+rRqABm2AA==
-X-Google-Smtp-Source: ABdhPJxhjh4sSGSmtBioVF/TkZctgwUB/o94q7SBNzPwqpNSS/M8f2kMUWT8ntlADnbJ/8ksdDj0xg==
-X-Received: by 2002:a62:d0c1:0:b029:155:2e17:ea0 with SMTP id
- p184-20020a62d0c10000b02901552e170ea0mr23735480pfg.55.1602546261698; 
- Mon, 12 Oct 2020 16:44:21 -0700 (PDT)
+ bh=UA3F8s/BXSq76zUIOLr9d6u5/XdTz5OeWjQXz+7ww2E=;
+ b=YvY1i8gB5urPty0QxyAvyQGog9lKAL2Lf1u6FP4OH5AoGobh8R92Y2m6dlFUpRt+yQ
+ 9ndsxnkR6MOXBdexyVAOkIBUltbv4xCtYGkLxr5kd27ywg6zCZAJ0+DI+O8msdU4q+L/
+ Nsmvo18EChnsAYuAlr51vRzz9TW4ERz7sNYs5fAxqBKomHunjlxpCiCxFVyjOB0NwM/6
+ F6ZV6sXtLSMgZqokMpFXBVr4XC5ZgUElcapIWP35px8E/FfYhDLMSnx6zB4ZOoGPqFle
+ CqnjJI2CxhlZSJQmITDML0Ogyo/b1FPcUrxme425EKumnTd6/3JuWhZ/BDr477WFcDSV
+ b0+w==
+X-Gm-Message-State: AOAM532B0A/TssodKWn5L3BmqbOy+921mRx6Mdwwb5tLcvTuKzbbZJL7
+ mSBsi05nwILO33gEv9+TBhOB24eTzmbwHQ==
+X-Google-Smtp-Source: ABdhPJx2HWzo4chwzvmp16opIsq4QV2W2Mqz61hEsCSuhWxmvrynnmziXobgc1+Lld4Gm8Ejmom7Iw==
+X-Received: by 2002:a05:6a00:7d6:b029:152:3ccb:bc9e with SMTP id
+ n22-20020a056a0007d6b02901523ccbbc9emr25999811pfu.57.1602546265746; 
+ Mon, 12 Oct 2020 16:44:25 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id j3sm9714890pjv.20.2020.10.12.16.44.18
+ by smtp.googlemail.com with ESMTPSA id j3sm9714890pjv.20.2020.10.12.16.44.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 16:44:20 -0700 (PDT)
+ Mon, 12 Oct 2020 16:44:24 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v9 4/5] win32: Simplify gmtime_r detection not depends on if
- _POSIX_C_SOURCE are defined on msys2/mingw
-Date: Tue, 13 Oct 2020 07:43:47 +0800
-Message-Id: <20201012234348.1427-5-luoyonggang@gmail.com>
+Subject: [PATCH v9 5/5] configure: Fixes ncursesw detection under msys2/mingw
+ by convert them to meson
+Date: Tue, 13 Oct 2020 07:43:48 +0800
+Message-Id: <20201012234348.1427-6-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201012234348.1427-1-luoyonggang@gmail.com>
 References: <20201012234348.1427-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,185 +94,331 @@ Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We remove the CONFIG_LOCALTIME_R detection option in configure, and move the check
-existence of gmtime_r from configure into C header and source directly by using macro
-`_POSIX_THREAD_SAFE_FUNCTIONS`.
-Before this patch, the configure script are always assume the compiler doesn't define
-_POSIX_C_SOURCE macro at all, but that's not true, because thirdparty library such
-as ncursesw may define -D_POSIX_C_SOURCE in it's pkg-config file. And that C Flags will
-added -D_POSIX_C_SOURCE into each QEMU_CFLAGS. And that's causing the following compiling error:
-n file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-                 from ../softmmu/main.c:25:
-C:/work/xemu/qemu/include/sysemu/os-win32.h:53:12: error: redundant redeclaration of 'gmtime_r' [-Werror=redundant-decls]
-   53 | struct tm *gmtime_r(const time_t *timep, struct tm *result);
-      |            ^~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
-                 from ../softmmu/main.c:25:
-C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:284:36: note: previous definition of 'gmtime_r' was here
-  284 | __forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
-      |                                    ^~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-                 from ../softmmu/main.c:25:
-C:/work/xemu/qemu/include/sysemu/os-win32.h:55:12: error: redundant redeclaration of 'localtime_r' [-Werror=redundant-decls]
-   55 | struct tm *localtime_r(const time_t *timep, struct tm *result);
-      |            ^~~~~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
-                 from ../softmmu/main.c:25:
-C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:281:36: note: previous definition of 'localtime_r' was here
-  281 | __forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
-      |                                    ^~~~~~~~~~~
-Compiling C object libcommon.fa.p/hw_gpio_zaurus.c.obj
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-                 from ../hw/i2c/smbus_slave.c:16:
-C:/work/xemu/qemu/include/sysemu/os-win32.h:53:12: error: redundant redeclaration of 'gmtime_r' [-Werror=redundant-decls]
-   53 | struct tm *gmtime_r(const time_t *timep, struct tm *result);
-      |            ^~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
-                 from ../hw/i2c/smbus_slave.c:16:
-C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:284:36: note: previous definition of 'gmtime_r' was here
-  284 | __forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
-      |                                    ^~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
-                 from ../hw/i2c/smbus_slave.c:16:
-C:/work/xemu/qemu/include/sysemu/os-win32.h:55:12: error: redundant redeclaration of 'localtime_r' [-Werror=redundant-decls]
-   55 | struct tm *localtime_r(const time_t *timep, struct tm *result);
-      |            ^~~~~~~~~~~
-In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
-                 from ../hw/i2c/smbus_slave.c:16:
-C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:281:36: note: previous definition of 'localtime_r' was here
-  281 | __forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
-      |                                    ^~~~~~~~~~~
-Compiling C object libcommon.fa.p/hw_dma_xilinx_axidma.c.obj
+The mingw pkg-config are showing following absolute path and contains : as the separator,
 
-After this patch, whenever ncursesw or other thirdparty libraries tried to define or not
-define  _POSIX_C_SOURCE, the source will building properly. Because now, we don't make any
-assumption if _POSIX_C_SOURCE are defined. We solely relied on if the macro `_POSIX_THREAD_SAFE_FUNCTIONS`
-are defined in msys2/mingw header.
-
-The _POSIX_THREAD_SAFE_FUNCTIONS are defined in mingw header like this:
-
-```
-#if defined(_POSIX_C_SOURCE) && !defined(_POSIX_THREAD_SAFE_FUNCTIONS)
-#define _POSIX_THREAD_SAFE_FUNCTIONS 200112L
-#endif
-
-#ifdef _POSIX_THREAD_SAFE_FUNCTIONS
-__forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
-  return localtime_s(_Tm, _Time) ? NULL : _Tm;
-}
-__forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
-  return gmtime_s(_Tm, _Time) ? NULL : _Tm;
-}
-__forceinline char *__CRTDECL ctime_r(const time_t *_Time, char *_Str) {
-  return ctime_s(_Str, 0x7fffffff, _Time) ? NULL : _Str;
-}
-__forceinline char *__CRTDECL asctime_r(const struct tm *_Tm, char * _Str) {
-  return asctime_s(_Str, 0x7fffffff, _Tm) ? NULL : _Str;
-}
-#endif
-```
+-D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC:/CI-Tools/msys64/mingw64/include/ncursesw:-I/usr/include/ncursesw:
+-DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+-DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -lncursesw
+-DNCURSES_WIDECHAR -D_XOPEN_SOURCE=600 -D_POSIX_C_SOURCE=199506L -IC -lcursesw
+-DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+-DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lncursesw
+-DNCURSES_WIDECHAR /CI-Tools/msys64/mingw64/include/ncursesw -lcursesw
+-DNCURSES_WIDECHAR -I/usr/include/ncursesw -pipe -lncursesw -lgnurx -ltre -lintl -liconv
+-DNCURSES_WIDECHAR -I/usr/include/ncursesw -lncursesw
+-DNCURSES_WIDECHAR -I/usr/include/ncursesw -lcursesw
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- configure                 | 34 ----------------------------------
- include/sysemu/os-win32.h |  4 ++--
- util/oslib-win32.c        |  4 ++--
- 3 files changed, 4 insertions(+), 38 deletions(-)
+ configure         | 118 +++-------------------------------------------
+ meson.build       |  83 +++++++++++++++++++++++++++-----
+ meson_options.txt |   4 ++
+ ui/meson.build    |   2 +-
+ 4 files changed, 83 insertions(+), 124 deletions(-)
 
 diff --git a/configure b/configure
-index 71a574f718..9a87685517 100755
+index 9a87685517..f839c2a557 100755
 --- a/configure
 +++ b/configure
-@@ -2386,37 +2386,6 @@ if test "$vhost_net" = ""; then
-   test "$vhost_kernel" = "yes" && vhost_net=yes
+@@ -295,7 +295,8 @@ unset target_list_exclude
+ 
+ brlapi=""
+ curl=""
+-curses=""
++iconv="auto"
++curses="auto"
+ docs=""
+ fdt="auto"
+ netmap="no"
+@@ -1173,13 +1174,13 @@ for opt do
+   ;;
+   --disable-safe-stack) safe_stack="no"
+   ;;
+-  --disable-curses) curses="no"
++  --disable-curses) curses="disabled"
+   ;;
+-  --enable-curses) curses="yes"
++  --enable-curses) curses="enabled"
+   ;;
+-  --disable-iconv) iconv="no"
++  --disable-iconv) iconv="disabled"
+   ;;
+-  --enable-iconv) iconv="yes"
++  --enable-iconv) iconv="enabled"
+   ;;
+   --disable-curl) curl="no"
+   ;;
+@@ -3440,102 +3441,6 @@ EOF
+   fi
  fi
  
 -##########################################
--# MinGW / Mingw-w64 localtime_r/gmtime_r check
--
--if test "$mingw32" = "yes"; then
--    # Some versions of MinGW / Mingw-w64 lack localtime_r
--    # and gmtime_r entirely.
--    #
--    # Some versions of Mingw-w64 define a macro for
--    # localtime_r/gmtime_r.
--    #
--    # Some versions of Mingw-w64 will define functions
--    # for localtime_r/gmtime_r, but only if you have
--    # _POSIX_THREAD_SAFE_FUNCTIONS defined. For fun
--    # though, unistd.h and pthread.h both define
--    # that for you.
--    #
--    # So this #undef localtime_r and #include <unistd.h>
--    # are not in fact redundant.
--cat > $TMPC << EOF
--#include <unistd.h>
--#include <time.h>
--#undef localtime_r
--int main(void) { localtime_r(NULL, NULL); return 0; }
+-# iconv probe
+-if test "$iconv" != "no" ; then
+-  cat > $TMPC << EOF
+-#include <iconv.h>
+-int main(void) {
+-  iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
+-  return conv != (iconv_t) -1;
+-}
 -EOF
--    if compile_prog "" "" ; then
--        localtime_r="yes"
--    else
--        localtime_r="no"
+-  iconv_prefix_list="/usr/local:/usr"
+-  iconv_lib_list=":-liconv"
+-  IFS=:
+-  for iconv_prefix in $iconv_prefix_list; do
+-    IFS=:
+-    iconv_cflags="-I$iconv_prefix/include"
+-    iconv_ldflags="-L$iconv_prefix/lib"
+-    for iconv_link in $iconv_lib_list; do
+-      unset IFS
+-      iconv_lib="$iconv_ldflags $iconv_link"
+-      echo "looking at iconv in '$iconv_cflags' '$iconv_lib'" >> config.log
+-      if compile_prog "$iconv_cflags" "$iconv_lib" ; then
+-        iconv_found=yes
+-        break
+-      fi
+-    done
+-    if test "$iconv_found" = yes ; then
+-      break
 -    fi
+-  done
+-  if test "$iconv_found" = "yes" ; then
+-    iconv=yes
+-  else
+-    if test "$iconv" = "yes" ; then
+-      feature_not_found "iconv" "Install iconv devel"
+-    fi
+-    iconv=no
+-  fi
+-fi
+-
+-##########################################
+-# curses probe
+-if test "$iconv" = "no" ; then
+-  # curses will need iconv
+-  curses=no
+-fi
+-if test "$curses" != "no" ; then
+-  if test "$mingw32" = "yes" ; then
+-    curses_inc_list="$($pkg_config --cflags ncurses 2>/dev/null):"
+-    curses_lib_list="$($pkg_config --libs ncurses 2>/dev/null):-lpdcurses"
+-  else
+-    curses_inc_list="$($pkg_config --cflags ncursesw 2>/dev/null):-I/usr/include/ncursesw:"
+-    curses_lib_list="$($pkg_config --libs ncursesw 2>/dev/null):-lncursesw:-lcursesw"
+-  fi
+-  curses_found=no
+-  cat > $TMPC << EOF
+-#include <locale.h>
+-#include <curses.h>
+-#include <wchar.h>
+-int main(void) {
+-  wchar_t wch = L'w';
+-  setlocale(LC_ALL, "");
+-  resize_term(0, 0);
+-  addwstr(L"wide chars\n");
+-  addnwstr(&wch, 1);
+-  add_wch(WACS_DEGREE);
+-  return 0;
+-}
+-EOF
+-  IFS=:
+-  for curses_inc in $curses_inc_list; do
+-    # Make sure we get the wide character prototypes
+-    curses_inc="-DNCURSES_WIDECHAR $curses_inc"
+-    IFS=:
+-    for curses_lib in $curses_lib_list; do
+-      unset IFS
+-      if compile_prog "$curses_inc" "$curses_lib" ; then
+-        curses_found=yes
+-        break
+-      fi
+-    done
+-    if test "$curses_found" = yes ; then
+-      break
+-    fi
+-  done
+-  unset IFS
+-  if test "$curses_found" = "yes" ; then
+-    curses=yes
+-  else
+-    if test "$curses" = "yes" ; then
+-      feature_not_found "curses" "Install ncurses devel"
+-    fi
+-    curses=no
+-  fi
 -fi
 -
  ##########################################
- # pkg-config probe
- 
-@@ -6610,9 +6579,6 @@ if [ "$bsd" = "yes" ] ; then
-   echo "CONFIG_BSD=y" >> $config_host_mak
+ # curl probe
+ if test "$curl" != "no" ; then
+@@ -6200,16 +6105,6 @@ if test "$have_x11" = "yes" && test "$need_x11" = "yes"; then
+   echo "X11_CFLAGS=$x11_cflags" >> $config_host_mak
+   echo "X11_LIBS=$x11_libs" >> $config_host_mak
  fi
- 
--if test "$localtime_r" = "yes" ; then
--  echo "CONFIG_LOCALTIME_R=y" >> $config_host_mak
+-if test "$iconv" = "yes" ; then
+-  echo "CONFIG_ICONV=y" >> $config_host_mak
+-  echo "ICONV_CFLAGS=$iconv_cflags" >> $config_host_mak
+-  echo "ICONV_LIBS=$iconv_lib" >> $config_host_mak
 -fi
- if test "$qom_cast_debug" = "yes" ; then
-   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
+-if test "$curses" = "yes" ; then
+-  echo "CONFIG_CURSES=y" >> $config_host_mak
+-  echo "CURSES_CFLAGS=$curses_inc" >> $config_host_mak
+-  echo "CURSES_LIBS=$curses_lib" >> $config_host_mak
+-fi
+ if test "$pipe2" = "yes" ; then
+   echo "CONFIG_PIPE2=y" >> $config_host_mak
  fi
-diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-index d8978e28c0..5346d51e89 100644
---- a/include/sysemu/os-win32.h
-+++ b/include/sysemu/os-win32.h
-@@ -48,12 +48,12 @@
- #define siglongjmp(env, val) longjmp(env, val)
+@@ -7181,6 +7076,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
+         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
++        -Diconv=$iconv -Dcurses=$curses \
+         $cross_arg \
+         "$PWD" "$source_path"
  
- /* Missing POSIX functions. Don't use MinGW-w64 macros. */
--#ifndef CONFIG_LOCALTIME_R
-+#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
- #undef gmtime_r
- struct tm *gmtime_r(const time_t *timep, struct tm *result);
- #undef localtime_r
- struct tm *localtime_r(const time_t *timep, struct tm *result);
--#endif /* CONFIG_LOCALTIME_R */
-+#endif /* _POSIX_THREAD_SAFE_FUNCTIONS */
+diff --git a/meson.build b/meson.build
+index c23167c61b..8ad600a91a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -424,6 +424,74 @@ if targetos == 'linux' and have_tools and not get_option('mpath').disabled()
+   endif
+ endif
  
- static inline void os_setup_signal_handling(void) {}
- static inline void os_daemonize(void) {}
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 051afb217b..e99debfb8d 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -106,7 +106,7 @@ void qemu_anon_ram_free(void *ptr, size_t size)
-     }
- }
++iconv = not_found
++if not get_option('iconv').disabled()
++  libiconv = cc.find_library('iconv',
++                             required: false,
++                             static: enable_static)
++  if libiconv.found()
++    if cc.links('''
++      #include <iconv.h>
++      int main(void) {
++        iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
++        return conv != (iconv_t) -1;
++      }''', dependencies: [libiconv])
++      iconv = declare_dependency(dependencies: [libiconv])
++    endif
++  endif
++endif
++if get_option('iconv').enabled() and not iconv.found()
++  error('Cannot detect iconv API')
++endif
++
++curses = not_found
++if iconv.found() and not get_option('curses').disabled()
++  curses_libname_list = ['ncursesw', 'ncurses', 'cursesw', 'pdcurses']
++  curses_test = '''
++    #include <locale.h>
++    #include <curses.h>
++    #include <wchar.h>
++    int main(void) {
++      wchar_t wch = L'w';
++      setlocale(LC_ALL, "");
++      resize_term(0, 0);
++      addwstr(L"wide chars\n");
++      addnwstr(&wch, 1);
++      add_wch(WACS_DEGREE);
++      return 0;
++    }'''
++  foreach curses_libname : curses_libname_list
++      libcurses = dependency(curses_libname,
++                             required: false,
++                             method: 'pkg-config',
++                             static: enable_static)
++
++      if not libcurses.found()
++        dirs = ['/usr/include/ncursesw']
++        if targetos == 'windows'
++          dirs = []
++        endif
++        libcurses = cc.find_library(curses_libname,
++                                    required: false,
++                                    dirs: dirs,
++                                    static: enable_static)
++      endif
++      if libcurses.found()
++        if cc.links(curses_test, dependencies: [libcurses])
++          curses = declare_dependency(compile_args: '-DNCURSES_WIDECHAR', dependencies: [libcurses])
++          break
++        endif
++      endif
++  endforeach
++endif
++if get_option('curses').enabled() and not curses.found()
++  if not iconv.found()
++    error('Cannot detect iconv API')
++  else
++    error('Cannot detect curses API')
++  endif
++endif
++
+ brlapi = not_found
+ if 'CONFIG_BRLAPI' in config_host
+   brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
+@@ -502,16 +570,6 @@ if 'CONFIG_X11' in config_host
+   x11 = declare_dependency(compile_args: config_host['X11_CFLAGS'].split(),
+                            link_args: config_host['X11_LIBS'].split())
+ endif
+-curses = not_found
+-if 'CONFIG_CURSES' in config_host
+-  curses = declare_dependency(compile_args: config_host['CURSES_CFLAGS'].split(),
+-                              link_args: config_host['CURSES_LIBS'].split())
+-endif
+-iconv = not_found
+-if 'CONFIG_ICONV' in config_host
+-  iconv = declare_dependency(compile_args: config_host['ICONV_CFLAGS'].split(),
+-                             link_args: config_host['ICONV_LIBS'].split())
+-endif
+ vnc = not_found
+ png = not_found
+ jpeg = not_found
+@@ -618,6 +676,7 @@ config_host_data.set('CONFIG_COCOA', cocoa.found())
+ config_host_data.set('CONFIG_LIBUDEV', libudev.found())
+ config_host_data.set('CONFIG_MPATH', mpathpersist.found())
+ config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
++config_host_data.set('CONFIG_CURSES', curses.found())
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+ config_host_data.set('CONFIG_VNC', vnc.found())
+@@ -1833,8 +1892,8 @@ if config_host.has_key('CONFIG_NETTLE')
+ endif
+ summary_info += {'libtasn1':          config_host.has_key('CONFIG_TASN1')}
+ summary_info += {'PAM':               config_host.has_key('CONFIG_AUTH_PAM')}
+-summary_info += {'iconv support':     config_host.has_key('CONFIG_ICONV')}
+-summary_info += {'curses support':    config_host.has_key('CONFIG_CURSES')}
++summary_info += {'iconv support':     iconv.found()}
++summary_info += {'curses support':    curses.found()}
+ # TODO: add back version
+ summary_info += {'virgl support':     config_host.has_key('CONFIG_VIRGL')}
+ summary_info += {'curl support':      config_host.has_key('CONFIG_CURL')}
+diff --git a/meson_options.txt b/meson_options.txt
+index 1d3c94840a..e6cb1e589b 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -32,6 +32,10 @@ option('cocoa', type : 'feature', value : 'auto',
+        description: 'Cocoa user interface (macOS only)')
+ option('mpath', type : 'feature', value : 'auto',
+        description: 'Multipath persistent reservation passthrough')
++option('iconv', type : 'feature', value : 'auto',
++       description: 'Font glyph conversion support')
++option('curses', type : 'feature', value : 'auto',
++       description: 'curses UI')
+ option('sdl', type : 'feature', value : 'auto',
+        description: 'SDL user interface')
+ option('sdl_image', type : 'feature', value : 'auto',
+diff --git a/ui/meson.build b/ui/meson.build
+index 8a080c38e3..78ad792ffb 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -39,7 +39,7 @@ specific_ss.add(when: ['CONFIG_SOFTMMU'], if_true: opengl)
  
--#ifndef CONFIG_LOCALTIME_R
-+#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
- /* FIXME: add proper locking */
- struct tm *gmtime_r(const time_t *timep, struct tm *result)
- {
-@@ -130,7 +130,7 @@ struct tm *localtime_r(const time_t *timep, struct tm *result)
-     }
-     return p;
- }
--#endif /* CONFIG_LOCALTIME_R */
-+#endif /* _POSIX_THREAD_SAFE_FUNCTIONS */
+ ui_modules = {}
  
- static int socket_error(void)
- {
+-if config_host.has_key('CONFIG_CURSES')
++if curses.found()
+   curses_ss = ss.source_set()
+   curses_ss.add(when: [curses, iconv], if_true: [files('curses.c'), pixman])
+   ui_modules += {'curses' : curses_ss}
 -- 
 2.28.0.windows.1
 
