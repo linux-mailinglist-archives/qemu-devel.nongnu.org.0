@@ -2,79 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C295628BF04
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:27:56 +0200 (CEST)
-Received: from localhost ([::1]:40850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B245428BF2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:46:21 +0200 (CEST)
+Received: from localhost ([::1]:55094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS1c3-000114-AB
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
+	id 1kS1ts-0007m9-Qt
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:46:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kS1aE-0000BX-DH
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 13:26:02 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:46796)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1kS1aC-00052v-KQ
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 13:26:02 -0400
-Received: by mail-lf1-x141.google.com with SMTP id v6so3477769lfa.13
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 10:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=h7EY1lxRl2b2hr54oytsqpMoXqo80RReAUYd/rDjxm8=;
- b=oFj4Z4kwvPaClXYo5sPBikSkJxm1o2orc9nDnwMWLB5IrnVp0n6R3wLWdI/baPMdBS
- gxdCYPZDIHY67dBirTifwJ105megKmIZqPao8WgXlsQbyNdg6pGYsIhQWtZEHKPY3v9b
- hpZCJ2iPF+u0tv8syTSxyLYSRzKGSQmeXOMLSu0GJQaxq/Vd/5O1i3fbxuPv955XHOTZ
- Pzt/TJgmeXAMSfg6kzq4wRCIiePK3BoHK4+2GrF8qXKFR6F3U73yn+NECZZZqKFM/pZL
- QLoFsS42+qhaiePydc9fS+CKeGhGxHl9FzDOzGMTXivnJSLNRBLtUF/kIpoDGZGgXOrj
- zxpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=h7EY1lxRl2b2hr54oytsqpMoXqo80RReAUYd/rDjxm8=;
- b=ii+2Z9d+KMD/Wuij5QVWWjDuT7DpFUhI3NHftDUreNJuaLjRIxcm2Hix5y1cxT8PE6
- cneGznDIA0u4Kffrxao8UGBU3KhCDmWHCBg7VnTBaOM/KPqDJLJcEbg6F1Q9pTIVSwCg
- 6xM3cqPvzKnrLSdIsr+Y+L7AqJmJ8pEe7npfaqUvWzX67cAr36nuxYfnLE3tyliUA3Ft
- r+TPRFnbRHsbnEUaS+LeLhMka3te17/LizDEcYwLqk9rh5LqOzgzegS+VWS6GoOpAGWj
- MnpBoLQEoEHoluB9oWSUDp7n8ulneMp6HKPadwaY5rUysQ7Afty6FXIOC8hZHgZ3CAWe
- sMyA==
-X-Gm-Message-State: AOAM531Nz9CUZg0PzdI8V/d4+ufiRWhGHakQ9X5zxhCLsxWtOJoP8K0Y
- wpaSvCcWU3ptNJOoJJS3XTo=
-X-Google-Smtp-Source: ABdhPJwzX7GrEiM9AjHZfyZmsmTkxhBTA9nx05dUlD7bJz4OBkeVe+JpYdGKUGkp9sOrxlZ8gPjXkg==
-X-Received: by 2002:a19:68a:: with SMTP id 132mr7951152lfg.429.1602523558210; 
- Mon, 12 Oct 2020 10:25:58 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id q22sm3468160lfm.51.2020.10.12.10.25.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 10:25:57 -0700 (PDT)
-Date: Mon, 12 Oct 2020 19:25:56 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH 0/4] generic loader FDT support (for direct Xen boot)
-Message-ID: <20201012172556.GF2954729@toto>
-References: <20201009170742.23695-1-alex.bennee@linaro.org>
- <CAKmqyKNKAaYCR_LgROZYHjTjFn2FeAJ5nhikCF2g+XeNU1J2MQ@mail.gmail.com>
- <87lfgbzb2m.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87lfgbzb2m.fsf@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kS1s1-0006iK-BT; Mon, 12 Oct 2020 13:44:25 -0400
+Received: from relay.sw.ru ([185.231.240.75]:60458 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kS1ry-0007A1-Fl; Mon, 12 Oct 2020 13:44:24 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kS1qv-0047iC-So; Mon, 12 Oct 2020 20:43:17 +0300
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com, fam@euphon.net,
+ stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
+ libvir-list@redhat.com, eblake@redhat.com, den@openvz.org,
+ vsementsov@virtuozzo.com, andrey.shinkevich@virtuozzo.com
+Subject: [PATCH v11 00/13] Apply COR-filter to the block-stream permanently
+Date: Mon, 12 Oct 2020 20:43:12 +0300
+Message-Id: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 13:44:17
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,113 +51,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
- stefano.stabellini@linaro.org,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- takahiro.akashi@linaro.org, Alistair Francis <alistair23@gmail.com>,
- stefano.stabellini@xilinx.com, stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-On Mon, Oct 12, 2020 at 05:02:57PM +0100, Alex Bennée wrote:
-> 
-> Alistair Francis <alistair23@gmail.com> writes:
-> 
-> > On Fri, Oct 9, 2020 at 10:07 AM Alex Bennée <alex.bennee@linaro.org> wrote:
-> >>
-> >> Hi,
-> >>
-> >> This series adds the ability to append FDT data for blobs loaded by
-> >> the generic loader. My principle use-case was to be able to directly
-> >> boot Xen with a kernel image which avoided having to:
-> >>
-> >>   - get the kernel image into my system image
-> >>   - deal with bugs in FDT munging by -bios firmware and/or grub
-> >>
-> >> as such this currently a developer hack that makes *my* life easy and
-> >> is thus presented as an RFC for discussion. While I've tested it with
-> >> Xen I'm sure the approach would be applicable to other hypervisors or
-> >> firmware which expect to consume FDT data pointing at various blobs.
-> >
-> > An interesting idea. I think this comes up enough that it's worth
-> > thinking about.
-> >
-> >>
-> >> An example command line that launches this is (magic from -kernel):
-> >>
-> >>   ./aarch64-softmmu/qemu-system-aarch64 -cpu cortex-a57 \
-> >>     -machine type=virt,virtualization=on -display none \
-> >>     -serial mon:stdio \
-> >>     -netdev user,id=unet,hostfwd=tcp::2222-:22 \
-> >>     -device virtio-net-pci,netdev=unet,id=virt-net,disable-legacy=on \
-> >>     -device virtio-scsi-pci,id=virt-scsi,disable-legacy=on \
-> >>     -blockdev driver=raw,node-name=hd,discard=unmap,file.driver=host_device,file.filename=/dev/zen-disk/debian-buster-arm64 \
-> >>     -device scsi-hd,drive=hd,id=virt-scsi-hd \
-> >>     -smp 4 -m 4096 \
-> >>     -kernel ~/lsrc/xen.git/xen/xen \
-> >>     -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
-> >>     -device loader,addr=0x47000000,file=$HOME/lsrc/linux.git/builds/arm64/arch/arm64/boot/Image,len-fdt-compat=2,fdt-compat[0]='multiboot,,module',fdt-compat[1]='multiboot,,kernel',fdt-bootargs="root=/dev/sda2 ro console=hvc0 earlyprintk=xen"
-> >
-> > You are loading the kernel `Image` file, but changing the device tree
-> > that was generated by QEMU and is being loaded in memory. As a user
-> > that is really confusing.
-> 
-> Well in this case the "kernel" is Xen which helpfully comes with a
-> kernel compatible header that the kernel loaded understand. The blob
-> could be any Dom0 kernel - it just happens to be a Linux kernel in this
-> case.
-> 
-> >
-> >>
-> >> So a couple of choices I've made doing this:
-> >>
-> >> Promoting *fdt to MachineState
-> >>
-> >> This seemed the simplest approach to making the fdt available to the
-> >> global state, especially as MachineState already has a *dtb pointer.
-> >> I've converted the ARM virt machine and a RISCV machine but if this is
-> >> acceptable I can convert the others.
-> >
-> > This seems fine to me.
-> >
-> >>
-> >> "Polluting" the generic loader arguments
-> >>
-> >> This was mainly out of convenience as the loader already knows the
-> >> size of the blob being loaded. However you could certainly argue it
-> >> makes sense to have a more generic "FDT expander" virtual device that
-> >> could for example query the QOM model somehow to find the details it
-> >> needs.
-> >
-> > That seems like a better option. Why not have a generic way to modify
-> > the device tree with a specific argument? It could either be -device
-> > loader,file=fdt,... or -fdt ...
-> 
-> Well it comes down to how much of a special case this is? Pretty much
-> all FDT (and ACPI for the matter) is basically down to the board level
-> models - and not all of them just the funky configurable ones. For other
-> board models we just expect the user to pass the FDT they got with their
-> kernel blob.
-> 
-> For modern VirtIO systems the only thing you really need to expose is
-> the root PCI bus because the rest of the devices are discover-able
-> there.
-> 
-> So the real question is are there any other -devices that we want to be
-> able to graft FDT entries on or is the generic loader enough of a
-> special case that we keep all the logic in there?
->
+The iotest case test_stream_parallel still does not pass after the
+COR-filter is inserted into the backing chain. As the test case may not
+be initialized, it does not make a sense and was removed again.
 
-Hi,
+v11:
+  04: Base node overlay is used instead of base.
+  05: Base node overlay is used instead of base.
+  06: New.
+  07: New.
+  08: New.
+  09: The new BDS-member 'supported_read_flags' is applied.
+  10: The 'base_metadata' variable renamed to 'base_unfiltered'.
+  11: New.
+  12: The backing-file argument is left in the QMP interface. Warning added.
+  13: The BDRV_REQ_COPY_ON_READ removed from the stream_populate();
+      The 'implicit' initialization moved back to COR-filter driver.
+      Base node overlay is used instead of base.
 
-Another option is to allow the user to pass along a DTB overlay with the
-generic loader option (or with a separate option as Alistair suggested).
-With overlways we wouldn't need all the command-line options to enable
-construction of dtb fragments, it would be more or less transparent to
-QEMU. There may be limitations with the overlay flows that I'm not aware
-of though...
+The v8 Message-Id:
+<1601383109-110988-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 
-Cheers,
-Edgar
+Andrey Shinkevich (13):
+  copy-on-read: Support preadv/pwritev_part functions
+  copy-on-read: add filter append/drop functions
+  qapi: add filter-node-name to block-stream
+  copy-on-read: pass overlay base node name to COR driver
+  copy-on-read: limit COR operations to base in COR driver
+  block: modify the comment for BDRV_REQ_PREFETCH flag
+  block: include supported_read_flags into BDS structure
+  copy-on-read: add support for BDRV_REQ_PREFETCH to COR-filter
+  copy-on-read: skip non-guest reads if no copy needed
+  stream: skip filters when writing backing file name to QCOW2 header
+  stream: mark backing-file argument as deprecated
+  stream: remove unused backing-file name parameter
+  block: apply COR-filter to block-stream jobs
+
+ block/copy-on-read.c           | 171 ++++++++++++++++++++++++++++++++++++++---
+ block/copy-on-read.h           |  35 +++++++++
+ block/io.c                     |   3 +-
+ block/monitor/block-hmp-cmds.c |   4 +-
+ block/stream.c                 | 112 ++++++++++++++++-----------
+ blockdev.c                     |  25 +++---
+ docs/system/deprecated.rst     |   6 ++
+ include/block/block.h          |   7 +-
+ include/block/block_int.h      |  13 +++-
+ qapi/block-core.json           |   6 ++
+ tests/qemu-iotests/030         |  51 ++----------
+ tests/qemu-iotests/030.out     |   4 +-
+ tests/qemu-iotests/141.out     |   2 +-
+ tests/qemu-iotests/245         |  19 +++--
+ 14 files changed, 324 insertions(+), 134 deletions(-)
+ create mode 100644 block/copy-on-read.h
+
+-- 
+1.8.3.1
 
 
