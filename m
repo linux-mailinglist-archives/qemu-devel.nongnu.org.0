@@ -2,74 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B96728B7BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:46:27 +0200 (CEST)
-Received: from localhost ([::1]:34422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F3B28B824
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:49:58 +0200 (CEST)
+Received: from localhost ([::1]:40672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRy9i-0006jO-3s
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:46:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51276)
+	id 1kRyD7-0000ui-QH
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRy7z-0005bL-Bk
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:44:39 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRy7v-0008Ui-HC
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:44:37 -0400
-Received: by mail-ej1-x641.google.com with SMTP id e22so23277979ejr.4
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 06:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VVKKx+irzSrHwI2CV2LmswnFVT60gRM+m6nXIjpyTxQ=;
- b=IQvXeZnYSOETe5wgWWZrTDtL60uDaF2dR/twiYRFFe5weImJeCwZ1SImgMJKQaJ+VF
- bJPRyhhIy9nFP9rfPL43KEz9cjf6URV1gI+epwDWE89XFIbAWQ7JM91ahrBbukFuhqGd
- 0IqebvjTyAtNjqUj8GwkBQg4eEZlg4i7qT3+zEyH0GnjrLZqG/7RNoYFIGW7bttXnCZ3
- syY1ZjsBFKeY8o9bU2R/Ajn0Okb2OoCbjxhLMr+R8mpNiY46fTKb2NKHKWU0b+h0dOPh
- cNUDdjtWf1yUay06AmHIlMuyvIYJX3b7srUkxvJ7aY/qNOdwxNh0jSAPK8TE0kudQTA1
- kHHQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kRy8V-0005zl-EO
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:45:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kRy8S-00007G-0J
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:45:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602510305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fOefzMy1BDsq2KlMUkuY8d0EYifJ5JTTwdRTwXuLgV8=;
+ b=JxX5b/olmxbioiJsFBaIUaFoNT+1KhDEb8PqkKMLsFTTGi+97eDao+mPGzWEbb9Nkpj1oY
+ 55vBJ42Y2UPl8iNPZdze347DLKr115ONmhxtSZZVFw2HRY4X4HrrOfSxUiWuIIHWqrySz0
+ 2n2I3c8oZlITkd7bi6UzC2UbiGUDWhc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-ERrvkMu1PuOIxthyNyTPfw-1; Mon, 12 Oct 2020 09:45:01 -0400
+X-MC-Unique: ERrvkMu1PuOIxthyNyTPfw-1
+Received: by mail-wr1-f70.google.com with SMTP id b6so9286337wrn.17
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 06:45:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VVKKx+irzSrHwI2CV2LmswnFVT60gRM+m6nXIjpyTxQ=;
- b=X9TLzy7y29HCSnFHtb2PrWSSw/p4urBqMUfIc5RAMIvKRJtg1f+4vGWjnRB0g68ACS
- AWz0jDhjvDUp1FWp1s72/4tvY0PHYGexwN85NYQVvHIlAVQFUtx37ivrhpr50V+WKYwh
- 1YDuBTlH0bQZshqh+KXufWtRcl/cuJfJF4mXJ/w5loyjURDM8cp/M0UruSGBqq70V/JZ
- MGbzhl2jjkNE/f3V7CH4UzZeeZ0Y5UsVQsWrVxxOY1PUzgg5VUhhpaEe/G4wourEagtM
- MmF+8D3PTXal7yzCcqMWf5a3Nm2NaXY5QxA0oQ2ztth3YAyYC/mnHdetl+fJnbEf4V5j
- G1qQ==
-X-Gm-Message-State: AOAM533fpneNPGyT+PvYBZJ+ovUS+5BB9HURPX8EO9RLy6N3prb1XnuZ
- oJQ01LW0ARZFkrZ4386KonYfVVhmDTzvSfDOxMP0MQ==
-X-Google-Smtp-Source: ABdhPJxHvo4vQwsolI3T2CKRPKLvniIAkvpP49n+ZtnCbZG5Xk7Nj30uHmF6QbHArTMcU1TAEJsJ/E8sBfz1q5IWSqI=
-X-Received: by 2002:a17:906:1f42:: with SMTP id
- d2mr27643606ejk.407.1602510272309; 
- Mon, 12 Oct 2020 06:44:32 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fOefzMy1BDsq2KlMUkuY8d0EYifJ5JTTwdRTwXuLgV8=;
+ b=HrpeA3gZ2OBvIVX9fUgh3NA5y5aJH6CILaloflb03FZQh2eW3OzQZSCuwsJTaErDWg
+ WWp4RP1wgCJ3+J74Ion+YH6C8eHxWjj37OmW2tU0z+rV2exBrMWCyEl4yp0JKUn6ls1Q
+ QDfZevkc0Fi5sCJVMHaveo3VxhLPUOAj1rGRfpBpK0EuwwnIdEmMan39T8qRhAOSlg3e
+ 25UpfBhddcez6XAsQKogQOWzhJ4VPsyKrC9YBflDbKqgA1nha5xC30MNQwIx8gOdKWdw
+ G0dXEulstsW3YX5hh89vXFBaPAATy+vKXhVq9GCTNbrdtV8YesBdBqjMtBr2cAnVyhVj
+ RC9Q==
+X-Gm-Message-State: AOAM533jWsVJBL6krLnklvOfgxgbHkqF5nkyQwr5tgDG4kFDP+PYSPMP
+ mgQnyCdgx49tNGF79qjPddboe4bLex2o+Q/qGPWQOyyazK/H6DHF2gexjcqHjMQvmM5lZc7+p/F
+ 0SvwUc2XTsoS2pVI=
+X-Received: by 2002:adf:c3cd:: with SMTP id d13mr4306584wrg.15.1602510299693; 
+ Mon, 12 Oct 2020 06:44:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxK2oZhKbfelocLEVt0Nm4s7meurcokG+YKDleXlVDtaUCblfv+RG0F8QpYmpSYlHwO58jWUQ==
+X-Received: by 2002:adf:c3cd:: with SMTP id d13mr4306574wrg.15.1602510299510; 
+ Mon, 12 Oct 2020 06:44:59 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7ffb:1107:73ba:dbcf?
+ ([2001:b07:6468:f312:7ffb:1107:73ba:dbcf])
+ by smtp.gmail.com with ESMTPSA id n3sm23520646wmn.28.2020.10.12.06.44.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Oct 2020 06:44:59 -0700 (PDT)
+Subject: Re: [PATCH] hw/net: move allocation to the heap due to very large
+ stack frame
+To: Thomas Huth <thuth@redhat.com>, David Gibson
+ <david@gibson.dropbear.id.au>, Elena Afanasova <eafanasova@gmail.com>
+References: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
+ <20201010060745.GK1025389@yekko.fritz.box>
+ <f505c80b88ee665a62883a69bed9d614f6ba2a66.camel@gmail.com>
+ <20201012053001.GD4787@yekko.fritz.box>
+ <38d5993e-8a10-0fb1-5263-6531a356fefd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ca54ec71-11b4-70c5-6d48-4e58fb90a545@redhat.com>
+Date: Mon, 12 Oct 2020 15:45:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20201012132017.3423954-1-f4bug@amsat.org>
- <20201012132017.3423954-5-f4bug@amsat.org>
-In-Reply-To: <20201012132017.3423954-5-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 12 Oct 2020 14:44:21 +0100
-Message-ID: <CAFEAcA_rSR4_EB2jqyaYJ5i6twgCMO84t=Ozo9hFx5JQm-1uZg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] hw/pci-host/versatile: Add the PCI_BAR_COUNT
- definition
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <38d5993e-8a10-0fb1-5263-6531a356fefd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,39 +107,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-trivial@nongnu.org, jasowang@redhat.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Oct 2020 at 14:20, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> Note from Peter Maydell:
->
->  The versatile/realview PCI controller has:
->    * three PCI BARs which represent memory windows on the
->        PCI bus which bus-master PCI devices can use to
->        write back into the system address space
->      - the device SMAPn registers allow the guest to configure
->        the mapping from "a bus-master access to an address
->        on the PCI bus wherever the guest mapped BAR n"
->        to "a system address", and the smap[] array holds
->        those register values
->
-> Use self-explicit PCI_BAR_COUNT definition instead of a magic
-> value, and rename some misnamed variables indexing the smap[]
-> array from 'win' to 'bar'.
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 12/10/20 12:44, Thomas Huth wrote:
+> I think this is one of the tasks from:
+> 
+>  https://wiki.qemu.org/Contribute/BiteSizedTasks#Compiler-driven_cleanups
+> 
+> It has been added by Paolo in 2016:
+> 
+>  https://wiki.qemu.org/index.php?title=Contribute/BiteSizedTasks&diff=5368&oldid=5367
+> 
+> ... so maybe Paolo can comment on the size that has been chosen here...?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I used 16K, mostly because it is a nice round number.  8k is too small
+due to PATH_MAX-sized variables.  16k seemed to be plenty and triggered
+in few-enough places that the cleanup is viable.
 
-thanks
--- PMM
+Paolo
+
 
