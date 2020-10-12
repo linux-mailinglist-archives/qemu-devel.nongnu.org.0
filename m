@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9946328BB0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 16:47:06 +0200 (CEST)
-Received: from localhost ([::1]:33590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB95528BB53
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 16:49:49 +0200 (CEST)
+Received: from localhost ([::1]:40496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRz6P-0004ZO-K6
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 10:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39766)
+	id 1kRz92-0007P4-SM
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 10:49:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kRz07-00065m-6W; Mon, 12 Oct 2020 10:40:36 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:57281)
+ id 1kRz4C-00038z-1L; Mon, 12 Oct 2020 10:44:48 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:46369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kRz03-000898-Jt; Mon, 12 Oct 2020 10:40:34 -0400
+ id 1kRz4A-0000H8-35; Mon, 12 Oct 2020 10:44:47 -0400
 Received: from [192.168.100.1] ([82.252.141.186]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MZCKd-1kwyFa0EgD-00V96h; Mon, 12 Oct 2020 16:40:23 +0200
-Subject: Re: [PATCH 2/2] goldfish_rtc: change MemoryRegionOps endianness to
- DEVICE_NATIVE_ENDIAN
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20201009113843.60995-1-lvivier@redhat.com>
- <20201009113843.60995-2-lvivier@redhat.com>
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MauJJ-1jvw6D0AMF-00cMRe; Mon, 12 Oct 2020 16:44:42 +0200
+Subject: Re: [PATCH] target/sparc/int32_helper: Remove duplicated 'Tag
+ Overflow' entry
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201011200112.3222822-1-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -68,35 +68,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <83c853ce-dba5-b62f-434b-e14013f94f59@vivier.eu>
-Date: Mon, 12 Oct 2020 16:40:21 +0200
+Message-ID: <5638d854-628c-d7d9-0146-69e46a75b2f6@vivier.eu>
+Date: Mon, 12 Oct 2020 16:44:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201009113843.60995-2-lvivier@redhat.com>
+In-Reply-To: <20201011200112.3222822-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SaoGKjnPV6bcjzjKJz7/ZDr1BFmHWehpIiSLnV23740L3MHkOlp
- VwoxQ6GfyVwu4y2d5rClkBZniAgGxKoSOpTrzKgxq+C8gHMp9f2yoa+6fk1en9O9UmcSbUI
- jRniSnC5iGWD3oTLhXdsj7VJIoXu7vCswZ6ScZkr1jheyNXycVqDsxi1Ulz4BzyMUviZ5cS
- bFnA/TWcIMEG8RJdlk4oA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zRrn/opVhAM=:CZjw5sySBBw75RTkIpAUSU
- QelDEoDTiJoMr+rhBsbxtEyCYjDVNSAyav3RXpIQTIdog650x8zNSAP+VbaTbbe4iZ+1+iHKF
- IMpVvLyENPW+ZEZpLCrajsIr+HKTPDobdCm2weXv5V1wAeoZBhmM4sbs4dDSfYek/54yDm37p
- aHNlR/r9H59J6HY/sUuFa+RL/F5yPe4vsUinrgNu9GVgXODOaUtk/NtgulxbqltR1tC2fUZlt
- u0uI+mc4R+RSfKe8CVGEujT5NjDYC5AzAJh9VLI0a9IRebPp6wbCkMeVomnf3yu8s9X9WWooL
- TNpPOr5XQx28oNGT/jjhm0s/jE69zNiNhhL75i3lP+e3SkGHoP/nWlMR0XhjQn/QCX12mhZUo
- zyp0bVBRdD2/KRGNy9Oi8Uhv7Zu9wKqV1ToOl6g5cJoHoJkiNN0YZsAr5TS0bxA+ZIQoh96lZ
- q4Q96TQ2Bjm/zsXxUS/GEx+jRItB/nICm3KhyeBK8ykRBpBtSWIXgvxWRliAX/775b/eKIlBH
- JZlHYWVxQfyoL7gMbbn4uCWgRF+ClreplWCgwXfWuW7L+iYdBpEMVPafrsXFQ1gu9EQ+kii7b
- FSgqXdW29AACKLbd+yL26r3X+77FOlrf1latt67+Gqk7jHTztuvIrI07s6o6Odnys5ZtKWEmj
- ph1R1PQCkhzlYnzyj18xE477HQQnyR1t6sOKkwqp4fBm0gFKVwMzkLOxMYlzUSBtaa15N794l
- OmERcpwdAr1ZwGbxn9oQJkAzoAX181bp+kG/VjK8kSJcBg0Hp2Vz0LA8fIXlh5vc2hdE4WVJo
- yAMhkbVnozTWHqCohdzXzo+ueH9J970bjQMEJGs/6P7pBQPlsNnaopmPis06AOD0nNqRDJR
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:jZbNhdS4NySRh0YQRycWIhWkCHEKuZxAumFC8yE+C0p3k95HJ+a
+ e5kGu1itgWHlmPFYhCr8hxsZzhnm/QI004jEhldDQgGUUj1iPqgRaCkpxdmcsej9tWLV+42
+ Rke498qv+qWBRN/sJa157gx8SprlD4Fmcp5Qi3anD1bnkF7qQyuvbCAbslhlqqzjoWX4+hx
+ +oR4Cmlw2thLExeuXh64w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:R+tpCXovVRc=:7fcDiwOZfJR7EdIPpdBvaf
+ HpIWy8E7clV6cXiQvUJHVbg/TjbYvMYF97X6onWR84ti17FJQ9JBwLiTPDD5ENP1TweMTgjFB
+ bFaPrS9u81c8KwxazjOCSjzHvVm22Nul76o05PFan/fuqZxHzNsAIOne/Mmmqq+gN5ygfGd4V
+ 6RD4/qNKZMeEM4X0fg0cOMSuSeji6UIRw6vyhBLkUOZz2MS7jzUQgjh+Gfy38nw+9zfdFSm7t
+ 0qmummeRGLpFyw0o4IGUSzDZ0t14NrQ/0nApkSUtSXOua3Erkh7O+KI/hEJ6BD7jmzsKE08UW
+ u/HHtzM15xd57ybof8vtFKsHV3q6Z79flecp04cI4ELqyfskUGOWrkhDJQMyfLwYC7WA3YOYW
+ 963kOE1JX4UabR7BFA0rAysa63BQ+hnRaBVqgKhw/inY6DQjswNAbGyGzTisHFNybfsPCQEom
+ 0k1KIxzPM3fAZsEIb8oieFQfNhG6U6L8aj3YSIF50ujj0dyeoZxMHrA2ste0FNnAOgsrJHujq
+ +nKn2lgISaZE5aKJ21rDWZ9dHqeGklGrgsR1SKdW8u6IK8XXOjT+GGxieOL8ShOmE6gAT8q4z
+ VvYkuD2ghtK3bXV+2kY41kBa0cxWOn94NUzxmI+3xT376bv9waPgwkhzkHqcn+gzSG5lV4KDk
+ 71oy2ZIHqNvaYvpFqp3IDuZCYdE0O5Hk3TTAzuqKr8CNL7+hX24jxHstOI01UyGCBl8jcZE9z
+ GS/ljaW0Ql1PZ6brziWInlK7zH7bq6v+WN0y8cBL8Hej8OqkqjrZvM83Otv53G8CVTuq4tDbr
+ Ze6TINMVBd9CVT2B4kBGEd7LA1T46qqH91e/kyfo2B7/o6BL3CFqrxiGMgZBT6LkFCV31JE
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 10:40:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 10:26:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -116,47 +116,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-trivial@nongnu.org, Anup.Patel@wdc.com,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/10/2020 à 13:38, Laurent Vivier a écrit :
-> The doc [1] doesn't define the endianness, but the kernel driver
-> uses readl() to access the registers, so we can guess it depends
-> on the architecture endianness.
+Le 11/10/2020 à 22:01, Philippe Mathieu-Daudé a écrit :
+> Commit 0b09be2b2f ("Nicer debug output for exceptions") added
+> twice the same "Tag Overflow" entry, remove the extra one.
 > 
-> As riscv architecture endianness is little it might not change anything
-> for it.
-> 
-> Moreover, android implementation uses DEVICE_NATIVE_ENDIAN [2]
-> 
-> [1] https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
-> [2] https://android.googlesource.com/platform/external/qemu/+/refs/heads/emu-master-dev/hw/timer/goldfish_timer.c#177
-> 
-> Fixes: 9a5b40b84279 ("hw: rtc: Add Goldfish RTC device")
-> Cc: Anup.Patel@wdc.com
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/rtc/goldfish_rtc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  target/sparc/int32_helper.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/rtc/goldfish_rtc.c b/hw/rtc/goldfish_rtc.c
-> index 6ddd45cce039..0f4e8185a796 100644
-> --- a/hw/rtc/goldfish_rtc.c
-> +++ b/hw/rtc/goldfish_rtc.c
-> @@ -217,7 +217,7 @@ static int goldfish_rtc_post_load(void *opaque, int version_id)
->  static const MemoryRegionOps goldfish_rtc_ops = {
->      .read = goldfish_rtc_read,
->      .write = goldfish_rtc_write,
-> -    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
->      .valid = {
->          .min_access_size = 4,
->          .max_access_size = 4
+> diff --git a/target/sparc/int32_helper.c b/target/sparc/int32_helper.c
+> index 9a71e1abd87..ba63c739c1e 100644
+> --- a/target/sparc/int32_helper.c
+> +++ b/target/sparc/int32_helper.c
+> @@ -50,7 +50,6 @@ static const char * const excp_names[0x80] = {
+>      [TT_EXTINT | 0xd] = "External Interrupt 13",
+>      [TT_EXTINT | 0xe] = "External Interrupt 14",
+>      [TT_EXTINT | 0xf] = "External Interrupt 15",
+> -    [TT_TOVF] = "Tag Overflow",
+>      [TT_CODE_ACCESS] = "Instruction Access Error",
+>      [TT_DATA_ACCESS] = "Data Access Error",
+>      [TT_DIV_ZERO] = "Division By Zero",
 > 
 
 Applied to my trivial-patches branch.
