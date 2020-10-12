@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D35228BCE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:48:12 +0200 (CEST)
-Received: from localhost ([::1]:41514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CDC28BCD8
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:46:40 +0200 (CEST)
+Received: from localhost ([::1]:35820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS03X-00071Y-8V
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56678)
+	id 1kS021-0004Ps-NM
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:46:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqF-0006mN-7M
+ id 1kRzqF-0006nO-NE
  for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:27 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44019)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqC-0007HW-Hn
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:26 -0400
-Received: by mail-wr1-x444.google.com with SMTP id g12so19669989wrp.10
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:24 -0700 (PDT)
+ id 1kRzqD-0007Hw-LR
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:27 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h7so19713016wre.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Rr+JVKyDamSf0xBTUVSv5bImqBYLa2yDIIfkheqLG6Y=;
- b=NSdGchXobLRvobB1cyetRRAvSm9hlhgg/38eE/ovGE8IFh5XCOQ9xlqpkKyEoa7omY
- zQsoAjBTSRQqpwyqI+awAvrbM1OFAiOzg6cG2KkCBGvLMbJWeIQ9bsHpoldfWUgSpve5
- 6WY3s9keximJhZ2tWZO0fxygF64LdXfzFy8iRdjKslyBChTU+RtbWJ35GH4KoJ6P6kAy
- 9vtE9Jn1wnky3wzp3o7SOl0MptJNsFI4CdkGAguuDv/tsXIVLwQSEhO46ej5ZMtLKa/l
- 24VC5Hy1O3vkGnt+ZAlnTmCU2gIbBAnA74TeLtxPSra76N7wh5pUtIlTdhoUTXE9ixAW
- lW2w==
+ bh=ZKtxYGps5VFXsStAbHuqacbKwp4q81OIlKsuS5wAl+8=;
+ b=oopoGJUogC2SBAD0Fi+W7FkzqzSSo9fjMTFE3Li6I97azXcT8zr1SrPfoks+jqXoDX
+ PF7vTkXgH/A7LTBYszojVWbJWKSGXNsDGV/e+9rB2GhfFBUA+xalI/o8zaGpzADwayyN
+ lIVHQX3i5Os+2V6G/xiR5ka8Fa37X81BTjpTSRhYjPM72YxFepUGUKEcLXVPcjxAO1i2
+ l+TxgbU7Jso+jWrn1NjOh97E7ebywvQ06MSCVbIsIjpvZt+hfrrPa5Xq/EwLvXzNoPia
+ S9lXmIzztY3Ah0B8SnxRriHyzxpAYBZ2G4ER4LZ3QPOD768Iypn4eAIx508fhJfBX0wB
+ GHRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Rr+JVKyDamSf0xBTUVSv5bImqBYLa2yDIIfkheqLG6Y=;
- b=GLgd25UEZS0AkIvQuzEPbZF6FFGfDd7Pl0uFAGlm2jg4c7Mgu3UeoPYEXR+Dd51K0N
- AEpITTSOiKOtlvNLkAA9u94TCK8WPCfgAhUXrMsqXU3ocIKszaXEDvkBEuSufKRNX5jG
- ayskeLoIDTFgVKouNps4zxqAhsJ9bvweG/YlIRJEeCrl2c7tQVQEE4gYMbe9dQmOc1od
- mTjVuwp5nAOpRX1tqV0miomMD6B8M2ag6IkUs5UG3r80EhRXQhd6qFf1bYPL4gLE7YNq
- db69tHaljpz1n8noDIBWpiEECsiLX3oXEGrwdytEwEvA5JynJWKuCM7Qx/BUmfRgXK1r
- 2qaQ==
-X-Gm-Message-State: AOAM533DkAiccoIFK8aoKzfhM9XH1m3d3nyVYl7WfWYnuQq9CB+qIxZ4
- UgLfr+H/DoNHLI7e+QiwHwNoUA==
-X-Google-Smtp-Source: ABdhPJyoSC+UENnYPxUAoh2yzfjG7NREqu6kj3+HPN+qnsGErRyvtjE6dJDKeJ9lcfsb3H/t519vqw==
-X-Received: by 2002:a5d:5482:: with SMTP id h2mr21046891wrv.165.1602516863094; 
- Mon, 12 Oct 2020 08:34:23 -0700 (PDT)
+ bh=ZKtxYGps5VFXsStAbHuqacbKwp4q81OIlKsuS5wAl+8=;
+ b=LMVbRjbW2Cjk7m+y49lG1PpPowJdNM8TIrxR+pxJ9+XVl3GoamI7v65ExKevoXLWww
+ pcsEICs9VJipp8FyPls0vVKpB6TgMhueXHKYjhgCFXplOog1GjvC8ko0dSwRaLtG1O1E
+ xhhu3Wr/zIda5lop/MsJqIepn5HxQgJ/n3TK8ULJv45AjvIK3gSPIJcVBok1wldfUWsM
+ tsXzx3Mk7y4EWGBRVWgBZhqqNrBbQcD64rBUBp5+oD5IHO3/MawOM4+SCaMIs851GCmx
+ juDP+Lj0b+qsLE9NBZzBEPy4ik7u0MOBtZd3KW/pWe1tscyondcE3I3V6WLfKmFkdbQC
+ GqOw==
+X-Gm-Message-State: AOAM532Tb1q5VWMBPnXfaZDs/4w1naiS3UtB58pdkmvJj5jvg1DgNbus
+ oY5idJnI1917LlcINUgowMLyFg==
+X-Google-Smtp-Source: ABdhPJzw2FwStK+RZVyRtbPSabQMAXiLF4P+rmpyd+6Cyb6eLU3hIfIvx0qISb8DtHc2EfJjTsolHA==
+X-Received: by 2002:adf:82e5:: with SMTP id 92mr29435427wrc.192.1602516864360; 
+ Mon, 12 Oct 2020 08:34:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.22
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:22 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH] hw/arm/mps2: New board model mps2-386
-Date: Mon, 12 Oct 2020 16:33:34 +0100
-Message-Id: <20201012153408.9747-12-peter.maydell@linaro.org>
+Subject: [PATCH for-5.1] hw/arm/netduino2,
+ netduinoplus2: Set system_clock_scale
+Date: Mon, 12 Oct 2020 16:33:35 +0100
+Message-Id: <20201012153408.9747-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,133 +90,74 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement a model of the MPS2 with the AN386 firmware. This is
-essentially identical to the AN385 firmware, but it has a
-Cortex-M4 rather than a Cortex-M3.
+The netduino2 and netduinoplus2 boards forgot to set the system_clock_scale
+global, which meant that if guest code used the systick timer in "use
+the processor clock" mode it would hang because time never advances.
 
+Set the global to match the documented CPU clock speed of these boards.
+Judging by the data sheet this is slightly simplistic because the
+SoC allows configuration of the SYSCLK source and frequency via the
+RCC (reset and clock control) module, but we don't model that.
+
+Fixes: https://bugs.launchpad.net/qemu/+bug/1876187
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+NB: tested with "make check" only...
 
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index 9f12934ca8f..559b297e788 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -15,6 +15,7 @@
-  * as seen by the guest depend significantly on the FPGA image.
-  * We model the following FPGA images:
-  *  "mps2-an385" -- Cortex-M3 as documented in ARM Application Note AN385
-+ *  "mps2-an386" -- Cortex-M4 as documented in ARM Application Note AN386
-  *  "mps2-an511" -- Cortex-M3 'DesignStart' as documented in AN511
-  *
-  * Links to the TRM for the board itself and to the various Application
-@@ -47,6 +48,7 @@
+ hw/arm/netduino2.c     | 10 ++++++++++
+ hw/arm/netduinoplus2.c | 10 ++++++++++
+ 2 files changed, 20 insertions(+)
+
+diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
+index 79e19392b56..8f103341443 100644
+--- a/hw/arm/netduino2.c
++++ b/hw/arm/netduino2.c
+@@ -30,10 +30,20 @@
+ #include "hw/arm/stm32f205_soc.h"
+ #include "hw/arm/boot.h"
  
- typedef enum MPS2FPGAType {
-     FPGA_AN385,
-+    FPGA_AN386,
-     FPGA_AN511,
- } MPS2FPGAType;
- 
-@@ -79,6 +81,7 @@ typedef struct {
- 
- #define TYPE_MPS2_MACHINE "mps2"
- #define TYPE_MPS2_AN385_MACHINE MACHINE_TYPE_NAME("mps2-an385")
-+#define TYPE_MPS2_AN386_MACHINE MACHINE_TYPE_NAME("mps2-an386")
- #define TYPE_MPS2_AN511_MACHINE MACHINE_TYPE_NAME("mps2-an511")
- 
- #define MPS2_MACHINE(obj)                                       \
-@@ -142,7 +145,7 @@ static void mps2_common_init(MachineState *machine)
-      *
-      * Common to both boards:
-      *  0x21000000..0x21ffffff : PSRAM (16MB)
--     * AN385 only:
-+     * AN385/AN386 only:
-      *  0x00000000 .. 0x003fffff : ZBT SSRAM1
-      *  0x00400000 .. 0x007fffff : mirror of ZBT SSRAM1
-      *  0x20000000 .. 0x203fffff : ZBT SSRAM 2&3
-@@ -157,7 +160,7 @@ static void mps2_common_init(MachineState *machine)
-      *  0x20000000 .. 0x2001ffff : SRAM
-      *  0x20400000 .. 0x207fffff : ZBT SSRAM 2&3
-      *
--     * The AN385 has a feature where the lowest 16K can be mapped
-+     * The AN385/AN386 has a feature where the lowest 16K can be mapped
-      * either to the bottom of the ZBT SSRAM1 or to the block RAM.
-      * This is of no use for QEMU so we don't implement it (as if
-      * zbt_boot_ctrl is always zero).
-@@ -166,6 +169,7 @@ static void mps2_common_init(MachineState *machine)
- 
-     switch (mmc->fpga_type) {
-     case FPGA_AN385:
-+    case FPGA_AN386:
-         make_ram(&mms->ssram1, "mps.ssram1", 0x0, 0x400000);
-         make_ram_alias(&mms->ssram1_m, "mps.ssram1_m", &mms->ssram1, 0x400000);
-         make_ram(&mms->ssram23, "mps.ssram23", 0x20000000, 0x400000);
-@@ -193,6 +197,7 @@ static void mps2_common_init(MachineState *machine)
-     armv7m = DEVICE(&mms->armv7m);
-     switch (mmc->fpga_type) {
-     case FPGA_AN385:
-+    case FPGA_AN386:
-         qdev_prop_set_uint32(armv7m, "num-irq", 32);
-         break;
-     case FPGA_AN511:
-@@ -229,6 +234,7 @@ static void mps2_common_init(MachineState *machine)
- 
-     switch (mmc->fpga_type) {
-     case FPGA_AN385:
-+    case FPGA_AN386:
-     {
-         /* The overflow IRQs for UARTs 0, 1 and 2 are ORed together.
-          * Overflow for UARTs 4 and 5 doesn't trigger any interrupt.
-@@ -380,7 +386,7 @@ static void mps2_common_init(MachineState *machine)
-      */
-     lan9118_init(&nd_table[0], 0x40200000,
-                  qdev_get_gpio_in(armv7m,
--                                  mmc->fpga_type == FPGA_AN385 ? 13 : 47));
-+                                  mmc->fpga_type == FPGA_AN511 ? 47 : 13));
- 
-     system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
- 
-@@ -409,6 +415,17 @@ static void mps2_an385_class_init(ObjectClass *oc, void *data)
-     mmc->scc_id = 0x41043850;
- }
- 
-+static void mps2_an386_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    MPS2MachineClass *mmc = MPS2_MACHINE_CLASS(oc);
++/* Main SYSCLK frequency in Hz (120MHz) */
++#define SYSCLK_FRQ 120000000ULL
 +
-+    mc->desc = "ARM MPS2 with AN386 FPGA image for Cortex-M4";
-+    mmc->fpga_type = FPGA_AN386;
-+    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
-+    mmc->scc_id = 0x41043860;
-+}
-+
- static void mps2_an511_class_init(ObjectClass *oc, void *data)
+ static void netduino2_init(MachineState *machine)
  {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -435,6 +452,12 @@ static const TypeInfo mps2_an385_info = {
-     .class_init = mps2_an385_class_init,
- };
+     DeviceState *dev;
  
-+static const TypeInfo mps2_an386_info = {
-+    .name = TYPE_MPS2_AN386_MACHINE,
-+    .parent = TYPE_MPS2_MACHINE,
-+    .class_init = mps2_an386_class_init,
-+};
++    /*
++     * TODO: ideally we would model the SoC RCC and let it handle
++     * system_clock_scale, including its ability to define different
++     * possible SYSCLK sources.
++     */
++    system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
 +
- static const TypeInfo mps2_an511_info = {
-     .name = TYPE_MPS2_AN511_MACHINE,
-     .parent = TYPE_MPS2_MACHINE,
-@@ -445,6 +468,7 @@ static void mps2_machine_init(void)
- {
-     type_register_static(&mps2_info);
-     type_register_static(&mps2_an385_info);
-+    type_register_static(&mps2_an386_info);
-     type_register_static(&mps2_an511_info);
- }
+     dev = qdev_new(TYPE_STM32F205_SOC);
+     qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m3"));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
+index 958d21dd9f9..68abd3ec69d 100644
+--- a/hw/arm/netduinoplus2.c
++++ b/hw/arm/netduinoplus2.c
+@@ -30,10 +30,20 @@
+ #include "hw/arm/stm32f405_soc.h"
+ #include "hw/arm/boot.h"
  
++/* Main SYSCLK frequency in Hz (168MHz) */
++#define SYSCLK_FRQ 168000000ULL
++
+ static void netduinoplus2_init(MachineState *machine)
+ {
+     DeviceState *dev;
+ 
++    /*
++     * TODO: ideally we would model the SoC RCC and let it handle
++     * system_clock_scale, including its ability to define different
++     * possible SYSCLK sources.
++     */
++    system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
++
+     dev = qdev_new(TYPE_STM32F405_SOC);
+     qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
 -- 
 2.20.1
 
