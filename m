@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7F928ADBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 07:35:49 +0200 (CEST)
-Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EBB28ADDC
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 07:51:04 +0200 (CEST)
+Received: from localhost ([::1]:34252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRqUu-0007R7-Cg
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 01:35:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43770)
+	id 1kRqjf-0006kq-FV
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 01:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kRqTG-0005vB-0T; Mon, 12 Oct 2020 01:34:06 -0400
-Received: from ozlabs.org ([203.11.71.1]:46897)
+ id 1kRqiB-000606-SH; Mon, 12 Oct 2020 01:49:31 -0400
+Received: from ozlabs.org ([203.11.71.1]:33673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kRqTD-0001rB-77; Mon, 12 Oct 2020 01:34:05 -0400
+ id 1kRqi8-0007Ix-PR; Mon, 12 Oct 2020 01:49:31 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4C8nR918V1z9sT6; Mon, 12 Oct 2020 16:33:57 +1100 (AEDT)
+ id 4C8nn04GKKz9sT6; Mon, 12 Oct 2020 16:49:24 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1602480837;
- bh=7npcZXfxoQiFV9CiabMxq6WUU2nIGOBoSxVOtkTlxLg=;
+ d=gibson.dropbear.id.au; s=201602; t=1602481764;
+ bh=5myDoT9glAj6UIQl/rhiWg36DL4weyBKQNx5WXxr/44=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=neJN/YKroZBIdGm+CNE1Jpkh6F7FPvoN8niyQ/+TUGThBuegLfCVsOHw2rG+L3fa4
- lglIQKCzot6O3mPluGWFjpFYk1Uj/UtKmYFT4rN+nrpbEm4bhYsKAqYVK6Xxj48HYY
- 28YNZU7D6pEduWaHscvUiURGFRcvA6SK6s3aTOYE=
-Date: Mon, 12 Oct 2020 16:30:01 +1100
+ b=C3H/Kjkn7nz+f2bicfCqvKL0Nks0AGD1K2SxU26O+BH9CSfSPX4UWoWu9KEElrMcw
+ pKXBMnnrqcBZ84O9COeyhjbNQfKPWfWOMhoZ9o0ThR93wJ92JWuoUwLfJNSqBB+B+P
+ a4QkhopqRN1TBY50ltNvJKLQoW+E5bryXzbGxvI4=
+Date: Mon, 12 Oct 2020 16:38:46 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Elena Afanasova <eafanasova@gmail.com>
-Subject: Re: [PATCH] hw/net: move allocation to the heap due to very large
- stack frame
-Message-ID: <20201012053001.GD4787@yekko.fritz.box>
-References: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
- <20201010060745.GK1025389@yekko.fritz.box>
- <f505c80b88ee665a62883a69bed9d614f6ba2a66.camel@gmail.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2 0/6] spapr/xive: Activate StoreEOI in P10 compat guests
+Message-ID: <20201012053846.GE4787@yekko.fritz.box>
+References: <20201005165147.526426-1-clg@kaod.org>
+ <20201009002326.GB1025389@yekko.fritz.box>
+ <5a3af480-8e84-ddb8-e40e-e3050f6c2978@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="L6iaP+gRLNZHKoI4"
+ protocol="application/pgp-signature"; boundary="KdquIMZPjGJQvRdI"
 Content-Disposition: inline
-In-Reply-To: <f505c80b88ee665a62883a69bed9d614f6ba2a66.camel@gmail.com>
+In-Reply-To: <5a3af480-8e84-ddb8-e40e-e3050f6c2978@kaod.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 01:33:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -62,72 +61,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, jasowang@redhat.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Gustavo Romero <gromero@linux.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---L6iaP+gRLNZHKoI4
-Content-Type: text/plain; charset=us-ascii
+--KdquIMZPjGJQvRdI
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 10, 2020 at 08:53:00AM -0700, Elena Afanasova wrote:
-> On Sat, 2020-10-10 at 17:07 +1100, David Gibson wrote:
-> > On Fri, Oct 09, 2020 at 07:02:56AM -0700, Elena Afanasova wrote:
-> > > > From 09905773a00e417d3a37c12350d9e55466fdce8a Mon Sep 17 00:00:00
-> > > > 2001
-> > > From: Elena Afanasova <eafanasova@gmail.com>
-> > > Date: Fri, 9 Oct 2020 06:41:36 -0700
-> > > Subject: [PATCH] hw/net: move allocation to the heap due to very
-> > > large stack
-> > >  frame
+On Fri, Oct 09, 2020 at 07:57:32AM +0200, C=E9dric Le Goater wrote:
+> On 10/9/20 2:23 AM, David Gibson wrote:
+> > On Mon, Oct 05, 2020 at 06:51:41PM +0200, C=E9dric Le Goater wrote:
+> >> Hello,
+> >>
+> >> When an interrupt has been handled, the OS notifies the interrupt
+> >> controller with an EOI sequence. On the XIVE interrupt controller
+> >> (POWER9 and POWER10), this can be done with a load or a store
+> >> operation on the ESB interrupt management page of the interrupt. The
+> >> StoreEOI operation has less latency and improves interrupt handling
+> >> performance but it was deactivated during the POWER9 DD2.0 time-frame
+> >> because of ordering issues. POWER9 systems use the LoadEOI instead.
+> >> POWER10 has fixed the issue with a special load command which enforces
+> >> Load-after-Store ordering and StoreEOI can be safely used.
 > >=20
-> > Patch looks fine, but some more details of the motivation would be
-> > nice.  I wouldn't have thought that the size of a network packet
-> > counted as a "very large" stack frame by userspace standards.
-> >=20
+> > Do you mean that ordering is *always* enforced on P10?  Or it's a
+> > special form of load that has the ordering?
 >=20
-> gcc with wstack-usage warns that stack frame size may be ~65Kbytes
+> It's a special form of load that has the ordering, only on available=20
+> on P10. It's a no-op on P9.
 
-AFAICT, -Wstack-usage takes a parameter giving what size it will
-complain about.  What was that value, and what was the rationale for
-choosing it?
+no-op as in the load will have regular semantics, or as in the whole
+load won't do anything?
 
+I assume this meanse XIVE code needs to be updated to use that special
+load for all accesses to XIVE registers...=20
+
+> Linux commit b1f9be9392f0 ("powerpc/xive: Enforce load-after-store =20
+> ordering when StoreEOI is active") introduced the Load-after-Store=20
+> ordering offset and P10 support was added in the same 5.8 release.
+
+=2E. which I guess this does?
+
+> This is why StoreEOI should be advertised on P10 compat kernels only.=20
+> I would have preferred to introduce some extra CAS bits. that would=20
+> have been cleaner than mix the two.
+
+Ok.
+
+> The basic requirement is to advertise StoreEOI when the CPU compat
+> allows it. I have used the capabilities to toggle the feature on/off.
+> It seemed a clean way to cover all the extra needs :=20
 >=20
-> > > Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
-> > > ---
-> > >  hw/net/spapr_llan.c | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/hw/net/spapr_llan.c b/hw/net/spapr_llan.c
-> > > index 2093f1bad0..581320a0e7 100644
-> > > --- a/hw/net/spapr_llan.c
-> > > +++ b/hw/net/spapr_llan.c
-> > > @@ -688,7 +688,8 @@ static target_ulong
-> > > h_send_logical_lan(PowerPCCPU *cpu,
-> > >      SpaprVioDevice *sdev =3D spapr_vio_find_by_reg(spapr->vio_bus,
-> > > reg);
-> > >      SpaprVioVlan *dev =3D VIO_SPAPR_VLAN_DEVICE(sdev);
-> > >      unsigned total_len;
-> > > -    uint8_t *lbuf, *p;
-> > > +    uint8_t *p;
-> > > +    g_autofree uint8_t *lbuf =3D NULL;
-> > >      int i, nbufs;
-> > >      int ret;
-> > > =20
-> > > @@ -729,7 +730,7 @@ static target_ulong
-> > > h_send_logical_lan(PowerPCCPU *cpu,
-> > >          return H_RESOURCE;
-> > >      }
-> > > =20
-> > > -    lbuf =3D alloca(total_len);
-> > > +    lbuf =3D g_malloc(total_len);
-> > >      p =3D lbuf;
-> > >      for (i =3D 0; i < nbufs; i++) {
-> > >          ret =3D spapr_vio_dma_read(sdev, VLAN_BD_ADDR(bufs[i]),
+>  - switch it off on P10 if needed
+>  - switch it on on P9 for tests
+
+Ok, seems reasonable
+
+> > Also, weirdly, despite the series being addressed to me, only some of
+> > the patches ended up in my inbox, rather than the list folder :/.
 >=20
+>=20
+> Yes. I have received a few ot these :=20
+> =20
+> The original message was received at Mon, 5 Oct 2020 12:51:56 -0400
+> from m0098419.ppops.net [127.0.0.1]
+>=20
+>    ----- The following addresses had permanent fatal errors -----
+> <david@gibson.dropbear.id.au>
+
+Drat, I guess ozlabs.org fell off the net for a while.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -135,25 +140,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---L6iaP+gRLNZHKoI4
+--KdquIMZPjGJQvRdI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+D6dgACgkQbDjKyiDZ
-s5J3Pw//aUEWNttjBHkVuGKgPBmSuetBuLULUQZOMkoiwXYkM8KCaQ0VZPao/Iy5
-WIuaJd3EnWShLlyYFKnLFkiezprXYfGXKdbNlJwonQkqW23Wkdrl40LeAf7eJJzA
-ihEFVAbnYXG9AL8F89cfXBxl+/NPe4tPtELCyUcxDmc68CYhhkMB+4M55zeVz9+A
-/BXb8qk9IkrUo02nlD6MuQuCvLJkFqW+zSTbtx978rncH61l8ToaWELKAO4KBgJv
-t9ylZhAS+H1nKmcfshsQkFekKxUGbnBV2MrSdJYD6Hcnl8sW8mqORnYAB5dgTj93
-rKFneJyp7kueGayUjPraCJqPlElJYrQ17ISw1is4oPMbdin4IWp8fIM1opyPMNmU
-uH62iIQ7f9k7g2kiN6KUGUwr37BqsIkIcKHuB0yZEVrij7xdYkm/L4cM8PyK1zdD
-LL4DGlPYba9bnNX0HGScwiuTqFMNduFxPpeW7nuAKc+zp3rbrZZDmeh5XrShN983
-geT0qn/VWA/UWLcLg9i2q2zJPe9Y7s6Yd4kcU23rPx7jzHT1uY2mJ1y7N0KH8KBS
-d3eO91FrR5Sz7fTa4AwsOzv+PHY4ztUYqSjSV7fCQ3LXW85MQRG5FvZrtJnWFZ0L
-N9q2h3RWQxYniSVCrZ9P2z+r9+W64tDSioasrfErllX5+DPHxCI=
-=0Jkj
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+D6+UACgkQbDjKyiDZ
+s5L8rBAA1jUJoHK/udp5MMWNfZ8SztIMFgni7muInfQ5eHvl3ZW0rmCgqPYxTR35
+Hgsc3gMwgVmWuBLEMXrkUhIuP+q5PDDUPKxkjsNFS3tdoKyU7KBMxJ9FVQAWGptx
+k21lBxRt6ORJrYUysmEuNJp4DW5RIxwLXe1i/UzMC+cmx58Ca3L4AD8/8nYjwnVM
+DzhFw9RZ0L7NfH+dKOoN4TqVADLdSPW+t46TsGXBr6OzYouH+I2fbrvQvaCEXodS
+EbEUZglW9sMFDaVOlqxLBI3WM483Q7F6KG6DE2KKJ6MnNHVkIkhrqo67Dq2OoCzS
+T2QXpdBdKsJ1oc3ztmBR8XEaiObUAYdxKKNL/RLzp4pqU7bE2oh0D9728h1EXLrI
+JoPx7dJ9ojEaZB8z2QuuFJGs3RG6LbHkfPajK7JP5xeNo1A8DHfyxtWeGAhlKQhO
+CBs+aujpsUevpHxBaO1DJ0kH7DcLF6kuzmYEvdBIr2zSM4VILrEqcj5D9JJgXryk
+WsBFCjbAzgU4530akOviIkwE/4foYaXNbaBIIX3mhV2g8VD2nsr7Q+C8OqFAp827
+oIiPyGGNVOTm9prnQKI903d7ZjyhUHtejk3O+6ydYcFKxh3G9SzZ2+84Lj9TjJjM
+JFAPokNFE5SKmvRxIiHu7trT9xgw0C/YUqnFm4zAT2j7Tw7eWJ8=
+=vnGP
 -----END PGP SIGNATURE-----
 
---L6iaP+gRLNZHKoI4--
+--KdquIMZPjGJQvRdI--
 
