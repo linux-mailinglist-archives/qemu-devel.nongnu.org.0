@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAB628BD23
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:02:24 +0200 (CEST)
-Received: from localhost ([::1]:59578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EEA328BD30
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:05:09 +0200 (CEST)
+Received: from localhost ([::1]:40936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0HH-0001J0-Lf
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:02:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58062)
+	id 1kS0Jw-0005AT-3a
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzth-0003eP-Ea
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:38:01 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37173)
+ id 1kRzti-0003gD-9A
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:38:02 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRztZ-0007le-8g
+ id 1kRzta-0007lu-DE
  for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:38:01 -0400
-Received: by mail-wr1-x444.google.com with SMTP id h7so19725826wre.4
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:37:52 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id e2so17980740wme.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:37:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+Umu4egodx5sV5t4RrajGKZ+finJTlLjjG3K3DjBGHw=;
- b=oHHzeoBV6pWWnUhrUB6FQqWoC3FfjZ+znbu9NgWwx/S2Tb93kiRZSgVJSkGAFStBDQ
- BuXxmhJCm30jJb7wXkxk5um3y4TSnYzymzhgzhtPwvopgB4cNDd1WZm/8ymaW/OfooA/
- u9aPKRId7odG/luRVoOW/AvVgaoobqrtNO0M7/DoSX9VQM6V7V9dkp4353Kt6K7WcyQL
- Y5dNhdbm5OWGJeh61eVx0uzat6YCjXVyZC8GXeI3rED8cpR7WWqWt0X6U2Z8mWbMmhYA
- 0kJBgbvZxAxfSB6wp7MnfMmGTt07uBMe7PYYDf9W2l+6asEnmQMmV9pMgpt8mfdSJ563
- 26Xw==
+ bh=pVy88bjQ6oUom6zlEL/l8GFHzZ3l3YhMBHhw5mIWpLU=;
+ b=UaSav1qT/HF9VDXaf7GvktosHSLrfpM5XL+7ocwJoJ6W/6T0siB7ag0zifJ/3bnvJM
+ oAcYheet78yFETeTDYtaWXI02K+jWMHTzPKzKL4IcICDflysRfz67XeuCx4k6CLi19dd
+ /nwhqq2pTCtflxRWoc2hakUxWOz3YvliKcCmNktT3slVtgAWV2edPQjEeSCimBPwr8HA
+ 2vsteglTKaQKdKbM1WBv0v/PllACDdZ9rQr/59YADuAy6Y5mvIFhzhQvPt55IpFcc5b4
+ 9RWvp/lsi+SYqppMyPHsu3paOhxOMWCYEze4QbS4nNh6IggUEkvYuSVX150n9bWQMkKS
+ uaRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+Umu4egodx5sV5t4RrajGKZ+finJTlLjjG3K3DjBGHw=;
- b=XL59lp/cdHa8stQ+Yz+Ja2a/A9fTYImdKU/v40DZ9yzX0r2zLn8g/ZOlb1UzIfwsBL
- IvnCiVTWeXyX6FQ2p3g8+isxf92lPk6oG4d5VlCHRSjTTeBtoO92yI/Q3/jUwFvRkdwJ
- mI4sopJOSVc49lusi90Zb2can/VIoZCUBwYuuEYfzHpgqYf2KvkeGxLWNPMROG2OYQmm
- YlZ1HgRs3XCTNzETq3uEikqhWXOoozBSBrzQqtnmuzFLMEPf5iP2xg0p2ZnVI6SJhF2u
- t6oQsW4cezaKtFHqqo7B87rY1DM9SX8Nq7/uQ7VMIS9wUSw+h1Z2pHasNkcuJFfJtAiH
- GAvw==
-X-Gm-Message-State: AOAM530zZ1i6Y99qIhkYlmVcl+TsmVfE/hJ5BhS7m/JFW+KIGST0GQ9g
- 1y6THRQmXYkvUiH+3gKgjdxgrA==
-X-Google-Smtp-Source: ABdhPJwzVOsTtPivXQrUIZKbBSEM2erYgG67mu+RivDJtcX6MpRIBVjF4XYtK/eyqTm1VvgkBiEvAw==
-X-Received: by 2002:a5d:554b:: with SMTP id g11mr30811881wrw.370.1602517071926; 
- Mon, 12 Oct 2020 08:37:51 -0700 (PDT)
+ bh=pVy88bjQ6oUom6zlEL/l8GFHzZ3l3YhMBHhw5mIWpLU=;
+ b=naPIOpIYZAvU5h5OC5ZCeyZZo3lHmsSx/zmdel5qEsdAyW+4qUA2291AUUXHEZsFfx
+ LI9Gv4Xiu6i9ncTpdwbnu9IsyV6kVl1pddrNuMUx71qdhlEv6CZOtTcvvYeawENcERMW
+ ymzs/1pbrYmUuRPBJJd9Olwk0ZEYW/POnp5GIh10cTCMrB5RyBw75SqMT2lgs4mhlHNV
+ 1bV+Isexali6Muu0ThIPBZIT7R+JcBo9kQk4uBxrGn4NQ+6K5puC0ejDg3Ur6tdlTU2c
+ c0d839xnVENI0O7Dl2Ef9kSvoMfchm3sCTlW/GANgaezy6bKfh5UnDHeXc7YVoDZT5TL
+ 9g1w==
+X-Gm-Message-State: AOAM531SOSkoQvMDncjZJB/bnymT3H82KIwfmGS/8Qvxnz+6AtGGgniw
+ oew+wg4I5KYtWcZE5lCqxQA0Ig==
+X-Google-Smtp-Source: ABdhPJwQa0GzV+Pt+sSH2vIoYurYdWY/bhKwBzBJRBmWcT9qSb8+KVEk7LUcNe/c0nTrrMUIfGVtNQ==
+X-Received: by 2002:a1c:4d05:: with SMTP id o5mr11028771wmh.94.1602517073036; 
+ Mon, 12 Oct 2020 08:37:53 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y66sm7095961wmd.14.2020.10.12.08.37.50
+ by smtp.gmail.com with ESMTPSA id y66sm7095961wmd.14.2020.10.12.08.37.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:37:51 -0700 (PDT)
+ Mon, 12 Oct 2020 08:37:52 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 03/10] target/arm: Implement v8.1M conditional-select insns
-Date: Mon, 12 Oct 2020 16:37:39 +0100
-Message-Id: <20201012153746.9996-4-peter.maydell@linaro.org>
+Subject: [PATCH 04/10] target/arm: Make the t32 insn[25:23]=111 group
+ non-overlapping
+Date: Mon, 12 Oct 2020 16:37:40 +0100
+Message-Id: <20201012153746.9996-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153746.9996-1-peter.maydell@linaro.org>
 References: <20201012153746.9996-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,100 +90,84 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v8.1M brings four new insns to M-profile:
- * CSEL  : Rd = cond ? Rn : Rm
- * CSINC : Rd = cond ? Rn : Rm+1
- * CSINV : Rd = cond ? Rn : ~Rm
- * CSNEG : Rd = cond ? Rn : -Rm
+The t32 decode has a group which represents a set of insns
+which overlap with B_cond_thumb because they have [25:23]=111
+(which is an invalid condition code field for the branch insn).
+This group is currently defined using the {} overlap-OK syntax,
+but it is almost entirely non-overlapping patterns. Switch
+it over to use a non-overlapping group.
 
-Implement these.
+For this to be valid syntactically, CPS must move into the same
+overlapping-group as the hint insns (CPS vs hints was the
+only actual use of the overlap facility for the group).
+
+The non-overlapping subgroup for CLREX/DSB/DMB/ISB/SB is no longer
+necessary and so we can remove it (promoting those insns to
+be members of the parent group).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/t32.decode  |  3 +++
- target/arm/translate.c | 55 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
+Just a minor bit of tidying that I did while I was trying to
+work out whether the v8.1M loop/branch insns needed to go in
+this group. (As it turns out, they don't.)
+---
+ target/arm/t32.decode | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 7069d821fde..d8454bd814e 100644
+index d8454bd814e..7d5e000e82c 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
-@@ -90,6 +90,9 @@ SBC_rrri         1110101 1011 . .... 0 ... .... .... ....     @s_rrr_shi
+@@ -296,8 +296,8 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+ {
+   # Group insn[25:23] = 111, which is cond=111x for the branch below,
+   # or unconditional, which would be illegal for the branch.
+-  {
+-    # Hints
++  [
++    # Hints, and CPS
+     {
+       YIELD      1111 0011 1010 1111 1000 0000 0000 0001
+       WFE        1111 0011 1010 1111 1000 0000 0000 0010
+@@ -310,20 +310,18 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+       # The canonical nop ends in 0000 0000, but the whole rest
+       # of the space is "reserved hint, behaves as nop".
+       NOP        1111 0011 1010 1111 1000 0000 ---- ----
++
++      # If imod == '00' && M == '0' then SEE "Hint instructions", above.
++      CPS        1111 0011 1010 1111 1000 0 imod:2 M:1 A:1 I:1 F:1 mode:5 \
++                 &cps
+     }
+ 
+-    # If imod == '00' && M == '0' then SEE "Hint instructions", above.
+-    CPS          1111 0011 1010 1111 1000 0 imod:2 M:1 A:1 I:1 F:1 mode:5 \
+-                 &cps
+-
+     # Miscellaneous control
+-    [
+-      CLREX      1111 0011 1011 1111 1000 1111 0010 1111
+-      DSB        1111 0011 1011 1111 1000 1111 0100 ----
+-      DMB        1111 0011 1011 1111 1000 1111 0101 ----
+-      ISB        1111 0011 1011 1111 1000 1111 0110 ----
+-      SB         1111 0011 1011 1111 1000 1111 0111 0000
+-    ]
++    CLREX        1111 0011 1011 1111 1000 1111 0010 1111
++    DSB          1111 0011 1011 1111 1000 1111 0100 ----
++    DMB          1111 0011 1011 1111 1000 1111 0101 ----
++    ISB          1111 0011 1011 1111 1000 1111 0110 ----
++    SB           1111 0011 1011 1111 1000 1111 0111 0000
+ 
+     # Note that the v7m insn overlaps both the normal and banked insn.
+     {
+@@ -351,7 +349,7 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+     HVC          1111 0111 1110 ....  1000 .... .... ....     \
+                  &i imm=%imm16_16_0
+     UDF          1111 0111 1111 ----  1010 ---- ---- ----
+-  }
++  ]
+   B_cond_thumb   1111 0. cond:4 ...... 10.0 ............      &ci imm=%imm21
  }
- RSB_rrri         1110101 1110 . .... 0 ... .... .... ....     @s_rrr_shi
  
-+# v8.1M CSEL and friends
-+CSEL             1110101 0010 1 rn:4 10 op:2 rd:4 fcond:4 rm:4
-+
- # Data-processing (register-shifted register)
- 
- MOV_rxrr         1111 1010 0 shty:2 s:1 rm:4 1111 rd:4 0000 rs:4 \
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index d34c1d351a6..a7923a31b56 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -8224,6 +8224,61 @@ static bool trans_IT(DisasContext *s, arg_IT *a)
-     return true;
- }
- 
-+/* v8.1M CSEL/CSINC/CSNEG/CSINV */
-+static bool trans_CSEL(DisasContext *s, arg_CSEL *a)
-+{
-+    TCGv_i32 rn, rm, zero;
-+    DisasCompare c;
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
-+        return false;
-+    }
-+
-+    if (a->rd == 13 || a->rd == 15 || a->rn == 13 || a->fcond >= 14) {
-+        /* CONSTRAINED UNPREDICTABLE: we choose to UNDEF */
-+        return false;
-+    }
-+
-+    /* In this insn input reg fields of 0b1111 mean "zero", not "PC" */
-+    if (a->rn == 15) {
-+        rn = tcg_const_i32(0);
-+    } else {
-+        rn = load_reg(s, a->rn);
-+    }
-+    if (a->rm == 15) {
-+        rm = tcg_const_i32(0);
-+    } else {
-+        rm = load_reg(s, a->rm);
-+    }
-+
-+    switch (a->op) {
-+    case 0: /* CSEL */
-+        break;
-+    case 1: /* CSINC */
-+        tcg_gen_addi_i32(rm, rm, 1);
-+        break;
-+    case 2: /* CSINV */
-+        tcg_gen_not_i32(rm, rm);
-+        break;
-+    case 3: /* CSNEG */
-+        tcg_gen_neg_i32(rm, rm);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    arm_test_cc(&c, a->fcond);
-+    zero = tcg_const_i32(0);
-+    tcg_gen_movcond_i32(c.cond, rn, c.value, zero, rn, rm);
-+    arm_free_cc(&c);
-+    tcg_temp_free_i32(zero);
-+
-+    store_reg(s, a->rd, rn);
-+    tcg_temp_free_i32(rm);
-+
-+    return true;
-+}
-+
- /*
-  * Legacy decoder.
-  */
 -- 
 2.20.1
 
