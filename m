@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66AAC28BCF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:50:58 +0200 (CEST)
-Received: from localhost ([::1]:52080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1569528BCE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:49:18 +0200 (CEST)
+Received: from localhost ([::1]:45496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS06D-0003BO-FE
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:50:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57160)
+	id 1kS04b-0000IU-5F
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:49:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqg-0007BO-S8
+ id 1kRzqg-0007BP-RM
  for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:56 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39093)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqR-0007Lb-Bq
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:52 -0400
-Received: by mail-wr1-x442.google.com with SMTP id y12so14320746wrp.6
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:37 -0700 (PDT)
+ id 1kRzqV-0007M0-PS
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:53 -0400
+Received: by mail-wr1-x444.google.com with SMTP id b8so6466807wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2ZOYJQFgwtkRMUbE80VKve55fsHkUx0xDSOrENJ6dJU=;
- b=ugsig8zpC0Qx+KkGOBRBlUNonfjfYMyA7gA5Jc3AdMBV/ins+/IP15NmtVWDhFaoj8
- 9Ih+F4xShgRP8g3vyGIRx1APoaUM00QiQnvwPRbSNap5a/owy5IviEeRJoUr/1F/7l/M
- b+E4b/HX2tfEdgAklY9iIsimd6uJtWp8oUpu7uail11Vi6RATSWnvut1Y4Y9EXFXv9/z
- tgpfvV+bjkU2a7LR4cHUJvteOvqSWSUm81xHAuA7S8gG4CDCjEFOahnnhTPJ+hpkJer+
- UqUBUvXjtmVr+Wozf0Fpq9f4umI4GEedDkmzhK8V76aaHsYc6+Q8bzleAEcgepzizY12
- /vmA==
+ bh=K3mgJCwncdqIipiYAU+wCrFh9fTPvR4OlTHmlok7qrM=;
+ b=Bj7+/FdZqB9RAzExmsmOiXmF94g68Yoq7B3rRbQNJoLxARocJgq7e+/cd3Z2EB+fPL
+ lpWhsjvXMp3+5/c9fVh1/3XC15ZLSRLegA8vP7gelQCXbn8DTXE5G2G2al0aUoZx70DX
+ SZBB+pR9jP5nZR9pDBKsJJ6qzPoioWGFHXPGPqab0MKX6tuQoBExGuoJNybh5c/WfY06
+ drAdICUToc0lzLUidzGmSPtruCnAGy6in3Gl6mK2CtVUqCzUB5pWomUcWh+QAwOqIj4U
+ FGtXqmWgKaRhWOTHQCzmB+WEgVamfhGNzaS8IvUAmm2IcI82hmLbXraSs4/3Qr9WS3Hq
+ s11g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2ZOYJQFgwtkRMUbE80VKve55fsHkUx0xDSOrENJ6dJU=;
- b=NfX+u526EkXW9LCRLvcu3MUBO4qvZRHR7L3WXEWWI0zMOpfDeFYPGChoCDEzE6xhKJ
- LpBOgV8LnXBzcw1nfje3yLGFuHYHthYzR3BEJTHTe+2N3NmoTHgp6i1W0B4Q25FympG1
- 7Ed45zq0Jn1RS10LyzCMh5jOLquZrQRwUS/qkUkJCAU6TTuMISFXGFXfA4GFSKz9Hhm+
- 8viQtne05BTfA/qXnYXp2dSRVJWAzNoL0+ln5PTzXr52sXkm1oFCrPmdqbN4g/HtmM7T
- Yc2aNykW43wCwtG6wd4ImsNBxyMK995h7WzvgePQ3/QbNUoskZUFF2eKMNn0w3qsVtOA
- jHfA==
-X-Gm-Message-State: AOAM530hR+co4EabXZ/vN/AQN8Cw1Voe6FTM30e9ut9eEpHr06obWqob
- WDOG8rPn8wq9UFQfqEyBsWj0EqlkOQoEg9Vf
-X-Google-Smtp-Source: ABdhPJxZm6nnn0K48lVEgiUOdZmwQiTJ0RP/8c3cPgDbRk09d+UNt0geOYKLeCGxNb/9WWn9Y4n09Q==
-X-Received: by 2002:a5d:6642:: with SMTP id f2mr30396139wrw.374.1602516876795; 
- Mon, 12 Oct 2020 08:34:36 -0700 (PDT)
+ bh=K3mgJCwncdqIipiYAU+wCrFh9fTPvR4OlTHmlok7qrM=;
+ b=ExPBrmktJDOFP6dJxavfeQmQ7L+RRVJ/JgZN1ohJrEl/mciqrrGXiZ5UShwmygFgL6
+ XQQ1AuL4ErPtoTMakmbt2q2ryQnADWf06OKRrQu+hhRF+b53zWg1Ha+nHuoZBkfrHN0X
+ cH6bHjUp3SN10Bt35o7utZXTVYrCjC6Y/jdHmItU7Kego5tRjEOZ8lAWt3oxDHjGGaze
+ HkdzQcjZgKTebP7/qn4j6Lxt85Qfxy3lcAbLXP78+AOpYU4F6xYnQUvRL9GHA8F7IdQ7
+ WDxAqQhBN2GFDkpmA5QCgGJho50su641xcDpoPxPeePbl4YjBl7A6lcJCOS3H5CZOdzP
+ n0SA==
+X-Gm-Message-State: AOAM532zxtKal3h2m8mSpnQDcW1Q24eQd2ED/T25bdl4fiLoepJkYEcX
+ gK9wDOIC2s0Qfw+51dk7CnKcHA==
+X-Google-Smtp-Source: ABdhPJy9wuUwn1hc0KCqDmwk70wk0pFJBqFe3c+BBtGV26se4FEi9Ayxuoywz6ALEANsd5GGfWNK0g==
+X-Received: by 2002:a5d:6a51:: with SMTP id t17mr14288975wrw.80.1602516877958; 
+ Mon, 12 Oct 2020 08:34:37 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.35
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:36 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:37 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH] meson.build: Don't look for libudev for static builds
-Date: Mon, 12 Oct 2020 16:33:46 +0100
-Message-Id: <20201012153408.9747-24-peter.maydell@linaro.org>
+Subject: [PATCH] msf2-soc, stellaris: Don't wire up SYSRESETREQ
+Date: Mon, 12 Oct 2020 16:33:47 +0100
+Message-Id: <20201012153408.9747-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,40 +89,91 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-commit f01496a314d916 moved the logic for detecting libudev from
-configure to meson.build, but in the process it dropped the condition
-that meant we only ask pkg-config about libudev for a non-static
-build.
-
-This breaks static builds of the system emulators on at least Ubuntu
-18.04.4, because on that host there is no static libudev but
-pkg-config still claims it exists.
-
-Reinstate the logic that we had in the configure check.
+The MSF2 SoC model and the Stellaris board code both wire
+SYSRESETREQ up to a function that just invokes
+    qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+This is now the default action that the NVIC does if the line is
+not connected, so we can delete the handling code.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-We could certainly do something cleverer here, but basic "convert
-from configure to meson" should in general not also be changing the
-detection logic IMHO.  We can make the logic smarter as a follow-on
-patch if desired.
----
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/msf2-soc.c  | 11 -----------
+ hw/arm/stellaris.c | 12 ------------
+ 2 files changed, 23 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 3161c1f037a..07da66e1d81 100644
---- a/meson.build
-+++ b/meson.build
-@@ -271,7 +271,7 @@ if 'CONFIG_CURL' in config_host
-                             link_args: config_host['CURL_LIBS'].split())
- endif
- libudev = not_found
--if targetos == 'linux' and (have_system or have_tools)
-+if targetos == 'linux' and (have_system or have_tools) and not enable_static
-   libudev = dependency('libudev',
-                        required: get_option('mpath').enabled(),
-                        static: enable_static)
+diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
+index 33ea7df342c..d2c29e82d13 100644
+--- a/hw/arm/msf2-soc.c
++++ b/hw/arm/msf2-soc.c
+@@ -30,7 +30,6 @@
+ #include "hw/irq.h"
+ #include "hw/arm/msf2-soc.h"
+ #include "hw/misc/unimp.h"
+-#include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+ 
+ #define MSF2_TIMER_BASE       0x40004000
+@@ -59,13 +58,6 @@ static const int spi_irq[MSF2_NUM_SPIS] = { 2, 3 };
+ static const int uart_irq[MSF2_NUM_UARTS] = { 10, 11 };
+ static const int timer_irq[MSF2_NUM_TIMERS] = { 14, 15 };
+ 
+-static void do_sys_reset(void *opaque, int n, int level)
+-{
+-    if (level) {
+-        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+-    }
+-}
+-
+ static void m2sxxx_soc_initfn(Object *obj)
+ {
+     MSF2State *s = MSF2_SOC(obj);
+@@ -130,9 +122,6 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
+         return;
+     }
+ 
+-    qdev_connect_gpio_out_named(DEVICE(&s->armv7m.nvic), "SYSRESETREQ", 0,
+-                                qemu_allocate_irq(&do_sys_reset, NULL, 0));
+-
+     system_clock_scale = NANOSECONDS_PER_SECOND / s->m3clk;
+ 
+     for (i = 0; i < MSF2_NUM_UARTS; i++) {
+diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+index 28eb15c76ca..5f9d0801807 100644
+--- a/hw/arm/stellaris.c
++++ b/hw/arm/stellaris.c
+@@ -18,7 +18,6 @@
+ #include "hw/boards.h"
+ #include "qemu/log.h"
+ #include "exec/address-spaces.h"
+-#include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/arm/armv7m.h"
+ #include "hw/char/pl011.h"
+@@ -1206,14 +1205,6 @@ static void stellaris_adc_init(Object *obj)
+     qdev_init_gpio_in(dev, stellaris_adc_trigger, 1);
+ }
+ 
+-static
+-void do_sys_reset(void *opaque, int n, int level)
+-{
+-    if (level) {
+-        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+-    }
+-}
+-
+ /* Board init.  */
+ static stellaris_board_info stellaris_boards[] = {
+   { "LM3S811EVB",
+@@ -1317,9 +1308,6 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
+     /* This will exit with an error if the user passed us a bad cpu_type */
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(nvic), &error_fatal);
+ 
+-    qdev_connect_gpio_out_named(nvic, "SYSRESETREQ", 0,
+-                                qemu_allocate_irq(&do_sys_reset, NULL, 0));
+-
+     if (board->dc1 & (1 << 16)) {
+         dev = sysbus_create_varargs(TYPE_STELLARIS_ADC, 0x40038000,
+                                     qdev_get_gpio_in(nvic, 14),
 -- 
 2.20.1
 
