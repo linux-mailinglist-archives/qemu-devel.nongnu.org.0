@@ -2,73 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10ED828BD44
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:08:26 +0200 (CEST)
-Received: from localhost ([::1]:52836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C6F28BD48
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:10:16 +0200 (CEST)
+Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0N7-0001kr-3B
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:08:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58604)
+	id 1kS0Ot-0004lj-KS
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:10:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kRzvs-0006Fk-5s
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:40:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45015)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kRzvp-0007y0-PX
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:40:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602517212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DVixEqqeVflPHK11GmgrAi8rnouQH4p1O5TKpM7BIUs=;
- b=PKXc1HlCIvpGT1yOphgFX9bt+m0zr7igvvDoTrdzBMvkozgD5+O8bl9ibr1gRA9gcfRv9H
- vLskeU97zVzRmBUw3UOT43++VGJzGQzFGQnddPXZtIqzn37vBjSoHYxyj4UomlJrJgjTAY
- fWIk95e0i5hmNJdIl8dsauJuTAbEbnk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-6awFRsR1N4C7aMZlm4e4VA-1; Mon, 12 Oct 2020 11:40:08 -0400
-X-MC-Unique: 6awFRsR1N4C7aMZlm4e4VA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DD3A107464F;
- Mon, 12 Oct 2020 15:40:07 +0000 (UTC)
-Received: from localhost (ovpn-115-4.ams2.redhat.com [10.36.115.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2835D5D9CD;
- Mon, 12 Oct 2020 15:39:53 +0000 (UTC)
-Date: Mon, 12 Oct 2020 16:39:53 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: Requirements for out-of-process device emulation
-Message-ID: <20201012153953.GC145304@stefanha-x1.localdomain>
-References: <20201009161815.GA321402@stefanha-x1.localdomain>
- <20201009134449.041b5e71@x1.home>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kRzy6-0008Sk-LZ; Mon, 12 Oct 2020 11:42:34 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:61655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kRzy3-0008OK-MJ; Mon, 12 Oct 2020 11:42:33 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 45C6A746335;
+ Mon, 12 Oct 2020 17:42:26 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2306D74632C; Mon, 12 Oct 2020 17:42:26 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 21343746307;
+ Mon, 12 Oct 2020 17:42:26 +0200 (CEST)
+Date: Mon, 12 Oct 2020 17:42:26 +0200 (CEST)
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] Deprecate TileGX port
+In-Reply-To: <20201012153408.9747-2-peter.maydell@linaro.org>
+Message-ID: <d5d29e6-3fb9-927f-ae9e-67c67786391f@eik.bme.hu>
+References: <20201012153408.9747-1-peter.maydell@linaro.org>
+ <20201012153408.9747-2-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201009134449.041b5e71@x1.home>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0vzXIDBeUiKkjNJl"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,68 +56,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>,
- Daniele Buono <dbuono@us.ibm.com>, slp@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- Hubertus Franke <frankeh@us.ibm.com>, rust-vmm@lists.opendev.org,
- Thanos Makatos <thanos.makatos@nutanix.com>
+Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
---0vzXIDBeUiKkjNJl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 12 Oct 2020, Peter Maydell wrote:
+> Deprecate our TileGX target support:
+> * we have no active maintainer for it
+> * it has had essentially no contributions (other than tree-wide cleanups
+>   and similar) since it was first added
+> * the Linux kernel dropped support in 2018, as has glibc
+>
+> Note the deprecation in the manual, but don't try to print a warning
+> when QEMU runs -- printing unsuppressable messages is more obtrusive
+> for linux-user mode than it would be for system-emulation mode, and
+> it doesn't seem worth trying to invent a new suppressible-error
+> system for linux-user just for this.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> We discussed dropping this target last year:
+> https://patchew.org/QEMU/20191012071210.13632-1-philmd@redhat.com/
+> and before that in 2018, when Chen told us he didn't have time
+> to work on tilegx any more:
+> https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg03955.html
+> Given that tilegx is no longer in upstream Linux I think it makes sense
+> to finally deprecate-and-drop our linux-user support for it.
+>
+> docs/system/deprecated.rst | 11 +++++++++++
+> 1 file changed, 11 insertions(+)
+>
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 3a255591c34..e9097e089bb 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -387,6 +387,17 @@ The above, converted to the current supported format::
+>
+>   json:{"file.driver":"rbd", "file.pool":"rbd", "file.image":"name"}
+>
+> +linux-user mode CPUs
+> +--------------------
+> +
+> +``tilegx`` CPUs (since 5.1.0)
+> +'''''''''''''''''''''''''''''
 
-On Fri, Oct 09, 2020 at 01:44:49PM -0600, Alex Williamson wrote:
-> On Fri, 9 Oct 2020 17:18:15 +0100
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > Extensibility for new bus types
-> > ```````````````````````````````
-> > It should be possible to support multiple bus types. vhost-user only
-> > supports vhost devices. VFIO is more extensible but currently focussed
-> > on PCI devices.
->=20
-> Wait a sec, the vfio API essentially deconstructs devices into exactly
-> the resources you've outlined above.  We not only have a vfio-pci
-> device convention within vfio, but we've defined vfio-platform,
-> vfio-amba, vfio-ccw, vfio-ap, and we'll likely be adding vfio-fsl-mc in
-> the next kernel.  The core device, group, and container model within
-> vfio is completely device/bus agnostic.  So while it's true that
-> vfio-pci is the most mature and featureful convention, that's largely a
-> reflection that PCI is the most ubiquitous device interface currently
-> available.  Thanks,
+Is that 5.2?
 
-Hi Alex,
-Yes, I don't mean to say that VFIO cannot support new bus types.
+Regards,
+BALATON Zoltan
 
-The most likely new bus type I can foresee is QEMU's SysBus, which would
-allow moving ISA, System-on-Chip, etc devices into a separate process.
-
-We'll need to figure out whether vfio-user evolves independently from
-the kernel VFIO ioctl interface or whether efforts are made to keep the
-two in sync. The kernel may not need SysBus, but as the vfio-user
-protocol diverges from the kernel VFIO ioctl interface it becomes harder
-to share the commands and avoid duplication.
-
-Stefan
-
---0vzXIDBeUiKkjNJl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+EeMgACgkQnKSrs4Gr
-c8h1Ywf/eIQr/18sJt/dqjy25EKLxXHJiTklYCicP6hnMsnZJcy27Zyu9o0C5kRv
-Etf22l7GvKPWcz/cc5ZE0LoS6qXlqEBiuhdzBLohcQtqhLdarWZMZZGaO5ImcYah
-vk6gn3mg6tD0nrZi8YYQXqmoKRdu0e71DCvM+2zn6QoRczt1sIvWSju5mIy0vlyc
-kKY837yCLaHTAoJthswXIvqb4zKATBoN8fNy4muexP1lKBvUxXDT4gCn/A04qPbf
-PSrR3Ya33r0KwCznAeiTBuaBfDtVxW1cnLplUwJpBkE27z58VT/i5PfRK85cSB0r
-hMDMLDggZ0dNESZrxUfejBSbfRZJPg==
-=zVFf
------END PGP SIGNATURE-----
-
---0vzXIDBeUiKkjNJl--
-
+> +
+> +The ``tilegx`` guest CPU support (which was only implemented in
+> +linux-user mode) is deprecated and will be removed in a future version
+> +of QEMU. Support for this CPU was removed from the upstream Linux
+> +kernel in 2018, and has also been dropped from glibc.
+> +
+> Related binaries
+> ----------------
+>
+>
 
