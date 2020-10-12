@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAC428AF60
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 09:42:19 +0200 (CEST)
-Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D78228AFA7
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 10:09:09 +0200 (CEST)
+Received: from localhost ([::1]:51288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRsTK-0000e4-Ig
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 03:42:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42294)
+	id 1kRstH-0007QH-SV
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 04:09:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRsS1-0008Ef-9r
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 03:40:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRsRz-0001xe-BY
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 03:40:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602488454;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=opeKW/zWxutObCzHHz2C/UN0tqFEd2SvidaKb4QsBBU=;
- b=RN15SIs7o0Qn9GTh2idAoYBK7IbzEWQ1o99KSTioRRguoy1lIn9lsdso1fPmG5IryhxAn+
- SPJLcmXrQ6BCfdyjms/Ehd+7yt67rTvbemy69wZiYKoUsgi3M2XrCsFouD09Um4xTnd5WD
- eoJyyzSVUh8IaSC+TWqNYRLEXp50VRQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-G4rjLdFSOw-YUBPKZ_8MvQ-1; Mon, 12 Oct 2020 03:40:50 -0400
-X-MC-Unique: G4rjLdFSOw-YUBPKZ_8MvQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF2731005504;
- Mon, 12 Oct 2020 07:40:48 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-22.ams2.redhat.com [10.36.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BAC1475131;
- Mon, 12 Oct 2020 07:40:46 +0000 (UTC)
-Subject: Re: [PATCH 3/5] MAINTAINERS: Downgrade status of MIPS Boston to "Odd
- Fixes"
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201009165208.2905569-1-f4bug@amsat.org>
- <20201009165208.2905569-4-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <945e6bbe-51a3-6bf6-8387-e2acf0901738@redhat.com>
-Date: Mon, 12 Oct 2020 09:40:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1kRssE-0006qr-V5
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 04:08:02 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1kRssC-0004pO-Vp
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 04:08:02 -0400
+Received: by mail-pl1-x642.google.com with SMTP id w11so420695pll.8
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 01:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BWDQO5aPrAfLfnQelq3/3NNlBK1si0DmmIdvr2r8kNg=;
+ b=IwbT+GU1M44w/A02IZ6ldAQqSgsFDaNcgaQY5Er+GH0cfF8buW3/uVhsgiozAXh1PO
+ FBW3arADSVJguipvFIYs/c+sl2A7/zw8x0IKG/S79AY005INvpAw7vii+rFIXnBUfTvh
+ CDJgqFdOcMtBY7LldLEsptDn97K2ScIgoUtz/MzaKqW0nJFRpGxZOUv0aPNe9y5oGQ28
+ ZP/3kqiCqMtwSmuCUcOECcOlQy1UX5+8QHxCx7LP68lWC9PQrvEgvoGC4XuaV6ZRRdLG
+ VXL+HzmaiQalU5Jh0SHEg/OLMcPybRUYpYFmV6sYGkw/xQ6zwyPczKQ/KesEAoQQn10q
+ y5dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BWDQO5aPrAfLfnQelq3/3NNlBK1si0DmmIdvr2r8kNg=;
+ b=I7Wqc4070s8KRtEqlBQlW0iML8o+H5lAPy1sTOLE+ts3tZKNnKAVz9YAtLCGfi12CQ
+ tGIDGU5+K8g7rCpwWvtrkz56iERFU0IcM8jJRweNsAvoIZep824i8znbLsg1r/kdag1w
+ FxBns2gvWe2XW8jblRMF5jVc+tV76yx7yritvo+2aKRb54ZUimgVBKz23GMUt/v3wPOG
+ SdDMD8YFaIA1kBpnVfaUjdmu1hVS1GrbpQ1XmrWrYwq2NVH1SS41+tU6Pj7nL8rKZsij
+ iV8xgZJNzcAOdqROdjG9UbfOa/7s5L8zxntOIV2kksGwBSRy4CN+aphjNy0d8sd9m7o5
+ dz3w==
+X-Gm-Message-State: AOAM531Of/49Mumt7YDiQdC3lZfrNImFarve+bcdSjN5Q3cQP8uc67r+
+ 2j1mBgxglOdwsHGVEEwpPCSSQq+aYCzEMvmSgNvZjQ==
+X-Google-Smtp-Source: ABdhPJyUACD1vHMjM3m/Lg7DVTi3LJRhJU1utEcgNtAa+eLsbDe94MtBXaVCCdr883IjG7pdLs3AGbobtsHflV3Sk+E=
+X-Received: by 2002:a17:902:b595:b029:d4:db82:4403 with SMTP id
+ a21-20020a170902b595b02900d4db824403mr4334605pls.49.1602490078807; Mon, 12
+ Oct 2020 01:07:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201009165208.2905569-4-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <74151CBD-4750-4E68-9127-21076C019036@getmailspring.com>
+ <CAFEAcA9cZPgaHGuCs0J20YJ48V2eXHFFRsb9a56xFULjtFtn3g@mail.gmail.com>
+In-Reply-To: <CAFEAcA9cZPgaHGuCs0J20YJ48V2eXHFFRsb9a56xFULjtFtn3g@mail.gmail.com>
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+Date: Mon, 12 Oct 2020 11:07:48 +0300
+Message-ID: <CAD8XO3bE3PTrZjxHVWE3_7Dif_WXySSnQTU=kf_yekFrgf4J3g@mail.gmail.com>
+Subject: Re: Re%3A [PATCH v4 1%2F2] hw%2Fwatchdog%3A Implement SBSA watchdog
+ device&In-Reply-To=<CAD8XO3YmTC7fzxttg%3DQLMpJbg7uLogatxN7q7vf-iGZjyQLjjQ%40mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,49 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chen Huacai <zltjiangshi@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Paul Burton <paulburton@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Shashi Mallela <shashi.mallela@linaro.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/10/2020 18.52, Philippe Mathieu-Daudé wrote:
-> Paul's Wavecomp email has been bouncing for months. He told us
-> he "no longer has access to modern MIPS CPUs or Boston hardware,
-> and wouldn't currently have time to spend on them if he did." [1]
-> but "perhaps that might change in the future." [2].
-> Be fair and downgrade the status of the Boston board to "Odd Fixes"
-> (has a maintainer but they don't have time to do much other).
+> +static uint64_t sbsa_gwdt_rread(void *opaque, hwaddr addr, unsigned int size)
+> +{
+> +    uint32_t ret;
+> +
+> +    if (addr == SBSA_GWDT_WRR) {
+> +        /* watch refresh read has no effect and returns 0 */
+> +        ret = 0;
+> +    } else {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "bad address in refresh frame read :"
+> +
 
-When I read this patch description ("email bouncing"), I wondered why you
-did not also update Paul's email address here. Then I saw that you're doing
-this in the next patch. So I'd recommend to either scratch the first
-sentence of your patch description here, or to merge the two patches.
+Then it has to be  uint32_t ret = 0;
 
- Thomas
-
-> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718739.html
-> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg728605.html
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2de5943e388..782743b7ef0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1163,7 +1163,7 @@ F: hw/intc/loongson_liointc.c
->  Boston
->  M: Paul Burton <pburton@wavecomp.com>
->  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> -S: Maintained
-> +S: Odd Fixes
->  F: hw/core/loader-fit.c
->  F: hw/mips/boston.c
->  F: hw/pci-host/xilinx-pcie.c
-> 
-
+On Fri, 9 Oct 2020 at 20:51, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Fri, 9 Oct 2020 at 18:30, Shashi Mallela <shashi.mallela@linaro.org> wrote:
+> >
+> > The value being returned here is 0 (initialized to 0 at the beginning of read function).
+> > I have seen similar practices being followed in other qemu implementations like for example bcm2835_dma_read() in qemu/hw/dma/bcm2835_dma.c,a9_scu_read() in qemu/hw/misc/a9scu.c.
+> >
+> > Please confirm if you would still like to add specific value like 0xdeadbeef for bad read offset.
+>
+> Judging by the subject line you've mangled the headers on this
+> email so I'm not sure exactly what this was a reply to,
+> but in general QEMU doesn't do that kind of "return
+> specific marker values for bad register offsets". We
+> typically log it with a qemu_log_mask(LOG_GUEST_ERROR) and
+> return 0 (unless the h/w does something else).
+>
+> thanks
+> -- PMM
 
