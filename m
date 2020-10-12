@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C3828B4A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:33:14 +0200 (CEST)
-Received: from localhost ([::1]:50102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B9728B4EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:48:52 +0200 (CEST)
+Received: from localhost ([::1]:53408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRx0r-0001ym-LB
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56462)
+	id 1kRxFy-00073T-No
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRwvx-0005qf-Fv
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:28:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23795)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCW-0004lc-Mt
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRwvv-0006Cd-FI
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:28:09 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCT-0008SJ-5p
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602505686;
+ s=mimecast20190719; t=1602506711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=plnZZZCVxgXXJPFVOHnuh5Pe0AHG0Eyi5aYw9WHIkco=;
- b=YVmhqiL8bAkcscVzkVpmmb6sRghjAZuvZumxwpuWJk0ZILeCelB1ftTYSEFHOsuR2BJf3E
- K59EVFawEpxE5yaA0/zp6nJoqQDSRAErKZwahdg992m5RPLPR+E5Y+dJcS242HqRjjLNV8
- ct1sQkpDz1ZNnN3G9UNNMFYfspLlhjQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-zIjWmsXmOUqnSCXwLU1sAQ-1; Mon, 12 Oct 2020 08:28:04 -0400
-X-MC-Unique: zIjWmsXmOUqnSCXwLU1sAQ-1
-Received: by mail-wr1-f72.google.com with SMTP id f11so9224239wro.15
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 05:28:04 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0VfM6Y1Z4oOM9AviCLT3C6cOeCH1n4rJ8RPo235glro=;
+ b=VBbOWDvQSSdjtN9g2mulYJNfC31+ky2cslFVpOIEnMgFJ99frMoIk1NazuVFo+e+YX37Ow
+ d+OQ07M1f+WGu5C1U9/YhQotPJXp1ItMXk/+KeIhCPmKzqpiGGqgG/ZrqBqTKPuxg+VeVc
+ s/Ch5tXdWdTUcEPkMqM88HvwSBcMhqA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-Gtjf4e_eNLWwdrwGi9-t-w-1; Mon, 12 Oct 2020 08:45:10 -0400
+X-MC-Unique: Gtjf4e_eNLWwdrwGi9-t-w-1
+Received: by mail-wm1-f71.google.com with SMTP id m14so5192215wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 05:45:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=plnZZZCVxgXXJPFVOHnuh5Pe0AHG0Eyi5aYw9WHIkco=;
- b=ImMB0bbT++vTEZdCEjUAzw/Cly4hEy5ogQg7Ih2PldvxHHcDgK5nycbXx+MI9NG1FH
- Ke0t2ATuU6PAvG2i1QWuQUdM2gr340+6/WsZwJo/Sk8Htx9iEC2xqFUpNylaqV9b1m7j
- cfestIQtGTC2HLPwNsVQGO6LyHFa2LcwwGKkBXIZi6e7olwinCHL7OFdPwpveihLPmQd
- zQNn8klj4c7JrcJw6vXPKyUqqrJm0YYzQQkYq5gcQZPuewaBGabVtk1S5Hgf04z6P8VO
- CBLynOQFD/Hic9Gnu4SChyKo6jq0WXxBAZ0RAdTMe84Nts2y4rSVy0zaqdPk2n5a9pBA
- pkxw==
-X-Gm-Message-State: AOAM530RIwDUUEYtYHkJBTuS4B2XTtrCS5pmFc5ZAOYuijPrcYPcW6r0
- 1bk3q7LHPAD3ko3q1zG0+QXGoOoqBTi1bqffhnwAmrRdkzHQ08GG9PoeVj91WqowyoAv4JdsDJn
- /NU4FKldcWOw23g4=
-X-Received: by 2002:a1c:a3c2:: with SMTP id m185mr8633432wme.161.1602505681921; 
- Mon, 12 Oct 2020 05:28:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYvdBzLGTGinRNhKWAf4Orm0U7MgjIWG+FaAtJ+vTHylLfT5HKjpTu2oL31+36nsSCRx63Fg==
-X-Received: by 2002:a1c:a3c2:: with SMTP id m185mr8633416wme.161.1602505681693; 
- Mon, 12 Oct 2020 05:28:01 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UtSObLJfNIzbJcrgKRU5Cu+zNLd9lEQsFGBvfOC7Lok=;
+ b=lf1nDdML4leYdsbsVcGvuWjIjm6PSEpiXaMEaFV/xjtKDzH30INW5parl4xxIQ+HbX
+ 7bLAygSjnlaJfogMPMZ8ndKUGHWLmaqqJp7ko+JrPhiShyRl63mieZWNCOYSfOHXZSsn
+ h9IA5i6x+aEphtD6au7y80c7UQ7KYDNAvaYcqRgkfcvMhqGUB1g4wckfCrDD3tHMjyr5
+ wT1dOMQCAo0vQQ840dbi9EhJCGJvwUlzwS5R1BTXu8VUHizjHrmRwVAWQNJRraJBzOsc
+ QUCoKYMVWePTdHnNCiFGCgoQqT1qD9ryV9IoZJWY565TGSVgNIBdFnnwr3+7tWVIM4Z/
+ AhsA==
+X-Gm-Message-State: AOAM533cvNX2j/zSKouJk1ON9hqs6CRArGn4vNzlL0hOrscqceJlKmXj
+ rGkD+VYvISsLjRjkl6RWEUCtWDE3sAjJDo3q57jGmPct12hfsT5HyRUyuZ+/U6+i4CWOLgHprJQ
+ v69nQq7G6bJM+js8=
+X-Received: by 2002:a5d:46c1:: with SMTP id g1mr9137862wrs.101.1602506709379; 
+ Mon, 12 Oct 2020 05:45:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyz6hFiVJHdaU7cfa/kbxEMNRyQTLhhCcs5f5STC6wr7DnE8rXhJdscPh109XPd+XACdRYSYQ==
+X-Received: by 2002:a5d:46c1:: with SMTP id g1mr9137815wrs.101.1602506709130; 
+ Mon, 12 Oct 2020 05:45:09 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id x15sm27756648wrr.36.2020.10.12.05.28.00
+ by smtp.gmail.com with ESMTPSA id d2sm14916054wrq.34.2020.10.12.05.45.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 05:28:01 -0700 (PDT)
+ Mon, 12 Oct 2020 05:45:08 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] migration: stop returning errno from load_snapshot()
-Date: Mon, 12 Oct 2020 14:27:43 +0200
-Message-Id: <20201012122743.3390867-4-philmd@redhat.com>
+Subject: [PATCH 0/5] hw: Use PCI macros from 'hw/pci/pci.h'
+Date: Mon, 12 Oct 2020 14:45:01 +0200
+Message-Id: <20201012124506.3406909-1-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201012122743.3390867-1-philmd@redhat.com>
-References: <20201012122743.3390867-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
@@ -82,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,168 +92,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
+ Helge Deller <deller@gmx.de>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
-
-None of the callers care about the errno value since there is a full
-Error object populated. This gives consistency with save_snapshot()
-which already just returns a boolean value.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-[PMD: Return false/true instead of -1/0, document function]
-Acked-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/migration/snapshot.h |  9 ++++++++-
- migration/savevm.c           | 19 +++++++++----------
- monitor/hmp-cmds.c           |  2 +-
- replay/replay-snapshot.c     |  2 +-
- softmmu/vl.c                 |  2 +-
- 5 files changed, 20 insertions(+), 14 deletions(-)
-
-diff --git a/include/migration/snapshot.h b/include/migration/snapshot.h
-index a40c34307b5..9bc989a6b49 100644
---- a/include/migration/snapshot.h
-+++ b/include/migration/snapshot.h
-@@ -23,6 +23,13 @@
-  * On failure, store an error through @errp and return %false.
-  */
- bool save_snapshot(const char *name, Error **errp);
--int load_snapshot(const char *name, Error **errp);
-+/**
-+ * save_snapshot: Load a snapshot.
-+ * @name: path to snapshot
-+ * @errp: pointer to error object
-+ * On success, return %true.
-+ * On failure, store an error through @errp and return %false.
-+ */
-+bool load_snapshot(const char *name, Error **errp);
- 
- #endif
-diff --git a/migration/savevm.c b/migration/savevm.c
-index fd2e5e8b663..531bb2eca1e 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2864,7 +2864,7 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
-     migration_incoming_state_destroy();
- }
- 
--int load_snapshot(const char *name, Error **errp)
-+bool load_snapshot(const char *name, Error **errp)
- {
-     BlockDriverState *bs_vm_state;
-     QEMUSnapshotInfo sn;
-@@ -2874,16 +2874,16 @@ int load_snapshot(const char *name, Error **errp)
-     MigrationIncomingState *mis = migration_incoming_get_current();
- 
-     if (!bdrv_all_can_snapshot(errp)) {
--        return -ENOTSUP;
-+        return false;
-     }
-     ret = bdrv_all_find_snapshot(name, errp);
-     if (ret < 0) {
--        return ret;
-+        return false;
-     }
- 
-     bs_vm_state = bdrv_all_find_vmstate_bs(errp);
-     if (!bs_vm_state) {
--        return -ENOTSUP;
-+        return false;
-     }
-     aio_context = bdrv_get_aio_context(bs_vm_state);
- 
-@@ -2892,11 +2892,11 @@ int load_snapshot(const char *name, Error **errp)
-     ret = bdrv_snapshot_find(bs_vm_state, &sn, name);
-     aio_context_release(aio_context);
-     if (ret < 0) {
--        return ret;
-+        return false;
-     } else if (sn.vm_state_size == 0) {
-         error_setg(errp, "This is a disk-only snapshot. Revert to it "
-                    " offline using qemu-img");
--        return -EINVAL;
-+        return false;
-     }
- 
-     /*
-@@ -2917,7 +2917,6 @@ int load_snapshot(const char *name, Error **errp)
-     f = qemu_fopen_bdrv(bs_vm_state, 0);
-     if (!f) {
-         error_setg(errp, "Could not open VM state file");
--        ret = -EINVAL;
-         goto err_drain;
-     }
- 
-@@ -2933,14 +2932,14 @@ int load_snapshot(const char *name, Error **errp)
- 
-     if (ret < 0) {
-         error_setg(errp, "Error %d while loading VM state", ret);
--        return ret;
-+        return false;
-     }
- 
--    return 0;
-+    return true;
- 
- err_drain:
-     bdrv_drain_all_end();
--    return ret;
-+    return false;
- }
- 
- void vmstate_register_ram(MemoryRegion *mr, DeviceState *dev)
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index f48173820ff..521fcf96eba 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1123,7 +1123,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
- 
-     vm_stop(RUN_STATE_RESTORE_VM);
- 
--    if (load_snapshot(name, &err) == 0 && saved_vm_running) {
-+    if (!load_snapshot(name, &err) && saved_vm_running) {
-         vm_start();
-     }
-     hmp_handle_error(mon, err);
-diff --git a/replay/replay-snapshot.c b/replay/replay-snapshot.c
-index 4f2560d1568..b2893659370 100644
---- a/replay/replay-snapshot.c
-+++ b/replay/replay-snapshot.c
-@@ -83,7 +83,7 @@ void replay_vmstate_init(void)
-                 exit(1);
-             }
-         } else if (replay_mode == REPLAY_MODE_PLAY) {
--            if (load_snapshot(replay_snapshot, &err) != 0) {
-+            if (!load_snapshot(replay_snapshot, &err)) {
-                 error_report_err(err);
-                 error_report("Could not load snapshot for icount replay");
-                 exit(1);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 5a11a62f78a..6eaa6b3a09a 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -4478,7 +4478,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     register_global_state();
-     if (loadvm) {
-         Error *local_err = NULL;
--        if (load_snapshot(loadvm, &local_err) < 0) {
-+        if (!load_snapshot(loadvm, &local_err)) {
-             error_report_err(local_err);
-             autostart = 0;
-             exit(1);
--- 
-2.26.2
+Trivial patches using the generic PCI macros from "hw/pci/pci.h".=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (5):=0D
+  hw/pci-host/bonito: Make PCI_ADDR() macro more readable=0D
+  hw/pci-host: Use the PCI_BUILD_BDF() macro from 'hw/pci/pci.h'=0D
+  hw/pci-host/uninorth: Use the PCI_FUNC() macro from 'hw/pci/pci.h'=0D
+  hw: Use the PCI_SLOT() macro from 'hw/pci/pci.h'=0D
+  hw: Use the PCI_DEVFN() macro from 'hw/pci/pci.h'=0D
+=0D
+ hw/arm/virt.c          | 3 ++-=0D
+ hw/hppa/dino.c         | 2 +-=0D
+ hw/i386/xen/xen-hvm.c  | 2 +-=0D
+ hw/isa/piix3.c         | 2 +-=0D
+ hw/mips/gt64xxx_pci.c  | 2 +-=0D
+ hw/pci-host/bonito.c   | 5 ++---=0D
+ hw/pci-host/pnv_phb4.c | 2 +-=0D
+ hw/pci-host/ppce500.c  | 2 +-=0D
+ hw/pci-host/uninorth.c | 8 +++-----=0D
+ hw/ppc/ppc4xx_pci.c    | 2 +-=0D
+ hw/sh4/sh_pci.c        | 2 +-=0D
+ 11 files changed, 15 insertions(+), 17 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
