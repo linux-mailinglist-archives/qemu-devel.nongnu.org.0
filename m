@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465A628BFFD
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 20:48:26 +0200 (CEST)
-Received: from localhost ([::1]:37510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F44428C022
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 20:59:17 +0200 (CEST)
+Received: from localhost ([::1]:44480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS2rx-0000gi-9i
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 14:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40062)
+	id 1kS32S-0006tv-3t
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 14:59:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <srs0=obtr=dt=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kS2ZV-0004Cb-Mw
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 14:29:21 -0400
-Received: from gate-2.cri.epita.net ([163.5.55.20]:48734
- helo=mail-2.srv.cri.epita.fr)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <srs0=obtr=dt=lse.epita.fr=cesar.belley@cri.epita.fr>)
- id 1kS2ZM-0004Dr-6t
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 14:29:21 -0400
-Received: from [172.20.10.2] (unknown [37.172.107.98])
- (Authenticated sender: cesar.belley)
- by mail-2.srv.cri.epita.fr (Postfix) with ESMTPSA id 9905F415C8;
- Mon, 12 Oct 2020 20:28:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lse.epita.fr; s=cri;
- t=1602527346; bh=Xk6vEREJYuV/jBBDU2hIMS/zKt9iFDgHDsw33NoSXXw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=d3a/vG7USicfnhWO01owxdmcsy3pCoN03epO1sa6YvnMO42P9/w+aTpv4gE93JOWU
- KRqR2fjqqXlwkGeU6ZlJUNPoIT8rerNrXoBeJKT6AeqPZ6065woeR8sFmJAi0/A5Bs
- EK3FzYS2Pyo6ERAMNLx8cV36EBjmDEAdD+8w78Sw=
-Subject: Re: [RFC PATCH 2/2] contrib/gitdm: Add more academic domains
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20201004204010.2048608-1-f4bug@amsat.org>
- <20201004204010.2048608-3-f4bug@amsat.org>
-From: =?UTF-8?Q?C=c3=a9sar_Belley?= <cesar.belley@lse.epita.fr>
-Message-ID: <d9daf2af-eaeb-4a82-4742-137d23d56ca4@lse.epita.fr>
-Date: Mon, 12 Oct 2020 20:28:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kS2zJ-0003mK-0J
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 14:56:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kS2z7-0007Fs-2E
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 14:55:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kS2z4-00078b-0B
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 18:55:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BE86F2E8104
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 18:55:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201004204010.2048608-3-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=163.5.55.20;
- envelope-from=srs0=obtr=dt=lse.epita.fr=cesar.belley@cri.epita.fr;
- helo=mail-2.srv.cri.epita.fr
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 14:29:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 12 Oct 2020 18:48:18 -0000
+From: Gannet <1775702@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: windows10
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aderumier-odiso costinel giox069 h-sieger ken20001
+ lemosov
+X-Launchpad-Bug-Reporter: Giovanni Panozzo (giox069)
+X-Launchpad-Bug-Modifier: Gannet (ken20001)
+References: <152840439622.3676.18260529468873821664.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160252849854.16378.4147869928717169060.malone@chaenomeles.canonical.com>
+Subject: [Bug 1775702] Re: High host CPU load and slower guest after upgrade
+ guest OS Windows 10 to ver 1803
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
+X-Launchpad-Hash: 51dfe2bfeafd5a4a042fbd2495945055f2f33872
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 14:55:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,106 +74,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mike Ryan <mikeryan@isi.edu>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
- Vince Weaver <vince@csl.cornell.edu>, qemu-devel@nongnu.org,
- Xinyu Li <precinct@mail.ustc.edu.cn>,
- Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>,
- Amir Charif <amir.charif@cea.fr>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- Alex Barcelo <abarcelo@ac.upc.edu>,
- =?UTF-8?Q?Llu=c3=ads_Vilanova?= <vilanova@ac.upc.edu>,
- linzhecheng <linzc@zju.edu.cn>,
- Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>,
- Dayeol Lee <dayeol@berkeley.edu>, Nickolai Zeldovich <nickolai@csail.mit.edu>,
- Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>,
- Brian Wheeler <bdwheele@indiana.edu>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
- Christoffer Dall <cdall@cs.columbia.edu>, Colin Lord <cdlord2@illinois.edu>,
- Gabriel Somlo <somlo@cmu.edu>, Alexander Bulekov <alxndr@bu.edu>,
- Fan Yang <Fan_Yang@sjtu.edu.cn>, Fabrice Desclaux <fabrice.desclaux@cea.fr>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Akkarit Sangpetch <asangpet@andrew.cmu.edu>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- Chen Wei-Ren <chenwj@iis.sinica.edu.tw>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Zhang Mengchi <zhangmengchi@mprc.pku.edu.cn>,
- Timothy Edward Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
+Reply-To: Bug 1775702 <1775702@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Acked-by: César Belley <cesar.belley@lse.epita.fr>
+I found that C:\Program Files (x86)\SPICE Guest
+Tools\drivers\Balloon\w10\amd64/blnsvr.exe intensively requesting
+something in WMI-provider-host. And there are a lot of errors in event
+logs about it also.
 
-On 10/4/20 10:40 PM, Philippe Mathieu-Daudé wrote:
-> There is a number of contributions from these academic domains.
-> Add the entries to the gitdm 'academic' domain map.
-> 
-> Cc: Akkarit Sangpetch <asangpet@andrew.cmu.edu>
-> Cc: Alexander Bulekov <alxndr@bu.edu>
-> Cc: Alexander Oleinik <alxndr@bu.edu>
-> Cc: Alex Barcelo <abarcelo@ac.upc.edu>
-> Cc: Brian Wheeler <bdwheele@indiana.edu>
-> Cc: Chen Wei-Ren <chenwj@iis.sinica.edu.tw>
-> Cc: Christoffer Dall <cdall@cs.columbia.edu>
-> Cc: Colin Lord <cdlord2@illinois.edu>
-> Cc: Dayeol Lee <dayeol@berkeley.edu>
-> Cc: Fan Yang <Fan_Yang@sjtu.edu.cn>
-> Cc: Gabriel Somlo <somlo@cmu.edu>
-> Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
-> Cc: linzhecheng <linzc@zju.edu.cn>
-> Cc: Lluís Vilanova <vilanova@ac.upc.edu>
-> Cc: Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
-> Cc: Mike Ryan <mikeryan@isi.edu>
-> Cc: Nickolai Zeldovich <nickolai@csail.mit.edu>
-> Cc: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-> Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> Cc: Vince Weaver <vince@csl.cornell.edu>
-> Cc: Xinyu Li <precinct@mail.ustc.edu.cn>
-> Cc: Zhang Mengchi <zhangmengchi@mprc.pku.edu.cn>
-> Cc: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
-> Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> Cc: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
-> Cc: Timothy Edward Baldwin <T.E.Baldwin99@members.leeds.ac.uk>
-> Cc: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-> Cc: César Belley <cesar.belley@lse.epita.fr>
-> Cc: Amir Charif <amir.charif@cea.fr>
-> Cc: Fabrice Desclaux <fabrice.desclaux@cea.fr>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> To the developers Cc'ed: If you agree with the entry of your
-> domain, please reply with a Reviewed-by/Acked-by tag. If you
-> disagree or doesn't care, please either reply with Nack-by or
-> ignore this patch.
-> I'll repost in 2 weeks as formal patch (not RFC) with only the
-> entries acked by their author.
-> One Reviewed-by/Ack-by from someone from a domain should be
-> sufficient to get the domain included in the final patch.
-> ---
->  contrib/gitdm/group-map-academics | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
-> index c7b0dd46a3..fd42bb8069 100644
-> --- a/contrib/gitdm/group-map-academics
-> +++ b/contrib/gitdm/group-map-academics
-> @@ -11,9 +11,17 @@ ispras.ru
->  pavel.dovgaluk@gmail.com
->  
->  # Columbia University
-> -cs.columbia.edu
->  cota@braap.org
->  
->  jiaxun.yang@flygoat.com
->  
->  artem.k.pisarenko@gmail.com
-> +
-> +uni-paderborn.de
-> +edu
-> +ac.uk
-> +edu.cn
-> +edu.tw
-> +cmp.felk.cvut.cz
-> +epita.fr
-> +cea.fr
-> -- 
-> 2.26.2
->
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1775702
+
+Title:
+  High host CPU load and slower guest after upgrade guest OS Windows 10
+  to ver 1803
+
+Status in QEMU:
+  New
+
+Bug description:
+  After upgrading Windows 10 guest to version 1803, guests VM runs
+  slower and there is high host CPU load even when guest is almost idle.
+  Did not happened with windows 10 up to version 1709.
+
+  See my 1st report here:
+  https://askubuntu.com/questions/1033985/kvm-high-host-cpu-load-after-upgr=
+ading-vm-to-windows-10-1803
+
+  Another user report is here:
+  https://lime-technology.com/forums/topic/71479-windows-10-vm-cpu-usage/
+
+  Tested on: Ubuntu 16.04 with qemu 2.5.0 and i3-3217U, Arch with qemu
+  2.12 i5-7200U, Ubuntu 18.04 qemu 2.11.1 AMD FX-4300. All three
+  platform showing the same slowdown and higher host cpu load with
+  windows 10 1803 VM compared to windows 10 1709 VM.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1775702/+subscriptions
 
