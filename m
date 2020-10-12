@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434B528B178
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 11:25:06 +0200 (CEST)
-Received: from localhost ([::1]:47850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03D628B17D
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 11:27:12 +0200 (CEST)
+Received: from localhost ([::1]:50840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRu4n-0008SK-CC
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 05:25:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
+	id 1kRu6p-0001Zf-PN
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 05:27:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kRu3M-0007aE-Gu; Mon, 12 Oct 2020 05:23:36 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49278
+ id 1kRu5x-0000ip-M7; Mon, 12 Oct 2020 05:26:17 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49290
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kRu3K-0006Nh-JM; Mon, 12 Oct 2020 05:23:36 -0400
+ id 1kRu5w-0006kc-7J; Mon, 12 Oct 2020 05:26:17 -0400
 Received: from host86-158-109-18.range86-158.btcentralplus.com
  ([86.158.109.18] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kRu3E-00043v-Rq; Mon, 12 Oct 2020 10:23:33 +0100
+ id 1kRu5t-000452-Vs; Mon, 12 Oct 2020 10:26:17 +0100
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20201011190332.3189611-1-f4bug@amsat.org>
+References: <20201011200112.3222822-1-f4bug@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <85549ebe-6644-3c45-0e56-e4d5c509ea80@ilande.co.uk>
-Date: Mon, 12 Oct 2020 10:23:25 +0100
+Message-ID: <a1181b86-cf4d-1b20-c741-4de6cbe96dc5@ilande.co.uk>
+Date: Mon, 12 Oct 2020 10:26:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201011190332.3189611-1-f4bug@amsat.org>
+In-Reply-To: <20201011200112.3222822-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.18
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] hw/pci-host/grackle: Verify PIC link is properly set
+Subject: Re: [PATCH] target/sparc/int32_helper: Remove duplicated 'Tag
+ Overflow' entry
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,44 +65,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-trivial@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/2020 20:03, Philippe Mathieu-Daudé wrote:
+On 11/10/2020 21:01, Philippe Mathieu-Daudé wrote:
 
-> The Grackle PCI host model expects the interrupt controller
-> being set, but does not verify it is present. Add a check to
-> help developers using this model.
+> Commit 0b09be2b2f ("Nicer debug output for exceptions") added
+> twice the same "Tag Overflow" entry, remove the extra one.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/pci-host/grackle.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  target/sparc/int32_helper.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
-> index 57c29b20afb..20361d215ca 100644
-> --- a/hw/pci-host/grackle.c
-> +++ b/hw/pci-host/grackle.c
-> @@ -76,6 +76,10 @@ static void grackle_realize(DeviceState *dev, Error **errp)
->      GrackleState *s = GRACKLE_PCI_HOST_BRIDGE(dev);
->      PCIHostState *phb = PCI_HOST_BRIDGE(dev);
->  
-> +    if (!s->pic) {
-> +        error_setg(errp, TYPE_GRACKLE_PCI_HOST_BRIDGE ": 'pic' link not set");
-> +        return;
-> +    }
->      phb->bus = pci_register_root_bus(dev, NULL,
->                                       pci_grackle_set_irq,
->                                       pci_grackle_map_irq,
+> diff --git a/target/sparc/int32_helper.c b/target/sparc/int32_helper.c
+> index 9a71e1abd87..ba63c739c1e 100644
+> --- a/target/sparc/int32_helper.c
+> +++ b/target/sparc/int32_helper.c
+> @@ -50,7 +50,6 @@ static const char * const excp_names[0x80] = {
+>      [TT_EXTINT | 0xd] = "External Interrupt 13",
+>      [TT_EXTINT | 0xe] = "External Interrupt 14",
+>      [TT_EXTINT | 0xf] = "External Interrupt 15",
+> -    [TT_TOVF] = "Tag Overflow",
+>      [TT_CODE_ACCESS] = "Instruction Access Error",
+>      [TT_DATA_ACCESS] = "Data Access Error",
+>      [TT_DIV_ZERO] = "Division By Zero",
 
-Reviewing this now, my feeling is that both grackle and uninorth are doing the wrong
-thing here by passing in a link to the PIC - certainly if I had written this more
-recently than I originally did, I would simply use qdev_init_gpio_out() for the IRQ
-lines and do the wiring during machine init.
-
-I've got a few other things to look at first, but I'll post a patchset later which I
-think will improve this for both Mac machines.
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
