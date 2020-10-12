@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6451828C69D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 03:07:16 +0200 (CEST)
-Received: from localhost ([::1]:45898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EA028C552
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 01:40:25 +0200 (CEST)
+Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS8mX-000234-RP
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 21:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44996)
+	id 1kS7QV-0004Ma-Qg
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 19:40:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kS7Gh-0001oT-7x; Mon, 12 Oct 2020 19:30:15 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:44388)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kS7OG-0002rA-IW; Mon, 12 Oct 2020 19:38:04 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:37236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kS7GO-000625-II; Mon, 12 Oct 2020 19:30:13 -0400
-Received: by mail-pf1-f196.google.com with SMTP id f19so15201921pfj.11;
- Mon, 12 Oct 2020 16:29:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kS7OE-00072r-KB; Mon, 12 Oct 2020 19:38:04 -0400
+Received: by mail-pl1-x635.google.com with SMTP id o8so9602745pll.4;
+ Mon, 12 Oct 2020 16:38:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B7IjE2xUJ+z4Uoif5FJHL1Lc3PIu0CWe7/RpAKb+qHo=;
+ b=qH2Y/MhB34dp1Fo9uC1mrybE7ZzSNXqKBZecLvVSPOzmYyhORAkdMjItgQxoF2bZ+u
+ oSsdxYGc/b/OR7jl7L6m2lKEzrst3pMPyYh9pBsvCBLl8hh6swFmo0mL5epYxC4hj1bU
+ Moh2X8sPUiOnxtJTS88isazMGjWGhSrD22jCOgnSLJDjquKU2h9cklpZOJ4YbA14ols4
+ 08II4RgYN7a19vkIYV1LQTYNKHPWwf+5rKrX7DZnA9EhU9W91QzNq2xVXYIh7wss0UgH
+ /nHnDj9UZ24VL1VoxSailsQpp9jEGb3tg0QmKtM02gHOaacEAsHoV53pCZHkpr4n2j/g
+ wgvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aerwzx5CfwUpxb8Z2TCaJlKj8/Zz1MgoB4yIi6WTy8A=;
- b=H+XF6N4ieDoKJLQHhxI0G7pJZ3M0TkRZcUhZmLxBPC7ln2Ef2fOrFaGHpAcpvAnyiX
- cLEta2ufIS7YPb3nIjTfVZQsbcbnW6XxqDGr6wckg7+2QIq1qeptHMyoNNVNdwHAnfp8
- tktkHJ+2PTpRgZ6/vYxnmLzvhe7Mr2rGzWhHLCUr1dAH+G8gcDSu3YQekDZ6t0HUi8Aa
- WXNRRZKdMdG7/jWF8U7lzr1pIUP5L1bhGktn3BocQ/JctYcTrHhadAYvfCJ1LZJiWemf
- /dqworBK75YjcL3sIfIfBM8gOkow9IdhsalAGVXQs/qcUftjp4DEeSqT5Fn6zyU/8Sgo
- eyGQ==
-X-Gm-Message-State: AOAM5304usnX54zsoyTNnIKFJLv8J/bMWyGSvDpZoHU+XQd2+LUASXqb
- 6lojfrhDlnLdFp8gmGOtejD+Jcr/RlQ=
-X-Google-Smtp-Source: ABdhPJw6Q63KKM7KuIQtZyrjkDJ/AR4FnKvCNY/ZVRydf4WBgXcBKNA6LJK8CfOim6TVo8hlgAC+Xw==
-X-Received: by 2002:a17:90b:4389:: with SMTP id
- in9mr22375562pjb.177.1602545394880; 
- Mon, 12 Oct 2020 16:29:54 -0700 (PDT)
-Received: from localhost.localdomain ([73.93.152.174])
- by smtp.gmail.com with ESMTPSA id f21sm8088315pfk.169.2020.10.12.16.29.53
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 12 Oct 2020 16:29:54 -0700 (PDT)
-From: Joelle van Dyne <j@getutm.app>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B7IjE2xUJ+z4Uoif5FJHL1Lc3PIu0CWe7/RpAKb+qHo=;
+ b=e09sL64bzrRMvd3h2s5XPrqiRm4To7uVeGm+cweRSO1Pr3q1auedNZMx51mpuhaKBo
+ SAy4UW5QQQw9csR7yYuHNJOHb28dQyWuLEfJSk8+QMTIu3eqVmD/JFmPCn+sThVBsgeA
+ l5mEM34ElYVes6e2zTVgi8clncFUceHJGfAaRmJHORAQSKbtgsz+gRYTD/AZacirsH1i
+ s97mt8iuHOVFzx+s1tDWZJew0e1u2u3CymVIhRhr1Odp42sjcuiMsIdX2tNT/JQm6k7b
+ U0fRzk64j3BDwsloZ3DBqTTWiMTSvo2h8qmt3SKARedwjD9kLniqWV17OMVuEaAg6Muz
+ OSaQ==
+X-Gm-Message-State: AOAM530xZcmPROjh8KUNZZvNgMJm6Yodny0vKhwsA/GkD4exHRU2mxEJ
+ Hfy53zbwz+vOAP9Pt3ppV1CtjKcIT+dgkA==
+X-Google-Smtp-Source: ABdhPJxQwg9AVQplS8vxfwGBJime9nqBqCNBlKRoYt0LOSlUlCBBStgJTmL+JwsCfJGhm4wzQfcPkw==
+X-Received: by 2002:a17:902:6ac7:b029:d3:9c6b:9311 with SMTP id
+ i7-20020a1709026ac7b02900d39c6b9311mr25156393plt.0.1602545879749; 
+ Mon, 12 Oct 2020 16:37:59 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id
+ x12sm21975783pfr.156.2020.10.12.16.37.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 16:37:58 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/10] block: check availablity for preadv/pwritev on mac
-Date: Mon, 12 Oct 2020 16:29:39 -0700
-Message-Id: <20201012232939.48481-11-j@getutm.app>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201012232939.48481-1-j@getutm.app>
-References: <20201012232939.48481-1-j@getutm.app>
+Subject: [PATCH v7 0/4] Improve cirrus msys2
+Date: Tue, 13 Oct 2020 07:37:36 +0800
+Message-Id: <20201012233740.190-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.210.196; envelope-from=osy86dev@gmail.com;
- helo=mail-pf1-f196.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 19:29:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x635.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 12 Oct 2020 20:56:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,52 +83,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Joelle van Dyne <j@getutm.app>,
- "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: osy <osy86@users.noreply.github.com>
-
-macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configure
-will succeed with CONFIG_PREADV even when targeting a lower OS version. We
-therefore need to check at run time if we can actually use these APIs.
-
-Signed-off-by: Joelle van Dyne <j@getutm.app>
----
- block/file-posix.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index cdc73b5f1d..d7482036a3 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1393,12 +1393,24 @@ static bool preadv_present = true;
- static ssize_t
- qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
-+    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+        preadv_present = false;
-+        return -ENOSYS;
-+    } else
-+#endif
-     return preadv(fd, iov, nr_iov, offset);
- }
- 
- static ssize_t
- qemu_pwritev(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* pwritev introduced in macOS 11 */
-+    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+        preadv_present = false;
-+        return -ENOSYS;
-+    } else
-+#endif
-     return pwritev(fd, iov, nr_iov, offset);
- }
- 
--- 
-2.24.3 (Apple Git-128)
-
+Fixes the broken msys2/mingw ci and speed it up.=0D
+=0D
+V6-V7=0D
+* cirrus: Enable doc build on msys2/mingw=0D
+* docs: Fixes build docs on msys2/mingw=0D
+* gitignore: ignore a bit more=0D
+* scripts: Convert qemu-version.sh to qemu-version.py=0D
+=0D
+V5-V6=0D
+Remove the university mirror, the main repo are back.=0D
+rename to setup_script.=0D
+Add fixes for msys2/mingw rST document fixes=0D
+=0D
+V4-V5=0D
+Now the cache are usefull by using 7zip to archive msys64=0D
+Saved about 18min, compare=0D
+https://cirrus-ci.com/task/5093551157542912=0D
+https://cirrus-ci.com/task/6177196538593280=0D
+=0D
+V3-V4=0D
+Using cirrus cache to speed up msys2 ci instead of downloading archive file=
+=0D
+=0D
+V2-V3=0D
+Add one more patch:=0D
+cirrus: msys2/mingw speed is up, add excluded target back=0D
+Do not build sphinx on windows, that's failing=0D
+set the number of parallel count to fixed number 8=0D
+=0D
+V1-V2=0D
+Resolve the cirrus conflict=0D
+=0D
+Yonggang Luo (4):=0D
+  scripts: Convert qemu-version.sh to qemu-version.py=0D
+  gitignore: ignore a bit more=0D
+  docs: Fixes build docs on msys2/mingw=0D
+  cirrus: Enable doc build on msys2/mingw=0D
+=0D
+ .cirrus.yml                   |  6 +++++-=0D
+ .gitignore                    |  4 +++-=0D
+ docs/conf.py                  |  2 +-=0D
+ docs/sphinx/kerneldoc.py      |  2 +-=0D
+ meson.build                   |  2 +-=0D
+ scripts/qemu-version.py       | 37 +++++++++++++++++++++++++++++++++++=0D
+ scripts/qemu-version.sh       | 25 -----------------------=0D
+ scripts/rst-sanitize.py       | 21 ++++++++++++++++++++=0D
+ tests/qapi-schema/meson.build |  5 +++--=0D
+ 9 files changed, 72 insertions(+), 32 deletions(-)=0D
+ create mode 100644 scripts/qemu-version.py=0D
+ delete mode 100755 scripts/qemu-version.sh=0D
+ create mode 100644 scripts/rst-sanitize.py=0D
+=0D
+-- =0D
+2.28.0.windows.1=0D
+=0D
 
