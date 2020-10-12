@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6965528BCE9
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:50:00 +0200 (CEST)
-Received: from localhost ([::1]:49138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2550D28BCF2
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:52:11 +0200 (CEST)
+Received: from localhost ([::1]:56378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS05H-0001py-GF
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56734)
+	id 1kS07O-00053R-6R
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqG-0006qa-OC
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:28 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46363)
+ id 1kRzqI-0006uU-6Z
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqE-0007IN-R7
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:28 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n6so19391282wrm.13
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:26 -0700 (PDT)
+ id 1kRzqF-0007Ij-RP
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:29 -0400
+Received: by mail-wr1-x441.google.com with SMTP id e18so19669593wrw.9
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NE3BHoZcVo5rUaArzOLXnKqyeyPe9cLG2NZvnHPubpg=;
- b=F0P5DqSRbWzz8LAZgY3uK7HBoazadBF6IlWYEaqn1g0simBrisdG45SWpVgDBnrJYD
- W6rwu6CQCGPbENBwQu9NGBUnFrtValWsVAss410TC9hJrS+1y6bMG1VaYrY7co18lvy7
- jXjy/wZnKlg0J5MaAg/MvYhuQ3eOjxSSYKD7a6+a6U2EjYufIpGZ7CeIDa4RbyScd1ry
- wFF3v5mMRGow0DdJVctXs087rluuEwFeJiMqMrbvJLqKjStuhc4CuWGwseRWwk+lmz7H
- yC7n8wkKaJiyJ2PMpcOM61FPUkdM2FXadGDQe1yZfoVA9+QNoRGX8iOj+nQFVvp6iCPl
- Z9ig==
+ bh=dd6UT/sJQhVQoU/A5etTLisFLDqNewMQfmLXJ1m4wic=;
+ b=sLaCeaFWyaNYwaqhma5Era5sXLXUoCCL/+CMXMHuUmtF0pAE+DyRYbkqh00Wv8oRXy
+ 5MkzjC4Fx6cO9XRznNrsrPYatsv3cA7/Cg+Odi51txC4cetgB55QhHPXdlizyXGOo5cm
+ i1XSXYZ1jnHtSpFId8l2sFEsrvLJ0WRw0Xk6hb8HF1i5ImPJT7eAfmed5x9HTcmmr/h8
+ SjAMDmdAZ/8+7e0f3hJFeJeciScIU2/8F8HTRC5NuNSkK3mx/yqWoaBYwH7fuRMPDnfi
+ LMACTMMM9xk2uztH9FZ6UQF1kuvelw+z0WVHQdidu4UkNFI/oYAP153qCTD780AF+AWk
+ vL+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NE3BHoZcVo5rUaArzOLXnKqyeyPe9cLG2NZvnHPubpg=;
- b=gNzpN/75b5cD8lxdIYw28TQZgtTOOHF/dEBQjlKxjFLLvJe8P2DFXynt0VsiBj7szO
- Ae9MQEWeShqJKrBiQRL2BiI865vA1guTpUKHRxJzmSgE2bb+JLhAu4F38/j6J2fAbNsy
- K83IvDJcoYw0/krf+7kHA73yuTYabIVcuJFmsHzNux3IXLrZnZiRHoE/0IQcb2rR0OXK
- KTjZ6UWAhfy7BuLitIilfBXOcOZEqHrUDfNjlsx8HE2iAZkHdj7KwLWWOceTb+hfHJaY
- FY81impLaTKnd1N5X1x+i7xmuJ/elOiscO3ID+tLenBn2g6lHqJnAw+qa9SJcijiHHCf
- AcHA==
-X-Gm-Message-State: AOAM531OOeSb51y6RAAGnS3HjzY9tvxefVmqERXJBLjWzWPUFpFsD7+n
- XOPN0hSGQPyuWDzZwONDF0yUfAPcm+3KetF2
-X-Google-Smtp-Source: ABdhPJygOpxOuyh0+ui0t3KAejL6l1An+uv8bVDY8/G5lKdL68i7ANWu5zyWx6XZvLVpJ4QCS5MXtw==
-X-Received: by 2002:adf:e38f:: with SMTP id e15mr30571623wrm.294.1602516865536; 
- Mon, 12 Oct 2020 08:34:25 -0700 (PDT)
+ bh=dd6UT/sJQhVQoU/A5etTLisFLDqNewMQfmLXJ1m4wic=;
+ b=ld+pzsmy6YWFwBKJb/zPRFQFsoT0EoibOb9pLgBZaS5jfSXvqf7Tq2PXy5HV7za+sz
+ bOISi7OytBR2+YW2a11q6u4lEBQc0mMopeR4yX1ZLyJSjdCtSygOMOkO3Hr89kj3WcnM
+ obZW8K03pfchoTIw2MNJBETwTlLmYF9ZQnHxpWqZyYd1KEGoiRFm3yTr8y90p04QEOk/
+ ycvZX8kVmYtPr7g63b57EHp+Q2pb0bK9MO3KyZcomr4TGio3vDd8uUrGc4emUcBCpRo6
+ mmdCfFpgPFdxSo7cZgOJWu8bdpmjg5BPJNCx+WkNX+QtycDGlywtbqfAx/rO8pqkdq3j
+ j7Sg==
+X-Gm-Message-State: AOAM53083E47NjQT6vGnmTfQg6S8vynml0GCMPAQ3AL6E18rattmJtLc
+ 6NeLXPcJ/roWbxcTZe/wBkOI4Q==
+X-Google-Smtp-Source: ABdhPJxkvN7dJjRD2U2SopzYNX3IGT1OtHqhN1PFrQ/WFa/RRJrWLRrywtP2L9q6dYWn4HggIccYWQ==
+X-Received: by 2002:adf:fac3:: with SMTP id a3mr4233875wrs.240.1602516866625; 
+ Mon, 12 Oct 2020 08:34:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.24
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:24 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-5.1] hw/arm/nrf51_soc: Set system_clock_scale
-Date: Mon, 12 Oct 2020 16:33:36 +0100
-Message-Id: <20201012153408.9747-14-peter.maydell@linaro.org>
+Subject: [PATCH] hw/display/bcm2835_fb.c: Initialize all fields of struct
+Date: Mon, 12 Oct 2020 16:33:37 +0100
+Message-Id: <20201012153408.9747-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
@@ -89,48 +89,41 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The nrf51 SoC model wasn't setting the system_clock_scale
-global.which meant that if guest code used the systick timer in "use
-the processor clock" mode it would hang because time never advances.
+In bcm2835_fb_mbox_push(), Coverity complains (CID 1429989) that we
+pass a pointer to a local struct to another function without
+initializing all its fields.  This is a real bug:
+bcm2835_fb_reconfigure() copies the whole of our new BCM2385FBConfig
+struct into s->config, so any fields we don't initialize will corrupt
+the state of the device.
 
-Set the global to match the documented CPU clock speed for this SoC.
+Copy the two fields which we don't want to update (pixo and alpha)
+from the existing config so we don't accidentally change them.
 
-This SoC in fact doesn't have a SysTick timer (which is the only thing
-currently that cares about the system_clock_scale), because it's
-a configurable option in the Cortex-M0. However our Cortex-M0 and
-thus our nrf51 and our micro:bit board do provide a SysTick, so
-we ought to provide a functional one rather than a broken one.
-
+Fixes: cfb7ba983857e40e88
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-Tested with 'make check'/'make check-acceptance' only.
+Not sure why this wasn't a visible bug -- alpha isn't used,
+but if pixo changes from zero to non-zero we flip from
+RGB to BGR...
+---
+ hw/display/bcm2835_fb.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- hw/arm/nrf51_soc.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
-index 45e6cc97d70..e15981e019f 100644
---- a/hw/arm/nrf51_soc.c
-+++ b/hw/arm/nrf51_soc.c
-@@ -32,6 +32,9 @@
+diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
+index c6263808a27..7c0e5eef2d5 100644
+--- a/hw/display/bcm2835_fb.c
++++ b/hw/display/bcm2835_fb.c
+@@ -282,6 +282,10 @@ static void bcm2835_fb_mbox_push(BCM2835FBState *s, uint32_t value)
+     newconf.base = s->vcram_base | (value & 0xc0000000);
+     newconf.base += BCM2835_FB_OFFSET;
  
- #define BASE_TO_IRQ(base) ((base >> 12) & 0x1F)
- 
-+/* HCLK (the main CPU clock) on this SoC is always 16MHz */
-+#define HCLK_FRQ 16000000
++    /* Copy fields which we don't want to change from the existing config */
++    newconf.pixo = s->config.pixo;
++    newconf.alpha = s->config.alpha;
 +
- static uint64_t clock_read(void *opaque, hwaddr addr, unsigned int size)
- {
-     qemu_log_mask(LOG_UNIMP, "%s: 0x%" HWADDR_PRIx " [%u]\n",
-@@ -65,6 +68,8 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
-         return;
-     }
+     bcm2835_fb_validate_config(&newconf);
  
-+    system_clock_scale = NANOSECONDS_PER_SECOND / HCLK_FRQ;
-+
-     object_property_set_link(OBJECT(&s->cpu), "memory", OBJECT(&s->container),
-                              &error_abort);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->cpu), errp)) {
+     pitch = bcm2835_fb_get_pitch(&newconf);
 -- 
 2.20.1
 
