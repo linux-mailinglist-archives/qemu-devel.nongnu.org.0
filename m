@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD6228B4F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:49:06 +0200 (CEST)
-Received: from localhost ([::1]:54508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A3628B52C
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:55:36 +0200 (CEST)
+Received: from localhost ([::1]:50270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRxGD-0007Vg-74
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:49:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33504)
+	id 1kRxMV-0000gi-OS
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:55:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCs-0005dv-JQ
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20510)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCx-0005n2-1D
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCp-00005Q-Kn
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:38 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRxCu-0000Ac-PQ
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:45:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602506734;
+ s=mimecast20190719; t=1602506740;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xCNLhoelsRO4TCaFqCkPA59+Ay48720LqdAdNtyWtdc=;
- b=ME0qyA/3xFXlPM+JyqDYjndNjdg9M+Bi4xYmeOb4Xfq5nl7WTbN7ImIK16TkalixutE/IG
- fU0zzkjB89xJIysW2YrWW3sqvSeypdbCUwKyuX+QmXULvqq1JUp8+LMl6nin+xFvoOqREc
- 8eMRH+tkhjTdDZB0RzkDW2zUCj1F+Ao=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-keh6b2YDNhC6QHEkA2uQYA-1; Mon, 12 Oct 2020 08:45:33 -0400
-X-MC-Unique: keh6b2YDNhC6QHEkA2uQYA-1
-Received: by mail-wr1-f71.google.com with SMTP id y6so4514394wra.9
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 05:45:32 -0700 (PDT)
+ bh=9wGxJZcsEOLAGSmgs7p8pt5WGBHmly5siKydoVe/oZE=;
+ b=Y7/HgaykXGJaGQG1ddlXdHHOTOYd1wURQ8nb8ZWa64+1Rx459M+bMwX7wddfBvNj9qjxS0
+ Nd4g8YhzGiqJl1gR4ZxzdoQRDBc+hcXr+4kjoBSHj/HFJLgm/53tHu/4vO1Jkl+62wXf48
+ ZdMH6nEJ9Jveq//6sLWsQNxuZS8qO+Q=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-579-fwcS_nsyNWOHGOu-Miv66w-1; Mon, 12 Oct 2020 08:45:38 -0400
+X-MC-Unique: fwcS_nsyNWOHGOu-Miv66w-1
+Received: by mail-wr1-f70.google.com with SMTP id 47so9255106wrc.19
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 05:45:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xCNLhoelsRO4TCaFqCkPA59+Ay48720LqdAdNtyWtdc=;
- b=nV9JSbEwm8hWQNLk6YXEAI1N/aGPXnka2lMDiTnx77MO11SIbQeOOTxpGRt3raqYiS
- 7fApxuPIto+3QMoofWoJrniHn3nwpIitgbyr2YmayQqaazfVZJEQ2knG1NFPr1MX1i9D
- wBivWhe4S5tTAk0PR++6zU2+osjczqkqSlBhv7ZTAxYEVtjzNgrwhhU7qhFlhSm4MkoA
- f79oWp2uJKtAJItf14kaOzgBvUNOyanBa7S3DUnAZ8CXxYTfJJ9JnbK5c5URViQ8OxSC
- BDL7BaapkPAE/vNfto2b6DUY6W+PrcmVoKl2K+AomRttg56w/iv+KC4bxtozLOddLJIj
- rXKQ==
-X-Gm-Message-State: AOAM533XUpksocRp/1f35mkFeI/luSWLGKPSzxRQJ2XCyC+gpBmjHNem
- ysOueQ4lpcb+hJHWvXxCghXUd8v6ijJEl9+u9S+lTZ6y8TU851ePXW88LUiKh6ZkIp71cR40Lip
- l3JQV6QtBT+MgafU=
-X-Received: by 2002:a5d:4409:: with SMTP id z9mr29211364wrq.236.1602506731773; 
- Mon, 12 Oct 2020 05:45:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxae6z034MmpPgmdTflq+mg0CAWtLHwAeKxZKoPrU70udcFRiLBlXGhJ+sn9Ujlq9DXSzSzbg==
-X-Received: by 2002:a5d:4409:: with SMTP id z9mr29211331wrq.236.1602506731500; 
- Mon, 12 Oct 2020 05:45:31 -0700 (PDT)
+ bh=9wGxJZcsEOLAGSmgs7p8pt5WGBHmly5siKydoVe/oZE=;
+ b=LV+yyIHfBFTaXJ9BgJagMr7z2D9XbwAjxpZIDoHoEHND6YZ5qCqhDlK5wyijCMw39I
+ J5Ht49wDIqVfbHO/QJCWHED/4d086BnPYjgW2ciVMuZYoWKHeDQ7mGA1/tdCfk77DMa8
+ boQ5G8P8zp9y249cjWsN+sis0quUNiy2P055tDw0UGzvmi0LCpQLQLjljH0qf+014RuV
+ QXly+/77Lee1MtNea94jFKLHtBVdMQkZmP7RTDodBSvScPaIn0lnXyI3A4RoHRW7rcgu
+ MJeNvctn44N+Qvk5vuzdzJJy4a4l5SupKkH1M/wBlJJGWbOh+ZfkR+c+AL1uq8PVBRBR
+ nPRA==
+X-Gm-Message-State: AOAM530/G/egoKso5hpfnh725CqXtb8+NiJwjtjiBfFZt0xvB6k4Tpja
+ 6mwVQTQnVRsnqUd1ptPckaQQNMUWm2kUuovWlYBfE5AAxORj6RYzgA1+QWaubhT6+I4tCfX3WBf
+ 7dC4WvdChtWNgxIk=
+X-Received: by 2002:adf:dccc:: with SMTP id x12mr30544388wrm.241.1602506737184; 
+ Mon, 12 Oct 2020 05:45:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGju9pLDMIkjylp5prt4ukBOzX2jmiDpK+NGjR15EPrzwXN0JDbAFCeWH5hcu15IBYdHhmBg==
+X-Received: by 2002:adf:dccc:: with SMTP id x12mr30544349wrm.241.1602506736967; 
+ Mon, 12 Oct 2020 05:45:36 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id l5sm24326366wrq.14.2020.10.12.05.45.29
+ by smtp.gmail.com with ESMTPSA id s185sm22765462wmf.3.2020.10.12.05.45.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 05:45:30 -0700 (PDT)
+ Mon, 12 Oct 2020 05:45:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] hw: Use the PCI_SLOT() macro from 'hw/pci/pci.h'
-Date: Mon, 12 Oct 2020 14:45:05 +0200
-Message-Id: <20201012124506.3406909-5-philmd@redhat.com>
+Subject: [PATCH 5/5] hw: Use the PCI_DEVFN() macro from 'hw/pci/pci.h'
+Date: Mon, 12 Oct 2020 14:45:06 +0200
+Message-Id: <20201012124506.3406909-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201012124506.3406909-1-philmd@redhat.com>
 References: <20201012124506.3406909-1-philmd@redhat.com>
@@ -115,125 +115,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We already have a generic PCI_SLOT() macro in "hw/pci/pci.h"
-to extract the PCI slot identifier, use it.
+We already have a generic PCI_DEVFN() macro in "hw/pci/pci.h"
+to pack the PCI slot/function identifiers, use it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/hppa/dino.c        | 2 +-
- hw/i386/xen/xen-hvm.c | 2 +-
- hw/isa/piix3.c        | 2 +-
- hw/mips/gt64xxx_pci.c | 2 +-
- hw/pci-host/bonito.c  | 2 +-
- hw/pci-host/ppce500.c | 2 +-
- hw/ppc/ppc4xx_pci.c   | 2 +-
- hw/sh4/sh_pci.c       | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
+ hw/arm/virt.c          | 3 ++-
+ hw/pci-host/uninorth.c | 6 ++----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
-index 81053b5fb64..5b82c9440d1 100644
---- a/hw/hppa/dino.c
-+++ b/hw/hppa/dino.c
-@@ -496,7 +496,7 @@ static void dino_set_irq(void *opaque, int irq, int level)
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index e465a988d68..f601ef0798c 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1144,7 +1144,8 @@ static void create_pcie_irq_map(const VirtMachineState *vms,
+                      full_irq_map, sizeof(full_irq_map));
  
- static int dino_pci_map_irq(PCIDevice *d, int irq_num)
- {
--    int slot = d->devfn >> 3;
-+    int slot = PCI_SLOT(d->devfn);
- 
-     assert(irq_num >= 0 && irq_num <= 3);
- 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index f3ababf33b6..276254e6ca9 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -140,7 +140,7 @@ typedef struct XenIOState {
- 
- int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
- {
--    return irq_num + ((pci_dev->devfn >> 3) << 2);
-+    return irq_num + (PCI_SLOT(pci_dev->devfn) << 2);
+     qemu_fdt_setprop_cells(vms->fdt, nodename, "interrupt-map-mask",
+-                           0x1800, 0, 0, /* devfn (PCI_SLOT(3)) */
++                           cpu_to_be16(PCI_DEVFN(3, 0)), /* Slot 3 */
++                           0, 0,
+                            0x7           /* PCI irq */);
  }
  
- void xen_piix3_set_irq(void *opaque, int irq_num, int level)
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 587850b8881..f46ccae25cf 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -361,7 +361,7 @@ type_init(piix3_register_types)
- static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
- {
-     int slot_addend;
--    slot_addend = (pci_dev->devfn >> 3) - 1;
-+    slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
-     return (pci_intx + slot_addend) & 3;
- }
+diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
+index c21de0ab805..f73d452bdce 100644
+--- a/hw/pci-host/uninorth.c
++++ b/hw/pci-host/uninorth.c
+@@ -70,10 +70,8 @@ static uint32_t unin_get_config_reg(uint32_t reg, uint32_t addr)
+         /* ... and then convert them to x86 format */
+         /* config pointer */
+         retval = (reg & (0xff - 7)) | (addr & 7);
+-        /* slot */
+-        retval |= slot << 11;
+-        /* fn */
+-        retval |= func << 8;
++        /* slot, fn */
++        retval |= PCI_DEVFN(slot, func) << 8;
+     }
  
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index e091bc4ed55..588e6f99301 100644
---- a/hw/mips/gt64xxx_pci.c
-+++ b/hw/mips/gt64xxx_pci.c
-@@ -982,7 +982,7 @@ static int gt64120_pci_map_irq(PCIDevice *pci_dev, int irq_num)
- {
-     int slot;
- 
--    slot = (pci_dev->devfn >> 3);
-+    slot = PCI_SLOT(pci_dev->devfn);
- 
-     switch (slot) {
-     /* PIIX4 USB */
-diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index b05295639a6..ee8b193e15b 100644
---- a/hw/pci-host/bonito.c
-+++ b/hw/pci-host/bonito.c
-@@ -570,7 +570,7 @@ static int pci_bonito_map_irq(PCIDevice *pci_dev, int irq_num)
- {
-     int slot;
- 
--    slot = (pci_dev->devfn >> 3);
-+    slot = PCI_SLOT(pci_dev->devfn);
- 
-     switch (slot) {
-     case 5:   /* FULOONG2E_VIA_SLOT, SouthBridge, IDE, USB, ACPI, AC97, MC97 */
-diff --git a/hw/pci-host/ppce500.c b/hw/pci-host/ppce500.c
-index 9517aab913e..5ad1424b31a 100644
---- a/hw/pci-host/ppce500.c
-+++ b/hw/pci-host/ppce500.c
-@@ -342,7 +342,7 @@ static const MemoryRegionOps e500_pci_reg_ops = {
- 
- static int mpc85xx_pci_map_irq(PCIDevice *pci_dev, int pin)
- {
--    int devno = pci_dev->devfn >> 3;
-+    int devno = PCI_SLOT(pci_dev->devfn);
-     int ret;
- 
-     ret = ppce500_pci_map_irq_slot(devno, pin);
-diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
-index 28724c06f88..e8789f64e80 100644
---- a/hw/ppc/ppc4xx_pci.c
-+++ b/hw/ppc/ppc4xx_pci.c
-@@ -243,7 +243,7 @@ static void ppc4xx_pci_reset(void *opaque)
-  * may need further refactoring for other boards. */
- static int ppc4xx_pci_map_irq(PCIDevice *pci_dev, int irq_num)
- {
--    int slot = pci_dev->devfn >> 3;
-+    int slot = PCI_SLOT(pci_dev->devfn);
- 
-     trace_ppc4xx_pci_map_irq(pci_dev->devfn, irq_num, slot);
- 
-diff --git a/hw/sh4/sh_pci.c b/hw/sh4/sh_pci.c
-index 73d2d0bccb0..734892f47c7 100644
---- a/hw/sh4/sh_pci.c
-+++ b/hw/sh4/sh_pci.c
-@@ -109,7 +109,7 @@ static const MemoryRegionOps sh_pci_reg_ops = {
- 
- static int sh_pci_map_irq(PCIDevice *d, int irq_num)
- {
--    return (d->devfn >> 3);
-+    return PCI_SLOT(d->devfn);
- }
- 
- static void sh_pci_set_irq(void *opaque, int irq_num, int level)
+     trace_unin_get_config_reg(reg, addr, retval);
 -- 
 2.26.2
 
