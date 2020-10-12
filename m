@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3973828B1F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 12:04:44 +0200 (CEST)
-Received: from localhost ([::1]:41910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F2A28B1EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 12:03:16 +0200 (CEST)
+Received: from localhost ([::1]:36234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRuh9-0006VC-A1
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 06:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46078)
+	id 1kRufj-0004Dw-NP
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 06:03:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRubI-0000LF-OQ
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:58:41 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34547)
+ id 1kRubO-0000Rb-E8
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:58:46 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRubH-0002oi-A2
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:58:40 -0400
-Received: by mail-wr1-x442.google.com with SMTP id i1so12323885wro.1
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 02:58:38 -0700 (PDT)
+ id 1kRubM-0002p7-VQ
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:58:46 -0400
+Received: by mail-wm1-x341.google.com with SMTP id a72so6051383wme.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 02:58:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W69f1MWd6lsJIyf72MtAUNNqNrrt140PbQJ0VWAk4GE=;
- b=q2o77w4PonIUwOsZD1vKUPejn1owgAcjw6ECoTE/8+QbGSDdeda9Zxgpq0Ou00Nrgo
- 9nPcELq+JiDLc5vPW7F051blAXDFGZimhEUCts2VYtVYji32vLtejqhyam1h9VPZ8XHP
- K1dMA7bWBxqNaGnRIwp27CAtOFGhZYbiqc89UdREvQbmyVo3otKIKLdjEhkkxQ2eeNUx
- lod7FU9H8z1hI/OSaiJ3VTlhVYaL3V0L2VfKAM93iLSafqgv064VS40SulQDs0a+LJND
- MtM1S4r2xcGDIEpyMFDcY7NniaXJchiH+1qEwx/k/gRrsQXoDAdPMJGl9jQUjFXYqyp3
- 1eXw==
+ bh=BslzpywZz3mbJWKAE8qW6xsdeqX9i4THsloWKfBnQUU=;
+ b=Nwh+UZHUYlKehslP0zzY6SNy42Av82JyPRBoOIZ0yLgo5GQPp5xUzDX709PVfKEwK6
+ EGovsbu83i+W0cATt5nzH0CKV6ao4F2Bj964FzM6HM9QBNHhWabDjzJwjh8LM9TSzBfT
+ E3QjUVrr0X8qrPI/tdVSPJjoivo416sMQ3W9uLkbhsB4GuKeeaCpg93pFGkte/z8YtEe
+ RDYBovhhg0OvXZ7hrSAEpC+qNCwyimlbGuWWOo/cE0olyZ8rE46HYKZbcDjQNo5MfcES
+ 9t7yFAzi1gGCws3r9hh4+tzrU73WuNh8FzLh1g9V8rAhP0Mywxfz8PrHURDO8+TyM96d
+ Fr3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=W69f1MWd6lsJIyf72MtAUNNqNrrt140PbQJ0VWAk4GE=;
- b=c54RPYDhl7IT6uglslyZHA9IQi8iCiFq2jagxismnieRTtUv2tDFc3EyiHDIoUq7t/
- ytn0qVcpW1FGpfGwqtsZmN/lBMrhcSV9KtyUGf9tR+r9VyPNnH7VdI0lx3A5/MPV4WXs
- RAccEfKNST8764uKYrSeDUiUgfcW4wR31LevH1pjlnV09oOY+x32/z1Yklcw1TykVgMV
- 38wvEaWzgVYnpXeHJ+NEJDVPvzKgB6cXVRd8Eb88MQRWbtU/q0r/WQPwngPRh1v6qQkw
- 6K6e0nKXtgIDKwxz24T3ozkrdwgzcN60wKZyetXvwPiSxlPPTBwL398WqezEPy15Q19Y
- bNwA==
-X-Gm-Message-State: AOAM533XMD8Y98+IVLq4lxaB3j1EmbwKdSmZswiGPamecQCS2eZvF8JC
- lqcvMHBpZtld0IlBqVUwc2m0hd75kRA=
-X-Google-Smtp-Source: ABdhPJy1J0fwTHvZzL2PvVZuHpIQ6+1hkzG7l1VDGW1QGRwcjZUV+CVKWb45g4h7P/CUgS8BOEu3gg==
-X-Received: by 2002:adf:912e:: with SMTP id j43mr28760542wrj.325.1602496717819; 
- Mon, 12 Oct 2020 02:58:37 -0700 (PDT)
+ bh=BslzpywZz3mbJWKAE8qW6xsdeqX9i4THsloWKfBnQUU=;
+ b=EOWgRjOpNt04F2aSNxLUDmSvtjRzMxEGj14s0jmfn+81Bo4qCiHedJVK+bT24FB4IN
+ wZhtQ0E82XRmDuesKNYrUzmI2zMisYclqYgffoFbybDUMvJwmkProo9dnU0PDB5zL0aw
+ 9IFhIdLCNRHiAVzeKFpQ/bKvRPwrC4S8t9ZZx6+pncmwzFijZYmnlaZBfoA2H4fQopEJ
+ Xog6aF0moQzbdpZ/QFjhWR0qLn6r7I6n/XyERkAkgf7i581A+kCGE0TB3Ztt1tf1nNlG
+ al4MSB9wlfjJJpsWf6J5cyagFRr7Ng7FFJ8/DE2EduQE3rGOzxMqxY37WWxtrJKeO5lz
+ t/pg==
+X-Gm-Message-State: AOAM530RDddVuBuoO0avrggg2jea/cSGBxdwYFIiMVl1CCugtY66p+rR
+ Emj5LFNAwa1AzqVUniKQtghng+sy5fQ=
+X-Google-Smtp-Source: ABdhPJzalZ2YSu0yCWKEpr4Z4BQCOopIXMQhbN81ghwst7hkVLMevO6SnVLpOKsb5SBQvPkxGU1HEA==
+X-Received: by 2002:a1c:a515:: with SMTP id o21mr9941774wme.75.1602496722782; 
+ Mon, 12 Oct 2020 02:58:42 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id y66sm6111467wmd.14.2020.10.12.02.58.36
+ by smtp.gmail.com with ESMTPSA id p4sm18509023wrf.67.2020.10.12.02.58.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 02:58:37 -0700 (PDT)
+ Mon, 12 Oct 2020 02:58:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 06/21] target/mips/cp0_timer: Explicit unit in variable name
-Date: Mon, 12 Oct 2020 11:57:49 +0200
-Message-Id: <20201012095804.3335117-7-f4bug@amsat.org>
+Subject: [PATCH v4 07/21] target/mips/cp0_timer: Document TIMER_PERIOD origin
+Date: Mon, 12 Oct 2020 11:57:50 +0200
+Message-Id: <20201012095804.3335117-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201012095804.3335117-1-f4bug@amsat.org>
 References: <20201012095804.3335117-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -94,7 +94,6 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Paul Burton <paulburton@kernel.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Huacai Chen <chenhc@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -102,59 +101,39 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Name variables holding nanoseconds with the '_ns' suffix.
+TIMER_PERIOD value of '10 ns' can be explained looking at
+commit 6af0bf9c7c3doc, where the CPU frequency is 200 MHz
+and CP0 default count rate is half the frequency of the
+CPU. Document that.
 
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/cp0_timer.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ target/mips/cp0_timer.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/target/mips/cp0_timer.c b/target/mips/cp0_timer.c
-index 9c38e9da1c8..5194c967ae3 100644
+index 5194c967ae3..6fec5fe0ff7 100644
 --- a/target/mips/cp0_timer.c
 +++ b/target/mips/cp0_timer.c
-@@ -32,13 +32,14 @@
+@@ -27,7 +27,17 @@
+ #include "sysemu/kvm.h"
+ #include "internal.h"
+ 
+-#define TIMER_PERIOD 10 /* 10 ns period for 100 Mhz frequency */
++/*
++ * Since commit 6af0bf9c7c3 this model assumes a CPU clocked at 200MHz
++ * and a CP0 timer running at half the clock of the CPU (cp0_count_rate = 2).
++ *
++ * TIMER_FREQ_HZ = CPU_FREQ_HZ / CP0_COUNT_RATE = 200 MHz / 2 = 100 MHz
++ *
++ * TIMER_PERIOD_NS = 1 / TIMER_FREQ_HZ = 10 ns
++ */
++#define CPU_FREQ_HZ_DEFAULT     200000000
++#define CP0_COUNT_RATE_DEFAULT  2
++#define TIMER_PERIOD            10  /* 1 / (CPU_FREQ_HZ / CP0_COUNT_RATE) */
+ 
  /* MIPS R4K timer */
  static void cpu_mips_timer_update(CPUMIPSState *env)
- {
--    uint64_t now, next;
-+    uint64_t now_ns, next_ns;
-     uint32_t wait;
- 
--    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--    wait = env->CP0_Compare - env->CP0_Count - (uint32_t)(now / TIMER_PERIOD);
--    next = now + (uint64_t)wait * TIMER_PERIOD;
--    timer_mod(env->timer, next);
-+    now_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    wait = env->CP0_Compare - env->CP0_Count -
-+           (uint32_t)(now_ns / TIMER_PERIOD);
-+    next_ns = now_ns + (uint64_t)wait * TIMER_PERIOD;
-+    timer_mod(env->timer, next_ns);
- }
- 
- /* Expire the timer.  */
-@@ -56,16 +57,16 @@ uint32_t cpu_mips_get_count(CPUMIPSState *env)
-     if (env->CP0_Cause & (1 << CP0Ca_DC)) {
-         return env->CP0_Count;
-     } else {
--        uint64_t now;
-+        uint64_t now_ns;
- 
--        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        now_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-         if (timer_pending(env->timer)
--            && timer_expired(env->timer, now)) {
-+            && timer_expired(env->timer, now_ns)) {
-             /* The timer has already expired.  */
-             cpu_mips_timer_expire(env);
-         }
- 
--        return env->CP0_Count + (uint32_t)(now / TIMER_PERIOD);
-+        return env->CP0_Count + (uint32_t)(now_ns / TIMER_PERIOD);
-     }
- }
- 
 -- 
 2.26.2
 
