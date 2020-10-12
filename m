@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1699528BD04
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:57:07 +0200 (CEST)
-Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B60228BCF1
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:51:21 +0200 (CEST)
+Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0CA-0002TZ-3N
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
+	id 1kS06a-00047R-8V
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqQ-00073c-4R
+ id 1kRzqQ-00073n-6E
  for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:39 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36596)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqL-0007KX-Q0
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:35 -0400
-Received: by mail-wm1-x342.google.com with SMTP id e2so17969383wme.1
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:33 -0700 (PDT)
+ id 1kRzqM-0007Kl-Dl
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:37 -0400
+Received: by mail-wr1-x441.google.com with SMTP id g12so19670657wrp.10
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gRnzhB6CdonM/19XlgBuso003ocyxIuCfMZY1cNIpB4=;
- b=LgeVVKXg78hozwZTdWLu2fJHYlQq4U5ka0HhWgb9QLbK1ggAKfrS5MbacohIPpQafY
- oxv1cbQVxVtyDmjGKXprveYYnsIsvdYslP4cQ5IMQ7iWiPgv/CjrnItqWKF0sMpxKh1K
- lcGxAeod9NA9P1TFrA2mysw/ozKIz+z6CllgVNBfFnkA1z0NrezP/747E8QmLZ+gYMIL
- du1aRq1HOPL1JQqV4jjXd/+Z8GgYtVmcExi4Pa4pU21BYXV/YS9npUdCobe7YGBTxt46
- PcW7a3ooGuE5o81xv5/E80lYkQOgenXN6cC3qLpmqvxWKu10zJSra9tCXw/aKnobzHIO
- X8ew==
+ bh=ZygS7xMaq3Qs9CSNEUUqz2guLfBsLuHXGM1Pvcfwirc=;
+ b=Ce6jyDHtzvLloLLAKvO7z15Q8cvs5dLx3C5wEefPUHUSvaYDZBoby/x/vpPfTFQNRI
+ riTzK3LrhaxOTWpS9ceCHfs/ICXOMHmZttSXgcayy1GhjUdrVxrKNpyrmLa3AwoOYbcA
+ 0hHlzHDpKkVDGylDCaVNBuZbWnnIaS3kYQuT6S/br+nKxo3t+A+ibSYTPOQcYQZGfmC3
+ SodEGb087qo8RpMeSMlUAOAKmgGkuKHPB3L2msboL64UNBMzl9ikSoZp+T6LSVynmYcJ
+ 7VpOlqJpNxIfngl+FC62CFEEuO9IU9XGbhxFUEYwMhQok73o/guDFTDAGvwnK4EIweeC
+ WE5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gRnzhB6CdonM/19XlgBuso003ocyxIuCfMZY1cNIpB4=;
- b=Na6fyIjrkD8r5fuEqyNM7sMlkN4/xp/8zlDn0DF7oJ8Wm5gSkjhM8BjzUyL3lLHpBp
- hoKBz9ufn2x6aEMbuJjteh2nkWzQ8yUoYIMfg7E5fy5fcOZ6rTBMntBSIofDC/AHRn47
- OPf5b+k7jy0tB1WCBnIti5dgy7kD6Q7iSDOPIZXuL7m9WHFQT7abg72+aLZrpQmaBE0i
- oaG72HQvlYQ6v5XRuLSHKVniT5NJ+453RHTL+nPVvWHwDFAs3jI8bwGH1ZYJF92FpKaE
- +kKQVnLJTuTy3xAlCVybthvkyeKrOTawMRlb/6WHudRsERyqF/1Fjg4FhM+4YnZO75B3
- MkZw==
-X-Gm-Message-State: AOAM530/60pTL8dnH5XcDSa3y9qX7jx0tAJ14kG+BtcHxVEDONobM72T
- BcaKR1MXRl+ABV8txmR0Qg/Q1A==
-X-Google-Smtp-Source: ABdhPJyGIly3cHa6mtDgpNOYPQ5o4bEJrDg7BTBDob4JuQm2Jyc8y+4MEBC1drxRf0R808xljbZjtw==
-X-Received: by 2002:a1c:59c3:: with SMTP id n186mr11469861wmb.32.1602516872259; 
- Mon, 12 Oct 2020 08:34:32 -0700 (PDT)
+ bh=ZygS7xMaq3Qs9CSNEUUqz2guLfBsLuHXGM1Pvcfwirc=;
+ b=TR7q13fS/U8LHnf8/+80sZaWV7VMpplkmwmRbt+rsQlWDS6pP8X43NwecV/9HkVfRJ
+ 0MhXUVQfEI8mw+qBUXCNwGmgmOUOLrfhQRu0oiIfznB64SGoh8orjTAKYrCvGiEUH1Eq
+ r2dbYuMQHn26veoakHKgXnhltcnHuLglL0lKo6q/Okaz89/LnUWovBy7RrGgodeWSxNC
+ Q6N86QmDcUIRCekKxRrRdSULgB3GFrbG93PHPbjywR6JaSQmmVLFh2dw6016WwE0dArN
+ Dl50EL+bBh/ArZAnCc5DQVZ+2spbJ+zrnKeDTvfqj94x/jygfM9hWTxtA9eTHXb4Hc3+
+ Wm2g==
+X-Gm-Message-State: AOAM532pq29zs+zUj7HMsAPlYSGzEjz4GprDIVEkeDkGHOJV9tnSLzD+
+ aC+ayQhGCJrWtAYZVzl6+UNiAg==
+X-Google-Smtp-Source: ABdhPJw9awCkp7QyesgefaMqZK5Q+Jrwh38JASnbjbfTYytIpnFvtPmRaw7r0qUrGr584fboAHnEKQ==
+X-Received: by 2002:a5d:5609:: with SMTP id l9mr27989065wrv.140.1602516873142; 
+ Mon, 12 Oct 2020 08:34:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.31
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:31 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-5.1] hw/timer/imx_epit: Avoid assertion when CR.SWR is
- written
-Date: Mon, 12 Oct 2020 16:33:42 +0100
-Message-Id: <20201012153408.9747-20-peter.maydell@linaro.org>
+Subject: [PATCH] hw/virtio/virtio-iommu-pci.c: Fix typo in error message
+Date: Mon, 12 Oct 2020 16:33:43 +0100
+Message-Id: <20201012153408.9747-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,57 +89,28 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The imx_epit device has a software-controllable reset triggered by
-setting the SWR bit in the CR register. An error in commit cc2722ec83ad9
-means that we will end up assert()ing if the guest does this, because
-the code in imx_epit_write() starts ptimer transactions, and then
-imx_epit_reset() also starts ptimre transactions, triggering
-"ptimer_transaction_begin: Assertion `!s->in_transaction' failed".
+Fix a typo in an error message in virtio_iommu_pci_realize():
+"Check you machine" should be "Check your machine".
 
-The cleanest way to avoid this double-transaction is to move the
-start-transaction for the CR write handling down below the check of
-the SWR bit.
-
-Fixes: https://bugs.launchpad.net/qemu/+bug/1880424
-Fixes: cc2722ec83ad944505fe
+Reported-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-I don't have a test image for KZM so this is the minimal
-obviously-safe change. I'm pretty sure that actually we could
-add a "break" after the imx_epit_reset() call because all of
-the work done by the following code is duplicating the ptimer
-setup done by the reset function. But I'm not really happy making
-that change without a test image...
----
- hw/timer/imx_epit.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ hw/virtio/virtio-iommu-pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index baf6338e1a6..4f51e6e12da 100644
---- a/hw/timer/imx_epit.c
-+++ b/hw/timer/imx_epit.c
-@@ -199,15 +199,18 @@ static void imx_epit_write(void *opaque, hwaddr offset, uint64_t value,
- 
-     switch (offset >> 2) {
-     case 0: /* CR */
--        ptimer_transaction_begin(s->timer_cmp);
--        ptimer_transaction_begin(s->timer_reload);
- 
-         oldcr = s->cr;
-         s->cr = value & 0x03ffffff;
-         if (s->cr & CR_SWR) {
-             /* handle the reset */
-             imx_epit_reset(DEVICE(s));
--        } else {
-+        }
-+
-+        ptimer_transaction_begin(s->timer_cmp);
-+        ptimer_transaction_begin(s->timer_reload);
-+
-+        if (!(s->cr & CR_SWR)) {
-             imx_epit_set_freq(s);
-         }
- 
+diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+index 632533abaf7..32e3215d1df 100644
+--- a/hw/virtio/virtio-iommu-pci.c
++++ b/hw/virtio/virtio-iommu-pci.c
+@@ -48,7 +48,7 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+                    "%s machine fails to create iommu-map device tree bindings",
+                    mc->name);
+         error_append_hint(errp,
+-                          "Check you machine implements a hotplug handler "
++                          "Check your machine implements a hotplug handler "
+                           "for the virtio-iommu-pci device\n");
+         error_append_hint(errp, "Check the guest is booted without FW or with "
+                           "-no-acpi\n");
 -- 
 2.20.1
 
