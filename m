@@ -2,84 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5955228B462
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:09:14 +0200 (CEST)
-Received: from localhost ([::1]:36884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93C228B432
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 13:55:12 +0200 (CEST)
+Received: from localhost ([::1]:60396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRwdd-0000J7-Dt
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:09:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44110)
+	id 1kRwQ3-0002nd-QG
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 07:55:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRwJn-00057A-Ft; Mon, 12 Oct 2020 07:48:43 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRwJl-0000Pw-Tv; Mon, 12 Oct 2020 07:48:43 -0400
-Received: by mail-wr1-x444.google.com with SMTP id t9so18816210wrq.11;
- Mon, 12 Oct 2020 04:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wk6H6LW7B03MEmC1dnThRIOnlITtkeGE9GcFSrl9Gpw=;
- b=ErwhKJzyH5QchiirOA+/mNsiJEG7v0ao5UmShFNZJLyB7ftGoyr/cfFlGKNOb9GUFr
- xCThZchmQrlAnQ7mvT3jdH6kx4qONv7RGgPoC39WenTfTRYErzmQHG0+z8q5HEyDIEQ/
- 0xCDzYrRbFXfaOz2DPdjGeRsnITK3FLZVtXLNbaaaW9iXk5pxrDXy+Xjl5FFPTZLGKQA
- qE5xJjboCjjd3WkKm2O9sTGVJDjBTQmRZxx7t+iiMCGGo9zuIKh5E7E14a1CqmrmfJ6P
- ZzUPXAfdI7zCLT+vDsKL4YxoWTYZp91/wMSx7kmD8U61ORRETC2V7AYMghSRqj+/bn0/
- sKYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wk6H6LW7B03MEmC1dnThRIOnlITtkeGE9GcFSrl9Gpw=;
- b=Os3wgqD2aa48lGlpGhcCE6P4vYhuMv8xtUA1+yVg5hVbalJ9FMIvDRIKPWHfALFtez
- uA4B27kGktP+bFjX/cTEJ1eRMdYmzpIQ6xKu7u78sjgAzssuMMCEcJw/90Ny5DQ1Nla1
- N9rdY9R+Whmtx6SZcykH3VHCYntiJNDJkZ7U+pZ42CGoSaWt5aUsZlIpNCH35M3//kAa
- kbnKwe0zt3ZvflSkQC1hYcPVbcI97A0ifl1PrLvh5If7VPA85IYkfexNy7c46imws8Ph
- OrtDODPKhllQnPWoFPJYhbI9XQ4Ul0mSiX7dObmUMVyL86abs6D1ARphccvz47zjLSNj
- mtmQ==
-X-Gm-Message-State: AOAM532blYk78rO7V+3boqjSyljdy/i0/N8TiOJ9XvNX7l0UGR/ioHW3
- rPTfP7giRS+WkmPay6hi+47kVH7H9m0=
-X-Google-Smtp-Source: ABdhPJw3zoroa62LapV1i3nMoYy6jspx55eUYatONlPE4JbdggE1OQSlNKvdCQ7ZWJDOhytQijKKNg==
-X-Received: by 2002:a5d:4843:: with SMTP id n3mr6373140wrs.416.1602503319211; 
- Mon, 12 Oct 2020 04:48:39 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id b189sm21686008wmb.37.2020.10.12.04.48.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Oct 2020 04:48:37 -0700 (PDT)
-Subject: Re: [PATCH] hw/net: move allocation to the heap due to very large
- stack frame
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: David Gibson <david@gibson.dropbear.id.au>,
- Elena Afanasova <eafanasova@gmail.com>
-References: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
- <20201010060745.GK1025389@yekko.fritz.box>
- <a329006c-ed11-2f1b-5766-7480c19c0462@amsat.org>
-Message-ID: <ce1e6d92-1eb9-847b-8b3f-e29a23b36639@amsat.org>
-Date: Mon, 12 Oct 2020 13:48:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kRwLw-0007AB-1e; Mon, 12 Oct 2020 07:50:56 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:42420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kRwLr-0000kn-6b; Mon, 12 Oct 2020 07:50:55 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 20BD1746333;
+ Mon, 12 Oct 2020 13:50:45 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id ECDA07461AE; Mon, 12 Oct 2020 13:50:44 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EBB4974594E;
+ Mon, 12 Oct 2020 13:50:44 +0200 (CEST)
+Date: Mon, 12 Oct 2020 13:50:44 +0200 (CEST)
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH] hw/pci-host/grackle: Verify PIC link is properly set
+In-Reply-To: <20201012065436.GB71119@yekko.fritz.box>
+Message-ID: <9f7e4847-801d-dcd3-b876-bf2d276251@eik.bme.hu>
+References: <20201011190332.3189611-1-f4bug@amsat.org>
+ <20201011223446.GA4787@yekko.fritz.box>
+ <369509c1-2e90-13cf-8845-892e754516d1@amsat.org>
+ <20201012065436.GB71119@yekko.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <a329006c-ed11-2f1b-5766-7480c19c0462@amsat.org>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Content-Type: multipart/mixed;
+ boundary="3866299591-2123707662-1602503444=:51921"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,38 +59,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, jasowang@redhat.com, qemu-ppc@nongnu.org,
+Cc: qemu-ppc@nongnu.org,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On 10/12/20 1:09 PM, Philippe Mathieu-Daudé wrote:
-> On 10/10/20 8:07 AM, David Gibson wrote:
->> On Fri, Oct 09, 2020 at 07:02:56AM -0700, Elena Afanasova wrote:
->>> >From 09905773a00e417d3a37c12350d9e55466fdce8a Mon Sep 17 00:00:00 2001
->>> From: Elena Afanasova <eafanasova@gmail.com>
->>> Date: Fri, 9 Oct 2020 06:41:36 -0700
->>> Subject: [PATCH] hw/net: move allocation to the heap due to very 
->>> large stack
->>>   frame
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-2123707662-1602503444=:51921
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Mon, 12 Oct 2020, David Gibson wrote:
+> On Mon, Oct 12, 2020 at 08:21:41AM +0200, Philippe Mathieu-Daudé wrote:
+>> On 10/12/20 12:34 AM, David Gibson wrote:
+>>> On Sun, Oct 11, 2020 at 09:03:32PM +0200, Philippe Mathieu-Daudé wrote:
+>>>> The Grackle PCI host model expects the interrupt controller
+>>>> being set, but does not verify it is present. Add a check to
+>>>> help developers using this model.
+>>>
+>>> I don't think thaqt's very likely, but, sure, applied to ppc-for-5.2
 >>
->> Patch looks fine, but some more details of the motivation would be
->> nice.  I wouldn't have thought that the size of a network packet
->> counted as a "very large" stack frame by userspace standards.
-> 
-> Maybe academia doing research on "super jumbo frames"?
-> 
-> "Super jumbo frames ... increase the path MTU of high-performance
-> national research and education networks from 1500 bytes to 9000
-> bytes or so, a subsequent increase, possibly to 64,000 bytes"
-> 
-> (https://en.wikipedia.org/wiki/Jumbo_frame#Super_jumbo_frames)
+>> Do you want I correct the description as:
+>> "The Grackle PCI host model expects the interrupt controller
+>> being set, but does not verify it is present.
+>> A developer basing its implementation on the Grackle model
+>> might hit this problem. Add a check to help future developers
+>> using this model as reference."?
+>
+> No, it's fine.  All I was saying is that the chances of anyone using
+> Grackle in future seem very low to me.
 
-The one I was actually looking for is the IPv6 jumbogram:
+So maybe an assert instead of a user visible error would be enough?
 
-"An optional feature of IPv6, the jumbo payload option, allows the 
-exchange of packets with payloads of up to one byte less than 4 GiB,
-by making use of a 32-bit length field."
+Regards,
+BALATON Zoltan
 
-(https://en.wikipedia.org/wiki/Jumbogram)
+>
+>
+>>
+>>>
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>>   hw/pci-host/grackle.c | 4 ++++
+>>>>   1 file changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+>>>> index 57c29b20afb..20361d215ca 100644
+>>>> --- a/hw/pci-host/grackle.c
+>>>> +++ b/hw/pci-host/grackle.c
+>>>> @@ -76,6 +76,10 @@ static void grackle_realize(DeviceState *dev, Error **errp)
+>>>>       GrackleState *s = GRACKLE_PCI_HOST_BRIDGE(dev);
+>>>>       PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+>>>> +    if (!s->pic) {
+>>>> +        error_setg(errp, TYPE_GRACKLE_PCI_HOST_BRIDGE ": 'pic' link not set");
+>>>> +        return;
+>>>> +    }
+>>>>       phb->bus = pci_register_root_bus(dev, NULL,
+>>>>                                        pci_grackle_set_irq,
+>>>>                                        pci_grackle_map_irq,
+>>>
+>>
+>
+>
+--3866299591-2123707662-1602503444=:51921--
 
