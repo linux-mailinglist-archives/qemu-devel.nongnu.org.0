@@ -2,28 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD1328BAB7
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 16:22:26 +0200 (CEST)
-Received: from localhost ([::1]:41222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3433D28BAC8
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 16:24:55 +0200 (CEST)
+Received: from localhost ([::1]:48432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRyiX-0000MA-56
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 10:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33868)
+	id 1kRykw-0003KX-AR
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 10:24:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kRyh3-0007fd-Dd; Mon, 12 Oct 2020 10:20:53 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:36079)
+ id 1kRyjl-0002eg-Gt; Mon, 12 Oct 2020 10:23:41 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:41633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kRyh1-0005JR-4O; Mon, 12 Oct 2020 10:20:53 -0400
+ id 1kRyjj-0005cO-MQ; Mon, 12 Oct 2020 10:23:41 -0400
 Received: from [192.168.100.1] ([82.252.141.186]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MV5G4-1kriVG3haQ-00S9yp; Mon, 12 Oct 2020 16:20:45 +0200
-Subject: Re: [PATCH] softmmu/memory: Log invalid memory accesses
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201005152725.2143444-1-philmd@redhat.com>
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M2wbS-1kT5CN1M32-003MTk; Mon, 12 Oct 2020 16:23:35 +0200
+Subject: Re: [PATCH] hw/pci: Fix typo in PCI hot-plug error message
+To: Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org
+References: <20201006133958.600932-1-jusual@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -67,35 +66,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <a28bffcf-dcb8-b5d2-5fe9-d9fd19515d08@vivier.eu>
-Date: Mon, 12 Oct 2020 16:20:43 +0200
+Message-ID: <c0ab52bd-82a9-e85e-4598-5251c91c073a@vivier.eu>
+Date: Mon, 12 Oct 2020 16:23:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201005152725.2143444-1-philmd@redhat.com>
+In-Reply-To: <20201006133958.600932-1-jusual@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BfBLmUPHKMzooFGI6i7HWiSBGH/NdV2OOzBv6hAHt6qjCfoBDwv
- nGAymryaknEb0VrCbip+6FWmXYkaT6v21Sg2k9xBybY14bBiwu7KP2asAkiYqXie05Tu6HU
- tRTbi1t07VY32Ltp0cLFp/RjDKF7lU8XAFYYnWzf7QIM1vkHj0Yc+MwiCdrGD/14981/Udl
- DaRnrre+zN6MEaQ4RV4ug==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ofLw6fGvMDU=:/rdnpN89TrxECVBlOBRxLK
- 7R5E6337/qxLRIjHt/NEf282pJySUfngsnQWwPGJBYMARSAbC6FQOc5o4aXTMxU4rhBp/ZK7i
- CT1AfxwNf71LaCzN04pDuZoxfcUVPfEe5QyRUAJ7tnYm4QcTTf3jr5KDz5Z0XpwGSQLZOYNnH
- Q+UifOXQg+IJSsiXsl7mDd6K6qC0FqrjvNNY1DLyrZfHNB88/ixYANBw3Hn9tkvaHf0PklR2K
- LtMH+RbrgdGqeoHEzwhKQWgB39AqPVL6kqCrQiwcNRjKfU/0xyrUHG7iG41/AILMDTMQkcjEJ
- TAbCQ/J4LjvNCo2v+otjeIgMWFKGRoLq2Vv9HtudAUBkkCWFXIhJyg1fbGhfHdIfVuavqyJMK
- BtO/cJ2O0K7OE1E4e+Do+stjVdSiPK2jmYsQ8Yr/Ghc0BMIZ6OYwv4aZHJZAjlo44F4cTDhSt
- v8WW/YFjyJN5V5uXMEV+hsQJ8ZSFFEser/0XYr3RoE1a8kWIAvp2ycX5Zzpbd7Tn/BPxExVaE
- 6zAhCH22ywsxgMpxV0Q9nc8OGjTogxhmCIZpiDQ0iU1JbRqoW8tRl0ej84+yOTnOKdmurCgVp
- hdf2poElo5iBCZy9lpvoveFZ8ItOLsTqdlLM1aEqIogiiLljCj2c/xX89SryEWe2ptAskll8j
- mKZGfdcYvPrrV0qiPhf8TDrkO7Yrl0t8cF9J+oLG+Ux6bCpyX8M8MdEMcfmbNZBHDD9swEZO6
- Nih/hr2Qg0L3eY3UoCnHBaLVEv8EgfgiBAxCmEHVZC/EABV4Nx2vhdOUXgbTI1ivDEDw7P/96
- 4YD3+PGjL0b7jrclV76oz7YDX0T0bXfwVa7DSXIimTr+1cXMAKQZgnRcVaTiLrfmyDE2218
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:IROZWIPEJ9i6h3KSYkKhsBol1CHpphIXyw5PG/OtTbWccZsHAMl
+ d+F53nUT28zKAyAHqa+GgxuqOzF1FBIH7XrQSe+F5UusToLD2sAiSvRyUmNlmJwMQV4sGIy
+ 5wIdVHeHmmZGRn33RRtstTx4RYs95J+ZHeWUEzbrsEMHBTewXI/3MVz+3B+FZ+H7OS89rEf
+ /H0XtI7OuQQHfWaHrmD7g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jZWPemJoo5Y=:yrm4gDG2nK/bTTm6NFuEuz
+ Tfpb1RXxOT0MoYlTNbOziX1RVobUIGeNZ7106Hi+QuufqAuIsI1IhaJFJWkv2dUjLIh/u1qgy
+ 6AI6bHixPKUeuodtuUmC4lXDgBVni+b9pUHToDYsSPNqp2DZ1ZupjncqRDwOLZba+Ar116cOy
+ p0VOycWopIICd07jehcSTrNsygxQowvkuVDIGT/wUhCZWO+++b0dDb2Ss7b5tFyXIeaJx6+k0
+ sizNkwC4hKnbGGUo7FdBshKhg71JntoKAjQbFB9UXKr7KdnK9WG0kO/K72qIMEmf58r6y5JSM
+ 7fMqnRxU+4pMAiKnr0AcAwP2xbVYMZYjGN11+npdGTYyqlnRTjHHi7yL4rzixgF4RfyZY26x/
+ uM0QuFUoQMwj0HG/+7WvPe/jVoyvxTRomu2c6baiX0AYzL5Ejy2O4DdMIFLmOZ7Br0hjL/Tay
+ 8vfvHtTPut/7UolhERSpWuZvQ/YtX2hozwjxwX+ToJh/KdGCV/AG0XBUa8MND7FjcZQdnGIWv
+ EnGTGa0RULLftdfb/Nk3bseRq4oXbKzw/vunpHF8i6pq0CxT6CRwSq571u93PLygEEV+gNQt6
+ iiPa1fRwINqfx3U4bxqBVV5OPleLE01anG1p4r7eJFxp2rcGQeHVOuvKzWsKRivoejle+E0Wn
+ D2S5Y8FkazHG3FRknEJtutJvksCqql4dW929yoaho2pyLjMyIE8UCRV7/8BJqjBUrEn8Ll4Yk
+ pb060QppQutU55X9zYF4Cg+e9zBW/d+uR+3x8EuP+6uNbNNhj7jfS7KX9CAwkKBr9YE+1vc/h
+ 2HNOyWf9A6rx5rN7bmdmuM635c3J2C91P6nqjnur1BiZ1dCecNsYv0fsU5G6D2LzVY3fDLY
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 10:20:48
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 10:16:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -115,67 +114,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 05/10/2020 à 17:27, Philippe Mathieu-Daudé a écrit :
-> Log invalid memory accesses with as GUEST_ERROR.
+Le 06/10/2020 à 15:39, Julia Suvorova a écrit :
+> 'occupied' is spelled like 'ocuppied' in the message.
 > 
-> This is particularly useful since commit 5d971f9e67 which reverted
-> ("memory: accept mismatching sizes in memory_region_access_valid").
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
 > ---
->  softmmu/memory.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  hw/pci/pci.c       | 2 +-
+>  hw/ppc/spapr_pci.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index fa280a19f7..403ff3abc9 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -14,6 +14,7 @@
->   */
->  
->  #include "qemu/osdep.h"
-> +#include "qemu/log.h"
->  #include "qapi/error.h"
->  #include "cpu.h"
->  #include "exec/memory.h"
-> @@ -1353,10 +1354,18 @@ bool memory_region_access_valid(MemoryRegion *mr,
->  {
->      if (mr->ops->valid.accepts
->          && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
-> +                                       "0x%" HWADDR_PRIX ", size %u, "
-> +                                       "region '%s', reason: rejected\n",
-> +                      addr, size, memory_region_name(mr));
->          return false;
->      }
->  
->      if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
-> +                                       "0x%" HWADDR_PRIX ", size %u, "
-> +                                       "region '%s', reason: unaligned\n",
-> +                      addr, size, memory_region_name(mr));
->          return false;
->      }
->  
-> @@ -1367,6 +1376,13 @@ bool memory_region_access_valid(MemoryRegion *mr,
->  
->      if (size > mr->ops->valid.max_access_size
->          || size < mr->ops->valid.min_access_size) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
-> +                                       "0x%" HWADDR_PRIX ", size %u, "
-> +                                       "region '%s', reason: invalid size "
-> +                                       "(min:%u max:%u)\n",
-> +                      addr, size, memory_region_name(mr),
-> +                      mr->ops->valid.min_access_size,
-> +                      mr->ops->valid.max_access_size);
->          return false;
->      }
->      return true;
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 3c8f10b461..100c9381c2 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -1036,7 +1036,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+>          return NULL;
+>      } else if (dev->hotplugged &&
+>                 pci_get_function_0(pci_dev)) {
+> -        error_setg(errp, "PCI: slot %d function 0 already ocuppied by %s,"
+> +        error_setg(errp, "PCI: slot %d function 0 already occupied by %s,"
+>                     " new func %s cannot be exposed to guest.",
+>                     PCI_SLOT(pci_get_function_0(pci_dev)->devfn),
+>                     pci_get_function_0(pci_dev)->name,
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 5db912b48c..68e2218fe0 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1572,7 +1572,7 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
+>       */
+>      if (plugged_dev->hotplugged && bus->devices[PCI_DEVFN(slotnr, 0)] &&
+>          PCI_FUNC(pdev->devfn) != 0) {
+> -        error_setg(errp, "PCI: slot %d function 0 already ocuppied by %s,"
+> +        error_setg(errp, "PCI: slot %d function 0 already occupied by %s,"
+>                     " additional functions can no longer be exposed to guest.",
+>                     slotnr, bus->devices[PCI_DEVFN(slotnr, 0)]->name);
+>          return;
 > 
 
 Applied to my trivial-patches branch.
