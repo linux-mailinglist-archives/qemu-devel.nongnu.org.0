@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2955E28C291
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:38:17 +0200 (CEST)
-Received: from localhost ([::1]:57524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F47F28C283
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:36:03 +0200 (CEST)
+Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS4aG-0007th-4A
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37922)
+	id 1kS4Y6-0004OW-Cd
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4W4-0002XA-Jh
+ id 1kS4W4-0002X5-II
  for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:33:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24645)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4W2-0002df-8S
+ id 1kS4W2-0002dh-7v
  for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:33:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602534833;
@@ -25,29 +25,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z5VE4i2lF8Ss2UWS9IkOlEpH239r8QcqVWjgETonQhA=;
- b=QYtSYZxRfIfc517gm9cP/PByfWd6ImR2MVNiAXerVRdd2OxRGW3MIjbSivWlzhaPKMiSEr
- 7/oBb5zJQuOh2GdZbMD2jyVEYiU0Zj9BycaT6V5B0Ch8g+JGoJN76eJiUVwwRosEeKDG9R
- 5y7sYRtmKo5HFtJzuzB3D/eJriOX4xw=
+ bh=5R+gswwk9pqu8qfgJlosoWUp3BaOfh6EjuzpbtMe93Q=;
+ b=GTx2FD0OxLIvLk5vRKjDUIfKK6mlA1KV8VVITQ7kbYk7gLWRYykh0qMnbbHAtsP4o6iNhG
+ 4OLYo/lplugb3PjXqHvMjFlVsUEKylLJWPvO66M33bqeq+++sFPUx5CAv9swR/61SUzXG7
+ Ajmgl34IZHZxMQn45YwpINC+WqRwcUY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-hF8uIcHxMIGKXCs_QyPQVg-1; Mon, 12 Oct 2020 16:33:50 -0400
-X-MC-Unique: hF8uIcHxMIGKXCs_QyPQVg-1
+ us-mta-153-Ny7BqqE6O8CyVmGEyMZOZA-1; Mon, 12 Oct 2020 16:33:52 -0400
+X-MC-Unique: Ny7BqqE6O8CyVmGEyMZOZA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABA47102120A
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:33:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4506D80B72B
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:33:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4571519C78;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1BD527CC4;
  Mon, 12 Oct 2020 20:33:45 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/38] meson.build: Sort sourcesets alphabetically
-Date: Mon, 12 Oct 2020 16:33:07 -0400
-Message-Id: <20201012203343.1105018-3-pbonzini@redhat.com>
+Subject: [PULL 03/38] hw/core: Move the creation of the library to the main
+ meson.build
+Date: Mon, 12 Oct 2020 16:33:08 -0400
+Message-Id: <20201012203343.1105018-4-pbonzini@redhat.com>
 In-Reply-To: <20201012203343.1105018-1-pbonzini@redhat.com>
 References: <20201012203343.1105018-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +59,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 16:33:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,46 +88,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Be consistent creating all the libraries in the main meson.build file.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201006125602.2311423-3-philmd@redhat.com>
+Message-Id: <20201006125602.2311423-4-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ hw/core/meson.build | 6 ------
+ meson.build         | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/hw/core/meson.build b/hw/core/meson.build
+index fc91f98075..4a744f3b5e 100644
+--- a/hw/core/meson.build
++++ b/hw/core/meson.build
+@@ -14,12 +14,6 @@ hwcore_files = files(
+   'qdev-clock.c',
+ )
+ 
+-libhwcore = static_library('hwcore', sources: hwcore_files + genh,
+-                           name_suffix: 'fa',
+-                           build_by_default: false)
+-hwcore = declare_dependency(link_whole: libhwcore)
+-common_ss.add(hwcore)
+-
+ common_ss.add(files('cpu.c'))
+ common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
+ common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
 diff --git a/meson.build b/meson.build
-index 68eaf8ce2f..adcfb494a8 100644
+index adcfb494a8..6c760b4163 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1182,19 +1182,19 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
+@@ -1469,6 +1469,12 @@ libqmp = static_library('qmp', qmp_ss.sources() + genh,
  
- # Collect sourcesets.
+ qmp = declare_dependency(link_whole: [libqmp])
  
--util_ss = ss.source_set()
--stub_ss = ss.source_set()
--trace_ss = ss.source_set()
--block_ss = ss.source_set()
- blockdev_ss = ss.source_set()
--qmp_ss = ss.source_set()
--common_ss = ss.source_set()
--softmmu_ss = ss.source_set()
--user_ss = ss.source_set()
-+block_ss = ss.source_set()
- bsd_user_ss = ss.source_set()
-+common_ss = ss.source_set()
- linux_user_ss = ss.source_set()
--specific_ss = ss.source_set()
-+qmp_ss = ss.source_set()
-+softmmu_ss = ss.source_set()
- specific_fuzz_ss = ss.source_set()
-+specific_ss = ss.source_set()
-+stub_ss = ss.source_set()
-+trace_ss = ss.source_set()
-+user_ss = ss.source_set()
-+util_ss = ss.source_set()
- 
- modules = {}
- hw_arch = {}
++libhwcore = static_library('hwcore', sources: hwcore_files + genh,
++                           name_suffix: 'fa',
++                           build_by_default: false)
++hwcore = declare_dependency(link_whole: libhwcore)
++common_ss.add(hwcore)
++
+ ###########
+ # Targets #
+ ###########
 -- 
 2.26.2
 
