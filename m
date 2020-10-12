@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929C428BCDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:47:47 +0200 (CEST)
-Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE9228BCE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:49:41 +0200 (CEST)
+Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS038-00068Y-JG
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:47:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
+	id 1kS04y-0001DX-LK
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:49:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqK-0006yV-9m
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:32 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44178)
+ id 1kRzqM-00072T-Kx
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:37 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqI-0007JV-Dt
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:32 -0400
-Received: by mail-wr1-x441.google.com with SMTP id t9so19675048wrq.11
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:29 -0700 (PDT)
+ id 1kRzqJ-0007Jm-E5
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:34 -0400
+Received: by mail-wm1-x341.google.com with SMTP id q5so17954716wmq.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xCPWjLYyI6z3WFhhXaeYUbi5QZIddcoWl6SEfIfuuFs=;
- b=jvkUIDRClN9EIrNy2RSdtWRPqcJKUB35LA78DZJ65CbJFay23p7wAmAtvMRKkwVIpq
- j0+GyMO3ekHx2NzlGH+Hu9wWt9FXxGLOUkDTVSKRJa0NV/JNJ9ggidTuULb8wMRJ1PPT
- 8eJ07v5t77Q1eUb58VmOQX+TU6wbNttw1+v5rer4GpwhucVMJ8ppyh7oqaDwHEQQwvSa
- vyOaQVcjZeJsj9ggOBzoUk6D+QaRVIuPWHun2LKlWMnRvw0wfedq0OK5F85MgWPP7xMi
- T7iUDyv0Lo5qbZklcQQuOjlmBAkxZeNcK4t24SC0U7TEOGkq85EDlnUvHflXkC96g78r
- q4eg==
+ bh=m+57w4waUDsMvpjTdXukUzVLKUiAH7ggRqO2IkZWWK8=;
+ b=glkg0HcRhX7qs2EfhByu9sLqzsZG+NVIzN3ASb+5El6+xbkwltqLZBQ9y7QDt9Q3+t
+ IKSW0n/+zZDYpK8TYI1usseAQtJ8+Lg4kk5VA5aW944p/mOzdJeudrY+vVYMxRDrQTR0
+ EZqJIeHtDPkeOZ+z/I2g/c3LppkiHOarGOCaeULvlHeQl3xjY7Hzl/JLxX3HEFWs5A0Q
+ 71cDTJNSef42GXUBp33nfpDGxweSrvKsDM61EJVmgc+X6FouxzUwy7FfMAcHXp5XE3+L
+ dxjjmhTe64fo2F0VcAd4lZ3seZAUWld1go6uyPeiFvPc2KBTDcGRSU42VrKCUp2pNQF4
+ +SwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xCPWjLYyI6z3WFhhXaeYUbi5QZIddcoWl6SEfIfuuFs=;
- b=QdEFd5QiXCQFU50kDamTGDLNWXokoxTqJ9Hkbl2Z86TmxfItOBOyWvi9JqBVNO+Zoz
- ogCOEVtDFz/DoPt9YRc0R8Bl+rH839loBKyC6Qs0RWxjBzLCwuwVr1aSZM7BgJcEQSeF
- Y/uk3eN7FqG0x2X6XFEAq8rZjjJP7MhWNVeJFZapL615IZjNt4VBasNPMdLWdazQy3gd
- qZ3Re2yzADyGxGxScO3r37Q3aRKiVVgh7K5a9guIiLtyRLi6RegVU8SJ1fU7Vq/y5vR5
- bz3HSDBxJbxqcTw+08W5/7bSNQSbDjbeJWqqfTxVsV2MK3YR7CABi/ZYCxqWEsiNx0f4
- UmFg==
-X-Gm-Message-State: AOAM532f85ZdGYCu8HDTvAsRRczvHIyAv3/SRZDxwA4/5C5JV4XpVxtL
- eBeQVUPFpDqPzsRcL3trapsvWQ==
-X-Google-Smtp-Source: ABdhPJw3rY3457BdxkO9G6YrxPMZWwl0qoCALdW6L3/dAggIH2iCcdauht8QaOmIHyjCkS2KNOMngQ==
-X-Received: by 2002:adf:f841:: with SMTP id d1mr20555398wrq.297.1602516869112; 
- Mon, 12 Oct 2020 08:34:29 -0700 (PDT)
+ bh=m+57w4waUDsMvpjTdXukUzVLKUiAH7ggRqO2IkZWWK8=;
+ b=WYXckgnkxi3EuvI2vrC0qOjByaUeR9y9qGAzkjnu9ni9a1KprYBox4RZdNKU9zvMG1
+ omI/2u716f5QZPuggHzKpvRIiqT+p64uqr6EF8YEKymVeehqDNnRuuxSdVP8YJpD/sV0
+ nUqSawcpEkQX0fsJScfSelKGy7JbTGF/HHhsGU789NtNzKJtOUr+FFKHHXOD4xR8Hq58
+ ZY0FUszvD6uX76tfH3DnD5wXI+zx8Sxj+IashNfYbZbBX9bCg9NCAqIDmbX0lH93fZlw
+ tCYB4xUqOu5U1ybkCpld8wcAmF1OBcJpbwkZ0KPNxt7npmTCBKwM7vP//Ebz8lxl/7Nj
+ t13Q==
+X-Gm-Message-State: AOAM530mAPZMcrfSnKWll2Q8euZqZ3IRB2auK9fosWQUHUBd9CO9+eTY
+ snrPG58JFLrxwjlm/htKI/fccg==
+X-Google-Smtp-Source: ABdhPJy0s/tMr7a7W6VpAEx1VMxi0ETX8ZpI/O5OuEUPxNi5OepY7TXj7Y4dhULZEvAW6rRj4kdY4A==
+X-Received: by 2002:a7b:cb82:: with SMTP id m2mr12017658wmi.56.1602516870030; 
+ Mon, 12 Oct 2020 08:34:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.27
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:28 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH] hw/intc/arm_gicv3_cpuif: Don't copy CPU's maintenance
- interrupt
-Date: Mon, 12 Oct 2020 16:33:39 +0100
-Message-Id: <20201012153408.9747-17-peter.maydell@linaro.org>
+Subject: [PATCH] hw/intc/arm_gicv3_cpuif: Make GIC maintenance interrupts work
+Date: Mon, 12 Oct 2020 16:33:40 +0100
+Message-Id: <20201012153408.9747-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,7 +96,7 @@ maintenance IRQ before the GIC was realized.  Unfortunately this is
 not the case for the 'virt' board, and so the value that gets copied
 is NULL (since a qemu_irq is really a pointer to an IRQState struct
 under the hood).  The effect is that the CPU interface code never
-actually raises the maintenance in2Dterrupt line.
+actually raises the maintenance interrupt line.
 
 Instead, since the GICv3CPUState has a pointer to the CPUState, make
 the dereference at the point where we want to raise the interrupt, to
