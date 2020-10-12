@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D009528BEDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:12:30 +0200 (CEST)
-Received: from localhost ([::1]:39054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4337B28BEE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:17:23 +0200 (CEST)
+Received: from localhost ([::1]:54192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS1N7-00053c-So
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:12:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51016)
+	id 1kS1Rq-0002w1-A4
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kS1L1-0003Kn-LQ
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 13:10:21 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39176)
+ id 1kS1L4-0003Mj-Ky
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 13:10:23 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kS1Ky-0002is-PU
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 13:10:18 -0400
-Received: by mail-wr1-x444.google.com with SMTP id y12so14660072wrp.6
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 10:10:15 -0700 (PDT)
+ id 1kS1L3-0002pr-6Z
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 13:10:22 -0400
+Received: by mail-wm1-x342.google.com with SMTP id e2so18255099wme.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 10:10:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gLKWS8Y8T9sXU+gbSEsaUnFE046T7Q7iWcrjHNDSPUk=;
- b=NtNvyNRM4x7aQxGrPNbrQKZW4ltl1eJR38nqwUpNbd0/CVRCciWskuvfINpVkwywVb
- EhQCHZteY4Pb2I1KijKDI5molNPv94ekDuhf5IDR6lMyyy9+s9zXEDy/QBakCoJQjAsC
- lXyr5CcEN5HJ2mpcRitBf1XzzLtlRlss/L8HY+WMZq7Pq+ZC/jLrNqAXrMC+TTbeROQp
- Etnw+k0ihnMDBEAeo0jaHL7/G+ezgSk9vE6hu4L+D4idWAbvQJIelGl0fa7hDx0bgkNy
- 6lkdTJyzvbM/2NcR7/95KGNePe0AERHRFL1SOXDg5B17xHxGdJchvPiOHL+ixtPXBZrF
- 6Tuw==
+ bh=T1VyM6vO+/UgLy3YgWrY448pDVaigr36dSzmUkhUC2A=;
+ b=ah7JfWJuVEfIlML4YkqazrwbS7sEXPVCIhdOxoNBXgZsX1PlXbFVgZntXipr8W2lpb
+ 9OQymwbhvVjmyjpF4Ez0RdjTxIhfhK8uR9KqVNMWooaRANbRQMYlpGgllxDBadNRlL0s
+ EP1iD+tjx+c1kD3HQCB8XUf85OwlYxldW4IfW7HFUZEQDq2LNJgjLHAwBGUQWfw0Llaq
+ DPF7QkRHDx6Saqycyvg7E3iJlrwVvf6iMw+Hws1IRLxU3Q9loZ+jbWXh9vsfWiy0PYqc
+ F93b9zOuO0vzW9Pu68qsVRVXWmKpQe36sjVrNr7Jg6nvq0vpgmvl7ZYkBEonj9X6OMyM
+ hvLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gLKWS8Y8T9sXU+gbSEsaUnFE046T7Q7iWcrjHNDSPUk=;
- b=QKearW8xyfuJ0DGR6xEQRaFoKJJaBkpzsRieoXiUbFr8CGt0V4dhUFnuZvMaLViG97
- EfcXKObMx/kgyG4MWme1bqgtKQ4NsFNl3p1U0GKz/6g830ucZD/Eiy6rvqMK/bASfa8u
- HQ5pdtR9IfqBolnhekqlEpGIzrntCmRDpoQR5O2jUfKLXseQcWn+6cNfvbd4JC957JXX
- naf2jOs5TFWA5UV17ceFDtC3X+FRCc0DGcTTr/QIs1zPoF1RBh7iBuQbxpJT2gic33iI
- f91WKK3W4Ulh2H1sG/ZRkRODnOnrVVCjxiPXb+xOxyEghdfGfg2on+EwkkyCAbRuXtNy
- 68Tw==
-X-Gm-Message-State: AOAM531TVeoFObz5r4pU0AErRD+bJoB4pl2Ty7Vk+Qj0r+kxE0fNsoHq
- 28AupaX1fSrwwrLk4uMv/WcaNpVm1o4=
-X-Google-Smtp-Source: ABdhPJxRfwQn2L34y4SvXdgnGyJtQNCbpsc4mV/IiIX1Oqm+KoanB9VUGPBH4+AldnTX7IqHow+4nw==
-X-Received: by 2002:a5d:4fcc:: with SMTP id h12mr11815107wrw.132.1602522614431; 
- Mon, 12 Oct 2020 10:10:14 -0700 (PDT)
+ bh=T1VyM6vO+/UgLy3YgWrY448pDVaigr36dSzmUkhUC2A=;
+ b=YURxUqr+GP4M7LCZog2wyue2yEp6hp67ZLAxvVQPO0SotRPnlwmvPod4Bn8L/1Dl2D
+ 58OaNamuzwBxnOmkcTNTqfT/d9pZILmx0oConKB++mXcwkMgyambKSnd4l9uDRUgm6yz
+ Wa3U970qIvTO7iKpa5DwSDqhuf5czGAnBcnZDM/jF+hBSKv78YkGbo71g/RIaDNTEhkw
+ oWoNjANCLg/bMXtlCDRaqi0qpjRltzD7Lhr638QENFmKjTHUm/3w1nLuqEDH1pnX6Ieb
+ ctgktxe//w2xBl66kMZGQIgvU6Us00uzD3K0tTpTT8mIvqfq7vzYPRbAxK4SU2O9G4/p
+ +bCQ==
+X-Gm-Message-State: AOAM533DZm3GqYXlHfhPc5SNmHpxhgV8GfToIap9Ft8Cavfs3S4FSCXs
+ hTwheBVTLFNpl7ObcXy5X5dRtJ44JCg=
+X-Google-Smtp-Source: ABdhPJyxdsO9bDHuwTDwO7Z1fZXKTy3M2wfpNQrZ30oneOOWCHxnG40nAkdEInVoXWjVmeAJZFtjfA==
+X-Received: by 2002:a1c:9ecb:: with SMTP id
+ h194mr11383273wme.140.1602522618940; 
+ Mon, 12 Oct 2020 10:10:18 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id w11sm25209231wrs.26.2020.10.12.10.10.13
+ by smtp.gmail.com with ESMTPSA id u15sm23106397wml.21.2020.10.12.10.10.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 10:10:13 -0700 (PDT)
+ Mon, 12 Oct 2020 10:10:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] hw/pci-host/sabre: Report IOMMU address range as
- unimplemented
-Date: Mon, 12 Oct 2020 19:09:49 +0200
-Message-Id: <20201012170950.3491912-6-f4bug@amsat.org>
+Subject: [PATCH 6/6] hw/pci-host/sabre: Log reserved address accesses as
+ GUEST_ERROR
+Date: Mon, 12 Oct 2020 19:09:50 +0200
+Message-Id: <20201012170950.3491912-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201012170950.3491912-1-f4bug@amsat.org>
 References: <20201012170950.3491912-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,31 +94,41 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Report accesses to reserved registers using qemu_log_mask(GUEST_ERROR).
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/sabre.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/pci-host/sabre.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
-index 4412e23131c..67699ac9058 100644
+index 67699ac9058..cc97c266a57 100644
 --- a/hw/pci-host/sabre.c
 +++ b/hw/pci-host/sabre.c
-@@ -122,6 +122,7 @@ static void sabre_config_write(void *opaque, hwaddr addr,
- 
-     switch (addr) {
-     case  0x30 ...  0x4f: /* DMA error registers */
-+    case 0x200 ... 0x21f: /* IOMMU registers */
-         qemu_log_mask(LOG_UNIMP,
-                       "%s: Register 0x%02" HWADDR_PRIX " not implemented\n",
-                       __func__, addr);
-@@ -201,6 +202,7 @@ static uint64_t sabre_config_read(void *opaque,
- 
-     switch (addr) {
-     case  0x30 ...  0x4f: /* DMA error registers */
-+    case 0x200 ... 0x21f: /* IOMMU registers */
-         qemu_log_mask(LOG_UNIMP,
-                       "%s: Register 0x%02" HWADDR_PRIX " not implemented\n",
-                       __func__, addr);
+@@ -189,7 +189,11 @@ static void sabre_config_write(void *opaque, hwaddr addr,
+     case 0xa800 ... 0xa80f: /* Interrupt diagnostics */
+     case 0xf000 ... 0xf01f: /* FFB config, memory control */
+         /* we don't care */
++        break;
+     default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Register 0x%04" HWADDR_PRIX " is reserved\n",
++                      __func__, addr);
+         break;
+     }
+ }
+@@ -235,7 +239,11 @@ static uint64_t sabre_config_read(void *opaque,
+     case 0xa800 ... 0xa80f: /* Interrupt diagnostics */
+     case 0xf000 ... 0xf01f: /* FFB config, memory control */
+         /* we don't care */
++        break;
+     default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Register 0x%04" HWADDR_PRIX " is reserved\n",
++                      __func__, addr);
+         break;
+     }
+     trace_sabre_config_read(addr, val);
 -- 
 2.26.2
 
