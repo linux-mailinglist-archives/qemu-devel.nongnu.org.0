@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3184528B1B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 11:38:48 +0200 (CEST)
-Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6940228B1B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 11:39:24 +0200 (CEST)
+Received: from localhost ([::1]:60266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRuI2-0005GM-VT
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 05:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
+	id 1kRuId-0006IA-Gt
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 05:39:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kRuGa-0004im-TD; Mon, 12 Oct 2020 05:37:16 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49324
+ id 1kRuHI-0005Ki-NN; Mon, 12 Oct 2020 05:38:00 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49336
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kRuGX-0008Ic-H5; Mon, 12 Oct 2020 05:37:16 -0400
+ id 1kRuHG-0008NJ-81; Mon, 12 Oct 2020 05:38:00 -0400
 Received: from host86-158-109-18.range86-158.btcentralplus.com
  ([86.158.109.18] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kRuGR-000493-0b; Mon, 12 Oct 2020 10:37:11 +0100
+ id 1kRuHA-00049W-Lq; Mon, 12 Oct 2020 10:37:57 +0100
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201012071906.3301481-1-f4bug@amsat.org>
- <20201012071906.3301481-4-f4bug@amsat.org>
+ <20201012071906.3301481-2-f4bug@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <f8d454a6-2b1c-cef0-ec95-4046e1479843@ilande.co.uk>
-Date: Mon, 12 Oct 2020 10:37:03 +0100
+Message-ID: <735b9589-c8ca-8a2a-a65f-420318708258@ilande.co.uk>
+Date: Mon, 12 Oct 2020 10:37:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201012071906.3301481-4-f4bug@amsat.org>
+In-Reply-To: <20201012071906.3301481-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.18
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 3/4] hw/pci-host/prep: Fix PCI swizzling in map_irq()
+Subject: Re: [PATCH 1/4] hw/pci-host/prep: Update coding style to make
+ checkpatch.pl happy
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -66,50 +67,38 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Jocelyn Mayer <l_indien@magic.fr>, Julian Seward <julian@valgrind.org>
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/10/2020 08:19, Philippe Mathieu-Daudé wrote:
 
-> In commit a01d8cadadf we changed the number of IRQs to 4 but
-> forgot to update the map_irq() function. Do it now.
+> To make the next commit easier to review, clean this code first.
 > 
-> Fixes: a01d8cadadf ("Fix memory corruption ... in PreP emulation")
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> Cc: Jocelyn Mayer <l_indien@magic.fr>
-> Cc: Julian Seward <julian@valgrind.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/pci-host/prep.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/pci-host/prep.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
 > diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-> index 064593d1e52..2224135fedb 100644
+> index d0323fefb10..80dfb67da43 100644
 > --- a/hw/pci-host/prep.c
 > +++ b/hw/pci-host/prep.c
-> @@ -195,7 +195,7 @@ static const MemoryRegionOps raven_io_ops = {
->  
->  static int raven_map_irq(PCIDevice *pci_dev, int irq_num)
->  {
-> -    return (irq_num + (pci_dev->devfn >> 3)) & 1;
-> +    return (irq_num + (pci_dev->devfn >> 3)) & 3;
->  }
->  
->  static void raven_set_irq(void *opaque, int irq_num, int level)
+> @@ -234,8 +234,10 @@ static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
+>              sysbus_init_irq(dev, &s->pci_irqs[i]);
+>          }
+>      } else {
+> -        /* According to PReP specification section 6.1.6 "System Interrupt
+> -         * Assignments", all PCI interrupts are routed via IRQ 15 */
+> +        /*
+> +         * According to PReP specification section 6.1.6 "System Interrupt
+> +         * Assignments", all PCI interrupts are routed via IRQ 15
+> +         */
+>          s->or_irq = OR_IRQ(object_new(TYPE_OR_IRQ));
+>          object_property_set_int(OBJECT(s->or_irq), "num-lines", PCI_NUM_PINS,
+>                                  &error_fatal);
 
-It feels like this should also have a corresponding change in OpenBIOS for
-consistency, even though technically because of the OR on IRQ 15 it doesn't really
-matter. The relevant part in OpenBIOS can be found here:
-https://git.qemu.org/?p=openbios.git;a=blob;f=drivers/pci.c;h=34ae69a907b6312a3a7ab218afe8ba9efded1df7;hb=7f28286f5cb1ca682e3ba0a8706d8884f12bc49e#l2001
-and in particular this section:
-
-    /* Use the same "physical" routing as QEMU's raven_map_irq() although
-       ultimately all 4 PCI interrupts are ORd to IRQ 15 as indicated
-       by the PReP specification */
-    props[(*ncells)++] = arch->irqs[((intno - 1) + (addr >> 11)) & 1];
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
