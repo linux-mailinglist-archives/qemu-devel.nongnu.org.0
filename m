@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABE528AF1C
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 09:36:35 +0200 (CEST)
-Received: from localhost ([::1]:59888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAC428AF60
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 09:42:19 +0200 (CEST)
+Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRsNm-00065N-O9
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 03:36:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41224)
+	id 1kRsTK-0000e4-Ig
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 03:42:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1kRsMH-0005bg-TH
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 03:35:01 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:55250)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>) id 1kRsMF-0001DE-Hv
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 03:35:01 -0400
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 8268EC60159;
- Mon, 12 Oct 2020 07:34:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1602488093;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRsS1-0008Ef-9r
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 03:40:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRsRz-0001xe-BY
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 03:40:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602488454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lzyYmC+xd/GFQse4jFVniyC9pD9uXu6rOvGHFpleeas=;
- b=eQ3yaqkHR9BzIMjunVd3ml8vkOjAxbV2Z7KD7L61HJ/LBJuQq6hVywujXmFkxSi9Uwhud6
- jKFato+pQilpPkVM0x1iBdIQb6Ybwid4VbPLQ78q28/7/MtlpSeezE/erYyDiukm5Lr7g5
- SOsBeXfD1/Owf2KbffIdHY3hWSqu9KA9gObyGSqjD6tF7EyA5NleHIA7BcPAOS/H+mHM3h
- pZuBsQVpbgryvHc7MQOUjbLALku8HOfsUj1Wgtn9OQWSTI2Bk3JIxlfJSi8O6U/Q4H7NLn
- D6M5zZADb0Bp6ekcgGwUry+Gf4oLSUz2Qq+o0WWHhZlcW+RntWeNwqXo1fdKww==
-Date: Mon, 12 Oct 2020 09:35:55 +0200
-From: Luc Michel <luc@lmichel.fr>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 05/20] target/mips: Move cpu_mips_get_random() with
- CP0 helpers
-Message-ID: <20201012073555.iitiqbpqrgo4xscd@sekoia-pc.home.lmichel.fr>
-References: <20201010204319.3119239-1-f4bug@amsat.org>
- <20201010204319.3119239-6-f4bug@amsat.org>
+ bh=opeKW/zWxutObCzHHz2C/UN0tqFEd2SvidaKb4QsBBU=;
+ b=RN15SIs7o0Qn9GTh2idAoYBK7IbzEWQ1o99KSTioRRguoy1lIn9lsdso1fPmG5IryhxAn+
+ SPJLcmXrQ6BCfdyjms/Ehd+7yt67rTvbemy69wZiYKoUsgi3M2XrCsFouD09Um4xTnd5WD
+ eoJyyzSVUh8IaSC+TWqNYRLEXp50VRQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-G4rjLdFSOw-YUBPKZ_8MvQ-1; Mon, 12 Oct 2020 03:40:50 -0400
+X-MC-Unique: G4rjLdFSOw-YUBPKZ_8MvQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF2731005504;
+ Mon, 12 Oct 2020 07:40:48 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-22.ams2.redhat.com [10.36.113.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BAC1475131;
+ Mon, 12 Oct 2020 07:40:46 +0000 (UTC)
+Subject: Re: [PATCH 3/5] MAINTAINERS: Downgrade status of MIPS Boston to "Odd
+ Fixes"
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201009165208.2905569-1-f4bug@amsat.org>
+ <20201009165208.2905569-4-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <945e6bbe-51a3-6bf6-8387-e2acf0901738@redhat.com>
+Date: Mon, 12 Oct 2020 09:40:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20201009165208.2905569-4-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201010204319.3119239-6-f4bug@amsat.org>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
- s=pharaoh; t=1602488093;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lzyYmC+xd/GFQse4jFVniyC9pD9uXu6rOvGHFpleeas=;
- b=LOJZDSfpUV/i88L8MxH7ZDia397DToWYKQUQ5oyimNfd/Hh28ONiZlteNO3c1kduWNuSIo
- gh1HIqrUADabjrpDl9b5v704lViX+iFFhZ49oizC+aY7iJgdpeJF6nN9RjLh6orKhskUWj
- LCMc5x5bBWsdAeyx4Wb3qiGNM9MngvY77uzQJlHWSZOmSvzCqt6vXTrJNeN8OyeALrM0JU
- ef7JUOZ2NGWjUA7/DxkgXD+ukMxeWjTpRLav5G+oivQocuHUEjBFj9a4DFn+pEWLlCVdJY
- ksWdUm7FqfxvLa//SEJcqlpyFzqoBr3o7rUYpv679SWvFG7cWCVdWuU1OhuxbA==
-ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1602488093; a=rsa-sha256; cv=none;
- b=RZqCdQQCtihOPOjlYRCwGzyDAmig4fhEWZV5ITxKSwtWmbAVBReDL/Mci4OirP0dVkJG7qorGLtAj2AcR+dwGtrt6Gk4WvZiI6odk87J02zqiBFY3SvhmsHTIEdaGk1eXwxoC/QWsazmPopva3uK+mT95GkvqVmkiU8xSDvl2kUEcX/Gv3KSHeYMP+vU7c5Ip7B3uI6Zdk+LrkCgHYqqfFc9BsdU6FNxGaL1Cvnm7v9vak6XpXQDiTE4bqiuCZ4lE83NVW9mQf7JTLjhR82E8i7qkt0C3YRKR/ItE9t+//bsTO1tz6xm+O8MczTNjTT1qhYXbKBWJIs7w8a8xi3Uvw==
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=sekoia smtp.mailfrom=luc@lmichel.fr
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 03:34:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,133 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Huacai Chen <zltjiangshi@gmail.com>,
+Cc: Chen Huacai <zltjiangshi@gmail.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Burton <paulburton@kernel.org>,
- qemu-devel@nongnu.org, Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22:43 Sat 10 Oct     , Philippe Mathieu-Daudé wrote:
-> The get_random() helper uses the CP0_Wired register, which is
-> unrelated to the CP0_Count register use as timer.
-typo: used
-> Commit e16fe40c872 ("Move the MIPS CPU timer in a separate file")
-> incorrectly moved this get_random() helper with timer specific
-> code. Move it back to generic CP0 helpers.
+On 09/10/2020 18.52, Philippe Mathieu-Daudé wrote:
+> Paul's Wavecomp email has been bouncing for months. He told us
+> he "no longer has access to modern MIPS CPUs or Boston hardware,
+> and wouldn't currently have time to spend on them if he did." [1]
+> but "perhaps that might change in the future." [2].
+> Be fair and downgrade the status of the Boston board to "Odd Fixes"
+> (has a maintainer but they don't have time to do much other).
+
+When I read this patch description ("email bouncing"), I wondered why you
+did not also update Paul's email address here. Then I saw that you're doing
+this in the next patch. So I'd recommend to either scratch the first
+sentence of your patch description here, or to merge the two patches.
+
+ Thomas
+
+> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718739.html
+> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg728605.html
 > 
-> Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-
 > ---
->  target/mips/internal.h   |  2 +-
->  target/mips/cp0_helper.c | 25 +++++++++++++++++++++++++
->  target/mips/cp0_timer.c  | 25 -------------------------
->  3 files changed, 26 insertions(+), 26 deletions(-)
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/mips/internal.h b/target/mips/internal.h
-> index 7f159a9230c..087cabaa6d4 100644
-> --- a/target/mips/internal.h
-> +++ b/target/mips/internal.h
-> @@ -144,6 +144,7 @@ void r4k_helper_tlbr(CPUMIPSState *env);
->  void r4k_helper_tlbinv(CPUMIPSState *env);
->  void r4k_helper_tlbinvf(CPUMIPSState *env);
->  void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
-> +uint32_t cpu_mips_get_random(CPUMIPSState *env);
->  
->  void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
->                                      vaddr addr, unsigned size,
-> @@ -209,7 +210,6 @@ void cpu_state_reset(CPUMIPSState *s);
->  void cpu_mips_realize_env(CPUMIPSState *env);
->  
->  /* cp0_timer.c */
-> -uint32_t cpu_mips_get_random(CPUMIPSState *env);
->  uint32_t cpu_mips_get_count(CPUMIPSState *env);
->  void cpu_mips_store_count(CPUMIPSState *env, uint32_t value);
->  void cpu_mips_store_compare(CPUMIPSState *env, uint32_t value);
-> diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
-> index de64add038b..12143ac55b9 100644
-> --- a/target/mips/cp0_helper.c
-> +++ b/target/mips/cp0_helper.c
-> @@ -203,6 +203,31 @@ static void sync_c0_entryhi(CPUMIPSState *cpu, int tc)
->      *tcst |= asid;
->  }
->  
-> +/* XXX: do not use a global */
-> +uint32_t cpu_mips_get_random(CPUMIPSState *env)
-> +{
-> +    static uint32_t seed = 1;
-> +    static uint32_t prev_idx;
-> +    uint32_t idx;
-> +    uint32_t nb_rand_tlb = env->tlb->nb_tlb - env->CP0_Wired;
-> +
-> +    if (nb_rand_tlb == 1) {
-> +        return env->tlb->nb_tlb - 1;
-> +    }
-> +
-> +    /* Don't return same value twice, so get another value */
-> +    do {
-> +        /*
-> +         * Use a simple algorithm of Linear Congruential Generator
-> +         * from ISO/IEC 9899 standard.
-> +         */
-> +        seed = 1103515245 * seed + 12345;
-> +        idx = (seed >> 16) % nb_rand_tlb + env->CP0_Wired;
-> +    } while (idx == prev_idx);
-> +    prev_idx = idx;
-> +    return idx;
-> +}
-> +
->  /* CP0 helpers */
->  target_ulong helper_mfc0_mvpcontrol(CPUMIPSState *env)
->  {
-> diff --git a/target/mips/cp0_timer.c b/target/mips/cp0_timer.c
-> index bd7efb152dd..9c38e9da1c8 100644
-> --- a/target/mips/cp0_timer.c
-> +++ b/target/mips/cp0_timer.c
-> @@ -29,31 +29,6 @@
->  
->  #define TIMER_PERIOD 10 /* 10 ns period for 100 Mhz frequency */
->  
-> -/* XXX: do not use a global */
-> -uint32_t cpu_mips_get_random(CPUMIPSState *env)
-> -{
-> -    static uint32_t seed = 1;
-> -    static uint32_t prev_idx = 0;
-> -    uint32_t idx;
-> -    uint32_t nb_rand_tlb = env->tlb->nb_tlb - env->CP0_Wired;
-> -
-> -    if (nb_rand_tlb == 1) {
-> -        return env->tlb->nb_tlb - 1;
-> -    }
-> -
-> -    /* Don't return same value twice, so get another value */
-> -    do {
-> -        /*
-> -         * Use a simple algorithm of Linear Congruential Generator
-> -         * from ISO/IEC 9899 standard.
-> -         */
-> -        seed = 1103515245 * seed + 12345;
-> -        idx = (seed >> 16) % nb_rand_tlb + env->CP0_Wired;
-> -    } while (idx == prev_idx);
-> -    prev_idx = idx;
-> -    return idx;
-> -}
-> -
->  /* MIPS R4K timer */
->  static void cpu_mips_timer_update(CPUMIPSState *env)
->  {
-> -- 
-> 2.26.2
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2de5943e388..782743b7ef0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1163,7 +1163,7 @@ F: hw/intc/loongson_liointc.c
+>  Boston
+>  M: Paul Burton <pburton@wavecomp.com>
+>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> -S: Maintained
+> +S: Odd Fixes
+>  F: hw/core/loader-fit.c
+>  F: hw/mips/boston.c
+>  F: hw/pci-host/xilinx-pcie.c
 > 
 
--- 
 
