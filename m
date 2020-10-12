@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BC528BD22
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:02:22 +0200 (CEST)
-Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B444228BD0C
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:59:33 +0200 (CEST)
+Received: from localhost ([::1]:52342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0HF-0001Dc-UY
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:02:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
+	id 1kS0EW-0006bC-PS
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:59:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRztg-0003d1-LY
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:38:00 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42820)
+ id 1kRztZ-0003V5-C2
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:37:53 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRztW-0007ku-9q
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:38:00 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id e18so19682303wrw.9
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:37:49 -0700 (PDT)
+ id 1kRztX-0007lB-8o
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:37:52 -0400
+Received: by mail-wr1-x433.google.com with SMTP id i1so13574500wro.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:37:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xP7RYtiStIWwohnsCkXsA5s/UDVdCQBRgpCwB9l5Xb0=;
- b=abJFFijJW9RLhCr7A6Uo/HaFEtqhjwDlKOR8miTvYsT7Vr0NCtOSHMyvcED3sBm84N
- y5ghhpI9ftafjkklGUjSehXAFPcz2VB7R7EvsEwO7qiiV7Bii9jxQ6sI4nj4Vkbv9cIm
- erQgdbZQmRITCK0+YTfIw3+V8y36NNoCt5h6XBUWJet8ui+2dAzOywXjWJPb2/QoRnVS
- M7jW2YYBjra+Rt+r256E1SazFaQcjjTGhE0qXivLWRzvAUxmaX6E0GHNrKKW9ejf0ph2
- gzEITM7xiFXEZPrAR25VXcW7+d8Rz2U4J0iDjBSwEXLD2jdEHn/MoZ6R0inROeYIdb53
- 3Xxw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=9dCI9vVIHjGOIU15u/YnihvSC4K6HLaW4rgzCu/bPQI=;
+ b=lljcsCmP0fkpHKYyW+GVLzuO7pU6NoYK52YAUzPypHUg5y2XMHbcMAkf2CktXd6hG5
+ ecr0XaLQDSmrCBO8fCm6cCmcpu6samPUYiIo+PlexavyrkAIeX4Gd5xpndCsiAISZx2v
+ xPv2ISdFbAMzdYAXgHyp7UyyHWofqrCXWHt71E5yH8tIbtRlZkFp73yvv1IEE9REIBGQ
+ iO0BGNo3mKF0cG1WHvU+/xs+c34nMrDylCphKercMcQ96ci0P2E/dgURZm6ME5m7GX9F
+ 2/m/y9BOd1yxxqdBlCXKOlMtHFGhpvT8+PaJwblyyKXbA/L4Gerfc2pv4YoyBnYF7XqQ
+ 673g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xP7RYtiStIWwohnsCkXsA5s/UDVdCQBRgpCwB9l5Xb0=;
- b=RUNQ7y0L3Yr/y+q6eeyIwik4sW4TfL5uLrfp0SeJShbrEnJw1yeZ0pcfZiPBzxaAfz
- K8olyw5/rA9h06OVXysHBkiiByVw6ftVJk5yzzXpp23qpeG1l/9M3lDSV9GSKEb0Gcbm
- 100BvHwTlVSnCZuplYsOGG6Ma6i9GdmIbVw/UWiFBFgMj+OVnk55/J6mUQWIokCPgTAY
- UBjTyngwRZEW3JAf7Tll2KklCUIe9M4IcSQfHIiYm4Xgm1cAJpDPBvgMZl7ndOe1uYMb
- XJBWwmSOS+QwR+oIwhSbisLO5LjzyxvTjVwsmAOWm0XoBeIQZIwWvzALY+5Nf5PTSATe
- /S7g==
-X-Gm-Message-State: AOAM530Al12OZW2qqzfQX1uf1d0Q77QRwEE3a2RcTAQQq5sfF8LzXTQY
- ukO66VC95yry/30dgR3hNbM5jw==
-X-Google-Smtp-Source: ABdhPJxWCtDbvvuUD6kgTD4LssnVNdBeMVmyH7yHOiQlrbT3c2leMcJ74r9115BlxrlcEITPnW97Iw==
-X-Received: by 2002:a5d:678d:: with SMTP id v13mr19131862wru.148.1602517068713; 
- Mon, 12 Oct 2020 08:37:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9dCI9vVIHjGOIU15u/YnihvSC4K6HLaW4rgzCu/bPQI=;
+ b=uIVx7OFIJwPpM69sjPq60rsU/ZCjrRAVag97PpybcSnvhHuSAyN+FPtw9uYPqmkzsg
+ Vu6iFkBc5+0svcLxjNs8O8JZErTjPB3fdpRl1ZIB27kjZAL+23/uDpurSsF/UBkUYn/c
+ dWuB6c3mDLsKpN130DKkF6nRDxtgBxDmrFx1FA5aNb1Q1Otn6lkllYeNCYM3gMUXnydr
+ KxapNGRGGNGwT9hpXkJ8bTz5OGfmgAZt+Uk5bXynRpFIVQrTwpwJl5OBEy3h5v7EY6kT
+ A3Vp+KN3xirgtXrDNwpzfueXkzekyK/sQmVrCEWVuC2BrSPEyGDpKnCcRrNQbWZvaA7Y
+ x5lw==
+X-Gm-Message-State: AOAM530uZ8daIAOCN7Yl+TYwuiQ0u7i7uSpHUYlet7oNdzoWdpbUjw0H
+ HW+rnbpE4cAjsr5/rrdqjEx7PA==
+X-Google-Smtp-Source: ABdhPJzv4ZgMKklrU4w0AiKdZfS8ywDfbAJeEUxveFTqLjYv4XwyYvg1fBHeYCZceBXKT5outAEVqw==
+X-Received: by 2002:adf:f305:: with SMTP id i5mr25152926wro.346.1602517069740; 
+ Mon, 12 Oct 2020 08:37:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y66sm7095961wmd.14.2020.10.12.08.37.47
+ by smtp.gmail.com with ESMTPSA id y66sm7095961wmd.14.2020.10.12.08.37.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:37:48 -0700 (PDT)
+ Mon, 12 Oct 2020 08:37:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 00/10] target/arm: Various v8.1M minor features
-Date: Mon, 12 Oct 2020 16:37:36 +0100
-Message-Id: <20201012153746.9996-1-peter.maydell@linaro.org>
+Subject: [PATCH 01/10] decodetree: Fix codegen for non-overlapping group
+ inside overlapping group
+Date: Mon, 12 Oct 2020 16:37:37 +0100
+Message-Id: <20201012153746.9996-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201012153746.9996-1-peter.maydell@linaro.org>
+References: <20201012153746.9996-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,47 +90,49 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchseries implements various minor v8.1M new features,
-notably the branch-future and low-overhead-loop extensions.
+For nested groups like:
 
-(None of this will get enabled until we have enough to implement
-a CPU model which has v8.1M, which will be the Cortex-M55, but
-as usual we can get stuff into the tree gradually.)
+  {
+    [
+      pattern 1
+      pattern 2
+    ]
+    pattern 3
+  }
 
-Patch 1 is a decodetree fix suggested by Richard that is
-necessary to avoid wrong-decode of the changes to t32.decode
-by later patches.
+the intended behaviour is that patterns 1 and 2 must not
+overlap with each other; if the insn matches neither then
+we fall through to pattern 3 as the next thing in the
+outer overlapping group.
 
-(Apologies for the accidental mailbombing of the list with
-stale patches due to a mangled command line on my first attempt
-at sending this :-(  )
+Currently we generate incorrect code for this situation,
+because in the code path for a failed match inside the
+inner non-overlapping group we generate a "return" statement,
+which causes decode to stop entirely rather than continuing
+to the next thing in the outer group.
 
-thanks
--- PMM
+Generate a "break" instead, so that decode flow behaves
+as required for this nested group case.
 
-Peter Maydell (10):
-  decodetree: Fix codegen for non-overlapping group inside overlapping
-    group
-  target/arm: Implement v8.1M NOCP handling
-  target/arm: Implement v8.1M conditional-select insns
-  target/arm: Make the t32 insn[25:23]=111 group non-overlapping
-  target/arm: Don't allow BLX imm for M-profile
-  target/arm: Implement v8.1M branch-future insns (as NOPs)
-  target/arm: Implement v8.1M low-overhead-loop instructions
-  target/arm: Fix has_vfp/has_neon ID reg squashing for M-profile
-  target/arm: Implement FPSCR.LTPSIZE for M-profile LOB extension
-  target/arm: Fix writing to FPSCR.FZ16 on M-profile
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ scripts/decodetree.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- target/arm/cpu.h               |   7 ++
- target/arm/m-nocp.decode       |  10 ++-
- target/arm/t32.decode          |  50 +++++++----
- target/arm/cpu.c               |  34 ++++---
- target/arm/translate.c         | 157 +++++++++++++++++++++++++++++++++
- target/arm/vfp_helper.c        |  30 +++++--
- scripts/decodetree.py          |   2 +-
- target/arm/translate-vfp.c.inc |  17 +++-
- 8 files changed, 268 insertions(+), 39 deletions(-)
-
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index 60fd3b5e5f6..c1bf3cfa85f 100644
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -548,7 +548,7 @@ class Tree:
+             output(ind, '    /* ',
+                    str_match_bits(innerbits, innermask), ' */\n')
+             s.output_code(i + 4, extracted, innerbits, innermask)
+-            output(ind, '    return false;\n')
++            output(ind, '    break;\n')
+         output(ind, '}\n')
+ # end Tree
+ 
 -- 
 2.20.1
 
