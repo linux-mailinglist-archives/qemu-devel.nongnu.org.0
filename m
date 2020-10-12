@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324FA28C51E
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 01:16:34 +0200 (CEST)
-Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FE128C68E
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 03:00:01 +0200 (CEST)
+Received: from localhost ([::1]:60278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS73Q-000815-RF
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 19:16:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42364)
+	id 1kS8fY-0004Nd-QV
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 21:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ndragazis@arrikto.com>)
- id 1kS722-0007PX-SZ
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 19:15:06 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55158)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kS7Gd-0001mW-2H
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 19:30:11 -0400
+Received: from mail-pf1-f170.google.com ([209.85.210.170]:45307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ndragazis@arrikto.com>)
- id 1kS720-0004Ul-0U
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 19:15:06 -0400
-Received: by mail-wm1-x343.google.com with SMTP id p15so18903912wmi.4
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 16:15:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=arrikto-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=vMyn8d6s7xE0WQaXGH16P6bLeJgzPYtpK8gxdV/GiII=;
- b=w3nkbetsfmRs/XoJ46zqOZ/ijesJsmzwgUstamDTtEFbAMP8wmYwXDx6nvjVfd3i1G
- MSDAMvScF+aUEVQhagmBmIFWA3h818oPlT17g/t3Kx8A6TarENPBJU5o/Qd8MdR+ZbHX
- bpcYyfRNfVR4UqPmnLlKZLgJfe0iSmxd8VI+fcFlFm/UO2OGDtXIPPG5maNICoXGNHaS
- eLBwJHCfBS74AqOfKqYU792J8q9Y21aoJ27jfWesQbWhcnlwsEWIL+ji5EVAjmHY1nZ9
- 987HksjccqaQ5+7E+NDiS27j2c+BkEhmSWkHFgw9duSGTmFoCsr9vaMICcKzW59/cX5h
- btKA==
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kS7GB-00060p-5D
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 19:30:10 -0400
+Received: by mail-pf1-f170.google.com with SMTP id e7so6201709pfn.12
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 16:29:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=vMyn8d6s7xE0WQaXGH16P6bLeJgzPYtpK8gxdV/GiII=;
- b=pffHP0lbMTqA0QA5Zp4kZbxpz4f17EUhA3lAw6aQecDtzg/Sr6qvC5+yH/OUc/9xa3
- nUrzaSc35H2u8xsE7IG0Q1d4B53MUNcbluqj8A24C2usG9p1lKgp52h3DiNyUn/vCqji
- zDL59EaeOjgfH1i/Q6SI2soCseG5Z/XLmbCIvG288/mPdDV62ikB+A2WDFO8fFv3NyPj
- KX/gy8JCpVsvecEWAMFeAJ42FASYA5WIogREqdJjRCRuMrD0IwXqX4b5WVBRYY1FcIwz
- u1CwjZhP7qBCXaTEHD7UoNf/F+/nzs3uaIonYnCGRwWM896ueNCE0NVZk9ppg7L1jzvK
- QVOA==
-X-Gm-Message-State: AOAM5332oJyRn6VqYgxxuFAKk4pdoA9+eyYmmSePleT+MngmCWi176Wh
- vULPXGpvP1ZNNX/2SlZdO8PE1Q==
-X-Google-Smtp-Source: ABdhPJxNH9bPaFV/Re5EmkRebZLG+Q1xAF0lIJdJdS66ZgQ8Lng/xfMrFy/qRayQf1I9VqJ1USVrxA==
-X-Received: by 2002:a1c:ed15:: with SMTP id l21mr4856503wmh.26.1602544500464; 
- Mon, 12 Oct 2020 16:15:00 -0700 (PDT)
-Received: from ?IPv6:2a02:587:b20c:c900:713d:859a:cfca:8a17?
- ([2a02:587:b20c:c900:713d:859a:cfca:8a17])
- by smtp.gmail.com with ESMTPSA id h16sm28072823wre.87.2020.10.12.16.14.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Oct 2020 16:14:59 -0700 (PDT)
-Subject: Re: Using virtio-vhost-user or vhost-pci
-To: Cosmin Chenaru <cosmin.chenaru@gmail.com>
-References: <CADx_CBPzAstC0o9X6CrnyFqYYAtPbw5-XHWxmXTt6+LyYb-U3g@mail.gmail.com>
-From: Nikos Dragazis <ndragazis@arrikto.com>
-Message-ID: <9287d0a2-a3ed-6517-3fa2-07ba75f6414c@arrikto.com>
-Date: Tue, 13 Oct 2020 02:14:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L/OSG/2hTLtzEozIXjJfqbODBNlgXCsDdxNndbh2w2k=;
+ b=Fud8LbscBVAr7GwUqa67W6g/NlorBiy/bzbkIKDHqfzmxhhfFa6OOZOWCfGN1KpspW
+ vF2AXI7XAJ5yWd//5bQB/RMFb6mDA3cEu1RqOyFkwl9ZisBhCGbYiFRO1f/Hx2mBTXXu
+ XaQTgcFH00B9ZJrTTIIkVR2sr0svvRFPxwQtPjqEuQMQSKMbrDFCUg1DRLOwBAnPHCdD
+ 4urnem4lXd++nLsZ7YgIqNZh2Wg9KeTKqsiL2fDeTyHDfg3XFQpzX0sHjqr0ZORkmKVg
+ jNTFzQWA0P08x8/fe7pRMco6Jls0fLJGbtXfYUnUEd0P+ALXhE0xNNzjjMUN9jRCTyM5
+ /gDQ==
+X-Gm-Message-State: AOAM53333DZDF5Kxa9X/pdd9PVqT9ds3LTmiW8mpjKg8nDQBTJsP+CmD
+ Va4QVX5i4Q3EWCEmPO9fXMpUEj6Ytz4=
+X-Google-Smtp-Source: ABdhPJyJDGfQr6GctlJIOQmYyXEzsduP2vht3JdwsPWwo2i3MTZqKOdUtI85ai0xmF6X6sdPLElPEw==
+X-Received: by 2002:aa7:8e54:0:b029:142:2501:34d2 with SMTP id
+ d20-20020aa78e540000b0290142250134d2mr24891356pfr.43.1602545381006; 
+ Mon, 12 Oct 2020 16:29:41 -0700 (PDT)
+Received: from localhost.localdomain ([73.93.152.174])
+ by smtp.gmail.com with ESMTPSA id f21sm8088315pfk.169.2020.10.12.16.29.40
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 12 Oct 2020 16:29:40 -0700 (PDT)
+From: Joelle van Dyne <j@getutm.app>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/10] iOS and Apple Silicon host support
+Date: Mon, 12 Oct 2020 16:29:29 -0700
+Message-Id: <20201012232939.48481-1-j@getutm.app>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <CADx_CBPzAstC0o9X6CrnyFqYYAtPbw5-XHWxmXTt6+LyYb-U3g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=ndragazis@arrikto.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=209.85.210.170; envelope-from=osy86dev@gmail.com;
+ helo=mail-pf1-f170.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 19:29:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 12 Oct 2020 20:56:28 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,80 +76,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/20 10:22 μ.μ., Cosmin Chenaru wrote:
+These set of changes brings QEMU TCG to iOS devices and future Apple Silicon
+devices. They were originally developed last year and have been working in the
+UTM app. Recently, we ported the changes to master, re-wrote a lot of the build
+script changes for meson, and broke up the patches into more distinct units.
 
-> Hi,
->
-> Could you please tell me if there has been any more work on virtio-vhost-user or vhost-pci? The last messages that I could find were from January 2018, from this thread [1], and from what I see the latest Qemu code does not have that included.
+A summary of the changes:
 
-Hi Cosmin,
+* `CONFIG_IOS` and `CONFIG_IOS_JIT` defined when building for iOS and
+  iOS specific changes (as well as unsupported code) are gated behind it.
+* slirp updated to support DNS resolving using libresolv; a separate patch will
+  be submitted to the project. To allow for builds to succeed, the .gitmodule
+  is temporarily changed. We're not entirely sure how cross-project patches
+  should be handled here.
+* A new dependency, libucontext is added since iOS does not have native ucontext
+  and broken support for sigaltstack. libucontext is available as a new option
+  for coroutine backend.
+* On stock iOS devices, there is a workaround for running JIT code without
+  any special entitlement. It requires the JIT region to be mirror mapped with
+  one region RW and another one RX. To support this style of JIT, TCG is changed
+  to support writing to a different code_ptr. These changes are gated by the
+  `CONFIG_IOS_JIT`.
+* For (recent) jailbroken iOS devices as well as upcoming Apple Silicon devices,
+  there are new rules for applications supporting JIT (with the proper
+  entitlement). These rules are implemented as well.
+* An option to build QEMU as a shared library is added because iOS does not
+  support fork().
 
-The thread that you are pointing to is Stefan's initial work on this
-subject, but it is not the last update. Since 2018, a lot of things have
-happened. I have personally put a lot of effort on pushing this further
-and with the help of the community we are trying to get this merged into
-QEMU eventually. You can find an overview of the up-to-date state here
-[1]. Note also that, recently, we had a discussion on various on-going
-inter-VM device emulation interfaces (have a look at this [2]).
+These patches are also on Github:
+  https://github.com/utmapp/qemu/tree/ios-support-master
 
-In brief, the current step/goal is to get the device spec merged into the
-VIRTIO spec (have a look at these [3][4]).
+-j
 
-For more details, please just do a simple search on the spdk, dpdk,
-qemu-devel and virtio-dev mailing lists. You will find a lot of threads
-on this subject. If anything doesn't make sense or is not clear enough,
-feel free to ask.
+osy (10):
+  configure: option to disable host block devices
+  configure: cross-compiling without cross_prefix
+  qemu: add support for iOS host
+  meson: option to build as shared library
+  slirp: update for iOS resolv fix
+  coroutine: add libucontext as external library
+  tcg: implement bulletproof JIT
+  tcg: mirror mapping RWX pages for iOS optional
+  tcg: support JIT on Apple Silicon
+  block: check availablity for preadv/pwritev on mac
 
-Nikos
+ .gitmodules                  |   5 +-
+ accel/tcg/cpu-exec-common.c  |   2 +
+ accel/tcg/cpu-exec.c         |   9 +-
+ accel/tcg/tcg-all.c          |  27 +++++-
+ accel/tcg/translate-all.c    | 169 ++++++++++++++++++++++++++++++++---
+ block.c                      |   2 +-
+ block/file-posix.c           |  50 ++++++++---
+ bsd-user/main.c              |   2 +-
+ configure                    | 118 ++++++++++++++++++++++--
+ docs/devel/ios.rst           |  40 +++++++++
+ include/exec/exec-all.h      |  10 +++
+ include/sysemu/tcg.h         |   2 +-
+ include/tcg/tcg-apple-jit.h  |  85 ++++++++++++++++++
+ include/tcg/tcg.h            |  21 ++++-
+ libucontext                  |   1 +
+ linux-user/main.c            |   2 +-
+ meson.build                  |  74 +++++++++++++--
+ meson_options.txt            |   4 +
+ net/slirp.c                  |  16 ++--
+ qemu-options.hx              |  11 +++
+ qga/commands-posix.c         |   6 ++
+ slirp                        |   2 +-
+ target/arm/arm-semi.c        |   2 +
+ target/m68k/m68k-semi.c      |   2 +
+ target/nios2/nios2-semi.c    |   2 +
+ tcg/aarch64/tcg-target.c.inc |  48 ++++++----
+ tcg/aarch64/tcg-target.h     |  23 ++++-
+ tcg/arm/tcg-target.c.inc     |  33 ++++---
+ tcg/arm/tcg-target.h         |   9 +-
+ tcg/i386/tcg-target.c.inc    |  28 +++---
+ tcg/i386/tcg-target.h        |  24 ++++-
+ tcg/mips/tcg-target.c.inc    |  64 +++++++------
+ tcg/mips/tcg-target.h        |   8 +-
+ tcg/ppc/tcg-target.c.inc     |  55 +++++++-----
+ tcg/ppc/tcg-target.h         |   8 +-
+ tcg/riscv/tcg-target.c.inc   |  51 ++++++-----
+ tcg/riscv/tcg-target.h       |   9 +-
+ tcg/s390/tcg-target.c.inc    |  25 +++---
+ tcg/s390/tcg-target.h        |  13 ++-
+ tcg/sparc/tcg-target.c.inc   |  33 ++++---
+ tcg/sparc/tcg-target.h       |   8 +-
+ tcg/tcg-ldst.c.inc           |   2 +-
+ tcg/tcg-pool.c.inc           |   9 +-
+ tcg/tcg.c                    |  64 ++++++++-----
+ tcg/tci/tcg-target.c.inc     |   8 +-
+ tcg/tci/tcg-target.h         |   9 +-
+ tests/qtest/meson.build      |   7 +-
+ util/coroutine-ucontext.c    |   9 ++
+ 48 files changed, 965 insertions(+), 246 deletions(-)
+ create mode 100644 docs/devel/ios.rst
+ create mode 100644 include/tcg/tcg-apple-jit.h
+ create mode 160000 libucontext
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg03356.html
-[2] https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04934.html
-[3] https://lists.oasis-open.org/archives/virtio-dev/202008/msg00083.html
-[4] https://lists.oasis-open.org/archives/virtio-dev/202005/msg00132.html
+-- 
+2.24.3 (Apple Git-128)
 
->
-> I am currently running multiple VMs, connected in between by the DPDK vhost-switch. A VM can start, reboot, shutdown, so much of this is dynamic and the vhost-switch handles all of these. So these VMs are some sort of "endpoints" (I could not find a better naming).
->
-> The code which runs on the VM endpoints is somehow tied to the vhost-switch code, and if I change something on the VM which breaks the compatibility, I need to recompile the vhost-switch and restart. The problem is that most of the time I forget to update the vhost-switch, and I run into other problems.
->
-> If I could use a VM as a vhost-switch instead of the DPDK app, then I hope that in my endpoint code which runs on the VM, I can add functionality to make it also run as a switch, and forward the packets between the other VMs like the current DPDK switch does. Doing so would allow me to catch this out-of-sync between the VM endpoint code and the switch code at compile time, since they will be part of the same app.
->
-> This would be a two-phase process. First to run the DPDK vhost-switch inside a guest VM, and then to move the tx-rx part into my app.
->
-> Both Qemu and the DPDK app use "vhost-user". I was happy to see that I can start Qemu in vhost-user server mode:
->
->     <interface type='vhostuser'>
->       <mac address='52:54:00:9c:3a:e3'/>
->       <source type='unix' path='/home/cosmin/vsocket.server' mode='server'/>
->       <model type='virtio'/>
->       <driver queues='2'>
->         <host mrg_rxbuf='on'/>
->       </driver>
->       <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
->     </interface>
->
-> This would translate to these Qemu arguments:
->
-> -chardev socket,id=charnet1,path=/home/cosmin/vsocket.server,server -netdev type=vhost-user,id=hostnet1,chardev=charnet1,queues=2 -device virtio-net-pci,mrg_rxbuf=on,mq=on,vectors=6,netdev=hostnet1,id=net1,mac=52:54:00:9c:3a:e3,bus=pci.0,addr=0x4
->
-> But at this point Qemu will not boot the VM until there is a vhost-user client connecting to Qemu. I even tried adding the "nowait" argument, but Qemu still waits. This will not work in my case, as the endpoint VMs could start and stop at any time, and I don't even know how many network interfaces the endpoint VMs will have.
->
-> I then found the virtio-vhost-user transport protocol [2], and was thinking that I could at least start the packet-switching VM, and then let the DPDK app inside it do the forwarding of the packets. But from what I understand, this creates a single network interface inside the VM on which the DPDK app can bind. The limitation here is that if another VM wants to connect to the packet-switching VM, I need to manually add another virtio-vhost-user-pci device (and a new vhost-user.sock) before this packet-switching VM starts, so this is not dynamic.
->
-> The second approach for me would be to use vhost-pci [3], which I could not fully understand how it works, but I think it presents a network interface to the guest kernel after another VM connects to the first one.
->
-> I realize I made a big story and probably don't make too much sense, but one more thing. The ideal solution for me would be a combination of the vhost-user socket and the vhost-pci socket. The Qemu will start the VM and the socket will wait in the background for vhost-user connections. When a new connection is established, Qemu should create a hot-plugable PCI network card and either the guest kernel or the DPDK app inside to handle the vhost-user messages.
->
-> Any feedback will be welcome, and I really appreciate all your work :)
->
-> Cosmin.
->
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg04806.html
-> [2] https://wiki.qemu.org/Features/VirtioVhostUser
-> [3] https://github.com/wei-w-wang/vhost-pci
->
 
