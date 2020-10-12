@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3F828BBCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:26:31 +0200 (CEST)
-Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F2028BBB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:21:39 +0200 (CEST)
+Received: from localhost ([::1]:33354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRziY-0001Lb-Gv
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53086)
+	id 1kRzdq-0004TG-63
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:21:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kRzcA-0003Bm-C0
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:19:54 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54060)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kRzcH-0003Ld-EU
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:20:01 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:30248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kRzc8-0005QR-Ps
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:19:54 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kRzcF-0005R8-V2
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:20:01 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-64UiFSNoMuO9LqjqmpVQkg-1; Mon, 12 Oct 2020 11:19:49 -0400
-X-MC-Unique: 64UiFSNoMuO9LqjqmpVQkg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-372-X88IYgWhOt-HTajmQKOJPg-1; Mon, 12 Oct 2020 11:19:56 -0400
+X-MC-Unique: X88IYgWhOt-HTajmQKOJPg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFC4880F05B;
- Mon, 12 Oct 2020 15:19:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 988A057055;
+ Mon, 12 Oct 2020 15:19:55 +0000 (UTC)
 Received: from bahia.lan (ovpn-112-78.ams2.redhat.com [10.36.112.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 26C2F10027AA;
- Mon, 12 Oct 2020 15:19:47 +0000 (UTC)
-Subject: [PATCH 1/4] spapr: Fix leak of CPU machine specific data
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB0F775131;
+ Mon, 12 Oct 2020 15:19:54 +0000 (UTC)
+Subject: [PATCH 2/4] spapr: Drop spapr_delete_vcpu() unused argument
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Mon, 12 Oct 2020 17:19:47 +0200
-Message-ID: <160251598735.796881.4119879780830238145.stgit@bahia.lan>
+Date: Mon, 12 Oct 2020 17:19:54 +0200
+Message-ID: <160251599407.796881.18258675391064563368.stgit@bahia.lan>
 In-Reply-To: <160251562222.796881.8197386060416409319.stgit@bahia.lan>
 References: <160251562222.796881.8197386060416409319.stgit@bahia.lan>
 User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
@@ -69,63 +69,46 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a CPU core is being removed, the machine specific data of each
-CPU thread object is leaked. Fix this by calling the dedicated helper
-we have for that instead of simply unparenting the CPU object.
+The 'sc' argument is unused. Drop it.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr_cpu_core.c |   20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ hw/ppc/spapr_cpu_core.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index b03620823adb..b6b217876750 100644
+index b6b217876750..64ce6a0cb781 100644
 --- a/hw/ppc/spapr_cpu_core.c
 +++ b/hw/ppc/spapr_cpu_core.c
-@@ -181,6 +181,15 @@ static const VMStateDescription vmstate_spapr_cpu_stat=
-e =3D {
+@@ -181,7 +181,7 @@ static const VMStateDescription vmstate_spapr_cpu_state=
+ =3D {
      }
  };
 =20
-+static void spapr_delete_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
-+{
-+    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
-+
-+    cpu->machine_data =3D NULL;
-+    g_free(spapr_cpu);
-+    object_unparent(OBJECT(cpu));
-+}
-+
- static void spapr_unrealize_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
+-static void spapr_delete_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
++static void spapr_delete_vcpu(PowerPCCPU *cpu)
  {
-     if (!sc->pre_3_0_migration) {
-@@ -188,7 +197,7 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, Spapr=
+     SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+=20
+@@ -197,7 +197,7 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, Spapr=
 CpuCore *sc)
      }
      spapr_irq_cpu_intc_destroy(SPAPR_MACHINE(qdev_get_machine()), cpu);
      cpu_remove_sync(CPU(cpu));
--    object_unparent(OBJECT(cpu));
-+    spapr_delete_vcpu(cpu, sc);
+-    spapr_delete_vcpu(cpu, sc);
++    spapr_delete_vcpu(cpu);
  }
 =20
  /*
-@@ -294,15 +303,6 @@ err:
-     return NULL;
+@@ -343,7 +343,7 @@ err_unrealize:
+     }
+ err:
+     while (--i >=3D 0) {
+-        spapr_delete_vcpu(sc->threads[i], sc);
++        spapr_delete_vcpu(sc->threads[i]);
+     }
+     g_free(sc->threads);
  }
-=20
--static void spapr_delete_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
--{
--    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
--
--    cpu->machine_data =3D NULL;
--    g_free(spapr_cpu);
--    object_unparent(OBJECT(cpu));
--}
--
- static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
- {
-     /* We don't use SPAPR_MACHINE() in order to exit gracefully if the use=
-r
 
 
 
