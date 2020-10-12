@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CC828B38C
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 13:15:26 +0200 (CEST)
-Received: from localhost ([::1]:58998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB07828B38D
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 13:16:54 +0200 (CEST)
+Received: from localhost ([::1]:33154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRvnZ-0001mz-23
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 07:15:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35900)
+	id 1kRvoz-0002s8-RY
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 07:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRvmM-0001EX-0v
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:14:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59357)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRvn3-0001mM-1r
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:14:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRvmK-0004OU-G6
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:14:09 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRvmy-0004Tm-FA
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:14:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602501247;
+ s=mimecast20190719; t=1602501287;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WERcXrALNjd+piHidDV5BLTH0TzJFKvJiVBPCWJo3mc=;
- b=g7n0qmhKoPxs2RWt9Dp8x24u4V5UQ7+jtkoYhexsW8BCblQja4pdKUJ/+KUC4T2IzH0vbJ
- o1ANO7arj8UNFNkICVXfvsl9bkplvhfzeAiPED4DRxoJxta0th2ZWqpyC1DlJgNEsp5L7G
- LYqs8Q2kAzRo7Rlb9ZGQbkA5jjOLwsk=
+ bh=sS8MdiuZ6ByTm+Dz+JJ+U+xwR8tP0YU0nNmOC2b6c5g=;
+ b=HaP08ggnUqnW4RZHBIS51TH6ZqOj1frwPga1Qo+vYvenEs0dPR+hemirNYn448znTNdYY4
+ f4IFFszgGR1Tl0/Ik5tyWA3h4WQYiVYCtDtwDV6R+ewcika00XUyfxzvsw7P71inWlmdQ+
+ j65DaAPftkETjHF2HlfTmQOVluS/V4s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-3kYX2yxvNVmEM13sNfNOmA-1; Mon, 12 Oct 2020 07:14:06 -0400
-X-MC-Unique: 3kYX2yxvNVmEM13sNfNOmA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-334-aA6kZ43bO6i8OhhOfpWwVA-1; Mon, 12 Oct 2020 07:14:43 -0400
+X-MC-Unique: aA6kZ43bO6i8OhhOfpWwVA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 878B8107464C;
- Mon, 12 Oct 2020 11:14:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FBA61018F60;
+ Mon, 12 Oct 2020 11:14:42 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-113-22.ams2.redhat.com [10.36.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0306775261;
- Mon, 12 Oct 2020 11:13:50 +0000 (UTC)
-Subject: Re: [PATCH v7 01/13] qtest: rename qtest_qmp_receive to
- qtest_qmp_receive_dict
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48E9410013BD;
+ Mon, 12 Oct 2020 11:14:35 +0000 (UTC)
+Subject: Re: [PATCH v7 02/13] qtest: Reintroduce qtest_qmp_receive
 To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
 References: <20201006123904.610658-1-mlevitsk@redhat.com>
- <20201006123904.610658-2-mlevitsk@redhat.com>
+ <20201006123904.610658-3-mlevitsk@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <22c4ce74-1883-9a8c-1de7-572cf1ac9859@redhat.com>
-Date: Mon, 12 Oct 2020 13:13:50 +0200
+Message-ID: <3dd3b467-6784-470c-cbfb-b7baf611abde@redhat.com>
+Date: Mon, 12 Oct 2020 13:14:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201006123904.610658-2-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201006123904.610658-3-mlevitsk@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -60,18 +59,18 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,25 +95,49 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 06/10/2020 14.38, Maxim Levitsky wrote:
-> In the next patch a new version of qtest_qmp_receive will be
-> reintroduced that will buffer received qmp events for later
-> consumption in qtest_qmp_eventwait_ref
+> The new qtest_qmp_receive buffers all the received qmp events, allowing
+> qtest_qmp_eventwait_ref to return them.
 > 
-> No functional change intended.
+> This is intended to solve the race in regard to ordering of qmp events
+> vs qmp responses, as soon as the callers start using the new interface.
+> 
+> In addition to that, define qtest_qmp_event_ref a function which only scans
+> the buffer that qtest_qmp_receive stores the events to.
+> 
+> This is intended for callers that are only interested in events that were
+> received during the last call to the qtest_qmp_receive.
 > 
 > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 > ---
->  tests/qtest/ahci-test.c        |  4 ++--
->  tests/qtest/device-plug-test.c |  2 +-
->  tests/qtest/drive_del-test.c   |  2 +-
->  tests/qtest/libqos/libqtest.h  |  4 ++--
->  tests/qtest/libqtest.c         | 16 ++++++++--------
->  tests/qtest/pvpanic-test.c     |  2 +-
->  tests/qtest/qmp-test.c         | 18 +++++++++---------
->  7 files changed, 24 insertions(+), 24 deletions(-)
+>  tests/qtest/libqos/libqtest.h | 23 ++++++++++++++++
+>  tests/qtest/libqtest.c        | 49 ++++++++++++++++++++++++++++++++++-
+>  2 files changed, 71 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
+> index a41135fc92..19429a536d 100644
+> --- a/tests/qtest/libqos/libqtest.h
+> +++ b/tests/qtest/libqos/libqtest.h
+> @@ -198,6 +198,16 @@ void qtest_qmp_vsend(QTestState *s, const char *fmt, va_list ap)
+>   */
+>  QDict *qtest_qmp_receive_dict(QTestState *s);
+>  
+> +/**
+> + * qtest_qmp_receive:
+> + * @s: #QTestState instance to operate on.
+> + *
+> + * Reads a QMP message from QEMU and returns the response.
+> + * Buffers all the events received meanwhile, until a
+> + * call to qtest_qmp_eventwait
+> + */
+> +QDict *qtest_qmp_receive(QTestState *s);
 
+Re-introducing qtest_qmp_receive() with different behavior than before will
+likely make backports of other later patches a pain, and might also break
+other patches that use this function but are not merged yet. Could you
+please use a different name for this function instead? Maye
+qtest_qmp_receive_buffered() or something like that?
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+ Thomas
 
 
