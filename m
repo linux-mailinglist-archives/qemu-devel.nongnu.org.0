@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDC828C216
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:12:12 +0200 (CEST)
-Received: from localhost ([::1]:57350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC62628C1C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 21:57:55 +0200 (CEST)
+Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS4B1-00039F-Np
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:12:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50970)
+	id 1kS3xC-0006We-HF
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 15:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cosmin.chenaru@gmail.com>)
- id 1kS3P8-0007uB-Hj
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 15:22:42 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:43111)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kS3wE-0005vj-3r
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 15:56:54 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:45056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cosmin.chenaru@gmail.com>)
- id 1kS3P6-0002Cr-1d
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 15:22:42 -0400
-Received: by mail-il1-x12c.google.com with SMTP id d16so12641iln.10
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 12:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=XUTISeZ55Fd+G0CYX5P0d1M1JI/cb/fqpfH6kPFuGFA=;
- b=VIyHrhSutpO12T6YW5bhX60OyAhcd4Cj0sVa4AqZKsyii/j/iY5uj5akere01Ev/x5
- erCn7jbTUAk5qNPJO5iy5qcanA8EnZbrn84mgD8YT6n72CV+mi//esPaWA6YJj6VFB0b
- XhZhwgOxi6ALv7KpSrsnkBLJ8g/dbEhmoSlam6uX7BXN/edHlyaVHXOuChoeWvV8kxqK
- gApNaUHbm3nvDiEICXIcayEKE7lx53zuBXiO91feSGUWg7c1J9YA/FSg3Ws38xcMdRkK
- Wq31TWYyKIWseyGjgwxDEW3iAqw8nP5Cisv/6nvxEzFoP8+uOZh+21zxJX6F1X0KJQ8D
- KiFw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kS3wB-0006gi-LQ
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 15:56:53 -0400
+Received: by mail-ed1-x541.google.com with SMTP id dg9so15986304edb.12
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 12:56:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v5etaDJNkqSqjPrSQFI0iDavDx4rNRv/5D8BugcNJek=;
+ b=T9p4+Cks4CoZNHt4dMGwQVrSndKQKk1WRpTUD/fuuJRjmcd429tPrhBkPs0o5oDZhw
+ RK2fKp68TVLH3oW+kLgudi4qrOzH/MfBTTyG6kbhsJiQcG0xROmryHC8OnH7QV0Vpoqd
+ zqafuc9bIGcqpfn7HEPDCvchaX4BYuwuw4hF+fISxG9oqOAxH994jcN+l+7cC/DgMeKP
+ W7D1yRIBj6wV5giNqEwzCbX1sI86mVYHZ573IQkkBj+9fSYvxp107Ij/V1ppnS7+8jER
+ 085OJoPD9/X/EBfhUUSNYIYMhwQJoIBxLhg5oCDEYM9dLYBSVA4mruyhd7fGXVoOW4Iu
+ y+AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=XUTISeZ55Fd+G0CYX5P0d1M1JI/cb/fqpfH6kPFuGFA=;
- b=BGUPReqKzVBpFluz1ra8Ls78DqP97LJCHQL9BEXrB1tgdkhelKY2FiXOhzq5PUrIIq
- lY3AktyMAPCtL2dfDlRQOklG6Fb0CCLM0cKOBIKeOMrRpEBTXphcOOQlLh4E9Jcf6mAh
- 8vzVxmGjKMbekq24qyepkOA1pFURjp3LsfQBqB8CDO+Q0xCpij1SRmWV1NzJepTatDCJ
- KgvtkNvT53rPqT/hSyrlxOzSVtep+u2FO0zd5MYzuVhh1H5cGMmVdjYi9CjgWU0vpPEg
- pPfpvr9bkWgh+9fJipwubWDcNA/l5foPYLbznPqV7PM6I6i2lwOC6opGJuu+TPu330TQ
- bqPQ==
-X-Gm-Message-State: AOAM530vVJ9aGOFIsEwaf9c4a/Es6vJl7JIytE0wYw6df9jiaSTGLCcY
- BYt86nit4LHUX2bda/N/Lsrmro9WCcuBNYtWVXwXUMO21Ko=
-X-Google-Smtp-Source: ABdhPJzDFzl5/g9jeGfFA05Yyy2bNa7sdqvMp+99Ubui6iaCFB+t3b9+JllQCLYAwoVNt79JmhBdKtF9BzIhXDun4ZA=
-X-Received: by 2002:a92:da8e:: with SMTP id u14mr276847iln.235.1602530557924; 
- Mon, 12 Oct 2020 12:22:37 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v5etaDJNkqSqjPrSQFI0iDavDx4rNRv/5D8BugcNJek=;
+ b=Njg+xrypgLfOhzrrd6l2c98nBhqunPDfgAwHg5hoJuG46zLWBLdImyfiTgwxiM0bSi
+ IGRd8WAAOAbTL3fa8FusTUpX4gkLrjFZ9d5G+95mudtGyLyUR7IDCB4hatOWIkcxdtql
+ 3t9CXwYJEvYbyPS9t5eGtgM33ZV9FaJuiX5aDUf2BnPpZfEe6tu+ZvvQaH/26rV0qCKF
+ dE1RWm8vmD047z1qQXkfAkwRug/qVMgsYVD9xORzsRlGLO+oRcrGK1XFawurR9VuzC69
+ FNeVzpmowwTn05Hehb5NrrGkcrMZN7k4m3zOxQJZCwhYoDvN8VWp/B5RHMm0yI4rhj+W
+ Vzdg==
+X-Gm-Message-State: AOAM533w/kzz/WrYwpW9OPAsdZNoozvjRr1PeewAyz0WNVw/ksfLO5yP
+ pakpK5n1twCXufubGNluK0Ja8yqbkH5IOsRMWVKP+g==
+X-Google-Smtp-Source: ABdhPJwuycqjLxMBG9If2LyqnOmA3dEKzWYQJ/iIvskrwlKpz5lkTIvF7o+hYaD9fFA7cQduI0vJL+78AvyUidSix38=
+X-Received: by 2002:aa7:c7d7:: with SMTP id o23mr15892793eds.44.1602532609709; 
+ Mon, 12 Oct 2020 12:56:49 -0700 (PDT)
 MIME-Version: 1.0
-From: Cosmin Chenaru <cosmin.chenaru@gmail.com>
-Date: Mon, 12 Oct 2020 22:22:27 +0300
-Message-ID: <CADx_CBPzAstC0o9X6CrnyFqYYAtPbw5-XHWxmXTt6+LyYb-U3g@mail.gmail.com>
-Subject: Using virtio-vhost-user or vhost-pci
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000a59b8d05b17e3878"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=cosmin.chenaru@gmail.com; helo=mail-il1-x12c.google.com
+References: <20201012153746.9996-1-peter.maydell@linaro.org>
+ <20201012153746.9996-8-peter.maydell@linaro.org>
+In-Reply-To: <20201012153746.9996-8-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 12 Oct 2020 20:56:38 +0100
+Message-ID: <CAFEAcA_MN4pzkWV65+2VtUgMdayf6pa-RCLXiomCsntF+38hNQ@mail.gmail.com>
+Subject: Re: [PATCH 07/10] target/arm: Implement v8.1M low-overhead-loop
+ instructions
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 12 Oct 2020 16:11:23 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,166 +80,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a59b8d05b17e3878
-Content-Type: text/plain; charset="UTF-8"
+On Mon, 12 Oct 2020 at 16:37, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> v8.1M's "low-overhead-loop" extension has three instructions
+> for looping:
+>  * DLS (start of a do-loop)
+>  * WLS (start of a while-loop)
+>  * LE (end of a loop)
+>
+> +static bool trans_WLS(DisasContext *s, arg_WLS *a)
+> +{
+> +    /* M-profile low-overhead while-loop start */
+> +    TCGv_i32 tmp;
+> +    TCGLabel *nextlabel;
+> +
+> +    if (!dc_isar_feature(aa32_lob, s)) {
+> +        return false;
+> +    }
+> +    if (a->rn == 13 || a->rn == 15) {
+> +        /* CONSTRAINED UNPREDICTABLE: we choose to UNDEF */
+> +        return false;
+> +    }
+> +
+> +    nextlabel = gen_new_label();
+> +    tcg_gen_brcondi_i32(TCG_COND_NE, cpu_R[a->rn], 0, nextlabel);
+> +    gen_jmp(s, read_pc(s) + a->imm);
+> +
+> +    gen_set_label(nextlabel);
+> +    tmp = load_reg(s, a->rn);
+> +    store_reg(s, 14, tmp);
+> +    gen_jmp(s, s->base.pc_next);
+> +    return true;
+> +}
 
-Hi,
+This turns out not to work, because gen_jmp() always generates
+a goto-tb for tb exit 0, and we hit the assert() that exit 0
+was not used twice. Here's a fixup to fold into this patch:
 
-Could you please tell me if there has been any more work on
-virtio-vhost-user or vhost-pci? The last messages that I could find were
-from January 2018, from this thread [1], and from what I see the latest
-Qemu code does not have that included.
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -2490,17 +2490,23 @@ static void gen_goto_tb(DisasContext *s, int
+n, target_ulong dest)
+     s->base.is_jmp = DISAS_NORETURN;
+ }
 
-I am currently running multiple VMs, connected in between by the DPDK
-vhost-switch. A VM can start, reboot, shutdown, so much of this is dynamic
-and the vhost-switch handles all of these. So these VMs are some sort of
-"endpoints" (I could not find a better naming).
+-static inline void gen_jmp (DisasContext *s, uint32_t dest)
++/* Jump, specifying which TB number to use if we gen_goto_tb() */
++static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
+ {
+     if (unlikely(is_singlestepping(s))) {
+         /* An indirect jump so that we still trigger the debug exception.  */
+         gen_set_pc_im(s, dest);
+         s->base.is_jmp = DISAS_JUMP;
+     } else {
+-        gen_goto_tb(s, 0, dest);
++        gen_goto_tb(s, tbno, dest);
+     }
+ }
 
-The code which runs on the VM endpoints is somehow tied to the vhost-switch
-code, and if I change something on the VM which breaks the compatibility, I
-need to recompile the vhost-switch and restart. The problem is that most of
-the time I forget to update the vhost-switch, and I run into other problems.
++static inline void gen_jmp(DisasContext *s, uint32_t dest)
++{
++    gen_jmp_tb(s, dest, 0);
++}
++
+ static inline void gen_mulxy(TCGv_i32 t0, TCGv_i32 t1, int x, int y)
+ {
+     if (x)
+@@ -8023,7 +8029,16 @@ static bool trans_WLS(DisasContext *s, arg_WLS *a)
+         /* CONSTRAINED UNPREDICTABLE: we choose to UNDEF */
+         return false;
+     }
+-
++    if (s->condexec_mask) {
++        /*
++         * WLS in an IT block is CONSTRAINED UNPREDICTABLE;
++         * we choose to UNDEF, because otherwise our use of
++         * gen_goto_tb(1) would clash with the use of TB exit 1
++         * in the dc->condjmp condition-failed codepath in
++         * arm_tr_tb_stop() and we'd get an assertion.
++         */
++        return false;
++    }
+     nextlabel = gen_new_label();
+     tcg_gen_brcondi_i32(TCG_COND_NE, cpu_R[a->rn], 0, nextlabel);
+     gen_jmp(s, read_pc(s) + a->imm);
+@@ -8031,7 +8046,7 @@ static bool trans_WLS(DisasContext *s, arg_WLS *a)
+     gen_set_label(nextlabel);
+     tmp = load_reg(s, a->rn);
+     store_reg(s, 14, tmp);
+-    gen_jmp(s, s->base.pc_next);
++    gen_jmp_tb(s, s->base.pc_next, 1);
+     return true;
+ }
 
-If I could use a VM as a vhost-switch instead of the DPDK app, then I hope
-that in my endpoint code which runs on the VM, I can add functionality to
-make it also run as a switch, and forward the packets between the other VMs
-like the current DPDK switch does. Doing so would allow me to catch this
-out-of-sync between the VM endpoint code and the switch code at compile
-time, since they will be part of the same app.
-
-This would be a two-phase process. First to run the DPDK vhost-switch
-inside a guest VM, and then to move the tx-rx part into my app.
-
-Both Qemu and the DPDK app use "vhost-user". I was happy to see that I can
-start Qemu in vhost-user server mode:
-
-    <interface type='vhostuser'>
-      <mac address='52:54:00:9c:3a:e3'/>
-      <source type='unix' path='/home/cosmin/vsocket.server' mode='server'/>
-      <model type='virtio'/>
-      <driver queues='2'>
-        <host mrg_rxbuf='on'/>
-      </driver>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x04'
-function='0x0'/>
-    </interface>
-
-This would translate to these Qemu arguments:
-
--chardev socket,id=charnet1,path=/home/cosmin/vsocket.server,server -netdev
-type=vhost-user,id=hostnet1,chardev=charnet1,queues=2 -device
-virtio-net-pci,mrg_rxbuf=on,mq=on,vectors=6,netdev=hostnet1,id=net1,mac=52:54:00:9c:3a:e3,bus=pci.0,addr=0x4
-
-But at this point Qemu will not boot the VM until there is a vhost-user
-client connecting to Qemu. I even tried adding the "nowait" argument, but
-Qemu still waits. This will not work in my case, as the endpoint VMs could
-start and stop at any time, and I don't even know how many network
-interfaces the endpoint VMs will have.
-
-I then found the virtio-vhost-user transport protocol [2], and was thinking
-that I could at least start the packet-switching VM, and then let the DPDK
-app inside it do the forwarding of the packets. But from what I understand,
-this creates a single network interface inside the VM on which the DPDK app
-can bind. The limitation here is that if another VM wants to connect to the
-packet-switching VM, I need to manually add another virtio-vhost-user-pci
-device (and a new vhost-user.sock) before this packet-switching VM starts,
-so this is not dynamic.
-
-The second approach for me would be to use vhost-pci [3], which I could not
-fully understand how it works, but I think it presents a network interface
-to the guest kernel after another VM connects to the first one.
-
-I realize I made a big story and probably don't make too much sense, but
-one more thing. The ideal solution for me would be a combination of the
-vhost-user socket and the vhost-pci socket. The Qemu will start the VM and
-the socket will wait in the background for vhost-user connections. When a
-new connection is established, Qemu should create a hot-plugable PCI
-network card and either the guest kernel or the DPDK app inside to handle
-the vhost-user messages.
-
-Any feedback will be welcome, and I really appreciate all your work :)
-
-Cosmin.
-
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg04806.html
-[2] https://wiki.qemu.org/Features/VirtioVhostUser
-[3] https://github.com/wei-w-wang/vhost-pci
-
---000000000000a59b8d05b17e3878
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div><br></div><div>Could you please tell me if there h=
-as been any more work on virtio-vhost-user or vhost-pci? The last messages =
-that I could find were from January 2018, from this thread [1], and from wh=
-at I see the latest Qemu code does not have that included.</div><div><br></=
-div><div>I am currently running multiple VMs, connected in between by the D=
-PDK vhost-switch. A VM can start, reboot, shutdown, so much of this is dyna=
-mic and the vhost-switch handles all of these. So these VMs are some sort o=
-f &quot;endpoints&quot; (I could not find a better naming).</div><div><br><=
-/div><div>The code which runs on the VM endpoints is somehow tied to the vh=
-ost-switch code, and if I change something on the VM which breaks the compa=
-tibility, I need to recompile the vhost-switch and restart. The problem is =
-that most of the time I forget to update the vhost-switch, and I run into o=
-ther problems.</div><div><br></div><div>If I could use a VM as a vhost-swit=
-ch instead of the DPDK app, then I hope that in my endpoint code which runs=
- on the VM, I can add functionality to make it also run as a switch, and fo=
-rward the packets between the other VMs like the current DPDK switch does. =
-Doing so would allow me to catch this out-of-sync between the VM endpoint c=
-ode and the switch code at compile time, since they will be part of the sam=
-e app.</div><div><br></div><div>This would be a two-phase process. First to=
- run the DPDK vhost-switch inside a guest VM, and then to move the tx-rx pa=
-rt into my app.</div><div><br></div><div>Both Qemu and the DPDK app use &qu=
-ot;vhost-user&quot;. I was happy to see that I can start Qemu in vhost-user=
- server mode:</div><div><br></div><div>=C2=A0 =C2=A0 &lt;interface type=3D&=
-#39;vhostuser&#39;&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;mac address=3D&#39;52:54=
-:00:9c:3a:e3&#39;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;source type=3D&#39;unix&=
-#39; path=3D&#39;/home/cosmin/vsocket.server&#39; mode=3D&#39;server&#39;/&=
-gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;model type=3D&#39;virtio&#39;/&gt;<br>=C2=
-=A0 =C2=A0 =C2=A0 &lt;driver queues=3D&#39;2&#39;&gt;<br>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &lt;host mrg_rxbuf=3D&#39;on&#39;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &=
-lt;/driver&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;address type=3D&#39;pci&#39; dom=
-ain=3D&#39;0x0000&#39; bus=3D&#39;0x00&#39; slot=3D&#39;0x04&#39; function=
-=3D&#39;0x0&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;/interface&gt;<br></div><div><br=
-></div><div>This would translate to these Qemu arguments:</div><div><br></d=
-iv><div>-chardev socket,id=3Dcharnet1,path=3D/home/cosmin/vsocket.server,se=
-rver -netdev type=3Dvhost-user,id=3Dhostnet1,chardev=3Dcharnet1,queues=3D2 =
--device virtio-net-pci,mrg_rxbuf=3Don,mq=3Don,vectors=3D6,netdev=3Dhostnet1=
-,id=3Dnet1,mac=3D52:54:00:9c:3a:e3,bus=3Dpci.0,addr=3D0x4<br></div><div><br=
-></div><div>But at this point Qemu will not boot the VM until there is a vh=
-ost-user client connecting to Qemu. I even tried adding the &quot;nowait&qu=
-ot; argument, but Qemu still waits. This will not work in my case, as the e=
-ndpoint VMs could start and stop at any time, and I don&#39;t even know how=
- many network interfaces the endpoint VMs will have.</div><div><br></div><d=
-iv>I then found the virtio-vhost-user transport protocol [2], and was=C2=A0=
-thinking that I could at least start the packet-switching VM, and then let =
-the DPDK app inside it do the forwarding of the packets. But from what I un=
-derstand, this creates a single network interface inside the VM on which th=
-e DPDK app can bind. The limitation here is that if another VM wants to con=
-nect to the packet-switching VM, I need to manually add another virtio-vhos=
-t-user-pci device (and a new vhost-user.sock) before this packet-switching =
-VM starts, so this is not dynamic.=C2=A0 =C2=A0</div><div><br></div><div>Th=
-e second approach for me would be to use vhost-pci [3], which I could not f=
-ully understand how it=C2=A0works, but I think it presents a network interf=
-ace to the guest kernel after another VM connects to the first one.</div><d=
-iv><br></div><div>I realize I made a big story and probably don&#39;t make =
-too much sense, but one more thing. The ideal solution for me would be a co=
-mbination of the vhost-user socket and the vhost-pci socket. The Qemu will =
-start the VM and the socket will wait in the background for vhost-user conn=
-ections. When a new connection is established, Qemu should create a hot-plu=
-gable PCI network card and either the guest kernel or the DPDK app inside t=
-o handle the vhost-user messages.</div><div><br></div><div>Any feedback wil=
-l be welcome, and I really appreciate all your work :)</div><div><br></div>=
-<div>Cosmin.</div><div><br></div><div>[1] <a href=3D"https://lists.nongnu.o=
-rg/archive/html/qemu-devel/2018-01/msg04806.html">https://lists.nongnu.org/=
-archive/html/qemu-devel/2018-01/msg04806.html</a><br></div><div>[2]=C2=A0<a=
- href=3D"https://wiki.qemu.org/Features/VirtioVhostUser">https://wiki.qemu.=
-org/Features/VirtioVhostUser</a></div><div>[3]=C2=A0<a href=3D"https://gith=
-ub.com/wei-w-wang/vhost-pci">https://github.com/wei-w-wang/vhost-pci</a></d=
-iv><div><br></div></div>
-
---000000000000a59b8d05b17e3878--
+thanks
+-- PMM
 
