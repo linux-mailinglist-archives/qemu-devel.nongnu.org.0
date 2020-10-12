@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2756328C378
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:57:02 +0200 (CEST)
-Received: from localhost ([::1]:60324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFC628C3AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 23:00:39 +0200 (CEST)
+Received: from localhost ([::1]:43698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS4sP-00075i-4a
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:57:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39272)
+	id 1kS4vu-0003aa-SD
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 17:00:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kS4aW-0001Iu-Fz
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:38:33 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:42971)
+ id 1kS4cz-0004fA-PL
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:41:06 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:40773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kS4aU-0003Ef-By
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:38:32 -0400
-Received: by mail-lf1-x141.google.com with SMTP id a7so18587079lfk.9
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 13:38:29 -0700 (PDT)
+ id 1kS4cs-0003d5-5Y
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:41:05 -0400
+Received: by mail-lj1-x241.google.com with SMTP id f21so18154844ljh.7
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 13:40:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cooTXEHZCY4iqCHzog1t5U5S0Qhy0LEUjSbQsJ0c9OM=;
- b=rBbJ6gvR35guqwNM7P0ZKcQZ0uw2x3uNTfVPHqa6px1KXDPCQYNud/nLrGc9jKK7Qw
- UquFU7YztYnxYp/G+i0WpVT1TfGyy7z1kyqyTNBpYI/RcCkQKKv3mX07eRAD5kG9k6xo
- LFd+NCp2IiMtMb/Ia5ZrsZW80xKN7cnglBHM8D05KKoDF9AJxF1VdB1pAzu8WRqh7MCF
- /9Ueze8W2mQj8V5RH5mbe59e8PzVNlyO1x+n9K3+0Iz8N+cc2DHNozbbre28+6N0p6IU
- qq9iuD7X93TjMb2xxc1fFKHkyIaTCwHm7BG4BL4UdJaj6iH/Hp+TEzPVkLAHBVe5QR/V
- 4dZQ==
+ :cc; bh=6ftMiYdWCTtdk34xLW8mEN0AbZBeQdlhBsW7+2yks58=;
+ b=ecyqeaXgj/e0i3EQrIWMhM386lxtY73BLRInntmrQZpjR5Ovn7q2KQEJ8aMz8YHvPZ
+ tIkjXEEfF8YgCmZE1gdjZJH3fvY1BIpN8hcj8VK1CNHwR++xIao8CrF3RaKE+vW5xT7P
+ Ve2863W+Fbx1mwrSJPmHxxHXHRLbS4TodZuwZLjGwrBDBEcoBvxydRiuobMnbDU7jLom
+ RkWpMm3CjRBF8tLSYb38HWSnkEAGb0rN96I7eUzYofc/G5dLgYyC+FtERAvsExc/LyyP
+ Xt5TLnyCN2jqKz5pxvpCDGUqcZixXQsIoH24KstURjPAnOW9necVv3RxxifW4ws52naP
+ cgjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cooTXEHZCY4iqCHzog1t5U5S0Qhy0LEUjSbQsJ0c9OM=;
- b=i8Zz3obzzcMVvOpy/ZzLW0zRcMyijOmY47WOZKz79YoaXa9mboBJ6C/fYvi1bY1t9G
- 3UJMkBX8CCQ5BxeEK3oD0xlU9rzGGGKycbl8o4zlbgW8Or37JJ5rFVFL4AbNHdMPgF5w
- rGCjtWXkmjOuYT848ZtgrxOiB75P3rCdlHmiLCV81NF06Km5pw44TK73n2WyruNN4kiI
- Cg59Hw24KDRZ6N1Tn/R/ofSkRQq0Pth1eQjwFEfsWUP06tJnI4wJLbapjFtG9NpZ3k5T
- 2z8QtbaQ83JQG6APLqL4Mod4n09lEPX4xEKUNIBHM79d9w0TBUdt+MPUDuVvqd7tJcKk
- 4Ujg==
-X-Gm-Message-State: AOAM53169AiqGaDAvsII9u3nWzihi1sXCjuy49tV0bLsFqzVayCPBLho
- WFuQc9kYjQwdY/1XWpgIW7v4twjorRxzcD1vnVw=
-X-Google-Smtp-Source: ABdhPJw1mcqpB4g9r6kx2eZCqQuPZTXLZwkWjoKwQ+DdwazNlOpdKkoj1AZUDlkpie+ANYBfoMwM7iRusdtgYZchbxc=
-X-Received: by 2002:a19:4314:: with SMTP id q20mr7133591lfa.320.1602535108318; 
- Mon, 12 Oct 2020 13:38:28 -0700 (PDT)
+ bh=6ftMiYdWCTtdk34xLW8mEN0AbZBeQdlhBsW7+2yks58=;
+ b=eZhrKOiEN/KEcwhH8QTrrY+Rhrut9+GoTJ2PtdsN3v5EDMRz8l9LEePgUDYMFfG/BW
+ r6St1Uas5A8Nx/MEHRcuxQ76oiM4R12e+evl9AD/5kCBkISrQec4poVVJfwFMi+S+ni0
+ GVLQb2DfZNuU2FO14QQVg97ipBNIhdqfc3zjKF0qxoavDBEeOIF8T1D4gznkfnMXswdO
+ 3bYsaFNEbLzd5hJk5hQAvj9aASfoZgVqXrSGrlsqckOXRBIA/wN4USwLYRcWIzsAZdPJ
+ gDY+KJRDxhlZGeJs6MZoo5ZZSpea/WTCOVlH9FD3S8YEbYEEnSgZAXiHwgyCrRKZZves
+ RUZw==
+X-Gm-Message-State: AOAM532nJjUlwoFQU/RKX5ILmmFjvwfBGFKjDm96kQjCBzs7p6i5vOSH
+ yvTRiIbMjWCC8JUqLMUhyRbrAtrhl2EyrIbWy+o=
+X-Google-Smtp-Source: ABdhPJz7KUaoSQKDk+MYwDmByy4F39JZ/ax9jd7ZMO7rParp5ePfJ9ImKtP0il8rkqwmX1dHcip2FxxIq/6HumWWdgk=
+X-Received: by 2002:a2e:9ccd:: with SMTP id g13mr2058189ljj.127.1602535256304; 
+ Mon, 12 Oct 2020 13:40:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201012200725.64137-1-jandryuk@gmail.com>
  <20201012200725.64137-2-jandryuk@gmail.com>
  <f29b58c7-62c5-ad10-91c8-47598759c876@suse.de>
- <1f99e620-8356-a67f-1741-4e1c607795e1@redhat.com>
-In-Reply-To: <1f99e620-8356-a67f-1741-4e1c607795e1@redhat.com>
+In-Reply-To: <f29b58c7-62c5-ad10-91c8-47598759c876@suse.de>
 From: Jason Andryuk <jandryuk@gmail.com>
-Date: Mon, 12 Oct 2020 16:38:16 -0400
-Message-ID: <CAKf6xps2tHJHN-WmyNiTY5KFgZNsuGSNHc5LvxvRvc=16WbmrQ@mail.gmail.com>
+Date: Mon, 12 Oct 2020 16:40:44 -0400
+Message-ID: <CAKf6xpuyr818af9ucB-vpL9JXtmsATJaP--UWRgTjRku_G82mQ@mail.gmail.com>
 Subject: Re: [PATCH 1/2] accel: move qtest CpusAccel functions to a common
  location
-To: Paolo Bonzini <pbonzini@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=jandryuk@gmail.com; helo=mail-lf1-x141.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=jandryuk@gmail.com; helo=mail-lj1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,57 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, QEMU <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 12, 2020 at 4:30 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Mon, Oct 12, 2020 at 4:23 PM Claudio Fontana <cfontana@suse.de> wrote:
 >
-> On 12/10/20 22:23, Claudio Fontana wrote:
-> > On 10/12/20 10:07 PM, Jason Andryuk wrote:
-> >> Move and rename accel/qtest/qtest-cpu.* files to accel/dummy/ so they
-> >> can be re-used by Xen.
-> >>
-> >> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-> >> ---
-> >>  .../qtest-cpus.c => dummy/dummy-cpus.c}       | 22 +++++--------------
-> >>  .../qtest-cpus.h => dummy/dummy-cpus.h}       | 10 ++++-----
-> >>  accel/dummy/meson.build                       |  6 +++++
-> >>  accel/meson.build                             |  1 +
-> >>  accel/qtest/meson.build                       |  1 -
-> >>  accel/qtest/qtest.c                           |  7 +++++-
-> >>  6 files changed, 23 insertions(+), 24 deletions(-)
-> >>  rename accel/{qtest/qtest-cpus.c => dummy/dummy-cpus.c} (76%)
-> >>  rename accel/{qtest/qtest-cpus.h => dummy/dummy-cpus.h} (59%)
-> >>  create mode 100644 accel/dummy/meson.build
->
-> Maybe accel/dummy-cpus.c, no need to add a new directory.
-
-Sure.
-
-> >> diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
-> >> index 537e8b449c..ac54bc8f52 100644
-> >> --- a/accel/qtest/qtest.c
-> >> +++ b/accel/qtest/qtest.c
-> >> @@ -25,7 +25,12 @@
-> >>  #include "qemu/main-loop.h"
-> >>  #include "hw/core/cpu.h"
-> >>
-> >> -#include "qtest-cpus.h"
-> >> +#include "accel/dummy/dummy-cpus.h"
+> On 10/12/20 10:07 PM, Jason Andryuk wrote:
+> > Move and rename accel/qtest/qtest-cpu.* files to accel/dummy/ so they
+> > can be re-used by Xen.
 > >
-> > this is a bit strange from my perspective, does not look right.
-
-Yeah, I didn't really know where to put it.
-
-> > Maybe this dummy cpu prototype should be somewhere in include/ ,
-> > like include/sysemu/cpus.h or even better include/sysemu/accel.h
+> > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+> > ---
+> >  .../qtest-cpus.c => dummy/dummy-cpus.c}       | 22 +++++--------------
+> >  .../qtest-cpus.h => dummy/dummy-cpus.h}       | 10 ++++-----
+> >  accel/dummy/meson.build                       |  6 +++++
+> >  accel/meson.build                             |  1 +
+> >  accel/qtest/meson.build                       |  1 -
+> >  accel/qtest/qtest.c                           |  7 +++++-
+> >  6 files changed, 23 insertions(+), 24 deletions(-)
+> >  rename accel/{qtest/qtest-cpus.c => dummy/dummy-cpus.c} (76%)
+> >  rename accel/{qtest/qtest-cpus.h => dummy/dummy-cpus.h} (59%)
+> >  create mode 100644 accel/dummy/meson.build
+> >
+> > diff --git a/accel/qtest/qtest-cpus.c b/accel/dummy/dummy-cpus.c
+> > similarity index 76%
+> > rename from accel/qtest/qtest-cpus.c
+> > rename to accel/dummy/dummy-cpus.c
+> > index 7c5399ed9d..efade99f03 100644
+> > --- a/accel/qtest/qtest-cpus.c
+> > +++ b/accel/dummy/dummy-cpus.c
+> > @@ -1,5 +1,5 @@
+> >  /*
+> > - * QTest accelerator code
+> > + * Dummy cpu thread code
+> >   *
+> >   * Copyright IBM, Corp. 2011
+> >   *
+> > @@ -13,21 +13,14 @@
+> >
+> >  #include "qemu/osdep.h"
+> >  #include "qemu/rcu.h"
+> > -#include "qapi/error.h"
+> > -#include "qemu/module.h"
+> > -#include "qemu/option.h"
+> > -#include "qemu/config-file.h"
+> > -#include "sysemu/accel.h"
+> > -#include "sysemu/qtest.h"
+> >  #include "sysemu/cpus.h"
+> > -#include "sysemu/cpu-timers.h"
+> >  #include "qemu/guest-random.h"
+> >  #include "qemu/main-loop.h"
+> >  #include "hw/core/cpu.h"
+> >
+> > -#include "qtest-cpus.h"
+> > +#include "dummy-cpus.h"
+> >
+> > -static void *qtest_cpu_thread_fn(void *arg)
+> > +static void *dummy_cpu_thread_fn(void *arg)
+> >  {
+> >  #ifdef _WIN32
+> >      error_report("qtest is not supported under Windows");
 >
-> Yes, it should be in include/sysemu/cpus.h.
+> I wonder if this should be changed to "dummy cpu thread is not supported under Windows".
+>
+> Does not matter probably.
 
-Sounds good.
+I left it since I was just moving the file.  But...
 
-Thanks,
+> > diff --git a/accel/dummy/meson.build b/accel/dummy/meson.build
+> > new file mode 100644
+> > index 0000000000..5fbe27de90
+> > --- /dev/null
+> > +++ b/accel/dummy/meson.build
+> > @@ -0,0 +1,6 @@
+> > +dummy_ss = ss.source_set()
+> > +dummy_ss.add(files(
+> > +  'dummy-cpus.c',
+> > +))
+> > +
+> > +specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: dummy_ss)
+
+...  I don't really know meson, but this file is guarded by
+CONFIG_POSIX?  If that's true, then this ifdef can just go away.
+
+Regards,
 Jason
 
