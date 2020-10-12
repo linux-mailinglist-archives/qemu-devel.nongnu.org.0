@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FCB28BF32
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:48:35 +0200 (CEST)
-Received: from localhost ([::1]:60838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE9D28BF34
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:49:41 +0200 (CEST)
+Received: from localhost ([::1]:36032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS1w2-0001rU-1c
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58914)
+	id 1kS1x6-0003IK-Pe
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:49:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1uF-0000ke-5Y; Mon, 12 Oct 2020 13:46:43 -0400
-Received: from relay.sw.ru ([185.231.240.75]:32958 helo=relay3.sw.ru)
+ id 1kS1uz-0001tJ-LF; Mon, 12 Oct 2020 13:47:29 -0400
+Received: from relay.sw.ru ([185.231.240.75]:33202 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1uB-0007ZN-NP; Mon, 12 Oct 2020 13:46:42 -0400
+ id 1kS1uy-0007e7-0E; Mon, 12 Oct 2020 13:47:29 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1tF-0047iC-K6; Mon, 12 Oct 2020 20:45:41 +0300
+ id 1kS1u1-0047iC-IW; Mon, 12 Oct 2020 20:46:29 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com, fam@euphon.net,
  stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
  libvir-list@redhat.com, eblake@redhat.com, den@openvz.org,
  vsementsov@virtuozzo.com, andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v11 03/13] qapi: add filter-node-name to block-stream
-Date: Mon, 12 Oct 2020 20:43:15 +0300
-Message-Id: <1602524605-481160-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v11 04/13] copy-on-read: pass overlay base node name to COR
+ driver
+Date: Mon, 12 Oct 2020 20:43:16 +0300
+Message-Id: <1602524605-481160-5-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -58,120 +59,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-Provide the possibility to pass the 'filter-node-name' parameter to the
-block-stream job as it is done for the commit block job.
+We are going to use the COR-filter for a block-stream job.
+To limit COR operations by the base node in the backing chain during
+stream job, pass the name of overlay base node to the copy-on-read
+driver as base node itself may change due to possible concurrent jobs.
+The rest of the functionality will be implemented in the patch that
+follows.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/monitor/block-hmp-cmds.c | 4 ++--
- block/stream.c                 | 4 +++-
- blockdev.c                     | 4 +++-
- include/block/block_int.h      | 7 ++++++-
- qapi/block-core.json           | 6 ++++++
- 5 files changed, 20 insertions(+), 5 deletions(-)
+ block/copy-on-read.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-index 4d3db5e..4e66775 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -507,8 +507,8 @@ void hmp_block_stream(Monitor *mon, const QDict *qdict)
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index bcccf0f..c578b1b 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -24,19 +24,24 @@
+ #include "block/block_int.h"
+ #include "qemu/module.h"
+ #include "qapi/error.h"
++#include "qapi/qmp/qerror.h"
+ #include "qapi/qmp/qdict.h"
+ #include "block/copy-on-read.h"
  
-     qmp_block_stream(true, device, device, base != NULL, base, false, NULL,
-                      false, NULL, qdict_haskey(qdict, "speed"), speed, true,
--                     BLOCKDEV_ON_ERROR_REPORT, false, false, false, false,
--                     &error);
-+                     BLOCKDEV_ON_ERROR_REPORT, false, NULL, false, false, false,
-+                     false, &error);
  
-     hmp_handle_error(mon, error);
- }
-diff --git a/block/stream.c b/block/stream.c
-index 8ce6729..e0540ee 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -221,7 +221,9 @@ static const BlockJobDriver stream_job_driver = {
- void stream_start(const char *job_id, BlockDriverState *bs,
-                   BlockDriverState *base, const char *backing_file_str,
-                   int creation_flags, int64_t speed,
--                  BlockdevOnError on_error, Error **errp)
-+                  BlockdevOnError on_error,
-+                  const char *filter_node_name,
-+                  Error **errp)
+ typedef struct BDRVStateCOR {
+     bool active;
++    BlockDriverState *base_overlay;
+ } BDRVStateCOR;
+ 
+ 
+ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+                     Error **errp)
  {
-     StreamBlockJob *s;
-     BlockDriverState *iter;
-diff --git a/blockdev.c b/blockdev.c
-index bebd3ba..d719c47 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2489,6 +2489,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-                       bool has_backing_file, const char *backing_file,
-                       bool has_speed, int64_t speed,
-                       bool has_on_error, BlockdevOnError on_error,
-+                      bool has_filter_node_name, const char *filter_node_name,
-                       bool has_auto_finalize, bool auto_finalize,
-                       bool has_auto_dismiss, bool auto_dismiss,
-                       Error **errp)
-@@ -2571,7 +2572,8 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-     }
++    BlockDriverState *base_overlay = NULL;
+     BDRVStateCOR *state = bs->opaque;
++    /* We need the base overlay node rather than the base itself */
++    const char *base_overlay_node = qdict_get_try_str(options, "base");
  
-     stream_start(has_job_id ? job_id : NULL, bs, base_bs, base_name,
--                 job_flags, has_speed ? speed : 0, on_error, &local_err);
-+                 job_flags, has_speed ? speed : 0, on_error,
-+                 filter_node_name, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         goto out;
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 38cad9d..f782737 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1134,6 +1134,9 @@ int is_windows_drive(const char *filename);
-  *                  See @BlockJobCreateFlags
-  * @speed: The maximum speed, in bytes per second, or 0 for unlimited.
-  * @on_error: The action to take upon error.
-+ * @filter_node_name: The node name that should be assigned to the filter
-+ * driver that the commit job inserts into the graph above @bs. NULL means
-+ * that a node name should be autogenerated.
-  * @errp: Error object.
-  *
-  * Start a streaming operation on @bs.  Clusters that are unallocated
-@@ -1146,7 +1149,9 @@ int is_windows_drive(const char *filename);
- void stream_start(const char *job_id, BlockDriverState *bs,
-                   BlockDriverState *base, const char *backing_file_str,
-                   int creation_flags, int64_t speed,
--                  BlockdevOnError on_error, Error **errp);
-+                  BlockdevOnError on_error,
-+                  const char *filter_node_name,
-+                  Error **errp);
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+@@ -52,7 +57,16 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+         ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+             bs->file->bs->supported_zero_flags);
  
- /**
-  * commit_start:
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 3c16f1e..32fb097 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2533,6 +2533,11 @@
- #            'stop' and 'enospc' can only be used if the block device
- #            supports io-status (see BlockInfo).  Since 1.3.
- #
-+# @filter-node-name: the node name that should be assigned to the
-+#                    filter driver that the stream job inserts into the graph
-+#                    above @device. If this option is not given, a node name is
-+#                    autogenerated. (Since: 5.2)
-+#
- # @auto-finalize: When false, this job will wait in a PENDING state after it has
- #                 finished its work, waiting for @block-job-finalize before
- #                 making any block graph changes.
-@@ -2563,6 +2568,7 @@
-   'data': { '*job-id': 'str', 'device': 'str', '*base': 'str',
-             '*base-node': 'str', '*backing-file': 'str', '*speed': 'int',
-             '*on-error': 'BlockdevOnError',
-+            '*filter-node-name': 'str',
-             '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
++    if (base_overlay_node) {
++        qdict_del(options, "base");
++        base_overlay = bdrv_lookup_bs(NULL, base_overlay_node, errp);
++        if (!base_overlay) {
++            error_setg(errp, QERR_BASE_NOT_FOUND, base_overlay_node);
++            return -EINVAL;
++        }
++    }
+     state->active = true;
++    state->base_overlay = base_overlay;
  
- ##
+     /*
+      * We don't need to call bdrv_child_refresh_perms() now as the permissions
 -- 
 1.8.3.1
 
