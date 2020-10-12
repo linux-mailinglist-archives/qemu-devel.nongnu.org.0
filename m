@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC1C28AEF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 09:21:46 +0200 (CEST)
-Received: from localhost ([::1]:40996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593A728AEFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 09:24:03 +0200 (CEST)
+Received: from localhost ([::1]:47266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRs9R-0005mx-4O
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 03:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38376)
+	id 1kRsBe-0008W7-F5
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 03:24:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRs6y-0004E8-F6; Mon, 12 Oct 2020 03:19:12 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44375)
+ id 1kRs72-0004GA-Ge; Mon, 12 Oct 2020 03:19:17 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRs6w-0007it-Uw; Mon, 12 Oct 2020 03:19:12 -0400
-Received: by mail-wr1-x444.google.com with SMTP id t9so17869865wrq.11;
- Mon, 12 Oct 2020 00:19:10 -0700 (PDT)
+ id 1kRs71-0007jI-2o; Mon, 12 Oct 2020 03:19:16 -0400
+Received: by mail-wr1-x442.google.com with SMTP id b8so4662170wrn.0;
+ Mon, 12 Oct 2020 00:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZeAWSRu/BMpoDszgoEyIXN5rmeh4aCYGpZCyQIYA5os=;
- b=ToDcZ5PYUAc6EdoIVZtduwI4XKGrHQsXi+aDB4+vX+P/VaH3sfOLR45zbQ9fJdLPAC
- nS6o38JZ4MibNu9jbxzqIWdCGm9fp6YkFLBg0pammPWs3b1492MYyYG2Sz8R2AkSRVMs
- 30LJE9KiQFGw5l8rFQIt+/Z1MT9xKxoRk3+ivsdVFNlpNEpgiWN7VNtkr3YrQJurIbWL
- jvYsmW3aQSuwuEUCtA1CYWxKDjTkVY/dkkHBPjNRqN4oSe6e1uNah8tyKiMoYyzMLmZH
- bwOqXdg8LmI+SwK0U5JLeZyEC+cpI+QQjN00y6sJZPvu3upAwK3uqMTnorKzjb3Y0UXg
- K/Fw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=FNdBGLPtUmVgTnuJXhsVPUN2AJb8yl0wVfZR/zSesG8=;
+ b=pfFllSo4wPcfOL5nfEYYQGO+RFiHSqSqh1GIfRBmfXe/xhGgsNbofZlLZG+OyuFQND
+ oFMekdD3p17psKz3AKCO+QsTmnb2i8tDoC/BjX0533st0mmuE7gplb8iDdKXWVXW+Vnh
+ zCp+bYETTRNIHDOh0ZyIM9X2O3wWcOLG1IKWtkrN8CfpFmf9P/jTvwKOOFc2qrhDF19o
+ daPl3crQzmVHHL6sL4pdBqfGIXEI1kT4rIq0AV9z7PSUzCuXq+3+I4FxTQB+UI6fDoqj
+ PXOjL1GwN6DgMCivcm5NQ60w2rRMyndnQSE14z7EhaPFT25e5xtwzkvjNAh2VZ01LbxJ
+ t+NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ZeAWSRu/BMpoDszgoEyIXN5rmeh4aCYGpZCyQIYA5os=;
- b=bJdgotu+gKma69PXRlXXFjnlaj0k8fbzYsxpqrPoILF0vo3Q6nB2pVR952FtxOE4QQ
- JwMLvAYTfEkgfWb+VKdKBEr+Dyp4jWHgFVjEUk5zfzjUIpC+PlFRJBpIfSOYnWXayr+F
- 4Quhnjo6FcURU4g7PzAA6OKDE//hLQHFYhA3Iw0DAnUF3rSma+pYpFcPUK9OGJgQDFBR
- +O3kva7OMvIBgRXVkNKnDmZOG88d78F4HwhXyjyeDo903pyJsT4bTKXP2KtHSVfv/Ag7
- 2cZ3GzBuiT5sGYBUkSx55Gztf8eb7Dq/cubiVjyspHRKppuGeDLdkBHQbjjHGxtWS6CI
- y4mA==
-X-Gm-Message-State: AOAM533KTqsXcppzO5tD7jtYKwI+2KaWMnKE8RWOj1WO7juzgZ7678+3
- 4yxdHEtAiqcGtvgRinywcOZWxna/TMA=
-X-Google-Smtp-Source: ABdhPJwCPVD7tbuDNOhuXt2tMaLVWe1w1qz6LegsA7x6dosLaSdorCoBTqv56gTgwEK/WRb+7pLd+g==
-X-Received: by 2002:adf:f50c:: with SMTP id q12mr30373259wro.249.1602487148528; 
- Mon, 12 Oct 2020 00:19:08 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=FNdBGLPtUmVgTnuJXhsVPUN2AJb8yl0wVfZR/zSesG8=;
+ b=in2JQ0K5Q60XNv4NdrDqERnzhKGOAoSCHtKHrUx8LuLIs9Z5zE+gK7+5CkAsv+Frt2
+ y+xgqjV9y9V4YY74ecZ431Ffd6juiPwZVO9RyVM6FNbJCUl/vX3gjq+hTPixakvPB4ud
+ q6+DVNtaO14jH99HZ8SwGU2q7Lw8riuBnoGekQWT6S1GJL7EA0UzQesT1jbGFFWjFAoq
+ 0cr35t1i2ZHQps3oxs6NRzip7T13XpUeuj/cm59y2IE0VM1EIHL4TWhDw3/2wg94vIUN
+ qLNmjoTUfLDQVggPLweANaGJmUImcasdOgrZIiLjvKpka1Z07KGoZJO5+rfQ0dNp3zMS
+ WzSg==
+X-Gm-Message-State: AOAM530gnEC6v/1Pzsjvs4Z73zG90UGjULvzRwRAQWzFdPDy1ihY05zy
+ 2xR0MczD7mxOpUIucJ24olP7BRoshoM=
+X-Google-Smtp-Source: ABdhPJzEzzm0FwZernmGPYHASlngnmunDkeK2EmNJ/XBpOIjCHXZXUIsX6G9hWKrGwZ8Tqm1BVuxWQ==
+X-Received: by 2002:a5d:608f:: with SMTP id w15mr13152054wrt.183.1602487153125; 
+ Mon, 12 Oct 2020 00:19:13 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id l1sm2894426wrb.1.2020.10.12.00.19.07
+ by smtp.gmail.com with ESMTPSA id s11sm19372193wrm.56.2020.10.12.00.19.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 00:19:07 -0700 (PDT)
+ Mon, 12 Oct 2020 00:19:12 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] hw/pci-host/prep: Fix PCI swizzling in map_irq()
-Date: Mon, 12 Oct 2020 09:19:02 +0200
-Message-Id: <20201012071906.3301481-1-f4bug@amsat.org>
+Subject: [PATCH 1/4] hw/pci-host/prep: Update coding style to make
+ checkpatch.pl happy
+Date: Mon, 12 Oct 2020 09:19:03 +0200
+Message-Id: <20201012071906.3301481-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201012071906.3301481-1-f4bug@amsat.org>
+References: <20201012071906.3301481-1-f4bug@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -89,19 +93,31 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a bug in the Raven PCI host, plus few cleanups while here.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (4):=0D
-  hw/pci-host/prep: Update coding style to make checkpatch.pl happy=0D
-  hw/pci-host/prep: Remove legacy PReP machine temporary workaround=0D
-  hw/pci-host/prep: Fix PCI swizzling in map_irq()=0D
-  docs/system/target-ppc.rst: Update PReP historical information=0D
-=0D
- docs/system/target-ppc.rst |  8 ++++----=0D
- hw/pci-host/prep.c         | 32 ++++++++++++--------------------=0D
- 2 files changed, 16 insertions(+), 24 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+To make the next commit easier to review, clean this code first.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/pci-host/prep.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+index d0323fefb10..80dfb67da43 100644
+--- a/hw/pci-host/prep.c
++++ b/hw/pci-host/prep.c
+@@ -234,8 +234,10 @@ static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
+             sysbus_init_irq(dev, &s->pci_irqs[i]);
+         }
+     } else {
+-        /* According to PReP specification section 6.1.6 "System Interrupt
+-         * Assignments", all PCI interrupts are routed via IRQ 15 */
++        /*
++         * According to PReP specification section 6.1.6 "System Interrupt
++         * Assignments", all PCI interrupts are routed via IRQ 15
++         */
+         s->or_irq = OR_IRQ(object_new(TYPE_OR_IRQ));
+         object_property_set_int(OBJECT(s->or_irq), "num-lines", PCI_NUM_PINS,
+                                 &error_fatal);
+-- 
+2.26.2
+
 
