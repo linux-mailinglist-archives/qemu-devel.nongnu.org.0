@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE1828B415
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 13:49:21 +0200 (CEST)
-Received: from localhost ([::1]:45378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5AB28B40D
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 13:47:29 +0200 (CEST)
+Received: from localhost ([::1]:38502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRwKO-0004mO-7U
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 07:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42770)
+	id 1kRwIa-0001v9-9v
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 07:47:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kRwG8-0000dv-8F
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:44:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57035)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kRwFn-0000Ow-Hm
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:44:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kRwG3-0008BI-P6
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:44:55 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kRwFl-00089W-7B
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:44:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602503089;
+ s=mimecast20190719; t=1602503072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=04mH/EQN2FMbm79HfXdBhiaZTkRTdOPvt3HTGNa6fxc=;
- b=Kvp7zIbPOvrXELVgA2OQ1jWIODkAZ55mNAbg+rKw80ynhZ5Bmw0oEN3x54tJVJ2FfoEEU1
- Qe+mHuJhdLT0yPluywSexmM7DkfZAlUrkBPlXIwtfJj1AJgtTEIldDBi2E9P0jIOeDzQzJ
- 1HyHezSqn+E8bOHih7Jw911sfP4dLp4=
+ bh=s8Tykc6KsUxdLq8UdeSSUOuM12RlEJWbwGvm4L5gU1k=;
+ b=MSw0Ak/RxxVvE5OM2XUvL5hULAfSEK6KkceKBltOLAkRwJ/4+6IR1+MNx6XkxIiYpw2xgM
+ NTSSdbYR/ZEng/mfzw/I4vlld1fwn3Xh3OhfNwf/cfBb2wqOEm76cm5SF3GU3y74nCaabR
+ cS81+rvYcVJ8iKqPYI2sDjSzGfLebFY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-2j4df_44OH-hXeQLj3vaQg-1; Mon, 12 Oct 2020 07:44:47 -0400
-X-MC-Unique: 2j4df_44OH-hXeQLj3vaQg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-497-N-fpAbTTMD2WeX_iMHI-Pw-1; Mon, 12 Oct 2020 07:44:30 -0400
+X-MC-Unique: N-fpAbTTMD2WeX_iMHI-Pw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01B6A18A8227;
- Mon, 12 Oct 2020 11:44:46 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-113-244.ams2.redhat.com
- [10.36.113.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9990C19C78;
- Mon, 12 Oct 2020 11:44:44 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, alex.bennee@linaro.org, zhengchuan@huawei.com,
- stefanha@redhat.com, peterx@redhat.com
-Subject: [PULL 6/6] migration/dirtyrate: present dirty rate only when querying
- the rate has completed
-Date: Mon, 12 Oct 2020 12:44:25 +0100
-Message-Id: <20201012114425.104765-7-dgilbert@redhat.com>
-In-Reply-To: <20201012114425.104765-1-dgilbert@redhat.com>
-References: <20201012114425.104765-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70C371084C80;
+ Mon, 12 Oct 2020 11:44:29 +0000 (UTC)
+Received: from [10.3.112.62] (ovpn-112-62.phx2.redhat.com [10.3.112.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BAB755760;
+ Mon, 12 Oct 2020 11:44:28 +0000 (UTC)
+Subject: Re: [PATCH v4 2/7] test-keyval: Demonstrate misparse of ',' with
+ implied key
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20201011073505.1185335-1-armbru@redhat.com>
+ <20201011073505.1185335-3-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <eca63857-e2e4-4df7-db44-2eeefa9c2dc4@redhat.com>
+Date: Mon, 12 Oct 2020 06:44:27 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20201011073505.1185335-3-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,73 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com
+Cc: kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chuan Zheng <zhengchuan@huawei.com>
+On 10/11/20 2:35 AM, Markus Armbruster wrote:
+> Add a test for "val,,ue" with implied key.  Documentation says this
+> should parse as implied key with value "val", then fail.  The code
+> parses it as implied key with value "val,ue", then succeeds.  The next
+> commit will fix it.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   tests/test-keyval.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 
-Make dirty_rate field optional, present dirty rate only when querying
-the rate has completed.
-The qmp results is shown as follow:
-@unstarted:
-{"return":{"status":"unstarted","start-time":0,"calc-time":0},"id":"libvirt-12"}
-@measuring:
-{"return":{"status":"measuring","start-time":102931,"calc-time":1},"id":"libvirt-85"}
-@measured:
-{"return":{"status":"measured","dirty-rate":4,"start-time":150146,"calc-time":1},"id":"libvirt-15"}
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-Message-Id: <1601350938-128320-3-git-send-email-zhengchuan@huawei.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/dirtyrate.c | 3 +--
- qapi/migration.json   | 8 +++-----
- 2 files changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/tests/test-keyval.c b/tests/test-keyval.c
+> index e331a84149..f02bdf7029 100644
+> --- a/tests/test-keyval.c
+> +++ b/tests/test-keyval.c
+> @@ -182,6 +182,13 @@ static void test_keyval_parse(void)
+>       error_free_or_abort(&err);
+>       g_assert(!qdict);
+>   
+> +    /* Implied key's value can't have comma (qemu_opts_parse(): it can) */
+> +    /* BUG: it can */
+> +    qdict = keyval_parse("val,,ue", "implied", &error_abort);
+> +    g_assert_cmpuint(qdict_size(qdict), ==, 1);
+> +    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "val,ue");
+> +    qobject_unref(qdict);
+> +
+>       /* Empty key is not an implied key */
+>       qdict = keyval_parse("=val", "implied", &err);
+>       error_free_or_abort(&err);
+> 
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 40e41e793e..ab9e1301f6 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -69,9 +69,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
- 
-     if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
-+        info->has_dirty_rate = true;
-         info->dirty_rate = dirty_rate;
--    } else {
--        info->dirty_rate = -1;
-     }
- 
-     info->status = CalculatingState;
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 7f5e6fd681..974021a5c8 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1743,10 +1743,8 @@
- #
- # Information about current dirty page rate of vm.
- #
--# @dirty-rate: @dirtyrate describing the dirty page rate of vm
--#              in units of MB/s.
--#              If this field returns '-1', it means querying has not
--#              yet started or completed.
-+# @dirty-rate: an estimate of the dirty page rate of the VM in units of
-+#              MB/s, present only when estimating the rate has completed.
- #
- # @status: status containing dirtyrate query status includes
- #          'unstarted' or 'measuring' or 'measured'
-@@ -1759,7 +1757,7 @@
- #
- ##
- { 'struct': 'DirtyRateInfo',
--  'data': {'dirty-rate': 'int64',
-+  'data': {'*dirty-rate': 'int64',
-            'status': 'DirtyRateStatus',
-            'start-time': 'int64',
-            'calc-time': 'int64'} }
 -- 
-2.28.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
