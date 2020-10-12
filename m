@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC37128B1BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 11:49:55 +0200 (CEST)
-Received: from localhost ([::1]:43952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B1E28B1CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 11:52:14 +0200 (CEST)
+Received: from localhost ([::1]:46656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRuSo-0003X2-G4
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 05:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43388)
+	id 1kRuV3-0004ms-Pj
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 05:52:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRuQP-00023f-Aw
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:47:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24494)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRuSz-0003ww-Rv
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:50:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRuQM-0001QX-UW
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:47:24 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRuSx-0001gL-C6
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:50:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602496042;
+ s=mimecast20190719; t=1602496201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DORu/2dEgR15H323oG1TDNnVoQdu2cxlBC0nuYBTL9E=;
- b=QBn5Puo1gYQ/Cc4Yb5XYPBKRDKql/Y9zNWgWjt7tUEhSOmvle5uhlFJkVC2lMDdgf5QXfe
- /VaYydMi0xKI2V593I2nWwmRAmFHAacTUhXdRKvpBNjQtUkYOZTQZHCV6Vo35i4GDOFPpz
- w0zae8k0bE3ZvWkSYUS37DFjH4I+UJY=
+ bh=52rPvKeqpDwL/qRi5rCEO1P2nbJLMSkvaCLzETAcPSE=;
+ b=dGzIEd8zbGBpQE5QZnA9hd5LBYT31tE1U30Hx5pCdAasZhJLOoaNPFm1prTijiEe1Dt9Ag
+ ECMxrFqa2cgb7kC6C/LsEbkKcParyGmlLEZe9+3uQQS3fGKDRXRrfmGcvAcZ43vQpCpins
+ C89YnDc5gFmGI7R9IDaSS12BHq3QyHc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-lvBjJhz-MZqCOti74C1uCw-1; Mon, 12 Oct 2020 05:47:19 -0400
-X-MC-Unique: lvBjJhz-MZqCOti74C1uCw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-275-sV5a8uF2PeWvIVEDGgeikA-1; Mon, 12 Oct 2020 05:49:57 -0400
+X-MC-Unique: sV5a8uF2PeWvIVEDGgeikA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54AE91800D42;
- Mon, 12 Oct 2020 09:47:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A9BE10051A4;
+ Mon, 12 Oct 2020 09:49:56 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-113-22.ams2.redhat.com [10.36.113.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 343925D9CD;
- Mon, 12 Oct 2020 09:47:16 +0000 (UTC)
-Subject: Re: [PATCH v2 2/4] Makefile: Require GNU make 3.82+
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73E536EF7B;
+ Mon, 12 Oct 2020 09:49:55 +0000 (UTC)
+Subject: Re: [PATCH v2 4/4] configure: Test if $make actually exists
 To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 References: <20200825202755.50626-1-r.bolshakov@yadro.com>
- <20200825202755.50626-3-r.bolshakov@yadro.com>
+ <20200825202755.50626-5-r.bolshakov@yadro.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <1ff85cc3-40dc-98da-fb18-a1b3d134d7dc@redhat.com>
-Date: Mon, 12 Oct 2020 11:47:16 +0200
+Message-ID: <6fdd2caf-7362-29db-9484-c1115297f5fa@redhat.com>
+Date: Mon, 12 Oct 2020 11:49:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200825202755.50626-3-r.bolshakov@yadro.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200825202755.50626-5-r.bolshakov@yadro.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,34 +89,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 25/08/2020 22.27, Roman Bolshakov wrote:
-> QEMU build fails with cryptic messages if make is too old:
-> 
->   Makefile.ninja:2655: *** multiple target patterns.  Stop.
-> 
-> To avoid the confusion it's worth to fail the build right away and print
-> a friendly error message.
+> configure doesn't detect if $make is installed on the build host.
+> This is also helpful for hosts where an alias for make is used, i.e.
+> configure would fail if gmake is not present on macOS.
 > 
 > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 > ---
->  Makefile | 5 +++++
->  1 file changed, 5 insertions(+)
+>  configure | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Makefile b/Makefile
-> index 81794d5c34..b4ebf3e30f 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -4,6 +4,11 @@ ifneq ($(words $(subst :, ,$(CURDIR))), 1)
->    $(error main directory cannot contain spaces nor colons)
->  endif
+> diff --git a/configure b/configure
+> index 664084992b..9230832da2 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2029,6 +2029,10 @@ if test -z "$python"
+>  then
+>      error_exit "Python not found. Use --python=/path/to/python"
+>  fi
+> +if ! has "$make"
+> +then
+> +    error_exit "GNU make ($make) not found"
+> +fi
 >  
-> +ifeq ($(filter undefine,$(value .FEATURES)),)
-> +$(error Unsupported Make version: $(MAKE_VERSION). \
-> +        Please use GNU Make 3.82 or above)
-> +endif
-> +
->  # Always point to the root of the build tree (needs GNU make).
->  BUILD_DIR=$(CURDIR)
+>  # Note that if the Python conditional here evaluates True we will exit
+>  # with status 1 which is a shell 'false' value.
+> 
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
