@@ -2,96 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2861E28B819
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:49:36 +0200 (CEST)
-Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5201A28B845
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:51:13 +0200 (CEST)
+Received: from localhost ([::1]:45006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRyCl-0000e8-7Z
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51922)
+	id 1kRyEK-0002jV-Dc
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kRyAf-0007xB-RB
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:47:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55252)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRyDF-0001kZ-0o
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:50:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kRyAX-0000SL-HS
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:47:22 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRyDD-0000ji-6x
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:50:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602510436;
+ s=mimecast20190719; t=1602510602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SWZBPdt6cu6xHHBOpo9uqeX/pLX2HtLQ2M010/B0OQg=;
- b=RKfbJgRWl4VBD6FZmGSRbvIgTGcyAYbZnDJ4GldQQdpS1GmFm3Q95SmL4hKfl7y85uCEFc
- A2hqlgznv9gUmNCYmY5yh65YfAZhQgW3ye0TA/ch5PKCnQyH+SVKBPCN8XHFlkMHpIofa3
- HeVg/I1ABMuooF0WXRPTvUxHFtyHpcI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-pbUCATAsOC-jxnQUcfuhHQ-1; Mon, 12 Oct 2020 09:47:15 -0400
-X-MC-Unique: pbUCATAsOC-jxnQUcfuhHQ-1
-Received: by mail-wr1-f70.google.com with SMTP id r8so2016998wrp.5
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 06:47:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SWZBPdt6cu6xHHBOpo9uqeX/pLX2HtLQ2M010/B0OQg=;
- b=E5Gn6vNlINGvRd+GeZUQ5OIUbDeofTbCCqEInC/pc/1+dMHBf6CzaJ9iQHlhVOIsp+
- 1ioDXJL29yvrsZzKKOG6plKDbFvSEcvw206N+fkvu8HwVmcfK9QUju7jVDEoi0kZ8ri9
- v3GZqavCnihnXimLgFQ/DlbCLbd8lM8fJWUhfEtRGc7en2q1ZPHGABq14dXgnk0HjIW8
- RFp+B1yxvSdne05mViF/jez7o7eOv0YF5uyeEaXwrtGmga9Ux9M0OTmOK3wllQG+nff/
- tbX79meJ3nt4XCaFa6b0fYeWket0PYtafZlyBIOqJL7irfWgHKwfhJZAepitsgOSS7Rp
- 4xpg==
-X-Gm-Message-State: AOAM533O1elTUaViCTUJhXArTqbvay6V1Un6EFcG49EZBx+YziRZdSMN
- XGRMotq7KYXdcLGnTibz9NywWnWP+lZZftChdcEboANNnjF8BaURqccbJXwRSDfhJmeVoi5lgjZ
- nXrDZ/cXqu06Lw34=
-X-Received: by 2002:a1c:5f46:: with SMTP id t67mr10688950wmb.173.1602510433847; 
- Mon, 12 Oct 2020 06:47:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9K6gA+FBHaEdLb/H6OgpwOEfjdRH/FgsrUb6v1M5jDB3xImBFxXUC/1/f9CyRl7KvySyj5w==
-X-Received: by 2002:a1c:5f46:: with SMTP id t67mr10688935wmb.173.1602510433653; 
- Mon, 12 Oct 2020 06:47:13 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7ffb:1107:73ba:dbcf?
- ([2001:b07:6468:f312:7ffb:1107:73ba:dbcf])
- by smtp.gmail.com with ESMTPSA id o3sm21668558wru.15.2020.10.12.06.47.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Oct 2020 06:47:13 -0700 (PDT)
+ bh=CVZY04nvOE1qgvoPm3COFlRUQxgDmu2OY51x1jomjxk=;
+ b=cNbq4pBwG3JxaERclQVjPWQbgOMwBAThxB298CB0lh1uNO44NDmh/kp6XmdwmdLRExyZlh
+ TgJqIrekP9nM0WTx3VKv+Xx3pJ6L0TPZnwwGFb6bOMVUYrmJaJrJb3k3xO++I90DsUZriS
+ NHk9Rg7CHsHNMMzpS9yrx2B01vLAcJ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-IcgQ_j-nMbChNJ-J1kGs7A-1; Mon, 12 Oct 2020 09:50:00 -0400
+X-MC-Unique: IcgQ_j-nMbChNJ-J1kGs7A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 540D518A8221;
+ Mon, 12 Oct 2020 13:49:59 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-114-60.ams2.redhat.com [10.36.114.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C6BF5C22B;
+ Mon, 12 Oct 2020 13:49:49 +0000 (UTC)
 Subject: Re: [PATCH v7 02/13] qtest: Reintroduce qtest_qmp_receive
-To: Thomas Huth <thuth@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- qemu-devel@nongnu.org
+To: Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky
+ <mlevitsk@redhat.com>, qemu-devel@nongnu.org
 References: <20201006123904.610658-1-mlevitsk@redhat.com>
  <20201006123904.610658-3-mlevitsk@redhat.com>
  <3dd3b467-6784-470c-cbfb-b7baf611abde@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f3098b68-2d6b-6c99-4658-5b3c32227832@redhat.com>
-Date: Mon, 12 Oct 2020 15:47:16 +0200
+ <f3098b68-2d6b-6c99-4658-5b3c32227832@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <a09865ae-40ec-0fc7-0b95-2f039284d546@redhat.com>
+Date: Mon, 12 Oct 2020 15:49:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <3dd3b467-6784-470c-cbfb-b7baf611abde@redhat.com>
+In-Reply-To: <f3098b68-2d6b-6c99-4658-5b3c32227832@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,31 +96,35 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/20 13:14, Thomas Huth wrote:
->> +/**
->> + * qtest_qmp_receive:
->> + * @s: #QTestState instance to operate on.
->> + *
->> + * Reads a QMP message from QEMU and returns the response.
->> + * Buffers all the events received meanwhile, until a
->> + * call to qtest_qmp_eventwait
->> + */
->> +QDict *qtest_qmp_receive(QTestState *s);
-> Re-introducing qtest_qmp_receive() with different behavior than before will
-> likely make backports of other later patches a pain, and might also break
-> other patches that use this function but are not merged yet. Could you
-> please use a different name for this function instead? Maye
-> qtest_qmp_receive_buffered() or something like that?
+On 12/10/2020 15.47, Paolo Bonzini wrote:
+> On 12/10/20 13:14, Thomas Huth wrote:
+>>> +/**
+>>> + * qtest_qmp_receive:
+>>> + * @s: #QTestState instance to operate on.
+>>> + *
+>>> + * Reads a QMP message from QEMU and returns the response.
+>>> + * Buffers all the events received meanwhile, until a
+>>> + * call to qtest_qmp_eventwait
+>>> + */
+>>> +QDict *qtest_qmp_receive(QTestState *s);
+>> Re-introducing qtest_qmp_receive() with different behavior than before will
+>> likely make backports of other later patches a pain, and might also break
+>> other patches that use this function but are not merged yet. Could you
+>> please use a different name for this function instead? Maye
+>> qtest_qmp_receive_buffered() or something like that?
+> 
+> We chose to use the same name because the new version generally is the
+> one you want and, except for the handling of events, is exactly the same
+> as before.  In other words, I'm treating the new semantics more as a
+> bugfix than a feature.
+> 
+> The only trap that backports of later patches could fall into is if they
+> want to look at events, but it would be caught easily because the test
+> would fail.
 
-We chose to use the same name because the new version generally is the
-one you want and, except for the handling of events, is exactly the same
-as before.  In other words, I'm treating the new semantics more as a
-bugfix than a feature.
+Ok, thanks for the explanation! ... but I think it might be good to have
+this information in the patch description, though.
 
-The only trap that backports of later patches could fall into is if they
-want to look at events, but it would be caught easily because the test
-would fail.
-
-Paolo
+ Thomas
 
 
