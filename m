@@ -2,59 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FD128BD47
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:09:51 +0200 (CEST)
-Received: from localhost ([::1]:58928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD8528BD51
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:11:53 +0200 (CEST)
+Received: from localhost ([::1]:38476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0OU-0004Mt-Kj
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59906)
+	id 1kS0QS-0007k8-PE
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kS01F-0005BY-Uj; Mon, 12 Oct 2020 11:45:50 -0400
-Resent-Date: Mon, 12 Oct 2020 11:45:49 -0400
-Resent-Message-Id: <E1kS01F-0005BY-Uj@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21318)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kS01D-0000Ia-79; Mon, 12 Oct 2020 11:45:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1602517538; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=UgGbukkUR/wPfH3MzH0MrRTdzVHItqjSM63KgpsGWuzSfs4gpIprLd7bxLmN5MZNGWnBydO/S3M1buLTCkTWOaErnr2iFpo4xgSD0BWBnoRugPqqrQkYpHmRGmlPBe3R4oBjw20xV79XdRdxeghc5CJMC4bhjSXUUJPH+o0ZsG4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1602517538;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=PQ8yhp4woezLcxoQtPoIMtAa2Sr9dgUSvEI1e5BHmic=; 
- b=ChBSW0YXoVifVUY+KAUCETrVj/Jtoi6H1oz+UxqzyiHLNYZclm0aFMytGlEcEgcMuvK/5r1tPoWypMpVjFjXSAlkeK4Hx98zMfiKgi5Ygoctg8uKgRBqwzweYVmqnt+ZrsSIbrGwGRb10Sg93SpHZuWgc81bfCJuwyZneBJrDm0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1602517537003574.3528256154505;
- Mon, 12 Oct 2020 08:45:37 -0700 (PDT)
-Subject: Re: [PATCH for-5.1] docs/system/arm/virt: Document mte machine option
-Message-ID: <160251753567.18344.11052124400267344488@66eaa9a8a123>
-In-Reply-To: <20201012153408.9747-10-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kS05o-0003P1-Uo
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:50:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51708)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kS05m-0000oN-7T
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:50:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602517828;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tF6uuA9c+EqbEKwqFMvHj4jDO4Rr7905jpEPfQEeWbo=;
+ b=Q8f6+1SBRbBRQraaPEWlxsL2eS19TM+lCXXla0GXLKjKuxLHdpA33CkFrGRe/Lz0VXpfoe
+ rR1nPZx3vnn+wYco5XB67jX2HVky8Kohf3Je4J7hC6m/vqcJFtmip+5lKUDSvKlgqdXcQX
+ uDWWZ38luFrjGm+F7xwEMC9naoe9IMU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-Xu-G6s3yOBiU9G3JKnyfew-1; Mon, 12 Oct 2020 11:50:24 -0400
+X-MC-Unique: Xu-G6s3yOBiU9G3JKnyfew-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52A3EAFD09;
+ Mon, 12 Oct 2020 15:50:23 +0000 (UTC)
+Received: from localhost (ovpn-115-4.ams2.redhat.com [10.36.115.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D362D10013D7;
+ Mon, 12 Oct 2020 15:50:22 +0000 (UTC)
+Date: Mon, 12 Oct 2020 16:50:21 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/30] Block patches
+Message-ID: <20201012155021.GD145304@stefanha-x1.localdomain>
+References: <20201009193529.322822-1-stefanha@redhat.com>
+ <CAFEAcA98=xnV0H_RmFqbfCONiOGC070M0-JjvmR_5drtpd1=xQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: peter.maydell@linaro.org
-Date: Mon, 12 Oct 2020 08:45:37 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 11:45:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA98=xnV0H_RmFqbfCONiOGC070M0-JjvmR_5drtpd1=xQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zS7rBR6csb6tI2e1"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,32 +81,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Coiby Xu <Coiby.Xu@gmail.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAxMjE1MzQwOC45NzQ3
-LTEwLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
-byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
-b3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMDEyMTUzNDA4
-Ljk3NDctMTAtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnClN1YmplY3Q6IFtQQVRDSCBmb3ItNS4x
-XSBkb2NzL3N5c3RlbS9hcm0vdmlydDogRG9jdW1lbnQgbXRlIG1hY2hpbmUgb3B0aW9uCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9k
-ZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApn
-aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
-ZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNr
-IGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3
-ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3
-LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAxMDEyMTUzNDA4
-Ljk3NDctMTAtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMDEwMTIxNTM0
-MDguOTc0Ny0xMC1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJh
-bmNoICd0ZXN0JwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KY2hlY2twYXRjaC5wbDogbm8gcmV2aXNp
-b25zIHJldHVybmVkIGZvciByZXZsaXN0ICcxJwo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
-bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAyNTUKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0
-Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAxMDEyMTUzNDA4Ljk3NDctMTAtcGV0ZXIubWF5
-ZGVsbEBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1h
-aWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9y
-Zy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNv
-bQ==
+--zS7rBR6csb6tI2e1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Oct 11, 2020 at 07:32:58PM +0100, Peter Maydell wrote:
+> On Fri, 9 Oct 2020 at 20:35, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > The following changes since commit 497d415d76b9f59fcae27f22df1ca2c3fa4d=
+f64e:
+> >
+> >   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-2=
+0201008-1' into staging (2020-10-08 21:41:20 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> >
+> > for you to fetch changes up to e969c7b045c90368bc3a5db3479e70b6f0ecb828=
+:
+> >
+> >   iotests: add commit top->base cases to 274 (2020-10-09 14:32:24 +0100=
+)
+> >
+> > ----------------------------------------------------------------
+> > Pull request
+> >
+> > This pull request includes the vhost-user-blk server by Coiby Xu, the b=
+lock
+> > coroutine code generator by Vladimir Sementsov-Ogievskiy, nvme block dr=
+iver
+> > statistics by Philippe Mathieu-Daud=E9, and cleanups/fixes/additions to=
+ the
+> > vhost-user-blk server by me.
+> >
+>=20
+> Hi; this seems to have a conflict in qemu-nbd.c with something
+> that landed in the latest nbd pullreq. Could you fix up and
+> resend, please?
+
+Thanks for letting me. I will send a v2.
+
+Stefan
+
+--zS7rBR6csb6tI2e1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+Eez0ACgkQnKSrs4Gr
+c8hgjAf9E8O+CFy7nepQzhjMw5irqQokPyyPjYFR2xFhEgO4o0rAqJHH5xxuIFv5
+HvYc3YSsfE77n2U+aiUYVRRbfaT+79S4ra/nW20g2Id5eyNxbA9UtRcbgbE6Zflq
+3PjKWRkZ2Ez8u+PlBI562JRDQN2YFAim+RxsosJIWu7kNZz7zEXK81eglp5Uky8y
+xxLws+brCS1QnI3uEcdpKM3kA22JdrNjVAHNq48/YuOAmRrx08hG9+zlil/pJvdb
+emjVaK+g2fwxyFpNsfLPxet/CfN8qgo+cBFIxquLAyYmYEvSRxXBBSITzLBBC3QP
+oNb6p8J9Si4sdJHgiMLjWJ9YqIt9Aw==
+=2VqU
+-----END PGP SIGNATURE-----
+
+--zS7rBR6csb6tI2e1--
+
 
