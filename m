@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7149828BF44
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:55:45 +0200 (CEST)
-Received: from localhost ([::1]:54324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9B628BF48
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:57:03 +0200 (CEST)
+Received: from localhost ([::1]:57772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS22y-0002k4-HR
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:55:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60228)
+	id 1kS24E-0004Li-Rm
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS20Q-0000YY-1t; Mon, 12 Oct 2020 13:53:06 -0400
-Received: from relay.sw.ru ([185.231.240.75]:34890 helo=relay3.sw.ru)
+ id 1kS21C-0001Eb-7U; Mon, 12 Oct 2020 13:53:55 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35132 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS20O-0008DV-HL; Mon, 12 Oct 2020 13:53:05 -0400
+ id 1kS21A-0008He-GH; Mon, 12 Oct 2020 13:53:53 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1zS-0047iC-7N; Mon, 12 Oct 2020 20:52:06 +0300
+ id 1kS20E-0047iC-Bs; Mon, 12 Oct 2020 20:52:54 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com, fam@euphon.net,
  stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
  libvir-list@redhat.com, eblake@redhat.com, den@openvz.org,
  vsementsov@virtuozzo.com, andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v11 11/13] stream: mark backing-file argument as deprecated
-Date: Mon, 12 Oct 2020 20:43:23 +0300
-Message-Id: <1602524605-481160-12-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v11 12/13] stream: remove unused backing-file name parameter
+Date: Mon, 12 Oct 2020 20:43:24 +0300
+Message-Id: <1602524605-481160-13-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -58,32 +58,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-Whereas the block-stream job starts using a backing file name of the
-base node overlay after the block-stream job completes, mark the QMP
-'backing-file' argument as deprecated.
+The 'backing-file' argument is not used by the block-stream job. It
+designates a backing file name to set in QCOW2 image header after the
+block-stream job finished. A backing file name of the node above base
+is used instead.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- docs/system/deprecated.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+ block/stream.c            |  6 +-----
+ blockdev.c                | 21 ++++++---------------
+ include/block/block_int.h |  2 +-
+ 3 files changed, 8 insertions(+), 21 deletions(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 8b3ab5b..7491fcf 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -285,6 +285,12 @@ details.
- The ``query-events`` command has been superseded by the more powerful
- and accurate ``query-qmp-schema`` command.
+diff --git a/block/stream.c b/block/stream.c
+index 51462bd..d3e1812 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -34,7 +34,6 @@ typedef struct StreamBlockJob {
+     BlockDriverState *base_overlay; /* COW overlay (stream from this) */
+     BlockDriverState *above_base;   /* Node directly above the base */
+     BlockdevOnError on_error;
+-    char *backing_file_str;
+     bool bs_read_only;
+     bool chain_frozen;
+ } StreamBlockJob;
+@@ -103,8 +102,6 @@ static void stream_clean(Job *job)
+         blk_set_perm(bjob->blk, 0, BLK_PERM_ALL, &error_abort);
+         bdrv_reopen_set_read_only(bs, true, NULL);
+     }
+-
+-    g_free(s->backing_file_str);
+ }
  
-+``block-stream`` argument ``backing-file`` (since 5.2)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The argument ``backing-file`` is deprecated. QEMU uses a backing file
-+name of the base node overlay after the block-stream job completes.
-+
- chardev client socket with ``wait`` option (since 4.0)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ static int coroutine_fn stream_run(Job *job, Error **errp)
+@@ -220,7 +217,7 @@ static const BlockJobDriver stream_job_driver = {
+ };
  
+ void stream_start(const char *job_id, BlockDriverState *bs,
+-                  BlockDriverState *base, const char *backing_file_str,
++                  BlockDriverState *base,
+                   int creation_flags, int64_t speed,
+                   BlockdevOnError on_error,
+                   const char *filter_node_name,
+@@ -295,7 +292,6 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+ 
+     s->base_overlay = base_overlay;
+     s->above_base = above_base;
+-    s->backing_file_str = g_strdup(backing_file_str);
+     s->bs_read_only = bs_read_only;
+     s->chain_frozen = true;
+ 
+diff --git a/blockdev.c b/blockdev.c
+index d719c47..019b6e0 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2498,7 +2498,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+     BlockDriverState *base_bs = NULL;
+     AioContext *aio_context;
+     Error *local_err = NULL;
+-    const char *base_name = NULL;
+     int job_flags = JOB_DEFAULT;
+ 
+     if (!has_on_error) {
+@@ -2526,7 +2525,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+             goto out;
+         }
+         assert(bdrv_get_aio_context(base_bs) == aio_context);
+-        base_name = base;
+     }
+ 
+     if (has_base_node) {
+@@ -2541,7 +2539,11 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         }
+         assert(bdrv_get_aio_context(base_bs) == aio_context);
+         bdrv_refresh_filename(base_bs);
+-        base_name = base_bs->filename;
++    }
++
++    if (has_backing_file) {
++        warn_report("Use of \"backing-file\" argument is deprecated; "
++                    "a backing file of the node above base is used instead");
+     }
+ 
+     /* Check for op blockers in the whole chain between bs and base */
+@@ -2553,17 +2555,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         }
+     }
+ 
+-    /* if we are streaming the entire chain, the result will have no backing
+-     * file, and specifying one is therefore an error */
+-    if (base_bs == NULL && has_backing_file) {
+-        error_setg(errp, "backing file specified, but streaming the "
+-                         "entire chain");
+-        goto out;
+-    }
+-
+-    /* backing_file string overrides base bs filename */
+-    base_name = has_backing_file ? backing_file : base_name;
+-
+     if (has_auto_finalize && !auto_finalize) {
+         job_flags |= JOB_MANUAL_FINALIZE;
+     }
+@@ -2571,7 +2562,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         job_flags |= JOB_MANUAL_DISMISS;
+     }
+ 
+-    stream_start(has_job_id ? job_id : NULL, bs, base_bs, base_name,
++    stream_start(has_job_id ? job_id : NULL, bs, base_bs,
+                  job_flags, has_speed ? speed : 0, on_error,
+                  filter_node_name, &local_err);
+     if (local_err) {
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index a142867..4f523c3 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -1151,7 +1151,7 @@ int is_windows_drive(const char *filename);
+  * BlockDriverState.
+  */
+ void stream_start(const char *job_id, BlockDriverState *bs,
+-                  BlockDriverState *base, const char *backing_file_str,
++                  BlockDriverState *base,
+                   int creation_flags, int64_t speed,
+                   BlockdevOnError on_error,
+                   const char *filter_node_name,
 -- 
 1.8.3.1
 
