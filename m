@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF2F28AF36
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 09:40:59 +0200 (CEST)
-Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA1028AF18
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 09:34:07 +0200 (CEST)
+Received: from localhost ([::1]:57622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRsS3-0007rc-0f
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 03:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42142)
+	id 1kRsLO-00052c-K4
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 03:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kRsQs-00070D-JJ; Mon, 12 Oct 2020 03:39:46 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:55408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1kRsQq-0001i2-78; Mon, 12 Oct 2020 03:39:46 -0400
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id DEE12C6011D;
- Mon, 12 Oct 2020 07:29:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1602487775;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRsJq-0004V5-Iq
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 03:32:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kRsJo-00012u-Vv
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 03:32:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602487945;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IKgjge1fh06jMx8vwsGTl0nvq9pNxYfI0gkttuqbF24=;
- b=bEd4Yk4S8ERc5P30x4AU0QDvILkddwQAIOe2TD14Ht9robzqyKY2azPnaWf6PBb5E2glES
- LXHOGFnv5WNi89ewFQwxsErjDIZ8JlaqhGxKkNbf7eYc8ms0CshszyIyGEYmYGy+WtGbw/
- C0K3YOW2v/70HrGpXCldYQqF+aLlxXOu7EJdYH8VIbv4Xys3RBrijdOgFC5Mky2N37WF8t
- SBICdat5PuOko8vU1ahoq83GVEhVHtl0RRzHNum2G/5DnBaobkw+dxCdn6xn0lAynZ/Rj/
- mXVMtazQ4/LomJQMgVNm7VYqt3KuyRwnJITFKLPM1C+O3vuarMZp6rAgH8M8bg==
-Date: Mon, 12 Oct 2020 09:30:38 +0200
-From: Luc Michel <luc@lmichel.fr>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v4 3/4] hw/timer/bcm2835: Support the timer COMPARE
- registers
-Message-ID: <20201012073038.fzyqnr5tdxymzhdf@sekoia-pc.home.lmichel.fr>
-References: <20201010203709.3116542-1-f4bug@amsat.org>
- <20201010203709.3116542-4-f4bug@amsat.org>
+ bh=cP6Ij0JDPXAEt5O6ghPsImAMlBHw5j7+FOjjThyyDyQ=;
+ b=ULk4OBKSrtasNEPebOzLBjLdU3VgwYT3BrWse1wpWez1ds00ZYC/AjfElVPNTuBQhTQIvi
+ Mb2Cwa+qKI32T54Dup//xubNB7DccsHXm4LCMK8U1/TBtW9t/KEWm5JCXe5lxtFuPlDy+a
+ +wavxYynTHNdWUra6iwPHnJf0Aca+48=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-sliaujHLPpu5-6h-NnXoOQ-1; Mon, 12 Oct 2020 03:32:18 -0400
+X-MC-Unique: sliaujHLPpu5-6h-NnXoOQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6607100A24C;
+ Mon, 12 Oct 2020 07:32:16 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-22.ams2.redhat.com [10.36.113.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A74819C78;
+ Mon, 12 Oct 2020 07:32:14 +0000 (UTC)
+Subject: Re: [PATCH 4/4] docs/system/target-ppc.rst: Update PReP historical
+ information
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201012071906.3301481-1-f4bug@amsat.org>
+ <20201012071906.3301481-5-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <39636370-3fa7-aee4-07ca-2371757bb8b4@redhat.com>
+Date: Mon, 12 Oct 2020 09:32:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20201012071906.3301481-5-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201010203709.3116542-4-f4bug@amsat.org>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr;
- s=pharaoh; t=1602487776;
- h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IKgjge1fh06jMx8vwsGTl0nvq9pNxYfI0gkttuqbF24=;
- b=R2HYr1zSsyJ1nImzTLhKPRglCIkpfgQBkAfX5ikx6qZrBAKo4LJOPmI8BiRQz8g+yl4scm
- WLNItQXEP2DAd5BYo4bjXiZGSlwG3y5FItgLXrMwyLLr2vVgdORy6cQHIcqpI+cBRcoLge
- 7Ry/0ZZuwx/fRSO7LSHhiqKS1hweSt4GAPi2oQagfvDSHooOhWURsTMbeXa749h4EzBSqt
- SsnJWXFuQ5eV1YhhErjMrtzBBF1XfKP9TNsIPNmoZ+E/ZwMUBngvhPgHwHANi4OYuuj/rp
- 3qk4mR7n+um/f5j+pryUe3miVHTlODPH9ETtMqU+c9hbiQ9aHnQu4jTn8pbBwA==
-ARC-Seal: i=1; s=pharaoh; d=lmichel.fr; t=1602487776; a=rsa-sha256; cv=none;
- b=Ah/dCZRnJMkl3+60jBVqppIp4hMHPmgBW1Vb8Jps+h9dzI32nmKxgjZW5cx7BVdoLtcbePL59PJTYFLzPkNtY5NArCsuBDmtO4SKe1fB797nlKJUSBUnnhNKok5u6e1lI7Dl4DLujkLA6DeuDv7eHOHMdUbti/qHL2kc8/6kiiwo3PMb04HHx9zIIOK5ht2iOrWfWDV7dRBH0Ug52AWEbWaLyhxsW/+Ar4Uww2aMF7+y9J/ZRJ9h8PkgICBhI4PZPQ4YSD6/Xu52dyK5fddbRodKijHavWZVWAnJ+FDWAYhP3kdtzYxMVGzLkZ9EeVqaXDCnQ5zwFtIA0ojy8Dunpw==
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=sekoia smtp.mailfrom=luc@lmichel.fr
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 03:34:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,196 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Paul Zimmerman <pauldzim@gmail.com>, qemu-arm@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Jocelyn Mayer <l_indien@magic.fr>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22:37 Sat 10 Oct     , Philippe Mathieu-Daudé wrote:
-> This peripheral has 1 free-running timer and 4 compare registers.
-> 
-> Only the free-running timer is implemented. Add support the
-> COMPARE registers (each register is wired to an IRQ).
-> 
-> Reference: "BCM2835 ARM Peripherals" datasheet [*]
->             chapter 12 "System Timer":
-> 
->   The System Timer peripheral provides four 32-bit timer channels
->   and a single 64-bit free running counter. Each channel has an
->   output compare register, which is compared against the 32 least
->   significant bits of the free running counter values. When the
->   two values match, the system timer peripheral generates a signal
->   to indicate a match for the appropriate channel. The match signal
->   is then fed into the interrupt controller.
-> 
-> This peripheral is used since Linux 3.7, commit ee4af5696720
-> ("ARM: bcm2835: add system timer").
-> 
-> [*] https://www.raspberrypi.org/app/uploads/2012/02/BCM2835-ARM-Peripherals.pdf
+On 12/10/2020 09.19, Philippe Mathieu-Daudé wrote:
+> Link Jocelyn Mayer's web page from the Wayback Machine,
+> and correct the PReP acronym.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-
 > ---
-> v4:
-> - Fix arithmetic to correctly get value in future (Richard)
-> - Use 32-bit argument value (Richard)
-> v3:
-> - Only compare 32 least significant bits of the free running
->   counter values (Luc)
+> Cc: Jocelyn Mayer <l_indien@magic.fr>
 > ---
->  include/hw/timer/bcm2835_systmr.h | 11 +++++--
->  hw/timer/bcm2835_systmr.c         | 48 ++++++++++++++++++++-----------
->  hw/timer/trace-events             |  6 ++--
->  3 files changed, 44 insertions(+), 21 deletions(-)
+>  docs/system/target-ppc.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/include/hw/timer/bcm2835_systmr.h b/include/hw/timer/bcm2835_systmr.h
-> index f15788a78d8..bd3097d746b 100644
-> --- a/include/hw/timer/bcm2835_systmr.h
-> +++ b/include/hw/timer/bcm2835_systmr.h
-> @@ -11,6 +11,7 @@
+> diff --git a/docs/system/target-ppc.rst b/docs/system/target-ppc.rst
+> index a2f04c533c2..1f57966771d 100644
+> --- a/docs/system/target-ppc.rst
+> +++ b/docs/system/target-ppc.rst
+> @@ -3,7 +3,7 @@
+>  PowerPC System emulator
+>  -----------------------
 >  
->  #include "hw/sysbus.h"
->  #include "hw/irq.h"
-> +#include "qemu/timer.h"
->  #include "qom/object.h"
+> -Use the executable ``qemu-system-ppc`` to simulate a complete 40P (PREP)
+> +Use the executable ``qemu-system-ppc`` to simulate a complete 40P (PReP)
+>  or PowerMac PowerPC system.
 >  
->  #define TYPE_BCM2835_SYSTIMER "bcm2835-sys-timer"
-> @@ -18,18 +19,24 @@ OBJECT_DECLARE_SIMPLE_TYPE(BCM2835SystemTimerState, BCM2835_SYSTIMER)
+>  QEMU emulates the following PowerMac peripherals:
+> @@ -20,7 +20,7 @@ QEMU emulates the following PowerMac peripherals:
 >  
->  #define BCM2835_SYSTIMER_COUNT 4
+>  -  VIA-CUDA with ADB keyboard and mouse.
 >  
-> +typedef struct {
-> +    unsigned id;
-> +    QEMUTimer timer;
-> +    qemu_irq irq;
-> +    BCM2835SystemTimerState *state;
-> +} BCM2835SystemTimerCompare;
-> +
->  struct BCM2835SystemTimerState {
->      /*< private >*/
->      SysBusDevice parent_obj;
+> -QEMU emulates the following 40P (PREP) peripherals:
+> +QEMU emulates the following 40P (PReP) peripherals:
 >  
->      /*< public >*/
->      MemoryRegion iomem;
-> -    qemu_irq irq;
-> -
->      struct {
->          uint32_t ctrl_status;
->          uint32_t compare[BCM2835_SYSTIMER_COUNT];
->      } reg;
-> +    BCM2835SystemTimerCompare tmr[BCM2835_SYSTIMER_COUNT];
->  };
+>  -  PCI Bridge
 >  
->  #endif
-> diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
-> index b234e83824f..67669a57ff3 100644
-> --- a/hw/timer/bcm2835_systmr.c
-> +++ b/hw/timer/bcm2835_systmr.c
-> @@ -28,20 +28,13 @@ REG32(COMPARE1,     0x10)
->  REG32(COMPARE2,     0x14)
->  REG32(COMPARE3,     0x18)
+> @@ -43,5 +43,5 @@ the g3beige and mac99 PowerMac and the 40p machines. OpenBIOS is a free
+>  (GPL v2) portable firmware implementation. The goal is to implement a
+>  100% IEEE 1275-1994 (referred to as Open Firmware) compliant firmware.
 >  
-> -static void bcm2835_systmr_update_irq(BCM2835SystemTimerState *s)
-> +static void bcm2835_systmr_timer_expire(void *opaque)
->  {
-> -    bool enable = !!s->reg.ctrl_status;
-> +    BCM2835SystemTimerCompare *tmr = opaque;
->  
-> -    trace_bcm2835_systmr_irq(enable);
-> -    qemu_set_irq(s->irq, enable);
-> -}
-> -
-> -static void bcm2835_systmr_update_compare(BCM2835SystemTimerState *s,
-> -                                          unsigned timer_index)
-> -{
-> -    /* TODO fow now, since neither Linux nor U-boot use these timers. */
-> -    qemu_log_mask(LOG_UNIMP, "COMPARE register %u not implemented\n",
-> -                  timer_index);
-> +    trace_bcm2835_systmr_timer_expired(tmr->id);
-> +    tmr->state->reg.ctrl_status |= 1 << tmr->id;
-> +    qemu_set_irq(tmr->irq, 1);
->  }
->  
->  static uint64_t bcm2835_systmr_read(void *opaque, hwaddr offset,
-> @@ -75,19 +68,33 @@ static uint64_t bcm2835_systmr_read(void *opaque, hwaddr offset,
->  }
->  
->  static void bcm2835_systmr_write(void *opaque, hwaddr offset,
-> -                                 uint64_t value, unsigned size)
-> +                                 uint64_t value64, unsigned size)
->  {
->      BCM2835SystemTimerState *s = BCM2835_SYSTIMER(opaque);
-> +    int index;
-> +    uint32_t value = value64;
-> +    uint32_t triggers_delay_us;
-> +    uint64_t now;
->  
->      trace_bcm2835_systmr_write(offset, value);
->      switch (offset) {
->      case A_CTRL_STATUS:
->          s->reg.ctrl_status &= ~value; /* Ack */
-> -        bcm2835_systmr_update_irq(s);
-> +        for (index = 0; index < ARRAY_SIZE(s->tmr); index++) {
-> +            if (extract32(value, index, 1)) {
-> +                trace_bcm2835_systmr_irq_ack(index);
-> +                qemu_set_irq(s->tmr[index].irq, 0);
-> +            }
-> +        }
->          break;
->      case A_COMPARE0 ... A_COMPARE3:
-> -        s->reg.compare[(offset - A_COMPARE0) >> 2] = value;
-> -        bcm2835_systmr_update_compare(s, (offset - A_COMPARE0) >> 2);
-> +        index = (offset - A_COMPARE0) >> 2;
-> +        s->reg.compare[index] = value;
-> +        now = qemu_clock_get_us(QEMU_CLOCK_VIRTUAL);
-> +        /* Compare lower 32-bits of the free-running counter. */
-> +        triggers_delay_us = value - now;
-> +        trace_bcm2835_systmr_run(index, triggers_delay_us);
-> +        timer_mod(&s->tmr[index].timer, now + triggers_delay_us);
->          break;
->      case A_COUNTER_LOW:
->      case A_COUNTER_HIGH:
-> @@ -125,7 +132,14 @@ static void bcm2835_systmr_realize(DeviceState *dev, Error **errp)
->      memory_region_init_io(&s->iomem, OBJECT(dev), &bcm2835_systmr_ops,
->                            s, "bcm2835-sys-timer", 0x20);
->      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
-> -    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
-> +
-> +    for (size_t i = 0; i < ARRAY_SIZE(s->tmr); i++) {
-> +        s->tmr[i].id = i;
-> +        s->tmr[i].state = s;
-> +        sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->tmr[i].irq);
-> +        timer_init_us(&s->tmr[i].timer, QEMU_CLOCK_VIRTUAL,
-> +                      bcm2835_systmr_timer_expire, &s->tmr[i]);
-> +    }
->  }
->  
->  static const VMStateDescription bcm2835_systmr_vmstate = {
-> diff --git a/hw/timer/trace-events b/hw/timer/trace-events
-> index b996d992000..7a4326d9566 100644
-> --- a/hw/timer/trace-events
-> +++ b/hw/timer/trace-events
-> @@ -77,9 +77,11 @@ nrf51_timer_write(uint8_t timer_id, uint64_t addr, uint32_t value, unsigned size
->  nrf51_timer_set_count(uint8_t timer_id, uint8_t counter_id, uint32_t value) "timer %u counter %u count 0x%" PRIx32
->  
->  # bcm2835_systmr.c
-> -bcm2835_systmr_irq(bool enable) "timer irq state %u"
-> +bcm2835_systmr_timer_expired(unsigned id) "timer #%u expired"
-> +bcm2835_systmr_irq_ack(unsigned id) "timer #%u acked"
->  bcm2835_systmr_read(uint64_t offset, uint64_t data) "timer read: offset 0x%" PRIx64 " data 0x%" PRIx64
-> -bcm2835_systmr_write(uint64_t offset, uint64_t data) "timer write: offset 0x%" PRIx64 " data 0x%" PRIx64
-> +bcm2835_systmr_write(uint64_t offset, uint32_t data) "timer write: offset 0x%" PRIx64 " data 0x%" PRIx32
-> +bcm2835_systmr_run(unsigned id, uint64_t delay_us) "timer #%u expiring in %"PRIu64" us"
->  
->  # avr_timer16.c
->  avr_timer16_read(uint8_t addr, uint8_t value) "timer16 read addr:%u value:%u"
-> -- 
-> 2.26.2
-> 
+> -More information is available at
+> -http://perso.magic.fr/l_indien/qemu-ppc/.
+> +Archived historical information is available at
+> +https://web.archive.org/web/20051212135300/http://perso.magic.fr/l_indien/qemu-ppc/.
 
--- 
+There seems to be a later version available in the archive, too:
+
+https://web.archive.org/web/20080212093125/http://perso.magic.fr/l_indien/qemu-ppc/
+
+... but I think the contents did not change anymore. So:
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
