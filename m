@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27B728B48A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:22:09 +0200 (CEST)
-Received: from localhost ([::1]:56736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11CB528B49A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:28:30 +0200 (CEST)
+Received: from localhost ([::1]:38862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRwq9-0000rU-2D
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53786)
+	id 1kRwwG-0005Vf-Pd
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:28:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kRwnX-000771-Ao; Mon, 12 Oct 2020 08:19:28 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:50915)
+ id 1kRwsw-0003mK-F1; Mon, 12 Oct 2020 08:25:02 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:40699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kRwnT-0004sy-CL; Mon, 12 Oct 2020 08:19:27 -0400
+ id 1kRwst-0005d1-BO; Mon, 12 Oct 2020 08:25:02 -0400
 Received: from [192.168.100.1] ([82.252.141.186]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MT7ip-1kuEUm3xlv-00UXNv; Mon, 12 Oct 2020 14:19:16 +0200
-Subject: Re: [PATCH] hw/rtc/twl92230: Silence warnings about missing
- fallthrough statements
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20201001182121.187122-1-thuth@redhat.com>
+ 1N79Ey-1kOlXq0wXM-017TBE; Mon, 12 Oct 2020 14:24:50 +0200
+Subject: Re: [PATCH] hw/block/nvme: Simplify timestamp sum
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201002075716.1657849-1-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -67,35 +67,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <7cf3a5f8-f5fe-d299-ea77-e66c91a30c38@vivier.eu>
-Date: Mon, 12 Oct 2020 14:19:14 +0200
+Message-ID: <0f73802f-70a1-9a9d-6525-9954323e5a13@vivier.eu>
+Date: Mon, 12 Oct 2020 14:24:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201001182121.187122-1-thuth@redhat.com>
+In-Reply-To: <20201002075716.1657849-1-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:v5lT4ks4I2ehu8tQEI5Rz8VtPZNhg390lvqrZMKvUtdZVdu8ZYQ
- Kb0D+JqqCJrl84kXqNUOjhF+5PrTsrbAmRAH9xoZzT4E1+W2WIFWPbFsVgubVki6tjMMYNL
- z6fEcxF81gC9RzstC/pGfm8vD1q2sW6ILK52Jt6Ow9IojXuV1yK2lyDK9+utlZHnuGRJS9A
- CTDGJS9CF0XvLmiwPjhMA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:v/PJnEeiD1k=:V1kivcpViqlboctEBSQsWK
- aFuCmFpRR8qd94nVq6EANn+lUXf1OQkhWh2mIns7weU3+FZqvyJswaDIlfBu+4nqu/3h6X7NJ
- L/i9uDaKpmX943ZRFskG7+SNqlh8a/G+wxXYYB6dYknzc1zjJJBUH6vAk2YU5bn3Oh1EmZL+V
- l+IzKvyUAd7z7gZct/ed8UMG4+Uuv2e2Q8RVX7cj59EJVpL7blTDmCkeTWbF5KXhUi1P8L39R
- JbLgJwcbIB6aAAdIEWaLKnUSOtBDKKyPzxUybuv8qAwzwpNi/n69MWDS0teDienzxmdzIC9KD
- ANagQDTbgKpwt8nJJZRZJDiCyR9UGQiMGKWfJwvJiM/uOAf6CujuOFrmJB7/W9oKuoMA8vQRR
- +mXlrWOYiIjNEA/SctoLggPgDfpTkifUUH3sDvK4THya6+1rk3Qp93uBhO8p+JgXF39xt254c
- jicU9dmHu5odiI7Sh57MLlO8tpaYpycFRFFhEoEy6W1L/YfZlZiHhDvD7QEHXZo28FVUte6ct
- PWV47cAoOj42UGzoJ6MsoTP8NlN5m3UmmYERdH88A1SPVTx8D6+i+EhPc2z9jQ5VfD5/nEjR8
- iKE6JAEEoJD3qllU2j3aZ3rd5Da9fIPKpj48A2WQ/+4pJcgMlZmkjc6hgJx1bU7/lUdpx6xR+
- FIFH71sCu0GEkGhmx289stkp0KcTRrmE5+u/9YakzGXxVKgyaMPOR9xPTZq0tCsRsxX37DB7y
- 9SF2LNxqiVuBYmQfG4qYYd2KWeisYh2CMLplCDUvJCFpdiJz50+aP8n8QUWhg9O12FsyZfmrn
- M6hCMT6tC0L2wLJrkrUzl5TTd1N/8adMm79XdiWMenaEMaoTwBzgobIj9QDC1/L7DmbMvPc
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ofTOO4Cfw7fZqFKKIoNIrIKOb/PCE969HWo5eRI1/e+2x7SZ1vt
+ lXqtViVg37NdahtkkMgvGsVkJtZG7Hwmw7Cw/tg7DJHiUMlNDGOx3ZUCQTF8xXfejPCfP3P
+ Vx1sJNK6HRzqGWNvZmSxu3h8BpUyMMmzg6fU9S4rZiL4/RPh2TOVTPHZJL9OOcsRyZ3oF5g
+ Zr5lEu9D0zM8W6q0O8sqQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zKeOOXB+ja4=:kLxh0rIadwaSlCJa+SMa9O
+ OmKczAhfhMl3IUOWo3L713G3+XVpxVStwrH8y1n8OgwKM3Wkk1lOkqPsQEKe3H9KvE8acwV0B
+ 0mHdTOwXa93hMsEI5fVTYV5E790dxANoSPWGBkfp+W6VwOQfoPnxRYT6nFVCnVU5WuSl83/tc
+ igJNlqhhEAZkRxM3NX0Oa+7j09ovrfWNjm05Gi5+u0pVqrTpmStCbjfGFCyBKPS8Teq+R1Wz2
+ qLMoS9TagpnPONeshF6wM82fjjKM3VKhiLaT1jpbB3iaqJGvLj6YZn4Wd1nrCxUzkZH9R0Cw1
+ URbBvQKYdifoDHOrNr0+5xGvql5b4wyltREQE5bEXvepDe2xIeNldlfoCYn6P0C6BWIqY3gb6
+ JydSN6SCPLkAnuVC9wAvwt/whMF3q9wY4/4y5pwTuJjkJdu7vKaRhG/zYYhukiQDHXowX0slR
+ GnFBKZdixXrRfOQMjzRg8gwuZa4xzcRUXGP4kFY2X9ZsERRxZ00y3WjhFesHyhoivKi/Ou4El
+ SUR9rOI+3wnWXqaLwGGCIs+l1iE8MSDnz+ZjsPya+pRgdZ0M2EAkTVO3WV2TCH69g8XK/75sS
+ 41AJZuy7IgNaGHk97Upnruizd5P56Tw2DBhPvJSqCYHEM7pzq4Nkx7ZNApojh9FUrwIrDkoxf
+ m/hD8H2VKkn8djvFXmD5ljsXSUJ1VpaViAPZxbMWWchLr+J3obgAkhR5Y7x4EhF0rVOWmMCED
+ eeh+QukMaX0ESwbksceda0L4PPnjL1Yc7nUwJnrXJqIakJXIvVosJkiCdUVIHOEDm3/2UdZxF
+ dzLfG25wgY64THav/6NVXlFbFlNrOv9fx5nwFF2+8lyNVP5cm+ZepQMUfpA2EmnpKHRBHjv
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 08:19:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 08:24:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -115,122 +115,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 01/10/2020 à 20:21, Thomas Huth a écrit :
-> When compiling with -Werror=implicit-fallthrough, gcc complains about
-> missing fallthrough annotations in this file. Looking at the code,
-> the fallthrough is indeed wanted here, but instead of adding the
-> annotations, it can be done more efficiently by simply calculating
-> the offset with a subtraction instead of increasing a local variable
-> one by one.
+Le 02/10/2020 à 09:57, Philippe Mathieu-Daudé a écrit :
+> As the 'timestamp' variable is declared as a 48-bit bitfield,
+> we do not need to wrap the sum result.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/rtc/twl92230.c | 50 +++++++++++++++++++++++------------------------
->  1 file changed, 24 insertions(+), 26 deletions(-)
+>  hw/block/nvme.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/hw/rtc/twl92230.c b/hw/rtc/twl92230.c
-> index f838913b37..499f421932 100644
-> --- a/hw/rtc/twl92230.c
-> +++ b/hw/rtc/twl92230.c
-> @@ -271,37 +271,36 @@ static void menelaus_gpio_set(void *opaque, int line, int level)
->  static uint8_t menelaus_read(void *opaque, uint8_t addr)
->  {
->      MenelausState *s = (MenelausState *) opaque;
-> -    int reg = 0;
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 63078f6009..44fa5b9076 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1280,12 +1280,7 @@ static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
 >  
->      switch (addr) {
->      case MENELAUS_REV:
->          return 0x22;
->  
-> -    case MENELAUS_VCORE_CTRL5: reg ++;
-> -    case MENELAUS_VCORE_CTRL4: reg ++;
-> -    case MENELAUS_VCORE_CTRL3: reg ++;
-> -    case MENELAUS_VCORE_CTRL2: reg ++;
-> +    case MENELAUS_VCORE_CTRL5:
-> +    case MENELAUS_VCORE_CTRL4:
-> +    case MENELAUS_VCORE_CTRL3:
-> +    case MENELAUS_VCORE_CTRL2:
->      case MENELAUS_VCORE_CTRL1:
-> -        return s->vcore[reg];
-> +        return s->vcore[addr - MENELAUS_VCORE_CTRL1];
->  
-> -    case MENELAUS_DCDC_CTRL3: reg ++;
-> -    case MENELAUS_DCDC_CTRL2: reg ++;
-> +    case MENELAUS_DCDC_CTRL3:
-> +    case MENELAUS_DCDC_CTRL2:
->      case MENELAUS_DCDC_CTRL1:
-> -        return s->dcdc[reg];
+>      union nvme_timestamp ts;
+>      ts.all = 0;
 > -
-> -    case MENELAUS_LDO_CTRL8: reg ++;
-> -    case MENELAUS_LDO_CTRL7: reg ++;
-> -    case MENELAUS_LDO_CTRL6: reg ++;
-> -    case MENELAUS_LDO_CTRL5: reg ++;
-> -    case MENELAUS_LDO_CTRL4: reg ++;
-> -    case MENELAUS_LDO_CTRL3: reg ++;
-> -    case MENELAUS_LDO_CTRL2: reg ++;
-> +        return s->dcdc[addr - MENELAUS_VCORE_CTRL1];
-> +
-> +    case MENELAUS_LDO_CTRL8:
-> +    case MENELAUS_LDO_CTRL7:
-> +    case MENELAUS_LDO_CTRL6:
-> +    case MENELAUS_LDO_CTRL5:
-> +    case MENELAUS_LDO_CTRL4:
-> +    case MENELAUS_LDO_CTRL3:
-> +    case MENELAUS_LDO_CTRL2:
->      case MENELAUS_LDO_CTRL1:
-> -        return s->ldo[reg];
-> +        return s->ldo[addr - MENELAUS_LDO_CTRL1];
+> -    /*
+> -     * If the sum of the Timestamp value set by the host and the elapsed
+> -     * time exceeds 2^48, the value returned should be reduced modulo 2^48.
+> -     */
+> -    ts.timestamp = (n->host_timestamp + elapsed_time) & 0xffffffffffff;
+> +    ts.timestamp = n->host_timestamp + elapsed_time;
 >  
-> -    case MENELAUS_SLEEP_CTRL2: reg ++;
-> +    case MENELAUS_SLEEP_CTRL2:
->      case MENELAUS_SLEEP_CTRL1:
-> -        return s->sleep[reg];
-> +        return s->sleep[addr - MENELAUS_SLEEP_CTRL1];
->  
->      case MENELAUS_DEVICE_OFF:
->          return 0;
-> @@ -395,10 +394,10 @@ static uint8_t menelaus_read(void *opaque, uint8_t addr)
->      case MENELAUS_S2_PULL_DIR:
->          return s->pull[3];
->  
-> -    case MENELAUS_MCT_CTRL3: reg ++;
-> -    case MENELAUS_MCT_CTRL2: reg ++;
-> +    case MENELAUS_MCT_CTRL3:
-> +    case MENELAUS_MCT_CTRL2:
->      case MENELAUS_MCT_CTRL1:
-> -        return s->mmc_ctrl[reg];
-> +        return s->mmc_ctrl[addr - MENELAUS_MCT_CTRL1];
->      case MENELAUS_MCT_PIN_ST:
->          /* TODO: return the real Card Detect */
->          return 0;
-> @@ -418,7 +417,6 @@ static void menelaus_write(void *opaque, uint8_t addr, uint8_t value)
->  {
->      MenelausState *s = (MenelausState *) opaque;
->      int line;
-> -    int reg = 0;
->      struct tm tm;
->  
->      switch (addr) {
-> @@ -496,9 +494,9 @@ static void menelaus_write(void *opaque, uint8_t addr, uint8_t value)
->          s->ldo[7] = value & 3;
->          break;
->  
-> -    case MENELAUS_SLEEP_CTRL2: reg ++;
-> +    case MENELAUS_SLEEP_CTRL2:
->      case MENELAUS_SLEEP_CTRL1:
-> -        s->sleep[reg] = value;
-> +        s->sleep[addr - MENELAUS_SLEEP_CTRL1] = value;
->          break;
->  
->      case MENELAUS_DEVICE_OFF:
+>      /* If the host timestamp is non-zero, set the timestamp origin */
+>      ts.origin = n->host_timestamp ? 0x01 : 0x00;
 > 
 
-pplied to my trivial-patches branch.
+Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
