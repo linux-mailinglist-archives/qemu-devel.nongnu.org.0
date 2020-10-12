@@ -2,48 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27E428B4C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:41:07 +0200 (CEST)
-Received: from localhost ([::1]:35256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553CC28B59A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:10:50 +0200 (CEST)
+Received: from localhost ([::1]:41010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRx8U-0007pD-Sv
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:41:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59754)
+	id 1kRxbF-000172-5H
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:10:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRx52-0003GW-DQ; Mon, 12 Oct 2020 08:37:33 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5230 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRx4w-0007bW-Qj; Mon, 12 Oct 2020 08:37:32 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 1D9E1B8AA592B5CB678C;
- Mon, 12 Oct 2020 20:37:09 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Mon, 12 Oct 2020
- 20:36:59 +0800
-From: Bihong Yu <yubihong@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 8/8] migration: Delete redundant spaces
-Date: Mon, 12 Oct 2020 21:09:00 +0800
-Message-ID: <1602508140-11372-9-git-send-email-yubihong@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1602508140-11372-1-git-send-email-yubihong@huawei.com>
-References: <1602508140-11372-1-git-send-email-yubihong@huawei.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kRxZx-0000dR-Lf
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:09:29 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41499)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kRxZv-0003WI-JW
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:09:29 -0400
+Received: by mail-wr1-x441.google.com with SMTP id s9so7029888wro.8
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 06:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=VCaHynkeEnGYRThYlGdgDH6k9OtcF7IMEUQF2knYGUo=;
+ b=si1I40rgAlH11iIXa14sqL71KgC87gP8P8O9RppRbFuWGfNc57EeWvvI9WxbuRGv+i
+ TWl8CDq1hu6Q07RmiwyWID4lx6/5HyOgJG4uJqTeiz3KB691SPNZfNsqAxSZOjhSVs2N
+ WUoR4EVIPj9mfLbeNsG3TWyrHOjy+nEcTTpuQesHAOAGPsACKkkB+Sfkdbumu+OSJU47
+ WYMI4lTrk4rjT925kVqi4cixGTDqRV6/9We4ISVDMSeAsCA+9vIICFeDyJvxk3BFljk9
+ Nq8DXVG8tKe5fPokZ47NSsWz5MqVYKfH6gMHJloBzzgYJEkEoMMyQCDQ6IK4FGq5vBum
+ qpcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=VCaHynkeEnGYRThYlGdgDH6k9OtcF7IMEUQF2knYGUo=;
+ b=Nj55wtPOjwJV+6RXpFALMsZOFolgu/TjMA5hNFE8ydT1i4vkhIVwZjkuXVq1ISAI4P
+ 125llr42PS2lYWaNLX1JaaL3E8KFgXvq5iOBYTViGWzlsWm3i67jeyA+fOprmRaJbmkW
+ aBwpLPzroGCM0QjSQhO1vkoqJ8af/Sd798JffU8sRTghzDSL41S6L54gu6GZuGEP2dlj
+ 5fL/OSpQVz/Vz5GWMdTP3l7nLVOiE+cKF7g3hAyLGeXl417LSKZqTJNbfkTWZtyqYwl7
+ B0HMGV2n9tATWB7J4VGmPok0xez874si4BUY7GLh10wi/ot/fgVzTYHrBlccDsZnF/V6
+ 4e6Q==
+X-Gm-Message-State: AOAM531qn52yDz7Kcu9FNRiWMshFwFD80T0nl/XTKXlpFFiXPrELi95a
+ RdovKQR07aSkkke6PwHWgC+KJYWI920hKw==
+X-Google-Smtp-Source: ABdhPJyd8uJcsglZ9PGYmfb+3Qmvp+sG960urtPzSBuL6flYsd6TJpikbeUoQO8NON1Y6rRKNgvdGA==
+X-Received: by 2002:adf:f504:: with SMTP id q4mr29761410wro.353.1602508164505; 
+ Mon, 12 Oct 2020 06:09:24 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 24sm22668068wmg.8.2020.10.12.06.09.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 06:09:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 91A0F1FF7E;
+ Mon, 12 Oct 2020 14:09:22 +0100 (BST)
+References: <20201009205513.751968-1-crosa@redhat.com>
+ <20201009205513.751968-4-crosa@redhat.com>
+ <d5ffb1b7-5516-ffdf-a78e-91a8cda7fac7@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 3/3] Acceptance tests: show test report on GitLab CI
+In-reply-to: <d5ffb1b7-5516-ffdf-a78e-91a8cda7fac7@redhat.com>
+Date: Mon, 12 Oct 2020 14:09:22 +0100
+Message-ID: <87tuuzzj3x.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=yubihong@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 07:12:20
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,31 +90,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, zhengchuan@huawei.com, quintela@redhat.com,
- dgilbert@redhat.com, alex.chen@huawei.com, wanghao232@huawei.com
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Bihong Yu <yubihong@huawei.com>
-Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
----
- migration/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index ca4d315..00eac34 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -855,7 +855,7 @@ static int qemu_rdma_broken_ipv6_kernel(struct ibv_context *verbs, Error **errp)
-      */
-     if (!verbs) {
-         int num_devices, x;
--        struct ibv_device ** dev_list = ibv_get_device_list(&num_devices);
-+        struct ibv_device **dev_list = ibv_get_device_list(&num_devices);
-         bool roce_found = false;
-         bool ib_found = false;
- 
--- 
-1.8.3.1
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
+> On 10/9/20 10:55 PM, Cleber Rosa wrote:
+>> Avocado will, by default, produce JUnit files.  Let's ask GitLab
+>> to present those in the web UI.
+>
+> https://gitlab.com/philmd/qemu/-/pipelines/200764992/test_report
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+That's awesome - I wonder if the tap reports can also be read?
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
