@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA7B28B8CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:56:29 +0200 (CEST)
-Received: from localhost ([::1]:57018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B96728B7BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:46:27 +0200 (CEST)
+Received: from localhost ([::1]:34422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRyJQ-0007la-NP
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51164)
+	id 1kRy9i-0006jO-3s
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:46:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRy7V-00058B-7G
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:44:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kRy7S-0008SE-1I
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:44:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602510245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qBS5Gsqxca7ckEY58GMky9P2NF9y+j97LkvL11krUPE=;
- b=YSHHxra3p31y/Mtz1WSD+juU928Ofd8tpS8qywp6+R9wDQfO9/fSZ/VyUZ3q02rToc1PYG
- Vtb6yXguhYqau2MTiZMF9n9+2CZmaqZ/xxZ5SnS63qPqKKQ4gHjofnPu31JWRfGEsu3wKw
- WePo7yU/NQMCTq8sCN44AJWqgxEE/M8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-VjzLPbFYO7ukrV8Vjw5zCg-1; Mon, 12 Oct 2020 09:44:03 -0400
-X-MC-Unique: VjzLPbFYO7ukrV8Vjw5zCg-1
-Received: by mail-wm1-f69.google.com with SMTP id u207so5684456wmu.4
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 06:44:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kRy7z-0005bL-Bk
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:44:39 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kRy7v-0008Ui-HC
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 09:44:37 -0400
+Received: by mail-ej1-x641.google.com with SMTP id e22so23277979ejr.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 06:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VVKKx+irzSrHwI2CV2LmswnFVT60gRM+m6nXIjpyTxQ=;
+ b=IQvXeZnYSOETe5wgWWZrTDtL60uDaF2dR/twiYRFFe5weImJeCwZ1SImgMJKQaJ+VF
+ bJPRyhhIy9nFP9rfPL43KEz9cjf6URV1gI+epwDWE89XFIbAWQ7JM91ahrBbukFuhqGd
+ 0IqebvjTyAtNjqUj8GwkBQg4eEZlg4i7qT3+zEyH0GnjrLZqG/7RNoYFIGW7bttXnCZ3
+ syY1ZjsBFKeY8o9bU2R/Ajn0Okb2OoCbjxhLMr+R8mpNiY46fTKb2NKHKWU0b+h0dOPh
+ cNUDdjtWf1yUay06AmHIlMuyvIYJX3b7srUkxvJ7aY/qNOdwxNh0jSAPK8TE0kudQTA1
+ kHHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qBS5Gsqxca7ckEY58GMky9P2NF9y+j97LkvL11krUPE=;
- b=rWrvXkqRBO53lAsoFHEGichy0v7LxYIah4PMyS6ipU/xi2TksOtPv4JhFpd7LcqAe9
- r8oK2tyLqmVlu0k24duX6ORRtl9Ody+brmhpdiUUIZDyt4wo7EGophJD/W9YNejenTlX
- TMFJaF1b7rB9B7/cocAbHXHBr/1+lLsIatZ0LqOA/a+6PaP35I3QlcIpXy7DiLVGrMUx
- bhd0TLTXCVblUNpD8ENUb5yB3uC6d1kX1VUkApUKa3e4mjmzyDrh8bvSj7ePUbyosvn6
- BlvJqZuAssSoXNcKkgkgERFj4/qT7qWIw0DATvts1fY3tte+6ITuLWEz9SGP1ytSjQMu
- C5lw==
-X-Gm-Message-State: AOAM531aI2gLte96hIBXyJg75o5wRnrKbje0rZdNFqBD95+2r388sMNA
- sB/xRw/qib49Ta4JYiRaPpiJ35YoEUNNFE10GQ8MOzuWULX5OdXJVdum0TfPv9ayeXv98hflfl/
- NGJ3rWSBX9p4/U6I=
-X-Received: by 2002:a1c:9695:: with SMTP id
- y143mr10372983wmd.146.1602510242475; 
- Mon, 12 Oct 2020 06:44:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8NHhrt1AOhsfPmar3mhLo/Ef30NCU9outBYdPxYTGp/uoWULBZQqaurWyAWFqjOZl5RKq8Q==
-X-Received: by 2002:a1c:9695:: with SMTP id
- y143mr10372963wmd.146.1602510242193; 
- Mon, 12 Oct 2020 06:44:02 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id o14sm24074153wmc.36.2020.10.12.06.44.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Oct 2020 06:44:01 -0700 (PDT)
-Subject: Re: [PULL 5/7] gitlab-ci: Move edk2 and opensbi YAML files to
- .gitlab-ci.d folder
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, "Daniel P . Berrange" <berrange@redhat.com>
-References: <20200528101039.24600-1-thuth@redhat.com>
- <20200528101039.24600-6-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <955bad5e-51ca-5b3f-c68f-a0374fc00a43@redhat.com>
-Date: Mon, 12 Oct 2020 15:44:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VVKKx+irzSrHwI2CV2LmswnFVT60gRM+m6nXIjpyTxQ=;
+ b=X9TLzy7y29HCSnFHtb2PrWSSw/p4urBqMUfIc5RAMIvKRJtg1f+4vGWjnRB0g68ACS
+ AWz0jDhjvDUp1FWp1s72/4tvY0PHYGexwN85NYQVvHIlAVQFUtx37ivrhpr50V+WKYwh
+ 1YDuBTlH0bQZshqh+KXufWtRcl/cuJfJF4mXJ/w5loyjURDM8cp/M0UruSGBqq70V/JZ
+ MGbzhl2jjkNE/f3V7CH4UzZeeZ0Y5UsVQsWrVxxOY1PUzgg5VUhhpaEe/G4wourEagtM
+ MmF+8D3PTXal7yzCcqMWf5a3Nm2NaXY5QxA0oQ2ztth3YAyYC/mnHdetl+fJnbEf4V5j
+ G1qQ==
+X-Gm-Message-State: AOAM533fpneNPGyT+PvYBZJ+ovUS+5BB9HURPX8EO9RLy6N3prb1XnuZ
+ oJQ01LW0ARZFkrZ4386KonYfVVhmDTzvSfDOxMP0MQ==
+X-Google-Smtp-Source: ABdhPJxHvo4vQwsolI3T2CKRPKLvniIAkvpP49n+ZtnCbZG5Xk7Nj30uHmF6QbHArTMcU1TAEJsJ/E8sBfz1q5IWSqI=
+X-Received: by 2002:a17:906:1f42:: with SMTP id
+ d2mr27643606ejk.407.1602510272309; 
+ Mon, 12 Oct 2020 06:44:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200528101039.24600-6-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201012132017.3423954-1-f4bug@amsat.org>
+ <20201012132017.3423954-5-f4bug@amsat.org>
+In-Reply-To: <20201012132017.3423954-5-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 12 Oct 2020 14:44:21 +0100
+Message-ID: <CAFEAcA_rSR4_EB2jqyaYJ5i6twgCMO84t=Ozo9hFx5JQm-1uZg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] hw/pci-host/versatile: Add the PCI_BAR_COUNT
+ definition
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,69 +83,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bmeng.cn@gmail.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas, Alex,
+On Mon, 12 Oct 2020 at 14:20, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Note from Peter Maydell:
+>
+>  The versatile/realview PCI controller has:
+>    * three PCI BARs which represent memory windows on the
+>        PCI bus which bus-master PCI devices can use to
+>        write back into the system address space
+>      - the device SMAPn registers allow the guest to configure
+>        the mapping from "a bus-master access to an address
+>        on the PCI bus wherever the guest mapped BAR n"
+>        to "a system address", and the smap[] array holds
+>        those register values
+>
+> Use self-explicit PCI_BAR_COUNT definition instead of a magic
+> value, and rename some misnamed variables indexing the smap[]
+> array from 'win' to 'bar'.
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-+Daniel
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-On 5/28/20 12:10 PM, Thomas Huth wrote:
-> We have a dedicated folder for the gitlab-ci - so there is no need
-> to clutter the top directory with these .yml files.
-> 
-> Message-Id: <20200525131823.715-5-thuth@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   .gitlab-ci-edk2.yml => .gitlab-ci.d/edk2.yml       | 0
->   .gitlab-ci-opensbi.yml => .gitlab-ci.d/opensbi.yml | 0
->   .gitlab-ci.yml                                     | 4 ++--
->   MAINTAINERS                                        | 2 +-
->   4 files changed, 3 insertions(+), 3 deletions(-)
->   rename .gitlab-ci-edk2.yml => .gitlab-ci.d/edk2.yml (100%)
->   rename .gitlab-ci-opensbi.yml => .gitlab-ci.d/opensbi.yml (100%)
-> 
-> diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci.d/edk2.yml
-> similarity index 100%
-> rename from .gitlab-ci-edk2.yml
-> rename to .gitlab-ci.d/edk2.yml
-> diff --git a/.gitlab-ci-opensbi.yml b/.gitlab-ci.d/opensbi.yml
-> similarity index 100%
-> rename from .gitlab-ci-opensbi.yml
-> rename to .gitlab-ci.d/opensbi.yml
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index bc6aee6aba..5208d93ff8 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -1,6 +1,6 @@
->   include:
-> -  - local: '/.gitlab-ci-edk2.yml'
-> -  - local: '/.gitlab-ci-opensbi.yml'
-> +  - local: '/.gitlab-ci.d/edk2.yml'
-> +  - local: '/.gitlab-ci.d/opensbi.yml'
-
-It seems these jobs are now always run, the "rules:changes"
-to restrict them is ignored.
-
-I searched a bit and found a plausible explanation here:
-https://docs.gitlab.com/ee/ci/yaml/#onlychangesexceptchanges
-
-"Caution: In pipelines with sources other than the three above changes 
-can’t determine if a given file is new or old and always returns true. 
-This includes pipelines triggered by pushing new tags. Configuring jobs 
-to use only: changes with other only: refs keywords is possible, but not 
-recommended."
-
-I don't understand what they mean by "three", is a directory considered
-a three? Then that would explain the change.
-
-Regards,
-
-Phil.
-
+thanks
+-- PMM
 
