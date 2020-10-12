@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B440128BF36
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:51:14 +0200 (CEST)
-Received: from localhost ([::1]:39278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E2828BF3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:52:12 +0200 (CEST)
+Received: from localhost ([::1]:43180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS1yW-0004e6-J7
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59268)
+	id 1kS1zX-0006Mf-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:52:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1vm-0002fC-IF; Mon, 12 Oct 2020 13:48:18 -0400
-Received: from relay.sw.ru ([185.231.240.75]:33448 helo=relay3.sw.ru)
+ id 1kS1wb-0003ja-P6; Mon, 12 Oct 2020 13:49:09 -0400
+Received: from relay.sw.ru ([185.231.240.75]:33690 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1vk-0007go-Sz; Mon, 12 Oct 2020 13:48:18 -0400
+ id 1kS1wW-0007kf-9o; Mon, 12 Oct 2020 13:49:09 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS1un-0047iC-N9; Mon, 12 Oct 2020 20:47:17 +0300
+ id 1kS1vZ-0047iC-PS; Mon, 12 Oct 2020 20:48:05 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com, fam@euphon.net,
  stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
  libvir-list@redhat.com, eblake@redhat.com, den@openvz.org,
  vsementsov@virtuozzo.com, andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v11 05/13] copy-on-read: limit COR operations to base in COR
- driver
-Date: Mon, 12 Oct 2020 20:43:17 +0300
-Message-Id: <1602524605-481160-6-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v11 06/13] block: modify the comment for BDRV_REQ_PREFETCH flag
+Date: Mon, 12 Oct 2020 20:43:18 +0300
+Message-Id: <1602524605-481160-7-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -59,67 +58,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-Limit COR operations by the base node in the backing chain when the
-overlay base node name is given. It will be useful for a block stream
-job when the COR-filter is applied. The overlay base node is passed as
-the base itself may change due to concurrent commit jobs on the same
-backing chain.
+Modify the comment for the flag BDRV_REQ_PREFETCH as we are going to
+use it alone and pass it to the COR-filter driver for further
+processing.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- block/copy-on-read.c | 39 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
+ include/block/block.h | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index c578b1b..dfbd6ad 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -122,8 +122,43 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
-                                            size_t qiov_offset,
-                                            int flags)
- {
--    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
--                               flags | BDRV_REQ_COPY_ON_READ);
-+    int64_t n = 0;
-+    int64_t size = offset + bytes;
-+    int local_flags;
-+    int ret;
-+    BDRVStateCOR *state = bs->opaque;
-+
-+    if (!state->base_overlay) {
-+        return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
-+                                   flags | BDRV_REQ_COPY_ON_READ);
-+    }
-+
-+    while (offset < size) {
-+        local_flags = flags;
-+
-+        /* In case of failure, try to copy-on-read anyway */
-+        ret = bdrv_is_allocated(bs->file->bs, offset, bytes, &n);
-+        if (!ret) {
-+            ret = bdrv_is_allocated_above(bdrv_cow_bs(bs->file->bs),
-+                                          state->base_overlay, true, offset,
-+                                          n, &n);
-+            if (ret) {
-+                local_flags |= BDRV_REQ_COPY_ON_READ;
-+            }
-+        }
-+
-+        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
-+                                  local_flags);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        offset += n;
-+        qiov_offset += n;
-+        bytes -= n;
-+    }
-+
-+    return 0;
- }
+diff --git a/include/block/block.h b/include/block/block.h
+index 981ab5b..2b7efd1 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -71,9 +71,10 @@ typedef enum {
+     BDRV_REQ_NO_FALLBACK        = 0x100,
  
- 
+     /*
+-     * BDRV_REQ_PREFETCH may be used only together with BDRV_REQ_COPY_ON_READ
+-     * on read request and means that caller doesn't really need data to be
+-     * written to qiov parameter which may be NULL.
++     * BDRV_REQ_PREFETCH may be used together with the BDRV_REQ_COPY_ON_READ
++     * flag or when the COR-filter applied to read operations and means that
++     * caller doesn't really need data to be written to qiov parameter which
++     * may be NULL.
+      */
+     BDRV_REQ_PREFETCH  = 0x200,
+     /* Mask of valid flags */
 -- 
 1.8.3.1
 
