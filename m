@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49A928AC99
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 05:36:40 +0200 (CEST)
-Received: from localhost ([::1]:39882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4122928AC9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 05:36:44 +0200 (CEST)
+Received: from localhost ([::1]:40070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRodb-0002fZ-HD
-	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 23:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56096)
+	id 1kRodf-0002kK-BG
+	for lists+qemu-devel@lfdr.de; Sun, 11 Oct 2020 23:36:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kRocO-0001tn-IN
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kRocO-0001tl-K3
  for qemu-devel@nongnu.org; Sun, 11 Oct 2020 23:35:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39609)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kRocM-0001tA-3v
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kRocM-0001u5-7r
  for qemu-devel@nongnu.org; Sun, 11 Oct 2020 23:35:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602473719;
+ s=mimecast20190719; t=1602473721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Dt5E4XM6ITvKOE5bBWDley5zGwUkr7b6iuILIZzWTPU=;
- b=ctB0LGJjSR1FZpWPmE3VIngraAOIdOvY6o/4afDPvsLsP5bkden05tJbhT063bwId5eeev
- u/Bin3qMtoqNVD4vHYLSMjqq9d5Z+bhwVdPuqm/edwxDzS2Mv3rTz7K0wu9xLynFKpw9N1
- c4HmuXrC7HptZ3ZONuFB6RGx7NBEEjU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fpHisvGdMfu2rLolCV/TUlcZ1mNSmd8f85VTiCWgp/8=;
+ b=Fk/HSFS6rrR3/i3niqdrGTww19oqJgcfikmrxpCAjYpqz8c7KSJzqWQC2Bsb1QG/rhFzca
+ tcrbbOp62rBVDJ4kF1N4FNerosCo4rbR9oYkUnwq+H8xA9tgO/fbuuoOB++StUvpWgmMzC
+ /zPk2bqHdmVKdGmi9AU73ZEbaRyGiZc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-WhOkZoisMdWIcpzJHvDEKA-1; Sun, 11 Oct 2020 23:35:18 -0400
-X-MC-Unique: WhOkZoisMdWIcpzJHvDEKA-1
+ us-mta-466--JjOiOXdM0aSYkLBP-Jx_w-1; Sun, 11 Oct 2020 23:35:19 -0400
+X-MC-Unique: -JjOiOXdM0aSYkLBP-Jx_w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A51E7835B8D;
- Mon, 12 Oct 2020 03:35:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F930425D5;
+ Mon, 12 Oct 2020 03:35:18 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7044A6EF7B;
- Mon, 12 Oct 2020 03:35:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB449709BB;
+ Mon, 12 Oct 2020 03:35:16 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/1] hw/i386: prevent crash when an invalid number of dies is
+Subject: [PATCH 1/1] hw/i386: prevent crash when an invalid number of dies is
  given
-Date: Sun, 11 Oct 2020 23:35:06 -0400
-Message-Id: <20201012033507.906096-1-crosa@redhat.com>
+Date: Sun, 11 Oct 2020 23:35:07 -0400
+Message-Id: <20201012033507.906096-2-crosa@redhat.com>
+In-Reply-To: <20201012033507.906096-1-crosa@redhat.com>
+References: <20201012033507.906096-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 21:16:19
@@ -88,19 +91,74 @@ Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simple patch (and test) to avoid crashes when and invalid number=0D
-of dies is given.=0D
-=0D
-Cleber Rosa (1):=0D
-  hw/i386: prevent crash when an invalid number of dies is given=0D
-=0D
- hw/i386/pc.c                          |  5 +++++=0D
- tests/acceptance/cpu_topology_dies.py | 31 +++++++++++++++++++++++++++=0D
- 2 files changed, 36 insertions(+)=0D
- create mode 100644 tests/acceptance/cpu_topology_dies.py=0D
-=0D
---=20=0D
-2.25.4=0D
-=0D
+When parsing the topology, the right default value of 1 is given to
+dies, but if an invalid number such as 0 is given, QEMU will crash
+with a floating point exception.
+
+The alternative approach is to silently set dies to a valid value,
+as it's done with cores and threads.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ hw/i386/pc.c                          |  5 +++++
+ tests/acceptance/cpu_topology_dies.py | 31 +++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644 tests/acceptance/cpu_topology_dies.py
+
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index e87be5d29a..209e44663d 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -713,6 +713,11 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
+         unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
+         unsigned threads = qemu_opt_get_number(opts, "threads", 0);
+ 
++        if (dies <= 0) {
++            error_report("Invalid CPU topology: dies must be 1 or greater");
++            exit(1);
++        }
++
+         /* compute missing values, prefer sockets over cores over threads */
+         if (cpus == 0 || sockets == 0) {
+             cores = cores > 0 ? cores : 1;
+diff --git a/tests/acceptance/cpu_topology_dies.py b/tests/acceptance/cpu_topology_dies.py
+new file mode 100644
+index 0000000000..d73b7b30a2
+--- /dev/null
++++ b/tests/acceptance/cpu_topology_dies.py
+@@ -0,0 +1,31 @@
++# Check for crash when using invalid dies value for -smp
++#
++# Copyright (c) 2020 Red Hat, Inc.
++#
++# Author:
++#  Cleber Rosa <crosa@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++from avocado_qemu import Test
++
++class CPUTolopogyDies(Test):
++    """
++    :avocado: tags=arch:x86_64
++    :avocado: tags=machine:pc
++    """
++    def test_invalid(self):
++        self.vm.add_args('-S', '-display', 'none', '-smp', '1,dies=0')
++        self.vm.set_qmp_monitor(enabled=False)
++        self.vm.launch()
++        self.vm.wait()
++        self.assertEquals(self.vm.exitcode(), 1, "QEMU exit code should be 1")
++        self.assertRegex(self.vm.get_log(),
++                         r'Invalid CPU topology: dies must be 1 or greater')
++
++    def test_valid(self):
++        self.vm.add_args('-S', '-display', 'none', '-smp', '1,dies=1')
++        self.vm.launch()
++        self.vm.command('quit')
++        self.vm.wait()
++        self.assertEquals(self.vm.exitcode(), 0, "QEMU exit code should be 0")
+-- 
+2.25.4
 
 
