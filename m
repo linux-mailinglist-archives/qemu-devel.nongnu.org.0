@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152D328C3C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 23:06:43 +0200 (CEST)
-Received: from localhost ([::1]:55164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A86528C37B
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:58:06 +0200 (CEST)
+Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS51m-0000Sr-1H
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 17:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38576)
+	id 1kS4tR-0008Vw-5i
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
- id 1kS4Wq-0003JB-Fm
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:44 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:35605)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
- id 1kS4Wo-0002nB-Q8
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:44 -0400
-Received: by mail-il1-x144.google.com with SMTP id o18so17211713ill.2
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 13:34:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2OI/+eHzIyJYt8c4T3AdeNt7wPrS2BpKGHdtztzIHLw=;
- b=o0RhylCewc+7tpNZ0ijyjo/jWQGRgCKnMYv0KyNWInpVsTnpag/CRTR5s+CyoJ7XRC
- 3s7nYHksjGulFtYnsmPiesSMsMrPCJeSN/iV2mS06OVbVmVk43dNwio1khG2G8hbrLry
- m8if+3srdby6fz+3UBvIenaHIe2rCtgpLKQIJ/439Ao8flqRVfcWGC497Eh5jGuji+fm
- Y0pH62YEyXepw9grPm1hzxJTL/T3TGt85mlpaMBTi0YkBzezx/iUtgQV3+04AaDti4yo
- Mqck/AmOyM0p/qCBjh2KCo6xWi7SoCSOZzm0A8RWBbdkyZq7fL29mQsRv8A97vShxGqm
- 0ESQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2OI/+eHzIyJYt8c4T3AdeNt7wPrS2BpKGHdtztzIHLw=;
- b=Tn6k1GBe/RX84yv1gyonePJb/6xKuzmQkHTmK+htdzcOa1wBJGHpQGdC/lboe63m3N
- CuH0kYXjWyUAEemfNponaO4KebrnX7+3WT4NvBV6cu8wjyBPNScPWCr3e2meyMzG7WDc
- UvrTt5NG5SP874g7pcS9MAw7ZYHUlRTACn5rb/q6GsSJzymxuYsX1LykmwUJ3IehQjnc
- /OszuzbUwTtQFgXGiOV8it0XuVRfmg7g1/gSlY+4FGnb5GWO0eHi83T1Bwtr8kE+WWcP
- k7CQeRzTJ54NmkVL5pWbsWo0SdB/4XoFPoOiKxbVp8wmIBxuBADcGuY5m2Wm+nJ1wUH/
- bOZQ==
-X-Gm-Message-State: AOAM533HtxAR1xwJ7x17hn2gvluS1QMlORnLtSeBCghjAfpPyPc7RaZ8
- PWKWi2o2NPTJYNNHQqbyMD01SJOoFAmHodSmcFY=
-X-Google-Smtp-Source: ABdhPJy4542/Q67ht2+UEwtSJfpnnJ5TUaSNA9B8i9sz+JzFnf2NOs/ub+RszBhCZ3cY2jMt4d0Uvnt9K0uFBg8YjGc=
-X-Received: by 2002:a92:907:: with SMTP id y7mr471808ilg.276.1602534881269;
- Mon, 12 Oct 2020 13:34:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kamensky@cisco.com>)
+ id 1kS4Ya-0006I7-Qc
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:36:32 -0400
+Received: from alln-iport-3.cisco.com ([173.37.142.90]:15328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kamensky@cisco.com>)
+ id 1kS4YV-00035q-Qv
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:36:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=cisco.com; i=@cisco.com; l=1907; q=dns/txt; s=iport;
+ t=1602534987; x=1603744587;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=alGQUjsE4wQMn1ISSevC74/L8wkgmTQvinTpePdFCW4=;
+ b=NCRZvpfPcnqZKTfqM3oS/+Gm8ICG11jBfVn+9cJkslIjle3yG+Uv+I+/
+ 6LnVazzopfb2GO3pb+6h9t2DWhUu28UC9WXD/9YHoiT7Nu36EWu/hoMnM
+ KMFg/hvCvXCgA3BadEf2wStE0rebZAQAEqNNL9tAGV+yB0zzS+T74/umA I=;
+X-IPAS-Result: =?us-ascii?q?A0BcBQDbvIRf/4sNJK1ghQJwVQEyLJZZmyQLAQEBDQEBG?=
+ =?us-ascii?q?A0KBAEBhAZEghgCJTgTAgMBAQEDAgMBAQEBBQEBAQIBBgRthVwMhXUFMQFGg?=
+ =?us-ascii?q?Qk1AYM4AYJ8D6Z2giiEOwELAQcDDy+FMgaBOIg3hH8bggCBEYJbc4JcBAEWh?=
+ =?us-ascii?q?z0EkwkBh2eBbZsCgnKDFYVsiw+GSg8igxWKCJQdkyKKcZU0AgQGBQIVgWsjg?=
+ =?us-ascii?q?VdNIxWDJU8ZDZckhWIhAzACNQIGCgEBAwmOSAEB?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.77,367,1596499200"; d="scan'208";a="553497794"
+Received: from alln-core-6.cisco.com ([173.36.13.139])
+ by alln-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+ 12 Oct 2020 20:36:24 +0000
+Received: from kamensky-p53s.cisco.com ([10.24.37.191]) (authenticated bits=0)
+ by alln-core-6.cisco.com (8.15.2/8.15.2) with ESMTPSA id 09CKaGHP032678
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 12 Oct 2020 20:36:23 GMT
+From: Victor Kamensky <kamensky@cisco.com>
+To: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Cc: qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 0/1] mips: add 34Kf-64tlb fictitious cpu type like 34Kf but
+ with 64 TLBs
+Date: Mon, 12 Oct 2020 13:36:12 -0700
+Message-Id: <20201012203613.85823-1-kamensky@cisco.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <20201012150356.79670-1-mcascell@redhat.com>
-In-Reply-To: <20201012150356.79670-1-mcascell@redhat.com>
-From: Paul Zimmerman <pauldzim@gmail.com>
-Date: Mon, 12 Oct 2020 13:34:14 -0700
-Message-ID: <CADBGO7-w7txnd6MHAY0ge3k3LRcn0FfGDU9znQU7qxQddJQT0A@mail.gmail.com>
-Subject: Re: [PATCH] hw/usb/hcd-dwc2: fix divide-by-zero in
- dwc2_handle_packet()
-To: Mauro Matteo Cascella <mcascell@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=pauldzim@gmail.com; helo=mail-il1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Authenticated-User: kamensky@cisco.com
+X-Outbound-SMTP-Client: 10.24.37.191, [10.24.37.191]
+X-Outbound-Node: alln-core-6.cisco.com
+Received-SPF: pass client-ip=173.37.142.90; envelope-from=kamensky@cisco.com;
+ helo=alln-iport-3.cisco.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 16:36:25
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -118
+X-Spam_score: -11.9
+X-Spam_bar: -----------
+X-Spam_report: (-11.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,56 +86,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gaoning.pgn@antgroup.com, linyi.lxw@antfin.com,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 12, 2020 at 8:05 AM Mauro Matteo Cascella
-<mcascell@redhat.com> wrote:
->
-> Check the value of mps before it is used as divisor. Since HCCHAR_MPS is guest
-> controllable, this prevents a malicious/buggy guest from crashing the QEMU
-> process on the host.
->
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> Reported-by: Gaoning Pan <gaoning.pgn@antgroup.com>
-> Reported-by: Xingwei Lin <linyi.lxw@antfin.com>
-> ---
->  hw/usb/hcd-dwc2.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
-> index 97688d21bf..91476fd781 100644
-> --- a/hw/usb/hcd-dwc2.c
-> +++ b/hw/usb/hcd-dwc2.c
-> @@ -324,6 +324,12 @@ babble:
->              }
->          }
->
-> +        if (mps == 0) {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                    "%s: Bad HCCHAR_MPS set to zero\n", __func__);
-> +            return;
-> +        }
-> +
->          tpcnt = actual / mps;
->          if (actual % mps) {
->              tpcnt++;
-> --
-> 2.26.2
->
+Hi Qenu MIPS guys,
 
-Hi Mauro,
+Could you please review and, if possible, accept a simple patch, following
+this cover letter, that introduces new fictitious 34Kf-64tlb MIPS cpu
+model. It is exact copy of 34Kf MIPS cpu model only the number of TLBs is
+bumped up from 16 to 64.
 
-I think it would be better to move this check earlier in the function,
-just after 'mps' is read from the register. Otherwise it can get
-assigned to 'tlen' and 'p->mps', and who knows what mischief an
-invalid value there might cause.
+This change and use of 34Kf-64tlb model brings up performance of
+running non-trivial Linux user-land load under qemu-system-mips by
+40% or more.
 
-After that, you can add my
-Reviewed-by: Paul Zimmerman <pauldzim@gmail.com>
+Yocto Project uses qemu-system-mips 34Kf cpu model, as recommended
+by [1], to run 32bit MIPS CI loop. It was observed that in this
+case CI test execution time was almost twice longer [2] than 64bit MIPS
+variant that runs under MIPS64R2-generic model. It was
+investigated [3] and concluded that the difference in number of TLBs
+16 in 34Kf case vs 64 in MIPS64R2-generic is responsible for most of
+CI real time execution diffrence. Because with 16 TLBs linux user-land
+trashes TLB more and it needs to execute more instructions in TLB
+refill handler calls, as result it runs much longer.
+
+Proposed fix that Yocto Project adopted locally already as private
+patch is to create and use 34Kf-64tlb cpu model, that is the same as
+34Kf but with bigger number of TLBs.
+
+Yocto Project would appreciate very much if this change can
+be accepted by qemu project. It would reduce burden of porting
+forward private patch. Other users of qemu-system-mips could
+benefit from the change and new model as well.
 
 Thanks,
-Paul
+Victor
+
+[1] https://www.qemu.org/docs/master/system/target-mips.html#preferred-cpu-models-for-mips-hosts
+
+[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
+
+[3] https://lists.openembedded.org/g/openembedded-core/message/143099
+
+Victor Kamensky (1):
+  mips: add 34Kf-64tlb fictitious cpu type like 34Kf but with 64 TLBs
+
+ target/mips/translate_init.c.inc | 55 ++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+
+-- 
+2.25.4
+
 
