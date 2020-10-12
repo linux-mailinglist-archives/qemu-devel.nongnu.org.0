@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D81C28B4C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:43:17 +0200 (CEST)
-Received: from localhost ([::1]:41058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FD528B4CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:44:40 +0200 (CEST)
+Received: from localhost ([::1]:45362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRxAa-0001mX-3y
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:43:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59758)
+	id 1kRxBv-0003Wi-Fo
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRx55-0003I1-LH; Mon, 12 Oct 2020 08:37:35 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5225 helo=huawei.com)
+ id 1kRx54-0003Hi-7t; Mon, 12 Oct 2020 08:37:35 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5231 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
- id 1kRx4u-0007ZD-NN; Mon, 12 Oct 2020 08:37:33 -0400
+ id 1kRx4w-0007bV-Pd; Mon, 12 Oct 2020 08:37:32 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 0F0EB803D6105EDBFE10;
- Mon, 12 Oct 2020 20:37:04 +0800 (CST)
+ by Forcepoint Email with ESMTP id 100C297ED1FB1744977B;
+ Mon, 12 Oct 2020 20:37:09 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS409-HUB.china.huawei.com
  (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Mon, 12 Oct 2020
  20:36:58 +0800
 From: Bihong Yu <yubihong@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 6/8] migration: Do not initialise statics and globals to 0
- or NULL
-Date: Mon, 12 Oct 2020 21:08:58 +0800
-Message-ID: <1602508140-11372-7-git-send-email-yubihong@huawei.com>
+Subject: [PATCH v2 7/8] migration: Open brace '{' following function
+ declarations go on the next line
+Date: Mon, 12 Oct 2020 21:08:59 +0800
+Message-ID: <1602508140-11372-8-git-send-email-yubihong@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602508140-11372-1-git-send-email-yubihong@huawei.com>
 References: <1602508140-11372-1-git-send-email-yubihong@huawei.com>
@@ -66,36 +66,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Bihong Yu <yubihong@huawei.com>
 Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- migration/ram.c    | 2 +-
- migration/savevm.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ migration/rdma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 09178cc..2da2b62 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2743,7 +2743,7 @@ static int load_xbzrle(QEMUFile *f, ram_addr_t addr, void *host)
-  */
- static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
- {
--    static RAMBlock *block = NULL;
-+    static RAMBlock *block;
-     char id[256];
-     uint8_t len;
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 0eb42b7..ca4d315 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -273,7 +273,8 @@ static uint64_t htonll(uint64_t v)
+     return u.llv;
+ }
  
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 9e95df1..f808bc2 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -64,7 +64,7 @@
- #include "qemu/bitmap.h"
- #include "net/announce.h"
- 
--const unsigned int postcopy_ram_discard_version = 0;
-+const unsigned int postcopy_ram_discard_version;
- 
- /* Subcommands for QEMU_VM_COMMAND */
- enum qemu_vm_cmd {
+-static uint64_t ntohll(uint64_t v) {
++static uint64_t ntohll(uint64_t v)
++{
+     union { uint32_t lv[2]; uint64_t llv; } u;
+     u.llv = v;
+     return ((uint64_t)ntohl(u.lv[0]) << 32) | (uint64_t) ntohl(u.lv[1]);
 -- 
 1.8.3.1
 
