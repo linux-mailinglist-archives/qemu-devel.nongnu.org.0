@@ -2,71 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9C328BBB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:21:06 +0200 (CEST)
-Received: from localhost ([::1]:59998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27E728BBC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:24:48 +0200 (CEST)
+Received: from localhost ([::1]:41398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRzdJ-0003q8-Qe
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:21:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52988)
+	id 1kRzgt-0007x5-CY
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:24:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzbt-0002sO-OT
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:19:37 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzbr-0005Or-09
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:19:37 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id p15so23702217ejm.7
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:19:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KwoPxa6l/5vcNUnXKr5qq42wNsqGWGpA98A9mwfkJDo=;
- b=EWGZdAimtTpHMFbrXzrbarrmjHVNxIzDxLvTsUAXOtrQQMKWpRmnq8DOWiEhjizOot
- tZvDa3qst/HuCpL3+E2FGrVE/PzxIN8Axn/cqFtKUNf47HVjsFs6FPfoyj5/HIiGE/Vl
- FtNe2H+srRxfMbZba4Q9OKtT1zKa99ds2gESKtDZcCYrCfYu8tVQlZyB2Sevc1YNL/7m
- bRRL8zz/iuCK1IN8VksDwsqhk1kux+c7uXf5mwFg3f7hdWygA+8jzU1tV1yQq2++Xc+C
- huT9UQqRosevUc+PXWUNgS2RhyunkgYIW5EPUSxZ/1Jw0SF6owGyYGIAYBktgxqvbLre
- gajA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KwoPxa6l/5vcNUnXKr5qq42wNsqGWGpA98A9mwfkJDo=;
- b=FYrKd20XqiTuQEDFvmp/DyhgrMZkuMinUDqkdE4qg8JGYTbcAjan/+n1qGD0fIAdPT
- Qv849q0lgFZuArXQuiQqb6pnw46XCVVqbSSR76N6ciON96wepbEFvAgCMK3uc2eqE0eN
- OlbkuB2qgq3yUvuIcLnS7qJP8Gg5UgJONGzSm1+V836tX+pYTgBZVEFiMb6DAgVRQ755
- DszPU8G9mAQWERzSSBoeIuanHpWVIDwk+GNJi/FJXcklWsK3eWgggWjaDAAAAWX8qpGf
- iT+bm82lCXUx7VwBDtqbN+pWBQdreaxkDfzlYKLgHXjkIi7GtFihpX8rAZSpfpUeluIZ
- 5SBg==
-X-Gm-Message-State: AOAM533DugQlOTCT6my3678HFULqX6s0L5JsVEzLwtjB68ME2EbQbHB5
- 5VYmAq9jjocnba3N0vp/EzfWh9niDl9pi8MrekkhBQ==
-X-Google-Smtp-Source: ABdhPJzBXG9tGZuZuOzIVZNH0aHHBcBn5xUV8tTQlKoGUrdF1aOpwXKIFUJDXj/mFeEfXRt+U0slaogDlkPJeP4O8B4=
-X-Received: by 2002:a17:906:7254:: with SMTP id
- n20mr27296752ejk.382.1602515972530; 
- Mon, 12 Oct 2020 08:19:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kRzc6-000358-Aa
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:19:50 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:46374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kRzc4-0005Pr-SU
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:19:50 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-gnIZmJSwNo6yO4geGo0STA-1; Mon, 12 Oct 2020 11:19:44 -0400
+X-MC-Unique: gnIZmJSwNo6yO4geGo0STA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D7F88014D8;
+ Mon, 12 Oct 2020 15:19:42 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-78.ams2.redhat.com [10.36.112.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6571F55772;
+ Mon, 12 Oct 2020 15:19:40 +0000 (UTC)
+Subject: [PATCH 0/4] spapr: Fix and cleanups for sPAPR CPU core
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Mon, 12 Oct 2020 17:19:39 +0200
+Message-ID: <160251562222.796881.8197386060416409319.stgit@bahia.lan>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-References: <20201012114425.104765-1-dgilbert@redhat.com>
-In-Reply-To: <20201012114425.104765-1-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 12 Oct 2020 16:19:21 +0100
-Message-ID: <CAFEAcA__gS0osErLSUeDw+HHvin2uA8QwQhsaMzcf1C14ke_pw@mail.gmail.com>
-Subject: Re: [PULL 0/6] migration queue
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 11:19:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,49 +65,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- zhengchuan@huawei.com, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Oct 2020 at 12:48, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> The following changes since commit 2387df497b4b4bcf754eb7398edca82889e2ef54:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-10-10' into staging (2020-10-12 11:29:42 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/dagrh/qemu.git tags/pull-migration-20201012a
->
-> for you to fetch changes up to b1a859cfb04db1d2b80dd9979ce6081cb9c00d75:
->
->   migration/dirtyrate: present dirty rate only when querying the rate has completed (2020-10-12 12:39:38 +0100)
->
-> ----------------------------------------------------------------
-> v3 Migration+ virtiofsd pull 2020-10-12
->
-> V3
->   Remove the postcopy recovery changes
->
-> Migration:
->   Dirtyrate measurement API cleanup
->
-> Virtiofsd:
->   Missing qemu_init_exec_dir call
->   Support for setting the group on socket creation
->   Stop a gcc warning
->   Avoid tempdir in sandboxing
+While reading the code _again_ I spotted a memory leak and I realized
+we can simplify some paths that deal with vCPU removal.
 
-Applied, thanks.
+---
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+Greg Kurz (4):
+      spapr: Fix leak of CPU machine specific data
+      spapr: Drop spapr_delete_vcpu() unused argument
+      spapr: Introduce an .instance_finalize hook for TYPE_SPAPR_CPU_CORE
+      spapr: Make spapr_cpu_core_unrealize() idempotent
 
--- PMM
+
+ hw/ppc/spapr_cpu_core.c |   65 +++++++++++++++++++++++++------------------=
+----
+ 1 file changed, 35 insertions(+), 30 deletions(-)
+
+--
+Greg
+
 
