@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC63D28B1F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 12:05:00 +0200 (CEST)
-Received: from localhost ([::1]:42910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3973828B1F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 12:04:44 +0200 (CEST)
+Received: from localhost ([::1]:41910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRuhP-0006tX-Nh
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 06:04:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46034)
+	id 1kRuh9-0006VC-A1
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 06:04:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRubE-0000HF-92
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:58:36 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54481)
+ id 1kRubI-0000LF-OQ
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:58:41 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRubC-0002oG-Ly
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:58:35 -0400
-Received: by mail-wm1-x341.google.com with SMTP id p15so16627788wmi.4
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 02:58:34 -0700 (PDT)
+ id 1kRubH-0002oi-A2
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:58:40 -0400
+Received: by mail-wr1-x442.google.com with SMTP id i1so12323885wro.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 02:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WmL2Cw01Ae/xf1QUpqX/8MWanyHWKt0nSifDF6+l7KE=;
- b=iNJl9tRdmv+9EF3MsRTpb6oPo+NeLKCJzJPbztj+WW5fBn/6wFhXHBjIPF0FvYyNfS
- l2fZXTvDh04tlzoH3GjTYkhvyLgXwk5VcnWT2gjwVtOMpibrPErGXO4YfjHoblaVK/1u
- fYB5OhFk9qQxivcMKhv3mc1heNRJ4sCYLNl4StkdmOseaFEdsxfWIeSRBGFpXc5aqC1o
- TyTtsE5BWISR4aMOy/7FM328ERm+9HxZZS6WVIXV5GMG8yQ15HEuUhCVSmGdTi0tr/c2
- PqtdYezUMqaTfCjO06SpZvMBjOETJur3Stj4RaVH9VhBzm5K3pTM6KGCtwy6ifyXDS9D
- /Glg==
+ bh=W69f1MWd6lsJIyf72MtAUNNqNrrt140PbQJ0VWAk4GE=;
+ b=q2o77w4PonIUwOsZD1vKUPejn1owgAcjw6ECoTE/8+QbGSDdeda9Zxgpq0Ou00Nrgo
+ 9nPcELq+JiDLc5vPW7F051blAXDFGZimhEUCts2VYtVYji32vLtejqhyam1h9VPZ8XHP
+ K1dMA7bWBxqNaGnRIwp27CAtOFGhZYbiqc89UdREvQbmyVo3otKIKLdjEhkkxQ2eeNUx
+ lod7FU9H8z1hI/OSaiJ3VTlhVYaL3V0L2VfKAM93iLSafqgv064VS40SulQDs0a+LJND
+ MtM1S4r2xcGDIEpyMFDcY7NniaXJchiH+1qEwx/k/gRrsQXoDAdPMJGl9jQUjFXYqyp3
+ 1eXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WmL2Cw01Ae/xf1QUpqX/8MWanyHWKt0nSifDF6+l7KE=;
- b=X0GzK1GZcyihOSKI3QRsDtDBfZZvrrCpZQyWENw0R8Hn9TPhz8RjGGghQkaOkfVgZZ
- WogXimmjaTGjqHNV7+ZI2m9anrV27YX+GqqegU8Sa3rusC6t6EdLepfdMe55Rex+sNea
- a+6yeGPxL54dBpmy35NU6dLMtPSO5yRONrwKQ9DBcXkpmdOlllJtXZm3Q77PADigaw5Q
- jPOYYT8NuZFSAxH/bXUPyJH8o3kJ3ShMOc1PvePI7lwFu4UciDOMpXtMH/iUy9EGOHLp
- w4KIfMtZShHWQAkKhiJyD02xI5MiGyfUrxqSH6h6u40YDNeSfVgPdWuN8o1nkOUN4daG
- gSTg==
-X-Gm-Message-State: AOAM531O/Kh8kdi/rJJ7dJ6UG8AETSNnT09NRjEa0Dmp8OetJRBXyDg9
- 186sRmHv7P1V78ujuw+eGypojj3LS2o=
-X-Google-Smtp-Source: ABdhPJwfzuZ+p2dAx9X/sTi2r3XqdBPt6ai9ziGh9PRoBzeaKo0OJ1V00H85UfBKSbP8q6acbCPJOQ==
-X-Received: by 2002:a7b:c20d:: with SMTP id x13mr10682546wmi.83.1602496712904; 
- Mon, 12 Oct 2020 02:58:32 -0700 (PDT)
+ bh=W69f1MWd6lsJIyf72MtAUNNqNrrt140PbQJ0VWAk4GE=;
+ b=c54RPYDhl7IT6uglslyZHA9IQi8iCiFq2jagxismnieRTtUv2tDFc3EyiHDIoUq7t/
+ ytn0qVcpW1FGpfGwqtsZmN/lBMrhcSV9KtyUGf9tR+r9VyPNnH7VdI0lx3A5/MPV4WXs
+ RAccEfKNST8764uKYrSeDUiUgfcW4wR31LevH1pjlnV09oOY+x32/z1Yklcw1TykVgMV
+ 38wvEaWzgVYnpXeHJ+NEJDVPvzKgB6cXVRd8Eb88MQRWbtU/q0r/WQPwngPRh1v6qQkw
+ 6K6e0nKXtgIDKwxz24T3ozkrdwgzcN60wKZyetXvwPiSxlPPTBwL398WqezEPy15Q19Y
+ bNwA==
+X-Gm-Message-State: AOAM533XMD8Y98+IVLq4lxaB3j1EmbwKdSmZswiGPamecQCS2eZvF8JC
+ lqcvMHBpZtld0IlBqVUwc2m0hd75kRA=
+X-Google-Smtp-Source: ABdhPJy1J0fwTHvZzL2PvVZuHpIQ6+1hkzG7l1VDGW1QGRwcjZUV+CVKWb45g4h7P/CUgS8BOEu3gg==
+X-Received: by 2002:adf:912e:: with SMTP id j43mr28760542wrj.325.1602496717819; 
+ Mon, 12 Oct 2020 02:58:37 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id u5sm27303231wru.63.2020.10.12.02.58.31
+ by smtp.gmail.com with ESMTPSA id y66sm6111467wmd.14.2020.10.12.02.58.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 02:58:32 -0700 (PDT)
+ Mon, 12 Oct 2020 02:58:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/21] target/mips: Move cpu_mips_get_random() with CP0
- helpers
-Date: Mon, 12 Oct 2020 11:57:48 +0200
-Message-Id: <20201012095804.3335117-6-f4bug@amsat.org>
+Subject: [PATCH v4 06/21] target/mips/cp0_timer: Explicit unit in variable name
+Date: Mon, 12 Oct 2020 11:57:49 +0200
+Message-Id: <20201012095804.3335117-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201012095804.3335117-1-f4bug@amsat.org>
 References: <20201012095804.3335117-1-f4bug@amsat.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -103,113 +102,59 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The get_random() helper uses the CP0_Wired register, which is
-unrelated to the CP0_Count register used as timer.
-Commit e16fe40c872 ("Move the MIPS CPU timer in a separate file")
-incorrectly moved this get_random() helper with timer specific
-code. Move it back to generic CP0 helpers.
+Name variables holding nanoseconds with the '_ns' suffix.
 
 Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Reviewed-by: Luc Michel <luc@lmichel.fr>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h   |  2 +-
- target/mips/cp0_helper.c | 25 +++++++++++++++++++++++++
- target/mips/cp0_timer.c  | 25 -------------------------
- 3 files changed, 26 insertions(+), 26 deletions(-)
+ target/mips/cp0_timer.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 7f159a9230c..087cabaa6d4 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -144,6 +144,7 @@ void r4k_helper_tlbr(CPUMIPSState *env);
- void r4k_helper_tlbinv(CPUMIPSState *env);
- void r4k_helper_tlbinvf(CPUMIPSState *env);
- void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra);
-+uint32_t cpu_mips_get_random(CPUMIPSState *env);
- 
- void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                     vaddr addr, unsigned size,
-@@ -209,7 +210,6 @@ void cpu_state_reset(CPUMIPSState *s);
- void cpu_mips_realize_env(CPUMIPSState *env);
- 
- /* cp0_timer.c */
--uint32_t cpu_mips_get_random(CPUMIPSState *env);
- uint32_t cpu_mips_get_count(CPUMIPSState *env);
- void cpu_mips_store_count(CPUMIPSState *env, uint32_t value);
- void cpu_mips_store_compare(CPUMIPSState *env, uint32_t value);
-diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
-index de64add038b..12143ac55b9 100644
---- a/target/mips/cp0_helper.c
-+++ b/target/mips/cp0_helper.c
-@@ -203,6 +203,31 @@ static void sync_c0_entryhi(CPUMIPSState *cpu, int tc)
-     *tcst |= asid;
- }
- 
-+/* XXX: do not use a global */
-+uint32_t cpu_mips_get_random(CPUMIPSState *env)
-+{
-+    static uint32_t seed = 1;
-+    static uint32_t prev_idx;
-+    uint32_t idx;
-+    uint32_t nb_rand_tlb = env->tlb->nb_tlb - env->CP0_Wired;
-+
-+    if (nb_rand_tlb == 1) {
-+        return env->tlb->nb_tlb - 1;
-+    }
-+
-+    /* Don't return same value twice, so get another value */
-+    do {
-+        /*
-+         * Use a simple algorithm of Linear Congruential Generator
-+         * from ISO/IEC 9899 standard.
-+         */
-+        seed = 1103515245 * seed + 12345;
-+        idx = (seed >> 16) % nb_rand_tlb + env->CP0_Wired;
-+    } while (idx == prev_idx);
-+    prev_idx = idx;
-+    return idx;
-+}
-+
- /* CP0 helpers */
- target_ulong helper_mfc0_mvpcontrol(CPUMIPSState *env)
- {
 diff --git a/target/mips/cp0_timer.c b/target/mips/cp0_timer.c
-index bd7efb152dd..9c38e9da1c8 100644
+index 9c38e9da1c8..5194c967ae3 100644
 --- a/target/mips/cp0_timer.c
 +++ b/target/mips/cp0_timer.c
-@@ -29,31 +29,6 @@
- 
- #define TIMER_PERIOD 10 /* 10 ns period for 100 Mhz frequency */
- 
--/* XXX: do not use a global */
--uint32_t cpu_mips_get_random(CPUMIPSState *env)
--{
--    static uint32_t seed = 1;
--    static uint32_t prev_idx = 0;
--    uint32_t idx;
--    uint32_t nb_rand_tlb = env->tlb->nb_tlb - env->CP0_Wired;
--
--    if (nb_rand_tlb == 1) {
--        return env->tlb->nb_tlb - 1;
--    }
--
--    /* Don't return same value twice, so get another value */
--    do {
--        /*
--         * Use a simple algorithm of Linear Congruential Generator
--         * from ISO/IEC 9899 standard.
--         */
--        seed = 1103515245 * seed + 12345;
--        idx = (seed >> 16) % nb_rand_tlb + env->CP0_Wired;
--    } while (idx == prev_idx);
--    prev_idx = idx;
--    return idx;
--}
--
+@@ -32,13 +32,14 @@
  /* MIPS R4K timer */
  static void cpu_mips_timer_update(CPUMIPSState *env)
  {
+-    uint64_t now, next;
++    uint64_t now_ns, next_ns;
+     uint32_t wait;
+ 
+-    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-    wait = env->CP0_Compare - env->CP0_Count - (uint32_t)(now / TIMER_PERIOD);
+-    next = now + (uint64_t)wait * TIMER_PERIOD;
+-    timer_mod(env->timer, next);
++    now_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    wait = env->CP0_Compare - env->CP0_Count -
++           (uint32_t)(now_ns / TIMER_PERIOD);
++    next_ns = now_ns + (uint64_t)wait * TIMER_PERIOD;
++    timer_mod(env->timer, next_ns);
+ }
+ 
+ /* Expire the timer.  */
+@@ -56,16 +57,16 @@ uint32_t cpu_mips_get_count(CPUMIPSState *env)
+     if (env->CP0_Cause & (1 << CP0Ca_DC)) {
+         return env->CP0_Count;
+     } else {
+-        uint64_t now;
++        uint64_t now_ns;
+ 
+-        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        now_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+         if (timer_pending(env->timer)
+-            && timer_expired(env->timer, now)) {
++            && timer_expired(env->timer, now_ns)) {
+             /* The timer has already expired.  */
+             cpu_mips_timer_expire(env);
+         }
+ 
+-        return env->CP0_Count + (uint32_t)(now / TIMER_PERIOD);
++        return env->CP0_Count + (uint32_t)(now_ns / TIMER_PERIOD);
+     }
+ }
+ 
 -- 
 2.26.2
 
