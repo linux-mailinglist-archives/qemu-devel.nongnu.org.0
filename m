@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA4A28C364
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:54:10 +0200 (CEST)
-Received: from localhost ([::1]:51778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25F528C300
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:45:43 +0200 (CEST)
+Received: from localhost ([::1]:54698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS4pd-0003Wn-3B
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38306)
+	id 1kS4hS-0001PE-Ut
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:45:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4WP-0002qh-AN
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41494)
+ id 1kS4WG-0002nP-SF
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4WE-0002gN-6F
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:16 -0400
+ id 1kS4WD-0002g6-58
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602534845;
+ s=mimecast20190719; t=1602534844;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ghd8ZWL76sQmgpqQsTOoZJeNOkrnTjpKi1BkFrLK1YE=;
- b=MoUhMXRm9AxhpiiUYIzSJA0i5aZJkqqJo+Mxy25KkZbSede0yfdf8puhyxZ0pBgIRxxM65
- JnOQrnUQ6B7zxsJLjblzAtkPZcXvh+SERLvXxdo3fJU6ndywI3jh/TtZIYiw3vnlU/QOq5
- GPAqXua3a1esT6eWpWqotzPrmsFgUqo=
+ bh=K3LXVZ6KMWOK4xQ4FlrQkIzFIzfkyJlH2adOkOKEJm4=;
+ b=DUYJTPmDxbheCESt9aMGv90O3fn1VG3z5cUkYO2d9z3iH1/azhrKn3no2k7NAArfukLMBp
+ shc6vfcJLuRx5E5zR/A/BDog68tHHdLNpZ+OY96ItzsVaEKi2C56fpaFIGIEqjFleGGiMg
+ a+7I/5ZndT0rmw7IGJIaXpgo/gEu+uQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-Fs1a1MGmPiyMcF23NNVz-A-1; Mon, 12 Oct 2020 16:34:03 -0400
-X-MC-Unique: Fs1a1MGmPiyMcF23NNVz-A-1
+ us-mta-255-TOyi5ylmNX6JQ6UHOkxJYA-1; Mon, 12 Oct 2020 16:34:03 -0400
+X-MC-Unique: TOyi5ylmNX6JQ6UHOkxJYA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56054801FD4
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3EA9801FDC
  for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:33:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03DC15D9CD;
- Mon, 12 Oct 2020 20:33:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 714495D9CD
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:33:52 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/38] docs/devel/qtest: Include libqtest API reference
-Date: Mon, 12 Oct 2020 16:33:21 -0400
-Message-Id: <20201012203343.1105018-17-pbonzini@redhat.com>
+Subject: [PULL 17/38] qtest: unify extra_qtest_srcs and extra_qtest_deps
+Date: Mon, 12 Oct 2020 16:33:22 -0400
+Message-Id: <20201012203343.1105018-18-pbonzini@redhat.com>
 In-Reply-To: <20201012203343.1105018-1-pbonzini@redhat.com>
 References: <20201012203343.1105018-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,129 +81,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+Currently the extra sources and extra dependencies of qtests are held
+in two separate dictionaries.  Use the same trick as tests/meson.build
+to combine them into one.  This will make it easier to update the
+documentation for unit tests and qtests.
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201005205228.697463-4-ehabkost@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/qtest.rst          |  6 ++++++
- tests/qtest/libqos/libqtest.h | 20 ++++++++++----------
- 2 files changed, 16 insertions(+), 10 deletions(-)
+ tests/qtest/meson.build | 55 +++++++++++++++++++----------------------
+ 1 file changed, 26 insertions(+), 29 deletions(-)
 
-diff --git a/docs/devel/qtest.rst b/docs/devel/qtest.rst
-index 3bf9ebee7f..075fe5f7d5 100644
---- a/docs/devel/qtest.rst
-+++ b/docs/devel/qtest.rst
-@@ -64,3 +64,9 @@ QTest Protocol
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 0f32ca0895..28bafc02a2 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -193,35 +193,25 @@ qos_test_ss.add(
+ qos_test_ss.add(when: 'CONFIG_VIRTFS', if_true: files('virtio-9p-test.c'))
+ qos_test_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user-test.c'))
  
- .. kernel-doc:: softmmu/qtest.c
-    :doc: QTest Protocol
+-extra_qtest_deps = {
+-  'bios-tables-test': [io],
+-  'ivshmem-test': [rt],
+-  'qos-test': [chardev, io],
+-  'tpm-crb-swtpm-test': [io],
+-  'tpm-crb-test': [io],
+-  'tpm-tis-swtpm-test': [io],
+-  'tpm-tis-test': [io],
+-  'tpm-tis-device-swtpm-test': [io],
+-  'tpm-tis-device-test': [io],
+-}
+-extra_qtest_srcs = {
+-  'bios-tables-test': files('boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'),
+-  'pxe-test': files('boot-sector.c'),
++tpmemu_files = ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
 +
-+
-+libqtest API reference
-+----------------------
-+
-+.. kernel-doc:: tests/qtest/libqos/libqtest.h
-diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-index a6ee1654f2..209fcf6973 100644
---- a/tests/qtest/libqos/libqtest.h
-+++ b/tests/qtest/libqos/libqtest.h
-@@ -24,7 +24,7 @@ typedef struct QTestState QTestState;
++qtests = {
++  'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
+   'cdrom-test': files('boot-sector.c'),
+-  'migration-test': files('migration-helpers.c'),
+-  'ivshmem-test': files('../../contrib/ivshmem-server/ivshmem-server.c'),
+   'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
++  'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
++  'migration-test': files('migration-helpers.c'),
++  'pxe-test': files('boot-sector.c'),
++  'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: false).sources()],
++  'tpm-crb-swtpm-test': [io, tpmemu_files],
++  'tpm-crb-test': [io, tpmemu_files],
++  'tpm-tis-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
++  'tpm-tis-test': [io, tpmemu_files, 'tpm-tis-util.c'],
++  'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
++  'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
+-  'tpm-crb-swtpm-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tests.c'),
+-  'tpm-crb-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tests.c'),
+-  'tpm-tis-device-swtpm-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
+-  'tpm-tis-device-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
+-  'tpm-tis-swtpm-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
+-  'tpm-tis-test': files('tpm-emu.c', 'tpm-util.c', 'tpm-tis-util.c', 'tpm-tests.c'),
+-  'qos-test': qos_test_ss.apply(config_host, strict: false).sources()
+ }
  
- /**
-  * qtest_initf:
-- * @fmt...: Format for creating other arguments to pass to QEMU, formatted
-+ * @fmt: Format for creating other arguments to pass to QEMU, formatted
-  * like sprintf().
-  *
-  * Convenience wrapper around qtest_init().
-@@ -87,7 +87,7 @@ void qtest_quit(QTestState *s);
-  * @s: #QTestState instance to operate on.
-  * @fds: array of file descriptors
-  * @fds_num: number of elements in @fds
-- * @fmt...: QMP message to send to qemu, formatted like
-+ * @fmt: QMP message to send to qemu, formatted like
-  * qobject_from_jsonf_nofail().  See parse_escape() for what's
-  * supported after '%'.
-  *
-@@ -100,7 +100,7 @@ QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
- /**
-  * qtest_qmp:
-  * @s: #QTestState instance to operate on.
-- * @fmt...: QMP message to send to qemu, formatted like
-+ * @fmt: QMP message to send to qemu, formatted like
-  * qobject_from_jsonf_nofail().  See parse_escape() for what's
-  * supported after '%'.
-  *
-@@ -112,7 +112,7 @@ QDict *qtest_qmp(QTestState *s, const char *fmt, ...)
- /**
-  * qtest_qmp_send:
-  * @s: #QTestState instance to operate on.
-- * @fmt...: QMP message to send to qemu, formatted like
-+ * @fmt: QMP message to send to qemu, formatted like
-  * qobject_from_jsonf_nofail().  See parse_escape() for what's
-  * supported after '%'.
-  *
-@@ -124,7 +124,7 @@ void qtest_qmp_send(QTestState *s, const char *fmt, ...)
- /**
-  * qtest_qmp_send_raw:
-  * @s: #QTestState instance to operate on.
-- * @fmt...: text to send, formatted like sprintf()
-+ * @fmt: text to send, formatted like sprintf()
-  *
-  * Sends text to the QMP monitor verbatim.  Need not be valid JSON;
-  * this is useful for negative tests.
-@@ -201,7 +201,7 @@ QDict *qtest_qmp_receive(QTestState *s);
- /**
-  * qtest_qmp_eventwait:
-  * @s: #QTestState instance to operate on.
-- * @s: #event event to wait for.
-+ * @event: event to wait for.
-  *
-  * Continuously polls for QMP responses until it receives the desired event.
-  */
-@@ -210,7 +210,7 @@ void qtest_qmp_eventwait(QTestState *s, const char *event);
- /**
-  * qtest_qmp_eventwait_ref:
-  * @s: #QTestState instance to operate on.
-- * @s: #event event to wait for.
-+ * @event: event to wait for.
-  *
-  * Continuously polls for QMP responses until it receives the desired event.
-  * Returns a copy of the event for further investigation.
-@@ -237,7 +237,7 @@ QDict *qtest_qmp_receive_success(QTestState *s,
- /**
-  * qtest_hmp:
-  * @s: #QTestState instance to operate on.
-- * @fmt...: HMP command to send to QEMU, formats arguments like sprintf().
-+ * @fmt: HMP command to send to QEMU, formats arguments like sprintf().
-  *
-  * Send HMP command to QEMU via QMP's human-monitor-command.
-  * QMP events are discarded.
-@@ -629,7 +629,7 @@ void qtest_add_abrt_handler(GHookFunc fn, const void *data);
- /**
-  * qtest_qmp_assert_success:
-  * @qts: QTestState instance to operate on
-- * @fmt...: QMP message to send to qemu, formatted like
-+ * @fmt: QMP message to send to qemu, formatted like
-  * qobject_from_jsonf_nofail().  See parse_escape() for what's
-  * supported after '%'.
-  *
-@@ -676,7 +676,7 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const char *drv,
-  * @qts: QTestState instance to operate on
-  * @driver: Name of the device that should be added
-  * @id: Identification string
-- * @fmt...: QMP message to send to qemu, formatted like
-+ * @fmt: QMP message to send to qemu, formatted like
-  * qobject_from_jsonf_nofail().  See parse_escape() for what's
-  * supported after '%'.
-  *
+-
+ qtest_executables = {}
+ foreach dir : target_dirs
+   if not dir.endswith('-softmmu')
+@@ -230,7 +220,7 @@ foreach dir : target_dirs
+ 
+   target_base = dir.split('-')[0]
+   qtest_emulator = emulators['qemu-system-' + target_base]
+-  qtests = get_variable('qtests_' + target_base, []) + qtests_generic
++  target_qtests = get_variable('qtests_' + target_base, []) + qtests_generic
+ 
+   test_deps = []
+   qtest_env = environment()
+@@ -241,14 +231,21 @@ foreach dir : target_dirs
+   qtest_env.set('G_TEST_DBUS_DAEMON', meson.source_root() / 'tests/dbus-vmstate-daemon.sh')
+   qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
+   
+-  foreach test : qtests
++  foreach test : target_qtests
+     # Executables are shared across targets, declare them only the first time we
+     # encounter them
+     if not qtest_executables.has_key(test)
++      src = [test + '.c']
++      deps = [qemuutil, qos]
++      if test in qtests
++        # use a sourceset to quickly separate sources and deps
++        test_ss = ss.source_set()
++        test_ss.add(qtests[test])
++        src += test_ss.all_sources()
++        deps += test_ss.all_dependencies()
++      endif
+       qtest_executables += {
+-        test: executable(test,
+-                         files(test + '.c') + extra_qtest_srcs.get(test, []),
+-                         dependencies: [qemuutil, qos] + extra_qtest_deps.get(test, []))
++        test: executable(test, src, dependencies: deps)
+       }
+     endif
+     # FIXME: missing dependency on the emulator binary and qemu-img
 -- 
 2.26.2
 
