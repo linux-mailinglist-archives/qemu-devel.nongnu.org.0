@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1569528BCE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:49:18 +0200 (CEST)
-Received: from localhost ([::1]:45496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9364428BD0B
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:59:05 +0200 (CEST)
+Received: from localhost ([::1]:51494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS04b-0000IU-5F
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:49:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57162)
+	id 1kS0E4-0006GD-Kn
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:59:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqg-0007BP-RM
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:56 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33282)
+ id 1kRzqp-0007Kd-S5
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:35:03 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqV-0007M0-PS
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:53 -0400
-Received: by mail-wr1-x444.google.com with SMTP id b8so6466807wrn.0
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:38 -0700 (PDT)
+ id 1kRzqW-0007MI-2o
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:35:03 -0400
+Received: by mail-wr1-x441.google.com with SMTP id s9so7587958wro.8
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K3mgJCwncdqIipiYAU+wCrFh9fTPvR4OlTHmlok7qrM=;
- b=Bj7+/FdZqB9RAzExmsmOiXmF94g68Yoq7B3rRbQNJoLxARocJgq7e+/cd3Z2EB+fPL
- lpWhsjvXMp3+5/c9fVh1/3XC15ZLSRLegA8vP7gelQCXbn8DTXE5G2G2al0aUoZx70DX
- SZBB+pR9jP5nZR9pDBKsJJ6qzPoioWGFHXPGPqab0MKX6tuQoBExGuoJNybh5c/WfY06
- drAdICUToc0lzLUidzGmSPtruCnAGy6in3Gl6mK2CtVUqCzUB5pWomUcWh+QAwOqIj4U
- FGtXqmWgKaRhWOTHQCzmB+WEgVamfhGNzaS8IvUAmm2IcI82hmLbXraSs4/3Qr9WS3Hq
- s11g==
+ bh=MHkoxi+EkVCFW4Wg+U688/CA12tSJrQLvZAe0iXiD3s=;
+ b=TDmw4Ab+up5ZPeCCjMTDp0maLBBjXy0H1LsNGgtWpPV7uMX3CCH28eIbi4HRKCgNQV
+ lhl9cq0lx8ya2CWBkYCr8n8uzDU/qQYL6e6WmMMlwZ7rJGaX3IsevZRFEaET7aM1zj5z
+ 9SzQ5IZ+hY6rVkSzc9X0Kd9Xt51ljObJotFMwNmK0X6Zp9q+9R4spQIrTwMEXlIv3xAE
+ 6vKdA3WiMiRgiD0yX5yZHdDJ0UaP5eXFGyeJJJDCk5dbbbelCmBJLa/UivU1/crsLOuF
+ XSPnHtIMN167sOUkxS756LgTNQaunMxzLvPuIw5CfSucOhaJyS72sghFqI6Td/Kv0T1s
+ DzRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=K3mgJCwncdqIipiYAU+wCrFh9fTPvR4OlTHmlok7qrM=;
- b=ExPBrmktJDOFP6dJxavfeQmQ7L+RRVJ/JgZN1ohJrEl/mciqrrGXiZ5UShwmygFgL6
- XQQ1AuL4ErPtoTMakmbt2q2ryQnADWf06OKRrQu+hhRF+b53zWg1Ha+nHuoZBkfrHN0X
- cH6bHjUp3SN10Bt35o7utZXTVYrCjC6Y/jdHmItU7Kego5tRjEOZ8lAWt3oxDHjGGaze
- HkdzQcjZgKTebP7/qn4j6Lxt85Qfxy3lcAbLXP78+AOpYU4F6xYnQUvRL9GHA8F7IdQ7
- WDxAqQhBN2GFDkpmA5QCgGJho50su641xcDpoPxPeePbl4YjBl7A6lcJCOS3H5CZOdzP
- n0SA==
-X-Gm-Message-State: AOAM532zxtKal3h2m8mSpnQDcW1Q24eQd2ED/T25bdl4fiLoepJkYEcX
- gK9wDOIC2s0Qfw+51dk7CnKcHA==
-X-Google-Smtp-Source: ABdhPJy9wuUwn1hc0KCqDmwk70wk0pFJBqFe3c+BBtGV26se4FEi9Ayxuoywz6ALEANsd5GGfWNK0g==
-X-Received: by 2002:a5d:6a51:: with SMTP id t17mr14288975wrw.80.1602516877958; 
- Mon, 12 Oct 2020 08:34:37 -0700 (PDT)
+ bh=MHkoxi+EkVCFW4Wg+U688/CA12tSJrQLvZAe0iXiD3s=;
+ b=Q/9xXeYyngl/xileHEc2faJHjSbcFK009mYTU05lv/iXW5lkpe4qHvsgRcjMqe1PVR
+ jyA3NEe/Cip/e+mO15vgxoSiUFM6wbe9avwIBStfonXw1/6Suz7aPQNGKNMh2mjaVVI1
+ YHreHJWWjG7QjZW6jetcWg7ATc5msKRlcxD0iudyudmnI0G5vYctrSaDmRU9af5k/lvQ
+ FOo1zLuRdygfVwduj5sN2aVZyrvhZrKuX+CONqoWo7j3O53Wd9DIx2wZrGOsQtzw8xbd
+ oxKJCowJFuxhO3vmqAwuFfc2Z5BL22aYdgwWVyazY2lQsi6Y06PJZizgulH48yEZEzB0
+ rheQ==
+X-Gm-Message-State: AOAM531dShE2y76ah1UiRTZqZTOD7I/2dVNS4was1WupsWLnt3nb29PW
+ 3FwSXQjkPwCe589F0pqT1sRv51F0ByJEwJNJ
+X-Google-Smtp-Source: ABdhPJyPMGnuo4SxTMva4ZllUL/1S5UluBIltWrbBVhN1vWpOwcT4ULQNubXCBHEOVJQucAJDgEf7A==
+X-Received: by 2002:adf:e741:: with SMTP id c1mr19304521wrn.16.1602516879214; 
+ Mon, 12 Oct 2020 08:34:39 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.36
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:37 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH] msf2-soc, stellaris: Don't wire up SYSRESETREQ
-Date: Mon, 12 Oct 2020 16:33:47 +0100
-Message-Id: <20201012153408.9747-25-peter.maydell@linaro.org>
+Subject: [PATCH] net/tap-solaris.c: Include qemu-common.h for TFR macro
+Date: Mon, 12 Oct 2020 16:33:48 +0100
+Message-Id: <20201012153408.9747-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,91 +89,32 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MSF2 SoC model and the Stellaris board code both wire
-SYSRESETREQ up to a function that just invokes
-    qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-This is now the default action that the NVIC does if the line is
-not connected, so we can delete the handling code.
+In commit a8d2532645cf5ce4 we cleaned up usage of the qemu-common.h header
+so that it was always included from .c files and never from other .h files.
+We missed adding it to net/tap-solaris.c (which previously was pulling it
+in via tap-int.h), which broke building on Solaris hosts.
 
+Fixes: a8d2532645cf5ce4
+Reported-by: Michele Denber <denber@mindspring.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/msf2-soc.c  | 11 -----------
- hw/arm/stellaris.c | 12 ------------
- 2 files changed, 23 deletions(-)
+Untested: Michele, could you give this a try?
+---
+ net/tap-solaris.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
-index 33ea7df342c..d2c29e82d13 100644
---- a/hw/arm/msf2-soc.c
-+++ b/hw/arm/msf2-soc.c
-@@ -30,7 +30,6 @@
- #include "hw/irq.h"
- #include "hw/arm/msf2-soc.h"
- #include "hw/misc/unimp.h"
--#include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
+diff --git a/net/tap-solaris.c b/net/tap-solaris.c
+index 4725d2314ee..d03165c57c9 100644
+--- a/net/tap-solaris.c
++++ b/net/tap-solaris.c
+@@ -27,6 +27,7 @@
+ #include "tap_int.h"
+ #include "qemu/ctype.h"
+ #include "qemu/cutils.h"
++#include "qemu-common.h"
  
- #define MSF2_TIMER_BASE       0x40004000
-@@ -59,13 +58,6 @@ static const int spi_irq[MSF2_NUM_SPIS] = { 2, 3 };
- static const int uart_irq[MSF2_NUM_UARTS] = { 10, 11 };
- static const int timer_irq[MSF2_NUM_TIMERS] = { 14, 15 };
- 
--static void do_sys_reset(void *opaque, int n, int level)
--{
--    if (level) {
--        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
--    }
--}
--
- static void m2sxxx_soc_initfn(Object *obj)
- {
-     MSF2State *s = MSF2_SOC(obj);
-@@ -130,9 +122,6 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
-         return;
-     }
- 
--    qdev_connect_gpio_out_named(DEVICE(&s->armv7m.nvic), "SYSRESETREQ", 0,
--                                qemu_allocate_irq(&do_sys_reset, NULL, 0));
--
-     system_clock_scale = NANOSECONDS_PER_SECOND / s->m3clk;
- 
-     for (i = 0; i < MSF2_NUM_UARTS; i++) {
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index 28eb15c76ca..5f9d0801807 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -18,7 +18,6 @@
- #include "hw/boards.h"
- #include "qemu/log.h"
- #include "exec/address-spaces.h"
--#include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
- #include "hw/arm/armv7m.h"
- #include "hw/char/pl011.h"
-@@ -1206,14 +1205,6 @@ static void stellaris_adc_init(Object *obj)
-     qdev_init_gpio_in(dev, stellaris_adc_trigger, 1);
- }
- 
--static
--void do_sys_reset(void *opaque, int n, int level)
--{
--    if (level) {
--        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
--    }
--}
--
- /* Board init.  */
- static stellaris_board_info stellaris_boards[] = {
-   { "LM3S811EVB",
-@@ -1317,9 +1308,6 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-     /* This will exit with an error if the user passed us a bad cpu_type */
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(nvic), &error_fatal);
- 
--    qdev_connect_gpio_out_named(nvic, "SYSRESETREQ", 0,
--                                qemu_allocate_irq(&do_sys_reset, NULL, 0));
--
-     if (board->dc1 & (1 << 16)) {
-         dev = sysbus_create_varargs(TYPE_STELLARIS_ADC, 0x40038000,
-                                     qdev_get_gpio_in(nvic, 14),
+ #include <sys/ethernet.h>
+ #include <sys/sockio.h>
 -- 
 2.20.1
 
