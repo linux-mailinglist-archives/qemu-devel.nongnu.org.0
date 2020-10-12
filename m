@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A84728C2BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:40:23 +0200 (CEST)
-Received: from localhost ([::1]:37734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C838228C28C
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:38:12 +0200 (CEST)
+Received: from localhost ([::1]:57130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS4cI-0002sT-AX
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:40:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37924)
+	id 1kS4aB-0007kC-Qy
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:38:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4W4-0002Xe-Sd
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:33:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37022)
+ id 1kS4W6-0002aA-HX
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:33:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4W2-0002dm-GE
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:33:56 -0400
+ id 1kS4W4-0002eI-TT
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:33:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602534833;
+ s=mimecast20190719; t=1602534836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aSyw73szb3g8uurmtJul54UDRlIS1kAbBlyTUq/1f6M=;
- b=acJxCMyS+Cl2zR5bM43sosRmNZoKH8SyF/PTqMe+8EVzmS9euH8VGMTx1d6FGwm9LcQbLO
- mqGNCkNlwDteQ/Oe7PBhch/e9XJ3x8Qio4BzVS50iZiwb833lmyTRnRPodITIwDD+TDQdS
- v6zVSG2+lirLb5Vm8OEvYPMJOrqfShs=
+ bh=PCCnsWNbL+KCVorOLSUvOky8MZiWqJDfjxk/Gaew6NQ=;
+ b=eCFR8CMhPc3IviSTgoDU43sfnykbfipwtP3zu8vqeOU+/QHM0psmfDxtYbUmbNIYJ7pZxv
+ I3TbXR4W4YGwOw1IrTt+ODo8f62YN0FN9GxGb08b2gslJycXgw5Wmu3f/+0vHDFGdTn72S
+ Fpxz5L65TySp47I8KP1u9x23+09EkAQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-POh-pzvVN-GoKyrA9ZFKqQ-1; Mon, 12 Oct 2020 16:33:52 -0400
-X-MC-Unique: POh-pzvVN-GoKyrA9ZFKqQ-1
+ us-mta-421-T-wdXZcwM7qcKfgHOKOcpA-1; Mon, 12 Oct 2020 16:33:53 -0400
+X-MC-Unique: T-wdXZcwM7qcKfgHOKOcpA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B47B1084CB7
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:33:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39B448BAF87
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:33:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 46B6B1A8EC;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDA6427CDD;
  Mon, 12 Oct 2020 20:33:46 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/38] chardev: Move the creation of the library to the main
+Subject: [PULL 05/38] migration: Move the creation of the library to the main
  meson.build
-Date: Mon, 12 Oct 2020 16:33:09 -0400
-Message-Id: <20201012203343.1105018-5-pbonzini@redhat.com>
+Date: Mon, 12 Oct 2020 16:33:10 -0400
+Message-Id: <20201012203343.1105018-6-pbonzini@redhat.com>
 In-Reply-To: <20201012203343.1105018-1-pbonzini@redhat.com>
 References: <20201012203343.1105018-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -92,59 +92,50 @@ Be consistent creating all the libraries in the main meson.build file.
 
 Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201006125602.2311423-5-philmd@redhat.com>
+Message-Id: <20201006125602.2311423-6-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- chardev/meson.build | 6 ------
- meson.build         | 7 +++++++
- 2 files changed, 7 insertions(+), 6 deletions(-)
+ meson.build           | 7 +++++++
+ migration/meson.build | 8 +-------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/chardev/meson.build b/chardev/meson.build
-index 54e88d0310..dd2699a11b 100644
---- a/chardev/meson.build
-+++ b/chardev/meson.build
-@@ -1,4 +1,3 @@
--chardev_ss = ss.source_set()
- chardev_ss.add(files(
-   'char-fe.c',
-   'char-file.c',
-@@ -25,11 +24,6 @@ chardev_ss.add(when: 'CONFIG_WIN32', if_true: files(
- ))
- 
- chardev_ss = chardev_ss.apply(config_host, strict: false)
--libchardev = static_library('chardev', chardev_ss.sources() + genh,
--                            name_suffix: 'fa',
--                            build_by_default: false)
--
--chardev = declare_dependency(link_whole: libchardev)
- 
- softmmu_ss.add(files('chardev-sysemu.c', 'msmouse.c', 'wctablet.c', 'testdev.c'))
- softmmu_ss.add(when: ['CONFIG_SPICE', spice], if_true: files('spice.c'))
 diff --git a/meson.build b/meson.build
-index 6c760b4163..39fc074977 100644
+index 39fc074977..dce48d8304 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1185,6 +1185,7 @@ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
- blockdev_ss = ss.source_set()
- block_ss = ss.source_set()
- bsd_user_ss = ss.source_set()
-+chardev_ss = ss.source_set()
- common_ss = ss.source_set()
- linux_user_ss = ss.source_set()
- qmp_ss = ss.source_set()
-@@ -1469,6 +1470,12 @@ libqmp = static_library('qmp', qmp_ss.sources() + genh,
+@@ -1451,6 +1451,13 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
+ # Library dependencies #
+ ########################
  
- qmp = declare_dependency(link_whole: [libqmp])
++libmigration = static_library('migration', sources: migration_files + genh,
++                              name_suffix: 'fa',
++                              build_by_default: false)
++migration = declare_dependency(link_with: libmigration,
++                               dependencies: [zlib, qom, io])
++softmmu_ss.add(migration)
++
+ block_ss = block_ss.apply(config_host, strict: false)
+ libblock = static_library('block', block_ss.sources() + genh,
+                           dependencies: block_ss.dependencies(),
+diff --git a/migration/meson.build b/migration/meson.build
+index b5b71c8060..980e37865c 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -8,13 +8,7 @@ migration_files = files(
+   'qemu-file.c',
+   'qjson.c',
+ )
+-
+-libmigration = static_library('migration', sources: migration_files + genh,
+-                              name_suffix: 'fa',
+-                              build_by_default: false)
+-migration = declare_dependency(link_with: libmigration,
+-                               dependencies: [zlib, qom, io])
+-softmmu_ss.add(migration)
++softmmu_ss.add(migration_files)
  
-+libchardev = static_library('chardev', chardev_ss.sources() + genh,
-+                            name_suffix: 'fa',
-+                            build_by_default: false)
-+
-+chardev = declare_dependency(link_whole: libchardev)
-+
- libhwcore = static_library('hwcore', sources: hwcore_files + genh,
-                            name_suffix: 'fa',
-                            build_by_default: false)
+ softmmu_ss.add(files(
+   'block-dirty-bitmap.c',
 -- 
 2.26.2
 
