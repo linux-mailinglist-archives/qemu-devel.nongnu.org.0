@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0097D28BCA1
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:44:04 +0200 (CEST)
-Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5678E28BD03
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:56:01 +0200 (CEST)
+Received: from localhost ([::1]:38478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRzzW-0001pD-Ms
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:44:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57082)
+	id 1kS0B5-0000vE-Aq
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:56:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqa-00078W-Qo
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:50 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36597)
+ id 1kRzqW-00077w-8m
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:45 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqP-0007LG-P6
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:44 -0400
-Received: by mail-wm1-x343.google.com with SMTP id e2so17969597wme.1
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:35 -0700 (PDT)
+ id 1kRzqP-0007LP-NW
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:43 -0400
+Received: by mail-wr1-x441.google.com with SMTP id b8so6466671wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3HBlEcMasIy4oDb25g21pdvkhkMGpmMaGyWG6UZXcVY=;
- b=XiMRGjrt3XZdV7lYHGRutgqWE5PCk89dcxaiotWvyRkgRb8O++Kf1X+Vu/EFIZ8Mxp
- UaCl280RgEI6ddCbLctLO0TDwd9K1ANiIwO3T3lYfgQUqUgjn9GC0MU1hzOqkzi0YSt6
- TlxqJJB2zgxfVeW8+HREB17+QgcZp6e6jihVcfA0dZn77z3Ie9bKQ3bEJdC7x/huaLdS
- uLonmv7yRQhMTdyeYLuEIM4/2OyruHsuel3s2X/PQk/jgBtXCqlX7JUuSdJ6uq0Z++77
- V4eSdqxiR+4TLq4sc5RpwP8yJjRY426HpJrDQi+Kl1m1sRBWpqjwsSR4T6Bll+Z1eErk
- ScUA==
+ bh=8TBzzcsFazlljQPoOpAMIzgSdLt0n2ByqDt37jz37+s=;
+ b=ZRWPdAHdzc/6fQHO0yzTekefMHKG/JP0Xi/r25u08bNmzCsp1LIV5eClFWn2f17t3C
+ 5rH13LqBNy98d/YMjAQTdsDRha0qRLuYDNsDDmg92+sCfreT0kTf5b3x2htculz3Hu6s
+ ORASrol6NKu0TdM4CVQKBkC7oNZpVxkLw5hGslDphqK87PvhAgfTwDWG/hytBozJn1I4
+ XGbCJtZi9W6qNd+913G9j+nauFp5JtqZ1eFSNpRPbLxGeX+g+z9UpGMN8DZMpPqzH7hT
+ 9Ld2Z11gtwjnqVELW9N2ktxT3UzPwhXGYdGXbb9vjNi8o2pMCa96DdtMhhfez2PltHWt
+ q7IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3HBlEcMasIy4oDb25g21pdvkhkMGpmMaGyWG6UZXcVY=;
- b=Az8qrJv1MDr8dwWAMXSUWUeP1Yjy2b7Dj5JdIwq7yKD5cD1d84gb+ZczVQFi2tCrty
- GamHmewwQTTiod5Ym/ZKVkn+xr8AkYxRiP2os0gvPj53jWqMePGIbba7WT6tE190Cg/t
- vAHLypLMCZQipOhLpbt6axovatMRAwBPHxWcIU6VLtVTIFUy8vzYXyrS8o/C9vvyyh16
- AvI4QKQm3EtNM4EN6SnQRmcTPQQ9G9jKwsOcB5+TaRoJkJgq1tzf4hAKBEityJ/XCMBj
- rkFaaY2SE9HuGvUt9bC+uSMp4OD4J3OR5ZqduFXJsLAxRMxSYGVCN0XfizJbX0BzBr8U
- OjDg==
-X-Gm-Message-State: AOAM532dCKFQAnc2YW0p+JogeBmgvWTy0MNMpLTHTmRtBSNXyyyh4N+u
- 5hKYMmlyju8dQViiT1T0TXogWw==
-X-Google-Smtp-Source: ABdhPJwgz1ZRG1R5q2wnTgdgP16tDHGKqt8qBLi9LlWX2DJ6vMsWP4eeNhSmMCbSPNQazzFWysi9kg==
-X-Received: by 2002:a1c:1d89:: with SMTP id
- d131mr10235175wmd.188.1602516874954; 
- Mon, 12 Oct 2020 08:34:34 -0700 (PDT)
+ bh=8TBzzcsFazlljQPoOpAMIzgSdLt0n2ByqDt37jz37+s=;
+ b=joPvvdYVp4lbA6b96zNul5mzqgRHJF5H6izlohDLHUSj8lGaJnaDAF7H3zP5HUN+rM
+ v6ZsZnx/43QwMl7HQU8CNhTOvb/WfeuNGxmKH9mF0n8cM+xf/7RcEPFkIy7SNWEtenxj
+ /ndDVqmNZsdgHJg0C2xtvOYqnZvGOXTqpckjINK0BPegiJjbAJjTgPnZ/L2kBIN/7Qq5
+ TH7bnk2Vy5zqwuPnnUUmqJ1mI9rnDn6Hq2U1Xz9psyeKZ9Rh4Q0ReKXMmlH4Vr+xwLmp
+ Gsjsj2BSArNsgPHVDlWMNGLXcFtrZZ0yKv4uepxdiiUBkVVEoV6pbQbyFBmK1pA1r/yJ
+ DeHA==
+X-Gm-Message-State: AOAM530x/IS8x78V5ANOSA3O/Ji3S8F2bR0RzxtfE3xFWxSrc9rkk3aT
+ d++u4BFRTMITuOdUqMBi3tIeaA==
+X-Google-Smtp-Source: ABdhPJy1iL7KieLJvbDa1q82uGKZYDnSVmyjYZr4cnlQZbZtC6Gi2U2LsXq3ibwEihbJKfpWKznFTg==
+X-Received: by 2002:a5d:40c3:: with SMTP id b3mr33527868wrq.157.1602516875795; 
+ Mon, 12 Oct 2020 08:34:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.33
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:34 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:35 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2] linux-user: Use FD_32BIT_MODE fd flag for 32-bit guests
-Date: Mon, 12 Oct 2020 16:33:44 +0100
-Message-Id: <20201012153408.9747-22-peter.maydell@linaro.org>
+Subject: [PATCH] linux-user/arm/signal.c: Drop TARGET_CONFIG_CPU_32
+Date: Mon, 12 Oct 2020 16:33:45 +0100
+Message-Id: <20201012153408.9747-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,108 +89,62 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the guest is 32 bit then there is a potential problem if the
-host gives us back a 64-bit sized value that we can't fit into
-the ABI the guest requires. This is a theoretical issue for many
-syscalls, but a real issue for directory reads where the host
-is using ext3 or ext4. There the 'offset' values retured via
-the getdents syscall are hashes, and on a 64-bit system they
-will always fill the full 64 bits.
+The Arm signal-handling code has some parts ifdeffed with a
+TARGET_CONFIG_CPU_32, which is always defined. This is a leftover
+from when this code's structure was based on the Linux kernel
+signal handling code, where it was intended to support 26-bit
+Arm CPUs. The kernel dropped its CONFIG_CPU_32 in kernel commit
+4da8b8208eded0ba21e3 in 2009.
 
-Use the FD_32BIT_MODE fd flag to tell the kernel to stick
-to 32-bit sized hashes for fds used by the guest.
-
-This is an RFC patch because the kernel patch that adds the
-new fd flag hasn't yet been accepted upstream. The kernel
-patch is:
- https://patchew.org/QEMU/20200529072017.2906-1-linus.walleij@linaro.org/
+QEMU has never had 26-bit CPU support and is unlikely to ever
+add it; we certainly aren't going to support 26-bit Linux
+binaries via linux-user mode. The ifdef is just unhelpful
+noise, so remove it entirely.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-This is just a minor update of the testing patch I sent out in the
-thread discussing Linus's v1 kernel patch.
+Based-on: <20200518142801.20503-1-peter.maydell@linaro.org>
+("[PATCH v2] target/arm: Allow user-mode code to write CPSR.E via MSR")
+to avoid a textual conflict.
 
- linux-user/syscall.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ linux-user/arm/signal.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 97de9fb5c92..265b9a096a0 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -884,6 +884,33 @@ static inline int host_to_target_sock_type(int host_type)
-     return target_type;
- }
+diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
+index 698985a647e..f21d1535e4d 100644
+--- a/linux-user/arm/signal.c
++++ b/linux-user/arm/signal.c
+@@ -126,8 +126,6 @@ struct rt_sigframe_v2
+     abi_ulong retcode[4];
+ };
  
-+/*
-+ * If the guest is using a 32 bit ABI then we should try to ask the kernel
-+ * to provide 32-bit offsets in getdents syscalls, as otherwise some
-+ * filesystems will return 64-bit hash values which we can't fit into
-+ * the field sizes the guest ABI mandates.
-+ */
-+#ifndef FD_32BIT_MODE
-+#define FD_32BIT_MODE 2
-+#endif
-+
-+static inline void request_32bit_fs(int fd)
-+{
-+#if HOST_LONG_BITS > TARGET_ABI_BITS
-+    /*
-+     * Ignore errors, which are likely due to the host kernel being
-+     * too old to support FD_32BIT_MODE. We'll continue anyway, which
-+     * might or might not work, depending on the guest code and on the
-+     * host filesystem.
-+     */
-+    int flags = fcntl(fd, F_GETFD);
-+    if (flags == -1) {
-+        return;
-+    }
-+    fcntl(fd, F_SETFD, flags | FD_32BIT_MODE);
-+#endif
-+}
-+
- static abi_ulong target_brk;
- static abi_ulong target_original_brk;
- static abi_ulong brk_page;
-@@ -7725,6 +7752,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                                   target_to_host_bitmask(arg2, fcntl_flags_tbl),
-                                   arg3));
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         unlock_user(p, arg1, 0);
-         return ret;
- #endif
-@@ -7735,6 +7763,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                                   target_to_host_bitmask(arg3, fcntl_flags_tbl),
-                                   arg4));
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         unlock_user(p, arg2, 0);
-         return ret;
- #if defined(TARGET_NR_name_to_handle_at) && defined(CONFIG_OPEN_BY_HANDLE)
-@@ -7746,6 +7775,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_open_by_handle_at:
-         ret = do_open_by_handle_at(arg1, arg2, arg3);
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         return ret;
- #endif
-     case TARGET_NR_close:
-@@ -7790,6 +7820,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             return -TARGET_EFAULT;
-         ret = get_errno(creat(p, arg2));
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         unlock_user(p, arg1, 0);
-         return ret;
- #endif
-@@ -12419,6 +12450,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         }
-         ret = get_errno(memfd_create(p, arg2));
-         fd_trans_unregister(ret);
-+        request_32bit_fs(ret);
-         unlock_user(p, arg1, 0);
-         return ret;
- #endif
+-#define TARGET_CONFIG_CPU_32 1
+-
+ /*
+  * For ARM syscalls, we encode the syscall number into the instruction.
+  */
+@@ -187,9 +185,7 @@ setup_sigcontext(struct target_sigcontext *sc, /*struct _fpstate *fpstate,*/
+     __put_user(env->regs[13], &sc->arm_sp);
+     __put_user(env->regs[14], &sc->arm_lr);
+     __put_user(env->regs[15], &sc->arm_pc);
+-#ifdef TARGET_CONFIG_CPU_32
+     __put_user(cpsr_read(env), &sc->arm_cpsr);
+-#endif
+ 
+     __put_user(/* current->thread.trap_no */ 0, &sc->trap_no);
+     __put_user(/* current->thread.error_code */ 0, &sc->error_code);
+@@ -549,11 +545,9 @@ restore_sigcontext(CPUARMState *env, struct target_sigcontext *sc)
+     __get_user(env->regs[13], &sc->arm_sp);
+     __get_user(env->regs[14], &sc->arm_lr);
+     __get_user(env->regs[15], &sc->arm_pc);
+-#ifdef TARGET_CONFIG_CPU_32
+     __get_user(cpsr, &sc->arm_cpsr);
+     cpsr_write(env, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
+     arm_rebuild_hflags(env);
+-#endif
+ 
+     err |= !valid_user_regs(env);
+ 
 -- 
 2.20.1
 
