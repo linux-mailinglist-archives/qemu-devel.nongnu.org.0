@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86F828BCF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:53:29 +0200 (CEST)
-Received: from localhost ([::1]:60404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1BC528BD22
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:02:22 +0200 (CEST)
+Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS08f-0006j4-0B
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:53:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57004)
+	id 1kS0HF-0001Dc-UY
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:02:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kRzqS-00075r-66
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kRzqL-0007K1-7J
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602516871;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SdHMrQKgcxRXfLDvQ+1YLDqCa4F/2upjZ5B+bFIqTGo=;
- b=Rz2SuYsj8eoyPwBLlsD/WutLsLvzvnUtd7xLpBm9DRCEN8gSwElUZbOEOAgH47jCDwp8yG
- KeHV0E1DG7oG0xI0vXnmmO+4CQpm6ogfppxU/w7cE2l/u+8hvGiG+gKOfwNZHChS5KnMc0
- EDELmg+22alW+vtJ76pEhTxEIrcAJVM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-vbbj9CzsOWqPbkhz_tBlUA-1; Mon, 12 Oct 2020 11:34:29 -0400
-X-MC-Unique: vbbj9CzsOWqPbkhz_tBlUA-1
-Received: by mail-wm1-f72.google.com with SMTP id 13so5891963wmf.0
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kRztg-0003d1-LY
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:38:00 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kRztW-0007ku-9q
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:38:00 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id e18so19682303wrw.9
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xP7RYtiStIWwohnsCkXsA5s/UDVdCQBRgpCwB9l5Xb0=;
+ b=abJFFijJW9RLhCr7A6Uo/HaFEtqhjwDlKOR8miTvYsT7Vr0NCtOSHMyvcED3sBm84N
+ y5ghhpI9ftafjkklGUjSehXAFPcz2VB7R7EvsEwO7qiiV7Bii9jxQ6sI4nj4Vkbv9cIm
+ erQgdbZQmRITCK0+YTfIw3+V8y36NNoCt5h6XBUWJet8ui+2dAzOywXjWJPb2/QoRnVS
+ M7jW2YYBjra+Rt+r256E1SazFaQcjjTGhE0qXivLWRzvAUxmaX6E0GHNrKKW9ejf0ph2
+ gzEITM7xiFXEZPrAR25VXcW7+d8Rz2U4J0iDjBSwEXLD2jdEHn/MoZ6R0inROeYIdb53
+ 3Xxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=SdHMrQKgcxRXfLDvQ+1YLDqCa4F/2upjZ5B+bFIqTGo=;
- b=Lx4LOuavUaTP412u2OFBU8Wg2HUoTiziCB5Mri+N2S2WsPiuxtEw6Bewxn2L9CXPFK
- bw7b78Hy5haYq+QPGe1JEGpyQrvzdaVaNxJgIg+CXu3uDGVEUOY1goRLBhFay0VyPHWZ
- 8qFxDJWS3l5cIgJDTyFjpB97FnXDWI5gUNl/NrVoRoB7vSbQoh8V84bEh6aFWZwnrxKO
- wU5bvU1+HjXJdwMXZmZoLuRCFewvIm6HlzHajqglS3JAgBB+hIdR1dxWIQUWFV1cICWM
- 3DsIn862NuPq0eK4ZJyzFvuwQpR93S4rFCWmIjPItWnjWdjZV6OnhrbGpMX+2JOiEXH4
- WXuw==
-X-Gm-Message-State: AOAM532Z+Lm0EzVc1jQCrxp25O2K9joulVvgwmOyGH7hCsXf5ixoSLlF
- MBSj1L5d2Bun9vUKgjehXs1b4Vuvt00Ya5QNbDxM2vTHMVbY9yabsHCJ6Fpw6mWXg5TZHB/536A
- L5XgLkTU3peaAEwQ=
-X-Received: by 2002:a7b:cb82:: with SMTP id m2mr12017466wmi.56.1602516866754; 
- Mon, 12 Oct 2020 08:34:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAakJQGUizc/HK0CxsRPCYuLMEy5unpqToSxQl/z1VTo6Vzim7AmzH3MM3d8WWEboXxPxCOA==
-X-Received: by 2002:a7b:cb82:: with SMTP id m2mr12017449wmi.56.1602516866485; 
- Mon, 12 Oct 2020 08:34:26 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7ffb:1107:73ba:dbcf?
- ([2001:b07:6468:f312:7ffb:1107:73ba:dbcf])
- by smtp.gmail.com with ESMTPSA id z127sm23691600wmc.2.2020.10.12.08.34.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Oct 2020 08:34:24 -0700 (PDT)
-Subject: Re: [PATCH] scripts: display how long each test takes to execute
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20200914110948.1425082-1-berrange@redhat.com>
- <fa7c5d50-cfc5-78c2-edf9-416231322f81@redhat.com>
- <20201012150916.GJ39408@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <475a8cc8-9cb2-4ad0-304f-a98ec6d4993b@redhat.com>
-Date: Mon, 12 Oct 2020 17:34:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ bh=xP7RYtiStIWwohnsCkXsA5s/UDVdCQBRgpCwB9l5Xb0=;
+ b=RUNQ7y0L3Yr/y+q6eeyIwik4sW4TfL5uLrfp0SeJShbrEnJw1yeZ0pcfZiPBzxaAfz
+ K8olyw5/rA9h06OVXysHBkiiByVw6ftVJk5yzzXpp23qpeG1l/9M3lDSV9GSKEb0Gcbm
+ 100BvHwTlVSnCZuplYsOGG6Ma6i9GdmIbVw/UWiFBFgMj+OVnk55/J6mUQWIokCPgTAY
+ UBjTyngwRZEW3JAf7Tll2KklCUIe9M4IcSQfHIiYm4Xgm1cAJpDPBvgMZl7ndOe1uYMb
+ XJBWwmSOS+QwR+oIwhSbisLO5LjzyxvTjVwsmAOWm0XoBeIQZIwWvzALY+5Nf5PTSATe
+ /S7g==
+X-Gm-Message-State: AOAM530Al12OZW2qqzfQX1uf1d0Q77QRwEE3a2RcTAQQq5sfF8LzXTQY
+ ukO66VC95yry/30dgR3hNbM5jw==
+X-Google-Smtp-Source: ABdhPJxWCtDbvvuUD6kgTD4LssnVNdBeMVmyH7yHOiQlrbT3c2leMcJ74r9115BlxrlcEITPnW97Iw==
+X-Received: by 2002:a5d:678d:: with SMTP id v13mr19131862wru.148.1602517068713; 
+ Mon, 12 Oct 2020 08:37:48 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y66sm7095961wmd.14.2020.10.12.08.37.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 08:37:48 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 00/10] target/arm: Various v8.1M minor features
+Date: Mon, 12 Oct 2020 16:37:36 +0100
+Message-Id: <20201012153746.9996-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201012150916.GJ39408@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,28 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/20 17:09, Daniel P. Berrangé wrote:
-> On Mon, Oct 12, 2020 at 05:07:18PM +0200, Thomas Huth wrote:
->> On 14/09/2020 13.09, Daniel P. Berrangé wrote:
->>> Sometimes under CI tests non-deterministically take longer to execute
->>> than expected which can trigger timeouts. It is almost impossible to
->>> diagnose this though without seeing execution time for each test case.
->>>
->>> With this change, when passing "V=1" to make, we get a duration printed
->>> at test completion:
-> 
-> I wasn't intending to update this given paolo's negative response to
-> the patch.
+This patchseries implements various minor v8.1M new features,
+notably the branch-future and low-overhead-loop extensions.
 
-FWIW I opened https://github.com/mesonbuild/meson/issues/7830 with ideas
-on how to improve "meson test".  All the items I added are more or less
-blockers for QEMU, but feel free to add more if you have any ideas from
-your experience with Libvirt.
+(None of this will get enabled until we have enough to implement
+a CPU model which has v8.1M, which will be the Cortex-M55, but
+as usual we can get stuff into the tree gradually.)
 
-Paolo
+Patch 1 is a decodetree fix suggested by Richard that is
+necessary to avoid wrong-decode of the changes to t32.decode
+by later patches.
+
+(Apologies for the accidental mailbombing of the list with
+stale patches due to a mangled command line on my first attempt
+at sending this :-(  )
+
+thanks
+-- PMM
+
+Peter Maydell (10):
+  decodetree: Fix codegen for non-overlapping group inside overlapping
+    group
+  target/arm: Implement v8.1M NOCP handling
+  target/arm: Implement v8.1M conditional-select insns
+  target/arm: Make the t32 insn[25:23]=111 group non-overlapping
+  target/arm: Don't allow BLX imm for M-profile
+  target/arm: Implement v8.1M branch-future insns (as NOPs)
+  target/arm: Implement v8.1M low-overhead-loop instructions
+  target/arm: Fix has_vfp/has_neon ID reg squashing for M-profile
+  target/arm: Implement FPSCR.LTPSIZE for M-profile LOB extension
+  target/arm: Fix writing to FPSCR.FZ16 on M-profile
+
+ target/arm/cpu.h               |   7 ++
+ target/arm/m-nocp.decode       |  10 ++-
+ target/arm/t32.decode          |  50 +++++++----
+ target/arm/cpu.c               |  34 ++++---
+ target/arm/translate.c         | 157 +++++++++++++++++++++++++++++++++
+ target/arm/vfp_helper.c        |  30 +++++--
+ scripts/decodetree.py          |   2 +-
+ target/arm/translate-vfp.c.inc |  17 +++-
+ 8 files changed, 268 insertions(+), 39 deletions(-)
+
+-- 
+2.20.1
 
 
