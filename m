@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CCDD28B41A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 13:51:10 +0200 (CEST)
-Received: from localhost ([::1]:48922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE1828B415
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 13:49:21 +0200 (CEST)
+Received: from localhost ([::1]:45378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRwM9-0006F8-3W
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 07:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42766)
+	id 1kRwKO-0004mO-7U
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 07:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kRwG7-0000cz-SV
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:44:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43561)
+ id 1kRwG8-0000dv-8F
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:44:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kRwG2-0008B0-EG
+ id 1kRwG3-0008BI-P6
  for qemu-devel@nongnu.org; Mon, 12 Oct 2020 07:44:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602503087;
+ s=mimecast20190719; t=1602503089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U0f7a6Fc7A+7mZcGUG5Hm7ANHiCXaOvgGvgfUjI3+ow=;
- b=eYEUahmf0T+BX6KhS1r5DqHlJnnqGYm+gLPrjYAx9szzCiRo09Md0FCp9ZxrQMN+0FuxIR
- s6Cjb6+4Y9vyNOOPvR/FiHFwht8i5jrf/jNMM71VSHBq6h5i+2bVvQfF3NEpHW7vlI/0Bl
- uqmqys692ApQiyrMlANrQP6Q8iJPac4=
+ bh=04mH/EQN2FMbm79HfXdBhiaZTkRTdOPvt3HTGNa6fxc=;
+ b=Kvp7zIbPOvrXELVgA2OQ1jWIODkAZ55mNAbg+rKw80ynhZ5Bmw0oEN3x54tJVJ2FfoEEU1
+ Qe+mHuJhdLT0yPluywSexmM7DkfZAlUrkBPlXIwtfJj1AJgtTEIldDBi2E9P0jIOeDzQzJ
+ 1HyHezSqn+E8bOHih7Jw911sfP4dLp4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-tLfwMwT5NkCzlaumZQHK5Q-1; Mon, 12 Oct 2020 07:44:45 -0400
-X-MC-Unique: tLfwMwT5NkCzlaumZQHK5Q-1
+ us-mta-170-2j4df_44OH-hXeQLj3vaQg-1; Mon, 12 Oct 2020 07:44:47 -0400
+X-MC-Unique: 2j4df_44OH-hXeQLj3vaQg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E8DD64083;
- Mon, 12 Oct 2020 11:44:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01B6A18A8227;
+ Mon, 12 Oct 2020 11:44:46 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-244.ams2.redhat.com
  [10.36.113.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E624319C78;
- Mon, 12 Oct 2020 11:44:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9990C19C78;
+ Mon, 12 Oct 2020 11:44:44 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, alex.bennee@linaro.org, zhengchuan@huawei.com,
  stefanha@redhat.com, peterx@redhat.com
-Subject: [PULL 5/6] migration/dirtyrate: record start_time and calc_time while
- at the measuring state
-Date: Mon, 12 Oct 2020 12:44:24 +0100
-Message-Id: <20201012114425.104765-6-dgilbert@redhat.com>
+Subject: [PULL 6/6] migration/dirtyrate: present dirty rate only when querying
+ the rate has completed
+Date: Mon, 12 Oct 2020 12:44:25 +0100
+Message-Id: <20201012114425.104765-7-dgilbert@redhat.com>
 In-Reply-To: <20201012114425.104765-1-dgilbert@redhat.com>
 References: <20201012114425.104765-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -89,68 +89,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chuan Zheng <zhengchuan@huawei.com>
 
-Querying could include both the start-time and the calc-time while at the measuring
-state, allowing a caller to determine when they should expect to come back looking
-for a result.
+Make dirty_rate field optional, present dirty rate only when querying
+the rate has completed.
+The qmp results is shown as follow:
+@unstarted:
+{"return":{"status":"unstarted","start-time":0,"calc-time":0},"id":"libvirt-12"}
+@measuring:
+{"return":{"status":"measuring","start-time":102931,"calc-time":1},"id":"libvirt-85"}
+@measured:
+{"return":{"status":"measured","dirty-rate":4,"start-time":150146,"calc-time":1},"id":"libvirt-15"}
 
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
-Message-Id: <1601350938-128320-2-git-send-email-zhengchuan@huawei.com>
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+Message-Id: <1601350938-128320-3-git-send-email-zhengchuan@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/dirtyrate.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ migration/dirtyrate.c | 3 +--
+ qapi/migration.json   | 8 +++-----
+ 2 files changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 68577ef250..40e41e793e 100644
+index 40e41e793e..ab9e1301f6 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -83,14 +83,14 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     return info;
- }
+@@ -69,9 +69,8 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+     struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
  
--static void reset_dirtyrate_stat(void)
-+static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
- {
-     DirtyStat.total_dirty_samples = 0;
-     DirtyStat.total_sample_count = 0;
-     DirtyStat.total_block_mem_MB = 0;
-     DirtyStat.dirty_rate = -1;
--    DirtyStat.start_time = 0;
--    DirtyStat.calc_time = 0;
-+    DirtyStat.start_time = start_time;
-+    DirtyStat.calc_time = calc_time;
- }
- 
- static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
-@@ -335,7 +335,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
-     int64_t initial_time;
- 
-     rcu_register_thread();
--    reset_dirtyrate_stat();
-     rcu_read_lock();
-     initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-     if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) {
-@@ -365,6 +364,8 @@ void *get_dirtyrate_thread(void *arg)
- {
-     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
-     int ret;
-+    int64_t start_time;
-+    int64_t calc_time;
- 
-     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
-                               DIRTY_RATE_STATUS_MEASURING);
-@@ -373,6 +374,10 @@ void *get_dirtyrate_thread(void *arg)
-         return NULL;
+     if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
++        info->has_dirty_rate = true;
+         info->dirty_rate = dirty_rate;
+-    } else {
+-        info->dirty_rate = -1;
      }
  
-+    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
-+    calc_time = config.sample_period_seconds;
-+    init_dirtyrate_stat(start_time, calc_time);
-+
-     calculate_dirtyrate(config);
- 
-     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEASURING,
+     info->status = CalculatingState;
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 7f5e6fd681..974021a5c8 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1743,10 +1743,8 @@
+ #
+ # Information about current dirty page rate of vm.
+ #
+-# @dirty-rate: @dirtyrate describing the dirty page rate of vm
+-#              in units of MB/s.
+-#              If this field returns '-1', it means querying has not
+-#              yet started or completed.
++# @dirty-rate: an estimate of the dirty page rate of the VM in units of
++#              MB/s, present only when estimating the rate has completed.
+ #
+ # @status: status containing dirtyrate query status includes
+ #          'unstarted' or 'measuring' or 'measured'
+@@ -1759,7 +1757,7 @@
+ #
+ ##
+ { 'struct': 'DirtyRateInfo',
+-  'data': {'dirty-rate': 'int64',
++  'data': {'*dirty-rate': 'int64',
+            'status': 'DirtyRateStatus',
+            'start-time': 'int64',
+            'calc-time': 'int64'} }
 -- 
 2.28.0
 
