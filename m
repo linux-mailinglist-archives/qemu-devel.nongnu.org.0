@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5678E28BD03
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:56:01 +0200 (CEST)
-Received: from localhost ([::1]:38478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AAC28BCF0
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:50:58 +0200 (CEST)
+Received: from localhost ([::1]:52080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0B5-0000vE-Aq
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:56:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57042)
+	id 1kS06D-0003BO-FE
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:50:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqW-00077w-8m
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:45 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33279)
+ id 1kRzqg-0007BO-S8
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:56 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqP-0007LP-NW
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:43 -0400
-Received: by mail-wr1-x441.google.com with SMTP id b8so6466671wrn.0
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:36 -0700 (PDT)
+ id 1kRzqR-0007Lb-Bq
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:52 -0400
+Received: by mail-wr1-x442.google.com with SMTP id y12so14320746wrp.6
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8TBzzcsFazlljQPoOpAMIzgSdLt0n2ByqDt37jz37+s=;
- b=ZRWPdAHdzc/6fQHO0yzTekefMHKG/JP0Xi/r25u08bNmzCsp1LIV5eClFWn2f17t3C
- 5rH13LqBNy98d/YMjAQTdsDRha0qRLuYDNsDDmg92+sCfreT0kTf5b3x2htculz3Hu6s
- ORASrol6NKu0TdM4CVQKBkC7oNZpVxkLw5hGslDphqK87PvhAgfTwDWG/hytBozJn1I4
- XGbCJtZi9W6qNd+913G9j+nauFp5JtqZ1eFSNpRPbLxGeX+g+z9UpGMN8DZMpPqzH7hT
- 9Ld2Z11gtwjnqVELW9N2ktxT3UzPwhXGYdGXbb9vjNi8o2pMCa96DdtMhhfez2PltHWt
- q7IA==
+ bh=2ZOYJQFgwtkRMUbE80VKve55fsHkUx0xDSOrENJ6dJU=;
+ b=ugsig8zpC0Qx+KkGOBRBlUNonfjfYMyA7gA5Jc3AdMBV/ins+/IP15NmtVWDhFaoj8
+ 9Ih+F4xShgRP8g3vyGIRx1APoaUM00QiQnvwPRbSNap5a/owy5IviEeRJoUr/1F/7l/M
+ b+E4b/HX2tfEdgAklY9iIsimd6uJtWp8oUpu7uail11Vi6RATSWnvut1Y4Y9EXFXv9/z
+ tgpfvV+bjkU2a7LR4cHUJvteOvqSWSUm81xHAuA7S8gG4CDCjEFOahnnhTPJ+hpkJer+
+ UqUBUvXjtmVr+Wozf0Fpq9f4umI4GEedDkmzhK8V76aaHsYc6+Q8bzleAEcgepzizY12
+ /vmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8TBzzcsFazlljQPoOpAMIzgSdLt0n2ByqDt37jz37+s=;
- b=joPvvdYVp4lbA6b96zNul5mzqgRHJF5H6izlohDLHUSj8lGaJnaDAF7H3zP5HUN+rM
- v6ZsZnx/43QwMl7HQU8CNhTOvb/WfeuNGxmKH9mF0n8cM+xf/7RcEPFkIy7SNWEtenxj
- /ndDVqmNZsdgHJg0C2xtvOYqnZvGOXTqpckjINK0BPegiJjbAJjTgPnZ/L2kBIN/7Qq5
- TH7bnk2Vy5zqwuPnnUUmqJ1mI9rnDn6Hq2U1Xz9psyeKZ9Rh4Q0ReKXMmlH4Vr+xwLmp
- Gsjsj2BSArNsgPHVDlWMNGLXcFtrZZ0yKv4uepxdiiUBkVVEoV6pbQbyFBmK1pA1r/yJ
- DeHA==
-X-Gm-Message-State: AOAM530x/IS8x78V5ANOSA3O/Ji3S8F2bR0RzxtfE3xFWxSrc9rkk3aT
- d++u4BFRTMITuOdUqMBi3tIeaA==
-X-Google-Smtp-Source: ABdhPJy1iL7KieLJvbDa1q82uGKZYDnSVmyjYZr4cnlQZbZtC6Gi2U2LsXq3ibwEihbJKfpWKznFTg==
-X-Received: by 2002:a5d:40c3:: with SMTP id b3mr33527868wrq.157.1602516875795; 
- Mon, 12 Oct 2020 08:34:35 -0700 (PDT)
+ bh=2ZOYJQFgwtkRMUbE80VKve55fsHkUx0xDSOrENJ6dJU=;
+ b=NfX+u526EkXW9LCRLvcu3MUBO4qvZRHR7L3WXEWWI0zMOpfDeFYPGChoCDEzE6xhKJ
+ LpBOgV8LnXBzcw1nfje3yLGFuHYHthYzR3BEJTHTe+2N3NmoTHgp6i1W0B4Q25FympG1
+ 7Ed45zq0Jn1RS10LyzCMh5jOLquZrQRwUS/qkUkJCAU6TTuMISFXGFXfA4GFSKz9Hhm+
+ 8viQtne05BTfA/qXnYXp2dSRVJWAzNoL0+ln5PTzXr52sXkm1oFCrPmdqbN4g/HtmM7T
+ Yc2aNykW43wCwtG6wd4ImsNBxyMK995h7WzvgePQ3/QbNUoskZUFF2eKMNn0w3qsVtOA
+ jHfA==
+X-Gm-Message-State: AOAM530hR+co4EabXZ/vN/AQN8Cw1Voe6FTM30e9ut9eEpHr06obWqob
+ WDOG8rPn8wq9UFQfqEyBsWj0EqlkOQoEg9Vf
+X-Google-Smtp-Source: ABdhPJxZm6nnn0K48lVEgiUOdZmwQiTJ0RP/8c3cPgDbRk09d+UNt0geOYKLeCGxNb/9WWn9Y4n09Q==
+X-Received: by 2002:a5d:6642:: with SMTP id f2mr30396139wrw.374.1602516876795; 
+ Mon, 12 Oct 2020 08:34:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:35 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH] linux-user/arm/signal.c: Drop TARGET_CONFIG_CPU_32
-Date: Mon, 12 Oct 2020 16:33:45 +0100
-Message-Id: <20201012153408.9747-23-peter.maydell@linaro.org>
+Subject: [PATCH] meson.build: Don't look for libudev for static builds
+Date: Mon, 12 Oct 2020 16:33:46 +0100
+Message-Id: <20201012153408.9747-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,62 +89,40 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Arm signal-handling code has some parts ifdeffed with a
-TARGET_CONFIG_CPU_32, which is always defined. This is a leftover
-from when this code's structure was based on the Linux kernel
-signal handling code, where it was intended to support 26-bit
-Arm CPUs. The kernel dropped its CONFIG_CPU_32 in kernel commit
-4da8b8208eded0ba21e3 in 2009.
+commit f01496a314d916 moved the logic for detecting libudev from
+configure to meson.build, but in the process it dropped the condition
+that meant we only ask pkg-config about libudev for a non-static
+build.
 
-QEMU has never had 26-bit CPU support and is unlikely to ever
-add it; we certainly aren't going to support 26-bit Linux
-binaries via linux-user mode. The ifdef is just unhelpful
-noise, so remove it entirely.
+This breaks static builds of the system emulators on at least Ubuntu
+18.04.4, because on that host there is no static libudev but
+pkg-config still claims it exists.
+
+Reinstate the logic that we had in the configure check.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-Based-on: <20200518142801.20503-1-peter.maydell@linaro.org>
-("[PATCH v2] target/arm: Allow user-mode code to write CPSR.E via MSR")
-to avoid a textual conflict.
+We could certainly do something cleverer here, but basic "convert
+from configure to meson" should in general not also be changing the
+detection logic IMHO.  We can make the logic smarter as a follow-on
+patch if desired.
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- linux-user/arm/signal.c | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-index 698985a647e..f21d1535e4d 100644
---- a/linux-user/arm/signal.c
-+++ b/linux-user/arm/signal.c
-@@ -126,8 +126,6 @@ struct rt_sigframe_v2
-     abi_ulong retcode[4];
- };
- 
--#define TARGET_CONFIG_CPU_32 1
--
- /*
-  * For ARM syscalls, we encode the syscall number into the instruction.
-  */
-@@ -187,9 +185,7 @@ setup_sigcontext(struct target_sigcontext *sc, /*struct _fpstate *fpstate,*/
-     __put_user(env->regs[13], &sc->arm_sp);
-     __put_user(env->regs[14], &sc->arm_lr);
-     __put_user(env->regs[15], &sc->arm_pc);
--#ifdef TARGET_CONFIG_CPU_32
-     __put_user(cpsr_read(env), &sc->arm_cpsr);
--#endif
- 
-     __put_user(/* current->thread.trap_no */ 0, &sc->trap_no);
-     __put_user(/* current->thread.error_code */ 0, &sc->error_code);
-@@ -549,11 +545,9 @@ restore_sigcontext(CPUARMState *env, struct target_sigcontext *sc)
-     __get_user(env->regs[13], &sc->arm_sp);
-     __get_user(env->regs[14], &sc->arm_lr);
-     __get_user(env->regs[15], &sc->arm_pc);
--#ifdef TARGET_CONFIG_CPU_32
-     __get_user(cpsr, &sc->arm_cpsr);
-     cpsr_write(env, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
-     arm_rebuild_hflags(env);
--#endif
- 
-     err |= !valid_user_regs(env);
- 
+diff --git a/meson.build b/meson.build
+index 3161c1f037a..07da66e1d81 100644
+--- a/meson.build
++++ b/meson.build
+@@ -271,7 +271,7 @@ if 'CONFIG_CURL' in config_host
+                             link_args: config_host['CURL_LIBS'].split())
+ endif
+ libudev = not_found
+-if targetos == 'linux' and (have_system or have_tools)
++if targetos == 'linux' and (have_system or have_tools) and not enable_static
+   libudev = dependency('libudev',
+                        required: get_option('mpath').enabled(),
+                        static: enable_static)
 -- 
 2.20.1
 
