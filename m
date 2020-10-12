@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B21128B619
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:23:16 +0200 (CEST)
-Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A9F28B63F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 15:34:01 +0200 (CEST)
+Received: from localhost ([::1]:46338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRxnH-0007ik-8s
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:23:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
+	id 1kRxxf-0007iE-Sg
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 09:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRxkt-0005St-50; Mon, 12 Oct 2020 09:20:47 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41652)
+ (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
+ id 1kRxwr-00073k-DL; Mon, 12 Oct 2020 09:33:09 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:46311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRxkr-0005P7-NU; Mon, 12 Oct 2020 09:20:46 -0400
-Received: by mail-wr1-x444.google.com with SMTP id s9so7073654wro.8;
- Mon, 12 Oct 2020 06:20:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
+ id 1kRxwp-0006y5-5T; Mon, 12 Oct 2020 09:33:09 -0400
+Received: by mail-lf1-x142.google.com with SMTP id v6so2721755lfa.13;
+ Mon, 12 Oct 2020 06:33:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=S+qJmTO5tJK+xMnKaeXjrUuhIrSEH6LdhmvHFkUYTME=;
- b=NzEihUgmUX90wUWF8yPl3KUdmgxbrrsxWFlwmP01b5/BkqfCq8hq7WOA3Lvb8dzhV5
- za57HvFyPDuaKgajcR6oUSZZkCPHmZe19fH762COV58rtDh4Jzuw36FGmSSacc7QJK1I
- Te+v3sqLptPFly/u060MHQUZjYS0Lxod77ymSbx1Bpv8QULfXMv25RDDEjLbbuw5KKke
- 2fU/qarmB4O9H2aK9GFIz+icXuXF2OFIfPB0zfHosd0CmbqO4LftlwWlACreJnMIGGkr
- ZO1z6lu0vyypGjR36kT7jqZsXik6RfZA/kAaWiFj81D7x9/LM4xoXuunay7ik5athDfx
- tSyA==
+ h=message-id:subject:from:to:cc:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=5K086FO462wmszI+hBM+jjP61a7FY2AqPedu6W0K3fI=;
+ b=mk6DRktiMVqPBvLK/39/hJE3RYmk2BvBzIpcfAeOFdyBKLPD8U7nCSRswRYaKR2bgS
+ nYTz/vdpdoIPLR2G/XUzUCYUlgTp+vI+5lCyKC2jZ6MxmR4LmwdGbGI07UKX3Tb7JfKQ
+ tZs7uP8VydTFYzkPr9GSlmTVQtkroXMpYi/XGfsDeWJFiEJ+q2/O3aOmCR538qWQDHTR
+ d7XwHTANH5Ypz0HCXC6rMTL6jGJviff+jvjdm8Vn9SNQ9CsHIQLbcfFLCBX6YWlKEims
+ evtTD8UrRecGrq5gruy3st98jRoO6MPHYfgSUrf00VsWxwtv0CJc2NgIomJj1prTu4P4
+ Aubw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=S+qJmTO5tJK+xMnKaeXjrUuhIrSEH6LdhmvHFkUYTME=;
- b=S1yvEEEZud7unqHQ2l0ZEcTfxgShnNif+Txjikjv3nRONv1dKlr0DCSoEyRjAPYeWj
- GI6ihdmuoXNW9/eHg/D2zU3kasZSpHVRVOTxcl6LuMSp7hC7iFfJdfFKtyyxIYmMQAGd
- jDNDdyeB/0861FLg9we4oS6+If2uWZwkX6EoirVZvZg9fggnoKdESJ/P469iu1T+JUDd
- Cu3qQqAOnp/DBJ5nMlYLA3WiW9/kWiA5kbSOUTdNsiC/fp3sD6wKaTzH54l6CpuYXvW7
- O42tSOprFYuNb8RlqFptj4Yn3dUpoAJ977XbHxsd036z9Z+/ZExffNNCW7KQ2ZBlQC0q
- IbXg==
-X-Gm-Message-State: AOAM533ty6V+r/12DrFuSSIFWB6M/OyPbkMlspnCMWUUWFi1nwH2xPZU
- 6MeTYd7LFYUI6Yqp76hj9TJ4yH4eqpU=
-X-Google-Smtp-Source: ABdhPJxGw8nKoBf1Vz8InNroMZ38P9rTS1LCT/KEDodfanlwQgbVkZ20zwoBh17DCknoLjWkm5yVGw==
-X-Received: by 2002:a5d:568a:: with SMTP id f10mr29542247wrv.30.1602508843929; 
- Mon, 12 Oct 2020 06:20:43 -0700 (PDT)
-Received: from localhost.localdomain
- (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id z11sm24584887wrh.70.2020.10.12.06.20.42
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+ :mime-version:content-transfer-encoding;
+ bh=5K086FO462wmszI+hBM+jjP61a7FY2AqPedu6W0K3fI=;
+ b=ionXQI2xBFw9/gwHoKb5rPLDYdwusva5OIsJeFajk+cfUKQBxA0wq1j8Cd5WxEiW7Y
+ WXFso7ZfzNikUY+JU3JCi5PVBL36Urry1Ajg0IspBQQFPHVAe/uqf1Yyr1YAP0R3Dvs4
+ Pe1P1hLvonxEgWNulv96qvKQO449YAdc3CHS8UR+HbN4WFApoXMhH38vnsu8Zf/3mnlT
+ PEwiDc7lNmKMib19ufpp86astxpShokjLb3LZPwSVCG7HJzKLNpCh2jJDlbg4fIQVO2G
+ 1h6LlQy4DbZB7br4it/RhHcgqhXDKwSUa7ehBnnbpqlOCfv0SFN9ZDx01awnmQLTq4Nk
+ UpUg==
+X-Gm-Message-State: AOAM533ccmNNIV4zdWF/JT4eXnpAnEEKkL+4UnGSwKG7YU5ZS0FcX9mx
+ bY0inBJ4RukK8sXdbX4DZvI=
+X-Google-Smtp-Source: ABdhPJyCuXcSyBcsvbr8oEpDz/K0d7EXfIb4Oy/iB1H0DBAjnuGSa/S59VaEKHpwk/DbDDr+9SgLdg==
+X-Received: by 2002:a19:fc1c:: with SMTP id a28mr8888921lfi.517.1602509584142; 
+ Mon, 12 Oct 2020 06:33:04 -0700 (PDT)
+Received: from [192.168.167.128] (37-145-186-126.broadband.corbina.ru.
+ [37.145.186.126])
+ by smtp.gmail.com with ESMTPSA id h17sm3284021lfj.188.2020.10.12.06.33.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 06:20:43 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] tests/qtest: Replace magic value by
- NANOSECONDS_PER_SECOND definition
-Date: Mon, 12 Oct 2020 15:20:16 +0200
-Message-Id: <20201012132017.3423954-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201012132017.3423954-1-f4bug@amsat.org>
-References: <20201012132017.3423954-1-f4bug@amsat.org>
+ Mon, 12 Oct 2020 06:33:03 -0700 (PDT)
+Message-ID: <ea41618a040224242fced25fc3d09d3b1f75a06a.camel@gmail.com>
+Subject: [PATCH] hw/scsi: remove dead code
+From: Elena Afanasova <eafanasova@gmail.com>
+To: hare@suse.com, pbonzini@redhat.com, fam@euphon.net, qemu-block@nongnu.org
+Date: Mon, 12 Oct 2020 06:32:42 -0700
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=eafanasova@gmail.com; helo=mail-lf1-x142.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,39 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use self-explicit NANOSECONDS_PER_SECOND definition instead
-of a magic value.
+Since MEGASAS_MAX_SGE is defined to be 128 the following if statement can be removed.
+Spotted by PVS-Studio.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
 ---
- tests/qtest/rtc-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/scsi/megasas.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/tests/qtest/rtc-test.c b/tests/qtest/rtc-test.c
-index c7af34f6b1b..402ce2c6090 100644
---- a/tests/qtest/rtc-test.c
-+++ b/tests/qtest/rtc-test.c
-@@ -292,7 +292,7 @@ static void alarm_time(void)
-             break;
-         }
- 
--        clock_step(1000000000);
-+        clock_step(NANOSECONDS_PER_SECOND);
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index e24c12d7ee..6dcaad55fa 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -2393,8 +2393,6 @@ static void megasas_scsi_realize(PCIDevice *dev, Error **errp)
      }
- 
-     g_assert(get_irq(RTC_ISA_IRQ));
+     if (s->fw_sge >= MEGASAS_MAX_SGE - MFI_PASS_FRAME_SIZE) {
+         s->fw_sge = MEGASAS_MAX_SGE - MFI_PASS_FRAME_SIZE;
+-    } else if (s->fw_sge >= 128 - MFI_PASS_FRAME_SIZE) {
+-        s->fw_sge = 128 - MFI_PASS_FRAME_SIZE;
+     } else {
+         s->fw_sge = 64 - MFI_PASS_FRAME_SIZE;
+     }
 -- 
-2.26.2
+2.25.1
+
 
 
