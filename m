@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C4C28C365
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:54:10 +0200 (CEST)
-Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49BC28C3C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 23:03:24 +0200 (CEST)
+Received: from localhost ([::1]:49334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS4pd-0003Y0-Ju
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38454)
+	id 1kS4yZ-0006D5-PD
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 17:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4WX-0002xp-8R
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40472)
+ id 1kS4Wa-0002zG-RV
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kS4WO-0002iv-AF
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:24 -0400
+ id 1kS4WO-0002iZ-BI
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:34:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602534853;
+ s=mimecast20190719; t=1602534852;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0X1TnjZlRdHw8tcCNGOF380Ublm92SUhVeJg2HrPl0Y=;
- b=Yn77KKue8KRhMWg7jHYzKSNtnetyh2w/CtNcj2qkBJjaLiWZ0/TAUSsPq+jY8zHmwHSgPL
- QRlibUrucTuoPh0ZKghOc3Ge/FK8gifzPWog9qbztRuHQ9/Q0dFsVDB5EFqJRFh3q5J8vK
- 9+cArMHh/8boeGlyZ93B0E9v07hC9SQ=
+ bh=dOm/tm/s7vlLGUaUhM3KYMR3GBBc1c4+MT8F0OlIOdc=;
+ b=Smf21bwyLAyJr5nrJTbIRccLr7ZTI6stdXSh/LGwiGOZdD0SzXdHTK7GsQ+TqAUTY+LV+p
+ NStQyF3uJn4ZN/cJ3T90Rz0gSZje0XzjJdHMzf54zmc7dYPVe90kEDY5Qca3qh9GVzZChz
+ oU7/6bvU4HyjU2unShSNj4hzr/f8UC0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-HXM_RtvHP4GCS8Jsa9aVNw-1; Mon, 12 Oct 2020 16:34:11 -0400
-X-MC-Unique: HXM_RtvHP4GCS8Jsa9aVNw-1
+ us-mta-138-Q7iaxMyxPz2KTvxmXot5Ng-1; Mon, 12 Oct 2020 16:34:10 -0400
+X-MC-Unique: Q7iaxMyxPz2KTvxmXot5Ng-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DF18100F7BF
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:34:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E07C1029D32
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 20:34:01 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A3976EF59;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE45A73660;
  Mon, 12 Oct 2020 20:34:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/38] device-core: use atomic_set on .realized property
-Date: Mon, 12 Oct 2020 16:33:38 -0400
-Message-Id: <20201012203343.1105018-34-pbonzini@redhat.com>
+Subject: [PULL 34/38] scsi/scsi-bus: scsi_device_find: don't return unrealized
+ devices
+Date: Mon, 12 Oct 2020 16:33:39 -0400
+Message-Id: <20201012203343.1105018-35-pbonzini@redhat.com>
 In-Reply-To: <20201012203343.1105018-1-pbonzini@redhat.com>
 References: <20201012203343.1105018-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -85,83 +86,131 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+The device core first places a device on the bus and then realizes it.
+Make scsi_device_find avoid returing such devices to avoid
+races in drivers that use an iothread (currently virtio-scsi)
 
-Some code might race with placement of new devices on a bus.
-We currently first place a (unrealized) device on the bus
-and then realize it.
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1812399
 
-As a workaround, users that scan the child device list, can
-check the realized property to see if it is safe to access such a device.
-Use an atomic write here too to aid with this.
-
-A separate discussion is what to do with devices that are unrealized:
-It looks like for this case we only call the hotplug handler's unplug
-callback and its up to it to unrealize the device.
-An atomic operation doesn't cause harm for this code path though.
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200913160259.32145-6-mlevitsk@redhat.com>
+Message-Id: <20200913160259.32145-7-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201006123904.610658-10-mlevitsk@redhat.com>
+Message-Id: <20201006123904.610658-11-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/qdev.c         | 19 ++++++++++++++++++-
- include/hw/qdev-core.h |  2 ++
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ hw/scsi/scsi-bus.c | 83 +++++++++++++++++++++++++++++-----------------
+ 1 file changed, 53 insertions(+), 30 deletions(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 59e5e710b7..fc4daa36fa 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -946,7 +946,25 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-             }
-        }
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 4ab9811cd8..7599113efe 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -24,6 +24,55 @@ static void scsi_target_free_buf(SCSIRequest *req);
  
-+       qatomic_store_release(&dev->realized, value);
-+
-     } else if (!value && dev->realized) {
-+
-+        /*
-+         * Change the value so that any concurrent users are aware
-+         * that the device is going to be unrealized
-+         *
-+         * TODO: change .realized property to enum that states
-+         * each phase of the device realization/unrealization
-+         */
-+
-+        qatomic_set(&dev->realized, value);
-+        /*
-+         * Ensure that concurrent users see this update prior to
-+         * any other changes done by unrealize.
-+         */
-+        smp_wmb();
-+
-         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
-             qbus_unrealize(bus);
-         }
-@@ -961,7 +979,6 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-     }
+ static int next_scsi_bus;
  
-     assert(local_err == NULL);
--    dev->realized = value;
-     return;
++static SCSIDevice *do_scsi_device_find(SCSIBus *bus,
++                                       int channel, int id, int lun,
++                                       bool include_unrealized)
++{
++    BusChild *kid;
++    SCSIDevice *retval = NULL;
++
++    QTAILQ_FOREACH_RCU(kid, &bus->qbus.children, sibling) {
++        DeviceState *qdev = kid->child;
++        SCSIDevice *dev = SCSI_DEVICE(qdev);
++
++        if (dev->channel == channel && dev->id == id) {
++            if (dev->lun == lun) {
++                retval = dev;
++                break;
++            }
++
++            /*
++             * If we don't find exact match (channel/bus/lun),
++             * we will return the first device which matches channel/bus
++             */
++
++            if (!retval) {
++                retval = dev;
++            }
++        }
++    }
++
++    /*
++     * This function might run on the IO thread and we might race against
++     * main thread hot-plugging the device.
++     * We assume that as soon as .realized is set to true we can let
++     * the user access the device.
++     */
++
++    if (retval && !include_unrealized &&
++        !qatomic_load_acquire(&retval->qdev.realized)) {
++        retval = NULL;
++    }
++
++    return retval;
++}
++
++SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
++{
++    RCU_READ_LOCK_GUARD();
++    return do_scsi_device_find(bus, channel, id, lun, false);
++}
++
+ static void scsi_device_realize(SCSIDevice *s, Error **errp)
+ {
+     SCSIDeviceClass *sc = SCSI_DEVICE_GET_CLASS(s);
+@@ -137,7 +186,10 @@ static bool scsi_bus_is_address_free(SCSIBus *bus,
+ 				     int channel, int target, int lun,
+ 				     SCSIDevice **p_dev)
+ {
+-    SCSIDevice *d = scsi_device_find(bus, channel, target, lun);
++    SCSIDevice *d;
++
++    RCU_READ_LOCK_GUARD();
++    d = do_scsi_device_find(bus, channel, target, lun, true);
+     if (d && d->lun == lun) {
+         if (p_dev) {
+             *p_dev = d;
+@@ -1570,35 +1622,6 @@ static char *scsibus_get_fw_dev_path(DeviceState *dev)
+                            qdev_fw_name(dev), d->id, d->lun);
+ }
  
- child_realize_fail:
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 2c6307e3ed..868973319e 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -163,6 +163,8 @@ struct NamedClockList {
- /**
-  * DeviceState:
-  * @realized: Indicates whether the device has been fully constructed.
-+ *            When accessed outsize big qemu lock, must be accessed with
-+ *            atomic_load_acquire()
-  * @reset: ResettableState for the device; handled by Resettable interface.
-  *
-  * This structure should not be accessed directly.  We declare it here
+-SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int id, int lun)
+-{
+-    BusChild *kid;
+-    SCSIDevice *target_dev = NULL;
+-
+-    RCU_READ_LOCK_GUARD();
+-    QTAILQ_FOREACH_RCU(kid, &bus->qbus.children, sibling) {
+-        DeviceState *qdev = kid->child;
+-        SCSIDevice *dev = SCSI_DEVICE(qdev);
+-
+-        if (dev->channel == channel && dev->id == id) {
+-            if (dev->lun == lun) {
+-                return dev;
+-            }
+-
+-            /*
+-             * If we don't find exact match (channel/bus/lun),
+-             * we will return the first device which matches channel/bus
+-             */
+-
+-            if (!target_dev) {
+-                target_dev = dev;
+-            }
+-        }
+-    }
+-
+-    return target_dev;
+-}
+-
+ /* SCSI request list.  For simplicity, pv points to the whole device */
+ 
+ static int put_scsi_requests(QEMUFile *f, void *pv, size_t size,
 -- 
 2.26.2
 
