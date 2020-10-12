@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC91B28BCFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:54:55 +0200 (CEST)
-Received: from localhost ([::1]:36848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86F828BCF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:53:29 +0200 (CEST)
+Received: from localhost ([::1]:60404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0A2-0000Dy-NY
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
+	id 1kS08f-0006j4-0B
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:53:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqq-0007LX-7x
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:35:04 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqe-0007NU-D8
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:35:03 -0400
-Received: by mail-wm1-x342.google.com with SMTP id k18so17961294wmj.5
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Y1ekWK8CJLvHrVxfCc2kYGCDX3fGw6jKhM4D+UOMVQU=;
- b=YSrlsBnoQCz/hCGSqfuYdXKXQhZ80JQPJ4j/lDZO+r7fA8pu9fNnuzbEY1wyT/7zTI
- QCU0qnRZmG64mcm98xhV04Hkw8DVouadiIE10n6+m238GqtUBxpeoqWS8HHhtJF4wrn0
- kNBoyZj++YUv7m3S6h7HSzxjUHhA4yZ1iG69g3sb3wkw/M49RAS6jehxazLP2p+t9Sv/
- V8MvxuxrOWoHxHNxSfDZDP+Td7yc2v+714iZkgEpa8W/seVaWX356rYfU93xgpLOF3Ai
- eQu06ZqEWcJ0R9mXix/14P52wwSkmmCh8SR6zNHpASRWF2+M6x6Tqz5bud66x2RkXQL7
- 6nFQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kRzqS-00075r-66
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49775)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kRzqL-0007K1-7J
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602516871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SdHMrQKgcxRXfLDvQ+1YLDqCa4F/2upjZ5B+bFIqTGo=;
+ b=Rz2SuYsj8eoyPwBLlsD/WutLsLvzvnUtd7xLpBm9DRCEN8gSwElUZbOEOAgH47jCDwp8yG
+ KeHV0E1DG7oG0xI0vXnmmO+4CQpm6ogfppxU/w7cE2l/u+8hvGiG+gKOfwNZHChS5KnMc0
+ EDELmg+22alW+vtJ76pEhTxEIrcAJVM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-498-vbbj9CzsOWqPbkhz_tBlUA-1; Mon, 12 Oct 2020 11:34:29 -0400
+X-MC-Unique: vbbj9CzsOWqPbkhz_tBlUA-1
+Received: by mail-wm1-f72.google.com with SMTP id 13so5891963wmf.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Y1ekWK8CJLvHrVxfCc2kYGCDX3fGw6jKhM4D+UOMVQU=;
- b=b77jMKC2ucyBdMhb2CRYtd1cHGzLUnziZEGeXpxb+fMujI3qtxDZzKoV1BjJzIdUDh
- cNBrPIsi0MKJkg4psDdWiUU4BkdoH9uutnqb2me6Dc6j4yagMlg75gGSoLG6ACL6PI35
- 6SzMRC9UzCof0/L8VwFKGwuUcHF3LFehl2XjiqwfQhyKBlduMntW73p9dayTUmhKdQ2X
- O0R8i5naWwMZYx1nEfP7Zcn8q3T6a9uSKjAB8M3QPJqdz03PgWurziZzAzJzjA5DrCrf
- k/M82LYBZwqSnbWnL3Iao0OtIY71XI1i/hWuYxR8DH2uTi1Hg6m7BkOYyXWW9J96QeMY
- JoaQ==
-X-Gm-Message-State: AOAM533rG5UOIvr9uOx9BQPsbyAZ0k8TFYlTavpBqMsQJhsdLMP89j/A
- hpTMvMvmnD8i89yUrbyXB/f28w==
-X-Google-Smtp-Source: ABdhPJxojrk73BbaSQUuBxPDXxPMXwA4r3go3bXwSx1oHzOrS9uy+qgdLtNFDy+WCsiG8/+yWP20Ug==
-X-Received: by 2002:a1c:a541:: with SMTP id o62mr11362675wme.90.1602516885118; 
- Mon, 12 Oct 2020 08:34:45 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:44 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Delete unused VFP_DREG macros
-Date: Mon, 12 Oct 2020 16:33:53 +0100
-Message-Id: <20201012153408.9747-31-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
-References: <20201012153408.9747-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SdHMrQKgcxRXfLDvQ+1YLDqCa4F/2upjZ5B+bFIqTGo=;
+ b=Lx4LOuavUaTP412u2OFBU8Wg2HUoTiziCB5Mri+N2S2WsPiuxtEw6Bewxn2L9CXPFK
+ bw7b78Hy5haYq+QPGe1JEGpyQrvzdaVaNxJgIg+CXu3uDGVEUOY1goRLBhFay0VyPHWZ
+ 8qFxDJWS3l5cIgJDTyFjpB97FnXDWI5gUNl/NrVoRoB7vSbQoh8V84bEh6aFWZwnrxKO
+ wU5bvU1+HjXJdwMXZmZoLuRCFewvIm6HlzHajqglS3JAgBB+hIdR1dxWIQUWFV1cICWM
+ 3DsIn862NuPq0eK4ZJyzFvuwQpR93S4rFCWmIjPItWnjWdjZV6OnhrbGpMX+2JOiEXH4
+ WXuw==
+X-Gm-Message-State: AOAM532Z+Lm0EzVc1jQCrxp25O2K9joulVvgwmOyGH7hCsXf5ixoSLlF
+ MBSj1L5d2Bun9vUKgjehXs1b4Vuvt00Ya5QNbDxM2vTHMVbY9yabsHCJ6Fpw6mWXg5TZHB/536A
+ L5XgLkTU3peaAEwQ=
+X-Received: by 2002:a7b:cb82:: with SMTP id m2mr12017466wmi.56.1602516866754; 
+ Mon, 12 Oct 2020 08:34:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAakJQGUizc/HK0CxsRPCYuLMEy5unpqToSxQl/z1VTo6Vzim7AmzH3MM3d8WWEboXxPxCOA==
+X-Received: by 2002:a7b:cb82:: with SMTP id m2mr12017449wmi.56.1602516866485; 
+ Mon, 12 Oct 2020 08:34:26 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7ffb:1107:73ba:dbcf?
+ ([2001:b07:6468:f312:7ffb:1107:73ba:dbcf])
+ by smtp.gmail.com with ESMTPSA id z127sm23691600wmc.2.2020.10.12.08.34.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Oct 2020 08:34:24 -0700 (PDT)
+Subject: Re: [PATCH] scripts: display how long each test takes to execute
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20200914110948.1425082-1-berrange@redhat.com>
+ <fa7c5d50-cfc5-78c2-edf9-416231322f81@redhat.com>
+ <20201012150916.GJ39408@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <475a8cc8-9cb2-4ad0-304f-a98ec6d4993b@redhat.com>
+Date: Mon, 12 Oct 2020 17:34:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
+In-Reply-To: <20201012150916.GJ39408@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,46 +104,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As part of the Neon decodetree conversion we removed all
-the uses of the VFP_DREG macros, but forgot to remove the
-macro definitions. Do so now.
+On 12/10/20 17:09, Daniel P. Berrangé wrote:
+> On Mon, Oct 12, 2020 at 05:07:18PM +0200, Thomas Huth wrote:
+>> On 14/09/2020 13.09, Daniel P. Berrangé wrote:
+>>> Sometimes under CI tests non-deterministically take longer to execute
+>>> than expected which can trigger timeouts. It is almost impossible to
+>>> diagnose this though without seeing execution time for each test case.
+>>>
+>>> With this change, when passing "V=1" to make, we get a duration printed
+>>> at test completion:
+> 
+> I wasn't intending to update this given paolo's negative response to
+> the patch.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/translate.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+FWIW I opened https://github.com/mesonbuild/meson/issues/7830 with ideas
+on how to improve "meson test".  All the items I added are more or less
+blockers for QEMU, but feel free to add more if you have any ideas from
+your experience with Libvirt.
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c39a929b938..27bf6cd8b51 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -2471,21 +2471,6 @@ static int disas_dsp_insn(DisasContext *s, uint32_t insn)
-     return 1;
- }
- 
--#define VFP_REG_SHR(x, n) (((n) > 0) ? (x) >> (n) : (x) << -(n))
--#define VFP_DREG(reg, insn, bigbit, smallbit) do { \
--    if (dc_isar_feature(aa32_simd_r32, s)) { \
--        reg = (((insn) >> (bigbit)) & 0x0f) \
--              | (((insn) >> ((smallbit) - 4)) & 0x10); \
--    } else { \
--        if (insn & (1 << (smallbit))) \
--            return 1; \
--        reg = ((insn) >> (bigbit)) & 0x0f; \
--    }} while (0)
--
--#define VFP_DREG_D(reg, insn) VFP_DREG(reg, insn, 12, 22)
--#define VFP_DREG_N(reg, insn) VFP_DREG(reg, insn, 16,  7)
--#define VFP_DREG_M(reg, insn) VFP_DREG(reg, insn,  0,  5)
--
- static inline bool use_goto_tb(DisasContext *s, target_ulong dest)
- {
- #ifndef CONFIG_USER_ONLY
--- 
-2.20.1
+Paolo
 
 
