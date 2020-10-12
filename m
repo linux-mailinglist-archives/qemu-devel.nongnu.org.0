@@ -2,72 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFC628C3AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 23:00:39 +0200 (CEST)
-Received: from localhost ([::1]:43698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 170AF28C389
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 22:59:26 +0200 (CEST)
+Received: from localhost ([::1]:40166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS4vu-0003aa-SD
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 17:00:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39602)
+	id 1kS4uj-000264-2S
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 16:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kS4cz-0004fA-PL
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:41:06 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:40773)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kS4cs-0003d5-5Y
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:41:05 -0400
-Received: by mail-lj1-x241.google.com with SMTP id f21so18154844ljh.7
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 13:40:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6ftMiYdWCTtdk34xLW8mEN0AbZBeQdlhBsW7+2yks58=;
- b=ecyqeaXgj/e0i3EQrIWMhM386lxtY73BLRInntmrQZpjR5Ovn7q2KQEJ8aMz8YHvPZ
- tIkjXEEfF8YgCmZE1gdjZJH3fvY1BIpN8hcj8VK1CNHwR++xIao8CrF3RaKE+vW5xT7P
- Ve2863W+Fbx1mwrSJPmHxxHXHRLbS4TodZuwZLjGwrBDBEcoBvxydRiuobMnbDU7jLom
- RkWpMm3CjRBF8tLSYb38HWSnkEAGb0rN96I7eUzYofc/G5dLgYyC+FtERAvsExc/LyyP
- Xt5TLnyCN2jqKz5pxvpCDGUqcZixXQsIoH24KstURjPAnOW9necVv3RxxifW4ws52naP
- cgjw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kS4gI-0001Rx-Fk
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:44:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22255)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kS4gF-0003ro-VR
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 16:44:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602535467;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P9tIHxyU70EYbxGtxRDLnF8x7FtTeIYvmQERCK+W95k=;
+ b=VWbWlIio9lwI7WuxO0ombAK4wb39/C/KxCwWRYfd4iEfIwUGpQKbJs0ty84420E0xGC/Dp
+ GWISNikRZxYtuyWHF63dvm6UjmWdII58bk/cRjhjvZSzqYTMaQgkSg7Te2k46zSLIfgMU4
+ mnj1ztBRgTHOol2cgYZoLx7ZknmB3U0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-bRmufwegO5SKl6IOjbHV0w-1; Mon, 12 Oct 2020 16:44:25 -0400
+X-MC-Unique: bRmufwegO5SKl6IOjbHV0w-1
+Received: by mail-wm1-f70.google.com with SMTP id u5so5445508wme.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 13:44:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6ftMiYdWCTtdk34xLW8mEN0AbZBeQdlhBsW7+2yks58=;
- b=eZhrKOiEN/KEcwhH8QTrrY+Rhrut9+GoTJ2PtdsN3v5EDMRz8l9LEePgUDYMFfG/BW
- r6St1Uas5A8Nx/MEHRcuxQ76oiM4R12e+evl9AD/5kCBkISrQec4poVVJfwFMi+S+ni0
- GVLQb2DfZNuU2FO14QQVg97ipBNIhdqfc3zjKF0qxoavDBEeOIF8T1D4gznkfnMXswdO
- 3bYsaFNEbLzd5hJk5hQAvj9aASfoZgVqXrSGrlsqckOXRBIA/wN4USwLYRcWIzsAZdPJ
- gDY+KJRDxhlZGeJs6MZoo5ZZSpea/WTCOVlH9FD3S8YEbYEEnSgZAXiHwgyCrRKZZves
- RUZw==
-X-Gm-Message-State: AOAM532nJjUlwoFQU/RKX5ILmmFjvwfBGFKjDm96kQjCBzs7p6i5vOSH
- yvTRiIbMjWCC8JUqLMUhyRbrAtrhl2EyrIbWy+o=
-X-Google-Smtp-Source: ABdhPJz7KUaoSQKDk+MYwDmByy4F39JZ/ax9jd7ZMO7rParp5ePfJ9ImKtP0il8rkqwmX1dHcip2FxxIq/6HumWWdgk=
-X-Received: by 2002:a2e:9ccd:: with SMTP id g13mr2058189ljj.127.1602535256304; 
- Mon, 12 Oct 2020 13:40:56 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P9tIHxyU70EYbxGtxRDLnF8x7FtTeIYvmQERCK+W95k=;
+ b=qqL9s8DiViSQj9NfiA5mv4oBgAub+kis3gm9TT9oVISzle3+fkFRepCPKHJAmbi7zO
+ X/9Rdle1rtjRPZpYfY3b27KEhVZWJm+MTeZf+dR+OwLBdivEe65j/mptVxSmUJjOZcil
+ yP5ephQH5MRGtgK+Km4VYiZ6gVRflO8pz51rOJDeCoohQb4IUteF5UsyI89VetTgmnJn
+ Mp//YDtqtqZEB0XcIvg+H3MzJPamOApL+dQUPh6aRiHDfRyW/QL5XFpasADNFrwTRKMH
+ xrHKR6UTjOwCmYSim4r9iJV38m7KRFe2Pv/dljsjTdmCOjBIwAPI9iKPv9rL0CjeAV/5
+ aB5Q==
+X-Gm-Message-State: AOAM531UWfCX3tV3DHAFUr3Cr4YCw0vXs5yr5lWz5bPzNu9WEKa2hYr6
+ 0uqCApSeaYS9KoAPjPPEFFqkBGU35+l7hJvN/4Lt11r2nDKlPzLGgtVstLEf7dPJxZwiteuUBxf
+ HQ3dbghUqm0wBAcQ=
+X-Received: by 2002:a5d:6cae:: with SMTP id a14mr33085171wra.187.1602535464447; 
+ Mon, 12 Oct 2020 13:44:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwycSwsnBLTILZmTeT/LSdg3ijO/jkC9Qt08vlM1p28f1lsLIhqYaL5ffYRvNXb/X7OZqjtHg==
+X-Received: by 2002:a5d:6cae:: with SMTP id a14mr33085160wra.187.1602535464272; 
+ Mon, 12 Oct 2020 13:44:24 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5a47:91d0:18ce:e295?
+ ([2001:b07:6468:f312:5a47:91d0:18ce:e295])
+ by smtp.gmail.com with ESMTPSA id d4sm26176007wrp.47.2020.10.12.13.44.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Oct 2020 13:44:23 -0700 (PDT)
+Subject: Re: [PATCH 1/2] accel: move qtest CpusAccel functions to a common
+ location
+To: Jason Andryuk <jandryuk@gmail.com>, Claudio Fontana <cfontana@suse.de>
 References: <20201012200725.64137-1-jandryuk@gmail.com>
  <20201012200725.64137-2-jandryuk@gmail.com>
  <f29b58c7-62c5-ad10-91c8-47598759c876@suse.de>
-In-Reply-To: <f29b58c7-62c5-ad10-91c8-47598759c876@suse.de>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Mon, 12 Oct 2020 16:40:44 -0400
-Message-ID: <CAKf6xpuyr818af9ucB-vpL9JXtmsATJaP--UWRgTjRku_G82mQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] accel: move qtest CpusAccel functions to a common
- location
-To: Claudio Fontana <cfontana@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=jandryuk@gmail.com; helo=mail-lj1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ <CAKf6xpuyr818af9ucB-vpL9JXtmsATJaP--UWRgTjRku_G82mQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <863b5bba-7001-beed-4bc3-238ce8743ff9@redhat.com>
+Date: Mon, 12 Oct 2020 22:44:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAKf6xpuyr818af9ucB-vpL9JXtmsATJaP--UWRgTjRku_G82mQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,91 +105,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 12, 2020 at 4:23 PM Claudio Fontana <cfontana@suse.de> wrote:
->
-> On 10/12/20 10:07 PM, Jason Andryuk wrote:
-> > Move and rename accel/qtest/qtest-cpu.* files to accel/dummy/ so they
-> > can be re-used by Xen.
-> >
-> > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-> > ---
-> >  .../qtest-cpus.c => dummy/dummy-cpus.c}       | 22 +++++--------------
-> >  .../qtest-cpus.h => dummy/dummy-cpus.h}       | 10 ++++-----
-> >  accel/dummy/meson.build                       |  6 +++++
-> >  accel/meson.build                             |  1 +
-> >  accel/qtest/meson.build                       |  1 -
-> >  accel/qtest/qtest.c                           |  7 +++++-
-> >  6 files changed, 23 insertions(+), 24 deletions(-)
-> >  rename accel/{qtest/qtest-cpus.c => dummy/dummy-cpus.c} (76%)
-> >  rename accel/{qtest/qtest-cpus.h => dummy/dummy-cpus.h} (59%)
-> >  create mode 100644 accel/dummy/meson.build
-> >
-> > diff --git a/accel/qtest/qtest-cpus.c b/accel/dummy/dummy-cpus.c
-> > similarity index 76%
-> > rename from accel/qtest/qtest-cpus.c
-> > rename to accel/dummy/dummy-cpus.c
-> > index 7c5399ed9d..efade99f03 100644
-> > --- a/accel/qtest/qtest-cpus.c
-> > +++ b/accel/dummy/dummy-cpus.c
-> > @@ -1,5 +1,5 @@
-> >  /*
-> > - * QTest accelerator code
-> > + * Dummy cpu thread code
-> >   *
-> >   * Copyright IBM, Corp. 2011
-> >   *
-> > @@ -13,21 +13,14 @@
-> >
-> >  #include "qemu/osdep.h"
-> >  #include "qemu/rcu.h"
-> > -#include "qapi/error.h"
-> > -#include "qemu/module.h"
-> > -#include "qemu/option.h"
-> > -#include "qemu/config-file.h"
-> > -#include "sysemu/accel.h"
-> > -#include "sysemu/qtest.h"
-> >  #include "sysemu/cpus.h"
-> > -#include "sysemu/cpu-timers.h"
-> >  #include "qemu/guest-random.h"
-> >  #include "qemu/main-loop.h"
-> >  #include "hw/core/cpu.h"
-> >
-> > -#include "qtest-cpus.h"
-> > +#include "dummy-cpus.h"
-> >
-> > -static void *qtest_cpu_thread_fn(void *arg)
-> > +static void *dummy_cpu_thread_fn(void *arg)
-> >  {
-> >  #ifdef _WIN32
-> >      error_report("qtest is not supported under Windows");
->
-> I wonder if this should be changed to "dummy cpu thread is not supported under Windows".
->
-> Does not matter probably.
+On 12/10/20 22:40, Jason Andryuk wrote:
+>>> +specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: dummy_ss)
+> ...  I don't really know meson, but this file is guarded by
+> CONFIG_POSIX?  If that's true, then this ifdef can just go away.
 
-I left it since I was just moving the file.  But...
+Yes, it's redundant since cpus.c was split.
 
-> > diff --git a/accel/dummy/meson.build b/accel/dummy/meson.build
-> > new file mode 100644
-> > index 0000000000..5fbe27de90
-> > --- /dev/null
-> > +++ b/accel/dummy/meson.build
-> > @@ -0,0 +1,6 @@
-> > +dummy_ss = ss.source_set()
-> > +dummy_ss.add(files(
-> > +  'dummy-cpus.c',
-> > +))
-> > +
-> > +specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: dummy_ss)
+Paolo
 
-...  I don't really know meson, but this file is guarded by
-CONFIG_POSIX?  If that's true, then this ifdef can just go away.
-
-Regards,
-Jason
 
