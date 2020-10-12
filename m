@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0663C28B205
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 12:12:15 +0200 (CEST)
-Received: from localhost ([::1]:37950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534EF28B203
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 12:10:56 +0200 (CEST)
+Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRuoQ-0008Ga-2c
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 06:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46326)
+	id 1kRun9-0006to-AJ
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 06:10:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRubw-0001Ky-4t
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:59:20 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35136)
+ id 1kRuc1-0001R8-8h
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:59:25 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kRubu-0002s9-O7
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:59:19 -0400
-Received: by mail-wm1-x342.google.com with SMTP id q5so16936662wmq.0
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 02:59:18 -0700 (PDT)
+ id 1kRubz-0002tW-K4
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 05:59:24 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n15so18461975wrq.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 02:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=apVjxDybnUJ2U2TEJYATAtdpZBtLB//EdpC/ZilWuQE=;
- b=nSzzEjhPctxe9QsUSyqylr7c3tpctrzNtfBHM9Pl8ydyfDKJ7yqCQgLnG24ISj/M9f
- 9NtU4O9rbbUJkGBSkmchUcaGv5MPWSkh/eIxAyvueoRE+5UafBAIiCiuydWk5cpRXR1g
- XZjKMtLjppFinH7IhTfoCAPN67fKeq2XkPGye6IFHhC9cUAjaj/HgarABM34r3eWbF2+
- haOPKgv+cJaizCQdHM0eeJQkPjKWlMG0eNat1+kj2kkC+eRZcXOdpjZQw4Kpy386HF0p
- 0QfbVkZi0Pek6KHC7tlMIYU+1OtHVKj3DAOmWxYZe0m6I3vhk990OaaEb/nunv5jLbn9
- PQ9w==
+ bh=MXkPVd2aO8qnDLNyGp6W47ZEx+VHl+jUfpvG7Jg6mWc=;
+ b=kWG8uj5CVJq0UUdFxBkQSCdGju9p13Sxx19mrHzoOQJNS/GooO239Br20eNNf1CPPW
+ ERlFPx/nW0p4HnfvpGOLybQyxVF6K7+K6t75rH+MbB/50a7BoxZxt8YTbSKuhLli+fFz
+ DTl8/hTb3NfcXb3mr/pTncOZ+sX5t3rvuj+RunfEFRm3AU7Jam7y9Kb0klhx7VTrXcVn
+ bGMi3ghQYaLpewUr1+e8AXJJvq559xJ+b0hNSQMmLYU362pqsAYPJcouWkoJ2J03R8kO
+ Wu7zyXvKVK5vnU09YSoT253TERCuJlwpFX6Jn3umDWB5W5QBl4dWkwjWpLGjlthzT+X/
+ xgfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=apVjxDybnUJ2U2TEJYATAtdpZBtLB//EdpC/ZilWuQE=;
- b=ED0yJm3/m1ODZGJGIl8mjb9/eYRvnwm2BPlIUcj5Zu+3YDHDFLQmYWVBWdRUGv95xS
- vBMcZ1wk3761/vLuoZ8tfhPkXDiXlgjSvEG81GG61I8+Epl9vA2W0b4Gfv73CKtsKgIQ
- hGCdWqyhE5uJ5FCcA3P/r+GDAXfHiHglkHsORZcaLmhfstTrd/VUPwxCI20qdtZCza1H
- HNk5wkbazBUSQMp4C9hJ+bVDCv2CD9ANb6+dl4Qoy2243KgzmEgyzdhH6q91GyORKnpT
- Nm/6AVp2XCFP3NvgV16d88UOzEGJsY2tHreGgc8N4gov9rPlKUSomS2UX0w3JXhEcW+p
- V/pw==
-X-Gm-Message-State: AOAM532r/F8g19ZWZqRGlu1kbqWzSU8lP6UHk/alb2hOQTbYJh4YZS1G
- iSCrRk9IeTxfAEgVJwhWKkR3PFE99UQ=
-X-Google-Smtp-Source: ABdhPJxOaL+rCn+r5vVaBXVGmBBsLcYnWRpV8tN0xohvr7XSTDNWMyuI9Xkz3/7IRZIvqnndZAi03w==
-X-Received: by 2002:a1c:9c4b:: with SMTP id f72mr10020738wme.188.1602496757016; 
- Mon, 12 Oct 2020 02:59:17 -0700 (PDT)
+ bh=MXkPVd2aO8qnDLNyGp6W47ZEx+VHl+jUfpvG7Jg6mWc=;
+ b=k4sN0yrVG9C/6EEpYZ9VXMpZWNf6z/6bVeUQWgReNRj32qhk5HnLiEIAd7WASmEJtc
+ xA8By85icqb3Vx7S/NO3JFUT347lbClZAIzpBLDYl+8TP8aRxG7iRWsvXFvfeRC/QjZS
+ MtQe1Qm3UAAjy1QtB84VrbJx87WHQuSp0n4UwinwP+5fLFR4mBXMyUgcUpDoMmCvnkf1
+ 8ORcgkluveF798bA4manvRDCkI5ksvXYcZKlpAKcP5/T2dT1uAOYFnyOnEJHB0RcNfvZ
+ 4cV+UnfGoWqfWpX5/6H3VTIObi5KYaMe9IMtf/4z5uX/IU3V5CUMYbdblvuSCFP8sg6P
+ 0avg==
+X-Gm-Message-State: AOAM5319w8sfmVhVdmHp79n3sQFjRfIhQfcuoBRzqAlGVezHkXM7Cxsh
+ Dl4iCfgG5bKf/15Mp64+/JyWDf5lR2A=
+X-Google-Smtp-Source: ABdhPJzXbfmfiiXt1SFn+K4dFVRj8kz2coFcKsyvelzPQV1ftK+7oHw9TdfMlEUAFZgr1CPcoRgBrg==
+X-Received: by 2002:a05:6000:104c:: with SMTP id
+ c12mr27933386wrx.133.1602496761825; 
+ Mon, 12 Oct 2020 02:59:21 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id a199sm23646142wmd.8.2020.10.12.02.59.15
+ by smtp.gmail.com with ESMTPSA id d9sm21817241wmb.30.2020.10.12.02.59.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 02:59:16 -0700 (PDT)
+ Mon, 12 Oct 2020 02:59:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 14/21] hw/mips/fuloong2e: Set CPU frequency to 533 MHz
-Date: Mon, 12 Oct 2020 11:57:57 +0200
-Message-Id: <20201012095804.3335117-15-f4bug@amsat.org>
+Subject: [PATCH v4 15/21] hw/mips/mipssim: Correct CPU frequency
+Date: Mon, 12 Oct 2020 11:57:58 +0200
+Message-Id: <20201012095804.3335117-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201012095804.3335117-1-f4bug@amsat.org>
 References: <20201012095804.3335117-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -101,47 +102,52 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CPU frequency is normally provided by the firmware in the
-"cpuclock" environment variable. The 2E board can handles up
-to 660MHz, but be conservative and take the same value used
-by the Linux kernel: 533 MHz.
+The MIPSsim machine CPU frequency is too fast running at 200 MHz,
+while it should be 12 MHz for the 24K and 6 MHz for the 5K core.
 
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Ref: Linux commit c78cbf49c4ed
+("Support for MIPSsim, the cycle accurate MIPS simulator.")
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/fuloong2e.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/mips/mipssim.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index b000ed1d7f7..b8234f61083 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -23,6 +23,7 @@
- #include "qemu/units.h"
+diff --git a/hw/mips/mipssim.c b/hw/mips/mipssim.c
+index 5d4ad74828d..f0042f7f436 100644
+--- a/hw/mips/mipssim.c
++++ b/hw/mips/mipssim.c
+@@ -29,6 +29,7 @@
  #include "qapi/error.h"
+ #include "qemu-common.h"
  #include "cpu.h"
 +#include "hw/clock.h"
- #include "hw/intc/i8259.h"
- #include "hw/dma/i8257.h"
- #include "hw/isa/superio.h"
-@@ -298,12 +299,16 @@ static void mips_fuloong2e_init(MachineState *machine)
-     PCIBus *pci_bus;
-     ISABus *isa_bus;
-     I2CBus *smbus;
+ #include "hw/mips/mips.h"
+ #include "hw/mips/cpudevs.h"
+ #include "hw/char/serial.h"
+@@ -150,13 +151,21 @@ mips_mipssim_init(MachineState *machine)
+     MemoryRegion *address_space_mem = get_system_memory();
+     MemoryRegion *isa = g_new(MemoryRegion, 1);
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
 +    Clock *cpuclk;
      MIPSCPU *cpu;
      CPUMIPSState *env;
-     DeviceState *dev;
+     ResetData *reset_info;
+     int bios_size;
  
 +    cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
-+    clock_set_hz(cpuclk, 533080000); /* ~533 MHz */
++#ifdef TARGET_MIPS64
++    clock_set_hz(cpuclk, 6000000); /* 6 MHz */
++#else
++    clock_set_hz(cpuclk, 12000000); /* 12 MHz */
++#endif
 +
-     /* init CPUs */
+     /* Init CPUs. */
 -    cpu = MIPS_CPU(cpu_create(machine->cpu_type));
 +    cpu = mips_cpu_create_with_clock(machine->cpu_type, cpuclk);
      env = &cpu->env;
  
-     qemu_register_reset(main_cpu_reset, cpu);
+     reset_info = g_malloc0(sizeof(ResetData));
 -- 
 2.26.2
 
