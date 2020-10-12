@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76FD28BC15
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:36:44 +0200 (CEST)
-Received: from localhost ([::1]:34198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B04AF28BC31
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:40:14 +0200 (CEST)
+Received: from localhost ([::1]:45164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRzsR-0000Om-UX
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56472)
+	id 1kRzvp-0004sx-H1
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:40:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzq8-0006Vw-RX
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:20 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39086)
+ id 1kRzqA-0006ZX-7x
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:22 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzq6-0007Ec-Q3
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:20 -0400
-Received: by mail-wr1-x441.google.com with SMTP id y12so14319489wrp.6
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:18 -0700 (PDT)
+ id 1kRzq8-0007G7-3j
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:34:21 -0400
+Received: by mail-wr1-x434.google.com with SMTP id g12so19669654wrp.10
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sKzcEV9wkONoPB+ynBHsD63nfFrJQCqRKP35Nd+BbUw=;
- b=aaJfPbVX5qvkCUMpehoCvXStKyYH/TeJxcxt4vtP2dARW40Ki8TJndq6nJhn0lQig5
- IyZGhvR0TjpYLIe28G6N5CwXIPDtNh/NY6DLIVVVnzpJw7CWWekqhRIoSTkB6jPx6Y/D
- K1XUpLabtImzLy4nMI+jS4CY8EdVvGcXr7l9DTWFfB8Hj3KQdYbq/h2K2fPDeOIv+Sxg
- PrQdPF2LukI3Ahw0/NT5WnekczWwsL5wPkRkvS7KchGaiWyoko1bhq4dsp3f7kb5OLIX
- czQEqmLmqKTCuqZlGnwmomMbGiQrH0wQummw4CTjcdyNN3HxRZLHBFpTas3z+Ax8NlYG
- 0yTw==
+ bh=1jOZnrxRTG3Vn0Y7sOS02Z9FyMYbuYQPu1NRLX+duSw=;
+ b=aAVbgCg7ymYaysAV0+xZzfgRqAaSq1bwnaWSwioOXyCfZiNVpbJgNcRp4nIXDrf1RG
+ zBSReKxmV+RB+GedK1vI2c493F4PObKrRh2eUg1LNZ2f61hCrRNzZthICmd/d4HzpRYx
+ fX+hJYqVk3xZFl9sO6ODbtMl2NNb16x1hO1/6DsILrTUfyQZrnKA/P2dGyN4jp6zc3dC
+ gUV7JbmmOlsMGJUV4H9YcQ0fNpiq1dFvrQ55/FZjH13mEJw3/SSI9uhIMZhNb7O7Tk8S
+ 76Wbn8TK/cX4+rQ0L/aXJrKLIi+GA0GVdBmnkxCCRZ/iQmNDhnoKphIKGrP+jpmqC1tS
+ 2xww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sKzcEV9wkONoPB+ynBHsD63nfFrJQCqRKP35Nd+BbUw=;
- b=rfWcA5Kkvt1vF3hSTPM3z0olYUkp/fLWDLlpZBSIUKLmqZADl6zHmbNsR78hJEdB5c
- 7sXeCUCKAAe0WcUsm0slESA8UDUCZBmyvYg50BWDGcpVE9mu6j7wzkKcmf9dUI9FZjDf
- ng8DtMimAsFDjczRoLOKCeeXBViEkDhzMoJZ5Mk0lQPzUiwfhPW/ykPoASQ0b/KXeUJm
- HtyzJp1cskG6ASpYwX96Djki2B3XyGQRRy4WU6csvDv+wGbzJMzEH4RlwedZQWmonqYs
- cYeaA5e/78lcrTnjeUxWVGcJzMEA7U2/u1y+HJcvjtP7SwmI0NGiveVyTKPOvZ+/UkSS
- vaOw==
-X-Gm-Message-State: AOAM530bDa3lG8CPNITHxRx12M99Z/sXDWxEa8sAxLEU0XPXn8er6/Yt
- VkBMNO5lT38EZDFDNZKYrYXiTQ==
-X-Google-Smtp-Source: ABdhPJzpBO7F8dZGqBQSx9hknkMP1vlsCgNOrMi6Bdab7zvBhOpT0zmOhCRJSgx/C+oR3tLafLmy2g==
-X-Received: by 2002:adf:bbd2:: with SMTP id z18mr32721774wrg.166.1602516857554; 
- Mon, 12 Oct 2020 08:34:17 -0700 (PDT)
+ bh=1jOZnrxRTG3Vn0Y7sOS02Z9FyMYbuYQPu1NRLX+duSw=;
+ b=qwBnZek1kgu9ndQ1Bd0GEH/U7Xtb2pHy0ZG6QrSF4CV1uVLsDPL1KvwI3KFq8jR5N9
+ tdx9Dr80MVaHLz6+GqswAPdZbW2cIBiW4vH9M3JyWYp1io4JXjn4USJufvGhxFyCVi+E
+ B51ssvS3N1j9Te+EdV9e3pU3KCKWI3QwTF3a1WsBQcd+a680z5nQsoGWQdbb5EcWwx/m
+ cteR+n+lfYpsvP/pIohpMRYX8We8Sn7crqmTQsBsRbMPJE4jPKKkZAI+PbXW8QGxxwx8
+ r7kSyMZgBTZdE4+H+ibZu1h3Z9/j3x+TxG8CGQvOA4DGkYKR78jAG2zcmtd2C4vXkcoz
+ BsOA==
+X-Gm-Message-State: AOAM533BquDsvsvMgP2vBg31uWFeOXhIO/lrhX64YwWtQaBtJ4gh00+O
+ 2izM3ATW0XtOj4ZiOrghStxAIg==
+X-Google-Smtp-Source: ABdhPJwkInOr6OW5iVS1NcpZTG2rCI2SkDmbgMKDNivA/JXyShS9XCMoT4FkXDt12saXAXomoKvyWQ==
+X-Received: by 2002:adf:bbc6:: with SMTP id z6mr30663849wrg.298.1602516858701; 
+ Mon, 12 Oct 2020 08:34:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.16
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:17 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH RISU] arm.risu, thumb.risu: Add v8.2 DP and FHM insns
-Date: Mon, 12 Oct 2020 16:33:29 +0100
-Message-Id: <20201012153408.9747-7-peter.maydell@linaro.org>
+Subject: [PATCH] configure: Test that gio libs from pkg-config work
+Date: Mon, 12 Oct 2020 16:33:30 +0100
+Message-Id: <20201012153408.9747-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,79 +89,56 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add coverage for the v8.2 DP and v8.2 FHM insns in the Neon extension
-space.  (We already had the v8.1 VQRDMLAH/VQRDLSH and the v8.3
-VCADD/VCMLA, so this brings the risu coverage into line with what
-QEMU has implemented so far.)
+On some hosts (eg Ubuntu Bionic) pkg-config returns a set of
+libraries for gio-2.0 which don't actually work when compiling
+statically. (Specifically, the returned library string includes
+-lmount, but not -lblkid which -lmount depends upon, so linking
+fails due to missing symbols.)
+
+Check that the libraries work, and don't enable gio if they don't,
+in the same way we do for gnutls.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-I added these patterns as part of testing for the first part
-of the Neon decodetree conversion and forgot I'd never sent out the
-risu patch for review.
+I wanted a statically-linked system emulation binary (which, yes,
+I know is not really something we support :-)). I got one with
+suitably liberal use of --disable-foo configure options, and
+this was the only thing I couldn't work around that way.
+The patch is needed because there's no --disable-gio. I suppose
+we could add that instead (or as well)...
+Possibly meson offers a nicer way to do this, but this was
+simple and gnutls is doing the check this way already.
+---
+ configure | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
- arm.risu   | 18 ++++++++++++++++++
- thumb.risu | 18 ++++++++++++++++++
- 2 files changed, 36 insertions(+)
-
-diff --git a/arm.risu b/arm.risu
-index c16d245..f8b6deb 100644
---- a/arm.risu
-+++ b/arm.risu
-@@ -861,6 +861,24 @@ VQRDMLAH_s  A1 1111001 q:1 1 d:1 size:2 vn:4 vd:4 1110 n:1 1 m:1 0 vm:4
- VQRDMLSH    A1 111100110 d:1 size:2 vn:4 vd:4 1100 n:1 q:1 m:1 1 vm:4
- VQRDMLSH_s  A1 1111001 q:1 1 d:1 size:2 vn:4 vd:4 1111 n:1 1 m:1 0 vm:4
+diff --git a/configure b/configure
+index e8e8e984f24..cd79227d763 100755
+--- a/configure
++++ b/configure
+@@ -3762,13 +3762,21 @@ if test "$static" = yes && test "$mingw32" = yes; then
+ fi
  
-+#
-+# ARMv8.2 extensions
-+#
-+@v8_2_dp
-+
-+VUDOT       A1 1111110 00 d:1 10 vn:4 vd:4 1101 n:1 q:1 m:1 1 vm:4
-+VSDOT       A1 1111110 00 d:1 10 vn:4 vd:4 1101 n:1 q:1 m:1 0 vm:4
-+
-+VUDOT_s     A1 11111110 0 d:1 10 vn:4 vd:4 1101 n:1 q:1 m:1 1 vm:4
-+VSDOT_s     A1 11111110 0 d:1 10 vn:4 vd:4 1101 n:1 q:1 m:1 0 vm:4
-+
-+@v8_2_fhm
-+
-+VFMAL       A1 1111110 00 d:1 10 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
-+VFMSL       A1 1111110 01 d:1 10 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
-+VFMAL_s     A1 11111110 0 d:1 00 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
-+VFMSL_s     A1 11111110 1 d:1 00 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
-+
- #
- # ARMv8.3 extensions
- #
-diff --git a/thumb.risu b/thumb.risu
-index b8afa59..357b791 100644
---- a/thumb.risu
-+++ b/thumb.risu
-@@ -449,6 +449,24 @@ VQRDMLAH_s  T1  111 q:1 11111 d:1 size:2 vn:4 vd:4 1110 n:1 1 m:1 0 vm:4
- VQRDMLSH    T1  111111110 d:1 size:2 vn:4 vd:4 1100 n:1 q:1 m:1 1 vm:4
- VQRDMLSH_s  T1  111 q:1 11111 d:1 size:2 vn:4 vd:4 1111 n:1 1 m:1 0 vm:4
- 
-+#
-+# ARMv8.2 extensions
-+#
-+@v8_2_dp
-+
-+VUDOT       A1 1111110 00 d:1 10 vn:4 vd:4 1101 n:1 q:1 m:1 1 vm:4
-+VSDOT       A1 1111110 00 d:1 10 vn:4 vd:4 1101 n:1 q:1 m:1 0 vm:4
-+
-+VUDOT_s     A1 11111110 0 d:1 10 vn:4 vd:4 1101 n:1 q:1 m:1 1 vm:4
-+VSDOT_s     A1 11111110 0 d:1 10 vn:4 vd:4 1101 n:1 q:1 m:1 0 vm:4
-+
-+@v8_2_fhm
-+
-+VFMAL       A1 1111110 00 d:1 10 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
-+VFMSL       A1 1111110 01 d:1 10 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
-+VFMAL_s     A1 11111110 0 d:1 00 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
-+VFMSL_s     A1 11111110 1 d:1 00 vn:4 vd:4 1000 n:1 q:1 m:1 1 vm:4
-+
- #
- # ARMv8.3 extensions
- #
+ if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
+-    gio=yes
+     gio_cflags=$($pkg_config --cflags gio-2.0)
+     gio_libs=$($pkg_config --libs gio-2.0)
+     gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
+     if [ ! -x "$gdbus_codegen" ]; then
+         gdbus_codegen=
+     fi
++    # Check that the libraries actually work -- Ubuntu 18.04 ships
++    # with pkg-config --static --libs data for gio-2.0 that is missing
++    # -lblkid and will give a link error.
++    write_c_skeleton
++    if compile_prog "" "gio_libs" ; then
++        gio=yes
++    else
++        gio=no
++    fi
+ else
+     gio=no
+ fi
 -- 
 2.20.1
 
