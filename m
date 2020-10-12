@@ -2,44 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7AD28BF46
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:56:07 +0200 (CEST)
-Received: from localhost ([::1]:54848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0387128BF2A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 19:46:15 +0200 (CEST)
+Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS23L-0002xf-1o
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60472)
+	id 1kS1tl-0007dG-Ml
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 13:46:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS21z-00026Z-UB; Mon, 12 Oct 2020 13:54:43 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35358 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS21w-0008Ls-Em; Mon, 12 Oct 2020 13:54:43 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.94)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kS210-0047iC-8y; Mon, 12 Oct 2020 20:53:42 +0300
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com, fam@euphon.net,
- stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, den@openvz.org,
- vsementsov@virtuozzo.com, andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v11 13/13] block: apply COR-filter to block-stream jobs
-Date: Mon, 12 Oct 2020 20:43:25 +0300
-Message-Id: <1602524605-481160-14-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 13:44:17
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kS1s1-0006iI-2l
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 13:44:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kS1rx-0007BA-W7
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 13:44:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602524659;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a6phHKRV6w+5S5/vv8kWvpb+c9p0sKinzHEcGuZMvro=;
+ b=CWKJORVDf2Be4TVPkkA06LAIrgpqFxtsxJCalTBskSnSECGG2BR07iHAiSpJaE3SlLbZYW
+ StZKNkobkZBwX9dJYl21YUXMQuITafCIw/7LYMCJJMhaLJH8MpdOJY0shgdMEeGrLcbX3P
+ dGlkyvQvL8lD+mUe78udIyszL+Dx2tI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-82-c-g7QoBnOEWUMUAfCcyZSw-1; Mon, 12 Oct 2020 13:44:18 -0400
+X-MC-Unique: c-g7QoBnOEWUMUAfCcyZSw-1
+Received: by mail-wm1-f71.google.com with SMTP id 13so6011859wmf.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 10:44:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=a6phHKRV6w+5S5/vv8kWvpb+c9p0sKinzHEcGuZMvro=;
+ b=s5NdutWMPHia7W32wVQdqRJ8rhr9VeVtWIRknL4lS+HyhY2OY9+t6G3l7rpcLepsGp
+ huqIOHEExg4Ha9Ej7VBJ+jtPVSSRIf6Bo96bENxTzMeJ9vvq9Rb11fVUU9kccpQG/z7B
+ jMgeovwd9C5JVVywK3JFBUb4Im+OdllorZTAiZSq6nNLMbZihzWPZtUpeRVkxoNO816l
+ uHg78FN2WcuWkNvhHmgBLSZ0H60ZMFg4BgAAasefmit4u/cW7fqVzJh2TRCeoZJzpugd
+ 6eziuF3L/HegKBStuoybWd4CG/QQZrYetowLq0Y7ndgVTsfDDhuagI4VoJTxbJJRNPDJ
+ U26Q==
+X-Gm-Message-State: AOAM533zBXCjlAnboiesBqCtpNrwtnvHUjSFDbYAymEbISK3niG2E5Id
+ cig5x8fxjxSBGC0yDmMAnJxLUhm+OrkP8NwH+HPqrj3A0opa1VqggzJwRMWFasJb/9cg9taqdXk
+ RsubcPeV+brp4BAA=
+X-Received: by 2002:adf:f54c:: with SMTP id j12mr22082481wrp.413.1602524656819; 
+ Mon, 12 Oct 2020 10:44:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJys6yss+wb/H4n63LiHj60sJRGxnngH2HfB5BBooJF3tITQE5AQTBfuVCwgjTupMzZ+vSFuwA==
+X-Received: by 2002:adf:f54c:: with SMTP id j12mr22082456wrp.413.1602524656443; 
+ Mon, 12 Oct 2020 10:44:16 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id p9sm23271021wmm.4.2020.10.12.10.44.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Oct 2020 10:44:15 -0700 (PDT)
+Subject: Re: [PATCH v4 4/5] spapr_numa: consider user input when defining
+ associativity
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20201007172849.302240-1-danielhb413@gmail.com>
+ <20201007172849.302240-5-danielhb413@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <cf0a0fbf-5c4f-96d6-039d-780513a724e0@redhat.com>
+Date: Mon, 12 Oct 2020 19:44:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
+MIME-Version: 1.0
+In-Reply-To: <20201007172849.302240-5-danielhb413@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 02:58:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,384 +101,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-This patch completes the series with the COR-filter insertion for
-block-stream operations. Adding the filter makes it possible for copied
-regions to be discarded in backing files during the block-stream job,
-what will reduce the disk overuse.
-The COR-filter insertion incurs changes in the iotests case
-245:test_block_stream_4 that reopens the backing chain during a
-block-stream job. There are changes in the iotests #030 as well.
-The iotests case 030:test_stream_parallel was deleted due to multiple
-conflicts between the concurrent job operations over the same backing
-chain. The base backing node for one job is the top node for another
-job. It may change due to the filter node inserted into the backing
-chain while both jobs are running. Another issue is that the parts of
-the backing chain are being frozen by the running job and may not be
-changed by the concurrent job when needed. The concept of the parallel
-jobs with common nodes is considered vital no more.
+On 10/7/20 7:28 PM, Daniel Henrique Barboza wrote:
+> A new function called spapr_numa_define_associativity_domains()
+> is created to calculate the associativity domains and change
+> the associativity arrays considering user input. This is how
+> the associativity domain between two NUMA nodes A and B is
+> calculated:
+> 
+> - get the distance D between them
+> 
+> - get the correspondent NUMA level 'n_level' for D. This is done
+> via a helper called spapr_numa_get_numa_level()
+> 
+> - all associativity arrays were initialized with their own
+> numa_ids, and we're calculating the distance in node_id ascending
+> order, starting from node id 0 (the first node retrieved by
+> numa_state). This will have a cascade effect in the algorithm because
+> the associativity domains that node 0 defines will be carried over to
+> other nodes, and node 1 associativities will be carried over after
+> taking node 0 associativities into account, and so on. This
+> happens because we'll assign assoc_src as the associativity domain
+> of dst as well, for all NUMA levels beyond and including n_level.
+> 
+> The PPC kernel expects the associativity domains of the first node
+> (node id 0) to be always 0 [1], and this algorithm will grant that
+> by default.
+> 
+> Ultimately, all of this results in a best effort approximation for
+> the actual NUMA distances the user input in the command line. Given
+> the nature of how PAPR itself interprets NUMA distances versus the
+> expectations risen by how ACPI SLIT works, there might be better
+> algorithms but, in the end, it'll also result in another way to
+> approximate what the user really wanted.
+> 
+> To keep this commit message no longer than it already is, the next
+> patch will update the existing documentation in ppc-spapr-numa.rst
+> with more in depth details and design considerations/drawbacks.
+> 
+> [1] https://lore.kernel.org/linuxppc-dev/5e8fbea3-8faf-0951-172a-b41a2138fbcf@gmail.com/
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   capstone            |   2 +-
+>   hw/ppc/spapr_numa.c | 110 +++++++++++++++++++++++++++++++++++++++++++-
+>   2 files changed, 110 insertions(+), 2 deletions(-)
+> 
+> diff --git a/capstone b/capstone
+> index f8b1b83301..22ead3e0bf 160000
+> --- a/capstone
+> +++ b/capstone
+> @@ -1 +1 @@
+> -Subproject commit f8b1b833015a4ae47110ed068e0deb7106ced66d
+> +Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- block/stream.c             | 93 +++++++++++++++++++++++++++++-----------------
- tests/qemu-iotests/030     | 51 +++----------------------
- tests/qemu-iotests/030.out |  4 +-
- tests/qemu-iotests/141.out |  2 +-
- tests/qemu-iotests/245     | 19 +++++++---
- 5 files changed, 81 insertions(+), 88 deletions(-)
-
-diff --git a/block/stream.c b/block/stream.c
-index d3e1812..93564db 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -17,8 +17,10 @@
- #include "block/blockjob_int.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
-+#include "qapi/qmp/qdict.h"
- #include "qemu/ratelimit.h"
- #include "sysemu/block-backend.h"
-+#include "block/copy-on-read.h"
- 
- enum {
-     /*
-@@ -33,6 +35,8 @@ typedef struct StreamBlockJob {
-     BlockJob common;
-     BlockDriverState *base_overlay; /* COW overlay (stream from this) */
-     BlockDriverState *above_base;   /* Node directly above the base */
-+    BlockDriverState *cor_filter_bs;
-+    BlockDriverState *target_bs;
-     BlockdevOnError on_error;
-     bool bs_read_only;
-     bool chain_frozen;
-@@ -43,8 +47,7 @@ static int coroutine_fn stream_populate(BlockBackend *blk,
- {
-     assert(bytes < SIZE_MAX);
- 
--    return blk_co_preadv(blk, offset, bytes, NULL,
--                         BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH);
-+    return blk_co_preadv(blk, offset, bytes, NULL, BDRV_REQ_PREFETCH);
- }
- 
- static void stream_abort(Job *job)
-@@ -52,23 +55,20 @@ static void stream_abort(Job *job)
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
- 
-     if (s->chain_frozen) {
--        BlockJob *bjob = &s->common;
--        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
-+        bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
-     }
- }
- 
- static int stream_prepare(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
--    BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
--    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
-+    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
-     BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
-     BlockDriverState *base_unfiltered = bdrv_skip_filters(base);
-     Error *local_err = NULL;
-     int ret = 0;
- 
--    bdrv_unfreeze_backing_chain(bs, s->above_base);
-+    bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
-     s->chain_frozen = false;
- 
-     if (bdrv_cow_child(unfiltered_bs)) {
-@@ -94,13 +94,14 @@ static void stream_clean(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
-+
-+    bdrv_cor_filter_drop(s->cor_filter_bs);
- 
-     /* Reopen the image back in read-only mode if necessary */
-     if (s->bs_read_only) {
-         /* Give up write permissions before making it read-only */
-         blk_set_perm(bjob->blk, 0, BLK_PERM_ALL, &error_abort);
--        bdrv_reopen_set_read_only(bs, true, NULL);
-+        bdrv_reopen_set_read_only(s->target_bs, true, NULL);
-     }
- }
- 
-@@ -108,9 +109,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockBackend *blk = s->common.blk;
--    BlockDriverState *bs = blk_bs(blk);
--    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
--    bool enable_cor = !bdrv_cow_child(s->base_overlay);
-+    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
-     int64_t len;
-     int64_t offset = 0;
-     uint64_t delay_ns = 0;
-@@ -122,21 +121,12 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         return 0;
-     }
- 
--    len = bdrv_getlength(bs);
-+    len = bdrv_getlength(s->target_bs);
-     if (len < 0) {
-         return len;
-     }
-     job_progress_set_remaining(&s->common.job, len);
- 
--    /* Turn on copy-on-read for the whole block device so that guest read
--     * requests help us make progress.  Only do this when copying the entire
--     * backing chain since the copy-on-read operation does not take base into
--     * account.
--     */
--    if (enable_cor) {
--        bdrv_enable_copy_on_read(bs);
--    }
--
-     for ( ; offset < len; offset += n) {
-         bool copy;
-         int ret;
-@@ -195,10 +185,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         }
-     }
- 
--    if (enable_cor) {
--        bdrv_disable_copy_on_read(bs);
--    }
--
-     /* Do not remove the backing file if an error was there but ignored. */
-     return error;
- }
-@@ -228,6 +214,7 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-     bool bs_read_only;
-     int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
-     BlockDriverState *base_overlay = bdrv_find_overlay(bs, base);
-+    BlockDriverState *cor_filter_bs = NULL;
-     BlockDriverState *above_base;
- 
-     if (!base_overlay) {
-@@ -262,17 +249,48 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-         }
-     }
- 
--    /* Prevent concurrent jobs trying to modify the graph structure here, we
--     * already have our own plans. Also don't allow resize as the image size is
--     * queried only at the job start and then cached. */
--    s = block_job_create(job_id, &stream_job_driver, NULL, bs,
--                         basic_flags | BLK_PERM_GRAPH_MOD,
--                         basic_flags | BLK_PERM_WRITE,
-+    QDict *opts = qdict_new();
-+
-+    qdict_put_str(opts, "driver", "copy-on-read");
-+    qdict_put_str(opts, "file", bdrv_get_node_name(bs));
-+    if (base_overlay) {
-+        /* Pass the base_overlay rather than base */
-+        qdict_put_str(opts, "base", base_overlay->node_name);
-+    }
-+    if (filter_node_name) {
-+        qdict_put_str(opts, "node-name", filter_node_name);
-+    }
-+
-+    cor_filter_bs = bdrv_cor_filter_append(bs, opts, BDRV_O_RDWR, errp);
-+    if (cor_filter_bs == NULL) {
-+        goto fail;
-+    }
-+
-+    if (bdrv_freeze_backing_chain(cor_filter_bs, bs, errp) < 0) {
-+        bdrv_cor_filter_drop(cor_filter_bs);
-+        cor_filter_bs = NULL;
-+        goto fail;
-+    }
-+
-+    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
-+                         BLK_PERM_CONSISTENT_READ,
-+                         basic_flags | BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD,
-                          speed, creation_flags, NULL, NULL, errp);
-     if (!s) {
-         goto fail;
-     }
- 
-+    /*
-+     * Prevent concurrent jobs trying to modify the graph structure here, we
-+     * already have our own plans. Also don't allow resize as the image size is
-+     * queried only at the job start and then cached.
-+     */
-+    if (block_job_add_bdrv(&s->common, "active node", bs,
-+                           basic_flags | BLK_PERM_GRAPH_MOD,
-+                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
-+        goto fail;
-+    }
-+
-     /* Block all intermediate nodes between bs and base, because they will
-      * disappear from the chain after this operation. The streaming job reads
-      * every block only once, assuming that it doesn't change, so forbid writes
-@@ -292,6 +310,8 @@ void stream_start(const char *job_id, BlockDriverState *bs,
- 
-     s->base_overlay = base_overlay;
-     s->above_base = above_base;
-+    s->cor_filter_bs = cor_filter_bs;
-+    s->target_bs = bs;
-     s->bs_read_only = bs_read_only;
-     s->chain_frozen = true;
- 
-@@ -304,5 +324,10 @@ fail:
-     if (bs_read_only) {
-         bdrv_reopen_set_read_only(bs, true, NULL);
-     }
--    bdrv_unfreeze_backing_chain(bs, above_base);
-+    if (cor_filter_bs) {
-+        bdrv_unfreeze_backing_chain(cor_filter_bs, above_base);
-+        bdrv_cor_filter_drop(cor_filter_bs);
-+    } else {
-+        bdrv_unfreeze_backing_chain(bs, above_base);
-+    }
- }
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index dcb4b5d..0064590 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -227,61 +227,20 @@ class TestParallelOps(iotests.QMPTestCase):
-         for img in self.imgs:
-             os.remove(img)
- 
--    # Test that it's possible to run several block-stream operations
--    # in parallel in the same snapshot chain
--    @unittest.skipIf(os.environ.get('QEMU_CHECK_BLOCK_AUTO'), 'disabled in CI')
--    def test_stream_parallel(self):
--        self.assert_no_active_block_jobs()
--
--        # Check that the maps don't match before the streaming operations
--        for i in range(2, self.num_imgs, 2):
--            self.assertNotEqual(qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i]),
--                                qemu_io('-f', iotests.imgfmt, '-rU', '-c', 'map', self.imgs[i-1]),
--                                'image file map matches backing file before streaming')
--
--        # Create all streaming jobs
--        pending_jobs = []
--        for i in range(2, self.num_imgs, 2):
--            node_name = 'node%d' % i
--            job_id = 'stream-%s' % node_name
--            pending_jobs.append(job_id)
--            result = self.vm.qmp('block-stream', device=node_name, job_id=job_id, base=self.imgs[i-2], speed=1024)
--            self.assert_qmp(result, 'return', {})
--
--        for job in pending_jobs:
--            result = self.vm.qmp('block-job-set-speed', device=job, speed=0)
--            self.assert_qmp(result, 'return', {})
--
--        # Wait for all jobs to be finished.
--        while len(pending_jobs) > 0:
--            for event in self.vm.get_qmp_events(wait=True):
--                if event['event'] == 'BLOCK_JOB_COMPLETED':
--                    job_id = self.dictpath(event, 'data/device')
--                    self.assertTrue(job_id in pending_jobs)
--                    self.assert_qmp_absent(event, 'data/error')
--                    pending_jobs.remove(job_id)
--
--        self.assert_no_active_block_jobs()
--        self.vm.shutdown()
--
--        # Check that all maps match now
--        for i in range(2, self.num_imgs, 2):
--            self.assertEqual(qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i]),
--                             qemu_io('-f', iotests.imgfmt, '-c', 'map', self.imgs[i-1]),
--                             'image file map does not match backing file after streaming')
--
-     # Test that it's not possible to perform two block-stream
-     # operations if there are nodes involved in both.
-     def test_overlapping_1(self):
-         self.assert_no_active_block_jobs()
- 
-         # Set a speed limit to make sure that this job blocks the rest
--        result = self.vm.qmp('block-stream', device='node4', job_id='stream-node4', base=self.imgs[1], speed=1024*1024)
-+        result = self.vm.qmp('block-stream', device='node4',
-+                             job_id='stream-node4', base=self.imgs[1],
-+                             filter_node_name='stream-filter', speed=1024*1024)
-         self.assert_qmp(result, 'return', {})
- 
-         result = self.vm.qmp('block-stream', device='node5', job_id='stream-node5', base=self.imgs[2])
-         self.assert_qmp(result, 'error/desc',
--            "Node 'node4' is busy: block device is in use by block job: stream")
-+            "Node 'stream-filter' is busy: block device is in use by block job: stream")
- 
-         result = self.vm.qmp('block-stream', device='node3', job_id='stream-node3', base=self.imgs[2])
-         self.assert_qmp(result, 'error/desc',
-@@ -294,7 +253,7 @@ class TestParallelOps(iotests.QMPTestCase):
-         # block-commit should also fail if it touches nodes used by the stream job
-         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[4], job_id='commit-node4')
-         self.assert_qmp(result, 'error/desc',
--            "Node 'node4' is busy: block device is in use by block job: stream")
-+            "Node 'stream-filter' is busy: block device is in use by block job: stream")
- 
-         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[1], top=self.imgs[3], job_id='commit-node1')
-         self.assert_qmp(result, 'error/desc',
-diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
-index 6d9bee1..5eb508d 100644
---- a/tests/qemu-iotests/030.out
-+++ b/tests/qemu-iotests/030.out
-@@ -1,5 +1,5 @@
--...........................
-+..........................
- ----------------------------------------------------------------------
--Ran 27 tests
-+Ran 26 tests
- 
- OK
-diff --git a/tests/qemu-iotests/141.out b/tests/qemu-iotests/141.out
-index 08e0aec..028a16f 100644
---- a/tests/qemu-iotests/141.out
-+++ b/tests/qemu-iotests/141.out
-@@ -99,7 +99,7 @@ wrote 1048576/1048576 bytes at offset 0
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
- {'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
--{"error": {"class": "GenericError", "desc": "Node drv0 is in use"}}
-+{"error": {"class": "GenericError", "desc": "Node 'drv0' is busy: block device is in use by block job: stream"}}
- {'execute': 'block-job-cancel', 'arguments': {'device': 'job0'}}
- {"return": {}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "job0"}}
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index e60c832..940e85a 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -899,17 +899,26 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         # make hd1 read-only and block-stream requires it to be read-write
-         # (Which error message appears depends on whether the stream job is
-         # already done with copying at this point.)
--        self.reopen(opts, {},
-+        # As the COR-filter node is inserted into the backing chain with the
-+        # 'block-stream' operation, we move the options to their proper nodes.
-+        opts = hd_opts(1)
-+        opts['backing'] = hd_opts(2)
-+        opts['backing']['backing'] = None
-+        self.reopen(opts, {'read-only': True},
-             ["Can't set node 'hd1' to r/o with copy-on-read enabled",
-              "Cannot make block node read-only, there is a writer on it"])
- 
-         # We can't remove hd2 while the stream job is ongoing
--        opts['backing']['backing'] = None
--        self.reopen(opts, {'backing.read-only': False}, "Cannot change 'backing' link from 'hd1' to 'hd2'")
-+        opts['backing'] = None
-+        self.reopen(opts, {'read-only': False},
-+                    "Cannot change 'backing' link from 'hd1' to 'hd2'")
- 
--        # We can detach hd1 from hd0 because it doesn't affect the stream job
-+        # We can't detach hd1 from hd0 because there is the COR-filter implicit
-+        # node in between.
-+        opts = hd_opts(0)
-         opts['backing'] = None
--        self.reopen(opts)
-+        self.reopen(opts, {},
-+                    "Cannot change backing link if 'hd0' has an implicit backing file")
- 
-         self.vm.run_job('stream0', auto_finalize = False, auto_dismiss = True)
- 
--- 
-1.8.3.1
+Certainly unrelated to your patch.
 
 
