@@ -2,106 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F358928BD34
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:05:31 +0200 (CEST)
-Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F38628BD61
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:19:15 +0200 (CEST)
+Received: from localhost ([::1]:59148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0KJ-0005XO-20
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:05:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
+	id 1kS0Xa-00085m-61
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:19:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1kS0Fo-0000dg-No
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 12:00:54 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1kS0Fl-000290-7Y
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 12:00:52 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09CFhYQw070607; Mon, 12 Oct 2020 12:00:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=dlevNp7prWjoPz1wdzKzVm8+WIOdAlEU5ieXCTTS+Es=;
- b=fOH62LzGEekIwVg7c0dUGtDeI8FG3xoAj4fElBXySBkNnJy7V1mh0mVmjm/D1FZu75lJ
- WqylpcqdDdZ9hfNG0AnCGMav5EBMLFptfmg2GEUsLaBNtd9Fcp9pNZCOkrjyyhcj5qsf
- N2WzbUZl02yVQEL74E0FzuiORb7/tRtRuBnYFAaEue53DbfUEl5kxOJdSBVhRU42vus6
- bDhzq4jfdzrpDbs2sikj7jRZGQ6IdlXgAso0deNuxGli5IYP31JBkJSS7uaTK/FnnVhk
- c4VzVYKpkCGNfvyTxW/nQliEbdt5oIuAwJior+QRtnLL1VF1ELx5rj+4PNx7e5JZF2Lh Pw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 344t1mghpx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Oct 2020 12:00:43 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09CFkGRQ091376;
- Mon, 12 Oct 2020 12:00:42 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 344t1mghp8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Oct 2020 12:00:42 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09CFllAj028008;
- Mon, 12 Oct 2020 16:00:41 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03dal.us.ibm.com with ESMTP id 3434k8d14q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Oct 2020 16:00:41 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09CG0Z9g32702972
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Oct 2020 16:00:35 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4457578064;
- Mon, 12 Oct 2020 16:00:40 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BD2617806D;
- Mon, 12 Oct 2020 16:00:38 +0000 (GMT)
-Received: from jarvis (unknown [9.85.148.2])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 12 Oct 2020 16:00:38 +0000 (GMT)
-Message-ID: <b6137b4997b0729e576bc6c0c5476960d1992115.camel@linux.ibm.com>
-Subject: Re: [PATCH v3] SEV: QMP support for Inject-Launch-Secret
-From: James Bottomley <jejb@linux.ibm.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Tobin Feldman-Fitzthum
- <tobin@linux.ibm.com>
-Date: Mon, 12 Oct 2020 09:00:37 -0700
-In-Reply-To: <20201012155718.GH6677@work-vm>
-References: <20200706215451.59179-1-tobin@linux.vnet.ibm.com>
- <20200921190800.GA32491@work-vm>
- <b7faab72e909b709797e6098ec894c72@linux.vnet.ibm.com>
- <20201012155718.GH6677@work-vm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kS0Hv-0003tN-V6
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 12:03:03 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42097)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kS0Ht-0002LQ-Q6
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 12:03:03 -0400
+Received: by mail-wr1-x442.google.com with SMTP id e18so19775308wrw.9
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 09:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gFVkK9oJhwisTN4IwdM+gsPOVQdJ+VZmV2jHWsg11K4=;
+ b=UnMBkhzs5TYSot3vaGssXGqBi7m9pOTb0zryU9DIkdJacGirVvmgAnwHlbSCnYzRMx
+ JUa3LsHO8/6kr0WNdgh1NJd5qi6cwivM0dfGwX8Uf5SS8jOo9W3S7eahca4ak4ZCzs4E
+ Bxaje2LcUoHZdPfg0b3S+T5hhJOo6ME90ZZRoZnYSTT5nw7wU1n2unTl7uZyTz4ngL+l
+ r0aYAbLtcrE+5foyTQp6v7jBFKXQ2cLZAmf27Fp9sRQsNcTZlmt10WlgRivy/BhKkf5u
+ ExirJGrjAbjKmf/EnrG/AprA2ASePvMP+y4ygmT6nGXBH2VJrZ10/JbW8aOme8rX/nwh
+ 8nlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=gFVkK9oJhwisTN4IwdM+gsPOVQdJ+VZmV2jHWsg11K4=;
+ b=s2BnfuedmanyIALgyOWBSFhaMd6JJaBdXD/FDaYiMb3dg1jhtEb93jSheRkRM5qhbU
+ ld5M1WQJoZb1VgbyOMioyFJcA2dafPNAlZIO0v8IxOAeUmvoEukM+EQbvo48RqQVE5I6
+ 3stWxzBvzSfI6PHV2BXRsLI4yNigBU2CSEoamuch45BBCwojwdRxpKnnmBMVgJjYE1WE
+ nKu4vfyK/MfsRnlBBXNjB+GgJmlR0+sz9oqR8cIBLCARjthZmc5cmKqm17MzqTTCHCsL
+ A8o4EOEeohZn+ly3xEGoasUoREqYd92mWdLbJ0h2tH9BQegjUqV2xWgRAGiE8PRUgQN2
+ Xvqg==
+X-Gm-Message-State: AOAM531OufyXeezOt/jvlt1gX8j5TOsYxb1JOAzg3nwa7panVl31djtx
+ MZqyY8yf6gjGPMPfZm+ekYwPTg==
+X-Google-Smtp-Source: ABdhPJzaOTSXcGG5Vz1OK7msWJLku2QSIYUxBAJPIAxQibfwAaOddlemTihXk5/31YoLxap/MpApJg==
+X-Received: by 2002:adf:c3c2:: with SMTP id d2mr31716628wrg.191.1602518580059; 
+ Mon, 12 Oct 2020 09:03:00 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 64sm4911060wmd.3.2020.10.12.09.02.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 09:02:58 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EC7731FF7E;
+ Mon, 12 Oct 2020 17:02:57 +0100 (BST)
+References: <20201009170742.23695-1-alex.bennee@linaro.org>
+ <CAKmqyKNKAaYCR_LgROZYHjTjFn2FeAJ5nhikCF2g+XeNU1J2MQ@mail.gmail.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Alistair Francis <alistair23@gmail.com>
+Subject: Re: [RFC PATCH 0/4] generic loader FDT support (for direct Xen boot)
+In-reply-to: <CAKmqyKNKAaYCR_LgROZYHjTjFn2FeAJ5nhikCF2g+XeNU1J2MQ@mail.gmail.com>
+Date: Mon, 12 Oct 2020 17:02:57 +0100
+Message-ID: <87lfgbzb2m.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-10-12_12:2020-10-12,
- 2020-10-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 impostorscore=0
- mlxscore=0 malwarescore=0 spamscore=0 clxscore=1011 suspectscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010120124
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 12:00:45
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,44 +89,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
-Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, tobin@ibm.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
+ stefano.stabellini@linaro.org,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ takahiro.akashi@linaro.org, stefano.stabellini@xilinx.com,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-10-12 at 16:57 +0100, Dr. David Alan Gilbert wrote:
-> * Tobin Feldman-Fitzthum (tobin@linux.ibm.com) wrote:
-> > On 2020-09-21 15:16, Dr. David Alan Gilbert wrote:
-> > > * Tobin Feldman-Fitzthum (tobin@linux.vnet.ibm.com) wrote:
-> > > > AMD SEV allows a guest owner to inject a secret blob
-> > > > into the memory of a virtual machine. The secret is
-> > > > encrypted with the SEV Transport Encryption Key and
-> > > > integrity is guaranteed with the Transport Integrity
-> > > > Key. Although QEMU faciliates the injection of the
-> > > > launch secret, it cannot access the secret.
-> > > > 
-> > > > Signed-off-by: Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com
-> > > > >
-> > > 
-> > > Hi Tobin,
-> > >   Did the ovmf stuff for agreeing the GUID for automating this
-> > > ever happen?
-> > > 
-> > OVMF patches have not been upstreamed yet. I think we are planning
-> > to do that relatively soon.
-> 
-> So as we're getting to the end of another qemu dev cycle; do we aim
-> to get this one in by itself, or to wait for the GUID?
 
-Since they're independent of each other, I'd say get this one in now if
-it's acceptable.  The GUID will come as a discoverable way of setting
-the GPA, but this patch at least gives people a way to play with SEV
-secret injection.  I'm also reworking the OVMF GUID patch to tack on to
-the reset vector GUID that just went upstream, so it will be a few more
-weeks yet before we have it all integrated with the -ES patch set.
+Alistair Francis <alistair23@gmail.com> writes:
 
-James
+> On Fri, Oct 9, 2020 at 10:07 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+>>
+>> Hi,
+>>
+>> This series adds the ability to append FDT data for blobs loaded by
+>> the generic loader. My principle use-case was to be able to directly
+>> boot Xen with a kernel image which avoided having to:
+>>
+>>   - get the kernel image into my system image
+>>   - deal with bugs in FDT munging by -bios firmware and/or grub
+>>
+>> as such this currently a developer hack that makes *my* life easy and
+>> is thus presented as an RFC for discussion. While I've tested it with
+>> Xen I'm sure the approach would be applicable to other hypervisors or
+>> firmware which expect to consume FDT data pointing at various blobs.
+>
+> An interesting idea. I think this comes up enough that it's worth
+> thinking about.
+>
+>>
+>> An example command line that launches this is (magic from -kernel):
+>>
+>>   ./aarch64-softmmu/qemu-system-aarch64 -cpu cortex-a57 \
+>>     -machine type=3Dvirt,virtualization=3Don -display none \
+>>     -serial mon:stdio \
+>>     -netdev user,id=3Dunet,hostfwd=3Dtcp::2222-:22 \
+>>     -device virtio-net-pci,netdev=3Dunet,id=3Dvirt-net,disable-legacy=3D=
+on \
+>>     -device virtio-scsi-pci,id=3Dvirt-scsi,disable-legacy=3Don \
+>>     -blockdev driver=3Draw,node-name=3Dhd,discard=3Dunmap,file.driver=3D=
+host_device,file.filename=3D/dev/zen-disk/debian-buster-arm64 \
+>>     -device scsi-hd,drive=3Dhd,id=3Dvirt-scsi-hd \
+>>     -smp 4 -m 4096 \
+>>     -kernel ~/lsrc/xen.git/xen/xen \
+>>     -append "dom0_mem=3D1G,max:1G loglvl=3Dall guest_loglvl=3Dall" \
+>>     -device loader,addr=3D0x47000000,file=3D$HOME/lsrc/linux.git/builds/=
+arm64/arch/arm64/boot/Image,len-fdt-compat=3D2,fdt-compat[0]=3D'multiboot,,=
+module',fdt-compat[1]=3D'multiboot,,kernel',fdt-bootargs=3D"root=3D/dev/sda=
+2 ro console=3Dhvc0 earlyprintk=3Dxen"
+>
+> You are loading the kernel `Image` file, but changing the device tree
+> that was generated by QEMU and is being loaded in memory. As a user
+> that is really confusing.
+
+Well in this case the "kernel" is Xen which helpfully comes with a
+kernel compatible header that the kernel loaded understand. The blob
+could be any Dom0 kernel - it just happens to be a Linux kernel in this
+case.
+
+>
+>>
+>> So a couple of choices I've made doing this:
+>>
+>> Promoting *fdt to MachineState
+>>
+>> This seemed the simplest approach to making the fdt available to the
+>> global state, especially as MachineState already has a *dtb pointer.
+>> I've converted the ARM virt machine and a RISCV machine but if this is
+>> acceptable I can convert the others.
+>
+> This seems fine to me.
+>
+>>
+>> "Polluting" the generic loader arguments
+>>
+>> This was mainly out of convenience as the loader already knows the
+>> size of the blob being loaded. However you could certainly argue it
+>> makes sense to have a more generic "FDT expander" virtual device that
+>> could for example query the QOM model somehow to find the details it
+>> needs.
+>
+> That seems like a better option. Why not have a generic way to modify
+> the device tree with a specific argument? It could either be -device
+> loader,file=3Dfdt,... or -fdt ...
+
+Well it comes down to how much of a special case this is? Pretty much
+all FDT (and ACPI for the matter) is basically down to the board level
+models - and not all of them just the funky configurable ones. For other
+board models we just expect the user to pass the FDT they got with their
+kernel blob.
+
+For modern VirtIO systems the only thing you really need to expose is
+the root PCI bus because the rest of the devices are discover-able
+there.
+
+So the real question is are there any other -devices that we want to be
+able to graft FDT entries on or is the generic loader enough of a
+special case that we keep all the logic in there?
+
+>
+> Alistair
+>
+>>
+>> FDT isn't the only way of passing system information up the boot
+>> chain. We could reasonably want to do a similar thing with ACPI which
+>> is what should be being used on SBSA like devices to communicate with
+>> the hypervisor.
+>>
+>> Also relying on ,, in the QemuOpt parser is ugly. It might be worth
+>> having better quoting support if I press on with this.
+>>
+>> So what do people think? Something worth developing?
+>>
+>>
+>> Alex Benn=C3=A9e (4):
+>>   hw/board: promote fdt from ARM VirtMachineState to MachineState
+>>   hw/riscv: migrate fdt field to generic MachineState
+>>   device_tree: add qemu_fdt_setprop_string_array helper
+>>   generic_loader: allow the insertion of /chosen/module stanzas
+>>
+>>  include/hw/arm/virt.h            |   1 -
+>>  include/hw/boards.h              |   1 +
+>>  include/hw/core/generic-loader.h |   4 +
+>>  include/hw/riscv/virt.h          |   1 -
+>>  include/sysemu/device_tree.h     |  17 ++
+>>  device_tree.c                    |  26 +++
+>>  hw/arm/virt.c                    | 322 ++++++++++++++++---------------
+>>  hw/core/generic-loader.c         |  42 ++++
+>>  hw/riscv/virt.c                  |  18 +-
+>>  9 files changed, 268 insertions(+), 164 deletions(-)
+>>
+>> --
+>> 2.20.1
+>>
+>>
 
 
+--=20
+Alex Benn=C3=A9e
 
