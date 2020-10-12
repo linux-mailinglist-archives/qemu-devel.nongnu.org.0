@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E9E28BD20
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:02:14 +0200 (CEST)
-Received: from localhost ([::1]:58494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EAB628BD23
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 18:02:24 +0200 (CEST)
+Received: from localhost ([::1]:59578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0H7-0000qI-Ag
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57984)
+	id 1kS0HH-0001J0-Lf
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 12:02:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRztf-0003ab-LD
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:37:59 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51907)
+ id 1kRzth-0003eP-Ea
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:38:01 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRztY-0007lS-4n
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:37:59 -0400
-Received: by mail-wm1-x341.google.com with SMTP id d81so17522725wmc.1
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:37:51 -0700 (PDT)
+ id 1kRztZ-0007le-8g
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:38:01 -0400
+Received: by mail-wr1-x444.google.com with SMTP id h7so19725826wre.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:37:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=73sxXQONcqBgzHuOsaIz5hu+3BY6+pw52N6WyKkQfZo=;
- b=exgSCy6TBYKs+2u6PmauhdJ/pAV+QrSf2WLOJjFOA913gOLmL4t0hjV+pGDqFu59Kd
- shf6GEjbd5Xl9baMOMbtewoojWiuyQ1lZCErfoS3kXKtI3bWXD0olSbRYV1TsabJX/7q
- /JuIkVjG6Wj0oH+m7Hk+KEq52DO13lKiXQ3MhV9kMny4wRJLcVNJKKEYWo7aMIIHMgKm
- segKFQ8AK/ZTWrMvOWZZ5NaPOdnIwXzrtWxUQK93fM2sNdnX5MQk2hpbZi2DEOOt3eTq
- hyuH9Qv3WwK2VwWEQ+vSoTrHi/uqU8HHczSgqEPivdBX+3weH2MjPpKUR4hMhd334SB3
- 9R6w==
+ bh=+Umu4egodx5sV5t4RrajGKZ+finJTlLjjG3K3DjBGHw=;
+ b=oHHzeoBV6pWWnUhrUB6FQqWoC3FfjZ+znbu9NgWwx/S2Tb93kiRZSgVJSkGAFStBDQ
+ BuXxmhJCm30jJb7wXkxk5um3y4TSnYzymzhgzhtPwvopgB4cNDd1WZm/8ymaW/OfooA/
+ u9aPKRId7odG/luRVoOW/AvVgaoobqrtNO0M7/DoSX9VQM6V7V9dkp4353Kt6K7WcyQL
+ Y5dNhdbm5OWGJeh61eVx0uzat6YCjXVyZC8GXeI3rED8cpR7WWqWt0X6U2Z8mWbMmhYA
+ 0kJBgbvZxAxfSB6wp7MnfMmGTt07uBMe7PYYDf9W2l+6asEnmQMmV9pMgpt8mfdSJ563
+ 26Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=73sxXQONcqBgzHuOsaIz5hu+3BY6+pw52N6WyKkQfZo=;
- b=iBnKR604NRohEYj6AkWjhObOmjd68x5p1w1bFNsZb78CfjJ9EYqwJr5mVHejiiKeC/
- CCfi8gCIh/kohLIpji4MLt23jH+IZyHya2Mh3gm+yS548hr79cM7KOFniNZ6jiY1EZVh
- BpxBIP5pgJUDuTLpuyzg6lmnT/ctMfO599pm0xeFK7u/GX/q5fRR+l9iQ/RlNApSvYUl
- tqxcv9YhX+gDA9XrCWBkDw0Yl3pkNn5ZSrmzYIaUpeojpLGR15Y4GCeCzzcj2ySXcaUE
- Xzo5MuhZZzNqHHbCNWYGINlB5SPDEF56cQ+d1nBNFLFfMoWAu79Hxj1Ah5+saAEtLDTz
- jXpw==
-X-Gm-Message-State: AOAM5336GovaUJOtiCA705XHhhdmk5Sl7rxf/87NsFX9OTuOBVh81B4z
- jhChRXurwVfbEx81kHQiqmgySw==
-X-Google-Smtp-Source: ABdhPJy4LPQpvrsnt5RCAZ9vHcRDudF9jd0mi6uJSyVW1oujaQiAGY70CcWC3vHFoJMgAPKgVLa9yQ==
-X-Received: by 2002:a1c:1f89:: with SMTP id f131mr11867963wmf.10.1602517070880; 
- Mon, 12 Oct 2020 08:37:50 -0700 (PDT)
+ bh=+Umu4egodx5sV5t4RrajGKZ+finJTlLjjG3K3DjBGHw=;
+ b=XL59lp/cdHa8stQ+Yz+Ja2a/A9fTYImdKU/v40DZ9yzX0r2zLn8g/ZOlb1UzIfwsBL
+ IvnCiVTWeXyX6FQ2p3g8+isxf92lPk6oG4d5VlCHRSjTTeBtoO92yI/Q3/jUwFvRkdwJ
+ mI4sopJOSVc49lusi90Zb2can/VIoZCUBwYuuEYfzHpgqYf2KvkeGxLWNPMROG2OYQmm
+ YlZ1HgRs3XCTNzETq3uEikqhWXOoozBSBrzQqtnmuzFLMEPf5iP2xg0p2ZnVI6SJhF2u
+ t6oQsW4cezaKtFHqqo7B87rY1DM9SX8Nq7/uQ7VMIS9wUSw+h1Z2pHasNkcuJFfJtAiH
+ GAvw==
+X-Gm-Message-State: AOAM530zZ1i6Y99qIhkYlmVcl+TsmVfE/hJ5BhS7m/JFW+KIGST0GQ9g
+ 1y6THRQmXYkvUiH+3gKgjdxgrA==
+X-Google-Smtp-Source: ABdhPJwzVOsTtPivXQrUIZKbBSEM2erYgG67mu+RivDJtcX6MpRIBVjF4XYtK/eyqTm1VvgkBiEvAw==
+X-Received: by 2002:a5d:554b:: with SMTP id g11mr30811881wrw.370.1602517071926; 
+ Mon, 12 Oct 2020 08:37:51 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y66sm7095961wmd.14.2020.10.12.08.37.49
+ by smtp.gmail.com with ESMTPSA id y66sm7095961wmd.14.2020.10.12.08.37.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:37:50 -0700 (PDT)
+ Mon, 12 Oct 2020 08:37:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 02/10] target/arm: Implement v8.1M NOCP handling
-Date: Mon, 12 Oct 2020 16:37:38 +0100
-Message-Id: <20201012153746.9996-3-peter.maydell@linaro.org>
+Subject: [PATCH 03/10] target/arm: Implement v8.1M conditional-select insns
+Date: Mon, 12 Oct 2020 16:37:39 +0100
+Message-Id: <20201012153746.9996-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153746.9996-1-peter.maydell@linaro.org>
 References: <20201012153746.9996-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,108 +89,100 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From v8.1M, disabled-coprocessor handling changes slightly:
- * coprocessors 8, 9, 14 and 15 are also governed by the
-   cp10 enable bit, like cp11
- * an extra range of instruction patterns is considered
-   to be inside the coprocessor space
+v8.1M brings four new insns to M-profile:
+ * CSEL  : Rd = cond ? Rn : Rm
+ * CSINC : Rd = cond ? Rn : Rm+1
+ * CSINV : Rd = cond ? Rn : ~Rm
+ * CSNEG : Rd = cond ? Rn : -Rm
 
-We previously marked these up with TODO comments; implement the
-correct behaviour.
-
-Unfortunately there is no ID register field which indicates this
-behaviour.  We could in theory test an unrelated ID register which
-indicates guaranteed-to-be-in-v8.1M behaviour like ID_ISAR0.CmpBranch
->= 3 (low-overhead-loops), but it seems better to simply define a new
-ARM_FEATURE_V8_1M feature flag and use it for this and other
-new-in-v8.1M behaviour that isn't identifiable from the ID registers.
+Implement these.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h               |  1 +
- target/arm/m-nocp.decode       | 10 ++++++----
- target/arm/translate-vfp.c.inc | 17 +++++++++++++++--
- 3 files changed, 22 insertions(+), 6 deletions(-)
+ target/arm/t32.decode  |  3 +++
+ target/arm/translate.c | 55 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index cfff1b5c8fe..74392fa0295 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1985,6 +1985,7 @@ enum arm_features {
-     ARM_FEATURE_VBAR, /* has cp15 VBAR */
-     ARM_FEATURE_M_SECURITY, /* M profile Security Extension */
-     ARM_FEATURE_M_MAIN, /* M profile Main Extension */
-+    ARM_FEATURE_V8_1M, /* M profile extras only in v8.1M and later */
- };
- 
- static inline int arm_feature(CPUARMState *env, int feature)
-diff --git a/target/arm/m-nocp.decode b/target/arm/m-nocp.decode
-index 7182d7d1217..28c8ac6b94c 100644
---- a/target/arm/m-nocp.decode
-+++ b/target/arm/m-nocp.decode
-@@ -29,14 +29,16 @@
- # If the coprocessor is not present or disabled then we will generate
- # the NOCP exception; otherwise we let the insn through to the main decode.
- 
-+&nocp cp
-+
- {
-   # Special cases which do not take an early NOCP: VLLDM and VLSTM
-   VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 0000 0000
-   # TODO: VSCCLRM (new in v8.1M) is similar:
-   #VSCCLRM      1110 1100 1-01 1111 ---- 1011 ---- ---0
- 
--  NOCP         111- 1110 ---- ---- ---- cp:4 ---- ----
--  NOCP         111- 110- ---- ---- ---- cp:4 ---- ----
--  # TODO: From v8.1M onwards we will also want this range to NOCP
--  #NOCP_8_1     111- 1111 ---- ---- ---- ---- ---- ---- cp=10
-+  NOCP         111- 1110 ---- ---- ---- cp:4 ---- ---- &nocp
-+  NOCP         111- 110- ---- ---- ---- cp:4 ---- ---- &nocp
-+  # From v8.1M onwards this range will also NOCP:
-+  NOCP_8_1     111- 1111 ---- ---- ---- ---- ---- ---- &nocp cp=10
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index 7069d821fde..d8454bd814e 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -90,6 +90,9 @@ SBC_rrri         1110101 1011 . .... 0 ... .... .... ....     @s_rrr_shi
  }
-diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 28e0dba5f14..cc9ffb95887 100644
---- a/target/arm/translate-vfp.c.inc
-+++ b/target/arm/translate-vfp.c.inc
-@@ -3459,7 +3459,7 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
+ RSB_rrri         1110101 1110 . .... 0 ... .... .... ....     @s_rrr_shi
+ 
++# v8.1M CSEL and friends
++CSEL             1110101 0010 1 rn:4 10 op:2 rd:4 fcond:4 rm:4
++
+ # Data-processing (register-shifted register)
+ 
+ MOV_rxrr         1111 1010 0 shty:2 s:1 rm:4 1111 rd:4 0000 rs:4 \
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index d34c1d351a6..a7923a31b56 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -8224,6 +8224,61 @@ static bool trans_IT(DisasContext *s, arg_IT *a)
      return true;
  }
  
--static bool trans_NOCP(DisasContext *s, arg_NOCP *a)
-+static bool trans_NOCP(DisasContext *s, arg_nocp *a)
- {
-     /*
-      * Handle M-profile early check for disabled coprocessor:
-@@ -3472,7 +3472,11 @@ static bool trans_NOCP(DisasContext *s, arg_NOCP *a)
-     if (a->cp == 11) {
-         a->cp = 10;
-     }
--    /* TODO: in v8.1M cp 8, 9, 14, 15 also are governed by the cp10 enable */
-+    if (arm_dc_feature(s, ARM_FEATURE_V8_1M) &&
-+        (a->cp == 8 || a->cp == 9 || a->cp == 14 || a->cp == 15)) {
-+        /* in v8.1M cp 8, 9, 14, 15 also are governed by the cp10 enable */
-+        a->cp = 10;
-+    }
- 
-     if (a->cp != 10) {
-         gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
-@@ -3489,6 +3493,15 @@ static bool trans_NOCP(DisasContext *s, arg_NOCP *a)
-     return false;
- }
- 
-+static bool trans_NOCP_8_1(DisasContext *s, arg_nocp *a)
++/* v8.1M CSEL/CSINC/CSNEG/CSINV */
++static bool trans_CSEL(DisasContext *s, arg_CSEL *a)
 +{
-+    /* This range needs a coprocessor check for v8.1M and later only */
++    TCGv_i32 rn, rm, zero;
++    DisasCompare c;
++
 +    if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
 +        return false;
 +    }
-+    return trans_NOCP(s, a);
++
++    if (a->rd == 13 || a->rd == 15 || a->rn == 13 || a->fcond >= 14) {
++        /* CONSTRAINED UNPREDICTABLE: we choose to UNDEF */
++        return false;
++    }
++
++    /* In this insn input reg fields of 0b1111 mean "zero", not "PC" */
++    if (a->rn == 15) {
++        rn = tcg_const_i32(0);
++    } else {
++        rn = load_reg(s, a->rn);
++    }
++    if (a->rm == 15) {
++        rm = tcg_const_i32(0);
++    } else {
++        rm = load_reg(s, a->rm);
++    }
++
++    switch (a->op) {
++    case 0: /* CSEL */
++        break;
++    case 1: /* CSINC */
++        tcg_gen_addi_i32(rm, rm, 1);
++        break;
++    case 2: /* CSINV */
++        tcg_gen_not_i32(rm, rm);
++        break;
++    case 3: /* CSNEG */
++        tcg_gen_neg_i32(rm, rm);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    arm_test_cc(&c, a->fcond);
++    zero = tcg_const_i32(0);
++    tcg_gen_movcond_i32(c.cond, rn, c.value, zero, rn, rm);
++    arm_free_cc(&c);
++    tcg_temp_free_i32(zero);
++
++    store_reg(s, a->rd, rn);
++    tcg_temp_free_i32(rm);
++
++    return true;
 +}
 +
- static bool trans_VINS(DisasContext *s, arg_VINS *a)
- {
-     TCGv_i32 rd, rm;
+ /*
+  * Legacy decoder.
+  */
 -- 
 2.20.1
 
