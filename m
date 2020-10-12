@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC40928B506
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:52:55 +0200 (CEST)
-Received: from localhost ([::1]:38614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458A328B523
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 14:55:11 +0200 (CEST)
+Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kRxJu-0004LH-Og
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34032)
+	id 1kRxM6-0000G7-9K
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 08:55:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kRxFD-0007WA-Gp
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:48:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57170)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kRxF6-0000VK-N8
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 08:48:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602506875;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uTWHdeRtP5xmmHWwlKlm/i9n1cfNpQUBK+FGvm6Sd90=;
- b=BXDn5+LaMwLg+ka/HZWjzsFUWeNBQvGCf6Dsfa85XhyL1sgt1Kj12tnRcIDEeU8kNir7hm
- uRuUaWQyWhHE7OXhLHWhWAnn9o98/ksK46EEcrpKLDlHa2BsRJgiTHxbferOI5Q9Ch9nus
- 9D/L5QfNte5y9haE50q2+qmYQ+bEofk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-uQ3aCrqhM02wpvVjX0l7fw-1; Mon, 12 Oct 2020 08:47:53 -0400
-X-MC-Unique: uQ3aCrqhM02wpvVjX0l7fw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BF8C59;
- Mon, 12 Oct 2020 12:47:52 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-24.ams2.redhat.com [10.36.114.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E94DA5C22B;
- Mon, 12 Oct 2020 12:47:44 +0000 (UTC)
-Date: Mon, 12 Oct 2020 14:47:43 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PULL 09/14] qmp: Move dispatcher to a coroutine
-Message-ID: <20201012124743.GD7777@merkur.fritz.box>
-References: <20201009063432.303441-1-armbru@redhat.com>
- <20201009063432.303441-10-armbru@redhat.com>
- <87zh4rzpot.fsf@linaro.org>
- <20201012112506.GC7777@merkur.fritz.box>
- <99cc6bd1-58fd-af29-0b41-3f3e5043cc3a@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kRxH8-0002BN-Jt; Mon, 12 Oct 2020 08:50:02 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35264)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kRxH6-0000i5-Jl; Mon, 12 Oct 2020 08:50:02 -0400
+Received: by mail-wr1-x441.google.com with SMTP id n15so19063539wrq.2;
+ Mon, 12 Oct 2020 05:49:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iFs6emz6fGf+xQlicgZNk8cNGLeirUVE2ipQ9bTFfcw=;
+ b=UdBxpfLpqcO6gsLuw7AjHeCoUN8MkW98il5/42IOG8OPQpTPw8M4R/zwcv0ZMeIj4e
+ UY6UpJj2+3Yaisp18iYaF8gNl15rjMiT4ZRxMP7W5DKJxebai7SMZsoSnGxKXFIWCbwb
+ +KlAd73sf3jhMCXSiUnYDHjCJcOGBVvG2jM505n2EpC4UC1PSC7cqTmKFdIPDsjPU9tc
+ Hg10BIV0sogdIgHsehM1krukocI28DV/tpUv48aFQfo3DoriMhcMThlebTGuvwYCJH8m
+ 3TNQU+vjR+1+k2I9eanneHzOj5L67XqAmLq+f39pQkiHU66ttOlEqrwYYFqvXAb/gZOU
+ rFOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=iFs6emz6fGf+xQlicgZNk8cNGLeirUVE2ipQ9bTFfcw=;
+ b=HZaz0icJV+eJ8DN54P7eP30amZLruPwdR46o+/YMBROgHH89JcxaQyC8d3TbLMDFLI
+ GJNI2wXZsRUum71LltU3IA3NBpC++w2BRs/9dADkczS1PNs6qeRoi8NnFwhAXtMOYjEc
+ bOjlqjNeeBSEjm74v3n9LRPL5F7glxxdrjCPgY6lf7rSBwpeLD24jv03330xEEKwVVuc
+ 7jFY/neMAIgGYn0OfWcBQV7UInmUW5TniKKDsgfdI2OQc5JhEsMA3hSE73e0lArTUjpK
+ KJ3v3nG6iFNe6fRMhETAk8v21G2mu+Lv5JiALm2/iHF5ffqBZEVqQ9u1BlxGQyt8Vqfa
+ omhA==
+X-Gm-Message-State: AOAM530Dz9z0KIff1JFLQgjDyoK9JWZhX6FbqZidSbm+UXx6MVjffY1B
+ BTjVp7tD9LrjNle0TQS7Jm3lsV6Qh20=
+X-Google-Smtp-Source: ABdhPJzkPqUkQ1uXLcrzZi6wJc+XcPTs1T76h+i/YCMijhTTitA50sxHBC+r+WLOjkynRu1NOTrjUQ==
+X-Received: by 2002:adf:a551:: with SMTP id j17mr30236535wrb.217.1602506997537; 
+ Mon, 12 Oct 2020 05:49:57 -0700 (PDT)
+Received: from localhost.localdomain
+ (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id p21sm23516472wmc.28.2020.10.12.05.49.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 05:49:56 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2 0/3] hw/ssi: Rename SSI 'slave' as 'peripheral'
+Date: Mon, 12 Oct 2020 14:49:52 +0200
+Message-Id: <20201012124955.3409127-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <99cc6bd1-58fd-af29-0b41-3f3e5043cc3a@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/11 23:52:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,154 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 12.10.2020 um 13:53 hat Philippe Mathieu-Daudé geschrieben:
-> On 10/12/20 1:25 PM, Kevin Wolf wrote:
-> > Am 12.10.2020 um 12:47 hat Alex Bennée geschrieben:
-> > > 
-> > > Markus Armbruster <armbru@redhat.com> writes:
-> > > 
-> > > > From: Kevin Wolf <kwolf@redhat.com>
-> > > > 
-> > > > This moves the QMP dispatcher to a coroutine and runs all QMP command
-> > > > handlers that declare 'coroutine': true in coroutine context so they
-> > > > can avoid blocking the main loop while doing I/O or waiting for other
-> > > > events.
-> > > 
-> > > This subtly changes the replay behaviour leading to a hang in:
-> > > 
-> > >    10:55:18 [alex.bennee@hackbox2:~/l/q/b/bisect] (625581c2…)|✚1(+1/-1) + ./tests/venv/bin/avocado run tests/acceptance/replay_kernel.py:ReplayKernel.test_arm_virt
-> > >    Fetching asset from tests/acceptance/replay_kernel.py:ReplayKernel.test_arm_virt
-> > >    JOB ID     : ec11fd2544f06e6c0d421f16afa757b49f7ed734
-> > >    JOB LOG    : /home/alex.bennee/avocado/job-results/job-2020-10-12T11.40-ec11fd2/job.log
-> > >     (1/1) tests/acceptance/replay_kernel.py:ReplayKernel.test_arm_virt: ERROR: Could not perform graceful shutdown (26.27 s)
-> > >    RESULTS    : PASS 0 | ERROR 1 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> > >    JOB TIME   : 27.77 s
-> > > 
-> > > Looking at the log:
-> > > 
-> > >    2020-10-12 11:40:31,426 __init__         L0085 DEBUG| [    3.887411] rtc-pl031 9010000.pl031: setting system clock to 2020-10-12 10:40:31 UTC (1602499231)
-> > >    2020-10-12 11:40:31,428 __init__         L0085 DEBUG| [    3.887431] sr_init: No PMIC hook to init smartreflex
-> > >    2020-10-12 11:40:31,447 __init__         L0085 DEBUG| [    3.897193] uart-pl011 9000000.pl011: no DMA platform data
-> > >    2020-10-12 11:40:31,460 __init__         L0085 DEBUG| [    3.897242] md: Waiting for all devices to be available before autodetect
-> > >    2020-10-12 11:40:31,462 __init__         L0085 DEBUG| [    3.897259] md: If you don't use raid, use raid=noautodetect
-> > >    2020-10-12 11:40:31,475 __init__         L0085 DEBUG| [    3.897819] md: Autodetecting RAID arrays.
-> > >    2020-10-12 11:40:31,476 __init__         L0085 DEBUG| [    3.897832] md: autorun ...
-> > >    2020-10-12 11:40:31,477 __init__         L0085 DEBUG| [    3.897842] md: ... autorun DONE.
-> > >    2020-10-12 11:40:31,483 __init__         L0085 DEBUG| [    3.897962] VFS: Cannot open root device "(null)" or unknown-block(0,0): error -6
-> > >    2020-10-12 11:40:31,483 qmp              L0245 DEBUG| >>> {'execute': 'quit'}
-> > >    2020-10-12 11:40:31,495 qmp              L0145 DEBUG| <<< {'timestamp': {'seconds': 1602499231, 'microseconds': 493379}, 'event': 'SHUTDOWN', 'data': {'guest': True, 'reason': 'guest-reset'}}
-> > >    2020-10-12 11:40:31,733 machine          L0325 WARNI| qemu received signal 6; command: "./qemu-system-arm -display none -vga none -chardev socket,id=mon,path=/var/tmp/tmpzls53khe/qemu-8487-monitor.sock -mon chardev=mon,mode=control -machine virt -chardev socket,id=console,path=/var/tmp/tmpzls53khe/qemu-8487-console.sock,server,nowait -serial chardev:console -icount shift=1,rr=record,rrfile=/var/tmp/avocado_n00stdrf/avocado_job_aw60qdul/1-tests_acceptance_replay_kernel.py_ReplayKernel.test_arm_virt/replay.bin -kernel /home/alex.bennee/avocado/data/cache/by_location/62750ce9e069e69e6a7ff04ff54c382ee660b92a/vmlinuz -append printk.time=1 panic=-1 console=ttyAMA0 -net none -no-reboot"
-> > 
-> > This looks like a crash (SIGABRT) rather than a hang. Do you have a
-> > stack trace for the crashed process?
-> 
-> No crash, exit(0):
-
-Why does the log say "qemu received signal 6" then?
-
-> VFS: Cannot open root device "(null)" or unknown-block(0,0): error -6
-
-Alex has this error in the logs before this commit, so I assume this is
-expected. All of the following is then probably expected, too, because
-it follows directly from this error:
-
-> Please append a correct "root=" boot option; here are the available
-> partitions:
-> Kernel panic - not syncing: VFS: Unable to mount root fs on
-> unknown-block(0,0)
-> CPU: 0 PID: 1 Comm: swapper/0 Not tainted 4.18.16-300.fc29.armv7hl #1
-> Hardware name: Generic DT based system
-> [<c0313f7c>] (unwind_backtrace) from [<c030dc64>] (show_stack+0x20/0x24)
-> [<c030dc64>] (show_stack) from [<c0b50ec4>] (dump_stack+0x88/0xa8)
-> [<c0b50ec4>] (dump_stack) from [<c03592f8>] (panic+0xd4/0x26c)
-> [<c03592f8>] (panic) from [<c110183c>] (mount_block_root+0x250/0x2ec)
-> [<c110183c>] (mount_block_root) from [<c1101950>] (mount_root+0x78/0x90)
-> [<c1101950>] (mount_root) from [<c1101ac4>] (prepare_namespace+0x15c/0x19c)
-> [<c1101ac4>] (prepare_namespace) from [<c11012e8>]
-> (kernel_init_freeable+0x2c0/0x370)
-> [<c11012e8>] (kernel_init_freeable) from [<c0b63914>]
-> (kernel_init+0x18/0x128)
-> [<c0b63914>] (kernel_init) from [<c03010e8>] (ret_from_fork+0x14/0x2c)
-> Exception stack(0xc790bfb0 to 0xc790bff8)
-> bfa0:                                     00000000 00000000 00000000
-> 00000000
-> bfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> 00000000
-> bfe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> 
-> -> PSCI call
->    -> QEMU_PSCI_0_2_FN_SYSTEM_RESET
->       -> SHUTDOWN_CAUSE_GUEST_RESET
->          -> exit(0)
-
-Hm... So you're saying that the test sends a 'quit' QMP command, but
-before it could be processed, the guest causes QEMU to exit, so the test
-will never receive a reply to its request?
-
-If commit 9ce44e2ce2 changes anything about this, it seems to me that it
-would be that more QMP commands are processed during monitor_cleanup()
-because it doesn't just delete the dispatcher BH, but waits until it's
-not busy any more.
-
-Looking at this code again, however, the order in monitor_cleanup() is
-probably wrong. We should first shut down the dispatcher (which may
-still be using Monitor objects) and then destroy the monitors. This
-could possibly explain a crash, but probably not wrong results with a
-successful shutdown.
-
-Kevin
-
-> > >    2020-10-12 11:40:31,734 stacktrace       L0039 ERROR|
-> > >    2020-10-12 11:40:31,734 stacktrace       L0042 ERROR| Reproduced traceback from: /home/alex.bennee/lsrc/qemu.git/builds/bisect/tests/venv/lib/python3.6/site-packages/avocado/core/test.py:767
-> > >    2020-10-12 11:40:31,735 stacktrace       L0045 ERROR| Traceback (most recent call last):
-> > >    2020-10-12 11:40:31,735 stacktrace       L0045 ERROR|   File "/home/alex.bennee/lsrc/qemu.git/python/qemu/machine.py", line 435, in _do_shutdown
-> > >    2020-10-12 11:40:31,735 stacktrace       L0045 ERROR|     self._soft_shutdown(timeout, has_quit)
-> > >    2020-10-12 11:40:31,735 stacktrace       L0045 ERROR|   File "/home/alex.bennee/lsrc/qemu.git/python/qemu/machine.py", line 415, in _soft_shutdown
-> > >    2020-10-12 11:40:31,735 stacktrace       L0045 ERROR|     self._qmp.cmd('quit')
-> > >    2020-10-12 11:40:31,735 stacktrace       L0045 ERROR|   File "/home/alex.bennee/lsrc/qemu.git/python/qemu/qmp.py", line 266, in cmd
-> > >    2020-10-12 11:40:31,735 stacktrace       L0045 ERROR|     return self.cmd_obj(qmp_cmd)
-> > >    2020-10-12 11:40:31,735 stacktrace       L0045 ERROR|   File "/home/alex.bennee/lsrc/qemu.git/python/qemu/qmp.py", line 249, in cmd_obj
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|     raise QMPConnectError("Unexpected empty reply from server")
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR| qemu.qmp.QMPConnectError: Unexpected empty reply from server
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR| The above exception was the direct cause of the following exception:
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR| Traceback (most recent call last):
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|   File "/home/alex.bennee/lsrc/qemu.git/builds/bisect/tests/acceptance/replay_kernel.py", line 128, in test_arm_virt
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|     self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=1)
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|   File "/home/alex.bennee/lsrc/qemu.git/builds/bisect/tests/acceptance/replay_kernel.py", line 71, in run_rr
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|     True, shift, args, replay_path)
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|   File "/home/alex.bennee/lsrc/qemu.git/builds/bisect/tests/acceptance/replay_kernel.py", line 57, in run_vm
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|     vm.shutdown()
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|   File "/home/alex.bennee/lsrc/qemu.git/python/qemu/machine.py", line 465, in shutdown
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|     self._do_shutdown(timeout, has_quit)
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|   File "/home/alex.bennee/lsrc/qemu.git/python/qemu/machine.py", line 439, in _do_shutdown
-> > >    2020-10-12 11:40:31,736 stacktrace       L0045 ERROR|     from exc
-> > >    2020-10-12 11:40:31,737 stacktrace       L0045 ERROR| qemu.machine.AbnormalShutdown: Could not perform graceful shutdown
-> > > 
-> > > The commit before:
-> > > 
-> > >    2020-10-12 11:44:02,803 __init__         L0085 DEBUG| [    3.897837] md: ... autorun DONE.
-> > >    2020-10-12 11:44:02,806 __init__         L0085 DEBUG| [    3.897958] VFS: Cannot open root device "(null)" or unknown-block(0,0): error -6
-> > >    2020-10-12 11:44:02,806 qmp              L0245 DEBUG| >>> {'execute': 'quit'}
-> > >    2020-10-12 11:44:02,814 qmp              L0250 DEBUG| <<< {'return': {}}
-> > >    2020-10-12 11:44:02,879 replay_kernel    L0059 INFO | finished the recording with log size 237596 bytes
-> > >    2020-10-12 11:44:02,879 replay_kernel    L0064 INFO | elapsed time 24.35 sec
-> > >    2020-10-12 11:44:02,888 replay_kernel    L0044 INFO | replaying the execution...
-> > >    2020-10-12 11:44:02,889 machine          L0362 DEBUG| VM launch command: './qemu-system-arm -display none -vga none -chardev socket,id=mon,path=/var/tmp/tmpihqswp6_/qemu-7747-monitor.sock -mon chardev=mon,mode=control -machine virt -chardev socket,id=console,path=/var/tmp/tmpihqswp6_/qemu-7747-console.sock,server,nowait -serial chardev:console
-> > >    -icount shift=1,rr=replay,rrfile=/var/tmp/avocado_o3pfy2he/avocado_job_nf30vjqg/1-tests_acceptance_replay_kernel.py_ReplayKernel.test_arm_virt/replay.bin -kernel /home/alex.bennee/avocado/data/cache/by_location/62750ce9e069e69e6a7ff04ff54c382ee660b92a/vmlinuz -append printk.time=1 panic=-1 console=ttyAMA0 -net none -no-reboot'
-> > >    2020-10-12 11:44:03,001 qmp              L0245 DEBUG| >>> {'execute': 'qmp_capabilities'}
-> > >    2020-10-12 11:44:03,172 qmp              L0250 DEBUG| <<< {'return': {}}
-> > >    2020-10-12 11:44:04,899 __init__         L0085 DEBUG| [    0.000000] Booting Linux on physical CPU 0x0
-> > >    2020-10-12 11:44:04,904 __init__         L0085 DEBUG| [    0.000000] Linux version 4.18.16-300.fc29.armv7hl (mockbuild@buildvm-armv7-06.arm.fedoraproject.org) (gcc version 8.2.1 20180801 (Red Hat 8.2.1-2) (GCC)) #1 SMP Sun Oct 21 00:56:28 UTC 2018
-> [...]
-> 
-
+Since v1:=0D
+- Fixed patch #1 subject (Kevin)=0D
+=0D
+In order to use inclusive terminology, rename SSI 'slave' as=0D
+'peripheral', following the resolution Paolo pointed in [*]:=0D
+https://www.oshwa.org/a-resolution-to-redefine-spi-signal-names/=0D
+=0D
+Candidate to be merged via the ARM or Trivial trees.=0D
+=0D
+[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg739108.html=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  hw/ssi/aspeed_smc: Rename 'max_slaves' variable as 'max_peripherals'=0D
+  hw/ssi: Update coding style to make checkpatch.pl happy=0D
+  hw/ssi: Rename SSI 'slave' as 'peripheral'=0D
+=0D
+ include/hw/misc/max111x.h   |  2 +-=0D
+ include/hw/ssi/aspeed_smc.h |  2 +-=0D
+ include/hw/ssi/ssi.h        | 56 +++++++++++++++++++------------------=0D
+ hw/arm/spitz.c              | 32 ++++++++++-----------=0D
+ hw/arm/stellaris.c          |  4 +--=0D
+ hw/arm/tosa.c               | 12 ++++----=0D
+ hw/arm/z2.c                 | 14 +++++-----=0D
+ hw/block/m25p80.c           | 14 +++++-----=0D
+ hw/display/ads7846.c        | 12 ++++----=0D
+ hw/display/ssd0323.c        | 12 ++++----=0D
+ hw/misc/max111x.c           | 18 ++++++------=0D
+ hw/sd/ssi-sd.c              | 12 ++++----=0D
+ hw/ssi/aspeed_smc.c         | 53 ++++++++++++++++++-----------------=0D
+ hw/ssi/pl022.c              |  2 +-=0D
+ hw/ssi/ssi.c                | 48 +++++++++++++++----------------=0D
+ hw/ssi/xilinx_spips.c       |  7 +++--=0D
+ 16 files changed, 152 insertions(+), 148 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
