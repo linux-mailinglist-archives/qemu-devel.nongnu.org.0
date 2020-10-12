@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165B628BD0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:58:46 +0200 (CEST)
-Received: from localhost ([::1]:49720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D43728BCDE
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Oct 2020 17:47:54 +0200 (CEST)
+Received: from localhost ([::1]:40134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS0Dl-0005Z0-5N
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:58:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57302)
+	id 1kS03F-0006Oy-CL
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 11:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqr-0007Oz-FI
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:35:05 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55856)
+ id 1kRzqs-0007Pc-0g
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:35:06 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kRzqe-0007MV-Es
+ id 1kRzqe-0007Md-H7
  for qemu-devel@nongnu.org; Mon, 12 Oct 2020 11:35:05 -0400
-Received: by mail-wm1-x344.google.com with SMTP id a72so6922029wme.5
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:41 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id z22so14006563wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 08:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TFEeAigEIjpMhWK7DoHcFuCUqfcQKRxgqCRDpAIxz64=;
- b=JvYICIhMLv4zFkf9pBCtbx9anD+Ds35GexppRV3VwkBSIooNwcjog+od02pop5BRJ3
- POQF0HomuH4ORVut/cS1Jl1pn5vYtGpDVK/bu6ObWxsaNfF1jNMch7dwmv37MUxrEVa9
- /gTRTNsLGZnkvJcmZdv3bJKGVBUSXUoZscUUfrfrmFJtpfr2j2gkMbluIfjNouixAtNu
- O2jZtiDzSZvnJH5qvXbmNuL37qb1ihRjxIBJ7NRvBmftL7WmIGaWgVbHWJkfosKocHcG
- DFARHoU5hryh5Mj3H/mPE0d1WKt+fAb6033PiB0PKDhvkiEsGcaHWH4OlAXJ8sOjNEcI
- bpxQ==
+ bh=bcorSBZXkBkW1mp/hqFvB6M1vX2DnTHEzjvxS98edmI=;
+ b=ZDjU0n6i8Sv1A44uNzJhuxDJVq2BVk4udSxqhvl38awFaZoQFo49xDBI0z8zLTtfQt
+ LQ6k1qQTN4JRVdqAgUSWWAfmzbFbyANL2abgbjAtpiy8UVkAq2pOPRtTPRWw4TEFOoEJ
+ FkyazT/T0Z2vcrSrdOh0Ti2kMjtWCEwdkt/5mIWxWF+RQWMbS7g6suApGiBJgUYWv4h0
+ S+unk0M6QB240smfCTD8tYSKA3KNRycPE9gRzDLErqiAJBaISOEByXo/M0i9bwivwFad
+ kDut0U/eQAM70gRgiSH+Abg6eXxs9LM2HhcH80BIvqcBI/i7tm7/3JXeb8wm8kwMxA/0
+ PsjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TFEeAigEIjpMhWK7DoHcFuCUqfcQKRxgqCRDpAIxz64=;
- b=XZ1rwhnJ7waSYS5FiH5zV1r2tot5i1/TjH+3uCRYQyIcuJfKZUEJ4ILRwGYh6MWBpT
- YWeoJUREJ6vNH6Jxj6Ipu9+7nqMWKM9zq/vcylfBjvmxKNTKslkhdAilNOanCwZZeILZ
- aG/ARSSwt1l+3Gu+n2cW4KGVfjZmpmIvr6wCyYYiBgYqVXGz19I0IaUQeOMOk7SjsOWp
- Jd7bhmcYRlSr7bVWSIhHRswFmgro5nMnqhCtyJBNEMNc8VbG7LYIOg7a8pyn4wDgR3sb
- v1Dthuh2c3j3aBF+O7/I4swTejiZXMMgT/PSh5ik3ncvxoenf/oqVsB8sveo8uVw2CW3
- k6iw==
-X-Gm-Message-State: AOAM531bdQXm1FXn2xK9RQQFBg3lyGQS+k16p0YnvT8LcYhFk8VGMPCx
- BHbWqx5LQE+P6/yzEiy+v5ljeg==
-X-Google-Smtp-Source: ABdhPJwArLN0tTpsSJ4Jg1YrFeNwJJ+/NEmVlovzDDUHp8LZVH5GzYSchA8abKrlyHUyPMwR/A1Htg==
-X-Received: by 2002:a1c:1b15:: with SMTP id b21mr11600760wmb.143.1602516880521; 
- Mon, 12 Oct 2020 08:34:40 -0700 (PDT)
+ bh=bcorSBZXkBkW1mp/hqFvB6M1vX2DnTHEzjvxS98edmI=;
+ b=TAPJOwKDyabD/ZeQH4GpjabS05cs0E7SSQ1B0HI2KQ5JNW4F//kVtXxXUseimRLSJD
+ hBx3yqklel0heenmQEsD9/DEZi9/TSOGyZ4aVFJIG0LOfZLrM9/X3RbMsM/At8i53qP9
+ /NjAyZ72kqMM16FFdCvn6B6KLYYgriAvuIskN/Ho6rOQ7od0THXeXXvBgiDKadB9pMNf
+ kSPvO3vCpL8I3vVoIBtpoWN54M+LpiXVgLX3uMCRKHzlTx0SWN6Tw+ymC4va2C7ZOner
+ nC1JmVVvvDg3g2FGEGKfQ0avTmX4FxXyNG8CQ96c21bCK97PUPZqEDqLFM+wj/B+VYpW
+ TJWg==
+X-Gm-Message-State: AOAM531FZ7gcw9lB5KnPWXj8TZn+zD6tsiJQJ7EtkbU0caQRTlWTxd/d
+ JVwBW+eWtVrB397gm7syHNJA3Q==
+X-Google-Smtp-Source: ABdhPJzf3rOV7uHyZM6nT5NqjjgblvI3Zg+lxN3Na0WG5ggzqEirZo40jt9IqR56Pp0n1yDSdILtWQ==
+X-Received: by 2002:a1c:e256:: with SMTP id z83mr10909949wmg.37.1602516881543; 
+ Mon, 12 Oct 2020 08:34:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.39
+ by smtp.gmail.com with ESMTPSA id y10sm19675284wrq.73.2020.10.12.08.34.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 08:34:39 -0700 (PDT)
+ Mon, 12 Oct 2020 08:34:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH] osdep.h: Add doc comment for qemu_get_thread_id()
-Date: Mon, 12 Oct 2020 16:33:49 +0100
-Message-Id: <20201012153408.9747-27-peter.maydell@linaro.org>
+Subject: [PATCH for-5.1] qapi/machine.json: Fix missing newline in doc comment
+Date: Mon, 12 Oct 2020 16:33:50 +0100
+Message-Id: <20201012153408.9747-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201012153408.9747-1-peter.maydell@linaro.org>
 References: <20201012153408.9747-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,50 +89,37 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a documentation comment for qemu_get_thread_id(): since this
-is rather host-OS-specific it's useful if people writing the
-implementation and people thinking of using the function know
-what the purpose and limitations are.
+In commit 176d2cda0dee9f4 we added the @die-id field
+to the CpuInstanceProperties struct, but in the process
+accidentally removed the newline between the doc-comment
+lines for @core-id and @thread-id.
+
+Put the newline back in; this fixes a misformatting in the
+generated HTML QMP reference manual.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-Based on conversation with Dan on IRC, and prompted by the recent
-patch to add OpenBSD support.
+Not very important but I've suggested for-5.1 as it's a safe
+docs fix. You can see the misrendered doc at
+https://www.qemu.org/docs/master/interop/qemu-qmp-ref.html#index-CpuInstanceProperties
 
-Q: should we document exactly what the thread-id value is for
-each host platform in the QMP documentation ? Somebody writing
-a management layer app should ideally not have to grovel through
-the application to figure out what they should do with the
-integer value they get back from query-cpus...
+ qapi/machine.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- include/qemu/osdep.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 4841b5c6b5f..8279f72e5ed 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -515,6 +515,20 @@ bool qemu_has_ofd_lock(void);
- 
- bool qemu_write_pidfile(const char *pidfile, Error **errp);
- 
-+/**
-+ * qemu_get_thread_id: Return OS-specific ID of current thread
-+ *
-+ * This function returns an OS-specific identifier of the
-+ * current thread. This will be used for the "thread-id" field in
-+ * the response to the QMP query-cpus and query-iothreads commands.
-+ * The intention is that a VM management layer application can then
-+ * use it to tie specific QEMU vCPU and IO threads to specific host
-+ * CPUs using whatever the host OS's CPU affinity setting API is.
-+ * New implementations of this function for new host OSes should
-+ * return the most sensible integer ID that works for that purpose.
-+ *
-+ * This function should not be used for anything else inside QEMU.
-+ */
- int qemu_get_thread_id(void);
- 
- #ifndef CONFIG_IOVEC
+diff --git a/qapi/machine.json b/qapi/machine.json
+index f59144023ca..daede5ab149 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -825,7 +825,8 @@
+ # @node-id: NUMA node ID the CPU belongs to
+ # @socket-id: socket number within node/board the CPU belongs to
+ # @die-id: die number within node/board the CPU belongs to (Since 4.1)
+-# @core-id: core number within die the CPU belongs to# @thread-id: thread number within core the CPU belongs to
++# @core-id: core number within die the CPU belongs to
++# @thread-id: thread number within core the CPU belongs to
+ #
+ # Note: currently there are 5 properties that could be present
+ #       but management should be prepared to pass through other
 -- 
 2.20.1
 
