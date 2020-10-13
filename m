@@ -2,50 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3DB28CD85
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:01:24 +0200 (CEST)
-Received: from localhost ([::1]:54444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF46B28CDCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:08:39 +0200 (CEST)
+Received: from localhost ([::1]:41426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSIzb-0002ta-25
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:01:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44224)
+	id 1kSJ6c-0001Ga-Ov
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpo-0007LP-9m; Tue, 13 Oct 2020 07:51:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:51517)
+ id 1kSIpo-0007NM-UL; Tue, 13 Oct 2020 07:51:16 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:42241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpm-0004zI-DI; Tue, 13 Oct 2020 07:51:15 -0400
+ id 1kSIpm-0004zG-7C; Tue, 13 Oct 2020 07:51:16 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N2VGj-1kKqov0bQF-013x3w; Tue, 13 Oct 2020 13:51:06 +0200
+ id 1MAP77-1kdcgr3u1b-00BqNI; Tue, 13 Oct 2020 13:51:07 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/14] hw/char/serial: remove duplicate .class_init in
- serial_mm_info
-Date: Tue, 13 Oct 2020 13:50:48 +0200
-Message-Id: <20201013115052.133355-11-laurent@vivier.eu>
+Subject: [PULL 11/14] goldfish_rtc: change MemoryRegionOps endianness to
+ DEVICE_NATIVE_ENDIAN
+Date: Tue, 13 Oct 2020 13:50:49 +0200
+Message-Id: <20201013115052.133355-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
 References: <20201013115052.133355-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5FL95lIOaUdUVeJ/UgbW/JQPtJW7Sj/OTa7qlfwgysXFgcpgzCV
- sUz+6gRgtb/im66JZbG0taCz+gd5JO8f/757mjPztHwiAQwDyQclNAW/b6AQW78LrJZrPVA
- 6DawVse6I9NkmeU1gOEwpY91MZA0Zi5FGHaiGH5uuq2cQPSHb5C6Sp3DI/YGvbPSKqlxdKR
- FR1aCAsyu+uFiEbh2wm5Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hsi4yUhukoY=:0LOZoTJFFY7u/O1vfHZzhM
- rvlai5KTDbmHhkIGxzdeoEx4SjYFU+/0+nPmjRWPh1t/QstLq4amwa1yeqzk9t0H6+EjgBW1s
- IrWF2Ek7GUqDmPJ+EAcVm2k+KNVqOlOLU1RpxQY5krQmsKAyvoPQ8UTYmf/CDSpAjIeeeOEdo
- 35OwCdcwgGrFGfCH2z1PoUUL5WILKhnkLlv+JOuyR8ngedhRDkc7FfX0z8c2MiLAvM72ByRux
- GNPFs6S3Bx5iRE9aLV2viNtpGwSg4IF7O6Ln5TOrMukGWpF3fsYxLzhlDd6/bmS+LK0gtXcFQ
- Xyb4A4nROwrpIDsoEQzPIuFl0RnPQX5crwQc5z9X8SuZMroj2SAn4nc9NTNMmwM1mn22pJEHH
- GOkNvFf554/Vt/SppPD0Dpqxy8N9/JcH7s17kLCfBYPBUoBbsjTXaxk7FVbNT
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:isqjquIyRKhzxDwZBmyeLbKalgvLq5RFzTA6gFwB7EsIdFx0opX
+ 3ad2G5zk3tbI2/h/secRkSaz+b8D8Ngg38ss9o9qYMaPhJNiN4AZ397UqUigBT3AsT4emOw
+ sKqBLbWteqU077pzpsuQ8w5uUR7wb6TSMHQSI+x5y/p2a8ThYAeGUlGHSCYqKyy6obzZpTk
+ bQmNiGFrpqN5k1u4qem7w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2od1rpwOPhs=:VQvHW9RS6fBY4fz/r7D4oK
+ CSDDBq9rxV9tNovLY8HtUH/nxNfHcwPEzTDngijbgB0iYMlVCApkqHoei+2d8D40AMdtHO8Jl
+ rCqGwzY5LPrl2a80eXdSueEQU1zvPKgg8L33rH2dVJdSrTDU/m62IazbyQ+ZNBYSlsp2cnyhO
+ iPKq9eNgMrBZCySvyHQujmSgf8HrlH2iS9HmYiCuVX9UWMLyeS70ljj9COM1A06X0C2EDqkpq
+ VJkxR7Y49r4uSGf0OmxCzupPwGgHRVI/I+xJ+9tPJqcS9ffR7ym5AyKWxfcGoZYlwWYCKt42M
+ 6VlMx51XtA/rtiwV67+8TQxG3ecWQ43wejTLa3rBFPfqgyNxsCRwe9klntmfaRV3N5pP6zb2h
+ lu3KzEIHIMPDfhMKlGjV5TzRCaBWnu6JpmmzUEveHZuLHhUtKrhWa7Ex2Zvd0W7gu7K+CQ3ph
+ Jj9JciWVxuQzFztN+ALQ0ePosAkC6JMNgLRiB4O4fwzURFCHH/BkEdaDRDJgmtYrwUQbU5quF
+ 6awqg+uCGkBSka+eXeQPotyVA1c1mQll5k0j7+PgvU5iOno1uGKlxcLRfx/nDWz3X+l0omJQ9
+ BYqlpTiCeEn0lRvk4k9Bw9V9JYQcLDYDKJBkgy0OcI2HWuzdNHGAlqPvSEKBoXBVfXeNQxIxZ
+ MP/JDxlhIIG+sFf+A3rPC5cGHaNvYEt5fAgW2COikjB7kUdI96bxlHhBjJzeCHkXXULU5/kHS
+ 2QOSJPHMu7cUwxZTIZxzh9kFB3/Y/tT60l596LbMELh6eBGLg0+AQuWnP0u6Y1S+Nx+Pkn7aT
+ 4pBcNWXlK1EpuXatWFj8AmiqRbrAsK+9n80SDqI/2oDwT4aTfSHM+fVGyUs5cCdYLZ/XiKs
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:51:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:51:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,43 +71,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Li Qiang <liq3ea@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Anup.Patel@wdc.com, Michael Tokarev <mjt@tls.msk.ru>,
  Laurent Vivier <laurent@vivier.eu>,
- Alistair Francis <alistair.francis@wdc.com>, marcandre.lureau@redhat.com
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-.class_init is already set to serial_mm_class_init.
+The doc [1] doesn't define the endianness, but the kernel driver
+uses readl() to access the registers, so we can guess it depends
+on the architecture endianness.
 
-Remove the duplicate entry.
+As riscv architecture endianness is little it might not change anything
+for it.
 
-Fixes: 17fd1a6490b1 ("serial-mm: add "regshift" property")
-Cc: marcandre.lureau@redhat.com
+Moreover, android implementation uses DEVICE_NATIVE_ENDIAN [2]
+
+[1] https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
+[2] https://android.googlesource.com/platform/external/qemu/+/refs/heads/emu-master-dev/hw/timer/goldfish_timer.c#177
+
+Fixes: 9a5b40b84279 ("hw: rtc: Add Goldfish RTC device")
+Cc: Anup.Patel@wdc.com
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20201009113843.60995-1-lvivier@redhat.com>
+Message-Id: <20201009113843.60995-2-lvivier@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/char/serial.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/rtc/goldfish_rtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 4386adabd466..97f71879ff2a 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -1120,7 +1120,6 @@ static const TypeInfo serial_mm_info = {
-     .class_init = serial_mm_class_init,
-     .instance_init = serial_mm_instance_init,
-     .instance_size = sizeof(SerialMM),
--    .class_init = serial_mm_class_init,
- };
- 
- static void serial_register_types(void)
+diff --git a/hw/rtc/goldfish_rtc.c b/hw/rtc/goldfish_rtc.c
+index 6ddd45cce039..0f4e8185a796 100644
+--- a/hw/rtc/goldfish_rtc.c
++++ b/hw/rtc/goldfish_rtc.c
+@@ -217,7 +217,7 @@ static int goldfish_rtc_post_load(void *opaque, int version_id)
+ static const MemoryRegionOps goldfish_rtc_ops = {
+     .read = goldfish_rtc_read,
+     .write = goldfish_rtc_write,
+-    .endianness = DEVICE_LITTLE_ENDIAN,
++    .endianness = DEVICE_NATIVE_ENDIAN,
+     .valid = {
+         .min_access_size = 4,
+         .max_access_size = 4
 -- 
 2.26.2
 
