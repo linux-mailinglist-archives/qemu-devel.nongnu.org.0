@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF46B28CDCF
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:08:39 +0200 (CEST)
-Received: from localhost ([::1]:41426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A4928CD49
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:58:34 +0200 (CEST)
+Received: from localhost ([::1]:47930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSJ6c-0001Ga-Ov
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:08:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44226)
+	id 1kSIwq-0008Sn-M4
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpo-0007NM-UL; Tue, 13 Oct 2020 07:51:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:42241)
+ id 1kSIpl-0007Em-K9; Tue, 13 Oct 2020 07:51:13 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:43121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpm-0004zG-7C; Tue, 13 Oct 2020 07:51:16 -0400
+ id 1kSIpj-0004yq-OP; Tue, 13 Oct 2020 07:51:13 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MAP77-1kdcgr3u1b-00BqNI; Tue, 13 Oct 2020 13:51:07 +0200
+ id 1MYe6H-1kxStr1AHr-00VhdU; Tue, 13 Oct 2020 13:51:08 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/14] goldfish_rtc: change MemoryRegionOps endianness to
- DEVICE_NATIVE_ENDIAN
-Date: Tue, 13 Oct 2020 13:50:49 +0200
-Message-Id: <20201013115052.133355-12-laurent@vivier.eu>
+Subject: [PULL 12/14] target/sparc/int32_helper: Remove duplicated 'Tag
+ Overflow' entry
+Date: Tue, 13 Oct 2020 13:50:50 +0200
+Message-Id: <20201013115052.133355-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
 References: <20201013115052.133355-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:isqjquIyRKhzxDwZBmyeLbKalgvLq5RFzTA6gFwB7EsIdFx0opX
- 3ad2G5zk3tbI2/h/secRkSaz+b8D8Ngg38ss9o9qYMaPhJNiN4AZ397UqUigBT3AsT4emOw
- sKqBLbWteqU077pzpsuQ8w5uUR7wb6TSMHQSI+x5y/p2a8ThYAeGUlGHSCYqKyy6obzZpTk
- bQmNiGFrpqN5k1u4qem7w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2od1rpwOPhs=:VQvHW9RS6fBY4fz/r7D4oK
- CSDDBq9rxV9tNovLY8HtUH/nxNfHcwPEzTDngijbgB0iYMlVCApkqHoei+2d8D40AMdtHO8Jl
- rCqGwzY5LPrl2a80eXdSueEQU1zvPKgg8L33rH2dVJdSrTDU/m62IazbyQ+ZNBYSlsp2cnyhO
- iPKq9eNgMrBZCySvyHQujmSgf8HrlH2iS9HmYiCuVX9UWMLyeS70ljj9COM1A06X0C2EDqkpq
- VJkxR7Y49r4uSGf0OmxCzupPwGgHRVI/I+xJ+9tPJqcS9ffR7ym5AyKWxfcGoZYlwWYCKt42M
- 6VlMx51XtA/rtiwV67+8TQxG3ecWQ43wejTLa3rBFPfqgyNxsCRwe9klntmfaRV3N5pP6zb2h
- lu3KzEIHIMPDfhMKlGjV5TzRCaBWnu6JpmmzUEveHZuLHhUtKrhWa7Ex2Zvd0W7gu7K+CQ3ph
- Jj9JciWVxuQzFztN+ALQ0ePosAkC6JMNgLRiB4O4fwzURFCHH/BkEdaDRDJgmtYrwUQbU5quF
- 6awqg+uCGkBSka+eXeQPotyVA1c1mQll5k0j7+PgvU5iOno1uGKlxcLRfx/nDWz3X+l0omJQ9
- BYqlpTiCeEn0lRvk4k9Bw9V9JYQcLDYDKJBkgy0OcI2HWuzdNHGAlqPvSEKBoXBVfXeNQxIxZ
- MP/JDxlhIIG+sFf+A3rPC5cGHaNvYEt5fAgW2COikjB7kUdI96bxlHhBjJzeCHkXXULU5/kHS
- 2QOSJPHMu7cUwxZTIZxzh9kFB3/Y/tT60l596LbMELh6eBGLg0+AQuWnP0u6Y1S+Nx+Pkn7aT
- 4pBcNWXlK1EpuXatWFj8AmiqRbrAsK+9n80SDqI/2oDwT4aTfSHM+fVGyUs5cCdYLZ/XiKs
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:nCNc9T18Be/d8Qh5C3QrpTMVnQZPU+9VitGm2C64Prae8UVty5r
+ 1GM5RBumt5mlrX0Q1g+VQVcU4wAvdy+lYsUoIRR30PTmdlNPJouL4wN/o2ZEglCgzx5UhQp
+ c4BNFlSfWaAeUwG4pE878ZiMVRbENB91iIL+DBNDkTA0I29APF5oe/ww579qZYzPr+GHu7N
+ zut0fuXyYOmn5ooRoDhgg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rGXvPaVQ8hI=:4xwJj5mpYOQIZESBxcXy7M
+ Ix9XO+Ysg06c8qgjReihx68hlYUj8B9RhXVpIoENJuR2ipHi8PEpeq3L1ltog9aL87brvlKXs
+ oT9ybv0debaSYMr5Di8pzzuexyx+YGQ5yq0Qhm3kHNMeVlo4c35nztARGIadhudL3r4v9TYt9
+ CzXCGmbCKLfHQnW+AjA2w1ORWxDhyrfWFNgIG830RZKbJD5dONbfddh3VLuA7y+PNYNRhY0sl
+ TeTyBLSkf5QIP5kTwPiSvdHyOpiCAad+O8VAxoxWpDQNaQOXydbboIOgNbjN/A1pStXiw8dUZ
+ MWR4K4ZO5eTh4f1J57Osq+v0G5oAee1LmLSZqr3A5/mpBZdmNniFRqiF/Z9bcrHf6AVJdhCUf
+ 1BhIQ6wtoR/6VYgkgJfnczadVSoC0lsNHQ6MmdQmh6QrtDl3RHr41f48x/FnLbQOjndkAy97w
+ yHxajkqnnYFnmX8v3v74kn7ZyGBaAXaQ0ZYDh02j1+iYGk7/olkw2mSuxM9u3S+VdLPSEWI4G
+ iHYDJX9QY+9sY+QnirNmIN34BDJXi89w602P9vOKcP32OPiizrvLUuYBlB74vr6jzWzUD8gQX
+ emePB102gcZJ2u//IlwgRJppaFifxdCwVN8gp4SnsQTpCjZnfAxzimP2lsMxhLZi+gsTVeJzb
+ T544QbAgb7SKEskLdlcjnuW5OqD6UiU24IeFZKj20VDViq24jw1SzC7wltxBFwN9xv/X0cgQF
+ bnFHqDhPNK+p4oqcFTSemDZt64JecQp1UwuXgZHyAG3b7JZuN5518hxaM4a8U2EpltOc3SO96
+ MZ2EGOWyvqM2pBdjRtcv2TCnSNOuCI6PhYSPXA9weUTEPSqLsFcVlJPL3N1vSDJGFqrnDvA
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:51:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:40:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,50 +71,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
- Anup.Patel@wdc.com, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The doc [1] doesn't define the endianness, but the kernel driver
-uses readl() to access the registers, so we can guess it depends
-on the architecture endianness.
+Commit 0b09be2b2f ("Nicer debug output for exceptions") added
+twice the same "Tag Overflow" entry, remove the extra one.
 
-As riscv architecture endianness is little it might not change anything
-for it.
-
-Moreover, android implementation uses DEVICE_NATIVE_ENDIAN [2]
-
-[1] https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDFISH-VIRTUAL-HARDWARE.TXT
-[2] https://android.googlesource.com/platform/external/qemu/+/refs/heads/emu-master-dev/hw/timer/goldfish_timer.c#177
-
-Fixes: 9a5b40b84279 ("hw: rtc: Add Goldfish RTC device")
-Cc: Anup.Patel@wdc.com
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20201009113843.60995-2-lvivier@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-Id: <20201011200112.3222822-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/rtc/goldfish_rtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/sparc/int32_helper.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/rtc/goldfish_rtc.c b/hw/rtc/goldfish_rtc.c
-index 6ddd45cce039..0f4e8185a796 100644
---- a/hw/rtc/goldfish_rtc.c
-+++ b/hw/rtc/goldfish_rtc.c
-@@ -217,7 +217,7 @@ static int goldfish_rtc_post_load(void *opaque, int version_id)
- static const MemoryRegionOps goldfish_rtc_ops = {
-     .read = goldfish_rtc_read,
-     .write = goldfish_rtc_write,
--    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-     .valid = {
-         .min_access_size = 4,
-         .max_access_size = 4
+diff --git a/target/sparc/int32_helper.c b/target/sparc/int32_helper.c
+index 9a71e1abd871..ba63c739c1e8 100644
+--- a/target/sparc/int32_helper.c
++++ b/target/sparc/int32_helper.c
+@@ -50,7 +50,6 @@ static const char * const excp_names[0x80] = {
+     [TT_EXTINT | 0xd] = "External Interrupt 13",
+     [TT_EXTINT | 0xe] = "External Interrupt 14",
+     [TT_EXTINT | 0xf] = "External Interrupt 15",
+-    [TT_TOVF] = "Tag Overflow",
+     [TT_CODE_ACCESS] = "Instruction Access Error",
+     [TT_DATA_ACCESS] = "Data Access Error",
+     [TT_DIV_ZERO] = "Division By Zero",
 -- 
 2.26.2
 
