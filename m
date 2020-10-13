@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650AB28C8F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 09:05:23 +0200 (CEST)
-Received: from localhost ([::1]:38964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2ED28C8DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 08:58:34 +0200 (CEST)
+Received: from localhost ([::1]:48600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSEN8-0001wA-Cf
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 03:05:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32986)
+	id 1kSEGY-0002ax-1u
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 02:58:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBg-0005FD-Ja; Tue, 13 Oct 2020 02:53:32 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:50869)
+ id 1kSEBa-00050s-W7; Tue, 13 Oct 2020 02:53:27 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:33083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBc-0000GI-Ek; Tue, 13 Oct 2020 02:53:32 -0400
+ id 1kSEBZ-0000Eb-Cf; Tue, 13 Oct 2020 02:53:26 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N336L-1kKLNi2uCr-013Lja; Tue, 13 Oct 2020 08:53:19 +0200
+ id 1MhDEo-1jy8EU22Ak-00eNXF; Tue, 13 Oct 2020 08:53:20 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/15] hw/block/nvme: Simplify timestamp sum
-Date: Tue, 13 Oct 2020 08:53:02 +0200
-Message-Id: <20201013065313.7349-5-laurent@vivier.eu>
+Subject: [PULL 05/15] tests/test-char: Use a proper fallthrough comment
+Date: Tue, 13 Oct 2020 08:53:03 +0200
+Message-Id: <20201013065313.7349-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013065313.7349-1-laurent@vivier.eu>
 References: <20201013065313.7349-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:thAWqtsOGGWdyx3A3Sp8/A5qpp41eiSiBlLglRFkNQzyIPGxnZ6
- x5L+hByGdftKt6F+PJpwtI6/zjr4w6CDEYGZufyqNwjYVinqUjasEQ0mcA3cw0MucGk9/kX
- 2VbeNfo4/IjDKETZMvycvD/3kwxi67wlt51ZHxfnQyq+0w0jcdZb5bzYP2/GzgACJu6J1cc
- fDIBke9v00Is49KOW/SJQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jtwOttJ3RqU=:166esNlX+yG2yLk+OMflJW
- 0uixCK4xUl3jtdGKtfKeTH70kCiAwKeP1LIDMJ0onYPE41iuiN8iS960z3ra4QkqbsGc8SHQO
- p0H3eYVQ51rQid0Szc1uzYLo0TzX0Kt4lC7uXGtQ8HN8vYgyLANlztfeIIVEx4k5QFekUJHBe
- i6YFFLMmXCh7JLWM6CtI1TpXtkZ/avvbDxlp1Ph76/HZ6GZMutGqFVGIVcP2tJoVQcYNEqqke
- NTwKLSiXMndv+vIQ8VHUENKYLSoogOxc4br4xREnD5XXcJO1SKQtR5ev1hSafSGUQxvBRFdPO
- BZGFwRZvvn6uxJXVJM/opJdCKkzNtMoyYra5e7SDBBtTekqZwVgI6Ghh86mobwLmW/IXSYz6q
- kkS2l+wTB/glZEJZRR3Pd6eXSVcyJ2TpexZLNKTygC/WBOtQwyimsKRjn4CnHqGfNBkrAixvy
- MzqvWjuDwVoWH1zEl6V0dMFgcKncrAUJeqmR6+3DAIVlnGeZWhrk7fnJHBJmL3zPSuACXgTNQ
- /i5vjWEHj50raUCymIS4B9qzHfHBwOFyz1xQdb9E+UFU1LPaSPPuItRBYeHyOx9a5jBeta5qg
- 5fMX9DWGDSJ1BnYMJrhuqOekKrJEItTPuTrlF+sowdp6EI4RF+eIalT9wYEZNVkGOvzdP5OQj
- mKdyPgiaLauY9eaujfTXuZRxEdTdRRTap59GcWdpnw2wPyVBKBmBj4ry04AlYi1fJkYqhFg0e
- v05CZqhYvyIt0utbQAFD0YvUKU8OKUF9lJ8RZdUwS2fXrTrWZ1J/IDfr92gDXdF9YpBulr9Jn
- cZk8WnHTQa/zc3jtVHqLeEjJzQNJFjQsPNio30dtPbDLdghgc6haYmbjxFp6ye8p+2KQ+lL
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9Xfjz56fO9lF7hiKITH/c1toHpSmo850v+vuEsOpzUHK5gLk8AW
+ VFifuVvIm0s0L+SZX2PmKFq3KnyA5+dn6kf+SdXI4loRr3otXiaCPEYRLZH5uCNN8o+A7rT
+ uLJSu9Cbh23y30iSXVHRPaA0es2aVmm3Cva5lCMebGKQrAHTkEkcttiM5X83U8CRpxr8C94
+ cFpZkVi4UVHm7bhMTMaiw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qttuLacMo2Q=:91ngz4MfHImT2rvpnHk0o/
+ ajj0inkzy8T6dq6T0TznUlOToBjELm0Nb93RON2YoUL3An0eCuXw9twsMbHKUCqBAtdIZ5k2E
+ QKqC6f2JgeSwzj0pFWbIixI2hy95/WTxxwqa0TwfMZsfGzx7am/zXSqOLnc+jyqfk1Drxm7K1
+ NZQTgxVUf4uzcmwzcCAdQ+Xl7cn89aR1VwnN0TXervd3JkvWlG9pJOpmCAVTTA21XGAn8iTzl
+ kIQtG+9FuktWDlxA6gH6FJDkBEC3iypF2PRiyB5LQS7mTtJEA59NTHVoRNEG4yrZz4u6k5JLv
+ BR7YT2IPBlq2l5+X8LkkMln/tyElIyw+H479FA9Qfl+iRbWKcTG3Vj7m7k4SqLOG2rxwgl+pG
+ DXceVGfXQ1u6SndaEnAJMYr+RZSqYt+fE2zdHQc9gc4z0rbsuhInGH6NUAuRpzDTBDUahKEkC
+ nFCSifd3/1LvRWzyQE2+6c4u+NPy7UOhWyStIwiGrkCl1F106dxsnCncuw1uMd+SRAZG8HHQ9
+ 1gqkLarVltIzZ32nTwNeciM0Bnpktgawgo3BjFjeWaRaKBXthQC6iIbtDzx5mE+hQqDtxOeee
+ KErB4jDqWBDk1/+xb5VYVbT3F1yefreNZN6ADkxzVB01wmE5mU1OP54et7qa6v6akRLhYGGFh
+ UxAqQVHfl8TVZcg1O6WT02qkT8HJ+455Kt6y6KZD+AqoqMhLK9wKSOcuHIqljD1ozvdOwBrQI
+ KRS2V6L5lpUp2l5RF9pAkFBRv4kiVkjQB7A7jvnuHYrtFyOncsfRhO/8YuYtzLgQFjv5noJvD
+ fIy9PTLyIJ99g4juz1tCTCpyGRhrnBEANoITh9lcwObpxtB8ofMsx+DCCh5BhOnLLDuTetQ
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:53:21
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:53:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,44 +70,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Klaus Jensen <k.jensen@samsung.com>
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-As the 'timestamp' variable is declared as a 48-bit bitfield,
-we do not need to wrap the sum result.
+For being able to compile with -Werror=implicit-fallthrough we need
+to use comments that the compiler recognizes. Use "fallthrough" instead
+of "no break" here.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Message-Id: <20201002075716.1657849-1-philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201002171343.283426-1-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/block/nvme.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ tests/test-char.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 63078f600920..44fa5b90769b 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1280,12 +1280,7 @@ static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
- 
-     union nvme_timestamp ts;
-     ts.all = 0;
--
--    /*
--     * If the sum of the Timestamp value set by the host and the elapsed
--     * time exceeds 2^48, the value returned should be reduced modulo 2^48.
--     */
--    ts.timestamp = (n->host_timestamp + elapsed_time) & 0xffffffffffff;
-+    ts.timestamp = n->host_timestamp + elapsed_time;
- 
-     /* If the host timestamp is non-zero, set the timestamp origin */
-     ts.origin = n->host_timestamp ? 0x01 : 0x00;
+diff --git a/tests/test-char.c b/tests/test-char.c
+index d35cc839bc60..9196e566e9ba 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -70,7 +70,7 @@ static void fe_event(void *opaque, QEMUChrEvent event)
+             h->openclose_mismatch = true;
+         }
+         h->is_open = new_open_state;
+-        /* no break */
++        /* fallthrough */
+     default:
+         quit = true;
+         break;
 -- 
 2.26.2
 
