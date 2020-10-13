@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA08D28D56D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 22:35:03 +0200 (CEST)
-Received: from localhost ([::1]:55194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF9C28D578
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 22:40:35 +0200 (CEST)
+Received: from localhost ([::1]:41474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSR0g-0001A2-KW
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 16:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56430)
+	id 1kSR61-0007RF-6L
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 16:40:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kSQzf-0000NL-CL
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 16:33:59 -0400
-Resent-Date: Tue, 13 Oct 2020 16:33:59 -0400
-Resent-Message-Id: <E1kSQzf-0000NL-CL@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kSQzc-0000Xr-V9
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 16:33:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1602621223; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aXuuEfhYC6ZZSDCT4NAjYzdFYfvfrj2U22sEq+VnA4yDAy+c5/TcvzCrpnP2XmIg4X/J6cnzkasn1CN2GC78M8G12Sfpab+UWhddtN+HjyzQqchXpa+0kXGCE4LL610w0F0gLKMIMG4xD5LnjzzopY0oHBhUyrasDtxMkIqSa5U=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1602621223;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=yjk7RHcjgCDIN0ypiiEYFalKonM0tY0iTzNtm125Qzg=; 
- b=jTv7hrP81MMC4D+7edNjF5/oHRpw7H8x71+rB3lUZcJaN3fj41mvVnFkowOjl0PsIzAzFL6GpFN83+NnCpGnSzgZ/i16iF8Aj6cdnaSWZcSmFc1gEm/iZMBRTKucaZW5I6932/cTTJGVxnqNVKdhAEWOkk6vYRpSvhlUIQjwRCs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1602621221555880.3609221317971;
- Tue, 13 Oct 2020 13:33:41 -0700 (PDT)
-Subject: Re: [PATCH 0/2] qemu-ga: add ssh-{add,remove}-authorized-keys
-Message-ID: <160262122011.26906.4475388728293154273@66eaa9a8a123>
-In-Reply-To: <20201013202502.335336-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
+ id 1kSR2N-0003cV-L7
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 16:36:47 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:41055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
+ id 1kSR2L-00013M-Gj
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 16:36:47 -0400
+Received: by mail-lf1-x134.google.com with SMTP id d24so1190320lfa.8
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 13:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NQjQ2k5Saht+0v/Nw1gJ06v1KosSim39Rrh/K70mE9E=;
+ b=jQaesPSFTPRhdaJ/IqEXZZ70+scGkNb1HDPfK0KW1sqhP4cGHHqrqbj3R4XFat/hI6
+ kNzBtGPjo6gxc1fjnQPZzYfA351zCCY7KaRTj5adeqKSIUy55WSUP+UCmmBGd3DnVuTu
+ hPBFcJENBJ6F49GIFfi8K8XoSuq0AptuOLd2jROZc9v9vK4o/ETSzfbBEWqQz237jgpk
+ pA5GJyuGgTJaVa8EfxDL3DW91H+9zpBHVIFimRxOufQQu4ehrba7mwhg89+F42mUL2E6
+ SBmQLmz6PmQTa8LeUIMG5GalZy1R93WKzOHMUNFJHD1FnvYbIa3Yomn9KqLZAKE/nAKt
+ mfDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NQjQ2k5Saht+0v/Nw1gJ06v1KosSim39Rrh/K70mE9E=;
+ b=uSUC7n3jZpQ8hzSRlPa12xJsQvkKvnMHXW/Eytd8NOHvCY+SXs3WTX3LyGhoupcAXO
+ FXgNzYntF2guIaJw3mqT/kv39WEPJwJx4V9WpFvDjfFh1oasdH+oZpz/2zRUxc1F9/+K
+ 9ttK8VsBY+/ONv0CyQSWw0L9IuoORkpOJEJmmwXIV2vifaYrVuNVguj0+tjPw1FYAtNj
+ als0HOMu4FsbrK2SQODZj5B04u0fFvF9mKIZORoTSVz19twM0uBpPjM2aWyjVfFhIYrX
+ KgktavkD98Zek/AMoUFlrlRDZDM1wcgOdgqOETLQsZ84xfJdsYbft2Z1pvcauPGwYCxt
+ OG6Q==
+X-Gm-Message-State: AOAM533IRYq4l+COsV9HL2/p32ih6rfVeZFpeGj33d0ShrrIUDyTYB4i
+ ubuUXJnJd2vg1cdbKuOK2vwynL/b8LTinraCkKE=
+X-Google-Smtp-Source: ABdhPJyc4gYiGMgm7ccRbPjdTl523pIjBDmx0/crijD7nRyGalWIpfyK/BHYXHE1SSV/b2RI2rJ28LKu9QHjo9pCIdc=
+X-Received: by 2002:a19:8256:: with SMTP id e83mr332082lfd.530.1602621403376; 
+ Tue, 13 Oct 2020 13:36:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: marcandre.lureau@redhat.com
-Date: Tue, 13 Oct 2020 13:33:41 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 16:33:53
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <CA+-xGqMd4_58_+QKetjOsubBqrDnaYF+YWE3TC3kEcNGxPiPfg@mail.gmail.com>
+ <47ead258320536d00f9f32891da3810040875aff.camel@redhat.com>
+ <CA+-xGqOm2sWbxR=3W1pWrZNLOt7EE5qiNWxMz=9=gmga15vD2w@mail.gmail.com>
+ <20201012165428.GD26135@linux.intel.com>
+ <CA+-xGqPkkiws0bxrzud_qKs3ZmKN9=AfN=JGephfGc+2rn6ybw@mail.gmail.com>
+ <20201013045245.GA11344@linux.intel.com>
+ <CA+-xGqO4DtUs3-jH+QMPEze2GrXwtNX0z=vVUVak5HOpPKaDxQ@mail.gmail.com>
+ <CA+-xGqMMa-DB1SND5MRugusDafjNA9CVw-=OBK7q=CK1impmTQ@mail.gmail.com>
+ <a163c2d8-d8a1-dc03-6230-a2e104e3b039@redhat.com>
+In-Reply-To: <a163c2d8-d8a1-dc03-6230-a2e104e3b039@redhat.com>
+From: harry harry <hiharryharryharry@gmail.com>
+Date: Tue, 13 Oct 2020 16:36:25 -0400
+Message-ID: <CA+-xGqOMKRh+_5vYXeLOiGnTMw4L_gUccqdQ+HGSOzuTosp6tw@mail.gmail.com>
+Subject: Re: Why guest physical addresses are not the same as the
+ corresponding host virtual addresses in QEMU/KVM? Thanks!
+To: Paolo Bonzini <pbonzini@redhat.com>, 
+ Sean Christopherson <sean.j.christopherson@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=hiharryharryharry@gmail.com; helo=mail-lf1-x134.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PLING_QUERY=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,88 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com
+Cc: kvm@vger.kernel.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>, mathieu.tarral@protonmail.com,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAxMzIwMjUwMi4zMzUz
-MzYtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTAxMzIw
-MjUwMi4zMzUzMzYtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENI
-IDAvMl0gcWVtdS1nYTogYWRkIHNzaC17YWRkLHJlbW92ZX0tYXV0aG9yaXplZC1rZXlzCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9k
-ZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApn
-aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
-ZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNr
-IGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3
-ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3
-LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAxMDEzMTAzNTMy
-LjEzMzkxLTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnIC0+IHBhdGNoZXcvMjAyMDEwMTMxMDM1
-MzIuMTMzOTEtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcKIC0gW3RhZyB1cGRhdGVdICAgICAg
-cGF0Y2hldy8yMDIwMTAxMzE3MjIyMy40NDM2NDUtMS1nZW9yZy5rb3RoZWltZXJAa2Vybmtvbnpl
-cHQuY29tIC0+IHBhdGNoZXcvMjAyMDEwMTMxNzIyMjMuNDQzNjQ1LTEtZ2Vvcmcua290aGVpbWVy
-QGtlcm5rb256ZXB0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAxMDEzMjAy
-NTAyLjMzNTMzNi0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAx
-MDEzMjAyNTAyLjMzNTMzNi0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0
-byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjY2Yzg5MjkgcWdhOiBhZGQgc3NoLXthZGQscmVtb3ZlfS1h
-dXRob3JpemVkLWtleXMKNmFhNjEyYyBnbGliLWNvbXBhdDogYWRkIGdfdW5peF9nZXRfcGFzc3dk
-X2VudHJ5X3FlbXUoKQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yIENoZWNraW5nIGNvbW1pdCA2
-YWE2MTJjYzY3YWQgKGdsaWItY29tcGF0OiBhZGQgZ191bml4X2dldF9wYXNzd2RfZW50cnlfcWVt
-dSgpKQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJh
-dGUgbGluZQojMzg6IEZJTEU6IGluY2x1ZGUvZ2xpYi1jb21wYXQuaDo3OToKKy8qIE5vdGU6IFRo
-ZSBmYWxsYmFjayBpbXBsZW1lbnRhdGlvbiBpcyBub3QgTVQtc2FmZSwgYW5kIGl0IHJldHVybnMg
-YSBjb3B5IG9mCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBh
-IHNlcGFyYXRlIGxpbmUKIzQxOiBGSUxFOiBpbmNsdWRlL2dsaWItY29tcGF0Lmg6ODI6CisgKiBH
-TGliIEFQSSBzdWJzdGl0dXRpb24uICovCgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDM2
-IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzIg
-Q2hlY2tpbmcgY29tbWl0IDY2Yzg5MjkyYzM0YyAocWdhOiBhZGQgc3NoLXthZGQscmVtb3ZlfS1h
-dXRob3JpemVkLWtleXMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyks
-IGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzI1OiAKbmV3IGZpbGUgbW9kZSAxMDA2
-NDQKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojNTI6IEZJTEU6IHFnYS9jb21tYW5k
-cy1wb3NpeC1zc2guYzoyMzoKKyAgICAgICAgZ19zZXRfZXJyb3JfbGl0ZXJhbChlcnJvciwgR19G
-SUxFX0VSUk9SLCBHX0ZJTEVfRVJST1JfRkFJTEVELCAiSW52YWxpZCB1c2VyIG5hbWUiKTsKCkVS
-Uk9SOiBVc2UgZ19hc3NlcnQgb3IgZ19hc3NlcnRfbm90X3JlYWNoZWQKIzYyOiBGSUxFOiBxZ2Ev
-Y29tbWFuZHMtcG9zaXgtc3NoLmM6MzM6CisgICAgZ19hc3NlcnRfY21waW50KHJldCwgPT0sIDAp
-OwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzY3OiBGSUxFOiBxZ2EvY29tbWFu
-ZHMtcG9zaXgtc3NoLmM6Mzg6CisjZGVmaW5lIGdfdW5peF9nZXRfcGFzc3dkX2VudHJ5X3FlbXUo
-dXNlcm5hbWUsIGVycikgdGVzdF9nZXRfcGFzc3dkX2VudHJ5KHVzZXJuYW1lLCBlcnIpCgpXQVJO
-SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojODk6IEZJTEU6IHFnYS9jb21tYW5kcy1wb3Np
-eC1zc2guYzo2MDoKK21rZGlyX2Zvcl91c2VyKGNvbnN0IGNoYXIgKnBhdGgsIGNvbnN0IHN0cnVj
-dCBwYXNzd2QgKnAsIG1vZGVfdCBtb2RlLCBFcnJvciAqKmVycnApCgpFUlJPUjogVXNlIGdfYXNz
-ZXJ0IG9yIGdfYXNzZXJ0X25vdF9yZWFjaGVkCiMzMTM6IEZJTEU6IHFnYS9jb21tYW5kcy1wb3Np
-eC1zc2guYzoyODQ6CisgICAgZ19hc3NlcnRfY21waW50KHJldCwgPT0sIDApOwoKRVJST1I6IFVz
-ZSBnX2Fzc2VydCBvciBnX2Fzc2VydF9ub3RfcmVhY2hlZAojMzE4OiBGSUxFOiBxZ2EvY29tbWFu
-ZHMtcG9zaXgtc3NoLmM6Mjg5OgorICAgIGdfYXNzZXJ0X25vX2Vycm9yKGVycik7CgpFUlJPUjog
-VXNlIGdfYXNzZXJ0IG9yIGdfYXNzZXJ0X25vdF9yZWFjaGVkCiMzMzA6IEZJTEU6IHFnYS9jb21t
-YW5kcy1wb3NpeC1zc2guYzozMDE6CisgICAgZ19hc3NlcnRfbm9fZXJyb3IoZXJyKTsKCkVSUk9S
-OiBVc2UgZ19hc3NlcnQgb3IgZ19hc3NlcnRfbm90X3JlYWNoZWQKIzMzMjogRklMRTogcWdhL2Nv
-bW1hbmRzLXBvc2l4LXNzaC5jOjMwMzoKKyAgICBnX2Fzc2VydF9jbXBzdHIoY29udGVudHMsID09
-LCBleHBlY3RlZCk7CgpFUlJPUjogVXNlIGdfYXNzZXJ0IG9yIGdfYXNzZXJ0X25vdF9yZWFjaGVk
-CiMzNjk6IEZJTEU6IHFnYS9jb21tYW5kcy1wb3NpeC1zc2guYzozNDA6CisgICAgZ19hc3NlcnRf
-bnVsbChlcnIpOwoKRVJST1I6IFVzZSBnX2Fzc2VydCBvciBnX2Fzc2VydF9ub3RfcmVhY2hlZAoj
-Mzc1OiBGSUxFOiBxZ2EvY29tbWFuZHMtcG9zaXgtc3NoLmM6MzQ2OgorICAgIGdfYXNzZXJ0X251
-bGwoZXJyKTsKCkVSUk9SOiBVc2UgZ19hc3NlcnQgb3IgZ19hc3NlcnRfbm90X3JlYWNoZWQKIzM5
-NjogRklMRTogcWdhL2NvbW1hbmRzLXBvc2l4LXNzaC5jOjM2NzoKKyAgICBnX2Fzc2VydF9udWxs
-KGVycik7CgpFUlJPUjogVXNlIGdfYXNzZXJ0IG9yIGdfYXNzZXJ0X25vdF9yZWFjaGVkCiM0MDE6
-IEZJTEU6IHFnYS9jb21tYW5kcy1wb3NpeC1zc2guYzozNzI6CisgICAgZ19hc3NlcnRfbnVsbChl
-cnIpOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQzMzogRklMRTogcWdhL2Nv
-bW1hbmRzLXdpbjMyLmM6MjQ2MToKK3ZvaWQgcW1wX2d1ZXN0X3NzaF9hZGRfYXV0aG9yaXplZF9r
-ZXlzKGNvbnN0IGNoYXIgKnVzZXJuYW1lLCBzdHJMaXN0ICprZXlzLCBFcnJvciAqKmVycnApCgpF
-UlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzQzODogRklMRTogcWdhL2NvbW1hbmRzLXdp
-bjMyLmM6MjQ2NjoKK3ZvaWQgcW1wX2d1ZXN0X3NzaF9yZW1vdmVfYXV0aG9yaXplZF9rZXlzKGNv
-bnN0IGNoYXIgKnVzZXJuYW1lLCBzdHJMaXN0ICprZXlzLCBFcnJvciAqKmVycnApCgp0b3RhbDog
-MTEgZXJyb3JzLCA0IHdhcm5pbmdzLCA0NjggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8yIGhhcyBz
-dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
-IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
-UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
-eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
-cGF0Y2hldy5vcmcvbG9ncy8yMDIwMTAxMzIwMjUwMi4zMzUzMzYtMS1tYXJjYW5kcmUubHVyZWF1
-QHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
-ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
-ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+Hi Paolo and Sean,
+
+Thanks much for your prompt replies and clear explanations.
+
+On Tue, Oct 13, 2020 at 2:43 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> No, the logic to find the HPA with a given HVA is the same as the
+> hardware logic to translate HVA -> HPA.  That is it uses the host
+> "regular" page tables, not the nested page tables.
+>
+> In order to translate GPA to HPA, instead, KVM does not use the nested
+> page tables.
+
+I am curious why KVM does not directly use GPAs as HVAs and leverage
+nested page tables to translate HVAs (i.e., GPAs) to HPAs? Is that
+because 1) the hardware logic of ``GPA -> [extended/nested page
+tables] -> HPA[*]'' is different[**] from the hardware logic of ``HVA
+-> [host regular page tables] -> HPA''; 2) if 1) is true, it is
+natural to reuse Linux's original functionality to translate HVAs to
+HPAs through regular page tables.
+
+[*]: Here, the translation means the last step for MMU to translate a
+GVA's corresponding GPA to an HPA through the extended/nested page
+tables.
+[**]: To my knowledge, the hardware logic of ``GPA -> [extended/nested
+page tables] -> HPA'' seems to be the same as the hardware logic of
+``HVA -> [host regular page tables] -> HPA''. I appreciate it if you
+could point out the differences I ignored. Thanks!
+
+Best,
+Harry
 
