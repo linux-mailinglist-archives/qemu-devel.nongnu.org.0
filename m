@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF3728CB79
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 12:18:47 +0200 (CEST)
-Received: from localhost ([::1]:53286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD0028CB83
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 12:21:40 +0200 (CEST)
+Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSHOH-0002lK-Po
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 06:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52568)
+	id 1kSHR5-0005Ak-Jd
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 06:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSHMn-0001v1-F2
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:17:13 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39116)
+ id 1kSHMt-0001xS-HN
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:17:19 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSHMm-0001Y4-4A
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:17:13 -0400
-Received: by mail-wr1-x443.google.com with SMTP id y12so17950713wrp.6
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 03:17:11 -0700 (PDT)
+ id 1kSHMq-0001Yg-LW
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:17:19 -0400
+Received: by mail-wr1-x441.google.com with SMTP id i1so17198872wro.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 03:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LmpqxRDOSD6Y0ROM5eXEsmel/Juskc7iItZ6lbtqH6w=;
- b=KRKJ4aR2K2Z6kRbO6UYExKbaj3EDn4tZBpU88EUn0DL4eAqq8VQUXGBvhWRkXObPy0
- jGHp8KA7tlIf7lgNEk61QxT0cGC+GA6w9qqj59LdQH4gBZi349CP2MGdgSPantTkrNtZ
- Ix8IkPo+FuzOlJfiLwGX+Y1TT98YVeYUWrgb/a5Tk9zdfRj4ldhB6czK62d0h3V2c+ur
- 9eSgU8vX5RFoqSdRmHGaWittrI5CGRTKYWpReLS3g+4DdGgZ/nQUR+Q7LV151I6L3sdD
- C47bE4s98A9WjNCEWMq4/uyh3bevHtyOCvKOImsFuY6zreOpI17ZYPPnJ+XCOQ12vxmC
- Z82A==
+ bh=eaRuah3IQkCoghHDAmYYklRLXzqbVIln28FjMwcwuUc=;
+ b=seP3ffOWsKgaDfOxDY8hpxbxy6J4xnE4Cu9FyKC2HJq5DSaU94q2MF8QWgxYQn/Ca/
+ EoXI3GJy6UNKCRNA9xM6wpviVS93LByU1UNZqEiRBVAPHQAuNJHBXtX3vE8aV9sXdTmt
+ JbvDZFqbQYwSkDVdgEKNuvDEaPA6RxMpC96I/wG3OqaW3zt2uRZduoABj6TXXmhFomgM
+ WtJRYJV1zzispbfwiMvr3CNORC5R8dyN2rweeUxanwqGf+pj1KfF9h9dyFn95iDjsdOK
+ wkvYnga4rw3Rxryp4xYyhA+8dojtRr/5jVWLRfaq4bzuG4MzAi8Y6gPm3Y58qQy72Xul
+ IAog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LmpqxRDOSD6Y0ROM5eXEsmel/Juskc7iItZ6lbtqH6w=;
- b=QbLOWhAwg9moKML4wNt8I/t3uAvzvFWo/rTbVDgW/s86/s5jXc1P6AgvXW5r7K1R6m
- AXuZ2nmY4IqdDxAULvSkR5302V1aOGWhvgnzLKzjf8YrpfantO50Alhf3N7xGEyMcd1E
- Cbg6Z1hWc2jOPuBerrfD4UwUWaejcX03Frh/D/5TWVPOqTGms3MRntDJeUtjAwNap7q6
- yEZn0/AXSaA9iEk5Ah1IGGpuWi52b7IvMHZ5M/HziKzu+snZLaWYNnTgQXg2poKdKV4C
- jf2yxqD0grQuShZ1hoR+uFOa7/IRZkuYpgeHrm1Gg4S2POD93Z6WjQ+DAoTGixJEDe/J
- XelQ==
-X-Gm-Message-State: AOAM532bjccebBJaf7TdAOYqvLvY9QFEGHuwOy+yV2TGriU+OTAJplck
- w+ghstyqWefZMeyxd0DgKg2xtq95IRg=
-X-Google-Smtp-Source: ABdhPJzZFV4XwTpdJ9/sgH017+k5Jhj8dhpvDapIDs5fGQegPGHsgevMfMjVkqdQ4IAuNXebTSS7Qg==
-X-Received: by 2002:adf:fac3:: with SMTP id a3mr8354075wrs.240.1602584230527; 
- Tue, 13 Oct 2020 03:17:10 -0700 (PDT)
+ bh=eaRuah3IQkCoghHDAmYYklRLXzqbVIln28FjMwcwuUc=;
+ b=TEdIIu2T+bx9ane4SG+eYxnGaPbRVD92qEgOqJNXmdlr4NQmK+W5erYOQw4iEZXD0U
+ Nyuv1sEyQMv4Yx8KD9FXPzBEcLkzm/U32zHbUt4gty2LLprmPkBpusmwSLQX9zNSnutB
+ rwbGLWg1Ab0Pfx04a9eU5p2BCmgKw2hqkeSSEn152ODhTev7D6ElnZZF+ziDh86Gm/zu
+ NWf42/VEpqmbY3AjXFoTz1Kc1Funud+zWHsdPGFKueYeuUl/9+4TWNipDCat2SHlHkvr
+ xZ4YK49jC2hdVf0en2kPXSn3PAYCqdII2Xvb4eb4vdKXMeK4dls3nA3CP+7MahCImVhl
+ PPzQ==
+X-Gm-Message-State: AOAM530x01nVog54s5P4t0agg8l180X9RJV3Am7Wf01Lo6i7eI+Jaa7v
+ 0Tlbfo6mUESqOJbAk77sjhVp1Suy20g=
+X-Google-Smtp-Source: ABdhPJwANdbbQxvjKsMIZyRQvlJgMreyzLHKuu+7BFACK6bL8KgZJIDDNcvlmZN3J+xB9t9zST8EcQ==
+X-Received: by 2002:adf:c3c2:: with SMTP id d2mr35997308wrg.191.1602584235148; 
+ Tue, 13 Oct 2020 03:17:15 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id t83sm16525209wmf.39.2020.10.13.03.17.09
+ by smtp.gmail.com with ESMTPSA id x4sm2897603wrt.93.2020.10.13.03.17.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 03:17:09 -0700 (PDT)
+ Tue, 13 Oct 2020 03:17:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] MAINTAINERS: Remove duplicated Malta test entries
-Date: Tue, 13 Oct 2020 12:16:57 +0200
-Message-Id: <20201013101659.3557154-3-f4bug@amsat.org>
+Subject: [PATCH v2 3/4] MAINTAINERS: Downgrade MIPS Boston to 'Odd Fixes',
+ fix Paul Burton mail
+Date: Tue, 13 Oct 2020 12:16:58 +0200
+Message-Id: <20201013101659.3557154-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013101659.3557154-1-f4bug@amsat.org>
 References: <20201013101659.3557154-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -95,26 +96,41 @@ Cc: Chen Huacai <zltjiangshi@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Malta tests are already covered in the Malta section.
+Paul's Wavecomp email has been bouncing for months. He told us
+he "no longer has access to modern MIPS CPUs or Boston hardware,
+and wouldn't currently have time to spend on them if he did." [1]
+but "perhaps that might change in the future." [2].
+Be fair and downgrade the status of the Boston board to "Odd Fixes"
+(has a maintainer but they don't have time to do much other).
+Similarly to commit 2b107c2c1c (".mailmap: Update Paul Burton email
+address"), update his email address here too.
+
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718739.html
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg728605.html
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- MAINTAINERS | 2 --
- 1 file changed, 2 deletions(-)
+v2: Squashed email address change (Thomas Huth)
+---
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index d59e5c05c10..2de5943e388 100644
+index 2de5943e388..702f73823fc 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -238,8 +238,6 @@ F: include/hw/intc/mips_gic.h
- F: include/hw/mips/
- F: include/hw/misc/mips_*
- F: include/hw/timer/mips_gictimer.h
--F: tests/acceptance/linux_ssh_mips_malta.py
--F: tests/acceptance/machine_mips_malta.py
- F: tests/tcg/mips/
- K: ^Subject:.*(?i)mips
+@@ -1161,9 +1161,9 @@ S: Maintained
+ F: hw/intc/loongson_liointc.c
  
+ Boston
+-M: Paul Burton <pburton@wavecomp.com>
++M: Paul Burton <paulburton@kernel.org>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+-S: Maintained
++S: Odd Fixes
+ F: hw/core/loader-fit.c
+ F: hw/mips/boston.c
+ F: hw/pci-host/xilinx-pcie.c
 -- 
 2.26.2
 
