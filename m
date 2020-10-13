@@ -2,82 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D2D28CF2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 15:32:06 +0200 (CEST)
-Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F4128D013
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 16:18:57 +0200 (CEST)
+Received: from localhost ([::1]:48430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSKPM-00038i-UM
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 09:32:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42892)
+	id 1kSL8i-0002TX-A9
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 10:18:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSKJQ-0007K8-Rs
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 09:25:56 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSKJP-0000sx-11
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 09:25:56 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n6so23739254wrm.13
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 06:25:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VFsuaswYufcuBvnCYcvUI12J1pzpFOAbqFSm76G5//c=;
- b=vYlSNAj2cgafv5YgMrJOUKpaa7oi/7ODTedvm0rol+gY+9uKZkGsQpHihuzT5jTJBd
- 2GR3+os57JfJ0MEA5iCmg+OkEzvzevOBSgeaQtVVY9kjBawTDQjoRNCGeAe78hR9b6j4
- PgR3ejDyw3fCcsfasujQ46hdogd7S+llNkeFf7ANYIZcKr+932Kid1BvlcHnpX7H3QyY
- YHduVGmBva/RJrtco1iRNQwvWzebRyxb756MocWILxtkgcS8599kMl3t7OTgV/58B+f1
- +/zMheRMdPnyvm2iyOoGamDsXoSsgYyowhhx1pzqcFcAulbUsd9D6XnI4BA0WxBVbU9I
- eW0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VFsuaswYufcuBvnCYcvUI12J1pzpFOAbqFSm76G5//c=;
- b=ge2Tn5AKBF5HfWQChsLyPLojoia7tjDYi4htMa4EJqu/NBoI40732HBhOiqoGMvBMe
- 6irxbptAruyN1zKOw/WGuQsmt6Mn+BdXutwsM9HfRhJsHAr4QVp2hZ1evtbC4slnvAz2
- 57PwcHF2LkU0KgQywAQtHkbKIhZVzMQtwIRuzdehxrUtuIg475vG89Xw9kjvfxciOicI
- nCr47uF4v5iB8iUelt2X11C/gMfpuBwkXY+y/e58RRHAbk7clU6ZCAKiiNMqb8byX7//
- U4Gd5ngr7UzKNuSanyhBAKRLIehUojoRlDqLjkDmcjD9V+rhmsbd6LQ6wBDraLRb7IuD
- Md2w==
-X-Gm-Message-State: AOAM533EIWDQ83rZWh7RgxiAUcBiSg7DbXPDi9OVLj+o/hpnLG3/UJpb
- UXG52/7OR2UTh1IZTvZrhZJ1PL8G4zg=
-X-Google-Smtp-Source: ABdhPJyaVQQqPRpyS7u1ykMOTf3wNuxAN72+BqzQrqNQ2H7QclLQT8ZiDXLRjwMcOVj15FyYWswksQ==
-X-Received: by 2002:adf:eb41:: with SMTP id u1mr27684150wrn.94.1602595552209; 
- Tue, 13 Oct 2020 06:25:52 -0700 (PDT)
-Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id p4sm28990248wru.39.2020.10.13.06.25.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 06:25:51 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org,
-	Victor Kamensky <kamensky@cisco.com>
-Subject: [RFC PATCH 3/3] target/mips: Make the number of TLB entries a CPU
- property
-Date: Tue, 13 Oct 2020 15:25:35 +0200
-Message-Id: <20201013132535.3599453-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201013132535.3599453-1-f4bug@amsat.org>
-References: <20201013132535.3599453-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kSKNU-0002Kb-4A
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 09:30:08 -0400
+Received: from mga17.intel.com ([192.55.52.151]:9422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kSKNQ-0001Jw-Bz
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 09:30:07 -0400
+IronPort-SDR: iPXLLFImKTXsQNGXvAk/XSHp+5surRqa5eZSf85IQEONE5gY/GYoNZjLBYswqDfhLkuZaQ+m6M
+ SepkcwEhnDDw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="145771654"
+X-IronPort-AV: E=Sophos;i="5.77,370,1596524400"; d="scan'208";a="145771654"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2020 06:29:56 -0700
+IronPort-SDR: j53Q7PLBtNpk6mVb+r+tsXFbb5Zdr5T2x1nvcyn7bRUqORCsz+byJ2DMAARHm/NiFfiEedDOol
+ hCW05/ZfElAA==
+X-IronPort-AV: E=Sophos;i="5.77,370,1596524400"; d="scan'208";a="299570231"
+Received: from clai3-mobl1.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
+ ([10.252.133.61])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2020 06:29:55 -0700
+From: Ben Widawsky <ben.widawsky@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] pci: Disallow improper BAR registration for type 1
+Date: Tue, 13 Oct 2020 06:29:48 -0700
+Message-Id: <20201013132948.293629-1-ben.widawsky@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.151;
+ envelope-from=ben.widawsky@intel.com; helo=mga17.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 09:29:58
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 13 Oct 2020 10:17:54 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,106 +65,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Khem Raj <raj.khem@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Ben Widawsky <ben.widawsky@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow changing the number of TLB entries for
-testing/tunning purpose.
+This patch informs future developers working on root complexes, root
+ports, or bridges that also wish to implement a BAR for those. PCI type
+1 headers only support 2 base address registers. It is incorrect and
+difficult to figure out what is wrong with the device when this mistake
+is made. With this, it is immediate and obvious what has gone wrong.
 
-Example to force a 34Kf cpu with 64 TLB:
-
-  $ qemu-system-mipsel -cpu 34Kf,tlb-entries=64 ...
-
-This is helpful for developers of the Yocto Project [*]:
-
-  Yocto Project uses qemu-system-mips 34Kf cpu model, to run 32bit
-  MIPS CI loop. It was observed that in this case CI test execution
-  time was almost twice longer than 64bit MIPS variant that runs
-  under MIPS64R2-generic model. It was investigated and concluded
-  that the difference in number of TLBs 16 in 34Kf case vs 64 in
-  MIPS64R2-generic is responsible for most of CI real time execution
-  difference. Because with 16 TLBs linux user-land trashes TLB more
-  and it needs to execute more instructions in TLB refill handler
-  calls, as result it runs much longer.
-
-[*] https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03428.html
-
-Buglink: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
-Reported-by: Victor Kamensky <kamensky@cisco.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 ---
- target/mips/cpu.c       |  8 +++++++-
- target/mips/translate.c | 10 +++++++++-
- 2 files changed, 16 insertions(+), 2 deletions(-)
+ hw/pci/pci.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 117c748345e..da31831368b 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -26,7 +26,7 @@
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
- #include "exec/exec-all.h"
--
-+#include "hw/qdev-properties.h"
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 3c8f10b461..55b0302c57 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1141,6 +1141,7 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+     uint32_t addr; /* offset in pci config space */
+     uint64_t wmask;
+     pcibus_t size = memory_region_size(memory);
++    uint8_t hdr_type;
  
- static void mips_cpu_set_pc(CPUState *cs, vaddr value)
- {
-@@ -183,6 +183,11 @@ static ObjectClass *mips_cpu_class_by_name(const char *cpu_model)
-     return oc;
- }
+     assert(region_num >= 0);
+     assert(region_num < PCI_NUM_REGIONS);
+@@ -1150,6 +1151,15 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+         exit(1);
+     }
  
-+static Property mips_cpu_properties[] = {
-+    DEFINE_PROP_UINT8("tlb-entries", MIPSCPU, env.tlb_entries, 0),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
- static void mips_cpu_class_init(ObjectClass *c, void *data)
- {
-     MIPSCPUClass *mcc = MIPS_CPU_CLASS(c);
-@@ -192,6 +197,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_realize(dc, mips_cpu_realizefn,
-                                     &mcc->parent_realize);
-     device_class_set_parent_reset(dc, mips_cpu_reset, &mcc->parent_reset);
-+    device_class_set_props(dc, mips_cpu_properties);
- 
-     cc->class_by_name = mips_cpu_class_by_name;
-     cc->has_work = mips_cpu_has_work;
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 9d13e164c2e..70e45b0f7ec 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -39,6 +39,7 @@
- #include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/qemu-print.h"
-+#include "qapi/error.h"
- 
- #define MIPS_DEBUG_DISAS 0
- 
-@@ -31319,7 +31320,14 @@ void mips_tcg_init(void)
- bool cpu_mips_realize_env(CPUMIPSState *env, Error **errp)
- {
-     env->exception_base = (int32_t)0xBFC00000;
--    env->tlb_entries = 1 + extract32(env->cpu_model->CP0_Config1, CP0C1_MMU, 6);
-+    if (!env->tlb_entries) {
-+        env->tlb_entries = 1 + extract32(env->cpu_model->CP0_Config1,
-+                                         CP0C1_MMU, 6);
-+    } else if (env->tlb_entries > 64) {
-+        error_setg(errp, "Invalid value '%d' for property 'tlb-entries'",
-+                   env->tlb_entries);
-+        return false;
++    hdr_type =
++        pci_dev->config[PCI_HEADER_TYPE] & ~PCI_HEADER_TYPE_MULTI_FUNCTION;
++    if (hdr_type == PCI_HEADER_TYPE_BRIDGE && region_num > 1) {
++        error_report("ERROR: PCI Type 1 header only has 2 BARs "
++                     "requested BAR=%d",
++                     region_num);
++        exit(1);
 +    }
- 
- #ifndef CONFIG_USER_ONLY
-     mmu_init(env, env->cpu_model);
++
+     r = &pci_dev->io_regions[region_num];
+     r->addr = PCI_BAR_UNMAPPED;
+     r->size = size;
 -- 
-2.26.2
+2.28.0
 
 
