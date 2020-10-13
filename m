@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0155A28D5E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 22:52:56 +0200 (CEST)
-Received: from localhost ([::1]:35770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5092A28D5E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 22:51:31 +0200 (CEST)
+Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSRHz-0000j9-1a
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 16:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32968)
+	id 1kSRGc-0007If-DM
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 16:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSREs-0005uu-Nr
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 16:49:42 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54342)
+ id 1kSREv-000601-Sn
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 16:49:45 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSREp-0002sU-QA
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 16:49:42 -0400
-Received: by mail-wm1-x331.google.com with SMTP id p15so141637wmi.4
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 13:49:39 -0700 (PDT)
+ id 1kSREu-0002su-DR
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 16:49:45 -0400
+Received: by mail-wr1-x442.google.com with SMTP id e17so951200wru.12
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 13:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gOH6Q54y5+3ER9eqXc0qEYERFLAXoc2wlUjL0YVFDAk=;
- b=DfgRosG+nVYuSBFgCGpyby5/NTTaj+746Y2zNUvEuMmcK2fPOCZxBcQwS01wuIDDUh
- NzBBgyOcN4qp//vogkO5tHGNUMflMQUjp+J45EMynVVWXiT/ZNK6fTnr/qQ9AvaRrKie
- 259D4Or4PvLFI7u8wbnz1wsicS6nlfZYBkrwMUT5tLCbSupWArujCmtHzum0U+H1N1is
- yDLUFJ0KPLLg+BWBqA5soF3zJaMjf2aEITQxxxVuI+/RrexAc2ig+DO6R9ibo3kgtORa
- k2DpXhtyfMD7RN4APxcX4DUDdOTo9BsOsy6XFVdJCBnrFs5WlAc0c7XOEIKY1oLbB8oY
- sCFw==
+ bh=HzYO5fAKE8c5Bjci2IhRroM8+dk3HQe48ilewjjRlvA=;
+ b=ld9DCnPjE7vWNZkoZdiJVRIRto7erUFrMGGYhrszRAFirD4bm2KnxomrVLUeuZN+VI
+ BbU6bsdNFwGc9Wjb38r3dwclEvRa1rxST2Lgy85RCs/kLfJZcn2+rrtQLeD9NkYIz81F
+ j7N3x6Pe58izObkKcecG7Rv/5FaZ7o+OGz/clR2gV3zRDJbLFkF+y3aRNYEASQeCFRES
+ ymknPJIwFr9F3/BXnEcDreqwKe12r54K+L++P5pUvyftOmNaPFQum4Kzsi9VJ3Qa2gfS
+ iZHR3v93xTbp7BxiXSJr7v0fODKf7q4nKUcqeDXumck4emgp8OENE0kSBTxRsGNk2ca2
+ nVdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gOH6Q54y5+3ER9eqXc0qEYERFLAXoc2wlUjL0YVFDAk=;
- b=IMsHKtbw63nr+/+SpejTHahGGFR08MWptWy5UG6WxvkR8HwPP9f2OK7uVy3ijx9m2E
- 6RkN6ZmwL6DfkbpL+XdmOqnUHssoodqNE8nvEek2eFEM1miHjqxDafqMZgSGE4YaCSFb
- DGbSqisznp06CqDs5+rcd2rvdW8rgt9WvjBWp+YvrpUhgUGCr7wUmR7ScTF9vbZ/C823
- vya8Qrwdofwqj1i/0VSGW192WPRI2WEasQSuSJsosCMgznagNrCIY4fMu68LbjQYVo7/
- ZhZDzvCGYX1yHqbj1t+/Pmc74gz8CkYEPZx+rwLnce5G1MgIAyuYgBXNUjcsOIhlAMU+
- S7Qw==
-X-Gm-Message-State: AOAM532eViy+OV198H/d15bYglDupHqW6CJ3kr1Rur56+EuSD/Y9+kee
- hgLscrGxLsoA/B5fiaXHOtrGBXh/llA=
-X-Google-Smtp-Source: ABdhPJxpnTXUtFP8iTI7SqGS2RLgkGowP5G6P7QV3AciA5M0y4ij9MSgKkQKUhvzeKvL8EDv0P2KPA==
-X-Received: by 2002:a7b:c183:: with SMTP id y3mr166452wmi.84.1602622178176;
- Tue, 13 Oct 2020 13:49:38 -0700 (PDT)
+ bh=HzYO5fAKE8c5Bjci2IhRroM8+dk3HQe48ilewjjRlvA=;
+ b=URRqjThSiY31hXlvMoQNZTcYHp7Cy+/pzpbALeIlN20/o7oQcjN69Ys8IcExn6H458
+ q67m7BhRnHuiUeODWJ8+7NpQJii+dwS4uhuXg6X9SdjPaTLiSlIv8egad43M1LyZoJWv
+ CC4Mll2wvYfc7KTbGGNZEHYiIXWCTlsiu0gnFCq6egNgYGNg4p19IxZp1ULnQjCH4xks
+ dOt1yj+R9+TWnz4Z3VadShESqLcohVh1ADu7SWa0v8smUUrwxhLrwANNn3zYPuJ94UWB
+ 32bgixlFXB9CPwsnqeBRl2Sxg6rRt6XXsMYnEaEMTecJBq63Ch3ULuFvfP4XrMIfRJRR
+ 8m4Q==
+X-Gm-Message-State: AOAM531LiUNOCZfCjEjO1+SZZcl2vh1Q3gG84WNbq9jMyiWEagEOxgcG
+ dibk2nYKAZE8zHAgJ+x8ma7/ctrGKpQ=
+X-Google-Smtp-Source: ABdhPJz5JRXAWCfY6NAPz+3FitbPy8fqAAPotFS1QWJLpU8s3JpglpNbjQX1Ls1aNot3Nen+ZjhCiw==
+X-Received: by 2002:a5d:6a0a:: with SMTP id m10mr1640326wru.189.1602622182713; 
+ Tue, 13 Oct 2020 13:49:42 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id y4sm1001930wrp.74.2020.10.13.13.49.37
+ by smtp.gmail.com with ESMTPSA id t83sm192680wmf.39.2020.10.13.13.49.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 13:49:37 -0700 (PDT)
+ Tue, 13 Oct 2020 13:49:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/misc/mac_via: Replace via2_irq_request() with
- via_irq_request()
-Date: Tue, 13 Oct 2020 22:49:26 +0200
-Message-Id: <20201013204927.3660030-3-f4bug@amsat.org>
+Subject: [PATCH 3/3] hw/misc/mac_via: Use via_irq_request() in via1_VBL(),
+ via1_one_second()
+Date: Tue, 13 Oct 2020 22:49:27 +0200
+Message-Id: <20201013204927.3660030-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013204927.3660030-1-f4bug@amsat.org>
 References: <20201013204927.3660030-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -94,47 +94,44 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+via1_VBL() and via1_one_second() just call the generic
+via_irq_request() handler raising a specific IRQ.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/mac_via.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+ hw/misc/mac_via.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index 9e64c2521fc..54088b6625a 100644
+index 54088b6625a..00877a42447 100644
 --- a/hw/misc/mac_via.c
 +++ b/hw/misc/mac_via.c
-@@ -362,22 +362,6 @@ static void via1_one_second(void *opaque)
+@@ -341,11 +341,8 @@ static void via_irq_request(void *opaque, int irq, int level)
+ static void via1_VBL(void *opaque)
+ {
+     MOS6522Q800VIA1State *v1s = opaque;
+-    MOS6522State *s = MOS6522(v1s);
+-    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
+ 
+-    s->ifr |= VIA1_IRQ_VBLANK;
+-    mdc->update_irq(s);
++    via_irq_request(v1s, VIA1_IRQ_VBLANK, 1);
+ 
+     via1_VBL_update(v1s);
+ }
+@@ -353,11 +350,8 @@ static void via1_VBL(void *opaque)
+ static void via1_one_second(void *opaque)
+ {
+     MOS6522Q800VIA1State *v1s = opaque;
+-    MOS6522State *s = MOS6522(v1s);
+-    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
+ 
+-    s->ifr |= VIA1_IRQ_ONE_SECOND;
+-    mdc->update_irq(s);
++    via_irq_request(v1s, VIA1_IRQ_ONE_SECOND, 1);
+ 
      via1_one_second_update(v1s);
  }
- 
--static void via2_irq_request(void *opaque, int irq, int level)
--{
--    MOS6522Q800VIA2State *v2s = opaque;
--    MOS6522State *s = MOS6522(v2s);
--    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
--
--    if (level) {
--        s->ifr |= 1 << irq;
--    } else {
--        s->ifr &= ~(1 << irq);
--    }
--
--    mdc->update_irq(s);
--}
--
--
- static void pram_update(MacVIAState *m)
- {
-     if (m->blk) {
-@@ -1238,7 +1222,7 @@ static void mos6522_q800_via2_reset(DeviceState *dev)
- 
- static void mos6522_q800_via2_init(Object *obj)
- {
--    qdev_init_gpio_in_named(DEVICE(obj), via2_irq_request, "via2-irq",
-+    qdev_init_gpio_in_named(DEVICE(obj), via_irq_request, "via2-irq",
-                             VIA2_IRQ_NB);
- }
- 
 -- 
 2.26.2
 
