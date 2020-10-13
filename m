@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11D828CC3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:08:34 +0200 (CEST)
-Received: from localhost ([::1]:41520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBF628CC2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:05:30 +0200 (CEST)
+Received: from localhost ([::1]:33052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSIAT-0001rA-Pu
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:08:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59494)
+	id 1kSI7V-0006i8-PD
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:05:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyV-0005Wx-4R
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyV-0005Wz-LZ
  for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28545)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyR-0006FC-De
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyR-0006FP-EM
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602586565;
+ s=mimecast20190719; t=1602586566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=HFWVGxZUvbmsJDFetUBPlJ5LZnoIYXTDI/5efETFvOQ=;
- b=ZC1pC3lSN1If7yDa/elyFuQtYVZ57Thr96gmiiY1Yxf3kr2HEMN9DT0egPY0PARBTUnA97
- GzB6AuFEBGff8RaAN0ZNQdDcu3LqHhX+B3KDb2p0ogK4S63SFuNk7hx2CpD4B11rIqWo2m
- t016jIYEcUhIgqaY1vyoQvwrgP0Cgbo=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bVRsElDBL9PwaatsrSOfpX35/vcMHCcR/VKlM8PuP54=;
+ b=Al4Gxto/BTBiuT80IaTRTtdug0cxcK5mT90l9NOIrWIu0uIZ5WyhBgdKM59dqoASWwb10b
+ wNfs0U5dPExUni4wGIHv0VGlcixlgMQ+ZpWSjyZbuCa2TRGpuFbKHU6IUwIMmzLMi1ygFU
+ HAZ6jDeAx7H6Nx6Rqv7UsPnt7RNQw6o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-QG2ON734NbqZmuxaFdJERA-1; Tue, 13 Oct 2020 06:56:02 -0400
-X-MC-Unique: QG2ON734NbqZmuxaFdJERA-1
+ us-mta-374-zhjSjwPHNmmnR_t8x-azZg-1; Tue, 13 Oct 2020 06:56:04 -0400
+X-MC-Unique: zhjSjwPHNmmnR_t8x-azZg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C88D8030BA;
- Tue, 13 Oct 2020 10:56:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0978518829DD;
+ Tue, 13 Oct 2020 10:56:03 +0000 (UTC)
 Received: from thuth.com (ovpn-112-151.ams2.redhat.com [10.36.112.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D95126EF41;
- Tue, 13 Oct 2020 10:55:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ECD436EF41;
+ Tue, 13 Oct 2020 10:56:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/23] docs/system/deprecated: Mark the 'moxie' CPU as
- deprecated
-Date: Tue, 13 Oct 2020 12:55:16 +0200
-Message-Id: <20201013105527.20088-13-thuth@redhat.com>
+Subject: [PULL 13/23] configure: fixes indent of $meson setup
+Date: Tue, 13 Oct 2020 12:55:17 +0200
+Message-Id: <20201013105527.20088-14-thuth@redhat.com>
 In-Reply-To: <20201013105527.20088-1-thuth@redhat.com>
 References: <20201013105527.20088-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 03:04:27
@@ -80,41 +83,42 @@ Cc: Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is currently unclear whether anybody is still using the 'moxie' CPU,
-and there are no images for testing available this CPU, so the code has
-likely bit-rotten in the course of time. When I asked the maintainer
-for information, I did not get a reply within four weeks yet (see
-https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg07201.html).
-The last Signed-off-by line from Anthony in our repo is from 2013,
-so it seems like this code is rather unmaintained. Time to put it onto
-the deprecation list to see whether somebody is still interested in this
-code or whether we could remove it in a couple of releases.
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-Message-Id: <20200923171815.97801-1-thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+convert these line from tab to space
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20201012234348.1427-2-luoyonggang@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/system/deprecated.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ configure | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 5e8346f7bf..09ec8b1ae8 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -283,6 +283,14 @@ for VNC should be performed using the pluggable QAuthZ objects.
- System emulator CPUS
- --------------------
- 
-+``moxie`` CPU (since 5.2.0)
-+'''''''''''''''''''''''''''
-+
-+The ``moxie`` guest CPU support is deprecated and will be removed in
-+a future version of QEMU. It's unclear whether anybody is still using
-+CPU emulation in QEMU, and there are no test images available to make
-+sure that the code is still working.
-+
- ``compat`` property of server class POWER CPUs (since 5.0)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+diff --git a/configure b/configure
+index b553288c5e..1b63488521 100755
+--- a/configure
++++ b/configure
+@@ -7211,13 +7211,13 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+-	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
+-	-Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
+-	-Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
+-	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
+-	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+-	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
+-	-Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
++        -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
++        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
++        -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
++        -Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
++        -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
++        -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
++        -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
+         $cross_arg \
+         "$PWD" "$source_path"
  
 -- 
 2.18.2
