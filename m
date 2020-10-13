@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD7028CD4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:59:11 +0200 (CEST)
-Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B955D28CD1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:57:36 +0200 (CEST)
+Received: from localhost ([::1]:44906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSIxS-0000wV-Ev
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:59:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44112)
+	id 1kSIvv-0007Bg-PU
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:57:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpd-0006x4-0N; Tue, 13 Oct 2020 07:51:05 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:40879)
+ id 1kSIph-00075W-QX; Tue, 13 Oct 2020 07:51:09 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:53417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpa-0004x9-3C; Tue, 13 Oct 2020 07:51:04 -0400
+ id 1kSIpf-0004xz-PO; Tue, 13 Oct 2020 07:51:09 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MWjUc-1kzOZd2WjY-00X49P; Tue, 13 Oct 2020 13:50:57 +0200
+ id 1N5W4y-1kQbzE1ZhC-016xCP; Tue, 13 Oct 2020 13:50:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/14] target/i386/cpu: Update comment that mentions Texinfo
-Date: Tue, 13 Oct 2020 13:50:40 +0200
-Message-Id: <20201013115052.133355-3-laurent@vivier.eu>
+Subject: [PULL 03/14] hw/block/nvme: Simplify timestamp sum
+Date: Tue, 13 Oct 2020 13:50:41 +0200
+Message-Id: <20201013115052.133355-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
 References: <20201013115052.133355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VT0tRzQgQqS3Xn0HZeurVsM0NOuomd8i+kDrc9WfR6rfSC0AD65
- KBlMjcoY5E58Xcty1zGECxlCi8s2c595UvYVGDFNH0umsQdIJrFpbdTL0FP5v3NBFgQ+4h0
- N9SiWL6Gkioww76ygNYNSrQtAJconPb6d09XCz/hpaAz6fCt/m+jmWNB3lUGiM3dWctllK1
- O3Ignd1JhFvN5Ks8YPu2w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hIZlfULOJxg=:fLkuQqNTb1EpEo+OnhFiSz
- KpB/NQVx0vRNt4pm6N9vRBxfFYZG29B5+No+yZAs20lonUv8pBRGdnAsbPRUwM00lUEYmUNkh
- NzNzxEHqbwyFKED3BU1mlwXIj2H46lWYayhOL3HhjXt+K9zAat9WQgC6G0JEf5qKVH7Deo5Nu
- UNR93boD7E0aW0icFIHOUbVgISzloDu9q/WvqtRZCfNOwET3pwuhgOK1NHyB7gJ0EPnEt8L5N
- YSGBdrz2zKnIPoLZ8uDdhTo5Oypn/e8n5wFT5C/X8rMOnQgfIK1of3yIfsCpxPacQ+SBx+/bv
- SXkFmGR6FyGKCvS2l1NF0um2D9YjnHxTb2DKoNPVPTT7OMkLWT/3f7FguwBgEgdGoFE2GMu38
- D/u3SW6X56J2Fe7A5ED9paQ/+JF9X62UNJcy8+r2j+IDEUnUWL6UvTNZNxpdaAj3GkF0HX4GS
- GNYZJXBPT2OhnOndHf8ojTNkdEEEvCVLR1hdBPoaPsCJz9BCXsBEfGdyIAfzQyYdIDancn8Qc
- sd9sRw6jpkx+cqiVf5vhHUuCisBZA8+/yGOyJdLcNQfluzIPgDJ6PBW6cORPaVIOB8V7EYDKr
- g/tkIU6dh9bgEdby5ztVenP0Ee1New2BnL0mpHMAUth2j1qzghzFhuv5qRl961yhNHdeHwF51
- WfWOo++pWwvDTD164QXtV4IQ8dAdsGUkmMcIdrg+iVHReqwLEJgm4odbflP5injV65gv9zUJY
- U9UVC6sWMV+krRmZAPJX0uuff2yo+nLmzD58jcWj/v9aG09qQ/NwJ1OqyMGxsR1jksV5ZkEKQ
- X6yz9nxlR7cswkAwOX5UbfOPT/X/XazenhZZoCvYkmeg4p6dHMOtx9px74SIlaUeqOPU/Ax
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:/ee+PThk7XogI9GHj1Wg2rfny9f8gwTp3lAHF4xjlhyMTJpfemN
+ j7RnUX8wJOWQBKfI6a+YJxSCIq6Z4GpS3A+7boOVVo2orHdS3caJhsI8bFaeQfvEwLJcAxn
+ /jp4X6SpqlpPuGhberN2Y5Wkmuwm2z7EJb4cr1o7Ycgtr7LTBbYyjWxDtkD3xbx3qVVx9/o
+ iZrwOAHej9cl80LuVDqNg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/GdTjfWZIek=:tysByNhNiZh1Lp9V7EyKdO
+ 6ZLHp0VbEUbmC3ezkNKmyACGlFXlcW2urULxmyh55uHj6h2CUitYakekbwkeFcCaFMbIJPJUD
+ my0J0/h6xICzGRmyflv9k6CMSGTopNNaA8mOB9yb5TFNpIdEo5LydPp+66RFNjRmeOG61xHPF
+ 2tvQ+ilra80FRBIgxzRpIiShWaMMgpPZ5gN8UI4PqbU6kqmJZgg81LvOIvc6SZDpWfr9pOQUr
+ Rxa2/vpSsJral6XkgrxUh4DUrFdPmrsj3CNYMt6R5NFizwSj1ABZyoTu26IIYNb8iB9bdliKl
+ cabWdJxNqMsIX1mNrcgpjoCUJxJGti4UgG6k6AwXbOHBYBlx211mDmgsU3yGx0BNFGPT1uSDu
+ So6NZQlE0OGOPRigXKkCeD0E0OJMQv3PiTs4/uLnUT1/4UWvIh6Xq4GpuZR5z810xDRH3fl4x
+ pbbR8dMuWBzP+xjP63Da9AXoHxwLPKKILSOCvoXUfsEq+IeUUD+DdzFqeR8fgQImfocnzMEBk
+ e373K219ArtjZF6ConQLE+PlBl1Etywc6etM9QhNih+1ea9PfESzVizFkeqlUOGNEFGZ0nhnA
+ lEd1opbWcxxk4y4IX/aiiPyGYKdItPsY7cQjdSrLovNz+hI/ng3bGt849GTeVggKJoawBnKGj
+ 0ntemync2YvzP2hfw/H8O3Hrl5awV7ZvGIjSRKPIF9kGecKW4xVd8lQRvjvJbXSxARbgsbyMw
+ iMgvYjbrzDl7VRQtmLZq65vRbBCfzewrbAZhiPhbcUGqUhoyoSIaXYFvDOlqhvq4dcy030yOk
+ F/fNo69+FYJX+PkWk8t/iuvdovJHUFsT4ZZFS3yl5rUCK13Zu+QZMOMwyEOVEIxgqsYOyXQ
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:50:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:40:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,38 +72,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Missed in commit 41fba1618b "docs/system: convert the documentation of
-deprecated features to rST."
+As the 'timestamp' variable is declared as a 48-bit bitfield,
+we do not need to wrap the sum result.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200929075824.1517969-3-armbru@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Message-Id: <20201002075716.1657849-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/i386/cpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/block/nvme.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index f37eb7b675f4..9eafbe369075 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4127,7 +4127,8 @@ static PropValue tcg_default_props[] = {
-  * We resolve CPU model aliases using -v1 when using "-machine
-  * none", but this is just for compatibility while libvirt isn't
-  * adapted to resolve CPU model versions before creating VMs.
-- * See "Runnability guarantee of CPU models" at * qemu-deprecated.texi.
-+ * See "Runnability guarantee of CPU models" at
-+ * docs/system/deprecated.rst.
-  */
- X86CPUVersion default_cpu_version = 1;
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 63078f600920..44fa5b90769b 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1280,12 +1280,7 @@ static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
  
+     union nvme_timestamp ts;
+     ts.all = 0;
+-
+-    /*
+-     * If the sum of the Timestamp value set by the host and the elapsed
+-     * time exceeds 2^48, the value returned should be reduced modulo 2^48.
+-     */
+-    ts.timestamp = (n->host_timestamp + elapsed_time) & 0xffffffffffff;
++    ts.timestamp = n->host_timestamp + elapsed_time;
+ 
+     /* If the host timestamp is non-zero, set the timestamp origin */
+     ts.origin = n->host_timestamp ? 0x01 : 0x00;
 -- 
 2.26.2
 
