@@ -2,39 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52EC28C97C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 09:38:40 +0200 (CEST)
-Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC8E28C97D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 09:38:43 +0200 (CEST)
+Received: from localhost ([::1]:38436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSEtL-0001MS-Hd
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 03:38:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41762)
+	id 1kSEtO-0001P8-5x
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 03:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSEra-00005E-RR; Tue, 13 Oct 2020 03:36:50 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51166
+ id 1kSErd-00008w-N3; Tue, 13 Oct 2020 03:36:53 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51174
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSErY-0005bO-3N; Tue, 13 Oct 2020 03:36:50 -0400
+ id 1kSErc-0005cR-2c; Tue, 13 Oct 2020 03:36:53 -0400
 Received: from host86-158-109-18.range86-158.btcentralplus.com
  ([86.158.109.18] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSErU-0003Eo-7m; Tue, 13 Oct 2020 08:36:48 +0100
+ id 1kSErZ-0003Eo-3z; Tue, 13 Oct 2020 08:36:53 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
  f4bug@amsat.org
-Date: Tue, 13 Oct 2020 08:36:33 +0100
-Message-Id: <20201013073636.31389-1-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 13 Oct 2020 08:36:34 +0100
+Message-Id: <20201013073636.31389-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201013073636.31389-1-mark.cave-ayland@ilande.co.uk>
+References: <20201013073636.31389-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.158.109.18
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 0/3] ppc: Mac machine updates
+Subject: [PATCH 1/3] macio: don't reference serial_hd() directly within the
+ device
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,34 +65,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here are a few Mac machine updates from my pending patch queue. Patch 1 is
-split out from the QOM series I posted a few weeks ago (the other patches
-are all SPARC-related).
+Instead use qdev_prop_set_chr() to configure the ESCC serial chardevs at the
+Mac Old World and New World machine level.
 
-Patches 2 and 3 move the IRQ wiring of the PCI host bridge from the host
-bridge device to the Old World and New World machines as discussed with
-Philippe yesterday:
-
-David - patch 2 is a replacement for Philippe's original patch at
-https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02988.html whilst
-patch 3 makes the same change for uninorth.
+Also remove the now obsolete comment referring to the use of serial_hd() and
+the setting of user_creatable to false accordingly.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/misc/macio/macio.c | 4 ----
+ hw/ppc/mac_newworld.c | 6 ++++++
+ hw/ppc/mac_oldworld.c | 6 ++++++
+ 3 files changed, 12 insertions(+), 4 deletions(-)
 
-
-Mark Cave-Ayland (3):
-  macio: don't reference serial_hd() directly within the device
-  grackle: use qdev gpios for PCI IRQs
-  uninorth: use qdev gpios for PCI IRQs
-
- hw/misc/macio/macio.c          |  4 ---
- hw/pci-host/grackle.c          | 18 ++------------
- hw/pci-host/uninorth.c         | 45 +++++++---------------------------
- hw/ppc/mac_newworld.c          | 30 +++++++++++++++++------
- hw/ppc/mac_oldworld.c          | 13 ++++++++--
- include/hw/pci-host/uninorth.h |  1 -
- 6 files changed, 44 insertions(+), 67 deletions(-)
-
+diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+index 679722628e..51368884d0 100644
+--- a/hw/misc/macio/macio.c
++++ b/hw/misc/macio/macio.c
+@@ -109,8 +109,6 @@ static void macio_common_realize(PCIDevice *d, Error **errp)
+     qdev_prop_set_uint32(DEVICE(&s->escc), "disabled", 0);
+     qdev_prop_set_uint32(DEVICE(&s->escc), "frequency", ESCC_CLOCK);
+     qdev_prop_set_uint32(DEVICE(&s->escc), "it_shift", 4);
+-    qdev_prop_set_chr(DEVICE(&s->escc), "chrA", serial_hd(0));
+-    qdev_prop_set_chr(DEVICE(&s->escc), "chrB", serial_hd(1));
+     qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
+     qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
+     if (!qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), errp)) {
+@@ -458,8 +456,6 @@ static void macio_class_init(ObjectClass *klass, void *data)
+     k->class_id = PCI_CLASS_OTHERS << 8;
+     device_class_set_props(dc, macio_properties);
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+-    /* Reason: Uses serial_hds in macio_instance_init */
+-    dc->user_creatable = false;
+ }
+ 
+ static const TypeInfo macio_bus_info = {
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 4dfbeec0ca..6f5ef2e782 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -123,6 +123,7 @@ static void ppc_core99_init(MachineState *machine)
+     UNINHostState *uninorth_pci;
+     PCIBus *pci_bus;
+     PCIDevice *macio;
++    ESCCState *escc;
+     bool has_pmu, has_adb;
+     MACIOIDEState *macio_ide;
+     BusState *adb_bus;
+@@ -380,6 +381,11 @@ static void ppc_core99_init(MachineState *machine)
+     qdev_prop_set_bit(dev, "has-adb", has_adb);
+     object_property_set_link(OBJECT(macio), "pic", OBJECT(pic_dev),
+                              &error_abort);
++
++    escc = ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
++    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
++    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
++
+     pci_realize_and_unref(macio, pci_bus, &error_fatal);
+ 
+     /* We only emulate 2 out of 3 IDE controllers for now */
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index f8173934a2..d6a76d06dc 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -96,6 +96,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     PCIBus *pci_bus;
+     PCIDevice *macio;
+     MACIOIDEState *macio_ide;
++    ESCCState *escc;
+     SysBusDevice *s;
+     DeviceState *dev, *pic_dev;
+     BusState *adb_bus;
+@@ -281,6 +282,11 @@ static void ppc_heathrow_init(MachineState *machine)
+     qdev_prop_set_uint64(dev, "frequency", tbfreq);
+     object_property_set_link(OBJECT(macio), "pic", OBJECT(pic_dev),
+                              &error_abort);
++
++    escc = ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
++    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
++    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
++
+     pci_realize_and_unref(macio, pci_bus, &error_fatal);
+ 
+     macio_ide = MACIO_IDE(object_resolve_path_component(OBJECT(macio),
 -- 
 2.20.1
 
