@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F212728C8D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 08:55:53 +0200 (CEST)
-Received: from localhost ([::1]:38232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650AB28C8F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 09:05:23 +0200 (CEST)
+Received: from localhost ([::1]:38964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSEDx-0006ln-1F
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 02:55:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32908)
+	id 1kSEN8-0001wA-Cf
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 03:05:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBa-0004zj-Jp; Tue, 13 Oct 2020 02:53:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:51999)
+ id 1kSEBg-0005FD-Ja; Tue, 13 Oct 2020 02:53:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:50869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBX-0000EH-LL; Tue, 13 Oct 2020 02:53:26 -0400
+ id 1kSEBc-0000GI-Ek; Tue, 13 Oct 2020 02:53:32 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MXY2Z-1kyMxV49Z1-00Yyn6; Tue, 13 Oct 2020 08:53:19 +0200
+ id 1N336L-1kKLNi2uCr-013Lja; Tue, 13 Oct 2020 08:53:19 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/15] hw/rtc/twl92230: Silence warnings about missing
- fallthrough statements
-Date: Tue, 13 Oct 2020 08:53:01 +0200
-Message-Id: <20201013065313.7349-4-laurent@vivier.eu>
+Subject: [PULL 04/15] hw/block/nvme: Simplify timestamp sum
+Date: Tue, 13 Oct 2020 08:53:02 +0200
+Message-Id: <20201013065313.7349-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013065313.7349-1-laurent@vivier.eu>
 References: <20201013065313.7349-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZtJvTo3dGjT6+a5UiQQYseHectvtReqizKvf8Wv6GDQoRyuzM9Y
- AcYsYLX+guxUGzgz1Dp0cQ9rTgBo91uQskMyZRdFNIMYFyeewfxQjUhi+qjy0xZSd6zJBRI
- h/LtwfDn6WIt//e4nbnyBwqBoR7l4Oti8rcBZQOXA/KmK/19Q322Z23aTz75gqk2EfDerYW
- 1/7R4OdYkNSMfHre3+UPg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9WaF3tBctDA=:4+XCNH6GPQuOjSLF6mfa91
- 1Pc1r9D2RrsPW8fIe/0QsANQXbkTSITcbLhMxqNH8p7/qjw4oGeXSHQREHEzI7XTv1U04KMLU
- qHkaY9dYPFe+xmRVnm4VSM+GS3E9Au1xDHoOaKNKVRK7nviR00d2ej6olpqOziL6Z+dvl8P2m
- vriXwehxdAoOjbwVoUDRD7iAN4Pfu7hNY6K9Wtl76FaWs2peD27yC+DUQvxuvkWjKcMHyBjQ1
- OVnqU5TRXIUcvaxXsQ77MMPSDnlzMFTJE2X3X8yr/nXtWWIEc+GSeC6YlXsiKV7Qcl46hSLo+
- fWWqreiVRi6PGeyE5uYtuDqjb14wwG9Dqga+hJj2lm6IKWOdl6R13gnG+CacC05ueFdh2ziJU
- thcM7OtHyt6jIRw2/4kBjfQ1XuMLTzEi1T+pJbiEP7LvJyA6yofXP4MDeGqVinMv8xIHM1nOg
- Wr4BqT4JQ/hBqtnp87sVcZ6vqhOSq3a6pcZHudK7ub6T+ir4Uj834Gp7l+sxRSstZZLx9uMb3
- Z7RLH0QuSNakY5a3SD+CgICqdROD5LmJoUsHongn5iFtFtjqHm1HhYBx2hWSdpA7jbh6Ez/1D
- gBeRERGfXZZlZhVsBwGUCss03COOCmFKEZg0coQvucY7bTbRlmNmlg4VGpFnBs0eG5DvLxfoh
- PmJOxHoJx0drTTpSgl9k/4YFzHWfpwfdVNp0L21n5D669oiK/vPBqAAn72EGu3hsyGjXHLKGg
- Jd4rTdpL0rwCL2pyv4WkBMp0GwuFSrqMyXmLwQBSIgEA3ka8/W86Uo1YPHt8omWS4q13/+SAs
- k8edqdtG4k4z97E7qDrw5lCF5BJf1lDK4XSQ2qRFrRz09jYNyj+QGwt5qeW3fOZsG9rpjoq
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:thAWqtsOGGWdyx3A3Sp8/A5qpp41eiSiBlLglRFkNQzyIPGxnZ6
+ x5L+hByGdftKt6F+PJpwtI6/zjr4w6CDEYGZufyqNwjYVinqUjasEQ0mcA3cw0MucGk9/kX
+ 2VbeNfo4/IjDKETZMvycvD/3kwxi67wlt51ZHxfnQyq+0w0jcdZb5bzYP2/GzgACJu6J1cc
+ fDIBke9v00Is49KOW/SJQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jtwOttJ3RqU=:166esNlX+yG2yLk+OMflJW
+ 0uixCK4xUl3jtdGKtfKeTH70kCiAwKeP1LIDMJ0onYPE41iuiN8iS960z3ra4QkqbsGc8SHQO
+ p0H3eYVQ51rQid0Szc1uzYLo0TzX0Kt4lC7uXGtQ8HN8vYgyLANlztfeIIVEx4k5QFekUJHBe
+ i6YFFLMmXCh7JLWM6CtI1TpXtkZ/avvbDxlp1Ph76/HZ6GZMutGqFVGIVcP2tJoVQcYNEqqke
+ NTwKLSiXMndv+vIQ8VHUENKYLSoogOxc4br4xREnD5XXcJO1SKQtR5ev1hSafSGUQxvBRFdPO
+ BZGFwRZvvn6uxJXVJM/opJdCKkzNtMoyYra5e7SDBBtTekqZwVgI6Ghh86mobwLmW/IXSYz6q
+ kkS2l+wTB/glZEJZRR3Pd6eXSVcyJ2TpexZLNKTygC/WBOtQwyimsKRjn4CnHqGfNBkrAixvy
+ MzqvWjuDwVoWH1zEl6V0dMFgcKncrAUJeqmR6+3DAIVlnGeZWhrk7fnJHBJmL3zPSuACXgTNQ
+ /i5vjWEHj50raUCymIS4B9qzHfHBwOFyz1xQdb9E+UFU1LPaSPPuItRBYeHyOx9a5jBeta5qg
+ 5fMX9DWGDSJ1BnYMJrhuqOekKrJEItTPuTrlF+sowdp6EI4RF+eIalT9wYEZNVkGOvzdP5OQj
+ mKdyPgiaLauY9eaujfTXuZRxEdTdRRTap59GcWdpnw2wPyVBKBmBj4ry04AlYi1fJkYqhFg0e
+ v05CZqhYvyIt0utbQAFD0YvUKU8OKUF9lJ8RZdUwS2fXrTrWZ1J/IDfr92gDXdF9YpBulr9Jn
+ cZk8WnHTQa/zc3jtVHqLeEjJzQNJFjQsPNio30dtPbDLdghgc6haYmbjxFp6ye8p+2KQ+lL
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:53:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:53:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,124 +70,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-When compiling with -Werror=implicit-fallthrough, gcc complains about
-missing fallthrough annotations in this file. Looking at the code,
-the fallthrough is indeed wanted here, but instead of adding the
-annotations, it can be done more efficiently by simply calculating
-the offset with a subtraction instead of increasing a local variable
-one by one.
+As the 'timestamp' variable is declared as a 48-bit bitfield,
+we do not need to wrap the sum result.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20201001182121.187122-1-thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Message-Id: <20201002075716.1657849-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/rtc/twl92230.c | 50 +++++++++++++++++++++++------------------------
- 1 file changed, 24 insertions(+), 26 deletions(-)
+ hw/block/nvme.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/hw/rtc/twl92230.c b/hw/rtc/twl92230.c
-index f838913b378d..499f421932e6 100644
---- a/hw/rtc/twl92230.c
-+++ b/hw/rtc/twl92230.c
-@@ -271,37 +271,36 @@ static void menelaus_gpio_set(void *opaque, int line, int level)
- static uint8_t menelaus_read(void *opaque, uint8_t addr)
- {
-     MenelausState *s = (MenelausState *) opaque;
--    int reg = 0;
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 63078f600920..44fa5b90769b 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1280,12 +1280,7 @@ static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
  
-     switch (addr) {
-     case MENELAUS_REV:
-         return 0x22;
- 
--    case MENELAUS_VCORE_CTRL5: reg ++;
--    case MENELAUS_VCORE_CTRL4: reg ++;
--    case MENELAUS_VCORE_CTRL3: reg ++;
--    case MENELAUS_VCORE_CTRL2: reg ++;
-+    case MENELAUS_VCORE_CTRL5:
-+    case MENELAUS_VCORE_CTRL4:
-+    case MENELAUS_VCORE_CTRL3:
-+    case MENELAUS_VCORE_CTRL2:
-     case MENELAUS_VCORE_CTRL1:
--        return s->vcore[reg];
-+        return s->vcore[addr - MENELAUS_VCORE_CTRL1];
- 
--    case MENELAUS_DCDC_CTRL3: reg ++;
--    case MENELAUS_DCDC_CTRL2: reg ++;
-+    case MENELAUS_DCDC_CTRL3:
-+    case MENELAUS_DCDC_CTRL2:
-     case MENELAUS_DCDC_CTRL1:
--        return s->dcdc[reg];
+     union nvme_timestamp ts;
+     ts.all = 0;
 -
--    case MENELAUS_LDO_CTRL8: reg ++;
--    case MENELAUS_LDO_CTRL7: reg ++;
--    case MENELAUS_LDO_CTRL6: reg ++;
--    case MENELAUS_LDO_CTRL5: reg ++;
--    case MENELAUS_LDO_CTRL4: reg ++;
--    case MENELAUS_LDO_CTRL3: reg ++;
--    case MENELAUS_LDO_CTRL2: reg ++;
-+        return s->dcdc[addr - MENELAUS_VCORE_CTRL1];
-+
-+    case MENELAUS_LDO_CTRL8:
-+    case MENELAUS_LDO_CTRL7:
-+    case MENELAUS_LDO_CTRL6:
-+    case MENELAUS_LDO_CTRL5:
-+    case MENELAUS_LDO_CTRL4:
-+    case MENELAUS_LDO_CTRL3:
-+    case MENELAUS_LDO_CTRL2:
-     case MENELAUS_LDO_CTRL1:
--        return s->ldo[reg];
-+        return s->ldo[addr - MENELAUS_LDO_CTRL1];
+-    /*
+-     * If the sum of the Timestamp value set by the host and the elapsed
+-     * time exceeds 2^48, the value returned should be reduced modulo 2^48.
+-     */
+-    ts.timestamp = (n->host_timestamp + elapsed_time) & 0xffffffffffff;
++    ts.timestamp = n->host_timestamp + elapsed_time;
  
--    case MENELAUS_SLEEP_CTRL2: reg ++;
-+    case MENELAUS_SLEEP_CTRL2:
-     case MENELAUS_SLEEP_CTRL1:
--        return s->sleep[reg];
-+        return s->sleep[addr - MENELAUS_SLEEP_CTRL1];
- 
-     case MENELAUS_DEVICE_OFF:
-         return 0;
-@@ -395,10 +394,10 @@ static uint8_t menelaus_read(void *opaque, uint8_t addr)
-     case MENELAUS_S2_PULL_DIR:
-         return s->pull[3];
- 
--    case MENELAUS_MCT_CTRL3: reg ++;
--    case MENELAUS_MCT_CTRL2: reg ++;
-+    case MENELAUS_MCT_CTRL3:
-+    case MENELAUS_MCT_CTRL2:
-     case MENELAUS_MCT_CTRL1:
--        return s->mmc_ctrl[reg];
-+        return s->mmc_ctrl[addr - MENELAUS_MCT_CTRL1];
-     case MENELAUS_MCT_PIN_ST:
-         /* TODO: return the real Card Detect */
-         return 0;
-@@ -418,7 +417,6 @@ static void menelaus_write(void *opaque, uint8_t addr, uint8_t value)
- {
-     MenelausState *s = (MenelausState *) opaque;
-     int line;
--    int reg = 0;
-     struct tm tm;
- 
-     switch (addr) {
-@@ -496,9 +494,9 @@ static void menelaus_write(void *opaque, uint8_t addr, uint8_t value)
-         s->ldo[7] = value & 3;
-         break;
- 
--    case MENELAUS_SLEEP_CTRL2: reg ++;
-+    case MENELAUS_SLEEP_CTRL2:
-     case MENELAUS_SLEEP_CTRL1:
--        s->sleep[reg] = value;
-+        s->sleep[addr - MENELAUS_SLEEP_CTRL1] = value;
-         break;
- 
-     case MENELAUS_DEVICE_OFF:
+     /* If the host timestamp is non-zero, set the timestamp origin */
+     ts.origin = n->host_timestamp ? 0x01 : 0x00;
 -- 
 2.26.2
 
