@@ -2,82 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669F828D27A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 18:43:45 +0200 (CEST)
-Received: from localhost ([::1]:49356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED1828D294
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 18:49:15 +0200 (CEST)
+Received: from localhost ([::1]:57484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSNOq-0007t6-FO
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 12:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
+	id 1kSNUA-00031v-LB
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 12:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSNMq-0006aH-EL
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:41:40 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:33398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSNMo-0004lX-Rr
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:41:40 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id p3so196484pjd.0
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 09:41:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=jDfIaSldDNEugJPiv3YlRDD4AxZSw6/adFGWU8vPZtY=;
- b=BcXyZJlx4EO+PnWwhM2aG4TlSgo9e1eUa0t9RsXlxjIreSNPwEWmfHs0RcGSpJN6om
- 0hfLv+YOVjPXBDlH2ex5wMC5dYRgb38xqs84rTp/UD1jVFyPx9/1S5yN7rvOXFRaZ0Y7
- v0WTa8oHyJG/QyWuBM/T6EkUPxrgYoRsDGZI6po/o6vGqp+l3ITIuGEi7Jd7rp5/jIsl
- lBjBbCWvepWkwb+dt1h9Za2orwujvP8tZp9+90YqviN7Dh0oS9WZRj5Fe2xrwZZNiUun
- rBnHa8KulgiLMaSzcwyE48hqICBRo3b2KivcIgYLamXRHOb2FeG1Xv1crRPKre/WV3eW
- OKxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jDfIaSldDNEugJPiv3YlRDD4AxZSw6/adFGWU8vPZtY=;
- b=hJmVF81sgQfkTvX1HwXwnFlIJPG9lMC7FCGmBLKOKjsr0+0lQWuf2Vzunl9xDdZpTb
- XG2MXe2sL6giPL732yfRLJ1eUPZ60KnlSCiKzAq9fiPPagYXNvQuTJs0zL7VX3+Y876P
- DAz9Uwd/UuT6z9Jk8V6GmqcKciyqRKtEPUwfis0/14nh7HVLHpE//XC6Rd3a6A5ftlSj
- NbGrOiGrHVtCG5ADNIcwC4kCGhH48pD8QE9HR6vxRdjnUgqtIdz+3w60gQLj89o0OKGD
- mqVQZhny7VUkL/CsTriFt/m0otiGEAERERIPPRghW9mzoYwBgwNCKOpbMSeNcGxKsYlq
- qRAQ==
-X-Gm-Message-State: AOAM5326Npp/ckWDKYIshVOmtimrUEa9NOpYNJcB21XP4CQzmH+054Sb
- /cdQ6wXhsfIGt/X5g+vxnYtTnlObaRw1mq3m
-X-Google-Smtp-Source: ABdhPJx1EmUFcLByiqlfe0bfC8TRGOUdIrSxEwNZ27BGbDlSTPwoVBmuUSh60Oeux25+h4sibYwRtw==
-X-Received: by 2002:a17:90a:aa90:: with SMTP id l16mr617389pjq.0.1602607295391; 
- Tue, 13 Oct 2020 09:41:35 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id w10sm403079pjy.13.2020.10.13.09.41.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 09:41:34 -0700 (PDT)
-Subject: Re: [PATCH 05/10] target/arm: Don't allow BLX imm for M-profile
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20201012153746.9996-1-peter.maydell@linaro.org>
- <20201012153746.9996-6-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <737282d8-3ae0-516a-d685-600b8324b0d4@linaro.org>
-Date: Tue, 13 Oct 2020 09:41:32 -0700
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSNSk-0002aO-PJ
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:47:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSNSj-0005RN-8C
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:47:46 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 15AE3B028;
+ Tue, 13 Oct 2020 16:47:44 +0000 (UTC)
+Subject: Re: [PATCH v3 0/3] unbreak non-tcg builds
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201013143806.14321-1-cfontana@suse.de>
+ <cd8e9295-dcd0-18c4-e7a2-86bed74f967c@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <ed8d664d-9af7-f4c6-1b2d-e0569eb27ab7@suse.de>
+Date: Tue, 13 Oct 2020 18:47:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201012153746.9996-6-peter.maydell@linaro.org>
+In-Reply-To: <cd8e9295-dcd0-18c4-e7a2-86bed74f967c@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 01:21:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,25 +57,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/20 8:37 AM, Peter Maydell wrote:
-> The BLX immediate insn in the Thumb encoding always performs
-> a switch from Thumb to Arm state. This would be totally useless
-> in M-profile which has no Arm decoder, and so the instruction
-> does not exist at all there. Make the encoding UNDEF for M-profile.
+On 10/13/20 4:55 PM, Philippe Mathieu-Daudé wrote:
+> On 10/13/20 4:38 PM, Claudio Fontana wrote:
+>> This series now unbreaks current non-tcg builds
+>> (!CONFIG_TCG).
+>>
+>> tests Makefiles need to avoid relying on all non-native
+>> archs binaries to be present,
+>>
+>> bios-tables-test needs to skip tests that are tcg-only,
+>>
+>> and notably the replay framework needs to consider that
+>> it might not be functional (or its code present at all)
+>> without TCG.
+>>
+>> Tested ok target x86_64-softmmu on x86_64 host with:
+>>
+>> ./configure --enable-tcg --disable-kvm
+>> ./configure --enable-kvm --disable-tcg
+>> ./configure --enable-tcg --enable-kvm
 > 
-> (This part of the encoding space is used for the branch-future
-> and low-overhead-loop insns in v8.1M.)
+> If you want to avoid these configurations to bitrot,
+> consider covering them by adding Gitlab jobs :)))
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/translate.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+That would be, providing a patch to  .travis.yml right?
 
+I guess -j parameter for make is automatically provided depending on infra resources?
 
-r~
+Something like the following?
+
+Ciao,
+
+C
+
+diff --git a/.travis.yml b/.travis.yml
+index 1054ec5d29..49ec615ed8 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -320,6 +320,19 @@ jobs:
+         - TEST_CMD="make check-tcg"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
++    # Check modular accelerator builds.
++    - name: "modular accelerator builds (x86_64-softmmu, tcg only)"
++      env:
++        - CONFIG="--disable-kvm --enable-tcg --target-list=x86_64-softmmu"
++        - TEST_BUILD_CMD="make"
++        - TEST_CMD="make check"
++
++    - name: "modular accelerator builds (x86_64-softmmu, kvm only)"
++      env:
++        - CONFIG="--enable-kvm --disable-tcg --target-list=x86_64-softmmu"
++        - TEST_BUILD_CMD="make"
++        - TEST_CMD="make check"
++
+     - name: "[aarch64] GCC check-tcg"
+       arch: arm64
+       dist: focal
 
