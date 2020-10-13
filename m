@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CDC28D6CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 01:08:20 +0200 (CEST)
-Received: from localhost ([::1]:37560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE13E28D6CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 01:08:47 +0200 (CEST)
+Received: from localhost ([::1]:39160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSTP1-00005o-1n
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 19:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37706)
+	id 1kSTPS-0000lo-Tz
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 19:08:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kSTME-0006N4-2c
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56882)
+ id 1kSTMI-0006S4-K0
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kSTMB-0003Z3-L2
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:25 -0400
+ id 1kSTMF-0003a7-82
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602630322;
+ s=mimecast20190719; t=1602630325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pbjp8f4ua9Togwl/XXJ68jdNd0x8gpeRQ3cf/ImZEDY=;
- b=YqgbfBaIStQCFm+/uxrjY4vW+sbuhV1PJemDtLrpMSRt46NXHwzcbMvZa322I9J5sUrOWW
- Jy1P3p4ryFys0lsOO7nZj8X1OYHkR5lLt9r2u9K9DuzzwOjvAyT/FBDvT9oJj7BXWmqS+R
- wDqyJ1bXEXGASOPVVv2MyrNrRMwJg7A=
+ bh=/NUlmtHh+wg3YX9I3nJkvoDiBlyD3K/LW9vdgi90W2E=;
+ b=Ud8hNeM+k/GXOwQSViN3iVlgQxRnLrDgBpMQlsKPoEsXrZdKNHKydirbh3uG+4/Dq2j03U
+ QRJRwxX7ErINhFcrmMxSH3F/BubFkU2SwMRTmE3+G3qvLWnIRap9DtV68ni3ZWjjxkfKqe
+ CSb4dnFWwXJ89X+xy5qCr9Ia5Dar7pY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-dXmLI0e-OO2haLkoXTIlfg-1; Tue, 13 Oct 2020 19:05:20 -0400
-X-MC-Unique: dXmLI0e-OO2haLkoXTIlfg-1
+ us-mta-214-LfAEKcXSPtSzUnvCpPx-Ig-1; Tue, 13 Oct 2020 19:05:22 -0400
+X-MC-Unique: LfAEKcXSPtSzUnvCpPx-Ig-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C2A8802B4B;
- Tue, 13 Oct 2020 23:05:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2039801FDA;
+ Tue, 13 Oct 2020 23:05:19 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72B772C31E;
- Tue, 13 Oct 2020 23:05:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 993DF55790;
+ Tue, 13 Oct 2020 23:05:19 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/7] machine: machine_find_class() function
-Date: Tue, 13 Oct 2020 19:04:51 -0400
-Message-Id: <20201013230457.150630-2-ehabkost@redhat.com>
+Subject: [PATCH v2 2/7] i386: Add X86CPUModel.alias_of field
+Date: Tue, 13 Oct 2020 19:04:52 -0400
+Message-Id: <20201013230457.150630-3-ehabkost@redhat.com>
 In-Reply-To: <20201013230457.150630-1-ehabkost@redhat.com>
 References: <20201013230457.150630-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -100,96 +100,65 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move find_machine() from vl.c to core/machine.c and rename it to
-machine_find_class(), so it can be reused by other code.
-
-The function won't reuse the results of the previous
-object_class_get_list() call like it did in vl.c, but this
-shouldn't be a problem because the function is expected to be
-called only once during regular QEMU usage.
+Instead of calling x86_cpu_class_get_alias_of(), just save the
+actual CPU model name in X86CPUModel and use it in `-cpu help`.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/boards.h |  2 ++
- hw/core/machine.c   | 16 ++++++++++++++++
- softmmu/vl.c        | 17 +----------------
- 3 files changed, 19 insertions(+), 16 deletions(-)
+ target/i386/cpu.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index bf53e8a16e..922b710be3 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -43,6 +43,8 @@ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type);
- MemoryRegion *machine_consume_memdev(MachineState *machine,
-                                      HostMemoryBackend *backend);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 9eafbe3690..43e633ddd3 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1647,6 +1647,12 @@ struct X86CPUModel {
+      * This matters only for "-cpu help" and query-cpu-definitions
+      */
+     bool is_alias;
++    /*
++     * Valid only if is_alias is true.
++     * If NULL, actual alias depend on machine type.
++     * If not NULL, name of actual CPU model this is an alias to.
++     */
++    const char *alias_of;
+ };
  
-+MachineClass *machine_find_class(const char *name);
-+
- /**
-  * CPUArchId:
-  * @arch_id - architecture-dependent CPU ID of present or possible CPU
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 7e2f4ec08e..879a596643 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1136,6 +1136,22 @@ void machine_run_board_init(MachineState *machine)
-     machine_class->init(machine);
- }
+ /* Get full model name for CPU version */
+@@ -4927,14 +4933,13 @@ static void x86_cpu_list_entry(gpointer data, gpointer user_data)
+     X86CPUClass *cc = X86_CPU_CLASS(oc);
+     g_autofree char *name = x86_cpu_class_get_model_name(cc);
+     g_autofree char *desc = g_strdup(cc->model_description);
+-    g_autofree char *alias_of = x86_cpu_class_get_alias_of(cc);
+     g_autofree char *model_id = x86_cpu_class_get_model_id(cc);
  
-+MachineClass *machine_find_class(const char *name)
-+{
-+    g_autoptr(GSList) machines = object_class_get_list(TYPE_MACHINE, false);
-+    GSList *el;
-+
-+    for (el = machines; el; el = el->next) {
-+        MachineClass *mc = el->data;
-+
-+        if (!strcmp(mc->name, name) || !g_strcmp0(mc->alias, name)) {
-+            return mc;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
- static const TypeInfo machine_info = {
-     .name = TYPE_MACHINE,
-     .parent = TYPE_OBJECT,
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 254ee5e525..b74f377a1c 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1159,21 +1159,6 @@ static int usb_parse(const char *cmdline)
- 
- MachineState *current_machine;
- 
--static MachineClass *find_machine(const char *name, GSList *machines)
--{
--    GSList *el;
--
--    for (el = machines; el; el = el->next) {
--        MachineClass *mc = el->data;
--
--        if (!strcmp(mc->name, name) || !g_strcmp0(mc->alias, name)) {
--            return mc;
--        }
--    }
--
--    return NULL;
--}
--
- static MachineClass *find_default_machine(GSList *machines)
- {
-     GSList *el;
-@@ -2341,7 +2326,7 @@ static MachineClass *machine_parse(const char *name, GSList *machines)
-         exit(0);
+-    if (!desc && alias_of) {
+-        if (cc->model && cc->model->version == CPU_VERSION_AUTO) {
++    if (!desc && cc->model && cc->model->is_alias) {
++        if (!cc->model->alias_of) {
+             desc = g_strdup("(alias configured by machine type)");
+         } else {
+-            desc = g_strdup_printf("(alias of %s)", alias_of);
++            desc = g_strdup_printf("(alias of %s)", cc->model->alias_of);
+         }
      }
+     if (!desc && cc->model && cc->model->note) {
+@@ -5418,6 +5423,7 @@ static void x86_register_cpudef_types(X86CPUDefinition *def)
+     m->cpudef = def;
+     m->version = CPU_VERSION_AUTO;
+     m->is_alias = true;
++    m->alias_of = NULL; /* depends on machine type */
+     x86_register_cpu_model_type(def->name, m);
  
--    mc = find_machine(name, machines);
-+    mc = machine_find_class(name);
-     if (!mc) {
-         error_report("unsupported machine type");
-         error_printf("Use -machine help to list supported machines\n");
+     /* Versioned models: */
+@@ -5436,6 +5442,7 @@ static void x86_register_cpudef_types(X86CPUDefinition *def)
+             am->cpudef = def;
+             am->version = vdef->version;
+             am->is_alias = true;
++            am->alias_of = g_strdup(name);
+             x86_register_cpu_model_type(vdef->alias, am);
+         }
+     }
 -- 
 2.28.0
 
