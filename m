@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466BE28D193
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 17:55:58 +0200 (CEST)
-Received: from localhost ([::1]:55622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B43228D1BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 18:09:04 +0200 (CEST)
+Received: from localhost ([::1]:51806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSMeb-0000xZ-Ay
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 11:55:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39634)
+	id 1kSMrH-0003fF-DW
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 12:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kSMaP-0005Tr-8F
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:51:37 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:48297)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kSMaM-00066f-2I
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:51:36 -0400
-Received: from localhost.localdomain ([82.252.141.186]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MSqbe-1kuMns3Dos-00UIaM; Tue, 13 Oct 2020 17:51:31 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] m68k: add Virtual M68k Machine
-Date: Tue, 13 Oct 2020 17:51:24 +0200
-Message-Id: <20201013155124.451774-5-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201013155124.451774-1-laurent@vivier.eu>
-References: <20201013155124.451774-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kSMpD-0002sG-Pj; Tue, 13 Oct 2020 12:06:55 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:42958)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kSMpB-00087x-Gf; Tue, 13 Oct 2020 12:06:55 -0400
+Received: by mail-il1-x144.google.com with SMTP id l16so393670ilj.9;
+ Tue, 13 Oct 2020 09:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R2PJ+/HL1Z97QnBDQt6pZZtEyniLsj9hGI8wGxSZR6M=;
+ b=SRvyT4gytrV4HnaizmHCxdZHexdXREdOlUhKGTiqU5ctv9Dbq22WNpN1GVx6anMjnK
+ 1aunzvPoI1CfFRCiayb3njlw7FrOOfAngKncbRQ01G6NTJETpny3O2oq2Ersq+pHEfQy
+ FV2v9rEvCNJICzQGeDu35Q20k7U3Xi5OOFq9XSLHX6fBjiGElJ51tD9KtSgCli40s5Rg
+ 5rCjd0/TyAEw5LE5Yssw5dgDArXPD4El0xwqPTl9Rsuzh8bo/H+M0XonEW/J+NlKqrpU
+ le7i26c8DkS/fM3t9zS3wzEgT453TkPDnXZUw38jvYOaqViwQUtgaYwhbYDrMCasJ29M
+ bYzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R2PJ+/HL1Z97QnBDQt6pZZtEyniLsj9hGI8wGxSZR6M=;
+ b=A9Opt8yCD4wQ75bKnDDFn2aa0sD0A9olVX1h1Cv5ZLdFVCgFVQNXCxq59QoEvL0AjC
+ xqJS+luLJUg6fOLYsdPIFmA1F+uVkS9g582ZfBYoOg1OIky7pfUZgUUh8a3QrhD1W676
+ 6HPAZM3QNBDZgxoHvABrKRQdfV61blDuAvL+LJAdEyYW4UqY3Bk5h/X8Q9o1TAAWkfHK
+ vse7P46a6YG23yr0P1A+LLy7Xe/yLn3TVQuLxo68C8DUeJNp9+A/t2wvDhQ3o8FCOV3M
+ K7L+JVGEC9GaYqvxc3B6l+MhKGhCDvFx4a1BayTJ9R4R7mqGZwytbNyr5kzw8HARRHjn
+ 8HcA==
+X-Gm-Message-State: AOAM531KvvQUNdKGRLoWv0deZ/17cF5PWgOUWLC7uLha1FDvQU/38Wor
+ /++MEn91ZkyK8YS/ZFyxxuIsnx5qmHe/imETw2A=
+X-Google-Smtp-Source: ABdhPJyDkQHr7A1/sEd8tXiclcgrlNL2D+BjRYkD/37LJef4kG1DIrtotvU6yfEBs4qGCOurtIWTihSDcZyEW8lfFMo=
+X-Received: by 2002:a92:c5c2:: with SMTP id s2mr558453ilt.177.1602605210586;
+ Tue, 13 Oct 2020 09:06:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:V2n6P2ZW/i44963yvlA2JvD+36rT66rN49Reas/ESFz/zVqZBP0
- GHWN10vcxPe84KWAUqPQ0q5ImodKYAg9MDnCzb3BORHIuoCRsOFRfma/NYTievGcac09K0u
- ft8t1D/QQl6zNEb115UXaE6KMUIduwWgX0uKC2Klk1mJYvYaTQa+Du3VlcMLJ4as/B8thmr
- VU5DtccFFlw/WDFQ2eajQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kx/CDx4xZic=:PqNBVn0slnWcylUWzqPXls
- LguOd1i6pa4N1Qvqh7W9v4nBnTm0cQnPWww5GUoSaEHuX3dHAVe/zK1YDquiQnkFCfEH0Mlds
- oA2iH6IPq7mdRwFOZlssk3rtoeOk8OPZfwIvdRzUFCscbabXexGvhwc1b9OW7e982yXTs5+NC
- XO2IovEedCgHM9BV6EijXP6RosderbAdSC3xx9xhWbNi2F6VCRHEy+vdPGeILLRCIF66+ALW0
- ishFpm+lTixcf4KdINt6A9qrjxhWQQ1jSHfKClBw5fIVFFw8jVfkwCMyq4di7RCcMFG3TABh0
- zEIKAfE/tOx8oG+nP5uk00FDu3b/JFr7CX8B79PC16T2j3sgPVBCXb1xoc271zH/iwPj2aaRq
- RNajBc1vG9u4hfSHp/QfyfEe2EORv/pa8kr/MncTP7DVWW0EaSCwE/PEdYC/3qUAltbGsMrYf
- aJj44XLrnsqTokOy9Elh6+AROHlHtCmN/ADHfgkuIVCVimUK9opdPhgxjzBAcezS9X1Pqz99T
- 1EuealTHT1apZ8Eh9/zg8t6JMy980i72lQMEsP2B+bYiyk419z5mEn+megrkvrI3kBzxrG+9t
- BX4IMRx+wasMe/58T65aFyoqdrm5p2IRhltySU1cWQoH7SxH/KWkJbWUFtCKRuM5HRFieThvY
- ucr1YWCJgiy0YKg1A6i1x2nN/xE+ot1UOqSJIQgkRW3ns3oe2L60dLgpWeTXwvLCjeDmG84PA
- XOE5e8KOuvzPUw66pXjXB4o27cKTj4dMDrfUB31az3BfjqZWdwJTPhE1cjKCLHcs2k5BjJoMJ
- CS4YOF2WzO13a/XplQS957kSoWLrQDDC1WsZv02xlYCOKtrgPStzODpZrR809qLQEWuvrib
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 11:51:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <cover.1601652616.git.alistair.francis@wdc.com>
+ <4f272c9fab34bedc34b22adb8f9e2fb2dbd338d2.1601652616.git.alistair.francis@wdc.com>
+ <CAEUhbmVZt1D=eFzb=cRP51URGyzrRLeRCeUevhHWaua6_aBHZw@mail.gmail.com>
+In-Reply-To: <CAEUhbmVZt1D=eFzb=cRP51URGyzrRLeRCeUevhHWaua6_aBHZw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 13 Oct 2020 08:55:13 -0700
+Message-ID: <CAKmqyKN16E5it9DkFEdKgug4vPq0cCat8kZrTAOy8c4_3EcsJw@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] hw/riscv: Load the kernel after the firmware
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,411 +79,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The machine is based on Goldfish interfaces defined by Google
-for Android simulator. It uses Goldfish-rtc (timer and RTC),
-Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).
+On Fri, Oct 9, 2020 at 3:29 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Fri, Oct 2, 2020 at 11:55 PM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+>
+> Please put some commit message to explain why the changes are necessary.
 
-The machine is created with 128 virtio-mmio bus, and they can
-be used to use serial console, GPU, disk, NIC, HID, ...
+I have added a commit message.
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- default-configs/devices/m68k-softmmu.mak      |   1 +
- .../standard-headers/asm-m68k/bootinfo-virt.h |  17 +
- hw/m68k/virt.c                                | 296 ++++++++++++++++++
- MAINTAINERS                                   |   9 +
- hw/m68k/Kconfig                               |   8 +
- hw/m68k/meson.build                           |   1 +
- 6 files changed, 332 insertions(+)
- create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h
- create mode 100644 hw/m68k/virt.c
+>
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  include/hw/riscv/boot.h |  1 +
+> >  hw/riscv/boot.c         | 10 +++++-----
+> >  hw/riscv/opentitan.c    |  3 ++-
+> >  hw/riscv/sifive_e.c     |  3 ++-
+> >  hw/riscv/sifive_u.c     | 13 +++++++++++--
+> >  hw/riscv/spike.c        | 14 +++++++++++---
+> >  hw/riscv/virt.c         | 14 +++++++++++---
+> >  7 files changed, 43 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+> > index 2975ed1a31..85d3227ea6 100644
+> > --- a/include/hw/riscv/boot.h
+> > +++ b/include/hw/riscv/boot.h
+> > @@ -34,6 +34,7 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+> >                                   hwaddr firmware_load_addr,
+> >                                   symbol_fn_t sym_cb);
+> >  target_ulong riscv_load_kernel(const char *kernel_filename,
+> > +                               target_ulong firmware_end_addr,
+> >                                 symbol_fn_t sym_cb);
+> >  hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
+> >                           uint64_t kernel_entry, hwaddr *start);
+> > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> > index 5dea644f47..f8e55ca16a 100644
+> > --- a/hw/riscv/boot.c
+> > +++ b/hw/riscv/boot.c
+> > @@ -33,10 +33,8 @@
+> >  #include <libfdt.h>
+> >
+> >  #if defined(TARGET_RISCV32)
+> > -# define KERNEL_BOOT_ADDRESS 0x80400000
+> >  #define fw_dynamic_info_data(__val)     cpu_to_le32(__val)
+> >  #else
+> > -# define KERNEL_BOOT_ADDRESS 0x80200000
+> >  #define fw_dynamic_info_data(__val)     cpu_to_le64(__val)
+> >  #endif
+> >
+> > @@ -123,7 +121,9 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+> >      exit(1);
+> >  }
+> >
+> > -target_ulong riscv_load_kernel(const char *kernel_filename, symbol_fn_t sym_cb)
+> > +target_ulong riscv_load_kernel(const char *kernel_filename,
+> > +                               target_ulong kernel_start_addr,
+> > +                               symbol_fn_t sym_cb)
+> >  {
+> >      uint64_t kernel_entry;
+> >
+> > @@ -138,9 +138,9 @@ target_ulong riscv_load_kernel(const char *kernel_filename, symbol_fn_t sym_cb)
+> >          return kernel_entry;
+> >      }
+> >
+> > -    if (load_image_targphys_as(kernel_filename, KERNEL_BOOT_ADDRESS,
+> > +    if (load_image_targphys_as(kernel_filename, kernel_start_addr,
+> >                                 ram_size, NULL) > 0) {
+> > -        return KERNEL_BOOT_ADDRESS;
+> > +        return kernel_start_addr;
+> >      }
+> >
+> >      error_report("could not load kernel '%s'", kernel_filename);
+> > diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> > index 0531bd879b..cc758b78b8 100644
+> > --- a/hw/riscv/opentitan.c
+> > +++ b/hw/riscv/opentitan.c
+> > @@ -75,7 +75,8 @@ static void opentitan_board_init(MachineState *machine)
+> >      }
+> >
+> >      if (machine->kernel_filename) {
+> > -        riscv_load_kernel(machine->kernel_filename, NULL);
+> > +        riscv_load_kernel(machine->kernel_filename,
+> > +                          memmap[IBEX_DEV_RAM].base, NULL);
+> >      }
+> >  }
+> >
+> > diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> > index fcfac16816..59bac4cc9a 100644
+> > --- a/hw/riscv/sifive_e.c
+> > +++ b/hw/riscv/sifive_e.c
+> > @@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machine)
+> >                            memmap[SIFIVE_E_DEV_MROM].base, &address_space_memory);
+> >
+> >      if (machine->kernel_filename) {
+> > -        riscv_load_kernel(machine->kernel_filename, NULL);
+> > +        riscv_load_kernel(machine->kernel_filename,
+> > +                          memmap[SIFIVE_E_DEV_DTIM].base, NULL);
+> >      }
+> >  }
+> >
+> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> > index 5f3ad9bc0f..08b0a3937d 100644
+> > --- a/hw/riscv/sifive_u.c
+> > +++ b/hw/riscv/sifive_u.c
+> > @@ -415,6 +415,7 @@ static void sifive_u_machine_init(MachineState *machine)
+> >      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+> >      MemoryRegion *flash0 = g_new(MemoryRegion, 1);
+> >      target_ulong start_addr = memmap[SIFIVE_U_DEV_DRAM].base;
+> > +    target_ulong firmware_end_addr, kernel_start_addr;
+> >      uint32_t start_addr_hi32 = 0x00000000;
+> >      int i;
+> >      uint32_t fdt_load_addr;
+> > @@ -474,10 +475,18 @@ static void sifive_u_machine_init(MachineState *machine)
+> >          break;
+> >      }
+> >
+> > -    riscv_find_and_load_firmware(machine, BIOS_FILENAME, start_addr, NULL);
+> > +    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> > +                                                     start_addr, NULL);
+> >
+> >      if (machine->kernel_filename) {
+> > -        kernel_entry = riscv_load_kernel(machine->kernel_filename, NULL);
+> > +        if (riscv_is_32_bit(machine)) {
+> > +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x400000);
+>
+> Use 4 * MiB
+>
+> > +        } else {
+> > +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x200000);
+>
+> 2 * MiB
+>
+> > +        }
+> > +
+> > +        kernel_entry = riscv_load_kernel(machine->kernel_filename,
+> > +                                         kernel_start_addr, NULL);
+> >
+> >          if (machine->initrd_filename) {
+> >              hwaddr start;
+> > diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> > index 3fd152a035..280fb1f328 100644
+> > --- a/hw/riscv/spike.c
+> > +++ b/hw/riscv/spike.c
+> > @@ -195,6 +195,7 @@ static void spike_board_init(MachineState *machine)
+> >      MemoryRegion *system_memory = get_system_memory();
+> >      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+> >      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+> > +    target_ulong firmware_end_addr, kernel_start_addr;
+> >      uint32_t fdt_load_addr;
+> >      uint64_t kernel_entry;
+> >      char *soc_name;
+> > @@ -261,12 +262,19 @@ static void spike_board_init(MachineState *machine)
+> >      memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
+> >                                  mask_rom);
+> >
+> > -    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> > -                                 memmap[SPIKE_DRAM].base,
+> > -                                 htif_symbol_callback);
+> > +    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> > +                                                     memmap[SPIKE_DRAM].base,
+> > +                                                     htif_symbol_callback);
+> >
+> >      if (machine->kernel_filename) {
+> > +        if (riscv_is_32_bit(machine)) {
+> > +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x400000);
+>
+> Ditto
+>
+> It looks like this same code logic is added in several machine codes,
+> perhaps a new helper function in riscv/boot.c is needed to determine
+> the kernel start address based on the firmware end address.
 
-diff --git a/default-configs/devices/m68k-softmmu.mak b/default-configs/devices/m68k-softmmu.mak
-index 6629fd2aa330..7f8619e42786 100644
---- a/default-configs/devices/m68k-softmmu.mak
-+++ b/default-configs/devices/m68k-softmmu.mak
-@@ -8,3 +8,4 @@ CONFIG_AN5206=y
- CONFIG_MCF5208=y
- CONFIG_NEXTCUBE=y
- CONFIG_Q800=y
-+CONFIG_M68K_VIRT=y
-diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
-new file mode 100644
-index 000000000000..b3d90a601513
---- /dev/null
-+++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+** asm/bootinfo-virt.h -- Virtual-m68k-specific boot information definitions
-+*/
-+
-+#ifndef _UAPI_ASM_M68K_BOOTINFO_VIRT_H
-+#define _UAPI_ASM_M68K_BOOTINFO_VIRT_H
-+
-+#define BI_VIRT_QEMU_VERSION	0x8000
-+#define BI_VIRT_GF_PIC_BASE	0x8001
-+#define BI_VIRT_GF_RTC_BASE	0x8002
-+#define BI_VIRT_GF_TTY_BASE	0x8003
-+#define BI_VIRT_VIRTIO_BASE	0x8004
-+
-+#define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
-+
-+#endif /* _UAPI_ASM_M68K_BOOTINFO_MAC_H */
-diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-new file mode 100644
-index 000000000000..8b89373dafdb
---- /dev/null
-+++ b/hw/m68k/virt.c
-@@ -0,0 +1,296 @@
-+/*
-+ * SPDX-License-Identifer: GPL-2.0-or-later
-+ *
-+ * QEMU Vitual M68K Machine
-+ *
-+ * (c) 2020 Laurent Vivier <laurent@vivier.eu>
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qemu-common.h"
-+#include "sysemu/sysemu.h"
-+#include "cpu.h"
-+#include "hw/hw.h"
-+#include "hw/boards.h"
-+#include "hw/irq.h"
-+#include "hw/qdev-properties.h"
-+#include "elf.h"
-+#include "hw/loader.h"
-+#include "ui/console.h"
-+#include "exec/address-spaces.h"
-+#include "hw/sysbus.h"
-+#include "standard-headers/asm-m68k/bootinfo.h"
-+#include "standard-headers/asm-m68k/bootinfo-virt.h"
-+#include "bootinfo.h"
-+#include "net/net.h"
-+#include "qapi/error.h"
-+#include "sysemu/qtest.h"
-+#include "sysemu/runstate.h"
-+#include "sysemu/reset.h"
-+
-+#include "hw/char/goldfish_tty.h"
-+#include "hw/rtc/goldfish_rtc.h"
-+#include "hw/intc/goldfish_pic.h"
-+#include "hw/virtio/virtio-mmio.h"
-+#include "hw/virtio/virtio-blk.h"
-+
-+/*
-+ * 6 goldfish-pic for CPU IRQ #1 to IRQ #6
-+ * CPU IRQ #1 -> PIC #1
-+ *               IRQ #1 to IRQ #31 -> unused
-+ *               IRQ #32 -> goldfish-tty
-+ * CPU IRQ #2 -> PIC #2
-+ *               IRQ #1 to IRQ #32 -> virtio-mmio from 1 to 32
-+ * CPU IRQ #3 -> PIC #3
-+ *               IRQ #1 to IRQ #32 -> virtio-mmio from 33 to 64
-+ * CPU IRQ #4 -> PIC #4
-+ *               IRQ #1 to IRQ #32 -> virtio-mmio from 65 to 96
-+ * CPU IRQ #5 -> PIC #5
-+ *               IRQ #1 to IRQ #32 -> virtio-mmio from 97 to 128
-+ * CPU IRQ #6 -> PIC #5
-+ *               IRQ #1 -> goldfish-rtc
-+ *               IRQ #2 to IRQ #32 -> unused
-+ * CPU IRQ #7 -> NMI
-+ */
-+
-+#define PIC_IRQ_BASE(num)     (8 + (num - 1) * 32)
-+#define PIC_IRQ(num, irq)     (PIC_IRQ_BASE(num) + irq - 1)
-+#define PIC_GPIO(pic_irq)     (qdev_get_gpio_in(pic_dev[(pic_irq - 8) / 32], \
-+                                                (pic_irq - 8) % 32))
-+
-+#define VIRT_GF_PIC_MMIO_BASE 0xff000000     /* MMIO: 0xff000000 - 0xff005fff */
-+#define VIRT_GF_PIC_IRQ_BASE  1              /* IRQ: #1 -> #6 */
-+
-+/* 1 goldfish-rtc (and timer) */
-+#define VIRT_GF_RTC_MMIO_BASE 0xff006000     /* MMIO: 0xff006000 - 0xff006fff */
-+#define VIRT_GF_RTC_IRQ_BASE  PIC_IRQ(6, 1)  /* PIC: #6, IRQ: #1 */
-+
-+/* 1 goldfish-tty */
-+#define VIRT_GF_TTY_MMIO_BASE 0xff007000     /* MMIO: 0xff007000 - 0xff007000 */
-+#define VIRT_GF_TTY_IRQ_BASE  PIC_IRQ(1, 32) /* PIC: #1, IRQ: #32 */
-+/*
-+ * virtio-mmio size is 0x200 bytes
-+ * we use 4 goldfish-pic to attach them,
-+ * we can attach 32 virtio devices / goldfish-pic
-+ * -> we can manage 32 * 4 = 128 virtio devices
-+ */
-+#define VIRT_VIRTIO_MMIO_BASE 0xff010000     /* MMIO: 0xff010000 - 0xff01ffff */
-+#define VIRT_VIRTIO_IRQ_BASE  PIC_IRQ(2, 1)  /* PIC: 2, 3, 4, 5, IRQ: ALL */
-+
-+/*
-+ * The GLUE (General Logic Unit) is an Apple custom integrated circuit chip
-+ * that performs a variety of functions (RAM management, clock generation, ...).
-+ * The GLUE chip receives interrupt requests from various devices,
-+ * assign priority to each, and asserts one or more interrupt line to the
-+ * CPU.
-+ */
-+
-+typedef struct {
-+    M68kCPU *cpu;
-+    uint8_t ipr;
-+} GLUEState;
-+
-+static void GLUE_set_irq(void *opaque, int irq, int level)
-+{
-+    GLUEState *s = opaque;
-+    int i;
-+
-+    if (level) {
-+        s->ipr |= 1 << irq;
-+    } else {
-+        s->ipr &= ~(1 << irq);
-+    }
-+
-+    for (i = 7; i >= 0; i--) {
-+        if ((s->ipr >> i) & 1) {
-+            m68k_set_irq_level(s->cpu, i + 1, i + 25);
-+            return;
-+        }
-+    }
-+    m68k_set_irq_level(s->cpu, 0, 0);
-+}
-+
-+static void main_cpu_reset(void *opaque)
-+{
-+    M68kCPU *cpu = opaque;
-+    CPUState *cs = CPU(cpu);
-+
-+    cpu_reset(cs);
-+    cpu->env.aregs[7] = ldl_phys(cs->as, 0);
-+    cpu->env.pc = ldl_phys(cs->as, 4);
-+}
-+
-+static void virt_init(MachineState *machine)
-+{
-+    M68kCPU *cpu = NULL;
-+    int32_t kernel_size;
-+    uint64_t elf_entry;
-+    ram_addr_t initrd_base;
-+    int32_t initrd_size;
-+    ram_addr_t ram_size = machine->ram_size;
-+    const char *kernel_filename = machine->kernel_filename;
-+    const char *initrd_filename = machine->initrd_filename;
-+    const char *kernel_cmdline = machine->kernel_cmdline;
-+    hwaddr parameters_base;
-+    DeviceState *dev;
-+    DeviceState *pic_dev[7];
-+    GLUEState *irq;
-+    qemu_irq *cpu_pic;
-+    SysBusDevice *sysbus;
-+    hwaddr io_base;
-+    int i;
-+
-+
-+    if (ram_size > 3399672 * KiB) {
-+        /*
-+         * The physical memory can be up to 4 GiB - 16 MiB, but linux
-+         * kernel crashes after this limit (~ 3.2 GiB)
-+         */
-+        error_report("Too much memory for this machine: %" PRId64 " KiB, "
-+                     "maximum 3399672 KiB", ram_size / KiB);
-+        exit(1);
-+    }
-+
-+    /* init CPUs */
-+    cpu = M68K_CPU(cpu_create(machine->cpu_type));
-+    qemu_register_reset(main_cpu_reset, cpu);
-+
-+    /* RAM */
-+    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
-+
-+    /* IRQ Glue */
-+
-+    irq = g_new0(GLUEState, 1);
-+    irq->cpu = cpu;
-+    cpu_pic = qemu_allocate_irqs(GLUE_set_irq, irq, 8);
-+
-+    /*
-+     * 6 goldfish-pic
-+     *
-+     * map: 0xff000000 - 0xff006fff = 28 KiB
-+     * IRQ: #1 (lower priority) -> #6 (higher priority)
-+     *
-+     */
-+    io_base = VIRT_GF_PIC_MMIO_BASE;
-+    for (i = 0; i < 6; i++) {
-+        pic_dev[i] = qdev_new(TYPE_GOLDFISH_PIC);
-+        sysbus = SYS_BUS_DEVICE(pic_dev[i]);
-+        sysbus_realize_and_unref(sysbus, &error_fatal);
-+
-+        sysbus_mmio_map(sysbus, 0, io_base);
-+        sysbus_connect_irq(sysbus, 0, cpu_pic[i]);
-+
-+        io_base += 0x1000;
-+    }
-+
-+    /* goldfish-rtc */
-+    dev = qdev_new(TYPE_GOLDFISH_RTC);
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    sysbus_realize_and_unref(sysbus, &error_fatal);
-+    sysbus_mmio_map(sysbus, 0, VIRT_GF_RTC_MMIO_BASE);
-+    sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_GF_RTC_IRQ_BASE));
-+
-+    /* goldfish-tty */
-+    dev = qdev_new(TYPE_GOLDFISH_TTY);
-+    sysbus = SYS_BUS_DEVICE(dev);
-+    qdev_prop_set_chr(dev, "chardev", serial_hd(0));
-+    sysbus_realize_and_unref(sysbus, &error_fatal);
-+    sysbus_mmio_map(sysbus, 0, VIRT_GF_TTY_MMIO_BASE);
-+    sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_GF_TTY_IRQ_BASE));
-+
-+    /* virtio-mmio */
-+    io_base = VIRT_VIRTIO_MMIO_BASE;
-+    for (i = 0; i < 128; i++) {
-+        dev = qdev_new(TYPE_VIRTIO_MMIO);
-+        qdev_prop_set_bit(dev, "force-legacy", false);
-+        sysbus = SYS_BUS_DEVICE(dev);
-+        sysbus_realize_and_unref(sysbus, &error_fatal);
-+        sysbus_connect_irq(sysbus, 0, PIC_GPIO(VIRT_VIRTIO_IRQ_BASE + i));
-+        sysbus_mmio_map(sysbus, 0, io_base);
-+        io_base += 0x200;
-+    }
-+
-+    if (kernel_filename) {
-+        CPUState *cs = CPU(cpu);
-+        uint64_t high;
-+
-+        kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
-+                               &elf_entry, NULL, &high, NULL, 1,
-+                               EM_68K, 0, 0);
-+        if (kernel_size < 0) {
-+            error_report("could not load kernel '%s'", kernel_filename);
-+            exit(1);
-+        }
-+        stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
-+        parameters_base = (high + 1) & ~1;
-+
-+        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_VIRT);
-+        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
-+        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
-+        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
-+        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
-+
-+        BOOTINFO1(cs->as, parameters_base, BI_VIRT_QEMU_VERSION,
-+                  ((QEMU_VERSION_MAJOR << 24) | (QEMU_VERSION_MICRO << 16) |
-+                   (QEMU_VERSION_MINOR << 8)));
-+        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_PIC_BASE,
-+                  VIRT_GF_PIC_MMIO_BASE, VIRT_GF_PIC_IRQ_BASE);
-+        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_RTC_BASE,
-+                  VIRT_GF_RTC_MMIO_BASE, VIRT_GF_RTC_IRQ_BASE);
-+        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_TTY_BASE,
-+                  VIRT_GF_TTY_MMIO_BASE, VIRT_GF_TTY_IRQ_BASE);
-+        BOOTINFO2(cs->as, parameters_base, BI_VIRT_VIRTIO_BASE,
-+                  VIRT_VIRTIO_MMIO_BASE, VIRT_VIRTIO_IRQ_BASE);
-+
-+        if (kernel_cmdline) {
-+            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
-+                        kernel_cmdline);
-+        }
-+
-+        /* load initrd */
-+        if (initrd_filename) {
-+            initrd_size = get_image_size(initrd_filename);
-+            if (initrd_size < 0) {
-+                error_report("could not load initial ram disk '%s'",
-+                             initrd_filename);
-+                exit(1);
-+            }
-+
-+            initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
-+            load_image_targphys(initrd_filename, initrd_base,
-+                                ram_size - initrd_base);
-+            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
-+                      initrd_size);
-+        } else {
-+            initrd_base = 0;
-+            initrd_size = 0;
-+        }
-+        BOOTINFO0(cs->as, parameters_base, BI_LAST);
-+    }
-+}
-+
-+static void virt_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    mc->desc = "M68k Virtual Machine";
-+    mc->init = virt_init;
-+    mc->default_cpu_type = M68K_CPU_TYPE_NAME("m68040");
-+    mc->max_cpus = 1;
-+    mc->block_default_type = IF_SCSI;
-+    mc->default_ram_id = "m68k_virt.ram";
-+}
-+
-+static const TypeInfo virt_machine_typeinfo = {
-+    .name       = MACHINE_TYPE_NAME("virt"),
-+    .parent     = TYPE_MACHINE,
-+    .class_init = virt_machine_class_init,
-+};
-+
-+static void virt_machine_register_types(void)
-+{
-+    type_register_static(&virt_machine_typeinfo);
-+}
-+
-+type_init(virt_machine_register_types)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d0962a22e1b4..b08cf4251246 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1101,6 +1101,15 @@ F: include/hw/nubus/*
- F: include/hw/display/macfb.h
- F: include/hw/block/swim.h
- 
-+virt
-+M: Laurent Vivier <laurent@vivier.eu>
-+S: Maintained
-+F: hw/m68k/virt.c
-+F: hw/char/goldfish_tty.c
-+F: hw/intc/goldfish_pic.c
-+F: include/hw/char/goldfish_tty.h
-+F: include/hw/intc/goldfish_pic.h
-+
- MicroBlaze Machines
- -------------------
- petalogix_s3adsp1800
-diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
-index c757e7dfa48b..f4b3b115270e 100644
---- a/hw/m68k/Kconfig
-+++ b/hw/m68k/Kconfig
-@@ -22,3 +22,11 @@ config Q800
-     select ESCC
-     select ESP
-     select DP8393X
-+
-+config M68K_VIRT
-+    bool
-+    select GOLDFISH_PIC
-+    select GOLDFISH_TTY
-+    select GOLDFISH_RTC
-+    select VIRTIO
-+    select VIRTIO_MMIO
-diff --git a/hw/m68k/meson.build b/hw/m68k/meson.build
-index ca0044c652d3..31248641d301 100644
---- a/hw/m68k/meson.build
-+++ b/hw/m68k/meson.build
-@@ -3,5 +3,6 @@ m68k_ss.add(when: 'CONFIG_AN5206', if_true: files('an5206.c', 'mcf5206.c'))
- m68k_ss.add(when: 'CONFIG_MCF5208', if_true: files('mcf5208.c', 'mcf_intc.c'))
- m68k_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-kbd.c', 'next-cube.c'))
- m68k_ss.add(when: 'CONFIG_Q800', if_true: files('q800.c'))
-+m68k_ss.add(when: 'CONFIG_M68K_VIRT', if_true: files('virt.c'))
- 
- hw_arch += {'m68k': m68k_ss}
--- 
-2.26.2
+Done!
 
+Alistair
+
+>
+> > +        } else {
+> > +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x200000);
+> > +        }
+> > +
+> >          kernel_entry = riscv_load_kernel(machine->kernel_filename,
+> > +                                         kernel_start_addr,
+> >                                           htif_symbol_callback);
+> >
+> >          if (machine->initrd_filename) {
+> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > index 41bd2f38ba..bf22d28eef 100644
+> > --- a/hw/riscv/virt.c
+> > +++ b/hw/riscv/virt.c
+> > @@ -493,6 +493,7 @@ static void virt_machine_init(MachineState *machine)
+> >      char *plic_hart_config, *soc_name;
+> >      size_t plic_hart_config_len;
+> >      target_ulong start_addr = memmap[VIRT_DRAM].base;
+> > +    target_ulong firmware_end_addr, kernel_start_addr;
+> >      uint32_t fdt_load_addr;
+> >      uint64_t kernel_entry;
+> >      DeviceState *mmio_plic, *virtio_plic, *pcie_plic;
+> > @@ -602,11 +603,18 @@ static void virt_machine_init(MachineState *machine)
+> >      memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
+> >                                  mask_rom);
+> >
+> > -    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> > -                                 memmap[VIRT_DRAM].base, NULL);
+> > +    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+> > +                                                     start_addr, NULL);
+> >
+> >      if (machine->kernel_filename) {
+> > -        kernel_entry = riscv_load_kernel(machine->kernel_filename, NULL);
+> > +        if (riscv_is_32_bit(machine)) {
+> > +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x400000);
+> > +        } else {
+> > +            kernel_start_addr = QEMU_ALIGN_UP(firmware_end_addr, 0x200000);
+> > +        }
+> > +
+> > +        kernel_entry = riscv_load_kernel(machine->kernel_filename,
+> > +                                         kernel_start_addr, NULL);
+> >
+> >          if (machine->initrd_filename) {
+> >              hwaddr start;
+>
+> Regards,
+> Bin
 
