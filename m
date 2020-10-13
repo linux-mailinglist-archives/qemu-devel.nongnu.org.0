@@ -2,77 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE0328C637
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 02:36:30 +0200 (CEST)
-Received: from localhost ([::1]:53364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF8A28C678
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 02:48:17 +0200 (CEST)
+Received: from localhost ([::1]:40716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS8In-0005Tu-3U
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 20:36:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54880)
+	id 1kS8UC-00043C-8U
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 20:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kS8BC-0008GA-Tq
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 20:28:38 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:45162)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kS8BA-0004nD-GQ
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 20:28:38 -0400
-Received: by mail-pg1-x536.google.com with SMTP id y14so16107643pgf.12
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 17:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GMFUUawRaQBbY91Y4UXpQaHmWWpu/P1MsSjv1nTQRvk=;
- b=n9Fl8MIttTAkPMnVx+8EJtpoekhKSYyI9CyaZYspLnoC5b0nNKmA6kQjB5FnP8Tts8
- EJaC1aRN9xD7BpY1DMo4z7EagaJF8lAdL4GLL461RKn3ms+u8sjjN9ahdoEf69WDBZJf
- oee1XsAD2b+jnrSTPGQUfU59gtkNILihJ1mKxyg/jWI4QtsEy3iGB+ppCHICTb25GlRr
- pAKIA9fXUMKurjV4+efsghBgMQlABVCikAnMsasQzG6gjFCmQ6kJom0OrGK1cdBMbQ+p
- bTiTi8wG42G+T5/pyz3IFG5mqfBNVa+orxQBcylD7Kz3Rbswn57s+ZRLGmgz7btWO3Vf
- gHXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GMFUUawRaQBbY91Y4UXpQaHmWWpu/P1MsSjv1nTQRvk=;
- b=YrcNqHHLjLVAbw8fI7TAclW5AcJBzSo/y8vPjMedwSpu3aRpUCuTpv0ze4HtVH17zv
- 0odhwYtyEc8554uYwavztl5mlsxo/rk3Lfl4gq//KKNTfOyNfq8Ha3ANokN4nLnKo05K
- F3SwCwKTmW5h6ECNepBi57q9QLCfxTk+JEnhycR3OFtNGSU5CDUDV3tP284SrHbAFAvD
- +z1SsVJg/QheH7sHb9KxkgfGfLEn09dwxdOmyUoyKUVGkqCjqLsxWBU0OmNmM3H1Xwwi
- tWC7CCrjoqju/W0chcxUfXUAGEoPSqo4NshPAa8XV9HhwjFSGOrnrXooXHWDv+CoDdqa
- thOQ==
-X-Gm-Message-State: AOAM533PobFvkF7qhGhI+dUP93Ba1ijvDZtL1APHJCMD4Nt0kJDEqf/U
- 0J7S4cwXV/7XtTXJWKdeFtmt/c8OZWJD8Q==
-X-Google-Smtp-Source: ABdhPJxhLWDP4qZ8mDa5TuV4GgZjle/RN6USrpbWnwyxtXNep7gz6NkymZC7dy5Z1K4LdjcdAqjL0A==
-X-Received: by 2002:a17:90a:c28d:: with SMTP id
- f13mr21968261pjt.145.1602548914807; 
- Mon, 12 Oct 2020 17:28:34 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id y5sm22565925pge.62.2020.10.12.17.28.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 17:28:34 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 5/5] cirrus: Enable plugins in cirrus for windows
-Date: Tue, 13 Oct 2020 08:28:06 +0800
-Message-Id: <20201013002806.1447-6-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20201013002806.1447-1-luoyonggang@gmail.com>
-References: <20201013002806.1447-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kS8RM-00022Q-Eo; Mon, 12 Oct 2020 20:45:20 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59221 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kS8RI-0006nA-E5; Mon, 12 Oct 2020 20:45:19 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4C9GzQ19Rwz9sT6; Tue, 13 Oct 2020 11:45:06 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1602549906;
+ bh=iesMAIFFSIXx2LuRbGWZtshOkHiV8rUz3ueyL+1s+4w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dzdIfovOYxi3i0Rib6mVY7/B1mNWoeJR80jBzwMeJbc6baVg8j1b4yKSFDjVR8cp6
+ /pj7UEGoJwlMesrPjulwOiUnp2QI5v1PkgPAzJzYEyXFEolg3mYhMIWTo9bnKp0yyJ
+ rvu/VMPpO6D1iOEcmu0Kwtb8H/Nc6iHC4669BZx8=
+Date: Tue, 13 Oct 2020 11:39:07 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr: Clarify why DR connectors aren't user creatable
+Message-ID: <20201013003907.GE71119@yekko.fritz.box>
+References: <160250199940.765467.6896806997161856576.stgit@bahia.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x536.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TD8GDToEDw0WLGOL"
+Content-Disposition: inline
+In-Reply-To: <160250199940.765467.6896806997161856576.stgit@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,30 +59,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- .cirrus.yml | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 2c6bf45e6d..56ccb25bec 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -129,6 +129,7 @@ windows_msys2_task:
-   script:
-     - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure
-+      --enable-plugins
-       --python=python3 --ninja=ninja"
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j8"
-   test_script:
--- 
-2.28.0.windows.1
+--TD8GDToEDw0WLGOL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Oct 12, 2020 at 01:26:39PM +0200, Greg Kurz wrote:
+> DR connector is a device that emulates a firmware abstraction used by PAPR
+> compliant guests to manage hotplug/dynamic-reconfiguration of PHBs, PCI
+> devices, memory, and CPUs.
+>=20
+> It is internally created by the spapr platform and requires to be owned by
+> either the machine (PHBs, CPUs, memory) or by a PHB (PCI devices).
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Applied to ppc-for-5.2, thanks.
+
+> ---
+>  hw/ppc/spapr_drc.c |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 697b28c34305..77718cde1ff2 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -586,7 +586,8 @@ static void spapr_dr_connector_class_init(ObjectClass=
+ *k, void *data)
+>      dk->realize =3D realize;
+>      dk->unrealize =3D unrealize;
+>      /*
+> -     * Reason: it crashes FIXME find and document the real reason
+> +     * Reason: DR connector needs to be wired to either the machine or t=
+o a
+> +     * PHB in spapr_dr_connector_new().
+>       */
+>      dk->user_creatable =3D false;
+>  }
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--TD8GDToEDw0WLGOL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+E9ykACgkQbDjKyiDZ
+s5KoYw//bktkMN93o+vv7ufI3SopuMqVlzSipV40/1zFrRTpIwfYhckuceOa/Z13
+tjdTzDirU/Wk7uh3ycW+UTMRil26CHzdk3Rv8vzjWIKbTfLc/Q7uNjNM838Vfl2T
+WCcUCHRiq+5ibEBtYjB8jwXkrufaPwWE6okg1B6FZUpwKrD/a0DGxOIeiBEQXzUi
+1rFrYsQYaLOOQUujOxVUqlPXYPNOCHLHo+LazUVPiWunC6Lje9THu5lKnKXNlNlX
+2wjhxiszvwEtnJhw186taYJS9tlT+xxQmFU1nl+MOj5p2Xad32S4ZM0aaC/8Zpzd
+6vi47cYeQyb6g8CHeBmmJ9VF+wz+NyAgufruZGbmc5wnRZEE1htpOQYiGZJFvAxn
+QEzpyNOX0wBAnpnP+8vOc879MXj3HG+nUim8FizeJW6/d+ti+ZYXRLUD4TJqZwTQ
+WSowWWbEDLrmCuOo8REdxSbGcY72DotkaDjq43gBjTtYx+kVMq5eXDihaK2PPq+3
+yHd7oT/siO1mF1d4v9S5SC4S5h4X3h7kbXpW2rJKmetP+5rI5zotwUgDSB7azl07
+hE+T5jSc4O7JuQRwxQKJek3dIJIrXBUaRzXibPPkZ1ckvDkPh3uljylirHfcRx1W
+k/YUNYPdXqJRuXhm5DyNTWoXvFKJOPN/jHPPzXY66XW3yO3OruQ=
+=oKl3
+-----END PGP SIGNATURE-----
+
+--TD8GDToEDw0WLGOL--
 
