@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12AEF28CC33
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:07:53 +0200 (CEST)
-Received: from localhost ([::1]:39202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84DB428CC4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:11:51 +0200 (CEST)
+Received: from localhost ([::1]:52850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSI9o-0000uy-4G
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59586)
+	id 1kSIDe-0006mz-Hy
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHye-0005kg-Fr
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38303)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyi-0005vG-Qn
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyc-0006HP-Lk
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:20 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyg-0006Hr-HU
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602586577;
+ s=mimecast20190719; t=1602586581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=fM19QF+Da0/05Z4a0DqLkyPFT2otN3NKHUFxw+WENwg=;
- b=P9wwPOsuMpe/FWDELIOEKRRAo22xzp5i9pefriHWax7/97K8IO3fwPdaYCjiARCyw5ftFM
- puIYT3AlI1Ua0Pnk6HaBj2+pYMnRksZ9XfEAq1WH3C/gWz8stsInlpR3/DTH4IUQtr7GW/
- 2DRCSHzUg1befYLVAfjvxIRu+V7Bmp8=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/QndbD4rQqfpZ46obc0U7TKYK5gCoOQ0WdfsTx8oKz8=;
+ b=DFo1bqEPD/UxMTZEshzZaaJZwr/+2Ow0jttNbwH2adrMxQLpYwI7SoLIIJPfVHIbZ2165C
+ enBvTAj1dymZggXt/bXUdXFjrklPl+8Wb82yo1L262IAPk2MsxhlUv73Tuvv6wlOmFk/Vx
+ kSwdoF+P8O1yQ9wBDT4yJrMNwSUZGkk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-bIUlHlb6NDmnEZvvRQbsuw-1; Tue, 13 Oct 2020 06:56:15 -0400
-X-MC-Unique: bIUlHlb6NDmnEZvvRQbsuw-1
+ us-mta-561-g9GvJhhkMLOrxDjA2YDIiw-1; Tue, 13 Oct 2020 06:56:17 -0400
+X-MC-Unique: g9GvJhhkMLOrxDjA2YDIiw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B43F38030CD;
- Tue, 13 Oct 2020 10:56:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C155B107465C;
+ Tue, 13 Oct 2020 10:56:16 +0000 (UTC)
 Received: from thuth.com (ovpn-112-151.ams2.redhat.com [10.36.112.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2BFE7EB7A;
- Tue, 13 Oct 2020 10:56:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9EED56EF59;
+ Tue, 13 Oct 2020 10:56:15 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 18/23] scripts/ci/gitlab-pipeline-status: improve message
- regarding timeout
-Date: Tue, 13 Oct 2020 12:55:22 +0200
-Message-Id: <20201013105527.20088-19-thuth@redhat.com>
+Subject: [PULL 19/23] scripts/ci/gitlab-pipeline-status: give early feedback
+ on running pipelines
+Date: Tue, 13 Oct 2020 12:55:23 +0200
+Message-Id: <20201013105527.20088-20-thuth@redhat.com>
 In-Reply-To: <20201013105527.20088-1-thuth@redhat.com>
 References: <20201013105527.20088-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:06:42
@@ -82,35 +86,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cleber Rosa <crosa@redhat.com>
 
-The script has its own timeout, which is about how long the script
-will wait (when called with --wait) for the pipeline to complete, and
-not necessarily for the pipeline to complete.
+When waiting for a pipeline to run and finish, it's better to give
+early feedback, and then sleep and wait, than the other wait around.
 
-Hopefully this new wording will be clearer.
+Specially for the first iteration, it's frustrating to see nothing
+while the script is sleeping.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200904164258.240278-3-crosa@redhat.com>
+Message-Id: <20200904164258.240278-4-crosa@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- scripts/ci/gitlab-pipeline-status | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ scripts/ci/gitlab-pipeline-status | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeline-status
-index 194dd4d0bb..2a36f74696 100755
+index 2a36f74696..18609553be 100755
 --- a/scripts/ci/gitlab-pipeline-status
 +++ b/scripts/ci/gitlab-pipeline-status
-@@ -69,7 +69,10 @@ def wait_on_pipeline_success(timeout, interval,
-     start = time.time()
-     while True:
-         if time.time() >= (start + timeout):
--            print("Waiting on the pipeline timed out")
-+            msg = ("Timeout (-t/--timeout) of %i seconds reached, "
-+                   "won't wait any longer for the pipeline to complete")
-+            msg %= timeout
-+            print(msg)
-             return False
+@@ -77,8 +77,8 @@ def wait_on_pipeline_success(timeout, interval,
  
          status = get_pipeline_status(project_id, commit_sha)
+         if status['status'] == 'running':
+-            time.sleep(interval)
+             print('running...')
++            time.sleep(interval)
+             continue
+ 
+         if status['status'] == 'success':
 -- 
 2.18.2
 
