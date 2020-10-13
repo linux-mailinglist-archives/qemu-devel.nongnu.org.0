@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F2728D1B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 18:05:02 +0200 (CEST)
-Received: from localhost ([::1]:46732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A9728D212
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 18:20:07 +0200 (CEST)
+Received: from localhost ([::1]:33428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSMnM-0001F1-Mi
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 12:05:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42802)
+	id 1kSN1x-0008Bk-I9
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 12:20:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSMlV-0008Ec-UH
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:03:06 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44505)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSMlT-0007WA-FL
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:03:05 -0400
-Received: by mail-pl1-x641.google.com with SMTP id h2so41759pll.11
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 09:03:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=i+RmpWYdLT9YXqB40aa5IblU2V7Jd0t07I3+IEu06Uo=;
- b=JRoYMJZ9KPmzR/xMzZy0DqCjX6jv5ggJAODpMeOgNobJUsWbfdH/HNzcyQ+xPlWyGW
- oaEdrnCW9W/Y8rvzzoEuyvhhyqdnWPUbVKHOcdgoDTaumO4Spsc7EqLxqpsrfTNyZCap
- ME+hKj86UQB6/Cw9crRnplS+O7QsWjGUFZn4Amd6hEuztcCJbq7+sKuporx8h4x4q9LO
- cS5DiGeTP2sqQ5pNbNEIvYHlSUMJGnr5QaZsHWT9yVRSa1UX/3ZfXPvCuSgav/DsRRgH
- ZTRTb5uXlIAKUykygBtuMHzAhK7CO38ApOwEeqFe4oMN4aMkfEzqLoYWp7Zs8nH+4Q8M
- 58WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=i+RmpWYdLT9YXqB40aa5IblU2V7Jd0t07I3+IEu06Uo=;
- b=FmYFg8SBgVW0MmO3HMsahQ1kGDFhTj75aH5AOFbFraW5o8ZJ8XBP1N9ei27mswk61C
- rBZLfX8eMD5qwuHlJsXjwsI9QObp6j1jhzgTZ48INlbL0U34WuWDo54kw/6XUuxSH+yc
- QKDDHt6MMWS+NqeIQnhM41xABQfT+fOR0fpH8S1wnGecM3x+LgU7gFXrHQW5P1hy2Brk
- 6ie1gfYKnQ59ZUqkgz5LVC94Ttz5732EeGNxr7++nOE20Np7cMbmWrrM52J2zI1i4q45
- cp3x7ICKpVbEPtLbC5eXyCdR5hyau+doRbeanImEU9rZ6cTeNw9tS+ULZV7nlB0GDGRQ
- +UAA==
-X-Gm-Message-State: AOAM5318eIhmOWpdqsQK09AzfLw4qZw/z+dB6HDNmIDNV//0itB2/S6p
- d2Zns6Q1I5uYZugE4lS1LQCD0VRIXc31thTv
-X-Google-Smtp-Source: ABdhPJxJhrKyxwSfNbkkuMXy41LJYHSWuPlNM+CN++9yjqGZ7BMtiHyY/G7L53mPz+x8oXUmqe7GTQ==
-X-Received: by 2002:a17:90a:db49:: with SMTP id
- u9mr398137pjx.119.1602604980788; 
- Tue, 13 Oct 2020 09:03:00 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f21sm44164pfk.169.2020.10.13.09.02.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 09:02:59 -0700 (PDT)
-Subject: Re: [PATCH 01/10] decodetree: Fix codegen for non-overlapping group
- inside overlapping group
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20201012153746.9996-1-peter.maydell@linaro.org>
- <20201012153746.9996-2-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <084c4adc-9c9b-a0db-61ed-6d714e337d28@linaro.org>
-Date: Tue, 13 Oct 2020 09:02:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kSN11-0007lJ-97
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:19:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40514)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kSN0y-0001AU-2V
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:19:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602605942;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=jFiDNS3DZ69HU92lnaxY7ARpWX46HTIcqG3G7YeDcSs=;
+ b=UWTrEiNPKxzxsAR8H3X40WUWiJdapEJECB4X4uVIN+IZ3kQExFSy3fNY63QqZQz1mdlNJM
+ AHW0Qxn3plavhKoK6amQZp5LtzS2OvGPTM9rzqnSWp8ydYyPGltyzEPAsBCR/M2WdtKalB
+ dTHyU1WQUeakJD5vBv5kXZxZjYRzomQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-hpoINELbMC62_W4jyl57nQ-1; Tue, 13 Oct 2020 12:18:57 -0400
+X-MC-Unique: hpoINELbMC62_W4jyl57nQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7D35914700;
+ Tue, 13 Oct 2020 16:18:55 +0000 (UTC)
+Received: from redhat.com (ovpn-114-78.ams2.redhat.com [10.36.114.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 25D9427BDC;
+ Tue, 13 Oct 2020 16:18:50 +0000 (UTC)
+Date: Tue, 13 Oct 2020 17:18:48 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 06/10] coroutine: add libucontext as external library
+Message-ID: <20201013161848.GS70612@redhat.com>
+References: <20201012232939.48481-1-j@getutm.app>
+ <20201012232939.48481-7-j@getutm.app>
+ <20201013133135.GH164611@stefanha-x1.localdomain>
+ <ff84b94c-42ff-c1ba-cb28-644678c09a21@eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <20201012153746.9996-2-peter.maydell@linaro.org>
+In-Reply-To: <ff84b94c-42ff-c1ba-cb28-644678c09a21@eik.bme.hu>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 03:04:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,20 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Joelle van Dyne <j@getutm.app>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/20 8:37 AM, Peter Maydell wrote:
-> Generate a "break" instead, so that decode flow behaves
-> as required for this nested group case.
+On Tue, Oct 13, 2020 at 04:49:26PM +0200, BALATON Zoltan via wrote:
+> On Tue, 13 Oct 2020, Stefan Hajnoczi wrote:
+> > On Mon, Oct 12, 2020 at 04:29:35PM -0700, Joelle van Dyne wrote:
+> > > From: osy <osy86@users.noreply.github.com>
+> > > 
+> > > iOS does not support ucontext natively for aarch64 and the sigaltstack is
+> > > also unsupported (even worse, it fails silently, see:
+> > > https://openradar.appspot.com/13002712 )
+> > > 
+> > > As a workaround we include a library implementation of ucontext and add it
+> > > as a build option.
+> > > 
+> > > Signed-off-by: Joelle van Dyne <j@getutm.app>
+> > 
+> > Hi,
+> > Thanks for sending posting this!
+> > 
+> > Please indicate what license libucontext is under, that it is compatible
+> > with QEMU's overall GPL v2 license, and update QEMU license
 > 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  scripts/decodetree.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> https://github.com/utmapp/libucontext/blob/master/LICENSE
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I don't recognise that license text as being an exact match for any
+common open source license.
 
-r~
+As best I can tell, it is closest to being yet another variant of the
+MIT license, of which there are ridiculously many
+
+  https://fedoraproject.org/wiki/Licensing:MIT
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
