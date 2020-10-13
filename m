@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C047928CD56
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:59:36 +0200 (CEST)
-Received: from localhost ([::1]:51482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEF328CD87
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:02:08 +0200 (CEST)
+Received: from localhost ([::1]:56566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSIxr-0001dj-S8
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:59:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44180)
+	id 1kSJ0J-0003vt-FQ
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpj-00078R-31; Tue, 13 Oct 2020 07:51:11 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:48537)
+ id 1kSIpi-00077k-Pj; Tue, 13 Oct 2020 07:51:10 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:53039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIph-0004y9-5D; Tue, 13 Oct 2020 07:51:10 -0400
+ id 1kSIpg-0004y5-MY; Tue, 13 Oct 2020 07:51:10 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MUobv-1ksWwh3Wb3-00Qlh0; Tue, 13 Oct 2020 13:51:03 +0200
+ id 1MLQgv-1kkFUK2LOl-00IYUu; Tue, 13 Oct 2020 13:51:03 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/14] hw/acpi/piix4: Rename piix4_pm_add_propeties() to
- piix4_pm_add_properties()
-Date: Tue, 13 Oct 2020 13:50:44 +0200
-Message-Id: <20201013115052.133355-7-laurent@vivier.eu>
+Subject: [PULL 07/14] softmmu/memory: Log invalid memory accesses
+Date: Tue, 13 Oct 2020 13:50:45 +0200
+Message-Id: <20201013115052.133355-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
 References: <20201013115052.133355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:U1JLs65+gAgexy6v+LBl9wE/g4Q0G1GxkcvGhlvQoGIIrOFstxm
- uBVsjCIP9WK9tAPHO3Vh4r04XJFvrtjmxtGa81l7rmmuE5dByDNg0gNCmmRpa0zWoBwfOtQ
- r3yFEjAfJeWKaOTxxI9/biFyyyq6PBdNqapD6kLhqFX5Wy8a0vAGwBJIQEO+BEOyjsWZX+9
- ZTjLCXD66Q3l4Y8RyjQBw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FVU741uBOW4=:fZAXdr1SQRvGWqR9AVSsSD
- HiQvyQKJDf2UCDhKFSbddVSERW8w347b5k8OyojY85+vPJkKyfp2S9fTDks/1eLQesKtn0RUF
- BoJKkIHhs9cF1/EINnKnNlorBPi66RF9s9/tGBnHIBqj2+KEjLCVnFJBKSkC9SpXJJK8lGqTi
- f6SUMO5Mfo1ZYceG/K9bCrbBUXq5s7hCdB04IZp9bVtmFUq9Sd/ZtuH9JxIvQtA/L+vZkC1D5
- BJYXyhKIoyYgee9M8guZQYJf0t59GcLf+UtOeIWgqIQN9LHZi7hUvO+lZzSPP4J/5W5wNqR2f
- wCL8XIPc8N7mVYnSmVQKDUqytTrokgxfV5U7RKsaE5DCqPLa+QonYfck6xuXV1r7tqwlXoJPP
- DPbkQ8+TnKQSkqNevFAvYjPJ4RfMdLH6q7yNcziyBKDEfCtjmdJF2FQo4MkqJOkmV2IQ16brk
- Q9T3UaZXme0mSiEKXvgAAinzbLJsvVtvlKxsA3ctHmjRt3yq5AWhV7pWRSY/njF6TCnifeNyf
- zaC3nr+AWmx+vBBhV5TaLMcwA++wlrc1wOgg/WIdsg/k546So7ZfGQlnXAl0oq1Xl3julAFx6
- s6j2IkP6c8bN2a9VXcmjdIVW2ZZhf+Yru2xG5GEu7478LpoWizJpvrX6+RrIyrbGaK8MQTJob
- MWcVFQQy3PcdJSTEaocLrQXuqk3LHJPRsDlBA/0DeM2iuLN6htjkRy+UM7ZZ6F2gpgrFNrGzb
- jR5omvr+R3y6OH4EnZRUCMFP90E2cD4wFsXyP67fkObtmfqeWLSORcvlSK8pJrvWTZ48lqQ87
- ktalE/9OCfnmNHfPoIkyJbjU2fhYWyutNUWGCcaS4A/Im7dmdTGEqzgeDOl6zH1ShQeL7nj
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:MKWt9Cjs1s5YhAebDSyrKmmhvomsOesLPiiTLR6Rz83/CrEjixy
+ GijrUoKj3bk0RlaOI4ZBXPZxgV3Lgo/QBiKJMjnMsdt6O1GHmZUMtWbnw+sQr7KzfFlXfYY
+ unwVGQduZcHrVNnaMRTPFyKd/Ab7CteQrVsGU40Ig7/2ajRvk8F73RlgURIrifG5DL6Xhl7
+ zTIH7elMfedL5U/b7vwcQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:n+8Yw940KKk=:NJPe6/w0qeHBXQXU/87HzT
+ 9na+TmsdCUAwY3dpuyLy8PdPWIPNu+RamAGLM18qHPJFSgjXiN89+Fg4xpjGP2wzCWpE07gBw
+ xQ0PC2Fyw6J9UYAWWvnRgVV1WUgyoxPN9rzAn8aNLTviAbAWFE2QJnjEQK5jpXk3w9kyxA1rh
+ hxm6E+nvGwTAoloNrviASqi8OwGRsdru3rlCHNEwwnUqD70TwoDwFg9yFpKG2fxvDoXgwyoY7
+ 8rBOr1uRowy23gf6oIv+noU05285QinxB54iRUimS/obv1GwqPT4Cs5TFyfPeR4JBKUHe3ymf
+ khMHsjIAosphogDF6SsnIdBTPpDYSxesWRQsa/tqrVZSQ+mYWakWOnGqAqC195iqxRKyE3JUs
+ BGjTihVAt5kvL7Pmjgk8irfqmJsffPhSAcaNRbbf9tsznWe8+FbJWcFs30srDjNm1lSDqCm44
+ F+Tvhcm2d4cZvK632MTQlO/eXJbEOnPUGy2Krh8ShDOXvUs9hFAuHwQHjHI9e5ALwGMsviDcu
+ B5yH72E57hMg06bdKM4SH0Hen1SeMBWv+p/8ePM6afWPm1Yp9DXHw8p7Z81UbjdjZnHvZTSKm
+ hozG/T2YltsGjO4ih1zDX/v/HeB4gUwICaVoDfST+D8Q8a7u6yyDjIg4B93vqyAAVNsU0xnm3
+ 3LJkINlnIVn/5i5oIYk+QqZaFQ6km2aW5AyC5r3wsDN7zYoc+wfwqX13YXi/6gFSxnUVSGSti
+ 1x66I1D7/BZRNIlSP/M9kfrDVafciMmz9nr+Hfd0awOD7lA7dyDLH9Gmk7qx+ulNlUCQ3zfTV
+ c7V/iwqedjXp+3FLjANWA/ViKdrFxVQ0a3oruhsmX/Qb+vmUzO7VkTL5dDbzMmVTOojBfrA
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:32:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:40:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,46 +70,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Li Qiang <liq3ea@gmail.com>, Greg Kurz <groug@kaod.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <160165476743.57452.2128307974125615413.stgit@bahia.lan>
+Log invalid memory accesses with as GUEST_ERROR.
+
+This is particularly useful since commit 5d971f9e67 which reverted
+("memory: accept mismatching sizes in memory_region_access_valid").
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20201005152725.2143444-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/acpi/piix4.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ softmmu/memory.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 894d357f8c35..67a1ea41914f 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -437,7 +437,7 @@ static void piix4_pm_machine_ready(Notifier *n, void *opaque)
-         (memory_region_present(io_as, 0x2f8) ? 0x90 : 0);
- }
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index fa280a19f7f7..403ff3abc99b 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -14,6 +14,7 @@
+  */
  
--static void piix4_pm_add_propeties(PIIX4PMState *s)
-+static void piix4_pm_add_properties(PIIX4PMState *s)
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "exec/memory.h"
+@@ -1353,10 +1354,18 @@ bool memory_region_access_valid(MemoryRegion *mr,
  {
-     static const uint8_t acpi_enable_cmd = ACPI_ENABLE;
-     static const uint8_t acpi_disable_cmd = ACPI_DISABLE;
-@@ -509,7 +509,7 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
-                                    pci_get_bus(dev), s);
-     qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s));
+     if (mr->ops->valid.accepts
+         && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
++                                       "0x%" HWADDR_PRIX ", size %u, "
++                                       "region '%s', reason: rejected\n",
++                      addr, size, memory_region_name(mr));
+         return false;
+     }
  
--    piix4_pm_add_propeties(s);
-+    piix4_pm_add_properties(s);
- }
+     if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
++                                       "0x%" HWADDR_PRIX ", size %u, "
++                                       "region '%s', reason: unaligned\n",
++                      addr, size, memory_region_name(mr));
+         return false;
+     }
  
- I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+@@ -1367,6 +1376,13 @@ bool memory_region_access_valid(MemoryRegion *mr,
+ 
+     if (size > mr->ops->valid.max_access_size
+         || size < mr->ops->valid.min_access_size) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
++                                       "0x%" HWADDR_PRIX ", size %u, "
++                                       "region '%s', reason: invalid size "
++                                       "(min:%u max:%u)\n",
++                      addr, size, memory_region_name(mr),
++                      mr->ops->valid.min_access_size,
++                      mr->ops->valid.max_access_size);
+         return false;
+     }
+     return true;
 -- 
 2.26.2
 
