@@ -2,53 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1920328CCDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:55:04 +0200 (CEST)
-Received: from localhost ([::1]:34248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8034928CD15
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:56:50 +0200 (CEST)
+Received: from localhost ([::1]:41742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSItT-0002oi-46
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:55:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43702)
+	id 1kSIvB-0005uI-Gv
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSIoP-0005cU-5M; Tue, 13 Oct 2020 07:49:49 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51584
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kSIoQ-0005eQ-6F; Tue, 13 Oct 2020 07:49:50 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2547 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSIoM-0004gF-Ta; Tue, 13 Oct 2020 07:49:48 -0400
-Received: from host86-158-109-18.range86-158.btcentralplus.com
- ([86.158.109.18] helo=kentang.home)
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSIoI-0004jn-Pb; Tue, 13 Oct 2020 12:49:49 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
- f4bug@amsat.org
-Date: Tue, 13 Oct 2020 12:49:22 +0100
-Message-Id: <20201013114922.2946-4-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201013114922.2946-1-mark.cave-ayland@ilande.co.uk>
-References: <20201013114922.2946-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kSIoN-0004ft-IM; Tue, 13 Oct 2020 07:49:49 -0400
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.56])
+ by Forcepoint Email with ESMTP id 18598F6BFD84A2A20E3F;
+ Tue, 13 Oct 2020 19:49:40 +0800 (CST)
+Received: from DGGEMM422-HUB.china.huawei.com (10.1.198.39) by
+ DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Tue, 13 Oct 2020 19:49:39 +0800
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.75]) by
+ dggemm422-hub.china.huawei.com ([10.1.198.39]) with mapi id 14.03.0487.000;
+ Tue, 13 Oct 2020 19:49:33 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, Laurent Vivier
+ <laurent@vivier.eu>, Li Qiang <liq3ea@gmail.com>
+Subject: RE: [PATCH] migration/block-dirty-bitmap: fix uninitialized
+ variable warning
+Thread-Topic: [PATCH] migration/block-dirty-bitmap: fix uninitialized
+ variable warning
+Thread-Index: AQHWnvWXB6+3xHhZ7kqhgehHhToetKmTlYMAgACocACAAF4JAIAAjDZA//+83oCAAIfTIA==
+Date: Tue, 13 Oct 2020 11:49:32 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83B9B2E21@dggemm531-mbx.china.huawei.com>
+References: <20201010110730.1575180-1-kuhn.chenqun@huawei.com>
+ <2b2bc826-0785-66e2-3515-b98abfac26ca@vivier.eu>
+ <CAKXe6SL8fRN=-iqFEiHeWqZm0F+T+8vkc7qJeUz6izQcZQ2Q-A@mail.gmail.com>
+ <70bc9735-6555-078a-52da-61da6c58f1d3@vivier.eu>
+ <7412CDE03601674DA8197E2EBD8937E83B9B2054@dggemm531-mbx.china.huawei.com>
+ <82c0eefd-9227-8d76-e941-343ac78895a7@virtuozzo.com>
+In-Reply-To: <82c0eefd-9227-8d76-e941-343ac78895a7@virtuozzo.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.158.109.18
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 3/3] uninorth: use qdev gpios for PCI IRQs
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=kuhn.chenqun@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:49:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,251 +73,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, ganqixin <ganqixin@huawei.com>,
+ Euler Robot <euler.robot@huawei.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently an object link property is used to pass a reference to the OpenPIC
-into the PCI host bridge so that pci_unin_init_irqs() can connect the PCI
-IRQs to the PIC itself.
-
-This can be simplified by defining the PCI IRQs as qdev gpios and then wiring
-up the PCI IRQs to the PIC in the New World machine init function.
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/pci-host/uninorth.c         | 45 +++++++---------------------------
- hw/ppc/mac_newworld.c          | 24 ++++++++++++------
- include/hw/pci-host/uninorth.h |  2 --
- 3 files changed, 25 insertions(+), 46 deletions(-)
-
-diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
-index 1ed1072eeb..0c0a9ecee1 100644
---- a/hw/pci-host/uninorth.c
-+++ b/hw/pci-host/uninorth.c
-@@ -32,8 +32,6 @@
- #include "hw/pci-host/uninorth.h"
- #include "trace.h"
- 
--static const int unin_irq_line[] = { 0x1b, 0x1c, 0x1d, 0x1e };
--
- static int pci_unin_map_irq(PCIDevice *pci_dev, int irq_num)
- {
-     return (irq_num + (pci_dev->devfn >> 3)) & 3;
-@@ -43,7 +41,7 @@ static void pci_unin_set_irq(void *opaque, int irq_num, int level)
- {
-     UNINHostState *s = opaque;
- 
--    trace_unin_set_irq(unin_irq_line[irq_num], level);
-+    trace_unin_set_irq(irq_num, level);
-     qemu_set_irq(s->irqs[irq_num], level);
- }
- 
-@@ -112,15 +110,6 @@ static const MemoryRegionOps unin_data_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
--static void pci_unin_init_irqs(UNINHostState *s)
--{
--    int i;
--
--    for (i = 0; i < ARRAY_SIZE(s->irqs); i++) {
--        s->irqs[i] = qdev_get_gpio_in(DEVICE(s->pic), unin_irq_line[i]);
--    }
--}
--
- static char *pci_unin_main_ofw_unit_address(const SysBusDevice *dev)
- {
-     UNINHostState *s = UNI_NORTH_PCI_HOST_BRIDGE(dev);
-@@ -141,7 +130,6 @@ static void pci_unin_main_realize(DeviceState *dev, Error **errp)
-                                    PCI_DEVFN(11, 0), 4, TYPE_PCI_BUS);
- 
-     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "uni-north-pci");
--    pci_unin_init_irqs(s);
- 
-     /* DEC 21154 bridge */
- #if 0
-@@ -172,15 +160,12 @@ static void pci_unin_main_init(Object *obj)
-                              "unin-pci-hole", &s->pci_mmio,
-                              0x80000000ULL, 0x10000000ULL);
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &s->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
--
-     sysbus_init_mmio(sbd, &h->conf_mem);
-     sysbus_init_mmio(sbd, &h->data_mem);
-     sysbus_init_mmio(sbd, &s->pci_hole);
-     sysbus_init_mmio(sbd, &s->pci_io);
-+
-+    qdev_init_gpio_out(DEVICE(obj), s->irqs, ARRAY_SIZE(s->irqs));
- }
- 
- static void pci_u3_agp_realize(DeviceState *dev, Error **errp)
-@@ -196,7 +181,6 @@ static void pci_u3_agp_realize(DeviceState *dev, Error **errp)
-                                    PCI_DEVFN(11, 0), 4, TYPE_PCI_BUS);
- 
-     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "u3-agp");
--    pci_unin_init_irqs(s);
- }
- 
- static void pci_u3_agp_init(Object *obj)
-@@ -220,15 +204,12 @@ static void pci_u3_agp_init(Object *obj)
-                              "unin-pci-hole", &s->pci_mmio,
-                              0x80000000ULL, 0x70000000ULL);
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &s->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
--
-     sysbus_init_mmio(sbd, &h->conf_mem);
-     sysbus_init_mmio(sbd, &h->data_mem);
-     sysbus_init_mmio(sbd, &s->pci_hole);
-     sysbus_init_mmio(sbd, &s->pci_io);
-+
-+    qdev_init_gpio_out(DEVICE(obj), s->irqs, ARRAY_SIZE(s->irqs));
- }
- 
- static void pci_unin_agp_realize(DeviceState *dev, Error **errp)
-@@ -244,7 +225,6 @@ static void pci_unin_agp_realize(DeviceState *dev, Error **errp)
-                                    PCI_DEVFN(11, 0), 4, TYPE_PCI_BUS);
- 
-     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "uni-north-agp");
--    pci_unin_init_irqs(s);
- }
- 
- static void pci_unin_agp_init(Object *obj)
-@@ -259,13 +239,10 @@ static void pci_unin_agp_init(Object *obj)
-     memory_region_init_io(&h->data_mem, OBJECT(h), &pci_host_data_le_ops,
-                           obj, "unin-agp-conf-data", 0x1000);
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &s->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
--
-     sysbus_init_mmio(sbd, &h->conf_mem);
-     sysbus_init_mmio(sbd, &h->data_mem);
-+
-+    qdev_init_gpio_out(DEVICE(obj), s->irqs, ARRAY_SIZE(s->irqs));
- }
- 
- static void pci_unin_internal_realize(DeviceState *dev, Error **errp)
-@@ -281,7 +258,6 @@ static void pci_unin_internal_realize(DeviceState *dev, Error **errp)
-                                    PCI_DEVFN(14, 0), 4, TYPE_PCI_BUS);
- 
-     pci_create_simple(h->bus, PCI_DEVFN(14, 0), "uni-north-internal-pci");
--    pci_unin_init_irqs(s);
- }
- 
- static void pci_unin_internal_init(Object *obj)
-@@ -296,13 +272,10 @@ static void pci_unin_internal_init(Object *obj)
-     memory_region_init_io(&h->data_mem, OBJECT(h), &pci_host_data_le_ops,
-                           obj, "unin-pci-conf-data", 0x1000);
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &s->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
--
-     sysbus_init_mmio(sbd, &h->conf_mem);
-     sysbus_init_mmio(sbd, &h->data_mem);
-+
-+    qdev_init_gpio_out(DEVICE(obj), s->irqs, ARRAY_SIZE(s->irqs));
- }
- 
- static void unin_main_pci_host_realize(PCIDevice *d, Error **errp)
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 6f5ef2e782..7a8dc09c8d 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -303,8 +303,6 @@ static void ppc_core99_init(MachineState *machine)
-         /* 970 gets a U3 bus */
-         /* Uninorth AGP bus */
-         dev = qdev_new(TYPE_U3_AGP_HOST_BRIDGE);
--        object_property_set_link(OBJECT(dev), "pic", OBJECT(pic_dev),
--                                 &error_abort);
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-         uninorth_pci = U3_AGP_HOST_BRIDGE(dev);
-         s = SYS_BUS_DEVICE(dev);
-@@ -317,32 +315,38 @@ static void ppc_core99_init(MachineState *machine)
-         sysbus_mmio_map(s, 0, 0xf0800000);
-         sysbus_mmio_map(s, 1, 0xf0c00000);
- 
-+        for (i = 0; i < 4; i++) {
-+            qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x1b + i));
-+        }
-+
-         machine_arch = ARCH_MAC99_U3;
-     } else {
-         /* Use values found on a real PowerMac */
-         /* Uninorth AGP bus */
-         dev = qdev_new(TYPE_UNI_NORTH_AGP_HOST_BRIDGE);
--        object_property_set_link(OBJECT(dev), "pic", OBJECT(pic_dev),
--                                 &error_abort);
-         s = SYS_BUS_DEVICE(dev);
-         sysbus_realize_and_unref(s, &error_fatal);
-         sysbus_mmio_map(s, 0, 0xf0800000);
-         sysbus_mmio_map(s, 1, 0xf0c00000);
- 
-+        for (i = 0; i < 4; i++) {
-+            qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x1b + i));
-+        }
-+
-         /* Uninorth internal bus */
-         dev = qdev_new(TYPE_UNI_NORTH_INTERNAL_PCI_HOST_BRIDGE);
--        object_property_set_link(OBJECT(dev), "pic", OBJECT(pic_dev),
--                                 &error_abort);
-         s = SYS_BUS_DEVICE(dev);
-         sysbus_realize_and_unref(s, &error_fatal);
-         sysbus_mmio_map(s, 0, 0xf4800000);
-         sysbus_mmio_map(s, 1, 0xf4c00000);
- 
-+        for (i = 0; i < 4; i++) {
-+            qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x1b + i));
-+        }
-+
-         /* Uninorth main bus */
-         dev = qdev_new(TYPE_UNI_NORTH_PCI_HOST_BRIDGE);
-         qdev_prop_set_uint32(dev, "ofw-addr", 0xf2000000);
--        object_property_set_link(OBJECT(dev), "pic", OBJECT(pic_dev),
--                                 &error_abort);
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-         uninorth_pci = UNI_NORTH_PCI_HOST_BRIDGE(dev);
-         s = SYS_BUS_DEVICE(dev);
-@@ -355,6 +359,10 @@ static void ppc_core99_init(MachineState *machine)
-         sysbus_mmio_map(s, 0, 0xf2800000);
-         sysbus_mmio_map(s, 1, 0xf2c00000);
- 
-+        for (i = 0; i < 4; i++) {
-+            qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x1b + i));
-+        }
-+
-         machine_arch = ARCH_MAC99;
-     }
- 
-diff --git a/include/hw/pci-host/uninorth.h b/include/hw/pci-host/uninorth.h
-index a6ba5f21a8..62bd81e721 100644
---- a/include/hw/pci-host/uninorth.h
-+++ b/include/hw/pci-host/uninorth.h
-@@ -26,7 +26,6 @@
- #define UNINORTH_H
- 
- #include "hw/pci/pci_host.h"
--#include "hw/ppc/openpic.h"
- #include "qom/object.h"
- 
- /* UniNorth version */
-@@ -51,7 +50,6 @@ struct UNINHostState {
-     PCIHostState parent_obj;
- 
-     uint32_t ofw_addr;
--    OpenPICState *pic;
-     qemu_irq irqs[4];
-     MemoryRegion pci_mmio;
-     MemoryRegion pci_hole;
--- 
-2.20.1
-
+PiA+Pj4+IExlIDEwLzEwLzIwMjAgw6AgMTM6MDcsIENoZW4gUXVuIGEgw6ljcml0IDoNCj4gPj4+
+Pj4gVGhpcyBpZiBzdGF0ZW1lbnQganVkZ21lbnQgaXMgcmVkdW5kYW50IGFuZCBpdCB3aWxsIGNh
+dXNlIGEgd2FybmluZzoNCj4gPj4+Pj4NCj4gPj4+Pj4gbWlncmF0aW9uL2Jsb2NrLWRpcnR5LWJp
+dG1hcC5jOjEwOTA6MTM6IHdhcm5pbmc6IOKAmGJpdG1hcF9uYW1l4oCZIG1heQ0KPiA+Pj4+PiBi
+ZSB1c2VkICB1bmluaXRpYWxpemVkIGluIHRoaXMgZnVuY3Rpb24gWy1XbWF5YmUtdW5pbml0aWFs
+aXplZF0NCj4gPj4+Pj4gICAgICAgICAgICAgICBnX3N0cmxjcHkocy0+Yml0bWFwX25hbWUsIGJp
+dG1hcF9uYW1lLA0KPiA+PiBzaXplb2Yocy0+Yml0bWFwX25hbWUpKTsNCj4gPj4+Pj4NCj4gPj4+
+Pj4NCj4gPj4NCj4gXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn4NCj4gPj4+Pj4NCj4gPj4+Pj4gUmVwb3J0ZWQtYnk6IEV1bGVyIFJv
+Ym90IDxldWxlci5yb2JvdEBodWF3ZWkuY29tPg0KPiA+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBDaGVu
+IFF1biA8a3Vobi5jaGVucXVuQGh1YXdlaS5jb20+DQo+ID4+Pj4+IC0tLQ0KPiA+Pj4+PiAgIG1p
+Z3JhdGlvbi9ibG9jay1kaXJ0eS1iaXRtYXAuYyB8IDIgLS0NCj4gPj4+Pj4gICAxIGZpbGUgY2hh
+bmdlZCwgMiBkZWxldGlvbnMoLSkNCj4gPj4+Pj4NCj4gPj4+Pj4gZGlmZiAtLWdpdCBhL21pZ3Jh
+dGlvbi9ibG9jay1kaXJ0eS1iaXRtYXAuYw0KPiA+Pj4+PiBiL21pZ3JhdGlvbi9ibG9jay1kaXJ0
+eS1iaXRtYXAuYyBpbmRleCA1YmVmNzkzYWMwLi5lMDllYTRmMjJiDQo+ID4+Pj4+IDEwMDY0NA0K
+PiA+Pj4+PiAtLS0gYS9taWdyYXRpb24vYmxvY2stZGlydHktYml0bWFwLmMNCj4gPj4+Pj4gKysr
+IGIvbWlncmF0aW9uL2Jsb2NrLWRpcnR5LWJpdG1hcC5jDQo+ID4+Pj4+IEBAIC0xMDg0LDkgKzEw
+ODQsNyBAQCBzdGF0aWMgaW50DQo+IGRpcnR5X2JpdG1hcF9sb2FkX2hlYWRlcihRRU1VRmlsZQ0K
+PiA+PiAqZiwgREJNTG9hZFN0YXRlICpzLA0KPiA+Pj4+PiAgICAgICAgICAgICAgIH0gZWxzZSB7
+DQo+ID4+Pj4+ICAgICAgICAgICAgICAgICAgIGJpdG1hcF9uYW1lID0gcy0+Yml0bWFwX2FsaWFz
+Ow0KPiA+Pj4+PiAgICAgICAgICAgICAgIH0NCj4gPj4+Pj4gLSAgICAgICAgfQ0KPiA+Pj4+Pg0K
+PiA+Pj4+PiAtICAgICAgICBpZiAoIXMtPmNhbmNlbGxlZCkgew0KPiA+Pj4+PiAgICAgICAgICAg
+ICAgIGdfc3RybGNweShzLT5iaXRtYXBfbmFtZSwgYml0bWFwX25hbWUsDQo+ID4+IHNpemVvZihz
+LT5iaXRtYXBfbmFtZSkpOw0KPiA+Pj4+PiAgICAgICAgICAgICAgIHMtPmJpdG1hcCA9IGJkcnZf
+ZmluZF9kaXJ0eV9iaXRtYXAocy0+YnMsDQo+ID4+Pj4+IHMtPmJpdG1hcF9uYW1lKTsNCj4gPj4+
+Pj4NCj4gPj4+Pj4NCj4gPj4+Pg0KPiA+Pj4+IEkgZG9uJ3QgdGhpbmsgaXQncyBjb3JyZWN0IGFz
+ICJjYW5jZWxfaW5jb21pbmdfbG9ja2VkKHMpIiBjYW4NCj4gPj4+PiBjaGFuZ2UgdGhlIHZhbHVl
+IG9mICJzLT5jYW5jZWxsZWQiLg0KPiA+Pj4+DQo+ID4+Pg0KPiA+Pj4gSGkgTGF1cmVudCwNCj4g
+Pj4+DQo+ID4+PiBZb3UncmUgcmlnaHQuIFNvIEkgdGhpbmsgdGhpcyBjYW4gc2ltcGx5IGFzc2ln
+biAnYml0bWFwX25hbWUnIHRvDQo+ID4+PiBOVUxMIHRvIG1ha2UgY29tcGlsZXIgaGFwcHkuDQo+
+ID4+DQo+ID4+IFllcywgYW5kIGFkZGluZyBhIGNvbW1lbnQgYmVmb3JlIHRoZSBzZWNvbmQgImlm
+ICghcy0+Y2FuY2VsbGVkKSB7IiB0bw0KPiA+PiBleHBsYWluIHRoZSB2YWx1ZSBjYW4gYmUgY2hh
+bmdlZCBieSAiY2FuY2VsX2luY29taW5nX2xvY2tlZChzKSIgd291bGQNCj4gPj4gYXZvaWQgdG8g
+aGF2ZSB0aGlzIGtpbmQgb2YgcGF0Y2ggcG9zdGVkIHJlZ3VsYXJseSB0byB0aGUgTUwuDQo+ID4+
+DQo+ID4gSGkgTGF1cmVudCwNCj4gPg0KPiA+IFdlIGdpdmUgdGhlIGJpdG1hcF9uYW1lIGEgZGVm
+YXVsdCB2YWx1ZSAocy0+Yml0bWFwX2FsaWFzKSBzbyB0aGF0IHdlIGNhbg0KPiByZW1vdmUgdGhl
+IGFzc2lnbm1lbnQgb2YgdGhlIGVsc2UgYnJhbmNoIHN0YXRlbWVudC4NCj4gPg0KPiA+IEFuZCB0
+aGVuIHdlIG1lcmdlIHRoZSB0d28gaWYgc3RhdGVtZW50cygiaWYgKCFzLT5jYW5jZWxsZWQpIiwg
+ImlmDQo+IChiaXRtYXBfYWxpYXNfbWFwKSIpICwgIGF2b2lkcyBjb25mdXNpb24gdGhlIHR3byAi
+aWYgKCFzLT5jYW5jZWxsZWQpIi4NCj4gPg0KPiA+IFRoYW5rcywNCj4gPiBDaGVuIFF1bg0KPiA+
+DQo+ID4NCj4gPiBUaGUgY29kZSBzaG93IGFzIHRoYXQ6DQo+ID4gQEAgLTEwNjQsMTUgKzEwNjQs
+MTQgQEAgc3RhdGljIGludCBkaXJ0eV9iaXRtYXBfbG9hZF9oZWFkZXIoUUVNVUZpbGUNCj4gKmYs
+IERCTUxvYWRTdGF0ZSAqcywNCj4gPiAgICAgICBhc3NlcnQobm90aGluZyB8fCBzLT5jYW5jZWxs
+ZWQgfHwgISFhbGlhc19tYXAgPT0NCj4gPiAhIWJpdG1hcF9hbGlhc19tYXApOw0KPiA+DQo+ID4g
+ICAgICAgaWYgKHMtPmZsYWdzICYgRElSVFlfQklUTUFQX01JR19GTEFHX0JJVE1BUF9OQU1FKSB7
+DQo+ID4gLSAgICAgICAgY29uc3QgY2hhciAqYml0bWFwX25hbWU7DQo+ID4gKyAgICAgICAgY29u
+c3QgY2hhciAqYml0bWFwX25hbWUgPSBzLT5iaXRtYXBfYWxpYXM7DQo+ID4NCj4gPiAgICAgICAg
+ICAgaWYgKCFxZW11X2dldF9jb3VudGVkX3N0cmluZyhmLCBzLT5iaXRtYXBfYWxpYXMpKSB7DQo+
+ID4gICAgICAgICAgICAgICBlcnJvcl9yZXBvcnQoIlVuYWJsZSB0byByZWFkIGJpdG1hcCBhbGlh
+cyBzdHJpbmciKTsNCj4gPiAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOw0KPiA+ICAgICAg
+ICAgICB9DQo+ID4NCj4gPiAtICAgICAgICBpZiAoIXMtPmNhbmNlbGxlZCkgew0KPiA+IC0gICAg
+ICAgICAgICBpZiAoYml0bWFwX2FsaWFzX21hcCkgew0KPiA+ICsgICAgICAgIGlmICghcy0+Y2Fu
+Y2VsbGVkICYmIGJpdG1hcF9hbGlhc19tYXApIHsNCj4gPiAgICAgICAgICAgICAgICAgICBiaXRt
+YXBfbmFtZSA9DQo+IGdfaGFzaF90YWJsZV9sb29rdXAoYml0bWFwX2FsaWFzX21hcCwNCj4gPg0K
+PiBzLT5iaXRtYXBfYWxpYXMpOw0KPiA+ICAgICAgICAgICAgICAgICAgIGlmICghYml0bWFwX25h
+bWUpIHsNCj4gPiBAQCAtMTA4MSw5ICsxMDgwLDYgQEAgc3RhdGljIGludCBkaXJ0eV9iaXRtYXBf
+bG9hZF9oZWFkZXIoUUVNVUZpbGUgKmYsDQo+IERCTUxvYWRTdGF0ZSAqcywNCj4gPiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHMtPmJzLT5ub2RlX25hbWUsDQo+IHMtPm5vZGVf
+YWxpYXMpOw0KPiA+ICAgICAgICAgICAgICAgICAgICAgICBjYW5jZWxfaW5jb21pbmdfbG9ja2Vk
+KHMpOw0KPiA+ICAgICAgICAgICAgICAgICAgIH0NCj4gPiAtICAgICAgICAgICAgfSBlbHNlIHsN
+Cj4gPiAtICAgICAgICAgICAgICAgIGJpdG1hcF9uYW1lID0gcy0+Yml0bWFwX2FsaWFzOw0KPiA+
+IC0gICAgICAgICAgICB9DQo+ID4gICAgICAgICAgIH0NCj4gPg0KPiA+ICAgICAgICAgICBpZiAo
+IXMtPmNhbmNlbGxlZCkgew0KPiA+DQo+IA0KPiBTb3VuZHMgZ29vZC4NCj4gDQpPSywgSSdsbCB1
+cGRhdGUgaXQgbGF0ZXIuDQoNClRoYW5rcywNCkNoZW4gUXVuDQo=
 
