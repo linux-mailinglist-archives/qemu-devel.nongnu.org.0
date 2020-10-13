@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21BE28D66A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 00:26:41 +0200 (CEST)
-Received: from localhost ([::1]:41404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AFA28D66E
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 00:31:17 +0200 (CEST)
+Received: from localhost ([::1]:52104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSSkh-0003bg-TH
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 18:26:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57618)
+	id 1kSSpA-0008Bl-Ea
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 18:31:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSShs-0001n0-IK
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:23:44 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSShl-0007At-JO
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:23:44 -0400
-Received: by mail-pl1-x642.google.com with SMTP id c6so664810plr.9
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 15:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6SKuiliJpxT6R4FNF++vrVrvF/ZziJKI2oEeY+DT8e8=;
- b=EuT7r8DG7rE/PtmrmBFi0XR/bwskgPZrAnzDkMTBGqkdO3riqJ6wWjPjwZEqm5pSbM
- LGgofxWI7rZ9ghdxwSO1BoEhR45GX3x1au5fAK7IGMOJZLYDim3hO7DuxJ74vn/Kf05y
- s+ftQAQP0lyaQlgCp20eM77KZS2+7jI8Y3JgnAlRi+AW61ZAV49zMRHRxPmaTbnV1Cfv
- ZNmhkUrQYrBXmRlfOtYEC7JVw0VaYqoYmP/KnTTNWwQLBRE4gxgWG4d3aP+4fq6i76Ln
- Xy1urFogfU46soOP2/+rCrSu0TeMZHoY/00QQinrBXEhMk/li7IgF0w9Ik71GjbMluaG
- v0rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6SKuiliJpxT6R4FNF++vrVrvF/ZziJKI2oEeY+DT8e8=;
- b=Pv2/msVDyuc/7+eIXXz4e7qWpmsheVpypYjfkn1MWoG+0784d5Q5N8+aniYj+MjBPf
- IaTFvdQm4WGin+8m+EN9BZp3a+td4ZFFo9lDrFfxITznt5/r3QMkfjg/6XUMtBQ1aFR+
- jgnxx335OOGC7MLXzr7i2g3XZWAIQaFEsYRCSkwyodxdB+jSIDwBLyf9Ohj++NhxOfl9
- DyvtzQmd63LPVZAuaW7AX2WIwrTN9hac/YMpauWR9kHuUdhfhagAB8rlb8Bu2uWgv6GN
- HXSoH6k8OlMcTdJRERsIqvsxUrl3+KY27gb+//UamqufdSS0Dra45YCNE4eStenrOXx5
- FR2Q==
-X-Gm-Message-State: AOAM533Hr1rPH1roy0GF6iddXULNicOoB3wvPTThVVflrmg39HH02Iet
- LbTA9SRZxV5YhurBurlhuMfFZ3HLULoUeQ==
-X-Google-Smtp-Source: ABdhPJzzS7z/fXGrBiksDZjpfGCTo4NdsloZzvnlsmQJucaRTzl+7n+0Ku6fBPEcrd5juLUDnS7QGA==
-X-Received: by 2002:a17:90a:6f21:: with SMTP id
- d30mr447075pjk.165.1602627815400; 
- Tue, 13 Oct 2020 15:23:35 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id cu5sm239899pjb.49.2020.10.13.15.23.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 15:23:34 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tcg/optimize: Flush data at labels not TCG_OPF_BB_END
-Date: Tue, 13 Oct 2020 15:23:30 -0700
-Message-Id: <20201013222330.173525-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201013222330.173525-1-richard.henderson@linaro.org>
-References: <20201013222330.173525-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kSSn5-0006hc-OE; Tue, 13 Oct 2020 18:29:07 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:29469)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kSSn3-00085u-1W; Tue, 13 Oct 2020 18:29:07 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0139074760B;
+ Wed, 14 Oct 2020 00:29:00 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C6FB6747608; Wed, 14 Oct 2020 00:28:59 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C5844747600;
+ Wed, 14 Oct 2020 00:28:59 +0200 (CEST)
+Date: Wed, 14 Oct 2020 00:28:59 +0200 (CEST)
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v7 8/8] mac_oldworld: Add SPD data to cover RAM
+In-Reply-To: <b78024b4-7d9b-9670-66af-24b6bc97a5a8@eik.bme.hu>
+Message-ID: <1a93fb66-7252-352-4954-208b78616a38@eik.bme.hu>
+References: <cover.1593456926.git.balaton@eik.bme.hu>
+ <9f5f44878dc0f60b073201e657d6e4dcc940f68c.1593456926.git.balaton@eik.bme.hu>
+ <5f4c18c1-80ff-f605-fdd7-7ae474443690@amsat.org>
+ <b78024b4-7d9b-9670-66af-24b6bc97a5a8@eik.bme.hu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+Content-Type: multipart/mixed;
+ boundary="3866299591-2146972407-1602628139=:80018"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,72 +59,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-We can easily propagate temp values through the entire extended
-basic block (in this case, the set of blocks connected by fallthru),
-simply by not discarding the register state at the branch.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/optimize.c | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+--3866299591-2146972407-1602628139=:80018
+Content-Type: text/plain; charset=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 220f4601d5..9952c28bdc 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -1484,29 +1484,30 @@ void tcg_optimize(TCGContext *s)
-                     }
-                 }
-             }
--            goto do_reset_output;
-+            /* fall through */
- 
-         default:
-         do_default:
--            /* Default case: we know nothing about operation (or were unable
--               to compute the operation result) so no propagation is done.
--               We trash everything if the operation is the end of a basic
--               block, otherwise we only trash the output args.  "mask" is
--               the non-zero bits mask for the first output arg.  */
--            if (def->flags & TCG_OPF_BB_END) {
--                bitmap_zero(temps_used.l, nb_temps);
--            } else {
--        do_reset_output:
--                for (i = 0; i < nb_oargs; i++) {
--                    reset_temp(op->args[i]);
--                    /* Save the corresponding known-zero bits mask for the
--                       first output argument (only one supported so far). */
--                    if (i == 0) {
--                        arg_info(op->args[i])->mask = mask;
--                    }
-+            /*
-+             * Default case: we know nothing about operation (or were unable
-+             * to compute the operation result) so no propagation is done.
-+             */
-+            for (i = 0; i < nb_oargs; i++) {
-+                reset_temp(op->args[i]);
-+                /*
-+                 * Save the corresponding known-zero bits mask for the
-+                 * first output argument (only one supported so far).
-+                 */
-+                if (i == 0) {
-+                    arg_info(op->args[i])->mask = mask;
-                 }
-             }
-             break;
-+
-+        case INDEX_op_set_label:
-+            /* Trash everything at the start of a new extended bb. */
-+            bitmap_zero(temps_used.l, nb_temps);
-+            break;
-         }
- 
-         /* Eliminate duplicate and redundant fence instructions.  */
--- 
-2.25.1
+On Wed, 14 Oct 2020, BALATON Zoltan via wrote:
+> On Tue, 13 Oct 2020, Philippe Mathieu-Daudé wrote:
+>> On 6/29/20 8:55 PM, BALATON Zoltan wrote:
+>>> This patch is more complex as it should be which I intend to fix once
+>>> agreement can be made on how to get back the necessary functionality
+>>> removed by previous patches. See in this thread:
+>>> https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg08710.html
+>>> 
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>
+> I plan to rewrite this patch eliminating this part and un-breaking 
+> spd_data_generate() instead to allow it to signal an error again so we don't 
+> need to duplicate part of it here to avoid aborting. (You may remember the 
+> thread where this was discussed in, I don't have a link to it now.) So just
 
+Oh, I actually have the link in the commit message... Maybe I should also 
+read what I write sometimes.
+
+Regards,
+BALATON Zoltan
+--3866299591-2146972407-1602628139=:80018--
 
