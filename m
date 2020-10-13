@@ -2,75 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B8528D148
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 17:29:52 +0200 (CEST)
-Received: from localhost ([::1]:59674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A9C28D174
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 17:46:28 +0200 (CEST)
+Received: from localhost ([::1]:44376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSMFL-0004vM-Pz
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 11:29:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55924)
+	id 1kSMVO-0003px-VS
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 11:46:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kSMBM-0003Bu-N0
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:25:45 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:42374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kSMBK-0001dv-RR
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:25:44 -0400
-Received: by mail-il1-f196.google.com with SMTP id l16so189081ilj.9
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 08:25:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9Sw5RZgjW8IrluiS/u4RnZE7n3Ot9y4ZWsbqTOApHV4=;
- b=HaTvmJzVqbHjN2OHrUwoPcYPnQc3n7dRHlN/xbzP7LlgQovVE19TCkBKDFmnH5182r
- j5jfCSetugRPaauVzgiBnhh4sRYTauIzTdZYfLZI2Y1i8Mq1LIqe8fO5FcajmmS2ZKGV
- QAgKNhnRPaDnJutHYCqEvIP1FEdEB7NJUtgq/X9dkF9IArHHwOlaWFjj+JiLqqxFiNrw
- o5Pxfhkru6F1kgQjYkB2kS/qWP88fKdY7natWBargP/bhT5O/VOJDh7s1tG7MWst8siC
- fz4fNkCiOawIVhe/iUpaovF57r4B42swC+ZcCkCXW/INZO1mxwQMe3sqqX1ExJaOBkG2
- fBYA==
-X-Gm-Message-State: AOAM530gFKE8x1eO4ATmmtnz06Gw+CxwqWEEbtNl1rlTL4ZS4VaXX4M5
- m3nzVYUWDSu4w9n0WoNyq/s+wjNEHlI=
-X-Google-Smtp-Source: ABdhPJwcb0Y5aXm9tqsuwdeRuy/lW4MnL8/QdzZkx2CYU5pUKSqWVRB2F/PSw5/OiITZQNQ0jIuAqg==
-X-Received: by 2002:a05:6e02:543:: with SMTP id i3mr442816ils.22.1602602741531; 
- Tue, 13 Oct 2020 08:25:41 -0700 (PDT)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com.
- [209.85.166.48])
- by smtp.gmail.com with ESMTPSA id s23sm159773iol.23.2020.10.13.08.25.41
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 08:25:41 -0700 (PDT)
-Received: by mail-io1-f48.google.com with SMTP id u19so23123552ion.3
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 08:25:41 -0700 (PDT)
-X-Received: by 2002:a5d:9243:: with SMTP id e3mr20238813iol.193.1602602741080; 
- Tue, 13 Oct 2020 08:25:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kSMTq-0003Bw-Iz
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:44:51 -0400
+Received: from mail-eopbgr760102.outbound.protection.outlook.com
+ ([40.107.76.102]:48835 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kSMTn-00053y-57
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:44:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a520d+aj6Oz4MAgTx3jiTiKLobPg4Y6IqSiRP+lv2a2SkPzsTIuMbGJmOkxRwlv7bzHkvbqm0o6LQCR00xaKecuNshg7S5qgV5/k4AzLevSVc6vKz/fm2DE2ZwLfHkAKRrkfHWyF+3PJjaE4wR7C2AMpo2E3i4sgRs6tlFlfhUHF//5MzRwg+IxWXUj6KWajFNffv8TU3GJq7HEJn9UGBBigtuQqQulLIx/wRCyASo730C61aA/QnBRSrGry+3pvePEZe9YeNzLTthHADuGHzg75zsZfHZ6MRLxjGVdqvugwEDZYMWCQJ6vj74fgaceszayrnvfdFRuMXvRCdO/czA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yJD6p0GPoGIE+uGyOXyIxoeviyQ7sgmck0mmxuehZQg=;
+ b=iY2hfa0wJt3X2PoRwnW/93XFBZwuZe+UDZZC3021Xm9K68b7Uc82Fp5tKNJ34d7dyOygiVv+vw9UWhXk7AYZG9Rjcr9Qknt0pe2VVyTBy9StwiPRKY6UaVOFSNKbhWnC760dvnm2K4SCr2ib/hB7OrCNAGEHvmpV+0JQT/6BvjyDj9BCUeJzntGDUeWKET4E05xpMSoV8xpGUHtktgJQm+KTdsMjYg2YFwOin4N6qQFmUfPOZ5opnnMhg9Ge2VMDp9UcCnyDdcMsaTojWxzeWBq7wCz+ytv5Ybl0f84vJXZuabL+GzFO8G++2WU3r7buyCVeUrtkhqzOs+zcPciFfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yJD6p0GPoGIE+uGyOXyIxoeviyQ7sgmck0mmxuehZQg=;
+ b=5poUFB4TEFX+mHFKsY4jy1N4qY49gMeY1xbcpZY4eLmfPquMBeoog+WMEGrgrKBkYVLBXWDmflKdPcTXX9WCIFDjDJQR+MD2NHtMuRIiv03mi9ps4hKztoUbwnKUukJ8guZIVWr2HCI20BWo1bORiaJArfUux9NWVAyxacobx64=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB3984.namprd03.prod.outlook.com (2603:10b6:805:78::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Tue, 13 Oct
+ 2020 15:29:40 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::61ae:93a8:b26c:77b8]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::61ae:93a8:b26c:77b8%4]) with mapi id 15.20.3455.031; Tue, 13 Oct 2020
+ 15:29:40 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] fuzz: Disable QEMU's signal handlers
+Date: Tue, 13 Oct 2020 11:29:20 -0400
+Message-Id: <20201013152920.448335-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [72.93.72.163]
+X-ClientProxiedBy: MN2PR17CA0012.namprd17.prod.outlook.com
+ (2603:10b6:208:15e::25) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-References: <20201012232939.48481-1-j@getutm.app>
- <20201012232939.48481-7-j@getutm.app>
- <20201013133135.GH164611@stefanha-x1.localdomain>
- <ff84b94c-42ff-c1ba-cb28-644678c09a21@eik.bme.hu>
-In-Reply-To: <ff84b94c-42ff-c1ba-cb28-644678c09a21@eik.bme.hu>
-From: Joelle van Dyne <j@getutm.app>
-Date: Tue, 13 Oct 2020 08:25:30 -0700
-X-Gmail-Original-Message-ID: <CA+E+eSBugfLVb7wk_8TxkczgvsJCGm2s8tYx=Go1QxcitXgL+g@mail.gmail.com>
-Message-ID: <CA+E+eSBugfLVb7wk_8TxkczgvsJCGm2s8tYx=Go1QxcitXgL+g@mail.gmail.com>
-Subject: Re: [PATCH 06/10] coroutine: add libucontext as external library
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.196; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f196.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 11:25:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.93.72.163) by
+ MN2PR17CA0012.namprd17.prod.outlook.com (2603:10b6:208:15e::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend
+ Transport; Tue, 13 Oct 2020 15:29:39 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 222f7c51-7c4c-4d1a-c4a6-08d86f8ccce6
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3984:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3984391E3B3B7CBA8E146367BA040@SN6PR03MB3984.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8FNJuBS/fffEKxEovDJxgEnPEDgFcJ56VhgO/DBEaphGuGuI9EhfCnuX3k1HTnktUhE0AYLvg0HookVE+FakjjgSNRzw1K1h1JjTdi8njePr6P/TvMBkTP7y4hvqH8ORasPQTpLgeouiOGg3FIuhUI2HTz02kAL9XPmzu/KOVfifVpCk8xYMVLMX2kTmRh1KVsCxsuDwbAELrN8sPrdhMYmZINJMf+ixp74jjLNX+l/KnmdIGXoMCd7Uz5qoRDaPP2RRbxF2+VEHwNW4UzHMPk1QNOE7zaBUZE1/IrVsHg4hXWmI18CAIlkqUGPuMFpFH9QgrTPWZIXYH/w8MDVOow==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(136003)(366004)(39860400002)(6916009)(36756003)(26005)(86362001)(54906003)(478600001)(6486002)(66946007)(75432002)(2906002)(5660300002)(16526019)(786003)(66556008)(8676002)(8936002)(186003)(956004)(316002)(66476007)(6512007)(2616005)(52116002)(6506007)(1076003)(4326008)(6666004)(83380400001)(4744005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: IrqEuiKUFnjANv4HRKvzdLAM14UzcIi/CWvMrqho1TaZj4J9ONbZuZXHuA11w2C9zwKMu0flCoLC5fOBkjjDU23orOGU5wDoYCu/j3r4Ns2r0obyEF5o5aSL2NF6pfgMRwwDKYuo5Q2FCYK/C8FtJQzMFNL2Q7QTdzaRUHatLaiEjbjKIviqVqYXeQkuf/CXvLm1hRmueoprxblZd5irrJrctFV0I7hAd/qbUPr79IhdERKTOa6i06sC4DVNVcb7Y+PWI7f60FCUEnDqO0XQogyxSQS2i59s1uPzP0LLFHzNo7dE9oPRVqPOkAQQClaTyVgxLwuBVMGML8nrxtyXR0eWVBpKwWlFxNst9aMZJbCTaefIi6M8MciYFqwqe5ywOB7c+e8vEvDC5oQM4cb5US5546/HPsv82zJeH9CtK0o8huEPEz7IANdyQJkKc93CNozmCOy8yasbWcDPF2WYEGwkBThTRAaFi03OBMvg+WrfwbQ9sa8fByPR7EmjA9YoLseynpjwpNmKbAJWw03sBurDB8NbG90EdgpUCYBL43L6LLJ0Vg9ybQZzCU+MgHu7+dO0GiraB50qTgzkRco9+/frTWAGojudaRGgK+58RCqeru+h+Vebz/AiTPwHBk7nu2cHqbuGv8trh1x8W45EGg==
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 222f7c51-7c4c-4d1a-c4a6-08d86f8ccce6
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2020 15:29:40.1722 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e/gNuNiAHdgx8tPmecrKEqkMiKw+NdLcl0du9cz1bZxh5dnxHiih283/yeN/3dwx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3984
+Received-SPF: pass client-ip=40.107.76.102; envelope-from=alxndr@bu.edu;
+ helo=NAM02-CY1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 11:44:43
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.44,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,67 +111,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Joelle van Dyne <j@getutm.app>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for providing the link.
+With the fuzzer, we never call main_loop_should_exit, since we manually
+call main_loop_wait. This means that the only way to terminate the
+fuzzer is with SIGKILL. Disable the signal handlers, so there are
+reasonable ways to terminate the fuzzer and use atexit() to clean-up
+after the fuzzer.
 
-I'm not sure what license that is/if it is compatible with GPLv2. Can
-someone provide guidance on what to update in QEMU's license? I am not
-too familiar with all this license stuff.
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
+ tests/qtest/fuzz/fuzz.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Regarding building for iOS, as Balaton said it is possible with an OSX
-host. However, it does require some work to set up all the right
-environment variables (Apple does not follow standard conventions for
-cross compiling). You can see the build script we use for UTM:
-https://github.com/utmapp/UTM/blob/master/scripts/build_dependencies.sh
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index d926c490c5..eb0070437f 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -217,5 +217,13 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+     /* re-enable the rcu atfork, which was previously disabled in qemu_init */
+     rcu_enable_atfork();
+ 
++    /*
++     * Disable QEMU's signal handlers, since we manually control the main_loop,
++     * and don't check for main_loop_should_exit
++     */
++    signal(SIGINT, SIG_DFL);
++    signal(SIGHUP, SIG_DFL);
++    signal(SIGTERM, SIG_DFL);
++
+     return 0;
+ }
+-- 
+2.28.0
 
-However, a lot of the changes does work on other platforms
-(libucontext and bulletproof (mirror mapped) JIT are two major ones).
-We used iOS build to guard these features because they are only useful
-for iOS, but we can make it a configure option if that's desired?
-
--j
-
-On Tue, Oct 13, 2020 at 7:49 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
-> On Tue, 13 Oct 2020, Stefan Hajnoczi wrote:
-> > On Mon, Oct 12, 2020 at 04:29:35PM -0700, Joelle van Dyne wrote:
-> >> From: osy <osy86@users.noreply.github.com>
-> >>
-> >> iOS does not support ucontext natively for aarch64 and the sigaltstack is
-> >> also unsupported (even worse, it fails silently, see:
-> >> https://openradar.appspot.com/13002712 )
-> >>
-> >> As a workaround we include a library implementation of ucontext and add it
-> >> as a build option.
-> >>
-> >> Signed-off-by: Joelle van Dyne <j@getutm.app>
-> >
-> > Hi,
-> > Thanks for sending posting this!
-> >
-> > Please indicate what license libucontext is under, that it is compatible
-> > with QEMU's overall GPL v2 license, and update QEMU license
->
-> https://github.com/utmapp/libucontext/blob/master/LICENSE
->
-> Maybe the submodule repo should be mirrored in qemu.git eventually.
->
-> > documentation (LICENSE, etc), if necessary.
-> >
-> > Please update .gitlab-ci.yml with build tests. Is there a way to test
-> > building QEMU for iOS? If not, then it's difficult for the upstream QEMU
-> > project to carry iOS-specific features since we cannot test them.
->
-> Build testing should be possible on OS X host that I think we already have
-> provided it has the right XCode version installed. (Running it is
-> difficult due to app deployment requirements of iOS devices.) But I don't
-> know much about these, just trying to point at some possible directions to
-> solve this.
->
-> Regards,
-> BALATON Zoltan
 
