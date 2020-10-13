@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EB628C82A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 07:14:54 +0200 (CEST)
-Received: from localhost ([::1]:48338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0A428C830
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 07:16:17 +0200 (CEST)
+Received: from localhost ([::1]:51570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSCeD-0006Rw-9G
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 01:14:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
+	id 1kSCfY-0007vk-Q8
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 01:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1kSCa8-0001vQ-40
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 01:10:40 -0400
-Received: from mga11.intel.com ([192.55.52.93]:57350)
+ id 1kSCa9-0001yF-HY
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 01:10:41 -0400
+Received: from mga11.intel.com ([192.55.52.93]:57355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1kSCa4-0006ZJ-Ua
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 01:10:39 -0400
-IronPort-SDR: doiyPj154vCvC/UTjGrl99Ff/IXP9j1TF9sKDBZhCA150+yp9mZ0Fxlddo/oRrj402TzdUDLO7
- JIbDJ5POVZOw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="162385627"
-X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; d="scan'208";a="162385627"
+ id 1kSCa7-0006bT-LC
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 01:10:41 -0400
+IronPort-SDR: ZDUrle0MO2D/+wJRqfrsjHnB/Ur3vweJhAQepoaWw/R7rz43HwDKzC49UeIYe36cGw2R2ERWC8
+ YP10bORfbHKA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="162385628"
+X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; d="scan'208";a="162385628"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2020 22:10:36 -0700
-IronPort-SDR: xJIsFgVqlreC9RLZJeFkGl1y3ZVPYyD92a6kjMelEFUB9f3ViPfvrWq8wFpXbHVDUod6NkUoEn
- WQjt5sYNbsPA==
+ 12 Oct 2020 22:10:38 -0700
+IronPort-SDR: F11YT0Q2xbpycPdedWPh7jUu6EgnjR+AGAvLe3WCvq6dI2hT/FUKNBB1JB8QiPeWs8+4ohux7F
+ mZE0aujyF0/w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; d="scan'208";a="420427134"
+X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; d="scan'208";a="420427137"
 Received: from unknown (HELO local-michael-cet-test.sh.intel.com)
  ([10.239.159.128])
- by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2020 22:10:34 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2020 22:10:36 -0700
 From: Yang Weijiang <weijiang.yang@intel.com>
 To: pbonzini@redhat.com, mtosatti@redhat.com, rth@twiddle.net,
  ehabkost@redhat.com, sean.j.christopherson@intel.com, qemu-devel@nongnu.org
-Subject: [Qemu-devel][PATCH v6 5/6] x86/cpu: Add CET state support for guest
- migration
-Date: Tue, 13 Oct 2020 13:19:34 +0800
-Message-Id: <20201013051935.6052-6-weijiang.yang@intel.com>
+Subject: [Qemu-devel][PATCH v6 6/6] x86/cpu: Advise CET bits in CPU/MSR
+ feature words
+Date: Tue, 13 Oct 2020 13:19:35 +0800
+Message-Id: <20201013051935.6052-7-weijiang.yang@intel.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20201013051935.6052-1-weijiang.yang@intel.com>
 References: <20201013051935.6052-1-weijiang.yang@intel.com>
@@ -70,193 +70,55 @@ Cc: Yang Weijiang <weijiang.yang@intel.com>, hao.wu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Save the MSRs being used on source machine and restore them
-on destination machine.
+CET SHSTK and IBT feature are enumerated via CPUID.(EAX=07H,ECX=0H):ECX[bit 7]
+and EDX[bit 20]. CET state load/restore at vmentry/vmexit are enabled via
+VMX_ENTRY_CTLS[bit 20] and VMX_EXIT_CTLS[bit 28].
 
 Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
 ---
- target/i386/machine.c | 161 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 161 insertions(+)
+ target/i386/cpu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index b1acf7d0ef..fe4692eaa8 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -962,6 +962,159 @@ static const VMStateDescription vmstate_umwait = {
-     }
- };
- 
-+static bool u_cet_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->u_cet != 0;
-+}
-+
-+static const VMStateDescription vmstate_u_cet = {
-+    .name = "cpu/u_cet",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = u_cet_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.u_cet, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static bool s_cet_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->s_cet != 0;
-+}
-+
-+static const VMStateDescription vmstate_s_cet = {
-+    .name = "cpu/s_cet",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = s_cet_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.s_cet, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static bool pl0_ssp_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->pl0_ssp != 0;
-+}
-+
-+static const VMStateDescription vmstate_pl0_ssp = {
-+    .name = "cpu/pl0_ssp",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = pl0_ssp_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.pl0_ssp, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static bool pl1_ssp_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->pl1_ssp != 0;
-+}
-+
-+static const VMStateDescription vmstate_pl1_ssp = {
-+    .name = "cpu/pl1_ssp",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = pl1_ssp_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.pl1_ssp, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static bool pl2_ssp_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->pl2_ssp != 0;
-+}
-+
-+static const VMStateDescription vmstate_pl2_ssp = {
-+    .name = "cpu/pl2_ssp",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = pl2_ssp_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.pl2_ssp, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+
-+static bool pl3_ssp_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->pl3_ssp != 0;
-+}
-+
-+static const VMStateDescription vmstate_pl3_ssp = {
-+    .name = "cpu/pl3_ssp",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = pl3_ssp_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.pl3_ssp, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static bool ssp_tbl_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->ssp_tbl != 0;
-+}
-+
-+static const VMStateDescription vmstate_ssp_tbl = {
-+    .name = "cpu/ssp_tbl",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = ssp_tbl_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.ssp_tbl, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static bool guest_ssp_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->guest_ssp != 0;
-+}
-+
-+static const VMStateDescription vmstate_guest_ssp = {
-+    .name = "cpu/guest_ssp",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = guest_ssp_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.guest_ssp, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- #ifdef TARGET_X86_64
- static bool pkru_needed(void *opaque)
- {
-@@ -1476,6 +1629,14 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_nested_state,
- #endif
-         &vmstate_msr_tsx_ctrl,
-+        &vmstate_u_cet,
-+        &vmstate_s_cet,
-+        &vmstate_pl0_ssp,
-+        &vmstate_pl1_ssp,
-+        &vmstate_pl2_ssp,
-+        &vmstate_pl3_ssp,
-+        &vmstate_ssp_tbl,
-+        &vmstate_guest_ssp,
-         NULL
-     }
- };
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 5496fd68d4..904bf1d4b6 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -965,7 +965,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+             NULL, "avx512vbmi", "umip", "pku",
+-            NULL /* ospke */, "waitpkg", "avx512vbmi2", NULL,
++            NULL /* ospke */, "waitpkg", "avx512vbmi2", "shstk",
+             "gfni", "vaes", "vpclmulqdq", "avx512vnni",
+             "avx512bitalg", NULL, "avx512-vpopcntdq", NULL,
+             "la57", NULL, NULL, NULL,
+@@ -988,7 +988,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "avx512-vp2intersect", NULL, "md-clear", NULL,
+             NULL, NULL, "serialize", NULL,
+             "tsx-ldtrk", NULL, NULL /* pconfig */, NULL,
+-            NULL, NULL, NULL, NULL,
++            "ibt", NULL, NULL, NULL,
+             NULL, NULL, "spec-ctrl", "stibp",
+             NULL, "arch-capabilities", "core-capability", "ssbd",
+         },
+@@ -1250,7 +1250,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "vmx-exit-save-efer", "vmx-exit-load-efer",
+                 "vmx-exit-save-preemption-timer", "vmx-exit-clear-bndcfgs",
+             NULL, "vmx-exit-clear-rtit-ctl", NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            "vmx-exit-save-cet-ctl", NULL, NULL, NULL,
+         },
+         .msr = {
+             .index = MSR_IA32_VMX_TRUE_EXIT_CTLS,
+@@ -1265,7 +1265,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             NULL, "vmx-entry-ia32e-mode", NULL, NULL,
+             NULL, "vmx-entry-load-perf-global-ctrl", "vmx-entry-load-pat", "vmx-entry-load-efer",
+             "vmx-entry-load-bndcfgs", NULL, "vmx-entry-load-rtit-ctl", NULL,
+-            NULL, NULL, NULL, NULL,
++            "vmx-entry-load-cet-ctl", NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+         },
 -- 
 2.26.2
 
