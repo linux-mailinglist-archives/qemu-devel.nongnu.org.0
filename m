@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A711328D6D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 01:11:06 +0200 (CEST)
-Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF41F28D6E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 01:13:41 +0200 (CEST)
+Received: from localhost ([::1]:57214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSTRh-00051F-MJ
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 19:11:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38082)
+	id 1kSTUC-00089r-Uo
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 19:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kSTMv-00077Q-39
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:06:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kSTMr-0003ky-Tg
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:06:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602630362;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JuXZUizPitfToIYjvGSlfEdgnZ1Kh4hY1IZ1XTdd/j0=;
- b=h2xLKkFG2crMUS9nzy9P4mZCiD2Lt7/0iGzOtk1MTQCEz8vJ8HC96e9i+BrN3KB2uX3sdR
- GgG5RzBV2cdC2iOZZyPHubtvLtoXYh/NI1Fe04E5x/vhmtdn8IMJy38gBVmVpDATkvN6Ci
- w9Lgal2F6fXDXY9b+uIao0kX7T2S1W4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-i9SzE-LQPSeay-a6hoV3Bw-1; Tue, 13 Oct 2020 19:05:57 -0400
-X-MC-Unique: i9SzE-LQPSeay-a6hoV3Bw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 841A11007464;
- Tue, 13 Oct 2020 23:05:55 +0000 (UTC)
-Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A83276663;
- Tue, 13 Oct 2020 23:05:48 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] cpu: Add `machine` parameter to query-cpu-definitions
-Date: Tue, 13 Oct 2020 19:04:57 -0400
-Message-Id: <20201013230457.150630-8-ehabkost@redhat.com>
-In-Reply-To: <20201013230457.150630-1-ehabkost@redhat.com>
-References: <20201013230457.150630-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kSTSk-0007IS-GV
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:12:11 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kSTSa-0004KJ-Jr
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:12:09 -0400
+Received: by mail-pg1-x542.google.com with SMTP id y14so682345pgf.12
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 16:12:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UjNLcc5zisJRAiP5K13I6Eo454zrEd/6/yuNT6MH5Us=;
+ b=v5EYztbCEzOVvWzlzgnRWMiHGxeLrKqhZIHKem0scReCqwY3AopCZ4rg+Ltqbd7bn/
+ ANnSyEwWJPkGv0ETRk80v6zw5M0vrvddsp/TZMyq/ugM1wxhrPyHIa3iiEuzB71RZ4qR
+ 82kf7CEaTQ40+yOnc9BGExHRAgzt4nAH3Qn77VWH0gpikGUiJqKmLU8B+fTYEQhYPYVc
+ nJITYpFHaPIZD7ydzNgtIhDGvXyxWpYu7CC0gTlMPqQgaQZz1Nki0IDsIZ2GLIVZx4R5
+ a7umaRDGiFF2LG5vci55v4vD0EUpuPGpsNRBoO0RGB40zRTtM7m6KnycIDnErwaLG7kj
+ L0OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UjNLcc5zisJRAiP5K13I6Eo454zrEd/6/yuNT6MH5Us=;
+ b=WavKXy3ukpxNxXR3JG/y1d/WIc7SqgdhaNUAl/xOY/V+KuPXmXy+CgHoNVRGSqNCaR
+ dLuDqoElaydScPv1VQLR+CXC1ehzoyG2ev6Q/4mJ60Gi9eRXTb60cv/DUfaAfNMoVu9C
+ UQAd5dJbHd4m8bUb4zLkljEsxLNCuPu4b1HCjV0dXTZRJD1Wul1b9OGCSmweqDgPw4x+
+ gV1fRwPyRDxMgQ9RWLaBEX0UQfLgc5nQmd/xREbQbc1VZ+AmxrMzybkwYNDEmcsHTdd0
+ TVvPp6AqE611oNBrSDIBx/SUsvPUw3PwtkuAAl0R8SuTwvWsKV9VKAM1xCimSjIbslew
+ x1Kg==
+X-Gm-Message-State: AOAM530/r+GormqFQ9wgx5QFH0Na9hHW6mjyK+D7n2ALUsjpf3Xzxaif
+ ti8WP7EGr3iLJecIYmIPtOi/ow==
+X-Google-Smtp-Source: ABdhPJxh0pCNQbOkZzhfwGyIOsAsRC8Ywy3wKNU+BMbU+S6MP1EH07QuFpGA48u5DOPIpGzM0OL9oA==
+X-Received: by 2002:a63:e26:: with SMTP id d38mr1508542pgl.247.1602630718904; 
+ Tue, 13 Oct 2020 16:11:58 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id j5sm327463pjb.56.2020.10.13.16.11.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Oct 2020 16:11:58 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/3] target/mips: Make the number of TLB entries a CPU
+ property
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Victor Kamensky <kamensky@cisco.com>
+References: <20201013132535.3599453-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7b059e2f-b868-82b3-3d96-bd4e93d36368@linaro.org>
+Date: Tue, 13 Oct 2020 16:11:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201013132535.3599453-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 19:05:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,251 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Khem Raj <raj.khem@gmail.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Jiri Denemark <jdenemar@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new parameter can be used by management software to query for
-CPU model alias information for multiple machines without
-restarting QEMU.
+On 10/13/20 6:25 AM, Philippe Mathieu-Daudé wrote:
+> Yocto developers have expressed interest in running MIPS32
+> CPU with custom number of TLB:
+> https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03428.html
+> 
+> Help them by making the number of TLB entries a CPU property,
+> keeping our set of CPU definitions in sync with real hardware.
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Changes v1 -> v2:
-* Rewrite documentation, with suggestions from Markus
----
- qapi/machine-target.json                   | 14 ++++++-
- target/arm/helper.c                        |  4 +-
- target/i386/cpu.c                          | 24 ++++++++++-
- target/mips/helper.c                       |  4 +-
- target/s390x/cpu_models.c                  |  4 +-
- target/ppc/translate_init.c.inc            |  4 +-
- tests/acceptance/x86_cpu_model_versions.py | 48 ++++++++++++++++++++++
- 7 files changed, 95 insertions(+), 7 deletions(-)
+You mean keeping the 34kf model within qemu in sync, rather than creating a
+nonsense model that doesn't exist.
 
-diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-index 698850cc78..211cb2d7c9 100644
---- a/qapi/machine-target.json
-+++ b/qapi/machine-target.json
-@@ -282,6 +282,10 @@
- #
- # @alias-of: Name of CPU model this model is an alias for.  The target of the
- #            CPU model alias may change depending on the machine type.
-+#            If the @machine argument was provided to query-cpu-definitions,
-+#            alias information for that machine type will be returned.
-+#            If @machine is not provided, alias information for
-+#            the current machine will be returned.
- #            Management software is supposed to translate CPU model aliases
- #            in the VM configuration, because aliases may stop being
- #            migration-safe in the future (since 4.1)
-@@ -318,9 +322,17 @@
- #
- # Return a list of supported virtual CPU definitions
- #
-+# @machine: Name of machine type.  The value of the @alias-of field
-+#           is machine-specific.  This overrides the machine type
-+#           used to look up that information.  This can be used
-+#           to query machine-specific CPU model aliases without
-+#           restarting QEMU (since 5.2)
-+#
- # Returns: a list of CpuDefInfo
- #
- # Since: 1.2.0
- ##
--{ 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
-+{ 'command': 'query-cpu-definitions',
-+  'data': { '*machine': 'str' },
-+  'returns': ['CpuDefinitionInfo'],
-   'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index cd0779ff5f..fc339a19ba 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8276,7 +8276,9 @@ static void arm_cpu_add_definition(gpointer data, gpointer user_data)
-     *cpu_list = entry;
- }
- 
--CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(bool has_machine,
-+                                                 const char *machine,
-+                                                 Error **errp)
- {
-     CpuDefinitionInfoList *cpu_list = NULL;
-     GSList *list;
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 0807d12ffa..d78ff6a563 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -56,6 +56,7 @@
- #ifndef CONFIG_USER_ONLY
- #include "exec/address-spaces.h"
- #include "hw/i386/apic_internal.h"
-+#include "hw/i386/pc.h"
- #include "hw/boards.h"
- #endif
- 
-@@ -4187,6 +4188,13 @@ static char *x86_cpu_model_resolve_alias(const X86CPUModel *model,
-     }
-     return x86_cpu_versioned_model_name(model->cpudef, version);
- }
-+
-+static X86CPUVersion default_cpu_version_for_machine(MachineClass *mc)
-+{
-+    PCMachineClass *pcmc =
-+        (PCMachineClass *)object_class_dynamic_cast(OBJECT_CLASS(mc), TYPE_PC_MACHINE);
-+    return pcmc ? pcmc->default_cpu_version : 1;
-+}
- #endif
- 
- void x86_cpu_change_kvm_default(const char *prop, const char *value)
-@@ -5027,12 +5035,24 @@ static void x86_cpu_definition_entry(gpointer data, gpointer user_data)
-     args->cpu_list = entry;
- }
- 
--CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(bool has_machine,
-+                                                 const char *machine,
-+                                                 Error **errp)
- {
-     X86CPUDefinitionArgs args = { .cpu_list = NULL };
-     GSList *list = get_sorted_cpu_model_list();
- 
--    args.default_version = default_cpu_version;
-+    if (!has_machine) {
-+        args.default_version = default_cpu_version;
-+    } else {
-+        MachineClass *mc = machine_find_class(machine);
-+        if (!mc) {
-+            error_setg(errp, "Machine type '%s' not found", machine);
-+            return NULL;
-+        }
-+        args.default_version = default_cpu_version_for_machine(mc);
-+    }
-+
-     g_slist_foreach(list, x86_cpu_definition_entry, &args);
-     g_slist_free(list);
-     return args.cpu_list;
-diff --git a/target/mips/helper.c b/target/mips/helper.c
-index afd78b1990..33351e9578 100644
---- a/target/mips/helper.c
-+++ b/target/mips/helper.c
-@@ -1518,7 +1518,9 @@ static void mips_cpu_add_definition(gpointer data, gpointer user_data)
-     *cpu_list = entry;
- }
- 
--CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(bool has_machine,
-+                                                 const char *machine,
-+                                                 Error **errp)
- {
-     CpuDefinitionInfoList *cpu_list = NULL;
-     GSList *list;
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index ca484bfda7..19ccbd50ea 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -456,7 +456,9 @@ static void create_cpu_model_list(ObjectClass *klass, void *opaque)
-     *cpu_list = entry;
- }
- 
--CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(bool has_machine,
-+                                                 const char *machine,
-+                                                 Error **errp)
- {
-     struct CpuDefinitionInfoListData list_data = {
-         .list = NULL,
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index bb66526280..0d31da0c7f 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -10635,7 +10635,9 @@ static void ppc_cpu_defs_entry(gpointer data, gpointer user_data)
-     *first = entry;
- }
- 
--CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(bool has_machine,
-+                                                 const char *machine,
-+                                                 Error **errp)
- {
-     CpuDefinitionInfoList *cpu_list = NULL;
-     GSList *list;
-diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptance/x86_cpu_model_versions.py
-index 01ff614ec2..7fb17d00ba 100644
---- a/tests/acceptance/x86_cpu_model_versions.py
-+++ b/tests/acceptance/x86_cpu_model_versions.py
-@@ -238,6 +238,54 @@ class X86CPUModelAliases(avocado_qemu.Test):
- 
-         self.validate_aliases(cpus)
- 
-+    def test_machine_arg_none(self):
-+        """Check results using explicit machine=none argument"""
-+        vm1 = self.get_vm()
-+        vm1.add_args('-S')
-+        vm1.set_machine('pc-i440fx-4.0')
-+        vm1.launch()
-+        cpus1 = dict((m['name'], m.get('alias-of'))
-+                     for m in vm1.command('query-cpu-definitions',
-+                                          machine='none'))
-+        vm1.shutdown()
-+
-+        vm2 = self.get_vm()
-+        vm2.add_args('-S')
-+        vm2.set_machine('none')
-+        vm2.launch()
-+        cpus2 = dict((m['name'], m.get('alias-of'))
-+                     for m in vm2.command('query-cpu-definitions'))
-+        vm1.shutdown()
-+
-+        self.assertEquals(cpus1, cpus2)
-+
-+    def test_machine_arg_4_1(self):
-+        """Check results using explicit machine=pc-i440fx-4.1 argument"""
-+        vm1 = self.get_vm()
-+        vm1.add_args('-S')
-+        vm1.set_machine('pc-i440fx-4.0')
-+        vm1.launch()
-+        cpus1 = dict((m['name'], m.get('alias-of'))
-+                     for m in vm1.command('query-cpu-definitions',
-+                                          machine='pc-i440fx-4.1'))
-+        vm1.shutdown()
-+
-+        vm2 = self.get_vm()
-+        vm2.add_args('-S')
-+        vm2.set_machine('pc-i440fx-4.1')
-+        vm2.launch()
-+        cpus2 = dict((m['name'], m.get('alias-of'))
-+                     for m in vm2.command('query-cpu-definitions'))
-+        vm1.shutdown()
-+
-+        self.assertEquals(cpus1, cpus2)
-+
-+    def test_invalid_machine(self):
-+        self.vm.add_args('-S')
-+        self.vm.launch()
-+        r = self.vm.qmp('query-cpu-definitions', machine='invalid-machine-123')
-+        self.assertIn('error', r)
-+
- 
- class CascadelakeArchCapabilities(avocado_qemu.Test):
-     """
--- 
-2.28.0
+Question: is this cpu parameter useful for anything else?
 
+Because the ideal solution for a CI loop is to use one of the mips cpu models
+that has the hw page table walker (CP0C3_PW).  Having qemu being able to refill
+the tlb itself is massively faster.
+
+We do not currently implement a mips cpu that has the PW.  When I downloaded
+the document set in 2014, I only got the mips64-pra and neglected to get the
+mips32-pra.  So I don't actually know if the PW applies to mips32.  I do know
+that there's nothing in the kernel that ifdefs around it.
+
+So:
+
+(1) anyone know if the PW incompatible with mips32?
+(2) if not, was there any mips32 hw built with PW
+    that we could model?
+(3) if not, would a cpu parameter to force-enable PW
+    for any r2+ cpu be more useful that frobbing the
+    number of tlb entries?
+
+
+r~
 
