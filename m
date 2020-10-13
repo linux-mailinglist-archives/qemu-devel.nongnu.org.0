@@ -2,87 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFE228D003
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 16:16:49 +0200 (CEST)
-Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6414A28D016
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 16:20:05 +0200 (CEST)
+Received: from localhost ([::1]:50598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSL6e-0007tK-Ja
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 10:16:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57644)
+	id 1kSL9o-0003Mn-4R
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 10:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kSL4K-0006qj-Vv; Tue, 13 Oct 2020 10:14:28 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:33938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kSL4I-0007KV-I0; Tue, 13 Oct 2020 10:14:24 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09DEEGaH117774;
- Tue, 13 Oct 2020 14:14:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2020-01-29; bh=uj2LKtjKJJ7DdSEmRNUjqh5LCM5jLrVIpdPTZ9hXRBs=;
- b=mcI/2z2r2MwgPtnHH7RMbQquwRFK4tToyJMoeAest/rOVaIRtXYLTtHW7QlQXTQhNNe+
- nRgCHE1RB/5qdc3UI1E68r2raWNzIT89muqpzjvEPA2telGujD6j7NixC53ZOfeXxIJ0
- lHrpkgaPj8x3XVtduuQL3q7l/u7C32JDSZcd09i0AlToW40BjzticoDqOshuJ+tCKFMe
- YyI3v4cqaHnc39C2AsxlKJGT+PMnCJdRfJt+AU4u+7ce+xSSAJgEFCJJTJuQxJMy2dEl
- SGgD2LbjD5+IK0YFeJATbdcDQRB2kzFQKBxinmmK0LyEX2o6ikYqOTDXEKkRjACucgGG Qg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 3434wkjds5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 13 Oct 2020 14:14:18 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09DEBDd9017151;
- Tue, 13 Oct 2020 14:14:18 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 343puxym25-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Oct 2020 14:14:18 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09DEEGJf015255;
- Tue, 13 Oct 2020 14:14:17 GMT
-Received: from disaster-area.hh.sledj.net (/81.187.26.238)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 13 Oct 2020 07:14:16 -0700
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id babe4ce0;
- Tue, 13 Oct 2020 14:14:14 +0000 (UTC)
-From: David Edmondson <david.edmondson@oracle.com>
-To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Subject: [PATCH] qmp-shell: Sort by key when pretty-printing
-Date: Tue, 13 Oct 2020 15:14:14 +0100
-Message-Id: <20201013141414.18398-1-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSL8W-0002ck-HA
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 10:18:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34007)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSL8S-00085F-Gh
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 10:18:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602598719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tVwEzqqUM/NsTY6fZgbELMwK927wLl8n+rgKE8jrbY4=;
+ b=P/vhdE79hFULqnPwd5/kbVo11SvktcHbCru3XfLvO4EjCNvsGuI2xOdN+HSi9QfyDd8ufx
+ BCxqo1QPbxXv4sSsRP4DXZmB6v204lxhCjIwLK5IsjO9KBKD9jiytp2LZwXIV9O7FolTDp
+ 4MM6wTSfg+OGknoUkNu/kOUKEqYb1gA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-eGRhHhbIPDWSR8PWBNtaLg-1; Tue, 13 Oct 2020 10:18:37 -0400
+X-MC-Unique: eGRhHhbIPDWSR8PWBNtaLg-1
+Received: by mail-wr1-f71.google.com with SMTP id k14so10226570wrd.6
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 07:18:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tVwEzqqUM/NsTY6fZgbELMwK927wLl8n+rgKE8jrbY4=;
+ b=VT6YOEIQGQg9+J4SU5P+OZvc1G4D7UcVAyEFRcy3kB7MSZ2SkwKePyoipmHlr2PjIK
+ d45rmFyIuctj9j9snROR2IbeN8rqLGpHSKlsLqQWvXeZHSg2+kJYAgtZqjZ3k3Z50FmD
+ VQxLG34d0gK1avrAmeFMyLszAsrqiMiPCKjdziJSd3CysLG+XlMzlh2fRaVNgKbAjxfd
+ bv5aVNJcEgIOPiQNVLsoONpJg0adYeayEw77fbJ9J3EjUOGtFOicBFEZlDf5Nq8yIYIg
+ 8W9i+MrdBxBCST4MQcOnkAlDSLQiXj7c9k/CsNIyVbRs1mFY0vFNMzNa+yw5YlKqb4sW
+ cmjA==
+X-Gm-Message-State: AOAM530jI83r2/oq3vAqTuQX7IBRlzsI1l0YAvYHwQ2GZOxL7TOMByor
+ V8I2e9rXEnxPsu3a1xdfZT2ygD2JqCqVDHFwgybW4FJdFPedfq+wd5fADMpHIcCALd50sY6XSpU
+ hKE/i5id6JtMBViQ=
+X-Received: by 2002:a5d:494c:: with SMTP id r12mr35594893wrs.406.1602598716476; 
+ Tue, 13 Oct 2020 07:18:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6Cmv/y4sknVyeJZulGDg0pX6qq5GmkeFF5Nx99Hr9+MSniq8rWJ2M8JHOQLyeOtO43Y6pCg==
+X-Received: by 2002:a5d:494c:: with SMTP id r12mr35594859wrs.406.1602598716165; 
+ Tue, 13 Oct 2020 07:18:36 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id j134sm85512wmj.7.2020.10.13.07.18.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Oct 2020 07:18:35 -0700 (PDT)
+Subject: Re: [PULL 5/7] gitlab-ci: Move edk2 and opensbi YAML files to
+ .gitlab-ci.d folder
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20200528101039.24600-1-thuth@redhat.com>
+ <20200528101039.24600-6-thuth@redhat.com>
+ <955bad5e-51ca-5b3f-c68f-a0374fc00a43@redhat.com>
+ <20201012140131.GH39408@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9bfcca65-7e22-3e23-b4e6-787ee5a006dd@redhat.com>
+Date: Tue, 13 Oct 2020 16:18:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <20201012140131.GH39408@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9772
- signatures=668681
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=932
- mlxscore=0 spamscore=0
- adultscore=0 suspectscore=0 phishscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010130107
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9772
- signatures=668681
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 mlxscore=0
- malwarescore=0 phishscore=0 suspectscore=0 impostorscore=0 clxscore=1011
- spamscore=0 priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=949
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010130108
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=david.edmondson@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 10:14:19
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:06:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,33 +103,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the user selects pretty-printing (-p) the contents of any
-dictionaries in the output are sorted by key.
+On 10/12/20 4:01 PM, Daniel P. Berrangé wrote:
+> On Mon, Oct 12, 2020 at 03:44:00PM +0200, Philippe Mathieu-Daudé wrote:
+>> Hi Thomas, Alex,
+>>
+>> +Daniel
+>>
+>> On 5/28/20 12:10 PM, Thomas Huth wrote:
+>>> We have a dedicated folder for the gitlab-ci - so there is no need
+>>> to clutter the top directory with these .yml files.
+>>>
+>>> Message-Id: <20200525131823.715-5-thuth@redhat.com>
+>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>    .gitlab-ci-edk2.yml => .gitlab-ci.d/edk2.yml       | 0
+>>>    .gitlab-ci-opensbi.yml => .gitlab-ci.d/opensbi.yml | 0
+>>>    .gitlab-ci.yml                                     | 4 ++--
+>>>    MAINTAINERS                                        | 2 +-
+>>>    4 files changed, 3 insertions(+), 3 deletions(-)
+>>>    rename .gitlab-ci-edk2.yml => .gitlab-ci.d/edk2.yml (100%)
+>>>    rename .gitlab-ci-opensbi.yml => .gitlab-ci.d/opensbi.yml (100%)
+>>>
+>>> diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci.d/edk2.yml
+>>> similarity index 100%
+>>> rename from .gitlab-ci-edk2.yml
+>>> rename to .gitlab-ci.d/edk2.yml
+>>> diff --git a/.gitlab-ci-opensbi.yml b/.gitlab-ci.d/opensbi.yml
+>>> similarity index 100%
+>>> rename from .gitlab-ci-opensbi.yml
+>>> rename to .gitlab-ci.d/opensbi.yml
+>>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>>> index bc6aee6aba..5208d93ff8 100644
+>>> --- a/.gitlab-ci.yml
+>>> +++ b/.gitlab-ci.yml
+>>> @@ -1,6 +1,6 @@
+>>>    include:
+>>> -  - local: '/.gitlab-ci-edk2.yml'
+>>> -  - local: '/.gitlab-ci-opensbi.yml'
+>>> +  - local: '/.gitlab-ci.d/edk2.yml'
+>>> +  - local: '/.gitlab-ci.d/opensbi.yml'
+>>
+>> It seems these jobs are now always run, the "rules:changes"
+>> to restrict them is ignored.
+>>
+>> I searched a bit and found a plausible explanation here:
+>> https://docs.gitlab.com/ee/ci/yaml/#onlychangesexceptchanges
+>>
+>> "Caution: In pipelines with sources other than the three above changes can’t
+>> determine if a given file is new or old and always returns true. This
+>> includes pipelines triggered by pushing new tags. Configuring jobs to use
+>> only: changes with other only: refs keywords is possible, but not
+>> recommended."
+>>
+>> I don't understand what they mean by "three", is a directory considered
+>> a three? Then that would explain the change.
+> 
+> The edk2.yml file as a "when: always" clause attached to every rule,
+> so surely this negates the point of filtering by making it always
+> run ?
 
-Signed-off-by: David Edmondson <david.edmondson@oracle.com>
----
- scripts/qmp/qmp-shell | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I understand it runs regardless a job in any previous stage failed.
 
-diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index c5eef06f3f..b4d06096ab 100755
---- a/scripts/qmp/qmp-shell
-+++ b/scripts/qmp/qmp-shell
-@@ -260,7 +260,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         indent = None
-         if self._pretty:
-             indent = 4
--        jsobj = json.dumps(qmp, indent=indent)
-+        jsobj = json.dumps(qmp, indent=indent, sort_keys=self._pretty)
-         print(str(jsobj))
- 
-     def _execute_cmd(self, cmdline):
--- 
-2.28.0
+ From https://docs.gitlab.com/ee/ci/yaml/#when
+
+* always - execute job regardless of the status of jobs from prior stages.
+* on_success - execute job only when all jobs from prior stages succeed 
+(or are considered succeeding because they have allow_failure: true). 
+This is the default.
+
+I think I used that because at the time I sent that patch
+some docker image builds were failing. But we don't really
+need it, I'll remove.
+
+Anyhow this used to work with "when: always", see:
+https://gitlab.com/qemu-project/qemu/-/pipelines/168158357
+
+> 
+> Regards,
+> Daniel
+> 
 
 
