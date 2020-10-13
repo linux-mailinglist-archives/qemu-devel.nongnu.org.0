@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7597628CC19
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:00:24 +0200 (CEST)
-Received: from localhost ([::1]:49490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF0528CC0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 12:58:25 +0200 (CEST)
+Received: from localhost ([::1]:41766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSI2Z-0001nC-EP
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:00:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59314)
+	id 1kSI0d-00070s-2Q
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 06:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHy5-0005DI-BK
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42076)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHy8-0005Ij-QF
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHy3-00066a-SF
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:45 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHy7-00067m-5f
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602586543;
+ s=mimecast20190719; t=1602586546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rhrLWCt8WUfXJc+Aa0an0d/gE2kysihj8DyuHjHMdLI=;
- b=ebI/x6sCWyMyMraUSb+krWUoid8ln+XK61fHn7Z6Y6DMVRP8b+493DSyldtHFTKCcaquLd
- 2SVLrlXXFRWX9HsPK1RJI5a+covVq5trTuaXbyAmFOOKg8xtG7sgDQ0Raf1dFkRF/HX78+
- 7ldC/3KMaR74p+JBm7UqCk76LWFbzsQ=
+ bh=6tig61bop7Z3d2FdqKRHo5vr3MpyfIU0Q7n7LJs+fGw=;
+ b=erTK8NBqObtybqVWiFrjry2H+PNsGjr+R5vjtCB70E0A5wKlUI4fhdmyC6dVeX/0g2lRpR
+ 8fuSFdStuIAb2/jQQIVTUB6zHOtARBUMkai8kAxeqJQOynL1X6+nUv5Yw3eIodmfzaJjJe
+ AKDTNq7fRdzAlIx4mUql4QbjNEthHVA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-Z29D8nHbP1WzdTzCd0Or_Q-1; Tue, 13 Oct 2020 06:55:39 -0400
-X-MC-Unique: Z29D8nHbP1WzdTzCd0Or_Q-1
+ us-mta-512-X3olziMzMlermMetgPDD7A-1; Tue, 13 Oct 2020 06:55:44 -0400
+X-MC-Unique: X3olziMzMlermMetgPDD7A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02A398030B6;
- Tue, 13 Oct 2020 10:55:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2497856B59;
+ Tue, 13 Oct 2020 10:55:43 +0000 (UTC)
 Received: from thuth.com (ovpn-112-151.ams2.redhat.com [10.36.112.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2025E6EF45;
- Tue, 13 Oct 2020 10:55:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3B9D6EF45;
+ Tue, 13 Oct 2020 10:55:38 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 01/23] tests/qtest: Replace magic value by
- NANOSECONDS_PER_SECOND definition
-Date: Tue, 13 Oct 2020 12:55:05 +0200
-Message-Id: <20201013105527.20088-2-thuth@redhat.com>
+Subject: [PULL 02/23] gitlab-ci.yml: Only run one test-case per fuzzer
+Date: Tue, 13 Oct 2020 12:55:06 +0200
+Message-Id: <20201013105527.20088-3-thuth@redhat.com>
 In-Reply-To: <20201013105527.20088-1-thuth@redhat.com>
 References: <20201013105527.20088-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:06:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 03:04:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,32 +83,37 @@ Cc: Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Alexander Bulekov <alxndr@bu.edu>
 
-Use self-explicit NANOSECONDS_PER_SECOND definition instead
-of a magic value.
+With 1000 runs, there is a non-negligible chance that the fuzzer can
+trigger a crash. With this CI job, we care about catching build/runtime
+issues in the core fuzzing code. Actual device fuzzing takes place on
+oss-fuzz. For these purposes, only running one input should be
+sufficient.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201011194918.3219195-5-f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201002143524.56930-1-alxndr@bu.edu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/rtc-test.c | 2 +-
+ .gitlab-ci.yml | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/rtc-test.c b/tests/qtest/rtc-test.c
-index c7af34f6b1..402ce2c609 100644
---- a/tests/qtest/rtc-test.c
-+++ b/tests/qtest/rtc-test.c
-@@ -292,7 +292,7 @@ static void alarm_time(void)
-             break;
-         }
- 
--        clock_step(1000000000);
-+        clock_step(NANOSECONDS_PER_SECOND);
-     }
- 
-     g_assert(get_irq(RTC_ISA_IRQ));
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index a51c89554f..075c15d45c 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -303,7 +303,7 @@ build-oss-fuzz:
+                       | grep -v slirp); do
+         grep "LLVMFuzzerTestOneInput" ${fuzzer} > /dev/null 2>&1 || continue ;
+         echo Testing ${fuzzer} ... ;
+-        "${fuzzer}" -runs=1000 -seed=1 || exit 1 ;
++        "${fuzzer}" -runs=1 -seed=1 || exit 1 ;
+       done
+     # Unrelated to fuzzer: run some tests with -fsanitize=address
+     - cd build-oss-fuzz && make check-qtest-i386 check-unit
 -- 
 2.18.2
 
