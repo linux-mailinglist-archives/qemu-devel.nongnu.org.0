@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBF628CC2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:05:30 +0200 (CEST)
-Received: from localhost ([::1]:33052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D793C28CC4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:10:22 +0200 (CEST)
+Received: from localhost ([::1]:49030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSI7V-0006i8-PD
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:05:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59498)
+	id 1kSICD-00052y-Sx
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:10:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyV-0005Wz-LZ
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51000)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyZ-0005YR-DA
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyR-0006FP-EM
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:11 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyV-0006G0-GY
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602586566;
+ s=mimecast20190719; t=1602586570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bVRsElDBL9PwaatsrSOfpX35/vcMHCcR/VKlM8PuP54=;
- b=Al4Gxto/BTBiuT80IaTRTtdug0cxcK5mT90l9NOIrWIu0uIZ5WyhBgdKM59dqoASWwb10b
- wNfs0U5dPExUni4wGIHv0VGlcixlgMQ+ZpWSjyZbuCa2TRGpuFbKHU6IUwIMmzLMi1ygFU
- HAZ6jDeAx7H6Nx6Rqv7UsPnt7RNQw6o=
+ bh=ZwdpEydgASwk7Xa1qzk0VcFGKtWjCj8HlX5xwek5440=;
+ b=AURDWfi1/MMvK6DdmnmIQdsePXY7lNtMEb3AypmTfWErrFkttFVQWgqjTV28LYAG240+kB
+ gHOPNTfdfV3LShD2haUNsznTm0anTrVV+9Is31DI3/7ClFXjvHG3KR94feviabaV7U34zc
+ ov+lDZgmn8oYlHgxbSz3BfT+7Az6D2I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-zhjSjwPHNmmnR_t8x-azZg-1; Tue, 13 Oct 2020 06:56:04 -0400
-X-MC-Unique: zhjSjwPHNmmnR_t8x-azZg-1
+ us-mta-75-P6OzXzVtNzCBLEKXkUZRIw-1; Tue, 13 Oct 2020 06:56:07 -0400
+X-MC-Unique: P6OzXzVtNzCBLEKXkUZRIw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0978518829DD;
- Tue, 13 Oct 2020 10:56:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 560BC18829D3;
+ Tue, 13 Oct 2020 10:56:06 +0000 (UTC)
 Received: from thuth.com (ovpn-112-151.ams2.redhat.com [10.36.112.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECD436EF41;
- Tue, 13 Oct 2020 10:56:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 640596EF41;
+ Tue, 13 Oct 2020 10:56:03 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 13/23] configure: fixes indent of $meson setup
-Date: Tue, 13 Oct 2020 12:55:17 +0200
-Message-Id: <20201013105527.20088-14-thuth@redhat.com>
+Subject: [PULL 14/23] gitlab: add a CI job for running checkpatch.pl
+Date: Tue, 13 Oct 2020 12:55:18 +0200
+Message-Id: <20201013105527.20088-15-thuth@redhat.com>
 In-Reply-To: <20201013105527.20088-1-thuth@redhat.com>
 References: <20201013105527.20088-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 03:04:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:06:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,43 +83,96 @@ Cc: Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-convert these line from tab to space
+This job is advisory since it is expected that certain patches will fail
+the style checks and checkpatch.pl provides no way to mark exceptions to
+the rules.
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20201012234348.1427-2-luoyonggang@gmail.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20200918132903.1848939-2-berrange@redhat.com>
+[thuth: Use "stage: build" to let it run earlier]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .gitlab-ci.d/check-patch.py | 48 +++++++++++++++++++++++++++++++++++++
+ .gitlab-ci.yml              | 12 ++++++++++
+ 2 files changed, 60 insertions(+)
+ create mode 100755 .gitlab-ci.d/check-patch.py
 
-diff --git a/configure b/configure
-index b553288c5e..1b63488521 100755
---- a/configure
-+++ b/configure
-@@ -7211,13 +7211,13 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
--	-Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
--	-Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
--	-Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
--	-Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
--	-Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
--	-Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
--	-Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
-+        -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
-+        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
-+        -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
-+        -Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
-+        -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-+        -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
-+        -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
-         $cross_arg \
-         "$PWD" "$source_path"
- 
+diff --git a/.gitlab-ci.d/check-patch.py b/.gitlab-ci.d/check-patch.py
+new file mode 100755
+index 0000000000..5a14a25b13
+--- /dev/null
++++ b/.gitlab-ci.d/check-patch.py
+@@ -0,0 +1,48 @@
++#!/usr/bin/env python3
++#
++# check-patch.py: run checkpatch.pl across all commits in a branch
++#
++# Copyright (C) 2020 Red Hat, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++import os
++import os.path
++import sys
++import subprocess
++
++namespace = "qemu-project"
++if len(sys.argv) >= 2:
++    namespace = sys.argv[1]
++
++cwd = os.getcwd()
++reponame = os.path.basename(cwd)
++repourl = "https://gitlab.com/%s/%s.git" % (namespace, reponame)
++
++# GitLab CI environment does not give us any direct info about the
++# base for the user's branch. We thus need to figure out a common
++# ancestor between the user's branch and current git master.
++subprocess.check_call(["git", "remote", "add", "check-patch", repourl])
++subprocess.check_call(["git", "fetch", "check-patch", "master"],
++                      stdout=subprocess.DEVNULL,
++                      stderr=subprocess.DEVNULL)
++
++ancestor = subprocess.check_output(["git", "merge-base",
++                                    "check-patch/master", "HEAD"],
++                                   universal_newlines=True)
++
++ancestor = ancestor.strip()
++
++subprocess.check_call(["git", "remote", "rm", "check-patch"])
++
++errors = False
++
++print("\nChecking all commits since %s...\n" % ancestor)
++
++ret = subprocess.run(["scripts/checkpatch.pl", ancestor + "..."])
++
++if ret.returncode != 0:
++    print("    ❌ FAIL one or more commits failed scripts/checkpatch.pl")
++    sys.exit(1)
++
++sys.exit(0)
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 29e934fd53..f1e18d3e90 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -399,3 +399,15 @@ check-crypto-only-gnutls:
+   variables:
+     IMAGE: centos7
+     MAKE_CHECK_ARGS: check
++
++
++check-patch:
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
++  script: .gitlab-ci.d/check-patch.py
++  except:
++    variables:
++      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
++  variables:
++    GIT_DEPTH: 1000
++  allow_failure: true
 -- 
 2.18.2
 
