@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9706528CC28
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:03:56 +0200 (CEST)
-Received: from localhost ([::1]:58046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D5528CC1A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:00:36 +0200 (CEST)
+Received: from localhost ([::1]:50416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSI5z-0005OZ-J4
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:03:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
+	id 1kSI2j-00029t-6H
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:00:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyC-0005Pd-Ri
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58132)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyD-0005R3-JQ
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyB-0006Bn-2S
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:52 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyB-0006CS-Mf
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602586550;
+ s=mimecast20190719; t=1602586551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bb3T7vNOrU4Y9/rciguqjqU91zyQm/pBEXcX6bAqmBg=;
- b=ZqLD3LF4SjL/gfCpRZ1bKl4/eSJ1eNAhRK81RyE7oXYv/tad5BfZhW6AQCuOC7F8LTVyWx
- FtLJYepcsapqwx7LXFCLUhmekRHGw0QaP70naEq/jMCZg5l9Vyq8nhG/lfdJf1URtcsVaT
- yUNJ+fPQgrbVEnrBU/tx5geLqMc683k=
+ bh=xVc3GGMv7x6GEw87NBVu8Oks7IamHi9PmCdJMUyJJOM=;
+ b=Y68BWEmjQAdTx7SjcFMBEaUXbi9j19/o589CSqbCkoOVkaYDnjUXS7JA5KsfcYHT/IcUAA
+ BxVJuJy/W39F4uvBLckQAtAlQC/Ygrrevt6pcVUK476bP+O9m7uObBnUJ5clcpVps5zMDp
+ N1AJOJbkBut248Ub10TYsm6q88R2UgE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-lB7faWtnNWaWgQI6KjQ-0g-1; Tue, 13 Oct 2020 06:55:46 -0400
-X-MC-Unique: lB7faWtnNWaWgQI6KjQ-0g-1
+ us-mta-560-XoXGtFVWPImIH2TJ-o7a4g-1; Tue, 13 Oct 2020 06:55:48 -0400
+X-MC-Unique: XoXGtFVWPImIH2TJ-o7a4g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEB7D107464F;
- Tue, 13 Oct 2020 10:55:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF8EC86ABD6;
+ Tue, 13 Oct 2020 10:55:46 +0000 (UTC)
 Received: from thuth.com (ovpn-112-151.ams2.redhat.com [10.36.112.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82F376EF41;
- Tue, 13 Oct 2020 10:55:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CC2E6EF59;
+ Tue, 13 Oct 2020 10:55:45 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 03/23] Acceptance tests: bump pycdlib version for easier
- installation
-Date: Tue, 13 Oct 2020 12:55:07 +0200
-Message-Id: <20201013105527.20088-4-thuth@redhat.com>
+Subject: [PULL 04/23] Acceptance tests: do not show canceled test logs on
+ GitLab CI
+Date: Tue, 13 Oct 2020 12:55:08 +0200
+Message-Id: <20201013105527.20088-5-thuth@redhat.com>
 In-Reply-To: <20201013105527.20088-1-thuth@redhat.com>
 References: <20201013105527.20088-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -86,36 +86,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cleber Rosa <crosa@redhat.com>
 
-On with certain versions of "pip", package installations will attempt
-to create wheels.  And, on environments without a "complete" Python
-installation (as described in the acceptance tests requirements docs),
-that will fail.
+Tests resulting in "CANCEL" in Avocado are usually canceled on
+purpose, and are almost identical to "SKIP".  The logs for canceled
+tests are adding a lot of noise to the logs being shown on GitLab CI,
+and causing distraction from real failures.
 
-pycdlib, starting with version 1.11.0, is now being made available
-as wheels, so its instalation on those constrained environments is
-now possible.
+As a side note, this "after script" is scheduled for removal once the
+feature is implemented within Avocado itself.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1897783
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reference: https://github.com/avocado-framework/avocado/issues/4266
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20201009205513.751968-2-crosa@redhat.com>
+Message-Id: <20201009205513.751968-3-crosa@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/requirements.txt | 2 +-
+ .gitlab-ci.yml | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index 036691c922..a1c631fa59 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -2,4 +2,4 @@
- # in the tests/venv Python virtual environment. For more info,
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
- avocado-framework==81.0
--pycdlib==1.9.0
-+pycdlib==1.11.0
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 075c15d45c..14be45bbfe 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -63,7 +63,7 @@ include:
+       fi
+   after_script:
+     - cd build
+-    - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
++    - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP", "CANCEL")]' | xargs cat
+     - du -chs ${CI_PROJECT_DIR}/avocado-cache
+ 
+ build-system-ubuntu:
 -- 
 2.18.2
 
