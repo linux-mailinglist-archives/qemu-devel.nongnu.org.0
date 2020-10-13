@@ -2,44 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5DC428D081
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 16:42:53 +0200 (CEST)
-Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B581928D08C
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 16:45:04 +0200 (CEST)
+Received: from localhost ([::1]:60420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSLVs-0001I6-Op
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 10:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39098)
+	id 1kSLXz-00048c-P5
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 10:45:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSLRR-0005MM-VN
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 10:38:18 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33186)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSLRL-0002r5-Cz
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 10:38:17 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F1FCBB198;
- Tue, 13 Oct 2020 14:38:09 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 3/3] replay: do not build if TCG is not available
-Date: Tue, 13 Oct 2020 16:38:06 +0200
-Message-Id: <20201013143806.14321-4-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201013143806.14321-1-cfontana@suse.de>
-References: <20201013143806.14321-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kSLRe-0005dl-S9
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 10:38:31 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:34767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kSLRc-0002tH-Ee
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 10:38:30 -0400
+Received: by mail-ed1-x542.google.com with SMTP id x1so21193246eds.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 07:38:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vkkCEAzRZ+GHLCCyUXgk7nSupq24bzVc91Ut7QQ2IY0=;
+ b=GWuOlWzaS4suA0SRr/V3ZWiK6OqdL6ZVtKfzkavtAbkF3Ga6ZVjxmjmQFl+3R57Lcp
+ cxVbOa04QUFfrx09yERCl8fwEeYkHf21nsWmgfDzpMEo7u74EGeMu6CkaLPUTti820a2
+ wOVBugJKZlVqu5frpOvd8wa4vSBEuEJ6bZqy7Ag0noE5MREPLzz/ry76kNMAVpqOHg37
+ lNv8XUet70CpCwk2qAJON17DFYE/TtBmrC5WmWF7b1I/sBE113R1LY1fJtoTbIw75Oti
+ X/LPiUWgHOPml9UoHpk2cM6WNVjUlNlXhDjZEZka7j0K5KUJTrfgOwiIZLYfn7Ch+8YD
+ usYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vkkCEAzRZ+GHLCCyUXgk7nSupq24bzVc91Ut7QQ2IY0=;
+ b=UQTt1EncckTnRyeJOLBbkahAWN6zmcpmivcHBdSiI0Lq9RlEdj/PqvRpXYlOp/mRPt
+ nAyKTr+hximwdqnpMEMQq6dRGllI9ZuZ9n58Gcaui1i/ZrKSZNYDupk1TUSUlRv3wv/R
+ SvCHiF6epvloaaoWonXmyLnELKjDTb8DtxpRHcw1EPgfpFPmRAthsR8dPgLZ6djKVAmX
+ 6SiHK0lyx4D3vj+XzVYotBiplQ80XmivUQj78hUXzb32Z7q4xjhu3oF5/enTEHUE37fQ
+ U6NMItobQr3lrLWUr4DQAFSbu5WaprTQROVg24nRHboCDICfDkTWhw+8EEWcDYvs7GRJ
+ gKMw==
+X-Gm-Message-State: AOAM5319+6YYD5QSbdk0nuQeJ8Hqmp/a2fLVy6uKvsGZbPu/kvYdxtFO
+ hXZ8w6HS2TBWjIwitinyytgi7Kt5ubgSmA3gyXE=
+X-Google-Smtp-Source: ABdhPJzLXbnFiBNz0q3p8KWC4Pm1+t5QNY2EOHh3YJYSSkSeSFNqQWhWoQw0D89Nm3n9Ovf0Arj7B3ECORWzgaZUQt0=
+X-Received: by 2002:aa7:cd98:: with SMTP id x24mr19976445edv.237.1602599904866; 
+ Tue, 13 Oct 2020 07:38:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 01:21:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20201012232939.48481-1-j@getutm.app>
+ <20201012232939.48481-6-j@getutm.app>
+ <c99464f7-6fd7-e81f-9037-50942706fc24@redhat.com>
+In-Reply-To: <c99464f7-6fd7-e81f-9037-50942706fc24@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 13 Oct 2020 18:38:11 +0400
+Message-ID: <CAJ+F1CKrNMNa8vJbhh3DnZ8n_W_ee0+G+yLWnHR9C1DkX3za9A@mail.gmail.com>
+Subject: Re: [PATCH 05/10] slirp: update for iOS resolv fix
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000bf4dd05b18e5e0a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,715 +80,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Joelle van Dyne <j@getutm.app>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-this fixes non-TCG builds broken recently by replay reverse debugging.
+--0000000000000bf4dd05b18e5e0a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-stub the needed functions in stub/, including errors for hmp and qmp.
+Hi
 
-change hooks for the case when replay code is disabled (!CONFIG_TCG),
-as we need to avoid sinking all the events in replay in this case.
+On Tue, Oct 13, 2020 at 5:34 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>
+wrote:
 
-Surprisingly, only _one_ qtest was affected by this, ide-test.c, which
-resulted in a buzz as the bh events were never delivered, and the bh
-never executed.
+> On 10/13/20 1:29 AM, Joelle van Dyne wrote:
+> > From: osy <osy86@users.noreply.github.com>
+> >
+> > We cannot access /etc/resolv.conf on iOS so libslirp is modified to use
+> > libresolv instead.
+> >
+> > Signed-off-by: Joelle van Dyne <j@getutm.app>
+> > ---
+> >   .gitmodules | 2 +-
+> >   meson.build | 2 ++
+> >   slirp       | 2 +-
+> >   3 files changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/.gitmodules b/.gitmodules
+> > index 2bdeeacef8..f23e859210 100644
+> > --- a/.gitmodules
+> > +++ b/.gitmodules
+> > @@ -51,7 +51,7 @@
+> >       url =3D https://git.qemu.org/git/edk2.git
+> >   [submodule "slirp"]
+> >       path =3D slirp
+> > -     url =3D https://git.qemu.org/git/libslirp.git
+> > +     url =3D https://github.com/utmapp/libslirp.git
+>
+> NAck.
+>
+> You can not take over the SLiRP project submodule that way.
+>
+> I suggest getting your SLiRP changes merged with mainstream
+> instead, see:
+> https://gitlab.freedesktop.org/slirp/libslirp#contributing
+>
+>
+I think he did:
+https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/54
 
-Many other subsystems _should_ have been affected.
+Btw, I also noticed the coroutine library submodule proposed in this series
+is a fork from the original library. Not sure what the upstream status is
+and whether this is fine.
 
-This fixes the immediate issue, however a better way to group replay
-functionality to TCG-only code could be developed in the long term.
+>   [submodule "roms/opensbi"]
+> >       path =3D roms/opensbi
+> >       url =3D   https://git.qemu.org/git/opensbi.git
+> > diff --git a/meson.build b/meson.build
+> > index 32cf08619f..da96e296e0 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -996,6 +996,8 @@ if have_system
+> >       slirp_deps =3D []
+> >       if targetos =3D=3D 'windows'
+> >         slirp_deps =3D cc.find_library('iphlpapi')
+> > +    elif targetos =3D=3D 'darwin'
+> > +      slirp_deps =3D cc.find_library('resolv')
+> >       endif
+> >       slirp_conf =3D configuration_data()
+> >       slirp_conf.set('SLIRP_MAJOR_VERSION',
+> meson.project_version().split('.')[0])
+> > diff --git a/slirp b/slirp
+> > index ce94eba204..452c389d82 160000
+> > --- a/slirp
+> > +++ b/slirp
+> > @@ -1 +1 @@
+> > -Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275
+> > +Subproject commit 452c389d8288f81ec9d59d983a047d4e54f3194e
+>
+>
+>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- block/block-backend.c      |  9 ++--
- block/io.c                 | 52 ++++++++++++++-------
- block/iscsi.c              |  5 +-
- block/meson.build          |  3 +-
- block/nfs.c                |  6 +--
- block/null.c               |  4 +-
- block/nvme.c               |  6 +--
- block/rbd.c                |  5 +-
- hw/ide/core.c              |  8 ++--
- hw/ide/ioport.c            |  1 -
- include/block/block.h      | 29 ++++++++++++
- migration/savevm.c         | 11 +++--
- net/meson.build            |  3 +-
- replay/meson.build         |  2 +-
- replay/replay-events.c     | 20 ++++----
- replay/replay-input.c      |  4 +-
- stubs/meson.build          |  1 -
- stubs/replay-user.c        |  9 ----
- stubs/replay.c             | 96 ++++++++++++++++++++++++++++++++++++++
- tests/ptimer-test-stubs.c  |  5 --
- tests/qtest/qmp-cmd-test.c |  3 ++
- ui/input.c                 | 12 ++++-
- 22 files changed, 212 insertions(+), 82 deletions(-)
- delete mode 100644 stubs/replay-user.c
+--=20
+Marc-Andr=C3=A9 Lureau
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index ce78d30794..57ec5224dc 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -19,7 +19,6 @@
- #include "sysemu/blockdev.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/replay.h"
- #include "qapi/error.h"
- #include "qapi/qapi-events-block.h"
- #include "qemu/id.h"
-@@ -1381,9 +1380,7 @@ BlockAIOCB *blk_abort_aio_request(BlockBackend *blk,
-     acb = blk_aio_get(&block_backend_aiocb_info, blk, cb, opaque);
-     acb->blk = blk;
-     acb->ret = ret;
--
--    replay_bh_schedule_oneshot_event(blk_get_aio_context(blk),
--                                     error_callback_bh, acb);
-+    bdrv_bh_schedule_oneshot(blk_get_aio_context(blk), error_callback_bh, acb);
-     return &acb->common;
- }
- 
-@@ -1447,8 +1444,8 @@ static BlockAIOCB *blk_aio_prwv(BlockBackend *blk, int64_t offset, int bytes,
- 
-     acb->has_returned = true;
-     if (acb->rwco.ret != NOT_DONE) {
--        replay_bh_schedule_oneshot_event(blk_get_aio_context(blk),
--                                         blk_aio_complete_bh, acb);
-+        bdrv_bh_schedule_oneshot(blk_get_aio_context(blk),
-+                                 blk_aio_complete_bh, acb);
-     }
- 
-     return &acb->common;
-diff --git a/block/io.c b/block/io.c
-index 54f0968aee..0347ff6b10 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -368,8 +368,8 @@ static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs,
-     if (bs) {
-         bdrv_inc_in_flight(bs);
-     }
--    replay_bh_schedule_oneshot_event(bdrv_get_aio_context(bs),
--                                     bdrv_co_drain_bh_cb, &data);
-+    bdrv_bh_schedule_oneshot(bdrv_get_aio_context(bs),
-+                             bdrv_co_drain_bh_cb, &data);
- 
-     qemu_coroutine_yield();
-     /* If we are resumed from some other event (such as an aio completion or a
-@@ -600,12 +600,12 @@ void bdrv_drain_all_begin(void)
-         return;
-     }
- 
--    /*
--     * bdrv queue is managed by record/replay,
--     * waiting for finishing the I/O requests may
--     * be infinite
--     */
-     if (replay_events_enabled()) {
-+        /*
-+         * bdrv queue is managed by record/replay,
-+         * waiting for finishing the I/O requests may
-+         * be infinite
-+         */
-         return;
-     }
- 
-@@ -638,12 +638,12 @@ void bdrv_drain_all_end(void)
-     BlockDriverState *bs = NULL;
-     int drained_end_counter = 0;
- 
--    /*
--     * bdrv queue is managed by record/replay,
--     * waiting for finishing the I/O requests may
--     * be endless
--     */
-     if (replay_events_enabled()) {
-+        /*
-+         * bdrv queue is managed by record/replay,
-+         * waiting for finishing the I/O requests may
-+         * be endless
-+         */
-         return;
-     }
- 
-@@ -2122,12 +2122,12 @@ int bdrv_flush_all(void)
-     BlockDriverState *bs = NULL;
-     int result = 0;
- 
--    /*
--     * bdrv queue is managed by record/replay,
--     * creating new flush request for stopping
--     * the VM may break the determinism
--     */
-     if (replay_events_enabled()) {
-+        /*
-+         * bdrv queue is managed by record/replay,
-+         * creating new flush request for stopping
-+         * the VM may break the determinism
-+         */
-         return result;
-     }
- 
-@@ -3215,3 +3215,21 @@ out:
- 
-     return ret;
- }
-+
-+void bdrv_bh_schedule_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaque)
-+{
-+    if (replay_events_enabled()) {
-+        replay_bh_schedule_oneshot_event(ctx, cb, opaque);
-+    } else {
-+        aio_bh_schedule_oneshot(ctx, cb, opaque);
-+    }
-+}
-+
-+void bdrv_bh_schedule(QEMUBH *bh)
-+{
-+    if (replay_events_enabled()) {
-+        replay_bh_schedule_event(bh);
-+    } else {
-+        qemu_bh_schedule(bh);
-+    }
-+}
-diff --git a/block/iscsi.c b/block/iscsi.c
-index e30a7e3606..fec8cb9255 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -40,7 +40,6 @@
- #include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/uuid.h"
--#include "sysemu/replay.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qmp/qdict.h"
-@@ -283,8 +282,8 @@ iscsi_co_generic_cb(struct iscsi_context *iscsi, int status,
-     }
- 
-     if (iTask->co) {
--        replay_bh_schedule_oneshot_event(iTask->iscsilun->aio_context,
--                                         iscsi_co_generic_bh_cb, iTask);
-+        bdrv_bh_schedule_oneshot(iTask->iscsilun->aio_context,
-+                                 iscsi_co_generic_bh_cb, iTask);
-     } else {
-         iTask->complete = 1;
-     }
-diff --git a/block/meson.build b/block/meson.build
-index 78e8b25232..01fe6f84d2 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -7,7 +7,6 @@ block_ss.add(files(
-   'backup-top.c',
-   'blkdebug.c',
-   'blklogwrites.c',
--  'blkreplay.c',
-   'blkverify.c',
-   'block-backend.c',
-   'block-copy.c',
-@@ -42,6 +41,8 @@ block_ss.add(files(
-   'write-threshold.c',
- ), zstd, zlib)
- 
-+block_ss.add(when: 'CONFIG_TCG', if_true: files('blkreplay.c'))
-+
- block_ss.add(when: 'CONFIG_QCOW1', if_true: files('qcow.c'))
- block_ss.add(when: 'CONFIG_VDI', if_true: files('vdi.c'))
- block_ss.add(when: 'CONFIG_CLOOP', if_true: files('cloop.c'))
-diff --git a/block/nfs.c b/block/nfs.c
-index f86e660374..90a737fe64 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -38,7 +38,6 @@
- #include "qemu/uri.h"
- #include "qemu/cutils.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/replay.h"
- #include "qapi/qapi-visit-block-core.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qstring.h"
-@@ -259,8 +258,9 @@ nfs_co_generic_cb(int ret, struct nfs_context *nfs, void *data,
-     if (task->ret < 0) {
-         error_report("NFS Error: %s", nfs_get_error(nfs));
-     }
--    replay_bh_schedule_oneshot_event(task->client->aio_context,
--                                     nfs_co_generic_bh_cb, task);
-+
-+    bdrv_bh_schedule_oneshot(task->client->aio_context,
-+                             nfs_co_generic_bh_cb, task);
- }
- 
- static int coroutine_fn nfs_co_preadv(BlockDriverState *bs, uint64_t offset,
-diff --git a/block/null.c b/block/null.c
-index cc9b1d4ea7..1fa713c42d 100644
---- a/block/null.c
-+++ b/block/null.c
-@@ -17,7 +17,6 @@
- #include "qemu/module.h"
- #include "qemu/option.h"
- #include "block/block_int.h"
--#include "sysemu/replay.h"
- 
- #define NULL_OPT_LATENCY "latency-ns"
- #define NULL_OPT_ZEROES  "read-zeroes"
-@@ -180,8 +179,7 @@ static inline BlockAIOCB *null_aio_common(BlockDriverState *bs,
-         timer_mod_ns(&acb->timer,
-                      qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + s->latency_ns);
-     } else {
--        replay_bh_schedule_oneshot_event(bdrv_get_aio_context(bs),
--                                         null_bh_cb, acb);
-+        bdrv_bh_schedule_oneshot(bdrv_get_aio_context(bs), null_bh_cb, acb);
-     }
-     return &acb->common;
- }
-diff --git a/block/nvme.c b/block/nvme.c
-index b48f6f2588..c13ad92b7d 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -23,7 +23,6 @@
- #include "qemu/option.h"
- #include "qemu/vfio-helpers.h"
- #include "block/block_int.h"
--#include "sysemu/replay.h"
- #include "trace.h"
- 
- #include "block/nvme.h"
-@@ -313,8 +312,7 @@ static void nvme_put_free_req_locked(NVMeQueuePair *q, NVMeRequest *req)
- static void nvme_wake_free_req_locked(NVMeQueuePair *q)
- {
-     if (!qemu_co_queue_empty(&q->free_req_queue)) {
--        replay_bh_schedule_oneshot_event(q->s->aio_context,
--                nvme_free_req_queue_cb, q);
-+        bdrv_bh_schedule_oneshot(q->s->aio_context, nvme_free_req_queue_cb, q);
-     }
- }
- 
-@@ -1068,7 +1066,7 @@ static void nvme_rw_cb(void *opaque, int ret)
-         /* The rw coroutine hasn't yielded, don't try to enter. */
-         return;
-     }
--    replay_bh_schedule_oneshot_event(data->ctx, nvme_rw_cb_bh, data);
-+    bdrv_bh_schedule_oneshot(data->ctx, nvme_rw_cb_bh, data);
- }
- 
- static coroutine_fn int nvme_co_prw_aligned(BlockDriverState *bs,
-diff --git a/block/rbd.c b/block/rbd.c
-index 9bd2bce716..11d082b7cc 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -22,7 +22,6 @@
- #include "block/qdict.h"
- #include "crypto/secret.h"
- #include "qemu/cutils.h"
--#include "sysemu/replay.h"
- #include "qapi/qmp/qstring.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qjson.h"
-@@ -862,8 +861,8 @@ static void rbd_finish_aiocb(rbd_completion_t c, RADOSCB *rcb)
-     rcb->ret = rbd_aio_get_return_value(c);
-     rbd_aio_release(c);
- 
--    replay_bh_schedule_oneshot_event(bdrv_get_aio_context(acb->common.bs),
--                                     rbd_finish_bh, rcb);
-+    bdrv_bh_schedule_oneshot(bdrv_get_aio_context(acb->common.bs),
-+                             rbd_finish_bh, rcb);
- }
- 
- static int rbd_aio_discard_wrapper(rbd_image_t image,
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 693b352d5e..4c21e74aac 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -36,7 +36,6 @@
- #include "sysemu/block-backend.h"
- #include "qapi/error.h"
- #include "qemu/cutils.h"
--#include "sysemu/replay.h"
- #include "sysemu/runstate.h"
- #include "hw/ide/internal.h"
- #include "trace.h"
-@@ -493,7 +492,7 @@ static void ide_issue_trim_cb(void *opaque, int ret)
- done:
-     iocb->aiocb = NULL;
-     if (iocb->bh) {
--        replay_bh_schedule_event(iocb->bh);
-+        bdrv_bh_schedule(iocb->bh);
-     }
- }
- 
-@@ -2289,8 +2288,9 @@ void ide_ctrl_write(void *opaque, uint32_t addr, uint32_t val)
-             s = &bus->ifs[i];
-             s->status |= BUSY_STAT;
-         }
--        replay_bh_schedule_oneshot_event(qemu_get_aio_context(),
--                                         ide_bus_perform_srst, bus);
-+
-+        bdrv_bh_schedule_oneshot(qemu_get_aio_context(),
-+                                 ide_bus_perform_srst, bus);
-     }
- 
-     bus->cmd = val;
-diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
-index b613ff3bba..b1cfd1fd85 100644
---- a/hw/ide/ioport.c
-+++ b/hw/ide/ioport.c
-@@ -33,7 +33,6 @@
- #include "sysemu/block-backend.h"
- #include "qapi/error.h"
- #include "qemu/cutils.h"
--#include "sysemu/replay.h"
- 
- #include "hw/ide/internal.h"
- #include "trace.h"
-diff --git a/include/block/block.h b/include/block/block.h
-index d16c401cb4..802f2283fa 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -834,4 +834,33 @@ int coroutine_fn bdrv_co_copy_range(BdrvChild *src, uint64_t src_offset,
-                                     BdrvChild *dst, uint64_t dst_offset,
-                                     uint64_t bytes, BdrvRequestFlags read_flags,
-                                     BdrvRequestFlags write_flags);
-+
-+/**
-+ *
-+ * bdrv_bh_schedule_oneshot:
-+ *
-+ * This is a wrapper for aio_bh_schedule_oneshot:
-+ * allocate and schedule a oneshot aio bottom half, to be executed as soon as
-+ * possible.
-+ *
-+ * If event-capturing frameworks are present and active,
-+ * the event will instead be consumed by their internal queues.
-+ *
-+ * Arguments are as per aio_bh_schedule_oneshot.
-+ **/
-+void bdrv_bh_schedule_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaque);
-+
-+/**
-+ *
-+ * bdrv_bh_schedule:
-+ *
-+ * This is a wrapper for qemu_bh_schedule.
-+ *
-+ * If event-capturing frameworks are present and active,
-+ * the event will instead be consumed by their internal queues.
-+ *
-+ * Arguments are as per qemu_bh_schedule.
-+ **/
-+void bdrv_bh_schedule(QEMUBH *bh);
-+
- #endif
-diff --git a/migration/savevm.c b/migration/savevm.c
-index d2e141f7b1..d9181ca520 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -63,6 +63,7 @@
- #include "migration/colo.h"
- #include "qemu/bitmap.h"
- #include "net/announce.h"
-+#include "sysemu/tcg.h"
- 
- const unsigned int postcopy_ram_discard_version = 0;
- 
-@@ -2674,10 +2675,12 @@ int save_snapshot(const char *name, Error **errp)
-         return ret;
-     }
- 
--    if (!replay_can_snapshot()) {
--        error_setg(errp, "Record/replay does not allow making snapshot "
--                   "right now. Try once more later.");
--        return ret;
-+    if (tcg_enabled()) {
-+        if (!replay_can_snapshot()) {
-+            error_setg(errp, "Record/replay does not allow making snapshot "
-+                       "right now. Try once more later.");
-+            return ret;
-+        }
-     }
- 
-     if (!bdrv_all_can_snapshot(&bs)) {
-diff --git a/net/meson.build b/net/meson.build
-index 1c7e3a3cb9..1076b0a7ab 100644
---- a/net/meson.build
-+++ b/net/meson.build
-@@ -7,7 +7,6 @@ softmmu_ss.add(files(
-   'eth.c',
-   'filter-buffer.c',
-   'filter-mirror.c',
--  'filter-replay.c',
-   'filter-rewriter.c',
-   'filter.c',
-   'hub.c',
-@@ -17,6 +16,8 @@ softmmu_ss.add(files(
-   'util.c',
- ))
- 
-+softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
-+
- softmmu_ss.add(when: 'CONFIG_L2TPV3', if_true: files('l2tpv3.c'))
- softmmu_ss.add(when: slirp, if_true: files('slirp.c'))
- softmmu_ss.add(when: ['CONFIG_VDE', vde], if_true: files('vde.c'))
-diff --git a/replay/meson.build b/replay/meson.build
-index f91163fb1e..cb3207740a 100644
---- a/replay/meson.build
-+++ b/replay/meson.build
-@@ -1,4 +1,4 @@
--softmmu_ss.add(files(
-+softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'replay.c',
-   'replay-internal.c',
-   'replay-events.c',
-diff --git a/replay/replay-events.c b/replay/replay-events.c
-index a1c6bb934e..e0a4523e18 100644
---- a/replay/replay-events.c
-+++ b/replay/replay-events.c
-@@ -130,23 +130,19 @@ void replay_add_event(ReplayAsyncEventKind event_kind,
- 
- void replay_bh_schedule_event(QEMUBH *bh)
- {
--    if (events_enabled) {
--        uint64_t id = replay_get_current_icount();
--        replay_add_event(REPLAY_ASYNC_EVENT_BH, bh, NULL, id);
--    } else {
--        qemu_bh_schedule(bh);
--    }
-+    uint64_t id = replay_get_current_icount();
-+
-+    g_assert(events_enabled);
-+    replay_add_event(REPLAY_ASYNC_EVENT_BH, bh, NULL, id);
- }
- 
- void replay_bh_schedule_oneshot_event(AioContext *ctx,
-     QEMUBHFunc *cb, void *opaque)
- {
--    if (events_enabled) {
--        uint64_t id = replay_get_current_icount();
--        replay_add_event(REPLAY_ASYNC_EVENT_BH_ONESHOT, cb, opaque, id);
--    } else {
--        aio_bh_schedule_oneshot(ctx, cb, opaque);
--    }
-+    uint64_t id = replay_get_current_icount();
-+
-+    g_assert(events_enabled);
-+    replay_add_event(REPLAY_ASYNC_EVENT_BH_ONESHOT, cb, opaque, id);
- }
- 
- void replay_add_input_event(struct InputEvent *event)
-diff --git a/replay/replay-input.c b/replay/replay-input.c
-index 1147e3d34e..5d1fd92e79 100644
---- a/replay/replay-input.c
-+++ b/replay/replay-input.c
-@@ -124,7 +124,7 @@ void replay_input_event(QemuConsole *src, InputEvent *evt)
-     } else if (replay_mode == REPLAY_MODE_RECORD) {
-         replay_add_input_event(QAPI_CLONE(InputEvent, evt));
-     } else {
--        qemu_input_event_send_impl(src, evt);
-+        g_assert_not_reached();
-     }
- }
- 
-@@ -135,6 +135,6 @@ void replay_input_sync_event(void)
-     } else if (replay_mode == REPLAY_MODE_RECORD) {
-         replay_add_input_sync_event();
-     } else {
--        qemu_input_event_sync_impl();
-+        g_assert_not_reached();
-     }
- }
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 67f2a8c069..bbd2230d69 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -32,7 +32,6 @@ stub_ss.add(files('qtest.c'))
- stub_ss.add(files('ram-block.c'))
- stub_ss.add(files('ramfb.c'))
- stub_ss.add(files('replay.c'))
--stub_ss.add(files('replay-user.c'))
- stub_ss.add(files('runstate-check.c'))
- stub_ss.add(files('set-fd-handler.c'))
- stub_ss.add(files('sysbus.c'))
-diff --git a/stubs/replay-user.c b/stubs/replay-user.c
-deleted file mode 100644
-index 2ad9e27203..0000000000
---- a/stubs/replay-user.c
-+++ /dev/null
-@@ -1,9 +0,0 @@
--#include "qemu/osdep.h"
--#include "sysemu/replay.h"
--#include "sysemu/sysemu.h"
--
--void replay_bh_schedule_oneshot_event(AioContext *ctx,
--    QEMUBHFunc *cb, void *opaque)
--{
--    aio_bh_schedule_oneshot(ctx, cb, opaque);
--}
-diff --git a/stubs/replay.c b/stubs/replay.c
-index 45ebe77fb9..86e8be704b 100644
---- a/stubs/replay.c
-+++ b/stubs/replay.c
-@@ -103,3 +103,99 @@ bool replay_reverse_continue(void)
- {
-     return false;
- }
-+
-+void replay_input_event(QemuConsole *src, InputEvent *evt)
-+{
-+}
-+void replay_input_sync_event(void)
-+{
-+}
-+void replay_bh_schedule_event(QEMUBH *bh)
-+{
-+}
-+void replay_bh_schedule_oneshot_event(AioContext *ctx,
-+                                      QEMUBHFunc *cb, void *opaque)
-+{
-+}
-+void replay_add_blocker(Error *reason)
-+{
-+}
-+void replay_audio_in(size_t *recorded, void *samples, size_t *wpos, size_t size)
-+{
-+}
-+void replay_audio_out(size_t *played)
-+{
-+}
-+void replay_breakpoint(void)
-+{
-+}
-+bool replay_can_snapshot(void)
-+{
-+    return false;
-+}
-+void replay_configure(struct QemuOpts *opts)
-+{
-+}
-+void replay_flush_events(void)
-+{
-+}
-+void replay_gdb_attached(void)
-+{
-+}
-+bool replay_running_debug(void)
-+{
-+    return false;
-+}
-+void replay_shutdown_request(ShutdownCause cause)
-+{
-+}
-+void replay_start(void)
-+{
-+}
-+void replay_vmstate_init(void)
-+{
-+}
-+
-+#include "monitor/monitor.h"
-+#include "monitor/hmp.h"
-+#include "qapi/qapi-commands-replay.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+
-+void hmp_info_replay(Monitor *mon, const QDict *qdict)
-+{
-+    error_report("replay support not available");
-+}
-+void hmp_replay_break(Monitor *mon, const QDict *qdict)
-+{
-+    error_report("replay support not available");
-+}
-+void hmp_replay_delete_break(Monitor *mon, const QDict *qdict)
-+{
-+    error_report("replay support not available");
-+}
-+void hmp_replay_seek(Monitor *mon, const QDict *qdict)
-+{
-+    error_report("replay support not available");
-+}
-+ReplayInfo *qmp_query_replay(Error **errp)
-+{
-+    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+              "replay support not available");
-+    return NULL;
-+}
-+void qmp_replay_break(int64_t icount, Error **errp)
-+{
-+    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+              "replay support not available");
-+}
-+void qmp_replay_delete_break(Error **errp)
-+{
-+    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+              "replay support not available");
-+}
-+void qmp_replay_seek(int64_t icount, Error **errp)
-+{
-+    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-+              "replay support not available");
-+}
-diff --git a/tests/ptimer-test-stubs.c b/tests/ptimer-test-stubs.c
-index e935a1395e..7f801a4d09 100644
---- a/tests/ptimer-test-stubs.c
-+++ b/tests/ptimer-test-stubs.c
-@@ -122,8 +122,3 @@ void qemu_bh_delete(QEMUBH *bh)
- {
-     g_free(bh);
- }
--
--void replay_bh_schedule_event(QEMUBH *bh)
--{
--    bh->cb(bh->opaque);
--}
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index 8a4c570e83..1c7186e53c 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -31,6 +31,9 @@ static int query_error_class(const char *cmd)
- #ifndef CONFIG_SPICE
-         { "query-spice", ERROR_CLASS_COMMAND_NOT_FOUND },
- #endif
-+#ifndef CONFIG_TCG
-+        { "query-replay", ERROR_CLASS_COMMAND_NOT_FOUND },
-+#endif
- #ifndef CONFIG_VNC
-         { "query-vnc", ERROR_CLASS_GENERIC_ERROR },
-         { "query-vnc-servers", ERROR_CLASS_GENERIC_ERROR },
-diff --git a/ui/input.c b/ui/input.c
-index 4791b089c7..8675e8ad09 100644
---- a/ui/input.c
-+++ b/ui/input.c
-@@ -375,7 +375,11 @@ void qemu_input_event_send(QemuConsole *src, InputEvent *evt)
-         return;
-     }
- 
--    replay_input_event(src, evt);
-+    if (replay_events_enabled()) {
-+        replay_input_event(src, evt);
-+    } else {
-+        qemu_input_event_send_impl(src, evt);
-+    }
- }
- 
- void qemu_input_event_sync_impl(void)
-@@ -401,7 +405,11 @@ void qemu_input_event_sync(void)
-         return;
-     }
- 
--    replay_input_sync_event();
-+    if (replay_events_enabled()) {
-+        replay_input_sync_event();
-+    } else {
-+        qemu_input_event_sync_impl();
-+    }
- }
- 
- static InputEvent *qemu_input_event_new_key(KeyValue *key, bool down)
--- 
-2.26.2
+--0000000000000bf4dd05b18e5e0a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 13, 2020 at 5:34 PM Phi=
+lippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@re=
+dhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On 10/13/20 1:29 AM, Joelle van Dyne wrote:<br>
+&gt; From: osy &lt;<a href=3D"mailto:osy86@users.noreply.github.com" target=
+=3D"_blank">osy86@users.noreply.github.com</a>&gt;<br>
+&gt; <br>
+&gt; We cannot access /etc/resolv.conf on iOS so libslirp is modified to us=
+e<br>
+&gt; libresolv instead.<br>
+&gt; <br>
+&gt; Signed-off-by: Joelle van Dyne &lt;j@getutm.app&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0.gitmodules | 2 +-<br>
+&gt;=C2=A0 =C2=A0meson.build | 2 ++<br>
+&gt;=C2=A0 =C2=A0slirp=C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt;=C2=A0 =C2=A03 files changed, 4 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/.gitmodules b/.gitmodules<br>
+&gt; index 2bdeeacef8..f23e859210 100644<br>
+&gt; --- a/.gitmodules<br>
+&gt; +++ b/.gitmodules<br>
+&gt; @@ -51,7 +51,7 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0url =3D <a href=3D"https://git.qemu.org/git/=
+edk2.git" rel=3D"noreferrer" target=3D"_blank">https://git.qemu.org/git/edk=
+2.git</a><br>
+&gt;=C2=A0 =C2=A0[submodule &quot;slirp&quot;]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0path =3D slirp<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0url =3D <a href=3D"https://git.qemu.org/git/libsl=
+irp.git" rel=3D"noreferrer" target=3D"_blank">https://git.qemu.org/git/libs=
+lirp.git</a><br>
+&gt; +=C2=A0 =C2=A0 =C2=A0url =3D <a href=3D"https://github.com/utmapp/libs=
+lirp.git" rel=3D"noreferrer" target=3D"_blank">https://github.com/utmapp/li=
+bslirp.git</a><br>
+<br>
+NAck.<br>
+<br>
+You can not take over the SLiRP project submodule that way.<br>
+<br>
+I suggest getting your SLiRP changes merged with mainstream<br>
+instead, see:<br>
+<a href=3D"https://gitlab.freedesktop.org/slirp/libslirp#contributing" rel=
+=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/slirp/libs=
+lirp#contributing</a><br>
+<br></blockquote><div><br></div><div>I think he did: <a href=3D"https://git=
+lab.freedesktop.org/slirp/libslirp/-/merge_requests/54">https://gitlab.free=
+desktop.org/slirp/libslirp/-/merge_requests/54</a></div><div><br></div><div=
+>Btw, I also noticed the coroutine library submodule proposed in this serie=
+s is a fork from the original library. Not sure what the upstream status is=
+ and whether this is fine.</div><div><br> </div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+&gt;=C2=A0 =C2=A0[submodule &quot;roms/opensbi&quot;]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0path =3D roms/opensbi<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0url =3D=C2=A0 =C2=A0<a href=3D"https://git.q=
+emu.org/git/opensbi.git" rel=3D"noreferrer" target=3D"_blank">https://git.q=
+emu.org/git/opensbi.git</a><br>
+&gt; diff --git a/meson.build b/meson.build<br>
+&gt; index 32cf08619f..da96e296e0 100644<br>
+&gt; --- a/meson.build<br>
+&gt; +++ b/meson.build<br>
+&gt; @@ -996,6 +996,8 @@ if have_system<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0slirp_deps =3D []<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if targetos =3D=3D &#39;windows&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0slirp_deps =3D cc.find_library(&#39;i=
+phlpapi&#39;)<br>
+&gt; +=C2=A0 =C2=A0 elif targetos =3D=3D &#39;darwin&#39;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 slirp_deps =3D cc.find_library(&#39;resolv&#39;)=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0endif<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0slirp_conf =3D configuration_data()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0slirp_conf.set(&#39;SLIRP_MAJOR_VERSION&#39;=
+, meson.project_version().split(&#39;.&#39;)[0])<br>
+&gt; diff --git a/slirp b/slirp<br>
+&gt; index ce94eba204..452c389d82 160000<br>
+&gt; --- a/slirp<br>
+&gt; +++ b/slirp<br>
+&gt; @@ -1 +1 @@<br>
+&gt; -Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275<br>
+&gt; +Subproject commit 452c389d8288f81ec9d59d983a047d4e54f3194e<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000000bf4dd05b18e5e0a--
 
