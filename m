@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCD828CC1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:01:31 +0200 (CEST)
-Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB94A28CC32
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:07:22 +0200 (CEST)
+Received: from localhost ([::1]:38330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSI3d-00035y-Ug
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:01:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59388)
+	id 1kSI9J-0000U1-Mv
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyI-0005V6-Dy
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23586)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyM-0005VW-3l
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyG-0006DX-3w
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:55:57 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSHyH-0006Di-65
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:56:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602586555;
+ s=mimecast20190719; t=1602586556;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MzVYUDP+ngwGtyz875Og2xvnQvdvvEQUx2JoCdy/J1M=;
- b=KksgfoP1jCTdcyq1UZwgyLV/vwgyucj56K76wUEenE5UAUVUMJ7Gbb9R5EBYiRagw66r6t
- C1E84Pd3pt2MYRS3XvFfVKmLSOMNFCceyqcfzPNND+Tf0fbQF5JJWKo5vLD62MYVOPmO/w
- MC3/RJ9sW/2qtAli1RxLvWmITptaAPE=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=ZVTw23lH6UgX7hwjWL1WRAG4e767IZDw2HbVcVmiCXU=;
+ b=VI0KECShro1awm+q8WHSJ4TmvWuzXs1FxESzXxmIC7WsTwrrEeN6GlN7r7+FUZdmQUcDRF
+ qL49xVfAgWY4wPYU0TfmXwulfQWGvpeK90njvLht0srek6VGtqYMWndHseGulMIhxjF5bo
+ 7MGsm34ZvbIwaBizuY62EkWuvtJwjA8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-dFPbg8HXOV2a6p8C8yUJWg-1; Tue, 13 Oct 2020 06:55:53 -0400
-X-MC-Unique: dFPbg8HXOV2a6p8C8yUJWg-1
+ us-mta-169-Xk668mutOGCry6RL1BFPIg-1; Tue, 13 Oct 2020 06:55:54 -0400
+X-MC-Unique: Xk668mutOGCry6RL1BFPIg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 324C210066FC;
- Tue, 13 Oct 2020 10:55:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A000C86ABCE;
+ Tue, 13 Oct 2020 10:55:53 +0000 (UTC)
 Received: from thuth.com (ovpn-112-151.ams2.redhat.com [10.36.112.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2FEC36EF41;
- Tue, 13 Oct 2020 10:55:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BDC76EF41;
+ Tue, 13 Oct 2020 10:55:52 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 07/23] tests/migration: Allow longer timeouts
-Date: Tue, 13 Oct 2020 12:55:11 +0200
-Message-Id: <20201013105527.20088-8-thuth@redhat.com>
+Subject: [PULL 08/23] softmmu/vl: Be less verbose about missing KVM when
+ running the qtests
+Date: Tue, 13 Oct 2020 12:55:12 +0200
+Message-Id: <20201013105527.20088-9-thuth@redhat.com>
 In-Reply-To: <20201013105527.20088-1-thuth@redhat.com>
 References: <20201013105527.20088-1-thuth@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:06:42
@@ -83,103 +80,85 @@ Cc: Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Some of the qtests use "-accel kvm -accel tcg" to run real guest code.
+This causes some error messages when kvm is not available. We do not
+really care about these messages since the fallback to tcg is expected
+here. So let's silence them to avoid that they spoil the output of
+the tests.
 
-In travis, with gcov and gprof we're seeing timeouts; hopefully fix
-this by increasing the test timeouts a bit, but for xbzrle ensure it
-really does get a couple of cycles through to test the cache.
+Unfortunately, we can not use the qtest_enabled() wrapper in this case,
+since the qtest accelerator itself is not initialized. Thus we have to
+test for the qtest_chrdev variable instead.
 
-I think the problem in travis is we have about 2 host CPU threads,
-in the test we have at least 3:
-   a) The vCPU thread (100% flat out)
-   b) The source migration thread
-   c) The destination migration thread
-
-if (b) & (c) are slow for any reason - gcov+gperf or a slow host -
-then they're sharing one host CPU thread so limit the migration
-bandwidth.
-
-Tested on my laptop with:
-   taskset -c 0,1 ./tests/qtest/migration-test -p /x86_64/migration
-
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20201008160330.130431-1-dgilbert@redhat.com>
-[thuth: Move the #define to the right location]
+Message-Id: <20200710085020.28222-1-thuth@redhat.com>
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/migration-test.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ softmmu/vl.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 00a233cd8c..f410ec5996 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -34,6 +34,9 @@ unsigned start_address;
- unsigned end_address;
- static bool uffd_feature_thread_id;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 5a11a62f78..254ee5e525 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -165,8 +165,9 @@ bool boot_strict;
+ uint8_t *boot_splash_filedata;
+ int only_migratable; /* turn it off unless user states otherwise */
+ bool wakeup_suspend_enabled;
+-
+ int icount_align_option;
++static const char *qtest_chrdev;
++static const char *qtest_log;
  
-+/* A downtime where the test really should converge */
-+#define CONVERGE_DOWNTIME 1000
+ /* The bytes in qemu_uuid are in the order specified by RFC4122, _not_ in the
+  * little-endian "wire format" described in the SMBIOS 2.6 specification.
+@@ -2713,10 +2714,15 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+     AccelClass *ac = accel_find(acc);
+     AccelState *accel;
+     int ret;
++    bool qtest_with_kvm;
 +
- #if defined(__linux__)
- #include <sys/syscall.h>
- #include <sys/vfs.h>
-@@ -864,8 +867,7 @@ static void test_precopy_unix(void)
++    qtest_with_kvm = g_str_equal(acc, "kvm") && qtest_chrdev != NULL;
  
-     wait_for_migration_pass(from);
+     if (!ac) {
+         *p_init_failed = true;
+-        error_report("invalid accelerator %s", acc);
++        if (!qtest_with_kvm) {
++            error_report("invalid accelerator %s", acc);
++        }
+         return 0;
+     }
+     accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
+@@ -2728,8 +2734,9 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+     ret = accel_init_machine(accel, current_machine);
+     if (ret < 0) {
+         *p_init_failed = true;
+-        error_report("failed to initialize %s: %s",
+-                     acc, strerror(-ret));
++        if (!qtest_with_kvm || ret != -ENOENT) {
++            error_report("failed to initialize %s: %s", acc, strerror(-ret));
++        }
+         return 0;
+     }
  
--    /* 300 ms should converge */
--    migrate_set_parameter_int(from, "downtime-limit", 300);
-+    migrate_set_parameter_int(from, "downtime-limit", CONVERGE_DOWNTIME);
+@@ -2800,7 +2807,7 @@ static void configure_accelerators(const char *progname)
+         exit(1);
+     }
  
-     if (!got_stop) {
-         qtest_qmp_eventwait(from, "STOP");
-@@ -946,10 +948,12 @@ static void test_xbzrle(const char *uri)
- 
-     migrate_qmp(from, uri, "{}");
- 
-+    wait_for_migration_pass(from);
-+    /* Make sure we have 2 passes, so the xbzrle cache gets a workout */
-     wait_for_migration_pass(from);
- 
--    /* 300ms should converge */
--    migrate_set_parameter_int(from, "downtime-limit", 300);
-+    /* 1000ms should converge */
-+    migrate_set_parameter_int(from, "downtime-limit", 1000);
- 
-     if (!got_stop) {
-         qtest_qmp_eventwait(from, "STOP");
-@@ -999,8 +1003,7 @@ static void test_precopy_tcp(void)
- 
-     wait_for_migration_pass(from);
- 
--    /* 300ms should converge */
--    migrate_set_parameter_int(from, "downtime-limit", 300);
-+    migrate_set_parameter_int(from, "downtime-limit", CONVERGE_DOWNTIME);
- 
-     if (!got_stop) {
-         qtest_qmp_eventwait(from, "STOP");
-@@ -1068,8 +1071,7 @@ static void test_migrate_fd_proto(void)
- 
-     wait_for_migration_pass(from);
- 
--    /* 300ms should converge */
--    migrate_set_parameter_int(from, "downtime-limit", 300);
-+    migrate_set_parameter_int(from, "downtime-limit", CONVERGE_DOWNTIME);
- 
-     if (!got_stop) {
-         qtest_qmp_eventwait(from, "STOP");
-@@ -1304,8 +1306,7 @@ static void test_multifd_tcp(const char *method)
- 
-     wait_for_migration_pass(from);
- 
--    /* 300ms it should converge */
--    migrate_set_parameter_int(from, "downtime-limit", 300);
-+    migrate_set_parameter_int(from, "downtime-limit", CONVERGE_DOWNTIME);
- 
-     if (!got_stop) {
-         qtest_qmp_eventwait(from, "STOP");
+-    if (init_failed) {
++    if (init_failed && !qtest_chrdev) {
+         AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+         error_report("falling back to %s", ac->name);
+     }
+@@ -2870,8 +2877,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     MachineClass *machine_class;
+     const char *cpu_option;
+     const char *vga_model = NULL;
+-    const char *qtest_chrdev = NULL;
+-    const char *qtest_log = NULL;
+     const char *incoming = NULL;
+     bool userconfig = true;
+     bool nographic = false;
 -- 
 2.18.2
 
