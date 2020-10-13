@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C66C28D279
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 18:42:22 +0200 (CEST)
-Received: from localhost ([::1]:45960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3379328D280
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 18:44:33 +0200 (CEST)
+Received: from localhost ([::1]:51356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSNNV-0006Uj-HI
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 12:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54940)
+	id 1kSNPc-0000H7-9T
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 12:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSNLh-0005Av-8X
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:40:29 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46310)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1kSNLu-0005cf-Az
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:40:42 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:44720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSNLd-0004Ps-Pp
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:40:28 -0400
-Received: by mail-pl1-x644.google.com with SMTP id d6so99886plo.13
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 09:40:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=jZuOVfZXzmXfUNZZhGowe0arajdOtS7smUegqSksugA=;
- b=G9SaiOPmJ12PQ3QSRrqsp6L+EolKTrwbjkx6wZQ7YuBNYTtt7ZlV2KEBTw3Gy683q9
- ID5taL4KeeNWjEx/bUJrHszuMBwcpJ07arAMr3Nf2ZQbnqFARuPQ4y0UeaRAHPAOMe8X
- nm2VmPvyd8los5ycYmGUYRNqT0nik7YtYsVXnfroh4mPZfdlTEP3OhAp4LzHBhEANkon
- zLmo4mFAp1iY3PVgVhC6FenksKlonWYAGcF1eqtqppkATI7etiuYqpPed+/wOkMLFsGN
- wL6zc0/9GGpHzGpfnJKswHPTYmiztI6KMtXPh1io0IfJR25Gkx2c2Qf0MwpJynq/4bUr
- grWQ==
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1kSNLs-0004Zj-Ig
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 12:40:41 -0400
+Received: by mail-lj1-x242.google.com with SMTP id a5so47881ljj.11
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 09:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=svWn01L0ewwGDboXKuINQZ2sSLpcpfsk7X1TYth0+o8=;
+ b=TX10eVsy0lGjMZNvQcmtoq92BQlZb3Egys2D/brtUpnCocKRhiD+mx7gT2Qmpob+/0
+ mccRCtTsKhRT1BSoO3rjRqrTXMgxIObMHUqOXq6gWJUJZAY7sPC7a4yyANl8+a5crMqg
+ MkOyNh/Op89Y72/NfqEUcMRkD1CjC6TY0URIXzSsLi43SPmhjsWyNyjkY81QJkdRwUif
+ Q/zjcMSDvQL1r4TsbGAqkwYjYyEp9wcGrnsipG+5PsnnxH4A/MyK0wc0siN1mnkISAQg
+ TCIMkqWlMRxn+GRTgBn+Zi0gHM9SnbE54gTf3iv3/QFCN9UZfy1s1ss8KxdXAxIXHd7X
+ 3vyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jZuOVfZXzmXfUNZZhGowe0arajdOtS7smUegqSksugA=;
- b=stCts4YVHBlZPyi60uFrbaVtoQbjsEskQZ14Lg/5aK9QU3VC1OUXU/c5X19NPQbKVn
- 0WUFOtVfsfLR8lSvPsYBywL1M3bZSQfMTASOBev98N4lEtTUUNUXaUMcJEEuICZaM8z+
- SrQ04fTqJFx5uTFagshA9zenPvL+368mIVrclBpLwJ56hf2o0xdjzrPycZIERgO7Xpp1
- jAX+NkZihPF1xAaB/Inyn1bJoWbkjY2viFf07MhaY0rb+CBHzq7vDQzC7wqG/He9DIrU
- Pp1M9+xDWG49bIACUc+OQ/aim6WsK/aBMQyBH0BHgIxgY+ZRsJOf1g2To/hokKK4FDtX
- J6Lw==
-X-Gm-Message-State: AOAM533jzV0O1QWpN0olvdEVQDSaSzI2Q459L9igjm74sQDKmZK9Zz1W
- /VgBFzDVbffsO75KkG9i3bULSzyq36kNmQBZ
-X-Google-Smtp-Source: ABdhPJxHwqv4VquVVp/8yQ8dobf7wdBqlgzdOOL4C7sOfrhMhB7vgqzU3nD//ZoXLOfiyKED4IurYg==
-X-Received: by 2002:a17:902:8307:b029:d3:89e2:7866 with SMTP id
- bd7-20020a1709028307b02900d389e27866mr644910plb.42.1602607221979; 
- Tue, 13 Oct 2020 09:40:21 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 128sm132999pfd.110.2020.10.13.09.40.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 09:40:20 -0700 (PDT)
-Subject: Re: [PATCH 04/10] target/arm: Make the t32 insn[25:23]=111 group
- non-overlapping
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20201012153746.9996-1-peter.maydell@linaro.org>
- <20201012153746.9996-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bad2de7a-68db-ad0a-0976-ebf475992e17@linaro.org>
-Date: Tue, 13 Oct 2020 09:40:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=svWn01L0ewwGDboXKuINQZ2sSLpcpfsk7X1TYth0+o8=;
+ b=rTzbtnVgX4sAWjw9eJ3iefPjsISmwmhVg8ebHGiGl+fsrI37OFdDlAX7y45DBvZf+x
+ dsV0Wbs6ywnn5UGLP88UBY24BNjYhE0iBPoZyhz5RBxeiC17tT6o4e+qvk/BLE+XP/nw
+ LDXwexNvmL3AraG/NVqCBuQdX1fh/kCy96wx6VzjHbOpO+ribqoiaMH2osJZkZqaJKiW
+ eNfNSdhf0tJ9dsbpF1Fgdt3QbcDP/XDuAdupYdVBdUG7UgcxJ+qcohKVteKGCFzpYaPw
+ iTkn/cTuWcaZDCXvKe+nlgqG63v0KCOHxosrS2+G9tZ3nYHlddm3IjgHVX/4M7bvfFQn
+ 8D0A==
+X-Gm-Message-State: AOAM530bC4Vadeeya/Xgx0eE2qbRVQ+xTGewPJbSaC7m/f0uLBo2J+hJ
+ 2nqKd/d9LZM4VfJZ0aIoano=
+X-Google-Smtp-Source: ABdhPJyAAiE2bV4T4qazQiDShJOMofGhoQQxlFBLszdIw4g77kyw4UM80TBKhxCtCSRqqHSmjsejTQ==
+X-Received: by 2002:a2e:a30a:: with SMTP id l10mr150257lje.122.1602607238717; 
+ Tue, 13 Oct 2020 09:40:38 -0700 (PDT)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id q27sm69483lfd.261.2020.10.13.09.40.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Oct 2020 09:40:38 -0700 (PDT)
+Date: Tue, 13 Oct 2020 18:40:37 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/2] linux-user/microblaze: update signal handling
+Message-ID: <20201013164037.GG2954729@toto>
+References: <20201010173130.99652-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201012153746.9996-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201010173130.99652-1-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,38 +84,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/20 8:37 AM, Peter Maydell wrote:
-> The t32 decode has a group which represents a set of insns
-> which overlap with B_cond_thumb because they have [25:23]=111
-> (which is an invalid condition code field for the branch insn).
-> This group is currently defined using the {} overlap-OK syntax,
-> but it is almost entirely non-overlapping patterns. Switch
-> it over to use a non-overlapping group.
+On Sat, Oct 10, 2020 at 12:31:28PM -0500, Richard Henderson wrote:
+> The linux microblaze port only implements rt signal handing,
+> not the old style.  This allows our linux-test to pass for mb,
+> if you have a cross-compiler available for the build.
+
+Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+
+
 > 
-> For this to be valid syntactically, CPS must move into the same
-> overlapping-group as the hint insns (CPS vs hints was the
-> only actual use of the overlap facility for the group).
 > 
-> The non-overlapping subgroup for CLREX/DSB/DMB/ISB/SB is no longer
-> necessary and so we can remove it (promoting those insns to
-> be members of the parent group).
+> r~
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Just a minor bit of tidying that I did while I was trying to
-> work out whether the v8.1M loop/branch insns needed to go in
-> this group. (As it turns out, they don't.)
-> ---
->  target/arm/t32.decode | 26 ++++++++++++--------------
->  1 file changed, 12 insertions(+), 14 deletions(-)
-
-Nice cleanup, thanks.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+> 
+> Richard Henderson (2):
+>   linux-user/microblaze: Implement rt signal frames
+>   linux-user/microblaze: Remove non-rt signal frames
+> 
+>  linux-user/microblaze/target_signal.h |   1 -
+>  linux-user/microblaze/signal.c        | 186 ++++++++++++--------------
+>  2 files changed, 83 insertions(+), 104 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
 
