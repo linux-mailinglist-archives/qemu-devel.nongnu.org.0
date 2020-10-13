@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC14428CCF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:56:09 +0200 (CEST)
-Received: from localhost ([::1]:37970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CDA28CDC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:04:30 +0200 (CEST)
+Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSIuW-0004IK-V3
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:56:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44118)
+	id 1kSJ2b-0005p9-Tz
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:04:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpe-0006yl-R9; Tue, 13 Oct 2020 07:51:06 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:43169)
+ id 1kSIpx-0007jy-JW; Tue, 13 Oct 2020 07:51:25 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:60203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpb-0004xV-Tu; Tue, 13 Oct 2020 07:51:06 -0400
+ id 1kSIpv-000506-Hs; Tue, 13 Oct 2020 07:51:25 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MuDoR-1kBSu60cDF-00udPG; Tue, 13 Oct 2020 13:50:59 +0200
+ id 1MFslN-1kgtx30155-00HKY4; Tue, 13 Oct 2020 13:51:02 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/14] tests/test-char: Use a proper fallthrough comment
-Date: Tue, 13 Oct 2020 13:50:42 +0200
-Message-Id: <20201013115052.133355-5-laurent@vivier.eu>
+Subject: [PULL 05/14] vmdk: fix maybe uninitialized warnings
+Date: Tue, 13 Oct 2020 13:50:43 +0200
+Message-Id: <20201013115052.133355-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
 References: <20201013115052.133355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:xOnKqLYQxlYpUSu48+Sp9EeEa+GeWMDcwKFkY7MBbD/q83w2Lbq
- kzQimEGc08p2Dvf/DQ/Uoo+83qnzrH3ev5yR89+lX0EdyI2ArbMlOAXUQ/LZEcOoB/32vqe
- aD9Tot+oa9Wfzo9ZAfR7ZxLh55iDzkxH34J5xmf8UzjjRoyxZeF4jp2bsNREupStXC/XaG/
- zvOoF820DZCkAKQynzgAQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IjiTpc+qpWc=:OZWwq/pQGGZoaeEu4igBWc
- etlj/vRPgo91s2wJF6y0CfqXkNskvjL3OC1YEu3by4rH9GVssqX0tKIG/5Cv/lQhGMtHud+s5
- +1+0Nf9xKN2Q3Yi59klEwXstsXe7QH7nnNzJ7PfYr71RQdHKBA2UwexvHMxylW3wuyfre6KfE
- OzzhCYwDl0yi+lz/kKdh3LKhVcjwneX3m0eBJ2YRqIv7H916QOhmrzeri/qKkYXajwh+YItwp
- KMe+NmAjBBee3Ju9HYwLhxGR5HcwDST6ltaGmGYAbSezsLoqpOz+Qz0tW8MC9BoHI/fOyxLG4
- J6alb7MvtXwgrGcl778OI7gGO76gNNTej9VbDN5YdgYI7ZVf0lKooiagdaILSgRhDB+KPCwW7
- ae9crXDJ/B1a9kkgYYmcmVdTZjp7OcZ2c1a+1qLAw/1nGcfSFPDswPR79XfW+CWt9g6O7qD8a
- pVIvIEu/6mBb7laPUZQzNYJQGkccL2iG+OclLXnTckmcwcXv45f6cL86QsssGB1u2JG9HcHnt
- v0b/eR9abHjyxnQBf3D52U7Cr2Rtnt4Az1NcJ2r9c24mnrxlDS1zu/HmrzkytSpyx8pPKrsKo
- 8GtWoX54L5NQII6V3yIUlbx27wy0iPiek1HgHVdGjv+4UVeCvznloPP1nUrqmj5/d83jS9tT0
- i8dO+XnhVNcQBCf5247jWMeSON51vN4I2g6Njby0OA+K/I3ssFaByf+46xyY759le5JwBeK/f
- qNUB6v48MW1Acmu0AEol2JV5eA6/DwCjONFa7dgsX8eZPEc+DGeW0aNFNojN5yDEjNQSRbzMr
- +9GeykGgc8MZiSxFUuufRld7PGSuQlzIII1NBXdCxzQM9waTb+tgUM3Q6ytWNyQgUib/XGs
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:XB7loyoGcXKIcOfHMjQoDjVgKRfm0t1xGrFtoqpspoGMvsOcC1T
+ jQ6z5HFbfuZrpWTPDoFlGS57/JCQAxSTV/7ATvUpe5TmTdaRFi4ni50+yk6VrgCopGTWidY
+ H25kL+/T7yiUypYZVGIk2lvU7mXC24IROVa3kQrmBHMhqDOoPoc1c1ip4c0KnfqzbQRhbwk
+ TnKysulw0Ozq6x6ZYhYHg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZeNJ7wiqgXw=:Hw2tyxTQmuifLlKl7Js/QC
+ UMz2Yz4KxPJSYvwPyoBiwyBJjArlQPbO5pnf5eMdDQxyuSlccEFSwGXke52O4apat4hFWopA+
+ Ru3lFLtWoqn039IryxV9L7tHirxQBZLmosJ9Ljh434jMyqvPOtrlNHKOATOrer7ACXxC9lIym
+ Gd9cJbubNgr/hjPhYLfUvUy5nWJ7QEfwX7QsBawt5JPk5utKXeU02UC8//39AezmF1yzgiiqj
+ HOWiRWutR30pR6JNs21l0z1UFv1pCPcpvudOS1kPkQyDJ2sYR2okyHWU0OnzltXiYc1B4jppN
+ SnSVo49Kkpct9or7PyFmwxmda+DW9jE6ZcW/v4gchoVQUOGmv1X4KyY8xLux0RYkZseOFrXF5
+ pSid1GbUswMBHNb9PLTOWzGBQmbpOunLIxzfjOIigV5RF06Ks33sffJUMQr59NglLIgD97K0g
+ ok/JKivi4NWNG4jkYBoDT1f4FnPXdRmZuYsR2nQ+VuDEeeieWZ9ANQyMiLBgukg5NO2kjZcdl
+ JxcuDvxRAoLTTRj5HDvPHwalBY+RU2xfbdm3BV0G8YxjeI94Dd+qIarIJq8WYZIcgG3RanTop
+ 5jAPohwgktqkNkSsJ710AW5uc8+Q+8xI+JR6k9KVYVBvcrMNkpVMLg3gBLlCkPu0ChzreFJxu
+ 08WKNJ3Axj0YVNSOfMS5AXKcWQkBZeiPUU2qiiyLPOJsaxqP0W6JS9dS8tE9XhBuLyunF6acy
+ fnM5xOxSoAssvTmptmbvhjiRgaXZVTyRT5gvQzqNg6uglqPfp5GPIIagz4FajlcBk5epIfXsf
+ N3w/LDp4QLQltINtBrtFHmaKmnVtq4fCDMnrdMmQTEG6VdEjFHMAPm7MpkI060wxW3vb9ku
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:50:58
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:51:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,42 +70,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ Fam Zheng <fam@euphon.net>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
 
-For being able to compile with -Werror=implicit-fallthrough we need
-to use comments that the compiler recognizes. Use "fallthrough" instead
-of "no break" here.
+Fedora 32 gcc 10 seems to give false positives:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201002171343.283426-1-thuth@redhat.com>
+Compiling C object libblock.fa.p/block_vmdk.c.o
+../block/vmdk.c: In function ‘vmdk_parse_extents’:
+../block/vmdk.c:587:5: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  587 |     g_free(extent->l1_table);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~
+../block/vmdk.c:754:17: note: ‘extent’ was declared here
+  754 |     VmdkExtent *extent;
+      |                 ^~~~~~
+../block/vmdk.c:620:11: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  620 |     ret = vmdk_init_tables(bs, extent, errp);
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../block/vmdk.c:598:17: note: ‘extent’ was declared here
+  598 |     VmdkExtent *extent;
+      |                 ^~~~~~
+../block/vmdk.c:1178:39: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+ 1178 |             extent->flat_start_offset = flat_offset << 9;
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+../block/vmdk.c: In function ‘vmdk_open_vmdk4’:
+../block/vmdk.c:581:22: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  581 |     extent->l2_cache =
+      |     ~~~~~~~~~~~~~~~~~^
+  582 |         g_malloc(extent->entry_size * extent->l2_size * L2_CACHE_SIZE);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../block/vmdk.c:872:17: note: ‘extent’ was declared here
+  872 |     VmdkExtent *extent;
+      |                 ^~~~~~
+../block/vmdk.c: In function ‘vmdk_open’:
+../block/vmdk.c:620:11: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  620 |     ret = vmdk_init_tables(bs, extent, errp);
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../block/vmdk.c:598:17: note: ‘extent’ was declared here
+  598 |     VmdkExtent *extent;
+      |                 ^~~~~~
+cc1: all warnings being treated as errors
+make: *** [Makefile.ninja:884: libblock.fa.p/block_vmdk.c.o] Error 1
+
+fix them by assigning a default value.
+
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: Fam Zheng <fam@euphon.net>
+Message-Id: <20200930155859.303148-2-borntraeger@de.ibm.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/test-char.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/vmdk.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index d35cc839bc60..9196e566e9ba 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -70,7 +70,7 @@ static void fe_event(void *opaque, QEMUChrEvent event)
-             h->openclose_mismatch = true;
-         }
-         h->is_open = new_open_state;
--        /* no break */
-+        /* fallthrough */
-     default:
-         quit = true;
-         break;
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 8ec62c7ab798..a00dc00eb47a 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -595,7 +595,7 @@ static int vmdk_open_vmfs_sparse(BlockDriverState *bs,
+     int ret;
+     uint32_t magic;
+     VMDK3Header header;
+-    VmdkExtent *extent;
++    VmdkExtent *extent = NULL;
+ 
+     ret = bdrv_pread(file, sizeof(magic), &header, sizeof(header));
+     if (ret < 0) {
+@@ -751,7 +751,7 @@ static int vmdk_open_se_sparse(BlockDriverState *bs,
+     int ret;
+     VMDKSESparseConstHeader const_header;
+     VMDKSESparseVolatileHeader volatile_header;
+-    VmdkExtent *extent;
++    VmdkExtent *extent = NULL;
+ 
+     ret = bdrv_apply_auto_read_only(bs,
+             "No write support for seSparse images available", errp);
+@@ -869,7 +869,7 @@ static int vmdk_open_vmdk4(BlockDriverState *bs,
+     uint32_t magic;
+     uint32_t l1_size, l1_entry_sectors;
+     VMDK4Header header;
+-    VmdkExtent *extent;
++    VmdkExtent *extent = NULL;
+     BDRVVmdkState *s = bs->opaque;
+     int64_t l1_backup_offset = 0;
+     bool compressed;
+@@ -1088,7 +1088,7 @@ static int vmdk_parse_extents(const char *desc, BlockDriverState *bs,
+     BdrvChild *extent_file;
+     BdrvChildRole extent_role;
+     BDRVVmdkState *s = bs->opaque;
+-    VmdkExtent *extent;
++    VmdkExtent *extent = NULL;
+     char extent_opt_prefix[32];
+     Error *local_err = NULL;
+ 
 -- 
 2.26.2
 
