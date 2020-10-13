@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BEC28CBD9
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 12:36:25 +0200 (CEST)
-Received: from localhost ([::1]:40940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477A628CBDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 12:37:58 +0200 (CEST)
+Received: from localhost ([::1]:45452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSHfM-00025K-83
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 06:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55854)
+	id 1kSHgr-0003v3-Cx
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 06:37:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSHdd-0001Pv-5t
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:34:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60108)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSHdt-0001hW-Nj
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:34:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSHda-0003kq-5c
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:34:36 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSHds-0003lg-7d
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:34:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602585272;
+ s=mimecast20190719; t=1602585291;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VoguNjI7oBCF4ito9ca0lw6czC+f+FC3PWqdy4LBhOk=;
- b=Hxu1984y0DUREdigJPb6qDJWNKQQGyEffDzsCwZFlSvwvf+LvLInEw4JUUyXkF3psh7Zh0
- 5zff5D0VzCLWVJH3wdoE34lvsAwRyPlgeuTrJo3xla838+rk4U0Ooiz66M3Z+XXD9CSysF
- aZwMxWJFBVxZlav728ibs4JujYOMW1o=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-XwtVShsFPYSHmwElDXzlXQ-1; Tue, 13 Oct 2020 06:34:30 -0400
-X-MC-Unique: XwtVShsFPYSHmwElDXzlXQ-1
-Received: by mail-wm1-f72.google.com with SMTP id d197so5793751wmd.4
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 03:34:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VoguNjI7oBCF4ito9ca0lw6czC+f+FC3PWqdy4LBhOk=;
- b=V0MsZY+CFdnYc3aPb40uUbeM6oPyUAV8Z+6iLQJuitcyC9FyF542aQhgdvZqmpl101
- JjamPUWzdnppbJrybGp/6B9smDCYMosmBkyxqt0P3f4dGRb6Nw9/4QJZ1m67Jg/TnyEk
- TmPfSjrGlnp+lWoZyj70KKvcFv50G1YRJbFrh+xEMe2A22YvigLdT99sYR5Qlnk8O3Ks
- MVP/YxUgCcknqXK9up+r88IrovAJATM9e9XMql2Wr/qukh65Q2WTlbbUZQCqY/EpYvdu
- XohsqkXaBS06lc44qoshXzwBZ55D6oyRDYmSP5bq5pZnMoKoY2Mze1YrdGd6VK9An3G7
- MtFA==
-X-Gm-Message-State: AOAM533JV7KFWuENgmvFrhCHuUEGw1ZogU6+Ky1/4zt+wSz8mj41f5NQ
- xwTxfG78urb0j4PuhoCSzUJUVV/ysG4o1nOli8yQYwkXjXrNVX5l5QFcpEDZB3wWAUzDsjKOXnh
- SZpJmrVJsLovmgo8=
-X-Received: by 2002:a1c:bd43:: with SMTP id n64mr14194480wmf.113.1602585268717; 
- Tue, 13 Oct 2020 03:34:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXxAhYHpQXHMAHqMNLnEgFO7iGslPWdKPALdTKqMPOCyGzdTryyT9Cc7ETObocvJFFMa7KbQ==
-X-Received: by 2002:a1c:bd43:: with SMTP id n64mr14194463wmf.113.1602585268523; 
- Tue, 13 Oct 2020 03:34:28 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id p4sm22652218wrf.67.2020.10.13.03.34.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 03:34:27 -0700 (PDT)
-Subject: Re: [PATCH v3] hw/core/qdev-properties-system: Fix pci bus range in
- set_pci_host_devaddr()
-To: Klaus Herman <kherman@inbox.lv>, qemu-devel@nongnu.org
-References: <20201013092014.34059-1-kherman@inbox.lv>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9f1303e7-90f4-aeb4-a7e9-0088b9f3c741@redhat.com>
-Date: Tue, 13 Oct 2020 12:34:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ bh=lGAeBAPtEDE8vVrqFP+uOOocT2TK4MHvUaLd/Bfy5II=;
+ b=LYgWl4C8iBsOsfnnRslCkU4W1+OJEyJRSynBRFVPmcDpXerJV5nMrgP0WcNTpTc6V1dQJn
+ 5AUoyDvrLi3YljYQ57fFijP+k6d+msRfj7YCruNB/MPUAdswgdkYaZLlPH2IL4ssIvMThj
+ DbsZazZa+LxALQYhIu+8f4JKPc4yH2o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-uNbBizOtMlCW0PZpJwx9TQ-1; Tue, 13 Oct 2020 06:34:49 -0400
+X-MC-Unique: uNbBizOtMlCW0PZpJwx9TQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBDF21868405
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 10:34:48 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE51960BF3;
+ Tue, 13 Oct 2020 10:34:47 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 664141750A; Tue, 13 Oct 2020 12:34:46 +0200 (CEST)
+Date: Tue, 13 Oct 2020 12:34:46 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH] qemu-edid: drop cast
+Message-ID: <20201013103446.ahhhplg5mwpppk7o@sirius.home.kraxel.org>
+References: <20201013091615.14166-1-kraxel@redhat.com>
+ <20201013092322.GE70612@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201013092014.34059-1-kherman@inbox.lv>
+In-Reply-To: <20201013092322.GE70612@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 03:04:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -85,9 +69,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,37 +83,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/20 11:20 AM, Klaus Herman wrote:
-> Fixes: bccb20c49df ("hw/core/qdev-properties: Use qemu_strtoul() in set_pci_host_devaddr()")
-> Signed-off-by: Klaus Herman <kherman@inbox.lv>
-> ---
->   hw/core/qdev-properties-system.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Oct 13, 2020 at 10:23:22AM +0100, Daniel P. Berrangé wrote:
+> On Tue, Oct 13, 2020 at 11:16:15AM +0200, Gerd Hoffmann wrote:
+> > Not needed and makes some compilers error out with:
+> > 
+> > qemu-edid.c:15:1: error: initializer element is not constant
 > 
-> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-> index 49bdd12..e3dca56 100644
-> --- a/hw/core/qdev-properties-system.c
-> +++ b/hw/core/qdev-properties-system.c
-> @@ -903,7 +903,7 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
->       bus = val;
->   
->       p = (char *)e + 1;
-> -    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
-> +    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xff || e == p) {
+> Which compilers do this. If we're not seeing this failure in our
+> CI, then we have a CI gap that likely needs filling.
 
-As this is used to check both bus/slot range, I sent a different
-approach to fix this issue:
-https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03604.html
+x86_64-w64-mingw32-gcc (GCC) 4.9.3 20150626 (Fedora MinGW 4.9.3-1.el7)
 
->           goto inval;
->       }
->       if (*e == ':') {
-> 
+take care,
+  Gerd
 
 
