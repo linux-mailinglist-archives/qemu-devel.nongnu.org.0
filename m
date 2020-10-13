@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C53228D45B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 21:23:01 +0200 (CEST)
-Received: from localhost ([::1]:38358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07B928D460
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 21:24:40 +0200 (CEST)
+Received: from localhost ([::1]:44410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSPsy-0008NB-Me
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 15:23:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38164)
+	id 1kSPuZ-0002PV-MO
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 15:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSPrc-0007Mc-Iv
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 15:21:39 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39580)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSPri-0007OF-O5
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 15:21:42 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSPrU-0008F1-Fu
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 15:21:36 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSPrU-0008F6-Fw
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 15:21:42 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8978AB234;
+ by mx2.suse.de (Postfix) with ESMTP id DC345B236;
  Tue, 13 Oct 2020 19:21:26 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 2/3] qtest: unbreak non-TCG builds in bios-tables-test
-Date: Tue, 13 Oct 2020 21:21:22 +0200
-Message-Id: <20201013192123.22632-3-cfontana@suse.de>
+Subject: [PATCH v4 3/3] replay: do not build if TCG is not available
+Date: Tue, 13 Oct 2020 21:21:23 +0200
+Message-Id: <20201013192123.22632-4-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013192123.22632-1-cfontana@suse.de>
 References: <20201013192123.22632-1-cfontana@suse.de>
@@ -61,45 +61,330 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-the tests assume TCG is available, thus breaking
-for TCG-only tests, where only the TCG accelerator option
-is passed to the QEMU binary.
+this fixes non-TCG builds broken recently by replay reverse debugging.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+stub the needed functions in stub/, including errors for hmp and qmp.
+This includes duplicating some code in replay/, and puts the logic
+for non-replay related events in the replay/ module (+ the stubs),
+so this should be revisited in the future.
+
+Surprisingly, only _one_ qtest was affected by this, ide-test.c, which
+resulted in a buzz as the bh events were never delivered, and the bh
+never executed.
+
+Many other subsystems _should_ have been affected.
+
+This fixes the immediate issue, however a better way to group replay
+functionality to TCG-only code could be developed in the long term.
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- tests/qtest/bios-tables-test.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ block/meson.build          |  3 +-
+ migration/savevm.c         | 11 +++--
+ net/meson.build            |  3 +-
+ replay/meson.build         |  2 +-
+ replay/replay-input.c      |  4 +-
+ stubs/meson.build          |  1 -
+ stubs/replay-user.c        |  9 ----
+ stubs/replay.c             | 98 ++++++++++++++++++++++++++++++++++++++
+ tests/ptimer-test-stubs.c  |  5 --
+ tests/qtest/qmp-cmd-test.c |  3 ++
+ ui/input.c                 | 12 ++++-
+ 11 files changed, 125 insertions(+), 26 deletions(-)
+ delete mode 100644 stubs/replay-user.c
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 5647624492..18f535d4e8 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -127,6 +127,9 @@ static void free_test_data(test_data *data)
- {
-     int i;
+diff --git a/block/meson.build b/block/meson.build
+index 78e8b25232..01fe6f84d2 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -7,7 +7,6 @@ block_ss.add(files(
+   'backup-top.c',
+   'blkdebug.c',
+   'blklogwrites.c',
+-  'blkreplay.c',
+   'blkverify.c',
+   'block-backend.c',
+   'block-copy.c',
+@@ -42,6 +41,8 @@ block_ss.add(files(
+   'write-threshold.c',
+ ), zstd, zlib)
  
-+    if (!data->tables) {
-+        return;
-+    }
-     for (i = 0; i < data->tables->len; ++i) {
-         cleanup_table_descriptor(&g_array_index(data->tables, AcpiSdtTable, i));
-     }
-@@ -656,6 +659,13 @@ static void test_acpi_one(const char *params, test_data *data)
-     char *args;
-     bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
- 
-+#ifndef CONFIG_TCG
-+    if (data->tcg_only) {
-+        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
-+        return;
-+    }
-+#endif /* CONFIG_TCG */
++block_ss.add(when: 'CONFIG_TCG', if_true: files('blkreplay.c'))
 +
-     if (use_uefi) {
-         /*
-          * TODO: convert '-drive if=pflash' to new syntax (see e33763be7cd3)
+ block_ss.add(when: 'CONFIG_QCOW1', if_true: files('qcow.c'))
+ block_ss.add(when: 'CONFIG_VDI', if_true: files('vdi.c'))
+ block_ss.add(when: 'CONFIG_CLOOP', if_true: files('cloop.c'))
+diff --git a/migration/savevm.c b/migration/savevm.c
+index d2e141f7b1..d9181ca520 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -63,6 +63,7 @@
+ #include "migration/colo.h"
+ #include "qemu/bitmap.h"
+ #include "net/announce.h"
++#include "sysemu/tcg.h"
+ 
+ const unsigned int postcopy_ram_discard_version = 0;
+ 
+@@ -2674,10 +2675,12 @@ int save_snapshot(const char *name, Error **errp)
+         return ret;
+     }
+ 
+-    if (!replay_can_snapshot()) {
+-        error_setg(errp, "Record/replay does not allow making snapshot "
+-                   "right now. Try once more later.");
+-        return ret;
++    if (tcg_enabled()) {
++        if (!replay_can_snapshot()) {
++            error_setg(errp, "Record/replay does not allow making snapshot "
++                       "right now. Try once more later.");
++            return ret;
++        }
+     }
+ 
+     if (!bdrv_all_can_snapshot(&bs)) {
+diff --git a/net/meson.build b/net/meson.build
+index 1c7e3a3cb9..1076b0a7ab 100644
+--- a/net/meson.build
++++ b/net/meson.build
+@@ -7,7 +7,6 @@ softmmu_ss.add(files(
+   'eth.c',
+   'filter-buffer.c',
+   'filter-mirror.c',
+-  'filter-replay.c',
+   'filter-rewriter.c',
+   'filter.c',
+   'hub.c',
+@@ -17,6 +16,8 @@ softmmu_ss.add(files(
+   'util.c',
+ ))
+ 
++softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
++
+ softmmu_ss.add(when: 'CONFIG_L2TPV3', if_true: files('l2tpv3.c'))
+ softmmu_ss.add(when: slirp, if_true: files('slirp.c'))
+ softmmu_ss.add(when: ['CONFIG_VDE', vde], if_true: files('vde.c'))
+diff --git a/replay/meson.build b/replay/meson.build
+index f91163fb1e..cb3207740a 100644
+--- a/replay/meson.build
++++ b/replay/meson.build
+@@ -1,4 +1,4 @@
+-softmmu_ss.add(files(
++softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'replay.c',
+   'replay-internal.c',
+   'replay-events.c',
+diff --git a/replay/replay-input.c b/replay/replay-input.c
+index 1147e3d34e..5d1fd92e79 100644
+--- a/replay/replay-input.c
++++ b/replay/replay-input.c
+@@ -124,7 +124,7 @@ void replay_input_event(QemuConsole *src, InputEvent *evt)
+     } else if (replay_mode == REPLAY_MODE_RECORD) {
+         replay_add_input_event(QAPI_CLONE(InputEvent, evt));
+     } else {
+-        qemu_input_event_send_impl(src, evt);
++        g_assert_not_reached();
+     }
+ }
+ 
+@@ -135,6 +135,6 @@ void replay_input_sync_event(void)
+     } else if (replay_mode == REPLAY_MODE_RECORD) {
+         replay_add_input_sync_event();
+     } else {
+-        qemu_input_event_sync_impl();
++        g_assert_not_reached();
+     }
+ }
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 67f2a8c069..bbd2230d69 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -32,7 +32,6 @@ stub_ss.add(files('qtest.c'))
+ stub_ss.add(files('ram-block.c'))
+ stub_ss.add(files('ramfb.c'))
+ stub_ss.add(files('replay.c'))
+-stub_ss.add(files('replay-user.c'))
+ stub_ss.add(files('runstate-check.c'))
+ stub_ss.add(files('set-fd-handler.c'))
+ stub_ss.add(files('sysbus.c'))
+diff --git a/stubs/replay-user.c b/stubs/replay-user.c
+deleted file mode 100644
+index 2ad9e27203..0000000000
+--- a/stubs/replay-user.c
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#include "qemu/osdep.h"
+-#include "sysemu/replay.h"
+-#include "sysemu/sysemu.h"
+-
+-void replay_bh_schedule_oneshot_event(AioContext *ctx,
+-    QEMUBHFunc *cb, void *opaque)
+-{
+-    aio_bh_schedule_oneshot(ctx, cb, opaque);
+-}
+diff --git a/stubs/replay.c b/stubs/replay.c
+index 45ebe77fb9..34b7975b2d 100644
+--- a/stubs/replay.c
++++ b/stubs/replay.c
+@@ -103,3 +103,101 @@ bool replay_reverse_continue(void)
+ {
+     return false;
+ }
++
++void replay_input_event(QemuConsole *src, InputEvent *evt)
++{
++}
++void replay_input_sync_event(void)
++{
++}
++void replay_bh_schedule_event(QEMUBH *bh)
++{
++    qemu_bh_schedule(bh);
++}
++void replay_bh_schedule_oneshot_event(AioContext *ctx,
++     QEMUBHFunc *cb, void *opaque)
++{
++    aio_bh_schedule_oneshot(ctx, cb, opaque);
++}
++void replay_add_blocker(Error *reason)
++{
++}
++void replay_audio_in(size_t *recorded, void *samples, size_t *wpos, size_t size)
++{
++}
++void replay_audio_out(size_t *played)
++{
++}
++void replay_breakpoint(void)
++{
++}
++bool replay_can_snapshot(void)
++{
++    return false;
++}
++void replay_configure(struct QemuOpts *opts)
++{
++}
++void replay_flush_events(void)
++{
++}
++void replay_gdb_attached(void)
++{
++}
++bool replay_running_debug(void)
++{
++    return false;
++}
++void replay_shutdown_request(ShutdownCause cause)
++{
++}
++void replay_start(void)
++{
++}
++void replay_vmstate_init(void)
++{
++}
++
++#include "monitor/monitor.h"
++#include "monitor/hmp.h"
++#include "qapi/qapi-commands-replay.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++
++void hmp_info_replay(Monitor *mon, const QDict *qdict)
++{
++    error_report("replay support not available");
++}
++void hmp_replay_break(Monitor *mon, const QDict *qdict)
++{
++    error_report("replay support not available");
++}
++void hmp_replay_delete_break(Monitor *mon, const QDict *qdict)
++{
++    error_report("replay support not available");
++}
++void hmp_replay_seek(Monitor *mon, const QDict *qdict)
++{
++    error_report("replay support not available");
++}
++ReplayInfo *qmp_query_replay(Error **errp)
++{
++    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
++              "replay support not available");
++    return NULL;
++}
++void qmp_replay_break(int64_t icount, Error **errp)
++{
++    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
++              "replay support not available");
++}
++void qmp_replay_delete_break(Error **errp)
++{
++    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
++              "replay support not available");
++}
++void qmp_replay_seek(int64_t icount, Error **errp)
++{
++    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
++              "replay support not available");
++}
+diff --git a/tests/ptimer-test-stubs.c b/tests/ptimer-test-stubs.c
+index e935a1395e..7f801a4d09 100644
+--- a/tests/ptimer-test-stubs.c
++++ b/tests/ptimer-test-stubs.c
+@@ -122,8 +122,3 @@ void qemu_bh_delete(QEMUBH *bh)
+ {
+     g_free(bh);
+ }
+-
+-void replay_bh_schedule_event(QEMUBH *bh)
+-{
+-    bh->cb(bh->opaque);
+-}
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index 8a4c570e83..1c7186e53c 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -31,6 +31,9 @@ static int query_error_class(const char *cmd)
+ #ifndef CONFIG_SPICE
+         { "query-spice", ERROR_CLASS_COMMAND_NOT_FOUND },
+ #endif
++#ifndef CONFIG_TCG
++        { "query-replay", ERROR_CLASS_COMMAND_NOT_FOUND },
++#endif
+ #ifndef CONFIG_VNC
+         { "query-vnc", ERROR_CLASS_GENERIC_ERROR },
+         { "query-vnc-servers", ERROR_CLASS_GENERIC_ERROR },
+diff --git a/ui/input.c b/ui/input.c
+index 4791b089c7..8675e8ad09 100644
+--- a/ui/input.c
++++ b/ui/input.c
+@@ -375,7 +375,11 @@ void qemu_input_event_send(QemuConsole *src, InputEvent *evt)
+         return;
+     }
+ 
+-    replay_input_event(src, evt);
++    if (replay_events_enabled()) {
++        replay_input_event(src, evt);
++    } else {
++        qemu_input_event_send_impl(src, evt);
++    }
+ }
+ 
+ void qemu_input_event_sync_impl(void)
+@@ -401,7 +405,11 @@ void qemu_input_event_sync(void)
+         return;
+     }
+ 
+-    replay_input_sync_event();
++    if (replay_events_enabled()) {
++        replay_input_sync_event();
++    } else {
++        qemu_input_event_sync_impl();
++    }
+ }
+ 
+ static InputEvent *qemu_input_event_new_key(KeyValue *key, bool down)
 -- 
 2.26.2
 
