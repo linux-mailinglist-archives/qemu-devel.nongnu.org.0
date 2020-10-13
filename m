@@ -2,49 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4559328CCC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:53:49 +0200 (CEST)
-Received: from localhost ([::1]:57584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD7028CD4B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:59:11 +0200 (CEST)
+Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSIsG-0000nH-A7
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
+	id 1kSIxS-0000wV-Ev
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:59:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpe-0006yS-JD; Tue, 13 Oct 2020 07:51:06 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:57397)
+ id 1kSIpd-0006x4-0N; Tue, 13 Oct 2020 07:51:05 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:40879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpa-0004xH-OH; Tue, 13 Oct 2020 07:51:05 -0400
+ id 1kSIpa-0004x9-3C; Tue, 13 Oct 2020 07:51:04 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MkYsS-1k3SOc3l0A-00m0XR; Tue, 13 Oct 2020 13:50:57 +0200
+ id 1MWjUc-1kzOZd2WjY-00X49P; Tue, 13 Oct 2020 13:50:57 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/14] qemu-img-cmds.hx: Update comment that mentions Texinfo
-Date: Tue, 13 Oct 2020 13:50:39 +0200
-Message-Id: <20201013115052.133355-2-laurent@vivier.eu>
+Subject: [PULL 02/14] target/i386/cpu: Update comment that mentions Texinfo
+Date: Tue, 13 Oct 2020 13:50:40 +0200
+Message-Id: <20201013115052.133355-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
 References: <20201013115052.133355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7hJfZXYvKH7Q8vgDKY8yqrMF2E1WSKYdgFspLCZqZVgMwXepTi6
- tIh1a1lwgK/YeA7gfWMFuxVeZj255wBJqrWA+M1fM6GiapiV9IRc2YtoGVwrJjsNTRIXA6l
- Qz0sLl3fKdIR0ffcgW3h0Ggioq7MobEPyV6Y9rlRxNtr7K/sYZNHgcpl/Vb5WPruCyk8fVe
- KFKuDsgJd1S0ej7SRfoBg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8eQJ/hbtFhM=:MIRGn0cvSV7LXrptDu+HCV
- lTh8fyF8xHAy/SRX+pejULmUvjmGT8pdLc9WaoLURhsKcz18F5bBCshPLQbLu1C/af/YEFIby
- /KFUTNgcvN+iW/rviHteP4luT61NQNAnwuLydI1TnZ/s105zBKPPjSdK7gDktibNViknzOZGv
- GQjJZybCujbA+m3kdTtR1gp0pTBU4sxycE15oU4crNlySgvs92lNYoKVSXFO/FuQAtilDoEyl
- J7DitJ5X98K+x6qIh9SdvinKPA+hsaDh4YvmB5EE/1ImFZiJkrivGhacQNOXFqyWh4fzFzLbD
- g/Po4cRIpu7CeNr8vCOoPsauQ4WJxDRc174DTpW2+QCP9ZTyOV3dRBTNnXO+HI6B3otfjH+u4
- 1GCVX9BE27BlJ0f/+/heR0g6nybTlY+OILhiApak+HibfVIw4f6V7Gc7Frj6w
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:VT0tRzQgQqS3Xn0HZeurVsM0NOuomd8i+kDrc9WfR6rfSC0AD65
+ KBlMjcoY5E58Xcty1zGECxlCi8s2c595UvYVGDFNH0umsQdIJrFpbdTL0FP5v3NBFgQ+4h0
+ N9SiWL6Gkioww76ygNYNSrQtAJconPb6d09XCz/hpaAz6fCt/m+jmWNB3lUGiM3dWctllK1
+ O3Ignd1JhFvN5Ks8YPu2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hIZlfULOJxg=:fLkuQqNTb1EpEo+OnhFiSz
+ KpB/NQVx0vRNt4pm6N9vRBxfFYZG29B5+No+yZAs20lonUv8pBRGdnAsbPRUwM00lUEYmUNkh
+ NzNzxEHqbwyFKED3BU1mlwXIj2H46lWYayhOL3HhjXt+K9zAat9WQgC6G0JEf5qKVH7Deo5Nu
+ UNR93boD7E0aW0icFIHOUbVgISzloDu9q/WvqtRZCfNOwET3pwuhgOK1NHyB7gJ0EPnEt8L5N
+ YSGBdrz2zKnIPoLZ8uDdhTo5Oypn/e8n5wFT5C/X8rMOnQgfIK1of3yIfsCpxPacQ+SBx+/bv
+ SXkFmGR6FyGKCvS2l1NF0um2D9YjnHxTb2DKoNPVPTT7OMkLWT/3f7FguwBgEgdGoFE2GMu38
+ D/u3SW6X56J2Fe7A5ED9paQ/+JF9X62UNJcy8+r2j+IDEUnUWL6UvTNZNxpdaAj3GkF0HX4GS
+ GNYZJXBPT2OhnOndHf8ojTNkdEEEvCVLR1hdBPoaPsCJz9BCXsBEfGdyIAfzQyYdIDancn8Qc
+ sd9sRw6jpkx+cqiVf5vhHUuCisBZA8+/yGOyJdLcNQfluzIPgDJ6PBW6cORPaVIOB8V7EYDKr
+ g/tkIU6dh9bgEdby5ztVenP0Ee1New2BnL0mpHMAUth2j1qzghzFhuv5qRl961yhNHdeHwF51
+ WfWOo++pWwvDTD164QXtV4IQ8dAdsGUkmMcIdrg+iVHReqwLEJgm4odbflP5injV65gv9zUJY
+ U9UVC6sWMV+krRmZAPJX0uuff2yo+nLmzD58jcWj/v9aG09qQ/NwJ1OqyMGxsR1jksV5ZkEKQ
+ X6yz9nxlR7cswkAwOX5UbfOPT/X/XazenhZZoCvYkmeg4p6dHMOtx9px74SIlaUeqOPU/Ax
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:51:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:50:58
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -73,28 +79,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Markus Armbruster <armbru@redhat.com>
 
-Missed in 3c95fdef94 "Update comments in .hx files that mention
-Texinfo".
+Missed in commit 41fba1618b "docs/system: convert the documentation of
+deprecated features to rST."
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200929075824.1517969-2-armbru@redhat.com>
+Message-Id: <20200929075824.1517969-3-armbru@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- qemu-img-cmds.hx | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index b89c019b76bf..cab82342358e 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -1,5 +1,5 @@
- HXCOMM Keep the list of subcommands sorted by name.
--HXCOMM Use DEFHEADING() to define headings in both help text and texi
-+HXCOMM Use DEFHEADING() to define headings in both help text and rST
- HXCOMM Text between SRST and ERST are copied to rST version and
- HXCOMM discarded from C version
- HXCOMM DEF(command, callback, arg_string) is used to construct
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index f37eb7b675f4..9eafbe369075 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4127,7 +4127,8 @@ static PropValue tcg_default_props[] = {
+  * We resolve CPU model aliases using -v1 when using "-machine
+  * none", but this is just for compatibility while libvirt isn't
+  * adapted to resolve CPU model versions before creating VMs.
+- * See "Runnability guarantee of CPU models" at * qemu-deprecated.texi.
++ * See "Runnability guarantee of CPU models" at
++ * docs/system/deprecated.rst.
+  */
+ X86CPUVersion default_cpu_version = 1;
+ 
 -- 
 2.26.2
 
