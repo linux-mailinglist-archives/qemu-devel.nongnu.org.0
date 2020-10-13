@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A6B28C815
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 07:03:16 +0200 (CEST)
-Received: from localhost ([::1]:36648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 364AF28C81D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 07:12:53 +0200 (CEST)
+Received: from localhost ([::1]:41728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSCSx-0000np-IH
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 01:03:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43370)
+	id 1kSCcG-0003do-7N
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 01:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
- id 1kSCQw-0000HE-7S
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 01:01:10 -0400
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:36891)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
- id 1kSCQs-0003NU-Vr
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 01:01:09 -0400
-Received: by mail-lf1-x130.google.com with SMTP id j30so18288002lfp.4
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 22:01:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4tUFkCjr3BR4BPVQ1A2IdcD3uE18Oab1p6vpEeHtR3k=;
- b=utQZ9ggKNRuPFPYeI52bpvk5FdbHiRnsW8MS2LyeDtmrEm/j0NJXyNaB2fUO+fWTDw
- LLdOq08+UIOmXwW4v7znBzgkspAj4s4I2TLUivUwFuCN4nWLNZPd2mGpVm/SGDp3jU8P
- F5JtGISzUVW9I1VpZmsLyHZI7wLTFgZJtTR4cQglTyUKX0J7rRgjhyHpvmOMyOU6q9YQ
- fMAwT1jWheIHSy4x4XQYb6jgQU8bOu67ygtL2QgTRlkK42+7vosQCWisSd0n3B4ZYp68
- XnQSxHa/DNlulRyo5h8CRSqxSukzskMRoDlMr8mT097B97UblboAGbGYGWF10N+Z8RjG
- FEyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4tUFkCjr3BR4BPVQ1A2IdcD3uE18Oab1p6vpEeHtR3k=;
- b=M00Ryj3xeTLYHs39nDLR8fuVu7XyDpmawsBWkit2q8oaso5zM8Qxthx2eR+/deB/WN
- s7PlaSg7mqRPFHmcXNZlalFUdQgFaVj9WEEH2n+0kn42an3vy+tZKtO1pxKTIRu5d7Bd
- B73XH+zGVylgdLLsC8ZTEzCdRpU15FvS6OA6ZlElYvZF1zCxAo0QA6yEDfBvSKuM8pAj
- +wmmeIDo446TKlThPOQvE6rxAlQpCEUUzcPRUih5SHREsDdVGJSH8+uCDVvf9LEvvfhy
- EVk1G2yx89KmFTuVb4qXeysNTBQKHlHZvNKV6Zx/M+IhPzzAwtBXENOtLycuUE2DmgOQ
- 7W0Q==
-X-Gm-Message-State: AOAM5329+W2vT7EAG5L2vFocMSzQHJkZUekNCVR+Y9s6AWWFWCIFrJMa
- q1CxTFY8YYeBWZLjWpoD0cJ03HQWW3KqeT/c8Hk=
-X-Google-Smtp-Source: ABdhPJxsDMs5v4qG7zLIU+Y8ZxU1bF2RlHuTOOp2qn/CEuXbMiL0Hy6LhJcVYbty1SbXw0do35Th4Nf/WfvQlDX0j00=
-X-Received: by 2002:a19:8256:: with SMTP id e83mr8521474lfd.530.1602565264506; 
- Mon, 12 Oct 2020 22:01:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <CA+-xGqMd4_58_+QKetjOsubBqrDnaYF+YWE3TC3kEcNGxPiPfg@mail.gmail.com>
- <47ead258320536d00f9f32891da3810040875aff.camel@redhat.com>
- <CA+-xGqOm2sWbxR=3W1pWrZNLOt7EE5qiNWxMz=9=gmga15vD2w@mail.gmail.com>
- <20201012165428.GD26135@linux.intel.com>
-In-Reply-To: <20201012165428.GD26135@linux.intel.com>
-From: harry harry <hiharryharryharry@gmail.com>
-Date: Tue, 13 Oct 2020 01:00:47 -0400
-Message-ID: <CA+-xGqNd37hyhAbkWxcze3YoVxY3a=_79b+ecF9+ZFCpbqcnnA@mail.gmail.com>
-Subject: Re: Why guest physical addresses are not the same as the
- corresponding host virtual addresses in QEMU/KVM? Thanks!
-To: Sean Christopherson <sean.j.christopherson@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=hiharryharryharry@gmail.com; helo=mail-lf1-x130.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PLING_QUERY=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1kSCa3-0001t4-8O
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 01:10:38 -0400
+Received: from mga11.intel.com ([192.55.52.93]:57340)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1kSCa0-0006XA-2y
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 01:10:34 -0400
+IronPort-SDR: u+aASQv7pgYfMBZB0AOfACwNcygeZYsG+Hri/4GFySdP75BDVo3ExmKvXCUxTCcMY8yjtbVkyj
+ Wp9u02ITE4RQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="162385615"
+X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; d="scan'208";a="162385615"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2020 22:10:25 -0700
+IronPort-SDR: OAglrBHPPAV0/ZDF07KZzoCZA4mseiaWU8Jbk0TYZ+vWb/VQNcWO5LE6MYrbfa8q7EHteZkpep
+ 7ptW/26axd3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; d="scan'208";a="420427109"
+Received: from unknown (HELO local-michael-cet-test.sh.intel.com)
+ ([10.239.159.128])
+ by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2020 22:10:23 -0700
+From: Yang Weijiang <weijiang.yang@intel.com>
+To: pbonzini@redhat.com, mtosatti@redhat.com, rth@twiddle.net,
+ ehabkost@redhat.com, sean.j.christopherson@intel.com, qemu-devel@nongnu.org
+Subject: [Qemu-devel][PATCH v6 0/6] Enable CET support for guest
+Date: Tue, 13 Oct 2020 13:19:29 +0800
+Message-Id: <20201013051935.6052-1-weijiang.yang@intel.com>
+X-Mailer: git-send-email 2.17.2
+Received-SPF: pass client-ip=192.55.52.93;
+ envelope-from=weijiang.yang@intel.com; helo=mga11.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 01:10:25
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,54 +63,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, mathieu.tarral@protonmail.com,
- stefanha@redhat.com, pbonzini@redhat.com
+Cc: Yang Weijiang <weijiang.yang@intel.com>, hao.wu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BTW, I still have one more question as follows. Thanks!
+Control-flow Enforcement Technology (CET) provides protection against
+Return/Jump-Oriented Programming (ROP/JOP). It includes two sub-features:
+Shadow Stack(SHSTK) and Indirect Branch Tracking(IBT).
+This patchset is for guest CET enabling. It enclosed patches for
+XSS feature report and CET CPUID enumeration, XSAVE support and MSR
+access interface etc.
 
-On Mon, Oct 12, 2020 at 12:54 PM Sean Christopherson
-<sean.j.christopherson@intel.com> wrote:
->
-> No, the guest physical address spaces is not intrinsically tied to the host
-> virtual address spaces.  The fact that GPAs and HVAs are related in KVM is a
-> property KVM's architecture.  EPT/NPT has absolutely nothing to do with HVAs.
->
-> As Maxim pointed out, KVM links a guest's physical address space, i.e. GPAs, to
-> the host's virtual address space, i.e. HVAs, via memslots.  For all intents and
-> purposes, this is an extra layer of address translation that is purely software
-> defined.  The memslots allow KVM to retrieve the HPA for a given GPA when
-> servicing a shadow page fault (a.k.a. EPT violation).
->
-> When EPT is enabled, a shadow page fault due to an unmapped GPA will look like:
->
->  GVA -> [guest page tables] -> GPA -> EPT Violation VM-Exit
->
-> The above walk of the guest page tables is done in hardware.  KVM then does the
-> following walks in software to retrieve the desired HPA:
->
->  GPA -> [memslots] -> HVA -> [host page tables] -> HPA
->
-> KVM then takes the resulting HPA and shoves it into KVM's shadow page tables,
-> or when TDP is enabled, the EPT/NPT page tables.  When the guest is run with
-> TDP enabled, GVA->HPA translations look like the following, with all walks done
-> in hardware.
->
->  GVA -> [guest page tables] -> GPA -> [extended/nested page tables] -> HPA
+Related patch series:
+CET KVM patches v14:
+https://github.com/sean-jc/linux/releases/tag/kvm-cet-v14-rc1
 
-If I understand correctly, the hardware logic of MMU to walk ``GPA ->
-[extended/nested page tables] -> HPA''[1] should be the same as ``HVA
--> [host page tables] -> HPA"[2]. If not true, how does KVM find the
-correct HPAs when there are EPT violations?
+Intel 64 and IA-32 Architectures Software Developer's Manual:
+https://software.intel.com/en-us/download/intel-64-and-ia-32-
+architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
 
-[1] Please note that this hardware walk is the last step, which only
-translates the guest physical address to the host physical address
-through the four-level nested page table.
-[2] Please note that this hardware walk assumes translating the HVA to
-the HPA without virtualization involvement.
+CET Shadow Stack patches v14:
+https://lkml.kernel.org/r/20201012153850.26996-1-yu-cheng.yu@intel.com/
 
-Thanks,
-Harry
+[3] Indirect Branch Tracking patches v14.
+https://lkml.kernel.org/r/20201012154530.28382-1-yu-cheng.yu@intel.com/
+
+v6:
+  - Cleaned up XSAVE related naming for adding XSS features.
+  - Refactored patches based on new QEMU code base.
+v5:
+  - Checked CET states before access related MSRs.
+  - Added new MSR MSR_KVM_GUEST_SSP for live-migration.
+  - Refactored patches to make them more structured.
+
+v4:
+  - Added MSR read/write interface for PL1_SSP/PL2_SSP.
+  - Removed CET structures from X86XSaveArea.
+  - Cleared ebx in return of CPUID.(EAX=d, ECX=1).
+ 
+v3:
+  - Add CET MSR save/restore support for live-migration.
+ 
+v2:
+  - In CPUID.(EAX=d, ECX=1), set return ECX[n] = 0 if bit n corresponds
+    to a bit in MSR_IA32_XSS.
+  - In CPUID.(EAX=d, ECX=n), set return ECX = 1 if bit n corresponds
+    to a bit in MSR_IA32_XSS.
+  - Skip Supervisor mode xsave component when calculate User mode
+    xave component size in xsave_area_size() and x86_cpu_reset().
+
+Yang Weijiang (6):
+  x86/cpu: Rename XSAVE related feature words.
+  x86/cpuid: Enable XSS feature enumeration for CPUID
+  x86/cpu: Enable CET components support for XSAVE
+  x86/cpu: Add user-space MSR access interface for CET
+  x86/cpu: Add CET state support for guest migration
+  x86/cpu: Advise CET bits in CPU/MSR feature words
+
+ target/i386/cpu.c        | 132 +++++++++++++++++++++++---------
+ target/i386/cpu.h        |  57 +++++++++++++-
+ target/i386/fpu_helper.c |   2 +-
+ target/i386/kvm.c        |  73 ++++++++++++++++++
+ target/i386/machine.c    | 161 +++++++++++++++++++++++++++++++++++++++
+ target/i386/translate.c  |   2 +-
+ 6 files changed, 384 insertions(+), 43 deletions(-)
+
+-- 
+2.26.2
+
 
