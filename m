@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CCA28CA49
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 10:30:40 +0200 (CEST)
-Received: from localhost ([::1]:45312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B09B28CA51
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 10:34:10 +0200 (CEST)
+Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSFhf-0004aU-QE
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 04:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54244)
+	id 1kSFl3-0005I0-A7
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 04:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSFdr-0000SD-W8; Tue, 13 Oct 2020 04:26:44 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43730)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSFdq-0003pn-Hy; Tue, 13 Oct 2020 04:26:43 -0400
-Received: by mail-wr1-x444.google.com with SMTP id g12so22890985wrp.10;
- Tue, 13 Oct 2020 01:26:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JvV/jsI0fp+K5yXTJ78yB5K/nDwyOATa0k0NxH4XbJ4=;
- b=skTw/xlICwwR5N0v0dnG8QvyF/1b6Pv/5qIpJCXnNA+DEz/b8DpsuXQRJ5EE0UQxEu
- MTZJDKGwNQ8G7nY0uIdtcgXv/xQKYK/1kXGMYgVO3kZj9kvkqXI6h1DGmMNsAux/Df9V
- QTf9Mxf24UGVJNovd7f7sSXsGIvL+aLdtTpvgBUxi1g0UIIgMWXnMMNMZqDan2mQCHFl
- 92sphId05K4/lAxuq0/SpT7MGJuw16PD+3sJaZL9Rj0DSz+q9mRYropOwOgiTfyUlUnE
- ff0nIgtc2cfXeQ+0YMLQAbmaXZgn2TwXHaWu/07HpZFKLLgZD9ZfEWqOSlFrI/kLg1XQ
- pYRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JvV/jsI0fp+K5yXTJ78yB5K/nDwyOATa0k0NxH4XbJ4=;
- b=sh+tfPSzcUzuleos4CDYfaPFm3ykx8ypArcssBuIvO+PqkyQQgTffM90x8oMOXYJAC
- jIjZd6EUCwQLPBiEde8jDs5Jmvc0vEXhvk1g6VzmFhvTG5cUTU2QswJj0SE9A1aMuB1K
- rZV8/NfEWV4Yu9cu3ZZWbYWaRMZp2cbXWFi8bMR+k5+GahPWkUPX34C8FrkWBTYo56QF
- 5rLC1fJyMbXsh7uhJe5BT8kURKGLgY479BCgoAtPX1tmPKOeJRjWXAcyFPHzXbQH2uYl
- rvwH8ZFS0O0S1iOW6aahD+0rijdiMWBdFeCYLYPnmWl+HK5VydunzxwAdadmBSimcl00
- YnSA==
-X-Gm-Message-State: AOAM531exXFnhPBbn5USofGGIgcm1KdMJqhx/DLHCSKCQIq3ovkhXgU1
- c+E4gT5djJAmMipmF2v2mieclJRXyk8=
-X-Google-Smtp-Source: ABdhPJzFRTTKs5E+I6c9XaE9kersmgVLuDwxs29Hfpp6s9Wcp9PfLyQCrxv3ltI5geolaA10KC7L1g==
-X-Received: by 2002:adf:dec1:: with SMTP id i1mr31612704wrn.50.1602577600223; 
- Tue, 13 Oct 2020 01:26:40 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id 4sm29132690wrn.48.2020.10.13.01.26.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 01:26:39 -0700 (PDT)
-Subject: Re: [PATCH 04/10] hw/isa: Add the ISA_IRQ_TPM_DEFAULT definition
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20201011193229.3210774-1-f4bug@amsat.org>
- <20201011193229.3210774-5-f4bug@amsat.org>
- <20201013072028.lw2uuncabmme7vws@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <70253a5e-d4cc-fb89-6235-cd53ee1bc18b@amsat.org>
-Date: Tue, 13 Oct 2020 10:26:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kSFeI-0000tc-LJ; Tue, 13 Oct 2020 04:27:10 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:41355)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kSFeG-0003qQ-KB; Tue, 13 Oct 2020 04:27:10 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 153AB5802DF;
+ Tue, 13 Oct 2020 04:27:06 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 13 Oct 2020 04:27:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=a353oz923P8zk0/MTcuKtZB2Xp0
+ rygr9BO7jiFQDXhQ=; b=R/u6L8ulHy7Hm40CBV4CzaM1HS/b5X/DlY844OSk+Hi
+ 9JNkOjOCowI2RxuPMrszKX+lJt84dfMHAu/baSiQ++NVYItfrh/QRG9AxzEalg+m
+ YtaoIj274aYX7BpOW+RujbhvDX8M9Xj2hXNfW80S4X43MK90XNBs43nY4tIu5qcP
+ /40vblwVoKxWOSdzYhqlQL2O3VvKYCpwl2Qa8wszjlhx9r+Fa6Qnc/tvhGt9Y6Rq
+ DydJVQF9DEovOWAkOaNHHRl9ApibyagGg+N19NfcgMJ8vIOdTAcycPxarv+EfVNP
+ ZNJjasGl+6O2fVQ9KOQzB5FA8H8Eo16w2/i78NKas4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=a353oz
+ 923P8zk0/MTcuKtZB2Xp0rygr9BO7jiFQDXhQ=; b=f7LCLXLOyKRLpfpJ1sT0Cs
+ wEbmWrqmADsZobMlY/fFg78i/6cHMsUOxNpK/oekjCsfqdZJheoXwHdxJoGBSVh0
+ tYRhAK8I1mGjstIT3LTbA15HwwSMYJDqoL67GEuZT8vlNzy1T2EiCnhlItNci124
+ 7dDynskFXWO2QWyqfuZODU6+czfj0EYiJJ6ccjo9Ok0cPpDeaa04MpMKREkhRwuD
+ nnjLO/I4XVXR9o67MRasXoz08mSXGsLBJCLh3n6Nbq4LhBPr+aJjk6v1aXkwB2+V
+ B0t0zEK3QW2Aky0WqXjAAPMafQpjYqx9WTFW2oJL1IU9fccsMbEWm+XYoADLlt7g
+ ==
+X-ME-Sender: <xms:2GSFX7a1wOfaESxrWAW8j-ex_q47VbwQGN7rdEfpHgGs1O1scjyxVg>
+ <xme:2GSFX6b-DHA37mfwLEHWM_MIT2faiJFreVB_Cx0wdfDn4UvbZv76ytbTrIeVHujpZ
+ Qf30Wh-JDrbeYg-zn8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrheelgddtgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:2GSFX9_ouQ4E8cAyR-ig_ij4ZY2JzgCP9Cv5y6dgYhYC7P0OR0zXWQ>
+ <xmx:2GSFXxrt16BQNVmndaV7xAVEv4A3LNRzn9AtIq6NM4ybUGz452euzA>
+ <xmx:2GSFX2oUMdcSIU2wuIbRM3FStt47hlHdVXDexZw_eF-_AUrnWujN0g>
+ <xmx:2WSFX_kxlW_ceMX9m-4Hu7W7RQhUbxm59k4m7TJbKMC01StYmmkEkg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 48DB43064680;
+ Tue, 13 Oct 2020 04:27:03 -0400 (EDT)
+Date: Tue, 13 Oct 2020 10:27:01 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/block/nvme: update nsid when registered
+Message-ID: <20201013082701.GB168093@apples.localdomain>
+References: <20201001215059.866660-1-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20201013072028.lw2uuncabmme7vws@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="s/l3CgOIzMHHjg/5"
+Content-Disposition: inline
+In-Reply-To: <20201001215059.866660-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 04:27:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,34 +95,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- qemu-trivial@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Corey Minyard <minyard@acm.org>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/20 9:20 AM, Gerd Hoffmann wrote:
-> On Sun, Oct 11, 2020 at 09:32:23PM +0200, Philippe Mathieu-DaudÃƒÆ’Ã‚Â© wrote:
->> The TPM TIS device uses IRQ #5 by default. Add this
->> default definition to the IsaIrqNumber enum.
-> 
-> IRQ 5 has no fixed assignment.  All kinds of add-on isa cards (sound,
-> net) used to use irq #5 by default because that one wasn't assigned
-> otherwise.  Seems these days tpm and ipmi use it ...
 
-Yes, I'll drop this patch.
+--s/l3CgOIzMHHjg/5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+On Oct  1 23:50, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> If the user does not specify an nsid parameter on the nvme-ns device,
+> nvme_register_namespace will find the first free namespace id and assign
+> that.
+>=20
+> This fix makes sure the assigned id is saved.
+>=20
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index da8344f196a8..bb1ee009cd31 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -2583,7 +2583,7 @@ int nvme_register_namespace(NvmeCtrl *n, NvmeNamesp=
+ace *ns, Error **errp)
+>          for (int i =3D 1; i <=3D n->num_namespaces; i++) {
+>              NvmeNamespace *ns =3D nvme_ns(n, i);
+>              if (!ns) {
+> -                nsid =3D i;
+> +                nsid =3D ns->params.nsid =3D i;
+>                  break;
+>              }
+>          }
+> --=20
+> 2.28.0
+>=20
+>=20
 
-Phil.
+Applied to nvme-next.
+
+--s/l3CgOIzMHHjg/5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+FZNIACgkQTeGvMW1P
+DelWrQf/RmQI1J2D8jXZCQn597mPh+VkZNxP/YBVyyYxAaWl653lSXyTexoXKWAJ
+HMH9dTDjbGIEtYgcvdeKrEnQhAPhwe7Thca1Wpub6RBZVjdtTSxUe7DzEzr8/eHO
+ro3EK60nlBn2ZmYBjBVVfErA7Ddn2Mf7HphBS2CvHEWH0/Xpa6yy5HXhHaGGaMU+
+N2vVfVT35QcdcqEDpjX1DS7tlsxqq5DuPts3wMtHVWCh5re50dHP1NlO/tW3n8DC
+VpJPvvnrfoT8TLntzkW+EjW1YzjQKjYuDnThkmvhwMddGgQ+pgR9ZkFgfJSR3cJH
+3bgj/3rBf4f5Oyywi/jMXCTXRQYpjg==
+=+QXq
+-----END PGP SIGNATURE-----
+
+--s/l3CgOIzMHHjg/5--
 
