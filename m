@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E793B28C8F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 09:06:47 +0200 (CEST)
-Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2AC28C8F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 09:04:20 +0200 (CEST)
+Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSEOV-0004xz-1E
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 03:06:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33028)
+	id 1kSEM7-0001OQ-RI
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 03:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBk-0005Pr-BF; Tue, 13 Oct 2020 02:53:36 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:43801)
+ id 1kSEBs-0005k5-09; Tue, 13 Oct 2020 02:53:44 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:47483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBi-0000HR-I9; Tue, 13 Oct 2020 02:53:35 -0400
+ id 1kSEBq-0000I1-9k; Tue, 13 Oct 2020 02:53:43 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MGQaz-1kgI8j1NrJ-00GtwU; Tue, 13 Oct 2020 08:53:28 +0200
+ id 1MtOT0-1kCKd52MQw-00umtZ; Tue, 13 Oct 2020 08:53:29 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/15] mingw: fix error __USE_MINGW_ANSI_STDIO redefined
-Date: Tue, 13 Oct 2020 08:53:12 +0200
-Message-Id: <20201013065313.7349-15-laurent@vivier.eu>
+Subject: [PULL 15/15] meson.build: drop duplicate 'sparc64' entry
+Date: Tue, 13 Oct 2020 08:53:13 +0200
+Message-Id: <20201013065313.7349-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013065313.7349-1-laurent@vivier.eu>
 References: <20201013065313.7349-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qzo84/2lmQn6OL4sID/axj/WrK8k0CgmFxkj11HNlVd/WV6Z97G
- IU8OECXwAgvVxYyXMXKf0yihtzmUEpjUVysmy3mDJl5KfiwnGvnD6fdqP8hsdyCsj8bxnKS
- L/6f8bBSApOAe0/sPfHKGGV8QIyCl5iaNMOQIdAomFEq6QlO0aPlzsf8cbUtal0SDDa+OJy
- tdnfYFJ2k7vG2SUKuEM6Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:puqV8szmgMI=:dxfQStnfgMCR7NT7HfPQ2Y
- xc8JbUS55M7SGzbeK+ZazLtavqV5CYsfYKGvToiSnfw60PpPDOzxAevtZAj5jjW0aJMcOX6H0
- bQm0Pos7lwvHKtjlTcfAlD4tZHc3IQ1XQ5wS+mV4eql0KhrmzpaAZL3sA+o1annS51hLEwxPI
- 0KsgvccKQ7/NCtBIP1QAjQkZqKOqFOMBF5AgtEXMA+2Af8JyQwhzmt3N9AHGBZjyXo66+0mFY
- 8Rx4nuXsReFz53Y7W3Cxl9PXCyaa/PaFQDVwHuuNZYEkTBtPRai5/DJR+E3UiyM8PJUjdufEV
- 7l3VNczvyDgkYNaXNEL8ddYvuyAF6CwuW7u2KG+RE//qsdSVK6DS4lLPf1qaBhbREh/G7zqst
- ctbiYfU7Dz3lV2o5AslF1E7wc4RBZD73o/exWh1BxpsOTvfC4MgxLKYec192RPSoPwRGcsMXk
- Lpdvgur5lOW1v0ScZZvohNqWSRa/iHvbjxJpsI3+dHvyVKt5t5rQN+RnUgWcvTFGZhp8UQKxi
- 8wVHc4Ug07XxJPlgly5Pmj3T0Okhbadgeg7m/OcU2BpbpB7ErKwG47NqDmtlbhU6Ph5oOik32
- 6ImW9/YbLry/7bf+Gbl5X4FiRHs6Egqfa2ahPWb/BSfOZ8Al/w1f5JuhcpZAh2JGDVI1QJrKX
- 6+YYn9z1/Imsy/D/oux0pIu7SkbsTP9U7JN56rOSJZIJ/BTakQQWx10KQseeySEjXX8GwtT2K
- Ogu0jzG6if3s8ChgCVf6fzU3UOSHS5/fUp0aEQGIzI9tvcm0JqQHQO5SSAI4vOpQ2XSiDX6Mw
- sTLHIwst9ohN6xzo3A++3feIRUNQ2Du+jA4HjEaxOod8XxrNbw1Hb/5xHsowheMyt2VQqIZ
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:y0Yp+Gd0K+6zJdPdrgiMojG/5KFVmFzm0M6k3ATbBCx3uBj419y
+ BKJYEysUfe4et9AK9oqQp3aUZwtrciLFuKO46220htCsDFOkSFq8MIocc64RFs7rRP4v4sk
+ hk0TdpD5pQlktJvxplIupKCYUvOzZBJ9k2RDGx8DRQIi9yyibnWsxCI+ERiNkh1wgdg+PMZ
+ kHaxtFHzHWvrBUoStlJhg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3kiei9YpVKo=:WkfQEgXt8LIHssHiN58ipV
+ er3LiXpdoDO64Qc+9HbndSB5sKksVh9Nt5oUM1yHa9TcjQ+Kmsqa5gon7kxIlCXbyAplHkTwC
+ kX8XEFuWpE08s10WrXuFWeWkmmGeb8piSg4r/L1izDaMZxjUXlYfs+NbWt57UPiDWFti7C6ry
+ DwSNoDmEM33O4HBzlArgj1IfJSI0MQoUO9xEd5QPFcFJ080roBhClWwB3+Vf7CNMhkU+Y8vCn
+ EI5CiQTfSed5VX/gVbWNhC59CShHzr0aQbZzKu32WNUUZAVbpxT4wN0pawnlyoc250ksimfAs
+ i9eNg0kWN6YrenmdDSPlur9qN5opctLyjlNk089QXZTRDE2neZpS2uuMm4zFEq+08//VrJcWf
+ OYBhkGM4hs0blCfEngd0M3iLrjph10/6ieJeOoLB0Iqt+OaVR/+6MQfO7BGEb8P0eyZNDD2+M
+ oVAxUTzTRg4t7pWR1d9LgDyvauq2lKEvo6DHzhFc+i7H2YTxigzAFVOOmYwkP0TD54PNrMOO6
+ TSUrjuQHIjTIpv4wEDThoEnkOlZ5LxEbMhbD4P2ZiugNh0P0u2ML875DB/SibIezpEacnwBCZ
+ q0LhPY3hdRDDtQNj1pD+Ibbl03zFrFglnynHgsaIlcSnYAbXjMijEW3wV3cQZV3ZACVLaJE68
+ YBsVzoVcPMai2j3Svz8xzSKoQ/PiaKnfUYRpUSwH7lxq3iLN1Tkwpnms193nIdawYxrKC515c
+ dxge88kmtNc6Jjat1SFEkQrgwQYH966epVLqxO1FdjfFX/TGrrvTgAZWlqQkq9OdmMpWFq+M3
+ iXx6QToflUMe45cXKq2r9/1VxOzy6atmIsPVyfyVHYfTnPY6Qq1yqQmGf3hiTad6ORfsGO7
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:53:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:53:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,56 +70,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Sergei Trofimovich <slyfox@gentoo.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Sergei Trofimovich <slyfox@gentoo.org>
 
-Always put osdep.h first, and remove redundant stdlib.h include.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
+CC: Laurent Vivier <laurent@vivier.eu>
+CC: qemu-trivial@nongnu.org
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201008165953.884599-1-marcandre.lureau@redhat.com>
+Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
+Message-Id: <20201012175719.2573367-1-slyfox@gentoo.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- migration/dirtyrate.c | 3 ++-
- tests/test-bitmap.c   | 1 -
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 68577ef25028..47f761e67acb 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -10,8 +10,9 @@
-  * See the COPYING file in the top-level directory.
-  */
+diff --git a/meson.build b/meson.build
+index 17c89c87c626..392d326f4563 100644
+--- a/meson.build
++++ b/meson.build
+@@ -41,7 +41,7 @@ have_block = have_system or have_tools
+ python = import('python').find_installation()
  
--#include <zlib.h>
- #include "qemu/osdep.h"
-+
-+#include <zlib.h>
- #include "qapi/error.h"
- #include "cpu.h"
- #include "qemu/config-file.h"
-diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
-index 2f5b71458a3d..8db4f67883fe 100644
---- a/tests/test-bitmap.c
-+++ b/tests/test-bitmap.c
-@@ -8,7 +8,6 @@
-  * Author: Peter Xu <peterx@redhat.com>
-  */
+ supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
+-supported_cpus = ['ppc', 'ppc64', 's390x', 'sparc64', 'riscv32', 'riscv64', 'x86', 'x86_64',
++supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
+   'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
  
--#include <stdlib.h>
- #include "qemu/osdep.h"
- #include "qemu/bitmap.h"
- 
+ cpu = host_machine.cpu_family()
 -- 
 2.26.2
 
