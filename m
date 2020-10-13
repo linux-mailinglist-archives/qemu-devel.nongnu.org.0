@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD9228D188
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 17:53:33 +0200 (CEST)
-Received: from localhost ([::1]:49392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405EF28D192
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 17:55:58 +0200 (CEST)
+Received: from localhost ([::1]:55580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSMcG-0006jh-7H
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 11:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39604)
+	id 1kSMeb-0000wU-Aj
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 11:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kSMaN-0005T8-6h
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:51:35 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:59037)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kSMaR-0005Uq-Cf
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:51:40 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:47239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kSMaK-00066I-Th
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:51:34 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kSMaL-00066M-0v
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:51:39 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MgzWP-1jyFy92vz3-00hNif; Tue, 13 Oct 2020 17:51:28 +0200
+ id 1Mc1hn-1juOLe0X4J-00dXxn; Tue, 13 Oct 2020 17:51:29 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] m68k: add Virtual M68k Machine
-Date: Tue, 13 Oct 2020 17:51:20 +0200
-Message-Id: <20201013155124.451774-1-laurent@vivier.eu>
+Subject: [PATCH 1/4] m68k: import bootinfo headers from linux
+Date: Tue, 13 Oct 2020 17:51:21 +0200
+Message-Id: <20201013155124.451774-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20201013155124.451774-1-laurent@vivier.eu>
+References: <20201013155124.451774-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5maaWEAlVL3+AHNaBhP7/ZUcRZrsdaYknWPuItgwvvqtOR3R750
- m5fFhfHhieO5G8IbqDx0AJhbGWVKqwmy15onV0EFK9BBb6bkSTmBBvltTqymUs8mJWnTb3V
- 1TZxrQ7xWbeRY0Jdc8gODWGY4LMia1uF9eL0+Om+cirwEx0nYfsWwlMcO8SckJbUxfr4Aff
- I6wK6ysI0bS2EVOSYejhw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xbRCWQOZ3IA=:3xtMdsQlw6b5irYOxzXrP7
- vMtmJ/g7eSZ9M0l1CCo8LilB1AU4KUIa0vWHgz7H9E8bQ1FB7AzjRctVb7oGIc/LHXRHuSxJT
- tmt2OLD61+gJLchMubWwIUZ1aj2h0mU5LLPM5mvmtf+J8SXd6o8DAtDdyZx6+sb2Bm6wZJNiz
- bsljf5OqvCBPIYT6Z8VDS2EPCmMroqTmgQk/hrKDpFHe18W96u7e3+UySHXey/57pWtik2a/h
- COB7nGYzL0P0PrTdDTNfgK4lVPZpgIuvGK/BAbYefyzUs5jrcMWQQ9WHyD+wr11xTeJf55FQZ
- YwFQXnEvPs0v+zD5cz0ADSLuEo38qcUK03XsKaHdeGOJ32JJuzizUyU4GmW2ebDHDV4EitfNr
- OgQDUc7zfDjUv/U7PHJujUNlg8P8w4sT0fIRBIEOv479iTvZm2/lImt3efhdEGlLXR6bwwIbb
- EKr5+mbhhVSK2bcYgdWn4o3NFNKMg5JfHPQY7khFXInODHoWiJiQS6TxYwX832k2n08faLtKj
- TNa/QR9sQmq+N17nD6xiPKaJPoj9CAYJM+ztn+KXfAeNkBEcQdma+oonTUE2jXEnLfygVjTdP
- 5uoU0zIUd64CLOPd6hqJOl+epfXFLD6ZHGAAv+sCn3LMm2WLVXEsaXPnZV6JVzyDipi//ojpp
- zerYwgdFjshcm2jV3tnTG1eEsw56TgWjPwWiFZoDXPMX0Imo5l9FuW+5JUOmfsiAkKIeCviNl
- qrUH6FJBCPvlTL9j1IIrzyLbQHsI91SmBm6V5c8nQoEGEBv7M9E3ZcYMNjwrwo9SB9U5HZDjC
- swmFoDuy32qZe275BSK1tg9+gS/F38oKT16wMH1elipOsMybsB2vPujAadcEorlJZfU89Jv
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Vw79WkF3GCPOVnCdvRVqWnlzmujvVg/i7SjNFfdaKfjnoCSAPmm
+ jHILPhgj39LSPnpPjffkPrPXNp5PbzechysFbPSZrxdETP454tVdvQiiAPGsxqhko/2GsCY
+ 1kQUS2q4f7MJP9ZHp4IogN2DrwkJTXlsj0/Eh1pigvZP4J07RfTg2860H5tgnG+Kg3WDtDr
+ o7C5iyVZoIBofLZeu3R7w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JDkX8dKSiNE=:7GFxFreHK5npjzzVCiG/Hx
+ qDjaf98JXbZxfrhlq78SFGuV4EJaBq3nRQ+eCEHNJRSA8Njrp+oTiudd760OUMT8tD6X9FAjS
+ 9XohCZDBmdmnKkjq6V39z+8k7RGR8DLI4FqaCydo5D3qGX1G4bGPkucBU+uV+cClSzE/KRhR9
+ l4aKvoupxfnJpLL6QYn9hJPBBJ7vr7jF/Dk6veIMcZpSI3XuAu8wQRb7R+JTXjenxjfyTzep3
+ 16L1/E2W/OnyN3mfZ3uLcZy2HI18Zy/gDbcYO0DGCjS+1ho8TQkF2j0s0/8+I0lG6foESpjXY
+ U5FQ9MEqKRVX1+kQkhgkHHIGLUOVfwDpqSExWAdo+2x+B9Nu/gmlaA+FUoylzpukmlpRFpw6S
+ pcanZ7YCWT8gCKMnTiOXGxaf++7Z+s6tpP22nRtXAf/V9sb+pzgU7Y1397GTnPRCpiG6/jy9i
+ vk6aVAAwlDFhxmUI3DCsdGHMn7km05AedvcA2aMbeJ0yvr5Dedx36aOWjdwy25qgZ7BH2clft
+ oO3QEh9if7huQcbgpXNShJBjYI/DR9O1qfllHaaDf9IkTjjCd/6U1rwuXAg9bREvJfzMMbXrn
+ wvnAWv9C0X9EHgRIfYgQkQj0T/+Xv0WFlXV+IBaNV00HPTGiU6vk05yB1kJsg5H8VrzUMJqkl
+ zmzv/JnpTGfZb1UsR0D1LcRbZWNwuciNkrBwsEJqCiYn0vuzUKdpHdoEoTzJmqXY0l2OJrdHE
+ /Dw4vJkkEHzcAsfV/hUh8iVzrWNo8+eZkEInTTlSzLABdkq7l3UoC5iulgJITUz8UTZIoWL6S
+ yQ1kJTfxb69c6AhHYOedvrLpw88ylu8/QHBuJ/2Sk9LImNGVzjNxHfV0h2eFk19FBInJs9R
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 11:51:29
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 11:51:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,151 +73,446 @@ Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Quadra 800 machine is very limited to run linux, it manages=0D
-only 1 GiB of memory and only some specific interfaces.=0D
-=0D
-The Virtual M68k Machine is based on Goldfish interfaces defined by Google=
-=0D
-for Android simulator. It uses Goldfish-rtc (timer and RTC),=0D
-Goldfish-pic (PIC) and Goldfish-tty (for serial port and early tty).=0D
-=0D
-https://android.googlesource.com/platform/external/qemu/+/master/docs/GOLDF=
-IS=3D=0D
-H-VIRTUAL-HARDWARE.TXT=0D
-=0D
-The machine is created with 128 virtio-mmio busses, and they can=0D
-be used to add serial console, GPU, disk, NIC, HID, ...=0D
-=0D
-This series re-use the goldfish-rtc implemented for RISCV, and=0D
-adds the two others based on the goldfish specs, the kernel driver=0D
-and android simulator ones.=0D
-=0D
-The machine can manage up to 3.2 GiB of memory, not because of an hardware=
-=0D
-limitation but because the kernel crashes after this value.=0D
-=0D
-Simply configure qemu with:=0D
-=0D
-    .../configure --target-list=3D3Dm68k-softmmu=0D
-=0D
-To run the machine you need a modified kernel you can find here:=0D
-=0D
-    https://github.com/vivier/linux/tree/m68k-virt=0D
-=0D
-You need to compile the kernel with:=0D
-=0D
-    make virt_defconfig=0D
-    make vmlinux=0D
-=0D
-The disk must be installed using the q800 machine because the debian instal=
-ler=0D
-doesn't want to be used with a kernel that is not the one on the ISO.=0D
-=0D
-And then you can run the machine with something like:=0D
-=0D
-qemu-system-m68k -M virt \=0D
-  -m 3399672K \=0D
-  -chardev stdio,signal=3D3Doff,mux=3D3Don,id=3D3Dchar0 \=0D
-  -mon chardev=3D3Dchar0,mode=3D3Dreadline \=0D
-  -kernel vmlinux \=0D
-  -append "console=3D3Dhvc0 root=3D3D/dev/vda2" \=0D
-  -blockdev node-name=3D3Dsystem,driver=3D3Dfile,filename=3D3Ddebian-10.0.q=
-cow2 \=0D
-  -blockdev node-name=3D3Ddrive0,driver=3D3Dqcow2,file=3D3Dsystem \=0D
-  -device virtio-blk-device,drive=3D3Ddrive0 \=0D
-  -serial chardev:char0 \=0D
-  -device virtio-net-device,netdev=3D3Dhostnet0 \=0D
-  -netdev bridge,id=3D3Dhostnet0,br=3D3Dvirbr0 \=0D
-  -device virtio-rng-device \=0D
-  -device virtio-serial-device \=0D
-  -device virtio-gpu-device \=0D
-  -device virtconsole,chardev=3D3Dchar0 \=0D
-  -device virtio-keyboard-device \=0D
-  -device virtio-mouse-device=0D
-=0D
-if you want to use Goldfish-tty for the console rather than virtconsole, yo=
-u=0D
-can add "console=3D3DttyGF".=0D
-=0D
-To start the debian-installer, you can try by adding:=0D
-=0D
-  -device virtio-scsi-device \=0D
-  -blockdev node-name=3D3Ddebian10,driver=3D3Dfile,filename=3D3Ddebian-10.0=
-.0-m68k-=3D=0D
-NETINST-1.iso \=0D
-  -blockdev node-name=3D3Dcdrom0,driver=3D3Draw,file=3D3Ddebian10 \=0D
-  -device scsi-cd,drive=3D3Dcdrom0 \=0D
-  -initrd installer-m68k/20200315/images/cdrom/initrd.gz=0D
-=0D
-ISO:    https://cdimage.debian.org/cdimage/ports/snapshots/2020-10-12/debia=
-n-=3D=0D
-10.0.0-m68k-NETINST-1.iso=0D
-initrd: https://cdimage.debian.org/cdimage/ports/debian-installer/2020-10-1=
-2/=3D=0D
-m68k/debian-installer-images_20200315_m68k.tar.gz=0D
-=0D
-I think there are some endianness issues with virtio-gpu, because when the=
-=0D
-X server starts I have some errors in the kernel logs:=0D
-=0D
-  vmap allocation for size 3149824 failed: use vmalloc=3D3D<size> to increa=
-se s=3D=0D
-ize=0D
-=0D
-I also tried virtiofsd but there is also an endianness problem and the serv=
-er=0D
-stops.=0D
-=0D
-Have Fun,=0D
-Laurent=0D
-=0D
-PS:=0D
-=0D
-By reading the message to the end you have won the right to download the di=
-sk=3D=0D
- image=0D
-and the vmlinux.=0D
-=0D
-http://vivier.eu/debian-10.0.qcow2     343 MiB=0D
-http://vivier.eu/vmlinux-virt-m68k     5.2 MiB=0D
-=0D
-Laurent Vivier (4):=0D
-  m68k: import bootinfo headers from linux=0D
-  char: add goldfish-tty=0D
-  intc: add goldfish-pic=0D
-  m68k: add Virtual M68k Machine=0D
-=0D
- default-configs/devices/m68k-softmmu.mak      |   1 +=0D
- hw/m68k/bootinfo.h                            |  55 ----=0D
- include/hw/char/goldfish_tty.h                |  36 +++=0D
- include/hw/intc/goldfish_pic.h                |  28 ++=0D
- .../standard-headers/asm-m68k/bootinfo-mac.h  | 120 +++++++=0D
- .../standard-headers/asm-m68k/bootinfo-virt.h |  17 +=0D
- include/standard-headers/asm-m68k/bootinfo.h  | 166 ++++++++++=0D
- hw/char/goldfish_tty.c                        | 265 ++++++++++++++++=0D
- hw/intc/goldfish_pic.c                        | 178 +++++++++++=0D
- hw/m68k/q800.c                                |  20 +-=0D
- hw/m68k/virt.c                                | 296 ++++++++++++++++++=0D
- MAINTAINERS                                   |  11 +=0D
- hw/char/Kconfig                               |   3 +=0D
- hw/char/meson.build                           |   2 +=0D
- hw/char/trace-events                          |   9 +=0D
- hw/intc/Kconfig                               |   3 +=0D
- hw/intc/meson.build                           |   1 +=0D
- hw/intc/trace-events                          |   8 +=0D
- hw/m68k/Kconfig                               |   8 +=0D
- hw/m68k/meson.build                           |   1 +=0D
- 20 files changed, 1160 insertions(+), 68 deletions(-)=0D
- create mode 100644 include/hw/char/goldfish_tty.h=0D
- create mode 100644 include/hw/intc/goldfish_pic.h=0D
- create mode 100644 include/standard-headers/asm-m68k/bootinfo-mac.h=0D
- create mode 100644 include/standard-headers/asm-m68k/bootinfo-virt.h=0D
- create mode 100644 include/standard-headers/asm-m68k/bootinfo.h=0D
- create mode 100644 hw/char/goldfish_tty.c=0D
- create mode 100644 hw/intc/goldfish_pic.c=0D
- create mode 100644 hw/m68k/virt.c=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+Copy bootinfo.h and bootinfo-mac.h from arch/m68k/include/uapi/asm/
+to include/standard-headers/asm-m68k/
+
+Imported from linx v5.9 but didn't change since v4.14 (header update)
+and since v4.10 (content update).
+
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/m68k/bootinfo.h                            |  55 ------
+ .../standard-headers/asm-m68k/bootinfo-mac.h  | 120 +++++++++++++
+ include/standard-headers/asm-m68k/bootinfo.h  | 166 ++++++++++++++++++
+ hw/m68k/q800.c                                |  20 +--
+ MAINTAINERS                                   |   2 +
+ 5 files changed, 295 insertions(+), 68 deletions(-)
+ create mode 100644 include/standard-headers/asm-m68k/bootinfo-mac.h
+ create mode 100644 include/standard-headers/asm-m68k/bootinfo.h
+
+diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
+index c954270aad6c..adbf0c5521e5 100644
+--- a/hw/m68k/bootinfo.h
++++ b/hw/m68k/bootinfo.h
+@@ -11,61 +11,6 @@
+ 
+ #ifndef HW_M68K_BOOTINFO_H
+ #define HW_M68K_BOOTINFO_H
+-struct bi_record {
+-    uint16_t tag;        /* tag ID */
+-    uint16_t size;       /* size of record */
+-    uint32_t data[];     /* data */
+-};
+-
+-/* machine independent tags */
+-
+-#define BI_LAST         0x0000 /* last record */
+-#define BI_MACHTYPE     0x0001 /* machine type (u_long) */
+-#define BI_CPUTYPE      0x0002 /* cpu type (u_long) */
+-#define BI_FPUTYPE      0x0003 /* fpu type (u_long) */
+-#define BI_MMUTYPE      0x0004 /* mmu type (u_long) */
+-#define BI_MEMCHUNK     0x0005 /* memory chunk address and size */
+-                               /* (struct mem_info) */
+-#define BI_RAMDISK      0x0006 /* ramdisk address and size */
+-                               /* (struct mem_info) */
+-#define BI_COMMAND_LINE 0x0007 /* kernel command line parameters */
+-                               /* (string) */
+-
+-/*  Macintosh-specific tags (all u_long) */
+-
+-#define BI_MAC_MODEL    0x8000  /* Mac Gestalt ID (model type) */
+-#define BI_MAC_VADDR    0x8001  /* Mac video base address */
+-#define BI_MAC_VDEPTH   0x8002  /* Mac video depth */
+-#define BI_MAC_VROW     0x8003  /* Mac video rowbytes */
+-#define BI_MAC_VDIM     0x8004  /* Mac video dimensions */
+-#define BI_MAC_VLOGICAL 0x8005  /* Mac video logical base */
+-#define BI_MAC_SCCBASE  0x8006  /* Mac SCC base address */
+-#define BI_MAC_BTIME    0x8007  /* Mac boot time */
+-#define BI_MAC_GMTBIAS  0x8008  /* Mac GMT timezone offset */
+-#define BI_MAC_MEMSIZE  0x8009  /* Mac RAM size (sanity check) */
+-#define BI_MAC_CPUID    0x800a  /* Mac CPU type (sanity check) */
+-#define BI_MAC_ROMBASE  0x800b  /* Mac system ROM base address */
+-
+-/*  Macintosh hardware profile data */
+-
+-#define BI_MAC_VIA1BASE 0x8010  /* Mac VIA1 base address (always present) */
+-#define BI_MAC_VIA2BASE 0x8011  /* Mac VIA2 base address (type varies) */
+-#define BI_MAC_VIA2TYPE 0x8012  /* Mac VIA2 type (VIA, RBV, OSS) */
+-#define BI_MAC_ADBTYPE  0x8013  /* Mac ADB interface type */
+-#define BI_MAC_ASCBASE  0x8014  /* Mac Apple Sound Chip base address */
+-#define BI_MAC_SCSI5380 0x8015  /* Mac NCR 5380 SCSI (base address, multi) */
+-#define BI_MAC_SCSIDMA  0x8016  /* Mac SCSI DMA (base address) */
+-#define BI_MAC_SCSI5396 0x8017  /* Mac NCR 53C96 SCSI (base address, multi) */
+-#define BI_MAC_IDETYPE  0x8018  /* Mac IDE interface type */
+-#define BI_MAC_IDEBASE  0x8019  /* Mac IDE interface base address */
+-#define BI_MAC_NUBUS    0x801a  /* Mac Nubus type (none, regular, pseudo) */
+-#define BI_MAC_SLOTMASK 0x801b  /* Mac Nubus slots present */
+-#define BI_MAC_SCCTYPE  0x801c  /* Mac SCC serial type (normal, IOP) */
+-#define BI_MAC_ETHTYPE  0x801d  /* Mac builtin ethernet type (Sonic, MACE */
+-#define BI_MAC_ETHBASE  0x801e  /* Mac builtin ethernet base address */
+-#define BI_MAC_PMU      0x801f  /* Mac power management / poweroff hardware */
+-#define BI_MAC_IOP_SWIM 0x8020  /* Mac SWIM floppy IOP */
+-#define BI_MAC_IOP_ADB  0x8021  /* Mac ADB IOP */
+ 
+ #define BOOTINFO0(as, base, id) \
+     do { \
+diff --git a/include/standard-headers/asm-m68k/bootinfo-mac.h b/include/standard-headers/asm-m68k/bootinfo-mac.h
+new file mode 100644
+index 000000000000..449928cfcbf2
+--- /dev/null
++++ b/include/standard-headers/asm-m68k/bootinfo-mac.h
+@@ -0,0 +1,120 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++** asm/bootinfo-mac.h -- Macintosh-specific boot information definitions
++*/
++
++#ifndef _UAPI_ASM_M68K_BOOTINFO_MAC_H
++#define _UAPI_ASM_M68K_BOOTINFO_MAC_H
++
++
++    /*
++     *  Macintosh-specific tags (all __be32)
++     */
++
++#define BI_MAC_MODEL		0x8000	/* Mac Gestalt ID (model type) */
++#define BI_MAC_VADDR		0x8001	/* Mac video base address */
++#define BI_MAC_VDEPTH		0x8002	/* Mac video depth */
++#define BI_MAC_VROW		0x8003	/* Mac video rowbytes */
++#define BI_MAC_VDIM		0x8004	/* Mac video dimensions */
++#define BI_MAC_VLOGICAL		0x8005	/* Mac video logical base */
++#define BI_MAC_SCCBASE		0x8006	/* Mac SCC base address */
++#define BI_MAC_BTIME		0x8007	/* Mac boot time */
++#define BI_MAC_GMTBIAS		0x8008	/* Mac GMT timezone offset */
++#define BI_MAC_MEMSIZE		0x8009	/* Mac RAM size (sanity check) */
++#define BI_MAC_CPUID		0x800a	/* Mac CPU type (sanity check) */
++#define BI_MAC_ROMBASE		0x800b	/* Mac system ROM base address */
++
++
++    /*
++     *  Macintosh hardware profile data - unused, see macintosh.h for
++     *  reasonable type values
++     */
++
++#define BI_MAC_VIA1BASE		0x8010	/* Mac VIA1 base address (always present) */
++#define BI_MAC_VIA2BASE		0x8011	/* Mac VIA2 base address (type varies) */
++#define BI_MAC_VIA2TYPE		0x8012	/* Mac VIA2 type (VIA, RBV, OSS) */
++#define BI_MAC_ADBTYPE		0x8013	/* Mac ADB interface type */
++#define BI_MAC_ASCBASE		0x8014	/* Mac Apple Sound Chip base address */
++#define BI_MAC_SCSI5380		0x8015	/* Mac NCR 5380 SCSI (base address, multi) */
++#define BI_MAC_SCSIDMA		0x8016	/* Mac SCSI DMA (base address) */
++#define BI_MAC_SCSI5396		0x8017	/* Mac NCR 53C96 SCSI (base address, multi) */
++#define BI_MAC_IDETYPE		0x8018	/* Mac IDE interface type */
++#define BI_MAC_IDEBASE		0x8019	/* Mac IDE interface base address */
++#define BI_MAC_NUBUS		0x801a	/* Mac Nubus type (none, regular, pseudo) */
++#define BI_MAC_SLOTMASK		0x801b	/* Mac Nubus slots present */
++#define BI_MAC_SCCTYPE		0x801c	/* Mac SCC serial type (normal, IOP) */
++#define BI_MAC_ETHTYPE		0x801d	/* Mac builtin ethernet type (Sonic, MACE */
++#define BI_MAC_ETHBASE		0x801e	/* Mac builtin ethernet base address */
++#define BI_MAC_PMU		0x801f	/* Mac power management / poweroff hardware */
++#define BI_MAC_IOP_SWIM		0x8020	/* Mac SWIM floppy IOP */
++#define BI_MAC_IOP_ADB		0x8021	/* Mac ADB IOP */
++
++
++    /*
++     * Macintosh Gestalt numbers (BI_MAC_MODEL)
++     */
++
++#define MAC_MODEL_II		6
++#define MAC_MODEL_IIX		7
++#define MAC_MODEL_IICX		8
++#define MAC_MODEL_SE30		9
++#define MAC_MODEL_IICI		11
++#define MAC_MODEL_IIFX		13	/* And well numbered it is too */
++#define MAC_MODEL_IISI		18
++#define MAC_MODEL_LC		19
++#define MAC_MODEL_Q900		20
++#define MAC_MODEL_PB170		21
++#define MAC_MODEL_Q700		22
++#define MAC_MODEL_CLII		23	/* aka: P200 */
++#define MAC_MODEL_PB140		25
++#define MAC_MODEL_Q950		26	/* aka: WGS95 */
++#define MAC_MODEL_LCIII		27	/* aka: P450 */
++#define MAC_MODEL_PB210		29
++#define MAC_MODEL_C650		30
++#define MAC_MODEL_PB230		32
++#define MAC_MODEL_PB180		33
++#define MAC_MODEL_PB160		34
++#define MAC_MODEL_Q800		35	/* aka: WGS80 */
++#define MAC_MODEL_Q650		36
++#define MAC_MODEL_LCII		37	/* aka: P400/405/410/430 */
++#define MAC_MODEL_PB250		38
++#define MAC_MODEL_IIVI		44
++#define MAC_MODEL_P600		45	/* aka: P600CD */
++#define MAC_MODEL_IIVX		48
++#define MAC_MODEL_CCL		49	/* aka: P250 */
++#define MAC_MODEL_PB165C	50
++#define MAC_MODEL_C610		52	/* aka: WGS60 */
++#define MAC_MODEL_Q610		53
++#define MAC_MODEL_PB145		54	/* aka: PB145B */
++#define MAC_MODEL_P520		56	/* aka: LC520 */
++#define MAC_MODEL_C660		60
++#define MAC_MODEL_P460		62	/* aka: LCIII+, P466/P467 */
++#define MAC_MODEL_PB180C	71
++#define MAC_MODEL_PB520		72	/* aka: PB520C, PB540, PB540C, PB550C */
++#define MAC_MODEL_PB270C	77
++#define MAC_MODEL_Q840		78
++#define MAC_MODEL_P550		80	/* aka: LC550, P560 */
++#define MAC_MODEL_CCLII		83	/* aka: P275 */
++#define MAC_MODEL_PB165		84
++#define MAC_MODEL_PB190		85	/* aka: PB190CS */
++#define MAC_MODEL_TV		88
++#define MAC_MODEL_P475		89	/* aka: LC475, P476 */
++#define MAC_MODEL_P475F		90	/* aka: P475 w/ FPU (no LC040) */
++#define MAC_MODEL_P575		92	/* aka: LC575, P577/P578 */
++#define MAC_MODEL_Q605		94
++#define MAC_MODEL_Q605_ACC	95	/* Q605 accelerated to 33 MHz */
++#define MAC_MODEL_Q630		98	/* aka: LC630, P630/631/635/636/637/638/640 */
++#define MAC_MODEL_P588		99	/* aka: LC580, P580 */
++#define MAC_MODEL_PB280		102
++#define MAC_MODEL_PB280C	103
++#define MAC_MODEL_PB150		115
++
++
++    /*
++     *  Latest Macintosh bootinfo version
++     */
++
++#define MAC_BOOTI_VERSION	MK_BI_VERSION(2, 0)
++
++
++#endif /* _UAPI_ASM_M68K_BOOTINFO_MAC_H */
+diff --git a/include/standard-headers/asm-m68k/bootinfo.h b/include/standard-headers/asm-m68k/bootinfo.h
+new file mode 100644
+index 000000000000..7b790e8ec8d6
+--- /dev/null
++++ b/include/standard-headers/asm-m68k/bootinfo.h
+@@ -0,0 +1,166 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * asm/bootinfo.h -- Definition of the Linux/m68k boot information structure
++ *
++ * Copyright 1992 by Greg Harp
++ *
++ * This file is subject to the terms and conditions of the GNU General Public
++ * License.  See the file COPYING in the main directory of this archive
++ * for more details.
++ */
++
++#ifndef _UAPI_ASM_M68K_BOOTINFO_H
++#define _UAPI_ASM_M68K_BOOTINFO_H
++
++
++    /*
++     *  Bootinfo definitions
++     *
++     *  This is an easily parsable and extendable structure containing all
++     *  information to be passed from the bootstrap to the kernel.
++     *
++     *  This way I hope to keep all future changes back/forewards compatible.
++     *  Thus, keep your fingers crossed...
++     *
++     *  This structure is copied right after the kernel by the bootstrap
++     *  routine.
++     */
++
++struct bi_record {
++	uint16_t tag;			/* tag ID */
++	uint16_t size;			/* size of record (in bytes) */
++	uint32_t data[0];			/* data */
++};
++
++
++struct mem_info {
++	uint32_t addr;			/* physical address of memory chunk */
++	uint32_t size;			/* length of memory chunk (in bytes) */
++};
++
++
++    /*
++     *  Tag Definitions
++     *
++     *  Machine independent tags start counting from 0x0000
++     *  Machine dependent tags start counting from 0x8000
++     */
++
++#define BI_LAST			0x0000	/* last record (sentinel) */
++#define BI_MACHTYPE		0x0001	/* machine type (uint32_t) */
++#define BI_CPUTYPE		0x0002	/* cpu type (uint32_t) */
++#define BI_FPUTYPE		0x0003	/* fpu type (uint32_t) */
++#define BI_MMUTYPE		0x0004	/* mmu type (uint32_t) */
++#define BI_MEMCHUNK		0x0005	/* memory chunk address and size */
++					/* (struct mem_info) */
++#define BI_RAMDISK		0x0006	/* ramdisk address and size */
++					/* (struct mem_info) */
++#define BI_COMMAND_LINE		0x0007	/* kernel command line parameters */
++					/* (string) */
++
++
++    /*
++     *  Linux/m68k Architectures (BI_MACHTYPE)
++     */
++
++#define MACH_AMIGA		1
++#define MACH_ATARI		2
++#define MACH_MAC		3
++#define MACH_APOLLO		4
++#define MACH_SUN3		5
++#define MACH_MVME147		6
++#define MACH_MVME16x		7
++#define MACH_BVME6000		8
++#define MACH_HP300		9
++#define MACH_Q40		10
++#define MACH_SUN3X		11
++#define MACH_M54XX		12
++#define MACH_M5441X		13
++#define MACH_VIRT		14
++
++
++    /*
++     *  CPU, FPU and MMU types (BI_CPUTYPE, BI_FPUTYPE, BI_MMUTYPE)
++     *
++     *  Note: we may rely on the following equalities:
++     *
++     *      CPU_68020 == MMU_68851
++     *      CPU_68030 == MMU_68030
++     *      CPU_68040 == FPU_68040 == MMU_68040
++     *      CPU_68060 == FPU_68060 == MMU_68060
++     */
++
++#define CPUB_68020		0
++#define CPUB_68030		1
++#define CPUB_68040		2
++#define CPUB_68060		3
++#define CPUB_COLDFIRE		4
++
++#define CPU_68020		(1 << CPUB_68020)
++#define CPU_68030		(1 << CPUB_68030)
++#define CPU_68040		(1 << CPUB_68040)
++#define CPU_68060		(1 << CPUB_68060)
++#define CPU_COLDFIRE		(1 << CPUB_COLDFIRE)
++
++#define FPUB_68881		0
++#define FPUB_68882		1
++#define FPUB_68040		2	/* Internal FPU */
++#define FPUB_68060		3	/* Internal FPU */
++#define FPUB_SUNFPA		4	/* Sun-3 FPA */
++#define FPUB_COLDFIRE		5	/* ColdFire FPU */
++
++#define FPU_68881		(1 << FPUB_68881)
++#define FPU_68882		(1 << FPUB_68882)
++#define FPU_68040		(1 << FPUB_68040)
++#define FPU_68060		(1 << FPUB_68060)
++#define FPU_SUNFPA		(1 << FPUB_SUNFPA)
++#define FPU_COLDFIRE		(1 << FPUB_COLDFIRE)
++
++#define MMUB_68851		0
++#define MMUB_68030		1	/* Internal MMU */
++#define MMUB_68040		2	/* Internal MMU */
++#define MMUB_68060		3	/* Internal MMU */
++#define MMUB_APOLLO		4	/* Custom Apollo */
++#define MMUB_SUN3		5	/* Custom Sun-3 */
++#define MMUB_COLDFIRE		6	/* Internal MMU */
++
++#define MMU_68851		(1 << MMUB_68851)
++#define MMU_68030		(1 << MMUB_68030)
++#define MMU_68040		(1 << MMUB_68040)
++#define MMU_68060		(1 << MMUB_68060)
++#define MMU_SUN3		(1 << MMUB_SUN3)
++#define MMU_APOLLO		(1 << MMUB_APOLLO)
++#define MMU_COLDFIRE		(1 << MMUB_COLDFIRE)
++
++
++    /*
++     * Stuff for bootinfo interface versioning
++     *
++     * At the start of kernel code, a 'struct bootversion' is located.
++     * bootstrap checks for a matching version of the interface before booting
++     * a kernel, to avoid user confusion if kernel and bootstrap don't work
++     * together :-)
++     *
++     * If incompatible changes are made to the bootinfo interface, the major
++     * number below should be stepped (and the minor reset to 0) for the
++     * appropriate machine. If a change is backward-compatible, the minor
++     * should be stepped. "Backwards-compatible" means that booting will work,
++     * but certain features may not.
++     */
++
++#define BOOTINFOV_MAGIC			0x4249561A	/* 'BIV^Z' */
++#define MK_BI_VERSION(major, minor)	(((major) << 16) + (minor))
++#define BI_VERSION_MAJOR(v)		(((v) >> 16) & 0xffff)
++#define BI_VERSION_MINOR(v)		((v) & 0xffff)
++
++struct bootversion {
++	uint16_t branch;
++	uint32_t magic;
++	struct {
++		uint32_t machtype;
++		uint32_t version;
++	} machversions[0];
++} QEMU_PACKED;
++
++
++#endif /* _UAPI_ASM_M68K_BOOTINFO_H */
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index ce4b47c3e34d..961044b3aca1 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -35,6 +35,8 @@
+ #include "hw/char/escc.h"
+ #include "hw/sysbus.h"
+ #include "hw/scsi/esp.h"
++#include "standard-headers/asm-m68k/bootinfo.h"
++#include "standard-headers/asm-m68k/bootinfo-mac.h"
+ #include "bootinfo.h"
+ #include "hw/misc/mac_via.h"
+ #include "hw/input/adb.h"
+@@ -52,14 +54,6 @@
+ 
+ #define MACROM_FILENAME "MacROM.bin"
+ 
+-#define Q800_MACHINE_ID 35
+-#define Q800_CPU_ID (1 << 2)
+-#define Q800_FPU_ID (1 << 2)
+-#define Q800_MMU_ID (1 << 2)
+-
+-#define MACH_MAC        3
+-#define Q800_MAC_CPU_ID 2
+-
+ #define IO_BASE               0x50000000
+ #define IO_SLICE              0x00040000
+ #define IO_SIZE               0x04000000
+@@ -348,11 +342,11 @@ static void q800_init(MachineState *machine)
+         parameters_base = (high + 1) & ~1;
+ 
+         BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_MAC);
+-        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, Q800_FPU_ID);
+-        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, Q800_MMU_ID);
+-        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, Q800_CPU_ID);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_CPUID, Q800_MAC_CPU_ID);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_MODEL, Q800_MACHINE_ID);
++        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
++        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
++        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
++        BOOTINFO1(cs->as, parameters_base, BI_MAC_CPUID, CPUB_68040);
++        BOOTINFO1(cs->as, parameters_base, BI_MAC_MODEL, MAC_MODEL_Q800);
+         BOOTINFO1(cs->as, parameters_base,
+                   BI_MAC_MEMSIZE, ram_size >> 20); /* in MB */
+         BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 47dd38a8cc5d..d0962a22e1b4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1094,6 +1094,8 @@ F: hw/nubus/*
+ F: hw/display/macfb.c
+ F: hw/block/swim.c
+ F: hw/m68k/bootinfo.h
++F: include/standard-headers/asm-m68k/bootinfo.h
++F: include/standard-headers/asm-m68k/bootinfo-mac.h
+ F: include/hw/misc/mac_via.h
+ F: include/hw/nubus/*
+ F: include/hw/display/macfb.h
+-- 
+2.26.2
+
 
