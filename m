@@ -2,84 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5017B28D672
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 00:33:52 +0200 (CEST)
-Received: from localhost ([::1]:54794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A17328D7C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 03:02:33 +0200 (CEST)
+Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSSrf-0000xh-Dq
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 18:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59920)
+	id 1kSVBY-0005pH-ME
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 21:02:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSSpW-0000EO-QW
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:31:39 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSSpU-000051-2n
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:31:37 -0400
-Received: by mail-pf1-x442.google.com with SMTP id w21so717205pfc.7
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 15:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=Xct8EB2JXJGbJ3zKytAaLNNDCzXsSOE2AkEo2n5lLUc=;
- b=soWFH3Mr/4mmAuLL6ZtplFJY/h9isZh2f5fqwNZFtrhH+0aQA5paKpn1c+iWBENExf
- jzuTkHbyg29lHM8GbUS2dTbkh+5iU3wWa7jE4D6pU7IGnY53b3SAW+X2RwSG95PlYLid
- Oknkd5+9Hj1X2c/XioRVGnHtaZtYBUe7rAzMcev5iyXLjWxJaqXYTqLiFpBpU0351lJU
- v7yiuimsvPUMBdyCgYS0MFuDxBr+j7bLWATgbR/V6Fiqyn6Zje3zk95NITZoCMXnIwDW
- /EY74w62f0yq6JuZWw3izEiewJfRwcGbCD18O4+JywzIsOCoiv8i1k23mXC5ugoQgHw5
- Jzlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Xct8EB2JXJGbJ3zKytAaLNNDCzXsSOE2AkEo2n5lLUc=;
- b=g0TSmHr+ZZ9N7i3pZRpmpakTLJrTlsh0jTkrFJfVszP5AfYZdxAk/9lS86M6dSDpIU
- GNV5T2cLiqi9uYn6faY+Y1qelc0c89RBBXgTUqkb7rrutf++JiVoswN2UGOxL5UpZT8u
- XUKgpY8qsikolbu8EAnzaHME/BI71JcquBegCvL6j1aLdDrwiEB9Y5QPMk90o7oLYB1r
- WWw0RgETevYWDRuoZ8eAoZL9v8onjRxdMTkSYHA4QXA8fhdq7q+PcUxqCHLCtrKa9Re/
- /awnDa758sbwMUVEODhh+NEK2lHG4I+fb/tCJYYub9ASgeSFX1hJzs229HttokL5b1NX
- b57g==
-X-Gm-Message-State: AOAM5320nFGcycMUfor7JCciRecC6dStUlcDRNpBB0hwaQUdVCoN3xvK
- ijMU9zd8kHsgxdtXoyYfHKSzYpbCA5k9Ig==
-X-Google-Smtp-Source: ABdhPJyBBbq1caDu2kVOpDIacGYUb29bI34USsu9N25IxM2qH05UvbQCHDEq38dxXcyTy9L4ilBT5Q==
-X-Received: by 2002:a63:5f97:: with SMTP id t145mr1397852pgb.115.1602628292207; 
- Tue, 13 Oct 2020 15:31:32 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id a4sm731440pgl.51.2020.10.13.15.31.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Oct 2020 15:31:31 -0700 (PDT)
-Subject: Re: [PATCH 07/10] target/arm: Implement v8.1M low-overhead-loop
- instructions
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20201012153746.9996-1-peter.maydell@linaro.org>
- <20201012153746.9996-8-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ad79b081-211a-a591-4de1-7fb0096d331f@linaro.org>
-Date: Tue, 13 Oct 2020 15:31:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20201012153746.9996-8-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <grqp@ekarma.org>) id 1kSStw-0001f4-M7
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:36:12 -0400
+Received: from p3plsmtpa07-02.prod.phx3.secureserver.net
+ ([173.201.192.231]:48355)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <grqp@ekarma.org>) id 1kSStu-0000XP-GP
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:36:12 -0400
+Received: from BY5PR20MB3025.namprd20.prod.outlook.com ([52.96.65.181])
+ by :SMTPAUTH: with ESMTPSA
+ id SStqkP6ii51hoSStqkeEpR; Tue, 13 Oct 2020 15:36:06 -0700
+X-CMAE-Analysis: v=2.3 cv=YNfhNiOx c=1 sm=1 tr=0
+ a=47z1aYw9UwQLATil3DZc6A==:117 a=47z1aYw9UwQLATil3DZc6A==:17 a=t-IPkPogAAAA:8
+ a=5Ed3cbfSEtYHKJpSJzYA:9 a=wPNLvfGTeEIA:10 a=xToySzCs-o1jkM1MAgsA:9
+ a=v5ZtGH-Qpt6i3g0-:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10
+X-SECURESERVER-ACCT: admin@ekarma.org
+From: "grqp@ekarma.org" <grqp@ekarma.org>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: MacOS network bridging using vmnet framework
+Thread-Topic: MacOS network bridging using vmnet framework
+Thread-Index: AQHWoa2OC1xeyfVht0esEuHfRrej4w==
+X-MS-Exchange-MessageSentRepresentingType: 1
+Date: Tue, 13 Oct 2020 22:36:06 +0000
+Message-ID: <BY5PR20MB3025896C69F500CE7BAF3DBAC7040@BY5PR20MB3025.namprd20.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-MS-Has-Attach: 
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator: 
+X-MS-Exchange-Organization-RecordReviewCfmType: 0
+Content-Type: multipart/alternative;
+ boundary="_000_BY5PR20MB3025896C69F500CE7BAF3DBAC7040BY5PR20MB3025namp_"
+MIME-Version: 1.0
+X-CMAE-Envelope: MS4wfHU/NHrYJHee731ydwz7zPBEgjiuo5RKmjrb6bQOiJXGdVGNG3MsjvpAlBKX0lEk+8SBNlB8SRANjzJvdXD6Nq996eIpb0Hlu/IarNLwr7WkP7wspDXs
+ pT63ro+Jx7tUhe1HEubtbg/Z3n204VprK4zmbvVlxDYhkvQDUaUBgwVSWA2Hy0yHkcQ4yijUhlpH2OtGCLu0SV5F6HgaFzsLgiI=
+Received-SPF: none client-ip=173.201.192.231; envelope-from=grqp@ekarma.org;
+ helo=p3plsmtpa07-02.prod.phx3.secureserver.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 18:36:07
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 13 Oct 2020 21:00:51 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,24 +71,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/20 8:37 AM, Peter Maydell wrote:
-> +    nextlabel = gen_new_label();
-> +    tcg_gen_brcondi_i32(TCG_COND_NE, cpu_R[a->rn], 0, nextlabel);
-> +    gen_jmp(s, read_pc(s) + a->imm);
-> +
-> +    gen_set_label(nextlabel);
-> +    tmp = load_reg(s, a->rn);
-> +    store_reg(s, 14, tmp);
-> +    gen_jmp(s, s->base.pc_next);
-> +    return true;
+--_000_BY5PR20MB3025896C69F500CE7BAF3DBAC7040BY5PR20MB3025namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Oh, fwiw, with the tcg optimization patches just posted, this branch is better
-inverted.  That way the load of rn can be reused on the non-taken branch path.
+Hi all -
 
-Maybe sometime I'll try to propagate the data to the taken path, but that
-automatically requires extra memory allocation, so it'll be difficult to do
-that without a tcg slowdown.
+I've been playing around with qemu-system-arm on a MacOS 10.15 box.  I'm tr=
+ying to bridge the guest but I haven't had any luck.  It looks like the pro=
+per way to do this is with a TAP device.  AFAIK, this was done in the past =
+by installing a TUN/TAP kernel extension (kext), which Apple has since clam=
+ped down upon.   I haven't pursued this since it's looks like a dead-end.  =
+ I did notice that Apple has a framework called vmnet (https://developer.ap=
+ple.com/documentation/vmnet) which offers VM network bridging.  I didn't se=
+e any references to vmnet in master,  Is vmnet a good fit in this case as a=
+ new TAP implementation, like tap-macos-vmnet.c.  Or am I going off into th=
+e weeds and there is something obvious I'm missing.
+
+G.
 
 
-r~
+--_000_BY5PR20MB3025896C69F500CE7BAF3DBAC7040BY5PR20MB3025namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+Hi all -</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+I've been playing around with qemu-system-arm on a MacOS 10.15 box. &nbsp;I=
+'m trying to bridge the guest but I haven't had any luck. &nbsp;It looks li=
+ke the proper way to do this is with a TAP device. &nbsp;AFAIK, this was do=
+ne in the past by installing a TUN/TAP kernel extension
+ (kext), which Apple has since clamped down upon. &nbsp; I haven't pursued =
+this since it's looks like a dead-end. &nbsp; I did notice that Apple has a=
+ framework called
+<i>vmnet</i> (<a href=3D"https://developer.apple.com/documentation/vmnet" i=
+d=3D"LPlnk">https://developer.apple.com/documentation/vmnet</a>)&nbsp;which=
+ offers VM network bridging. &nbsp;I didn't see any references to vmnet in =
+master, &nbsp;Is vmnet a good fit in this case as a
+ new TAP implementation, like tap-macos-vmnet.c. &nbsp;Or am I going off in=
+to the weeds and there is something obvious I'm missing.</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+G.</div>
+<div class=3D"_Entity _EType_OWALinkPreview _EId_OWALinkPreview _EReadonly_=
+1"></div>
+<br>
+</body>
+</html>
+
+--_000_BY5PR20MB3025896C69F500CE7BAF3DBAC7040BY5PR20MB3025namp_--
 
