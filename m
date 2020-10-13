@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0C428C97E
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 09:40:08 +0200 (CEST)
-Received: from localhost ([::1]:43012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C1D28C989
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 09:49:11 +0200 (CEST)
+Received: from localhost ([::1]:49102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSEul-0003Iq-GE
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 03:40:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41912)
+	id 1kSF3W-0006NR-8L
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 03:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSErp-0000Z0-0x; Tue, 13 Oct 2020 03:37:05 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51188
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <kherman@inbox.lv>)
+ id 1kSF2H-0005n0-Ge; Tue, 13 Oct 2020 03:47:53 -0400
+Received: from shark3.inbox.lv ([194.152.32.83]:56345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSErl-0005eC-8f; Tue, 13 Oct 2020 03:37:04 -0400
-Received: from host86-158-109-18.range86-158.btcentralplus.com
- ([86.158.109.18] helo=kentang.home)
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSEri-0003Eo-ID; Tue, 13 Oct 2020 08:37:03 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
- f4bug@amsat.org
-Date: Tue, 13 Oct 2020 08:36:36 +0100
-Message-Id: <20201013073636.31389-4-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201013073636.31389-1-mark.cave-ayland@ilande.co.uk>
-References: <20201013073636.31389-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <kherman@inbox.lv>)
+ id 1kSF2F-0006zL-3S; Tue, 13 Oct 2020 03:47:53 -0400
+Received: from shark3.inbox.lv (localhost [127.0.0.1])
+ by shark3-out.inbox.lv (Postfix) with ESMTP id 099D02804C3;
+ Tue, 13 Oct 2020 10:47:47 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=inbox.lv; s=30062014;
+ t=1602575267; bh=AufYZVGJL9mFLRLp54IndlrlAk+e+z634+y7dqlzhS4=;
+ h=From:To:Cc:Subject:Date;
+ b=ciNLRZzw0ZZKcA2XZlZ/1kbj5pWOc2OA0T5SYi+kUZqXOxOjWhKqVafA6jgDemyb6
+ ydXihyvcHKt70sy1q895wMWSYerpIqSFItd4LIY6njPY1VBeZSNYb6S2zWVRSyEC6U
+ 2azLNV3SPD35XCl9mv1g87JEI7XwoK6s6PRwD2CA=
+Received: from localhost (localhost [127.0.0.1])
+ by shark3-in.inbox.lv (Postfix) with ESMTP id 0140F280418;
+ Tue, 13 Oct 2020 10:47:47 +0300 (EEST)
+Received: from shark3.inbox.lv ([127.0.0.1])
+ by localhost (shark3.inbox.lv [127.0.0.1]) (spamfilter, port 35)
+ with ESMTP id 4WXzeauM-A6M; Tue, 13 Oct 2020 10:47:46 +0300 (EEST)
+Received: from mail.inbox.lv (pop1 [127.0.0.1])
+ by shark3-in.inbox.lv (Postfix) with ESMTP id BDE492804C5;
+ Tue, 13 Oct 2020 10:47:46 +0300 (EEST)
+Received: from localhost.localdomain (net-93-145-34-111.cust.vodafonedsl.it
+ [93.145.34.111]) (Authenticated sender: kherman@inbox.lv)
+ by mail.inbox.lv (Postfix) with ESMTPA id C4D2B189A6;
+ Tue, 13 Oct 2020 10:47:44 +0300 (EEST)
+From: Klaus Herman <kherman@inbox.lv>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Klaus Herman <kherman@inbox.lv>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+Subject: [PATCH v2] hw/core/qdev-properties-system: Fix pci bus range in
+ set_pci_host_devaddr()
+Date: Tue, 13 Oct 2020 07:47:37 +0000
+Message-Id: <20201013074737.20668-1-kherman@inbox.lv>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.158.109.18
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 3/3] uninorth: use qdev gpios for PCI IRQs
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Virus-Scanned: OK
+X-ESPOL: G4mES3oDmH1DpsO6NYVt5v+GstuyV1kquSb9yrQ39RAqu7XdwKB4MDDVB/ecFHvdbg==
+Received-SPF: pass client-ip=194.152.32.83; envelope-from=kherman@inbox.lv;
+ helo=shark3.inbox.lv
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 03:47:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,240 +80,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently an object link property is used to pass a reference to the OpenPIC
-into the PCI host bridge so that pci_unin_init_irqs() can connect the PCI
-IRQs to the PIC itself.
-
-This can be simplified by defining the PCI IRQs as qdev gpios and then wiring
-up the PCI IRQs to the PIC in the New World machine init function.
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Klaus Herman <kherman@inbox.lv>
 ---
- hw/pci-host/uninorth.c         | 45 +++++++---------------------------
- hw/ppc/mac_newworld.c          | 24 ++++++++++++------
- include/hw/pci-host/uninorth.h |  1 -
- 3 files changed, 25 insertions(+), 45 deletions(-)
+ hw/core/qdev-properties-system.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
-index 1ed1072eeb..0c0a9ecee1 100644
---- a/hw/pci-host/uninorth.c
-+++ b/hw/pci-host/uninorth.c
-@@ -32,8 +32,6 @@
- #include "hw/pci-host/uninorth.h"
- #include "trace.h"
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index 49bdd12..e3dca56 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -903,7 +903,7 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
+     bus = val;
  
--static const int unin_irq_line[] = { 0x1b, 0x1c, 0x1d, 0x1e };
--
- static int pci_unin_map_irq(PCIDevice *pci_dev, int irq_num)
- {
-     return (irq_num + (pci_dev->devfn >> 3)) & 3;
-@@ -43,7 +41,7 @@ static void pci_unin_set_irq(void *opaque, int irq_num, int level)
- {
-     UNINHostState *s = opaque;
- 
--    trace_unin_set_irq(unin_irq_line[irq_num], level);
-+    trace_unin_set_irq(irq_num, level);
-     qemu_set_irq(s->irqs[irq_num], level);
- }
- 
-@@ -112,15 +110,6 @@ static const MemoryRegionOps unin_data_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
--static void pci_unin_init_irqs(UNINHostState *s)
--{
--    int i;
--
--    for (i = 0; i < ARRAY_SIZE(s->irqs); i++) {
--        s->irqs[i] = qdev_get_gpio_in(DEVICE(s->pic), unin_irq_line[i]);
--    }
--}
--
- static char *pci_unin_main_ofw_unit_address(const SysBusDevice *dev)
- {
-     UNINHostState *s = UNI_NORTH_PCI_HOST_BRIDGE(dev);
-@@ -141,7 +130,6 @@ static void pci_unin_main_realize(DeviceState *dev, Error **errp)
-                                    PCI_DEVFN(11, 0), 4, TYPE_PCI_BUS);
- 
-     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "uni-north-pci");
--    pci_unin_init_irqs(s);
- 
-     /* DEC 21154 bridge */
- #if 0
-@@ -172,15 +160,12 @@ static void pci_unin_main_init(Object *obj)
-                              "unin-pci-hole", &s->pci_mmio,
-                              0x80000000ULL, 0x10000000ULL);
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &s->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
--
-     sysbus_init_mmio(sbd, &h->conf_mem);
-     sysbus_init_mmio(sbd, &h->data_mem);
-     sysbus_init_mmio(sbd, &s->pci_hole);
-     sysbus_init_mmio(sbd, &s->pci_io);
-+
-+    qdev_init_gpio_out(DEVICE(obj), s->irqs, ARRAY_SIZE(s->irqs));
- }
- 
- static void pci_u3_agp_realize(DeviceState *dev, Error **errp)
-@@ -196,7 +181,6 @@ static void pci_u3_agp_realize(DeviceState *dev, Error **errp)
-                                    PCI_DEVFN(11, 0), 4, TYPE_PCI_BUS);
- 
-     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "u3-agp");
--    pci_unin_init_irqs(s);
- }
- 
- static void pci_u3_agp_init(Object *obj)
-@@ -220,15 +204,12 @@ static void pci_u3_agp_init(Object *obj)
-                              "unin-pci-hole", &s->pci_mmio,
-                              0x80000000ULL, 0x70000000ULL);
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &s->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
--
-     sysbus_init_mmio(sbd, &h->conf_mem);
-     sysbus_init_mmio(sbd, &h->data_mem);
-     sysbus_init_mmio(sbd, &s->pci_hole);
-     sysbus_init_mmio(sbd, &s->pci_io);
-+
-+    qdev_init_gpio_out(DEVICE(obj), s->irqs, ARRAY_SIZE(s->irqs));
- }
- 
- static void pci_unin_agp_realize(DeviceState *dev, Error **errp)
-@@ -244,7 +225,6 @@ static void pci_unin_agp_realize(DeviceState *dev, Error **errp)
-                                    PCI_DEVFN(11, 0), 4, TYPE_PCI_BUS);
- 
-     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "uni-north-agp");
--    pci_unin_init_irqs(s);
- }
- 
- static void pci_unin_agp_init(Object *obj)
-@@ -259,13 +239,10 @@ static void pci_unin_agp_init(Object *obj)
-     memory_region_init_io(&h->data_mem, OBJECT(h), &pci_host_data_le_ops,
-                           obj, "unin-agp-conf-data", 0x1000);
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &s->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
--
-     sysbus_init_mmio(sbd, &h->conf_mem);
-     sysbus_init_mmio(sbd, &h->data_mem);
-+
-+    qdev_init_gpio_out(DEVICE(obj), s->irqs, ARRAY_SIZE(s->irqs));
- }
- 
- static void pci_unin_internal_realize(DeviceState *dev, Error **errp)
-@@ -281,7 +258,6 @@ static void pci_unin_internal_realize(DeviceState *dev, Error **errp)
-                                    PCI_DEVFN(14, 0), 4, TYPE_PCI_BUS);
- 
-     pci_create_simple(h->bus, PCI_DEVFN(14, 0), "uni-north-internal-pci");
--    pci_unin_init_irqs(s);
- }
- 
- static void pci_unin_internal_init(Object *obj)
-@@ -296,13 +272,10 @@ static void pci_unin_internal_init(Object *obj)
-     memory_region_init_io(&h->data_mem, OBJECT(h), &pci_host_data_le_ops,
-                           obj, "unin-pci-conf-data", 0x1000);
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &s->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
--
-     sysbus_init_mmio(sbd, &h->conf_mem);
-     sysbus_init_mmio(sbd, &h->data_mem);
-+
-+    qdev_init_gpio_out(DEVICE(obj), s->irqs, ARRAY_SIZE(s->irqs));
- }
- 
- static void unin_main_pci_host_realize(PCIDevice *d, Error **errp)
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 6f5ef2e782..7a8dc09c8d 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -303,8 +303,6 @@ static void ppc_core99_init(MachineState *machine)
-         /* 970 gets a U3 bus */
-         /* Uninorth AGP bus */
-         dev = qdev_new(TYPE_U3_AGP_HOST_BRIDGE);
--        object_property_set_link(OBJECT(dev), "pic", OBJECT(pic_dev),
--                                 &error_abort);
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-         uninorth_pci = U3_AGP_HOST_BRIDGE(dev);
-         s = SYS_BUS_DEVICE(dev);
-@@ -317,32 +315,38 @@ static void ppc_core99_init(MachineState *machine)
-         sysbus_mmio_map(s, 0, 0xf0800000);
-         sysbus_mmio_map(s, 1, 0xf0c00000);
- 
-+        for (i = 0; i < 4; i++) {
-+            qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x1b + i));
-+        }
-+
-         machine_arch = ARCH_MAC99_U3;
-     } else {
-         /* Use values found on a real PowerMac */
-         /* Uninorth AGP bus */
-         dev = qdev_new(TYPE_UNI_NORTH_AGP_HOST_BRIDGE);
--        object_property_set_link(OBJECT(dev), "pic", OBJECT(pic_dev),
--                                 &error_abort);
-         s = SYS_BUS_DEVICE(dev);
-         sysbus_realize_and_unref(s, &error_fatal);
-         sysbus_mmio_map(s, 0, 0xf0800000);
-         sysbus_mmio_map(s, 1, 0xf0c00000);
- 
-+        for (i = 0; i < 4; i++) {
-+            qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x1b + i));
-+        }
-+
-         /* Uninorth internal bus */
-         dev = qdev_new(TYPE_UNI_NORTH_INTERNAL_PCI_HOST_BRIDGE);
--        object_property_set_link(OBJECT(dev), "pic", OBJECT(pic_dev),
--                                 &error_abort);
-         s = SYS_BUS_DEVICE(dev);
-         sysbus_realize_and_unref(s, &error_fatal);
-         sysbus_mmio_map(s, 0, 0xf4800000);
-         sysbus_mmio_map(s, 1, 0xf4c00000);
- 
-+        for (i = 0; i < 4; i++) {
-+            qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x1b + i));
-+        }
-+
-         /* Uninorth main bus */
-         dev = qdev_new(TYPE_UNI_NORTH_PCI_HOST_BRIDGE);
-         qdev_prop_set_uint32(dev, "ofw-addr", 0xf2000000);
--        object_property_set_link(OBJECT(dev), "pic", OBJECT(pic_dev),
--                                 &error_abort);
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-         uninorth_pci = UNI_NORTH_PCI_HOST_BRIDGE(dev);
-         s = SYS_BUS_DEVICE(dev);
-@@ -355,6 +359,10 @@ static void ppc_core99_init(MachineState *machine)
-         sysbus_mmio_map(s, 0, 0xf2800000);
-         sysbus_mmio_map(s, 1, 0xf2c00000);
- 
-+        for (i = 0; i < 4; i++) {
-+            qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x1b + i));
-+        }
-+
-         machine_arch = ARCH_MAC99;
+     p = (char *)e + 1;
+-    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
++    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xff || e == p) {
+         goto inval;
      }
- 
-diff --git a/include/hw/pci-host/uninorth.h b/include/hw/pci-host/uninorth.h
-index a6ba5f21a8..360c2160e4 100644
---- a/include/hw/pci-host/uninorth.h
-+++ b/include/hw/pci-host/uninorth.h
-@@ -51,7 +51,6 @@ struct UNINHostState {
-     PCIHostState parent_obj;
- 
-     uint32_t ofw_addr;
--    OpenPICState *pic;
-     qemu_irq irqs[4];
-     MemoryRegion pci_mmio;
-     MemoryRegion pci_hole;
+     if (*e == ':') {
 -- 
-2.20.1
+2.28.0
 
 
