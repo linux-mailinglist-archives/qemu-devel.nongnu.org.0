@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD06D28C69F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 03:08:28 +0200 (CEST)
-Received: from localhost ([::1]:51252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2962828C6A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 03:10:59 +0200 (CEST)
+Received: from localhost ([::1]:57584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS8nj-0004KH-PJ
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 21:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33500)
+	id 1kS8qA-0006zw-6l
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 21:10:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kS8j0-0007l9-5U
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 21:03:34 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:41945)
+ id 1kS8j1-0007nE-Ez
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 21:03:35 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kS8ix-0000fl-OP
- for qemu-devel@nongnu.org; Mon, 12 Oct 2020 21:03:33 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id c20so4850557pfr.8
- for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 18:03:31 -0700 (PDT)
+ id 1kS8j0-0000ft-00
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 21:03:35 -0400
+Received: by mail-pg1-x544.google.com with SMTP id r10so16198690pgb.10
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 18:03:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Quo+WLN2RYs/0yCjl1IWKH3iZ7BJXQe59V3pgIHgXgA=;
- b=CANr51kx++YywajXnqEBe1PvhMANGwxx/6m8SKiw910wSZ4nGVewff2HJ2YSgnqltI
- 1gI4PhPlI4eIUqS2yUTn4vE6hC7gUjidCm5gTHRVVK/nrIl8jObbObnsJVWW+EoLGkji
- EyJyU9kkeQqTdETmQGnegxEivIqcyW6cIsYmrhTJcvsGrNSjn/en/uumjPdjKs5Fr6xG
- IVsnjVNvnn7aCN8Hww0f2+jAoaefbkhZ+ofh+OtRWRWb2vOX/czmqkeYfujP4+shFXZl
- jNZZ2OtSXMFZUg50ZlkEMCUYvcC3IWA3KUveWpebgMQ8GIk3LImxJgBamgXalI+UXB+6
- XaFw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lgTEIoGQTMBZd1KdzUKViOu+UKgD2OOzWkZKgsEYCHM=;
+ b=i25f1saGFbASYorST2u5zLIwOUqeDTp2APQLG68BxxExKMXjv1RT3SAT5zpeb5ONbv
+ N2VmgdceJAublsLMfEcw4UH4U63dQzwTjcJXnYGNqWveAw4HPyvv6Y71oAOdeIssucSf
+ vxwH7nHwsM9aEC9YYqxGyB2HaW74umNylXAjfz86b/fgecZYZBmBRABs2DPSaN6HQqlu
+ hefW2dwhzOIq9h/f3PmougH4Sq0OR2l3OpLJ8QA5JbdIUphNBLbguNc8Aumwg9KQG0cU
+ rjU/bOCnCd6adW6aC+gmcBMF1h3z91D85Brve0+mWE1wPJgEAmf7/AqTEU8S/LD7jAJI
+ Qpjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Quo+WLN2RYs/0yCjl1IWKH3iZ7BJXQe59V3pgIHgXgA=;
- b=NrLjkKIeFqNiEccNAnrJl1sZFMuXMjt0wA3sW4PPvTK5ziKwwyaSygN1F+FIUXP7Bc
- GFYfol+fOIKIXmnFKuSAdXCcBHsPw1hXcKtOj0e07pOcXs0+GXQMROJK4jInwUrDdMtK
- gnXn5EenMAdEmD6NflNGJKzsQBKRNvfKABZY5JbDsPxbcj1aedoKfBYrj/ujMtuZn8uT
- xN8zZ3Y3SrxhJy9mr8DjKd2NzI2YMWZCClCaAgrBqb6jxbUcAiFKxD3r/TlFcYwLnFI/
- fuQ9y/vQ15W2CgGddPQ5Hgg92cvgnBd46Rgxw2O7ogUyfz+1b/gAfOWoK6s7hNrXDKlX
- FzYA==
-X-Gm-Message-State: AOAM530mUlDVkT468awmNr3gAyxXFnz/rPiq2wMVgSJfVKPvZZq98uJE
- EaFOvxHCgshh4BaD3ZOw8o+GghhzUTAPVw==
-X-Google-Smtp-Source: ABdhPJxZ25J7hhxSxPm8mb9tar+CvA0mXOZcxeA7DPp2KdsD6pFl6lHQ3Hcg/K2U8AyiO3PWqEKG5w==
-X-Received: by 2002:a63:ff01:: with SMTP id k1mr15555320pgi.141.1602551009505; 
- Mon, 12 Oct 2020 18:03:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lgTEIoGQTMBZd1KdzUKViOu+UKgD2OOzWkZKgsEYCHM=;
+ b=kYCi6o0niAK00VDnHdTc2VanEFOWd09tVCehLzejKJbqoxHJymEcZdIGOS+Kp7O3g9
+ sFCh/oqfs5zcqH0RHqSewUCPfdVMYnaPlIoqbvLWYtjJwsSW/1lFq9f5Fu24E5y9Za8F
+ dWVgm6WcmR6TcbOA92wbJECRZZB1qDwUgYrYHLghLyno4aRqJ5sz/NRfYxkFTAl2dbyt
+ 3ym9RZQvP/5TwzYldyPIPmoqs8E/ib6spxGdsD5x7toDk8QuFbeDbqrB64QcmVISociI
+ A6tDrosz7l0tZfS2O5fqunQj+CQ7e6HgngrNjY446xFaWuPQ5T4L6jS+cUFxFKK9K74f
+ i5Ag==
+X-Gm-Message-State: AOAM533Br13gyYuH2upt91HZdwHnN0z1Qd1zDHstE+B64tkX6aldRT+V
+ g9If1XbVDlmixeUz2YCgJf8+Qkw0EmzkNQ==
+X-Google-Smtp-Source: ABdhPJzR1UOWcqrdeiaWfAlQzyN8VhnexnC2QDXnuZ54UTpw4CIkrqf0yDbTwbxoKsh8yoLOKnxPog==
+X-Received: by 2002:a65:6559:: with SMTP id a25mr9291026pgw.406.1602551012053; 
+ Mon, 12 Oct 2020 18:03:32 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id x23sm20809529pfc.47.2020.10.12.18.03.27
+ by smtp.googlemail.com with ESMTPSA id x23sm20809529pfc.47.2020.10.12.18.03.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Oct 2020 18:03:28 -0700 (PDT)
+ Mon, 12 Oct 2020 18:03:31 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Fixes gcrypt testing on msys2/mingw
-Date: Tue, 13 Oct 2020 09:03:08 +0800
-Message-Id: <20201013010310.497-1-luoyonggang@gmail.com>
+Subject: [PATCH 1/2] gcrypt: test_tls_psk_init should write binary file
+ instead text file.
+Date: Tue, 13 Oct 2020 09:03:09 +0800
+Message-Id: <20201013010310.497-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20201013010310.497-1-luoyonggang@gmail.com>
+References: <20201013010310.497-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,28 +90,28 @@ Cc: Yonggang Luo <luoyonggang@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-gcrypt: test_tls_psk_init should write binary file instead text file.=0D
-gcrypt: Enable crypto tests under msys2/mingw by implement custom qemu_sock=
-et=3D=0D
-pair=0D
-=0D
-Yonggang Luo (2):=0D
-  gcrypt: test_tls_psk_init should write binary file instead text file.=0D
-  gcrypt: Enable crypto tests under msys2/mingw=0D
-=0D
- include/qemu/osdep.h             |  1 +=0D
- include/sysemu/os-win32.h        |  5 +++=0D
- tests/crypto-tls-psk-helpers.c   |  6 ++-=0D
- tests/crypto-tls-x509-helpers.c  |  6 ++-=0D
- tests/crypto-tls-x509-helpers.h  |  5 ++-=0D
- tests/test-crypto-tlscredsx509.c | 47 +++++++++++---------=0D
- tests/test-crypto-tlssession.c   | 64 +++++++++++++++------------=0D
- tests/test-io-channel-tls.c      | 49 +++++++++++---------=0D
- util/osdep.c                     | 16 +++++++=0D
- util/oslib-win32.c               | 76 ++++++++++++++++++++++++++++++++=0D
- 10 files changed, 198 insertions(+), 77 deletions(-)=0D
-=0D
---=3D20=0D
-2.28.0.windows.1=0D
-=0D
+On windows, if open file with "w", it's will automatically convert
+"\n" to "\r\n" when writing to file.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ tests/crypto-tls-psk-helpers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/crypto-tls-psk-helpers.c b/tests/crypto-tls-psk-helpers.c
+index a8395477c3..11ae26368c 100644
+--- a/tests/crypto-tls-psk-helpers.c
++++ b/tests/crypto-tls-psk-helpers.c
+@@ -32,7 +32,7 @@ void test_tls_psk_init(const char *pskfile)
+ {
+     FILE *fp;
+ 
+-    fp = fopen(pskfile, "w");
++    fp = fopen(pskfile, "wb");
+     if (fp == NULL) {
+         g_critical("Failed to create pskfile %s", pskfile);
+         abort();
+-- 
+2.28.0.windows.1
+
 
