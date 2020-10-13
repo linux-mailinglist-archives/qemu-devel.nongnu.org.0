@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CDA28CDC7
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:04:30 +0200 (CEST)
-Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C047928CD56
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:59:36 +0200 (CEST)
+Received: from localhost ([::1]:51482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSJ2b-0005p9-Tz
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:04:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44294)
+	id 1kSIxr-0001dj-S8
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:59:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpx-0007jy-JW; Tue, 13 Oct 2020 07:51:25 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:60203)
+ id 1kSIpj-00078R-31; Tue, 13 Oct 2020 07:51:11 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:48537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpv-000506-Hs; Tue, 13 Oct 2020 07:51:25 -0400
+ id 1kSIph-0004y9-5D; Tue, 13 Oct 2020 07:51:10 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MFslN-1kgtx30155-00HKY4; Tue, 13 Oct 2020 13:51:02 +0200
+ id 1MUobv-1ksWwh3Wb3-00Qlh0; Tue, 13 Oct 2020 13:51:03 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/14] vmdk: fix maybe uninitialized warnings
-Date: Tue, 13 Oct 2020 13:50:43 +0200
-Message-Id: <20201013115052.133355-6-laurent@vivier.eu>
+Subject: [PULL 06/14] hw/acpi/piix4: Rename piix4_pm_add_propeties() to
+ piix4_pm_add_properties()
+Date: Tue, 13 Oct 2020 13:50:44 +0200
+Message-Id: <20201013115052.133355-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
 References: <20201013115052.133355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XB7loyoGcXKIcOfHMjQoDjVgKRfm0t1xGrFtoqpspoGMvsOcC1T
- jQ6z5HFbfuZrpWTPDoFlGS57/JCQAxSTV/7ATvUpe5TmTdaRFi4ni50+yk6VrgCopGTWidY
- H25kL+/T7yiUypYZVGIk2lvU7mXC24IROVa3kQrmBHMhqDOoPoc1c1ip4c0KnfqzbQRhbwk
- TnKysulw0Ozq6x6ZYhYHg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZeNJ7wiqgXw=:Hw2tyxTQmuifLlKl7Js/QC
- UMz2Yz4KxPJSYvwPyoBiwyBJjArlQPbO5pnf5eMdDQxyuSlccEFSwGXke52O4apat4hFWopA+
- Ru3lFLtWoqn039IryxV9L7tHirxQBZLmosJ9Ljh434jMyqvPOtrlNHKOATOrer7ACXxC9lIym
- Gd9cJbubNgr/hjPhYLfUvUy5nWJ7QEfwX7QsBawt5JPk5utKXeU02UC8//39AezmF1yzgiiqj
- HOWiRWutR30pR6JNs21l0z1UFv1pCPcpvudOS1kPkQyDJ2sYR2okyHWU0OnzltXiYc1B4jppN
- SnSVo49Kkpct9or7PyFmwxmda+DW9jE6ZcW/v4gchoVQUOGmv1X4KyY8xLux0RYkZseOFrXF5
- pSid1GbUswMBHNb9PLTOWzGBQmbpOunLIxzfjOIigV5RF06Ks33sffJUMQr59NglLIgD97K0g
- ok/JKivi4NWNG4jkYBoDT1f4FnPXdRmZuYsR2nQ+VuDEeeieWZ9ANQyMiLBgukg5NO2kjZcdl
- JxcuDvxRAoLTTRj5HDvPHwalBY+RU2xfbdm3BV0G8YxjeI94Dd+qIarIJq8WYZIcgG3RanTop
- 5jAPohwgktqkNkSsJ710AW5uc8+Q+8xI+JR6k9KVYVBvcrMNkpVMLg3gBLlCkPu0ChzreFJxu
- 08WKNJ3Axj0YVNSOfMS5AXKcWQkBZeiPUU2qiiyLPOJsaxqP0W6JS9dS8tE9XhBuLyunF6acy
- fnM5xOxSoAssvTmptmbvhjiRgaXZVTyRT5gvQzqNg6uglqPfp5GPIIagz4FajlcBk5epIfXsf
- N3w/LDp4QLQltINtBrtFHmaKmnVtq4fCDMnrdMmQTEG6VdEjFHMAPm7MpkI060wxW3vb9ku
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:U1JLs65+gAgexy6v+LBl9wE/g4Q0G1GxkcvGhlvQoGIIrOFstxm
+ uBVsjCIP9WK9tAPHO3Vh4r04XJFvrtjmxtGa81l7rmmuE5dByDNg0gNCmmRpa0zWoBwfOtQ
+ r3yFEjAfJeWKaOTxxI9/biFyyyq6PBdNqapD6kLhqFX5Wy8a0vAGwBJIQEO+BEOyjsWZX+9
+ ZTjLCXD66Q3l4Y8RyjQBw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FVU741uBOW4=:fZAXdr1SQRvGWqR9AVSsSD
+ HiQvyQKJDf2UCDhKFSbddVSERW8w347b5k8OyojY85+vPJkKyfp2S9fTDks/1eLQesKtn0RUF
+ BoJKkIHhs9cF1/EINnKnNlorBPi66RF9s9/tGBnHIBqj2+KEjLCVnFJBKSkC9SpXJJK8lGqTi
+ f6SUMO5Mfo1ZYceG/K9bCrbBUXq5s7hCdB04IZp9bVtmFUq9Sd/ZtuH9JxIvQtA/L+vZkC1D5
+ BJYXyhKIoyYgee9M8guZQYJf0t59GcLf+UtOeIWgqIQN9LHZi7hUvO+lZzSPP4J/5W5wNqR2f
+ wCL8XIPc8N7mVYnSmVQKDUqytTrokgxfV5U7RKsaE5DCqPLa+QonYfck6xuXV1r7tqwlXoJPP
+ DPbkQ8+TnKQSkqNevFAvYjPJ4RfMdLH6q7yNcziyBKDEfCtjmdJF2FQo4MkqJOkmV2IQ16brk
+ Q9T3UaZXme0mSiEKXvgAAinzbLJsvVtvlKxsA3ctHmjRt3yq5AWhV7pWRSY/njF6TCnifeNyf
+ zaC3nr+AWmx+vBBhV5TaLMcwA++wlrc1wOgg/WIdsg/k546So7ZfGQlnXAl0oq1Xl3julAFx6
+ s6j2IkP6c8bN2a9VXcmjdIVW2ZZhf+Yru2xG5GEu7478LpoWizJpvrX6+RrIyrbGaK8MQTJob
+ MWcVFQQy3PcdJSTEaocLrQXuqk3LHJPRsDlBA/0DeM2iuLN6htjkRy+UM7ZZ6F2gpgrFNrGzb
+ jR5omvr+R3y6OH4EnZRUCMFP90E2cD4wFsXyP67fkObtmfqeWLSORcvlSK8pJrvWTZ48lqQ87
+ ktalE/9OCfnmNHfPoIkyJbjU2fhYWyutNUWGCcaS4A/Im7dmdTGEqzgeDOl6zH1ShQeL7nj
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:51:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:32:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,102 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- Fam Zheng <fam@euphon.net>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Li Qiang <liq3ea@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christian Borntraeger <borntraeger@de.ibm.com>
+From: Greg Kurz <groug@kaod.org>
 
-Fedora 32 gcc 10 seems to give false positives:
-
-Compiling C object libblock.fa.p/block_vmdk.c.o
-../block/vmdk.c: In function ‘vmdk_parse_extents’:
-../block/vmdk.c:587:5: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  587 |     g_free(extent->l1_table);
-      |     ^~~~~~~~~~~~~~~~~~~~~~~~
-../block/vmdk.c:754:17: note: ‘extent’ was declared here
-  754 |     VmdkExtent *extent;
-      |                 ^~~~~~
-../block/vmdk.c:620:11: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  620 |     ret = vmdk_init_tables(bs, extent, errp);
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../block/vmdk.c:598:17: note: ‘extent’ was declared here
-  598 |     VmdkExtent *extent;
-      |                 ^~~~~~
-../block/vmdk.c:1178:39: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
- 1178 |             extent->flat_start_offset = flat_offset << 9;
-      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-../block/vmdk.c: In function ‘vmdk_open_vmdk4’:
-../block/vmdk.c:581:22: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  581 |     extent->l2_cache =
-      |     ~~~~~~~~~~~~~~~~~^
-  582 |         g_malloc(extent->entry_size * extent->l2_size * L2_CACHE_SIZE);
-      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../block/vmdk.c:872:17: note: ‘extent’ was declared here
-  872 |     VmdkExtent *extent;
-      |                 ^~~~~~
-../block/vmdk.c: In function ‘vmdk_open’:
-../block/vmdk.c:620:11: error: ‘extent’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  620 |     ret = vmdk_init_tables(bs, extent, errp);
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../block/vmdk.c:598:17: note: ‘extent’ was declared here
-  598 |     VmdkExtent *extent;
-      |                 ^~~~~~
-cc1: all warnings being treated as errors
-make: *** [Makefile.ninja:884: libblock.fa.p/block_vmdk.c.o] Error 1
-
-fix them by assigning a default value.
-
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: Fam Zheng <fam@euphon.net>
-Message-Id: <20200930155859.303148-2-borntraeger@de.ibm.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Message-Id: <160165476743.57452.2128307974125615413.stgit@bahia.lan>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- block/vmdk.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/acpi/piix4.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 8ec62c7ab798..a00dc00eb47a 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -595,7 +595,7 @@ static int vmdk_open_vmfs_sparse(BlockDriverState *bs,
-     int ret;
-     uint32_t magic;
-     VMDK3Header header;
--    VmdkExtent *extent;
-+    VmdkExtent *extent = NULL;
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 894d357f8c35..67a1ea41914f 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -437,7 +437,7 @@ static void piix4_pm_machine_ready(Notifier *n, void *opaque)
+         (memory_region_present(io_as, 0x2f8) ? 0x90 : 0);
+ }
  
-     ret = bdrv_pread(file, sizeof(magic), &header, sizeof(header));
-     if (ret < 0) {
-@@ -751,7 +751,7 @@ static int vmdk_open_se_sparse(BlockDriverState *bs,
-     int ret;
-     VMDKSESparseConstHeader const_header;
-     VMDKSESparseVolatileHeader volatile_header;
--    VmdkExtent *extent;
-+    VmdkExtent *extent = NULL;
+-static void piix4_pm_add_propeties(PIIX4PMState *s)
++static void piix4_pm_add_properties(PIIX4PMState *s)
+ {
+     static const uint8_t acpi_enable_cmd = ACPI_ENABLE;
+     static const uint8_t acpi_disable_cmd = ACPI_DISABLE;
+@@ -509,7 +509,7 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
+                                    pci_get_bus(dev), s);
+     qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s));
  
-     ret = bdrv_apply_auto_read_only(bs,
-             "No write support for seSparse images available", errp);
-@@ -869,7 +869,7 @@ static int vmdk_open_vmdk4(BlockDriverState *bs,
-     uint32_t magic;
-     uint32_t l1_size, l1_entry_sectors;
-     VMDK4Header header;
--    VmdkExtent *extent;
-+    VmdkExtent *extent = NULL;
-     BDRVVmdkState *s = bs->opaque;
-     int64_t l1_backup_offset = 0;
-     bool compressed;
-@@ -1088,7 +1088,7 @@ static int vmdk_parse_extents(const char *desc, BlockDriverState *bs,
-     BdrvChild *extent_file;
-     BdrvChildRole extent_role;
-     BDRVVmdkState *s = bs->opaque;
--    VmdkExtent *extent;
-+    VmdkExtent *extent = NULL;
-     char extent_opt_prefix[32];
-     Error *local_err = NULL;
+-    piix4_pm_add_propeties(s);
++    piix4_pm_add_properties(s);
+ }
  
+ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
 -- 
 2.26.2
 
