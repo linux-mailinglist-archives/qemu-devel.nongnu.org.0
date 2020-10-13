@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50F928D1DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 18:10:07 +0200 (CEST)
-Received: from localhost ([::1]:54708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBAF28D1A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 17:59:31 +0200 (CEST)
+Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSMsJ-0004sS-0F
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 12:10:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44528)
+	id 1kSMi2-0004k1-MU
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 11:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kSMqi-0003oc-Uh; Tue, 13 Oct 2020 12:08:28 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:34346)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kSMqh-0008Fm-D1; Tue, 13 Oct 2020 12:08:28 -0400
-Received: by mail-io1-xd42.google.com with SMTP id m17so23334259ioo.1;
- Tue, 13 Oct 2020 09:08:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=aZMdICbl3iEGIsjyKQ0WID5E+cOKAdofSZSZX3QlyK4=;
- b=SLvTxGM0NmIQpOyXJcTiS9cDoMCinJFHBklF1SDBAg33NRDRVoyvFQ7YQN2b237PnR
- 0pidYaE3urNu7KVBJYEhtZVtIIEH+xLjhwuA1S7wFhigEAed08uov9+QqNJcfBXNVWE4
- p5ni4jeVuyVL3MOvdQhjn2HS6ItRWGa77aBoI0auay0xdJYjNTwFPKq9tzarhJ9XQYnQ
- vb31aYaBMlE/q4eAB0ZQ2vsX0qlfJYqJWZVN+5dJcGIQnzzhdRRKC+o/bqAV7SRk6+5j
- ncRpH+p6nIi+nOOtnUHj9ZpIXnM/SEAJHspjKAvdCpT06sUGXqBA9YFoiZkb9j8tx1O2
- qDsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aZMdICbl3iEGIsjyKQ0WID5E+cOKAdofSZSZX3QlyK4=;
- b=JdF+ov21/GmttR7qAmx8CMQt9/jAkspml+KwsSBLFdonZMJhEyJvdPoS576OjUV5Kf
- RTMBtdXheVVX1wWA2NPbihIxcFZ2YiNTXq0vwFm9WJCgLbh+s8q/r5UOQ9j16+gQSC1u
- e+N8wajNImuc7ySPngm0QNZvc3LpoZRXwVNP8zD0eaNc3uhZxSGsqdbD9z24pcMKiwcE
- YfKTsXI7OaEkA3uIbgMVQT3zCzp+KV5zK/JWmVyiPuqnaKqJi/vpP4bEACz4lbuqCAFd
- YlUyOD3lqW9HwkRM3GomA8DeWhPbsVAnecPssO8ccxNl7NVnFhQ4uUschD0y4jD7cctx
- yrUg==
-X-Gm-Message-State: AOAM532vbvNZn/MnU9m3BebvCiOjt2/kRQQBEGsz4noknu8Z/9Xo+rRS
- LanOS5px/GEsGpXh2USZ1tbBx3rOWRMznrLSXvU=
-X-Google-Smtp-Source: ABdhPJwrj5r8lWTHweSaNO8g2Ty1DnR3DC5Svy3w3BKXOqqaCYhpUHm/oSBIgAyyUDsGl8TCg6KQrFjCMTss1CRGnuY=
-X-Received: by 2002:a5e:9b11:: with SMTP id j17mr92377iok.176.1602605305750;
- Tue, 13 Oct 2020 09:08:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kSMgt-0003jM-0i
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:58:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kSMgo-0006rH-IW
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 11:58:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602604692;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=hmV2zkNR/uPsLVS9+fqIr0hpTWhnAiVnNJK9RA3h9YU=;
+ b=amsSr5aVSSh7AaBBHwpzKyNF4XKri9MW6Ra++sd4O6ZK1WuTZGSOiBdCC01rxrax36K9Im
+ eEJWL3C5o9r6a45Z76QLTj/yKHy9Wn1eZRxgXcWe4m74iaC8jNpJ4Ex7hUEPlfdChMuBqi
+ OjogFro1lCD0slokp6AfRJ55BAwCvKs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-222-s7oL4tXmNm-YDGfn6cdDyg-1; Tue, 13 Oct 2020 11:58:03 -0400
+X-MC-Unique: s7oL4tXmNm-YDGfn6cdDyg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D49118A8220;
+ Tue, 13 Oct 2020 15:58:02 +0000 (UTC)
+Received: from redhat.com (ovpn-114-78.ams2.redhat.com [10.36.114.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 807A619C59;
+ Tue, 13 Oct 2020 15:58:00 +0000 (UTC)
+Date: Tue, 13 Oct 2020 16:57:57 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Joelle van Dyne <j@getutm.app>
+Subject: Re: [PATCH 04/10] meson: option to build as shared library
+Message-ID: <20201013155757.GR70612@redhat.com>
+References: <20201012232939.48481-1-j@getutm.app>
+ <20201012232939.48481-5-j@getutm.app>
+ <20201013075104.GA70612@redhat.com>
+ <e27acf2-4dbe-4674-78cc-67aa7b505c54@eik.bme.hu>
+ <20201013144625.GP70612@redhat.com>
+ <CA+E+eSBu_LOnQ=B+N7vm3H2zkBxey8z_T1V0JpSU8rZND6GRYQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <29a8c766c7c4748d0f2711c3a0abb81208138c5e.1601652179.git.alistair.francis@wdc.com>
-In-Reply-To: <29a8c766c7c4748d0f2711c3a0abb81208138c5e.1601652179.git.alistair.francis@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 13 Oct 2020 08:56:48 -0700
-Message-ID: <CAKmqyKM9qvxaqL2L3Pj1VRptXHm5b=dFz+bCu=XmELNjGCB8bQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] riscv: Convert interrupt logs to use
- qemu_log_mask()
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CA+E+eSBu_LOnQ=B+N7vm3H2zkBxey8z_T1V0JpSU8rZND6GRYQ@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 03:04:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,73 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 2, 2020 at 8:35 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> Currently we log interrupts and exceptions using the trace backend in
-> riscv_cpu_do_interrupt(). We also log exceptions using the interrupt log
-> mask (-d int) in riscv_raise_exception().
->
-> This patch converts riscv_cpu_do_interrupt() to log both interrupts and
-> exceptions with the interrupt log mask, so that both are printed when a
-> user runs QEMU with -d int.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On Tue, Oct 13, 2020 at 08:16:46AM -0700, Joelle van Dyne wrote:
+> I will start a separate conversation of UTM's license compatibility.
+> 
+> Regarding the patch, would some sort of warning message in configure
+> (if building as a shared library) regarding the license be wise? Or
+> would it pollute the output logs?
 
-Thanks!
+I think there's also a more fundamental question of whether this is
+a concept we actually want to support at all.
 
-Applied to riscv-to-apply.next
+IIUC, this shared library just exposes a "qemu_main" method which
+the external app has to jump into. IOW, the "char **argv" parameter
+to qemu_main becomes the ELF library ABI.  Declaring this a shared
+library interface is a non-negligible commitment for QEMU maintainers,
+especially given that there is alot about QMEU's command line parsing
+that maintainers do not like and wish to change.
 
-Alistair
+There is a further question about whether we want to commit to an
+architectural model where  fork() is not something we can use. A
+significant area of development for QEMU right now is around the
+modularization of the device model such that QEMU is no longer a
+single process, but rather a collection of processes, each proc
+responsible for some specific hardware emulation. Thus far all the
+device modularization stuff is strictly optional, but we have the
+freedom to make it mandatory and use it transparently behind the
+scenes. If we declare this shared library model supported in order
+to avoid use of fork, then we're restricting our future options
+wrt device modularization.
 
-> ---
->  target/riscv/cpu_helper.c | 8 +++++++-
->  target/riscv/op_helper.c  | 1 -
->  2 files changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 904899054d..6c68239a46 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -895,7 +895,13 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->      }
->
->      trace_riscv_trap(env->mhartid, async, cause, env->pc, tval,
-> -        riscv_cpu_get_trap_name(cause, async));
-> +                     riscv_cpu_get_trap_name(cause, async));
-> +
-> +    qemu_log_mask(CPU_LOG_INT,
-> +                  "%s: hart:"TARGET_FMT_ld", async:%d, cause:"TARGET_FMT=
-_lx", "
-> +                  "epc:0x"TARGET_FMT_lx", tval:0x"TARGET_FMT_lx", desc=
-=3D%s\n",
-> +                  __func__, env->mhartid, async, cause, env->pc, tval,
-> +                  riscv_cpu_get_trap_name(cause, async));
->
->      if (env->priv <=3D PRV_S &&
->              cause < TARGET_LONG_BITS && ((deleg >> cause) & 1)) {
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index 9b9ada45a9..e987bd262f 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -29,7 +29,6 @@ void QEMU_NORETURN riscv_raise_exception(CPURISCVState =
-*env,
->                                            uint32_t exception, uintptr_t =
-pc)
->  {
->      CPUState *cs =3D env_cpu(env);
-> -    qemu_log_mask(CPU_LOG_INT, "%s: %d\n", __func__, exception);
->      cs->exception_index =3D exception;
->      cpu_loop_exit_restore(cs, pc);
->  }
-> --
-> 2.28.0
->
+So including the license issue, that's three major questionmarks
+around desirability of supporting use of QEMU as a shared library.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
