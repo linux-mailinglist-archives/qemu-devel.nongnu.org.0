@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B42828D6CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 01:10:40 +0200 (CEST)
-Received: from localhost ([::1]:47620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468F528D6D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 01:11:08 +0200 (CEST)
+Received: from localhost ([::1]:49774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSTRH-0004BC-4L
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 19:10:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37864)
+	id 1kSTRj-00053Z-BE
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 19:11:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kSTMU-0006Y3-33
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44258)
+ id 1kSTMW-0006ZI-1z
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kSTMM-0003bv-4e
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:39 -0400
+ id 1kSTMP-0003cC-Vo
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602630332;
+ s=mimecast20190719; t=1602630333;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QTbX0B1zV000QcV8Vb8x3NBiMAjzCCHPhHUOANP/BZE=;
- b=PaENz9A0vsy13LhuDZHo+0HizNxFTw6l1i3ZG38AfwChjg9K6Q2swybVBlIJNCW5PMFavl
- GDdGijSP5hyCiO8O5R01oL8B8OwGwWQPZVcqRpxloTxEG+qKtutCl5rqPs4mPsUmZkXN5C
- nnhcnWNjWhtRvUafdANM8EAMJrNhG2c=
+ bh=3m5u6RznFsKtqBBV59KVWcpK1ey1DAx8fco18NzU/lc=;
+ b=Eyqh2A308DywvqJ0Ji6mEuwi2gVAh4lsEWkbBx2Fuwqd3TDW0u3aPglH+45lb1h7SxG0H8
+ LHfbTZGCFtBvgDXlXl/tNjY3yys3fpCrY9SjKs1lkEFPjZi7Qk885R+6NaH0SxBSY43DuT
+ Vjdq6MUgb2ASxgsFNDmU+FGuEpU7vBc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-q1vk8DkEMYWJraXRdFxkiA-1; Tue, 13 Oct 2020 19:05:30 -0400
-X-MC-Unique: q1vk8DkEMYWJraXRdFxkiA-1
+ us-mta-361-lX_C_LU4OYSt0zi8ng3Fjg-1; Tue, 13 Oct 2020 19:05:31 -0400
+X-MC-Unique: lX_C_LU4OYSt0zi8ng3Fjg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F9EF1074657;
- Tue, 13 Oct 2020 23:05:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D0EB56BE6;
+ Tue, 13 Oct 2020 23:05:29 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFD797666A;
- Tue, 13 Oct 2020 23:05:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 227BE76663;
+ Tue, 13 Oct 2020 23:05:28 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/7] i386: Replace x86_cpu_class_get_alias_of() with
- x86_cpu_model_resolve_alias()
-Date: Tue, 13 Oct 2020 19:04:53 -0400
-Message-Id: <20201013230457.150630-4-ehabkost@redhat.com>
+Subject: [PATCH v2 4/7] i386: Add default_version parameter to CPU version
+ functions
+Date: Tue, 13 Oct 2020 19:04:54 -0400
+Message-Id: <20201013230457.150630-5-ehabkost@redhat.com>
 In-Reply-To: <20201013230457.150630-1-ehabkost@redhat.com>
 References: <20201013230457.150630-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -101,73 +101,77 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New function is very similar to the old function, but it just
-takes a X86CPUModel as argument, and its name makes its purpose
-clearer.
+Currently, the functions that resolve CPU model versions
+(x86_cpu_model_resolve_version(), x86_cpu_model_resolve_alias())
+need a machine to be initialized first.  Get rid of this
+requirement by making those functions get an explicit
+default_version argument.
+
+No behavior changes are introduced by this patch, as all callers
+are being changed to use default_cpu_version as argument.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 33 +++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
+ target/i386/cpu.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 43e633ddd3..2c8dd3fa32 100644
+index 2c8dd3fa32..c78b2abfb8 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -4170,6 +4170,21 @@ static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *model)
-     return v;
+@@ -4158,11 +4158,12 @@ static X86CPUVersion x86_cpu_model_last_version(const X86CPUModel *model)
  }
  
-+/* Resolve CPU model alias to actual CPU model name */
-+static char *x86_cpu_model_resolve_alias(const X86CPUModel *model)
-+{
-+    X86CPUVersion version;
-+
-+    if (!model->is_alias) {
-+        return NULL;
-+    }
-+    version = x86_cpu_model_resolve_version(model);
-+    if (version <= 0) {
-+        return NULL;
-+    }
-+    return x86_cpu_versioned_model_name(model->cpudef, version);
-+}
-+
- void x86_cpu_change_kvm_default(const char *prop, const char *value)
+ /* Return the actual version being used for a specific CPU model */
+-static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *model)
++static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *model,
++                                                   X86CPUVersion default_version)
  {
-     PropValue *pv;
-@@ -4913,20 +4928,6 @@ static char *x86_cpu_class_get_model_id(X86CPUClass *xc)
-     return r;
+     X86CPUVersion v = model->version;
+     if (v == CPU_VERSION_AUTO) {
+-        v = default_cpu_version;
++        v = default_version;
+     }
+     if (v == CPU_VERSION_LATEST) {
+         return x86_cpu_model_last_version(model);
+@@ -4171,14 +4172,15 @@ static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *model)
  }
  
--static char *x86_cpu_class_get_alias_of(X86CPUClass *cc)
--{
--    X86CPUVersion version;
--
--    if (!cc->model || !cc->model->is_alias) {
--        return NULL;
--    }
--    version = x86_cpu_model_resolve_version(cc->model);
--    if (version <= 0) {
--        return NULL;
--    }
--    return x86_cpu_versioned_model_name(cc->model->cpudef, version);
--}
--
- static void x86_cpu_list_entry(gpointer data, gpointer user_data)
+ /* Resolve CPU model alias to actual CPU model name */
+-static char *x86_cpu_model_resolve_alias(const X86CPUModel *model)
++static char *x86_cpu_model_resolve_alias(const X86CPUModel *model,
++                                         X86CPUVersion default_version)
  {
-     ObjectClass *oc = data;
-@@ -5002,8 +5003,8 @@ static void x86_cpu_definition_entry(gpointer data, gpointer user_data)
-      * Old machine types won't report aliases, so that alias translation
+     X86CPUVersion version;
+ 
+     if (!model->is_alias) {
+         return NULL;
+     }
+-    version = x86_cpu_model_resolve_version(model);
++    version = x86_cpu_model_resolve_version(model, default_version);
+     if (version <= 0) {
+         return NULL;
+     }
+@@ -5004,7 +5006,8 @@ static void x86_cpu_definition_entry(gpointer data, gpointer user_data)
       * doesn't break compatibility with previous QEMU versions.
       */
--    if (default_cpu_version != CPU_VERSION_LEGACY) {
--        info->alias_of = x86_cpu_class_get_alias_of(cc);
-+    if (cc->model && default_cpu_version != CPU_VERSION_LEGACY) {
-+        info->alias_of = x86_cpu_model_resolve_alias(cc->model);
+     if (cc->model && default_cpu_version != CPU_VERSION_LEGACY) {
+-        info->alias_of = x86_cpu_model_resolve_alias(cc->model);
++        info->alias_of = x86_cpu_model_resolve_alias(cc->model,
++                                                     default_cpu_version);
          info->has_alias_of = !!info->alias_of;
      }
  
+@@ -5075,7 +5078,8 @@ static void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
+ static void x86_cpu_apply_version_props(X86CPU *cpu, X86CPUModel *model)
+ {
+     const X86CPUVersionDefinition *vdef;
+-    X86CPUVersion version = x86_cpu_model_resolve_version(model);
++    X86CPUVersion version = x86_cpu_model_resolve_version(model,
++                                                          default_cpu_version);
+ 
+     if (version == CPU_VERSION_LEGACY) {
+         return;
 -- 
 2.28.0
 
