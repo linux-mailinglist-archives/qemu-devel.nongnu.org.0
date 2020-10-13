@@ -2,51 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3801128CF33
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 15:34:02 +0200 (CEST)
-Received: from localhost ([::1]:35102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314A728CF35
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 15:35:09 +0200 (CEST)
+Received: from localhost ([::1]:39798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSKRF-00055s-8R
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 09:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44616)
+	id 1kSKSK-00073w-8h
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 09:35:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1kSKPa-0003sc-FO
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 09:32:18 -0400
-Received: from zangief.bwidawsk.net ([107.170.211.233]:57228
- helo=mail.bwidawsk.net)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1kSKPY-0001hx-UD
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 09:32:18 -0400
-Received: by mail.bwidawsk.net (Postfix, from userid 5001)
- id BFFF5122C88; Tue, 13 Oct 2020 06:32:15 -0700 (PDT)
-Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
- [73.37.61.164])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.bwidawsk.net (Postfix) with ESMTPSA id 8483A122C4D;
- Tue, 13 Oct 2020 06:32:11 -0700 (PDT)
-Date: Tue, 13 Oct 2020 06:32:09 -0700
-From: Ben Widawsky <ben@bwidawsk.net>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] monitor: Fix order in monitor_cleanup()
-Message-ID: <20201013133209.uwqowwnnhylxdiyc@mail.bwidawsk.net>
-References: <20201013125027.41003-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSKPr-0004KR-H0
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 09:32:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSKPn-0001l6-Md
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 09:32:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602595950;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AJCDN23uhinq4hyqQ/aLd65LLd0Pe4nC/XbwoMDCHh4=;
+ b=eul3cIW6V6zdiaX5/NkkKr8QJFWCal5k7wb3MaA8YL4CYjpz+YMnBDhn5s6oOYGwG17pAe
+ P9W+3+OXldFS2y17wb+EqCIuzpnmsCgii0e+186aTYm9EjSnZWXh0joBiB4Qm54MTTaCr3
+ 6w939hcVL5p5diJQ11VJd9IpSjZiD5E=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-4SKbceRpPBGBCvZWYDWCCA-1; Tue, 13 Oct 2020 09:32:22 -0400
+X-MC-Unique: 4SKbceRpPBGBCvZWYDWCCA-1
+Received: by mail-wm1-f69.google.com with SMTP id c204so6773719wmd.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 06:32:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AJCDN23uhinq4hyqQ/aLd65LLd0Pe4nC/XbwoMDCHh4=;
+ b=NTMS+zK864yGocvZMcuiKyhemt4pBZ27jGohAV0wKL36fontqSso3Nma1g6Ptr420I
+ 2vdIi/pLJSYS3fRV3hFCamhavpOwrzSAAw6NamfOvemlo5m5v+kRav6AHvZ78b7DHTBt
+ FWIE0jOgFgttWrXfAqScneAoNSD5J0/j78Q6WrzTdlUtyYHuVPo2NDFwxBM/eC3gC8Ky
+ oxJ/wUtfYD9brL0ACSmQbuMUlDoqv0f4jdLhhM+XRRzV7EioA3qLOYJFnlVvtEaJ/jpm
+ VjyEpx+/F1snr733k8vQrrRV7AwQWtgFFZp4/WPc1KEc2/1AivsA8PUTFzBZ/AMyyrjt
+ 7aAQ==
+X-Gm-Message-State: AOAM530Tc2gPhWG+PgwqT6YhQ2LU6wTm3UM/0e1o1IBCbdgSuq7yMhOf
+ Jw53/nR+EmlOwFaai+DHsoPn0iOe2XGQrQd7LlsVyAYX0JZmraedbZMBSL+G/P1RfEQbHHUSPWj
+ 66reacNaAL66tP74=
+X-Received: by 2002:a05:6000:1151:: with SMTP id
+ d17mr38234443wrx.363.1602595941183; 
+ Tue, 13 Oct 2020 06:32:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwvQwnSIdtfWSi40smjU8h/935RGRcKY8qAYMF0l691k1H7P7H93uqmdwZtSbK2Ueg/eCMvag==
+X-Received: by 2002:a05:6000:1151:: with SMTP id
+ d17mr38234420wrx.363.1602595940961; 
+ Tue, 13 Oct 2020 06:32:20 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id u15sm28248226wrm.77.2020.10.13.06.32.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Oct 2020 06:32:20 -0700 (PDT)
+Subject: Re: [PATCH 05/10] slirp: update for iOS resolv fix
+To: Joelle van Dyne <j@getutm.app>, qemu-devel@nongnu.org
+References: <20201012232939.48481-1-j@getutm.app>
+ <20201012232939.48481-6-j@getutm.app>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c99464f7-6fd7-e81f-9037-50942706fc24@redhat.com>
+Date: Tue, 13 Oct 2020 15:32:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201013125027.41003-1-kwolf@redhat.com>
-Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
- helo=mail.bwidawsk.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 09:32:15
+In-Reply-To: <20201012232939.48481-6-j@getutm.app>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:06:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.4,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,32 +102,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20-10-13 14:50:27, Kevin Wolf wrote:
-> We can only destroy Monitor objects after we're sure that they are not
-> in use by the dispatcher coroutine any more. This fixes crashes like the
-> following where we tried to destroy a monitor mutex while the dispatcher
-> coroutine still holds it:
+On 10/13/20 1:29 AM, Joelle van Dyne wrote:
+> From: osy <osy86@users.noreply.github.com>
 > 
->  (gdb) bt
->  #0  0x00007fe541cf4bc5 in raise () at /lib64/libc.so.6
->  #1  0x00007fe541cdd8a4 in abort () at /lib64/libc.so.6
->  #2  0x000055c24e965327 in error_exit (err=16, msg=0x55c24eead3a0 <__func__.33> "qemu_mutex_destroy") at ../util/qemu-thread-posix.c:37
->  #3  0x000055c24e9654c3 in qemu_mutex_destroy (mutex=0x55c25133e0f0) at ../util/qemu-thread-posix.c:70
->  #4  0x000055c24e7cfaf1 in monitor_data_destroy_qmp (mon=0x55c25133dfd0) at ../monitor/qmp.c:439
->  #5  0x000055c24e7d23bc in monitor_data_destroy (mon=0x55c25133dfd0) at ../monitor/monitor.c:615
->  #6  0x000055c24e7d253a in monitor_cleanup () at ../monitor/monitor.c:644
->  #7  0x000055c24e6cb002 in qemu_cleanup () at ../softmmu/vl.c:4549
->  #8  0x000055c24e0d259b in main (argc=24, argv=0x7ffff66b0d58, envp=0x7ffff66b0e20) at ../softmmu/main.c:51
+> We cannot access /etc/resolv.conf on iOS so libslirp is modified to use
+> libresolv instead.
 > 
-> Reported-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Tested-by: Ben Widawsky <ben.widawsky@intel.com>
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
+> ---
+>   .gitmodules | 2 +-
+>   meson.build | 2 ++
+>   slirp       | 2 +-
+>   3 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/.gitmodules b/.gitmodules
+> index 2bdeeacef8..f23e859210 100644
+> --- a/.gitmodules
+> +++ b/.gitmodules
+> @@ -51,7 +51,7 @@
+>   	url = https://git.qemu.org/git/edk2.git
+>   [submodule "slirp"]
+>   	path = slirp
+> -	url = https://git.qemu.org/git/libslirp.git
+> +	url = https://github.com/utmapp/libslirp.git
 
-[snip]
+NAck.
+
+You can not take over the SLiRP project submodule that way.
+
+I suggest getting your SLiRP changes merged with mainstream
+instead, see:
+https://gitlab.freedesktop.org/slirp/libslirp#contributing
+
+>   [submodule "roms/opensbi"]
+>   	path = roms/opensbi
+>   	url = 	https://git.qemu.org/git/opensbi.git
+> diff --git a/meson.build b/meson.build
+> index 32cf08619f..da96e296e0 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -996,6 +996,8 @@ if have_system
+>       slirp_deps = []
+>       if targetos == 'windows'
+>         slirp_deps = cc.find_library('iphlpapi')
+> +    elif targetos == 'darwin'
+> +      slirp_deps = cc.find_library('resolv')
+>       endif
+>       slirp_conf = configuration_data()
+>       slirp_conf.set('SLIRP_MAJOR_VERSION', meson.project_version().split('.')[0])
+> diff --git a/slirp b/slirp
+> index ce94eba204..452c389d82 160000
+> --- a/slirp
+> +++ b/slirp
+> @@ -1 +1 @@
+> -Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275
+> +Subproject commit 452c389d8288f81ec9d59d983a047d4e54f3194e
 
 
