@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8748F28CDCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:08:21 +0200 (CEST)
-Received: from localhost ([::1]:40148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8540628CDDB
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:14:27 +0200 (CEST)
+Received: from localhost ([::1]:47898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSJ6K-0000hr-KD
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:08:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44298)
+	id 1kSJCE-0004Hf-0n
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpy-0007mv-EV; Tue, 13 Oct 2020 07:51:26 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:51917)
+ (Exim 4.90_1) (envelope-from <prime.zeng@hisilicon.com>)
+ id 1kSJ9g-0003Ka-39; Tue, 13 Oct 2020 08:11:48 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:40882 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpw-00050A-8s; Tue, 13 Oct 2020 07:51:26 -0400
-Received: from localhost.localdomain ([82.252.141.186]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MNtny-1kqYsw1Nnc-00OIj1; Tue, 13 Oct 2020 13:51:10 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 14/14] meson.build: drop duplicate 'sparc64' entry
-Date: Tue, 13 Oct 2020 13:50:52 +0200
-Message-Id: <20201013115052.133355-15-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
-References: <20201013115052.133355-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <prime.zeng@hisilicon.com>)
+ id 1kSJ9a-00080v-5I; Tue, 13 Oct 2020 08:11:47 -0400
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.57])
+ by Forcepoint Email with ESMTP id 37E67F9DAA1F706534B7;
+ Tue, 13 Oct 2020 20:11:26 +0800 (CST)
+Received: from DGGEMM526-MBX.china.huawei.com ([169.254.8.75]) by
+ DGGEMM404-HUB.china.huawei.com ([10.3.20.212]) with mapi id 14.03.0487.000;
+ Tue, 13 Oct 2020 20:11:20 +0800
+From: "Zengtao (B)" <prime.zeng@hisilicon.com>
+To: fangying <fangying1@huawei.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [RFC PATCH 00/12] hw/arm/virt: Introduce cpu and cache topology
+ support
+Thread-Topic: [RFC PATCH 00/12] hw/arm/virt: Introduce cpu and cache
+ topology support
+Thread-Index: AQHWjKJl5HIXIntHik2XLwAv/zxi0qmVk/YA
+Date: Tue, 13 Oct 2020 12:11:20 +0000
+Message-ID: <678F3D1BB717D949B966B68EAEB446ED49E0BB94@dggemm526-mbx.china.huawei.com>
+References: <20200917032033.2020-1-fangying1@huawei.com>
+In-Reply-To: <20200917032033.2020-1-fangying1@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.74.221.187]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jBEdeiOklT/eZ0CDQWnCxpX1YMzRpDwu1r6q/zXsIQOBnj9OvJM
- zwLPhUCWGKS0rctwvfBDXpJC5up12co8CEaqRyyhrg9kbR06UvlekKPPggAeaQo6771gGnR
- DqM/pQzh/s0ssyW3ksG3tJIq1u3T1U+W+9JbePER3t9G2CY1O7LvovqTVOmuJV1IMe3RA0M
- bzngrhJksfIEMkQzAaZfA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xOQSOvg/1Mo=:vGbXTggR2dxCf1UicioCo5
- WSKiyHy9ZxDWEnNRixS+9wVpStI0jrwzIZuqJmlXGPlU9MndbxyoMEtC13sNsjJr6uiVmIqN4
- v4B2sG9wCzLpkizhorZZ2kiOek1Mhf7UZV/d7wGvZ0qcxE23l0J22MggG6hykebd62wePlkKl
- r4XFhYfEtvqNckpMQnzH+T/uJRnvleDkph+656ZD+3hfNHH4x5vdsKiYvLHq3la8rCWABvcpU
- SXjcScBo5FUdlQ/s7wnLyiwwWYeGct+KKQ8V74H/KobrsTRAzTLqS1PRSYKCNnJ0oC0aQtxVD
- yPnl5wLIyEWMeCLmId0QiaL1EVJcjggid3uKOnDbH+Em8xqJ5B92A6MJc+TW0ASpHdHlNwmb4
- CMfmPBHIoF9qAlCGbEE82UguiGvGlDGsKUaRuIVtBIueS2H2Bvd9W4ONtfj9tK/QQS4Xp9q4F
- bpbvJqLtHh4Oy4HuUBmiGDS0IXs20BSr9v8RZ2EsfJjhuCrirXtFXRi9fNBcdF72w6IPEsVV1
- briL9//wdorT7K/cmh8iPTpLhN60HDBHKAdCCZaHftg7zALQE0JVCTUtzQQSkJfHLxSG8jHrC
- f/9tuBKMxs9e9WKMmAP283sUQFdMfoK2Zf4JWMmU8Fj+XK9OTSz4qFy1ZzyIqC6+degjmCREX
- w3GW07ELHzjJvOX4gRBsDEdEZlVV44ZdY1zhu/iNcrH81ax0HKttDASyvZR3edyHm/z7n07NT
- JY/2Z5u6JyFTGQvuFegRHrh3LND3e2km6yzJtQugqpxSu21trLnUofYotmoQEe6Zau6niTZyv
- 63chwLv2mueDxv1wb3Bh+N5Ho6shAoVzejDSemg/uLjUoYCsUPLRVMv6HTu48hEosrfsPg9
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:50:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=prime.zeng@hisilicon.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 08:11:26
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,38 +65,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Sergei Trofimovich <slyfox@gentoo.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "drjones@redhat.com" <drjones@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "Chenzhendong \(alex\)" <alex.chen@huawei.com>,
+ "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "alistair.francis@wdc.com" <alistair.francis@wdc.com>,
+ fangying <fangying1@huawei.com>, "imammedo@redhat.com" <imammedo@redhat.com>,
+ "valentin.schneider@arm.com" <valentin.schneider@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sergei Trofimovich <slyfox@gentoo.org>
+Cc valentin
 
-CC: Laurent Vivier <laurent@vivier.eu>
-CC: qemu-trivial@nongnu.org
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
-Message-Id: <20201012175719.2573367-1-slyfox@gentoo.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> -----Original Message-----
+> From: Qemu-devel
+> [mailto:qemu-devel-bounces+prime.zeng=3Dhisilicon.com@nongnu.org]
+> On Behalf Of Ying Fang
+> Sent: Thursday, September 17, 2020 11:20 AM
+> To: qemu-devel@nongnu.org
+> Cc: peter.maydell@linaro.org; drjones@redhat.com; Zhanghailiang;
+> Chenzhendong (alex); shannon.zhaosl@gmail.com;
+> qemu-arm@nongnu.org; alistair.francis@wdc.com; fangying;
+> imammedo@redhat.com
+> Subject: [RFC PATCH 00/12] hw/arm/virt: Introduce cpu and cache
+> topology support
+>=20
+> An accurate cpu topology may help improve the cpu scheduler's
+> decision
+> making when dealing with multi-core system. So cpu topology
+> description
+> is helpful to provide guest with the right view. Cpu cache information
+> may
+> also have slight impact on the sched domain, and even userspace
+> software
+> may check the cpu cache information to do some optimizations. Thus
+> this patch
+> series is posted to provide cpu and cache topology support for arm.
+>=20
+> To make the cpu topology consistent with MPIDR, an vcpu ioctl
 
-diff --git a/meson.build b/meson.build
-index 17c89c87c626..392d326f4563 100644
---- a/meson.build
-+++ b/meson.build
-@@ -41,7 +41,7 @@ have_block = have_system or have_tools
- python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
--supported_cpus = ['ppc', 'ppc64', 's390x', 'sparc64', 'riscv32', 'riscv64', 'x86', 'x86_64',
-+supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
-   'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
- 
- cpu = host_machine.cpu_family()
--- 
-2.26.2
+For aarch64, the cpu topology don't depends on the MPDIR.
+See https://patchwork.kernel.org/patch/11744387/=20
+
+> KVM_ARM_SET_MP_AFFINITY is introduced so that userspace can set
+> MPIDR
+> according to the topology specified [1]. To describe the cpu topology
+> both fdt and ACPI are supported. To describe the cpu cache
+> information,
+> a default cache hierarchy is given and can be made configurable later.
+> The cpu topology is built according to processor hierarchy node
+> structure.
+> The cpu cache information is built according to cache type structure.
+>=20
+> This patch series is partially based on the patches posted by Andrew
+> Jone
+> years ago [2], I jumped in on it since some OS vendor cooperative
+> partners
+> are eager for it. Thanks for Andrew's contribution. Please feel free to
+> reply
+> to me if there is anything improper.
+>=20
+> [1] https://patchwork.kernel.org/cover/11781317
+> [2]
+> https://patchwork.ozlabs.org/project/qemu-devel/cover/2018070412
+> 4923.32483-1-drjones@redhat.com
+>=20
+> Andrew Jones (2):
+>   device_tree: add qemu_fdt_add_path
+>   hw/arm/virt: DT: add cpu-map
+>=20
+> Ying Fang (10):
+>   linux headers: Update linux header with
+> KVM_ARM_SET_MP_AFFINITY
+>   target/arm/kvm64: make MPIDR consistent with CPU Topology
+>   target/arm/kvm32: make MPIDR consistent with CPU Topology
+>   hw/arm/virt-acpi-build: distinguish possible and present cpus
+>   hw/acpi/aml-build: add processor hierarchy node structure
+>   hw/arm/virt-acpi-build: add PPTT table
+>   target/arm/cpu: Add CPU cache description for arm
+>   hw/arm/virt: add fdt cache information
+>   hw/acpi/aml-build: build ACPI CPU cache topology information
+>   hw/arm/virt-acpi-build: Enable CPU cache topology
+>=20
+>  device_tree.c                |  24 +++++++
+>  hw/acpi/aml-build.c          |  68 +++++++++++++++++++
+>  hw/arm/virt-acpi-build.c     |  99
+> +++++++++++++++++++++++++--
+>  hw/arm/virt.c                | 128
+> ++++++++++++++++++++++++++++++++++-
+>  include/hw/acpi/acpi-defs.h  |  14 ++++
+>  include/hw/acpi/aml-build.h  |  11 +++
+>  include/hw/arm/virt.h        |   1 +
+>  include/sysemu/device_tree.h |   1 +
+>  linux-headers/linux/kvm.h    |   3 +
+>  target/arm/cpu.c             |  42 ++++++++++++
+>  target/arm/cpu.h             |  27 ++++++++
+>  target/arm/kvm32.c           |  46 ++++++++++---
+>  target/arm/kvm64.c           |  46 ++++++++++---
+>  13 files changed, 488 insertions(+), 22 deletions(-)
+>=20
+> --
+> 2.23.0
+>=20
 
 
