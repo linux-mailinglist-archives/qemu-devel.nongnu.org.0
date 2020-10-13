@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF2328C6A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 03:11:02 +0200 (CEST)
-Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD06D28C69F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 03:08:28 +0200 (CEST)
+Received: from localhost ([::1]:51252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kS8qD-00075P-D9
-	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 21:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33302)
+	id 1kS8nj-0004KH-PJ
+	for lists+qemu-devel@lfdr.de; Mon, 12 Oct 2020 21:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jb-gnumlists@wisemo.com>)
- id 1kS8hc-0006vH-L2; Mon, 12 Oct 2020 21:02:09 -0400
-Received: from smtpv6n-hq2.wisemo.com ([2a01:4f0:4018::24b]:14142)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kS8j0-0007l9-5U
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 21:03:34 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:41945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jb-gnumlists@wisemo.com>)
- id 1kS8hZ-0000Zb-Eo; Mon, 12 Oct 2020 21:02:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wisemo.com;
- s=v2016; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
- bh=kujKjxitLKuE/OBp9WpPy+u2m2hupNgm2FOLYTPdInM=; 
- b=KluzXE5kROQJ/6mFTeyK56m8kEAF4Esm6nfCJfyP37e0r0xy+dhAtw0JUzLlB6G97Yvpw9ohTpAFUPPlrxQ/EEs7K9+hvsO1kWAXGZv+9NeXK2xjLg1Xdo+PKRqfI98wS7Dqsr7tO41A7yIuiASe86ky0hUr/+aH94ADo9u4sf5KIm/pAeBJ2vkRxY6Khf/udIZkHe/sXnK3zWuutGBqiUvbfy+Ic+0tk+9PaoSrq9Ik5c0lEj1lgGHh7xGvaDtbEd4lufH8A+zeU72tQzHv0x20L+P9t8Q/72t2wGRpsTCl2zcNc5YZ42EC8pbQpxKAO5Dl/pWjIEaD5okK2vRtvg==;
-Received: from [2a01:4f0:4018:f0:e41b:2a9e:7230:325]
- by mailout.i.wisemo.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <jb-gnumlists@wisemo.com>)
- id 1kS8hQ-0006Zp-2L; Tue, 13 Oct 2020 03:01:56 +0200
-Subject: Re: Which qemu change corresponds to RedHat bug 1655408
-To: Max Reitz <mreitz@redhat.com>
-Cc: qemu-discuss@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>
-References: <2d9c8525-470f-a4e5-5d71-895046e2d782@wisemo.com>
- <653b9595-ae60-181a-2975-2e351ade9788@redhat.com>
- <43072820-c04f-b706-4b37-2d2e37e8499f@wisemo.com>
- <0c76d4c9-a203-8bc3-e367-b198efe819d9@redhat.com>
- <7d9328d2-69b6-5bb4-405d-5756e14688ec@wisemo.com>
- <7e7403a0-0491-d6c2-914b-048f48e7aecb@redhat.com>
-From: Jakob Bohm <jb-gnumlists@wisemo.com>
-Organization: WiseMo A/S
-Message-ID: <3ffc3f6a-bbb3-68d2-6609-f979a589a997@wisemo.com>
-Date: Tue, 13 Oct 2020 03:01:55 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kS8ix-0000fl-OP
+ for qemu-devel@nongnu.org; Mon, 12 Oct 2020 21:03:33 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id c20so4850557pfr.8
+ for <qemu-devel@nongnu.org>; Mon, 12 Oct 2020 18:03:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Quo+WLN2RYs/0yCjl1IWKH3iZ7BJXQe59V3pgIHgXgA=;
+ b=CANr51kx++YywajXnqEBe1PvhMANGwxx/6m8SKiw910wSZ4nGVewff2HJ2YSgnqltI
+ 1gI4PhPlI4eIUqS2yUTn4vE6hC7gUjidCm5gTHRVVK/nrIl8jObbObnsJVWW+EoLGkji
+ EyJyU9kkeQqTdETmQGnegxEivIqcyW6cIsYmrhTJcvsGrNSjn/en/uumjPdjKs5Fr6xG
+ IVsnjVNvnn7aCN8Hww0f2+jAoaefbkhZ+ofh+OtRWRWb2vOX/czmqkeYfujP4+shFXZl
+ jNZZ2OtSXMFZUg50ZlkEMCUYvcC3IWA3KUveWpebgMQ8GIk3LImxJgBamgXalI+UXB+6
+ XaFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Quo+WLN2RYs/0yCjl1IWKH3iZ7BJXQe59V3pgIHgXgA=;
+ b=NrLjkKIeFqNiEccNAnrJl1sZFMuXMjt0wA3sW4PPvTK5ziKwwyaSygN1F+FIUXP7Bc
+ GFYfol+fOIKIXmnFKuSAdXCcBHsPw1hXcKtOj0e07pOcXs0+GXQMROJK4jInwUrDdMtK
+ gnXn5EenMAdEmD6NflNGJKzsQBKRNvfKABZY5JbDsPxbcj1aedoKfBYrj/ujMtuZn8uT
+ xN8zZ3Y3SrxhJy9mr8DjKd2NzI2YMWZCClCaAgrBqb6jxbUcAiFKxD3r/TlFcYwLnFI/
+ fuQ9y/vQ15W2CgGddPQ5Hgg92cvgnBd46Rgxw2O7ogUyfz+1b/gAfOWoK6s7hNrXDKlX
+ FzYA==
+X-Gm-Message-State: AOAM530mUlDVkT468awmNr3gAyxXFnz/rPiq2wMVgSJfVKPvZZq98uJE
+ EaFOvxHCgshh4BaD3ZOw8o+GghhzUTAPVw==
+X-Google-Smtp-Source: ABdhPJxZ25J7hhxSxPm8mb9tar+CvA0mXOZcxeA7DPp2KdsD6pFl6lHQ3Hcg/K2U8AyiO3PWqEKG5w==
+X-Received: by 2002:a63:ff01:: with SMTP id k1mr15555320pgi.141.1602551009505; 
+ Mon, 12 Oct 2020 18:03:29 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id x23sm20809529pfc.47.2020.10.12.18.03.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 18:03:28 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] Fixes gcrypt testing on msys2/mingw
+Date: Tue, 13 Oct 2020 09:03:08 +0800
+Message-Id: <20201013010310.497-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <7e7403a0-0491-d6c2-914b-048f48e7aecb@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a01:4f0:4018::24b;
- envelope-from=jb-gnumlists@wisemo.com; helo=smtpv6n-hq2.wisemo.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,141 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-10-12 13:47, Max Reitz wrote:
-> On 09.10.20 14:55, Jakob Bohm wrote:
->> On 2020-10-09 10:48, Max Reitz wrote:
->>> On 08.10.20 18:49, Jakob Bohm wrote:
->>>> (Top posting because previous reply did so):
->>>>
->>>> If the bug was closed as "can't reproduce", why was a very similar bug
->>>> listed as fixed in RHSA-2019:2553-01 ?
->>>
->>> Hi,
->>>
->>> Which very similar bug do you mean?  I can only guess that perhaps you
->>> mean 1603104 or 1551486.
->>>
->>> Bug 1603104 was about qemu not ignoring errors when releasing file locks
->>> fails (we should ignore errors then, because they're not fatal, and we
->>> often cannot return errors, so they ended up as aborts).  (To give more
->>> context, this error generally appeared only when the storage the image
->>> is on somehow disappeared while qemu is running.  E.g. when the
->>> connection to an NFS server was lost.)
->>>
->>> Bug 1551486 entailed a bit of a rewrite of the whole locking code, which
->>> may have resulted in the bug 1655408 no longer appearing for our QE
->>> team.  But it was a different bug, as it wasn’t about any error, but
->>> just about the fact that qemu used more FDs than necessary.
->>>
->>> (Although I see 1655408 was reported for RHEL 8, whereas 1603104 and
->>> 1551486 (as part of RHSA-2019:2553) were reported for RHEL 7.  The
->>> corresponding RHEL 8 bug for those two is 1694148.)
->>>
->>> Either way, both of those bugs are fixed in 5.0.
->>>
->>>
->>> 1655408 in contrast reports an error at startup; locking itself failed.
->>>    I couldn’t reproduce it, and I still can’t; neither with the image
->>> mounted concurrently, nor with an RO NFS mount.
->>>
->>> (For example:
->>>
->>> exports:
->>> [...]/test-nfs-ro
->>> 127.0.0.1(ro,sync,no_subtree_check,fsid=0,insecure,crossmnt)
->>>
->>> $ for i in $(seq 100); do \
->>>       echo -e '\033[1m---\033[0m'; \
->>>       x86_64-softmmu/qemu-system-x86_64 \
->>>         -drive \
->>>           if=none,id=drv0,readonly=on,file=/mnt/tmp/arch.iso,format=raw \
->>>         -device ide-cd,drive=drv0 \
->>>         -enable-kvm -m 2048 -display none &; \
->>>       pid=$!; \
->>>       sleep 1; \
->>>       kill $pid; \
->>>     done
->>>
->>> (Where x86_64-softmmu/qemu-system-x86_64 is upstream 5.0.1.)
->>>
->>> All I see is something like:
->>>
->>> ---
->>> qemu-system-x86_64: terminating on signal 15 from pid 7278 (/bin/zsh)
->>> [2] 34103
->>> [3]  - 34095 terminated  x86_64-softmmu/qemu-system-x86_64 -drive
->>> -device ide-cd,drive=drv0  -m 2048
->>>
->>> So no file locking errors.)
->>>
->>
->> The error I got was specifically "Failed to lock byte 100" and VM not
->> starting.  The ISO file was on a R/W NFS3 share, but was itself R/O for
->> the user that root was mapped to by linux-nfs-server via /etc/exports
->> options, specifically the file iso file was mode 0444 in a 0755
->> directory, and the exports line was (simplified)
->>
->> /share1
->> xxxx:xxxx:xxxx:xxxx/64(ro,sync,mp,subtree_check,anonuid=1000,anongid=1000)
->>
->> where xxxx:xxxx:xxxx:xxxx/64 is the numeric IPv6 prefix of the LAN
->>
->> NFS kernel Server ran Debian Stretch kernel 4.19.0-0.bpo.8-amd64 #1 SMP
->> Debian 4.19.98-1~bpo9+1 (2020-03-09) x86_64 GNU/Linux
->>
->> NFS client mount options were:
->>
->> rw,nosuid,nodev,noatime,vers=3,rsize=1048576,wsize=1048576,namlen=255,
->> soft,proto=tcp6,timeo=600,retrans=6,sec=sys,mountaddr=xxxx:xxxx:xxxx:xxxx:xxxx:xxff:fexx:xxxx,
->>
->> mountvers=3,mountport=45327,mountproto=udp6,local_lock=none,addr=xxxx:xxxx:xxxx:xxxx:xxxx:xxff:fexx:xxxx
-> 
-> I’ve tried using these settings, but still can’t reproduce the bug.
-> 
-> Nothing else uses the image when you try to attach it to qemu, right?
-> (Your last email noted something about a loop mount, but I’m not sure
-> whether that just referred to the RH Bugzilla entry.)
-> 
-> (local_lock=none means that all locks are relayed to the server, correct?)
-> 
-> Max
-> 
-
-Nothing else was supposed to access that ISO at the time, but at various 
-times that ISO has been accessed by different virtualization systems for 
-different virtual machines, and maybe something didn't release its own 
-locks from much earlier (virtualization hosts tend to accumulate a lot 
-of uptime).
-
-Coordinating locking of shared disk images between multiple qemu
-instances should ideally try to emulate what happens when a SCSI disk is
-shared over a SAN (fibre channel, iSCSI, shared parallel SCSI bus etc.), 
-so if a VM issues the SCSI lock management commands, they should behave 
-as they would for real hardware.
-
-My reference to loop mounts refers to the (common) scenario where
-someone tries to mount a raw image file using both qemu and OS methods,
-with the loop block driver being the traditional POSIX method that would
-be invoked by not using the qemu NBD server.
-
-My large batch job is still running...
-
-
-
-
-
-
-
-
-Enjoy
-
-Jakob
--- 
-Jakob Bohm, CIO, Partner, WiseMo A/S.  https://www.wisemo.com
-Transformervej 29, 2860 Søborg, Denmark.  Direct +45 31 13 16 10
-This public discussion message is non-binding and may contain errors.
-WiseMo - Remote Service Management for PCs, Phones and Embedded
+gcrypt: test_tls_psk_init should write binary file instead text file.=0D
+gcrypt: Enable crypto tests under msys2/mingw by implement custom qemu_sock=
+et=3D=0D
+pair=0D
+=0D
+Yonggang Luo (2):=0D
+  gcrypt: test_tls_psk_init should write binary file instead text file.=0D
+  gcrypt: Enable crypto tests under msys2/mingw=0D
+=0D
+ include/qemu/osdep.h             |  1 +=0D
+ include/sysemu/os-win32.h        |  5 +++=0D
+ tests/crypto-tls-psk-helpers.c   |  6 ++-=0D
+ tests/crypto-tls-x509-helpers.c  |  6 ++-=0D
+ tests/crypto-tls-x509-helpers.h  |  5 ++-=0D
+ tests/test-crypto-tlscredsx509.c | 47 +++++++++++---------=0D
+ tests/test-crypto-tlssession.c   | 64 +++++++++++++++------------=0D
+ tests/test-io-channel-tls.c      | 49 +++++++++++---------=0D
+ util/osdep.c                     | 16 +++++++=0D
+ util/oslib-win32.c               | 76 ++++++++++++++++++++++++++++++++=0D
+ 10 files changed, 198 insertions(+), 77 deletions(-)=0D
+=0D
+--=3D20=0D
+2.28.0.windows.1=0D
+=0D
 
