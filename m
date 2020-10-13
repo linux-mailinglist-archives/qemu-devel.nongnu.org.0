@@ -2,85 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7CD28D64F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 23:53:13 +0200 (CEST)
-Received: from localhost ([::1]:49104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD1C28D651
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 23:57:50 +0200 (CEST)
+Received: from localhost ([::1]:57990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSSEK-0000Wj-RT
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 17:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47278)
+	id 1kSSIm-0004TX-Vt
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 17:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=5487bf209=dmitry.fomichev@wdc.com>)
- id 1kSS4I-0005ls-OR; Tue, 13 Oct 2020 17:42:54 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:45668)
+ (Exim 4.90_1) (envelope-from <tobin@linux.vnet.ibm.com>)
+ id 1kSSHo-0003tZ-A4
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 17:56:48 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=5487bf209=dmitry.fomichev@wdc.com>)
- id 1kSS4D-0001pq-3Y; Tue, 13 Oct 2020 17:42:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1602625365; x=1634161365;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Jmy6lOf0uhPRj3UWh5BdGhIe9Lpks0HLFlW28E7Zylw=;
- b=EvyngeXf0gRCNsfAxRoRid59TLEilYc/jbGlN73vX9I855yAEZ13ZvlD
- ASokwTcZXi0sgPA3ISqhcUolvUW9QryJXhNag/Yt6crnrO9AxmIwsI+lw
- B1dn2Jmw+88frTCJtuefh+B5cM+011u3LoIU1qNqWvJo00yGWHiKkSs7L
- Kjjw9nj70cS889JKPDCOFqJmetzEOFb4m4mBNYP7JLsmnmfQOsdzGjd+c
- dSrWeuh9QWK8ByxmVkHH2hlGZiRzrWsoBrtFp47B8teCtlADy7re6Ih9I
- 09eB5SCORGl+JPFRovRqhcpAnKfa+DRJO2WE/l3Wwum2Nt8/Hchfgc1dy w==;
-IronPort-SDR: nepO8RAW8Qr71kyF8b5qliNdHOQ8x/uz5wJBGdf7apL7yW3fo3nNliIu9uip/IRhtgMocN4Nud
- cppwdRfjGDT4xc2mtAfymsHVWazdRy8GpVms38jufMA0i9N8osqTMa94Gp4LDoC29wi6JLCKtL
- TWmLg1hG0CakN60HIgypkAQfaHEXYMCazW10YSphuO0geSd+aulCAkh/jXmOhbCmPO+Vl3KRJJ
- P4Awwfu4R1b/Ml8EPZJBJ3VXw9cITdsavWZq/T5qqySHhWFbsNeQcADbCn8ZK43w2zpp4AOYQW
- a0M=
-X-IronPort-AV: E=Sophos;i="5.77,371,1596470400"; d="scan'208";a="154185945"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 14 Oct 2020 05:42:43 +0800
-IronPort-SDR: Lv3u0XX1CYqpEUqHnDjOh2F47HOxS37GGkCiWiuv2T23ghiPqqSsoskwrkYY2s17AKMmnTW9ko
- utDA+ZNoc+1ToxfQm5eSTXqDE+fW7SKIVHLQv1mifh8TkiUYQ8LJ3DUFPvd5PTZhI+ebmAEBS1
- CDL1c3l85VqlxCc0y7CdselMO4GkgLbwiAHq3DJMtwVDXJvEyjMkZabU8yGjjV7InYCFDjipkr
- GYuyaX02j2djPhPI2H7YPXmVWfbViujt8mIGu9/XSLmrQuQwhW9I6MFdBmpl0Ys3OORZNcKpaM
- D17Q+lpT1VhkkBfV6EZxAW4y
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2020 14:29:17 -0700
-IronPort-SDR: sDx5smsGZ+Sl6YcIw8XjQrL+ylFlfRjgVZ+mqavS+T8kMkSE3DK5lX//ZOUKy15NEV0ZoEkea9
- ICxD4cM7GM8ziY4b95M4xjmWbM557Pda7i3D7eZNdM+q4Hr/ZZGr+sRGMrGcND/JFWyqOpMl3L
- JA3z5nuyiCpqJ+VT4BYKXD98+d0HEXzEKXezC3UWBadAGDK1WmWB6ZgePrO0ZONUEsOAlce/kZ
- fZFR0WNGm6VlBSJXNboGp71SjmyOdtL+UzmInaQaznr2qcnfuM5SOMa1W9brdLG7++6PNMIG8I
- aww=
-WDCIronportException: Internal
-Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 13 Oct 2020 14:42:41 -0700
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH v6 11/11] hw/block/nvme: Merge nvme_write_zeroes() with
- nvme_write()
-Date: Wed, 14 Oct 2020 06:42:12 +0900
-Message-Id: <20201013214212.2152-12-dmitry.fomichev@wdc.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20201013214212.2152-1-dmitry.fomichev@wdc.com>
-References: <20201013214212.2152-1-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <tobin@linux.vnet.ibm.com>)
+ id 1kSSHk-000403-69
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 17:56:47 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09DLs7rc122711; Tue, 13 Oct 2020 17:56:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=mime-version :
+ content-type : content-transfer-encoding : date : from : to : cc : subject
+ : in-reply-to : references : message-id; s=pp1;
+ bh=Z/kIB/Yw94VBp1txNduTNXkG6OAP2I7e/3a830UfHVA=;
+ b=Pd+K/X/yPYPzYxl9OCc5xVAXcKPN6oOuqpMP7UmBI4yZc5VVp7vrmATMHZRErfMZ83ae
+ bydJxRvC23c9HjdjWSDWNwzq3BwOrN7+qeukyohyKIrZ99dHywg/j6mumVKgmxj6IOoR
+ DM0ONuOq4bwIjI1fnf9brNX/bLf4/Hk6K4MgGRS264YvrlHFYFGGlpO/WzTelJ1wYisW
+ D+fuGmhrIi5wSuOXFIVJi+KZcpaiFlp9trZDOMDgI+lTi3fLFGoGEcruanZhoenYuaMw
+ quN2DKp1PPRgLQi5jSIoW9uhGw5b4ph8AhpESPN3ZgejoLOQYEaQL2yW+xIejpuT3Ayd QA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 345mjb01ch-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Oct 2020 17:56:39 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09DLtcId125182;
+ Tue, 13 Oct 2020 17:56:39 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 345mjb01c9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Oct 2020 17:56:39 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09DLppub017658;
+ Tue, 13 Oct 2020 21:56:38 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 3434k99tka-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Oct 2020 21:56:38 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09DLubLf54722854
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 13 Oct 2020 21:56:37 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72B462805A;
+ Tue, 13 Oct 2020 21:56:37 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AD41F28059;
+ Tue, 13 Oct 2020 21:56:36 +0000 (GMT)
+Received: from ltc.linux.ibm.com (unknown [9.16.170.189])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 13 Oct 2020 21:56:36 +0000 (GMT)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=5487bf209=dmitry.fomichev@wdc.com; helo=esa3.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 17:42:19
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Tue, 13 Oct 2020 17:56:36 -0400
+From: tobin <tobin@linux.vnet.ibm.com>
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v3] SEV: QMP support for Inject-Launch-Secret
+In-Reply-To: <20201012164952.GK39408@redhat.com>
+References: <20200706215451.59179-1-tobin@linux.vnet.ibm.com>
+ <20201012161941.GI6677@work-vm> <20201012164952.GK39408@redhat.com>
+Message-ID: <0257b008589db389081b1341b1422f4f@linux.vnet.ibm.com>
+X-Sender: tobin@linux.vnet.ibm.com
+User-Agent: Roundcube Webmail/1.0.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-10-13_15:2020-10-13,
+ 2020-10-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=2 clxscore=1011
+ bulkscore=0 adultscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0
+ phishscore=0 mlxlogscore=999 malwarescore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010130150
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=tobin@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 17:56:41
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,166 +113,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, jejb@linux.ibm.com,
+ tobin@ibm.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nvme_write() now handles WRITE, WRITE ZEROES and ZONE_APPEND.
+On 2020-10-12 12:49, Daniel P. Berrangé wrote:
+> On Mon, Oct 12, 2020 at 05:21:15PM +0100, Dr. David Alan Gilbert wrote:
+>> * Tobin Feldman-Fitzthum (tobin@linux.vnet.ibm.com) wrote:
+>> > AMD SEV allows a guest owner to inject a secret blob
+>> > into the memory of a virtual machine. The secret is
+>> > encrypted with the SEV Transport Encryption Key and
+>> > integrity is guaranteed with the Transport Integrity
+>> > Key. Although QEMU faciliates the injection of the
+> 
+> Trivial typo  s/faciliates/facilitates/
+> 
+>> > launch secret, it cannot access the secret.
+>> >
+>> > Signed-off-by: Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com>
+>> > ---
+>> >  include/monitor/monitor.h |  3 ++
+>> >  include/sysemu/sev.h      |  2 ++
+>> >  monitor/misc.c            |  8 ++---
+>> >  qapi/misc-target.json     | 18 +++++++++++
+>> >  target/i386/monitor.c     |  9 ++++++
+>> >  target/i386/sev-stub.c    |  5 +++
+>> >  target/i386/sev.c         | 66 +++++++++++++++++++++++++++++++++++++++
+>> >  target/i386/trace-events  |  1 +
+>> >  8 files changed, 108 insertions(+), 4 deletions(-)
+> 
+> 
+>> > diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+>> > index dee3b45930..d145f916b3 100644
+>> > --- a/qapi/misc-target.json
+>> > +++ b/qapi/misc-target.json
+>> > @@ -200,6 +200,24 @@
+>> >  { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
+>> >    'if': 'defined(TARGET_I386)' }
+>> >
+>> > +##
+>> > +# @sev-inject-launch-secret:
+>> > +#
+>> > +# This command injects a secret blob into memory of SEV guest.
+>> > +#
+>> > +# @packet-header: the launch secret packet header encoded in base64
+>> > +#
+>> > +# @secret: the launch secret data to be injected encoded in base64
+> 
+> Just to double check, this "secret" is /not/ in clear text, so there's
+> no way either QEMU nor the QMP client can access sensitive info, right 
+> ?
+> 
+You are correct. QEMU would only be able to read the secret in the case
+of serious user error.
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- hw/block/nvme.c       | 95 +++++++++++++------------------------------
- hw/block/trace-events |  1 -
- 2 files changed, 28 insertions(+), 68 deletions(-)
+Thank you for your feedback. I have rebased made the changes. Will send
+new version in the morning.
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 1186c16b50..1c164f1d80 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1529,53 +1529,7 @@ invalid:
-     return status | NVME_DNR;
- }
- 
--static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
--{
--    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
--    NvmeNamespace *ns = req->ns;
--    uint64_t slba = le64_to_cpu(rw->slba);
--    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
--    NvmeZone *zone;
--    uint64_t offset = nvme_l2b(ns, slba);
--    uint32_t count = nvme_l2b(ns, nlb);
--    BlockBackend *blk = ns->blkconf.blk;
--    uint16_t status;
--
--    trace_pci_nvme_write_zeroes(nvme_cid(req), nvme_nsid(ns), slba, nlb);
--
--    status = nvme_check_bounds(n, ns, slba, nlb);
--    if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
--        return status;
--    }
--
--    if (ns->params.zoned) {
--        zone = nvme_get_zone_by_slba(ns, slba);
--
--        status = nvme_check_zone_write(n, ns, zone, slba, nlb, false);
--        if (status != NVME_SUCCESS) {
--            goto invalid;
--        }
--
--        status = nvme_auto_open_zone(ns, zone);
--        if (status != NVME_SUCCESS) {
--            goto invalid;
--        }
--
--        req->cqe.result64 = nvme_advance_zone_wp(ns, zone, nlb);
--    }
--
--    block_acct_start(blk_get_stats(blk), &req->acct, 0, BLOCK_ACCT_WRITE);
--    req->aiocb = blk_aio_pwrite_zeroes(blk, offset, count,
--                                       BDRV_REQ_MAY_UNMAP, nvme_rw_cb, req);
--    return NVME_NO_COMPLETE;
--
--invalid:
--    block_acct_invalid(blk_get_stats(blk), BLOCK_ACCT_WRITE);
--    return status | NVME_DNR;
--}
--
--static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req, bool append)
-+static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req, bool append, bool wrz)
- {
-     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-     NvmeNamespace *ns = req->ns;
-@@ -1590,10 +1544,12 @@ static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req, bool append)
-     trace_pci_nvme_write(nvme_cid(req), nvme_io_opc_str(rw->opcode),
-                          nvme_nsid(ns), nlb, data_size, slba);
- 
--    status = nvme_check_mdts(n, data_size);
--    if (status) {
--        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
--        goto invalid;
-+    if (!wrz) {
-+        status = nvme_check_mdts(n, data_size);
-+        if (status) {
-+            trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
-+            goto invalid;
-+        }
-     }
- 
-     status = nvme_check_bounds(n, ns, slba, nlb);
-@@ -1628,21 +1584,26 @@ static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req, bool append)
- 
-     data_offset = nvme_l2b(ns, slba);
- 
--    status = nvme_map_dptr(n, data_size, req);
--    if (status) {
--        goto invalid;
--    }
-+    if (!wrz) {
-+        status = nvme_map_dptr(n, data_size, req);
-+        if (status) {
-+            goto invalid;
-+        }
- 
--    data_offset = nvme_l2b(ns, slba);
--
--    block_acct_start(blk_get_stats(blk), &req->acct, data_size,
--                     BLOCK_ACCT_WRITE);
--    if (req->qsg.sg) {
--        req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
--                                   BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+        block_acct_start(blk_get_stats(blk), &req->acct, data_size,
-+                         BLOCK_ACCT_WRITE);
-+        if (req->qsg.sg) {
-+            req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
-+                                       BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+        } else {
-+            req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
-+                                         nvme_rw_cb, req);
-+        }
-     } else {
--        req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
--                                     nvme_rw_cb, req);
-+        block_acct_start(blk_get_stats(blk), &req->acct, 0, BLOCK_ACCT_WRITE);
-+        req->aiocb = blk_aio_pwrite_zeroes(blk, data_offset, data_size,
-+                                           BDRV_REQ_MAY_UNMAP, nvme_rw_cb,
-+                                           req);
-     }
-     return NVME_NO_COMPLETE;
- 
-@@ -2126,11 +2087,11 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     case NVME_CMD_FLUSH:
-         return nvme_flush(n, req);
-     case NVME_CMD_WRITE_ZEROES:
--        return nvme_write_zeroes(n, req);
-+        return nvme_write(n, req, false, true);
-     case NVME_CMD_ZONE_APPEND:
--        return nvme_write(n, req, true);
-+        return nvme_write(n, req, true, false);
-     case NVME_CMD_WRITE:
--        return nvme_write(n, req, false);
-+        return nvme_write(n, req, false, false);
-     case NVME_CMD_READ:
-         return nvme_read(n, req);
-     case NVME_CMD_ZONE_MGMT_SEND:
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 7ee90a50c3..5a3cd4c5dc 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -43,7 +43,6 @@ pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opna
- pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
--pci_nvme_write_zeroes(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
- pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize, uint16_t qflags) "create submission queue, addr=0x%"PRIx64", sqid=%"PRIu16", cqid=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16""
- pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size, uint16_t qflags, int ien) "create completion queue, addr=0x%"PRIx64", cqid=%"PRIu16", vector=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16", ien=%d"
- pci_nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
--- 
-2.21.0
+-Tobin
 
+> If 'secret' was clear text, then we would need to pass the data across
+> QMP in a different way.
+> 
+>> > +#
+>> > +# @gpa: the guest physical address where secret will be injected.
+>> > +#
+>> > +# Since: 5.1
+> 
+> s/5.1/5.2/
+> 
+>> > +#
+>> > +##
+>> > +{ 'command': 'sev-inject-launch-secret',
+>> > +  'data': { 'packet-header': 'str', 'secret': 'str', 'gpa': 'uint64' },
+>> > +  'if': 'defined(TARGET_I386)' }
+>> > +
+>> >  ##
+>> >  # @dump-skeys:
+>> >  #
+>> > diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+>> > index 27ebfa3ad2..42bcfe6dc0 100644
+>> > --- a/target/i386/monitor.c
+>> > +++ b/target/i386/monitor.c
+>> > @@ -736,3 +736,12 @@ SevCapability *qmp_query_sev_capabilities(Error **errp)
+>> >
+>> >      return data;
+>> >  }
+>> > +
+>> > +void qmp_sev_inject_launch_secret(const char *packet_hdr,
+>> > +                                  const char *secret, uint64_t gpa,
+>> > +                                  Error **errp)
+>> > +{
+>> > +    if (sev_inject_launch_secret(packet_hdr, secret, gpa) != 0) {
+>> > +        error_setg(errp, "SEV inject secret failed");
+> 
+> This generic error message is useless - sev_inject_launch_secret() 
+> needs
+> to take the 'errp' parameter and report what actually failed.
+> 
+>> > +    }
+>> > +}
+>> > diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+>> > index e5ee13309c..fed4588185 100644
+>> > --- a/target/i386/sev-stub.c
+>> > +++ b/target/i386/sev-stub.c
+>> > @@ -48,3 +48,8 @@ SevCapability *sev_get_capabilities(void)
+>> >  {
+>> >      return NULL;
+>> >  }
+>> > +int sev_inject_launch_secret(const char *hdr, const char *secret,
+>> > +                             uint64_t gpa)
+>> > +{
+>> > +    return 1;
+>> > +}
+>> > diff --git a/target/i386/sev.c b/target/i386/sev.c
+>> > index d273174ad3..cbeb8f2e02 100644
+>> > --- a/target/i386/sev.c
+>> > +++ b/target/i386/sev.c
+>> > @@ -28,6 +28,8 @@
+>> >  #include "sysemu/runstate.h"
+>> >  #include "trace.h"
+>> >  #include "migration/blocker.h"
+>> > +#include "exec/address-spaces.h"
+>> > +#include "monitor/monitor.h"
+>> >
+>> >  #define TYPE_SEV_GUEST "sev-guest"
+>> >  #define SEV_GUEST(obj)                                          \
+>> > @@ -769,6 +771,70 @@ sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
+>> >      return 0;
+>> >  }
+>> >
+>> > +int sev_inject_launch_secret(const char *packet_hdr,
+>> > +                             const char *secret, uint64_t gpa)
+>> > +{
+>> > +    struct kvm_sev_launch_secret input;
+>> > +    guchar *data = NULL, *hdr = NULL;
+> 
+> If you declare with  'g_autofree' you don't need the manual 'g_free'
+> calls later. This in turn means you can get rid of the "goto err"
+> jumps and instead directly return.
+> 
+>> > +    int error, ret = 1;
+>> > +    void *hva;
+>> > +    gsize hdr_sz = 0, data_sz = 0;
+>> > +    Error *local_err = NULL;
+> 
+> Declare with
+> 
+>    g_autoptr(Error) local_err = NULL
+> 
+> to fix the leak David mentions
+> 
+> 
+>> > +    MemoryRegion *mr = NULL;
+>> > +
+>> > +    /* secret can be inject only in this state */
+>> > +    if (!sev_check_state(sev_guest, SEV_STATE_LAUNCH_SECRET)) {
+>> > +        error_report("SEV: Not in correct state. (LSECRET) %x",
+>> > +                     sev_guest->state);
+>> > +        return 1;
+>> > +    }
+>> > +
+>> > +    hdr = g_base64_decode(packet_hdr, &hdr_sz);
+>> > +    if (!hdr || !hdr_sz) {
+>> > +        error_report("SEV: Failed to decode sequence header");
+>> > +        return 1;
+>> > +    }
+>> > +
+>> > +    data = g_base64_decode(secret, &data_sz);
+>> > +    if (!data || !data_sz) {
+>> > +        error_report("SEV: Failed to decode data");
+>> > +        goto err;
+>> > +    }
+>> > +
+>> > +    hva = gpa2hva(&mr, gpa, data_sz, &local_err);
+>> > +    if (!hva) {
+>> > +        error_report("SEV: Failed to calculate guest address.");
+>> 
+>> Note this is leaking local_err; you need to turn that into probably an
+>>   error_reportf_err(local_err, "SEV: Failed to calculate guest 
+>> address:");
+> 
+> Actually this method needs to take an "Error **errp" parameter, so that 
+> the
+> error is propagated back to the QMP command handler, and from there
+> back to the client app.
+> 
+>> Also the '5.1' above needs to change to 5.2.
+>> 
+>> I think with that it looks OK to me.
+> 
+>> > +        goto err;
+>> > +    }
+>> > +
+>> > +    input.hdr_uaddr = (uint64_t)(unsigned long)hdr;
+>> > +    input.hdr_len = hdr_sz;
+>> > +
+>> > +    input.trans_uaddr = (uint64_t)(unsigned long)data;
+>> > +    input.trans_len = data_sz;
+>> > +
+>> > +    input.guest_uaddr = (uint64_t)(unsigned long)hva;
+>> > +    input.guest_len = data_sz;
+>> > +
+>> > +    trace_kvm_sev_launch_secret(gpa, input.guest_uaddr,
+>> > +                                input.trans_uaddr, input.trans_len);
+>> > +
+>> > +    ret = sev_ioctl(sev_guest->sev_fd, KVM_SEV_LAUNCH_SECRET,
+>> > +                    &input, &error);
+>> > +    if (ret) {
+>> > +        error_report("SEV: failed to inject secret ret=%d fw_error=%d '%s'",
+>> > +                     ret, error, fw_error_to_str(error));
+>> > +        goto err;
+>> > +    }
+>> > +
+>> > +    ret = 0;
+>> > +
+>> > +err:
+>> > +    g_free(data);
+>> > +    g_free(hdr);
+>> > +    return ret;
+>> > +}
+> 
+> 
+> Regards,
+> Daniel
 
