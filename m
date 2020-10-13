@@ -2,61 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A17328D7C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 03:02:33 +0200 (CEST)
-Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73DB28D675
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 00:41:58 +0200 (CEST)
+Received: from localhost ([::1]:57226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSVBY-0005pH-ME
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 21:02:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60650)
+	id 1kSSzV-0002ZF-Th
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 18:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <grqp@ekarma.org>) id 1kSStw-0001f4-M7
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:36:12 -0400
-Received: from p3plsmtpa07-02.prod.phx3.secureserver.net
- ([173.201.192.231]:48355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <grqp@ekarma.org>) id 1kSStu-0000XP-GP
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:36:12 -0400
-Received: from BY5PR20MB3025.namprd20.prod.outlook.com ([52.96.65.181])
- by :SMTPAUTH: with ESMTPSA
- id SStqkP6ii51hoSStqkeEpR; Tue, 13 Oct 2020 15:36:06 -0700
-X-CMAE-Analysis: v=2.3 cv=YNfhNiOx c=1 sm=1 tr=0
- a=47z1aYw9UwQLATil3DZc6A==:117 a=47z1aYw9UwQLATil3DZc6A==:17 a=t-IPkPogAAAA:8
- a=5Ed3cbfSEtYHKJpSJzYA:9 a=wPNLvfGTeEIA:10 a=xToySzCs-o1jkM1MAgsA:9
- a=v5ZtGH-Qpt6i3g0-:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10
-X-SECURESERVER-ACCT: admin@ekarma.org
-From: "grqp@ekarma.org" <grqp@ekarma.org>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: MacOS network bridging using vmnet framework
-Thread-Topic: MacOS network bridging using vmnet framework
-Thread-Index: AQHWoa2OC1xeyfVht0esEuHfRrej4w==
-X-MS-Exchange-MessageSentRepresentingType: 1
-Date: Tue, 13 Oct 2020 22:36:06 +0000
-Message-ID: <BY5PR20MB3025896C69F500CE7BAF3DBAC7040@BY5PR20MB3025.namprd20.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-Exchange-Organization-SCL: -1
-X-MS-TNEF-Correlator: 
-X-MS-Exchange-Organization-RecordReviewCfmType: 0
-Content-Type: multipart/alternative;
- boundary="_000_BY5PR20MB3025896C69F500CE7BAF3DBAC7040BY5PR20MB3025namp_"
+ (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
+ id 1kSSyH-00025t-Pt
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:40:41 -0400
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:37959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
+ id 1kSSyG-0000zv-4a
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 18:40:41 -0400
+Received: by mail-lj1-x235.google.com with SMTP id m20so1101970ljj.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 15:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=C95JE+mHODDodnLkF36OpP56wFAkD0TkDH/Ba36Rdpo=;
+ b=mbpELPlfanPl29T0k9DKIe6P+LRDcNhcTIBjOF6J45FU1I/v0Vu2zI7kZHCAZO/BDG
+ 3Iubz9p8HnQZx+b5ojmN763j1/9CTbWMYRej0aGcW2wBLQ9iu2zD/uf8TSOCS4IL+wgP
+ fHHJ7mOlkaMn67Z8XB9KDzCHJ8UW5D45oEyPcEQx6g8Yb70LErQ8ZtA5NkkbUw7EOBbH
+ 8QRbRN98JrCBrAxdfPNO5WAow/G5jSps3aOhoLj1E2gsWSFXxEW3HdqZzYlryqdloExS
+ XjwEg7JrdKNsHTN1S7mh2WaIuCBhJ+a6jHMgEbZ7ZCZs2r4BoJiETyk6oKoMGECwm3IE
+ ctOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C95JE+mHODDodnLkF36OpP56wFAkD0TkDH/Ba36Rdpo=;
+ b=FKYtKWQEqtt9XdUZih0OxR0ay1uRYUOasN7z4iQQZSUs9tXdkUy09P7lv53ExAs6RB
+ FgRk1A04AO+mkPcIw00Ee6JH2UaDkOepxnH6WbjhGaVbBBESdzgoYHWQs4SrWXW3VGAb
+ ftNXMamSFq6CzUAXG/oFERZ8EbPbnvo16GwLNTCZvaqMoYdTJMROVS0qKHdTcXQhdZ6a
+ q6tMKzzwnt56y2bDcZegWQsXY53sB2URNvaxqqyuFSAldtpoor0GkeyzRJy2ha04osMU
+ VDiEY9xcuSc8+UPhgyvzr3xfURwU1b7JNVox2N31z0RhltqfgNGyX0NXb7JvLOaEkH/3
+ cTqQ==
+X-Gm-Message-State: AOAM532/a1A4m7xbhXoBQJjxCNZuwvCWsqRlv/CwM/+KCdeDz0xeol/L
+ kcALK7t8I543O8/oQTVyCL2ukSK6ZI1OlLov95Q=
+X-Google-Smtp-Source: ABdhPJzpPWP5mrM5qGjhGlnmvUPWBacR1EMrK8VlvEEi2Vo7FK4UeC+GkOI7BgUWWEvCRzk3gr/ntKVwOYlvsoWgOZ4=
+X-Received: by 2002:a2e:b006:: with SMTP id y6mr564022ljk.462.1602628837706;
+ Tue, 13 Oct 2020 15:40:37 -0700 (PDT)
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfHU/NHrYJHee731ydwz7zPBEgjiuo5RKmjrb6bQOiJXGdVGNG3MsjvpAlBKX0lEk+8SBNlB8SRANjzJvdXD6Nq996eIpb0Hlu/IarNLwr7WkP7wspDXs
- pT63ro+Jx7tUhe1HEubtbg/Z3n204VprK4zmbvVlxDYhkvQDUaUBgwVSWA2Hy0yHkcQ4yijUhlpH2OtGCLu0SV5F6HgaFzsLgiI=
-Received-SPF: none client-ip=173.201.192.231; envelope-from=grqp@ekarma.org;
- helo=p3plsmtpa07-02.prod.phx3.secureserver.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 18:36:07
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <CA+-xGqMd4_58_+QKetjOsubBqrDnaYF+YWE3TC3kEcNGxPiPfg@mail.gmail.com>
+ <47ead258320536d00f9f32891da3810040875aff.camel@redhat.com>
+ <CA+-xGqOm2sWbxR=3W1pWrZNLOt7EE5qiNWxMz=9=gmga15vD2w@mail.gmail.com>
+ <20201012165428.GD26135@linux.intel.com>
+ <CA+-xGqPkkiws0bxrzud_qKs3ZmKN9=AfN=JGephfGc+2rn6ybw@mail.gmail.com>
+ <20201013045245.GA11344@linux.intel.com>
+ <CA+-xGqO4DtUs3-jH+QMPEze2GrXwtNX0z=vVUVak5HOpPKaDxQ@mail.gmail.com>
+ <20201013070329.GC11344@linux.intel.com>
+In-Reply-To: <20201013070329.GC11344@linux.intel.com>
+From: harry harry <hiharryharryharry@gmail.com>
+Date: Tue, 13 Oct 2020 18:40:19 -0400
+Message-ID: <CA+-xGqO37RzQDg5dnE_3NWMp6+u2L02GQDqoSr3RdedoMBugrg@mail.gmail.com>
+Subject: Re: Why guest physical addresses are not the same as the
+ corresponding host virtual addresses in QEMU/KVM? Thanks!
+To: Sean Christopherson <sean.j.christopherson@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=hiharryharryharry@gmail.com; helo=mail-lj1-x235.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PLING_QUERY=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 13 Oct 2020 21:00:51 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,75 +86,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kvm@vger.kernel.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>, mathieu.tarral@protonmail.com,
+ stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_BY5PR20MB3025896C69F500CE7BAF3DBAC7040BY5PR20MB3025namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Hi Sean,
 
-Hi all -
+Thanks much for your detailed replies. It's clear to me why GPAs are
+different from HVAs in QEM/KVM. Thanks! I appreciate it if you could
+help with the following two more questions.
 
-I've been playing around with qemu-system-arm on a MacOS 10.15 box.  I'm tr=
-ying to bridge the guest but I haven't had any luck.  It looks like the pro=
-per way to do this is with a TAP device.  AFAIK, this was done in the past =
-by installing a TUN/TAP kernel extension (kext), which Apple has since clam=
-ped down upon.   I haven't pursued this since it's looks like a dead-end.  =
- I did notice that Apple has a framework called vmnet (https://developer.ap=
-ple.com/documentation/vmnet) which offers VM network bridging.  I didn't se=
-e any references to vmnet in master,  Is vmnet a good fit in this case as a=
- new TAP implementation, like tap-macos-vmnet.c.  Or am I going off into th=
-e weeds and there is something obvious I'm missing.
+On Tue, Oct 13, 2020 at 3:03 AM Sean Christopherson
+<sean.j.christopherson@intel.com> wrote:
+>
+> This is where memslots come in.  Think of memslots as a one-level page tablea
+> that translate GPAs to HVAs.  A memslot, set by userspace, tells KVM the
+> corresponding HVA for a given GPA.
+>
+> Before the guest is running (assuming host userspace isn't broken), the
+> userspace VMM will first allocate virtual memory (HVA) for all physical
+> memory it wants to map into the guest (GPA).  It then tells KVM how to
+> translate a given GPA to its HVA by creating a memslot.
+>
+> To avoid getting lost in a tangent about page offsets, let's assume array[0]'s
+> GPA = 0xa000.  For KVM to create a GPA->HPA mapping for the guest, there _must_
+> be a memslot that translates GPA 0xa000 to an HVA[*].  Let's say HVA = 0xb000.
+>
+> On an EPT violation, KVM does a memslot lookup to translate the GPA (0xa000) to
+> its HVA (0xb000), and then walks the host page tables to translate the HVA into
+> a HPA (let's say that ends up being 0xc000).  KVM then stuffs 0xc000 into the
+> EPT tables, which yields:
+>
+>   GPA    -> HVA    (KVM memslots)
+>   0xa000    0xb000
+>
+>   HVA    -> HPA    (host page tables)
+>   0xb000    0xc000
+>
+>   GPA    -> HPA    (extended page tables)
+>   0xa000    0xc000
+>
+> To keep the EPT tables synchronized with the host page tables, if HVA->HPA
+> changes, e.g. HVA 0xb000 is remapped to HPA 0xd000, then KVM will get notified
+> by the host kernel that the HVA has been unmapped and will find and unmap
+> the corresponding GPA (again via memslots) to HPA translations.
+>
+> Ditto for the case where userspace moves a memslot, e.g. if HVA is changed
+> to 0xe000, KVM will first unmap all old GPA->HPA translations so that accesses
+> to GPA 0xa000 from the guest will take an EPT violation and see the new HVA
+> (and presumably a new HPA).
 
-G.
+Q1: Is there any file like ``/proc/pid/pagemap'' to record the
+mappings between GPAs and HVAs in the host OS?
 
+Q2: Seems that there might be extra overhead (e.g., synchronization
+between EPT tables and host regular page tables; maintaining extra
+regular page tables and data structures), which is caused by the extra
+translation between GPAs to HVAs via memslots. Why doesn't KVM
+directly use GPAs as HVAs and leverage extended/nested page tables to
+translate HVAs (i.e., GPAs) to HPAs?
 
---_000_BY5PR20MB3025896C69F500CE7BAF3DBAC7040BY5PR20MB3025namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-Hi all -</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-I've been playing around with qemu-system-arm on a MacOS 10.15 box. &nbsp;I=
-'m trying to bridge the guest but I haven't had any luck. &nbsp;It looks li=
-ke the proper way to do this is with a TAP device. &nbsp;AFAIK, this was do=
-ne in the past by installing a TUN/TAP kernel extension
- (kext), which Apple has since clamped down upon. &nbsp; I haven't pursued =
-this since it's looks like a dead-end. &nbsp; I did notice that Apple has a=
- framework called
-<i>vmnet</i> (<a href=3D"https://developer.apple.com/documentation/vmnet" i=
-d=3D"LPlnk">https://developer.apple.com/documentation/vmnet</a>)&nbsp;which=
- offers VM network bridging. &nbsp;I didn't see any references to vmnet in =
-master, &nbsp;Is vmnet a good fit in this case as a
- new TAP implementation, like tap-macos-vmnet.c. &nbsp;Or am I going off in=
-to the weeds and there is something obvious I'm missing.</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-G.</div>
-<div class=3D"_Entity _EType_OWALinkPreview _EId_OWALinkPreview _EReadonly_=
-1"></div>
-<br>
-</body>
-</html>
-
---_000_BY5PR20MB3025896C69F500CE7BAF3DBAC7040BY5PR20MB3025namp_--
+Thanks,
+Harry
 
