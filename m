@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787EB28C8D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 08:57:36 +0200 (CEST)
-Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A79F28C8F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 09:05:00 +0200 (CEST)
+Received: from localhost ([::1]:38470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSEFb-0001Rp-GX
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 02:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32982)
+	id 1kSEMl-0001jp-Kq
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 03:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBf-0005Cy-OZ; Tue, 13 Oct 2020 02:53:31 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:49351)
+ id 1kSEBk-0005Qw-Pk; Tue, 13 Oct 2020 02:53:36 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:33213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBe-0000GZ-2H; Tue, 13 Oct 2020 02:53:31 -0400
+ id 1kSEBi-0000HT-UD; Tue, 13 Oct 2020 02:53:36 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N49Yn-1kJFyP2dkn-0103Pm; Tue, 13 Oct 2020 08:53:24 +0200
+ id 1MuluN-1kAyFa3K6N-00rlgu; Tue, 13 Oct 2020 08:53:26 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/15] block/blkdebug: fix memory leak
-Date: Tue, 13 Oct 2020 08:53:08 +0200
-Message-Id: <20201013065313.7349-11-laurent@vivier.eu>
+Subject: [PULL 11/15] hw/char/serial: remove duplicate .class_init in
+ serial_mm_info
+Date: Tue, 13 Oct 2020 08:53:09 +0200
+Message-Id: <20201013065313.7349-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013065313.7349-1-laurent@vivier.eu>
 References: <20201013065313.7349-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QDmY58ZSYUGWGfjqvfuDyoZ0M9E/tkHa0s4WqXNzo+/znmCUr5c
- rUMPhz8QU1d1CshRVAfBU1E3+mhZ+Yyms5TfNviYv46t60dNQWqM7x5RuVzyrTzDeYJbEW5
- Uc7KMVVnEGrvKMQwTqRDzHlv/R1wXIw5WDv9Eg3wQEJRM8J7esls38A67sSiZFDAw262Y8Z
- gGtxSpEOsI7nekoftoC2Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PczvMuKHoo8=:wsOv39YVXFYY1j1YyL9blB
- Y5wDXS3etdNI1qbtJV59zkUNc5um2CjvAArTyfXgRY9Y7333HPivrvhD6tT3g7Po5Tj61MGUZ
- yGEpZqUXBvVIsi6bNNNoTd9xkISqIdM1UycCAvY4mqe4Ya2DmguCWDX+TO+cgEhMc1LRBq5Pd
- deyPlmf3aH7dWddZ/c02ZxIc8lMuOLHy/bO01ZBOuVrSX1LSgih7Xe6JM9pu3fGVsE3rq9lal
- rt4c9HGvW9pjxxhggKKkOuBRvWfA5XsGdQScMjhjMfRqZ19RuRp9Sf35SHieKUz9rm1/hTei6
- kHoMckw21g3/UYWDO1NN50zqnEdJOk9QTZGC2vmyiUcpEyI1QhWIlK6jOgAchpTeRguNtZ2Jn
- uqEaSugMXkAjphQQBuBLwCxnlHm8EKPL3sR0rnsFGxdLQnUotN1PuaeYCZpUcr/TCBE264N1h
- ZHa0t+zMtIUMjlDo1ux/GPLkacYX+cMDwpetdfQFat1qCLzNMJF2KGftHbagyIC6ytVz8XwQb
- qKU2S9BYIIowZtGjLd9utpWBJILL9RSRaON+hj8txcxUCS2wYpaultx819v2bH87yuXM5cTa4
- FzVmgRFPnYerRmw/qNlWDHQcBGiW516TTifK7bjoINxRXuSkTfsbYSY9lTILOYd0MYp2HtLob
- A6x6z88viVyDiNDGm9m/vyqZtk3M+cb5jPnpXNFTShXnpXoKmtnSQ/EJQ/18hh+xP2svxa7Ww
- W7hRY+WZt7AmafvLITwcCpUa+Ou6w6x8GYwAeqivm4C8BqsvnbL9dxczqNqX05rsedOcSUL5S
- LP8vXhrVs/kTIwYEtSN/YuyJPq6oMkKIXu7QwWAcn56T1bnuMmg0UOREFtl8VneSP2718YO
+X-Provags-ID: V03:K1:deymScBIsP96b62FQfdXR1P7S5QpWc0kXxsLUrNgcoVURcCuhgW
+ QZcCBcCUfxK87jYYig7ML25m288gbs5vU30Un09qjtjp+LXpsABqXoAwdd/5prMqOQAyg0r
+ uBDFkbop1de+nHHPfVGXq1KLwpdhBo2qeJpXTk1Bt2BohBV7r6UnW0y7Hje7lwc0kR7Pvdu
+ yPiY2eIpt5tt9qq3DktFQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:B9Yf8OzXxs0=:CSSa6tG/hv5vkn62pYBCyO
+ DVgaaTxUdi/wrjQxdGg8tbv/5UDt9mycqYG9oHyyttrrAvTtiE68JZMrVnmJ2PQCcpWFJNEH6
+ OcaazVL4eAW7Y/EhKuzrVSQzA8lswrnnt0scFxO+SyfGX6DlBGgTfRiR0pOXYxiLpsgeBIlMs
+ D2xGfo0OuTyWrXHT54o0EMnUZkOJODp0Nq8AI3ozsk30Q+cNe5YZQ93OrLUQMooFQ0iF2354b
+ GZ3DmCVJsTMdwOiJeC8Myuzzr5P5z7nzer18PL8lo6BdksYPPEOR1z6namhT3Ulc1XhCF9hMs
+ rCgbZWbB2cuZtmmBOC2vw5rlDQmeYbYcAawuWJbZHIRNZUUU3aoWd6AI8hWzoMZX8NP3Ja8EQ
+ etZntlRY6ziiMvM/XnOV/2xJiTUP7HUVljspjch39kzKfIk82ByE/6fERXVEeBsodJ37+uUTY
+ AvpmIa6FwkFM9j2fLhoWKauXitesvo1lyRUPcR8YNTk7QygQ6cxNGAKZsMb7C8xvXJd1OXH4U
+ 4Ooxu5aN2k1JOMA25S+3+WxhYv7yDWhf6uHpWcOyh1ZDeZLVVI5hAnQHiOjQKnUEE3PuNTFWo
+ jfE3pHIzrjA74dg5I78OHSgxxkMmLZjKDrtyPpEyiDvhWUqAQZYbh3B6i2ybTdCGKId59sAnR
+ D4WA+fS6goKbjs1R08JyMwz+19/NVmCUpjp7G+X/ysQMz8g+sRRC8AP3aVVtPoBmx3dxux12r
+ tGcK5jfgSG+wMvJxs5ogp42a2zUBin3nz4nwMINBZ0Rva28r3i2D1UVE6dUwxe+f038JMs/Qy
+ dXOKORuZ0KgrpgW7F1DjMAN7INefjfXG5ImUGQkI53P0TRtHTPZXKvC4BIKPBvi7LqJ2aCj
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:53:26
@@ -69,35 +71,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Elena Afanasova <eafanasova@gmail.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Li Qiang <liq3ea@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <alistair.francis@wdc.com>, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Afanasova <eafanasova@gmail.com>
+From: Laurent Vivier <lvivier@redhat.com>
 
-Spotted by PVS-Studio
+.class_init is already set to serial_mm_class_init.
 
-Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <1e903f928eb3da332cc95e2a6f87243bd9fe66e4.camel@gmail.com>
+Remove the duplicate entry.
+
+Fixes: 17fd1a6490b1 ("serial-mm: add "regshift" property")
+Cc: marcandre.lureau@redhat.com
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20201009113843.60995-1-lvivier@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- block/blkdebug.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/char/serial.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index eecbf3e5c479..54da719dd151 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -215,6 +215,7 @@ static int add_rule(void *opaque, QemuOpts *opts, Error **errp)
-                                  BLKDEBUG_IO_TYPE__MAX, &local_error);
-         if (local_error) {
-             error_propagate(errp, local_error);
-+            g_free(rule);
-             return -1;
-         }
-         if (iotype != BLKDEBUG_IO_TYPE__MAX) {
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 4386adabd466..97f71879ff2a 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -1120,7 +1120,6 @@ static const TypeInfo serial_mm_info = {
+     .class_init = serial_mm_class_init,
+     .instance_init = serial_mm_instance_init,
+     .instance_size = sizeof(SerialMM),
+-    .class_init = serial_mm_class_init,
+ };
+ 
+ static void serial_register_types(void)
 -- 
 2.26.2
 
