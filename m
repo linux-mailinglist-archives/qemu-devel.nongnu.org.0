@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52CE28CA46
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 10:30:02 +0200 (CEST)
-Received: from localhost ([::1]:42646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478FA28CA4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 10:33:58 +0200 (CEST)
+Received: from localhost ([::1]:50488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSFh3-0003Tl-QE
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 04:30:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54656)
+	id 1kSFkr-0006wK-CC
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 04:33:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSFfo-0002Kh-R9
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 04:28:45 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38348)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSFfn-0003yM-Ce
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 04:28:44 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A02D3AF87;
- Tue, 13 Oct 2020 08:28:41 +0000 (UTC)
-Subject: Re: [PATCH v2 0/3] unbreak non-tcg builds
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20201012214527.1780-1-cfontana@suse.de>
- <d32be762-ece9-c9cb-1bdc-3d7e65c5a7bc@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <4b561396-f6ea-599f-1108-8fc679f61c31@suse.de>
-Date: Tue, 13 Oct 2020 10:28:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kSFhM-0004zO-A0; Tue, 13 Oct 2020 04:30:20 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:32983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kSFhK-0004Bf-EQ; Tue, 13 Oct 2020 04:30:19 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id p3so192175pjd.0;
+ Tue, 13 Oct 2020 01:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6Sgy3rHvTN4jCcntej3MnMJNBmjZHwYNF6EFKidYoio=;
+ b=IyShGAle7UWgHDPYY0p261aJjIzXUPMJqJHCfW9WhYEEiXDWg7IyaEg2BBvpnXKZjU
+ LAGWysGlnBed5ZTuyVUCtUt7FIEc8Z4x4Xs6i3158VFVNNkYYGQ9EMZICTsF/kG7+Wbu
+ w3+4+RHRzQYgns/pQE+DAQ2+z1a+jDweeXMMEMeMsJ8YEouCUNxKmDyhNbxJrnsXDI0A
+ 4yHnAQFPjm+nDJjTJJT2vCIUZwquLF0CJY89tYCriB909eCsrmnw7LKqgshHMZ9SEajc
+ MSF4Vbz2WjjaQtFdqdWo4cz5hlc+L0OehtD4cz0/wS0YmnkcQpOuHewMyArVYtB5Kgm5
+ POoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6Sgy3rHvTN4jCcntej3MnMJNBmjZHwYNF6EFKidYoio=;
+ b=C6pl+Dbv+LEyQ2ftRGO+uCwdfOdX/OUrtjJi5xUH+3F9ZS3Z7lusZTcfvJGufhBPKQ
+ RnxWC4ptZG4PoaIwg73sX7wIXTCQgZLhUW0d7WWqF1Z3JNmeuqpZGJuGVGjzSHURjaFY
+ P/nKzsulezxpeCYua7MA9A0lzTgCj2IKo40ctRCx7ZVi4GJ2Ye98oWlCp2EMVUTbhqXA
+ CccSkMjfouoBmvjTVFOakIW2oiqVmQOqirppg9DTPtuHeC0XtVJlr6SSyMN82SByoLya
+ pH4owDyfQNyg/Re1mN7MsHrCJe+LCXU5sO/CzGZbzj7dkls+XlAUFVcxrVjHD2u5lxip
+ mUrQ==
+X-Gm-Message-State: AOAM5324k1ZdfoWAZij/oqewm2h+v37ERLdN2hKYvR/Wr7DhYMkmR/CW
+ WG9Xy1I9mx/4uDeLuYsXRsk=
+X-Google-Smtp-Source: ABdhPJxeuObfPx1CWxPMM4B4B2wHjST4q7H6Ow64I750jdXE8+H75yXMbce/KPHsYsyg6F1ULraORA==
+X-Received: by 2002:a17:90a:bd97:: with SMTP id
+ z23mr25507639pjr.191.1602577816043; 
+ Tue, 13 Oct 2020 01:30:16 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com (unknown-224-80.windriver.com.
+ [147.11.224.80])
+ by smtp.gmail.com with ESMTPSA id m11sm22271419pfa.69.2020.10.13.01.30.14
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 13 Oct 2020 01:30:15 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Subject: [PATCH v2] hw/intc: Move sifive_plic.h to the include directory
+Date: Tue, 13 Oct 2020 16:30:11 +0800
+Message-Id: <1602577811-67343-1-git-send-email-bin.meng@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <d32be762-ece9-c9cb-1bdc-3d7e65c5a7bc@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 01:21:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1042.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,45 +86,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/20 10:25 AM, Philippe Mathieu-Daudé wrote:
-> On 10/12/20 11:45 PM, Claudio Fontana wrote:
->> This series now unbreaks current non-tcg builds
->> (!CONFIG_TCG).
->>
->> tests Makefiles need to avoid relying on all non-native
->> archs binaries to be present,
->>
->> bios-tables-test needs to skip tests that are tcg-only,
->>
->> and notably the replay framework needs to consider that
->> it might not be functional (or its code present at all)
->> without TCG.
->>
->> Tested ok target x86_64-softmmu on x86_64 host with:
->>
->> ./configure --enable-tcg --disable-kvm
->> ./configure --enable-kvm --disable-tcg
->> ./configure --enable-tcg --enable-kvm
->>
->> running make check-qtest
-> 
-> If you want to avoid these configurations to bitrot,
-> please cover them adding Gitlab jobs.
-> 
-> Thanks,
-> 
-> Phil.
-> 
+Since sifive_plic.h is used by hw/intc/sifive_plic.c,
+it has to be in the public include directory. Move it.
 
-Hi, yes I was about to ask :-) We have only minimal coverage of --disable-tcg and only for s390 IIRC.
+Fixes: 84fcf3c15111 ("hw/riscv: Move sifive_plic model to hw/intc")
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Ciao,
+---
 
-Claudio
+Changes in v2:
+- reword the commit message as Philippe suggested
+
+ {hw => include/hw}/intc/sifive_plic.h | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename {hw => include/hw}/intc/sifive_plic.h (100%)
+
+diff --git a/hw/intc/sifive_plic.h b/include/hw/intc/sifive_plic.h
+similarity index 100%
+rename from hw/intc/sifive_plic.h
+rename to include/hw/intc/sifive_plic.h
+-- 
+2.7.4
+
 
