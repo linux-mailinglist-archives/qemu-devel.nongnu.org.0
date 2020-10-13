@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B059F28CAE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 11:19:42 +0200 (CEST)
-Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E992A28CAE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 11:22:03 +0200 (CEST)
+Received: from localhost ([::1]:60632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSGT7-00027C-Pd
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 05:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38192)
+	id 1kSGVN-0004Kd-OF
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 05:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kSGRp-0001IS-2I
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 05:18:21 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:33504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kSGRn-0002Wi-DU
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 05:18:20 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-h4LzgKV7MXq4en4AxevSEA-1; Tue, 13 Oct 2020 05:18:16 -0400
-X-MC-Unique: h4LzgKV7MXq4en4AxevSEA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DDA81020908
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 09:18:15 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-78.ams2.redhat.com [10.36.112.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15EF527CCA;
- Tue, 13 Oct 2020 09:18:13 +0000 (UTC)
-Subject: [PATCH v2] Makefile: Add *.[ch].inc files to cscope/ctags/TAGS
-From: Greg Kurz <groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <kherman@inbox.lv>)
+ id 1kSGTv-0003Io-DG; Tue, 13 Oct 2020 05:20:31 -0400
+Received: from shark2.inbox.lv ([194.152.32.82]:34351)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kherman@inbox.lv>)
+ id 1kSGTr-0002fA-MZ; Tue, 13 Oct 2020 05:20:30 -0400
+Received: from shark2.inbox.lv (localhost [127.0.0.1])
+ by shark2-out.inbox.lv (Postfix) with ESMTP id 56F7242D92;
+ Tue, 13 Oct 2020 12:20:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=inbox.lv; s=30062014;
+ t=1602580823; bh=k3S397z/Qm1HzfxxEdSY5HNCjKU5sz8r8JhVSecFSYE=;
+ h=From:To:Cc:Subject:Date;
+ b=f0bBNKCmqpU5TS7cFgn7X9UC9M1MYz1PH6jEZatK6hWSNCV1iAnqQwTgjSm5vvYxr
+ y7VGzAMu77y1LliBrPmRRMJocvWGjFFu2NLXic3NU6uls1gDN1Snp8kQtSEb5CBQTr
+ B7Vdkr8Kp0YvUbZS5swbROInJ1jPBw357o8Nh/Mo=
+Received: from localhost (localhost [127.0.0.1])
+ by shark2-in.inbox.lv (Postfix) with ESMTP id 39CAA42D8D;
+ Tue, 13 Oct 2020 12:20:23 +0300 (EEST)
+Received: from shark2.inbox.lv ([127.0.0.1])
+ by localhost (shark2.inbox.lv [127.0.0.1]) (spamfilter, port 35)
+ with ESMTP id qhulorEEqZNS; Tue, 13 Oct 2020 12:20:23 +0300 (EEST)
+Received: from mail.inbox.lv (pop1 [127.0.0.1])
+ by shark2-in.inbox.lv (Postfix) with ESMTP id E496142D8C;
+ Tue, 13 Oct 2020 12:20:22 +0300 (EEST)
+Received: from localhost.localdomain (unknown [94.177.228.81])
+ (Authenticated sender: kherman@inbox.lv)
+ by mail.inbox.lv (Postfix) with ESMTPA id DF8233D9829;
+ Tue, 13 Oct 2020 12:20:21 +0300 (EEST)
+From: Klaus Herman <kherman@inbox.lv>
 To: qemu-devel@nongnu.org
-Date: Tue, 13 Oct 2020 11:18:13 +0200
-Message-ID: <160258069310.900922.1495166540282536628.stgit@bahia.lan>
-User-Agent: StGit/0.21
+Cc: qemu-trivial@nongnu.org, Klaus Herman <kherman@inbox.lv>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+Subject: [PATCH v3] hw/core/qdev-properties-system: Fix pci bus range in
+ set_pci_host_devaddr()
+Date: Tue, 13 Oct 2020 09:20:14 +0000
+Message-Id: <20201013092014.34059-1-kherman@inbox.lv>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 05:18:17
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: OK
+X-ESPOL: G4mES30DmH5BpsK8I5pk5v+XtdvHI0ZBySr7z7457XNesrrGr60LfS/KW5iNag+/bg==
+Received-SPF: pass client-ip=194.152.32.82; envelope-from=kherman@inbox.lv;
+ helo=shark2.inbox.lv
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 05:20:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,40 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code base has some C source and header files that don't get indexed
-because their name ends with .inc:
-
-$ git ls-files "*.[ch].inc" | wc -l
-66
-
-Add them to the list.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
---
-v2: add the missing \( and \)
+Fixes: bccb20c49df ("hw/core/qdev-properties: Use qemu_strtoul() in set_pci_host_devaddr()")
+Signed-off-by: Klaus Herman <kherman@inbox.lv>
 ---
- Makefile |    2 +-
+ hw/core/qdev-properties-system.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index c37e513431fe..3c5a0b0f7a11 100644
---- a/Makefile
-+++ b/Makefile
-@@ -190,7 +190,7 @@ distclean: clean ninja-distclean
- =09rm -f linux-headers/asm
- =09rm -Rf .sdk
-=20
--find-src-path =3D find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o =
--name "*.[chsS]"
-+find-src-path =3D find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o =
-\( -name "*.[chsS]" -o -name "*.[ch].inc" \)
-=20
- .PHONY: ctags
- ctags:
-
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index 49bdd12..e3dca56 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -903,7 +903,7 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
+     bus = val;
+ 
+     p = (char *)e + 1;
+-    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0x1f || e == p) {
++    if (qemu_strtoul(p, &e, 16, &val) < 0 || val > 0xff || e == p) {
+         goto inval;
+     }
+     if (*e == ':') {
+-- 
+2.28.0
 
 
