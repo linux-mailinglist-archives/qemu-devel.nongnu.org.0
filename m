@@ -2,55 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A3328CC5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:15:39 +0200 (CEST)
-Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D8B28CC62
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:19:30 +0200 (CEST)
+Received: from localhost ([::1]:42874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSIHK-0001tM-F3
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:15:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60296)
+	id 1kSIL3-00069D-GA
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSI2P-0002iM-FW
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 07:00:13 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51442
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSI2M-0006ZI-Uv
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 07:00:13 -0400
-Received: from host86-158-109-18.range86-158.btcentralplus.com
- ([86.158.109.18] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kSI2A-0004NA-Fk; Tue, 13 Oct 2020 12:00:05 +0100
-To: qemu-devel <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
- alxndr@bu.edu
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <4f9846b5-4112-9598-fb9a-be26e28f2759@ilande.co.uk>
-Date: Tue, 13 Oct 2020 11:59:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kSI8a-0000xl-8Q
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 07:06:36 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:35272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kSI8X-0007Qe-ST
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 07:06:35 -0400
+Received: by mail-ej1-x635.google.com with SMTP id u21so27664604eja.2
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 04:06:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/C126p7BpyaMEvADAJEjb+nfleY5q/1Dy/V1iZCjhgc=;
+ b=NKW4A69zb5D/Tg3iY4dd3p35TIzs+jf4xN8ZdljBEC8s2rct/SMTYDY6FdErSQsTKw
+ J2ocStDK1joJVn1klDjoLnjxVTejdpNX+XFGrN4r5zCv5q8Jda6twNr9L3sMhnJFPKoL
+ Vrr+BpLKY4sTCx1JXST9DsPDIsaWu3GI+fbE5GvJ2QYGZbywzule2bkZZpytXmb5V4Cg
+ D8XtzPBWNeVRMEOQUJdDsAcipRsYVTTOmOLsNFIyYX6aSEKyDqro+tIux+jJRvWBRlej
+ h58jkxkHlBp57yLzAEndt13KwON0mdRfSxjaOw8K3CBBBDt/tnf4uo2dwnJfBjc8Cv/A
+ VnsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/C126p7BpyaMEvADAJEjb+nfleY5q/1Dy/V1iZCjhgc=;
+ b=tkFyVZ0NGmxQYExJWLB195Gs8tMKkXYKjM2ujQ96UfrQdvBwlGVEk/bmfAAIKy8YHz
+ bjkJshdFVju5NaeLKLRH08wJKqd3am0saOez0MBb3UD/tHqxr15DoFgmqX/TydEu5mkf
+ 60UjloRXrO3KKK0tUf7yd4BUz5QEffCcQnzME0qFI+LOabh4J8qCQIaKkzCnvq0U71po
+ gEdt/3y3uvp6dQD5Wn55smhzKSNd7Srq45gXadvDY9UhMbQNvhJ14INoaLg6zQ5hSkVb
+ Lgq3BeluqQz31xGCHD7cSalpcirpLfpp7ZM9vVOKnajn+WPM54srwK3AEuNKYlFBQc+O
+ +RXw==
+X-Gm-Message-State: AOAM5325YZ3XtRbvWCHQFBgvUkt3V1RhCVuOSuAPIsVE8EQrkedauyGc
+ 17SpwDKmqPE3LVtpuu3zVjA1jzwKbChdWuVUIAj56Q==
+X-Google-Smtp-Source: ABdhPJyxZbZn4hFA7PFB0IeloYL0WNDTzzHRPJmSnwMoVuyxkFVLlYBRts6qwJ8K3xASjqNkGk0RFf6GPkchVCjC+5U=
+X-Received: by 2002:a17:906:c7d9:: with SMTP id
+ dc25mr32156139ejb.482.1602587191266; 
+ Tue, 13 Oct 2020 04:06:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.158.109.18
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: ide: Linux reports drive diagnostic failures on boot
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+References: <20201013065313.7349-1-laurent@vivier.eu>
+In-Reply-To: <20201013065313.7349-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 13 Oct 2020 12:06:20 +0100
+Message-ID: <CAFEAcA81HdRLh25MoC+=ZS7TERAzbZt_Ns+-Lp=oZFL69nMsoA@mail.gmail.com>
+Subject: Re: [PULL 00/15] Trivial branch for 5.2 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,69 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During my latest OpenBIOS boot tests I've noticed the following IDE diagnostics 
-failure message appearing in dmesg at Linux boot time when booting from CDROM on both 
-SPARC64 and PPC:
+On Tue, 13 Oct 2020 at 07:56, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 2387df497b4b4bcf754eb7398edca82889e2ef=
+54:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-10-10'=
+ int=3D
+> o staging (2020-10-12 11:29:42 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/trivial-branch-for-5.2-pull-reque=
+st
+>
+> for you to fetch changes up to ef3a1d9fc36140f8933fbced70ee21fd9740b33c:
+>
+>   meson.build: drop duplicate 'sparc64' entry (2020-10-12 23:11:32 +0200)
+>
+> ----------------------------------------------------------------
+> Trivial Patches Pull request 20201013
+>
+> ----------------------------------------------------------------
 
-[    9.347342] scsi host0: pata_cmd64x
-[    9.369055] scsi host1: pata_cmd64x
-[    9.371622] ata1: PATA max UDMA/33 cmd 0x1fe02008000 ctl 0x1fe02008080 bmdma 
-0x1fe02008200 irq 8
-[    9.372805] ata2: PATA max UDMA/33 cmd 0x1fe02008100 ctl 0x1fe02008180 bmdma 
-0x1fe02008208 irq 8
-[    9.711740] ata2.00: ATAPI: QEMU DVD-ROM, 2.5+, max UDMA/100
-[    9.712591] ata2.00: Drive reports diagnostics failure. This may indicate a drive
-[    9.713256] ata2.00: fault or invalid emulation. Contact drive vendor for information.
-[    9.737677] ata2.00: configured for UDMA/33
-[    9.790179] scsi 1:0:0:0: CD-ROM            QEMU     QEMU DVD-ROM     2.5+ PQ: 0 
-ANSI: 5
-[   10.381172] hme 0000:01:01.1 enp1s1f1: renamed from eth0
-[   10.508819] sr 1:0:0:0: [sr0] scsi3-mmc drive: 4x/4x cd/rw xa/form2 tray
-[   10.509805] cdrom: Uniform CD-ROM driver Revision: 3.20
+Compile failure on ppc64be:
 
+../../hw/rtc/twl92230.c: In function =E2=80=98menelaus_rx=E2=80=99:
+../../hw/rtc/twl92230.c:289:23: error: array subscript is above array
+bounds [-Werror=3Darray-bounds]
+         return s->dcdc[addr - MENELAUS_VCORE_CTRL1];
+                       ^
+cc1: all warnings being treated as errors
 
-A session with git bisect points to the following commit:
-
-55adb3c45620c31f29978f209e2a44a08d34e2da is the first bad commit
-commit 55adb3c45620c31f29978f209e2a44a08d34e2da
-Author: John Snow <jsnow@redhat.com>
-Date:   Fri Jul 24 01:23:00 2020 -0400
-
-     ide: cancel pending callbacks on SRST
-
-     The SRST implementation did not keep up with the rest of IDE; it is
-     possible to perform a weak reset on an IDE device to remove the BSY/DRQ
-     bits, and then issue writes to the control/device registers which can
-     cause chaos with the state machine.
-
-     Fix that by actually performing a real reset.
-
-     Reported-by: Alexander Bulekov <alxndr@bu.edu>
-     Fixes: https://bugs.launchpad.net/qemu/+bug/1878253
-     Fixes: https://bugs.launchpad.net/qemu/+bug/1887303
-     Fixes: https://bugs.launchpad.net/qemu/+bug/1887309
-     Signed-off-by: John Snow <jsnow@redhat.com>
-
-:040000 040000 70a7c1cfbafb22fa815d3ae4d7ed075ac3918188 
-3f37762f20e9ca9d2874eaf819d7175a1dca1dd9 M      hw
-
-
-John/Alexander: any chance you could take a look at this? The message above is really 
-simple to reproduce under qemu-system-sparc64 using 
-http://cdimage.debian.org/cdimage/ports/9.0/sparc64/iso-cd/debian-9.0-sparc64-NETINST-1.iso 
-and the following command line:
-
-./qemu-system-sparc64 \
-     -cdrom debian-9.0-sparc64-NETINST-1.iso \
-     -m 256 \
-     -nographic \
-     -boot d
-
-
-ATB,
-
-Mark.
+thanks
+-- PMM
 
