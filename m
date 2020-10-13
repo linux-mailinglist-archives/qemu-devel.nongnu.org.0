@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBAB28C8CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 08:55:23 +0200 (CEST)
-Received: from localhost ([::1]:37828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DEF728C8D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 08:56:05 +0200 (CEST)
+Received: from localhost ([::1]:39072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSEDS-0006aG-1u
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 02:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32862)
+	id 1kSEE8-00076W-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 02:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBW-0004vM-PG; Tue, 13 Oct 2020 02:53:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:53471)
+ id 1kSEBZ-0004y6-Mx; Tue, 13 Oct 2020 02:53:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:38947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSEBU-0000Dy-UO; Tue, 13 Oct 2020 02:53:22 -0400
+ id 1kSEBX-0000EF-Cb; Tue, 13 Oct 2020 02:53:25 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M3DBd-1kT2av35bR-003ePW; Tue, 13 Oct 2020 08:53:16 +0200
+ id 1N2m7Q-1kKcMb27WW-0134cR; Tue, 13 Oct 2020 08:53:17 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/15] Trivial branch for 5.2 patches
-Date: Tue, 13 Oct 2020 08:52:58 +0200
-Message-Id: <20201013065313.7349-1-laurent@vivier.eu>
+Subject: [PULL 01/15] qemu-img-cmds.hx: Update comment that mentions Texinfo
+Date: Tue, 13 Oct 2020 08:52:59 +0200
+Message-Id: <20201013065313.7349-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201013065313.7349-1-laurent@vivier.eu>
+References: <20201013065313.7349-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:uIZSGJka0sLXeoNUzhf3XdpAdnHsBRNj813yKbvyQSuLUuB9PqF
- +F+3+LGmHpdsQavaUtqmv53QWTaoNESQm4I262vCAFomB9rfXG/MFDCoh7cCsTxemKKj3oL
- yeIdgFnhse6iRW3ekVbhRL0fD7YR/DdJv246oxxS98o7tBUH7bXKqqasQx/WBb17Y+BQ9FE
- OMWGb6XXrQYsNISULqCzw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pvObdF34zO4=:LODujIsST7wDaZk9BqnKeu
- cyWvANP91NvUOIOcS8mHUa+kJznuWtt+k6elgS5BY4+peuO/UfCuoM7T/m5/oN963ksBrYocM
- hl7EoXzOySUaaGCd73QtIIkZvoKPF4zXYB8wvM07fmplye8z+0XO0y92ArkCDYkNTDKF2OGSP
- KVwlia79vyQqRtHaJAl1LgpePxjEM+/llie1U9T0Kw/3hQW7eT3PDVcaYxsaR+oo4E/4zr1vO
- UKgYMtE50Y/LgDFYaGCdV1X+rqj9GOwOHtBK02bJr1HWFlYff/XwyJ8RI3/PEJgz+jv4dtegT
- nzcaXIbRYEv2DF9udn2WdiBmdw9nsU3DJcTfd09wiWNoGltwiZsFpDbdKEogpY/tvoHDx3GQg
- HlKHSh46ee7STDM1RISaXfakZm1q6ax7E8zO5T7vLvnwZWv6lbeAi59z3BR7LlRwZZvdnav3b
- z3uqeXCGwR8De/x5Jw/WnTETb/dVK/I7OnkwvwrCo0vgiqGcXZkG066RvxM9F5XTbpUaFA5p8
- kQHyaL5X0KKlL4YS9lnkd1KmaKymCrc4s/PUS7V9Nr7D9PpZFwn6QwAQqEn92EZq9lW4l0Gaq
- MDJvxoQnl8HjsSSHNt57g2icYhXt1uPl9gcBx9r4IanRyUV8wGUUbWTpv+5r5V7Js8LypU2dO
- JkoK0bk95Mag32EGHoe36eyn7NaEPQmhwr2QIgKq7oIpx3oDA5WNjFnmYXO8x16piId2Y4oSb
- vYpDhU1Uy1/DIGr5pOdCrfAAx7UOTPG0twWeRPe4UvkpGfmccHjX9UHMVrk6i6UMkiXxZgAfH
- 7oRnO5zDcHQfIK+lZy6mo8ouZP5JZhf5zr/XUotTAozOvUYCQAnK2lbtBXh1NKZfb4ybUVR
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:9/2TaPVs7al+WnuZp+H12LjHAViYpMZ7YNXLDTtzwILLgfmE4E8
+ 0vH5w/K4lr15QfP6lnmAhf8hpaAFvlcNIE9GMe5tWtZK5s+Q/PoVGRgt/F5uKWWg/eGwtao
+ JBbDzFoyezbq/uZmCFHH9i/Vosz7/KjNmDsAPkdCVwlcXWiwHMWS25NQek/ivZdHDHTRXgr
+ iPtqccT4SC95HNHvMYRHw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lbBWPb0gV7k=:BS8Ayd60zCkUFoZBIBicJA
+ nXjCfAYr6DJkOMZ9hHB6h3Q9w7evxye+QbI12YEX6UAgBYRXVX466bWJ7Vq2z65khk1REZizS
+ yo8FwZtEsVOI6fw53k4apAVEaMwDl3NYnIP+X7Y37jtVcuf0VP63o43KJ2fgNgO0V3DPZSYQ4
+ dS11Td843KrcresVpPPzIbbUx5kkKWXzHWSRSDYZpb1QflbHuj14ejy6KtykvvFRNhDXFSk0o
+ 0Pdf1zkYOB6Z8EGC0dW68lJpgdkFS8QqVS/XeNUwfgM5NPkfgTGbtx3hZa0uEbNOtUJ41HgLi
+ FYqCBwpgN7O1TasifY5SzTuNMMf4CPg1tc8LNN6j59VCdTKtPIBzTnRoihP1n1yVHvFsz2G0A
+ tCR027rFu06BBjmeJh6LXONLUsGWKFU2c4AK0lAC3PzSUGFKq82BBfYAQYMgR3J+RnAjBx9zZ
+ Sibc11JdcZm/Y9CTyowgcQVO16nIN7zGXDMif/7+aioKaNOxSwvwTWQ1nCqsl049AwXUA2tg/
+ DpX+DtC7yFeVpzQBoFUOVy7US2F6kUf/KnHxQc6YDI4FeyrR4d/VeEvQmEyQK6K1eRmvQQZI4
+ iUEsflWvA8DzqJwWipItMnm9LKquHLeAnmB8F2tfYdzBjf8PahB8Q/SsXOgdO5aVftCisKlj2
+ qNK3BVyXtyh8uT/qeLmPKm+VNDs7GUZnFooUsaQ7vie18GNfanR1gcVxx7vcvf8+055s0gX2Y
+ ftALUX2RCBwd9/Lwy2p8/IlXBLZAA8V9ENivoIIcbjN8Kn3NzxIDHfdoL4r2mKXVbbKH3CIYL
+ oY9EPYVfpIVXjaCfhteaasueLyHDk/7VDKfZYwpPccf2HoTXRgIBlsCtAMGFnU3cO0430Tg
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:53:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:53:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -68,89 +70,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2387df497b4b4bcf754eb7398edca82889e2ef54=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-10-10' i=
-nt=3D=0D
-o staging (2020-10-12 11:29:42 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.2-pull-request=
-=0D
-=0D
-for you to fetch changes up to ef3a1d9fc36140f8933fbced70ee21fd9740b33c:=0D
-=0D
-  meson.build: drop duplicate 'sparc64' entry (2020-10-12 23:11:32 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-Trivial Patches Pull request 20201013=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Christian Borntraeger (1):=0D
-  vmdk: fix maybe uninitialized warnings=0D
-=0D
-Elena Afanasova (1):=0D
-  block/blkdebug: fix memory leak=0D
-=0D
-Greg Kurz (1):=0D
-  hw/acpi/piix4: Rename piix4_pm_add_propeties() to=0D
-    piix4_pm_add_properties()=0D
-=0D
-Julia Suvorova (1):=0D
-  hw/pci: Fix typo in PCI hot-plug error message=0D
-=0D
-Laurent Vivier (2):=0D
-  hw/char/serial: remove duplicate .class_init in serial_mm_info=0D
-  goldfish_rtc: change MemoryRegionOps endianness to=0D
-    DEVICE_NATIVE_ENDIAN=0D
-=0D
-Marc-Andr=3DC3=3DA9 Lureau (1):=0D
-  mingw: fix error __USE_MINGW_ANSI_STDIO redefined=0D
-=0D
-Markus Armbruster (2):=0D
-  qemu-img-cmds.hx: Update comment that mentions Texinfo=0D
-  target/i386/cpu: Update comment that mentions Texinfo=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (3):=0D
-  hw/block/nvme: Simplify timestamp sum=0D
-  softmmu/memory: Log invalid memory accesses=0D
-  target/sparc/int32_helper: Remove duplicated 'Tag Overflow' entry=0D
-=0D
-Sergei Trofimovich (1):=0D
-  meson.build: drop duplicate 'sparc64' entry=0D
-=0D
-Thomas Huth (2):=0D
-  hw/rtc/twl92230: Silence warnings about missing fallthrough statements=0D
-  tests/test-char: Use a proper fallthrough comment=0D
-=0D
- block/blkdebug.c            |  1 +=0D
- block/vmdk.c                |  8 +++---=0D
- hw/acpi/piix4.c             |  4 +--=0D
- hw/block/nvme.c             |  7 +-----=0D
- hw/char/serial.c            |  1 -=0D
- hw/pci/pci.c                |  2 +-=0D
- hw/ppc/spapr_pci.c          |  2 +-=0D
- hw/rtc/goldfish_rtc.c       |  2 +-=0D
- hw/rtc/twl92230.c           | 50 ++++++++++++++++++-------------------=0D
- meson.build                 |  2 +-=0D
- migration/dirtyrate.c       |  3 ++-=0D
- qemu-img-cmds.hx            |  2 +-=0D
- softmmu/memory.c            | 16 ++++++++++++=0D
- target/i386/cpu.c           |  3 ++-=0D
- target/sparc/int32_helper.c |  1 -=0D
- tests/test-bitmap.c         |  1 -=0D
- tests/test-char.c           |  2 +-=0D
- 17 files changed, 58 insertions(+), 49 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: Markus Armbruster <armbru@redhat.com>
+
+Missed in 3c95fdef94 "Update comments in .hx files that mention
+Texinfo".
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200929075824.1517969-2-armbru@redhat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ qemu-img-cmds.hx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index b89c019b76bf..cab82342358e 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -1,5 +1,5 @@
+ HXCOMM Keep the list of subcommands sorted by name.
+-HXCOMM Use DEFHEADING() to define headings in both help text and texi
++HXCOMM Use DEFHEADING() to define headings in both help text and rST
+ HXCOMM Text between SRST and ERST are copied to rST version and
+ HXCOMM discarded from C version
+ HXCOMM DEF(command, callback, arg_string) is used to construct
+-- 
+2.26.2
+
 
