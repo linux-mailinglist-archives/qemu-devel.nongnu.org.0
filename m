@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215C328CB78
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 12:18:28 +0200 (CEST)
-Received: from localhost ([::1]:52762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE73F28CB81
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 12:21:21 +0200 (CEST)
+Received: from localhost ([::1]:58134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSHNy-0002YL-UT
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 06:18:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52460)
+	id 1kSHQm-0004mJ-Pp
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 06:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSHMe-0001oC-Fz
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:17:04 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45599)
+ id 1kSHMi-0001ql-R1
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:17:08 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSHMc-0001XN-UL
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:17:04 -0400
-Received: by mail-wr1-x430.google.com with SMTP id e17so23287687wru.12
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 03:17:02 -0700 (PDT)
+ id 1kSHMh-0001Xk-Dc
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:17:08 -0400
+Received: by mail-wm1-x341.google.com with SMTP id e23so13365440wme.2
+ for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 03:17:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1t1Vhx6MiGT0IoPrCz5UXV88IBBa97BZhmTdP8SfZKk=;
- b=YpBjM77aJOq7hL9BcW1QwVBv6LfCxRvXORuIw9N2rusZuct+WBFA/lIi46rPkXN/m3
- 8xY6/mH+DsHzfKTKn1rDJ3PoJhNYslYmyWUDZ8baaW31jUyzpiI5luThu+fUjf2qvX83
- l3BQtPCmS+0GCruICqBh+DN/ROQOwwTdhCZvPN+RZj4YIZ46A9JJb623PN7yawYjdOHH
- vsou5U8YeZAOAEZNWXoZqOx/koAs0bJHQUP4iwKvJCvXofJi4viENDe5h3TUU09CHgis
- oc7fBiL36UO+IY92nCMwwiqB4SefX2RJW9TLpA28IPXDJoUb27aVxIkM6ME7wb8LkEfU
- lecg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ED9ctdoCK+AGBSvVR1uFGDxKqs1IT3566nbTYT2S4dU=;
+ b=gUiJHH9lCnv092JZG1q+DiVMGUUI/yBceAi5fdFwl5AK5nslCepiV5eWId59Z5Qj7j
+ V1RDY3gJfGfgDzOlYyq6+LkNz5MWRmnq7lBEPZjy77hQWc4Aecpl9rqUKEjuyq6rJNF5
+ 4JJmCOu/epPASgU1Gt8G3e8+XKdCZHi4KRFxWIWhNKtr9p7vLND9H9SsWSNc5ip5ob+A
+ xFgfXcljMQ/zvVu2Bv2DcwcSwY6T/tEAJhnGV+eBh01Q48ID19fB24cgSV4cR0t0iwMc
+ TRQM+Z8C7Ajb7rIfx7NFn4i4oGRJIboUUVuctmyyXx1bhyLKkTSdZ3U3tJJ0PBkY1xjN
+ fCbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=1t1Vhx6MiGT0IoPrCz5UXV88IBBa97BZhmTdP8SfZKk=;
- b=K9ARKAFXDHPRw6nUme45MlkWg3yqvakutakTygjLRvHtrt7PRmdctr+b2bQNtUjsWw
- 2bnjXpHX04AwH9zIgXE+i3+1nEH/bQXi6nS/WosLPsX9PenAosJ8z0iRpwQdgJdZ4BTq
- 4lXrs1+z9WSMW1j6JqWC8viUZhwXaDVVdl6wmqQTIdOVfHcGZoGXEA3cRu1gwPs01nNi
- 7YWjcuKSy1EXjZWXY4h1jNbBoY8FWY9pm6dfWsaLeDdvQPrbpIXXy+KYiPZlzGXo5oC6
- J2vud5BgHBKXLuy+XrbOZo3HkgzmugcTofZztYe3lO7wa9jt2IPtID6cbIlP4AzpSGyR
- al7g==
-X-Gm-Message-State: AOAM5322nkUIdq0ufWd9WclrvIB5FBqqzN5oGyv/fWUq0kg8dX6AYle9
- kWFiAey13yeZ56Jx8jemt/9bFmSx7aw=
-X-Google-Smtp-Source: ABdhPJwqcYz9HkdhqTCXkBJZ2lcX5HEf2qFtM3MXO7fOHcLTvd8hAB/edm/OuwB/Bi1HYm5wFZv4cA==
-X-Received: by 2002:adf:f48c:: with SMTP id l12mr34762270wro.77.1602584221171; 
- Tue, 13 Oct 2020 03:17:01 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ED9ctdoCK+AGBSvVR1uFGDxKqs1IT3566nbTYT2S4dU=;
+ b=G7hTMbMQuQTixuNiG95uqypilgyrPWN7yV2L2YDsf+deVwqWor8ikM1581P7crvhH7
+ voKcFRC6JUZr1c/fuTk0wqxdgIZscBjKPH8Gf3cuDHqxo+7PmvA3YFCzl/8iEHKOs5+e
+ ePWgkFgaTX7yG86v5Zf0wsMwub59cLU/Zug+A9HJOyg2+GMqU1jQKdsMjRc5+jri6f8A
+ vy7dm4mwl2+K6LHAsMFf36tSPDHZY2zefr+H434XnAOQe3m09jKpQtGlaF4v0lJEfgI9
+ teAtNTReOms59vhbaia3jO9grc6ramIY4KE5uyRBZ/8IQCSsyc/U7vOIk3J+Z6IFQT8c
+ 0WNg==
+X-Gm-Message-State: AOAM531VsVEy+Yeox16SJZdWwm8WclrZ/aIFVlsByv3wZLzQRc2fe2fl
+ tc856oqTotdX37l2pxpMsCMTVRe3JaE=
+X-Google-Smtp-Source: ABdhPJyvcVBc37GInC53OaSiZxCn/ySPIw8QyFGRg3EXVpt7Rvj0FcfEG8NpZISGCRRFhQoJrdmAtw==
+X-Received: by 2002:a1c:7708:: with SMTP id t8mr14554874wmi.6.1602584225769;
+ Tue, 13 Oct 2020 03:17:05 -0700 (PDT)
 Received: from x1w.redhat.com (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id z127sm26331406wmc.2.2020.10.13.03.16.59
+ by smtp.gmail.com with ESMTPSA id 4sm29499353wrn.48.2020.10.13.03.17.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Oct 2020 03:17:00 -0700 (PDT)
+ Tue, 13 Oct 2020 03:17:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/4] MAINTAINERS: Update MIPS sections
-Date: Tue, 13 Oct 2020 12:16:55 +0200
-Message-Id: <20201013101659.3557154-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/4] MAINTAINERS: Put myself forward for MIPS target
+Date: Tue, 13 Oct 2020 12:16:56 +0200
+Message-Id: <20201013101659.3557154-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201013101659.3557154-1-f4bug@amsat.org>
+References: <20201013101659.3557154-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,29 +95,46 @@ Cc: Chen Huacai <zltjiangshi@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Volunteer to maintain MIPS TCG.=0D
-As discussed on list, Huacai will likely send a similar patch.=0D
-=0D
-Few more adjustments (in particular around Boston board).=0D
-=0D
-Based-on: <1602103041-32017-1-git-send-email-aleksandar.qemu.devel@gmail.co=
-m>=0D
-https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg01974.html=0D
-=0D
-v2:=0D
-- Squashed Paul email address change with Boston downgrade (Thomas)=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (4):=0D
-  MAINTAINERS: Put myself forward for MIPS target=0D
-  MAINTAINERS: Remove duplicated Malta test entries=0D
-  MAINTAINERS: Downgrade MIPS Boston to 'Odd Fixes', fix Paul Burton=0D
-    mail=0D
-  MAINTAINERS: Move MIPS GIC timer files to Boston board section=0D
-=0D
- MAINTAINERS | 16 ++++++++--------=0D
- 1 file changed, 8 insertions(+), 8 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+To avoid the MIPS target being orphan, volunteer to keep an eye
+on it and put together pull requests.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ MAINTAINERS | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 426f52c1f63..d59e5c05c10 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -221,10 +221,11 @@ F: hw/microblaze/
+ F: disas/microblaze.c
+ 
+ MIPS TCG CPUs
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+-S: Orphaned
++S: Odd Fixes
+ F: target/mips/
+ F: default-configs/*mips*
+ F: disas/*mips*
+@@ -2815,11 +2816,12 @@ F: tcg/i386/
+ F: disas/i386.c
+ 
+ MIPS TCG target
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+ R: Huacai Chen <chenhc@lemote.com>
+ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+-S: Orphaned
++S: Odd Fixes
+ F: tcg/mips/
+ 
+ PPC TCG target
+-- 
+2.26.2
+
 
