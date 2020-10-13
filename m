@@ -2,87 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B09B28CA51
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 10:34:10 +0200 (CEST)
-Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C2D28CA4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 10:30:55 +0200 (CEST)
+Received: from localhost ([::1]:46452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSFl3-0005I0-A7
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 04:34:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54306)
+	id 1kSFhu-00054O-Ma
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 04:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kSFeI-0000tc-LJ; Tue, 13 Oct 2020 04:27:10 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:41355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kSFeG-0003qQ-KB; Tue, 13 Oct 2020 04:27:10 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 153AB5802DF;
- Tue, 13 Oct 2020 04:27:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 13 Oct 2020 04:27:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=a353oz923P8zk0/MTcuKtZB2Xp0
- rygr9BO7jiFQDXhQ=; b=R/u6L8ulHy7Hm40CBV4CzaM1HS/b5X/DlY844OSk+Hi
- 9JNkOjOCowI2RxuPMrszKX+lJt84dfMHAu/baSiQ++NVYItfrh/QRG9AxzEalg+m
- YtaoIj274aYX7BpOW+RujbhvDX8M9Xj2hXNfW80S4X43MK90XNBs43nY4tIu5qcP
- /40vblwVoKxWOSdzYhqlQL2O3VvKYCpwl2Qa8wszjlhx9r+Fa6Qnc/tvhGt9Y6Rq
- DydJVQF9DEovOWAkOaNHHRl9ApibyagGg+N19NfcgMJ8vIOdTAcycPxarv+EfVNP
- ZNJjasGl+6O2fVQ9KOQzB5FA8H8Eo16w2/i78NKas4g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=a353oz
- 923P8zk0/MTcuKtZB2Xp0rygr9BO7jiFQDXhQ=; b=f7LCLXLOyKRLpfpJ1sT0Cs
- wEbmWrqmADsZobMlY/fFg78i/6cHMsUOxNpK/oekjCsfqdZJheoXwHdxJoGBSVh0
- tYRhAK8I1mGjstIT3LTbA15HwwSMYJDqoL67GEuZT8vlNzy1T2EiCnhlItNci124
- 7dDynskFXWO2QWyqfuZODU6+czfj0EYiJJ6ccjo9Ok0cPpDeaa04MpMKREkhRwuD
- nnjLO/I4XVXR9o67MRasXoz08mSXGsLBJCLh3n6Nbq4LhBPr+aJjk6v1aXkwB2+V
- B0t0zEK3QW2Aky0WqXjAAPMafQpjYqx9WTFW2oJL1IU9fccsMbEWm+XYoADLlt7g
- ==
-X-ME-Sender: <xms:2GSFX7a1wOfaESxrWAW8j-ex_q47VbwQGN7rdEfpHgGs1O1scjyxVg>
- <xme:2GSFX6b-DHA37mfwLEHWM_MIT2faiJFreVB_Cx0wdfDn4UvbZv76ytbTrIeVHujpZ
- Qf30Wh-JDrbeYg-zn8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrheelgddtgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:2GSFX9_ouQ4E8cAyR-ig_ij4ZY2JzgCP9Cv5y6dgYhYC7P0OR0zXWQ>
- <xmx:2GSFXxrt16BQNVmndaV7xAVEv4A3LNRzn9AtIq6NM4ybUGz452euzA>
- <xmx:2GSFX2oUMdcSIU2wuIbRM3FStt47hlHdVXDexZw_eF-_AUrnWujN0g>
- <xmx:2WSFX_kxlW_ceMX9m-4Hu7W7RQhUbxm59k4m7TJbKMC01StYmmkEkg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 48DB43064680;
- Tue, 13 Oct 2020 04:27:03 -0400 (EDT)
-Date: Tue, 13 Oct 2020 10:27:01 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/block/nvme: update nsid when registered
-Message-ID: <20201013082701.GB168093@apples.localdomain>
-References: <20201001215059.866660-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kSFeg-0001dG-MK; Tue, 13 Oct 2020 04:27:34 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kSFef-0003sT-7V; Tue, 13 Oct 2020 04:27:34 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n18so22915626wrs.5;
+ Tue, 13 Oct 2020 01:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=U/6SIzv+udIiDx5353Wz/cytuPb04leMRw/aIB8tFjs=;
+ b=NzZeO9fN2tiRWL7EJSKbU9JyYE3Q29OyvNfz64T26Du0+l0efqC+9SlZBBp80hZDiP
+ EqfNJhbS94Fr3z+li4IRANKoyIE9lKKYP9W0PG77Vg/kkgsVddcuwSsf+Ye11GyNkDoz
+ HnSWWjkb/Ddpsi1vF5gdlwmGvpSfV6LRNwGKqy7Nepcrpfme1IXFMUbWMJFUUJrIGlAj
+ 1TSSbtgBEZCdyaF9iTc807SGHmpIEeSHJJugyC6WP1069SItJWFVpBaQQk5bq9QHMTS1
+ s9vvbw2MLb9mjt3iUqboiQ79kjzvdmrP4tU6owVzeK9TGxUEs2Oq9rsZnZkIGqqY9kus
+ onSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=U/6SIzv+udIiDx5353Wz/cytuPb04leMRw/aIB8tFjs=;
+ b=koZf9TmH/THoSEpeun6S9nSwvRo+X3qHQvGjuTcPVbtij+KasyQ3ZkuvYZ+MIycYtS
+ dxBHyeDpaTBN0MAwIypiyhND+DGwlEOYMsNHsejdqGSaxTAtFmzIHtmAmcNGdk+TUSJP
+ fNS4hjJ1Ktxi7XHR7XkyrGILXvQtcEoAW8FYZ6CFkDVOMoyVZymLMre4N358UVdFq0ZZ
+ nhX8/8tcuKzU3sK+1bcqR8/gXBA87U/2xTjbJfHUG+gAwlMJNUyZfx0T8DCJmlwdbrvU
+ mfRCrTZuyZLHNKnzxchR0ycYd5FLuXG76Td+japi4MyX9HtncfE+RMGn6/EaH0IP3aKH
+ f75g==
+X-Gm-Message-State: AOAM5307x3sCbR06j+P7NvBwRZ8TYV5x6TLR+THgUOw/iLtyfDJi9ZTD
+ 4I35laeec9xYujddGmAJQ3M=
+X-Google-Smtp-Source: ABdhPJz5d7s0Orhi1JyMr/PVfczZahchmfz+6mUQTJ9FWE1GPNDVvCpODNuPliiQVryYCVwq3kD33Q==
+X-Received: by 2002:a5d:65d2:: with SMTP id e18mr35260086wrw.252.1602577650850; 
+ Tue, 13 Oct 2020 01:27:30 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id k16sm11762637wmi.5.2020.10.13.01.27.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Oct 2020 01:27:30 -0700 (PDT)
+Subject: Re: [PATCH 08/10] hw/isa: Add the ISA_IRQ_NET_DEFAULT definition
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20201011193229.3210774-1-f4bug@amsat.org>
+ <20201011193229.3210774-9-f4bug@amsat.org>
+ <20201013072359.t3q7q4ck3cggschm@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e74c18d1-773b-5824-eb02-143696e8ae80@amsat.org>
+Date: Tue, 13 Oct 2020 10:27:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="s/l3CgOIzMHHjg/5"
-Content-Disposition: inline
-In-Reply-To: <20201001215059.866660-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
- helo=new3-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 04:27:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201013072359.t3q7q4ck3cggschm@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,67 +90,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Corey Minyard <minyard@acm.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/13/20 9:23 AM, Gerd Hoffmann wrote:
+> On Sun, Oct 11, 2020 at 09:32:27PM +0200, Philippe Mathieu-DaudÃƒÆ’Ã‚Â© wrote:
+>> The network devices use IRQ #9 by default. Add this
+>> default definition to the IsaIrqNumber enum.
+> 
+> IRQ #9 seems to be sort-of standard for acpi.  Not sure whenever that is
+> actually written down somewhere.  IIRC in pre-ACPI days it was free
+> like irq #5.
 
---s/l3CgOIzMHHjg/5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK, I'll drop this patch.
 
-On Oct  1 23:50, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> If the user does not specify an nsid parameter on the nvme-ns device,
-> nvme_register_namespace will find the first free namespace id and assign
-> that.
->=20
-> This fix makes sure the assigned id is saved.
->=20
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/block/nvme.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index da8344f196a8..bb1ee009cd31 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -2583,7 +2583,7 @@ int nvme_register_namespace(NvmeCtrl *n, NvmeNamesp=
-ace *ns, Error **errp)
->          for (int i =3D 1; i <=3D n->num_namespaces; i++) {
->              NvmeNamespace *ns =3D nvme_ns(n, i);
->              if (!ns) {
-> -                nsid =3D i;
-> +                nsid =3D ns->params.nsid =3D i;
->                  break;
->              }
->          }
-> --=20
-> 2.28.0
->=20
->=20
+Thanks,
 
-Applied to nvme-next.
-
---s/l3CgOIzMHHjg/5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+FZNIACgkQTeGvMW1P
-DelWrQf/RmQI1J2D8jXZCQn597mPh+VkZNxP/YBVyyYxAaWl653lSXyTexoXKWAJ
-HMH9dTDjbGIEtYgcvdeKrEnQhAPhwe7Thca1Wpub6RBZVjdtTSxUe7DzEzr8/eHO
-ro3EK60nlBn2ZmYBjBVVfErA7Ddn2Mf7HphBS2CvHEWH0/Xpa6yy5HXhHaGGaMU+
-N2vVfVT35QcdcqEDpjX1DS7tlsxqq5DuPts3wMtHVWCh5re50dHP1NlO/tW3n8DC
-VpJPvvnrfoT8TLntzkW+EjW1YzjQKjYuDnThkmvhwMddGgQ+pgR9ZkFgfJSR3cJH
-3bgj/3rBf4f5Oyywi/jMXCTXRQYpjg==
-=+QXq
------END PGP SIGNATURE-----
-
---s/l3CgOIzMHHjg/5--
+Phil.
 
