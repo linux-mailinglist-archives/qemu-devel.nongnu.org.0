@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76A128CBFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 12:52:35 +0200 (CEST)
-Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2E628CC0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 12:55:19 +0200 (CEST)
+Received: from localhost ([::1]:34740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSHv0-0001jw-Jf
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 06:52:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58652)
+	id 1kSHxf-0003vY-3F
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 06:55:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSHta-0001Ff-5M
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:51:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45085)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSHtX-0005eL-4f
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 06:51:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602586261;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=asJVSKtr694AKepeLwI9cAECSAqd/anFUz3F4vmINAw=;
- b=bWkqF0iGjQCXwk0TodF0mjT+HarwC2eNMcDxdSryg9ZuF8o+v3hVPBJFcYes1zTtehuhG2
- JR3B+s+prLtmupnCOxVcHJnCnZehfZj0ksl0YcXyW/RCX36cEEpixZNIJ9c9KeHhKJS8Rw
- ke6rwu2Zy7LTA1jCuQAZJr3BbllWhWo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-xJAFojYANyeP47UrQJNhSA-1; Tue, 13 Oct 2020 06:50:59 -0400
-X-MC-Unique: xJAFojYANyeP47UrQJNhSA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 045421018F65
- for <qemu-devel@nongnu.org>; Tue, 13 Oct 2020 10:50:59 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 039A26EF41;
- Tue, 13 Oct 2020 10:50:53 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C975E1750A; Tue, 13 Oct 2020 12:50:51 +0200 (CEST)
-Date: Tue, 13 Oct 2020 12:50:51 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH 0/3] console: make QMP screendump use coroutine
-Message-ID: <20201013105051.qrxty2ma3ysiy2ne@sirius.home.kraxel.org>
-References: <20201010204106.1368710-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kSHub-0001nw-AC; Tue, 13 Oct 2020 06:52:09 -0400
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:37341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kSHuZ-0005i0-U4; Tue, 13 Oct 2020 06:52:09 -0400
+Received: by mail-yb1-xb43.google.com with SMTP id h9so15793896ybm.4;
+ Tue, 13 Oct 2020 03:52:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Or3WP0ZKdf+p1cwJ47wb6hHQKvAUXX23Azj0Po8S2nk=;
+ b=unSWyzn2QNJU7wOkaYsLtybZAsfcJfLOAP6Tw3JcIFt6yYMrPJEZ6jKvtHs7hn7eNN
+ 9kdI15AFCWzUYTc5Jcpo0r0DWCr2vFxVmcerKqvXRoMbHjpSm4nhRJwxwapcprs+rKSF
+ HfXTUFlSyNs5Kd8wO2JU5cGEyGj6M18y/MgwlcFUR6mFomZORG0U4VkC8PkCa11/OSCG
+ ulY5NnzTlc0wMvPeQ97KEKLs5gAaElnJpr/UR+q1aM/irt6nUKJZWPGc/sKKsrG/2cKr
+ QyJkOksleVbATJIc4UDUj9bu7d5wHO567dp3mL390YM6nzSw6WPEGK0MhUmyTh9pWbsR
+ ujhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Or3WP0ZKdf+p1cwJ47wb6hHQKvAUXX23Azj0Po8S2nk=;
+ b=TYHlKLNeHxh/kX3bHpxS+haE2Ae1kflfmp5N4ET1bYmmId8GjiqkA8Fx9oVPgN0vw1
+ EXCEqeDG+3Pr1N2hKM4bgEu8zYBUMtjsVsyaJ8FHGrlAuW0BJiNgmebeiLI60EGVwE9T
+ X5gVP50clBGado1TS735uVwoBYUbABSTn+uZMHoGe6oHuOJ7N0LaNrRlSO2qXtVUdxpQ
+ XjjWaljeAsvGyPmu3G9XxwIu8miBtRXHWCRE3074kfRtUkKH9+AkfmQXquyKpMQwhbsT
+ 9F5dABLHTISagFblzNPac+nDPRUql1bnu0UpYYmYPXHHn9Tnyu9F1nRzoBFrxkqMLxIk
+ CU7w==
+X-Gm-Message-State: AOAM531XXLzBS9St08YtboEvbabdo9K3mhZFbcjU1lDpvq3LJ3ou/2uS
+ 2o8/M8HzYnrDtsiPCZYZxt+9db7tX1aIfb0Fjyk=
+X-Google-Smtp-Source: ABdhPJw9Rl5ie4vxsB7gxK9/N3/zgV7r8IH4jkOz66zL7hTbJRXLwVFueQy60ez1/NS5q3c2uUPUsza7iIP7U4rEBrM=
+X-Received: by 2002:a25:328a:: with SMTP id
+ y132mr13581285yby.306.1602586326487; 
+ Tue, 13 Oct 2020 03:52:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201010204106.1368710-1-marcandre.lureau@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 03:04:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200928101146.12786-1-green.wan@sifive.com>
+In-Reply-To: <20200928101146.12786-1-green.wan@sifive.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 13 Oct 2020 18:51:55 +0800
+Message-ID: <CAEUhbmUsX7RP=D=h+dp_U_QXCjDeaekNLO3nO0hUPJMXHqOhOw@mail.gmail.com>
+Subject: Re: [RFC PATCH v6 0/2] Add file-backed and write-once features to OTP
+To: Green Wan <green.wan@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,33 +77,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Hi Green,
 
-> Despite the flush, the dump may still have glitches. The graphic
-> device may perform some operations during the write on the same
-> framebuffer.
+On Mon, Sep 28, 2020 at 6:11 PM Green Wan <green.wan@sifive.com> wrote:
+>
+> Changelogs:
+> v5 to v6:
+>  - Rebase to latest. (sifive_u_otp.* are moved to hw/misc)
+>  - Put the example command to commit message.
+>  - Refine errp handle when check backend drive.
+>  - Remove unnecessary debug message.
+>
 
-That problem exists anyway, even without coroutines.  The guest can
-write to vga memory in parallel to iothread writing out the screen
-dump.
+I will try to test this soon with a modified U-Boot.
 
-> Good enough?
-
-I'd say yes.  console bits are:
-
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-
-I can take that through ui patch queue, but want an ack from someone who
-knows coroutines better than me for that.  Merging through some other
-queue (monitor?) is fine with me too.
-
-take care,
-  Gerd
-
+Regards,
+Bin
 
