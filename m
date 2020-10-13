@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BEF328CD87
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:02:08 +0200 (CEST)
-Received: from localhost ([::1]:56566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC66928CDCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 14:06:04 +0200 (CEST)
+Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSJ0J-0003vt-FQ
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:02:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44172)
+	id 1kSJ47-000709-PV
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 08:06:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpi-00077k-Pj; Tue, 13 Oct 2020 07:51:10 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:53039)
+ id 1kSIpk-0007BJ-8T; Tue, 13 Oct 2020 07:51:12 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:60681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpg-0004y5-MY; Tue, 13 Oct 2020 07:51:10 -0400
+ id 1kSIph-0004yK-SR; Tue, 13 Oct 2020 07:51:11 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MLQgv-1kkFUK2LOl-00IYUu; Tue, 13 Oct 2020 13:51:03 +0200
+ id 1N4Q8u-1kIusg18S6-011U5R; Tue, 13 Oct 2020 13:51:04 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/14] softmmu/memory: Log invalid memory accesses
-Date: Tue, 13 Oct 2020 13:50:45 +0200
-Message-Id: <20201013115052.133355-8-laurent@vivier.eu>
+Subject: [PULL 08/14] hw/pci: Fix typo in PCI hot-plug error message
+Date: Tue, 13 Oct 2020 13:50:46 +0200
+Message-Id: <20201013115052.133355-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
 References: <20201013115052.133355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MKWt9Cjs1s5YhAebDSyrKmmhvomsOesLPiiTLR6Rz83/CrEjixy
- GijrUoKj3bk0RlaOI4ZBXPZxgV3Lgo/QBiKJMjnMsdt6O1GHmZUMtWbnw+sQr7KzfFlXfYY
- unwVGQduZcHrVNnaMRTPFyKd/Ab7CteQrVsGU40Ig7/2ajRvk8F73RlgURIrifG5DL6Xhl7
- zTIH7elMfedL5U/b7vwcQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:n+8Yw940KKk=:NJPe6/w0qeHBXQXU/87HzT
- 9na+TmsdCUAwY3dpuyLy8PdPWIPNu+RamAGLM18qHPJFSgjXiN89+Fg4xpjGP2wzCWpE07gBw
- xQ0PC2Fyw6J9UYAWWvnRgVV1WUgyoxPN9rzAn8aNLTviAbAWFE2QJnjEQK5jpXk3w9kyxA1rh
- hxm6E+nvGwTAoloNrviASqi8OwGRsdru3rlCHNEwwnUqD70TwoDwFg9yFpKG2fxvDoXgwyoY7
- 8rBOr1uRowy23gf6oIv+noU05285QinxB54iRUimS/obv1GwqPT4Cs5TFyfPeR4JBKUHe3ymf
- khMHsjIAosphogDF6SsnIdBTPpDYSxesWRQsa/tqrVZSQ+mYWakWOnGqAqC195iqxRKyE3JUs
- BGjTihVAt5kvL7Pmjgk8irfqmJsffPhSAcaNRbbf9tsznWe8+FbJWcFs30srDjNm1lSDqCm44
- F+Tvhcm2d4cZvK632MTQlO/eXJbEOnPUGy2Krh8ShDOXvUs9hFAuHwQHjHI9e5ALwGMsviDcu
- B5yH72E57hMg06bdKM4SH0Hen1SeMBWv+p/8ePM6afWPm1Yp9DXHw8p7Z81UbjdjZnHvZTSKm
- hozG/T2YltsGjO4ih1zDX/v/HeB4gUwICaVoDfST+D8Q8a7u6yyDjIg4B93vqyAAVNsU0xnm3
- 3LJkINlnIVn/5i5oIYk+QqZaFQ6km2aW5AyC5r3wsDN7zYoc+wfwqX13YXi/6gFSxnUVSGSti
- 1x66I1D7/BZRNIlSP/M9kfrDVafciMmz9nr+Hfd0awOD7lA7dyDLH9Gmk7qx+ulNlUCQ3zfTV
- c7V/iwqedjXp+3FLjANWA/ViKdrFxVQ0a3oruhsmX/Qb+vmUzO7VkTL5dDbzMmVTOojBfrA
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:2LBmoiDVhBuO22eEYTNANL928DYxMfV6Z2wEE7rfy2/xdIIuH8/
+ oE4cRSDTU8iBZRUI7aHXb6ktk7HBI2fGLrxQuoYkex8+RjkpmdGbOedxTSNFRtZV1Z6sTyQ
+ JcJ+IwvDmjTZFT4bKYZ4jFT7J+cSlbtNxjHEG0tdqg56cKpR0wiHe7vC7zaViWeX+0ATC4i
+ Y5OK2a99GEjZXjV6JJLvQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:D5CKPOjaWmY=:8Gb9mfsb5RSJZyyr4fAAov
+ e0aSkjEFSoSF60honocHW0hUgh3EAnF1jkWWeNOizWJPNdiVC2lVNM/Cd6oeIxkPapUol71ic
+ /u4G54BWqvQ2JkL/HRjtHLSaP94VwFmsT87jqNDhqH6q6TNE8ZMUbEkJrbqPKr2O/EdJ3gckD
+ DaulDRveRVeEERDPPw2S/UhBdLtz5l9RQzgN2hHUazzj7JAMv3Aq2CsEA2C6fU726KbpPOzR/
+ asoI7mg7TpbjRN4dEPcNQhaPMlM+GvlzaS62igISOrpJtixL2rx/GxdrDLv5p22xCeu5loUBx
+ sup9qOWYsSfB9NdvLEjh2HDxysg4zYlfTrXxfnr8Hi3Sq2CMyym/ZPC336KhNFbBykCPxk6+g
+ Fe9lCW1X7e73rNCZI2mnsb9BRHTpXBFbEj/o0ys5ohKHpQqfsb8iS2y/rz+MKKkvgev/UAX31
+ bH67kKEcdJgeoyx3tfle0Ly0a5KunE1ABeYgbr3qp60wCfp75fapHl3ByDKRDHFoJahA0lXlZ
+ xm81oSZYFn++AgZ6WJg1RjYx1RjElXBVZziZFH7NDonuxatKDdvmpco+0Kh2UXk3CJblpfo/m
+ WEBruzI7ZqyLmd6KNFPJ5CXbukACG++Z5Om4C3e2pGtOiDXm6/0ypq2sa8y3A0oQagh5BUdIT
+ TW1sfGIR/gR7Qj3jnHvj68PP9nFoY9RWTRPlHIQorEg0iINfdXyVd9ZzK/wQ2oJUIbva1JRIA
+ rAYzb3GXskAnRKIVodT5A7M+HhkXqa/lhhbGSqS76DxR7eN3nwrfn2yhu8gVdoHgipmLv2Sxl
+ IysqocwwcG51ExS/1jGNhebZ72lV+qnYu8RH04/0dNybt8fZ9nJQFwScVMHr7LydmnCkuis
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:40:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:51:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,73 +70,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: qemu-trivial@nongnu.org, Julia Suvorova <jusual@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- "Michael S . Tsirkin" <mst@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Julia Suvorova <jusual@redhat.com>
 
-Log invalid memory accesses with as GUEST_ERROR.
+'occupied' is spelled like 'ocuppied' in the message.
 
-This is particularly useful since commit 5d971f9e67 which reverted
-("memory: accept mismatching sizes in memory_region_access_valid").
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20201005152725.2143444-1-philmd@redhat.com>
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201006133958.600932-1-jusual@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- softmmu/memory.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ hw/pci/pci.c       | 2 +-
+ hw/ppc/spapr_pci.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index fa280a19f7f7..403ff3abc99b 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -14,6 +14,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "exec/memory.h"
-@@ -1353,10 +1354,18 @@ bool memory_region_access_valid(MemoryRegion *mr,
- {
-     if (mr->ops->valid.accepts
-         && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
-+                                       "0x%" HWADDR_PRIX ", size %u, "
-+                                       "region '%s', reason: rejected\n",
-+                      addr, size, memory_region_name(mr));
-         return false;
-     }
- 
-     if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
-+                                       "0x%" HWADDR_PRIX ", size %u, "
-+                                       "region '%s', reason: unaligned\n",
-+                      addr, size, memory_region_name(mr));
-         return false;
-     }
- 
-@@ -1367,6 +1376,13 @@ bool memory_region_access_valid(MemoryRegion *mr,
- 
-     if (size > mr->ops->valid.max_access_size
-         || size < mr->ops->valid.min_access_size) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid access at addr "
-+                                       "0x%" HWADDR_PRIX ", size %u, "
-+                                       "region '%s', reason: invalid size "
-+                                       "(min:%u max:%u)\n",
-+                      addr, size, memory_region_name(mr),
-+                      mr->ops->valid.min_access_size,
-+                      mr->ops->valid.max_access_size);
-         return false;
-     }
-     return true;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 3c8f10b4618a..100c9381c2f1 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1036,7 +1036,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+         return NULL;
+     } else if (dev->hotplugged &&
+                pci_get_function_0(pci_dev)) {
+-        error_setg(errp, "PCI: slot %d function 0 already ocuppied by %s,"
++        error_setg(errp, "PCI: slot %d function 0 already occupied by %s,"
+                    " new func %s cannot be exposed to guest.",
+                    PCI_SLOT(pci_get_function_0(pci_dev)->devfn),
+                    pci_get_function_0(pci_dev)->name,
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 3999392b32c6..88ce87f130a5 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1571,7 +1571,7 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
+      */
+     if (plugged_dev->hotplugged && bus->devices[PCI_DEVFN(slotnr, 0)] &&
+         PCI_FUNC(pdev->devfn) != 0) {
+-        error_setg(errp, "PCI: slot %d function 0 already ocuppied by %s,"
++        error_setg(errp, "PCI: slot %d function 0 already occupied by %s,"
+                    " additional functions can no longer be exposed to guest.",
+                    slotnr, bus->devices[PCI_DEVFN(slotnr, 0)]->name);
+         return;
 -- 
 2.26.2
 
