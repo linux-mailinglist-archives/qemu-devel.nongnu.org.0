@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A4928CD49
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:58:34 +0200 (CEST)
-Received: from localhost ([::1]:47930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE1A28CD03
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Oct 2020 13:56:28 +0200 (CEST)
+Received: from localhost ([::1]:39746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSIwq-0008Sn-M4
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44202)
+	id 1kSIup-00056X-P7
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 07:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpl-0007Em-K9; Tue, 13 Oct 2020 07:51:13 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:43121)
+ id 1kSIpr-0007T8-59; Tue, 13 Oct 2020 07:51:19 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:58219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kSIpj-0004yq-OP; Tue, 13 Oct 2020 07:51:13 -0400
+ id 1kSIpp-0004zZ-5S; Tue, 13 Oct 2020 07:51:18 -0400
 Received: from localhost.localdomain ([82.252.141.186]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MYe6H-1kxStr1AHr-00VhdU; Tue, 13 Oct 2020 13:51:08 +0200
+ id 1M4rD7-1kRTcQ2XAd-001zY8; Tue, 13 Oct 2020 13:51:09 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/14] target/sparc/int32_helper: Remove duplicated 'Tag
- Overflow' entry
-Date: Tue, 13 Oct 2020 13:50:50 +0200
-Message-Id: <20201013115052.133355-13-laurent@vivier.eu>
+Subject: [PULL 13/14] mingw: fix error __USE_MINGW_ANSI_STDIO redefined
+Date: Tue, 13 Oct 2020 13:50:51 +0200
+Message-Id: <20201013115052.133355-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013115052.133355-1-laurent@vivier.eu>
 References: <20201013115052.133355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nCNc9T18Be/d8Qh5C3QrpTMVnQZPU+9VitGm2C64Prae8UVty5r
- 1GM5RBumt5mlrX0Q1g+VQVcU4wAvdy+lYsUoIRR30PTmdlNPJouL4wN/o2ZEglCgzx5UhQp
- c4BNFlSfWaAeUwG4pE878ZiMVRbENB91iIL+DBNDkTA0I29APF5oe/ww579qZYzPr+GHu7N
- zut0fuXyYOmn5ooRoDhgg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rGXvPaVQ8hI=:4xwJj5mpYOQIZESBxcXy7M
- Ix9XO+Ysg06c8qgjReihx68hlYUj8B9RhXVpIoENJuR2ipHi8PEpeq3L1ltog9aL87brvlKXs
- oT9ybv0debaSYMr5Di8pzzuexyx+YGQ5yq0Qhm3kHNMeVlo4c35nztARGIadhudL3r4v9TYt9
- CzXCGmbCKLfHQnW+AjA2w1ORWxDhyrfWFNgIG830RZKbJD5dONbfddh3VLuA7y+PNYNRhY0sl
- TeTyBLSkf5QIP5kTwPiSvdHyOpiCAad+O8VAxoxWpDQNaQOXydbboIOgNbjN/A1pStXiw8dUZ
- MWR4K4ZO5eTh4f1J57Osq+v0G5oAee1LmLSZqr3A5/mpBZdmNniFRqiF/Z9bcrHf6AVJdhCUf
- 1BhIQ6wtoR/6VYgkgJfnczadVSoC0lsNHQ6MmdQmh6QrtDl3RHr41f48x/FnLbQOjndkAy97w
- yHxajkqnnYFnmX8v3v74kn7ZyGBaAXaQ0ZYDh02j1+iYGk7/olkw2mSuxM9u3S+VdLPSEWI4G
- iHYDJX9QY+9sY+QnirNmIN34BDJXi89w602P9vOKcP32OPiizrvLUuYBlB74vr6jzWzUD8gQX
- emePB102gcZJ2u//IlwgRJppaFifxdCwVN8gp4SnsQTpCjZnfAxzimP2lsMxhLZi+gsTVeJzb
- T544QbAgb7SKEskLdlcjnuW5OqD6UiU24IeFZKj20VDViq24jw1SzC7wltxBFwN9xv/X0cgQF
- bnFHqDhPNK+p4oqcFTSemDZt64JecQp1UwuXgZHyAG3b7JZuN5518hxaM4a8U2EpltOc3SO96
- MZ2EGOWyvqM2pBdjRtcv2TCnSNOuCI6PhYSPXA9weUTEPSqLsFcVlJPL3N1vSDJGFqrnDvA
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:bMEwQZ/2+w1BP1pBsvNGrwUA7NAW3yel8jGng8WANQkE+G78HDC
+ EvmQc3jTNFzCK6/GtJ4KRKK4NJvX0ScTtmIVe2JclR8gn9A8g6l0MsNJrgGqwp+z/tngr0l
+ hA0mcUU/8JXii/oKAk2HS/YMzWKLklJi7Zp74L/3iKMIIa5JFBIDaDfcqy+aRj9GQ6Qwvji
+ KMAJBAMpV5rpFLI6PGKZg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OsPRTZe8LuM=:wHy0fDft2zQSAjs+Nfx3vV
+ K9nRES06BDpbLxI8vgGsKF8SZRneNg5fBjXyMZpuYqMghzpjZjUZrK4DzDSZztmKdF3GzRbKg
+ GvHTf1YRx820NIVhnXL1ZAP7G7kiLOWC49iwg06lxxNSLYMJFzFwHmFS8zNVX/rXEbey7U3UU
+ uEgGUF7UBN67aFrhi0LgdKPm9HmxPVNsVgY/oNFarupRpKYEmF0s5tQDTuNBnP3n7xj6/vAtw
+ joNwd3P1qjEGtmf3iG6/1i8itJrvx5ogiB6v8b4TRRr1c0WPowLXq6Ms3AMGDS1WorWa+fYoa
+ mI67PLDhy3z1AoyQe+c4q8ivnwTho7xxUN26ylHhCfXtXSmJU2jPIDmmSM498Sy79lMPgk/5h
+ PrcmEo4J/8W0ROJGk3u3EPSggj++NalvO40ax6BkGRPaYPuQquBFMECla2Q4y4fljQveLxq83
+ b34zTGCxXs+wAmCEmBCgYBpEWsnpksFbgs8935+u4w6FJpxxVUb94pK8FYTjGkmmo1Y2L6Zt/
+ 5xoEwSBwkmOdR/JR8EbA+YPM8aGLrCIX9+Fa126HFyTw4Jkc/sLgChIVEynvN9/bH9MmaKytH
+ hb2+bG9QHfst2C4J7O99x7yVbnJDnTSm9vUbu2DFJZAXtkqJXtwpmm7pumy6IhXZHybIk3rPU
+ hVRfShOtxsORhsrqAl77IzipStzM06KxfHRGzOQVxsCzPZNEMwPbwK+V0MkqHLzCTP/IJycLc
+ tSXnazASLpEVSVoINq3b9Dwedb0sW4kfgYeH6Nas+pY7xQMzOELT8H5Z9PmqtbadLIy+Q7e4m
+ s24JB6w61pD6RZKRKl8RDlmN3a4/8f67VM9O4IISN2hMn0slzTEv9qVHkrYdGLyYzg6T2fq
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:40:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 07:32:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,38 +70,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Michael Tokarev <mjt@tls.msk.ru>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Michael Tokarev <mjt@tls.msk.ru>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Commit 0b09be2b2f ("Nicer debug output for exceptions") added
-twice the same "Tag Overflow" entry, remove the extra one.
+Always put osdep.h first, and remove redundant stdlib.h include.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20201011200112.3222822-1-f4bug@amsat.org>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201008165953.884599-1-marcandre.lureau@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/sparc/int32_helper.c | 1 -
- 1 file changed, 1 deletion(-)
+ migration/dirtyrate.c | 3 ++-
+ tests/test-bitmap.c   | 1 -
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/sparc/int32_helper.c b/target/sparc/int32_helper.c
-index 9a71e1abd871..ba63c739c1e8 100644
---- a/target/sparc/int32_helper.c
-+++ b/target/sparc/int32_helper.c
-@@ -50,7 +50,6 @@ static const char * const excp_names[0x80] = {
-     [TT_EXTINT | 0xd] = "External Interrupt 13",
-     [TT_EXTINT | 0xe] = "External Interrupt 14",
-     [TT_EXTINT | 0xf] = "External Interrupt 15",
--    [TT_TOVF] = "Tag Overflow",
-     [TT_CODE_ACCESS] = "Instruction Access Error",
-     [TT_DATA_ACCESS] = "Data Access Error",
-     [TT_DIV_ZERO] = "Division By Zero",
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 68577ef25028..47f761e67acb 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -10,8 +10,9 @@
+  * See the COPYING file in the top-level directory.
+  */
+ 
+-#include <zlib.h>
+ #include "qemu/osdep.h"
++
++#include <zlib.h>
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "qemu/config-file.h"
+diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
+index 2f5b71458a3d..8db4f67883fe 100644
+--- a/tests/test-bitmap.c
++++ b/tests/test-bitmap.c
+@@ -8,7 +8,6 @@
+  * Author: Peter Xu <peterx@redhat.com>
+  */
+ 
+-#include <stdlib.h>
+ #include "qemu/osdep.h"
+ #include "qemu/bitmap.h"
+ 
 -- 
 2.26.2
 
