@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE13E28D6CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 01:08:47 +0200 (CEST)
-Received: from localhost ([::1]:39160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B42828D6CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 01:10:40 +0200 (CEST)
+Received: from localhost ([::1]:47620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSTPS-0000lo-Tz
-	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 19:08:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37746)
+	id 1kSTRH-0004BC-4L
+	for lists+qemu-devel@lfdr.de; Tue, 13 Oct 2020 19:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kSTMI-0006S4-K0
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59031)
+ id 1kSTMU-0006Y3-33
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kSTMF-0003a7-82
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:28 -0400
+ id 1kSTMM-0003bv-4e
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 19:05:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602630325;
+ s=mimecast20190719; t=1602630332;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/NUlmtHh+wg3YX9I3nJkvoDiBlyD3K/LW9vdgi90W2E=;
- b=Ud8hNeM+k/GXOwQSViN3iVlgQxRnLrDgBpMQlsKPoEsXrZdKNHKydirbh3uG+4/Dq2j03U
- QRJRwxX7ErINhFcrmMxSH3F/BubFkU2SwMRTmE3+G3qvLWnIRap9DtV68ni3ZWjjxkfKqe
- CSb4dnFWwXJ89X+xy5qCr9Ia5Dar7pY=
+ bh=QTbX0B1zV000QcV8Vb8x3NBiMAjzCCHPhHUOANP/BZE=;
+ b=PaENz9A0vsy13LhuDZHo+0HizNxFTw6l1i3ZG38AfwChjg9K6Q2swybVBlIJNCW5PMFavl
+ GDdGijSP5hyCiO8O5R01oL8B8OwGwWQPZVcqRpxloTxEG+qKtutCl5rqPs4mPsUmZkXN5C
+ nnhcnWNjWhtRvUafdANM8EAMJrNhG2c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-LfAEKcXSPtSzUnvCpPx-Ig-1; Tue, 13 Oct 2020 19:05:22 -0400
-X-MC-Unique: LfAEKcXSPtSzUnvCpPx-Ig-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-15-q1vk8DkEMYWJraXRdFxkiA-1; Tue, 13 Oct 2020 19:05:30 -0400
+X-MC-Unique: q1vk8DkEMYWJraXRdFxkiA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2039801FDA;
- Tue, 13 Oct 2020 23:05:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F9EF1074657;
+ Tue, 13 Oct 2020 23:05:28 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 993DF55790;
- Tue, 13 Oct 2020 23:05:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFD797666A;
+ Tue, 13 Oct 2020 23:05:20 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/7] i386: Add X86CPUModel.alias_of field
-Date: Tue, 13 Oct 2020 19:04:52 -0400
-Message-Id: <20201013230457.150630-3-ehabkost@redhat.com>
+Subject: [PATCH v2 3/7] i386: Replace x86_cpu_class_get_alias_of() with
+ x86_cpu_model_resolve_alias()
+Date: Tue, 13 Oct 2020 19:04:53 -0400
+Message-Id: <20201013230457.150630-4-ehabkost@redhat.com>
 In-Reply-To: <20201013230457.150630-1-ehabkost@redhat.com>
 References: <20201013230457.150630-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 19:05:22
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/13 02:06:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,65 +101,73 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of calling x86_cpu_class_get_alias_of(), just save the
-actual CPU model name in X86CPUModel and use it in `-cpu help`.
+New function is very similar to the old function, but it just
+takes a X86CPUModel as argument, and its name makes its purpose
+clearer.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ target/i386/cpu.c | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 9eafbe3690..43e633ddd3 100644
+index 43e633ddd3..2c8dd3fa32 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1647,6 +1647,12 @@ struct X86CPUModel {
-      * This matters only for "-cpu help" and query-cpu-definitions
+@@ -4170,6 +4170,21 @@ static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *model)
+     return v;
+ }
+ 
++/* Resolve CPU model alias to actual CPU model name */
++static char *x86_cpu_model_resolve_alias(const X86CPUModel *model)
++{
++    X86CPUVersion version;
++
++    if (!model->is_alias) {
++        return NULL;
++    }
++    version = x86_cpu_model_resolve_version(model);
++    if (version <= 0) {
++        return NULL;
++    }
++    return x86_cpu_versioned_model_name(model->cpudef, version);
++}
++
+ void x86_cpu_change_kvm_default(const char *prop, const char *value)
+ {
+     PropValue *pv;
+@@ -4913,20 +4928,6 @@ static char *x86_cpu_class_get_model_id(X86CPUClass *xc)
+     return r;
+ }
+ 
+-static char *x86_cpu_class_get_alias_of(X86CPUClass *cc)
+-{
+-    X86CPUVersion version;
+-
+-    if (!cc->model || !cc->model->is_alias) {
+-        return NULL;
+-    }
+-    version = x86_cpu_model_resolve_version(cc->model);
+-    if (version <= 0) {
+-        return NULL;
+-    }
+-    return x86_cpu_versioned_model_name(cc->model->cpudef, version);
+-}
+-
+ static void x86_cpu_list_entry(gpointer data, gpointer user_data)
+ {
+     ObjectClass *oc = data;
+@@ -5002,8 +5003,8 @@ static void x86_cpu_definition_entry(gpointer data, gpointer user_data)
+      * Old machine types won't report aliases, so that alias translation
+      * doesn't break compatibility with previous QEMU versions.
       */
-     bool is_alias;
-+    /*
-+     * Valid only if is_alias is true.
-+     * If NULL, actual alias depend on machine type.
-+     * If not NULL, name of actual CPU model this is an alias to.
-+     */
-+    const char *alias_of;
- };
- 
- /* Get full model name for CPU version */
-@@ -4927,14 +4933,13 @@ static void x86_cpu_list_entry(gpointer data, gpointer user_data)
-     X86CPUClass *cc = X86_CPU_CLASS(oc);
-     g_autofree char *name = x86_cpu_class_get_model_name(cc);
-     g_autofree char *desc = g_strdup(cc->model_description);
--    g_autofree char *alias_of = x86_cpu_class_get_alias_of(cc);
-     g_autofree char *model_id = x86_cpu_class_get_model_id(cc);
- 
--    if (!desc && alias_of) {
--        if (cc->model && cc->model->version == CPU_VERSION_AUTO) {
-+    if (!desc && cc->model && cc->model->is_alias) {
-+        if (!cc->model->alias_of) {
-             desc = g_strdup("(alias configured by machine type)");
-         } else {
--            desc = g_strdup_printf("(alias of %s)", alias_of);
-+            desc = g_strdup_printf("(alias of %s)", cc->model->alias_of);
-         }
+-    if (default_cpu_version != CPU_VERSION_LEGACY) {
+-        info->alias_of = x86_cpu_class_get_alias_of(cc);
++    if (cc->model && default_cpu_version != CPU_VERSION_LEGACY) {
++        info->alias_of = x86_cpu_model_resolve_alias(cc->model);
+         info->has_alias_of = !!info->alias_of;
      }
-     if (!desc && cc->model && cc->model->note) {
-@@ -5418,6 +5423,7 @@ static void x86_register_cpudef_types(X86CPUDefinition *def)
-     m->cpudef = def;
-     m->version = CPU_VERSION_AUTO;
-     m->is_alias = true;
-+    m->alias_of = NULL; /* depends on machine type */
-     x86_register_cpu_model_type(def->name, m);
  
-     /* Versioned models: */
-@@ -5436,6 +5442,7 @@ static void x86_register_cpudef_types(X86CPUDefinition *def)
-             am->cpudef = def;
-             am->version = vdef->version;
-             am->is_alias = true;
-+            am->alias_of = g_strdup(name);
-             x86_register_cpu_model_type(vdef->alias, am);
-         }
-     }
 -- 
 2.28.0
 
