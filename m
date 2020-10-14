@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3E928E48B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:33:48 +0200 (CEST)
-Received: from localhost ([::1]:54510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E20E28E443
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:19:10 +0200 (CEST)
+Received: from localhost ([::1]:49194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSjil-0000xK-HG
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60766)
+	id 1kSjUb-0003UK-D5
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kSjLO-0007uU-Of
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:09:38 -0400
-Received: from mail-vk1-f195.google.com ([209.85.221.195]:39571)
+ (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
+ id 1kSjNX-0002aV-6y
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:11:51 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kSjLM-00029p-Pk
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:09:38 -0400
-Received: by mail-vk1-f195.google.com with SMTP id h74so879069vkh.6
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 09:09:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
+ id 1kSjNS-0002TU-T2
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:11:50 -0400
+Received: by mail-ot1-x342.google.com with SMTP id m11so91990otk.13
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 09:11:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UBF7OGEBpd17C5YmWo7bC8o1ouVN+xVNM2/IxdBcd6w=;
+ b=Ute7IgSXmOL39p8U5FlphJPHtbHWtGm/P9a8Elw3lVK2K+uRvtLKKm0Orc4P9rZ3wo
+ ikhQaofY9xzkavF2jJRKA0gmVuJy+etzZU6pfNt057WMJ69CznTUjSSwbb/5sm2Zeqf8
+ 3Q1i4sholYz3kUMmm6VTxIGwGCgh0yvxbmzgbyP4KA0WWOYPq8pzsIPEhDFs7sRYKEUs
+ RpACX2hU5blxSWJP4OnvY0mfohVFxf4KNCIKjnQofZlqurWSV+8fXUvZpslHkQ0UAULq
+ 7Wrhhydc+xvmiJyl0Ld5p+Zv4r1bfXwGxoz7eQjTziR4ceQDvc/unAUmRc6GHd0gD+hY
+ iaUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tvO/bRJU34F8838Y84be4alnvYrXLXFq5GLFL+7eK+w=;
- b=pvrhxRXafxF9jmQC22KKpQ5ZQ6KrfGHwpRTletlt5LQ3FzJSo3OoZLADfOzDEHwAmI
- 1TY/sbwD1EX8TbI5zXuyiWNju4Z0mzhDb88jh5/+/bAvc8vQMsFNSN9FL2KChX9TSt6Q
- 6Z+v5Ng61dWdD4m/0YdIrwed5nJW3XCZAf7AJeGQlRomjhHVr1VGW1B8kGJGJIXQBzPA
- xazCEupgKAInwkvjes1nh+E8C99c2WV612/QeDskKT2IKlBOQxqNdJGdxikfG9tSs+Tj
- 02ibpC74UOEVmszTJ85b/QKtXkXpFTc64HbUMuoKC8vFq4rqb3X64oZzz7C4t7bdVtx9
- 0cNw==
-X-Gm-Message-State: AOAM530VmiplmTsQ4G2BRjhmL6kCSzE6VqDeVZcF6GtQLhYOkjrmdWQ1
- f2njTdkMRoK5XevJjQxsiBAIpmAZRrs=
-X-Google-Smtp-Source: ABdhPJy0OU6uKaXy7zoaFGTVQl2BrhRIqe837eABgJr6fR6QMk4SdlnWpssfnqqCndeo1nXr0e1qyw==
-X-Received: by 2002:a1f:bdcb:: with SMTP id n194mr165581vkf.18.1602691775475; 
- Wed, 14 Oct 2020 09:09:35 -0700 (PDT)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com.
- [209.85.217.41])
- by smtp.gmail.com with ESMTPSA id 31sm12884uac.10.2020.10.14.09.09.34
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Oct 2020 09:09:35 -0700 (PDT)
-Received: by mail-vs1-f41.google.com with SMTP id f8so2407925vsl.3
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 09:09:34 -0700 (PDT)
-X-Received: by 2002:a67:d00e:: with SMTP id r14mr3778494vsi.56.1602691774661; 
- Wed, 14 Oct 2020 09:09:34 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=UBF7OGEBpd17C5YmWo7bC8o1ouVN+xVNM2/IxdBcd6w=;
+ b=CWzlnsYUcf7cnpHgW/P2dDE93aUMpDHywtcFddvKEZ4oCy2SqONWj1uuORisjw/ZTm
+ dJ0G7EqIzZByappUP+611SMaVWTjlukUmis02V24VLsH1vkJg0V400TEJw60lKbEiC6K
+ rfJdxGZIQRCLcO4Co8AR6VmJQezMR5OiH718DYpWzsVRykLF3RxCUI+5pPphRA966N6q
+ EgwgJfXlQTu/XBtH8SsJIuOaBquY+lON6mRAWMHCUT4I+d92deDaYWFFqP7oRI1idjA0
+ G6dbvQ9LPsCAOSYC/EnBeW/QxcMdNELKlBY61IsA4gL7Krk7M7NXNiq5fSlPw60msWpm
+ vyYA==
+X-Gm-Message-State: AOAM532HJvxgIw+9X706usOj/QGdYLXBSKojdrItRMDybsQNCwKq/o5J
+ mPqxDY1hhQAOlPmaPspatJbIR83pUgpM67E75A8=
+X-Google-Smtp-Source: ABdhPJxWRDTgHhSbDU4gFXg4MX2znSyQsCv5BBHOqGd8OkituxCpZzfaRCQnxhgz030B8mDgjPWwGxfcQwKkGbCkAjk=
+X-Received: by 2002:a05:6830:1201:: with SMTP id
+ r1mr3843261otp.326.1602691905439; 
+ Wed, 14 Oct 2020 09:11:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201012232939.48481-1-j@getutm.app>
- <20201012232939.48481-5-j@getutm.app>
- <20201013075104.GA70612@redhat.com>
- <e27acf2-4dbe-4674-78cc-67aa7b505c54@eik.bme.hu>
- <20201013144625.GP70612@redhat.com>
- <CA+E+eSBu_LOnQ=B+N7vm3H2zkBxey8z_T1V0JpSU8rZND6GRYQ@mail.gmail.com>
- <20201013155757.GR70612@redhat.com>
- <9d737fc-809-b1b3-f42e-45d8cfbfbd6e@eik.bme.hu>
-In-Reply-To: <9d737fc-809-b1b3-f42e-45d8cfbfbd6e@eik.bme.hu>
-From: Joelle van Dyne <j@getutm.app>
-Date: Wed, 14 Oct 2020 09:09:23 -0700
-X-Gmail-Original-Message-ID: <CADmqK1sUah1yTdRuP7Sq=pe1k+g1x+6-HnBxzCYAWMm8nLNLbg@mail.gmail.com>
-Message-ID: <CADmqK1sUah1yTdRuP7Sq=pe1k+g1x+6-HnBxzCYAWMm8nLNLbg@mail.gmail.com>
-Subject: Re: [PATCH 04/10] meson: option to build as shared library
-To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20200928131731.69684-1-chenjiajun8@huawei.com>
+ <20201006114801.6833a72d@redhat.com>
+ <CAFubqFtqXorzk6g9d3A3TFcPnE9eSJKsjfSCK5zwTNX6xtJ3kw@mail.gmail.com>
+ <20201014030340-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20201014030340-mutt-send-email-mst@kernel.org>
+From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
+Date: Wed, 14 Oct 2020 12:11:34 -0400
+Message-ID: <CAFubqFsax9YabyYLE0E=++gw_iZm5QjQr-OUG_4po7JO4pvQYw@mail.gmail.com>
+Subject: Re: [PATCH] vhost-user: add separate memslot counter for vhost-user
+To: "Michael S. Tsirkin" <mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.221.195;
- envelope-from=osy86github@gmail.com; helo=mail-vk1-f195.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 12:09:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=raphael.s.norwitz@gmail.com; helo=mail-ot1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,72 +82,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: zhang.zhanghailiang@huawei.com, jasowang@redhat.com,
+ QEMU <qemu-devel@nongnu.org>, xiexiangyou@huawei.com,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Jiajun Chen <chenjiajun8@huawei.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since there seems to be some more push back on this one, I will remove
-this patch from the v2 submission and submit it as a separate patch
-
--j
-
-On Tue, Oct 13, 2020 at 9:40 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+On Wed, Oct 14, 2020 at 3:08 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> On Tue, 13 Oct 2020, Daniel P. Berrang=C3=A9 wrote:
-> > On Tue, Oct 13, 2020 at 08:16:46AM -0700, Joelle van Dyne wrote:
-> >> I will start a separate conversation of UTM's license compatibility.
-> >>
-> >> Regarding the patch, would some sort of warning message in configure
-> >> (if building as a shared library) regarding the license be wise? Or
-> >> would it pollute the output logs?
+> On Tue, Oct 13, 2020 at 08:58:59PM -0400, Raphael Norwitz wrote:
+> > On Tue, Oct 6, 2020 at 5:48 AM Igor Mammedov <imammedo@redhat.com> wrote:
+> > >
+> > > On Mon, 28 Sep 2020 21:17:31 +0800
+> > > Jiajun Chen <chenjiajun8@huawei.com> wrote:
+> > >
+> > > > Used_memslots is equal to dev->mem->nregions now, it is true for
+> > > > vhost kernel, but not for vhost user, which uses the memory regions
+> > > > that have file descriptor. In fact, not all of the memory regions
+> > > > have file descriptor.
+> > > > It is usefully in some scenarios, e.g. used_memslots is 8, and only
+> > > > 5 memory slots can be used by vhost user, it is failed to hot plug
+> > > > a new memory RAM because vhost_has_free_slot just returned false,
+> > > > but we can hot plug it safely in fact.
+> > >
+> > > I had an impression that all guest RAM has to be shared with vhost,
+> > > so combination of anon and fd based RAM couldn't work.
+> > > Am I wrong?
 > >
-> > I think there's also a more fundamental question of whether this is
-> > a concept we actually want to support at all.
+> > I'm not sure about the kernel backend, but I've tested adding anon
+> > memory to a VM with a vhost-user-scsi device and it works (eventually
+> > the VM crashed, but I could see the guest recognized the anon RAM).
+> > The vhost-user code is designed to work with both. I'm not sure I see
+> > a use case, but if there is one, this would be a valid issue. Maybe
+> > Jiajun or Jianjay can elaborate.
 >
-> Discussing other compelling reasons for doubt is OK, just wanted to avoid
-> having this dismissed on possible licensing problems only. I still think
-> it would be a good idea to support QEMU on iOS but due to the (mostly
-> security related) limitations of that platform some compromises my be
-> needed. Please consider it instead of being quick to decide to avoid thes=
-e
-> problems by not taking the patches upstream which is a convenient solutio=
-n
-> from QEMU viewpoint but not helping other projects. (Other platforms may
-> come up in the future with similar limitations that iOS has as more
-> desktop OSes also move in the same direction to increase security so thes=
-e
-> may need to be handled anyway at one point, iOS is a good test case for
-> that.)
+> Hmm does not vhost-user skip all regions that do not have an fd?
 >
-> > IIUC, this shared library just exposes a "qemu_main" method which
-> > the external app has to jump into. IOW, the "char **argv" parameter
-> > to qemu_main becomes the ELF library ABI.  Declaring this a shared
-> > library interface is a non-negligible commitment for QEMU maintainers,
-> > especially given that there is alot about QMEU's command line parsing
-> > that maintainers do not like and wish to change.
 >
-> Given that libvirt uses the command line instead of a proper API
-> currently, this is not worse than that. If there was a better API or ther=
-e
-> will be one in the future, the shared lib API can be changed the same way
-> as libvirt will need to be adapted for that but it's not reasonable to
-> demand these patches to come up with that API now. So for now this seems
-> to be acceptable and does not prevent cleaning it up later together with
-> the planned changes you mentioned. Compatibility for the command line wil=
-l
-> have to be maintained until a better API is devised for use by other
-> software like libvirt and anyone intending to use it as dll so this does
-> not seem like added commitment.
+>         mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
+>         if (fd > 0) {
+>             if (track_ramblocks) {
+>                 assert(*fd_num < VHOST_MEMORY_BASELINE_NREGIONS);
+>                 trace_vhost_user_set_mem_table_withfd(*fd_num, mr->name,
+>                                                       reg->memory_size,
+>                                                       reg->guest_phys_addr,
+>                                                       reg->userspace_addr,
+>                                                       offset);
+>                 u->region_rb_offset[i] = offset;
+>                 u->region_rb[i] = mr->ram_block;
+>             } else if (*fd_num == VHOST_MEMORY_BASELINE_NREGIONS) {
+>                 error_report("Failed preparing vhost-user memory table msg");
+>                 return -1;
+>             }
+>             vhost_user_fill_msg_region(&region_buffer, reg, offset);
+>             msg->payload.memory.regions[*fd_num] = region_buffer;
+>             fds[(*fd_num)++] = fd;
+>         } else if (track_ramblocks) {
+>             u->region_rb_offset[i] = 0;
+>             u->region_rb[i] = NULL;
+>         }
 >
-> > There is a further question about whether we want to commit to an
-> > architectural model where  fork() is not something we can use. A
 >
-> Does Windows support fork()? I think we're already committed to support
-> Windows so any solution you'll come up with will have the same problem
-> anyway. So I think this does not add additional restriction that we don't
-> already have either.
 >
-> Regards,
-> BALATON Zoltan
+> In your test, is it possible that you were lucky and guest did not send
+> any data from anon memory to the device?
+
+Yes - vhost-user skips the region and does not send anon memory to the
+device, but it does not fail the hot-add operation.
+
+In my test the fd > 0 check definitely failed and went on to add the
+memory without sending it to the backend. I understand why this can be
+problematic (it did eventually crash the VM), but it seems like we
+allow it as of today. I can't think of a valid reason why you would
+want anon and FD ram together, but I figured there may be a reason
+since the vhost-user code allows for it. Should we maybe block that
+path altogether instead of patching it up?
+
+>
+>
+>
+> > >
+> > > >
+> > > > --
+> > > > ChangeList:
+> > > > v3:
+> > > > -make used_memslots a member of struct vhost_dev instead of a global static value
+> > > it's global resource, so why?
+> >
+> > I suggested it because I thought it made the code a little cleaner.
+> > I'm not opposed to changing it back, or having it stored at the
+> > vhost_user level.
+>
 
