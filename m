@@ -2,66 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34AF328E07D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:26:52 +0200 (CEST)
-Received: from localhost ([::1]:40632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CAD528E093
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:31:37 +0200 (CEST)
+Received: from localhost ([::1]:46016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfrn-0001nR-8p
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:26:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57666)
+	id 1kSfwO-0004CD-47
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:31:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kSfpB-00084s-Gs; Wed, 14 Oct 2020 08:24:09 -0400
-Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17686)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kSftA-00038A-Os; Wed, 14 Oct 2020 08:28:16 -0400
+Received: from mail-eopbgr40104.outbound.protection.outlook.com
+ ([40.107.4.104]:14766 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fam@euphon.net>)
- id 1kSfp6-0004sP-A2; Wed, 14 Oct 2020 08:24:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1602678211; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=WWDQ65K6J5emj+ZpjH+fbNmzV1QT2aCs1y5CZmso7cQSUHHVw83RiPYo/aMyfNHLm41msTdMonNqNby51mcggQqs+UmIebTSvkwN82by/Lyr1xfNm+FqRcNtw+lihXR9kSaGZJZ2/RhFHqY/OxFT1FF07OhWC88X0MmldCuLfcA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1602678211;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=mKD7PnJcGpR99ru7seqPFc3ZnqCdzDXssQKNZh1l+eE=; 
- b=GT7IMvI0DKWRBZx+8XeEqrbW0NkWQZIpSWW+6NEvBr5kWj9eZCE4MKugV9tF+7RzTC/p6W6zfJFPO299brHSi3+t/oWcmQX2xbPjePlSSdcXWYDFsoiD3kGhB2HsJOLdtcow6qpdeHCg+QR3fpxIT+Ca2BNjBOwD0DubYGRyz9s=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1602678211; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Content-Type:Mime-Version:Content-Transfer-Encoding;
- bh=mKD7PnJcGpR99ru7seqPFc3ZnqCdzDXssQKNZh1l+eE=;
- b=VurNh8eEa8JxJCsZHtrxj/bloVo+akN8Pi7mLAWRCcTgXhBXUWlUZId46fBNKgBk
- dJZ7tyXBVS5XJJZvsOqZKR9d9iq8tGLvrYyrmvgBGhJja3Y3AxSzpJr84PaKQC6Ax4w
- BFszyD2M3gYRRGhSMhoQJ1l9JPQtIeTdzmCv+Y+M=
-Received: from u60bdefc337955a.ant.amazon.com (54.239.6.188 [54.239.6.188]) by
- mx.zoho.com.cn with SMTPS id 1602678210451930.8982189257435;
- Wed, 14 Oct 2020 20:23:30 +0800 (CST)
-Message-ID: <fcfd9c11764d8c8d181eb62da0e307d1143ef1b2.camel@euphon.net>
-Subject: Re: [PATCH 3/9] util/vfio-helpers: Trace PCI BAR region info
-From: Fam Zheng <fam@euphon.net>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
- qemu-devel@nongnu.org
-Date: Wed, 14 Oct 2020 13:23:22 +0100
-In-Reply-To: <20201014115253.25276-4-philmd@redhat.com>
-References: <20201014115253.25276-1-philmd@redhat.com>
- <20201014115253.25276-4-philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoCNMailClient: External
-Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
- helo=sender2-op-o12.zoho.com.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 08:23:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kSft1-0005eI-8v; Wed, 14 Oct 2020 08:28:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JUxVLpiAnNK7WNy4mtr2AIIzxir1//83VBTN0zmK7LIEiuxj/xdYYepLscHJ3NmlVrYQvdm4adaXWPSjfakdIQqxoDmCUGjhmjU2YTYfcUMqOGTYprTmfCICFLoAiokHdjiu8Y0mgbDasEo4kH1QwzPQeUqHGtY1QgDoryrTbHHrXD3rvS6j/Vf0VdwP+4WhYYiShiOrtTizjVNq+k9kgipFnIYptvW2gfhFEMWAdc/JzVWtvR90g5NTGp7mGvebDNHLUSA+rzhWk5h45nKRgi+BPomxHNrO1OuUZObVgwGSR9M09dpnDeDXhJhsaB3g4yvqdLGvi8MQYIxbZwBcQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1VLyKwlPOVvMw5mWVflTtWgo2CfpTWb+w7WcASFpz0k=;
+ b=bb/UXEJGWROg+y8ruaF0bcTUEchPtD3C8oOf/M1O6uCZ2KdIKdGYqHss/rTpx3w3ImK0OFDXoCibM+Pwh64I0pjnpYD9jkFJEx7oriHkuEeu0JXhaRuSC7RQJhny+igMM4Vrw6589eMXu5fpjxhTOZmwQrWGnu/5yiIuaapEhj2O12DU3oLze5WH8zP3A1Dfr7eetmsKxH7aMGXPDJBGi48vM4nL64nQ9D9qU/bO0gFPmCkqG1iMpkOduLktmD+BP2JWevGHFTB6mghrBhQ768KgPE0js/3itL9ShjRIFwdFha3O93SOt7zcW0/QugfQpqYtuMRiCi/OjESsy1M/TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1VLyKwlPOVvMw5mWVflTtWgo2CfpTWb+w7WcASFpz0k=;
+ b=PZ3Fj+EpEhBgZeUhPa/efee3maBUgO4Ge6bfw5h0gTGVQqPoRPGrpYyp2T6xIJmP/cpXCo0iD91brPd5x4pA3X2R7PDjHewvCb+Vl7/YfVo6GUMrRtxFjQox9ETxddxkBxAjkgp5C/bJjjFsLJA1YKzcHTC2fI/CiTYoYuL4Rv8=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0802MB2529.eurprd08.prod.outlook.com (2603:10a6:203:9e::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.24; Wed, 14 Oct
+ 2020 12:27:57 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3455.031; Wed, 14 Oct 2020
+ 12:27:57 +0000
+Subject: Re: [PATCH v4 6/7] nbd: Refactor counting of metadata contexts
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, stefanha@redhat.com, rjones@redhat.com,
+ qemu-block@nongnu.org
+References: <20201009215533.1194742-1-eblake@redhat.com>
+ <20201009215533.1194742-7-eblake@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <60986167-a395-0418-3163-7f0dfd996532@virtuozzo.com>
+Date: Wed, 14 Oct 2020 15:27:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
+In-Reply-To: <20201009215533.1194742-7-eblake@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.122]
+X-ClientProxiedBy: AM0PR03CA0091.eurprd03.prod.outlook.com
+ (2603:10a6:208:69::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.122) by
+ AM0PR03CA0091.eurprd03.prod.outlook.com (2603:10a6:208:69::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3477.21 via Frontend Transport; Wed, 14 Oct 2020 12:27:57 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a6a6ce2f-9a80-45a2-1c07-08d8703c9546
+X-MS-TrafficTypeDiagnostic: AM5PR0802MB2529:
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB25295C57CE74F353276B74D0C1050@AM5PR0802MB2529.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tVcGfNYC5wUgKcYtW56zIh3wBEj+ybMAk69KlY5tzItTKXULKPXnTqIRODqXcNd6Z2PxPSjfoopfNXtwcZBGIl7shReJBCFRz3nBDU49yw8U1eqA0bZEWjmmipo4wRY8i0y+3sSmMjVveKfIiltSWBSDZJvgHz2ASFEn8Styv8hujSgHsjlfPWNhbb0JKn3Xw3W8QsiJpe4cpDl1poA/3lZPewgiBqs7100zcxEBxj7xQIsOPy0eQ0QtXwtGeac72mTGXjah4vU07wojHVrrMdi2X6IqbI1RSpzMBY2wOSAx3N98LPOOBPz6+k77cv7R/9mQHlKE39ujHiHb62OzfTI8EZArn+dFnKCfrMT0OY+szoFpNgRCChCSbi4SxSTf
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(396003)(376002)(136003)(39840400004)(36756003)(316002)(2906002)(16576012)(6486002)(956004)(2616005)(31696002)(8676002)(86362001)(16526019)(66476007)(478600001)(8936002)(4326008)(52116002)(26005)(66556008)(5660300002)(66946007)(31686004)(558084003)(186003)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: sYFZxISWvonUYaXNWDwBi6wa6mDN3f9LznqvxWZmo9Bbwq+D89gLlwY1WH4/tDy71HBCJNUuHUUNTaj4KsKSJzDKGM6Xo/LxXZJ25IplC/uhMSY933mkjk3uqzL6x6r6FcnrHue1pQpm+KrkuPVZnIuAeWUoY1kSx2wg+p2jLMO8rXuykmO1wLQyBRkLVoomgytiAkQLuYy8KW/2S/mPImvV7n0/qpkRa3mwaUJ2ka3WabyNhb3M45LA2C3ik1m2h+aRMbGKk5m1AEiBlWoXB/V2QQOpG/15+OjM6HQ5XHpuHT5SRK3CtwPYYZjLGduggkQgBg7ptmUbi6M4PHgMWYNeCg/TU41AXDmvGQbgkbkCGuuTZdFPfOvJq2DM443w+hjB5oOW9VkWHy5ZZP9xN3h7wJbXPlmKj+8z+ZPR7fQvBL82pMZOXh21ovKu/u26L+w8r0QjZ3AHg1CW6Agz7Qoh1OnXQ4p2mtGDHDtb33rxx8yLk/8zblJwItOMVbubS+qbQXfDgVfnV5nw4F0eGJ6jL2qNxVNv3VpR1o90aHKtio4w+N2P55drQmuzKDyP3ZQ1VnwHPzP0wekXLSZfqgsWuTbXGgZ0NADl6uspRcBHBH5ojoovK0ddDhud8n8uu+UwaB73cFAC4HHXp14JxQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6a6ce2f-9a80-45a2-1c07-08d8703c9546
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 12:27:57.9067 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yTNfoOcQ77z/buxMRHsY1UnBoieiQ5rk/OODQHCVTLsUJreU37UkJfUO54aLA5MKx5oLYIKA4F/cBzwW6e1btzNz2gpEkaGePhCVaHhZ5yY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2529
+Received-SPF: pass client-ip=40.107.4.104;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 08:27:58
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,82 +117,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2020-10-14 at 13:52 +0200, Philippe Mathieu-Daud=C3=A9 wrote:
-> For debug purpose, trace BAR regions info.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  util/vfio-helpers.c | 8 ++++++++
->  util/trace-events   | 1 +
->  2 files changed, 9 insertions(+)
->=20
-> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-> index 1d4efafcaa4..cd6287c3a98 100644
-> --- a/util/vfio-helpers.c
-> +++ b/util/vfio-helpers.c
-> @@ -136,6 +136,7 @@ static inline void
-> assert_bar_index_valid(QEMUVFIOState *s, int index)
-> =20
->  static int qemu_vfio_pci_init_bar(QEMUVFIOState *s, int index, Error
-> **errp)
->  {
-> +    g_autofree char *barname =3D NULL;
->      assert_bar_index_valid(s, index);
->      s->bar_region_info[index] =3D (struct vfio_region_info) {
->          .index =3D VFIO_PCI_BAR0_REGION_INDEX + index,
-> @@ -145,6 +146,10 @@ static int qemu_vfio_pci_init_bar(QEMUVFIOState
-> *s, int index, Error **errp)
->          error_setg_errno(errp, errno, "Failed to get BAR region
-> info");
->          return -errno;
->      }
-> +    barname =3D g_strdup_printf("bar[%d]", index);
+10.10.2020 00:55, Eric Blake wrote:
+> Rather than open-code the count of negotiated contexts at several
+> sites, embed it directly into the struct.
+> 
+> Signed-off-by: Eric Blake<eblake@redhat.com>
 
-Where is barname freed?
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Fam
-
-> +    trace_qemu_vfio_region_info(barname, s-
-> >bar_region_info[index].offset,
-> +                                s->bar_region_info[index].size,
-> +                                s-
-> >bar_region_info[index].cap_offset);
-> =20
->      return 0;
->  }
-> @@ -416,6 +421,9 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s,
-> const char *device,
->          ret =3D -errno;
->          goto fail;
->      }
-> +    trace_qemu_vfio_region_info("config", s-
-> >config_region_info.offset,
-> +                                s->config_region_info.size,
-> +                                s->config_region_info.cap_offset);
-> =20
->      for (i =3D 0; i < ARRAY_SIZE(s->bar_region_info); i++) {
->          ret =3D qemu_vfio_pci_init_bar(s, i, errp);
-> diff --git a/util/trace-events b/util/trace-events
-> index c048f85f828..4d40c74a21f 100644
-> --- a/util/trace-events
-> +++ b/util/trace-events
-> @@ -87,3 +87,4 @@ qemu_vfio_dma_map(void *s, void *host, size_t size,
-> bool temporary, uint64_t *io
->  qemu_vfio_dma_unmap(void *s, void *host) "s %p host %p"
->  qemu_vfio_pci_read_config(void *buf, int ofs, int size, uint64_t
-> region_ofs, uint64_t region_size) "read cfg ptr %p ofs 0x%x size %d
-> (region ofs 0x%"PRIx64" size %"PRId64")"
->  qemu_vfio_pci_write_config(void *buf, int ofs, int size, uint64_t
-> region_ofs, uint64_t region_size) "write cfg ptr %p ofs 0x%x size %d
-> (region ofs 0x%"PRIx64" size %"PRId64")"
-> +qemu_vfio_region_info(const char *desc, uint64_t offset, uint64_t
-> size, uint32_t cap_offset) "region '%s' ofs 0x%"PRIx64" size
-> %"PRId64" cap_ofs %"PRId32
-
+-- 
+Best regards,
+Vladimir
 
