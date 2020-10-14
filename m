@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDC028DFF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:43:47 +0200 (CEST)
-Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF10128DFDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:36:42 +0200 (CEST)
+Received: from localhost ([::1]:47948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfC6-00011y-GC
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
+	id 1kSf5F-0005Fs-Ck
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kSf0J-0003D9-8z; Wed, 14 Oct 2020 07:31:35 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:58859)
+ id 1kSf0I-0003Ce-5P; Wed, 14 Oct 2020 07:31:34 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:54249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kSf0F-0006Xa-CQ; Wed, 14 Oct 2020 07:31:34 -0400
+ id 1kSf0E-0006XZ-GZ; Wed, 14 Oct 2020 07:31:33 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 39E70580193;
+ by mailnew.nyi.internal (Postfix) with ESMTP id 368CE580191;
  Wed, 14 Oct 2020 07:31:27 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
  by compute4.internal (MEProxy); Wed, 14 Oct 2020 07:31:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=xTZsNFjgpCwwqiQUYVFLYF3O2V
- N86YpWSmHbCMp94u0=; b=HI07IEOshUHLrma9YlaOB1AY0VT7QTrpYpfBXMPGxI
- 3VM5f9f5OaxvTBVUkUKt98WttBddTBsv2xAA1K7VPHotSty5wmZgcQ6LdHoLvDFc
- Ckc7dP6XVcO22CCraZmDXRAlMTP9iSezFd2IcjTEUUZVaYTL9gbKwtYRUBugDhAb
- 47FJJyqd/FLV4v7U9Lz0SCGnTEyl4z4tU0R/ddliWuC2GqjJRqOo3r2bl5iFrSz1
- yUH+MTj/VeR+qVgPoCDfS0YrmCupKHLyxSb/bzUkJaAZp+y3OLgbjW2ZfCQ07f2W
- l1T1HYrlNBhyUvR5UCqsbCIQgtvvYElqi86OGUK90C+w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=7OjmeYYNxp5gG
+ fcnZDvOFvrWT/xn3J2K+mRdzwcuc04=; b=rrA8HxpWpJexXgxgg9AjHJZsqxtm1
+ S5d7cN1fR5FsxIbNAM7xm6E0AyoHhWRpZfKUhiqBwxr0ODoI6y2oXBku0tAdFoSQ
+ Ye95sFX2cwY+JSloL1bfXQE3PvUOGakC115fBU7hdLIDk4fgc8SchbBLugSNBUjR
+ +NetDGslEdql1/QJ6K4H2/YnX/nCdEWNtwWybUCXPpsz51g9I0tz977ND9wKJY5m
+ g6GRsmtX4ulrLgyYLrGtmqOg/sDWHBEg2w0tlpJeH2RulP6J27ieGAM1Ooje57KD
+ MiRmn9K0w93koKKos5D6VkJb1YJPxi7AAQT+p0eJ+g44WyjWxv+rKde8A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=xTZsNFjgpCwwqiQUY
- VFLYF3O2VN86YpWSmHbCMp94u0=; b=GqbEB55+VRqrmU727h4r5dJ0WJMS654gs
- +j+viygTKZfKOTX1IJQgtHtw/T5cVUv51LeS1u3I68XRLSK30bzQfa1kESfq1HxJ
- Vt98xsWyVd9lx/hQWH+gpTfdv60EPleuQH9U71KCU3HMtX7ls+qfBJlRybJ22VP3
- jR6jbe+f1XAeScMOZ56R4Y6NpiBCvvGikvnLCndanMrUJhjQN7tMesW3GvlT5BBf
- taQZ2sFRU7GAhPg6PKL3PJ/Q4HFGzGgpoek9/s2r3mQLbSfhSw7/NR+iq3XDZU6z
- pa21K18G/R406C6HiHPCVpnVQcdS+lLU/+K+wVHmgx+PUCD35RPTA==
-X-ME-Sender: <xms:jeGGX9ECqGeuxMn-fvjYM2JDGBQLn7ILw_qk9Obj-bAdZLBoW71kKg>
- <xme:jeGGXyUVszM2wTXLLwQqR3RHAF5wTYSS0jOetEVClYeVH4GYDhc-MRf8mA454AghO
- URQ84fupER8YqHBJoM>
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=7OjmeYYNxp5gGfcnZDvOFvrWT/xn3J2K+mRdzwcuc04=; b=A954HoDO
+ E9dU6utE7gG6+r3b1T1W8UWIPWcsiSROzkBRWHxT4niJPMqq8DCrw32hseQNWSgM
+ holF8hTE4Xr+PoQT9b9kKarhlWgT8Hp2Zl/jMCaVEx4XoGJS0dmffdyHJN5t1uFp
+ pnPoAWz1uIjoTAofNqRw3Yl+/vSQVUR5oiotpCSvW4EBPz8PCofDhXdN/3uXuXUl
+ O5nLplUoe6zCFVTejTFZLKEXgcucUSdhtZwi7+S1s7Uvo9x6tE9hKrDOI23vTwsr
+ 4gqFdnW4efB+L3iWEwoGUgwOy+TEblHebdiQXn6uQOaLrix8yauj4MPZX6ThRsr9
+ Vmr6OQ0y6kv1pg==
+X-ME-Sender: <xms:juGGX6-lsETsXQ-qzYHaM2jgzTIMTQLuVwbYDYkA7K3GY9W0_N1JvA>
+ <xme:juGGX6vhW7sivhijHdPATArZnmsrAykE1HdqrDPgjKuJ6xGIAqDjRQvVYjDJ7XJhO
+ W4tosgUhXmeguSd3VQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedriedugdegudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdhqredtredttdenucfhrhhomhepmfhlrghushculfgv
- nhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnh
- epuedvgeeuhefghfdvffffudevgeeigfdtgefhffdtieeiudehkeefleetvdeikeeunecu
- kfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
- hrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:jeGGX_KWu3MbZdUK5NLch4lkYd8vi-O-6WkLDPZ8hC2BZKSM9ZpyLw>
- <xmx:jeGGXzEdeBgCuBauwAOC1wCpXjWBHlLNXMo22crqw7rfRnBU0nsLBQ>
- <xmx:jeGGXzU4zvg62h8szI3jGzq9Z7jsyOg6-jP6Qpg4BgNM3zv3rnlUbw>
- <xmx:juGGX1K-z_PiqM81nyNO6cOKqSYMDrZSZx6otomBQ_MnX438Zfc6Fg>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:juGGXwAQ453cwI-1AUG6uUWd9_ENrDWDyzY8isHbzIL2_0BnuNlN9w>
+ <xmx:juGGXyc88T5RG6ieSGHcnZBNpk7NGTAYOJuNIl-gXG0XS5qqo2KLmA>
+ <xmx:juGGX_Nq-QphCPqOkqyZP31t8oXyQR4vPYJFcDvGseQx1k4WfMZ7LQ>
+ <xmx:juGGX6cs_Z1WsQDcjXpCWER9w6heI-s3CuCrHOQ3PqZZnXpGO25u0Q>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2114F3064610;
- Wed, 14 Oct 2020 07:31:24 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7CBC63064674;
+ Wed, 14 Oct 2020 07:31:25 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/9] hw/block/nvme: zoned namespace command set
-Date: Wed, 14 Oct 2020 13:31:13 +0200
-Message-Id: <20201014113122.388849-1-its@irrelevant.dk>
+Subject: [PATCH v3 1/9] hw/block/nvme: add commands supported and effects log
+ page
+Date: Wed, 14 Oct 2020 13:31:14 +0200
+Message-Id: <20201014113122.388849-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201014113122.388849-1-its@irrelevant.dk>
+References: <20201014113122.388849-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
  helo=new3-smtp.messagingengine.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 07:31:27
@@ -93,106 +97,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Updated version of my proposal.=0D
-=0D
-Based-on: <20201014084324.333774-1-its@irrelevant.dk>=0D
-=0D
-Changes for v3=0D
-~~~~~~~~~~~~~~=0D
-=0D
-  * Rebased on nvme-next with "[PATCH v2] hw/block/nvme: add dulbe=0D
-    support" applied.=0D
-=0D
-  * "hw/block/nvme: add support for dulbe and block utilization tracking"=0D
-    - Dropped from this series. This series instead builds on the=0D
-      support for DULBE that I added in "[PATCH v2] hw/block/nvme: add=0D
-      dulbe support", previously posted.=0D
-=0D
-  * "hw/block/nvme: add the zone management send command"=0D
-    - Use asynchronous discards.=0D
-=0D
-  * "hw/block/nvme: add basic read/write for zoned namespaces"=0D
-  * "hw/block/nvme: add the zone management receive command"=0D
-  * "hw/block/nvme: add the zone management send command"=0D
-  * "hw/block/nvme: add the zone append command"=0D
-  * "hw/block/nvme: track and enforce zone resources"=0D
-  * "hw/block/nvme: allow open to close zone transitions by controller"=0D
-    - In compliance with the concensus I dropped zone persistence=0D
-      support from all patches.=0D
-=0D
-Changes for v2=0D
-~~~~~~~~~~~~~~=0D
-=0D
-  * "hw/block/nvme: add support for dulbe and block utilization tracking"=0D
-    - Factor out pstate init/load into separate functions.=0D
-=0D
-    - Fixed a stupid off-by-1 bug that would trigger when resetting the=0D
-      last zone.=0D
-=0D
-    - I added a more formalized pstate file format that includes a=0D
-      header. This is pretty similar to what is done in Dmitry's series,=0D
-      but with fewer fields. The device parameters for nvme-ns are still=0D
-      the "authoritative" ones, so if any parameters that influence LBA=0D
-      size, number of zones, etc. do not match, an error indicating the=0D
-      discrepancy will be produced. IIRC, Dmitry's version does the=0D
-      same.=0D
-=0D
-      It is set up such that newer versions can load pstate files from=0D
-      older versions. The file format header is not unlike a standard=0D
-      nvme datastructure with reserved areas. This means that when=0D
-      adding new command sets that require persistent state, it is not=0D
-      needed to bump the version number, unless the header has to change=0D
-      dramatically.  This is demonstrated when the zoned namespace=0D
-      command set support is added in "hw/block/nvme: add basic=0D
-      read/write for zoned namespaces".=0D
-=0D
-  * "hw/block/nvme: add basic read/write for zoned namespaces"=0D
-    - The device will now transition all opened zones to Closed on=0D
-      "normal shutdown". You can force the "transition to Full" behavior=0D
-      by killing QEMU from the monitor.=0D
-=0D
-  * "hw/block/nvme: add the zone append command"=0D
-    - Slightly reordered the logic so a LBA Out of Range error is=0D
-      returned before Invalid Field in Command for normal read/write=0D
-      commands.=0D
-=0D
-  * "hw/block/nvme: support zone active excursions"=0D
-    - Dropped. Optional and non-critical.=0D
-=0D
-  * "hw/block/nvme: support reset/finish recommended limits"=0D
-    - Dropped. Optional and non-critical.=0D
-=0D
-Gollu Appalanaidu (1):=0D
-  hw/block/nvme: add commands supported and effects log page=0D
-=0D
-Klaus Jensen (8):=0D
-  hw/block/nvme: add uuid namespace parameter=0D
-  hw/block/nvme: support namespace types=0D
-  hw/block/nvme: add basic read/write for zoned namespaces=0D
-  hw/block/nvme: add the zone management receive command=0D
-  hw/block/nvme: add the zone management send command=0D
-  hw/block/nvme: add the zone append command=0D
-  hw/block/nvme: track and enforce zone resources=0D
-  hw/block/nvme: allow open to close zone transitions by controller=0D
-=0D
- docs/specs/nvme.txt   |   17 +=0D
- hw/block/nvme-ns.h    |  112 +++-=0D
- hw/block/nvme.h       |   23 +=0D
- include/block/nvme.h  |  216 ++++++-=0D
- block/nvme.c          |    4 +-=0D
- hw/block/nvme-ns.c    |  172 +++++-=0D
- hw/block/nvme.c       | 1284 +++++++++++++++++++++++++++++++++++++++--=0D
- hw/block/trace-events |   27 +-=0D
- 8 files changed, 1791 insertions(+), 64 deletions(-)=0D
-=0D
--- =0D
-2.28.0=0D
-=0D
+This is to support for the Commands Supported and Effects log page. See
+NVM Express Spec 1.3d, sec. 5.14.1.5 ("Commands Supported and Effects")
+
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ include/block/nvme.h | 25 +++++++++++++--
+ hw/block/nvme.c      | 74 +++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 96 insertions(+), 3 deletions(-)
+
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 2249d77c2129..f71376072762 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -737,6 +737,24 @@ typedef struct QEMU_PACKED NvmeSmartLog {
+     uint8_t     reserved2[320];
+ } NvmeSmartLog;
+ 
++typedef struct QEMU_PACKED NvmeEffectsLog {
++    uint32_t acs[256];
++    uint32_t iocs[256];
++    uint8_t  rsvd2048[2048];
++} NvmeEffectsLog;
++
++enum {
++    NVME_EFFECTS_CSUPP      = 1 <<  0,
++    NVME_EFFECTS_LBCC       = 1 <<  1,
++    NVME_EFFECTS_NCC        = 1 <<  2,
++    NVME_EFFECTS_NIC        = 1 <<  3,
++    NVME_EFFECTS_CCC        = 1 <<  4,
++    NVME_EFFECTS_CSE_SINGLE = 1 << 16,
++    NVME_EFFECTS_CSE_MULTI  = 1 << 17,
++    NVME_EFFECTS_CSE_MASK   = 3 << 16,
++    NVME_EFFECTS_UUID_SEL   = 1 << 19,
++};
++
+ enum NvmeSmartWarn {
+     NVME_SMART_SPARE                  = 1 << 0,
+     NVME_SMART_TEMPERATURE            = 1 << 1,
+@@ -749,6 +767,7 @@ enum NvmeLogIdentifier {
+     NVME_LOG_ERROR_INFO     = 0x01,
+     NVME_LOG_SMART_INFO     = 0x02,
+     NVME_LOG_FW_SLOT_INFO   = 0x03,
++    NVME_LOG_EFFECTS        = 0x05,
+ };
+ 
+ typedef struct QEMU_PACKED NvmePSD {
+@@ -860,8 +879,9 @@ enum NvmeIdCtrlFrmw {
+ };
+ 
+ enum NvmeIdCtrlLpa {
+-    NVME_LPA_NS_SMART = 1 << 0,
+-    NVME_LPA_EXTENDED = 1 << 2,
++    NVME_LPA_NS_SMART     = 1 << 0,
++    NVME_LPA_EFFECTS_LOG  = 1 << 1,
++    NVME_LPA_EXTENDED     = 1 << 2,
+ };
+ 
+ #define NVME_CTRL_SQES_MIN(sqes) ((sqes) & 0xf)
+@@ -1068,5 +1088,6 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSglDescriptor) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) != 4);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) != 4096);
+ }
+ #endif
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index b4f47448575b..8d0d96f42e61 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -112,6 +112,46 @@ static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
+     [NVME_TIMESTAMP]                = NVME_FEAT_CAP_CHANGE,
+ };
+ 
++#define NVME_EFFECTS_ADMIN_INITIALIZER                 \
++    [NVME_ADM_CMD_DELETE_SQ]    = NVME_EFFECTS_CSUPP,  \
++    [NVME_ADM_CMD_CREATE_SQ]    = NVME_EFFECTS_CSUPP,  \
++    [NVME_ADM_CMD_GET_LOG_PAGE] = NVME_EFFECTS_CSUPP,  \
++    [NVME_ADM_CMD_DELETE_CQ]    = NVME_EFFECTS_CSUPP,  \
++    [NVME_ADM_CMD_CREATE_CQ]    = NVME_EFFECTS_CSUPP,  \
++    [NVME_ADM_CMD_IDENTIFY]     = NVME_EFFECTS_CSUPP,  \
++    [NVME_ADM_CMD_ABORT]        = NVME_EFFECTS_CSUPP,  \
++    [NVME_ADM_CMD_SET_FEATURES] = NVME_EFFECTS_CSUPP | \
++                                  NVME_EFFECTS_CCC |   \
++                                  NVME_EFFECTS_NIC |   \
++                                  NVME_EFFECTS_NCC,    \
++    [NVME_ADM_CMD_GET_FEATURES] = NVME_EFFECTS_CSUPP,  \
++    [NVME_ADM_CMD_ASYNC_EV_REQ] = NVME_EFFECTS_CSUPP
++
++#define NVME_EFFECTS_NVM_INITIALIZER                   \
++    [NVME_CMD_FLUSH]            = NVME_EFFECTS_CSUPP | \
++                                  NVME_EFFECTS_LBCC,   \
++    [NVME_CMD_WRITE]            = NVME_EFFECTS_CSUPP | \
++                                  NVME_EFFECTS_LBCC,   \
++    [NVME_CMD_READ]             = NVME_EFFECTS_CSUPP,  \
++    [NVME_CMD_WRITE_ZEROES]     = NVME_EFFECTS_CSUPP | \
++                                  NVME_EFFECTS_LBCC
++
++static const NvmeEffectsLog nvme_effects_admin_only = {
++    .acs = {
++        NVME_EFFECTS_ADMIN_INITIALIZER,
++    },
++};
++
++static const NvmeEffectsLog nvme_effects = {
++    .acs = {
++        NVME_EFFECTS_ADMIN_INITIALIZER,
++    },
++
++    .iocs = {
++        NVME_EFFECTS_NVM_INITIALIZER,
++    },
++};
++
+ static void nvme_process_sq(void *opaque);
+ 
+ static uint16_t nvme_cid(NvmeRequest *req)
+@@ -1331,6 +1371,36 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+                     DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
++static uint16_t nvme_effects_log(NvmeCtrl *n, uint32_t buf_len, uint64_t off,
++                                 NvmeRequest *req)
++{
++    const NvmeEffectsLog *effects;
++
++    uint32_t trans_len;
++
++    if (off >= sizeof(NvmeEffectsLog)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    switch (NVME_CC_CSS(n->bar.cc)) {
++    case NVME_CC_CSS_ADMIN_ONLY:
++        effects = &nvme_effects_admin_only;
++        break;
++
++    case NVME_CC_CSS_NVM:
++        effects = &nvme_effects;
++        break;
++
++    default:
++        return NVME_INTERNAL_DEV_ERROR | NVME_DNR;
++    }
++
++    trans_len = MIN(sizeof(NvmeEffectsLog) - off, buf_len);
++
++    return nvme_dma(n, (uint8_t *)effects + off, trans_len,
++                    DMA_DIRECTION_FROM_DEVICE, req);
++}
++
+ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeCmd *cmd = &req->cmd;
+@@ -1374,6 +1444,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_smart_info(n, rae, len, off, req);
+     case NVME_LOG_FW_SLOT_INFO:
+         return nvme_fw_log_info(n, len, off, req);
++    case NVME_LOG_EFFECTS:
++        return nvme_effects_log(n, len, off, req);
+     default:
+         trace_pci_nvme_err_invalid_log_page(nvme_cid(req), lid);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -2810,7 +2882,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->acl = 3;
+     id->aerl = n->params.aerl;
+     id->frmw = (NVME_NUM_FW_SLOTS << 1) | NVME_FRMW_SLOT1_RO;
+-    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_EXTENDED;
++    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_EXTENDED | NVME_LPA_EFFECTS_LOG;
+ 
+     /* recommended default value (~70 C) */
+     id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
+-- 
+2.28.0
+
 
