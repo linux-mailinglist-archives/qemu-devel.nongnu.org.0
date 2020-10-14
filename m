@@ -2,123 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B9728D9B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 07:55:09 +0200 (CEST)
-Received: from localhost ([::1]:52448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF55D28D9EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 08:22:15 +0200 (CEST)
+Received: from localhost ([::1]:51490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSZki-0005MG-PQ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 01:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35602)
+	id 1kSaAw-0001TW-GS
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 02:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kSZjG-0004E7-64
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 01:53:38 -0400
-Received: from mail-dm6nam11on2075.outbound.protection.outlook.com
- ([40.107.223.75]:21792 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kSZjE-00050E-DD
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 01:53:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MGaLkAQJku0NyqdzoSm+qnH3BgPTyk6pFIl59AKYAI+/BdDtvrAAyKW+Lc788e53LqqcL21uWYPqTOOIXGMv8RlRj4ror/KSPmzgoNwPb07JpCXLJrnbXSO5vNsGRBVaj7vJ+EQ1HNK2xZnFZcQLMpUUQ4XY17T69HIDPcNtM2TKdajNGgU15UAUBBFtT8sZW+Gir5TedQUcU2ESjSeoCAZyCDDdn4HBvr+rO588Gfi5rdNXVHaMGGz59G37jhusSCt3Cr02oX8NJeKfHjPMFIgNjCACm1yYR/dC6ayMR+3fj+7TbdtcACD1PPFKsYkGr8UV82cBo1YyoHDpLT6hHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iFebQn3EFBQdTQJm7xLpLU46YHuDLmCHz4+KPg1F/iA=;
- b=D7r5ffqNpNnSvCAHGgf8PkxLj77bzK2JZipIStbXGaSD+ms0f6xtIP/g8+INe36/lvOuzq397fG2XUYEOaQOltYPMM9omrFkao2JBRvFnNxI9X2IwxKuvF9cMRJvm5Q6g82dYynq4oQESmhOHXvpcgLBby7a0oHUkVssVgQx2NE9ghHmDHuz10Hk2Xgve+zIbvk8mJoiJ9TGuRp00DConZDyJ//EpbCWwEsQx0+BD62V09n3SkURQm7YUhKjXcddKOPAGO3fceydPSm57tx2b+xO9o3cLVuoVi0cL/CNVAVAhQlJ79eFd96JXFCI1SxIXZwx481uscLQ4uCHKV9sqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iFebQn3EFBQdTQJm7xLpLU46YHuDLmCHz4+KPg1F/iA=;
- b=DpKpMaK1YZxiwKtDPGRE3soK+tGCDYkjs7nklvunTh4DX328ViX/rdpdtZ2ah0zTnZ7B0pAO18xlL2Nwgv/iPe3tuaNiosVs9r2aJxkAW106Oq3hcCspOoKeALrVpNerHgsvk1AzDy5YaEDiecdOfggENmqZTIV/y5MUjwIoH0U=
-Received: from MN2PR14CA0030.namprd14.prod.outlook.com (2603:10b6:208:23e::35)
- by CH2PR02MB6492.namprd02.prod.outlook.com (2603:10b6:610:67::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Wed, 14 Oct
- 2020 05:53:34 +0000
-Received: from BL2NAM02FT044.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:23e:cafe::8a) by MN2PR14CA0030.outlook.office365.com
- (2603:10b6:208:23e::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend
- Transport; Wed, 14 Oct 2020 05:53:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT044.mail.protection.outlook.com (10.152.77.35) with Microsoft SMTP
- Server id 15.20.3477.21 via Frontend Transport; Wed, 14 Oct 2020 05:53:34
- +0000
-Received: from [149.199.38.66] (port=35597 helo=smtp.xilinx.com)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>) id 1kSZiR-0001h9-PI
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 22:52:47 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by smtp.xilinx.com with smtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>) id 1kSZjB-0003fd-QE
- for qemu-devel@nongnu.org; Tue, 13 Oct 2020 22:53:33 -0700
-Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1kSZj9-0003e5-EK; Tue, 13 Oct 2020 22:53:31 -0700
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH resend v11 4/4] MAINTAINERS: Add maintainer entry for Xilinx
- ZynqMP CAN controller
-Date: Tue, 13 Oct 2020 22:53:06 -0700
-Message-Id: <1602654786-35589-5-git-send-email-fnu.vikram@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1602654786-35589-1-git-send-email-fnu.vikram@xilinx.com>
-References: <1602654786-35589-1-git-send-email-fnu.vikram@xilinx.com>
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kSa9S-0000zI-FJ
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 02:20:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kSa9P-0005qj-Cv
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 02:20:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kSa9N-0006Jd-7W
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 06:20:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 365E32E8071
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 06:20:37 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: d2529313-dc1b-4832-db1c-08d870057ca2
-X-MS-TrafficTypeDiagnostic: CH2PR02MB6492:
-X-Microsoft-Antispam-PRVS: <CH2PR02MB6492595F84E7EC3F87A11BB3BC050@CH2PR02MB6492.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:331;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Rjw3ZOaB8aufLPhlfoO133De7gxxNPp/+TsXeJVRzMVp+pHIafLh7aKHfh+nU6ERGbhuT4ltTtbWAnAOu6JTlFUJe96RKYhTOFNugvQOTzHXlsJYIqTwmzSPm0YHJ6o+Q+v2q90rL+IiPqP3HBjbRhn5PB6FUwxSNxwJLlokYj2Sw74Y9y/41eebnWy0ugiNA1JOcWG5w4jVNyNzyiRe0DmQPTb29vDuU2meAhpz/G0rTxCh+BFkIvEXk9D7WBanJh4fWnTsySpAf9In9sNWG2fNbU/lpAKCUTJwYl2FLlKusIvvGBU6QC5K7gKz5D9CiX0ZpModO4tCN/V8KfOUbPkgculw4iJAXPmyieaRNZzfxqS+zuSxr0TPkLmqMjLV8j4WSi+Cw9bO1c1ieoffFA==
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFS:(39850400004)(346002)(376002)(396003)(136003)(46966005)(70206006)(426003)(186003)(9786002)(316002)(2616005)(8936002)(6916009)(82740400003)(6666004)(8676002)(36756003)(336012)(7696005)(47076004)(5660300002)(4326008)(26005)(107886003)(70586007)(356005)(81166007)(478600001)(2906002)(4744005)(82310400003);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 05:53:34.1100 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2529313-dc1b-4832-db1c-08d870057ca2
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT044.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6492
-Received-SPF: pass client-ip=40.107.223.75; envelope-from=fnuv@xilinx.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:53:35
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 14 Oct 2020 06:10:46 -0000
+From: Daniele <1899733@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: gpu hdmi passthrough
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ghost82
+X-Launchpad-Bug-Reporter: Daniele (ghost82)
+X-Launchpad-Bug-Modifier: Daniele (ghost82)
+Message-Id: <160265584613.29124.17763371645381472400.malonedeb@gac.canonical.com>
+Subject: [Bug 1899733] [NEW] Qemu 5.1.0-1 GPU passthrough - MacOS vm starts
+ only if hdmi is attached
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
+X-Launchpad-Hash: f8f87c4ba0d7a4f7ed66c60a1acc6726834d2be6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 00:50:33
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -127,37 +72,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>
+Reply-To: Bug 1899733 <1899733@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Public bug reported:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 47dd38a..a8c672c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1559,6 +1559,14 @@ F: hw/net/opencores_eth.c
- 
- Devices
- -------
-+Xilinx CAN
-+M: Vikram Garhwal <fnu.vikram@xilinx.com>
-+M: Francisco Iglesias <francisco.iglesias@xilinx.com>
-+S: Maintained
-+F: hw/net/can/xlnx-*
-+F: include/hw/net/xlnx-*
-+F: tests/qtest/xlnx-can-test*
-+
- EDU
- M: Jiri Slaby <jslaby@suse.cz>
- S: Maintained
--- 
-2.7.4
+Hi,
+I have a macOS 10.15.7 vm with GPU passthrough (NVIDIA GTX Titan Black), li=
+bvirt xml has path to vbios too.
+Qemu 5.1.0-1 with libvirt 6.5.0-2 are installed in manjaro architect 20.1.1=
+ (two kernels tried: 5.4.67 LTS and 5.8.11 stable, no difference).
+I have two monitors, one with hdmi and one with vga inputs.
+Usually the gpu is connected to one monitor with hdmi, the other one with D=
+VI (on gpu)-->vga adapter, so:
+1st monitor: hdmi-->hdmi
+2nd monitor: DVI-->vga adapter-->vga
 
+With this setup, launching "virsh start Catalina" has no problem.
+
+If I detach the hdmi cable from monitor 1, I cannot start qemu anymore: the=
+ 2nd monitor turns black, it doesn't seem it has "no-signal", but only a bl=
+ack screen with the power led blinking (usually a window on the monitor flo=
+ats around with "no signal" displayed when there is no signal to monitor).
+I say "qemu doesn't start" because in /var/log/libvirt/qemu/Catalina.log th=
+ere's no trace.
+
+Detaching hdmi works with qemu 4.2 and libvirt 5.10, so this could be
+related to qemu update.
+
+Apologize, I know there aren't much information here, if someone can
+guide me to test the issue I would be grateful.
+
+Thanks for your attention
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: gpu hdmi passthrough
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1899733
+
+Title:
+  Qemu 5.1.0-1 GPU passthrough - MacOS vm starts only if hdmi is
+  attached
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+  I have a macOS 10.15.7 vm with GPU passthrough (NVIDIA GTX Titan Black), =
+libvirt xml has path to vbios too.
+  Qemu 5.1.0-1 with libvirt 6.5.0-2 are installed in manjaro architect 20.1=
+.1 (two kernels tried: 5.4.67 LTS and 5.8.11 stable, no difference).
+  I have two monitors, one with hdmi and one with vga inputs.
+  Usually the gpu is connected to one monitor with hdmi, the other one with=
+ DVI (on gpu)-->vga adapter, so:
+  1st monitor: hdmi-->hdmi
+  2nd monitor: DVI-->vga adapter-->vga
+
+  With this setup, launching "virsh start Catalina" has no problem.
+
+  If I detach the hdmi cable from monitor 1, I cannot start qemu anymore: t=
+he 2nd monitor turns black, it doesn't seem it has "no-signal", but only a =
+black screen with the power led blinking (usually a window on the monitor f=
+loats around with "no signal" displayed when there is no signal to monitor).
+  I say "qemu doesn't start" because in /var/log/libvirt/qemu/Catalina.log =
+there's no trace.
+
+  Detaching hdmi works with qemu 4.2 and libvirt 5.10, so this could be
+  related to qemu update.
+
+  Apologize, I know there aren't much information here, if someone can
+  guide me to test the issue I would be grateful.
+
+  Thanks for your attention
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1899733/+subscriptions
 
