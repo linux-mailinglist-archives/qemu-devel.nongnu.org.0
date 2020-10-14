@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3173828E02D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:01:06 +0200 (CEST)
-Received: from localhost ([::1]:37394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B29EF28E043
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:04:29 +0200 (CEST)
+Received: from localhost ([::1]:45500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfSr-0000WO-3m
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:01:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49508)
+	id 1kSfW8-0004NX-Ph
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:04:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSfLi-0000LG-OO
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:53:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38736)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSfLl-0000SY-Iu
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:53:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSfLh-0000Y3-3W
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:53:42 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSfLj-0000YI-Q8
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:53:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602676420;
+ s=mimecast20190719; t=1602676422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+MF6CELc3HUdf4Q8Rj0ad0iLARqM18cYceZFctPs7+I=;
- b=Egx1EQuWwHdCcO0+hlGBF0aNW+V5+5e0s2ygn+NlyxN3E8pWs9o2iJJej3wX8iHywieI0z
- xIkMhjxHTWasPQ/cRkKcPrzuw3rOQZ+b9eC7ihmsT4ht2LxDsj2VDzOQ4Z/8pCdmy5p8Up
- A4nFwZKLCAjSlKjYbHanqSwBnin3mbU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-djBpbDBCOzeX2ze4sFUGRQ-1; Wed, 14 Oct 2020 07:53:36 -0400
-X-MC-Unique: djBpbDBCOzeX2ze4sFUGRQ-1
-Received: by mail-wm1-f70.google.com with SMTP id c204so530156wmd.5
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 04:53:36 -0700 (PDT)
+ bh=uTVh2AtSozqPFxInc/ksQHh3UVKG/5ht671RHOKC4pA=;
+ b=DHyBFkhY2Wpl+NaaAJpjF58I4KldH6jQBWKRR+HqwHzgzqMgA2aX1eFkdwGqMr/xHNB5lm
+ JlnvUnw6nHrzDqniaR+lijppbI39w43DCVE2F10nHGxF1SdHss0AWUy46S0B0oP2jxkPiI
+ kZBsAtMvbxdTAZCujUHVKI3wowOOBwk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-y1mOYzmAOZKEBwlyNuuGhA-1; Wed, 14 Oct 2020 07:53:41 -0400
+X-MC-Unique: y1mOYzmAOZKEBwlyNuuGhA-1
+Received: by mail-wr1-f71.google.com with SMTP id q15so1178099wrw.8
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 04:53:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+MF6CELc3HUdf4Q8Rj0ad0iLARqM18cYceZFctPs7+I=;
- b=DphE+P3Inl3ZALy2Wi5rumqUTjxmvOZwF0eJS4JasgGKCut0utFH0wCQY4ApgA6GWp
- ftJ2wZ/lQezyYDHsjrULEjMz2qguxtgbS0EYqnmv0WpeNLb36ookYrbsl24nxHNTyBen
- qSGLMVI5csf2EEyqrvqzfotWWsNzCbOnfQRizVO1Icf0b0d2+B09UObojQAcGcnJv2Qz
- FGXbe19N2qLnHNF6tfdH21dLuT58xnDRAS39FVzw31vZSKUE56POa468IJB4MOtP3u+b
- BJqrj2iTDlGUfseKJeMZ3dVk2MEmuCrdrsz2iqtJmASTMW+EuaLB9cgQNwvKHZLT01PL
- KCFQ==
-X-Gm-Message-State: AOAM531odHNLKl7f3rwcxa8CZ05l6SUQsvYmgh1wRok+E+Al1id8gBj0
- dvFeR/rraxEa3iIib26rCSxe2EdxhKeK4ATPT1CWadGtDSkYNupV5G2biZH7sJGob8VcJ8RIshJ
- IboH0196rwPNPScw=
-X-Received: by 2002:adf:e8cb:: with SMTP id k11mr5067244wrn.91.1602676415204; 
- Wed, 14 Oct 2020 04:53:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyL2e9IVbFz59KuTP2nwDmqI5XVzLoDSQqKHOW3W0u3Sy/zE9IC6aSMNJOLvMUQa6Yu11m1mA==
-X-Received: by 2002:adf:e8cb:: with SMTP id k11mr5067223wrn.91.1602676414996; 
- Wed, 14 Oct 2020 04:53:34 -0700 (PDT)
+ bh=uTVh2AtSozqPFxInc/ksQHh3UVKG/5ht671RHOKC4pA=;
+ b=MilO2ydp5G6bK9zdsHJtK4BJdXnLPAL8p39cCCw0Lx6pdEw1dwWWX8VB5wPCAvHv1k
+ epwuPwAKFXHC4UlIzssRo2geRofS3uhbzJzY33mvImPZ/2HNJv8CwQb/etTr47lphw2m
+ HdDZS4RLQPdoZKcCISQLgQvlxHL6Xr2Kd2CnMTrIvkj+fsCemWTl202J5ouXDKUtZiue
+ 19uZQwLKtZ4jbP0SulF4kMwzZOZVe2znSsfJd9G1Z/50Pzg9jtOh8ZGo+wSeuhmcKW5I
+ AFnjFTK6BFj8zVZ2A+T6TpAj7v73tqPPOaPX5YbJW0TAL3wCxDVQvAIJMaKBufDtzItN
+ flxg==
+X-Gm-Message-State: AOAM532lai1xBILLo2JSNFp6simK7qcQLB27ld8dbClpNVah0+CwlxYG
+ UG4vGo6rC4lCQE09VAIhG0s+tAgbC7LTKr/b+yUxJrBgNLWJKL+Nv8z6aFQVsXccmsEbIX/GwmE
+ 8srSgsLnWtobRSi8=
+X-Received: by 2002:a5d:40cb:: with SMTP id b11mr5507274wrq.254.1602676419947; 
+ Wed, 14 Oct 2020 04:53:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZTq3DOuNlD4CjLYuFd9cTUF2hAZlueRat6xzS8TZp5RX2oIrBnEpKOMREHnmI2CSqIK2tWQ==
+X-Received: by 2002:a5d:40cb:: with SMTP id b11mr5507251wrq.254.1602676419740; 
+ Wed, 14 Oct 2020 04:53:39 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id z11sm4503433wrh.70.2020.10.14.04.53.33
+ by smtp.gmail.com with ESMTPSA id f14sm4742637wrt.53.2020.10.14.04.53.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Oct 2020 04:53:34 -0700 (PDT)
+ Wed, 14 Oct 2020 04:53:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/9] util/vfio-helpers: Let qemu_vfio_do_mapping() propagate
- Error
-Date: Wed, 14 Oct 2020 13:52:52 +0200
-Message-Id: <20201014115253.25276-9-philmd@redhat.com>
+Subject: [PATCH 9/9] util/vfio-helpers: Let qemu_vfio_verify_mappings() use
+ error_report()
+Date: Wed, 14 Oct 2020 13:52:53 +0200
+Message-Id: <20201014115253.25276-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201014115253.25276-1-philmd@redhat.com>
 References: <20201014115253.25276-1-philmd@redhat.com>
@@ -83,7 +83,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,54 +104,33 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pass qemu_vfio_do_mapping() an Error* argument so it can propagate
-any error to callers. Replace error_report() which only report
-to the monitor by the more generic error_setg_errno().
+Instead of displaying the error on stderr, use error_report()
+which also report to the monitor.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- util/vfio-helpers.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ util/vfio-helpers.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index c03fe0b7156..2c4598d7faa 100644
+index 2c4598d7faa..488ddfca2a9 100644
 --- a/util/vfio-helpers.c
 +++ b/util/vfio-helpers.c
-@@ -609,7 +609,7 @@ static IOVAMapping *qemu_vfio_add_mapping(QEMUVFIOState *s,
- 
- /* Do the DMA mapping with VFIO. */
- static int qemu_vfio_do_mapping(QEMUVFIOState *s, void *host, size_t size,
--                                uint64_t iova)
-+                                uint64_t iova, Error **errp)
- {
-     struct vfio_iommu_type1_dma_map dma_map = {
-         .argsz = sizeof(dma_map),
-@@ -621,7 +621,7 @@ static int qemu_vfio_do_mapping(QEMUVFIOState *s, void *host, size_t size,
-     trace_qemu_vfio_do_mapping(s, host, iova, size);
- 
-     if (ioctl(s->container, VFIO_IOMMU_MAP_DMA, &dma_map)) {
--        error_report("VFIO_MAP_DMA failed: %s", strerror(errno));
-+        error_setg_errno(errp, errno, "VFIO_MAP_DMA failed");
-         return -errno;
-     }
-     return 0;
-@@ -757,7 +757,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
-                 goto out;
+@@ -661,13 +661,13 @@ static bool qemu_vfio_verify_mappings(QEMUVFIOState *s)
+     if (QEMU_VFIO_DEBUG) {
+         for (i = 0; i < s->nr_mappings - 1; ++i) {
+             if (!(s->mappings[i].host < s->mappings[i + 1].host)) {
+-                fprintf(stderr, "item %d not sorted!\n", i);
++                error_report("item %d not sorted!", i);
+                 qemu_vfio_dump_mappings(s);
+                 return false;
              }
-             assert(qemu_vfio_verify_mappings(s));
--            ret = qemu_vfio_do_mapping(s, host, size, iova0);
-+            ret = qemu_vfio_do_mapping(s, host, size, iova0, errp);
-             if (ret) {
-                 qemu_vfio_undo_mapping(s, mapping, NULL);
-                 goto out;
-@@ -768,7 +768,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
-                 ret = -ENOMEM;
-                 goto out;
-             }
--            ret = qemu_vfio_do_mapping(s, host, size, iova0);
-+            ret = qemu_vfio_do_mapping(s, host, size, iova0, errp);
-             if (ret) {
-                 goto out;
+             if (!(s->mappings[i].host + s->mappings[i].size <=
+                   s->mappings[i + 1].host)) {
+-                fprintf(stderr, "item %d overlap with next!\n", i);
++                error_report("item %d overlap with next!", i);
+                 qemu_vfio_dump_mappings(s);
+                 return false;
              }
 -- 
 2.26.2
