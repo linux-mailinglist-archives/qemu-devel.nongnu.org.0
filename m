@@ -2,56 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1DA28E53E
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 19:21:16 +0200 (CEST)
-Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5182028E53F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 19:21:52 +0200 (CEST)
+Received: from localhost ([::1]:49604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSkSh-0002Yo-Ca
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 13:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46178)
+	id 1kSkTH-0003bs-DL
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 13:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kSkQo-0001lN-2Y
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 13:19:19 -0400
-Received: from mga12.intel.com ([192.55.52.136]:55064)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kSkQk-0002mt-8d
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 13:19:17 -0400
-IronPort-SDR: 8d1geM8x2kXh+SDKn7pB0VfHyIGmqZnA4HrTIfT6bokoLBkCKG82PLx7y3L99KIteofqL913UR
- wYoCESTw+TLg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9774"; a="145459485"
-X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="145459485"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 10:19:06 -0700
-IronPort-SDR: kaA1GFl4kDHVKz75dR3UklRjlRIj3EGgwtQwNVH9iejDpsxO3cr77kHp4KohBALUeAbSF5/+lO
- HZxV3abT1Vuw==
-X-IronPort-AV: E=Sophos;i="5.77,375,1596524400"; d="scan'208";a="314234682"
-Received: from pankajk1-mobl.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
- ([10.252.132.199])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 10:19:05 -0700
-From: Ben Widawsky <ben.widawsky@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND] pci: Disallow improper BAR registration for type 1
-Date: Wed, 14 Oct 2020 10:18:53 -0700
-Message-Id: <20201014171853.71130-1-ben.widawsky@intel.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kSkS8-0002iO-8n
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 13:20:41 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44978)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kSkS3-0002wl-TR
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 13:20:38 -0400
+Received: by mail-wr1-x441.google.com with SMTP id t9so4763863wrq.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 10:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=f2LAvOLCtg+gBBtP37v3rG4sVgYob1xV6cJ5nHPj0Rg=;
+ b=eTdxB+TO87uCLfr61w4YTOYzcrq6932KBjV8kddHGjgZWaCu/eP9BSOQg3BYfhgxiZ
+ B+iBS2iGH+m9tQWWlJ7e0/jbYElEn8xiNKduJV/fmYtA5uMIWnVNuOfGfQYimXHljojU
+ TTnULG/YIAZm+fUS5uH3VUKdjoFxve7b0gM6T/T8tElGIIxxiNnimrqtZe6KQWuFjm2e
+ OnL9THOmYySZKa1mkWd0vW+m9ygktJc8eRohI6Pt96/dxKUCMDxORmSg1k2O1V03j281
+ kE1N/78ElMk94d7ccXhLyNkyfCQMbz1EOSX6X9y9KsM5hfok3do/5cx+VuMk4Uj6+sYe
+ ZvTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=f2LAvOLCtg+gBBtP37v3rG4sVgYob1xV6cJ5nHPj0Rg=;
+ b=sPgMy5TKh4PWATUyf5jxCP73vczYytzAYuU7qIMDORt+7W+Mzig9ycRgvxDDGBy/an
+ zgHO/v1NIi54CA5BRnqrZyVYjtciW28YbaFnsvCPWnw5A5kAtAuF5me2FvevOihjsEDv
+ bTtHqWXrCSzKRajvY93XHWL/ZEP/DV1u5zBXZR+QvzxwqBEt0qFG5q+x3ZSlelctReJL
+ b0tK/8jWFz4LDycFoLjE0FhuJOTGMwnIyf29IT4fpnRg2VJZqcLM3PMkivevbnn6wcu7
+ OAOAM0WBwPvmdOEg5zqFrhEetYoXGgKZ83NoBxhXh0in+rISB/kExL8SEBupCEzW+yHr
+ i/9A==
+X-Gm-Message-State: AOAM533LrGdLskJ00k538dhMVv50BKtvKL6DS4B4fZXyMmoCr4nvwGpE
+ tt6wvBddPR+pYf9smMdmj5WfeA==
+X-Google-Smtp-Source: ABdhPJyWsb5xYuuoWa8qVf75WjF1I9GQBozPiX/j3Tik78VqnSX+Wm1CoMr7+oM8/TbViw5HK3TjJw==
+X-Received: by 2002:a5d:654d:: with SMTP id z13mr6800813wrv.6.1602696034309;
+ Wed, 14 Oct 2020 10:20:34 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n2sm5789987wrt.82.2020.10.14.10.20.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Oct 2020 10:20:33 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8D4A51FF7E;
+ Wed, 14 Oct 2020 18:20:32 +0100 (BST)
+References: <20201013125027.41003-1-kwolf@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] monitor: Fix order in monitor_cleanup()
+In-reply-to: <20201013125027.41003-1-kwolf@redhat.com>
+Date: Wed, 14 Oct 2020 18:20:32 +0100
+Message-ID: <878sc8yba7.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.136;
- envelope-from=ben.widawsky@intel.com; helo=mga12.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 13:19:06
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,51 +88,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ben Widawsky <ben.widawsky@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: f4bug@amsat.org, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch informs future developers working on root complexes, root
-ports, or bridges that also wish to implement a BAR for those. PCI type
-1 headers only support 2 base address registers. It is incorrect and
-difficult to figure out what is wrong with the device when this mistake
-is made. With this, it is immediate and obvious what has gone wrong.
 
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
----
- hw/pci/pci.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Kevin Wolf <kwolf@redhat.com> writes:
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 3c8f10b461..55b0302c57 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1141,6 +1141,7 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
-     uint32_t addr; /* offset in pci config space */
-     uint64_t wmask;
-     pcibus_t size = memory_region_size(memory);
-+    uint8_t hdr_type;
- 
-     assert(region_num >= 0);
-     assert(region_num < PCI_NUM_REGIONS);
-@@ -1150,6 +1151,15 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
-         exit(1);
-     }
- 
-+    hdr_type =
-+        pci_dev->config[PCI_HEADER_TYPE] & ~PCI_HEADER_TYPE_MULTI_FUNCTION;
-+    if (hdr_type == PCI_HEADER_TYPE_BRIDGE && region_num > 1) {
-+        error_report("ERROR: PCI Type 1 header only has 2 BARs "
-+                     "requested BAR=%d",
-+                     region_num);
-+        exit(1);
-+    }
-+
-     r = &pci_dev->io_regions[region_num];
-     r->addr = PCI_BAR_UNMAPPED;
-     r->size = size;
--- 
-2.28.0
+> We can only destroy Monitor objects after we're sure that they are not
+> in use by the dispatcher coroutine any more. This fixes crashes like the
+> following where we tried to destroy a monitor mutex while the dispatcher
+> coroutine still holds it:
+>
+>  (gdb) bt
+>  #0  0x00007fe541cf4bc5 in raise () at /lib64/libc.so.6
+>  #1  0x00007fe541cdd8a4 in abort () at /lib64/libc.so.6
+>  #2  0x000055c24e965327 in error_exit (err=3D16, msg=3D0x55c24eead3a0 <__=
+func__.33> "qemu_mutex_destroy") at ../util/qemu-thread-posix.c:37
+>  #3  0x000055c24e9654c3 in qemu_mutex_destroy (mutex=3D0x55c25133e0f0) at=
+ ../util/qemu-thread-posix.c:70
+>  #4  0x000055c24e7cfaf1 in monitor_data_destroy_qmp (mon=3D0x55c25133dfd0=
+) at ../monitor/qmp.c:439
+>  #5  0x000055c24e7d23bc in monitor_data_destroy (mon=3D0x55c25133dfd0) at=
+ ../monitor/monitor.c:615
+>  #6  0x000055c24e7d253a in monitor_cleanup () at ../monitor/monitor.c:644
+>  #7  0x000055c24e6cb002 in qemu_cleanup () at ../softmmu/vl.c:4549
+>  #8  0x000055c24e0d259b in main (argc=3D24, argv=3D0x7ffff66b0d58, envp=
+=3D0x7ffff66b0e20) at ../softmmu/main.c:51
+>
+> Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
+LGTM:
+
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+Who's tree is going to take it?
+
+--=20
+Alex Benn=C3=A9e
 
