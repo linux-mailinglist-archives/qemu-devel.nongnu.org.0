@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C630F28DB79
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 10:29:50 +0200 (CEST)
-Received: from localhost ([::1]:44998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1666628DB94
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 10:32:00 +0200 (CEST)
+Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kScAP-0002Fs-8t
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 04:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33966)
+	id 1kScCU-0003xR-0k
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 04:31:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kSc8E-0008Va-Fk
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:27:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48654)
+ id 1kSc8r-00014T-T4
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:28:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kSc8C-0008D5-4Z
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:27:34 -0400
+ id 1kSc8p-0008LT-O9
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:28:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602664049;
+ s=mimecast20190719; t=1602664090;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x4g3JzaJkXiHhjCbtynOGjqdUPHPFvNBFEwUL+601iw=;
- b=AY/48IKRiaXy3A7Dl0VGUfVmjEqHyoNkzIprAxTivL0XM79A3SfUkZF8g5b/sn+dd6W7Uy
- LCM5rvr517FE0UceSgPTKkAj2u+WfrZ0aSbEXX2KiVLI+qpn+nisYL8LSdpZc2scCyIs0X
- VhtYptorvRNmEmcD8nklUsTkmEB13bg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-N3dedZKhNKegASeZgsqyRA-1; Wed, 14 Oct 2020 04:27:25 -0400
-X-MC-Unique: N3dedZKhNKegASeZgsqyRA-1
-Received: by mail-ed1-f70.google.com with SMTP id m10so909367edj.3
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 01:27:25 -0700 (PDT)
+ bh=MZZ9hnLpBSfUPYJnzrr8XxQqJEL/cKh9kdDj1jdY0mI=;
+ b=IFVgoD7x1dyUKYaW6cxQSwHrhvoGn/NaVnSntmyO++GvCxCF+3BmqnOoeDTogb/Ddubw5v
+ INOLSf00cWZVEKFO+c2FoIxZd5y+psr6XlK/2glOTBmTiKwOeKdnCNp6DgEWACrF4w6kbI
+ CA88CpiSWdnkbSVMP/6qEM5ipnQ70rc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-194-NxNf8OLSP-6OxkJ5ytRoKA-1; Wed, 14 Oct 2020 04:28:09 -0400
+X-MC-Unique: NxNf8OLSP-6OxkJ5ytRoKA-1
+Received: by mail-ej1-f71.google.com with SMTP id c20so871274ejs.12
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 01:28:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=x4g3JzaJkXiHhjCbtynOGjqdUPHPFvNBFEwUL+601iw=;
- b=HaQ7WPbKyjkSmqplepqk8Ci7J1kFzOl1PV6vh5QMnGdgETnADkIlt9NFk7rAkCaIKx
- HxMH497V6kvAcOgCTJTgijnkEaIIluejXRKyAZSr75kzeExHv6We378HTywkOzl0+BfX
- 5MBrbrdSpZTNXUZkt0ERgA6s/5dTArMBRxUyRUJz6aolyZMVGMHWCTDjsyvU7Th4GLyc
- iayQD6j6ae2gJlaJ/omBrzdcFsXlxxjYw0prRKTIm/6W/WpnZ4ARdqv64cfWe/EPJ3Mv
- o5LjLprZR37dxZd8ye4MMbpNUVOp0OAJWWYnKUeNpMmrQZZ0KVxpKpVDwNA+yhWEMulA
- hjxQ==
-X-Gm-Message-State: AOAM531/z0/wKt7UnaA1HqACuX7I9+OZCkqNFwksffgE79AKxwcMxYaD
- 6iJSJd9HTNvDMHVdJ6LyVyZ5N6R/bPfJMYHHIH3BSZuwHN8IRMqlL6lVVm85Eunc2s+Kq27rA4l
- Neqa0NAOEHPXKWow=
-X-Received: by 2002:aa7:de06:: with SMTP id h6mr3908473edv.31.1602664044093;
- Wed, 14 Oct 2020 01:27:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0qpIx7WA12LFk5RAxsrrUKAYr738RykIwdqdF0x1Sm/2twJVXzbmig9JdADFGNPyRu/33GA==
-X-Received: by 2002:aa7:de06:: with SMTP id h6mr3908439edv.31.1602664043555;
- Wed, 14 Oct 2020 01:27:23 -0700 (PDT)
+ bh=MZZ9hnLpBSfUPYJnzrr8XxQqJEL/cKh9kdDj1jdY0mI=;
+ b=N2nnaHKY+EIGI/JdXmhkfcnaszeT0OEpR72t/kfEfvX7BeETUtLWWt+Ofs9i0fFxva
+ V9cdtJ+mbFfOxvRf/ZprI4J+Hn9tKXNdGRPcWkOb2ffZAxmhEw+Q8sxiGlpSBZcXYFYU
+ Wlx1JCWf5AIQfLrU/FXG9WOT0stKAHWpQ9qSaS7802KAZ8mDKCj+vrSEvsF9GXOKmxhA
+ 4Ros2d55THKbKS4w2MGEgA0Zdf8rXJ4JUdJsoaIs/SvByWkD7Y1T16065wiZosLa0/8v
+ T6bAjuui6sFZ/an9Mp1fD3F7qXiR0SRBzJFoQjpFY21qP95tNF1lXvjiHg9KFn510cB7
+ 2UMw==
+X-Gm-Message-State: AOAM530+TZS6Xjw2JzdBT44nBDElfIfR+xzthdcwojgSPXoSm7ylq6m3
+ 9NdHm03R8g9FpT10OLqrT1/5Xf7V39MOFmrJM8QqabTRcmT48knKtTz9LFN3aFJfA9KpXeshEn3
+ J3vqpudgwZRAydPc=
+X-Received: by 2002:a17:906:4e19:: with SMTP id
+ z25mr4280719eju.44.1602664087759; 
+ Wed, 14 Oct 2020 01:28:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzum0nzPjm+ya3l+65XT3fFEQPrAM01mV7i4zpCRmhZN3Ic86tRPf+B9dOifSlQiZiw5WPMGw==
+X-Received: by 2002:a17:906:4e19:: with SMTP id
+ z25mr4280709eju.44.1602664087568; 
+ Wed, 14 Oct 2020 01:28:07 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:e5f7:db3b:55ea:7337?
  ([2001:b07:6468:f312:e5f7:db3b:55ea:7337])
- by smtp.gmail.com with ESMTPSA id cw15sm1245419ejb.47.2020.10.14.01.27.22
+ by smtp.gmail.com with ESMTPSA id bu23sm1110816edb.69.2020.10.14.01.28.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Oct 2020 01:27:22 -0700 (PDT)
+ Wed, 14 Oct 2020 01:28:06 -0700 (PDT)
 Subject: Re: Why guest physical addresses are not the same as the
  corresponding host virtual addresses in QEMU/KVM? Thanks!
 To: harry harry <hiharryharryharry@gmail.com>,
@@ -71,16 +73,15 @@ References: <CA+-xGqMd4_58_+QKetjOsubBqrDnaYF+YWE3TC3kEcNGxPiPfg@mail.gmail.com>
  <CA+-xGqPkkiws0bxrzud_qKs3ZmKN9=AfN=JGephfGc+2rn6ybw@mail.gmail.com>
  <20201013045245.GA11344@linux.intel.com>
  <CA+-xGqO4DtUs3-jH+QMPEze2GrXwtNX0z=vVUVak5HOpPKaDxQ@mail.gmail.com>
- <CA+-xGqMMa-DB1SND5MRugusDafjNA9CVw-=OBK7q=CK1impmTQ@mail.gmail.com>
- <a163c2d8-d8a1-dc03-6230-a2e104e3b039@redhat.com>
- <CA+-xGqOMKRh+_5vYXeLOiGnTMw4L_gUccqdQ+HGSOzuTosp6tw@mail.gmail.com>
+ <20201013070329.GC11344@linux.intel.com>
+ <CA+-xGqO37RzQDg5dnE_3NWMp6+u2L02GQDqoSr3RdedoMBugrg@mail.gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <24cdf8f2-7dc7-1232-8d78-86f9b4b8eda3@redhat.com>
-Date: Wed, 14 Oct 2020 10:27:22 +0200
+Message-ID: <626a8667-be00-96b7-f21d-1ec7648ee1e6@redhat.com>
+Date: Wed, 14 Oct 2020 10:28:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <CA+-xGqOMKRh+_5vYXeLOiGnTMw4L_gUccqdQ+HGSOzuTosp6tw@mail.gmail.com>
+In-Reply-To: <CA+-xGqO37RzQDg5dnE_3NWMp6+u2L02GQDqoSr3RdedoMBugrg@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -118,34 +119,20 @@ Cc: kvm@vger.kernel.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/10/20 22:36, harry harry wrote:
-> Hi Paolo and Sean,
-> 
-> Thanks much for your prompt replies and clear explanations.
-> 
-> On Tue, Oct 13, 2020 at 2:43 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> No, the logic to find the HPA with a given HVA is the same as the
->> hardware logic to translate HVA -> HPA.  That is it uses the host
->> "regular" page tables, not the nested page tables.
->>
->> In order to translate GPA to HPA, instead, KVM does not use the nested
->> page tables.
-> 
-> I am curious why KVM does not directly use GPAs as HVAs and leverage
-> nested page tables to translate HVAs (i.e., GPAs) to HPAs?
+On 14/10/20 00:40, harry harry wrote:
+> Q1: Is there any file like ``/proc/pid/pagemap'' to record the
+> mappings between GPAs and HVAs in the host OS?
 
-GPAs and HVAs are different things.  In fact I'm not aware of any
-hypervisor that uses HVA==GPA.  On 32-bit x86 systems HVAs are 32-bit
-(obviously) but GPAs are 36-bit.
+No, there isn't.
 
-In the case of KVM, HVAs are controlled by the rest of Linux; for
-example, when you do "mmap" to allocate guest memory you cannot ask the
-OS to return the guest memory at the exact HVA that is needed by the
-guest.  There could be something else at that HVA (or you don't want
-anything at that HVA: GPA 0 is valid, but HVA 0 is the NULL pointer!).
-There's also cases where the same memory appears in multiple places in
-the guest memory map (aliasing).
+> Q2: Seems that there might be extra overhead (e.g., synchronization
+> between EPT tables and host regular page tables; maintaining extra
+> regular page tables and data structures), which is caused by the extra
+> translation between GPAs to HVAs via memslots. Why doesn't KVM
+> directly use GPAs as HVAs and leverage extended/nested page tables to
+> translate HVAs (i.e., GPAs) to HPAs?
+
+See my other answer.  What you are saying is simply not possible.
 
 Paolo
 
