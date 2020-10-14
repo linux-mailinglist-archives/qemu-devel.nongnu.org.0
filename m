@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833DA28E1B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 15:51:48 +0200 (CEST)
-Received: from localhost ([::1]:51708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE0928E1C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 15:58:48 +0200 (CEST)
+Received: from localhost ([::1]:35718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kShBz-0004cy-IU
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 09:51:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54160)
+	id 1kShIl-0001RD-42
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 09:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kShAg-0003U7-Cl; Wed, 14 Oct 2020 09:50:26 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:40032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kShAd-0008Vp-Sp; Wed, 14 Oct 2020 09:50:25 -0400
-Received: by mail-pl1-x643.google.com with SMTP id d23so1792317pll.7;
- Wed, 14 Oct 2020 06:50:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=XrPbpA3GsHQpFZ8QbmSfSwsyiZnfpJ7jykZYqxiFtio=;
- b=bBX0zYKzTouAgyWSq3u34hh/PBe9/9N7O/TjFXvvOIarH0QJ/JipcOVGgDGJ8xWCNM
- zpcQ068HptwvgdKAgdmwLUD2kxd5Bsv4Mllwo6PpGovmun1IjNaKgtZYgeM01SrFipYI
- DEfqj31IH2Hl9urdPegSErFm2Qaz3O6X2Ju/nt/sj9d7f7Hwd1xb7V1P3OtOz8Mi10BI
- UT7eE24T8ka6Ju9nTBzD3tYeshhRl3a/mHgAa1BWBmJV0+2GFRe3i05B01a50TY9QNXD
- Wi7HZhSKkuRWi3mLdS1F1O+Va/Exzpe2PjinnZqb04hmcXe3DL4XSGE2p5aeQCc38EDK
- h4bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=XrPbpA3GsHQpFZ8QbmSfSwsyiZnfpJ7jykZYqxiFtio=;
- b=RdE+uEGfFMmKb7bv1Gmz5pDF+yyC928BlTu87ZmMo0rPFdaUg4L01t0TcMcI4LRetz
- YDaSMrtwQcCVJN3T6+Q6Iv7cQe4ktyhz6iAgxrfhYkYDtaUzjRhARx2clP4Ua6yWZnfG
- kDZ7D8Q4GpOlZJDxFm/FMK5ljWxmeYwvnU+Eoxtp6dG8PkfZncGE8LXJBrfFkpiyfVWi
- xUkX7Nz+3nR3Y8MtZfs/uV6NjUsx+XAlSystAFfgMvyQf/s/4mhGZR/Mh6eTgsIiuXrn
- zsnFfiGXuAYClMOxANLPcdB3FQkrwO+POiDWldZBaI3aN7V3a906OeArqwqPOdy2glTC
- s2rQ==
-X-Gm-Message-State: AOAM532L5ABSTErAD+vFN8Sy/6lLSdDP76BE9sNUAcEy85Vcyzvu2l2e
- qwYjt86AtT9ZeuYlkAuUx1v92u4N9We8WX/2
-X-Google-Smtp-Source: ABdhPJxpaJ6u3LmKINTH+xD8RiJV03Uhwpv5WNIi1Ar0YUAWEr85nTgvym4ZpmGC1E07mJcUFDdpVw==
-X-Received: by 2002:a17:90a:9313:: with SMTP id
- p19mr3634272pjo.90.1602683421240; 
- Wed, 14 Oct 2020 06:50:21 -0700 (PDT)
-Received: from pulp100.localdomain ([103.199.158.131])
- by smtp.gmail.com with ESMTPSA id s10sm3434578pji.7.2020.10.14.06.50.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Oct 2020 06:50:20 -0700 (PDT)
-From: Chetan Pant <chetan4windows@gmail.com>
-To: qemu-trivial@nongnu.org
-Subject: [PATCH 4/30] authz: Fix Lesser GPL version number
-Date: Wed, 14 Oct 2020 13:49:02 +0000
-Message-Id: <20201014134902.14291-1-chetan4windows@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201014134248.14146-1-chetan4windows@gmail.com>
-References: <20201014134248.14146-1-chetan4windows@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=chetan4windows@gmail.com; helo=mail-pl1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kShEY-0005ua-Qy
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 09:54:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kShEV-0000bL-TP
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 09:54:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602683663;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KSjFTyKV1FmAzhbrYIKQ9fJezvJwLV4i3CoQU6AoNfg=;
+ b=U7ayvkpw2mmNani3qFhYJdIn3XZhCB1jDJIZiF9DqmvwwqNW1UKbxtV87Q9GuW2dsXdBfQ
+ 0od2gxbvsjZHkVDqg4yASZLILHdFkIN7j4HKHnZLozzNWaaoGGUtiybnhKoEDddzPjB1ws
+ O/WHXAcrsAZfKYwTMAxDp1frkP34tYI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-V3gA-XAkMFWCrqqCCSFMxg-1; Wed, 14 Oct 2020 09:54:19 -0400
+X-MC-Unique: V3gA-XAkMFWCrqqCCSFMxg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 383058CCB71;
+ Wed, 14 Oct 2020 13:54:18 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B682D60C0F;
+ Wed, 14 Oct 2020 13:54:17 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] build: replace ninjatool with ninja
+Date: Wed, 14 Oct 2020 09:54:09 -0400
+Message-Id: <20201014135416.1290679-1-pbonzini@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,217 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org,
- Chetan Pant <chetan4windows@gmail.com>
+Cc: berrange@redhat.com, alex.bennee@linaro.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no "version 2" of the "Lesser" General Public License.
-It is either "GPL version 2.0" or "Lesser GPL version 2.1".
-This patch replaces all occurrences of "Lesser GPL version 2" with
-"Lesser GPL version 2.1" in comment section.
+This pull request is the last build system change for 5.2 from
+me, and it is simple: similar to how we are invoking
+ROM or tests/tcg "make" from the main Makefile, we now invoke ninja
+to build QEMU.  Unlike those cases, however, build.ninja targets are
+forwarded transparently.
 
-Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
----
- authz/base.c                | 2 +-
- authz/list.c                | 2 +-
- authz/listfile.c            | 2 +-
- authz/pamacct.c             | 2 +-
- authz/simple.c              | 2 +-
- include/authz/base.h        | 2 +-
- include/authz/list.h        | 2 +-
- include/authz/listfile.h    | 2 +-
- include/authz/pamacct.h     | 2 +-
- include/authz/simple.h      | 2 +-
- tests/test-authz-list.c     | 2 +-
- tests/test-authz-listfile.c | 2 +-
- tests/test-authz-pam.c      | 2 +-
- tests/test-authz-simple.c   | 2 +-
- 14 files changed, 14 insertions(+), 14 deletions(-)
+The advantages cover various areas:
 
-diff --git a/authz/base.c b/authz/base.c
-index c75bce3..f2b7fbe 100644
---- a/authz/base.c
-+++ b/authz/base.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/authz/list.c b/authz/list.c
-index 28b9909..0e17eed 100644
---- a/authz/list.c
-+++ b/authz/list.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/authz/listfile.c b/authz/listfile.c
-index cd6163a..c9dd116 100644
---- a/authz/listfile.c
-+++ b/authz/listfile.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/authz/pamacct.c b/authz/pamacct.c
-index c91593b..e67195f 100644
---- a/authz/pamacct.c
-+++ b/authz/pamacct.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/authz/simple.c b/authz/simple.c
-index ee061e9..18db035 100644
---- a/authz/simple.c
-+++ b/authz/simple.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/authz/base.h b/include/authz/base.h
-index eca170e..b53e4e4 100644
---- a/include/authz/base.h
-+++ b/include/authz/base.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/authz/list.h b/include/authz/list.h
-index f73bc5c..7ef4ad4 100644
---- a/include/authz/list.h
-+++ b/include/authz/list.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/authz/listfile.h b/include/authz/listfile.h
-index 51824f3..0a1e5bd 100644
---- a/include/authz/listfile.h
-+++ b/include/authz/listfile.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/authz/pamacct.h b/include/authz/pamacct.h
-index d05c18a..592edb2 100644
---- a/include/authz/pamacct.h
-+++ b/include/authz/pamacct.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/authz/simple.h b/include/authz/simple.h
-index 9f5b979..c46a5ac 100644
---- a/include/authz/simple.h
-+++ b/include/authz/simple.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-authz-list.c b/tests/test-authz-list.c
-index d80e6a6..5351992 100644
---- a/tests/test-authz-list.c
-+++ b/tests/test-authz-list.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-authz-listfile.c b/tests/test-authz-listfile.c
-index 26166b6..64d0e15 100644
---- a/tests/test-authz-listfile.c
-+++ b/tests/test-authz-listfile.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-authz-pam.c b/tests/test-authz-pam.c
-index 02bb149..1baeade 100644
---- a/tests/test-authz-pam.c
-+++ b/tests/test-authz-pam.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-authz-simple.c b/tests/test-authz-simple.c
-index d21d43e..6f9034d 100644
---- a/tests/test-authz-simple.c
-+++ b/tests/test-authz-simple.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- maintainability: we drop scripts/ninjatool.py, which is
+a large and hairy piece of code, and generally remove one
+thing that can go wrong and one thing that is unique to QEMU;
+
+- platform support: we remove the requirement for GNU make
+3.82, which was annoying on Mac.  We also avoid bugs on Windows
+due to meson emitting Windows rather than POSIX escapes (as
+expected by Ninja) and ninjatool ignoring the difference;
+
+- speed: invoking "configure" does not have to generate
+44k lines of rules, while invoking "Make" does not anymore have
+to parse 44k lines of rules.
+
+- ease of use: Ninja tracks command lines, hence the problem
+of static library changing the objects they hold goes away
+
+Paolo
+
+Paolo Bonzini (7):
+  tests/Makefile.include: unbreak non-tcg builds
+  make: run shell with pipefail
+  tests: add missing generated sources to testqapi
+  configure: move QEMU_INCLUDES to meson
+  dockerfiles: enable Centos 8 PowerTools
+  add ninja to dockerfiles, CI configurations and test VMs
+  build: replace ninjatool with ninja
+
+ .cirrus.yml                                |    6 +-
+ .travis.yml                                |   13 +
+ Makefile                                   |   42 +-
+ configure                                  |   29 +-
+ docs/devel/build-system.rst                |    6 +-
+ meson.build                                |   34 +-
+ scripts/mtest2make.py                      |    4 +-
+ scripts/ninjatool.py                       | 1008 --------------------
+ tests/Makefile.include                     |    2 +-
+ tests/docker/dockerfiles/centos7.docker    |    1 +
+ tests/docker/dockerfiles/centos8.docker    |    4 +
+ tests/docker/dockerfiles/debian10.docker   |    1 +
+ tests/docker/dockerfiles/fedora.docker     |    1 +
+ tests/docker/dockerfiles/travis.docker     |    2 +-
+ tests/docker/dockerfiles/ubuntu.docker     |    1 +
+ tests/docker/dockerfiles/ubuntu1804.docker |    1 +
+ tests/docker/dockerfiles/ubuntu2004.docker |    1 +
+ tests/include/meson.build                  |    8 +-
+ tests/meson.build                          |   14 +-
+ tests/vm/centos                            |    2 +-
+ tests/vm/centos.aarch64                    |    2 +-
+ tests/vm/fedora                            |    2 +-
+ tests/vm/freebsd                           |    1 +
+ tests/vm/netbsd                            |    1 +
+ tests/vm/openbsd                           |    1 +
+ tests/vm/ubuntu.aarch64                    |    2 +-
+ tests/vm/ubuntu.i386                       |    2 +-
+ 27 files changed, 121 insertions(+), 1070 deletions(-)
+ delete mode 100755 scripts/ninjatool.py
+
 -- 
-2.17.1
+2.26.2
 
 
