@@ -2,73 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E20E28E443
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:19:10 +0200 (CEST)
-Received: from localhost ([::1]:49194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F6A28E497
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:37:32 +0200 (CEST)
+Received: from localhost ([::1]:33628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSjUb-0003UK-D5
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:19:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32950)
+	id 1kSjmN-0004Be-13
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1kSjNX-0002aV-6y
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:11:51 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46119)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
- id 1kSjNS-0002TU-T2
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:11:50 -0400
-Received: by mail-ot1-x342.google.com with SMTP id m11so91990otk.13
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 09:11:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UBF7OGEBpd17C5YmWo7bC8o1ouVN+xVNM2/IxdBcd6w=;
- b=Ute7IgSXmOL39p8U5FlphJPHtbHWtGm/P9a8Elw3lVK2K+uRvtLKKm0Orc4P9rZ3wo
- ikhQaofY9xzkavF2jJRKA0gmVuJy+etzZU6pfNt057WMJ69CznTUjSSwbb/5sm2Zeqf8
- 3Q1i4sholYz3kUMmm6VTxIGwGCgh0yvxbmzgbyP4KA0WWOYPq8pzsIPEhDFs7sRYKEUs
- RpACX2hU5blxSWJP4OnvY0mfohVFxf4KNCIKjnQofZlqurWSV+8fXUvZpslHkQ0UAULq
- 7Wrhhydc+xvmiJyl0Ld5p+Zv4r1bfXwGxoz7eQjTziR4ceQDvc/unAUmRc6GHd0gD+hY
- iaUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UBF7OGEBpd17C5YmWo7bC8o1ouVN+xVNM2/IxdBcd6w=;
- b=CWzlnsYUcf7cnpHgW/P2dDE93aUMpDHywtcFddvKEZ4oCy2SqONWj1uuORisjw/ZTm
- dJ0G7EqIzZByappUP+611SMaVWTjlukUmis02V24VLsH1vkJg0V400TEJw60lKbEiC6K
- rfJdxGZIQRCLcO4Co8AR6VmJQezMR5OiH718DYpWzsVRykLF3RxCUI+5pPphRA966N6q
- EgwgJfXlQTu/XBtH8SsJIuOaBquY+lON6mRAWMHCUT4I+d92deDaYWFFqP7oRI1idjA0
- G6dbvQ9LPsCAOSYC/EnBeW/QxcMdNELKlBY61IsA4gL7Krk7M7NXNiq5fSlPw60msWpm
- vyYA==
-X-Gm-Message-State: AOAM532HJvxgIw+9X706usOj/QGdYLXBSKojdrItRMDybsQNCwKq/o5J
- mPqxDY1hhQAOlPmaPspatJbIR83pUgpM67E75A8=
-X-Google-Smtp-Source: ABdhPJxWRDTgHhSbDU4gFXg4MX2znSyQsCv5BBHOqGd8OkituxCpZzfaRCQnxhgz030B8mDgjPWwGxfcQwKkGbCkAjk=
-X-Received: by 2002:a05:6830:1201:: with SMTP id
- r1mr3843261otp.326.1602691905439; 
- Wed, 14 Oct 2020 09:11:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kSjU5-0003VA-LA; Wed, 14 Oct 2020 12:18:37 -0400
+Received: from mail-db8eur05on2117.outbound.protection.outlook.com
+ ([40.107.20.117]:42148 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kSjU1-0003D8-GJ; Wed, 14 Oct 2020 12:18:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MlG9aKVZqmdOVLaKNSxx1U27GwaOmZ0zCuUReY5vcGB20o6rkEtZkAk8sQp0QZ6Ma7b9FglQaZD0dVb055l2FB+AAoV/UVUwXh9W9dnb1FQXP0/4q9whPhIAqhV+gPdugvMdGCCxp0pZ7WVwXCH8/sTVxjDYTWCQ3L9d07E9F4bphFPguVCI99QJ2QqaSdpFf0VyTPl3o0LjZhO1enx2Jxxy+FMRnX9rnEwh3ONLjso8UTiNsazFtNbkCGP1guLYVkRwLdaVX8BMvQ8RfcSml1fAcaZrtyhLC2C1yHV4pP2C5Mgxh5FAgyKHZDOGESof/HgmMmxf1NFUi03J341ccA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m3wfLbnhWAa5u5os4NJIqctnkHoc72E1hTNXuC6SIJY=;
+ b=JoxgORIZlLvIEWNxS6+XA+jAVWu9gqzqZHRNSam+IS4mkohlp1nKAwm2kbYSNzHCK9vRXBqcv9szAaiusF0O/qtLX9RSf5Hl0VFOAYIhPudy11aj3r5WDVZOuu4VJ9CzBbph8kZsfKNBDy94DIeECQ3w1NWyXX4sZ33llJV4LY02pZ9D/IERJQnQ5LGj5c0oOPUTM77YhUR/PBm5/d58YDGkjblW1Sqgy32aji5uOx8tTshBuZJWq81F46W+NoHWJq7TwbmxUpkXsKeSgGHQ9b7f6Smey0YipIH+/hUHHSeBUChi3HiVBVtfNApZx3VQRr+WEXc/sLxjn4u1ZnR8+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m3wfLbnhWAa5u5os4NJIqctnkHoc72E1hTNXuC6SIJY=;
+ b=TyssIPXtpux+bWLGrnWZRdn1l6cBeCB7J6qzpIVeeEjtmSiK06rLah+ADuMLNdxe9YQy58vzX6NQGj/rkWnuJLTZZ0dOlifbmr9upVK1MYsAE1M+OmSIAlREME0uKE6xjFm0KRdimSeDanTIT5mijY4SSqhC9LOi9MmUFe7bcSE=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0802MB2612.eurprd08.prod.outlook.com (2603:10a6:203:99::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Wed, 14 Oct
+ 2020 16:18:30 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3455.031; Wed, 14 Oct 2020
+ 16:18:30 +0000
+Subject: Re: [PATCH v11 04/13] copy-on-read: pass overlay base node name to
+ COR driver
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, fam@euphon.net,
+ stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
+ libvir-list@redhat.com, eblake@redhat.com, den@openvz.org
+References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1602524605-481160-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <3c6699f3-e061-c2ae-c5e9-a12660405624@redhat.com>
+ <89965a42-cee0-a98c-f97a-a03b5d834418@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <b1892d3d-cef7-c804-09fe-1fe9db86a438@virtuozzo.com>
+Date: Wed, 14 Oct 2020 19:18:28 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
+In-Reply-To: <89965a42-cee0-a98c-f97a-a03b5d834418@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.122]
+X-ClientProxiedBy: AM0PR06CA0103.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::44) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20200928131731.69684-1-chenjiajun8@huawei.com>
- <20201006114801.6833a72d@redhat.com>
- <CAFubqFtqXorzk6g9d3A3TFcPnE9eSJKsjfSCK5zwTNX6xtJ3kw@mail.gmail.com>
- <20201014030340-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20201014030340-mutt-send-email-mst@kernel.org>
-From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
-Date: Wed, 14 Oct 2020 12:11:34 -0400
-Message-ID: <CAFubqFsax9YabyYLE0E=++gw_iZm5QjQr-OUG_4po7JO4pvQYw@mail.gmail.com>
-Subject: Re: [PATCH] vhost-user: add separate memslot counter for vhost-user
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=raphael.s.norwitz@gmail.com; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.122) by
+ AM0PR06CA0103.eurprd06.prod.outlook.com (2603:10a6:208:fa::44) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3477.21 via Frontend Transport; Wed, 14 Oct 2020 16:18:29 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6cbdcc86-f57d-4055-d9ec-08d8705cca1e
+X-MS-TrafficTypeDiagnostic: AM5PR0802MB2612:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB26129EBAB8E4D8B7FE05D4F9C1050@AM5PR0802MB2612.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: I8jOmDKCuakkRcKeWr7K8vU9E5KCQazFQRT8OtQXeyQOB0nVzPaugwpCHkxK7R27P2L0mAzv7Imz7usv/toZ/lrX8YSERULkOKSTySnJQtAZjfPTPXQ/BUYzFzIU8m197Nec9cyihW5USOCS/shVpRjWYoFH7AtheA8Nq0WysCEUH2JkMMLDag29vozTDsALCA8tAL+Ej0vHlC+TosYWS23W2ZfHizFehr6tebtnCIEDIshcU3Zu27KnX13dtKVNWt5D9nRMC7YAOr2orLJPBXUg4Zylz6phYuTV5akOYZlUiA0R/fqG2gS7o5kAWu33vWtxCaZYY879GZNcKGD45Jr0qwRcG5HO8gXU303+etaBLgRXDTLNC9kt85g7zTEq
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39830400003)(136003)(346002)(366004)(376002)(8676002)(107886003)(478600001)(31686004)(110136005)(7416002)(4326008)(6486002)(66556008)(66476007)(36756003)(8936002)(5660300002)(66946007)(52116002)(16526019)(186003)(31696002)(86362001)(2616005)(53546011)(83380400001)(956004)(16576012)(316002)(2906002)(26005)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: KYPMPBx+cJcx2ekekiA1XqNqRuyOwvJ/ELG+Oe7o64OU7rO4fSu2JCu8Rckov+bHC7r6lQAId+t31qKS8MZ+eAVT461sVvPcjV3/nci5/fWw2IPyPUWS1NaHI+Pwep7x1BTAJF1bs73TgjiaQxa/HnMyQvXLPFR5tiYwqAI7wBqx4SClX+sLA/MhmfwtCB+O/JkUPcM9FnEn7LOmvuxIN674K0kVqJRCokTBFmpxlKuevooZ6QLoEuSSlJ0r8I8X9cQIkpxppplR/VSeucvEFwu9VOvEi/gSyTl50ahAujjAPq14nqd+urlsNm6cDUJ5UosoYfBShQjirBRuRJo/rQCM6BbT6cbZq3fC/RAQBg3wzCziiglldRyS/lH1An82bHTlG4kz9iElab4Wxcf6F9Gz1sTaY4Ahr6hiBS5rdDc7HfHX9wOFcKZcQva8j7khmCRsTjvbqGGcqIV7H1qC1Kc6kbroJhQKwCQvH/o3y8o21Lcnawkzdi1tURnJ8o1Ag9zzG0pI1/eRzZ50owIZfjhr2rcTPbY8obaLwKzIUujknhFfUy+9pAcEyp6PkVb5Z3K+7YWK145yG76guF2llCJk8vLoiShF9D0FmDFcksgrld28R79CquTIorm0AOgt7eSyrcQYQ9J0BFR9Sww17g==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cbdcc86-f57d-4055-d9ec-08d8705cca1e
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 16:18:30.4770 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BqkTOhqhLinA1ZIItsPR1DzRNhw+dmgQyEZoTj11brmUPw1XXU4pfalQXGVcQxSxe++rmJXOh6Owrqv+ZPBlj3AveBezs76zI7sWm/Aumhg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2612
+Received-SPF: pass client-ip=40.107.20.117;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 12:18:31
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,96 +123,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, jasowang@redhat.com,
- QEMU <qemu-devel@nongnu.org>, xiexiangyou@huawei.com,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Jiajun Chen <chenjiajun8@huawei.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 14, 2020 at 3:08 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Oct 13, 2020 at 08:58:59PM -0400, Raphael Norwitz wrote:
-> > On Tue, Oct 6, 2020 at 5:48 AM Igor Mammedov <imammedo@redhat.com> wrote:
-> > >
-> > > On Mon, 28 Sep 2020 21:17:31 +0800
-> > > Jiajun Chen <chenjiajun8@huawei.com> wrote:
-> > >
-> > > > Used_memslots is equal to dev->mem->nregions now, it is true for
-> > > > vhost kernel, but not for vhost user, which uses the memory regions
-> > > > that have file descriptor. In fact, not all of the memory regions
-> > > > have file descriptor.
-> > > > It is usefully in some scenarios, e.g. used_memslots is 8, and only
-> > > > 5 memory slots can be used by vhost user, it is failed to hot plug
-> > > > a new memory RAM because vhost_has_free_slot just returned false,
-> > > > but we can hot plug it safely in fact.
-> > >
-> > > I had an impression that all guest RAM has to be shared with vhost,
-> > > so combination of anon and fd based RAM couldn't work.
-> > > Am I wrong?
-> >
-> > I'm not sure about the kernel backend, but I've tested adding anon
-> > memory to a VM with a vhost-user-scsi device and it works (eventually
-> > the VM crashed, but I could see the guest recognized the anon RAM).
-> > The vhost-user code is designed to work with both. I'm not sure I see
-> > a use case, but if there is one, this would be a valid issue. Maybe
-> > Jiajun or Jianjay can elaborate.
->
-> Hmm does not vhost-user skip all regions that do not have an fd?
->
->
->         mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
->         if (fd > 0) {
->             if (track_ramblocks) {
->                 assert(*fd_num < VHOST_MEMORY_BASELINE_NREGIONS);
->                 trace_vhost_user_set_mem_table_withfd(*fd_num, mr->name,
->                                                       reg->memory_size,
->                                                       reg->guest_phys_addr,
->                                                       reg->userspace_addr,
->                                                       offset);
->                 u->region_rb_offset[i] = offset;
->                 u->region_rb[i] = mr->ram_block;
->             } else if (*fd_num == VHOST_MEMORY_BASELINE_NREGIONS) {
->                 error_report("Failed preparing vhost-user memory table msg");
->                 return -1;
->             }
->             vhost_user_fill_msg_region(&region_buffer, reg, offset);
->             msg->payload.memory.regions[*fd_num] = region_buffer;
->             fds[(*fd_num)++] = fd;
->         } else if (track_ramblocks) {
->             u->region_rb_offset[i] = 0;
->             u->region_rb[i] = NULL;
->         }
->
->
->
-> In your test, is it possible that you were lucky and guest did not send
-> any data from anon memory to the device?
+14.10.2020 19:08, Andrey Shinkevich wrote:
+> On 14.10.2020 14:09, Max Reitz wrote:
+>> On 12.10.20 19:43, Andrey Shinkevich wrote:
+>>> We are going to use the COR-filter for a block-stream job.
+>>> To limit COR operations by the base node in the backing chain during
+>>> stream job, pass the name of overlay base node to the copy-on-read
+>>> driver as base node itself may change due to possible concurrent jobs.
+>>> The rest of the functionality will be implemented in the patch that
+>>> follows.
+>>>
+>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>> ---
+>>>   block/copy-on-read.c | 14 ++++++++++++++
+>>>   1 file changed, 14 insertions(+)
+>>
+>> Is there a reason why you didn’t add this option to QAPI (as part of a
+>> yet-to-be-created BlockdevOptionsCor)?  Because I’d really like it there.
+>>
+> 
+> I agree that passing a base overlay under the base option looks clumsy. We could pass the base node name and find its overlay ourselves here in cor_open(). In that case, we can use the existing QAPI.
 
-Yes - vhost-user skips the region and does not send anon memory to the
-device, but it does not fail the hot-add operation.
+Actually, there is no existing QAPI: if you don't modify qapi/*.json, user is not able to pass the option through QAPI. It's still possible to pass the option through command-line, or when create the filter internally (like we are going to do in block-stream), but not through QAPI. So, it's better to make a new QAPI parameter, to make the new option available for QMP interface.
 
-In my test the fd > 0 check definitely failed and went on to add the
-memory without sending it to the backend. I understand why this can be
-problematic (it did eventually crash the VM), but it seems like we
-allow it as of today. I can't think of a valid reason why you would
-want anon and FD ram together, but I figured there may be a reason
-since the vhost-user code allows for it. Should we maybe block that
-path altogether instead of patching it up?
+> The reason I used the existing QAPI is to make it easier for a user to operate with the traditional options and to keep things simple. So, the user shouldn't think what overlay or above-base node to pass.
+> If we introduce the specific BlockdevOptionsCor, what other options may come with?
+> 
+>>> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+>>> index bcccf0f..c578b1b 100644
+>>> --- a/block/copy-on-read.c
+>>> +++ b/block/copy-on-read.c
+>>> @@ -24,19 +24,24 @@
+>>>   #include "block/block_int.h"
+>>>   #include "qemu/module.h"
+>>>   #include "qapi/error.h"
+>>> +#include "qapi/qmp/qerror.h"
+>>>   #include "qapi/qmp/qdict.h"
+>>>   #include "block/copy-on-read.h"
+>>>   typedef struct BDRVStateCOR {
+>>>       bool active;
+>>> +    BlockDriverState *base_overlay;
+>>>   } BDRVStateCOR;
+>>>   static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+>>>                       Error **errp)
+>>>   {
+>>> +    BlockDriverState *base_overlay = NULL;
+>>>       BDRVStateCOR *state = bs->opaque;
+>>> +    /* We need the base overlay node rather than the base itself */
+>>> +    const char *base_overlay_node = qdict_get_try_str(options, "base");
+>>
+>> Shouldn’t it be called base-overlay or above-base then?
+>>
+> 
+> The base_overlay identifier is used below as the pointer to BS. The base_overlay_node stands for the name of the node. I used that identifier to differ between the types. And the above_base has another meaning per block/stream.c - it can be a temporary filter with a JSON-name.
+> 
+>>>       bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+>>>                                  BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+>>> @@ -52,7 +57,16 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+>>>           ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+>>>               bs->file->bs->supported_zero_flags);
+>>> +    if (base_overlay_node) {
+>>> +        qdict_del(options, "base");
+>>> +        base_overlay = bdrv_lookup_bs(NULL, base_overlay_node, errp);
+>>
+>> I think this is a use-after-free.  The storage @base_overlay_node points
+>> to belongs to a QString, which is referenced only by @options; so
+>> deleting that element of @options should free that string.
+>>
+>> Max
+>>
+> 
+> I will swap those two function calls (bdrv_lookup_bs(); qdict_del();).
+> Thank you.
+> 
+> Andrey
+> 
+>>> +        if (!base_overlay) {
+>>> +            error_setg(errp, QERR_BASE_NOT_FOUND, base_overlay_node);
+>>> +            return -EINVAL;
+>>> +        }
+>>> +    }
+>>>       state->active = true;
+>>> +    state->base_overlay = base_overlay;
+>>>       /*
+>>>        * We don't need to call bdrv_child_refresh_perms() now as the permissions
+>>>
+>>
+>>
 
->
->
->
-> > >
-> > > >
-> > > > --
-> > > > ChangeList:
-> > > > v3:
-> > > > -make used_memslots a member of struct vhost_dev instead of a global static value
-> > > it's global resource, so why?
-> >
-> > I suggested it because I thought it made the code a little cleaner.
-> > I'm not opposed to changing it back, or having it stored at the
-> > vhost_user level.
->
+
+-- 
+Best regards,
+Vladimir
 
