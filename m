@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1050528E7B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 22:05:11 +0200 (CEST)
-Received: from localhost ([::1]:59822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB8928E792
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 21:58:24 +0200 (CEST)
+Received: from localhost ([::1]:52548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSn1K-0005uC-2q
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 16:05:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49230)
+	id 1kSmul-0002YF-HI
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 15:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kSmz4-0004Ws-JN
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 16:02:55 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:41649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kSmz2-0006kD-A9
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 16:02:50 -0400
-Received: by mail-il1-x143.google.com with SMTP id w17so814143ilg.8
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 13:02:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IsVclhuB3CcMv2K3r48JAMSmE9W74o6J2nFuIa+NoE4=;
- b=kBHjjhHd2c/4cdP0M0EsRmLGqcJbkb2e75HcayOhf9r7Wkw4Ioa51/EkyhmYwZR4QB
- kCyYI169+dA2lnhyb7hsDi9mnC5Nm83ml5jdYsyN/S+VKM7H/+dlc1u86zLA2KSoUR+n
- Mhtods8nT4Sw5Jl6PpyKhdbG84V61u5ndR6B4EyEd1Acfc6dMXAUpqY7/D5EN2AP7h8h
- 7rNmczH2tmMUfEmlyijuZHEaa1JNYpyOC63Ugywak0/mxSL+lOm21StRhRaNBOsbip73
- 7Sx2/jYqwuQ+wTQSpl+vYDv02yrt0U7ILA7121JewnusSkUjhpBbfX6ohopUG9kYP0ZH
- Z4Pg==
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1kSmtV-000267-T1
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:57:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46629)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1kSmtT-0006BL-4h
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:57:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602705421;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c/TUuxAAQNkPqrb2OI38OodGrG9rASRQRljANve5f8I=;
+ b=GOEZi25EeJBwciYyB5R+ntiLGFp/7b/bSsVRmc4GgIcgRG1UGsuuf1b3tEqv8CbdmkmzXu
+ F1TPaw04Be9s5ZhrlGLYTC+m9nOd8vU1G2EcGb7J9HqrDr3hUKTRpbmRjxY8WENZZdJHBR
+ feeaYVVMVzm5WkK/q6HR9s3JmJfY2EE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-w8fLRnCMNNGRcLXv_4BFGA-1; Wed, 14 Oct 2020 15:55:40 -0400
+X-MC-Unique: w8fLRnCMNNGRcLXv_4BFGA-1
+Received: by mail-ej1-f71.google.com with SMTP id gh22so177553ejb.8
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 12:55:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IsVclhuB3CcMv2K3r48JAMSmE9W74o6J2nFuIa+NoE4=;
- b=Cv5Jn5JgutSGLtwb9w5jML+7JSTTxbtpvebm4MT4VcUi8k8dF5XBjxtpqwAtWQHKaI
- yVvWBPdUmHiHJWon7bovz2Y+JfPalMHAhRYebjBgv7VGWRmTmK7tFH1OwiQens1u00Tj
- dut7bruVuUNuXTCHBqnhnMSAnGaBDUAzyU1mriIQWBYQD8jtf6Xc7zKX4dxigbtQVdad
- Q/n2varCZt8AZuIHqv1fZH5qoaEBCc/rdnHEF4diwjUZiOAqqYAD8mJLWhitZXduffpQ
- HEVQOLo86k18OBVz8aZeSV5T9jaxEah5WsvEJVetC5lIu30+CXDz8o3T0+5sODi9c2m/
- ZfCQ==
-X-Gm-Message-State: AOAM533oycDMXT8qJQTcDIZQVm5yhGvO2DJhggvDzOMoD1ro5/fL4bXH
- nyNYnKG/67Ib1WcoIuRgkSPW5JMnuBJr+NkbbgY=
-X-Google-Smtp-Source: ABdhPJwjl3UnOyLgM7BTr6v1WdIzJ3HXUnqJQHrcnBO59ZnQT4l5adwm5cCdRl4oBOYzCoUiIMwdZ8k/AD7xZUih3ig=
-X-Received: by 2002:a05:6e02:1241:: with SMTP id
- j1mr697096ilq.267.1602705766852; 
- Wed, 14 Oct 2020 13:02:46 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=c/TUuxAAQNkPqrb2OI38OodGrG9rASRQRljANve5f8I=;
+ b=A/ftR8SkdKnHe6+8d8Tt6JwktQz4pdiT6LnvCZFJZ2ES4W0fiVZKWUxxjLbpWRZFCa
+ kijk3cbIhB8IB9Zt1xHH38PWbDzDWwJ71l+ygnMdUl7xK3Jp6yaWKHtuBe/5I07xUi8x
+ gp4hFN4rsRsrnlE/gHyVYBQDZdqEaWDYtcp3NqPOuoIiBQkj1Jfl4Q5o5AYVZXB7m2JQ
+ /++gTIDCaZFfTc1a9yPJlFUPum/i/4j4h+MgDGEx7njUjKuK5g7Fuhi8ANqKXqsZGLrE
+ 7S74xwVFl3jIqJD+Iyt/tWDMruawyQKcdiQNuwrGpVvfzg3ydz1WQQXEeN980/1KK/yB
+ w0sw==
+X-Gm-Message-State: AOAM532K1k92N4bBf2hTp52i+pDDv6+xQVZvyGy+62+UkQ4nBP/Ry14G
+ A+rhwSFE8uzg871jELamrYlmcOqg+5OEYR5oW1XSJpt4fXhGVF0p6d1WuMyvh3+deNnknWF/0dg
+ etSPKvEBMIhCgqF73kOa+idzSQ+Xk6Wc=
+X-Received: by 2002:a50:f389:: with SMTP id g9mr620497edm.367.1602705339501;
+ Wed, 14 Oct 2020 12:55:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/+/qoIpX2IdI+sJmR9jjBpagGBU5PdVO0x3EK9KzMazoBxF/K8BP2fNu8J80zXqn2NBw4R9aDUZGFdN0uTKw=
+X-Received: by 2002:a50:f389:: with SMTP id g9mr620470edm.367.1602705339250;
+ Wed, 14 Oct 2020 12:55:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201009170742.23695-1-alex.bennee@linaro.org>
- <CAKmqyKNKAaYCR_LgROZYHjTjFn2FeAJ5nhikCF2g+XeNU1J2MQ@mail.gmail.com>
- <87lfgbzb2m.fsf@linaro.org> <20201012172556.GF2954729@toto>
- <87a6wqzb9i.fsf@linaro.org>
-In-Reply-To: <87a6wqzb9i.fsf@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 14 Oct 2020 12:51:08 -0700
-Message-ID: <CAKmqyKP+8gFEpaWX5PWiuiK1O4FGmhoECj9QHid3JHhMtxZzeQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] generic loader FDT support (for direct Xen boot)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+References: <20201012150356.79670-1-mcascell@redhat.com>
+ <CADBGO7-w7txnd6MHAY0ge3k3LRcn0FfGDU9znQU7qxQddJQT0A@mail.gmail.com>
+ <20201013070423.ahsq7dvpwcsl6ouj@sirius.home.kraxel.org>
+ <CADBGO7-BuSh04JctYpQkHoG02cANfet6Zy2fAHVx0gq0cL96jQ@mail.gmail.com>
+ <20201013084123.6eihr74ckoburszw@sirius.home.kraxel.org>
+In-Reply-To: <20201013084123.6eihr74ckoburszw@sirius.home.kraxel.org>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Wed, 14 Oct 2020 21:55:28 +0200
+Message-ID: <CAA8xKjX_o5QmXbvjbYkBP8gmO4EOMbESSzWpeAwz9-e1eKmYEg@mail.gmail.com>
+Subject: Re: [PATCH] hw/usb/hcd-dwc2: fix divide-by-zero in
+ dwc2_handle_packet()
+To: Gerd Hoffmann <kraxel@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mcascell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,135 +94,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, Masami Hiramatsu <masami.hiramatsu@linaro.org>,
- andre.przywara@arm.com, stefano.stabellini@linaro.org,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Takahiro Akashi <takahiro.akashi@linaro.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, stefano.stabellini@xilinx.com,
- stratos-dev@op-lists.linaro.org
+Cc: gaoning.pgn@antgroup.com, linyi.lxw@antfin.com,
+ QEMU Developers <qemu-devel@nongnu.org>, Paul Zimmerman <pauldzim@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 13, 2020 at 3:11 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+On Tue, Oct 13, 2020 at 10:41 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
+> On Tue, Oct 13, 2020 at 12:19:40AM -0700, Paul Zimmerman wrote:
+> > I sent you a patch to fix up several assert()s, including that one, about a
+> > month ago. Did you miss it?
+> > https://lore.kernel.org/qemu-devel/20200920021449.830-1-pauldzim@gmail.com
 >
-> Edgar E. Iglesias <edgar.iglesias@gmail.com> writes:
+> I'll check.  There is a bunch of pending stuff in my qemu-patches
+> mailbox I'll try to process this week ...
 >
-> > On Mon, Oct 12, 2020 at 05:02:57PM +0100, Alex Benn=C3=A9e wrote:
-> >>
-> >> Alistair Francis <alistair23@gmail.com> writes:
-> >>
-> >> > On Fri, Oct 9, 2020 at 10:07 AM Alex Benn=C3=A9e <alex.bennee@linaro=
-.org> wrote:
-> >> >>
-> >> >> Hi,
-> >> >>
-> >> >> This series adds the ability to append FDT data for blobs loaded by
-> >> >> the generic loader. My principle use-case was to be able to directl=
-y
-> >> >> boot Xen with a kernel image which avoided having to:
-> >> >>
-> >> >>   - get the kernel image into my system image
-> >> >>   - deal with bugs in FDT munging by -bios firmware and/or grub
-> <snip>
-> >> >> "Polluting" the generic loader arguments
-> >> >>
-> >> >> This was mainly out of convenience as the loader already knows the
-> >> >> size of the blob being loaded. However you could certainly argue it
-> >> >> makes sense to have a more generic "FDT expander" virtual device th=
-at
-> >> >> could for example query the QOM model somehow to find the details i=
-t
-> >> >> needs.
-> >> >
-> >> > That seems like a better option. Why not have a generic way to modif=
-y
-> >> > the device tree with a specific argument? It could either be -device
-> >> > loader,file=3Dfdt,... or -fdt ...
-> >>
-> >> Well it comes down to how much of a special case this is? Pretty much
-> >> all FDT (and ACPI for the matter) is basically down to the board level
-> >> models - and not all of them just the funky configurable ones. For oth=
-er
-> >> board models we just expect the user to pass the FDT they got with the=
-ir
-> >> kernel blob.
-> >>
-> >> For modern VirtIO systems the only thing you really need to expose is
-> >> the root PCI bus because the rest of the devices are discover-able
-> >> there.
-> >>
-> >> So the real question is are there any other -devices that we want to b=
-e
-> >> able to graft FDT entries on or is the generic loader enough of a
-> >> special case that we keep all the logic in there?
-> >>
+> > > Also: What would be the effect of simply returning here? Would dwc2
+> > > emulation simply stop processing queues? Should we maybe raise an
+> > > error IRQ?
 > >
-> > Hi,
-> >
-> > Another option is to allow the user to pass along a DTB overlay with th=
-e
-> > generic loader option (or with a separate option as Alistair suggested)=
-.
-> > With overlways we wouldn't need all the command-line options to enable
-> > construction of dtb fragments, it would be more or less transparent to
-> > QEMU. There may be limitations with the overlay flows that I'm not awar=
-e
-> > of though...
+> > Not entirely sure, I imagine the emulation will just stop working. I can
+> > test it tomorrow. Also, can you give me a hint what an error IRQ is?
+> > Is that a Qemu thing, or do you mean we should emulate what the
+> > real core does in this case?
 >
-> So the problem of adding DTB overlays is it's not that much easier than
-> the current options of using -machine dumpdtb and then hand hacking the
-> magic values and rebuilding, for example:
-
-I agree with this. If a user is changing a DTB from a command line
-they probably only want small changes and are unlikely to need the
-full power of an overlay.
-
+> Same real hardware does.  ehci for example has the USBSTS_ERRINT bit in
+> the IRQ status register to signal errors.
 >
->   https://medium.com/@denisobrezkov/xen-on-arm-and-qemu-1654f24dea75
+> take care,
+>   Gerd
 >
-> Unless we come up with some sort of template support that allows QEMU to
-> insert numbers like address and size while processing the template. But
-> that seems a little too over engineered and likely introduces complexity
-> into the system.
 
-This though sounds interesting :)
+I'll send a new version of the patch with the check moved earlier in
+the function, as suggested by Paul. If raising an error turns out to
+be the right thing to do, I think other checks may need to be updated
+in addition to this one. Hence we can possibly address that in a later
+patch. Thanks a lot for your comments.
 
->
-> Given the generic-loader is so simple I'm leaning towards another
-> approach of just c&p'ing generic-loader into a new "magic" device (maybe
-> guest-loader) and stripping out the bits we don't need (data, data-len,
-> be etc) and making the options more tuned what we are trying to achieve.
-> For example:
->
->   -device guest-loader,kernel=3Dpath/to/Image,args=3D"command line",addr=
-=3D0x47000000,hyp=3Dxen
->   -device guest-loader,initrd=3Dpath/to/initrd,addr=3D0x42000000,hyp=3Dxe=
-n
+-- 
+Mauro Matteo Cascella, Red Hat Product Security
+6F78 E20B 5935 928C F0A8  1A9D 4E55 23B8 BB34 10B0
 
-At first I'm not thrilled of adding a new loader. In saying that,
-there are lots of times where -kernel and friends doesn't do what I
-want it to do and I have to fall back to the generic loader and code
-changes to QEMU so maybe this is a good idea for image loading.
-
-I'm guessing this would be the same for every platform which would be
-a nice change from -kernel.
-
-Alistair
-
->
-> And then we can embed the smarts in the loader to set either DTB or ACPI
-> entries as required and if we need additional magic to support different
-> hypervisors (which hopefully you don't but...) you can modulate the
-> hyp=3DFOO variable.
->
-> There may be an argument for having a -hypervisor as a sugar alias for
-> -kernel (which maps to machine.kernel) but currently I see no practical
-> differences you need to launch it except maybe forcing the
-> virtualisation property to true if it exists - but that seems a little
-> ARM focused.
->
-> --
-> Alex Benn=C3=A9e
 
