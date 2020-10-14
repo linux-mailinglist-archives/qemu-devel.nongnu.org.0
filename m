@@ -2,115 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3582328E36D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 17:42:38 +0200 (CEST)
-Received: from localhost ([::1]:33326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A4D28E37A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 17:44:46 +0200 (CEST)
+Received: from localhost ([::1]:37662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSivE-0003oC-NP
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 11:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53662)
+	id 1kSixJ-0005eG-Ln
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 11:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kSit1-00036G-DB; Wed, 14 Oct 2020 11:40:19 -0400
-Received: from mail-am6eur05on2130.outbound.protection.outlook.com
- ([40.107.22.130]:34977 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kSisx-0006rO-Ae; Wed, 14 Oct 2020 11:40:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jLYVZmWmnht22R6RA+VpX2aYXLlhvcAqXkUOBwYNPcT0/npm5zDa8j38ywHbXCn7G/Nta3M3fSamyMjUvUQoEfz1fTYvb8g+q579T9t3VAvVPdEeApg/zGXIoPO/qU8XRcAdp2SXUxqopQu0Fqj6r2rTlWuTLe7hGbVBY4J0tW300SjoAnTVpYSuwLs5cgtK7l/6+edGXRAS45tsFRwXK99j33N4azfDIlfOPE5P3V+DytX65m6QCkfyYe9kxxWHYAdhemyxP7IYhoPXAITGjz5xWOs0VQsRaIAivTu/ZKWn9QPtBpgTk1L3RR5+6QSAXFXVCEF6UvDb6aGnZp6tgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kgon6kLQhtYst7EyzoUMdas7UNiQjJYVWsNXBj+DC3M=;
- b=l2QcJVSxsupwWNMw4EusafvXagl+sTxGJx51/Alm3E5dbAi2wqD8ZN6MSS7YfZroFdfDs+aHHUfzpXxI6Yzr73ICcA5E+tBEc3rDLhj9t5FqhwLmtIADcRaroKNiBxXJYnUTZJpMsW2Sm8t88u5KU3OOBk3Xfe/kDRLqBT9vpesGiB8p24itwZUd9TRbvTE+EwFgMO45zYR9OQtu4und0MEC7N+fq6mCCuAplkoKwiLbaYZzDAZqWefk35Usu3hahwJKPMy12OLzyDW3MBMwZbWHZgJ8zQ2RCCypjSioPNNSqzmTmaeGseMd61tRHEmisCNpTuf/Cy5Qm3IvDoo0dA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kgon6kLQhtYst7EyzoUMdas7UNiQjJYVWsNXBj+DC3M=;
- b=WV+E/0AeHRQyQIwVyDiO7rbLb4LgMdVO4owQj/qNG193R02Qr31Y4yIUxl5Xn1q2ZVH0e/XhA7+ExQiPzm3Uf6u3gDp75oU6+zvV4kVlgVeUrUdVMoWs4gP5Ok1Ngw5ReuUhTMX92nOYcxnUdgQfZlWECNA/q8vZUgpXYeD8Ncg=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1716.eurprd08.prod.outlook.com (2603:10a6:203:39::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23; Wed, 14 Oct
- 2020 15:40:05 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3455.031; Wed, 14 Oct 2020
- 15:40:05 +0000
-Subject: Re: [PATCH v11 10/13] stream: skip filters when writing backing file
- name to QCOW2 header
-To: Max Reitz <mreitz@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, fam@euphon.net,
- stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, den@openvz.org
-References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1602524605-481160-11-git-send-email-andrey.shinkevich@virtuozzo.com>
- <582fb55d-0d3f-8a16-2134-67d73643da9e@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <ad827283-c9a0-74f3-2e04-8fa8d37e2dd9@virtuozzo.com>
-Date: Wed, 14 Oct 2020 18:40:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
-In-Reply-To: <582fb55d-0d3f-8a16-2134-67d73643da9e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.122]
-X-ClientProxiedBy: AM4PR0202CA0013.eurprd02.prod.outlook.com
- (2603:10a6:200:89::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kSitI-0003HJ-PZ
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 11:40:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22463)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kSitD-0006zX-Lz
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 11:40:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602690029;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7pdsGOkFOZ418Jmzk0Tfmi5MdcGOQ1rZP02npDpjtEA=;
+ b=fxuc0K69Wrt/bEEh0EuTAFY7/JO3N/ZAlF7Ms4T9anh/vTZ0baDJY2HvSBY1okdidOua0s
+ KrPg2zMHnIWuIN3WztknxrZUUmTR9uyFzan0ge4CPQwTUxdLZ7Xt5KMD0AYgevqAg8jT9P
+ dYGJifAm8XaMNJaqJpT4uixvvMo2ESY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-7aiA0BqzOwisINns2kyB8g-1; Wed, 14 Oct 2020 11:40:27 -0400
+X-MC-Unique: 7aiA0BqzOwisINns2kyB8g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43A66835B7B
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 15:40:26 +0000 (UTC)
+Received: from work-vm (ovpn-113-95.ams2.redhat.com [10.36.113.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6687C6CE4E;
+ Wed, 14 Oct 2020 15:40:14 +0000 (UTC)
+Date: Wed, 14 Oct 2020 16:40:11 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Christophe de Dinechin <dinechin@redhat.com>
+Subject: Re: [PATCH v2 3/6] tools/virtiofsd: xattr name mappings: Add option
+Message-ID: <20201014154011.GA20147@work-vm>
+References: <20200827153657.111098-1-dgilbert@redhat.com>
+ <20200827153657.111098-4-dgilbert@redhat.com>
+ <lyimbnl5ej.fsf@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.122) by
- AM4PR0202CA0013.eurprd02.prod.outlook.com (2603:10a6:200:89::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21 via Frontend
- Transport; Wed, 14 Oct 2020 15:40:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3d74b529-b3ef-4072-b22d-08d870576c19
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1716:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB1716EC3584528D04D07C7185C1050@AM5PR0801MB1716.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 10UQuz25r5KoQkOsDgyYZU2uUqwkxLo8kyx5XIMbpBA53xDRkp7GiqQsTqBEqdMHRrR1vmDdHBn6sZxGSLo5pT/om/GyL5ef2p7PZOcYH3fgc7r1Wa3cAtCBatPMnDAw9ASB7iV7Wz8nahPY2O2w4llqEqGDkBdAqgxaQTPMslqo3f1OjrTHIbF9D6lckful9dwtdK2bLxAn5rRgT8w6DAdOxjQDPSeG0d/ZsrB+uE6z5TCriXIZxmLArk9Hd3lhC/gBxqDdaX2dexqmW0c7uo4O5vy4bcHTjvIpx5Xl7WZqLDqLI9oy/ic2jLm6T9O82TrLy+N8PjCZwkJRFKrvAWPlmqInh9bf6q/YzI+1x0+l8IzkK+KYWaR6MTAuWodX
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39850400004)(136003)(396003)(376002)(366004)(31686004)(4326008)(83380400001)(8676002)(66556008)(52116002)(5660300002)(2906002)(16526019)(31696002)(66946007)(66476007)(478600001)(53546011)(86362001)(956004)(2616005)(316002)(6486002)(8936002)(186003)(26005)(110136005)(7416002)(36756003)(16576012)(107886003)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: dtn7/BS4R/gOQnNeBtjJeKuiTHx2jwRXjpDHpefIVQo6UEwmUtZEtgdfXknPXWn8wI1LhBZM8iUDZ8vLOfeHLkfCNO6tWbn998Q3VKqouDhUqmhLEPSi8YkHgy82t+VNMcKpk+8aFMFUbOQB52F0lgy8OBVqVvBs4taUHAChUwF1/xYRDSuDkv9Ra1IerG3kCXOucQNQASck1XrCD9Q/XfDdi3mMj8YjBgms5DDK7KwCKy90Ixi66E0qwzKgn+jy2gcwUtBuH1Lp5tIsZ2Pa2LDbg/mqHw7S1xMAbKFpMLOqiarZGb6PcZczoQsmZUv/f6JR8UGumasISrdwfvOu02TIKJ3VpIhPqv0Ahz8R9AfuV8eKiFQ5OAldVQ0PwkfrAl/UU6QRK/oDyRUtrN/LrarCGL8gcupw19OMoPPL85UZxZBox4OAouaJyC/QSUlMUgPOoZ/cKLTHZgbMKsNzrm/UT9GiufdoovMvWLub4wOuidOrqIfKbSDpR4ZGxphHJCyjpLAh+7fCFm64WQRPjPB13Qc+StHqilrHkkHivBlhU+FhMocnCliLzYYW1DqeI48eszcCj/W1bGdzD7vClM6pqzzGZrB/LG1XdlkTRFUdQtEBlbXatGBZGJPDIOY6t2/Rj3GU//z8XTPH1WLdtw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d74b529-b3ef-4072-b22d-08d870576c19
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 15:40:05.3045 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Axd0lM3TR+2tjw/DoF68t65waWqmXYNAwPlmFXoej0ebtXmdBDgHQd7PppJL78Pdw4Ph/mc7DO8ASwHgO6DkwIMvBaSyjBYWPDRX3FSlOLo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1716
-Received-SPF: pass client-ip=40.107.22.130;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 11:40:12
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+In-Reply-To: <lyimbnl5ej.fsf@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,60 +82,331 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: virtio-fs@redhat.com, stefanha@redhat.com, vgoyal@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-14.10.2020 18:02, Max Reitz wrote:
-> On 12.10.20 19:43, Andrey Shinkevich wrote:
->> Avoid writing a filter JSON-name to QCOW2 image when the backing file
->> is changed after the block stream job.
->>
->> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->> ---
->>   block/stream.c | 9 +++++----
->>   1 file changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/block/stream.c b/block/stream.c
->> index e0540ee..51462bd 100644
->> --- a/block/stream.c
->> +++ b/block/stream.c
->> @@ -65,6 +65,7 @@ static int stream_prepare(Job *job)
->>       BlockDriverState *bs = blk_bs(bjob->blk);
->>       BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
->>       BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
->> +    BlockDriverState *base_unfiltered = bdrv_skip_filters(base);
->>       Error *local_err = NULL;
->>       int ret = 0;
->>   
->> @@ -73,10 +74,10 @@ static int stream_prepare(Job *job)
->>   
->>       if (bdrv_cow_child(unfiltered_bs)) {
->>           const char *base_id = NULL, *base_fmt = NULL;
->> -        if (base) {
->> -            base_id = s->backing_file_str;
->> -            if (base->drv) {
->> -                base_fmt = base->drv->format_name;
->> +        if (base_unfiltered) {
->> +            base_id = base_unfiltered->filename;
+* Christophe de Dinechin (dinechin@redhat.com) wrote:
 > 
-> I think you have to leave this querying s->backing_file_str, and instead
-> change how qmp_block_stream() gets @base_name.  block-stream has a
-> backing-file parameter that can override the string that should be used
-> here.
+> On 2020-08-27 at 17:36 CEST, Dr. David Alan Gilbert (git) wrote...
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >
+> > Add an option to define mappings of xattr names so that
+> > the client and server filesystems see different views.
+> > This can be used to have different SELinux mappings as
+> > seen by the guest, to run the virtiofsd with less privileges
+> > (e.g. in a case where it can't set trusted/system/security
+> > xattrs but you want the guest to be able to), or to isolate
+> > multiple users of the same name; e.g. trusted attributes
+> > used by stacking overlayfs.
+> >
+> > A mapping engine is used wit 3 simple rules; the rules can
+> > be combined to allow most useful mapping scenarios.
+> > The ruleset is defined by -o xattrmap='rules...'.
+> >
+> > This patch doesn't use the rule maps yet.
+> >
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  docs/tools/virtiofsd.rst         |  55 ++++++++++++
+> >  tools/virtiofsd/passthrough_ll.c | 148 +++++++++++++++++++++++++++++++
+> >  2 files changed, 203 insertions(+)
+> >
+> > diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+> > index 824e713491..2efa16d3c5 100644
+> > --- a/docs/tools/virtiofsd.rst
+> > +++ b/docs/tools/virtiofsd.rst
+> > @@ -107,6 +107,60 @@ Options
+> >    performance.  ``auto`` acts similar to NFS with a 1 second metadata cache
+> >    timeout.  ``always`` sets a long cache lifetime at the expense of coherency.
+> >
+> > +xattr-mapping
+> > +-------------
+> > +
+> > +By default the name of xattr's used by the client are passed through to the server
+> > +file system.  This can be a problem where either those xattr names are used
+> > +by something on the server (e.g. selinux client/server confusion) or if the
+> > +virtiofsd is running in a container with restricted priviliges where it cannot
+> > +access some attributes.
+> > +
+> > +A mapping of xattr names can be made using -o xattrmap=mapping where the ``mapping``
+> > +string consists of a series of rules.
+> > +
+> > +The first matching rule terminates the mapping.
+> > +
+> > +Each rule consists of a number of fields separated with a separator that is the
+> > +first non-white space character in the rule.  This separator must then be used
+> > +for the whole rule.
+> > +White space may be added before and after each rule.
+> > +Using ':' as the separator a rule is of the form:
+> > +
+> > +``:scope:type:key:prepend:``
+> > +
+> > +**scope** is:
+> > +
+> > +- 'client' - match 'key' against a xattr name from the client for
+> > +             setxattr/getxattr/removexattr
+> > +- 'server' - match 'prepend' against a xattr name from the server
+> > +             for listxattr
+> > +- 'all' - can be used to match both cases.
+> > +
+> > +**type** is one of:
+> > +
+> > +- 'prefix' - If 'key' matches the client then the 'prepend'
+> > +  is added before the name is passed to the server.
+> > +  For a server case, the prepend is tested and stripped
+> > +  if matching.
+> > +
+> > +- 'ok' - The attribute name is OK and passed through to
+> > +  the server unchanged.
+> > +
+> > +- 'bad' - If a client tries to use this name it's
+> > +  denied using EPERM; when the server passes an attribute
+> > +  name matching it's hidden.
+> > +
+> > +**key** is a string tested as a prefix on an attribute name originating
+> > +on the client.  It maybe empty in which case a 'client' rule
+> > +will always match on client names.
+> > +
+> > +**prepend** is a string tested as a prefix on an attribute name originiating
+> > +on the server, and used as a new prefix.  It maybe empty
+> > +in which case a 'server' rule will always match on all names from
+> > +the server.
+> > +
+> > +
+> >  Examples
+> >  --------
+> >
+> > @@ -123,3 +177,4 @@ Export ``/var/lib/fs/vm001/`` on vhost-user UNIX domain socket
+> >        -numa node,memdev=mem \
+> >        ...
+> >    guest# mount -t virtiofs myfs /mnt
+> > +
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index 083d17a960..00e96a10cd 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -64,6 +64,7 @@
+> >  #include <syslog.h>
+> >  #include <unistd.h>
+> >
+> > +#include "qemu/cutils.h"
+> >  #include "passthrough_helpers.h"
+> >  #include "passthrough_seccomp.h"
+> >
+> > @@ -144,6 +145,7 @@ struct lo_data {
+> >      int flock;
+> >      int posix_lock;
+> >      int xattr;
+> > +    char *xattrmap;
 > 
-> (Or perhaps you can let qmp_block_stream() just set it to NULL if no
-> backing-file parameter is passed and then fall back to
-> base_unfiltered->filename only here.  Probably better, actually, in case
-> base_unfiltered is changed during the job run.)
+> Who owns that field? Should it be cleaned up in fuse_lo_data_cleanup() just like
+> source is?
+
+Done.
+
+> >      char *source;
+> >      char *modcaps;
+> >      double timeout;
+> > @@ -171,6 +173,7 @@ static const struct fuse_opt lo_opts[] = {
+> >      { "no_posix_lock", offsetof(struct lo_data, posix_lock), 0 },
+> >      { "xattr", offsetof(struct lo_data, xattr), 1 },
+> >      { "no_xattr", offsetof(struct lo_data, xattr), 0 },
+> > +    { "xattrmap=%s", offsetof(struct lo_data, xattrmap), 0 },
+> >      { "modcaps=%s", offsetof(struct lo_data, modcaps), 0 },
+> >      { "timeout=%lf", offsetof(struct lo_data, timeout), 0 },
+> >      { "timeout=", offsetof(struct lo_data, timeout_set), 1 },
+> > @@ -2003,6 +2006,146 @@ static void lo_flock(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
+> >      fuse_reply_err(req, res == -1 ? errno : 0);
+> >  }
+> >
+> > +typedef struct xattr_map_entry {
+> > +    const char *key;
+> > +    const char *prepend;
+> > +    unsigned int flags;
+> > +} XattrMapEntry;
+> > +
+> > +/*
+> > + * Exit; process attribute unmodified if matched.
+> > + * An empty key applies to all.
+> > + */
+> > +#define XATTR_MAP_FLAG_END_OK  (1 <<  0)
+> > +/*
+> > + * The attribute is unwanted;
+> > + * EPERM on write hidden on read.
+> > + */
+> > +#define XATTR_MAP_FLAG_END_BAD (1 <<  1)
+> > +/*
+> > + * For attr that start with 'key' prepend 'prepend'
+> > + * 'key' maybe empty to prepend for all attrs
+> > + * key is defined from set/remove point of view.
+> > + * Automatically reversed on read
+> > + */
+> > +#define XATTR_MAP_FLAG_PREFIX  (1 <<  2)
+> > +/* Apply rule to get/set/remove */
+> > +#define XATTR_MAP_FLAG_CLIENT  (1 << 16)
+> > +/* Apply rule to list */
+> > +#define XATTR_MAP_FLAG_SERVER  (1 << 17)
+> > +/* Apply rule to all */
+> > +#define XATTR_MAP_FLAG_ALL   (XATTR_MAP_FLAG_SERVER | XATTR_MAP_FLAG_CLIENT)
+> > +
+> > +static XattrMapEntry *xattr_map_list;
 > 
+> Curious why you made it a static variable and not a field in struct lo_data?
 
-Agree with the way in brackets.
+Done.
 
-If user set backing-file parameter we should handle it here.
+> > +
+> > +static XattrMapEntry *parse_xattrmap(const char *map)
+> > +{
+> > +    XattrMapEntry *res = NULL;
+> > +    size_t nentries = 0;
+> > +    const char *tmp;
+> > +
+> > +    while (*map) {
+> > +        char sep;
+> > +
+> > +        if (isspace(*map)) {
+> > +            map++;
+> > +            continue;
+> > +        }
+> > +        /* The separator is the first non-space of the rule */
+> > +        sep = *map++;
+> > +        if (!sep) {
+> > +            break;
+> > +        }
+> > +
+> > +        /* Allocate some space for the rule */
+> > +        res = g_realloc_n(res, ++nentries, sizeof(XattrMapEntry));
+> > +        res[nentries - 1].flags = 0;
+> 
+> I would probably create an `entry` pointer to `res[nentries - 1]`
+> since there are 9 uses for it.
 
-If backing-file is not set, we should use dynamically calculated unfiltered base in stream_prepare().
+I've reworked that whole bit; we've now got a temporary and a function
+that adds an entry.
 
+> > +
+> > +        if (strstart(map, "client", &map)) {
+> > +            res[nentries - 1].flags |= XATTR_MAP_FLAG_CLIENT;
+> > +        } else if (strstart(map, "server", &map)) {
+> > +            res[nentries - 1].flags |= XATTR_MAP_FLAG_SERVER;
+> > +        } else if (strstart(map, "all", &map)) {
+> > +            res[nentries - 1].flags |= XATTR_MAP_FLAG_ALL;
+> > +        } else {
+> > +            fuse_log(FUSE_LOG_ERR,
+> > +                     "%s: Unexpected scope;"
+> > +                     " Expecting 'client', 'server', or 'all', in rule %zu\n",
+> > +                     __func__, nentries);
+> > +            exit(1);
+> > +        }
+> > +
+> > +
+> > +        if (*map != sep) {
+> > +            fuse_log(FUSE_LOG_ERR,
+> > +                     "%s: Expecting '%c' found '%c'"
+> > +                     " after scope in rule %zu\n",
+> > +                     __func__, sep, *map, nentries + 1);
+> 
+> I think it should be `nentries` here like in the others
+
+Done.
+
+> > +            exit(1);
+> > +        }
+> > +        /* Skip the separator, now at the start of the 'type' */
+> > +        map++;
+> > +
+> > +        /* Start of 'type' */
+> > +        if (strstart(map, "prefix", &map)) {
+> > +            res[nentries - 1].flags |= XATTR_MAP_FLAG_PREFIX;
+> > +        } else if (strstart(map, "ok", &map)) {
+> > +            res[nentries - 1].flags |= XATTR_MAP_FLAG_END_OK;
+> > +        } else if (strstart(map, "bad", &map)) {
+> > +            res[nentries - 1].flags |= XATTR_MAP_FLAG_END_BAD;
+> > +        } else {
+> > +            fuse_log(FUSE_LOG_ERR,
+> > +                     "%s: Unexpected type;"
+> > +                     "Expecting 'prefix', 'ok', or 'bad' in rule %zu\n",
+> > +                     __func__, nentries);
+> > +            exit(1);
+> > +        }
+> > +
+> > +        if (*map++ != sep) {
+> > +            fuse_log(FUSE_LOG_ERR,
+> > +                     "%s: Missing '%c' at end of type field of rule %zu\n",
+> > +                     __func__, sep, nentries);
+> > +            exit(1);
+> > +        }
+> > +
+> > +        /* At start of 'key' field */
+> > +        tmp = strchr(map, sep);
+> > +        if (!tmp) {
+> > +            fuse_log(FUSE_LOG_ERR,
+> > +                     "%s: Missing '%c' at end of key field of rule %zu",
+> > +                     __func__, sep, nentries);
+> > +            exit(1);
+> > +        }
+> > +        res[nentries - 1].key = g_strndup(map, tmp - map);
+> > +        map = tmp + 1;
+> > +
+> > +        /* At start of 'prepend' field */
+> > +        tmp = strchr(map, sep);
+> > +        if (!tmp) {
+> > +            fuse_log(FUSE_LOG_ERR,
+> > +                     "%s: Missing '%c' at end of prepend field of rule %zu",
+> > +                     __func__, sep, nentries);
+> > +            exit(1);
+> > +        }
+> > +        res[nentries - 1].prepend = g_strndup(map, tmp - map);
+> > +        map = tmp + 1;
+> > +        /* End of rule - go around again for another rule */
+> > +    }
+> > +
+> > +    if (!nentries) {
+> > +        fuse_log(FUSE_LOG_ERR, "Empty xattr map\n");
+> > +        exit(1);
+> > +    }
+> > +
+> > +    /* Add a terminator to error in cases the user hasn't specified */
+> > +    res = g_realloc_n(res, ++nentries, sizeof(XattrMapEntry));
+> > +    res[nentries - 1].flags = XATTR_MAP_FLAG_ALL | XATTR_MAP_FLAG_END_BAD;
+> > +    res[nentries - 1].key = g_strdup("");
+> > +    res[nentries - 1].prepend = g_strdup("");
+> > +
+> > +    return res;
+> > +}
+> > +
+> >  static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
+> >                          size_t size)
+> >  {
+> > @@ -2909,6 +3052,11 @@ int main(int argc, char *argv[])
+> >      } else {
+> >          lo.source = strdup("/");
+> >      }
+> > +
+> > +    if (lo.xattrmap) {
+> > +        xattr_map_list = parse_xattrmap(lo.xattrmap);
+> 
+> This is never freed. If you put the static in struct lo_data, you could
+> naturally clean it up in fuse_lo_data_cleanup.
+
+Cleanup added.
+
+Dave
+
+> > +    }
+> > +
+> >      if (!lo.timeout_set) {
+> >          switch (lo.cache) {
+> >          case CACHE_NONE:
+> 
+> 
+> --
+> Cheers,
+> Christophe de Dinechin (IRC c3d)
 -- 
-Best regards,
-Vladimir
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
