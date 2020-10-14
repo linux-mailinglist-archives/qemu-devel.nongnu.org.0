@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFDE28E458
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:25:56 +0200 (CEST)
-Received: from localhost ([::1]:38914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0049F28E474
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:29:28 +0200 (CEST)
+Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSjb9-0002hV-9O
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35356)
+	id 1kSjea-0005lS-1H
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:29:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSjZy-00023a-TE
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:24:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60281)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSjcM-0004IR-SU
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:27:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSjZv-00044f-OI
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:24:41 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSjcL-0004ZS-2d
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:27:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602692678;
+ s=mimecast20190719; t=1602692828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=LZvwp8ROlXpeN2YrsnESCzqU8h6gQSdwb83sw8EDG5k=;
- b=gSv5/R/QI4aYvJqb17nOlbUJhgQJaU48M7yX2r9cSTXKzpngGpNyNFByEeEzCI//DaBrfd
- llHCDMr7qJ3vMdcy9wHj3UF1VwPgDoT5jBNOpNmVUK5aTSw2IjAUzWwaMk76wpR1V/VTZG
- 92jCF4dNe88QFwnDS33R4HOtraY8Dkw=
+ bh=QVEZRUVG7NG6+EIkLs9ZJmj2Mm4x81Cldcaux2xAny4=;
+ b=Shad7g51ANhkxvsIE1WjbKl2Rmu4dJnKCrcarYfXmpkvwYUjZXojkaZlHgYsQqgXflvE7i
+ OaXjXIeTtE2kvTdu7D/INpssN/nYVL6LUav4BaSqsD7lG4P5C5eEAarlRi9KYsk0afyGgA
+ kGajqY481i7t96FS8BcfGW7n5qIHKCk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-ghwSUOlXPFSJQncDjxwUsw-1; Wed, 14 Oct 2020 12:24:34 -0400
-X-MC-Unique: ghwSUOlXPFSJQncDjxwUsw-1
+ us-mta-48-U56Mvh9yM52uJ-iD0HQGbA-1; Wed, 14 Oct 2020 12:27:04 -0400
+X-MC-Unique: U56Mvh9yM52uJ-iD0HQGbA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CF318030CD;
- Wed, 14 Oct 2020 16:24:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D3E7104D419;
+ Wed, 14 Oct 2020 16:26:51 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.194.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C36227512E;
- Wed, 14 Oct 2020 16:24:23 +0000 (UTC)
-Subject: Re: [PATCH v11 13/13] block: apply COR-filter to block-stream jobs
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F29F27D4E7;
+ Wed, 14 Oct 2020 16:26:19 +0000 (UTC)
+Subject: Re: [PATCH v11 02/13] copy-on-read: add filter append/drop functions
 To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
 References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1602524605-481160-14-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1602524605-481160-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <39aec06d-6dbd-a0e4-c3b8-d0f243864121@redhat.com>
+ <e88ba6fb-17ae-1539-1174-395bfee890de@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -68,12 +70,12 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <6074273c-088f-069b-2a6c-aee812c3bad6@redhat.com>
-Date: Wed, 14 Oct 2020 18:24:21 +0200
+Message-ID: <4aea6d8c-de75-9b2e-b527-f146f96ff0b3@redhat.com>
+Date: Wed, 14 Oct 2020 18:26:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <1602524605-481160-14-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <e88ba6fb-17ae-1539-1174-395bfee890de@virtuozzo.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
@@ -81,19 +83,19 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="KmHazf8hsX750c2AY63SnLD9z6gX4Vfkl"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ boundary="oHrd4c2CPeoAy8CscxIfPkl0obLt9B3S4"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,260 +115,170 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---KmHazf8hsX750c2AY63SnLD9z6gX4Vfkl
-Content-Type: multipart/mixed; boundary="hhdytaURa6iyfHC1ttE0bAkIWv7TNIHDd"
+--oHrd4c2CPeoAy8CscxIfPkl0obLt9B3S4
+Content-Type: multipart/mixed; boundary="B1mv8uZrQjSqaMO9Kk8ib5jJFedGKvF47"
 
---hhdytaURa6iyfHC1ttE0bAkIWv7TNIHDd
+--B1mv8uZrQjSqaMO9Kk8ib5jJFedGKvF47
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 12.10.20 19:43, Andrey Shinkevich wrote:
-> This patch completes the series with the COR-filter insertion for
-> block-stream operations. Adding the filter makes it possible for copied
-> regions to be discarded in backing files during the block-stream job,
-> what will reduce the disk overuse.
-> The COR-filter insertion incurs changes in the iotests case
-> 245:test_block_stream_4 that reopens the backing chain during a
-> block-stream job. There are changes in the iotests #030 as well.
-> The iotests case 030:test_stream_parallel was deleted due to multiple
-> conflicts between the concurrent job operations over the same backing
-> chain. The base backing node for one job is the top node for another
-> job. It may change due to the filter node inserted into the backing
-> chain while both jobs are running. Another issue is that the parts of
-> the backing chain are being frozen by the running job and may not be
-> changed by the concurrent job when needed. The concept of the parallel
-> jobs with common nodes is considered vital no more.
+On 14.10.20 16:28, Andrey Shinkevich wrote:
+> On 14.10.2020 13:44, Max Reitz wrote:
+>> On 12.10.20 19:43, Andrey Shinkevich wrote:
+>>> Provide API for the COR-filter insertion/removal.
+>>> Also, drop the filter child permissions for an inactive state when the
+>>> filter node is being removed.
+>>>
+>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>> =C2=A0 block/copy-on-read.c | 88
+>>> ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>> =C2=A0 block/copy-on-read.h | 35 +++++++++++++++++++++
+>>> =C2=A0 2 files changed, 123 insertions(+)
+>>> =C2=A0 create mode 100644 block/copy-on-read.h
+>>>
+>>> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+>>> index cb03e0f..bcccf0f 100644
+>>> --- a/block/copy-on-read.c
+>>> +++ b/block/copy-on-read.c
+>>
+>> [...]
+>>
+>>> @@ -159,4 +188,63 @@ static void bdrv_copy_on_read_init(void)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdrv_register(&bdrv_copy_on_read);
+>>> =C2=A0 }
+>>> =C2=A0 +
+>>> +BlockDriverState *bdrv_cor_filter_append(BlockDriverState *bs,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 QDict *node_options,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 int flags, Error **errp)
+>>
+>> I had hoped you could make this a generic block layer function. :(
+>>
+>> (Because it really is rather generic)
+>>
+>> *shrug*
 >=20
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->  block/stream.c             | 93 +++++++++++++++++++++++++++++-----------=
-------
->  tests/qemu-iotests/030     | 51 +++----------------------
->  tests/qemu-iotests/030.out |  4 +-
->  tests/qemu-iotests/141.out |  2 +-
->  tests/qemu-iotests/245     | 19 +++++++---
->  5 files changed, 81 insertions(+), 88 deletions(-)
+> Actually, I did (and still can do) that for the 'append node' function
+> only but not for the 'drop node' one so far...
 
-Looks like stream_run() could be a bit streamlined now (the allocation
-checking should be unnecessary, unconditionally calling
-stream_populate() should be sufficient), but not necessary now.
+Ah, yeah.
 
-> diff --git a/block/stream.c b/block/stream.c
-> index d3e1812..93564db 100644
-> --- a/block/stream.c
-> +++ b/block/stream.c
-
-[...]
-
-> @@ -94,13 +94,14 @@ static void stream_clean(Job *job)
->  {
->      StreamBlockJob *s =3D container_of(job, StreamBlockJob, common.job);
->      BlockJob *bjob =3D &s->common;
-> -    BlockDriverState *bs =3D blk_bs(bjob->blk);
+> diff --git a/block.c b/block.c
+> index 11ab55f..f41e876 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -4669,6 +4669,55 @@ static void bdrv_delete(BlockDriverState *bs)
+> =C2=A0=C2=A0=C2=A0=C2=A0 g_free(bs);
+> =C2=A0}
+>=20
+> +BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict
+> *node_options,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int flags, Error =
+**errp)
+> +{
+> +=C2=A0=C2=A0=C2=A0 BlockDriverState *new_node_bs;
+> +=C2=A0=C2=A0=C2=A0 Error *local_err =3D NULL;
 > +
-> +    bdrv_cor_filter_drop(s->cor_filter_bs);
-> =20
->      /* Reopen the image back in read-only mode if necessary */
->      if (s->bs_read_only) {
->          /* Give up write permissions before making it read-only */
->          blk_set_perm(bjob->blk, 0, BLK_PERM_ALL, &error_abort);
-
-Perhaps it would be good to do so even before the filter is dropped.  I
-don=E2=80=99t know whether moving bjob->blk from cor_filter_bs to target_bs
-might cause problems otherwise.
-
-> -        bdrv_reopen_set_read_only(bs, true, NULL);
-> +        bdrv_reopen_set_read_only(s->target_bs, true, NULL);
->      }
->  }
-
-[...]
-
-> @@ -262,17 +249,48 @@ void stream_start(const char *job_id, BlockDriverSt=
-ate *bs,
->          }
->      }
-> =20
-> -    /* Prevent concurrent jobs trying to modify the graph structure here=
-, we
-> -     * already have our own plans. Also don't allow resize as the image =
-size is
-> -     * queried only at the job start and then cached. */
-> -    s =3D block_job_create(job_id, &stream_job_driver, NULL, bs,
-> -                         basic_flags | BLK_PERM_GRAPH_MOD,
-> -                         basic_flags | BLK_PERM_WRITE,
-> +    QDict *opts =3D qdict_new();
-
-Declaration should be done at the start of the block.
-
+> +=C2=A0=C2=A0=C2=A0 new_node_bs =3D=C2=A0 bdrv_open(NULL, NULL, node_opti=
+ons, flags, errp);
+> +=C2=A0=C2=A0=C2=A0 if (new_node_bs =3D=3D NULL) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_prepend(errp, "Could no=
+t create node: ");
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+> +=C2=A0=C2=A0=C2=A0 }
 > +
-> +    qdict_put_str(opts, "driver", "copy-on-read");
-> +    qdict_put_str(opts, "file", bdrv_get_node_name(bs));
-> +    if (base_overlay) {
-
-@base_overlay is always non-NULL, this condition should check @base, I
-think.
-
-> +        /* Pass the base_overlay rather than base */
-> +        qdict_put_str(opts, "base", base_overlay->node_name);
-> +    }
-> +    if (filter_node_name) {
-> +        qdict_put_str(opts, "node-name", filter_node_name);
-> +    }
+> +=C2=A0=C2=A0=C2=A0 bdrv_drained_begin(bs);
+> +=C2=A0=C2=A0=C2=A0 bdrv_replace_node(bs, new_node_bs, &local_err);
+> +=C2=A0=C2=A0=C2=A0 bdrv_drained_end(bs);
 > +
-> +    cor_filter_bs =3D bdrv_cor_filter_append(bs, opts, BDRV_O_RDWR, errp=
-);
-> +    if (cor_filter_bs =3D=3D NULL) {
-> +        goto fail;
-> +    }
+> +=C2=A0=C2=A0=C2=A0 if (local_err) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdrv_unref(new_node_bs);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_propagate(errp, local_e=
+rr);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+> +=C2=A0=C2=A0=C2=A0 }
 > +
-> +    if (bdrv_freeze_backing_chain(cor_filter_bs, bs, errp) < 0) {
-
-Is there a reason why we can=E2=80=99t combine this with the
-bdrv_free_backing_chain() from bs down to above_base?  I mean, the
-effect should be the same, just asking.
-
-> +        bdrv_cor_filter_drop(cor_filter_bs);
-> +        cor_filter_bs =3D NULL;
-> +        goto fail;
-> +    }
+> +=C2=A0=C2=A0=C2=A0 return new_node_bs;
+> +}
 > +
-> +    s =3D block_job_create(job_id, &stream_job_driver, NULL, cor_filter_=
-bs,
-> +                         BLK_PERM_CONSISTENT_READ,
-> +                         basic_flags | BLK_PERM_WRITE | BLK_PERM_GRAPH_M=
-OD,
-
-Not that I=E2=80=99m an expert on the GRAPH_MOD permission, but why is this
-shared here but not below?  Shouldn=E2=80=99t it be the same in both cases?
-(Same for taking it as a permission.)
-
->                           speed, creation_flags, NULL, NULL, errp);
->      if (!s) {
->          goto fail;
->      }
-> =20
-> +    /*
-> +     * Prevent concurrent jobs trying to modify the graph structure here=
-, we
-> +     * already have our own plans. Also don't allow resize as the image =
-size is
-> +     * queried only at the job start and then cached.
-> +     */
-> +    if (block_job_add_bdrv(&s->common, "active node", bs,
-> +                           basic_flags | BLK_PERM_GRAPH_MOD,
-> +                           basic_flags | BLK_PERM_WRITE, &error_abort)) =
-{
-> +        goto fail;
-> +    }
+> +void bdrv_remove_node(BlockDriverState *bs)
+> +{
+> +=C2=A0=C2=A0=C2=A0 BdrvChild *child;
+> +=C2=A0=C2=A0=C2=A0 BlockDriverState *inferior_bs;
 > +
->      /* Block all intermediate nodes between bs and base, because they wi=
-ll
->       * disappear from the chain after this operation. The streaming job =
-reads
->       * every block only once, assuming that it doesn't change, so forbid=
- writes
+> +=C2=A0=C2=A0=C2=A0 child =3D bdrv_filter_or_cow_child(bs);
+> +=C2=A0=C2=A0=C2=A0 if (!child) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+> +=C2=A0=C2=A0=C2=A0 }
+> +=C2=A0=C2=A0=C2=A0 inferior_bs =3D child->bs;
+> +
+> +=C2=A0=C2=A0=C2=A0 /* Retain the BDS until we complete the graph change.=
+ */
+> +=C2=A0=C2=A0=C2=A0 bdrv_ref(inferior_bs);
+> +=C2=A0=C2=A0=C2=A0 /* Hold a guest back from writing while permissions a=
+re being
+> reset. */
+> +=C2=A0=C2=A0=C2=A0 bdrv_drained_begin(inferior_bs);
+> +=C2=A0=C2=A0=C2=A0 /* Refresh permissions before the graph change. */
+> +=C2=A0=C2=A0=C2=A0 bdrv_child_refresh_perms(bs, child, &error_abort);
+> +=C2=A0=C2=A0=C2=A0 bdrv_replace_node(bs, inferior_bs, &error_abort);
+> +
+> +=C2=A0=C2=A0=C2=A0 bdrv_drained_end(inferior_bs);
+> +=C2=A0=C2=A0=C2=A0 bdrv_unref(inferior_bs);
+> +=C2=A0=C2=A0=C2=A0 bdrv_unref(bs);
+> +}
+>=20
+> So, it is an intermediate solution in this patch of the series. I am
+> going to make both functions generic once Vladimir overhauls the QEMU
+> permission update system. Otherwise, the COR-filter node cannot be
+> removed from the backing chain gracefully.
 
-[...]
+True.
 
-> diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-> index e60c832..940e85a 100755
-> --- a/tests/qemu-iotests/245
-> +++ b/tests/qemu-iotests/245
-> @@ -899,17 +899,26 @@ class TestBlockdevReopen(iotests.QMPTestCase):
->          # make hd1 read-only and block-stream requires it to be read-wri=
-te
->          # (Which error message appears depends on whether the stream job=
- is
->          # already done with copying at this point.)
+> Thank you for your r-b. If the next version comes, I can move the
+> 'append node' function only to the generic layer.
 
-Hm.  Let=E2=80=99s look at the set of messages below... [1]
+Thanks!  Even if you decide against it, I=E2=80=99m happy as long as there =
+are
+plans to perhaps make it generic at some point.
 
-> -        self.reopen(opts, {},
-> +        # As the COR-filter node is inserted into the backing chain with=
- the
-> +        # 'block-stream' operation, we move the options to their proper =
-nodes.
-> +        opts =3D hd_opts(1)
-
-Oh, so this patch changes it so that only the subtree below hd1 is
-reopened, and we don=E2=80=99t have to deal with the filter options.  Got i=
-t.
-(I think.)
-
-> +        opts['backing'] =3D hd_opts(2)
-> +        opts['backing']['backing'] =3D None
-> +        self.reopen(opts, {'read-only': True},
->              ["Can't set node 'hd1' to r/o with copy-on-read enabled",
-
-[1]
-
-This isn=E2=80=99t done anymore as of this patch.  So I don=E2=80=99t think=
- this error
-message can still appear.  Will some other message appear in its stead,
-or is it always going to be the second one?
-
->               "Cannot make block node read-only, there is a writer on it"=
-])
-> =20
->          # We can't remove hd2 while the stream job is ongoing
-> -        opts['backing']['backing'] =3D None
-> -        self.reopen(opts, {'backing.read-only': False}, "Cannot change '=
-backing' link from 'hd1' to 'hd2'")
-> +        opts['backing'] =3D None
-> +        self.reopen(opts, {'read-only': False},
-> +                    "Cannot change 'backing' link from 'hd1' to 'hd2'")
-> =20
-> -        # We can detach hd1 from hd0 because it doesn't affect the strea=
-m job
-> +        # We can't detach hd1 from hd0 because there is the COR-filter i=
-mplicit
-> +        # node in between.
-> +        opts =3D hd_opts(0)
->          opts['backing'] =3D None
-> -        self.reopen(opts)
-> +        self.reopen(opts, {},
-> +                    "Cannot change backing link if 'hd0' has an implicit=
- backing file")
-
-Does =E2=80=9Chas an implicit backing file=E2=80=9D mean that hd0 has an im=
-plicit node
-(the COR filter) as its backing file?  And then reopening isn=E2=80=99t all=
-owed
-because the user supposedly doesn=E2=80=99t know about that implicit node? =
- If
-so, makes sense.
+(I=E2=80=99m just afraid this function might be useful in some other case, =
+too,
+and we forget that it exists here already, and then end up
+reimplementing it.)
 
 Max
 
-> =20
->          self.vm.run_job('stream0', auto_finalize =3D False, auto_dismiss=
- =3D True)
-> =20
->=20
 
+--B1mv8uZrQjSqaMO9Kk8ib5jJFedGKvF47--
 
-
---hhdytaURa6iyfHC1ttE0bAkIWv7TNIHDd--
-
---KmHazf8hsX750c2AY63SnLD9z6gX4Vfkl
+--oHrd4c2CPeoAy8CscxIfPkl0obLt9B3S4
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl+HJjUACgkQ9AfbAGHV
-z0BtMwf+JwaV6gADjNJoxkKmZLlTUT5XideSFIq/61DcrQ9l4eo+UJCf1HtonR8A
-PGLlvoG5Rf98Zw5ub95NyKoIVYc0+us5Mr5Eru5djmRZUbFkLVl7qcr3r3xy7o8b
-uHg35oWliU/YWTE0B7Sd6cShGYAgRnocsqAsXIM51wE4KDw42Wxt8qmmJrDEVt+9
-frcZZh/GczFgzk5Xq78zXgO04Qv8+vorXPmYxQslQha33I1ZzthHkJmNVBW7ATJ+
-RoyCapsIF5jYzDyMmpqACrkS7tdEdvKz4Off1yYxquW9RJMzfSI1fhtuZb5HOTEE
-51VpliRu22v0xxdgFdeN+OBbj9QpQA==
-=WfQ7
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl+HJqoACgkQ9AfbAGHV
+z0D2OQf+Jkagw0xOinZ8nU+jS6L/a0hraGHzJIgmEyxzOnI16JfHFAqVs8msYD8d
+29v/DeqMKVPlwRSNU9b+UKQWOoVx1JElf1TtnlisoyRRWyqb4D1Tij+vsL7Dna2F
+ORiZe1CK11EvHcRzXpwyLmpVP6Z+KiNAAedwRRdentYWfOliru7agnkdCKs4vCs8
+lcoouLYXzzZF1cuatPiJSi29sQx2+iaYOYhVr0BO21rE/EpVgD7x38cjqP3YWh2y
+HkUdLuRli83npPEyDCqO8LfGTcN2wuSJb00+AQa1z9ner+k/5k1OmjjhBbCtmDFI
+uXKo+SWhT3RyeuBE5bpvzBGKUNqSfA==
+=nbpz
 -----END PGP SIGNATURE-----
 
---KmHazf8hsX750c2AY63SnLD9z6gX4Vfkl--
+--oHrd4c2CPeoAy8CscxIfPkl0obLt9B3S4--
 
 
