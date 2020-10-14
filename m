@@ -2,75 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05A928E44B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:22:13 +0200 (CEST)
-Received: from localhost ([::1]:58666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C16028E472
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:28:57 +0200 (CEST)
+Received: from localhost ([::1]:43796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSjXY-0007TM-LD
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:22:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59758)
+	id 1kSje3-0004oy-R6
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kSjGn-0001F1-56
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:04:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kSjGl-0001d7-0J
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:04:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602691489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ndul3ywq+OyfMuEFOJK7pLKySbZkT52t+07w+IdDRU8=;
- b=YpIpNrFHBt7wooFlCEELnWjtL8o27nukilpf9k47kRWwSASb6EFdhw5y+k2D/Gv3pX/Vot
- X4klCOs4kwG18yqwMzrrFSs5h3W3YKGrfyyJytFsD7MPSnnR037DLC8SKSs1LKfPy9vgtM
- EP+Es5mFFVklCdHuNZidN4S0Xjhb288=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-5hwp7Et6P1CjnBBxmcJq6A-1; Wed, 14 Oct 2020 12:04:47 -0400
-X-MC-Unique: 5hwp7Et6P1CjnBBxmcJq6A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5233B801FDD
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 16:04:46 +0000 (UTC)
-Received: from work-vm (ovpn-113-95.ams2.redhat.com [10.36.113.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1688876663;
- Wed, 14 Oct 2020 16:04:35 +0000 (UTC)
-Date: Wed, 14 Oct 2020 17:04:33 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Christophe de Dinechin <dinechin@redhat.com>
-Subject: Re: [PATCH v2 5/6] tools/virtiofsd: xattr name mappings: Map server
- xattr names
-Message-ID: <20201014160433.GB20147@work-vm>
-References: <20200827153657.111098-1-dgilbert@redhat.com>
- <20200827153657.111098-6-dgilbert@redhat.com>
- <lyft6rl4th.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kSjKn-0006eE-KO; Wed, 14 Oct 2020 12:09:01 -0400
+Received: from mail-eopbgr80109.outbound.protection.outlook.com
+ ([40.107.8.109]:53646 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kSjKj-00025q-LQ; Wed, 14 Oct 2020 12:09:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HiIVwTZO734DSdA1ffoD+Sdl3llJssIN1O1My09Mu9K72sjx0ZpQGPsh0q6m522oj83yIM1MNUJcxwDUhu27rMsEf/3S0CSAKM9jf5qppslhynzZk6z/3ULXCWecNfo7RtZBSbQ9xA27ZKrSlTbP5fXWmuU4mdGMTnCTs9HtsXyoz+WdRLryJaLWRO3k4t8JMRcIxpQqVBbARVItAHoYO47ieKMBgTfwpp1cMIq6sqnDhQxUCwxK17yYs7fHb1YEe3XYrigRaJGkn7r0HA98kQWDx15+AkPTIGCj32EPL3Lbcz/Cihra09HtT2kKGRK78hAg4vtyRbg8UGmcIB0RPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NU2ZbF/dCBIwBsq/MVZMVPb2bNeYvKK/IT8c+Z34w0U=;
+ b=lH09FdZPov2RpibcY9ymdujet7nKf3r2uLdccZM43lC9/SDa1DubRtBDNCiCqC38sKdcregOq6MrbJ3KaQPlQX97XNuOZRTVmFr299L+f12dwmGdeiSwSFdWLDKn0pSsNwo5nrOoiW3lMw0l1cOQUwsu6vSAPIQVf8Erc1TsI2yQUhtqRr9jdS2ZEBCUAOQYDCVc4MBqg/XHsbSnyqZzva36nInNS7o6dyXlUug6L8Zky/s98siocd0uU47YpwoNXRLFfd+Vwll88dd8DO/gODADXLNhoY0BlDmNOrxBdbFhZzew6GZ4TOKZ+RG7/fU9lVoDWdcdKWIiEqRCix5CgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NU2ZbF/dCBIwBsq/MVZMVPb2bNeYvKK/IT8c+Z34w0U=;
+ b=QlOMM+8O0jw5bHPOFHjJEujGa/XibZ24NE3FPEgMDUhvorMOVN1RlrACTrBW30ZAamNV7DvE5HmXQgptedm/zGGAyrAOntVRl3iX6z3v5PLIaqfHBmiZ/IZwrHCyD3Uu7JnSIg9NoP62uYrbyK6Tc6iO00Mee1Mfl/P32v7ZW7g=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
+ by HE1PR0802MB2618.eurprd08.prod.outlook.com (2603:10a6:3:d4::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Wed, 14 Oct
+ 2020 16:08:52 +0000
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::fd10:fc33:1bb0:1036]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::fd10:fc33:1bb0:1036%6]) with mapi id 15.20.3477.021; Wed, 14 Oct 2020
+ 16:08:52 +0000
+Subject: Re: [PATCH v11 04/13] copy-on-read: pass overlay base node name to
+ COR driver
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, fam@euphon.net,
+ stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
+ libvir-list@redhat.com, eblake@redhat.com, den@openvz.org,
+ vsementsov@virtuozzo.com
+References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1602524605-481160-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <3c6699f3-e061-c2ae-c5e9-a12660405624@redhat.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <89965a42-cee0-a98c-f97a-a03b5d834418@virtuozzo.com>
+Date: Wed, 14 Oct 2020 19:08:49 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <3c6699f3-e061-c2ae-c5e9-a12660405624@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [109.252.114.22]
+X-ClientProxiedBy: AM4PR0101CA0067.eurprd01.prod.exchangelabs.com
+ (2603:10a6:200:41::35) To HE1PR0801MB2124.eurprd08.prod.outlook.com
+ (2603:10a6:3:89::22)
 MIME-Version: 1.0
-In-Reply-To: <lyft6rl4th.fsf@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.22) by
+ AM4PR0101CA0067.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::35) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22 via Frontend
+ Transport; Wed, 14 Oct 2020 16:08:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1de7a8db-a70d-4769-8eb3-08d8705b7176
+X-MS-TrafficTypeDiagnostic: HE1PR0802MB2618:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB2618128FEC88B913818C12A9F4050@HE1PR0802MB2618.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GWpPwwiQhN7FBt/L0OH0795I7WV7FSEGz17C8C2gdRfWqzzbARegs8Rov4P6U1kpub5B+FIzd7RleqR9LkAKcidADGxuoVoRD7XitOEy5IyybHGV3zfvN7ZN/ldYXlUgwTxawW3lODC+iTNLtOf9NZGKEusqivBqemqvGI/vTaAvvnghKw3jx/pHq3fgHJiJ0X1iqZXSO/AznOTczGlromLVoG195bltalqynu4Kj9xif4OsK+wtnhb5IhnNu3Mx6ne7QAZF51pdQ25ZYhhS3NnarcYyR1hlKz3dVoKyCdX1pVfLzwXLNw+Bj85lJs5vU1y0J/ceuAfwgo+sy7rAqbZnJy2tl65Lbp5GyN7Zwz77una5VW5mhUtWS7nytGXb
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39830400003)(396003)(136003)(366004)(376002)(346002)(2616005)(107886003)(66946007)(66476007)(4326008)(44832011)(8936002)(186003)(66556008)(7416002)(6512007)(16526019)(8676002)(6506007)(31686004)(478600001)(53546011)(36756003)(86362001)(52116002)(5660300002)(956004)(31696002)(2906002)(316002)(83380400001)(6486002)(26005)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: n0gprXQ0YAYapq+QjTZLS6psoWa7ylTPyJT+HzMJOeVhH4mjfmIrEymdDMMyKkt9MG/AzsQtNICkJVLpeiGY1VFiXFUXmJDtbHG0KlUzY5YGst1pVWuvOkna73QxKglB0NuIhLSUQBXNgX0IeL1TrOB9aNt+cmDGhbi31Jk1huds0pex0hxq1Sru9+omxRFB/EVRFgdiWLxajy0Efw0C9pIHLo6Z+x3crQIey2WQrSeEMHOHqNwLIPcKEb2/prK1e68t8CFcOnasiRYUEThvE51aNygUG+Uwt4J43Fn+KQ5IBNOzlJeMx2zImiysOIebSSkIavEKh5jbZLaKz5spgXl2diGqSLIGMsx88B4ORw2WxqfpPctbqbcsHOta4b/A/P5ysnVHJgveU9LfZS7dyi4ym96WO0D9ipE4FFrI4XcI+SuN2Rk9AhtGm+vYydKZlwzcIfgWb3EjHckYLPLlmZnB8HoCI0azHhdjQ5adXmZd9glnLbBvHQFDebmXxw+I0Hg68E0uY60Jecdm/7w430HKFwwpfHE9EyY/Y9BpT14DdnTiyKvVLsqqgBIlSPPgjqWjAe8YJlFFFINuFYUIPZRa1mnZPZ0Nse3irDRUN7gTBPD6m2EWeGfUwhyvwOcua1IDoWOTGnJMLooZUKJJVg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1de7a8db-a70d-4769-8eb3-08d8705b7176
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 16:08:52.3414 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VSdaOeoUgPRPgu8rB/1FEmSmP+wRYQ/40X2IJS9XIGB9k9/lw/sWRAvudhLBJg381vIZe9YDs7Nsuo34eqyT22fI8Bg6+/3MABMCcdZTro0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2618
+Received-SPF: pass client-ip=40.107.8.109;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 12:08:55
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,183 +124,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, stefanha@redhat.com, vgoyal@redhat.com,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Christophe de Dinechin (dinechin@redhat.com) wrote:
+On 14.10.2020 14:09, Max Reitz wrote:
+> On 12.10.20 19:43, Andrey Shinkevich wrote:
+>> We are going to use the COR-filter for a block-stream job.
+>> To limit COR operations by the base node in the backing chain during
+>> stream job, pass the name of overlay base node to the copy-on-read
+>> driver as base node itself may change due to possible concurrent jobs.
+>> The rest of the functionality will be implemented in the patch that
+>> follows.
+>>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>> ---
+>>   block/copy-on-read.c | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
 > 
-> On 2020-08-27 at 17:36 CEST, Dr. David Alan Gilbert (git) wrote...
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >
-> > Map xattr names coming from the server, i.e. the host filesystem;
-> > currently this is only from listxattr.
-> >
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  tools/virtiofsd/passthrough_ll.c | 88 ++++++++++++++++++++++++++++++++
-> >  1 file changed, 88 insertions(+)
-> >
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index 9b9c8f3ab1..7cd99186f7 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -2188,6 +2188,42 @@ static int xattr_map_client(const char *client_name, char **out_name)
-> >      abort();
-> >  }
-> >
-> > +/*
-> > + * For use with listxattr where the server fs gives us a name and we may need
-> > + * to sanitize this for the client.
-> > + * Returns a pointer to the result in *out_name
-> > + *   This is always the original string or the current string with some prefix
-> > + *   removed; no reallocation is done.
-> > + * Returns 0 on success
-> > + * Can return -ENODATA to indicate the name should be dropped from the list.
-> > + */
-> > +static int xattr_map_server(const char *server_name, const char **out_name)
+> Is there a reason why you didn’t add this option to QAPI (as part of a
+> yet-to-be-created BlockdevOptionsCor)?  Because I’d really like it there.
 > 
-> > +{
-> > +    const XattrMapEntry *cur_entry;
-> > +    for (cur_entry = xattr_map_list; ; cur_entry++) {
-> > +        if ((cur_entry->flags & XATTR_MAP_FLAG_SERVER) &&
-> > +            (!strncmp(cur_entry->prepend,
-> > +                      server_name,
-> > +                      strlen(cur_entry->prepend)))) {
+
+I agree that passing a base overlay under the base option looks clumsy. 
+We could pass the base node name and find its overlay ourselves here in 
+cor_open(). In that case, we can use the existing QAPI.
+The reason I used the existing QAPI is to make it easier for a user to 
+operate with the traditional options and to keep things simple. So, the 
+user shouldn't think what overlay or above-base node to pass.
+If we introduce the specific BlockdevOptionsCor, what other options may 
+come with?
+
+>> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+>> index bcccf0f..c578b1b 100644
+>> --- a/block/copy-on-read.c
+>> +++ b/block/copy-on-read.c
+>> @@ -24,19 +24,24 @@
+>>   #include "block/block_int.h"
+>>   #include "qemu/module.h"
+>>   #include "qapi/error.h"
+>> +#include "qapi/qmp/qerror.h"
+>>   #include "qapi/qmp/qdict.h"
+>>   #include "block/copy-on-read.h"
+>>   
+>>   
+>>   typedef struct BDRVStateCOR {
+>>       bool active;
+>> +    BlockDriverState *base_overlay;
+>>   } BDRVStateCOR;
+>>   
+>>   
+>>   static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+>>                       Error **errp)
+>>   {
+>> +    BlockDriverState *base_overlay = NULL;
+>>       BDRVStateCOR *state = bs->opaque;
+>> +    /* We need the base overlay node rather than the base itself */
+>> +    const char *base_overlay_node = qdict_get_try_str(options, "base");
 > 
-> Might be slightly clearer (and possibly faster) as
+> Shouldn’t it be called base-overlay or above-base then?
 > 
->     strstart(cur_entry->prepend, server_name, &end)
 
+The base_overlay identifier is used below as the pointer to BS. The 
+base_overlay_node stands for the name of the node. I used that 
+identifier to differ between the types. And the above_base has another 
+meaning per block/stream.c - it can be a temporary filter with a JSON-name.
 
-I think this is actually,
-   strstart(server_name, cur_entry->prepend, &end)
-
-because I think strstart writes the offset into the 1st string
-into &end expecting the 2nd string to be the thing to test for.
-Agreed?
-
-
-> > +            if (cur_entry->flags & XATTR_MAP_FLAG_END_BAD) {
-> > +                return -ENODATA;
-> > +            }
-> > +            if (cur_entry->flags & XATTR_MAP_FLAG_END_OK) {
-> > +                *out_name = server_name;
-> > +                return 0;
-> > +            }
-> > +            if (cur_entry->flags & XATTR_MAP_FLAG_PREFIX) {
-> > +                /* Remove prefix */
-> > +                *out_name = server_name + strlen(cur_entry->prepend);
+>>   
+>>       bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+>>                                  BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+>> @@ -52,7 +57,16 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+>>           ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+>>               bs->file->bs->supported_zero_flags);
+>>   
+>> +    if (base_overlay_node) {
+>> +        qdict_del(options, "base");
+>> +        base_overlay = bdrv_lookup_bs(NULL, base_overlay_node, errp);
 > 
-> With the above, that would be
+> I think this is a use-after-free.  The storage @base_overlay_node points
+> to belongs to a QString, which is referenced only by @options; so
+> deleting that element of @options should free that string.
 > 
->     *out_name = end;
-
-OK.
-
+> Max
 > 
-> > +                return 0;
-> > +            }
-> > +        }
-> > +    }
-> > +
-> > +    /* Shouldn't get here - rules should have an END_* */
-> 
-> You probably want to point the finger back to parse_xattrmap() in the comment?
 
-Done.
+I will swap those two function calls (bdrv_lookup_bs(); qdict_del();).
+Thank you.
 
-> > +    abort();
-> 
-> > +}
-> > +
-> >  static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-> >                          size_t size)
-> >  {
-> > @@ -2342,8 +2378,60 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
-> >          if (ret == 0) {
-> >              goto out;
-> >          }
-> > +
-> > +        if (lo->xattrmap) {
-> 
-> If you put the "XattrMapEntry" pointer in lo, then you would probably test that.
+Andrey
 
-Done
-
-> 
-> > +            /*
-> > +             * Map the names back, some attributes might be dropped,
-> > +             * some shortened, but not increased, so we shouldn't
-> > +             * run out of room.
-> > +             */
-> > +            size_t out_index, in_index;
-> > +            out_index = 0;
-> > +            in_index = 0;
-> > +            while (in_index < ret) {
-> > +                const char *map_out;
-> > +                char *in_ptr = value + in_index;
-> > +                /* Length of current attribute name */
-> > +                size_t in_len = strlen(value + in_index) + 1;
-> > +
-> > +                int mapret = xattr_map_server(in_ptr, &map_out);
-> > +                if (mapret != -ENODATA && mapret != 0) {
-> > +                    /* Shouldn't happen */
-> > +                    saverr = -mapret;
-> > +                    goto out;
-> > +                }
-> > +                if (mapret == 0) {
-> > +                    /* Either unchanged, or truncated */
-> > +                    size_t out_len;
-> > +                    if (map_out != in_ptr) {
-> > +                        /* +1 copies the NIL */
-> > +                        out_len = strlen(map_out) + 1;
-> > +                    } else {
-> > +                        /* No change */
-> > +                        out_len = in_len;
-> > +                    }
-> > +                    /*
-> > +                     * Move result along, may still be needed for an unchanged
-> > +                     * entry if a previous entry was changed.
-> > +                     */
-> > +                    memmove(value + out_index, map_out, out_len);
-> > +
-> > +                    out_index += out_len;
-> > +                }
-> > +                in_index += in_len;
-> > +            }
-> > +            ret = out_index;
-> > +            if (ret == 0) {
-> > +                goto out;
-> > +            }
-> > +        }
-> >          fuse_reply_buf(req, value, ret);
-> >      } else {
-> > +        /*
-> > +         * xattrmap only ever shortens the result,
-> > +         * so we don't need to do anything clever with the
-> > +         * allocation length here.
-> > +         */
-> 
-> I don't understand the comment above. We are in the !lo->xattrmap) case, no?
-
-No, we're in the else for if (size) {  for the case where the caller is
-trying not to actually get a list of the attributes, but to get a guess
-of the size of storage needed.
-
-Dave
-
-
-> >          fuse_reply_xattr(req, ret);
-> >      }
-> >  out_free:
+>> +        if (!base_overlay) {
+>> +            error_setg(errp, QERR_BASE_NOT_FOUND, base_overlay_node);
+>> +            return -EINVAL;
+>> +        }
+>> +    }
+>>       state->active = true;
+>> +    state->base_overlay = base_overlay;
+>>   
+>>       /*
+>>        * We don't need to call bdrv_child_refresh_perms() now as the permissions
+>>
 > 
 > 
-> --
-> Cheers,
-> Christophe de Dinechin (IRC c3d)
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
 
