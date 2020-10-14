@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1AC28E06A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:18:56 +0200 (CEST)
-Received: from localhost ([::1]:51038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DAA28E05F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:15:46 +0200 (CEST)
+Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfk6-0002Gh-7f
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:18:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
+	id 1kSfh3-00082Q-KE
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:15:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSfd2-00052z-H7
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:11:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31173)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSfd1-00050b-FN
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:11:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSfd0-0003NN-AP
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:11:36 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSfcz-0003NE-NI
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:11:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602677493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BonPmoPiMzEscNZas6skkk/be9IPD4806mOVa+URQkg=;
- b=VW4vL1vVzGyymt+fKDOyuInAzuWMQHw4gyl3skMP35QepiJ249TnyzOZcT6H8I6kWg0sgT
- DZHYqepygsL5AVIC99KTZ+HBGNnIzPQiYwVaH69OFb8BqoSwmF2syUfIX4EPb/nfNbxbBC
- SGvdh8+9rcRtgJblmTDi/gIDaaBN/lg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cD9WkUKSOWy1oXoBE3GlVH0FFoEMnzc1QrCN8Qgu+Bc=;
+ b=AvKu01hYKBjasoI0tqB2StaJ0ww5DqmULItzWSBkEBGmutTDh0TI/GL4pwgjprACuu1CDC
+ DhUJE3M5dK6BOqZV8whPSP+XzKiRUFNpuOMMdjeCDCWJXme0P8k4OH7FUhLJ/dezXSOr0A
+ GBmRRN8mIn1VGTznU2bejuBoNwM8yKg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-mHq9JzWBOXCM-mJU1ZFYtw-1; Wed, 14 Oct 2020 08:11:29 -0400
-X-MC-Unique: mHq9JzWBOXCM-mJU1ZFYtw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-523-KJK-zK6fO7KuS-9vAswpBQ-1; Wed, 14 Oct 2020 08:11:31 -0400
+X-MC-Unique: KJK-zK6fO7KuS-9vAswpBQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 126C059
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 12:11:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ED78801FCC
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 12:11:30 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C96FC55798;
- Wed, 14 Oct 2020 12:11:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6AE45C882;
+ Wed, 14 Oct 2020 12:11:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E2C6C9CA5; Wed, 14 Oct 2020 14:11:20 +0200 (CEST)
+ id EAE3F9A95; Wed, 14 Oct 2020 14:11:20 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 0/7] build spice chardevs as module
-Date: Wed, 14 Oct 2020 14:11:13 +0200
-Message-Id: <20201014121120.13482-1-kraxel@redhat.com>
+Subject: [PATCH v5 1/7] qemu-edid: drop cast
+Date: Wed, 14 Oct 2020 14:11:14 +0200
+Message-Id: <20201014121120.13482-2-kraxel@redhat.com>
+In-Reply-To: <20201014121120.13482-1-kraxel@redhat.com>
+References: <20201014121120.13482-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,48 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3:=0D
- - fix spice-app=0D
- - init objects before spice=0D
- - meson cleanup=0D
-v4:=0D
- - rebase to latest master, adapt to qom changes.=0D
- - add patches to fix modular builds.=0D
- - pick up review tags.=0D
-v5:=0D
- - rebase to latest master, fixup conflicts.=0D
-=0D
-Gerd Hoffmann (7):=0D
-  qemu-edid: drop cast=0D
-  ui/spice-app: don't use qemu_chr_open_spice_port directly=0D
-  chardev/spice: make qemu_chr_open_spice_port static=0D
-  chardev/spice: simplify chardev setup=0D
-  meson: add spice_headers dependency.=0D
-  meson: add spice dependency to core spice source files.=0D
-  chardev/spice: build spice chardevs as module=0D
-=0D
- include/chardev/spice.h |  4 ----=0D
- include/ui/qemu-spice.h |  1 -=0D
- chardev/spice.c         | 37 ++++++++++---------------------------=0D
- qemu-edid.c             |  2 +-=0D
- softmmu/vl.c            |  9 +++++----=0D
- ui/spice-app.c          | 34 ++++++++++++++++++++++------------=0D
- ui/spice-core.c         |  2 --=0D
- util/module.c           |  2 ++=0D
- audio/meson.build       |  2 +-=0D
- chardev/meson.build     |  7 ++++++-=0D
- meson.build             |  2 ++=0D
- monitor/meson.build     |  2 +-=0D
- ui/meson.build          |  2 +-=0D
- 13 files changed, 51 insertions(+), 55 deletions(-)=0D
-=0D
---=20=0D
-2.27.0=0D
-=0D
+Not needed and makes some compilers error out with:
+
+qemu-edid.c:15:1: error: initializer element is not constant
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-id: 20201013091615.14166-1-kraxel@redhat.com
+---
+ qemu-edid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qemu-edid.c b/qemu-edid.c
+index 1db3372b982c..1cd6a9517238 100644
+--- a/qemu-edid.c
++++ b/qemu-edid.c
+@@ -9,7 +9,7 @@
+ #include "qemu/cutils.h"
+ #include "hw/display/edid.h"
+ 
+-static qemu_edid_info info = (qemu_edid_info) {
++static qemu_edid_info info = {
+     .prefx = 1024,
+     .prefy = 768,
+ };
+-- 
+2.27.0
 
 
