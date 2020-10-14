@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286F828E266
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:40:54 +0200 (CEST)
-Received: from localhost ([::1]:47172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB4628E2B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:58:15 +0200 (CEST)
+Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kShxV-0006mi-5N
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:40:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37810)
+	id 1kSiEI-0002mS-78
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kShrN-0001VR-Ss
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:34:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26374)
+ id 1kShrR-0001Wm-HI
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:34:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kShrM-000641-2a
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:34:33 -0400
+ id 1kShrP-00065O-JM
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:34:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602686071;
+ s=mimecast20190719; t=1602686074;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7lZ2vwJoIf/EbpWJn4lNu5fvufxDiZ6wJR6K5jxiHgg=;
- b=AvVZ6wIX2E2oaiRcqmgSDpNODgbCYEU0BLH4LUmOfvWLHE3RiwxkMyozCjES0plYeSVGeI
- 3j8+zGIzthgbOcU0n51aGbciAhcp2VYq11QZGeptpBSdYiNTJ8moId/UUI2NOlvdQGOxwf
- X9zyUAxhHZjBtsz4NDM6bBEtBe2H/Rg=
+ bh=cg/NC7GOJEw755h5dRDVL6meLpbR4MEnfcZCX9L9KTA=;
+ b=LwM+XR+sFyDAMjXKSVN3uXLJbpero7DAOTfOLhKKohxk1uIYg0hYaiRZcWOzHjjiyd6wRD
+ O7fsU9+nVXrdkSIf5/E1x/QGFelumAbXlAOqANcVoZFvkJSdsATDiGPGNe+IOrxbs0Zy1h
+ yARQQN4kxxzEV3VPznSXpVdxNyCnv/Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-WCpjcT2nPfSHJsKYK4Undg-1; Wed, 14 Oct 2020 10:34:28 -0400
-X-MC-Unique: WCpjcT2nPfSHJsKYK4Undg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-156-YCp1jlVHMXiCH-TeB_jQKg-1; Wed, 14 Oct 2020 10:34:32 -0400
+X-MC-Unique: YCp1jlVHMXiCH-TeB_jQKg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AF29102120F;
- Wed, 14 Oct 2020 14:34:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2E14D6896;
+ Wed, 14 Oct 2020 14:34:31 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10C695D9CD;
- Wed, 14 Oct 2020 14:34:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 859F819930;
+ Wed, 14 Oct 2020 14:34:28 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 07/10] vga-pci: Register "big-endian-framebuffer" as class
- property
-Date: Wed, 14 Oct 2020 10:34:12 -0400
-Message-Id: <20201014143415.240472-8-ehabkost@redhat.com>
+Subject: [PULL 08/10] vhost-user: Register "chardev" as class property
+Date: Wed, 14 Oct 2020 10:34:13 -0400
+Message-Id: <20201014143415.240472-9-ehabkost@redhat.com>
 In-Reply-To: <20201014143415.240472-1-ehabkost@redhat.com>
 References: <20201014143415.240472-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,47 +92,35 @@ they don't require an object to be instantiated.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200921221045.699690-22-ehabkost@redhat.com>
+Message-Id: <20200921221045.699690-6-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/display/vga-pci.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ backends/vhost-user.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-index e5d9af5868..48d29630ab 100644
---- a/hw/display/vga-pci.c
-+++ b/hw/display/vga-pci.c
-@@ -267,13 +267,6 @@ static void pci_std_vga_realize(PCIDevice *dev, Error **errp)
-     }
+diff --git a/backends/vhost-user.c b/backends/vhost-user.c
+index ae8362d721..b366610e16 100644
+--- a/backends/vhost-user.c
++++ b/backends/vhost-user.c
+@@ -175,9 +175,9 @@ static char *get_chardev(Object *obj, Error **errp)
+     return NULL;
  }
  
--static void pci_std_vga_init(Object *obj)
--{
--    /* Expose framebuffer byteorder via QOM */
--    object_property_add_bool(obj, "big-endian-framebuffer",
--                             vga_get_big_endian_fb, vga_set_big_endian_fb);
--}
--
- static void pci_secondary_vga_realize(PCIDevice *dev, Error **errp)
+-static void vhost_user_backend_init(Object *obj)
++static void vhost_user_backend_class_init(ObjectClass *oc, void *data)
  {
-     PCIVGAState *d = PCI_VGA(dev);
-@@ -386,6 +379,10 @@ static void vga_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_DISPLAY_VGA;
-     device_class_set_props(dc, vga_pci_properties);
-     dc->hotpluggable = false;
-+
-+    /* Expose framebuffer byteorder via QOM */
-+    object_class_property_add_bool(klass, "big-endian-framebuffer",
-+                                   vga_get_big_endian_fb, vga_set_big_endian_fb);
+-    object_property_add_str(obj, "chardev", get_chardev, set_chardev);
++    object_class_property_add_str(oc, "chardev", get_chardev, set_chardev);
  }
  
- static void secondary_class_init(ObjectClass *klass, void *data)
-@@ -403,7 +400,6 @@ static void secondary_class_init(ObjectClass *klass, void *data)
- static const TypeInfo vga_info = {
-     .name          = "VGA",
-     .parent        = TYPE_PCI_VGA,
--    .instance_init = pci_std_vga_init,
-     .class_init    = vga_class_init,
+ static void vhost_user_backend_finalize(Object *obj)
+@@ -195,7 +195,7 @@ static const TypeInfo vhost_user_backend_info = {
+     .name = TYPE_VHOST_USER_BACKEND,
+     .parent = TYPE_OBJECT,
+     .instance_size = sizeof(VhostUserBackend),
+-    .instance_init = vhost_user_backend_init,
++    .class_init = vhost_user_backend_class_init,
+     .instance_finalize = vhost_user_backend_finalize,
  };
  
 -- 
