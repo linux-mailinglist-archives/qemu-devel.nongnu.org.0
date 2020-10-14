@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A869A28DB1B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 10:21:42 +0200 (CEST)
-Received: from localhost ([::1]:46352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0F528DB37
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 10:25:59 +0200 (CEST)
+Received: from localhost ([::1]:60160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSc2V-00081P-MQ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 04:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60828)
+	id 1kSc6f-0005GS-NJ
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 04:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kSc1b-0007bu-RL
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:20:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kSc1Y-0007QY-Hs
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:20:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kSc1W-00011B-O6
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 08:20:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B2FF62E80DE
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 08:20:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSc2v-0008VO-KD
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:22:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25703)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSc2q-0007am-3u
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:22:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602663718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7zDlQlupIijMBWKanjbG7UkTzAIPZIP868ZwnM4gfvg=;
+ b=BKnLbMytL5+XNTcQTUA13DlHmshG8KHeKTG16nPHxhbnRAXWlLluNZZofNANjmpZSxaIaI
+ WTkijPuqw4qpbmBurWi10RHDPhDcxUT177LjnCqKPr8RmxHCmDRb3rM5xeXcFvhxY5ycvX
+ 9hfCR8/RK8zmdH01fTFBEe7JcxKGFjo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-HPv2Fs3NMnSulmUjKq6MBQ-1; Wed, 14 Oct 2020 04:21:55 -0400
+X-MC-Unique: HPv2Fs3NMnSulmUjKq6MBQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27DB856BE6;
+ Wed, 14 Oct 2020 08:21:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D276F5C1A3;
+ Wed, 14 Oct 2020 08:21:50 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 00DBB9CBC; Wed, 14 Oct 2020 10:21:49 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] Ui 20201014 patches
+Date: Wed, 14 Oct 2020 10:21:40 +0200
+Message-Id: <20201014082149.26853-1-kraxel@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Oct 2020 08:14:34 -0000
-From: Pavel Dovgalyuk <1899082@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: acceptance pc replay test x86
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cleber-gnu dovgalyuk
-X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
-X-Launchpad-Bug-Modifier: Pavel Dovgalyuk (dovgalyuk)
-References: <160219062643.30310.16188463455229225461.malonedeb@gac.canonical.com>
-Message-Id: <160266327475.31314.8318848512751822972.malone@wampee.canonical.com>
-Subject: [Bug 1899082] Re: ReplayKernel.test_x86_64_pc fails intermittently
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
-X-Launchpad-Hash: fb63da7ca5d36a1ca59970692492c7095a25ae24
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 00:50:33
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,84 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1899082 <1899082@bugs.launchpad.net>
+Cc: Stefan Weil <sw@weilnetz.de>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I traced this bug to hw/char/serial.c/serial_ioport_read
+The following changes since commit 96292515c07e3a99f5a29540ed2f257b1ff75111=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-5.2=
+-pull-request' into staging (2020-10-13 14:06:22 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/ui-20201014-pull-request=0D
+=0D
+for you to fetch changes up to 41d004d8af59885da2c21460a73898b1aa09690f:=0D
+=0D
+  ui: Fix default window_id value (2020-10-14 10:20:26 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+ui: fixes for sdl, curses, vnc, input-linux.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Colin Xu (1):=0D
+  input-linux: Reset il->fd handler before closing it=0D
+=0D
+Gerd Hoffmann (1):=0D
+  qemu-edid: drop cast=0D
+=0D
+Jan Henrik Weinstock (1):=0D
+  SDL: enable OpenGL context creation=0D
+=0D
+Jason Andryuk (1):=0D
+  vnc-stubs: Allow -vnc none=0D
+=0D
+Samuel Thibault (1):=0D
+  ui: Fix default window_id value=0D
+=0D
+Yonggang Luo (4):=0D
+  curses: Fixes compiler error that complain don't have langinfo.h on=0D
+    msys2/mingw=0D
+  curses: Fixes curses compiling errors.=0D
+  win32: Simplify gmtime_r detection not depends on if _POSIX_C_SOURCE=0D
+    are defined on msys2/mingw=0D
+  configure: Fixes ncursesw detection under msys2/mingw by convert them=0D
+    to meson=0D
+=0D
+ configure                 | 155 ++------------------------------------=0D
+ meson_options.txt         |   4 +=0D
+ include/sysemu/os-win32.h |   4 +-=0D
+ qemu-edid.c               |   2 +-=0D
+ ui/console.c              |   1 +=0D
+ ui/curses.c               |  14 ++--=0D
+ ui/input-linux.c          |   1 +=0D
+ ui/sdl2.c                 |   5 ++=0D
+ ui/vnc-stubs.c            |   3 +=0D
+ util/oslib-win32.c        |   4 +-=0D
+ meson.build               |  83 +++++++++++++++++---=0D
+ ui/meson.build            |   2 +-=0D
+ 12 files changed, 105 insertions(+), 173 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
-Bug disappears when I add qemu_log("serial_ioport_read %x %x\n",
-(int)addr, ret); into the end of this function.
-
-I suppose that there is avocado (or socket) io synchronization problem,
-because running the same test without avocado works normally.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1899082
-
-Title:
-  ReplayKernel.test_x86_64_pc fails intermittently
-
-Status in QEMU:
-  New
-
-Bug description:
-  Even though this acceptance test is already skipped on GitLab CI, the
-  intermittent failures can be seen on other environments too.
-
-  The record phase works fine, but during the replay phase fail to
-  finish booting the kernel (until the expected place):
-
-  16:34:47 DEBUG| [    0.034498] Last level dTLB entries: 4KB 0, 2MB 0, 4MB=
- 0, 1GB 0
-  16:34:47 DEBUG| [    0.034790] Spectre V2 : Spectre mitigation: LFENCE no=
-t serializing, switching to generic retpoline
-  16:34:47 DEBUG| [    0.035093] Spectre V2 : Mitigation: Full generic retp=
-oline
-  16:34:47 DEBUG| [    0.035347] Spectre V2 : Spectre v2 / SpectreRSB mitig=
-ation: Filling RSB on context switch
-  16:34:47 DEBUG| [    0.035667]
-  16:36:02 ERROR| =
-
-  16:36:02 ERROR| Reproduced traceback from: /home/cleber/src/avocado/avoca=
-do/avocado/core/test.py:767
-  16:36:02 ERROR| Traceback (most recent call last):
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/replay_kernel.py", line 92, in test_x86_64_pc
-  16:36:02 ERROR|     self.run_rr(kernel_path, kernel_command_line, console=
-_pattern, shift=3D5)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/replay_kernel.py", line 73, in run_rr
-  16:36:02 ERROR|     False, shift, args, replay_path)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/replay_kernel.py", line 55, in run_vm
-  16:36:02 ERROR|     self.wait_for_console_pattern(console_pattern, vm)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/boot_linux_console.py", line 53, in wait_for_console_pattern
-  16:36:02 ERROR|     vm=3Dvm)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/avocado_qemu/__init__.py", line 130, in wait_for_console_pattern
-  16:36:02 ERROR|     _console_interaction(test, success_message, failure_m=
-essage, None, vm=3Dvm)
-  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
-/avocado_qemu/__init__.py", line 82, in _console_interaction
-  16:36:02 ERROR|     msg =3D console.readline().strip()
-  16:36:02 ERROR|   File "/usr/lib64/python3.7/socket.py", line 575, in rea=
-dinto
-  16:36:02 ERROR|     def readinto(self, b):
-  16:36:02 ERROR|   File "/home/cleber/src/avocado/avocado/avocado/plugins/=
-runner.py", line 77, in sigterm_handler
-  16:36:02 ERROR|     raise RuntimeError("Test interrupted by SIGTERM")
-  16:36:02 ERROR| RuntimeError: Test interrupted by SIGTERM
-  16:36:02 ERROR| =
-
-
-  On my workstation, I can replicate the failure roughly once every 50
-  runs.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1899082/+subscriptions
 
