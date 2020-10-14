@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36DF028DFE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:38:04 +0200 (CEST)
-Received: from localhost ([::1]:50460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A81428DFF5
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:46:09 +0200 (CEST)
+Received: from localhost ([::1]:32882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSf6Z-0006Q8-1T
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45392)
+	id 1kSfEO-0002ku-42
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:46:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kSf0Q-0003Ik-BR; Wed, 14 Oct 2020 07:31:43 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:56319)
+ id 1kSf9H-0000vP-QI; Wed, 14 Oct 2020 07:40:51 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:33959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kSf0N-0006b3-CY; Wed, 14 Oct 2020 07:31:42 -0400
+ id 1kSf9F-0007dY-Ad; Wed, 14 Oct 2020 07:40:51 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 59224580310;
- Wed, 14 Oct 2020 07:31:38 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 14 Oct 2020 07:31:38 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2195C580352;
+ Wed, 14 Oct 2020 07:40:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 14 Oct 2020 07:40:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=krslg3EfnDZ3H
- DoN43dy/RC2FJ5ObbahyFmNhdEArV8=; b=FFhS5kS6SzBVNwxc4FXDDVZ/Nx0ti
- CeYBpxdzbdmWdIOAUB1dBFETfvUW3sPqWTSew7tDxjeJKYma5iicTyLSWElmrRsG
- gOLOeOvcykxlTarsReJmkqxB5mXWhmxLNegxxkyZoqRwYYn049sBPjfcmFNmGNQB
- FZhFJnpB2+VQBkEoCveKgSdkLw62AVWhAEk90Bp4STVKXW0CN0v/ZdqhDP34f1Uk
- pf7Fb4l1TMXjM0fC6KZxI6wOPFlOOAQsc50EGO2RQrzz2V7lPGLHDjiDPXmemkNL
- GGrnnUEcaz8YYZ64pogYSoKyEvj6V4yxPoHHiJy4poWDVlcgoG5S1kupg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=FD7phjCrJiW9KBqvLtjQkWR4wzj
+ oTIDJFn74Lv2XTik=; b=BA3JtwkC2edWqol0l7lv8iE2v7/NcPBZcO6LyFzdLr4
+ aAa6vimxgcMDwoYO+2iEu/hVHFcW7NxqjTQt3Op9WrCqsrT+tKNQ0azPN4xE+TNB
+ ndr6eswtjC5Km+pJ+DsTAeMgWcR6GEr3zpiwK8c3cp6UeAarnmcV/vqC4dpDgJ2G
+ 4eq5hnyvm/qxhE1yTL5O42n8+CAFPWzAA9yIBMxuDPfBKBN68pq6PWImCh+GBAzy
+ KlW9ZEXOnSGHyXILuN8ymy9vhTyHi+llRXXzOjE++yhyPHtEVb5+8/HxFYON59mB
+ ojA+p19CXjqrI7Oc8Ptp7ITMRCGNLJKfEM9DsH3UB9A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=krslg3EfnDZ3HDoN43dy/RC2FJ5ObbahyFmNhdEArV8=; b=TdaP4g/Q
- vOPfaeq2N3O4IYNKW0VUNmfIhtiv2ijgvmN2qnObI8lqQ4gW2y+R2J5++1lXiH+S
- 2JmGjYN96s2LswlwpoedvzP7Jow2i7lvlsZcFXuDRAaNiEEMNcGvLyW7YsLLhWhw
- 7AMZNuu+VzJv3QwHI/snXCr04VBF1KYp6qQBL94RgC9C+ojX9VAotuajL0GqzQWd
- 3cZ0ZyFdFkjQ78xgdTAjjNUxHjMm+ark3P7Cbwe4vk8XrPU8yDEk7kYi/PQH26Fq
- BdyZgxZti7l8aD2mhBGBw0nij13CM7ulOuP9NUJLU9eUKzyQuHdErjYpVwe7QZwx
- 8CfXY0ezzoe3jw==
-X-ME-Sender: <xms:muGGX-1VgxH4zJ_-reT9cIICJns2hARqfZh3dkv2vKD8sWezwDqW4Q>
- <xme:muGGXxGgkHgYRm4di21wIeFbc-RSOAmG4Xlc4fZS3Gc1VtilL8cO9e_Qq_BYKqHcB
- owyp7Jyp0P7RCz4qo0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedriedugdegudcutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=FD7phj
+ CrJiW9KBqvLtjQkWR4wzjoTIDJFn74Lv2XTik=; b=nBSuW4gm88rlC6ncSsv20v
+ Dr5U9MHkNgidOmeyAldg/XIzxnbs+ud+cwe0STtS1rGojPYvRcGCkFj1xUrzRitn
+ 1y5ey9y00pEUVsYeJxbIzZar971g/bqPiCC9DHMz7661YXGwPS55Nm6m8zNHjITF
+ ZSLIdopqEHBzcOiLTfLR8tIMimG7UvoX9zteGbgqFUauJSzOSomqlP4iPze1iwkM
+ f+vhL+FGh2eYckV7OX4pwYYEGhMMp+4hvdcXq/pZz+BS/GaVqLl0DMaFKqJuhJ1o
+ Yv4+F2nabKbA6YkFByzCq9kyh4zxq8oxjlfX/QUhKT1A7gbiNYvo0OfvRc5K7Umg
+ ==
+X-ME-Sender: <xms:vuOGX1aG6JDAukS_J3C9XPEJTnIrwgSv3IU1YOh5_8nOmZX9u02_MQ>
+ <xme:vuOGX8aS8E6FX3IvPvSuOTBtwW1RXyecBAx0TodZAeuVf0tsvF3wXJMRTCKX3xoqo
+ Ic5mujjJ-M4jcgeMak>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedriedugdegvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
  lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepvdffffdugffhfeffvddvvddtvefhffffgfeuffekgffgkeejgfehudehteevgfeh
- necuffhomhgrihhnpehrvghsohhurhgtvghsrdhophgvnhdprhgvshhouhhrtggvshdrrg
- gtthhivhgvnecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihii
- vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrd
- gukh
-X-ME-Proxy: <xmx:muGGX27Fb4oH3j9p5aCvGWICUNiXDvb16-AsQ_wOKhxRRRPESWpRrA>
- <xmx:muGGX_1PQwfVCBkrgz2LmVmsNb_2ln7GUd9pl3bb15F3VKwCGfJk8Q>
- <xmx:muGGXxEhBvE1O8GJQiwCTkjImWll3ZVRdx4T50dS_GPzAriNsnUrHQ>
- <xmx:muGGX24Q1vM3SoKhz96c_tkoj76zctI9_Q_tGXadygB4F5YhtFUIVw>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ hrnhepfeefgfdvleeitdehhfevffegleduieffgfdujeeuhfeluddthffgjeegkefhkedt
+ necuffhomhgrihhnpehuuhhiugdruggrthgrnecukfhppeektddrudeijedrleekrddule
+ dtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihht
+ shesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:vuOGX3-6NLo8ruGZXyukvnrqldF24NcmAOh3jDOabCoyWveT55YWCA>
+ <xmx:vuOGXzru-Pv13NiL_egPLwl785F-rY5j_9D1A1kWFPviQ32-jXddTg>
+ <xmx:vuOGXwpPwRR17Kzk31B3Z3EGEj7S-AqXeUzxRUDf2ubPp9QoB0xJbw>
+ <xmx:v-OGX1RfpVcOABHF8qXhXpJ-ze4EOQwaZlpxBxkmXSVPwkItzZOqCb7Jn1c>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id CE44A3064610;
- Wed, 14 Oct 2020 07:31:36 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B34943280064;
+ Wed, 14 Oct 2020 07:40:44 -0400 (EDT)
+Date: Wed, 14 Oct 2020 13:40:42 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 9/9] hw/block/nvme: allow open to close zone transitions by
- controller
-Date: Wed, 14 Oct 2020 13:31:22 +0200
-Message-Id: <20201014113122.388849-10-its@irrelevant.dk>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201014113122.388849-1-its@irrelevant.dk>
-References: <20201014113122.388849-1-its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v6 02/11] hw/block/nvme: Generate namespace UUIDs
+Message-ID: <20201014114042.GA357831@apples.localdomain>
+References: <20201013214212.2152-1-dmitry.fomichev@wdc.com>
+ <20201013214212.2152-3-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
+Content-Disposition: inline
+In-Reply-To: <20201013214212.2152-3-dmitry.fomichev@wdc.com>
 Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
  helo=new3-smtp.messagingengine.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 07:31:27
@@ -98,203 +98,129 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
 
-Allow the controller to release open resources by transitioning
-implicitly and explicitly opened zones to closed. This is done using a
-naive "least recently opened" strategy.
+--EeQfGwPcQSOJBaQU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme-ns.h    |  5 ++++
- hw/block/nvme-ns.c    |  5 ++++
- hw/block/nvme.c       | 57 ++++++++++++++++++++++++++++++++++++++++---
- hw/block/trace-events |  1 +
- 4 files changed, 65 insertions(+), 3 deletions(-)
+On Oct 14 06:42, Dmitry Fomichev wrote:
+> In NVMe 1.4, a namespace must report an ID descriptor of UUID type
+> if it doesn't support EUI64 or NGUID. Add a new namespace property,
+> "uuid", that provides the user the option to either specify the UUID
+> explicitly or have a UUID generated automatically every time a
+> namespace is initialized.
+>=20
+> Suggested-by: Klaus Jansen <its@irrelevant.dk>
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 
-diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-index 3d0269eef6f0..5d8523c047d8 100644
---- a/hw/block/nvme-ns.h
-+++ b/hw/block/nvme-ns.h
-@@ -38,6 +38,8 @@ typedef struct NvmeZone {
-     uint8_t            *zde;
- 
-     uint64_t wp_staging;
-+
-+    QTAILQ_ENTRY(NvmeZone) lru_entry;
- } NvmeZone;
- 
- typedef struct NvmeNamespace {
-@@ -64,6 +66,9 @@ typedef struct NvmeNamespace {
-         struct {
-             uint32_t open;
-             uint32_t active;
-+
-+            QTAILQ_HEAD(, NvmeZone) lru_open;
-+            QTAILQ_HEAD(, NvmeZone) lru_active;
-         } resources;
-     } zns;
- } NvmeNamespace;
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index a01cc5eeb445..cb8b44a78450 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -135,6 +135,9 @@ void nvme_ns_zns_init_zone_state(NvmeNamespace *ns)
-     ns->zns.resources.open = ns->params.zns.mor != 0xffffffff ?
-         ns->params.zns.mor + 1 : ns->zns.num_zones;
- 
-+    QTAILQ_INIT(&ns->zns.resources.lru_open);
-+    QTAILQ_INIT(&ns->zns.resources.lru_active);
-+
-     for (int i = 0; i < ns->zns.num_zones; i++) {
-         NvmeZone *zone = &ns->zns.zones[i];
-         zone->zd = &ns->zns.zd[i];
-@@ -158,6 +161,8 @@ void nvme_ns_zns_init_zone_state(NvmeNamespace *ns)
- 
-             if (ns->zns.resources.active) {
-                 ns->zns.resources.active--;
-+                QTAILQ_INSERT_TAIL(&ns->zns.resources.lru_active, zone,
-+                                   lru_entry);
-                 break;
-             }
- 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index cc637b3a68e9..1fab9d69261c 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1105,11 +1105,47 @@ static inline void nvme_zone_reset_wp(NvmeZone *zone)
-     zone->wp_staging = nvme_zslba(zone);
- }
- 
-+static uint16_t nvme_zrm_transition(NvmeNamespace *ns, NvmeZone *zone,
-+                                    NvmeZoneState to);
-+
-+static uint16_t nvme_zrm_release_open(NvmeNamespace *ns)
-+{
-+    NvmeZone *candidate;
-+    NvmeZoneState zs;
-+    uint16_t status;
-+
-+    trace_pci_nvme_zrm_release_open(ns->params.nsid);
-+
-+    QTAILQ_FOREACH(candidate, &ns->zns.resources.lru_open, lru_entry) {
-+        zs = nvme_zs(candidate);
-+
-+        /* skip explicitly opened zones */
-+        if (zs == NVME_ZS_ZSEO) {
-+            continue;
-+        }
-+
-+        /* skip zones that have in-flight writes */
-+        if (candidate->wp_staging != nvme_wp(candidate)) {
-+            continue;
-+        }
-+
-+        status = nvme_zrm_transition(ns, candidate, NVME_ZS_ZSC);
-+        if (status) {
-+            return status;
-+        }
-+
-+        return NVME_SUCCESS;
-+    }
-+
-+    return NVME_TOO_MANY_OPEN_ZONES;
-+}
-+
- static uint16_t nvme_zrm_transition(NvmeNamespace *ns, NvmeZone *zone,
-                                     NvmeZoneState to)
- {
-     NvmeZoneState from = nvme_zs(zone);
-     NvmeZoneDescriptor *zd = zone->zd;
-+    uint16_t status;
- 
-     trace_pci_nvme_zrm_transition(ns->params.nsid, nvme_zslba(zone), from, to);
- 
-@@ -1131,6 +1167,7 @@ static uint16_t nvme_zrm_transition(NvmeNamespace *ns, NvmeZone *zone,
-             }
- 
-             ns->zns.resources.active--;
-+            QTAILQ_INSERT_TAIL(&ns->zns.resources.lru_active, zone, lru_entry);
- 
-             break;
- 
-@@ -1141,11 +1178,15 @@ static uint16_t nvme_zrm_transition(NvmeNamespace *ns, NvmeZone *zone,
-             }
- 
-             if (!ns->zns.resources.open) {
--                return NVME_TOO_MANY_OPEN_ZONES;
-+                status = nvme_zrm_release_open(ns);
-+                if (status) {
-+                    return status;
-+                }
-             }
- 
-             ns->zns.resources.active--;
-             ns->zns.resources.open--;
-+            QTAILQ_INSERT_TAIL(&ns->zns.resources.lru_open, zone, lru_entry);
- 
-             break;
- 
-@@ -1172,11 +1213,15 @@ static uint16_t nvme_zrm_transition(NvmeNamespace *ns, NvmeZone *zone,
-         case NVME_ZS_ZSF:
-         case NVME_ZS_ZSRO:
-             ns->zns.resources.active++;
-+            ns->zns.resources.open++;
-+            QTAILQ_REMOVE(&ns->zns.resources.lru_open, zone, lru_entry);
- 
--            /* fallthrough */
-+            break;
- 
-         case NVME_ZS_ZSC:
-             ns->zns.resources.open++;
-+            QTAILQ_REMOVE(&ns->zns.resources.lru_open, zone, lru_entry);
-+            QTAILQ_INSERT_TAIL(&ns->zns.resources.lru_active, zone, lru_entry);
- 
-             break;
- 
-@@ -1201,16 +1246,22 @@ static uint16_t nvme_zrm_transition(NvmeNamespace *ns, NvmeZone *zone,
-         case NVME_ZS_ZSF:
-         case NVME_ZS_ZSRO:
-             ns->zns.resources.active++;
-+            QTAILQ_REMOVE(&ns->zns.resources.lru_active, zone, lru_entry);
- 
-             break;
- 
-         case NVME_ZS_ZSIO:
-         case NVME_ZS_ZSEO:
-             if (!ns->zns.resources.open) {
--                return NVME_TOO_MANY_OPEN_ZONES;
-+                status = nvme_zrm_release_open(ns);
-+                if (status) {
-+                    return status;
-+                }
-             }
- 
-             ns->zns.resources.open--;
-+            QTAILQ_REMOVE(&ns->zns.resources.lru_active, zone, lru_entry);
-+            QTAILQ_INSERT_TAIL(&ns->zns.resources.lru_open, zone, lru_entry);
- 
-             break;
- 
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 2363412a9375..0064fedf31ae 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -83,6 +83,7 @@ pci_nvme_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
- pci_nvme_no_outstanding_aers(void) "ignoring event; no outstanding AERs"
- pci_nvme_enqueue_req_completion(uint16_t cid, uint16_t cqid, uint16_t status) "cid %"PRIu16" cqid %"PRIu16" status 0x%"PRIx16""
- pci_nvme_zrm_transition(uint32_t nsid, uint64_t zslba, uint8_t from, uint8_t to) "nsid %"PRIu32" zslba 0x%"PRIx64" from 0x%"PRIx8" to 0x%"PRIx8""
-+pci_nvme_zrm_release_open(uint32_t nsid) "nsid %"PRIu32""
- pci_nvme_mmio_read(uint64_t addr) "addr 0x%"PRIx64""
- pci_nvme_mmio_write(uint64_t addr, uint64_t data) "addr 0x%"PRIx64" data 0x%"PRIx64""
- pci_nvme_mmio_doorbell_cq(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
--- 
-2.28.0
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
+> ---
+>  hw/block/nvme-ns.c | 1 +
+>  hw/block/nvme-ns.h | 1 +
+>  hw/block/nvme.c    | 9 +++++----
+>  3 files changed, 7 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+> index b69cdaf27e..de735eb9f3 100644
+> --- a/hw/block/nvme-ns.c
+> +++ b/hw/block/nvme-ns.c
+> @@ -129,6 +129,7 @@ static void nvme_ns_realize(DeviceState *dev, Error *=
+*errp)
+>  static Property nvme_ns_props[] =3D {
+>      DEFINE_BLOCK_PROPERTIES(NvmeNamespace, blkconf),
+>      DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
+> +    DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+> =20
+> diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+> index ea8c2f785d..a38071884a 100644
+> --- a/hw/block/nvme-ns.h
+> +++ b/hw/block/nvme-ns.h
+> @@ -21,6 +21,7 @@
+> =20
+>  typedef struct NvmeNamespaceParams {
+>      uint32_t nsid;
+> +    QemuUUID uuid;
+>  } NvmeNamespaceParams;
+> =20
+>  typedef struct NvmeNamespace {
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index ee0eff98da..89d91926d9 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1571,6 +1571,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, N=
+vmeRequest *req)
+> =20
+>  static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *re=
+q)
+>  {
+> +    NvmeNamespace *ns;
+>      NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+>      uint32_t nsid =3D le32_to_cpu(c->nsid);
+>      uint8_t list[NVME_IDENTIFY_DATA_SIZE];
+> @@ -1590,7 +1591,8 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtr=
+l *n, NvmeRequest *req)
+>          return NVME_INVALID_NSID | NVME_DNR;
+>      }
+> =20
+> -    if (unlikely(!nvme_ns(n, nsid))) {
+> +    ns =3D nvme_ns(n, nsid);
+> +    if (unlikely(!ns)) {
+>          return NVME_INVALID_FIELD | NVME_DNR;
+>      }
+> =20
+> @@ -1599,12 +1601,11 @@ static uint16_t nvme_identify_ns_descr_list(NvmeC=
+trl *n, NvmeRequest *req)
+>      /*
+>       * Because the NGUID and EUI64 fields are 0 in the Identify Namespac=
+e data
+>       * structure, a Namespace UUID (nidt =3D 0x3) must be reported in the
+> -     * Namespace Identification Descriptor. Add a very basic Namespace U=
+UID
+> -     * here.
+> +     * Namespace Identification Descriptor. Add the namespace UUID here.
+>       */
+>      ns_descrs->uuid.hdr.nidt =3D NVME_NIDT_UUID;
+>      ns_descrs->uuid.hdr.nidl =3D NVME_NIDT_UUID_LEN;
+> -    stl_be_p(&ns_descrs->uuid.v, nsid);
+> +    memcpy(&ns_descrs->uuid.v, ns->params.uuid.data, NVME_NIDT_UUID_LEN);
+> =20
+>      return nvme_dma(n, list, NVME_IDENTIFY_DATA_SIZE,
+>                      DMA_DIRECTION_FROM_DEVICE, req);
+> --=20
+> 2.21.0
+>=20
+>=20
+
+--=20
+One of us - No more doubt, silence or taboo about mental illness.
+
+--EeQfGwPcQSOJBaQU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+G47cACgkQTeGvMW1P
+DenmWQgAqWMapDNMkp8FgOk7gf1Zkj3zo8AMJmBPNidBfBgzQtvaP/L/S/WSeo/6
+22H4U96o6B8G23LgBxgFZECaUAHrYzM8tE+y0GlUhVypDrC1T20aT3prnUUME8Qk
+ma1s71wISovf98pr+3P4Q6y+fna4Vi8iRSOn+XriuWhREZ7EM+KFPMorMA768bu/
+OVazwurBSRAU2NjAuYAeZLNXH/RdxvkG3N9WTr4o8ZKTQK+4M88EE5fT/Srs0cNF
+Ra1iZAgjDbtydq/U64E81ec5P0RXYgAEafSjC1lGmW9q1jTc1VSHDnclgJTjohR0
+kewpjdWH7tuhPcElKZOXghWagHkizA==
+=0DON
+-----END PGP SIGNATURE-----
+
+--EeQfGwPcQSOJBaQU--
 
