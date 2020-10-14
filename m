@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB4628E2B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:58:15 +0200 (CEST)
-Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182F128E29D
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:55:27 +0200 (CEST)
+Received: from localhost ([::1]:58938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSiEI-0002mS-78
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37836)
+	id 1kSiBa-0007Jx-2m
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kShrR-0001Wm-HI
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:34:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38916)
+ id 1kShrS-0001Wq-S4
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:34:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kShrP-00065O-JM
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:34:37 -0400
+ id 1kShrQ-00065U-KT
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:34:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602686074;
+ s=mimecast20190719; t=1602686075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cg/NC7GOJEw755h5dRDVL6meLpbR4MEnfcZCX9L9KTA=;
- b=LwM+XR+sFyDAMjXKSVN3uXLJbpero7DAOTfOLhKKohxk1uIYg0hYaiRZcWOzHjjiyd6wRD
- O7fsU9+nVXrdkSIf5/E1x/QGFelumAbXlAOqANcVoZFvkJSdsATDiGPGNe+IOrxbs0Zy1h
- yARQQN4kxxzEV3VPznSXpVdxNyCnv/Y=
+ bh=Jm1b1eXKStgG0AIZYhI7ANzwBxcBbv6djSuYsFJ8ICU=;
+ b=C8UMz+AFDXHT4Uc5Yboz054a20NarMHSCOBHiI7JxzljRgHChGGgM4h2D0JZq8vi3+vYyS
+ TVC4cpYasoSI93+ALyDGCkAkwOl7ivTvJq5LQnVlUkUcuxmvxWl8UX5s3B+uvVfaZYvaWK
+ Rp9JwBOyNWmHS0hpTQGcLBwTTIDfQ9k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-YCp1jlVHMXiCH-TeB_jQKg-1; Wed, 14 Oct 2020 10:34:32 -0400
-X-MC-Unique: YCp1jlVHMXiCH-TeB_jQKg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-162-IEJyDAXCN7WINL7EdyRO6Q-1; Wed, 14 Oct 2020 10:34:33 -0400
+X-MC-Unique: IEJyDAXCN7WINL7EdyRO6Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2E14D6896;
- Wed, 14 Oct 2020 14:34:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E6E7185A0FE;
+ Wed, 14 Oct 2020 14:34:32 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 859F819930;
- Wed, 14 Oct 2020 14:34:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4419160C07;
+ Wed, 14 Oct 2020 14:34:32 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 08/10] vhost-user: Register "chardev" as class property
-Date: Wed, 14 Oct 2020 10:34:13 -0400
-Message-Id: <20201014143415.240472-9-ehabkost@redhat.com>
+Subject: [PULL 09/10] authz-list-file: Fix crash when filename is not set
+Date: Wed, 14 Oct 2020 10:34:14 -0400
+Message-Id: <20201014143415.240472-10-ehabkost@redhat.com>
 In-Reply-To: <20201014143415.240472-1-ehabkost@redhat.com>
 References: <20201014143415.240472-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,48 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Li Qiang <liq3ea@gmail.com>,
  "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Class properties make QOM introspection simpler and easier, as
-they don't require an object to be instantiated.
+Fix the following crash:
+
+  $ qemu-system-x86_64 -object authz-list-file,id=obj0
+  qemu-system-x86_64: -object authz-list-file,id=obj0: GLib: g_file_get_contents: assertion 'filename != NULL' failed
+  Segmentation fault (core dumped)
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200921221045.699690-6-ehabkost@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Message-Id: <20201008202713.1416823-2-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- backends/vhost-user.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ authz/listfile.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/backends/vhost-user.c b/backends/vhost-user.c
-index ae8362d721..b366610e16 100644
---- a/backends/vhost-user.c
-+++ b/backends/vhost-user.c
-@@ -175,9 +175,9 @@ static char *get_chardev(Object *obj, Error **errp)
-     return NULL;
- }
+diff --git a/authz/listfile.c b/authz/listfile.c
+index cd6163aa40..aaf930453d 100644
+--- a/authz/listfile.c
++++ b/authz/listfile.c
+@@ -122,6 +122,11 @@ qauthz_list_file_complete(UserCreatable *uc, Error **errp)
+     QAuthZListFile *fauthz = QAUTHZ_LIST_FILE(uc);
+     gchar *dir = NULL, *file = NULL;
  
--static void vhost_user_backend_init(Object *obj)
-+static void vhost_user_backend_class_init(ObjectClass *oc, void *data)
- {
--    object_property_add_str(obj, "chardev", get_chardev, set_chardev);
-+    object_class_property_add_str(oc, "chardev", get_chardev, set_chardev);
- }
++    if (!fauthz->filename) {
++        error_setg(errp, "filename not provided");
++        return;
++    }
++
+     fauthz->list = qauthz_list_file_load(fauthz, errp);
  
- static void vhost_user_backend_finalize(Object *obj)
-@@ -195,7 +195,7 @@ static const TypeInfo vhost_user_backend_info = {
-     .name = TYPE_VHOST_USER_BACKEND,
-     .parent = TYPE_OBJECT,
-     .instance_size = sizeof(VhostUserBackend),
--    .instance_init = vhost_user_backend_init,
-+    .class_init = vhost_user_backend_class_init,
-     .instance_finalize = vhost_user_backend_finalize,
- };
- 
+     if (!fauthz->refresh) {
 -- 
 2.28.0
 
