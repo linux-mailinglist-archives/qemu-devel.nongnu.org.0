@@ -2,75 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272A028E2D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 17:08:43 +0200 (CEST)
-Received: from localhost ([::1]:33518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292E928E2DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 17:11:07 +0200 (CEST)
+Received: from localhost ([::1]:39874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSiOP-0003ho-JH
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 11:08:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44484)
+	id 1kSiQk-0006KI-7M
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 11:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kSiIt-0007Ga-BF; Wed, 14 Oct 2020 11:03:00 -0400
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:38663)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kSiIr-0001ik-E4; Wed, 14 Oct 2020 11:02:59 -0400
-Received: by mail-yb1-xb42.google.com with SMTP id b138so2914882yba.5;
- Wed, 14 Oct 2020 08:02:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9lckDwDGHDonEE+b0YESBAy/a098US/Cfuu0xpUEu5E=;
- b=ooD+/iOWMKa9dKMvhFTqs7xp0Lpyp9RLcENiUSKGP5wNkRXS34fK6a6poJ1QD95AZI
- RaD0EtcI++l+tsv5o7rVYZb48xf/F8JyN7/FWsoucS/VSdCMKuJhpLnaoqxot/Kb/EvT
- gjEXxKaGGw6v6CsBFrlEFdKA0IDd0qjhDBtcIObnrARpkHvQUau9uCBmwPzGdDkGFwux
- 43gNErzZF3FJRLhIMWFHKglbKTFekdGToTvi3mnjh6ccxAEDWKkL6Z6QEusOcTEv1uAg
- IxuqCgqgKr5lZbSQAdo5ggzBWOlHhtKGC1qYMtrFBznD5qZE72VT+cpBxye6RH5NDF/A
- jIyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9lckDwDGHDonEE+b0YESBAy/a098US/Cfuu0xpUEu5E=;
- b=WpB8OP7rBOos08Oafs6mqHnDJhQcp/oO27uM72/3QqDynY/PSRnOzFvHXJimXg32wm
- vVYNVqHDqK6cl4xaaqJRsY30Y7c1qWWmS5PN4erwXc5NeaXOoaG22g1yLfz8As+Msqz/
- iDN/VYhobPOdvCasUw/E6Q7j4dIy6pDxfykOjhwyZXNO4IyDznLFL+fpyW4sFeVFBJD6
- PtfsfZ7WBfmcYSmiur1dhfKcMbaRzSA0bYZIZxjLHxb0hLhRa8+c86Fgs2fONdzqnUjv
- DcZ9UtYnasM1Qo4RETzpcFR48JWJ6kh7jCyCXLEgoPY49SA5dsrr1m+sufhZmn9WDWG6
- fJYA==
-X-Gm-Message-State: AOAM532d0bv2gn/df/o6NJ5r020uiFQ5WPaoTJtlqsFeYqbe/c2/i7Al
- nIAq9KI0lgDhSATnSBd7mS6rZJ8eU2tQtu14iQ8=
-X-Google-Smtp-Source: ABdhPJxZI2md67fMq4m7FAkcjQ4f9I2DzeKFnRTWsTEz92eZVyRPjML3dljiLsPSE2oBBGKWDObr8toaagEAANNp2/8=
-X-Received: by 2002:a05:6902:690:: with SMTP id
- i16mr7380860ybt.122.1602687775309; 
- Wed, 14 Oct 2020 08:02:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSiJj-0008MI-7e
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 11:03:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57144)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSiJh-0001p9-Fi
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 11:03:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602687828;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=7oot6yNOh1kNgSltF9haOiwlMAQoDdMC8yHaNKJnpm8=;
+ b=Smz4RPO97dWe5gANUJh7mH6PSQ6rISA7JCossdAAYZws//rvYKs0ffeOFdH5WU+Hmz/BBN
+ wrCymI+7ya8NeV7oftrc5QhvJMGjVNXznYwPSophn6p5DG0IbluN+Zvcw6XPSqfB/jbb7O
+ P+xr81aD6Svyy5tSHXS83fB1ya78TZc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-JVvqSns1NK-wccPvvxtVtg-1; Wed, 14 Oct 2020 11:03:44 -0400
+X-MC-Unique: JVvqSns1NK-wccPvvxtVtg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D011980EF8B;
+ Wed, 14 Oct 2020 15:03:42 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.194.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D6555C1BD;
+ Wed, 14 Oct 2020 15:03:34 +0000 (UTC)
+Subject: Re: [PATCH v11 11/13] stream: mark backing-file argument as deprecated
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1602524605-481160-12-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <c309607e-d6a0-7a7f-05e6-9e1beb388419@redhat.com>
+Date: Wed, 14 Oct 2020 17:03:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200901154711.18457-1-green.wan@sifive.com>
- <20200901154711.18457-3-green.wan@sifive.com>
- <CAKmqyKOqQgE0X3T100Zzi6_8X5d9XVEjam01bhCZSU=-FL-ecw@mail.gmail.com>
- <CAJivOr4xLP1n4eVFyWHi=ckg17C_j76f=+o+YPztsYuaPDwCCw@mail.gmail.com>
- <CAKmqyKPFbfbXSryWW40kW=RF-mx4V_nVqmdOveQ-fuLQgFbARQ@mail.gmail.com>
- <CAJivOr7PVXi430SzPgbyFtFPqAsufy_xs1O7gfWQAS1ktTwb1A@mail.gmail.com>
- <CAKmqyKNC5K5MEvVGaZPisTEyrePNV3jWrSYzuUcY3p62ws2VXg@mail.gmail.com>
-In-Reply-To: <CAKmqyKNC5K5MEvVGaZPisTEyrePNV3jWrSYzuUcY3p62ws2VXg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 14 Oct 2020 23:02:44 +0800
-Message-ID: <CAEUhbmWJsrcvShaeb-q8Q5W25yhPKtsQaKEYRqgyGgCogrFaQg@mail.gmail.com>
-Subject: Re: [RFC PATCH v5 2/2] hw/riscv: sifive_u: Add backend drive support
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <1602524605-481160-12-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="TgmbbtfRNXkkI9nq3RMyfSkLvgfekuJqL"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,65 +106,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Green Wan <green.wan@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ libvir-list@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--TgmbbtfRNXkkI9nq3RMyfSkLvgfekuJqL
+Content-Type: multipart/mixed; boundary="8MDziNxo0fdaYtH4ylhWhNsb22Mjg6GEW"
 
-On Wed, Oct 14, 2020 at 10:46 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Wed, Sep 30, 2020 at 12:10 AM Green Wan <green.wan@sifive.com> wrote:
-> >
-> > On Wed, Sep 30, 2020 at 1:08 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > >
-> > > On Mon, Sep 28, 2020 at 2:18 AM Green Wan <green.wan@sifive.com> wrote:
-> > > >
-> > > > Hi Alistair,
-> > > >
-> > > > Thanks for the review. See the reply inline below.
-> > > >
-> > > >
-> > > > On Sat, Sep 26, 2020 at 5:52 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > >
-> > > > > On Tue, Sep 1, 2020 at 8:49 AM Green Wan <green.wan@sifive.com> wrote:
-> > > > > >
-> > > > > > Add '-drive' support to OTP device. Allow users to assign a raw file
-> > > > > > as OTP image.
-> > > > >
-> > > > > Do you mind writing an example command line argument in the commit message?
-> > > > >
-> > > > > Also, do you have a test case for this? I would like to add it to my CI.
-> > > > >
-> > > >
-> > > > Do you mean qtest? I run uboot and use uboot driver to test it and
-> > > > didn't create a qemu test case.
-> > >
-> > > No, I just mean how are you running and testing this.
-> > >
-> > > So you are booting U-Boot, then how do you test it in U-Boot?
->
-> Hey,
->
-> Sorry, this email didn't send and I only just noticed.
->
-> >
-> > Correct, I just enabled the configuration for
-> > ./drivers/misc/sifive-otp.c in uboot for normal booting access to OTP.
-> > And manually modify some failures write case to test write-once
-> > feature.
->
-> Can you document this? I would like to include this in my tests.
->
+--8MDziNxo0fdaYtH4ylhWhNsb22Mjg6GEW
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-See `QEMU Specific Instructions` in
-https://github.com/riscv/opensbi/blob/master/docs/platform/sifive_fu540.md
+On 12.10.20 19:43, Andrey Shinkevich wrote:
+> Whereas the block-stream job starts using a backing file name of the
+> base node overlay after the block-stream job completes, mark the QMP
+> 'backing-file' argument as deprecated.
+>=20
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> ---
+>  docs/system/deprecated.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 8b3ab5b..7491fcf 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -285,6 +285,12 @@ details.
+>  The ``query-events`` command has been superseded by the more powerful
+>  and accurate ``query-qmp-schema`` command.
+> =20
+> +``block-stream`` argument ``backing-file`` (since 5.2)
+> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +The argument ``backing-file`` is deprecated. QEMU uses a backing file
+> +name of the base node overlay after the block-stream job completes.
+> +
 
-Regards,
-Bin
+Hm, why?  I don=E2=80=99t see the problem with it.
+
+Max
+
+
+--8MDziNxo0fdaYtH4ylhWhNsb22Mjg6GEW--
+
+--TgmbbtfRNXkkI9nq3RMyfSkLvgfekuJqL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl+HE0QACgkQ9AfbAGHV
+z0BAeQgAovms72w8VBRHotuh5hvFp2JUp+JwJuZ37IyMDGfv1HEsDuih9E7MvruP
+n5nFg1wsSNTaoD5+8VbzMP29QTKn5wFNrWzpEaXtYEu8CG6gWol3KCAyxUsr44P6
+Fz3gPjue08W1RM1p6CtERHHs8BpEKUYjbgk30dA6A7dxw/bpEJvriXUC+QIt9vLF
+T1tLOYa/yYhqDTzFEaEo9+met9VTj9PEeA4uzVUvLvtAHf/7YyPW/F/vZLiKDehj
+DSbPTk8JwnWmZ/gDFcm45ycAPnp5OwtJm4FGWlom5iEMlWOoFu3SMHBjDX1boMqC
+eBICEWQgBTBTR8dnzgWxJ6JiMSFBNg==
+=6hgV
+-----END PGP SIGNATURE-----
+
+--TgmbbtfRNXkkI9nq3RMyfSkLvgfekuJqL--
+
 
