@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40B028E053
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:12:04 +0200 (CEST)
-Received: from localhost ([::1]:36412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A869A28DB1B
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 10:21:42 +0200 (CEST)
+Received: from localhost ([::1]:46352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfdT-0004EA-PP
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54010)
+	id 1kSc2V-00081P-MQ
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 04:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luwei.kang@intel.com>)
- id 1kSfaW-0001wi-2Y
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:09:00 -0400
-Received: from mga03.intel.com ([134.134.136.65]:2248)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luwei.kang@intel.com>)
- id 1kSfaU-0002rj-0V
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:08:59 -0400
-IronPort-SDR: tm5xqzGlHwIxbLsJRDXQ6+/w3oRH08McvEyy3lMJ/txnVmJHLOtQMZQO653I3Lco+UXkk7gLhy
- G/q0ty2zXKhQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="166153446"
-X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="166153446"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 05:08:54 -0700
-IronPort-SDR: YB3U6vn3yl6hXMS1OdOfo1v/UzWk5JzdZfWxGuAdFw+qSCDByzuELIPkoQQ+qvQdef/m7fQ473
- N3hItoHY7wJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="463865106"
-Received: from snr.bj.intel.com ([10.240.192.237])
- by orsmga004.jf.intel.com with ESMTP; 14 Oct 2020 05:08:53 -0700
-From: Luwei Kang <luwei.kang@intel.com>
-To: pbonzini@redhat.com,
-	rth@twiddle.net,
-	ehabkost@redhat.com
-Subject: [PATCH 2/2] i386/cpu: Make the Intel PT LIP feature configurable
-Date: Wed, 14 Oct 2020 16:04:43 +0800
-Message-Id: <20201014080443.23751-2-luwei.kang@intel.com>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <20201014080443.23751-1-luwei.kang@intel.com>
-References: <20201014080443.23751-1-luwei.kang@intel.com>
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=luwei.kang@intel.com;
- helo=mga03.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 08:08:55
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kSc1b-0007bu-RL
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:20:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49462)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kSc1Y-0007QY-Hs
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:20:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kSc1W-00011B-O6
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 08:20:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B2FF62E80DE
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 08:20:38 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 14 Oct 2020 08:14:34 -0000
+From: Pavel Dovgalyuk <1899082@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: acceptance pc replay test x86
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cleber-gnu dovgalyuk
+X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
+X-Launchpad-Bug-Modifier: Pavel Dovgalyuk (dovgalyuk)
+References: <160219062643.30310.16188463455229225461.malonedeb@gac.canonical.com>
+Message-Id: <160266327475.31314.8318848512751822972.malone@wampee.canonical.com>
+Subject: [Bug 1899082] Re: ReplayKernel.test_x86_64_pc fails intermittently
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
+X-Launchpad-Hash: fb63da7ca5d36a1ca59970692492c7095a25ae24
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 00:50:33
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,108 +72,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luwei Kang <luwei.kang@intel.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1899082 <1899082@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current implementation will disable the guest Intel PT
-feature if the Intel PT LIP feature is supported on the host,
-but the LIP feature is comming soon(e.g. SnowRidge and later).
+I traced this bug to hw/char/serial.c/serial_ioport_read
 
-This patch will make the guest LIP feature configurable and
-Intel PT feature can be enabled in guest when the guest LIP
-status same with the host.
+Bug disappears when I add qemu_log("serial_ioport_read %x %x\n",
+(int)addr, ret); into the end of this function.
 
-Signed-off-by: Luwei Kang <luwei.kang@intel.com>
----
- target/i386/cpu.c | 29 +++++++++++++++++++++++++++--
- target/i386/cpu.h |  4 ++++
- 2 files changed, 31 insertions(+), 2 deletions(-)
+I suppose that there is avocado (or socket) io synchronization problem,
+because running the same test without avocado works normally.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 24644abfd4..aeabdd5bd4 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -672,6 +672,7 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
- #define TCG_XSAVE_FEATURES (CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XGETBV1)
-           /* missing:
-           CPUID_XSAVE_XSAVEC, CPUID_XSAVE_XSAVES */
-+#define TCG_14_0_ECX_FEATURES 0
- 
- typedef enum FeatureWordType {
-    CPUID_FEATURE_WORD,
-@@ -1301,6 +1302,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         }
-     },
- 
-+    [FEAT_14_0_ECX] = {
-+        .type = CPUID_FEATURE_WORD,
-+        .feat_names = {
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, "intel-pt-lip",
-+        },
-+        .cpuid = {
-+            .eax = 0x14,
-+            .needs_ecx = true, .ecx = 0,
-+            .reg = R_ECX,
-+        },
-+        .tcg_features = TCG_14_0_ECX_FEATURES,
-+    },
-+
- };
- 
- typedef struct FeatureMask {
-@@ -5743,6 +5764,9 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-             *eax = INTEL_PT_MAX_SUBLEAF;
-             *ebx = INTEL_PT_MINIMAL_EBX;
-             *ecx = INTEL_PT_MINIMAL_ECX;
-+            if (env->features[FEAT_14_0_ECX] & CPUID_14_0_ECX_LIP) {
-+                *ecx |= CPUID_14_0_ECX_LIP;
-+            }
-         } else if (count == 1) {
-             *eax = INTEL_PT_MTC_BITMAP | INTEL_PT_ADDR_RANGES_NUM;
-             *ebx = INTEL_PT_PSB_BITMAP | INTEL_PT_CYCLE_BITMAP;
-@@ -6416,8 +6440,9 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-                ((eax_1 & INTEL_PT_ADDR_RANGES_NUM_MASK) >=
-                                            INTEL_PT_ADDR_RANGES_NUM) &&
-                ((ebx_1 & (INTEL_PT_PSB_BITMAP | INTEL_PT_CYCLE_BITMAP)) ==
--                    (INTEL_PT_PSB_BITMAP | INTEL_PT_CYCLE_BITMAP)) &&
--               !(ecx_0 & INTEL_PT_IP_LIP)) {
-+                        (INTEL_PT_PSB_BITMAP | INTEL_PT_CYCLE_BITMAP)) &&
-+               ((ecx_0 & CPUID_14_0_ECX_LIP) ==
-+                        (env->features[FEAT_14_0_ECX] & CPUID_14_0_ECX_LIP))) {
-                 if (cpu->intel_pt_auto_level) {
-                     x86_cpu_adjust_level(cpu, &cpu->env.cpuid_min_level, 0x14);
-                 } else if (cpu->env.cpuid_min_level < 0x14) {
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 51c1d5f60a..1fcd93e39a 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -541,6 +541,7 @@ typedef enum FeatureWord {
-     FEAT_VMX_EPT_VPID_CAPS,
-     FEAT_VMX_BASIC,
-     FEAT_VMX_VMFUNC,
-+    FEAT_14_0_ECX,
-     FEATURE_WORDS,
- } FeatureWord;
- 
-@@ -797,6 +798,9 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- /* AVX512 BFloat16 Instruction */
- #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
- 
-+/* Packets which contain IP payload have LIP values */
-+#define CPUID_14_0_ECX_LIP              (1U << 31)
-+
- /* CLZERO instruction */
- #define CPUID_8000_0008_EBX_CLZERO      (1U << 0)
- /* Always save/restore FP error pointers */
--- 
-2.18.4
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1899082
+
+Title:
+  ReplayKernel.test_x86_64_pc fails intermittently
+
+Status in QEMU:
+  New
+
+Bug description:
+  Even though this acceptance test is already skipped on GitLab CI, the
+  intermittent failures can be seen on other environments too.
+
+  The record phase works fine, but during the replay phase fail to
+  finish booting the kernel (until the expected place):
+
+  16:34:47 DEBUG| [    0.034498] Last level dTLB entries: 4KB 0, 2MB 0, 4MB=
+ 0, 1GB 0
+  16:34:47 DEBUG| [    0.034790] Spectre V2 : Spectre mitigation: LFENCE no=
+t serializing, switching to generic retpoline
+  16:34:47 DEBUG| [    0.035093] Spectre V2 : Mitigation: Full generic retp=
+oline
+  16:34:47 DEBUG| [    0.035347] Spectre V2 : Spectre v2 / SpectreRSB mitig=
+ation: Filling RSB on context switch
+  16:34:47 DEBUG| [    0.035667]
+  16:36:02 ERROR| =
+
+  16:36:02 ERROR| Reproduced traceback from: /home/cleber/src/avocado/avoca=
+do/avocado/core/test.py:767
+  16:36:02 ERROR| Traceback (most recent call last):
+  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
+/replay_kernel.py", line 92, in test_x86_64_pc
+  16:36:02 ERROR|     self.run_rr(kernel_path, kernel_command_line, console=
+_pattern, shift=3D5)
+  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
+/replay_kernel.py", line 73, in run_rr
+  16:36:02 ERROR|     False, shift, args, replay_path)
+  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
+/replay_kernel.py", line 55, in run_vm
+  16:36:02 ERROR|     self.wait_for_console_pattern(console_pattern, vm)
+  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
+/boot_linux_console.py", line 53, in wait_for_console_pattern
+  16:36:02 ERROR|     vm=3Dvm)
+  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
+/avocado_qemu/__init__.py", line 130, in wait_for_console_pattern
+  16:36:02 ERROR|     _console_interaction(test, success_message, failure_m=
+essage, None, vm=3Dvm)
+  16:36:02 ERROR|   File "/var/lib/users/cleber/build/qemu/tests/acceptance=
+/avocado_qemu/__init__.py", line 82, in _console_interaction
+  16:36:02 ERROR|     msg =3D console.readline().strip()
+  16:36:02 ERROR|   File "/usr/lib64/python3.7/socket.py", line 575, in rea=
+dinto
+  16:36:02 ERROR|     def readinto(self, b):
+  16:36:02 ERROR|   File "/home/cleber/src/avocado/avocado/avocado/plugins/=
+runner.py", line 77, in sigterm_handler
+  16:36:02 ERROR|     raise RuntimeError("Test interrupted by SIGTERM")
+  16:36:02 ERROR| RuntimeError: Test interrupted by SIGTERM
+  16:36:02 ERROR| =
+
+
+  On my workstation, I can replicate the failure roughly once every 50
+  runs.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1899082/+subscriptions
 
