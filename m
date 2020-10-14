@@ -2,67 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2859B28E0C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:52:12 +0200 (CEST)
-Received: from localhost ([::1]:40636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18BD28E0AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:44:08 +0200 (CEST)
+Received: from localhost ([::1]:34448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSgGJ-0006iW-7b
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36244)
+	id 1kSg8V-0003ak-Vf
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kSgEs-0005r3-Lc
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:50:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kSgEq-0000BX-GV
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:50:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kSgEo-0000ga-2B
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 12:50:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0F8DB2E80E1
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 12:50:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSg6z-0002f1-UO
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:42:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSg6y-0007UE-65
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:42:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602679350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y5ia5GrGk02vweaHrEOIWaZbX3+i5e7DUz7BfY1dZ+M=;
+ b=PFpeDM7PpvA8uag4PaSLoqwOSIEQS5xxbjCldFhkJPSRAmSrSPkgwUQvqFD4ic40k63ELR
+ JB4TvV0fa+Dh4dTspokw3Uis9gsPnBH6CQ+uS72+6CxfezV1AqJFiLpwza8uWYAYUrwQFl
+ FItDrXUhp+jTTIuotg2bk/udvOQadAQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-566-emNnAIUhOkaPj5VLhdKZ3g-1; Wed, 14 Oct 2020 08:42:29 -0400
+X-MC-Unique: emNnAIUhOkaPj5VLhdKZ3g-1
+Received: by mail-wm1-f69.google.com with SMTP id f2so491915wml.6
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 05:42:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y5ia5GrGk02vweaHrEOIWaZbX3+i5e7DUz7BfY1dZ+M=;
+ b=VrGMBGpFWfFLEzaFOu0bs0tYpYIDSaCebzsl6d4CdENXHFvLkmxFOyafhYGLOjBHQ6
+ NY/EW4QZiUjSIsORXTEp5gciqQiA8dU+/Aspw6dLT1PyStuP1ay9F6jaz1GhbdccjDE0
+ N9Q1kpNx6EcH683Se0c7VlD7Lav4369dUDJHlu7+0AKe94WjPH8QQHrXc2cYtNIQQ6MS
+ cjelP+pnH77AUDmRZz8UDAv+owNaY3UwWtLYWJNij8Ha883k3GPjXvPHwLqiyuUBhpde
+ 9jSS66cN7CFZOUHq0UpZJGEOUKYHaMdi3E2qxHEgWIhVMDYySp3teHpCMlxuV4SPJq0b
+ sBsA==
+X-Gm-Message-State: AOAM532HK/ALhrG+f7GSUvUmsXRmWcXhQAsw4M9Wo+Sj5+KxqFZOoLOu
+ dEJTh58H+Gwk8o7tSO7hK7nNy9MYxNtHCLJzRZpAraj47O7yB3dd47AE4W4yCxoDlA6LMevfR2w
+ WZF7M9Uz5s7xepKE=
+X-Received: by 2002:adf:979c:: with SMTP id s28mr5382432wrb.62.1602679348099; 
+ Wed, 14 Oct 2020 05:42:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPYeIaem2d/2RQSUJVHLWuO3ctxb3VgvtdFOTC0mGOHZc5bPNcXY8Xp/c3U6VdOtNZzFI1SA==
+X-Received: by 2002:adf:979c:: with SMTP id s28mr5382401wrb.62.1602679347755; 
+ Wed, 14 Oct 2020 05:42:27 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id g14sm4826890wrx.22.2020.10.14.05.42.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Oct 2020 05:42:27 -0700 (PDT)
+Subject: Re: [PATCH 3/9] util/vfio-helpers: Trace PCI BAR region info
+To: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20201014115253.25276-1-philmd@redhat.com>
+ <20201014115253.25276-4-philmd@redhat.com>
+ <fcfd9c11764d8c8d181eb62da0e307d1143ef1b2.camel@euphon.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <739a3c0f-9fa6-1428-f2d2-52685cc9317e@redhat.com>
+Date: Wed, 14 Oct 2020 14:42:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Oct 2020 12:41:30 -0000
-From: Peter Maydell <1899728@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell tometzki
-X-Launchpad-Bug-Reporter: Damian Tometzki (tometzki)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160265051683.3148.7226301603216219676.malonedeb@soybean.canonical.com>
-Message-Id: <160267929102.2754.631105580927319989.malone@soybean.canonical.com>
-Subject: [Bug 1899728] Re: Qemu-5.1.0 build from source man entry not found
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
-X-Launchpad-Hash: b5b251b196d714d0e361fd919309a88261650f20
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 08:50:38
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <fcfd9c11764d8c8d181eb62da0e307d1143ef1b2.camel@euphon.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,54 +101,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1899728 <1899728@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You probably don't have the necessary dependencies to build the manual
-pages. Since 5.0 we have required Sphinx to be installed to build the
-docs (see https://wiki.qemu.org/ChangeLog/5.0#Build_Dependencies).
+On 10/14/20 2:23 PM, Fam Zheng wrote:
+> On Wed, 2020-10-14 at 13:52 +0200, Philippe Mathieu-Daudé wrote:
+>> For debug purpose, trace BAR regions info.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>   util/vfio-helpers.c | 8 ++++++++
+>>   util/trace-events   | 1 +
+>>   2 files changed, 9 insertions(+)
+>>
+>> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+>> index 1d4efafcaa4..cd6287c3a98 100644
+>> --- a/util/vfio-helpers.c
+>> +++ b/util/vfio-helpers.c
+>> @@ -136,6 +136,7 @@ static inline void
+>> assert_bar_index_valid(QEMUVFIOState *s, int index)
+>>   
+>>   static int qemu_vfio_pci_init_bar(QEMUVFIOState *s, int index, Error
+>> **errp)
+>>   {
+>> +    g_autofree char *barname = NULL;
 
-Pass --enable-docs to configure if you want to force the docs to be
-built (and then configure will stop with an error if Sphinx or another
-required tool is missing); otherwise configure will default to "build
-docs if possible, skip if required tools are missing".
+         ^^^^^^^^^^
 
--- =
+>>       assert_bar_index_valid(s, index);
+>>       s->bar_region_info[index] = (struct vfio_region_info) {
+>>           .index = VFIO_PCI_BAR0_REGION_INDEX + index,
+>> @@ -145,6 +146,10 @@ static int qemu_vfio_pci_init_bar(QEMUVFIOState
+>> *s, int index, Error **errp)
+>>           error_setg_errno(errp, errno, "Failed to get BAR region
+>> info");
+>>           return -errno;
+>>       }
+>> +    barname = g_strdup_printf("bar[%d]", index);
+> 
+> Where is barname freed?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1899728
+Using GLib g_autofree qualifier.
 
-Title:
-  Qemu-5.1.0 build from source man entry not found
+> 
+> Fam
+> 
+>> +    trace_qemu_vfio_region_info(barname, s-
+>>> bar_region_info[index].offset,
+>> +                                s->bar_region_info[index].size,
+>> +                                s-
+>>> bar_region_info[index].cap_offset);
+>>   
+>>       return 0;
+>>   }
+>> @@ -416,6 +421,9 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s,
+>> const char *device,
+>>           ret = -errno;
+>>           goto fail;
+>>       }
+>> +    trace_qemu_vfio_region_info("config", s-
+>>> config_region_info.offset,
+>> +                                s->config_region_info.size,
+>> +                                s->config_region_info.cap_offset);
+>>   
+>>       for (i = 0; i < ARRAY_SIZE(s->bar_region_info); i++) {
+>>           ret = qemu_vfio_pci_init_bar(s, i, errp);
+>> diff --git a/util/trace-events b/util/trace-events
+>> index c048f85f828..4d40c74a21f 100644
+>> --- a/util/trace-events
+>> +++ b/util/trace-events
+>> @@ -87,3 +87,4 @@ qemu_vfio_dma_map(void *s, void *host, size_t size,
+>> bool temporary, uint64_t *io
+>>   qemu_vfio_dma_unmap(void *s, void *host) "s %p host %p"
+>>   qemu_vfio_pci_read_config(void *buf, int ofs, int size, uint64_t
+>> region_ofs, uint64_t region_size) "read cfg ptr %p ofs 0x%x size %d
+>> (region ofs 0x%"PRIx64" size %"PRId64")"
+>>   qemu_vfio_pci_write_config(void *buf, int ofs, int size, uint64_t
+>> region_ofs, uint64_t region_size) "write cfg ptr %p ofs 0x%x size %d
+>> (region ofs 0x%"PRIx64" size %"PRId64")"
+>> +qemu_vfio_region_info(const char *desc, uint64_t offset, uint64_t
+>> size, uint32_t cap_offset) "region '%s' ofs 0x%"PRIx64" size
+>> %"PRId64" cap_ofs %"PRId32
+> 
 
-Status in QEMU:
-  New
-
-Bug description:
-  Hello together,
-
-  i build qemu-5.1.0 from source on centos 8 withe the following
-  command:
-
-  ../configure --prefix=3D/usr --target-list=3Dx86_64-softmmu,x86_64-linux-
-  user
-
-  make -j4
-
-  make install
-
-  The build and the installation finished successfully. But when i try
-  the command
-
-  man qemu-system-x86_64
-
-  i got the message "No manual entry found". What i do wrong ?
-
-  Best regards
-  Damian
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1899728/+subscriptions
 
