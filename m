@@ -2,99 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E216528E047
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:06:36 +0200 (CEST)
-Received: from localhost ([::1]:51956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B48A28E04B
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:08:56 +0200 (CEST)
+Received: from localhost ([::1]:56946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfYB-0007Ba-W2
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50396)
+	id 1kSfaR-0000sP-M9
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:08:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSfQ0-0006Jc-Uf
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:58:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSfPu-00017J-H3
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:58:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602676681;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JWNsx2Xojid0fgXYgxzECegIoEXfKwFz+umvD5SY4LQ=;
- b=iSu0uuOVJet56yJcKC0ZWsoHvsXr6NVWexrUM/i2CJGdqakjQG2BX/J5oBRqJRkxQUJQpv
- Od2RaKehSU7p6CVbofbiNVHYvcsI+UIXeZ7GHXjTnT8VZ8UiUUMkXOIn8me/f2GoVlpxNv
- tL510KX8uesrwhGS4kJ3ct9CKn9vJJU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-pDGVIQEQNK2RXe-FhXGDMA-1; Wed, 14 Oct 2020 07:57:59 -0400
-X-MC-Unique: pDGVIQEQNK2RXe-FhXGDMA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 368EE64175;
- Wed, 14 Oct 2020 11:57:58 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.194.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C92355778;
- Wed, 14 Oct 2020 11:57:48 +0000 (UTC)
-Subject: Re: [PATCH v11 04/13] copy-on-read: pass overlay base node name to
- COR driver
-From: Max Reitz <mreitz@redhat.com>
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1602524605-481160-5-git-send-email-andrey.shinkevich@virtuozzo.com>
- <3c6699f3-e061-c2ae-c5e9-a12660405624@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <bbcb3d60-fbc2-b22c-2660-5e9d8dc4ce5e@redhat.com>
-Date: Wed, 14 Oct 2020 13:57:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <prvs=5492a5ee4=Niklas.Cassel@wdc.com>)
+ id 1kSfRI-0007mX-Fh; Wed, 14 Oct 2020 07:59:28 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:26378)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=5492a5ee4=Niklas.Cassel@wdc.com>)
+ id 1kSfRE-0001J3-Oh; Wed, 14 Oct 2020 07:59:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1602676764; x=1634212764;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=9UYvk82uYAec1XM8DD5uGWUPVPAN9IrtEcPfrKdS5KU=;
+ b=QQohonKYVitv2GA8aF1nKCDFlS6RPuS7S5ZEzD9a4HH16CVfb8jGjprx
+ 5q+zGTqam8VI9nV6RBfELEGXcGzlEQaCf/c8UXO4Yf8MV76/B8H6wVxJC
+ Ub2ty7URhS5CbJxgWPxjz2nRkBW9gxBLUc6Jf6r2hK3HXFtX8rWSCb0Iz
+ kBRi8mDyVVRyk2d999luVK8DKqty9KXd8opsOug3a9MjKWmhhudvGBN/X
+ Uh7vbaJljD3fBLecR0GqnauUisTmFFitXXkraY3QevNlRSh6cu0AR1ibK
+ 8uOrWJfVFLURExhdC0J4WAQaKYMFn8VdG5whZO2/CZZ5D1tQrZ6yM5kuG A==;
+IronPort-SDR: RUCHIz9ve8IWo1+XI8d9YH1E9PDlNIz7QgzEc2j5DIJngFuxBSwtDl5wEidOlIs9yE7DR9RwKS
+ ydo2gjtGjT1w6GDClfNciGOoCuhQ9Pm876xICuB5VqXvmCEkphrA+R3GcVikvy62f6N5G0oVkV
+ iV+soCC8CDeeo1sNshe1FTPgD38l8HxKsX49qQ/mOKzISEbTdiSjsJek8QW2Bzcn1PRiVLaI2A
+ bWvBLcTT8IOVzKH6ai/gGDOQbYuFjyzowxTT1D8lnwtBBop6qRiBqCVuNMj2l+d8gTDTYFGa8H
+ v5w=
+X-IronPort-AV: E=Sophos;i="5.77,374,1596470400"; d="scan'208";a="259655522"
+Received: from mail-bn8nam12lp2173.outbound.protection.outlook.com (HELO
+ NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.173])
+ by ob1.hgst.iphmx.com with ESMTP; 14 Oct 2020 19:59:06 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kqkRnxC/EYtJL4Nilny5HvivOIJRRKqzGbUeKn+MIW5Wfu91Q+TFD7Tnnl92K3ytPFfJaiw3itPvT+EMaraDtwwup3NYlDbGqjotfdAP+gxFI3LGXygYu2h8XNJkhcgi88n2h4WxlTm/5VHX8CtfQs69YsUdgKzvwcw1Ii8hr4uJHeNAbCkyajOAMulwtfY5wjN8/qGMUzNcwDFzVSHWY2kQ/fsXdliJOV82zBihRN/yyB3b5wqp/TnQZZeqfK5Q4eg2DZMV5sHnMtR6HjDf0DtQvlRdsWcjqpM80CCyRnj/QwW6ekuLl5ggHNHYf5OBs2HCmxflrumOJgpSwNrUVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=12lC+yjbeZhNmf7kw8GcT3+iB4HSNDunbaHTxqEWNao=;
+ b=kf7dUYwb1lI4gc4HwKcufSQPgqznpDuxPcAYvvzc9J6aW5JtPla5IZDj7WWOYRSJKinJ2VknSNdOXpCAN0//5z3jXqaWfQFVMfYcVDVQIQX1rTKbFEDoRJJ/PoeA3yLC9id478JE00MmvD3YNwdg2v2XGMC6lEQc8gRSENriFKTzxdAjudaz/30qOhv+fOB21KYDGvYsrExK3J0g/iMcVD08Hl3WScGtHZvREG6LxXvQWSO4+oo/3La7xtr25q1XFgz+xRAquyUqyxKz5SMRtWniOEhDP4OYIWlkJNhIwD8YnPx3SCv+diiaEOiUxRz515ztdPxC+rdPeTz1xNLOTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=12lC+yjbeZhNmf7kw8GcT3+iB4HSNDunbaHTxqEWNao=;
+ b=o8YiBQgNV+D0g8WfQPTaHEUA2cAU8BdJEccWenOnH2R57/q11D4g/6f1FXWTfIN8l5lZvk4LyZPvaGze37rEINgWDh/loV4DhUtTuZ3AFqPP65Z64ZYBh8Qww3BiGLDDOr/iNEe751wfh2LsSAgw/R7FQ8d0D33Pxlv63BLM7Vo=
+Received: from DM6PR04MB5483.namprd04.prod.outlook.com (2603:10b6:5:126::20)
+ by DM6PR04MB5482.namprd04.prod.outlook.com (2603:10b6:5:124::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.28; Wed, 14 Oct
+ 2020 11:59:05 +0000
+Received: from DM6PR04MB5483.namprd04.prod.outlook.com
+ ([fe80::c8ee:62d1:5ed1:2ee]) by DM6PR04MB5483.namprd04.prod.outlook.com
+ ([fe80::c8ee:62d1:5ed1:2ee%6]) with mapi id 15.20.3455.030; Wed, 14 Oct 2020
+ 11:59:05 +0000
+From: Niklas Cassel <Niklas.Cassel@wdc.com>
+To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
+Subject: Re: [PATCH v6 05/11] hw/block/nvme: Support Zoned Namespace Command
+ Set
+Thread-Topic: [PATCH v6 05/11] hw/block/nvme: Support Zoned Namespace Command
+ Set
+Thread-Index: AQHWoanCpouRtT9m1k2z4pqIfNzC+qmW/36A
+Date: Wed, 14 Oct 2020 11:59:04 +0000
+Message-ID: <20201014115903.GA122299@localhost.localdomain>
+References: <20201013214212.2152-1-dmitry.fomichev@wdc.com>
+ <20201013214212.2152-6-dmitry.fomichev@wdc.com>
+In-Reply-To: <20201013214212.2152-6-dmitry.fomichev@wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [85.226.244.4]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 6915f5f4-ed47-41bd-4ed1-08d870388cde
+x-ms-traffictypediagnostic: DM6PR04MB5482:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR04MB5482F72C77D007EC711BC3D7F2050@DM6PR04MB5482.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2VOAF5f6p9P7Id/JpGDmk+RkvJEH5ON670StPMaFeb1oCDFQiWyiZKf8RCpCVvy3iZsqGwYRHqlzqEdrfsg5bVrRAOUa+lY7GRR3Yss1EqnBQsdliEUPXCZNrJtkngQb3DiQb2HroJFiW1Tzqz2GX1GZcBBr2XGOJbZbhTIwtgOFvPP5Or8cl9bBwV+CwpSft2VrbiJCo+mtLr3dEh4oB6Qrt8gdPlOVkJNtuILO1Wg7IfB9qZHDwj+CwfQRYeejL6h2OUiETxjSFKt5mHfPRHymYgRV7jP2CFhPpdSvC4hPq10sg2VxB5FQlTH7enP73UQWdzTsCugXTur2vS11zA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR04MB5483.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(136003)(39860400002)(396003)(366004)(2906002)(8676002)(83380400001)(71200400001)(6512007)(1076003)(26005)(6862004)(6486002)(6506007)(9686003)(33656002)(66946007)(4326008)(8936002)(186003)(478600001)(76116006)(5660300002)(66556008)(54906003)(91956017)(66446008)(66476007)(86362001)(6636002)(64756008)(316002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: ApS0V+hhYRuxd0tqIqKF43fFSujrHihnVpIhzftiu0o81VUOmMa+cOeD0MODl76AuXSdoSvjBX6/bX9+LhdgW6VB1PqEMwm1Sz0x7b9rwUMM+WkqfLz0NYKEhNtTnJl2AqKFcZD3u2Gs+aof2iuBEAPYImrPVJgiMVoRE0XbnLi0wWaZlAB2FDA8F1x0E0cXMKNSoAfUmV79See0sFxvynYEn57sE71NPjWedKkvFcM0AbzAZpluxWLQDCa/1TtS+HW2/0F7s8+6W3EeF82W9rg6edgSSg+MZDsL8Sbw5OVsHXMQvO3tSKhE5FZ+kZvFGldTLeJBsbreJ/TEBBQewUjUeyt12umruxTwwmkpUVG73DcWxkqxrXC7t3kN9GHkqhutK8G6g5wPmRmwfkeU6uZGTbqXUEV+0FWpEkCM6vSVn9tcV0wlee/mXY+s/NoN39HbMb04UswBnx2Czf3boNgYZit54bitAIzx6e21h42bWJF0t+GthduyndrQDLUfWnCmt3VBfbtqlaUg+FczOJha2hKVDmOLZDEAILCXSYZbVNuvW0OS6h7mU9m8vc7pJuf1B7vk0VNaQgIsuDcwsWoMn/HZTt5ZnXm7T/K6zhzvO14O0prBlbTHDsgZM1EBBsBdCYCgiv6fjYTCqtThOg==
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <4B8996387F7A344FA223D3378F866453@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <3c6699f3-e061-c2ae-c5e9-a12660405624@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="A9z3lyveoGkt8hS5559kBRX4FEI5v2CwW"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB5483.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6915f5f4-ed47-41bd-4ed1-08d870388cde
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2020 11:59:05.6114 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SCwXMnsacslSycGXud6zifSeHy0iPg9oLGUHCxchuDyUyIc/ny6mHi1jA0u10N3ADn72l/m2ko4i+l3pxIqegQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB5482
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=5492a5ee4=Niklas.Cassel@wdc.com; helo=esa1.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 07:59:18
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,97 +134,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- libvir-list@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---A9z3lyveoGkt8hS5559kBRX4FEI5v2CwW
-Content-Type: multipart/mixed; boundary="O9WOYT3oyToRkS2qdlxfQBxlgbwVh025M"
-
---O9WOYT3oyToRkS2qdlxfQBxlgbwVh025M
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 14.10.20 13:09, Max Reitz wrote:
-> On 12.10.20 19:43, Andrey Shinkevich wrote:
->> We are going to use the COR-filter for a block-stream job.
->> To limit COR operations by the base node in the backing chain during
->> stream job, pass the name of overlay base node to the copy-on-read
->> driver as base node itself may change due to possible concurrent jobs.
->> The rest of the functionality will be implemented in the patch that
->> follows.
->>
->> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->> ---
->>  block/copy-on-read.c | 14 ++++++++++++++
->>  1 file changed, 14 insertions(+)
+On Wed, Oct 14, 2020 at 06:42:06AM +0900, Dmitry Fomichev wrote:
+> The emulation code has been changed to advertise NVM Command Set when
+> "zoned" device property is not set (default) and Zoned Namespace
+> Command Set otherwise.
 >=20
-> Is there a reason why you didn=E2=80=99t add this option to QAPI (as part=
- of a
-> yet-to-be-created BlockdevOptionsCor)?  Because I=E2=80=99d really like i=
-t there.
+> Define values and structures that are needed to support Zoned
+> Namespace Command Set (NVMe TP 4053) in PCI NVMe controller emulator.
+> Define trace events where needed in newly introduced code.
 >=20
->> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
->> index bcccf0f..c578b1b 100644
->> --- a/block/copy-on-read.c
->> +++ b/block/copy-on-read.c
->> @@ -24,19 +24,24 @@
->>  #include "block/block_int.h"
->>  #include "qemu/module.h"
->>  #include "qapi/error.h"
->> +#include "qapi/qmp/qerror.h"
->>  #include "qapi/qmp/qdict.h"
->>  #include "block/copy-on-read.h"
->> =20
->> =20
->>  typedef struct BDRVStateCOR {
->>      bool active;
->> +    BlockDriverState *base_overlay;
->>  } BDRVStateCOR;
->> =20
->> =20
->>  static int cor_open(BlockDriverState *bs, QDict *options, int flags,
->>                      Error **errp)
->>  {
->> +    BlockDriverState *base_overlay =3D NULL;
->>      BDRVStateCOR *state =3D bs->opaque;
->> +    /* We need the base overlay node rather than the base itself */
->> +    const char *base_overlay_node =3D qdict_get_try_str(options, "base"=
-);
+> In order to improve scalability, all open, closed and full zones
+> are organized in separate linked lists. Consequently, almost all
+> zone operations don't require scanning of the entire zone array
+> (which potentially can be quite large) - it is only necessary to
+> enumerate one or more zone lists.
 >=20
-> Shouldn=E2=80=99t it be called base-overlay or above-base then?
+> Handlers for three new NVMe commands introduced in Zoned Namespace
+> Command Set specification are added, namely for Zone Management
+> Receive, Zone Management Send and Zone Append.
+>=20
+> Device initialization code has been extended to create a proper
+> configuration for zoned operation using device properties.
+>=20
+> Read/Write command handler is modified to only allow writes at the
+> write pointer if the namespace is zoned. For Zone Append command,
+> writes implicitly happen at the write pointer and the starting write
+> pointer value is returned as the result of the command. Write Zeroes
+> handler is modified to add zoned checks that are identical to those
+> done as a part of Write flow.
+>=20
+> Subsequent commits in this series add ZDE support and checks for
+> active and open zone limits.
+>=20
+> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+> Signed-off-by: Hans Holmberg <hans.holmberg@wdc.com>
+> Signed-off-by: Ajay Joshi <ajay.joshi@wdc.com>
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+> Signed-off-by: Matias Bjorling <matias.bjorling@wdc.com>
+> Signed-off-by: Aravind Ramesh <aravind.ramesh@wdc.com>
+> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> Signed-off-by: Adam Manzanares <adam.manzanares@wdc.com>
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 
-While reviewing patch 5, I realized this sould indeed be base-overlay
-(i.e. the next allocation-bearing layer above the base, not just a
-filter on top of base), but that should be noted somewhere, of course.
-Best would be the QAPI documentation for this option. O:)
+(snip)
 
-Max
+> @@ -2260,6 +3155,11 @@ static void nvme_select_ns_iocs(NvmeCtrl *n)
+>                  ns->iocs =3D nvme_cse_iocs_nvm;
+>              }
+>              break;
+> +        case NVME_CSI_ZONED:
+> +            if (NVME_CC_CSS(n->bar.cc) =3D=3D NVME_CC_CSS_CSI) {
+> +                ns->iocs =3D nvme_cse_iocs_zoned;
+> +            }
+> +            break;
+>          }
+>      }
+>  }
+
+Who knows how this whole command set mess is supposed to work,
+since e.g. the Key Value Command Set assigns opcodes for new commands
+(Delete, Exist) with a opcode values (0x10,0x14) smaller than the
+current highest opcode value (0x15) in the NVM Command Set,
+while those opcodes (0x10,0x14) are reserved in the NVM Command Set.
+
+At least for Zoned Command Set, they defined the new commands
+(Zone Mgmt Send, Zone Mgmt Recv) to opcode values (0x79,0x7a)
+that are higher than the current highest opcode value in the
+NVM Command Set.
+
+So since we know that the Zoned Command Set is a strict superset of
+the NVM Command Set, I guess it might be nice to do something like:
+
+case NVME_CSI_ZONED:
+    if (NVME_CC_CSS(n->bar.cc) =3D=3D NVME_CC_CSS_CSI) {
+        ns->iocs =3D nvme_cse_iocs_zoned;
+    } else if (NVME_CC_CSS(n->bar.cc) =3D=3D NVME_CC_CSS_NVM) {
+        ns->iocs =3D nvme_cse_iocs_nvm;
+    }
+    break;
 
 
---O9WOYT3oyToRkS2qdlxfQBxlgbwVh025M--
+Since I assume that the spec people intended reads/writes
+to a ZNS namespace to still be possible when CC_CSS =3D=3D NVM,
+but who knows?
 
---A9z3lyveoGkt8hS5559kBRX4FEI5v2CwW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl+G57oACgkQ9AfbAGHV
-z0Bp4Af5ARzirR19xTe3ha1EeP1S0ccFIYJ4JYMJTUhTeVTHISYe4rxvp6v51WVX
-aBVnoNeJNbH+4qCRYMpptitKaV6cflt+kzvbRnglyU1sTTR4ePmTB5j4cgZnRHHR
-bAD2awVUMZgAM6239zSM0LdjvSbsXt8HqThpyZV8p4RLZiWTezgGRa76BU/SYG+5
-lw2Mt6DjdrVWrWFVZ/NRwRN5oDCzUdTg5szpc3XAj6XZViRwYt7PvE3WJk+PVJ+O
-KImBUEc4154ZkJXaRFlBn26t46mGhxyNxR5/W9P3d4txWrKyefpRsL+FcITzf2I5
-6xAI4qhbU9xV9wymkOlqP4rWEfVYKw==
-=a6+i
------END PGP SIGNATURE-----
-
---A9z3lyveoGkt8hS5559kBRX4FEI5v2CwW--
-
+Kind regards,
+Niklas=
 
