@@ -2,46 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D468A28DA8C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 09:37:48 +0200 (CEST)
-Received: from localhost ([::1]:45262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5267328DA9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 09:41:09 +0200 (CEST)
+Received: from localhost ([::1]:52836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSbM2-0001SC-P0
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 03:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52252)
+	id 1kSbPH-0004dk-1x
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 03:41:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSbKg-00008T-52
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:36:22 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50808)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSbKX-0006i0-M4
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:36:21 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C60FFB1F0;
- Wed, 14 Oct 2020 07:36:07 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC v1 2/2] accel/tcg: split tcg_start_vcpu_thread
-Date: Wed, 14 Oct 2020 09:36:05 +0200
-Message-Id: <20201014073605.6155-3-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201014073605.6155-1-cfontana@suse.de>
-References: <20201014073605.6155-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kSbLx-00029q-2c
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:37:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40837)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kSbLs-0007Cr-BZ
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:37:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602661053;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iZ0W+f6KFy6m6bY9ZjShHhWsdwzCdSlJPxuFDFuKocU=;
+ b=fF85xWHC3oURiTXn/FqDpmqDLBYvZ+iPlDeC7qun6cO9bafJhE9VUmWUOdueVifhu83bui
+ oi/8i9aCitkJBgJl9ZnF//l1XVJ4nqC91CH14dov3Ber9F3A85yW9q+zQlycjOr9Zq79/z
+ YL1tNmsJD6csQVTNmRRzvL4TYR2j9cQ=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-zCZGkKPjPpKMEhq5D2AQEw-1; Wed, 14 Oct 2020 03:37:31 -0400
+X-MC-Unique: zCZGkKPjPpKMEhq5D2AQEw-1
+Received: by mail-io1-f72.google.com with SMTP id t187so1790678iof.22
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 00:37:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iZ0W+f6KFy6m6bY9ZjShHhWsdwzCdSlJPxuFDFuKocU=;
+ b=m9OSdSjyJRbqC81Xr9QhKxuY9WF2t6QuPEAMrOetAjXjihga05gEZp9c8H9NVGsyrt
+ ZtV0dfC2E9o5t9uHAjeGsagdTwbWHZX9ugkndpFcpeREj84xOdJG2+6i7fHe7/iIJrfP
+ sWPilcyYcIN98/L8jb4Ckqtoc5wIFDDo7pGHUWayJJpeHTKVHKdPYZxvviqokdKy0gY/
+ 2BaNJUoFkIVYZOl3LOKNfa0YK2sAopYc3nlYDtBlFE7ebvc8sXdW4rCN3wchMZhTeSeX
+ x5VQymNBMXCPwCAL2apBBxNIeLIp15dCOB16JkPZiL0H8oRGPQY8yJmMlcAo7j2W27a/
+ AiSQ==
+X-Gm-Message-State: AOAM532zl8aZ5JMDkdjGrZ9ecCYXUyEAs3PQpcOevNrFCa4FtHl6Zr6i
+ wkLY/VGk6nzZiKl16WSvymQVJn7I2IU/oMvXd+bEnm26B+RTUlgtNlMhfrFnHb2+7IE4fSCC36v
+ BuCIgrvNUb8zBVOA8gTv4KIt5hieeVoQ=
+X-Received: by 2002:a92:ba1c:: with SMTP id o28mr2724026ili.182.1602661050288; 
+ Wed, 14 Oct 2020 00:37:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfPD97gUMwkpampLtmTzkMRK8jlNeZ7l9+qg8oWCO4WHoBCA/+GC7zW02Hflc3Ywm6DQ5J522ut5vDcfk/zU0=
+X-Received: by 2002:a92:ba1c:: with SMTP id o28mr2724016ili.182.1602661049979; 
+ Wed, 14 Oct 2020 00:37:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 01:21:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201013202502.335336-1-marcandre.lureau@redhat.com>
+ <20201013202502.335336-3-marcandre.lureau@redhat.com>
+ <af872421-2215-72e5-77a2-7d496325c413@redhat.com>
+In-Reply-To: <af872421-2215-72e5-77a2-7d496325c413@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 14 Oct 2020 11:37:19 +0400
+Message-ID: <CAMxuvazo_3pJzwCRkwjaLro2h=SR8xzJ3XFfDcFx_xtDfGOAtQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] qga: add ssh-{add,remove}-authorized-keys
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,224 +93,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+Cc: "P. Berrange, Daniel" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-after the initial split into 3 tcg variants, we proceed to also
-split tcg_start_vcpu_thread.
+Hi
 
-We actually split it in 2 this time, since the icount variant
-just uses the round robin function.
+On Wed, Oct 14, 2020 at 1:14 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> Hi Marc-Andr=C3=A9,
+>
+> On 10/13/20 10:25 PM, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Add new commands to add and remove SSH public keys from
+> > ~/.ssh/authorized_keys.
+> >
+> > I took a different approach for testing, including the unit tests right
+> > with the code. I wanted to overwrite the function to get the user
+> > details, I couldn't easily do that over QMP. Furthermore, I prefer
+> > having unit tests very close to the code, and unit files that are domai=
+n
+> > specific (commands-posix is too crowded already). Fwiw, that
+>
+> FWIW
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- accel/tcg/tcg-all.c         |  5 ++++
- accel/tcg/tcg-cpus-icount.c |  2 +-
- accel/tcg/tcg-cpus-mttcg.c  | 26 ++++++++++++++++-
- accel/tcg/tcg-cpus-rr.c     | 37 +++++++++++++++++++++++-
- accel/tcg/tcg-cpus-rr.h     |  3 ++
- accel/tcg/tcg-cpus.c        | 56 -------------------------------------
- 6 files changed, 70 insertions(+), 59 deletions(-)
+ok
 
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index e42a028043..1ac0b76515 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -105,6 +105,11 @@ static int tcg_init(MachineState *ms)
-     tcg_exec_init(s->tb_size * 1024 * 1024);
-     mttcg_enabled = s->mttcg_enabled;
- 
-+    /*
-+     * Initialize TCG regions
-+     */
-+    tcg_region_init();
-+
-     if (mttcg_enabled) {
-         cpus_register_accel(&tcg_cpus_mttcg);
-     } else if (icount_enabled()) {
-diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
-index 43505e8f1f..8859e384d7 100644
---- a/accel/tcg/tcg-cpus-icount.c
-+++ b/accel/tcg/tcg-cpus-icount.c
-@@ -136,7 +136,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
- }
- 
- const CpusAccel tcg_cpus_icount = {
--    .create_vcpu_thread = tcg_start_vcpu_thread,
-+    .create_vcpu_thread = rr_start_vcpu_thread,
-     .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
- 
-     .handle_interrupt = icount_handle_interrupt,
-diff --git a/accel/tcg/tcg-cpus-mttcg.c b/accel/tcg/tcg-cpus-mttcg.c
-index 2f5317d767..1f34bbb625 100644
---- a/accel/tcg/tcg-cpus-mttcg.c
-+++ b/accel/tcg/tcg-cpus-mttcg.c
-@@ -110,8 +110,32 @@ static void mttcg_kick_vcpu_thread(CPUState *cpu)
-     cpu_exit(cpu);
- }
- 
-+static void mttcg_start_vcpu_thread(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+
-+    g_assert(tcg_enabled());
-+
-+    parallel_cpus = (current_machine->smp.max_cpus > 1);
-+
-+    cpu->thread = g_malloc0(sizeof(QemuThread));
-+    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-+    qemu_cond_init(cpu->halt_cond);
-+
-+    /* create a thread per vCPU with TCG (MTTCG) */
-+    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
-+             cpu->cpu_index);
-+
-+    qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
-+                       cpu, QEMU_THREAD_JOINABLE);
-+
-+#ifdef _WIN32
-+    cpu->hThread = qemu_thread_get_handle(cpu->thread);
-+#endif
-+}
-+
- const CpusAccel tcg_cpus_mttcg = {
--    .create_vcpu_thread = tcg_start_vcpu_thread,
-+    .create_vcpu_thread = mttcg_start_vcpu_thread,
-     .kick_vcpu_thread = mttcg_kick_vcpu_thread,
- 
-     .handle_interrupt = tcg_handle_interrupt,
-diff --git a/accel/tcg/tcg-cpus-rr.c b/accel/tcg/tcg-cpus-rr.c
-index b8fd33d9d3..d3a1d8d626 100644
---- a/accel/tcg/tcg-cpus-rr.c
-+++ b/accel/tcg/tcg-cpus-rr.c
-@@ -262,8 +262,43 @@ void *tcg_rr_cpu_thread_fn(void *arg)
-     return NULL;
- }
- 
-+void rr_start_vcpu_thread(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+    static QemuCond *single_tcg_halt_cond;
-+    static QemuThread *single_tcg_cpu_thread;
-+
-+    g_assert(tcg_enabled());
-+    parallel_cpus = false;
-+
-+    if (!single_tcg_cpu_thread) {
-+        cpu->thread = g_malloc0(sizeof(QemuThread));
-+        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-+        qemu_cond_init(cpu->halt_cond);
-+
-+        /* share a single thread for all cpus with TCG */
-+        snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
-+        qemu_thread_create(cpu->thread, thread_name,
-+                           tcg_rr_cpu_thread_fn,
-+                           cpu, QEMU_THREAD_JOINABLE);
-+
-+        single_tcg_halt_cond = cpu->halt_cond;
-+        single_tcg_cpu_thread = cpu->thread;
-+#ifdef _WIN32
-+        cpu->hThread = qemu_thread_get_handle(cpu->thread);
-+#endif
-+    } else {
-+        /* we share the thread */
-+        cpu->thread = single_tcg_cpu_thread;
-+        cpu->halt_cond = single_tcg_halt_cond;
-+        cpu->thread_id = first_cpu->thread_id;
-+        cpu->can_do_io = 1;
-+        cpu->created = true;
-+    }
-+}
-+
- const CpusAccel tcg_cpus_rr = {
--    .create_vcpu_thread = tcg_start_vcpu_thread,
-+    .create_vcpu_thread = rr_start_vcpu_thread,
-     .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
- 
-     .handle_interrupt = tcg_handle_interrupt,
-diff --git a/accel/tcg/tcg-cpus-rr.h b/accel/tcg/tcg-cpus-rr.h
-index 155510cfd4..94dc85c1c5 100644
---- a/accel/tcg/tcg-cpus-rr.h
-+++ b/accel/tcg/tcg-cpus-rr.h
-@@ -17,6 +17,9 @@ extern const CpusAccel tcg_cpus_rr;
- /* Kick all RR vCPUs. */
- void qemu_cpu_kick_rr_cpus(CPUState *unused);
- 
-+/* start the round robin vcpu thread */
-+void rr_start_vcpu_thread(CPUState *cpu);
-+
- /* Single-threaded TCG */
- void *tcg_rr_cpu_thread_fn(void *arg);
- 
-diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
-index e518cc7ed4..3d2bb7a76a 100644
---- a/accel/tcg/tcg-cpus.c
-+++ b/accel/tcg/tcg-cpus.c
-@@ -36,62 +36,6 @@
- 
- /* common functionality among all TCG variants */
- 
--void tcg_start_vcpu_thread(CPUState *cpu)
--{
--    char thread_name[VCPU_THREAD_NAME_SIZE];
--    static QemuCond *single_tcg_halt_cond;
--    static QemuThread *single_tcg_cpu_thread;
--    static int tcg_region_inited;
--
--    assert(tcg_enabled());
--    /*
--     * Initialize TCG regions--once. Now is a good time, because:
--     * (1) TCG's init context, prologue and target globals have been set up.
--     * (2) qemu_tcg_mttcg_enabled() works now (TCG init code runs before the
--     *     -accel flag is processed, so the check doesn't work then).
--     */
--    if (!tcg_region_inited) {
--        tcg_region_inited = 1;
--        tcg_region_init();
--        parallel_cpus = qemu_tcg_mttcg_enabled() && current_machine->smp.max_cpus > 1;
--    }
--
--    if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
--        cpu->thread = g_malloc0(sizeof(QemuThread));
--        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
--        qemu_cond_init(cpu->halt_cond);
--
--        if (qemu_tcg_mttcg_enabled()) {
--            /* create a thread per vCPU with TCG (MTTCG) */
--            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
--                 cpu->cpu_index);
--
--            qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
--                               cpu, QEMU_THREAD_JOINABLE);
--
--        } else {
--            /* share a single thread for all cpus with TCG */
--            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
--            qemu_thread_create(cpu->thread, thread_name,
--                               tcg_rr_cpu_thread_fn,
--                               cpu, QEMU_THREAD_JOINABLE);
--
--            single_tcg_halt_cond = cpu->halt_cond;
--            single_tcg_cpu_thread = cpu->thread;
--        }
--#ifdef _WIN32
--        cpu->hThread = qemu_thread_get_handle(cpu->thread);
--#endif
--    } else {
--        /* For non-MTTCG cases we share the thread */
--        cpu->thread = single_tcg_cpu_thread;
--        cpu->halt_cond = single_tcg_halt_cond;
--        cpu->thread_id = first_cpu->thread_id;
--        cpu->can_do_io = 1;
--        cpu->created = true;
--    }
--}
--
- void qemu_tcg_destroy_vcpu(CPUState *cpu)
- {
-     cpu_thread_signal_destroyed(cpu);
--- 
-2.26.2
+>
+> > coding/testing style is Rust-style (where tests can or should even be
+> > part of the documentation!).
+> >
+> > Fixes:
+> > https://bugzilla.redhat.com/show_bug.cgi?id=3D1885332
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> ...
+>
+> > diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+> > index cec98c7e06..50e2854b45 100644
+> > --- a/qga/qapi-schema.json
+> > +++ b/qga/qapi-schema.json
+> > @@ -1306,3 +1306,35 @@
+> >   ##
+> >   { 'command': 'guest-get-devices',
+> >     'returns': ['GuestDeviceInfo'] }
+> > +
+> > +##
+> > +# @guest-ssh-add-authorized-keys:
+> > +#
+> > +# @username: the user account to add the authorized key
+> > +# @keys: the public keys to add (in OpenSSH format)
+>
+> You use plural but the code only seems to add (remove) one key
+> at a time.
+
+Uh, what makes you believe that?
+
+>
+> 'OpenSSH format' is confusing. From sshd(8):
+>
+>    Each line of the file contains one key (empty lines and lines
+>    starting with a =E2=80=98#=E2=80=99 are ignored as comments).
+>
+>    Public keys consist of the following space-separated fields:
+>
+>      options, keytype, base64-encoded key, comment.
+>
+>    The options field is optional.
+>
+>    Note that lines in this file can be several hundred bytes long
+>    (because of the size of the public key encoding) up to a limit
+>    of 8 kilobytes, which permits RSA keys up to 16 kilobits.
+>
+>    The options (if present) consist of comma-separated option
+>    specifications.  No spaces are permitted, except within double
+>    quotes.
+>
+> @openssh_authorized_key_line is ugly, maybe use @authorized_key
+> to make it clearer?
+
+Why? the name of the function already implies we are talking about
+authorized keys. The documentation says it's a public key in openssh
+format (the ones you expect in ~/.ssh/authorized_keys files)
+
+Yes the format isn't very well defined, so I did simple sanity checks.
+After all, people usually append keys with shell >>. I can't find a
+common command to do it with some checking.
+
+> > +#
+> > +# Append a public key to user $HOME/.ssh/authorized_keys on Unix syste=
+ms (not
+> > +# implemented for other systems).
+>
+> Here "a key" singular, good.
+
+bad. it should be plural (everywhere else is plural, afaict)
+
+>
+> > +#
+> > +# Returns: Nothing on success.
+> > +#
+> > +# Since: 5.2
+> > +##
+> > +{ 'command': 'guest-ssh-add-authorized-keys',
+>
+> Here "keys" plural :/
+>
+> > +  'data': { 'username': 'str', 'keys': ['str'] } }
+> > +
+> > +##
+> > +# @guest-ssh-remove-authorized-keys:
+> > +#
+> > +# @username: the user account to add the authorized key
+> > +# @keys: the public keys to remove (in OpenSSH format)
+> > +#
+> > +# Remove public keys from the user $HOME/.ssh/authorized_keys on Unix =
+systems
+> > +# (not implemented for other systems).
+> > +#
+> > +# Returns: Nothing on success.
+> > +#
+> > +# Since: 5.2
+> > +##
+> > +{ 'command': 'guest-ssh-remove-authorized-keys',
+> > +  'data': { 'username': 'str', 'keys': ['str'] } }
+> >
+>
 
 
