@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1E128DA64
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 09:18:28 +0200 (CEST)
-Received: from localhost ([::1]:44562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7961E28DA79
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 09:31:40 +0200 (CEST)
+Received: from localhost ([::1]:52452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSb3K-0005LJ-I7
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 03:18:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48498)
+	id 1kSbG7-0000wb-Hp
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 03:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kSb2E-0004ay-AQ; Wed, 14 Oct 2020 03:17:18 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:43083)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kSb2A-0007vL-Mg; Wed, 14 Oct 2020 03:17:18 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id n65so1805721ybg.10;
- Wed, 14 Oct 2020 00:17:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gA29hb0tm8ZMMLazNEeo1g2xvNBk96X0AemPcKzZOfM=;
- b=sLG8UjTSP2l61u9VFTkgcLNVtcnAJ707MD1BJChi4zQUITxHb09JmGOnkjFdp+vtk5
- H2Jhg8Y86d9ap9wt6/0tZ5YXsZy4Xu4Eiw45Ww/yZZ+lLSUFGWFQJv6yaNMHkMLi8G1T
- 79g/rE18RIBQ+/BnwCUb2GNODboeQ2UIcHxGFPQ8DavBudLuQfr3p8q9esNskGOn+SYy
- 2yKQ359xPvAVNfxPJ9Y3EZm3lnMsjdequgdrxVh+VbY5EzfiQXCnof9ORiQUpHNtWgZ/
- 5OEqWbJWWscsc/QrWzA71kfw/tilBJU5Q9ITn0AoHw7QRgghXZHyBOropAmCkmEsfuiM
- hbAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gA29hb0tm8ZMMLazNEeo1g2xvNBk96X0AemPcKzZOfM=;
- b=BXHQNiwUZeA6KKySpVrShhWIcAcSRj15Ia6UbYK8Hm1jROr+mSbmD3sA+IjqdhVNri
- VEDh42RIIxXXaAznReMB+H8NxaH8WbwYWq0GO16z+1QQtxqnrc6I53P/8OfTV4kxoKrw
- JfKQ9c8OQ8nYGkCVJtddIQhoPkTNxPKUCVIYtc2DiRKHJ9NmGsiIDIhQk1tMaXdj6/9N
- 3hAUlAiM3TVhyZC/NFnCKULr53I+AYE3Nwve5jUBzPWyUM9CbWtpJEuUMSQAbiGB2hv/
- x4Ssf6W3Aq9P1D3s5W6gUKQckh2e6ZKOyG/C3HeuOmutE6oDMXVvnit1AFB+W/TcmzUR
- 8aWQ==
-X-Gm-Message-State: AOAM530N4uM5AppYw3aPhn01/UlElanXETKNs9USazoStAlcD8GA0HBD
- NBWNjm0XJDIVzVfWiPu1Nwx2RhxPmZwQeKncA9o=
-X-Google-Smtp-Source: ABdhPJx90l0tmGhomX2RhVj4pYwWfakRzHW1NNnS9wk8JBsSjCsDP8sqgeKfZukjKbRJFY9IVRjTIWWrmtzKqWk9fnk=
-X-Received: by 2002:a25:bb01:: with SMTP id z1mr5661176ybg.387.1602659833149; 
- Wed, 14 Oct 2020 00:17:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200928101146.12786-1-green.wan@sifive.com>
- <20200928101146.12786-2-green.wan@sifive.com>
- <CAEUhbmWxPmhZhEFECXO5oLTbf+r1E-rBuFQrC_e+D6YbmMDmag@mail.gmail.com>
- <CAJivOr7mr_poapw5Okga1uLo7Zq+gs3oiJxuMPpbnAsQMNgzfg@mail.gmail.com>
-In-Reply-To: <CAJivOr7mr_poapw5Okga1uLo7Zq+gs3oiJxuMPpbnAsQMNgzfg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 14 Oct 2020 15:17:01 +0800
-Message-ID: <CAEUhbmVUSJd1E9r4O+ziVbbH3RgSqaLe7q0CtgCqbhD+mjCurQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v6 1/2] hw/misc/sifive_u_otp: Add write function and
- write-once protection
-To: Green Wan <green.wan@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1kSbD2-0007gT-Jn
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:28:28 -0400
+Received: from mga05.intel.com ([192.55.52.43]:54364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1kSbCz-00040p-OB
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:28:28 -0400
+IronPort-SDR: rcr98++J/lRNGYEDpIX+/P/V58x/L2NHz0rMAHv8oqjmzdweJkwIuI25Cj2l6OSFUkCGihRZDt
+ jBDBB1FUnSmA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="250751916"
+X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="250751916"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2020 00:28:22 -0700
+IronPort-SDR: IevfVnNMTaIOCSNzE7b8CM15xZPdbJa+bQE1TSVxy2lEXreM60WEVsXkVlCekj4LfTQr81tdHe
+ p7nIDlPqsd8A==
+X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="521323021"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Oct 2020 00:28:21 -0700
+From: Zhang Chen <chen.zhang@intel.com >
+To: Jason Wang <jasowang@redhat.com>,
+	qemu-dev <qemu-devel@nongnu.org>
+Subject: [PATCH 00/10] COLO project queued patches 20-Oct
+Date: Wed, 14 Oct 2020 15:25:46 +0800
+Message-Id: <20201014072555.12515-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=chen.zhang@intel.com;
+ helo=mga05.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:28:22
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, FROM_ADDR_WS=2.999,
+ FROM_WSP_TRAIL=2.199, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,108 +64,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Green,
+From: Zhang Chen <chen.zhang@intel.com>
 
-On Wed, Oct 14, 2020 at 3:02 PM Green Wan <green.wan@sifive.com> wrote:
->
-> On Wed, Oct 14, 2020 at 1:37 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > Hi Green,
-> >
-> > On Mon, Sep 28, 2020 at 6:12 PM Green Wan <green.wan@sifive.com> wrote:
-> > >
-> > >  - Add write operation to update fuse data bit when PWE bit is on.
-> > >  - Add array, fuse_wo, to store the 'written' status for all bits
-> > >    of OTP to block the write operation.
-> > >
-> > > Signed-off-by: Green Wan <green.wan@sifive.com>
-> > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > >  hw/misc/sifive_u_otp.c         | 30 +++++++++++++++++++++++++++++-
-> > >  include/hw/misc/sifive_u_otp.h |  3 +++
-> > >  2 files changed, 32 insertions(+), 1 deletion(-)
-> > >
-> >
-> > I am not sure how you tested this. I wrote a simple U-Boot command to
-> > call U-Boot sifive-otp driver to test the write functionality, but it
-> > failed.
-> >
-> > => misc write otp@10070000 0 80200000 10
->                                                       ^^^^^^^^^
-> Quick ask, how about 'md 80200000'?
->
-> I didn't use 'misc write' command. I can check afterward.
+Hi Jason, this series include latest COLO related patches.
+please check and merge it.
 
-Note 'misc write' is a new U-Boot command I just added for testing
-this QEMU functionality. Please use the U-Boot patch below:
-http://patchwork.ozlabs.org/project/uboot/patch/1602657292-82815-1-git-send-email-bmeng.cn@gmail.com/
+Thanks
+Zhang Chen
 
->
-> > => misc read  otp@10070000 0 80400000 10
-> > => md 80400000
-> > 80400000: ffffffff ffffffff ffffffff ffffffff    ................
-> > 80400010: 00000000 00000000 00000000 00000000    ................
-> > 80400020: 00000000 00000000 00000000 00000000    ................
-> > 80400030: 00000000 00000000 00000000 00000000    ................
-> > 80400040: 00000000 00000000 00000000 00000000    ................
-> > 80400050: 00000000 00000000 00000000 00000000    ................
-> > 80400060: 00000000 00000000 00000000 00000000    ................
-> > 80400070: 00000000 00000000 00000000 00000000    ................
-> > 80400080: 00000000 00000000 00000000 00000000    ................
-> > 80400090: 00000000 00000000 00000000 00000000    ................
-> > 804000a0: 00000000 00000000 00000000 00000000    ................
-> > 804000b0: 00000000 00000000 00000000 00000000    ................
-> > 804000c0: 00000000 00000000 00000000 00000000    ................
-> > 804000d0: 00000000 00000000 00000000 00000000    ................
-> > 804000e0: 00000000 00000000 00000000 00000000    ................
-> > 804000f0: 00000000 00000000 00000000 00000000    ................
-> > => misc write otp@10070000 0 80200010 10
-> > => misc read  otp@10070000 0 80400010 10
-> > => md 80400000
-> > 80400000: ffffffff ffffffff ffffffff ffffffff    ................
-> > 80400010: ffffffff ffffffff ffffffff ffffffff    ................
-> > 80400020: 00000000 00000000 00000000 00000000    ................
-> > 80400030: 00000000 00000000 00000000 00000000    ................
-> > 80400040: 00000000 00000000 00000000 00000000    ................
-> > 80400050: 00000000 00000000 00000000 00000000    ................
-> > 80400060: 00000000 00000000 00000000 00000000    ................
-> > 80400070: 00000000 00000000 00000000 00000000    ................
-> > 80400080: 00000000 00000000 00000000 00000000    ................
-> > 80400090: 00000000 00000000 00000000 00000000    ................
-> > 804000a0: 00000000 00000000 00000000 00000000    ................
-> > 804000b0: 00000000 00000000 00000000 00000000    ................
-> > 804000c0: 00000000 00000000 00000000 00000000    ................
-> > 804000d0: 00000000 00000000 00000000 00000000    ................
-> > 804000e0: 00000000 00000000 00000000 00000000    ................
-> > 804000f0: 00000000 00000000 00000000 00000000    ................
-> >
-> > But it can read the serial number at offset 0x3f0
-> >
-> > => misc read  otp@10070000 3f0 80400010 10
-> > => md 80400000
-> > 80400000: ffffffff ffffffff ffffffff ffffffff    ................
-> > 80400010: 00000001 fffffffe ffffffff ffffffff    ................
-> > 80400020: 00000000 00000000 00000000 00000000    ................
-> > 80400030: 00000000 00000000 00000000 00000000    ................
-> > 80400040: 00000000 00000000 00000000 00000000    ................
-> > 80400050: 00000000 00000000 00000000 00000000    ................
-> > 80400060: 00000000 00000000 00000000 00000000    ................
-> > 80400070: 00000000 00000000 00000000 00000000    ................
-> > 80400080: 00000000 00000000 00000000 00000000    ................
-> > 80400090: 00000000 00000000 00000000 00000000    ................
-> > 804000a0: 00000000 00000000 00000000 00000000    ................
-> > 804000b0: 00000000 00000000 00000000 00000000    ................
-> > 804000c0: 00000000 00000000 00000000 00000000    ................
-> > 804000d0: 00000000 00000000 00000000 00000000    ................
-> > 804000e0: 00000000 00000000 00000000 00000000    ................
-> > 804000f0: 00000000 00000000 00000000 00000000    ................
+Li Zhijian (2):
+  colo-compare: fix missing compare_seq initialization
+  colo-compare: check mark in mutual exclusion
 
-Regards,
-Bin
+Pan Nengyuan (1):
+  net/filter-rewriter: destroy g_hash_table in colo_rewriter_cleanup
+
+Rao, Lei (3):
+  Optimize seq_sorter function for colo-compare
+  Reduce the time of checkpoint for COLO
+  Fix the qemu crash when guest shutdown in COLO mode
+
+Zhang Chen (4):
+  net/colo-compare.c: Fix compare_timeout format issue
+  net/colo-compare.c: Change the timer clock type
+  net/colo-compare.c: Add secondary old packet detection
+  net/colo-compare.c: Increase default queued packet scan frequency
+
+ migration/ram.c       | 14 ++++++++++-
+ net/colo-compare.c    | 57 ++++++++++++++++++++++---------------------
+ net/colo.c            |  5 +---
+ net/filter-rewriter.c |  2 ++
+ softmmu/vl.c          |  1 +
+ 5 files changed, 46 insertions(+), 33 deletions(-)
+
+-- 
+2.17.1
+
 
