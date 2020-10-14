@@ -2,102 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467F728E493
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:35:00 +0200 (CEST)
-Received: from localhost ([::1]:57474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29ACA28E4D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:51:19 +0200 (CEST)
+Received: from localhost ([::1]:58032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSjjv-0002EP-C9
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:34:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
+	id 1kSjzi-0006hh-7I
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:51:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSjfS-0008UM-HX
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:30:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55156)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kSjiZ-00024c-Bw
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:33:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kSjfQ-0004xr-Cd
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:30:22 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kSjiQ-0005EU-Up
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:33:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602693019;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3ApGR2fP9YAEJs/eUmwSGxpCodfscgUg0ZQcJjaUYK4=;
- b=JujqGILiwz3GVDsrJ7cltZLwtBkXxrr3NWOF/AEqBc8Lq3/2B+7igK0k1G7NkAYMgJHBVz
- o8AG1IEGUC1jXjzjQeoR9+QZbYWf2Hq+QnlJNCrSNW4Af87n/ViN/ZqWz2zCv691PDWmDr
- E/gHH7F6knm7R9qdZefCeKdLEPb5o2Y=
+ s=mimecast20190719; t=1602693203;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=aCHRs6NSDvVUjSuc0xWmzCfKyPiIZS5W9vCjgD7O9j8=;
+ b=GbQvDivkjhJWDDQoZLFRFI4MsxHNPhDiCQtUAU1V64frdCa0Q6sSs4/eeyLVopqzllapsa
+ SvjA6Yiyzau26skkmMPmQaq4jMNxrNJgvgdU4OR0EQ+bKieoet5/idHaKg3l8I5fcRj+of
+ mbO39FANRb9QluuocENEAhLlsVf6Jxs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-Ts58mpu7N1Op-Sh3-wWd_A-1; Wed, 14 Oct 2020 12:30:15 -0400
-X-MC-Unique: Ts58mpu7N1Op-Sh3-wWd_A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-220-UmeVR4e0PtOYmukiwu0Bjg-1; Wed, 14 Oct 2020 12:33:18 -0400
+X-MC-Unique: UmeVR4e0PtOYmukiwu0Bjg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC9AF87951A;
- Wed, 14 Oct 2020 16:30:13 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.194.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C7285D9CD;
- Wed, 14 Oct 2020 16:30:03 +0000 (UTC)
-Subject: Re: [PATCH v11 09/13] copy-on-read: skip non-guest reads if no copy
- needed
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1602524605-481160-10-git-send-email-andrey.shinkevich@virtuozzo.com>
- <59ff1f29-149a-0870-b600-1a54f0421c05@redhat.com>
- <c363d263-1854-d766-e9d3-c8ae8008740f@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <bc862a74-6223-3c8d-d354-36f62bee2d3a@redhat.com>
-Date: Wed, 14 Oct 2020 18:30:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A3A5186DD36;
+ Wed, 14 Oct 2020 16:33:17 +0000 (UTC)
+Received: from redhat.com (ovpn-113-137.ams2.redhat.com [10.36.113.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41DE35C1BD;
+ Wed, 14 Oct 2020 16:33:15 +0000 (UTC)
+Date: Wed, 14 Oct 2020 17:33:13 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 5/7] dockerfiles: enable Centos 8 PowerTools
+Message-ID: <20201014163313.GO115189@redhat.com>
+References: <20201014135416.1290679-1-pbonzini@redhat.com>
+ <20201014135416.1290679-6-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c363d263-1854-d766-e9d3-c8ae8008740f@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201014135416.1290679-6-pbonzini@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="TRKp5PkfI3KqgBKWI8KxECee6ti2vUore"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,172 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, libvir-list@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, stefanha@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---TRKp5PkfI3KqgBKWI8KxECee6ti2vUore
-Content-Type: multipart/mixed; boundary="m2hiFrIm5y2dJ9zKwmaGbo0nZcptOTH62"
+On Wed, Oct 14, 2020 at 09:54:14AM -0400, Paolo Bonzini wrote:
+> ninja is included in the CentOS PowerTools repository.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  tests/docker/dockerfiles/centos8.docker | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+> index 0fc2697491..e31d366fc1 100644
+> --- a/tests/docker/dockerfiles/centos8.docker
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -1,6 +1,9 @@
+>  FROM centos:8.1.1911
+>  
+> +RUN dnf -y install dnf-plugins-core
+> +RUN dnf config-manager --set-enabled PowerTools
+>  RUN dnf -y update
 
---m2hiFrIm5y2dJ9zKwmaGbo0nZcptOTH62
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This results in multiple image layers which is undesirable. Instead do
 
-On 14.10.20 17:22, Vladimir Sementsov-Ogievskiy wrote:
-> 14.10.2020 15:51, Max Reitz wrote:
->> On 12.10.20 19:43, Andrey Shinkevich wrote:
->>> If the flag BDRV_REQ_PREFETCH was set, pass it further to the
->>> COR-driver to skip unneeded reading. It can be taken into account for
->>> the COR-algorithms optimization. That check is being made during the
->>> block stream job by the moment.
->>>
->>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>> ---
->>> =C2=A0 block/copy-on-read.c | 13 +++++++++----
->>> =C2=A0 block/io.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 3 ++-
->>> =C2=A0 2 files changed, 11 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
->>> index b136895..278a11a 100644
->>> --- a/block/copy-on-read.c
->>> +++ b/block/copy-on-read.c
->>> @@ -148,10 +148,15 @@ static int coroutine_fn
->>> cor_co_preadv_part(BlockDriverState *bs,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 }
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> =C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bdrv_co_prea=
-dv_part(bs->file, offset, n, qiov,
->>> qiov_offset,
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 local_flags);
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn ret;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!!(flags & BDRV_REQ_PRE=
-FETCH) &
->>
->> How about dropping the double negation and using a logical && instead of
->> the binary &?
->>
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !(l=
-ocal_flags & BDRV_REQ_COPY_ON_READ)) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* =
-Skip non-guest reads if no copy needed */
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->>
->> Hm.=C2=A0 I would have just written the negated form
->>
->> (!(flags & BDRV_REQ_PREFETCH) || (local_flags & BDRV_REQ_COPY_ON_READ))
->>
->> and put the =E2=80=9Cskip=E2=80=9D comment above that condition.
->>
->> (Since local_flags is initialized to flags, it can be written as a
->> single comparison, but that=E2=80=99s a matter of taste and I=E2=80=99m =
-not going to
->> recommend either over the other:
->>
->> ((local_flags & (BDRV_REQ_PREFETCH | BDRV_REQ_COPY_ON_READ)) !=3D
->> BDRV_REQ_PREFETCH)
->>
->> )
->>
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
- =3D bdrv_co_preadv_part(bs->file, offset, n, qiov,
->>> qiov_offset,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 local_flags);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
-(ret < 0) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 return ret;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 offset +=
-=3D n;
->>> diff --git a/block/io.c b/block/io.c
->>> index 11df188..bff1808 100644
->>> --- a/block/io.c
->>> +++ b/block/io.c
->>> @@ -1512,7 +1512,8 @@ static int coroutine_fn
->>> bdrv_aligned_preadv(BdrvChild *child,
->>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 max_bytes =3D ROUND_UP(MAX(0, tot=
-al_bytes - offset), align);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bytes <=3D max_bytes && bytes <=3D m=
-ax_transfer) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bdrv_driver_preadv(=
-bs, offset, bytes, qiov,
->>> qiov_offset, 0);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bdrv_driver_preadv(=
-bs, offset, bytes, qiov, qiov_offset,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 flags & bs->supported_read=
-_flags);
->=20
->=20
-> When BDRV_REQ_PREFETCH is passed, qiov may be (and generally should be)
-> NULL. This means, that we can't just drop the flag when call the driver
-> that doesn't support it.
-
-True. :/
-
-> Actually, if driver doesn't support the PREFETCH flag we should do nothin=
-g.
-
-Hm.  But at least in the case of COR, PREFETCH is not something that can
-be optimized to be a no-op (unless the COR is a no-op); it still denotes
-a command that must be executed.
-
-So if we can=E2=80=99t pass it to the driver, I don=E2=80=99t think we shou=
-ld do
-nothing, but to return an error.  Or maybe we could even assert that it
-isn=E2=80=99t set for drivers that don=E2=80=99t support it, because at lea=
-st right now
-such a case would just be a bug.
-
->> Ah, OK.=C2=A0 I see.=C2=A0 I expected this to be a separate patch.=C2=A0=
- I still wonder
->> why it isn=E2=80=99t.
->>
->=20
->=20
-> Could it be part of patch 07? I mean introduce new field
-> supported_read_flags and handle it in generic code in one patch, prior
-> to implementing support for it in COR driver.
-
-Sure.
-
-Max
+ RUN dnf -y install dnf-plugins-core && \
+     dnf config-manager --set-enabled PowerTools && \
+     dnf -y update
 
 
---m2hiFrIm5y2dJ9zKwmaGbo0nZcptOTH62--
+> +
+>  ENV PACKAGES \
+>      SDL-devel \
+>      bzip2 \
 
---TRKp5PkfI3KqgBKWI8KxECee6ti2vUore
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl+HJ4oACgkQ9AfbAGHV
-z0C/0gf+MiPRKj9RRIGiNXo5vwxHvDb0a/3/RJhHmIHHV5FiXbRdYHkUgBxt/uyM
-xAe1tl/+6HUwjsH+67LP3AefmPSACJKKZgnw39s/p1wH0piyPVzNSxbJyrykoWzM
-jEcHTq84XiGruDExcqrsTob/KczHYJIg3m0WfCCQsAQ0fljgngrxCLM0GtUT8Zdq
-ueW+jlDlK/MKAFv8SxgC36dXM9q4VyhDVXPxtzHaIqQFfxuI71RXGPEc6XpuAIQx
-hZKNITa1RYcKmk2esN3zIOqAaTRJgHRuNabFh6Inf4OX+F6CmiorKhavVYcBzvD2
-HsIlZVwP4O98lIUVbla2ZuZRQgVFWQ==
-=WbMI
------END PGP SIGNATURE-----
-
---TRKp5PkfI3KqgBKWI8KxECee6ti2vUore--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
