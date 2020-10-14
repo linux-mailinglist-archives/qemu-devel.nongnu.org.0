@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A81428DFF5
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:46:09 +0200 (CEST)
-Received: from localhost ([::1]:32882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF0828E01F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:58:08 +0200 (CEST)
+Received: from localhost ([::1]:56604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfEO-0002ku-42
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:46:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46758)
+	id 1kSfPz-00052v-8i
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kSf9H-0000vP-QI; Wed, 14 Oct 2020 07:40:51 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:33959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kSf9F-0007dY-Ad; Wed, 14 Oct 2020 07:40:51 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2195C580352;
- Wed, 14 Oct 2020 07:40:48 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 14 Oct 2020 07:40:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=FD7phjCrJiW9KBqvLtjQkWR4wzj
- oTIDJFn74Lv2XTik=; b=BA3JtwkC2edWqol0l7lv8iE2v7/NcPBZcO6LyFzdLr4
- aAa6vimxgcMDwoYO+2iEu/hVHFcW7NxqjTQt3Op9WrCqsrT+tKNQ0azPN4xE+TNB
- ndr6eswtjC5Km+pJ+DsTAeMgWcR6GEr3zpiwK8c3cp6UeAarnmcV/vqC4dpDgJ2G
- 4eq5hnyvm/qxhE1yTL5O42n8+CAFPWzAA9yIBMxuDPfBKBN68pq6PWImCh+GBAzy
- KlW9ZEXOnSGHyXILuN8ymy9vhTyHi+llRXXzOjE++yhyPHtEVb5+8/HxFYON59mB
- ojA+p19CXjqrI7Oc8Ptp7ITMRCGNLJKfEM9DsH3UB9A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=FD7phj
- CrJiW9KBqvLtjQkWR4wzjoTIDJFn74Lv2XTik=; b=nBSuW4gm88rlC6ncSsv20v
- Dr5U9MHkNgidOmeyAldg/XIzxnbs+ud+cwe0STtS1rGojPYvRcGCkFj1xUrzRitn
- 1y5ey9y00pEUVsYeJxbIzZar971g/bqPiCC9DHMz7661YXGwPS55Nm6m8zNHjITF
- ZSLIdopqEHBzcOiLTfLR8tIMimG7UvoX9zteGbgqFUauJSzOSomqlP4iPze1iwkM
- f+vhL+FGh2eYckV7OX4pwYYEGhMMp+4hvdcXq/pZz+BS/GaVqLl0DMaFKqJuhJ1o
- Yv4+F2nabKbA6YkFByzCq9kyh4zxq8oxjlfX/QUhKT1A7gbiNYvo0OfvRc5K7Umg
- ==
-X-ME-Sender: <xms:vuOGX1aG6JDAukS_J3C9XPEJTnIrwgSv3IU1YOh5_8nOmZX9u02_MQ>
- <xme:vuOGX8aS8E6FX3IvPvSuOTBtwW1RXyecBAx0TodZAeuVf0tsvF3wXJMRTCKX3xoqo
- Ic5mujjJ-M4jcgeMak>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedriedugdegvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepfeefgfdvleeitdehhfevffegleduieffgfdujeeuhfeluddthffgjeegkefhkedt
- necuffhomhgrihhnpehuuhhiugdruggrthgrnecukfhppeektddrudeijedrleekrddule
- dtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihht
- shesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:vuOGX3-6NLo8ruGZXyukvnrqldF24NcmAOh3jDOabCoyWveT55YWCA>
- <xmx:vuOGXzru-Pv13NiL_egPLwl785F-rY5j_9D1A1kWFPviQ32-jXddTg>
- <xmx:vuOGXwpPwRR17Kzk31B3Z3EGEj7S-AqXeUzxRUDf2ubPp9QoB0xJbw>
- <xmx:v-OGX1RfpVcOABHF8qXhXpJ-ze4EOQwaZlpxBxkmXSVPwkItzZOqCb7Jn1c>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B34943280064;
- Wed, 14 Oct 2020 07:40:44 -0400 (EDT)
-Date: Wed, 14 Oct 2020 13:40:42 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v6 02/11] hw/block/nvme: Generate namespace UUIDs
-Message-ID: <20201014114042.GA357831@apples.localdomain>
-References: <20201013214212.2152-1-dmitry.fomichev@wdc.com>
- <20201013214212.2152-3-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSfA5-0001Li-5H
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:41:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kSfA2-0007ha-FW
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:41:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602675695;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dj1dvIMhtzuIH8rI+DC8ga2BdwuQid2++XXBYSk1g0I=;
+ b=YwPyZ1DvsEovKZ5Kw6Bk93Baz/ME9rBMb64sEh79MaRItgyhdlw+fgTB/RefD8iFlW4ixu
+ 3kaIDEmzNBK1R0DUvDpeDvvFHgS+VlIRW+mRMPInrckiHaM55lkkxzVtARhGuxkPDhV8H8
+ J7KeI+o8WTqsQtbDcQnSXLncMXhSy2I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-350-9aV7uyfSNQuUsgJI8rx91g-1; Wed, 14 Oct 2020 07:41:34 -0400
+X-MC-Unique: 9aV7uyfSNQuUsgJI8rx91g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87460876ED0;
+ Wed, 14 Oct 2020 11:41:32 +0000 (UTC)
+Received: from thuth.remote.csb (reserved-198-128.str.redhat.com
+ [10.33.198.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F7E26EF67;
+ Wed, 14 Oct 2020 11:41:30 +0000 (UTC)
+Subject: Re: [PATCH v2 1/4] MAINTAINERS: Put myself forward for MIPS target
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Chen Huacai <zltjiangshi@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20201013101659.3557154-1-f4bug@amsat.org>
+ <20201013101659.3557154-2-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <f953ddb0-004e-2372-e2a9-6fbc3e773ff4@redhat.com>
+Date: Wed, 14 Oct 2020 13:41:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
-Content-Disposition: inline
-In-Reply-To: <20201013214212.2152-3-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
- helo=new3-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 07:31:27
+In-Reply-To: <20201013101659.3557154-2-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,130 +87,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---EeQfGwPcQSOJBaQU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Oct 14 06:42, Dmitry Fomichev wrote:
-> In NVMe 1.4, a namespace must report an ID descriptor of UUID type
-> if it doesn't support EUI64 or NGUID. Add a new namespace property,
-> "uuid", that provides the user the option to either specify the UUID
-> explicitly or have a UUID generated automatically every time a
-> namespace is initialized.
->=20
-> Suggested-by: Klaus Jansen <its@irrelevant.dk>
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
+On 13/10/2020 12.16, Philippe Mathieu-Daudé wrote:
+> To avoid the MIPS target being orphan, volunteer to keep an eye
+> on it and put together pull requests.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/block/nvme-ns.c | 1 +
->  hw/block/nvme-ns.h | 1 +
->  hw/block/nvme.c    | 9 +++++----
->  3 files changed, 7 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-> index b69cdaf27e..de735eb9f3 100644
-> --- a/hw/block/nvme-ns.c
-> +++ b/hw/block/nvme-ns.c
-> @@ -129,6 +129,7 @@ static void nvme_ns_realize(DeviceState *dev, Error *=
-*errp)
->  static Property nvme_ns_props[] =3D {
->      DEFINE_BLOCK_PROPERTIES(NvmeNamespace, blkconf),
->      DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
-> +    DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> =20
-> diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-> index ea8c2f785d..a38071884a 100644
-> --- a/hw/block/nvme-ns.h
-> +++ b/hw/block/nvme-ns.h
-> @@ -21,6 +21,7 @@
-> =20
->  typedef struct NvmeNamespaceParams {
->      uint32_t nsid;
-> +    QemuUUID uuid;
->  } NvmeNamespaceParams;
-> =20
->  typedef struct NvmeNamespace {
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index ee0eff98da..89d91926d9 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -1571,6 +1571,7 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, N=
-vmeRequest *req)
-> =20
->  static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *re=
-q)
->  {
-> +    NvmeNamespace *ns;
->      NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
->      uint32_t nsid =3D le32_to_cpu(c->nsid);
->      uint8_t list[NVME_IDENTIFY_DATA_SIZE];
-> @@ -1590,7 +1591,8 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtr=
-l *n, NvmeRequest *req)
->          return NVME_INVALID_NSID | NVME_DNR;
->      }
-> =20
-> -    if (unlikely(!nvme_ns(n, nsid))) {
-> +    ns =3D nvme_ns(n, nsid);
-> +    if (unlikely(!ns)) {
->          return NVME_INVALID_FIELD | NVME_DNR;
->      }
-> =20
-> @@ -1599,12 +1601,11 @@ static uint16_t nvme_identify_ns_descr_list(NvmeC=
-trl *n, NvmeRequest *req)
->      /*
->       * Because the NGUID and EUI64 fields are 0 in the Identify Namespac=
-e data
->       * structure, a Namespace UUID (nidt =3D 0x3) must be reported in the
-> -     * Namespace Identification Descriptor. Add a very basic Namespace U=
-UID
-> -     * here.
-> +     * Namespace Identification Descriptor. Add the namespace UUID here.
->       */
->      ns_descrs->uuid.hdr.nidt =3D NVME_NIDT_UUID;
->      ns_descrs->uuid.hdr.nidl =3D NVME_NIDT_UUID_LEN;
-> -    stl_be_p(&ns_descrs->uuid.v, nsid);
-> +    memcpy(&ns_descrs->uuid.v, ns->params.uuid.data, NVME_NIDT_UUID_LEN);
-> =20
->      return nvme_dma(n, list, NVME_IDENTIFY_DATA_SIZE,
->                      DMA_DIRECTION_FROM_DEVICE, req);
-> --=20
-> 2.21.0
->=20
->=20
+>  MAINTAINERS | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 426f52c1f63..d59e5c05c10 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -221,10 +221,11 @@ F: hw/microblaze/
+>  F: disas/microblaze.c
+>  
+>  MIPS TCG CPUs
+> +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  R: Aurelien Jarno <aurelien@aurel32.net>
+>  R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> -S: Orphaned
+> +S: Odd Fixes
+>  F: target/mips/
+>  F: default-configs/*mips*
+>  F: disas/*mips*
+> @@ -2815,11 +2816,12 @@ F: tcg/i386/
+>  F: disas/i386.c
+>  
+>  MIPS TCG target
+> +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  R: Aurelien Jarno <aurelien@aurel32.net>
+>  R: Huacai Chen <chenhc@lemote.com>
+>  R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>  R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> -S: Orphaned
+> +S: Odd Fixes
+>  F: tcg/mips/
 
---=20
-One of us - No more doubt, silence or taboo about mental illness.
+It would be good to get some feedback from the people with the "R:" entries
+here, too ... but FWIW:
 
---EeQfGwPcQSOJBaQU
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+G47cACgkQTeGvMW1P
-DenmWQgAqWMapDNMkp8FgOk7gf1Zkj3zo8AMJmBPNidBfBgzQtvaP/L/S/WSeo/6
-22H4U96o6B8G23LgBxgFZECaUAHrYzM8tE+y0GlUhVypDrC1T20aT3prnUUME8Qk
-ma1s71wISovf98pr+3P4Q6y+fna4Vi8iRSOn+XriuWhREZ7EM+KFPMorMA768bu/
-OVazwurBSRAU2NjAuYAeZLNXH/RdxvkG3N9WTr4o8ZKTQK+4M88EE5fT/Srs0cNF
-Ra1iZAgjDbtydq/U64E81ec5P0RXYgAEafSjC1lGmW9q1jTc1VSHDnclgJTjohR0
-kewpjdWH7tuhPcElKZOXghWagHkizA==
-=0DON
------END PGP SIGNATURE-----
-
---EeQfGwPcQSOJBaQU--
 
