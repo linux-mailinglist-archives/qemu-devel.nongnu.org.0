@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAF628E01C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:57:53 +0200 (CEST)
-Received: from localhost ([::1]:56030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B322C28E015
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:55:01 +0200 (CEST)
+Received: from localhost ([::1]:47574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfPk-0004oS-7F
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49386)
+	id 1kSfMy-00017Z-Oh
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:55:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSfLX-0008S2-Tj
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:53:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48579)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSfLC-00084B-VC
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:53:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSfLW-0000VF-2q
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:53:31 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSfL7-0000TF-El
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:53:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602676408;
+ s=mimecast20190719; t=1602676383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6FTuIuR3+XHqJPLeTbnNrOgtIIQYXp8K+Lm+xIrz/N0=;
- b=dn2wpmvXEizC+kwHNE96dpIsXxEsuD1QyThr2lhg1iC58XUORZ7qEdtVz4I9FaNHlIIdoE
- AOHnMTpKLY5iBC1wWAUU73+KKXQ+qzaztE13l80pKSusXXkJXu2MIDf6oAAizgKBZqXDZQ
- 7Lqfz5BH+3BFcJdTY1PtFDz4ve8ss50=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-hoUsj79hPfiGIniDcgHTeA-1; Wed, 14 Oct 2020 07:52:57 -0400
-X-MC-Unique: hoUsj79hPfiGIniDcgHTeA-1
-Received: by mail-wr1-f72.google.com with SMTP id b6so1162071wrn.17
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 04:52:57 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2wTH3wc2I2rRV2/wVEdRkSxgLY/gmXgNT0mExNm6R6I=;
+ b=DZpm3SGMzq4i77j6wNLAtjMQBy7VXeif5Zvmpr/t4wREbjNSK77bMSStRqiMi8XTrjtApZ
+ eDnRYXhFB9jQ5SgKkY+KlCG0J7k6WWBTIYDENXg9O1XZyQjLOUk4ir1hHiBkQh7T+ZKZ+Y
+ 2Y2SsL3zcjy4+9wBPiY2XR6LqnnHI74=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-62-geWXVkfTM_et3okPNlOjnA-1; Wed, 14 Oct 2020 07:53:02 -0400
+X-MC-Unique: geWXVkfTM_et3okPNlOjnA-1
+Received: by mail-wr1-f70.google.com with SMTP id 33so1171708wrk.12
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 04:53:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=v8EnNK3sIBGzEU69JoCHfHAHWcYD5moQxQRsWF71Ae8=;
- b=eZEM4mld4Os7I/LEzQP9l1xR9Izkqvl/LlRGX5rgEgsfpdECu5nB/BHqLPJPcYd7L5
- h/P9CuZE7C2jAvVv2gJHaa++pdA53zZKBsQ8lEHDARcz1cUwQX+4f2WPJ83iJKBNrMYh
- /bcO/tf0O8W3ssHW4i7Ninli0iFKsSZ7bIXGRxEIz0uHbGuY01j09FJabf+FMFgDJBoV
- tUM90vY12HnU36yTL0sXr6l14tC5DDrp6lQqVOXNkvFhFvOpYiCZUTnAeW8/7y8Mzi2Z
- azP3+6tSPblELYFyrjhknmzZHDqM7in1GZsmuBVIX4LO+nzeT37Bcg5njeqhR5cCfXQC
- EEoA==
-X-Gm-Message-State: AOAM533mwnwiJf0r1QQKZNHbocbikr9uf3VQvbqC5oakV51m67anG/FW
- VEfMy8VW4bFZ/xObUl2wG02qubW7kL4HKggchHnLeFj4O8B1qcHbQIVF3sMe6pOpMuvpbQXcdMO
- QD2DAYorvbKQj3rA=
-X-Received: by 2002:a1c:6856:: with SMTP id d83mr3162808wmc.71.1602676376071; 
- Wed, 14 Oct 2020 04:52:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8gxZfVYo+NwObfGKA6nAsUhkYiMquc9/RMvGJyl/KS/IHNSc3IGp43Pq/w/LLuBmpFinZpw==
-X-Received: by 2002:a1c:6856:: with SMTP id d83mr3162788wmc.71.1602676375864; 
- Wed, 14 Oct 2020 04:52:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2wTH3wc2I2rRV2/wVEdRkSxgLY/gmXgNT0mExNm6R6I=;
+ b=VL35h1Mrro/OGZLLkrxEnNAPngkU8ErpM8O5HtnGK6/fhVGt+GdeeVEVYqgHM1cy6c
+ L3XUe1tenB+goJmhXfey4FbnTW6LeDGbde/zerrMy3ZkeKj4Tlj/jO3whF4hU7innEQw
+ EasEwhGdjUXJU+3e+PIqbAroeFIRxgQtOMpJke6GlZ2PrT/+vjnRIW0gi41Ib0Mvf6du
+ 3XBB0ar+eYbqtFOINVE7fmCpqikmlja8RRY8T3ZCCxWGgCUxDEWUiBu6COttU1yUfBW4
+ s+ux7eceLM4hKu+JdM/zB7XPl2QkmtSLbvdYExOWCqATpeOzrW/vmrgqnAzCnb8BPd2c
+ nXUQ==
+X-Gm-Message-State: AOAM531S0yqWZqU65EKP9kbXn4C4E3cVL7TW9o61pIYu8luNHjPJNvEs
+ dnjfKhvloEVoz0k8Re4vyh4N0dyC/WuIfG4uOo2QM/Nw0UQ/CRapw/JSvcBVXaTKVFX8gS/uGRj
+ HayROrP4NzHMOyLE=
+X-Received: by 2002:adf:f2c1:: with SMTP id d1mr5434773wrp.179.1602676380913; 
+ Wed, 14 Oct 2020 04:53:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0U1ZK9ta+Epay7AuhvWvB4Ol2G6irIn8WjV4FZZx1WacWHGo3jYExAPVw7Y/2g7p1s8/lMQ==
+X-Received: by 2002:adf:f2c1:: with SMTP id d1mr5434757wrp.179.1602676380696; 
+ Wed, 14 Oct 2020 04:53:00 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id 64sm3553343wmd.3.2020.10.14.04.52.54
+ by smtp.gmail.com with ESMTPSA id n3sm3468979wmn.28.2020.10.14.04.52.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Oct 2020 04:52:55 -0700 (PDT)
+ Wed, 14 Oct 2020 04:53:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/9] util/vfio-helpers: Improve debugging experience
-Date: Wed, 14 Oct 2020 13:52:44 +0200
-Message-Id: <20201014115253.25276-1-philmd@redhat.com>
+Subject: [PATCH 1/9] util/vfio-helpers: Improve reporting unsupported IOMMU
+ type
+Date: Wed, 14 Oct 2020 13:52:45 +0200
+Message-Id: <20201014115253.25276-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201014115253.25276-1-philmd@redhat.com>
+References: <20201014115253.25276-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
@@ -79,7 +83,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,28 +104,35 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A bunch of boring patches that have been proven helpful=0D
-while debugging.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (9):=0D
-  util/vfio-helpers: Improve reporting unsupported IOMMU type=0D
-  util/vfio-helpers: Trace PCI I/O config accesses=0D
-  util/vfio-helpers: Trace PCI BAR region info=0D
-  util/vfio-helpers: Trace where BARs are mapped=0D
-  util/vfio-helpers: Improve DMA trace events=0D
-  util/vfio-helpers: Convert vfio_dump_mapping to trace events=0D
-  util/vfio-helpers: Let qemu_vfio_dma_map() propagate Error=0D
-  util/vfio-helpers: Let qemu_vfio_do_mapping() propagate Error=0D
-  util/vfio-helpers: Let qemu_vfio_verify_mappings() use error_report()=0D
-=0D
- include/qemu/vfio-helpers.h |  2 +-=0D
- block/nvme.c                | 14 ++++----=0D
- util/vfio-helpers.c         | 66 +++++++++++++++++++++----------------=0D
- util/trace-events           | 10 ++++--=0D
- 4 files changed, 54 insertions(+), 38 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+Change the confuse "VFIO IOMMU check failed" error message by
+the explicit "VFIO IOMMU Type1 is not supported" once.
+
+Example on POWER:
+
+ $ qemu-system-ppc64 -drive if=none,id=nvme0,file=nvme://0001:01:00.0/1,format=raw
+ qemu-system-ppc64: -drive if=none,id=nvme0,file=nvme://0001:01:00.0/1,format=raw: VFIO IOMMU Type1 is not supported
+
+Suggested-by: Alex Williamson <alex.williamson@redhat.com>
+Reviewed-by: Fam Zheng <fam@euphon.net>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ util/vfio-helpers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+index c469beb0616..14a549510fe 100644
+--- a/util/vfio-helpers.c
++++ b/util/vfio-helpers.c
+@@ -300,7 +300,7 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
+     }
+ 
+     if (!ioctl(s->container, VFIO_CHECK_EXTENSION, VFIO_TYPE1_IOMMU)) {
+-        error_setg_errno(errp, errno, "VFIO IOMMU check failed");
++        error_setg_errno(errp, errno, "VFIO IOMMU Type1 is not supported");
+         ret = -EINVAL;
+         goto fail_container;
+     }
+-- 
+2.26.2
 
 
