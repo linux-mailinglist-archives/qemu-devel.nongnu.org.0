@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B00F28E78D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 21:54:15 +0200 (CEST)
-Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A56728E789
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 21:49:12 +0200 (CEST)
+Received: from localhost ([::1]:40982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSmqk-0000sD-HJ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 15:54:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47814)
+	id 1kSmlr-0005Vk-Km
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 15:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kSmpV-0000Ne-98; Wed, 14 Oct 2020 15:52:57 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:37328)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kSmk8-0004z2-6y
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:47:27 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kSmpT-0005io-Lr; Wed, 14 Oct 2020 15:52:56 -0400
-Received: by mail-il1-x143.google.com with SMTP id j13so789063ilc.4;
- Wed, 14 Oct 2020 12:52:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zkHkfuHZJnTiYMXWjW2JQkehntyeBbIil8/ZyhDIFCw=;
- b=fBIOkZgwcNrDiWXJi7FMZooyaazdw7xwNP63aaI/pw/XrkyCsMEmf+FGME0yr4gdfl
- IZEgXnH1iuhROkMI/0tLEwQ8MeJ29qjbUPFjHppzuqZY0ISeB/RC46jnFGS/N8L6E3h/
- XSvyYDy8qzm7IIHUAibti/qr+E/2SVIlOigK0eKXkh7XH0pUY8oXpquj728gYmaPXah8
- zDExdoCkE7lXmTh9WmXOLZ0z9jQAaZVWNnxU1jSJNw8NQjtWduMTEXEMmLq1IK36Ickg
- Le7Eg1Jywz0stmV+pK6b3Acc5IbJz5HtzMCr62d9xuwUNBJo5iQzFPixiCLgGXofM4IJ
- h5Uw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kSmk5-0004q2-R1
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:47:23 -0400
+Received: by mail-pl1-x642.google.com with SMTP id c6so252875plr.9
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 12:47:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8ePLNG1GGX2WA5+Lf2MFQW1uunfFLZ1kHQ0fuywXhhU=;
+ b=FA7Q3e6G3NRFN9V0TJ4SqPud4rUkPS+x9mbwSn8lIdSHuUtz9B8myh/rCMq/XqXTU3
+ yuUdAZSqNEgySQaMQaiIeL+7fwj8i+E9031twetNZyWK6ttJPDbDTZG9/gg9gQWL9JBn
+ 6+2ZsBoCMFcobsprbVCZhnUZnkgjhd1xHRXOIMWTwRvEmZ3aadHRQ74KuzbY0aSztuTr
+ AiWetO6Mj5cvCiWnQY0LvKf7DQF7YM+9bqOJNGexdqRoj7nSyVp6D/5DOBSv9W+gVVRD
+ leU70Gc2xIVeKZ6XQjqFIuOiy+FiRjJicfuwsBzr9qE+C6fCaQoT9BrmzhU4gqKFcjE8
+ b9SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zkHkfuHZJnTiYMXWjW2JQkehntyeBbIil8/ZyhDIFCw=;
- b=gd5QgXM1sXDv41NGPIl8NpnF/RE9AarK7tqPsbBEHs5J5yNTcyfw2cmXHT4RKX9UxO
- t6RMh8zGmC+jSGj+zBT8ARaRjZtUX0NbfvKyebiuuYVkGiC1iJI5beSsyds/DgBaD0TL
- EYcXBspAUDuVfJ+jqbapb+Bymra76XypVgGmUt2MXGLH3Br9+1am/Sp/FeTPBStLmjHO
- kwx+yl88yj0m4HGTLJfJNHPPk7512ID4TCEs7dd82onu5TWv4sGlcuGun/uq0belqTO6
- PeBzySBXsYzOkG6I8y51nhuZ8QskVItoXVkNM+p1Qa9J7cEiD5Yv6xT+CwzhhDdRcM58
- CeKA==
-X-Gm-Message-State: AOAM532UzYUAerYXb3lenyiwjHG2F5lI5D+daCLyIWWIWOcPJMvmnXy2
- p8LLG6cq04VacbYUPCul6Z/sqxcPXF4vDgZ+LQ0=
-X-Google-Smtp-Source: ABdhPJyQnKstD/gKJPc62MqJDQfbvhPBaabcwFHnMijW9dVAVGUct+MReGeRcdBmXrx5HkQ3gO9831MuG9VWiKNKcxY=
-X-Received: by 2002:a05:6e02:1241:: with SMTP id
- j1mr666264ilq.267.1602705174239; 
- Wed, 14 Oct 2020 12:52:54 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8ePLNG1GGX2WA5+Lf2MFQW1uunfFLZ1kHQ0fuywXhhU=;
+ b=cr2NLRuKeXs5G6pnLxGQPjvzdt7vH/UWgA8THKhNFdyuIPnhAsbRiJc6BnS8cdB9eR
+ 5byJ/EjfQGfbKWcWsQ2DBhoZpfM3/bXEssQPW2K7dhbYNjFFAR58ErASWuljigw7UatO
+ xQX2v6Oxq36HIacaDuD3mNtI54e7bzX+QtOVP7/eVTQY7jWJZVuRlRJknt82oRkSIQUY
+ PqBo9BObZXOsnJgftYNUZGpM6pkfuyoMdvta3X9e8xFBDMqAlJXS1FlUgENr646QP7Db
+ W83WdTy3cN3IK9ADkzuYJAOmi+wrsVMW0OM9pIQcBMP9HpFAcz8lj0BH8D4gOZEvUP3T
+ epPA==
+X-Gm-Message-State: AOAM533hqFF125itYjMcEOFcI7ea6182Xx//ml3AUjt0k6VR3BMWMbGR
+ k0TculaFxm7U2SJRD5P7IF/JjcIM+9QNKA==
+X-Google-Smtp-Source: ABdhPJy/y/cJnqcibW9u1kmUErYEyfWVaULcDRF2KMkDzguzUhZhVLIATV/IE4qhGKDlrLnJiUD/Og==
+X-Received: by 2002:a17:90b:50a:: with SMTP id
+ r10mr727448pjz.231.1602704839467; 
+ Wed, 14 Oct 2020 12:47:19 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id q16sm384706pfu.206.2020.10.14.12.47.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Oct 2020 12:47:18 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] accel/tcg: split CpusAccel into three TCG variants
+To: Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201014192324.6390-1-cfontana@suse.de>
+ <20201014192324.6390-2-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <21a20694-05df-4cf6-24a3-6e90db09c3a0@linaro.org>
+Date: Wed, 14 Oct 2020 12:47:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201013172223.443645-1-georg.kotheimer@kernkonzept.com>
-In-Reply-To: <20201013172223.443645-1-georg.kotheimer@kernkonzept.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 14 Oct 2020 12:41:15 -0700
-Message-ID: <CAKmqyKMmVn6oDjcHVywToNe4mkRxUru2jH_pP43y4moJyXwxBQ@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix implementation of HLVX.WU instruction
-To: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+In-Reply-To: <20201014192324.6390-2-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,53 +92,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 13, 2020 at 10:23 AM Georg Kotheimer
-<georg.kotheimer@kernkonzept.com> wrote:
->
-> The HLVX.WU instruction is supposed to read a machine word,
-> but prior to this change it read a byte instead.
->
-> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Thanks!
-
-Applied to riscv-to-apply.next
-
-Alistair
-
+On 10/14/20 12:23 PM, Claudio Fontana wrote:
+> split up the CpusAccel tcg_cpus into three TCG variants:
+> 
+> tcg_cpus_rr (single threaded, round robin cpus)
+> tcg_cpus_icount (same as rr, but with instruction counting enabled)
+> tcg_cpus_mttcg (multi-threaded cpus)
+> 
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > ---
->  target/riscv/op_helper.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index 9b9ada45a9..3b7bd6ee88 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -334,12 +334,12 @@ target_ulong helper_hyp_x_load(CPURISCVState *env, target_ulong address,
->          riscv_cpu_set_two_stage_lookup(env, true);
->
->          switch (memop) {
-> -        case MO_TEUL:
-> -            pte = cpu_ldub_data_ra(env, address, GETPC());
-> -            break;
->          case MO_TEUW:
->              pte = cpu_lduw_data_ra(env, address, GETPC());
->              break;
-> +        case MO_TEUL:
-> +            pte = cpu_ldl_data_ra(env, address, GETPC());
-> +            break;
->          default:
->              g_assert_not_reached();
->          }
-> --
-> 2.25.1
->
->
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
