@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A4628E262
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:40:36 +0200 (CEST)
-Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340BF28E287
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:52:34 +0200 (CEST)
+Received: from localhost ([::1]:49522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kShxD-00068q-Pl
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:40:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36800)
+	id 1kSi8n-0003R0-9i
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:52:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShnq-0005A6-0G
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56157)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShnu-0005JX-9Y
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShno-0005jo-3p
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:53 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShns-0005kf-Dy
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602685851;
+ s=mimecast20190719; t=1602685855;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QkiQss4IQz5oCluxcArSz18v1xtvPh269IHgGTrLhlo=;
- b=bWEqnBlc+MMrtByD+9p15BPKFEc1fAYaDjMMCVP/22m/MRJQ2Ul1qHoUluiYa+dNWrDy0m
- JbFPPodSCIRWIaHxu7C22bgby+PkkSbXWjKwfcj18OMPUhkFE1kmrBY2AzmuL/bltTLZ11
- lkt2RjKLTyvRwAy/psyTMLHmm2GOQ00=
+ bh=qwkQBhJoE76rywJOMZaUJ/Ego050uPppbS+XcA9/b6I=;
+ b=RfaJ8cDV+PAVtrbZRP5uPtvoGhdFFm1oVYbHiABhHvM6vXwpnP4i7eSNkkqQ7avCsnrdLw
+ gOiDJeB9YWTbYDLlh0EAZ87xC4twupOyKcUzu4WXqaGABjs5IHa5ljzV4U4jURobqC1Fb3
+ BU7sLqsTVAO5qW/tXMWWqLqPxB4eHDI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-UeIBV3GjM2akuXK0u1EvqA-1; Wed, 14 Oct 2020 10:30:49 -0400
-X-MC-Unique: UeIBV3GjM2akuXK0u1EvqA-1
+ us-mta-456-HaG9stqiN6K3u-NzEk0f6g-1; Wed, 14 Oct 2020 10:30:51 -0400
+X-MC-Unique: HaG9stqiN6K3u-NzEk0f6g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC51257056;
- Wed, 14 Oct 2020 14:30:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C065357052;
+ Wed, 14 Oct 2020 14:30:49 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-231.rdu2.redhat.com [10.10.117.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 514B776649;
- Wed, 14 Oct 2020 14:30:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EDC7676649;
+ Wed, 14 Oct 2020 14:30:47 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/15] python: move .isort.cfg into setup.cfg
-Date: Wed, 14 Oct 2020 10:29:55 -0400
-Message-Id: <20201014142957.763624-14-jsnow@redhat.com>
+Subject: [PATCH v2 14/15] python/qemu: add isort to pipenv
+Date: Wed, 14 Oct 2020 10:29:56 -0400
+Message-Id: <20201014142957.763624-15-jsnow@redhat.com>
 In-Reply-To: <20201014142957.763624-1-jsnow@redhat.com>
 References: <20201014142957.763624-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,43 +93,53 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+isort 5.0.0 through 5.0.4 has a bug that causes it to misinterpret
+certain "from ..." clauses that are not related to imports.
+
+Require 5.0.5 or greater.
+
+isort can be run with 'isort -c qemu' from the python root.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/.isort.cfg | 7 -------
- python/setup.cfg  | 8 ++++++++
- 2 files changed, 8 insertions(+), 7 deletions(-)
- delete mode 100644 python/.isort.cfg
+ python/Pipfile      | 1 +
+ python/Pipfile.lock | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/python/.isort.cfg b/python/.isort.cfg
-deleted file mode 100644
-index 6d0fd6cc0d..0000000000
---- a/python/.isort.cfg
-+++ /dev/null
-@@ -1,7 +0,0 @@
--[settings]
--force_grid_wrap=4
--force_sort_within_sections=True
--include_trailing_comma=True
--line_length=72
--lines_after_imports=2
--multi_line_output=3
-\ No newline at end of file
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 13a7a8cd9c..04ad3d91bc 100755
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -54,3 +54,11 @@ good-names=i,
- [pylint.similarities]
- # Ignore imports when computing similarities.
- ignore-imports=yes
-+
-+[isort]
-+force_grid_wrap=4
-+force_sort_within_sections=True
-+include_trailing_comma=True
-+line_length=72
-+lines_after_imports=2
-+multi_line_output=3
+diff --git a/python/Pipfile b/python/Pipfile
+index 51c537b0d1..75b96f29d8 100644
+--- a/python/Pipfile
++++ b/python/Pipfile
+@@ -5,6 +5,7 @@ verify_ssl = true
+ 
+ [dev-packages]
+ flake8 = ">=3.6.0"
++isort = ">=5.0.5"
+ mypy = ">=0.770"
+ pylint = ">=2.6.0"
+ 
+diff --git a/python/Pipfile.lock b/python/Pipfile.lock
+index 376f95a6a8..74563b444c 100644
+--- a/python/Pipfile.lock
++++ b/python/Pipfile.lock
+@@ -1,7 +1,7 @@
+ {
+     "_meta": {
+         "hash": {
+-            "sha256": "65f010a8f2e55e9870d2b7e0d8af129516097d23abf2504f396552748b067ade"
++            "sha256": "b89c7a1b8a414f2a4cd708964123fb427d55419ee0b39e088bf2e7d4fbc11979"
+         },
+         "pipfile-spec": 6,
+         "requires": {
+@@ -46,7 +46,7 @@
+                 "sha256:dcab1d98b469a12a1a624ead220584391648790275560e1a43e54c5dceae65e7",
+                 "sha256:dcaeec1b5f0eca77faea2a35ab790b4f3680ff75590bfcb7145986905aab2f58"
+             ],
+-            "markers": "python_version >= '3.6' and python_version < '4.0'",
++            "index": "pypi",
+             "version": "==5.6.4"
+         },
+         "lazy-object-proxy": {
 -- 
 2.26.2
 
