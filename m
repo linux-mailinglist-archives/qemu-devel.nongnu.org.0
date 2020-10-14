@@ -2,70 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1666628DB94
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 10:32:00 +0200 (CEST)
-Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122EE28DB7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 10:31:27 +0200 (CEST)
+Received: from localhost ([::1]:47654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kScCU-0003xR-0k
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 04:31:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34136)
+	id 1kScBx-0003TJ-59
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 04:31:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kSc8r-00014T-T4
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:28:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48798)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kScAF-0002TN-Bb
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:29:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kSc8p-0008LT-O9
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:28:13 -0400
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kScAC-0008Vc-Sb
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:29:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602664090;
+ s=mimecast20190719; t=1602664175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MZZ9hnLpBSfUPYJnzrr8XxQqJEL/cKh9kdDj1jdY0mI=;
- b=IFVgoD7x1dyUKYaW6cxQSwHrhvoGn/NaVnSntmyO++GvCxCF+3BmqnOoeDTogb/Ddubw5v
- INOLSf00cWZVEKFO+c2FoIxZd5y+psr6XlK/2glOTBmTiKwOeKdnCNp6DgEWACrF4w6kbI
- CA88CpiSWdnkbSVMP/6qEM5ipnQ70rc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-NxNf8OLSP-6OxkJ5ytRoKA-1; Wed, 14 Oct 2020 04:28:09 -0400
-X-MC-Unique: NxNf8OLSP-6OxkJ5ytRoKA-1
-Received: by mail-ej1-f71.google.com with SMTP id c20so871274ejs.12
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 01:28:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MZZ9hnLpBSfUPYJnzrr8XxQqJEL/cKh9kdDj1jdY0mI=;
- b=N2nnaHKY+EIGI/JdXmhkfcnaszeT0OEpR72t/kfEfvX7BeETUtLWWt+Ofs9i0fFxva
- V9cdtJ+mbFfOxvRf/ZprI4J+Hn9tKXNdGRPcWkOb2ffZAxmhEw+Q8sxiGlpSBZcXYFYU
- Wlx1JCWf5AIQfLrU/FXG9WOT0stKAHWpQ9qSaS7802KAZ8mDKCj+vrSEvsF9GXOKmxhA
- 4Ros2d55THKbKS4w2MGEgA0Zdf8rXJ4JUdJsoaIs/SvByWkD7Y1T16065wiZosLa0/8v
- T6bAjuui6sFZ/an9Mp1fD3F7qXiR0SRBzJFoQjpFY21qP95tNF1lXvjiHg9KFn510cB7
- 2UMw==
-X-Gm-Message-State: AOAM530+TZS6Xjw2JzdBT44nBDElfIfR+xzthdcwojgSPXoSm7ylq6m3
- 9NdHm03R8g9FpT10OLqrT1/5Xf7V39MOFmrJM8QqabTRcmT48knKtTz9LFN3aFJfA9KpXeshEn3
- J3vqpudgwZRAydPc=
-X-Received: by 2002:a17:906:4e19:: with SMTP id
- z25mr4280719eju.44.1602664087759; 
- Wed, 14 Oct 2020 01:28:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzum0nzPjm+ya3l+65XT3fFEQPrAM01mV7i4zpCRmhZN3Ic86tRPf+B9dOifSlQiZiw5WPMGw==
-X-Received: by 2002:a17:906:4e19:: with SMTP id
- z25mr4280709eju.44.1602664087568; 
- Wed, 14 Oct 2020 01:28:07 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:e5f7:db3b:55ea:7337?
- ([2001:b07:6468:f312:e5f7:db3b:55ea:7337])
- by smtp.gmail.com with ESMTPSA id bu23sm1110816edb.69.2020.10.14.01.28.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Oct 2020 01:28:06 -0700 (PDT)
+ bh=ay2KiFfdQQ+ULyuVIu9EMCKBauoiTeJO7YqRn+3s6dY=;
+ b=TGnXIbhWrHL284tqBREYU7Tlm0+NCDL5pTOmhCOdxq9gAyIl0HDsmNrIDx2NhR1hTyBnLj
+ kW4cteozbjSa/dTgVEXqs9+71fOmB8R4Nhmqc79ut5Y1j7wkQo6VqWjvziw/GBHLQ9j15a
+ Ewep7uF7k9S/QgkS5fwd9s49AtD1bLc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-GaK5RsY_NDu5mWnq1vJ9EQ-1; Wed, 14 Oct 2020 04:29:34 -0400
+X-MC-Unique: GaK5RsY_NDu5mWnq1vJ9EQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC47D879528;
+ Wed, 14 Oct 2020 08:29:32 +0000 (UTC)
+Received: from starship (unknown [10.35.206.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF131610F3;
+ Wed, 14 Oct 2020 08:29:24 +0000 (UTC)
+Message-ID: <a4f3816dab09f4e28e33c66b8ff8273147415567.camel@redhat.com>
 Subject: Re: Why guest physical addresses are not the same as the
  corresponding host virtual addresses in QEMU/KVM? Thanks!
-To: harry harry <hiharryharryharry@gmail.com>,
- Sean Christopherson <sean.j.christopherson@intel.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: harry harry <hiharryharryharry@gmail.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Sean Christopherson <sean.j.christopherson@intel.com>
+Date: Wed, 14 Oct 2020 11:29:23 +0300
+In-Reply-To: <CA+-xGqOMKRh+_5vYXeLOiGnTMw4L_gUccqdQ+HGSOzuTosp6tw@mail.gmail.com>
 References: <CA+-xGqMd4_58_+QKetjOsubBqrDnaYF+YWE3TC3kEcNGxPiPfg@mail.gmail.com>
  <47ead258320536d00f9f32891da3810040875aff.camel@redhat.com>
  <CA+-xGqOm2sWbxR=3W1pWrZNLOt7EE5qiNWxMz=9=gmga15vD2w@mail.gmail.com>
@@ -73,23 +57,15 @@ References: <CA+-xGqMd4_58_+QKetjOsubBqrDnaYF+YWE3TC3kEcNGxPiPfg@mail.gmail.com>
  <CA+-xGqPkkiws0bxrzud_qKs3ZmKN9=AfN=JGephfGc+2rn6ybw@mail.gmail.com>
  <20201013045245.GA11344@linux.intel.com>
  <CA+-xGqO4DtUs3-jH+QMPEze2GrXwtNX0z=vVUVak5HOpPKaDxQ@mail.gmail.com>
- <20201013070329.GC11344@linux.intel.com>
- <CA+-xGqO37RzQDg5dnE_3NWMp6+u2L02GQDqoSr3RdedoMBugrg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <626a8667-be00-96b7-f21d-1ec7648ee1e6@redhat.com>
-Date: Wed, 14 Oct 2020 10:28:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ <CA+-xGqMMa-DB1SND5MRugusDafjNA9CVw-=OBK7q=CK1impmTQ@mail.gmail.com>
+ <a163c2d8-d8a1-dc03-6230-a2e104e3b039@redhat.com>
+ <CA+-xGqOMKRh+_5vYXeLOiGnTMw4L_gUccqdQ+HGSOzuTosp6tw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
-In-Reply-To: <CA+-xGqO37RzQDg5dnE_3NWMp6+u2L02GQDqoSr3RdedoMBugrg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -98,8 +74,8 @@ X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, PLING_QUERY=0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ PLING_QUERY=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,27 +89,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, mathieu.tarral@protonmail.com,
- stefanha@redhat.com
+Cc: libvir-list@redhat.com, mathieu.tarral@protonmail.com,
+ qemu-devel@nongnu.org, stefanha@redhat.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/10/20 00:40, harry harry wrote:
-> Q1: Is there any file like ``/proc/pid/pagemap'' to record the
-> mappings between GPAs and HVAs in the host OS?
+On Tue, 2020-10-13 at 16:36 -0400, harry harry wrote:
+> Hi Paolo and Sean,
+> 
+> Thanks much for your prompt replies and clear explanations.
+> 
+> On Tue, Oct 13, 2020 at 2:43 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> > No, the logic to find the HPA with a given HVA is the same as the
+> > hardware logic to translate HVA -> HPA.  That is it uses the host
+> > "regular" page tables, not the nested page tables.
+> > 
+> > In order to translate GPA to HPA, instead, KVM does not use the nested
+> > page tables.
+> 
+> I am curious why KVM does not directly use GPAs as HVAs and leverage
+> nested page tables to translate HVAs (i.e., GPAs) to HPAs? Is that
+> because 1) the hardware logic of ``GPA -> [extended/nested page
+> tables] -> HPA[*]'' is different[**] from the hardware logic of ``HVA
+> -> [host regular page tables] -> HPA''; 2) if 1) is true, it is
+> natural to reuse Linux's original functionality to translate HVAs to
+> HPAs through regular page tables.
+I would like to emphisise again. The HVA space is not fully free when a guest starts,
+since it contains qemu's heap, code, data, and whatever qemu needs. However guest't
+GPA address space must be allocated fully. E.g if qemu heap starts at 0x40000,
+then guest can't have physical memory at 0x40000 following your suggestion, which
+is wrong. It can be in theory done by blacklisting these areas via ACPI/BIOS provided
+memory map, but that would be very very difficult to maintain and not worth it.
 
-No, there isn't.
+Best regards,
+	Maxim Levitsky
 
-> Q2: Seems that there might be extra overhead (e.g., synchronization
-> between EPT tables and host regular page tables; maintaining extra
-> regular page tables and data structures), which is caused by the extra
-> translation between GPAs to HVAs via memslots. Why doesn't KVM
-> directly use GPAs as HVAs and leverage extended/nested page tables to
-> translate HVAs (i.e., GPAs) to HPAs?
+> 
+> [*]: Here, the translation means the last step for MMU to translate a
+> GVA's corresponding GPA to an HPA through the extended/nested page
+> tables.
+> [**]: To my knowledge, the hardware logic of ``GPA -> [extended/nested
+> page tables] -> HPA'' seems to be the same as the hardware logic of
+> ``HVA -> [host regular page tables] -> HPA''. I appreciate it if you
+> could point out the differences I ignored. Thanks!
+> 
+> Best,
+> Harry
+> 
 
-See my other answer.  What you are saying is simply not possible.
-
-Paolo
 
 
