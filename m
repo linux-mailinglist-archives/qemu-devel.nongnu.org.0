@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD7A28E75C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 21:33:48 +0200 (CEST)
-Received: from localhost ([::1]:47636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09BC28E73B
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 21:25:55 +0200 (CEST)
+Received: from localhost ([::1]:53918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSmWx-0003gj-1b
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 15:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42016)
+	id 1kSmPK-0002r6-Q4
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 15:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSmN2-0001AA-Cp
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:23:32 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34278)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSmN4-0001E3-1r
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:23:34 -0400
+Received: from mx2.suse.de ([195.135.220.15]:34290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSmN0-00022f-8N
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:23:32 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kSmN0-00022i-8n
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:23:33 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AFA0EB2A1;
- Wed, 14 Oct 2020 19:23:27 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 0BA58B2A3;
+ Wed, 14 Oct 2020 19:23:28 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 2/3] accel/tcg: split tcg_start_vcpu_thread
-Date: Wed, 14 Oct 2020 21:23:23 +0200
-Message-Id: <20201014192324.6390-3-cfontana@suse.de>
+Subject: [PATCH v2 3/3] accel/tcg: rename tcg-cpus functions to match module
+ name
+Date: Wed, 14 Oct 2020 21:23:24 +0200
+Message-Id: <20201014192324.6390-4-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201014192324.6390-1-cfontana@suse.de>
 References: <20201014192324.6390-1-cfontana@suse.de>
@@ -59,284 +60,430 @@ Cc: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-after the initial split into 3 tcg variants, we proceed to also
-split tcg_start_vcpu_thread.
-
-We actually split it in 2 this time, since the icount variant
-just uses the round robin function.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- accel/tcg/tcg-all.c         |  5 ++++
- accel/tcg/tcg-cpus-icount.c |  2 +-
- accel/tcg/tcg-cpus-mttcg.c  | 29 +++++++++++++++++--
- accel/tcg/tcg-cpus-mttcg.h  | 10 -------
- accel/tcg/tcg-cpus-rr.c     | 39 +++++++++++++++++++++++--
- accel/tcg/tcg-cpus-rr.h     |  4 +--
- accel/tcg/tcg-cpus.c        | 58 -------------------------------------
- accel/tcg/tcg-cpus.h        |  1 -
- 8 files changed, 71 insertions(+), 77 deletions(-)
+ accel/tcg/tcg-cpus-icount.c | 24 ++++++------
+ accel/tcg/tcg-cpus-icount.h |  6 +--
+ accel/tcg/tcg-cpus-mttcg.c  | 10 ++---
+ accel/tcg/tcg-cpus-rr.c     | 74 ++++++++++++++++++-------------------
+ accel/tcg/tcg-cpus-rr.h     |  2 +-
+ accel/tcg/tcg-cpus.c        |  6 +--
+ accel/tcg/tcg-cpus.h        |  6 +--
+ 7 files changed, 64 insertions(+), 64 deletions(-)
 
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index e42a028043..1ac0b76515 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -105,6 +105,11 @@ static int tcg_init(MachineState *ms)
-     tcg_exec_init(s->tb_size * 1024 * 1024);
-     mttcg_enabled = s->mttcg_enabled;
- 
-+    /*
-+     * Initialize TCG regions
-+     */
-+    tcg_region_init();
-+
-     if (mttcg_enabled) {
-         cpus_register_accel(&tcg_cpus_mttcg);
-     } else if (icount_enabled()) {
 diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
-index d3af3afb6d..82dbe2cacf 100644
+index 82dbe2cacf..9f45432275 100644
 --- a/accel/tcg/tcg-cpus-icount.c
 +++ b/accel/tcg/tcg-cpus-icount.c
-@@ -138,7 +138,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
+@@ -36,7 +36,7 @@
+ #include "tcg-cpus-icount.h"
+ #include "tcg-cpus-rr.h"
+ 
+-static int64_t tcg_get_icount_limit(void)
++static int64_t icount_get_limit(void)
+ {
+     int64_t deadline;
+ 
+@@ -68,37 +68,37 @@ static int64_t tcg_get_icount_limit(void)
+     }
  }
  
+-static void notify_aio_contexts(void)
++static void icount_notify_aio_contexts(void)
+ {
+     /* Wake up other AioContexts.  */
+     qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
+     qemu_clock_run_timers(QEMU_CLOCK_VIRTUAL);
+ }
+ 
+-void handle_icount_deadline(void)
++void icount_handle_deadline(void)
+ {
+     assert(qemu_in_vcpu_thread());
+     int64_t deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
+                                                   QEMU_TIMER_ATTR_ALL);
+ 
+     if (deadline == 0) {
+-        notify_aio_contexts();
++        icount_notify_aio_contexts();
+     }
+ }
+ 
+-void prepare_icount_for_run(CPUState *cpu)
++void icount_prepare_for_run(CPUState *cpu)
+ {
+     int insns_left;
+ 
+     /*
+-     * These should always be cleared by process_icount_data after
++     * These should always be cleared by icount_process_data after
+      * each vCPU execution. However u16.high can be raised
+-     * asynchronously by cpu_exit/cpu_interrupt/tcg_handle_interrupt
++     * asynchronously by cpu_exit/cpu_interrupt/tcg_cpus_handle_interrupt
+      */
+     g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
+     g_assert(cpu->icount_extra == 0);
+ 
+-    cpu->icount_budget = tcg_get_icount_limit();
++    cpu->icount_budget = icount_get_limit();
+     insns_left = MIN(0xffff, cpu->icount_budget);
+     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
+     cpu->icount_extra = cpu->icount_budget - insns_left;
+@@ -106,11 +106,11 @@ void prepare_icount_for_run(CPUState *cpu)
+     replay_mutex_lock();
+ 
+     if (cpu->icount_budget == 0 && replay_has_checkpoint()) {
+-        notify_aio_contexts();
++        icount_notify_aio_contexts();
+     }
+ }
+ 
+-void process_icount_data(CPUState *cpu)
++void icount_process_data(CPUState *cpu)
+ {
+     /* Account for executed instructions */
+     icount_update(cpu);
+@@ -129,7 +129,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
+ {
+     int old_mask = cpu->interrupt_request;
+ 
+-    tcg_handle_interrupt(cpu, mask);
++    tcg_cpus_handle_interrupt(cpu, mask);
+     if (qemu_cpu_is_self(cpu) &&
+         !cpu->can_do_io
+         && (mask & ~old_mask) != 0) {
+@@ -139,7 +139,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
+ 
  const CpusAccel tcg_cpus_icount = {
--    .create_vcpu_thread = tcg_start_vcpu_thread,
-+    .create_vcpu_thread = rr_start_vcpu_thread,
-     .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
+     .create_vcpu_thread = rr_start_vcpu_thread,
+-    .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
++    .kick_vcpu_thread = rr_kick_vcpu_thread,
  
      .handle_interrupt = icount_handle_interrupt,
+     .get_virtual_clock = icount_get,
+diff --git a/accel/tcg/tcg-cpus-icount.h b/accel/tcg/tcg-cpus-icount.h
+index cbcf76b413..b695939dfa 100644
+--- a/accel/tcg/tcg-cpus-icount.h
++++ b/accel/tcg/tcg-cpus-icount.h
+@@ -10,8 +10,8 @@
+ #ifndef TCG_CPUS_ICOUNT_H
+ #define TCG_CPUS_ICOUNT_H
+ 
+-void handle_icount_deadline(void);
+-void prepare_icount_for_run(CPUState *cpu);
+-void process_icount_data(CPUState *cpu);
++void icount_handle_deadline(void);
++void icount_prepare_for_run(CPUState *cpu);
++void icount_process_data(CPUState *cpu);
+ 
+ #endif /* TCG_CPUS_ICOUNT_H */
 diff --git a/accel/tcg/tcg-cpus-mttcg.c b/accel/tcg/tcg-cpus-mttcg.c
-index 723703fa3e..619718c994 100644
+index 619718c994..8fa76f4c04 100644
 --- a/accel/tcg/tcg-cpus-mttcg.c
 +++ b/accel/tcg/tcg-cpus-mttcg.c
-@@ -33,7 +33,6 @@
- #include "hw/boards.h"
- 
- #include "tcg-cpus.h"
--#include "tcg-cpus-mttcg.h"
- 
- /*
-  * Multi-threaded TCG
-@@ -43,7 +42,7 @@
+@@ -42,7 +42,7 @@
   * current CPUState for a given thread.
   */
  
--void *tcg_cpu_thread_fn(void *arg)
-+static void *tcg_cpu_thread_fn(void *arg)
+-static void *tcg_cpu_thread_fn(void *arg)
++static void *mttcg_cpu_thread_fn(void *arg)
  {
      CPUState *cpu = arg;
  
-@@ -111,8 +110,32 @@ static void mttcg_kick_vcpu_thread(CPUState *cpu)
-     cpu_exit(cpu);
- }
+@@ -68,7 +68,7 @@ static void *tcg_cpu_thread_fn(void *arg)
+         if (cpu_can_run(cpu)) {
+             int r;
+             qemu_mutex_unlock_iothread();
+-            r = tcg_cpu_exec(cpu);
++            r = tcg_cpus_exec(cpu);
+             qemu_mutex_lock_iothread();
+             switch (r) {
+             case EXCP_DEBUG:
+@@ -99,7 +99,7 @@ static void *tcg_cpu_thread_fn(void *arg)
+         qemu_wait_io_event(cpu);
+     } while (!cpu->unplug || cpu_can_run(cpu));
  
-+static void mttcg_start_vcpu_thread(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+
-+    g_assert(tcg_enabled());
-+
-+    parallel_cpus = (current_machine->smp.max_cpus > 1);
-+
-+    cpu->thread = g_malloc0(sizeof(QemuThread));
-+    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-+    qemu_cond_init(cpu->halt_cond);
-+
-+    /* create a thread per vCPU with TCG (MTTCG) */
-+    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
-+             cpu->cpu_index);
-+
-+    qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
-+                       cpu, QEMU_THREAD_JOINABLE);
-+
-+#ifdef _WIN32
-+    cpu->hThread = qemu_thread_get_handle(cpu->thread);
-+#endif
-+}
-+
- const CpusAccel tcg_cpus_mttcg = {
--    .create_vcpu_thread = tcg_start_vcpu_thread,
-+    .create_vcpu_thread = mttcg_start_vcpu_thread,
+-    qemu_tcg_destroy_vcpu(cpu);
++    tcg_cpus_destroy(cpu);
+     qemu_mutex_unlock_iothread();
+     rcu_unregister_thread();
+     return NULL;
+@@ -126,7 +126,7 @@ static void mttcg_start_vcpu_thread(CPUState *cpu)
+     snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
+              cpu->cpu_index);
+ 
+-    qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
++    qemu_thread_create(cpu->thread, thread_name, mttcg_cpu_thread_fn,
+                        cpu, QEMU_THREAD_JOINABLE);
+ 
+ #ifdef _WIN32
+@@ -138,5 +138,5 @@ const CpusAccel tcg_cpus_mttcg = {
+     .create_vcpu_thread = mttcg_start_vcpu_thread,
      .kick_vcpu_thread = mttcg_kick_vcpu_thread,
  
-     .handle_interrupt = tcg_handle_interrupt,
-diff --git a/accel/tcg/tcg-cpus-mttcg.h b/accel/tcg/tcg-cpus-mttcg.h
-index 5d203243e8..6a70dcb5d6 100644
---- a/accel/tcg/tcg-cpus-mttcg.h
-+++ b/accel/tcg/tcg-cpus-mttcg.h
-@@ -10,14 +10,4 @@
- #ifndef TCG_CPUS_MTTCG_H
- #define TCG_CPUS_MTTCG_H
- 
--/*
-- * Multi-threaded TCG
-- *
-- * In the multi-threaded case each vCPU has its own thread. The TLS
-- * variable current_cpu can be used deep in the code to find the
-- * current CPUState for a given thread.
-- */
--
--void *tcg_cpu_thread_fn(void *arg);
--
- #endif /* TCG_CPUS_MTTCG_H */
+-    .handle_interrupt = tcg_handle_interrupt,
++    .handle_interrupt = tcg_cpus_handle_interrupt,
+ };
 diff --git a/accel/tcg/tcg-cpus-rr.c b/accel/tcg/tcg-cpus-rr.c
-index 82bb7c5ea6..31ec37915a 100644
+index 31ec37915a..bb3bdf650b 100644
 --- a/accel/tcg/tcg-cpus-rr.c
 +++ b/accel/tcg/tcg-cpus-rr.c
+@@ -37,7 +37,7 @@
+ #include "tcg-cpus-icount.h"
+ 
+ /* Kick all RR vCPUs */
+-void qemu_cpu_kick_rr_cpus(CPUState *unused)
++void rr_kick_vcpu_thread(CPUState *unused)
+ {
+     CPUState *cpu;
+ 
+@@ -58,62 +58,62 @@ void qemu_cpu_kick_rr_cpus(CPUState *unused)
+  * idleness is complete.
+  */
+ 
+-static QEMUTimer *tcg_kick_vcpu_timer;
+-static CPUState *tcg_current_rr_cpu;
++static QEMUTimer *rr_kick_vcpu_timer;
++static CPUState *rr_current_cpu;
+ 
+ #define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+ 
+-static inline int64_t qemu_tcg_next_kick(void)
++static inline int64_t rr_next_kick_time(void)
+ {
+     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
+ }
+ 
+ /* Kick the currently round-robin scheduled vCPU to next */
+-static void qemu_cpu_kick_rr_next_cpu(void)
++static void rr_kick_next_cpu(void)
+ {
+     CPUState *cpu;
+     do {
+-        cpu = qatomic_mb_read(&tcg_current_rr_cpu);
++        cpu = qatomic_mb_read(&rr_current_cpu);
+         if (cpu) {
+             cpu_exit(cpu);
+         }
+-    } while (cpu != qatomic_mb_read(&tcg_current_rr_cpu));
++    } while (cpu != qatomic_mb_read(&rr_current_cpu));
+ }
+ 
+-static void kick_tcg_thread(void *opaque)
++static void rr_kick_thread(void *opaque)
+ {
+-    timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+-    qemu_cpu_kick_rr_next_cpu();
++    timer_mod(rr_kick_vcpu_timer, rr_next_kick_time());
++    rr_kick_next_cpu();
+ }
+ 
+-static void start_tcg_kick_timer(void)
++static void rr_start_kick_timer(void)
+ {
+-    if (!tcg_kick_vcpu_timer && CPU_NEXT(first_cpu)) {
+-        tcg_kick_vcpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+-                                           kick_tcg_thread, NULL);
++    if (!rr_kick_vcpu_timer && CPU_NEXT(first_cpu)) {
++        rr_kick_vcpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
++                                           rr_kick_thread, NULL);
+     }
+-    if (tcg_kick_vcpu_timer && !timer_pending(tcg_kick_vcpu_timer)) {
+-        timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
++    if (rr_kick_vcpu_timer && !timer_pending(rr_kick_vcpu_timer)) {
++        timer_mod(rr_kick_vcpu_timer, rr_next_kick_time());
+     }
+ }
+ 
+-static void stop_tcg_kick_timer(void)
++static void rr_stop_kick_timer(void)
+ {
+-    if (tcg_kick_vcpu_timer && timer_pending(tcg_kick_vcpu_timer)) {
+-        timer_del(tcg_kick_vcpu_timer);
++    if (rr_kick_vcpu_timer && timer_pending(rr_kick_vcpu_timer)) {
++        timer_del(rr_kick_vcpu_timer);
+     }
+ }
+ 
+-static void qemu_tcg_rr_wait_io_event(void)
++static void rr_wait_io_event(void)
+ {
+     CPUState *cpu;
+ 
+     while (all_cpu_threads_idle()) {
+-        stop_tcg_kick_timer();
++        rr_stop_kick_timer();
+         qemu_cond_wait_iothread(first_cpu->halt_cond);
+     }
+ 
+-    start_tcg_kick_timer();
++    rr_start_kick_timer();
+ 
+     CPU_FOREACH(cpu) {
+         qemu_wait_io_event_common(cpu);
+@@ -124,13 +124,13 @@ static void qemu_tcg_rr_wait_io_event(void)
+  * Destroy any remaining vCPUs which have been unplugged and have
+  * finished running
+  */
+-static void deal_with_unplugged_cpus(void)
++static void rr_deal_with_unplugged_cpus(void)
+ {
+     CPUState *cpu;
+ 
+     CPU_FOREACH(cpu) {
+         if (cpu->unplug && !cpu_can_run(cpu)) {
+-            qemu_tcg_destroy_vcpu(cpu);
++            tcg_cpus_destroy(cpu);
+             break;
+         }
+     }
 @@ -146,7 +146,7 @@ static void deal_with_unplugged_cpus(void)
   * elsewhere.
   */
  
--void *tcg_rr_cpu_thread_fn(void *arg)
-+static void *tcg_rr_cpu_thread_fn(void *arg)
+-static void *tcg_rr_cpu_thread_fn(void *arg)
++static void *rr_cpu_thread_fn(void *arg)
  {
      CPUState *cpu = arg;
  
-@@ -264,8 +264,43 @@ void *tcg_rr_cpu_thread_fn(void *arg)
-     return NULL;
- }
+@@ -173,7 +173,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+         }
+     }
  
-+void rr_start_vcpu_thread(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+    static QemuCond *single_tcg_halt_cond;
-+    static QemuThread *single_tcg_cpu_thread;
-+
-+    g_assert(tcg_enabled());
-+    parallel_cpus = false;
-+
-+    if (!single_tcg_cpu_thread) {
-+        cpu->thread = g_malloc0(sizeof(QemuThread));
-+        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-+        qemu_cond_init(cpu->halt_cond);
-+
-+        /* share a single thread for all cpus with TCG */
-+        snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
-+        qemu_thread_create(cpu->thread, thread_name,
-+                           tcg_rr_cpu_thread_fn,
-+                           cpu, QEMU_THREAD_JOINABLE);
-+
-+        single_tcg_halt_cond = cpu->halt_cond;
-+        single_tcg_cpu_thread = cpu->thread;
-+#ifdef _WIN32
-+        cpu->hThread = qemu_thread_get_handle(cpu->thread);
-+#endif
-+    } else {
-+        /* we share the thread */
-+        cpu->thread = single_tcg_cpu_thread;
-+        cpu->halt_cond = single_tcg_halt_cond;
-+        cpu->thread_id = first_cpu->thread_id;
-+        cpu->can_do_io = 1;
-+        cpu->created = true;
-+    }
-+}
-+
+-    start_tcg_kick_timer();
++    rr_start_kick_timer();
+ 
+     cpu = first_cpu;
+ 
+@@ -192,7 +192,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+              * Run the timers here.  This is much more efficient than
+              * waking up the I/O thread and waiting for completion.
+              */
+-            handle_icount_deadline();
++            icount_handle_deadline();
+         }
+ 
+         replay_mutex_unlock();
+@@ -203,7 +203,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+ 
+         while (cpu && cpu_work_list_empty(cpu) && !cpu->exit_request) {
+ 
+-            qatomic_mb_set(&tcg_current_rr_cpu, cpu);
++            qatomic_mb_set(&rr_current_cpu, cpu);
+             current_cpu = cpu;
+ 
+             qemu_clock_enable(QEMU_CLOCK_VIRTUAL,
+@@ -214,11 +214,11 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+ 
+                 qemu_mutex_unlock_iothread();
+                 if (icount_enabled()) {
+-                    prepare_icount_for_run(cpu);
++                    icount_prepare_for_run(cpu);
+                 }
+-                r = tcg_cpu_exec(cpu);
++                r = tcg_cpus_exec(cpu);
+                 if (icount_enabled()) {
+-                    process_icount_data(cpu);
++                    icount_process_data(cpu);
+                 }
+                 qemu_mutex_lock_iothread();
+ 
+@@ -242,7 +242,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+         } /* while (cpu && !cpu->exit_request).. */
+ 
+         /* Does not need qatomic_mb_set because a spurious wakeup is okay.  */
+-        qatomic_set(&tcg_current_rr_cpu, NULL);
++        qatomic_set(&rr_current_cpu, NULL);
+ 
+         if (cpu && cpu->exit_request) {
+             qatomic_mb_set(&cpu->exit_request, 0);
+@@ -256,8 +256,8 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+             qemu_notify_event();
+         }
+ 
+-        qemu_tcg_rr_wait_io_event();
+-        deal_with_unplugged_cpus();
++        rr_wait_io_event();
++        rr_deal_with_unplugged_cpus();
+     }
+ 
+     rcu_unregister_thread();
+@@ -281,7 +281,7 @@ void rr_start_vcpu_thread(CPUState *cpu)
+         /* share a single thread for all cpus with TCG */
+         snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
+         qemu_thread_create(cpu->thread, thread_name,
+-                           tcg_rr_cpu_thread_fn,
++                           rr_cpu_thread_fn,
+                            cpu, QEMU_THREAD_JOINABLE);
+ 
+         single_tcg_halt_cond = cpu->halt_cond;
+@@ -301,7 +301,7 @@ void rr_start_vcpu_thread(CPUState *cpu)
+ 
  const CpusAccel tcg_cpus_rr = {
--    .create_vcpu_thread = tcg_start_vcpu_thread,
-+    .create_vcpu_thread = rr_start_vcpu_thread,
-     .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
+     .create_vcpu_thread = rr_start_vcpu_thread,
+-    .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
++    .kick_vcpu_thread = rr_kick_vcpu_thread,
  
-     .handle_interrupt = tcg_handle_interrupt,
+-    .handle_interrupt = tcg_handle_interrupt,
++    .handle_interrupt = tcg_cpus_handle_interrupt,
+ };
 diff --git a/accel/tcg/tcg-cpus-rr.h b/accel/tcg/tcg-cpus-rr.h
-index 12463b0b93..2e5943eda9 100644
+index 2e5943eda9..54f6ae6e86 100644
 --- a/accel/tcg/tcg-cpus-rr.h
 +++ b/accel/tcg/tcg-cpus-rr.h
-@@ -15,7 +15,7 @@
+@@ -13,7 +13,7 @@
+ #define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+ 
  /* Kick all RR vCPUs. */
- void qemu_cpu_kick_rr_cpus(CPUState *unused);
+-void qemu_cpu_kick_rr_cpus(CPUState *unused);
++void rr_kick_vcpu_thread(CPUState *unused);
  
--/* Single-threaded TCG */
--void *tcg_rr_cpu_thread_fn(void *arg);
-+/* start the round robin vcpu thread */
-+void rr_start_vcpu_thread(CPUState *cpu);
- 
- #endif /* TCG_CPUS_RR_H */
+ /* start the round robin vcpu thread */
+ void rr_start_vcpu_thread(CPUState *cpu);
 diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
-index 60d307dba1..fa70237414 100644
+index fa70237414..6510931c07 100644
 --- a/accel/tcg/tcg-cpus.c
 +++ b/accel/tcg/tcg-cpus.c
-@@ -35,67 +35,9 @@
- #include "hw/boards.h"
- 
- #include "tcg-cpus.h"
--#include "tcg-cpus-mttcg.h"
--#include "tcg-cpus-rr.h"
+@@ -38,12 +38,12 @@
  
  /* common functionality among all TCG variants */
  
--void tcg_start_vcpu_thread(CPUState *cpu)
--{
--    char thread_name[VCPU_THREAD_NAME_SIZE];
--    static QemuCond *single_tcg_halt_cond;
--    static QemuThread *single_tcg_cpu_thread;
--    static int tcg_region_inited;
--
--    assert(tcg_enabled());
--    /*
--     * Initialize TCG regions--once. Now is a good time, because:
--     * (1) TCG's init context, prologue and target globals have been set up.
--     * (2) qemu_tcg_mttcg_enabled() works now (TCG init code runs before the
--     *     -accel flag is processed, so the check doesn't work then).
--     */
--    if (!tcg_region_inited) {
--        tcg_region_inited = 1;
--        tcg_region_init();
--        parallel_cpus = qemu_tcg_mttcg_enabled() && current_machine->smp.max_cpus > 1;
--    }
--
--    if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
--        cpu->thread = g_malloc0(sizeof(QemuThread));
--        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
--        qemu_cond_init(cpu->halt_cond);
--
--        if (qemu_tcg_mttcg_enabled()) {
--            /* create a thread per vCPU with TCG (MTTCG) */
--            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
--                 cpu->cpu_index);
--
--            qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
--                               cpu, QEMU_THREAD_JOINABLE);
--
--        } else {
--            /* share a single thread for all cpus with TCG */
--            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
--            qemu_thread_create(cpu->thread, thread_name,
--                               tcg_rr_cpu_thread_fn,
--                               cpu, QEMU_THREAD_JOINABLE);
--
--            single_tcg_halt_cond = cpu->halt_cond;
--            single_tcg_cpu_thread = cpu->thread;
--        }
--#ifdef _WIN32
--        cpu->hThread = qemu_thread_get_handle(cpu->thread);
--#endif
--    } else {
--        /* For non-MTTCG cases we share the thread */
--        cpu->thread = single_tcg_cpu_thread;
--        cpu->halt_cond = single_tcg_halt_cond;
--        cpu->thread_id = first_cpu->thread_id;
--        cpu->can_do_io = 1;
--        cpu->created = true;
--    }
--}
--
- void qemu_tcg_destroy_vcpu(CPUState *cpu)
+-void qemu_tcg_destroy_vcpu(CPUState *cpu)
++void tcg_cpus_destroy(CPUState *cpu)
  {
      cpu_thread_signal_destroyed(cpu);
+ }
+ 
+-int tcg_cpu_exec(CPUState *cpu)
++int tcg_cpus_exec(CPUState *cpu)
+ {
+     int ret;
+ #ifdef CONFIG_PROFILER
+@@ -64,7 +64,7 @@ int tcg_cpu_exec(CPUState *cpu)
+ }
+ 
+ /* mask must never be zero, except for A20 change call */
+-void tcg_handle_interrupt(CPUState *cpu, int mask)
++void tcg_cpus_handle_interrupt(CPUState *cpu, int mask)
+ {
+     g_assert(qemu_mutex_iothread_locked());
+ 
 diff --git a/accel/tcg/tcg-cpus.h b/accel/tcg/tcg-cpus.h
-index cb61aed1cc..21419d1117 100644
+index 21419d1117..1be1493e7b 100644
 --- a/accel/tcg/tcg-cpus.h
 +++ b/accel/tcg/tcg-cpus.h
-@@ -18,7 +18,6 @@ extern const CpusAccel tcg_cpus_mttcg;
+@@ -18,8 +18,8 @@ extern const CpusAccel tcg_cpus_mttcg;
  extern const CpusAccel tcg_cpus_icount;
  extern const CpusAccel tcg_cpus_rr;
  
--void tcg_start_vcpu_thread(CPUState *cpu);
- void qemu_tcg_destroy_vcpu(CPUState *cpu);
- int tcg_cpu_exec(CPUState *cpu);
- void tcg_handle_interrupt(CPUState *cpu, int mask);
+-void qemu_tcg_destroy_vcpu(CPUState *cpu);
+-int tcg_cpu_exec(CPUState *cpu);
+-void tcg_handle_interrupt(CPUState *cpu, int mask);
++void tcg_cpus_destroy(CPUState *cpu);
++int tcg_cpus_exec(CPUState *cpu);
++void tcg_cpus_handle_interrupt(CPUState *cpu, int mask);
+ 
+ #endif /* TCG_CPUS_H */
 -- 
 2.26.2
 
