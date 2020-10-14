@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B611828E056
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:12:42 +0200 (CEST)
-Received: from localhost ([::1]:37926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D05228E04A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:08:51 +0200 (CEST)
+Received: from localhost ([::1]:56624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfe4-0004pw-2C
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:12:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
+	id 1kSfaM-0000ka-7L
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:08:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kSfYk-0007iN-UE
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:07:10 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:34908)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kSfYh-0002gi-Di
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:07:10 -0400
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 7A4A540A2048;
- Wed, 14 Oct 2020 12:07:01 +0000 (UTC)
-Subject: Re: [PATCH v4 3/3] replay: do not build if TCG is not available
-To: Claudio Fontana <cfontana@suse.de>
-References: <20201013192123.22632-1-cfontana@suse.de>
- <20201013192123.22632-4-cfontana@suse.de>
- <281ee6ed-454b-1baf-343c-786421a48c8e@ispras.ru>
- <b3c6ac29-f35f-5c9f-b0d9-03c5a1674d33@suse.de>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <2a46f72f-1fc0-2daf-e600-d989de0041b0@ispras.ru>
-Date: Wed, 14 Oct 2020 15:07:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSfYu-0007we-Nc
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:07:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31415)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSfYt-0002iw-0j
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 08:07:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602677238;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6Dt7HmsPbaTS9gjt5Qs1zLIGLSsrh7TIRk+fnnQbG6o=;
+ b=LjhPOKfPtVEuY7JDd+H6MjyaYslybNQ5rlHfxmZ+1iq/D9MvYlfhpQTG2iRpnu6BWj3UnW
+ X1oKJDJ6PfZNfx6VMHU+LfPqW+c72SpRo3ApEQwvX4xx46O3CLpUv9+faXDD6HRfvTVZIn
+ U75RowjQFNjG661NXNxZnG+Qd/ETe1E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-8bHFIO09PImG0NVuKoPa7Q-1; Wed, 14 Oct 2020 08:07:15 -0400
+X-MC-Unique: 8bHFIO09PImG0NVuKoPa7Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA0B780EF9B;
+ Wed, 14 Oct 2020 12:07:13 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1CA37366B;
+ Wed, 14 Oct 2020 12:07:13 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B88489CA5; Wed, 14 Oct 2020 14:07:12 +0200 (CEST)
+Date: Wed, 14 Oct 2020 14:07:12 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Subject: Re: [PATCH] usb/hcd-ehci: Fix error handling on missing device for iTD
+Message-ID: <20201014120712.4x32437zp3vvcjfu@sirius.home.kraxel.org>
+References: <20201014104106.2962640-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
-In-Reply-To: <b3c6ac29-f35f-5c9f-b0d9-03c5a1674d33@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 08:07:02
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <20201014104106.2962640-1-anthony.perard@citrix.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,247 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.10.2020 09:51, Claudio Fontana wrote:
-> привет Pavel!
+On Wed, Oct 14, 2020 at 11:41:06AM +0100, Anthony PERARD wrote:
+> The EHCI Host Controller emulation attempt to locate the device
+> associated with a periodic isochronous transfer description (iTD) and
+> when this fail the host controller is reset.
 > 
-> On 10/14/20 7:42 AM, Pavel Dovgalyuk wrote:
->> On 13.10.2020 22:21, Claudio Fontana wrote:
->>> this fixes non-TCG builds broken recently by replay reverse debugging.
->>>
->>> stub the needed functions in stub/, including errors for hmp and qmp.
->>> This includes duplicating some code in replay/, and puts the logic
->>> for non-replay related events in the replay/ module (+ the stubs),
->>> so this should be revisited in the future.
->>>
->>> Surprisingly, only _one_ qtest was affected by this, ide-test.c, which
->>> resulted in a buzz as the bh events were never delivered, and the bh
->>> never executed.
->>>
->>> Many other subsystems _should_ have been affected.
->>>
->>> This fixes the immediate issue, however a better way to group replay
->>> functionality to TCG-only code could be developed in the long term.
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>> ---
->>>    block/meson.build          |  3 +-
->>>    migration/savevm.c         | 11 +++--
->>>    net/meson.build            |  3 +-
->>>    replay/meson.build         |  2 +-
->>>    replay/replay-input.c      |  4 +-
->>>    stubs/meson.build          |  1 -
->>>    stubs/replay-user.c        |  9 ----
->>>    stubs/replay.c             | 98 ++++++++++++++++++++++++++++++++++++++
->>>    tests/ptimer-test-stubs.c  |  5 --
->>>    tests/qtest/qmp-cmd-test.c |  3 ++
->>>    ui/input.c                 | 12 ++++-
->>>    11 files changed, 125 insertions(+), 26 deletions(-)
->>>    delete mode 100644 stubs/replay-user.c
->>>
->>> diff --git a/block/meson.build b/block/meson.build
->>> index 78e8b25232..01fe6f84d2 100644
->>> --- a/block/meson.build
->>> +++ b/block/meson.build
->>> @@ -7,7 +7,6 @@ block_ss.add(files(
->>>      'backup-top.c',
->>>      'blkdebug.c',
->>>      'blklogwrites.c',
->>> -  'blkreplay.c',
->>>      'blkverify.c',
->>>      'block-backend.c',
->>>      'block-copy.c',
->>> @@ -42,6 +41,8 @@ block_ss.add(files(
->>>      'write-threshold.c',
->>>    ), zstd, zlib)
->>>    
->>> +block_ss.add(when: 'CONFIG_TCG', if_true: files('blkreplay.c'))
->>> +
->>>    block_ss.add(when: 'CONFIG_QCOW1', if_true: files('qcow.c'))
->>>    block_ss.add(when: 'CONFIG_VDI', if_true: files('vdi.c'))
->>>    block_ss.add(when: 'CONFIG_CLOOP', if_true: files('cloop.c'))
->>> diff --git a/migration/savevm.c b/migration/savevm.c
->>> index d2e141f7b1..d9181ca520 100644
->>> --- a/migration/savevm.c
->>> +++ b/migration/savevm.c
->>> @@ -63,6 +63,7 @@
->>>    #include "migration/colo.h"
->>>    #include "qemu/bitmap.h"
->>>    #include "net/announce.h"
->>> +#include "sysemu/tcg.h"
->>>    
->>>    const unsigned int postcopy_ram_discard_version = 0;
->>>    
->>> @@ -2674,10 +2675,12 @@ int save_snapshot(const char *name, Error **errp)
->>>            return ret;
->>>        }
->>>    
->>> -    if (!replay_can_snapshot()) {
->>> -        error_setg(errp, "Record/replay does not allow making snapshot "
->>> -                   "right now. Try once more later.");
->>> -        return ret;
->>> +    if (tcg_enabled()) {
->>> +        if (!replay_can_snapshot()) {
->>> +            error_setg(errp, "Record/replay does not allow making snapshot "
->>> +                       "right now. Try once more later.");
->>> +            return ret;
->>> +        }
->>>        }
->>>    
->>>        if (!bdrv_all_can_snapshot(&bs)) {
->>> diff --git a/net/meson.build b/net/meson.build
->>> index 1c7e3a3cb9..1076b0a7ab 100644
->>> --- a/net/meson.build
->>> +++ b/net/meson.build
->>> @@ -7,7 +7,6 @@ softmmu_ss.add(files(
->>>      'eth.c',
->>>      'filter-buffer.c',
->>>      'filter-mirror.c',
->>> -  'filter-replay.c',
->>>      'filter-rewriter.c',
->>>      'filter.c',
->>>      'hub.c',
->>> @@ -17,6 +16,8 @@ softmmu_ss.add(files(
->>>      'util.c',
->>>    ))
->>>    
->>> +softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
->>> +
->>>    softmmu_ss.add(when: 'CONFIG_L2TPV3', if_true: files('l2tpv3.c'))
->>>    softmmu_ss.add(when: slirp, if_true: files('slirp.c'))
->>>    softmmu_ss.add(when: ['CONFIG_VDE', vde], if_true: files('vde.c'))
->>> diff --git a/replay/meson.build b/replay/meson.build
->>> index f91163fb1e..cb3207740a 100644
->>> --- a/replay/meson.build
->>> +++ b/replay/meson.build
->>> @@ -1,4 +1,4 @@
->>> -softmmu_ss.add(files(
->>> +softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
->>>      'replay.c',
->>>      'replay-internal.c',
->>>      'replay-events.c',
->>> diff --git a/replay/replay-input.c b/replay/replay-input.c
->>> index 1147e3d34e..5d1fd92e79 100644
->>> --- a/replay/replay-input.c
->>> +++ b/replay/replay-input.c
->>> @@ -124,7 +124,7 @@ void replay_input_event(QemuConsole *src, InputEvent *evt)
->>>        } else if (replay_mode == REPLAY_MODE_RECORD) {
->>>            replay_add_input_event(QAPI_CLONE(InputEvent, evt));
->>>        } else {
->>> -        qemu_input_event_send_impl(src, evt);
->>> +        g_assert_not_reached();
->>>        }
->>>    }
->>>    
->>> @@ -135,6 +135,6 @@ void replay_input_sync_event(void)
->>>        } else if (replay_mode == REPLAY_MODE_RECORD) {
->>>            replay_add_input_sync_event();
->>>        } else {
->>> -        qemu_input_event_sync_impl();
->>> +        g_assert_not_reached();
->>>        }
->>>    }
+> But according the EHCI spec 1.0 section 5.15.2.4 Host System
+> Error, the host controller is supposed to reset itself only when it
+> failed to communicate with the Host (Operating System), like when
+> there's an error on the PCI bus. If a transaction fails, there's
+> nothing in the spec that say to reset the host controller.
 > 
+> This patch rework the error path so that the host controller can keep
+> working when the OS setup a bogus transaction, it also revert to the
+> behavior of the EHCI emulation to before commits:
+> e94682f1fe ("ehci: check device is not NULL before calling usb_ep_get()")
+> 7011baece2 ("usb: remove unnecessary NULL device check from usb_ep_get()")
 > 
-> incidentally Pavel, is this ok when replay is enabled, can you give it a spin?
-> I used the if (replay_events_enabled()) in the ui/input.c code to only call these when events are enabled.
+> The issue has been found while trying to passthrough a USB device to a
+> Windows Server 2012 Xen guest via "usb-ehci", which prevent the USB
+> device from working in Windows. ("usb-ehci" alone works, windows only
+> setup this weird periodic iTD to device 127 endpoint 15 when the USB
+> device is passthrough.)
+> 
+> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 
-I think this is ok to use this function for checking that replay is on.
+Added to usb queue.
 
-> 
-> 
-> 
->>> diff --git a/stubs/meson.build b/stubs/meson.build
->>> index 67f2a8c069..bbd2230d69 100644
->>> --- a/stubs/meson.build
->>> +++ b/stubs/meson.build
->>> @@ -32,7 +32,6 @@ stub_ss.add(files('qtest.c'))
->>>    stub_ss.add(files('ram-block.c'))
->>>    stub_ss.add(files('ramfb.c'))
->>>    stub_ss.add(files('replay.c'))
->>> -stub_ss.add(files('replay-user.c'))
->>>    stub_ss.add(files('runstate-check.c'))
->>>    stub_ss.add(files('set-fd-handler.c'))
->>>    stub_ss.add(files('sysbus.c'))
->>> diff --git a/stubs/replay-user.c b/stubs/replay-user.c
->>> deleted file mode 100644
->>> index 2ad9e27203..0000000000
->>> --- a/stubs/replay-user.c
->>> +++ /dev/null
->>> @@ -1,9 +0,0 @@
->>> -#include "qemu/osdep.h"
->>> -#include "sysemu/replay.h"
->>> -#include "sysemu/sysemu.h"
->>> -
->>> -void replay_bh_schedule_oneshot_event(AioContext *ctx,
->>> -    QEMUBHFunc *cb, void *opaque)
->>> -{
->>> -    aio_bh_schedule_oneshot(ctx, cb, opaque);
->>> -}
->>> diff --git a/stubs/replay.c b/stubs/replay.c
->>> index 45ebe77fb9..34b7975b2d 100644
->>> --- a/stubs/replay.c
->>> +++ b/stubs/replay.c
->>> @@ -103,3 +103,101 @@ bool replay_reverse_continue(void)
->>>    {
->>>        return false;
->>>    }
->>> +
->>> +void replay_input_event(QemuConsole *src, InputEvent *evt)
->>> +{
->>> +}
->>> +void replay_input_sync_event(void)
->>> +{
->>> +}
->>> +void replay_bh_schedule_event(QEMUBH *bh)
->>> +{
->>> +    qemu_bh_schedule(bh);
->>> +}
->>> +void replay_bh_schedule_oneshot_event(AioContext *ctx,
->>> +     QEMUBHFunc *cb, void *opaque)
->>> +{
->>> +    aio_bh_schedule_oneshot(ctx, cb, opaque);
->>> +}
->>> +void replay_add_blocker(Error *reason)
->>> +{
->>> +}
->>> +void replay_audio_in(size_t *recorded, void *samples, size_t *wpos, size_t size)
->>> +{
->>> +}
->>> +void replay_audio_out(size_t *played)
->>> +{
->>> +}
->>> +void replay_breakpoint(void)
->>> +{
->>> +}
->>> +bool replay_can_snapshot(void)
->>> +{
->>> +    return false;
->>> +}
->>
->> Shouldn't this one return true to enable snapshotting?
-> 
-> 
-> The check for replay_can_snapshot is wrapped by a
-> 
-> if (tcg_enabled()) {
-> }
-> 
-> so it should be fine.
-> 
-> Logically, reading a naked:
-> 
-> if (!replay_can_snapshot()) { fail; }
-> 
-> is surprising I think for a reader that compiled the code without replay.
-
-Ok
+thanks,
+  Gerd
 
 
