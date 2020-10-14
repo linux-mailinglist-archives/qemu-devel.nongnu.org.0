@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D462A28E78B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 21:50:55 +0200 (CEST)
-Received: from localhost ([::1]:44406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB25C28E776
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 21:39:32 +0200 (CEST)
+Received: from localhost ([::1]:57450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSmnW-00072F-UR
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 15:50:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46834)
+	id 1kSmcV-00081I-Qs
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 15:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kSmks-0005M0-VK; Wed, 14 Oct 2020 15:48:10 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:37338)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kSmaD-00072Z-02
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:37:09 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kSmkl-0004tf-Ho; Wed, 14 Oct 2020 15:48:10 -0400
-Received: by mail-io1-xd41.google.com with SMTP id q25so627475ioh.4;
- Wed, 14 Oct 2020 12:48:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kSmaA-0003gN-KO
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:37:08 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h7so428979wre.4
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 12:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XN6ijZPXejkaxdNdJPICNMmmBlXfRPkc5WUs9Q07adM=;
- b=Wr7OHpjm87moICIMCmg7gj4isI3jdX8esKwnVRc2v/BqGjd1OrJQxYq7rs8ku5GcML
- Sh4NCgiTkEdYcEYfXDLf8Bc039jPMQXuuBc/5rUpYtg6iO+2uLeFcE9xbXoHn2wTI/wm
- AGvlCP/Ur7c2fdbQFdqCBfZ0wohZUVkvOcVY2J8wPOwjln9m1plCFsghdPnPY27A9cGP
- qUj4cyGebLWyAVSB+tr56dQIFfun5qrr4dLuxEKcc0QlB1cyUDzdhgvQrzxncPbp1NRP
- UZQ5NC1FZsU3qgUB3nRLmF/XpiV8iQnUrSA8lch+Z2dVcwYiqahPakw9QNReP0FPyWbG
- XsFA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GzAENG6m9S0GUm9ZfHSuS+DUaJn4DZiscUTiSw8yRp4=;
+ b=P0FXE1GnTKe9T2SRoMCL6iMlNF7OzP51No/ebuOcoF860My83DFOuEzom/LN5nHMNt
+ MO7NCBe4s+nsY53NYG50FN7wBIZqX3ja8nJRQQsB5De4fZgKJ81jJxtwRH0GN3BTbknT
+ hXJkfi/oexcOGOguZUw+8/O8rMMB9HmLSf+sYBwFk1kWdmRpPIAXVr9rUrDXCMIhGmNt
+ WV76/HoQj5cazJfcfirlGEHMeE4qhhWxXFDzmguxsQ58ddHHja7ruG1R/NhAoSNP8oe1
+ 1aqob2OESqbudqrLAEf2B0y2Ifld7hHtSC/WnOXAtJoBaor38hGt5ksFfpLvPXJQ53rK
+ r3cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XN6ijZPXejkaxdNdJPICNMmmBlXfRPkc5WUs9Q07adM=;
- b=UoBkB5r6gB35b0iHm1WM91QAOWtS6BCK35CQ60cTzBXpKke8SIxi3K5ee2sQCetqUl
- g5uIbFuTOIOOKxuiJ8IBgBbNo0ikGnRIxPvWgbrdAMjFvlIpv5MWq0QRd3nKtCQsQNnq
- kyZeiEE8ve0pygMQFuEancKRhtCPQmPfqY99N67M4r/xZMS1lkZxGXqLRbHa1thTAq0r
- BqUWF6wgbv6G9mWU+Ag94fsLdGW8wmTFU+26QrI23s/IhkcXhMpl2wqwEhau2kOzf6Ff
- pY+Q7bYCoqnGPMAebPzLm+PyexzDLDvyKaCu+83PD6b/jKS+Y2VrDzlz/eXyWDDcONRs
- KzlA==
-X-Gm-Message-State: AOAM531i9K2HwCQ3Tn2QSZ/jtt6v//k4cA4flbnVvPWjOJr8MHbEXVOW
- UjFvLYsy/ZnEEnTMOd0FdrPimBUBLILRtGonBKo=
-X-Google-Smtp-Source: ABdhPJzifJfOSD+HWKkPbUy+k873XVTEc9CEEDVyVAd8g/jTH75KqRQIOOcS/l+Retn33OUoRBf8dohdMdGh7QYd5gA=
-X-Received: by 2002:a5e:9b11:: with SMTP id j17mr807301iok.176.1602704882039; 
- Wed, 14 Oct 2020 12:48:02 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GzAENG6m9S0GUm9ZfHSuS+DUaJn4DZiscUTiSw8yRp4=;
+ b=Lft/3gIi3kSnUNucAFZegLfNkLhGaF0zYLeCZ/uBVTbWjlQt4bLYAuXc77K6daDyjL
+ 7Q2vLM1G9YwYCoNQlO/CyipP3FXSwODnZ7bDN4quLDPqEk//lgwidODuikVmBTQbncmc
+ h079XHreswWTnwknR3azDD4DczWz+wRPeIwdVkuJqCUNyLtiM/baVAAiwGljU+xifY+Y
+ SUmUyzqIgfnkg1ptKvZblWmLOujdwIbeZOflCOXmjronkECzBbz4WuENBkQnDXAbJkmi
+ MFmDbLF296HTHWaWaTYVgvJ78ySNMcYkL64j5PtdATPT5s+TKeligfFQ3kE3D3e7es+1
+ 4FAg==
+X-Gm-Message-State: AOAM530RLp/iZym5eKNdQVDm1fVfldkwr46FAV9rhk28jZcNDnvd86aZ
+ I+QpQKh2ZuQj1HDW24QEda7yeq5ffHk=
+X-Google-Smtp-Source: ABdhPJzW0wl0Ri7jZyh/L/5NSPYM6JryOwDNBLjLkd40I8toajAwUEN29JhLBxzMEU3AJC1w+PWZxA==
+X-Received: by 2002:a5d:46c2:: with SMTP id g2mr312447wrs.309.1602704224630;
+ Wed, 14 Oct 2020 12:37:04 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id i14sm617574wml.24.2020.10.14.12.37.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Oct 2020 12:37:04 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] accel/tcg: split CpusAccel into three TCG variants
+To: Claudio Fontana <cfontana@suse.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201014192324.6390-1-cfontana@suse.de>
+ <20201014192324.6390-2-cfontana@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8dec18a8-4a61-63a2-261f-39e30f8d6e52@amsat.org>
+Date: Wed, 14 Oct 2020 21:37:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201013173054.451135-1-georg.kotheimer@kernkonzept.com>
-In-Reply-To: <20201013173054.451135-1-georg.kotheimer@kernkonzept.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 14 Oct 2020 12:36:24 -0700
-Message-ID: <CAKmqyKOAwkOfPsRX7B_in7bUP8A45TZx9f_GRhVGfyX9H9FN0A@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix update of hstatus.GVA in
- riscv_cpu_do_interrupt
-To: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+In-Reply-To: <20201014192324.6390-2-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,62 +93,404 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 13, 2020 at 10:31 AM Georg Kotheimer
-<georg.kotheimer@kernkonzept.com> wrote:
->
-> The hstatus.GVA bit was not set if the faulting guest virtual address
-> was zero.
->
-> Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Thanks!
-
-Applied to riscv-to-apply.next
-
-Alistair
-
+On 10/14/20 9:23 PM, Claudio Fontana wrote:
+> split up the CpusAccel tcg_cpus into three TCG variants:
+> 
+> tcg_cpus_rr (single threaded, round robin cpus)
+> tcg_cpus_icount (same as rr, but with instruction counting enabled)
+> tcg_cpus_mttcg (multi-threaded cpus)
+> 
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > ---
->  target/riscv/cpu_helper.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 904899054d..c5852ce1b7 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -852,6 +852,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->      bool async = !!(cs->exception_index & RISCV_EXCP_INT_FLAG);
->      target_ulong cause = cs->exception_index & RISCV_EXCP_INT_MASK;
->      target_ulong deleg = async ? env->mideleg : env->medeleg;
-> +    bool write_tval = false;
->      target_ulong tval = 0;
->      target_ulong htval = 0;
->      target_ulong mtval2 = 0;
-> @@ -873,6 +874,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->          case RISCV_EXCP_INST_PAGE_FAULT:
->          case RISCV_EXCP_LOAD_PAGE_FAULT:
->          case RISCV_EXCP_STORE_PAGE_FAULT:
-> +            write_tval  = true;
->              tval = env->badaddr;
->              break;
->          default:
-> @@ -904,7 +906,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->              target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
->
->              if ((riscv_cpu_virt_enabled(env) ||
-> -                 riscv_cpu_two_stage_lookup(env)) && tval) {
-> +                 riscv_cpu_two_stage_lookup(env)) && write_tval) {
->                  /*
->                   * If we are writing a guest virtual address to stval, set
->                   * this to 1. If we are trapping to VS we will set this to 0
-> --
-> 2.25.1
->
->
+>   accel/tcg/meson.build       |   9 +-
+>   accel/tcg/tcg-all.c         |   8 +-
+>   accel/tcg/tcg-cpus-icount.c | 147 +++++++++++
+>   accel/tcg/tcg-cpus-icount.h |  17 ++
+>   accel/tcg/tcg-cpus-mttcg.c  | 119 +++++++++
+>   accel/tcg/tcg-cpus-mttcg.h  |  23 ++
+>   accel/tcg/tcg-cpus-rr.c     | 272 ++++++++++++++++++++
+>   accel/tcg/tcg-cpus-rr.h     |  21 ++
+>   accel/tcg/tcg-cpus.c        | 484 ++----------------------------------
+>   accel/tcg/tcg-cpus.h        |  13 +-
+>   softmmu/icount.c            |   2 +-
+>   11 files changed, 653 insertions(+), 462 deletions(-)
+...
+
+> diff --git a/accel/tcg/tcg-cpus-mttcg.c b/accel/tcg/tcg-cpus-mttcg.c
+> new file mode 100644
+> index 0000000000..723703fa3e
+> --- /dev/null
+> +++ b/accel/tcg/tcg-cpus-mttcg.c
+> @@ -0,0 +1,119 @@
+> +/*
+> + * QEMU TCG Multi Threaded vCPUs implementation
+> + *
+> + * Copyright (c) 2003-2008 Fabrice Bellard
+> + * Copyright (c) 2014 Red Hat Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "sysemu/tcg.h"
+> +#include "sysemu/replay.h"
+> +#include "qemu/main-loop.h"
+> +#include "qemu/guest-random.h"
+> +#include "exec/exec-all.h"
+> +#include "hw/boards.h"
+> +
+> +#include "tcg-cpus.h"
+> +#include "tcg-cpus-mttcg.h"
+> +
+> +/*
+> + * Multi-threaded TCG
+
+Can drop this comment ^ and keep v.
+
+> + *
+> + * In the multi-threaded case each vCPU has its own thread. The TLS
+> + * variable current_cpu can be used deep in the code to find the
+> + * current CPUState for a given thread.
+> + */
+> +
+> +void *tcg_cpu_thread_fn(void *arg)
+> +{
+> +    CPUState *cpu = arg;
+> +
+> +    assert(tcg_enabled());
+> +    g_assert(!icount_enabled());
+> +
+> +    rcu_register_thread();
+> +    tcg_register_thread();
+> +
+> +    qemu_mutex_lock_iothread();
+> +    qemu_thread_get_self(cpu->thread);
+> +
+> +    cpu->thread_id = qemu_get_thread_id();
+> +    cpu->can_do_io = 1;
+> +    current_cpu = cpu;
+> +    cpu_thread_signal_created(cpu);
+> +    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> +
+> +    /* process any pending work */
+> +    cpu->exit_request = 1;
+> +
+> +    do {
+> +        if (cpu_can_run(cpu)) {
+> +            int r;
+> +            qemu_mutex_unlock_iothread();
+> +            r = tcg_cpu_exec(cpu);
+> +            qemu_mutex_lock_iothread();
+> +            switch (r) {
+> +            case EXCP_DEBUG:
+> +                cpu_handle_guest_debug(cpu);
+> +                break;
+> +            case EXCP_HALTED:
+> +                /*
+> +                 * during start-up the vCPU is reset and the thread is
+> +                 * kicked several times. If we don't ensure we go back
+> +                 * to sleep in the halted state we won't cleanly
+> +                 * start-up when the vCPU is enabled.
+> +                 *
+> +                 * cpu->halted should ensure we sleep in wait_io_event
+> +                 */
+> +                g_assert(cpu->halted);
+> +                break;
+> +            case EXCP_ATOMIC:
+> +                qemu_mutex_unlock_iothread();
+> +                cpu_exec_step_atomic(cpu);
+> +                qemu_mutex_lock_iothread();
+> +            default:
+> +                /* Ignore everything else? */
+> +                break;
+> +            }
+> +        }
+> +
+> +        qatomic_mb_set(&cpu->exit_request, 0);
+> +        qemu_wait_io_event(cpu);
+> +    } while (!cpu->unplug || cpu_can_run(cpu));
+> +
+> +    qemu_tcg_destroy_vcpu(cpu);
+> +    qemu_mutex_unlock_iothread();
+> +    rcu_unregister_thread();
+> +    return NULL;
+> +}
+...
+
+> diff --git a/accel/tcg/tcg-cpus-mttcg.h b/accel/tcg/tcg-cpus-mttcg.h
+> new file mode 100644
+> index 0000000000..5d203243e8
+> --- /dev/null
+> +++ b/accel/tcg/tcg-cpus-mttcg.h
+> @@ -0,0 +1,23 @@
+> +/*
+> + * QEMU TCG Multi Threaded vCPUs implementation
+> + *
+> + * Copyright 2020 SUSE LLC
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef TCG_CPUS_MTTCG_H
+> +#define TCG_CPUS_MTTCG_H
+> +
+> +/*
+> + * Multi-threaded TCG
+
+Drop too ^
+
+> + *
+> + * In the multi-threaded case each vCPU has its own thread. The TLS
+> + * variable current_cpu can be used deep in the code to find the
+> + * current CPUState for a given thread.
+> + */
+> +
+> +void *tcg_cpu_thread_fn(void *arg);
+> +
+> +#endif /* TCG_CPUS_MTTCG_H */
+> diff --git a/accel/tcg/tcg-cpus-rr.c b/accel/tcg/tcg-cpus-rr.c
+> new file mode 100644
+> index 0000000000..82bb7c5ea6
+> --- /dev/null
+> +++ b/accel/tcg/tcg-cpus-rr.c
+> @@ -0,0 +1,272 @@
+> +/*
+> + * QEMU TCG Single Threaded vCPUs implementation
+> + *
+> + * Copyright (c) 2003-2008 Fabrice Bellard
+> + * Copyright (c) 2014 Red Hat Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "sysemu/tcg.h"
+> +#include "sysemu/replay.h"
+> +#include "qemu/main-loop.h"
+> +#include "qemu/guest-random.h"
+> +#include "exec/exec-all.h"
+> +#include "hw/boards.h"
+> +
+> +#include "tcg-cpus.h"
+> +#include "tcg-cpus-rr.h"
+> +#include "tcg-cpus-icount.h"
+> +
+> +/* Kick all RR vCPUs */
+> +void qemu_cpu_kick_rr_cpus(CPUState *unused)
+> +{
+> +    CPUState *cpu;
+> +
+> +    CPU_FOREACH(cpu) {
+> +        cpu_exit(cpu);
+> +    };
+> +}
+> +
+> +/*
+> + * TCG vCPU kick timer
+> + *
+> + * The kick timer is responsible for moving single threaded vCPU
+> + * emulation on to the next vCPU. If more than one vCPU is running a
+> + * timer event with force a cpu->exit so the next vCPU can get
+> + * scheduled.
+> + *
+> + * The timer is removed if all vCPUs are idle and restarted again once
+> + * idleness is complete.
+> + */
+> +
+> +static QEMUTimer *tcg_kick_vcpu_timer;
+> +static CPUState *tcg_current_rr_cpu;
+> +
+> +#define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+> +
+> +static inline int64_t qemu_tcg_next_kick(void)
+> +{
+> +    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
+> +}
+> +
+> +/* Kick the currently round-robin scheduled vCPU to next */
+> +static void qemu_cpu_kick_rr_next_cpu(void)
+> +{
+> +    CPUState *cpu;
+> +    do {
+> +        cpu = qatomic_mb_read(&tcg_current_rr_cpu);
+> +        if (cpu) {
+> +            cpu_exit(cpu);
+> +        }
+> +    } while (cpu != qatomic_mb_read(&tcg_current_rr_cpu));
+> +}
+> +
+> +static void kick_tcg_thread(void *opaque)
+> +{
+> +    timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+> +    qemu_cpu_kick_rr_next_cpu();
+> +}
+> +
+> +static void start_tcg_kick_timer(void)
+> +{
+> +    if (!tcg_kick_vcpu_timer && CPU_NEXT(first_cpu)) {
+> +        tcg_kick_vcpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> +                                           kick_tcg_thread, NULL);
+> +    }
+> +    if (tcg_kick_vcpu_timer && !timer_pending(tcg_kick_vcpu_timer)) {
+> +        timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+> +    }
+> +}
+> +
+> +static void stop_tcg_kick_timer(void)
+> +{
+> +    if (tcg_kick_vcpu_timer && timer_pending(tcg_kick_vcpu_timer)) {
+> +        timer_del(tcg_kick_vcpu_timer);
+> +    }
+> +}
+> +
+> +static void qemu_tcg_rr_wait_io_event(void)
+> +{
+> +    CPUState *cpu;
+> +
+> +    while (all_cpu_threads_idle()) {
+> +        stop_tcg_kick_timer();
+> +        qemu_cond_wait_iothread(first_cpu->halt_cond);
+> +    }
+> +
+> +    start_tcg_kick_timer();
+> +
+> +    CPU_FOREACH(cpu) {
+> +        qemu_wait_io_event_common(cpu);
+> +    }
+> +}
+> +
+> +/*
+> + * Destroy any remaining vCPUs which have been unplugged and have
+> + * finished running
+> + */
+> +static void deal_with_unplugged_cpus(void)
+> +{
+> +    CPUState *cpu;
+> +
+> +    CPU_FOREACH(cpu) {
+> +        if (cpu->unplug && !cpu_can_run(cpu)) {
+> +            qemu_tcg_destroy_vcpu(cpu);
+> +            break;
+> +        }
+> +    }
+> +}
+> +
+> +/*
+> + * Single-threaded TCG
+
+Drop  ^
+
+> + *
+> + * In the single-threaded case each vCPU is simulated in turn. If
+> + * there is more than a single vCPU we create a simple timer to kick
+> + * the vCPU and ensure we don't get stuck in a tight loop in one vCPU.
+> + * This is done explicitly rather than relying on side-effects
+> + * elsewhere.
+> + */
+...
+
+> diff --git a/accel/tcg/tcg-cpus-rr.h b/accel/tcg/tcg-cpus-rr.h
+> new file mode 100644
+> index 0000000000..12463b0b93
+> --- /dev/null
+> +++ b/accel/tcg/tcg-cpus-rr.h
+> @@ -0,0 +1,21 @@
+> +/*
+> + * QEMU TCG Single Threaded vCPUs implementation
+> + *
+> + * Copyright 2020 SUSE LLC
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef TCG_CPUS_RR_H
+> +#define TCG_CPUS_RR_H
+> +
+> +#define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+> +
+> +/* Kick all RR vCPUs. */
+> +void qemu_cpu_kick_rr_cpus(CPUState *unused);
+> +
+> +/* Single-threaded TCG */
+
+Comment not helpful.
+
+> +void *tcg_rr_cpu_thread_fn(void *arg);
+> +
+> +#endif /* TCG_CPUS_RR_H */
+> diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
+> index da1c63d8f6..60d307dba1 100644
+> --- a/accel/tcg/tcg-cpus.c
+> +++ b/accel/tcg/tcg-cpus.c
+> @@ -1,5 +1,7 @@
+>   /*
+> - * QEMU System Emulator
+> + * QEMU TCG vcpu common functionality
+
+"vCPU" as used elsewhere.
+
+> + *
+> + * Functionality common to all TCG vcpu variants: mttcg, rr and icount.
+>    *
+>    * Copyright (c) 2003-2008 Fabrice Bellard
+>    * Copyright (c) 2014 Red Hat Inc.
+> @@ -33,436 +35,12 @@
+>   #include "hw/boards.h"
+>   
+>   #include "tcg-cpus.h"
+> +#include "tcg-cpus-mttcg.h"
+> +#include "tcg-cpus-rr.h"
+> diff --git a/accel/tcg/tcg-cpus.h b/accel/tcg/tcg-cpus.h
+> index 8b1d9d2abc..cb61aed1cc 100644
+> --- a/accel/tcg/tcg-cpus.h
+> +++ b/accel/tcg/tcg-cpus.h
+> @@ -1,5 +1,7 @@
+>   /*
+> - * Accelerator CPUS Interface
+> + * QEMU TCG vcpu common functionality
+
+"vCPU"
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
