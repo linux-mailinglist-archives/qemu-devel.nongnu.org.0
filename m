@@ -2,126 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500B128E074
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:24:01 +0200 (CEST)
-Received: from localhost ([::1]:60620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210D128E07A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 14:26:11 +0200 (CEST)
+Received: from localhost ([::1]:38456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSfp2-0006cX-Bv
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55280)
+	id 1kSfr8-0000mb-6a
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 08:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=5492a5ee4=Niklas.Cassel@wdc.com>)
- id 1kSfeg-0006TS-GW; Wed, 14 Oct 2020 08:13:18 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:21487)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kSfgb-0000Jq-Gr; Wed, 14 Oct 2020 08:15:17 -0400
+Received: from mail-eopbgr60127.outbound.protection.outlook.com
+ ([40.107.6.127]:27249 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=5492a5ee4=Niklas.Cassel@wdc.com>)
- id 1kSfec-0003cv-6N; Wed, 14 Oct 2020 08:13:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1602677594; x=1634213594;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=kL2Q/18ATYzvm20AjDhrel2WMIlShiE8lPWRrKt1iso=;
- b=ivkS2bD5LfCMFk4Qoi2mpR0+5+udOlsQQlWztOFDcTc0rH0BRzwT7yXc
- j32nUY2ZT8HgJWTX3UgCAZCFstQ+mayV8CYd68/3RL9hdwgR2WB1zfRP7
- L6H41XFxJYmNH45NN0OsGFlbcpiN0bFP8nXoxiRF0jmuAVzQe8cZasKe8
- //iQBRFKsIE9zccY0iH7EevvrtD0lwzXrQhvpqTfuAFS9RpClPZw+0L/s
- 8OVKjW2XlNORk5tXB6Yo0PMkAg+kZVuSXJG5wNGNF0WB5PK9pRW9IkWPI
- NegyGNrsqqFJKJs+2QcCAesw7lYhfaNno62FDLVbToPJZko08YKnZFnJk g==;
-IronPort-SDR: 5Uqv+GAEZVnUqWaZwYpnsBgPWVoSKWWyTKZppFs9DPa/8wSYPYhZvwrWuux+i0U6vtheJ/ehjz
- BE4Ou/tp99D3yFJLK0by6qeutEdsG0K/wgBb8+N7SLO3eSRZerku3tJqSiXGJFqFAsHvjdOqwl
- NHM4qjDBtEuiGFsMjIpa2lAjPRfNtUiSomRWIiPO19h97tMOcfFxH0ejIjSnWIa8TxO2WrGsiU
- vDSu8gxzUd6nVEqsZgPsN9rHmMCVccev9VUMM71vOHWJbiCfrXdHgb8rvF/Rstz5WyL8uMxPwV
- jSY=
-X-IronPort-AV: E=Sophos;i="5.77,374,1596470400"; d="scan'208";a="259657377"
-Received: from mail-mw2nam10lp2106.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.106])
- by ob1.hgst.iphmx.com with ESMTP; 14 Oct 2020 20:13:07 +0800
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kSfgX-0003qk-L7; Wed, 14 Oct 2020 08:15:16 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ogJ89MkOS1TPaLNuePztzOzdkRwQ5LLIFuG3nRHYTsOWlLij5Ps9//DoN8aYbP6GpJIi+oZ4f30awEXegDvJNloGxRDE3QS0q58SQDrBqor6rV2ukunLFDwzo1sucN07zahiNIn2s0o9uV/817qlCMI2jaQY/OAzjOiaJqcuqk0vZPd487cYx1pTP3oslF002QhwV91aoUbAu8kTbSo5h/fckAiiYgyKzm3pcDriacjt2rfyi3Rw2k+p9OdSHe4+uXMPaREULCLBT5tXFNhWwtrStQApqqBCgJLYOUnqwrrri7hFKk1uc7tZOCVkZ2DQpjyiCSDvjGQpE4eTdWnX2Q==
+ b=FoXpRKOGEexqMFojyMvTQRj/H2DKH5B05KxC/GDd/GL42CTW66L5kYIfLEKgBW79ak4IM08clcueL2PzLb5L9n66yxqSdODqVepQ5HD/u347s6rjW8BYZYxyzzpzg3qVkceIJk25XbtiuT12GV7Gj6QdU2VQ3WiqKFLsDpRue1YzGGAF8nDjY7YpDmQ1Q0HTUhNL6cqnpo+5+gMKvGCIIla1MZb0eSuuey/zAR//iLvuUfHtGv9SIYKWREDY6lL/f+Hk2zTKJDG08d6BkqQ97GDsIx1yay0tlv0D+FDJlgyf3TlLTCHr4/UjhSzLtbl8XO3N1BWDrD5UiDVNEo7Ztw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qVCcWOTIcSnUloI1uCOWFVtw6Px0oECMAThatEFhWQ4=;
- b=I212Pw+fcMkSIiAg0g0sNQXx35B4JvOukYN+ziOUZ2UnI3hGu90Yk7EkNJUuq+sQFDUEALaga0NXOGyEIzBIoL30CiTziI1QbwnIhISoEmcFkg78HSD8lLwBRx0wg09qiCxrVkrqeb3qeC2SdUMfJvCeghfk3YC95evRP9eHobCCVl+/VgHuJpablU4AeaNuRw9okxoMumNkLBQGgHRK6Z+2nzJMou9Xwcr0+EpPrEzP+vzJoWMS7yqQhazm5f9Rj688Qw31usglY6Y70C3BjEq1Wx+vsrGXDq4ROvZ/oVbfL9na4LqOg3/F5XJs1jKQs4u8GRbMXGl8GPB+WLXP/A==
+ bh=ZGb9FXuhhPH+Lu+2wzDzAM3gbFPyO0LgkTfMx1VbtIw=;
+ b=DsnF/h8Ry4KQrzG9N8TIBTkkTruIPVrk/TYLfvplUBs5Bl+p9Wk8gFi2RS5gF8FYb7Z3s1520Dyk6mBDPsGZ5PEgXw5vkbrEKR9X2KJVuOXThseCTjIqRKoJEwyriBD1SviN8h/BZR6aqZYxMDhO7ofBTMs1h3A7OtBCf/8q1Kb98uEdHq2q0mPz8PVtQ8RcMz+DJLZfoXJgax+3bsUm+eEgZaBAwjUh2C68O5VHHnAUYAYq+7XHOtiedW7V1nOqT7GyAWKVay3OpVrcZmYUUuTKJj2ZZB8rUSyQ9hyxJR01FVbiNEcc5yCZEnIuEEMKl3h4Xk8TgeRkZBu6aUhRaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qVCcWOTIcSnUloI1uCOWFVtw6Px0oECMAThatEFhWQ4=;
- b=Glw56rM9aSPfX+ZEC23a/WM15aqOg5sobZnP+aXqNhcdQXprVeB1vwOj/G1vWJHbAVP7SCmTeSbVc+6IgpXSGQXPqUVYsPKl6bE9p3SfdwKev0tQ+fyR8+BLgT0MUVzHDCcNXOwHDInRNJgRf8UJECARHXf+pbSmjtIC2ZniUCA=
-Received: from DM6PR04MB5483.namprd04.prod.outlook.com (2603:10b6:5:126::20)
- by DM6PR04MB6794.namprd04.prod.outlook.com (2603:10b6:5:245::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Wed, 14 Oct
- 2020 12:13:06 +0000
-Received: from DM6PR04MB5483.namprd04.prod.outlook.com
- ([fe80::c8ee:62d1:5ed1:2ee]) by DM6PR04MB5483.namprd04.prod.outlook.com
- ([fe80::c8ee:62d1:5ed1:2ee%6]) with mapi id 15.20.3455.030; Wed, 14 Oct 2020
- 12:13:06 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v6 01/11] hw/block/nvme: Add Commands Supported and
- Effects log
-Thread-Topic: [PATCH v6 01/11] hw/block/nvme: Add Commands Supported and
- Effects log
-Thread-Index: AQHWoam+n7xOZLub6EyNx4/dDd0V8qmWRLgAgAC+sYA=
-Date: Wed, 14 Oct 2020 12:13:06 +0000
-Message-ID: <20201014121305.GB122299@localhost.localdomain>
-References: <20201013214212.2152-1-dmitry.fomichev@wdc.com>
- <20201013214212.2152-2-dmitry.fomichev@wdc.com>
- <20201014005034.GA1264232@dhcp-10-100-145-180.wdl.wdc.com>
-In-Reply-To: <20201014005034.GA1264232@dhcp-10-100-145-180.wdl.wdc.com>
-Accept-Language: en-US
+ bh=ZGb9FXuhhPH+Lu+2wzDzAM3gbFPyO0LgkTfMx1VbtIw=;
+ b=LOT3YG1PoLxWjS37wpChK3d/s0LrcMQxb6ZABLq05+gLftYMSZ9dn0p4QxrKoNTxO5UW5ydyLTuttn1PepYTjUMkPNE6vKobwbDNIaEMdq2o+8uxdff001BDK7VlbkyjkJsLItnlgh9iZir0kWN/oGY9s8Tw6NIonrobI+kMo10=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0802MB2609.eurprd08.prod.outlook.com (2603:10a6:203:98::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Wed, 14 Oct
+ 2020 12:15:10 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3455.031; Wed, 14 Oct 2020
+ 12:15:10 +0000
+Subject: Re: [PATCH v4 4/7] nbd: Update qapi to support exporting multiple
+ bitmaps
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, stefanha@redhat.com, rjones@redhat.com,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20201009215533.1194742-1-eblake@redhat.com>
+ <20201009215533.1194742-5-eblake@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <6ee3ac4f-65c3-fdfd-9adb-9bea5f5739e3@virtuozzo.com>
+Date: Wed, 14 Oct 2020 15:15:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
+In-Reply-To: <20201009215533.1194742-5-eblake@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [85.226.244.4]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 5c4644fe-64d5-4fb7-6903-08d8703a8205
-x-ms-traffictypediagnostic: DM6PR04MB6794:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR04MB67947BD155A42DFA7B0A7582F2050@DM6PR04MB6794.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8DAGzOU7XsKD+s+Bblw/JeUjYWIlsU7+7YfUVsTr76WPQl1Yvz4/pCGDUKY/NeWYz0RHKnqybpZA2leilBAyjli1lmJ/jF1K1A+klfjp6MbE1lblouiedNo2uHDLL9jwax5bLGxJe28T/hunq2Eds2yIvTBLIrOBV7zEzYzu8c/cyJo2Vdd1bzxZjAOYpteTdHQBQDt409+A2UEA+kiTapNUa74Y7IlOv893CFh8kCTtjBdh9+QnaPP5GXOsjmG69tGTuWt0BHaIaGt9xgd+U4OAerrTUa3ZKlDkYwhduM39A1S55JZPijXr3N5/nrO8
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR04MB5483.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(39860400002)(396003)(346002)(376002)(316002)(5660300002)(8936002)(6486002)(6512007)(9686003)(8676002)(4326008)(86362001)(6506007)(478600001)(2906002)(66446008)(66556008)(76116006)(66476007)(91956017)(64756008)(54906003)(186003)(1076003)(33656002)(6916009)(71200400001)(83380400001)(66946007)(26005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: XXE5o+e2PvcUL4zU6DQ/1ssc+kY0xVoHs2mj1WVEcqqSCmX1XyvsGGoxdpvs8iLAzK9UDoXkwfw9gy0BxFf+0aycd7LXSXA2eGi9yTcSPf8HoH9rnJ9oFLVbpMYCuDLf5aKIP9KAtahZITjp+A/sB+93Ww3em7gVmdNGV4DPpG+GKD+Rc9IEsQDWo1a0nM6Yb5Q/Bh9AClx3ZROSO/oj4ly8BkVscs3CGE6Fl9Xgzf3ib/cRdTVjz3nzrdRqkLXUxRUnb8LunEghn1hzp/jUdpyUkUvBrZCbGMhsK7gbCN9RoFNJITSrEh6CPU1Xolvga/EDgGc8sQDAa9/bx9bhgtY1t1ZbRQm4izrL98RXMagT26jOuXdnBaM2Zaug5hk7cz7XQvBpusnb4AR3JbsFo8IAWTYvYCF0Lg7phWqu6mOLl1owxIHr+VCLOnxbDFDUB9k6QnquRXAmrW794qpZFR4Ym0dPRgnkWRh49Svr+cdTZMdhSuozvoVhc6q3pmyWsIcBAEAjd6QjRA290uSYL23F6KV417LG0PAadTkk9mNZHmx/kziYButphcxupkcMVDLDA1wy+Qlmz0y3lyTMGtvHp+VOo+nyV9JDvWeNJGC0gYd2PG73jVo5ZXopFh77Ijm90JxakBAmrLSKj3m4kQ==
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <31D6FA223CC57443A25AACF39A9176D9@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.122]
+X-ClientProxiedBy: FR2P281CA0023.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::10) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.122) by
+ FR2P281CA0023.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3477.11 via Frontend Transport; Wed, 14 Oct 2020 12:15:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c7f5b386-6af4-4f7f-d179-08d8703acbc7
+X-MS-TrafficTypeDiagnostic: AM5PR0802MB2609:
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB2609A9B0C042F0524257C7F2C1050@AM5PR0802MB2609.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pQaRgZhV6r4rtn/rAPp92kqV+lzOPFszP6hsbk7TvvBnBupk3IM2TevaJhISArXuDuWTat+/+h72JcVR0DD2Yb51XTro0fGqS3FJkk9t/XM/0bMIC251pVZem2VuTRaz/t45jVsCTGHQzd+zV/Mwi+5bmlDGpuup7XwU8bxphN7g757aB7HJDK5whKnikLvG9paQm9UObF4XAPBxWMa/ba+/DHRZhCSzdj+0cVlbQWDMZF0ZLFJ/Dn+HUYbt0b65IoLeKm4Nn7531tZRPdNUpa6ZQAU8UrwuXoe8sJU9zeY+GQMbIQOpsPpJcHsGnCHxvfUVYm4BWKK5ysbypA6seuaImPHXWlOIZw2yrQkqx6uFNKQApiLDQWQ3sSbEKfA6
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39840400004)(376002)(136003)(396003)(366004)(66556008)(66476007)(4326008)(16576012)(54906003)(66946007)(36756003)(2906002)(478600001)(6486002)(4744005)(8676002)(316002)(956004)(86362001)(83380400001)(2616005)(26005)(186003)(5660300002)(16526019)(31686004)(8936002)(52116002)(31696002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: z8is4uYc+8CJx/DrO0USbsWwgxTNbNnhEpK4AdlzFa1IQq2szD+cx7EO5FsUkMCyLsZGHqLV84myCH31kvyD7ePzX4RzbF1EqyAgmhthOtKK1/ZEKhv5MFDw8FMMAO32sovPF9z1//LmleJ5fHE7q0YfnjDGLBURucErdLYxAMwG3u9Q72TRUbksYH6BNzgDsWxjcUdEuKeoPF8nHefpdpZOZLxwQHuqBWOPyESzo5G58hTBHhHV+Aq1y1c7f/2jF4lbPN/dwLE9NHCRukJyAKvOoHhQ7oOYeLI0GAt/aR3I7oA7LwU4JslcuvM8unyiJfrq4SJ64S5NQzkAev3D7kMD05AHo9kq2z2+SYOsYipRCBlPU3APiwx5HIgQSzi3IbsnCUDfEain3np4oz7Nfc4SssbyCRceKHGEdsmWLrvyFg2+oR4GoMOVE1G15CVOIq5d6kSq75r0uYaVixH5XGnSpSBgihjIDnnU9KX2H5iGhHCrkzGjjPtelcsfmBX7hezyEZzArMUQN2o56Zc249KElF0CTziV9BleLUb5rJHwxC7cWwRiNCPVWpgey8sEF7ElY68WAT/zMWNLS7iQpWUO/0WJaImNJa4g7TtJavIg4WbQhDxabsEKZxSMs7V18/joV8WJ0dcvczwy7eDW7g==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7f5b386-6af4-4f7f-d179-08d8703acbc7
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB5483.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c4644fe-64d5-4fb7-6903-08d8703a8205
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2020 12:13:06.4082 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AgAc7WW3mskE25i7TVS+B2gkzy3D0QM3Ch3UQXa+NRuoeB5LjhFFtPdvssVM16sGytc9XMdAqydjVZQTJJ0Syw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6794
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=5492a5ee4=Niklas.Cassel@wdc.com; helo=esa1.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 07:59:18
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 12:15:10.3314 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KLzo/nrFUKTiBsO3fWr1fEwwsBn2GL89irFXJKLfFruWRzcf7kbJArwZ/qdMwu+garouc63USJwTXb8gekaGbFS+SuXoFUmuXv9X2ZwRMHU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2609
+Received-SPF: pass client-ip=40.107.6.127;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 08:15:11
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -135,130 +119,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 13, 2020 at 05:50:34PM -0700, Keith Busch wrote:
-> On Wed, Oct 14, 2020 at 06:42:02AM +0900, Dmitry Fomichev wrote:
-> > +{
-> > +    NvmeEffectsLog log =3D {};
-> > +    uint32_t *dst_acs =3D log.acs, *dst_iocs =3D log.iocs;
-> > +    uint32_t trans_len;
-> > +    int i;
-> > +
-> > +    trace_pci_nvme_cmd_supp_and_effects_log_read();
-> > +
-> > +    if (off >=3D sizeof(log)) {
-> > +        trace_pci_nvme_err_invalid_effects_log_offset(off);
-> > +        return NVME_INVALID_FIELD | NVME_DNR;
-> > +    }
-> > +
-> > +    for (i =3D 0; i < 256; i++) {
-> > +        dst_acs[i] =3D nvme_cse_acs[i];
-> > +    }
-> > +
-> > +    for (i =3D 0; i < 256; i++) {
-> > +        dst_iocs[i] =3D nvme_cse_iocs_nvm[i];
-> > +    }
->=20
-> You're just copying the array, so let's do it like this:
->=20
->     memcpy(log.acs, nvme_cse_acs, sizeof(nvme_cse_acs));
->     memcpy(log.iocs, nvme_cse_iocs_nvm, sizeof(nvme_cse_iocs_nvm));
->=20
-> I think you also need to check
->=20
->     if (NVME_CC_CSS(n->bar.cc) !=3D NVME_CC_CSS_ADMIN_ONLY)
->=20
-> before copying iocs.
+10.10.2020 00:55, Eric Blake wrote:
+> Since 'nbd-server-add' is deprecated, and 'block-export-add' is new to
+> 5.2, we can still tweak the interface.  Allowing 'bitmaps':['str'] is
+> nicer than 'bitmap':'str'.  This wires up the qapi and qemu-nbd
+> changes to permit passing multiple bitmaps as distinct metadata
+> contexts that the NBD client may request, but the actual support for
+> more than one will require a further patch to the server.
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
 
-So it seems Dmitry actually does this in the Namespace Types patch:
+[..]
 
+>               break;
+>           case 'B':
+> -            bitmap = optarg;
+> +            tmp = g_new(strList, 1);
+> +            tmp->value = g_strdup(optarg);
+> +            tmp->next = bitmaps;
+> +            bitmaps = tmp;
 
-@@ -1051,10 +1054,6 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest=
- *req)
-     trace_pci_nvme_io_cmd(nvme_cid(req), nsid, nvme_sqid(req),
-                           req->cmd.opcode, nvme_io_opc_str(req->cmd.opcode=
-));
+If publish QAPI_LIST_ADD, defined in block.c, it would look like:
 
--    if (NVME_CC_CSS(n->bar.cc) =3D=3D NVME_CC_CSS_ADMIN_ONLY) {
--        return NVME_INVALID_OPCODE | NVME_DNR;
--    }
--
-     if (!nvme_nsid_valid(n, nsid)) {
-         return NVME_INVALID_NSID | NVME_DNR;
-     }
-@@ -1333,8 +1332,10 @@ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint32=
-_t buf_len,
-         dst_acs[i] =3D nvme_cse_acs[i];
-     }
+     QAPI_LIST_ADD(bitmaps, g_strdup(optarg));
 
--    for (i =3D 0; i < 256; i++) {
--        dst_iocs[i] =3D nvme_cse_iocs_nvm[i];
-+    if (NVME_CC_CSS(n->bar.cc) !=3D NVME_CC_CSS_ADMIN_ONLY) {
-+        for (i =3D 0; i < 256; i++) {
-+            dst_iocs[i] =3D nvme_cse_iocs_nvm[i];
-+        }
-     }
+anyway:
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-
-Which later in the ZNS patch is changed to:
-
-@@ -1335,13 +2178,31 @@ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint3=
-2_t buf_len,
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
-
-+    switch (NVME_CC_CSS(n->bar.cc)) {
-+    case NVME_CC_CSS_NVM:
-+        src_iocs =3D nvme_cse_iocs_nvm;
-+        break;
-+    case NVME_CC_CSS_CSI:
-+        switch (csi) {
-+        case NVME_CSI_NVM:
-+            src_iocs =3D nvme_cse_iocs_nvm;
-+            break;
-+        case NVME_CSI_ZONED:
-+            src_iocs =3D nvme_cse_iocs_zoned;
-+            break;
-+        }
-+        /* fall through */
-+    case NVME_CC_CSS_ADMIN_ONLY:
-+        break;
-+    }
-+
-     for (i =3D 0; i < 256; i++) {
-         dst_acs[i] =3D nvme_cse_acs[i];
-     }
-
--    if (NVME_CC_CSS(n->bar.cc) !=3D NVME_CC_CSS_ADMIN_ONLY) {
-+    if (src_iocs) {
-         for (i =3D 0; i < 256; i++) {
--            dst_iocs[i] =3D nvme_cse_iocs_nvm[i];
-+            dst_iocs[i] =3D src_iocs[i];
-         }
-     }
-
-
-Perhaps the nvme_io_cmd() if-statement removal from the NS types patch +
-the switch from the ZNS patch (with out the NVME_CSI_ZONED) could be moved
-to this patch instead?
-
-The middle version of adding "+    if (NVME_CC_CSS(n->bar.cc) !=3D NVME_CC_=
-CSS_ADMIN_ONLY) {"
-can then be dropped from the NS types patch, since it is not part of the fi=
-nal code anyway.
-
-
-Kind regards,
-Niklas=
+-- 
+Best regards,
+Vladimir
 
