@@ -2,82 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDA228E69B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 20:43:34 +0200 (CEST)
-Received: from localhost ([::1]:43560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FD228E6D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 20:59:36 +0200 (CEST)
+Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSlkK-0000dN-IL
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 14:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33570)
+	id 1kSlzr-00067O-0p
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 14:59:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSlif-0008VG-UI
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 14:41:49 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:37953)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSlid-0004kU-FZ
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 14:41:49 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id u3so249358pjr.3
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 11:41:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=i0vAYObnpIFH4p12o6pJGrseH5Je/UJA9BTxb3ZRME8=;
- b=c8/OVvYakMGe4rmPIMuvQLaksWk1X4XPWEREM15eCaSyXATvd2zr45lm8Hb40xpcuB
- mQOJxye1FsCIrQ45OCXof25odPVF/CUCJGR3Cpl8dUW2GBLAoRycm0yLrXhnZoHhMs87
- +6M5cS02iFcdGHFW0uw9UajEb8p/42G1Svuf5/Iyq+OgQRQjLhxDlBBTAGsBIztWgj75
- n5Z1idodHsYyMCT0XKqPPE+whHRkeRjjtdTy3pk22RvgCG4zP/Rb/slLLHmuhBT0HTma
- Afi5FKS9m9oMpcW1O7bskYe8qj1h/78xre1AT4Ti4VoJLMozNZFOpHlNqcFGJTszGZuA
- 0vNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=i0vAYObnpIFH4p12o6pJGrseH5Je/UJA9BTxb3ZRME8=;
- b=dyOzN1id3n4kikCFYAx19QAlf6hwTUGO/xJOA2aXaUf8KzlfUzdJ165ax2NKNOFkpD
- adZKFnN+/3p5Kma24YAqNZZ7f1nTBM79hwOdhgH42b10zNl0NqGfza3Cxo3qHdZ8nBJH
- Rslbz770l01FF509LspPdgtezLQo9zGiN+xa2lwbFDDoJZiznPdmgC1X4grr5kb6Vsjg
- cz/jnGD4W5726gXDJRdSQkwSyq7ugix1Pko53b08nAdp7Aa4G/LX5McdkEn+3Ttwmtbn
- vL24iQqQdWxDZU31TMRYf4PanQ5o/4p+waaIB3YpxWuuVRnVe+L4HX/jToSKOx7Tw5el
- ZduQ==
-X-Gm-Message-State: AOAM533kKO2Z94REvBtSYhs2qpos4nLnO0S/v5P+LFP0jnEihNTEo5lD
- wherUfdmv3o1lByeW3oLG9WnHA==
-X-Google-Smtp-Source: ABdhPJwlzouQwkpgLuppffpK7HIb87c+D8BnClYecn6cJF3B3RVOAPVimvpu1nIuAr/dy8ne7meBrA==
-X-Received: by 2002:a17:902:7c93:b029:d4:e1c3:bde0 with SMTP id
- y19-20020a1709027c93b02900d4e1c3bde0mr359548pll.85.1602700905283; 
- Wed, 14 Oct 2020 11:41:45 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id fy24sm227781pjb.35.2020.10.14.11.41.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Oct 2020 11:41:44 -0700 (PDT)
-Subject: Re: [PATCH 3/5] [RISCV_PM] Print new PM CSRs in QEMU logs
-To: Alexey Baturo <baturo.alexey@gmail.com>
-References: <20201014170159.26932-1-space.monkey.delivers@gmail.com>
- <20201014170159.26932-4-space.monkey.delivers@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3395cef5-79d4-078a-29ad-48639e4cd56d@linaro.org>
-Date: Wed, 14 Oct 2020 11:41:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kSlyR-0005VD-Pb; Wed, 14 Oct 2020 14:58:08 -0400
+Received: from mail-eopbgr40101.outbound.protection.outlook.com
+ ([40.107.4.101]:15165 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kSlyO-000737-3Q; Wed, 14 Oct 2020 14:58:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Guyx62t+5fK5dzudYGJo41B1spiAXHBT3wglQyfgz882O7PBWnzm8HpB10LXfAOqcDibfLSczChFZSALDPkZkBSaiVOBGNFgIJVISoiPthEIY+24tY2s8Q8LHjCeG6XEejRD7DQRnoAHNVqu7qBw+5QVzwD6yfd6dzgFBh/u0t6Vhc2876UadhF/RG+7nTl9Jn3/hzEI7V037Ei1pV1+HfciG+1yVElQz476N8g7Xnqj5NBkwGDCLzUeI6i43jMiYpw38o3rFpGKbQyNavqveRj2qiBdMt2I5kEKZzUK/tpnmKdNc5ykGjpo6pgWZW6ElAF4ekZGR2dy6lVu0apvGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KyHNQFfA76YBXXOLjp4P3Rg+m9Cp0GUtr28f6z/WYLs=;
+ b=S8c9vaI+RA9kVDPbkPLt7UemrmOX067k5u7ZM/3lU0qV/DZudKLm9CW3OvE5d0/F7wnfBnM+ZpLmwVy3vppKeoDQ55idooR6CNeDsQgemC9Amj8m0RNyRiMwEmaFY6ysAzFT+3nHcwdLxdNeXQxQ02SzADTe3rMFZq4A1KvLSTKwow4j3Q/R12tEp5gyeLYQdyXBjOhnelyTIAoM5EnyEnCwkYy2UiO+7Hn1bId2Y/h2H+LujH+x1ggvGgn5EMMQE9N/bROlvlkRtDrdoVudR7Y0RJPCkw87jFvZf865BPqsULFoOU3+D/h+9wAs9VRun65P9IATD83blZDkwovjDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KyHNQFfA76YBXXOLjp4P3Rg+m9Cp0GUtr28f6z/WYLs=;
+ b=L+skkXLRbHUPBIBdYdd9qfJ6LOocZb3bZNB47aqiJ9iZvJhM5sR0vxsKNXtYqDPBryCYSI/Cs0y8wQhmimjoP/fm2uVJ8y7l3GK1pkwvmeCQoEfe7g066I1Xv9NEZ1UpFs/HIcfrCeHg7b5wT5M1GgAlLprfwwg6fAe77WGROGU=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
+ by HE1PR0802MB2218.eurprd08.prod.outlook.com (2603:10a6:3:c7::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Wed, 14 Oct
+ 2020 18:57:55 +0000
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::fd10:fc33:1bb0:1036]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::fd10:fc33:1bb0:1036%6]) with mapi id 15.20.3477.021; Wed, 14 Oct 2020
+ 18:57:55 +0000
+Subject: Re: [PATCH v11 05/13] copy-on-read: limit COR operations to base in
+ COR driver
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, fam@euphon.net,
+ stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
+ libvir-list@redhat.com, eblake@redhat.com, den@openvz.org,
+ vsementsov@virtuozzo.com
+References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1602524605-481160-6-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <6dc38263-ad9c-f238-7197-68e920b6080d@redhat.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <7b649922-6c4d-7d5f-fb52-c97c1c34b7d8@virtuozzo.com>
+Date: Wed, 14 Oct 2020 21:57:51 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <6dc38263-ad9c-f238-7197-68e920b6080d@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [109.252.114.22]
+X-ClientProxiedBy: AM0PR04CA0068.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::45) To HE1PR0801MB2124.eurprd08.prod.outlook.com
+ (2603:10a6:3:89::22)
 MIME-Version: 1.0
-In-Reply-To: <20201014170159.26932-4-space.monkey.delivers@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.22) by
+ AM0PR04CA0068.eurprd04.prod.outlook.com (2603:10a6:208:1::45) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3477.21 via Frontend Transport; Wed, 14 Oct 2020 18:57:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ce9f3da6-5f99-41d8-2f31-08d870730ee3
+X-MS-TrafficTypeDiagnostic: HE1PR0802MB2218:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB2218C554A349FF668156A02FF4050@HE1PR0802MB2218.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jMPK7HB9hKn7RLW8enLJoC/rS/JdzhY9PyZiDhHqKhpcBY/nerOH9hBcKDliFme8fh0/gwbkW+gtAtzXuVASoihp4Tdh2jSc9Fmto3bQe/0mXFTI0jO87VB24ezGO17sJQpIVBuHAYcC/27eZC9DUlzjtqWBYneFiLEf1QvkfSRN5zsYx75T2oe0zmJfo+rxmfIe1jOXcRNVngnDoSS54B0n3Rv6LAlN4lcp4CKvjJcZKjBzd5VK1oLO66uoZrYbqcYFxyzk+/UyItX13O1I11urvpWni+NbW63Ki6Zh0rxbXL0bGi9uNXdmx5dd9n4fpF11IIng8XCBNHBOId3d929dRotWt4X5MJEDBCuZXVMnUQdr5p3j5luqrs1gPIqw
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(396003)(136003)(346002)(376002)(366004)(66476007)(66556008)(6506007)(6512007)(2906002)(66946007)(8936002)(16526019)(83380400001)(86362001)(186003)(2616005)(31686004)(31696002)(53546011)(26005)(36756003)(7416002)(44832011)(956004)(316002)(5660300002)(52116002)(8676002)(107886003)(6486002)(4326008)(478600001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: bcqDq90qmJwgtbDLzoZyvNoDZfN/8sisoyziuTJqljqgjMRhjFtlGvQz5T3tzGWOF1XsKirQEb9/nDdGQh9zFrkNTB2NgvCzZJ0ojmN0zoSTUB3g3imH8hRjXFJ5PxQAfAQnMgphnqLru2DzcrWua4hKWDlnBadC+WxUMrVcZ+a/HWxNHz3hQTY26b6HCGcWBbq7A6dzimYymUG4lXM/DuUYYU0bvVeCLZ676kPDbz+6yE1FC4SskzOhEQJzsWCP9Zvb/9OL1j5OXDN2VMv6NkVkoEMzNEpR4FZEA0/i54sa/7BAmSmnuYfVswvVV2gJmUWJ7ZpzrU3ZEwAm/JcozHecsOjKEA0nA8tFVS792xrwWiImsGZu5hkuswGXdkBcO5fC02ECqQRQFEBwvOA++Bb3CjQFKfKmzLdGuulfxV1wW7TJ2RR75b9SUX5yCfUzrdmUBUVMtKviSJhWf4+dNQceAZ6M+UUbsi5h3qhXYiO4lcaBt/51Wp9Yo2rbQBBIWsnN9vMGkPSMsIYChiIVL594S2MUFJcaTCaU5F/miStKs0niW+jgaVVdU/mi0h2xGQ8yHeLL79ongjTKk9Dr/FXcMDjz31kqnGIxQASlbDMeEGa4CsFZCMA+klAoZ17YW/xVusNnAQwKvcYj8fB0WQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce9f3da6-5f99-41d8-2f31-08d870730ee3
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 18:57:54.8513 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YL92X1hf6hrsD+C6GZxjCkj0x1wvqPeajF/4Eeh4kJAT/jpk87yU+f6Pj19j1jntHYpDYDctdpI9B5ZDgBCN1otElSJCEFRik1cPUoMfptU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2218
+Received-SPF: pass client-ip=40.107.4.101;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 14:58:02
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,30 +123,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- space.monkey.delivers@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/20 10:01 AM, Alexey Baturo wrote:
-> +    if (riscv_has_ext(env, RVH)) {
+On 14.10.2020 15:01, Max Reitz wrote:
+> On 12.10.20 19:43, Andrey Shinkevich wrote:
+>> Limit COR operations by the base node in the backing chain when the
+>> overlay base node name is given. It will be useful for a block stream
+>> job when the COR-filter is applied. The overlay base node is passed as
+>> the base itself may change due to concurrent commit jobs on the same
+>> backing chain.
+>>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>> ---
+>>   block/copy-on-read.c | 39 +++++++++++++++++++++++++++++++++++++--
+>>   1 file changed, 37 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+>> index c578b1b..dfbd6ad 100644
+>> --- a/block/copy-on-read.c
+>> +++ b/block/copy-on-read.c
+>> @@ -122,8 +122,43 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
+>>                                              size_t qiov_offset,
+>>                                              int flags)
+>>   {
 
-RVJ.
+[...]
 
-> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mmte    ", env->mmte);
-> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "upmbase ", env->upmbase);
-> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "spmbase ", env->spmbase);
-> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mpmbase ", env->mpmbase);
-> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "upmmask ", env->upmmask);
-> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "spmmask ", env->spmmask);
-> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mpmmask ", env->mpmmask);
+>> +            ret = bdrv_is_allocated_above(bdrv_cow_bs(bs->file->bs),
+>> +                                          state->base_overlay, true, offset,
+>> +                                          n, &n);
+>> +            if (ret) {
+>> +                local_flags |= BDRV_REQ_COPY_ON_READ;
+>> +            }
+>> +        }
+> 
+> Furthermore, I just noticed – can the is_allocated functions not return
+> 0 in @n, when @offset is a the EOF?  Is that something to look out for?
+>   (I’m not sure.)
+> 
+> Max
+> 
 
-Probably you only want to dump the set that's current.
+The check for EOF is managed earlier in the stream_run() for a 
+block-stream job. For other cases of using the COR-filter, the check for 
+EOF can be added to the cor_co_preadv_part().
+I would be more than happy if we can escape the duplicated checking for 
+is_allocated in the block-stream. But how the stream_run() can stop 
+calling the blk_co_preadv() when EOF is reached if is_allocated removed 
+from it? May the cor_co_preadv_part() return EOF (or other error code) 
+to be handled by a caller if (ret == 0 && n == 0 && (flags & 
+BDRV_REQ_PREFETCH)?
 
-
-r~
+Andrey
 
