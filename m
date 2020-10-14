@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2266728E72B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 21:20:19 +0200 (CEST)
-Received: from localhost ([::1]:44510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EAB28E754
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 21:30:51 +0200 (CEST)
+Received: from localhost ([::1]:39536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSmJu-00079s-6g
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 15:20:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40956)
+	id 1kSmU5-0000Ag-Ug
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 15:30:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSmIs-0006WM-DO
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:19:14 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:35171)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kSmIl-0001PA-Ru
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:19:14 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id h4so328833pjk.0
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 12:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1/8Y7UfnxbL9mJgYyhoOMxfPLDUP9sw8YCbyebqnu4c=;
- b=sYhNRhdm6cV5OdnWVuH2Q0rJ8lWy7dIDUgW3oJzLwp+G1HRD4Bjxl3yjjqPhDPTgkC
- zIcQOyDIqq3C081g7OULRDaRbMR+E+nj161vb46ybJlrrS4RUSz0UGmjMN3R0XuOK05o
- ND++aXyK3q67KNcAwNGx+K6DAj0mxPkk6XlyrRXX8fm/dabyYKGdfslU09Xohd5N+eRz
- dzeP9WYy4RKByC8MIB7VkkQshNbOSIH7B+CumPuz1Xyr9Oz8HBC/pk31vqq99k/DgDC+
- tnqwZRTwKzzffovil4jDsszJf14sD9CYZclpGM5l+G7oWWChrRNeD3/vo9ZlqUfolxPY
- MPoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1/8Y7UfnxbL9mJgYyhoOMxfPLDUP9sw8YCbyebqnu4c=;
- b=XTG1/WgrqbI2g2leWXGOtaREpVCe6uHIxDuJ9UfL0G5OS5m7u9ldfaGRl5DOxUz81Q
- 9JvONFr05l5EVTM6phMBtxt+PqxGie4rvEEVv4Ls5+T5FqVjuuT7iAbeeMpU7cpOwDyB
- WKYSpw31U61FCCQFbGCw+I7EYgmaqAoBwWZD+vWCAy1PXvATNV5+Pu+Xx7oH068pu3gT
- HUbyYeVVpGtpG8ygYybPm8sH45jGaVlevZb8VxKneHydQnMZB3SICwtuyRTp9fiJXMnm
- 0MV4sWolW34xlaiuUfrm7x1F4jm1VdC2E68PxetpMNjA7g5vlQit6WTZwCfAg/56Ahfy
- SmtA==
-X-Gm-Message-State: AOAM530FMv6slUJ05EuckDpUkqv/X+fZJZmFdztWlwyk3WtSvhITOnN/
- UMW99GclDAUSkuE3AQMCykvZ0Q==
-X-Google-Smtp-Source: ABdhPJwjP0sFm6z3GRXIP2s7a3wnJl3HVvh7h1whDym49AnvUEIoXSLTPPlmFtFWKHEZ/UKAzYAzUA==
-X-Received: by 2002:a17:90a:318d:: with SMTP id
- j13mr657715pjb.209.1602703146204; 
- Wed, 14 Oct 2020 12:19:06 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id h2sm303022pjv.4.2020.10.14.12.19.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Oct 2020 12:19:05 -0700 (PDT)
-Subject: Re: [PATCH 4/5] [RISCV_PM] Add address masking functions required for
- RISC-V Pointer Masking extension
-To: Alexey Baturo <baturo.alexey@gmail.com>
-References: <20201014170159.26932-1-space.monkey.delivers@gmail.com>
- <20201014170159.26932-5-space.monkey.delivers@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b13721d7-241a-3d81-fa8d-5d7cc0e780b7@linaro.org>
-Date: Wed, 14 Oct 2020 12:19:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kSmJc-0007Lo-Mx
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:20:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kSmJb-0001U9-4z
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 15:20:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602703198;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZVFo9UOm/mmyPh322yQgMOIvggL7TqxnrYUCdvaEA18=;
+ b=We2xYKeCjOHS5/8zs/N5oj+xw8wdBNqflqQmCoH+KYkD/wNdfJYiqi4JfhQYH3YIA/V9pQ
+ ZWh/VZ25A3JwK376Ardw184UlFUtIxCoBghX3+jTyfk/WyHfizO9uprAVRQcZwVjQ6bAbe
+ Nupi3Y5GPzSCgI7Q6u+hgW9IYkf0Qmw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-95-Zmzl4LbYN1KH8BecWNkpUg-1; Wed, 14 Oct 2020 15:19:55 -0400
+X-MC-Unique: Zmzl4LbYN1KH8BecWNkpUg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00E6E6A29F;
+ Wed, 14 Oct 2020 19:19:54 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ [10.10.119.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 316335D9CD;
+ Wed, 14 Oct 2020 19:19:49 +0000 (UTC)
+Date: Wed, 14 Oct 2020 15:19:47 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 2/4] Jobs based on custom runners: build environment
+ docs and playbook
+Message-ID: <20201014191947.GB1196177@localhost.localdomain>
+References: <20201014052140.1146924-1-crosa@redhat.com>
+ <20201014052140.1146924-3-crosa@redhat.com>
+ <20201014173009.GU115189@redhat.com>
+ <20201014185952.GA1196177@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20201014170159.26932-5-space.monkey.delivers@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201014185952.GA1196177@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Fba/0zbH8Xs+Fj9o"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,91 +83,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- space.monkey.delivers@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
- Anatoly Parshintsev <kupokupokupopo@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/20 10:01 AM, Alexey Baturo wrote:
-> +static TCGv_i64 apply_pointer_masking(DisasContext *s, TCGv_i64 addr)
-> +{
-> +    gen_pm_adjust_address(s, addr, addr);
-> +    return addr;
-> +}
+--Fba/0zbH8Xs+Fj9o
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This function is unused in this patch, which means the series as a whole is
-non-bisectable.
+On Wed, Oct 14, 2020 at 02:59:58PM -0400, Cleber Rosa wrote:
+> On Wed, Oct 14, 2020 at 06:30:09PM +0100, Daniel P. Berrang=E9 wrote:
+> >=20
+> > This needs updating to add meson, and with Paolo's series today you
+> > might as well go ahead and add ninja-build immediately too
+> >
 
-Rather than merge the two, I suggest adding a stub version of this function to
-patch 5, and then swap patch 4 and patch 5.  So you will add uses of
-apply_pointer_masking without actually implementing it yet.  Which should be fine.
+I replied too quickly, but allow me to get this right: meson is *not*
+included in the dockerfiles (and other similar configurations), and
+all setups I found rely on the submodule.  Are suggesting to add meson
+and diverge from the dockerfiles?
 
-> @@ -800,8 +836,36 @@ static void riscv_tr_init_disas_context
->      } else {
->          ctx->virt_enabled = false;
->      }
-> +    if (riscv_has_ext(env, RVJ)) {
-> +        switch (env->priv) {
-> +        case PRV_U:
-> +            ctx->pm_enabled = get_field(env->mmte, UMTE_U_PM_ENABLE);
-> +            ctx->pm_mask = env->upmmask;
-> +            ctx->pm_base = env->upmbase;
-> +            break;
-> +        case PRV_S:
-> +            ctx->pm_enabled = get_field(env->mmte, SMTE_S_PM_ENABLE);
-> +            ctx->pm_mask = env->spmmask;
-> +            ctx->pm_base = env->spmbase;
-> +            break;
-> +        case PRV_M:
-> +            ctx->pm_enabled = get_field(env->mmte, MMTE_M_PM_ENABLE);
-> +            ctx->pm_mask = env->mpmmask;
+> > https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04025.html
+> >
 
-You can't read env like this.
+^ I'll add meson according to this, of course.
 
-This bakes in values from ENV without adding any way to verify that those
-values are still current.
+Thanks,
+- Cleber.
 
-The one thing that you must bake into the generated code is the state of
-PM_ENABLE.  Anything else would penalize normal risc-v emulation.
+> > Same for all the other distro package lists.
+> >=20
+> >
 
-You do that in cpu_get_tb_cpu_state().  Allocate one bit to hold
-the current state of the flag.  E.g.
+--Fba/0zbH8Xs+Fj9o
+Content-Type: application/pgp-signature; name="signature.asc"
 
-FIELD(TB_FLAGS, PM_ENABLED, 9, 1)
+-----BEGIN PGP SIGNATURE-----
 
-then fill it in from the correct mmte bit for priv (which itself is encoded by
-cpu_mmu_index()).
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+HT1EACgkQZX6NM6Xy
+CfOaBxAAlFw6H7F4/plIV2py1zbIjKlpl/GTcagJkxcwbnJdTrAOYZk80I/wGcHY
+2GWxSx4BSTyk2cRK2aMnxFxRN1yjq8MW5jjaE9OrSSHGK0axkETrbQe574qYKsT/
+Oc0jUyAnDx39mErMGF68wrAEVhlYn6L+7IJYmZUcmg0O7gOWgP/cQrnBT9ilzEvw
+gzbZD4h1HviP5Kf3i6xNe9IpmsVGJREU5lZQFFovULQ+Xl0soBSBvwiPTI9csOac
+BeYYdVmreavUf334y+dytkcpsbW9B+s6olrUFbYr5mP+svdpO2lwM2MgLyYhjcbB
+qoFHdPAXFr4toZRWq8fYmPJjEBcfOmCQDkLkgubZ334eJyGuRAEW94SGG9xklqsV
+DRqdxfl5DQKjY2EzGbNbGkr7DNmSi7SdYqm757lQ3/aMSYUdaVay10EukGqcTxuW
+hzHaBzG3Hzeg5yc9dOQMU4a0xoX2IG/1ouLYWCCuby4wVWwDvqbilPkzwCPU/V81
+U4aUeKCjoGyN3pBNzKzw/7F/yZi5M2wbWuikIRgcwJzp9U8lqRsqPrFD/s9EMkQF
+AVmKoaiv5H49zBozFwtH+ZkqGDNbI9mk59NZc7pF7hA1TDBAWPUvyWQCdAg1fy8G
+0b70sxTHsUKhHvb9dCQ/3ztRk5xcmCZ+OKAHn9ri22bL0SjbxdE=
+=aHf4
+-----END PGP SIGNATURE-----
 
-Except for special cases, the mask and base variables cannot be placed into
-TB_FLAGS.  For now, I think it's best to ignore the special cases and implement
-them all as tcg globals.  Which means that we do *not* bake in a particular
-value, but instead read the value from env at runtime.
+--Fba/0zbH8Xs+Fj9o--
 
-So, in riscv_translate_init, you create new globals for each of the mask and
-base.  In riscv_tr_init_disas_context you examine priv (via mmu_index) and
-assign one pair of the globals to DisasContext, so that you don't have to keep
-looking them up.
-
-Then you have
-
-static void gen_pm_adjust_address(DisasContext *s,
-                                  TCGv_i64 dst,
-                                  TCGv_i64 src)
-{
-    if (s->pm_enabled == 0) {
-        /* Load unmodified address */
-        tcg_gen_mov_i64(dst, src);
-    } else {
-        tcg_gen_andc_i64(dst, src, s->pm_mask);
-        tcg_gen_or_i64(dst, dst, s->pm_base);
-    }
-}
-
-
-r~
 
