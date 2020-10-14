@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B01428DA7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 09:31:45 +0200 (CEST)
-Received: from localhost ([::1]:52950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2155528DA85
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 09:35:27 +0200 (CEST)
+Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSbGC-0001BA-Ju
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 03:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50920)
+	id 1kSbJk-0006fI-SH
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 03:35:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kSbDB-0007pH-C7
+ id 1kSbDB-0007qL-Ne
  for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:28:37 -0400
-Received: from mga05.intel.com ([192.55.52.43]:54373)
+Received: from mga05.intel.com ([192.55.52.43]:54365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kSbD6-000450-3q
+ id 1kSbDA-00041U-4A
  for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:28:37 -0400
-IronPort-SDR: FN1WpYRJesRbsed6BaC5BUlZlJgxr0kD7F8KF8bZ/sdJ2BH384NjO7C3TLRuNJR5ZrSPrBr0S0
- UxeoAUAKLyqQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="250751930"
-X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="250751930"
+IronPort-SDR: 6WjziNfwlPTwbOCLO2kjTh1DrQNtNFxOdrZX9V9YsC0BRcVZC6SlMwLC3DTM1p8DLuApEg4Okx
+ DqlxBqexPufQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="250751933"
+X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="250751933"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 00:28:30 -0700
-IronPort-SDR: wM2xN6bU8DSzm0DFNzURyl3VsYDvE0YskC5lkOF2ed+WRLBl9m+1qDTjDGnZPblRic6gEY3L86
- xRJt5s7P5KXQ==
-X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="521323047"
+ 14 Oct 2020 00:28:32 -0700
+IronPort-SDR: reEkN+RWHr+X0/hmgBGmOJ+x8Eb6UuR3aO37kQ1fAvZHCqftGKJpd8WuC4scYA27d3rVG5yAVc
+ T5U3k61i8zWw==
+X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="521323052"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 00:28:28 -0700
+ 14 Oct 2020 00:28:30 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH 05/10] colo-compare: fix missing compare_seq initialization
-Date: Wed, 14 Oct 2020 15:25:51 +0800
-Message-Id: <20201014072555.12515-6-chen.zhang@intel.com>
+Subject: [PATCH 06/10] colo-compare: check mark in mutual exclusion
+Date: Wed, 14 Oct 2020 15:25:52 +0800
+Message-Id: <20201014072555.12515-7-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201014072555.12515-1-chen.zhang@intel.com>
 References: <20201014072555.12515-1-chen.zhang@intel.com>
@@ -77,29 +77,29 @@ Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ net/colo-compare.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/net/colo.c b/net/colo.c
-index a6c66d829a..ef00609848 100644
---- a/net/colo.c
-+++ b/net/colo.c
-@@ -133,14 +133,11 @@ void reverse_connection_key(ConnectionKey *key)
- 
- Connection *connection_new(ConnectionKey *key)
- {
--    Connection *conn = g_slice_new(Connection);
-+    Connection *conn = g_slice_new0(Connection);
- 
-     conn->ip_proto = key->ip_proto;
-     conn->processing = false;
--    conn->offset = 0;
-     conn->tcp_state = TCPS_CLOSED;
--    conn->pack = 0;
--    conn->sack = 0;
-     g_queue_init(&conn->primary_list);
-     g_queue_init(&conn->secondary_list);
- 
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 86980cef5e..24c366eec0 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -476,13 +476,11 @@ sec:
+             colo_release_primary_pkt(s, ppkt);
+             g_queue_push_head(&conn->secondary_list, spkt);
+             goto pri;
+-        }
+-        if (mark == COLO_COMPARE_FREE_SECONDARY) {
++        } else if (mark == COLO_COMPARE_FREE_SECONDARY) {
+             conn->compare_seq = spkt->seq_end;
+             packet_destroy(spkt, NULL);
+             goto sec;
+-        }
+-        if (mark == (COLO_COMPARE_FREE_PRIMARY | COLO_COMPARE_FREE_SECONDARY)) {
++        } else if (mark == (COLO_COMPARE_FREE_PRIMARY | COLO_COMPARE_FREE_SECONDARY)) {
+             conn->compare_seq = ppkt->seq_end;
+             colo_release_primary_pkt(s, ppkt);
+             packet_destroy(spkt, NULL);
 -- 
 2.17.1
 
