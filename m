@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3C328DA7B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 09:31:42 +0200 (CEST)
-Received: from localhost ([::1]:52676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DEF28DA82
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 09:33:55 +0200 (CEST)
+Received: from localhost ([::1]:59946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSbG9-00013x-Ol
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 03:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50892)
+	id 1kSbIH-00047a-BR
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 03:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kSbD4-0007hI-OD
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:28:30 -0400
-Received: from mga05.intel.com ([192.55.52.43]:54364)
+ id 1kSbD5-0007jM-Fh
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:28:31 -0400
+Received: from mga05.intel.com ([192.55.52.43]:54365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kSbD2-00040p-KU
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:28:30 -0400
-IronPort-SDR: ybgreQDChSDv1ASkjJgY2gJC6X7e5XHoeWoqrj/x3Zlt5nUpOVX759ebmc47HwDVwZ/WSbRHbW
- hh8dMP+siIEA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="250751924"
-X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="250751924"
+ id 1kSbD3-00041U-Oe
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 03:28:31 -0400
+IronPort-SDR: KINNilbLm2cmYAQ3nj9zMCCr3jq3a/VzMjddxAQVuLmb7v8kO/nQzV4QzYuaAx5z4HeDIW0kmR
+ jlgnbmJx1b+A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="250751928"
+X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="250751928"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 00:28:27 -0700
-IronPort-SDR: 9BMicKigJHIx5iEfBMmltV8bs/HmgMNf3InkqwcOGbqvFUJKReo7V5POT4p151ciDBAFTezqw1
- Y6jsiUXvGHaQ==
-X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="521323038"
+ 14 Oct 2020 00:28:28 -0700
+IronPort-SDR: y0rsCka7ZOivCmYZ0nQ8VYhSpxqZHAoRKgjMVeAFPO2aC7frjBXh86RaAInhtZ+NkOLBf5hD97
+ Rhp/LeijCigg==
+X-IronPort-AV: E=Sophos;i="5.77,374,1596524400"; d="scan'208";a="521323042"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 00:28:25 -0700
+ 14 Oct 2020 00:28:27 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH 03/10] Reduce the time of checkpoint for COLO
-Date: Wed, 14 Oct 2020 15:25:49 +0800
-Message-Id: <20201014072555.12515-4-chen.zhang@intel.com>
+Subject: [PATCH 04/10] Fix the qemu crash when guest shutdown in COLO mode
+Date: Wed, 14 Oct 2020 15:25:50 +0800
+Message-Id: <20201014072555.12515-5-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201014072555.12515-1-chen.zhang@intel.com>
 References: <20201014072555.12515-1-chen.zhang@intel.com>
@@ -73,51 +73,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-we should set ram_bulk_stage to false after ram_state_init,
-otherwise the bitmap will be unused in migration_bitmap_find_dirty.
-all pages in ram cache will be flushed to the ram of secondary guest
-for each checkpoint.
+In COLO mode, if the startup parameters of QEMU include "no-shutdown",
+QEMU will crash when the guest shutdown. The root cause is when the
+guest shutdown, the state of VM will switch COLO to SHUTDOWN. When do
+checkpoint again, the state will be changed to COLO. But the state
+switch is undefined in runstate_transitions_def, we should add it.
+This patch fixes the following:
+qemu-system-x86_64: invalid runstate transition: 'shutdown' -> 'colo'
+Aborted
 
 Signed-off-by: leirao <lei.rao@intel.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 ---
- migration/ram.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ softmmu/vl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 433489d633..9cfac3d9ba 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3009,6 +3009,18 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
-     qemu_mutex_unlock(&decomp_done_lock);
- }
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 5a11a62f78..bafe7c5b70 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -632,6 +632,7 @@ static const RunStateTransition runstate_transitions_def[] = {
+     { RUN_STATE_SHUTDOWN, RUN_STATE_PAUSED },
+     { RUN_STATE_SHUTDOWN, RUN_STATE_FINISH_MIGRATE },
+     { RUN_STATE_SHUTDOWN, RUN_STATE_PRELAUNCH },
++    { RUN_STATE_SHUTDOWN, RUN_STATE_COLO },
  
-+ /*
-+  * we must set ram_bulk_stage to false, otherwise in
-+  * migation_bitmap_find_dirty the bitmap will be unused and
-+  * all the pages in ram cache wil be flushed to the ram of
-+  * secondary VM.
-+  */
-+static void colo_init_ram_state(void)
-+{
-+    ram_state_init(&ram_state);
-+    ram_state->ram_bulk_stage = false;
-+}
-+
- /*
-  * colo cache: this is for secondary VM, we cache the whole
-  * memory of the secondary VM, it is need to hold the global lock
-@@ -3052,7 +3064,7 @@ int colo_init_ram_cache(void)
-         }
-     }
- 
--    ram_state_init(&ram_state);
-+    colo_init_ram_state();
-     return 0;
- }
- 
+     { RUN_STATE_DEBUG, RUN_STATE_SUSPENDED },
+     { RUN_STATE_RUNNING, RUN_STATE_SUSPENDED },
 -- 
 2.17.1
 
