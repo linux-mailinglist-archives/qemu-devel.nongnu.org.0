@@ -2,94 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBAC28DFB8
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:19:47 +0200 (CEST)
-Received: from localhost ([::1]:36030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7E928DFC0
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 13:23:19 +0200 (CEST)
+Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSeos-0006mC-Nn
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42248)
+	id 1kSesI-0000Lw-CT
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 07:23:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSenS-0006GN-Fr
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:18:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSenP-0004XD-VC
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 07:18:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602674293;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KpuAjCDFMBWYAfANmHitKJK20UhxVwuW+QDkbbKiNBA=;
- b=NWUOcPjswqlegLgZd9697TMwRTDb1xGLqUJAebKirOnOr99qOzPUfaihs39o0cYDR6uKS5
- b6k4XyufpsYx5+ReDO5RsKGCM+WFxNESuDCj0vtZCbZQIluWP3pzShS8aD6fhtYH4Y4H1y
- MTjhqOsWAK6cQVTw7SoZvo8zAw4cCfU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-U4euK33XPHGAmbHrk4Pv3g-1; Wed, 14 Oct 2020 07:18:10 -0400
-X-MC-Unique: U4euK33XPHGAmbHrk4Pv3g-1
-Received: by mail-wm1-f72.google.com with SMTP id z7so498064wme.8
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 04:18:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KpuAjCDFMBWYAfANmHitKJK20UhxVwuW+QDkbbKiNBA=;
- b=kGZkUBdx6Gbetbjuo9zrx/bG0cuxhKTLBQb1TkYnjz2e+QrAPciXOkBi6lmQrslTIt
- /Ns45X0NXhWtTetT9ZeF5/RanJTHYfgvOCk33GrN1R9Ju/n72WUzGIriO+bgqVnSzx3S
- tI9cYOpBaEg5elyE+WVAia8/2SSvnqnkCDyGKJYM6XMLwov9GuElRKfDil9lZ3xbK2Is
- yT3SOJNU/+m79z9auPHnYtUguCIpuv3+HWRDagzPOjPkGGeJJh3b977UadFVziLwmMDj
- u72Ig1cCWkmVX1wyB3Et6GMGHHujR3NIbcLUsAgEDmxtf6dyMarNHlzZ2xYeEvSqEDZ7
- XrMA==
-X-Gm-Message-State: AOAM532VkmhXNHrwmEtMScu6wUsga1jfbz9iygFJgBpF1Z09w0f/J/BV
- UbdBBWIg+ub+mM8ACyCbCWmhFSLjVrMTKRC6c4eWZ/+Xxt8+V4Q43JDLF5KALAx2JIWcc6z2cXh
- fj9vJXYSqm5WZ2vs=
-X-Received: by 2002:a5d:4282:: with SMTP id k2mr4739875wrq.270.1602674288704; 
- Wed, 14 Oct 2020 04:18:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzcTkXtfn5CGcxVkle9v5W1DxBzYTu1MTRzwOGex7wi+McjNnOcFSTIf8edNXQ2aIgYv+pp4A==
-X-Received: by 2002:a5d:4282:: with SMTP id k2mr4739847wrq.270.1602674288390; 
- Wed, 14 Oct 2020 04:18:08 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id l5sm4535157wrq.14.2020.10.14.04.18.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Oct 2020 04:18:07 -0700 (PDT)
-Subject: Re: [PATCH 2/2] qga: add ssh-{add,remove}-authorized-keys
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20201013202502.335336-1-marcandre.lureau@redhat.com>
- <20201013202502.335336-3-marcandre.lureau@redhat.com>
- <af872421-2215-72e5-77a2-7d496325c413@redhat.com>
- <CAMxuvazo_3pJzwCRkwjaLro2h=SR8xzJ3XFfDcFx_xtDfGOAtQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <426ad5c6-3063-4604-49bf-78236d5a06b4@redhat.com>
-Date: Wed, 14 Oct 2020 13:18:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kSeql-0007m4-9W; Wed, 14 Oct 2020 07:21:43 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2940 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kSeqh-0005GZ-RK; Wed, 14 Oct 2020 07:21:42 -0400
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.55])
+ by Forcepoint Email with ESMTP id 4B615E4C454520B105BC;
+ Wed, 14 Oct 2020 19:21:26 +0800 (CST)
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.75]) by
+ DGGEMM405-HUB.china.huawei.com ([10.3.20.213]) with mapi id 14.03.0487.000;
+ Wed, 14 Oct 2020 19:21:16 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+Subject: RE: [PATCH v2] migration/block-dirty-bitmap: fix uninitialized
+ variable warning
+Thread-Topic: [PATCH v2] migration/block-dirty-bitmap: fix uninitialized
+ variable warning
+Thread-Index: AQHWoV0hzSMk/IMnP02jswbxivecYqmVFqSAgAEuwTCAAAyWgIAAjlMA
+Date: Wed, 14 Oct 2020 11:21:15 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83B9B8CE0@dggemm531-mbx.china.huawei.com>
+References: <20201013123340.1850548-1-kuhn.chenqun@huawei.com>
+ <561a0092-3723-a95a-0208-d53cb475a532@redhat.com>
+ <7412CDE03601674DA8197E2EBD8937E83B9B6538@dggemm531-mbx.china.huawei.com>
+ <5a6483ec-9cab-58d9-872c-48762e96f768@redhat.com>
+In-Reply-To: <5a6483ec-9cab-58d9-872c-48762e96f768@redhat.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvazo_3pJzwCRkwjaLro2h=SR8xzJ3XFfDcFx_xtDfGOAtQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=kuhn.chenqun@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 06:21:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,91 +68,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "P. Berrange, Daniel" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>, Li
+ Qiang <liq3ea@gmail.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, ganqixin <ganqixin@huawei.com>,
+ Euler Robot <euler.robot@huawei.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/20 9:37 AM, Marc-André Lureau wrote:
-> On Wed, Oct 14, 2020 at 1:14 AM Philippe Mathieu-Daudé
-> <philmd@redhat.com> wrote:
->> On 10/13/20 10:25 PM, marcandre.lureau@redhat.com wrote:
->>> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
->>> index cec98c7e06..50e2854b45 100644
->>> --- a/qga/qapi-schema.json
->>> +++ b/qga/qapi-schema.json
->>> @@ -1306,3 +1306,35 @@
->>>    ##
->>>    { 'command': 'guest-get-devices',
->>>      'returns': ['GuestDeviceInfo'] }
->>> +
->>> +##
->>> +# @guest-ssh-add-authorized-keys:
->>> +#
->>> +# @username: the user account to add the authorized key
->>> +# @keys: the public keys to add (in OpenSSH format)
->>
->> You use plural but the code only seems to add (remove) one key
->> at a time.
-> 
-> Uh, what makes you believe that?
-
-The code in your patch:
-
-+static bool
-+check_openssh_pub_keys(strList *keys, size_t *nkeys, Error **errp)
-+{
-+    size_t n = 0;
-+    strList *k;
-+
-+    ERRP_GUARD();
-+
-+    for (k = keys; k != NULL; k = k->next) {
-+        if (!check_openssh_pub_key(k->value, errp)) {
-+            return false;
-+        }
-+        n++;
-+    }
-+
-+    if (nkeys) {
-+        *nkeys = n;
-+    }
-+    return true;
-+}
-
-> 
->>
->> 'OpenSSH format' is confusing. From sshd(8):
->>
->>     Each line of the file contains one key (empty lines and lines
->>     starting with a ‘#’ are ignored as comments).
->>
->>     Public keys consist of the following space-separated fields:
->>
->>       options, keytype, base64-encoded key, comment.
->>
->>     The options field is optional.
->>
->>     Note that lines in this file can be several hundred bytes long
->>     (because of the size of the public key encoding) up to a limit
->>     of 8 kilobytes, which permits RSA keys up to 16 kilobits.
->>
->>     The options (if present) consist of comma-separated option
->>     specifications.  No spaces are permitted, except within double
->>     quotes.
->>
->> @openssh_authorized_key_line is ugly, maybe use @authorized_key
->> to make it clearer?
-> 
-> Why? the name of the function already implies we are talking about
-> authorized keys. The documentation says it's a public key in openssh
-> format (the ones you expect in ~/.ssh/authorized_keys files)
-
-OK then.
-
-> 
-> Yes the format isn't very well defined, so I did simple sanity checks.
-> After all, people usually append keys with shell >>. I can't find a
-> common command to do it with some checking.
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBRZW11LWRldmVsDQo+IFttYWls
+dG86cWVtdS1kZXZlbC1ib3VuY2VzK2t1aG4uY2hlbnF1bj1odWF3ZWkuY29tQG5vbmdudS5vcmdd
+IE9uDQo+IEJlaGFsZiBPZiBNYXggUmVpdHoNCj4gU2VudDogV2VkbmVzZGF5LCBPY3RvYmVyIDE0
+LCAyMDIwIDU6MzYgUE0NCj4gVG86IENoZW5xdW4gKGt1aG4pIDxrdWhuLmNoZW5xdW5AaHVhd2Vp
+LmNvbT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsNCj4gcWVtdS10cml2aWFsQG5vbmdudS5vcmcN
+Cj4gQ2M6IGZhbUBldXBob24ubmV0OyBnYW5xaXhpbiA8Z2FucWl4aW5AaHVhd2VpLmNvbT47DQo+
+IHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbTsgWmhhbmdoYWlsaWFuZw0KPiA8emhhbmcuemhhbmdo
+YWlsaWFuZ0BodWF3ZWkuY29tPjsgcWVtdS1ibG9ja0Bub25nbnUub3JnOw0KPiBxdWludGVsYUBy
+ZWRoYXQuY29tOyBMaSBRaWFuZyA8bGlxM2VhQGdtYWlsLmNvbT47IGRnaWxiZXJ0QHJlZGhhdC5j
+b207DQo+IExhdXJlbnQgVml2aWVyIDxsYXVyZW50QHZpdmllci5ldT47IHN0ZWZhbmhhQHJlZGhh
+dC5jb207IEV1bGVyIFJvYm90DQo+IDxldWxlci5yb2JvdEBodWF3ZWkuY29tPjsganNub3dAcmVk
+aGF0LmNvbQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyXSBtaWdyYXRpb24vYmxvY2stZGlydHkt
+Yml0bWFwOiBmaXggdW5pbml0aWFsaXplZCB2YXJpYWJsZQ0KPiB3YXJuaW5nDQo+IA0KPiBPbiAx
+NC4xMC4yMCAwMzowMywgQ2hlbnF1biAoa3Vobikgd3JvdGU6DQo+ID4NCj4gPg0KPiA+PiAtLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBNYXggUmVpdHogW21haWx0bzptcmVp
+dHpAcmVkaGF0LmNvbV0NCj4gPj4gU2VudDogVHVlc2RheSwgT2N0b2JlciAxMywgMjAyMCAxMDo0
+NyBQTQ0KPiA+PiBUbzogQ2hlbnF1biAoa3VobikgPGt1aG4uY2hlbnF1bkBodWF3ZWkuY29tPjsN
+Cj4gcWVtdS1kZXZlbEBub25nbnUub3JnOw0KPiA+PiBxZW11LXRyaXZpYWxAbm9uZ251Lm9yZw0K
+PiA+PiBDYzogdnNlbWVudHNvdkB2aXJ0dW96em8uY29tOyBzdGVmYW5oYUByZWRoYXQuY29tOyBm
+YW1AZXVwaG9uLm5ldDsNCj4gPj4gZWJsYWtlQHJlZGhhdC5jb207IGpzbm93QHJlZGhhdC5jb207
+IHF1aW50ZWxhQHJlZGhhdC5jb207DQo+ID4+IGRnaWxiZXJ0QHJlZGhhdC5jb207IFpoYW5naGFp
+bGlhbmcgPHpoYW5nLnpoYW5naGFpbGlhbmdAaHVhd2VpLmNvbT47DQo+ID4+IGdhbnFpeGluIDxn
+YW5xaXhpbkBodWF3ZWkuY29tPjsgcWVtdS1ibG9ja0Bub25nbnUub3JnOyBFdWxlciBSb2JvdA0K
+PiA+PiA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT47IExhdXJlbnQgVml2aWVyIDxsYXVyZW50QHZp
+dmllci5ldT47IExpDQo+ID4+IFFpYW5nIDxsaXEzZWFAZ21haWwuY29tPg0KPiA+PiBTdWJqZWN0
+OiBSZTogW1BBVENIIHYyXSBtaWdyYXRpb24vYmxvY2stZGlydHktYml0bWFwOiBmaXgNCj4gPj4g
+dW5pbml0aWFsaXplZCB2YXJpYWJsZSB3YXJuaW5nDQo+ID4+DQo+ID4+IE9uIDEzLjEwLjIwIDE0
+OjMzLCBDaGVuIFF1biB3cm90ZToNCj4gPj4+IEEgZGVmYXVsdCB2YWx1ZSBpcyBwcm92aWRlZCBm
+b3IgdGhlIHZhcmlhYmxlICdiaXRtYXBfbmFtZScgdG8gYXZvaWQNCj4gPj4+IGNvbXBpbGVyDQo+
+ID4+IHdhcm5pbmcuDQo+ID4+Pg0KPiA+Pj4gVGhlIGNvbXBpbGVyIHNob3cgd2FybmluZzoNCj4g
+Pj4+IG1pZ3JhdGlvbi9ibG9jay1kaXJ0eS1iaXRtYXAuYzoxMDkwOjEzOiB3YXJuaW5nOiDigJhi
+aXRtYXBfbmFtZeKAmQ0KPiA+Pj4gbWF5IGJlIHVzZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1
+bmN0aW9uIFstV21heWJlLXVuaW5pdGlhbGl6ZWRdDQo+ID4+PiAgICAgICAgZ19zdHJsY3B5KHMt
+PmJpdG1hcF9uYW1lLCBiaXRtYXBfbmFtZSwNCj4gPj4gc2l6ZW9mKHMtPmJpdG1hcF9uYW1lKSk7
+DQo+ID4+Pg0KPiA+Pg0KPiBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiA+Pj4NCj4gPj4+IFJlcG9ydGVkLWJ5OiBFdWxlciBS
+b2JvdCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gPj4+IFNpZ25lZC1vZmYtYnk6IENoZW4g
+UXVuIDxrdWhuLmNoZW5xdW5AaHVhd2VpLmNvbT4NCj4gPj4+IC0tLQ0KPiA+Pj4gQ2M6IFZsYWRp
+bWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCj4gPj4+
+IENjOiBMYXVyZW50IFZpdmllciA8bGF1cmVudEB2aXZpZXIuZXU+DQo+ID4+PiBDYzogTGkgUWlh
+bmcgPGxpcTNlYUBnbWFpbC5jb20+DQo+ID4+PiAtLS0NCj4gPj4+ICBtaWdyYXRpb24vYmxvY2st
+ZGlydHktYml0bWFwLmMgfCA5ICsrLS0tLS0tLQ0KPiA+Pj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
+c2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pDQo+ID4+DQo+ID4+IE5vIG9iamVjdGlvbnMsIHNl
+bWFudGljYWxseSwgYnV0Li4uDQo+ID4+DQo+ID4+PiBkaWZmIC0tZ2l0IGEvbWlncmF0aW9uL2Js
+b2NrLWRpcnR5LWJpdG1hcC5jDQo+ID4+PiBiL21pZ3JhdGlvbi9ibG9jay1kaXJ0eS1iaXRtYXAu
+YyBpbmRleCA1YmVmNzkzYWMwLi5iY2I3OWMwNGNlIDEwMDY0NA0KPiA+Pj4gLS0tIGEvbWlncmF0
+aW9uL2Jsb2NrLWRpcnR5LWJpdG1hcC5jDQo+ID4+PiArKysgYi9taWdyYXRpb24vYmxvY2stZGly
+dHktYml0bWFwLmMNCj4gPj4+IEBAIC0xMDY0LDE1ICsxMDY0LDEzIEBAIHN0YXRpYyBpbnQNCj4g
+ZGlydHlfYml0bWFwX2xvYWRfaGVhZGVyKFFFTVVGaWxlDQo+ID4+ICpmLCBEQk1Mb2FkU3RhdGUg
+KnMsDQo+ID4+PiAgICAgIGFzc2VydChub3RoaW5nIHx8IHMtPmNhbmNlbGxlZCB8fCAhIWFsaWFz
+X21hcCA9PQ0KPiA+Pj4gISFiaXRtYXBfYWxpYXNfbWFwKTsNCj4gPj4+DQo+ID4+PiAgICAgIGlm
+IChzLT5mbGFncyAmIERJUlRZX0JJVE1BUF9NSUdfRkxBR19CSVRNQVBfTkFNRSkgew0KPiA+Pj4g
+LSAgICAgICAgY29uc3QgY2hhciAqYml0bWFwX25hbWU7DQo+ID4+PiAtDQo+ID4+PiAgICAgICAg
+ICBpZiAoIXFlbXVfZ2V0X2NvdW50ZWRfc3RyaW5nKGYsIHMtPmJpdG1hcF9hbGlhcykpIHsNCj4g
+Pj4+ICAgICAgICAgICAgICBlcnJvcl9yZXBvcnQoIlVuYWJsZSB0byByZWFkIGJpdG1hcCBhbGlh
+cyBzdHJpbmciKTsNCj4gPj4+ICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsNCj4gPj4+ICAg
+ICAgICAgIH0NCj4gPj4+DQo+ID4+PiAtICAgICAgICBpZiAoIXMtPmNhbmNlbGxlZCkgew0KPiA+
+Pj4gLSAgICAgICAgICAgIGlmIChiaXRtYXBfYWxpYXNfbWFwKSB7DQo+ID4+PiArICAgICAgICBj
+b25zdCBjaGFyICpiaXRtYXBfbmFtZSA9IHMtPmJpdG1hcF9hbGlhczsNCj4gPj4NCj4gPj4gcWVt
+deKAmXMgY29kaW5nIHN0eWxlIG1hbmRhdGVzIGRlY2xhcmF0aW9ucyB0byBiZSBwbGFjZWQgYXQg
+dGhlDQo+ID4+IGJlZ2lubmluZyBvZiB0aGVpciBibG9jaywgc28gdGhlIGRlY2xhcmF0aW9uIGhh
+cyB0byBzdGF5IHdoZXJlIGl0IGlzLg0KPiA+PiAoUHV0dGluZyB0aGUgYXNzaWdubWVudCBoZXJl
+IGxvb2tzIHJlYXNvbmFibGUuKQ0KPiA+Pg0KPiA+IEhpIE1heCwNCj4gPiAgIERlY2xhcmF0aW9u
+IHZhcmlhYmxlcyBoZXJlIHRvIGVuc3VyZSB0aGF0IHRoZSBhYm92ZSBleGNlcHRpb25zKFVuYWJs
+ZSB0bw0KPiByZWFkIGJpdG1hcCBhbGlhcyBzdHJpbmcpIGFyZSBhdm9pZGVkLg0KPiA+IElmIHRo
+ZSBkZWNsYXJhdGlvbiBoYXMgdG8gc3RheSB3aGVyZSBpdCBpcywgaXMgdGhlcmUgYSBwb3NzaWJp
+bGl0eSB0aGF0IHRoZQ0KPiBhc3NpZ25tZW50IGZhaWxzPw0KPiANCj4gSSBkb27igJl0IHVuZGVy
+c3RhbmQgd2hhdCB5b3UgbWVhbi4gIA0KDQpJIHRoaW5rIG15IGRlc2NyaXB0aW9uIGlzIG5vdCBh
+Y2N1cmF0ZS4gRm9yZ2l2ZSBtZSBmb3IgYmVpbmcgYSBub24tbmF0aXZlIEVuZ2xpc2ggc3BlYWtl
+ci4NClRoZSB2YXJpYWJsZSAnYml0bWFwX25hbWUnIGFzc2lnbm1lbnQgbWF5YmUgZmFpbGVkIGF0
+IHRoZSBiZWdpbm5pbmcgb2YgdGhlIGJsb2NrLCBiZWNhdXNlIHJlYWRpbmcgdGhlICdzLT5iaXRt
+YXBfYWxpYXMnIG1heWJlIGZhaWxlZC4NCg0KPkEgZGVjbGFyYXRpb24gd2l0aG91dCBpbml0aWFs
+aXphdGlvbiBpc27igJl0DQo+IGFuZCBkb2VzbuKAmXQgY29udGFpbiBhbiBleHByZXNzaW9uLCBp
+dCBpc27igJl0IGV2ZW4gYSBzdGF0ZW1lbnQsIHNvIGl0IGhhcyBubyBzaWRlDQo+IGVmZmVjdHMu
+WzFdDQo+IA0KPiBQbGFjaW5nIHRoZSBkZWNsYXJhdGlvbiAod2l0aG91dCBhbiBpbml0aWFsaXph
+dGlvbikgYXQgdGhlIHRvcCBvZiB0aGUgYmxvY2sgbWFrZXMNCj4gbm8gc2VtYW50aWMgZGlmZmVy
+ZW5jZS4NCj4NCkkgc2VlIHdoYXQgeW91IG1lYW4uIFNlcGFyYXRlIHZhcmlhYmxlIGRlY2xhcmF0
+aW9ucyBmcm9tIHZhcmlhYmxlIGFzc2lnbm1lbnRzLg0KWW91J3JlIHJpZ2h0ISAgSSB3aWxsIHVw
+ZGF0ZSBpdCBsYXRlci4NCg0KVGhhbmtzLA0KQ2hlbiBRdW4NCj4gKEFzIEkgc2FpZCwgSeKAmWQg
+a2VlcCB0aGUgYXNzaWdubWVudCDigJxiaXRtYXBfbmFtZSA9IHMtPmJpdG1hcF9hbGlhc+KAnQ0K
+PiB3aGVyZSB5b3UgcHV0IGl0LiAgSSB0aGluayBpdCB3b3VsZCB0ZWNobmljYWxseSBhY3R1YWxs
+eSBiZSBjb3JyZWN0IHRvIHB1dCBpdCBpbnRvDQo+IHRoZSBkZWNsYXJhdGlvbiBhdCB0aGUgc3Rh
+cnQgb2YgdGhlIGJsb2NrIGFzIGFuIGluaXRpYWxpemVyLCBidXQgdGhhdCB3b3VsZCBsb29rDQo+
+IHdlaXJkLikNCj4gDQo+IE1heA0KPiANCj4gWzFdIEkgc3VwcG9zZSBleGNlcHRpb25zIGFwcGx5
+IGZvciB0eXBlcyB3aXRoIGNvbnN0cnVjdG9ycywgYnV0IHRob3NlIGRvbuKAmXQNCj4gZXhpc3Qg
+aW4gcGxhaW4gQy4NCg0K
 
