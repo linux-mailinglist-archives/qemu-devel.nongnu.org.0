@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8AC28E259
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:39:08 +0200 (CEST)
-Received: from localhost ([::1]:42964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FEFF28E26E
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:42:16 +0200 (CEST)
+Received: from localhost ([::1]:52210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kShvi-000506-3d
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:39:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36540)
+	id 1kShyp-0000hF-3I
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShnU-0004Vd-IX
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42129)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShnc-0004jB-BM
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShnR-0005cQ-Pz
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShna-0005i2-26
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602685828;
+ s=mimecast20190719; t=1602685837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xI4kIlRMsy4gROBH8bFwc2C0BQT4lqPEiCEvZx/j/Yw=;
- b=VosxK3bYMKf6Tq6kNYlB4r/AVRSgC/LdCo0H4D9IjiP5NZeR2aghiffqlAQ0YAVWE/JIUu
- vf5KPwMFy9VjMAg+7xvh5J9q1vPkg+6aq4TkY1aUqsRGStDD/HltvKkmUG8NH589YYnlxo
- n/3brlk7I+DNg38J/0z/uiSi3clHUR4=
+ bh=kcwfd+/+MZ7OjGERYJDRr402Q9HSZa8LT8zHsdi5Jbo=;
+ b=hq7RMCvRgTm8cMllrEi+9OqS4oGlKerp3j7h49xmHKg7ShhQRaDVY9TBraDyIBf6+XYexL
+ sUk6mmhCkYCFfjdndb/Mp0R5aws7fCYE8wB+L8GMqf2wllYo5u16KgbYZR4WmFf2oDWK8M
+ VTBTGiD8ONkvXqhnNxsMYEvkLLpzCj0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-vARCMHNDP8KYbFE1RekSJg-1; Wed, 14 Oct 2020 10:30:24 -0400
-X-MC-Unique: vARCMHNDP8KYbFE1RekSJg-1
+ us-mta-466-a23eSDIEN-qVfyYiX2APRg-1; Wed, 14 Oct 2020 10:30:26 -0400
+X-MC-Unique: a23eSDIEN-qVfyYiX2APRg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43F1718BE16E;
- Wed, 14 Oct 2020 14:30:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB51010866B0;
+ Wed, 14 Oct 2020 14:30:24 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-231.rdu2.redhat.com [10.10.117.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96A7D76649;
- Wed, 14 Oct 2020 14:30:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6645C76649;
+ Wed, 14 Oct 2020 14:30:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/15] python: add directory structure README.rst files
-Date: Wed, 14 Oct 2020 10:29:46 -0400
-Message-Id: <20201014142957.763624-5-jsnow@redhat.com>
+Subject: [PATCH v2 05/15] python: Add pipenv support
+Date: Wed, 14 Oct 2020 10:29:47 -0400
+Message-Id: <20201014142957.763624-6-jsnow@redhat.com>
 In-Reply-To: <20201014142957.763624-1-jsnow@redhat.com>
 References: <20201014142957.763624-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -93,85 +93,60 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add short readmes to python/, python/qemu/, and python/qemu/core that
-explain the directory hierarchy. These readmes are visible when browsing
-the source on e.g. gitlab/github and are designed to help new
-developers/users quickly make sense of the source tree.
+pipenv is a tool used for managing virtual environments with pinned,
+explicit dependencies. It is used for precisely recreating python
+virtual environments.
 
-They are not designed for inclusion in a published manual.
+pipenv uses two files to do this:
+
+(1) Pipfile, which is similar in purpose and scope to what setup.py
+lists. It specifies the requisite minimum to get a functional
+environment for using this package.
+
+(2) Pipfile.lock, which is similar in purpose to `pip freeze >
+requirements.txt`. It specifies a canonical virtual environment used for
+deployment or testing. This ensures that all users have repeatable
+results.
+
+The primary benefit of using this tool is to ensure repeatable CI
+results with a known set of packages. Although I endeavor to support as
+many versions as I can, the fluid nature of the Python toolchain often
+means tailoring code for fairly specific versions.
+
+Note that pipenv is *not* required to install or use this module; this is
+purely for the sake of repeatable testing by CI or developers.
+
+Here, a "blank" pipfile is added with no dependencies, but specifies
+Python 3.6 for the virtual environment.
+
+Pipfile will specify our version minimums, while Pipfile.lock specifies
+an exact loudout of packages that were known to operate correctly. This
+latter file provides the real value for easy setup of container images
+and CI environments.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/README.rst           | 27 +++++++++++++++++++++++++++
- python/qemu/README.rst      |  8 ++++++++
- python/qemu/core/README.rst |  9 +++++++++
- 3 files changed, 44 insertions(+)
- create mode 100644 python/README.rst
- create mode 100644 python/qemu/README.rst
- create mode 100644 python/qemu/core/README.rst
+ python/Pipfile | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 python/Pipfile
 
-diff --git a/python/README.rst b/python/README.rst
+diff --git a/python/Pipfile b/python/Pipfile
 new file mode 100644
-index 0000000000..fcc0552ec4
+index 0000000000..9534830b5e
 --- /dev/null
-+++ b/python/README.rst
-@@ -0,0 +1,27 @@
-+QEMU Python Tooling
-+===================
++++ b/python/Pipfile
+@@ -0,0 +1,11 @@
++[[source]]
++name = "pypi"
++url = "https://pypi.org/simple"
++verify_ssl = true
 +
-+This directory houses Python tooling used by the QEMU project to build,
-+configure, and test QEMU. It is organized by namespace (``qemu``), and
-+then by package (``qemu/core``).
++[dev-packages]
 +
-+``setup.py`` is used by ``pip`` to install this tooling to the current
-+environment. You will generally invoke it by doing one of the following:
++[packages]
 +
-+1. ``pip3 install .`` will install these packages to your current
-+   environment. If you are inside a virtual environment, they will
-+   install there. If you are not, it will attempt to install to the
-+   global environment, which is not recommended.
-+
-+2. ``pip3 install --user .`` will install these packages to your user's
-+   local python packages. If you are inside of a virtual environment,
-+   this will fail.
-+
-+If you amend the ``-e`` argument, pip will install in "editable" mode;
-+which installs a version of the package that uses symlinks to these
-+files, such that the package always reflects the latest version in your
-+git tree.
-+
-+See `Installing packages using pip and virtual environments
-+<https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
-+for more information.
-diff --git a/python/qemu/README.rst b/python/qemu/README.rst
-new file mode 100644
-index 0000000000..31209c80a5
---- /dev/null
-+++ b/python/qemu/README.rst
-@@ -0,0 +1,8 @@
-+QEMU Python Namespace
-+=====================
-+
-+This directory serves as the root of a `Python PEP 420 implicit
-+namespace package <<https://www.python.org/dev/peps/pep-0420/>`_.
-+
-+Each directory below is assumed to be an installable Python package that
-+is available under the ``qemu.<package>`` namespace.
-diff --git a/python/qemu/core/README.rst b/python/qemu/core/README.rst
-new file mode 100644
-index 0000000000..91668e00bd
---- /dev/null
-+++ b/python/qemu/core/README.rst
-@@ -0,0 +1,9 @@
-+qemu.core Package
-+=================
-+
-+This package provides core utilities used for testing and debugging
-+QEMU. It is used by the iotests, vm tests, and several other utilities
-+in the ./scripts directory. It is not a fully-fledged SDK and it is
-+subject to change at any time.
-+
-+See the documentation in ``__init__.py`` for more information.
++[requires]
++python_version = "3.6"
 -- 
 2.26.2
 
