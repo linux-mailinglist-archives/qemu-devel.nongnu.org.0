@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D961728E1CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:01:38 +0200 (CEST)
-Received: from localhost ([::1]:41862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54C328E1C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 15:58:48 +0200 (CEST)
+Received: from localhost ([::1]:35816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kShLV-0003zC-V2
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:01:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
+	id 1kShIl-0001Ti-P5
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 09:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kShEb-0005vZ-DU
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 09:54:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28131)
+ id 1kShEf-0005y7-5f
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 09:54:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kShEZ-0000c7-GI
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 09:54:29 -0400
+ id 1kShEc-0000cU-3W
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 09:54:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602683666;
+ s=mimecast20190719; t=1602683669;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n+PGM3zGIKZB3I79C4CK+uDL7NNIxjqsQYt+VZFCahc=;
- b=ayJggQwDR3d1bCP0CjdebZjtBjdTV3mdrdQ4bxD6KlndA2vu0MnJc6j4t2+D5JW7f+QM9e
- ESeXBuCoy8x/QYXsGI8TnbkYEa59KVEdScIxHDFf+Yhbi4GD9hXovnKEDE2wmE0KitbEjF
- RADJk8ng6F9yXM5EKwI4e0b7V8OhwFU=
+ bh=7iWXDfvyXvYhnFDcGM/wNE99WJJT6Ar7wiO1/fJ0Kz0=;
+ b=i7lrQRjj1WgA9cG3+XfnokDbfglOgAwZGcyhDIwW1Ig6rqDdAC9D7N/fdmYKNttnDPq6b3
+ JsNMIs+4dKcb3xnVlzfo559D7HBVxcckIQ58TvTdk8YaG9KCS1P2Q5J1PoJn8B26znt9x4
+ wbX46IyrmRAy1rvf9prpNK0365nnqJI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-wpxYsdknMdisubNtiRCn2A-1; Wed, 14 Oct 2020 09:54:24 -0400
-X-MC-Unique: wpxYsdknMdisubNtiRCn2A-1
+ us-mta-4-bS8o7aa_OSOpJHCFhm85qQ-1; Wed, 14 Oct 2020 09:54:27 -0400
+X-MC-Unique: bS8o7aa_OSOpJHCFhm85qQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62D281084D63;
- Wed, 14 Oct 2020 13:54:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DCC159;
+ Wed, 14 Oct 2020 13:54:26 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74B8E60C15;
- Wed, 14 Oct 2020 13:54:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8508560C0F;
+ Wed, 14 Oct 2020 13:54:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] configure: move QEMU_INCLUDES to meson
-Date: Wed, 14 Oct 2020 09:54:13 -0400
-Message-Id: <20201014135416.1290679-5-pbonzini@redhat.com>
+Subject: [PATCH 5/7] dockerfiles: enable Centos 8 PowerTools
+Date: Wed, 14 Oct 2020 09:54:14 -0400
+Message-Id: <20201014135416.1290679-6-pbonzini@redhat.com>
 In-Reply-To: <20201014135416.1290679-1-pbonzini@redhat.com>
 References: <20201014135416.1290679-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -85,110 +85,27 @@ Cc: berrange@redhat.com, alex.bennee@linaro.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Confusingly, QEMU_INCLUDES is not used by configure tests.  Moving
-it to meson.build ensures that Windows paths are specified instead of
-the msys paths like /c/Users/...
+ninja is included in the CentOS PowerTools repository.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 20 --------------------
- meson.build | 30 ++++++++++++++++++++++++++++--
- 2 files changed, 28 insertions(+), 22 deletions(-)
+ tests/docker/dockerfiles/centos8.docker | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/configure b/configure
-index b553288c5e..804b7115ab 100755
---- a/configure
-+++ b/configure
-@@ -536,8 +536,6 @@ QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
- QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
--QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
--QEMU_INCLUDES="$QEMU_INCLUDES -iquote ${source_path}/disas/libvixl"
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 0fc2697491..e31d366fc1 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -1,6 +1,9 @@
+ FROM centos:8.1.1911
  
- # Flags that are needed during configure but later taken care of by Meson
- CONFIGURE_CFLAGS="-std=gnu99 -Wall"
-@@ -795,7 +793,6 @@ Linux)
-   audio_possible_drivers="oss alsa sdl pa"
-   linux="yes"
-   linux_user="yes"
--  QEMU_INCLUDES="-isystem ${source_path}/linux-headers -Ilinux-headers $QEMU_INCLUDES"
- ;;
- esac
- 
-@@ -6918,22 +6915,6 @@ if test "$secret_keyring" = "yes" ; then
-   echo "CONFIG_SECRET_KEYRING=y" >> $config_host_mak
- fi
- 
--if test "$tcg_interpreter" = "yes"; then
--  QEMU_INCLUDES="-iquote ${source_path}/tcg/tci $QEMU_INCLUDES"
--elif test "$ARCH" = "sparc64" ; then
--  QEMU_INCLUDES="-iquote ${source_path}/tcg/sparc $QEMU_INCLUDES"
--elif test "$ARCH" = "s390x" ; then
--  QEMU_INCLUDES="-iquote ${source_path}/tcg/s390 $QEMU_INCLUDES"
--elif test "$ARCH" = "x86_64" || test "$ARCH" = "x32" ; then
--  QEMU_INCLUDES="-iquote ${source_path}/tcg/i386 $QEMU_INCLUDES"
--elif test "$ARCH" = "ppc64" ; then
--  QEMU_INCLUDES="-iquote ${source_path}/tcg/ppc $QEMU_INCLUDES"
--elif test "$ARCH" = "riscv32" || test "$ARCH" = "riscv64" ; then
--  QEMU_INCLUDES="-I${source_path}/tcg/riscv $QEMU_INCLUDES"
--else
--  QEMU_INCLUDES="-iquote ${source_path}/tcg/${ARCH} $QEMU_INCLUDES"
--fi
--
- echo "ROMS=$roms" >> $config_host_mak
- echo "MAKE=$make" >> $config_host_mak
- echo "PYTHON=$python" >> $config_host_mak
-@@ -6960,7 +6941,6 @@ echo "WINDRES=$windres" >> $config_host_mak
- echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
- echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
- echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
--echo "QEMU_INCLUDES=$QEMU_INCLUDES" >> $config_host_mak
- echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
- echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
- echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 652c37cceb..a1146522e2 100644
---- a/meson.build
-+++ b/meson.build
-@@ -93,9 +93,35 @@ add_project_arguments(config_host['QEMU_CXXFLAGS'].split(),
-                       native: false, language: 'cpp')
- add_project_link_arguments(config_host['QEMU_LDFLAGS'].split(),
-                            native: false, language: ['c', 'cpp', 'objc'])
--add_project_arguments(config_host['QEMU_INCLUDES'].split(),
--                      language: ['c', 'cpp', 'objc'])
- 
-+if targetos == 'linux'
-+  add_project_arguments('-isystem', meson.current_source_dir() / 'linux-headers',
-+                        '-isystem', 'linux-headers',
-+                        language: ['c', 'cpp'])
-+endif
++RUN dnf -y install dnf-plugins-core
++RUN dnf config-manager --set-enabled PowerTools
+ RUN dnf -y update
 +
-+if 'CONFIG_TCG_INTERPRETER' in config_host
-+  tcg_arch = 'tci'
-+elif config_host['ARCH'] == 'sparc64'
-+  tcg_arch = 'sparc'
-+elif config_host['ARCH'] == 's390x'
-+  tcg_arch = 's390'
-+elif config_host['ARCH'] in ['x86_64', 'x32']
-+  tcg_arch = 'i386'
-+elif config_host['ARCH'] == 'ppc64'
-+  tcg_arch = 'ppc'
-+elif config_host['ARCH'] in ['riscv32', 'riscv64']
-+  tcg_arch = 'riscv'
-+else
-+  tcg_arch = config_host['ARCH']
-+endif
-+add_project_arguments('-iquote', meson.current_source_dir() / 'tcg' / tcg_arch,
-+                      '-iquote', '.',
-+                      '-iquote', meson.current_source_dir(),
-+                      '-iquote', meson.current_source_dir() / 'accel/tcg',
-+                      '-iquote', meson.current_source_dir() / 'include',
-+                      '-iquote', meson.current_source_dir() / 'disas/libvixl',
-+                      language: ['c', 'cpp', 'objc'])
- 
- link_language = meson.get_external_property('link_language', 'cpp')
- if link_language == 'cpp'
+ ENV PACKAGES \
+     SDL-devel \
+     bzip2 \
 -- 
 2.26.2
 
