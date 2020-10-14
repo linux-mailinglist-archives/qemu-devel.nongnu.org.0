@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F5328E2B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 17:01:24 +0200 (CEST)
-Received: from localhost ([::1]:46224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E118428E2E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 17:13:23 +0200 (CEST)
+Received: from localhost ([::1]:47582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSiHL-0005PV-Lx
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 11:01:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42466)
+	id 1kSiSw-00017Z-Sp
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 11:13:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kSiBn-0000OI-P9
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:55:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50242)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kSi9g-0005o9-4F
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:53:28 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kSiBl-0000ap-MZ
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:55:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kSiBk-00051r-0p
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 14:55:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F2FEE2E80DF
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 14:55:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kSi9e-0000At-Ft
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:53:27 -0400
+Received: by mail-wr1-x441.google.com with SMTP id s9so4213968wro.8
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 07:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=55dJtGWWWP4DPdGW1STzyUry5W/enADTZs1V1NZOVpk=;
+ b=WFnTVvwpGNGHmrQhXNd60wKrgiyat8qXCb2B2+I+aUcjpBVU59QBW5bMSgnCSgt1nN
+ LIaeMEbSKMs9tnka5FgZFE2sbLg1CmzGRKbjhhdVPyJUNfU5Vbzn3/rmDJiR8wBj6vQ0
+ OVs+/LdqxFLYoz9F1VY/aPSaFybhrBp+u5rcOiRkHLA0+Z/6/mK/SrKXOnRM3MKMGMAr
+ w0mWf8bD9W23x+P3/BS+dP5yJVQ71g/uodLKbk7qE3TxjBomYV9Jn6yj9Cvw5k+6xkCr
+ t8JMCTMZUmPV6IFKizcvaC9aXGkpN2vUANhW4zkJpgWGpYQaAALdibLGsikBD3TAwopt
+ WzAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=55dJtGWWWP4DPdGW1STzyUry5W/enADTZs1V1NZOVpk=;
+ b=EgiwBH96RYTIiQ6xNHFq0JI27n3RWXiEJU/ChaU3YlDYsQ6R+98bpxpEc3NrJQoWRj
+ 0JE5VsEU8oDfS2XFMqVbUocbAZWHL+rxAtpkH+zRI+tnV/kXcYrxScjcf/4C8uyiUIGn
+ nDM+Z8zjwPeIWGYAY5vrrxjNQyh8Y5QSt57tsW9h1WpS2dguy/tktlbRuYh2QWVKdpZg
+ wKdzZ1DS4FDdxjhH2/OoODH5B+7DRmpi+YhPJHXQiZ7YIuqWKl0WXWLEX+RfsXN8BO0q
+ 2mpc7y6qIeypemSL7JpNlMptXPHjWhZsFlv+KGYH9iN8zNl2pmN2JsbEIPjdKmMkOCXW
+ 6TdQ==
+X-Gm-Message-State: AOAM533ksoq9Q60Z3q/13fx7gk1J9M1Iz9NuA+NAa8WoS0NXksWqj498
+ xoPBU+bz4KpafcX8O8+ojZY=
+X-Google-Smtp-Source: ABdhPJyQB02JSGOfwvnIC4gj6QV2FIBXd7WG5GjJwClwv7goXR4euh2K8BxqJRCn06nURai43imOvw==
+X-Received: by 2002:adf:f4ca:: with SMTP id h10mr5789274wrp.89.1602687204961; 
+ Wed, 14 Oct 2020 07:53:24 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id f7sm5624902wrx.64.2020.10.14.07.53.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Oct 2020 07:53:24 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/3] target/mips: Make the number of TLB entries a CPU
+ property
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ "Victor Kamensky (kamensky)" <kamensky@cisco.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20201013132535.3599453-1-f4bug@amsat.org>
+ <BYAPR11MB30479E5264D94EF903E9FD92CD040@BYAPR11MB3047.namprd11.prod.outlook.com>
+ <515ec755fd8d7219040283f0c27346d762ee3c29.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ea0ed6c7-1e3a-f7ee-a962-b471555e362d@amsat.org>
+Date: Wed, 14 Oct 2020 16:53:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Oct 2020 14:49:49 -0000
-From: Thomas Huth <1899728@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell th-huth tometzki
-X-Launchpad-Bug-Reporter: Damian Tometzki (tometzki)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160265051683.3148.7226301603216219676.malonedeb@soybean.canonical.com>
-Message-Id: <160268698919.15262.16868699638143156965.malone@chaenomeles.canonical.com>
-Subject: [Bug 1899728] Re: Qemu-5.1.0 build from source man entry not found
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="781851f4dc11c93bc506eb54e6a0d35c919a1ce6"; Instance="production"
-X-Launchpad-Hash: bf6ecd6e26140a15b20ede29fd0c1aa6e19c5ef7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 10:55:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <515ec755fd8d7219040283f0c27346d762ee3c29.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,51 +95,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1899728 <1899728@bugs.launchpad.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <rth@twiddle.net>, Khem Raj <raj.khem@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is only one shared man-page for all qemu-system-xxx binaries ...
-have you tried to simply run "man qemu" ?
+On 10/14/20 9:14 AM, Richard Purdie wrote:
+> On Wed, 2020-10-14 at 01:36 +0000, Victor Kamensky (kamensky) wrote:
+>> Thank you very much for looking at this. I gave a spin to
+>> your 3 patch series in original setup, and as expected with
+>> '-cpu 34Kf,tlb-entries=64' option it works great.
+>>
+>> If nobody objects, and your patches could be merged, we
+>> would greatly appreciate it.
+> 
+> Speaking as one of the Yocto Project maintainers, this is really
+> helpful for us, thanks!
+> 
+> qemumips is one of our slowest platforms for automated testing so this
+> performance improvement helps a lot.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Could you try Richard's suggestion? Using '-cpu P5600' instead?
+It is available in Linux since v5.8.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1899728
-
-Title:
-  Qemu-5.1.0 build from source man entry not found
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hello together,
-
-  i build qemu-5.1.0 from source on centos 8 withe the following
-  command:
-
-  ../configure --prefix=3D/usr --target-list=3Dx86_64-softmmu,x86_64-linux-
-  user
-
-  make -j4
-
-  make install
-
-  The build and the installation finished successfully. But when i try
-  the command
-
-  man qemu-system-x86_64
-
-  i got the message "No manual entry found". What i do wrong ?
-
-  Best regards
-  Damian
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1899728/+subscriptions
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 
