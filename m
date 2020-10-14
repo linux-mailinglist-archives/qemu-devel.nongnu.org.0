@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2C228E236
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:32:54 +0200 (CEST)
-Received: from localhost ([::1]:54312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9D128E243
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 16:35:01 +0200 (CEST)
+Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kShpl-000602-G4
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:32:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36448)
+	id 1kShro-0000Pd-OX
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 10:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShnM-0004H5-RG
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41372)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShnP-0004KS-6Q
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShnK-0005YV-Fi
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:24 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kShnK-0005Yf-Qm
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:30:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602685821;
+ s=mimecast20190719; t=1602685822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nkWiUjvNADpjvr/+VDXIBgW9PW8F3GWGhJsIZt6ik5E=;
- b=VJfrwnBNWKaMmIkdEI9TU8FLf8hwYW4+QE8NbKbIZYo9UDdLubdMenO56HSpvhwX8jL9Ja
- kIiGgpy30E/CUhuFIVb//TlkO0+kewupnC7pbelhHesdRG/Bcme6UstNFNwjuWtOEKkvHo
- WcOwbrP7vV5jxOFTFlFC1XKwxWSTivw=
+ bh=w7F9CMa69LWOgp13clnjd1wbVi1JDW9Rrb2gYvnzO3U=;
+ b=GHxtIzmQz3oFXSwp1ePT0Wjb1av8Sjv8dfX12nurbo6hPDRuOi+cChJyoj4RMYNLMp4DuU
+ VJ1Zn+/6ZR9ip54gb7Ir+pCx8GbWLVMTI39P/1JUplOtGmAkAkAs0LhN1m97tLbo+UQDo1
+ CEVSgV0XgtmFukP9rcrowcvl/7ZEVX8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-jedh3lEPPL63I6dU0QMlBg-1; Wed, 14 Oct 2020 10:30:18 -0400
-X-MC-Unique: jedh3lEPPL63I6dU0QMlBg-1
+ us-mta-295-TF27nHnaN4WJFl7z2zDRjw-1; Wed, 14 Oct 2020 10:30:20 -0400
+X-MC-Unique: TF27nHnaN4WJFl7z2zDRjw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF76410866AD;
- Wed, 14 Oct 2020 14:30:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74C6087950D;
+ Wed, 14 Oct 2020 14:30:18 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-231.rdu2.redhat.com [10.10.117.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 224F876649;
- Wed, 14 Oct 2020 14:30:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F0D3E76649;
+ Wed, 14 Oct 2020 14:30:16 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/15] python: add qemu package installer
-Date: Wed, 14 Oct 2020 10:29:44 -0400
-Message-Id: <20201014142957.763624-3-jsnow@redhat.com>
+Subject: [PATCH v2 03/15] python: add VERSION file
+Date: Wed, 14 Oct 2020 10:29:45 -0400
+Message-Id: <20201014142957.763624-4-jsnow@redhat.com>
 In-Reply-To: <20201014142957.763624-1-jsnow@redhat.com>
 References: <20201014142957.763624-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +55,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 03:37:33
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,110 +93,73 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add setup.cfg and setup.py, necessary for installing a package via
-pip. Add a rst document explaining the basics of what this package is
-for and who to contact for more information. This document will be used
-as the landing page for the package on PyPI.
+Python infrastructure as it exists today is not capable reliably of
+single-sourcing a package version from a parent directory. The authors
+of pip are working to correct this, but as of today this is not possible
+to my knowledge.
 
-I am not yet using a pyproject.toml style package manifest, because
-using pyproject.toml (and PEP-517) style packages means that pip is not
-able to install in "editable" or "develop" mode, which I consider
-necessary for the development of this package.
+The problem is that when using pip to build and install a python
+package, it copies files over to a temporary directory and performs its
+build there. This loses access to any information in the parent
+directory, including git itself.
 
-Use a light-weight setup.py instead.
+Further, Python versions have a standard (PEP 440) that may or may not
+follow QEMU's versioning. In general, it does; but naturally QEMU does
+not follow PEP 440. To avoid any automatically-generated conflict, a
+manual version file is preferred.
+
+
+I am proposing:
+
+- Python core tooling synchronizes with the QEMU version directly
+  (5.2.0, 5.1.1, 5.3.0, etc.)
+
+- In the event that a Python package needs to be updated independently
+  of the QEMU version, a pre-release alpha version should be preferred,
+  but *only* after inclusion to the qemu development or stable branches.
+
+  e.g. 5.2.0a1, 5.2.0a2, and so on should be preferred prior to 5.2.0's
+  release.
+
+- The Python core tooling makes absolutely no version compatibility
+  checks or constraints. It *may* work with releases of QEMU from the
+  past or future, but it is not required to.
+
+  i.e., "qemu.core" will always remain in lock-step with QEMU.
+
+- We reserve the right to split out e.g. qemu.core.qmp to qemu.qmp
+  and begin indepedently versioning such a package separately from the
+  QEMU version it accompanies.
+
+
+Implement this versioning scheme by adding a VERSION file and setting it
+to 5.2.0a1.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/PACKAGE.rst | 23 +++++++++++++++++++++++
- python/setup.cfg   | 18 ++++++++++++++++++
- python/setup.py    | 23 +++++++++++++++++++++++
- 3 files changed, 64 insertions(+)
- create mode 100644 python/PACKAGE.rst
- create mode 100755 python/setup.cfg
- create mode 100755 python/setup.py
+ python/VERSION   | 1 +
+ python/setup.cfg | 1 +
+ 2 files changed, 2 insertions(+)
+ create mode 100644 python/VERSION
 
-diff --git a/python/PACKAGE.rst b/python/PACKAGE.rst
+diff --git a/python/VERSION b/python/VERSION
 new file mode 100644
-index 0000000000..6e82f05606
+index 0000000000..2e81039c82
 --- /dev/null
-+++ b/python/PACKAGE.rst
-@@ -0,0 +1,23 @@
-+QEMU Python Tooling
-+===================
-+
-+This package provides QEMU tooling used by the QEMU project to build,
-+configure, and test QEMU. It is not a fully-fledged SDK and it is subject
-+to change at any time.
-+
-+Usage
-+-----
-+
-+The ``qemu.core`` subpackage offers rudimentary facilities for launching
-+QEMU and communicating with it via QMP. Refer to the module documentation
-+(``>>> help(qemu.core)``) for more information.
-+
-+Contributing
-+------------
-+
-+This package is maintained by John Snow <jsnow@redhat.com> as part of
-+the QEMU source tree. Contributions are welcome and follow the `QEMU
-+patch submission process
-+<https://wiki.qemu.org/Contribute/SubmitAPatch>`_. There is a `Gitlab
-+mirror <https://gitlab.com/jsnow/qemu/-/tree/python>`_, but
-+contributions must be sent to the list for inclusion.
++++ b/python/VERSION
+@@ -0,0 +1 @@
++5.2.0a1
 diff --git a/python/setup.cfg b/python/setup.cfg
-new file mode 100755
-index 0000000000..12b99a796e
---- /dev/null
+index 12b99a796e..260f7f4e94 100755
+--- a/python/setup.cfg
 +++ b/python/setup.cfg
-@@ -0,0 +1,18 @@
-+[metadata]
-+name = qemu
-+maintainer = QEMU Developer Team
-+maintainer_email = qemu-devel@nongnu.org
-+url = https://www.qemu.org/
-+download_url = https://www.qemu.org/download/
-+description = QEMU Python Build, Debug and SDK tooling.
-+long_description = file:PACKAGE.rst
-+long_description_content_type = text/x-rst
-+classifiers =
-+    Development Status :: 3 - Alpha
-+    License :: OSI Approved :: GNU General Public License v2 (GPLv2)
-+    Natural Language :: English
-+    Operating System :: OS Independent
-+
-+[options]
-+python_requires = >= 3.6
-+packages = find_namespace:
-diff --git a/python/setup.py b/python/setup.py
-new file mode 100755
-index 0000000000..e93d0075d1
---- /dev/null
-+++ b/python/setup.py
-@@ -0,0 +1,23 @@
-+#!/usr/bin/env python3
-+"""
-+QEMU tooling installer script
-+Copyright (c) 2020 John Snow for Red Hat, Inc.
-+"""
-+
-+import setuptools
-+import pkg_resources
-+
-+
-+def main():
-+    """
-+    QEMU tooling installer
-+    """
-+
-+    # https://medium.com/@daveshawley/safely-using-setup-cfg-for-metadata-1babbe54c108
-+    pkg_resources.require('setuptools>=39.2')
-+
-+    setuptools.setup()
-+
-+
-+if __name__ == '__main__':
-+    main()
+@@ -1,5 +1,6 @@
+ [metadata]
+ name = qemu
++version = file:VERSION
+ maintainer = QEMU Developer Team
+ maintainer_email = qemu-devel@nongnu.org
+ url = https://www.qemu.org/
 -- 
 2.26.2
 
