@@ -2,115 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001FC28E4AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:41:46 +0200 (CEST)
-Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B1B28E505
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 19:06:30 +0200 (CEST)
+Received: from localhost ([::1]:44448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSjqT-0008UJ-Vp
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:41:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38058)
+	id 1kSkEP-0005m4-Md
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 13:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kSjo7-0007GE-Vh; Wed, 14 Oct 2020 12:39:19 -0400
-Received: from mail-eopbgr60099.outbound.protection.outlook.com
- ([40.107.6.99]:59450 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kSjo5-00061N-CL; Wed, 14 Oct 2020 12:39:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SAoNqW01s7QlD9Rt8d5yolxXuDsFQW/y+jDqrYJKTMoc/Uo7qr9nA45dnNN37YRP7jbOdd0JA6NUDIBkpN+LZWsz2bU+6kKplS8e1/ly/dcxZTPydA9GgJU10GirTEJCecnBMSwF3qf62AyiBawqZgP5Go6lVBdMhPvj4vBFP3AJZnkHIoeZcCRMRM5ov/odVXAcMvayeZ6OcYhaat4LmJ5o6PFMetM3H8vuhyEEFH5wK9Lllt5ElNUMU3wHHP2oEG5xl5UB5Uy51v/t/qMNGUaMQw5cVmlYkQtqD8F2iQ9EerErH3bmhgb1VeOhAQmi9LsMttWWoKbF9LE0reWgsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fd318Db1pqA8pcDNvf0dcoS5aRyD/aVTgBHeEks7KGA=;
- b=Uycz17caaomFmIJ7wnnAsseGuLY2RYOfCfvDcK6EZ/c/Csnj2jDIK87w0K5y/4V25dQ7gI2WVMnGNkPZHFswVcHkLhgtfygh4jOUz+SZbcxzzRJvjNqCSIs6jY3rMcGGyIaGs8GvUWzey9zpwoR58+m+/FrXnJ++s8SkUy0ABPJSESzlosH9K6o2S9IO9KL/ze3TckaEDiQxAWVbOo+vSuYp+3bdkksQVnjWIK38QSpg+O+Z1ye2PDypUQDx9ISUJ0PMEe+SUOKr8TrdZiGszyeAow0UNA5SmpLjcCVmp6Ot08efSAzwOKr6kuRS24wQDucH4EpiifM6eDPSWvKsZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fd318Db1pqA8pcDNvf0dcoS5aRyD/aVTgBHeEks7KGA=;
- b=naWDRdtxHIAmUif51wKzK8TCWC/jdJj26M1R0qciNcBX6y7B0VnahkeNqQqqtJzimaLshrBk4WDOqyrohVhU1D30v0xxsPh5Txl4qiKe+vmpMDXwcGj4MYplAC7xJWOtlywL+/Kc6yC931efhs1rXzeIL35uBz0VB+ExewYF3ms=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1652.eurprd08.prod.outlook.com (2603:10a6:203:3c::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.24; Wed, 14 Oct
- 2020 16:39:14 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3455.031; Wed, 14 Oct 2020
- 16:39:14 +0000
-Subject: Re: [PATCH v11 09/13] copy-on-read: skip non-guest reads if no copy
- needed
-To: Max Reitz <mreitz@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, fam@euphon.net,
- stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, den@openvz.org
-References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1602524605-481160-10-git-send-email-andrey.shinkevich@virtuozzo.com>
- <59ff1f29-149a-0870-b600-1a54f0421c05@redhat.com>
- <c363d263-1854-d766-e9d3-c8ae8008740f@virtuozzo.com>
- <bc862a74-6223-3c8d-d354-36f62bee2d3a@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <cf5c632f-3edf-6526-c275-7c8c9d3460cd@virtuozzo.com>
-Date: Wed, 14 Oct 2020 19:39:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
-In-Reply-To: <bc862a74-6223-3c8d-d354-36f62bee2d3a@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.122]
-X-ClientProxiedBy: AM0PR04CA0127.eurprd04.prod.outlook.com
- (2603:10a6:208:55::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1kSkAJ-0002kZ-GJ; Wed, 14 Oct 2020 13:02:15 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:37031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1kSkAH-0000nV-FA; Wed, 14 Oct 2020 13:02:15 -0400
+Received: by mail-ed1-x542.google.com with SMTP id o18so210690edq.4;
+ Wed, 14 Oct 2020 10:02:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=aJ0KQb6Ozzm+TKAEStsx77t+LpGGqIZVP5UuxdMy3MY=;
+ b=XpqNSJ9ujbXfuJhTtjLOFcHXa52vlNLLRyjRy2EvXJL+QNSwZONNGN3tdQfgKZDDZ/
+ 8ll0PCZksSOmgrK4pb5kXdncWID3UzRtmMRG+Uz1U8lZM69o1pdynWRixKNzLPuVe1pi
+ 8EHh4hag+Xh27lXk6tXylovn2feSgr+iTOmfle50e1/OTUMpi4SVcIozorPhoNC2k5xX
+ TOtN9WzwcozT2eoTMbeAhE/0dVNU/HPB0EizXoQF8g878BO22sGTF0l3HTR6qsbwy6B9
+ rcPnRXMZMM9m4H0Ok8lVxoRVVe48lWohRaTdtAmhVUOgRF3I3hA2ac3DY613x/Eu5EZO
+ YXLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=aJ0KQb6Ozzm+TKAEStsx77t+LpGGqIZVP5UuxdMy3MY=;
+ b=cZUy5Hle4iNmIk81dnaVJ2u/Qt7e+P1sQ/wIA9vtxti3xLSLvC+H5m9eOKs+6o15jY
+ fKt28OgWQSYJkJgH2/jLp2+9tV9R+kVYgjNlnFSM8aL3gLmYcAJucfv45BHUDl/rY8ob
+ wOtJ4fRWuwAmDDs0c+da2VUgUcfHBwLXZcSCS+ZSL5v3IqKHTcurh7R/lBCLozREpjby
+ d5ItWIduVRnzN5+NH+V34r8aW6GGi/UpeSXdCdl/hnJhuHa0BNVMg96GF1+INn11Eaka
+ 2e5Zx9bsGEILUZSyDftjjIEcOP/ggxN1bac6wng1opvQnA2r9KKywfPgFHjy12/eE6ul
+ njWA==
+X-Gm-Message-State: AOAM5316Zfxu77cLKFUVCrSk7tsFEGQAJbxMe8L2dvtCl/o1893uMwrF
+ XFatyMDFv9ncazfLCGn/7gI=
+X-Google-Smtp-Source: ABdhPJzMcESu5Cbx/Bm26PisXXb7ZZwoEnDbyx0Z2S+ITP+5j3TnYCXDCPVUJswl8ArWoRKXLmmuoQ==
+X-Received: by 2002:aa7:c256:: with SMTP id y22mr6475707edo.324.1602694930983; 
+ Wed, 14 Oct 2020 10:02:10 -0700 (PDT)
+Received: from neptune.lab ([46.39.229.194])
+ by smtp.googlemail.com with ESMTPSA id g3sm76012edy.12.2020.10.14.10.02.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Oct 2020 10:02:10 -0700 (PDT)
+From: Alexey Baturo <baturo.alexey@gmail.com>
+X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
+To: 
+Subject: [PATCH 1/5] [RISCV_PM] Add J-extension into RISC-V
+Date: Wed, 14 Oct 2020 20:01:55 +0300
+Message-Id: <20201014170159.26932-2-space.monkey.delivers@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201014170159.26932-1-space.monkey.delivers@gmail.com>
+References: <20201014170159.26932-1-space.monkey.delivers@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.122) by
- AM0PR04CA0127.eurprd04.prod.outlook.com (2603:10a6:208:55::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3455.26 via Frontend Transport; Wed, 14 Oct 2020 16:39:13 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 40e3a2e0-b7d3-4ebf-3308-08d8705faf97
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1652:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB1652425D8EC833149A83AE20C1050@AM5PR0801MB1652.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BnrclyunknugRl2U/cjxvXmZ2OPeWq9BmIBUzX1bL575mBztwU3hMX44E9xrK7gaXCRk/pPVL+jV8+fOCRYCIL/wAQrqvA3yuEsLjGDRuPy2PE45SQDwQByo7Yizx9zrg2Qmx7eZpsiambV7N2W6irw7EigeUOdH0To8yZnZqZfyBq6vlhtLHxX70XPkmVxCvH9w4OfT7lYz3yHohp89RU6RoeSZV2DpRPG28hTL597fnZtRCyiC4fRctDa+aCMNlvoknXJzIHu2nLaEySZpI3LWbNwb56a2cKrxu4Mix+ilt88S+1SvXGv/F7vJQfsae7Ld15gFT2BRHzAC2lagNDGfOPFPUbeGrcSL+Jg+NX3wcl9hn14AHbZIB7NWZBeZ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(396003)(366004)(136003)(39830400003)(316002)(31696002)(2906002)(66476007)(83380400001)(66556008)(36756003)(31686004)(52116002)(53546011)(16576012)(26005)(107886003)(110136005)(186003)(7416002)(16526019)(86362001)(5660300002)(2616005)(956004)(4326008)(6486002)(8676002)(66946007)(478600001)(8936002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: TcIDEupdoGI/wGqXTwnQ7MqvOHj07MJ64b9XpI1k2vrcDAjHqqBbumQALZXdtMh5GXshWeikWNLbNjx8jVedn8wdvKIvn201nWZfVT8GvR7iJWt9WZeKdbBN/7EtF8e2xFbzQw35eHzStPEhCghnYsIiKU9hIt3KJt+4mriQuRkqc1eNcgEvM3JPVTF++yh1ROd3N1bs+Q3yRfV6HgjAZ/CUFMzn62USuWN9LoPiJ943E3HmnTe2U+c0tuP/T/NelXPaooBlveL018/g3EBxSc7foQ9zhQ5mbscXV/zIpCUH2Mvks3XJfTWJ5/CAJKU/UONEmd06rt/8YTeReyjgtxqztXlMJoG6p0U4IV7hRh5H/TE4t+eGYwPde2mB/2ZJM8IMCGSvkIJ47+2vvdOa3ndo+Wp4d0SW3k+T/Yl8HQ5BWeG9LhpF5bRXsgxCEFJ2iDkXuqX5P+DPtEXo1FeHj/r6dP4PLA9TVRXB34TM6wSywQACQrmgX5SWq3bYUmlMrYnk93x41JCKccdD/Hp9I1nSYNdxdP3lcMf5iCexrc8obEVufRynQTvXbSPuBKtSIxAj0qzx8OO1row8aVvNboRgA/+7lCwcZYj7f7gZ4icN8KOGaz61g+Qhm+otugnFKhkKqlRuKdsN5AM7QGsnIg==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40e3a2e0-b7d3-4ebf-3308-08d8705faf97
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 16:39:14.4345 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HJ5+7TsroR9dAR9WFwdAhuiv7QCMF1EFEN1JZ+bcK7VBHAwX8blQ56EAprAAQYhgtKfLx5G0zRVWCXlqZVF5gHuuQ6caU27H9WcyOZtXe0o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1652
-Received-SPF: pass client-ip=40.107.6.99;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 12:39:15
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,140 +83,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: baturo.alexey@gmail.com,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ space.monkey.delivers@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-14.10.2020 19:30, Max Reitz wrote:
-> On 14.10.20 17:22, Vladimir Sementsov-Ogievskiy wrote:
->> 14.10.2020 15:51, Max Reitz wrote:
->>> On 12.10.20 19:43, Andrey Shinkevich wrote:
->>>> If the flag BDRV_REQ_PREFETCH was set, pass it further to the
->>>> COR-driver to skip unneeded reading. It can be taken into account for
->>>> the COR-algorithms optimization. That check is being made during the
->>>> block stream job by the moment.
->>>>
->>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>>> ---
->>>>    block/copy-on-read.c | 13 +++++++++----
->>>>    block/io.c           |  3 ++-
->>>>    2 files changed, 11 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
->>>> index b136895..278a11a 100644
->>>> --- a/block/copy-on-read.c
->>>> +++ b/block/copy-on-read.c
->>>> @@ -148,10 +148,15 @@ static int coroutine_fn
->>>> cor_co_preadv_part(BlockDriverState *bs,
->>>>                }
->>>>            }
->>>>    -        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov,
->>>> qiov_offset,
->>>> -                                  local_flags);
->>>> -        if (ret < 0) {
->>>> -            return ret;
->>>> +        if (!!(flags & BDRV_REQ_PREFETCH) &
->>>
->>> How about dropping the double negation and using a logical && instead of
->>> the binary &?
->>>
->>>> +            !(local_flags & BDRV_REQ_COPY_ON_READ)) {
->>>> +            /* Skip non-guest reads if no copy needed */
->>>> +        } else {
->>>
->>> Hm.  I would have just written the negated form
->>>
->>> (!(flags & BDRV_REQ_PREFETCH) || (local_flags & BDRV_REQ_COPY_ON_READ))
->>>
->>> and put the “skip” comment above that condition.
->>>
->>> (Since local_flags is initialized to flags, it can be written as a
->>> single comparison, but that’s a matter of taste and I’m not going to
->>> recommend either over the other:
->>>
->>> ((local_flags & (BDRV_REQ_PREFETCH | BDRV_REQ_COPY_ON_READ)) !=
->>> BDRV_REQ_PREFETCH)
->>>
->>> )
->>>
->>>> +            ret = bdrv_co_preadv_part(bs->file, offset, n, qiov,
->>>> qiov_offset,
->>>> +                                      local_flags);
->>>> +            if (ret < 0) {
->>>> +                return ret;
->>>> +            }
->>>>            }
->>>>              offset += n;
->>>> diff --git a/block/io.c b/block/io.c
->>>> index 11df188..bff1808 100644
->>>> --- a/block/io.c
->>>> +++ b/block/io.c
->>>> @@ -1512,7 +1512,8 @@ static int coroutine_fn
->>>> bdrv_aligned_preadv(BdrvChild *child,
->>>>          max_bytes = ROUND_UP(MAX(0, total_bytes - offset), align);
->>>>        if (bytes <= max_bytes && bytes <= max_transfer) {
->>>> -        ret = bdrv_driver_preadv(bs, offset, bytes, qiov,
->>>> qiov_offset, 0);
->>>> +        ret = bdrv_driver_preadv(bs, offset, bytes, qiov, qiov_offset,
->>>> +                                 flags & bs->supported_read_flags);
->>
->>
->> When BDRV_REQ_PREFETCH is passed, qiov may be (and generally should be)
->> NULL. This means, that we can't just drop the flag when call the driver
->> that doesn't support it.
-> 
-> True. :/
-> 
->> Actually, if driver doesn't support the PREFETCH flag we should do nothing.
-> 
-> Hm.  But at least in the case of COR, PREFETCH is not something that can
-> be optimized to be a no-op (unless the COR is a no-op); it still denotes
-> a command that must be executed.
-> 
-> So if we can’t pass it to the driver, I don’t think we should do
-> nothing, but to return an error.  Or maybe we could even assert that it
-> isn’t set for drivers that don’t support it, because at least right now
-> such a case would just be a bug.
+Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
+---
+ target/riscv/cpu.c | 4 ++++
+ target/riscv/cpu.h | 2 ++
+ 2 files changed, 6 insertions(+)
 
-Hmm. Reasonable..
-
-So, let me summarize the cases:
-
-1. bdrv_co_preadv(.. , PREFETCH | COR)
-
-   In this case generic layer should handle both flags and pass flags=0 to driver
-
-2. bdrv_co_preadv(.., PREFETCH)
-
-2.1 driver supporst PREFETCH
-   
-   OK, pass PREFETCH to driver, no problems
-
-2.2 driver doesn't support PREFETCH
-
-   We can just abort() here, as the only source of PREFETCH without COR would be
-   stream job driver, which must read from COR filter.
-
-   More generic solution is to allocate temporary buffer (at least if qiov is NULL)
-   and call underlying driver .preadv with flags=0 on that temporary buffer. But
-   just abort() is simpler and should work for now.
-
-> 
->>> Ah, OK.  I see.  I expected this to be a separate patch.  I still wonder
->>> why it isn’t.
->>>
->>
->>
->> Could it be part of patch 07? I mean introduce new field
->> supported_read_flags and handle it in generic code in one patch, prior
->> to implementing support for it in COR driver.
-> 
-> Sure.
-> 
-> Max
-> 
-
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 0bbfd7f457..fe6bab4a52 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -438,6 +438,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (cpu->cfg.ext_h) {
+             target_misa |= RVH;
+         }
++        if (cpu->cfg.ext_j) {
++            target_misa |= RVJ;
++        }
+         if (cpu->cfg.ext_v) {
+             target_misa |= RVV;
+             if (!is_power_of_2(cpu->cfg.vlen)) {
+@@ -516,6 +519,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+     /* This is experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
++    DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index de275782e6..eca611a367 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -66,6 +66,7 @@
+ #define RVS RV('S')
+ #define RVU RV('U')
+ #define RVH RV('H')
++#define RVJ RV('J')
+ 
+ /* S extension denotes that Supervisor mode exists, however it is possible
+    to have a core that support S mode but does not have an MMU and there
+@@ -277,6 +278,7 @@ struct RISCVCPU {
+         bool ext_s;
+         bool ext_u;
+         bool ext_h;
++        bool ext_j;
+         bool ext_v;
+         bool ext_counters;
+         bool ext_ifencei;
 -- 
-Best regards,
-Vladimir
+2.20.1
+
 
