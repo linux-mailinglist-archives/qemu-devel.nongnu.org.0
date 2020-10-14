@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E1E28E478
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:30:09 +0200 (CEST)
-Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69D628E4C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 18:49:02 +0200 (CEST)
+Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSjfE-00074u-LH
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:30:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
+	id 1kSjxV-0004o4-RH
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 12:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kSjdN-0005QN-3K
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:28:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57662)
+ id 1kSjeE-00069Z-0c
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:29:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kSjdG-0004cz-CZ
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:28:12 -0400
+ id 1kSjeC-0004hm-5F
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 12:29:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602692885;
+ s=mimecast20190719; t=1602692943;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=su+rrfjSlAV40sDyVx3XNzylj/GoI0/pzlWUNiySfuo=;
- b=Ci1c5u8AWyrLbqLkJioM7UvhaxXkWpPOS3fgNdJvPfce70SfB3wi/1XO6PENTA9QXPXimw
- jqhqzx13skAW3mQHf7USazXjh7fb2whjFWPHwRdwf80uwNzerlUNYxwVOnPnf5n1UNtjmi
- MLyHO9eHRFfYcGv8yoJ7EpzIxU8Mpo0=
+ bh=rCIoiLIR8wUajWkp7dp2D19rOwDnp+mWbGKkGieoglM=;
+ b=F97SDQAjBq0KbmEEn/gV3hvyyRVLORlq21tUwIklTV+nT7ZCKoGSBLDAw2xGtxeEI4kq0U
+ JF8mo+1aTb+sI0ZIthLxqoDqSJsWhaTb36ZD2XY5TK4EPIGFPDSD2jsVtlaQ1dCzvAZcg7
+ jBBw0jAEqkJcuOfvEYSLkGwNCpzWx20=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-6X0b_wfhN4mL8_3Gz1sSgA-1; Wed, 14 Oct 2020 12:28:03 -0400
-X-MC-Unique: 6X0b_wfhN4mL8_3Gz1sSgA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-399-IG8juGrLMYuqQ4rDk3NcnA-1; Wed, 14 Oct 2020 12:28:59 -0400
+X-MC-Unique: IG8juGrLMYuqQ4rDk3NcnA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0374A8015A3;
- Wed, 14 Oct 2020 16:28:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51C7557245;
+ Wed, 14 Oct 2020 16:28:58 +0000 (UTC)
 Received: from redhat.com (ovpn-113-137.ams2.redhat.com [10.36.113.137])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B031C5577F;
- Wed, 14 Oct 2020 16:28:00 +0000 (UTC)
-Date: Wed, 14 Oct 2020 17:27:57 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 236475D9D5;
+ Wed, 14 Oct 2020 16:28:56 +0000 (UTC)
+Date: Wed, 14 Oct 2020 17:28:54 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 3/7] tests: add missing generated sources to testqapi
-Message-ID: <20201014162757.GM115189@redhat.com>
+Subject: Re: [PATCH 4/7] configure: move QEMU_INCLUDES to meson
+Message-ID: <20201014162854.GN115189@redhat.com>
 References: <20201014135416.1290679-1-pbonzini@redhat.com>
- <20201014135416.1290679-4-pbonzini@redhat.com>
+ <20201014135416.1290679-5-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201014135416.1290679-4-pbonzini@redhat.com>
+In-Reply-To: <20201014135416.1290679-5-pbonzini@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,14 +89,16 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 14, 2020 at 09:54:12AM -0400, Paolo Bonzini wrote:
-> Ninja notices them due to a different order in visiting the graph.
+On Wed, Oct 14, 2020 at 09:54:13AM -0400, Paolo Bonzini wrote:
+> Confusingly, QEMU_INCLUDES is not used by configure tests.  Moving
+> it to meson.build ensures that Windows paths are specified instead of
+> the msys paths like /c/Users/...
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  tests/include/meson.build |  8 ++++----
->  tests/meson.build         | 14 ++++++++++++--
->  2 files changed, 16 insertions(+), 6 deletions(-)
+>  configure   | 20 --------------------
+>  meson.build | 30 ++++++++++++++++++++++++++++--
+>  2 files changed, 28 insertions(+), 22 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
