@@ -2,49 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B4C28D9A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 07:44:27 +0200 (CEST)
-Received: from localhost ([::1]:36488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5538B28D9C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 08:04:04 +0200 (CEST)
+Received: from localhost ([::1]:41338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSZaN-0006kh-1m
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 01:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33920)
+	id 1kSZtL-0004Ku-CL
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 02:04:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kSZZ0-0005uC-0k
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 01:43:02 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:40544)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kSZYw-0001NH-1K
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 01:43:01 -0400
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 45F3B40A1DA0;
- Wed, 14 Oct 2020 05:42:52 +0000 (UTC)
-Subject: Re: [PATCH v4 3/3] replay: do not build if TCG is not available
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20201013192123.22632-1-cfontana@suse.de>
- <20201013192123.22632-4-cfontana@suse.de>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <281ee6ed-454b-1baf-343c-786421a48c8e@ispras.ru>
-Date: Wed, 14 Oct 2020 08:42:52 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kSZrD-00037I-Az
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 02:01:51 -0400
+Received: from mail-bn8nam12on2056.outbound.protection.outlook.com
+ ([40.107.237.56]:11872 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1kSZrA-0007et-3s
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 02:01:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JcGgan51xb6KsgHbz19T6BP4qGS2yndBkujUHLYRQGrrIWGVIDthW5a73RPrNv+Nk4eu+0kCEYnVoAlQg1nwRnvHJyQ+T9nXEHMHTUGzfEBQTnTkl3o44Z0MpGAyOZGPwxaBtnrS5OgafAIGa2I1MEGEadRHGGWFBNEHkm6+gEN3Y8BC0u3+GWCs9Kugk64YKt6VXHVZ0ypln7f7Ql//bXl+5x815LXbTxb+PxZIpJa6sXyxV1O9ZXdphBweLESXjyZvZWSZCN6tt6E95J210yg/PuHlOeCk3wt4uNxxThAFvbjzCzd1zpxJXFc5OWBHZEGMXwLtfDH4NUqak/bVsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZnprlbqsY2MjYdFTTiXLIAZuyWYcFhoHOxJ5sSxnN08=;
+ b=gcDFAUkY13JJvr2G8lWszh5rMZBbEdIg+9m8rYFR8+URs+tC4GQe+YTPgMTkg6Ph+LD4dktPcfhmOUMoRzsSW15w+3XkhIv7PmzNSaBXzJwsX+A5wCkAlS25BABN/nLcxgxa1kE26SKZI4Mfyr9A82YoMwIxc9r+smzD2/DF9IRcTbwsZNtqlB5f6uhSRm1aATJAKzwIx9b96kkww9wLLsBdx4d3ORhUWi984jaKNDo0HvqUJjRZJ0CAz3YOMQ1EDSgjrK+AF742JQw4XqH1C4YQ08UUZa/hUFuVgd5reY8ywYaruGxb7V0QAMduHlf2BxAKJc/N7HzpZFXQLLhQuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZnprlbqsY2MjYdFTTiXLIAZuyWYcFhoHOxJ5sSxnN08=;
+ b=Gn+UQKD+I51G4OmDmBJLn8A72kkXcycHySqA5avo06OaF/L0w2B9XBsiOoxZ2CJl4P6zkp+4kTpIwnQkpKwLzAz8eG1NrssXEm0iQ6S+pQfMGcKE/g9CnRlhd/BRQZa6kW55MOOrPC3PvcK1XzMnT20t29ecbh7dKzNBDJuXHPg=
+Received: from CY1PR03CA0028.namprd03.prod.outlook.com (2603:10b6:600::38) by
+ DM6PR02MB4154.namprd02.prod.outlook.com (2603:10b6:5:a3::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3455.26; Wed, 14 Oct 2020 05:46:41 +0000
+Received: from CY1NAM02FT003.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:600:0:cafe::be) by CY1PR03CA0028.outlook.office365.com
+ (2603:10b6:600::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20 via Frontend
+ Transport; Wed, 14 Oct 2020 05:46:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT003.mail.protection.outlook.com (10.152.74.151) with Microsoft SMTP
+ Server id 15.20.3477.21 via Frontend Transport; Wed, 14 Oct 2020 05:46:41
+ +0000
+Received: from [149.199.38.66] (port=54704 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1kSZbn-0001ad-A8
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 22:45:55 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by smtp.xilinx.com with smtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1kSZcX-0001oH-Aq
+ for qemu-devel@nongnu.org; Tue, 13 Oct 2020 22:46:41 -0700
+Received: from xsj-pvapsmtp01 (smtp-fallback.xilinx.com [149.199.38.66] (may
+ be forged))
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 09E5kb7e003867; 
+ Tue, 13 Oct 2020 22:46:37 -0700
+Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>)
+ id 1kSZcT-0001nf-2s; Tue, 13 Oct 2020 22:46:37 -0700
+From: Vikram Garhwal <fnu.vikram@xilinx.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v11 0/4] Introduce Xilinx ZynqMP CAN controller
+Date: Tue, 13 Oct 2020 22:46:33 -0700
+Message-Id: <1602654397-35162-1-git-send-email-fnu.vikram@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-In-Reply-To: <20201013192123.22632-4-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:42:53
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 53b3c821-4b57-47e5-b6ab-08d8700486b8
+X-MS-TrafficTypeDiagnostic: DM6PR02MB4154:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB415446B86E581A7A4CDCB110BC050@DM6PR02MB4154.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6J6CjIloSi46c0VADhZuQjk/qmP07ccJzNqIMQenQ8i/F6BA96lvLhsHCeNnIBwgw5U5phym8zKuTUxqIwplJiPsjPrLuG8mOqzU/ue+tU35XdbYMYQexbB13OP/ImsJg9uUsuJZvmuD6cflOir8dJerT0mlhGMqh0DdxUzYWKFRBoenZ+XcekrDqS12t7FYDNv6yZVDf16A8qU/FFTNMD/+VGgWHtFNPIaLHvC0vn3CSi9c4VR7nbCwYCINnuhDwfAEAbTpCwEBCp/mixzNwdhdDCU76MtTmybo2grCEIDdtMtovnnusH3ZN/X771xKhhpqo5WG69FCbguyVwqYzQZjgQxLNKE6WAL/Lt6IQqkKGunTZ8LEyGEFk0t1V+sF5rum7N1DI0yXUanvTkXbwaApLSTIc0vLsFVNCXm09gM=
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFS:(396003)(39860400002)(376002)(136003)(346002)(46966005)(26005)(82310400003)(8676002)(36756003)(336012)(5660300002)(4326008)(7696005)(9786002)(2906002)(83380400001)(6916009)(82740400003)(186003)(356005)(316002)(8936002)(107886003)(70586007)(47076004)(2616005)(6666004)(70206006)(81166007)(478600001)(426003)(42866002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 05:46:41.5337 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53b3c821-4b57-47e5-b6ab-08d8700486b8
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT003.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4154
+Received-SPF: pass client-ip=40.107.237.56; envelope-from=fnuv@xilinx.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 02:01:46
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,343 +129,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: figlesia@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13.10.2020 22:21, Claudio Fontana wrote:
-> this fixes non-TCG builds broken recently by replay reverse debugging.
-> 
-> stub the needed functions in stub/, including errors for hmp and qmp.
-> This includes duplicating some code in replay/, and puts the logic
-> for non-replay related events in the replay/ module (+ the stubs),
-> so this should be revisited in the future.
-> 
-> Surprisingly, only _one_ qtest was affected by this, ide-test.c, which
-> resulted in a buzz as the bh events were never delivered, and the bh
-> never executed.
-> 
-> Many other subsystems _should_ have been affected.
-> 
-> This fixes the immediate issue, however a better way to group replay
-> functionality to TCG-only code could be developed in the long term.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->   block/meson.build          |  3 +-
->   migration/savevm.c         | 11 +++--
->   net/meson.build            |  3 +-
->   replay/meson.build         |  2 +-
->   replay/replay-input.c      |  4 +-
->   stubs/meson.build          |  1 -
->   stubs/replay-user.c        |  9 ----
->   stubs/replay.c             | 98 ++++++++++++++++++++++++++++++++++++++
->   tests/ptimer-test-stubs.c  |  5 --
->   tests/qtest/qmp-cmd-test.c |  3 ++
->   ui/input.c                 | 12 ++++-
->   11 files changed, 125 insertions(+), 26 deletions(-)
->   delete mode 100644 stubs/replay-user.c
-> 
-> diff --git a/block/meson.build b/block/meson.build
-> index 78e8b25232..01fe6f84d2 100644
-> --- a/block/meson.build
-> +++ b/block/meson.build
-> @@ -7,7 +7,6 @@ block_ss.add(files(
->     'backup-top.c',
->     'blkdebug.c',
->     'blklogwrites.c',
-> -  'blkreplay.c',
->     'blkverify.c',
->     'block-backend.c',
->     'block-copy.c',
-> @@ -42,6 +41,8 @@ block_ss.add(files(
->     'write-threshold.c',
->   ), zstd, zlib)
->   
-> +block_ss.add(when: 'CONFIG_TCG', if_true: files('blkreplay.c'))
-> +
->   block_ss.add(when: 'CONFIG_QCOW1', if_true: files('qcow.c'))
->   block_ss.add(when: 'CONFIG_VDI', if_true: files('vdi.c'))
->   block_ss.add(when: 'CONFIG_CLOOP', if_true: files('cloop.c'))
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index d2e141f7b1..d9181ca520 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -63,6 +63,7 @@
->   #include "migration/colo.h"
->   #include "qemu/bitmap.h"
->   #include "net/announce.h"
-> +#include "sysemu/tcg.h"
->   
->   const unsigned int postcopy_ram_discard_version = 0;
->   
-> @@ -2674,10 +2675,12 @@ int save_snapshot(const char *name, Error **errp)
->           return ret;
->       }
->   
-> -    if (!replay_can_snapshot()) {
-> -        error_setg(errp, "Record/replay does not allow making snapshot "
-> -                   "right now. Try once more later.");
-> -        return ret;
-> +    if (tcg_enabled()) {
-> +        if (!replay_can_snapshot()) {
-> +            error_setg(errp, "Record/replay does not allow making snapshot "
-> +                       "right now. Try once more later.");
-> +            return ret;
-> +        }
->       }
->   
->       if (!bdrv_all_can_snapshot(&bs)) {
-> diff --git a/net/meson.build b/net/meson.build
-> index 1c7e3a3cb9..1076b0a7ab 100644
-> --- a/net/meson.build
-> +++ b/net/meson.build
-> @@ -7,7 +7,6 @@ softmmu_ss.add(files(
->     'eth.c',
->     'filter-buffer.c',
->     'filter-mirror.c',
-> -  'filter-replay.c',
->     'filter-rewriter.c',
->     'filter.c',
->     'hub.c',
-> @@ -17,6 +16,8 @@ softmmu_ss.add(files(
->     'util.c',
->   ))
->   
-> +softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
-> +
->   softmmu_ss.add(when: 'CONFIG_L2TPV3', if_true: files('l2tpv3.c'))
->   softmmu_ss.add(when: slirp, if_true: files('slirp.c'))
->   softmmu_ss.add(when: ['CONFIG_VDE', vde], if_true: files('vde.c'))
-> diff --git a/replay/meson.build b/replay/meson.build
-> index f91163fb1e..cb3207740a 100644
-> --- a/replay/meson.build
-> +++ b/replay/meson.build
-> @@ -1,4 +1,4 @@
-> -softmmu_ss.add(files(
-> +softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
->     'replay.c',
->     'replay-internal.c',
->     'replay-events.c',
-> diff --git a/replay/replay-input.c b/replay/replay-input.c
-> index 1147e3d34e..5d1fd92e79 100644
-> --- a/replay/replay-input.c
-> +++ b/replay/replay-input.c
-> @@ -124,7 +124,7 @@ void replay_input_event(QemuConsole *src, InputEvent *evt)
->       } else if (replay_mode == REPLAY_MODE_RECORD) {
->           replay_add_input_event(QAPI_CLONE(InputEvent, evt));
->       } else {
-> -        qemu_input_event_send_impl(src, evt);
-> +        g_assert_not_reached();
->       }
->   }
->   
-> @@ -135,6 +135,6 @@ void replay_input_sync_event(void)
->       } else if (replay_mode == REPLAY_MODE_RECORD) {
->           replay_add_input_sync_event();
->       } else {
-> -        qemu_input_event_sync_impl();
-> +        g_assert_not_reached();
->       }
->   }
-> diff --git a/stubs/meson.build b/stubs/meson.build
-> index 67f2a8c069..bbd2230d69 100644
-> --- a/stubs/meson.build
-> +++ b/stubs/meson.build
-> @@ -32,7 +32,6 @@ stub_ss.add(files('qtest.c'))
->   stub_ss.add(files('ram-block.c'))
->   stub_ss.add(files('ramfb.c'))
->   stub_ss.add(files('replay.c'))
-> -stub_ss.add(files('replay-user.c'))
->   stub_ss.add(files('runstate-check.c'))
->   stub_ss.add(files('set-fd-handler.c'))
->   stub_ss.add(files('sysbus.c'))
-> diff --git a/stubs/replay-user.c b/stubs/replay-user.c
-> deleted file mode 100644
-> index 2ad9e27203..0000000000
-> --- a/stubs/replay-user.c
-> +++ /dev/null
-> @@ -1,9 +0,0 @@
-> -#include "qemu/osdep.h"
-> -#include "sysemu/replay.h"
-> -#include "sysemu/sysemu.h"
-> -
-> -void replay_bh_schedule_oneshot_event(AioContext *ctx,
-> -    QEMUBHFunc *cb, void *opaque)
-> -{
-> -    aio_bh_schedule_oneshot(ctx, cb, opaque);
-> -}
-> diff --git a/stubs/replay.c b/stubs/replay.c
-> index 45ebe77fb9..34b7975b2d 100644
-> --- a/stubs/replay.c
-> +++ b/stubs/replay.c
-> @@ -103,3 +103,101 @@ bool replay_reverse_continue(void)
->   {
->       return false;
->   }
-> +
-> +void replay_input_event(QemuConsole *src, InputEvent *evt)
-> +{
-> +}
-> +void replay_input_sync_event(void)
-> +{
-> +}
-> +void replay_bh_schedule_event(QEMUBH *bh)
-> +{
-> +    qemu_bh_schedule(bh);
-> +}
-> +void replay_bh_schedule_oneshot_event(AioContext *ctx,
-> +     QEMUBHFunc *cb, void *opaque)
-> +{
-> +    aio_bh_schedule_oneshot(ctx, cb, opaque);
-> +}
-> +void replay_add_blocker(Error *reason)
-> +{
-> +}
-> +void replay_audio_in(size_t *recorded, void *samples, size_t *wpos, size_t size)
-> +{
-> +}
-> +void replay_audio_out(size_t *played)
-> +{
-> +}
-> +void replay_breakpoint(void)
-> +{
-> +}
-> +bool replay_can_snapshot(void)
-> +{
-> +    return false;
-> +}
+Changelog:
 
-Shouldn't this one return true to enable snapshotting?
+v10 -> v11:
+    Replace DB_PRINTS with trace-events.
+    Removed unnecessary local variables.
+    Added const with tx/rx buffers in qtest.
+    Added reviewed-by tags for qtest.
+
+v9 -> v10:
+    Rebase the series with the new meson build system.
+
+v8 -> v9:
+    Use g_autofree to do automatic cleanup the object_get_canonical_path() used.
+
+v7 -> v8:
+    Change CAN controller to keep one canbus per controller.
+    Add canbus connections at machine level.
+    Remove ctrl_idx from CAN controller.
+
+v6 -> v7:
+    Remove '-m 4G' option from xlnx-can-test. This option causes the fail of
+    docker-quick@centos7 build test.
+
+v5 -> v6:
+    Add ptimer based counter for time stamping on RX messages.
+    Fix reset issues.
+    Rebase the patches with master latest changes.
+    Added reference clock property for CAN ptimer.
+
+v4 -> v5:
+    Add XlnxZynqMPCAN controller id to debug messages.
+    Drop parameter errp of object_property_add().
+    Add formatting related suggestions.
+
+v3 -> v4:
+    Correct formatting issues.
+
+v2 -> v3:
+    Rectify the build issue.
+    Rearrange the patch order.
+
+v1 -> v2:
+    Rename the CAN device state and address code style issues.
+    Connect the CAN device to Xlnx-ZCU102 board.
+    Add maintainer entry.
+    Add QTEST for the CAN device.
 
 
-> +void replay_configure(struct QemuOpts *opts)
-> +{
-> +}
-> +void replay_flush_events(void)
-> +{
-> +}
-> +void replay_gdb_attached(void)
-> +{
-> +}
-> +bool replay_running_debug(void)
-> +{
-> +    return false;
-> +}
-> +void replay_shutdown_request(ShutdownCause cause)
-> +{
-> +}
-> +void replay_start(void)
-> +{
-> +}
-> +void replay_vmstate_init(void)
-> +{
-> +}
-> +
-> +#include "monitor/monitor.h"
-> +#include "monitor/hmp.h"
-> +#include "qapi/qapi-commands-replay.h"
-> +#include "qapi/error.h"
-> +#include "qemu/error-report.h"
-> +
-> +void hmp_info_replay(Monitor *mon, const QDict *qdict)
-> +{
-> +    error_report("replay support not available");
-> +}
-> +void hmp_replay_break(Monitor *mon, const QDict *qdict)
-> +{
-> +    error_report("replay support not available");
-> +}
-> +void hmp_replay_delete_break(Monitor *mon, const QDict *qdict)
-> +{
-> +    error_report("replay support not available");
-> +}
-> +void hmp_replay_seek(Monitor *mon, const QDict *qdict)
-> +{
-> +    error_report("replay support not available");
-> +}
-> +ReplayInfo *qmp_query_replay(Error **errp)
-> +{
-> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-> +              "replay support not available");
-> +    return NULL;
-> +}
-> +void qmp_replay_break(int64_t icount, Error **errp)
-> +{
-> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-> +              "replay support not available");
-> +}
-> +void qmp_replay_delete_break(Error **errp)
-> +{
-> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-> +              "replay support not available");
-> +}
-> +void qmp_replay_seek(int64_t icount, Error **errp)
-> +{
-> +    error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
-> +              "replay support not available");
-> +}
-> diff --git a/tests/ptimer-test-stubs.c b/tests/ptimer-test-stubs.c
-> index e935a1395e..7f801a4d09 100644
-> --- a/tests/ptimer-test-stubs.c
-> +++ b/tests/ptimer-test-stubs.c
-> @@ -122,8 +122,3 @@ void qemu_bh_delete(QEMUBH *bh)
->   {
->       g_free(bh);
->   }
-> -
-> -void replay_bh_schedule_event(QEMUBH *bh)
-> -{
-> -    bh->cb(bh->opaque);
-> -}
-> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-> index 8a4c570e83..1c7186e53c 100644
-> --- a/tests/qtest/qmp-cmd-test.c
-> +++ b/tests/qtest/qmp-cmd-test.c
-> @@ -31,6 +31,9 @@ static int query_error_class(const char *cmd)
->   #ifndef CONFIG_SPICE
->           { "query-spice", ERROR_CLASS_COMMAND_NOT_FOUND },
->   #endif
-> +#ifndef CONFIG_TCG
-> +        { "query-replay", ERROR_CLASS_COMMAND_NOT_FOUND },
-> +#endif
->   #ifndef CONFIG_VNC
->           { "query-vnc", ERROR_CLASS_GENERIC_ERROR },
->           { "query-vnc-servers", ERROR_CLASS_GENERIC_ERROR },
-> diff --git a/ui/input.c b/ui/input.c
-> index 4791b089c7..8675e8ad09 100644
-> --- a/ui/input.c
-> +++ b/ui/input.c
-> @@ -375,7 +375,11 @@ void qemu_input_event_send(QemuConsole *src, InputEvent *evt)
->           return;
->       }
->   
-> -    replay_input_event(src, evt);
-> +    if (replay_events_enabled()) {
-> +        replay_input_event(src, evt);
-> +    } else {
-> +        qemu_input_event_send_impl(src, evt);
-> +    }
->   }
->   
->   void qemu_input_event_sync_impl(void)
-> @@ -401,7 +405,11 @@ void qemu_input_event_sync(void)
->           return;
->       }
->   
-> -    replay_input_sync_event();
-> +    if (replay_events_enabled()) {
-> +        replay_input_sync_event();
-> +    } else {
-> +        qemu_input_event_sync_impl();
-> +    }
->   }
->   
->   static InputEvent *qemu_input_event_new_key(KeyValue *key, bool down)
-> 
+Vikram Garhwal (4):
+  hw/net/can: Introduce Xilinx ZynqMP CAN controller
+  xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
+  tests/qtest: Introduce tests for Xilinx ZynqMP CAN controller
+  MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN controller
+
+ meson.build                      |    1 +
+ hw/net/can/trace.h               |    1 +
+ include/hw/arm/xlnx-zynqmp.h     |    8 +
+ include/hw/net/xlnx-zynqmp-can.h |   78 +++
+ hw/arm/xlnx-zcu102.c             |   20 +
+ hw/arm/xlnx-zynqmp.c             |   34 ++
+ hw/net/can/xlnx-zynqmp-can.c     | 1159 ++++++++++++++++++++++++++++++++++++++
+ tests/qtest/xlnx-can-test.c      |  360 ++++++++++++
+ MAINTAINERS                      |    8 +
+ hw/Kconfig                       |    1 +
+ hw/net/can/meson.build           |    1 +
+ hw/net/can/trace-events          |    9 +
+ tests/qtest/meson.build          |    1 +
+ 13 files changed, 1681 insertions(+)
+ create mode 100644 hw/net/can/trace.h
+ create mode 100644 include/hw/net/xlnx-zynqmp-can.h
+ create mode 100644 hw/net/can/xlnx-zynqmp-can.c
+ create mode 100644 tests/qtest/xlnx-can-test.c
+ create mode 100644 hw/net/can/trace-events
+
+--
+2.7.4
 
 
