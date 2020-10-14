@@ -2,87 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E118428E2E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 17:13:23 +0200 (CEST)
-Received: from localhost ([::1]:47582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9071528E323
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 17:20:25 +0200 (CEST)
+Received: from localhost ([::1]:33532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSiSw-00017Z-Sp
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 11:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41992)
+	id 1kSiZk-00079l-9Y
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 11:20:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSi9g-0005o9-4F
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:53:28 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41166)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSi9e-0000At-Ft
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 10:53:27 -0400
-Received: by mail-wr1-x441.google.com with SMTP id s9so4213968wro.8
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 07:53:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=55dJtGWWWP4DPdGW1STzyUry5W/enADTZs1V1NZOVpk=;
- b=WFnTVvwpGNGHmrQhXNd60wKrgiyat8qXCb2B2+I+aUcjpBVU59QBW5bMSgnCSgt1nN
- LIaeMEbSKMs9tnka5FgZFE2sbLg1CmzGRKbjhhdVPyJUNfU5Vbzn3/rmDJiR8wBj6vQ0
- OVs+/LdqxFLYoz9F1VY/aPSaFybhrBp+u5rcOiRkHLA0+Z/6/mK/SrKXOnRM3MKMGMAr
- w0mWf8bD9W23x+P3/BS+dP5yJVQ71g/uodLKbk7qE3TxjBomYV9Jn6yj9Cvw5k+6xkCr
- t8JMCTMZUmPV6IFKizcvaC9aXGkpN2vUANhW4zkJpgWGpYQaAALdibLGsikBD3TAwopt
- WzAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=55dJtGWWWP4DPdGW1STzyUry5W/enADTZs1V1NZOVpk=;
- b=EgiwBH96RYTIiQ6xNHFq0JI27n3RWXiEJU/ChaU3YlDYsQ6R+98bpxpEc3NrJQoWRj
- 0JE5VsEU8oDfS2XFMqVbUocbAZWHL+rxAtpkH+zRI+tnV/kXcYrxScjcf/4C8uyiUIGn
- nDM+Z8zjwPeIWGYAY5vrrxjNQyh8Y5QSt57tsW9h1WpS2dguy/tktlbRuYh2QWVKdpZg
- wKdzZ1DS4FDdxjhH2/OoODH5B+7DRmpi+YhPJHXQiZ7YIuqWKl0WXWLEX+RfsXN8BO0q
- 2mpc7y6qIeypemSL7JpNlMptXPHjWhZsFlv+KGYH9iN8zNl2pmN2JsbEIPjdKmMkOCXW
- 6TdQ==
-X-Gm-Message-State: AOAM533ksoq9Q60Z3q/13fx7gk1J9M1Iz9NuA+NAa8WoS0NXksWqj498
- xoPBU+bz4KpafcX8O8+ojZY=
-X-Google-Smtp-Source: ABdhPJyQB02JSGOfwvnIC4gj6QV2FIBXd7WG5GjJwClwv7goXR4euh2K8BxqJRCn06nURai43imOvw==
-X-Received: by 2002:adf:f4ca:: with SMTP id h10mr5789274wrp.89.1602687204961; 
- Wed, 14 Oct 2020 07:53:24 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id f7sm5624902wrx.64.2020.10.14.07.53.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Oct 2020 07:53:24 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/3] target/mips: Make the number of TLB entries a CPU
- property
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- "Victor Kamensky (kamensky)" <kamensky@cisco.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20201013132535.3599453-1-f4bug@amsat.org>
- <BYAPR11MB30479E5264D94EF903E9FD92CD040@BYAPR11MB3047.namprd11.prod.outlook.com>
- <515ec755fd8d7219040283f0c27346d762ee3c29.camel@linuxfoundation.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ea0ed6c7-1e3a-f7ee-a962-b471555e362d@amsat.org>
-Date: Wed, 14 Oct 2020 16:53:23 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kSiCV-0001Nf-BY; Wed, 14 Oct 2020 10:56:23 -0400
+Received: from mail-eopbgr60125.outbound.protection.outlook.com
+ ([40.107.6.125]:38246 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kSiCS-0000jW-48; Wed, 14 Oct 2020 10:56:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dm0sLHaesdkLR2hYS1qXSlO3K0eEpYfaYA3JfvfI5bYWTgPdz6mqI/F2R88oHxAdQQ9Ey0Q3N76QCGAzN/m5YdzupfWL8dDcoiOqX46DLkCtQYRVIq+KszlKhj6+RgtBnLZRQjychEShepjOAu/AMPoD2LZdcI4C6teAW/N7uJiFMzNPazvdoI+uYD/3LCFU1FQYqBFjdAQvDJCyBR5QSpFLP/7nYubnlggELUWzVTq2iTywRGKn82PknyJQZrJJtNF0awcG9R6F8PutDEEOP/P2dGLE8rCGHMo78FVRfypfaBa/JQ7gCzV9ua7wO16/5100MIcz5aK7V9NPen/YGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DSBTFxGuLa9XimlCv7h19xJSFABkaDzX1+wvntWm38k=;
+ b=lzJbUbukhPIcKp/GVMm7u5F6sBImIABWeoQwj9zuOidIEWWknYuFz3F30cpbrrKkAFFZRwLODSj3wyUxyzRAyw9uhC0P45+JaolvHZJpeUKtTmTkPMdKwSS+QW+NonlaJzusGp1wDfUsA67ldqPlXeyz38CY46t2GgLIz5AoMvmftsM14ioZckjWWtsZyzOUXFcrTQhjqdrfX6IiS34tKFpFqG0aaWQo4UM/YjRRgzYq/89/k+k/lyhi24H+36Td3PzjqSO1jrhGoDJjsC2VKgMPwpN9Sh3Ghf6jNtICBme0KCxBEUAGQ46FrbZUB/qzLUwcPLeCnYZCsSHkChN5Mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DSBTFxGuLa9XimlCv7h19xJSFABkaDzX1+wvntWm38k=;
+ b=sv2+x0nQFRiBaD1kytbLEWTiEn8WCQM/S0PxspZLl1UMWO/SFX6tsFjnQ7jn7keV97t8esfhqPOI+2qjf66y17Xyns2aNyUJFRsk3w3oYFsQbdF6yQs21vjYVAIv/rY8r/6yLEysfatk6tFeHCdits9SOoZxSxGQLyOQVbrDtb0=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4915.eurprd08.prod.outlook.com (2603:10a6:20b:d1::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.25; Wed, 14 Oct
+ 2020 14:56:17 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3455.031; Wed, 14 Oct 2020
+ 14:56:17 +0000
+Subject: Re: [PATCH v11 04/13] copy-on-read: pass overlay base node name to
+ COR driver
+To: Max Reitz <mreitz@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, fam@euphon.net,
+ stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
+ libvir-list@redhat.com, eblake@redhat.com, den@openvz.org
+References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1602524605-481160-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <3c6699f3-e061-c2ae-c5e9-a12660405624@redhat.com>
+ <bbcb3d60-fbc2-b22c-2660-5e9d8dc4ce5e@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <380352ca-2450-e4be-885f-c826296618df@virtuozzo.com>
+Date: Wed, 14 Oct 2020 17:56:15 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <515ec755fd8d7219040283f0c27346d762ee3c29.camel@linuxfoundation.org>
+ Thunderbird/78.3.2
+In-Reply-To: <bbcb3d60-fbc2-b22c-2660-5e9d8dc4ce5e@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.122]
+X-ClientProxiedBy: AM0PR03CA0061.eurprd03.prod.outlook.com (2603:10a6:208::38)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.122) by
+ AM0PR03CA0061.eurprd03.prod.outlook.com (2603:10a6:208::38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3477.21 via Frontend Transport; Wed, 14 Oct 2020 14:56:16 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 01c0b8dd-fb0d-4321-b2d0-08d870514d8b
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4915:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4915266E2AE2051F187F9558C1050@AM6PR08MB4915.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: goTMQcqP90d22B4ecfiKfGOL96SxB6Z2XWLOE1JrSGFb39I+sFDV9T/MDRjfOXKIAqe4NuCWA/OMi8Vo3busSkVChE2S5b4iTPEqNNjIiPWvx1akawcbbYlKObxIsHaIR35neqfygV3HunZiMHO/2JG94kFphR9XbHrYVvbD2SubLd4j7ePeLPV7GQL75wN/YrqML7+qSrFbBgX3tNVf80KhMhRqerGxWcH4EUzqrKFYvm8Ip7zRBauunDBGjr35+8/vFjOYbuRPNYptXqsPWRKjtx1L7xf8dOpYeRnU7XEodflARtDFO8WCcelTYCxoW/1057JQHWT4c08ol48UhT6NpoRx56pwXhxU+wygSAX2UHlUM5xncl62mSMh9zAr
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39840400004)(376002)(396003)(346002)(136003)(110136005)(2616005)(5660300002)(26005)(16576012)(8676002)(316002)(956004)(31686004)(7416002)(66476007)(6486002)(4326008)(107886003)(66946007)(66556008)(36756003)(8936002)(53546011)(31696002)(86362001)(478600001)(16526019)(186003)(83380400001)(2906002)(52116002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: OeTgfJvcmpvRqCFTs14ny/2V+NjYeqU796G7R1fpj3gY0KuOBl7ZBgfRJKULKXVlCP70DkNwLvnKZHhIOmhjs21Pv4DuGpyNo2raVexJl33+1yjokfpDbKnJ2CKEAzPt9s5WzQpDHEtUwpoih5xC/3apmyp9+RbsoHGEfEEFJIwChfZ5vAUJalxAvUCMlDBVP3DE1ruXZP8P2/TlywHIfhQd4vwRulzxEeeeFkjBDfVpLGsYwwjBswrG4hktQX5r7jI4V37xWAOa7RlJBlzHPwvajEnKKyxKjyrWonjdHMsgXISMgPL5DvHirIvLIpO4WD/3Sp64vIb5yAbk05ZOEHPBV77m41VcKsXiPB13cBiVXYphx/TlJDd7Se1e6B+RhwVoK1dTRRcyjUV1TzBiLe2KGf3cYZq6lpJxr4uUKlht56nzER5dbxbNMvPll0SerjGm25sHWG2X6PPmyucw2BaB1Zn5HrBgMUvIgU5OauroHHrURCM6dAbrw97mdAnE/3u0QtvpECVoQ9ZfoTojRE0ilSeUXFKutFbw074UbpN30Up59F1mY2nDlJN8kVUzfaJkURHmnlZNr1os5EOG+I/VdxVk/XMatUTdr9bP3ELdrCcLK+JMO485f5SVExZuzxM+142TaafhERLK/hMNCg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01c0b8dd-fb0d-4321-b2d0-08d870514d8b
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2020 14:56:16.9772 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 99JZBtyBz3LB7ludnZNXNht5TOuq7GvBiyY54himiPBant/aqm2QcbzuBaw5XllNT9v8yJTK8vUd2t5hrgfJJz92CWIfElakMxkM78KUirE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4915
+Received-SPF: pass client-ip=40.107.6.125;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 10:56:17
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,35 +123,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <rth@twiddle.net>, Khem Raj <raj.khem@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/20 9:14 AM, Richard Purdie wrote:
-> On Wed, 2020-10-14 at 01:36 +0000, Victor Kamensky (kamensky) wrote:
->> Thank you very much for looking at this. I gave a spin to
->> your 3 patch series in original setup, and as expected with
->> '-cpu 34Kf,tlb-entries=64' option it works great.
+14.10.2020 14:57, Max Reitz wrote:
+> On 14.10.20 13:09, Max Reitz wrote:
+>> On 12.10.20 19:43, Andrey Shinkevich wrote:
+>>> We are going to use the COR-filter for a block-stream job.
+>>> To limit COR operations by the base node in the backing chain during
+>>> stream job, pass the name of overlay base node to the copy-on-read
+>>> driver as base node itself may change due to possible concurrent jobs.
+>>> The rest of the functionality will be implemented in the patch that
+>>> follows.
+>>>
+>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>> ---
+>>>   block/copy-on-read.c | 14 ++++++++++++++
+>>>   1 file changed, 14 insertions(+)
 >>
->> If nobody objects, and your patches could be merged, we
->> would greatly appreciate it.
+>> Is there a reason why you didn’t add this option to QAPI (as part of a
+>> yet-to-be-created BlockdevOptionsCor)?  Because I’d really like it there.
+>>
+>>> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+>>> index bcccf0f..c578b1b 100644
+>>> --- a/block/copy-on-read.c
+>>> +++ b/block/copy-on-read.c
+>>> @@ -24,19 +24,24 @@
+>>>   #include "block/block_int.h"
+>>>   #include "qemu/module.h"
+>>>   #include "qapi/error.h"
+>>> +#include "qapi/qmp/qerror.h"
+>>>   #include "qapi/qmp/qdict.h"
+>>>   #include "block/copy-on-read.h"
+>>>   
+>>>   
+>>>   typedef struct BDRVStateCOR {
+>>>       bool active;
+>>> +    BlockDriverState *base_overlay;
+>>>   } BDRVStateCOR;
+>>>   
+>>>   
+>>>   static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+>>>                       Error **errp)
+>>>   {
+>>> +    BlockDriverState *base_overlay = NULL;
+>>>       BDRVStateCOR *state = bs->opaque;
+>>> +    /* We need the base overlay node rather than the base itself */
+>>> +    const char *base_overlay_node = qdict_get_try_str(options, "base");
+>>
+>> Shouldn’t it be called base-overlay or above-base then?
 > 
-> Speaking as one of the Yocto Project maintainers, this is really
-> helpful for us, thanks!
+> While reviewing patch 5, I realized this sould indeed be base-overlay
+> (i.e. the next allocation-bearing layer above the base, not just a
+> filter on top of base), but that should be noted somewhere, of course.
+> Best would be the QAPI documentation for this option. O:)
 > 
-> qemumips is one of our slowest platforms for automated testing so this
-> performance improvement helps a lot.
 
-Could you try Richard's suggestion? Using '-cpu P5600' instead?
-It is available in Linux since v5.8.
+What about naming it just "bottom" or "bottom-node"? If we don't have base, it's strange to have something "relative to base". And we can document, that "bottom" must be a non-filter node in a backing chain of "top".
 
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
+
+-- 
+Best regards,
+Vladimir
 
