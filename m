@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553BD28DB27
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 10:24:14 +0200 (CEST)
-Received: from localhost ([::1]:51408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5206028DB42
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 10:28:10 +0200 (CEST)
+Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSc4x-0001lB-Vv
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 04:24:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32854)
+	id 1kSc8m-0008Ke-9E
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 04:28:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSc2s-0008V1-GK
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:22:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43387)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSc2x-00005h-UX
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:22:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSc2p-0007af-Rp
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:22:01 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kSc2q-0007ai-00
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 04:22:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602663717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pjoCSo5B5fCjlS/CNiyrSRA48yfAOQy6FrhsmtAwSPY=;
- b=CyLa3W7j+0Nl87EGalDpkXDKQECYIoJVNf+xjaz/i/MQY4u8j+q4/wnsbkFB+1i4imS15y
- 5lCOOcTteQ8EdOMmi9ksG2XEJDsSf1lqgvpkizatyDQlPq9Sjfo7Eo9Ky/ardOWcWyYbvq
- 7rUSN5+0IbC8rW5HJohAnR74qIlEDok=
+ bh=PP13+ywlO+38F/ZgCkR6WUT0vmlFiTR3LA7lLvFpPwQ=;
+ b=iGsl0684tiP0KkJtuQvG7eaEcX4m8w0/KxETqP3nR+bOsN73Hu5lhb+zIq1SxKtfw/n5PN
+ LiL/H/JCsXwKO34uOZrFgL5j/sqwLbvJazsB9axrj0IP1C90nE9JI25OUN0gg8ti0LuZHO
+ RpaSoqgtZ2p8x71VTySe+vc1qQTDu6Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-XhffRAhsPW2ekWLG8rUlzA-1; Wed, 14 Oct 2020 04:21:55 -0400
-X-MC-Unique: XhffRAhsPW2ekWLG8rUlzA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-264-Gn0KOoJ6PQ-Tmn90aBtThA-1; Wed, 14 Oct 2020 04:21:55 -0400
+X-MC-Unique: Gn0KOoJ6PQ-Tmn90aBtThA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CA24879526;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 716778015B1;
  Wed, 14 Oct 2020 08:21:54 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D911C5C1BD;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB9D55578D;
  Wed, 14 Oct 2020 08:21:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1C4B36DE2; Wed, 14 Oct 2020 10:21:50 +0200 (CEST)
+ id 2E4F443BFB9; Wed, 14 Oct 2020 10:21:50 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] curses: Fixes curses compiling errors.
-Date: Wed, 14 Oct 2020 10:21:43 +0200
-Message-Id: <20201014082149.26853-4-kraxel@redhat.com>
+Subject: [PULL 4/9] win32: Simplify gmtime_r detection not depends on if
+ _POSIX_C_SOURCE are defined on msys2/mingw
+Date: Wed, 14 Oct 2020 10:21:44 +0200
+Message-Id: <20201014082149.26853-5-kraxel@redhat.com>
 In-Reply-To: <20201014082149.26853-1-kraxel@redhat.com>
 References: <20201014082149.26853-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,55 +90,187 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yonggang Luo <luoyonggang@gmail.com>
 
-This is the compiling error:
-../ui/curses.c: In function 'curses_refresh':
-../ui/curses.c:256:5: error: 'next_maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
-      |     ^~~~~~~~~~
-../ui/curses.c:302:32: note: 'next_maybe_keycode' was declared here
-  302 |             enum maybe_keycode next_maybe_keycode;
-      |                                ^~~~~~~~~~~~~~~~~~
-../ui/curses.c:256:5: error: 'maybe_keycode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  256 |     curses2foo(_curses2keycode, _curseskey2keycode, chr, maybe_keycode)
-      |     ^~~~~~~~~~
-../ui/curses.c:265:24: note: 'maybe_keycode' was declared here
-  265 |     enum maybe_keycode maybe_keycode;
-      |                        ^~~~~~~~~~~~~
-cc1.exe: all warnings being treated as errors
+We remove the CONFIG_LOCALTIME_R detection option in configure, and move the check
+existence of gmtime_r from configure into C header and source directly by using macro
+`_POSIX_THREAD_SAFE_FUNCTIONS`.
+Before this patch, the configure script are always assume the compiler doesn't define
+_POSIX_C_SOURCE macro at all, but that's not true, because thirdparty library such
+as ncursesw may define -D_POSIX_C_SOURCE in it's pkg-config file. And that C Flags will
+added -D_POSIX_C_SOURCE into each QEMU_CFLAGS. And that's causing the following compiling error:
+n file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
+                 from ../softmmu/main.c:25:
+C:/work/xemu/qemu/include/sysemu/os-win32.h:53:12: error: redundant redeclaration of 'gmtime_r' [-Werror=redundant-decls]
+   53 | struct tm *gmtime_r(const time_t *timep, struct tm *result);
+      |            ^~~~~~~~
+In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
+                 from ../softmmu/main.c:25:
+C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:284:36: note: previous definition of 'gmtime_r' was here
+  284 | __forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
+      |                                    ^~~~~~~~
+In file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
+                 from ../softmmu/main.c:25:
+C:/work/xemu/qemu/include/sysemu/os-win32.h:55:12: error: redundant redeclaration of 'localtime_r' [-Werror=redundant-decls]
+   55 | struct tm *localtime_r(const time_t *timep, struct tm *result);
+      |            ^~~~~~~~~~~
+In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
+                 from ../softmmu/main.c:25:
+C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:281:36: note: previous definition of 'localtime_r' was here
+  281 | __forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
+      |                                    ^~~~~~~~~~~
+Compiling C object libcommon.fa.p/hw_gpio_zaurus.c.obj
+In file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
+                 from ../hw/i2c/smbus_slave.c:16:
+C:/work/xemu/qemu/include/sysemu/os-win32.h:53:12: error: redundant redeclaration of 'gmtime_r' [-Werror=redundant-decls]
+   53 | struct tm *gmtime_r(const time_t *timep, struct tm *result);
+      |            ^~~~~~~~
+In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
+                 from ../hw/i2c/smbus_slave.c:16:
+C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:284:36: note: previous definition of 'gmtime_r' was here
+  284 | __forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
+      |                                    ^~~~~~~~
+In file included from C:/work/xemu/qemu/include/qemu/osdep.h:119,
+                 from ../hw/i2c/smbus_slave.c:16:
+C:/work/xemu/qemu/include/sysemu/os-win32.h:55:12: error: redundant redeclaration of 'localtime_r' [-Werror=redundant-decls]
+   55 | struct tm *localtime_r(const time_t *timep, struct tm *result);
+      |            ^~~~~~~~~~~
+In file included from C:/work/xemu/qemu/include/qemu/osdep.h:94,
+                 from ../hw/i2c/smbus_slave.c:16:
+C:/CI-Tools/msys64/mingw64/x86_64-w64-mingw32/include/time.h:281:36: note: previous definition of 'localtime_r' was here
+  281 | __forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
+      |                                    ^~~~~~~~~~~
+Compiling C object libcommon.fa.p/hw_dma_xilinx_axidma.c.obj
 
-gcc version 10.2.0 (Rev1, Built by MSYS2 project)
+After this patch, whenever ncursesw or other thirdparty libraries tried to define or not
+define  _POSIX_C_SOURCE, the source will building properly. Because now, we don't make any
+assumption if _POSIX_C_SOURCE are defined. We solely relied on if the macro `_POSIX_THREAD_SAFE_FUNCTIONS`
+are defined in msys2/mingw header.
+
+The _POSIX_THREAD_SAFE_FUNCTIONS are defined in mingw header like this:
+
+```
+#if defined(_POSIX_C_SOURCE) && !defined(_POSIX_THREAD_SAFE_FUNCTIONS)
+#define _POSIX_THREAD_SAFE_FUNCTIONS 200112L
+#endif
+
+#ifdef _POSIX_THREAD_SAFE_FUNCTIONS
+__forceinline struct tm *__CRTDECL localtime_r(const time_t *_Time, struct tm *_Tm) {
+  return localtime_s(_Tm, _Time) ? NULL : _Tm;
+}
+__forceinline struct tm *__CRTDECL gmtime_r(const time_t *_Time, struct tm *_Tm) {
+  return gmtime_s(_Tm, _Time) ? NULL : _Tm;
+}
+__forceinline char *__CRTDECL ctime_r(const time_t *_Time, char *_Str) {
+  return ctime_s(_Str, 0x7fffffff, _Time) ? NULL : _Str;
+}
+__forceinline char *__CRTDECL asctime_r(const struct tm *_Tm, char * _Str) {
+  return asctime_s(_Str, 0x7fffffff, _Tm) ? NULL : _Str;
+}
+#endif
+```
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-id: 20201012234348.1427-4-luoyonggang@gmail.com
+Message-id: 20201012234348.1427-5-luoyonggang@gmail.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/curses.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ configure                 | 34 ----------------------------------
+ include/sysemu/os-win32.h |  4 ++--
+ util/oslib-win32.c        |  4 ++--
+ 3 files changed, 4 insertions(+), 38 deletions(-)
 
-diff --git a/ui/curses.c b/ui/curses.c
-index 12bc682cf9b0..e4f9588c3e8a 100644
---- a/ui/curses.c
-+++ b/ui/curses.c
-@@ -262,7 +262,7 @@ static int curses2foo(const int _curses2foo[], const int _curseskey2foo[],
- static void curses_refresh(DisplayChangeListener *dcl)
+diff --git a/configure b/configure
+index 71a574f718fa..9a87685517ee 100755
+--- a/configure
++++ b/configure
+@@ -2386,37 +2386,6 @@ if test "$vhost_net" = ""; then
+   test "$vhost_kernel" = "yes" && vhost_net=yes
+ fi
+ 
+-##########################################
+-# MinGW / Mingw-w64 localtime_r/gmtime_r check
+-
+-if test "$mingw32" = "yes"; then
+-    # Some versions of MinGW / Mingw-w64 lack localtime_r
+-    # and gmtime_r entirely.
+-    #
+-    # Some versions of Mingw-w64 define a macro for
+-    # localtime_r/gmtime_r.
+-    #
+-    # Some versions of Mingw-w64 will define functions
+-    # for localtime_r/gmtime_r, but only if you have
+-    # _POSIX_THREAD_SAFE_FUNCTIONS defined. For fun
+-    # though, unistd.h and pthread.h both define
+-    # that for you.
+-    #
+-    # So this #undef localtime_r and #include <unistd.h>
+-    # are not in fact redundant.
+-cat > $TMPC << EOF
+-#include <unistd.h>
+-#include <time.h>
+-#undef localtime_r
+-int main(void) { localtime_r(NULL, NULL); return 0; }
+-EOF
+-    if compile_prog "" "" ; then
+-        localtime_r="yes"
+-    else
+-        localtime_r="no"
+-    fi
+-fi
+-
+ ##########################################
+ # pkg-config probe
+ 
+@@ -6610,9 +6579,6 @@ if [ "$bsd" = "yes" ] ; then
+   echo "CONFIG_BSD=y" >> $config_host_mak
+ fi
+ 
+-if test "$localtime_r" = "yes" ; then
+-  echo "CONFIG_LOCALTIME_R=y" >> $config_host_mak
+-fi
+ if test "$qom_cast_debug" = "yes" ; then
+   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
+ fi
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index d8978e28c03f..5346d51e890e 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -48,12 +48,12 @@
+ #define siglongjmp(env, val) longjmp(env, val)
+ 
+ /* Missing POSIX functions. Don't use MinGW-w64 macros. */
+-#ifndef CONFIG_LOCALTIME_R
++#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
+ #undef gmtime_r
+ struct tm *gmtime_r(const time_t *timep, struct tm *result);
+ #undef localtime_r
+ struct tm *localtime_r(const time_t *timep, struct tm *result);
+-#endif /* CONFIG_LOCALTIME_R */
++#endif /* _POSIX_THREAD_SAFE_FUNCTIONS */
+ 
+ static inline void os_setup_signal_handling(void) {}
+ static inline void os_daemonize(void) {}
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 051afb217bc0..e99debfb8dd4 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -106,7 +106,7 @@ void qemu_anon_ram_free(void *ptr, size_t size)
+     }
+ }
+ 
+-#ifndef CONFIG_LOCALTIME_R
++#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
+ /* FIXME: add proper locking */
+ struct tm *gmtime_r(const time_t *timep, struct tm *result)
  {
-     int chr, keysym, keycode, keycode_alt;
--    enum maybe_keycode maybe_keycode;
-+    enum maybe_keycode maybe_keycode = CURSES_KEYCODE;
+@@ -130,7 +130,7 @@ struct tm *localtime_r(const time_t *timep, struct tm *result)
+     }
+     return p;
+ }
+-#endif /* CONFIG_LOCALTIME_R */
++#endif /* _POSIX_THREAD_SAFE_FUNCTIONS */
  
-     curses_winch_check();
- 
-@@ -299,7 +299,7 @@ static void curses_refresh(DisplayChangeListener *dcl)
- 
-         /* alt or esc key */
-         if (keycode == 1) {
--            enum maybe_keycode next_maybe_keycode;
-+            enum maybe_keycode next_maybe_keycode = CURSES_KEYCODE;
-             int nextchr = console_getch(&next_maybe_keycode);
- 
-             if (nextchr != -1) {
+ static int socket_error(void)
+ {
 -- 
 2.27.0
 
