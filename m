@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB4828D984
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 07:24:12 +0200 (CEST)
-Received: from localhost ([::1]:45602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F6D28D9A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 07:40:42 +0200 (CEST)
+Received: from localhost ([::1]:59280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSZGl-0006H4-J0
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 01:24:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58634)
+	id 1kSZWi-0004GB-JS
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 01:40:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kSZEi-0004bb-Qn
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 01:22:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38850)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kSZEe-0003F6-KY
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 01:22:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602652919;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ves9dhQ7uA40qroFqiDykwJd40sbkpK3awlCdW3aOiE=;
- b=dX++O9c/eOtsqf+9oV36t5fIWiguBBmKzJFDoo9ar1pXgT8leKUHbkZoPUgo6u7KvbWFky
- DqgKrv+XDVpKLhk80YVEvbCfjwQnOPaCARAySa/oj0qXgKjDxQ2ewuBj25SfCggHJX06tT
- cQpJDdHcuhKdxavmzuxuN3BqC0CJ26Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-hdRcwy3yNDmFa4KDv9ZORw-1; Wed, 14 Oct 2020 01:21:54 -0400
-X-MC-Unique: hdRcwy3yNDmFa4KDv9ZORw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A254656BE6;
- Wed, 14 Oct 2020 05:21:53 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B0D95D9CD;
- Wed, 14 Oct 2020 05:21:52 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 4/4] Jobs based on custom runners: add job definitions for
- QEMU's machines
-Date: Wed, 14 Oct 2020 01:21:40 -0400
-Message-Id: <20201014052140.1146924-5-crosa@redhat.com>
-In-Reply-To: <20201014052140.1146924-1-crosa@redhat.com>
-References: <20201014052140.1146924-1-crosa@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kSZTl-0003JK-R2; Wed, 14 Oct 2020 01:37:37 -0400
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:33189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kSZTj-0008CG-9N; Wed, 14 Oct 2020 01:37:37 -0400
+Received: by mail-yb1-xb42.google.com with SMTP id c3so1683356ybl.0;
+ Tue, 13 Oct 2020 22:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XYDAjCI45fqxxjzCvT4OvrOZ8AvkuvssIrevL5fp27c=;
+ b=ZiQrLe46QxkTWJ+pa8doY6Q6bEASYe6xSchOw+MnvkJfMfs7lYIZvW3Qb6gChWNCok
+ CUqfIA22lEC5e3yBCu5FhuPF9Q30afPL+8n6EpLdAJHRa9Ct3RvI5+QDPG67+oMpo/Zk
+ R1qNnw9ErEVlxkvuFg80zuoMD64Qt+2THBkWRzFhcDTTVJ48uNZfm/dp9uzwYAIZ14/v
+ fjCXS1arEwo88KVXTjDm6UhE5LCi0kpDDqpu/YTLQOeBMf9iVLO4sGpt4fiCbak3rRxY
+ OdcNc6lB8W42219ESM+wni36dYKNzKj4kFWCLWyfPJlbqXL1rIxbVzIXQVlqHh0IwtLf
+ aupg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XYDAjCI45fqxxjzCvT4OvrOZ8AvkuvssIrevL5fp27c=;
+ b=rDt3D6zSpBvKYvN0ZV5XGz6U55+X4oJ0jyxEHpXKVdAsKCx5AvIfb657K0EsJ6B19O
+ AlzekXflHaI/019dekUfsOqQxP4g8NIXytMTHE30yFHwrwpCvQ9MXWqxVMcPEm3jy1mq
+ BuFPcjpLjDXuo9Tj5lOYiNKnhVwtPOVMXSlCdwW0CoQVlKgI7MDrN/i/Ze49FAXPSJ8J
+ bhHrSXPwrvE/R36evof7Euq5ny4kEL15UVZZ38OTKg9ZX/KpSN3olCCS3TxoBSGpWu7z
+ mO/uij7INI353FYT4j8TtAnA+G+b3zzkkHuhgZA4hQiMKLJYbn7BztnmzI+cZidYRQMW
+ km2A==
+X-Gm-Message-State: AOAM530p4kt9BkXOfJIx2p2poOqat/8b+bFYYxo4wR6Enf8fhWQT+NwF
+ iC0eky3DyWeZMB3TZomahpCi7jVoOTmMGlDc6CM=
+X-Google-Smtp-Source: ABdhPJxlh//mCh3TS18wZjry2iE471CUAT0ITxWmeV77nNwQxIXrLHFpJR546OqU+juR9GMNhBb8yszxJnPUnPV5rag=
+X-Received: by 2002:a25:c1c1:: with SMTP id r184mr266486ybf.517.1602653853939; 
+ Tue, 13 Oct 2020 22:37:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 01:12:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200928101146.12786-1-green.wan@sifive.com>
+ <20200928101146.12786-2-green.wan@sifive.com>
+In-Reply-To: <20200928101146.12786-2-green.wan@sifive.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 14 Oct 2020 13:37:22 +0800
+Message-ID: <CAEUhbmWxPmhZhEFECXO5oLTbf+r1E-rBuFQrC_e+D6YbmMDmag@mail.gmail.com>
+Subject: Re: [RFC PATCH v6 1/2] hw/misc/sifive_u_otp: Add write function and
+ write-once protection
+To: Green Wan <green.wan@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,227 +78,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project has two machines (aarch64 and s390) that can be used
-for jobs that do build and run tests.  This introduces those jobs,
-which are a mapping of custom scripts used for the same purpose.
+Hi Green,
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- .gitlab-ci.d/custom-runners.yml | 192 ++++++++++++++++++++++++++++++++
- 1 file changed, 192 insertions(+)
+On Mon, Sep 28, 2020 at 6:12 PM Green Wan <green.wan@sifive.com> wrote:
+>
+>  - Add write operation to update fuse data bit when PWE bit is on.
+>  - Add array, fuse_wo, to store the 'written' status for all bits
+>    of OTP to block the write operation.
+>
+> Signed-off-by: Green Wan <green.wan@sifive.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/misc/sifive_u_otp.c         | 30 +++++++++++++++++++++++++++++-
+>  include/hw/misc/sifive_u_otp.h |  3 +++
+>  2 files changed, 32 insertions(+), 1 deletion(-)
+>
 
-diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
-index 3004da2bda..5b51d1b336 100644
---- a/.gitlab-ci.d/custom-runners.yml
-+++ b/.gitlab-ci.d/custom-runners.yml
-@@ -12,3 +12,195 @@
- # strategy.
- variables:
-   GIT_SUBMODULE_STRATEGY: recursive
-+
-+# All ubuntu-18.04 jobs should run successfully in an environment
-+# setup by the scripts/ci/setup/build-environment.yml task
-+# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-+ubuntu-18.04-s390x-all-linux-static:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-+ # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check-tcg V=1
-+
-+ubuntu-18.04-s390x-all:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-18.04-s390x-alldbg:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --disable-libssh
-+ - make clean
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-18.04-s390x-clang:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-18.04-s390x-tci:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --enable-tcg-interpreter
-+ - make --output-sync -j`nproc`
-+
-+ubuntu-18.04-s390x-notcg:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --disable-tcg
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+# All ubuntu-20.04 jobs should run successfully in an environment
-+# setup by the scripts/ci/setup/qemu/build-environment.yml task
-+# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-+ubuntu-20.04-aarch64-all-linux-static:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-+ # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check-tcg V=1
-+
-+ubuntu-20.04-aarch64-all:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-20.04-aarch64-alldbg:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --disable-libssh
-+ - make clean
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-20.04-aarch64-clang:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-20.04-aarch64-tci:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --enable-tcg-interpreter
-+ - make --output-sync -j`nproc`
-+
-+ubuntu-20.04-aarch64-notcg:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --disable-tcg
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
--- 
-2.25.4
+I am not sure how you tested this. I wrote a simple U-Boot command to
+call U-Boot sifive-otp driver to test the write functionality, but it
+failed.
 
+=> misc write otp@10070000 0 80200000 10
+=> misc read  otp@10070000 0 80400000 10
+=> md 80400000
+80400000: ffffffff ffffffff ffffffff ffffffff    ................
+80400010: 00000000 00000000 00000000 00000000    ................
+80400020: 00000000 00000000 00000000 00000000    ................
+80400030: 00000000 00000000 00000000 00000000    ................
+80400040: 00000000 00000000 00000000 00000000    ................
+80400050: 00000000 00000000 00000000 00000000    ................
+80400060: 00000000 00000000 00000000 00000000    ................
+80400070: 00000000 00000000 00000000 00000000    ................
+80400080: 00000000 00000000 00000000 00000000    ................
+80400090: 00000000 00000000 00000000 00000000    ................
+804000a0: 00000000 00000000 00000000 00000000    ................
+804000b0: 00000000 00000000 00000000 00000000    ................
+804000c0: 00000000 00000000 00000000 00000000    ................
+804000d0: 00000000 00000000 00000000 00000000    ................
+804000e0: 00000000 00000000 00000000 00000000    ................
+804000f0: 00000000 00000000 00000000 00000000    ................
+=> misc write otp@10070000 0 80200010 10
+=> misc read  otp@10070000 0 80400010 10
+=> md 80400000
+80400000: ffffffff ffffffff ffffffff ffffffff    ................
+80400010: ffffffff ffffffff ffffffff ffffffff    ................
+80400020: 00000000 00000000 00000000 00000000    ................
+80400030: 00000000 00000000 00000000 00000000    ................
+80400040: 00000000 00000000 00000000 00000000    ................
+80400050: 00000000 00000000 00000000 00000000    ................
+80400060: 00000000 00000000 00000000 00000000    ................
+80400070: 00000000 00000000 00000000 00000000    ................
+80400080: 00000000 00000000 00000000 00000000    ................
+80400090: 00000000 00000000 00000000 00000000    ................
+804000a0: 00000000 00000000 00000000 00000000    ................
+804000b0: 00000000 00000000 00000000 00000000    ................
+804000c0: 00000000 00000000 00000000 00000000    ................
+804000d0: 00000000 00000000 00000000 00000000    ................
+804000e0: 00000000 00000000 00000000 00000000    ................
+804000f0: 00000000 00000000 00000000 00000000    ................
+
+But it can read the serial number at offset 0x3f0
+
+=> misc read  otp@10070000 3f0 80400010 10
+=> md 80400000
+80400000: ffffffff ffffffff ffffffff ffffffff    ................
+80400010: 00000001 fffffffe ffffffff ffffffff    ................
+80400020: 00000000 00000000 00000000 00000000    ................
+80400030: 00000000 00000000 00000000 00000000    ................
+80400040: 00000000 00000000 00000000 00000000    ................
+80400050: 00000000 00000000 00000000 00000000    ................
+80400060: 00000000 00000000 00000000 00000000    ................
+80400070: 00000000 00000000 00000000 00000000    ................
+80400080: 00000000 00000000 00000000 00000000    ................
+80400090: 00000000 00000000 00000000 00000000    ................
+804000a0: 00000000 00000000 00000000 00000000    ................
+804000b0: 00000000 00000000 00000000 00000000    ................
+804000c0: 00000000 00000000 00000000 00000000    ................
+804000d0: 00000000 00000000 00000000 00000000    ................
+804000e0: 00000000 00000000 00000000 00000000    ................
+804000f0: 00000000 00000000 00000000 00000000    ................
+
+Regards,
+Bin
 
