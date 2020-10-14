@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C7428E5FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 20:08:02 +0200 (CEST)
-Received: from localhost ([::1]:46512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDB828E614
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Oct 2020 20:12:49 +0200 (CEST)
+Received: from localhost ([::1]:54456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSlBw-0004H9-NS
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 14:08:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55536)
+	id 1kSlGa-0007yZ-FT
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 14:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSl9b-0002Zg-JZ
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 14:05:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23068)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSlCV-0005p5-4O
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 14:08:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSl9Z-0000Aq-3M
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 14:05:35 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kSlCS-0000SV-OA
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 14:08:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602698731;
+ s=mimecast20190719; t=1602698910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=331qvi+I05STX+RoSiSdzzBsuM674mUglChEtI+juMI=;
- b=QF9uC4d7gDVscMcpzRoL2xX4SJd5756o9i36d/kPhtBOKHNrAogBS/+ROkzZRqiy6+ZeI0
- 7JUbhTQf3uDIlKNhI/pptSPGV5QlCtcgJuzaGikmg9pYZhwIHTbl+5H37s+cjnqp1TtVew
- 2mLyRVaaITTY3ax1k1EEYEYv542sYxU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-tKHKAcNrMoCKtJp6jrkqug-1; Wed, 14 Oct 2020 14:05:30 -0400
-X-MC-Unique: tKHKAcNrMoCKtJp6jrkqug-1
-Received: by mail-wr1-f69.google.com with SMTP id b6so1732944wrn.17
- for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 11:05:29 -0700 (PDT)
+ bh=gw4+jbDCGpTkhxsYnLRx5qsgwgyiwiGU8BCS/yimy8w=;
+ b=CQj2iD5A0HfUO0RA8gtIFVRonKYGVQo3chv38fzT7xvxdRzRQKbDQdMDJGT/mGTPFcwUkD
+ Y72lnc3Ff1C11e02wQ1yZGZzlV2s1SMOjJWRmmYNqJu2xAXuTLvB6A1YDy3/xI+hPCK3bN
+ YEWhhNDgc4A0v1KzOlRp86rn+EaUdpQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-wmcTVb_2NqOgK1BTRAnCXQ-1; Wed, 14 Oct 2020 14:08:29 -0400
+X-MC-Unique: wmcTVb_2NqOgK1BTRAnCXQ-1
+Received: by mail-wr1-f71.google.com with SMTP id v5so24595wrr.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 11:08:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=331qvi+I05STX+RoSiSdzzBsuM674mUglChEtI+juMI=;
- b=On5fKt6Cf7JeTmDx7JDk1HpZ2/wM1MkvAK/RdBnqLgcd4ihMEzFYmDm2DbT9hCynQ9
- +oXVZzsBGtG7qp94CxH4GYbxzM70mUVO63KBMm3LP6Ur9ewiKu/cacPgLJOAstYlf/Fd
- mArL8cFJOHgQre1YLcdhjqf31jlKy582onN24J3CaD5iWyb4AV560HM5kE06EfyDWH9w
- J9hWoA/FRVQ1Uu7hUMRBY5V1i8cadqQ0QsNPEDsP5TqE3BTG5MmUi/kyKAC7TUmwqaqu
- a2ghqz6FAuOKnPaEkEhhGPtvi6uF/FP9fP4kNGRR8um4ybeWL5+5M388QskP8prIWg3X
- f+iA==
-X-Gm-Message-State: AOAM531e+bJZUtV827A8QOXbtxsqwUvf4XbZxmiqcbtOcbht40p2BvMU
- N+SfxzBhmcf94Ftg4Zr2oIEv/lXAEuftHgMzIJsH1Qjxzqwb0E3LAeHOxxxSn89JqVlCS9vmJ39
- 5Qcm9KIFCd2TiIeM=
-X-Received: by 2002:a05:600c:2189:: with SMTP id
- e9mr67900wme.153.1602698728856; 
- Wed, 14 Oct 2020 11:05:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzREtAoXnuwpdFv/QUh4K/N8hg8FjBMqu27QcslDB2I/Hss50aqvCivnNFiuefZBr3Wt7YNWA==
-X-Received: by 2002:a05:600c:2189:: with SMTP id
- e9mr67878wme.153.1602698728688; 
- Wed, 14 Oct 2020 11:05:28 -0700 (PDT)
+ bh=gw4+jbDCGpTkhxsYnLRx5qsgwgyiwiGU8BCS/yimy8w=;
+ b=siz7O6PEXvxlhXr4jtogbpKuQvjhLMvNjsYQ5KPqlk9LsU6i16AOZ+nUyjp80lB0Xk
+ fiecJAfWH4Kj58BPjIvwHUuiXMtLUsJIiPzE8EAcpAubpbUK9xcYpx4/M6r5Er+ivq7Q
+ M8VFE2udCgCAcXrmMiOBPSd2zwv6n9XKamrJYcu4NL/X1L9RnqgLIkwyA78i3AGDY+cV
+ +kN5twwsGPzAhh1+7OCxKoVUFcViFnIEGLD2pITj46mZTVe1bq4JTpKOVybDeuRz8IZx
+ 3wDoUcAfVBMGdFfduWUcauc6UgFukWDYorlCul2LGcWdCoej/OFGfIO6syC8Gi1Q/jwp
+ RQtQ==
+X-Gm-Message-State: AOAM532dy21wCP2z4pMU4Mjfhx5l68IBGhI5p7rwXwRzt53GvAUOmQiR
+ TnBUZ4ZKOBUfXkXPA0hS4fiowZuUTqfw1m2fKH65qpkCSsX9KBu4vbeHKO4nN960UjfxUyhGDgK
+ OuKOdlRstfWsmtX4=
+X-Received: by 2002:adf:f50c:: with SMTP id q12mr10206wro.249.1602698907962;
+ Wed, 14 Oct 2020 11:08:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyLU2sh4kiweW8S/Fzy3fMt2nIUkroAd1Zq4O0Nt+iL8H+aBXJksg2pgwjBSb41zUmAXwyTgQ==
+X-Received: by 2002:adf:f50c:: with SMTP id q12mr10188wro.249.1602698907728;
+ Wed, 14 Oct 2020 11:08:27 -0700 (PDT)
 Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id l3sm297501wmg.32.2020.10.14.11.05.27
+ by smtp.gmail.com with ESMTPSA id w11sm155762wrs.26.2020.10.14.11.08.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Oct 2020 11:05:28 -0700 (PDT)
-Subject: Re: [PATCH v2 04/15] python: add directory structure README.rst files
+ Wed, 14 Oct 2020 11:08:26 -0700 (PDT)
+Subject: Re: [PATCH v2 13/15] python: move .isort.cfg into setup.cfg
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20201014142957.763624-1-jsnow@redhat.com>
- <20201014142957.763624-5-jsnow@redhat.com>
+ <20201014142957.763624-14-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7e0232fc-d5e1-f0aa-1701-bbc6d95522d3@redhat.com>
-Date: Wed, 14 Oct 2020 20:05:26 +0200
+Message-ID: <3f8fc41f-64f4-ba00-24b9-b4e19005abbf@redhat.com>
+Date: Wed, 14 Oct 2020 20:08:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201014142957.763624-5-jsnow@redhat.com>
+In-Reply-To: <20201014142957.763624-14-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,7 +87,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,27 +114,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/14/20 4:29 PM, John Snow wrote:
-> Add short readmes to python/, python/qemu/, and python/qemu/core that
-> explain the directory hierarchy. These readmes are visible when browsing
-
-Maybe readmes -> READMEs
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> the source on e.g. gitlab/github and are designed to help new
-> developers/users quickly make sense of the source tree.
-> 
-> They are not designed for inclusion in a published manual.
-> 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   python/README.rst           | 27 +++++++++++++++++++++++++++
->   python/qemu/README.rst      |  8 ++++++++
->   python/qemu/core/README.rst |  9 +++++++++
->   3 files changed, 44 insertions(+)
->   create mode 100644 python/README.rst
->   create mode 100644 python/qemu/README.rst
->   create mode 100644 python/qemu/core/README.rst
+>   python/.isort.cfg | 7 -------
+>   python/setup.cfg  | 8 ++++++++
+>   2 files changed, 8 insertions(+), 7 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
