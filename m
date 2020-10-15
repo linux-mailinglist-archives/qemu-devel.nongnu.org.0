@@ -2,74 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07FA428F8A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 20:31:51 +0200 (CEST)
-Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9D628F8C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 20:40:37 +0200 (CEST)
+Received: from localhost ([::1]:39658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT82Y-0005we-2d
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 14:31:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38582)
+	id 1kT8B2-0005SX-31
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 14:40:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kT7zO-0003zq-Um
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:28:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kT7zL-00053B-8i
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:28:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602786508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Px2lKBO/nB1DSVYau6X+VH9dfvpF9et20KOnKZTt9q4=;
- b=a+kHm0PbjbPERivoTMPT4NNw9kFjaqVwWu0+CgfA9ThLySXW7EC0PwoKQD7u1Wlsw3OX4w
- CBtfzShP8Ic2u2mCrnaTl+Pt6maiW7X48lY72OVFXqpTXIsx/rkfB7Z5CPJrMRasJEQGqh
- mPlVusbNuPWkbaPWDUfYdMBdRydZyok=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-PKHLwgXpMh2WrpJGpeVRFw-1; Thu, 15 Oct 2020 14:28:26 -0400
-X-MC-Unique: PKHLwgXpMh2WrpJGpeVRFw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3EAD1020904;
- Thu, 15 Oct 2020 18:28:25 +0000 (UTC)
-Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77BE376672;
- Thu, 15 Oct 2020 18:28:25 +0000 (UTC)
-Date: Thu, 15 Oct 2020 14:28:24 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 0/5] qapi: Restrict machine (and migration) specific
- commands
-Message-ID: <20201015182824.GG5733@habkost.net>
-References: <20201012121536.3381997-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from
+ <BATV+eb6999eca8409778b169+6262+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1kT85o-0002IC-6D
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:35:13 -0400
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1]:58744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+eb6999eca8409778b169+6262+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1kT85h-0005wX-UA
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:35:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=zpjY1YQ8eFS82vCRfvxkfW/mqXhI9zcR43eiwB7OXKc=; b=jfjatkng8pJy8BJFwbl+nKkGLf
+ FfKaxtEvAYhzjm11eHjgS6I1j6NfYGYI+aM2+UbFbE+oZTZe3Not6kS+6A63WBAQM1I8E9EPNu0We
+ 30BzYSbCpm+YN8my7GbVRkRicEkaRbpH+nTELEAUqssRKqGoofO3RahKbuZxK7M/QsSNY67ofQZoQ
+ AecXY6lieESapMDfhmqJc7sYRrEpVWcwGZ+hmbfo3EyepN9+g2VxHjY1960F1Hz1FbE6hvvihHhW6
+ bvcse67rgHedHq+HW5XTTiLAAd5+RmpV/mpVu40r0BnO+Jhtf4etH6MnHgVTEQv6FeIJYbtYS1A+s
+ CaNxPBVw==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kT85Z-0003E1-Pu
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 18:34:58 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat
+ Linux)) id 1kT85Z-007DDd-C3
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 19:34:57 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] intel_iommu: Support IR-only mode without DMA translation
+Date: Thu, 15 Oct 2020 19:34:56 +0100
+Message-Id: <20201015183457.1719068-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201012121536.3381997-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:38:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+eb6999eca8409778b169+6262+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,51 +71,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 12, 2020 at 02:15:31PM +0200, Philippe Mathieu-Daudé wrote:
-> Reduce the machine code pulled into qemu-storage-daemon.
-> 
-> The series is fully Acked, but Markus wants it reviewed
-> by the Machine core maintainers.
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-I've confirmed that all patches move QAPI schema code without
-introducing any additional changes.
+By setting none of the SAGAW bits we can indicate to a guest that DMA
+translation isn't supported. Tested by booting Windows 10, as well as
+Linux guests with the fix at https://git.kernel.org/torvalds/c/c40aaaac10
 
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ hw/i386/intel_iommu.c         | 14 ++++++++++----
+ include/hw/i386/intel_iommu.h |  1 +
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-> 
-> Since v1:
-> - Added A-b tags
-> - Rebased
-> 
-> Philippe Mathieu-Daudé (5):
->   qapi: Restrict 'inject-nmi' command to machine code
->   qapi: Restrict 'system wakeup/reset/powerdown' commands to
->     machine.json
->   qapi: Restrict '(p)memsave' command to machine code
->   qapi: Restrict 'query-kvm' command to machine code
->   qapi: Restrict Xen migration commands to migration.json
-> 
->  qapi/machine.json      | 168 +++++++++++++++++++++++++++++++++
->  qapi/migration.json    |  41 ++++++++
->  qapi/misc.json         | 209 -----------------------------------------
->  accel/stubs/xen-stub.c |   2 +-
->  hw/i386/xen/xen-hvm.c  |   2 +-
->  migration/savevm.c     |   1 -
->  softmmu/cpus.c         |   1 +
->  ui/gtk.c               |   1 +
->  ui/cocoa.m             |   1 +
->  9 files changed, 214 insertions(+), 212 deletions(-)
-> 
-> -- 
-> 2.26.2
-> 
-> 
-
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 749eb6ad63..f49b4af931 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -2189,7 +2189,7 @@ static void vtd_handle_gcmd_write(IntelIOMMUState *s)
+     uint32_t changed = status ^ val;
+ 
+     trace_vtd_reg_write_gcmd(status, val);
+-    if (changed & VTD_GCMD_TE) {
++    if ((changed & VTD_GCMD_TE) && s->dma_translation) {
+         /* Translation enable/disable */
+         vtd_handle_gcmd_te(s, val & VTD_GCMD_TE);
+     }
+@@ -3086,6 +3086,7 @@ static Property vtd_properties[] = {
+     DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
+     DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
+     DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
++    DEFINE_PROP_BOOL("dma-translation", IntelIOMMUState, dma_translation, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -3607,12 +3608,17 @@ static void vtd_init(IntelIOMMUState *s)
+     s->next_frcd_reg = 0;
+     s->cap = VTD_CAP_FRO | VTD_CAP_NFR | VTD_CAP_ND |
+              VTD_CAP_MAMV | VTD_CAP_PSI | VTD_CAP_SLLPS |
+-             VTD_CAP_SAGAW_39bit | VTD_CAP_MGAW(s->aw_bits);
++             VTD_CAP_MGAW(s->aw_bits);
+     if (s->dma_drain) {
+         s->cap |= VTD_CAP_DRAIN;
+     }
+-    if (s->aw_bits == VTD_HOST_AW_48BIT) {
+-        s->cap |= VTD_CAP_SAGAW_48bit;
++    if (s->dma_translation) {
++            if (s->aw_bits >= VTD_HOST_AW_39BIT) {
++                    s->cap |= VTD_CAP_SAGAW_39bit;
++            }
++            if (s->aw_bits >= VTD_HOST_AW_48BIT) {
++                    s->cap |= VTD_CAP_SAGAW_48bit;
++            }
+     }
+     s->ecap = VTD_ECAP_QI | VTD_ECAP_IRO;
+ 
+diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
+index 41783ee46d..42d6a6a636 100644
+--- a/include/hw/i386/intel_iommu.h
++++ b/include/hw/i386/intel_iommu.h
+@@ -266,6 +266,7 @@ struct IntelIOMMUState {
+     bool buggy_eim;                 /* Force buggy EIM unless eim=off */
+     uint8_t aw_bits;                /* Host/IOVA address width (in bits) */
+     bool dma_drain;                 /* Whether DMA r/w draining enabled */
++    bool dma_translation;           /* Whether DMA translation supported */
+ 
+     /*
+      * Protects IOMMU states in general.  Currently it protects the
 -- 
-Eduardo
+2.26.2
 
 
