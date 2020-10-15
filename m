@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B3A28F2BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 14:55:19 +0200 (CEST)
-Received: from localhost ([::1]:54362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2529428F2C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 14:55:23 +0200 (CEST)
+Received: from localhost ([::1]:54804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT2mr-0006wK-PD
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 08:55:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40016)
+	id 1kT2mw-00077P-4M
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 08:55:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lG-0005Qc-IG
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36227)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lI-0005SC-T4
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lE-0002cn-Es
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:37 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lE-0002d2-IN
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602766414;
+ s=mimecast20190719; t=1602766415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WQJ5ChWn862XIAp2S1C6eFc6xJmzBxGKTu4b3wGWBps=;
- b=ZwECUgCmu1UWv+G73i34ndYO/c3MT+tm9Vy5fWnewUaYTCUZrU0/LtZDgUBD10Jbv1GDxJ
- qPJlR0yDFb8i4mh9uwrlAgFtrN7k+h/PiTCfMxCdec7an5QHT/Gx36Pi2mxRaNIv5BCEE1
- sJtt+LzBtSXjmZkWOx/RYhzR7sEm9Ms=
+ bh=9GFRRc3UvvzhcQ/9kFLxorKTyZdpi+uz3JOokwL3EAo=;
+ b=C2Eskch2b3rsV9IHUFm8CbjbPh24aLNlcw+D6e9BuqM0C07c03PXl/nwL4XW2I12bhVtIP
+ x+vL2jhKWQ0lNKs7ESsEzRX9YPrHRfeO4s3bRLIS44PNOcLH/zd5QJcG73wuWut+7NulTx
+ N5T2HXrD3cWoJg++slyEllKVIaW7XKM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-2YbHjk_DNKycx4BtZ2mFtQ-1; Thu, 15 Oct 2020 08:53:32 -0400
-X-MC-Unique: 2YbHjk_DNKycx4BtZ2mFtQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-282-4gLtKk9-NDuFb3McOkukCg-1; Thu, 15 Oct 2020 08:53:33 -0400
+X-MC-Unique: 4gLtKk9-NDuFb3McOkukCg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7ACC10E218F
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 12:53:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27118E901B
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 12:53:32 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 831CF75125;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1E0976642;
  Thu, 15 Oct 2020 12:53:23 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id ABAED1753B; Thu, 15 Oct 2020 14:53:22 +0200 (CEST)
+ id B4ED89D8F; Thu, 15 Oct 2020 14:53:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/8] modules: update qom object module comment
-Date: Thu, 15 Oct 2020 14:53:16 +0200
-Message-Id: <20201015125322.23648-3-kraxel@redhat.com>
+Subject: [PULL 3/8] ui/spice-app: don't use qemu_chr_open_spice_port directly
+Date: Thu, 15 Oct 2020 14:53:17 +0200
+Message-Id: <20201015125322.23648-4-kraxel@redhat.com>
 In-Reply-To: <20201015125322.23648-1-kraxel@redhat.com>
 References: <20201015125322.23648-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,29 +89,77 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Save the parent object's open function pointer in the (new)
+VCChardevClass struct instead before overwriting it, so we
+can look it up when needed.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200923103728.12026-1-kraxel@redhat.com
+Message-id: 20201014121120.13482-3-kraxel@redhat.com
 ---
- util/module.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ ui/spice-app.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/util/module.c b/util/module.c
-index 836fd444e1fd..4349607ad176 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -250,8 +250,10 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-  * only a very few devices & objects.
-  *
-  * So with the expectation that this will be rather the exception than
-- * to rule and the list will not gain that many entries go with a
-+ * the rule and the list will not gain that many entries, go with a
-  * simple manually maintained list for now.
-+ *
-+ * The list must be sorted by module (module_load_qom_all() needs this).
-  */
- static struct {
-     const char *type;
+diff --git a/ui/spice-app.c b/ui/spice-app.c
+index 93e105c6ee82..7e0550c79fdd 100644
+--- a/ui/spice-app.c
++++ b/ui/spice-app.c
+@@ -44,11 +44,15 @@ static char *sock_path;
+ struct VCChardev {
+     SpiceChardev parent;
+ };
+-typedef struct VCChardev VCChardev;
++
++struct VCChardevClass {
++    ChardevClass parent;
++    void (*parent_open)(Chardev *chr, ChardevBackend *backend,
++                        bool *be_opened, Error **errp);
++};
+ 
+ #define TYPE_CHARDEV_VC "chardev-vc"
+-DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
+-                         TYPE_CHARDEV_VC)
++OBJECT_DECLARE_TYPE(VCChardev, VCChardevClass, CHARDEV_VC)
+ 
+ static ChardevBackend *
+ chr_spice_backend_new(void)
+@@ -66,6 +70,7 @@ static void vc_chr_open(Chardev *chr,
+                         bool *be_opened,
+                         Error **errp)
+ {
++    VCChardevClass *vc = CHARDEV_VC_GET_CLASS(chr);
+     ChardevBackend *be;
+     const char *fqdn = NULL;
+ 
+@@ -80,7 +85,7 @@ static void vc_chr_open(Chardev *chr,
+     be = chr_spice_backend_new();
+     be->u.spiceport.data->fqdn = fqdn ?
+         g_strdup(fqdn) : g_strdup_printf("org.qemu.console.%s", chr->label);
+-    qemu_chr_open_spice_port(chr, be, be_opened, errp);
++    vc->parent_open(chr, be, be_opened, errp);
+     qapi_free_ChardevBackend(be);
+ }
+ 
+@@ -91,8 +96,11 @@ static void vc_chr_set_echo(Chardev *chr, bool echo)
+ 
+ static void char_vc_class_init(ObjectClass *oc, void *data)
+ {
++    VCChardevClass *vc = CHARDEV_VC_CLASS(oc);
+     ChardevClass *cc = CHARDEV_CLASS(oc);
+ 
++    vc->parent_open = cc->open;
++
+     cc->parse = qemu_chr_parse_vc;
+     cc->open = vc_chr_open;
+     cc->chr_set_echo = vc_chr_set_echo;
+@@ -103,6 +111,7 @@ static const TypeInfo char_vc_type_info = {
+     .parent = TYPE_CHARDEV_SPICEPORT,
+     .instance_size = sizeof(VCChardev),
+     .class_init = char_vc_class_init,
++    .class_size = sizeof(VCChardevClass),
+ };
+ 
+ static void spice_app_atexit(void)
 -- 
 2.27.0
 
