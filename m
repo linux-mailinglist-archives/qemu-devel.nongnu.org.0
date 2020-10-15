@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5A128FB53
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 00:49:57 +0200 (CEST)
-Received: from localhost ([::1]:56336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0417928FB57
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 00:52:59 +0200 (CEST)
+Received: from localhost ([::1]:34818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTC4K-0004Se-Dx
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 18:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34182)
+	id 1kTC7G-0007LK-27
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 18:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTC2X-0003A0-JF
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 18:48:05 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40930)
+ id 1kTC2c-0003Bh-FK
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 18:48:11 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTC2W-0003KL-5J
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 18:48:05 -0400
-Received: by mail-wr1-x436.google.com with SMTP id h5so425128wrv.7
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 15:48:03 -0700 (PDT)
+ id 1kTC2a-0003Kb-P6
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 18:48:10 -0400
+Received: by mail-wr1-x442.google.com with SMTP id s9so417035wro.8
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 15:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+UQ9QwYZAZfFcUZzRWl5ACf+Ossl/CGfr/vwWIb0pg0=;
- b=Vp/qTnCZf/9tvX54YkovcJ44R4EW3FcFyvOE7lVEcxOpxXm2xi4GSfisQiUkmzUcP1
- Kmzpn81Il7+tDrxgR4D6rjMoqjS/FPXKuihjnE6JpHLY+MgTLZ6sOUOYU2amQGUV4lF9
- XEpgMCsZ9NWiqoN+eA1N/hrSY5oqVvxi952OH0mDLnIDHxBnDkDBUJzL6GNzHm4tOl/5
- FS6hXWXOX1kMQshUzhXyf/arUsSL1yceK1er796NfuNWVrhVPKTuYn+mw2xW2siEppt+
- EZVmG2UPjmFPQdc4h93vCadbMIxegzkH5ygoOnLUXqqkgUC2oY2Kt0999g9f0w9lJaRo
- 35WQ==
+ bh=cDFZKte6J1gmQ1RO0KbRzu5XwwyBiWwbpD2fweDsWn0=;
+ b=uHrWWtZKQqXzXwkn7OL0eV6dFq5FvNmO38Hk+uIbEWOtNOYG8Io9fdepPQtXDEYoNR
+ BNDStF4uEc3r49sme/ALGNRMD98S8PqxjpjdP8q27eUltKR8wzmSipO3UbnX+EBudbOD
+ yvtjIa7f+do7UQt74an6eihZGckrnb3PvZJq1ilfKFIBusHd9AYa2ogII80OgPhLIy3q
+ IdejQKmVqjVF0VOxB+OK+wtU/ujin+lI0u8JHQnzAPJChklFh3BaHZuffi2qYfiNLEZ6
+ aF2P9Md/vHhLyNoDk+K4ZCIeHP227aWX61oyVEEZb+p7u+agYEE54nNM/T2xN3Tu0OYx
+ XSfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+UQ9QwYZAZfFcUZzRWl5ACf+Ossl/CGfr/vwWIb0pg0=;
- b=MYlXswkk0VxzKCDoMsvJt3HdGvfGyjbcMqVdHLfpTVNLHa6tgOApRId8fclu/giaiA
- porJxPtIgN0sRBV1eWglLvKHP7UdayL9Q2QbKrJcSFZNGX3fE83+wTWFn7mcKyxdII/o
- VW+nX5VZIcbdpuN3j1ndfuRh1BK8IBHiB6yQLpZlppqey79sklz6lXEswu7hBA30T49v
- XgQL2ASlbDFySR7AuRkZ4LQSonXgMf/hV29EDxTA//5tfSJE4SmpMJw3VFNThecrOuZX
- ELluDbzu0+eO7jpaXMx7wSJZIr+i3SWJCyxQqzRcxVe3hMxSMSOlwwp9WVruNQuNApmI
- jeyw==
-X-Gm-Message-State: AOAM5311BPFj29/T690xM3yq9YkbpB4ANNrTJN9TSde0xk1t4dmhF/HI
- Sw9//iRWpjYsgyxK41N9FSeKvkVD8EU=
-X-Google-Smtp-Source: ABdhPJwDVulSWTHWtsmlSAZnT4SsXYcGttmFdVZYlUn1HnOkJSJU9zS2OG9mo7nvnjUC+E2a566iBA==
-X-Received: by 2002:a5d:67d2:: with SMTP id n18mr506557wrw.310.1602802082567; 
- Thu, 15 Oct 2020 15:48:02 -0700 (PDT)
+ bh=cDFZKte6J1gmQ1RO0KbRzu5XwwyBiWwbpD2fweDsWn0=;
+ b=uPnf5smqK05TpN4/YZX8hNY6iYhtbQo4YlC2/ZFqjLJ7eID8DEbWgtLyzR8v7FD/an
+ u5wPh19mAgoQUo+jTFuokTVjAaiCoZqvRadYFIh6hgUgqLB6Vm23Qr+VBnRzMlCCLweP
+ yAXZJQah80EuXPx+FYDK+yEViC9NRpbtAiwz372x8SVd/Kyr2tn8iIZkPP9n8kYS7G3c
+ yM++O2UkuexCfTUgIdIT3fib8JE8AU0ZGxXy3z6hHj6pcN20rY/We0HmDMHptqr7IWkR
+ zcxFXt2wsQ+5lreKuqyojF9GCKqDnkEMBgeyGgMpI7nLq2h6VedAluKvpnmxFLjOM4gn
+ xPUA==
+X-Gm-Message-State: AOAM53102o1NynErN0ymiNXdjrlIzr4PEeDNBm1IqsahqLTmV88XZMAf
+ OYNSizRoort5TRuQNwyFVIi5jLsmmdo=
+X-Google-Smtp-Source: ABdhPJx2cwDQ8UOF8b6cTex9hA1/kT9gA+lvedbq6iyCIFjj8T1H1kTzjUGBO9b8VkQ4Sl+crSfj/g==
+X-Received: by 2002:adf:d84e:: with SMTP id k14mr513938wrl.251.1602802087290; 
+ Thu, 15 Oct 2020 15:48:07 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id u63sm622327wmb.13.2020.10.15.15.48.01
+ by smtp.gmail.com with ESMTPSA id o63sm602974wmo.2.2020.10.15.15.48.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Oct 2020 15:48:01 -0700 (PDT)
+ Thu, 15 Oct 2020 15:48:06 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Victor Kamensky <kamensky@cisco.com>
-Subject: [RFC PATCH v2 3/4] target/mips: Make the number of TLB entries a CPU
- property
-Date: Fri, 16 Oct 2020 00:47:45 +0200
-Message-Id: <20201015224746.540027-4-f4bug@amsat.org>
+Subject: [RFC PATCH v2 4/4] target/mips: Allow using the 34Kf with 16/32/64
+ preset TLB entries
+Date: Fri, 16 Oct 2020 00:47:46 +0200
+Message-Id: <20201015224746.540027-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201015224746.540027-1-f4bug@amsat.org>
 References: <20201015224746.540027-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -98,105 +98,52 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow selecting the number of TLB entries from a preset array.
+Per "MIPS32 34K Processor Core Family Software User's Manual,
+Revision 01.13" page 8 in "Joint TLB (JTLB)" section:
 
+  "The JTLB is a fully associative TLB cache containing 16, 32,
+   or 64-dual-entries mapping up to 128 virtual pages to their
+   corresponding physical addresses."
+
+Add these values to the CP0_Config1_MMU_preset array.
+
+Example to use a 34Kf cpu with preset 64 TLB:
+
+  $ qemu-system-mipsel -cpu 34Kf,tlb-entries=64 ...
+
+This is helpful for developers of the Yocto Project [*]:
+
+  Yocto Project uses qemu-system-mips 34Kf cpu model, to run 32bit
+  MIPS CI loop. It was observed that in this case CI test execution
+  time was almost twice longer than 64bit MIPS variant that runs
+  under MIPS64R2-generic model. It was investigated and concluded
+  that the difference in number of TLBs 16 in 34Kf case vs 64 in
+  MIPS64R2-generic is responsible for most of CI real time execution
+  difference. Because with 16 TLBs linux user-land trashes TLB more
+  and it needs to execute more instructions in TLB refill handler
+  calls, as result it runs much longer.
+
+[*] https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03428.html
+
+Buglink: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
+Reported-by: Victor Kamensky <kamensky@cisco.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h  |  1 +
- target/mips/cpu.c       |  8 +++++++-
- target/mips/translate.c | 26 ++++++++++++++++++++++++--
- 3 files changed, 32 insertions(+), 3 deletions(-)
+ target/mips/translate_init.c.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index c2b2e79c515..34f82c6e842 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -29,6 +29,7 @@ struct mips_def_t {
-     int32_t CP0_PRid;
-     int32_t CP0_Config0;
-     int32_t CP0_Config1;
-+    const unsigned *CP0_Config1_MMU_preset;
-     int32_t CP0_Config2;
-     int32_t CP0_Config3;
-     int32_t CP0_Config4;
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 117c748345e..da31831368b 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -26,7 +26,7 @@
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
- #include "exec/exec-all.h"
--
-+#include "hw/qdev-properties.h"
- 
- static void mips_cpu_set_pc(CPUState *cs, vaddr value)
- {
-@@ -183,6 +183,11 @@ static ObjectClass *mips_cpu_class_by_name(const char *cpu_model)
-     return oc;
- }
- 
-+static Property mips_cpu_properties[] = {
-+    DEFINE_PROP_UINT8("tlb-entries", MIPSCPU, env.tlb_entries, 0),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
- static void mips_cpu_class_init(ObjectClass *c, void *data)
- {
-     MIPSCPUClass *mcc = MIPS_CPU_CLASS(c);
-@@ -192,6 +197,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_realize(dc, mips_cpu_realizefn,
-                                     &mcc->parent_realize);
-     device_class_set_parent_reset(dc, mips_cpu_reset, &mcc->parent_reset);
-+    device_class_set_props(dc, mips_cpu_properties);
- 
-     cc->class_by_name = mips_cpu_class_by_name;
-     cc->has_work = mips_cpu_has_work;
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 698bcee8915..f5815160fb6 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -39,6 +39,7 @@
- #include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/qemu-print.h"
-+#include "qapi/error.h"
- 
- #define MIPS_DEBUG_DISAS 0
- 
-@@ -31318,9 +31319,30 @@ void mips_tcg_init(void)
- 
- static bool init_tlb_entries(CPUMIPSState *env, Error **errp)
- {
--    env->tlb_entries = 1 + extract32(env->cpu_model->CP0_Config1, CP0C1_MMU, 6);
-+    const unsigned *preset = env->cpu_model->CP0_Config1_MMU_preset;
-+    bool valid = false;
- 
--    return true;
-+    if (!env->tlb_entries) {
-+        env->tlb_entries = 1 + extract32(env->cpu_model->CP0_Config1,
-+                                         CP0C1_MMU, 6);
-+        return true;
-+    }
-+    if (!preset) {
-+        error_setg(errp, "Property 'tlb-entries' not modifiable for this CPU");
-+        return false;
-+    }
-+    while (!valid && *preset) {
-+        if (*preset == env->tlb_entries) {
-+            valid = true;
-+            break;
-+        }
-+        preset++;
-+    }
-+    if (!valid) {
-+        error_setg(errp, "Invalid value '%u' for property 'tlb-entries'",
-+                   env->tlb_entries);
-+    }
-+    return valid;
- }
- 
- bool cpu_mips_realize_env(CPUMIPSState *env, Error **errp)
+diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
+index a426463c434..02500e696f4 100644
+--- a/target/mips/translate_init.c.inc
++++ b/target/mips/translate_init.c.inc
+@@ -258,6 +258,7 @@ const mips_def_t mips_defs[] =
+                        (0 << CP0C1_IS) | (3 << CP0C1_IL) | (1 << CP0C1_IA) |
+                        (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA) |
+                        (1 << CP0C1_CA),
++        .CP0_Config1_MMU_preset = (const unsigned[]){16, 32, 64, 0},
+         .CP0_Config2 = MIPS_CONFIG2,
+         .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_VInt) | (1 << CP0C3_MT) |
+                        (1 << CP0C3_DSPP),
 -- 
 2.26.2
 
