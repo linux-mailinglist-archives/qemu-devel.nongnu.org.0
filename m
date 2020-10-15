@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5B328F2C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 14:55:21 +0200 (CEST)
-Received: from localhost ([::1]:54632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEC428F2C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 14:58:20 +0200 (CEST)
+Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT2mu-000733-Jv
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 08:55:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40048)
+	id 1kT2pn-0002Il-Bx
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 08:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lH-0005R5-Vk
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43172)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lL-0005XS-I0
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lE-0002dC-H7
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:39 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lJ-0002fF-KL
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602766415;
+ s=mimecast20190719; t=1602766420;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zgFxqY6VFAnAgFEKMDlFr3dnERXthrivFHtyUweEDJU=;
- b=DbhFsiPLf5YZhGsefmcDiP7ddnfqcnTJFt2wf4/VmANmkDdBQ3n8WfiaC616LyJ/MEd5OC
- 471HKynFo5ZTfSvZFNuq+VpVk8r5lSMKVc3efHm7tj6HyW96NPLwwPdM8oH04sQPI2hTbe
- Sx4E+CQQvEhU7Z3RgIPPmAyaorHOXvA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fg/4vi/oMFKQXb4y2H//iZd15YYvhthlbcxywBirMoQ=;
+ b=dRyeK0bfDT3LrLe/PDq4GIYXXhYWDCx2PFhOR/I7fu6UnDDLVBbeUiXszroR4VzfuY1ELX
+ GtrYWZeDn4nCOFAgrYodbPxrs1xqFo6scaIErBQMylxrbPqg/gGDTLC2WmYT582aem1g94
+ Qfc60aqerfkAVQexiPcWzmDn83S1TN8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-Ex5v9kN4P2GFxq6jtWeQDQ-1; Thu, 15 Oct 2020 08:53:32 -0400
-X-MC-Unique: Ex5v9kN4P2GFxq6jtWeQDQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-295-nJAaNeFfOfO2Z-NNwl3whA-1; Thu, 15 Oct 2020 08:53:39 -0400
+X-MC-Unique: nJAaNeFfOfO2Z-NNwl3whA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E797718A823F
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 12:53:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C54118A8231
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 12:53:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8308055798;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8317919C66;
  Thu, 15 Oct 2020 12:53:23 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9736D16E18; Thu, 15 Oct 2020 14:53:22 +0200 (CEST)
+ id A2A9F1750A; Thu, 15 Oct 2020 14:53:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/8] Modules 20201015 patches
-Date: Thu, 15 Oct 2020 14:53:14 +0200
-Message-Id: <20201015125322.23648-1-kraxel@redhat.com>
+Subject: [PULL 1/8] module: silence errors for module_load_qom_all().
+Date: Thu, 15 Oct 2020 14:53:15 +0200
+Message-Id: <20201015125322.23648-2-kraxel@redhat.com>
+In-Reply-To: <20201015125322.23648-1-kraxel@redhat.com>
+References: <20201015125322.23648-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:38:26
@@ -84,55 +87,132 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 57c98ea9acdcef5021f5671efa6475a5794a51c4=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20201014-pull-reques=
-t' into staging (2020-10-14 13:56:06 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.kraxel.org/qemu tags/modules-20201015-pull-request=0D
-=0D
-for you to fetch changes up to 23ebeaae4eb09a0d92dc7f22b41e5dd08485c390:=0D
-=0D
-  chardev/spice: build spice chardevs as module (2020-10-15 11:14:40 +0200)=
-=0D
-=0D
-----------------------------------------------------------------=0D
-modules: misc fixes & tweaks.=0D
-modules: build spice chardevs as module.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Gerd Hoffmann (8):=0D
-  module: silence errors for module_load_qom_all().=0D
-  modules: update qom object module comment=0D
-  ui/spice-app: don't use qemu_chr_open_spice_port directly=0D
-  chardev/spice: make qemu_chr_open_spice_port static=0D
-  chardev/spice: simplify chardev setup=0D
-  meson: add spice_headers dependency.=0D
-  meson: add spice dependency to core spice source files.=0D
-  chardev/spice: build spice chardevs as module=0D
-=0D
- include/chardev/spice.h |  4 ----=0D
- include/qemu/module.h   |  8 ++++----=0D
- include/ui/qemu-spice.h |  1 -=0D
- chardev/spice.c         | 37 ++++++++++---------------------------=0D
- softmmu/qtest.c         |  2 +-=0D
- softmmu/vl.c            |  9 +++++----=0D
- ui/spice-app.c          | 34 ++++++++++++++++++++++------------=0D
- ui/spice-core.c         |  2 --=0D
- util/module.c           | 26 +++++++++++++++-----------=0D
- audio/meson.build       |  2 +-=0D
- chardev/meson.build     |  7 ++++++-=0D
- meson.build             |  2 ++=0D
- monitor/meson.build     |  2 +-=0D
- ui/meson.build          |  2 +-=0D
- 14 files changed, 68 insertions(+), 70 deletions(-)=0D
-=0D
---=20=0D
-2.27.0=0D
-=0D
+Add mayfail bool parameter to module loading functions.  Set it to true
+for module_load_qom_all() because device modules might not load into all
+system emulation variants.  qemu-system-s390x for example will not load
+qxl because it lacks vga support.  Makes "make check" less chatty.
+
+Drop module_loaded_qom_all check in module_load_qom_one to make sure we
+see errors for explicit load requests, i.e. module_load_qom_one("qxl")
+failing will log an error no matter whenever module_load_qom_all() was
+called before or not.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-id: 20200923091217.22662-1-kraxel@redhat.com
+---
+ include/qemu/module.h |  8 ++++----
+ softmmu/qtest.c       |  2 +-
+ util/module.c         | 20 ++++++++++----------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index 9121a475c1b6..944d403cbd15 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -61,15 +61,15 @@ typedef enum {
+ #define fuzz_target_init(function) module_init(function, \
+                                                MODULE_INIT_FUZZ_TARGET)
+ #define migration_init(function) module_init(function, MODULE_INIT_MIGRATION)
+-#define block_module_load_one(lib) module_load_one("block-", lib)
+-#define ui_module_load_one(lib) module_load_one("ui-", lib)
+-#define audio_module_load_one(lib) module_load_one("audio-", lib)
++#define block_module_load_one(lib) module_load_one("block-", lib, false)
++#define ui_module_load_one(lib) module_load_one("ui-", lib, false)
++#define audio_module_load_one(lib) module_load_one("audio-", lib, false)
+ 
+ void register_module_init(void (*fn)(void), module_init_type type);
+ void register_dso_module_init(void (*fn)(void), module_init_type type);
+ 
+ void module_call_init(module_init_type type);
+-bool module_load_one(const char *prefix, const char *lib_name);
++bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
+ void module_load_qom_one(const char *type);
+ void module_load_qom_all(void);
+ 
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index 2c6e8dc858c4..7965dc9a16ba 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -757,7 +757,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         g_assert(words[1] && words[2]);
+ 
+         qtest_send_prefix(chr);
+-        if (module_load_one(words[1], words[2])) {
++        if (module_load_one(words[1], words[2], false)) {
+             qtest_sendf(chr, "OK\n");
+         } else {
+             qtest_sendf(chr, "FAIL\n");
+diff --git a/util/module.c b/util/module.c
+index a44ec38d9362..836fd444e1fd 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -110,7 +110,7 @@ void module_call_init(module_init_type type)
+ }
+ 
+ #ifdef CONFIG_MODULES
+-static int module_load_file(const char *fname)
++static int module_load_file(const char *fname, bool mayfail)
+ {
+     GModule *g_module;
+     void (*sym)(void);
+@@ -134,8 +134,10 @@ static int module_load_file(const char *fname)
+ 
+     g_module = g_module_open(fname, G_MODULE_BIND_LAZY | G_MODULE_BIND_LOCAL);
+     if (!g_module) {
+-        fprintf(stderr, "Failed to open module: %s\n",
+-                g_module_error());
++        if (!mayfail) {
++            fprintf(stderr, "Failed to open module: %s\n",
++                    g_module_error());
++        }
+         ret = -EINVAL;
+         goto out;
+     }
+@@ -167,7 +169,7 @@ out:
+ }
+ #endif
+ 
+-bool module_load_one(const char *prefix, const char *lib_name)
++bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+ {
+     bool success = false;
+ 
+@@ -218,7 +220,7 @@ bool module_load_one(const char *prefix, const char *lib_name)
+     for (i = 0; i < n_dirs; i++) {
+         fname = g_strdup_printf("%s/%s%s",
+                 dirs[i], module_name, CONFIG_HOST_DSOSUF);
+-        ret = module_load_file(fname);
++        ret = module_load_file(fname, mayfail);
+         g_free(fname);
+         fname = NULL;
+         /* Try loading until loaded a module file */
+@@ -275,13 +277,11 @@ void module_load_qom_one(const char *type)
+     if (!type) {
+         return;
+     }
+-    if (module_loaded_qom_all) {
+-        return;
+-    }
+     for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
+         if (strcmp(qom_modules[i].type, type) == 0) {
+             module_load_one(qom_modules[i].prefix,
+-                            qom_modules[i].module);
++                            qom_modules[i].module,
++                            false);
+             return;
+         }
+     }
+@@ -302,7 +302,7 @@ void module_load_qom_all(void)
+             /* one module implementing multiple types -> load only once */
+             continue;
+         }
+-        module_load_one(qom_modules[i].prefix, qom_modules[i].module);
++        module_load_one(qom_modules[i].prefix, qom_modules[i].module, true);
+     }
+     module_loaded_qom_all = true;
+ }
+-- 
+2.27.0
 
 
