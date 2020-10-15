@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDAB28F676
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:12:13 +0200 (CEST)
-Received: from localhost ([::1]:40510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0FA28F671
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:10:34 +0200 (CEST)
+Received: from localhost ([::1]:34606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT5rQ-00052P-CL
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34278)
+	id 1kT5pp-0002a8-HZ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kT5o5-0000ti-NM
+ id 1kT5o5-0000sN-OI
  for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:08:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50790)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kT5o0-00040g-W5
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:08:45 -0400
+ id 1kT5o1-00042r-1r
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:08:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602778111;
+ s=mimecast20190719; t=1602778120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Y+JhKPsh6SiQDzKAEUkVhCVw2RyYGV+ydamyOVj3Rr0=;
- b=Fk/IxrT0YPpQGfaEpF9O78WDvdLG1xD5Wc2LMpoeLgr2JFolYVKSAYEg7x8CujaQlqyK/w
- QL1bX0wSJJGH9V3lDLSmgU+0DgG4eaK0vs/rkQQvfKdXehV1E0VBUXUcBpP1EhtsKQlJvJ
- oWSYtjYZlVFqPPPvVF0CAXpQ1avN4PM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AEwokNpaJuUDVsNHgYdXo/yVHSRMYZs/mGEvGC9b4Ek=;
+ b=bNmU0qFdOtx9XnQVcwp7Yn55tygJ44b4aj5qDygOYeHvGptYBZohjukLKetNclbs6TL0qB
+ gUIhxDObuljZ5x2R2GcEsnI0hc/9xnd0SWLNaHvPGCixFVsXh0bZN4lIzyIxAEFBDaI9GC
+ kKoHqUC7K3b5LPfDDcdY553CyyElFd0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-SfBiU0-tMqOJMPF27JrY1g-1; Thu, 15 Oct 2020 12:08:29 -0400
-X-MC-Unique: SfBiU0-tMqOJMPF27JrY1g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-169-uf02NgvUPXK3uv7tM-NTSw-1; Thu, 15 Oct 2020 12:08:37 -0400
+X-MC-Unique: uf02NgvUPXK3uv7tM-NTSw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72E7F10A0B85;
- Thu, 15 Oct 2020 16:08:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAED810A0B81;
+ Thu, 15 Oct 2020 16:08:36 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F054061177;
- Thu, 15 Oct 2020 16:08:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E5ED076670;
+ Thu, 15 Oct 2020 16:08:32 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] qemu-ga: add ssh-{add,remove}-authorized-keys
-Date: Thu, 15 Oct 2020 20:08:17 +0400
-Message-Id: <20201015160819.1471144-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 1/2] glib-compat: add g_unix_get_passwd_entry_qemu()
+Date: Thu, 15 Oct 2020 20:08:18 +0400
+Message-Id: <20201015160819.1471144-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20201015160819.1471144-1-marcandre.lureau@redhat.com>
+References: <20201015160819.1471144-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,40 +86,68 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-Add two new commands to help modify ~/.ssh/authorized_keys.=0D
-=0D
-Although it's possible already to modify the authorized_keys files via=0D
-file-{read,write} or exec, the commands are often denied by default, and th=
-e=0D
-logic is left to the client. Let's add specific commands for this job.=0D
-=0D
-Fixes:=0D
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1885332=0D
-=0D
-v2:=0D
- - misc doc improvements=0D
- - various warnings fixes=0D
- - fix build for !unix=0D
- - added reviewed-by=0D
-=0D
-Marc-Andr=C3=A9 Lureau (2):=0D
-  glib-compat: add g_unix_get_passwd_entry_qemu()=0D
-  qga: add ssh-{add,remove}-authorized-keys=0D
-=0D
- include/glib-compat.h    |  26 +++=0D
- qga/commands-posix-ssh.c | 400 +++++++++++++++++++++++++++++++++++++++=0D
- qga/commands-win32.c     |  12 ++=0D
- qga/meson.build          |  20 +-=0D
- qga/qapi-schema.json     |  33 ++++=0D
- 5 files changed, 490 insertions(+), 1 deletion(-)=0D
- create mode 100644 qga/commands-posix-ssh.c=0D
-=0D
---=20=0D
-2.28.0=0D
-=0D
+The glib function was introduced in 2.64. It's a safer version of
+getpwnam, and also simpler to use than getpwnam_r.
+
+Currently, it's only use by the next patch in qemu-ga, which doesn't
+(well well...) need the thread safety guarantees. Since the fallback
+version is still unsafe, I would rather keep the _qemu postfix, to make
+sure it's not being misused by mistake. When/if necessary, we can
+implement a safer fallback and drop the _qemu suffix.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ include/glib-compat.h | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/include/glib-compat.h b/include/glib-compat.h
+index 0b0ec76299..32121320e9 100644
+--- a/include/glib-compat.h
++++ b/include/glib-compat.h
+@@ -30,6 +30,11 @@
+ #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+ 
+ #include <glib.h>
++#if defined(G_OS_UNIX)
++#include <glib-unix.h>
++#include <sys/types.h>
++#include <pwd.h>
++#endif
+ 
+ /*
+  * Note that because of the GLIB_VERSION_MAX_ALLOWED constant above, allowing
+@@ -72,6 +77,27 @@
+ gint g_poll_fixed(GPollFD *fds, guint nfds, gint timeout);
+ #endif
+ 
++#if defined(G_OS_UNIX)
++/* Note: The fallback implementation is not MT-safe, and it returns a copy of
++ * the libc passwd (must be g_free() after use) but not the content. Because of
++ * these important differences the caller must be aware of, it's not #define for
++ * GLib API substitution. */
++static inline struct passwd *
++g_unix_get_passwd_entry_qemu(const gchar *user_name, GError **error)
++{
++#if GLIB_CHECK_VERSION(2, 64, 0)
++    return g_unix_get_passwd_entry(user_name, error);
++#else
++    struct passwd *p = getpwnam(user_name);
++    if (!p) {
++        g_set_error_literal(error, G_UNIX_ERROR, 0, g_strerror(errno));
++        return NULL;
++    }
++    return g_memdup(p, sizeof(*p));
++#endif
++}
++#endif /* G_OS_UNIX */
++
+ #pragma GCC diagnostic pop
+ 
+ #endif
+-- 
+2.28.0
 
 
