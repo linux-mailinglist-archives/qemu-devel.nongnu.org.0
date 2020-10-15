@@ -2,108 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3823D28F419
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 15:58:30 +0200 (CEST)
-Received: from localhost ([::1]:34696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6204628F44C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 16:04:39 +0200 (CEST)
+Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT3m1-00014C-9g
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 09:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53788)
+	id 1kT3rx-0006HN-Iw
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 10:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kT3Zx-0003ru-QJ; Thu, 15 Oct 2020 09:46:01 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35866
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3bF-0005EI-6w
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:47:22 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:38891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kT3Zv-0001Lq-4x; Thu, 15 Oct 2020 09:46:01 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09FDYRv0144725; Thu, 15 Oct 2020 09:45:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=iUly4u6jTfYoXMN8raXkjuP+SD2uVZcCjkIOFUPWul8=;
- b=Jp5zpgV7dutJ2gP0I3igjukksSek7/2FXbgGfERcbQzw5kWYtgaO2Ui486QTh4KFLjG/
- gpZuIp3jOox9Yub/ieiVnhhHEBRlfd826iu9wDyEXCw8ueGQPGWza1YYLtiHBM36RcGx
- RJkR+BXd7Tq4REKp9nqJ4nJmPGA+SpItzuf2Gd8/ofCv6hLBX/JiFMCs7EbbN8/UPKEn
- s8p9WDq6IcBhPir3NyZYnc9NvH6QSe8RrJoNFORSqwIlc83gsniffN03V7PmMzOI28Du
- QoEdRnehQJm2+cWOlhdDPtAQDT0kC1x37VBry7BxlFNuGBQ/c+bFh0uLI0W+BZi4s8a/ KQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 346q50136x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Oct 2020 09:45:56 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09FDZOB0149933;
- Thu, 15 Oct 2020 09:45:56 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 346q50136a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Oct 2020 09:45:55 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09FDgxG9010050;
- Thu, 15 Oct 2020 13:45:55 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 3434k9j4u5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Oct 2020 13:45:55 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09FDjrBO15270824
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 15 Oct 2020 13:45:53 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D6589B2068;
- Thu, 15 Oct 2020 13:45:53 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 31C0BB205F;
- Thu, 15 Oct 2020 13:45:52 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.211.37.36])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 15 Oct 2020 13:45:52 +0000 (GMT)
-Subject: Re: [PATCH] s390x/s390-virtio-ccw: Reset PCI devices during subsystem
- reset
-To: Niklas Schnelle <schnelle@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
-References: <1602767767-32713-1-git-send-email-mjrosato@linux.ibm.com>
- <e9a29f3a-5f15-aa36-f9aa-314bc56a3507@de.ibm.com>
- <d705b269-b001-f810-8629-7d64fb560ac5@de.ibm.com>
- <2dea575e-45cf-adc2-a0eb-61aaffbbaaec@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <58192dd4-70cf-7d2a-8f63-c60bf7b36622@linux.ibm.com>
-Date: Thu, 15 Oct 2020 09:45:51 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3bC-0001UV-Ot
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:47:20 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 09FDkJpb003517
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 15 Oct 2020 09:46:22 -0400
+Date: Thu, 15 Oct 2020 09:46:19 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 11/16] scripts/oss-fuzz: Add general-fuzzer build script
+Message-ID: <20201015134619.la7nndj7hqkeh5kn@mozz.bu.edu>
+References: <20200921022506.873303-1-alxndr@bu.edu>
+ <20200921022506.873303-12-alxndr@bu.edu>
+ <cfe27655-7f00-9b5f-96b7-a8dcbf12d05e@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2dea575e-45cf-adc2-a0eb-61aaffbbaaec@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-10-15_08:2020-10-14,
- 2020-10-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
- spamscore=0 clxscore=1015 impostorscore=0 bulkscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010150092
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 09:16:15
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.019,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cfe27655-7f00-9b5f-96b7-a8dcbf12d05e@redhat.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 09:44:03
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,61 +58,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- farman@linux.ibm.com, pasic@linux.ibm.com, qemu-s390x@nongnu.org,
- rth@twiddle.net
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/20 9:37 AM, Niklas Schnelle wrote:
+On 201008 0935, Paolo Bonzini wrote:
+> On 21/09/20 04:25, Alexander Bulekov wrote:
+> > This parses a yaml file containing general-fuzzer configs and builds a
+> > separate oss-fuzz wrapper binary for each one, changing some
+> > preprocessor macros for each configuration. To avoid dealing with
+> > escaping and stringifying, convert each string into a byte-array
+> > representation
+> > 
+> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > ---
+> >  scripts/oss-fuzz/build_general_fuzzers.py | 69 +++++++++++++++++++++++
+> >  1 file changed, 69 insertions(+)
+> >  create mode 100755 scripts/oss-fuzz/build_general_fuzzers.py
+> > 
+> > diff --git a/scripts/oss-fuzz/build_general_fuzzers.py b/scripts/oss-fuzz/build_general_fuzzers.py
+> > new file mode 100755
+> > index 0000000000..918f1143a5
+> > --- /dev/null
+> > +++ b/scripts/oss-fuzz/build_general_fuzzers.py
+> > @@ -0,0 +1,69 @@
+> > +#!/usr/bin/env python3
+> > +# -*- coding: utf-8 -*-
+> > +
+> > +"""
+> > +This script creates wrapper binaries that invoke the general-device-fuzzer with
+> > +configurations specified in a yaml config file.
+> > +"""
+> > +import sys
+> > +import os
+> > +import yaml
+> > +import tempfile
+> > +
+> > +CC = ""
+> > +TEMPLATE_FILENAME = "target_template.c"
+> > +TEMPLATE_PATH = ""
+> > +
+> > +
+> > +def usage():
+> > +    print("Usage: CC=COMPILER {} CONFIG_PATH \
+> > +OUTPUT_PATH_PREFIX".format(sys.argv[0]))
+> > +    sys.exit(0)
+> > +
+> > +
+> > +def str_to_c_byte_array(s):
+> > +    """
+> > +    Convert strings to byte-arrays so we don't worry about formatting
+> > +    strings to play nicely with cc -DQEMU_FUZZARGS etc
+> > +    """
+> > +    return ','.join('0x{:02x}'.format(ord(x)) for x in s)
+> > +
+> > +
+> > +def compile_wrapper(cfg, path):
+> > +    os.system('$CC -DQEMU_FUZZ_ARGS="{fuzz_args}" \
+> > +               -DQEMU_FUZZ_OBJECTS="{fuzz_objs}" \
+> > +               {wrapper_template} -o {output_bin}'.format(
+> > +                   fuzz_args=str_to_c_byte_array(cfg["args"].replace("\n", " ")),
+> > +                   fuzz_objs=str_to_c_byte_array(cfg["objects"].replace("\n", " ")),
+> > +                   wrapper_template=TEMPLATE_PATH,
+> > +                   output_bin=path))
+> > +
+> > +
+> > +def main():
+> > +    global CC
+> > +    global TEMPLATE_PATH
+> > +    global OUTPUT_BIN_NAME
+> > +
+> > +    if len(sys.argv) != 3:
+> > +        usage()
+> > +
+> > +    cfg_path = sys.argv[1]
+> > +    out_path = sys.argv[2]
+> > +
+> > +    CC = os.getenv("CC", default="cc")
+> > +    TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), TEMPLATE_FILENAME)
+> > +    if not os.path.exists(TEMPLATE_PATH):
+> > +        print("Error {} doesn't exist".format(TEMPLATE_PATH))
+> > +        sys.exit(1)
+> > +
+> > +    with open(cfg_path, "r") as f:
+> > +        configs = yaml.load(f)["configs"]
+> > +    for cfg in configs:
+> > +        assert "name" in cfg
+> > +        assert "args" in cfg
+> > +        assert "objects" in cfg
+> > +        compile_wrapper(cfg, out_path + cfg["name"])
+> > +
+> > +
+> > +if __name__ == '__main__':
+> > +    main()
+> > 
 > 
+> Can you instead write an array of
 > 
-> On 10/15/20 3:34 PM, Christian Borntraeger wrote:
->>
->>
->> On 15.10.20 15:32, Christian Borntraeger wrote:
->>>
->>>
->>> On 15.10.20 15:16, Matthew Rosato wrote:
->>>> Currently, a subsystem reset event leaves PCI devices enabled, causing
->>>> issues post-reset in the guest (an example would be after a kexec).  These
->>>> devices need to be reset during a subsystem reset, allowing them to be
->>>> properly re-enabled afterwards.  Add the S390 PCI host bridge to the list
->>>> of qdevs to be reset during subsystem reset.
->>>>
->>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->>>> Reviewed-by: Eric Farman <farman@linux.ibm.com>
->>>
->>> Makese sense.
->>> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
->>
->> A question. Is this a stable candidate?
+> struct {
+>     const char *name, *args, *objects;
+> }
 > 
-> As this can prevent a SUSE guest (which does kexec during boot because of grub)
-> from seeing any PCI devices I'd say yes.
+> and use it in the normal argv0-based selection?  The advantage would be
+> that you can do the whole build within tests/qtest/fuzz/meson.build
+> instead of having yet another undocumented shell script (cue all the
+> mess I made when trying to modify scripts/oss-fuzz/build.sh).
 > 
+> Paolo
 
-Yes, agreed.
+Thanks for the suggestion. I did this in v4, and I think it is much
+nicer. No more python script, c template, and preprocessor hacking. I
+don't think the way I defined the configs is ideal, however I think it
+is already a better solution.
+-Alex
 
->>
->>>
->>>
->>>> ---
->>>>   hw/s390x/s390-virtio-ccw.c | 1 +
->>>>   1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->>>> index e52182f..2e90033 100644
->>>> --- a/hw/s390x/s390-virtio-ccw.c
->>>> +++ b/hw/s390x/s390-virtio-ccw.c
->>>> @@ -101,6 +101,7 @@ static const char *const reset_dev_types[] = {
->>>>       "s390-sclp-event-facility",
->>>>       "s390-flic",
->>>>       "diag288",
->>>> +    TYPE_S390_PCI_HOST_BRIDGE,
->>>>   };
->>>>   
->>>>   static void subsystem_reset(void)
->>>>
-
+> 
 
