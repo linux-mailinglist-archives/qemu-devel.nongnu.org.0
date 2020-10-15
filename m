@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128A428F8AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 20:34:01 +0200 (CEST)
-Received: from localhost ([::1]:55832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B73C28F890
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 20:29:09 +0200 (CEST)
+Received: from localhost ([::1]:44426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT84e-0000GU-2R
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 14:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35336)
+	id 1kT7zw-0003SW-4l
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 14:29:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kT7lg-0002DU-2W
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:14:24 -0400
+ id 1kT7lm-0002Jw-SP
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:14:31 -0400
 Received: from mga01.intel.com ([192.55.52.88]:40428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kT7ld-0003MU-IB
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:14:23 -0400
-IronPort-SDR: M1ulG4zMgLiXxdNEkfQJEPHVhABvhpcrhfTBkdhgbhz7O5GsbZCh6/PmG596+d2cGN7vU4Xy4R
- nbOA5AVhndQA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="183973980"
-X-IronPort-AV: E=Sophos;i="5.77,379,1596524400"; d="scan'208";a="183973980"
+ id 1kT7lg-0003MU-CD
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:14:29 -0400
+IronPort-SDR: mWKAJIUFK4bU1gtVibTAEeH2ldOJf3j5Nus20eUbCd9nF/6ZhJDvdB7hBBJLXbs30iybOAoTi/
+ A+FGoLsaY27A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="183973981"
+X-IronPort-AV: E=Sophos;i="5.77,379,1596524400"; d="scan'208";a="183973981"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 11:14:16 -0700
-IronPort-SDR: YDoUAKVSg38kIpLA/QYF+nHR77PZcvD/Ht2QKCP4Jpo+ygBDCUjicNYbTGBHsf6MfpsZhXGYRJ
- ca5Hg+yAJKfg==
-X-IronPort-AV: E=Sophos;i="5.77,379,1596524400"; d="scan'208";a="300351581"
+ 15 Oct 2020 11:14:17 -0700
+IronPort-SDR: lON+zjDK8JPfKrghzIU6Eit2RNmzNWo4QxC1wgG1p0i69aiS7wExMdq2RKQRR53ng88hVbBJ1Y
+ pUW8RgTuiNRA==
+X-IronPort-AV: E=Sophos;i="5.77,379,1596524400"; d="scan'208";a="300351665"
 Received: from skzaman-mobl.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
  ([10.252.132.166])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Oct 2020 11:14:16 -0700
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] pci: Change error_report to assert(3)
-Date: Thu, 15 Oct 2020 11:14:10 -0700
-Message-Id: <20201015181411.89104-1-ben.widawsky@intel.com>
+Subject: [PATCH v2 2/2] pci: Disallow improper BAR registration for type 1
+Date: Thu, 15 Oct 2020 11:14:11 -0700
+Message-Id: <20201015181411.89104-2-ben.widawsky@intel.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201015181411.89104-1-ben.widawsky@intel.com>
+References: <20201015181411.89104-1-ben.widawsky@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.88; envelope-from=ben.widawsky@intel.com;
@@ -71,34 +73,40 @@ Cc: Ben Widawsky <ben.widawsky@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Asserts are used for developer bugs. As registering a bar of the wrong
-size is not something that should be possible for a user to achieve,
-this is a developer bug.
-
-While here, use the more obvious helper function.
+Prevent future developers working on root complexes, root ports, or
+bridges that also wish to implement a BAR for those, from shooting
+themselves in the foot. PCI type 1 headers only support 2 base address
+registers. It is incorrect and difficult to figure out what is wrong
+with the device when this mistake is made. With this, it is immediate
+and obvious what has gone wrong.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 ---
- hw/pci/pci.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ hw/pci/pci.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 100c9381c2..2c7d6dd352 100644
+index 2c7d6dd352..14fce10132 100644
 --- a/hw/pci/pci.c
 +++ b/hw/pci/pci.c
-@@ -1144,11 +1144,7 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+@@ -1141,11 +1141,17 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+     uint32_t addr; /* offset in pci config space */
+     uint64_t wmask;
+     pcibus_t size = memory_region_size(memory);
++    uint8_t hdr_type;
  
      assert(region_num >= 0);
      assert(region_num < PCI_NUM_REGIONS);
--    if (size & (size-1)) {
--        error_report("ERROR: PCI region size must be pow2 "
--                    "type=0x%x, size=0x%"FMT_PCIBUS"", type, size);
--        exit(1);
--    }
-+    assert(is_power_of_2(size));
+     assert(is_power_of_2(size));
  
++    /* A PCI bridge device (with Type 1 header) may only have at most 2 BARs */
++    hdr_type =
++        pci_dev->config[PCI_HEADER_TYPE] & ~PCI_HEADER_TYPE_MULTI_FUNCTION;
++    assert(hdr_type != PCI_HEADER_TYPE_BRIDGE || region_num < 2);
++
      r = &pci_dev->io_regions[region_num];
      r->addr = PCI_BAR_UNMAPPED;
+     r->size = size;
 -- 
 2.28.0
 
