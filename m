@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099FE28F563
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 16:56:51 +0200 (CEST)
-Received: from localhost ([::1]:53134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5BE28F55B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 16:55:49 +0200 (CEST)
+Received: from localhost ([::1]:48372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT4gU-0004s8-1D
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 10:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42414)
+	id 1kT4fU-0002qC-Rf
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 10:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kT4aB-0004mK-ER
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:50:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60506)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kT4aA-0004jF-9N
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:50:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kT4a8-0001jm-IC
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:50:19 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kT4a8-0001jd-AB
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:50:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602773415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rivrn/+u97DL/RkpoC7pMjoyj+jh4RhPxUF/gNKePZE=;
- b=WH6H4s823yC0L37r4Tn6QkFN7d8UopvFYYJHThp6eLU9L6dXBNQKDUtUdTTSf0kDYwSK02
- KzGEWkUqakDdHhiKIHrDlm7nzL066h1+gLoy2ZuVzqnhnQFiR5Sv69dqXqTIGYb6UC+aLi
- MQfAOR/bqpxivkdaHbCvAst4A4wRiRQ=
+ bh=Y6DoE10Zmh8TnT++WrnJ2FwLyHCnk+WU0URUmUnUizs=;
+ b=J1NIM1ZNODG4QMigdtymHbIF0xRR3tLgixICWSWwKWbbLkNwL8Y9njNh9CIaBpPxxgV/4M
+ 89C5is1OmRZtsBFnbdiWpS8KplZ/Pq6Dluln2+B1LsMbYAw+iZEXKnqG5LwA+Ce7EEL366
+ pmaAqIx/UAqrqfeumy4GznCrz0QU2To=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-n-R60lu_PiO0Sk7iYhofjw-1; Thu, 15 Oct 2020 10:50:12 -0400
-X-MC-Unique: n-R60lu_PiO0Sk7iYhofjw-1
+ us-mta-50-sm13lk3uMy6r_PqKpjycJw-1; Thu, 15 Oct 2020 10:50:13 -0400
+X-MC-Unique: sm13lk3uMy6r_PqKpjycJw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8737108E1AB;
- Thu, 15 Oct 2020 14:50:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20C1B108E1A2;
+ Thu, 15 Oct 2020 14:50:12 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-163.ams2.redhat.com [10.36.114.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E15B360C07;
- Thu, 15 Oct 2020 14:50:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2CDF960C07;
+ Thu, 15 Oct 2020 14:50:11 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 08/10] monitor: Fix order in monitor_cleanup()
-Date: Thu, 15 Oct 2020 16:49:50 +0200
-Message-Id: <20201015144952.388043-9-kwolf@redhat.com>
+Subject: [PULL 09/10] block: drop moderated sheepdog mailing list from
+ MAINTAINERS file
+Date: Thu, 15 Oct 2020 16:49:51 +0200
+Message-Id: <20201015144952.388043-10-kwolf@redhat.com>
 In-Reply-To: <20201015144952.388043-1-kwolf@redhat.com>
 References: <20201015144952.388043-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -82,85 +83,40 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can only destroy Monitor objects after we're sure that they are not
-in use by the dispatcher coroutine any more. This fixes crashes like the
-following where we tried to destroy a monitor mutex while the dispatcher
-coroutine still holds it:
+From: Daniel P. Berrangé <berrange@redhat.com>
 
- (gdb) bt
- #0  0x00007fe541cf4bc5 in raise () at /lib64/libc.so.6
- #1  0x00007fe541cdd8a4 in abort () at /lib64/libc.so.6
- #2  0x000055c24e965327 in error_exit (err=16, msg=0x55c24eead3a0 <__func__.33> "qemu_mutex_destroy") at ../util/qemu-thread-posix.c:37
- #3  0x000055c24e9654c3 in qemu_mutex_destroy (mutex=0x55c25133e0f0) at ../util/qemu-thread-posix.c:70
- #4  0x000055c24e7cfaf1 in monitor_data_destroy_qmp (mon=0x55c25133dfd0) at ../monitor/qmp.c:439
- #5  0x000055c24e7d23bc in monitor_data_destroy (mon=0x55c25133dfd0) at ../monitor/monitor.c:615
- #6  0x000055c24e7d253a in monitor_cleanup () at ../monitor/monitor.c:644
- #7  0x000055c24e6cb002 in qemu_cleanup () at ../softmmu/vl.c:4549
- #8  0x000055c24e0d259b in main (argc=24, argv=0x7ffff66b0d58, envp=0x7ffff66b0e20) at ../softmmu/main.c:51
+The sheepdog mailing list is setup to stop and queue messages from
+non-subscribers, pending moderator approval. Unfortunately it seems
+that the moderation queue is not actively dealt with. Even when messages
+are approved, the sender is never added to the whitelist, so every
+future mail from the same sender continues to get stopped for moderation.
 
-Reported-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20201013125027.41003-1-kwolf@redhat.com>
-Tested-by: Ben Widawsky <ben.widawsky@intel.com>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+MAINTAINERS entries should be responsive and not unneccessarily block
+mails from QEMU contributors, so drop the sheepdog mailing list.
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20201002113243.2347710-2-berrange@redhat.com>
+Reviewed-by: Neal Gompa <ngompa13@gmail.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- monitor/monitor.c | 33 +++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index ceffe1a83b..84222cd130 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -632,23 +632,9 @@ void monitor_cleanup(void)
-         iothread_stop(mon_iothread);
-     }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 47dd38a8cc..99ab02bbab 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2881,7 +2881,6 @@ F: block/rbd.c
+ Sheepdog
+ M: Liu Yuan <namei.unix@gmail.com>
+ L: qemu-block@nongnu.org
+-L: sheepdog@lists.wpkg.org
+ S: Odd Fixes
+ F: block/sheepdog.c
  
--    /* Flush output buffers and destroy monitors */
--    qemu_mutex_lock(&monitor_lock);
--    monitor_destroyed = true;
--    while (!QTAILQ_EMPTY(&mon_list)) {
--        Monitor *mon = QTAILQ_FIRST(&mon_list);
--        QTAILQ_REMOVE(&mon_list, mon, entry);
--        /* Permit QAPI event emission from character frontend release */
--        qemu_mutex_unlock(&monitor_lock);
--        monitor_flush(mon);
--        monitor_data_destroy(mon);
--        qemu_mutex_lock(&monitor_lock);
--        g_free(mon);
--    }
--    qemu_mutex_unlock(&monitor_lock);
--
-     /*
--     * The dispatcher needs to stop before destroying the I/O thread.
-+     * The dispatcher needs to stop before destroying the monitor and
-+     * the I/O thread.
-      *
-      * We need to poll both qemu_aio_context and iohandler_ctx to make
-      * sure that the dispatcher coroutine keeps making progress and
-@@ -665,6 +651,21 @@ void monitor_cleanup(void)
-                    (aio_poll(iohandler_get_aio_context(), false),
-                     qatomic_mb_read(&qmp_dispatcher_co_busy)));
- 
-+    /* Flush output buffers and destroy monitors */
-+    qemu_mutex_lock(&monitor_lock);
-+    monitor_destroyed = true;
-+    while (!QTAILQ_EMPTY(&mon_list)) {
-+        Monitor *mon = QTAILQ_FIRST(&mon_list);
-+        QTAILQ_REMOVE(&mon_list, mon, entry);
-+        /* Permit QAPI event emission from character frontend release */
-+        qemu_mutex_unlock(&monitor_lock);
-+        monitor_flush(mon);
-+        monitor_data_destroy(mon);
-+        qemu_mutex_lock(&monitor_lock);
-+        g_free(mon);
-+    }
-+    qemu_mutex_unlock(&monitor_lock);
-+
-     if (mon_iothread) {
-         iothread_destroy(mon_iothread);
-         mon_iothread = NULL;
 -- 
 2.28.0
 
