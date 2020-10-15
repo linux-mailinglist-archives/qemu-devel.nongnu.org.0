@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDE428ED28
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 08:44:58 +0200 (CEST)
-Received: from localhost ([::1]:60148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70CC28ED2E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 08:48:05 +0200 (CEST)
+Received: from localhost ([::1]:37042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSx0T-0001Qr-8H
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 02:44:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55236)
+	id 1kSx3U-0003s6-Lp
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 02:48:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSwuJ-00056L-22; Thu, 15 Oct 2020 02:38:35 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41861)
+ id 1kSwuN-0005F4-Fs; Thu, 15 Oct 2020 02:38:39 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSwuH-0006r6-H1; Thu, 15 Oct 2020 02:38:34 -0400
-Received: by mail-wr1-x441.google.com with SMTP id s9so1908694wro.8;
- Wed, 14 Oct 2020 23:38:32 -0700 (PDT)
+ id 1kSwuL-0006sP-Nf; Thu, 15 Oct 2020 02:38:39 -0400
+Received: by mail-wr1-x442.google.com with SMTP id e17so1888432wru.12;
+ Wed, 14 Oct 2020 23:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mHMBZwFybrG3Wb5VMsP3egLDE4ZsHJicDRun+ytDKB4=;
- b=oX+uREvNOCcK1z0CsHc0geb9reSMcKogmylLUVsL7upxNVLy+7RBJIHd5RI1bDrA0c
- bN446L/3HRHiEEIIr3N+hbY7hdhhrRWvYuIS7384YIsjNhhkkrN3OqMv25LpS792yR0Z
- fR82oRe354j6dV4EGXFLJv7kMXQRikBkLHM/z8wv3MNug5+HujNqMR6PSAHmzkpu/8oX
- hkR1f06NiDeHJIecH6pA+5tS4dyv0nlUdO5MkN6uzZDyQlJAt9kY6F/D/R920Bq17ZKu
- sRG3/+7uk4o09rKRj8geLrRZwCt0qlu4ILTETkfihtKDBloojvVl++VPUKKShzMUTXPh
- zo6g==
+ bh=BM7THxJfGf+b7XY8piPM2aMZEPnFkfmBjlshGc2heOo=;
+ b=kCExnQLTOdy0eTaIM3es43d2RzUSgOtGsYf5YMDtMa53Jk9qpmPaP9jNjcD4Xaq7ix
+ 0wXiX+pkxCJFS6KhtKAR34R2SIKnBX+0Acf+da9onS6U4PIKuVTK7/jmoazZdzCl2GJM
+ 7BJZnxm6yWcb/FRqCx0aFBShLh7wzimn74tAwnQSQ5jPW6sHXuHbhhHFzJBxpBzEgLFD
+ pDj4VuafWjTUTL2ASs/N+XNCpvFpDrjsEJIUMNTq2+1OhyIzXNSamGyaLT80nzRYzH/M
+ NOOC2j0LnV8jtNtHd5GiqX0hSrU8hJLunNbJdzQX5sFO1TKYU+uZmoYeEK+jYtz3fJSx
+ zw9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mHMBZwFybrG3Wb5VMsP3egLDE4ZsHJicDRun+ytDKB4=;
- b=EhOE4Qb9Y5TVAzUDim+R5a1Tycn6S8UvVT4tX6BWDjo3xBpISvqpecnLQZGuOfiE+U
- pAB1+FiK1u7jtwi+GjVNI0h/lCtmWBYTDhwzmpo3w4Ok7DPkKjuRJA0cMEOGIYiAyaVI
- DWfDnt3b15afUWE7Zmi1xky2W/wTHkqlt8RVFroxpmLXQp5k2T7ZNKHudWX12Lm42BbR
- WcCtGRah/NG0Aq49lNb8mDS9MpBearBRM6Zn0r3pfLFexWOqb9zq/2tQnuMqwiM5igOq
- 4FhutwyO7iHaWmX/b4Pct2otYzQC2iOpCbachougTCNYD24BU2B+Qq8ZdfdqQ+moiKNN
- 4DXQ==
-X-Gm-Message-State: AOAM531iNuBtIdWyH2UlvY0cdO3WhLA5bppW8rsU95fDIbSURZWwHZKy
- XFWr7o/Vqfbby14Xk/DIm2h00GO9cO4=
-X-Google-Smtp-Source: ABdhPJzgi9yyNKmxqk0JPSexWeRyf4g7g8ZtzbND1J7AZ9fDdYUF6cEiaW1qj3ow2govJzQKCuOTBw==
-X-Received: by 2002:adf:fbc5:: with SMTP id d5mr2347037wrs.232.1602743911454; 
- Wed, 14 Oct 2020 23:38:31 -0700 (PDT)
+ bh=BM7THxJfGf+b7XY8piPM2aMZEPnFkfmBjlshGc2heOo=;
+ b=eRixk0WQ3ygZzjKru7aSzZApMMXQEa95d1HK3NEsdkfKehpdaxDv1h7eGC3svNGjR2
+ BKCruBQjs0fDY0KfiBkNLgmsXaPVDCiTrwpO3LxPXVRsJ8PWRIFXZ0Bs+lO+e3vBUYcw
+ jUFfiYzjJwle9HAQit9E1oFbyNKUlsIYy7F2oQoporQo2Ry1zr/ixFH3uVQraVH0EAM1
+ HOT7KGwBZ3Y4jicKXAnW+MEIxnHatBfiPR0PUqTaoL7BXsj6mDYU17Uwn4gZc4eUSEKM
+ YV+fxkFudVohhQC2s8VXUhqQ7ouppOkycdC9gv6SjTV4PpjgKz9oTt8ZBBNjYAqTseKq
+ mkkA==
+X-Gm-Message-State: AOAM533vHIQytUi1EOVt6Tc4EmYYoreZoWBks7ns1CgXaWneLjFYt38D
+ jwl5VQLAAZ/u4GXH/vXZNEVNpKz/Rfo=
+X-Google-Smtp-Source: ABdhPJxW35CEtaaKI0Vm0aC6ms9AcSUfON2lrko+9RFZWnaQt+mc1unGPGms/S316mMm0yx9daZHJQ==
+X-Received: by 2002:adf:b30c:: with SMTP id j12mr2424804wrd.82.1602743915849; 
+ Wed, 14 Oct 2020 23:38:35 -0700 (PDT)
 Received: from localhost.localdomain
  (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id c18sm2796897wmk.36.2020.10.14.23.38.30
+ by smtp.gmail.com with ESMTPSA id 4sm2874292wrn.48.2020.10.14.23.38.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Oct 2020 23:38:30 -0700 (PDT)
+ Wed, 14 Oct 2020 23:38:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/6] hw/sd/sdcard: Add trace event for ERASE command (CMD38)
-Date: Thu, 15 Oct 2020 08:38:19 +0200
-Message-Id: <20201015063824.212980-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/6] hw/sd/sdcard: Introduce the INVALID_ADDRESS definition
+Date: Thu, 15 Oct 2020 08:38:20 +0200
+Message-Id: <20201015063824.212980-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201015063824.212980-1-f4bug@amsat.org>
 References: <20201015063824.212980-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -91,40 +91,59 @@ Cc: Alexander Bulekov <alxndr@bu.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trace addresses provided to the ERASE command.
+'0' is used as a value to indicate an invalid (or unset)
+address. Use a definition instead of a magic value.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c         | 2 +-
- hw/sd/trace-events | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/sd/sd.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 00128822224..2606b969e34 100644
+index 2606b969e34..30ae435d669 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -749,7 +749,7 @@ static void sd_erase(SDState *sd)
-     uint64_t erase_start = sd->erase_start;
+@@ -53,6 +53,8 @@
+ 
+ #define SDSC_MAX_CAPACITY   (2 * GiB)
+ 
++#define INVALID_ADDRESS     0
++
+ typedef enum {
+     sd_r0 = 0,    /* no response */
+     sd_r1,        /* normal response command */
+@@ -575,8 +577,8 @@ static void sd_reset(DeviceState *dev)
+     sd->wpgrps_size = sect;
+     sd->wp_groups = bitmap_new(sd->wpgrps_size);
+     memset(sd->function_group, 0, sizeof(sd->function_group));
+-    sd->erase_start = 0;
+-    sd->erase_end = 0;
++    sd->erase_start = INVALID_ADDRESS;
++    sd->erase_end = INVALID_ADDRESS;
+     sd->size = size;
+     sd->blk_len = 0x200;
+     sd->pwd_len = 0;
+@@ -750,7 +752,8 @@ static void sd_erase(SDState *sd)
      uint64_t erase_end = sd->erase_end;
  
--    trace_sdcard_erase();
-+    trace_sdcard_erase(sd->erase_start, sd->erase_end);
-     if (!sd->erase_start || !sd->erase_end) {
+     trace_sdcard_erase(sd->erase_start, sd->erase_end);
+-    if (!sd->erase_start || !sd->erase_end) {
++    if (sd->erase_start == INVALID_ADDRESS
++            || sd->erase_end == INVALID_ADDRESS) {
          sd->card_status |= ERASE_SEQ_ERROR;
          return;
-diff --git a/hw/sd/trace-events b/hw/sd/trace-events
-index a87d7355fb8..96c7ea5e52f 100644
---- a/hw/sd/trace-events
-+++ b/hw/sd/trace-events
-@@ -46,7 +46,7 @@ sdcard_reset(void) ""
- sdcard_set_blocklen(uint16_t length) "0x%03x"
- sdcard_inserted(bool readonly) "read_only: %u"
- sdcard_ejected(void) ""
--sdcard_erase(void) ""
-+sdcard_erase(uint32_t first, uint32_t last) "addr first 0x%" PRIx32" last 0x%" PRIx32
- sdcard_lock(void) ""
- sdcard_unlock(void) ""
- sdcard_read_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
+     }
+@@ -763,8 +766,8 @@ static void sd_erase(SDState *sd)
+ 
+     erase_start = sd_addr_to_wpnum(erase_start);
+     erase_end = sd_addr_to_wpnum(erase_end);
+-    sd->erase_start = 0;
+-    sd->erase_end = 0;
++    sd->erase_start = INVALID_ADDRESS;
++    sd->erase_end = INVALID_ADDRESS;
+     sd->csd[14] |= 0x40;
+ 
+     for (i = erase_start; i <= erase_end; i++) {
 -- 
 2.26.2
 
