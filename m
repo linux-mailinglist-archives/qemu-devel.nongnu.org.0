@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9C328F2C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 14:58:27 +0200 (CEST)
-Received: from localhost ([::1]:35136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5642228F2C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 14:58:15 +0200 (CEST)
+Received: from localhost ([::1]:34384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT2pu-0002VV-6F
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 08:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40116)
+	id 1kT2pi-0002CU-8C
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 08:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lP-0005hx-S5
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48069)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lH-0005Qz-PE
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lN-0002g5-4a
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:47 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lE-0002d6-Dn
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602766424;
+ s=mimecast20190719; t=1602766415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tXe4cg857g20YUx6njvEzYYGxDAZJ9Am6OrXnV4XwOw=;
- b=S76LBY59sic24kyuj+OIMeL9zoGCdTKlwqcA0L/jOVUOH1CbZI6fX+bV96ixvuMSTX8x0D
- 760yfRi027dYw2NBXFMUwrMUSEvHzoeBweC5BwIG4olcaGEtU3yGPTJqjdY+NK3PLuzxc6
- m3fCC9hHZmIGtLSk3wWyYIsqn+lOx7E=
+ bh=7Pj31xriymNsj9PF/8LSZqHTMJrYN/5EDpbzid4Et3c=;
+ b=LQ6/Po9Dk9P5vKH9Lm1WEuHcdDljh8L+fM8OHefpaA1r1CRqoCnPqQLNsUr1UtL0eWMNOj
+ RzvWjvjaFkTytYsHUa2T2asZvFahlBdf+/r6VZAr7hXaeE4+uENR1wdZdnOpZqOnG5YCBn
+ A5y4wZl4gS6NxvPbTjxC6R8lzdlHydY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-gI9nYf0GMruJRSC0zYAPjg-1; Thu, 15 Oct 2020 08:53:42 -0400
-X-MC-Unique: gI9nYf0GMruJRSC0zYAPjg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-393-0ZStHlMyN224mkMedXGMiA-1; Thu, 15 Oct 2020 08:53:34 -0400
+X-MC-Unique: 0ZStHlMyN224mkMedXGMiA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7EC28D5CA0
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 12:53:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F19918A8234
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 12:53:33 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D53705C1BD;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D328F76674;
  Thu, 15 Oct 2020 12:53:32 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E7F0E9D0E; Thu, 15 Oct 2020 14:53:22 +0200 (CEST)
+ id F27AD9D0F; Thu, 15 Oct 2020 14:53:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] meson: add spice dependency to core spice source files.
-Date: Thu, 15 Oct 2020 14:53:21 +0200
-Message-Id: <20201015125322.23648-8-kraxel@redhat.com>
+Subject: [PULL 8/8] chardev/spice: build spice chardevs as module
+Date: Thu, 15 Oct 2020 14:53:22 +0200
+Message-Id: <20201015125322.23648-9-kraxel@redhat.com>
 In-Reply-To: <20201015125322.23648-1-kraxel@redhat.com>
 References: <20201015125322.23648-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:38:26
@@ -81,39 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now it happens to work by pure luck because the spice chardevs
-add the spice dependency to the softmmu source set.  That'll change
-though once we start building spice chardevs as module, so lets fix
-it properly.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20201014121120.13482-7-kraxel@redhat.com
+Message-id: 20201014121120.13482-8-kraxel@redhat.com
 ---
- ui/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ util/module.c       | 2 ++
+ chardev/meson.build | 7 ++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/ui/meson.build b/ui/meson.build
-index 78ad792ffb8d..6ce814867852 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -14,7 +14,7 @@ softmmu_ss.add(files(
- ))
+diff --git a/util/module.c b/util/module.c
+index 4349607ad176..f0ed05fbd06b 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -268,6 +268,8 @@ static struct {
+     { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
+     { "vhost-user-gpu",        "hw-", "display-virtio-gpu"    },
+     { "chardev-braille",       "chardev-", "baum"             },
++    { "chardev-spicevmc",      "chardev-", "spice"            },
++    { "chardev-spiceport",     "chardev-", "spice"            },
+ };
  
- softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('input-linux.c'))
--softmmu_ss.add(when: 'CONFIG_SPICE', if_true: files('spice-core.c', 'spice-input.c', 'spice-display.c'))
-+softmmu_ss.add(when: [spice, 'CONFIG_SPICE'], if_true: files('spice-core.c', 'spice-input.c', 'spice-display.c'))
- softmmu_ss.add(when: cocoa, if_true: files('cocoa.m'))
+ static bool module_loaded_qom_all;
+diff --git a/chardev/meson.build b/chardev/meson.build
+index dd2699a11b08..859d8b04d480 100644
+--- a/chardev/meson.build
++++ b/chardev/meson.build
+@@ -26,7 +26,6 @@ chardev_ss.add(when: 'CONFIG_WIN32', if_true: files(
+ chardev_ss = chardev_ss.apply(config_host, strict: false)
  
- vnc_ss = ss.source_set()
+ softmmu_ss.add(files('chardev-sysemu.c', 'msmouse.c', 'wctablet.c', 'testdev.c'))
+-softmmu_ss.add(when: ['CONFIG_SPICE', spice], if_true: files('spice.c'))
+ 
+ chardev_modules = {}
+ 
+@@ -36,4 +35,10 @@ if config_host.has_key('CONFIG_BRLAPI')
+   chardev_modules += { 'baum': module_ss }
+ endif
+ 
++if config_host.has_key('CONFIG_SPICE')
++  module_ss = ss.source_set()
++  module_ss.add(when: [spice], if_true: files('spice.c'))
++  chardev_modules += { 'spice': module_ss }
++endif
++
+ modules += { 'chardev': chardev_modules }
 -- 
 2.27.0
 
