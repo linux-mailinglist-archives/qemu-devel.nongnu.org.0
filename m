@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F35E28FAEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 23:56:55 +0200 (CEST)
-Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5596028FAE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 23:56:04 +0200 (CEST)
+Received: from localhost ([::1]:48854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTBF0-0003uc-Mm
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 17:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52604)
+	id 1kTBEB-0002Ru-Bp
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 17:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kTBCG-0000je-0S
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:04 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:37768)
+ id 1kTBCH-0000ln-Hj
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:05 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:41996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kTBCE-0005Gm-6K
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:03 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id hk7so224284pjb.2
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 14:54:01 -0700 (PDT)
+ id 1kTBCF-0005H6-V1
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:05 -0400
+Received: by mail-pl1-x635.google.com with SMTP id c6so103062plr.9
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 14:54:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/CJt1ti1bc3lxOpPR6juiEHbN3Gx+k4QlRzxvnRswdQ=;
- b=S4uKU/mzKdH+NxJGn9qAwQERCKierTFtZ5bCJkjuRqHXWybcHXeFIbi6KWJ2z9cPAt
- ZfL1rCyvrLssPq1ZueT1lipwbTJuEgoDZEUQa/7oQLJ87KzjG+BmwJIEQvV7aM42XP8z
- jcgNel2bguJLwChwx6NE/IYSB9O5S/TNMdLYJYade3zAHsBEXKX1f9rVwJW+py3Xlupt
- kiLRgI1oAf5doyVpwompLHSfJyU6zne/kY4Bfkm6pHRN6OlBD3kLvlRlvWUwoGH6/TlD
- qPxeAB1uMEJSc0DnMZP7h8u6A4tbZIveVychdxtkE5pOnnCdAsCV2FbARwEYXaeTpgsq
- 6UlA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gD6WMWYQ9CIQ4TmbgB/h0Tt9F/nzYRkxmSRyeiKZIXA=;
+ b=hUy24E0UA9dVu7MJfrgVjWpTNElEKjUwPkZgVH0Cfblvtt7mYI7a8QSEGfrcE5mT7Q
+ Ke7pj0Uvgy93FYR/mUhrUXtXDMgowhS+97ZfMwmrXfv69+uuSnZo9TOqeKNu7QPbC/6L
+ dSdneeYXdnfPPnnZLT6+B7Wb4aPDk2l1r2ZHRZumo48qYEO9wpv6+PeuBSqeoo4bGN+I
+ O659ZGEnhGbarXf0Fx1HRPORzIIdQkOGVU7uoho4If5O2lLPAsO+HHz87j8DHinKciUf
+ bR0R0W1eJ5vs9wtjWJlSlHqTRmtcbsjvc0fHnx33WOjO8zzD1pyXXFqwGtq+JQqiMR/H
+ EFfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/CJt1ti1bc3lxOpPR6juiEHbN3Gx+k4QlRzxvnRswdQ=;
- b=kPk6ry5dXtiyl8F8fYGkVSH0uXFRmT3y6mXV22wtqyWt9IYnENrulMeRQgHaa8pojD
- qzbbTBs7W1qGyffWbTfjsoEDc934x5E3PD4s6GyZK+q9cb05bI4467lfnbggXw+m6Tx5
- B729rSrqHK+bejDhaqvm0Kfu1FoD7Sy/9mSE4WUUFb3oZN7qJimRv/q2aXbPKg9IGZLT
- sfPqi33wmsCXpmVkneAdSCK5K912r8rz0W/tjtZGOwDsikumQ6WuyHqXV/wwPNMa7eNc
- 9tw7N+aH62wFxLezp8bMsJTeKw25MSvlfFZKFlV7SlSiR7mwbgVK41NYVqw54Cf2hyG9
- 6llg==
-X-Gm-Message-State: AOAM532RpDwV3xGup+RyYV7lxKtKb4z9gndhlpKcdOKyKLf32insbmsE
- 1E/Khcu5ZZulxjQbqsfggJXRaM/xCaq2yADb
-X-Google-Smtp-Source: ABdhPJwI7Emnyv1/sx4CleDxvovMNPnR0InYp+CdmK//5d9jfIXoy6p7Zlxp0lUR324RU8yIsFtQRA==
-X-Received: by 2002:a17:90b:4006:: with SMTP id
- ie6mr738094pjb.102.1602798839889; 
- Thu, 15 Oct 2020 14:53:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gD6WMWYQ9CIQ4TmbgB/h0Tt9F/nzYRkxmSRyeiKZIXA=;
+ b=GJF/dNN4OVZBGI8+H6cnjP9nq1rZ7ZnM0WI7qRD3UIPY2Pn6cmBFX2uzyT//8SC1po
+ +R3YBwJN1//avg1JmjnPUxxw55s2WRSea5GPGtKcX9wX7jcDlreMbWGQ/VuVuHmFb8lb
+ i2M2pV9CYxOYYs+9T4dqwMS8KGTGGGnKNIJ15jchEmtiAR5Euq4e5K4RSTGYRsdkFpV9
+ lsxJ0zC1DU0spGoAq1vOsaMgKgwlpeRlK6FN6ykK5tRkBVhexXL80/R3jh7QC803d/YX
+ LO6pjVEgsugHvpwjVSyI5oXBnWIPaHPeLKbnGuKpSxHBAhuW4Mf7i3OzhEIZMVS9HGAX
+ zjIw==
+X-Gm-Message-State: AOAM531NoEctcO8SYlBk+qKEdF9PsJyaQeCUPJHuXK84xjkRShMXzSUZ
+ x/z6hDK1Aw2upnlK2F21Qhz+KoERyzrML5Y1
+X-Google-Smtp-Source: ABdhPJycIg4IRSBaC77DCFZrTxSHjv3kPn0Z7D7hteZmTIPDsbUK1eUkVyMFMNQ/XItRHh3NJkPXug==
+X-Received: by 2002:a17:90a:3:: with SMTP id 3mr703818pja.184.1602798841957;
+ Thu, 15 Oct 2020 14:54:01 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id f66sm252856pfa.59.2020.10.15.14.53.58
+ by smtp.googlemail.com with ESMTPSA id f66sm252856pfa.59.2020.10.15.14.54.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Oct 2020 14:53:59 -0700 (PDT)
+ Thu, 15 Oct 2020 14:54:01 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/4] Fixes docs building on msys2/mingw
-Date: Fri, 16 Oct 2020 05:53:41 +0800
-Message-Id: <20201015215345.173-1-luoyonggang@gmail.com>
+Subject: [PATCH v3 1/4] docs: Fixes build docs on msys2/mingw
+Date: Fri, 16 Oct 2020 05:53:42 +0800
+Message-Id: <20201015215345.173-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20201015215345.173-1-luoyonggang@gmail.com>
+References: <20201015215345.173-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1035.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x635.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,36 +88,41 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-V2-V3=0D
-No need convert perl trick to python script anymore=0D
-after Paolo's removal of ninjatool.=0D
-Revise Meson: Move the detection logic for sphinx to meson=0D
-for pass other platform by letting SPHINX_ARGS to be empty=0D
-when build_docs are false=0D
-=0D
-v1 - v2=0D
-Also move the docs configure part from=0D
-configure to meson, this also fixed the pending=0D
-ninjatool removal caused issue that docs  can=0D
-not be build under msys2/mingw=0D
-=0D
-Yonggang Luo (4):=0D
-  docs: Fixes build docs on msys2/mingw=0D
-  configure: the docdir option should passed to meson as is.=0D
-  meson: Move the detection logic for sphinx to meson=0D
-  cirrus: Enable doc build on msys2/mingw=0D
-=0D
- .cirrus.yml                   |  6 +++-=0D
- configure                     | 62 +++--------------------------------=0D
- docs/conf.py                  |  2 +-=0D
- docs/meson.build              |  4 +--=0D
- docs/sphinx/kerneldoc.py      |  2 +-=0D
- meson.build                   | 59 +++++++++++++++++++++++++++++----=0D
- meson_options.txt             |  5 ++-=0D
- tests/qapi-schema/meson.build |  2 +-=0D
- 8 files changed, 71 insertions(+), 71 deletions(-)=0D
-=0D
--- =0D
-2.28.0.windows.1=0D
-=0D
+meson didn't support running ../scripts/kernel-do directly
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ docs/conf.py             | 2 +-
+ docs/sphinx/kerneldoc.py | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/docs/conf.py b/docs/conf.py
+index 00e1b750e2..e584f68393 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -241,7 +241,7 @@ texinfo_documents = [
+ # We use paths starting from qemu_docdir here so that you can run
+ # sphinx-build from anywhere and the kerneldoc extension can still
+ # find everything.
+-kerneldoc_bin = os.path.join(qemu_docdir, '../scripts/kernel-doc')
++kerneldoc_bin = ['perl', os.path.join(qemu_docdir, '../scripts/kernel-doc')]
+ kerneldoc_srctree = os.path.join(qemu_docdir, '..')
+ hxtool_srctree = os.path.join(qemu_docdir, '..')
+ qapidoc_srctree = os.path.join(qemu_docdir, '..')
+diff --git a/docs/sphinx/kerneldoc.py b/docs/sphinx/kerneldoc.py
+index 3e87940206..3ac277d162 100644
+--- a/docs/sphinx/kerneldoc.py
++++ b/docs/sphinx/kerneldoc.py
+@@ -67,7 +67,7 @@ class KernelDocDirective(Directive):
+ 
+     def run(self):
+         env = self.state.document.settings.env
+-        cmd = [env.config.kerneldoc_bin, '-rst', '-enable-lineno']
++        cmd = env.config.kerneldoc_bin + ['-rst', '-enable-lineno']
+ 
+         filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
+         export_file_patterns = []
+-- 
+2.28.0.windows.1
+
 
