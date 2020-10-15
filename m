@@ -2,95 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F9A28F81B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 20:05:15 +0200 (CEST)
-Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2820D28F825
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 20:07:46 +0200 (CEST)
+Received: from localhost ([::1]:57676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT7co-0007NH-7M
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 14:05:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60720)
+	id 1kT7fF-0001Ij-6D
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 14:07:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT7Zn-00065D-CO
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:02:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42281)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT7Zk-0001xt-Qd
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:02:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602784922;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mag/Kcm/YoTzcvdAz05eCoVI8A8FD2AuRXcNnSFNPZI=;
- b=QSJ2IpMEP6EIQwMMZtFbf21UOeDzab4b6FT9//9YZtW7EgEzSegWT2HEbbzIMqjRJ1OJrJ
- DSQ76/OSmDc0tf0kWKhsl/02K8kxJNdZ9q0Uuud55cz4JvjI2PMjy+hlesig4TtBYZ6j4P
- 5LpBnqx5ZgkrdOUrWbEeNJBfCmYRTqQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-8tC8ChJVPuSRFibeYtRqDg-1; Thu, 15 Oct 2020 14:02:01 -0400
-X-MC-Unique: 8tC8ChJVPuSRFibeYtRqDg-1
-Received: by mail-wr1-f70.google.com with SMTP id v5so30483wrr.0
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 11:01:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Mag/Kcm/YoTzcvdAz05eCoVI8A8FD2AuRXcNnSFNPZI=;
- b=l79TLcRZ8J6l2eRShqPskX25HVP/YYwkFiHpB3HoYKHja/infCe36zTEzgZwnNr7s8
- 2+IzYqbHfWQToCKawDnbKDKf8sLNFPseNRiqC4SzFJqP+urBv5+ZWFqlspmIryUIsarh
- ny7zBLH5KXZSrTxoC/iRdGGqMraedpCPf5Vo7sLjFpq4pc57GhXV39jaKE5s4cFxR2Yp
- 90sEf9d0tssvaznCfcMe5Vc+4dyQgLWV0x/1+dBLVir2C/d2YNPG13Hur31Zsbq5KF7E
- okk9F+L5kNBd0sPB5gKqWX9q38lBfMKyg+5jgYbQeBG0voqMJ20e/5+59VBsyMdMBb4N
- 8EMQ==
-X-Gm-Message-State: AOAM530b/Q6j+pri//ZzIeuMsfQIBbOrX07hHK2TZxUic6/Cfw7VPR3n
- PuJcv+i/RrVOrY48YXtZkfbgo6yJEMlRvAsUqVjkZ03w6FBR2T5+svKfLQfdqftaF+d81VHj6zP
- CyDbMz+x2w7s5p1k=
-X-Received: by 2002:adf:eac6:: with SMTP id o6mr6046144wrn.117.1602784918930; 
- Thu, 15 Oct 2020 11:01:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHOEoV2N0xa+Wl8cmGuiyeKeKCwOjsoehUK367fV9FRRRocdCj1qR2jYvbUblt4t9jqUyLvQ==
-X-Received: by 2002:adf:eac6:: with SMTP id o6mr6046091wrn.117.1602784918551; 
- Thu, 15 Oct 2020 11:01:58 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id l1sm57584wrb.1.2020.10.15.11.01.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Oct 2020 11:01:57 -0700 (PDT)
-Subject: Re: [RFC 0/5] NVMe passthrough: Support 64kB page host
-To: Auger Eric <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, stefanha@redhat.com,
- fam@euphon.net, alex.williamson@redhat.com
-References: <20201015115252.15582-1-eric.auger@redhat.com>
- <0a1ae4dd-064b-49c5-0669-04219646f616@redhat.com>
- <d3ba4c98-67b8-0d38-378a-805fb02b3d40@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <920515f6-aae8-41fa-007a-701bdd6cdf1c@redhat.com>
-Date: Thu, 15 Oct 2020 20:01:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <d3ba4c98-67b8-0d38-378a-805fb02b3d40@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:10:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kT7dE-0007zg-PB
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:05:40 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:52650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kT7dB-0002It-Dg
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:05:40 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09FI4nJ8127949;
+ Thu, 15 Oct 2020 18:05:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=VkUdPko8AbuIOsevwKqllAeyKYh2XpdwH5LG65eJJDs=;
+ b=MRyZm6d1xhbwe5euKQnZ5q3tva7ioedemSwaqUgNvbHLaHx7/vxv1Bp8OunEQy5AZ8Hw
+ XAdxsdviRHNPyBvzzgnLeXqVtbI3ph4SmnsGLILUMl1YqlgQ5EEwQWRPy1tgot7Vz1zr
+ c50yZh8pwTpC9iulhkl3LYchODs/hjJ/Q1/WvHyoPZM9S/bafm+eATkp7g45n7PCzjDA
+ vI8k0gB8FtkaD1hSQUM+zpNPiXIYSxy548dIVzYA5EGigVdx59TfVy/OwNh0PeeA0oS2
+ YirLWdo2r6vatdNUyutPWp1m1I8xmyH6eti2hvwx2Bh1Bu6rLVMrQvD1yD9lCyZzabxH Iw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 346g8gkcc4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 15 Oct 2020 18:05:26 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09FI4ekk184611;
+ Thu, 15 Oct 2020 18:05:25 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 343pw0qh31-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 15 Oct 2020 18:05:25 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09FI5LDD026156;
+ Thu, 15 Oct 2020 18:05:21 GMT
+Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 15 Oct 2020 11:05:21 -0700
+From: Jagannathan Raman <jag.raman@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v11 00/19] Initial support for multi-process Qemu
+Date: Thu, 15 Oct 2020 14:04:53 -0400
+Message-Id: <cover.1602784930.git.jag.raman@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9775
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxscore=0 adultscore=0
+ bulkscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010150121
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9775
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ suspectscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 spamscore=0 adultscore=0
+ mlxscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010150121
+Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
+ helo=aserp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 11:04:16
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.019, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,57 +92,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, mreitz@redhat.com
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/20 6:15 PM, Auger Eric wrote:
-> Hi Philippe,
-> 
-> On 10/15/20 3:49 PM, Philippe Mathieu-Daudé wrote:
->> On 10/15/20 1:52 PM, Eric Auger wrote:
->>> This series allows NVMe passthrough on aarch64 with 64kB page host.
->>> Addresses and sizes of buffers which are VFIO DMA mapped are
->>> aligned with the host page size.
->>>
->>> nvme_register_buf() path is taken care of in this series
->>> but it does not seem to prevent the use case from working.
->>>
->>> Best Regards
->>>
->>> Eric
->>>
->>> This series can be found at:
->>> https://github.com/eauger/qemu/tree/nvme_64k_rfc
->>>
->>> This was tested on ARM only.
->>>
->>> Eric Auger (5):
->>>     block/nvme: use some NVME_CAP_* macros
->>>     block/nvme: Change size and alignment of IDENTIFY response buffer
->>>     block/nvme: Change size and alignment of queue
->>>     block/nvme: Change size and alignment of prp_list_pages
->>>     block/nvme: Align iov's va and size on host page size
->>
->> Since it is easier for me to rebase on top of your series,
->> I'm including it in my work (fixing the checkpatch errors)
->> and will repost block/nvme/ patches altogether.
-> 
-> There should be one warning (line exceeding 80 chars) but no error. I
-> can easily rebase/respin if you prefer.
+Hello,
 
-Yes, warnings, no error. No need to respin.
+This is the v11 of the patchset. Thank you very much for the
+review of the v10 of the series. We are glad to hear the
+patchset is getting in a better shape.
 
-> 
-> Thanks
-> 
-> Eric
->>
->> Regards,
->>
->> Phil.
->>
->>
-> 
+We made changes to the following patches in this series.
+
+[PATCH v10 06/19] multi-process: define MPQemuMsg format and transmission functions
+[PATCH v10 08/19] multi-process: Associate fd of a PCIDevice with its object
+[PATCH v10 10/19] multi-process: introduce proxy object
+
+To touch upon the history of this project, we posted the
+Proof Of Concept patches before the BoF session in 2018.
+Subsequently, we posted 9 versions on the qemu-devel mailist.
+You can find them by following the links below ([1] - [9]).
+
+Following people contributed to the design and
+implementation of this project:
+Jagannathan Raman <jag.raman@oracle.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+John G Johnson <john.g.johnson@oracle.com>
+Stefan Hajnoczi <stefanha@redhat.com>
+Konrad Wilk <konrad.wilk@oracle.com>
+Kanth Ghatraju <kanth.ghatraju@oracle.com>
+
+We would like to thank QEMU community for your feedback in the
+design and implementation of this project.
+
+Qemu wiki page:
+https://wiki.qemu.org/Features/MultiProcessQEMU
+
+For the full concept writeup about QEMU multi-process, please refer to
+docs/devel/qemu-multiprocess.rst. Also see docs/qemu-multiprocess.txt for
+usage information.
+
+
+We welcome all your ideas, concerns, and questions for this patchset.
+[POC]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+[1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
+[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
+[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
+[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.html
+[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg682429.html
+[6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.html
+[7]: https://patchew.org/QEMU/cover.1593273671.git.elena.ufimtseva@oracle.com/
+[8]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727007.html
+[9]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg734275.html
+[10]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg747638.html
+
+Elena Ufimtseva (7):
+  multi-process: add qio channel function to transmit
+  multi-process: define MPQemuMsg format and transmission functions
+  multi-process: introduce proxy object
+  multi-process: add proxy communication functions
+  multi-process: Forward PCI config space acceses to the remote process
+  multi-process: perform device reset in the remote process
+  multi-process: add configure and usage information
+
+Jagannathan Raman (11):
+  memory: alloc RAM from file at offset
+  multi-process: Add config option for multi-process QEMU
+  multi-process: setup PCI host bridge for remote device
+  multi-process: setup a machine object for remote device process
+  multi-process: Initialize message handler in remote device
+  multi-process: Associate fd of a PCIDevice with its object
+  multi-process: setup memory manager for remote device
+  multi-process: PCI BAR read/write handling for proxy & remote
+    endpoints
+  multi-process: Synchronize remote memory
+  multi-process: create IOHUB object to handle irq
+  multi-process: Retrieve PCI info from remote process
+
+John G Johnson (1):
+  multi-process: add the concept description to
+    docs/devel/qemu-multiprocess
+
+ MAINTAINERS                     |  26 ++
+ backends/hostmem-memfd.c        |   2 +-
+ configure                       |  10 +
+ docs/devel/index.rst            |   1 +
+ docs/devel/multi-process.rst    | 966 ++++++++++++++++++++++++++++++++++++++++
+ docs/multi-process.rst          |  67 +++
+ hw/i386/meson.build             |   5 +
+ hw/i386/remote-iohub.c          | 123 +++++
+ hw/i386/remote-memory.c         |  58 +++
+ hw/i386/remote-msg.c            | 241 ++++++++++
+ hw/i386/remote-obj.c            | 154 +++++++
+ hw/i386/remote.c                |  79 ++++
+ hw/misc/ivshmem.c               |   3 +-
+ hw/pci-host/meson.build         |   1 +
+ hw/pci-host/remote.c            |  75 ++++
+ hw/pci/memory-sync.c            | 210 +++++++++
+ hw/pci/meson.build              |   3 +
+ hw/pci/proxy.c                  | 377 ++++++++++++++++
+ include/exec/memory.h           |   2 +
+ include/exec/ram_addr.h         |   2 +-
+ include/hw/i386/remote-iohub.h  |  42 ++
+ include/hw/i386/remote-memory.h |  19 +
+ include/hw/i386/remote-obj.h    |  42 ++
+ include/hw/i386/remote.h        |  40 ++
+ include/hw/pci-host/remote.h    |  31 ++
+ include/hw/pci/memory-sync.h    |  27 ++
+ include/hw/pci/pci_ids.h        |   3 +
+ include/hw/pci/proxy.h          |  53 +++
+ include/io/channel.h            |  24 +
+ include/io/mpqemu-link.h        |  98 ++++
+ include/qemu/mmap-alloc.h       |   3 +-
+ io/channel.c                    |  45 ++
+ io/meson.build                  |   2 +
+ io/mpqemu-link.c                | 303 +++++++++++++
+ meson.build                     |   1 +
+ scripts/mpqemu-launcher.py      |  49 ++
+ softmmu/memory.c                |   3 +-
+ softmmu/physmem.c               |  11 +-
+ util/mmap-alloc.c               |   7 +-
+ util/oslib-posix.c              |   2 +-
+ 40 files changed, 3197 insertions(+), 13 deletions(-)
+ create mode 100644 docs/devel/multi-process.rst
+ create mode 100644 docs/multi-process.rst
+ create mode 100644 hw/i386/remote-iohub.c
+ create mode 100644 hw/i386/remote-memory.c
+ create mode 100644 hw/i386/remote-msg.c
+ create mode 100644 hw/i386/remote-obj.c
+ create mode 100644 hw/i386/remote.c
+ create mode 100644 hw/pci-host/remote.c
+ create mode 100644 hw/pci/memory-sync.c
+ create mode 100644 hw/pci/proxy.c
+ create mode 100644 include/hw/i386/remote-iohub.h
+ create mode 100644 include/hw/i386/remote-memory.h
+ create mode 100644 include/hw/i386/remote-obj.h
+ create mode 100644 include/hw/i386/remote.h
+ create mode 100644 include/hw/pci-host/remote.h
+ create mode 100644 include/hw/pci/memory-sync.h
+ create mode 100644 include/hw/pci/proxy.h
+ create mode 100644 include/io/mpqemu-link.h
+ create mode 100644 io/mpqemu-link.c
+ create mode 100755 scripts/mpqemu-launcher.py
+
+-- 
+1.8.3.1
 
 
