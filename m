@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6B328EE84
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 10:31:39 +0200 (CEST)
-Received: from localhost ([::1]:41232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C6D28EE8A
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 10:33:26 +0200 (CEST)
+Received: from localhost ([::1]:43432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSyfi-0002li-FP
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 04:31:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49856)
+	id 1kSyhR-0003l5-Pf
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 04:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kSyeD-0002DO-HX
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 04:30:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41819)
+ id 1kSygS-0003Jk-L0
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 04:32:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kSye9-0007cE-NN
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 04:30:03 -0400
+ id 1kSygQ-0007yT-S4
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 04:32:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602750599;
+ s=mimecast20190719; t=1602750742;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4Ib98xPCcipQwcUWr38E3E/CfaLLGJScPf/4QfCDGqM=;
- b=XjYHkxBE0oxufT+ysZhwhNLzABPUifgkjlj3Zkn1pXkl4ZnUTiNsOS4Fh5xg71lSw1CJKA
- SdxiWH/DpwWwm3//cbr8iO7i76a6tRQ469sw73OqoYMTC0ERn5xavo8dDgjpWW9e3v4zt1
- OJG2ra8xNb9ihB3or40YHbOFPiKl8rY=
+ bh=O4GkVKHGED2VwDXTHfTs5c6YlYT2cx9Qkao9WIyDMp0=;
+ b=IqbjMk2SRI462OCTSXfnXM0oPZZ96kE8frMJidhhSP99uzIRgTivgn2Bw6Qb18qpCAQ6dk
+ 2VZKEkburU9yTzQtyAZfd+xzIRvXmcL3mBov7XLJZzNRCS+yU+JR3M12QpBAsUMR4C66wS
+ IrreWJ7WxclLkvgLfrk4hIWBp1cQbrg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-ajSE3BgzP22oFlIVzDJ5pw-1; Thu, 15 Oct 2020 04:29:50 -0400
-X-MC-Unique: ajSE3BgzP22oFlIVzDJ5pw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-37-yFTft0GqP-6SLnpLkldzYw-1; Thu, 15 Oct 2020 04:32:18 -0400
+X-MC-Unique: yFTft0GqP-6SLnpLkldzYw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E59918A822C;
- Thu, 15 Oct 2020 08:29:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C32DD57245;
+ Thu, 15 Oct 2020 08:32:16 +0000 (UTC)
 Received: from redhat.com (ovpn-114-115.ams2.redhat.com [10.36.114.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DBFF19C66;
- Thu, 15 Oct 2020 08:29:42 +0000 (UTC)
-Date: Thu, 15 Oct 2020 09:29:40 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CA9D61177;
+ Thu, 15 Oct 2020 08:32:09 +0000 (UTC)
+Date: Thu, 15 Oct 2020 09:32:05 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH v3 2/4] Jobs based on custom runners: build environment
- docs and playbook
-Message-ID: <20201015082940.GA163620@redhat.com>
+Subject: Re: [PATCH v3 4/4] Jobs based on custom runners: add job definitions
+ for QEMU's machines
+Message-ID: <20201015083205.GB163620@redhat.com>
 References: <20201014052140.1146924-1-crosa@redhat.com>
- <20201014052140.1146924-3-crosa@redhat.com>
- <20201014173009.GU115189@redhat.com>
- <20201014185952.GA1196177@localhost.localdomain>
- <20201014191947.GB1196177@localhost.localdomain>
+ <20201014052140.1146924-5-crosa@redhat.com>
+ <20201014174655.GW115189@redhat.com>
+ <20201014211356.GA1199212@localhost.localdomain>
+ <20201014232430.GB1203215@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20201014191947.GB1196177@localhost.localdomain>
+In-Reply-To: <20201014232430.GB1203215@localhost.localdomain>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,38 +91,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Willian Rampazzo <wrampazz@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 14, 2020 at 03:19:47PM -0400, Cleber Rosa wrote:
-> On Wed, Oct 14, 2020 at 02:59:58PM -0400, Cleber Rosa wrote:
-> > On Wed, Oct 14, 2020 at 06:30:09PM +0100, Daniel P. Berrangé wrote:
+On Wed, Oct 14, 2020 at 07:24:30PM -0400, Cleber Rosa wrote:
+> On Wed, Oct 14, 2020 at 05:14:01PM -0400, Cleber Rosa wrote:
+> > On Wed, Oct 14, 2020 at 06:46:55PM +0100, Daniel P. Berrangé wrote:
 > > > 
-> > > This needs updating to add meson, and with Paolo's series today you
-> > > might as well go ahead and add ninja-build immediately too
+> > > This bug links to
+> > > 
+> > >   https://bugs.launchpad.net/ubuntu/+source/libssh/+bug/1847514
+> > > 
+> > > which is marked as fixed. So I'm thinking we can drop the --disable-libssh
+> > > arg from all these jobs
 > > >
+> > 
+> > OK, I'll double check that and, if the fix is comfirmed beyond the bug
+> > tracker, I'll update it.
+> > 
 > 
-> I replied too quickly, but allow me to get this right: meson is *not*
-> included in the dockerfiles (and other similar configurations), and
-> all setups I found rely on the submodule.  Are suggesting to add meson
-> and diverge from the dockerfiles?
-
-Doh, right, I forgot that we use the submodule for now, since we need
-such a new meson. So ignore this...
-
-> > > https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04025.html
-> > >
+> I was still able to reproduce the build failure with the latest packages.
 > 
-> ^ I'll add meson according to this, of course.
+> The last update on the bug, is very misleading, but there's a hint of
+> its outcome:
+> 
+> ---
+> Martin Wimpress (flexiondotorg) on 2019-12-17
+> tags:	added: rls-bb-notfixing
+> tags:	removed: bionic
+> no longer affects:	libssh (Ubuntu Bionic)
+> ---
+> 
+> So, *notfixing* means it no longer affects that package on that
+> distro? Right...
 
-Just ninja is needed
+Urgh, launchpad is such a confusing bug tracker :-(
+
+> Anyway, keeping this AS IS.
+
+Yep
 
 
 Regards,
