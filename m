@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E39728F551
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 16:54:30 +0200 (CEST)
-Received: from localhost ([::1]:40770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281CF28F55E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 16:56:04 +0200 (CEST)
+Received: from localhost ([::1]:49800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT4eD-0008AG-DK
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 10:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42112)
+	id 1kT4fj-0003TI-6X
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 10:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kT4Zw-0004CA-OL
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:50:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41478)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kT4Zy-0004GU-9N
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:50:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kT4Zu-0001fV-T1
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:50:04 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kT4Zw-0001ft-EX
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:50:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602773401;
+ s=mimecast20190719; t=1602773403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aLpNJpWPYwwF01s/Lhok3fVvRwYNbm36mgvYFogFwDM=;
- b=WACCL2sMyW52pkpFGsBDbB8gqDSpopja1CmJAdHbaaGeMOE/gQTkJwTilcO2FgbBPEabYs
- 8U+2bs/iK34j6XWxSQQxX6ZuTOKba9yL0pxtNw8wBzy7v9Cz1YZ7k8Yb2TO/7I5d4LZERH
- NSm46dFA2jODmI796RKA6vDQK426z4k=
+ bh=CAzM3xN0eH5jPpu7uj/EOlr7aJNHU+juElBpoQ+Xkog=;
+ b=Aja3fcRStS/0abTMzCViqZFPHMdcCfXjqdqZPx0/svccAV17pRwHouMR8lQPiir381DTXO
+ JwqK/g2T+DxI8dzRO4Xn9hxshc+lVhIUz3ntWzggpCODDbDET/b6bCZZK17HZ20489TxWM
+ JJMmSYusApl694JYzOv6fhRlnPRPqJ4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-2qn1dOYcMbKRcrJbJgffcA-1; Thu, 15 Oct 2020 10:49:59 -0400
-X-MC-Unique: 2qn1dOYcMbKRcrJbJgffcA-1
+ us-mta-382-QRMOW4GqOgCIcgjuCB0Jqw-1; Thu, 15 Oct 2020 10:50:01 -0400
+X-MC-Unique: QRMOW4GqOgCIcgjuCB0Jqw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 935F780F05B;
- Thu, 15 Oct 2020 14:49:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8918108E1A2;
+ Thu, 15 Oct 2020 14:49:59 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-163.ams2.redhat.com [10.36.114.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CACF610F3;
- Thu, 15 Oct 2020 14:49:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DCFD5610F3;
+ Thu, 15 Oct 2020 14:49:58 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/10] keyval: Fix and clarify grammar
-Date: Thu, 15 Oct 2020 16:49:43 +0200
-Message-Id: <20201015144952.388043-2-kwolf@redhat.com>
+Subject: [PULL 02/10] test-keyval: Demonstrate misparse of ',
+ ' with implied key
+Date: Thu, 15 Oct 2020 16:49:44 +0200
+Message-Id: <20201015144952.388043-3-kwolf@redhat.com>
 In-Reply-To: <20201015144952.388043-1-kwolf@redhat.com>
 References: <20201015144952.388043-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -84,69 +85,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Markus Armbruster <armbru@redhat.com>
 
-The grammar has a few issues:
-
-* key-fragment = / [^=,.]* /
-
-  Prose restricts key fragments: they "must be valid QAPI names or
-  consist only of decimal digits".  Technically, '' consists only of
-  decimal digits.  The code rejects that.  Fix the grammar.
-
-* val          = { / [^,]* / | ',,' }
-
-  Use + instead of *.  Accepts the same language.
-
-* val-no-key   = / [^=,]* /
-
-  The code rejects an empty value.  Fix the grammar.
-
-* Section "Additional syntax for use with an implied key" is
-  confusing.  Rewrite it.
+Add a test for "val,,ue" with implied key.  Documentation says this
+should parse as implied key with value "val", then fail.  The code
+parses it as implied key with value "val,ue", then succeeds.  The next
+commit will fix it.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201011073505.1185335-2-armbru@redhat.com>
+Message-Id: <20201011073505.1185335-3-armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- util/keyval.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ tests/test-keyval.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/util/keyval.c b/util/keyval.c
-index 13def4af54..82d8497c71 100644
---- a/util/keyval.c
-+++ b/util/keyval.c
-@@ -16,8 +16,8 @@
-  *   key-vals     = [ key-val { ',' key-val } [ ',' ] ]
-  *   key-val      = key '=' val
-  *   key          = key-fragment { '.' key-fragment }
-- *   key-fragment = / [^=,.]* /
-- *   val          = { / [^,]* / | ',,' }
-+ *   key-fragment = / [^=,.]+ /
-+ *   val          = { / [^,]+ / | ',,' }
-  *
-  * Semantics defined by reduction to JSON:
-  *
-@@ -71,12 +71,16 @@
-  * Awkward.  Note that we carefully restrict alternate types to avoid
-  * similar ambiguity.
-  *
-- * Additional syntax for use with an implied key:
-+ * Alternative syntax for use with an implied key:
-  *
-- *   key-vals-ik  = val-no-key [ ',' key-vals ]
-- *   val-no-key   = / [^=,]* /
-+ *   key-vals     = [ key-val-1st { ',' key-val } [ ',' ] ]
-+ *   key-val-1st  = val-no-key | key-val
-+ *   val-no-key   = / [^=,]+ /
-  *
-- * where no-key is syntactic sugar for implied-key=val-no-key.
-+ * where val-no-key is syntactic sugar for implied-key=val-no-key.
-+ *
-+ * Note that you can't use the sugared form when the value contains
-+ * '=' or ','.
-  */
+diff --git a/tests/test-keyval.c b/tests/test-keyval.c
+index e331a84149..f02bdf7029 100644
+--- a/tests/test-keyval.c
++++ b/tests/test-keyval.c
+@@ -182,6 +182,13 @@ static void test_keyval_parse(void)
+     error_free_or_abort(&err);
+     g_assert(!qdict);
  
- #include "qemu/osdep.h"
++    /* Implied key's value can't have comma (qemu_opts_parse(): it can) */
++    /* BUG: it can */
++    qdict = keyval_parse("val,,ue", "implied", &error_abort);
++    g_assert_cmpuint(qdict_size(qdict), ==, 1);
++    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "val,ue");
++    qobject_unref(qdict);
++
+     /* Empty key is not an implied key */
+     qdict = keyval_parse("=val", "implied", &err);
+     error_free_or_abort(&err);
 -- 
 2.28.0
 
