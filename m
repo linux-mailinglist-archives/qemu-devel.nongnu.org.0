@@ -2,93 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D7A28F0CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 13:17:01 +0200 (CEST)
-Received: from localhost ([::1]:47382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE3D28F0E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 13:26:27 +0200 (CEST)
+Received: from localhost ([::1]:59474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT1Fk-0003ej-9m
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 07:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43396)
+	id 1kT1Os-0000wD-F2
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 07:26:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT1D5-0002ek-7h
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:14:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT1D3-0006MT-Id
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:14:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602760452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=esQraE8Y/bNPkER3FVilbO9Rv53mg4avZhRLebUk/5g=;
- b=A8/Vyqgr/e9OSnOKm8jhfREnoa54S1IEQ0CZvHHVIGLBQCsSIbYqhZum0oXYfDVUJtaH06
- eWS7KLSsfxTaIvYjeSMb3LuzB4vXJ36INJ7mkPQ13W1MuDxAnwWXa7yQwOmvLJGnRab67J
- No/X4zEvGu3x80ElOhACnrrPPrLcwwA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-lRsPJ0X1PF2uLM8qbJy0nw-1; Thu, 15 Oct 2020 07:14:10 -0400
-X-MC-Unique: lRsPJ0X1PF2uLM8qbJy0nw-1
-Received: by mail-wm1-f71.google.com with SMTP id y83so1585798wmc.8
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 04:14:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=esQraE8Y/bNPkER3FVilbO9Rv53mg4avZhRLebUk/5g=;
- b=S6yAt6MbLGqcTb2mJmQABbNzgLszaaPCMnUlZkywaa0/jy7+RjJDQGTKeKEIKOf5or
- dWlIZgRltnbcf+2nApd9A+fHH468oYuyOpw3DHYrKLJFd78bvXGZAWxYvRS0xqRzAcIP
- EWeXv7zwba/lDI2dhttuailP1BIEyThcX4wB1Tch6SmuanBHgneCh2FPDwE7lgC8owOn
- nk4KXI8nmQwEAc1KvWbWJKoOFqB+FUT0Rm75JUPQBcESz7ObureIXNsUcYPm7d0wI20M
- V9pwn0K3RHh5L0M8cTzrk17m4nILLrvfier00+7iIJSeyvz7WB2WsY1jWBWiQfooRUYr
- 32fg==
-X-Gm-Message-State: AOAM530xyrxPVBbwoF9JWU+lwV6Y6loU51tstqOZr8BR7HIukQoEXfYN
- SfWDyp9g6nBH/KH7Pi1JBu3IVYvCOscLCo8pslK/qmZwvrzK8E1+p+zxnlCvtYNJ5RdH6EBcZQl
- 2U2pZhuPHLLWB/3c=
-X-Received: by 2002:a1c:60d5:: with SMTP id u204mr3610669wmb.46.1602760449604; 
- Thu, 15 Oct 2020 04:14:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTUqG28x5lucY4oFfdubtWtO8F/Nd/4VsJSArprgUjTQpnHwQBsgzwvUvk1fdBhPk12DwuPg==
-X-Received: by 2002:a1c:60d5:: with SMTP id u204mr3610653wmb.46.1602760449399; 
- Thu, 15 Oct 2020 04:14:09 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id v4sm3862967wmg.35.2020.10.15.04.14.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Oct 2020 04:14:08 -0700 (PDT)
-Subject: Re: [PATCH 08/10] net/colo-compare.c: Change the timer clock type
-To: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>
-References: <20201014072555.12515-1-chen.zhang@intel.com>
- <20201014072555.12515-9-chen.zhang@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9a9c1cf2-ed54-d10f-0929-131e48e71aa8@redhat.com>
-Date: Thu, 15 Oct 2020 13:14:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kT1Nf-0000OQ-JW
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:25:11 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:47180)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kT1Nc-0007p8-Ul
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:25:11 -0400
+Received: from [127.0.1.1] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 3DED240A1DD4;
+ Thu, 15 Oct 2020 11:25:03 +0000 (UTC)
+Subject: [PATCH] tests/acceptance: add MIPS record/replay tests
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+To: qemu-devel@nongnu.org
+Date: Thu, 15 Oct 2020 14:25:02 +0300
+Message-ID: <160276110297.2705.10918105269658307206.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-In-Reply-To: <20201014072555.12515-9-chen.zhang@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:10:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.019, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 07:25:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, PDS_BTC_ID=0.498,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,59 +52,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <zhangckid@gmail.com>
+Cc: pavel.dovgalyuk@ispras.ru, ehabkost@redhat.com, alex.bennee@linaro.org,
+ wrampazz@redhat.com, crosa@redhat.com, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/20 9:25 AM, Zhang Chen wrote:
-> From: Zhang Chen <chen.zhang@intel.com>
-> 
-> The virtual clock only runs during the emulation. It stops
-> when the virtual machine is stopped.
-> The host clock should be used for device models that emulate accurate
-> real time sources. It will continue to run when the virtual machine
-> is suspended. COLO need to know the host time here.
-> 
+This patch adds MIPS-targeted acceptance tests for
+record/replay functions.
 
-Please add:
+Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+---
+ 0 files changed
 
-Fixes: dd321ecfc2e ("colo-compare: Use IOThread to Check old packet 
-regularly and Process packets of the primary")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> Reported-by: Derek Su <dereksu@qnap.com>
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> Reviewed-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-> ---
->   net/colo-compare.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/net/colo-compare.c b/net/colo-compare.c
-> index f4814c5f09..61c95fe7e9 100644
-> --- a/net/colo-compare.c
-> +++ b/net/colo-compare.c
-> @@ -899,7 +899,7 @@ static void check_old_packet_regular(void *opaque)
->   
->       /* if have old packet we will notify checkpoint */
->       colo_old_packet_check(s);
-> -    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-> +    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
->                 s->expired_scan_cycle);
->   }
->   
-> @@ -933,10 +933,10 @@ static void colo_compare_timer_init(CompareState *s)
->   {
->       AioContext *ctx = iothread_get_aio_context(s->iothread);
->   
-> -    s->packet_check_timer = aio_timer_new(ctx, QEMU_CLOCK_VIRTUAL,
-> +    s->packet_check_timer = aio_timer_new(ctx, QEMU_CLOCK_HOST,
->                                   SCALE_MS, check_old_packet_regular,
->                                   s);
-> -    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-> +    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
->                 s->expired_scan_cycle);
->   }
->   
-> 
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+index 952f429cac..6c3d1ec3fb 100644
+--- a/tests/acceptance/replay_kernel.py
++++ b/tests/acceptance/replay_kernel.py
+@@ -9,6 +9,8 @@
+ # later.  See the COPYING file in the top-level directory.
+ 
+ import os
++import lzma
++import shutil
+ import logging
+ import time
+ 
+@@ -19,7 +21,7 @@ from avocado.utils import archive
+ from avocado.utils import process
+ from boot_linux_console import LinuxKernelTest
+ 
+-class ReplayKernel(LinuxKernelTest):
++class ReplayKernelBase(LinuxKernelTest):
+     """
+     Boots a Linux kernel in record mode and checks that the console
+     is operational and the kernel command line is properly passed
+@@ -74,6 +76,7 @@ class ReplayKernel(LinuxKernelTest):
+         logger = logging.getLogger('replay')
+         logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
+ 
++class ReplayKernelNormal(ReplayKernelBase):
+     @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+     def test_x86_64_pc(self):
+         """
+@@ -91,6 +94,103 @@ class ReplayKernel(LinuxKernelTest):
+ 
+         self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5)
+ 
++    def test_mips_malta(self):
++        """
++        :avocado: tags=arch:mips
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:big
++        """
++        deb_url = ('http://snapshot.debian.org/archive/debian/'
++                   '20130217T032700Z/pool/main/l/linux-2.6/'
++                   'linux-image-2.6.32-5-4kc-malta_2.6.32-48_mips.deb')
++        deb_hash = 'a8cfc28ad8f45f54811fc6cf74fc43ffcfe0ba04'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path,
++                                            '/boot/vmlinux-2.6.32-5-4kc-malta')
++        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=ttyS0'
++        console_pattern = 'Kernel command line: %s' % kernel_command_line
++
++        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5)
++
++    def test_mips64el_malta(self):
++        """
++        This test requires the ar tool to extract "data.tar.gz" from
++        the Debian package.
++
++        The kernel can be rebuilt using this Debian kernel source [1] and
++        following the instructions on [2].
++
++        [1] http://snapshot.debian.org/package/linux-2.6/2.6.32-48/
++            #linux-source-2.6.32_2.6.32-48
++        [2] https://kernel-team.pages.debian.net/kernel-handbook/
++            ch-common-tasks.html#s-common-official
++
++        :avocado: tags=arch:mips64el
++        :avocado: tags=machine:malta
++        """
++        deb_url = ('http://snapshot.debian.org/archive/debian/'
++                   '20130217T032700Z/pool/main/l/linux-2.6/'
++                   'linux-image-2.6.32-5-5kc-malta_2.6.32-48_mipsel.deb')
++        deb_hash = '1aaec92083bf22fda31e0d27fa8d9a388e5fc3d5'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path,
++                                            '/boot/vmlinux-2.6.32-5-5kc-malta')
++        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=ttyS0'
++        console_pattern = 'Kernel command line: %s' % kernel_command_line
++        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5)
++
++    def do_test_mips_malta32el_nanomips(self, kernel_path_xz):
++        kernel_path = self.workdir + "kernel"
++        with lzma.open(kernel_path_xz, 'rb') as f_in:
++            with open(kernel_path, 'wb') as f_out:
++                shutil.copyfileobj(f_in, f_out)
++
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
++                               + 'mem=256m@@0x0 '
++                               + 'console=ttyS0')
++        console_pattern = 'Kernel command line: %s' % kernel_command_line
++        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5,
++                    args=('-cpu', 'I7200'))
++
++    def test_mips_malta32el_nanomips_4k(self):
++        """
++        :avocado: tags=arch:mipsel
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:little
++        """
++        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
++                      'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
++                      'generic_nano32r6el_page4k.xz')
++        kernel_hash = '477456aafd2a0f1ddc9482727f20fe9575565dd6'
++        kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        self.do_test_mips_malta32el_nanomips(kernel_path_xz)
++
++    def test_mips_malta32el_nanomips_16k_up(self):
++        """
++        :avocado: tags=arch:mipsel
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:little
++        """
++        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
++                      'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
++                      'generic_nano32r6el_page16k_up.xz')
++        kernel_hash = 'e882868f944c71c816e832e2303b7874d044a7bc'
++        kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        self.do_test_mips_malta32el_nanomips(kernel_path_xz)
++
++    def test_mips_malta32el_nanomips_64k_dbg(self):
++        """
++        :avocado: tags=arch:mipsel
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:little
++        """
++        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
++                      'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
++                      'generic_nano32r6el_page64k_dbg.xz')
++        kernel_hash = '18d1c68f2e23429e266ca39ba5349ccd0aeb7180'
++        kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        self.do_test_mips_malta32el_nanomips(kernel_path_xz)
++
+     def test_aarch64_virt(self):
+         """
+         :avocado: tags=arch:aarch64
+@@ -302,3 +402,70 @@ class ReplayKernel(LinuxKernelTest):
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'santas-sleigh-ride.elf',
+                                  args=('-cpu', 'dc233c'))
++
++class ReplayKernelSlow(ReplayKernelBase):
++    timeout = 180
++
++    def test_mips_malta_cpio(self):
++        """
++        :avocado: tags=arch:mips
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:big
++        :avocado: tags=slowness:high
++        """
++        # Override the timeout, because this kernel includes
++        # an inner loop which is executed with TB recompilings during
++        # replay, making it very slow.
++        deb_url = ('http://snapshot.debian.org/archive/debian/'
++                   '20160601T041800Z/pool/main/l/linux/'
++                   'linux-image-4.5.0-2-4kc-malta_4.5.5-1_mips.deb')
++        deb_hash = 'a3c84f3e88b54e06107d65a410d1d1e8e0f340f8'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path,
++                                            '/boot/vmlinux-4.5.0-2-4kc-malta')
++        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
++                      '8584a59ed9e5eb5ee7ca91f6d74bbb06619205b8/rootfs/'
++                      'mips/rootfs.cpio.gz')
++        initrd_hash = 'bf806e17009360a866bf537f6de66590de349a99'
++        initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++        initrd_path = self.workdir + "rootfs.cpio"
++        archive.gzip_uncompress(initrd_path_gz, initrd_path)
++
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
++                               + 'console=ttyS0 console=tty '
++                               + 'rdinit=/sbin/init noreboot')
++        console_pattern = 'Boot successful.'
++        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5,
++                    args=('-initrd', initrd_path))
++
++    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
++    def test_mips64el_malta_5KEc_cpio(self):
++        """
++        :avocado: tags=arch:mips64el
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:little
++        :avocado: tags=slowness:high
++        """
++        # Override the timeout, because this kernel includes
++        # an inner loop which is executed with TB recompilings during
++        # replay, making it very slow.
++        kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
++                      'raw/9ad2df38/mips/malta/mips64el/'
++                      'vmlinux-3.19.3.mtoman.20150408')
++        kernel_hash = '00d1d268fb9f7d8beda1de6bebcc46e884d71754'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        initrd_url = ('https://github.com/groeck/linux-build-test/'
++                      'raw/8584a59e/rootfs/'
++                      'mipsel64/rootfs.mipsel64r1.cpio.gz')
++        initrd_hash = '1dbb8a396e916847325284dbe2151167'
++        initrd_path_gz = self.fetch_asset(initrd_url, algorithm='md5',
++                                          asset_hash=initrd_hash)
++        initrd_path = self.workdir + "rootfs.cpio"
++        archive.gzip_uncompress(initrd_path_gz, initrd_path)
++
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
++                               + 'console=ttyS0 console=tty '
++                               + 'rdinit=/sbin/init noreboot')
++        console_pattern = 'Boot successful.'
++        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5,
++                    args=('-initrd', initrd_path, '-cpu', '5KEc'))
 
 
