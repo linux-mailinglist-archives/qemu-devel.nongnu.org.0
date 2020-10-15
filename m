@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74FC628F74A
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:57:34 +0200 (CEST)
-Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A64C28F750
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:59:02 +0200 (CEST)
+Received: from localhost ([::1]:50508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT6ZJ-0006Zx-Ga
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42812)
+	id 1kT6aj-0001To-ID
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:59:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kT6Na-0004NT-Le
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53200)
+ id 1kT6Nc-0004Nm-LQ
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kT6NP-0000Ue-1Y
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:23 -0400
+ id 1kT6NR-0000XO-U7
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602780313;
+ s=mimecast20190719; t=1602780317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nWd4yB75Wt66mVlUSGrxHhIA1yEu4PJLln4W+/ohXyU=;
- b=BW/nxDeDSABjcCcqoG8z6VAquMo3Dcw5obWRM0raXW8aQNGEm+aZodABKriUTaPk0jxfsj
- Bt9CgGRE93d8CE51LKnAI4qmwILMyM6LqrD9v7yMDVnR6m9JBen1ieUlnb7M8+qkOIFx+o
- WoYJW88NN+N3wT/stM9yT2l/201GtQQ=
+ bh=gGmqgei+Up8VgdSbIiXXnU58C7qtGxogY9pgtEwOVOA=;
+ b=e9AD/VU1UtYGEgJbpb6CReO68MA0hNDQOgnU2XM2/bOdU/I9nXK95w5L1hCgkJ041gydT4
+ rIy0dER6s9eJKxSg3GnDs88nRV9AHsZrMuzH85ydf3eNXzuRMofDZPTZ3r2FJWYfmSJhgQ
+ bcxzmGkuC16W8l6LWj7uMlsTO9TwATQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-5v7_WUwVOFG1_c2zotQPNg-1; Thu, 15 Oct 2020 12:45:11 -0400
-X-MC-Unique: 5v7_WUwVOFG1_c2zotQPNg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-402-jdAFo9-hMkaHUpdIk_FZhg-1; Thu, 15 Oct 2020 12:45:12 -0400
+X-MC-Unique: jdAFo9-hMkaHUpdIk_FZhg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8F6C107AFC6;
- Thu, 15 Oct 2020 16:45:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8991A1007470;
+ Thu, 15 Oct 2020 16:45:11 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7269C19C4F;
- Thu, 15 Oct 2020 16:45:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5705A5D9D5;
+ Thu, 15 Oct 2020 16:45:11 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 5/9] i386/kvm: Remove IRQ routing support checks
-Date: Thu, 15 Oct 2020 12:44:57 -0400
-Message-Id: <20201015164501.462775-6-ehabkost@redhat.com>
+Subject: [PULL 6/9] i386/kvm: Delete kvm_allows_irq0_override()
+Date: Thu, 15 Oct 2020 12:44:58 -0400
+Message-Id: <20201015164501.462775-7-ehabkost@redhat.com>
 In-Reply-To: <20201015164501.462775-1-ehabkost@redhat.com>
 References: <20201015164501.462775-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,101 +86,106 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM_CAP_IRQ_ROUTING is always available on x86, so replace checks
-for kvm_has_gsi_routing() and KVM_CAP_IRQ_ROUTING with asserts.
+As IRQ routing is always available on x86,
+kvm_allows_irq0_override() will always return true, so we don't
+need the function anymore.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200922201922.2153598-3-ehabkost@redhat.com>
+Message-Id: <20200922201922.2153598-4-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/i386/kvm/apic.c   |  5 ++---
- hw/i386/kvm/ioapic.c | 33 ++++++++++++++++-----------------
- target/i386/kvm.c    |  7 -------
- 3 files changed, 18 insertions(+), 27 deletions(-)
+ target/i386/kvm_i386.h | 1 -
+ hw/i386/fw_cfg.c       | 2 +-
+ hw/i386/microvm.c      | 2 +-
+ hw/i386/pc.c           | 2 +-
+ target/i386/kvm-stub.c | 5 -----
+ target/i386/kvm.c      | 5 -----
+ 6 files changed, 3 insertions(+), 14 deletions(-)
 
-diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
-index 4eb2d77b87..dd29906061 100644
---- a/hw/i386/kvm/apic.c
-+++ b/hw/i386/kvm/apic.c
-@@ -225,9 +225,8 @@ static void kvm_apic_realize(DeviceState *dev, Error **errp)
-     memory_region_init_io(&s->io_memory, OBJECT(s), &kvm_apic_io_ops, s,
-                           "kvm-apic-msi", APIC_SPACE_SIZE);
+diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
+index 0fce4e51d2..a4a619cebb 100644
+--- a/target/i386/kvm_i386.h
++++ b/target/i386/kvm_i386.h
+@@ -32,7 +32,6 @@
  
--    if (kvm_has_gsi_routing()) {
--        msi_nonbroken = true;
--    }
-+    assert(kvm_has_gsi_routing());
-+    msi_nonbroken = true;
- }
+ #endif  /* CONFIG_KVM */
  
- static void kvm_apic_unrealize(DeviceState *dev)
-diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
-index c5528df942..dfc3c98005 100644
---- a/hw/i386/kvm/ioapic.c
-+++ b/hw/i386/kvm/ioapic.c
-@@ -25,27 +25,26 @@ void kvm_pc_setup_irq_routing(bool pci_enabled)
-     KVMState *s = kvm_state;
-     int i;
+-bool kvm_allows_irq0_override(void);
+ bool kvm_has_smm(void);
+ bool kvm_has_adjust_clock(void);
+ bool kvm_has_adjust_clock_stable(void);
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index 33441ad484..e06579490c 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -123,7 +123,7 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
+                      acpi_tables, acpi_tables_len);
+ #endif
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
++    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);
  
--    if (kvm_check_extension(s, KVM_CAP_IRQ_ROUTING)) {
--        for (i = 0; i < 8; ++i) {
--            if (i == 2) {
--                continue;
--            }
--            kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_PIC_MASTER, i);
--        }
--        for (i = 8; i < 16; ++i) {
--            kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_PIC_SLAVE, i - 8);
-+    assert(kvm_has_gsi_routing());
-+    for (i = 0; i < 8; ++i) {
-+        if (i == 2) {
-+            continue;
-         }
--        if (pci_enabled) {
--            for (i = 0; i < 24; ++i) {
--                if (i == 0) {
--                    kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_IOAPIC, 2);
--                } else if (i != 2) {
--                    kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_IOAPIC, i);
--                }
-+        kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_PIC_MASTER, i);
-+    }
-+    for (i = 8; i < 16; ++i) {
-+        kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_PIC_SLAVE, i - 8);
-+    }
-+    if (pci_enabled) {
-+        for (i = 0; i < 24; ++i) {
-+            if (i == 0) {
-+                kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_IOAPIC, 2);
-+            } else if (i != 2) {
-+                kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_IOAPIC, i);
-             }
-         }
--        kvm_irqchip_commit_routes(s);
-     }
-+    kvm_irqchip_commit_routes(s);
- }
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+                      &e820_reserve, sizeof(e820_reserve));
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 73a7a142b4..68a7f424ac 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -290,7 +290,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, machine->smp.cpus);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, machine->smp.max_cpus);
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_override());
++    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+                      &e820_reserve, sizeof(e820_reserve));
+     fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index e87be5d29a..4e323755d0 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -827,7 +827,7 @@ void pc_guest_info_init(PCMachineState *pcms)
+     MachineState *ms = MACHINE(pcms);
+     X86MachineState *x86ms = X86_MACHINE(pcms);
  
- typedef struct KVMIOAPICState KVMIOAPICState;
+-    x86ms->apic_xrupt_override = kvm_allows_irq0_override();
++    x86ms->apic_xrupt_override = true;
+     pcms->numa_nodes = ms->numa_state->num_nodes;
+     pcms->node_mem = g_malloc0(pcms->numa_nodes *
+                                     sizeof *pcms->node_mem);
+diff --git a/target/i386/kvm-stub.c b/target/i386/kvm-stub.c
+index 872ef7df4c..92f49121b8 100644
+--- a/target/i386/kvm-stub.c
++++ b/target/i386/kvm-stub.c
+@@ -13,11 +13,6 @@
+ #include "cpu.h"
+ #include "kvm_i386.h"
+ 
+-bool kvm_allows_irq0_override(void)
+-{
+-    return 1;
+-}
+-
+ #ifndef __OPTIMIZE__
+ bool kvm_has_smm(void)
+ {
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 69c691ad77..588d893a63 100644
+index 588d893a63..cf46259534 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -4552,13 +4552,6 @@ bool kvm_arch_stop_on_emulation_error(CPUState *cs)
+@@ -154,11 +154,6 @@ bool kvm_has_exception_payload(void)
+     return has_exception_payload;
+ }
  
- void kvm_arch_init_irq_routing(KVMState *s)
+-bool kvm_allows_irq0_override(void)
+-{
+-    return !kvm_irqchip_in_kernel() || kvm_has_gsi_routing();
+-}
+-
+ static bool kvm_x2apic_api_set_flags(uint64_t flags)
  {
--    if (!kvm_check_extension(s, KVM_CAP_IRQ_ROUTING)) {
--        /* If kernel can't do irq routing, interrupt source
--         * override 0->2 cannot be set up as required by HPET.
--         * So we have to disable it.
--         */
--        no_hpet = 1;
--    }
-     /* We know at this point that we're using the in-kernel
-      * irqchip, so we can use irqfds, and on x86 we know
-      * we can use msi via irqfd and GSI routing.
+     KVMState *s = KVM_STATE(current_accel());
 -- 
 2.28.0
 
