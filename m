@@ -2,50 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6204628F44C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 16:04:39 +0200 (CEST)
-Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9D728F3AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 15:51:56 +0200 (CEST)
+Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT3rx-0006HN-Iw
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 10:04:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54082)
+	id 1kT3ff-0001jr-US
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 09:51:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3bF-0005EI-6w
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:47:22 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:38891)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3bC-0001UV-Ot
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:47:20 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 09FDkJpb003517
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 15 Oct 2020 09:46:22 -0400
-Date: Thu, 15 Oct 2020 09:46:19 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 11/16] scripts/oss-fuzz: Add general-fuzzer build script
-Message-ID: <20201015134619.la7nndj7hqkeh5kn@mozz.bu.edu>
-References: <20200921022506.873303-1-alxndr@bu.edu>
- <20200921022506.873303-12-alxndr@bu.edu>
- <cfe27655-7f00-9b5f-96b7-a8dcbf12d05e@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT3dt-0008QB-9h
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:50:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT3dr-0001it-Fe
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:50:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602769801;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3rBXTahQwKZkjMt1VLqEIXggHfTizMTxWJ69zAX84Ac=;
+ b=VnukzAUQgYQQpzdZZgeJilRt8OMNbIl9bnrA9JlNewk0OKeZ29RspW2uzoz4bmsUgsJ9ug
+ 1yxcprzihK1Lrs+Ox/Ae92cADUF2M4Ami1KaKnQ5f2ibGeOxtpoOmsk6YSCm0avDk7sP31
+ mdm883TBRzF9Ln1BB/zjylSzoOUdC7I=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-224-rhf6umS7OPKV5S00BiGfhw-1; Thu, 15 Oct 2020 09:49:58 -0400
+X-MC-Unique: rhf6umS7OPKV5S00BiGfhw-1
+Received: by mail-wr1-f71.google.com with SMTP id a15so1960187wrx.9
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 06:49:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3rBXTahQwKZkjMt1VLqEIXggHfTizMTxWJ69zAX84Ac=;
+ b=eEGotL8y+QpyZh3emO1WVe9hTydl3K/OSDuEWRImqivwmTje+LsfN0437Kg+ih4F8W
+ J2tK/i0H9LJTqX7NStqC1i9/2SCJ38IB1aZF1H0IOAmP4L2lqpT9OGjujFhGojHPRSnP
+ qGkoIENLZSElHvn4Fupr6I5Eps7uTYN+yqVnDX4KOOOt/F4bs1enZA72AZNiLVM6nBQr
+ aKECipxNE2DXtbYJnKN+a/skIg8VIY954h78C/yk3Z5QLSnP/RoeaV5UU5x4nfurE2BK
+ G97cQ5FH1qfz5jXFrCrZNBflPquZ59/yWjPfA5Vim8om1rHeWbGds91VTIM3urwoeJpG
+ gUgQ==
+X-Gm-Message-State: AOAM530O+nD4F4B0j/fJdNDSkxS+dPUVBomA4bNa2VWt84xB2vQXkoF8
+ E0ANDi2wT+4Gd/cwfy6AIhspN/p6MHePrm/0LMTFlYMPSsY9nwGJWqJOIOztR4LHcIjcf8Fe8Ih
+ 8MP1EXlyM3QLx1H8=
+X-Received: by 2002:adf:fac4:: with SMTP id a4mr4841529wrs.172.1602769796841; 
+ Thu, 15 Oct 2020 06:49:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzg8Vqdm85/L6jvDJHpSTY+3PXiCtigfowRmz1AYQVf/SM8kgTw98PG0stgSX7TNYssk32avQ==
+X-Received: by 2002:adf:fac4:: with SMTP id a4mr4841513wrs.172.1602769796653; 
+ Thu, 15 Oct 2020 06:49:56 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id v9sm4364581wmh.23.2020.10.15.06.49.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Oct 2020 06:49:55 -0700 (PDT)
+Subject: Re: [RFC 0/5] NVMe passthrough: Support 64kB page host
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, stefanha@redhat.com,
+ fam@euphon.net, alex.williamson@redhat.com
+References: <20201015115252.15582-1-eric.auger@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0a1ae4dd-064b-49c5-0669-04219646f616@redhat.com>
+Date: Thu, 15 Oct 2020 15:49:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cfe27655-7f00-9b5f-96b7-a8dcbf12d05e@redhat.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 09:44:03
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201015115252.15582-1-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:10:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.019, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,121 +101,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- philmd@redhat.com
+Cc: kwolf@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201008 0935, Paolo Bonzini wrote:
-> On 21/09/20 04:25, Alexander Bulekov wrote:
-> > This parses a yaml file containing general-fuzzer configs and builds a
-> > separate oss-fuzz wrapper binary for each one, changing some
-> > preprocessor macros for each configuration. To avoid dealing with
-> > escaping and stringifying, convert each string into a byte-array
-> > representation
-> > 
-> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > ---
-> >  scripts/oss-fuzz/build_general_fuzzers.py | 69 +++++++++++++++++++++++
-> >  1 file changed, 69 insertions(+)
-> >  create mode 100755 scripts/oss-fuzz/build_general_fuzzers.py
-> > 
-> > diff --git a/scripts/oss-fuzz/build_general_fuzzers.py b/scripts/oss-fuzz/build_general_fuzzers.py
-> > new file mode 100755
-> > index 0000000000..918f1143a5
-> > --- /dev/null
-> > +++ b/scripts/oss-fuzz/build_general_fuzzers.py
-> > @@ -0,0 +1,69 @@
-> > +#!/usr/bin/env python3
-> > +# -*- coding: utf-8 -*-
-> > +
-> > +"""
-> > +This script creates wrapper binaries that invoke the general-device-fuzzer with
-> > +configurations specified in a yaml config file.
-> > +"""
-> > +import sys
-> > +import os
-> > +import yaml
-> > +import tempfile
-> > +
-> > +CC = ""
-> > +TEMPLATE_FILENAME = "target_template.c"
-> > +TEMPLATE_PATH = ""
-> > +
-> > +
-> > +def usage():
-> > +    print("Usage: CC=COMPILER {} CONFIG_PATH \
-> > +OUTPUT_PATH_PREFIX".format(sys.argv[0]))
-> > +    sys.exit(0)
-> > +
-> > +
-> > +def str_to_c_byte_array(s):
-> > +    """
-> > +    Convert strings to byte-arrays so we don't worry about formatting
-> > +    strings to play nicely with cc -DQEMU_FUZZARGS etc
-> > +    """
-> > +    return ','.join('0x{:02x}'.format(ord(x)) for x in s)
-> > +
-> > +
-> > +def compile_wrapper(cfg, path):
-> > +    os.system('$CC -DQEMU_FUZZ_ARGS="{fuzz_args}" \
-> > +               -DQEMU_FUZZ_OBJECTS="{fuzz_objs}" \
-> > +               {wrapper_template} -o {output_bin}'.format(
-> > +                   fuzz_args=str_to_c_byte_array(cfg["args"].replace("\n", " ")),
-> > +                   fuzz_objs=str_to_c_byte_array(cfg["objects"].replace("\n", " ")),
-> > +                   wrapper_template=TEMPLATE_PATH,
-> > +                   output_bin=path))
-> > +
-> > +
-> > +def main():
-> > +    global CC
-> > +    global TEMPLATE_PATH
-> > +    global OUTPUT_BIN_NAME
-> > +
-> > +    if len(sys.argv) != 3:
-> > +        usage()
-> > +
-> > +    cfg_path = sys.argv[1]
-> > +    out_path = sys.argv[2]
-> > +
-> > +    CC = os.getenv("CC", default="cc")
-> > +    TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), TEMPLATE_FILENAME)
-> > +    if not os.path.exists(TEMPLATE_PATH):
-> > +        print("Error {} doesn't exist".format(TEMPLATE_PATH))
-> > +        sys.exit(1)
-> > +
-> > +    with open(cfg_path, "r") as f:
-> > +        configs = yaml.load(f)["configs"]
-> > +    for cfg in configs:
-> > +        assert "name" in cfg
-> > +        assert "args" in cfg
-> > +        assert "objects" in cfg
-> > +        compile_wrapper(cfg, out_path + cfg["name"])
-> > +
-> > +
-> > +if __name__ == '__main__':
-> > +    main()
-> > 
+On 10/15/20 1:52 PM, Eric Auger wrote:
+> This series allows NVMe passthrough on aarch64 with 64kB page host.
+> Addresses and sizes of buffers which are VFIO DMA mapped are
+> aligned with the host page size.
 > 
-> Can you instead write an array of
+> nvme_register_buf() path is taken care of in this series
+> but it does not seem to prevent the use case from working.
 > 
-> struct {
->     const char *name, *args, *objects;
-> }
+> Best Regards
 > 
-> and use it in the normal argv0-based selection?  The advantage would be
-> that you can do the whole build within tests/qtest/fuzz/meson.build
-> instead of having yet another undocumented shell script (cue all the
-> mess I made when trying to modify scripts/oss-fuzz/build.sh).
+> Eric
 > 
-> Paolo
+> This series can be found at:
+> https://github.com/eauger/qemu/tree/nvme_64k_rfc
+> 
+> This was tested on ARM only.
+> 
+> Eric Auger (5):
+>    block/nvme: use some NVME_CAP_* macros
+>    block/nvme: Change size and alignment of IDENTIFY response buffer
+>    block/nvme: Change size and alignment of queue
+>    block/nvme: Change size and alignment of prp_list_pages
+>    block/nvme: Align iov's va and size on host page size
 
-Thanks for the suggestion. I did this in v4, and I think it is much
-nicer. No more python script, c template, and preprocessor hacking. I
-don't think the way I defined the configs is ideal, however I think it
-is already a better solution.
--Alex
+Since it is easier for me to rebase on top of your series,
+I'm including it in my work (fixing the checkpatch errors)
+and will repost block/nvme/ patches altogether.
 
-> 
+Regards,
+
+Phil.
+
 
