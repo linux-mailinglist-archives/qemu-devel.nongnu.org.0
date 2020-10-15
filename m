@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A216428ED24
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 08:42:21 +0200 (CEST)
-Received: from localhost ([::1]:54562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F10C28ED3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 08:55:07 +0200 (CEST)
+Received: from localhost ([::1]:49964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSwxw-0007YP-LJ
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 02:42:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55338)
+	id 1kSxAI-00019T-Hw
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 02:55:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSwug-0005RY-Gj; Thu, 15 Oct 2020 02:39:01 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55313)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kSx5o-0005mg-EK
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 02:50:28 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kSwue-0006zN-LH; Thu, 15 Oct 2020 02:38:57 -0400
-Received: by mail-wm1-x342.google.com with SMTP id a72so1892654wme.5;
- Wed, 14 Oct 2020 23:38:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9kcH0QEir+isSyR2eHUJqmP++6hsLCDL3S99R+ttmDk=;
- b=uOcBZ4mXVTJ9XkvFcrq3r2Bnv15i4xKLWGrZtNTz55Ne6+skMlh+oqPF5ARR5mQEiN
- 4GQCnKYDtS8SFb5xPfPnuCRgDTOBlW/8jSgLXwKVNHPk9spePYlgA+NlZ/A2Q9UOuJOP
- gwkVuzyRBNUuxPoVpU+e6+mC40z4DZhRh0xXJPAalovJDjRFTXosnOfsyTFa7csKJqtz
- yTVh8TqvB5Hxs6O2p4Pp6Am+Q70j8/B5OJIWzJAsJUXUGzemRfdCxZhhY61qPduml9Hj
- PEjxmwvU4moRD0ItnIKfq0YwS4wKQYPeP5BZCQth5AAwsfK25tqVZebmI6hPAZTZRbXZ
- wOFQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kSx5l-0002RI-F4
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 02:50:27 -0400
+Received: by mail-wr1-x442.google.com with SMTP id e17so1927646wru.12
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 23:50:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7DEbBxJ56He6bKworC6vr+rGVqrya8r+C3AT7n0QyYU=;
+ b=O/Pr7Av1zqZSgzsXlhBdaRDuI4p7QGTxb11nFDr34nhMO4bxAnXsI93syuf6T1YcNO
+ NhdUyP8JxM+NAPnatxW67KOThOyaPMIO/n4Eq+OpF/eulABrjHkxqEE4iqyFEc6hWYyP
+ kTTUSW1Hz6723A3W0oKndoy6tce/8IaDPg1b4A03SDdo0hADuXq7dPbl5AKmTkUm1myh
+ SuYn+hCjAFCXGNFP2NAc5A79ZeID1NaLh3335kqMxohOH0+/7f3+ud0wXuwyc4XeJovz
+ KxkIHoX6JwCCSIjuHBZfybf8/sJ/Fh/AS0Ar4bNAZwkYxH3qcTyGi3BGwYnN8+qyvmmV
+ Dwxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9kcH0QEir+isSyR2eHUJqmP++6hsLCDL3S99R+ttmDk=;
- b=SmdTQMK+I5U7JvHB+oATuoDX26rAzrQYaLDZC39VGpeWRYPYpSlWqoWxAP91XVcSXL
- ITmg1Ftiq72DAfrTrGIoCcyOZV0N8+2xrJbs/qacNyACx0meICd6WdR3FTAtI+7Zm1kr
- ScIYE9jPedqrpIai8ZXLFm8Qi0LhpoKNhkT7DClNYaQL2VEO2JxgMdKPcA4qU1hsde/0
- 7QI3GJ5LBFyWOKP42AS2qu9eVa+UyTv2+FKmdVyi2gi8IgmdhXwL1qgqqdxNM1BdliPF
- UsPFpJCh0QE4aTNEAly6fRw220KoN3Y5l3t+8mlUhCjlcxw7j/QHiaJ2OL9OTyv4Qcka
- 1g3g==
-X-Gm-Message-State: AOAM532n/XtdSmPA9VTTRTCSnzx9UTWhIAZez5zQzceUMZoYHpP5SkEE
- ijDXyGHJxiTdij2yPKTbbb/ZHwP9bjc=
-X-Google-Smtp-Source: ABdhPJy5vBlWQffFEgxoiXD7GLKfpNW4ySbn6pKwnjyNBei3SG8fGfteivcXUWl3xY6glO2FHZWsHA==
-X-Received: by 2002:a1c:2d8f:: with SMTP id t137mr2279825wmt.26.1602743934280; 
- Wed, 14 Oct 2020 23:38:54 -0700 (PDT)
-Received: from localhost.localdomain
- (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id c21sm2751483wme.36.2020.10.14.23.38.53
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=7DEbBxJ56He6bKworC6vr+rGVqrya8r+C3AT7n0QyYU=;
+ b=NBlW8LUGxVTkigSsbpLAvYlzByF2l0BPv08a+TOMVlm0zrRvtd7FPsqmyDDfUBpvTh
+ YJVffnUOvo91ZTVVRYilMiU58LMb7mI5RJCW9wEDqxy9C9RI+cjl3b9UrjB6mgKBb15s
+ dhir2yXnGmup7paybvdcyGgUYVAn3NMtZuM2S/pxbMFg5IYFUr/KdvFI/bkLXxvOl5UO
+ 8qjC82mKifUsg52AkcachSp8tJ2KbVhPEBS7w/6mdNvG4xf8P8j+kU8zyT5tl8f/NCF9
+ qhDAHe4ljH5HEzwfg1f2W5rhUXfkvjeXymT49TCdIdZAE97b/AqlxdmfHLKzpICrOyaS
+ EJAA==
+X-Gm-Message-State: AOAM530fTV5APaYnS29kSND8O1r4jzO2kmtEfWCJQ+jiTjBu2UOco+Gr
+ dqniN9Due1aBYsl+9nTXZIuXaA==
+X-Google-Smtp-Source: ABdhPJyxlAuCxavqOhRko09Y4o6eEsK0rKPwkRf1ENY0f/Bs73a2RfnHRsQ3bbgmNPcJ1/nJxwmS8w==
+X-Received: by 2002:adf:bbca:: with SMTP id z10mr2640568wrg.403.1602744623085; 
+ Wed, 14 Oct 2020 23:50:23 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i10sm3139586wrq.27.2020.10.14.23.50.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Oct 2020 23:38:53 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] hw/sd/sdcard: Assert if accessing an illegal group
-Date: Thu, 15 Oct 2020 08:38:24 +0200
-Message-Id: <20201015063824.212980-7-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201015063824.212980-1-f4bug@amsat.org>
-References: <20201015063824.212980-1-f4bug@amsat.org>
+ Wed, 14 Oct 2020 23:50:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3F53D1FF7E;
+ Thu, 15 Oct 2020 07:50:21 +0100 (BST)
+References: <20201014135416.1290679-1-pbonzini@redhat.com>
+ <20201014135416.1290679-7-pbonzini@redhat.com>
+User-agent: mu4e 1.5.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 6/7] add ninja to dockerfiles, CI configurations and
+ test VMs
+In-reply-to: <20201014135416.1290679-7-pbonzini@redhat.com>
+Date: Thu, 15 Oct 2020 07:50:21 +0100
+Message-ID: <875z7cx9si.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,41 +90,375 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org, berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can not have more group than 'wpgrps_size'.
-Assert if we are accessing a group above this limit.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/sd.c | 2 ++
- 1 file changed, 2 insertions(+)
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 4454d168e2f..c3febed2434 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -780,6 +780,7 @@ static void sd_erase(SDState *sd)
-     sd->csd[14] |= 0x40;
- 
-     for (i = erase_start; i <= erase_end; i++) {
-+        assert(i < sd->wpgrps_size);
-         if (test_bit(i, sd->wp_groups)) {
-             sd->card_status |= WP_ERASE_SKIP;
-         }
-@@ -794,6 +795,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
-     wpnum = sd_addr_to_wpnum(addr);
- 
-     for (i = 0; i < 32; i++, wpnum++, addr += WPGROUP_SIZE) {
-+        assert(wpnum < sd->wpgrps_size);
-         if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
-             ret |= (1 << i);
-         }
--- 
-2.26.2
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  .cirrus.yml                                |  6 +++---
+>  .travis.yml                                | 13 +++++++++++++
+>  tests/docker/dockerfiles/centos7.docker    |  1 +
+>  tests/docker/dockerfiles/centos8.docker    |  1 +
+>  tests/docker/dockerfiles/debian10.docker   |  1 +
+>  tests/docker/dockerfiles/fedora.docker     |  1 +
+>  tests/docker/dockerfiles/travis.docker     |  2 +-
+>  tests/docker/dockerfiles/ubuntu.docker     |  1 +
+>  tests/docker/dockerfiles/ubuntu1804.docker |  1 +
+>  tests/docker/dockerfiles/ubuntu2004.docker |  1 +
+>  tests/vm/centos                            |  2 +-
+>  tests/vm/centos.aarch64                    |  2 +-
+>  tests/vm/fedora                            |  2 +-
+>  tests/vm/freebsd                           |  1 +
+>  tests/vm/netbsd                            |  1 +
+>  tests/vm/openbsd                           |  1 +
+>  tests/vm/ubuntu.aarch64                    |  2 +-
+>  tests/vm/ubuntu.i386                       |  2 +-
+>  18 files changed, 32 insertions(+), 9 deletions(-)
+>
+> diff --git a/.cirrus.yml b/.cirrus.yml
+> index 99d118239c..87f7b047d7 100644
+> --- a/.cirrus.yml
+> +++ b/.cirrus.yml
+> @@ -9,7 +9,7 @@ freebsd_12_task:
+>    install_script:
+>      - ASSUME_ALWAYS_YES=3Dyes pkg bootstrap -f ;
+>      - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed
+> -          nettle perl5 pixman pkgconf png usbredir
+> +          nettle perl5 pixman pkgconf png usbredir ninja
+>    script:
+>      - mkdir build
+>      - cd build
+> @@ -21,7 +21,7 @@ macos_task:
+>    osx_instance:
+>      image: catalina-base
+>    install_script:
+> -    - brew install pkg-config python gnu-sed glib pixman make sdl2 bash
+> +    - brew install pkg-config python gnu-sed glib pixman make sdl2 bash =
+ninja
+>    script:
+>      - mkdir build
+>      - cd build
+> @@ -36,7 +36,7 @@ macos_xcode_task:
+>      # this is an alias for the latest Xcode
+>      image: catalina-xcode
+>    install_script:
+> -    - brew install pkg-config gnu-sed glib pixman make sdl2 bash
+> +    - brew install pkg-config gnu-sed glib pixman make sdl2 bash ninja
+>    script:
+>      - mkdir build
+>      - cd build
+> diff --git a/.travis.yml b/.travis.yml
+> index 1054ec5d29..d7bfbb8bfe 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -49,6 +49,7 @@ addons:
+>        - libvdeplug-dev
+>        - libvte-2.91-dev
+>        - libzstd-dev
+> +      - ninja-build
+>        - sparse
+>        - uuid-dev
+>        - gcovr
+> @@ -177,6 +178,7 @@ jobs:
+>        addons:
+>          apt:
+>            packages:
+> +            - ninja-build
+>              - python3-sphinx
+>              - perl
+>=20=20
+> @@ -211,6 +213,10 @@ jobs:
+>      # gprof/gcov are GCC features
+>      - name: "GCC gprof/gcov"
+>        dist: bionic
+> +      addons:
+> +        apt:
+> +          packages:
+> +            - ninja-build
+>        env:
+>          - CONFIG=3D"--enable-gprof --enable-gcov --disable-libssh
+>                    --target-list=3D${MAIN_SOFTMMU_TARGETS}"
+> @@ -281,6 +287,7 @@ jobs:
+>              - liburcu-dev
+>              - libusb-1.0-0-dev
+>              - libvte-2.91-dev
+> +            - ninja-build
+>              - sparse
+>              - uuid-dev
+>        language: generic
+> @@ -346,6 +353,7 @@ jobs:
+>            - libusb-1.0-0-dev
+>            - libvdeplug-dev
+>            - libvte-2.91-dev
+> +          - ninja-build
+>            # Tests dependencies
+>            - genisoimage
+>        env:
+> @@ -379,6 +387,7 @@ jobs:
+>            - libusb-1.0-0-dev
+>            - libvdeplug-dev
+>            - libvte-2.91-dev
+> +          - ninja-build
+>            # Tests dependencies
+>            - genisoimage
+>        env:
+> @@ -411,6 +420,7 @@ jobs:
+>            - libusb-1.0-0-dev
+>            - libvdeplug-dev
+>            - libvte-2.91-dev
+> +          - ninja-build
+>            # Tests dependencies
+>            - genisoimage
+>        env:
+> @@ -450,6 +460,7 @@ jobs:
+>            - libzstd-dev
+>            - nettle-dev
+>            - xfslibs-dev
+> +          - ninja-build
+>            # Tests dependencies
+>            - genisoimage
+>        env:
+> @@ -463,6 +474,7 @@ jobs:
+>          apt_packages:
+>            - libgcrypt20-dev
+>            - libgnutls28-dev
+> +          - ninja-build
+>        env:
+>          - CONFIG=3D"--disable-containers --disable-system"
+>=20=20
+> @@ -493,6 +505,7 @@ jobs:
+>            - libusb-1.0-0-dev
+>            - libvdeplug-dev
+>            - libvte-2.91-dev
+> +          - ninja-build
+>        env:
+>          - TEST_CMD=3D"make check-unit"
+>          - CONFIG=3D"--disable-containers --disable-tcg --enable-kvm
+> diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/docke=
+rfiles/centos7.docker
+> index 46277773bf..8b273725ee 100644
+> --- a/tests/docker/dockerfiles/centos7.docker
+> +++ b/tests/docker/dockerfiles/centos7.docker
+> @@ -27,6 +27,7 @@ ENV PACKAGES \
+>      mesa-libEGL-devel \
+>      mesa-libgbm-devel \
+>      nettle-devel \
+> +    ninja-build \
+>      perl-Test-Harness \
+>      pixman-devel \
+>      python3 \
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/docke=
+rfiles/centos8.docker
+> index e31d366fc1..b0eef13987 100644
+> --- a/tests/docker/dockerfiles/centos8.docker
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -22,6 +22,7 @@ ENV PACKAGES \
+>      make \
+>      mesa-libEGL-devel \
+>      nettle-devel \
+> +    ninja-build \
+>      perl-Test-Harness \
+>      pixman-devel \
+>      python36 \
+> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dock=
+erfiles/debian10.docker
+> index 1e4188ba22..21cc671d71 100644
+> --- a/tests/docker/dockerfiles/debian10.docker
+> +++ b/tests/docker/dockerfiles/debian10.docker
+> @@ -26,6 +26,7 @@ RUN apt update && \
+>          gettext \
+>          git \
+>          libncurses5-dev \
+> +        ninja-build \
+>          pkg-config \
+>          psmisc \
+>          python3 \
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
+files/fedora.docker
+> index 85c975543d..ac79d95418 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -75,6 +75,7 @@ ENV PACKAGES \
+>      mingw64-SDL2 \
+>      ncurses-devel \
+>      nettle-devel \
+> +    ninja-build \
+>      nss-devel \
+>      numactl-devel \
+>      perl \
+> diff --git a/tests/docker/dockerfiles/travis.docker b/tests/docker/docker=
+files/travis.docker
+> index 591282561b..cd1435a7e9 100644
+> --- a/tests/docker/dockerfiles/travis.docker
+> +++ b/tests/docker/dockerfiles/travis.docker
+> @@ -9,7 +9,7 @@ ENV LC_ALL en_US.UTF-8
+>  RUN sed -i "s/# deb-src/deb-src/" /etc/apt/sources.list
+>  RUN apt-get update
+>  RUN apt-get -y build-dep qemu
+> -RUN apt-get -y install device-tree-compiler python3 python3-yaml dh-auto=
+reconf gdb strace lsof net-tools gcovr
+> +RUN apt-get -y install device-tree-compiler python3 python3-yaml dh-auto=
+reconf gdb strace lsof net-tools gcovr ninja-build
+>  # Travis tools require PhantomJS / Neo4j / Maven accessible
+>  # in their PATH (QEMU build won't access them).
+>  ENV PATH /usr/local/phantomjs/bin:/usr/local/phantomjs:/usr/local/neo4j-=
+3.2.7/bin:/usr/local/maven-3.5.2/bin:/usr/local/cmake-3.9.2/bin:/usr/local/=
+clang-5.0.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+> diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/docker=
+files/ubuntu.docker
+> index b556ed17d2..b5ef7a8198 100644
+> --- a/tests/docker/dockerfiles/ubuntu.docker
+> +++ b/tests/docker/dockerfiles/ubuntu.docker
+> @@ -60,6 +60,7 @@ ENV PACKAGES \
+>      libxen-dev \
+>      libzstd-dev \
+>      make \
+> +    ninja-build \
+>      python3-yaml \
+>      python3-sphinx \
+>      sparse \
+> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/do=
+ckerfiles/ubuntu1804.docker
+> index a6a7617da6..9b0a19ba5e 100644
+> --- a/tests/docker/dockerfiles/ubuntu1804.docker
+> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
+> @@ -48,6 +48,7 @@ ENV PACKAGES \
+>      make \
+>      python3-yaml \
+>      python3-sphinx \
+> +    ninja-build \
+>      sparse \
+>      xfslibs-dev
+>  RUN apt-get update && \
+> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/do=
+ckerfiles/ubuntu2004.docker
+> index f4b9556b9e..17b37cda38 100644
+> --- a/tests/docker/dockerfiles/ubuntu2004.docker
+> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+> @@ -47,6 +47,7 @@ ENV PACKAGES flex bison \
+>      libxen-dev \
+>      libzstd-dev \
+>      make \
+> +    ninja-build \
+>      python3-numpy \
+>      python3-opencv \
+>      python3-pil \
+> diff --git a/tests/vm/centos b/tests/vm/centos
+> index 0ad4ecf419..efe3dbbb36 100755
+> --- a/tests/vm/centos
+> +++ b/tests/vm/centos
+> @@ -42,7 +42,7 @@ class CentosVM(basevm.BaseVM):
+>          self.wait_ssh()
+>          self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
+>          self.ssh_root_check("yum update -y")
+> -        self.ssh_root_check("yum install -y docker make git python3")
+> +        self.ssh_root_check("yum install -y docker make ninja-build git =
+python3")
+>          self.ssh_root_check("systemctl enable docker")
+>          self.ssh_root("poweroff")
+>          self.wait()
+> diff --git a/tests/vm/centos.aarch64 b/tests/vm/centos.aarch64
+> index d5232ecdb8..e687b93e52 100755
+> --- a/tests/vm/centos.aarch64
+> +++ b/tests/vm/centos.aarch64
+> @@ -23,7 +23,7 @@ import aarch64vm
+>  DEFAULT_CONFIG =3D {
+>      'cpu'          : "max",
+>      'machine'      : "virt,gic-version=3Dmax",
+> -    'install_cmds' : "yum install -y make git python3 gcc gcc-c++ flex b=
+ison, "\
+> +    'install_cmds' : "yum install -y make ninja-build git python3 gcc gc=
+c-c++ flex bison, "\
+>          "yum install -y glib2-devel pixman-devel zlib-devel, "\
+>          "yum install -y perl-Test-Harness, "\
+>          "alternatives --set python /usr/bin/python3, "\
+> diff --git a/tests/vm/fedora b/tests/vm/fedora
+> index b2b478fdbc..b977efe4a2 100755
+> --- a/tests/vm/fedora
+> +++ b/tests/vm/fedora
+> @@ -32,7 +32,7 @@ class FedoraVM(basevm.BaseVM):
+>      pkgs =3D [
+>          # tools
+>          'git-core',
+> -        'gcc', 'binutils', 'make',
+> +        'gcc', 'binutils', 'make', 'ninja-build',
+>=20=20
+>          # perl
+>          'perl-Test-Harness',
+> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+> index 5f866e09c4..04ee793381 100755
+> --- a/tests/vm/freebsd
+> +++ b/tests/vm/freebsd
+> @@ -34,6 +34,7 @@ class FreeBSDVM(basevm.BaseVM):
+>          "bzip2",
+>          "python37",
+>          "py37-setuptools",
+> +        "ninja",
+>=20=20
+>          # gnu tools
+>          "bash",
+> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+> index ffb65a89be..a9da255c5a 100755
+> --- a/tests/vm/netbsd
+> +++ b/tests/vm/netbsd
+> @@ -32,6 +32,7 @@ class NetBSDVM(basevm.BaseVM):
+>          "xz",
+>          "python37",
+>          "py37-setuptools",
+> +        "ninja",
+>=20=20
+>          # gnu tools
+>          "bash",
+> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+> index 8356646f21..ad882a76a2 100755
+> --- a/tests/vm/openbsd
+> +++ b/tests/vm/openbsd
+> @@ -31,6 +31,7 @@ class OpenBSDVM(basevm.BaseVM):
+>          "pkgconf",
+>          "bzip2", "xz",
+>          "py3-setuptools",
+> +        "ninja",
+>=20=20
+>          # gnu tools
+>          "bash",
+> diff --git a/tests/vm/ubuntu.aarch64 b/tests/vm/ubuntu.aarch64
+> index 21d454c27f..b291945a7e 100755
+> --- a/tests/vm/ubuntu.aarch64
+> +++ b/tests/vm/ubuntu.aarch64
+> @@ -22,7 +22,7 @@ DEFAULT_CONFIG =3D {
+>      'machine'      : "virt,gic-version=3D3",
+>      'install_cmds' : "apt-get update,"\
+>                       "apt-get build-dep -y --arch-only qemu,"\
+> -                     "apt-get install -y libfdt-dev pkg-config language-=
+pack-en",
+> +                     "apt-get install -y libfdt-dev pkg-config language-=
+pack-en ninja-build",
+>      # We increase beyond the default time since during boot
+>      # it can take some time (many seconds) to log into the VM
+>      # especially using softmmu.
+> diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+> index 5ce72610a6..47681b6f87 100755
+> --- a/tests/vm/ubuntu.i386
+> +++ b/tests/vm/ubuntu.i386
+> @@ -18,7 +18,7 @@ import ubuntuvm
+>  DEFAULT_CONFIG =3D {
+>      'install_cmds' : "apt-get update,"\
+>                       "apt-get build-dep -y qemu,"\
+> -                     "apt-get install -y libfdt-dev language-pack-en",
+> +                     "apt-get install -y libfdt-dev language-pack-en nin=
+ja-build",
+>  }
+>=20=20
+>  class UbuntuX86VM(ubuntuvm.UbuntuVM):
+
+
+--=20
+Alex Benn=C3=A9e
 
