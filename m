@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA05C28F790
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 19:19:12 +0200 (CEST)
-Received: from localhost ([::1]:41542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3111528F796
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 19:23:22 +0200 (CEST)
+Received: from localhost ([::1]:47628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT6uF-0004qU-Rp
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 13:19:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49228)
+	id 1kT6yH-0007Zp-8S
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 13:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kT6lu-0005dl-6h
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 13:10:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27874)
+ id 1kT6oM-0000b7-OD
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 13:13:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kT6lq-0003qp-F7
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 13:10:32 -0400
+ id 1kT6oK-0004Mi-VV
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 13:13:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602781828;
+ s=mimecast20190719; t=1602781984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kmMQH1wUxp+pwUjjyq4o0N+58mDvnjdcLLf/jQDMOFs=;
- b=GZy+FPv9JpTmfc8V1wUjBSdkHghLMZgzX8whEpIXmmGqal0g4TwKVIojDhL1aq0CndW7fU
- Jv6zM3VGiwHfxFy/+HN1sLibrYricRh1FjFe2TfTfIDC7UP/mXUc++KN54lSK0kOy1M2EZ
- GLF2/Z9dhRon6wkzhTBLp/xKNe1MP6o=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-eQD6XulzMFqemAmrnvd-ZA-1; Thu, 15 Oct 2020 13:10:26 -0400
-X-MC-Unique: eQD6XulzMFqemAmrnvd-ZA-1
-Received: by mail-wr1-f71.google.com with SMTP id j6so2363654wrg.20
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 10:10:26 -0700 (PDT)
+ bh=+Dmrh7h21hXNYTr0lO7qAQYu1jlPXffv2TzrX/Xh//A=;
+ b=ML2gWhz1ijQuLMayvf/fIhcJOJLft5VE9hBltt/JpXl/q+XyNFqE8feDCOFurR37BKXwbT
+ GIyPM1H5AWQc3xb8B/QPvx+BpTHZwHS06+UH0l1m7GX1N0dSvMlBCMfox/XtplLJ8yihXa
+ SWfKfVSYbsJpT0x21BFAbb6rvA1FtcQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-8Kk-aTFjMz-GaO79r3AshA-1; Thu, 15 Oct 2020 13:13:00 -0400
+X-MC-Unique: 8Kk-aTFjMz-GaO79r3AshA-1
+Received: by mail-wm1-f72.google.com with SMTP id f26so1476946wml.1
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 10:13:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kmMQH1wUxp+pwUjjyq4o0N+58mDvnjdcLLf/jQDMOFs=;
- b=PgpevOVvM+hzWKW3pD85Tyo22AnFHQbriW7eyCjSCC8eVCzeDZnuDFH7YX1W6ismr9
- PFEO7k4Z8Dx0+mFfFBUdXFDwjXRqkjEywefyKkNI0CTegfc43WWQc3B5UcaXQ9pgChoS
- NAlv/J5Ig9nH0fcR5kjwXlqSdQ5BpH+9tRXfEAwKRnmiUhv6EZ8uifV1pbgPjRSnF5Rl
- T0TE3tWPa2D21fr9CcK+GTmTmgX9nHh7soYC4s0NAqifFYUX9h6Uw8raEUdZRnANaOTg
- rO9YdHYCKOJVI9W/8TcCHSm1wCKlgu0XyATWctZzDScObxlGzAvAMvy4CuRDKxYafY2j
- mqaA==
-X-Gm-Message-State: AOAM532Qbd8D/P8UVbkXoDkw9NqEyR/wiicAPEGvsRZKU5rh3xEHc9jJ
- tCHB2PU2W+Wi4tlMh7qOEZo0PZj3xDUXnG6qgCJ3pQYzVutEAlN+g79CjptJrFra1rdzHVYtih/
- VH9rcuOJmebiaMI4=
-X-Received: by 2002:adf:a306:: with SMTP id c6mr5366017wrb.160.1602781825110; 
- Thu, 15 Oct 2020 10:10:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybRNge/cdnZfTky7+sh/FIQ/Eqm9balVEkCE2s8lhXgkpyxq8wHj8gyPlGtaQlwGMPIWdVQw==
-X-Received: by 2002:adf:a306:: with SMTP id c6mr5365978wrb.160.1602781824808; 
- Thu, 15 Oct 2020 10:10:24 -0700 (PDT)
+ bh=+Dmrh7h21hXNYTr0lO7qAQYu1jlPXffv2TzrX/Xh//A=;
+ b=UZ6j8jDuFSXQghQFvWCYMdmHB492G+dMoP52FWYSwI5PKEbjpOXOjg2nuP83ljOqFv
+ ds/xLGqDyf6pvV6GZS1nXS7EloxgUyer5KOmgs2pPnUw1KDiwr6DIvBSt5UC4CwvNTIB
+ C+FuDf0Fhd6tu94kXdVw3QGasZmX+FamiSxPNBx4Y2I6Gg0zZ3MNwOsOQUYqCB4QaCS/
+ 9S6JyWI86zB1uGVcKn2AdwwJTijyU03UTsmCyd3Guilv6vL+K6RWZLTnfr/Fl5d0BMFc
+ So+UMyNq71ih8TBB1ZzIaMAiGs3Vk16l2RqhRhSaZ0b3I+z+wXquMyX1poR/SJA1CABh
+ 8KlQ==
+X-Gm-Message-State: AOAM533LCbqwi2HrXX5lz7lvkHqeRMV6XRieGr4ssHh/30gA3C8mz+ZC
+ jQPHMm5NveQHXHWN5a85t52fCf/lALsBvSwMoRKiToWIKryFpOWD52TjYa2nBAx5m+uwlCX658G
+ 0QbyBItoWOE6235M=
+X-Received: by 2002:adf:9f0a:: with SMTP id l10mr4876431wrf.427.1602781979066; 
+ Thu, 15 Oct 2020 10:12:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyF4b3vxXGNP/yc0A8pES14EYUKjew1ixM9pZhRZrg2/fiVFPnLFjXhIS9ACmiX4I3I8w8HZg==
+X-Received: by 2002:adf:9f0a:: with SMTP id l10mr4876409wrf.427.1602781978790; 
+ Thu, 15 Oct 2020 10:12:58 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:2110:4ced:a13b:6857?
  ([2001:b07:6468:f312:2110:4ced:a13b:6857])
- by smtp.gmail.com with ESMTPSA id y190sm5688406wmc.27.2020.10.15.10.10.23
+ by smtp.gmail.com with ESMTPSA id p4sm5666716wrf.67.2020.10.15.10.12.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Oct 2020 10:10:24 -0700 (PDT)
-Subject: Re: [PATCH v2] fuzz: Disable QEMU's SIG{INT,HUP,TERM} handlers
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20201014142157.46028-1-alxndr@bu.edu>
+ Thu, 15 Oct 2020 10:12:58 -0700 (PDT)
+Subject: Re: [PATCH] meson.build: don't condition iconv detection on library
+ detection
+To: Bruce Rogers <brogers@suse.com>, qemu-devel@nongnu.org
+References: <20201014221939.196958-1-brogers@suse.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <29b563d9-f612-ac8b-ea83-f7eb7b459106@redhat.com>
-Date: Thu, 15 Oct 2020 19:10:23 +0200
+Message-ID: <8ffbb4a4-9e87-bb36-505b-3a190f9aec96@redhat.com>
+Date: Thu, 15 Oct 2020 19:12:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20201014142157.46028-1-alxndr@bu.edu>
+In-Reply-To: <20201014221939.196958-1-brogers@suse.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,60 +102,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, dimastep@yandex-team.ru
+Cc: luoyonggang@gmail.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/10/20 16:21, Alexander Bulekov wrote:
-> Prior to this patch, the only way I found to terminate the fuzzer was
-> either to:
->  1. Explicitly specify the number of fuzzer runs with the -runs= flag
->  2. SIGKILL the process with "pkill -9 qemu-fuzz-*" or similar
+On 15/10/20 00:19, Bruce Rogers wrote:
+> It isn't necessarily the case that use of iconv requires an additional
+> library. For that reason we shouldn't conditionalize iconv detection on
+> libiconv.found.
 > 
-> In addition to being annoying to deal with, SIGKILLing the process skips
-> over any exit handlers(e.g. registered with atexit()). This is bad,
-> since some fuzzers might create temporary files that should ideally be
-> removed on exit using an exit handler. The only way to achieve a clean
-> exit now is to specify -runs=N , but the desired "N" is tricky to
-> identify prior to fuzzing.
+> Fixes: 5285e593c33 (configure: Fixes ncursesw detection under msys2/mingw by convert them to meson)
 > 
-> Why doesn't the process exit with standard SIGINT,SIGHUP,SIGTERM
-> signals? QEMU installs its own handlers for these signals in
-> os-posix.c:os_setup_signal_handling, which notify the main loop that an
-> exit was requested. The fuzzer, however, does not run qemu_main_loop,
-> which performs the main_loop_should_exit() check.  This means that the
-> fuzzer effectively ignores these signals. As we don't really care about
-> cleanly stopping the disposable fuzzer "VM", this patch uninstalls
-> QEMU's signal handlers. Thus, we can stop the fuzzer with
-> SIG{INT,HUP,TERM} and the fuzzing code can optionally use atexit() to
-> clean up temporary files/resources.
-> 
-> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> Signed-off-by: Bruce Rogers <brogers@suse.com>
 > ---
->  tests/qtest/fuzz/fuzz.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  meson.build | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
 > 
-> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-> index d926c490c5..eb0070437f 100644
-> --- a/tests/qtest/fuzz/fuzz.c
-> +++ b/tests/qtest/fuzz/fuzz.c
-> @@ -217,5 +217,13 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->      /* re-enable the rcu atfork, which was previously disabled in qemu_init */
->      rcu_enable_atfork();
->  
-> +    /*
-> +     * Disable QEMU's signal handlers, since we manually control the main_loop,
-> +     * and don't check for main_loop_should_exit
-> +     */
-> +    signal(SIGINT, SIG_DFL);
-> +    signal(SIGHUP, SIG_DFL);
-> +    signal(SIGTERM, SIG_DFL);
-> +
->      return 0;
->  }
+> diff --git a/meson.build b/meson.build
+> index 1a4a482492..84c8ec9541 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -431,15 +431,13 @@ if not get_option('iconv').disabled()
+>    libiconv = cc.find_library('iconv',
+>                               required: false,
+>                               static: enable_static)
+> -  if libiconv.found()
+> -    if cc.links('''
+> -      #include <iconv.h>
+> -      int main(void) {
+> -        iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
+> -        return conv != (iconv_t) -1;
+> -      }''', dependencies: [libiconv])
+> -      iconv = declare_dependency(dependencies: [libiconv])
+> -    endif
+> +  if cc.links('''
+> +    #include <iconv.h>
+> +    int main(void) {
+> +      iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
+> +      return conv != (iconv_t) -1;
+> +    }''', dependencies: [libiconv])
+> +    iconv = declare_dependency(dependencies: [libiconv])
+>    endif
+>  endif
+>  if get_option('iconv').enabled() and not iconv.found()
 > 
 
 Queued, thanks.
