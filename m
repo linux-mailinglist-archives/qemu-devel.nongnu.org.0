@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BFE28F74B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:57:37 +0200 (CEST)
-Received: from localhost ([::1]:42642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2CA28F75D
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 19:00:41 +0200 (CEST)
+Received: from localhost ([::1]:54002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT6ZM-0006i0-T7
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
+	id 1kT6cJ-0002uF-Ub
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 13:00:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kT6QR-0006sL-AE
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:48:23 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kT6QO-0000tR-Ck
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:48:22 -0400
-Received: by mail-pl1-x642.google.com with SMTP id y1so1920863plp.6
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 09:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UvhsZGgMHqu6IDXgm3a7sou65oEWD68CgiWOS6Kzp4c=;
- b=Gfj7ycDgKmcRXgSecJT+WECivUEyjA8C+RYu6T3oX9xNKaHzq9YGJJKYNeR2RhTqAm
- oo2xB/ArBs51CkU6kX5PXRaOk7p1huxqRho7XFmX/IUz1DE6BRTBoQROe6q124beK9lE
- tKwg9NKCuFCyGB4DF4/8imUPpMflwwT1enASL3lQWn/mYYpBtNFbazTXPqI1WRTb3WDc
- ELQ5m7CkLvra1JbWVB94diJOirauSB88Um842n9wMOyZO4gt3XDQg/E3JDD6/UT34SD+
- cJV5AYFptYg3U39ckUIrl3y1MYkb3jMGSuMuplXQ9TCNHe4lHp4vwnct2gMHaJ/D31Cd
- VDeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UvhsZGgMHqu6IDXgm3a7sou65oEWD68CgiWOS6Kzp4c=;
- b=OI1BDVS8SdBvP4aQ1rIimOXSadOAWUj8FbhTfZAARjzhZ1m20f+YVv/rgBC5fn8kja
- YE9s9lMTaUS82J7orJ83Nf3ou29fIQCjCAP+IIYlX4eQn7JcAt+synsyk1mwKfzySq6I
- VHfdQMaMOFzm59eSMPpr5jTp3a/QHsIjFClfnxB9pXIBzlrVEXrszRBEfr60IR0sro/R
- XNwd8zoBQu/feJuXBrht15oqWAA4Cn3IRkkzCvgavKp4mox0cLLnJoiMnvuXoQhAlXaB
- xkNZLRjeDV5lJ4NO0TRmrZdjhK0hzUvEFu9XL9Md0bNCm19FFwS7imsq3TcJ0vrRv9JH
- W+yA==
-X-Gm-Message-State: AOAM533HIY+eMg3OCU9aG433G3UCTY7Mvh+Mh8tEau9mtVR1ZFCMBMx5
- q3mZF2XgsFuLw2USRpqQJP2U5g==
-X-Google-Smtp-Source: ABdhPJzJSnOFWPEgKMiKAXVNWqajNjpo8T5Mb+0MjQIHSdv3aGc6Rl/9diPnxrXi3e7Xy2wP+B9ZrQ==
-X-Received: by 2002:a17:90a:73c9:: with SMTP id
- n9mr5173916pjk.90.1602780498395; 
- Thu, 15 Oct 2020 09:48:18 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id i25sm3799202pgi.9.2020.10.15.09.48.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Oct 2020 09:48:17 -0700 (PDT)
-Subject: Re: [PATCH v2 2/5] [RISCV_PM] Support CSRs required for RISC-V PM
- extension except for ones in hypervisor mode
-To: Alexey Baturo <baturo.alexey@gmail.com>
-References: <20201015152139.28903-1-space.monkey.delivers@gmail.com>
- <20201015152139.28903-2-space.monkey.delivers@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d39e0c59-3b04-6401-aaac-8e202fb5036a@linaro.org>
-Date: Thu, 15 Oct 2020 09:48:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kT6UM-0001wF-87
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:52:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kT6UH-0001Pw-4n
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:52:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602780740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=llH9wrjtFOuz0FCeC+jMKaYbRHVJSqilfUFVhFHCtIA=;
+ b=Hw67hl7F7HYnMURYdV93aQjTdbljraB16RpOMEkTGnwZjIhHsR+NP+bMAnIXIddjWdDPuf
+ dqNtrJhoZxdY413eOoqN5v/KukVZEO0uHnpOGgx33nFIhsbc4mJB3PwXkzgOVn7FcbMvtE
+ HRoP+JsOwQW0cYPvH/faICb5TUyD/Ls=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-6F4s-AQWOnON02Y09pyRzA-1; Thu, 15 Oct 2020 12:52:18 -0400
+X-MC-Unique: 6F4s-AQWOnON02Y09pyRzA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A37480363A;
+ Thu, 15 Oct 2020 16:52:17 +0000 (UTC)
+Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 143E860E1C;
+ Thu, 15 Oct 2020 16:52:16 +0000 (UTC)
+Date: Thu, 15 Oct 2020 12:52:15 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v3] qom: code hardening - have bound checking while
+ looping with integer value
+Message-ID: <20201015165215.GE5733@habkost.net>
+References: <20200921093325.25617-1-ani@anisinha.ca>
 MIME-Version: 1.0
-In-Reply-To: <20201015152139.28903-2-space.monkey.delivers@gmail.com>
+In-Reply-To: <20200921093325.25617-1-ani@anisinha.ca>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.019,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:38:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,89 +82,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, qemu-devel@nongnu.org,
- space.monkey.delivers@gmail.com, Alistair.Francis@wdc.com,
- kupokupokupopo@gmail.com, palmer@dabbelt.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/20 8:21 AM, Alexey Baturo wrote:
-> +/* Functions to access Pointer Masking feature registers 
-> + * We have to check if current priv lvl could modify
-> + * csr in given mode
-> + */
-> +static int check_pm_current_disabled(CPURISCVState *env, int csrno)
-> +{
-> +    /* m-mode is always allowed to modify registers, so allow */
-> +    if (env->priv == PRV_M) {
-> +        return 0;
-> +    }
-> +    int csr_priv = get_field(csrno, 0xC00);
-> +    /* If priv lvls differ that means we're accessing csr from higher priv lvl, so allow */
-> +    if (env->priv != csr_priv) {
-> +        return 0;
-> +    }
-> +    int cur_bit_pos = (env->priv == PRV_U) ? U_PM_CURRENT :
-> +                      (env->priv == PRV_S) ? S_PM_CURRENT : -1;
-> +    assert(cur_bit_pos != -1);
+On Mon, Sep 21, 2020 at 03:03:25PM +0530, Ani Sinha wrote:
+> Object property insertion code iterates over an integer to get an unused
+> index that can be used as an unique name for an object property. This loop
+> increments the integer value indefinitely. Although very unlikely, this can
+> still cause an integer overflow.
+> In this change, we fix the above code by checking against INT16_MAX and making
+> sure that the interger index does not overflow beyond that value. If no
+> available index is found, the code would cause an assertion failure. This
+> assertion failure is necessary because the callers of the function do not check
+> the return value for NULL.
+> 
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-This is a bit clumsy.  I suggest
+Queued on machine-next, thanks!  My apologies for the delay.
 
-    int cur_bit_pos;
-    switch (env->priv) {
-    case PRV_M:
-        return 0;
-    case PRV_S:
-        cur_bit_pos = S_PM_CURRENT;
-        break;
-    case PRV_U:
-        cur_bit_pos = U_PM_CURRENT;
-        break;
-    default:
-        g_assert_not_reached();
-    }
+-- 
+Eduardo
 
-> +static int read_mmte(CPURISCVState *env, int csrno, target_ulong *val)
-> +{
-> +#if !defined(CONFIG_USER_ONLY)
-> +    if (!riscv_has_ext(env, RVJ)) {
-> +        *val = 0;
-> +        return 0;
-> +    }
-> +#endif
-
-This ifdef is wrong.  CONFIG_USER_ONLY doesn't have anything to do with what
-features the cpu supports.  Nor can it be correct.  If you try to read this on
-current hardware, without J, then you get an exception not zero.
-
-I would have expected this check would actually go into the csr predicate function.
-
-> +    *val = env->mmte & MMTE_MASK;
-
-Surely you don't need MMTE_MASK here because you used it when writing.
-
-That said, don't you also need to mask vs the current priv level?  There's
-language in your doc that says "XS bits are available in..." and "PM bits are
-available in...".
-
-I'll also note that it says "by default only higher priv code can set the value
-for PM bits", while surely it's a security bug for lower priv code to read
-anything related to a higher priv.
-
-
-> +    target_ulong wpri_val = val & SMTE_MASK;
-> +    assert(val == wpri_val);
-
-Incorrect assert.  This value is under guest control.  Do not crash qemu
-because the guest is doing silly things.  Raise an exception if you like, and
-perhaps qemu_log_mask with LOG_GUEST_ERROR.
-
-> +    if (check_pm_current_disabled(env, csrno))
-> +        return 0;
-
-Missing braces.
-
-
-r~
 
