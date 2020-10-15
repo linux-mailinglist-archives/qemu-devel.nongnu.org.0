@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A160228F741
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:54:22 +0200 (CEST)
-Received: from localhost ([::1]:33948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FC628F74A
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:57:34 +0200 (CEST)
+Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT6WD-0002qU-Lc
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:54:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42790)
+	id 1kT6ZJ-0006Zx-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kT6NW-0004Ml-P0
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29257)
+ id 1kT6Na-0004NT-Le
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kT6NO-0000UV-Bs
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:19 -0400
+ id 1kT6NP-0000Ue-1Y
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602780313;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9hb+1/7cb7CdrsmNglCj3VIi1UB0HDXrR2h+oR1OePk=;
- b=FU5v6AMxXDOzeFw0ZRoVKuDkGDGapCf0ewXxhXfyxeosWVvBFmzUyyOwYUpk4d+wapIin3
- qJGf7vPdNlGsavSqnKLAnVdwyzitxd+YlfrR0KwkAwg9jo4kyW2J156zgJtjS5Ug/AeKfD
- 5ZajebccPLYq6m1oY48TIFPh7EdZgGo=
+ bh=nWd4yB75Wt66mVlUSGrxHhIA1yEu4PJLln4W+/ohXyU=;
+ b=BW/nxDeDSABjcCcqoG8z6VAquMo3Dcw5obWRM0raXW8aQNGEm+aZodABKriUTaPk0jxfsj
+ Bt9CgGRE93d8CE51LKnAI4qmwILMyM6LqrD9v7yMDVnR6m9JBen1ieUlnb7M8+qkOIFx+o
+ WoYJW88NN+N3wT/stM9yT2l/201GtQQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-AtbkhMdxPvKNC3-kHmpyfQ-1; Thu, 15 Oct 2020 12:45:11 -0400
-X-MC-Unique: AtbkhMdxPvKNC3-kHmpyfQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-350-5v7_WUwVOFG1_c2zotQPNg-1; Thu, 15 Oct 2020 12:45:11 -0400
+X-MC-Unique: 5v7_WUwVOFG1_c2zotQPNg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA6A01921FA2;
- Thu, 15 Oct 2020 16:45:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8F6C107AFC6;
+ Thu, 15 Oct 2020 16:45:10 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 81A136EF54;
- Thu, 15 Oct 2020 16:45:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7269C19C4F;
+ Thu, 15 Oct 2020 16:45:10 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/9] i386/kvm: Require KVM_CAP_IRQ_ROUTING
-Date: Thu, 15 Oct 2020 12:44:56 -0400
-Message-Id: <20201015164501.462775-5-ehabkost@redhat.com>
+Subject: [PULL 5/9] i386/kvm: Remove IRQ routing support checks
+Date: Thu, 15 Oct 2020 12:44:57 -0400
+Message-Id: <20201015164501.462775-6-ehabkost@redhat.com>
 In-Reply-To: <20201015164501.462775-1-ehabkost@redhat.com>
 References: <20201015164501.462775-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,33 +86,101 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM_CAP_IRQ_ROUTING is available since 2009 (Linux v2.6.30), so
-it's safe to just make it a requirement on x86.
+KVM_CAP_IRQ_ROUTING is always available on x86, so replace checks
+for kvm_has_gsi_routing() and KVM_CAP_IRQ_ROUTING with asserts.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200922201922.2153598-2-ehabkost@redhat.com>
+Message-Id: <20200922201922.2153598-3-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/kvm.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/i386/kvm/apic.c   |  5 ++---
+ hw/i386/kvm/ioapic.c | 33 ++++++++++++++++-----------------
+ target/i386/kvm.c    |  7 -------
+ 3 files changed, 18 insertions(+), 27 deletions(-)
 
+diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
+index 4eb2d77b87..dd29906061 100644
+--- a/hw/i386/kvm/apic.c
++++ b/hw/i386/kvm/apic.c
+@@ -225,9 +225,8 @@ static void kvm_apic_realize(DeviceState *dev, Error **errp)
+     memory_region_init_io(&s->io_memory, OBJECT(s), &kvm_apic_io_ops, s,
+                           "kvm-apic-msi", APIC_SPACE_SIZE);
+ 
+-    if (kvm_has_gsi_routing()) {
+-        msi_nonbroken = true;
+-    }
++    assert(kvm_has_gsi_routing());
++    msi_nonbroken = true;
+ }
+ 
+ static void kvm_apic_unrealize(DeviceState *dev)
+diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
+index c5528df942..dfc3c98005 100644
+--- a/hw/i386/kvm/ioapic.c
++++ b/hw/i386/kvm/ioapic.c
+@@ -25,27 +25,26 @@ void kvm_pc_setup_irq_routing(bool pci_enabled)
+     KVMState *s = kvm_state;
+     int i;
+ 
+-    if (kvm_check_extension(s, KVM_CAP_IRQ_ROUTING)) {
+-        for (i = 0; i < 8; ++i) {
+-            if (i == 2) {
+-                continue;
+-            }
+-            kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_PIC_MASTER, i);
+-        }
+-        for (i = 8; i < 16; ++i) {
+-            kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_PIC_SLAVE, i - 8);
++    assert(kvm_has_gsi_routing());
++    for (i = 0; i < 8; ++i) {
++        if (i == 2) {
++            continue;
+         }
+-        if (pci_enabled) {
+-            for (i = 0; i < 24; ++i) {
+-                if (i == 0) {
+-                    kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_IOAPIC, 2);
+-                } else if (i != 2) {
+-                    kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_IOAPIC, i);
+-                }
++        kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_PIC_MASTER, i);
++    }
++    for (i = 8; i < 16; ++i) {
++        kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_PIC_SLAVE, i - 8);
++    }
++    if (pci_enabled) {
++        for (i = 0; i < 24; ++i) {
++            if (i == 0) {
++                kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_IOAPIC, 2);
++            } else if (i != 2) {
++                kvm_irqchip_add_irq_route(s, i, KVM_IRQCHIP_IOAPIC, i);
+             }
+         }
+-        kvm_irqchip_commit_routes(s);
+     }
++    kvm_irqchip_commit_routes(s);
+ }
+ 
+ typedef struct KVMIOAPICState KVMIOAPICState;
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 0098be7015..69c691ad77 100644
+index 69c691ad77..588d893a63 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -2114,6 +2114,11 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     int ret;
-     struct utsname utsname;
+@@ -4552,13 +4552,6 @@ bool kvm_arch_stop_on_emulation_error(CPUState *cs)
  
-+    if (!kvm_check_extension(s, KVM_CAP_IRQ_ROUTING)) {
-+        error_report("kvm: KVM_CAP_IRQ_ROUTING not supported by KVM");
-+        return -ENOTSUP;
-+    }
-+
-     has_xsave = kvm_check_extension(s, KVM_CAP_XSAVE);
-     has_xcrs = kvm_check_extension(s, KVM_CAP_XCRS);
-     has_pit_state2 = kvm_check_extension(s, KVM_CAP_PIT_STATE2);
+ void kvm_arch_init_irq_routing(KVMState *s)
+ {
+-    if (!kvm_check_extension(s, KVM_CAP_IRQ_ROUTING)) {
+-        /* If kernel can't do irq routing, interrupt source
+-         * override 0->2 cannot be set up as required by HPET.
+-         * So we have to disable it.
+-         */
+-        no_hpet = 1;
+-    }
+     /* We know at this point that we're using the in-kernel
+      * irqchip, so we can use irqfds, and on x86 we know
+      * we can use msi via irqfd and GSI routing.
 -- 
 2.28.0
 
