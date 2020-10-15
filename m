@@ -2,78 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4175228F689
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:18:18 +0200 (CEST)
-Received: from localhost ([::1]:46158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8733528F68E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:21:14 +0200 (CEST)
+Received: from localhost ([::1]:51278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT5xJ-0007eY-B4
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:18:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35938)
+	id 1kT609-0001QW-HJ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kT5uk-0006px-Lu
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:15:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kT5uh-00053F-Ob
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:15:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602778535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8ChIloslXbwzx5SwJ9bus+C0aUz+/NJpBANblR8W7fg=;
- b=aW0I0jeKQS6HM0MHRPK32NGkkVolRKOBw2+xCti8LRBM/3aLocGTlkQymHO08Cyal0tG/B
- m3m/r+SyoPdODVYRoPiVxQx+bIOBb8XuvyAZuGxq2mR9GdNu4LBYK1ckSjW32J8ZEdpfFg
- nzpExf3/nM+xIKkya65fxI5+8WUpaSI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-t4SPsqyeOeigr2XXlRbw_Q-1; Thu, 15 Oct 2020 12:15:31 -0400
-X-MC-Unique: t4SPsqyeOeigr2XXlRbw_Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1941412C6C1;
- Thu, 15 Oct 2020 16:15:30 +0000 (UTC)
-Received: from [10.36.113.210] (ovpn-113-210.ams2.redhat.com [10.36.113.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1533E100238E;
- Thu, 15 Oct 2020 16:15:18 +0000 (UTC)
-Subject: Re: [RFC 0/5] NVMe passthrough: Support 64kB page host
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- eric.auger.pro@gmail.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- stefanha@redhat.com, fam@euphon.net, alex.williamson@redhat.com
-References: <20201015115252.15582-1-eric.auger@redhat.com>
- <0a1ae4dd-064b-49c5-0669-04219646f616@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <d3ba4c98-67b8-0d38-378a-805fb02b3d40@redhat.com>
-Date: Thu, 15 Oct 2020 18:15:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kT5v1-00076s-EZ
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:15:55 -0400
+Resent-Date: Thu, 15 Oct 2020 12:15:55 -0400
+Resent-Message-Id: <E1kT5v1-00076s-EZ@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kT5uw-000586-QV
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:15:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1602778542; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Rvy3Nup0MKOxrpxI0rE+xejgvcAx/nqio9TeKtEAvJpTh94iPi/4VY/ZXsNVhULzhr9um4h4nUSNIt61nfvuuDB5pA8POfjQ47gQUcrBFq/c8MbFGQjlfsLLxqziDquQjEiBJxH9/mzSt56IuXz/hRM0aQtIxRn0dTfI3xH4xfY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1602778542;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=bG5PG3+uJY23doB842HFQH/3ve09RGM7VGwyY8p228k=; 
+ b=aAAIEf74KOQyoKPP7yMcTB6ZwpGqyVKUw1oJq5UlzUGVA1SOXZ+zwJLUPSNTtL9Kpx7ByivffC92dX7zoRxMRFgtL1MF1RuoQwOOaRYVh5TOZDmmwyBh9hKFWPuUSskZVxmnkIXyydOhRZCqM5b+0OASc5l9NxoQ/EYXqgbm1ZY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1602778540877417.1418112221162;
+ Thu, 15 Oct 2020 09:15:40 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] qemu-ga: add ssh-{add,remove}-authorized-keys
+Message-ID: <160277853958.26906.7670279254947017966@66eaa9a8a123>
+In-Reply-To: <20201015160819.1471144-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <0a1ae4dd-064b-49c5-0669-04219646f616@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:38:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.019, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: marcandre.lureau@redhat.com
+Date: Thu, 15 Oct 2020 09:15:40 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 12:15:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,52 +69,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, mreitz@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-On 10/15/20 3:49 PM, Philippe Mathieu-Daudé wrote:
-> On 10/15/20 1:52 PM, Eric Auger wrote:
->> This series allows NVMe passthrough on aarch64 with 64kB page host.
->> Addresses and sizes of buffers which are VFIO DMA mapped are
->> aligned with the host page size.
->>
->> nvme_register_buf() path is taken care of in this series
->> but it does not seem to prevent the use case from working.
->>
->> Best Regards
->>
->> Eric
->>
->> This series can be found at:
->> https://github.com/eauger/qemu/tree/nvme_64k_rfc
->>
->> This was tested on ARM only.
->>
->> Eric Auger (5):
->>    block/nvme: use some NVME_CAP_* macros
->>    block/nvme: Change size and alignment of IDENTIFY response buffer
->>    block/nvme: Change size and alignment of queue
->>    block/nvme: Change size and alignment of prp_list_pages
->>    block/nvme: Align iov's va and size on host page size
-> 
-> Since it is easier for me to rebase on top of your series,
-> I'm including it in my work (fixing the checkpatch errors)
-> and will repost block/nvme/ patches altogether.
-
-There should be one warning (line exceeding 80 chars) but no error. I
-can easily rebase/respin if you prefer.
-
-Thanks
-
-Eric
-> 
-> Regards,
-> 
-> Phil.
-> 
-> 
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAxNTE2MDgxOS4xNDcx
+MTQ0LTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
+ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
+Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEwMTUx
+NjA4MTkuMTQ3MTE0NC0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFU
+Q0ggdjIgMC8yXSBxZW11LWdhOiBhZGQgc3NoLXthZGQscmVtb3ZlfS1hdXRob3JpemVkLWtleXMK
+Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNl
+ID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1p
+dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9j
+YWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFp
+bGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMy
+MWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3Bh
+dGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDEwMTUx
+NjA4MTkuMTQ3MTE0NC0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIw
+MjAxMDE1MTYwODE5LjE0NzExNDQtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3dpdGNo
+ZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwozY2FiZjRiIHFnYTogYWRkIHNzaC17YWRkLHJlbW92
+ZX0tYXV0aG9yaXplZC1rZXlzCmJlZjdkNjggZ2xpYi1jb21wYXQ6IGFkZCBnX3VuaXhfZ2V0X3Bh
+c3N3ZF9lbnRyeV9xZW11KCkKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMiBDaGVja2luZyBjb21t
+aXQgYmVmN2Q2ODg4YjBiIChnbGliLWNvbXBhdDogYWRkIGdfdW5peF9nZXRfcGFzc3dkX2VudHJ5
+X3FlbXUoKSkKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNl
+cGFyYXRlIGxpbmUKIzQxOiBGSUxFOiBpbmNsdWRlL2dsaWItY29tcGF0Lmg6ODE6CisvKiBOb3Rl
+OiBUaGUgZmFsbGJhY2sgaW1wbGVtZW50YXRpb24gaXMgbm90IE1ULXNhZmUsIGFuZCBpdCByZXR1
+cm5zIGEgY29weSBvZgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8g
+b24gYSBzZXBhcmF0ZSBsaW5lCiM0NDogRklMRTogaW5jbHVkZS9nbGliLWNvbXBhdC5oOjg0Ogor
+ICogR0xpYiBBUEkgc3Vic3RpdHV0aW9uLiAqLwoKdG90YWw6IDAgZXJyb3JzLCAyIHdhcm5pbmdz
+LCAzOCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+Mi8yIENoZWNraW5nIGNvbW1pdCAzY2FiZjRiMTNiY2MgKHFnYTogYWRkIHNzaC17YWRkLHJlbW92
+ZX0tYXV0aG9yaXplZC1rZXlzKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxl
+KHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNzogCm5ldyBmaWxlIG1vZGUg
+MTAwNjQ0CgpFUlJPUjogVXNlIGdfYXNzZXJ0IG9yIGdfYXNzZXJ0X25vdF9yZWFjaGVkCiM2NDog
+RklMRTogcWdhL2NvbW1hbmRzLXBvc2l4LXNzaC5jOjMzOgorICAgIGdfYXNzZXJ0X2NtcGludChy
+ZXQsID09LCAwKTsKCkVSUk9SOiBVc2UgZ19hc3NlcnQgb3IgZ19hc3NlcnRfbm90X3JlYWNoZWQK
+IzMxODogRklMRTogcWdhL2NvbW1hbmRzLXBvc2l4LXNzaC5jOjI4NzoKKyAgICBnX2Fzc2VydF9j
+bXBpbnQocmV0LCA9PSwgMCk7CgpFUlJPUjogVXNlIGdfYXNzZXJ0IG9yIGdfYXNzZXJ0X25vdF9y
+ZWFjaGVkCiMzMjM6IEZJTEU6IHFnYS9jb21tYW5kcy1wb3NpeC1zc2guYzoyOTI6CisgICAgZ19h
+c3NlcnRfbm9fZXJyb3IoZXJyKTsKCkVSUk9SOiBVc2UgZ19hc3NlcnQgb3IgZ19hc3NlcnRfbm90
+X3JlYWNoZWQKIzMzNTogRklMRTogcWdhL2NvbW1hbmRzLXBvc2l4LXNzaC5jOjMwNDoKKyAgICBn
+X2Fzc2VydF9ub19lcnJvcihlcnIpOwoKRVJST1I6IFVzZSBnX2Fzc2VydCBvciBnX2Fzc2VydF9u
+b3RfcmVhY2hlZAojMzM3OiBGSUxFOiBxZ2EvY29tbWFuZHMtcG9zaXgtc3NoLmM6MzA2OgorICAg
+IGdfYXNzZXJ0X2NtcHN0cihjb250ZW50cywgPT0sIGV4cGVjdGVkKTsKCkVSUk9SOiBVc2UgZ19h
+c3NlcnQgb3IgZ19hc3NlcnRfbm90X3JlYWNoZWQKIzM3NDogRklMRTogcWdhL2NvbW1hbmRzLXBv
+c2l4LXNzaC5jOjM0MzoKKyAgICBnX2Fzc2VydF9udWxsKGVycik7CgpFUlJPUjogVXNlIGdfYXNz
+ZXJ0IG9yIGdfYXNzZXJ0X25vdF9yZWFjaGVkCiMzODA6IEZJTEU6IHFnYS9jb21tYW5kcy1wb3Np
+eC1zc2guYzozNDk6CisgICAgZ19hc3NlcnRfbnVsbChlcnIpOwoKRVJST1I6IFVzZSBnX2Fzc2Vy
+dCBvciBnX2Fzc2VydF9ub3RfcmVhY2hlZAojNDAxOiBGSUxFOiBxZ2EvY29tbWFuZHMtcG9zaXgt
+c3NoLmM6MzcwOgorICAgIGdfYXNzZXJ0X251bGwoZXJyKTsKCkVSUk9SOiBVc2UgZ19hc3NlcnQg
+b3IgZ19hc3NlcnRfbm90X3JlYWNoZWQKIzQwNjogRklMRTogcWdhL2NvbW1hbmRzLXBvc2l4LXNz
+aC5jOjM3NToKKyAgICBnX2Fzc2VydF9udWxsKGVycik7Cgp0b3RhbDogOSBlcnJvcnMsIDEgd2Fy
+bmluZ3MsIDQ4MCBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzIgaGFzIHN0eWxlIHByb2JsZW1zLCBw
+bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
+IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
+TkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6
+IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
+LzIwMjAxMDE1MTYwODE5LjE0NzExNDQtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vdGVz
+dGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21h
+dGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlv
+dXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
