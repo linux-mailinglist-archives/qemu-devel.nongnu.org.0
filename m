@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C3728F727
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:51:18 +0200 (CEST)
-Received: from localhost ([::1]:55566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C640B28F71C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 18:48:16 +0200 (CEST)
+Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT6TF-0008Jy-Ng
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:51:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42728)
+	id 1kT6QJ-0005sq-S1
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 12:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kT6NQ-0004MT-5d
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40031)
+ id 1kT6NS-0004Ma-67
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kT6NN-0000U3-TT
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:15 -0400
+ id 1kT6NN-0000U5-TO
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 12:45:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602780311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FjSWs2ueHTFAYbwmQwSRzeDlYFK9piLsfc+JOFi7X2Q=;
- b=M0GsVqEKF43LjS0irsNtwgXsFk36Qbrp9jtA80vDn0v3h3vkdwbksXXxEDGZrdkd1nWexH
- g0cNwNYNWPOeEItWkUFqM+flBppA/nlKMxpq3oSCpG9iDNgEyaH9XbQTTq1ivMBjVBMzqM
- lPw7NRNLjgabp67ZZXGVEexMHUqKkOg=
+ bh=ZpynZSVA1qN6ltS+zJYlz+OUy8xgGllKPauyeHYcGkw=;
+ b=RvGBSpRUtB5eFEFLzFnbT1oL6njE2WL8g1kX5EOVUVnAp+GAmc3Nivzyqcsy4ZYMT8E4VZ
+ QBna8grl/x2I3njoezA2W3HovZbkaIjcP4AwdtNIk+eBktJb12pRQHl9QAp+gWQjPH/odR
+ 7owjM1wj+M8CYssOktcqJPgj/9L/CEQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-YwResHO9MY-tBZXT2_Af_A-1; Thu, 15 Oct 2020 12:45:08 -0400
-X-MC-Unique: YwResHO9MY-tBZXT2_Af_A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-335-eLz_WMi3PAejqGw-ewQIvA-1; Thu, 15 Oct 2020 12:45:10 -0400
+X-MC-Unique: eLz_WMi3PAejqGw-ewQIvA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 624F05708A;
- Thu, 15 Oct 2020 16:45:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE2068D4420;
+ Thu, 15 Oct 2020 16:45:08 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FC8219C4F;
- Thu, 15 Oct 2020 16:45:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CFCE76649;
+ Thu, 15 Oct 2020 16:45:08 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/9] i386/kvm: fix FEATURE_HYPERV_EDX value in
- hyperv_passthrough case
-Date: Thu, 15 Oct 2020 12:44:54 -0400
-Message-Id: <20201015164501.462775-3-ehabkost@redhat.com>
+Subject: [PULL 3/9] target/i386: Remove core_id assert check in CPUID
+ 0x8000001E
+Date: Thu, 15 Oct 2020 12:44:55 -0400
+Message-Id: <20201015164501.462775-4-ehabkost@redhat.com>
 In-Reply-To: <20201015164501.462775-1-ehabkost@redhat.com>
 References: <20201015164501.462775-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,37 +83,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Babu Moger <babu.moger@amd.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
+From: Babu Moger <babu.moger@amd.com>
 
-Fix typo to use correct edx value for FEATURE_HYPERV_EDX when
-hyperv_passthrough is enabled.
+With x2apic enabled, configurations can have more that 255 cores.
+Noticed the device add test is hitting an assert when during cpu
+hotplug with core_id > 255. This is due to assert check in the
+CPUID 0x8000001E.
 
-Signed-off-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-Message-Id: <20190820103030.12515-1-zhenyuw@linux.intel.com>
-Fixes: e48ddcc6ce13 ("i386/kvm: implement 'hv-passthrough' mode")
+Remove the assert check and fix the problem.
+
+Fixes the bug:
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=1834200
+
+Signed-off-by: Babu Moger <babu.moger@amd.com>
+Message-Id: <160072824160.9666.8890355282135970684.stgit@naples-babu.amd.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/kvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/cpu.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 8b12387d30..0098be7015 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1214,7 +1214,7 @@ static int hyperv_handle_properties(CPUState *cs,
-         if (c) {
-             env->features[FEAT_HYPERV_EAX] = c->eax;
-             env->features[FEAT_HYPERV_EBX] = c->ebx;
--            env->features[FEAT_HYPERV_EDX] = c->eax;
-+            env->features[FEAT_HYPERV_EDX] = c->edx;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a33af2359c..25ec64124e 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5910,9 +5910,14 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
          }
-         c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
-         if (c) {
+         break;
+     case 0x8000001E:
+-        assert(cpu->core_id <= 255);
+-        encode_topo_cpuid8000001e(cpu, &topo_info,
+-                                  eax, ebx, ecx, edx);
++        if (cpu->core_id <= 255) {
++            encode_topo_cpuid8000001e(cpu, &topo_info, eax, ebx, ecx, edx);
++        } else {
++            *eax = 0;
++            *ebx = 0;
++            *ecx = 0;
++            *edx = 0;
++        }
+         break;
+     case 0xC0000000:
+         *eax = env->cpuid_xlevel2;
 -- 
 2.28.0
 
