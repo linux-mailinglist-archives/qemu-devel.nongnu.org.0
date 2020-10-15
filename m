@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7C828FAE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 23:54:44 +0200 (CEST)
-Received: from localhost ([::1]:44270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F35E28FAEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 23:56:55 +0200 (CEST)
+Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTBCs-0000YM-ID
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 17:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52478)
+	id 1kTBF0-0003uc-Mm
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 17:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kTBBQ-00085T-Hs
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:53:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25984)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kTBBO-0005Ca-CC
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:53:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602798787;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BARnLXs/exXZ7tn92/u9lLueEVkJ1NV00kPp7HxyW6s=;
- b=N0tPp3aPMGS68X7teakI9rLhaLBQQt0UcfHnt6XdJd4ZsR8Gf0+7dIhCrhAMbV1NTTQGCk
- fqzkEjrO2TBiM9167WGYPQkZtvdeQyDqWEn/YtkWc2HLqqaSHIJeIJynRCxyO0co0/7ByH
- PAGT8KqdyHfH5rWzDhMQ49KOFXePCPo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-v8ziUfY8M0CsY5hTTcEZgQ-1; Thu, 15 Oct 2020 17:53:03 -0400
-X-MC-Unique: v8ziUfY8M0CsY5hTTcEZgQ-1
-Received: by mail-ed1-f70.google.com with SMTP id h6so203268edt.12
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 14:53:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kTBCG-0000je-0S
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:04 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:37768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kTBCE-0005Gm-6K
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:03 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id hk7so224284pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 14:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/CJt1ti1bc3lxOpPR6juiEHbN3Gx+k4QlRzxvnRswdQ=;
+ b=S4uKU/mzKdH+NxJGn9qAwQERCKierTFtZ5bCJkjuRqHXWybcHXeFIbi6KWJ2z9cPAt
+ ZfL1rCyvrLssPq1ZueT1lipwbTJuEgoDZEUQa/7oQLJ87KzjG+BmwJIEQvV7aM42XP8z
+ jcgNel2bguJLwChwx6NE/IYSB9O5S/TNMdLYJYade3zAHsBEXKX1f9rVwJW+py3Xlupt
+ kiLRgI1oAf5doyVpwompLHSfJyU6zne/kY4Bfkm6pHRN6OlBD3kLvlRlvWUwoGH6/TlD
+ qPxeAB1uMEJSc0DnMZP7h8u6A4tbZIveVychdxtkE5pOnnCdAsCV2FbARwEYXaeTpgsq
+ 6UlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BARnLXs/exXZ7tn92/u9lLueEVkJ1NV00kPp7HxyW6s=;
- b=jkJfosUfyxr9qxHb8SA58GsnP/Vat9TMNdNiXVnZ6jspt6DRCyefMv0tAIdxEaTDZE
- V4UU5XDpcMeAm+CDJO1sKW2tw57AuTOr9bE7dh7RPVzop9m18tm1yTEV9dsAd7f2BUfA
- mHsM4byq5JcFSyMAo4TTDkxCziasM0eevqu5Ri/V3ZZOImGwu9D2YT6bwO1AKjCXodrZ
- BeqWmFUTzCfYrc9Ppsferu2LlCbLj+eut/AczDvgyosb7TymVqsbjsJ0075KHelGvZbL
- 4pNgwYS21qnv5KQTVDlnR1dmz/gjvXjvAOazb9gnAE8tg6+aN0xqo+zaKH7lOxLyyxk9
- 1etg==
-X-Gm-Message-State: AOAM532o9q16oIyQN5Mgk95Mxj3KvTcafRPhW2UqG5cU6iCBuVwDMgFl
- qVgKaIY3SDvZUlI81LmgaTJ/Lu6fUMvbKC64Id+rNpVZl6rquaAl1q0EK0qxgfm1FISFbQ3eeD8
- +vhi4x1hHq1vlo0cPgxk+ZZRWgBC+0LE=
-X-Received: by 2002:aa7:cd4f:: with SMTP id v15mr508625edw.243.1602798782365; 
- Thu, 15 Oct 2020 14:53:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwUI7BxtXsNdzwujAV2H38P7k9Mm9u1lsh2ap/4JFt0WZciSSjNWHOOL4znDZw5TFK1PBOHZtX/D7fUcxk7esM=
-X-Received: by 2002:aa7:cd4f:: with SMTP id v15mr508605edw.243.1602798782141; 
- Thu, 15 Oct 2020 14:53:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/CJt1ti1bc3lxOpPR6juiEHbN3Gx+k4QlRzxvnRswdQ=;
+ b=kPk6ry5dXtiyl8F8fYGkVSH0uXFRmT3y6mXV22wtqyWt9IYnENrulMeRQgHaa8pojD
+ qzbbTBs7W1qGyffWbTfjsoEDc934x5E3PD4s6GyZK+q9cb05bI4467lfnbggXw+m6Tx5
+ B729rSrqHK+bejDhaqvm0Kfu1FoD7Sy/9mSE4WUUFb3oZN7qJimRv/q2aXbPKg9IGZLT
+ sfPqi33wmsCXpmVkneAdSCK5K912r8rz0W/tjtZGOwDsikumQ6WuyHqXV/wwPNMa7eNc
+ 9tw7N+aH62wFxLezp8bMsJTeKw25MSvlfFZKFlV7SlSiR7mwbgVK41NYVqw54Cf2hyG9
+ 6llg==
+X-Gm-Message-State: AOAM532RpDwV3xGup+RyYV7lxKtKb4z9gndhlpKcdOKyKLf32insbmsE
+ 1E/Khcu5ZZulxjQbqsfggJXRaM/xCaq2yADb
+X-Google-Smtp-Source: ABdhPJwI7Emnyv1/sx4CleDxvovMNPnR0InYp+CdmK//5d9jfIXoy6p7Zlxp0lUR324RU8yIsFtQRA==
+X-Received: by 2002:a17:90b:4006:: with SMTP id
+ ie6mr738094pjb.102.1602798839889; 
+ Thu, 15 Oct 2020 14:53:59 -0700 (PDT)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id f66sm252856pfa.59.2020.10.15.14.53.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Oct 2020 14:53:59 -0700 (PDT)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] Fixes docs building on msys2/mingw
+Date: Fri, 16 Oct 2020 05:53:41 +0800
+Message-Id: <20201015215345.173-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20201015201035.1964-1-luoyonggang@gmail.com>
-In-Reply-To: <20201015201035.1964-1-luoyonggang@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 15 Oct 2020 23:52:50 +0200
-Message-ID: <CABgObfYY5SPAzouBG84eVdUY5rFwknNuoMovg8VFfvXuhZOA+w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] Fixes docs building on msys2/mingw
-To: Yonggang Luo <luoyonggang@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000000e743c05b1bcac51"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:10:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1035.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,96 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000e743c05b1bcac51
-Content-Type: text/plain; charset="UTF-8"
-
-Looks good, apart from the CR removal patch that can simply be dropped.
-
-Paolo
-
-Il gio 15 ott 2020, 22:10 Yonggang Luo <luoyonggang@gmail.com> ha scritto:
-
-> v1 - v2
-> Also move the docs configure part from
-> configure to meson, this also fixed the pending
-> ninjatool removal caused issue that docs  can
-> not be build under msys2/mingw
->
-> Yonggang Luo (4):
->   docs: Fixes build docs on msys2/mingw
->   configure: the docdir option should passed to meson as is.
->   meson: Move the detection logic for sphinx to meson
->   cirrus: Enable doc build on msys2/mingw
->
->  .cirrus.yml                   |  6 +++-
->  configure                     | 62 +++--------------------------------
->  docs/conf.py                  |  2 +-
->  docs/meson.build              |  4 +--
->  docs/sphinx/kerneldoc.py      |  2 +-
->  meson.build                   | 59 +++++++++++++++++++++++++++++----
->  meson_options.txt             |  5 ++-
->  scripts/rst-sanitize.py       | 21 ++++++++++++
->  tests/qapi-schema/meson.build |  7 ++--
->  9 files changed, 95 insertions(+), 73 deletions(-)
->  create mode 100644 scripts/rst-sanitize.py
->
-> --
-> 2.28.0.windows.1
->
->
->
-
---0000000000000e743c05b1bcac51
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Looks good, apart from the CR removal patch that can simp=
-ly be dropped.<div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div></di=
-v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il g=
-io 15 ott 2020, 22:10 Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.=
-com">luoyonggang@gmail.com</a>&gt; ha scritto:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">v1 - v2<br>
-Also move the docs configure part from<br>
-configure to meson, this also fixed the pending<br>
-ninjatool removal caused issue that docs=C2=A0 can<br>
-not be build under msys2/mingw<br>
-<br>
-Yonggang Luo (4):<br>
-=C2=A0 docs: Fixes build docs on msys2/mingw<br>
-=C2=A0 configure: the docdir option should passed to meson as is.<br>
-=C2=A0 meson: Move the detection logic for sphinx to meson<br>
-=C2=A0 cirrus: Enable doc build on msys2/mingw<br>
-<br>
-=C2=A0.cirrus.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 6 +++-<br>
-=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 62 +++--------------------------------<br>
-=C2=A0docs/conf.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 2 +-<br>
-=C2=A0docs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 4 +--<br>
-=C2=A0docs/sphinx/kerneldoc.py=C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 59 +++++++++++++++++++++++++++++----<br>
-=C2=A0meson_options.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 5 ++-<br>
-=C2=A0scripts/rst-sanitize.py=C2=A0 =C2=A0 =C2=A0 =C2=A0| 21 ++++++++++++<b=
-r>
-=C2=A0tests/qapi-schema/meson.build |=C2=A0 7 ++--<br>
-=C2=A09 files changed, 95 insertions(+), 73 deletions(-)<br>
-=C2=A0create mode 100644 scripts/rst-sanitize.py<br>
-<br>
--- <br>
-2.28.0.windows.1<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000000e743c05b1bcac51--
-
+V2-V3=0D
+No need convert perl trick to python script anymore=0D
+after Paolo's removal of ninjatool.=0D
+Revise Meson: Move the detection logic for sphinx to meson=0D
+for pass other platform by letting SPHINX_ARGS to be empty=0D
+when build_docs are false=0D
+=0D
+v1 - v2=0D
+Also move the docs configure part from=0D
+configure to meson, this also fixed the pending=0D
+ninjatool removal caused issue that docs  can=0D
+not be build under msys2/mingw=0D
+=0D
+Yonggang Luo (4):=0D
+  docs: Fixes build docs on msys2/mingw=0D
+  configure: the docdir option should passed to meson as is.=0D
+  meson: Move the detection logic for sphinx to meson=0D
+  cirrus: Enable doc build on msys2/mingw=0D
+=0D
+ .cirrus.yml                   |  6 +++-=0D
+ configure                     | 62 +++--------------------------------=0D
+ docs/conf.py                  |  2 +-=0D
+ docs/meson.build              |  4 +--=0D
+ docs/sphinx/kerneldoc.py      |  2 +-=0D
+ meson.build                   | 59 +++++++++++++++++++++++++++++----=0D
+ meson_options.txt             |  5 ++-=0D
+ tests/qapi-schema/meson.build |  2 +-=0D
+ 8 files changed, 71 insertions(+), 71 deletions(-)=0D
+=0D
+-- =0D
+2.28.0.windows.1=0D
+=0D
 
