@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A90D28FA00
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 22:16:03 +0200 (CEST)
-Received: from localhost ([::1]:57354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FE228FA10
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 22:21:40 +0200 (CEST)
+Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT9fO-0003eJ-6E
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 16:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33924)
+	id 1kT9kp-0007fh-B5
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 16:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kT9dS-0002cJ-5Z; Thu, 15 Oct 2020 16:14:02 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:40342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kT9dQ-0001uL-Bp; Thu, 15 Oct 2020 16:14:01 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id j8so58598pjy.5;
- Thu, 15 Oct 2020 13:13:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Zs60eK5PfD5d3cYvFCbEHXTMHa3QpK7RkQrrTjYQvO0=;
- b=ihD2KHRRswMk2wryESPfGJDrrofohlFw6aGT2UjdJjKZErsxCIovHF4gtn6GCe6KVh
- ZA0fLocmdnsONd+Uo6Qm/Hwgln/bCQnBueIx3SLXqNn/dPGypV4o7P3QbAIzo0DV84Dz
- oFGaZFoo/M1geUbq6jYT20rGUONQxwYvdgx5pumujeszHBMWM7HMW7pSFlH+T5pOG43h
- 0aMpCSiDA+cdlsb6Szvj1Fj0r40waOcxNItYAI/gWRKIRchUCcw/IcLZIhLQQ1ZCKoHe
- vOlRUkSumr5mR7Tai+wpQrUbiLYiCVhP1V5u5f+GbM38UL7XxrNeuYYYV/iQvLM8eciv
- afAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Zs60eK5PfD5d3cYvFCbEHXTMHa3QpK7RkQrrTjYQvO0=;
- b=Z0lT01aOuL+kEiD5HsuJUcEACzDbt6o68SZ/pqSFoHyWtaNaR023e10D/KwH8SRHYN
- nlVkRpjcMkeI8IDy2TdlDKrdPyebHYphi9kl8yNOy6WVCFgX9eT88Cm6T0vr9TmOs1WK
- fiBPoR7Tfgk2yZ/D14AgtzDob9iQ2IWnn1hR1qewMw4XnkjEXQDb3pF0RpK19vQwt8oD
- SepVGQZWiQBlhbdfQN2yJqugGn1dHt7alvmZCiO8SM7Scoms4yIwJr7EiQVxKj1pK6ZZ
- BHNCR3emItxXmntNqiEdZNSa7tOzFXl7HNfcV3N62U7+5alCzAXvWq8CyCDWOTQ6h5h5
- eHCA==
-X-Gm-Message-State: AOAM531hZb2Oo4rVIYFdfjegpIrG3h+lHbbzrHGeHOYzAJc+Yx0tl2/m
- YwDcMJo7PQteOetY0fdM64oSqQVOOsfcIWBx
-X-Google-Smtp-Source: ABdhPJxh0fKR+hiPOzKdwT/A57r4Q/oRk8m1LyUzn9kQIdnaIl7FUWjwgkO3o0SRbh/27RKuurr80Q==
-X-Received: by 2002:a17:90b:4b08:: with SMTP id
- lx8mr401823pjb.204.1602792837924; 
- Thu, 15 Oct 2020 13:13:57 -0700 (PDT)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id s20sm89922pfc.201.2020.10.15.13.13.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Oct 2020 13:13:57 -0700 (PDT)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] block: enable libnfs on msys2/mingw in cirrus.yml
-Date: Fri, 16 Oct 2020 04:13:35 +0800
-Message-Id: <20201015201335.357-3-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.28.0.windows.1
-In-Reply-To: <20201015201335.357-1-luoyonggang@gmail.com>
-References: <20201015201335.357-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kT9gq-000593-L0
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 16:17:34 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55974
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kT9gn-0002IM-AY
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 16:17:31 -0400
+Received: from host86-148-246-80.range86-148.btcentralplus.com
+ ([86.148.246.80] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kT9gj-0002E7-Ti; Thu, 15 Oct 2020 21:17:30 +0100
+To: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ alxndr@bu.edu
+References: <4f9846b5-4112-9598-fb9a-be26e28f2759@ilande.co.uk>
+ <e1cccc73-efbf-1999-9d4a-d8b9e36be8bb@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <1dbfe85a-10d9-55a4-6eb3-a328de62fbe3@ilande.co.uk>
+Date: Thu, 15 Oct 2020 21:17:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <e1cccc73-efbf-1999-9d4a-d8b9e36be8bb@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102b.google.com
+X-SA-Exim-Connect-IP: 86.148.246.80
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: ide: Linux reports drive diagnostic failures on boot
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.019,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +67,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- QEMU Trivial <qemu-trivial@nongnu.org>, Peter Lieven <pl@kamp.de>,
- Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initially, libnfs has not been enabled, and now it's fixed, so enable it
-on cirrus.
+On 13/10/2020 19:39, John Snow wrote:
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- .cirrus.yml | 1 +
- 1 file changed, 1 insertion(+)
+> On 10/13/20 6:59 AM, Mark Cave-Ayland wrote:
+>> During my latest OpenBIOS boot tests I've noticed the following IDE diagnostics 
+>> failure message appearing in dmesg at Linux boot time when booting from CDROM on 
+>> both SPARC64 and PPC:
+>> 
+> Sorry for the inconvenience.
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index f42ccb956a..2c6bf45e6d 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -109,6 +109,7 @@ windows_msys2_task:
-           mingw-w64-x86_64-cyrus-sasl \
-           mingw-w64-x86_64-curl \
-           mingw-w64-x86_64-gnutls \
-+          mingw-w64-x86_64-libnfs \
-           "
-         bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND `
-           https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz `
--- 
-2.28.0.windows.1
+Well it wasn't too bad - in my case the kernel was able to recover so it wasn't a 
+complete showstopper for my tests. It seemed worth mentioning in case this causes 
+other failures elsewhere though.
 
+>> [    9.347342] scsi host0: pata_cmd64x
+>> [    9.369055] scsi host1: pata_cmd64x
+>> [    9.371622] ata1: PATA max UDMA/33 cmd 0x1fe02008000 ctl 0x1fe02008080 bmdma 
+>> 0x1fe02008200 irq 8
+>> [    9.372805] ata2: PATA max UDMA/33 cmd 0x1fe02008100 ctl 0x1fe02008180 bmdma 
+>> 0x1fe02008208 irq 8
+>> [    9.711740] ata2.00: ATAPI: QEMU DVD-ROM, 2.5+, max UDMA/100
+>> [    9.712591] ata2.00: Drive reports diagnostics failure. This may indicate a drive
+>> [    9.713256] ata2.00: fault or invalid emulation. Contact drive vendor for 
+>> information.
+>> [    9.737677] ata2.00: configured for UDMA/33
+>> [    9.790179] scsi 1:0:0:0: CD-ROM            QEMU     QEMU DVD-ROM 2.5+ PQ: 0 
+>> ANSI: 5
+>> [   10.381172] hme 0000:01:01.1 enp1s1f1: renamed from eth0
+>> [   10.508819] sr 1:0:0:0: [sr0] scsi3-mmc drive: 4x/4x cd/rw xa/form2 tray
+>> [   10.509805] cdrom: Uniform CD-ROM driver Revision: 3.20
+>>
+>>
+>> A session with git bisect points to the following commit:
+>>
+>> 55adb3c45620c31f29978f209e2a44a08d34e2da is the first bad commit
+>> commit 55adb3c45620c31f29978f209e2a44a08d34e2da
+>> Author: John Snow <jsnow@redhat.com>
+>> Date:   Fri Jul 24 01:23:00 2020 -0400
+>>
+>>      ide: cancel pending callbacks on SRST
+>>
+>>      The SRST implementation did not keep up with the rest of IDE; it is
+>>      possible to perform a weak reset on an IDE device to remove the BSY/DRQ
+>>      bits, and then issue writes to the control/device registers which can
+>>      cause chaos with the state machine.
+>>
+>>      Fix that by actually performing a real reset.
+>>
+>>      Reported-by: Alexander Bulekov <alxndr@bu.edu>
+>>      Fixes: https://bugs.launchpad.net/qemu/+bug/1878253
+>>      Fixes: https://bugs.launchpad.net/qemu/+bug/1887303
+>>      Fixes: https://bugs.launchpad.net/qemu/+bug/1887309
+>>      Signed-off-by: John Snow <jsnow@redhat.com>
+>>
+>> :040000 040000 70a7c1cfbafb22fa815d3ae4d7ed075ac3918188 
+>> 3f37762f20e9ca9d2874eaf819d7175a1dca1dd9 M      hw
+>>
+>>
+>> John/Alexander: any chance you could take a look at this? The message above is 
+>> really simple to reproduce under qemu-system-sparc64 using 
+>> http://cdimage.debian.org/cdimage/ports/9.0/sparc64/iso-cd/debian-9.0-sparc64-NETINST-1.iso 
+>> and the following command line:
+>>
+>> ./qemu-system-sparc64 \
+>>      -cdrom debian-9.0-sparc64-NETINST-1.iso \
+>>      -m 256 \
+>>      -nographic \
+>>      -boot d
+>>
+>>
+>> ATB,
+>>
+>> Mark.
+>>
+> 
+> Shucks.
+> 
+> This patch happened because the old SRST code reset the IDE state machine (cleared 
+> the status register) but then didn't cancel any of the pending callbacks, so it was 
+> possible to shuffle the state machine off the rails onto junk data. Obviously bad.
+> 
+> Now, SRST actually cancels the callbacks which I thought would have been safe, but 
+> it's possible that doing a "real" reset here is touching more registers than it ought 
+> to.
+> 
+> Let's take a look at the linux source code ...
+> 
+> /* Let the user know. We don't want to disallow opens for
+>     rescue purposes, or in case the vendor is just a blithering
+>     idiot. Do this after the dev_config call as some controllers
+>     with buggy firmware may want to avoid reporting false device
+>     bugs */
+> 
+> Ah, always a nice day to be called an idiot. Thank you for your service, Alan Cox.
+> 
+> This message gets printed when ATA_HORKAGE_DIAGNOSTIC is set. libata-sff.c suggests 
+> this happens when the error register* comes back 0x00 after an SRST.
+> 
+> (*I think that tf.feature is only feature on writes, but error on reads. Same address.)
+> 
+> Now, ide_reset -- which we use for initialization and resets both always sets the 
+> error register to 0x00. libata thinks that 0x00 means a failed diagnostics test, though.
+> 
+> This ought to be covered by ATA8-APT. Section 9.2, Software reset protocol.
+> 
+> Cliff notes:
+> 
+> - Host writes to SRST and waits for 5 μs.
+> - Both devices obey the SRST write, regardless of drive selection.
+> - Each device clears their registers and sets BSY (within 400ns.)
+> - Host clears SRST and waits for at least 2ms.
+> - Host polls devices, waiting for BSY to be 0.
+> 
+> 
+> device0 can set bit7 in the error register to 0 or 1, depending on the presence or 
+> absence of device1 and how it behaves following a diagnostic test.
+> 
+> 
+> Device 1 is absent: bit7 is cleared.
+> Device 1 is present:
+>    - If PDIAG- is asserted, bit7 is cleared.
+>    - If PDIAG- is not asserted within 31 seconds, bit7 is set.
+> 
+> Then, ah:
+> 
+> The EXECUTE DEVICE DIAGNOSTICS diagnostic code shall be placed in bits (6:0) of the 
+> Error register (See Clause 0). The device shall set the signature values (See Clause 
+> 0). The content of the Features register is undefined.
+> 
+> I got this pretty wrong. I'm seeing a few problems:
+> 
+> 1. I thought SRST was triggered on the falling edge, but that's not entirely true. 
+> BSY should be set immediately and the SRST can begin as soon as possible. The device 
+> does not seem to have any interaction with the SRST bit being cleared from what I can 
+> tell.
+> 
+> 2. We aren't running the diagnostic command, actually. That should fix this 
+> particular case. The old version of the code had an open-coded version of this, but 
+> it wasn't clear at the time this is what it was doing.
+> 
+> 3. There are likely other things to handle relating to the presence/absence of 
+> device1 that we have never done for either version of the code.
+> 
+> 
+> 
+> Try this patch:
+> 
+> 
+> diff --git a/hw/ide/core.c b/hw/ide/core.c
+> index 693b352d5e..98cea7ad45 100644
+> --- a/hw/ide/core.c
+> +++ b/hw/ide/core.c
+> @@ -2254,10 +2254,8 @@ static void ide_perform_srst(IDEState *s)
+>       /* Cancel PIO callback, reset registers/signature, etc */
+>       ide_reset(s);
+> 
+> -    if (s->drive_kind == IDE_CD) {
+> -        /* ATAPI drives do not set READY or SEEK */
+> -        s->status = 0x00;
+> -    }
+> +    /* perform diagnostic */
+> +    cmd_exec_dev_diagnostic(s, WIN_DIAGNOSE);
+>   }
+> 
+>   static void ide_bus_perform_srst(void *opaque)
+> @@ -2282,9 +2280,7 @@ void ide_ctrl_write(void *opaque, uint32_t addr, uint32_t val)
+> 
+>       /* Device0 and Device1 each have their own control register,
+>        * but QEMU models it as just one register in the controller. */
+> -    if ((bus->cmd & IDE_CTRL_RESET) &&
+> -        !(val & IDE_CTRL_RESET)) {
+> -        /* SRST triggers on falling edge */
+> +    if (!(bus->cmd & IDE_CTRL_RESET) && (val & IDE_CTRL_RESET)) {
+>           for (i = 0; i < 2; i++) {
+>               s = &bus->ifs[i];
+>               s->status |= BUSY_STAT;
+
+I've just given this a quick boot test on qemu-system-sparc64 (both HD and CD) and it 
+seems to fix the problem here - thanks!
+
+
+ATB,
+
+Mark.
 
