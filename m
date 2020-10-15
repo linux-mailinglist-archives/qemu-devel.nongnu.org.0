@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E970528F0D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 13:19:40 +0200 (CEST)
-Received: from localhost ([::1]:54198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D7A28F0CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 13:17:01 +0200 (CEST)
+Received: from localhost ([::1]:47382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT1IK-0006br-0V
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 07:19:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
+	id 1kT1Fk-0003ej-9m
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 07:17:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT1Ak-0001w4-RB
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:11:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30607)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT1D5-0002ek-7h
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:14:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT1Aj-0006Aw-3Q
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:11:50 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT1D3-0006MT-Id
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:14:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602760306;
+ s=mimecast20190719; t=1602760452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GDmWnrlKKHfBZ6olpkMo2Yl2ziMS5ygf4QWhtHU2UlU=;
- b=GR82TBZ7/ujQp5VKe4RNzfL0Lj0far8mi0JC3oo8txiZ0LN5OKJLQUzlpXurSDWluMSd7c
- T6NQtsqLFQGUt3EIENmdn8LKt+e7knK1ftVdCpAoYvgrgsWGsqz5z/jyjRmkbedO2/Yc1Q
- cF06Wer7YohBBc1T8iMu5T0C/bUgyB8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-O5jfwUyoPL6txjX5PiJvEg-1; Thu, 15 Oct 2020 07:11:45 -0400
-X-MC-Unique: O5jfwUyoPL6txjX5PiJvEg-1
-Received: by mail-wm1-f70.google.com with SMTP id f26so1044544wml.1
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 04:11:45 -0700 (PDT)
+ bh=esQraE8Y/bNPkER3FVilbO9Rv53mg4avZhRLebUk/5g=;
+ b=A8/Vyqgr/e9OSnOKm8jhfREnoa54S1IEQ0CZvHHVIGLBQCsSIbYqhZum0oXYfDVUJtaH06
+ eWS7KLSsfxTaIvYjeSMb3LuzB4vXJ36INJ7mkPQ13W1MuDxAnwWXa7yQwOmvLJGnRab67J
+ No/X4zEvGu3x80ElOhACnrrPPrLcwwA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-572-lRsPJ0X1PF2uLM8qbJy0nw-1; Thu, 15 Oct 2020 07:14:10 -0400
+X-MC-Unique: lRsPJ0X1PF2uLM8qbJy0nw-1
+Received: by mail-wm1-f71.google.com with SMTP id y83so1585798wmc.8
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 04:14:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GDmWnrlKKHfBZ6olpkMo2Yl2ziMS5ygf4QWhtHU2UlU=;
- b=ULGTGxFMQwT4CvHHUvh2WlVl8Rc/AF8flRxwXwbPsWOAPOTUZRe/TAQtSBDjV6LTf8
- mWQ65M4U8FVAzYDvxK9+1MQI2gDNQH57UNCRM+IkQIlxXsAAsnzN6EzAhVM8xfTfruRO
- eylUYd/yzg7713lMMaVto9RZ/BPHh41aZ76t2Kj/fnT1BoOBkWZe6H2gW23gHM+mRTfF
- 6KDe6JvF+n0aUykQxbF5ejt6y3/sWO+Hs/da911DBsCuDW4cwDlIOVwmx7hDZ1UiEd7b
- WYTHkScRaIx6nJlhKRN36C6f891GWNo//+2cFQHmR4mFbdwCetxU4/ywqZqCkjCYxszx
- emSg==
-X-Gm-Message-State: AOAM532mB/Z4ttvuDFajA+TKSwvck3Myfcv01BksfQRote4ObWePJ7OB
- iOrOgKNofkpLdyF9nBaJoqgtQ1QWJ2EafSV2GhDIJ0XQv20z6ZKtPKtIFIf5faK3g/DjAk2SXAV
- xAyYu1YmSxH0uIKQ=
-X-Received: by 2002:a05:6000:1110:: with SMTP id
- z16mr3986022wrw.71.1602760304083; 
- Thu, 15 Oct 2020 04:11:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxJV2OYzlRbjH78GFwZIVgJCqpblYJqHkUJ6JNGcfjXf52LIT/jMwpn/koPERgk+eiMTVSebQ==
-X-Received: by 2002:a05:6000:1110:: with SMTP id
- z16mr3985999wrw.71.1602760303886; 
- Thu, 15 Oct 2020 04:11:43 -0700 (PDT)
+ bh=esQraE8Y/bNPkER3FVilbO9Rv53mg4avZhRLebUk/5g=;
+ b=S6yAt6MbLGqcTb2mJmQABbNzgLszaaPCMnUlZkywaa0/jy7+RjJDQGTKeKEIKOf5or
+ dWlIZgRltnbcf+2nApd9A+fHH468oYuyOpw3DHYrKLJFd78bvXGZAWxYvRS0xqRzAcIP
+ EWeXv7zwba/lDI2dhttuailP1BIEyThcX4wB1Tch6SmuanBHgneCh2FPDwE7lgC8owOn
+ nk4KXI8nmQwEAc1KvWbWJKoOFqB+FUT0Rm75JUPQBcESz7ObureIXNsUcYPm7d0wI20M
+ V9pwn0K3RHh5L0M8cTzrk17m4nILLrvfier00+7iIJSeyvz7WB2WsY1jWBWiQfooRUYr
+ 32fg==
+X-Gm-Message-State: AOAM530xyrxPVBbwoF9JWU+lwV6Y6loU51tstqOZr8BR7HIukQoEXfYN
+ SfWDyp9g6nBH/KH7Pi1JBu3IVYvCOscLCo8pslK/qmZwvrzK8E1+p+zxnlCvtYNJ5RdH6EBcZQl
+ 2U2pZhuPHLLWB/3c=
+X-Received: by 2002:a1c:60d5:: with SMTP id u204mr3610669wmb.46.1602760449604; 
+ Thu, 15 Oct 2020 04:14:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTUqG28x5lucY4oFfdubtWtO8F/Nd/4VsJSArprgUjTQpnHwQBsgzwvUvk1fdBhPk12DwuPg==
+X-Received: by 2002:a1c:60d5:: with SMTP id u204mr3610653wmb.46.1602760449399; 
+ Thu, 15 Oct 2020 04:14:09 -0700 (PDT)
 Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id x65sm4174070wmg.1.2020.10.15.04.11.42
+ by smtp.gmail.com with ESMTPSA id v4sm3862967wmg.35.2020.10.15.04.14.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Oct 2020 04:11:43 -0700 (PDT)
-Subject: Re: [PATCH 07/10] net/colo-compare.c: Fix compare_timeout format issue
+ Thu, 15 Oct 2020 04:14:08 -0700 (PDT)
+Subject: Re: [PATCH 08/10] net/colo-compare.c: Change the timer clock type
 To: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
  qemu-dev <qemu-devel@nongnu.org>
 References: <20201014072555.12515-1-chen.zhang@intel.com>
- <20201014072555.12515-8-chen.zhang@intel.com>
+ <20201014072555.12515-9-chen.zhang@intel.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <938e4d0b-7820-cecc-d4d2-cce591dd4810@redhat.com>
-Date: Thu, 15 Oct 2020 13:11:42 +0200
+Message-ID: <9a9c1cf2-ed54-d10f-0929-131e48e71aa8@redhat.com>
+Date: Thu, 15 Oct 2020 13:14:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201014072555.12515-8-chen.zhang@intel.com>
+In-Reply-To: <20201014072555.12515-9-chen.zhang@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -110,69 +108,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 10/14/20 9:25 AM, Zhang Chen wrote:
 > From: Zhang Chen <chen.zhang@intel.com>
 > 
-> This parameter need compare with the return of qemu_clock_get_ms(),
-> it is uinit64_t. So we need fix this issue here.
-
-Typo "uint64_t"
+> The virtual clock only runs during the emulation. It stops
+> when the virtual machine is stopped.
+> The host clock should be used for device models that emulate accurate
+> real time sources. It will continue to run when the virtual machine
+> is suspended. COLO need to know the host time here.
+> 
 
 Please add:
 
-Fixes: 9cc43c94b31 ("net/colo-compare.c: Expose "compare_timeout" to users")
+Fixes: dd321ecfc2e ("colo-compare: Use IOThread to Check old packet 
+regularly and Process packets of the primary")
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> 
 > Reported-by: Derek Su <dereksu@qnap.com>
 > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 > Reviewed-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 > ---
->   net/colo-compare.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+>   net/colo-compare.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > diff --git a/net/colo-compare.c b/net/colo-compare.c
-> index 24c366eec0..f4814c5f09 100644
+> index f4814c5f09..61c95fe7e9 100644
 > --- a/net/colo-compare.c
 > +++ b/net/colo-compare.c
-> @@ -120,7 +120,7 @@ struct CompareState {
->       SendCo out_sendco;
->       SendCo notify_sendco;
->       bool vnet_hdr;
-> -    uint32_t compare_timeout;
-> +    uint64_t compare_timeout;
->       uint32_t expired_scan_cycle;
+> @@ -899,7 +899,7 @@ static void check_old_packet_regular(void *opaque)
 >   
->       /*
-> @@ -1075,9 +1075,9 @@ static void compare_get_timeout(Object *obj, Visitor *v,
->                                   Error **errp)
->   {
->       CompareState *s = COLO_COMPARE(obj);
-> -    uint32_t value = s->compare_timeout;
-> +    uint64_t value = s->compare_timeout;
->   
-> -    visit_type_uint32(v, name, &value, errp);
-> +    visit_type_uint64(v, name, &value, errp);
+>       /* if have old packet we will notify checkpoint */
+>       colo_old_packet_check(s);
+> -    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
+> +    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
+>                 s->expired_scan_cycle);
 >   }
 >   
->   static void compare_set_timeout(Object *obj, Visitor *v,
-> @@ -1140,9 +1140,9 @@ static void set_max_queue_size(Object *obj, Visitor *v,
->                                  Error **errp)
+> @@ -933,10 +933,10 @@ static void colo_compare_timer_init(CompareState *s)
 >   {
->       Error *local_err = NULL;
-> -    uint32_t value;
-> +    uint64_t value;
+>       AioContext *ctx = iothread_get_aio_context(s->iothread);
 >   
-> -    visit_type_uint32(v, name, &value, &local_err);
-> +    visit_type_uint64(v, name, &value, &local_err);
->       if (local_err) {
->           goto out;
->       }
-> @@ -1390,7 +1390,7 @@ static void colo_compare_init(Object *obj)
->       object_property_add_str(obj, "notify_dev",
->                               compare_get_notify_dev, compare_set_notify_dev);
->   
-> -    object_property_add(obj, "compare_timeout", "uint32",
-> +    object_property_add(obj, "compare_timeout", "uint64",
->                           compare_get_timeout,
->                           compare_set_timeout, NULL, NULL);
+> -    s->packet_check_timer = aio_timer_new(ctx, QEMU_CLOCK_VIRTUAL,
+> +    s->packet_check_timer = aio_timer_new(ctx, QEMU_CLOCK_HOST,
+>                                   SCALE_MS, check_old_packet_regular,
+>                                   s);
+> -    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
+> +    timer_mod(s->packet_check_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
+>                 s->expired_scan_cycle);
+>   }
 >   
 > 
 
