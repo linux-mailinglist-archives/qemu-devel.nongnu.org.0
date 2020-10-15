@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15B228FAEA
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 23:56:05 +0200 (CEST)
-Received: from localhost ([::1]:49052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4F728FAF1
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 23:58:12 +0200 (CEST)
+Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTBEC-0002Wt-Ns
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 17:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52630)
+	id 1kTBGF-0005iN-4P
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 17:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kTBCJ-0000ow-BF
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:07 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:52443)
+ id 1kTBCN-0000yU-KW
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:11 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:32814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kTBCH-0005HL-Pr
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:07 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id gm14so202187pjb.2
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 14:54:05 -0700 (PDT)
+ id 1kTBCK-0005IK-BR
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:54:11 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id j18so256367pfa.0
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 14:54:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IkJ+z3wbykhjoUQ4XRK2kASFvDBSvBM63031zcipiFE=;
- b=UOJbPTapcP3B1PXzcMvduCL31x38ycdzNR1iga9VQlu/q6Qic0QLwxaVzrj8XkSd/X
- kVZtgUeONPXE0qWx3XlSxHRJU3jNQhGoacwANEwAME0dOHvQYszsdv9qtCn0MYZ6YnjU
- XkSNf/amZd9VXPWxhgmz1BI4amhDuCMWroHeEJmahOOVb8YcZDERRQxyXxpmdabduTTA
- 3IgIk+bNt26S7CEIK0UOpGvDzuF19xcmiqndK0zRB/IOgB4WiwRM9+Pyfn41rJJIa0xo
- rVVVjtvZB2jMOErwCxpeVCltd0qgN+HhbONY8LRfaLJsxnanMx5GX6uY5ctB3JCnPzzl
- Rz/g==
+ bh=g4cbzeU6YRPy8GRPuXVDcztIxUIPrUKh5dgrp8W1QMM=;
+ b=SChUWRIWmF0t+r6Pn4xrKpsFLbRg2uhq+78MLX9CmGUVN5b2+ZZ9d5zwESEOOPtMIV
+ qtFHzTX3PD+Mmf6XkBE0YGOtNyMLwwWzNm462rkAgnQ2A9S4+Cid2oGuvALfy+rLXbWz
+ 0b649TF4fhPcBNf9tCin1g1uzULc/60z+ewrwinSZp5hIqdcsiRwV5WcjmFFpY8jChh7
+ eXAHPP0tyxi4hLlvlSsKUHgVTX0rQ11EXsgx/pQcXz0LqkvWaRntPDcMUWPqKP9WNkX+
+ HyDZFKtRo58ySTWt0xeh/2PkUbBWReHjvzdnl6fFDz3bsuQkQjtLlEqUouirzO1iy8S/
+ dy+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IkJ+z3wbykhjoUQ4XRK2kASFvDBSvBM63031zcipiFE=;
- b=daXbcA1dqK0py8wrqZ4TRZAs5S1Bm87kzpCEkdfz1/UkZWmydXDDsSPDt84hF9l5eQ
- GADx1WgCaS5PWxi5HEABAhrazS6ihhxP2r3mDgZsFqM7moU326pGTBg+gOMYJmdAj3lT
- Pw/kYFnml2OLz5FZkRhr7i1U4O2ou5PrTscZRvq4rMpo0ASJqEnCkcWTDxw7C1JYdt0W
- eWynNlyl/pk4HpOc2Ri6olHZFuthb3GXxXVwFYcuEPyyr2LDhnZkGNor+CyxVuGRMDwH
- k94Cv1iZU98m/JlVROK0ArSG2F1xnKFgxc26NSbfe/Qz18tyMgPfMjMTBWnvgXEtbnfr
- hmHg==
-X-Gm-Message-State: AOAM533t/A4uBqPBXuuONeU2fYycOyVinNEzSog9pB7EUh1Gx+GNH1dc
- 3/nqIhd1sF/5CvokMUGkXUgmWHTnxuMnITtx
-X-Google-Smtp-Source: ABdhPJxnV6qyk8FQ8nrXQbimStv04L00DmzroETLAXZ/+9Jig3iShJkSkLF0fF8uKM0eS1kDcIButA==
-X-Received: by 2002:a17:90a:77c6:: with SMTP id
- e6mr695899pjs.116.1602798844051; 
- Thu, 15 Oct 2020 14:54:04 -0700 (PDT)
+ bh=g4cbzeU6YRPy8GRPuXVDcztIxUIPrUKh5dgrp8W1QMM=;
+ b=Ik/zRpVg6TdS5Vma+B8ADPX5znPF1KkxcthDcbozrLXcb9n2XugLvEow2GZPj7U14V
+ GrjuITr/3uX5/nJrk0raMd2f+mneWqzzVSDJj30TqB+TLU6uhpWap4Pm5cppxf5HJWzx
+ rJoJSXfAK+MFN2lYLyyeELQcBluwcMf65pO6zHOVguooguAFQlzo2t2Gprx/Warauf7s
+ vvFjwP1YPor1ggJzK0l+Cu8+NDnFKH+YajA6U7khasMaoBQyG/j81rnA6LNEUBg4HOAp
+ GUPOMC3Fwk4tQQ9g4PxekO15Wni3PeAgWiPfjhM0S0k+Bs3g3Oh/vsjaIES+Gg5vbZtv
+ PTjA==
+X-Gm-Message-State: AOAM531zwOkoOba5jXIgsCqEwBRf+QgKBBINzGYbofi0f/AITaI1RWNX
+ 3uDeA1q0X/853bBmfrn7vGBJ7vllJHCWCAES
+X-Google-Smtp-Source: ABdhPJxJIYXgej6SwcOP3S6GmA3rRxBtiio99AkPLxBwihKNNzcFjcjA6v6ZKsp7/SCqkozpntjv6Q==
+X-Received: by 2002:a63:e443:: with SMTP id i3mr477093pgk.289.1602798846124;
+ Thu, 15 Oct 2020 14:54:06 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id f66sm252856pfa.59.2020.10.15.14.54.02
+ by smtp.googlemail.com with ESMTPSA id f66sm252856pfa.59.2020.10.15.14.54.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Oct 2020 14:54:03 -0700 (PDT)
+ Thu, 15 Oct 2020 14:54:05 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/4] configure: the docdir option should passed to meson as
- is.
-Date: Fri, 16 Oct 2020 05:53:43 +0800
-Message-Id: <20201015215345.173-3-luoyonggang@gmail.com>
+Subject: [PATCH v3 3/4] meson: Move the detection logic for sphinx to meson
+Date: Fri, 16 Oct 2020 05:53:44 +0800
+Message-Id: <20201015215345.173-4-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201015215345.173-1-luoyonggang@gmail.com>
 References: <20201015215345.173-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,30 +90,273 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- configure | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ configure                     | 59 +++--------------------------------
+ docs/meson.build              |  4 +--
+ meson.build                   | 59 ++++++++++++++++++++++++++++++-----
+ meson_options.txt             |  5 ++-
+ tests/qapi-schema/meson.build |  2 +-
+ 5 files changed, 63 insertions(+), 66 deletions(-)
 
 diff --git a/configure b/configure
-index f839c2a557..1ce31f97b4 100755
+index 1ce31f97b4..ff593a8542 100755
 --- a/configure
 +++ b/configure
-@@ -971,7 +971,7 @@ for opt do
+@@ -297,7 +297,7 @@ brlapi=""
+ curl=""
+ iconv="auto"
+ curses="auto"
+-docs=""
++docs="auto"
+ fdt="auto"
+ netmap="no"
+ sdl="auto"
+@@ -822,15 +822,6 @@ do
+     fi
+ done
+ 
+-sphinx_build=
+-for binary in sphinx-build-3 sphinx-build
+-do
+-    if has "$binary"
+-    then
+-        sphinx_build=$(command -v "$binary")
+-        break
+-    fi
+-done
+ 
+ # Check for ancillary tools used in testing
+ genisoimage=
+@@ -1226,9 +1217,9 @@ for opt do
    ;;
-   --with-suffix=*) qemu_suffix="$optarg"
+   --disable-crypto-afalg) crypto_afalg="no"
    ;;
--  --docdir=*) qemu_docdir="$optarg"
-+  --docdir=*) docdir="$optarg"
+-  --disable-docs) docs="no"
++  --disable-docs) docs="disabled"
    ;;
-   --sysconfdir=*) sysconfdir="$optarg"
+-  --enable-docs) docs="yes"
++  --enable-docs) docs="enabled"
    ;;
-@@ -5770,7 +5770,6 @@ fi
- qemu_confdir="$sysconfdir/$qemu_suffix"
- qemu_moddir="$libdir/$qemu_suffix"
- qemu_datadir="$datadir/$qemu_suffix"
--qemu_docdir="$docdir/$qemu_suffix"
- qemu_localedir="$datadir/locale"
- qemu_icondir="$datadir/icons"
- qemu_desktopdir="$datadir/applications"
+   --disable-vhost-net) vhost_net="no"
+   ;;
+@@ -4413,45 +4404,6 @@ if check_include linux/btrfs.h ; then
+     btrfs=yes
+ fi
+ 
+-# If we're making warnings fatal, apply this to Sphinx runs as well
+-sphinx_werror=""
+-if test "$werror" = "yes"; then
+-    sphinx_werror="-W"
+-fi
+-
+-# Check we have a new enough version of sphinx-build
+-has_sphinx_build() {
+-    # This is a bit awkward but works: create a trivial document and
+-    # try to run it with our configuration file (which enforces a
+-    # version requirement). This will fail if either
+-    # sphinx-build doesn't exist at all or if it is too old.
+-    mkdir -p "$TMPDIR1/sphinx"
+-    touch "$TMPDIR1/sphinx/index.rst"
+-    "$sphinx_build" $sphinx_werror -c "$source_path/docs" \
+-                    -b html "$TMPDIR1/sphinx" \
+-                    "$TMPDIR1/sphinx/out"  >> config.log 2>&1
+-}
+-
+-# Check if tools are available to build documentation.
+-if test "$docs" != "no" ; then
+-  if has_sphinx_build; then
+-    sphinx_ok=yes
+-  else
+-    sphinx_ok=no
+-  fi
+-  if test "$sphinx_ok" = "yes"; then
+-    docs=yes
+-  else
+-    if test "$docs" = "yes" ; then
+-      if has $sphinx_build && test "$sphinx_ok" != "yes"; then
+-        echo "Warning: $sphinx_build exists but it is either too old or uses too old a Python version" >&2
+-      fi
+-      feature_not_found "docs" "Install a Python 3 version of python-sphinx"
+-    fi
+-    docs=no
+-  fi
+-fi
+-
+ # Search for bswap_32 function
+ byteswap_h=no
+ cat > $TMPC << EOF
+@@ -6087,9 +6039,6 @@ qemu_version=$(head $source_path/VERSION)
+ echo "PKGVERSION=$pkgversion" >>$config_host_mak
+ echo "SRC_PATH=$source_path" >> $config_host_mak
+ echo "TARGET_DIRS=$target_list" >> $config_host_mak
+-if [ "$docs" = "yes" ] ; then
+-  echo "BUILD_DOCS=yes" >> $config_host_mak
+-fi
+ if test "$modules" = "yes"; then
+   # $shacmd can generate a hash started with digit, which the compiler doesn't
+   # like as an symbol. So prefix it with an underscore
+@@ -6794,7 +6743,6 @@ fi
+ echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
+ echo "PYTHON=$python" >> $config_host_mak
+-echo "SPHINX_BUILD=$sphinx_build" >> $config_host_mak
+ echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
+ echo "MESON=$meson" >> $config_host_mak
+ echo "CC=$cc" >> $config_host_mak
+@@ -7076,6 +7024,7 @@ NINJA=${ninja:-$PWD/ninjatool} $meson setup \
+         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
+         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
+         -Diconv=$iconv -Dcurses=$curses \
++        -Ddocs=$docs -Dsphinx_build=$sphinx_build \
+         $cross_arg \
+         "$PWD" "$source_path"
+ 
+diff --git a/docs/meson.build b/docs/meson.build
+index 0340d489ac..f566809a6a 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -37,7 +37,7 @@ if build_docs
+                 input: [files('conf.py'), files(manual / 'conf.py')],
+                 depfile: manual + '.d',
+                 depend_files: sphinx_extn_depends,
+-                command: [SPHINX_ARGS, '-Ddepfile=@DEPFILE@',
++                command: SPHINX_ARGS + ['-Ddepfile=@DEPFILE@',
+                           '-Ddepfile_stamp=@OUTPUT0@',
+                           '-b', 'html', '-d', private_dir,
+                           input_dir, output_dir])
+@@ -59,7 +59,7 @@ if build_docs
+                          input: this_manual,
+                          install: build_docs,
+                          install_dir: install_dirs,
+-                         command: [SPHINX_ARGS, '-b', 'man', '-d', private_dir,
++                         command: SPHINX_ARGS + ['-b', 'man', '-d', private_dir,
+                                    input_dir, meson.current_build_dir()])
+     endif
+   endforeach
+diff --git a/meson.build b/meson.build
+index 8156df8b71..ddd64d6df5 100644
+--- a/meson.build
++++ b/meson.build
+@@ -17,7 +17,13 @@ cc = meson.get_compiler('c')
+ config_host = keyval.load(meson.current_build_dir() / 'config-host.mak')
+ enable_modules = 'CONFIG_MODULES' in config_host
+ enable_static = 'CONFIG_STATIC' in config_host
+-build_docs = 'BUILD_DOCS' in config_host
++
++# Temporary directory used for files created while
++# configure runs. Since it is in the build directory
++# we can safely blow away any previous version of it
++# (and we need not jump through hoops to try to delete
++# it when configure exits.)
++tmpdir = meson.current_build_dir() / 'config-temp'
+ 
+ if get_option('qemu_suffix').startswith('/')
+   error('qemu_suffix cannot start with a /')
+@@ -1235,14 +1241,53 @@ foreach d : hx_headers
+ endforeach
+ genh += hxdep
+ 
+-SPHINX_ARGS = [config_host['SPHINX_BUILD'],
+-               '-Dversion=' + meson.project_version(),
+-               '-Drelease=' + config_host['PKGVERSION']]
++sphinx_build = not_found
++sphinx_build_option = get_option('sphinx_build')
++if sphinx_build_option == ''
++  sphinx_build = find_program('sphinx-build', required: false)
++else
++  sphinx_build = find_program(sphinx_build_option, required: false)
++endif
+ 
++SPHINX_TEST_ARGS = []
++# If we're making warnings fatal, apply this to Sphinx runs as well
+ if get_option('werror')
+-  SPHINX_ARGS += [ '-W' ]
++  SPHINX_TEST_ARGS += [ '-W' ]
++endif
++
++build_docs = false
++docs_option = get_option('docs')
++# Check if tools are available to build documentation.
++if sphinx_build.found() and not docs_option.disabled()
++    # This is a bit awkward but works: create a trivial document and
++    # try to run it with our configuration file (which enforces a
++    # version requirement). This will fail if either
++    # sphinx-build doesn't exist at all or if it is too old.
++    run_command('mkdir', ['-p', tmpdir / 'sphinx'])
++    run_command('touch', [tmpdir / 'sphinx/index.rst'])
++    sphinx_build_test_out = run_command(sphinx_build, SPHINX_TEST_ARGS + [
++      '-c', meson.current_source_dir() / 'docs',
++      '-b', 'html', tmpdir / 'sphinx',
++      tmpdir / 'sphinx/out'])
++    if sphinx_build_test_out.returncode() == 0
++      build_docs = true
++    else
++      if docs_option.enabled()
++        if sphinx_build_option != ''
++          warning('Warning: @0@ exists but it is either too old or uses too old a Python version'.format(sphinx_build_option))
++        endif
++        error('Warning: Install a Python 3 version of python-sphinx')
++      endif
++      # do not building docs
++    endif
+ endif
+ 
++SPHINX_ARGS = []
++if build_docs:
++  SPHINX_ARGS = [sphinx_build]
++  SPHINX_ARGS += SPHINX_TEST_ARGS
++  SPHINX_ARGS += ['-Dversion=' + meson.project_version(), '-Drelease=' + config_host['PKGVERSION']]
++
+ sphinx_extn_depends = [ meson.source_root() / 'docs/sphinx/depfile.py',
+                         meson.source_root() / 'docs/sphinx/hxtool.py',
+                         meson.source_root() / 'docs/sphinx/kerneldoc.py',
+@@ -1918,7 +1963,7 @@ summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
+ summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
+ summary_info += {'make':              config_host['MAKE']}
+ summary_info += {'python':            '@0@ (version: @1@)'.format(python.full_path(), python.language_version())}
+-summary_info += {'sphinx-build':      config_host['SPHINX_BUILD']}
++summary_info += {'sphinx-build':      sphinx_build.found()}
+ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
+ # TODO: add back version
+ summary_info += {'slirp support':     slirp_opt == 'disabled' ? false : slirp_opt}
+@@ -1986,7 +2031,7 @@ if config_host.has_key('CONFIG_XEN_BACKEND')
+   summary_info += {'xen ctrl version':  config_host['CONFIG_XEN_CTRL_INTERFACE_VERSION']}
+ endif
+ summary_info += {'brlapi support':    config_host.has_key('CONFIG_BRLAPI')}
+-summary_info += {'Documentation':     config_host.has_key('BUILD_DOCS')}
++summary_info += {'Documentation':     build_docs}
+ summary_info += {'PIE':               get_option('b_pie')}
+ summary_info += {'vde support':       config_host.has_key('CONFIG_VDE')}
+ summary_info += {'netmap support':    config_host.has_key('CONFIG_NETMAP')}
+diff --git a/meson_options.txt b/meson_options.txt
+index e6cb1e589b..0e3fa7136b 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -1,8 +1,11 @@
+ option('qemu_suffix', type : 'string', value: 'qemu',
+        description: 'Suffix for QEMU data/modules/config directories (can be empty)')
++option('docs', type : 'feature', value : 'auto',
++       description: 'Documentations build support')
+ option('docdir', type : 'string', value : 'doc',
+        description: 'Base directory for documentation installation (can be empty)')
+-
++option('sphinx_build', type : 'string', value : '',
++       description: 'Use specified sphinx-build [$sphinx_build] for building document (default to be empty)')
+ option('gettext', type : 'boolean', value : true,
+        description: 'Localization of the GTK+ user interface')
+ option('sparse', type : 'feature', value : 'auto',
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index 1f222a7a13..961b8367a9 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -237,7 +237,7 @@ qapi_doc_out = custom_target('QAPI rST doc',
+                              # we want it to always really run the QAPI doc
+                              # generation code. It also means we don't
+                              # clutter up the build dir with the cache.
+-                             command: [SPHINX_ARGS,
++                             command:  SPHINX_ARGS + [
+                                        '-b', 'text', '-E',
+                                        '-c', meson.source_root() / 'docs',
+                                        '-D', 'master_doc=doc-good',
 -- 
 2.28.0.windows.1
 
