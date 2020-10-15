@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5642228F2C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 14:58:15 +0200 (CEST)
-Received: from localhost ([::1]:34384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D7E28F2E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 15:02:53 +0200 (CEST)
+Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT2pi-0002CU-8C
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 08:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
+	id 1kT2uC-0007Hg-Tp
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 09:02:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lH-0005Qz-PE
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35915)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kT2qz-000553-Ju
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:59:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kT2lE-0002d6-Dn
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:53:39 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kT2qy-0003DE-3X
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 08:59:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602766415;
+ s=mimecast20190719; t=1602766769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Pj31xriymNsj9PF/8LSZqHTMJrYN/5EDpbzid4Et3c=;
- b=LQ6/Po9Dk9P5vKH9Lm1WEuHcdDljh8L+fM8OHefpaA1r1CRqoCnPqQLNsUr1UtL0eWMNOj
- RzvWjvjaFkTytYsHUa2T2asZvFahlBdf+/r6VZAr7hXaeE4+uENR1wdZdnOpZqOnG5YCBn
- A5y4wZl4gS6NxvPbTjxC6R8lzdlHydY=
+ bh=4PjV5JaAIT0uhaXMCSK1+NbVNdH/1Ij220FGh1OH8ho=;
+ b=C/avyGI2WaEJ3mF4zeb8+AT09GKehMI353X5ErkE5INdCNZVrFbf04GMly+bvW4sDUYocn
+ 8KyTsf8wiuX2r387VRckyoXekyaB47cm3t7GM/YY0RBpYaHNjvCpCmAEVYUFGSR/PKv8q1
+ x6IWGuvSOPjIlK9Xc/pzZxQYX2K4OZA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-0ZStHlMyN224mkMedXGMiA-1; Thu, 15 Oct 2020 08:53:34 -0400
-X-MC-Unique: 0ZStHlMyN224mkMedXGMiA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-392-za5AMJVUN4KRL5hrbF24dw-1; Thu, 15 Oct 2020 08:59:27 -0400
+X-MC-Unique: za5AMJVUN4KRL5hrbF24dw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F19918A8234
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 12:53:33 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D328F76674;
- Thu, 15 Oct 2020 12:53:32 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F27AD9D0F; Thu, 15 Oct 2020 14:53:22 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 8/8] chardev/spice: build spice chardevs as module
-Date: Thu, 15 Oct 2020 14:53:22 +0200
-Message-Id: <20201015125322.23648-9-kraxel@redhat.com>
-In-Reply-To: <20201015125322.23648-1-kraxel@redhat.com>
-References: <20201015125322.23648-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0388B18C89CB;
+ Thu, 15 Oct 2020 12:59:26 +0000 (UTC)
+Received: from [10.3.112.115] (ovpn-112-115.phx2.redhat.com [10.3.112.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 40E5F756A6;
+ Thu, 15 Oct 2020 12:59:20 +0000 (UTC)
+Subject: Re: [PATCH v4 7/7] nbd: Allow export of multiple bitmaps for one
+ device
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20201009215533.1194742-1-eblake@redhat.com>
+ <20201009215533.1194742-8-eblake@redhat.com>
+ <ce14bdf9-0d40-58bc-c530-a529edf3740e@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <9018e756-6388-4738-3265-0284dd2e041b@redhat.com>
+Date: Thu, 15 Oct 2020 07:59:19 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <ce14bdf9-0d40-58bc-c530-a529edf3740e@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:38:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:10:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.019, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,56 +87,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, rjones@redhat.com,
+ stefanha@redhat.com, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20201014121120.13482-8-kraxel@redhat.com
----
- util/module.c       | 2 ++
- chardev/meson.build | 7 ++++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+On 10/14/20 9:42 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 10.10.2020 00:55, Eric Blake wrote:
+>> With this, 'qemu-nbd -B b0 -B b1 -f qcow2 img.qcow2' can let you sniff
+>> out multiple bitmaps from one server.  qemu-img as client can still
+>> only read one bitmap per client connection, but other NBD clients
+>> (hello libnbd) can now read multiple bitmaps in a single pass.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> 
+> You didn't update nbd_export_create failure patch, I suggest:
 
-diff --git a/util/module.c b/util/module.c
-index 4349607ad176..f0ed05fbd06b 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -268,6 +268,8 @@ static struct {
-     { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
-     { "vhost-user-gpu",        "hw-", "display-virtio-gpu"    },
-     { "chardev-braille",       "chardev-", "baum"             },
-+    { "chardev-spicevmc",      "chardev-", "spice"            },
-+    { "chardev-spiceport",     "chardev-", "spice"            },
- };
- 
- static bool module_loaded_qom_all;
-diff --git a/chardev/meson.build b/chardev/meson.build
-index dd2699a11b08..859d8b04d480 100644
---- a/chardev/meson.build
-+++ b/chardev/meson.build
-@@ -26,7 +26,6 @@ chardev_ss.add(when: 'CONFIG_WIN32', if_true: files(
- chardev_ss = chardev_ss.apply(config_host, strict: false)
- 
- softmmu_ss.add(files('chardev-sysemu.c', 'msmouse.c', 'wctablet.c', 'testdev.c'))
--softmmu_ss.add(when: ['CONFIG_SPICE', spice], if_true: files('spice.c'))
- 
- chardev_modules = {}
- 
-@@ -36,4 +35,10 @@ if config_host.has_key('CONFIG_BRLAPI')
-   chardev_modules += { 'baum': module_ss }
- endif
- 
-+if config_host.has_key('CONFIG_SPICE')
-+  module_ss = ss.source_set()
-+  module_ss.add(when: [spice], if_true: files('spice.c'))
-+  chardev_modules += { 'spice': module_ss }
-+endif
-+
- modules += { 'chardev': chardev_modules }
+Good catch. I'm happy to fold in both of your suggestions.
+
 -- 
-2.27.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
