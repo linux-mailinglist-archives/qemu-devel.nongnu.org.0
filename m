@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DAF28F9FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 22:13:20 +0200 (CEST)
-Received: from localhost ([::1]:49902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF8F28F9FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 22:13:26 +0200 (CEST)
+Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT9ck-0000TS-J2
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 16:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
+	id 1kT9cr-0000Y7-QZ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 16:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kT9aR-0007Go-Hk
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 16:10:55 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:44529)
+ id 1kT9aU-0007H1-R1
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 16:10:58 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:37506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kT9aP-0001iQ-Se
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 16:10:55 -0400
-Received: by mail-pf1-x429.google.com with SMTP id f19so70667pfj.11
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 13:10:53 -0700 (PDT)
+ id 1kT9aR-0001jQ-N4
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 16:10:57 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id hk7so61238pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 13:10:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CgSfyIoJ3jcjpLzUjsk2N0nO/eSxwWgAaz8SOSNqUQY=;
- b=G1GoWbYKQ9BSl6hRW+ZCvnST0KtkeW3I3UfjqnfvWAKTJ0AOa3w79GNW/pGI5EtLaU
- eg/2joou2ItlWc6x3vKTVlAuMRwu7F2nobSN9YF/gBMHn2ajRWHnkG6rgNz+cryPN3Ru
- 2i3jznbXqxhKMD5C+p8q21orbzDHHoxRV2em6hFvYTtjWUANh67usoBoFffP+BkGsVX/
- HuI5PDv2hp0fg2AQnNMjj218ZNhbeIZM2lVtzXqh8agg9ppRihi+ByxfSIQPdTFspdfe
- 3fNGshTA7qZA9Cx6GZP7A9fTlnpRS54c8C3PWDKKimkpFTJcoAHnD6XFEwh513W/HVnZ
- ivVw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=L6PNQoyNWpTKNJhBfsEjGJ+daBNStQN7zXzdYI1k/ZU=;
+ b=SlvgBTydOnBSFbPQrzidMaR+klmOAHFzPSs6enfkDj9qBPhxC2On+ahU/VV4VqeNQ4
+ uWvg9hA/bg4qkBl9mCqbASDU23G7v4zuqRPsPVkn+7bRFlYHRtz9xMbDTAOvgeRLThro
+ vsvvj1LSevKQleqfmkZUOl2HCgN03yTkdMV60hGRPkT0vvTbgtfU3Y81vQS0237HLJ6t
+ Y/hMLZUm323HubZTpVC9rQ/if3pcHBaRigkwgc9T7DgQUQ2qxbKaunHTc5fO8KyE2rrP
+ W0XeFIhaOPgbnUBE/Y4IZlHJPcdnMAUFOiWncE9KoUUqcKcNJDAxuaCO+pTMbPK87K4k
+ T8kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CgSfyIoJ3jcjpLzUjsk2N0nO/eSxwWgAaz8SOSNqUQY=;
- b=JoQGIANn8WlihncftBdWMNLIFmDoDauH1sEQQxIO6INKenIPXDZkujLSPKLqqgYW+q
- ufNi+nwW6R8hVFKuD22a6SZPdMuKCpC2TsJTOfaV6xmUwkZj1ORXKHG/kPY1aq7IgNni
- skQxrfByQ68xNAUZrfqNW3gBh4i+KOycfL8dmCvzR7gsNIIJs8kc7Ex20qrW2Umhc/Qm
- 2b78OMD5w0Wx8HuyqAE9l7zGpERtDyHrcEWWinv+ZpqcWDyAh7Xk/NkaMbaRXUs+qyF+
- 0Dvjz7E//qMLM1u76H8JGGWFjD363uzCMSFmkfiyirDQUP3yvWMZmWKTxMdqDvM7Lin+
- xVAA==
-X-Gm-Message-State: AOAM531QGJNPS7JWz4yLNrIqtNpqMoGvgUZewCnaCSsH6bN0Mv2gPlqq
- R40vgr5Ra2xg6b7qHwRUR38sAyn1jDPX/DXg
-X-Google-Smtp-Source: ABdhPJyk1SZgKpC/JdR0A7wfT7AQJLNYeRDKgdVFT6vqZ1BjWDafsK1hkR4MPTD4xfvU1vmXgN2unw==
-X-Received: by 2002:a63:6c6:: with SMTP id 189mr203884pgg.133.1602792651277;
- Thu, 15 Oct 2020 13:10:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=L6PNQoyNWpTKNJhBfsEjGJ+daBNStQN7zXzdYI1k/ZU=;
+ b=b6JYkfarzXW5lsRIEmg9+RsWnOBKS2KAsCxbeYiSsQfnh7oL0wbioJUKWvWP/ZZYyJ
+ +TrHuFA/Tsj4WKfroFF9R3U40xrki57EzXXyb6OT+iUQoUVvVeahVrR9gWiFMfHx6uqc
+ n4vCQvRdiY3/2PGMIHcHXq+4ImEWBxBHJQaJK2Uhgv1wfssdZDEBm1isRzDF/6c6kuUL
+ fVrnBY4LcAqsksYo4uroslDX85TlTs5xtvEzFO7Aemt/zXjIUMv2bbBUrnva5Pxx6D7M
+ juKqTIdCvbTXohHVhkZFjXDhseqtLR3EuzZhkbFRtrh+u9rARdM246b1ieKnbTrmc93z
+ ebkQ==
+X-Gm-Message-State: AOAM531ZzhUt78jbYH4e/Fo7bqSWvXgwgUbZrBxeQXwdChHWyaiJbzoO
+ 6VJieFTtFH6YMc+YvruX/5c4ncKYHhhoGwx5
+X-Google-Smtp-Source: ABdhPJwD7IjUOOwhm8Hz6let7tIKP7WmUDjf81V7PBYTmXjEdUvwVu1D5U4MeVQ9KYRW56931hN6wQ==
+X-Received: by 2002:a17:902:b945:b029:d2:8046:f089 with SMTP id
+ h5-20020a170902b945b02900d28046f089mr212204pls.67.1602792653515; 
+ Thu, 15 Oct 2020 13:10:53 -0700 (PDT)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id x18sm104734pfj.90.2020.10.15.13.10.49
+ by smtp.googlemail.com with ESMTPSA id x18sm104734pfj.90.2020.10.15.13.10.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Oct 2020 13:10:50 -0700 (PDT)
+ Thu, 15 Oct 2020 13:10:52 -0700 (PDT)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/4] Fixes docs building on msys2/mingw
-Date: Fri, 16 Oct 2020 04:10:31 +0800
-Message-Id: <20201015201035.1964-1-luoyonggang@gmail.com>
+Subject: [PATCH v2 1/4] docs: Fixes build docs on msys2/mingw
+Date: Fri, 16 Oct 2020 04:10:32 +0800
+Message-Id: <20201015201035.1964-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20201015201035.1964-1-luoyonggang@gmail.com>
+References: <20201015201035.1964-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x429.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1032.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,31 +89,95 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1 - v2=0D
-Also move the docs configure part from=0D
-configure to meson, this also fixed the pending=0D
-ninjatool removal caused issue that docs  can=0D
-not be build under msys2/mingw=0D
-=0D
-Yonggang Luo (4):=0D
-  docs: Fixes build docs on msys2/mingw=0D
-  configure: the docdir option should passed to meson as is.=0D
-  meson: Move the detection logic for sphinx to meson=0D
-  cirrus: Enable doc build on msys2/mingw=0D
-=0D
- .cirrus.yml                   |  6 +++-=0D
- configure                     | 62 +++--------------------------------=0D
- docs/conf.py                  |  2 +-=0D
- docs/meson.build              |  4 +--=0D
- docs/sphinx/kerneldoc.py      |  2 +-=0D
- meson.build                   | 59 +++++++++++++++++++++++++++++----=0D
- meson_options.txt             |  5 ++-=0D
- scripts/rst-sanitize.py       | 21 ++++++++++++=0D
- tests/qapi-schema/meson.build |  7 ++--=0D
- 9 files changed, 95 insertions(+), 73 deletions(-)=0D
- create mode 100644 scripts/rst-sanitize.py=0D
-=0D
--- =0D
-2.28.0.windows.1=0D
-=0D
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ docs/conf.py                  |  2 +-
+ docs/sphinx/kerneldoc.py      |  2 +-
+ scripts/rst-sanitize.py       | 21 +++++++++++++++++++++
+ tests/qapi-schema/meson.build |  5 +++--
+ 4 files changed, 26 insertions(+), 4 deletions(-)
+ create mode 100644 scripts/rst-sanitize.py
+
+diff --git a/docs/conf.py b/docs/conf.py
+index 00e1b750e2..e584f68393 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -241,7 +241,7 @@ texinfo_documents = [
+ # We use paths starting from qemu_docdir here so that you can run
+ # sphinx-build from anywhere and the kerneldoc extension can still
+ # find everything.
+-kerneldoc_bin = os.path.join(qemu_docdir, '../scripts/kernel-doc')
++kerneldoc_bin = ['perl', os.path.join(qemu_docdir, '../scripts/kernel-doc')]
+ kerneldoc_srctree = os.path.join(qemu_docdir, '..')
+ hxtool_srctree = os.path.join(qemu_docdir, '..')
+ qapidoc_srctree = os.path.join(qemu_docdir, '..')
+diff --git a/docs/sphinx/kerneldoc.py b/docs/sphinx/kerneldoc.py
+index 3e87940206..3ac277d162 100644
+--- a/docs/sphinx/kerneldoc.py
++++ b/docs/sphinx/kerneldoc.py
+@@ -67,7 +67,7 @@ class KernelDocDirective(Directive):
+ 
+     def run(self):
+         env = self.state.document.settings.env
+-        cmd = [env.config.kerneldoc_bin, '-rst', '-enable-lineno']
++        cmd = env.config.kerneldoc_bin + ['-rst', '-enable-lineno']
+ 
+         filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
+         export_file_patterns = []
+diff --git a/scripts/rst-sanitize.py b/scripts/rst-sanitize.py
+new file mode 100644
+index 0000000000..26060f1208
+--- /dev/null
++++ b/scripts/rst-sanitize.py
+@@ -0,0 +1,21 @@
++#!/usr/bin/env python3
++
++#
++# Script for remove cr line ending in file
++#
++# Authors:
++#  Yonggang Luo <luoyonggang@gmail.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2
++# or, at your option, any later version.  See the COPYING file in
++# the top-level directory.
++
++import sys
++
++def main(_program, file, *unused):
++    with open(file, 'rb') as content_file:
++        content = content_file.read()
++        sys.stdout.buffer.write(content.replace(b'\r', b''))
++
++if __name__ == "__main__":
++    main(*sys.argv)
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index 1f222a7a13..20a7641af8 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -251,18 +251,19 @@ qapi_doc_out = custom_target('QAPI rST doc',
+ # using an explicit '\' character in the command arguments to
+ # a custom_target(), as Meson will unhelpfully replace it with a '/'
+ # (https://github.com/mesonbuild/meson/issues/1564)
++rst_sanitize_cmd = [find_program('../../scripts/rst-sanitize.py'), '@INPUT@']
+ qapi_doc_out_nocr = custom_target('QAPI rST doc newline-sanitized',
+                                   output: ['doc-good.txt.nocr'],
+                                   input: qapi_doc_out[0],
+                                   build_by_default: build_docs,
+-                                  command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                  command: rst_sanitize_cmd,
+                                   capture: true)
+ 
+ qapi_doc_ref_nocr = custom_target('QAPI rST doc reference newline-sanitized',
+                                   output: ['doc-good.ref.nocr'],
+                                   input: files('doc-good.txt'),
+                                   build_by_default: build_docs,
+-                                  command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                  command: rst_sanitize_cmd,
+                                   capture: true)
+ 
+ if build_docs
+-- 
+2.28.0.windows.1
+
 
