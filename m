@@ -2,61 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE7F28EAFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 04:13:03 +0200 (CEST)
-Received: from localhost ([::1]:45356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B6128EB94
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 05:33:13 +0200 (CEST)
+Received: from localhost ([::1]:58932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kSslK-0007p3-DX
-	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 22:13:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39134)
+	id 1kSu0u-0002Lf-1x
+	for lists+qemu-devel@lfdr.de; Wed, 14 Oct 2020 23:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1kSskF-0007NC-7X
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 22:11:55 -0400
-Received: from mga05.intel.com ([192.55.52.43]:26408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1kSskC-0002k2-EH
- for qemu-devel@nongnu.org; Wed, 14 Oct 2020 22:11:54 -0400
-IronPort-SDR: 5Zpcgr5ukijJxEfQ6fnPpzNbYU8DU53O61PTDtzPyZoY7rBl56jTzZspr1pDtt84mhvxASPL4Q
- WCLSTzRn6Ytw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9774"; a="250927054"
-X-IronPort-AV: E=Sophos;i="5.77,377,1596524400"; d="scan'208";a="250927054"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Oct 2020 19:11:46 -0700
-IronPort-SDR: CfjESTNFk3ChXNjKSU3j6FmhHkecc0xsjDttObrKqnhA76zfQ4DlKO24eVCSSxj+BMB3jgAYyl
- 3ZyoYzC68Ksg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,377,1596524400"; d="scan'208";a="521662742"
-Received: from unknown (HELO localhost) ([10.239.159.128])
- by fmsmga005.fm.intel.com with ESMTP; 14 Oct 2020 19:11:44 -0700
-Date: Thu, 15 Oct 2020 10:20:53 +0800
-From: Yang Weijiang <weijiang.yang@intel.com>
-To: Sean Christopherson <sean.j.christopherson@intel.com>
-Subject: Re: [Qemu-devel][PATCH v6 1/6] x86/cpu: Rename XSAVE related feature
- words.
-Message-ID: <20201015022053.GA12192@local-michael-cet-test>
-References: <20201013051935.6052-1-weijiang.yang@intel.com>
- <20201013051935.6052-2-weijiang.yang@intel.com>
- <20201014000854.GB16347@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kStzv-0001ta-6D
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 23:32:11 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kStzt-000848-GA
+ for qemu-devel@nongnu.org; Wed, 14 Oct 2020 23:32:10 -0400
+Received: by mail-pg1-x542.google.com with SMTP id g29so1003280pgl.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Oct 2020 20:32:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VZE+Uu40Uph8/7yVio/VxSpnRye4Vu54oyvUkYyjjNk=;
+ b=chV+f+c9E1Y6OF+yI+Siohhk2YOrs6Rm7rvDPgHtzTuT0YNqm0xmDh+yQK08zoYPz6
+ ZHtq22xfcKBCnJqak/c4FQw/8y5L0A0rfZTfrrHhFFJGO4vB35El0mcws0ennUJCXf/m
+ yAV/7ULbnoZlvBMCHcZryfPlGMwCTUkTOBhRY0tbMguwfDW4+9/7IPvgkH3Dfz0cCjCE
+ 0S4PESg1yU1aoHrsI2BmPfsFNTW3ZZVKlTkIXctjCGO+VNhT1edQ6Blh2t1LdYYOaViU
+ WK95EMS1PmOU4mbw1NqBKnzafdgaEe3rtpkqJBrI4Slt1ceshCgxxkLBsN7SW0WagTMp
+ Eq1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VZE+Uu40Uph8/7yVio/VxSpnRye4Vu54oyvUkYyjjNk=;
+ b=ofrJpSzXkW+S/ReubCsgtQfFKM1YTgXYgPUMjgxLiMSCfn2d8bzKaxaff89M6M8PyB
+ go7JbA+8Tq1FJehYef/w19CyEzs7MUc5IpFPcZhlfD2MEjrfSp9Nlldc70Z0BcZKsFv9
+ gUureU4IdxIj3Bvg7UJzcitEacR3wff1HDiNAVIOaIK8BwMwWPWYChgOv8oVkLPP2OTn
+ 31JMURvzDVuTU/qyraYP3V1ZsDJu57DLA6FL651FWif6ZCEz2uu94p3uXqd+o2MhQPPP
+ 7CKWs6AdT34HxXQl5DkD86DSE8OmoGVMqCT2pc+b03a0S4lx3qWFtLqnY/RFvYpOEh97
+ ezBQ==
+X-Gm-Message-State: AOAM533lkeMfOSKfB/aMKnX7QGnbd2QPRFBtb95ferz43dQurECTTbvo
+ an3W4Odbj/QCc3lAyY5Qa+FPJ1FRIQEvLQ==
+X-Google-Smtp-Source: ABdhPJyBgcyOLvT8cWybaZ76XESC4n3vQJYL8Jg/L82Rlai999grZBy3Z/Tbm1dXLLlVZ/xGcDZ+BA==
+X-Received: by 2002:a63:2145:: with SMTP id s5mr1616427pgm.288.1602732726483; 
+ Wed, 14 Oct 2020 20:32:06 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id m3sm1084398pjv.52.2020.10.14.20.32.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Oct 2020 20:32:05 -0700 (PDT)
+Subject: Re: [PATCH] qemu-palcode: Changes to support booting NetBSD/alpha
+To: Jason Thorpe <thorpej@me.com>
+References: <20201007025229.7487-1-thorpej@me.com>
+ <c35e151d-7b9c-849f-e4a0-a9c62d9a31a1@linaro.org>
+ <6896C79F-8A9B-4EFC-BC68-EE8856EFD2B6@me.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <709cbaaf-afe8-820c-9dd5-217bce626101@linaro.org>
+Date: Wed, 14 Oct 2020 20:32:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201014000854.GB16347@linux.intel.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-Received-SPF: pass client-ip=192.55.52.43;
- envelope-from=weijiang.yang@intel.com; helo=mga05.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/14 22:11:47
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <6896C79F-8A9B-4EFC-BC68-EE8856EFD2B6@me.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,59 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
- Yang Weijiang <weijiang.yang@intel.com>, pbonzini@redhat.com, hao.wu@intel.com,
- rth@twiddle.net
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 13, 2020 at 05:08:54PM -0700, Sean Christopherson wrote:
-> On Tue, Oct 13, 2020 at 01:19:30PM +0800, Yang Weijiang wrote:
-> > With more components in XSS being developed on Intel platform,
-> > it's necessary to clean up existing XSAVE related feature words to
-> > make the name clearer. It's to prepare for adding CET related support
-> > in following patches.
-> > 
-> > Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
-> > ---
-> >  target/i386/cpu.c        | 60 ++++++++++++++++++++--------------------
-> >  target/i386/cpu.h        |  6 ++--
-> >  target/i386/fpu_helper.c |  2 +-
-> >  target/i386/translate.c  |  2 +-
-> >  4 files changed, 35 insertions(+), 35 deletions(-)
-> > 
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index 588f32e136..e2891740f1 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -1050,7 +1050,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-> >          .tcg_features = 0,
-> >          .unmigratable_flags = 0,
-> >      },
-> > -    [FEAT_XSAVE] = {
-> > +    [FEAT_XSAVE_INSTRUCTION] = {
+On 10/14/20 4:16 PM, Jason Thorpe wrote:
 > 
-> The COMP->XCRO change is great, but I don't think XSAVE->XSAVE_INSTRUCTION
-> makes sense.  There is no guarantee the word will only be used for
-> instructions; it already blurs the line, e.g. XSAVEC also changes the behavior
-> of XRSTOR, and XSAVES also means the XSS MSR is available.
+>> On Oct 14, 2020, at 2:52 PM, Richard Henderson <richard.henderson@linaro.org> wrote:
+>>
+>> I'm certainly open to these changes.  But it'll need to be split up -- one
+>> patch per bullet, basically.
 > 
-> FWIW, I also don't find FEAT_XSAVE to be confusing.
->
-Thanks for the feedback! I also found it's hard to rename it with a
-precise one, just wanted to make all XSAVE related feature words more
-specific. I'll revert it in next version.
+> That's fine.  What's the convention for patches that stack on top of one another?
 
-> >          .type = CPUID_FEATURE_WORD,
-> >          .feat_names = {
-> >              "xsaveopt", "xsavec", "xgetbv1", "xsaves",
-> > @@ -1084,7 +1084,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-> >          .cpuid = { .eax = 6, .reg = R_EAX, },
-> >          .tcg_features = TCG_6_EAX_FEATURES,
-> >      },
-> > -    [FEAT_XSAVE_COMP_LO] = {
-> > +    [FEAT_XSAVE_XCR0_LO] = {
-> >          .type = CPUID_FEATURE_WORD,
-> >          .cpuid = {
-> >              .eax = 0xD,
+git format-patch --cover-letter
+git send-email --thread --no-chain-reply-to
+
+
+r~
 
