@@ -2,98 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5CE28F5D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 17:28:05 +0200 (CEST)
-Received: from localhost ([::1]:50872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB5828F5BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 17:23:02 +0200 (CEST)
+Received: from localhost ([::1]:39544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT5Ai-0004Md-Qs
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 11:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49684)
+	id 1kT55p-0007qq-IL
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 11:23:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kT53j-0005u5-66
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 11:20:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38023)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kT53f-0005tl-L9
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 11:20:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602775247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sPkERPxQzU98YTG8x3RMDMyBMyx/8vrOFeEuoebNHwM=;
- b=HLP40KqBSKI8GUWmRuODhYhzdUbEtXVHfRgTeu7PKkDsNJEyDWxWmuCl5ecEqFyg+/qapG
- KXS8X3TTYaHyUYGr0myfmsb0TXcbVkuB9lM0LAhrRy1l1d5JSAY9uxq8pl9X2M9SdMhVZE
- tZMNqIVibQI5SEK3btEBivYbPueeb1E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-uhdjOSFgNnyzuQJMory3vA-1; Thu, 15 Oct 2020 11:20:44 -0400
-X-MC-Unique: uhdjOSFgNnyzuQJMory3vA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98B521091063;
- Thu, 15 Oct 2020 15:20:43 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.194.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6041519C66;
- Thu, 15 Oct 2020 15:20:39 +0000 (UTC)
-Subject: Re: [PATCH v2 04/20] fuse: Allow growable exports
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200922104932.46384-1-mreitz@redhat.com>
- <20200922104932.46384-5-mreitz@redhat.com>
- <20201015104152.GD4610@merkur.fritz.box>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <4741b027-7ec2-9c0f-7826-1e1d92c9d2a7@redhat.com>
-Date: Thu, 15 Oct 2020 17:20:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1kT54G-0006Wf-LC
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 11:21:24 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:44730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1kT54E-0005yN-GU
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 11:21:24 -0400
+Received: by mail-pl1-x643.google.com with SMTP id h2so1775152pll.11
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 08:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iCISf2StKejdRMvAE6JnWGeHvYzQyJimMoUGMeKPh/w=;
+ b=FtGGq0Y0IxBuICU8RzUSCi3iVLbI3kehn7WqjPKMMSRRxqLKJYMpoEBfkZRhTjIrOX
+ HIVBD972JHlfKL0lAOmYMuQRPLdzg6twKLyrOylDv5XJcbkEJH11XaBDy1N7rreRV0ud
+ Sdvpvkrnw4ZRNBB2CGq3b0fmaIyZ5EJBW/AU74pxw/zc1FctamuIHWhw2guktjsO4D6s
+ Kys5pMMLy9ZjpABQoG6ITqf0Lg7DXTF9Y14nR0HbyuE5V9qC/wGpHTaRlqSvUC0danDM
+ OknV8qVCkkOWp7XQZx5b53rnTRviYB5FnKB5uJFE0GEzmqTwG3KaQiEF6lN/0ebQ0LTx
+ S37w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iCISf2StKejdRMvAE6JnWGeHvYzQyJimMoUGMeKPh/w=;
+ b=AV4OsTqcnJc7j/ZIwt+uFi7qgKYDeOMG7uV/f4RCo3RuZeXaL6G/mdGnjnDL/lXzSb
+ IAWgIueL7gjk/ZeK5sJabJP+siYDyFm9E51n6LWuEGUpoMnA0M2YSSQYtPWbhXnMCS3Q
+ 5lcm1ni82htp7kK0oP8wtt6XoCqWIdn1qyWymorC/0gDCxzDCbNSTurnYutp+JukPrPD
+ W7iiUsu0FdaLU6C3c49ZKFHuiMyZ6AmxBLmJe3337iSUNuA8TJTb31D1pkbJyjrIaUOi
+ hW59eQ8WbZ+De8oTPJ4yRjGo5mjQi0xSpFJXDsD0S7E/nmeFS0a1oGAg3qiJHr2J8Uac
+ QSAg==
+X-Gm-Message-State: AOAM532XoVS5gT0XXzPO7sKEpZYbECsjmcv4NptQgsTN75yxp7MtCsIj
+ RdhkW9vVP644+Lq0ykXB0xS0R8GO4FbWRXP4IQYD0w==
+X-Google-Smtp-Source: ABdhPJz4+7pY1IxYexeCMHsZnGxvw+kuGlgcBmHLXOfB+3cxQk+HGq204Ed7mUB7Ue6Hd3Y+FTM+fFM7OM5KE42x0iM=
+X-Received: by 2002:a17:90a:c58f:: with SMTP id
+ l15mr4684512pjt.93.1602775280474; 
+ Thu, 15 Oct 2020 08:21:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201015104152.GD4610@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ql757v81T15NpIJ0dyYtK5yaAc41rS2Zm"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:38:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.019, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20201013151631.30678-1-shashi.mallela@linaro.org>
+ <20201013151631.30678-3-shashi.mallela@linaro.org>
+ <20201014093119.inq2ut2srps2zfme@xora-monster>
+ <CAC15JE2hMrzpWWF-bS-fshoYx+BPehwxqJi-7uMUXSOj+Uh3GQ@mail.gmail.com>
+ <20201015141044.loa6x4sv5552pe72@xora-monster>
+In-Reply-To: <20201015141044.loa6x4sv5552pe72@xora-monster>
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+Date: Thu, 15 Oct 2020 18:21:09 +0300
+Message-ID: <CAD8XO3Yb+GwC75k-OXenAkrXf=x6=ru6C0juzCsT+FQV3iPadw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] hw/arm/sbsa-ref: add SBSA watchdog device
+To: Graeme Gregory <graeme@nuviainc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-pl1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,120 +83,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Shashi Mallela <shashi.mallela@linaro.org>,
+ =?UTF-8?Q?Rados=C5=82aw_Biernacki?= <rad@semihalf.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ql757v81T15NpIJ0dyYtK5yaAc41rS2Zm
-Content-Type: multipart/mixed; boundary="rqmdPSRfXN48ACF6yrqKLwm2P0oWOSjqX"
+On Thu, 15 Oct 2020 at 17:12, Graeme Gregory <graeme@nuviainc.com> wrote:
+>
+> On Wed, Oct 14, 2020 at 01:04:43PM -0400, Shashi Mallela wrote:
+> > This was added as a placeholder for the virt requirement suggested by Maxim
+> > earlier.Agreed that this fdt otherwise has no significance for sbsa-ref
+> > platform nor is being used by ACPI table created for wdt.
+> >
+> > -Shashi
+> >
+> > On Wed, 14 Oct 2020 at 05:31, Graeme Gregory <[1]graeme@nuviainc.com> wrote:
+> >
+> >     On Tue, Oct 13, 2020 at 11:16:31AM -0400, Shashi Mallela wrote:
+> >     > Included the newly implemented SBSA generic watchdog device model into
+> >     > SBSA platform
+> >     >
+> >     > Signed-off-by: Shashi Mallela <[2]shashi.mallela@linaro.org>
+> >     > ---
+> >     >  hw/arm/sbsa-ref.c | 50 +++++++++++++++++++++++++++++++++++++++++++++++
+> >     >  1 file changed, 50 insertions(+)
+> >     >
+> >     > diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> >     > index 9c3a893bedfd..97ed41607119 100644
+> >     > --- a/hw/arm/sbsa-ref.c
+> >     > +++ b/hw/arm/sbsa-ref.c
+> >     > @@ -30,6 +30,7 @@
+> >     >  #include "exec/hwaddr.h"
+> >     >  #include "kvm_arm.h"
+> >     >  #include "hw/arm/boot.h"
+> >     > +#include "hw/arm/fdt.h"
+> >     >  #include "hw/block/flash.h"
+> >     >  #include "hw/boards.h"
+> >     >  #include "hw/ide/internal.h"
+> >     > @@ -40,6 +41,7 @@
+> >     >  #include "hw/qdev-properties.h"
+> >     >  #include "hw/usb.h"
+> >     >  #include "hw/char/pl011.h"
+> >     > +#include "hw/watchdog/wdt_sbsa_gwdt.h"
+> >     >  #include "net/net.h"
+> >     >  #include "qom/object.h"
+> >     >
+> >     > @@ -64,6 +66,9 @@ enum {
+> >     >      SBSA_GIC_DIST,
+> >     >      SBSA_GIC_REDIST,
+> >     >      SBSA_SECURE_EC,
+> >     > +    SBSA_GWDT,
+> >     > +    SBSA_GWDT_REFRESH,
+> >     > +    SBSA_GWDT_CONTROL,
+> >     >      SBSA_SMMU,
+> >     >      SBSA_UART,
+> >     >      SBSA_RTC,
+> >     > @@ -104,6 +109,8 @@ static const MemMapEntry sbsa_ref_memmap[] = {
+> >     >      [SBSA_GIC_DIST] =           { 0x40060000, 0x00010000 },
+> >     >      [SBSA_GIC_REDIST] =         { 0x40080000, 0x04000000 },
+> >     >      [SBSA_SECURE_EC] =          { 0x50000000, 0x00001000 },
+> >     > +    [SBSA_GWDT_REFRESH] =       { 0x50010000, 0x00001000 },
+> >     > +    [SBSA_GWDT_CONTROL] =       { 0x50011000, 0x00001000 },
+> >     >      [SBSA_UART] =               { 0x60000000, 0x00001000 },
+> >     >      [SBSA_RTC] =                { 0x60010000, 0x00001000 },
+> >     >      [SBSA_GPIO] =               { 0x60020000, 0x00001000 },
+> >     > @@ -133,6 +140,8 @@ static const int sbsa_ref_irqmap[] = {
+> >     >      [SBSA_SECURE_UART_MM] = 9,
+> >     >      [SBSA_AHCI] = 10,
+> >     >      [SBSA_EHCI] = 11,
+> >     > +    [SBSA_SMMU] = 12, /* ... to 15 */
+> >     > +    [SBSA_GWDT] = 16,
+> >     >  };
+>
+> I guess your patch was not based on master here? You should make sure
+> you are rebased to the latest version before sending.
+>
+> >     >
+> >     >  static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
+> >     > @@ -141,6 +150,30 @@ static uint64_t sbsa_ref_cpu_mp_affinity
+> >     (SBSAMachineState *sms, int idx)
+> >     >      return arm_cpu_mp_affinity(idx, clustersz);
+> >     >  }
+> >     >
+> >     > +static void create_wdt_fdt(SBSAMachineState *sms)
+> >     > +{
+> >     > +    char *nodename;
+> >     > +    const char compat[] = "arm,sbsa-gwdt";
+> >     > +
+> >     > +    hwaddr rbase = sbsa_ref_memmap[SBSA_GWDT_REFRESH].base;
+> >     > +    hwaddr cbase = sbsa_ref_memmap[SBSA_GWDT_CONTROL].base;
+> >     > +    int irq = sbsa_ref_irqmap[SBSA_GWDT];
+> >     > +
+> >     > +    nodename = g_strdup_printf("/watchdog@%" PRIx64, rbase);
+> >     > +    qemu_fdt_add_subnode(sms->fdt, nodename);
+> >     > +
+> >     > +    qemu_fdt_setprop(sms->fdt, nodename, "compatible",
+> >     > +                             compat, sizeof(compat));
+> >     > +    qemu_fdt_setprop_sized_cells(sms->fdt, nodename, "reg",
+> >     > +                                 2, rbase, 2, SBSA_GWDT_RMMIO_SIZE,
+> >     > +                                 2, cbase, 2, SBSA_GWDT_CMMIO_SIZE);
+> >     > +    qemu_fdt_setprop_cells(sms->fdt, nodename, "interrupts",
+> >     > +                                GIC_FDT_IRQ_TYPE_PPI, irq,
+> >     > +                                GIC_FDT_IRQ_FLAGS_LEVEL_HI);
+> >     > +    qemu_fdt_setprop_cell(sms->fdt, nodename, "timeout-sec", 30);
+> >     > +    g_free(nodename);
+> >     > +}
+> >     > +
+> >
+> >     Is this actually used anywhere? I ask because SBSA-ref is not a FDT
+> >     booting machine and only uses FDT to transfer some dynamic info to
+> >     arm-tf/edk2 and is not a full description tree. Your ACPI patch in
+> >     edk2 certainly does not use this info.
+> >
+>
 
---rqmdPSRfXN48ACF6yrqKLwm2P0oWOSjqX
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Greame, if sbsa-ref does not support non edk2 boot, i.e.
+arm-tf/optee/uboot-uefi, then it's better to remove here and we can
+add later for the virt machine.
 
-On 15.10.20 12:41, Kevin Wolf wrote:
-> Am 22.09.2020 um 12:49 hat Max Reitz geschrieben:
->> These will behave more like normal files in that writes beyond the EOF
->> will automatically grow the export size.
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>  qapi/block-export.json |  6 +++++-
->>  block/export/fuse.c    | 12 +++++++++++-
->>  2 files changed, 16 insertions(+), 2 deletions(-)
->>
->> diff --git a/qapi/block-export.json b/qapi/block-export.json
->> index cb5bd54cbf..cb26daa98b 100644
->> --- a/qapi/block-export.json
->> +++ b/qapi/block-export.json
->> @@ -183,10 +183,14 @@
->>  # @mountpoint: Path on which to export the block device via FUSE.
->>  #              This must point to an existing regular file.
->>  #
->> +# @growable: Whether writes beyond the EOF should grow the block node
->> +#            accordingly. (default: false)
->> +#
->>  # Since: 5.2
->>  ##
->>  { 'struct': 'BlockExportOptionsFuse',
->> -  'data': { 'mountpoint': 'str' },
->> +  'data': { 'mountpoint': 'str',
->> +            '*growable': 'bool' },
->>    'if': 'defined(CONFIG_FUSE)' }
->> =20
->>  ##
->> diff --git a/block/export/fuse.c b/block/export/fuse.c
->> index 8fc667231d..f3a84579ba 100644
->> --- a/block/export/fuse.c
->> +++ b/block/export/fuse.c
->> @@ -45,6 +45,7 @@ typedef struct FuseExport {
->> =20
->>      char *mountpoint;
->>      bool writable;
->> +    bool growable;
->>  } FuseExport;
->> =20
->>  static GHashTable *exports;
->> @@ -101,6 +102,7 @@ static int fuse_export_create(BlockExport *blk_exp,
->> =20
->>      exp->mountpoint =3D g_strdup(args->mountpoint);
->>      exp->writable =3D blk_exp_args->writable;
->> +    exp->growable =3D args->growable;
->> =20
->>      ret =3D setup_fuse_export(exp, args->mountpoint, errp);
->>      if (ret < 0) {
->> @@ -436,7 +438,15 @@ static void fuse_write(fuse_req_t req, fuse_ino_t i=
-node, const char *buf,
->> =20
->>      size =3D MIN(size, BDRV_REQUEST_MAX_BYTES);
->>      if (offset + size > length) {
->> -        size =3D length - offset;
->> +        if (exp->growable) {
->> +            ret =3D fuse_do_truncate(exp, offset + size, PREALLOC_MODE_=
-OFF);
->=20
-> Do we need BDRV_REQ_ZERO_WRITE for blk_truncate() in this case?
+> From your reply above I would propose this hunk and the call below are
+> removed. If its needed to virt thats a seperate discussion which I think
+> was already happening in another thread.
+>
+Yep, agree.
 
-Ah, yes.  (Sorry, code is a bit old and I forgot when I revised it...)
+Maxim.
 
-> Actually, since we export a regular file, it would probably be good for
-> the setattr case, too.
-
-Yes.
-
-> If someone actually uses this to sequentially write past the end of the
-> file, it will be quite inefficient because fuse_do_truncate() temporarily
-> acquires locks for each write request. It might be a good idea to
-> acquire BLK_PERM_RESIZE from the start for growable exports (like image
-> formats do for bs->file).
-
-Oh, yes, that makes sense.
-
-Max
-
-
---rqmdPSRfXN48ACF6yrqKLwm2P0oWOSjqX--
-
---ql757v81T15NpIJ0dyYtK5yaAc41rS2Zm
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl+IaMUACgkQ9AfbAGHV
-z0CS9Af+PiQNr6bgJJpfOHrYf3fTm4+qxu6g1Bh6NNcIrQT+eilPyg+ycyT/55J1
-zzldFFZxdlM0xUjFWdFyIKdYWeVujn1+ZkaYF6rqYP937jXFSc0JnFHBhR7+tftY
-vhP5tnmMPCrBpIt7gdPWz35xmcUMzgrbUqqXUbafyTcRViADnXVn9DaowiRYPQjv
-kr1FRT/blLgWFt3DJoyVumj2hqlYOV+wgTFdFej0oamKPsK1Lf2moS/um5V//kWj
-M3iUqL1/whfLBjzSCM/ivevoi1qDxGUxRTMjQZ3ABSIVi5yEQ7M1LkRF6irEYo2T
-kEPHfaRjuRbnGC7DOFnfi5rDHWeWQA==
-=hxSX
------END PGP SIGNATURE-----
-
---ql757v81T15NpIJ0dyYtK5yaAc41rS2Zm--
-
+> FOSS style is for inline replies not top posting FYI
+>
+> Graeme
+>
+> >     Graeme
+> >
+> >
+> >     >  /*
+> >     >   * Firmware on this machine only uses ACPI table to load OS, these
+> >     limited
+> >     >   * device tree nodes are just to let firmware know the info which varies
+> >     from
+> >     > @@ -219,6 +252,7 @@ static void create_fdt(SBSAMachineState *sms)
+> >     >
+> >     >          g_free(nodename);
+> >     >      }
+> >     > +    create_wdt_fdt(sms);
+> >     >  }
+> >     >
+> >     >  #define SBSA_FLASH_SECTOR_SIZE (256 * KiB)
+> >     > @@ -447,6 +481,20 @@ static void create_rtc(const SBSAMachineState *sms)
+> >     >      sysbus_create_simple("pl031", base, qdev_get_gpio_in(sms->gic,
+> >     irq));
+> >     >  }
+> >     >
+> >     > +static void create_wdt(const SBSAMachineState *sms)
+> >     > +{
+> >     > +    hwaddr rbase = sbsa_ref_memmap[SBSA_GWDT_REFRESH].base;
+> >     > +    hwaddr cbase = sbsa_ref_memmap[SBSA_GWDT_CONTROL].base;
+> >     > +    DeviceState *dev = qdev_new(TYPE_WDT_SBSA_GWDT);
+> >     > +    SysBusDevice *s = SYS_BUS_DEVICE(dev);
+> >     > +    int irq = sbsa_ref_irqmap[SBSA_GWDT];
+> >     > +
+> >     > +    sysbus_realize_and_unref(s, &error_fatal);
+> >     > +    sysbus_mmio_map(s, 0, rbase);
+> >     > +    sysbus_mmio_map(s, 1, cbase);
+> >     > +    sysbus_connect_irq(s, 0, qdev_get_gpio_in(sms->gic, irq));
+> >     > +}
+> >     > +
+> >     >  static DeviceState *gpio_key_dev;
+> >     >  static void sbsa_ref_powerdown_req(Notifier *n, void *opaque)
+> >     >  {
+> >     > @@ -730,6 +778,8 @@ static void sbsa_ref_init(MachineState *machine)
+> >     >
+> >     >      create_rtc(sms);
+> >     >
+> >     > +    create_wdt(sms);
+> >     > +
+> >     >      create_gpio(sms);
+> >     >
+> >     >      create_ahci(sms);
+> >     > --
+> >     > 2.18.4
+> >     >
+> >     >
+> >
+> >
+> > References:
+> >
+> > [1] mailto:graeme@nuviainc.com
+> > [2] mailto:shashi.mallela@linaro.org
+>
 
