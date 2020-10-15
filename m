@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C837C28F38D
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 15:44:35 +0200 (CEST)
-Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D52128F38F
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 15:44:56 +0200 (CEST)
+Received: from localhost ([::1]:52962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT3YY-0000lK-2C
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 09:44:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
+	id 1kT3Yt-0001Wn-BH
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 09:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WC-0007Pq-Uw
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:08 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WG-0007T8-Rx
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:13 -0400
 Received: from mail-eopbgr750112.outbound.protection.outlook.com
  ([40.107.75.112]:30180 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WA-0000kr-Li
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:08 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WE-0000kr-Bg
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:12 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RiukT7eEzJShPo+E2naSnW/ArE/LqJfJUGHR0oHIofwJJDEoB91Q2w/Lh+nFqF/nuIY94pecDf/2pkrSHO/DsiFb4Lgl/aeqhFNrEb2UnylKXFmvp0BPytAJQocZk2aPzsW8Lvul29WBMZ4WH1dlLaOzzQ/k8mZKqU7DLx5Ucrdno2pU9vlX1uvdlKqooCl5dzOcwFHmxTz5mHP9MoMqOokQVFxWMcVUPylT2mff4mFlNzswc8YWhLBgj1/6ZXdbx7Fnl8eoZ8xpbvTgXuS2q2bPDUsuVxPa0sW2wob5Ujr3S0ffSJXSR29/lo6NnJ5B3b3aGjOkvMseIZkZMgk24Q==
+ b=DSw1Lc83IYzO9cnyES9FAZsmg1TJKwujrMfWWEW0bwJPGoiZJT4f8yE1BfzyAoy83WeKdTuGpgdbWDpkfwil4RyhSxoYtClFHcJOSxbQt+TaOqMGQm4wHi1MoF8Q7OZFptXEdePB0jv+6zFS2UroFB/vIRoxYm7K7dXwVp7kjHntnXqzCmBxF0A/0cA14K1pzFzZuyvBEdWbsIyFvlMXnnCEr6UrPGjERHGN4/NHwxVm+O5tEdlOMXLwGTWZar6JNGfJwv4KpoKH4YvgrsaKgo2DRhYFHdM8osXiGgKkSi1rqsLcFXcPy0mFtgC+cWBK1umkt1JXtatYOAW8p4hvxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MX056Rf6DSUltnR4J91NJYCtam/Fo4tFlIXd4RkYse8=;
- b=d0kqRn3VWl9oetMCZFG2bzEHxiHxuU9XV3AFcTFkAqD9d4zsASwzyTAbxHrb0wJxW9XmqjlFr+vt1B7Q7HqneJBojsJkkHDN53H4ZKq5HXCGJGvQFEWsosXIJRUn9I0c9NaT5N2qlupi3BEYoGiO7NeQPi2H10QAsXiweywHvFVNF7Mlt2V4ni2XQ+AofXAu/gwh3t03bztFb8R5l4Dsubi4nLgvgP4lgo11TUkoA9g+UE7h/LKotwZxh5g8ekYto0RG4vyPWYXPDK1cYGnKljDEs8CmFisPl8R8RQ8XnTkjc/CT05Cm7iHCOrLYKviUL69jnm8ZNFbwO+syarx3AA==
+ bh=bNwuoSZCN1xDIfurTHUFmWI5gkkjYhsBm9XcERWfx2U=;
+ b=io4b7sL+lOYtbPhK6qartl4rg/uM6gHfhTNK0mVw/AR2v/fF80BXh0UUVQe9PeDLuZsR+Q0lByvCg4Dt7hjXG4+QmXz4HAzexoCSiqMHZL6HeEW4GfsAWBPQGmaZaPdUSsBF5yTGDuRpnYMRaCaj9+o4BRp6txhaSIg75vfWs/u4WQkXiNJaBhg2PifDJMTuB626wXUrIUKqfHlQdT0KnGofCt4Xoiy5x/DLo3Lg8MIMxC6RZnb6NQR+Eyw73FDOZd1MpQpu9IUtp/a10Hqo5ib9OqrS1aa3xtyqPQ7OCtblb0ZP3orWAo6RwRQwuZXwO3pVA2Rz/9t9lZ+sWMAFVQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MX056Rf6DSUltnR4J91NJYCtam/Fo4tFlIXd4RkYse8=;
- b=J1MBKlOhfJvURLAKex3Eoo/1B0sxoB7CQxbG0PyzwyrdHXnHt0WGZnXDY6B7x+Kr8GPYKP+5mcLq6GDIRfDngPofOlXqBkpatUsDJl1//74eu/29BDN86L2hQcYmB0mI/oe/1bRT/uiFDgQ+JdhQsqVTVfqvUxTj3RT+S96A1TY=
+ bh=bNwuoSZCN1xDIfurTHUFmWI5gkkjYhsBm9XcERWfx2U=;
+ b=HvbiCD9hxQvTiwrXU9ytxYqoWdcxM7cDVSya8QUimWxbzYdrJ/ZqG7XIHBwNUBwh1KrFBQHUAUrLmlwS/4s9FXHf30ca2CnNwt6Xv8PnCOD5+X5Fu9t0SnuBuSaXksFPcJPciPPxooDc+zzS73dy/yikrDxKDyV596i85MS8Ads=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SA0PR03MB5465.namprd03.prod.outlook.com (2603:10b6:806:b5::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Thu, 15 Oct
- 2020 13:41:51 +0000
+ 2020 13:41:53 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::61ae:93a8:b26c:77b8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::61ae:93a8:b26c:77b8%4]) with mapi id 15.20.3455.031; Thu, 15 Oct 2020
- 13:41:51 +0000
+ 13:41:53 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/16] memory: Add FlatView foreach function
-Date: Thu, 15 Oct 2020 09:41:21 -0400
-Message-Id: <20201015134137.205958-2-alxndr@bu.edu>
+Subject: [PATCH v4 02/16] fuzz: Add general virtual-device fuzzer
+Date: Thu, 15 Oct 2020 09:41:22 -0400
+Message-Id: <20201015134137.205958-3-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201015134137.205958-1-alxndr@bu.edu>
 References: <20201015134137.205958-1-alxndr@bu.edu>
@@ -64,30 +64,30 @@ Received: from stormtrooper.vrmnet (72.93.72.163) by
  BL1PR13CA0055.namprd13.prod.outlook.com (2603:10b6:208:257::30) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.8 via Frontend
- Transport; Thu, 15 Oct 2020 13:41:50 +0000
+ Transport; Thu, 15 Oct 2020 13:41:52 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 42e37d5c-8523-4d87-0424-08d871101248
+X-MS-Office365-Filtering-Correlation-Id: 02e542bb-1198-4b38-a616-08d871101331
 X-MS-TrafficTypeDiagnostic: SA0PR03MB5465:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR03MB546513FDC36D6A0EE19D6AC0BA020@SA0PR03MB5465.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
+X-Microsoft-Antispam-PRVS: <SA0PR03MB54653FCBAA2D4655AA30EE15BA020@SA0PR03MB5465.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:849;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RdcR3w17suhEAQrqf2a5ZKg1O4TzwQmn2A6Ud6D4Nr2u4fdlJ8uEajrb2vNGrGjaqRiRt6fuERxsXO+cKiiX4rXd0NWaSdBNO775PahZlwTERiNEiG6MvO3eCb7Kkmdb06ncF4+IDdNt7+pjtwJrCkr3zY5CDvxVAhRrohVlsPWpHLTzYvK7L1eU1waQMIJIMNRQG44UHfhJh+qlM3FfxZIylhuMgkLUrfLcJhRHOypY91vgE1QRYen6P+LEQwfhACDnR/oCV4W+fQJInIN+eMvG3QPWRU/rbTjGhdL/yQSfYVLm0rqvykXLpnzTh0mb+582fNK5KJYIA4L6hMzyfZe/eqnSpufiZ98ElEXcCB7VJlT0OZZMZ24QZ2M4TZQo
+X-Microsoft-Antispam-Message-Info: w/dDIer8m9JjcWGppz680ENHu3hH6y8jKZ6bsFebJaCUAxE6K4XZ/XxbJz6pQUmdaLDaTAJ8biT/kOuPoHc54dVbuyXJIK/eHhlruFieHZbYEQfc9O6W4AqyPDbN8E6ElK/mm6iMkbITZj5TURw56FxhlE+OwQ5nQYpHB9SskNN/q0XETr+x8c2KOCz+epHnrM+Anwu7O2pT1Iar1nLmsIxDZXxRspuhWKqx9iD+2BrUMB6Z1sOz0rmEgb5Y1TgzBjWX5VNDRga40XBTzuVcTaiDjCjqH4LnxMAPSRtaw55JQPibvz/HxnGxhAHfZtjnNM1fwmzcvV7qR4cVxoiLqIm9aQlkDSBC8jLgrRMlfMHwmCwXC0LnW5McrPGAzAID
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(136003)(366004)(39860400002)(346002)(5660300002)(2616005)(8936002)(34490700002)(1076003)(66476007)(66946007)(6666004)(956004)(4326008)(6512007)(6486002)(8676002)(75432002)(6506007)(26005)(6916009)(52116002)(2906002)(86362001)(186003)(16526019)(786003)(316002)(66556008)(478600001)(36756003);
+ SFS:(4636009)(396003)(376002)(136003)(366004)(39860400002)(346002)(30864003)(5660300002)(54906003)(2616005)(8936002)(34490700002)(1076003)(66476007)(66946007)(6666004)(83380400001)(956004)(4326008)(6512007)(6486002)(8676002)(75432002)(6506007)(26005)(6916009)(52116002)(2906002)(86362001)(186003)(16526019)(786003)(316002)(66556008)(478600001)(36756003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 5f842UzZcywj7M9YxC9pmmYTt43HlNMg3ew+rjU90qBFmPQnA6KZS3eIx2nkgqlEdvjfsclJNoqB1H2J6tQ5WdiYRG0NGUyEI1JAbu39B5XzvEXwNsoC5vXp7roachfa04vySqTsg8h5E9v9OPHCiyQmJrxdlKtON3/vtxjwEPNgD61FFweFzxvmRNyJUr63U40VNT6D69c/xF0yIURMjDSRv1gmJ0+UcOxKct/YIin70p5r7ilMF3lD8H+flyJjlZwBNk5ugC16oqGxArew2tGyDiCzmrfCK76wDijN8jmcoDGpoyGgIBfJp65fWU3lIu21GU/9JPhxrG3fwgtz6q1oi4vyQ1ROSFxDTUUvcfsqbUFNSvoaJ8jBI8FvDn4oNywXJhQC9Gw2b1V/2TakzZy7veNSQUMOww14+yWnSr2WmzhRMXv9Zihu3gun/jcJcWRYb5Vl2qn4zzj/kbNsRtDUZI4HBdYfTmCvM6vMUjYLCLcFkElc50kScAu2mD7MUdIBNXvxncvxVAesL/J62bmaM1RFVXfwdz1zb0tr2QnEw3E6di95yzZs3Hosn9hzK65UZR4hojHJ7wY6lLiipOZNSNmGn8u/RNE2JJ2Y/hA7GD1uW/qvIm+ZqKWKZWzbXAqGKfYPD3g1PAWdxh5ZeA==
+X-MS-Exchange-AntiSpam-MessageData: IB4dAjtTDd2xTKIfapAT9U4djcqGD9SlP6ddLedjOAchRczZXPBHN4ZnmJXYfE8Gisr9mJ0+AQd+wqGpAWMOqmXv/LPkTtawzYfE+njWOwOiZnFZxH+SRuD2FWKj9+1D/ZzEKI5meIo9gZmvwVP6rW5NhFrwK+utlIBtagHyz3aC0HlRTnWI2GFcNHLrCKAWKKTak6Ls51oA5qxsjSiNFz/t9i2DjJ+7cGN1QtotXLPaV2a+EskqrJVTbkWrCRbiR9AVXl1yv3ZVTJnjmqFVoiAVFO9tjS+CfBl4UY1bpz+LkyKreWG9I2EIKJkYaMuqbd0bd1CIRHYJTrCCHWDj14R9OnZSW16fqzrpodYofsORK2tQ4lmBRWNKOed7HPEjnLjGU/thEFAHhNsspvQ9SYYKYgKLWG9AoFdSy00dlRvh2vWdWekR3+VedVQVUOB+UcWuCDmYMtv92sTDzlq21291fBNQR+zONW1VLl1UxOWAmbSKSkVmXYSebl5H21L+iHchIM+1OYV/1T0Ck9+W/urzuuWaZnZFN4+w9yoe1e6VE0DGP1IJbA7M/h1IGE7WH3Dj15uP6xBxR0eeXRo91sDWpJCnjIWGi+puXzVxQDTMi2f6S41RGwDQ6HTEiwq0fgRiBBoYLP/rRvklC6QjZQ==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42e37d5c-8523-4d87-0424-08d871101248
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02e542bb-1198-4b38-a616-08d871101331
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 13:41:51.5019 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 13:41:53.2109 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x0NUB1TiCfeSIXguLzafEUm+h3WiAocTs33QL/IHslwUSERu8fn2FJs01seHp0/9
+X-MS-Exchange-CrossTenant-UserPrincipalName: WJ0bMUQmjScbkmjorpBCN7p3uceS0Yy0vqilFIKaAotO3ERVCE3m1ins8VuObzOY
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5465
 Received-SPF: pass client-ip=40.107.75.112; envelope-from=alxndr@bu.edu;
  helo=NAM02-BL2-obe.outbound.protection.outlook.com
@@ -113,55 +113,555 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
  bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
  dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+This is a generic fuzzer designed to fuzz a virtual device's
+MemoryRegions, as long as they exist within the Memory or Port IO (if it
+exists) AddressSpaces. The fuzzer's input is interpreted into a sequence
+of qtest commands (outb, readw, etc). The interpreted commands are
+separated by a magic seaparator, which should be easy for the fuzzer to
+guess. Without ASan, the separator can be specified as a "dictionary
+value" using the -dict argument (see libFuzzer documentation).
+
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- include/exec/memory.h | 5 +++++
- softmmu/memory.c      | 9 +++++++++
- 2 files changed, 14 insertions(+)
+ tests/qtest/fuzz/general_fuzz.c | 509 ++++++++++++++++++++++++++++++++
+ tests/qtest/fuzz/meson.build    |   1 +
+ 2 files changed, 510 insertions(+)
+ create mode 100644 tests/qtest/fuzz/general_fuzz.c
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 622207bde1..233655b29a 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -719,6 +719,11 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
-     return qatomic_rcu_read(&as->current_map);
- }
- 
-+typedef int (*flatview_cb)(ram_addr_t start,
-+                           ram_addr_t len,
-+                           const MemoryRegion*, void*);
+diff --git a/tests/qtest/fuzz/general_fuzz.c b/tests/qtest/fuzz/general_fuzz.c
+new file mode 100644
+index 0000000000..c1c6dd3ba6
+--- /dev/null
++++ b/tests/qtest/fuzz/general_fuzz.c
+@@ -0,0 +1,509 @@
++/*
++ * General Virtual-Device Fuzzing Target
++ *
++ * Copyright Red Hat Inc., 2020
++ *
++ * Authors:
++ *  Alexander Bulekov   <alxndr@bu.edu>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque);
- 
- /**
-  * struct MemoryRegionSection: describes a fragment of a #MemoryRegion
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 403ff3abc9..c46b0c6d65 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -656,6 +656,15 @@ static void render_memory_region(FlatView *view,
-     }
- }
- 
-+void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque)
++#include "qemu/osdep.h"
++
++#include <wordexp.h>
++
++#include "hw/core/cpu.h"
++#include "tests/qtest/libqos/libqtest.h"
++#include "fuzz.h"
++#include "fork_fuzz.h"
++#include "exec/address-spaces.h"
++#include "string.h"
++#include "exec/memory.h"
++#include "exec/ramblock.h"
++#include "exec/address-spaces.h"
++#include "hw/qdev-core.h"
++
++/*
++ * SEPARATOR is used to separate "operations" in the fuzz input
++ */
++#define SEPARATOR "FUZZ"
++
++enum cmds {
++    OP_IN,
++    OP_OUT,
++    OP_READ,
++    OP_WRITE,
++    OP_CLOCK_STEP,
++};
++
++#define DEFAULT_TIMEOUT_US 100000
++#define USEC_IN_SEC 100000000
++
++typedef struct {
++    ram_addr_t addr;
++    ram_addr_t size; /* The number of bytes until the end of the I/O region */
++} address_range;
++
++static useconds_t timeout = 100000;
++
++static bool qtest_log_enabled;
++
++/*
++ * List of memory regions that are children of QOM objects specified by the
++ * user for fuzzing.
++ */
++static GHashTable *fuzzable_memoryregions;
++
++struct get_io_cb_info {
++    int index;
++    int found;
++    address_range result;
++};
++
++static int get_io_address_cb(ram_addr_t start, ram_addr_t size,
++                          const MemoryRegion *mr, void *opaque) {
++    struct get_io_cb_info *info = opaque;
++    if (g_hash_table_lookup(fuzzable_memoryregions, mr)) {
++        if (info->index == 0) {
++            info->result.addr = start;
++            info->result.size = size;
++            info->found = 1;
++            return 1;
++        }
++        info->index--;
++    }
++    return 0;
++}
++
++/*
++ * Here we want to convert a fuzzer-provided [io-region-index, offset] to
++ * a physical address. To do this, we iterate over all of the matched
++ * MemoryRegions. Check whether each region exists within the particular io
++ * space. Return the absolute address of the offset within the index'th region
++ * that is a subregion of the io_space and the distance until the end of the
++ * memory region.
++ */
++static bool get_io_address(address_range *result, AddressSpace *as,
++                            uint8_t index,
++                            uint32_t offset) {
++    FlatView *view;
++    view = as->current_map;
++    g_assert(view);
++    struct get_io_cb_info cb_info = {};
++
++    cb_info.index = index;
++
++    /*
++     * Loop around the FlatView until we match "index" number of
++     * fuzzable_memoryregions, or until we know that there are no matching
++     * memory_regions.
++     */
++    do {
++        flatview_for_each_range(view, get_io_address_cb , &cb_info);
++    } while (cb_info.index != index && !cb_info.found);
++
++    *result = cb_info.result;
++    return cb_info.found;
++}
++static bool get_pio_address(address_range *result,
++                            uint8_t index, uint16_t offset)
 +{
-+    FlatRange *fr;
-+    FOR_EACH_FLAT_RANGE(fr, fv) {
-+        if (cb(fr->addr.start, fr->addr.size, fr->mr, opaque))
-+            break;
++    /*
++     * PIO BARs can be set past the maximum port address (0xFFFF). Thus, result
++     * can contain an addr that extends past the PIO space. When we pass this
++     * address to qtest_in/qtest_out, it is cast to a uint16_t, so we might end
++     * up fuzzing a completely different MemoryRegion/Device. Therefore, check
++     * that the address here is within the PIO space limits.
++     */
++    bool found = get_io_address(result, &address_space_io, index, offset);
++    return result->addr <= 0xFFFF ? found : false;
++}
++static bool get_mmio_address(address_range *result,
++                             uint8_t index, uint32_t offset)
++{
++    return get_io_address(result, &address_space_memory, index, offset);
++}
++
++static void op_in(QTestState *s, const unsigned char * data, size_t len)
++{
++    enum Sizes {Byte, Word, Long, end_sizes};
++    struct {
++        uint8_t size;
++        uint8_t base;
++        uint16_t offset;
++    } a;
++    address_range abs;
++
++    if (len < sizeof(a)) {
++        return;
++    }
++    memcpy(&a, data, sizeof(a));
++    if (get_pio_address(&abs, a.base, a.offset) == 0) {
++        return;
++    }
++
++    switch (a.size %= end_sizes) {
++    case Byte:
++        qtest_inb(s, abs.addr);
++        break;
++    case Word:
++        if (abs.size >= 2) {
++            qtest_inw(s, abs.addr);
++        }
++        break;
++    case Long:
++        if (abs.size >= 4) {
++            qtest_inl(s, abs.addr);
++        }
++        break;
 +    }
 +}
 +
- static MemoryRegion *memory_region_get_flatview_root(MemoryRegion *mr)
- {
-     while (mr->enabled) {
++static void op_out(QTestState *s, const unsigned char * data, size_t len)
++{
++    enum Sizes {Byte, Word, Long, end_sizes};
++    struct {
++        uint8_t size;
++        uint8_t base;
++        uint16_t offset;
++        uint32_t value;
++    } a;
++    address_range abs;
++
++    if (len < sizeof(a)) {
++        return;
++    }
++    memcpy(&a, data, sizeof(a));
++
++    if (get_pio_address(&abs, a.base, a.offset) == 0) {
++        return;
++    }
++
++    switch (a.size %= end_sizes) {
++    case Byte:
++        qtest_outb(s, abs.addr, a.value & 0xFF);
++        break;
++    case Word:
++        if (abs.size >= 2) {
++            qtest_outw(s, abs.addr, a.value & 0xFFFF);
++        }
++        break;
++    case Long:
++        if (abs.size >= 4) {
++            qtest_outl(s, abs.addr, a.value);
++        }
++        break;
++    }
++}
++
++static void op_read(QTestState *s, const unsigned char * data, size_t len)
++{
++    enum Sizes {Byte, Word, Long, Quad, end_sizes};
++    struct {
++        uint8_t size;
++        uint8_t base;
++        uint32_t offset;
++    } a;
++    address_range abs;
++
++    if (len < sizeof(a)) {
++        return;
++    }
++    memcpy(&a, data, sizeof(a));
++
++    if (get_mmio_address(&abs, a.base, a.offset) == 0) {
++        return;
++    }
++
++    switch (a.size %= end_sizes) {
++    case Byte:
++        qtest_readb(s, abs.addr);
++        break;
++    case Word:
++        if (abs.size >= 2) {
++            qtest_readw(s, abs.addr);
++        }
++        break;
++    case Long:
++        if (abs.size >= 4) {
++            qtest_readl(s, abs.addr);
++        }
++        break;
++    case Quad:
++        if (abs.size >= 8) {
++            qtest_readq(s, abs.addr);
++        }
++        break;
++    }
++}
++
++static void op_write(QTestState *s, const unsigned char * data, size_t len)
++{
++    enum Sizes {Byte, Word, Long, Quad, end_sizes};
++    struct {
++        uint8_t size;
++        uint8_t base;
++        uint32_t offset;
++        uint64_t value;
++    } a;
++    address_range abs;
++
++    if (len < sizeof(a)) {
++        return;
++    }
++    memcpy(&a, data, sizeof(a));
++
++    if (get_mmio_address(&abs, a.base, a.offset) == 0) {
++        return;
++    }
++
++    switch (a.size %= end_sizes) {
++    case Byte:
++            qtest_writeb(s, abs.addr, a.value & 0xFF);
++        break;
++    case Word:
++        if (abs.size >= 2) {
++            qtest_writew(s, abs.addr, a.value & 0xFFFF);
++        }
++        break;
++    case Long:
++        if (abs.size >= 4) {
++            qtest_writel(s, abs.addr, a.value & 0xFFFFFFFF);
++        }
++        break;
++    case Quad:
++        if (abs.size >= 8) {
++            qtest_writeq(s, abs.addr, a.value);
++        }
++        break;
++    }
++}
++static void op_clock_step(QTestState *s, const unsigned char *data, size_t len)
++{
++    qtest_clock_step_next(s);
++}
++
++static void handle_timeout(int sig)
++{
++    if (qtest_log_enabled) {
++        fprintf(stderr, "[Timeout]\n");
++        fflush(stderr);
++    }
++    _Exit(0);
++}
++
++/*
++ * Here, we interpret random bytes from the fuzzer, as a sequence of commands.
++ * Some commands can be variable-width, so we use a separator, SEPARATOR, to specify
++ * the boundaries between commands. SEPARATOR is used to separate "operations"
++ * in the fuzz input. Why use a separator, instead of just using the operations'
++ * length to identify operation boundaries?
++ *   1. This is a simple way to support variable-length operations
++ *   2. This adds "stability" to the input.
++ *      For example take the input "AbBcgDefg", where there is no separator and
++ *      Opcodes are capitalized.
++ *      Simply, by removing the first byte, we end up with a very different sequence:
++ *      BbcGdefg...
++ *      By adding a separator, we avoid this problem:
++ *      Ab SEP Bcg SEP Defg -> B SEP Bcg SEP Defg
++ *      Since B uses two additional bytes as operands, the first "B" will be
++ *      ignored. The fuzzer actively tries to reduce inputs, so such unused
++ *      bytes are likely to be pruned, eventually.
++ *
++ *  SEPARATOR is trivial for the fuzzer to discover when using ASan. Optionally,
++ *  SEPARATOR can be manually specified as a dictionary value (see libfuzzer's
++ *  -dict), though this should not be necessary.
++ *
++ * As a result, the stream of bytes is converted into a sequence of commands.
++ * In a simplified example where SEPARATOR is 0xFF:
++ * 00 01 02 FF 03 04 05 06 FF 01 FF ...
++ * becomes this sequence of commands:
++ * 00 01 02    -> op00 (0102)   -> in (0102, 2)
++ * 03 04 05 06 -> op03 (040506) -> write (040506, 3)
++ * 01          -> op01 (-,0)    -> out (-,0)
++ * ...
++ *
++ * Note here that it is the job of the individual opcode functions to check
++ * that enough data was provided. I.e. in the last command out (,0), out needs
++ * to check that there is not enough data provided to select an address/value
++ * for the operation.
++ */
++static void general_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
++{
++    void (*ops[]) (QTestState *s, const unsigned char* , size_t) = {
++        [OP_IN]                 = op_in,
++        [OP_OUT]                = op_out,
++        [OP_READ]               = op_read,
++        [OP_WRITE]              = op_write,
++        [OP_CLOCK_STEP]         = op_clock_step,
++    };
++    const unsigned char *cmd = Data;
++    const unsigned char *nextcmd;
++    size_t cmd_len;
++    uint8_t op;
++
++    if (fork() == 0) {
++        /*
++         * Sometimes the fuzzer will find inputs that take quite a long time to
++         * process. Often times, these inputs do not result in new coverage.
++         * Even if these inputs might be interesting, they can slow down the
++         * fuzzer, overall. Set a timeout to avoid hurting performance, too much
++         */
++        if (timeout) {
++            struct sigaction sact;
++            struct itimerval timer;
++
++            sigemptyset(&sact.sa_mask);
++            sact.sa_flags   = SA_NODEFER;
++            sact.sa_handler = handle_timeout;
++            sigaction(SIGALRM, &sact, NULL);
++
++            memset(&timer, 0, sizeof(timer));
++            timer.it_value.tv_sec = timeout / USEC_IN_SEC;
++            timer.it_value.tv_usec = timeout % USEC_IN_SEC;
++            setitimer(ITIMER_VIRTUAL, &timer, NULL);
++        }
++
++        while (cmd && Size) {
++            /* Get the length until the next command or end of input */
++            nextcmd = memmem(cmd, Size, SEPARATOR, strlen(SEPARATOR));
++            cmd_len = nextcmd ? nextcmd - cmd : Size;
++
++            if (cmd_len > 0) {
++                /* Interpret the first byte of the command as an opcode */
++                op = *cmd % (sizeof(ops) / sizeof((ops)[0]));
++                ops[op](s, cmd + 1, cmd_len - 1);
++
++                /* Run the main loop */
++                flush_events(s);
++            }
++            /* Advance to the next command */
++            cmd = nextcmd ? nextcmd + sizeof(SEPARATOR) - 1 : nextcmd;
++            Size = Size - (cmd_len + sizeof(SEPARATOR) - 1);
++        }
++        _Exit(0);
++    } else {
++        flush_events(s);
++        wait(0);
++    }
++}
++
++static void usage(void)
++{
++    printf("Please specify the following environment variables:\n");
++    printf("QEMU_FUZZ_ARGS= the command line arguments passed to qemu\n");
++    printf("QEMU_FUZZ_OBJECTS= "
++            "a space separated list of QOM type names for objects to fuzz\n");
++    printf("Optionally: QEMU_FUZZ_TIMEOUT= Specify a custom timeout (us). "
++            "0 to disable. %d by default\n", timeout);
++    exit(0);
++}
++
++static int locate_fuzz_memory_regions(Object *child, void *opaque)
++{
++    const char *name;
++    MemoryRegion *mr;
++    if (object_dynamic_cast(child, TYPE_MEMORY_REGION)) {
++        mr = MEMORY_REGION(child);
++        if ((memory_region_is_ram(mr) ||
++            memory_region_is_ram_device(mr) ||
++            memory_region_is_rom(mr)) == false) {
++            name = object_get_canonical_path_component(child);
++            /*
++             * We don't want duplicate pointers to the same MemoryRegion, so
++             * try to remove copies of the pointer, before adding it.
++             */
++            g_hash_table_insert(fuzzable_memoryregions, mr, (gpointer)true);
++        }
++    }
++    return 0;
++}
++static int locate_fuzz_objects(Object *child, void *opaque)
++{
++    char *pattern = opaque;
++    if (g_pattern_match_simple(pattern, object_get_typename(child))) {
++        /* Find and save ptrs to any child MemoryRegions */
++        object_child_foreach_recursive(child, locate_fuzz_memory_regions, NULL);
++
++    } else if (object_dynamic_cast(OBJECT(child), TYPE_MEMORY_REGION)) {
++        if (g_pattern_match_simple(pattern,
++            object_get_canonical_path_component(child))) {
++            MemoryRegion *mr;
++            mr = MEMORY_REGION(child);
++            if ((memory_region_is_ram(mr) ||
++                 memory_region_is_ram_device(mr) ||
++                 memory_region_is_rom(mr)) == false) {
++                g_hash_table_insert(fuzzable_memoryregions, mr, (gpointer)true);
++            }
++        }
++    }
++    return 0;
++}
++
++static void general_pre_fuzz(QTestState *s)
++{
++    GHashTableIter iter;
++    MemoryRegion *mr;
++    char **result;
++
++    if (!getenv("QEMU_FUZZ_OBJECTS")) {
++        usage();
++    }
++    if (getenv("QTEST_LOG")) {
++        qtest_log_enabled = 1;
++    }
++    if (getenv("QEMU_FUZZ_TIMEOUT")) {
++        timeout = g_ascii_strtoll(getenv("QEMU_FUZZ_TIMEOUT"), NULL, 0);
++    }
++
++    fuzzable_memoryregions = g_hash_table_new(NULL, NULL);
++
++    result = g_strsplit(getenv("QEMU_FUZZ_OBJECTS"), " ", -1);
++    for (int i = 0; result[i] != NULL; i++) {
++        printf("Matching objects by name %s\n", result[i]);
++        object_child_foreach_recursive(qdev_get_machine(),
++                                    locate_fuzz_objects,
++                                    result[i]);
++    }
++    g_strfreev(result);
++    printf("This process will try to fuzz the following MemoryRegions:\n");
++
++    g_hash_table_iter_init(&iter, fuzzable_memoryregions);
++    while (g_hash_table_iter_next(&iter, (gpointer)&mr, NULL)) {
++        printf("  * %s (size %lx)\n",
++               object_get_canonical_path_component(&(mr->parent_obj)),
++               mr->addr);
++    }
++
++    if (!g_hash_table_size(fuzzable_memoryregions)) {
++        printf("No fuzzable memory regions found...\n");
++        exit(1);
++    }
++
++    counter_shm_init();
++}
++static GString *general_fuzz_cmdline(FuzzTarget *t)
++{
++    GString *cmd_line = g_string_new(TARGET_NAME);
++    if (!getenv("QEMU_FUZZ_ARGS")) {
++        usage();
++    }
++    g_string_append_printf(cmd_line, " -display none \
++                                      -machine accel=qtest, \
++                                      -m 64 %s ", getenv("QEMU_FUZZ_ARGS"));
++    return cmd_line;
++}
++
++static void register_general_fuzz_targets(void)
++{
++    fuzz_add_target(&(FuzzTarget){
++            .name = "general-fuzz",
++            .description = "Fuzz based on any qemu command-line args. ",
++            .get_init_cmdline = general_fuzz_cmdline,
++            .pre_fuzz = general_pre_fuzz,
++            .fuzz = general_fuzz});
++}
++
++fuzz_target_init(register_general_fuzz_targets);
+diff --git a/tests/qtest/fuzz/meson.build b/tests/qtest/fuzz/meson.build
+index b31ace7d5a..a59de6aa8c 100644
+--- a/tests/qtest/fuzz/meson.build
++++ b/tests/qtest/fuzz/meson.build
+@@ -5,6 +5,7 @@ specific_fuzz_ss.add(files('fuzz.c', 'fork_fuzz.c', 'qos_fuzz.c',
+ specific_fuzz_ss.add(when: 'CONFIG_I440FX', if_true: files('i440fx_fuzz.c'))
+ specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio_net_fuzz.c'))
+ specific_fuzz_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio_scsi_fuzz.c'))
++specific_fuzz_ss.add(files('general_fuzz.c'))
+ 
+ fork_fuzz = declare_dependency(
+   link_args: config_host['FUZZ_EXE_LDFLAGS'].split() +
 -- 
 2.28.0
 
