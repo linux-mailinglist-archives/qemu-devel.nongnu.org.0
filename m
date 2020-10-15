@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547D028F39B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 15:48:10 +0200 (CEST)
-Received: from localhost ([::1]:33348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E11428F390
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 15:45:06 +0200 (CEST)
+Received: from localhost ([::1]:53934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT3c1-0005Ew-CF
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 09:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
+	id 1kT3Z3-0001vJ-1G
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 09:45:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WJ-0007V2-T7
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:16 -0400
-Received: from mail-eopbgr750112.outbound.protection.outlook.com
- ([40.107.75.112]:30180 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WN-0007Zu-Qe
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:19 -0400
+Received: from mail-eopbgr750103.outbound.protection.outlook.com
+ ([40.107.75.103]:37594 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WI-0000kr-4o
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:15 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WL-0000mT-Kb
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:19 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fzKpr4CaxqRXCs7gWHp/YrNe1XmBP+HKBv7SbN6GfLDDsIcgGhN6Kc1Rd6LJ3Uk5L790QFXCQhtPQwkrJf8EHl4BIlQSEK9aHkhe8YBsCdGK/5X6dt/CdiyU6FwbfXDpTVlwLxxrQl1eL2Nw9RxRDp3t1fMuEilhjHCmRNd+ga0ihYujyIcC4D+NrWWT5WALml4PSsR7qHcaZ4wiu19ZtRyTg9X6y+61PD/TWShgapQnc6Ow3Uqer5mNqw/W24lD+hrGcoe6qLy+l6OXDqACBunU5KhkMmI74WfuGylcJqsseL508UuWU+GaZqucnvVJHG966yNqCctuBcXOJv800w==
+ b=I+/08XjLx/4qvIIEt4Yrb5J6qQOkSoPQ7gq0Q6C5CbbuhuJhhEK7re6Sf9Ix7GlA5wrJwdW1sqc71Dspf7j/dlc1816Kbhgn4eUfRLRoFHR2GgzhPb+D4T2Mq7H+cSeTOH7mlPDhlZLD2EbJR9ADFLOs1uRid2VsgHOCiMzWPb7VyOX4VJz09vjPI+ipy7/Uha5g38dS6HcKusVecebR5UvGFgwF05zSBnEZjCVhqmOEwIbIyAsUjtSbxP2JjI+DGfE6GL93meo7qBQN1I3w8gnz+bVUxbToWwVauaKNU8d01pGr9BKHXxfPQB1C88UD4MSz4hOFp0xSe7NE/pmnFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LJ2vk3EK3gZBly59m6sfF1WwI+U0NOLarCT9Z3fuauQ=;
- b=X+syqWo+2lLImqQa2D0SvAUO/wQgSDrBU49RjzTH/PgK4N2vwXtQ5kodAtrM37QbhZ15jBfTMM3WExZKaJgGKwePWyZMQpukBUVdX0JQWy9XZIVG4/umC/ZSwOaf9FizI3JjKrEy7QHUfRboq+MsZc70a+J9jSyXsJRxhvDPpXuuSKxPzQs9nunkmIQ7Qv2rxWm4KB/M4lpJnN2eFgPtCA2S87b57hmFLzvspS4FxtQDpZA2P2o+w9S3tKjofR6tRLpOEgshPY/fZA5PFl6hhlX6zmcA+fZmyMMnd0lRyZhiP9NMvAUOvj/A7N2a09tfxxuhiNbyOed0PTUiFWgRlA==
+ bh=xBF/BVG5rDNEcd2X3pagRCpq29Gcig777jMSLHfO/2o=;
+ b=X2+WtvxibY9j2eDTK1Ks3KAu86vv2ZcEvULSDl6hv6jq15xo+D7mkypAs+pwiCuVh217mjIpJft4LxuPxHzc4qqze34hkMExmPYxbq9Dje/Rlwtc5UWIXgUXWOTaa7reR3ouV3yZXybk6LMybydHixzSsBHwaLRlmKo0IXwECP+UV3B6y0bDDNcKk7iUU8Qy6lNG01ZKOL7gniAUgiglB3P/CHc4E7gUNLyD0tagaMsaZbU92qrB0LccRZN080uOy/hgW4hgbKGUsKRjkYKucNCITcEMIP9GSc5qgkK6axntznxQmr+ZOMZ67gYB/uc4zqnREP+OSEVWYMJeOyePOw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LJ2vk3EK3gZBly59m6sfF1WwI+U0NOLarCT9Z3fuauQ=;
- b=23IkHOz1KWnmrLGBNz2z40HoMK0tZutLA7H2S/U16B0rnw0C7l79TsyWVAwyTN8LImi33LK7Tb6tX1al1bvpC0cUY25Es42Y1L53T/IfCWxVRfpdclRGJy+tC1KocYfR5IPdL1gHB1OjsTG3KQmocWbNYb7lDTDXcmJZf4vMb+Q=
+ bh=xBF/BVG5rDNEcd2X3pagRCpq29Gcig777jMSLHfO/2o=;
+ b=O/ZlX3QJO+jq61dTXB6NIgZsuso6XYCM/ZIyxaMzooWyS8puSEXnKulCiOFgs8CsVSyVPtlFyojU5PpcJT4ilgiRUBR7TOWJQO/1ibZaTOBH8I1G2Qcd+ssGP/4t6DXKE9ZZyDwHArGOrmsl479e/2AQK3jkuhfsBnFd8dbsZk4=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SA0PR03MB5465.namprd03.prod.outlook.com (2603:10b6:806:b5::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Thu, 15 Oct
- 2020 13:41:54 +0000
+ 2020 13:41:56 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::61ae:93a8:b26c:77b8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::61ae:93a8:b26c:77b8%4]) with mapi id 15.20.3455.031; Thu, 15 Oct 2020
- 13:41:54 +0000
+ 13:41:56 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/16] fuzz: Add PCI features to the general fuzzer
-Date: Thu, 15 Oct 2020 09:41:23 -0400
-Message-Id: <20201015134137.205958-4-alxndr@bu.edu>
+Subject: [PATCH v4 04/16] fuzz: Add DMA support to the generic-fuzzer
+Date: Thu, 15 Oct 2020 09:41:24 -0400
+Message-Id: <20201015134137.205958-5-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201015134137.205958-1-alxndr@bu.edu>
 References: <20201015134137.205958-1-alxndr@bu.edu>
@@ -64,34 +64,34 @@ Received: from stormtrooper.vrmnet (72.93.72.163) by
  BL1PR13CA0055.namprd13.prod.outlook.com (2603:10b6:208:257::30) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.8 via Frontend
- Transport; Thu, 15 Oct 2020 13:41:53 +0000
+ Transport; Thu, 15 Oct 2020 13:41:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8ba7b55d-94d0-4e6f-edbd-08d87110140e
+X-MS-Office365-Filtering-Correlation-Id: 5def9273-3d4b-4732-a36a-08d8711014d5
 X-MS-TrafficTypeDiagnostic: SA0PR03MB5465:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR03MB5465B6297788DB461FDD8E73BA020@SA0PR03MB5465.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:268;
+X-Microsoft-Antispam-PRVS: <SA0PR03MB54653D0681D3E03B032F2413BA020@SA0PR03MB5465.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:67;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iET7ut4rVSCDwBIld/CSQOxvlm8LyxD2DOTOlj/GBi/W9CtCc2p1psaSL/ketNJxxuyj3R9lSe2LyyZzFTj5LQIdt2+O/UfmZkZu9o3aE/GUO/IkOOGrdXzxHDzoDPteLbBM/DtSDR+RxIlVLW8H2zYuJgUGKSAkGtw7R/8iahSixcLd6eZ6ihnzjaCcuO2FDGAFAMR3lk9vGu91BeujKsBh52pGviTjhcZqwn6xtgDcjeX2gSZUB1yHgDKORNcSbZGku5C3g4421S/K4aZPEuTIXsYKIFy3zvPKfkCxKNu4lz5cNkfp7Uih0AAPTEaMggUD0F2HBUodlY8B53t7dsZZ+XQ3uIJdqDv5vvWRouzIcHDVsUl18L7hIKvw/r0U
+X-Microsoft-Antispam-Message-Info: sOVer//jGNJGjJPLI4rVAcksah1CQZ+egor0Z6BsjFqSDP0gnH9xUeSii8FIyQlXWf8ISgp+KFc/DIWK1fbNiGJOQN7fLF+aYR8tPUJD8uudsO5FbYGbgCt+ejgCfTY/tz8yF1+TZrDu2NYAwRouE7iqzxJQVtxcmBXPokmzOJEAIZpP89hg5ZG68EX0E051CoLyoO5o08Fk7Ll0lmxlj2ClF0mEiRnzwHrZdT4nHJJ25UMWfKDOckEefNPlq3TR00O5wKJGUAsUATC0EDmOnpT+xa+2sXJNUqQnw0skzbkYAdXcF4PMH9YIg9fB6arWtWpT12HsZVPuUUP6c7iVHqfE4+EYDsGNdLxwvYtaVHKfIL/qK/3Jqa7eZgpVkkuR3c+3BydplLpyrPSFB54tgw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(136003)(366004)(39860400002)(346002)(5660300002)(54906003)(2616005)(8936002)(34490700002)(1076003)(66476007)(66946007)(6666004)(83380400001)(956004)(4326008)(6512007)(6486002)(8676002)(75432002)(6506007)(26005)(6916009)(52116002)(2906002)(86362001)(186003)(16526019)(786003)(316002)(66556008)(478600001)(36756003);
+ SFS:(4636009)(396003)(376002)(136003)(366004)(39860400002)(346002)(5660300002)(54906003)(2616005)(8936002)(34490700002)(1076003)(66476007)(66946007)(6666004)(83380400001)(956004)(4326008)(6512007)(6486002)(8676002)(75432002)(6506007)(26005)(6916009)(52116002)(2906002)(86362001)(186003)(16526019)(786003)(316002)(66556008)(478600001)(36756003)(41533002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: J1QDG/sm3j9KYqzTCJ2/u94xQOAwReLO7oouMWTDkGy0XYdOEdO3ip6aP1To+TCHrJJ+pDnWrdeK3pT6rU0Ez5HOTIiVyly8ZE6W9kavt1xuG6NmRRPM3uMppBt9Zb4sSDqUyCljtjgX8M+mT9nLc2BZ46vDl0A0rgf0V3FBcwdV/GyWGWe1W9UewpkDHMXU0HAFwv8zraLvNfVE7VwXntbij52Pr2l2p+EIszC/CZ+LOz/tN5RMPjekPZhnh2rRBGjmhDWb6KA+KJEvXf+0QAPQmIj4BEfebgJxEA50VojP72lHfbBIKB+MeFdmMlJxEMLCTqqAD/fks6ue8d1nmRr9JPdO5Evk52k4z4UrCwe8KODWXFUSaixr7Aqq+tQtt37i9b4QprwNlSsztC08Ulp1GBkeX8MeeL9qEmHJgJWlaKmxRoNjii7ATdt3zYFkx+eyReRgGdBudWGGw3W8cZ+5IvQAlNWseQg/W2dGk4YdIC3UKBACgm0mya8/r6uxwR7xAj+DjsHIZzlBIoFLCuTrIcjemzlu/SlLfwWVyFlsXYeJHg+CaQB4QNyFO9el544EgyaVwCzM89hbXUiv8wdbqoWIYk2fgFkVrZ9TlnEM9AH6jJoaoidlKL6qr57EKo5MOFJOKPlcfOrKeEvaUg==
+X-MS-Exchange-AntiSpam-MessageData: imSMLpG6alMQdIgZYlBLrRqnu9tyImSHAJR76F8HwMRA+ib/dtkzgYjeTAjYXIbhjz+Tuqp3J0jL5pXmONLStLJqP5KrvYqogpJbph+bWpY9nCXcPNCMAsnV4XMClNFDBLaan0gFULV/BPzyOrpQNJPISM2z7BjbSJfAmILe4lvJRvE2wYdGaz9Nu9OjlYUGffxhyRiokzRUD3ifvgyNBGpy26kN8ruCezrxuhHVGOpd0aquNMvtWj52AQsNCLi16uZkp3TtvWapqOWsSa9vaRXvGsdvlU7pXWUDTOMcawIerSXyBZz9YtdkPkKz0COh4stg9l6lDTy8lcsKgllS8jhbKHaB04frMg3wx5N15z9As6dDS/bBhFjkCkGMp3E7Z3LG3fjQnJKlDring3j/D0YLI/X70J7OfqzelQvFjySouh60HKkbc/WJ1t+TKb6YaHDMdNHW2lXc5wvQPaDngCyy757HGkTwkgiidBqF65Bks7LVNBgM0HOmHU63WhxcslkWzH1A4Uf912m3AXWbF0s1O+gcYKt/SdJY03A/KZkWRiLGnRpQ79ph5yqDuLELURjSTunMT7akcLqJ/qF/StnWHTz5rEqvz8CgtJOPDsZAgKxGdjFxaNa+j0bxsEpkKae72UlyJAb1ycu8sJhNqw==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ba7b55d-94d0-4e6f-edbd-08d87110140e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5def9273-3d4b-4732-a36a-08d8711014d5
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 13:41:54.5981 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 13:41:55.7604 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fxul7OtuPDyS6YN2sEGLGlyh8GKg0l3w/fBITpID1u1ZoGfKsL29ICpj7A8njjVm
+X-MS-Exchange-CrossTenant-UserPrincipalName: E0JsSgMKqmzLwm+SwCOthl8vc3U8K0mvYkoXgs9RkD7Q/i+vkMtYlSCm/J505lWS
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5465
-Received-SPF: pass client-ip=40.107.75.112; envelope-from=alxndr@bu.edu;
+Received-SPF: pass client-ip=40.107.75.103; envelope-from=alxndr@bu.edu;
  helo=NAM02-BL2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 09:42:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 09:42:14
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -8
 X-Spam_score: -0.9
@@ -120,158 +120,331 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch compares TYPE_PCI_DEVICE objects against the user-provided
-matching pattern. If there is a match, we use some hacks and leverage
-QOS to map each possible BAR for that device. Now fuzzed inputs might be
-converted to pci_read/write commands which target specific. This means
-that we can fuzz a particular device's PCI configuration space,
+When a virtual-device tries to access some buffer in memory over DMA, we
+add call-backs into the fuzzer(next commit). The fuzzer checks verifies
+that the DMA request maps to a physical RAM address and fills the memory
+with fuzzer-provided data. The patterns that we use to fill this memory
+are specified using add_dma_pattern and clear_dma_patterns operations.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- tests/qtest/fuzz/general_fuzz.c | 81 +++++++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
+ tests/qtest/fuzz/general_fuzz.c | 230 ++++++++++++++++++++++++++++++++
+ 1 file changed, 230 insertions(+)
 
 diff --git a/tests/qtest/fuzz/general_fuzz.c b/tests/qtest/fuzz/general_fuzz.c
-index c1c6dd3ba6..ef754843ed 100644
+index ef754843ed..0fd42a16da 100644
 --- a/tests/qtest/fuzz/general_fuzz.c
 +++ b/tests/qtest/fuzz/general_fuzz.c
-@@ -24,6 +24,7 @@
- #include "exec/ramblock.h"
+@@ -25,6 +25,7 @@
  #include "exec/address-spaces.h"
  #include "hw/qdev-core.h"
-+#include "hw/pci/pci.h"
+ #include "hw/pci/pci.h"
++#include "hw/boards.h"
  
  /*
   * SEPARATOR is used to separate "operations" in the fuzz input
-@@ -35,12 +36,17 @@ enum cmds {
-     OP_OUT,
-     OP_READ,
+@@ -38,12 +39,16 @@ enum cmds {
      OP_WRITE,
-+    OP_PCI_READ,
-+    OP_PCI_WRITE,
+     OP_PCI_READ,
+     OP_PCI_WRITE,
++    OP_ADD_DMA_PATTERN,
++    OP_CLEAR_DMA_PATTERNS,
      OP_CLOCK_STEP,
  };
  
  #define DEFAULT_TIMEOUT_US 100000
  #define USEC_IN_SEC 100000000
  
-+#define PCI_HOST_BRIDGE_CFG 0xcf8
-+#define PCI_HOST_BRIDGE_DATA 0xcfc
++#define MAX_DMA_FILL_SIZE 0x10000
 +
- typedef struct {
-     ram_addr_t addr;
-     ram_addr_t size; /* The number of bytes until the end of the I/O region */
-@@ -55,6 +61,7 @@ static bool qtest_log_enabled;
-  * user for fuzzing.
-  */
- static GHashTable *fuzzable_memoryregions;
-+static GPtrArray *fuzzable_pci_devices;
+ #define PCI_HOST_BRIDGE_CFG 0xcf8
+ #define PCI_HOST_BRIDGE_DATA 0xcfc
  
- struct get_io_cb_info {
-     int index;
-@@ -280,6 +287,65 @@ static void op_write(QTestState *s, const unsigned char * data, size_t len)
-         break;
-     }
+@@ -56,6 +61,24 @@ static useconds_t timeout = 100000;
+ 
+ static bool qtest_log_enabled;
+ 
++/*
++ * A pattern used to populate a DMA region or perform a memwrite. This is
++ * useful for e.g. populating tables of unique addresses.
++ * Example {.index = 1; .stride = 2; .len = 3; .data = "\x00\x01\x02"}
++ * Renders as: 00 01 02   00 03 02   00 05 02   00 07 02 ...
++ */
++typedef struct {
++    uint8_t index;      /* Index of a byte to increment by stride */
++    uint8_t stride;     /* Increment each index'th byte by this amount */
++    size_t len;
++    const uint8_t *data;
++} pattern;
++
++/* Avoid filling the same DMA region between MMIO/PIO commands ? */
++static bool avoid_double_fetches;
++
++static QTestState *qts_global; /* Need a global for the DMA callback */
++
+ /*
+  * List of memory regions that are children of QOM objects specified by the
+  * user for fuzzing.
+@@ -84,6 +107,169 @@ static int get_io_address_cb(ram_addr_t start, ram_addr_t size,
+     return 0;
  }
-+static void op_pci_read(QTestState *s, const unsigned char * data, size_t len)
+ 
++/*
++ * List of dma regions populated since the last fuzzing command. Used to ensure
++ * that we only write to each DMA address once, to avoid race conditions when
++ * building reproducers.
++ */
++static GArray *dma_regions;
++
++static GArray *dma_patterns;
++static int dma_pattern_index;
++
++void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write);
++
++/*
++ * Allocate a block of memory and populate it with a pattern.
++ */
++static void *pattern_alloc(pattern p, size_t len)
 +{
-+    enum Sizes {Byte, Word, Long, end_sizes};
-+    struct {
-+        uint8_t size;
-+        uint8_t base;
-+        uint8_t offset;
-+    } a;
-+    if (len < sizeof(a) || fuzzable_pci_devices->len == 0) {
-+        return;
++    int i;
++    uint8_t *buf = g_malloc(len);
++    uint8_t sum = 0;
++
++    for (i = 0; i < len; ++i) {
++        buf[i] = p.data[i % p.len];
++        if ((i % p.len) == p.index) {
++            buf[i] += sum;
++            sum += p.stride;
++        }
 +    }
-+    memcpy(&a, data, sizeof(a));
-+    PCIDevice *dev = g_ptr_array_index(fuzzable_pci_devices,
-+                                  a.base % fuzzable_pci_devices->len);
-+    int devfn = dev->devfn;
-+    qtest_outl(s, PCI_HOST_BRIDGE_CFG, (1U << 31) | (devfn << 8) | a.offset);
-+    switch (a.size %= end_sizes) {
-+    case Byte:
-+        qtest_inb(s, PCI_HOST_BRIDGE_DATA);
-+        break;
-+    case Word:
-+        qtest_inw(s, PCI_HOST_BRIDGE_DATA);
-+        break;
-+    case Long:
-+        qtest_inl(s, PCI_HOST_BRIDGE_DATA);
-+        break;
-+    }
++    return buf;
 +}
 +
-+static void op_pci_write(QTestState *s, const unsigned char * data, size_t len)
++static int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
 +{
-+    enum Sizes {Byte, Word, Long, end_sizes};
++    unsigned access_size_max = mr->ops->valid.max_access_size;
++
++    /* Regions are assumed to support 1-4 byte accesses unless
++       otherwise specified.  */
++    if (access_size_max == 0) {
++        access_size_max = 4;
++    }
++
++    /* Bound the maximum access by the alignment of the address.  */
++    if (!mr->ops->impl.unaligned) {
++        unsigned align_size_max = addr & -addr;
++        if (align_size_max != 0 && align_size_max < access_size_max) {
++            access_size_max = align_size_max;
++        }
++    }
++
++    /* Don't attempt accesses larger than the maximum.  */
++    if (l > access_size_max) {
++        l = access_size_max;
++    }
++    l = pow2floor(l);
++
++    return l;
++}
++
++/*
++ * Call-back for functions that perform DMA reads from guest memory. Confirm
++ * that the region has not already been populated since the last loop in
++ * general_fuzz(), avoiding potential race-conditions, which we don't have
++ * a good way for reproducing right now.
++ */
++void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write)
++{
++    /* Are we in the general-fuzzer or are we using another fuzz-target? */
++    if (!qts_global) {
++        return;
++    }
++
++    /*
++     * Return immediately if:
++     * - We have no DMA patterns defined
++     * - The length of the DMA read request is zero
++     * - The DMA read is hitting an MR other than the machine's main RAM
++     * - The DMA request is not a read (what happens for a address_space_map
++     *   with is_write=True? Can the device use the same pointer to do reads?)
++     * - The DMA request hits past the bounds of our RAM
++     */
++    if (dma_patterns->len == 0
++        || len == 0
++        || mr != MACHINE(qdev_get_machine())->ram
++        || is_write
++        || addr > current_machine->ram_size) {
++        return;
++    }
++
++    /*
++     * If we overlap with any existing dma_regions, split the range and only
++     * populate the non-overlapping parts.
++     */
++    address_range region;
++    bool double_fetch = false;
++    for (int i = 0;
++         i < dma_regions->len && (avoid_double_fetches || qtest_log_enabled);
++         ++i) {
++        region = g_array_index(dma_regions, address_range, i);
++        if (addr < region.addr + region.size && addr + len > region.addr) {
++            double_fetch = true;
++            if (addr < region.addr
++                && avoid_double_fetches) {
++                fuzz_dma_read_cb(addr, region.addr - addr, mr, is_write);
++            }
++            if (addr + len > region.addr + region.size
++                && avoid_double_fetches) {
++                fuzz_dma_read_cb(region.addr + region.size,
++                        addr + len - (region.addr + region.size), mr, is_write);
++            }
++            return;
++        }
++    }
++
++    /* Cap the length of the DMA access to something reasonable */
++    len = MIN(len, MAX_DMA_FILL_SIZE);
++
++    address_range ar = {addr, len};
++    g_array_append_val(dma_regions, ar);
++    pattern p = g_array_index(dma_patterns, pattern, dma_pattern_index);
++    void *buf = pattern_alloc(p, ar.size);
++    hwaddr l, addr1;
++    MemoryRegion *mr1;
++    uint8_t *ram_ptr;
++    while (len > 0) {
++        l = len;
++        mr1 = address_space_translate(first_cpu->as,
++                                      addr, &addr1, &l, true,
++                                      MEMTXATTRS_UNSPECIFIED);
++
++        if (!(memory_region_is_ram(mr1) ||
++              memory_region_is_romd(mr1))) {
++            l = memory_access_size(mr1, l, addr1);
++        } else {
++            /* ROM/RAM case */
++            ram_ptr = qemu_map_ram_ptr(mr1->ram_block, addr1);
++            memcpy(ram_ptr, buf, l);
++            break;
++        }
++        len -= l;
++        buf += l;
++        addr += l;
++
++    }
++    if (qtest_log_enabled) {
++        /*
++         * With QTEST_LOG, use a normal, slow QTest memwrite. Prefix the log
++         * that will be written by qtest.c with a DMA tag, so we can reorder
++         * the resulting QTest trace so the DMA fills precede the last PIO/MMIO
++         * command.
++         */
++        fprintf(stderr, "[DMA] ");
++        if (double_fetch) {
++            fprintf(stderr, "[DOUBLE-FETCH] ");
++        }
++        fflush(stderr);
++        qtest_memwrite(qts_global, ar.addr, buf, ar.size);
++    }
++    g_free(buf);
++
++    /* Increment the index of the pattern for the next DMA access */
++    dma_pattern_index = (dma_pattern_index + 1) % dma_patterns->len;
++}
++
+ /*
+  * Here we want to convert a fuzzer-provided [io-region-index, offset] to
+  * a physical address. To do this, we iterate over all of the matched
+@@ -346,6 +532,35 @@ static void op_pci_write(QTestState *s, const unsigned char * data, size_t len)
+     }
+ }
+ 
++static void op_add_dma_pattern(QTestState *s,
++                               const unsigned char *data, size_t len)
++{
 +    struct {
-+        uint8_t size;
-+        uint8_t base;
-+        uint8_t offset;
-+        uint32_t value;
++        /*
++         * index and stride can be used to increment the index-th byte of the
++         * pattern by the value stride, for each loop of the pattern.
++         */
++        uint8_t index;
++        uint8_t stride;
 +    } a;
-+    if (len < sizeof(a) || fuzzable_pci_devices->len == 0) {
++
++    if (len < sizeof(a) + 1) {
 +        return;
 +    }
 +    memcpy(&a, data, sizeof(a));
-+    PCIDevice *dev = g_ptr_array_index(fuzzable_pci_devices,
-+                                  a.base % fuzzable_pci_devices->len);
-+    int devfn = dev->devfn;
-+    qtest_outl(s, PCI_HOST_BRIDGE_CFG, (1U << 31) | (devfn << 8) | a.offset);
-+    switch (a.size %= end_sizes) {
-+    case Byte:
-+        qtest_outb(s, PCI_HOST_BRIDGE_DATA, a.value & 0xFF);
-+        break;
-+    case Word:
-+        qtest_outw(s, PCI_HOST_BRIDGE_DATA, a.value & 0xFFFF);
-+        break;
-+    case Long:
-+        qtest_outl(s, PCI_HOST_BRIDGE_DATA, a.value & 0xFFFFFFFF);
-+        break;
-+    }
++    pattern p = {a.index, a.stride, len - sizeof(a), data + sizeof(a)};
++    p.index = a.index % p.len;
++    g_array_append_val(dma_patterns, p);
++    return;
++}
++
++static void op_clear_dma_patterns(QTestState *s,
++                                  const unsigned char *data, size_t len)
++{
++    g_array_set_size(dma_patterns, 0);
++    dma_pattern_index = 0;
 +}
 +
  static void op_clock_step(QTestState *s, const unsigned char *data, size_t len)
  {
      qtest_clock_step_next(s);
-@@ -337,6 +403,8 @@ static void general_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-         [OP_OUT]                = op_out,
-         [OP_READ]               = op_read,
+@@ -405,6 +620,8 @@ static void general_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
          [OP_WRITE]              = op_write,
-+        [OP_PCI_READ]           = op_pci_read,
-+        [OP_PCI_WRITE]          = op_pci_write,
+         [OP_PCI_READ]           = op_pci_read,
+         [OP_PCI_WRITE]          = op_pci_write,
++        [OP_ADD_DMA_PATTERN]    = op_add_dma_pattern,
++        [OP_CLEAR_DMA_PATTERNS] = op_clear_dma_patterns,
          [OP_CLOCK_STEP]         = op_clock_step,
      };
      const unsigned char *cmd = Data;
-@@ -427,6 +495,18 @@ static int locate_fuzz_objects(Object *child, void *opaque)
-         /* Find and save ptrs to any child MemoryRegions */
-         object_child_foreach_recursive(child, locate_fuzz_memory_regions, NULL);
+@@ -434,6 +651,8 @@ static void general_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+             setitimer(ITIMER_VIRTUAL, &timer, NULL);
+         }
  
-+        /*
-+         * We matched an object. If its a PCI device, store a pointer to it so
-+         * we can map BARs and fuzz its config space.
-+         */
-+        if (object_dynamic_cast(OBJECT(child), TYPE_PCI_DEVICE)) {
-+            /*
-+             * Don't want duplicate pointers to the same PCIDevice, so remove
-+             * copies of the pointer, before adding it.
-+             */
-+            g_ptr_array_remove_fast(fuzzable_pci_devices, PCI_DEVICE(child));
-+            g_ptr_array_add(fuzzable_pci_devices, PCI_DEVICE(child));
-+        }
-     } else if (object_dynamic_cast(OBJECT(child), TYPE_MEMORY_REGION)) {
-         if (g_pattern_match_simple(pattern,
-             object_get_canonical_path_component(child))) {
-@@ -459,6 +539,7 @@ static void general_pre_fuzz(QTestState *s)
++        op_clear_dma_patterns(s, NULL, 0);
++
+         while (cmd && Size) {
+             /* Get the length until the next command or end of input */
+             nextcmd = memmem(cmd, Size, SEPARATOR, strlen(SEPARATOR));
+@@ -450,6 +669,7 @@ static void general_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+             /* Advance to the next command */
+             cmd = nextcmd ? nextcmd + sizeof(SEPARATOR) - 1 : nextcmd;
+             Size = Size - (cmd_len + sizeof(SEPARATOR) - 1);
++            g_array_set_size(dma_regions, 0);
+         }
+         _Exit(0);
+     } else {
+@@ -464,6 +684,9 @@ static void usage(void)
+     printf("QEMU_FUZZ_ARGS= the command line arguments passed to qemu\n");
+     printf("QEMU_FUZZ_OBJECTS= "
+             "a space separated list of QOM type names for objects to fuzz\n");
++    printf("Optionally: QEMU_AVOID_DOUBLE_FETCH= "
++            "Try to avoid racy DMA double fetch bugs? %d by default\n",
++            avoid_double_fetches);
+     printf("Optionally: QEMU_FUZZ_TIMEOUT= Specify a custom timeout (us). "
+             "0 to disable. %d by default\n", timeout);
+     exit(0);
+@@ -534,9 +757,16 @@ static void general_pre_fuzz(QTestState *s)
+     if (getenv("QTEST_LOG")) {
+         qtest_log_enabled = 1;
      }
++    if (getenv("QEMU_AVOID_DOUBLE_FETCH")) {
++        avoid_double_fetches = 1;
++    }
+     if (getenv("QEMU_FUZZ_TIMEOUT")) {
+         timeout = g_ascii_strtoll(getenv("QEMU_FUZZ_TIMEOUT"), NULL, 0);
+     }
++    qts_global = s;
++
++    dma_regions = g_array_new(false, false, sizeof(address_range));
++    dma_patterns = g_array_new(false, false, sizeof(pattern));
  
      fuzzable_memoryregions = g_hash_table_new(NULL, NULL);
-+    fuzzable_pci_devices   = g_ptr_array_new();
- 
-     result = g_strsplit(getenv("QEMU_FUZZ_OBJECTS"), " ", -1);
-     for (int i = 0; result[i] != NULL; i++) {
+     fuzzable_pci_devices   = g_ptr_array_new();
 -- 
 2.28.0
 
