@@ -2,58 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B73C28F890
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 20:29:09 +0200 (CEST)
-Received: from localhost ([::1]:44426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF2828F8B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 20:36:34 +0200 (CEST)
+Received: from localhost ([::1]:33604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT7zw-0003SW-4l
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 14:29:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35376)
+	id 1kT877-0002zG-IP
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 14:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kT7lm-0002Jw-SP
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:14:31 -0400
-Received: from mga01.intel.com ([192.55.52.88]:40428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kT7lg-0003MU-CD
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 14:14:29 -0400
-IronPort-SDR: mWKAJIUFK4bU1gtVibTAEeH2ldOJf3j5Nus20eUbCd9nF/6ZhJDvdB7hBBJLXbs30iybOAoTi/
- A+FGoLsaY27A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="183973981"
-X-IronPort-AV: E=Sophos;i="5.77,379,1596524400"; d="scan'208";a="183973981"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 11:14:17 -0700
-IronPort-SDR: lON+zjDK8JPfKrghzIU6Eit2RNmzNWo4QxC1wgG1p0i69aiS7wExMdq2RKQRR53ng88hVbBJ1Y
- pUW8RgTuiNRA==
-X-IronPort-AV: E=Sophos;i="5.77,379,1596524400"; d="scan'208";a="300351665"
-Received: from skzaman-mobl.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
- ([10.252.132.166])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 11:14:16 -0700
-From: Ben Widawsky <ben.widawsky@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] pci: Disallow improper BAR registration for type 1
-Date: Thu, 15 Oct 2020 11:14:11 -0700
-Message-Id: <20201015181411.89104-2-ben.widawsky@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201015181411.89104-1-ben.widawsky@intel.com>
-References: <20201015181411.89104-1-ben.widawsky@intel.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kT7ni-0003e5-2u; Thu, 15 Oct 2020 14:16:30 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54849)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kT7ng-0003fE-7T; Thu, 15 Oct 2020 14:16:29 -0400
+Received: by mail-wm1-x342.google.com with SMTP id p15so77272wmi.4;
+ Thu, 15 Oct 2020 11:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yqQR97izdfxu1MtO/d3QJBJlyzmjifyUoAYszApGct4=;
+ b=E04ckrM9iy0XRNxQe+ArtpR2J0ZjhIGYQf+c1+aPE044xGjNPs1EwWDTvGHT/3pN9b
+ ugM8ezDJmOXC6jAMJcqrrQFp42vOB+/ywvJ/FY+q87KtcWD1Pu7A9Gyv9vn1RXwmqWrg
+ Yy7zoRLEpWxyezlBAgDNBR3I18HJOFRcjlGoAVQ3sntXJGqMJSrHeS+8hUipdfKuDl8B
+ QxPeNGVGrE5WkUJaElejupf2qTGd+BVHPzZGLHXhkA+Pd6Qu/I94CuoxsK0QcsSz8J1A
+ PUtPdIbXGUKgzPSR53/GFoEo5mKW+W8Ss8dRgWOnl/mzR+DZwq7eEB3oXFDzN53XPuHr
+ PHKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yqQR97izdfxu1MtO/d3QJBJlyzmjifyUoAYszApGct4=;
+ b=F2iY3fh//qU9MjleiSWK4YcXi4zN0/6tS3puJoVpHSNqe6UJ4TSNo3fj5eznto+4vi
+ 8JfOVojP3q8Wbxy11MDoDE9CbRZbXnuZXc7jv4mq6UNPHbLgIdAb+ZXOHhNZTxY98hoB
+ 3XmJmqDnEwltKjQutVBRCJrAoLiO+0oz13Ed60WvWxYkfuC58u2ukuItvlcbfP/UjqEh
+ +HMvnDtpMrLulyopG6sTC6CEOqQoKBvij5/A7muxEmTQBnBjsUAvt4KhKgP2CdhJqv3Q
+ p81EOuZMw8bsqOszHOOGYZh2kIFAMDMV+Q2U8HXrAG/uM0XnA9KPpf2qbFxYtnxkiI5w
+ EsDA==
+X-Gm-Message-State: AOAM53085EtoOgIsNAsv+QlLRWvrVyw+MOWnlRCJZPOatC0JYAJrX4By
+ haw3UvuJtE3eggyNeUooNso=
+X-Google-Smtp-Source: ABdhPJxE4XcNmzkpx43Tj4vTG8W34UFVRt9xk9MP2zgyZf9o/dCEse8Hl4bXPc+ASQVNbrdbDvtuNg==
+X-Received: by 2002:a1c:4e05:: with SMTP id g5mr78945wmh.162.1602785786188;
+ Thu, 15 Oct 2020 11:16:26 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id q9sm77297wrd.57.2020.10.15.11.16.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Oct 2020 11:16:25 -0700 (PDT)
+Subject: Re: [PATCH] ssi: Display chip select polarity in monitor 'info qtree'
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+References: <20200927091946.65491-1-f4bug@amsat.org>
+ <290a4128-dd09-7f05-1f2d-0a0f607de28b@amsat.org>
+Message-ID: <d3c12ed9-9a7c-ff67-e8fa-c290ff396726@amsat.org>
+Date: Thu, 15 Oct 2020 20:16:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <290a4128-dd09-7f05-1f2d-0a0f607de28b@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=ben.widawsky@intel.com;
- helo=mga01.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 14:14:17
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-1.019,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,47 +89,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ben Widawsky <ben.widawsky@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prevent future developers working on root complexes, root ports, or
-bridges that also wish to implement a BAR for those, from shooting
-themselves in the foot. PCI type 1 headers only support 2 base address
-registers. It is incorrect and difficult to figure out what is wrong
-with the device when this mistake is made. With this, it is immediate
-and obvious what has gone wrong.
+Cc'ing Markus for "Monitor" tree.
 
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
----
- hw/pci/pci.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 2c7d6dd352..14fce10132 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1141,11 +1141,17 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
-     uint32_t addr; /* offset in pci config space */
-     uint64_t wmask;
-     pcibus_t size = memory_region_size(memory);
-+    uint8_t hdr_type;
- 
-     assert(region_num >= 0);
-     assert(region_num < PCI_NUM_REGIONS);
-     assert(is_power_of_2(size));
- 
-+    /* A PCI bridge device (with Type 1 header) may only have at most 2 BARs */
-+    hdr_type =
-+        pci_dev->config[PCI_HEADER_TYPE] & ~PCI_HEADER_TYPE_MULTI_FUNCTION;
-+    assert(hdr_type != PCI_HEADER_TYPE_BRIDGE || region_num < 2);
-+
-     r = &pci_dev->io_regions[region_num];
-     r->addr = PCI_BAR_UNMAPPED;
-     r->size = size;
--- 
-2.28.0
-
+On 10/5/20 9:44 AM, Philippe Mathieu-Daudé wrote:
+> Hi Peter,
+> 
+> Can you take this patch via your qemu-arm tree please?
+> (most of SPI boards are ARM based)
+> 
+> On 9/27/20 11:19 AM, Philippe Mathieu-Daudé wrote:
+>> It is sometime useful to verify a device chip select polarity
+>> on a SPI bus. Since we have this information available, display
+>> it in the 'info qtree' monitor output:
+>>
+>>    $ qemu-system-arm -M lm3s6965evb -monitor stdio -S
+>>    (qemu) info qtree
+>>    [...]
+>>    dev: pl022, id ""
+>>      gpio-out "sysbus-irq" 1
+>>      mmio 0000000040008000/0000000000001000
+>>      bus: ssi
+>>        type SSI
+>>        dev: ssd0323, id ""
+>>          gpio-in "" 1
+>>          gpio-in "ssi-gpio-cs" 1
+>>          chip select polarity: high           <---
+>>        dev: ssi-sd, id ""
+>>          gpio-in "ssi-gpio-cs" 1
+>>          chip select polarity: low            <---
+>>          bus: sd-bus
+>>            type sd-bus
+>>            dev: sd-card, id ""
+>>              spec_version = 2 (0x2)
+>>              drive = "sd0"
+>>              spi = true
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/ssi/ssi.c | 22 ++++++++++++++++++++++
+>>   1 file changed, 22 insertions(+)
+>>
+>> diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
+>> index 4278d0e4440..4c9f8d66d23 100644
+>> --- a/hw/ssi/ssi.c
+>> +++ b/hw/ssi/ssi.c
+>> @@ -17,6 +17,7 @@
+>>   #include "migration/vmstate.h"
+>>   #include "qemu/module.h"
+>>   #include "qapi/error.h"
+>> +#include "monitor/monitor.h"
+>>   #include "qom/object.h"
+>>   
+>>   struct SSIBus {
+>> @@ -26,10 +27,31 @@ struct SSIBus {
+>>   #define TYPE_SSI_BUS "SSI"
+>>   OBJECT_DECLARE_SIMPLE_TYPE(SSIBus, SSI_BUS)
+>>   
+>> +static void ssi_print_dev(Monitor *mon, DeviceState *dev, int indent)
+>> +{
+>> +    static const char *const polarity_s[] = {
+>> +        [SSI_CS_NONE] = "unknown",
+>> +        [SSI_CS_LOW]  = "low",
+>> +        [SSI_CS_HIGH] = "high"
+>> +    };
+>> +    SSISlaveClass *ssc = SSI_SLAVE_GET_CLASS(dev);
+>> +
+>> +    monitor_printf(mon, "%*schip select polarity: %s\n",
+>> +                   indent, "", polarity_s[ssc->cs_polarity]);
+>> +}
+>> +
+>> +static void ssi_bus_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    BusClass *k = BUS_CLASS(klass);
+>> +
+>> +    k->print_dev = ssi_print_dev;
+>> +}
+>> +
+>>   static const TypeInfo ssi_bus_info = {
+>>       .name = TYPE_SSI_BUS,
+>>       .parent = TYPE_BUS,
+>>       .instance_size = sizeof(SSIBus),
+>> +    .class_init = ssi_bus_class_init,
+>>   };
+>>   
+>>   static void ssi_cs_default(void *opaque, int n, int level)
+>>
+> 
 
