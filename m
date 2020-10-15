@@ -2,91 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31C628F0AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 13:08:37 +0200 (CEST)
-Received: from localhost ([::1]:40822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A8F28F0D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 13:17:43 +0200 (CEST)
+Received: from localhost ([::1]:49760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT17c-0000MB-Qk
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 07:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40834)
+	id 1kT1GQ-0004gv-Dk
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 07:17:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT164-0008CF-Nf
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:07:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58889)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT18f-0001CC-SQ
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:09:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT161-0005GI-Md
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:06:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kT18b-0005Ye-KF
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 07:09:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602760017;
+ s=mimecast20190719; t=1602760175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WxCGUkaUvxz3tEFWXzQIa6mdAQonjiYg2m+ZHYCN8LI=;
- b=V6711OUMAcDRN9ibA9I9+aBHzVGQNsZxdAg9273BnwhlbsdtPL2i9USvExE4K2VFG0Au8v
- 48sZDOsDjgkPxiUFmxHp9ts9KDtgDVoEU/TP/7UlATaQsxFQH9RO+BaKm2by2ImxXR52pC
- O8AeMORUoYxbTi5YxPhgJmQjU03A7Xg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-aNIuKSvfNVq4VLo0rbga3A-1; Thu, 15 Oct 2020 07:06:55 -0400
-X-MC-Unique: aNIuKSvfNVq4VLo0rbga3A-1
-Received: by mail-wr1-f70.google.com with SMTP id j15so1639381wrd.16
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 04:06:55 -0700 (PDT)
+ bh=kWdD/fy1kJlA/xHpjqMh0Qz8/90w6OVAkY6x3PSbdGA=;
+ b=YgyLSzUTx6spijLUo4cX+GQJ2TKrhLOF0P+Apwdu9+JDCbjtvbh6EjAx9OIz7zXNovrltq
+ isCCCzmChM58xdz8YXDQyqIt1zWbDLI/Dl7D3RffaFPCZK2Xo1MHyGWhrVB/KYLcvpotid
+ YF8nau+5L/6Vn5GHyQJN383pEAQc8W8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-yZpUNMpaOmywoELKvbwIgg-1; Thu, 15 Oct 2020 07:09:31 -0400
+X-MC-Unique: yZpUNMpaOmywoELKvbwIgg-1
+Received: by mail-wm1-f72.google.com with SMTP id p17so1572699wmi.7
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 04:09:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WxCGUkaUvxz3tEFWXzQIa6mdAQonjiYg2m+ZHYCN8LI=;
- b=HrrWok6kp8xbsMg6/2OR28ftDTlFt/rmbMMdn3Tgfsr1MVKVQSYjSsbJoHBvuYJ/Vr
- CpwldicBb3H0Wp6LHPsMnMbmMY/NUboLMONIFn4XqRNfyBkmv4orAIMEhypco8EF3OQA
- G0wFiTf7iE3gC7vIwVsh2EYmActSydHh+KGKpx+09O8GM7J2I5l4jDJ96swDO5pESbno
- oPMeNYXMPBVd2hmFG7cIGBqXbKjgsmQlSp8HrWX2Pd1vOwh4yGj6dseXJa9lpGGQJwNS
- WeXblsoIrbPiqZZoo1LZtDE40vnU4YYHV4KdWHCvoROfikScbfU86sJ/I/YdxU5B9IDl
- qMnQ==
-X-Gm-Message-State: AOAM533u7kNf53iDxw7YnDZ0N5HIqxp7DaKdYkY8mPJ5tHIbSZAyX4e9
- 8zmhnhzBc6c8N8xp+Dn+kt5/Tgrd8Yhops/nN07EL0zIFgpkzpupPCRZMTfgE52yNcL40xlYXe/
- icnWdiwiNYNtXtfc=
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr3602291wmi.66.1602760014236; 
- Thu, 15 Oct 2020 04:06:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw51lKnIw40/ctieZ1uEWu160zVg1pzgu0T7XmD7UnHLXwlY68AgFo9wnJAQxS8sVJVBSgI/w==
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr3602262wmi.66.1602760014027; 
- Thu, 15 Oct 2020 04:06:54 -0700 (PDT)
+ bh=kWdD/fy1kJlA/xHpjqMh0Qz8/90w6OVAkY6x3PSbdGA=;
+ b=JoVDinQW7y27meFzY1jYv4S/OAQSNxz7Kjwyjtavgpy4X3q7U9JarcoXPWturwlUkk
+ qqa+Qdn6E6GfSUoHF30HAA/0HK9vKjl/MlgtBDZh7QNLrJBJrVKRD+mj4LXX48QQfNO0
+ kZvHSHyXmYHphRP7pmn7lvyeBdyTzvfMg7ORKJ9IhiAT3WrSr1iPZrVIrnLedxbRU0Ed
+ 25hSzjcE1FjsWNhaFrICO4vVy1U5p8ZXhawmBdxjwcKoPnyPZLWHhQ8z8TVHcfqboUK1
+ Tl8LpV/WSChCSM+WXCFJMax49u6tQyKq/ByPo7NLfdCvtW1TXMkT0Ry6RBZTtzPNxbBA
+ X80g==
+X-Gm-Message-State: AOAM532J/uhlvwZgH7GvywgXRyIPJl8Ag+/1WRcKMnyL8E2o61HkPWrN
+ gf28TjFaMz1CLiO0SQ6V2+TwYDB6A2EshAzEC4xBcTg7hmvLI4tFwATKkuD+C9RMJysnfkYuJKu
+ e7fyd92rw+Um3WF0=
+X-Received: by 2002:a05:6000:10c6:: with SMTP id
+ b6mr3837012wrx.10.1602760170439; 
+ Thu, 15 Oct 2020 04:09:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxz4HkHLD5/EJIJ02Rg8KZA8QjhWpGkRnP8HOJjyE8nnbmf+qDeNRxqX9lrS/63fi9vDDAcA==
+X-Received: by 2002:a05:6000:10c6:: with SMTP id
+ b6mr3836984wrx.10.1602760170145; 
+ Thu, 15 Oct 2020 04:09:30 -0700 (PDT)
 Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
  [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id c130sm3906478wma.17.2020.10.15.04.06.52
+ by smtp.gmail.com with ESMTPSA id t5sm4377253wrb.21.2020.10.15.04.09.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Oct 2020 04:06:53 -0700 (PDT)
-Subject: Re: [PATCH 02/10] Optimize seq_sorter function for colo-compare
+ Thu, 15 Oct 2020 04:09:29 -0700 (PDT)
+Subject: Re: [PATCH 05/10] colo-compare: fix missing compare_seq initialization
 To: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
  qemu-dev <qemu-devel@nongnu.org>
 References: <20201014072555.12515-1-chen.zhang@intel.com>
- <20201014072555.12515-3-chen.zhang@intel.com>
+ <20201014072555.12515-6-chen.zhang@intel.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <dac21b2c-ee3f-fd12-9cec-9f7c03b5e6d8@redhat.com>
-Date: Thu, 15 Oct 2020 13:06:52 +0200
+Message-ID: <1591a864-b038-6366-b5db-cef9fce36d34@redhat.com>
+Date: Thu, 15 Oct 2020 13:09:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201014072555.12515-3-chen.zhang@intel.com>
+In-Reply-To: <20201014072555.12515-6-chen.zhang@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:38:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 02:10:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.019, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-1.019, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,49 +103,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Rao, Lei" <lei.rao@intel.com>, Zhang Chen <zhangckid@gmail.com>
+Cc: Li Zhijian <lizhijian@cn.fujitsu.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/14/20 9:25 AM, Zhang Chen wrote:
-> From: "Rao, Lei" <lei.rao@intel.com>
+> From: Li Zhijian <lizhijian@cn.fujitsu.com>
 > 
-> The seq of tcp has been filled in fill_pkt_tcp_info, it
-> can be used directly here.
-> 
-> Signed-off-by: leirao <lei.rao@intel.com>
 
-"Signed-off-by: Lei Rao <lei.rao@intel.com>"?
+Please include:
 
+Fixes: f449c9e549c ("colo: compare the packet based on the tcp sequence 
+number")
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> Reviewed-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 > Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 > ---
->   net/colo-compare.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
+>   net/colo.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> diff --git a/net/colo-compare.c b/net/colo-compare.c
-> index 3a45d64175..86980cef5e 100644
-> --- a/net/colo-compare.c
-> +++ b/net/colo-compare.c
-> @@ -196,11 +196,7 @@ static void colo_compare_inconsistency_notify(CompareState *s)
+> diff --git a/net/colo.c b/net/colo.c
+> index a6c66d829a..ef00609848 100644
+> --- a/net/colo.c
+> +++ b/net/colo.c
+> @@ -133,14 +133,11 @@ void reverse_connection_key(ConnectionKey *key)
 >   
-
-Maybe add a comment /* Use restricted to colo_insert_packet() */
-
-Because if someone use it elsewhere it will now be buggy.
-
->   static gint seq_sorter(Packet *a, Packet *b, gpointer data)
+>   Connection *connection_new(ConnectionKey *key)
 >   {
-> -    struct tcp_hdr *atcp, *btcp;
-> -
-> -    atcp = (struct tcp_hdr *)(a->transport_header);
-> -    btcp = (struct tcp_hdr *)(b->transport_header);
-> -    return ntohl(atcp->th_seq) - ntohl(btcp->th_seq);
-> +    return a->tcp_seq - b->tcp_seq;
->   }
+> -    Connection *conn = g_slice_new(Connection);
+> +    Connection *conn = g_slice_new0(Connection);
 >   
->   static void fill_pkt_tcp_info(void *data, uint32_t *max_ack)
+>       conn->ip_proto = key->ip_proto;
+>       conn->processing = false;
+> -    conn->offset = 0;
+>       conn->tcp_state = TCPS_CLOSED;
+> -    conn->pack = 0;
+> -    conn->sack = 0;
+>       g_queue_init(&conn->primary_list);
+>       g_queue_init(&conn->secondary_list);
+>   
 > 
 
 
