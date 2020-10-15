@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF2A28F5B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 17:20:46 +0200 (CEST)
-Received: from localhost ([::1]:33188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8AC28F5B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 17:20:47 +0200 (CEST)
+Received: from localhost ([::1]:33372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT53c-00053x-QB
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 11:20:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49214)
+	id 1kT53e-00058V-GU
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 11:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kT51X-0003fL-BM
+ id 1kT51X-0003fS-NY
  for qemu-devel@nongnu.org; Thu, 15 Oct 2020 11:18:35 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52946)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kT51V-0005ah-83
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 11:18:34 -0400
-Received: by mail-wm1-x344.google.com with SMTP id e23so3575287wme.2
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 08:18:32 -0700 (PDT)
+ id 1kT51V-0005ar-Uz
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 11:18:35 -0400
+Received: by mail-wm1-x341.google.com with SMTP id e23so3575331wme.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 08:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=X9vM5kU6Ra6+9oN0rFJRbPpOaRk8QiTX4VZaKBm9IHI=;
- b=UODIvnGOvaYcaQ36G9J5pJglDTAUK0wjxvNFH5Shw55EJ2k+2gALvZwZMjpa6zv5cu
- qHxWuIpHylPcN8n0bMReoL1tLvp8cZLnKS3+urnbkdcVOxeflMOJ6+9tHC9jz4IggmOg
- JQ7BYuQz9ZM2o1uOa3sppETYriKVzDrzBUHQb/x1IvFEr6qgK8cYAIU8vIvjYo0c676b
- qUy4C7Bgk8lWrdsdIoxqf5cenqjDJNRa1D0GdcA6jZuizsqiRmlNmsi6a+b6v5yScVbU
- ajG/trJMriqLOR6YeRBtY3c4EfS+Fxblayv7IHNewlK1Gtqxuvchaw0OKNdGRBNSNLp/
- Fc2Q==
+ bh=FR7Wjpqj5kmgPjv/umwo7PltWhBgeKSR7fRK4Hm0S9U=;
+ b=BT6loDg8Kda+NBz2j6LCpStQspp7cEKxn0IID108HCFrJxtEWCG93dd7K9BCnwBOtu
+ /gFTiVMkYUsxiXzHFTwTrgDjMB0ncOdsYT/kFLutPxqTi6D1NFiQRzXugHEkfiAUK18/
+ L6txIQew8AnuO7aixD39UWxFRgdNMnUgy7OLPmzHOXPbiiFHyXYq3I+Sst3sLwe/gVFK
+ f/Hca7ZcaYdvlGPBPkO6px+MIsiN4yPQClhSKhNqr/ATsZHVCZaDnxfDWzdZv9vaggvF
+ vCJD0KRWk0bLxz/ROzN7Npg/Kw9zjqavZRsvaURURa1upaCQfGqcFZMpTgj2X5lrJVWn
+ Oa7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X9vM5kU6Ra6+9oN0rFJRbPpOaRk8QiTX4VZaKBm9IHI=;
- b=slP9P1dO3XgbCIDE1VpHwFbM97xp5ysiL5tWeXPzRxahdpA8IzkUFsnD+yycUtt0Ll
- 8FCKwx0ibz3PBLjROyT67ZQXl7Z/gJP3MzJlV0HehjV2/q6nLNA2MGSMeumGcQaOBpdo
- /BzOdcpxNZxYbRf353ObvN3LVNn4i8EsxJuIres3hTo9/TOyRfsP7evF7zo+fTCjb5Mm
- pEBVOtLvEPdbpG2IUpAyAO4PRWce4BWbKcbmL8sfiMR3E+HVk7ktRDR/QUfYVL/OMim8
- StY0va592VRU3dDlKh6psj8BW+F4wBAsuIucxtAhWBeUDtlwIIWTCHyV9xuCXKtVsmL8
- CDvA==
-X-Gm-Message-State: AOAM5310s7vrmStG0Z9mytPyqLOplngmXUp5mHfLfp3mYADQxpqBEOr+
- I2vAQwYEY4BE7+2gTG/NUQMQByi+brtgT9sE
-X-Google-Smtp-Source: ABdhPJyXiVtNXAyFNaqHHAtNFMMaC9DNnUn9Wwav0pxQgnzx1nSayg2MTnL/VEec0yIxKVBm95Vjcg==
-X-Received: by 2002:a1c:4c03:: with SMTP id z3mr4461153wmf.24.1602775111426;
- Thu, 15 Oct 2020 08:18:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FR7Wjpqj5kmgPjv/umwo7PltWhBgeKSR7fRK4Hm0S9U=;
+ b=i/ozY92P2HKCzHmOPtUKq8vn9ypk2gNeiEilLYqjovbNgU1CmnrKdd6ogMjz4mDT+e
+ IgRvbAf9lKWuT8mtFPq+Ix/8eThadZQC34Gp1Qln7xhQS7sABrsN2b43DFLO1v0g38LI
+ kYPZaZ7VcLXElcIW66XHonS2yKkWuFUHrDPeAjAzjr43dQgnGV0RWvrC967FKDiM8Enc
+ jSfWB/S8pJY9/r334XLwexG9li/3JAGzmGK1Gsa5CL9SK89xLnkHkMKmVxJiMUr0rWxJ
+ /Kkcgtftib7Mi68T516QK1aiC401KoRwv7dDC96qGm71lxozrwvEByNmXe8eho0y4h4z
+ fEOQ==
+X-Gm-Message-State: AOAM530Ksti2sFuZ2DVUGOWP0X0Mbql2qsi+HBLymuDQs6cySqb8Oge0
+ hb+xoMXDAk8waINqHm7GwbBEYDVLxV7u/mUJ
+X-Google-Smtp-Source: ABdhPJysuXcx0AYHklxvyPbuhViySWqmcoRKE7dIRlXUthuIsaPx8XzDMGrKiAhICLvzwQXPf8S5Og==
+X-Received: by 2002:a1c:b7c6:: with SMTP id h189mr4891224wmf.154.1602775112597; 
+ Thu, 15 Oct 2020 08:18:32 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j13sm5193286wru.86.2020.10.15.08.18.30
+ by smtp.gmail.com with ESMTPSA id j13sm5193286wru.86.2020.10.15.08.18.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Oct 2020 08:18:30 -0700 (PDT)
+ Thu, 15 Oct 2020 08:18:31 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] armv7m_systick: Rewrite to use ptimers
-Date: Thu, 15 Oct 2020 16:18:27 +0100
-Message-Id: <20201015151829.14656-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] hw/core/ptimer: Support ptimer being disabled by timer
+ callback
+Date: Thu, 15 Oct 2020 16:18:28 +0100
+Message-Id: <20201015151829.14656-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201015151829.14656-1-peter.maydell@linaro.org>
+References: <20201015151829.14656-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,68 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series rewrites our implementation of the armv7m systick
-timer to use ptimers.
+In ptimer_reload(), we call the callback function provided by the
+timer device that is using the ptimer.  This callback might disable
+the ptimer.  The code mostly handles this correctly, except that
+we'll still print the warning about "Timer with delta zero,
+disabling" if the now-disabled timer happened to be set such that it
+would fire again immediately if it were enabled (eg because the
+limit/reload value is zero).
 
-The armv7m systick timer is a 24-bit decrementing, wrap-on-zero,
-clear-on-write counter.  Our current implementation has various bugs
-and dubious workarounds in it (for instance see
-https://bugs.launchpad.net/qemu/+bug/1872237).
-    
-We have an implementation of a simple decrementing counter and we put
-a lot of effort into making sure it handles the interesting corner
-cases (like "spend a cycle at 0 before reloading"), so rather than
-trying to fix these all over again in systick's hand-rolled countdown
-code it's much simpler to just rewrite it to use a ptimer.
-    
-Unfortunately this is a migration compatibility break, which will
-affect all M-profile boards.
-   
-Among other bugs, this fixes
-https://bugs.launchpad.net/qemu/+bug/1872237 : now writes to SYST_CVR
-when the timer is enabled correctly do nothing; when the timer is
-enabled via SYST_CSR.ENABLE, the ptimer code will (because of
-POLICY_NO_IMMEDIATE_RELOAD) arrange that after one timer tick the
-counter is reloaded from SYST_RVR and then counts down from there, as
-the architecture requires.
+Suppress the spurious warning message and the unnecessary
+repeat-deletion of the underlying timer in this case.
 
-Side note: the trace from the test program in LP1872237 won't look
-quite like it does on the hardware: under QEMU the "waiting for 1000
-ms" debug printing generally reports a SYST_CVR value of 0.  This is
-because QEMU's emulated CPU is comparatively fast and our systick has a
-hard-wired value of 1MHz for the frequency of the 'external reference
-clock', which means that execution of the guest code reaches "read
-SYST_CVR" before the first tick of the timer clock after enabling of
-the timer (which is where the reload of SYST_CVR from SYST_RVR is
-required).  The exception is the first iteration, where the time QEMU
-takes to translate the guest code is enough that the timer tick
-happens before the register read.  You can also get the timer tick to
-win the race by fiddling around with the -icount option (which
-effectively is slowing down the emulated CPU speed).
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/core/ptimer.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Some day we should model both the 'system_clock_scale' (ie the CPU
-clock frequency) and the 'external reference clock' as QEMU clock
-source/sinks so that board code can specify the correct reference
-clock frequency.
-
-Patch 1 is a minor tweak to the ptimer code to suppress a spurious
-warning message for the "timer callback function disabled the ptimer"
-case, which the systick timer uses.  Patch 2 is the actual
-conversion.
-
-thanks
--- PMM
-
-
-Peter Maydell (2):
-  hw/core/ptimer: Support ptimer being disabled by timer callback
-  hw/timer/armv7m_systick: Rewrite to use ptimers
-
- include/hw/timer/armv7m_systick.h |   3 +-
- hw/core/ptimer.c                  |   4 +
- hw/timer/armv7m_systick.c         | 124 +++++++++++++-----------------
- 3 files changed, 58 insertions(+), 73 deletions(-)
-
+diff --git a/hw/core/ptimer.c b/hw/core/ptimer.c
+index c6d2beb1dac..2aa97cb665c 100644
+--- a/hw/core/ptimer.c
++++ b/hw/core/ptimer.c
+@@ -117,6 +117,10 @@ static void ptimer_reload(ptimer_state *s, int delta_adjust)
+     }
+ 
+     if (delta == 0) {
++        if (s->enabled == 0) {
++            /* trigger callback disabled the timer already */
++            return;
++        }
+         if (!qtest_enabled()) {
+             fprintf(stderr, "Timer with delta zero, disabling\n");
+         }
 -- 
 2.20.1
 
