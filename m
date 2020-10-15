@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E7E28F418
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 15:58:20 +0200 (CEST)
-Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C837C28F38D
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 15:44:35 +0200 (CEST)
+Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kT3lr-0000wj-LW
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 09:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56144)
+	id 1kT3YY-0000lK-2C
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 09:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3kc-00085O-5V
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:57:02 -0400
-Received: from mail-eopbgr750134.outbound.protection.outlook.com
- ([40.107.75.134]:8400 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WC-0007Pq-Uw
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:08 -0400
+Received: from mail-eopbgr750112.outbound.protection.outlook.com
+ ([40.107.75.112]:30180 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3kW-0002j4-2N
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:57:00 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kT3WA-0000kr-Li
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 09:42:08 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qlpgqozy+q6KXc7dDr55omcCuDsojc5EqVcPvQynY0Ta216hP4lTsehuHj3KFLH+yCI5CPokcqsZnF3lhivTZ1PJIt81tVRBiwPHHNr1NxTqnNXt2jHfimPNi+NM9K/3VHzLGXajfB8hAfrHe+kWQaUDG9yfV/lAVnRx8xmv5HvYNeJOhF8DZtRzjcKjPNbQ/lT2iHNd2SOE4RM9JLtC1CcLWuSZzAlvrOINTw8pGyYBBKMTxeRE3oSTThaBK84iGz84wLAuoXLOrsz9GhZyhqfmMqjM+3H3aSe3YlDmIobI8pN3qImLgtQ2kHerQoovbXXM+JjPwLBLd0tIHmKBvw==
+ b=RiukT7eEzJShPo+E2naSnW/ArE/LqJfJUGHR0oHIofwJJDEoB91Q2w/Lh+nFqF/nuIY94pecDf/2pkrSHO/DsiFb4Lgl/aeqhFNrEb2UnylKXFmvp0BPytAJQocZk2aPzsW8Lvul29WBMZ4WH1dlLaOzzQ/k8mZKqU7DLx5Ucrdno2pU9vlX1uvdlKqooCl5dzOcwFHmxTz5mHP9MoMqOokQVFxWMcVUPylT2mff4mFlNzswc8YWhLBgj1/6ZXdbx7Fnl8eoZ8xpbvTgXuS2q2bPDUsuVxPa0sW2wob5Ujr3S0ffSJXSR29/lo6NnJ5B3b3aGjOkvMseIZkZMgk24Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ArIRQzQ/V3jJ6TlSGUnFh5eAxNSnZyq8NL155+res3k=;
- b=P5J/YFD/x3PdMUY3ay9h8k2c3UGVCQ2xJqZORVTj4/+I5l3OOJ19TPTXtUOI75hz9q+N7cZPzZS7/IRY2LgPo8+/KwvWjAyEuL5zcFL3Y3ds6MkBtLngGM6rdx9F4QfMfSaC6KVn62iXbM7aILzJ7dgrxVtJYrC6h42gfHrKeiGZ0B/4oAr4vJS+CyE7TMsjOw3RMmZgLrgI5M0wJbIdUAIxFYsSXliGMWQ4CmRt+UVohQVDkNJQ7b3mWC46JQqvH25B9feGBo/oJnXXpx8nxIJvfIjfZBIkjigYPJH0BDpuugeP+CWY+87Cyo7nMZ3GmIZZ5oSZ1YWhYPwLBGCIEQ==
+ bh=MX056Rf6DSUltnR4J91NJYCtam/Fo4tFlIXd4RkYse8=;
+ b=d0kqRn3VWl9oetMCZFG2bzEHxiHxuU9XV3AFcTFkAqD9d4zsASwzyTAbxHrb0wJxW9XmqjlFr+vt1B7Q7HqneJBojsJkkHDN53H4ZKq5HXCGJGvQFEWsosXIJRUn9I0c9NaT5N2qlupi3BEYoGiO7NeQPi2H10QAsXiweywHvFVNF7Mlt2V4ni2XQ+AofXAu/gwh3t03bztFb8R5l4Dsubi4nLgvgP4lgo11TUkoA9g+UE7h/LKotwZxh5g8ekYto0RG4vyPWYXPDK1cYGnKljDEs8CmFisPl8R8RQ8XnTkjc/CT05Cm7iHCOrLYKviUL69jnm8ZNFbwO+syarx3AA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ArIRQzQ/V3jJ6TlSGUnFh5eAxNSnZyq8NL155+res3k=;
- b=RxdRNAAUMSUXTklXV7UXpWL3B6ujM7c4ES6HpcQ7Rydw/CSeyTWe3RJzo7MvWyjr8aeoGLXSNWXnEGqnhxjPBno9pLVJuNtFCGTPnSjsvexcIq+9jpaILXxFiWRVYwiQQExvWF6kq8rIEBySmJzLNmibv1pJhMh2ZDbyFFqLVyQ=
+ bh=MX056Rf6DSUltnR4J91NJYCtam/Fo4tFlIXd4RkYse8=;
+ b=J1MBKlOhfJvURLAKex3Eoo/1B0sxoB7CQxbG0PyzwyrdHXnHt0WGZnXDY6B7x+Kr8GPYKP+5mcLq6GDIRfDngPofOlXqBkpatUsDJl1//74eu/29BDN86L2hQcYmB0mI/oe/1bRT/uiFDgQ+JdhQsqVTVfqvUxTj3RT+S96A1TY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SA0PR03MB5465.namprd03.prod.outlook.com (2603:10b6:806:b5::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Thu, 15 Oct
- 2020 13:41:50 +0000
+ 2020 13:41:51 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::61ae:93a8:b26c:77b8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::61ae:93a8:b26c:77b8%4]) with mapi id 15.20.3455.031; Thu, 15 Oct 2020
- 13:41:50 +0000
+ 13:41:51 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/16] Add a General Virtual Device Fuzzer
-Date: Thu, 15 Oct 2020 09:41:20 -0400
-Message-Id: <20201015134137.205958-1-alxndr@bu.edu>
+Subject: [PATCH v4 01/16] memory: Add FlatView foreach function
+Date: Thu, 15 Oct 2020 09:41:21 -0400
+Message-Id: <20201015134137.205958-2-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201015134137.205958-1-alxndr@bu.edu>
+References: <20201015134137.205958-1-alxndr@bu.edu>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [72.93.72.163]
@@ -62,34 +64,34 @@ Received: from stormtrooper.vrmnet (72.93.72.163) by
  BL1PR13CA0055.namprd13.prod.outlook.com (2603:10b6:208:257::30) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.8 via Frontend
- Transport; Thu, 15 Oct 2020 13:41:49 +0000
+ Transport; Thu, 15 Oct 2020 13:41:50 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 269c48e8-297c-4fc8-ba01-08d87110118e
+X-MS-Office365-Filtering-Correlation-Id: 42e37d5c-8523-4d87-0424-08d871101248
 X-MS-TrafficTypeDiagnostic: SA0PR03MB5465:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR03MB5465926C15226F32A5850E15BA020@SA0PR03MB5465.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <SA0PR03MB546513FDC36D6A0EE19D6AC0BA020@SA0PR03MB5465.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: J5LMcHZ/1D1XB3uOEvHuk9SfQzEJQCq9JCWRzHTSWuvMSn1PC5gHDJVMOIwFalvzWGWjefbsy1mHAC4kwgsjEgU8H/hluv4SkUHmtErHeN8I7TLPweaHiDZ56fy+88Kwdjx5BDvslQHOskY6ny+Blh0nuEbFiV8Rk2JvzBNk0lDKvV0eJ4guzyeIdoMMDZdjm2I9cX7N37NQboRkeWX/iqNbm0AER8Ag7azFXYUD8Ka+34zuUsteVlge4Mxq9fv7odpw/iT8LKQ0BEBoK8W2fwJKk+6l6dLWh6+Y37GpRUm+9DsYLKFPrC+B13iufYi9fBAsS1lqT04e5/MX7ZMPwrrK3Djo+aj0fCISRJG1+pl7CfolUnT+7hKNcbhUUQoknsMYxfL0Obha1ntjb+YLIbofIipVqSTvKwvFPMS1I93gVN3gRfcxYp38p16PY2wHIbAaC4KqAFGEor/CFHMbQw==
+X-Microsoft-Antispam-Message-Info: RdcR3w17suhEAQrqf2a5ZKg1O4TzwQmn2A6Ud6D4Nr2u4fdlJ8uEajrb2vNGrGjaqRiRt6fuERxsXO+cKiiX4rXd0NWaSdBNO775PahZlwTERiNEiG6MvO3eCb7Kkmdb06ncF4+IDdNt7+pjtwJrCkr3zY5CDvxVAhRrohVlsPWpHLTzYvK7L1eU1waQMIJIMNRQG44UHfhJh+qlM3FfxZIylhuMgkLUrfLcJhRHOypY91vgE1QRYen6P+LEQwfhACDnR/oCV4W+fQJInIN+eMvG3QPWRU/rbTjGhdL/yQSfYVLm0rqvykXLpnzTh0mb+582fNK5KJYIA4L6hMzyfZe/eqnSpufiZ98ElEXcCB7VJlT0OZZMZ24QZ2M4TZQo
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(366004)(136003)(376002)(396003)(2906002)(6506007)(26005)(6916009)(52116002)(66556008)(966005)(36756003)(478600001)(86362001)(186003)(786003)(316002)(16526019)(8936002)(34490700002)(2616005)(66476007)(66946007)(83080400001)(1076003)(5660300002)(6666004)(8676002)(75432002)(6486002)(83380400001)(956004)(4326008)(6512007);
+ SFS:(4636009)(396003)(376002)(136003)(366004)(39860400002)(346002)(5660300002)(2616005)(8936002)(34490700002)(1076003)(66476007)(66946007)(6666004)(956004)(4326008)(6512007)(6486002)(8676002)(75432002)(6506007)(26005)(6916009)(52116002)(2906002)(86362001)(186003)(16526019)(786003)(316002)(66556008)(478600001)(36756003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: T9ub9jS4NrzcQRPF5bADfXxs/ULNmLi0KIuq69fUp7chf4YweTq2q/uG0g76hv1B7KhlwfbKnSzH0zVH3l1VxLMiJQaU6Z4SNqAFfysm2Fr2Yjke2cmXysK+uKFsrSFvX8gy/iuDq1N6dEbq4DMeUggFsFgRnshEt9TnWvnU+3vJaGMuETfXC0F0wEOIZGGh8rm/WktEVz7834YR4xXhFHkyZz9aYOQXisYTPYpBVnpXhP8eqDFG+LTzECwtsTPcZt/eSOeLW7qRq+be5HX5qfgf+6nRCScj4iqgiaQCNKHzf+JrqSun/fDP9YJpSxbIFTIMvpHStxIu0iIpL6Z58DDsEkZNZ0G6xxOCklVHfBhFb+pGh3DJXKTbr00Mw9o/BXd5oP2TmsJO7Wu15yKQsJMov7DoUO0/i0JG/5M8hRYpLv9O5nT7mfKTpPAflZFrn2jhT3KBnUHpEetg5H99zPrB1G3gSYS1K6pdIqiDLAf2/st3RvAX9OM9Kr/B9+w4d4EMPSSzCGU51CHn2JGazougohPbhLod7ZKKx4W7Qkip6Aaz0vJ/B4LyrutQxqxwFI1JcjREXPw2OhibxkokXfWMS2/FKty3Gfj17aktzsAseRV1vj5saXM6fWTHCvNBb8Dow/o4nbaLqnxonCmapA==
+X-MS-Exchange-AntiSpam-MessageData: 5f842UzZcywj7M9YxC9pmmYTt43HlNMg3ew+rjU90qBFmPQnA6KZS3eIx2nkgqlEdvjfsclJNoqB1H2J6tQ5WdiYRG0NGUyEI1JAbu39B5XzvEXwNsoC5vXp7roachfa04vySqTsg8h5E9v9OPHCiyQmJrxdlKtON3/vtxjwEPNgD61FFweFzxvmRNyJUr63U40VNT6D69c/xF0yIURMjDSRv1gmJ0+UcOxKct/YIin70p5r7ilMF3lD8H+flyJjlZwBNk5ugC16oqGxArew2tGyDiCzmrfCK76wDijN8jmcoDGpoyGgIBfJp65fWU3lIu21GU/9JPhxrG3fwgtz6q1oi4vyQ1ROSFxDTUUvcfsqbUFNSvoaJ8jBI8FvDn4oNywXJhQC9Gw2b1V/2TakzZy7veNSQUMOww14+yWnSr2WmzhRMXv9Zihu3gun/jcJcWRYb5Vl2qn4zzj/kbNsRtDUZI4HBdYfTmCvM6vMUjYLCLcFkElc50kScAu2mD7MUdIBNXvxncvxVAesL/J62bmaM1RFVXfwdz1zb0tr2QnEw3E6di95yzZs3Hosn9hzK65UZR4hojHJ7wY6lLiipOZNSNmGn8u/RNE2JJ2Y/hA7GD1uW/qvIm+ZqKWKZWzbXAqGKfYPD3g1PAWdxh5ZeA==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 269c48e8-297c-4fc8-ba01-08d87110118e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42e37d5c-8523-4d87-0424-08d871101248
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 13:41:50.3575 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 13:41:51.5019 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w/gUyKtbnYIa5rNF21sdICXT0t6e0oTOadlhg7IBaB+unTSoMYciAUA36RL9zOnV
+X-MS-Exchange-CrossTenant-UserPrincipalName: x0NUB1TiCfeSIXguLzafEUm+h3WiAocTs33QL/IHslwUSERu8fn2FJs01seHp0/9
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5465
-Received-SPF: pass client-ip=40.107.75.134; envelope-from=alxndr@bu.edu;
+Received-SPF: pass client-ip=40.107.75.112; envelope-from=alxndr@bu.edu;
  helo=NAM02-BL2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 09:56:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 09:42:04
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -8
 X-Spam_score: -0.9
@@ -117,134 +119,49 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v4:
-    - Replace yaml + c template-based oss-fuzz configs, with C code to
-      register a FuzzTarget for each config (as suggested by Paolo)
-    - Replicate the functionality of address_space_write_rom to ensure
-      matching behavior when QTEST_LOG is enabled
-    - Improve code documentation/comments
-    - Small formatting changes
-v3:
-	- Use flatviews to help select regions for fuzzing 
-	- Meson-related changes
-    - Add some documentation
-	- Improve minimalization script to trim write{bwlq} commands
-v2:
-	- Remove QOS dependency.
-	- Add a custom crossover function
-	- Fix broken minimization scripts
-	- Fixes to the IO region and DMA handling code
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
+ include/exec/memory.h | 5 +++++
+ softmmu/memory.c      | 9 +++++++++
+ 2 files changed, 14 insertions(+)
 
-This is a general virtual-device fuzzer, designed to fuzz devices over Port IO,
-MMIO, and DMA.
-
-To get started with this:
- 1. Build the fuzzers (see docs/devel/fuzzing.txt)
-    Note: Build with --enable-sanitizers, or create a "dictionary file":
-    echo kw1=\"FUZZ\" > dict
-    and pass it as an argument to libFuzzer with -dict=./dict
-    This magic value is a command separator that lets the fuzzer perform
-    multiple IO actions with a single input.
-
- 2. Pick the qemu arguments you wish to fuzz:
-    export QEMU_FUZZ_ARGS="-M q35 -device virtio-balloon"
-
- 3. Tell the fuzzer which QOM objects or MemoryRegion names to fuzz. I find the
- "info qom-tree", "info qtree" and "info mtree" commands useful for identifying
- these. Supports globbing. Here I will try to simultaneously fuzz(for no good
- reason) virtio-balloon and e1000e, which is included by default in the q35:
-    export QEMU_FUZZ_OBJECTS='virtio* e1000*'
-    You can also try to fuzz the whole machine:
-    export QEMU_FUZZ_OBJECTS='*'
-
- 4. Run the fuzzer for 0 inputs. The fuzzer should output a list of
- MemoryRegions/PCI Devices it will try to fuzz. Confirm that these match your
- expectations.
-    ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-fuzz -runs=0
-
- 5. Run the fuzzer:
-    ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-fuzz 
-
-
-Basically, at the core, this fuzzer is an interpreter that splits the input
-into a series of commands, such as mmio_write, pio_write, etc. We structure
-these commands to hit only MemoryRegions that are associated with the devices
-specified in QEMU_FUZZ_OBJECTS. Additionally, these patches add "hooks" to
-functions that are typically used by virtual-devices to read from RAM (DMA).
-These hooks attempt to populate these DMA regions with fuzzed data, just in
-time.
-
-Some of the issues I have found or reproduced with this fuzzer:
-https://bugs.launchpad.net/bugs/1525123
-https://bugs.launchpad.net/bugs/1681439
-https://bugs.launchpad.net/bugs/1777315
-https://bugs.launchpad.net/bugs/1878034
-https://bugs.launchpad.net/bugs/1878043
-https://bugs.launchpad.net/bugs/1878054
-https://bugs.launchpad.net/bugs/1878057
-https://bugs.launchpad.net/bugs/1878067
-https://bugs.launchpad.net/bugs/1878134
-https://bugs.launchpad.net/bugs/1878136
-https://bugs.launchpad.net/bugs/1878253
-https://bugs.launchpad.net/bugs/1878255
-https://bugs.launchpad.net/bugs/1878259
-https://bugs.launchpad.net/bugs/1878263
-https://bugs.launchpad.net/bugs/1878323
-https://bugs.launchpad.net/bugs/1878641
-https://bugs.launchpad.net/bugs/1878642
-https://bugs.launchpad.net/bugs/1878645
-https://bugs.launchpad.net/bugs/1878651
-https://bugs.launchpad.net/bugs/1879223
-https://bugs.launchpad.net/bugs/1879227
-https://bugs.launchpad.net/bugs/1879531
-https://bugs.launchpad.net/bugs/1880355
-https://bugs.launchpad.net/bugs/1880539
-https://bugs.launchpad.net/bugs/1884693
-https://bugs.launchpad.net/bugs/1886362
-https://bugs.launchpad.net/bugs/1887303
-https://bugs.launchpad.net/bugs/1887309
-https://bugs.launchpad.net/bugs/697510
-
-Alexander Bulekov (16):
-  memory: Add FlatView foreach function
-  fuzz: Add general virtual-device fuzzer
-  fuzz: Add PCI features to the general fuzzer
-  fuzz: Add DMA support to the generic-fuzzer
-  fuzz: Declare DMA Read callback function
-  fuzz: Add fuzzer callbacks to DMA-read functions
-  fuzz: Add support for custom crossover functions
-  fuzz: add a DISABLE_PCI op to general-fuzzer
-  fuzz: add a crossover function to generic-fuzzer
-  scripts/oss-fuzz: Add script to reorder a general-fuzzer trace
-  scripts/oss-fuzz: Add crash trace minimization script
-  fuzz: Add instructions for using general-fuzz
-  fuzz: add an "opaque" to the FuzzTarget struct
-  fuzz: add general-fuzz configs for oss-fuzz
-  fuzz: register predefined general-fuzz configs
-  scripts/oss-fuzz: remove the general-fuzz target
-
- docs/devel/fuzzing.txt                        |  39 +
- include/exec/memory.h                         |  21 +
- include/exec/memory_ldst_cached.h.inc         |   3 +
- memory_ldst.c.inc                             |   4 +
- scripts/oss-fuzz/build.sh                     |   6 +
- scripts/oss-fuzz/minimize_qtest_trace.py      | 157 +++
- .../oss-fuzz/reorder_fuzzer_qtest_trace.py    | 103 ++
- softmmu/memory.c                              |  23 +
- softmmu/physmem.c                             |   2 +
- tests/qtest/fuzz/fuzz.c                       |  13 +
- tests/qtest/fuzz/fuzz.h                       |  28 +
- tests/qtest/fuzz/general_fuzz.c               | 948 ++++++++++++++++++
- tests/qtest/fuzz/general_fuzz_configs.c       | 140 +++
- tests/qtest/fuzz/general_fuzz_configs.h       |  24 +
- tests/qtest/fuzz/meson.build                  |   1 +
- 15 files changed, 1512 insertions(+)
- create mode 100755 scripts/oss-fuzz/minimize_qtest_trace.py
- create mode 100755 scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
- create mode 100644 tests/qtest/fuzz/general_fuzz.c
- create mode 100644 tests/qtest/fuzz/general_fuzz_configs.c
- create mode 100644 tests/qtest/fuzz/general_fuzz_configs.h
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 622207bde1..233655b29a 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -719,6 +719,11 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+     return qatomic_rcu_read(&as->current_map);
+ }
+ 
++typedef int (*flatview_cb)(ram_addr_t start,
++                           ram_addr_t len,
++                           const MemoryRegion*, void*);
++
++void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque);
+ 
+ /**
+  * struct MemoryRegionSection: describes a fragment of a #MemoryRegion
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 403ff3abc9..c46b0c6d65 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -656,6 +656,15 @@ static void render_memory_region(FlatView *view,
+     }
+ }
+ 
++void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque)
++{
++    FlatRange *fr;
++    FOR_EACH_FLAT_RANGE(fr, fv) {
++        if (cb(fr->addr.start, fr->addr.size, fr->mr, opaque))
++            break;
++    }
++}
++
+ static MemoryRegion *memory_region_get_flatview_root(MemoryRegion *mr)
+ {
+     while (mr->enabled) {
 -- 
 2.28.0
 
