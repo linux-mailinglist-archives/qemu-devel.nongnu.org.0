@@ -2,52 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A7E28FA64
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 23:07:22 +0200 (CEST)
-Received: from localhost ([::1]:38898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DA228F4D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Oct 2020 16:35:42 +0200 (CEST)
+Received: from localhost ([::1]:38220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTAT3-00064g-R8
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 17:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43402)
+	id 1kT4M1-000318-6T
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 10:35:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <97a64ec211d051439b654950ed3f7cffc47d489b@lizzy.crudebyte.com>)
- id 1kTARG-0004k3-TQ
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:05:31 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:42711)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kT4Io-0008CY-SG
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:32:22 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <97a64ec211d051439b654950ed3f7cffc47d489b@lizzy.crudebyte.com>)
- id 1kTARF-0007oS-1x
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 17:05:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=fY3kGr2meHazKYLfP/jYQjp9AdCN5o4fm/ITXShNbfI=; b=btXOO
- b0/N1lEZ77CBFbdLgL6zkFG/6j9NTbk7biUXBOL1HQyuNGTgwmK/8FB5h+wnIslCAAEfhNlM6i3tS
- e9JMYyUc5FxIBoIs+eZvXLK/dvXMk8kZSuNQvNwoFeZ3zlYnaxfNyO2eePtCm9l8jClrSwLzAe1gF
- RHfXToKnRf3tMqqrLBjVqO5qsEVEy7E7pKvlcXa05r31mEeWUiL5n7llrGP8sjjgLFNeQ9LMlj1Ql
- XaapjTMkuYq/WVeEpgFb4T74cUrnLG8qjiGpazvkPB8hLqYQDZd8vqpReeiYJa0zgC4vQkkhBhn1C
- KPIQ6YXKIS4czxYtG3YrGVClaWo1Q==;
-Message-Id: <cover.1602771296.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 15 Oct 2020 16:14:56 +0200
-Subject: [PULL 0/5] 9p queue 2020-10-15
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=97a64ec211d051439b654950ed3f7cffc47d489b@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 17:04:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kT4In-0007cc-3C
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 10:32:22 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id AC76CAC3C;
+ Thu, 15 Oct 2020 14:32:19 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v3 0/3] tcg-cpus: split into 3 tcg variants
+Date: Thu, 15 Oct 2020 16:32:14 +0200
+Message-Id: <20201015143217.29337-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/12 01:21:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,46 +54,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 57c98ea9acdcef5021f5671efa6475a5794a51c4:
+The purpose of this series is to split the tcg-cpus into
+3 variants:
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20201014-pull-request' into staging (2020-10-14 13:56:06 +0100)
+tcg_cpus_mttcg    (multithreaded tcg vcpus)
+tcg_cpus_rr       (single threaded round robin vcpus)
+tcg_cpus_icount   (same as RR, but using icount)
 
-are available in the Git repository at:
+Ciao,
 
-  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20201015
+Claudio
 
-for you to fetch changes up to 97a64ec211d051439b654950ed3f7cffc47d489b:
+v2 -> v3:
 
-  tests/9pfs: add local Tmkdir test (2020-10-15 16:11:17 +0200)
+* comments: remove some, replace "vcpu" with "vCPU" (Philippe)
+* tcg_cpus_mttcg.h: remove include completely after the last export is gone.
+  (Richard)
 
-----------------------------------------------------------------
-9pfs: add tests using local fs driver
+v1 -> v2:
 
-The currently existing 9pfs test cases are all solely using the 9pfs 'synth'
-fileystem driver, which is a very simple and purely simulated (in RAM only)
-filesystem. There are issues though where the 'synth' fs driver is not
-sufficient. For example the following two bugs need test cases running the
-9pfs 'local' fs driver:
+* fixed file preambles to be clearer (Philippe)
+* reworked includes (Philippe)
 
-https://bugs.launchpad.net/qemu/+bug/1336794
-https://bugs.launchpad.net/qemu/+bug/1877384
+* made a few symbols static, as they are private now.
+* added a rename patch at the end to make naming more consistent.
 
-This patch set for that reason introduces 9pfs test cases using the 9pfs
-'local' filesystem driver along to the already existing tests on 'synth'.
+* added Suggested-by: Richard, since it is his idea originally.
 
-----------------------------------------------------------------
-Christian Schoenebeck (5):
-      tests/9pfs: change qtest name prefix to synth
-      tests/9pfs: introduce local tests
-      tests/9pfs: wipe local 9pfs test directory
-      tests/9pfs: add virtio_9p_test_path()
-      tests/9pfs: add local Tmkdir test
+Claudio Fontana (3):
+  accel/tcg: split CpusAccel into three TCG variants
+  accel/tcg: split tcg_start_vcpu_thread
+  accel/tcg: rename tcg-cpus functions to match module name
 
- tests/qtest/libqos/virtio-9p.c | 100 +++++++++++++++++++++
- tests/qtest/libqos/virtio-9p.h |  10 +++
- tests/qtest/virtio-9p-test.c   | 197 ++++++++++++++++++++++++++++++++++++-----
- 3 files changed, 286 insertions(+), 21 deletions(-)
+ accel/tcg/meson.build       |   9 +-
+ accel/tcg/tcg-all.c         |  13 +-
+ accel/tcg/tcg-cpus-icount.c | 147 +++++++++++
+ accel/tcg/tcg-cpus-icount.h |  17 ++
+ accel/tcg/tcg-cpus-mttcg.c  | 140 ++++++++++
+ accel/tcg/tcg-cpus-rr.c     | 305 ++++++++++++++++++++++
+ accel/tcg/tcg-cpus-rr.h     |  21 ++
+ accel/tcg/tcg-cpus.c        | 504 +-----------------------------------
+ accel/tcg/tcg-cpus.h        |  12 +-
+ softmmu/icount.c            |   2 +-
+ 10 files changed, 669 insertions(+), 501 deletions(-)
+ create mode 100644 accel/tcg/tcg-cpus-icount.c
+ create mode 100644 accel/tcg/tcg-cpus-icount.h
+ create mode 100644 accel/tcg/tcg-cpus-mttcg.c
+ create mode 100644 accel/tcg/tcg-cpus-rr.c
+ create mode 100644 accel/tcg/tcg-cpus-rr.h
+
+-- 
+2.26.2
+
 
