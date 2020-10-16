@@ -2,56 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F20D28FC33
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 03:14:14 +0200 (CEST)
-Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0731128FC60
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 04:19:05 +0200 (CEST)
+Received: from localhost ([::1]:34594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTEJd-0001rv-QP
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 21:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41958)
+	id 1kTFKh-0006jt-Jj
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 22:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kTEIc-00012t-K0
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 21:12:50 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:49398 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kTEIX-0005Vh-PS
- for qemu-devel@nongnu.org; Thu, 15 Oct 2020 21:12:50 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 9A17A751D4A054E62021;
- Fri, 16 Oct 2020 09:12:36 +0800 (CST)
-Received: from [10.174.186.67] (10.174.186.67) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 16 Oct 2020 09:12:28 +0800
-Subject: Re: [RFC PATCH v2 0/8] block-backend: Introduce I/O hang
-To: cenjiahui <cenjiahui@huawei.com>, <qemu-devel@nongnu.org>,
- <kwolf@redhat.com>
-References: <20200930094606.5323-1-cenjiahui@huawei.com>
- <9bbda2fb-ce27-d8f1-11dd-d7f7889bbbab@huawei.com>
-From: Ying Fang <fangying1@huawei.com>
-Message-ID: <16f72c62-ebc3-5bf9-4a30-728a56506df0@huawei.com>
-Date: Fri, 16 Oct 2020 09:12:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kTFJU-0006B7-EG
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 22:17:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59458)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kTFJR-0005Gc-Hv
+ for qemu-devel@nongnu.org; Thu, 15 Oct 2020 22:17:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602814663;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6IZyciROz6W8g4Eb4FK1Micniim3/HI3EXyuBxcaNDQ=;
+ b=Y8cttgFBMI2ZH3iHjU5itPPY5n+mZkDx7qW3h0eavVvi6FbNRHg/njro5xhNp1iLm18ytw
+ 7mxcJjs3UV4f945adQvwLImppdw5UzcDDzuc0EErFVxEMANJtWx+fcFK2KWsJ7Iemg4hVp
+ yoHBawEcJMlfJA2AD/5tG7IBfE13f6g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-TZoXeoe2MGC3wVl0DdWRdg-1; Thu, 15 Oct 2020 22:17:42 -0400
+X-MC-Unique: TZoXeoe2MGC3wVl0DdWRdg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 161401868426;
+ Fri, 16 Oct 2020 02:17:41 +0000 (UTC)
+Received: from [10.72.12.212] (ovpn-12-212.pek2.redhat.com [10.72.12.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A714276673;
+ Fri, 16 Oct 2020 02:17:36 +0000 (UTC)
+Subject: Re: [PATCH v2] virtio-net: Set mac address to hardware if the peer is
+ vdpa
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
+References: <20200925151333.6157-1-lulu@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <c7392598-5c4f-8b4a-e5e7-8488af6d3757@redhat.com>
+Date: Fri, 16 Oct 2020 10:17:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <9bbda2fb-ce27-d8f1-11dd-d7f7889bbbab@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20200925151333.6157-1-lulu@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.67]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=fangying1@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 21:12:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.019,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 20:29:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.019, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,64 +85,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, mreitz@redhat.com
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+On 2020/9/25 下午11:13, Cindy Lu wrote:
+> If the peer's type is vdpa, we need to set the mac address to hardware
+> in virtio_net_device_realize,
+>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
+>   hw/net/virtio-net.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index cb0d27084c..1f2c1643bf 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3399,6 +3399,12 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+>       nc = qemu_get_queue(n->nic);
+>       nc->rxfilter_notify_enabled = 1;
+>   
+> +   if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+> +        struct virtio_net_config netcfg = {};
+> +        memcpy(&netcfg.mac, &n->nic_conf.macaddr, ETH_ALEN);
+> +        vhost_net_set_config(get_vhost_net(nc->peer),
+> +            (uint8_t *)&netcfg, 0, ETH_ALEN, VHOST_SET_CONFIG_TYPE_MASTER);
+> +    }
+>       QTAILQ_INIT(&n->rsc_chains);
+>       n->qdev = dev;
+>   
 
-On 10/10/2020 10:27 AM, cenjiahui wrote:
-> Hi Kevin,
-> 
-> Could you please spend some time reviewing and commenting on this patch series.
-> 
-> Thanks,
-> Jiahui Cen
 
-This feature is confirmed effective in a cloud storage environment since
-it can help to improve the availability without pausing the entire
-guest. Hope it won't be lost on the thread. Any comments or reviews
-are welcome.
+Applied.
 
-> 
-> On 2020/9/30 17:45, Jiahui Cen wrote:
->> A VM in the cloud environment may use a virutal disk as the backend storage,
->> and there are usually filesystems on the virtual block device. When backend
->> storage is temporarily down, any I/O issued to the virtual block device will
->> cause an error. For example, an error occurred in ext4 filesystem would make
->> the filesystem readonly. However a cloud backend storage can be soon recovered.
->> For example, an IP-SAN may be down due to network failure and will be online
->> soon after network is recovered. The error in the filesystem may not be
->> recovered unless a device reattach or system restart. So an I/O rehandle is
->> in need to implement a self-healing mechanism.
->>
->> This patch series propose a feature called I/O hang. It can rehandle AIOs
->> with EIO error without sending error back to guest. From guest's perspective
->> of view it is just like an IO is hanging and not returned. Guest can get
->> back running smoothly when I/O is recovred with this feature enabled.
->>
->> v1->v2:
->> * Rebase to fix compile problems.
->> * Fix incorrect remove of rehandle list.
->> * Provide rehandle pause interface.
->>
->> Jiahui Cen (8):
->>    block-backend: introduce I/O rehandle info
->>    block-backend: rehandle block aios when EIO
->>    block-backend: add I/O hang timeout
->>    block-backend: add I/O rehandle pause/unpause
->>    block-backend: enable I/O hang when timeout is set
->>    virtio-blk: pause I/O hang when resetting
->>    qemu-option: add I/O hang timeout option
->>    qapi: add I/O hang and I/O hang timeout qapi event
->>
->>   block/block-backend.c          | 300 +++++++++++++++++++++++++++++++++
->>   blockdev.c                     |  11 ++
->>   hw/block/virtio-blk.c          |   8 +
->>   include/sysemu/block-backend.h |   5 +
->>   qapi/block-core.json           |  26 +++
->>   5 files changed, 350 insertions(+)
->>
-> .
-> 
+Thanks
+
+
 
