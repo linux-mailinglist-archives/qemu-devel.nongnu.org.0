@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090B9290E47
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 01:58:27 +0200 (CEST)
-Received: from localhost ([::1]:59868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9DE290E42
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 01:49:16 +0200 (CEST)
+Received: from localhost ([::1]:49762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTZc9-0002H0-Hi
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 19:58:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39954)
+	id 1kTZTH-00066H-DL
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 19:49:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kTZZZ-0001KQ-6e
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 19:55:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51574)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kTZS7-0005b8-VP
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 19:48:03 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:45198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kTZZV-00006O-DD
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 19:55:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kTZZR-0002PK-4i
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 23:55:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 21CB02E811E
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 23:55:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kTZS6-0007hU-Aj
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 19:48:03 -0400
+Received: by mail-pl1-x644.google.com with SMTP id v12so2067704ply.12
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 16:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZVW7yJ/13kjwcl8Wy0IS9kr1o+xMer4wX7nQcI21J4o=;
+ b=GdXGz2Z+VOcN05o17rt9PJJFiF2VGMNIu35mEFneyj/x5vRS5iV2+SjY0meyRqcMEX
+ k3BbfR0SfUiPg1SZk5QXP6hnZfzUzYeAf6oQEqdqy3n/XUzl5BvUabBlvudY1kQTQonw
+ EZsDoPqA3/Uso6nn9UOIGp75F+ULbTZqKQL4Cbo0NOcU+LHYDEMjjyPBfYlRKV6i5+Lr
+ +ykWL9SsVHx97QlCfEudwr/L/FjqpkXYacM7g9fZGjWyCpvgR+/eaXomdQ7X5wX6EXrq
+ vh9kP6Pv2xn9osCs4aiEPyf1MhY90lYsupHOPzT2Mg39prSmJmKSOzsJoRDUJ4DOL2pd
+ rXlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZVW7yJ/13kjwcl8Wy0IS9kr1o+xMer4wX7nQcI21J4o=;
+ b=tGY9fo86a+EUbsanUZm46AfCCKAPxXBL3s2XfpjeeIrSZ+GEA4pH4Ta5C8uUZX+BPX
+ fJ6Gkb5YPAu/BKpT/+pZpS8vKzQysB2ZehPrr+SqTU6xXJwJClFhjkAuZYUirpZ3wFrS
+ l9FkUlJzpcOlfP1IwE5mSw6BW6KQ7rlmTyN+KgbtYcRdZbB90cGJqadnocAjPtVY8WR0
+ yzvGJIofyWEukY8ZqZZAsqVccbW3FabcIMmJ3RD2qRioF4qcs8nU9LR415ssFr7DGycx
+ WVE6n7OF+SgNCAcMO96VauwcIWCFAuJTrXWjlVnwhQOhHVSkOdFTolM/6Ie9VlRWirh1
+ 0mtg==
+X-Gm-Message-State: AOAM531e03QzEuQSc5kh5LmvVFcEkeQk97LPCQB9HuhLD4sPTfP984R5
+ teYi6Nr+VdRT4rXcEx4KCGOA0w==
+X-Google-Smtp-Source: ABdhPJwdYNfEYRMH75xIVG+RhBiRzP6bpP+bw5QuETN2OCuCyM9NTzb9f53lF8tujIqGINd27FBLYQ==
+X-Received: by 2002:a17:902:b107:b029:d2:ab87:c418 with SMTP id
+ q7-20020a170902b107b02900d2ab87c418mr6653395plr.40.1602892080647; 
+ Fri, 16 Oct 2020 16:48:00 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id t3sm3700794pgm.42.2020.10.16.16.47.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Oct 2020 16:47:59 -0700 (PDT)
+Subject: Re: [PATCH v3 5/5] [RISCV_PM] Implement address masking functions
+ required for RISC-V Pointer Masking extension
+To: Alexey Baturo <baturo.alexey@gmail.com>
+References: <20201016221138.10371-1-space.monkey.delivers@gmail.com>
+ <20201016221138.10371-6-space.monkey.delivers@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ed0a6658-76a7-d9cc-574e-93b2fb8af6c7@linaro.org>
+Date: Fri, 16 Oct 2020 16:47:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Oct 2020 23:46:27 -0000
-From: Devaev Maxim <1891748@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ech1965 mdevaev
-X-Launchpad-Bug-Reporter: Ech (ech1965)
-X-Launchpad-Bug-Modifier: Devaev Maxim (mdevaev)
-References: <159749143652.14755.7473614939867617680.malonedeb@gac.canonical.com>
-Message-Id: <160289198719.25689.6413264384483918381.malone@soybean.canonical.com>
-Subject: [Bug 1891748] Re: qemu-arm-static 5.1 can't run gcc
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
-X-Launchpad-Hash: 677aeef42f07012eccab0c6404cec012019af189
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 19:55:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201016221138.10371-6-space.monkey.delivers@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.253,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,41 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1891748 <1891748@bugs.launchpad.net>
+Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, qemu-devel@nongnu.org,
+ space.monkey.delivers@gmail.com, Alistair.Francis@wdc.com,
+ kupokupokupopo@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Anyone? Seriously, the problem really exists and we even made a case
-that reproduces it. Someone please take a look at this.
+On 10/16/20 3:11 PM, Alexey Baturo wrote:
+> From: Anatoly Parshintsev <kupokupokupopo@gmail.com>
+> 
+> Signed-off-by: Anatoly Parshintsev <kupokupokupopo@gmail.com>
+> ---
+>  target/riscv/cpu.h       | 19 +++++++++++++++++++
+>  target/riscv/translate.c | 34 ++++++++++++++++++++++++++++++++--
+>  2 files changed, 51 insertions(+), 2 deletions(-)
 
--- =
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1891748
-
-Title:
-  qemu-arm-static 5.1 can't run gcc
-
-Status in QEMU:
-  New
-
-Bug description:
-  Issue discovered while trying to build pikvm (1)
-
-  Long story short: when using qemu-arm-static 5.1, gcc exits whith
-  message:
-
-  Allocating guest commpage: Operation not permitted
-
-  =
-
-  when using qemu-arm-static v5.0, gcc "works"
-
-  Steps to reproduce will follow
-
-  (1)  https://github.com/pikvm/pikvm/blob/master/pages/building_os.md
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1891748/+subscriptions
+r~
 
