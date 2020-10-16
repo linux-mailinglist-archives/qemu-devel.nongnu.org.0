@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3262909D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 18:39:08 +0200 (CEST)
-Received: from localhost ([::1]:58838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22C12909DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 18:41:07 +0200 (CEST)
+Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTSl1-0001hu-Af
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 12:39:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54622)
+	id 1kTSmw-0003pG-Qb
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 12:41:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kTSif-00007U-JI; Fri, 16 Oct 2020 12:36:42 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:35650)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kTShu-0007um-9m
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 12:35:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kTSib-0002q3-Ms; Fri, 16 Oct 2020 12:36:39 -0400
-Received: by mail-io1-xd44.google.com with SMTP id k6so4652913ior.2;
- Fri, 16 Oct 2020 09:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=inORuv0oT/hffetNm/tYoD1ysw6cBw8h5xOracZQ2dE=;
- b=JCxDSKPCzEq4hliW8jAH8gvGrIt0Sco+qV/dnN9ilv+F+k1cK65zJzqBzxqtlnnHpz
- nMS41ITVl7Go/ZAoibExoiH3o2eoPv4ZlCOjU/CLcUVH6y3KBn63bHILbzRoOZXv7IpP
- TVbPaW/BazxHbslODFL5NLOT1S9+ZFCFM2F27Heq5/Be0VjC21tWx0YIu8+F7hRTlqqW
- oy7DKvxrpx/5tF3jx95X9E51ENr8JMjF+Tq6mZ/yUBkMJTdSCqavK1Savm58gcP9MjGS
- zLoD+4re65Yd/jgboyG1jcvfg5zf6sA0XaaQ2NZO/btiBV8rZ+gtGFJkuFt27E/8Un64
- DXmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=inORuv0oT/hffetNm/tYoD1ysw6cBw8h5xOracZQ2dE=;
- b=aPapwvLWEE6Zt/Ed+9aL3lFHKAdNwftqmD5klV58R3lRMK66n73kU/bXBPzEk2JgWu
- rf2bjejE4KoT+hKzLGUHnK3Am/VNANLJTGQu5rRpzTFrxFlvcVCXqa0TfDTwiGZZJE0S
- M2peO/EpfrlaHkbyA9UyAQn/funA68vr6bWXw38lRtd11TT+b/63un6mmFeXCiQ7liZv
- w5iWgFIGeRL497dGke46U8Xpob5cMvXGkAtit17QGT/anpVLGLK6Nag7DA3/0bM7krnr
- GrlzTWlxGRccfd2rXxNjqAPt6jWGbZ1dKNtrvEJJauAjnpfQ8/q5m1MYuMFdSoZ5w58s
- JXHQ==
-X-Gm-Message-State: AOAM53073Izjr/ub8EPA3QGrNzy1EEzyuwACJUzDhn5xhvKYJnuGvpkw
- LvybWw2HAco5OJbpgqYMZ7yHHwHMJCZtghmuDnY=
-X-Google-Smtp-Source: ABdhPJzkKPseAVsWvhjSj6bK6AtfCX5s15Yt9SVh5R4tutLio4sWH/HtvfZNL6+hKUdGleQ12p3TZT7fguaN6jS3rlA=
-X-Received: by 2002:a05:6638:a90:: with SMTP id
- 16mr3359956jas.91.1602866195991; 
- Fri, 16 Oct 2020 09:36:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kTShm-0002dq-F7
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 12:35:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kTShb-0000e1-Uh
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 16:35:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DA8852E8133
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 16:35:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201016123737.8118-1-ivan.griffin@emdalo.com>
- <CAKmqyKNykruYK2AQ05KZyGCGD0rUsqQOVBbnccY+ELATBF=Ozg@mail.gmail.com>
- <DB7PR10MB191544AA04D0B3ECF82C57CDFE030@DB7PR10MB1915.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <DB7PR10MB191544AA04D0B3ECF82C57CDFE030@DB7PR10MB1915.EURPRD10.PROD.OUTLOOK.COM>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 16 Oct 2020 09:24:57 -0700
-Message-ID: <CAKmqyKODEgnkw4zBbsNK1zQ7qaiKWEAZBpwhnHzEetjgWpxtzQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: microchip_pfsoc: IOSCBCTRL memmap entry
-To: Ivan Griffin <ivan.griffin@emdalo.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Fri, 16 Oct 2020 16:29:12 -0000
+From: vak <1900122@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: aarch64 docker ioctl video
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: khamenya
+X-Launchpad-Bug-Reporter: vak (khamenya)
+X-Launchpad-Bug-Modifier: vak (khamenya)
+References: <160284373799.25039.16464171690101536645.malonedeb@soybean.canonical.com>
+Message-Id: <160286575303.22344.13289815981696419116.launchpad@gac.canonical.com>
+Subject: [Bug 1900122] Re: Unsupported ioctl: cmd=0xffffffff80685600 when
+ accessing /dev/video* in aarch64 guest
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
+X-Launchpad-Hash: 199d4a9989189e23fe6479704d5996d26dcc037f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 10:55:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,150 +73,326 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1900122 <1900122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 16, 2020 at 9:31 AM Ivan Griffin <ivan.griffin@emdalo.com> wrot=
-e:
->
-> I don't know why it isn't documented in that PDF (or in the register map)=
-, but if you check https://github.com/polarfire-soc/polarfire-soc-bare-meta=
-l-library/blob/master/src/platform/drivers/mss_sys_services/mss_sys_service=
-s.h you'll see the following
->
-> ```
-> typedef struct
-> {
->     volatile uint32_t SOFT_RESET;
->     volatile uint32_t VDETECTOR;
->     volatile uint32_t TVS_CONTROL;
->     volatile uint32_t TVS_TEMP_A;
->     volatile uint32_t TVS_TEMP_B;
->     volatile uint32_t TVS_TEMP_C;
->     volatile uint32_t TVS_VOLT_A;
->     volatile uint32_t TVS_VOLT_B;
->     volatile uint32_t TVS_VOLT_C;
->     volatile uint32_t TVS_OUTPUT0;
->     volatile uint32_t TVS_OUTPUT1;
->     volatile uint32_t TVS_TRIGGER;
->     volatile uint32_t TRIM_VDET1P05;
->     volatile uint32_t TRIM_VDET1P8;
->     volatile uint32_t TRIM_VDET2P5;
->     volatile uint32_t TRIM_TVS;
->     volatile uint32_t TRIM_GDET1P05;
->     volatile uint32_t RESERVED0;
->     volatile uint32_t RESERVED1;
->     volatile uint32_t RESERVED2;
->     volatile uint32_t SERVICES_CR;
->     volatile uint32_t SERVICES_SR;
->     volatile uint32_t USER_DETECTOR_SR;
->     volatile uint32_t USER_DETECTOR_CR;
->     volatile uint32_t MSS_SPI_CR;
->
-> } SCBCTRL_TypeDef;
->
-> #define MSS_SCBCTRL                    ((SCBCTRL_TypeDef*) (0x37020000UL)=
-)
->
-> /*2kB bytes long mailbox.*/
-> #define MSS_SCBMAILBOX                 ((uint32_t*) (0x37020800UL))
-> ```
->
-> And in https://github.com/polarfire-soc/polarfire-soc-bare-metal-library/=
-blob/master/src/platform/drivers/mss_sys_services/mss_sys_services.c you'll=
- see MSS_SCB and MSS_SCBMAILBOX used in many places to interact with the FP=
-GA system controller to perform various services.
+** Description changed:
 
-Ok, so the memory map exists, but not documented in the official documentat=
-ion.
+  **Description:**
+  Any attempt to work with video in aarch64 architecture emulated on x86_64=
+ leads currently to the error "Function not implemented". For example:
+  =
 
-In this case it's fine to add. Can you add a comment though saying
-that it's not documented in the official documentation though?
-Otherwise it will confuse developers.
+  ```
+  # v4l2-ctl -l --verbose
+  Failed to open /dev/video0: Function not implemented
+  =
 
-Alistair
+  root@12dd9b6fcfcb:/# ll /dev/video*
+  crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
+  crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
+  =
 
->
->
-> Cheers,
-> Ivan
->
->
-> -----Original Message-----
-> From: Alistair Francis <alistair23@gmail.com>
-> Sent: Friday 16 October 2020 17:08
-> To: Ivan Griffin <ivan.griffin@emdalo.com>
-> Cc: Bin Meng <bin.meng@windriver.com>; QEMU Trivial <qemu-trivial@nongnu.=
-org>; open list:RISC-V <qemu-riscv@nongnu.org>; qemu-devel@nongnu.org Devel=
-opers <qemu-devel@nongnu.org>
-> Subject: Re: [PATCH] hw/riscv: microchip_pfsoc: IOSCBCTRL memmap entry
->
-> On Fri, Oct 16, 2020 at 8:04 AM Ivan Griffin <ivan.griffin@emdalo.com> wr=
-ote:
-> >
-> > Adding the PolarFire SoC IOSCBCTRL memory region to prevent QEMU
-> > reporting a STORE/AMO Access Fault.
-> >
-> > This region is used by the PolarFire SoC port of U-Boot to interact
-> > with the FPGA system controller.
-> >
-> > Signed-off-by: Ivan Griffin <ivan.griffin@emdalo.com>
-> > ---
-> >  hw/riscv/microchip_pfsoc.c         | 6 ++++++
-> >  include/hw/riscv/microchip_pfsoc.h | 1 +
-> >  2 files changed, 7 insertions(+)
-> >
-> > diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> > index 4627179cd3..20e1496e3e 100644
-> > --- a/hw/riscv/microchip_pfsoc.c
-> > +++ b/hw/riscv/microchip_pfsoc.c
-> > @@ -97,6 +97,7 @@ static const struct MemmapEntry {
-> >      [MICROCHIP_PFSOC_GPIO2] =3D           { 0x20122000,     0x1000 },
-> >      [MICROCHIP_PFSOC_ENVM_CFG] =3D        { 0x20200000,     0x1000 },
-> >      [MICROCHIP_PFSOC_ENVM_DATA] =3D       { 0x20220000,    0x20000 },
-> > +    [MICROCHIP_PFSOC_IOSCB_CTRL] =3D      { 0x37020000,     0x1000 },
->
-> I don't see this in the UG0880 "User Guide PolarFire SoC FPGA Microproces=
-sor Sub-System" memory map.
->
-> Where is this documented?
->
-> Alistair
->
-> >      [MICROCHIP_PFSOC_IOSCB_CFG] =3D       { 0x37080000,     0x1000 },
-> >      [MICROCHIP_PFSOC_DRAM] =3D            { 0x80000000,        0x0 },
-> >  };
-> > @@ -341,6 +342,11 @@ static void microchip_pfsoc_soc_realize(DeviceStat=
-e *dev, Error **errp)
-> >      create_unimplemented_device("microchip.pfsoc.ioscb.cfg",
-> >          memmap[MICROCHIP_PFSOC_IOSCB_CFG].base,
-> >          memmap[MICROCHIP_PFSOC_IOSCB_CFG].size);
-> > +
-> > +    /* IOSCBCTRL */
-> > +    create_unimplemented_device("microchip.pfsoc.ioscb.ctrl",
-> > +        memmap[MICROCHIP_PFSOC_IOSCB_CTRL].base,
-> > +        memmap[MICROCHIP_PFSOC_IOSCB_CTRL].size);
-> >  }
-> >
-> >  static void microchip_pfsoc_soc_class_init(ObjectClass *oc, void
-> > *data) diff --git a/include/hw/riscv/microchip_pfsoc.h
-> > b/include/hw/riscv/microchip_pfsoc.h
-> > index 8bfc7e1a85..3f1874b162 100644
-> > --- a/include/hw/riscv/microchip_pfsoc.h
-> > +++ b/include/hw/riscv/microchip_pfsoc.h
-> > @@ -95,6 +95,7 @@ enum {
-> >      MICROCHIP_PFSOC_ENVM_CFG,
-> >      MICROCHIP_PFSOC_ENVM_DATA,
-> >      MICROCHIP_PFSOC_IOSCB_CFG,
-> > +    MICROCHIP_PFSOC_IOSCB_CTRL,
-> >      MICROCHIP_PFSOC_DRAM,
-> >  };
-> >
-> > --
-> > 2.17.1
-> >
-> >
+  ```
+  =
+
+  **Steps to reproduce the issue:**
+  =
+
+  I have a following setup:
+  =
+
+  Host Hardware: x86_64 equipped with a webcam (tried different webcams)
+- Host OS: Ubuntu 20.04.1 =
+
++ Host OS: Ubuntu 20.04.1
+  =
+
+  Guest Architecture: aarch64
+  Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
+  =
+
+  Emulation: quemu-user-static (also tried binfmt)
+  =
+
+  Guest OS is running via Docker + QEMU
+  =
+
+  ```
+  =E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+  enabled
+  interpreter /usr/bin/qemu-aarch64-static
+  flags: F
+  offset 0
+  magic 7f454c460201010000000000000000000200b700
+  mask ffffffffffffff00fffffffffffffffffeffffff
+  ```
+  =
+
+  **Results received:**
+  see desrciption.
+  =
+
++ =
+
+  **Environment:**
+  =
+
+- <!-- The host architecture is available for only x86_64 -->
+  * QEMU version: (if you can know it):
+  =
+
+  ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubun=
+tu4 all [installed,automatic]
+  ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [in=
+stalled,automatic]
+  qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
+matic]
+  qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,au=
+tomatic]
+  qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automa=
+tic]
+  qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
+atic]
+  qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
+atic]
+  qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
+matic]
+  qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
+  qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  =
+
+  * Container application: Docker
+  =
+
+  **Output of `docker version`, `podman version` or `singularity
+  version`**
+  =
+
+  ```
+  =E2=9E=9C docker version
+  Client: Docker Engine - Community
+-  Version:           20.10.0-beta1
+-  API version:       1.40
+-  Go version:        go1.13.15
+-  Git commit:        ac365d7
+-  Built:             Tue Oct 13 18:15:22 2020
+-  OS/Arch:           linux/amd64
+-  Context:           default
+-  Experimental:      true
++ =C2=A0Version:           20.10.0-beta1
++ =C2=A0API version:       1.40
++ =C2=A0Go version:        go1.13.15
++ =C2=A0Git commit:        ac365d7
++ =C2=A0Built:             Tue Oct 13 18:15:22 2020
++ =C2=A0OS/Arch:           linux/amd64
++ =C2=A0Context:           default
++ =C2=A0Experimental:      true
+  =
+
+  Server: Docker Engine - Community
+-  Engine:
+-   Version:          19.03.13
+-   API version:      1.40 (minimum version 1.12)
+-   Go version:       go1.13.15
+-   Git commit:       4484c46d9d
+-   Built:            Wed Sep 16 17:01:20 2020
+-   OS/Arch:          linux/amd64
+-   Experimental:     false
+-  containerd:
+-   Version:          1.4.1
+-   GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
+-  runc:
+-   Version:          1.0.0-rc92
+-   GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
+-  docker-init:
+-   Version:          0.18.0
+-   GitCommit:        fec3683
++ =C2=A0Engine:
++ =C2=A0=C2=A0Version:          19.03.13
++ =C2=A0=C2=A0API version:      1.40 (minimum version 1.12)
++ =C2=A0=C2=A0Go version:       go1.13.15
++ =C2=A0=C2=A0Git commit:       4484c46d9d
++ =C2=A0=C2=A0Built:            Wed Sep 16 17:01:20 2020
++ =C2=A0=C2=A0OS/Arch:          linux/amd64
++ =C2=A0=C2=A0Experimental:     false
++ =C2=A0containerd:
++ =C2=A0=C2=A0Version:          1.4.1
++ =C2=A0=C2=A0GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
++ =C2=A0runc:
++ =C2=A0=C2=A0Version:          1.0.0-rc92
++ =C2=A0=C2=A0GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
++ =C2=A0docker-init:
++ =C2=A0=C2=A0Version:          0.18.0
++ =C2=A0=C2=A0GitCommit:        fec3683
+  =
+
+  ```
+  =
+
+  Guest aarch64 runs in privileged mode:
+  =
+
+  `docker run --privileged --device=3D/dev/video0:/dev/video0 --env
+  DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
+  /tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
+  =
+
+  **Additional information:**
+  I tried also binfmt way to register emulators. The output of `v4l-ctl` wa=
+s a little bit different:
+  =
+
+  ```
+- # v4l2-ctl -l    =
+
++ # v4l2-ctl -l
+  Unsupported ioctl: cmd=3D0xffffffff80685600
+  Failed to open /dev/video0: Function not implemented
+  =
+
+  ```
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1900122
+
+Title:
+  Unsupported ioctl: cmd=3D0xffffffff80685600 when accessing /dev/video*
+  in aarch64 guest
+
+Status in QEMU:
+  New
+
+Bug description:
+  **Description:**
+  Any attempt to work with video in aarch64 architecture emulated on x86_64=
+ leads currently to the error "Function not implemented". For example:
+
+  ```
+  # v4l2-ctl -l --verbose
+  Failed to open /dev/video0: Function not implemented
+
+  root@12dd9b6fcfcb:/# ll /dev/video*
+  crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
+  crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
+
+  ```
+
+  **Steps to reproduce the issue:**
+
+  I have a following setup:
+
+  Host Hardware: x86_64 equipped with a webcam (tried different webcams)
+  Host OS: Ubuntu 20.04.1
+
+  Guest Architecture: aarch64
+  Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
+
+  Emulation: quemu-user-static (also tried binfmt)
+
+  Guest OS is running via Docker + QEMU
+
+  ```
+  =E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+  enabled
+  interpreter /usr/bin/qemu-aarch64-static
+  flags: F
+  offset 0
+  magic 7f454c460201010000000000000000000200b700
+  mask ffffffffffffff00fffffffffffffffffeffffff
+  ```
+
+  **Results received:**
+  see desrciption.
+
+  =
+
+  **Environment:**
+
+  * QEMU version: (if you can know it):
+
+  ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubun=
+tu4 all [installed,automatic]
+  ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [in=
+stalled,automatic]
+  qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
+matic]
+  qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,au=
+tomatic]
+  qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automa=
+tic]
+  qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
+atic]
+  qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
+atic]
+  qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
+matic]
+  qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
+  qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+
+  * Container application: Docker
+
+  **Output of `docker version`, `podman version` or `singularity
+  version`**
+
+  ```
+  =E2=9E=9C docker version
+  Client: Docker Engine - Community
+  =C2=A0Version:           20.10.0-beta1
+  =C2=A0API version:       1.40
+  =C2=A0Go version:        go1.13.15
+  =C2=A0Git commit:        ac365d7
+  =C2=A0Built:             Tue Oct 13 18:15:22 2020
+  =C2=A0OS/Arch:           linux/amd64
+  =C2=A0Context:           default
+  =C2=A0Experimental:      true
+
+  Server: Docker Engine - Community
+  =C2=A0Engine:
+  =C2=A0=C2=A0Version:          19.03.13
+  =C2=A0=C2=A0API version:      1.40 (minimum version 1.12)
+  =C2=A0=C2=A0Go version:       go1.13.15
+  =C2=A0=C2=A0Git commit:       4484c46d9d
+  =C2=A0=C2=A0Built:            Wed Sep 16 17:01:20 2020
+  =C2=A0=C2=A0OS/Arch:          linux/amd64
+  =C2=A0=C2=A0Experimental:     false
+  =C2=A0containerd:
+  =C2=A0=C2=A0Version:          1.4.1
+  =C2=A0=C2=A0GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
+  =C2=A0runc:
+  =C2=A0=C2=A0Version:          1.0.0-rc92
+  =C2=A0=C2=A0GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
+  =C2=A0docker-init:
+  =C2=A0=C2=A0Version:          0.18.0
+  =C2=A0=C2=A0GitCommit:        fec3683
+
+  ```
+
+  Guest aarch64 runs in privileged mode:
+
+  `docker run --privileged --device=3D/dev/video0:/dev/video0 --env
+  DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
+  /tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
+
+  **Additional information:**
+  I tried also binfmt way to register emulators. The output of `v4l-ctl` wa=
+s a little bit different:
+
+  ```
+  # v4l2-ctl -l
+  Unsupported ioctl: cmd=3D0xffffffff80685600
+  Failed to open /dev/video0: Function not implemented
+
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1900122/+subscriptions
 
