@@ -2,69 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B22C12909DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 18:41:07 +0200 (CEST)
-Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672212909C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 18:34:08 +0200 (CEST)
+Received: from localhost ([::1]:49628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTSmw-0003pG-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 12:41:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54388)
+	id 1kTSgA-0005ab-Sq
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 12:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kTShu-0007um-9m
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 12:35:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kTShm-0002dq-F7
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 12:35:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kTShb-0000e1-Uh
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 16:35:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DA8852E8133
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 16:35:35 +0000 (UTC)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <ivan.griffin@emdalo.com>)
+ id 1kTSdY-0004O5-Aw; Fri, 16 Oct 2020 12:31:24 -0400
+Received: from mail-eopbgr30048.outbound.protection.outlook.com
+ ([40.107.3.48]:44038 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ivan.griffin@emdalo.com>)
+ id 1kTSdT-00024b-Ev; Fri, 16 Oct 2020 12:31:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YL5lGSrVqk1gVD+5RJx3c3ZFrXXCTa3dHlb7wmQdXrD8jbcBdm6hCQrO5orEnO/BJ5vllr6X/hZdZ7xn9wxla9NxA4fYA5Q+1/1ygYTKlzw+Iyn7xahRlZRW5/2fWOo6i3EM/u6LkCZIpjwyOLXXH6QNbfDGqXMD3mZcUbnSba5ZTahOBSZRdkXsCEKbV+aWcRspWZoGDVDM4Xz7h9hzh+C5pHQEjQLSldR6dbKj7C6VUWP3Rou5Fli7VY30KOJ+TeLIpeEq2SfwyJs9Az1obuir7rjo8+o/5q8zKpavqmX/QlOLUXyG9AfVz9wrMFx8z/yj1c+kNE8JoBygcmp8AA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8OBQiO74wx+xB+fKlLVJe69SmsRNnGoXKVUJ/eAhGG4=;
+ b=O5UVjsgJOe3V8x2xNOV9zX4COqlip15Z7HbwuzKy5qWPcPAsykkDz1r5F3Quy8uBusVl/n1uVucEqEh1TUa1RlVzUZAoFqRhL2wet+fHt/ZCK3TbESmlCXkRAYu6Dssx4ozaQemZi/JCS8xkfJp5xipBo1dxG0fuPsMFxtCGwkycY8R/dy4/kqubdOhR7e7EIetu/31xdOpiqI843BiH7N2v2FtNz6bxf9RZXZwDCZlOdmaaIDAw36Mn+N95SYEkqSkez2n/Wuw6Gn4dpicWSwad8QIzqyjYeHjNz6K32RvmMJKjnV4rXAMkN/VOLpCW27fbHBoUXwqRg7k8njn21A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=emdalo.com; dmarc=pass action=none header.from=emdalo.com;
+ dkim=pass header.d=emdalo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=emdalo.onmicrosoft.com; s=selector2-emdalo-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8OBQiO74wx+xB+fKlLVJe69SmsRNnGoXKVUJ/eAhGG4=;
+ b=iowrAnmtX8b/uYpsoI5M0m6MkuMedZspc5IirmwBmLJSPLNew/3fF7WeIp6OFbLfFcVcvKofYp64YEkTxbBL7BSjeZznObzJD6pcK8b+0L6ksokObpY9GpW/YdlgIHD/NYcSxjgKus2K9gsf8/N1FDV7k8MM1b8DBiOr61iEcC0=
+Received: from DB7PR10MB1915.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:5:e::24) by
+ DB8PR10MB2761.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:a9::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3477.21; Fri, 16 Oct 2020 16:31:12 +0000
+Received: from DB7PR10MB1915.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::2cbe:c29d:d77f:e65f]) by DB7PR10MB1915.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::2cbe:c29d:d77f:e65f%7]) with mapi id 15.20.3477.021; Fri, 16 Oct 2020
+ 16:31:12 +0000
+From: Ivan Griffin <ivan.griffin@emdalo.com>
+To: Alistair Francis <alistair23@gmail.com>
+Subject: RE: [PATCH] hw/riscv: microchip_pfsoc: IOSCBCTRL memmap entry
+Thread-Topic: [PATCH] hw/riscv: microchip_pfsoc: IOSCBCTRL memmap entry
+Thread-Index: AQHWo7koTlHYzPX6kkGBi37eK2QKsqmaZYWAgAAFWCA=
+Date: Fri, 16 Oct 2020 16:31:12 +0000
+Message-ID: <DB7PR10MB191544AA04D0B3ECF82C57CDFE030@DB7PR10MB1915.EURPRD10.PROD.OUTLOOK.COM>
+References: <20201016123737.8118-1-ivan.griffin@emdalo.com>
+ <CAKmqyKNykruYK2AQ05KZyGCGD0rUsqQOVBbnccY+ELATBF=Ozg@mail.gmail.com>
+In-Reply-To: <CAKmqyKNykruYK2AQ05KZyGCGD0rUsqQOVBbnccY+ELATBF=Ozg@mail.gmail.com>
+Accept-Language: en-IE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=emdalo.com;
+x-originating-ip: [88.87.191.50]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ccfceb4e-38c1-4135-76f3-08d871f0e50a
+x-ms-traffictypediagnostic: DB8PR10MB2761:
+x-microsoft-antispam-prvs: <DB8PR10MB2761794988191DE4BCA3F760FE030@DB8PR10MB2761.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2nAz6WB0jtJ+e7nfjLdIXKSBD9ooa4HX0OHfOvMNBhm/uXdcs13lMtDfpueaTwNZmRCKmgpl+r3xRpfa3xPEndQ+psnNejrmPORZZjsFV6WbFv0Pwrg8/azuFiPxvm5IZv6e9fgsA2kc30pdVEsplbgkq9ouAF+6KQgWZbFBRlGOuMsUEDv8egIxRzRehmys26c2BviPYtGWN8AYjBndra6SuiP485lPy5fNZRQ4urcaYYYoWV8TX4lpOTbYKwDQJD+DD7PXPZXsJKtjNTncRx4XV3vexhu9AOKKD26FYLx1X2IHJGhBXR+57qiXD55gNsjJHNp90/Dp6gA2WerZP+eMquBHtnKrTaWrhcHmmdoSLW1vr0sOy/nj2G7h+FslkzBw1u6WSSvNi+PvNFG4Bg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB7PR10MB1915.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(346002)(136003)(376002)(366004)(39830400003)(396003)(71200400001)(54906003)(316002)(55016002)(33656002)(7696005)(6916009)(66476007)(83380400001)(4326008)(44832011)(186003)(66446008)(86362001)(66946007)(64756008)(2906002)(66556008)(9686003)(966005)(76116006)(478600001)(8936002)(52536014)(5660300002)(26005)(6506007)(8676002)(53546011);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: tbIMWfaZ+3ZuRhWlyTfQLiJ4UdijXBLvbbCFMBPU4yru1jS/6srfGsuTuFmRzQj/r2nItW9DU4ddCtFz+XmQ4uj4LyjMONNTx7kGYncT4nMP/5yE3FXvGuiqDe3Ap2Ctgprh3kejcY1C/XDsBPzcG5UHjY9MwiTz3wYy8vDaagljGYSNSr/qEw+XLrWoaUgwhZsBgxKwappaf71Z05vAouM/9DLDfloztxJx2X6aNTBR8stWQDe5qRduRdwGMjL7h71UnRtYhlhnWMcBaNZSHz1ACNZPHzGWw0N+m0kbMuQfUc00fnDnI19MkGcyYQeHDf4ImXCuREa0SmieXk2aTnDtP8e6T8QDkeUcVqwXnBn1p9zWZZ9zDn6rXs9ZkTPLCjtmno8j9CYr448TQb2rAHDkGj1r7U7m2vVULBsR/vSzxLuDSTCZ3R0ro+Cf6pHB68kySuDNwRcGIasgZFtVTvilAKwoLA+BLdgxSa8tuYCrPU3qc/U/rHUDYXBcZ55km+kLn+TYgYbLgGhzVhw2JvwJ7Xc/2Dc/xFRE9LiO0upcQaePrZ6yBmFCPDfvIeYQIkRcQbcZjJ7YpxnnzTye4+b63sIIhre0NSXHyRPg+HGNbsY+r3faGS9oMcOLzAiDn0RUZqebdtsOq0obIIoZbg==
+x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Oct 2020 16:29:12 -0000
-From: vak <1900122@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: aarch64 docker ioctl video
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: khamenya
-X-Launchpad-Bug-Reporter: vak (khamenya)
-X-Launchpad-Bug-Modifier: vak (khamenya)
-References: <160284373799.25039.16464171690101536645.malonedeb@soybean.canonical.com>
-Message-Id: <160286575303.22344.13289815981696419116.launchpad@gac.canonical.com>
-Subject: [Bug 1900122] Re: Unsupported ioctl: cmd=0xffffffff80685600 when
- accessing /dev/video* in aarch64 guest
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
-X-Launchpad-Hash: 199d4a9989189e23fe6479704d5996d26dcc037f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 10:55:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: emdalo.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR10MB1915.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccfceb4e-38c1-4135-76f3-08d871f0e50a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2020 16:31:12.0323 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 12485e48-c3f6-4e74-8f2d-9058be9b6951
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6PLrnusA4Hcj0UmjzChpLE2V9enzbibcYvfq/vLjYyiAuFws+pes7+8cXKweM9ccUzyBT5ROmPy/QXZ+HVJiJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB2761
+Received-SPF: pass client-ip=40.107.3.48; envelope-from=ivan.griffin@emdalo.com;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 12:31:14
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,326 +108,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900122 <1900122@bugs.launchpad.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, "qemu-devel@nongnu.org
+ Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
-
-  **Description:**
-  Any attempt to work with video in aarch64 architecture emulated on x86_64=
- leads currently to the error "Function not implemented". For example:
-  =
-
-  ```
-  # v4l2-ctl -l --verbose
-  Failed to open /dev/video0: Function not implemented
-  =
-
-  root@12dd9b6fcfcb:/# ll /dev/video*
-  crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
-  crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
-  =
-
-  ```
-  =
-
-  **Steps to reproduce the issue:**
-  =
-
-  I have a following setup:
-  =
-
-  Host Hardware: x86_64 equipped with a webcam (tried different webcams)
-- Host OS: Ubuntu 20.04.1 =
-
-+ Host OS: Ubuntu 20.04.1
-  =
-
-  Guest Architecture: aarch64
-  Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
-  =
-
-  Emulation: quemu-user-static (also tried binfmt)
-  =
-
-  Guest OS is running via Docker + QEMU
-  =
-
-  ```
-  =E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
-  enabled
-  interpreter /usr/bin/qemu-aarch64-static
-  flags: F
-  offset 0
-  magic 7f454c460201010000000000000000000200b700
-  mask ffffffffffffff00fffffffffffffffffeffffff
-  ```
-  =
-
-  **Results received:**
-  see desrciption.
-  =
-
-+ =
-
-  **Environment:**
-  =
-
-- <!-- The host architecture is available for only x86_64 -->
-  * QEMU version: (if you can know it):
-  =
-
-  ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubun=
-tu4 all [installed,automatic]
-  ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [in=
-stalled,automatic]
-  qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,au=
-tomatic]
-  qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automa=
-tic]
-  qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
-  qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  =
-
-  * Container application: Docker
-  =
-
-  **Output of `docker version`, `podman version` or `singularity
-  version`**
-  =
-
-  ```
-  =E2=9E=9C docker version
-  Client: Docker Engine - Community
--  Version:           20.10.0-beta1
--  API version:       1.40
--  Go version:        go1.13.15
--  Git commit:        ac365d7
--  Built:             Tue Oct 13 18:15:22 2020
--  OS/Arch:           linux/amd64
--  Context:           default
--  Experimental:      true
-+ =C2=A0Version:           20.10.0-beta1
-+ =C2=A0API version:       1.40
-+ =C2=A0Go version:        go1.13.15
-+ =C2=A0Git commit:        ac365d7
-+ =C2=A0Built:             Tue Oct 13 18:15:22 2020
-+ =C2=A0OS/Arch:           linux/amd64
-+ =C2=A0Context:           default
-+ =C2=A0Experimental:      true
-  =
-
-  Server: Docker Engine - Community
--  Engine:
--   Version:          19.03.13
--   API version:      1.40 (minimum version 1.12)
--   Go version:       go1.13.15
--   Git commit:       4484c46d9d
--   Built:            Wed Sep 16 17:01:20 2020
--   OS/Arch:          linux/amd64
--   Experimental:     false
--  containerd:
--   Version:          1.4.1
--   GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
--  runc:
--   Version:          1.0.0-rc92
--   GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
--  docker-init:
--   Version:          0.18.0
--   GitCommit:        fec3683
-+ =C2=A0Engine:
-+ =C2=A0=C2=A0Version:          19.03.13
-+ =C2=A0=C2=A0API version:      1.40 (minimum version 1.12)
-+ =C2=A0=C2=A0Go version:       go1.13.15
-+ =C2=A0=C2=A0Git commit:       4484c46d9d
-+ =C2=A0=C2=A0Built:            Wed Sep 16 17:01:20 2020
-+ =C2=A0=C2=A0OS/Arch:          linux/amd64
-+ =C2=A0=C2=A0Experimental:     false
-+ =C2=A0containerd:
-+ =C2=A0=C2=A0Version:          1.4.1
-+ =C2=A0=C2=A0GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
-+ =C2=A0runc:
-+ =C2=A0=C2=A0Version:          1.0.0-rc92
-+ =C2=A0=C2=A0GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
-+ =C2=A0docker-init:
-+ =C2=A0=C2=A0Version:          0.18.0
-+ =C2=A0=C2=A0GitCommit:        fec3683
-  =
-
-  ```
-  =
-
-  Guest aarch64 runs in privileged mode:
-  =
-
-  `docker run --privileged --device=3D/dev/video0:/dev/video0 --env
-  DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
-  /tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
-  =
-
-  **Additional information:**
-  I tried also binfmt way to register emulators. The output of `v4l-ctl` wa=
-s a little bit different:
-  =
-
-  ```
-- # v4l2-ctl -l    =
-
-+ # v4l2-ctl -l
-  Unsupported ioctl: cmd=3D0xffffffff80685600
-  Failed to open /dev/video0: Function not implemented
-  =
-
-  ```
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900122
-
-Title:
-  Unsupported ioctl: cmd=3D0xffffffff80685600 when accessing /dev/video*
-  in aarch64 guest
-
-Status in QEMU:
-  New
-
-Bug description:
-  **Description:**
-  Any attempt to work with video in aarch64 architecture emulated on x86_64=
- leads currently to the error "Function not implemented". For example:
-
-  ```
-  # v4l2-ctl -l --verbose
-  Failed to open /dev/video0: Function not implemented
-
-  root@12dd9b6fcfcb:/# ll /dev/video*
-  crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
-  crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
-
-  ```
-
-  **Steps to reproduce the issue:**
-
-  I have a following setup:
-
-  Host Hardware: x86_64 equipped with a webcam (tried different webcams)
-  Host OS: Ubuntu 20.04.1
-
-  Guest Architecture: aarch64
-  Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
-
-  Emulation: quemu-user-static (also tried binfmt)
-
-  Guest OS is running via Docker + QEMU
-
-  ```
-  =E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
-  enabled
-  interpreter /usr/bin/qemu-aarch64-static
-  flags: F
-  offset 0
-  magic 7f454c460201010000000000000000000200b700
-  mask ffffffffffffff00fffffffffffffffffeffffff
-  ```
-
-  **Results received:**
-  see desrciption.
-
-  =
-
-  **Environment:**
-
-  * QEMU version: (if you can know it):
-
-  ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubun=
-tu4 all [installed,automatic]
-  ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [in=
-stalled,automatic]
-  qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,au=
-tomatic]
-  qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automa=
-tic]
-  qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
-  qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-
-  * Container application: Docker
-
-  **Output of `docker version`, `podman version` or `singularity
-  version`**
-
-  ```
-  =E2=9E=9C docker version
-  Client: Docker Engine - Community
-  =C2=A0Version:           20.10.0-beta1
-  =C2=A0API version:       1.40
-  =C2=A0Go version:        go1.13.15
-  =C2=A0Git commit:        ac365d7
-  =C2=A0Built:             Tue Oct 13 18:15:22 2020
-  =C2=A0OS/Arch:           linux/amd64
-  =C2=A0Context:           default
-  =C2=A0Experimental:      true
-
-  Server: Docker Engine - Community
-  =C2=A0Engine:
-  =C2=A0=C2=A0Version:          19.03.13
-  =C2=A0=C2=A0API version:      1.40 (minimum version 1.12)
-  =C2=A0=C2=A0Go version:       go1.13.15
-  =C2=A0=C2=A0Git commit:       4484c46d9d
-  =C2=A0=C2=A0Built:            Wed Sep 16 17:01:20 2020
-  =C2=A0=C2=A0OS/Arch:          linux/amd64
-  =C2=A0=C2=A0Experimental:     false
-  =C2=A0containerd:
-  =C2=A0=C2=A0Version:          1.4.1
-  =C2=A0=C2=A0GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
-  =C2=A0runc:
-  =C2=A0=C2=A0Version:          1.0.0-rc92
-  =C2=A0=C2=A0GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
-  =C2=A0docker-init:
-  =C2=A0=C2=A0Version:          0.18.0
-  =C2=A0=C2=A0GitCommit:        fec3683
-
-  ```
-
-  Guest aarch64 runs in privileged mode:
-
-  `docker run --privileged --device=3D/dev/video0:/dev/video0 --env
-  DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
-  /tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
-
-  **Additional information:**
-  I tried also binfmt way to register emulators. The output of `v4l-ctl` wa=
-s a little bit different:
-
-  ```
-  # v4l2-ctl -l
-  Unsupported ioctl: cmd=3D0xffffffff80685600
-  Failed to open /dev/video0: Function not implemented
-
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900122/+subscriptions
+SSBkb24ndCBrbm93IHdoeSBpdCBpc24ndCBkb2N1bWVudGVkIGluIHRoYXQgUERGIChvciBpbiB0
+aGUgcmVnaXN0ZXIgbWFwKSwgYnV0IGlmIHlvdSBjaGVjayBodHRwczovL2dpdGh1Yi5jb20vcG9s
+YXJmaXJlLXNvYy9wb2xhcmZpcmUtc29jLWJhcmUtbWV0YWwtbGlicmFyeS9ibG9iL21hc3Rlci9z
+cmMvcGxhdGZvcm0vZHJpdmVycy9tc3Nfc3lzX3NlcnZpY2VzL21zc19zeXNfc2VydmljZXMuaCB5
+b3UnbGwgc2VlIHRoZSBmb2xsb3dpbmcNCg0KYGBgDQp0eXBlZGVmIHN0cnVjdA0Kew0KICAgIHZv
+bGF0aWxlIHVpbnQzMl90IFNPRlRfUkVTRVQ7DQogICAgdm9sYXRpbGUgdWludDMyX3QgVkRFVEVD
+VE9SOw0KICAgIHZvbGF0aWxlIHVpbnQzMl90IFRWU19DT05UUk9MOw0KICAgIHZvbGF0aWxlIHVp
+bnQzMl90IFRWU19URU1QX0E7DQogICAgdm9sYXRpbGUgdWludDMyX3QgVFZTX1RFTVBfQjsNCiAg
+ICB2b2xhdGlsZSB1aW50MzJfdCBUVlNfVEVNUF9DOw0KICAgIHZvbGF0aWxlIHVpbnQzMl90IFRW
+U19WT0xUX0E7DQogICAgdm9sYXRpbGUgdWludDMyX3QgVFZTX1ZPTFRfQjsNCiAgICB2b2xhdGls
+ZSB1aW50MzJfdCBUVlNfVk9MVF9DOw0KICAgIHZvbGF0aWxlIHVpbnQzMl90IFRWU19PVVRQVVQw
+Ow0KICAgIHZvbGF0aWxlIHVpbnQzMl90IFRWU19PVVRQVVQxOw0KICAgIHZvbGF0aWxlIHVpbnQz
+Ml90IFRWU19UUklHR0VSOw0KICAgIHZvbGF0aWxlIHVpbnQzMl90IFRSSU1fVkRFVDFQMDU7DQog
+ICAgdm9sYXRpbGUgdWludDMyX3QgVFJJTV9WREVUMVA4Ow0KICAgIHZvbGF0aWxlIHVpbnQzMl90
+IFRSSU1fVkRFVDJQNTsNCiAgICB2b2xhdGlsZSB1aW50MzJfdCBUUklNX1RWUzsNCiAgICB2b2xh
+dGlsZSB1aW50MzJfdCBUUklNX0dERVQxUDA1Ow0KICAgIHZvbGF0aWxlIHVpbnQzMl90IFJFU0VS
+VkVEMDsNCiAgICB2b2xhdGlsZSB1aW50MzJfdCBSRVNFUlZFRDE7DQogICAgdm9sYXRpbGUgdWlu
+dDMyX3QgUkVTRVJWRUQyOw0KICAgIHZvbGF0aWxlIHVpbnQzMl90IFNFUlZJQ0VTX0NSOw0KICAg
+IHZvbGF0aWxlIHVpbnQzMl90IFNFUlZJQ0VTX1NSOw0KICAgIHZvbGF0aWxlIHVpbnQzMl90IFVT
+RVJfREVURUNUT1JfU1I7DQogICAgdm9sYXRpbGUgdWludDMyX3QgVVNFUl9ERVRFQ1RPUl9DUjsN
+CiAgICB2b2xhdGlsZSB1aW50MzJfdCBNU1NfU1BJX0NSOw0KDQp9IFNDQkNUUkxfVHlwZURlZjsN
+Cg0KI2RlZmluZSBNU1NfU0NCQ1RSTCAgICAgICAgICAgICAgICAgICAgKChTQ0JDVFJMX1R5cGVE
+ZWYqKSAoMHgzNzAyMDAwMFVMKSkNCg0KLyoya0IgYnl0ZXMgbG9uZyBtYWlsYm94LiovDQojZGVm
+aW5lIE1TU19TQ0JNQUlMQk9YICAgICAgICAgICAgICAgICAoKHVpbnQzMl90KikgKDB4MzcwMjA4
+MDBVTCkpDQpgYGANCg0KQW5kIGluIGh0dHBzOi8vZ2l0aHViLmNvbS9wb2xhcmZpcmUtc29jL3Bv
+bGFyZmlyZS1zb2MtYmFyZS1tZXRhbC1saWJyYXJ5L2Jsb2IvbWFzdGVyL3NyYy9wbGF0Zm9ybS9k
+cml2ZXJzL21zc19zeXNfc2VydmljZXMvbXNzX3N5c19zZXJ2aWNlcy5jIHlvdSdsbCBzZWUgTVNT
+X1NDQiBhbmQgTVNTX1NDQk1BSUxCT1ggdXNlZCBpbiBtYW55IHBsYWNlcyB0byBpbnRlcmFjdCB3
+aXRoIHRoZSBGUEdBIHN5c3RlbSBjb250cm9sbGVyIHRvIHBlcmZvcm0gdmFyaW91cyBzZXJ2aWNl
+cy4NCg0KDQpDaGVlcnMsDQpJdmFuDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZy
+b206IEFsaXN0YWlyIEZyYW5jaXMgPGFsaXN0YWlyMjNAZ21haWwuY29tPiANClNlbnQ6IEZyaWRh
+eSAxNiBPY3RvYmVyIDIwMjAgMTc6MDgNClRvOiBJdmFuIEdyaWZmaW4gPGl2YW4uZ3JpZmZpbkBl
+bWRhbG8uY29tPg0KQ2M6IEJpbiBNZW5nIDxiaW4ubWVuZ0B3aW5kcml2ZXIuY29tPjsgUUVNVSBU
+cml2aWFsIDxxZW11LXRyaXZpYWxAbm9uZ251Lm9yZz47IG9wZW4gbGlzdDpSSVNDLVYgPHFlbXUt
+cmlzY3ZAbm9uZ251Lm9yZz47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZyBEZXZlbG9wZXJzIDxxZW11
+LWRldmVsQG5vbmdudS5vcmc+DQpTdWJqZWN0OiBSZTogW1BBVENIXSBody9yaXNjdjogbWljcm9j
+aGlwX3Bmc29jOiBJT1NDQkNUUkwgbWVtbWFwIGVudHJ5DQoNCk9uIEZyaSwgT2N0IDE2LCAyMDIw
+IGF0IDg6MDQgQU0gSXZhbiBHcmlmZmluIDxpdmFuLmdyaWZmaW5AZW1kYWxvLmNvbT4gd3JvdGU6
+DQo+DQo+IEFkZGluZyB0aGUgUG9sYXJGaXJlIFNvQyBJT1NDQkNUUkwgbWVtb3J5IHJlZ2lvbiB0
+byBwcmV2ZW50IFFFTVUgDQo+IHJlcG9ydGluZyBhIFNUT1JFL0FNTyBBY2Nlc3MgRmF1bHQuDQo+
+DQo+IFRoaXMgcmVnaW9uIGlzIHVzZWQgYnkgdGhlIFBvbGFyRmlyZSBTb0MgcG9ydCBvZiBVLUJv
+b3QgdG8gaW50ZXJhY3QgDQo+IHdpdGggdGhlIEZQR0Egc3lzdGVtIGNvbnRyb2xsZXIuDQo+DQo+
+IFNpZ25lZC1vZmYtYnk6IEl2YW4gR3JpZmZpbiA8aXZhbi5ncmlmZmluQGVtZGFsby5jb20+DQo+
+IC0tLQ0KPiAgaHcvcmlzY3YvbWljcm9jaGlwX3Bmc29jLmMgICAgICAgICB8IDYgKysrKysrDQo+
+ICBpbmNsdWRlL2h3L3Jpc2N2L21pY3JvY2hpcF9wZnNvYy5oIHwgMSArDQo+ICAyIGZpbGVzIGNo
+YW5nZWQsIDcgaW5zZXJ0aW9ucygrKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvaHcvcmlzY3YvbWljcm9j
+aGlwX3Bmc29jLmMgYi9ody9yaXNjdi9taWNyb2NoaXBfcGZzb2MuYyANCj4gaW5kZXggNDYyNzE3
+OWNkMy4uMjBlMTQ5NmUzZSAxMDA2NDQNCj4gLS0tIGEvaHcvcmlzY3YvbWljcm9jaGlwX3Bmc29j
+LmMNCj4gKysrIGIvaHcvcmlzY3YvbWljcm9jaGlwX3Bmc29jLmMNCj4gQEAgLTk3LDYgKzk3LDcg
+QEAgc3RhdGljIGNvbnN0IHN0cnVjdCBNZW1tYXBFbnRyeSB7DQo+ICAgICAgW01JQ1JPQ0hJUF9Q
+RlNPQ19HUElPMl0gPSAgICAgICAgICAgeyAweDIwMTIyMDAwLCAgICAgMHgxMDAwIH0sDQo+ICAg
+ICAgW01JQ1JPQ0hJUF9QRlNPQ19FTlZNX0NGR10gPSAgICAgICAgeyAweDIwMjAwMDAwLCAgICAg
+MHgxMDAwIH0sDQo+ICAgICAgW01JQ1JPQ0hJUF9QRlNPQ19FTlZNX0RBVEFdID0gICAgICAgeyAw
+eDIwMjIwMDAwLCAgICAweDIwMDAwIH0sDQo+ICsgICAgW01JQ1JPQ0hJUF9QRlNPQ19JT1NDQl9D
+VFJMXSA9ICAgICAgeyAweDM3MDIwMDAwLCAgICAgMHgxMDAwIH0sDQoNCkkgZG9uJ3Qgc2VlIHRo
+aXMgaW4gdGhlIFVHMDg4MCAiVXNlciBHdWlkZSBQb2xhckZpcmUgU29DIEZQR0EgTWljcm9wcm9j
+ZXNzb3IgU3ViLVN5c3RlbSIgbWVtb3J5IG1hcC4NCg0KV2hlcmUgaXMgdGhpcyBkb2N1bWVudGVk
+Pw0KDQpBbGlzdGFpcg0KDQo+ICAgICAgW01JQ1JPQ0hJUF9QRlNPQ19JT1NDQl9DRkddID0gICAg
+ICAgeyAweDM3MDgwMDAwLCAgICAgMHgxMDAwIH0sDQo+ICAgICAgW01JQ1JPQ0hJUF9QRlNPQ19E
+UkFNXSA9ICAgICAgICAgICAgeyAweDgwMDAwMDAwLCAgICAgICAgMHgwIH0sDQo+ICB9Ow0KPiBA
+QCAtMzQxLDYgKzM0MiwxMSBAQCBzdGF0aWMgdm9pZCBtaWNyb2NoaXBfcGZzb2Nfc29jX3JlYWxp
+emUoRGV2aWNlU3RhdGUgKmRldiwgRXJyb3IgKiplcnJwKQ0KPiAgICAgIGNyZWF0ZV91bmltcGxl
+bWVudGVkX2RldmljZSgibWljcm9jaGlwLnBmc29jLmlvc2NiLmNmZyIsDQo+ICAgICAgICAgIG1l
+bW1hcFtNSUNST0NISVBfUEZTT0NfSU9TQ0JfQ0ZHXS5iYXNlLA0KPiAgICAgICAgICBtZW1tYXBb
+TUlDUk9DSElQX1BGU09DX0lPU0NCX0NGR10uc2l6ZSk7DQo+ICsNCj4gKyAgICAvKiBJT1NDQkNU
+UkwgKi8NCj4gKyAgICBjcmVhdGVfdW5pbXBsZW1lbnRlZF9kZXZpY2UoIm1pY3JvY2hpcC5wZnNv
+Yy5pb3NjYi5jdHJsIiwNCj4gKyAgICAgICAgbWVtbWFwW01JQ1JPQ0hJUF9QRlNPQ19JT1NDQl9D
+VFJMXS5iYXNlLA0KPiArICAgICAgICBtZW1tYXBbTUlDUk9DSElQX1BGU09DX0lPU0NCX0NUUkxd
+LnNpemUpOw0KPiAgfQ0KPg0KPiAgc3RhdGljIHZvaWQgbWljcm9jaGlwX3Bmc29jX3NvY19jbGFz
+c19pbml0KE9iamVjdENsYXNzICpvYywgdm9pZCANCj4gKmRhdGEpIGRpZmYgLS1naXQgYS9pbmNs
+dWRlL2h3L3Jpc2N2L21pY3JvY2hpcF9wZnNvYy5oIA0KPiBiL2luY2x1ZGUvaHcvcmlzY3YvbWlj
+cm9jaGlwX3Bmc29jLmgNCj4gaW5kZXggOGJmYzdlMWE4NS4uM2YxODc0YjE2MiAxMDA2NDQNCj4g
+LS0tIGEvaW5jbHVkZS9ody9yaXNjdi9taWNyb2NoaXBfcGZzb2MuaA0KPiArKysgYi9pbmNsdWRl
+L2h3L3Jpc2N2L21pY3JvY2hpcF9wZnNvYy5oDQo+IEBAIC05NSw2ICs5NSw3IEBAIGVudW0gew0K
+PiAgICAgIE1JQ1JPQ0hJUF9QRlNPQ19FTlZNX0NGRywNCj4gICAgICBNSUNST0NISVBfUEZTT0Nf
+RU5WTV9EQVRBLA0KPiAgICAgIE1JQ1JPQ0hJUF9QRlNPQ19JT1NDQl9DRkcsDQo+ICsgICAgTUlD
+Uk9DSElQX1BGU09DX0lPU0NCX0NUUkwsDQo+ICAgICAgTUlDUk9DSElQX1BGU09DX0RSQU0sDQo+
+ICB9Ow0KPg0KPiAtLQ0KPiAyLjE3LjENCj4NCj4NCg==
 
