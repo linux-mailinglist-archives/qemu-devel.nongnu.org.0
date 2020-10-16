@@ -2,78 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097E329028E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 12:09:15 +0200 (CEST)
-Received: from localhost ([::1]:54424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305A02907E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 17:02:09 +0200 (CEST)
+Received: from localhost ([::1]:34604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTMfi-0002wp-3b
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 06:09:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50792)
+	id 1kTRFA-00063X-6J
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 11:02:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kTMdo-00024i-SO
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 06:07:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20033)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kTMdl-00025D-Rx
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 06:07:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602842833;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pS/7/1Hx5WmhRrIlsEQ55ucPyMcTQrVbVu2Ntnop5MY=;
- b=jCIb7HPzfjamDtljl6CzW/YdJsI4mTfaBIPNZo5FQ7PUJ+kx4vfXEzhpgH6jcHZK9jsgTl
- deXInb0HLmHSwxFCHq1JbxEAVcKDd3EXXmXv85AdmSthdALyVQQinywrTfkfcX0g6ea+eq
- 0mz4efFl6F5COWCYB3KyZTsNu/EHXIw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-FlTR62XQNPOJI53NFO-lTQ-1; Fri, 16 Oct 2020 06:07:09 -0400
-X-MC-Unique: FlTR62XQNPOJI53NFO-lTQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4ACA886ABD2;
- Fri, 16 Oct 2020 10:07:07 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D0496EF54;
- Fri, 16 Oct 2020 10:07:04 +0000 (UTC)
-Date: Fri, 16 Oct 2020 12:07:01 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: [RFC PATCH 00/12] hw/arm/virt: Introduce cpu and cache topology
- support
-Message-ID: <20201016100701.7oojzwpgh6ka4fq6@kamzik.brq.redhat.com>
-References: <20200917032033.2020-1-fangying1@huawei.com>
- <678F3D1BB717D949B966B68EAEB446ED49E0BB94@dggemm526-mbx.china.huawei.com>
- <20201013180840.yzkncsw34xvwtoll@kamzik.brq.redhat.com>
- <7491ca46-92b2-09e0-67a8-55a90203b9cc@huawei.com>
- <20201015075900.ukz3y6cl2vhwmctx@kamzik.brq.redhat.com>
- <4b9472ec-b90a-8b22-16ba-670e7298c9c9@huawei.com>
-MIME-Version: 1.0
-In-Reply-To: <4b9472ec-b90a-8b22-16ba-670e7298c9c9@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 20:29:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <adelt@hni.upb.de>)
+ id 1kTMii-0004TM-Cl; Fri, 16 Oct 2020 06:12:21 -0400
+Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17]:47374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <adelt@hni.upb.de>)
+ id 1kTMid-0002qF-EY; Fri, 16 Oct 2020 06:12:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=hni.uni-paderborn.de; s=20170601; h=To:Cc:Date:Message-Id:Subject:
+ Mime-Version:Content-Transfer-Encoding:Content-Type:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=NsyoKU5JYCFe/mYWFtpP8suMkzdEmg4/dVRmG7SLcZ0=; b=P7YPgkFmxPYO1jyDEEA9WQH4as
+ 2qJ+hAWbNwiktK0flNmwGmgjVpKNQ+rA0IEYAnYqf/7ESvonnz9tZpU7zSXSERJuFeu6lZ3mYANNj
+ 9qRKTdhZMdjI3tiJcT/s0x6AYeiq5RmgT6m42Gc7mk9RioX6WFic+LrF343dO2/YK3ms=;
+From: Peer Adelt <adelt@hni.upb.de>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.15\))
+Subject: HTIF tohost symbol size check always fails
+Message-Id: <B96DF081-AEDD-470E-A99C-8A9536E0A8CE@hni.upb.de>
+Date: Fri, 16 Oct 2020 12:12:05 +0200
+To: qemu-riscv@nongnu.org
+X-Mailer: Apple Mail (2.3445.104.15)
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2020.10.16.100318, AntiVirus-Engine: 5.77.0,
+ AntiVirus-Data: 2020.9.28.5770001
+X-Sophos-SenderHistory: ip=37.24.125.142, fs=43337703, da=90452191, mc=238,
+ sc=1, hc=237, sp=0, fso=43337703, re=0, sd=0, hd=0
+X-IMT-Authenticated-Sender: uid=adelt,ou=People,o=upb,c=de
+Received-SPF: neutral client-ip=2001:638:502:c003::17;
+ envelope-from=adelt@hni.upb.de; helo=zuban.uni-paderborn.de
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 16 Oct 2020 10:59:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,124 +66,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Chenzhendong \(alex\)" <alex.chen@huawei.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "alistair.francis@wdc.com" <alistair.francis@wdc.com>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "valentin.schneider@arm.com" <valentin.schneider@arm.com>
+Cc: qemu-devel@nongnu.org, sagark@eecs.berkeley.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 16, 2020 at 05:40:02PM +0800, Ying Fang wrote:
-> 
-> 
-> On 10/15/2020 3:59 PM, Andrew Jones wrote:
-> > On Thu, Oct 15, 2020 at 10:07:16AM +0800, Ying Fang wrote:
-> > > 
-> > > 
-> > > On 10/14/2020 2:08 AM, Andrew Jones wrote:
-> > > > On Tue, Oct 13, 2020 at 12:11:20PM +0000, Zengtao (B) wrote:
-> > > > > Cc valentin
-> > > > > 
-> > > > > > -----Original Message-----
-> > > > > > From: Qemu-devel
-> > > > > > [mailto:qemu-devel-bounces+prime.zeng=hisilicon.com@nongnu.org]
-> > > > > > On Behalf Of Ying Fang
-> > > > > > Sent: Thursday, September 17, 2020 11:20 AM
-> > > > > > To: qemu-devel@nongnu.org
-> > > > > > Cc: peter.maydell@linaro.org; drjones@redhat.com; Zhanghailiang;
-> > > > > > Chenzhendong (alex); shannon.zhaosl@gmail.com;
-> > > > > > qemu-arm@nongnu.org; alistair.francis@wdc.com; fangying;
-> > > > > > imammedo@redhat.com
-> > > > > > Subject: [RFC PATCH 00/12] hw/arm/virt: Introduce cpu and cache
-> > > > > > topology support
-> > > > > > 
-> > > > > > An accurate cpu topology may help improve the cpu scheduler's
-> > > > > > decision
-> > > > > > making when dealing with multi-core system. So cpu topology
-> > > > > > description
-> > > > > > is helpful to provide guest with the right view. Cpu cache information
-> > > > > > may
-> > > > > > also have slight impact on the sched domain, and even userspace
-> > > > > > software
-> > > > > > may check the cpu cache information to do some optimizations. Thus
-> > > > > > this patch
-> > > > > > series is posted to provide cpu and cache topology support for arm.
-> > > > > > 
-> > > > > > To make the cpu topology consistent with MPIDR, an vcpu ioctl
-> > > > > 
-> > > > > For aarch64, the cpu topology don't depends on the MPDIR.
-> > > > > See https://patchwork.kernel.org/patch/11744387/
-> > > > > 
-> > > > 
-> > > > The topology should not be inferred from the MPIDR Aff fields,
-> > > 
-> > > MPIDR is abused by ARM OEM manufactures. It is only used as a
-> > > identifer for a specific cpu, not representation of the topology.
-> > 
-> > Right, which is why I stated topology should not be inferred from
-> > it.
-> > 
-> > > 
-> > > > but MPIDR is the CPU identifier. When describing a topology
-> > > > with ACPI or DT the CPU elements in the topology description
-> > > > must map to actual CPUs. MPIDR is that mapping link. KVM
-> > > > currently determines what the MPIDR of a VCPU is. If KVM
-> > > 
-> > > KVM currently assigns MPIDR with vcpu->vcpu_id which mapped
-> > > into affinity levels. See reset_mpidr in sys_regs.c
-> > 
-> > I know, but how KVM assigns MPIDRs today is not really important
-> > to KVM userspace. KVM userspace shouldn't depend on a KVM
-> > algorithm, as it could change.
-> > 
-> > > 
-> > > > userspace is going to determine the VCPU topology, then it
-> > > > also needs control over the MPIDR values, otherwise it
-> > > > becomes quite messy trying to get the mapping right.
-> > > If we are going to control MPIDR, shall we assign MPIDR with
-> > > vcpu_id or map topology hierarchy into affinity levels or any
-> > > other link schema ?
-> > > 
-> > 
-> > We can assign them to whatever we want, as long as they're
-> > unique and as long as Aff0 is assigned per the GIC requirements,
-> > e.g. GICv3 requires that Aff0 be from 0 to 0xf. Also, when
-> > pinning VCPUs to PCPUs we should ensure that MPIDRs with matching
-> > Aff3,Aff2,Aff1 fields should actually be peers with respect to
-> > the GIC.
-> 
-> Still not clear why vCPU's MPIDR need to match pPCPU's GIC affinity.
-> Maybe I should read spec for GICv3.
+Hi,
 
-Look at how IPIs are efficiently sent to "peers", where the definition
-of a peer is that only Aff0 differs in its MPIDR. But, gicv3's
-optimizations can only handle 16 peers. If we want pinned VCPUs to
-have the same performance as PCPUS, then we should maintain this
-Aff0 limit.
+I have a problem with the RISC-V HTIF device.=20
 
-Thanks,
-drew
+Every binary I have compiled for Spike on riscv32 fails with the =
+following error message: "HTIF tohost must be 8 bytes"
 
-> 
-> > 
-> > We shouldn't try to encode topology in the MPIDR in any way,
-> > so we might as well simply increment a counter to assign them,
-> > which could possibly be the same as the VCPU ID.
-> 
-> Hmm, then we can leave it as it is.
-> 
-> > 
-> > Thanks,
-> > drew
-> > 
-> > .
-> > 
-> 
+This happens regardless of which program I have translated for Spike. =
+This is also the case with the official riscv-compliance tests, for =
+example.
 
+The query "if (st_size !=3D 8)" in the HTIF device always fails, because =
+st_size seems to be always 0.
+
+To be able to reproduce it:
+- QEMU GIT Hash: d0ed6a69d399ae193959225cdeaa9382746c91cc (tag "v5.1.0")
+- System: Mac OS 10.14.6 (Darwin Kernel Version 18.7.0)
+- Compiler: Latest SiFive Build for GCC under OSX
+- Command: qemu-system-riscv32 -M spike -nographic -bios none -kernel =
+<ANY_SPIKE_ELF_FILE>
+
+Best regards,
+Peer Adelt=
 
