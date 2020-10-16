@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F19B28FDDE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 07:58:29 +0200 (CEST)
-Received: from localhost ([::1]:42136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6493928FDDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 07:56:47 +0200 (CEST)
+Received: from localhost ([::1]:35076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTIl2-0002dh-4R
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 01:58:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44088)
+	id 1kTIjO-0008DD-Cs
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 01:56:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kTIhY-0006Ow-9b
+ id 1kTIhY-0006Pa-Hc
  for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:52 -0400
-Received: from mga01.intel.com ([192.55.52.88]:36632)
+Received: from mga01.intel.com ([192.55.52.88]:36617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kTIhW-0005GT-Ge
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:51 -0400
-IronPort-SDR: D2wDGU1Bb7Lm3TaBHYjQhlUPzdtMgBhVr3JTb3unvjHs7qrFvhEIFrGN0W1mXOYk3Lo8ce6DZG
- 5kr3lQRY83Gw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="184094660"
-X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="184094660"
+ id 1kTIhW-0005C7-Su
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:52 -0400
+IronPort-SDR: Q8xyFJTqyNP/U079vtury32bbr5mAb71Z7LjvA9gteNGaGsa1LeI76jsaBu5pW72ING9R+m/Nx
+ WsXlN4UijyIQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="184094668"
+X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="184094668"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 22:54:48 -0700
-IronPort-SDR: oJXi2SHz6/EuetqkrfUnkUy7Hm/9H6gfXxDfDJYeYZvCiyOe2xbXo+MzDqRhvrxVTY638TFZzX
- JDeU4wixV2ww==
-X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="464572840"
+ 15 Oct 2020 22:54:49 -0700
+IronPort-SDR: yAeH5A2Yk5CgoLsQNdUSXVZziZJqNw81s74aJGPJmS+DWfYa/LZdH+Y+x/wtfAMeQD2Nbhi3Jo
+ L+bUbNfoiLoQ==
+X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="464572845"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 22:54:46 -0700
+ 15 Oct 2020 22:54:48 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH V2 06/10] colo-compare: check mark in mutual exclusion
-Date: Fri, 16 Oct 2020 13:52:04 +0800
-Message-Id: <20201016055208.7969-7-chen.zhang@intel.com>
+Subject: [PATCH V2 07/10] net/colo-compare.c: Fix compare_timeout format issue
+Date: Fri, 16 Oct 2020 13:52:05 +0800
+Message-Id: <20201016055208.7969-8-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201016055208.7969-1-chen.zhang@intel.com>
 References: <20201016055208.7969-1-chen.zhang@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.88; envelope-from=chen.zhang@intel.com;
  helo=mga01.intel.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 01:54:36
@@ -68,39 +71,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Derek Su <dereksu@qnap.com>, Zhang Chen <chen.zhang@intel.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Zhang Chen <zhangckid@gmail.com>
+ Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
+From: Zhang Chen <chen.zhang@intel.com>
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+This parameter need compare with the return of qemu_clock_get_ms(),
+it is uint64_t. So we need fix this issue here.
+
+Fixes: 9cc43c94b31 ("net/colo-compare.c: Expose "compare_timeout" to users")
+
+Reported-by: Derek Su <dereksu@qnap.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Reviewed-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- net/colo-compare.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ net/colo-compare.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index a35c10fb59..8d476bbd99 100644
+index 8d476bbd99..76b83a9ca0 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -477,13 +477,11 @@ sec:
-             colo_release_primary_pkt(s, ppkt);
-             g_queue_push_head(&conn->secondary_list, spkt);
-             goto pri;
--        }
--        if (mark == COLO_COMPARE_FREE_SECONDARY) {
-+        } else if (mark == COLO_COMPARE_FREE_SECONDARY) {
-             conn->compare_seq = spkt->seq_end;
-             packet_destroy(spkt, NULL);
-             goto sec;
--        }
--        if (mark == (COLO_COMPARE_FREE_PRIMARY | COLO_COMPARE_FREE_SECONDARY)) {
-+        } else if (mark == (COLO_COMPARE_FREE_PRIMARY | COLO_COMPARE_FREE_SECONDARY)) {
-             conn->compare_seq = ppkt->seq_end;
-             colo_release_primary_pkt(s, ppkt);
-             packet_destroy(spkt, NULL);
+@@ -120,7 +120,7 @@ struct CompareState {
+     SendCo out_sendco;
+     SendCo notify_sendco;
+     bool vnet_hdr;
+-    uint32_t compare_timeout;
++    uint64_t compare_timeout;
+     uint32_t expired_scan_cycle;
+ 
+     /*
+@@ -1076,9 +1076,9 @@ static void compare_get_timeout(Object *obj, Visitor *v,
+                                 Error **errp)
+ {
+     CompareState *s = COLO_COMPARE(obj);
+-    uint32_t value = s->compare_timeout;
++    uint64_t value = s->compare_timeout;
+ 
+-    visit_type_uint32(v, name, &value, errp);
++    visit_type_uint64(v, name, &value, errp);
+ }
+ 
+ static void compare_set_timeout(Object *obj, Visitor *v,
+@@ -1141,9 +1141,9 @@ static void set_max_queue_size(Object *obj, Visitor *v,
+                                Error **errp)
+ {
+     Error *local_err = NULL;
+-    uint32_t value;
++    uint64_t value;
+ 
+-    visit_type_uint32(v, name, &value, &local_err);
++    visit_type_uint64(v, name, &value, &local_err);
+     if (local_err) {
+         goto out;
+     }
+@@ -1391,7 +1391,7 @@ static void colo_compare_init(Object *obj)
+     object_property_add_str(obj, "notify_dev",
+                             compare_get_notify_dev, compare_set_notify_dev);
+ 
+-    object_property_add(obj, "compare_timeout", "uint32",
++    object_property_add(obj, "compare_timeout", "uint64",
+                         compare_get_timeout,
+                         compare_set_timeout, NULL, NULL);
+ 
 -- 
 2.17.1
 
