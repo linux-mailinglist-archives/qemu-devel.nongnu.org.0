@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1FF2290AC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 19:32:35 +0200 (CEST)
-Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE24290A91
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 19:22:57 +0200 (CEST)
+Received: from localhost ([::1]:34124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTTak-0005kC-CU
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 13:32:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36192)
+	id 1kTTRQ-0004TQ-Ty
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 13:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTTHX-0004R6-Mb; Fri, 16 Oct 2020 13:12:44 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36971)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kTTKs-0007N5-KL
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 13:16:15 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:38900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTTHR-0007Vg-S9; Fri, 16 Oct 2020 13:12:39 -0400
-Received: by mail-wr1-x444.google.com with SMTP id h7so3783985wre.4;
- Fri, 16 Oct 2020 10:12:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kTTKo-000824-TY
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 13:16:10 -0400
+Received: by mail-pg1-x544.google.com with SMTP id j7so1830732pgk.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 10:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4wY+U5nMuX3uLuJeo5OAk4URYlw7/kn5+EjoyuhialU=;
- b=WBNSElgigoiRMzfoKnoGMVBsEuYpwb2YHxVKx+ggZKR1vnpg/f2FemEY40dzGhoRC9
- Ex+kyZgfUZeyb1f7t4zDvFjxU5/G9eKQ5W1r9pzpF26BX52ZgDtY63M/qqDjQqGJlR5u
- s1W00b6ermPOhFTYin2/GFLi8/6wOTMrUM9E20oZazgi5yHFkeXJ9X2brKsNtPLst8bE
- WGgAhdhpz/WXR8HdeRpnlzl4GXb4NYGGoRZHV0kbkYOUUGeYM3fWRPMgo/ZytADy6TiR
- H6fzsv0Zh4GxH28HDQahPfX6vxYRcXCxOKXrgpd1lDBg7VlvdLE7wVJLGtLD8EJwA2Xm
- OMUw==
+ bh=3u22fuaUAC4emaWKLqxyzZ3iv7mrxTzsyPsdWnCshfA=;
+ b=aAbj9O+e+hncOYXIE//uCEsIdUE/2v5mFQrinnTdWvP/VIz6qU5YdUAYjDi6c6/gyk
+ MgwlTmHRcwJWgfdOKJcYnbgpATMB9kVhZDh7zlD1JNz+cSLaMs79HLh1A4CLpkDWwn4Q
+ ksMNRH63PicW0NXlHEfLfcgk4On9P1J0LPUv+EpjNRvvfdf1sCKC0E03WtekALDymQVl
+ 8iItQ/7J6UNn70/e+TDIdc1yOW0LvHuecotarxQYhlOCxpzTE8hwbvvRoraZRhKuzm3h
+ FG01PbZ7kU6e7eLTXRbg3L+NO8DRNeOU0RugcCmy2liRxS2kt/qTMgOpWc0qAQNbWjuB
+ xk7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4wY+U5nMuX3uLuJeo5OAk4URYlw7/kn5+EjoyuhialU=;
- b=V9pZziyHiJmUt8qhDt5on+5r8C0XYtPhzj6nxuDHCTbsE6cYdQXPxZBVIvadd5zBvu
- WCevl9fQ30Mm2TemCxALEVBBM++REpuWOv+c7WpKGg/UMzMq8agq5EpaBVtAkOEoAE4O
- 7NaAOjN+6+1nrgP+W98joFW0gfXhBi8OkWqy4hZPrj54ZjkhiJqJeqMpeGSzr0AktHtU
- OfO9JmTDtkrNKeNWq40dU0C5BNF+L7HqKifD/wVx3z0uK0Gr/yuyTupsY/0GhywU0LAO
- /4X3vmlNvCbaBGdPIFUuYhr8GRGxLKz5Mn2UmvAsmUPhutq3cx+cE8jeMedlmU/2ICAW
- 22PA==
-X-Gm-Message-State: AOAM533aSp8B/KRL5E67jw6NIF1t2awp1xMReUwf/9mtMcd4yQdRfvUD
- SXuwjOb21rDnFiU/9JhjZ6k=
-X-Google-Smtp-Source: ABdhPJzfP6OUY1RY+PcRm/Ss2XhtmBYhiih7Rd8stpyiV6GHYJAH/ZvJ/InPiRE5q8fVlmEWInhNoQ==
-X-Received: by 2002:adf:fcc3:: with SMTP id f3mr4989774wrs.336.1602868355124; 
- Fri, 16 Oct 2020 10:12:35 -0700 (PDT)
-Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id t124sm3524324wmg.31.2020.10.16.10.11.32
+ bh=3u22fuaUAC4emaWKLqxyzZ3iv7mrxTzsyPsdWnCshfA=;
+ b=suPE1m5lCPHs5hGCu4WAt04auHBSnYqjh1yh9v7SCM99aUiKuPaOZmgPqQLRhNgtpi
+ w0snwaQxbPf9z22SFAcsmg4KIJx3tKWUnSXwFuh+pnNFr2+mKFJVb3lB+jleC9VBPSIa
+ apfwbDPRwx1I/Jq6AecDbiGbif6pMSgDUlfdcAM7axip3T4daMJOGMFVMFsaoqgBm1Rl
+ 2cTKmFP3DbhhFvdCFsSYsjrGGrxpigOkG87fX4EHMF3b5ZHsEbODVPf2jE0J4cLT1U4+
+ gQqsvUDtoNpe9VS39Wp4sVHAz/vhiiHtiRXvzxRKYAbm+0yARNQD1O27RelD6JAhglVn
+ 1hDA==
+X-Gm-Message-State: AOAM530a6uobAZY3ydX5z7Or4bTslLeSzO1/GmoDhIuzJGZYIjaSeMpo
+ nYYasuzLiQyBnt2xM+G8qoRtkA==
+X-Google-Smtp-Source: ABdhPJxxKpWWWX60mXIUMRNkSeF4LGHxgofXDwd5A+qMudQpjuTe/wtTsVg3+/SIYQ4ZMNeggCathw==
+X-Received: by 2002:a63:1212:: with SMTP id h18mr3934041pgl.196.1602868565079; 
+ Fri, 16 Oct 2020 10:16:05 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id m4sm3317748pgv.87.2020.10.16.10.16.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Oct 2020 10:11:33 -0700 (PDT)
-Subject: Re: [PATCH v3 00/15] raspi: add the bcm2835 cprman clock manager
-To: Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org
-References: <20201010135759.437903-1-luc@lmichel.fr>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a9a19895-8cfe-c40a-4b26-0ebdffe76d83@amsat.org>
-Date: Fri, 16 Oct 2020 19:11:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ Fri, 16 Oct 2020 10:16:03 -0700 (PDT)
+Subject: Re: [PATCH v2 2/5] [RISCV_PM] Support CSRs required for RISC-V PM
+ extension except for ones in hypervisor mode
+To: Alexey Baturo <baturo.alexey@gmail.com>
+References: <20201015152139.28903-1-space.monkey.delivers@gmail.com>
+ <20201015152139.28903-2-space.monkey.delivers@gmail.com>
+ <d39e0c59-3b04-6401-aaac-8e202fb5036a@linaro.org>
+ <CAFukJ-BwbtRyCYFW3+v4f8xmri3+Yk5ayhgZYen-6fj1xjmD9g@mail.gmail.com>
+ <CAFukJ-AYk6VjC=8h83+Y==XbTwXODP34_JMzndW6_taD2uu4+g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <65746626-278a-d380-7df6-4cd71366344a@linaro.org>
+Date: Fri, 16 Oct 2020 10:16:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201010135759.437903-1-luc@lmichel.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFukJ-AYk6VjC=8h83+Y==XbTwXODP34_JMzndW6_taD2uu4+g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.253,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.253,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,21 +93,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ "space.monkey.delivers@gmail.com" <space.monkey.delivers@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Dave Smith <kupokupokupopo@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/20 3:57 PM, Luc Michel wrote:
-[...]
-> Hi,
-> 
-> This series add the BCM2835 CPRMAN clock manager peripheral to the
-> Raspberry Pi machine.
+On 10/15/20 11:05 AM, Alexey Baturo wrote:
+> Meanwhile, do you think applying **MTE *masks while reading CSR values is a
+> good solution for now?
 
-Series:
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Yes.
+
+
+r~
 
