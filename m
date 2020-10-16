@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E0529043A
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:43:31 +0200 (CEST)
-Received: from localhost ([::1]:48186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3EDB29044E
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:47:40 +0200 (CEST)
+Received: from localhost ([::1]:34756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTO8w-0000Yz-Uw
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:43:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60566)
+	id 1kTOCx-0006uz-QC
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:47:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4T-000759-Id
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:38:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40935)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4X-00078O-Ln
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:39:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4R-0001aY-Ju
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:38:53 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4R-0001aK-4a
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:38:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602848330;
+ s=mimecast20190719; t=1602848329;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QTyIkJjIbCmBzK8jKIsbMMG6iFRTklmLvn+3PieWmmg=;
- b=MGEuBypZWd8gi2YNyfg+nBEuZptcyz8E95Jv8z6jUcJbFoh7RLJyLhwIicFobKciLaHIDp
- QAxKNskUYWU5imabKTQ9z6AwpWT9dZnu31E3BPunkJeYx0MgZlGOmVbozLEmN4QS00Paiw
- mMkUXKgPFHPQl+KwkjkPjZtrgG2RNOU=
+ bh=aOb0XQ3gZP/giL1grdgen+q0rNnJLxXt1gCv3WbvHKc=;
+ b=WmxBbDAAJYfB/z2wqW5YVzhCTdTMPSHW8aHLIs98sabBxtYKJPf4MNKLlBtejictxBEDtW
+ WxpZgPUMoGVndhVaYHcLxjMTc9GjAqJYwT0KUpYtfgonGf3CNoxkn01P5Ql/53pnGQP14a
+ QhNZ4uqvLYv3LibiTmge8Lpty8r37rc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-oIHr18U5Oc6Xt84spmd8tg-1; Fri, 16 Oct 2020 07:38:47 -0400
-X-MC-Unique: oIHr18U5Oc6Xt84spmd8tg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-442-ceTmVLgJMyuAzCpmj1lsdg-1; Fri, 16 Oct 2020 07:38:48 -0400
+X-MC-Unique: ceTmVLgJMyuAzCpmj1lsdg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 048105708C;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0B238015F5;
  Fri, 16 Oct 2020 11:38:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9465E60C11;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A28E773661;
  Fri, 16 Oct 2020 11:38:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BC8081753B; Fri, 16 Oct 2020 13:38:35 +0200 (CEST)
+ id CA1219D8F; Fri, 16 Oct 2020 13:38:35 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] tests/acpi: add empty microvm/APIC.pcie
-Date: Fri, 16 Oct 2020 13:38:30 +0200
-Message-Id: <20201016113835.17465-3-kraxel@redhat.com>
+Subject: [PATCH 3/7] x86: make pci irqs runtime configurable
+Date: Fri, 16 Oct 2020 13:38:31 +0200
+Message-Id: <20201016113835.17465-4-kraxel@redhat.com>
 In-Reply-To: <20201016113835.17465-1-kraxel@redhat.com>
 References: <20201016113835.17465-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,15 +88,62 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a variable to x86 machine state instead of
+hard-coding the PCI interrupts.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/data/acpi/microvm/APIC.pcie | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 tests/data/acpi/microvm/APIC.pcie
+ include/hw/i386/x86.h | 2 ++
+ hw/i386/acpi-common.c | 3 +--
+ hw/i386/x86.c         | 1 +
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/data/acpi/microvm/APIC.pcie b/tests/data/acpi/microvm/APIC.pcie
-new file mode 100644
-index 000000000000..e69de29bb2d1
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index d5dcf7a07fdc..bfa9cb2a258b 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -58,6 +58,7 @@ struct X86MachineState {
+ 
+     /* CPU and apic information: */
+     bool apic_xrupt_override;
++    unsigned pci_irq_mask;
+     unsigned apic_id_limit;
+     uint16_t boot_cpus;
+     unsigned smp_dies;
+@@ -114,6 +115,7 @@ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
+ /* Global System Interrupts */
+ 
+ #define GSI_NUM_PINS IOAPIC_NUM_PINS
++#define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+ 
+ typedef struct GSIState {
+     qemu_irq i8259_irq[ISA_NUM_IRQS];
+diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+index ab9b00581a15..1584abb3e6b0 100644
+--- a/hw/i386/acpi-common.c
++++ b/hw/i386/acpi-common.c
+@@ -115,8 +115,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+ 
+     if (has_pci) {
+         for (i = 1; i < 16; i++) {
+-#define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+-            if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
++            if (!(x86ms->pci_irq_mask & (1 << i))) {
+                 /* No need for a INT source override structure. */
+                 continue;
+             }
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 3137a2008588..5944fc44edca 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1178,6 +1178,7 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->smm = ON_OFF_AUTO_AUTO;
+     x86ms->acpi = ON_OFF_AUTO_AUTO;
+     x86ms->smp_dies = 1;
++    x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+ }
+ 
+ static void x86_machine_class_init(ObjectClass *oc, void *data)
 -- 
 2.27.0
 
