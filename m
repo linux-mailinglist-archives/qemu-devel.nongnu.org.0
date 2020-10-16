@@ -2,73 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1372029043C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:43:42 +0200 (CEST)
-Received: from localhost ([::1]:49126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAADE290448
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:46:08 +0200 (CEST)
+Received: from localhost ([::1]:57370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTO97-0000zi-4T
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60646)
+	id 1kTOBT-0004SI-S6
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:46:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4h-000796-7v
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:39:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51155)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kTO86-0000eR-Od
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:42:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4c-0001cK-Ct
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:39:04 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kTO84-000286-36
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:42:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602848341;
+ s=mimecast20190719; t=1602848555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uJW1ZcePtJYJEw8yXA7O8O1a+9I8kwbgJHYygdaW0RU=;
- b=Vhxh3nmkpDOjL6R+389rIGPzatH9GGOKdE4LMy7oEZNUQrEdQoU6BJk89y9OCgPO1URVvx
- P7mm3lcbAJBklKXP4nwZQzuhVExzJ5/6H9Owg/iAiITTfB6suU/KboqNETq19MyQitZLU0
- pZcw+Dv7q5odKO5S2eU2yu2p2h1RfRc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-eSUbxZpJNUWPYMKfUZWl7Q-1; Fri, 16 Oct 2020 07:38:57 -0400
-X-MC-Unique: eSUbxZpJNUWPYMKfUZWl7Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10C3C1084D63;
- Fri, 16 Oct 2020 11:38:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFF295C1BD;
- Fri, 16 Oct 2020 11:38:46 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F1A6E9D10; Fri, 16 Oct 2020 13:38:35 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] tests/acpi: disallow changes for microvm/APIC.pcie
-Date: Fri, 16 Oct 2020 13:38:35 +0200
-Message-Id: <20201016113835.17465-8-kraxel@redhat.com>
-In-Reply-To: <20201016113835.17465-1-kraxel@redhat.com>
-References: <20201016113835.17465-1-kraxel@redhat.com>
+ bh=EZI49cXu1JRQsfsCENtdL2NSLsRDgXjIwR9RmpJXTS4=;
+ b=cxfkmsQwf41gmoXPJek5fEAiEdagO9+05IDigaki9xpW47KavY7gkluf3gL55Rp7MLVy1L
+ 0r7UYWMZXGADdR9RQYWyMF8yp/hfAra91Szz/9W78GfnHtCFaYyUs3zXuh07dFibbNNfFY
+ NkrNVwKWdBNaRueXUfwox+FQwJNHcQQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-406-j062vEVPMLqMHeBifvS4nw-1; Fri, 16 Oct 2020 07:42:32 -0400
+X-MC-Unique: j062vEVPMLqMHeBifvS4nw-1
+Received: by mail-wr1-f72.google.com with SMTP id b11so1306426wrm.3
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 04:42:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EZI49cXu1JRQsfsCENtdL2NSLsRDgXjIwR9RmpJXTS4=;
+ b=KH/WbKvbLDzcxMJG/Ma582RUGi6QM3z+9uGaxhqdL7rSfd9tVeoRe/IbVtOpsLo894
+ gTP5Qg6BK5y0sY55at4DfdxIpXtg0hRrS1wAyg/1+U8ATUhCpGgZ/74E4jUZRwobgSFF
+ Atfa8PxFJZlbasOI9hEyIYndEn/NDflnxxJkkHpYaUZ2M3dFcoOzeDCSz8MqhzwzUCbK
+ sygHRyN/rdOFVNbEiiFL0oLKoiqsqwoS17P//YLytwJpkyPYTFaTL/31twWEXXfy1JCr
+ uegMU6BbzYr7XyepHC6I61LqcalK9sxAf6Mwpm4h3MjGIuEiXv+MolOH1rd3phWoI3oY
+ 8TpA==
+X-Gm-Message-State: AOAM53259UI/hmYURaou8xYJ/rJyyXbOu6F91Nm8BbK5aWPolruiVF/a
+ akoRoa1mAfYMQaoXSdAP3+t2o5hUIurPHmrO/T0r7U4pPqTIkTBQLT6nsdt14+feo8TOeDUPk0K
+ zQzG2qWsVuTGe+5Y=
+X-Received: by 2002:a1c:111:: with SMTP id 17mr3360581wmb.126.1602848551373;
+ Fri, 16 Oct 2020 04:42:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3lW36KzxU/Itdwei9u6cikbC6f8CiN4C1XoDXil5cF0mYGAhxhGTVdBPTu+3z2OXVCqhfJQ==
+X-Received: by 2002:a1c:111:: with SMTP id 17mr3360549wmb.126.1602848551037;
+ Fri, 16 Oct 2020 04:42:31 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:4e8a:ee8e:6ed5:4bc3?
+ ([2001:b07:6468:f312:4e8a:ee8e:6ed5:4bc3])
+ by smtp.gmail.com with ESMTPSA id z14sm3177545wrl.75.2020.10.16.04.42.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Oct 2020 04:42:30 -0700 (PDT)
+Subject: Re: [PATCH 1/1] Skip flatview_simplify() for cpu vendor zhaoxin
+To: FelixCuioc <FelixCui-oc@zhaoxin.com>, Richard Henderson
+ <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>
+References: <20201016112933.14856-1-FelixCui-oc@zhaoxin.com>
+ <20201016112933.14856-2-FelixCui-oc@zhaoxin.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a971c9db-469f-ddc0-1a27-3e21958f6ff7@redhat.com>
+Date: Fri, 16 Oct 2020 13:42:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201016112933.14856-2-FelixCui-oc@zhaoxin.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 20:29:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 03:57:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.253, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,26 +104,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: TonyWWang-oc@zhaoxin.com, Alex Williamson <alex.williamson@redhat.com>,
+ RockCui-oc@zhaoxin.com, qemu-devel@nongnu.org, CobeChen-oc@zhaoxin.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h | 1 -
- 1 file changed, 1 deletion(-)
+On 16/10/20 13:29, FelixCuioc wrote:
+> The issue here is that an assinged EHCI device accesses
+> an adjacent mapping between the delete and add phases
+> of the VFIO MemoryListener.
+> We want to skip flatview_simplify() is to prevent EHCI
+> device IOVA mappings from being unmapped.
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 0c37ccebc5ba..dfb8523c8bf4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/microvm/APIC.pcie",
--- 
-2.27.0
+Hi,
+
+there is indeed a bug, but I have already explained last month
+(https://mail.gnu.org/archive/html/qemu-devel/2020-09/msg01279.html)
+that this patch is conceptually wrong:
+
+1) you're adding host_get_vendor conditioned on compiling the x86
+emulator, so you are breaking compilation on non-x86 machines.
+
+2) you're adding a check for the host, but the bug applies to all hosts.
+ If there is a bug on x86 hardware emulation, it should be fixed even
+when emulating x86 from ARM.  It should also apply to all CPU vendors.
+
+Alex, the issue here is that the delete+add passes are racing against an
+assigned device's DMA. For KVM we were thinking of changing the whole
+memory map with a single ioctl, but that's much easier because KVM
+builds its page tables lazily. It would be possible for the IOMMU too
+but it would require a relatively complicated comparison of the old and
+new memory maps in the kernel.
+
+Paolo
 
 
