@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F50B28FEAF
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 08:58:23 +0200 (CEST)
-Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C9E28FEC6
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 09:00:04 +0200 (CEST)
+Received: from localhost ([::1]:44506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTJh0-0003wf-5h
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 02:58:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56580)
+	id 1kTJid-0005w7-76
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 03:00:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kTJb5-0005rT-SM
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 02:52:16 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:43543)
+ id 1kTJbc-0006Wp-JH
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 02:52:48 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:38151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kTJb3-00008v-QY
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 02:52:15 -0400
-Received: by mail-pf1-x442.google.com with SMTP id a200so908779pfa.10
- for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 23:52:13 -0700 (PDT)
+ id 1kTJba-0000KU-Hw
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 02:52:48 -0400
+Received: by mail-pl1-x629.google.com with SMTP id p11so753059pld.5
+ for <qemu-devel@nongnu.org>; Thu, 15 Oct 2020 23:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=tmWQ3/NxLnoGhRyUVYBw6Qs8JunxnsbzTyhWOvghOU8=;
- b=eBIJLZUxIxeR+7L7XXcZvJLSnaiUhHe+CqanGf39cngmoT46cGzed3AqAfNk7JUjBS
- ikOhcEghapFpJJua2E3PIGG+75neYt1fDIJnuIg8iJ97CgOlVBSnKgvVBHJVZr2N4Zr2
- nBhsqryO8LlJOW2pkgW9l5QLEmN89JWHj8VNPpobjonupfeymG6CkfrXA4GgUqIkY+65
- UgF1gfQs82CZa53BnZJ453uFe/BZDMRSwOYsWEs5ZED6o2AkRXsOpmtvufu3wolYYRpl
- vUrhQAOhxuLrAA1j720VCk7y9yWr9eFannoQkXbQxqM6QGMhGfU1a3CjuKWfXGpblynn
- 6LVQ==
+ bh=2kY5ett+QWPLf7YSyh8jGdL92dxsYH5p3fXf42vrQcQ=;
+ b=SUF9oGncipZtlx2uVPi4paV8eX+lklMqQHV3rUhJC6yeMAVzww2CzYGVQgW4Q3JtzG
+ 3yiFxdIimGOCtNkkvEi1jsXC+k6p648iXSnClkOLJPS6HVHiKPIRIJq/GCoFfaK8Vt6q
+ Bodtcjow0tKhTsxcPN/rgIdotZ0QzkT5T8kYO2ZL9EFSfh8KLlcx3mBL/AhjYOQJkF1C
+ /01pmQvnGgrSqMQAHv5zeIaGrvI9r8u0QXS/R2mKSy7ZIpKSZBT0BSfRSHxOOns4pV6J
+ AEkyUlWLiXbu4tHNufwYhL+z/Vj8Am6loSZcpL21c76KPFdDzX+BhvIbEwdjPza0ZMK9
+ eCzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=tmWQ3/NxLnoGhRyUVYBw6Qs8JunxnsbzTyhWOvghOU8=;
- b=i56KPI6fAn5CB+CcgG5CiD7Ky9rCS5+mib8+iRbm4C5leN641w9XeAPgAq8EjsNAHH
- 7gRimXZps2dPi9a67K2sILD2Z9Zhl6B76T2VoTc/W4QkK8V8ZMJDr3oVuw56hmta0oTO
- M/vKQC1ScKhURP2QP2VLK7U561kzq7qjSxZxNfV98Jj2fosEAG+mMI35ly/i3cbHccqk
- fTGC+KteJYT4dD9bIHvdPc3GVsbT2ocisjkw2f42x5z9wd1L50A43Hsjl3ssKcUqoT8i
- +wb+6tkl3TMGwaJqJaFaDCkJoXExnAHsZSxBThb5WLZBPpFCKs0N44pXk/GkKND4hkbS
- QAeQ==
-X-Gm-Message-State: AOAM530iIWtmoQMVDDfjE24Ab2cU9vldSi2I7TC8kz/KuBKsadWgwQq0
- qA1MIZzezKYe9rfgBTsMimFSxAjpfpCF9A==
-X-Google-Smtp-Source: ABdhPJxhqvPpGb1HXa1n18NHsKugcIIs0V82UK2xjxtTI8z6Es1VeLP9PXG+PgaOsO+PW82j0kphVQ==
-X-Received: by 2002:a62:5c03:0:b029:156:4b47:a5f9 with SMTP id
- q3-20020a625c030000b02901564b47a5f9mr2460944pfb.21.1602831132449; 
- Thu, 15 Oct 2020 23:52:12 -0700 (PDT)
+ bh=2kY5ett+QWPLf7YSyh8jGdL92dxsYH5p3fXf42vrQcQ=;
+ b=UNfiZ53JKDk/28Fdv4vG3SlF80pN/eexCMu1cwCFjPXhGsvbEJVk5f9fop0kXZfOL6
+ /+pBm6qYOqLdPY9RPC6ab+/LvoOldHDb7o4swPiunLnTXR/OMJD95iguTv0ch0U7qupW
+ k86R7dXBbXbFxWYI1I2l9sc8h0WqxojJu4PhRQoGXY5s5JFjyQ8QX1XErJfXlAUuKapz
+ oDvwLtRt3z4rko0/wxU4fjR9gu7wi/PbZIXA9sEXPB33aHuTbfpWH4YhMg+vNrCtWOCm
+ 5RfAhA08rwMS0qUnCNsSy7BL1zx8mqXGKIpS+v9R3h+Fv3yqL3nEiQzG6Za4kVKbJnQk
+ FBrA==
+X-Gm-Message-State: AOAM531YPWIxU1v93psJmT/g9shTmfvNa3ee1G5MYMeNmRZlrq9GDrfi
+ 5GYM7kgfY1YQP/oXdNnXfBY=
+X-Google-Smtp-Source: ABdhPJzHQbMm0k60CdzmScBA4a2kkCxmSlNRptBjlK0oHOVVL6ZLqEqkIwCKwB8ovD7KAQyGTH8LTw==
+X-Received: by 2002:a17:90b:3798:: with SMTP id
+ mz24mr2525801pjb.46.1602831164992; 
+ Thu, 15 Oct 2020 23:52:44 -0700 (PDT)
 Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id v21sm1552200pjg.44.2020.10.15.23.52.07
+ by smtp.gmail.com with ESMTPSA id v21sm1552200pjg.44.2020.10.15.23.52.41
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 15 Oct 2020 23:52:11 -0700 (PDT)
+ Thu, 15 Oct 2020 23:52:44 -0700 (PDT)
 From: Huacai Chen <zltjiangshi@gmail.com>
 X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH V14 3/8] target/mips: Add loongson-ext lswc2 group of
- instructions (Part 2)
-Date: Fri, 16 Oct 2020 14:51:55 +0800
-Message-Id: <1602831120-3377-4-git-send-email-chenhc@lemote.com>
+Subject: [PATCH V14 4/8] target/mips: Add loongson-ext lsdc2 group of
+ instructions
+Date: Fri, 16 Oct 2020 14:51:56 +0800
+Message-Id: <1602831120-3377-5-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1602831120-3377-1-git-send-email-chenhc@lemote.com>
 References: <1602831120-3377-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x629.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,19 +93,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-LWC2 & SWC2 have been rewritten by Loongson EXT vendor ASE
-as "load/store quad word" and "shifted load/store" groups of
-instructions.
+LDC2/SDC2 opcodes have been rewritten as "load & store with offset"
+group of instructions by loongson-ext ASE.
 
 This patch add implementation of these instructions:
-gslwlc1: similar to lwl but RT is FPR instead of GPR
-gslwrc1: similar to lwr but RT is FPR instead of GPR
-gsldlc1: similar to ldl but RT is FPR instead of GPR
-gsldrc1: similar to ldr but RT is FPR instead of GPR
-gsswlc1: similar to swl but RT is FPR instead of GPR
-gsswrc1: similar to swr but RT is FPR instead of GPR
-gssdlc1: similar to sdl but RT is FPR instead of GPR
-gssdrc1: similar to sdr but RT is FPR instead of GPR
+gslbx: load 1 bytes to GPR
+gslhx: load 2 bytes to GPR
+gslwx: load 4 bytes to GPR
+gsldx: load 8 bytes to GPR
+gslwxc1: load 4 bytes to FPR
+gsldxc1: load 8 bytes to FPR
+gssbx: store 1 bytes from GPR
+gsshx: store 2 bytes from GPR
+gsswx: store 4 bytes from GPR
+gssdx: store 8 bytes from GPR
+gsswxc1: store 4 bytes from FPR
+gssdxc1: store 8 bytes from FPR
 
 Details of Loongson-EXT is here:
 https://github.com/FlyGoat/loongson-insn/blob/master/loongson-ext.md
@@ -113,212 +116,213 @@ https://github.com/FlyGoat/loongson-insn/blob/master/loongson-ext.md
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 ---
- target/mips/translate.c | 178 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 178 insertions(+)
+ target/mips/translate.c | 179 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 179 insertions(+)
 
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 20a7f36c7c..25321d3c17 100644
+index 25321d3c17..b2ce323e39 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -471,6 +471,19 @@ enum {
-     OPC_GSSHFS      = OPC_SWC2,
+@@ -484,6 +484,24 @@ enum {
+     OPC_GSSDRC1     = 0x7 | OPC_GSSHFS,
  };
  
-+/* Loongson EXT shifted load/store opcodes */
-+#define MASK_LOONGSON_GSSHFLS(op)         (MASK_OP_MAJOR(op) | (op & 0xc03f))
++/* Loongson EXT LDC2/SDC2 opcodes */
++#define MASK_LOONGSON_LSDC2(op)           (MASK_OP_MAJOR(op) | (op & 0x7))
++
 +enum {
-+    OPC_GSLWLC1     = 0x4 | OPC_GSSHFL,
-+    OPC_GSLWRC1     = 0x5 | OPC_GSSHFL,
-+    OPC_GSLDLC1     = 0x6 | OPC_GSSHFL,
-+    OPC_GSLDRC1     = 0x7 | OPC_GSSHFL,
-+    OPC_GSSWLC1     = 0x4 | OPC_GSSHFS,
-+    OPC_GSSWRC1     = 0x5 | OPC_GSSHFS,
-+    OPC_GSSDLC1     = 0x6 | OPC_GSSHFS,
-+    OPC_GSSDRC1     = 0x7 | OPC_GSSHFS,
++    OPC_GSLBX      = 0x0 | OPC_LDC2,
++    OPC_GSLHX      = 0x1 | OPC_LDC2,
++    OPC_GSLWX      = 0x2 | OPC_LDC2,
++    OPC_GSLDX      = 0x3 | OPC_LDC2,
++    OPC_GSLWXC1    = 0x6 | OPC_LDC2,
++    OPC_GSLDXC1    = 0x7 | OPC_LDC2,
++    OPC_GSSBX      = 0x0 | OPC_SDC2,
++    OPC_GSSHX      = 0x1 | OPC_SDC2,
++    OPC_GSSWX      = 0x2 | OPC_SDC2,
++    OPC_GSSDX      = 0x3 | OPC_SDC2,
++    OPC_GSSWXC1    = 0x6 | OPC_SDC2,
++    OPC_GSSDXC1    = 0x7 | OPC_SDC2,
 +};
 +
  /* BSHFL opcodes */
  #define MASK_BSHFL(op)              (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
  
-@@ -5930,6 +5943,7 @@ static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-     int lsq_rt1 = ctx->opcode & 0x1f;
-     int lsq_offset = sextract32(ctx->opcode, 6, 9) << 4;
- #endif
-+    int shf_offset = sextract32(ctx->opcode, 6, 8);
+@@ -6172,6 +6190,165 @@ static void gen_loongson_lswc2(DisasContext *ctx, int rt,
+     tcg_temp_free(t0);
+ }
  
-     t0 = tcg_temp_new();
- 
-@@ -5986,6 +6000,170 @@ static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-         tcg_temp_free(t1);
-         break;
- #endif
-+    case OPC_GSSHFL:
-+        switch (MASK_LOONGSON_GSSHFLS(ctx->opcode)) {
-+        case OPC_GSLWLC1:
-+            check_cp1_enabled(ctx);
-+            gen_base_offset_addr(ctx, t0, rs, shf_offset);
-+            t1 = tcg_temp_new();
-+            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
-+            tcg_gen_andi_tl(t1, t0, 3);
-+#ifndef TARGET_WORDS_BIGENDIAN
-+            tcg_gen_xori_tl(t1, t1, 3);
-+#endif
-+            tcg_gen_shli_tl(t1, t1, 3);
-+            tcg_gen_andi_tl(t0, t0, ~3);
-+            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUL);
-+            tcg_gen_shl_tl(t0, t0, t1);
-+            t2 = tcg_const_tl(-1);
-+            tcg_gen_shl_tl(t2, t2, t1);
-+            fp0 = tcg_temp_new_i32();
-+            gen_load_fpr32(ctx, fp0, rt);
-+            tcg_gen_ext_i32_tl(t1, fp0);
-+            tcg_gen_andc_tl(t1, t1, t2);
-+            tcg_temp_free(t2);
-+            tcg_gen_or_tl(t0, t0, t1);
-+            tcg_temp_free(t1);
-+#if defined(TARGET_MIPS64)
-+            tcg_gen_extrl_i64_i32(fp0, t0);
-+#else
-+            tcg_gen_ext32s_tl(fp0, t0);
-+#endif
-+            gen_store_fpr32(ctx, fp0, rt);
-+            tcg_temp_free_i32(fp0);
-+            break;
-+        case OPC_GSLWRC1:
-+            check_cp1_enabled(ctx);
-+            gen_base_offset_addr(ctx, t0, rs, shf_offset);
-+            t1 = tcg_temp_new();
-+            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
-+            tcg_gen_andi_tl(t1, t0, 3);
-+#ifdef TARGET_WORDS_BIGENDIAN
-+            tcg_gen_xori_tl(t1, t1, 3);
-+#endif
-+            tcg_gen_shli_tl(t1, t1, 3);
-+            tcg_gen_andi_tl(t0, t0, ~3);
-+            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUL);
-+            tcg_gen_shr_tl(t0, t0, t1);
-+            tcg_gen_xori_tl(t1, t1, 31);
-+            t2 = tcg_const_tl(0xfffffffeull);
-+            tcg_gen_shl_tl(t2, t2, t1);
-+            fp0 = tcg_temp_new_i32();
-+            gen_load_fpr32(ctx, fp0, rt);
-+            tcg_gen_ext_i32_tl(t1, fp0);
-+            tcg_gen_and_tl(t1, t1, t2);
-+            tcg_temp_free(t2);
-+            tcg_gen_or_tl(t0, t0, t1);
-+            tcg_temp_free(t1);
-+#if defined(TARGET_MIPS64)
-+            tcg_gen_extrl_i64_i32(fp0, t0);
-+#else
-+            tcg_gen_ext32s_tl(fp0, t0);
-+#endif
-+            gen_store_fpr32(ctx, fp0, rt);
-+            tcg_temp_free_i32(fp0);
-+            break;
-+#if defined(TARGET_MIPS64)
-+        case OPC_GSLDLC1:
-+            check_cp1_enabled(ctx);
-+            gen_base_offset_addr(ctx, t0, rs, shf_offset);
-+            t1 = tcg_temp_new();
-+            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
-+            tcg_gen_andi_tl(t1, t0, 7);
-+#ifndef TARGET_WORDS_BIGENDIAN
-+            tcg_gen_xori_tl(t1, t1, 7);
-+#endif
-+            tcg_gen_shli_tl(t1, t1, 3);
-+            tcg_gen_andi_tl(t0, t0, ~7);
-+            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
-+            tcg_gen_shl_tl(t0, t0, t1);
-+            t2 = tcg_const_tl(-1);
-+            tcg_gen_shl_tl(t2, t2, t1);
-+            gen_load_fpr64(ctx, t1, rt);
-+            tcg_gen_andc_tl(t1, t1, t2);
-+            tcg_temp_free(t2);
-+            tcg_gen_or_tl(t0, t0, t1);
-+            tcg_temp_free(t1);
-+            gen_store_fpr64(ctx, t0, rt);
-+            break;
-+        case OPC_GSLDRC1:
-+            check_cp1_enabled(ctx);
-+            gen_base_offset_addr(ctx, t0, rs, shf_offset);
-+            t1 = tcg_temp_new();
-+            tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
-+            tcg_gen_andi_tl(t1, t0, 7);
-+#ifdef TARGET_WORDS_BIGENDIAN
-+            tcg_gen_xori_tl(t1, t1, 7);
-+#endif
-+            tcg_gen_shli_tl(t1, t1, 3);
-+            tcg_gen_andi_tl(t0, t0, ~7);
-+            tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
-+            tcg_gen_shr_tl(t0, t0, t1);
-+            tcg_gen_xori_tl(t1, t1, 63);
-+            t2 = tcg_const_tl(0xfffffffffffffffeull);
-+            tcg_gen_shl_tl(t2, t2, t1);
-+            gen_load_fpr64(ctx, t1, rt);
-+            tcg_gen_and_tl(t1, t1, t2);
-+            tcg_temp_free(t2);
-+            tcg_gen_or_tl(t0, t0, t1);
-+            tcg_temp_free(t1);
-+            gen_store_fpr64(ctx, t0, rt);
-+            break;
-+#endif
-+        default:
-+            MIPS_INVAL("loongson_gsshfl");
-+            generate_exception_end(ctx, EXCP_RI);
-+            break;
++/* Loongson EXT LDC2/SDC2 */
++static void gen_loongson_lsdc2(DisasContext *ctx, int rt,
++                               int rs, int rd)
++{
++    int offset = sextract32(ctx->opcode, 3, 8);
++    uint32_t opc = MASK_LOONGSON_LSDC2(ctx->opcode);
++    TCGv t0, t1;
++    TCGv_i32 fp0;
++
++    /* Pre-conditions */
++    switch (opc) {
++    case OPC_GSLBX:
++    case OPC_GSLHX:
++    case OPC_GSLWX:
++    case OPC_GSLDX:
++        /* prefetch, implement as NOP */
++        if (rt == 0) {
++            return;
 +        }
 +        break;
-+    case OPC_GSSHFS:
-+        switch (MASK_LOONGSON_GSSHFLS(ctx->opcode)) {
-+        case OPC_GSSWLC1:
-+            check_cp1_enabled(ctx);
-+            t1 = tcg_temp_new();
-+            gen_base_offset_addr(ctx, t0, rs, shf_offset);
-+            fp0 = tcg_temp_new_i32();
-+            gen_load_fpr32(ctx, fp0, rt);
-+            tcg_gen_ext_i32_tl(t1, fp0);
-+            gen_helper_0e2i(swl, t1, t0, ctx->mem_idx);
-+            tcg_temp_free_i32(fp0);
-+            tcg_temp_free(t1);
-+            break;
-+        case OPC_GSSWRC1:
-+            check_cp1_enabled(ctx);
-+            t1 = tcg_temp_new();
-+            gen_base_offset_addr(ctx, t0, rs, shf_offset);
-+            fp0 = tcg_temp_new_i32();
-+            gen_load_fpr32(ctx, fp0, rt);
-+            tcg_gen_ext_i32_tl(t1, fp0);
-+            gen_helper_0e2i(swr, t1, t0, ctx->mem_idx);
-+            tcg_temp_free_i32(fp0);
-+            tcg_temp_free(t1);
-+            break;
++    case OPC_GSSBX:
++    case OPC_GSSHX:
++    case OPC_GSSWX:
++    case OPC_GSSDX:
++        break;
++    case OPC_GSLWXC1:
 +#if defined(TARGET_MIPS64)
-+        case OPC_GSSDLC1:
-+            check_cp1_enabled(ctx);
-+            t1 = tcg_temp_new();
-+            gen_base_offset_addr(ctx, t0, rs, shf_offset);
-+            gen_load_fpr64(ctx, t1, rt);
-+            gen_helper_0e2i(sdl, t1, t0, ctx->mem_idx);
-+            tcg_temp_free(t1);
-+            break;
-+        case OPC_GSSDRC1:
-+            check_cp1_enabled(ctx);
-+            t1 = tcg_temp_new();
-+            gen_base_offset_addr(ctx, t0, rs, shf_offset);
-+            gen_load_fpr64(ctx, t1, rt);
-+            gen_helper_0e2i(sdr, t1, t0, ctx->mem_idx);
-+            tcg_temp_free(t1);
-+            break;
++    case OPC_GSLDXC1:
 +#endif
-+        default:
-+            MIPS_INVAL("loongson_gsshfs");
-+            generate_exception_end(ctx, EXCP_RI);
-+            break;
++        check_cp1_enabled(ctx);
++        /* prefetch, implement as NOP */
++        if (rt == 0) {
++            return;
 +        }
 +        break;
-     default:
-         MIPS_INVAL("loongson_gslsq");
-         generate_exception_end(ctx, EXCP_RI);
++    case OPC_GSSWXC1:
++#if defined(TARGET_MIPS64)
++    case OPC_GSSDXC1:
++#endif
++        check_cp1_enabled(ctx);
++        break;
++    default:
++        MIPS_INVAL("loongson_lsdc2");
++        generate_exception_end(ctx, EXCP_RI);
++        return;
++        break;
++    }
++
++    t0 = tcg_temp_new();
++
++    gen_base_offset_addr(ctx, t0, rs, offset);
++    gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++
++    switch (opc) {
++    case OPC_GSLBX:
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_SB);
++        gen_store_gpr(t0, rt);
++        break;
++    case OPC_GSLHX:
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESW |
++                            ctx->default_tcg_memop_mask);
++        gen_store_gpr(t0, rt);
++        break;
++    case OPC_GSLWX:
++        gen_base_offset_addr(ctx, t0, rs, offset);
++        if (rd) {
++            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++        }
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESL |
++                            ctx->default_tcg_memop_mask);
++        gen_store_gpr(t0, rt);
++        break;
++#if defined(TARGET_MIPS64)
++    case OPC_GSLDX:
++        gen_base_offset_addr(ctx, t0, rs, offset);
++        if (rd) {
++            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++        }
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        gen_store_gpr(t0, rt);
++        break;
++#endif
++    case OPC_GSLWXC1:
++        check_cp1_enabled(ctx);
++        gen_base_offset_addr(ctx, t0, rs, offset);
++        if (rd) {
++            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++        }
++        fp0 = tcg_temp_new_i32();
++        tcg_gen_qemu_ld_i32(fp0, t0, ctx->mem_idx, MO_TESL |
++                            ctx->default_tcg_memop_mask);
++        gen_store_fpr32(ctx, fp0, rt);
++        tcg_temp_free_i32(fp0);
++        break;
++#if defined(TARGET_MIPS64)
++    case OPC_GSLDXC1:
++        check_cp1_enabled(ctx);
++        gen_base_offset_addr(ctx, t0, rs, offset);
++        if (rd) {
++            gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
++        }
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        gen_store_fpr64(ctx, t0, rt);
++        break;
++#endif
++    case OPC_GSSBX:
++        t1 = tcg_temp_new();
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_SB);
++        tcg_temp_free(t1);
++        break;
++    case OPC_GSSHX:
++        t1 = tcg_temp_new();
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEUW |
++                            ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++    case OPC_GSSWX:
++        t1 = tcg_temp_new();
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEUL |
++                            ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++#if defined(TARGET_MIPS64)
++    case OPC_GSSDX:
++        t1 = tcg_temp_new();
++        gen_load_gpr(t1, rt);
++        tcg_gen_qemu_st_tl(t1, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++#endif
++    case OPC_GSSWXC1:
++        fp0 = tcg_temp_new_i32();
++        gen_load_fpr32(ctx, fp0, rt);
++        tcg_gen_qemu_st_i32(fp0, t0, ctx->mem_idx, MO_TEUL |
++                            ctx->default_tcg_memop_mask);
++        tcg_temp_free_i32(fp0);
++        break;
++#if defined(TARGET_MIPS64)
++    case OPC_GSSDXC1:
++        t1 = tcg_temp_new();
++        gen_load_fpr64(ctx, t1, rt);
++        tcg_gen_qemu_st_i64(t1, t0, ctx->mem_idx, MO_TEQ |
++                            ctx->default_tcg_memop_mask);
++        tcg_temp_free(t1);
++        break;
++#endif
++    default:
++        break;
++    }
++
++    tcg_temp_free(t0);
++}
++
+ /* Traps */
+ static void gen_trap(DisasContext *ctx, uint32_t opc,
+                      int rs, int rt, int16_t imm)
+@@ -31055,6 +31232,8 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+                 /* OPC_JIC, OPC_JIALC */
+                 gen_compute_compact_branch(ctx, op, 0, rt, imm);
+             }
++        } else if (ctx->insn_flags & ASE_LEXT) {
++            gen_loongson_lsdc2(ctx, rt, rs, rd);
+         } else {
+             /* OPC_LWC2, OPC_SWC2 */
+             /* COP2: Not implemented. */
 -- 
 2.17.2
 
