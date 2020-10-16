@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CB1290668
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 15:36:27 +0200 (CEST)
-Received: from localhost ([::1]:50612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8128D290680
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 15:45:48 +0200 (CEST)
+Received: from localhost ([::1]:35846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTPuF-0002xf-0z
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 09:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58772)
+	id 1kTQ3H-0000cx-3R
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 09:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTPrH-0000SR-Vn
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 09:33:23 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35414)
+ id 1kTQ1d-00009o-Sq
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 09:44:05 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:32918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTPrG-00017z-2F
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 09:33:23 -0400
-Received: by mail-wm1-x341.google.com with SMTP id q5so3030262wmq.0
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 06:33:21 -0700 (PDT)
+ id 1kTQ1c-0002ut-5e
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 09:44:05 -0400
+Received: by mail-wm1-x342.google.com with SMTP id z22so1634226wmi.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 06:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kjTvXXHneKE+iLOlSjtIgsRLPHz1K53cljjvbS1RzE8=;
- b=f4lFa8PRWIvtUzdmVuRUntUfeBfTwtmg+/Vv3YM3mM+qeyoMxZdw6LVJNe2XX67CbK
- aruKz5YwVPTa8IGx0kgCRYj00RRzmzX9rx8TCs8dPdGcDqb1z7WsEO7DnFDamtOOvxPE
- GZZ+OX5mKKD7IF+kfzPAJLHOr3mn8w8Rp07X95x18XdTS6IQg+lY7TxOfLwkWD/g1NiZ
- cgHOq3fhLP+UEsFjII5IMoS22SYXvOxavV0pc0VoewcCrsxmCJJVrftiuTS6eSKZLSsz
- sOVYlz6xkkU83iq2pxFBRzr0A3vIH9XXNzU5zHdiE0HCvWJXFBqVFPOwIwR+hv6NVc2A
- PdBg==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lku0K9dFVN76/FCimSI2p56+m6UmkyCzwYlJ5Pgs8fk=;
+ b=if0B8eOuldokLeMkXD9cHQMjofhOvfrtYheVApgMucnS3lQJplN6PHlm/YQBWFFiLx
+ nN6mrVxKQaIjW1f7M9zjJS92YUeIi1rdyhI5tkgbkJ46Y1uJFOfthUykz9nPn59edmbW
+ dqw0riB2z1vi0x/gA1Amk2ugqocxT0F6YCe+45tVt2r/36HdTJRsjlZVQ0fEJHZZcL+/
+ bpBt1MrSSWuUUcu9qvTjI1HodHDMmrhIGZJDBCB0sOeYQ9MpZBQX1FT/VkfjD6y7AJi7
+ sd6O2NyOp9C9sqxI98EpvowBSTbv5DXttMIOzQCTeBjmWWqQ0yoFlzN8cVk3rdn4Ju/3
+ Q8Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=kjTvXXHneKE+iLOlSjtIgsRLPHz1K53cljjvbS1RzE8=;
- b=nuUwaggmhjYOpBpIC9gYiaHXS/j8bk5ALUxKXoEzH90xftaQZlqrlZOkaw1rBwrBOE
- TnfwY2lYIv47xN/ULENOJ44xxUXJr0tBgyu8wPrK/KQUJnqkWg90uFdybLxSipW9okQc
- Qu6RI3+ceJF+XqJ+pkBezJ5IVapzC2W3OCJ+eq0bpTGstjwhGid714S8o+tsSqV7O4GU
- Es/fgvzkMY6qQamCc9ks8K4/2EUHeOmZT+SfNFlPIaAS7kTl7JOqf9uyy2+/4EmDqQUQ
- crWaUHDkWaqTqEZSc3kxcmd6O6hUKZ+m8+QM/I8q948XTEhEBZ6DMOLlcpTSajX8yeMR
- m5wQ==
-X-Gm-Message-State: AOAM531DqMmtd0DFOQbpG8CTLJmB+xJKStYERXs+ROpgJjR4VvFt18PI
- Bpt6M+8JdKj4PEzpWC4AQ/rWqkq/Bkg=
-X-Google-Smtp-Source: ABdhPJxasALL/hyCnT2e11Atgt/Hil8biIBuiQL+La7abxrEZKM5qAXayHveSjCXsh1pGqPOht+qLA==
-X-Received: by 2002:a1c:6a0a:: with SMTP id f10mr4010044wmc.86.1602855199826; 
- Fri, 16 Oct 2020 06:33:19 -0700 (PDT)
-Received: from localhost.localdomain
- (106.red-83-59-162.dynamicip.rima-tde.net. [83.59.162.106])
- by smtp.gmail.com with ESMTPSA id v17sm3856182wrc.23.2020.10.16.06.33.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 06:33:18 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org,
-	Victor Kamensky <kamensky@cisco.com>
-Subject: [RFC PATCH v3] target/mips: Increase number of TLB entries on the
- 34Kf core (16 -> 64)
-Date: Fri, 16 Oct 2020 15:33:17 +0200
-Message-Id: <20201016133317.553068-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lku0K9dFVN76/FCimSI2p56+m6UmkyCzwYlJ5Pgs8fk=;
+ b=APKyogJn7D7kKt6FY10KfFwdjBCqarYlXyippRP20XsnQkDiCBhxjVbpRzhCPd8ci4
+ 0yVt15sqC5d2GRn0nA6niBQP9qGxDjWGb1Auby89/P6DjXMEYZ1nMVxMK50bs5lwhPQe
+ PcQLi6cuhQWBcNi0qjA8L3HlIg0n4ZuRxOvg8c4A9LQu9XJSsC1FrbSK/Cs7uBLHVbPG
+ dZ2O6swvlMK5BLyfJlJqzrh6dDfXK63YQ45QJ0Ei+9Yg7r48O5E1ymDY1Wgfj84t8LG+
+ BKmyi6qi2soHIAN6VRNHMHQCPS+f4HoLukUWcY4GmI7xQq19dfpPY4kF63c4ypElp1pE
+ mwSw==
+X-Gm-Message-State: AOAM53312dvQd5bD/OPfTjWcNnhyPz7m/RVict/EcTcwkBi5UgIvfWr8
+ VA6aWiMmsS51HVjSk/yDg2k=
+X-Google-Smtp-Source: ABdhPJyLnPaFkuuB8ks53HFL5Sc0s3OC2sfP9s3vZUbHkkrGSJsMKtU8ttVdxcwwWJfZxxQgBxvMwQ==
+X-Received: by 2002:a1c:2601:: with SMTP id m1mr3718835wmm.12.1602855841526;
+ Fri, 16 Oct 2020 06:44:01 -0700 (PDT)
+Received: from [192.168.1.36] (106.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.106])
+ by smtp.gmail.com with ESMTPSA id f5sm2814883wmh.16.2020.10.16.06.44.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Oct 2020 06:44:00 -0700 (PDT)
+Subject: Re: [PATCH v2 4/4] MAINTAINERS: Move MIPS GIC timer files to Boston
+ board section
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20201013101659.3557154-1-f4bug@amsat.org>
+ <20201013101659.3557154-5-f4bug@amsat.org>
+ <39fdf233-f4a2-5b13-c02f-e404a789d99c@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3dcb65f2-cd9e-79e6-4b33-f7c068296c05@amsat.org>
+Date: Fri, 16 Oct 2020 15:43:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <39fdf233-f4a2-5b13-c02f-e404a789d99c@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.253,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -87,63 +93,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Khem Raj <raj.khem@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Chen Huacai <zltjiangshi@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per "MIPS32 34K Processor Core Family Software User's Manual,
-Revision 01.13" page 8 in "Joint TLB (JTLB)" section:
+On 10/14/20 3:39 PM, Thomas Huth wrote:
+> On 13/10/2020 12.16, Philippe Mathieu-Daudé wrote:
+>> The MIPS GIC timer is only used by the Boston board.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   MAINTAINERS | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 702f73823fc..62db288bfc4 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -233,11 +233,9 @@ F: docs/system/cpu-models-mips.rst.inc
+>>   F: hw/intc/mips_gic.c
+>>   F: hw/mips/
+>>   F: hw/misc/mips_*
+>> -F: hw/timer/mips_gictimer.c
+>>   F: include/hw/intc/mips_gic.h
+>>   F: include/hw/mips/
+>>   F: include/hw/misc/mips_*
+>> -F: include/hw/timer/mips_gictimer.h
+>>   F: tests/tcg/mips/
+>>   K: ^Subject:.*(?i)mips
+>>   
+>> @@ -1167,7 +1165,9 @@ S: Odd Fixes
+>>   F: hw/core/loader-fit.c
+>>   F: hw/mips/boston.c
+>>   F: hw/pci-host/xilinx-pcie.c
+>> +F: hw/timer/mips_gictimer.c
+>>   F: include/hw/pci-host/xilinx-pcie.h
+>> +F: include/hw/timer/mips_gictimer.h
+> 
+> If I grep for mips_gictimer_init, it seems like this function is used from
+> mips_gic_realize in hw/intc/mips_gic.c ... and mips_gic.c / TYPE_MIPS_GIC is
+> also used from the malta board ... so are you really sure this is right? Or
+> what did I miss?
 
-  "The JTLB is a fully associative TLB cache containing 16, 32,
-   or 64-dual-entries mapping up to 128 virtual pages to their
-   corresponding physical addresses."
-
-There is no particular reason to restrict the 34Kf core model to
-16 TLB entries, so raise its config to 64.
-
-This is helpful for other projects, in particular the Yocto Project:
-
-  Yocto Project uses qemu-system-mips 34Kf cpu model, to run 32bit
-  MIPS CI loop. It was observed that in this case CI test execution
-  time was almost twice longer than 64bit MIPS variant that runs
-  under MIPS64R2-generic model. It was investigated and concluded
-  that the difference in number of TLBs 16 in 34Kf case vs 64 in
-  MIPS64R2-generic is responsible for most of CI real time execution
-  difference. Because with 16 TLBs linux user-land trashes TLB more
-  and it needs to execute more instructions in TLB refill handler
-  calls, as result it runs much longer.
-
-(https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03428.html)
-
-Buglink: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
-Reported-by: Victor Kamensky <kamensky@cisco.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v3: KISS
-Supersedes: <20201015224746.540027-1-f4bug@amsat.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/translate_init.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
-index 637caccd890..ad21756f4d9 100644
---- a/target/mips/translate_init.c.inc
-+++ b/target/mips/translate_init.c.inc
-@@ -254,7 +254,7 @@ const mips_def_t mips_defs[] =
-         .CP0_PRid = 0x00019500,
-         .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) |
-                        (MMU_TYPE_R4000 << CP0C0_MT),
--        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (15 << CP0C1_MMU) |
-+        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
-                        (0 << CP0C1_IS) | (3 << CP0C1_IL) | (1 << CP0C1_IA) |
-                        (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA) |
-                        (1 << CP0C1_CA),
--- 
-2.26.2
-
+We have another Frankenstein :(
 
