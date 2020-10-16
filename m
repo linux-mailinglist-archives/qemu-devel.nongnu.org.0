@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6E7290466
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:52:45 +0200 (CEST)
-Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD082904BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 14:07:28 +0200 (CEST)
+Received: from localhost ([::1]:36948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTOHs-0005Wp-L0
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34404)
+	id 1kTOW8-0007BX-10
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 08:07:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kTODh-0000RU-8s
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60767)
+ id 1kTODi-0000TQ-3b
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kTODe-0002om-Qa
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:24 -0400
+ id 1kTODg-0002p2-8e
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602848902;
+ s=mimecast20190719; t=1602848903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7HRmR8DrzmfanXflfW4M/oc151NJvYgLvn5iOnqRT2Y=;
- b=gwFKZrXW93G959cbJCIE6+ewcBZ0xukY4y0Qr2HJ8AIg3RJXKF5J9HrLLCurQm5O7zMQ40
- LpCxTlexCmMkVw11g3MTDK+yCDGDrtatvGdD+ys2o+HPiGzVNNMwmaPe7rl6SBXY/fS6kE
- wowSw7f2P36F08c1t4ZySrzcJ4TtfBk=
+ bh=A8StGSzSvq32/9gAol6iL6H2HpzjgTv5zAb0M+ocs8Y=;
+ b=R92H6XmkoCpAlG2zezLpPdW9azBTE1w9twpGsHCTfrx1pRNRH13M0SKceD+6418Z/LsaP1
+ beXGaODXePuo9JAg10r+syiBt2aMUvoBqY6aJq8d9kP02zMkaV+shlGsMEpcNVhrXEXZyg
+ ZdfnFAm8Hmwzi/lYxBR1BhR3YOSuhRo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-YrK84pQdOcK-yrLNTOXmUw-1; Fri, 16 Oct 2020 07:48:20 -0400
-X-MC-Unique: YrK84pQdOcK-yrLNTOXmUw-1
+ us-mta-262-bOMZV9m_M_KIEztx7Etdaw-1; Fri, 16 Oct 2020 07:48:20 -0400
+X-MC-Unique: bOMZV9m_M_KIEztx7Etdaw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D98A64155;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9F1E8015B1;
  Fri, 16 Oct 2020 11:48:19 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB5A75C1D0;
- Fri, 16 Oct 2020 11:48:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5971B5C1D0;
+ Fri, 16 Oct 2020 11:48:19 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/22] build: add --enable/--disable-libudev
-Date: Fri, 16 Oct 2020 07:48:03 -0400
-Message-Id: <20201016114814.1564523-12-pbonzini@redhat.com>
+Subject: [PULL 12/22] meson.build: don't condition iconv detection on library
+ detection
+Date: Fri, 16 Oct 2020 07:48:04 -0400
+Message-Id: <20201016114814.1564523-13-pbonzini@redhat.com>
 In-Reply-To: <20201016114814.1564523-1-pbonzini@redhat.com>
 References: <20201016114814.1564523-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +59,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 20:29:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 03:57:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,161 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Yonggang Luo <lbrogers@suse.com>, Bruce Rogers <brogers@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initially, libudev detection was bundled with --enable-mpath because
-qemu-pr-helper was the only user of libudev.  Recently however the USB
-U2F emulation has also started using libudev, so add a separate
-option.  This also allows 1) disabling libudev if desired for static
-builds and 2) for non-static builds, requiring libudev even if
-multipath support is undesirable.
+From: Bruce Rogers <brogers@suse.com>
 
-The multipath test is adjusted, because it is now possible to enter it
-with configurations that should fail, such as --static --enable-mpath
---disable-libudev.
+It isn't necessarily the case that use of iconv requires an additional
+library. For that reason we shouldn't conditionalize iconv detection on
+libiconv.found.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 5285e593c33 (configure: Fixes ncursesw detection under msys2/mingw by convert them to meson)
+
+Signed-off-by: Bruce Rogers <brogers@suse.com>
+Reviewed-by: Yonggang Luo<l <brogers@suse.com>uoyonggang@gmail.com>
+Reviewed-by:Yonggang Luo <luoyonggang@gmail.com>
+Message-Id: <20201014221939.196958-1-brogers@suse.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         |  8 +++++++-
- meson.build       | 50 ++++++++++++++++++++++++++---------------------
- meson_options.txt |  2 ++
- 3 files changed, 37 insertions(+), 23 deletions(-)
+ meson.build | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/configure b/configure
-index 9317349044..c83a2eeb9d 100755
---- a/configure
-+++ b/configure
-@@ -303,6 +303,7 @@ netmap="no"
- sdl="auto"
- sdl_image="auto"
- virtfs=""
-+libudev="auto"
- mpath="auto"
- vnc="enabled"
- sparse="auto"
-@@ -1002,6 +1003,10 @@ for opt do
-   ;;
-   --enable-virtfs) virtfs="yes"
-   ;;
-+  --disable-libudev) libudev="disabled"
-+  ;;
-+  --enable-libudev) libudev="enabled"
-+  ;;
-   --disable-mpath) mpath="disabled"
-   ;;
-   --enable-mpath) mpath="enabled"
-@@ -1759,6 +1764,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   vnc-png         PNG compression for VNC server
-   cocoa           Cocoa UI (Mac OS X only)
-   virtfs          VirtFS
-+  libudev         Use libudev to enumerate host devices
-   mpath           Multipath persistent reservation passthrough
-   xen             xen backend driver support
-   xen-pci-passthrough    PCI passthrough support for Xen
-@@ -7060,7 +7066,7 @@ NINJA=$ninja $meson setup \
-         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f \
-         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
--        -Diconv=$iconv -Dcurses=$curses \
-+        -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
-         $cross_arg \
-         "$PWD" "$source_path"
- 
 diff --git a/meson.build b/meson.build
-index 2c93e22382..0c0f4f9fd8 100644
+index 0c0f4f9fd8..c1c45e9845 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -380,10 +380,11 @@ endif
- libudev = not_found
- if targetos == 'linux' and (have_system or have_tools)
-   libudev = dependency('libudev',
--                       required: get_option('mpath').enabled(),
-+                       required: get_option('libudev'),
-                        static: enable_static)
- endif
- 
-+mpathlibs = [libudev]
- mpathpersist = not_found
- mpathpersist_new_api = false
- if targetos == 'linux' and have_tools and not get_option('mpath').disabled()
-@@ -414,35 +415,40 @@ if targetos == 'linux' and have_tools and not get_option('mpath').disabled()
-           mpath_lib_init(udev);
-           return 0;
-       }'''
--  mpathlibs = [libudev]
--  if enable_static
--    mpathlibs += cc.find_library('devmapper',
--                                   required: get_option('mpath'),
--                                   static: enable_static)
--  endif
--  mpathlibs += cc.find_library('multipath',
--                               required: get_option('mpath'),
--                               static: enable_static)
--  mpathlibs += cc.find_library('mpathpersist',
--                               required: get_option('mpath'),
--                               static: enable_static)
--  foreach lib: mpathlibs
--    if not lib.found()
--      mpathlibs = []
--      break
-+  libmpathpersist = cc.find_library('mpathpersist',
-+                                    required: get_option('mpath'),
-+                                    static: enable_static)
-+  if libmpathpersist.found()
-+    mpathlibs += libmpathpersist
-+    if enable_static
-+      mpathlibs += cc.find_library('devmapper',
-+                                     required: get_option('mpath'),
-+                                     static: enable_static)
-     endif
--  endforeach
--  if mpathlibs.length() > 0
--    if cc.links(mpath_test_source_new, dependencies: mpathlibs)
-+    mpathlibs += cc.find_library('multipath',
-+                                 required: get_option('mpath'),
-+                                 static: enable_static)
-+    foreach lib: mpathlibs
-+      if not lib.found()
-+        mpathlibs = []
-+        break
-+      endif
-+    endforeach
-+    if mpathlibs.length() == 0
-+      msg = 'Dependencies missing for libmpathpersist'
-+    elif cc.links(mpath_test_source_new, dependencies: mpathlibs)
-       mpathpersist = declare_dependency(dependencies: mpathlibs)
-       mpathpersist_new_api = true
-     elif cc.links(mpath_test_source_old, dependencies: mpathlibs)
-       mpathpersist = declare_dependency(dependencies: mpathlibs)
-     else
-+      msg = 'Cannot detect libmpathpersist API'
-+    endif
-+    if not mpathpersist.found()
-       if get_option('mpath').enabled()
--        error('Cannot detect libmpathpersist API')
-+        error(msg)
-       else
--        warning('Cannot detect libmpathpersist API, disabling')
-+        warning(msg + ', disabling')
-       endif
-     endif
+@@ -459,15 +459,13 @@ if not get_option('iconv').disabled()
+   libiconv = cc.find_library('iconv',
+                              required: false,
+                              static: enable_static)
+-  if libiconv.found()
+-    if cc.links('''
+-      #include <iconv.h>
+-      int main(void) {
+-        iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
+-        return conv != (iconv_t) -1;
+-      }''', dependencies: [libiconv])
+-      iconv = declare_dependency(dependencies: [libiconv])
+-    endif
++  if cc.links('''
++    #include <iconv.h>
++    int main(void) {
++      iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
++      return conv != (iconv_t) -1;
++    }''', dependencies: [libiconv])
++    iconv = declare_dependency(dependencies: [libiconv])
    endif
-diff --git a/meson_options.txt b/meson_options.txt
-index e6cb1e589b..77b3fabd00 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -36,6 +36,8 @@ option('iconv', type : 'feature', value : 'auto',
-        description: 'Font glyph conversion support')
- option('curses', type : 'feature', value : 'auto',
-        description: 'curses UI')
-+option('libudev', type : 'feature', value : 'auto',
-+       description: 'Use libudev to enumerate host devices')
- option('sdl', type : 'feature', value : 'auto',
-        description: 'SDL user interface')
- option('sdl_image', type : 'feature', value : 'auto',
+ endif
+ if get_option('iconv').enabled() and not iconv.found()
 -- 
 2.26.2
 
