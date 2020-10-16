@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7268F28FDE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 07:58:29 +0200 (CEST)
-Received: from localhost ([::1]:42070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7473A28FDEE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 08:00:23 +0200 (CEST)
+Received: from localhost ([::1]:48486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTIl2-0002cB-FV
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 01:58:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44054)
+	id 1kTIms-0005EA-Dp
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 02:00:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kTIhT-0006JC-48
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:47 -0400
+ id 1kTIhW-0006Nv-JP
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:51 -0400
 Received: from mga01.intel.com ([192.55.52.88]:36617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kTIhR-0005C7-Hk
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:46 -0400
-IronPort-SDR: qhCR6FnwBL6wZT3EqVwYNoZUS4HtPiwbmauTbIMQMhLeJlkn1/dYUTVzPrbEj+ka6eb75Gr45p
- GTGxtlc8We+A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="184094655"
-X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="184094655"
+ id 1kTIhT-0005C7-E5
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:50 -0400
+IronPort-SDR: iFv7HZAx6PX3hHWitxscGwBYna7H/iqgm20S8Oou3QkdU5o8EIxxgQSJdk0kpilL44JivGC7Em
+ XyGNjyjg/XyA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="184094657"
+X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="184094657"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 22:54:44 -0700
-IronPort-SDR: 6ZTsQoFIb753XQyv7gYci9aFzLYF7fHKUBD6MnQmKhUun16t5dF73QHA8aX0cey3YrdbYYa+h7
- wbpyG7A8qKvg==
-X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="464572829"
+ 15 Oct 2020 22:54:46 -0700
+IronPort-SDR: 5RZ7Tg/NvEoyR6F/DguIFbbNY9bFf3aNHWlCjXW9sIhtX4kd3j80cLqoO8wqLywT0W5usQnFJn
+ g1GnHZIotLGQ==
+X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="464572835"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 22:54:42 -0700
+ 15 Oct 2020 22:54:44 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH V2 04/10] Fix the qemu crash when guest shutdown in COLO mode
-Date: Fri, 16 Oct 2020 13:52:02 +0800
-Message-Id: <20201016055208.7969-5-chen.zhang@intel.com>
+Subject: [PATCH V2 05/10] colo-compare: fix missing compare_seq initialization
+Date: Fri, 16 Oct 2020 13:52:03 +0800
+Message-Id: <20201016055208.7969-6-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201016055208.7969-1-chen.zhang@intel.com>
 References: <20201016055208.7969-1-chen.zhang@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.88; envelope-from=chen.zhang@intel.com;
  helo=mga01.intel.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 01:54:36
@@ -66,43 +69,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Derek Su <dereksu@qnap.com>, Zhang Chen <chen.zhang@intel.com>, "Rao,
- Lei" <lei.rao@intel.com>,
+Cc: Derek Su <dereksu@qnap.com>, Zhang Chen <chen.zhang@intel.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Zhang Chen <zhangckid@gmail.com>
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Rao, Lei" <lei.rao@intel.com>
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
 
-In COLO mode, if the startup parameters of QEMU include "no-shutdown",
-QEMU will crash when the guest shutdown. The root cause is when the
-guest shutdown, the state of VM will switch COLO to SHUTDOWN. When do
-checkpoint again, the state will be changed to COLO. But the state
-switch is undefined in runstate_transitions_def, we should add it.
-This patch fixes the following:
-qemu-system-x86_64: invalid runstate transition: 'shutdown' -> 'colo'
-Aborted
+Fixes: f449c9e549c ("colo: compare the packet based on the tcp sequence
+number")
 
-Signed-off-by: Lei Rao <lei.rao@intel.com>
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- softmmu/vl.c | 1 +
- 1 file changed, 1 insertion(+)
+ net/colo.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 5a11a62f78..bafe7c5b70 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -632,6 +632,7 @@ static const RunStateTransition runstate_transitions_def[] = {
-     { RUN_STATE_SHUTDOWN, RUN_STATE_PAUSED },
-     { RUN_STATE_SHUTDOWN, RUN_STATE_FINISH_MIGRATE },
-     { RUN_STATE_SHUTDOWN, RUN_STATE_PRELAUNCH },
-+    { RUN_STATE_SHUTDOWN, RUN_STATE_COLO },
+diff --git a/net/colo.c b/net/colo.c
+index a6c66d829a..ef00609848 100644
+--- a/net/colo.c
++++ b/net/colo.c
+@@ -133,14 +133,11 @@ void reverse_connection_key(ConnectionKey *key)
  
-     { RUN_STATE_DEBUG, RUN_STATE_SUSPENDED },
-     { RUN_STATE_RUNNING, RUN_STATE_SUSPENDED },
+ Connection *connection_new(ConnectionKey *key)
+ {
+-    Connection *conn = g_slice_new(Connection);
++    Connection *conn = g_slice_new0(Connection);
+ 
+     conn->ip_proto = key->ip_proto;
+     conn->processing = false;
+-    conn->offset = 0;
+     conn->tcp_state = TCPS_CLOSED;
+-    conn->pack = 0;
+-    conn->sack = 0;
+     g_queue_init(&conn->primary_list);
+     g_queue_init(&conn->secondary_list);
+ 
 -- 
 2.17.1
 
