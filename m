@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EDB29044E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:47:40 +0200 (CEST)
-Received: from localhost ([::1]:34756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9C729043B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:43:31 +0200 (CEST)
+Received: from localhost ([::1]:48210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTOCx-0006uz-QC
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60606)
+	id 1kTO8x-0000a1-0O
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4X-00078O-Ln
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:39:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49468)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4U-00076i-W4
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:38:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4R-0001aK-4a
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:38:57 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO4S-0001af-3J
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:38:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602848329;
+ s=mimecast20190719; t=1602848331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aOb0XQ3gZP/giL1grdgen+q0rNnJLxXt1gCv3WbvHKc=;
- b=WmxBbDAAJYfB/z2wqW5YVzhCTdTMPSHW8aHLIs98sabBxtYKJPf4MNKLlBtejictxBEDtW
- WxpZgPUMoGVndhVaYHcLxjMTc9GjAqJYwT0KUpYtfgonGf3CNoxkn01P5Ql/53pnGQP14a
- QhNZ4uqvLYv3LibiTmge8Lpty8r37rc=
+ bh=OY/kJZ3Qi0VTLH2VkBFEL3f+2d9P4xDChdQbzJqO284=;
+ b=M+Cvxjc8xuAAmGMHqwbSrziISodZ4hLgdmLHDpKwqLj3cBrjtPW1IEbn0494LCBBIoec2R
+ zlvBUu0MXkKGxybxAXoMtVlpH8vyrapzpOylhj9mKR3mR6p8EWyJgddyBIyP3PVOEMeFx9
+ LqmOkYemzfJGNA/CP7jVM0Z7nuykcps=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-ceTmVLgJMyuAzCpmj1lsdg-1; Fri, 16 Oct 2020 07:38:48 -0400
-X-MC-Unique: ceTmVLgJMyuAzCpmj1lsdg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-266-dGWzAq_TOy-5-tkuFSMoow-1; Fri, 16 Oct 2020 07:38:49 -0400
+X-MC-Unique: dGWzAq_TOy-5-tkuFSMoow-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0B238015F5;
- Fri, 16 Oct 2020 11:38:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 774D318A0764;
+ Fri, 16 Oct 2020 11:38:48 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A28E773661;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 95DB51992F;
  Fri, 16 Oct 2020 11:38:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CA1219D8F; Fri, 16 Oct 2020 13:38:35 +0200 (CEST)
+ id D3C989D5A; Fri, 16 Oct 2020 13:38:35 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/7] x86: make pci irqs runtime configurable
-Date: Fri, 16 Oct 2020 13:38:31 +0200
-Message-Id: <20201016113835.17465-4-kraxel@redhat.com>
+Subject: [PATCH 4/7] microvm: set pci_irq_mask
+Date: Fri, 16 Oct 2020 13:38:32 +0200
+Message-Id: <20201016113835.17465-5-kraxel@redhat.com>
 In-Reply-To: <20201016113835.17465-1-kraxel@redhat.com>
 References: <20201016113835.17465-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,62 +88,45 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a variable to x86 machine state instead of
-hard-coding the PCI interrupts.
+Makes sure the PCI interrupt overrides are added to the
+APIC table in case PCIe is enabled.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/i386/x86.h | 2 ++
- hw/i386/acpi-common.c | 3 +--
- hw/i386/x86.c         | 1 +
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ hw/i386/acpi-microvm.c | 2 +-
+ hw/i386/microvm.c      | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index d5dcf7a07fdc..bfa9cb2a258b 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -58,6 +58,7 @@ struct X86MachineState {
+diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+index f16f2311955c..8e2d2b7cff83 100644
+--- a/hw/i386/acpi-microvm.c
++++ b/hw/i386/acpi-microvm.c
+@@ -196,7 +196,7 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
  
-     /* CPU and apic information: */
-     bool apic_xrupt_override;
-+    unsigned pci_irq_mask;
-     unsigned apic_id_limit;
-     uint16_t boot_cpus;
-     unsigned smp_dies;
-@@ -114,6 +115,7 @@ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
- /* Global System Interrupts */
+     acpi_add_table(table_offsets, tables_blob);
+     acpi_build_madt(tables_blob, tables->linker, X86_MACHINE(machine),
+-                    ACPI_DEVICE_IF(x86ms->acpi_dev), false);
++                    ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->pci_irq_mask != 0);
  
- #define GSI_NUM_PINS IOAPIC_NUM_PINS
-+#define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+     xsdt = tables_blob->len;
+     build_xsdt(tables_blob, tables->linker, table_offsets, NULL, NULL);
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 73a7a142b44a..9dd74458aca4 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -210,6 +210,12 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+         mms->gpex.ecam.size   = PCIE_ECAM_SIZE;
+         mms->gpex.irq         = PCIE_IRQ_BASE;
+         create_gpex(mms);
++        x86ms->pci_irq_mask = ((1 << (PCIE_IRQ_BASE + 0)) |
++                               (1 << (PCIE_IRQ_BASE + 1)) |
++                               (1 << (PCIE_IRQ_BASE + 2)) |
++                               (1 << (PCIE_IRQ_BASE + 3)));
++    } else {
++        x86ms->pci_irq_mask = 0;
+     }
  
- typedef struct GSIState {
-     qemu_irq i8259_irq[ISA_NUM_IRQS];
-diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-index ab9b00581a15..1584abb3e6b0 100644
---- a/hw/i386/acpi-common.c
-+++ b/hw/i386/acpi-common.c
-@@ -115,8 +115,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
- 
-     if (has_pci) {
-         for (i = 1; i < 16; i++) {
--#define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
--            if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
-+            if (!(x86ms->pci_irq_mask & (1 << i))) {
-                 /* No need for a INT source override structure. */
-                 continue;
-             }
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 3137a2008588..5944fc44edca 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1178,6 +1178,7 @@ static void x86_machine_initfn(Object *obj)
-     x86ms->smm = ON_OFF_AUTO_AUTO;
-     x86ms->acpi = ON_OFF_AUTO_AUTO;
-     x86ms->smp_dies = 1;
-+    x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
- }
- 
- static void x86_machine_class_init(ObjectClass *oc, void *data)
+     if (mms->pic == ON_OFF_AUTO_ON || mms->pic == ON_OFF_AUTO_AUTO) {
 -- 
 2.27.0
 
