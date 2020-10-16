@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF1B290461
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:51:37 +0200 (CEST)
-Received: from localhost ([::1]:47076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2932C290468
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:54:03 +0200 (CEST)
+Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTOGm-0003rs-K7
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33322)
+	id 1kTOJ8-0007Fd-4q
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:54:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO9B-0002Qk-NR
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:43:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20196)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO9P-0002t2-5Y
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:43:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO99-0002FA-CX
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:43:45 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO9M-0002HE-9t
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:43:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602848622;
+ s=mimecast20190719; t=1602848634;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7ACVkbCMHfzJA49UKgjwrRcB/LzEJuhcX8axetBmujU=;
- b=HOX/nDOOccRmGNUClP1ADqBz3sVC0pJxEd8gvT1kVfNvGMUpU1Bv4kla4v6gDvR1rSS2aU
- c6kdMsDhj6vXePrezAv+S90c5pviN/s3YJIpys1sMj51gduud1/6vvWBRtHQ+dwa6RADyo
- h/3qiVbbH5oVtalDZSp3tydRksAlQ68=
+ bh=J5IdILfRHW+G6d2qZXMG79TwBJDnNn1wITzb0S2tdm0=;
+ b=ieHy047F9/cFrEfSVL6I0CRvA5JNrD5jtYRt8dEumAcDOkQv/iAACFURt7wOX0jYOlZtoh
+ C8MSiUZ25014HBakRqP9ruPrsEuWPVweG9frU24SMjITOLMdddfZLORntehH/dx89X66zg
+ fbg49WUJxdjQ0MmXi+Ndsua/NZIDiY8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-wMFSjTKJPqCsz0wnbXfkqA-1; Fri, 16 Oct 2020 07:43:40 -0400
-X-MC-Unique: wMFSjTKJPqCsz0wnbXfkqA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-368-S-eOMZ8SMna8-cfuOcXGWQ-1; Fri, 16 Oct 2020 07:43:50 -0400
+X-MC-Unique: S-eOMZ8SMna8-cfuOcXGWQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7F241009637;
- Fri, 16 Oct 2020 11:43:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4F7380365F;
+ Fri, 16 Oct 2020 11:43:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DD0D5D9DD;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E52175138;
  Fri, 16 Oct 2020 11:43:29 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 698EE9D8F; Fri, 16 Oct 2020 13:43:28 +0200 (CEST)
+ id 747D39D5A; Fri, 16 Oct 2020 13:43:28 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] microvm: add second ioapic
-Date: Fri, 16 Oct 2020 13:43:27 +0200
-Message-Id: <20201016114328.18835-4-kraxel@redhat.com>
+Subject: [PATCH 4/4] microvm: reconfigure irqs if second ioapic is available
+Date: Fri, 16 Oct 2020 13:43:28 +0200
+Message-Id: <20201016114328.18835-5-kraxel@redhat.com>
 In-Reply-To: <20201016114328.18835-1-kraxel@redhat.com>
 References: <20201016114328.18835-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,127 +87,47 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add more IRQ lines.  Depends on ACPI.
-Also enable this only with userspace ioapic,
-not sure whenever the kernel can handle two ioapics.
+Use GSI 16+ for PCIe (needs acpi_build_madt() tweak).
+Use GSI 24+ (second ioapic) for virtio-mmio.
+Use all irq lines of the second ioapic
+and allow up to 24 virtio-mmio devices.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/i386/ioapic_internal.h |  2 +-
- include/hw/i386/x86.h             |  1 +
- hw/i386/acpi-common.c             | 10 ++++++++++
- hw/i386/microvm.c                 | 30 ++++++++++++++++++++++++++++--
- 4 files changed, 40 insertions(+), 3 deletions(-)
+ hw/i386/acpi-common.c | 2 +-
+ hw/i386/microvm.c     | 6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_internal.h
-index 0ac9e2400d6b..4cebd2e32c9f 100644
---- a/include/hw/i386/ioapic_internal.h
-+++ b/include/hw/i386/ioapic_internal.h
-@@ -27,7 +27,7 @@
- #include "qemu/notify.h"
- #include "qom/object.h"
- 
--#define MAX_IOAPICS                     1
-+#define MAX_IOAPICS                     2
- 
- #define IOAPIC_LVT_DEST_SHIFT           56
- #define IOAPIC_LVT_DEST_IDX_SHIFT       48
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index bfa9cb2a258b..6da57033a875 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -120,6 +120,7 @@ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
- typedef struct GSIState {
-     qemu_irq i8259_irq[ISA_NUM_IRQS];
-     qemu_irq ioapic_irq[IOAPIC_NUM_PINS];
-+    qemu_irq ioapic2_irq[IOAPIC_NUM_PINS];
- } GSIState;
- 
- qemu_irq x86_allocate_cpu_irq(void);
 diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-index 8a769654060e..f0689392a39f 100644
+index f0689392a39f..1653a8315248 100644
 --- a/hw/i386/acpi-common.c
 +++ b/hw/i386/acpi-common.c
-@@ -103,6 +103,16 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
-     io_apic->address = cpu_to_le32(IO_APIC_DEFAULT_ADDRESS);
-     io_apic->interrupt = cpu_to_le32(0);
- 
-+    if (object_property_find(OBJECT(x86ms), "ioapic2")) {
-+        AcpiMadtIoApic *io_apic2;
-+        io_apic2 = acpi_data_push(table_data, sizeof *io_apic);
-+        io_apic2->type = ACPI_APIC_IO;
-+        io_apic2->length = sizeof(*io_apic);
-+        io_apic2->io_apic_id = ACPI_BUILD_IOAPIC_ID + 1;
-+        io_apic2->address = cpu_to_le32(IO_APIC_DEFAULT_ADDRESS + 0x10000);
-+        io_apic2->interrupt = cpu_to_le32(24);
-+    }
-+
-     if (x86ms->apic_xrupt_override) {
-         intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
-         intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 638e95c39e8c..15c3e078a4aa 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -99,7 +99,11 @@ static void microvm_gsi_handler(void *opaque, int n, int level)
- {
-     GSIState *s = opaque;
- 
--    qemu_set_irq(s->ioapic_irq[n], level);
-+    if (n >= 24) {
-+        qemu_set_irq(s->ioapic2_irq[n - 24], level);
-+    } else {
-+        qemu_set_irq(s->ioapic_irq[n], level);
-+    }
- }
- 
- static void create_gpex(MicrovmMachineState *mms)
-@@ -157,6 +161,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
-     ISABus *isa_bus;
-     ISADevice *rtc_state;
-     GSIState *gsi_state;
-+    bool ioapic2 = false;
-     int i;
- 
-     /* Core components */
-@@ -165,8 +170,13 @@ static void microvm_devices_init(MicrovmMachineState *mms)
-     if (mms->pic == ON_OFF_AUTO_ON || mms->pic == ON_OFF_AUTO_AUTO) {
-         x86ms->gsi = qemu_allocate_irqs(gsi_handler, gsi_state, GSI_NUM_PINS);
-     } else {
-+        int pins = GSI_NUM_PINS;
-+        if (!kvm_ioapic_in_kernel() && x86_machine_is_acpi_enabled(x86ms)) {
-+            ioapic2 = true;
-+            pins += 24;
-+        }
-         x86ms->gsi = qemu_allocate_irqs(microvm_gsi_handler,
--                                        gsi_state, GSI_NUM_PINS);
-+                                        gsi_state, pins);
+@@ -122,7 +122,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+         intsrcovr->flags  = cpu_to_le16(0); /* conforms to bus specifications */
      }
  
-     isa_bus = isa_bus_new(NULL, get_system_memory(), get_system_io(),
-@@ -175,6 +185,22 @@ static void microvm_devices_init(MicrovmMachineState *mms)
- 
-     ioapic_init_gsi(gsi_state, "machine");
- 
-+    if (ioapic2) {
-+        DeviceState *dev;
-+        SysBusDevice *d;
-+        unsigned int i;
-+
-+        dev = qdev_new(TYPE_IOAPIC);
-+        object_property_add_child(OBJECT(mms), "ioapic2", OBJECT(dev));
-+        d = SYS_BUS_DEVICE(dev);
-+        sysbus_realize_and_unref(d, &error_fatal);
-+        sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS + 0x10000);
-+
-+        for (i = 0; i < IOAPIC_NUM_PINS; i++) {
-+            gsi_state->ioapic2_irq[i] = qdev_get_gpio_in(dev, i);
-+        }
-+    }
-+
-     kvmclock_create(true);
+-    for (i = 1; i < 16; i++) {
++    for (i = 1; i < 24; i++) {
+         if (!(x86ms->pci_irq_mask & (1 << i))) {
+             /* No need for a INT source override structure. */
+             continue;
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 15c3e078a4aa..70bb8a4e3954 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -205,7 +205,11 @@ static void microvm_devices_init(MicrovmMachineState *mms)
  
      mms->virtio_irq_base = 5;
+     mms->virtio_num_transports = 8;
+-    if (x86_machine_is_acpi_enabled(x86ms)) {
++    if (ioapic2) {
++        mms->pcie_irq_base = 16;
++        mms->virtio_irq_base = 24;
++        mms->virtio_num_transports = 24;
++    } else if (x86_machine_is_acpi_enabled(x86ms)) {
+         mms->pcie_irq_base = 12;
+         mms->virtio_irq_base = 16;
+     }
 -- 
 2.27.0
 
