@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B35E290B56
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 20:34:36 +0200 (CEST)
-Received: from localhost ([::1]:43394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707F3290B5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 20:34:48 +0200 (CEST)
+Received: from localhost ([::1]:43948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTUYl-00029a-Kg
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 14:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52116)
+	id 1kTUYx-0002Oo-GB
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 14:34:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kTUSN-0007pq-AX; Fri, 16 Oct 2020 14:27:59 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57606
+ id 1kTUSR-0007wP-1f; Fri, 16 Oct 2020 14:28:03 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57618
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kTUSL-0000FL-RI; Fri, 16 Oct 2020 14:27:59 -0400
+ id 1kTUSP-0000Fj-HV; Fri, 16 Oct 2020 14:28:02 -0400
 Received: from host86-148-246-80.range86-148.btcentralplus.com
  ([86.148.246.80] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kTUSI-0003wP-Ec; Fri, 16 Oct 2020 19:27:59 +0100
+ id 1kTUSN-0003wP-Bu; Fri, 16 Oct 2020 19:28:04 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, f4bug@amsat.org,
  hpoussin@reactos.org, qemu-ppc@nongnu.org, atar4qemu@gmail.com,
  david@gibson.dropbear.id.au
-Date: Fri, 16 Oct 2020 19:27:35 +0100
-Message-Id: <20201016182739.22875-2-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 16 Oct 2020 19:27:36 +0100
+Message-Id: <20201016182739.22875-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201016182739.22875-1-mark.cave-ayland@ilande.co.uk>
 References: <20201016182739.22875-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.246.80
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 1/5] m48t59-isa: remove legacy m48t59_init_isa() function
+Subject: [PATCH 2/5] sun4m: use qdev properties instead of legacy
+ m48t59_init() function
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,63 +66,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function is no longer used within the codebase.
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/rtc/m48t59-isa.c     | 25 -------------------------
- include/hw/rtc/m48t59.h |  2 --
- 2 files changed, 27 deletions(-)
+ hw/sparc/sun4m.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/hw/rtc/m48t59-isa.c b/hw/rtc/m48t59-isa.c
-index cae315e488..dc21fb10a5 100644
---- a/hw/rtc/m48t59-isa.c
-+++ b/hw/rtc/m48t59-isa.c
-@@ -58,31 +58,6 @@ static M48txxInfo m48txx_isa_info[] = {
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 54a2b2f9ef..a9bb60f2b2 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -966,7 +966,13 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
+         create_unimplemented_device("SUNW,sx", hwdef->sx_base, 0x2000);
      }
- };
  
--Nvram *m48t59_init_isa(ISABus *bus, uint32_t io_base, uint16_t size,
--                       int base_year, int model)
--{
--    ISADevice *isa_dev;
--    DeviceState *dev;
--    int i;
--
--    for (i = 0; i < ARRAY_SIZE(m48txx_isa_info); i++) {
--        if (m48txx_isa_info[i].size != size ||
--            m48txx_isa_info[i].model != model) {
--            continue;
--        }
--
--        isa_dev = isa_new(m48txx_isa_info[i].bus_name);
--        dev = DEVICE(isa_dev);
--        qdev_prop_set_uint32(dev, "iobase", io_base);
--        qdev_prop_set_int32(dev, "base-year", base_year);
--        isa_realize_and_unref(isa_dev, bus, &error_fatal);
--        return NVRAM(dev);
--    }
--
--    assert(false);
--    return NULL;
--}
--
- static uint32_t m48txx_isa_read(Nvram *obj, uint32_t addr)
- {
-     M48txxISAState *d = M48TXX_ISA(obj);
-diff --git a/include/hw/rtc/m48t59.h b/include/hw/rtc/m48t59.h
-index 04abedf3b2..9defe578d1 100644
---- a/include/hw/rtc/m48t59.h
-+++ b/include/hw/rtc/m48t59.h
-@@ -47,8 +47,6 @@ struct NvramClass {
-     void (*toggle_lock)(Nvram *obj, int lock);
- };
+-    nvram = m48t59_init(slavio_irq[0], hwdef->nvram_base, 0, 0x2000, 1968, 8);
++    dev = qdev_new("sysbus-m48t08");
++    qdev_prop_set_int32(dev, "base-year", 1968);
++    s = SYS_BUS_DEVICE(dev);
++    sysbus_realize_and_unref(s, &error_fatal);
++    sysbus_connect_irq(s, 0, slavio_irq[0]);
++    sysbus_mmio_map(s, 0, hwdef->nvram_base);
++    nvram = NVRAM(dev);
  
--Nvram *m48t59_init_isa(ISABus *bus, uint32_t io_base, uint16_t size,
--                       int base_year, int type);
- Nvram *m48t59_init(qemu_irq IRQ, hwaddr mem_base,
-                    uint32_t io_base, uint16_t size, int base_year,
-                    int type);
+     slavio_timer_init_all(hwdef->counter_base, slavio_irq[19], slavio_cpu_irq, smp_cpus);
+ 
 -- 
 2.20.1
 
