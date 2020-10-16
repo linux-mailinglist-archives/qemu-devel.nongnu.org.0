@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E46228FD9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 07:24:03 +0200 (CEST)
-Received: from localhost ([::1]:43344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F08628FD9F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 07:27:55 +0200 (CEST)
+Received: from localhost ([::1]:49794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTIDh-000611-R6
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 01:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37782)
+	id 1kTIHS-0000R8-Jz
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 01:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kTICZ-0005ae-Lj
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:22:51 -0400
-Received: from mga18.intel.com ([134.134.136.126]:5135)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kTICW-0001s7-Ez
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:22:50 -0400
-IronPort-SDR: osOyRVAHlIlXn1RWZa999M3zcPtwlLU9S1d5lqNHPtEhNdrl9CXby6BWL8dY84QkAckv75n5K3
- n/Ko4vWm+qLA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="154333724"
-X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="154333724"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 22:22:42 -0700
-IronPort-SDR: QKaijEWTEg0YYtJFEdTzrFgpfR94zrYbBCaPG12rkog2/dA4AsupKf95asa6vXwebqgQkxzUYj
- DGgobHCqAYQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="300579151"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga007.fm.intel.com with ESMTP; 15 Oct 2020 22:22:42 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 15 Oct 2020 22:22:41 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX605.ccr.corp.intel.com (10.109.6.215) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 16 Oct 2020 13:22:39 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
- Fri, 16 Oct 2020 13:22:39 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>
-Subject: RE: [PATCH 00/10] COLO project queued patches 20-Oct
-Thread-Topic: [PATCH 00/10] COLO project queued patches 20-Oct
-Thread-Index: AQHWofuZjvvdY5FZRE6KB5kr3NlE86mXxw4AgACGqZCAAK7vgIAAiwcw
-Date: Fri, 16 Oct 2020 05:22:39 +0000
-Message-ID: <45b4e5f7ee65401698f437e5577a89e6@intel.com>
-References: <20201014072555.12515-1-chen.zhang@intel.com>
- <7638dbe1-9095-28e2-0b5f-2eeaa5e3f98e@redhat.com>
- <f71889f9bb054cdd8c294028878c739c@intel.com>
- <38af8287-393b-1fdb-9fea-d334ff487d33@redhat.com>
-In-Reply-To: <38af8287-393b-1fdb-9fea-d334ff487d33@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTIER-0006aU-Vp
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:24:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTIEP-0002Xm-5h
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:24:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1602825883;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=t7UGqqD8y9+fiIKnqpxrlOqcGrFO98qs94ucuXXbMQQ=;
+ b=anBnyhQoY1rkx3ymkpgNge/j1m4RmPL32CTBr8zcB9+cCM7rWS4Y86tdTtG1xw2XGnzoqh
+ hU6grVkGVJ9+3geyytKs/6Mwh+LVgLIbciO1fGdZGUpuLN3IHtBuOh1L+zjbyGjfbiIITf
+ y5i5zXwJ3RPWyCcUbmekI4etufdMz80=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-po-jwGDdNQyIPq8puX0r9w-1; Fri, 16 Oct 2020 01:24:40 -0400
+X-MC-Unique: po-jwGDdNQyIPq8puX0r9w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D303D100746A
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 05:24:39 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D90D01007606;
+ Fri, 16 Oct 2020 05:24:36 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id F02FF16E31; Fri, 16 Oct 2020 07:24:35 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] Usb 20201016 patches
+Date: Fri, 16 Oct 2020 07:24:32 +0200
+Message-Id: <20201016052435.26180-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=chen.zhang@intel.com; helo=mga18.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 01:22:42
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 01:24:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,53 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <zhangckid@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFzb24gV2FuZyA8amFz
-b3dhbmdAcmVkaGF0LmNvbT4NCj4gU2VudDogRnJpZGF5LCBPY3RvYmVyIDE2LCAyMDIwIDEwOjI0
-IEFNDQo+IFRvOiBaaGFuZywgQ2hlbiA8Y2hlbi56aGFuZ0BpbnRlbC5jb20+OyBxZW11LWRldiA8
-cWVtdS0NCj4gZGV2ZWxAbm9uZ251Lm9yZz4NCj4gQ2M6IFpoYW5nIENoZW4gPHpoYW5nY2tpZEBn
-bWFpbC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMDAvMTBdIENPTE8gcHJvamVjdCBxdWV1
-ZWQgcGF0Y2hlcyAyMC1PY3QNCj4gDQo+IA0KPiBPbiAyMDIwLzEwLzE1IOS4i+WNiDM6NTgsIFpo
-YW5nLCBDaGVuIHdyb3RlOg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+
-ID4+IEZyb206IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+DQo+ID4+IFNlbnQ6IFRo
-dXJzZGF5LCBPY3RvYmVyIDE1LCAyMDIwIDM6NTYgUE0NCj4gPj4gVG86IFpoYW5nLCBDaGVuIDxj
-aGVuLnpoYW5nQGludGVsLmNvbT47IHFlbXUtZGV2IDxxZW11LQ0KPiA+PiBkZXZlbEBub25nbnUu
-b3JnPg0KPiA+PiBDYzogWmhhbmcgQ2hlbiA8emhhbmdja2lkQGdtYWlsLmNvbT4NCj4gPj4gU3Vi
-amVjdDogUmU6IFtQQVRDSCAwMC8xMF0gQ09MTyBwcm9qZWN0IHF1ZXVlZCBwYXRjaGVzIDIwLU9j
-dA0KPiA+Pg0KPiA+Pg0KPiA+PiBPbiAyMDIwLzEwLzE0IOS4i+WNiDM6MjUsIFpoYW5nIENoZW4g
-d3JvdGU6DQo+ID4+PiBGcm9tOiBaaGFuZyBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4NCj4g
-Pj4+DQo+ID4+PiBIaSBKYXNvbiwgdGhpcyBzZXJpZXMgaW5jbHVkZSBsYXRlc3QgQ09MTyByZWxh
-dGVkIHBhdGNoZXMuDQo+ID4+PiBwbGVhc2UgY2hlY2sgYW5kIG1lcmdlIGl0Lg0KPiA+Pj4NCj4g
-Pj4+IFRoYW5rcw0KPiA+Pj4gWmhhbmcgQ2hlbg0KPiA+Pg0KPiA+PiBIaToNCj4gPj4NCj4gPj4g
-SSB3YW50IHRvIG1lcmdlIGJ1dCBJIGRvbid0IGdldCBwYXRjaCAxMC8xMC4NCj4gPj4NCj4gPj4g
-SXMgdGhhdCBsb3N0IGR1cmluZyBwb3N0aW5nPw0KPiA+IE9oLCBTb3JyeSBJIG1pc3NlZCBpdC4N
-Cj4gPiBBbHJlYWR5IHJlc2VuZCBpdDoNCj4gPiBbUEFUQ0ggMTAvMTBdIG5ldC9jb2xvLWNvbXBh
-cmUuYzogSW5jcmVhc2UgZGVmYXVsdCBxdWV1ZWQgcGFja2V0IHNjYW4NCj4gPiBmcmVxdWVuY3kN
-Cj4gPg0KPiA+IFRoYW5rcw0KPiA+IENoZW4NCj4gDQo+IA0KPiBJdCBsb29rcyB0byBtZSBQaGls
-aXBwZSBoYXMgc29tZSBtaW5vciBjb21tZW50cyBvbiBzb21lIHBhdGNoZXMsIHBsZWFzZQ0KPiBh
-ZGRyZXNzIHRoZW0gYW5kIHNlbmQgYSBuZXcgdmVyc2lvbi4NCg0KU3VyZS4gSSB3aWxsIHVwZGF0
-ZSB0byBWMi4NCg0KVGhhbmtzDQpDaGVuDQoNCj4gDQo+IFRoYW5rcw0KPiANCj4gDQo+ID4NCj4g
-Pj4gVGhhbmtzDQo+ID4+DQo+ID4+DQo+ID4+PiBMaSBaaGlqaWFuICgyKToNCj4gPj4+ICAgICBj
-b2xvLWNvbXBhcmU6IGZpeCBtaXNzaW5nIGNvbXBhcmVfc2VxIGluaXRpYWxpemF0aW9uDQo+ID4+
-PiAgICAgY29sby1jb21wYXJlOiBjaGVjayBtYXJrIGluIG11dHVhbCBleGNsdXNpb24NCj4gPj4+
-DQo+ID4+PiBQYW4gTmVuZ3l1YW4gKDEpOg0KPiA+Pj4gICAgIG5ldC9maWx0ZXItcmV3cml0ZXI6
-IGRlc3Ryb3kgZ19oYXNoX3RhYmxlIGluDQo+ID4+PiBjb2xvX3Jld3JpdGVyX2NsZWFudXANCj4g
-Pj4+DQo+ID4+PiBSYW8sIExlaSAoMyk6DQo+ID4+PiAgICAgT3B0aW1pemUgc2VxX3NvcnRlciBm
-dW5jdGlvbiBmb3IgY29sby1jb21wYXJlDQo+ID4+PiAgICAgUmVkdWNlIHRoZSB0aW1lIG9mIGNo
-ZWNrcG9pbnQgZm9yIENPTE8NCj4gPj4+ICAgICBGaXggdGhlIHFlbXUgY3Jhc2ggd2hlbiBndWVz
-dCBzaHV0ZG93biBpbiBDT0xPIG1vZGUNCj4gPj4+DQo+ID4+PiBaaGFuZyBDaGVuICg0KToNCj4g
-Pj4+ICAgICBuZXQvY29sby1jb21wYXJlLmM6IEZpeCBjb21wYXJlX3RpbWVvdXQgZm9ybWF0IGlz
-c3VlDQo+ID4+PiAgICAgbmV0L2NvbG8tY29tcGFyZS5jOiBDaGFuZ2UgdGhlIHRpbWVyIGNsb2Nr
-IHR5cGUNCj4gPj4+ICAgICBuZXQvY29sby1jb21wYXJlLmM6IEFkZCBzZWNvbmRhcnkgb2xkIHBh
-Y2tldCBkZXRlY3Rpb24NCj4gPj4+ICAgICBuZXQvY29sby1jb21wYXJlLmM6IEluY3JlYXNlIGRl
-ZmF1bHQgcXVldWVkIHBhY2tldCBzY2FuDQo+ID4+PiBmcmVxdWVuY3kNCj4gPj4+DQo+ID4+PiAg
-ICBtaWdyYXRpb24vcmFtLmMgICAgICAgfCAxNCArKysrKysrKysrLQ0KPiA+Pj4gICAgbmV0L2Nv
-bG8tY29tcGFyZS5jICAgIHwgNTcgKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0t
-LS0tLS0NCj4gLS0NCj4gPj4+ICAgIG5ldC9jb2xvLmMgICAgICAgICAgICB8ICA1ICstLS0NCj4g
-Pj4+ICAgIG5ldC9maWx0ZXItcmV3cml0ZXIuYyB8ICAyICsrDQo+ID4+PiAgICBzb2Z0bW11L3Zs
-LmMgICAgICAgICAgfCAgMSArDQo+ID4+PiAgICA1IGZpbGVzIGNoYW5nZWQsIDQ2IGluc2VydGlv
-bnMoKyksIDMzIGRlbGV0aW9ucygtKQ0KPiA+Pj4NCg0K
+The following changes since commit 57c98ea9acdcef5021f5671efa6475a5794a51c4=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20201014-pull-reques=
+t' into staging (2020-10-14 13:56:06 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/usb-20201016-pull-request=0D
+=0D
+for you to fetch changes up to 9832f6783c4198658d101c6b8e8a14e1f2c57aa3:=0D
+=0D
+  hw/usb/hcd-dwc2: fix divide-by-zero in dwc2_handle_packet() (2020-10-15 1=
+2:16:42 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+usb: fixes for dwc2 + ehci.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Anthony PERARD via (1):=0D
+  usb/hcd-ehci: Fix error handling on missing device for iTD=0D
+=0D
+Mauro Matteo Cascella (1):=0D
+  hw/usb/hcd-dwc2: fix divide-by-zero in dwc2_handle_packet()=0D
+=0D
+Paul Zimmerman (1):=0D
+  usb: hcd-dwc2: change assert()s to qemu_log_mask(LOG_GUEST_ERROR...)=0D
+=0D
+ hw/usb/hcd-dwc2.c | 106 +++++++++++++++++++++++++++++++++++++---------=0D
+ hw/usb/hcd-ehci.c |  35 +++++++--------=0D
+ 2 files changed, 105 insertions(+), 36 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
+
 
