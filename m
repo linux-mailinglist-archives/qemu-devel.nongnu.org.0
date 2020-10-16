@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270EF290BBE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 20:50:26 +0200 (CEST)
-Received: from localhost ([::1]:42906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18D1290B9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 20:45:51 +0200 (CEST)
+Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTUo5-0006Lx-3n
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 14:50:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55266)
+	id 1kTUje-0002QK-KX
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 14:45:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kTUgS-0000VL-1D
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:33 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:45229)
+ id 1kTUgP-0000V9-8B
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:31 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:54581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kTUgC-00026L-TU
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:29 -0400
-Received: by mail-pf1-x442.google.com with SMTP id e7so1974553pfn.12
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:42:16 -0700 (PDT)
+ id 1kTUgG-00026e-Ct
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:27 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id az3so1842483pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8JkogZW08o4QbERarC4qat0jsqD9fmDjl7gKGBrUP6I=;
- b=pYxAmiXsf+Pkx1zPHtkgQ26+gslMTryFI8G/wZfTj1+dfUuDy226R4InFWRwX41VFr
- qxVN5dnY9q1VyMYdQUdvBFXNa61vjefdGUfsXW3kDRNUTroXLjF1J6+Uz9ERKKa54/OU
- NCP8OCHvxUGbaCVvaqBtZiBOHosXeagmAUzbHlG2vIucJL59bb+w11+MNgTmObqeswiH
- dzyyiOPXavsDxL5MXILiuUtQnYAK5FsrWg/5CwmckUPZ3M5dLrJ/TecdOSlBZdnSelp8
- 6c5NkJ6il+IBr0CNEsldRsDuElb/w4itX7tj7u0xB3Zf1RRKokiXxVNOQACIIfx04Ly6
- Tivw==
+ bh=tcQiTVPZ4EDkEsGCvdGZmCD7eErMNKvjpgH4j/u5Y8I=;
+ b=BIq43mfIl6tPMcY1In/e2r93+woPXqHZoyGSA8eMLv2FIRvOtQ9a1kuUSIjsoN6lOI
+ T2jIycCPbQAcU2X/v2GBYGnWd2hsAaALrejJrmkjH3Hn9ZmDcqD6ohIhgcGO0P8yj2Fn
+ gHQALboLEEgdaKOOc3ooPWif2spFY+X1bhXIuivndCsynXb+e4Fclc6gwuEhnYbDESPX
+ n2rOhuXRaxFP5Mg7HTrtx6jz3YEVDtt2UVGHItxk/H0/PZSaoW/vUk5i6EYTyucAUMIL
+ ljl60noBwvmFXZfaJ8S3Q5wFBwUFnfNmFDyVZaqPkViQk9QflU+tpvYFfC1ZnRi6amZL
+ mNDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8JkogZW08o4QbERarC4qat0jsqD9fmDjl7gKGBrUP6I=;
- b=F8p1cIbkpBloOcO5L/oo3nWWzXHQ/tZawOQHY8QO+ylLJhJT1DdAg6or4QIGs25cQO
- kOwHm28ygwNzqmcUcI+S5Ktk3KNymVbX90EEQsfK6ffuQ5qUefClKZ5f72MoMh3ldzZJ
- lzXgQWCv4PRwpXvWxDpzhn4Z+bLtE/h3ubksjgogTqMbCcCrJh+vZdjtSjlpRe4ehitf
- utKtfueS80k2v5VzlFkPGRg2lb4lCMZiyQGJDRzos8u74Gi9a+K0J8+WggqZ3K4xf07X
- JsYulWwlg1jOIHIBX8uB1eDLSWz78gBf2T0CjZMboGoZvMQ8BT5vpjZZc08n/sduBf2K
- BsVg==
-X-Gm-Message-State: AOAM532vvfXgdYKVL8hZn29V7zIPZvFtV1mqSNQPTAwQL4DeuCD+CoQI
- OT9+njtS4Oem100TUfqWioh1BdZUisw2Xw==
-X-Google-Smtp-Source: ABdhPJwR5ETWzvZxN7kI3cwIm0wEq/IbQRHhQJbtb2EWfqMipSqa6orfExXnKpIzBmcVlNSemWa87Q==
-X-Received: by 2002:a62:16ce:0:b029:155:2e1d:9c06 with SMTP id
- 197-20020a6216ce0000b02901552e1d9c06mr5016448pfw.6.1602873734883; 
- Fri, 16 Oct 2020 11:42:14 -0700 (PDT)
+ bh=tcQiTVPZ4EDkEsGCvdGZmCD7eErMNKvjpgH4j/u5Y8I=;
+ b=JhjJqHMGVfUkOdTc3nE8Q22tqFWjR24WmW/E/xBK5SCcCmsAb9kWQrOfUecV8UC0MD
+ ob/p1ARsM1TbNazPNI4gmi83myNCd7HJvvIe/iybxAnWHBp3/UiyS+/xK6bMPHHuldMg
+ 5pHnskSovGI2o5gNI9YfdE8wkx4PjMANseTbUBxa0c3B3J75BE6bZ4WQJrB5C/T+VbA5
+ xO7giW5AJYm9W6YQj1RCAdOmn/K4xLRLs0RdC8ZWF3TCAtjZIygBk9ocoVc5nvG423nd
+ BA95vuk9bPKFtryaMyab4FpZ7d/seGTNt56WmM+OMIfo66DBvDujxjxrI5Tx7rnZg9yi
+ ZqWw==
+X-Gm-Message-State: AOAM532bhsPThUvZZFYlUGTehgameL5hpsEXyrHVb608ash2DTtvwnEo
+ MS3DLwFVuwnnyVg3xIpA6SzjMkr+f7lVdw==
+X-Google-Smtp-Source: ABdhPJyY6cd47FDfccdN3dhaPcSnA7qoUywjqtl2kuQYqDWbXvCmsDteT4ZxzTaHdA1rQXeo7n+OPw==
+X-Received: by 2002:a17:90a:8596:: with SMTP id
+ m22mr5218160pjn.42.1602873736199; 
+ Fri, 16 Oct 2020 11:42:16 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id c15sm3426011pgg.77.2020.10.16.11.42.13
+ by smtp.gmail.com with ESMTPSA id c15sm3426011pgg.77.2020.10.16.11.42.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 11:42:14 -0700 (PDT)
+ Fri, 16 Oct 2020 11:42:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 03/12] include/elf: Add defines related to GNU property
- notes for AArch64
-Date: Fri, 16 Oct 2020 11:41:58 -0700
-Message-Id: <20201016184207.786698-4-richard.henderson@linaro.org>
+Subject: [PATCH v11 04/12] linux-user/elfload: Avoid leaking interp_name using
+ GLib memory API
+Date: Fri, 16 Oct 2020 11:41:59 -0700
+Message-Id: <20201016184207.786698-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201016184207.786698-1-richard.henderson@linaro.org>
 References: <20201016184207.786698-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,64 +88,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org,
- laurent@vivier.eu
+ laurent@vivier.eu, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are all of the defines required to parse
-GNU_PROPERTY_AARCH64_FEATURE_1_AND, copied from binutils.
-Other missing defines related to other GNU program headers
-and notes are elided for now.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Fix an unlikely memory leak in load_elf_image().
+
+Fixes: bf858897b7 ("linux-user: Re-use load_elf_image for the main binary.")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201003174944.1972444-1-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/elf.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ linux-user/elfload.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/elf.h b/include/elf.h
-index c117a4d1ab..10126ff809 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -26,9 +26,13 @@ typedef int64_t  Elf64_Sxword;
- #define PT_NOTE    4
- #define PT_SHLIB   5
- #define PT_PHDR    6
-+#define PT_LOOS    0x60000000
-+#define PT_HIOS    0x6fffffff
- #define PT_LOPROC  0x70000000
- #define PT_HIPROC  0x7fffffff
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index f6022fd704..1a3150df7c 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2584,13 +2584,13 @@ static void load_elf_image(const char *image_name, int image_fd,
+                 info->brk = vaddr_em;
+             }
+         } else if (eppnt->p_type == PT_INTERP && pinterp_name) {
+-            char *interp_name;
++            g_autofree char *interp_name = NULL;
  
-+#define PT_GNU_PROPERTY   (PT_LOOS + 0x474e553)
-+
- #define PT_MIPS_REGINFO   0x70000000
- #define PT_MIPS_RTPROC    0x70000001
- #define PT_MIPS_OPTIONS   0x70000002
-@@ -1657,6 +1661,24 @@ typedef struct elf64_shdr {
- #define NT_ARM_SYSTEM_CALL      0x404   /* ARM system call number */
- #define NT_ARM_SVE      0x405           /* ARM Scalable Vector Extension regs */
+             if (*pinterp_name) {
+                 errmsg = "Multiple PT_INTERP entries";
+                 goto exit_errmsg;
+             }
+-            interp_name = malloc(eppnt->p_filesz);
++            interp_name = g_malloc(eppnt->p_filesz);
+             if (!interp_name) {
+                 goto exit_perror;
+             }
+@@ -2609,7 +2609,7 @@ static void load_elf_image(const char *image_name, int image_fd,
+                 errmsg = "Invalid PT_INTERP entry";
+                 goto exit_errmsg;
+             }
+-            *pinterp_name = interp_name;
++            *pinterp_name = g_steal_pointer(&interp_name);
+ #ifdef TARGET_MIPS
+         } else if (eppnt->p_type == PT_MIPS_ABIFLAGS) {
+             Mips_elf_abiflags_v0 abiflags;
+@@ -2961,7 +2961,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+     if (elf_interpreter) {
+         info->load_bias = interp_info.load_bias;
+         info->entry = interp_info.entry;
+-        free(elf_interpreter);
++        g_free(elf_interpreter);
+     }
  
-+/* Defined note types for GNU systems.  */
-+
-+#define NT_GNU_PROPERTY_TYPE_0  5       /* Program property */
-+
-+/* Values used in GNU .note.gnu.property notes (NT_GNU_PROPERTY_TYPE_0).  */
-+
-+#define GNU_PROPERTY_STACK_SIZE                 1
-+#define GNU_PROPERTY_NO_COPY_ON_PROTECTED       2
-+
-+#define GNU_PROPERTY_LOPROC                     0xc0000000
-+#define GNU_PROPERTY_HIPROC                     0xdfffffff
-+#define GNU_PROPERTY_LOUSER                     0xe0000000
-+#define GNU_PROPERTY_HIUSER                     0xffffffff
-+
-+#define GNU_PROPERTY_AARCH64_FEATURE_1_AND      0xc0000000
-+#define GNU_PROPERTY_AARCH64_FEATURE_1_BTI      (1u << 0)
-+#define GNU_PROPERTY_AARCH64_FEATURE_1_PAC      (1u << 1)
-+
- /*
-  * Physical entry point into the kernel.
-  *
+ #ifdef USE_ELF_CORE_DUMP
 -- 
 2.25.1
 
