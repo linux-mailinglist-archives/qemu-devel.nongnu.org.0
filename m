@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDF5290C09
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 21:03:20 +0200 (CEST)
-Received: from localhost ([::1]:40436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93318290C22
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 21:15:26 +0200 (CEST)
+Received: from localhost ([::1]:52828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTV0Z-0000iy-40
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 15:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55476)
+	id 1kTVCF-0006u5-QX
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 15:15:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kTUgi-0000gS-Hj
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:48 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:43377)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kTV3w-0003LC-Dd
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 15:06:48 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:45876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kTUgR-0002Bn-OS
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:48 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id o9so1739478plx.10
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:42:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kTV3m-0005BS-I9
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 15:06:45 -0400
+Received: by mail-ej1-x641.google.com with SMTP id dt13so4635407ejb.12
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 12:06:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sxotxj6XB7hzF7JenULfKlm4NqUCIgIUU5zaZ0WIWOQ=;
- b=yS2Jo41yV7EhlVhdqVxZ7EAubOw+rSsvov7dgPhqj481h70lP3dpb/mZwDCYW0hkP+
- ZL3qx/vEyAcBsrtUOBNsbchYradWQl0z5ejy5foaLM9HNmPay7A7lmQ5gRAJH4/dbrrR
- 9CETd+4kfnNmFvMkM9bKqHcv9w19m5mdDAae/INUg2eqRjVHv2DCQ+Gskw1i+n0zZ470
- zaQCZ3W3Uu3eNySOLxDtS0PVRaSIQK45Ipcfmhs0Y5Z4A46s2DHEo7oIoApyqlQR3ALr
- Miw2jmcnQNFqjxo2A10TC+7dEZyyFsD78fuCBrzx62kMYNszMK1clGhI4LCs0Gc87/os
- Iv1g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=brkRF7azR74jCW0zC/oVYnTZweYf1g93g91HwOvS/cE=;
+ b=cXnrz+9B5LBBnoVo/k1IqElXCdxIfGJfHZdoriBhrT63tt+zEgK8ubbRHM4Mx3Vw+2
+ 86RIBL+O+aw1M06/ayJrZEZxM8yHM6RYmb+udpNc30YRqCMDgzQwj7pZS14rBzJ0ExU5
+ AtZWIrNSMmNbH2XbYRvwJSt3m5yqsoffkTVjoAwplCKU+m2PF1QlY3SnaN4WZ2qMp/Tp
+ A2Jmg4RjmxEDGaOxIJC6H56ginAieOcPLEs1AuOMKyUziGHdIdvpFPHDYm18rA5BjDXT
+ 9Xv+vPTZUSdCyvMdxbotfKgu1mP8V4gNoLMmxPC1GeFkjFKUwKeyzh8GlmoZOW7aaWkW
+ ofkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sxotxj6XB7hzF7JenULfKlm4NqUCIgIUU5zaZ0WIWOQ=;
- b=Ae3cSJf39lp48L7pJAUP4rh09JMnbHPc7w17JeqiQD8unvaW6/DEuykb9dZjEy2oZU
- DEmMJ7AbGZgHWfxr58N1wQ0XJyQF8uqOy2txV3x/36GFiaR/bzd8Y6P8JcMQOkX9NKY4
- jA3heOtn5Ph7wCcO25lgoldIkmYUTzQ2IlLLMd88YQPd1+chiaPOC3E0Vrx9yy1+VCPo
- WzPr4kiALonWcwSJLpTIrnS/BviSXj6MBn1Ki90+zZRsvgwfWLkgCthPf/hoNeV498B9
- 0onKbkVrI3TOg2LJLun1stsFZutIsvkCI3GhjsM0OQOPARTulKKUx/2oFgYJSD/KC6KE
- g1tg==
-X-Gm-Message-State: AOAM532LEdZI0e2Q+Zu/WT0Mlm/CE9h8nwRaJmkmeohM2zS4/HMhuwPY
- 7DmL2dCspqFpFJ67j712l+wXvbKNKLCaWA==
-X-Google-Smtp-Source: ABdhPJzOnl5cpuWrA60i+NFXVU8zxCowjszm0rvCnuT52zUSguaWhUnTZN9+wwM+rH/Hmbd5zj2RZQ==
-X-Received: by 2002:a17:90a:be11:: with SMTP id
- a17mr5136520pjs.181.1602873748439; 
- Fri, 16 Oct 2020 11:42:28 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id c15sm3426011pgg.77.2020.10.16.11.42.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 11:42:27 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v11 12/12] tests/tcg/aarch64: Add bti smoke tests
-Date: Fri, 16 Oct 2020 11:42:07 -0700
-Message-Id: <20201016184207.786698-13-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201016184207.786698-1-richard.henderson@linaro.org>
-References: <20201016184207.786698-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=brkRF7azR74jCW0zC/oVYnTZweYf1g93g91HwOvS/cE=;
+ b=ilvylhLGjmdezoEtfbXVDb62+WmDg8lBKbIOwhMHOYvU87oBzYKR5hmn6mVZMrYSXg
+ XNbEpExx8fBcSvutDYCjUE6VZz7n8C1N1Syd1neF+wiVdX0fHQQ7eyDbQopNvdwPO8tT
+ ttnVB912/ApHQcUeyR/f0e7PDVkaZ4Osv99juVBYpxOJCzi/MUUdnjsG9RkTaYITfkWO
+ 02ZBykEkIjQJ2wQDJgqBbU7XQZqX/QvmRNj0R3KAu4YaylLr1JUkrrc/tEQmSdcQyX1M
+ Bb7ufQCQuicdMC6CE0Tx3qz7HYwHupuPcxkiUz3ym6Dv57GzI+INzLFmf2IQ0UgWhgSP
+ E5EQ==
+X-Gm-Message-State: AOAM5317zahY1YgvjzKrS7/eWMJbsH3fzhciEdkW63YM0NdD/jZ2LiJq
+ cvyxWq0MPrc/uIS3qNFwK6DRM1LqE7rvyJvd8PdjZA==
+X-Google-Smtp-Source: ABdhPJxTvDK8C/ct9YMs8jBuzr37ZZYgAyrgSL6VW0q/oQPMDQ1wQ/9VeTrTnCCEmuy4njILbLk8aNbgT0VXxMDn7Pw=
+X-Received: by 2002:a17:906:c7d9:: with SMTP id
+ dc25mr5222690ejb.482.1602875195344; 
+ Fri, 16 Oct 2020 12:06:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+References: <20201015144952.388043-1-kwolf@redhat.com>
+In-Reply-To: <20201015144952.388043-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 16 Oct 2020 20:06:23 +0100
+Message-ID: <CAFEAcA-jODPXpYiAjYe326_=y5oDLBV9BigO0RPOHGnELaL0=w@mail.gmail.com>
+Subject: Re: [PULL 00/10] Block layer patches
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,307 +79,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org,
- laurent@vivier.eu
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The note test requires gcc 10 for -mbranch-protection=standard.
-The mmap test uses PROT_BTI and does not require special compiler support.
+On Thu, 15 Oct 2020 at 15:50, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 57c98ea9acdcef5021f5671efa6475a5794a51c4:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/ui-20201014-pull-request' into staging (2020-10-14 13:56:06 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to e1c4269763999e3b359fff19ad170e0110d3b457:
+>
+>   block: deprecate the sheepdog block driver (2020-10-15 16:06:28 +0200)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - qemu-storage-daemon: Remove QemuOpts from --object parser
+> - monitor: Fix order in monitor_cleanup()
+> - Deprecate the sheepdog block driver
 
-Acked-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-v9: Expect and require gcc 10.
-v11: Squash mmap smoke test.
----
- tests/tcg/aarch64/bti-1.c         |  62 +++++++++++++++++
- tests/tcg/aarch64/bti-2.c         | 108 ++++++++++++++++++++++++++++++
- tests/tcg/aarch64/bti-crt.inc.c   |  51 ++++++++++++++
- tests/tcg/aarch64/Makefile.target |  10 +++
- tests/tcg/configure.sh            |   4 ++
- 5 files changed, 235 insertions(+)
- create mode 100644 tests/tcg/aarch64/bti-1.c
- create mode 100644 tests/tcg/aarch64/bti-2.c
- create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
 
-diff --git a/tests/tcg/aarch64/bti-1.c b/tests/tcg/aarch64/bti-1.c
-new file mode 100644
-index 0000000000..61924f0d7a
---- /dev/null
-+++ b/tests/tcg/aarch64/bti-1.c
-@@ -0,0 +1,62 @@
-+/*
-+ * Branch target identification, basic notskip cases.
-+ */
-+
-+#include "bti-crt.inc.c"
-+
-+static void skip2_sigill(int sig, siginfo_t *info, ucontext_t *uc)
-+{
-+    uc->uc_mcontext.pc += 8;
-+    uc->uc_mcontext.pstate = 1;
-+}
-+
-+#define NOP       "nop"
-+#define BTI_N     "hint #32"
-+#define BTI_C     "hint #34"
-+#define BTI_J     "hint #36"
-+#define BTI_JC    "hint #38"
-+
-+#define BTYPE_1(DEST) \
-+    asm("mov %0,#1; adr x16, 1f; br x16; 1: " DEST "; mov %0,#0" \
-+        : "=r"(skipped) : : "x16")
-+
-+#define BTYPE_2(DEST) \
-+    asm("mov %0,#1; adr x16, 1f; blr x16; 1: " DEST "; mov %0,#0" \
-+        : "=r"(skipped) : : "x16", "x30")
-+
-+#define BTYPE_3(DEST) \
-+    asm("mov %0,#1; adr x15, 1f; br x15; 1: " DEST "; mov %0,#0" \
-+        : "=r"(skipped) : : "x15")
-+
-+#define TEST(WHICH, DEST, EXPECT) \
-+    do { WHICH(DEST); fail += skipped ^ EXPECT; } while (0)
-+
-+
-+int main()
-+{
-+    int fail = 0;
-+    int skipped;
-+
-+    /* Signal-like with SA_SIGINFO.  */
-+    signal_info(SIGILL, skip2_sigill);
-+
-+    TEST(BTYPE_1, NOP, 1);
-+    TEST(BTYPE_1, BTI_N, 1);
-+    TEST(BTYPE_1, BTI_C, 0);
-+    TEST(BTYPE_1, BTI_J, 0);
-+    TEST(BTYPE_1, BTI_JC, 0);
-+
-+    TEST(BTYPE_2, NOP, 1);
-+    TEST(BTYPE_2, BTI_N, 1);
-+    TEST(BTYPE_2, BTI_C, 0);
-+    TEST(BTYPE_2, BTI_J, 1);
-+    TEST(BTYPE_2, BTI_JC, 0);
-+
-+    TEST(BTYPE_3, NOP, 1);
-+    TEST(BTYPE_3, BTI_N, 1);
-+    TEST(BTYPE_3, BTI_C, 1);
-+    TEST(BTYPE_3, BTI_J, 0);
-+    TEST(BTYPE_3, BTI_JC, 0);
-+
-+    return fail;
-+}
-diff --git a/tests/tcg/aarch64/bti-2.c b/tests/tcg/aarch64/bti-2.c
-new file mode 100644
-index 0000000000..6dc8908b5a
---- /dev/null
-+++ b/tests/tcg/aarch64/bti-2.c
-@@ -0,0 +1,108 @@
-+/*
-+ * Branch target identification, basic notskip cases.
-+ */
-+
-+#include <stdio.h>
-+#include <signal.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/mman.h>
-+
-+#ifndef PROT_BTI
-+#define PROT_BTI  0x10
-+#endif
-+
-+static void skip2_sigill(int sig, siginfo_t *info, void *vuc)
-+{
-+    ucontext_t *uc = vuc;
-+    uc->uc_mcontext.pc += 8;
-+    uc->uc_mcontext.pstate = 1;
-+}
-+
-+#define NOP       "nop"
-+#define BTI_N     "hint #32"
-+#define BTI_C     "hint #34"
-+#define BTI_J     "hint #36"
-+#define BTI_JC    "hint #38"
-+
-+#define BTYPE_1(DEST)    \
-+    "mov x1, #1\n\t"     \
-+    "adr x16, 1f\n\t"    \
-+    "br x16\n"           \
-+"1: " DEST "\n\t"        \
-+    "mov x1, #0"
-+
-+#define BTYPE_2(DEST)    \
-+    "mov x1, #1\n\t"     \
-+    "adr x16, 1f\n\t"    \
-+    "blr x16\n"          \
-+"1: " DEST "\n\t"        \
-+    "mov x1, #0"
-+
-+#define BTYPE_3(DEST)    \
-+    "mov x1, #1\n\t"     \
-+    "adr x15, 1f\n\t"    \
-+    "br x15\n"           \
-+"1: " DEST "\n\t"        \
-+    "mov x1, #0"
-+
-+#define TEST(WHICH, DEST, EXPECT) \
-+    WHICH(DEST) "\n"              \
-+    ".if " #EXPECT "\n\t"         \
-+    "eor x1, x1," #EXPECT "\n"    \
-+    ".endif\n\t"                  \
-+    "add x0, x0, x1\n\t"
-+
-+extern char test_begin[], test_end[];
-+
-+asm("\n"
-+"test_begin:\n\t"
-+    BTI_C "\n\t"
-+    "mov x2, x30\n\t"
-+    "mov x0, #0\n\t"
-+
-+    TEST(BTYPE_1, NOP, 1)
-+    TEST(BTYPE_1, BTI_N, 1)
-+    TEST(BTYPE_1, BTI_C, 0)
-+    TEST(BTYPE_1, BTI_J, 0)
-+    TEST(BTYPE_1, BTI_JC, 0)
-+
-+    TEST(BTYPE_2, NOP, 1)
-+    TEST(BTYPE_2, BTI_N, 1)
-+    TEST(BTYPE_2, BTI_C, 0)
-+    TEST(BTYPE_2, BTI_J, 1)
-+    TEST(BTYPE_2, BTI_JC, 0)
-+
-+    TEST(BTYPE_3, NOP, 1)
-+    TEST(BTYPE_3, BTI_N, 1)
-+    TEST(BTYPE_3, BTI_C, 1)
-+    TEST(BTYPE_3, BTI_J, 0)
-+    TEST(BTYPE_3, BTI_JC, 0)
-+
-+    "ret x2\n"
-+"test_end:"
-+);
-+
-+int main()
-+{
-+    struct sigaction sa;
-+
-+    void *p = mmap(0, getpagesize(),
-+                   PROT_EXEC | PROT_READ | PROT_WRITE | PROT_BTI,
-+                   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+    if (p == MAP_FAILED) {
-+        perror("mmap");
-+        return 1;
-+    }
-+
-+    memset(&sa, 0, sizeof(sa));
-+    sa.sa_sigaction = skip2_sigill;
-+    sa.sa_flags = SA_SIGINFO;
-+    if (sigaction(SIGILL, &sa, NULL) < 0) {
-+        perror("sigaction");
-+        return 1;
-+    }
-+
-+    memcpy(p, test_begin, test_end - test_begin);
-+    return ((int (*)(void))p)();
-+}
-diff --git a/tests/tcg/aarch64/bti-crt.inc.c b/tests/tcg/aarch64/bti-crt.inc.c
-new file mode 100644
-index 0000000000..47805f4e35
---- /dev/null
-+++ b/tests/tcg/aarch64/bti-crt.inc.c
-@@ -0,0 +1,51 @@
-+/*
-+ * Minimal user-environment for testing BTI.
-+ *
-+ * Normal libc is not (yet) built with BTI support enabled,
-+ * and so could generate a BTI TRAP before ever reaching main.
-+ */
-+
-+#include <stdlib.h>
-+#include <signal.h>
-+#include <ucontext.h>
-+#include <asm/unistd.h>
-+
-+int main(void);
-+
-+void _start(void)
-+{
-+    exit(main());
-+}
-+
-+void exit(int ret)
-+{
-+    register int x0 __asm__("x0") = ret;
-+    register int x8 __asm__("x8") = __NR_exit;
-+
-+    asm volatile("svc #0" : : "r"(x0), "r"(x8));
-+    __builtin_unreachable();
-+}
-+
-+/*
-+ * Irritatingly, the user API struct sigaction does not match the
-+ * kernel API struct sigaction.  So for simplicity, isolate the
-+ * kernel ABI here, and make this act like signal.
-+ */
-+void signal_info(int sig, void (*fn)(int, siginfo_t *, ucontext_t *))
-+{
-+    struct kernel_sigaction {
-+        void (*handler)(int, siginfo_t *, ucontext_t *);
-+        unsigned long flags;
-+        unsigned long restorer;
-+        unsigned long mask;
-+    } sa = { fn, SA_SIGINFO, 0, 0 };
-+
-+    register int x0 __asm__("x0") = sig;
-+    register void *x1 __asm__("x1") = &sa;
-+    register void *x2 __asm__("x2") = 0;
-+    register int x3 __asm__("x3") = sizeof(unsigned long);
-+    register int x8 __asm__("x8") = __NR_rt_sigaction;
-+
-+    asm volatile("svc #0"
-+                 : : "r"(x0), "r"(x1), "r"(x2), "r"(x3), "r"(x8) : "memory");
-+}
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index e7249915e7..d7d33e293c 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -25,6 +25,16 @@ run-pauth-%: QEMU_OPTS += -cpu max
- run-plugin-pauth-%: QEMU_OPTS += -cpu max
- endif
- 
-+# BTI Tests
-+# bti-1 tests the elf notes, so we require special compiler support.
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_BTI),)
-+AARCH64_TESTS += bti-1
-+bti-1: CFLAGS += -mbranch-protection=standard
-+bti-1: LDFLAGS += -nostdlib
-+endif
-+# bti-2 tests PROT_BTI, so no special compiler support required.
-+AARCH64_TESTS += bti-2
-+
- # Semihosting smoke test for linux-user
- AARCH64_TESTS += semihosting
- run-semihosting: semihosting
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index be51bdb5a4..e1b70e25f2 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -240,6 +240,10 @@ for target in $target_list; do
-                -march=armv8.3-a -o $TMPE $TMPC; then
-                 echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
-             fi
-+            if do_compiler "$target_compiler" $target_compiler_cflags \
-+               -mbranch-protection=standard -o $TMPE $TMPC; then
-+                echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
-+            fi
-         ;;
-     esac
- 
--- 
-2.25.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
