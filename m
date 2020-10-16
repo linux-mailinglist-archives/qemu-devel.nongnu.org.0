@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3EFB290E44
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 01:50:55 +0200 (CEST)
-Received: from localhost ([::1]:53430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4572F290E48
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 01:59:32 +0200 (CEST)
+Received: from localhost ([::1]:34600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTZUs-0007aI-S5
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 19:50:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38904)
+	id 1kTZdD-0003Yd-Ba
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 19:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kTZTR-0006gG-M5
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 19:49:25 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:42852)
+ id 1kTZbE-0002Fz-Kh
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 19:57:28 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kTZTQ-0007lr-3G
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 19:49:25 -0400
-Received: by mail-pf1-x444.google.com with SMTP id x13so2369231pfa.9
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 16:49:23 -0700 (PDT)
+ id 1kTZb7-0000Py-UM
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 19:57:28 -0400
+Received: by mail-pf1-x444.google.com with SMTP id f19so2370869pfj.11
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 16:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ve3PdkzHk4n5IOoMJJoojGyBFL6xlq+mocWgSsAMnlE=;
- b=t1xuSydVaKl9uk78Fp87cEsMP8g2eK7MDl8MDZqA5FI7neOvoRUvmhblYC7NWHuALN
- 5j/uW+gg/Cykb9QZwmnw+7UFa7XQ9Q8PECUg23y1p9rmgCbnHal3KSXD3AebIJUUvFTx
- Zsrvy1QD3JkOZZwdLNWZl6kdDJmV24/MU66bSq+drL5vEQRbsbh+QyEAQJ57ra69WUi4
- BpfyzSmHyq4cqbk6jlROpyHuTYs9telzYOtX/1Mh0zl6ErZQrxYSn6rJ1nklOEviaBKi
- dhQBlegcoqrMAQc8OrZR41fVvxwnEUwx3/dqoZn0mK1mNcZUb56Ea7/PxwYOvgw7Rs0w
- L8dw==
+ bh=3jS1icMq1WQjVt63k3IvyMO58GpNJrY8z8sbN6bBpNE=;
+ b=v7fhr1vq2nDX764uBEVxTbVR69q7I0kuN8kcr7BESTMdF/+AFobAcynY9MMmI7haqk
+ Sza3v8eC0L674MrjViAUu+p++EW2swAkuxYX+6OqASspUWaCp4BvDEkxOxbPVoF5oQWm
+ XuBmjzDK6fs6DBVmCrhaMJkL5TZkd/hR4omDvytvhu1zPPyw+9rjT/sK9LdG2G3voX5e
+ 9Tx0clML8HwfNScPwmpVeeR2wHxl+2WfBByP4M154AyUIKMq9YcZVoM1GQssdVehg9F0
+ BMH9TgXyeu8iCTxmVIuHsqqTO5MJ+IH9DPpEzgDbIELI/8oeMXeVg2jCFECZp3b1p7WJ
+ 9lcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ve3PdkzHk4n5IOoMJJoojGyBFL6xlq+mocWgSsAMnlE=;
- b=XdlzJprCma8U1ik75tx9V4N6FCqxCT5DOjs72roDg34fjDaIF4T7x7xNs2x/lIV9z+
- mFjjTxZopZbxr3kB36jk2dsr+W/wbccepTz7h9PHMpFmnYrOgZ3iF5LplXTVslW5KEYA
- 82O4Yk9rsHNTwohhIMQ/91dCYn/w2DOeBaaKBh+n6xY5oeCZLW0q7kH6yZh+OuaWLTu5
- tz/0tbTdVdi0TGv22fwrFX+xyM+hOCbrI1Sb4hh45DslcfF7b9CnZj8DEz/tpszSLRnk
- R1pdZuV7s0Z2/762s/GjxmjIk3mdNfx1zhTJIlbjMKf8yAoJVOhny3nqc2YUstAouuZ+
- jmpg==
-X-Gm-Message-State: AOAM5322cA8E1eMME4F95ohnmTKNwLtMIIIX80j0nGebh7Feb7C1CT8v
- n6L1hrc7OOVJeaQnB4UHQHiUUw==
-X-Google-Smtp-Source: ABdhPJw25wbNCvg0FmWP85CAEIInKx+8diFx0XY0rkS47+jtZWmgNhkRBiQM5zl3VTh8eIW66lXkOw==
-X-Received: by 2002:a62:37c4:0:b029:155:ebd8:304c with SMTP id
- e187-20020a6237c40000b0290155ebd8304cmr6267384pfa.73.1602892162721; 
- Fri, 16 Oct 2020 16:49:22 -0700 (PDT)
+ bh=3jS1icMq1WQjVt63k3IvyMO58GpNJrY8z8sbN6bBpNE=;
+ b=E8MEfaW89S83YqeoO8b9lRhaj4p9t17MaAO5U6KF778EW5cotF9JUmxuJJ6JTop9Jx
+ AJ/Vh0/9AydXW3OjjgIz8CBXRaKO0gveAZe0QO850hT5XviYMBi+gqd9OFqg7LuWKAki
+ kKwGMRbzRYTu4Epus5Rmiz5kGm0XbZYOhdRhQZqq5cvH2VGph4l5tVBBl+Epa+chk65j
+ Ih45ozg1x1Ojm+3/ylLaTOIAFK4XWeDArk0ig1xkVSAzlJIp5VpiwNg5EYqlJCR2yRxf
+ Zj2tCn63TVUOJznesSB/DkcDKQF0MDj6mgDak1F/L2ikxl2BiOe0rCZ0/dsgjkco48q3
+ +k3A==
+X-Gm-Message-State: AOAM531BYBW+UD8y5CgT0sWfg4BPc5dAB/xYUZ6+Y3iekkKPFXdslYqb
+ Fg7G4cdWavGPd766Nz365HgOQg==
+X-Google-Smtp-Source: ABdhPJzC+ryOEah9uZcOLfUCMOmRxDaKWeYyRCcjhQenJBPOyua4QdNcocXRxkJEUd8uM2OfClZxUg==
+X-Received: by 2002:a63:e544:: with SMTP id z4mr5319937pgj.235.1602892640147; 
+ Fri, 16 Oct 2020 16:57:20 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id t12sm3925121pgk.32.2020.10.16.16.49.20
+ by smtp.gmail.com with ESMTPSA id d9sm3908280pjx.47.2020.10.16.16.57.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Oct 2020 16:49:22 -0700 (PDT)
-Subject: Re: [PATCH v3 3/5] [RISCV_PM] Print new PM CSRs in QEMU logs
+ Fri, 16 Oct 2020 16:57:19 -0700 (PDT)
+Subject: Re: [PATCH v3 2/5] [RISCV_PM] Support CSRs required for RISC-V PM
+ extension except for ones in hypervisor mode
 To: Alexey Baturo <baturo.alexey@gmail.com>
 References: <20201016221138.10371-1-space.monkey.delivers@gmail.com>
- <20201016221138.10371-4-space.monkey.delivers@gmail.com>
+ <20201016221138.10371-3-space.monkey.delivers@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <08b76ff3-a2a9-8ed5-a117-4168720a31a9@linaro.org>
-Date: Fri, 16 Oct 2020 16:49:19 -0700
+Message-ID: <b37fb65f-d389-9e2d-2b37-778441f03642@linaro.org>
+Date: Fri, 16 Oct 2020 16:57:17 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201016221138.10371-4-space.monkey.delivers@gmail.com>
+In-Reply-To: <20201016221138.10371-3-space.monkey.delivers@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -100,10 +100,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 10/16/20 3:11 PM, Alexey Baturo wrote:
 > Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
 > ---
->  target/riscv/cpu.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+>  target/riscv/cpu.c      |   1 +
+>  target/riscv/cpu.h      |  11 ++
+>  target/riscv/cpu_bits.h |  66 ++++++++++
+>  target/riscv/csr.c      | 264 ++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 342 insertions(+)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+
+I'd be delighted to see the J working group address the security concerns.  And
+to address the fact that existing hardware will *not* read 0 for the *MTE CSRs,
+so it's silly to insist on that retroactively.  Code should be explicitly
+checking for J in MISA.
+
 
 r~
 
