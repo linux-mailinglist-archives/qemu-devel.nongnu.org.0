@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3424A28FDD7
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 07:56:41 +0200 (CEST)
-Received: from localhost ([::1]:34374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C62B28FDDF
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 07:58:29 +0200 (CEST)
+Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTIjH-0007uf-OI
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 01:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44018)
+	id 1kTIl2-0002cD-8B
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 01:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kTIhQ-0006HK-PE
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:44 -0400
+ id 1kTIhS-0006Hw-95
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:46 -0400
 Received: from mga01.intel.com ([192.55.52.88]:36621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kTIhO-0005D7-5W
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:43 -0400
-IronPort-SDR: oLBUoeeDuunggHrEOXm1toV9lzSbPDZi1xK+Kr8W7bF7XYryxTT0cD0kuHwKpLsPSe000zwtB/
- Qfc8Xfj7T68A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="184094646"
-X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="184094646"
+ id 1kTIhQ-0005D7-Hq
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:54:45 -0400
+IronPort-SDR: EiLeu08svaTKttaWpyXwZNQbWs7BPUpReZW7U1XsEZshl2qkNiM0EjJSpx7CzMJgg/U2MXIpOF
+ h5CGBlXxH76w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9775"; a="184094650"
+X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="184094650"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 22:54:39 -0700
-IronPort-SDR: gM7UHYQw3msv/OULIYutLuWIWz5cJDrA35eAK2skMnJ81v5nBcXjRr2mbrIqsFGaz5kLXFi4jZ
- WL/kT7dmA6wA==
-X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="464572811"
+ 15 Oct 2020 22:54:41 -0700
+IronPort-SDR: o2vAq4Oy1hUXMqKwecjIGye4ios++jGlaZmqHk3fD1FAMf03KhgYOTtoFpnJB8NaYrf7yaJdg3
+ nnmuRZpqlRyA==
+X-IronPort-AV: E=Sophos;i="5.77,381,1596524400"; d="scan'208";a="464572818"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Oct 2020 22:54:37 -0700
+ 15 Oct 2020 22:54:40 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH V2 02/10] Optimize seq_sorter function for colo-compare
-Date: Fri, 16 Oct 2020 13:52:00 +0800
-Message-Id: <20201016055208.7969-3-chen.zhang@intel.com>
+Subject: [PATCH V2 03/10] Reduce the time of checkpoint for COLO
+Date: Fri, 16 Oct 2020 13:52:01 +0800
+Message-Id: <20201016055208.7969-4-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201016055208.7969-1-chen.zhang@intel.com>
 References: <20201016055208.7969-1-chen.zhang@intel.com>
@@ -75,37 +75,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-The seq of tcp has been filled in fill_pkt_tcp_info, it
-can be used directly here.
+we should set ram_bulk_stage to false after ram_state_init,
+otherwise the bitmap will be unused in migration_bitmap_find_dirty.
+all pages in ram cache will be flushed to the ram of secondary guest
+for each checkpoint.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
+Signed-off-by: Derek Su <dereksu@qnap.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Reviewed-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo-compare.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ migration/ram.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 3a45d64175..a35c10fb59 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -194,13 +194,10 @@ static void colo_compare_inconsistency_notify(CompareState *s)
+diff --git a/migration/ram.c b/migration/ram.c
+index 433489d633..9cfac3d9ba 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3009,6 +3009,18 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
+     qemu_mutex_unlock(&decomp_done_lock);
+ }
+ 
++ /*
++  * we must set ram_bulk_stage to false, otherwise in
++  * migation_bitmap_find_dirty the bitmap will be unused and
++  * all the pages in ram cache wil be flushed to the ram of
++  * secondary VM.
++  */
++static void colo_init_ram_state(void)
++{
++    ram_state_init(&ram_state);
++    ram_state->ram_bulk_stage = false;
++}
++
+ /*
+  * colo cache: this is for secondary VM, we cache the whole
+  * memory of the secondary VM, it is need to hold the global lock
+@@ -3052,7 +3064,7 @@ int colo_init_ram_cache(void)
+         }
      }
+ 
+-    ram_state_init(&ram_state);
++    colo_init_ram_state();
+     return 0;
  }
  
-+/* Use restricted to colo_insert_packet() */
- static gint seq_sorter(Packet *a, Packet *b, gpointer data)
- {
--    struct tcp_hdr *atcp, *btcp;
--
--    atcp = (struct tcp_hdr *)(a->transport_header);
--    btcp = (struct tcp_hdr *)(b->transport_header);
--    return ntohl(atcp->th_seq) - ntohl(btcp->th_seq);
-+    return a->tcp_seq - b->tcp_seq;
- }
- 
- static void fill_pkt_tcp_info(void *data, uint32_t *max_ack)
 -- 
 2.17.1
 
