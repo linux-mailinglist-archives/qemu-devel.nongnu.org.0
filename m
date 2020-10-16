@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C7A28FC1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 02:34:44 +0200 (CEST)
-Received: from localhost ([::1]:48120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0667628FC1B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 02:33:50 +0200 (CEST)
+Received: from localhost ([::1]:47380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTDhi-0007P0-7G
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 20:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
+	id 1kTDgq-00075u-Te
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 20:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kTDde-0004mW-Vp; Thu, 15 Oct 2020 20:30:33 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:50081)
+ id 1kTDde-0004mP-Fj; Thu, 15 Oct 2020 20:30:32 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43987 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kTDdc-0000ED-5f; Thu, 15 Oct 2020 20:30:30 -0400
+ id 1kTDdZ-0000EF-Hd; Thu, 15 Oct 2020 20:30:29 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CC6Vx08psz9sTq; Fri, 16 Oct 2020 11:30:16 +1100 (AEDT)
+ id 4CC6Vx1HWhz9sTm; Fri, 16 Oct 2020 11:30:17 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1602808217;
- bh=shvXjincyKEd/RPs1UF7LtW+EXJup4YM3bYJTjHdmy0=;
+ bh=u86C+Be5GtRvbwO6V30GuRS/Hny80edoutFQh2L6gW8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bFd6ADelprcK1bVaLf4swwgEaN4VSsyHkynAamg9Rvm7BXmozRwc9tHhA9zV8aqeI
- MufxqpTUWlYVzxYoHYGdhJo0v7xiJSVol6Wm8AiAZLLXsPGqUtQSYofD9qZWU1n+v9
- vd2GyzDZ5i1LLqwtA0DAXgAxmyxDT42ub5MztuVQ=
-Date: Fri, 16 Oct 2020 10:58:45 +1100
+ b=ov7SEHQapwCNtvma9ak0K5KgQAXdRfsKrldZPzw+SWn/PtXdLF4dvhZR8NH90B+Av
+ Q3A85Aj0/7qFqHcvf772OJs+vtixEGFMYeG7DgErfFxC5T4PoR6UGImdZRb9j5zeTk
+ aR2XWf29IGosOyzN1REfc2JVgP/hNYwzCtMykiU8=
+Date: Fri, 16 Oct 2020 11:16:14 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] ppc/spapr: re-assert IRQs during event-scan if there are
- pending
-Message-ID: <20201015235845.GA7078@yekko.fritz.box>
-References: <20201015210318.117386-1-lvivier@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v2 1/3] macio: don't reference serial_hd() directly
+ within the device
+Message-ID: <20201016001614.GB7078@yekko.fritz.box>
+References: <20201013114922.2946-1-mark.cave-ayland@ilande.co.uk>
+ <20201013114922.2946-2-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2oS5YaxWCcQjTEyO"
+ protocol="application/pgp-signature"; boundary="LpQ9ahxlCli8rRTG"
 Content-Disposition: inline
-In-Reply-To: <20201015210318.117386-1-lvivier@redhat.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20201013114922.2946-2-mark.cave-ayland@ilande.co.uk>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 20:30:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -60,62 +61,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---2oS5YaxWCcQjTEyO
+--LpQ9ahxlCli8rRTG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 15, 2020 at 11:03:18PM +0200, Laurent Vivier wrote:
-> If we hotplug a CPU during the first second of the kernel boot,
-> the IRQ can be sent to the kernel while the RTAS event handler
-> is not installed. The event is queued, but the kernel doesn't
-> collect it and ignores the new CPU.
+On Tue, Oct 13, 2020 at 12:49:20PM +0100, Mark Cave-Ayland wrote:
+> Instead use qdev_prop_set_chr() to configure the ESCC serial chardevs at =
+the
+> Mac Old World and New World machine level.
 >=20
-> As the code relies on edge-triggered IRQ, we can re-assert it
-> during the event-scan RTAS call if there are still pending
-> events (as it is already done in check-exception).
+> Also remove the now obsolete comment referring to the use of serial_hd() =
+and
+> the setting of user_creatable to false accordingly.
 >=20
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Applied to ppc-for-5.2.
+Applied to ppc-for-5.2, thanks.
 
 > ---
->  hw/ppc/spapr_events.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  hw/misc/macio/macio.c | 4 ----
+>  hw/ppc/mac_newworld.c | 6 ++++++
+>  hw/ppc/mac_oldworld.c | 6 ++++++
+>  3 files changed, 12 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index 1069d0197b4f..1add53547ec3 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -1000,10 +1000,22 @@ static void event_scan(PowerPCCPU *cpu, SpaprMach=
-ineState *spapr,
->                         target_ulong args,
->                         uint32_t nret, target_ulong rets)
->  {
-> +    int i;
->      if (nargs !=3D 4 || nret !=3D 1) {
->          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
->          return;
->      }
-> +
-> +    for (i =3D 0; i < EVENT_CLASS_MAX; i++) {
-> +        if (rtas_event_log_contains(EVENT_CLASS_MASK(i))) {
-> +            const SpaprEventSource *source =3D
-> +                spapr_event_sources_get_source(spapr->event_sources, i);
-> +
-> +            g_assert(source->enabled);
-> +            qemu_irq_pulse(spapr_qirq(spapr, source->irq));
-> +        }
-> +    }
-> +
->      rtas_st(rets, 0, RTAS_OUT_NO_ERRORS_FOUND);
+> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+> index 679722628e..51368884d0 100644
+> --- a/hw/misc/macio/macio.c
+> +++ b/hw/misc/macio/macio.c
+> @@ -109,8 +109,6 @@ static void macio_common_realize(PCIDevice *d, Error =
+**errp)
+>      qdev_prop_set_uint32(DEVICE(&s->escc), "disabled", 0);
+>      qdev_prop_set_uint32(DEVICE(&s->escc), "frequency", ESCC_CLOCK);
+>      qdev_prop_set_uint32(DEVICE(&s->escc), "it_shift", 4);
+> -    qdev_prop_set_chr(DEVICE(&s->escc), "chrA", serial_hd(0));
+> -    qdev_prop_set_chr(DEVICE(&s->escc), "chrB", serial_hd(1));
+>      qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
+>      qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
+>      if (!qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), errp)) {
+> @@ -458,8 +456,6 @@ static void macio_class_init(ObjectClass *klass, void=
+ *data)
+>      k->class_id =3D PCI_CLASS_OTHERS << 8;
+>      device_class_set_props(dc, macio_properties);
+>      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> -    /* Reason: Uses serial_hds in macio_instance_init */
+> -    dc->user_creatable =3D false;
 >  }
 > =20
+>  static const TypeInfo macio_bus_info =3D {
+> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> index 4dfbeec0ca..6f5ef2e782 100644
+> --- a/hw/ppc/mac_newworld.c
+> +++ b/hw/ppc/mac_newworld.c
+> @@ -123,6 +123,7 @@ static void ppc_core99_init(MachineState *machine)
+>      UNINHostState *uninorth_pci;
+>      PCIBus *pci_bus;
+>      PCIDevice *macio;
+> +    ESCCState *escc;
+>      bool has_pmu, has_adb;
+>      MACIOIDEState *macio_ide;
+>      BusState *adb_bus;
+> @@ -380,6 +381,11 @@ static void ppc_core99_init(MachineState *machine)
+>      qdev_prop_set_bit(dev, "has-adb", has_adb);
+>      object_property_set_link(OBJECT(macio), "pic", OBJECT(pic_dev),
+>                               &error_abort);
+> +
+> +    escc =3D ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
+> +    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
+> +    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
+> +
+>      pci_realize_and_unref(macio, pci_bus, &error_fatal);
+> =20
+>      /* We only emulate 2 out of 3 IDE controllers for now */
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index f8173934a2..d6a76d06dc 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -96,6 +96,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>      PCIBus *pci_bus;
+>      PCIDevice *macio;
+>      MACIOIDEState *macio_ide;
+> +    ESCCState *escc;
+>      SysBusDevice *s;
+>      DeviceState *dev, *pic_dev;
+>      BusState *adb_bus;
+> @@ -281,6 +282,11 @@ static void ppc_heathrow_init(MachineState *machine)
+>      qdev_prop_set_uint64(dev, "frequency", tbfreq);
+>      object_property_set_link(OBJECT(macio), "pic", OBJECT(pic_dev),
+>                               &error_abort);
+> +
+> +    escc =3D ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
+> +    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
+> +    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
+> +
+>      pci_realize_and_unref(macio, pci_bus, &error_fatal);
+> =20
+>      macio_ide =3D MACIO_IDE(object_resolve_path_component(OBJECT(macio),
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -123,25 +169,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---2oS5YaxWCcQjTEyO
+--LpQ9ahxlCli8rRTG
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+I4jIACgkQbDjKyiDZ
-s5JCuA/7BegI12ieKIbefT4v0+IZ6M1WSyn32GzSF7lg+6Grt4Zd5OEtPu5sbS2x
-lbO20lR/g0OkLNaPF0pMM0IratpxapUfFnts+U8zND+Q74CNZwivqFndscVDUeB9
-zSW+9hi7Eq8QmCFQ8m1L7t9WLaYIA01XndImPiGvV4RBIdqhab0Auc8655fdWsLy
-lnSN02Qq9+2RnjZsnnlTRB7JmMJWJu29TQFKj3jBXyMFvUCrELyvR9VdEva5uTOA
-muOsQRt1zPVV93HWOTfl6TRNgtM9cBOEk58cAATcLuixmMkasf9aBBm4NRySGDyN
-dS5h5PCCQxwMDjoBWlKlCn++bJAlH2QIUiLN00552jlBk5aZpg/q0tgB4PRZGBVV
-d5BKfG6XRQJGBYpVB6fgyYBjsHfETrLRPCnFm9mTBgbLx5PU5gervno8SkI2uGpB
-6EKWNfGKPiU76UGpyOVE7kpaz5oRBMXm2Vc+mZtZQolBie1toEMURPM3XDPJMner
-iLODJsFJYIG4Tcutwk4/JJqmtteEP6+gBiHJLkEcDRVHxvgl1gEGHDBQ0JJnKL35
-NKprh8YLWgSLWP2CmPwXprgvtDRUi0ZT52sN7bP8DcvqOwnWRStz1U/9M1d49fqu
-VI43k7p3j8V+Y8YR4PRHNMG6fadCZnJoVdA1N30T+GXfmzWMdYI=
-=RsEg
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+I5kwACgkQbDjKyiDZ
+s5JxZw//cPa9yueoqpUnbozD25U4c9YspzwF8P/LLc5sHuKChfjbPl1KAsEnJmJO
+pLlh1UMa/QCC60jw+V4moJ1X3C1EiER8Qnl1VEYvFMOct+DdThr0XEViGLqgu2Sp
+hU45268yLZ3lxleC/1DLymFKwazCAUzUwHRWNM/bYdRKCw26tnbUSmm8eQiq2ZZy
+c7RcJG8nBNq82EP4X5PkTZkLh2JQ3nMgK+qE0ySUpNt6zXZs33Q79RpQ/0iEsILi
+djbSwPZYkx5FoWIpTgJWgqGEJUBDHnfIx1sQKbepkVXH7LVZ3ngX5bqKfya0FZ7b
+oGZAcAFp+tsQayIFXKRmG6PaBrPU4uPEMp3vHVOkxpcGtYBJJ1m0ZBb9Iwv4qgHe
+zL2Tc60SCOkqCUGfBnY7BbmgeG5fAjRQZYFlkaHI4awHyEYvFYSUMaf3TQzXoDnb
+4yjaAD6ukQX+KD6qHxldYmG8aeQbp7jp6NoZQh/UbDwycLRwPWCo+t2KwJvUMtnY
+YMnLWKCetb73PmyT+Dmff/XBIz2+5HmDWJsi0AI1/3IW9dY0MC2N960Tut+dVlKO
+wg91UH/WanvUJ9ElMdMnu/wlm2CECpFCoNP5JP8Vuqo5+rA4ZL4luZRMFKL3HHTw
+iJ+kI6Tfq2aYR0m0lt/E7/zS8VT9Sygr2WThr/ZRNCn5MBpwow0=
+=2T8+
 -----END PGP SIGNATURE-----
 
---2oS5YaxWCcQjTEyO--
+--LpQ9ahxlCli8rRTG--
 
