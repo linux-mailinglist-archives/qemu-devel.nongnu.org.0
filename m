@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2932C290468
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:54:03 +0200 (CEST)
-Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F7F290462
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:51:41 +0200 (CEST)
+Received: from localhost ([::1]:47286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTOJ8-0007Fd-4q
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33394)
+	id 1kTOGq-0003x6-15
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:51:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO9P-0002t2-5Y
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:43:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25242)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kTODe-0000Ky-AJ
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTO9M-0002HE-9t
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:43:58 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kTODb-0002nm-Jv
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602848634;
+ s=mimecast20190719; t=1602848898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J5IdILfRHW+G6d2qZXMG79TwBJDnNn1wITzb0S2tdm0=;
- b=ieHy047F9/cFrEfSVL6I0CRvA5JNrD5jtYRt8dEumAcDOkQv/iAACFURt7wOX0jYOlZtoh
- C8MSiUZ25014HBakRqP9ruPrsEuWPVweG9frU24SMjITOLMdddfZLORntehH/dx89X66zg
- fbg49WUJxdjQ0MmXi+Ndsua/NZIDiY8=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Y5BcQLVav0LkjSlurPGk01r+QCWmOs2XhJxJbbfH97I=;
+ b=OEU+G3iqRKYTD2ZeC9PNMH94z2y8ZL6BfEKb9OzZwSBKRvK5vHljJUhXoAM42f+oa0MGoM
+ 5shi51q/9UqG3CDauRp/MLmyRBqV9oJi02VVcJZt60K5BOG8EVHAuMSQdUQyOkbMT+DMUr
+ /x0k92IATmraL7a19uOcVRqTxK6BrKE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-S-eOMZ8SMna8-cfuOcXGWQ-1; Fri, 16 Oct 2020 07:43:50 -0400
-X-MC-Unique: S-eOMZ8SMna8-cfuOcXGWQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-396-0cXrxRbpM92rEHnPjyUH_A-1; Fri, 16 Oct 2020 07:48:15 -0400
+X-MC-Unique: 0cXrxRbpM92rEHnPjyUH_A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4F7380365F;
- Fri, 16 Oct 2020 11:43:49 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
- [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E52175138;
- Fri, 16 Oct 2020 11:43:29 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 747D39D5A; Fri, 16 Oct 2020 13:43:28 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC6276414B
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:48:14 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB2DB76640
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:48:14 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] microvm: reconfigure irqs if second ioapic is available
-Date: Fri, 16 Oct 2020 13:43:28 +0200
-Message-Id: <20201016114328.18835-5-kraxel@redhat.com>
-In-Reply-To: <20201016114328.18835-1-kraxel@redhat.com>
-References: <20201016114328.18835-1-kraxel@redhat.com>
+Subject: [PULL 00/22] Build system + misc changes for 2020-10-16
+Date: Fri, 16 Oct 2020 07:47:52 -0400
+Message-Id: <20201016114814.1564523-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 03:57:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,54 +78,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use GSI 16+ for PCIe (needs acpi_build_madt() tweak).
-Use GSI 24+ (second ioapic) for virtio-mmio.
-Use all irq lines of the second ioapic
-and allow up to 24 virtio-mmio devices.
+The following changes since commit 57c98ea9acdcef5021f5671efa6475a5794a51c4:
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/i386/acpi-common.c | 2 +-
- hw/i386/microvm.c     | 6 +++++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20201014-pull-request' into staging (2020-10-14 13:56:06 +0100)
 
-diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-index f0689392a39f..1653a8315248 100644
---- a/hw/i386/acpi-common.c
-+++ b/hw/i386/acpi-common.c
-@@ -122,7 +122,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
-         intsrcovr->flags  = cpu_to_le16(0); /* conforms to bus specifications */
-     }
- 
--    for (i = 1; i < 16; i++) {
-+    for (i = 1; i < 24; i++) {
-         if (!(x86ms->pci_irq_mask & (1 << i))) {
-             /* No need for a INT source override structure. */
-             continue;
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 15c3e078a4aa..70bb8a4e3954 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -205,7 +205,11 @@ static void microvm_devices_init(MicrovmMachineState *mms)
- 
-     mms->virtio_irq_base = 5;
-     mms->virtio_num_transports = 8;
--    if (x86_machine_is_acpi_enabled(x86ms)) {
-+    if (ioapic2) {
-+        mms->pcie_irq_base = 16;
-+        mms->virtio_irq_base = 24;
-+        mms->virtio_num_transports = 24;
-+    } else if (x86_machine_is_acpi_enabled(x86ms)) {
-         mms->pcie_irq_base = 12;
-         mms->virtio_irq_base = 16;
-     }
+are available in the Git repository at:
+
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 2a2f0924537993510e8d24d60ec2a43e7b4a72a9:
+
+  ci: include configure and meson logs in all jobs if configure fails (2020-10-16 07:44:38 -0400)
+
+----------------------------------------------------------------
+* Drop ninjatool and just require ninja (Paolo)
+* Fix docs build under msys2 (Yonggang)
+* HAX snafu fix (Claudio)
+* Disable signal handlers during fuzzing (Alex)
+* Miscellaneous fixes (Bruce, Greg)
+
+----------------------------------------------------------------
+Alexander Bulekov (1):
+      fuzz: Disable QEMU's SIG{INT,HUP,TERM} handlers
+
+Bruce Rogers (3):
+      meson.build: don't condition iconv detection on library detection
+      configure: fix handling of --docdir parameter
+      meson: Only install icons and qemu.desktop if have_system
+
+Claudio Fontana (1):
+      hax: unbreak accelerator cpu code after cpus.c split
+
+Greg Kurz (1):
+      Makefile: Ensure cscope.out/tags/TAGS are generated in the source tree
+
+Paolo Bonzini (13):
+      submodules: bump meson to 0.55.3
+      tests/Makefile.include: unbreak non-tcg builds
+      make: run shell with pipefail
+      tests: add missing generated sources to testqapi
+      configure: move QEMU_INCLUDES to meson
+      dockerfiles: enable Centos 8 PowerTools
+      add ninja to dockerfiles, CI configurations and test VMs
+      build: cleanups to Makefile
+      build: replace ninjatool with ninja
+      build: add --enable/--disable-libudev
+      meson: cleanup curses/iconv test
+      meson: move SPHINX_ARGS references within "if build_docs"
+      ci: include configure and meson logs in all jobs if configure fails
+
+Yonggang Luo (3):
+      docs: Fix Sphinx configuration for msys2/mingw
+      meson: Move the detection logic for sphinx to meson
+      cirrus: Enable doc build on msys2/mingw
+
+ .cirrus.yml                                |   21 +-
+ .gitlab-ci.yml                             |    6 +-
+ .travis.yml                                |   21 +-
+ Makefile                                   |  134 ++--
+ configure                                  |   99 +--
+ docs/conf.py                               |    2 +-
+ docs/devel/build-system.rst                |    6 +-
+ docs/meson.build                           |   46 ++
+ docs/sphinx/kerneldoc.py                   |    2 +-
+ meson                                      |    2 +-
+ meson.build                                |  185 ++---
+ meson_options.txt                          |    6 +
+ scripts/mtest2make.py                      |    3 +-
+ scripts/ninjatool.py                       | 1008 ----------------------------
+ target/i386/hax-cpus.c                     |    1 +
+ tests/Makefile.include                     |    2 +-
+ tests/docker/dockerfiles/centos7.docker    |    1 +
+ tests/docker/dockerfiles/centos8.docker    |    5 +-
+ tests/docker/dockerfiles/debian10.docker   |    1 +
+ tests/docker/dockerfiles/fedora.docker     |    1 +
+ tests/docker/dockerfiles/travis.docker     |    2 +-
+ tests/docker/dockerfiles/ubuntu.docker     |    1 +
+ tests/docker/dockerfiles/ubuntu1804.docker |    1 +
+ tests/docker/dockerfiles/ubuntu2004.docker |    1 +
+ tests/include/meson.build                  |    8 +-
+ tests/meson.build                          |   14 +-
+ tests/qapi-schema/meson.build              |   88 +--
+ tests/qtest/fuzz/fuzz.c                    |    8 +
+ tests/vm/centos                            |    2 +-
+ tests/vm/centos.aarch64                    |    2 +-
+ tests/vm/fedora                            |    2 +-
+ tests/vm/freebsd                           |    1 +
+ tests/vm/netbsd                            |    1 +
+ tests/vm/openbsd                           |    1 +
+ tests/vm/ubuntu.aarch64                    |    2 +-
+ tests/vm/ubuntu.i386                       |    2 +-
+ ui/meson.build                             |    7 +-
+ 37 files changed, 387 insertions(+), 1308 deletions(-)
+ delete mode 100755 scripts/ninjatool.py
 -- 
-2.27.0
+2.26.2
 
 
