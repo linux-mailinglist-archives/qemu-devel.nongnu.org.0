@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112EB290479
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:56:35 +0200 (CEST)
-Received: from localhost ([::1]:35546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8945F290459
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:50:46 +0200 (CEST)
+Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTOLa-0002Qt-3U
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:56:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34276)
+	id 1kTOFx-00022R-L7
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kTODc-0000Gr-8k
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57826)
+ id 1kTODd-0000IY-7O
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kTODa-0002nf-Jt
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:19 -0400
+ id 1kTODb-0002no-GC
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602848897;
+ s=mimecast20190719; t=1602848898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fWOgpVq1O0TABc/ts49srwNRGfJLonj8rkf1fDkoI0k=;
- b=SH5MgieqVRFp3MqdzPIDum4GxDuudV92CqW6FN/qA7UfA6V5A4PoQYPdGH5u6jyomUNpGX
- dPKqS6Z5IbRMZlFOqSvJ2PBmG4R5RurXgixQRQdP+QBmLxBfl1XlcTRClXbc25qCD4bKha
- DqvrmnxQSCvQBRspmD+br124SleCt4I=
+ bh=n66gcb6JPvi1HUeyWqEtPpl5bDBAMxwb7H9A1rO31qA=;
+ b=MsZO+Vqee4WdkcVugDeFcdDGCmS+HTLNQM0rfrMdFcpj/p197b8NL9XaOocUMEYY4bSuMP
+ luO/5r5+5biWJ296f8gGf8d/uhvhapLdxKl194o7rG8r/lR6iTTfo1WiV/99GiezoyY7T2
+ aGbWjicjoMsSsBGLGk1zqtW1VFwUfQo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-tDetsPiIM_a9A40YeTMTVw-1; Fri, 16 Oct 2020 07:48:16 -0400
-X-MC-Unique: tDetsPiIM_a9A40YeTMTVw-1
+ us-mta-301-nR1iz4zFMH6xR3OP6-H7Iw-1; Fri, 16 Oct 2020 07:48:16 -0400
+X-MC-Unique: nR1iz4zFMH6xR3OP6-H7Iw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 333D76414D
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:48:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DCE618A8233;
+ Fri, 16 Oct 2020 11:48:15 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0267C76679
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:48:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E14876640;
+ Fri, 16 Oct 2020 11:48:15 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/22] submodules: bump meson to 0.55.3
-Date: Fri, 16 Oct 2020 07:47:53 -0400
-Message-Id: <20201016114814.1564523-2-pbonzini@redhat.com>
+Subject: [PULL 02/22] Makefile: Ensure cscope.out/tags/TAGS are generated in
+ the source tree
+Date: Fri, 16 Oct 2020 07:47:54 -0400
+Message-Id: <20201016114814.1564523-3-pbonzini@redhat.com>
 In-Reply-To: <20201016114814.1564523-1-pbonzini@redhat.com>
 References: <20201016114814.1564523-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,39 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds some bugfixes, and allows MSYS2 to configure
-without "--ninja=ninja".
+From: Greg Kurz <groug@kaod.org>
 
+Tools usually expect the index files to be in the source tree, eg. emacs.
+This is already the case when doing out-of-tree builds, but with in-tree
+builds they end up in the build directory.
+
+Force cscope, ctags and etags to put them in the source tree.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <160277334665.1754102.10921580280105870386.stgit@bahia.lan>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- .cirrus.yml | 3 +--
- meson       | 2 +-
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ Makefile | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 99d118239c..0f46cb5eaf 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -123,8 +123,7 @@ windows_msys2_task:
+diff --git a/Makefile b/Makefile
+index c37e513431..d20c7a3f80 100644
+--- a/Makefile
++++ b/Makefile
+@@ -194,19 +194,19 @@ find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o -name "*
  
-   script:
-     - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
--    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure
--      --python=python3 --ninja=ninja"
-+    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure --python=python3"
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j8"
-   test_script:
-     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
-diff --git a/meson b/meson
-index 68ed748f84..776acd2a80 160000
---- a/meson
-+++ b/meson
-@@ -1 +1 @@
--Subproject commit 68ed748f84f14c2d4e62dcbd123816e5898eb04c
-+Subproject commit 776acd2a805c9b42b4f0375150977df42130317f
+ .PHONY: ctags
+ ctags:
+-	rm -f tags
+-	$(find-src-path) -exec ctags --append {} +
++	rm -f "$(SRC_PATH)/"tags
++	$(find-src-path) -exec ctags -f "$(SRC_PATH)/"tags --append {} +
+ 
+ .PHONY: TAGS
+ TAGS:
+-	rm -f TAGS
+-	$(find-src-path) -exec etags --append {} +
++	rm -f "$(SRC_PATH)/"TAGS
++	$(find-src-path) -exec etags -f "$(SRC_PATH)/"TAGS --append {} +
+ 
+ .PHONY: cscope
+ cscope:
+ 	rm -f "$(SRC_PATH)"/cscope.*
+ 	$(find-src-path) -print | sed -e 's,^\./,,' > "$(SRC_PATH)/cscope.files"
+-	cscope -b -i"$(SRC_PATH)/cscope.files"
++	cscope -b -i"$(SRC_PATH)/cscope.files" -f"$(SRC_PATH)"/cscope.out
+ 
+ # Needed by "meson install"
+ export DESTDIR
 -- 
 2.26.2
 
