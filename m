@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18D1290B9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 20:45:51 +0200 (CEST)
-Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5191A290BB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 20:49:43 +0200 (CEST)
+Received: from localhost ([::1]:42228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTUje-0002QK-KX
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 14:45:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
+	id 1kTUnO-00063s-Bj
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 14:49:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kTUgP-0000V9-8B
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:31 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:54581)
+ id 1kTUgS-0000VI-0W
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:32 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kTUgG-00026e-Ct
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:27 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id az3so1842483pjb.4
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:42:17 -0700 (PDT)
+ id 1kTUgG-00026u-Cp
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 14:42:29 -0400
+Received: by mail-pf1-x444.google.com with SMTP id w21so1987334pfc.7
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:42:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tcQiTVPZ4EDkEsGCvdGZmCD7eErMNKvjpgH4j/u5Y8I=;
- b=BIq43mfIl6tPMcY1In/e2r93+woPXqHZoyGSA8eMLv2FIRvOtQ9a1kuUSIjsoN6lOI
- T2jIycCPbQAcU2X/v2GBYGnWd2hsAaALrejJrmkjH3Hn9ZmDcqD6ohIhgcGO0P8yj2Fn
- gHQALboLEEgdaKOOc3ooPWif2spFY+X1bhXIuivndCsynXb+e4Fclc6gwuEhnYbDESPX
- n2rOhuXRaxFP5Mg7HTrtx6jz3YEVDtt2UVGHItxk/H0/PZSaoW/vUk5i6EYTyucAUMIL
- ljl60noBwvmFXZfaJ8S3Q5wFBwUFnfNmFDyVZaqPkViQk9QflU+tpvYFfC1ZnRi6amZL
- mNDQ==
+ bh=/PhyfxonOHMia69Uhhz8aFrAtnkrEZKYG1wmZQKttSI=;
+ b=sNLIoDgxTpluHbWkpp0asVN19lAwCAgynZMkI8ZMUh8GMo6c0PfhLUbY4Td+mRPYEr
+ +r6fPFn3dlw4c0tsT3mKrRNZeF4kvkH7zJXCslIeRh/ZEkAU5aTzD1zduPujDyXAh5FC
+ MtVryWDp7mRaBlMknHDT9jfFwmhcScD0gHQ71iZjCxKKX7mpvkaqSuvX1y+jdfQyhjSu
+ Isqf9znWrtxMwwbHfMiFxXZ/pFWmCxhwUpBg+esvOpA5WX6aiQ+MlQWpCnXbitqcS6hD
+ Rg49QGoj5SyIrBvwJqXZUQqcmkY0lknuFwsZ1SXrN4JIo3m9xQDLUhDPn2T9tRMpSc4m
+ VY6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tcQiTVPZ4EDkEsGCvdGZmCD7eErMNKvjpgH4j/u5Y8I=;
- b=JhjJqHMGVfUkOdTc3nE8Q22tqFWjR24WmW/E/xBK5SCcCmsAb9kWQrOfUecV8UC0MD
- ob/p1ARsM1TbNazPNI4gmi83myNCd7HJvvIe/iybxAnWHBp3/UiyS+/xK6bMPHHuldMg
- 5pHnskSovGI2o5gNI9YfdE8wkx4PjMANseTbUBxa0c3B3J75BE6bZ4WQJrB5C/T+VbA5
- xO7giW5AJYm9W6YQj1RCAdOmn/K4xLRLs0RdC8ZWF3TCAtjZIygBk9ocoVc5nvG423nd
- BA95vuk9bPKFtryaMyab4FpZ7d/seGTNt56WmM+OMIfo66DBvDujxjxrI5Tx7rnZg9yi
- ZqWw==
-X-Gm-Message-State: AOAM532bhsPThUvZZFYlUGTehgameL5hpsEXyrHVb608ash2DTtvwnEo
- MS3DLwFVuwnnyVg3xIpA6SzjMkr+f7lVdw==
-X-Google-Smtp-Source: ABdhPJyY6cd47FDfccdN3dhaPcSnA7qoUywjqtl2kuQYqDWbXvCmsDteT4ZxzTaHdA1rQXeo7n+OPw==
-X-Received: by 2002:a17:90a:8596:: with SMTP id
- m22mr5218160pjn.42.1602873736199; 
- Fri, 16 Oct 2020 11:42:16 -0700 (PDT)
+ bh=/PhyfxonOHMia69Uhhz8aFrAtnkrEZKYG1wmZQKttSI=;
+ b=VCxoYPKzJbxaCy3UaJVDb9I481zKSQaLT66/ViZQ9hRcDicfJ4UXxdNRoaD5sKSxMz
+ 47g39uRTr9kYd+Z+aR/6Yghswd1Owx6qka5G/ysByWG8efHNdpeFKy66kg11lapaisYr
+ 8X/BgRGcEsMv31E8ywajNnEXit9wU6sfUQqkBo9YnTNOQn7vX6o+UstMyUJZZsCwuXsd
+ fy0otSz4zUJsuB+nUgpxzDPFGf/XyKEarV1z3gvJHDtePRPwwatuMwK22jqP9ZOWAJZM
+ 2nd4P2T842zwZISPfHZAK+YNdxza7jzOD6rEyuKmDKf60h7MWvEm+kZ9Ty4LGiHv+x+u
+ DqNw==
+X-Gm-Message-State: AOAM530rxRgvLTUDpKBl1HEs90OSxujYkK8EXpRkiSl3IasTiLTO7MAf
+ tlPT9NcQkMxQdmBhk6JP+GWiM48syDHaUQ==
+X-Google-Smtp-Source: ABdhPJzrv+6PeNDYtLb8YQEIYw1XJoNkudToEiPoF5XvPNx6dqfN7ViMuLo35wCuTQQMvISDVr57hw==
+X-Received: by 2002:a62:6dc2:0:b029:152:637c:4cf5 with SMTP id
+ i185-20020a626dc20000b0290152637c4cf5mr4974356pfc.15.1602873737369; 
+ Fri, 16 Oct 2020 11:42:17 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id c15sm3426011pgg.77.2020.10.16.11.42.15
+ by smtp.gmail.com with ESMTPSA id c15sm3426011pgg.77.2020.10.16.11.42.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 11:42:15 -0700 (PDT)
+ Fri, 16 Oct 2020 11:42:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 04/12] linux-user/elfload: Avoid leaking interp_name using
- GLib memory API
-Date: Fri, 16 Oct 2020 11:41:59 -0700
-Message-Id: <20201016184207.786698-5-richard.henderson@linaro.org>
+Subject: [PATCH v11 05/12] linux-user/elfload: Fix coding style in
+ load_elf_image
+Date: Fri, 16 Oct 2020 11:42:00 -0700
+Message-Id: <20201016184207.786698-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201016184207.786698-1-richard.henderson@linaro.org>
 References: <20201016184207.786698-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,60 +87,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org,
- laurent@vivier.eu, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fixing this now will clarify following patches.
 
-Fix an unlikely memory leak in load_elf_image().
-
-Fixes: bf858897b7 ("linux-user: Re-use load_elf_image for the main binary.")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201003174944.1972444-1-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ linux-user/elfload.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index f6022fd704..1a3150df7c 100644
+index 1a3150df7c..290ef70222 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -2584,13 +2584,13 @@ static void load_elf_image(const char *image_name, int image_fd,
-                 info->brk = vaddr_em;
-             }
-         } else if (eppnt->p_type == PT_INTERP && pinterp_name) {
--            char *interp_name;
-+            g_autofree char *interp_name = NULL;
+@@ -2531,9 +2531,15 @@ static void load_elf_image(const char *image_name, int image_fd,
+             abi_ulong vaddr, vaddr_po, vaddr_ps, vaddr_ef, vaddr_em, vaddr_len;
+             int elf_prot = 0;
  
-             if (*pinterp_name) {
-                 errmsg = "Multiple PT_INTERP entries";
-                 goto exit_errmsg;
-             }
--            interp_name = malloc(eppnt->p_filesz);
-+            interp_name = g_malloc(eppnt->p_filesz);
-             if (!interp_name) {
-                 goto exit_perror;
-             }
-@@ -2609,7 +2609,7 @@ static void load_elf_image(const char *image_name, int image_fd,
-                 errmsg = "Invalid PT_INTERP entry";
-                 goto exit_errmsg;
-             }
--            *pinterp_name = interp_name;
-+            *pinterp_name = g_steal_pointer(&interp_name);
- #ifdef TARGET_MIPS
-         } else if (eppnt->p_type == PT_MIPS_ABIFLAGS) {
-             Mips_elf_abiflags_v0 abiflags;
-@@ -2961,7 +2961,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
-     if (elf_interpreter) {
-         info->load_bias = interp_info.load_bias;
-         info->entry = interp_info.entry;
--        free(elf_interpreter);
-+        g_free(elf_interpreter);
-     }
+-            if (eppnt->p_flags & PF_R) elf_prot =  PROT_READ;
+-            if (eppnt->p_flags & PF_W) elf_prot |= PROT_WRITE;
+-            if (eppnt->p_flags & PF_X) elf_prot |= PROT_EXEC;
++            if (eppnt->p_flags & PF_R) {
++                elf_prot |= PROT_READ;
++            }
++            if (eppnt->p_flags & PF_W) {
++                elf_prot |= PROT_WRITE;
++            }
++            if (eppnt->p_flags & PF_X) {
++                elf_prot |= PROT_EXEC;
++            }
  
- #ifdef USE_ELF_CORE_DUMP
+             vaddr = load_bias + eppnt->p_vaddr;
+             vaddr_po = TARGET_ELF_PAGEOFFSET(vaddr);
 -- 
 2.25.1
 
