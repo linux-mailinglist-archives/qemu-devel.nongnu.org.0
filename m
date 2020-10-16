@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7A628FC23
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 02:43:39 +0200 (CEST)
-Received: from localhost ([::1]:32820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB08F28FC42
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 03:41:37 +0200 (CEST)
+Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTDqM-0004qg-DS
-	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 20:43:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36160)
+	id 1kTEkS-0007uI-79
+	for lists+qemu-devel@lfdr.de; Thu, 15 Oct 2020 21:41:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kTDp0-00046g-UX; Thu, 15 Oct 2020 20:42:14 -0400
-Received: from ozlabs.org ([203.11.71.1]:48149)
+ id 1kTEjB-0007NX-Uj; Thu, 15 Oct 2020 21:40:17 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:34099 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kTDoy-0001oP-Ur; Thu, 15 Oct 2020 20:42:14 -0400
+ id 1kTEj8-0000K2-Oe; Thu, 15 Oct 2020 21:40:17 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CC6mb4v9Xz9sTK; Fri, 16 Oct 2020 11:42:07 +1100 (AEDT)
+ id 4CC83W1YD1z9sTD; Fri, 16 Oct 2020 12:40:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1602808927;
- bh=QSCVYgt5dfSZdPnu/6X4zOVNFZwfUa6m8OormgP9o1Y=;
+ d=gibson.dropbear.id.au; s=201602; t=1602812407;
+ bh=JqBp0wFPBsIZmsCG3bs0mT/7BuYJTZZoQh/6ez71pJI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NtoeFyJAQRP4ug64OFtcsbyRpSIURGtWcnFbVTYLP56jNHzW0M8rwEBAAmmjmaj3I
- Ga8pceyPeIJZf80/bpkMD62JMhjw3eOV9bOVXLPCe2+NXFagHKZPfAEiIPB4vn+3qE
- dtKWm7/7tF9uTqb8C4ynl1PNQGjFkDiLg7WjI5kU=
-Date: Fri, 16 Oct 2020 11:42:00 +1100
+ b=BhfgFO2gFjCNgiiN4byyRr/A59+bUNcZTlsDmMv/h8GysemsuIlbbbytMpsBvN6yn
+ tRwlX9Clf8RSBWM4ugkDhbst/OwB+mjHGpsk9/Mf7EixR5bZXbMMWotcTVImX5KL6a
+ /WMVXvr2J2vkY+uCrmxrxWSWDWu7iF4UL8D24Qew=
+Date: Fri, 16 Oct 2020 11:44:57 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr: Move spapr_create_nvdimm_dr_connectors() to core
- machine code
-Message-ID: <20201016004200.GG7078@yekko.fritz.box>
-References: <160249772183.757627.7396780936543977766.stgit@bahia.lan>
- <20201013004014.GF71119@yekko.fritz.box>
- <20201013093344.644b5677@bahia.lan>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 2/2] hw/rtc/m48t59: Simplify m48t59_init() passing
+ MemoryRegion argument
+Message-ID: <20201016004457.GH7078@yekko.fritz.box>
+References: <20201015194647.477252-1-f4bug@amsat.org>
+ <20201015194647.477252-3-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="V32M1hWVjliPHW+c"
+ protocol="application/pgp-signature"; boundary="X1xGqyAVbSpAWs5A"
 Content-Disposition: inline
-In-Reply-To: <20201013093344.644b5677@bahia.lan>
+In-Reply-To: <20201015194647.477252-3-f4bug@amsat.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/15 20:30:17
@@ -62,141 +61,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---V32M1hWVjliPHW+c
-Content-Type: text/plain; charset=us-ascii
+--X1xGqyAVbSpAWs5A
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 13, 2020 at 09:33:44AM +0200, Greg Kurz wrote:
-> On Tue, 13 Oct 2020 11:40:14 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
+On Thu, Oct 15, 2020 at 09:46:47PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Pass a MemoryRegion* to m48t59_init(), directly call
+> memory_region_add_subregion() instead of sysbus_mmio_map().
 >=20
-> > On Mon, Oct 12, 2020 at 12:15:21PM +0200, Greg Kurz wrote:
-> > > The spapr_create_nvdimm_dr_connectors() function doesn't need to acce=
-ss
-> > > any internal details of the sPAPR NVDIMM implementation. Also, pretty
-> > > much like for the LMBs, only spapr_machine_init() is responsible for =
-the
-> > > creation of DR connectors for NVDIMMs.
-> > >=20
-> > > Make this clear by making this function static in hw/ppc/spapr.c.
-> > >=20
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> >=20
-> > Hrm, I'm not really seeing the advantage to moving this.  It doesn't
-> > have to be in spapr_nvdimm for data hiding, but it is related, and
-> > spapr.c is kind of huge.
-> >=20
->=20
-> The only advantage is to give an appropriate scope to this function,
-> as many other functions that create internal devices, eg. other DRC
-> types or the default PHB for which a similar change was accepted
-> 2 years ago.
->=20
-> commit 999c9caf2eee66103195e1ec7580b379929db9d2
-> Author: Greg Kurz <groug@kaod.org>
-> Date:   Fri Dec 21 01:35:09 2018 +0100
->=20
->     spapr: move spapr_create_phb() to core machine code
->    =20
->     This function is only used when creating the default PHB. Let's rename
->     it and move it to the core machine code for clarity.
->    =20
->     Signed-off-by: Greg Kurz <groug@kaod.org>
->     Reviewed-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->     Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
->     Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->=20
-> I agree that spapr.c is huge indeed (4943 lines) but this increases its
-> size by _just_ 0.2 %. And there are certainly good candidates that
-> landed in spapr.c by _default_ over the years but should rather be
-> moved to their own compilation unit (eg. a bunch of FDT building
-> functions for various resources or some hotplug related functions
-> that don't need to access machine internals).
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 
-Good points.  Applied to ppc-for-5.2.
+ppc parts
 
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  include/hw/rtc/m48t59.h |  2 +-
+>  hw/ppc/ppc405_boards.c  |  2 +-
+>  hw/rtc/m48t59.c         | 10 +++-------
+>  hw/sparc/sun4m.c        |  3 ++-
+>  hw/sparc64/sun4u.c      |  7 ++-----
+>  5 files changed, 9 insertions(+), 15 deletions(-)
 >=20
-> > > ---
-> > >  hw/ppc/spapr.c                |   10 ++++++++++
-> > >  hw/ppc/spapr_nvdimm.c         |   11 -----------
-> > >  include/hw/ppc/spapr_nvdimm.h |    1 -
-> > >  3 files changed, 10 insertions(+), 12 deletions(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index 63315f2d0fa9..ee716a12af73 100644
-> > > --- a/hw/ppc/spapr.c
-> > > +++ b/hw/ppc/spapr.c
-> > > @@ -2641,6 +2641,16 @@ static hwaddr spapr_rma_size(SpaprMachineState=
- *spapr, Error **errp)
-> > >      return rma_size;
-> > >  }
-> > > =20
-> > > +static void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spa=
-pr)
-> > > +{
-> > > +    MachineState *machine =3D MACHINE(spapr);
-> > > +    int i;
-> > > +
-> > > +    for (i =3D 0; i < machine->ram_slots; i++) {
-> > > +        spapr_dr_connector_new(OBJECT(spapr), TYPE_SPAPR_DRC_PMEM, i=
-);
-> > > +    }
-> > > +}
-> > > +
-> > >  /* pSeries LPAR / sPAPR hardware init */
-> > >  static void spapr_machine_init(MachineState *machine)
-> > >  {
-> > > diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> > > index b3a489e9fe18..9e3d94071fe1 100644
-> > > --- a/hw/ppc/spapr_nvdimm.c
-> > > +++ b/hw/ppc/spapr_nvdimm.c
-> > > @@ -106,17 +106,6 @@ void spapr_add_nvdimm(DeviceState *dev, uint64_t=
- slot, Error **errp)
-> > >      }
-> > >  }
-> > > =20
-> > > -void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr)
-> > > -{
-> > > -    MachineState *machine =3D MACHINE(spapr);
-> > > -    int i;
-> > > -
-> > > -    for (i =3D 0; i < machine->ram_slots; i++) {
-> > > -        spapr_dr_connector_new(OBJECT(spapr), TYPE_SPAPR_DRC_PMEM, i=
-);
-> > > -    }
-> > > -}
-> > > -
-> > > -
-> > >  static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
-> > >                             int parent_offset, NVDIMMDevice *nvdimm)
-> > >  {
-> > > diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvd=
-imm.h
-> > > index b834d82f5545..490b19a009f4 100644
-> > > --- a/include/hw/ppc/spapr_nvdimm.h
-> > > +++ b/include/hw/ppc/spapr_nvdimm.h
-> > > @@ -31,6 +31,5 @@ void spapr_dt_persistent_memory(SpaprMachineState *=
-spapr, void *fdt);
-> > >  bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice=
- *nvdimm,
-> > >                             uint64_t size, Error **errp);
-> > >  void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
-> > > -void spapr_create_nvdimm_dr_connectors(SpaprMachineState *spapr);
-> > > =20
-> > >  #endif
-> > >=20
-> > >=20
-> >=20
->=20
-
-
+> diff --git a/include/hw/rtc/m48t59.h b/include/hw/rtc/m48t59.h
+> index d99dda2b7de..3c337e8171c 100644
+> --- a/include/hw/rtc/m48t59.h
+> +++ b/include/hw/rtc/m48t59.h
+> @@ -49,7 +49,7 @@ struct NvramClass {
+> =20
+>  Nvram *m48t59_init_isa(ISABus *bus, uint32_t io_base, uint16_t size,
+>                         int base_year, int type);
+> -Nvram *m48t59_init(qemu_irq IRQ, hwaddr mem_base,
+> +Nvram *m48t59_init(MemoryRegion *mr, hwaddr mem_base, qemu_irq IRQ,
+>                     uint16_t size, int base_year, int model);
+> =20
+>  #endif /* HW_M48T59_H */
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index 93ffee801a3..6ab1b860545 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -227,7 +227,7 @@ static void ref405ep_init(MachineState *machine)
+>      /* Register FPGA */
+>      ref405ep_fpga_init(sysmem, 0xF0300000);
+>      /* Register NVRAM */
+> -    m48t59_init(NULL, 0xF0000000, 8192, 1968, 8);
+> +    m48t59_init(get_system_memory(), 0xF0000000, NULL, 8192, 1968, 8);
+>      /* Load kernel */
+>      linux_boot =3D (kernel_filename !=3D NULL);
+>      if (linux_boot) {
+> diff --git a/hw/rtc/m48t59.c b/hw/rtc/m48t59.c
+> index 8b02c2ec558..7ec4b241218 100644
+> --- a/hw/rtc/m48t59.c
+> +++ b/hw/rtc/m48t59.c
+> @@ -565,9 +565,8 @@ const MemoryRegionOps m48t59_io_ops =3D {
+>  };
+> =20
+>  /* Initialisation routine */
+> -Nvram *m48t59_init(qemu_irq IRQ, hwaddr mem_base,
+> -                   uint16_t size, int base_year,
+> -                   int model)
+> +Nvram *m48t59_init(MemoryRegion *mr, hwaddr mem_base, qemu_irq IRQ,
+> +                   uint16_t size, int base_year, int model)
+>  {
+>      DeviceState *dev;
+>      SysBusDevice *s;
+> @@ -584,10 +583,7 @@ Nvram *m48t59_init(qemu_irq IRQ, hwaddr mem_base,
+>          s =3D SYS_BUS_DEVICE(dev);
+>          sysbus_realize_and_unref(s, &error_fatal);
+>          sysbus_connect_irq(s, 0, IRQ);
+> -        if (mem_base !=3D 0) {
+> -            sysbus_mmio_map(s, 0, mem_base);
+> -        }
+> -
+> +        memory_region_add_subregion(mr, mem_base, sysbus_mmio_get_region=
+(s, 0));
+>          return NVRAM(s);
+>      }
+> =20
+> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+> index 20c1fa41192..aebe9e0df3d 100644
+> --- a/hw/sparc/sun4m.c
+> +++ b/hw/sparc/sun4m.c
+> @@ -966,7 +966,8 @@ static void sun4m_hw_init(const struct sun4m_hwdef *h=
+wdef,
+>          create_unimplemented_device("SUNW,sx", hwdef->sx_base, 0x2000);
+>      }
+> =20
+> -    nvram =3D m48t59_init(slavio_irq[0], hwdef->nvram_base, 0x2000, 1968=
+, 8);
+> +    nvram =3D m48t59_init(get_system_memory(), hwdef->nvram_base, slavio=
+_irq[0],
+> +                        0x2000, 1968, 8);
+> =20
+>      slavio_timer_init_all(hwdef->counter_base, slavio_irq[19], slavio_cp=
+u_irq, smp_cpus);
+> =20
+> diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+> index 6854522bbfa..4c975c25274 100644
+> --- a/hw/sparc64/sun4u.c
+> +++ b/hw/sparc64/sun4u.c
+> @@ -561,7 +561,6 @@ static void sun4uv_init(MemoryRegion *address_space_m=
+em,
+>      SabreState *sabre;
+>      PCIBus *pci_bus, *pci_busA, *pci_busB;
+>      PCIDevice *ebus, *pci_dev;
+> -    SysBusDevice *s;
+>      DeviceState *iommu, *dev;
+>      FWCfgState *fw_cfg;
+>      NICInfo *nd;
+> @@ -671,10 +670,8 @@ static void sun4uv_init(MemoryRegion *address_space_=
+mem,
+>      pci_ide_create_devs(pci_dev);
+> =20
+>      /* Map NVRAM into I/O (ebus) space */
+> -    nvram =3D m48t59_init(NULL, 0, NVRAM_SIZE, 1968, 59);
+> -    s =3D SYS_BUS_DEVICE(nvram);
+> -    memory_region_add_subregion(pci_address_space_io(ebus), 0x2000,
+> -                                sysbus_mmio_get_region(s, 0));
+> +    nvram =3D m48t59_init(pci_address_space_io(ebus), 0x2000, NULL,
+> +                        NVRAM_SIZE, 1968, 59);
+>  =20
+>      initrd_size =3D 0;
+>      initrd_addr =3D 0;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -204,25 +199,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---V32M1hWVjliPHW+c
+--X1xGqyAVbSpAWs5A
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+I7FgACgkQbDjKyiDZ
-s5K42A/+MBDZbqwQvEb7Rg9GtjRqYNXKuFOrKvpTpqmGWHKzfIOHOrjOpVYHNMZt
-ajWTaiwLHJb2iMqC95KAeSmOnjfVaNIqse4vk5DM0BcMuqpbeSFc+OpswvWVRJeJ
-1Y3TqZ3wMRUgYLuf5FjbLOykg4jNJCaDEdPfJNY3A3wBNvOz/fYSJecTM1LNcyn8
-EZfO3uCsjLOQtHlRKW2tfZQ2wvqGJ/9jUXobBMfwSHbApJXHN/NeDk5yI3gERST0
-gdy4tPJWGuvUv5lazBPlOc6l+9Oa+d1LvtUtcNvSokcEu/4lhUNzKicbVnQYwPIf
-clLCT9MA30XHWicXcN/kdZq27YghbnqSz01a/2dI/beUVhe5UB5zYbO121sEP2/U
-rPdyjBy7lwp+QEA9Eo1ksRJdZ3MBt0V8cyPOksjFohvKMSNFQpZOgBEkQINzWO40
-1Itkq61P9CeorITGx8akdBbaFSxLVA6UJ2cOEGmeoha5ViBNl48cP4Gtu4WbXVps
-EH0QHWza+bkFDki8GcJ2mXt1h6HAyKA3ifBVNxLk5rmdWDboejO4NkBdciyJjx6K
-AZZBiuPIBomLHGWVzXHoCC9yDx4cw0q3E+RveuNF9BoG72bZhOO7IxUK+TT8rpcj
-15y4c6+CoiWKHKhpTmwcbjPA4CKigw4exabX8Ss4uEo2uoLuqwU=
-=ZSep
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+I7QkACgkQbDjKyiDZ
+s5KO4g//YPfxO0rdy0GrP2JkE3U77uBieYwN/80HS1Y8kiwJ8Jhw2Ta2YCZTRTH+
+Z2c7eEUFjrZTynM0GBjtC1EfJaHbPITnde4BgJC+pqgMJcrFSZXcfRnhKkSKBCz0
+40NQIO6EFN8i9KUCnhl0xZa/r9BeQP5ZF7O4zmlTGcfIEJSkwG45LlyLEkPUzOL9
+gZCi7qPFBdOEqShae7rYCHo56QF+AdTztqKpjW9eGzEqyO5+Wv+ak9cQH0xyKaoN
+FMgTu9od3EPRH4OUifjxK4gizelySV07zGbR5LiHzAlfu56KYNRobJiszDgyG87K
+IgpSuTvOV1Tpe1tiIB9qid3RIvl2dZzUMs8jfRsTMwoc1E1DOpoxgTLtt5IH2nsR
+BJ4KH0OBtNVS9ad8/cgBOzoN0Mk8QsOk8m0BjMaGtXIRkyBm3Db3y6RsBC5Oaj5u
+RX3J474eNFYiNuwCwrM/KK9NV5cISsc5JcPkPlgJdh7nTI136GsvO1YkUDUN+JUS
+bSKT3CZLR7GvJQEs0jmCOkJPzQm5X6ztoiaa7an+7pMH3Io9X3KfSOBxhb/PcfzG
+GLq61FSK9xwy3jUth34AWq6l44j8pqwmT4dFTG2z0wWkCHMcbYhBUYJodNCX2/Mj
+1EHbvtkULw4qHiGczseGISf9HgHQJ2pVH3fvansydFlMXbJUPhs=
+=HnW+
 -----END PGP SIGNATURE-----
 
---V32M1hWVjliPHW+c--
+--X1xGqyAVbSpAWs5A--
 
