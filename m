@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188A828FD9E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 07:26:40 +0200 (CEST)
-Received: from localhost ([::1]:46636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9919E28FDA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 07:29:31 +0200 (CEST)
+Received: from localhost ([::1]:51972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTIGF-0007Yd-4k
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 01:26:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38156)
+	id 1kTIJ0-0001OD-My
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 01:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTIET-0006ag-2N
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTIET-0006bU-Vs
  for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:24:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39672)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTIER-0002Yg-4X
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:24:48 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kTIER-0002Yf-5u
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 01:24:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1602825886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HNCvlE7RM1QPR+wbibqrkWpeHrTGkIaCIF9zrNn77r8=;
- b=PLIXEVfE/rG8PJFUXjRMdQzqsRq7K+ymaAo2N3aebfLxkW4a6Ssoq29eJlrxnHAjQkvgQ9
- Gpp+p4pLNHoYrxBW9e8a3rES/rFGbZWiz3KEQMNkbryyIPPjcu2kYxE+TqzLgLL4i48iR9
- Q94rqnrqmtyNEhQZ7IYmx31x0vXRW4w=
+ bh=lUtfh1pV9AgOvU32xZbNDmGEjWY9r+mwPr+Y3A74t4M=;
+ b=ZubSaLDnzQl7pPQQw2ySzX5EeKo5tM5Ob7Phr8e2xykH74QI1zg6Z3MJee9qXBtEAWs9v4
+ 4WN1F9sq4gv1O2tqNDfjJ1qyBdzWEbJbwzdcM4fTCPHeoR7AH/3sSkkBriGquT0YfgrZrp
+ 4mq946IC0G3dhWSDkX/svYzX4ETpymA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-HlBzPY0lMk6ZQP6JV0fQXw-1; Fri, 16 Oct 2020 01:24:41 -0400
-X-MC-Unique: HlBzPY0lMk6ZQP6JV0fQXw-1
+ us-mta-454-6_XEUnjMPUyw1Y0bOCL4Pw-1; Fri, 16 Oct 2020 01:24:41 -0400
+X-MC-Unique: 6_XEUnjMPUyw1Y0bOCL4Pw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BD58803655;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4352D8015A6;
  Fri, 16 Oct 2020 05:24:40 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D8FE95D9D5;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F9D65D9DD;
  Fri, 16 Oct 2020 05:24:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0DAED1753B; Fri, 16 Oct 2020 07:24:36 +0200 (CEST)
+ id 169219D8F; Fri, 16 Oct 2020 07:24:36 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] usb/hcd-ehci: Fix error handling on missing device for iTD
-Date: Fri, 16 Oct 2020 07:24:34 +0200
-Message-Id: <20201016052435.26180-3-kraxel@redhat.com>
+Subject: [PULL 3/3] hw/usb/hcd-dwc2: fix divide-by-zero in dwc2_handle_packet()
+Date: Fri, 16 Oct 2020 07:24:35 +0200
+Message-Id: <20201016052435.26180-4-kraxel@redhat.com>
 In-Reply-To: <20201016052435.26180-1-kraxel@redhat.com>
 References: <20201016052435.26180-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -81,89 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gaoning Pan <gaoning.pgn@antgroup.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Xingwei Lin <linyi.lxw@antfin.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anthony PERARD via <qemu-devel@nongnu.org>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
 
-The EHCI Host Controller emulation attempt to locate the device
-associated with a periodic isochronous transfer description (iTD) and
-when this fail the host controller is reset.
+Check the value of mps to avoid potential divide-by-zero later in the function.
+Since HCCHAR_MPS is guest controllable, this prevents a malicious/buggy guest
+from crashing the QEMU process on the host.
 
-But according the EHCI spec 1.0 section 5.15.2.4 Host System
-Error, the host controller is supposed to reset itself only when it
-failed to communicate with the Host (Operating System), like when
-there's an error on the PCI bus. If a transaction fails, there's
-nothing in the spec that say to reset the host controller.
-
-This patch rework the error path so that the host controller can keep
-working when the OS setup a bogus transaction, it also revert to the
-behavior of the EHCI emulation to before commits:
-e94682f1fe ("ehci: check device is not NULL before calling usb_ep_get()")
-7011baece2 ("usb: remove unnecessary NULL device check from usb_ep_get()")
-
-The issue has been found while trying to passthrough a USB device to a
-Windows Server 2012 Xen guest via "usb-ehci", which prevent the USB
-device from working in Windows. ("usb-ehci" alone works, windows only
-setup this weird periodic iTD to device 127 endpoint 15 when the USB
-device is passthrough.)
-
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-id: 20201014104106.2962640-1-anthony.perard@citrix.com
+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+Reviewed-by: Paul Zimmerman <pauldzim@gmail.com>
+Reported-by: Gaoning Pan <gaoning.pgn@antgroup.com>
+Reported-by: Xingwei Lin <linyi.lxw@antfin.com>
+Message-id: 20201015075957.268823-1-mcascell@redhat.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/hcd-ehci.c | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ hw/usb/hcd-dwc2.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index 2b995443fbfd..ae7f20c502ac 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -1447,24 +1447,25 @@ static int ehci_process_itd(EHCIState *ehci,
-             dev = ehci_find_device(ehci, devaddr);
-             if (dev == NULL) {
-                 ehci_trace_guest_bug(ehci, "no device found");
--                qemu_sglist_destroy(&ehci->isgl);
--                return -1;
--            }
--            pid = dir ? USB_TOKEN_IN : USB_TOKEN_OUT;
--            ep = usb_ep_get(dev, pid, endp);
--            if (ep && ep->type == USB_ENDPOINT_XFER_ISOC) {
--                usb_packet_setup(&ehci->ipacket, pid, ep, 0, addr, false,
--                                 (itd->transact[i] & ITD_XACT_IOC) != 0);
--                if (usb_packet_map(&ehci->ipacket, &ehci->isgl)) {
--                    qemu_sglist_destroy(&ehci->isgl);
--                    return -1;
--                }
--                usb_handle_packet(dev, &ehci->ipacket);
--                usb_packet_unmap(&ehci->ipacket, &ehci->isgl);
--            } else {
--                DPRINTF("ISOCH: attempt to addess non-iso endpoint\n");
--                ehci->ipacket.status = USB_RET_NAK;
-+                ehci->ipacket.status = USB_RET_NODEV;
-                 ehci->ipacket.actual_length = 0;
-+            } else {
-+                pid = dir ? USB_TOKEN_IN : USB_TOKEN_OUT;
-+                ep = usb_ep_get(dev, pid, endp);
-+                if (ep && ep->type == USB_ENDPOINT_XFER_ISOC) {
-+                    usb_packet_setup(&ehci->ipacket, pid, ep, 0, addr, false,
-+                                     (itd->transact[i] & ITD_XACT_IOC) != 0);
-+                    if (usb_packet_map(&ehci->ipacket, &ehci->isgl)) {
-+                        qemu_sglist_destroy(&ehci->isgl);
-+                        return -1;
-+                    }
-+                    usb_handle_packet(dev, &ehci->ipacket);
-+                    usb_packet_unmap(&ehci->ipacket, &ehci->isgl);
-+                } else {
-+                    DPRINTF("ISOCH: attempt to addess non-iso endpoint\n");
-+                    ehci->ipacket.status = USB_RET_NAK;
-+                    ehci->ipacket.actual_length = 0;
-+                }
-             }
-             qemu_sglist_destroy(&ehci->isgl);
+diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
+index 64c23c1ed084..e1d96acf7ecf 100644
+--- a/hw/usb/hcd-dwc2.c
++++ b/hw/usb/hcd-dwc2.c
+@@ -250,6 +250,12 @@ static void dwc2_handle_packet(DWC2State *s, uint32_t devadr, USBDevice *dev,
+     trace_usb_dwc2_handle_packet(chan, dev, &p->packet, epnum, types[eptype],
+                                  dirs[epdir], mps, len, pcnt);
  
++    if (mps == 0) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                "%s: Bad HCCHAR_MPS set to zero\n", __func__);
++        return;
++    }
++
+     if (eptype == USB_ENDPOINT_XFER_CONTROL && pid == TSIZ_SC_MC_PID_SETUP) {
+         pid = USB_TOKEN_SETUP;
+     } else {
 -- 
 2.27.0
 
