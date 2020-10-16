@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CDD29047F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 13:58:14 +0200 (CEST)
-Received: from localhost ([::1]:39886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0B5290490
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 14:00:48 +0200 (CEST)
+Received: from localhost ([::1]:48258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTONB-0004D9-EC
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 07:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34458)
+	id 1kTOPf-00081a-Ta
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 08:00:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kTODj-0000XH-Dn
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54719)
+ id 1kTODl-0000d6-GM
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kTODh-0002pT-Gu
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:27 -0400
+ id 1kTODj-0002pv-5Y
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 07:48:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1602848904;
+ s=mimecast20190719; t=1602848906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R9d7nggnhOKCBySbAsGTRQSXEaDv0OpKWuYrSEj57p0=;
- b=fHDAKKb/Sa7p6vANB3z5QohC46634lUVe07CY6sEjSgtMhdYUA69FSD37QWVZtji7M0sWh
- Ix3Lf2rE3ipmUsHQVdswCJeJwKblommqDhCY7/SVFBSL83jKHl4AHzYHmr10s8NrYn4JkJ
- SZMODoqV8mn9eqVB1u4SymXMGWVjRMA=
+ bh=HeipnRw+CCcUnhB5ZvcAQPoGq1FWVAmpwzkSPi3R8aY=;
+ b=Yw+gV2tVySQPydmVggt7pWxrjWJN75rDdTqsLkGYZcaftLU4OVnXP55hg33N+PSpnrQyTg
+ Andm98hN6gfbspvAumSwob0VMlDvnndgAqOnN6ShFazPscFDQ+adK7owqmVl9/DFeMuv2Q
+ sp81ZpqN6MWBPfVsy9mqZru1CuHlmGo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-_2qRoqinPQex0imQin3F8A-1; Fri, 16 Oct 2020 07:48:22 -0400
-X-MC-Unique: _2qRoqinPQex0imQin3F8A-1
+ us-mta-374-QfTQRPY1NrOzYkPKVSyh1w-1; Fri, 16 Oct 2020 07:48:22 -0400
+X-MC-Unique: QfTQRPY1NrOzYkPKVSyh1w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E70418A8235;
- Fri, 16 Oct 2020 11:48:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E5076414E
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:48:21 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B57C5C1BD;
- Fri, 16 Oct 2020 11:48:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A8075C1BD
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 11:48:21 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/22] docs: Fix Sphinx configuration for msys2/mingw
-Date: Fri, 16 Oct 2020 07:48:08 -0400
-Message-Id: <20201016114814.1564523-17-pbonzini@redhat.com>
+Subject: [PULL 17/22] meson: move SPHINX_ARGS references within "if build_docs"
+Date: Fri, 16 Oct 2020 07:48:09 -0400
+Message-Id: <20201016114814.1564523-18-pbonzini@redhat.com>
 In-Reply-To: <20201016114814.1564523-1-pbonzini@redhat.com>
 References: <20201016114814.1564523-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,48 +81,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yonggang Luo <luoyonggang@gmail.com>
-
-Python doesn't support running ../scripts/kernel-doc directly.
-
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-Message-Id: <20201015220626.418-2-luoyonggang@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/conf.py             | 2 +-
- docs/sphinx/kerneldoc.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ tests/qapi-schema/meson.build | 88 +++++++++++++++++------------------
+ 1 file changed, 44 insertions(+), 44 deletions(-)
 
-diff --git a/docs/conf.py b/docs/conf.py
-index 00e1b750e2..e584f68393 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -241,7 +241,7 @@ texinfo_documents = [
- # We use paths starting from qemu_docdir here so that you can run
- # sphinx-build from anywhere and the kerneldoc extension can still
- # find everything.
--kerneldoc_bin = os.path.join(qemu_docdir, '../scripts/kernel-doc')
-+kerneldoc_bin = ['perl', os.path.join(qemu_docdir, '../scripts/kernel-doc')]
- kerneldoc_srctree = os.path.join(qemu_docdir, '..')
- hxtool_srctree = os.path.join(qemu_docdir, '..')
- qapidoc_srctree = os.path.join(qemu_docdir, '..')
-diff --git a/docs/sphinx/kerneldoc.py b/docs/sphinx/kerneldoc.py
-index 3e87940206..3ac277d162 100644
---- a/docs/sphinx/kerneldoc.py
-+++ b/docs/sphinx/kerneldoc.py
-@@ -67,7 +67,7 @@ class KernelDocDirective(Directive):
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index 1f222a7a13..304ef939bd 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -219,53 +219,53 @@ qapi_doc = custom_target('QAPI doc',
+                                     '-p', 'doc-good-', '@INPUT0@' ],
+                          depend_files: qapi_gen_depends)
  
-     def run(self):
-         env = self.state.document.settings.env
--        cmd = [env.config.kerneldoc_bin, '-rst', '-enable-lineno']
-+        cmd = env.config.kerneldoc_bin + ['-rst', '-enable-lineno']
+-# Test the document-comment document generation code by running a test schema
+-# file through Sphinx's plain-text builder and comparing the result against
+-# a golden reference. This is in theory susceptible to failures if Sphinx
+-# changes its output, but the text output has historically been very stable
+-# (no changes between Sphinx 1.6 and 3.0), so it is a better bet than
+-# texinfo or HTML generation, both of which have had changes. We might
+-# need to add more sophisticated logic here in future for some sort of
+-# fuzzy comparison if future Sphinx versions produce different text,
+-# but for now the simple comparison suffices.
+-qapi_doc_out = custom_target('QAPI rST doc',
+-                             output: ['doc-good.txt'],
+-                             input: files('doc-good.json', 'doc-good.rst'),
+-                             build_by_default: build_docs,
+-                             depend_files: sphinx_extn_depends,
+-                             # We use -E to suppress Sphinx's caching, because
+-                             # we want it to always really run the QAPI doc
+-                             # generation code. It also means we don't
+-                             # clutter up the build dir with the cache.
+-                             command: [SPHINX_ARGS,
+-                                       '-b', 'text', '-E',
+-                                       '-c', meson.source_root() / 'docs',
+-                                       '-D', 'master_doc=doc-good',
+-                                       meson.current_source_dir(),
+-                                       meson.current_build_dir()])
++if build_docs
++  # Test the document-comment document generation code by running a test schema
++  # file through Sphinx's plain-text builder and comparing the result against
++  # a golden reference. This is in theory susceptible to failures if Sphinx
++  # changes its output, but the text output has historically been very stable
++  # (no changes between Sphinx 1.6 and 3.0), so it is a better bet than
++  # texinfo or HTML generation, both of which have had changes. We might
++  # need to add more sophisticated logic here in future for some sort of
++  # fuzzy comparison if future Sphinx versions produce different text,
++  # but for now the simple comparison suffices.
++  qapi_doc_out = custom_target('QAPI rST doc',
++                               output: ['doc-good.txt'],
++                               input: files('doc-good.json', 'doc-good.rst'),
++                               build_by_default: true,
++                               depend_files: sphinx_extn_depends,
++                               # We use -E to suppress Sphinx's caching, because
++                               # we want it to always really run the QAPI doc
++                               # generation code. It also means we don't
++                               # clutter up the build dir with the cache.
++                               command: [SPHINX_ARGS,
++                                         '-b', 'text', '-E',
++                                         '-c', meson.source_root() / 'docs',
++                                         '-D', 'master_doc=doc-good',
++                                         meson.current_source_dir(),
++                                         meson.current_build_dir()])
  
-         filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
-         export_file_patterns = []
+-# Fix possible inconsistency in line endings in generated output and
+-# in the golden reference (which could otherwise cause test failures
+-# on Windows hosts). Unfortunately diff --strip-trailing-cr
+-# is GNU-diff only. The odd-looking perl is because we must avoid
+-# using an explicit '\' character in the command arguments to
+-# a custom_target(), as Meson will unhelpfully replace it with a '/'
+-# (https://github.com/mesonbuild/meson/issues/1564)
+-qapi_doc_out_nocr = custom_target('QAPI rST doc newline-sanitized',
+-                                  output: ['doc-good.txt.nocr'],
+-                                  input: qapi_doc_out[0],
+-                                  build_by_default: build_docs,
+-                                  command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
+-                                  capture: true)
++  # Fix possible inconsistency in line endings in generated output and
++  # in the golden reference (which could otherwise cause test failures
++  # on Windows hosts). Unfortunately diff --strip-trailing-cr
++  # is GNU-diff only. The odd-looking perl is because we must avoid
++  # using an explicit '\' character in the command arguments to
++  # a custom_target(), as Meson will unhelpfully replace it with a '/'
++  # (https://github.com/mesonbuild/meson/issues/1564)
++  qapi_doc_out_nocr = custom_target('QAPI rST doc newline-sanitized',
++                                    output: ['doc-good.txt.nocr'],
++                                    input: qapi_doc_out[0],
++                                    build_by_default: true,
++                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                    capture: true)
+ 
+-qapi_doc_ref_nocr = custom_target('QAPI rST doc reference newline-sanitized',
+-                                  output: ['doc-good.ref.nocr'],
+-                                  input: files('doc-good.txt'),
+-                                  build_by_default: build_docs,
+-                                  command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
+-                                  capture: true)
++  qapi_doc_ref_nocr = custom_target('QAPI rST doc reference newline-sanitized',
++                                    output: ['doc-good.ref.nocr'],
++                                    input: files('doc-good.txt'),
++                                    build_by_default: true,
++                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                    capture: true)
+ 
+-if build_docs
+   # "full_path()" needed here to work around
+   # https://github.com/mesonbuild/meson/issues/7585
+   test('QAPI rST doc', diff, args: ['-u', qapi_doc_ref_nocr[0].full_path(),
 -- 
 2.26.2
 
