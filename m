@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 305A02907E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 17:02:09 +0200 (CEST)
-Received: from localhost ([::1]:34604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249282902CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 12:33:14 +0200 (CEST)
+Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTRFA-00063X-6J
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 11:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51806)
+	id 1kTN2u-0004Sz-K7
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 06:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adelt@hni.upb.de>)
- id 1kTMii-0004TM-Cl; Fri, 16 Oct 2020 06:12:21 -0400
-Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17]:47374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adelt@hni.upb.de>)
- id 1kTMid-0002qF-EY; Fri, 16 Oct 2020 06:12:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=hni.uni-paderborn.de; s=20170601; h=To:Cc:Date:Message-Id:Subject:
- Mime-Version:Content-Transfer-Encoding:Content-Type:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=NsyoKU5JYCFe/mYWFtpP8suMkzdEmg4/dVRmG7SLcZ0=; b=P7YPgkFmxPYO1jyDEEA9WQH4as
- 2qJ+hAWbNwiktK0flNmwGmgjVpKNQ+rA0IEYAnYqf/7ESvonnz9tZpU7zSXSERJuFeu6lZ3mYANNj
- 9qRKTdhZMdjI3tiJcT/s0x6AYeiq5RmgT6m42Gc7mk9RioX6WFic+LrF343dO2/YK3ms=;
-From: Peer Adelt <adelt@hni.upb.de>
-Content-Type: text/plain;
-	charset=us-ascii
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kTN0c-0003FM-1U
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 06:30:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35990)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kTN0Z-0006Lu-CE
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 06:30:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kTN0W-0007HJ-Ax
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 10:30:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 492622E8130
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 10:30:44 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.15\))
-Subject: HTIF tohost symbol size check always fails
-Message-Id: <B96DF081-AEDD-470E-A99C-8A9536E0A8CE@hni.upb.de>
-Date: Fri, 16 Oct 2020 12:12:05 +0200
-To: qemu-riscv@nongnu.org
-X-Mailer: Apple Mail (2.3445.104.15)
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2020.10.16.100318, AntiVirus-Engine: 5.77.0,
- AntiVirus-Data: 2020.9.28.5770001
-X-Sophos-SenderHistory: ip=37.24.125.142, fs=43337703, da=90452191, mc=238,
- sc=1, hc=237, sp=0, fso=43337703, re=0, sd=0, hd=0
-X-IMT-Authenticated-Sender: uid=adelt,ou=People,o=upb,c=de
-Received-SPF: neutral client-ip=2001:638:502:c003::17;
- envelope-from=adelt@hni.upb.de; helo=zuban.uni-paderborn.de
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
+Date: Fri, 16 Oct 2020 10:22:17 -0000
+From: vak <1900122@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: aarch64 docker ioctl video
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: khamenya
+X-Launchpad-Bug-Reporter: vak (khamenya)
+X-Launchpad-Bug-Modifier: vak (khamenya)
+Message-Id: <160284373799.25039.16464171690101536645.malonedeb@soybean.canonical.com>
+Subject: [Bug 1900122] [NEW] Unsupported ioctl: cmd=0xffffffff80685600 when
+ accessing /dev/video* in aarch64 guest
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
+X-Launchpad-Hash: f9729fa1a9e0e83a3e1e80f385af2ed2edd7a591
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 06:30:44
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 16 Oct 2020 10:59:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,31 +72,281 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, sagark@eecs.berkeley.edu
+Reply-To: Bug 1900122 <1900122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Public bug reported:
 
-I have a problem with the RISC-V HTIF device.=20
+**Description:**
+Any attempt to work with video in aarch64 architecture emulated on x86_64 l=
+eads currently to the error "Function not implemented". For example:
 
-Every binary I have compiled for Spike on riscv32 fails with the =
-following error message: "HTIF tohost must be 8 bytes"
+```
+# v4l2-ctl -l --verbose
+Failed to open /dev/video0: Function not implemented
 
-This happens regardless of which program I have translated for Spike. =
-This is also the case with the official riscv-compliance tests, for =
-example.
+root@12dd9b6fcfcb:/# ll /dev/video*
+crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
+crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
 
-The query "if (st_size !=3D 8)" in the HTIF device always fails, because =
-st_size seems to be always 0.
+```
 
-To be able to reproduce it:
-- QEMU GIT Hash: d0ed6a69d399ae193959225cdeaa9382746c91cc (tag "v5.1.0")
-- System: Mac OS 10.14.6 (Darwin Kernel Version 18.7.0)
-- Compiler: Latest SiFive Build for GCC under OSX
-- Command: qemu-system-riscv32 -M spike -nographic -bios none -kernel =
-<ANY_SPIKE_ELF_FILE>
+**Steps to reproduce the issue:**
 
-Best regards,
-Peer Adelt=
+I have a following setup:
+
+Host Hardware: x86_64 equipped with a webcam (tried different webcams)
+Host OS: Ubuntu 20.04.1 =
+
+
+Guest Architecture: aarch64
+Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
+
+Emulation: quemu-user-static (also tried binfmt)
+
+Guest OS is running via Docker + QEMU
+
+```
+=E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+enabled
+interpreter /usr/bin/qemu-aarch64-static
+flags: F
+offset 0
+magic 7f454c460201010000000000000000000200b700
+mask ffffffffffffff00fffffffffffffffffeffffff
+```
+
+**Results received:**
+see desrciption.
+
+**Environment:**
+
+<!-- The host architecture is available for only x86_64 -->
+* QEMU version: (if you can know it):
+
+ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubuntu=
+4 all [installed,automatic]
+ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [inst=
+alled,automatic]
+qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automa=
+tic]
+qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
+matic]
+qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automati=
+c]
+qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automat=
+ic]
+qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automat=
+ic]
+qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automa=
+tic]
+qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
+qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+
+* Container application: Docker
+
+**Output of `docker version`, `podman version` or `singularity
+version`**
+
+```
+=E2=9E=9C docker version
+Client: Docker Engine - Community
+ Version:           20.10.0-beta1
+ API version:       1.40
+ Go version:        go1.13.15
+ Git commit:        ac365d7
+ Built:             Tue Oct 13 18:15:22 2020
+ OS/Arch:           linux/amd64
+ Context:           default
+ Experimental:      true
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          19.03.13
+  API version:      1.40 (minimum version 1.12)
+  Go version:       go1.13.15
+  Git commit:       4484c46d9d
+  Built:            Wed Sep 16 17:01:20 2020
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.4.1
+  GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
+ runc:
+  Version:          1.0.0-rc92
+  GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
+ docker-init:
+  Version:          0.18.0
+  GitCommit:        fec3683
+
+```
+
+Guest aarch64 runs in privileged mode:
+
+`docker run --privileged --device=3D/dev/video0:/dev/video0 --env
+DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
+/tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
+
+**Additional information:**
+I tried also binfmt way to register emulators. The output of `v4l-ctl` was =
+a little bit different:
+
+```
+# v4l2-ctl -l    =
+
+Unsupported ioctl: cmd=3D0xffffffff80685600
+Failed to open /dev/video0: Function not implemented
+
+```
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: aarch64 docker ioctl video
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1900122
+
+Title:
+  Unsupported ioctl: cmd=3D0xffffffff80685600 when accessing /dev/video*
+  in aarch64 guest
+
+Status in QEMU:
+  New
+
+Bug description:
+  **Description:**
+  Any attempt to work with video in aarch64 architecture emulated on x86_64=
+ leads currently to the error "Function not implemented". For example:
+
+  ```
+  # v4l2-ctl -l --verbose
+  Failed to open /dev/video0: Function not implemented
+
+  root@12dd9b6fcfcb:/# ll /dev/video*
+  crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
+  crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
+
+  ```
+
+  **Steps to reproduce the issue:**
+
+  I have a following setup:
+
+  Host Hardware: x86_64 equipped with a webcam (tried different webcams)
+  Host OS: Ubuntu 20.04.1 =
+
+
+  Guest Architecture: aarch64
+  Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
+
+  Emulation: quemu-user-static (also tried binfmt)
+
+  Guest OS is running via Docker + QEMU
+
+  ```
+  =E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+  enabled
+  interpreter /usr/bin/qemu-aarch64-static
+  flags: F
+  offset 0
+  magic 7f454c460201010000000000000000000200b700
+  mask ffffffffffffff00fffffffffffffffffeffffff
+  ```
+
+  **Results received:**
+  see desrciption.
+
+  **Environment:**
+
+  <!-- The host architecture is available for only x86_64 -->
+  * QEMU version: (if you can know it):
+
+  ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubun=
+tu4 all [installed,automatic]
+  ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [in=
+stalled,automatic]
+  qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
+matic]
+  qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,au=
+tomatic]
+  qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automa=
+tic]
+  qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
+atic]
+  qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
+atic]
+  qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
+matic]
+  qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+  qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
+  qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
+
+  * Container application: Docker
+
+  **Output of `docker version`, `podman version` or `singularity
+  version`**
+
+  ```
+  =E2=9E=9C docker version
+  Client: Docker Engine - Community
+   Version:           20.10.0-beta1
+   API version:       1.40
+   Go version:        go1.13.15
+   Git commit:        ac365d7
+   Built:             Tue Oct 13 18:15:22 2020
+   OS/Arch:           linux/amd64
+   Context:           default
+   Experimental:      true
+
+  Server: Docker Engine - Community
+   Engine:
+    Version:          19.03.13
+    API version:      1.40 (minimum version 1.12)
+    Go version:       go1.13.15
+    Git commit:       4484c46d9d
+    Built:            Wed Sep 16 17:01:20 2020
+    OS/Arch:          linux/amd64
+    Experimental:     false
+   containerd:
+    Version:          1.4.1
+    GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
+   runc:
+    Version:          1.0.0-rc92
+    GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
+   docker-init:
+    Version:          0.18.0
+    GitCommit:        fec3683
+
+  ```
+
+  Guest aarch64 runs in privileged mode:
+
+  `docker run --privileged --device=3D/dev/video0:/dev/video0 --env
+  DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
+  /tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
+
+  **Additional information:**
+  I tried also binfmt way to register emulators. The output of `v4l-ctl` wa=
+s a little bit different:
+
+  ```
+  # v4l2-ctl -l    =
+
+  Unsupported ioctl: cmd=3D0xffffffff80685600
+  Failed to open /dev/video0: Function not implemented
+
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1900122/+subscriptions
 
