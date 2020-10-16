@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BAC290CD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 22:46:31 +0200 (CEST)
-Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DA7290CF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Oct 2020 22:54:05 +0200 (CEST)
+Received: from localhost ([::1]:41198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTWcQ-0000rO-Gs
-	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 16:46:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56456)
+	id 1kTWjj-0005Dm-OJ
+	for lists+qemu-devel@lfdr.de; Fri, 16 Oct 2020 16:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ddstreet@canonical.com>)
- id 1kTWXz-0008Pd-3b
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 16:41:58 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:43251)
+ (Exim 4.90_1) (envelope-from <dan.streetman@canonical.com>)
+ id 1kTWiI-0004li-Fx
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 16:52:35 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:43513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
- (Exim 4.90_1) (envelope-from <ddstreet@canonical.com>)
- id 1kTWW5-0001BV-AZ
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 16:41:54 -0400
-Received: from mail-qv1-f71.google.com ([209.85.219.71])
+ (Exim 4.90_1) (envelope-from <dan.streetman@canonical.com>)
+ id 1kTWiC-0002oZ-Mi
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 16:52:34 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70])
  by youngberry.canonical.com with esmtps
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <ddstreet@canonical.com>) id 1kTWVo-00011s-LJ
- for qemu-devel@nongnu.org; Fri, 16 Oct 2020 20:39:40 +0000
-Received: by mail-qv1-f71.google.com with SMTP id c6so2259006qvo.8
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 13:39:40 -0700 (PDT)
+ (envelope-from <dan.streetman@canonical.com>) id 1kTWi8-0001tD-KJ
+ for qemu-devel@nongnu.org; Fri, 16 Oct 2020 20:52:24 +0000
+Received: by mail-io1-f70.google.com with SMTP id s135so2501872ios.6
+ for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 13:52:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cvYMUlfxtiZQTXTAEJe3NO/fl4eYL1sWQtijJC8homo=;
- b=lB/9vq9kBnC/xV0LVAapcQ/UG8XbuFvUfjvXqGudx9kYNMqKeXQlhrmwKEpOgL6sZV
- xXsvaBnWh2blmzyFFBPMZGhu8tDQ2WsIPb49d35J7SDNQxlOHm3XoO/EIQR+z8hPdfBp
- E0OMTL54tvHXQ1MR5qdvNo+iejxNjTTPyjA56DFYAreGHgNSU0hBtGWz/Y/timE+6gXh
- NZ7ErCnDF1eYVUJKs0oG3/+yyRcmCmTQnfB5IsGxPt2sV6ZkHyb9/kkAes7+0gfoSy3o
- h3CvvfkjXJ8ZZvqqgZhcbfL+VGDeoFu2B1l97BF4gnyhbfcH0d7eAla2aHINHBq72aNU
- ofjQ==
-X-Gm-Message-State: AOAM530llfzmvfxo8GWP+RYFPUiegiRAUvmDIDZaPHXEMmpm4+HQx3oU
- kW50cXa3NunCYNCtL5qQ6Soc+Pg6rNHrdfBvHv5HsSeDsUIG5zshg1JYDBokm7o5Xs+hb8BIChQ
- odQQAVY26Mhad7Y2V/r3L46vyxFJMkNMR
-X-Received: by 2002:a05:6214:16d0:: with SMTP id
- d16mr6091115qvz.38.1602880779017; 
- Fri, 16 Oct 2020 13:39:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrdakcIZtUWk0N3UgoZuyEcbIZBZ7SkMh36G+dbvolPSfRZYVE85hag3LY5LYEusk/dwTm5Q==
-X-Received: by 2002:a05:6214:16d0:: with SMTP id
- d16mr6091082qvz.38.1602880778587; 
- Fri, 16 Oct 2020 13:39:38 -0700 (PDT)
-Received: from thorin.shire (45-27-90-188.lightspeed.rlghnc.sbcglobal.net.
- [45.27.90.188])
- by smtp.gmail.com with ESMTPSA id q5sm1445485qtn.60.2020.10.16.13.39.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 13:39:37 -0700 (PDT)
-From: Dan Streetman <ddstreet@canonical.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: replace --enable/disable-git-update with
- --with-git-submodules
-Date: Fri, 16 Oct 2020 16:38:57 -0400
-Message-Id: <20201016203857.62572-1-ddstreet@canonical.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GFZeo4JxcJxg//iXP1FLpGz85o/VJn68BDvQ1AnLb40=;
+ b=IPDN8Rm8shNvPU0m/tsv2wKQPjRLVnC0qiY0k37EVhFTYUzpOjwzUr3w2ZOHbiRymO
+ GRm59ix969etbJ8aaIJNp21olL16FplbVykMXqFWanPTM/DqkeYgTxxciDHPg22UByfr
+ dvue8I8nHw2BTN/G2lbPLRkI/g43kugg9p9hWK7nbKY+RgGRFadQSstqpC4QkedhPjXz
+ 2sxjvtOYPyljuOGxCRXSYEr+ttarXH0bs8oSqrwNSXkNEbpkQWL2WMalCxoysTru5eYi
+ yMZ1pLwl9TJt5nCN/xar/xbW4RjwOpIRCUpdfBmx4JlJfQLKYnQwlBmON3xGe1pHFPOy
+ mi2g==
+X-Gm-Message-State: AOAM533HgKym+kCFJsiAzx7V3KeLvI6OhvbvS9TPyUJ9acWdJkBZh0NL
+ joUVHHfaLCgiE0C2rG2jn/C2O81YG+r6jCFUyTcB75sNc1gtIaDUiXxxW2c74r1AaSp9dztwvl4
+ sDfp9VxbTA5AFAKBvCdKdUHF4mIx7TBHvJrdcD7cqHVB3yTG1
+X-Received: by 2002:a02:c557:: with SMTP id g23mr4187658jaj.5.1602881543403;
+ Fri, 16 Oct 2020 13:52:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyM1KsEq+mbtiGh9zMvDb/2EKjNsCi19A+ntH3wJRFl6ialat6ja+YwXhYMLGbMmboLjpnr7gWU6vtwmxEHmww=
+X-Received: by 2002:a02:c557:: with SMTP id g23mr4187640jaj.5.1602881543087;
+ Fri, 16 Oct 2020 13:52:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <e55fea6e-e403-166f-e693-9e73ae29e5cc@msgid.tls.msk.ru>
+ <20200729195829.1335082-1-ddstreet@canonical.com>
+ <20200922163441.GA2049853@redhat.com>
+ <CAOZ2QJPsSTH4MStgduBGjhvaH-5-Tgj7-++qYLbSmQnqWQPpug@mail.gmail.com>
+ <20201002131130.GB2338114@redhat.com>
+In-Reply-To: <20201002131130.GB2338114@redhat.com>
+From: Dan Streetman <ddstreet@canonical.com>
+Date: Fri, 16 Oct 2020 16:51:47 -0400
+Message-ID: <CAOZ2QJOJSFzMZZTRxV4Deq945CbVgzQD9i70FLVWnYL4QWwokQ@mail.gmail.com>
+Subject: Re: [PATCH] configure: actually disable 'git_update' mode with
+ --disable-git-update
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: none client-ip=91.189.89.112;
- envelope-from=ddstreet@canonical.com; helo=youngberry.canonical.com
+ envelope-from=dan.streetman@canonical.com; helo=youngberry.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/16 16:39:41
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10
 X-Spam_score_int: -68
@@ -83,296 +82,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dan Streetman <ddstreet@canonical.com>, Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Rafael David Tinoco <rafael.tinoco@canonical.com>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Cc: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Rafael David Tinoco <rafael.tinoco@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace the --enable-git-update and --disable-git-update configure params
-with the param --with-git-submodules=(update|validate|ignore) to
-allow 3 options for building from a git repo.
+On Fri, Oct 2, 2020 at 9:11 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Wed, Sep 30, 2020 at 09:28:54PM -0400, Dan Streetman wrote:
+> > On Tue, Sep 22, 2020 at 12:34 PM Daniel P. Berrang=C3=A9 <berrange@redh=
+at.com> wrote:
+> > >
+> > > On Wed, Jul 29, 2020 at 03:58:29PM -0400, Dan Streetman wrote:
+> > > > The --disable-git-update configure param sets git_update=3Dno, but
+> > > > some later checks only look for the .git dir. This changes the
+> > > > --enable-git-update to set git_update=3Dyes but also fail if it
+> > > > does not find a .git dir. Then all the later checks for the .git
+> > > > dir can just be changed to a check for $git_update =3D "yes".
+> > > >
+> > > > Also update the Makefile to skip the 'git_update' checks if it has
+> > > > been disabled.
+> > > >
+> > > > This is needed because downstream packagers, e.g. Debian, Ubuntu, e=
+tc,
+> > > > also keep the source code in git, but do not want to enable the
+> > > > 'git_update' mode; with the current code, that's not possible even
+> > > > if the downstream package specifies --disable-git-update.
+> > >
+> > > Lets recap the original intended behaviour
+> > >
+> > >  1. User building from master qemu.git or a fork
+> > >      a) git_update=3Dyes (default)
+> > >          - Always sync submodules to required commit
+> > >
+> > >      b) git_update=3Dno  (--disable-git-update)
+> > >          - Never sync submodules, user is responsible for sync
+> > >          - Validate submodules are at correct commit and fail if not.
+> > >
+> > >  2. User building from tarball
+> > >      - Never do anything git related at all
+> > >
+> > >
+> > > Your change is removing the validation from  1.b).
+> >
+> > Would you accept adding a --disable-git-submodules-check so downstream
+> > packagers can keep the source in git, but avoid the submodule
+> > validation?
+>
+> It feels like the current option shouldn't be a boolean, rather
+> a tri-state    --with-git-submodules=3D[update|validate|ignore]
+>
 
-This is needed because downstream packagers, e.g. Debian, Ubuntu, etc,
-also keep the source code in git, but do not want to enable the
-'git_update' mode; with the current code, that's not possible even
-if the downstream package specifies --disable-git-update.
+Ok, I updated the patch to do that:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-10/msg04799.html
 
-Signed-off-by: Dan Streetman <ddstreet@canonical.com>
----
- Makefile                 | 26 ++-----------------
- configure                | 55 +++++++++++++++++++++++++---------------
- scripts/git-submodule.sh | 34 +++++++++++++++++++------
- 3 files changed, 62 insertions(+), 53 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index c37e513431..033455dc8f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -34,33 +34,11 @@ ifneq ($(wildcard config-host.mak),)
- all:
- include config-host.mak
- 
--git-submodule-update:
--
- .PHONY: git-submodule-update
--
--git_module_status := $(shell \
--  cd '$(SRC_PATH)' && \
--  GIT="$(GIT)" ./scripts/git-submodule.sh status $(GIT_SUBMODULES); \
--  echo $$?; \
--)
--
--ifeq (1,$(git_module_status))
--ifeq (no,$(GIT_UPDATE))
- git-submodule-update:
- 	$(call quiet-command, \
--            echo && \
--            echo "GIT submodule checkout is out of date. Please run" && \
--            echo "  scripts/git-submodule.sh update $(GIT_SUBMODULES)" && \
--            echo "from the source directory checkout $(SRC_PATH)" && \
--            echo && \
--            exit 1)
--else
--git-submodule-update:
--	$(call quiet-command, \
--          (cd $(SRC_PATH) && GIT="$(GIT)" ./scripts/git-submodule.sh update $(GIT_SUBMODULES)), \
--          "GIT","$(GIT_SUBMODULES)")
--endif
--endif
-+		(GIT="$(GIT)" "$(SRC_PATH)/scripts/git-submodule.sh" $(GIT_SUBMODULES_ACTION) $(GIT_SUBMODULES)), \
-+		"GIT","$(GIT_SUBMODULES)")
- 
- export NINJA=./ninjatool
- 
-diff --git a/configure b/configure
-index f839c2a557..c5df778790 100755
---- a/configure
-+++ b/configure
-@@ -249,12 +249,12 @@ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
- 
- if test -e "$source_path/.git"
- then
--    git_update=yes
-+    git_submodules_action="update"
-     git_submodules="ui/keycodemapdb"
-     git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
-     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
- else
--    git_update=no
-+    git_submodules_action="ignore"
-     git_submodules=""
- 
-     if ! test -f "$source_path/ui/keycodemapdb/README"
-@@ -1478,9 +1478,16 @@ for opt do
-   ;;
-   --with-git=*) git="$optarg"
-   ;;
--  --enable-git-update) git_update=yes
-+  --enable-git-update)
-+      git_submodules_action="update"
-+      echo "--enable-git-update deprecated, use --with-git-submodules=update"
-   ;;
--  --disable-git-update) git_update=no
-+  --disable-git-update)
-+      git_submodules_action="validate"
-+      echo "--disable-git-update deprecated, use --with-git-submodules=validate"
-+  ;;
-+  --with-git-submodules=*)
-+      git_submodules_action="$optarg"
-   ;;
-   --enable-debug-mutex) debug_mutex=yes
-   ;;
-@@ -1528,6 +1535,20 @@ for opt do
-   esac
- done
- 
-+case $git_submodules_action in
-+    update|validate)
-+        if test ! -e "$source_path/.git"; then
-+            echo "ERROR: cannot $git_submodules_action git submodules without .git"
-+            exit 1
-+        fi
-+    ;;
-+    ignore) ;;
-+    *)
-+        echo "ERROR: invalid --with-git-submodules= value '$git_submodules_action'"
-+        exit 1
-+    ;;
-+esac
-+
- firmwarepath="${firmwarepath:-$prefix/share/qemu-firmware}"
- libdir="${libdir:-$prefix/lib}"
- libexecdir="${libexecdir:-$prefix/libexec}"
-@@ -1868,7 +1889,7 @@ python="$python -B"
- if test -z "$meson"; then
-     if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.55.1; then
-         meson=meson
--    elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
-+    elif test $git_submodules_action != 'ignore' ; then
-         meson=git
-     elif test -e "${source_path}/meson/meson.py" ; then
-         meson=internal
-@@ -1936,7 +1957,7 @@ fi
- # Consult white-list to determine whether to enable werror
- # by default.  Only enable by default for git builds
- if test -z "$werror" ; then
--    if test -e "$source_path/.git" && \
-+    if test "$git_submodules_action" != "ignore" && \
-         { test "$linux" = "yes" || test "$mingw32" = "yes"; }; then
-         werror="yes"
-     else
-@@ -3824,9 +3845,7 @@ fi
- case "$fdt" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
--      git_submodules="${git_submodules} dtc"
--    fi
-+    git_submodules="${git_submodules} dtc"
-     ;;
- esac
- 
-@@ -4696,9 +4715,7 @@ fi
- case "$capstone" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
--      git_submodules="${git_submodules} capstone"
--    fi
-+    git_submodules="${git_submodules} capstone"
-     ;;
- esac
- 
-@@ -5636,9 +5653,7 @@ fi
- case "$slirp" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
--      git_submodules="${git_submodules} slirp"
--    fi
-+    git_submodules="${git_submodules} slirp"
-     ;;
- esac
- 
-@@ -5893,9 +5908,7 @@ if test "$cpu" = "s390x" ; then
-     roms="$roms s390-ccw"
-     # SLOF is required for building the s390-ccw firmware on s390x,
-     # since it is using the libnet code from SLOF for network booting.
--    if test -e "${source_path}/.git" ; then
--      git_submodules="${git_submodules} roms/SLOF"
--    fi
-+    git_submodules="${git_submodules} roms/SLOF"
-   fi
- fi
- 
-@@ -5931,8 +5944,8 @@ else
-     cxx=
- fi
- 
--if test $git_update = 'yes' ; then
--    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
-+if !(GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
-+    exit 1
- fi
- 
- config_host_mak="config-host.mak"
-@@ -5960,7 +5973,7 @@ echo "qemu_icondir=$qemu_icondir" >> $config_host_mak
- echo "qemu_desktopdir=$qemu_desktopdir" >> $config_host_mak
- echo "GIT=$git" >> $config_host_mak
- echo "GIT_SUBMODULES=$git_submodules" >> $config_host_mak
--echo "GIT_UPDATE=$git_update" >> $config_host_mak
-+echo "GIT_SUBMODULES_ACTION=$git_submodules_action" >> $config_host_mak
- 
- echo "ARCH=$ARCH" >> $config_host_mak
- 
-diff --git a/scripts/git-submodule.sh b/scripts/git-submodule.sh
-index 65ed877aef..e225d3a963 100755
---- a/scripts/git-submodule.sh
-+++ b/scripts/git-submodule.sh
-@@ -9,9 +9,14 @@ command=$1
- shift
- maybe_modules="$@"
- 
-+# if --with-git-submodules=ignore, do nothing
-+test "$command" = "ignore" && exit 0
-+
- test -z "$GIT" && GIT=git
- 
--error() {
-+cd "$(dirname "$0")/.."
-+
-+update_error() {
-     echo "$0: $*"
-     echo
-     echo "Unable to automatically checkout GIT submodules '$modules'."
-@@ -24,7 +29,7 @@ error() {
-     echo "Alternatively you may disable automatic GIT submodule checkout"
-     echo "with:"
-     echo
--    echo " $ ./configure --disable-git-update"
-+    echo " $ ./configure --with-git-submodules=validate"
-     echo
-     echo "and then manually update submodules prior to running make, with:"
-     echo
-@@ -33,6 +38,19 @@ error() {
-     exit 1
- }
- 
-+validate_error() {
-+    if test "$1" = "validate"; then
-+        echo "GIT submodules checkout is out of date, and submodules"
-+        echo "configured for validate only. Please run"
-+        echo "  scripts/git-submodule.sh update $maybe_modules"
-+        echo "from the source directory or call configure with"
-+        echo "  --with-git-submodules=update"
-+        echo "To disable GIT submodules validation, use"
-+        echo "  --with-git-submodules=ignore"
-+    fi
-+    exit 1
-+}
-+
- modules=""
- for m in $maybe_modules
- do
-@@ -52,18 +70,18 @@ then
- fi
- 
- case "$command" in
--status)
-+status|validate)
-     if test -z "$maybe_modules"
-     then
--         test -s ${substat} && exit 1 || exit 0
-+         test -s ${substat} && validate_error "$command" || exit 0
-     fi
- 
--    test -f "$substat" || exit 1
-+    test -f "$substat" || validate_error "$command"
-     for module in $modules; do
-         CURSTATUS=$($GIT submodule status $module)
-         OLDSTATUS=$(cat $substat | grep $module)
-         if test "$CURSTATUS" != "$OLDSTATUS"; then
--            exit 1
-+            validate_error "$command"
-         fi
-     done
-     exit 0
-@@ -76,10 +94,10 @@ update)
-     fi
- 
-     $GIT submodule update --init $modules 1>/dev/null
--    test $? -ne 0 && error "failed to update modules"
-+    test $? -ne 0 && update_error "failed to update modules"
- 
-     $GIT submodule status $modules > "${substat}"
--    test $? -ne 0 && error "failed to save git submodule status" >&2
-+    test $? -ne 0 && update_error "failed to save git submodule status" >&2
-     ;;
- esac
- 
--- 
-2.25.1
-
+> > Or do you have another suggestion for handling this?
+>
+> Assuming you're just using git for conveniently applying local
+> downstream patches, you don't need the git repo to exist once
+> getting to the build stage. IOW just delete the .git dir after
+> applying patches before running a build.
+>
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
