@@ -2,47 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B377291454
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 22:37:47 +0200 (CEST)
-Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B59291443
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 22:16:55 +0200 (CEST)
+Received: from localhost ([::1]:59654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTsxW-0001yJ-E0
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 16:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34204)
+	id 1kTsdK-0002tq-72
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 16:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kTsvi-0000h0-KU; Sat, 17 Oct 2020 16:35:54 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:13773)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kTsbt-00024q-OQ
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 16:15:26 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kTsvd-0004ZV-P5; Sat, 17 Oct 2020 16:35:53 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E9B5E747F17;
- Sat, 17 Oct 2020 22:35:46 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6B844747631; Sat, 17 Oct 2020 22:35:46 +0200 (CEST)
-Message-Id: <cbd0085a1b503deeb3bebe56d5d10ce14c8113ee.1602965621.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1602965621.git.balaton@eik.bme.hu>
-References: <cover.1602965621.git.balaton@eik.bme.hu>
-Subject: [PATCH 5/6] ppc405_boards: use qdev instead of legacy m48t59_init()
- function
-Date: Sat, 17 Oct 2020 22:13:41 +0200
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kTsbh-0002Nc-0e
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 16:15:23 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f8b50bc0002>; Sat, 17 Oct 2020 13:14:53 -0700
+Received: from [10.40.101.194] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 17 Oct
+ 2020 20:14:50 +0000
+Subject: Re: [PATCH v26 04/17] vfio: Add migration region initialization and
+ finalize function
+To: Cornelia Huck <cohuck@redhat.com>
+References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
+ <1600817059-26721-5-git-send-email-kwankhede@nvidia.com>
+ <20200924160856.1308e6f5.cohuck@redhat.com>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <1f059554-50f1-6540-45a7-0851dcf11bf9@nvidia.com>
+Date: Sun, 18 Oct 2020 01:44:32 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 16:35:46
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200924160856.1308e6f5.cohuck@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1602965693; bh=+yXQ8i0DoboBAKpHHvtX016uslb4dWNtTvxP0+8QXl4=;
+ h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
+ User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=pExC/0Q+v6OH8F6ebeWeeUDMpDBl5oLvOiON2Ax/Yb2meN0YH+BRK0ae+g8EWiLt8
+ Frg0Dd+54PtUWoI5la1saNLohZ2j9WKU7kE3iFF6RAZ7vIo1GW/aixD4YuRx4eFtDY
+ lAqt/zZ8qwRbiLDZrv3hsgyN6KKmJOQatSJ2t9SOMPMflfQRvXDDpH1Moy/611U2L/
+ jPV2CjTjl5zowzneJpp1/TZrdUT6XdH9CiV37UfiE+zfykWKJZPBBYp9h7cjag5mgI
+ AZZRXcyAazw1JTAADJ+Oa4TZIqy3kl9w9GS/L3yYvuPdn83Wa/KC/epo8ZKcCIWrWm
+ q2q2gcCbPTDjg==
+Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate26.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 16:15:05
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.247, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,43 +79,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Herve Poussineau <hpoussin@reactos.org>,
- Philippe Mathieu-Daude <f4bug@amsat.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eauger@redhat.com, yi.l.liu@intel.com, quintela@redhat.com,
+ ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/ppc405_boards.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 6198ec1035..7a11a38831 100644
---- a/hw/ppc/ppc405_boards.c
-+++ b/hw/ppc/ppc405_boards.c
-@@ -28,6 +28,7 @@
- #include "qemu-common.h"
- #include "cpu.h"
- #include "hw/ppc/ppc.h"
-+#include "hw/sysbus.h"
- #include "ppc405.h"
- #include "hw/rtc/m48t59.h"
- #include "hw/block/flash.h"
-@@ -227,7 +228,7 @@ static void ref405ep_init(MachineState *machine)
-     /* Register FPGA */
-     ref405ep_fpga_init(sysmem, 0xF0300000);
-     /* Register NVRAM */
--    m48t59_init(NULL, 0xF0000000, 0, 8192, 1968, 8);
-+    sysbus_create_simple("sysbus-m48t08", 0xF0000000, NULL);
-     /* Load kernel */
-     linux_boot = (kernel_filename != NULL);
-     if (linux_boot) {
--- 
-2.21.3
 
+On 9/24/2020 7:38 PM, Cornelia Huck wrote:
+> On Wed, 23 Sep 2020 04:54:06 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+>> Whether the VFIO device supports migration or not is decided based of
+>> migration region query. If migration region query is successful and migration
+>> region initialization is successful then migration is supported else
+>> migration is blocked.
+>>
+>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> ---
+>>   hw/vfio/meson.build           |   1 +
+>>   hw/vfio/migration.c           | 142 ++++++++++++++++++++++++++++++++++++++++++
+>>   hw/vfio/trace-events          |   5 ++
+>>   include/hw/vfio/vfio-common.h |   9 +++
+>>   4 files changed, 157 insertions(+)
+>>   create mode 100644 hw/vfio/migration.c
+> 
+> (...)
+> 
+>> +static int vfio_migration_region_init(VFIODevice *vbasedev, int index)
+>> +{
+>> +    VFIOMigration *migration = vbasedev->migration;
+>> +    Object *obj = NULL;
+>> +    int ret = -EINVAL;
+>> +
+>> +    obj = vbasedev->ops->vfio_get_object(vbasedev);
+>> +    if (!obj) {
+>> +        return ret;
+>> +    }
+>> +
+>> +    ret = vfio_region_setup(obj, vbasedev, &migration->region, index,
+>> +                            "migration");
+>> +    if (ret) {
+>> +        error_report("%s: Failed to setup VFIO migration region %d: %s",
+>> +                     vbasedev->name, index, strerror(-ret));
+>> +        goto err;
+>> +    }
+>> +
+>> +    if (!migration->region.size) {
+>> +        ret = -EINVAL;
+>> +        error_report("%s: Invalid region size of VFIO migration region %d: %s",
+>> +                     vbasedev->name, index, strerror(-ret));
+> 
+> Using strerror on a hardcoded error value is probably not terribly
+> helpful. I think printing either region.size (if you plan to extend
+> this check later) or something like "Invalid zero-sized VFIO migration
+> region" would make more sense.
+> 
+
+Updating the error string as you suggested.
+
+
+>> +        goto err;
+>> +    }
+>> +
+>> +    return 0;
+>> +
+>> +err:
+>> +    vfio_migration_region_exit(vbasedev);
+>> +    return ret;
+>> +}
+> 
+> (...)
+> 
+> Apart from that, looks good to me.
+> 
+
+Thanks.
+
+Kirti
 
