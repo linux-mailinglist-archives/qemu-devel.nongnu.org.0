@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CC62911B6
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 13:52:19 +0200 (CEST)
-Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9946B2911B3
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 13:48:46 +0200 (CEST)
+Received: from localhost ([::1]:41132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTkl0-00007f-NS
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 07:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44786)
+	id 1kTkhZ-0006nw-8T
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 07:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kTkjX-0007k9-22
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 07:50:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60712)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kTkgX-0006Fz-6O
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 07:47:41 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38227)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kTkjT-0005rv-5i
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 07:50:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kTkjS-0004nU-4m
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 11:50:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 229032E812F
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 11:50:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kTkgV-0005XD-Dw
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 07:47:40 -0400
+Received: by mail-wm1-x332.google.com with SMTP id b127so8151768wmb.3
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 04:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NJzCXnhIa+dW7oJxSivbPZX34UE3Q2odgbVJFBGquzw=;
+ b=POpiGvSBbReFdr1wu7Fffs3pIox5p59Dnhl9YSli59J1WMqaa4JhYDKwGLuOXSV1KC
+ 467UJ3KqCoBLb7ti+FYb+GIEaaoxh9rLycMFwmo7j94tixVcdfV3JeejEKtg4RpEXVLS
+ sSM/SkVLblNCANw9HL9mD2hcN/pRJEG1yrd8qCIs3Az47D3lYrn0rfAJsZIKeEgH6iVV
+ 7V6W7Lx7hfadh14igPsjYhBOazYjQ2bWnMiF5JDQo5c2XHBdIzWl8DCnoIR0lJAGVHzM
+ 9fvQedwlMN/R6gYSedvmLYovq4IXmsJJs6u+VATDEsRqKqg45SSXrWcPv4w5AcSaRLC4
+ GsPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NJzCXnhIa+dW7oJxSivbPZX34UE3Q2odgbVJFBGquzw=;
+ b=l4+moof9gGyKP1f0Ib/vUKYGezC3glohS1885MrcJE9upTZW913+OEQYHese4XAt0J
+ QqIpS21HJrMlZGQbYHr0SpTxKeUbx3eGXc2iutvF5Pgvm/Ods7ZJ9g2SiSXa9hRq6fJF
+ dLZoUpGZOnc27xt2rOjaCm8AbCvKvmLJMmtsF2O2yG+Sjc0ZU38vO2/DmMZig+yrZtyx
+ OowAxoL4cmsY3iPXbli5NhQmxHL1GMEoxOFgi9D3E08jiLn31Gxv6Rb4XOUHDLxdeEJ7
+ jaf4+uO/wch2E9C7eZuFs2xiSFp8CHyO90CXYtJ/xlxAhRfgmmgS3fJVia5BY0QC1ST9
+ jIhA==
+X-Gm-Message-State: AOAM532CrLXLcW/klWUqsyIYt46gbiCM0DD82XrUWYgGJxUqVt/IVHGs
+ WbK/QfH0yTmcv8XdnFfTPQw=
+X-Google-Smtp-Source: ABdhPJwdSxp42v7ySOltjVGUCbYfg8ThJqNmkFCKSMff1i8+ZZZMnpDNGxx2E+Ltt1kAgxfRQxc+Sg==
+X-Received: by 2002:a1c:1d15:: with SMTP id d21mr8175465wmd.79.1602935257280; 
+ Sat, 17 Oct 2020 04:47:37 -0700 (PDT)
+Received: from [192.168.1.36] (117.red-83-52-172.dynamicip.rima-tde.net.
+ [83.52.172.117])
+ by smtp.gmail.com with ESMTPSA id e11sm2423150wrj.75.2020.10.17.04.47.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Oct 2020 04:47:36 -0700 (PDT)
+Subject: Re: [PULL 09/31] hw/core/clock: introduce clock object
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Damien Hedde <damien.hedde@greensocs.com>
+References: <20200430115142.13430-1-peter.maydell@linaro.org>
+ <20200430115142.13430-10-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f295c99f-0405-1c26-6f58-12abdec8bd3d@amsat.org>
+Date: Sat, 17 Oct 2020 13:47:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 17 Oct 2020 11:39:13 -0000
-From: Satheesh Rajendran <1900241@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: kvm powerpc xive
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: sathnaga
-X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
-X-Launchpad-Bug-Modifier: Satheesh Rajendran (sathnaga)
-References: <160293454254.8431.993577940537988142.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160293475392.24915.12236813268480351259.malone@soybean.canonical.com>
-Subject: [Bug 1900241] Re: some vcpus are found offline inside guest with
- different vsmt setting from qemu-cmdline and breaks subsequent vcpu hotplug
- operation (xive)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
-X-Launchpad-Hash: 331b05552d3a02bc2252896e3ea62ebcb07eca30
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 07:50:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200430115142.13430-10-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.247,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,263 +92,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900241 <1900241@bugs.launchpad.net>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Did a git bisect and the bad commit is
+Hi Damien, Peter,
 
-acbdb9956fe93f4669141f103cb543d3025775db is the first bad commit
-commit acbdb9956fe93f4669141f103cb543d3025775db
-Author: C=C3=A9dric Le Goater <clg@kaod.org>
-Date:   Thu Aug 20 15:45:46 2020 +0200
+On 4/30/20 1:51 PM, Peter Maydell wrote:
+> This object may be used to represent a clock inside a clock tree.
+> 
+> A clock may be connected to another clock so that it receives update,
+> through a callback, whenever the source/parent clock is updated.
+> 
+> Although only the root clock of a clock tree controls the values
+> (represented as periods) of all clocks in tree, each clock holds
+> a local state containing the current value so that it can be fetched
+> independently. It will allows us to fullfill migration requirements
+> by migrating each clock independently of others.
+> 
+> This is based on the original work of Frederic Konrad.
+> 
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Message-id: 20200406135251.157596-2-damien.hedde@greensocs.com
+> [PMM: Use uint64_t rather than unsigned long long in trace events;
+>   the dtrace backend can't handle the latter]
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/core/Makefile.objs |   1 +
+>   include/hw/clock.h    | 216 ++++++++++++++++++++++++++++++++++++++++++
+>   hw/core/clock.c       | 130 +++++++++++++++++++++++++
+>   hw/core/trace-events  |   7 ++
+>   4 files changed, 354 insertions(+)
+>   create mode 100644 include/hw/clock.h
+>   create mode 100644 hw/core/clock.c
+> 
+> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+> index 6215e7c2085..1d9b0aa2057 100644
+> --- a/hw/core/Makefile.objs
+> +++ b/hw/core/Makefile.objs
+> @@ -7,6 +7,7 @@ common-obj-y += hotplug.o
+>   common-obj-y += vmstate-if.o
+>   # irq.o needed for qdev GPIO handling:
+>   common-obj-y += irq.o
+> +common-obj-y += clock.o
+>   
+>   common-obj-$(CONFIG_SOFTMMU) += reset.o
+>   common-obj-$(CONFIG_SOFTMMU) += qdev-fw.o
+> diff --git a/include/hw/clock.h b/include/hw/clock.h
+> new file mode 100644
+> index 00000000000..82a7f3c6982
+> --- /dev/null
+> +++ b/include/hw/clock.h
+> @@ -0,0 +1,216 @@
+> +/*
+> + * Hardware Clocks
+> + *
+> + * Copyright GreenSocs 2016-2020
+> + *
+> + * Authors:
+> + *  Frederic Konrad
+> + *  Damien Hedde
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef QEMU_HW_CLOCK_H
+> +#define QEMU_HW_CLOCK_H
+> +
+> +#include "qom/object.h"
+> +#include "qemu/queue.h"
+> +
+> +#define TYPE_CLOCK "clock"
+> +#define CLOCK(obj) OBJECT_CHECK(Clock, (obj), TYPE_CLOCK)
+> +
+> +typedef void ClockCallback(void *opaque);
+> +
+> +/*
+> + * clock store a value representing the clock's period in 2^-32ns unit.
+> + * It can represent:
+> + *  + periods from 2^-32ns up to 4seconds
+> + *  + frequency from ~0.25Hz 2e10Ghz
+> + * Resolution of frequency representation decreases with frequency:
+> + * + at 100MHz, resolution is ~2mHz
+> + * + at 1Ghz,   resolution is ~0.2Hz
+> + * + at 10Ghz,  resolution is ~20Hz
+> + */
+> +#define CLOCK_SECOND (1000000000llu << 32)
+> +
+> +/*
+> + * macro helpers to convert to hertz / nanosecond
+> + */
+> +#define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_SECOND / 1000000000llu))
+> +#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_SECOND / 1000000000llu))
+> +#define CLOCK_PERIOD_FROM_HZ(hz) (((hz) != 0) ? CLOCK_SECOND / (hz) : 0u)
 
-    spapr/xive: Allocate IPIs independently from the other sources
-    =
+I'm having Floating Point Exception using a frequency of 1GHz.
 
-    The vCPU IPIs are now allocated in kvmppc_xive_cpu_connect() when the
-    vCPU connects to the KVM device and not when all the sources are reset
-    in kvmppc_xive_source_reset()
-    =
+Using frequency >=1GHz we have CLOCK_PERIOD_FROM_HZ(hz) > 0x100000000.
 
-    This requires extra care for hotplug vCPUs and VM restore.
-    =
+Then CLOCK_PERIOD_TO_NS(0x100000000) = 0.
 
-    Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-    Message-Id: <20200820134547.2355743-4-clg@kaod.org>
-    Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+So for frequency >=1GHz clock_get_ns() returns 0.
 
- hw/intc/spapr_xive_kvm.c | 47 ++++++++++++++++++++++++++++++++++++++++++--=
----
- 1 file changed, 42 insertions(+), 5 deletions(-)
-
-
-
-# git bisect log
-git bisect start
-# good: [d0ed6a69d399ae193959225cdeaa9382746c91cc] Update version for v5.1.=
-0 release
-git bisect good d0ed6a69d399ae193959225cdeaa9382746c91cc
-# bad: [7daf8f8d011cdd5d3e86930ed2bde969425c790c] Merge remote-tracking bra=
-nch 'remotes/kevin/tags/for-upstream' into staging
-git bisect bad 7daf8f8d011cdd5d3e86930ed2bde969425c790c
-# skip: [7595a65818ea9b49c36650a8c217a1ef9bd6e62a] hw/riscv: Sort the Kconf=
-ig options in alphabetical order
-git bisect skip 7595a65818ea9b49c36650a8c217a1ef9bd6e62a
-# skip: [3b65b742543bc6c2ad35e3b42401a26b48a87f26] target/hppa: Fix boot wi=
-th old Linux installation CDs
-git bisect skip 3b65b742543bc6c2ad35e3b42401a26b48a87f26
-# bad: [f4ef8c9cc10b3bee829b9775879d4ff9f77c2442] Merge remote-tracking bra=
-nch 'remotes/ehabkost/tags/machine-next-pull-request' into staging
-git bisect bad f4ef8c9cc10b3bee829b9775879d4ff9f77c2442
-# good: [4ee40a6b98c02b72fc5dd262df9d3ac8680d767b] hw/usb: Add U2F device c=
-heck to passthru mode
-git bisect good 4ee40a6b98c02b72fc5dd262df9d3ac8680d767b
-# skip: [fe4b0b5bfa96c38ad1cad0689a86cca9f307e353] tcg: Implement 256-bit d=
-up for tcg_gen_gvec_dup_mem
-git bisect skip fe4b0b5bfa96c38ad1cad0689a86cca9f307e353
-# skip: [287b1defeb44398d02669d97ebdc347d650f274d] target/microblaze: Cache=
- mem_index in DisasContext
-git bisect skip 287b1defeb44398d02669d97ebdc347d650f274d
-# skip: [7a1fb2ef40df508e90eb756a80d67e6435246cae] block/nvme: Extract nvme=
-_poll_queue()
-git bisect skip 7a1fb2ef40df508e90eb756a80d67e6435246cae
-# good: [536e340f464d7c2ef55cca47c7535d9409bf03c7] target/microblaze: Conve=
-rt msrclr, msrset to decodetree
-git bisect good 536e340f464d7c2ef55cca47c7535d9409bf03c7
-# good: [227de21ed0759e275a469394af72c999d0134bb5] Merge remote-tracking br=
-anch 'remotes/rth/tags/pull-tcg-20200903' into staging
-git bisect good 227de21ed0759e275a469394af72c999d0134bb5
-# bad: [b95ba83fc56ebfc4b6869f21db0c757c0c191104] Merge remote-tracking bra=
-nch 'remotes/dgibson/tags/ppc-for-5.2-20200908' into staging
-git bisect bad b95ba83fc56ebfc4b6869f21db0c757c0c191104
-# good: [789035f1239054331b335801a06bdbef026f02e1] oss-fuzz: fix rpath
-git bisect good 789035f1239054331b335801a06bdbef026f02e1
-# good: [00942071a0eabeb3ebc3bd594296859587f8f3c8] Merge remote-tracking br=
-anch 'remotes/rth/tags/pull-mb-20200907-2' into staging
-git bisect good 00942071a0eabeb3ebc3bd594296859587f8f3c8
-# bad: [554c2169e9251ca2829ab968bd9ba5641a5abe1d] ppc/spapr: Use start-powe=
-red-off CPUState property
-git bisect bad 554c2169e9251ca2829ab968bd9ba5641a5abe1d
-# good: [235d3b116213828f4206e2e4b199a32bffc96f35] spapr/xive: Modify kvm_c=
-pu_is_enabled() interface
-git bisect good 235d3b116213828f4206e2e4b199a32bffc96f35
-# bad: [90d282d0858cf5a38f3e8a7e201aeab2a0ccbe88] ppc/spapr_nvdimm: use g_a=
-utofree in spapr_nvdimm_validate_opts()
-git bisect bad 90d282d0858cf5a38f3e8a7e201aeab2a0ccbe88
-# bad: [acbdb9956fe93f4669141f103cb543d3025775db] spapr/xive: Allocate IPIs=
- independently from the other sources
-git bisect bad acbdb9956fe93f4669141f103cb543d3025775db
-# good: [fa94447a2cd6643609d5822d5b5f739dc8ad8a8c] spapr/xive: Use kvmppc_x=
-ive_source_reset() in post_load
-git bisect good fa94447a2cd6643609d5822d5b5f739dc8ad8a8c
-# first bad commit: [acbdb9956fe93f4669141f103cb543d3025775db] spapr/xive: =
-Allocate IPIs independently from the other sources
-
-
-Regards,
--Satheesh
-
-** Summary changed:
-
-- some vcpus are found offline inside guest with different vsmt setting fro=
-m qemu-cmdline and breaks subsequent vcpu hotplug operation (xive)
-+ [regression][powerpc] some vcpus are found offline inside guest with diff=
-erent vsmt setting from qemu-cmdline and breaks subsequent vcpu hotplug ope=
-ration (xive)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900241
-
-Title:
-  [regression][powerpc] some vcpus are found offline inside guest with
-  different vsmt setting from qemu-cmdline and breaks subsequent vcpu
-  hotplug operation (xive)
-
-Status in QEMU:
-  New
-
-Bug description:
-  Env:
-  Host: Power9 HW ppc64le
-
-  # lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          128
-  On-line CPU(s) list:             24-31,40-159
-  Thread(s) per core:              4
-  Core(s) per socket:              16
-  Socket(s):                       2
-  NUMA node(s):                    2
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9, altivec supported
-  Frequency boost:                 enabled
-  CPU max MHz:                     3800.0000
-  CPU min MHz:                     2300.0000
-  L1d cache:                       1 MiB
-  L1i cache:                       1 MiB
-  L2 cache:                        8 MiB
-  L3 cache:                        160 MiB
-  NUMA node0 CPU(s):               24-31,40-79
-  NUMA node8 CPU(s):               80-159
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardware accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-
-  Host Kernel: 5.9.0-0.rc8.28.fc34.ppc64le (Fedora rawhide)
-  Guest Kernel: Fedora33(5.8.6-301.fc33.ppc64le)
-
-  Qemu: e12ce85b2c79d83a340953291912875c30b3af06 (qemu/master)
-
-  =
-
-  Steps to reproduce:
-
-  Boot below kvm guest: (-M pseries,vsmt=3D2 -smp 8,cores=3D8,threads=3D1)
-
-   /home/sath/qemu/build/qemu-system-ppc64 -name vm1 -M pseries,vsmt=3D2
-  -accel kvm -m 4096  -smp 8,cores=3D8,threads=3D1 -nographic -nodefaults
-  -serial mon:stdio -vga none -nographic -device virtio-scsi-pci -drive
-  file=3D/home/sath/tests/data/avocado-vt/images/fdevel-
-  ppc64le.qcow2,if=3Dnone,id=3Dhd0,format=3Dqcow2,cache=3Dnone -device scsi-
-  hd,drive=3Dhd0
-
-  =
-
-  lscpu inside guest:
-  Actual:
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0,2,4,6
-  Off-line CPU(s) list:            1,3,5,7 --------------------------NOK
-  Thread(s) per core:              1
-  Core(s) per socket:              4
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       128 KiB
-  L1i cache:                       128 KiB
-  NUMA node0 CPU(s):               0,2,4,6
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-  =
-
-  Expected:
-
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0-7
-  Thread(s) per core:              1
-  Core(s) per socket:              8
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       256 KiB
-  L1i cache:                       256 KiB
-  NUMA node0 CPU(s):               0-7
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-
-  There by further vcpuhotplug operation fails...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900241/+subscriptions
+> +#define CLOCK_PERIOD_TO_HZ(per) (((per) != 0) ? CLOCK_SECOND / (per) : 0u)
+> +
+[...]
 
