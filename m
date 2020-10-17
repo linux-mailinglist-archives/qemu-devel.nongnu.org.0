@@ -2,55 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E66290EE7
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:26:12 +0200 (CEST)
-Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841C7291028
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 08:29:53 +0200 (CEST)
+Received: from localhost ([::1]:58818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTdnH-0000hq-Bl
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:26:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39984)
+	id 1kTfiy-0003XA-JT
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 02:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXi-0005xv-SW
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:06 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:36940 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <prvs=552240a99=colmmacc@amazon.com>)
+ id 1kTdvQ-0002C3-RM
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:34:36 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:46959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXg-0007I4-NY
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:06 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 87C02B2F8DAD10F3D499;
- Sat, 17 Oct 2020 12:10:01 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Sat, 17 Oct 2020
- 12:09:51 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v3 18/18] migration/rdma: RDMA cleanup for multifd migration
-Date: Sat, 17 Oct 2020 12:25:48 +0800
-Message-ID: <1602908748-43335-19-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
-References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <prvs=552240a99=colmmacc@amazon.com>)
+ id 1kTdvO-00084s-NM
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:34:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1602909275; x=1634445275;
+ h=from:to:cc:date:message-id:in-reply-to:references:
+ mime-version:content-transfer-encoding:subject;
+ bh=uj25hCmSfztFpgMGF7ruWI9HDVQUv0S72tdqASiD0As=;
+ b=X/OoHF5ic11upnfUVEACQDUJhxBIsE5NvvVuXbC/PsHltov9qX3px4JV
+ jA4TXGysqJfb6tB6az/mFvVupqsfKFzirZqLNYQnsPNmQuHhjRw0zm+IH
+ rgFxP/cod7NEJeyVFnYb52IbkgINhdONZG/EKLPpE8eDzABK8YOj7QvJ+ M=;
+X-IronPort-AV: E=Sophos;i="5.77,385,1596499200"; d="scan'208";a="85477025"
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
+ email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com) ([10.47.23.38])
+ by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP;
+ 17 Oct 2020 04:34:27 +0000
+Received: from EX13MTAUWA001.ant.amazon.com
+ (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+ by email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com (Postfix) with ESMTPS
+ id C0267A1810; Sat, 17 Oct 2020 04:34:25 +0000 (UTC)
+Received: from EX13D01UWA003.ant.amazon.com (10.43.160.107) by
+ EX13MTAUWA001.ant.amazon.com (10.43.160.118) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Sat, 17 Oct 2020 04:34:25 +0000
+Received: from [10.50.40.37] (10.43.162.231) by EX13d01UWA003.ant.amazon.com
+ (10.43.160.107) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sat, 17 Oct
+ 2020 04:34:24 +0000
+From: Colm MacCarthaigh <colmmacc@amazon.com>
+To: Jann Horn <jannh@google.com>
+CC: Willy Tarreau <w@1wt.eu>, "Catangiu, Adrian Costin" <acatan@amazon.com>,
+ Andy Lutomirski <luto@kernel.org>, Jason Donenfeld <Jason@zx2c4.com>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Eric Biggers <ebiggers@kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <virtualization@lists.linux-foundation.org>, "Graf (AWS), Alexander"
+ <graf@amazon.de>, "Woodhouse, David" <dwmw@amazon.co.uk>, <bonzini@gnu.org>,
+ "Singh, Balbir" <sblbir@amazon.com>, "Weiss, Radu" <raduweis@amazon.com>,
+ <oridgar@gmail.com>, <ghammer@redhat.com>, <corbet@lwn.net>,
+ <gregkh@linuxfoundation.org>, <mst@redhat.com>, <qemu-devel@nongnu.org>, "KVM
+ list" <kvm@vger.kernel.org>, Michal Hocko <mhocko@kernel.org>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>, Linux API
+ <linux-api@vger.kernel.org>
+Date: Fri, 16 Oct 2020 21:34:24 -0700
+X-Mailer: MailMate Trial (1.13.2r5673)
+Message-ID: <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com>
+In-Reply-To: <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
+References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
+ <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
+ <20201017033606.GA14014@1wt.eu>
+ <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhengchuan@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 00:10:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.43.162.231]
+X-ClientProxiedBy: EX13D44UWB002.ant.amazon.com (10.43.161.192) To
+ EX13d01UWA003.ant.amazon.com (10.43.160.107)
+Precedence: Bulk
+Received-SPF: pass client-ip=207.171.184.29;
+ envelope-from=prvs=552240a99=colmmacc@amazon.com; helo=smtp-fw-9102.amazon.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 00:34:32
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -145
+X-Spam_score: -14.6
+X-Spam_bar: --------------
+X-Spam_report: (-14.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 17 Oct 2020 02:27:14 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,90 +97,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, fengzhimin1@huawei.com,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com,
- wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
----
- migration/multifd.c |  6 ++++++
- migration/multifd.h |  1 +
- migration/rdma.c    | 16 +++++++++++++++-
- 3 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index c4d90ef..f548122 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -574,6 +574,9 @@ void multifd_save_cleanup(void)
-         p->packet_len = 0;
-         g_free(p->packet);
-         p->packet = NULL;
-+#ifdef CONFIG_RDMA
-+        multifd_rdma_cleanup(p->rdma);
-+#endif
-         multifd_send_state->ops->send_cleanup(p, &local_err);
-         if (local_err) {
-             migrate_set_error(migrate_get_current(), local_err);
-@@ -1017,6 +1020,9 @@ int multifd_load_cleanup(Error **errp)
-         p->packet_len = 0;
-         g_free(p->packet);
-         p->packet = NULL;
-+#ifdef CONFIG_RDMA
-+        multifd_rdma_cleanup(p->rdma);
-+#endif
-         multifd_recv_state->ops->recv_cleanup(p);
-     }
-     qemu_sem_destroy(&multifd_recv_state->sem_sync);
-diff --git a/migration/multifd.h b/migration/multifd.h
-index ec9e897..6fddd4e 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -183,6 +183,7 @@ typedef struct {
- 
- #ifdef CONFIG_RDMA
- MultiFDSetup *multifd_rdma_setup(void);
-+void multifd_rdma_cleanup(void *opaque);
- #endif
- void multifd_send_terminate_threads(Error *err);
- int multifd_send_initial_packet(MultiFDSendParams *p, Error **errp);
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 519fa7a..89bf54b 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -2368,7 +2368,7 @@ static void qemu_rdma_cleanup(RDMAContext *rdma)
- {
-     int idx;
- 
--    if (rdma->cm_id && rdma->connected) {
-+    if (rdma->channel && rdma->cm_id && rdma->connected) {
-         if ((rdma->error_state ||
-              migrate_get_current()->state == MIGRATION_STATUS_CANCELLING) &&
-             !rdma->received_error) {
-@@ -4609,6 +4609,20 @@ static MultiFDSetup multifd_rdma_ops = {
-     .recv_channel_setup = multifd_rdma_recv_channel_setup
- };
- 
-+void multifd_rdma_cleanup(void *opaque)
-+{
-+    RDMAContext *rdma = (RDMAContext *)opaque;
-+
-+    if (!migrate_use_rdma()) {
-+        return;
-+    }
-+
-+    rdma->listen_id = NULL;
-+    rdma->channel = NULL;
-+    qemu_rdma_cleanup(rdma);
-+    g_free(rdma);
-+}
-+
- MultiFDSetup *multifd_rdma_setup(void)
- {
-     MultiFDSetup *rdma_ops;
--- 
-1.8.3.1
+
+On 16 Oct 2020, at 21:02, Jann Horn wrote:
+> On Sat, Oct 17, 2020 at 5:36 AM Willy Tarreau <w@1wt.eu> wrote:
+> But in userspace, we just need a simple counter. There's no need for
+> us to worry about anything else, like timestamps or whatever. If we
+> repeatedly fork a paused VM, the forked VMs will see the same counter
+> value, but that's totally fine, because the only thing that matters to
+> userspace is that the counter changes when the VM is forked.
+
+For user-space, even a single bit would do. We added MADVISE_WIPEONFORK 
+so that userspace libraries can detect fork()/clone() robustly, for the 
+same reasons. It just wipes a page as the indicator, which is 
+effectively a single-bit signal, and it works well. On the user-space 
+side of this, I’m keen to find a solution like that that we can use 
+fairly easily inside of portable libraries and applications. The “have 
+I forked” checks do end up in hot paths, so it’s nice if they can be 
+CPU cache friendly. Comparing a whole 128-bit value wouldn’t be my 
+favorite.
+
+> And actually, since the value is a cryptographically random 128-bit
+> value, I think that we should definitely use it to help reseed the
+> kernel's RNG, and keep it secret from userspace. That way, even if the
+> VM image is public, we can ensure that going forward, the kernel RNG
+> will return securely random data.
+
+If the image is public, you need some extra new raw entropy from 
+somewhere. The gen-id could be mixed in, that can’t do any harm as 
+long as rigorous cryptographic mixing with the prior state is used, but 
+if that’s all you do then the final state is still deterministic and 
+non-secret. The kernel would need to use the change as a trigger to 
+measure some entropy (e.g. interrupts and RDRAND, or whatever). Our just 
+define the machine contract as “this has to be unique random data and 
+if it’s not unique, or if it’s pubic, you’re toast”.
+
+
+-
+Colm
+
 
 
