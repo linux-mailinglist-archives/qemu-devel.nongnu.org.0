@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC22D291455
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 22:37:47 +0200 (CEST)
-Received: from localhost ([::1]:46894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD11A291457
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 22:39:21 +0200 (CEST)
+Received: from localhost ([::1]:53050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTsxW-0001zF-Vb
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 16:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34254)
+	id 1kTsz2-0004Z4-Q4
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 16:39:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kTsvj-0000je-VS; Sat, 17 Oct 2020 16:35:55 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:13768)
+ id 1kTsvi-0000i2-RG; Sat, 17 Oct 2020 16:35:54 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:13755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kTsvf-0004ZP-LE; Sat, 17 Oct 2020 16:35:55 -0400
+ id 1kTsvf-0004ZM-LE; Sat, 17 Oct 2020 16:35:54 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D4D04747635;
+ by localhost (Postfix) with SMTP id B5EEC747632;
  Sat, 17 Oct 2020 22:35:46 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5FB28747630; Sat, 17 Oct 2020 22:35:46 +0200 (CEST)
-Message-Id: <403ddfbe83c6df7dfb0c3ae69202c5e2c4fae767.1602965621.git.balaton@eik.bme.hu>
+ id 67C9A74762E; Sat, 17 Oct 2020 22:35:46 +0200 (CEST)
+Message-Id: <2b7a5594c8c41dcae0ade3354a13540f83570ab0.1602965621.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1602965621.git.balaton@eik.bme.hu>
 References: <cover.1602965621.git.balaton@eik.bme.hu>
-Subject: [PATCH 2/6] mt48t59: Set default value of base-year property to 1968
+Subject: [PATCH 4/6] sun4u: use qdev instead of legacy m48t59_init() function
 Date: Sat, 17 Oct 2020 22:13:41 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -64,27 +64,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-All instances set this value explicitely so make it the default to
-make it simpler to create instances without setting property.
-
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/rtc/m48t59.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/sparc64/sun4u.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/rtc/m48t59.c b/hw/rtc/m48t59.c
-index 6525206976..3108cf3d3f 100644
---- a/hw/rtc/m48t59.c
-+++ b/hw/rtc/m48t59.c
-@@ -655,7 +655,7 @@ static void m48txx_sysbus_toggle_lock(Nvram *obj, int lock)
- }
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index ad5ca2472a..a89ebed6f0 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -671,10 +671,12 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+     pci_ide_create_devs(pci_dev);
  
- static Property m48t59_sysbus_properties[] = {
--    DEFINE_PROP_INT32("base-year", M48txxSysBusState, state.base_year, 0),
-+    DEFINE_PROP_INT32("base-year", M48txxSysBusState, state.base_year, 1968),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+     /* Map NVRAM into I/O (ebus) space */
+-    nvram = m48t59_init(NULL, 0, 0, NVRAM_SIZE, 1968, 59);
+-    s = SYS_BUS_DEVICE(nvram);
++    dev = qdev_new("sysbus-m48t59");
++    s = SYS_BUS_DEVICE(dev);
++    sysbus_realize_and_unref(s, &error_fatal);
+     memory_region_add_subregion(pci_address_space_io(ebus), 0x2000,
+                                 sysbus_mmio_get_region(s, 0));
++    nvram = NVRAM(dev);
+  
+     initrd_size = 0;
+     initrd_addr = 0;
 -- 
 2.21.3
 
