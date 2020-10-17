@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1266291273
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:33:03 +0200 (CEST)
-Received: from localhost ([::1]:35150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54026291276
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:35:46 +0200 (CEST)
+Received: from localhost ([::1]:40798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTnGY-000735-QO
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37244)
+	id 1kTnJB-0001Da-42
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmpb-0003lR-6Y
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:11 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55759)
+ id 1kTmpd-0003oz-WA
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:14 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmpZ-0003sq-3F
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:10 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a72so6127153wme.5
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:05:07 -0700 (PDT)
+ id 1kTmpc-0003tJ-Gc
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:13 -0400
+Received: by mail-wr1-x430.google.com with SMTP id x7so6612438wrl.3
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iLy9KPPIH/IaR0EvDlMGJ9V0mA4+5oswM3SWnu1jL9U=;
- b=SGTBbSiXbW9YLOK7kkSjYZ6om3fWfJYG/10jwtHMmJOtCUuOesQiFjCefKFKWNCyId
- kE/2D/EV2AaZppTg3YITIUdnBfJdqV/ZDuB7B9lfYwsvWVXxO+1/FDw4kWrJEMKVYB3G
- WtE5TudopTS7w1pyObY7jzoKiJ/ePPGApm/q3yF5+JQgI1cbaLM+y/MamyyBhivkvE8t
- fD5lrlUY/qmXcoLb5dpqcSKB+6E4WZlTTLVjgAFzL4wnHJoSI+tZhIzuW926A6k9xq8s
- f327sQ3y40/j80SdTn1XTe28FnbOzQYwAuAqfGFMOxbT4ixDnhJ1R+cG4rstGL+ahn2Z
- +D4A==
+ bh=wDo4Ac8Bvr/h/F3tHmitZ/IsFCAT0CVJ5bwb+MZqKJo=;
+ b=Ox3HtYJ77Ug7pnxuU5PZM59OE9hh3Os3xaqCyy/nJp+kjOJMh/FFrvAI1EqDx8v4RJ
+ +XQVjOST/ZFTKpY5mhivLhnzeqqIew6LpQ1AvEedsKpbsWNuRElOsExiBG88wJZDQGqB
+ xke3KR1EIuiP/ZEaKoPbzCsoebpCnOoTTp0WrNcbSTIo9c9VxnTuV0slpHTFxbQ2K4YX
+ 04dqHRwg8ucFzgJazm0V/RjByyPkXk1bPZNqWsPdatkXDWA5JyjKpKBtAawbQWVIUq9Q
+ 1pulf/z3jl8XCHyYLbYMnRV9uT656dN3/xmN6b3V2MF0KrcOGSfELp/qJR36uASfOkY0
+ 6IhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iLy9KPPIH/IaR0EvDlMGJ9V0mA4+5oswM3SWnu1jL9U=;
- b=WO2yxmgvR/hecMIh121ugjAdyeGdHnU2qNBBgUaXM/XAkNj6+GzTS2sRl5oQDx2W06
- YNj8cSrC+8+wJKb+kOS6ev/IoE6o9Yqcjh4cx+7Xo1QO645uKn3wYbF3enb4aBPD0s8j
- z2P2byzzjJ+sw0ZsBQXg6a8Ql5vvfFK3vlvuxvL4V3bqyHZnWEmLIK+l1vpgKUYcJrx8
- JnQVACzHYuvh4SI36DzHIp6feaSX4FLqlwSP0Dcp2jMeizAKR0GpWHoQefqzQF+Ia7IW
- GARHJo6ZfLBCl0DnflBGWul/JmZAlyT7mruZZMw/AlbbK3Mw8eyT2r9aNMvqLcX6diHC
- WW3w==
-X-Gm-Message-State: AOAM531xxEIh5BWsem74B+CA2w+ElRDmxDec7jwwDPdVoUl8IChn64GO
- o4qMsEEsuK/5zoC/csVH3g6ugvVFOVg=
-X-Google-Smtp-Source: ABdhPJxZdWzeM2W3p56t8YM+Id/2hJtkmh3nJiJP4T26fcY+JVdpepPFWV8jt97BlY3BWaoDCQcWQw==
-X-Received: by 2002:a1c:6302:: with SMTP id x2mr9141898wmb.121.1602943505962; 
- Sat, 17 Oct 2020 07:05:05 -0700 (PDT)
+ bh=wDo4Ac8Bvr/h/F3tHmitZ/IsFCAT0CVJ5bwb+MZqKJo=;
+ b=Wp+WSZvpxnWLSfdGia81Gz109M9fxonvj8cm0Js0yQHUPQgxSOKNnYySAeTeFtBI84
+ f/Iq+K3rNCu0OYaW6VISimGF6ROJIYELI3wDBya4t2ynUhDoVjxCB8frpW+dn/3pGCGp
+ NXViagBS6pYJS4WGyU8EIV/UQ1i9AaO4p5aLtcxE3MgjsM4H/gM32mZgpVDdNnMuoG6l
+ jxJAqFiJ/bsZbz7L+jGmLRNNMIJi76aqmorsQL7mjMzyKQyc4iFfSh7Qt/BfhawpKRXz
+ GJCedaztWhvP8Gt2xs5eUcCou6EFaY5Evv0nFPXLU6CmhQKRtmbU5ZmutJIVO91zLvBq
+ Loqw==
+X-Gm-Message-State: AOAM5332QbrQUGoi/8lt5GpYASUPj02H5r1ougsiypxpsSo8zJexqqoa
+ c5gw8Gr14LMQxetljggxrbGRmxakn+Q=
+X-Google-Smtp-Source: ABdhPJws1PIRtLZP1SPD/bJsJ3x0MEWSUD5aSYA4lJ0GnS05y4Gvxe0Oih/urz67IjnMoFgbQ6Sx0g==
+X-Received: by 2002:adf:a50e:: with SMTP id i14mr10379247wrb.121.1602943510674; 
+ Sat, 17 Oct 2020 07:05:10 -0700 (PDT)
 Received: from localhost.localdomain
  (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id n5sm8920455wrm.2.2020.10.17.07.05.04
+ by smtp.gmail.com with ESMTPSA id p13sm7844630wmb.5.2020.10.17.07.05.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 07:05:05 -0700 (PDT)
+ Sat, 17 Oct 2020 07:05:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/44] target/mips/cpu: Display warning when CPU is used
- without input clock
-Date: Sat, 17 Oct 2020 16:02:29 +0200
-Message-Id: <20201017140243.1078718-31-f4bug@amsat.org>
+Subject: [PULL 31/44] hw/mips/malta: Fix FPGA I/O region size
+Date: Sat, 17 Oct 2020 16:02:30 +0200
+Message-Id: <20201017140243.1078718-32-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201017140243.1078718-1-f4bug@amsat.org>
 References: <20201017140243.1078718-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -96,54 +95,32 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All our QOM users provides an input clock. In order to avoid
-avoid future machines added without clock, display a warning.
+The FPGA present on the CoreCard has an I/O region 1MiB wide.
 
-User-mode emulation use the CP0 timer with the RDHWR instruction
-(see commit cdfcad788394) so keep using the fixed 200 MHz clock
-without diplaying any warning. Only display it in system-mode
-emulation.
+Refs:
+- Atlas User’s Manual (Document Number: MD00005)
+- Malta User’s Manual (Document Number: MD00048)
 
+Fixes: ea85df72b60 ("mips_malta: convert to memory API")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201012095804.3335117-22-f4bug@amsat.org>
+Message-Id: <20200905213049.761949-1-f4bug@amsat.org>
 ---
- target/mips/cpu.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/mips/malta.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 33a9ed5c24b..76d50b00b42 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -19,12 +19,14 @@
-  */
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 1e2b750719e..a4a4c386268 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -578,7 +578,7 @@ static MaltaFPGAState *malta_fpga_init(MemoryRegion *address_space,
+     memory_region_init_alias(&s->iomem_lo, NULL, "malta-fpga",
+                              &s->iomem, 0, 0x900);
+     memory_region_init_alias(&s->iomem_hi, NULL, "malta-fpga",
+-                             &s->iomem, 0xa00, 0x10000 - 0xa00);
++                             &s->iomem, 0xa00, 0x100000 - 0xa00);
  
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "internal.h"
- #include "kvm_mips.h"
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/qtest.h"
- #include "exec/exec-all.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-clock.h"
-@@ -158,6 +160,14 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
-     Error *local_err = NULL;
- 
-     if (!clock_get(cpu->clock)) {
-+#ifndef CONFIG_USER_ONLY
-+        if (!qtest_enabled()) {
-+            g_autofree char *cpu_freq_str = freq_to_str(CPU_FREQ_HZ_DEFAULT);
-+
-+            warn_report("CPU input clock is not connected to any output clock, "
-+                        "using default frequency of %s.", cpu_freq_str);
-+        }
-+#endif
-         /* Initialize the frequency in case the clock remains unconnected. */
-         clock_set_hz(cpu->clock, CPU_FREQ_HZ_DEFAULT);
-     }
+     memory_region_add_subregion(address_space, base, &s->iomem_lo);
+     memory_region_add_subregion(address_space, base + 0xa00, &s->iomem_hi);
 -- 
 2.26.2
 
