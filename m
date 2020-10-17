@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8630729127D
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:39:20 +0200 (CEST)
-Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAEEF29127F
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:41:14 +0200 (CEST)
+Received: from localhost ([::1]:55822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTnMd-0006Ci-K7
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:39:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41416)
+	id 1kTnOT-00080u-U3
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qkrwngud825@gmail.com>)
- id 1kTnD7-0003eb-Tn
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:29:30 -0400
-Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:46422)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kTnMj-0006tw-9b
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:39:25 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:47094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <qkrwngud825@gmail.com>)
- id 1kTnD6-0006mZ-AN
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:29:29 -0400
-Received: by mail-ua1-x92a.google.com with SMTP id y1so1520352uac.13
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:29:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kTnMg-0007g6-JG
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:39:24 -0400
+Received: by mail-ej1-x644.google.com with SMTP id t25so7559372ejd.13
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:39:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P+gIv2Lcj4WNQ6W5r97xFTj/z+w+Zw6Am1AGbMCfPgE=;
- b=AvVweg/pSu+cvJE0S0zZqtqcLAoadXExFz3xAe9zG7vo50YMTLwHQ1i8ftED2DTCXA
- uDyLEeGC6cYYaKOaXhAhMiSavtK6o+K0Bf0j3CS6CK6OzuSRfmaff3DhIkmIeSRj1QmC
- iOisXBQpzXX94cVxrWjw059s2E/Sj+SZ8+0L6jcZKRmU2wzQSoBODay/ZjP4eDDE4KHD
- rIXoGB1a4ZvI8eIsepfck2FIUOVafAAvByyjbLIaaBkDw2ok0thiS0I16UshtZz++jVD
- JAra2+ekaIrQbnMF4Bc81YjliIwbhBI8tg+Dy3t7U9FlTbPsxakUCdFDzj6/YRsRUX3Z
- TwAw==
+ :cc; bh=mpeDWOYIO+zh/xykEhXu5Zg/XqiagYudAKo068JsRfI=;
+ b=ICn8OFPfLapX5N9TSYsVnCKBn8F5JZAd3LDO+FzUK4XZ4Qx49dcXTXTle9Fo7piS4u
+ Yn+u9E32a3IKE2XbCR2h84ZPOi9V+flR0bA5ThUwmZqj2MkeoGiCvfuqPQkZyD1jHr9J
+ AkpRT9yUyJS8DgCvJ/CY9qHZxDLcCretXi6s0iaRNzwS/y6UZnM421uukjXjGmseGK5w
+ X/WfwpHxL6EE9sk4VygHxdujWDooJNbyOnRK8+T848ZamZwitlA+DHs+m1IncoF8GCQB
+ VQwsuUDvjIECnE2z/StkMJQkMFyUy1x2iMHbedBv+B5ZuaVYOQ/xCdzeSdphS7Y+q6QH
+ NJ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=P+gIv2Lcj4WNQ6W5r97xFTj/z+w+Zw6Am1AGbMCfPgE=;
- b=c2oUKxXsdGRKhwfBg1+OSZqkFypQBGcIgKpG0KmAYlWTdJYdnFSOf0it7vM7QuuYBR
- n2jdQ4/QuCWb1UacfbOoGYrWsho4GwKuy5S0l3adfFEhtmoV9j6rAQ3Mz2J6WSynN1K/
- tJLNbeJ87ukrkbmFymoiOlEb7kvuqU+Pl0/wTjWYGLYWMzoZXQk3lnw71sfT3mvACy8D
- BiXqdsYxZQ6Vz6T0DgGZ4BkE7WZ8fGZSiIef2dHArasiNJ2t8Wemf/Sn8C+4JXFhffJZ
- ZaTmKbhOyJxCsAi1p1ZUTyVBJlWKPv4jrh4DbAHtPAbxXQBP4hq2JqM4PL4VBN8uBp0D
- xUSA==
-X-Gm-Message-State: AOAM531kJPXougBkYGL6l26KD0IM/rpm7k4n6yZ4F2XNT3+CocCAJP/J
- nzRq4S7d9chdEyQVMW7LZ/MDjhbW9RQUSFez2/U=
-X-Google-Smtp-Source: ABdhPJzden7sO+y2LzeOJWCADNP5kK3JioLv+GRKwCvaAYdK5okKzL5TOLlsjB6Kg7jXp74ndZ1SqzW+p2DQEwMjyA0=
-X-Received: by 2002:ab0:6f81:: with SMTP id f1mr4272724uav.31.1602944967083;
- Sat, 17 Oct 2020 07:29:27 -0700 (PDT)
+ bh=mpeDWOYIO+zh/xykEhXu5Zg/XqiagYudAKo068JsRfI=;
+ b=Zw+6pu5zJ7Xg3UcbxLcrV3zAK/7a40UFaV23dwCmMkw3P0MfTXsTg5ggjt+wVrnev4
+ NDFDODNoPTun5V1ZUuoMFJnF36yniJFTNfLJoSnedonvUdXWpw+Pq8N7zZEZrbh5LdZN
+ GyzFhYiBSg/sHSBz8+xVhorMDbneohtJzPJtPkzm78O3OgQzBF6Aef0lQ1HUYtH6uh4W
+ 7SHxRbQSrL/eqeEbuwQzAAXLdZkIXNHW+G7djrnjeHFuuk35VJYHL2CBr+m8MQamugJ0
+ dPLwKDzQ8CIQtbQ3r+lWDT6wU+PDbPoWKH+U3weceCjv1Zk7frq9Oof6rebS6tt/OMgc
+ MreQ==
+X-Gm-Message-State: AOAM533FT2Q4ukn0KugJTDQsZe4neJ5GISSNQX9/ruOGQ492YnOKKzOQ
+ TlMFMz5Y5OXJiyvc3Sf5rVqCHq/q3LnxwJnpTIhD1A==
+X-Google-Smtp-Source: ABdhPJyii/Hg2XBUoY0j/SHMQVp1nvX2XAIQVCV0CwVslnH48wCKqrawKz3ncK0eh6+iGT9W5uBU2Uwt1tQzPBgKXG4=
+X-Received: by 2002:a17:906:ce21:: with SMTP id
+ sd1mr9055656ejb.4.1602945560364; 
+ Sat, 17 Oct 2020 07:39:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAD14+f3G2f4QEK+AQaEjAG4syUOK-9bDagXa8D=RxdFWdoi5fQ@mail.gmail.com>
- <20201001085900.ms5ix2zyoid7v3ra@steredhat>
- <CAD14+f1m8Xk-VC1nyMh-X4BfWJgObb74_nExhO0VO3ezh_G2jA@mail.gmail.com>
- <20201002073457.jzkmefo5c65zlka7@steredhat>
- <CAD14+f0h4Vp=bsgpByTmaOU-Vbz6nnShDHg=0MSg4WO5ZyO=vA@mail.gmail.com>
- <05afcc49-5076-1368-3cc7-99abcf44847a@kernel.dk>
-In-Reply-To: <05afcc49-5076-1368-3cc7-99abcf44847a@kernel.dk>
-From: Ju Hyung Park <qkrwngud825@gmail.com>
-Date: Sat, 17 Oct 2020 23:29:16 +0900
-Message-ID: <CAD14+f0h-r7o=m0NvHxjCgKaQe24_MDupcDdSOu05PhXp8B1-w@mail.gmail.com>
-Subject: Re: io_uring possibly the culprit for qemu hang (linux-5.4.y)
-To: Jens Axboe <axboe@kernel.dk>
+References: <20201016155331.1613089-1-pbonzini@redhat.com>
+ <CAFEAcA_ZW2mq3ygzCjuphW2kkdOy4fcTzDObcyQTw0BJJgspZw@mail.gmail.com>
+ <ecd2b5bf-0c3c-fa58-ce4d-3d4d55274424@redhat.com>
+In-Reply-To: <ecd2b5bf-0c3c-fa58-ce4d-3d4d55274424@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 17 Oct 2020 15:39:08 +0100
+Message-ID: <CAFEAcA_HDoheozjRjcAKy3eEJ94cBgU29FDftMe2yn=SdMKHMA@mail.gmail.com>
+Subject: Re: [PULL v2 00/22] Build system + misc changes for 2020-10-16
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
- envelope-from=qkrwngud825@gmail.com; helo=mail-ua1-x92a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,25 +81,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, io-uring@vger.kernel.org,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jens.
+On Sat, 17 Oct 2020 at 14:38, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> OpenBSD and NetBSD call the ninja package "ninja-build" unlike FreeBSD.
+>  I'm sure I had used the right name but well I didn't.  I'll send a v3.
 
-On Sat, Oct 17, 2020 at 3:07 AM Jens Axboe <axboe@kernel.dk> wrote:
->
-> Would be great if you could try 5.4.71 and see if that helps for your
-> issue.
->
+OpenBSD built OK but meson produces this new warning:
 
-Oh wow, yeah it did fix the issue.
+Library iconv found: NO
+../src/meson.build:531: WARNING: iconv required for curses UI but not
+available, disabling
 
-I'm able to reliably turn off and start the VM multiple times in a row.
-Double checked by confirming QEMU is dynamically linked to liburing.so.1.
-
-Looks like those 4 io_uring fixes helped.
-
-Thanks!
+thanks
+-- PMM
 
