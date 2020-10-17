@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A0029122E
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:08:37 +0200 (CEST)
-Received: from localhost ([::1]:39830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A044F291238
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:11:00 +0200 (CEST)
+Received: from localhost ([::1]:48174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTmsu-0006oR-11
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36432)
+	id 1kTmvD-0001ss-Kd
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:10:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmne-0001WJ-SA
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:10 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38942)
+ id 1kTmnh-0001Xo-5I
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:18 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmna-0003hD-Qs
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:10 -0400
-Received: by mail-wr1-x431.google.com with SMTP id y12so6582122wrp.6
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:03:06 -0700 (PDT)
+ id 1kTmnf-0003hR-0L
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:12 -0400
+Received: by mail-wr1-x442.google.com with SMTP id g12so6552604wrp.10
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:03:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w+RNDLWj4IFLfK+eBwoAQeU4+ogED2fJwsKp3kpT+Og=;
- b=lhX/T6Bru4d0moFLuUF2q4LSoamJYEL5oNBJuvK0IxgRDUtHSVPxN6AJ0Bv4l22Qks
- xzJEqr2pha9/XVqVVrVWi8Hs+67hZcHWQUw5mjmWWvTYyvJYI8Ntl9CQNsggRghkr3P1
- ubWi1C8ear09/xBwpw1L/uG2Snkt7LKZbT7g+T3X/3C0lrQTynM7yeGGrzj+BUggViO+
- 4sEV7HyrGH74z67Au32UsqRXRlXXY7x6Lv8E/66MLcocGLWozxczlZ6x7xAoZOj3vUz6
- 62h3ybpTChNmvIIEVnhDyEV5ELR9G4f7xirn0wQNgRSYRlWsxA3KwWODqENhfKUx79Ih
- ilJA==
+ bh=NKriZfWZy7VDzuwNa8INVpQFiDmOp1zR9QaKdg51zCU=;
+ b=bmyZGF8rClLcePprRp0bTQA+NNBuA50BsV490rx1eKcKn3iTqvgHkI6OA2rFygCJRF
+ rr3rb998/1/mz7mtLX0RHX+jWfBBPkm8FKVTZWjXRlu2cnbLVVqKknT8kl7Cc4f3tefJ
+ iZq5czFGsuGDkICDKYEqG6EIiNUkx9rOAZcSlA2ft5KlsVvcyk6dfIBJzG6H2aH3PIzs
+ xF8Q1iSm9cPO9oC5XH1Esuxz35vFluJb0+SDRKe0xvr3IeFXHusAjNq774JhnE0/RnqJ
+ VyEuaQkVvY7AdBliS10D5nYqM56kqQEKHbYAK3o/OgLDVnJlUYJzsb3YPfbHKfxzesEc
+ k0Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=w+RNDLWj4IFLfK+eBwoAQeU4+ogED2fJwsKp3kpT+Og=;
- b=BWlk4ViLd+rBuaoFe96QMZtll73g6YNBHCF/wxrG8zw74/hq05B+Fz5Hv3yjd67gZj
- nCZdXhlLSWk24tpihoz4hvwAN5+NZWFO31zh1ipl/5GzojER76NkfUDRAaJum4KXJ/A5
- fUmru4PIsEdFVtHU3I/+thf68sNof8l+g6y4fVi2SVRUu7bhmiohYs1CEQxHw0zUCifa
- 6gbfnhOjCyMHiB0ym58q1lBnXl6OaY5MW53obhu9KsKX1qXRMjhlcLDRK0ZWXG+zPyXc
- XwPblI++Xhug+dABKN4vexiCSVjXp+m+H18iMt/TZ1LsWOAwDofahO4b/wtzQqpBYH79
- O/yA==
-X-Gm-Message-State: AOAM530P/icpvpZ3Ohg4/weZo/0rJ2Y0nEseSWRulfpxFOAXVdf6H/AI
- 8E15XA3NqXAQxW/lqnlHk6S856j/VFM=
-X-Google-Smtp-Source: ABdhPJxG5+l9hlcXnZrOemPyWR8o2wyYmK06a0XaqlKt/EeufscTUvpOWH0ZY346xWY67cemSmFizg==
-X-Received: by 2002:adf:e444:: with SMTP id t4mr10876914wrm.58.1602943384583; 
- Sat, 17 Oct 2020 07:03:04 -0700 (PDT)
+ bh=NKriZfWZy7VDzuwNa8INVpQFiDmOp1zR9QaKdg51zCU=;
+ b=nTQ0QCS9F5QrZb+oLunI7yniLBu0/hSBtjK0+Cy5Xpi2aPoLLcxRoUfYWzCeN4xlKJ
+ d2Fuluevugnb4AOcAWIgJuDCV8snqP8xlc47eGEGdIGccyJeNXT6XCX07JB5syQSEr1+
+ udWkNL0+6YGGJq2qzz30+osQk9zZBkzoCchMjLgmNjntuatVnT1LixiA4w7LaLDXEO9R
+ viTeXiYEm0fozKUkQpUkFTmFtEpM08kN82mAjRydVCG8CkkrVEXlnjz62nDQAABMwD41
+ ADjEkeqNp+dh0m8ssr/fyzQeAAr1ooX26Fmn/VSzWUBehp2nL2Ql9ghtUPjzK/16c6Gc
+ WGYg==
+X-Gm-Message-State: AOAM530q8LUTMln6En6GkNnj+kslsZC3n5JMY0b3Q/JFTPng8S7dQFoU
+ Y7uXRO3L7lYD7M8Wv04MZ2qOBjqEHk4=
+X-Google-Smtp-Source: ABdhPJytxIKlOBIIqZpZuAYMSpmIP34nE2JS6VexfJLbd1A3Qbn0WgttJR+JbJE5UM528ibPSyOWWg==
+X-Received: by 2002:adf:f7c1:: with SMTP id a1mr10459276wrq.399.1602943389522; 
+ Sat, 17 Oct 2020 07:03:09 -0700 (PDT)
 Received: from localhost.localdomain
  (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id f6sm8403768wru.50.2020.10.17.07.03.03
+ by smtp.gmail.com with ESMTPSA id 205sm7816168wme.38.2020.10.17.07.03.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 07:03:04 -0700 (PDT)
+ Sat, 17 Oct 2020 07:03:08 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/44] target/mips: Fix some comment spelling errors
-Date: Sat, 17 Oct 2020 16:02:03 +0200
-Message-Id: <20201017140243.1078718-5-f4bug@amsat.org>
+Subject: [PULL 05/44] target/mips: Demacro helpers for <ABS|CHS>.<D|S|PS>
+Date: Sat, 17 Oct 2020 16:02:04 +0200
+Message-Id: <20201017140243.1078718-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201017140243.1078718-1-f4bug@amsat.org>
 References: <20201017140243.1078718-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,105 +88,97 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Paul Burton <paulburton@kernel.org>, zhaolichang <zhaolichang@huawei.com>,
+ Paul Burton <paulburton@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- David Edmondson <david.edmondson@oracle.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: zhaolichang <zhaolichang@huawei.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 
-There are many spelling errors in the comments in target/mips/.
-Use spellcheck to check the spelling errors.
+Remove function definitions via macros to achieve better code clarity.
 
-Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201009064449.2336-7-zhaolichang@huawei.com>
+Message-Id: <1602103041-32017-2-git-send-email-aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h           |  2 +-
- target/mips/translate.c          | 10 +++++-----
- target/mips/translate_init.c.inc |  2 +-
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ target/mips/fpu_helper.c | 59 ++++++++++++++++++++++++++--------------
+ 1 file changed, 39 insertions(+), 20 deletions(-)
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 7f159a9230c..b811f547f38 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -188,7 +188,7 @@ static inline bool cpu_mips_hw_interrupts_pending(CPUMIPSState *env)
-         /*
-          * A MIPS configured with a vectorizing external interrupt controller
-          * will feed a vector into the Cause pending lines. The core treats
--         * the status lines as a vector level, not as indiviual masks.
-+         * the status lines as a vector level, not as individual masks.
-          */
-         r = pending > status;
-     } else {
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 398edf72898..b4d009078e0 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -3718,7 +3718,7 @@ static void gen_st_cond(DisasContext *ctx, int rt, int base, int offset,
+diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
+index 56beda49d82..f851723f22d 100644
+--- a/target/mips/fpu_helper.c
++++ b/target/mips/fpu_helper.c
+@@ -983,27 +983,46 @@ uint32_t helper_float_floor_2008_w_s(CPUMIPSState *env, uint32_t fst0)
+ }
  
-     t0 = tcg_temp_new();
-     addr = tcg_temp_new();
--    /* compare the address against that of the preceeding LL */
-+    /* compare the address against that of the preceding LL */
-     gen_base_offset_addr(ctx, addr, base, offset);
-     tcg_gen_brcond_tl(TCG_COND_EQ, addr, cpu_lladdr, l1);
-     tcg_temp_free(addr);
-@@ -25597,7 +25597,7 @@ static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
-         }
-         /* return resulting half-words to its original position */
-         tcg_gen_shri_i32(t0, t0, 16);
--        /* finaly update the destination */
-+        /* finally update the destination */
-         tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
+ /* unary operations, not modifying fp status  */
+-#define FLOAT_UNOP(name)                                       \
+-uint64_t helper_float_ ## name ## _d(uint64_t fdt0)                \
+-{                                                              \
+-    return float64_ ## name(fdt0);                             \
+-}                                                              \
+-uint32_t helper_float_ ## name ## _s(uint32_t fst0)                \
+-{                                                              \
+-    return float32_ ## name(fst0);                             \
+-}                                                              \
+-uint64_t helper_float_ ## name ## _ps(uint64_t fdt0)               \
+-{                                                              \
+-    uint32_t wt0;                                              \
+-    uint32_t wth0;                                             \
+-                                                               \
+-    wt0 = float32_ ## name(fdt0 & 0XFFFFFFFF);                 \
+-    wth0 = float32_ ## name(fdt0 >> 32);                       \
+-    return ((uint64_t)wth0 << 32) | wt0;                       \
++
++uint64_t helper_float_abs_d(uint64_t fdt0)
++{
++   return float64_abs(fdt0);
++}
++
++uint32_t helper_float_abs_s(uint32_t fst0)
++{
++    return float32_abs(fst0);
++}
++
++uint64_t helper_float_abs_ps(uint64_t fdt0)
++{
++    uint32_t wt0;
++    uint32_t wth0;
++
++    wt0 = float32_abs(fdt0 & 0XFFFFFFFF);
++    wth0 = float32_abs(fdt0 >> 32);
++    return ((uint64_t)wth0 << 32) | wt0;
++}
++
++uint64_t helper_float_chs_d(uint64_t fdt0)
++{
++   return float64_chs(fdt0);
++}
++
++uint32_t helper_float_chs_s(uint32_t fst0)
++{
++    return float32_chs(fst0);
++}
++
++uint64_t helper_float_chs_ps(uint64_t fdt0)
++{
++    uint32_t wt0;
++    uint32_t wth0;
++
++    wt0 = float32_chs(fdt0 & 0XFFFFFFFF);
++    wth0 = float32_chs(fdt0 >> 32);
++    return ((uint64_t)wth0 << 32) | wt0;
+ }
+-FLOAT_UNOP(abs)
+-FLOAT_UNOP(chs)
+-#undef FLOAT_UNOP
  
-         tcg_temp_free(t1);
-@@ -25633,7 +25633,7 @@ static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
-         }
-         /* return resulting half-words to its original position */
-         tcg_gen_shri_i32(t0, t0, 16);
--        /* finaly update the destination */
-+        /* finally update the destination */
-         tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
- 
-         tcg_temp_free(t1);
-@@ -25702,7 +25702,7 @@ static void gen_mxu_Q8MAX_Q8MIN(DisasContext *ctx)
-             }
-             /* return resulting byte to its original position */
-             tcg_gen_shri_i32(t0, t0, 8 * (3 - i));
--            /* finaly update the destination */
-+            /* finally update the destination */
-             tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
-         }
- 
-@@ -25742,7 +25742,7 @@ static void gen_mxu_Q8MAX_Q8MIN(DisasContext *ctx)
-             }
-             /* return resulting byte to its original position */
-             tcg_gen_shri_i32(t0, t0, 8 * (3 - i));
--            /* finaly update the destination */
-+            /* finally update the destination */
-             tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
-         }
- 
-diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
-index 637caccd890..c735b2bf667 100644
---- a/target/mips/translate_init.c.inc
-+++ b/target/mips/translate_init.c.inc
-@@ -995,7 +995,7 @@ static void mvp_init (CPUMIPSState *env, const mips_def_t *def)
- 
-     /* MVPConf1 implemented, TLB sharable, no gating storage support,
-        programmable cache partitioning implemented, number of allocatable
--       and sharable TLB entries, MVP has allocatable TCs, 2 VPEs
-+       and shareable TLB entries, MVP has allocatable TCs, 2 VPEs
-        implemented, 5 TCs implemented. */
-     env->mvp->CP0_MVPConf0 = (1U << CP0MVPC0_M) | (1 << CP0MVPC0_TLBS) |
-                              (0 << CP0MVPC0_GS) | (1 << CP0MVPC0_PCP) |
+ /* MIPS specific unary operations */
+ uint64_t helper_float_recip_d(CPUMIPSState *env, uint64_t fdt0)
 -- 
 2.26.2
 
