@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8EB629127B
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:38:59 +0200 (CEST)
-Received: from localhost ([::1]:50632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4808529127E
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:40:39 +0200 (CEST)
+Received: from localhost ([::1]:54752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTnMI-0005mN-RX
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37546)
+	id 1kTnNu-0007Wj-BW
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:40:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmqX-0005MG-Kh
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:09 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52835)
+ id 1kTmqc-0005Xw-Fq
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:14 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmqW-00048p-0B
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:09 -0400
-Received: by mail-wm1-x334.google.com with SMTP id e23so6142301wme.2
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:06:07 -0700 (PDT)
+ id 1kTmqa-000491-KH
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:14 -0400
+Received: by mail-wr1-x429.google.com with SMTP id y12so6588385wrp.6
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:06:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gN5fG1W2a6ABvVlFISLEsEnU3++HZ+v2I6FNfu0op4U=;
- b=d5diqqeFh0UWzD1oEGPFGSH0Vp0hsp93siVOISRezbTjupm2MDl/aOiNULYOztM0x8
- NLUx1EJkE1CIobTOmhdv1Zd6reVXZ0gqbgaKGnI2okhSyyHqsJFGHXClD5dOVfs6iaoP
- e/VJWs/dRaRGP7XYDqbmwLbg3Mqk/pn3CbwD5XWvMzECTkl+Ri9DGcBPgNkvgt9UOQko
- AFn0+kmKtqVl9DGaEOhi+Pb3kWlRZZfA/XmNEDIFFN/FZDwf2tGEHHU+RXAdpl03DylS
- bTwFR6Eh3gyWuxhIC47VvvARTwRd2WvEl7T877v7yUzP9l23wV7/Hh6TcwxWaF+mh7UD
- +8RA==
+ bh=7NPFG3sCe3Q0DWcvvpgh0QRrJIh4WkqraUDSbppp/5Q=;
+ b=BlVy2jYZOLpKi+x8pl78DPw4PuPFNK5Hr9hii+HYldLiagJTlC0DDGRy7zPWkJs6V3
+ ibVI2ftO1N+gt7++lwBGO/Q4pfFz67tJf8/1lom2sc9nmN+VSWw5pKqlYobRAqPoCO2K
+ +WMHc9bC2Ysxhl9FINkqzJcMZoZUqkPgzWrAAMgdenB0cxRJhNTKR/yGUFD1hvhdmxDG
+ tcPdZMtRE5YtTgG4SNrIlXrjLOmBCsX1oAduAOrBFBIgBG/66SrZXxEiwGuOkJtn1rlc
+ FntM/3Xcf2wYrC3zyqe54H7rernF6exXQpT96pyHzSEeWWDdx3obTfl+lAIv1F71RkMd
+ dXpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gN5fG1W2a6ABvVlFISLEsEnU3++HZ+v2I6FNfu0op4U=;
- b=Un7grveiFsQicSWQXTBtDoq9kw7HxdzsdjbWJSD2du9retRd0pMu9+grH5v2vhFUnb
- S1GKKGBPnRfaPb/QybSKbMbG+ryN281an563x8PFBwHVF6GfTd/RE1cNeLVr3tcz1M8w
- 80JD5GQnonOcJ3IhtZSUhsMM1qDbbGobg+Cv6woKo7votYz5G31/VoJIoVg5VLvZy3sm
- jlla85f7fVMgbpJkK1/J9infBfUjhob8mlHcN6VWLbh04w4t1NBWhEyMHNbsoqAEZJjl
- sL9qsAkUXUydSvjICwzb2A5hw6tDjUhpisYSdlX1bv3dlBYspUMadgOrokDPrOa7N9mv
- GCtA==
-X-Gm-Message-State: AOAM530qA68IdYLvVmIVN2yd/af+04NJo3S3uPFGhScFlGgc4s7P1C3K
- NZyS96nUWgPaB+Cdc0P2m+r53bBBlbI=
-X-Google-Smtp-Source: ABdhPJwGri4MKQExmjGpd06cO0csoTaEcETa7dJ3YVIlJrW+leo6QafUYzIIaCgC5+79Ae4JAFESiw==
-X-Received: by 2002:a1c:6788:: with SMTP id b130mr9265405wmc.91.1602943566495; 
- Sat, 17 Oct 2020 07:06:06 -0700 (PDT)
+ bh=7NPFG3sCe3Q0DWcvvpgh0QRrJIh4WkqraUDSbppp/5Q=;
+ b=FNYJM+nuBwtxij7IyEBgQ6vwuSwwBZOWhRQNuJ+QyRjiv+E2WrLX73AA05pUwZ59oD
+ Uwxg9Q0FjFdHAhN8ityhjkSCL2U5g8NpU4BOJojDyH9d10Dj2b80hjaw1YH46aFaHAiR
+ nvsmazOi0n9Wql/kVK9awl/JOxzDIT2MwINC9odehOwjYddGUbYhIP66cNbVf/sp1YEd
+ ikdAGyhtFMf1Ofo+Z24jqxAEl4QACzGFazmASky+jC/KtFfwQkuuiYL5x5rNDqb+TNvF
+ lrb52xKQUnT+SM8lvV8csVB3j4Mj8qrIKiP/39EkcQ7EGjJDlnlg7Oy00wA8n2Zujf45
+ zpOQ==
+X-Gm-Message-State: AOAM531hvFtUSqBMF3vbTJ7C5HdUJ54ZTdehGqvGdP0MajeqjlRhq8Kh
+ 9SHHkdhUvLYCXQLu77SfybVKW8rIx1s=
+X-Google-Smtp-Source: ABdhPJwvjfQ7VDOjq7eWWyfNjaZNjJPALCxXvEfbifxYhb2RhMAky8HIvmkfSnFx3t13BMNPBposZg==
+X-Received: by 2002:a5d:4051:: with SMTP id w17mr10218317wrp.24.1602943571161; 
+ Sat, 17 Oct 2020 07:06:11 -0700 (PDT)
 Received: from localhost.localdomain
  (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id c15sm3534613wmb.27.2020.10.17.07.06.05
+ by smtp.gmail.com with ESMTPSA id y5sm8845509wrw.52.2020.10.17.07.06.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 07:06:05 -0700 (PDT)
+ Sat, 17 Oct 2020 07:06:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/44] MAINTAINERS: Remove duplicated Malta test entries
-Date: Sat, 17 Oct 2020 16:02:42 +0200
-Message-Id: <20201017140243.1078718-44-f4bug@amsat.org>
+Subject: [PULL 44/44] target/mips: Increase number of TLB entries on the 34Kf
+ core (16 -> 64)
+Date: Sat, 17 Oct 2020 16:02:43 +0200
+Message-Id: <20201017140243.1078718-45-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201017140243.1078718-1-f4bug@amsat.org>
 References: <20201017140243.1078718-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,36 +89,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Paul Burton <paulburton@kernel.org>,
+ Victor Kamensky <kamensky@cisco.com>, Paul Burton <paulburton@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Thomas Huth <thuth@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Malta tests are already covered in the Malta section.
+Per "MIPS32 34K Processor Core Family Software User's Manual,
+Revision 01.13" page 8 in "Joint TLB (JTLB)" section:
 
+  "The JTLB is a fully associative TLB cache containing 16, 32,
+   or 64-dual-entries mapping up to 128 virtual pages to their
+   corresponding physical addresses."
+
+There is no particular reason to restrict the 34Kf core model to
+16 TLB entries, so raise its config to 64.
+
+This is helpful for other projects, in particular the Yocto Project:
+
+  Yocto Project uses qemu-system-mips 34Kf cpu model, to run 32bit
+  MIPS CI loop. It was observed that in this case CI test execution
+  time was almost twice longer than 64bit MIPS variant that runs
+  under MIPS64R2-generic model. It was investigated and concluded
+  that the difference in number of TLBs 16 in 34Kf case vs 64 in
+  MIPS64R2-generic is responsible for most of CI real time execution
+  difference. Because with 16 TLBs linux user-land trashes TLB more
+  and it needs to execute more instructions in TLB refill handler
+  calls, as result it runs much longer.
+
+(https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03428.html)
+
+Buglink: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
+Reported-by: Victor Kamensky <kamensky@cisco.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201013101659.3557154-3-f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20201016133317.553068-1-f4bug@amsat.org>
 ---
- MAINTAINERS | 2 --
- 1 file changed, 2 deletions(-)
+ target/mips/translate_init.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8770cd6d05a..a7f0acf8663 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -237,8 +237,6 @@ F: include/hw/intc/mips_gic.h
- F: include/hw/mips/
- F: include/hw/misc/mips_*
- F: include/hw/timer/mips_gictimer.h
--F: tests/acceptance/linux_ssh_mips_malta.py
--F: tests/acceptance/machine_mips_malta.py
- F: tests/tcg/mips/
- K: ^Subject:.*(?i)mips
- 
+diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
+index c735b2bf667..fb5a9b38e5d 100644
+--- a/target/mips/translate_init.c.inc
++++ b/target/mips/translate_init.c.inc
+@@ -254,7 +254,7 @@ const mips_def_t mips_defs[] =
+         .CP0_PRid = 0x00019500,
+         .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) |
+                        (MMU_TYPE_R4000 << CP0C0_MT),
+-        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (15 << CP0C1_MMU) |
++        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
+                        (0 << CP0C1_IS) | (3 << CP0C1_IL) | (1 << CP0C1_IA) |
+                        (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA) |
+                        (1 << CP0C1_CA),
 -- 
 2.26.2
 
