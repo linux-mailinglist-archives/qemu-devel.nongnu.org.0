@@ -2,90 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A97290EAA
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:04:57 +0200 (CEST)
-Received: from localhost ([::1]:53498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43979290EB0
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:14:18 +0200 (CEST)
+Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTdSh-0004zS-Vf
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39052)
+	id 1kTdbl-0002aB-9z
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:14:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jannh@google.com>) id 1kTdQy-0004Vx-KS
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:03:09 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:35356)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jannh@google.com>) id 1kTdQv-0004wB-SI
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:03:08 -0400
-Received: by mail-lj1-x244.google.com with SMTP id x16so4928788ljh.2
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 21:03:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uR2yRSoFIyQFa85ZmyTeQWbKesy0kogveF0JOmK3HCU=;
- b=G0aFMwnXL3XlqQtltqTo0eoChMRvdBPFzMoicowzO+xAY5WA7wnecLBujcLmZah0k/
- e5mpG2PgiCXI5UV6aPxyJHgp+ak3mHqsIwGNyATLAY9IpyytJ/yv/eUNLEx8n5Z8IWxM
- 5Ev81C4+GL/IiR5iIz/ra80OcP7ctuQ69Pj2L7/QrHYXrCEAAle4I31KIYWKOWdz7wXn
- M3HFOt505tL/bufF7RKhxyavqsmuktaYt6aLjMXM2bezAY35bwnHVGu6RsGL9aReXefA
- CUnwlpUOUePqMTfmrge6m16eiA1+eUvlxTaBEHUJphVGNMuBAicVc8kqC269vRlgE0G9
- pD+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uR2yRSoFIyQFa85ZmyTeQWbKesy0kogveF0JOmK3HCU=;
- b=LM/AuZf5G6KwJz0hR9ER7njcckcfe+UumSDsH6VHobvmy9eq0olL4qNgeefXTQaTBB
- Qr+BQtayVj8t8Y9ZGU4Qnd6ZHzPhDR+UlbqNBuPjTBKmAhs/apu92hgUFoMAC7GAoOYF
- raPIk6S1tjIxkK1c213A5iITMiu60/uvYItxIodyY9S9colhvP3MUaAqgHUgPB4+ZpVF
- imReSQn9/nL6jdu+ONu2El4syaxLFJWmC1rYy2JiCD5scmlslRssYF4wrpXr8U2yCsmm
- Jc1K69MBFW7Pl2WpdV2aiTXjCbyWgKZ4o3nE7amF9E9flitdTjE6B6FGQwBlBxa/2KwZ
- 9ktA==
-X-Gm-Message-State: AOAM530TwRfwMOb03E7UD1oxRjOCqxsBvFLiwGl8isFUZgY9ihZdoHnK
- OSwdlDx8oHq+uCJWMaqepAkDQde5uW72qBsgUBz6wg==
-X-Google-Smtp-Source: ABdhPJyWM+KuxWSKm+WZakQM1coYpvqzhvFBssVoo8yKJsSvLXOonodEkq1Mrj4Ytt2McNT6VBun6xj6Gc9/hPkEfDk=
-X-Received: by 2002:a2e:8816:: with SMTP id x22mr2543467ljh.377.1602907383409; 
- Fri, 16 Oct 2020 21:03:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kTdXe-0005rU-0G
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:02 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5180 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kTdXb-0007BK-8M
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:01 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 57EE39B658F523E323E6;
+ Sat, 17 Oct 2020 12:09:46 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Sat, 17 Oct 2020
+ 12:09:39 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH v3 00/18] Support Multifd for RDMA migration 
+Date: Sat, 17 Oct 2020 12:25:30 +0800
+Message-ID: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
- <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
- <20201017033606.GA14014@1wt.eu>
-In-Reply-To: <20201017033606.GA14014@1wt.eu>
-From: Jann Horn <jannh@google.com>
-Date: Sat, 17 Oct 2020 06:02:36 +0200
-Message-ID: <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
-Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
-To: Willy Tarreau <w@1wt.eu>
-Cc: "Catangiu, Adrian Costin" <acatan@amazon.com>,
- Andy Lutomirski <luto@kernel.org>, 
- Jason Donenfeld <Jason@zx2c4.com>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- Eric Biggers <ebiggers@kernel.org>, 
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>, 
- "Graf (AWS), Alexander" <graf@amazon.de>, "MacCarthaigh,
- Colm" <colmmacc@amazon.com>, 
- "Woodhouse, David" <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>,
- "Singh, Balbir" <sblbir@amazon.com>, 
- "Weiss, Radu" <raduweis@amazon.com>, "oridgar@gmail.com" <oridgar@gmail.com>, 
- "ghammer@redhat.com" <ghammer@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "mst@redhat.com" <mst@redhat.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>,
- Michal Hocko <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=jannh@google.com; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 00:09:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,85 +57,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, fengzhimin1@huawei.com,
+ qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com,
+ wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 17, 2020 at 5:36 AM Willy Tarreau <w@1wt.eu> wrote:
-> On Sat, Oct 17, 2020 at 03:40:08AM +0200, Jann Horn wrote:
-> > [adding some more people who are interested in RNG stuff: Andy, Jason,
-> > Theodore, Willy Tarreau, Eric Biggers. also linux-api@, because this
-> > concerns some pretty fundamental API stuff related to RNG usage]
-> >
-> > On Fri, Oct 16, 2020 at 4:33 PM Catangiu, Adrian Costin
-> > <acatan@amazon.com> wrote:
-> > > This patch is a driver which exposes the Virtual Machine Generation ID
-> > > via a char-dev FS interface that provides ID update sync and async
-> > > notification, retrieval and confirmation mechanisms:
-> > >
-> > > When the device is 'open()'ed a copy of the current vm UUID is
-> > > associated with the file handle. 'read()' operations block until the
-> > > associated UUID is no longer up to date - until HW vm gen id changes -
-> > > at which point the new UUID is provided/returned. Nonblocking 'read()'
-> > > uses EWOULDBLOCK to signal that there is no _new_ UUID available.
-> > >
-> > > 'poll()' is implemented to allow polling for UUID updates. Such
-> > > updates result in 'EPOLLIN' events.
-> > >
-> > > Subsequent read()s following a UUID update no longer block, but return
-> > > the updated UUID. The application needs to acknowledge the UUID update
-> > > by confirming it through a 'write()'.
-> > > Only on writing back to the driver the right/latest UUID, will the
-> > > driver mark this "watcher" as up to date and remove EPOLLIN status.
-> > >
-> > > 'mmap()' support allows mapping a single read-only shared page which
-> > > will always contain the latest UUID value at offset 0.
-> >
-> > It would be nicer if that page just contained an incrementing counter,
-> > instead of a UUID. It's not like the application cares *what* the UUID
-> > changed to, just that it *did* change and all RNGs state now needs to
-> > be reseeded from the kernel, right? And an application can't reliably
-> > read the entire UUID from the memory mapping anyway, because the VM
-> > might be forked in the middle.
-> >
-> > So I think your kernel driver should detect UUID changes and then turn
-> > those into a monotonically incrementing counter. (Probably 64 bits
-> > wide?) (That's probably also a little bit faster than comparing an
-> > entire UUID.)
->
-> I agree with this. Further, I'm observing there is a very common
-> confusion between "universally unique" and "random". Randoms are
-> needed when seeking unpredictability. A random number generator
-> *must* be able to return the same value multiple times in a row
-> (though this is rare), otherwise it's not random.
-[...]
-> If the UUIDs used there are real UUIDs, it could be as simple as
-> updating them according to their format, i.e. updating the timestamp,
-> and if the timestamp is already the same, just increase the seq counter.
-> Doing this doesn't require entropy, doesn't need to block and doesn't
-> needlessly leak randoms that sometimes make people feel nervous.
+Now I continue to support multifd for RDMA migration based on my colleague
+zhiming's work:)
 
-Those UUIDs are supplied by existing hypervisor code; in that regard,
-this is almost like a driver for a hardware device. It is written
-against a fixed API provided by the underlying machine. Making sure
-that the sequence of UUIDs, as seen from inside the machine, never
-changes back to a previous one is the responsibility of the hypervisor
-and out of scope for this driver.
+The previous RFC patches is listed below:
+v1:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg669455.html
+v2:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg679188.html
 
-Microsoft's spec document (which is a .docx file for reasons I don't
-understand) actually promises us that it is a cryptographically random
-128-bit integer value, which means that if you fork a VM 2^64 times,
-the probability that any two of those VMs have the same counter is
-2^-64. That should be good enough.
+As descried in previous RFC, the RDMA bandwidth is not fully utilized for
+over 25Gigabit NIC because of single channel for RDMA migration.
+This patch series is going to support multifd for RDMA migration based on
+multifd framework.
 
-But in userspace, we just need a simple counter. There's no need for
-us to worry about anything else, like timestamps or whatever. If we
-repeatedly fork a paused VM, the forked VMs will see the same counter
-value, but that's totally fine, because the only thing that matters to
-userspace is that the counter changes when the VM is forked.
+Comparsion is between origion and multifd RDMA migration is re-tested for v3.
+The VM specifications for migration are as follows:
+- VM use 4k page;
+- the number of VCPU is 4;
+- the total memory is 16Gigabit;
+- use 'mempress' tool to pressurize VM(mempress 8000 500);
+- use 25Gigabit network card to migrate;
 
-And actually, since the value is a cryptographically random 128-bit
-value, I think that we should definitely use it to help reseed the
-kernel's RNG, and keep it secret from userspace. That way, even if the
-VM image is public, we can ensure that going forward, the kernel RNG
-will return securely random data.
+For origin RDMA and MultiRDMA migration, the total migration times of
+VM are as follows:
++++++++++++++++++++++++++++++++++++++++++++++++++
+|             | NOT rdma-pin-all | rdma-pin-all |
++++++++++++++++++++++++++++++++++++++++++++++++++
+| origin RDMA |       26 s       |     29 s     |
+-------------------------------------------------
+|  MultiRDMA  |       16 s       |     17 s     |
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Test the multifd RDMA migration like this:
+virsh migrate --live --multiFd --migrateuri
+rdma://192.168.1.100 [VM] --listen-address 0.0.0.0  qemu+tcp://192.168.1.100/system --verbose
+
+v2 -> v3:
+    create multifd ops for both tcp and rdma
+    do not export rdma to avoid multifd code in mess
+    fix build issue for non-rdma
+    fix some codestyle and buggy code
+
+Chuan Zheng (18):
+  migration/rdma: add the 'migrate_use_rdma_pin_all' function
+  migration/rdma: judge whether or not the RDMA is used for migration
+  migration/rdma: create multifd_setup_ops for Tx/Rx thread
+  migration/rdma: add multifd_setup_ops for rdma
+  migration/rdma: do not need sync main for rdma
+  migration/rdma: export MultiFDSendParams/MultiFDRecvParams
+  migration/rdma: add rdma field into multifd send/recv param
+  migration/rdma: export getQIOChannel to get QIOchannel in rdma
+  migration/rdma: add multifd_rdma_load_setup() to setup multifd rdma
+  migration/rdma: Create the multifd recv channels for RDMA
+  migration/rdma: record host_port for multifd RDMA
+  migration/rdma: Create the multifd send channels for RDMA
+  migration/rdma: Add the function for dynamic page registration
+  migration/rdma: register memory for multifd RDMA channels
+  migration/rdma: only register the memory for multifd channels
+  migration/rdma: add rdma_channel into Migrationstate field
+  migration/rdma: send data for both rdma-pin-all and NOT rdma-pin-all
+    mode
+  migration/rdma: RDMA cleanup for multifd migration
+
+ migration/migration.c |  24 +++
+ migration/migration.h |  11 ++
+ migration/multifd.c   |  97 +++++++++-
+ migration/multifd.h   |  24 +++
+ migration/qemu-file.c |   5 +
+ migration/qemu-file.h |   1 +
+ migration/rdma.c      | 503 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 7 files changed, 653 insertions(+), 12 deletions(-)
+
+-- 
+1.8.3.1
+
 
