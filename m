@@ -2,90 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AF529135B
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 19:52:46 +0200 (CEST)
-Received: from localhost ([::1]:42902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91536291377
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 20:11:11 +0200 (CEST)
+Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTqNp-0004AD-6R
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 13:52:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40392)
+	id 1kTqfe-0002j5-Jk
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 14:11:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTqMq-0003je-5g
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 13:51:44 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42015)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTqMn-0003Kc-Hi
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 13:51:43 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j7so2863098wrt.9
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 10:51:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=G4XuQcb/CQfDws+C5XF2wYMQNXWW3jnVCRDKvuS7Y20=;
- b=pceAxWy8DwfY1ulbZxslp5FSUNqAFTCcc0f0EmxgI6n/PcwTOFpgNT/rCuQVmz29/1
- i/V3tBwEDi6ZSPYiVQMzDWhCln92UKC5fXcNz0RDVuTOqHRj954TZqAy67/9bO0UWfej
- Nhxf5hMiORtUah9++pQRuBKE6yRSH9Hi2tDYGgeC9/2LVaN7CC3C+LHHBUNbFE6ETTrT
- on4Q55Okrt6NN8a7AHXF+kHmR9uVmR69RuAz3jxevH47kSENNBP9e/xxtzSYWI+rVCYO
- hZ2ewOoSy5BNkf2kkWm0/K3QZ3rirbl1/0ZdiuBtiVCpw6lxheiyAgNqenrxfELHbUO0
- UZag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=G4XuQcb/CQfDws+C5XF2wYMQNXWW3jnVCRDKvuS7Y20=;
- b=j5YYYfJ7fuoSWpBxKWf8LcN3MZBhR/CnAssJ3sZfaAL25+8C43SixVNH+udbeZdevg
- 3y7ceYrH21tXhQVkHLPgA8orEEoCB2c3yDU6dKMEteB679SrYb24UzNeoYhCOPlVs1lR
- UENfFMYQyUJnR+Hpswq/s+Z6yF3DmnBJJKBY/rbgpTEup/miwQQQWsQHrLBuy6MEKEeV
- s8SUbFfP5y10rxKFGUpuy70xXJZv9VWPPrAv3+I2kzWWLQ++VERVyx5lc5CjzKIBWQK+
- 6pClKuO8TRWMIo1ZoFXhax1h7gsxY2XtGNGMb1FsWpYVn6FkJciukoULBvjcEJLrIDY2
- CAzg==
-X-Gm-Message-State: AOAM531m4wcTUobWuxVCBCG1CPGF/UO+JQBn3z9pFXv/lDEyIidWi1pN
- WvC5AuyAYYhrrnm08zrEaGg=
-X-Google-Smtp-Source: ABdhPJxZJOH5kXVUCLoYa7mdg3p0bxLBCEegnY7b/g4CrqqBZBTZResVRfwELX7tAUFMb0Fr64VN3w==
-X-Received: by 2002:adf:a501:: with SMTP id i1mr10751948wrb.162.1602957099704; 
- Sat, 17 Oct 2020 10:51:39 -0700 (PDT)
-Received: from [192.168.1.36] (117.red-83-52-172.dynamicip.rima-tde.net.
- [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id 10sm8191188wmn.9.2020.10.17.10.51.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Oct 2020 10:51:38 -0700 (PDT)
-Subject: Re: [PULL 25/33] tests/acceptance: Add a test for the N800 and N810
- arm machines
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200228163840.23585-1-peter.maydell@linaro.org>
- <20200228163840.23585-26-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a049110f-b7cb-52bd-de77-6e1193b5b6de@amsat.org>
-Date: Sat, 17 Oct 2020 19:51:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <20200228163840.23585-26-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <prvs=552bcb7ef=acatan@amazon.com>)
+ id 1kTqbI-00087Y-58
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 14:06:44 -0400
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:28586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=552bcb7ef=acatan@amazon.com>)
+ id 1kTqbF-0004xy-Fj
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 14:06:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1602957997; x=1634493997;
+ h=from:to:cc:date:message-id:references:in-reply-to:
+ content-id:mime-version:content-transfer-encoding:subject;
+ bh=zWCcIWQD6xGx9ejw97Me0zftznbDXo04u09ZpNKNrPk=;
+ b=JJPvwlS5ESfJs1lpu2i0AhIF8dNxsZeNzdqsV2BqMeQJ56zNxBIKvxe+
+ ip60B1RzLtp8Nr87bV0CXeefDskzGh91csMzWhdXeS4nz/MWCZNXels/O
+ 2QOH/S3tqd1PuUZqd/bWk29n6BrlxS/w5Yk3LweEtqz3rxPhtzvLvKD3D 4=;
+X-IronPort-AV: E=Sophos;i="5.77,387,1596499200"; d="scan'208";a="85548146"
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+Thread-Topic: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
+ email-inbound-relay-2a-41350382.us-west-2.amazon.com) ([10.47.23.38])
+ by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP;
+ 17 Oct 2020 18:06:28 +0000
+Received: from EX13D07EUB003.ant.amazon.com
+ (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
+ by email-inbound-relay-2a-41350382.us-west-2.amazon.com (Postfix) with ESMTPS
+ id 0EFFDC2A21; Sat, 17 Oct 2020 18:06:26 +0000 (UTC)
+Received: from EX13D08EUB004.ant.amazon.com (10.43.166.158) by
+ EX13D07EUB003.ant.amazon.com (10.43.166.173) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Sat, 17 Oct 2020 18:06:25 +0000
+Received: from EX13D08EUB004.ant.amazon.com ([10.43.166.158]) by
+ EX13D08EUB004.ant.amazon.com ([10.43.166.158]) with mapi id 15.00.1497.006;
+ Sat, 17 Oct 2020 18:06:25 +0000
+From: "Catangiu, Adrian Costin" <acatan@amazon.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, Jann Horn <jannh@google.com>
+CC: Willy Tarreau <w@1wt.eu>, "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+ "Andy Lutomirski" <luto@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
+ "Eric Biggers" <ebiggers@kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ "Graf (AWS), Alexander" <graf@amazon.de>, "Woodhouse, David"
+ <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>, "Singh, Balbir"
+ <sblbir@amazon.com>, "Weiss, Radu" <raduweis@amazon.com>, "oridgar@gmail.com"
+ <oridgar@gmail.com>, "ghammer@redhat.com" <ghammer@redhat.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers
+ <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, Michal Hocko
+ <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek
+ <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>
+Thread-Index: AQHWo8lIfZnFKGe8nkGmhTCXwq5R36mbBVEAgAAgZgCAAAdoAIAACOIAgAAHlICAAAn4AIAABFwAgAAOgACAAAMJAIAAbJEAgACBKAA=
+Date: Sat, 17 Oct 2020 18:06:25 +0000
+Message-ID: <76FF304F-C828-46CB-B82B-0948D4E927F5@amazon.com>
+References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
+ <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
+ <20201017033606.GA14014@1wt.eu>
+ <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
+ <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com>
+ <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+ <20201017053712.GA14105@1wt.eu>
+ <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+ <20201017064442.GA14117@1wt.eu>
+ <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
+ <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com>
+In-Reply-To: <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.247,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.164.242]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <54388C129E88694AB95901884CDE5626@amazon.com>
+MIME-Version: 1.0
+Precedence: Bulk
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=207.171.184.29;
+ envelope-from=prvs=552bcb7ef=acatan@amazon.com; helo=smtp-fw-9102.amazon.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 14:06:34
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -145
+X-Spam_score: -14.6
+X-Spam_bar: --------------
+X-Spam_report: (-14.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,108 +114,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter, Igor, Thomas,
+ICAgIEFmdGVyIGRpc2N1c3NpbmcgdGhpcyBvZmZsaW5lIHdpdGggSmFubiBhIGJpdCwgSSBoYXZl
+IGEgZmV3IGdlbmVyYWwNCiAgICBjb21tZW50cyBvbiB0aGUgZGVzaWduIG9mIHRoaXMuIA0KICAg
+IEZpcnN0LCB0aGUgVVVJRCBjb21tdW5pY2F0ZWQgYnkgdGhlIGh5cGVydmlzb3Igc2hvdWxkIGJl
+IGNvbnN1bWVkIGJ5DQogICAgdGhlIGtlcm5lbCAtLSBhZGRlZCBhcyBhbm90aGVyIGlucHV0IHRv
+IHRoZSBybmcgLS0gYW5kIHRoZW4gdXNlcnNwYWNlDQogICAgc2hvdWxkIGJlIG5vdGlmaWVkIHRo
+YXQgaXQgc2hvdWxkIHJlc2VlZCBhbnkgdXNlcnNwYWNlIFJOR3MgdGhhdCBpdA0KICAgIG1heSBo
+YXZlLCB3aXRob3V0IGFjdHVhbGx5IGNvbW11bmljYXRpbmcgdGhhdCBVVUlEIHRvIHVzZXJzcGFj
+ZS4gSU9XLA0KICAgIEkgYWdyZWUgd2l0aCBKYW5uIHRoZXJlLiBUaGVuLCBpdCdzIHRoZSBmdW5j
+dGlvbmluZyBvZiB0aGlzDQogICAgbm90aWZpY2F0aW9uIG1lY2hhbmlzbSB0byB1c2Vyc3BhY2Ug
+dGhhdCBpcyBpbnRlcmVzdGluZyB0byBtZS4NCg0KQWdyZWVkISBUaGUgVVVJRC92bWdlbmlkIGlz
+IHRoZSBnbHVlIHRvIHRoZSBoeXBlcnZpc29yIHRvIGJlIGFibGUgdG8gZmluZCANCm91dCBhYm91
+dCBWTSBzbmFwc2hvdHMvZm9ya3MuIFRoZSByZWFsbHkgaW50ZXJlc3RpbmcgKGFuZCBpbXBvcnRh
+bnQpIHRvcGljDQpoZXJlIGlzIGZpbmRpbmcgdGhlIHJpZ2h0IG5vdGlmaWNhdGlvbiBtZWNoYW5p
+c20gdG8gdXNlcnNwYWNlLg0KDQouLi5JbiByZXRyb3NwZWN0LCBJIHNob3VsZCBoYXZlIHBvc3Rl
+ZCB0aGlzIGFzIFJGQyBpbnN0ZWFkIG9mIFBBVENILg0KICAgIA0KICAgIFNvLCBhbnl3YXksIGhl
+cmUgYXJlIGEgZmV3IG9wdGlvbnMgd2l0aCBzb21lIHByb3MgYW5kIGNvbnMgZm9yIHRoZQ0KICAg
+IGtlcm5lbCBub3RpZnlpbmcgdXNlcnNwYWNlIHRoYXQgaXRzIFJORyBzaG91bGQgcmVzZWVkLg0K
+ICAgIDEuIFNJR1JORCAtIGEgbmV3IHNpZ25hbC4gTG9sLg0KICAgIDIuIFVzZXJzcGFjZSBvcGVu
+cyBhIGZpbGUgZGVzY3JpcHRvciB0aGF0IGl0IGNhbiBlcG9sbCBvbi4gUHJvcyBhcmUNCiAgICB0
+aGF0IG1hbnkgbm90aWZpY2F0aW9uIG1lY2hhbmlzbXMgYWxyZWFkeSB1c2UgdGhpcy4gQ29ucyBp
+cyB0aGF0IHRoaXMNCiAgICByZXF1aXJlcyBzeXNjYWxsIGFuZCBtaWdodCBiZSBtb3JlIHJhY3kg
+dGhhbiB3ZSB3YW50LiBBbm90aGVyIGNvbiBpcw0KICAgIHRoYXQgdGhpcyBhIG5ldyB0aGluZyBm
+b3IgdXNlcnNwYWNlIHByb2dyYW1zIHRvIGRvLg0KICAgIDMuIFdlIHN0aWNrIGFuIGF0b21pYyBj
+b3VudGVyIGluIHRoZSB2RFNPLCBKYW5uJ3Mgc3VnZ2VzdGlvbi4gUHJvcyBhcmUNCiAgICB0aGF0
+IHRoaXMgaXMgZXh0cmVtZWx5IGZhc3QsIGFuZCBhbHNvIHNpbXBsZSB0byB1c2UgYW5kIGltcGxl
+bWVudC4NCiAgICBUaGVyZSBhcmUgZW5vdWdoIHNlcXVlbmNlIHBvaW50cyBpbiB0eXBpY2FsIGNy
+eXB0byBwcm9ncmFtcyB0aGF0DQogICAgY2hlY2tpbmcgdG8gc2VlIHdoZXRoZXIgdGhpcyBjb3Vu
+dGVyIGhhcyBjaGFuZ2VkIGJlZm9yZSBkb2luZyB3aGF0ZXZlcg0KICAgIG9wZXJhdGlvbiBzZWVt
+cyBlYXN5IGVub3VnaC4gQ29ucyBhcmUgdGhhdCB0eXBpY2FsbHkgd2UndmUgYmVlbg0KICAgIGNv
+bnNlcnZhdGl2ZSBhYm91dCBhZGRpbmcgdGhpbmdzIHRvIHRoZSB2RFNPLCBhbmQgdGhpcyBpcyBh
+bHNvIGEgbmV3DQogICAgdGhpbmcgZm9yIHVzZXJzcGFjZSBwcm9ncmFtcyB0byBkby4NCg0KRm9y
+IGVhY2ggMSwgMiwgYW5kIDMgb3B0aW9ucywgdXNlcnNwYWNlIHByb2dyYW1zIF9oYXZlIHRvIGRv
+IHNtdGggbmV3Xw0KYW55d2F5LCBzbyBJIHdvdWxkbid0IHdlaWdoIHRoYXQgYXMgYSBjb24uDQoN
+CkFuIGF0b21pYyBjb3VudGVyIGluIHRoZSB2RFNPIGxvb2tzIGxpa2UgdGhlIG1vc3QgYmFuZyBm
+b3IgdGhlIGJ1Y2sgdG8gbWUuDQpJJ20gcmVhbGx5IGN1cmlvdXMgdG8gaGVhciBtb3JlIG9waW5p
+b25zIG9uIHdoeSB3ZSBzaG91bGRuJ3QgZG8gaXQuDQogICAgDQogICAgNC4gV2UgYWxyZWFkeSBo
+YXZlIGEgbWVjaGFuaXNtIGZvciB0aGlzIGtpbmQgb2YgdGhpbmcsIGJlY2F1c2UgdGhlDQogICAg
+c2FtZSBpc3N1ZSBjb21lcyB1cCB3aGVuIGZvcmsoKWluZy4gVGhlIHNvbHV0aW9uIHdhcyBNQURW
+X1dJUEVPTkZPUkssDQogICAgd2hlcmUgdXNlcnNwYWNlIG1hcmtzIGEgcGFnZSB0byBiZSB6ZXJv
+ZWQgd2hlbiBmb3JraW5nLCBmb3IgdGhlDQogICAgcHVycG9zZXMgb2YgdGhlIFJORyBiZWluZyBu
+b3RpZmllZCB3aGVuIGl0cyB3b3JsZCBnZXRzIHNwbGl0IGluIHR3by4NCiAgICBUaGlzIGlzIGJh
+c2ljYWxseSB0aGUgc2FtZSB0aGluZyBhcyB3ZSdyZSBkaXNjdXNzaW5nIGhlcmUgd2l0aCBndWVz
+dA0KICAgIHNuYXBzaG90cywgZXhjZXB0IGl0J3Mgb24gdGhlIHN5c3RlbSBsZXZlbCByYXRoZXIg
+dGhhbiB0aGUgcHJvY2Vzcw0KICAgIGxldmVsLCBhbmQgYSBzeXN0ZW0gaGFzIG1hbnkgcHJvY2Vz
+c2VzLiBCdXQgdGhlIHByb2JsZW0gc3BhY2UgaXMgc3RpbGwNCiAgICBhbG1vc3QgdGhlIHNhbWUs
+IGFuZCB3ZSBjb3VsZCBzaW1wbHkgcmV1c2UgdGhhdCBzYW1lIG1lY2hhbmlzbS4gVGhlcmUNCiAg
+ICBhcmUgYSBmZXcgaW1wbGVtZW50YXRpb24gc3RyYXRlZ2llcyBmb3IgdGhhdDoNCg0KSSBkb24n
+dCB0aGluayB3ZSBjYW4gcGlnZ3kgYmFjayBvbiBNQURWX1dJUEVPTkZPUksuIFRoYXQgbWFkdmlz
+ZSBmbGFnDQpoYXMgYSBjbGVhciBjb250cmFjdCBvZiBvbmx5IHdpcGluZyBfb24gZm9ya18uIE92
+ZXJsb2FkaW5nIGl0IHdpdGggd2lwaW5nDQpvbiBWTS1mb3JrIC0gd2hpbGUgcHJvY2VzcyBkb2Vz
+bid0IGZvcmsgLSBtaWdodCBicmVhayBzb21lIG9mIGl0cyB1c2Vycy4NCiAgICANCiAgICA0YS4g
+V2UgbWVzcyB3aXRoIHRoZSBQVEVzIG9mIGFsbCBwcm9jZXNzZXMnIHBhZ2VzIHRoYXQgYXJlDQog
+ICAgTUFEVl9XSVBFT05GT1JLLCBsaWtlIGZvcmsgZG9lcyBub3csIHdoZW4gdGhlIGh5cGVydmlz
+b3Igbm90aWZpZXMgdXMNCiAgICB0byBkbyBzby4gVGhlbiB3ZSB3aW5kIHVwIHJldXNpbmcgdGhl
+IGFscmVhZHkgZXhpc3RpbmcgbG9naWMgZm9yDQogICAgdXNlcnNwYWNlIFJOR3MuIENvbnMgbWln
+aHQgYmUgdGhhdCB0aGlzIHVzdWFsbHkgcmVxdWlyZXMgc2VtYXBob3JlcywNCiAgICBhbmQgd2Un
+cmUgaW4gaXJxIGNvbnRleHQsIHNvIHdlJ2QgaGF2ZSB0byBob2lzdCB0byBhIHdvcmtxdWV1ZSwg
+d2hpY2gNCiAgICBtZWFucyBlaXRoZXIgbW9yZSB3YWtlIHVwIGxhdGVuY3ksIG9yIGEgbGFyZ2Vy
+IHJhY2Ugd2luZG93Lg0KICAgIDRiLiBXZSBqdXN0IG1lbXplcm8gYWxsIHByb2Nlc3NlcycgcGFn
+ZXMgdGhhdCBhcmUgTUFEVl9XSVBFT05GT1JLLA0KICAgIHdoZW4gdGhlIGh5cGVydmlzb3Igbm90
+aWZpZXMgdXMgdG8gZG8gc28uIFRoZW4gd2Ugd2luZCB1cCByZXVzaW5nIHRoZQ0KICAgIGFscmVh
+ZHkgZXhpc3RpbmcgbG9naWMgZm9yIHVzZXJzcGFjZSBSTkdzLg0KICAgIDRjLiBUaGUgZ3Vlc3Qg
+a2VybmVsIG1haW50YWlucyBhbiBhcnJheSBvZiBwaHlzaWNhbCBhZGRyZXNzZXMgdGhhdCBhcmUN
+CiAgICBNQURWX1dJUEVPTkZPUksuIFRoZSBoeXBlcnZpc29yIGtub3dzIGFib3V0IHRoaXMgYXJy
+YXkgYW5kIGl0cw0KICAgIGxvY2F0aW9uIHRocm91Z2ggd2hhdGV2ZXIgcHJvdG9jb2wsIGFuZCBi
+ZWZvcmUgcmVzdW1pbmcgYQ0KICAgIG1vdmVkL3NuYXBzaG90dGVkL2R1cGxpY2F0ZWQgVk0sIGl0
+IHRha2VzIHRoZSByZXNwb25zaWJpbGl0eSBmb3INCiAgICBtZW16ZXJvaW5nIHRoaXMgbWVtb3J5
+LiBUaGUgaHVnZSBwcm8gaGVyZSB3b3VsZCBiZSB0aGF0IHRoaXMNCiAgICBlbGltaW5hdGVzIGFs
+bCByYWNlcywgYW5kIHJlZHVjZXMgY29tcGxleGl0eSBxdWl0ZSBhIGJpdCwgYmVjYXVzZSB0aGUN
+CiAgICBoeXBlcnZpc29yIGNhbiBwZXJmZWN0bHkgc3luY2hyb25pemUgaXRzIGJyaW5ndXAgKGFu
+ZCBTTVAgYnJpbmd1cCkNCiAgICB3aXRoIHRoaXMsIGFuZCBpdCBjYW4gZXZlbiBvcHRpbWl6ZSB0
+aGluZ3MgbGlrZSBvbi1kaXNrIG1lbW9yeQ0KICAgIHNuYXBzaG90cyB0byBzaW1wbHkgbm90IHdy
+aXRlIG91dCB0aG9zZSBwYWdlcyB0byBkaXNrLg0KDQpJJ3ZlIHByZXZpb3VzbHkgcHJvcG9zZWQg
+YSBwYXRoIHNpbWlsYXIgKGluIGNvbmNlcHQgYXQgbGVhc3QpIHdpdGggYSBjb21iaW5hdGlvbg0K
+b2YgNCBhLGIgYW5kIGMgLSBodHRwczovL2x3bi5uZXQvbWwvbGludXgtbW0vQjc3OTNCN0EtMzY2
+MC00NzY5LTlCOUEtRkZDRjI1MDcyOEJCQGFtYXpvbi5jb20vDQp3aXRob3V0IHJldXNpbmcgTUFE
+Vl9XSVBFT05GT1JLLCBidXQgYnkgYWRkaW5nIGEgZGVkaWNhdGVkDQpNQURWX1dJUEVPTlNVU1BF
+TkQuDQoNClRoYXQgcHJvcG9zYWwgd2FzIGNsdW5reSBob3dldmVyIHdpdGggbWFueSBwZW9wbGUg
+cmFpc2luZyBjb25jZXJucyBhcm91bmQNCmhvdyB0aGUgaW50ZXJmYWNlIGlzIHRvbyBzdWJ0bGUg
+YW5kIGhhcmQgdG8gd29yayB3aXRoLg0KDQpBIHZtZ2VuaWQgZHJpdmVyIG9mZmVyaW5nIGEgY2xl
+YW4gRlMgaW50ZXJmYWNlIHNlZW1lZCBjbGVhbmVyLCBhbHRob3VnaCwgbGlrZQ0Kc29tZSBvZiB5
+b3Ugb2JzZXJ2ZWQsIGl0IHN0aWxsIGFsbG93cyBhIHdpbmRvdyBvZiB0aW1lIGJldHdlZW4gYWN0
+dWFsIFZNIGZvcmsNCmFuZCB1c2Vyc3BhY2UgaGFuZGxpbmcgb2YgdGhlIGV2ZW50Lg0KDQpPbmUg
+b3RoZXIgZGlyZWN0aW9uIHRoYXQgSSB3b3VsZCBsaWtlIHRvIGV4cGxvcmUgYW5kIEkgZmVlbCBp
+dOKAmXMgc2ltaWxhciB0byB5b3VyIDRjDQpwcm9wb3NhbCBpcyB0byBkbyBzbXRoIGxpa2U6DQoi
+bW06IGV4dGVuZCBtZW1mZCB3aXRoIGFiaWxpdHkgdG8gY3JlYXRlICdzZWNyZXQnIG1lbW9yeSIN
+Cmh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51eC1tbS9wYXRjaC8yMDIw
+MDEzMDE2MjM0MC5HQTE0MjMyQHJhcG9wb3J0LWxueC8NCg0KTWF5YmUgd2UgY2FuIGNvbWJpbmUg
+aWRlYXMgZnJvbSB0aGUgdHdvIHBhdGNoZXMgaW4gc210aCBsaWtlOiBpbnN0ZWFkIG9mIGxpYnMN
+CnVzaW5nIGFub24gbWVtIHdpdGggTUFEVl9XSVBFT05TVVNQRU5ELCB0aGV5IGNhbiB1c2UgYSBz
+ZWNyZXRfbWVtX2ZkDQp3aXRoIGEgKHNlY3JldG1lbSBzcGVjaWZpYykgV0lQRU9OU1VTUEVORCBm
+bGFnOyB0aGVuIGluc3RlYWQgb2YgY3Jhd2xpbmcNClBURXMgaW4gdGhlIGNvcmUgUE0gY29kZSBs
+b29raW5nIGZvciBNQURWX1dJUEVPTlNVU1BFTkQgbWFwcGluZ3MsDQp3ZSBjYW4gcmVnaXN0ZXIg
+dGhpcyBzZWNyZXRtZW0gZGV2aWNlIHRvIHdpcGUgaXRzIG93biBzZWNyZXRzIGR1cmluZyBhIHBt
+IGNhbGxiYWNrLg0KDQpGcm9tIGEgY3J5cHRvIHNhZmV0eSBwb3YsIHRoZSBpZGVhbCBzb2x1dGlv
+biB3b3VsZCBiZSBvbmUgd2hlcmUgd2lwaW5nIGhhcHBlbnMNCmJlZm9yZSBvciBkdXJpbmcgVk0g
+Zm9ya3MsIG5vdCBhZnRlci4NCkhhdmluZyBzYWlkIHRoYXQsIEkgdGhpbmsgYSB2RFNPICh1cGRh
+dGVkIGJ5IHRoZSBndWVzdCBrZXJuZWwgX2FmdGVyXyBWTSBmb3JrKSBzdGlsbA0KY2xvc2VzIHRo
+YXQgZ2FwIGVub3VnaCB0byBiZSBwcmFjdGljYWxseSBzYWZlLg0KDQpUaGFua3MsDQpBZHJpYW4u
+DQoNCgoKCkFtYXpvbiBEZXZlbG9wbWVudCBDZW50ZXIgKFJvbWFuaWEpIFMuUi5MLiByZWdpc3Rl
+cmVkIG9mZmljZTogMjdBIFNmLiBMYXphciBTdHJlZXQsIFVCQzUsIGZsb29yIDIsIElhc2ksIElh
+c2kgQ291bnR5LCA3MDAwNDUsIFJvbWFuaWEuIFJlZ2lzdGVyZWQgaW4gUm9tYW5pYS4gUmVnaXN0
+cmF0aW9uIG51bWJlciBKMjIvMjYyMS8yMDA1Lgo=
 
-On 2/28/20 5:38 PM, Peter Maydell wrote:
-> From: Thomas Huth <thuth@redhat.com>
-> 
-> Old kernels from the Meego project can be used to check that Linux
-> is at least starting on these machines.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Message-id: 20200225172501.29609-2-philmd@redhat.com
-> Message-Id: <20200129131920.22302-1-thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   MAINTAINERS                          |  1 +
->   tests/acceptance/machine_arm_n8x0.py | 49 ++++++++++++++++++++++++++++
->   2 files changed, 50 insertions(+)
->   create mode 100644 tests/acceptance/machine_arm_n8x0.py
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b66c46dcb9f..264374adbe8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -686,6 +686,7 @@ F: hw/rtc/twl92230.c
->   F: include/hw/display/blizzard.h
->   F: include/hw/input/tsc2xxx.h
->   F: include/hw/misc/cbus.h
-> +F: tests/acceptance/machine_arm_n8x0.py
->   
->   Palm
->   M: Andrzej Zaborowski <balrogg@gmail.com>
-> diff --git a/tests/acceptance/machine_arm_n8x0.py b/tests/acceptance/machine_arm_n8x0.py
-> new file mode 100644
-> index 00000000000..e5741f2d8d1
-> --- /dev/null
-> +++ b/tests/acceptance/machine_arm_n8x0.py
-> @@ -0,0 +1,49 @@
-> +# Functional test that boots a Linux kernel and checks the console
-> +#
-> +# Copyright (c) 2020 Red Hat, Inc.
-> +#
-> +# Author:
-> +#  Thomas Huth <thuth@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +import os
-> +
-> +from avocado import skipUnless
-> +from avocado_qemu import Test
-> +from avocado_qemu import wait_for_console_pattern
-> +
-> +class N8x0Machine(Test):
-> +    """Boots the Linux kernel and checks that the console is operational"""
-> +
-> +    timeout = 90
-> +
-> +    def __do_test_n8x0(self):
-> +        kernel_url = ('http://stskeeps.subnetmask.net/meego-n8x0/'
-> +                      'meego-arm-n8x0-1.0.80.20100712.1431-'
-> +                      'vmlinuz-2.6.35~rc4-129.1-n8x0')
-> +        kernel_hash = 'e9d5ab8d7548923a0061b6fbf601465e479ed269'
-> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-> +
-> +        self.vm.set_console(console_index=1)
-> +        self.vm.add_args('-kernel', kernel_path,
-> +                         '-append', 'printk.time=0 console=ttyS1')
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, 'TSC2005 driver initializing')
-> +
-> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-> +    def test_n800(self):
-> +        """
-> +        :avocado: tags=arch:arm
-> +        :avocado: tags=machine:n800
-> +        """
-> +        self.__do_test_n8x0()
-> +
-> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-> +    def test_n810(self):
-> +        """
-> +        :avocado: tags=arch:arm
-> +        :avocado: tags=machine:n810
-> +        """
-> +        self.__do_test_n8x0()
-> 
-
-FYI this test is failing:
-
-qemu-system-arm: kernel 'meego-arm-n8x0-1.0.80.20100712.1431-vml
-inuz-2.6.35~rc4-129.1-n8x0' is too large to fit in RAM (kernel size 
-1964608, RAM size 0)
-
-Alex, Thomas, can we enable AVOCADO_ALLOW_UNTRUSTED_CODE on GitLab
-to avoid such regressions?
-
-Regards,
-
-Phil.
 
