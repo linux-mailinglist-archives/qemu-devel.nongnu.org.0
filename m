@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAEEF29127F
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:41:14 +0200 (CEST)
-Received: from localhost ([::1]:55822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8DB291285
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:45:01 +0200 (CEST)
+Received: from localhost ([::1]:35380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTnOT-00080u-U3
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42452)
+	id 1kTnS8-0002ym-Jn
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:45:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kTnMj-0006tw-9b
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:39:25 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:47094)
+ (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
+ id 1kTnPA-00011o-Vl; Sat, 17 Oct 2020 10:41:57 -0400
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:46381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kTnMg-0007g6-JG
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:39:24 -0400
-Received: by mail-ej1-x644.google.com with SMTP id t25so7559372ejd.13
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:39:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
+ id 1kTnP9-00083U-6I; Sat, 17 Oct 2020 10:41:56 -0400
+Received: by mail-qv1-xf42.google.com with SMTP id s1so2362324qvm.13;
+ Sat, 17 Oct 2020 07:41:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mpeDWOYIO+zh/xykEhXu5Zg/XqiagYudAKo068JsRfI=;
- b=ICn8OFPfLapX5N9TSYsVnCKBn8F5JZAd3LDO+FzUK4XZ4Qx49dcXTXTle9Fo7piS4u
- Yn+u9E32a3IKE2XbCR2h84ZPOi9V+flR0bA5ThUwmZqj2MkeoGiCvfuqPQkZyD1jHr9J
- AkpRT9yUyJS8DgCvJ/CY9qHZxDLcCretXi6s0iaRNzwS/y6UZnM421uukjXjGmseGK5w
- X/WfwpHxL6EE9sk4VygHxdujWDooJNbyOnRK8+T848ZamZwitlA+DHs+m1IncoF8GCQB
- VQwsuUDvjIECnE2z/StkMJQkMFyUy1x2iMHbedBv+B5ZuaVYOQ/xCdzeSdphS7Y+q6QH
- NJ2w==
+ :cc; bh=JiNVF472HuYt6MgbPT0XLWmR4gT4sBztlT6GdODxlJs=;
+ b=KYU1VesLSf5KqDgWyc3gjwqCxfekj2rkAFZXwQ16OaLfccGpLxl1smzqGLl5RAPiUk
+ nIG28CA7DifzsnskvzPd4Mq6QKGgBMshPAfOBOWYlJnI0T90aLLSsJpA8hvtyCjxmD7A
+ 0QWpAcJdPETJEui5+LDsul7/kWiLo/5UofZJzBSCdXMhGQzx2ApQZpWq2tX0vxroE9SN
+ 8f3nPrdVss1UpXBrbQeVue7NKIZ0bJtBC4Op8gVWP8SwtOPnG6W/sv0KI4aE7rsoVQ8P
+ 7m/NDPt0mGUje9iW/W6yg2hXJB1Tlja1/NmpnfemTvY80C+XUs8hk9aRZNQwfOphrmE3
+ co7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mpeDWOYIO+zh/xykEhXu5Zg/XqiagYudAKo068JsRfI=;
- b=Zw+6pu5zJ7Xg3UcbxLcrV3zAK/7a40UFaV23dwCmMkw3P0MfTXsTg5ggjt+wVrnev4
- NDFDODNoPTun5V1ZUuoMFJnF36yniJFTNfLJoSnedonvUdXWpw+Pq8N7zZEZrbh5LdZN
- GyzFhYiBSg/sHSBz8+xVhorMDbneohtJzPJtPkzm78O3OgQzBF6Aef0lQ1HUYtH6uh4W
- 7SHxRbQSrL/eqeEbuwQzAAXLdZkIXNHW+G7djrnjeHFuuk35VJYHL2CBr+m8MQamugJ0
- dPLwKDzQ8CIQtbQ3r+lWDT6wU+PDbPoWKH+U3weceCjv1Zk7frq9Oof6rebS6tt/OMgc
- MreQ==
-X-Gm-Message-State: AOAM533FT2Q4ukn0KugJTDQsZe4neJ5GISSNQX9/ruOGQ492YnOKKzOQ
- TlMFMz5Y5OXJiyvc3Sf5rVqCHq/q3LnxwJnpTIhD1A==
-X-Google-Smtp-Source: ABdhPJyii/Hg2XBUoY0j/SHMQVp1nvX2XAIQVCV0CwVslnH48wCKqrawKz3ncK0eh6+iGT9W5uBU2Uwt1tQzPBgKXG4=
-X-Received: by 2002:a17:906:ce21:: with SMTP id
- sd1mr9055656ejb.4.1602945560364; 
- Sat, 17 Oct 2020 07:39:20 -0700 (PDT)
+ bh=JiNVF472HuYt6MgbPT0XLWmR4gT4sBztlT6GdODxlJs=;
+ b=kpKc8THsdpynwB9vJknsVc4fzS9f+rQ3Ry4Xp7RwbRziDm4/J0x0tf5OGqj6dP1u/j
+ OtOW3eZYOjHG7WO/6WarOdVnd4W1lkPjxUj9X4s3qfx29SJsuPpLzh7FobUintbM3Aaw
+ GKNwXnmV8b3A5/ncM16nFtpVFFU/onTKoidn2pU02IWeydnL9xHD2mCULBnKV2C43AqM
+ obdppRR61sWjslno2+ncWlmWI+U/ziwAAqOePgpSUurOAip4OnXQF1e5jpZ2N8cJ9UNL
+ NUIaZYvqXcNOZP3rYVMUIobY8ikLX2D8h801qE1NmrQZ1tlqfGZOdvAyAN1L6HJPU3ZP
+ t6qA==
+X-Gm-Message-State: AOAM532Q+Za1lCBt53aobr2DoaICIIGbp3r5EHYjlM9yLllAS5JGgct2
+ 7qvYvpY9iZJDPLdBOvR9H/9McZ9qCZEM7+YnChjk9+1Hxj0=
+X-Google-Smtp-Source: ABdhPJw3pVImP3x0yleJDOLgtik8wQm6t8LQ66ltXyDoBJ5tK3v02x+fFV50zBsMVmyQMk5RQF7bU9BpY9igHZ5nUls=
+X-Received: by 2002:a05:6214:18cf:: with SMTP id
+ cy15mr9273079qvb.53.1602945712944; 
+ Sat, 17 Oct 2020 07:41:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201016155331.1613089-1-pbonzini@redhat.com>
- <CAFEAcA_ZW2mq3ygzCjuphW2kkdOy4fcTzDObcyQTw0BJJgspZw@mail.gmail.com>
- <ecd2b5bf-0c3c-fa58-ce4d-3d4d55274424@redhat.com>
-In-Reply-To: <ecd2b5bf-0c3c-fa58-ce4d-3d4d55274424@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 17 Oct 2020 15:39:08 +0100
-Message-ID: <CAFEAcA_HDoheozjRjcAKy3eEJ94cBgU29FDftMe2yn=SdMKHMA@mail.gmail.com>
-Subject: Re: [PULL v2 00/22] Build system + misc changes for 2020-10-16
-To: Paolo Bonzini <pbonzini@redhat.com>
+References: <20201016182739.22875-1-mark.cave-ayland@ilande.co.uk>
+ <20201016182739.22875-5-mark.cave-ayland@ilande.co.uk>
+ <653bf315-d1e4-4dc9-dac8-1e859a2ad4d1@eik.bme.hu>
+In-Reply-To: <653bf315-d1e4-4dc9-dac8-1e859a2ad4d1@eik.bme.hu>
+From: Artyom Tarasenko <a.tarasenko@gmail.com>
+Date: Sat, 17 Oct 2020 16:41:41 +0200
+Message-ID: <CAAM0arMhKLDAfrqbh9c-rZEGgvYaNUyxFBnjpS2RdT=PcSLB3w@mail.gmail.com>
+Subject: Re: [PATCH 4/5] ppc405_boards: use qdev properties instead of legacy
+ m48t59_init() function
+To: BALATON Zoltan <balaton@eik.bme.hu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f42;
+ envelope-from=a.tarasenko@gmail.com; helo=mail-qv1-xf42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,20 +80,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel@nongnu.org, f4bug@amsat.org,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Oct 2020 at 14:38, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> OpenBSD and NetBSD call the ninja package "ninja-build" unlike FreeBSD.
->  I'm sure I had used the right name but well I didn't.  I'll send a v3.
+On Fri, Oct 16, 2020 at 10:38 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>
+> On Fri, 16 Oct 2020, Mark Cave-Ayland wrote:
+> > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > ---
+> > hw/ppc/ppc405_boards.c | 10 +++++++++-
+> > 1 file changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> > index 6198ec1035..4687715b15 100644
+> > --- a/hw/ppc/ppc405_boards.c
+> > +++ b/hw/ppc/ppc405_boards.c
+> > @@ -28,6 +28,8 @@
+> > #include "qemu-common.h"
+> > #include "cpu.h"
+> > #include "hw/ppc/ppc.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "hw/sysbus.h"
+> > #include "ppc405.h"
+> > #include "hw/rtc/m48t59.h"
+> > #include "hw/block/flash.h"
+> > @@ -145,6 +147,8 @@ static void ref405ep_init(MachineState *machine)
+> >     char *filename;
+> >     ppc4xx_bd_info_t bd;
+> >     CPUPPCState *env;
+> > +    DeviceState *dev;
+> > +    SysBusDevice *s;
+> >     qemu_irq *pic;
+> >     MemoryRegion *bios;
+> >     MemoryRegion *sram = g_new(MemoryRegion, 1);
+> > @@ -227,7 +231,11 @@ static void ref405ep_init(MachineState *machine)
+> >     /* Register FPGA */
+> >     ref405ep_fpga_init(sysmem, 0xF0300000);
+> >     /* Register NVRAM */
+> > -    m48t59_init(NULL, 0xF0000000, 0, 8192, 1968, 8);
+> > +    dev = qdev_new("sysbus-m48t08");
+> > +    qdev_prop_set_int32(dev, "base-year", 1968);
+>
+> Is there anything that uses other than 1968 as base year?
 
-OpenBSD built OK but meson produces this new warning:
+I think 40p uses 1900 as the base year.
 
-Library iconv found: NO
-../src/meson.build:531: WARNING: iconv required for curses UI but not
-available, disabling
-
-thanks
--- PMM
+> If not this
+> could be the default in the device so you don't need these set prop calls
+> here and in sun machines.
+>
+> The only other place this device is used seems to be ppc/prep machine that
+> uses the isa version but does not set a base year. Is that a bug? The
+> original prep machine removed in b2ce76a0730 used 2000 but that's unlikely
+> as well as these machines predate that. Anyway, the sysbus and isa
+> versions are different so their default base-year could be set
+> independently and then boards won't need to set this propery and may be
+> could use qdev_create_simple instead or whatever that was renamed to.
+>
+> Regards,
+> BALATON Zoltan
+>
+> > +    s = SYS_BUS_DEVICE(dev);
+> > +    sysbus_realize_and_unref(s, &error_fatal);
+> > +    sysbus_mmio_map(s, 0, 0xF0000000);
+> >     /* Load kernel */
+> >     linux_boot = (kernel_filename != NULL);
+> >     if (linux_boot) {
+> >
 
