@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55EB290EAF
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:14:16 +0200 (CEST)
-Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B059290EB5
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:17:10 +0200 (CEST)
+Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTdbj-0002Xz-NC
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39904)
+	id 1kTdeX-0005tu-GI
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:17:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXf-0005rb-5P
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:03 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5237 helo=huawei.com)
+ id 1kTdXg-0005t0-4T
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:04 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5238 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXd-0007CT-Dt
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:02 -0400
+ id 1kTdXe-0007CU-9D
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:03 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 6FBC4D0D39749B1F3E5F;
+ by Forcepoint Email with ESMTP id 7393A80C7702E1FEBCA2;
  Sat, 17 Oct 2020 12:09:51 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Sat, 17 Oct 2020
  12:09:45 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v3 08/18] migration/rdma: export getQIOChannel to get
- QIOchannel in rdma
-Date: Sat, 17 Oct 2020 12:25:38 +0800
-Message-ID: <1602908748-43335-9-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v3 09/18] migration/rdma: add multifd_rdma_load_setup() to
+ setup multifd rdma
+Date: Sat, 17 Oct 2020 12:25:39 +0800
+Message-ID: <1602908748-43335-10-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
 References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
@@ -66,41 +66,81 @@ Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, fengzhimin1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- migration/qemu-file.c | 5 +++++
- migration/qemu-file.h | 1 +
- 2 files changed, 6 insertions(+)
+ migration/rdma.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index be21518..37f6201 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -260,6 +260,11 @@ void ram_control_before_iterate(QEMUFile *f, uint64_t flags)
+diff --git a/migration/rdma.c b/migration/rdma.c
+index ad4e4ba..2baa933 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -4010,6 +4010,48 @@ static void rdma_accept_incoming_migration(void *opaque)
      }
  }
  
-+void *getQIOChannel(QEMUFile *f)
++static bool multifd_rdma_load_setup(const char *host_port,
++                                    RDMAContext *rdma, Error **errp)
 +{
-+    return f->opaque;
++    int thread_count;
++    int i;
++    int idx;
++    MultiFDRecvParams *multifd_recv_param;
++    RDMAContext *multifd_rdma;
++
++    if (!migrate_use_multifd()) {
++        return true;
++    }
++
++    if (multifd_load_setup(errp) != 0) {
++        /*
++         * We haven't been able to create multifd threads
++         * nothing better to do
++         */
++        return false;
++    }
++
++    thread_count = migrate_multifd_channels();
++    for (i = 0; i < thread_count; i++) {
++        if (get_multifd_recv_param(i, &multifd_recv_param) < 0) {
++            ERROR(errp, "rdma: error getting multifd_recv_param(%d)", i);
++            return false;
++        }
++
++        multifd_rdma = qemu_rdma_data_init(host_port, errp);
++        for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
++            multifd_rdma->wr_data[idx].control_len = 0;
++            multifd_rdma->wr_data[idx].control_curr = NULL;
++        }
++        /* the CM channel and CM id is shared */
++        multifd_rdma->channel = rdma->channel;
++        multifd_rdma->listen_id = rdma->listen_id;
++        multifd_recv_param->rdma = (void *)multifd_rdma;
++    }
++
++    return true;
 +}
 +
- void ram_control_after_iterate(QEMUFile *f, uint64_t flags)
+ void rdma_start_incoming_migration(const char *host_port, Error **errp)
  {
-     int ret = 0;
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index a9b6d6c..4cef043 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -165,6 +165,7 @@ void qemu_file_set_blocking(QEMUFile *f, bool block);
- void ram_control_before_iterate(QEMUFile *f, uint64_t flags);
- void ram_control_after_iterate(QEMUFile *f, uint64_t flags);
- void ram_control_load_hook(QEMUFile *f, uint64_t flags, void *data);
-+void *getQIOChannel(QEMUFile *f);
+     int ret;
+@@ -4057,6 +4099,16 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+         qemu_rdma_return_path_dest_init(rdma_return_path, rdma);
+     }
  
- /* Whenever this is found in the data stream, the flags
-  * will be passed to ram_control_load_hook in the incoming-migration
++    /* multifd rdma setup */
++    if (!multifd_rdma_load_setup(host_port, rdma, &local_err)) {
++        /*
++         * We haven't been able to create multifd threads
++         * nothing better to do
++         */
++        error_report_err(local_err);
++        goto err;
++    }
++
+     qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
+                         NULL, (void *)(intptr_t)rdma);
+     return;
 -- 
 1.8.3.1
 
