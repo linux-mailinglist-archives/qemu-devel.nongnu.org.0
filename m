@@ -2,91 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C70E290FA6
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 07:54:10 +0200 (CEST)
-Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAA429103D
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 08:48:10 +0200 (CEST)
+Received: from localhost ([::1]:51962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTfAP-0002IO-26
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 01:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53874)
+	id 1kTg0g-0004nt-0t
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 02:48:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jannh@google.com>) id 1kTf9d-0001qZ-H2
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 01:53:21 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:44677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jannh@google.com>) id 1kTf9Z-0001n5-6v
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 01:53:21 -0400
-Received: by mail-lj1-x243.google.com with SMTP id a5so5028815ljj.11
- for <qemu-devel@nongnu.org>; Fri, 16 Oct 2020 22:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M3YB82PP3WUpBHFEbh3oPhQQSux8Pw6AFe+SN7DiJGw=;
- b=amsP3PlI3ZycdlVxgLx5tS3RcZ/aE2JugXN/de8WjJzEbbWQfg5yay9mu9yMNOTQEG
- zDGufeyQG0D8nAwfy0A+eh+5b93z85bXUL2cX8T/4mhVh2wiIWZNqlk28ZRb4QzNB/dh
- AIBnGWL+ksEigCgQdVu62IDy26gLVIDUnczpRvNend8MTTwuaCQtont43SmFPbW4CRcT
- cmRIzAt2jsd2hPhc8PRzFfChw9wh+qGJaBiAl8a3e2bI5TkwKjB9tCNO3N3jC/SV0wIn
- USEp5Yt0/QCw/q0JJrWcSGJN2B9ryqMiiGMVPf4OXy69UAR96sfkVVyhw3En3TdcYtr6
- S+7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M3YB82PP3WUpBHFEbh3oPhQQSux8Pw6AFe+SN7DiJGw=;
- b=ChwtYIFdbsXd86WalCWtB12BnLB7dOQ+Dy2j41NXeEF4I/CcpZMarc533Z5jxq1r9b
- uxbHYdyTlFqrjKVJGjpHjQmG7G7Q1kE+cyiDd8he4xsg66WXk7jDVvtF+EM81P2y6HHx
- 5tuxB/nhCOhReZ2ciEMcnVTaUnhng3iRU0k4f94qSuwZ4NOVB6ZXQZ1fd/fSWSQgj3z5
- es4vf4ytkqWnVakPQMke1HcZhV4wEkyCJCsP61WTvzkBopOv2RvRvFqUeDu2oZczq2er
- vHiANKu/oX0nJHqvERT1613tglnQ7RcDRlQijk83/LRozFvjBjpHTC7mTuhlRHD8zIiJ
- RJfw==
-X-Gm-Message-State: AOAM533cYDY+Ou8VqLUM9aa9+MaZribOLSSDnEiz3YSoEpeOaMM6dKMn
- ZDYpSdWz9abOADxjv5Mk3kLyBVcyye8A8xfXLbxTYQ==
-X-Google-Smtp-Source: ABdhPJyqRwgfzaNO4k6jC4+ngiz4xp94h1rvkVA6jI+YkhoWwbWi6nRJWMl5uQZtM/9C6Yz+umn28GEOA1tFiD8OGAE=
-X-Received: by 2002:a2e:504b:: with SMTP id v11mr2673538ljd.138.1602913994976; 
- Fri, 16 Oct 2020 22:53:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kTfyb-0003Lr-9c; Sat, 17 Oct 2020 02:46:01 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:38993 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kTfyY-00036s-Cb; Sat, 17 Oct 2020 02:46:00 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CCtnj1MsSz9sTm; Sat, 17 Oct 2020 17:45:45 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1602917145;
+ bh=tznvDlDw1Lt9msRsr9/Dg2vqCnCa3egQaOESL6bg8h0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=T17/vC2EIlrl5gL/rSfvfzMRj19x7RBBYI3v2aaxPNJP+4kgPce9FQXq4ac/YABV/
+ ulLaIqgraMCRkXbMqYVAKlTNfuc20mREsQD4spjhW9UivXfBkkCbG+lhvuHVg+EoGW
+ bkx/+iIYV5xmrvnyeI83k/V5EBI8vyEgy2x82/94=
+Date: Sat, 17 Oct 2020 17:20:00 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v2 2/3] grackle: use qdev gpios for PCI IRQs
+Message-ID: <20201017062000.GA285896@yekko.fritz.box>
+References: <20201013114922.2946-1-mark.cave-ayland@ilande.co.uk>
+ <20201013114922.2946-3-mark.cave-ayland@ilande.co.uk>
+ <20201016001803.GC7078@yekko.fritz.box>
+ <CABLmASE+GzEhSgqqJmum+Xu7DkyQX6PtboKLhA4LyaOY7PYoSA@mail.gmail.com>
+ <67efe378-7979-9a51-7c66-8d8c3f55e335@ilande.co.uk>
 MIME-Version: 1.0
-References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
- <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
- <20201017033606.GA14014@1wt.eu>
- <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
- <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com>
- <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
- <20201017053712.GA14105@1wt.eu>
-In-Reply-To: <20201017053712.GA14105@1wt.eu>
-From: Jann Horn <jannh@google.com>
-Date: Sat, 17 Oct 2020 07:52:48 +0200
-Message-ID: <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
-Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
-To: Willy Tarreau <w@1wt.eu>
-Cc: Colm MacCarthaigh <colmmacc@amazon.com>, "Catangiu,
- Adrian Costin" <acatan@amazon.com>, 
- Andy Lutomirski <luto@kernel.org>, Jason Donenfeld <Jason@zx2c4.com>,
- "Theodore Y. Ts'o" <tytso@mit.edu>, Eric Biggers <ebiggers@kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
- kernel list <linux-kernel@vger.kernel.org>, 
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>, 
- "Graf (AWS), Alexander" <graf@amazon.de>, "Woodhouse,
- David" <dwmw@amazon.co.uk>, bonzini@gnu.org, 
- "Singh, Balbir" <sblbir@amazon.com>, "Weiss, Radu" <raduweis@amazon.com>,
- oridgar@gmail.com, ghammer@redhat.com, Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Qemu Developers <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, 
- Michal Hocko <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=jannh@google.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+Content-Disposition: inline
+In-Reply-To: <67efe378-7979-9a51-7c66-8d8c3f55e335@ilande.co.uk>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 02:45:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,50 +63,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, qemu-devel qemu-devel <qemu-devel@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 17, 2020 at 7:37 AM Willy Tarreau <w@1wt.eu> wrote:
-> On Sat, Oct 17, 2020 at 07:01:31AM +0200, Jann Horn wrote:
-> > Microsoft's documentation
-> > (http://go.microsoft.com/fwlink/?LinkId=260709) says that the VM
-> > Generation ID that we get after a fork "is a 128-bit,
-> > cryptographically random integer value". If multiple people use the
-> > same image, it guarantees that each use of the image gets its own,
-> > fresh ID:
->
-> No. It cannot be more unique than the source that feeds that cryptographic
-> transformation. All it guarantees is that the entropy source is protected
-> from being guessed based on the output. Applying cryptography on a simple
-> counter provides apparently random numbers that will be unique for a long
-> period for the same source, but as soon as you duplicate that code between
-> users and they start from the same counter they'll get the same IDs.
->
-> This is why I think that using a counter is better if you really need something
-> unique. Randoms only reduce predictability which helps avoiding collisions.
 
-Microsoft's spec tells us that they're giving us cryptographically
-random numbers. Where they're getting those from is not our problem.
-(And if even the hypervisor is not able to collect enough entropy to
-securely generate random numbers, worrying about RNG reseeding in the
-guest would be kinda pointless, we'd be fairly screwed anyway.)
+--FCuugMFkClbJLl1L
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Also note that we don't actually need to *always* reinitialize RNG
-state on forks for functional correctness; it is fine if that fails
-with a probability of 2^-128, because functionally everything will be
-fine, and an attacker who is that lucky could also just guess an AES
-key (which has the same probability of being successful). (And also
-2^-128 is such a tiny number that it doesn't matter anyway.)
+On Fri, Oct 16, 2020 at 07:53:10AM +0100, Mark Cave-Ayland wrote:
+> On 16/10/2020 07:45, Howard Spoelstra wrote:
+>=20
+> > Hi,
+> >=20
+> > I see compilation of the current ppc-for-5.2 branch fail with:
+> >=20
+> > ../hw/pci-host/grackle.c: In function =E2=80=98grackle_realize=E2=80=99:
+> > ../hw/pci-host/grackle.c:68:11: error: =E2=80=98GrackleState=E2=80=99 h=
+as no member named =E2=80=98pic=E2=80=99
+> >  =C2=A0 =C2=A068 | =C2=A0 =C2=A0 if (!s->pic) {
+> >  =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~
+> > make: *** [Makefile.ninja:1741: libcommon.fa.p/hw_pci-host_grackle.c.o]=
+ Error 1
+> >=20
+> > Best,
+> > Howard
+>=20
+> I see - as per the cover letter, my series is a replacement for Phil's
+> original patch at
+> https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02988.html (the =
+PIC
+> link is now completely removed), so the solution here is to drop patch
+> 7daac97 "hw/pci-host/grackle: Verify PIC link is properly set".
 
-> And I'm saying this as someone who had on his external gateway the same SSH
-> host key as 89 other hosts on the net, each of them using randoms to provide
-> a universally unique one...
+Ok, I've removed that from my ppc-for-5.2 tree.
 
-If your SSH host key was shared with 89 other hosts, it evidently
-wasn't generated from cryptographically random numbers. :P Either
-because the key generator was not properly hooked up to the system's
-entropy pool (if you're talking about the Debian fiasco), or because
-the system simply did not have enough entropy available. (Or because
-the key generator is broken, but I don't think that ever happened with
-OpenSSH?)
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--FCuugMFkClbJLl1L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+KjQ4ACgkQbDjKyiDZ
+s5IESxAApOxHIF7ev/27uBRMeYGF15rL+o8+Bsto4tjSLQ0QbaDNwzjXPPR/vMh+
+tU0u/Fcd/KW4B0yWamUmWOy8gxm6S4nWTVdFiqHLY4Gjz1BUi2a5wfBzIp2O1Ne7
+H0D7kfH1a0qGLu7BuzFU5FczPTKR/L1M8ka3IDHu+B8mAVFYD5BuOnxvXoOtj/7O
+aBU9PRot9KwB/Jsrme/iG2gLoRQwfrE589Nl3HwaegAJGV1vVYGHReucQn0RKY49
+HoNM6DjdC7mQn+RY/SK5AdacjTSd/NPRcePdwGFab1FdeQMpax+l/LSVkLc+8GJR
+GpU9fTlWRV35rua92YUbUc8Jh57So+uh5DjIchxO8g5A5Z3/S7PyKclvJw1zmg6q
+3RaLXzVYFIAnJ0aylhre2iMo8NOL1Us0oCMJ7+obXcmaC9diLC1yApafsm2MuML9
+wpDTzsmaC5K7B8beIwNXuOv2NB87ERl5/IeDdEW+4DRhVLsEb1DaqtKqDfhB+toO
+iJyfLfYLNVj76jfuxA32LZR7urPGK8Dpeq6PdfUprKknW3Jzbqbyk6ne5+wgMOZ5
+IRW/rTyCa5X6OiLp+dqC77Cb0lGCadjslQZbE1GaBqyB7cyu4yWQf+mNAFdHakSN
+UKEc3NQsYFcL6Mh5VDfSLcNJgJtsAPKFORKYgcye+jGfaDj2Dio=
+=spcA
+-----END PGP SIGNATURE-----
+
+--FCuugMFkClbJLl1L--
 
