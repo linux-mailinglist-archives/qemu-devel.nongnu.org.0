@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7847290EB1
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:14:18 +0200 (CEST)
-Received: from localhost ([::1]:39060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29462290EE9
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:27:48 +0200 (CEST)
+Received: from localhost ([::1]:53138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTdbl-0002ds-Vw
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:14:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40070)
+	id 1kTdoo-0003U2-UF
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:27:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXu-0006GX-3q
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:19 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5246 helo=huawei.com)
+ id 1kTdXy-0006JE-1G
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:23 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5247 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXr-0007Ig-5U
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:17 -0400
+ id 1kTdXs-0007Iz-66
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:21 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 83D996FE1DD8D46EF0EE;
+ by Forcepoint Email with ESMTP id 8C29B7C90A39DFCFFA82;
  Sat, 17 Oct 2020 12:09:56 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Sat, 17 Oct 2020
  12:09:50 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v3 15/18] migration/rdma: only register the memory for multifd
- channels
-Date: Sat, 17 Oct 2020 12:25:45 +0800
-Message-ID: <1602908748-43335-16-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v3 16/18] migration/rdma: add rdma_channel into Migrationstate
+ field
+Date: Sat, 17 Oct 2020 12:25:46 +0800
+Message-ID: <1602908748-43335-17-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
 References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
@@ -66,41 +66,64 @@ Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, fengzhimin1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All data is sent by multifd Channels, so we only register its for
-multifd channels and main channel don't register its.
+Multifd RDMA is need to poll when we send data, record it.
 
-Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- migration/rdma.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ migration/migration.c |  1 +
+ migration/migration.h |  1 +
+ migration/rdma.c      | 14 ++++++++++++++
+ 3 files changed, 16 insertions(+)
 
+diff --git a/migration/migration.c b/migration/migration.c
+index 7061410..1ec1dc9 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1892,6 +1892,7 @@ void migrate_init(MigrationState *s)
+     s->migration_thread_running = false;
+     s->enabled_rdma_migration = false;
+     s->host_port = NULL;
++    s->rdma_channel = 0;
+     error_free(s->error);
+     s->error = NULL;
+     s->hostname = NULL;
+diff --git a/migration/migration.h b/migration/migration.h
+index fea63de..5676b23 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -272,6 +272,7 @@ struct MigrationState
+ 
+     /* Need by Multi-RDMA */
+     char *host_port;
++    int rdma_channel;
+ };
+ 
+ void migrate_set_state(int *state, int old_state, int new_state);
 diff --git a/migration/rdma.c b/migration/rdma.c
-index 3210e6e..d5d6364 100644
+index d5d6364..327f80f 100644
 --- a/migration/rdma.c
 +++ b/migration/rdma.c
-@@ -3938,6 +3938,12 @@ static int qemu_rdma_registration_stop(QEMUFile *f, void *opaque,
+@@ -183,6 +183,20 @@ typedef struct {
+ } RDMAWorkRequestData;
  
-                 qemu_sem_post(&multifd_send_param->sem_sync);
-             }
+ /*
++ * Get the multifd RDMA channel used to send data.
++ */
++static int get_multifd_RDMA_channel(void)
++{
++    int thread_count = migrate_multifd_channels();
++    MigrationState *s = migrate_get_current();
 +
-+            /*
-+             * Use multifd to migrate, we only register memory for
-+             * multifd RDMA channel and main channel don't register it.
-+             */
-+            goto wait_reg_complete;
-         }
- 
-         /*
-@@ -3998,6 +4004,8 @@ static int qemu_rdma_registration_stop(QEMUFile *f, void *opaque,
-                     rdma->dest_blocks[i].remote_host_addr;
-             local->block[i].remote_rkey = rdma->dest_blocks[i].remote_rkey;
-         }
++    s->rdma_channel++;
++    s->rdma_channel %= thread_count;
 +
-+wait_reg_complete:
-         /* Wait for all multifd channels to complete registration */
-         if (migrate_use_multifd()) {
-             int i;
++    return s->rdma_channel;
++}
++
++/*
+  * Negotiate RDMA capabilities during connection-setup time.
+  */
+ typedef struct {
 -- 
 1.8.3.1
 
