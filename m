@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F376F290EB8
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:19:28 +0200 (CEST)
-Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2C7290EBC
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:23:38 +0200 (CEST)
+Received: from localhost ([::1]:38000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTdgm-0008Tk-34
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:19:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39936)
+	id 1kTdkn-0005b3-20
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXg-0005td-Ho
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:04 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5239 helo=huawei.com)
+ id 1kTdXh-0005w6-NP
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:05 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5241 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXe-0007Gb-DE
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:04 -0400
+ id 1kTdXe-0007Ge-MH
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:05 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 7B63CD1119B5D6BEA59B;
+ by Forcepoint Email with ESMTP id 8168DF0A678DFFE6DC66;
  Sat, 17 Oct 2020 12:09:51 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Sat, 17 Oct 2020
  12:09:41 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v3 02/18] migration/rdma: judge whether or not the RDMA is
- used for migration
-Date: Sat, 17 Oct 2020 12:25:32 +0800
-Message-ID: <1602908748-43335-3-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v3 03/18] migration/rdma: create multifd_setup_ops for Tx/Rx
+ thread
+Date: Sat, 17 Oct 2020 12:25:33 +0800
+Message-ID: <1602908748-43335-4-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
 References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
@@ -66,93 +66,137 @@ Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, fengzhimin1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add enabled_rdma_migration into MigrationState to judge
-whether or not the RDMA is used for migration.
+Create multifd_setup_ops for TxRx thread, no logic change.
 
-Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- migration/migration.c | 13 +++++++++++++
- migration/migration.h |  6 ++++++
- 2 files changed, 19 insertions(+)
+ migration/multifd.c | 44 +++++++++++++++++++++++++++++++++++++++-----
+ migration/multifd.h |  7 +++++++
+ 2 files changed, 46 insertions(+), 5 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 64ae417..be6166a 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -389,7 +389,9 @@ void migrate_add_address(SocketAddress *address)
- void qemu_start_incoming_migration(const char *uri, Error **errp)
- {
-     const char *p = NULL;
-+    MigrationState *s = migrate_get_current();
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 68b171f..1f82307 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -383,6 +383,8 @@ struct {
+     int exiting;
+     /* multifd ops */
+     MultiFDMethods *ops;
++    /* multifd setup ops */
++    MultiFDSetup *setup_ops;
+ } *multifd_send_state;
  
-+    s->enabled_rdma_migration = false;
-     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
-     if (!strcmp(uri, "defer")) {
-         deferred_incoming_migration(errp);
-@@ -399,6 +401,7 @@ void qemu_start_incoming_migration(const char *uri, Error **errp)
-         socket_start_incoming_migration(p ? p : uri, errp);
- #ifdef CONFIG_RDMA
-     } else if (strstart(uri, "rdma:", &p)) {
-+        s->enabled_rdma_migration = true;
-         rdma_start_incoming_migration(p, errp);
- #endif
-     } else if (strstart(uri, "exec:", &p)) {
-@@ -1887,6 +1890,7 @@ void migrate_init(MigrationState *s)
-     s->start_postcopy = false;
-     s->postcopy_after_devices = false;
-     s->migration_thread_running = false;
-+    s->enabled_rdma_migration = false;
-     error_free(s->error);
-     s->error = NULL;
-     s->hostname = NULL;
-@@ -2115,6 +2119,7 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
-         socket_start_outgoing_migration(s, p ? p : uri, &local_err);
- #ifdef CONFIG_RDMA
-     } else if (strstart(uri, "rdma:", &p)) {
-+        s->enabled_rdma_migration = true;
-         rdma_start_outgoing_migration(s, p, &local_err);
- #endif
-     } else if (strstart(uri, "exec:", &p)) {
-@@ -2329,6 +2334,14 @@ bool migrate_use_events(void)
-     return s->enabled_capabilities[MIGRATION_CAPABILITY_EVENTS];
+ /*
+@@ -790,8 +792,9 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
+         } else {
+             /* update for tls qio channel */
+             p->c = ioc;
+-            qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
+-                                   QEMU_THREAD_JOINABLE);
++            qemu_thread_create(&p->thread, p->name,
++                               multifd_send_state->setup_ops->send_thread_setup,
++                               p, QEMU_THREAD_JOINABLE);
+        }
+        return false;
+     }
+@@ -839,6 +842,11 @@ cleanup:
+     multifd_new_send_channel_cleanup(p, sioc, local_err);
  }
  
-+bool migrate_use_rdma(void)
++static void multifd_send_channel_setup(MultiFDSendParams *p)
 +{
-+    MigrationState *s;
-+    s = migrate_get_current();
-+
-+    return s->enabled_rdma_migration;
++    socket_send_channel_create(multifd_new_send_channel_async, p);
 +}
 +
- bool migrate_use_rdma_pin_all(void)
+ int multifd_save_setup(Error **errp)
  {
-     MigrationState *s;
-diff --git a/migration/migration.h b/migration/migration.h
-index 74fd790..e92eb29 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -264,6 +264,11 @@ struct MigrationState
-      * This save hostname when out-going migration starts
-      */
-     char *hostname;
+     int thread_count;
+@@ -856,6 +864,7 @@ int multifd_save_setup(Error **errp)
+     multifd_send_state->pages = multifd_pages_init(page_count);
+     qemu_sem_init(&multifd_send_state->channels_ready, 0);
+     qatomic_set(&multifd_send_state->exiting, 0);
++    multifd_send_state->setup_ops = multifd_setup_ops_init();
+     multifd_send_state->ops = multifd_ops[migrate_multifd_compression()];
+ 
+     for (i = 0; i < thread_count; i++) {
+@@ -875,7 +884,7 @@ int multifd_save_setup(Error **errp)
+         p->packet->version = cpu_to_be32(MULTIFD_VERSION);
+         p->name = g_strdup_printf("multifdsend_%d", i);
+         p->tls_hostname = g_strdup(s->hostname);
+-        socket_send_channel_create(multifd_new_send_channel_async, p);
++        multifd_send_state->setup_ops->send_channel_setup(p);
+     }
+ 
+     for (i = 0; i < thread_count; i++) {
+@@ -902,6 +911,8 @@ struct {
+     uint64_t packet_num;
+     /* multifd ops */
+     MultiFDMethods *ops;
++    /* multifd setup ops */
++    MultiFDSetup *setup_ops;
+ } *multifd_recv_state;
+ 
+ static void multifd_recv_terminate_threads(Error *err)
+@@ -1095,6 +1106,7 @@ int multifd_load_setup(Error **errp)
+     multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
+     qatomic_set(&multifd_recv_state->count, 0);
+     qemu_sem_init(&multifd_recv_state->sem_sync, 0);
++    multifd_recv_state->setup_ops = multifd_setup_ops_init();
+     multifd_recv_state->ops = multifd_ops[migrate_multifd_compression()];
+ 
+     for (i = 0; i < thread_count; i++) {
+@@ -1173,9 +1185,31 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+     p->num_packets = 1;
+ 
+     p->running = true;
+-    qemu_thread_create(&p->thread, p->name, multifd_recv_thread, p,
+-                       QEMU_THREAD_JOINABLE);
++    multifd_recv_state->setup_ops->recv_channel_setup(ioc, p);
++    qemu_thread_create(&p->thread, p->name,
++                       multifd_recv_state->setup_ops->recv_thread_setup,
++                       p, QEMU_THREAD_JOINABLE);
+     qatomic_inc(&multifd_recv_state->count);
+     return qatomic_read(&multifd_recv_state->count) ==
+            migrate_multifd_channels();
+ }
 +
-+    /*
-+     * Enable RDMA migration
-+     */
-+    bool enabled_rdma_migration;
- };
++static void multifd_recv_channel_setup(QIOChannel *ioc, MultiFDRecvParams *p)
++{
++    return;
++}
++
++static MultiFDSetup multifd_socket_ops = {
++    .send_thread_setup = multifd_send_thread,
++    .recv_thread_setup = multifd_recv_thread,
++    .send_channel_setup = multifd_send_channel_setup,
++    .recv_channel_setup = multifd_recv_channel_setup
++};
++
++MultiFDSetup *multifd_setup_ops_init(void)
++{
++    MultiFDSetup *ops;
++
++    ops = &multifd_socket_ops;
++    return ops;
++}
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 8d6751f..446315b 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -166,6 +166,13 @@ typedef struct {
+     int (*recv_pages)(MultiFDRecvParams *p, uint32_t used, Error **errp);
+ } MultiFDMethods;
  
- void migrate_set_state(int *state, int old_state, int new_state);
-@@ -300,6 +305,7 @@ bool migrate_ignore_shared(void);
- bool migrate_validate_uuid(void);
++typedef struct {
++    void *(*send_thread_setup)(void *opaque);
++    void *(*recv_thread_setup)(void *opaque);
++    void (*send_channel_setup)(MultiFDSendParams *p);
++    void (*recv_channel_setup)(QIOChannel *ioc, MultiFDRecvParams *p);
++} MultiFDSetup;
++
+ void multifd_register_ops(int method, MultiFDMethods *ops);
  
- bool migrate_auto_converge(void);
-+bool migrate_use_rdma(void);
- bool migrate_use_rdma_pin_all(void);
- bool migrate_use_multifd(void);
- bool migrate_pause_before_switchover(void);
+ #endif
 -- 
 1.8.3.1
 
