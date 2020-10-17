@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84A629125F
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:26:29 +0200 (CEST)
-Received: from localhost ([::1]:44340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C1F291263
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:28:30 +0200 (CEST)
+Received: from localhost ([::1]:50734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTnAC-0007Ja-NX
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:26:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37296)
+	id 1kTnC9-0001W4-PY
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmpi-0003uE-KG
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:19 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34398)
+ id 1kTmpo-00046Y-FG
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:24 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmph-0003ut-1f
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:18 -0400
-Received: by mail-wr1-x444.google.com with SMTP id i1so6609300wro.1
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:05:16 -0700 (PDT)
+ id 1kTmpm-0003z1-S8
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:24 -0400
+Received: by mail-wr1-x430.google.com with SMTP id s9so6561702wro.8
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:05:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8Ewc141UoMMZXp239BJOBQyclagaXr5vDLAwNvdaTwE=;
- b=Pt8GE+Kbr0H46mFNuSl9XlxOxkatk5AliYhHgOlEhrZxzYWPRG2CKoYh5zcJ4OqCu1
- CRJWpZeL2NHOVONLBicrH87Oxp82a96RXzauCM9wHi59d9WCNQ+vi8BmNibFg+YF50Pv
- t/ni+OoQQ25DtIl34g1PHDYuucJctuXQN6/6ko20ZN/Gb9w0t2FfPLtAfsrgGlyXLW4N
- 2r+aPb7H65N3hHElfkBHecHhE0xfw+0njbmRcsIAZbiqA4zHzYCLVeEDWHPnIY8aWUdv
- U9pt8qJQc8XiAD6t225kUqDSIH4WAAkNiJMkQB57Wj9QLsPr6Qn8YQkkM4P+nRZMHrO/
- zC3w==
+ bh=KkzjSFScIeOvIHF/kF8jPGG8E3yTqTBPtxI+D53JLeI=;
+ b=jYBQ4BEKTh8kCYMjdPjLZtmWcnRefWvp967sxK+tfjl5IesMkqw+W7FOJFsq+rlUL8
+ f/oJHwXi/9bmDDKaYJovE3iCFhFNbWVAjg8zR44xlG5Pb54d8BN1C7bqY6Ye2idfX1bt
+ LBEGW0gAQenLHdHub7sr1n7c4UdQ4OPALLRKAHz5KEKhqvNSoP/+JazgPUh4/snXeSz3
+ v6Lc3VVNMlTc5nDi6AQCzYPjY0GdWaZ0Rs7yIC4X2qLdncwhtpm0F/7Q0bWs0j6L5qQm
+ 2w3BdTcKa6zz0RGUpGnWTzyGniiqoPWmamjE1JK7RWgqyY11lgaWcQXsu0vdkJm9k/Y/
+ srKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8Ewc141UoMMZXp239BJOBQyclagaXr5vDLAwNvdaTwE=;
- b=pSb8fSMkMelr+jx+NOMK7FJ+kTcZlnbqEuSNKzlk0L3NJOZCHVGM6fB4GI+1dCs5P9
- pKDvhlFBR4F7xEwkOLfCxpYZ9LbqMZmPC4VMGQ0M6cq3rblChEPi8FldYqqROQ45hlWt
- n8lzPhEXhWYXuiU6Uv0C0ulMd0RIyit2cHlj2sYNaf6UzEATwYuRihwqUwpA9Xmm3gJQ
- +x6nBYyaPJ67urk/IPLYJOGiJ3nRkKWp9Ghv46OlAdz/Q+J3AOsmgMORlqDOdB3O92Va
- TzWaTbivJHMJshutG5WEIA+YtOng3dP57rmnnGjUe0L1XtBATL/IvnfnzniSpUei6BRu
- FGcA==
-X-Gm-Message-State: AOAM533DyXrV+cRkCEJlljPEZs0Zp5l2lgujsJm9pKMa4S8y/fSBjsWJ
- /KVU8/Ocw+/D8rbWmyxqSyvMBvRMsfc=
-X-Google-Smtp-Source: ABdhPJyCR3LaJnL3t89ztgrWpjhTPSzEmSGQFl+sk2JmpxBE8Yf6K5RXwxvyi0kx8U94dqtYmbeDJg==
-X-Received: by 2002:a05:6000:81:: with SMTP id
- m1mr10518028wrx.67.1602943515522; 
- Sat, 17 Oct 2020 07:05:15 -0700 (PDT)
+ bh=KkzjSFScIeOvIHF/kF8jPGG8E3yTqTBPtxI+D53JLeI=;
+ b=hBpyOgJ+z0vMYRJ8u44BKjtr2WQNCgKV+0nWSQp1CXvwW2evqFz5+MLmEMT8toPoEx
+ e6Qa/OAzkUkzLGUlV8egZ42trII8z7EEAh3djAm7I5AivqfzbnoDEzfI/U57tW/D/f2p
+ XyupI8C0YGo/nHisAyKTIzCtkPlJw0MxUosayS9bWe5MGU2FZb6pxy+YpVR2DAsN6HlI
+ up3O/OWXB6SvcvxZmGdir9Q0EG2CpgMd53cOXmbFKf6l71HeJ8424gCFCNh0P3HcSBNM
+ vYMjm7xhIbCeI91uCx28jhsvnrMnYevdV4z1djhnukleGtOKW9JpHyy4dXRUk/Zax4CW
+ 3SfQ==
+X-Gm-Message-State: AOAM533bRNeDOFAJooPxpAzMiFUCW4Ei7rlFw+GHwz5B5yzBkTM3ObeG
+ 4gsGYUURabUxJs/CGv4kfk2G1CFfRm8=
+X-Google-Smtp-Source: ABdhPJxKQFboNrStLicnmTgxcUWCi3KKpX6hw+lzpcdgj432g7otPb4sAUn78h0+StCYZz0lWiOtAg==
+X-Received: by 2002:adf:e5cf:: with SMTP id a15mr9917414wrn.186.1602943520242; 
+ Sat, 17 Oct 2020 07:05:20 -0700 (PDT)
 Received: from localhost.localdomain
  (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id j9sm9162391wrp.59.2020.10.17.07.05.14
+ by smtp.gmail.com with ESMTPSA id g83sm7477018wmf.15.2020.10.17.07.05.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 07:05:14 -0700 (PDT)
+ Sat, 17 Oct 2020 07:05:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/44] hw/mips/malta: Move gt64120 related code together
-Date: Sat, 17 Oct 2020 16:02:31 +0200
-Message-Id: <20201017140243.1078718-33-f4bug@amsat.org>
+Subject: [PULL 33/44] hw/mips/malta: Use clearer qdev style
+Date: Sat, 17 Oct 2020 16:02:32 +0200
+Message-Id: <20201017140243.1078718-34-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201017140243.1078718-1-f4bug@amsat.org>
 References: <20201017140243.1078718-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -97,47 +96,37 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'empty_slot' region created is related to the gt64120.
-Move its creation close to the gt64120 instance creation.
+In order to be consistent with the other code base uses,
+rewrite slightly how the MIPS_MALTA object is created.
+No logical change.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201012160503.3472140-2-f4bug@amsat.org>
+Message-Id: <20201012160503.3472140-3-f4bug@amsat.org>
 ---
- hw/mips/malta.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ hw/mips/malta.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index a4a4c386268..944045d7701 100644
+index 944045d7701..ff3225bb8e3 100644
 --- a/hw/mips/malta.c
 +++ b/hw/mips/malta.c
-@@ -1239,13 +1239,6 @@ void mips_malta_init(MachineState *machine)
-     DeviceState *dev = qdev_new(TYPE_MIPS_MALTA);
-     MaltaState *s = MIPS_MALTA(dev);
+@@ -1235,11 +1235,11 @@ void mips_malta_init(MachineState *machine)
+     DriveInfo *dinfo;
+     int fl_idx = 0;
+     int be;
++    MaltaState *s;
++    DeviceState *dev;
  
--    /*
--     * The whole address space decoded by the GT-64120A doesn't generate
--     * exception when accessing invalid memory. Create an empty slot to
--     * emulate this feature.
--     */
--    empty_slot_init("GT64120", 0, 0x20000000);
+-    DeviceState *dev = qdev_new(TYPE_MIPS_MALTA);
+-    MaltaState *s = MIPS_MALTA(dev);
 -
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    s = MIPS_MALTA(qdev_new(TYPE_MIPS_MALTA));
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(s), &error_fatal);
  
      /* create CPU */
-@@ -1399,6 +1392,12 @@ void mips_malta_init(MachineState *machine)
- 
-     /* Northbridge */
-     pci_bus = gt64120_register(s->i8259);
-+    /*
-+     * The whole address space decoded by the GT-64120A doesn't generate
-+     * exception when accessing invalid memory. Create an empty slot to
-+     * emulate this feature.
-+     */
-+    empty_slot_init("GT64120", 0, 0x20000000);
- 
-     /* Southbridge */
-     dev = piix4_create(pci_bus, &isa_bus, &smbus);
+     mips_create_cpu(machine, s, &cbus_irq, &i8259_irq);
 -- 
 2.26.2
 
