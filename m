@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EED291231
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:10:38 +0200 (CEST)
-Received: from localhost ([::1]:47612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A0029122E
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:08:37 +0200 (CEST)
+Received: from localhost ([::1]:39830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTmur-0001df-DZ
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:10:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36400)
+	id 1kTmsu-0006oR-11
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmnY-0001VK-Fk
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:08 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44920)
+ id 1kTmne-0001WJ-SA
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:10 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmnW-0003gd-Qz
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:04 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id t9so6549393wrq.11
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:03:01 -0700 (PDT)
+ id 1kTmna-0003hD-Qs
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:10 -0400
+Received: by mail-wr1-x431.google.com with SMTP id y12so6582122wrp.6
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N+6P5UyNzQt64543jNV3+JqEP1ruUMZwDb9XjKLtnVQ=;
- b=UokLcAdfIvbxLFzHsZ+I+CiGEmjwM5PeSp77ZmCFFk3RV6ATrDiOffn65e2v7lhduq
- 7jMmhJEcYCjBJJG2CoPiX6dcTlXZ2kuo2teiO/ZxttnL60Wa04bFnw3HiqcLGaqK7vzQ
- LdYyr3hVim3AQvLtvbU19ewYtKwT9ynX1D1W2chfWAgvUqjvfXJ/MmFJr7xeqWBm2EwK
- BDDl9wYhbeouIv4p5X/3maRTAPAqp5ZqpXKIRMiE5ueaiRAYVAS/oltTiFFb+2k5w/GG
- m/3LUit1+mgriud4JH5Blu+KAVP4YuQCeCiwq+b3HoTSLrx0ygcpXQH6QgFAe29oAOly
- lrpQ==
+ bh=w+RNDLWj4IFLfK+eBwoAQeU4+ogED2fJwsKp3kpT+Og=;
+ b=lhX/T6Bru4d0moFLuUF2q4LSoamJYEL5oNBJuvK0IxgRDUtHSVPxN6AJ0Bv4l22Qks
+ xzJEqr2pha9/XVqVVrVWi8Hs+67hZcHWQUw5mjmWWvTYyvJYI8Ntl9CQNsggRghkr3P1
+ ubWi1C8ear09/xBwpw1L/uG2Snkt7LKZbT7g+T3X/3C0lrQTynM7yeGGrzj+BUggViO+
+ 4sEV7HyrGH74z67Au32UsqRXRlXXY7x6Lv8E/66MLcocGLWozxczlZ6x7xAoZOj3vUz6
+ 62h3ybpTChNmvIIEVnhDyEV5ELR9G4f7xirn0wQNgRSYRlWsxA3KwWODqENhfKUx79Ih
+ ilJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=N+6P5UyNzQt64543jNV3+JqEP1ruUMZwDb9XjKLtnVQ=;
- b=AF5XU5qALfbSKp5eveyHZRFISjRmcKV1tunLLnmmb+TsRFiAwp5e339Trygg8JjjEE
- bEY3qxbSXYMKvqpTvc63OFM/63xOLUzJw4/aj87j/ndCL7RoWYxqp5dFUNr703vQkhf5
- CJc0ltgdaAgHiIR9T1+N1NkCbPZNkKkdujVOfZKhGDvpyTEaEe1QJbvhYve0yGcS7ci4
- LjeUvKJCc3Jl+/+aye+c8+yeMUJt4Vy7Tpq5mvClWPE/Diewg0IfwefPOY96dp9WACnB
- rNVUofTnGeoQVWdcD/A1NBHrwkz0eV2k7EdZZiMdWkpQE4q1uKp3BQTS2VAAZX6KVNyO
- SusA==
-X-Gm-Message-State: AOAM533ME25qAioebKaHIYkTNYWj3VYPuFfCTOfo42rsp4nu5t1zckte
- cytmovse5biRPXMNhU8P1fSJKFucNB0=
-X-Google-Smtp-Source: ABdhPJyqrT+skP3Rc8vENV40BvEMM08JKTFVY/XKZPXcFmyh4Ppc3MLpElduEL+7q18vql3cCLBBDw==
-X-Received: by 2002:adf:e50b:: with SMTP id j11mr10486045wrm.263.1602943379830; 
- Sat, 17 Oct 2020 07:02:59 -0700 (PDT)
+ bh=w+RNDLWj4IFLfK+eBwoAQeU4+ogED2fJwsKp3kpT+Og=;
+ b=BWlk4ViLd+rBuaoFe96QMZtll73g6YNBHCF/wxrG8zw74/hq05B+Fz5Hv3yjd67gZj
+ nCZdXhlLSWk24tpihoz4hvwAN5+NZWFO31zh1ipl/5GzojER76NkfUDRAaJum4KXJ/A5
+ fUmru4PIsEdFVtHU3I/+thf68sNof8l+g6y4fVi2SVRUu7bhmiohYs1CEQxHw0zUCifa
+ 6gbfnhOjCyMHiB0ym58q1lBnXl6OaY5MW53obhu9KsKX1qXRMjhlcLDRK0ZWXG+zPyXc
+ XwPblI++Xhug+dABKN4vexiCSVjXp+m+H18iMt/TZ1LsWOAwDofahO4b/wtzQqpBYH79
+ O/yA==
+X-Gm-Message-State: AOAM530P/icpvpZ3Ohg4/weZo/0rJ2Y0nEseSWRulfpxFOAXVdf6H/AI
+ 8E15XA3NqXAQxW/lqnlHk6S856j/VFM=
+X-Google-Smtp-Source: ABdhPJxG5+l9hlcXnZrOemPyWR8o2wyYmK06a0XaqlKt/EeufscTUvpOWH0ZY346xWY67cemSmFizg==
+X-Received: by 2002:adf:e444:: with SMTP id t4mr10876914wrm.58.1602943384583; 
+ Sat, 17 Oct 2020 07:03:04 -0700 (PDT)
 Received: from localhost.localdomain
  (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id x18sm9349551wrg.4.2020.10.17.07.02.58
+ by smtp.gmail.com with ESMTPSA id f6sm8403768wru.50.2020.10.17.07.03.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 07:02:59 -0700 (PDT)
+ Sat, 17 Oct 2020 07:03:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/44] hw/core/clock: Add the clock_new helper function
-Date: Sat, 17 Oct 2020 16:02:02 +0200
-Message-Id: <20201017140243.1078718-4-f4bug@amsat.org>
+Subject: [PULL 04/44] target/mips: Fix some comment spelling errors
+Date: Sat, 17 Oct 2020 16:02:03 +0200
+Message-Id: <20201017140243.1078718-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201017140243.1078718-1-f4bug@amsat.org>
 References: <20201017140243.1078718-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,83 +88,105 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Luc Michel <luc@lmichel.fr>, Paul Burton <paulburton@kernel.org>,
+ Paul Burton <paulburton@kernel.org>, zhaolichang <zhaolichang@huawei.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Edmondson <david.edmondson@oracle.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luc Michel <luc@lmichel.fr>
+From: zhaolichang <zhaolichang@huawei.com>
 
-This function creates a clock and parents it to another object with a
-given name. It calls clock_setup_canonical_path before returning the
-new clock.
+There are many spelling errors in the comments in target/mips/.
+Use spellcheck to check the spelling errors.
 
-This function is useful to create clocks in devices when one doesn't
-want to expose it at the qdev level (as an input or an output).
-
-Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Luc Michel <luc@lmichel.fr>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201010135759.437903-4-luc@lmichel.fr>
+Message-Id: <20201009064449.2336-7-zhaolichang@huawei.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/clock.h | 13 +++++++++++++
- hw/core/clock.c    | 15 +++++++++++++++
- 2 files changed, 28 insertions(+)
+ target/mips/internal.h           |  2 +-
+ target/mips/translate.c          | 10 +++++-----
+ target/mips/translate_init.c.inc |  2 +-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/clock.h b/include/hw/clock.h
-index d357594df99..cbc5e6ced1e 100644
---- a/include/hw/clock.h
-+++ b/include/hw/clock.h
-@@ -90,6 +90,19 @@ extern const VMStateDescription vmstate_clock;
-  */
- void clock_setup_canonical_path(Clock *clk);
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index 7f159a9230c..b811f547f38 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -188,7 +188,7 @@ static inline bool cpu_mips_hw_interrupts_pending(CPUMIPSState *env)
+         /*
+          * A MIPS configured with a vectorizing external interrupt controller
+          * will feed a vector into the Cause pending lines. The core treats
+-         * the status lines as a vector level, not as indiviual masks.
++         * the status lines as a vector level, not as individual masks.
+          */
+         r = pending > status;
+     } else {
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 398edf72898..b4d009078e0 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -3718,7 +3718,7 @@ static void gen_st_cond(DisasContext *ctx, int rt, int base, int offset,
  
-+/**
-+ * clock_new:
-+ * @parent: the clock parent
-+ * @name: the clock object name
-+ *
-+ * Helper function to create a new clock and parent it to @parent. There is no
-+ * need to call clock_setup_canonical_path on the returned clock as it is done
-+ * by this function.
-+ *
-+ * @return the newly created clock
-+ */
-+Clock *clock_new(Object *parent, const char *name);
-+
- /**
-  * clock_set_callback:
-  * @clk: the clock to register the callback into
-diff --git a/hw/core/clock.c b/hw/core/clock.c
-index 7066282f7b9..f866717a835 100644
---- a/hw/core/clock.c
-+++ b/hw/core/clock.c
-@@ -23,6 +23,21 @@ void clock_setup_canonical_path(Clock *clk)
-     clk->canonical_path = object_get_canonical_path(OBJECT(clk));
- }
+     t0 = tcg_temp_new();
+     addr = tcg_temp_new();
+-    /* compare the address against that of the preceeding LL */
++    /* compare the address against that of the preceding LL */
+     gen_base_offset_addr(ctx, addr, base, offset);
+     tcg_gen_brcond_tl(TCG_COND_EQ, addr, cpu_lladdr, l1);
+     tcg_temp_free(addr);
+@@ -25597,7 +25597,7 @@ static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
+         }
+         /* return resulting half-words to its original position */
+         tcg_gen_shri_i32(t0, t0, 16);
+-        /* finaly update the destination */
++        /* finally update the destination */
+         tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
  
-+Clock *clock_new(Object *parent, const char *name)
-+{
-+    Object *obj;
-+    Clock *clk;
-+
-+    obj = object_new(TYPE_CLOCK);
-+    object_property_add_child(parent, name, obj);
-+    object_unref(obj);
-+
-+    clk = CLOCK(obj);
-+    clock_setup_canonical_path(clk);
-+
-+    return clk;
-+}
-+
- void clock_set_callback(Clock *clk, ClockCallback *cb, void *opaque)
- {
-     clk->callback = cb;
+         tcg_temp_free(t1);
+@@ -25633,7 +25633,7 @@ static void gen_mxu_D16MAX_D16MIN(DisasContext *ctx)
+         }
+         /* return resulting half-words to its original position */
+         tcg_gen_shri_i32(t0, t0, 16);
+-        /* finaly update the destination */
++        /* finally update the destination */
+         tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
+ 
+         tcg_temp_free(t1);
+@@ -25702,7 +25702,7 @@ static void gen_mxu_Q8MAX_Q8MIN(DisasContext *ctx)
+             }
+             /* return resulting byte to its original position */
+             tcg_gen_shri_i32(t0, t0, 8 * (3 - i));
+-            /* finaly update the destination */
++            /* finally update the destination */
+             tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
+         }
+ 
+@@ -25742,7 +25742,7 @@ static void gen_mxu_Q8MAX_Q8MIN(DisasContext *ctx)
+             }
+             /* return resulting byte to its original position */
+             tcg_gen_shri_i32(t0, t0, 8 * (3 - i));
+-            /* finaly update the destination */
++            /* finally update the destination */
+             tcg_gen_or_i32(mxu_gpr[XRa - 1], mxu_gpr[XRa - 1], t0);
+         }
+ 
+diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
+index 637caccd890..c735b2bf667 100644
+--- a/target/mips/translate_init.c.inc
++++ b/target/mips/translate_init.c.inc
+@@ -995,7 +995,7 @@ static void mvp_init (CPUMIPSState *env, const mips_def_t *def)
+ 
+     /* MVPConf1 implemented, TLB sharable, no gating storage support,
+        programmable cache partitioning implemented, number of allocatable
+-       and sharable TLB entries, MVP has allocatable TCs, 2 VPEs
++       and shareable TLB entries, MVP has allocatable TCs, 2 VPEs
+        implemented, 5 TCs implemented. */
+     env->mvp->CP0_MVPConf0 = (1U << CP0MVPC0_M) | (1 << CP0MVPC0_TLBS) |
+                              (0 << CP0MVPC0_GS) | (1 << CP0MVPC0_PCP) |
 -- 
 2.26.2
 
