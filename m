@@ -2,80 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4808529127E
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:40:39 +0200 (CEST)
-Received: from localhost ([::1]:54752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30A529127A
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:37:48 +0200 (CEST)
+Received: from localhost ([::1]:47092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTnNu-0007Wj-BW
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:40:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37566)
+	id 1kTnLA-0004IB-2Y
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:37:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmqc-0005Xw-Fq
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:14 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmqa-000491-KH
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:14 -0400
-Received: by mail-wr1-x429.google.com with SMTP id y12so6588385wrp.6
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7NPFG3sCe3Q0DWcvvpgh0QRrJIh4WkqraUDSbppp/5Q=;
- b=BlVy2jYZOLpKi+x8pl78DPw4PuPFNK5Hr9hii+HYldLiagJTlC0DDGRy7zPWkJs6V3
- ibVI2ftO1N+gt7++lwBGO/Q4pfFz67tJf8/1lom2sc9nmN+VSWw5pKqlYobRAqPoCO2K
- +WMHc9bC2Ysxhl9FINkqzJcMZoZUqkPgzWrAAMgdenB0cxRJhNTKR/yGUFD1hvhdmxDG
- tcPdZMtRE5YtTgG4SNrIlXrjLOmBCsX1oAduAOrBFBIgBG/66SrZXxEiwGuOkJtn1rlc
- FntM/3Xcf2wYrC3zyqe54H7rernF6exXQpT96pyHzSEeWWDdx3obTfl+lAIv1F71RkMd
- dXpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7NPFG3sCe3Q0DWcvvpgh0QRrJIh4WkqraUDSbppp/5Q=;
- b=FNYJM+nuBwtxij7IyEBgQ6vwuSwwBZOWhRQNuJ+QyRjiv+E2WrLX73AA05pUwZ59oD
- Uwxg9Q0FjFdHAhN8ityhjkSCL2U5g8NpU4BOJojDyH9d10Dj2b80hjaw1YH46aFaHAiR
- nvsmazOi0n9Wql/kVK9awl/JOxzDIT2MwINC9odehOwjYddGUbYhIP66cNbVf/sp1YEd
- ikdAGyhtFMf1Ofo+Z24jqxAEl4QACzGFazmASky+jC/KtFfwQkuuiYL5x5rNDqb+TNvF
- lrb52xKQUnT+SM8lvV8csVB3j4Mj8qrIKiP/39EkcQ7EGjJDlnlg7Oy00wA8n2Zujf45
- zpOQ==
-X-Gm-Message-State: AOAM531hvFtUSqBMF3vbTJ7C5HdUJ54ZTdehGqvGdP0MajeqjlRhq8Kh
- 9SHHkdhUvLYCXQLu77SfybVKW8rIx1s=
-X-Google-Smtp-Source: ABdhPJwvjfQ7VDOjq7eWWyfNjaZNjJPALCxXvEfbifxYhb2RhMAky8HIvmkfSnFx3t13BMNPBposZg==
-X-Received: by 2002:a5d:4051:: with SMTP id w17mr10218317wrp.24.1602943571161; 
- Sat, 17 Oct 2020 07:06:11 -0700 (PDT)
-Received: from localhost.localdomain
- (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id y5sm8845509wrw.52.2020.10.17.07.06.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 07:06:10 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 44/44] target/mips: Increase number of TLB entries on the 34Kf
- core (16 -> 64)
-Date: Sat, 17 Oct 2020 16:02:43 +0200
-Message-Id: <20201017140243.1078718-45-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201017140243.1078718-1-f4bug@amsat.org>
-References: <20201017140243.1078718-1-f4bug@amsat.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <fa4551e3f4416cc8c62086ac430b1ceb4f03eb6b@lizzy.crudebyte.com>)
+ id 1kTn8Q-0005at-01
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:24:38 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:55455)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <fa4551e3f4416cc8c62086ac430b1ceb4f03eb6b@lizzy.crudebyte.com>)
+ id 1kTn8O-00061X-1Q
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:24:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=HR23O/4xAUapO13uh7b2roDYpuzB1pX6ruOo3j2cLHM=; b=Pn23/
+ OGfS/FTIAHv//zptVya1tiU46iqOkYPvWvgErO/s6d/uc+k6K65CavK5C339zgvDTru5hGsi5/+L/
+ Bs4e5E0Zc5inxcc8Bqf2Yjs6zGw19IJQsnZYrdqzoJ25afLF+w9Y1Pjxo9gP8f2gXuMPoulcH3U+D
+ 9LbGXw0U3Q3RrqRnDaaA2x2F8IliTUGbuoyhtzmFSidLO5gPbqmlWjmdU3IpKQviTu6jHkciTV1cN
+ LnlueS2BcEFoC35ojB+26QdMWjVAgmpWKWaXFn18NaLvmpkwIE0VthbJElfueNkm51dgVWyQiQke7
+ 7/7hq2EAUWZZHUVU0D9oNLWRu0ixg==;
+Message-Id: <cover.1602943547.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Sat, 17 Oct 2020 16:05:47 +0200
+Subject: [PULL v2 0/5] 9p queue (previous 2020-10-15)
+To: qemu-devel@nongnu.org,
+    Peter Maydell <peter.maydell@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=fa4551e3f4416cc8c62086ac430b1ceb4f03eb6b@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 10:23:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,62 +60,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Victor Kamensky <kamensky@cisco.com>, Paul Burton <paulburton@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per "MIPS32 34K Processor Core Family Software User's Manual,
-Revision 01.13" page 8 in "Joint TLB (JTLB)" section:
+The following changes since commit e12ce85b2c79d83a340953291912875c30b3af06:
 
-  "The JTLB is a fully associative TLB cache containing 16, 32,
-   or 64-dual-entries mapping up to 128 virtual pages to their
-   corresponding physical addresses."
+  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-request' into staging (2020-10-16 22:46:28 +0100)
 
-There is no particular reason to restrict the 34Kf core model to
-16 TLB entries, so raise its config to 64.
+are available in the Git repository at:
 
-This is helpful for other projects, in particular the Yocto Project:
+  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20201017
 
-  Yocto Project uses qemu-system-mips 34Kf cpu model, to run 32bit
-  MIPS CI loop. It was observed that in this case CI test execution
-  time was almost twice longer than 64bit MIPS variant that runs
-  under MIPS64R2-generic model. It was investigated and concluded
-  that the difference in number of TLBs 16 in 34Kf case vs 64 in
-  MIPS64R2-generic is responsible for most of CI real time execution
-  difference. Because with 16 TLBs linux user-land trashes TLB more
-  and it needs to execute more instructions in TLB refill handler
-  calls, as result it runs much longer.
+for you to fetch changes up to fa4551e3f4416cc8c62086ac430b1ceb4f03eb6b:
 
-(https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03428.html)
+  tests/9pfs: add local Tmkdir test (2020-10-17 15:58:39 +0200)
 
-Buglink: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
-Reported-by: Victor Kamensky <kamensky@cisco.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201016133317.553068-1-f4bug@amsat.org>
----
- target/mips/translate_init.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+----------------------------------------------------------------
+9pfs: add tests using local fs driver
 
-diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
-index c735b2bf667..fb5a9b38e5d 100644
---- a/target/mips/translate_init.c.inc
-+++ b/target/mips/translate_init.c.inc
-@@ -254,7 +254,7 @@ const mips_def_t mips_defs[] =
-         .CP0_PRid = 0x00019500,
-         .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) |
-                        (MMU_TYPE_R4000 << CP0C0_MT),
--        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (15 << CP0C1_MMU) |
-+        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
-                        (0 << CP0C1_IS) | (3 << CP0C1_IL) | (1 << CP0C1_IA) |
-                        (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA) |
-                        (1 << CP0C1_CA),
--- 
-2.26.2
+The currently existing 9pfs test cases are all solely using the 9pfs 'synth'
+fileystem driver, which is a very simple and purely simulated (in RAM only)
+filesystem. There are issues though where the 'synth' fs driver is not
+sufficient. For example the following two bugs need test cases running the
+9pfs 'local' fs driver:
 
+https://bugs.launchpad.net/qemu/+bug/1336794
+https://bugs.launchpad.net/qemu/+bug/1877384
+
+This patch set for that reason introduces 9pfs test cases using the 9pfs
+'local' filesystem driver along to the already existing tests on 'synth'.
+
+----------------------------------------------------------------
+Christian Schoenebeck (5):
+      tests/9pfs: change qtest name prefix to synth
+      tests/9pfs: introduce local tests
+      tests/9pfs: wipe local 9pfs test directory
+      tests/9pfs: add virtio_9p_test_path()
+      tests/9pfs: add local Tmkdir test
+
+ tests/qtest/libqos/virtio-9p.c | 100 +++++++++++++++++++++
+ tests/qtest/libqos/virtio-9p.h |  10 +++
+ tests/qtest/virtio-9p-test.c   | 197 ++++++++++++++++++++++++++++++++++++-----
+ 3 files changed, 286 insertions(+), 21 deletions(-)
 
