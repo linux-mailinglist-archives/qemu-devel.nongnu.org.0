@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E986290EBB
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:21:16 +0200 (CEST)
-Received: from localhost ([::1]:59606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C044F290EAE
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 06:12:31 +0200 (CEST)
+Received: from localhost ([::1]:59200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTdiV-0002jz-8n
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39952)
+	id 1kTda2-0007nA-Q6
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 00:12:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXg-0005uH-TT
+ id 1kTdXg-0005tn-Lx
  for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:04 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5240 helo=huawei.com)
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5242 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kTdXe-0007GZ-Cu
+ id 1kTdXe-0007Gf-M6
  for qemu-devel@nongnu.org; Sat, 17 Oct 2020 00:10:04 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 77AEC1621E9FF7088B2F;
+ by Forcepoint Email with ESMTP id 8606FA20CCE762B3E224;
  Sat, 17 Oct 2020 12:09:51 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Sat, 17 Oct 2020
  12:09:43 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v3 05/18] migration/rdma: do not need sync main for rdma
-Date: Sat, 17 Oct 2020 12:25:35 +0800
-Message-ID: <1602908748-43335-6-git-send-email-zhengchuan@huawei.com>
+Subject: [PATCH v3 06/18] migration/rdma: export
+ MultiFDSendParams/MultiFDRecvParams
+Date: Sat, 17 Oct 2020 12:25:36 +0800
+Message-ID: <1602908748-43335-7-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
 References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
@@ -65,37 +66,71 @@ Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, fengzhimin1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+MultiFDSendParams and MultiFDRecvParams is need for rdma, export it
+
 Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- migration/multifd.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ migration/multifd.c | 26 ++++++++++++++++++++++++++
+ migration/multifd.h |  2 ++
+ 2 files changed, 28 insertions(+)
 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 0d494df..8ccfd46 100644
+index 8ccfd46..03f3a1e 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -580,6 +580,10 @@ void multifd_send_sync_main(QEMUFile *f)
-     if (!migrate_use_multifd()) {
-         return;
-     }
-+     /* Do not need sync for rdma */
-+    if (migrate_use_rdma()) {
-+        return;
+@@ -387,6 +387,19 @@ struct {
+     MultiFDSetup *setup_ops;
+ } *multifd_send_state;
+ 
++int get_multifd_send_param(int id, MultiFDSendParams **param)
++{
++    int ret = 0;
++
++    if (id < 0 || id >= migrate_multifd_channels()) {
++        ret = -1;
++    } else {
++        *param = &(multifd_send_state->params[id]);
 +    }
-     if (multifd_send_state->pages->used) {
-         if (multifd_send_pages(f) < 0) {
-             error_report("%s: multifd_send_pages fail", __func__);
-@@ -1002,6 +1006,10 @@ void multifd_recv_sync_main(void)
-     if (!migrate_use_multifd()) {
-         return;
-     }
-+    /* Do not need sync for rdma */
-+    if (migrate_use_rdma()) {
-+        return;
++
++    return ret;
++}
++
+ /*
+  * How we use multifd_send_state->pages and channel->pages?
+  *
+@@ -919,6 +932,19 @@ struct {
+     MultiFDSetup *setup_ops;
+ } *multifd_recv_state;
+ 
++int get_multifd_recv_param(int id, MultiFDRecvParams **param)
++{
++    int ret = 0;
++
++    if (id < 0 || id >= migrate_multifd_channels()) {
++        ret = -1;
++    } else {
++        *param = &(multifd_recv_state->params[id]);
 +    }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDRecvParams *p = &multifd_recv_state->params[i];
++
++    return ret;
++}
++
+ static void multifd_recv_terminate_threads(Error *err)
+ {
+     int i;
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 62a0b2a..2f4e585 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -176,6 +176,8 @@ typedef struct {
+ #ifdef CONFIG_RDMA
+ MultiFDSetup *multifd_rdma_setup(void);
+ #endif
++int get_multifd_send_param(int id, MultiFDSendParams **param);
++int get_multifd_recv_param(int id, MultiFDRecvParams **param);
+ MultiFDSetup *multifd_setup_ops_init(void);
+ void multifd_register_ops(int method, MultiFDMethods *ops);
  
 -- 
 1.8.3.1
