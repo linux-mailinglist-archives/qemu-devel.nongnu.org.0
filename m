@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37A329124B
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:17:23 +0200 (CEST)
-Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EB629127B
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:38:59 +0200 (CEST)
+Received: from localhost ([::1]:50632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTn1O-0003jm-PP
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
+	id 1kTnMI-0005mN-RX
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmqU-0005G2-Tu
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:06 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40680)
+ id 1kTmqX-0005MG-Kh
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:09 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmqT-00048L-6P
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:06 -0400
-Received: by mail-wr1-x429.google.com with SMTP id h5so6580791wrv.7
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:06:02 -0700 (PDT)
+ id 1kTmqW-00048p-0B
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:06:09 -0400
+Received: by mail-wm1-x334.google.com with SMTP id e23so6142301wme.2
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K4I6rKlRV5CwkXwi1bhz1e4ZJqjshXMHPloXxAGf1Gs=;
- b=f5advx1zgDfzeVwXM7qs/p/Ay06yMXHouCwif8kW3SK93qbRcRCb4drq5pO6ECTlYV
- 0a3PqW+zA0AWf/qWBU8kJPbPj3961C/F7gUPx/rov56AIOvkwXcYxjVij1fjMnPhuKDg
- c2pxCzg8TSV2dtcH80rIm9RI/jHJPr7LHX8lzStlwM4dArT5JQIQoGkMJR1HVJ1IU3de
- RMYaC4c5bJ4ILHKSeUxMuxBOtmnsey1PGaLCHoVog1bH1U5LMLc+/Kntzg1K5ooq809Q
- 1D/VdGA6uQ/BeXVB4xnh1RwMq7iiWcaEiuNIVBHM1nWdAlow/pwRbvsmGS0OqZNSOuUw
- rv/g==
+ bh=gN5fG1W2a6ABvVlFISLEsEnU3++HZ+v2I6FNfu0op4U=;
+ b=d5diqqeFh0UWzD1oEGPFGSH0Vp0hsp93siVOISRezbTjupm2MDl/aOiNULYOztM0x8
+ NLUx1EJkE1CIobTOmhdv1Zd6reVXZ0gqbgaKGnI2okhSyyHqsJFGHXClD5dOVfs6iaoP
+ e/VJWs/dRaRGP7XYDqbmwLbg3Mqk/pn3CbwD5XWvMzECTkl+Ri9DGcBPgNkvgt9UOQko
+ AFn0+kmKtqVl9DGaEOhi+Pb3kWlRZZfA/XmNEDIFFN/FZDwf2tGEHHU+RXAdpl03DylS
+ bTwFR6Eh3gyWuxhIC47VvvARTwRd2WvEl7T877v7yUzP9l23wV7/Hh6TcwxWaF+mh7UD
+ +8RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=K4I6rKlRV5CwkXwi1bhz1e4ZJqjshXMHPloXxAGf1Gs=;
- b=M+XHPWcu+B/1yWI4qifsgRRUeo3QqHFtWg3yPjre6k/6th0KFVYMDiLIHH41BT0TF7
- CtMd71ZqQAyihsKx2eC6CZD6umbyD9yh1GUD3Ooa8uful0WnBorDXCN7KF7ex8YDBPGN
- OGdwOza2/qHJOfraFlQEg3+6YpOkwN4wDo39W5iG2MPkwS9OqWwaZRPGXDa5+08hxF60
- vVFaN+4PeIvgnBXW4DEhntaehIDqdGfKLHMCay4faBqHXNODtUJwAgcQl2/fx2stVhaP
- PDPVEQHQiwrw6UP130mohHErUERJQZ0rO+fQTfquWNG0+baTRCgTz+D4Fj5Tz9ssPiO1
- 4Bqg==
-X-Gm-Message-State: AOAM533aattwzIE+gRv6zuJxLHlsS/s71qcuXTjXaGmtIBmYsUkyvyCI
- Jw4uQKZa3tYd6G2gj7n3W8ZgGW6p/Vo=
-X-Google-Smtp-Source: ABdhPJzCxUSgdlziZfXv4uD1ng0gnQ2iPCuCmjbBBcyBT/XlH5ugoZcR1gpvUyx8zmP7Yez1X1Wypg==
-X-Received: by 2002:a5d:6cad:: with SMTP id a13mr11099223wra.347.1602943561904; 
- Sat, 17 Oct 2020 07:06:01 -0700 (PDT)
+ bh=gN5fG1W2a6ABvVlFISLEsEnU3++HZ+v2I6FNfu0op4U=;
+ b=Un7grveiFsQicSWQXTBtDoq9kw7HxdzsdjbWJSD2du9retRd0pMu9+grH5v2vhFUnb
+ S1GKKGBPnRfaPb/QybSKbMbG+ryN281an563x8PFBwHVF6GfTd/RE1cNeLVr3tcz1M8w
+ 80JD5GQnonOcJ3IhtZSUhsMM1qDbbGobg+Cv6woKo7votYz5G31/VoJIoVg5VLvZy3sm
+ jlla85f7fVMgbpJkK1/J9infBfUjhob8mlHcN6VWLbh04w4t1NBWhEyMHNbsoqAEZJjl
+ sL9qsAkUXUydSvjICwzb2A5hw6tDjUhpisYSdlX1bv3dlBYspUMadgOrokDPrOa7N9mv
+ GCtA==
+X-Gm-Message-State: AOAM530qA68IdYLvVmIVN2yd/af+04NJo3S3uPFGhScFlGgc4s7P1C3K
+ NZyS96nUWgPaB+Cdc0P2m+r53bBBlbI=
+X-Google-Smtp-Source: ABdhPJwGri4MKQExmjGpd06cO0csoTaEcETa7dJ3YVIlJrW+leo6QafUYzIIaCgC5+79Ae4JAFESiw==
+X-Received: by 2002:a1c:6788:: with SMTP id b130mr9265405wmc.91.1602943566495; 
+ Sat, 17 Oct 2020 07:06:06 -0700 (PDT)
 Received: from localhost.localdomain
  (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id b189sm7292068wmb.37.2020.10.17.07.06.00
+ by smtp.gmail.com with ESMTPSA id c15sm3534613wmb.27.2020.10.17.07.06.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 07:06:01 -0700 (PDT)
+ Sat, 17 Oct 2020 07:06:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/44] MAINTAINERS: Downgrade MIPS Boston to 'Odd Fixes',
- fix Paul Burton mail
-Date: Sat, 17 Oct 2020 16:02:41 +0200
-Message-Id: <20201017140243.1078718-43-f4bug@amsat.org>
+Subject: [PULL 43/44] MAINTAINERS: Remove duplicated Malta test entries
+Date: Sat, 17 Oct 2020 16:02:42 +0200
+Message-Id: <20201017140243.1078718-44-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201017140243.1078718-1-f4bug@amsat.org>
 References: <20201017140243.1078718-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -97,41 +96,28 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paul's Wavecomp email has been bouncing for months. He told us
-he "no longer has access to modern MIPS CPUs or Boston hardware,
-and wouldn't currently have time to spend on them if he did." [1]
-but "perhaps that might change in the future." [2].
-Be fair and downgrade the status of the Boston board to "Odd Fixes"
-(has a maintainer but they don't have time to do much other).
-Similarly to commit 2b107c2c1c (".mailmap: Update Paul Burton email
-address"), update his email address here too.
-
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg718739.html
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg728605.html
+The Malta tests are already covered in the Malta section.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201013101659.3557154-4-f4bug@amsat.org>
+Message-Id: <20201013101659.3557154-3-f4bug@amsat.org>
 ---
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ MAINTAINERS | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 50fb9fda34d..8770cd6d05a 100644
+index 8770cd6d05a..a7f0acf8663 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1162,9 +1162,9 @@ S: Maintained
- F: hw/intc/loongson_liointc.c
+@@ -237,8 +237,6 @@ F: include/hw/intc/mips_gic.h
+ F: include/hw/mips/
+ F: include/hw/misc/mips_*
+ F: include/hw/timer/mips_gictimer.h
+-F: tests/acceptance/linux_ssh_mips_malta.py
+-F: tests/acceptance/machine_mips_malta.py
+ F: tests/tcg/mips/
+ K: ^Subject:.*(?i)mips
  
- Boston
--M: Paul Burton <pburton@wavecomp.com>
-+M: Paul Burton <paulburton@kernel.org>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
--S: Maintained
-+S: Odd Fixes
- F: hw/core/loader-fit.c
- F: hw/mips/boston.c
- F: hw/pci-host/xilinx-pcie.c
 -- 
 2.26.2
 
