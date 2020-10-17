@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22A229124E
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:17:43 +0200 (CEST)
-Received: from localhost ([::1]:44628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A7929123F
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:13:05 +0200 (CEST)
+Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTn1i-0003vF-Pk
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36638)
+	id 1kTmxE-0005Ct-DU
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmoC-0001kH-Fx
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:44 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36541)
+ id 1kTmoD-0001lz-DU
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:45 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmoA-0003jT-Mw
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:44 -0400
-Received: by mail-wm1-x329.google.com with SMTP id e2so8390585wme.1
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:03:38 -0700 (PDT)
+ id 1kTmoB-0003jZ-Rj
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:03:45 -0400
+Received: by mail-wm1-x334.google.com with SMTP id p15so6122089wmi.4
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:03:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RMjis+VK7lDKD3DwbFfzb5usAINbaM2mLX6bmZd7Xrw=;
- b=trlboDlXNf1gimEFX35s1JCnC00DlL6PEhN68ar2a0UBShE3yMlcQjkfhxEpQEwZXP
- 0/wr0va5xUbh/vUSm5Duger9jcCgX9ERQo0FnwsMkJJf/kvvqmyP08UCnLHPvj42bZJ6
- YiJOE4xtaVRv3MN+vjDWeQYsVwKIGocWJBauaCde6FkyDsJ/PwrbvRxrrWsTuM7DSpm9
- gIaGjT26nEhUNn93uEWv4n4SWTlR+RLvU8v0++HrKGGJP+RVx4YcEepJlXaB2nU+b/Iy
- Wo5qn7GVe8tBTiKIIfqbhe8GqMBRLMFzM8/1/IvcFiNAEuuagJ2EObNVm4XAYn6ZhzQn
- pCCg==
+ bh=LfhnJlD5ICt8SM68uBqo2cJX//28deS2z59iVNfu0PI=;
+ b=JfYiAQd/bhekY/nPqLmhS0HWkfBC73prgWUMUtFgcG4iQaQtgGhh9z06CeSeIKwJrv
+ 4JeTvDoqmZs66JC5j46jngl0fj7oaCR+OwxONsXdAKCTY+itW4wk9i1Ehz/5ayI3vIiR
+ 7eUDp4LUnwnzpSZIV8QHMdsmdoIMMyfLcsSK0O1X2tpK3AO1rVWIjkBrETRBcECJv0l8
+ yigZyxjky+3UXCX5+TXJdd2zRx/jZm15csBXKvSvpZD6J4Mvvsxlg7yDs6d9+GcSwFiw
+ ayWWTxhxJ5HsLX6R64kmMWJAMoyfemq9LxzdAWI7yrhQUG7Rtp2WHw1hQaYUcyi2hG9Q
+ irRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RMjis+VK7lDKD3DwbFfzb5usAINbaM2mLX6bmZd7Xrw=;
- b=KKeVCJ+AwTOxmcp/gViPTaxtbkmje4Q5HmIcWflpk+u+HvLvAsBMtmXjuQaWUh+rd+
- EWMK/xThXF5dw1Xa3qpWZhnWvZO/3K/towbio9n5N2/tlTYn/BcXupmWD7RJDuWyjDmR
- xWApUDsVvDInZ+M1nbiHKAyRmz84Ak38bTbQzer374T8zJIzjDLy9aoF6C3NMbq7PktK
- P7HR/DsbFa9h5lhBh2SxccOIKLNVWKEy7RGQDjGOo8Hu3Y7NHnRUzNgtsl1DKfT9iU7s
- mK8HVJai+RnI+62uALDDRwC2jThYVStBgac9EyCGm0eKuQ3UC8XooejUyJyfauIl/E5r
- Q3ng==
-X-Gm-Message-State: AOAM530vNkCxDFQlJGBoFVwwJmH20DzmHRTGTdDQ6TU5EU8g47rbE/pc
- mzVIN3kUA3lHBTiH0DOlKC1pgA4koSY=
-X-Google-Smtp-Source: ABdhPJxZy3VhV9SIm4UpA36NSI33mMbQr10eFchqpeNlbiEjRZmAHnnAQkI1+9r83ISXP12/krh19Q==
-X-Received: by 2002:a05:600c:2297:: with SMTP id
- 23mr9066750wmf.104.1602943417303; 
- Sat, 17 Oct 2020 07:03:37 -0700 (PDT)
+ bh=LfhnJlD5ICt8SM68uBqo2cJX//28deS2z59iVNfu0PI=;
+ b=Bqjo/+V1Luypi0bw6qH1FntGQyQ5iwaB263PVapzgpHZFp3oTwMRS1SQ/8oj1/mmCH
+ JeCHyp4wB8YyPiXb+iPirIzTdtBbt7d3UlOpLJSaaHqkcQcMFgUt9ooyoX0wd5IRmE73
+ YWR9wU7Y4RpsUmR57UPrI0bBXovEvrY2/MjhhS5Lg7JJDKb8W1S5LYbQq922iu+5TKSg
+ HVlDdA0PKTC8dTowGVialNs7BkXJcCcnjirLFig4ufJ/Vxrw/J4CJu2K2w+x7ImiU4mv
+ s1zx5lFrIRKjGF85aiCJlLdkjU3oSPaS+MEyG2abIHCjI9DMPuQE/PXo3XwP8Xt1gBx4
+ t8IA==
+X-Gm-Message-State: AOAM533sVqzgIwFN5hOS4L1v2sAhxDucvqPlsY+rMvA0hRyzDvHFfFSL
+ qorfsvSJ76XwHwjI4EO9MzjHXE8CbA8=
+X-Google-Smtp-Source: ABdhPJxuGE3erFN1R3CnyNhjkcDeOQbvlhsJ6lxe8pRD9gkn5Yeqh/ay8KId3J23Shb40JAI+v/zlw==
+X-Received: by 2002:a1c:bb06:: with SMTP id l6mr8944254wmf.40.1602943421884;
+ Sat, 17 Oct 2020 07:03:41 -0700 (PDT)
 Received: from localhost.localdomain
  (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id x64sm7473502wmg.33.2020.10.17.07.03.36
+ by smtp.gmail.com with ESMTPSA id e11sm3013725wrj.75.2020.10.17.07.03.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 07:03:36 -0700 (PDT)
+ Sat, 17 Oct 2020 07:03:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/44] target/mips/op_helper: Convert multiple if() to switch
- case
-Date: Sat, 17 Oct 2020 16:02:10 +0200
-Message-Id: <20201017140243.1078718-12-f4bug@amsat.org>
+Subject: [PULL 12/44] target/mips/op_helper: Document Invalidate/Writeback
+ opcodes as no-op
+Date: Sat, 17 Oct 2020 16:02:11 +0200
+Message-Id: <20201017140243.1078718-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201017140243.1078718-1-f4bug@amsat.org>
 References: <20201017140243.1078718-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -98,54 +97,34 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cache operation is encoded in bits [20:18] of the instruction.
-The 'op' argument of helper_cache() contains the bits [20:16].
-Extract the 3 bits and parse them using a switch case. This allow
-us to handle multiple cache types (the cache type is encoded in
-bits [17:16]).
+QEMU does not model caches, so there is not much to do with the
+Invalidate/Writeback opcodes. Make it explicit adding a comment.
 
-Previously the if() block was only checking the D-Cache (Primary
-Data or Unified Primary). Now we also handle the I-Cache (Primary
-Instruction), S-Cache (Secondary) and T-Cache (Terciary).
-
-Reported-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Suggested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-Id: <20200813181527.22551-2-f4bug@amsat.org>
+Message-Id: <20200813181527.22551-3-f4bug@amsat.org>
 ---
- target/mips/op_helper.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ target/mips/op_helper.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 9552b280e07..c15f5c07761 100644
+index c15f5c07761..2496d1dd718 100644
 --- a/target/mips/op_helper.c
 +++ b/target/mips/op_helper.c
-@@ -1574,15 +1574,20 @@ void helper_msa_st_d(CPUMIPSState *env, uint32_t wd,
- void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_t op)
- {
- #ifndef CONFIG_USER_ONLY
-+    uint32_t cache_operation = extract32(op, 2, 3);
-     target_ulong index = addr & 0x1fffffff;
--    if (op == 9) {
--        /* Index Store Tag */
-+
-+    switch (cache_operation) {
-+    case 0b010: /* Index Store Tag */
-         memory_region_dispatch_write(env->itc_tag, index, env->CP0_TagLo,
-                                      MO_64, MEMTXATTRS_UNSPECIFIED);
--    } else if (op == 5) {
--        /* Index Load Tag */
-+        break;
-+    case 0b001: /* Index Load Tag */
+@@ -1586,6 +1586,11 @@ void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_t op)
          memory_region_dispatch_read(env->itc_tag, index, &env->CP0_TagLo,
                                      MO_64, MEMTXATTRS_UNSPECIFIED);
+         break;
++    case 0b000: /* Index Invalidate */
++    case 0b100: /* Hit Invalidate */
++    case 0b110: /* Hit Writeback */
++        /* no-op */
 +        break;
-+    default:
-+        break;
+     default:
+         break;
      }
- #endif
- }
 -- 
 2.26.2
 
