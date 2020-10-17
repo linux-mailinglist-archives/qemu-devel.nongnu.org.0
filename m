@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30A529127A
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:37:48 +0200 (CEST)
-Received: from localhost ([::1]:47092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8630729127D
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:39:20 +0200 (CEST)
+Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTnLA-0004IB-2Y
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40618)
+	id 1kTnMd-0006Ci-K7
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:39:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <fa4551e3f4416cc8c62086ac430b1ceb4f03eb6b@lizzy.crudebyte.com>)
- id 1kTn8Q-0005at-01
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:24:38 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:55455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <fa4551e3f4416cc8c62086ac430b1ceb4f03eb6b@lizzy.crudebyte.com>)
- id 1kTn8O-00061X-1Q
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:24:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=HR23O/4xAUapO13uh7b2roDYpuzB1pX6ruOo3j2cLHM=; b=Pn23/
- OGfS/FTIAHv//zptVya1tiU46iqOkYPvWvgErO/s6d/uc+k6K65CavK5C339zgvDTru5hGsi5/+L/
- Bs4e5E0Zc5inxcc8Bqf2Yjs6zGw19IJQsnZYrdqzoJ25afLF+w9Y1Pjxo9gP8f2gXuMPoulcH3U+D
- 9LbGXw0U3Q3RrqRnDaaA2x2F8IliTUGbuoyhtzmFSidLO5gPbqmlWjmdU3IpKQviTu6jHkciTV1cN
- LnlueS2BcEFoC35ojB+26QdMWjVAgmpWKWaXFn18NaLvmpkwIE0VthbJElfueNkm51dgVWyQiQke7
- 7/7hq2EAUWZZHUVU0D9oNLWRu0ixg==;
-Message-Id: <cover.1602943547.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sat, 17 Oct 2020 16:05:47 +0200
-Subject: [PULL v2 0/5] 9p queue (previous 2020-10-15)
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=fa4551e3f4416cc8c62086ac430b1ceb4f03eb6b@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 10:23:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <qkrwngud825@gmail.com>)
+ id 1kTnD7-0003eb-Tn
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:29:30 -0400
+Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:46422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <qkrwngud825@gmail.com>)
+ id 1kTnD6-0006mZ-AN
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:29:29 -0400
+Received: by mail-ua1-x92a.google.com with SMTP id y1so1520352uac.13
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:29:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=P+gIv2Lcj4WNQ6W5r97xFTj/z+w+Zw6Am1AGbMCfPgE=;
+ b=AvVweg/pSu+cvJE0S0zZqtqcLAoadXExFz3xAe9zG7vo50YMTLwHQ1i8ftED2DTCXA
+ uDyLEeGC6cYYaKOaXhAhMiSavtK6o+K0Bf0j3CS6CK6OzuSRfmaff3DhIkmIeSRj1QmC
+ iOisXBQpzXX94cVxrWjw059s2E/Sj+SZ8+0L6jcZKRmU2wzQSoBODay/ZjP4eDDE4KHD
+ rIXoGB1a4ZvI8eIsepfck2FIUOVafAAvByyjbLIaaBkDw2ok0thiS0I16UshtZz++jVD
+ JAra2+ekaIrQbnMF4Bc81YjliIwbhBI8tg+Dy3t7U9FlTbPsxakUCdFDzj6/YRsRUX3Z
+ TwAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=P+gIv2Lcj4WNQ6W5r97xFTj/z+w+Zw6Am1AGbMCfPgE=;
+ b=c2oUKxXsdGRKhwfBg1+OSZqkFypQBGcIgKpG0KmAYlWTdJYdnFSOf0it7vM7QuuYBR
+ n2jdQ4/QuCWb1UacfbOoGYrWsho4GwKuy5S0l3adfFEhtmoV9j6rAQ3Mz2J6WSynN1K/
+ tJLNbeJ87ukrkbmFymoiOlEb7kvuqU+Pl0/wTjWYGLYWMzoZXQk3lnw71sfT3mvACy8D
+ BiXqdsYxZQ6Vz6T0DgGZ4BkE7WZ8fGZSiIef2dHArasiNJ2t8Wemf/Sn8C+4JXFhffJZ
+ ZaTmKbhOyJxCsAi1p1ZUTyVBJlWKPv4jrh4DbAHtPAbxXQBP4hq2JqM4PL4VBN8uBp0D
+ xUSA==
+X-Gm-Message-State: AOAM531kJPXougBkYGL6l26KD0IM/rpm7k4n6yZ4F2XNT3+CocCAJP/J
+ nzRq4S7d9chdEyQVMW7LZ/MDjhbW9RQUSFez2/U=
+X-Google-Smtp-Source: ABdhPJzden7sO+y2LzeOJWCADNP5kK3JioLv+GRKwCvaAYdK5okKzL5TOLlsjB6Kg7jXp74ndZ1SqzW+p2DQEwMjyA0=
+X-Received: by 2002:ab0:6f81:: with SMTP id f1mr4272724uav.31.1602944967083;
+ Sat, 17 Oct 2020 07:29:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAD14+f3G2f4QEK+AQaEjAG4syUOK-9bDagXa8D=RxdFWdoi5fQ@mail.gmail.com>
+ <20201001085900.ms5ix2zyoid7v3ra@steredhat>
+ <CAD14+f1m8Xk-VC1nyMh-X4BfWJgObb74_nExhO0VO3ezh_G2jA@mail.gmail.com>
+ <20201002073457.jzkmefo5c65zlka7@steredhat>
+ <CAD14+f0h4Vp=bsgpByTmaOU-Vbz6nnShDHg=0MSg4WO5ZyO=vA@mail.gmail.com>
+ <05afcc49-5076-1368-3cc7-99abcf44847a@kernel.dk>
+In-Reply-To: <05afcc49-5076-1368-3cc7-99abcf44847a@kernel.dk>
+From: Ju Hyung Park <qkrwngud825@gmail.com>
+Date: Sat, 17 Oct 2020 23:29:16 +0900
+Message-ID: <CAD14+f0h-r7o=m0NvHxjCgKaQe24_MDupcDdSOu05PhXp8B1-w@mail.gmail.com>
+Subject: Re: io_uring possibly the culprit for qemu hang (linux-5.4.y)
+To: Jens Axboe <axboe@kernel.dk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
+ envelope-from=qkrwngud825@gmail.com; helo=mail-ua1-x92a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,46 +84,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, io-uring@vger.kernel.org,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e12ce85b2c79d83a340953291912875c30b3af06:
+Hi Jens.
 
-  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-request' into staging (2020-10-16 22:46:28 +0100)
+On Sat, Oct 17, 2020 at 3:07 AM Jens Axboe <axboe@kernel.dk> wrote:
+>
+> Would be great if you could try 5.4.71 and see if that helps for your
+> issue.
+>
 
-are available in the Git repository at:
+Oh wow, yeah it did fix the issue.
 
-  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20201017
+I'm able to reliably turn off and start the VM multiple times in a row.
+Double checked by confirming QEMU is dynamically linked to liburing.so.1.
 
-for you to fetch changes up to fa4551e3f4416cc8c62086ac430b1ceb4f03eb6b:
+Looks like those 4 io_uring fixes helped.
 
-  tests/9pfs: add local Tmkdir test (2020-10-17 15:58:39 +0200)
-
-----------------------------------------------------------------
-9pfs: add tests using local fs driver
-
-The currently existing 9pfs test cases are all solely using the 9pfs 'synth'
-fileystem driver, which is a very simple and purely simulated (in RAM only)
-filesystem. There are issues though where the 'synth' fs driver is not
-sufficient. For example the following two bugs need test cases running the
-9pfs 'local' fs driver:
-
-https://bugs.launchpad.net/qemu/+bug/1336794
-https://bugs.launchpad.net/qemu/+bug/1877384
-
-This patch set for that reason introduces 9pfs test cases using the 9pfs
-'local' filesystem driver along to the already existing tests on 'synth'.
-
-----------------------------------------------------------------
-Christian Schoenebeck (5):
-      tests/9pfs: change qtest name prefix to synth
-      tests/9pfs: introduce local tests
-      tests/9pfs: wipe local 9pfs test directory
-      tests/9pfs: add virtio_9p_test_path()
-      tests/9pfs: add local Tmkdir test
-
- tests/qtest/libqos/virtio-9p.c | 100 +++++++++++++++++++++
- tests/qtest/libqos/virtio-9p.h |  10 +++
- tests/qtest/virtio-9p-test.c   | 197 ++++++++++++++++++++++++++++++++++++-----
- 3 files changed, 286 insertions(+), 21 deletions(-)
+Thanks!
 
