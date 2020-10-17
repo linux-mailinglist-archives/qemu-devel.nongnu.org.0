@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA45291075
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 09:17:01 +0200 (CEST)
-Received: from localhost ([::1]:47758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C09A291081
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 09:19:54 +0200 (CEST)
+Received: from localhost ([::1]:56274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTgSa-0007PA-RS
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 03:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36832)
+	id 1kTgVN-0002bJ-GZ
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 03:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1kTgNs-0002KM-3Z; Sat, 17 Oct 2020 03:12:08 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:34885)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1kTgNq-0003lR-2b; Sat, 17 Oct 2020 03:12:07 -0400
-Received: by mail-lj1-x243.google.com with SMTP id x16so5166552ljh.2;
- Sat, 17 Oct 2020 00:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wX2ZkHWZTsLegDRadNX3/LscZ8sVu41yZQYaAwn+M+o=;
- b=a3l22iRPQ6oXzA026cSMI8sU/iWhgkt99P0JiUCrH0RboFAgNe1/XG0zOe8CthkPtr
- 7JCQCYFeiBlvAmY6HqcbEwlWU42jWhuUZ/IPZzQo9VVYwq29QCvJqfplycrDG186bDeK
- b88tlXzAl/3SE5EPfakM1xY+85REsPwSKN1yZZRnf9as4V92SDZ7/aonYuFptl0sKRpi
- B67FKZRRAld1Mv2yrIfV6o7IkK+RMlrW8qHqD2L37IL13l8/+nXmvAW6oPF+5uvREA38
- L/JAFVHejD4cEOUWR039FXUYxlerT5Rxjqz1coTFwUYdEfoTf9YySHEejaxNWtCIXyxX
- lQyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wX2ZkHWZTsLegDRadNX3/LscZ8sVu41yZQYaAwn+M+o=;
- b=UgLM8kC7zvC0c34CEtSN/T6gnMbzUsY7XVNImPdwFv2izeRdg+Thuf03Hnaa9JCN3u
- tvhscJPW8VQ468A1eP1dh6Gjbakh9d0w211vlbK1HV2f/WTQWn/wZ8GgMrkJwiE9uFlf
- qyhVHn1TvCzGmq+XewLajVvGqrA7sLFJysq26mOgmEG51OIkMdPcONtQrWhcZXjGHJgI
- nfvgWILHh1znVBHm4E083Ox8D8wGhZoY7sjD/xe4osiQ6IR90YCyBg0GhlEyBXqK1Nwq
- rqTScxns22Ple7Zbb1IkFwtRW9qBOIuyNV82A4dakMTO+18CKN0VmZc1jiFvhyi/3FuW
- gTTQ==
-X-Gm-Message-State: AOAM533AXPoOtGW5ppFIHvOj8yZ2NiKYhU4bQBA/HMWvwmut3QBq2Poe
- WtnFkpoNKvqdgG8TlxOAXeM=
-X-Google-Smtp-Source: ABdhPJzLA4BMK4CkMFUJYsuu7UqAmWXU2GDx3rwzjj2SZNdMoujet7tsnwhxC/d+9nXzOtY3X1V/7Q==
-X-Received: by 2002:a2e:8e88:: with SMTP id z8mr3120952ljk.13.1602918724250;
- Sat, 17 Oct 2020 00:12:04 -0700 (PDT)
-Received: from neptune.lab ([46.39.229.194])
- by smtp.googlemail.com with ESMTPSA id 184sm1626905lfh.232.2020.10.17.00.12.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 00:12:03 -0700 (PDT)
-From: Alexey Baturo <baturo.alexey@gmail.com>
-X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
-To: 
-Subject: [PATCH v4 5/5] [RISCV_PM] Implement address masking functions
- required for RISC-V Pointer Masking extension
-Date: Sat, 17 Oct 2020 10:11:54 +0300
-Message-Id: <20201017071154.20642-6-space.monkey.delivers@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201017071154.20642-1-space.monkey.delivers@gmail.com>
-References: <20201017071154.20642-1-space.monkey.delivers@gmail.com>
+ (Exim 4.90_1) (envelope-from <w@1wt.eu>) id 1kTgTT-0000Zp-Gd
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 03:17:55 -0400
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:43865 helo=1wt.eu)
+ by eggs.gnu.org with esmtp (Exim 4.90_1) (envelope-from <w@1wt.eu>)
+ id 1kTgTR-0005he-JW
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 03:17:54 -0400
+Received: (from willy@localhost)
+ by pcw.home.local (8.15.2/8.15.2/Submit) id 09H7HL0w014146;
+ Sat, 17 Oct 2020 09:17:21 +0200
+Date: Sat, 17 Oct 2020 09:17:21 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Jann Horn <jannh@google.com>
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+Message-ID: <20201017071721.GA14143@1wt.eu>
+References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
+ <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
+ <20201017033606.GA14014@1wt.eu>
+ <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
+ <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com>
+ <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+ <20201017053712.GA14105@1wt.eu>
+ <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+ <20201017064442.GA14117@1wt.eu>
+ <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=baturo.alexey@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Received-SPF: pass client-ip=62.212.114.60; envelope-from=w@1wt.eu; helo=1wt.eu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 01:37:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,135 +60,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
- Alistair.Francis@wdc.com, kupokupokupopo@gmail.com, palmer@dabbelt.com
+Cc: Jason Donenfeld <Jason@zx2c4.com>, KVM list <kvm@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, ghammer@redhat.com,
+ "Weiss, Radu" <raduweis@amazon.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Pavel Machek <pavel@ucw.cz>, Colm MacCarthaigh <colmmacc@amazon.com>,
+ Jonathan Corbet <corbet@lwn.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Biggers <ebiggers@kernel.org>, "Singh, Balbir" <sblbir@amazon.com>,
+ bonzini@gnu.org, "Graf \(AWS\), Alexander" <graf@amazon.de>, oridgar@gmail.com,
+ "Catangiu, Adrian Costin" <acatan@amazon.com>,
+ Andy Lutomirski <luto@kernel.org>, Michal Hocko <mhocko@kernel.org>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ kernel list <linux-kernel@vger.kernel.org>,
+ Linux API <linux-api@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Woodhouse, David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anatoly Parshintsev <kupokupokupopo@gmail.com>
+On Sat, Oct 17, 2020 at 08:55:34AM +0200, Jann Horn wrote:
+> My suggestion is to use a counter *in the UAPI*, not in the hypervisor
+> protocol. (And as long as that counter can only miss increments in a
+> cryptographically negligible fraction of cases, everything's fine.)
 
-Signed-off-by: Anatoly Parshintsev <kupokupokupopo@gmail.com>
----
- target/riscv/cpu.h       | 19 +++++++++++++++++++
- target/riscv/translate.c | 34 ++++++++++++++++++++++++++++++++--
- 2 files changed, 51 insertions(+), 2 deletions(-)
+OK I got it now and I agree.
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index c236f01fff..13accaa232 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -386,6 +386,7 @@ FIELD(TB_FLAGS, VL_EQ_VLMAX, 2, 1)
- FIELD(TB_FLAGS, LMUL, 3, 2)
- FIELD(TB_FLAGS, SEW, 5, 3)
- FIELD(TB_FLAGS, VILL, 8, 1)
-+FIELD(TB_FLAGS, PM_ENABLED, 9, 1)
- 
- /*
-  * A simplification for VLMAX
-@@ -432,6 +433,24 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-     if (riscv_cpu_fp_enabled(env)) {
-         flags |= env->mstatus & MSTATUS_FS;
-     }
-+    if (riscv_has_ext(env, RVJ)) {
-+        int priv = cpu_mmu_index(env, false);
-+        bool pm_enabled = false;
-+        switch (priv) {
-+        case PRV_U:
-+            pm_enabled = env->mmte & U_PM_ENABLE;
-+            break;
-+        case PRV_S:
-+            pm_enabled = env->mmte & S_PM_ENABLE;
-+            break;
-+        case PRV_M:
-+            pm_enabled = env->mmte & M_PM_ENABLE;
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+        flags = FIELD_DP32(flags, TB_FLAGS, PM_ENABLED, pm_enabled);
-+    }
- #endif
-     *pflags = flags;
- }
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index a7cbf909f3..b3e7b93bc9 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -36,6 +36,9 @@ static TCGv cpu_gpr[32], cpu_pc, cpu_vl;
- static TCGv_i64 cpu_fpr[32]; /* assume F and D extensions */
- static TCGv load_res;
- static TCGv load_val;
-+/* globals for PM CSRs */
-+static TCGv pm_mask[4];
-+static TCGv pm_base[4];
- 
- #include "exec/gen-icount.h"
- 
-@@ -63,6 +66,10 @@ typedef struct DisasContext {
-     uint16_t vlen;
-     uint16_t mlen;
-     bool vl_eq_vlmax;
-+    /* PointerMasking extension */
-+    bool pm_enabled;
-+    TCGv pm_mask;
-+    TCGv pm_base;
- } DisasContext;
- 
- #ifdef TARGET_RISCV64
-@@ -102,13 +109,19 @@ static void gen_nanbox_s(TCGv_i64 out, TCGv_i64 in)
- }
- 
- /*
-- * Temp stub: generates address adjustment for PointerMasking
-+ * Generates address adjustment for PointerMasking
-  */
- static void gen_pm_adjust_address(DisasContext *s,
-                                   TCGv_i64      dst,
-                                   TCGv_i64      src)
- {
--    tcg_gen_mov_i64(dst, src);
-+    if (!s->pm_enabled) {
-+        /* Load unmodified address */
-+        tcg_gen_mov_i64(dst, src);
-+    } else {
-+        tcg_gen_andc_i64(dst, src, s->pm_mask);
-+        tcg_gen_or_i64(dst, dst, s->pm_base);
-+    }
- }
- 
- /*
-@@ -826,6 +839,10 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
-     ctx->mlen = 1 << (ctx->sew  + 3 - ctx->lmul);
-     ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
-+    ctx->pm_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_ENABLED);
-+    int priv = cpu_mmu_index(env, false);
-+    ctx->pm_mask = pm_mask[priv];
-+    ctx->pm_base = pm_base[priv];
- }
- 
- static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
-@@ -945,4 +962,17 @@ void riscv_translate_init(void)
-                              "load_res");
-     load_val = tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, load_val),
-                              "load_val");
-+    /* Assign PM CSRs to tcg globals */
-+    pm_mask[PRV_U] =
-+      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, upmmask), "upmmask");
-+    pm_base[PRV_U] =
-+      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, upmbase), "upmbase");
-+    pm_mask[PRV_S] =
-+      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, spmmask), "spmmask");
-+    pm_base[PRV_S] =
-+      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, spmbase), "spmbase");
-+    pm_mask[PRV_M] =
-+      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, mpmmask), "mpmmask");
-+    pm_base[PRV_M] =
-+      tcg_global_mem_new(cpu_env, offsetof(CPURISCVState, mpmbase), "mpmbase");
- }
--- 
-2.20.1
+> > If what is sought is pure
+> > randomness (in the sense that it's unpredictable, which I don't think
+> > is needed here), then randoms are better.
+> 
+> And this is what *the hypervisor protocol* gives us (which could be
+> very useful for reseeding the kernel RNG).
 
+As an external source, yes very likely, as long as it's not trivially
+observable by everyone under the same hypervisor :-)
+
+> > Now the initial needs in the forwarded message are not entirely clear
+> > to me but I wanted to rule out the apparent mismatch between the expressed
+> > needs for uniqueness and the proposed solutions solely based on randomness.
+> 
+> Sure, from a theoretical standpoint, it would be a little bit nicer if
+> the hypervisor protocol included a generation number along with the
+> 128-bit random value. But AFAIU it doesn't, so if we want this to just
+> work under Microsoft's existing hypervisor, we'll have to make do with
+> checking whether the random value changed. :P
+
+OK got it, thanks for the explanation!
+
+Willy
 
