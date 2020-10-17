@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8914A291247
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:16:32 +0200 (CEST)
-Received: from localhost ([::1]:40682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40126291270
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 16:30:47 +0200 (CEST)
+Received: from localhost ([::1]:57142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTn0Z-0002Ik-Hi
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37328)
+	id 1kTnEM-00049S-9P
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 10:30:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmps-0004Gt-7Z
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:28 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43719)
+ id 1kTmpx-0004TE-0q
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:33 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTmpq-0003zb-DO
- for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:27 -0400
-Received: by mail-wr1-x432.google.com with SMTP id g12so6557076wrp.10
- for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:05:25 -0700 (PDT)
+ id 1kTmpv-00040a-6e
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 10:05:32 -0400
+Received: by mail-wm1-x342.google.com with SMTP id f21so6140835wml.3
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 07:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4E8kG4ILRSk7MsJbvzjJRPB5rdnj2Bu4UJI6JB3HuIQ=;
- b=iUcTr3z67+6NWNFjA7GDPK4xAEXZT/ImzFGxJEiBeQOurmkUgkmsPOWlluFg2sbsPG
- VqUWHPP4OREMQW2mq0vwsBeN9TE0zcRMpNaN7K8A5aPKUxiyUJBZc5e1aMnQQyjPK0p5
- GeR2S7KF+7KuBNxNNteu8BiX8nx7VHAtNq8e2MRpWoL9bhrV9Mn3IvyXVy/63g9lXpPW
- KEFdkiofDn3rETSsX1BGkFTQy2Fu4z8bJ3yML1eDTIrJErAmDR0OJADK2pyAFsdi2B1h
- Ett0+KMx2mJ3FPobFrXvSZ3sFziHSz0p+ez1+gxUc6A/41KBXsCs1MWyGGdeJjeLgAou
- q99Q==
+ bh=Bt4oVFiiKF8ndprKkDoZPz+ozlge1hSxtT3OwSh/bHU=;
+ b=dj1g7CUaMqX1C9a9Dv6DxW9I6/lfX6YWm4e1j8eV0sM4WoSB7umnyUa8ZFJkGx+UI0
+ ZR6XFCJGOBAOQXHpkc7zg5F0Rlzu6gLXnQgGihXHW8YOF3Ey3xtme6dmfjm3xaGN4A3F
+ xNODDjq/5FjX71Z2/Zl9MY2UF2Ae8EuN9Pg74bhiMp+NtErQ8y8Yl5KoEmcKR6f/Egxt
+ jZ53ej5Ib9EPTEmB5ZWjtncMEIgKhh+F6gu9i3dTrK7COyJayZNSvlWgyplVfTOT4uqB
+ 6W6qzSdK9tou4X0l/MpdTlnS6CWI5G+4c18uWc38294G1Z/dU/lomMXUkRlDnBnBbioL
+ RLKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4E8kG4ILRSk7MsJbvzjJRPB5rdnj2Bu4UJI6JB3HuIQ=;
- b=T+eS3iyc54ObDVHJhr98OYa3egRYDKHMLxkZF4GT8Ukts9v2Nd2zSCbkM3goSNKvN7
- FIu+uWzOGUzHcJZAR2ShYgs+EzjkJCBqxke+J2E9S5zZ6QoAYGKma8FcqSRIr5mqy0AQ
- DrNK+u+PDiud6LKDLwM7g4sbMz8I4fmKAhBUPu/RbshZRFHjdzuHOSU6aT5t8zFZuaMu
- u5QF/4YYaviWm9kvh0fYUamnPJyAlw++KkRaGaz18zJ82/LsinABYAapCJFMbSPl3myy
- H64ceMyYD+04i0vWNz8szytgXNtiIgMEZvYGRbKezXg04qXm47PH65Ymbnd/p70iRzJB
- C7HQ==
-X-Gm-Message-State: AOAM533tirwtHqIeJvgMNaSW0lSAb+Na9E9/CqQ/HU6XUKM4f2z/PrX6
- Rz8HGDerPRiJuji4JdDodpV5ltg6DGA=
-X-Google-Smtp-Source: ABdhPJy062B0Et3e5Fm/WJ0XhHay2TILDCL+FijssvofiueYvzkbfq5IOZb5gfP7smUTo1VQpn3VNQ==
-X-Received: by 2002:adf:f3cb:: with SMTP id g11mr10886090wrp.210.1602943524903; 
- Sat, 17 Oct 2020 07:05:24 -0700 (PDT)
+ bh=Bt4oVFiiKF8ndprKkDoZPz+ozlge1hSxtT3OwSh/bHU=;
+ b=G8O/GZyHq5UQuZ3NIHzdFUS0ciEAIL6DkRVK/IcuHfiFDwEgbbf4wWI0VWHsvS4Tme
+ kGpOKhahZI2R9zPHQlk8KbCrp9bGAbN66/xvQFrqQAmNyX939enQt4rFPuFZyiVHqnaf
+ J+khwXgbSWcq2dEbR1VubGAc8W6ulfugAUiDUTT2V69KAR4K39kXnVimMi3sgBPkObQB
+ KoRdFffYsOnSW0/m/Qjsk2arYDdmFEUnSo5eukREOG/nYLbGnsv62BdhlHIFI5QCqZom
+ 7E22/50MmdmToTF1fjcEIF/louqNlZT/ByURjAcRAjk25ONtUwiVhVWUPUJXsKEXKwax
+ BXhQ==
+X-Gm-Message-State: AOAM532JnqoQEnaK6AoE9s2SPN0hxs+nNY8VpqIAMaY4x4E8UE1TWhvs
+ R2Ai4UWk42bkIm9oCQ/DUZ4s1DR66lg=
+X-Google-Smtp-Source: ABdhPJw+zfUVnonjZrl9qJe5J05dKOVnePJdxGV9kyOZYKmqTxzOeg9qFj7gFA3cPHB7VEQMN1wasQ==
+X-Received: by 2002:a1c:4006:: with SMTP id n6mr8459943wma.46.1602943529605;
+ Sat, 17 Oct 2020 07:05:29 -0700 (PDT)
 Received: from localhost.localdomain
  (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id o129sm7229274wmb.25.2020.10.17.07.05.23
+ by smtp.gmail.com with ESMTPSA id c18sm8821587wrt.10.2020.10.17.07.05.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Oct 2020 07:05:24 -0700 (PDT)
+ Sat, 17 Oct 2020 07:05:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/44] hw/mips: Simplify loading 64-bit ELF kernels
-Date: Sat, 17 Oct 2020 16:02:33 +0200
-Message-Id: <20201017140243.1078718-35-f4bug@amsat.org>
+Subject: [PULL 35/44] hw/mips: Simplify code using ROUND_UP(INITRD_PAGE_SIZE)
+Date: Sat, 17 Oct 2020 16:02:34 +0200
+Message-Id: <20201017140243.1078718-36-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201017140243.1078718-1-f4bug@amsat.org>
 References: <20201017140243.1078718-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -96,52 +96,97 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since 82790064116 ("Cast ELF datatypes properly to host 64bit types")
-we don't need to sign-extend the entry_point address. Remove this
-unnecessary code.
+Instead of using a INITRD_PAGE_MASK definition, use the
+simpler INITRD_PAGE_SIZE one which allows us to simplify
+the code by using directly the self-explicit ROUND_UP()
+macro.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200927163943.614604-2-f4bug@amsat.org>
+Message-Id: <20200927163943.614604-3-f4bug@amsat.org>
 ---
- hw/mips/mipssim.c | 6 +-----
- hw/mips/r4k.c     | 6 +-----
- 2 files changed, 2 insertions(+), 10 deletions(-)
+ include/hw/mips/mips.h | 4 +++-
+ hw/mips/fuloong2e.c    | 3 +--
+ hw/mips/malta.c        | 6 +++---
+ hw/mips/mipssim.c      | 3 +--
+ hw/mips/r4k.c          | 3 +--
+ 5 files changed, 9 insertions(+), 10 deletions(-)
 
+diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
+index 0af4c3d5d74..6c9c8805f3f 100644
+--- a/include/hw/mips/mips.h
++++ b/include/hw/mips/mips.h
+@@ -2,8 +2,10 @@
+ #define HW_MIPS_H
+ /* Definitions for mips board emulation.  */
+ 
++#include "qemu/units.h"
++
+ /* Kernels can be configured with 64KB pages */
+-#define INITRD_PAGE_MASK (~((1 << 16) - 1))
++#define INITRD_PAGE_SIZE (64 * KiB)
+ 
+ #include "exec/memory.h"
+ 
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index b8234f61083..de66215f95f 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -133,8 +133,7 @@ static int64_t load_kernel(CPUMIPSState *env)
+     if (loaderparams.initrd_filename) {
+         initrd_size = get_image_size(loaderparams.initrd_filename);
+         if (initrd_size > 0) {
+-            initrd_offset = (kernel_high + ~INITRD_PAGE_MASK) &
+-                            INITRD_PAGE_MASK;
++            initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
+             if (initrd_offset + initrd_size > ram_size) {
+                 error_report("memory too small for initial ram disk '%s'",
+                              loaderparams.initrd_filename);
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index ff3225bb8e3..beb0f43941a 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1077,9 +1077,9 @@ static int64_t load_kernel(void)
+              * the initrd.  It takes at most 128kiB for 2GB RAM and 4kiB
+              * pages.
+              */
+-            initrd_offset = (loaderparams.ram_low_size - initrd_size
+-                             - (128 * KiB)
+-                             - ~INITRD_PAGE_MASK) & INITRD_PAGE_MASK;
++            initrd_offset = ROUND_UP(loaderparams.ram_low_size
++                                     - (initrd_size + 128 * KiB),
++                                     INITRD_PAGE_SIZE);
+             if (kernel_high >= initrd_offset) {
+                 error_report("memory too small for initial ram disk '%s'",
+                              loaderparams.initrd_filename);
 diff --git a/hw/mips/mipssim.c b/hw/mips/mipssim.c
-index f0042f7f436..afef4f2e77a 100644
+index afef4f2e77a..97dcc232476 100644
 --- a/hw/mips/mipssim.c
 +++ b/hw/mips/mipssim.c
-@@ -77,11 +77,7 @@ static int64_t load_kernel(void)
-                            (uint64_t *)&entry, NULL,
-                            (uint64_t *)&kernel_high, NULL, big_endian,
-                            EM_MIPS, 1, 0);
--    if (kernel_size >= 0) {
--        if ((entry & ~0x7fffffffULL) == 0x80000000) {
--            entry = (int32_t)entry;
--        }
--    } else {
-+    if (kernel_size < 0) {
-         error_report("could not load kernel '%s': %s",
-                      loaderparams.kernel_filename,
-                      load_elf_strerror(kernel_size));
+@@ -90,8 +90,7 @@ static int64_t load_kernel(void)
+     if (loaderparams.initrd_filename) {
+         initrd_size = get_image_size(loaderparams.initrd_filename);
+         if (initrd_size > 0) {
+-            initrd_offset = (kernel_high + ~INITRD_PAGE_MASK) &
+-                            INITRD_PAGE_MASK;
++            initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
+             if (initrd_offset + initrd_size > loaderparams.ram_size) {
+                 error_report("memory too small for initial ram disk '%s'",
+                              loaderparams.initrd_filename);
 diff --git a/hw/mips/r4k.c b/hw/mips/r4k.c
-index 39bc626e7c5..7ee37c49689 100644
+index 7ee37c49689..38308543421 100644
 --- a/hw/mips/r4k.c
 +++ b/hw/mips/r4k.c
-@@ -102,11 +102,7 @@ static int64_t load_kernel(void)
-                            (uint64_t *)&entry, NULL,
-                            (uint64_t *)&kernel_high, NULL, big_endian,
-                            EM_MIPS, 1, 0);
--    if (kernel_size >= 0) {
--        if ((entry & ~0x7fffffffULL) == 0x80000000) {
--            entry = (int32_t)entry;
--        }
--    } else {
-+    if (kernel_size < 0) {
-         error_report("could not load kernel '%s': %s",
-                      loaderparams.kernel_filename,
-                      load_elf_strerror(kernel_size));
+@@ -115,8 +115,7 @@ static int64_t load_kernel(void)
+     if (loaderparams.initrd_filename) {
+         initrd_size = get_image_size(loaderparams.initrd_filename);
+         if (initrd_size > 0) {
+-            initrd_offset = (kernel_high + ~INITRD_PAGE_MASK) &
+-                             INITRD_PAGE_MASK;
++            initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
+             if (initrd_offset + initrd_size > ram_size) {
+                 error_report("memory too small for initial ram disk '%s'",
+                              loaderparams.initrd_filename);
 -- 
 2.26.2
 
