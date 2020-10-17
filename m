@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD11A291457
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 22:39:21 +0200 (CEST)
-Received: from localhost ([::1]:53050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B377291454
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 22:37:47 +0200 (CEST)
+Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTsz2-0004Z4-Q4
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 16:39:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34236)
+	id 1kTsxW-0001yJ-E0
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 16:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kTsvi-0000i2-RG; Sat, 17 Oct 2020 16:35:54 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:13755)
+ id 1kTsvi-0000h0-KU; Sat, 17 Oct 2020 16:35:54 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:13773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kTsvf-0004ZM-LE; Sat, 17 Oct 2020 16:35:54 -0400
+ id 1kTsvd-0004ZV-P5; Sat, 17 Oct 2020 16:35:53 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B5EEC747632;
+ by localhost (Postfix) with SMTP id E9B5E747F17;
  Sat, 17 Oct 2020 22:35:46 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 67C9A74762E; Sat, 17 Oct 2020 22:35:46 +0200 (CEST)
-Message-Id: <2b7a5594c8c41dcae0ade3354a13540f83570ab0.1602965621.git.balaton@eik.bme.hu>
+ id 6B844747631; Sat, 17 Oct 2020 22:35:46 +0200 (CEST)
+Message-Id: <cbd0085a1b503deeb3bebe56d5d10ce14c8113ee.1602965621.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1602965621.git.balaton@eik.bme.hu>
 References: <cover.1602965621.git.balaton@eik.bme.hu>
-Subject: [PATCH 4/6] sun4u: use qdev instead of legacy m48t59_init() function
+Subject: [PATCH 5/6] ppc405_boards: use qdev instead of legacy m48t59_init()
+ function
 Date: Sat, 17 Oct 2020 22:13:41 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -66,28 +67,30 @@ From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/sparc64/sun4u.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/ppc/ppc405_boards.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index ad5ca2472a..a89ebed6f0 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -671,10 +671,12 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-     pci_ide_create_devs(pci_dev);
- 
-     /* Map NVRAM into I/O (ebus) space */
--    nvram = m48t59_init(NULL, 0, 0, NVRAM_SIZE, 1968, 59);
--    s = SYS_BUS_DEVICE(nvram);
-+    dev = qdev_new("sysbus-m48t59");
-+    s = SYS_BUS_DEVICE(dev);
-+    sysbus_realize_and_unref(s, &error_fatal);
-     memory_region_add_subregion(pci_address_space_io(ebus), 0x2000,
-                                 sysbus_mmio_get_region(s, 0));
-+    nvram = NVRAM(dev);
-  
-     initrd_size = 0;
-     initrd_addr = 0;
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 6198ec1035..7a11a38831 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -28,6 +28,7 @@
+ #include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/ppc/ppc.h"
++#include "hw/sysbus.h"
+ #include "ppc405.h"
+ #include "hw/rtc/m48t59.h"
+ #include "hw/block/flash.h"
+@@ -227,7 +228,7 @@ static void ref405ep_init(MachineState *machine)
+     /* Register FPGA */
+     ref405ep_fpga_init(sysmem, 0xF0300000);
+     /* Register NVRAM */
+-    m48t59_init(NULL, 0xF0000000, 0, 8192, 1968, 8);
++    sysbus_create_simple("sysbus-m48t08", 0xF0000000, NULL);
+     /* Load kernel */
+     linux_boot = (kernel_filename != NULL);
+     if (linux_boot) {
 -- 
 2.21.3
 
