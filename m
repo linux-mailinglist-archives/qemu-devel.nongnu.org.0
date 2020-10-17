@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8EB29135A
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 19:46:01 +0200 (CEST)
-Received: from localhost ([::1]:36448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752B9291363
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Oct 2020 20:02:30 +0200 (CEST)
+Received: from localhost ([::1]:48376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kTqHI-0001AU-WF
-	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 13:46:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39002)
+	id 1kTqXE-0006tr-M4
+	for lists+qemu-devel@lfdr.de; Sat, 17 Oct 2020 14:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTqFu-0000YN-L1; Sat, 17 Oct 2020 13:44:34 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46705)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kTqVw-0006RJ-Ds
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 14:01:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kTqFs-0002Jj-PU; Sat, 17 Oct 2020 13:44:34 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n6so6894223wrm.13;
- Sat, 17 Oct 2020 10:44:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NuBMMA9P9+Uu7GYL8b5m00yUHlAcPRtsrSZIdVJw364=;
- b=AH/3UCKk4MNCjqJ3xsrX1M1lJD0bMh/bU4zZP2lyJ4Y6AC2XFRGDWW48Jgbce8F2aL
- xRJLwT/Qb3cBxyf7FQxe3RSkVDcQwo4++SyoG1PQ2d7K0vPun/5Ou2LsTs6cehdmTtlP
- 9dfnAQ8pG7Bor8xjoRq4b4WKvThbIq7Tsp+YUJ/aOiMNb0oU9l3VsolvdJXItiALSsEW
- pD5WmCXdV4F4e5px+vXN0x749H+USdU4D05FF+4epKUuALDxbXLmGK1xHU65KRnbuD0S
- tW6wp/Y6Es9mJlOS9x216MJWRRl9RPLzrKGtrfGc4AiRQInUNtNe1Mh3Ah0uz/gXMxvG
- Ygmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NuBMMA9P9+Uu7GYL8b5m00yUHlAcPRtsrSZIdVJw364=;
- b=OodQwQfWz0PeJr4vRbZEZNOSR9ZEJKwV1t89Z8/R21iPXRJefGLWnSPg6qd67UolDS
- comG+RF413vBJsitOW5CNlRQpFwxaF9bC78tYrAadDBw6JvP1Uwu6xmBiExMChIEzfbu
- mWEwTcHzuAValYSHJzaGo/YGxqdaLdBOrDnUTk4lYZ1pvxLxNU6VAA6R2vp/nS1k0j4w
- 4dTC0ejsQG1LqEc7FC4onveKsJPn7sg4840QfooFawnR8qIfsUq+Orn1cf0ChgIJ8z8Y
- Zb7tHEgyosFBTtI5AhuFpPAJkQaf8qOOlUNP0UaFcL2k4pbu0v+2wR4XfKj7YKzTjvXh
- RKaw==
-X-Gm-Message-State: AOAM5332vKdJGlN2knDZe5HGmDBFm4tFecx/TWxvikHWWQQ57Bd+3ct8
- YJwHuD0VtYf8HwGoSK1h5oeXCF1x6yw=
-X-Google-Smtp-Source: ABdhPJzvGwmg55rEmKl247fyo5L46Aj8+U806GHKIdYZaivkcO9SuJVUyJm4sJgGmHprc8lMiJrjpw==
-X-Received: by 2002:adf:e70f:: with SMTP id c15mr11320079wrm.239.1602956670671; 
- Sat, 17 Oct 2020 10:44:30 -0700 (PDT)
-Received: from [192.168.1.36] (117.red-83-52-172.dynamicip.rima-tde.net.
- [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id s1sm8086802wmh.22.2020.10.17.10.44.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Oct 2020 10:44:30 -0700 (PDT)
-Subject: Re: [PATCH v8 0/5] Mac Old World ROM experiment (ppc/mac_* clean ups
- and loading binary ROM)
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <cover.1602805637.git.balaton@eik.bme.hu>
- <005ed95d-65ee-ab36-c068-e96a773ef8ed@ilande.co.uk>
- <7c34f053-268e-6dbf-205f-48792328ebe8@amsat.org>
- <edb86311-6093-9776-a81-17ee8205a6c@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6598b187-7936-563c-c06b-cb4315fa4cc1@amsat.org>
-Date: Sat, 17 Oct 2020 19:44:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kTqVr-0004VD-EJ
+ for qemu-devel@nongnu.org; Sat, 17 Oct 2020 14:01:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kTqVn-0000r5-Tu
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 18:00:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 942C02E8079
+ for <qemu-devel@nongnu.org>; Sat, 17 Oct 2020 18:00:59 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <edb86311-6093-9776-a81-17ee8205a6c@eik.bme.hu>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.247,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 17 Oct 2020 17:51:30 -0000
+From: Artyom Tarasenko <1874504@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: sparc64 vfio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: atar4qemu gh975223
+X-Launchpad-Bug-Reporter: Graeme Brett Houston BSc (gh975223)
+X-Launchpad-Bug-Modifier: Artyom Tarasenko (atar4qemu)
+References: <158766417277.8728.12362820918014730192.malonedeb@gac.canonical.com>
+Message-Id: <160295709043.8105.11947952191280664104.malone@chaenomeles.canonical.com>
+Subject: [Bug 1874504] Re: VFIO passthrough spits out thousands of messages
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
+X-Launchpad-Hash: 3758b47d0348f91acdcedba519f3362839bd2715
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/17 14:01:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,62 +72,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Reply-To: Bug 1874504 <1874504@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/20 6:39 PM, BALATON Zoltan via wrote:
-> On Fri, 16 Oct 2020, Philippe Mathieu-DaudÃ© wrote:
->> On 10/16/20 11:58 AM, Mark Cave-Ayland wrote:
->>> On 16/10/2020 00:47, BALATON Zoltan via wrote:
->>>
->>>> This is the cut down version of the earlier series omitting unfinished
->>>> patches that I plan to rework later and rebased to Mark's qemu-macppc
->>>> branch. Compared to v7 the only change is the cast to (target_ulong)
->>>> from (uint32_t) as requested by Mark in patch 1.
->>>
->>> FWIW the reason for suggesting the cast to target_ulong is so that 
->>> the same code works for both qemu-system-ppc and qemu-system-ppc64. 
->>> For qemu-system-ppc that should correctly drop the sign extension 
->>> from 32-bit, whilst still allowing someone to load a 64-bit ELF into 
->>> qemu-system-ppc64 if requested.
->>
->> IMO this is part of a bigger design problem. Not all
->> machines main bus is 64-bit. I did some experiments
->> but changing that involves a lot of work.
-> 
-> Did not want to reply to this to not bring it to your attention before 
-> patch gets in finally but it's too late...
-> 
-> Not sure what you refer to
+Is this a regression? Can you please bisect to the first commit where it
+happened?
 
-I refer to having machines with a N-bit main bus using a N-bit main bus
-(currently all main busses are 64-bit wide).
+-- =
 
-Some 32-bit machines have access to 64-bit busses, some don't.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1874504
 
-I have been wondering about it because of the AVR CPU which
-uses a pair of busses, each less than 32-bit.
+Title:
+  VFIO passthrough spits out thousands of messages
 
-If one day I can finish my work there, the Old World mac might
-benefit from it.
+Status in QEMU:
+  New
 
-> but in this particular case the problem only 
-> seems to be load_elf loading 32 bit ELF files returning sign extended 64 
-> bit address which looks bogus but since this function is widely used I 
-> did not feel confident enough to propose a patch to load_elf.
-> 
-> By the way, also the parameters of load_elf could take a clean up to 
-> remove all the mostly NULL values as I've pointed out before:
-> 
-> https://lists.nongnu.org/archive/html/qemu-devel/2019-01/msg03427.html
-> 
-> but all this could wait until later, these don't seem to be urgent 
-> problems to prevent moving mac machines forward now and could all be 
-> addressen in separate elf loading series. So just note the problem and 
-> move on for now please.
-> 
-> Reagards.
-> BALATON Zoltan
+Bug description:
+  started qemu as:
+  sudo qemu-system-sparc64 -device vfio-pci,host=3D0b:05.0,x-no-mmap=3Don,b=
+us=3DpciB
+
+  messages received thousands of times:
+
+  qemu-system-sparc64: -device vfio-pci,host=3D0b:05.0,x-no-mmap=3Don,bus=
+=3DpciB: iommu has granularity incompatible with target AS
+  qemu-system-sparc64: -device vfio-pci,host=3D0b:05.0,x-no-mmap=3Don,bus=
+=3DpciB: iommu map to non memory area 4079c000
+
+  qemu version (think telling a lie as sure its 5.0)
+  QEMU emulator version 4.2.92
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+
+  pci device being passed through:
+
+  0b:05.0 Display controller [0380]: 3DLabs Permedia II 2D+3D [3d3d:0009] (=
+rev 01)
+  	Subsystem: Tech-Source Permedia II 2D+3D [1227:0006]
+  	Flags: medium devsel, IRQ 11
+  	Memory at 83000000 (32-bit, non-prefetchable) [disabled] [size=3D128K]
+  	Memory at 82800000 (32-bit, non-prefetchable) [disabled] [size=3D8M]
+  	Memory at 82000000 (32-bit, non-prefetchable) [disabled] [size=3D8M]
+  	Expansion ROM at 83020000 [disabled] [size=3D64K]
+  	Capabilities: <access denied>
+  	Kernel driver in use: vfio-pci
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1874504/+subscriptions
 
