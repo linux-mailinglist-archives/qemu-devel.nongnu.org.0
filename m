@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D72A2918E5
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 20:40:46 +0200 (CEST)
-Received: from localhost ([::1]:37708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75A7291FF5
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 22:44:18 +0200 (CEST)
+Received: from localhost ([::1]:43964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUDbo-0003KO-OH
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 14:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50574)
+	id 1kUFXN-0006JP-Vj
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 16:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUDZO-0002On-A2
- for qemu-devel@nongnu.org; Sun, 18 Oct 2020 14:38:14 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41425)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kUFOu-0003jh-Dh
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 16:35:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUDZM-0005RG-LP
- for qemu-devel@nongnu.org; Sun, 18 Oct 2020 14:38:13 -0400
-Received: by mail-pl1-x641.google.com with SMTP id w11so3848989pll.8
- for <qemu-devel@nongnu.org>; Sun, 18 Oct 2020 11:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xygWhd7/t3+swPCAk8Jof9t7rlJpbSZ5/RG0684D34s=;
- b=FwS918dQvRkYVfgwvZNLFSAHcbnHXmxOzBJX56j5MHWDCEfonXASVRr5xYyYuuWRoq
- 12+z3Clbc0T4sfZjTvTSpikiUqLabZd3leZaQeynigtFqNq7+97fZTm05CaOacCwCcG8
- g+EqUIBBIAOfWBhz/Z1/lWvBrDE8l+80EOR5SyS0BAHSTwBTqWgVAuf0AxdPjP+UtwhQ
- GiY2jdNIqbmvaMdCpgF14Qbsmu9sFJiDsjgfd9q3Wx8t/K85QKpzsJEVt6TmpR/hqejr
- EW8Je9MwMRt5mclDHJHPn4lfs5FZVH5hysQYDUqKclF2h89d5hmnh50/qdlQHHUJXumJ
- 6JFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xygWhd7/t3+swPCAk8Jof9t7rlJpbSZ5/RG0684D34s=;
- b=DUMwET2Ioo5EwwKLkveB97J7PmU+Nf9GcX46HO/ANcNh0M3LzHF8O+jyVVOsicimlO
- DIa/OBMVrgm4WZCNzb4xaTdVq2eaB+VJE7gQvxGG8RHyE4Hxj+Ljpo6c8C1Wy1BmFleO
- dDGglgFnDN68kBVcmDc9Dac0QQJcsZdX8eF7ABkymmvNHNNwtEhUX0XYLSF+Q3Or4YJq
- zc5AdDT01+8FPuJS3aZteLPHco++YqgtQ6pLKOVhgyHl/hj7BXYC8/L0J+gJbIM5dGAr
- ax0x2El2sgmusFbAA0IcVkKGFgqzLCW/JJFM+PKvArGpasTJhCSXT08qb9XD5Lcp7fUl
- ndRA==
-X-Gm-Message-State: AOAM5321HM6FbEHNj0P/NIesn/s3Ie0xTHhEI7/SPZEaOx/8Ox+Pm0Wj
- BjTrSTsGZd1mpJ45fWqdw9xf7g==
-X-Google-Smtp-Source: ABdhPJybBQ4HP7msdjXVUsUlAwJTZ7yozc90Xwr/jcBpL/+zRg+xS9VbuRkIN+EIxqjemW4INyLkxg==
-X-Received: by 2002:a17:902:7c01:b029:d5:aad0:b7b1 with SMTP id
- x1-20020a1709027c01b02900d5aad0b7b1mr13783322pll.53.1603046290118; 
- Sun, 18 Oct 2020 11:38:10 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id v65sm8999928pgv.21.2020.10.18.11.38.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Oct 2020 11:38:09 -0700 (PDT)
-Subject: Re: [PATCH v3] util/oslib-win32: Use _aligned_malloc for
- qemu_try_memalign
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201018164836.1149452-1-richard.henderson@linaro.org>
- <a80c300f-1a78-e3d1-bc28-2380fd4c7c8e@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4d821c01-3dda-7cab-f383-8fd31ba64c92@linaro.org>
-Date: Sun, 18 Oct 2020 11:38:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kUFOs-000192-1D
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 16:35:32 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kUFOp-0005mJ-Aq
+ for <qemu-devel@nongnu.org>; Sun, 18 Oct 2020 20:35:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4AD0E2E811E
+ for <qemu-devel@nongnu.org>; Sun, 18 Oct 2020 20:35:27 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <a80c300f-1a78-e3d1-bc28-2380fd4c7c8e@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 18 Oct 2020 20:26:50 -0000
+From: Richard Henderson <1892081@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahmedkrmn rth
+X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <159777580973.2034.8843080316751302000.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160305281061.8354.10559613448069498987.malone@chaenomeles.canonical.com>
+Subject: [Bug 1892081] Re: Performance improvement when using "QEMU_FLATTEN"
+ with softfloat type conversions
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
+X-Launchpad-Hash: 5ae908407d82ccd0dfece4a382016c0e9d458a37
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/18 16:35:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,21 +73,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de
+Reply-To: Bug 1892081 <1892081@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/20 11:34 AM, Philippe Mathieu-Daudé wrote:
->> +    g_assert(size != 0);
-> 
-> "The alignment value, which must be an integer power of 2.",
-> so maybe:
-> 
->        g_assert(size != 0 && is_power_of_2(alignment));
+Confirmed, although "65% decrease" is on 0.44% of the total
+execution for this test case, so the decrease isn't actually
+noticeable.
 
-This is also true of posix_memalign.  If we are going to add this, we should
-also assert in the other qemu_try_memalign.
+Nevertheless, it's a simple enough change.
 
+** Changed in: qemu
+       Status: New =3D> In Progress
 
-r~
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Richard Henderson (rth)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892081
+
+Title:
+  Performance improvement when using "QEMU_FLATTEN" with softfloat type
+  conversions
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Attached below is a matrix multiplication program for double data
+  types. The program performs the casting operation "(double)rand()"
+  when generating random numbers.
+
+  This operation calls the integer to float softfloat conversion
+  function "int32_to_float_64".
+
+  Adding the "QEMU_FLATTEN" attribute to the function definition
+  decreases the instructions per call of the function by about 63%.
+
+  Attached are before and after performance screenshots from
+  KCachegrind.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892081/+subscriptions
 
