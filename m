@@ -2,48 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B4629183E
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 18:10:29 +0200 (CEST)
-Received: from localhost ([::1]:58792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4B929184C
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 18:14:55 +0200 (CEST)
+Received: from localhost ([::1]:44216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUBGO-0005Xc-JX
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 12:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53126)
+	id 1kUBKg-0002z0-Mv
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 12:14:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUB7K-0003HH-8X; Sun, 18 Oct 2020 12:01:10 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60454
+ id 1kUBJL-0001hF-UO; Sun, 18 Oct 2020 12:13:31 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60536
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUB7H-0004g8-8B; Sun, 18 Oct 2020 12:01:05 -0400
+ id 1kUBJJ-00065R-Pl; Sun, 18 Oct 2020 12:13:31 -0400
 Received: from host86-148-246-80.range86-148.btcentralplus.com
  ([86.148.246.80] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUB7L-0001HX-6r; Sun, 18 Oct 2020 17:01:07 +0100
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <cover.1602805637.git.balaton@eik.bme.hu>
- <005ed95d-65ee-ab36-c068-e96a773ef8ed@ilande.co.uk>
- <f26e685a-4e93-c8a5-622f-5b12c71b8ac@eik.bme.hu>
- <f614564a-e3e1-fc68-7f88-5983f5d41575@ilande.co.uk>
- <6d125f2-c936-cfa2-f180-42b8ad9ca522@eik.bme.hu>
+ id 1kUBJE-0001Mh-PU; Sun, 18 Oct 2020 17:13:29 +0100
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1602965621.git.balaton@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <70207aa2-b06b-50b4-9255-28795d576886@ilande.co.uk>
-Date: Sun, 18 Oct 2020 17:01:00 +0100
+Message-ID: <3f3c6cc9-3b65-d5b7-8aad-9e26afebb816@ilande.co.uk>
+Date: Sun, 18 Oct 2020 17:13:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <6d125f2-c936-cfa2-f180-42b8ad9ca522@eik.bme.hu>
+In-Reply-To: <cover.1602965621.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.246.80
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v8 0/5] Mac Old World ROM experiment (ppc/mac_* clean ups
- and loading binary ROM)
+Subject: Re: [PATCH 0/6] m48t59: remove legacy init functions
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -68,23 +64,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Herve Poussineau <hpoussin@reactos.org>,
+ Philippe Mathieu-Daude <f4bug@amsat.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/10/2020 16:56, BALATON Zoltan via wrote:
+On 17/10/2020 21:13, BALATON Zoltan via wrote:
 
->> If you can send a v9 with the cast fixed I'll apply this to my qemu-macppc branch 
->> right away.
+> This is inspired by Mark's series:
 > 
-> You could've really just edit the single cast in patch 1 before applying to change 
-> the it back but I've resent the changed patch 1 as v9 also adding your R-b for your 
-> convenience. Other patches are unchanged so you can take the v8 for those, I haven't 
-> resent those, let me know if you want the whole series but this is really getting 
-> much more work that it should be for such a simple change. (There is no cast in patch 
-> 2 as I've already stated several times.)
+> https://lists.nongnu.org/archive/html/qemu-ppc/2020-10/msg00251.html
+> 
+> and implements what I've suggested in review of that series to
+> simplify it and avoid code churn if implementing my suggestion later.
+> 
+> Regards,
+> BALATON Zoltan
+> 
+> BALATON Zoltan (4):
+>    mt48t59: Set default value of base-year property to 1968
+>    sun4m: use qdev instead of legacy m48t59_init() function
+>    sun4u: use qdev instead of legacy m48t59_init() function
+>    ppc405_boards: use qdev instead of legacy m48t59_init() function
+> 
+> Mark Cave-Ayland (2):
+>    m48t59-isa: remove legacy m48t59_init_isa() function
+>    m48t59: remove legacy m48t59_init() function
+> 
+>   hw/ppc/ppc405_boards.c  |  3 ++-
+>   hw/rtc/m48t59-isa.c     | 25 -------------------------
+>   hw/rtc/m48t59.c         | 37 +------------------------------------
+>   hw/sparc/sun4m.c        |  5 +++--
+>   hw/sparc64/sun4u.c      |  6 ++++--
+>   include/hw/rtc/m48t59.h |  6 ------
+>   6 files changed, 10 insertions(+), 72 deletions(-)
 
-Thanks - this has been included in the PR I just sent.
+Unfortunately this arrived too late - I'd already finished the tagging and local 
+testing, but didn't get a chance to do the final PR before having to head out yesterday.
+
+I think most people here agree that this code could be improved, but I'm not clear 
+that this is the right solution given that Artyom has already pointed out that 40p 
+uses 1900 as the base year. There would also be an overlap with the ideas that 
+Philippe has expressed in this thread which would cause more code churn later, so if 
+this is something that interests you I would suggest starting a separate thread to 
+gain consensus as to the desired solution first before working on an updated series.
 
 
 ATB,
