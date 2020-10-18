@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4B929184C
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 18:14:55 +0200 (CEST)
-Received: from localhost ([::1]:44216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443E8291851
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 18:17:19 +0200 (CEST)
+Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUBKg-0002z0-Mv
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 12:14:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55576)
+	id 1kUBN0-0005jZ-9y
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 12:17:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUBJL-0001hF-UO; Sun, 18 Oct 2020 12:13:31 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60536
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1kUBK6-0003Ha-Ig
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 12:14:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUBJJ-00065R-Pl; Sun, 18 Oct 2020 12:13:31 -0400
-Received: from host86-148-246-80.range86-148.btcentralplus.com
- ([86.148.246.80] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUBJE-0001Mh-PU; Sun, 18 Oct 2020 17:13:29 +0100
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1602965621.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <3f3c6cc9-3b65-d5b7-8aad-9e26afebb816@ilande.co.uk>
-Date: Sun, 18 Oct 2020 17:13:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1kUBK4-000694-IY
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 12:14:18 -0400
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B06492223F
+ for <qemu-devel@nongnu.org>; Sun, 18 Oct 2020 16:14:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603037655;
+ bh=QkAuJOFzVf0Wwxo6H++VdX8xdeoi48QFNUPVWESxEeY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=rffJvgFw8irrIGZAcek+x0zg/gt4Gi/MwUN3UHhn0YsqDBUlTjD/VMQRp4txU3C+R
+ 9evpOGeEmginVuSv16P6vdFf9xqJoNVP8Pi/M625Nhhn3oq9KVeHXUUkp59uv/Qj1A
+ 1hXbIGy2bo1vH3hofY0qSAhRGjG62+Ze93DId1hg=
+Received: by mail-wm1-f49.google.com with SMTP id f21so7959923wml.3
+ for <qemu-devel@nongnu.org>; Sun, 18 Oct 2020 09:14:14 -0700 (PDT)
+X-Gm-Message-State: AOAM530YQAWsGUFXWaD0Qu0l3XT/phdstyJ/J07mdGAGTVwGrKR823GZ
+ tNFJ31wrVsmgyXKDxC2KEPk6JKEyAZzFwkaJGqERWw==
+X-Google-Smtp-Source: ABdhPJzAXECqLOcgtU/8DSPTTXSAjc3cG+qUKXcQQZ/UMNZ2TU+94ycOvtKGPaT5rUWM66K+feNpmT6EZJqfh4RkIck=
+X-Received: by 2002:a05:600c:2256:: with SMTP id
+ a22mr13760040wmm.138.1603037652395; 
+ Sun, 18 Oct 2020 09:14:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cover.1602965621.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.246.80
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/6] m48t59: remove legacy init functions
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
+ <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com>
+ <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+ <20201017053712.GA14105@1wt.eu>
+ <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+ <20201017064442.GA14117@1wt.eu>
+ <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
+ <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com>
+ <20201018114625-mutt-send-email-mst@kernel.org>
+ <CALCETrXBJZnKXo2QLKVWSgAhSMdwEVHeut6pRw4P92CR_5A-fQ@mail.gmail.com>
+ <20201018115524-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20201018115524-mutt-send-email-mst@kernel.org>
+From: Andy Lutomirski <luto@kernel.org>
+Date: Sun, 18 Oct 2020 09:14:00 -0700
+X-Gmail-Original-Message-ID: <CALCETrUeRAhmEFR6EFXz8HzDYd2doZ2TMyZmu1pU_-yAPA6KDw@mail.gmail.com>
+Message-ID: <CALCETrUeRAhmEFR6EFXz8HzDYd2doZ2TMyZmu1pU_-yAPA6KDw@mail.gmail.com>
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=luto@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/18 11:54:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,55 +81,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Herve Poussineau <hpoussin@reactos.org>,
- Philippe Mathieu-Daude <f4bug@amsat.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, KVM list <kvm@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, ghammer@redhat.com,
+ "Weiss, Radu" <raduweis@amazon.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Pavel Machek <pavel@ucw.cz>, Jonathan Corbet <corbet@lwn.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+ "Singh, Balbir" <sblbir@amazon.com>, bonzini@gnu.org, "Graf \(AWS\),
+ Alexander" <graf@amazon.de>, Michal Hocko <mhocko@kernel.org>,
+ Jann Horn <jannh@google.com>, oridgar@gmail.com, "Catangiu,
+ Adrian Costin" <acatan@amazon.com>, Andy Lutomirski <luto@kernel.org>,
+ Colm MacCarthaigh <colmmacc@amazon.com>, "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ kernel list <linux-kernel@vger.kernel.org>,
+ Linux API <linux-api@vger.kernel.org>, Willy Tarreau <w@1wt.eu>, "Woodhouse,
+ David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/10/2020 21:13, BALATON Zoltan via wrote:
+On Sun, Oct 18, 2020 at 8:59 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Sun, Oct 18, 2020 at 08:54:36AM -0700, Andy Lutomirski wrote:
+> > On Sun, Oct 18, 2020 at 8:52 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > On Sat, Oct 17, 2020 at 03:24:08PM +0200, Jason A. Donenfeld wrote:
+> > > > 4c. The guest kernel maintains an array of physical addresses that are
+> > > > MADV_WIPEONFORK. The hypervisor knows about this array and its
+> > > > location through whatever protocol, and before resuming a
+> > > > moved/snapshotted/duplicated VM, it takes the responsibility for
+> > > > memzeroing this memory. The huge pro here would be that this
+> > > > eliminates all races, and reduces complexity quite a bit, because the
+> > > > hypervisor can perfectly synchronize its bringup (and SMP bringup)
+> > > > with this, and it can even optimize things like on-disk memory
+> > > > snapshots to simply not write out those pages to disk.
+> > > >
+> > > > A 4c-like approach seems like it'd be a lot of bang for the buck -- we
+> > > > reuse the existing mechanism (MADV_WIPEONFORK), so there's no new
+> > > > userspace API to deal with, and it'd be race free, and eliminate a lot
+> > > > of kernel complexity.
+> > >
+> > > Clearly this has a chance to break applications, right?
+> > > If there's an app that uses this as a non-system-calls way
+> > > to find out whether there was a fork, it will break
+> > > when wipe triggers without a fork ...
+> > > For example, imagine:
+> > >
+> > > MADV_WIPEONFORK
+> > > copy secret data to MADV_DONTFORK
+> > > fork
+> > >
+> > >
+> > > used to work, with this change it gets 0s instead of the secret data.
+> > >
+> > >
+> > > I am also not sure it's wise to expose each guest process
+> > > to the hypervisor like this. E.g. each process needs a
+> > > guest physical address of its own then. This is a finite resource.
+> > >
+> > >
+> > > The mmap interface proposed here is somewhat baroque, but it is
+> > > certainly simple to implement ...
+> >
+> > Wipe of fork/vmgenid/whatever could end up being much more problematic
+> > than it naively appears -- it could be wiped in the middle of a read.
+> > Either the API needs to handle this cleanly, or we need something more
+> > aggressive like signal-on-fork.
+> >
+> > --Andy
+>
+>
+> Right, it's not on fork, it's actually when process is snapshotted.
+>
+> If we assume it's CRIU we care about, then I
+> wonder what's wrong with something like
+> MADV_CHANGEONPTRACE_SEIZE
+> and basically say it's X bytes which change the value...
 
-> This is inspired by Mark's series:
-> 
-> https://lists.nongnu.org/archive/html/qemu-ppc/2020-10/msg00251.html
-> 
-> and implements what I've suggested in review of that series to
-> simplify it and avoid code churn if implementing my suggestion later.
-> 
-> Regards,
-> BALATON Zoltan
-> 
-> BALATON Zoltan (4):
->    mt48t59: Set default value of base-year property to 1968
->    sun4m: use qdev instead of legacy m48t59_init() function
->    sun4u: use qdev instead of legacy m48t59_init() function
->    ppc405_boards: use qdev instead of legacy m48t59_init() function
-> 
-> Mark Cave-Ayland (2):
->    m48t59-isa: remove legacy m48t59_init_isa() function
->    m48t59: remove legacy m48t59_init() function
-> 
->   hw/ppc/ppc405_boards.c  |  3 ++-
->   hw/rtc/m48t59-isa.c     | 25 -------------------------
->   hw/rtc/m48t59.c         | 37 +------------------------------------
->   hw/sparc/sun4m.c        |  5 +++--
->   hw/sparc64/sun4u.c      |  6 ++++--
->   include/hw/rtc/m48t59.h |  6 ------
->   6 files changed, 10 insertions(+), 72 deletions(-)
+I feel like we may be approaching this from the wrong end.  Rather
+than saying "what data structure can the kernel expose that might
+plausibly be useful", how about we try identifying some specific
+userspace needs and see what a good solution could look like.  I can
+identify two major cryptographic use cases:
 
-Unfortunately this arrived too late - I'd already finished the tagging and local 
-testing, but didn't get a chance to do the final PR before having to head out yesterday.
+1. A userspace RNG.  The API exposed by the userspace end is a
+function that generates random numbers.  The userspace code in turn
+wants to know some things from the kernel: it wants some
+best-quality-available random seed data from the kernel (and possibly
+an indication of how good it is) as well as an indication of whether
+the userspace memory may have been cloned or rolled back, or, failing
+that, an indication of whether a reseed is needed.  Userspace could
+implement a wide variety of algorithms on top depending on its goals
+and compliance requirements, but the end goal is for the userspace
+part to be very, very fast.
 
-I think most people here agree that this code could be improved, but I'm not clear 
-that this is the right solution given that Artyom has already pointed out that 40p 
-uses 1900 as the base year. There would also be an overlap with the ideas that 
-Philippe has expressed in this thread which would cause more code churn later, so if 
-this is something that interests you I would suggest starting a separate thread to 
-gain consensus as to the desired solution first before working on an updated series.
+2. A userspace crypto stack that wants to avoid shooting itself in the
+foot due to inadvertently doing the same thing twice.  For example, an
+AES-GCM stack does not want to reuse an IV, *expecially* if there is
+even the slightest chance that it might reuse the IV for different
+data.  This use case doesn't necessarily involve random numbers, but,
+if anything, it needs to be even faster than #1.
 
+The threats here are not really the same.  For #1, a userspace RNG
+should be able to recover from a scenario in which an adversary clones
+the entire process *and gets to own the clone*.  For example, in
+Android, an adversary can often gain complete control of a fork of the
+zygote -- this shouldn't adversely affect the security properties of
+other forks.  Similarly, a server farm could operate by having one
+booted server that is cloned to create more workers.  Those clones
+could be provisioned with secrets and permissions post-clone, and at
+attacker gaining control of a fresh clone could be considered
+acceptable.  For #2, in contrast, if an adversary gains control of a
+clone of an AES-GCM session, they learn the key outright -- the
+relevant attack scenario is that the adversary gets to interact with
+two clones without compromising either clone per se.
 
-ATB,
-
-Mark.
+It's worth noting that, in both cases, there could possibly be more
+than one instance of an RNG or an AES-GCM session in the same process.
+This means that using signals is awkward but not necessarily
+impossibly.  (This is an area in which Linux, and POSIX in general, is
+much weaker than Windows.)
 
