@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9B929200E
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 23:02:41 +0200 (CEST)
-Received: from localhost ([::1]:47914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 376FD292006
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 22:57:17 +0200 (CEST)
+Received: from localhost ([::1]:36960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUFpA-0003JE-CZ
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 17:02:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42332)
+	id 1kUFjw-00076s-0t
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 16:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kUFnO-0002S4-Pm
- for qemu-devel@nongnu.org; Sun, 18 Oct 2020 17:00:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kUFnM-0004K9-By
- for qemu-devel@nongnu.org; Sun, 18 Oct 2020 17:00:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kUFnJ-0007Hy-L1
- for <qemu-devel@nongnu.org>; Sun, 18 Oct 2020 21:00:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 97DA92E811E
- for <qemu-devel@nongnu.org>; Sun, 18 Oct 2020 21:00:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kUFiZ-0005uN-3f
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 16:55:51 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kUFiX-0003oS-0I
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 16:55:50 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f8caba50000>; Sun, 18 Oct 2020 13:55:01 -0700
+Received: from [10.40.101.194] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 18 Oct
+ 2020 20:55:31 +0000
+Subject: Re: [PATCH v26 07/17] vfio: Register SaveVMHandlers for VFIO device
+To: Cornelia Huck <cohuck@redhat.com>
+References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
+ <1600817059-26721-8-git-send-email-kwankhede@nvidia.com>
+ <20200925135318.7afaf234.cohuck@redhat.com>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <34146d7a-6b38-132d-ab2e-90f5d8b71f9e@nvidia.com>
+Date: Mon, 19 Oct 2020 02:25:28 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 18 Oct 2020 20:53:39 -0000
-From: azrdev <1900352@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: azrdev
-X-Launchpad-Bug-Reporter: azrdev (azrdev)
-X-Launchpad-Bug-Modifier: azrdev (azrdev)
-Message-Id: <160305441976.24841.13039199321181716252.malonedeb@soybean.canonical.com>
-Subject: [Bug 1900352] [NEW] no sound in spice when VNC enabled
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
-X-Launchpad-Hash: 16f9454a067bff33c67dda4966b5e36b33115e50
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/18 16:35:27
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200925135318.7afaf234.cohuck@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1603054501; bh=erjOhhdEJiZ7vuQBtqUDFKLUCFj4iSgrkxFZjah9jjs=;
+ h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
+ User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=QkW+knl+E179piMiC8kmqO0OLL6WMStTdKvK99qP7oFycx3b5doDOAk0LhtRS0h/T
+ Tl9+SEqygsQd195Mu3JAqmMGx/mMNPAlhbnXIXUg2czMuCr65Fg+RAUqfJ5rBjig9J
+ WCL5rGXFMZuc5Xa4wF8Gf8vAv44+c7o1DOoJB0R5+p/PfyAQC0LolEjGmSd2egTDf+
+ e2axsUZY6AKnDVObqcEKzICaf2r7IfxE5Fq2E3qt+4z6GDcz3RN26D+MDfl56GKFFv
+ ggUe0m/hwSUlCsQJDSkNJaxmDHNSD/PjQN89YwOFkZJwt6whMO3DbLSXpRqrJCKYIY
+ UvG7RE6IAzKiA==
+Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate25.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/18 16:55:47
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,76 +78,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900352 <1900352@bugs.launchpad.net>
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eauger@redhat.com, yi.l.liu@intel.com, quintela@redhat.com,
+ ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-Running Fedora32 with virt-manager =E2=86=92 libvirt =E2=86=92 qemu  I noti=
-ced that I
-got no sound in my spice client. The VM is configured with a SPICE-
-server and a QXL display, and in addition a VNC display.
 
-Apparently when I remove the VNC display, then the sound is routed just
-fine to the spice client: I can hear it, and `G_MESSAGES_DEBUG=3Dall
-remote-viewer --spice-debug  spice://localhost:5900` mentions
-SpicePlaybackChannel and SpiceRecordChannel. With the VNC server
-configured, such messages are missing, and I cannot hear the sound
-(which is sent by the guest OS to the virtual hardware).
+On 9/25/2020 5:23 PM, Cornelia Huck wrote:
+> On Wed, 23 Sep 2020 04:54:09 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+>> Define flags to be used as delimeter in migration file stream.
+>> Added .save_setup and .save_cleanup functions. Mapped & unmapped migration
+>> region from these functions at source during saving or pre-copy phase.
+>> Set VFIO device state depending on VM's state. During live migration, VM is
+>> running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
+>> device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
+>>
+>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>> ---
+>>   hw/vfio/migration.c  | 91 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>   hw/vfio/trace-events |  2 ++
+>>   2 files changed, 93 insertions(+)
+>>
+> 
+> (...)
+> 
+>> +/*
+>> + * Flags used as delimiter:
+>> + * 0xffffffff => MSB 32-bit all 1s
+>> + * 0xef10     => emulated (virtual) function IO
+> 
+> Where is this value coming from?
+> 
 
-qemu-4.2.1-1.fc32
+Delimiter flags should be unique and this is a magic number that 
+represents (e)mulated (f)unction (10) representing IO.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+>> + * 0x0000     => 16-bits reserved for flags
+>> + */
+>> +#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
+>> +#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
+>> +#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+>> +#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+> 
+> I think we need some more documentation what these values mean and how
+> they are used. From reading ahead a bit, it seems there is always
+> supposed to be a pair of DEV_*_STATE and END_OF_STATE framing some kind
+> of data?
+> 
 
-** Description changed:
+Adding comment as below, hope it helps.
 
-  Running Fedora32 with virt-manager =E2=86=92 libvirt =E2=86=92 qemu  I no=
-ticed that I
-  got no sound in my spice client. The VM is configured with a SPICE-
-  server and a QXL display, and in addition a VNC display.
-  =
+/*
+  * Flags used as delimiter for VFIO devices should be unique in 
+migration stream
+  * These flags are composed as:
+  * 0xffffffff => MSB 32-bit all 1s
+  * 0xef10     => Magic ID, represents emulated (virtual) function IO
+  * 0x0000     => 16-bits reserved for flags
+  *
+  * Flags _DEV_CONFIG_STATE, _DEV_SETUP_STATE and _DEV_DATA_STATE marks 
+start of
+  * respective states in migration stream.
+  * FLAG _END_OF_STATE indicates end of current state, state could be any
+  * of above states.
+  */
 
-  Apparently when I remove the VNC display, then the sound is routed just
-  fine to the spice client: I can hear it, and `G_MESSAGES_DEBUG=3Dall
-  remote-viewer --spice-debug  spice://localhost:5900` mentions
-  SpicePlaybackChannel and SpiceRecordChannel. With the VNC server
-  configured, such messages are missing, and I cannot hear the sound
-  (which is sent by the guest OS to the virtual hardware).
-+ =
+Thanks,
+Kirti
 
-+ qemu-4.2.1-1.fc32
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900352
-
-Title:
-  no sound in spice when VNC enabled
-
-Status in QEMU:
-  New
-
-Bug description:
-  Running Fedora32 with virt-manager =E2=86=92 libvirt =E2=86=92 qemu  I no=
-ticed that I
-  got no sound in my spice client. The VM is configured with a SPICE-
-  server and a QXL display, and in addition a VNC display.
-
-  Apparently when I remove the VNC display, then the sound is routed
-  just fine to the spice client: I can hear it, and
-  `G_MESSAGES_DEBUG=3Dall remote-viewer --spice-debug
-  spice://localhost:5900` mentions SpicePlaybackChannel and
-  SpiceRecordChannel. With the VNC server configured, such messages are
-  missing, and I cannot hear the sound (which is sent by the guest OS to
-  the virtual hardware).
-
-  qemu-4.2.1-1.fc32
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900352/+subscriptions
 
