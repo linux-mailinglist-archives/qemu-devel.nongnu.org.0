@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9FF291650
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 09:17:00 +0200 (CEST)
-Received: from localhost ([::1]:33124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A69229165A
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 09:31:18 +0200 (CEST)
+Received: from localhost ([::1]:35752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kU2w7-0007rY-IN
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 03:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43434)
+	id 1kU39x-0001MS-5u
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 03:31:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kU2us-0007EH-Oy; Sun, 18 Oct 2020 03:15:42 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33524)
+ id 1kU38d-0000rP-JC
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 03:29:55 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kU2ur-0003Sm-Bu; Sun, 18 Oct 2020 03:15:42 -0400
-Received: by mail-wr1-x441.google.com with SMTP id b8so7949540wrn.0;
- Sun, 18 Oct 2020 00:15:38 -0700 (PDT)
+ id 1kU38b-00086F-O7
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 03:29:55 -0400
+Received: by mail-wr1-x429.google.com with SMTP id s9so7892571wro.8
+ for <qemu-devel@nongnu.org>; Sun, 18 Oct 2020 00:29:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/gWrBmnCYPRzDH5K0e4VKLVPWF8tYeeAsskgSJxi1b0=;
- b=pHBy8mP1vPkLRMoCPfFF/ZZaWIp3Ou+9AXMKEsYO4IDXDhILeZMDa1blsfIqBOhtRY
- 0HW5bdzQyyBiv0jKi5dgGindT4mZYZL1hgCuKayN3qtjcXq9ff8Mo/2mTvvqiCSA+SqR
- whb+5MpyPBUzAe5FadxBqkB2y2ytsTsVSIA25FAOGET/NpbvP9DhpIfjutDCeUP4LDNE
- 0mIGIXdFDRbXxplWPvKc024Xl5nWAnGr7xAN3T3H554hJOjBzLKP/ewivfPpH7W5K/FX
- a1hDccT4+3ItQlHIlPtA93LCywsj8kJniQXmO/YXBFmt65pIHBAzgh3HPKOcRw7IoTGJ
- bs9g==
+ bh=TW7rJE3+xAIPP83N4rgPAAGTYjslWbc9fN7v4fQ3Zvk=;
+ b=s4gPwCOT2zEraKJfpx5dbmPkWaYtIOZm+IeycTqIWTeTSP5XSDN+72A6cpVfl1zgAU
+ ZBi/IuK0k6FdXx0NkGy0bqN5UU/qFwUIDRh0B4KcMxRirwGy8aPq5R4jO4F0e79Tg1ui
+ ZMzjZAzGnzIaCfwCFi5TKl4r3mHovEOXdYG3nDZcX22zqb2FZNeWMKZlRE17UUzCFIy9
+ 2CQ9g3rJICc49yMaRmv6n7Iif5PYqjydUOo/CxdmS7QYpIYKHlbpgxeIMlT7T0sQQSrj
+ FN1yFO92Ew/4BKN25KXEbTGd/Q2U4F9QB4/AYUgqYKT5igqQLcsSym2L3EgkhkPFAA71
+ rUXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/gWrBmnCYPRzDH5K0e4VKLVPWF8tYeeAsskgSJxi1b0=;
- b=NUN/0U4ZsmkkUN0++cxUaRbJTW/gPYbuvht6G9bwXKLwlIBNyadQUlPMwHN1sh9s+5
- ItxU+fd4vQhvwb9wOyNkpKKvPoeRugyWWPjVQiOiUqHcXlAcLuWi6xXj2zcXJtOj4pFa
- VK3ED1KKY4t0OYcFYHKNPKnNW4IOXAsX0JCTuN2h834Q1o6Yivd+CmFNzE6kroRUX1in
- T7lst2TxMmHrlPamWS29Ix16cmsLvPvc0lsS7Qr5fLb2cE8ZVHcthOIgHlLdxbJfPvKq
- E8DvowqkoSQEf3Snn38CnnvTe4F5Qb74z1zn+BWQ0HJ9EnLvaPwWozgryokeEoPbuJCJ
- D0xQ==
-X-Gm-Message-State: AOAM530UGFbVv+UFNq9nzBrC89Bzw/IKQDkXnrEa7qehDzRdO25srSev
- /MggGkSqmdjDImQZXrdIfQc=
-X-Google-Smtp-Source: ABdhPJzcnyMm6pe1XegWJb0dOjpH9pv8AXjGAHa0TpPFFOA4K2H9ZyTm3DZGVQv8Xlbo4lFRAh98xA==
-X-Received: by 2002:adf:fc0d:: with SMTP id i13mr13881971wrr.156.1603005338066; 
- Sun, 18 Oct 2020 00:15:38 -0700 (PDT)
+ bh=TW7rJE3+xAIPP83N4rgPAAGTYjslWbc9fN7v4fQ3Zvk=;
+ b=DwvvIblNPAmYs1i9LiHUmc1ru7sJuRTWHQuEirswCRKJd/0RofOri61aIVNa01u2P4
+ g2l6zur9UbnQEvEh7NY1glFIeXdYxoaM12pfjlqXioZr8MCTHbRadLGKWLQ08+nuIFD+
+ Tor7UfkHVTL/mcv8aLkRMCTZt0A0fJfx/ROFmeC/OOpcDVuYUV6sSCvfNIY7j3ajs4Vz
+ OlneQFdyWxF4DGcS/+jvNpGLYIaYf0EO/kWrMbAPovg/CXmek2bNZHrEeHge7ios7vIl
+ dvz5UzJ1hjwBa+uj1sauv6YuVaZedU8/wbqLytLVUUlHl0f2MYAyfmI1onOV+C8VduLT
+ HmZg==
+X-Gm-Message-State: AOAM531Un9Uat4Bx3VV41WDXWzIATgw9zagghTTApyiO4+OKE23rZdLa
+ G3eN8hX666/oYlSWSwM++gg=
+X-Google-Smtp-Source: ABdhPJzWAPZzMVyDd42/+Ahw5ppUzqdVBVsowOah9fb7tThJwMPEIcs+7SmzfqCDcZb20x2dECiF8w==
+X-Received: by 2002:a5d:4409:: with SMTP id z9mr13339221wrq.236.1603006191974; 
+ Sun, 18 Oct 2020 00:29:51 -0700 (PDT)
 Received: from [192.168.1.36] (117.red-83-52-172.dynamicip.rima-tde.net.
  [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id p13sm11455857wmb.5.2020.10.18.00.15.37
+ by smtp.gmail.com with ESMTPSA id r3sm12395960wrm.51.2020.10.18.00.29.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Oct 2020 00:15:37 -0700 (PDT)
-Subject: Re: [PATCH 4/6] sun4u: use qdev instead of legacy m48t59_init()
- function
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1602965621.git.balaton@eik.bme.hu>
- <2b7a5594c8c41dcae0ade3354a13540f83570ab0.1602965621.git.balaton@eik.bme.hu>
+ Sun, 18 Oct 2020 00:29:51 -0700 (PDT)
+Subject: Re: [PULL 00/34] QAPI patches patches for 2020-10-10
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20201010095504.796182-1-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c9866686-02d5-3fe1-444f-5091b1f7dfe8@amsat.org>
-Date: Sun, 18 Oct 2020 09:15:36 +0200
+Message-ID: <7f68ee42-dce8-b304-365a-402c5b37147b@amsat.org>
+Date: Sun, 18 Oct 2020 09:29:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <2b7a5594c8c41dcae0ade3354a13540f83570ab0.1602965621.git.balaton@eik.bme.hu>
+In-Reply-To: <20201010095504.796182-1-armbru@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -91,42 +90,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Herve Poussineau <hpoussin@reactos.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/20 10:13 PM, BALATON Zoltan via wrote:
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/sparc64/sun4u.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+On 10/10/20 11:54 AM, Markus Armbruster wrote:
+> The following changes since commit 4a7c0bd9dcb08798c6f82e55b5a3423f7ee669f1:
 > 
-> diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-> index ad5ca2472a..a89ebed6f0 100644
-> --- a/hw/sparc64/sun4u.c
-> +++ b/hw/sparc64/sun4u.c
-> @@ -671,10 +671,12 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
->       pci_ide_create_devs(pci_dev);
->   
->       /* Map NVRAM into I/O (ebus) space */
-> -    nvram = m48t59_init(NULL, 0, 0, NVRAM_SIZE, 1968, 59);
-> -    s = SYS_BUS_DEVICE(nvram);
-> +    dev = qdev_new("sysbus-m48t59");
-> +    s = SYS_BUS_DEVICE(dev);
-> +    sysbus_realize_and_unref(s, &error_fatal);
-
-I'd use &error_abort here (so if that ever happens, it is
-easier to debug it), otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->       memory_region_add_subregion(pci_address_space_io(ebus), 0x2000,
->                                   sysbus_mmio_get_region(s, 0));
-> +    nvram = NVRAM(dev);
->    
->       initrd_size = 0;
->       initrd_addr = 0;
+>    Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.2-20201009' into staging (2020-10-09 15:48:04 +0100)
 > 
+> are available in the Git repository at:
+> 
+>    git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-10-10
+> 
+> for you to fetch changes up to b4c0aa59aff520e2a55edd5fef393058ca6520de:
+> 
+>    qapi/visit.py: add type hint annotations (2020-10-10 11:37:49 +0200)
+> 
+> ----------------------------------------------------------------
+> QAPI patches patches for 2020-10-10
+
+The "GCC check-tcg (user)" is 6 min slower since this pull request,
+making Travis-CI fails:
+
+https://travis-ci.org/github/qemu/qemu/builds/734773760
+https://travis-ci.org/github/qemu/qemu/builds/734983001
+
+Any remote idea what could be the reason?
+
+> ----------------------------------------------------------------
+> John Snow (34):
+>        docs: repair broken references
+>        qapi: modify docstrings to be sphinx-compatible
+>        qapi-gen: Separate arg-parsing from generation
+>        qapi: move generator entrypoint into package
+>        qapi: Prefer explicit relative imports
+>        qapi: Remove wildcard includes
+>        qapi: enforce import order/styling with isort
+>        qapi: delint using flake8
+>        qapi: add pylintrc
+>        qapi/common.py: Remove python compatibility workaround
+>        qapi/common.py: Add indent manager
+>        qapi/common.py: delint with pylint
+>        qapi/common.py: Replace one-letter 'c' variable
+>        qapi/common.py: check with pylint
+>        qapi/common.py: add type hint annotations
+>        qapi/common.py: Convert comments into docstrings, and elaborate
+>        qapi/common.py: move build_params into gen.py
+>        qapi: establish mypy type-checking baseline
+>        qapi/events.py: add type hint annotations
+>        qapi/events.py: Move comments into docstrings
+>        qapi/commands.py: Don't re-bind to variable of different type
+>        qapi/commands.py: add type hint annotations
+>        qapi/source.py: add type hint annotations
+>        qapi/source.py: delint with pylint
+>        qapi/gen: Make _is_user_module() return bool
+>        qapi/gen.py: add type hint annotations
+>        qapi/gen.py: Remove unused parameter
+>        qapi/gen.py: update write() to be more idiomatic
+>        qapi/gen.py: delint with pylint
+>        qapi/types.py: add type hint annotations
+>        qapi/types.py: remove one-letter variables
+>        qapi/visit.py: assert tag_member contains a QAPISchemaEnumType
+>        qapi/visit.py: remove unused parameters from gen_visit_object
+>        qapi/visit.py: add type hint annotations
+> 
+>   docs/devel/multi-thread-tcg.rst |   2 +-
+>   docs/devel/testing.rst          |   2 +-
+>   scripts/qapi-gen.py             |  57 +++----------
+>   scripts/qapi/.flake8            |   2 +
+>   scripts/qapi/.isort.cfg         |   7 ++
+>   scripts/qapi/commands.py        |  90 ++++++++++++++------
+>   scripts/qapi/common.py          | 174 +++++++++++++++++++++-----------------
+>   scripts/qapi/events.py          |  58 +++++++++----
+>   scripts/qapi/expr.py            |   7 +-
+>   scripts/qapi/gen.py             | 180 +++++++++++++++++++++++++---------------
+>   scripts/qapi/introspect.py      |  16 +++-
+>   scripts/qapi/main.py            |  95 +++++++++++++++++++++
+>   scripts/qapi/mypy.ini           |  30 +++++++
+>   scripts/qapi/parser.py          |   6 +-
+>   scripts/qapi/pylintrc           |  70 ++++++++++++++++
+>   scripts/qapi/schema.py          |  33 ++++----
+>   scripts/qapi/source.py          |  35 +++++---
+>   scripts/qapi/types.py           | 125 +++++++++++++++++++---------
+>   scripts/qapi/visit.py           | 116 +++++++++++++++++++-------
+>   19 files changed, 764 insertions(+), 341 deletions(-)
+>   create mode 100644 scripts/qapi/.flake8
+>   create mode 100644 scripts/qapi/.isort.cfg
+>   create mode 100644 scripts/qapi/main.py
+>   create mode 100644 scripts/qapi/mypy.ini
+>   create mode 100644 scripts/qapi/pylintrc
+> 
+
 
