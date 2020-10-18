@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4BA291FE1
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 22:40:20 +0200 (CEST)
-Received: from localhost ([::1]:58874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA9C291FF0
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 22:42:00 +0200 (CEST)
+Received: from localhost ([::1]:37000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUFTX-0000oU-47
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 16:40:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
+	id 1kUFV9-0003TG-EV
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 16:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUFNx-0001ur-Il; Sun, 18 Oct 2020 16:34:33 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40261)
+ id 1kUFO1-000267-Hg; Sun, 18 Oct 2020 16:34:37 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUFNv-0000zn-Sy; Sun, 18 Oct 2020 16:34:33 -0400
-Received: by mail-wr1-x435.google.com with SMTP id h5so9125883wrv.7;
- Sun, 18 Oct 2020 13:34:30 -0700 (PDT)
+ id 1kUFNz-000109-QJ; Sun, 18 Oct 2020 16:34:37 -0400
+Received: by mail-wm1-x342.google.com with SMTP id d81so8364197wmc.1;
+ Sun, 18 Oct 2020 13:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jViLzsnHUVqtQxwtvYdFxDUn3i00wRweHY3mgJ2gUEU=;
- b=GJX+QQLtomsdm7cmL4jaXRaGnQLv2L5aOFrd20TR+jHML8J4tkjGUye5K2o7Fb+WLP
- kHrREpL1OQ4y5D/a9Ulr+j/k+7HgKIWLb3UXcmJP4MvLHH/4Bjn56xUGCYvHXT0A0/nM
- joSqGxFVs542g+fYb195ZO+PfrBaRXUMWLGBuL25wM1aitEmhLoz6NKR8YhzDrtc+X4e
- knZvjIZPEJ41SZWtAFNzwDtEMacXIwLAcb+kxEOYx7KkCT4ffZ1dNdXyLlM+W4H4m/rU
- zFKMVmryNmJM2BIotDvOrIhbXL7E2JiRoy5E3idGM/ISO1a3MTdVeF5+KTgVrKeBzM+p
- DTnA==
+ bh=fgZFdmp8hPXpOTpZLII/XoKIJG5lZeFhbRQ1IzzXkNI=;
+ b=on6l74x8eyZOJrDJj0WVo06J7GlkEiLiof7bU1/RxZcMkNT9buxz5WPH38JsuPn3Eb
+ xu1dbnPGQjGCkssYcVHRvb+2XVOO95RKzpkKzNBHarLUF1hDVTwOECKEGMWCSWZqzZef
+ MIu+Q1DBFEs+X7/D1kgbiXsJHL4Igfjo+uksAw3mDa7FmnJfcB72PF+UKRhoUANeBY9t
+ jymz/ulgX1rDJTxmlVa/RSFGMXHkKsFftVdzVNrxPAWZ3T4Ko72vCyIKHhXjlwXKIwGn
+ ynTSQq4587vGRM5adj7g/NDolBUzA7cUeDanMQggGsAdMiEPglC+RGd4p+PD3FMtkfY0
+ Jegw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jViLzsnHUVqtQxwtvYdFxDUn3i00wRweHY3mgJ2gUEU=;
- b=Npdh8mbHNZZHTUcqH8BvCHCHQgSHosYaMjLa5Uji4dYYamlaBHDR1zNTw27jQprxu+
- bh5nu2JJFZQTj53B1ombvAyEyxnLE5X0ON/0AadnV+sBMYWGzZVB0Dy6xmA2NaoEnyJA
- FuV+ZKv5Iqw1v2mS4rIjBYWm7o9EZaaIwbqZsrShQFhStJOnnypALNA+6T5ZoQzs3Pff
- 8b58rLkpmbKvasiHv20pzLH4bTpmk8DOxzEzm2mHI8gTONGj2UsjAEuRJLDzfHCbKKxY
- 8VZ7F6tUqRJDsaHXOUQKmZ2Zgz5a/zPz6iapY6KQvEfM7RisktWDfpqcSUjvyIdCAC12
- pV6A==
-X-Gm-Message-State: AOAM530eQuSjjYjcWJDALD+mDXVk+bU+ODC/NyIVuoFI0HaXCeEvCL+D
- Ycr8+BdTb02QQjYVfTn3wkdPWeZback=
-X-Google-Smtp-Source: ABdhPJz1YsVU2ZrYV7Qhiz2KxK32B+L/6zVQNSJyPunndu8CLQiAuO8FOKyF5bUBFK1q5xz/twAVZA==
-X-Received: by 2002:adf:cc82:: with SMTP id p2mr16478026wrj.177.1603053269399; 
- Sun, 18 Oct 2020 13:34:29 -0700 (PDT)
+ bh=fgZFdmp8hPXpOTpZLII/XoKIJG5lZeFhbRQ1IzzXkNI=;
+ b=pWUM2FzuYYUV9VOV4rkePjeODmKGJ7Cg44MTVIKUCE8cJPAYDNUpokD8gUaCZZOFKU
+ kn35+eJ39Lrie6htWMz1bFbgxN0PS5bP2lwW1h21lCr6Sw4rSALwXxE1oxQRDLUS6hqe
+ U+lLMvxMVPZV28hrXOpNx2wA3zodKszb2mvtavC7jmC+d2OajXWQBhjr+/RxLoYfCtT5
+ /YhqaZSBQYF9MXExjaMhyOoLPtuIqm0B3C6iPn4nKADcKWrBlgFaopoAaxTQqLMmIAml
+ OtSEV5SJo2vkNH+q/8CG4NePwVJJ8eKRNvNNtcVREyR1QN+Lbos0XS04LByeZ7iQNIo3
+ 3LEw==
+X-Gm-Message-State: AOAM533HEj/H4AHOpjRl4xWactlm4OBgz/xcRUrTPoXIxWjZ+2lisx7L
+ cBOMSTvrXQfONQzsB4gus0jEa8TxM5M=
+X-Google-Smtp-Source: ABdhPJw06PEh5WMkh81mjrKilubsZAbZ/BWxiPvOtg0ZdDyqCaamBhri8LUG+3RM1dY/Hx7TEhHDtA==
+X-Received: by 2002:a1c:2d8f:: with SMTP id t137mr13993882wmt.26.1603053273890; 
+ Sun, 18 Oct 2020 13:34:33 -0700 (PDT)
 Received: from localhost.localdomain
  (117.red-83-52-172.dynamicip.rima-tde.net. [83.52.172.117])
- by smtp.gmail.com with ESMTPSA id p9sm13102665wmm.4.2020.10.18.13.34.28
+ by smtp.gmail.com with ESMTPSA id 130sm9541760wmd.18.2020.10.18.13.34.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Oct 2020 13:34:28 -0700 (PDT)
+ Sun, 18 Oct 2020 13:34:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/9] hw/arm/bcm2836: Introduce the BCM2835 SoC
-Date: Sun, 18 Oct 2020 22:33:55 +0200
-Message-Id: <20201018203358.1530378-7-f4bug@amsat.org>
+Subject: [PATCH v3 7/9] hw/arm/raspi: Add the Raspberry Pi A+ machine
+Date: Sun, 18 Oct 2020 22:33:56 +0200
+Message-Id: <20201018203358.1530378-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201018203358.1530378-1-f4bug@amsat.org>
 References: <20201018203358.1530378-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -85,112 +85,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Luc Michel <luc@lmichel.fr>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
- Luc Michel <luc.michel@greensocs.com>
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+The Pi A is almost the first machine released.
+It uses a BCM2835 SoC which includes a ARMv6Z core.
+
+Example booting the machine using content from [*]
+(we use the device tree from the B model):
+
+  $ qemu-system-arm -M raspi1ap -serial stdio \
+      -kernel raspberrypi/firmware/boot/kernel.img \
+      -dtb raspberrypi/firmware/boot/bcm2708-rpi-b-plus.dtb \
+      -append 'earlycon=pl011,0x20201000 console=ttyAMA0'
+  [    0.000000] Booting Linux on physical CPU 0x0
+  [    0.000000] Linux version 4.19.118+ (dom@buildbot) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1311 Mon Apr 27 14:16:15 BST 2020
+  [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
+  [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
+  [    0.000000] OF: fdt: Machine model: Raspberry Pi Model B+
+  ...
+
+[*] http://archive.raspberrypi.org/debian/pool/main/r/raspberrypi-firmware/raspberrypi-kernel_1.20200512-2_armhf.deb
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/arm/bcm2836.h |  1 +
- hw/arm/bcm2836.c         | 34 ++++++++++++++++++++++++++++++++++
- hw/arm/raspi.c           |  2 ++
- 3 files changed, 37 insertions(+)
+ hw/arm/raspi.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
-index 43e9f8cd0ef..6f90cabfa3a 100644
---- a/include/hw/arm/bcm2836.h
-+++ b/include/hw/arm/bcm2836.h
-@@ -26,6 +26,7 @@ OBJECT_DECLARE_TYPE(BCM283XState, BCM283XClass, BCM283X)
-  * them, code using these devices should always handle them via the
-  * BCM283x base class, so they have no BCM2836(obj) etc macros.
-  */
-+#define TYPE_BCM2835 "bcm2835"
- #define TYPE_BCM2836 "bcm2836"
- #define TYPE_BCM2837 "bcm2837"
- 
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 7d975cf2f53..de7ade2878e 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -89,6 +89,25 @@ static bool bcm283x_common_realize(DeviceState *dev, Error **errp)
-     return true;
- }
- 
-+static void bcm2835_realize(DeviceState *dev, Error **errp)
-+{
-+    BCM283XState *s = BCM283X(dev);
-+
-+    if (!bcm283x_common_realize(dev, errp)) {
-+        return;
-+    }
-+
-+    if (!qdev_realize(DEVICE(&s->cpu[0].core), NULL, errp)) {
-+        return;
-+    }
-+
-+    /* Connect irq/fiq outputs from the interrupt controller. */
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 0,
-+            qdev_get_gpio_in(DEVICE(&s->cpu[0].core), ARM_CPU_IRQ));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 1,
-+            qdev_get_gpio_in(DEVICE(&s->cpu[0].core), ARM_CPU_FIQ));
-+}
-+
- static void bcm2836_realize(DeviceState *dev, Error **errp)
- {
-     BCM283XState *s = BCM283X(dev);
-@@ -159,6 +178,17 @@ static void bcm283x_class_init(ObjectClass *oc, void *data)
-     dc->user_creatable = false;
- }
- 
-+static void bcm2835_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    BCM283XClass *bc = BCM283X_CLASS(oc);
-+
-+    bc->cpu_type = ARM_CPU_TYPE_NAME("arm1176");
-+    bc->core_count = 1;
-+    bc->peri_base = 0x20000000;
-+    dc->realize = bcm2835_realize;
-+};
-+
- static void bcm2836_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -189,6 +219,10 @@ static void bcm2837_class_init(ObjectClass *oc, void *data)
- 
- static const TypeInfo bcm283x_types[] = {
-     {
-+        .name           = TYPE_BCM2835,
-+        .parent         = TYPE_BCM283X,
-+        .class_init     = bcm2835_class_init,
-+    }, {
-         .name           = TYPE_BCM2836,
-         .parent         = TYPE_BCM283X,
-         .class_init     = bcm2836_class_init,
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index b5b30f0f38f..30fafa59ecb 100644
+index 30fafa59ecb..91a59d1d489 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -70,6 +70,7 @@ FIELD(REV_CODE, MEMORY_SIZE,       20, 3);
- FIELD(REV_CODE, STYLE,             23, 1);
- 
- typedef enum RaspiProcessorId {
-+    PROCESSOR_ID_BCM2835 = 0,
-     PROCESSOR_ID_BCM2836 = 1,
-     PROCESSOR_ID_BCM2837 = 2,
- } RaspiProcessorId;
-@@ -78,6 +79,7 @@ static const struct {
-     const char *type;
-     int cores_count;
- } soc_property[] = {
-+    [PROCESSOR_ID_BCM2835] = {TYPE_BCM2835, 1},
-     [PROCESSOR_ID_BCM2836] = {TYPE_BCM2836, BCM283X_NCPUS},
-     [PROCESSOR_ID_BCM2837] = {TYPE_BCM2837, BCM283X_NCPUS},
+@@ -319,6 +319,15 @@ static void raspi_machine_class_common_init(MachineClass *mc,
+     mc->default_ram_id = "ram";
  };
+ 
++static void raspi1ap_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
++
++    rmc->board_rev = 0x900021;
++    raspi_machine_class_common_init(mc, rmc->board_rev);
++};
++
+ static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -343,6 +352,10 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
+ 
+ static const TypeInfo raspi_machine_types[] = {
+     {
++        .name           = MACHINE_TYPE_NAME("raspi1ap"),
++        .parent         = TYPE_RASPI_MACHINE,
++        .class_init     = raspi1ap_machine_class_init,
++    }, {
+         .name           = MACHINE_TYPE_NAME("raspi2b"),
+         .parent         = TYPE_RASPI_MACHINE,
+         .class_init     = raspi2b_machine_class_init,
 -- 
 2.26.2
 
