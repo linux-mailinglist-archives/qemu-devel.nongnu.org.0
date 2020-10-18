@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FCA29184A
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 18:14:46 +0200 (CEST)
-Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEDF291838
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Oct 2020 18:05:07 +0200 (CEST)
+Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUBKX-0002dw-Qx
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 12:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52896)
+	id 1kUBB6-0007It-3S
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 12:05:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUB6Y-0002nV-T8; Sun, 18 Oct 2020 12:00:19 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60408
+ id 1kUB6c-0002q0-Bk; Sun, 18 Oct 2020 12:00:24 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60416
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUB6X-0004Rw-1n; Sun, 18 Oct 2020 12:00:18 -0400
+ id 1kUB6a-0004Vc-4S; Sun, 18 Oct 2020 12:00:21 -0400
 Received: from host86-148-246-80.range86-148.btcentralplus.com
  ([86.148.246.80] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUB6W-0001FH-5j; Sun, 18 Oct 2020 17:00:20 +0100
+ id 1kUB6a-0001FH-8R; Sun, 18 Oct 2020 17:00:23 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
  david@gibson.dropbear.id.au, atar4qemu@gmail.com
-Date: Sun, 18 Oct 2020 16:59:15 +0100
-Message-Id: <20201018155919.21200-10-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 18 Oct 2020 16:59:16 +0100
+Message-Id: <20201018155919.21200-11-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201018155919.21200-1-mark.cave-ayland@ilande.co.uk>
 References: <20201018155919.21200-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.246.80
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 09/13] mac_oldworld: Allow loading binary ROM image
+Subject: [PULL 10/13] mac_newworld: Allow loading binary ROM image
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,81 +65,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The beige G3 Power Macintosh has a 4MB firmware ROM. Fix the size of
-the rom region and fall back to loading a binary image with -bios if
-loading ELF image failed. This allows testing emulation with a ROM
-image from real hardware as well as using an ELF OpenBIOS image.
+Fall back to load binary ROM image if loading ELF fails. This also
+moves PROM_BASE and PROM_SIZE defines to board as these are matching
+the ROM size and address on this board and removes the now unused
+PROM_ADDR and BIOS_SIZE defines from common mac.h.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20201017155139.5A36A746331@zero.eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <4d58ffe7645a0c746c8fed6aa8775c0867b624e0.1602805637.git.balaton@eik.bme.hu>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/ppc/mac_oldworld.c | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
+ hw/ppc/mac.h          |  2 --
+ hw/ppc/mac_newworld.c | 22 ++++++++++++++--------
+ 2 files changed, 14 insertions(+), 10 deletions(-)
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 05e46ee6fe..0117ae17f5 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -59,6 +59,8 @@
+diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+index f3976b9a45..22c8408078 100644
+--- a/hw/ppc/mac.h
++++ b/hw/ppc/mac.h
+@@ -39,10 +39,8 @@
+ /* SMP is not enabled, for now */
+ #define MAX_CPUS 1
+ 
+-#define BIOS_SIZE        (1 * MiB)
+ #define NVRAM_SIZE        0x2000
+ #define PROM_FILENAME    "openbios-ppc"
+-#define PROM_ADDR         0xfff00000
+ 
+ #define KERNEL_LOAD_ADDR 0x01000000
+ #define KERNEL_GAP       0x00100000
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 7a8dc09c8d..f9a1cc8944 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -82,6 +82,8 @@
+ 
  #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
  
- #define GRACKLE_BASE 0xfec00000
-+#define PROM_BASE 0xffc00000
-+#define PROM_SIZE (4 * MiB)
++#define PROM_BASE 0xfff00000
++#define PROM_SIZE (1 * MiB)
  
  static void fw_cfg_boot_set(void *opaque, const char *boot_device,
                              Error **errp)
-@@ -100,6 +102,7 @@ static void ppc_heathrow_init(MachineState *machine)
-     SysBusDevice *s;
-     DeviceState *dev, *pic_dev;
-     BusState *adb_bus;
-+    uint64_t bios_addr;
-     int bios_size;
-     unsigned int smp_cpus = machine->smp.cpus;
-     uint16_t ppc_boot_device;
-@@ -128,24 +131,32 @@ static void ppc_heathrow_init(MachineState *machine)
+@@ -100,7 +102,7 @@ static void ppc_core99_reset(void *opaque)
  
-     memory_region_add_subregion(sysmem, 0, machine->ram);
+     cpu_reset(CPU(cpu));
+     /* 970 CPUs want to get their initial IP as part of their boot protocol */
+-    cpu->env.nip = PROM_ADDR + 0x100;
++    cpu->env.nip = PROM_BASE + 0x100;
+ }
+ 
+ /* PowerPC Mac99 hardware initialisation */
+@@ -154,25 +156,29 @@ static void ppc_core99_init(MachineState *machine)
+     /* allocate RAM */
+     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
  
 -    /* allocate and load BIOS */
--    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
+-    memory_region_init_rom(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
 +    /* allocate and load firmware ROM */
-+    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", PROM_SIZE,
++    memory_region_init_rom(bios, NULL, "ppc_core99.bios", PROM_SIZE,
                             &error_fatal);
-+    memory_region_add_subregion(sysmem, PROM_BASE, bios);
++    memory_region_add_subregion(get_system_memory(), PROM_BASE, bios);
  
 -    if (bios_name == NULL)
 +    if (!bios_name) {
          bios_name = PROM_FILENAME;
 +    }
      filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_add_subregion(sysmem, PROM_ADDR, bios);
+-    memory_region_add_subregion(get_system_memory(), PROM_ADDR, bios);
 -
 -    /* Load OpenBIOS (ELF) */
      if (filename) {
--        bios_size = load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL, NULL,
--                             1, PPC_ELF_MACHINE, 0, 0);
 +        /* Load OpenBIOS (ELF) */
-+        bios_size = load_elf(filename, NULL, NULL, NULL, NULL, &bios_addr,
-+                             NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
-+        /* Unfortunately, load_elf sign-extends reading elf32 */
-+        bios_addr = (uint32_t)bios_addr;
-+
+         bios_size = load_elf(filename, NULL, NULL, NULL, NULL,
+                              NULL, NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+ 
 +        if (bios_size <= 0) {
 +            /* or load binary ROM image */
 +            bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
-+            bios_addr = PROM_BASE;
 +        }
          g_free(filename);
      } else {
          bios_size = -1;
      }
 -    if (bios_size < 0 || bios_size > BIOS_SIZE) {
-+    if (bios_size < 0 || bios_addr - PROM_BASE + bios_size > PROM_SIZE) {
++    if (bios_size < 0 || bios_size > PROM_SIZE) {
          error_report("could not load PowerPC bios '%s'", bios_name);
          exit(1);
      }
