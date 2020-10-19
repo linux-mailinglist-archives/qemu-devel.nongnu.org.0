@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD4829399E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:09:05 +0200 (CEST)
-Received: from localhost ([::1]:40420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7CA2939A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:09:17 +0200 (CEST)
+Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpVo-0002u5-IR
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:09:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49308)
+	id 1kUpW1-0003GL-01
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:09:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kUpQt-00060h-37; Tue, 20 Oct 2020 07:03:59 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:38654 helo=huawei.com)
+ id 1kUpQv-00062I-RW; Tue, 20 Oct 2020 07:04:01 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:38580 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kUpQp-0006mv-Se; Tue, 20 Oct 2020 07:03:58 -0400
+ id 1kUpQr-0006ms-6W; Tue, 20 Oct 2020 07:04:01 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id A6CCB55C9628D24EB3C0;
+ by Forcepoint Email with ESMTP id 99934F94A069D7B1C013;
  Tue, 20 Oct 2020 19:03:49 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Tue, 20 Oct 2020
- 19:03:41 +0800
+ 19:03:43 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 04/10] hw/intc/:split some lines containing more than 80
+Subject: [PATCH 05/10] hw/misc/:split some lines containing more than 80
  characters
-Date: Tue, 20 Oct 2020 04:30:17 +0800
-Message-ID: <20201019203023.658555-5-ganqixin@huawei.com>
+Date: Tue, 20 Oct 2020 04:30:18 +0800
+Message-ID: <20201019203023.658555-6-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201019203023.658555-1-ganqixin@huawei.com>
 References: <20201019203023.658555-1-ganqixin@huawei.com>
@@ -66,105 +66,140 @@ Cc: lvivier@redhat.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By using scripts/checkpatch.pl, it is found that many files in hw/intc/
+By using scripts/checkpatch.pl, it is found that many files in hw/misc/
 contain lines with more than 80 characters.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
- hw/intc/apic.c           | 3 ++-
- hw/intc/arm_gic.c        | 5 +++--
- hw/intc/arm_gic_common.c | 3 ++-
- hw/intc/ioapic.c         | 3 ++-
- hw/intc/xics.c           | 3 ++-
- hw/intc/xics_kvm.c       | 3 ++-
- 6 files changed, 13 insertions(+), 7 deletions(-)
+ hw/misc/aspeed_sdmc.c  | 10 ++++++----
+ hw/misc/bcm2835_mphi.c |  3 ++-
+ hw/misc/edu.c          |  3 ++-
+ hw/misc/omap_gpmc.c    |  3 ++-
+ hw/misc/omap_sdrc.c    |  3 ++-
+ hw/misc/pci-testdev.c  |  3 ++-
+ hw/misc/sifive_test.c  |  4 ++--
+ 7 files changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-index b6a05e5439..89c2558f78 100644
---- a/hw/intc/apic.c
-+++ b/hw/intc/apic.c
-@@ -426,7 +426,8 @@ static void apic_eoi(APICCommonState *s)
-     if (isrv < 0)
+diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
+index 08f856cbda..2d9f6b5892 100644
+--- a/hw/misc/aspeed_sdmc.c
++++ b/hw/misc/aspeed_sdmc.c
+@@ -310,7 +310,8 @@ static void aspeed_2400_sdmc_write(AspeedSDMCState *s, uint32_t reg,
+                                    uint32_t data)
+ {
+     if (reg == R_PROT) {
+-        s->regs[reg] = (data == PROT_KEY_UNLOCK) ? PROT_UNLOCKED : PROT_SOFTLOCKED;
++        s->regs[reg] = (data ==
++                        PROT_KEY_UNLOCK) ? PROT_UNLOCKED : PROT_SOFTLOCKED;
          return;
-     apic_reset_bit(s->isr, isrv);
--    if (!(s->spurious_vec & APIC_SV_DIRECTED_IO) && apic_get_bit(s->tmr, isrv)) {
-+    if (!(s->spurious_vec & APIC_SV_DIRECTED_IO) &&
-+        apic_get_bit(s->tmr, isrv)) {
-         ioapic_eoi_broadcast(isrv);
      }
-     apic_sync_vapic(s, SYNC_FROM_VAPIC | SYNC_TO_VAPIC);
-diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-index c60dc6b5e6..7580ef25c1 100644
---- a/hw/intc/arm_gic.c
-+++ b/hw/intc/arm_gic.c
-@@ -1976,8 +1976,9 @@ static MemTxResult gic_hyp_write(void *opaque, int cpu, hwaddr addr,
-     return MEMTX_OK;
+ 
+@@ -368,7 +369,8 @@ static void aspeed_2500_sdmc_write(AspeedSDMCState *s, uint32_t reg,
+                                    uint32_t data)
+ {
+     if (reg == R_PROT) {
+-        s->regs[reg] = (data == PROT_KEY_UNLOCK) ? PROT_UNLOCKED : PROT_SOFTLOCKED;
++        s->regs[reg] = (data == PROT_KEY_UNLOCK) ? PROT_UNLOCKED :
++                        PROT_SOFTLOCKED;
+         return;
+     }
+ 
+@@ -448,8 +450,8 @@ static void aspeed_2600_sdmc_write(AspeedSDMCState *s, uint32_t reg,
+     }
+ 
+     if (s->regs[R_PROT] == PROT_HARDLOCKED) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked until system reset!\n",
+-                __func__);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: SDMC is locked until system reset!\n", __func__);
+         return;
+     }
+ 
+diff --git a/hw/misc/bcm2835_mphi.c b/hw/misc/bcm2835_mphi.c
+index 0428e10ba5..4c417770e4 100644
+--- a/hw/misc/bcm2835_mphi.c
++++ b/hw/misc/bcm2835_mphi.c
+@@ -148,7 +148,8 @@ static void mphi_init(Object *obj)
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+     BCM2835MphiState *s = BCM2835_MPHI(obj);
+ 
+-    memory_region_init_io(&s->iomem, obj, &mphi_mmio_ops, s, "mphi", MPHI_MMIO_SIZE);
++    memory_region_init_io(&s->iomem, obj, &mphi_mmio_ops, s,
++                          "mphi", MPHI_MMIO_SIZE);
+     sysbus_init_mmio(sbd, &s->iomem);
  }
  
--static MemTxResult gic_thiscpu_hyp_read(void *opaque, hwaddr addr, uint64_t *data,
--                                    unsigned size, MemTxAttrs attrs)
-+static MemTxResult gic_thiscpu_hyp_read(void *opaque, hwaddr addr,
-+                                        uint64_t *data, unsigned size,
-+                                        MemTxAttrs attrs)
- {
-     GICState *s = (GICState *)opaque;
+diff --git a/hw/misc/edu.c b/hw/misc/edu.c
+index e935c418d4..5c933d1261 100644
+--- a/hw/misc/edu.c
++++ b/hw/misc/edu.c
+@@ -129,7 +129,8 @@ static dma_addr_t edu_clamp_addr(const EduState *edu, dma_addr_t addr)
+     dma_addr_t res = addr & edu->dma_mask;
  
-diff --git a/hw/intc/arm_gic_common.c b/hw/intc/arm_gic_common.c
-index 7b44d5625b..337ef239be 100644
---- a/hw/intc/arm_gic_common.c
-+++ b/hw/intc/arm_gic_common.c
-@@ -87,7 +87,8 @@ static const VMStateDescription vmstate_gic_virt_state = {
-         /* Virtual CPU interfaces */
-         VMSTATE_UINT32_SUB_ARRAY(cpu_ctlr, GICState, GIC_NCPU, GIC_NCPU),
-         VMSTATE_UINT16_SUB_ARRAY(priority_mask, GICState, GIC_NCPU, GIC_NCPU),
--        VMSTATE_UINT16_SUB_ARRAY(running_priority, GICState, GIC_NCPU, GIC_NCPU),
-+        VMSTATE_UINT16_SUB_ARRAY(running_priority, GICState, GIC_NCPU,
-+                                 GIC_NCPU),
-         VMSTATE_UINT16_SUB_ARRAY(current_pending, GICState, GIC_NCPU, GIC_NCPU),
-         VMSTATE_UINT8_SUB_ARRAY(bpr, GICState, GIC_NCPU, GIC_NCPU),
-         VMSTATE_UINT8_SUB_ARRAY(abpr, GICState, GIC_NCPU, GIC_NCPU),
-diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
-index bca71b5934..68d5548fd9 100644
---- a/hw/intc/ioapic.c
-+++ b/hw/intc/ioapic.c
-@@ -237,7 +237,8 @@ void ioapic_eoi_broadcast(int vector)
-             entry = s->ioredtbl[n];
- 
-             if ((entry & IOAPIC_VECTOR_MASK) != vector ||
--                ((entry >> IOAPIC_LVT_TRIGGER_MODE_SHIFT) & 1) != IOAPIC_TRIGGER_LEVEL) {
-+                ((entry >> IOAPIC_LVT_TRIGGER_MODE_SHIFT) & 1) !=
-+                IOAPIC_TRIGGER_LEVEL) {
-                 continue;
-             }
- 
-diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index 68f9d44feb..c1bee454b5 100644
---- a/hw/intc/xics.c
-+++ b/hw/intc/xics.c
-@@ -322,7 +322,8 @@ static void icp_realize(DeviceState *dev, Error **errp)
-         break;
- 
-     default:
--        error_setg(errp, "XICS interrupt controller does not support this CPU bus model");
-+        error_setg(errp, "XICS interrupt controller does not support this "
-+                   "CPU bus model");
-         return;
+     if (addr != res) {
+-        printf("EDU: clamping DMA %#.16"PRIx64" to %#.16"PRIx64"!\n", addr, res);
++        printf("EDU: clamping DMA 0x%.16"PRIx64" to 0x%.16"PRIx64"!\n",
++               addr, res);
      }
  
-diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index 68bb1914b9..a8a2327062 100644
---- a/hw/intc/xics_kvm.c
-+++ b/hw/intc/xics_kvm.c
-@@ -400,7 +400,8 @@ int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers,
-     /* Create the KVM XICS device */
-     rc = kvm_create_device(kvm_state, KVM_DEV_TYPE_XICS, false);
-     if (rc < 0) {
--        error_setg_errno(&local_err, -rc, "Error on KVM_CREATE_DEVICE for XICS");
-+        error_setg_errno(&local_err, -rc,
-+                         "Error on KVM_CREATE_DEVICE for XICS");
-         goto fail;
-     }
+     return res;
+diff --git a/hw/misc/omap_gpmc.c b/hw/misc/omap_gpmc.c
+index 10de7a5523..e721fdde1f 100644
+--- a/hw/misc/omap_gpmc.c
++++ b/hw/misc/omap_gpmc.c
+@@ -830,7 +830,8 @@ struct omap_gpmc_s *omap_gpmc_init(struct omap_mpu_state_s *mpu,
+     int cs;
+     struct omap_gpmc_s *s = g_new0(struct omap_gpmc_s, 1);
  
+-    memory_region_init_io(&s->iomem, NULL, &omap_gpmc_ops, s, "omap-gpmc", 0x1000);
++    memory_region_init_io(&s->iomem, NULL, &omap_gpmc_ops, s,
++                          "omap-gpmc", 0x1000);
+     memory_region_add_subregion(get_system_memory(), base, &s->iomem);
+ 
+     s->irq = irq;
+diff --git a/hw/misc/omap_sdrc.c b/hw/misc/omap_sdrc.c
+index f2f72f6810..438e9ce2ba 100644
+--- a/hw/misc/omap_sdrc.c
++++ b/hw/misc/omap_sdrc.c
+@@ -161,7 +161,8 @@ struct omap_sdrc_s *omap_sdrc_init(MemoryRegion *sysmem,
+ 
+     omap_sdrc_reset(s);
+ 
+-    memory_region_init_io(&s->iomem, NULL, &omap_sdrc_ops, s, "omap.sdrc", 0x1000);
++    memory_region_init_io(&s->iomem, NULL, &omap_sdrc_ops,
++                          s, "omap.sdrc", 0x1000);
+     memory_region_add_subregion(sysmem, base, &s->iomem);
+ 
+     return s;
+diff --git a/hw/misc/pci-testdev.c b/hw/misc/pci-testdev.c
+index 03845c8de3..ac21f918a2 100644
+--- a/hw/misc/pci-testdev.c
++++ b/hw/misc/pci-testdev.c
+@@ -277,7 +277,8 @@ static void pci_testdev_realize(PCIDevice *pci_dev, Error **errp)
+         test->hdr = g_malloc0(test->bufsize);
+         memcpy(test->hdr->name, name, strlen(name) + 1);
+         g_free(name);
+-        test->hdr->offset = cpu_to_le32(IOTEST_SIZE(i) + i * IOTEST_ACCESS_WIDTH);
++        test->hdr->offset = cpu_to_le32(IOTEST_SIZE(i) +
++                            i * IOTEST_ACCESS_WIDTH);
+         test->match_data = strcmp(IOTEST_TEST(i), "wildcard-eventfd");
+         if (fastmmio && IOTEST_IS_MEM(i) && !test->match_data) {
+             test->size = 0;
+diff --git a/hw/misc/sifive_test.c b/hw/misc/sifive_test.c
+index 2deb2072cc..2ffcb3b532 100644
+--- a/hw/misc/sifive_test.c
++++ b/hw/misc/sifive_test.c
+@@ -50,8 +50,8 @@ static void sifive_test_write(void *opaque, hwaddr addr,
+             break;
+         }
+     }
+-    qemu_log_mask(LOG_GUEST_ERROR, "%s: write: addr=0x%x val=0x%016" PRIx64 "\n",
+-                  __func__, (int)addr, val64);
++    qemu_log_mask(LOG_GUEST_ERROR, "%s: write: addr=0x%x val=0x%016" PRIx64
++                  "\n", __func__, (int)addr, val64);
+ }
+ 
+ static const MemoryRegionOps sifive_test_ops = {
 -- 
 2.23.0
 
