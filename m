@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CFB292320
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 09:54:37 +0200 (CEST)
-Received: from localhost ([::1]:53852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5765429236B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 10:10:27 +0200 (CEST)
+Received: from localhost ([::1]:35968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUQ04-0006Zc-9s
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 03:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54212)
+	id 1kUQFO-0006V0-C5
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 04:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUPyF-00057a-1F
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 03:52:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23327)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUPyf-0005f5-V2
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 03:53:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUPyD-00085a-7B
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 03:52:42 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUPyc-0008Fl-CX
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 03:53:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603093960;
+ s=mimecast20190719; t=1603093985;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OxA3Qq4UKBx78H131SKHi4ZpLY9OCsgstMMSifTmJY4=;
- b=APuDgPjNdBc8VA0NsIRoYTbLdb2HArNRgvq03BzVIm9XR9KtR61ZW9Q4dflyPByn3tzLHM
- 6n9tqh4eE7XH2oORxbkyvkhA+LhEtJ0HcND4xSPwKLjy04qUDybe8B5ebc/PGwIUqZeetp
- FGwGmso1GczLdVW6ssTzdYXJfIXFtOg=
+ bh=eE9mBPuPyoIHUaLUiTwklM3yiYnxfSZ2OJjaqaTZ920=;
+ b=c928Bw7YQnqO5tJa4zn7sOgVF52OFDQ5zu1qp0pd/IAo89v/U2aAnbubwKfF5SBaFIGjxP
+ K5ndFRA454m9A1P3dqGdRRCpLj/WoXwIs2diVuusWutMnEOAsjlT3b86QmoWyZCrsxF171
+ ArPSsei+fpRKUvl6ELA3kxQISZRqGOo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-qLqPAl1SN62Ewam4u5Qeug-1; Mon, 19 Oct 2020 03:52:38 -0400
-X-MC-Unique: qLqPAl1SN62Ewam4u5Qeug-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-412-jEULipKnNNiCYeA5spD1Rw-1; Mon, 19 Oct 2020 03:52:59 -0400
+X-MC-Unique: jEULipKnNNiCYeA5spD1Rw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E01C803F42
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 07:52:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B5C61054F8E
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 07:52:58 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E82A5C641;
- Mon, 19 Oct 2020 07:52:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3043D6FEE7;
+ Mon, 19 Oct 2020 07:52:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 51C459D5A; Mon, 19 Oct 2020 09:52:24 +0200 (CEST)
+ id 62C189D74; Mon, 19 Oct 2020 09:52:24 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/14] spice: move display_init() to QemuSpiceOps.
-Date: Mon, 19 Oct 2020 09:52:14 +0200
-Message-Id: <20201019075224.14803-5-kraxel@redhat.com>
+Subject: [PATCH 05/14] spice: move add_interface() to QemuSpiceOps.
+Date: Mon, 19 Oct 2020 09:52:15 +0200
+Message-Id: <20201019075224.14803-6-kraxel@redhat.com>
 In-Reply-To: <20201019075224.14803-1-kraxel@redhat.com>
 References: <20201019075224.14803-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,101 +90,142 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/qemu-spice-module.h | 1 +
- include/ui/qemu-spice.h        | 7 -------
- softmmu/vl.c                   | 2 +-
- ui/spice-core.c                | 1 +
- ui/spice-module.c              | 9 +++++++++
- 5 files changed, 12 insertions(+), 8 deletions(-)
+ include/ui/qemu-spice-module.h | 7 +++++++
+ include/ui/qemu-spice.h        | 1 -
+ audio/spiceaudio.c             | 4 ++--
+ chardev/spice.c                | 2 +-
+ ui/spice-core.c                | 5 +++--
+ ui/spice-input.c               | 6 +++---
+ 6 files changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/include/ui/qemu-spice-module.h b/include/ui/qemu-spice-module.h
-index b182bc4c21a6..dbe09035dade 100644
+index dbe09035dade..f93acde5743c 100644
 --- a/include/ui/qemu-spice-module.h
 +++ b/include/ui/qemu-spice-module.h
-@@ -20,6 +20,7 @@
+@@ -18,10 +18,17 @@
+ #ifndef QEMU_SPICE_MODULE_H
+ #define QEMU_SPICE_MODULE_H
  
++#ifdef CONFIG_SPICE
++#include <spice.h>
++#endif
++
  struct QemuSpiceOps {
      void (*init)(void);
-+    void (*display_init)(void);
+     void (*display_init)(void);
      int (*migrate_info)(const char *h, int p, int t, const char *s);
++#ifdef CONFIG_SPICE
++    int (*add_interface)(SpiceBaseInstance *sin);
++#endif
  };
  
+ extern int using_spice;
 diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
-index e6df0a8715b0..a3fd1ea5ade8 100644
+index a3fd1ea5ade8..6018577c5278 100644
 --- a/include/ui/qemu-spice.h
 +++ b/include/ui/qemu-spice.h
-@@ -66,13 +66,6 @@ static inline int qemu_spice_display_add_client(int csock, int skipauth,
-     return -1;
- }
+@@ -29,7 +29,6 @@
+ void qemu_spice_input_init(void);
+ void qemu_spice_display_init(void);
+ int qemu_spice_display_add_client(int csock, int skipauth, int tls);
+-int qemu_spice_add_interface(SpiceBaseInstance *sin);
+ bool qemu_spice_have_display_interface(QemuConsole *con);
+ int qemu_spice_add_display_interface(QXLInstance *qxlin, QemuConsole *con);
+ int qemu_spice_set_passwd(const char *passwd,
+diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
+index ed6dff1dcc41..8967cca12925 100644
+--- a/audio/spiceaudio.c
++++ b/audio/spiceaudio.c
+@@ -106,7 +106,7 @@ static int line_out_init(HWVoiceOut *hw, struct audsettings *as,
+     out->active = 0;
  
--static inline void qemu_spice_display_init(void)
--{
--    /* This must never be called if CONFIG_SPICE is disabled */
--    error_report("spice support is disabled");
--    abort();
--}
--
- #endif /* CONFIG_SPICE */
- 
- static inline bool qemu_using_spice(Error **errp)
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 65c34a6b8a2e..8a06fe8bf77a 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -4447,7 +4447,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     out->sin.base.sif = &playback_sif.base;
+-    qemu_spice_add_interface (&out->sin.base);
++    qemu_spice.add_interface(&out->sin.base);
+ #if SPICE_INTERFACE_PLAYBACK_MAJOR > 1 || SPICE_INTERFACE_PLAYBACK_MINOR >= 3
+     spice_server_set_playback_rate(&out->sin, settings.freq);
  #endif
+@@ -215,7 +215,7 @@ static int line_in_init(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+     in->active = 0;
  
-     if (using_spice) {
--        qemu_spice_display_init();
-+        qemu_spice.display_init();
+     in->sin.base.sif = &record_sif.base;
+-    qemu_spice_add_interface (&in->sin.base);
++    qemu_spice.add_interface(&in->sin.base);
+ #if SPICE_INTERFACE_RECORD_MAJOR > 2 || SPICE_INTERFACE_RECORD_MINOR >= 3
+     spice_server_set_record_rate(&in->sin, settings.freq);
+ #endif
+diff --git a/chardev/spice.c b/chardev/spice.c
+index 7d1fb1771894..1104426e3a11 100644
+--- a/chardev/spice.c
++++ b/chardev/spice.c
+@@ -110,7 +110,7 @@ static void vmc_register_interface(SpiceChardev *scd)
+         return;
      }
- 
-     if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+     scd->sin.base.sif = &vmc_interface.base;
+-    qemu_spice_add_interface(&scd->sin.base);
++    qemu_spice.add_interface(&scd->sin.base);
+     scd->active = true;
+     trace_spice_vmc_register_interface(scd);
+ }
 diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 6ef66eb387de..82d5dbda3e26 100644
+index 82d5dbda3e26..483d880a3362 100644
 --- a/ui/spice-core.c
 +++ b/ui/spice-core.c
-@@ -995,6 +995,7 @@ int qemu_spice_display_is_running(SimpleSpiceDisplay *ssd)
+@@ -800,7 +800,7 @@ static void qemu_spice_init(void)
+     migration_state.notify = migration_state_notifier;
+     add_migration_state_change_notifier(&migration_state);
+     spice_migrate.base.sif = &migrate_interface.base;
+-    qemu_spice_add_interface(&spice_migrate.base);
++    qemu_spice.add_interface(&spice_migrate.base);
  
- static struct QemuSpiceOps real_spice_ops = {
-     .init         = qemu_spice_init,
-+    .display_init = qemu_spice_display_init,
-     .migrate_info = qemu_spice_migrate_info,
- };
+     qemu_spice_input_init();
  
-diff --git a/ui/spice-module.c b/ui/spice-module.c
-index a30fa452ea93..56868aaffe9a 100644
---- a/ui/spice-module.c
-+++ b/ui/spice-module.c
-@@ -18,6 +18,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/error-report.h"
- #include "ui/qemu-spice-module.h"
- 
- int using_spice;
-@@ -26,6 +27,13 @@ static void qemu_spice_init_stub(void)
- {
+@@ -829,7 +829,7 @@ static void qemu_spice_init(void)
+ #endif
  }
  
-+static void qemu_spice_display_init_stub(void)
-+{
-+    /* This must never be called if CONFIG_SPICE is disabled */
-+    error_report("spice support is disabled");
-+    abort();
-+}
-+
- static int qemu_spice_migrate_info_stub(const char *h, int p, int t,
-                                         const char *s)
+-int qemu_spice_add_interface(SpiceBaseInstance *sin)
++static int qemu_spice_add_interface(SpiceBaseInstance *sin)
  {
-@@ -34,5 +42,6 @@ static int qemu_spice_migrate_info_stub(const char *h, int p, int t,
- 
- struct QemuSpiceOps qemu_spice = {
-     .init         = qemu_spice_init_stub,
-+    .display_init = qemu_spice_display_init_stub,
-     .migrate_info = qemu_spice_migrate_info_stub,
+     if (!spice_server) {
+         if (QTAILQ_FIRST(&qemu_spice_opts.head) != NULL) {
+@@ -997,6 +997,7 @@ static struct QemuSpiceOps real_spice_ops = {
+     .init         = qemu_spice_init,
+     .display_init = qemu_spice_display_init,
+     .migrate_info = qemu_spice_migrate_info,
++    .add_interface = qemu_spice_add_interface,
  };
+ 
+ static void spice_register_config(void)
+diff --git a/ui/spice-input.c b/ui/spice-input.c
+index 21990fa9962b..bbd502564edf 100644
+--- a/ui/spice-input.c
++++ b/ui/spice-input.c
+@@ -231,7 +231,7 @@ static void mouse_mode_notifier(Notifier *notifier, void *data)
+     }
+ 
+     if (is_absolute) {
+-        qemu_spice_add_interface(&pointer->tablet.base);
++        qemu_spice.add_interface(&pointer->tablet.base);
+     } else {
+         spice_server_remove_interface(&pointer->tablet.base);
+     }
+@@ -245,13 +245,13 @@ void qemu_spice_input_init(void)
+ 
+     kbd = g_malloc0(sizeof(*kbd));
+     kbd->sin.base.sif = &kbd_interface.base;
+-    qemu_spice_add_interface(&kbd->sin.base);
++    qemu_spice.add_interface(&kbd->sin.base);
+     qemu_add_led_event_handler(kbd_leds, kbd);
+ 
+     pointer = g_malloc0(sizeof(*pointer));
+     pointer->mouse.base.sif  = &mouse_interface.base;
+     pointer->tablet.base.sif = &tablet_interface.base;
+-    qemu_spice_add_interface(&pointer->mouse.base);
++    qemu_spice.add_interface(&pointer->mouse.base);
+ 
+     pointer->absolute = false;
+     pointer->mouse_mode.notify = mouse_mode_notifier;
 -- 
 2.27.0
 
