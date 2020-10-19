@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C0F29283D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 15:35:05 +0200 (CEST)
-Received: from localhost ([::1]:48704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB2A292845
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 15:37:16 +0200 (CEST)
+Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUVJY-00052k-Bz
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 09:35:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44186)
+	id 1kUVLf-0007nA-B4
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 09:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lizhengui@huawei.com>)
- id 1kUVGh-00028y-66; Mon, 19 Oct 2020 09:32:07 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5255 helo=huawei.com)
+ id 1kUVH8-0002IE-I8; Mon, 19 Oct 2020 09:32:35 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5186 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lizhengui@huawei.com>)
- id 1kUVGe-0005kn-Kx; Mon, 19 Oct 2020 09:32:06 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 4A0C5C1D18D23E381035;
- Mon, 19 Oct 2020 21:32:01 +0800 (CST)
+ id 1kUVH5-0005mR-Te; Mon, 19 Oct 2020 09:32:34 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 48768C5C1398FF81841F;
+ Mon, 19 Oct 2020 21:32:28 +0800 (CST)
 Received: from DESKTOP-80C7KIU.china.huawei.com (10.174.187.210) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 19 Oct 2020 21:31:54 +0800
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 19 Oct 2020 21:32:20 +0800
 From: Zhengui li <lizhengui@huawei.com>
 To: <pbonzini@redhat.com>, <stefanha@redhat.com>, <mreitz@redhat.com>,
  <kwolf@redhat.com>
-Subject: [PATCH] virtio-iommu: fix incorrect print type
-Date: Mon, 19 Oct 2020 13:31:51 +0000
-Message-ID: <1603114311-7392-1-git-send-email-lizhengui@huawei.com>
+Subject: [PATCH] vfio: fix incorrect print type
+Date: Mon, 19 Oct 2020 13:32:17 +0000
+Message-ID: <1603114337-28056-1-git-send-email-lizhengui@huawei.com>
 X-Mailer: git-send-email 2.6.4.windows.1
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.210]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=lizhengui@huawei.com;
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=lizhengui@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 09:30:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 08:12:12
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -63,40 +63,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 fix incorrect print type.
 ---
- hw/virtio/virtio-iommu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/vfio/common.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 21ec63b..bd6ce44 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -632,7 +632,7 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-     ep = g_tree_lookup(s->endpoints, GUINT_TO_POINTER(sid));
-     if (!ep) {
-         if (!bypass_allowed) {
--            error_report_once("%s sid=%d is not known!!", __func__, sid);
-+            error_report_once("%s sid=%u is not known!!", __func__, sid);
-             virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_UNKNOWN,
-                                       VIRTIO_IOMMU_FAULT_F_ADDRESS,
-                                       sid, addr);
-@@ -679,7 +679,7 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-                                    (void **)&mapping_key,
-                                    (void **)&mapping_value);
-     if (!found) {
--        error_report_once("%s no mapping for 0x%"PRIx64" for sid=%d",
-+        error_report_once("%s no mapping for 0x%"PRIx64" for sid=%u",
-                           __func__, addr, sid);
-         virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_MAPPING,
-                                   VIRTIO_IOMMU_FAULT_F_ADDRESS,
-@@ -695,7 +695,7 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-     flags = read_fault ? VIRTIO_IOMMU_FAULT_F_READ : 0;
-     flags |= write_fault ? VIRTIO_IOMMU_FAULT_F_WRITE : 0;
-     if (flags) {
--        error_report_once("%s permission error on 0x%"PRIx64"(%d): allowed=%d",
-+        error_report_once("%s permission error on 0x%"PRIx64"(%d): allowed=%u",
-                           __func__, addr, flag, mapping_value->flags);
-         flags |= VIRTIO_IOMMU_FAULT_F_ADDRESS;
-         virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_MAPPING,
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 13471ae..acc3356 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -203,7 +203,7 @@ void vfio_region_write(void *opaque, hwaddr addr,
+         buf.qword = cpu_to_le64(data);
+         break;
+     default:
+-        hw_error("vfio: unsupported write size, %d bytes", size);
++        hw_error("vfio: unsupported write size, %u bytes", size);
+         break;
+     }
+ 
+@@ -260,7 +260,7 @@ uint64_t vfio_region_read(void *opaque,
+         data = le64_to_cpu(buf.qword);
+         break;
+     default:
+-        hw_error("vfio: unsupported read size, %d bytes", size);
++        hw_error("vfio: unsupported read size, %u bytes", size);
+         break;
+     }
+ 
 -- 
 1.8.3.1
 
