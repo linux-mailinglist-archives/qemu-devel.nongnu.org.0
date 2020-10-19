@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A8D2939A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:11:49 +0200 (CEST)
-Received: from localhost ([::1]:48936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB40293998
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:06:20 +0200 (CEST)
+Received: from localhost ([::1]:32914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpYS-0006aY-Gp
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:11:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49366)
+	id 1kUpT9-00084l-HW
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:06:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kUpQx-00067S-LH; Tue, 20 Oct 2020 07:04:03 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:38960 helo=huawei.com)
+ id 1kUpQt-00061J-HQ; Tue, 20 Oct 2020 07:04:01 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:38616 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kUpQv-0006oj-FT; Tue, 20 Oct 2020 07:04:03 -0400
+ id 1kUpQr-0006mt-6z; Tue, 20 Oct 2020 07:03:59 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id ACACA193F93C4181BED7;
+ by Forcepoint Email with ESMTP id A03BA91E903B23999C30;
  Tue, 20 Oct 2020 19:03:49 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Tue, 20 Oct 2020
- 19:03:39 +0800
+ 19:03:40 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 02/10] hw/core/:split some lines containing more than 80
+Subject: [PATCH 03/10] hw/ide/:split some lines containing more than 80
  characters
-Date: Tue, 20 Oct 2020 04:30:15 +0800
-Message-ID: <20201019203023.658555-3-ganqixin@huawei.com>
+Date: Tue, 20 Oct 2020 04:30:16 +0800
+Message-ID: <20201019203023.658555-4-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201019203023.658555-1-ganqixin@huawei.com>
 References: <20201019203023.658555-1-ganqixin@huawei.com>
@@ -66,123 +66,174 @@ Cc: lvivier@redhat.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By using scripts/checkpatch.pl, it is found that many files in hw/core/
+By using scripts/checkpatch.pl, it is found that many files in hw/ide/
 contain lines with more than 80 characters.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
- hw/core/bus.c                    |  3 ++-
- hw/core/loader.c                 | 17 +++++++++++------
- hw/core/machine-hmp-cmds.c       |  6 ++++--
- hw/core/machine.c                |  3 ++-
- hw/core/qdev-properties-system.c |  4 ++--
- 5 files changed, 21 insertions(+), 12 deletions(-)
+ hw/ide/ahci.c   | 10 ++++++----
+ hw/ide/atapi.c  |  9 +++++----
+ hw/ide/cmd646.c |  3 ++-
+ hw/ide/core.c   | 21 ++++++++++++++-------
+ hw/ide/piix.c   |  3 ++-
+ hw/ide/via.c    |  3 ++-
+ 6 files changed, 31 insertions(+), 18 deletions(-)
 
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index a0483859ae..9b2dc7e25c 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -158,7 +158,8 @@ void qbus_create_inplace(void *bus, size_t size, const char *typename,
-     qbus_init(bus, parent, name);
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index 680304a24c..83bbc7e3df 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -1252,7 +1252,8 @@ static void handle_reg_h2d_fis(AHCIState *s, int port,
+     if (opts & AHCI_CMD_ATAPI) {
+         memcpy(ide_state->io_buffer, &cmd_fis[AHCI_COMMAND_TABLE_ACMD], 0x10);
+         if (trace_event_get_state_backends(TRACE_HANDLE_REG_H2D_FIS_DUMP)) {
+-            char *pretty_fis = ahci_pretty_buffer_fis(ide_state->io_buffer, 0x10);
++            char *pretty_fis = ahci_pretty_buffer_fis(ide_state->io_buffer,
++                                                      0x10);
+             trace_handle_reg_h2d_fis_dump(s, port, pretty_fis);
+             g_free(pretty_fis);
+         }
+@@ -1356,9 +1357,10 @@ static void ahci_pio_transfer(const IDEDMA *dma)
+      * The device only sets the 'I' bit in the PIO Setup FIS for device->host
+      * requests (see "DPIOI1" in the SATA spec), or for host->device DRQs after
+      * the first (see "DPIOO1").  The latter is consistent with the spec's
+-     * description of the PACKET protocol, where the command part of ATAPI requests
+-     * ("DPKT0") has the 'I' bit clear, while the data part of PIO ATAPI requests
+-     * ("DPKT4a" and "DPKT7") has the 'I' bit set for both directions for all DRQs.
++     * description of the PACKET protocol, where the command part of ATAPI
++     * requests ("DPKT0") has the 'I' bit clear, while the data part of PIO
++     * ATAPI requests ("DPKT4a" and "DPKT7") has the 'I' bit set for both
++     * directions for all DRQs.
+      */
+     pio_fis_i = ad->done_first_drq || (!is_atapi && !is_write);
+     ahci_write_fis_pio(ad, size, pio_fis_i);
+diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
+index 14a2b0bb2f..7f346d5d2a 100644
+--- a/hw/ide/atapi.c
++++ b/hw/ide/atapi.c
+@@ -378,7 +378,8 @@ static void ide_atapi_cmd_read_dma_cb(void *opaque, int ret)
+ 
+     if (s->packet_transfer_size <= 0) {
+         s->status = READY_STAT | SEEK_STAT;
+-        s->nsector = (s->nsector & ~7) | ATAPI_INT_REASON_IO | ATAPI_INT_REASON_CD;
++        s->nsector = (s->nsector & ~7) | ATAPI_INT_REASON_IO |
++                      ATAPI_INT_REASON_CD;
+         ide_set_irq(s->bus);
+         goto eot;
+     }
+@@ -1232,9 +1233,9 @@ enum {
+     ALLOW_UA = 0x01,
+ 
+     /*
+-     * Commands flagged with CHECK_READY can only execute if a medium is present.
+-     * Otherwise they report the Not Ready Condition. (See MMC-5, section
+-     * 4.1.8)
++     * Commands flagged with CHECK_READY can only execute if a medium is
++     * present. Otherwise they report the Not Ready Condition. (See MMC-5,
++     * section 4.1.8)
+      */
+     CHECK_READY = 0x02,
+ 
+diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+index c254631485..c41990f393 100644
+--- a/hw/ide/cmd646.c
++++ b/hw/ide/cmd646.c
+@@ -144,7 +144,8 @@ static void bmdma_write(void *opaque, hwaddr addr,
+         cmd646_update_irq(pci_dev);
+         break;
+     case 2:
+-        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
++        bm->status = (val & 0x60) | (bm->status & 1) |
++                     (bm->status & ~val & 0x06);
+         break;
+     case 3:
+         if (bm == &bm->pci_dev->bmdma[0]) {
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index 693b352d5e..b784fff88f 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -2017,7 +2017,8 @@ static const struct {
+     [WIN_READ_ONCE]               = { cmd_read_pio, HD_CFA_OK },
+     [WIN_READ_EXT]                = { cmd_read_pio, HD_CFA_OK },
+     [WIN_READDMA_EXT]             = { cmd_read_dma, HD_CFA_OK },
+-    [WIN_READ_NATIVE_MAX_EXT]     = { cmd_read_native_max, HD_CFA_OK | SET_DSC },
++    [WIN_READ_NATIVE_MAX_EXT]     = { cmd_read_native_max, HD_CFA_OK |
++                                      SET_DSC },
+     [WIN_MULTREAD_EXT]            = { cmd_read_multiple, HD_CFA_OK },
+     [WIN_WRITE]                   = { cmd_write_pio, HD_CFA_OK },
+     [WIN_WRITE_ONCE]              = { cmd_write_pio, HD_CFA_OK },
+@@ -2037,7 +2038,8 @@ static const struct {
+     [WIN_IDLEIMMEDIATE2]          = { cmd_nop, HD_CFA_OK },
+     [WIN_STANDBY2]                = { cmd_nop, HD_CFA_OK },
+     [WIN_SETIDLE2]                = { cmd_nop, HD_CFA_OK },
+-    [WIN_CHECKPOWERMODE2]         = { cmd_check_power_mode, HD_CFA_OK | SET_DSC },
++    [WIN_CHECKPOWERMODE2]         = { cmd_check_power_mode, HD_CFA_OK |
++                                      SET_DSC },
+     [WIN_SLEEPNOW2]               = { cmd_nop, HD_CFA_OK },
+     [WIN_PACKETCMD]               = { cmd_packet, CD_OK },
+     [WIN_PIDENTIFY]               = { cmd_identify_packet, CD_OK },
+@@ -2046,7 +2048,8 @@ static const struct {
+     [CFA_ERASE_SECTORS]           = { cmd_cfa_erase_sectors, CFA_OK | SET_DSC },
+     [WIN_MULTREAD]                = { cmd_read_multiple, HD_CFA_OK },
+     [WIN_MULTWRITE]               = { cmd_write_multiple, HD_CFA_OK },
+-    [WIN_SETMULT]                 = { cmd_set_multiple_mode, HD_CFA_OK | SET_DSC },
++    [WIN_SETMULT]                 = { cmd_set_multiple_mode, HD_CFA_OK |
++                                      SET_DSC },
+     [WIN_READDMA]                 = { cmd_read_dma, HD_CFA_OK },
+     [WIN_READDMA_ONCE]            = { cmd_read_dma, HD_CFA_OK },
+     [WIN_WRITEDMA]                = { cmd_write_dma, HD_CFA_OK },
+@@ -2056,15 +2059,19 @@ static const struct {
+     [WIN_IDLEIMMEDIATE]           = { cmd_nop, HD_CFA_OK },
+     [WIN_STANDBY]                 = { cmd_nop, HD_CFA_OK },
+     [WIN_SETIDLE1]                = { cmd_nop, HD_CFA_OK },
+-    [WIN_CHECKPOWERMODE1]         = { cmd_check_power_mode, HD_CFA_OK | SET_DSC },
++    [WIN_CHECKPOWERMODE1]         = { cmd_check_power_mode, HD_CFA_OK |
++                                      SET_DSC },
+     [WIN_SLEEPNOW1]               = { cmd_nop, HD_CFA_OK },
+     [WIN_FLUSH_CACHE]             = { cmd_flush_cache, ALL_OK },
+     [WIN_FLUSH_CACHE_EXT]         = { cmd_flush_cache, HD_CFA_OK },
+     [WIN_IDENTIFY]                = { cmd_identify, ALL_OK },
+     [WIN_SETFEATURES]             = { cmd_set_features, ALL_OK | SET_DSC },
+-    [IBM_SENSE_CONDITION]         = { cmd_ibm_sense_condition, CFA_OK | SET_DSC },
+-    [CFA_WEAR_LEVEL]              = { cmd_cfa_erase_sectors, HD_CFA_OK | SET_DSC },
+-    [WIN_READ_NATIVE_MAX]         = { cmd_read_native_max, HD_CFA_OK | SET_DSC },
++    [IBM_SENSE_CONDITION]         = { cmd_ibm_sense_condition, CFA_OK |
++                                      SET_DSC },
++    [CFA_WEAR_LEVEL]              = { cmd_cfa_erase_sectors, HD_CFA_OK |
++                                      SET_DSC },
++    [WIN_READ_NATIVE_MAX]         = { cmd_read_native_max, HD_CFA_OK |
++                                      SET_DSC },
+ };
+ 
+ static bool ide_cmd_permitted(IDEState *s, uint32_t cmd)
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index b402a93636..2b154d0344 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -75,7 +75,8 @@ static void bmdma_write(void *opaque, hwaddr addr,
+         bmdma_cmd_writeb(bm, val);
+         break;
+     case 2:
+-        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
++        bm->status = (val & 0x60) | (bm->status & 1) |
++                     (bm->status & ~val & 0x06);
+         break;
+     }
  }
- 
--BusState *qbus_create(const char *typename, DeviceState *parent, const char *name)
-+BusState *qbus_create(const char *typename, DeviceState *parent,
-+                      const char *name)
- {
-     BusState *bus;
- 
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 8bbb1797a4..50839d93e3 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -211,14 +211,18 @@ static void bswap_ahdr(struct exec *e)
- #define N_TXTOFF(x)							\
-     (N_MAGIC(x) == ZMAGIC ? _N_HDROFF((x)) + sizeof (struct exec) :	\
-      (N_MAGIC(x) == QMAGIC ? 0 : sizeof (struct exec)))
--#define N_TXTADDR(x, target_page_size) (N_MAGIC(x) == QMAGIC ? target_page_size : 0)
--#define _N_SEGMENT_ROUND(x, target_page_size) (((x) + target_page_size - 1) & ~(target_page_size - 1))
-+#define N_TXTADDR(x, target_page_size) \
-+    (N_MAGIC(x) == QMAGIC ? target_page_size : 0)
-+#define _N_SEGMENT_ROUND(x, target_page_size) \
-+    (((x) + target_page_size - 1) & ~(target_page_size - 1))
- 
--#define _N_TXTENDADDR(x, target_page_size) (N_TXTADDR(x, target_page_size)+(x).a_text)
-+#define _N_TXTENDADDR(x, target_page_size) \
-+    (N_TXTADDR(x, target_page_size) + (x).a_text)
- 
- #define N_DATADDR(x, target_page_size) \
--    (N_MAGIC(x)==OMAGIC? (_N_TXTENDADDR(x, target_page_size)) \
--     : (_N_SEGMENT_ROUND (_N_TXTENDADDR(x, target_page_size), target_page_size)))
-+    (N_MAGIC(x) == OMAGIC ? (_N_TXTENDADDR(x, target_page_size)) \
-+     : (_N_SEGMENT_ROUND(_N_TXTENDADDR(x, target_page_size), \
-+    target_page_size)))
- 
- 
- int load_aout(const char *filename, hwaddr addr, int max_sz,
-@@ -1190,7 +1194,8 @@ int rom_check_and_register_reset(void)
-         }
-         section = memory_region_find(rom->mr ? rom->mr : get_system_memory(),
-                                      rom->addr, 1);
--        rom->isrom = int128_nz(section.size) && memory_region_is_rom(section.mr);
-+        rom->isrom = int128_nz(section.size)
-+                     && memory_region_is_rom(section.mr);
-         memory_region_unref(section.mr);
+diff --git a/hw/ide/via.c b/hw/ide/via.c
+index be09912b33..694d5e55a2 100644
+--- a/hw/ide/via.c
++++ b/hw/ide/via.c
+@@ -74,7 +74,8 @@ static void bmdma_write(void *opaque, hwaddr addr,
+         bmdma_cmd_writeb(bm, val);
+         break;
+     case 2:
+-        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
++        bm->status = (val & 0x60) | (bm->status & 1) |
++                     (bm->status & ~val & 0x06);
+         break;
+     default:;
      }
-     qemu_register_reset(rom_reset, NULL);
-diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-index 6357be9c6b..65280d53bc 100644
---- a/hw/core/machine-hmp-cmds.c
-+++ b/hw/core/machine-hmp-cmds.c
-@@ -73,7 +73,8 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
-             monitor_printf(mon, "    node-id: \"%" PRIu64 "\"\n", c->node_id);
-         }
-         if (c->has_socket_id) {
--            monitor_printf(mon, "    socket-id: \"%" PRIu64 "\"\n", c->socket_id);
-+            monitor_printf(mon, "    socket-id: \"%" PRIu64 "\"\n",
-+                           c->socket_id);
-         }
-         if (c->has_die_id) {
-             monitor_printf(mon, "    die-id: \"%" PRIu64 "\"\n", c->die_id);
-@@ -82,7 +83,8 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
-             monitor_printf(mon, "    core-id: \"%" PRIu64 "\"\n", c->core_id);
-         }
-         if (c->has_thread_id) {
--            monitor_printf(mon, "    thread-id: \"%" PRIu64 "\"\n", c->thread_id);
-+            monitor_printf(mon, "    thread-id: \"%" PRIu64 "\"\n",
-+                           c->thread_id);
-         }
- 
-         l = l->next;
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 7e2f4ec08e..055473c23a 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -317,7 +317,8 @@ static char *machine_get_dt_compatible(Object *obj, Error **errp)
-     return g_strdup(ms->dt_compatible);
- }
- 
--static void machine_set_dt_compatible(Object *obj, const char *value, Error **errp)
-+static void machine_set_dt_compatible(Object *obj,
-+                                      const char *value, Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
- 
-diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index 49bdd12581..c4f7170a06 100644
---- a/hw/core/qdev-properties-system.c
-+++ b/hw/core/qdev-properties-system.c
-@@ -418,8 +418,8 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
-     }
- 
-     if (queues > MAX_QUEUE_NUM) {
--        error_setg(errp, "queues of backend '%s'(%d) exceeds QEMU limitation(%d)",
--                   str, queues, MAX_QUEUE_NUM);
-+        error_setg(errp, "queues of backend '%s'(%d) exceeds"
-+                   "QEMU limitation(%d)", str, queues, MAX_QUEUE_NUM);
-         goto out;
-     }
- 
 -- 
 2.23.0
 
