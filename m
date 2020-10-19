@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E684F29246E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 11:11:19 +0200 (CEST)
-Received: from localhost ([::1]:60298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDDF292472
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 11:13:00 +0200 (CEST)
+Received: from localhost ([::1]:36076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kURCI-0004uP-Vh
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 05:11:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43464)
+	id 1kURDv-0006uP-Hg
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 05:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUR9l-0003dK-J2
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 05:08:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45884)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kURAu-0004OJ-1r
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 05:09:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUR9j-000633-FC
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 05:08:41 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kURAr-00068t-BE
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 05:09:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603098518;
+ s=mimecast20190719; t=1603098583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/EroG+YMzt/peYN+rgs2bNi9+VHUIsE1/4RZLuQZ7zg=;
- b=MUgyOX/xGvo48q4FHTH1/acy6EcCFiQuwQwHNe9wQ+sb6sGy2dp5oaJDNw/T9iqYXl/kSx
- EAhlK26sTUy/BAHfzL+Ox6RA9bInecej0AwfmfZV2axiveLygqGeR7VofnKa+lOCYVxG4x
- bfWG5JWzNtbtKELGSDvAXbNSxjKUVL8=
+ bh=ldMy2B7t5SKawXl0PpvGvzWNhAq7GgujtSc+gbEhTls=;
+ b=UT4FN3ny1i3aDkWHog4O8svuDNIhleaXmjVTKfuGRLAtzbQSXR7X8mk0gQjiNRstiOCwlm
+ SOZbOavSNrs6a5nKdmY4AfJYchLqeO3ioguAsyOCyqxf7Vg2HPuTWLMmB1Mxk2I/EoyPOK
+ UVUSwbdTqWbI7RtPNioABgg3fOkrqdM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-pIE123nNOxarGruKJ3QSyg-1; Mon, 19 Oct 2020 05:08:36 -0400
-X-MC-Unique: pIE123nNOxarGruKJ3QSyg-1
+ us-mta-458-SvpT3O2pN5qHaUksBjcPwA-1; Mon, 19 Oct 2020 05:09:40 -0400
+X-MC-Unique: SvpT3O2pN5qHaUksBjcPwA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 168268030A3;
- Mon, 19 Oct 2020 09:08:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DAEA65577A;
- Mon, 19 Oct 2020 09:08:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7137D1132A08; Mon, 19 Oct 2020 11:08:33 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v4 0/7] qemu-storage-daemon: Remove QemuOpts from --object
-References: <20201011073505.1185335-1-armbru@redhat.com>
- <20201012143908.GF7777@merkur.fritz.box>
-Date: Mon, 19 Oct 2020 11:08:33 +0200
-In-Reply-To: <20201012143908.GF7777@merkur.fritz.box> (Kevin Wolf's message of
- "Mon, 12 Oct 2020 16:39:08 +0200")
-Message-ID: <87sgaazipa.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74B571015ED7;
+ Mon, 19 Oct 2020 09:09:39 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A260E55781;
+ Mon, 19 Oct 2020 09:09:33 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9EF3216E18; Mon, 19 Oct 2020 11:09:32 +0200 (CEST)
+Date: Mon, 19 Oct 2020 11:09:32 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/4] RfC: microvm: add second ioapic
+Message-ID: <20201019090932.s2h65xcmkeynrsyj@sirius.home.kraxel.org>
+References: <20201016114328.18835-1-kraxel@redhat.com>
+ <ffd81f03-b2a0-2c58-9f13-c956dfd1ca17@redhat.com>
+ <20201019070704.a2tjfea4sycivmnt@sirius.home.kraxel.org>
 MIME-Version: 1.0
+In-Reply-To: <20201019070704.a2tjfea4sycivmnt@sirius.home.kraxel.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -82,34 +82,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+  Hi,
 
-> Am 11.10.2020 um 09:34 hat Markus Armbruster geschrieben:
->> This replaces the QemuOpts-based help code for --object in the storage
->> daemon with code based on the keyval parser.
->> 
->> Review of v3 led me to preexisting issues.  Instead of posting my
->> fixes separately, then working with Kevin to rebase his work on top of
->> mine, I did the rebase myself and am posting it together with my fixes
->> as v4.  Hope that's okay.
->> 
->> Note: to test qemu-storage-daemon --object help, you need Philippe's
->> "[PATCH v3] hw/nvram: Always register FW_CFG_DATA_GENERATOR_INTERFACE"
->> and its prerequisites (first 10 patches of Paolo's "[PULL 00/39] SCSI,
->> qdev, qtest, meson patches for 2020-10-10"), so it doesn't crash with
->> "missing interface 'fw_cfg-data-generator' for object 'tls-creds'".
->
-> Thanks, fixed up the typos in patch 4 and applied patches 1-4. I'm
-> taking patches 5-7 from my original series because you didn't add your
-> S-o-b (they are unchanged anyway, so no practical difference).
+> /me updates the WIP microvm blog post ;)
 
-Makes sense.  I didn't feel like slapping my S-o-b on patches I reposted
-unchanged.
+Online now.
+https://www.kraxel.org/blog/2020/10/qemu-microvm-acpi/
 
-Thanks!
+take care,
+  Gerd
 
 
