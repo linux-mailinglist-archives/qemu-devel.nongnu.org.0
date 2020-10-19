@@ -2,45 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52EC2927C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 14:59:49 +0200 (CEST)
-Received: from localhost ([::1]:42140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EBCF29266C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 13:36:36 +0200 (CEST)
+Received: from localhost ([::1]:42650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUUlQ-0003gj-Ma
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 08:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35814)
+	id 1kUTSt-0005At-5m
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 07:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <b036d9ac690943af93929ede376c4482c8f97bf2@lizzy.crudebyte.com>)
- id 1kUUiF-0000ph-5U
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:56:31 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:38859)
+ (envelope-from <a2d2ff2163f8853ea782a7a1d4e6f2afd7c29ffe@lizzy.crudebyte.com>)
+ id 1kUTRd-0004X5-NM
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 07:35:17 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:56095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <b036d9ac690943af93929ede376c4482c8f97bf2@lizzy.crudebyte.com>)
- id 1kUUiD-00016d-8s
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:56:30 -0400
+ (envelope-from <a2d2ff2163f8853ea782a7a1d4e6f2afd7c29ffe@lizzy.crudebyte.com>)
+ id 1kUTRb-00070G-ME
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 07:35:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=RjDWU12Vo0+sJWdQyous484JI53NVblvHVHec2R9FCY=; b=cKpJO
- Micp5k3kipnO2BOlam/Ci9EOLIJ+pH7zf1GMwz3oCbv9mvQm47ab72J6qbIM0mA9AwHoqcWcOv3d7
- TxpB7E0XmSskH5sxzF/5d9ed86c4XwMTwZktd61b7JpAvafDlN7LuJl4tZwzpaHu9fw2C18YIXd0S
- 715WjkzaAJPCHipB08ALCektt+e+0qPv2IbXohpK1nNNhz/axSFT35kN9XCzJBvukCVHxfapUvS+y
- hG5CYZ6+MNI+tgx5/myNut6hR9ByhU6JoCCPZAh+k/qPn7L9XfDWUYw28K9ehJIaW5P0YxGiHGTiI
- s/WKUgmQFvlSV2epX6HO4C3bVdxjQ==;
-Message-Id: <b036d9ac690943af93929ede376c4482c8f97bf2.1603111175.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1603111175.git.qemu_oss@crudebyte.com>
-References: <cover.1603111175.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=LAlUiIkmkaW0JIlpExsrXPHWvVDWM5ne5LGbG9vneWA=; b=Hd+v+
+ y3U81GxPK6He8IoT6lKxX19Y1xXN/mig3PUWr5XJuNTcYWTaCVJFA4ArG0I67p8dFryU39VXcrRD4
+ 7x6nqIm11VzgbD2v7ywXl48qbQPbHeA2QdpPvxnfwlOkWIrhHRmzwC3UPTmE84sfZZ6slfH/Afvsy
+ +JPw3ZrDQsU3AEGbqRucBVZg/COX+thE/A94e4ubdoziaMbK8ITm3Fq+roV8x7koCZ94K/eUe3BcZ
+ NBigXloYnTBZgCOXgFs3qHwLWjT6pfdIShM8TWA6OQesW7t8zyH/GnZrZDqBgcKi1y4qDl4tFu2yO
+ j6JRFhlemf39+8O4dSJwpw2GVxIRQ==;
+Message-Id: <a2d2ff2163f8853ea782a7a1d4e6f2afd7c29ffe.1603106145.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 19 Oct 2020 13:10:18 +0200
-Subject: [PULL v3 1/6] 9pfs: suppress performance warnings on qtest runs
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH 1/1] 9pfs: suppress performance warnings on qtest runs
+To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=b036d9ac690943af93929ede376c4482c8f97bf2@lizzy.crudebyte.com;
+ envelope-from=a2d2ff2163f8853ea782a7a1d4e6f2afd7c29ffe@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 06:27:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -71,9 +68,6 @@ because tests intentionally run for edge cases.
 So far performance warnings were suppressed for the 'synth' fs driver
 backend only. This patch suppresses them for all 9p fs driver backends.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <a2d2ff2163f8853ea782a7a1d4e6f2afd7c29ffe.1603106145.git.qemu_oss@crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
  hw/9pfs/9p-synth.c         | 2 --
