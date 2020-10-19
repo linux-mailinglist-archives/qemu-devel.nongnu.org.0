@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D797A29275C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 14:32:19 +0200 (CEST)
-Received: from localhost ([::1]:33624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0FD292761
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 14:35:52 +0200 (CEST)
+Received: from localhost ([::1]:39066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUUKo-0004IL-Fx
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 08:32:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58918)
+	id 1kUUOF-0006jz-Oz
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 08:35:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kUUIw-0003Tb-89
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:30:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27401)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUUM7-00058D-8b
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:33:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kUUIt-0006IS-TQ
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:30:21 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUUM5-0006if-IV
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:33:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603110618;
+ s=mimecast20190719; t=1603110814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RO98a8qj5/RJRuJ+j/LXzJhm4HDBCoJHQOiaAclUFKk=;
- b=Wx4kOQdqDBZRutXAtQJfuhKn3Qxi+P6Bs8RVNDWmycOd5in7EJqq1TmDxeLsONHaHVaQO+
- niOctctvqlwL2CbuyqigRfLEtz6fiFqW2Qzh9g+vUT3e8zFja79DugGiKEyh33pkhVdqO1
- uTFkplMjJqMz/oZnHL11x6ktsimEhU8=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zXJhGJPiiazxPcnCf2J4mvJpwMuZqWCK4NitiT/p51A=;
+ b=Yb/zWyDThTAgshJ6dt1YnKVYyUAMa9hERS2C008huSnd0U+HL8P6yUvMUWKIjlH5K4kYOl
+ xdbvP0LSJrJx92hEYtmY59S3v8HIuhb7nNeOc1UKfh6w+vODV/Zg/E7Ami9maeB6OkqIE4
+ baICiST3cfcSBwUZT6W3/yTD0+4mQhk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-jv8ln5FjNzG9pcIyGXkODA-1; Mon, 19 Oct 2020 08:30:16 -0400
-X-MC-Unique: jv8ln5FjNzG9pcIyGXkODA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-596-cxaH3_wYPQS1U7OD4qHOLA-1; Mon, 19 Oct 2020 08:33:32 -0400
+X-MC-Unique: cxaH3_wYPQS1U7OD4qHOLA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AF86106BC28
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 12:30:15 +0000 (UTC)
-Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13C705C1A3;
- Mon, 19 Oct 2020 12:30:14 +0000 (UTC)
-Date: Mon, 19 Oct 2020 08:30:14 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 0/5] qapi: Restrict machine (and migration) specific
- commands
-Message-ID: <20201019123014.GI5733@habkost.net>
-References: <20201012121536.3381997-1-philmd@redhat.com>
- <20201015182824.GG5733@habkost.net>
- <87ft6a1wgn.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 938BE64087
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 12:33:31 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
+ [10.36.112.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D42BC6EF59;
+ Mon, 19 Oct 2020 12:33:27 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D0BD416E18; Mon, 19 Oct 2020 14:33:26 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] Usb 20201019 patches
+Date: Mon, 19 Oct 2020 14:33:23 +0200
+Message-Id: <20201019123326.9973-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87ft6a1wgn.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 01:44:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,34 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 19, 2020 at 09:55:20AM +0200, Markus Armbruster wrote:
-> Eduardo Habkost <ehabkost@redhat.com> writes:
-> 
-> > On Mon, Oct 12, 2020 at 02:15:31PM +0200, Philippe Mathieu-Daudé wrote:
-> >> Reduce the machine code pulled into qemu-storage-daemon.
-> >> 
-> >> The series is fully Acked, but Markus wants it reviewed
-> >> by the Machine core maintainers.
-> >
-> > I've confirmed that all patches move QAPI schema code without
-> > introducing any additional changes.
-> >
-> > Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> 
-> I take this as "I agree the things moved to machine.json belong there".
-> Holler if I'm mistaken.
-
-I agree machine.json is better than misc.json for them, yes.
-
-I miss short descriptions of the purpose of each file, though.
-It would help us decide what's appropriate in the future.
-
--- 
-Eduardo
+The following changes since commit e12ce85b2c79d83a340953291912875c30b3af06=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull-request=
+' into staging (2020-10-16 22:46:28 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/usb-20201019-pull-request=0D
+=0D
+for you to fetch changes up to bea2a9e3e00b275dc40cfa09c760c715b8753e03:=0D
+=0D
+  hw/usb/hcd-dwc2: fix divide-by-zero in dwc2_handle_packet() (2020-10-19 0=
+9:17:21 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+usb: fixes for dwc2 + ehci.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Anthony PERARD (1):=0D
+  usb/hcd-ehci: Fix error handling on missing device for iTD=0D
+=0D
+Mauro Matteo Cascella (1):=0D
+  hw/usb/hcd-dwc2: fix divide-by-zero in dwc2_handle_packet()=0D
+=0D
+Paul Zimmerman (1):=0D
+  usb: hcd-dwc2: change assert()s to qemu_log_mask(LOG_GUEST_ERROR...)=0D
+=0D
+ hw/usb/hcd-dwc2.c | 106 +++++++++++++++++++++++++++++++++++++---------=0D
+ hw/usb/hcd-ehci.c |  35 +++++++--------=0D
+ 2 files changed, 105 insertions(+), 36 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
