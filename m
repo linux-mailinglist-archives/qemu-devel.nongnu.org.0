@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3EEB292D02
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 19:42:54 +0200 (CEST)
-Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B08292D2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 19:53:59 +0200 (CEST)
+Received: from localhost ([::1]:37120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUZBN-000447-VR
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 13:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
+	id 1kUZM5-00085K-VX
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 13:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kUZ88-0003LN-Jj
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:39:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kUZ86-0006V2-Gv
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:39:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603129168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VCxst2M00Sz2RCvcuZWuILpK3YzfgioEzr92Dyzp1IU=;
- b=T0g9hs6GKe6xc/CjuaVePYk89EUxGMNZXMGoKlv8JQK74hgJsd4wddXnR5uLwgQONWrAsr
- biXi27f/bq43PzVuIgAIz7nT1ozUdzdWNr977bPmYI3OiIZlc2eLimwG/kkWS5enHF5zIw
- /W1uqox67wx6M80fQ9fzCG9cEgbb8aQ=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-gZUmv4HVOjqshIM0aP11Ow-1; Mon, 19 Oct 2020 13:39:26 -0400
-X-MC-Unique: gZUmv4HVOjqshIM0aP11Ow-1
-Received: by mail-il1-f199.google.com with SMTP id i14so652973ils.21
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 10:39:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VCxst2M00Sz2RCvcuZWuILpK3YzfgioEzr92Dyzp1IU=;
- b=cqTmOs0rMrEfFFdWc4yeI/jNW1YFku1F35gIXBlffH3ACBkyrTLGWjWt6U6Dyjufr/
- y1R36+yXLnSiK4Lp/gdrbNdPKtyzx5pjsiMf0h3c+c2Cb5nKOinF6NBv1TfKGp+lqMnG
- iZsOU+vqRCpWrt+8+6Z1+4gDrBILuLNKbCasnc4JhaR+mHQprtlXq9VoAPQVbd2Fbq1v
- 0vs4VOp18jHjVkW8vi3NxLSk2sN0lqpTaobtijL6cZEu19RsV9WEWX/GgcYmLoEnku/C
- KqYOzY1Xo9czfbQaJKEU7oNdaRPN+CUfmJbWrlblGbIekJLl+W7ub83IJ4tVHTC49mae
- +BKA==
-X-Gm-Message-State: AOAM5320X3EMkv0W+CGlbE26D70a6skF98suFElVrvau5lKcXVKbf5LP
- iEpp1/kAfmqrKcNfO804YP7p6uCuErDDJwVQvZSDgSe7miHADX/1pIvlVWEDyhkYAyfG1Tuq+oe
- ZlCvTnQEQLq+n+kQ=
-X-Received: by 2002:a92:b503:: with SMTP id f3mr960930ile.23.1603129165860;
- Mon, 19 Oct 2020 10:39:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJygmz4+FZw27+T4r8tSdXD9clS0jm1X9djv4oxYaaiUBeKXLi4Z5aqNb4ePlZ/mMV40FZ/xwA==
-X-Received: by 2002:a92:b503:: with SMTP id f3mr960917ile.23.1603129165627;
- Mon, 19 Oct 2020 10:39:25 -0700 (PDT)
-Received: from xz-x1.redhat.com
- (toroon474qw-lp140-04-174-95-215-133.dsl.bell.ca. [174.95.215.133])
- by smtp.gmail.com with ESMTPSA id t12sm329300ilq.76.2020.10.19.10.39.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Oct 2020 10:39:24 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] intel_iommu: Fix two misuse of "0x%u" prints
-Date: Mon, 19 Oct 2020 13:39:22 -0400
-Message-Id: <20201019173922.100270-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kUZH5-0006Yo-6l; Mon, 19 Oct 2020 13:48:47 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:53815)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kUZH2-0007c8-Tp; Mon, 19 Oct 2020 13:48:46 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 87A6AFA8;
+ Mon, 19 Oct 2020 13:48:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 19 Oct 2020 13:48:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=/Nyvv3LFNRygeB23Nu0zGewYC8P
+ zzB2oGBJ+6Z1c0KI=; b=J8Li/ttAz202iuzK8cslp2aHZYsaqPWI1AE5Je8SOEG
+ FOKnvOTCwtoBcot9uDmOG70P9NxJ/CV91fd3rMjQiBmPvvWf6kDjDRUVFe3Flyod
+ nNyHpcSYqUgdbgbxeczF3jw5nwC6HnnK8dAiRT+jnUQ+qbRhdJiGpbv+cNhZhUFb
+ KRfmiXRfiXWxbheaVFM3Zw6GqIA5rbKfHPHI/syl+WLjxuwih5hekizKvD8bJttl
+ jfcCC/ya+4V0aS0Zu/lAZwAsIDTyeXp4UTrtT0ANjqnSXEALQ2Ex5uwM2fp9CMnE
+ x+XBbtpbiCiQwiukszvnEHCbzKNITV2O+rPBYTVQcTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=/Nyvv3
+ LFNRygeB23Nu0zGewYC8PzzB2oGBJ+6Z1c0KI=; b=iA9WKRBn9Lw8abwTPTyKS3
+ dDxiyiOPgXgvtVCpQTGlD/OALe8H1MXLJmRCa783DyorZ/wcj1DAAjwHWabsdZft
+ cTrNp5F7kDmj89PZXgwyx9XOkhFO683spECHaITzQf7dwjHhBfoXYY/MA8Gb/83T
+ Q34kk8NzHbPHLIYJ2CAqXtGMPDkvhMAcqrAec4KEate1x7iiQ4SUy3nNY1zEIm3b
+ kmC1aO64pS3jrl/ZYSzhBAh9IjaGGR7cwf4yQIKwFsrtoxi+y8rSu4pJSGuP4vn1
+ VXVAeGLqMNKkYwR5+zRjQv3SGThtBra6YUA9NiNEFzAqOPkgaNnMehPjA6AE/rXA
+ ==
+X-ME-Sender: <xms:eNGNXyAKK8jHazNdRqII8xtNhHOFEB202ciWBzBUMoJZ0Ru3X7M35g>
+ <xme:eNGNX8gr4kLPlFe1IPsqvUQR7Bnz5WX6wyUDNdPNycqBU2xn2rKyhMQK3V1_chEDp
+ BCrct3Mjych0Ps_5FA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjedugdduudekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:eNGNX1msYnGZ_mG8GbLaV3Rd_ci5ZMraKvzt99rKv_z0UR64BDawuw>
+ <xmx:eNGNXwzEykIk28Nf8smRZeSdNtv2bE4u-QJ9vDyNwNo0L86oIGrJHA>
+ <xmx:eNGNX3QFzPskiCqQezUeE-VmbIa2ODxwldR3gY-_EEQFL2glTWgJ5w>
+ <xmx:etGNX1O8ZeMt6V1uefYrEb_s_iynjwO0iiO8o1MqoVTa9_P6jcx3qTFb3yo>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id C1D7A328005D;
+ Mon, 19 Oct 2020 13:48:39 -0400 (EDT)
+Date: Mon, 19 Oct 2020 19:48:38 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] hw/block/nvme: fix aer logic
+Message-ID: <20201019174838.GF10549@apples.localdomain>
+References: <20201019065416.34638-1-its@irrelevant.dk>
+ <20201019164332.GB1435260@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vA66WO2vHvL/CRSR"
+Content-Disposition: inline
+In-Reply-To: <20201019164332.GB1435260@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=64.147.123.26; envelope-from=its@irrelevant.dk;
+ helo=wnew1-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 13:31:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,43 +96,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dave magically found this.  Fix them with "0x%x".
 
-Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- hw/i386/intel_iommu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--vA66WO2vHvL/CRSR
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 749eb6ad63..70ac837733 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -2665,7 +2665,7 @@ static uint64_t vtd_mem_read(void *opaque, hwaddr addr, unsigned size)
- 
-     if (addr + size > DMAR_REG_SIZE) {
-         error_report_once("%s: MMIO over range: addr=0x%" PRIx64
--                          " size=0x%u", __func__, addr, size);
-+                          " size=0x%x", __func__, addr, size);
-         return (uint64_t)-1;
-     }
- 
-@@ -2716,7 +2716,7 @@ static void vtd_mem_write(void *opaque, hwaddr addr,
- 
-     if (addr + size > DMAR_REG_SIZE) {
-         error_report_once("%s: MMIO over range: addr=0x%" PRIx64
--                          " size=0x%u", __func__, addr, size);
-+                          " size=0x%x", __func__, addr, size);
-         return;
-     }
- 
--- 
-2.26.2
+On Oct 19 09:43, Keith Busch wrote:
+> On Mon, Oct 19, 2020 at 08:54:16AM +0200, Klaus Jensen wrote:
+> > @@ -844,6 +838,12 @@ static void nvme_enqueue_event(NvmeCtrl *n, uint8_=
+t event_type,
+> >          return;
+> >      }
+> > =20
+> > +    /* ignore if masked (cqe posted, but event not cleared) */
+> > +    if (n->aer_mask & (1 << event_type)) {
+> > +        trace_pci_nvme_aer_masked(event_type, n->aer_mask);
+> > +        return;
+> > +    }
+>=20
+> The 'mask' means the host hasn't yet acknowledged the AER with the
+> appropriate log. The controller should continue to internally enqueue
+> subsequent events of this type, but suppress sending the notification
+> for them until the host unlatches the event type.
+>=20
 
+Ugh. Looks like you are right. Again.
+
+Notice events are definitely a good case for when we want to queue up
+the events internally since the information correspond to different log
+pages but use the same type.
+
+> >      event =3D g_new(NvmeAsyncEvent, 1);
+> >      event->result =3D (NvmeAerResult) {
+> >          .event_type =3D event_type,
+> > @@ -859,9 +859,15 @@ static void nvme_enqueue_event(NvmeCtrl *n, uint8_=
+t event_type,
+> > =20
+> >  static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
+> >  {
+> > +    NvmeAsyncEvent *event, *next;
+> > +
+> >      n->aer_mask &=3D ~(1 << event_type);
+> > -    if (!QTAILQ_EMPTY(&n->aer_queue)) {
+> > -        nvme_process_aers(n);
+> > +
+> > +    QTAILQ_FOREACH_SAFE(event, &n->aer_queue, entry, next) {
+> > +        if (event->result.event_type =3D=3D event_type) {
+> > +            QTAILQ_REMOVE(&n->aer_queue, event, entry);
+>=20
+> Memory leaking the 'event'?
+>=20
+
+Thanks, good catch, but this change is also irrelevant now.
+
+> > +            n->aer_queued--;
+> > +        }
+> >      }
+> >  }
+>=20
+
+--vA66WO2vHvL/CRSR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+N0XQACgkQTeGvMW1P
+DemsOQf+PAmdjDk0fPIdPNmfGIiqhy4MflFtV382eo12EzA1tfXz2pWV1DrapSJP
+m/ZFd0y8bMhbYuKODG2QVkKuFN0jYXBjPWyk2x9EGD+5SrrPkyCqEW8slUdpTNCJ
+m9BeQb5OqMsdyzMi8+iaj4tqB5UJTzZfQC/cRzlPLvKffO6FGwIgFPb5AqxICW4V
+Uqss+NV5qE6v97odw3Ja0dwXPlGeYvSzyahjfcRscFv3jfZ2CH8yVipOy8FSEgZ4
+yPwzQ5Vg5WLVHtr72zicLL8j/I7ubqWBznz1eaxDgD72SLfDKtO6pnNeSVjMOhx9
+8nW+uqmW66LtMTaUNChkaGCBxHfiTA==
+=NBDK
+-----END PGP SIGNATURE-----
+
+--vA66WO2vHvL/CRSR--
 
