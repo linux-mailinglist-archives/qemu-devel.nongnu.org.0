@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6E6292C77
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 19:17:01 +0200 (CEST)
-Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FA3292C8A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 19:20:07 +0200 (CEST)
+Received: from localhost ([::1]:39808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUYmK-0000xQ-Hi
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 13:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43776)
+	id 1kUYpK-0003ed-4C
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 13:20:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <compudj@efficios.com>)
- id 1kUYkh-0000Q2-Gr
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:15:19 -0400
-Received: from mail.efficios.com ([167.114.26.124]:43036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <compudj@efficios.com>)
- id 1kUYkZ-0002yV-Sm
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:15:19 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.efficios.com (Postfix) with ESMTP id AADCB2707BD;
- Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
- by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id QTruwX3BYTn2; Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
- by mail.efficios.com (Postfix) with ESMTP id 284FE270752;
- Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 284FE270752
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=default; t=1603127703;
- bh=a4Kyq9ggmnqJgL1OMZgiL3YI8Vq7lTIeBQc5QZoN7D4=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=Rleo5KpYLxJL9bE+eS/IDKaOFoEmvkq70bRu+JU0FvBo/l/SmYGCBDQs+xaFOFVHh
- BJLQKLA6tCK8ZaIUWSrsP9eNGLLZGdYFBrCmdjHdnSkKFJRiWBCddq7bINqO1JrS6z
- LiDZeRjCGch2dLFOuXwqHnn+Ivxs2sOrIF5lAwNdQIXqAC1yn7Wcp2M95eK+hTAjh2
- 2bA+wXNULdWuS9DpiktZT7bNyAwruDfMklfP+qTv7VM9LXYilPo5xXvaq8H58JbRBX
- xy5xAXA9Jfvdh96AGWs2I075RgU0Y4TmN5l6CqHVGnXdNU7ZWMEVZ3OrX5Vg/g/cFz
- WJ9MFFce5aMuQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
- by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id yP-ztTyztNwI; Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
-Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
- by mail.efficios.com (Postfix) with ESMTP id 0FA782707BC;
- Mon, 19 Oct 2020 13:15:03 -0400 (EDT)
-Date: Mon, 19 Oct 2020 13:15:02 -0400 (EDT)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: Andy Lutomirski <luto@kernel.org>
-Message-ID: <476895871.28084.1603127702969.JavaMail.zimbra@efficios.com>
-In-Reply-To: <CALCETrViTg_BWvRa+nfDWq=_B_ithzL-anVJNpsgHaXe9VgCNQ@mail.gmail.com>
-References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
- <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
- <CALCETrViTg_BWvRa+nfDWq=_B_ithzL-anVJNpsgHaXe9VgCNQ@mail.gmail.com>
-Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+ (Exim 4.90_1) (envelope-from <oanderso@google.com>)
+ id 1kUYm1-00012v-Tp
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:16:41 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:34237)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <oanderso@google.com>)
+ id 1kUYlx-0003J8-Mp
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:16:41 -0400
+Received: by mail-ed1-x542.google.com with SMTP id x1so127500eds.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 10:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VccOzqRTahoJBssQpE8H5vS+Wi/1LUL9l2I4wA3LzOg=;
+ b=XzfBQVFl7UgGVSnL4bYO3O8cs5Z8/S4r4EExVGnDEMIsYtxUTQKUZlPJ9JUvv7HHhJ
+ 4ypeIMXcuT00rW8sZVN32/rShweimSHUA31nwCEOzTRSgIgHt/7YxI3gUpPjnUNiC1Ou
+ 0IsKY0HoNhoHXRrB8qvVXb3hJwuHcVhwE+qLVF/LFxYjUVnoIuwdg3R/S9CTZKfuLgri
+ fPfAsO3GQn5QzSJ8iJRo4G6Hq/hhkQRVTvMi2yc+M8PP9tpTtFS1bKEnBLBNIENTBxNN
+ SxnBB0KuLzNR9pmz9VjZdPWSVfa6PpflQ0QNDn9Vu1/dchvDMLebJJM+Uh6c4zpxLYA+
+ 7koA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VccOzqRTahoJBssQpE8H5vS+Wi/1LUL9l2I4wA3LzOg=;
+ b=Y0DtEOI5uFkPF/75XcADLE6QilW/+mgusfkCyCou/dvZO9tF3QjGVtJUMX3z68SaLN
+ oFpJEqc7LUZwZ55UjUgMebXTjRdIKUBxSA7NMuXiGqW+8n2Dfyspl/9RUM3BGYAKikTh
+ dFqFTRfuzKJi7nnkpVB+NpK6cX9a3VhLsX2RKXhYSNpIKE9cGzwdWFhB+YQlFDjIpGM9
+ FRIIsgd49zBZgWJBmpUjCGa9XCI038b17wFgWSXbhJDjMDa9CJUdA0R6slIZJp4yn+R4
+ MG51prfxEaJHwJ0MJBKZmOg3eF/LMfIbpAZIi9BDT5IfAMsETo9AiD5sqFAWjaSAfFi0
+ lFXQ==
+X-Gm-Message-State: AOAM531wjB+Lf4K7sjMxZBsTl2Jm5LmZgxXsIT8WtwtUtrCOYTMc4Wo9
+ 1WLCuvoQVQSttAZiQIlSDuFkMUr8JM/VfTQZIigxuK6li04=
+X-Google-Smtp-Source: ABdhPJxYStgkTjIoOcaQJ1mzJb+lL/modMLUlgmNMB+bwiRn8tp3xQwchX11uSi6WWsWSklnEUtodBtSA4uf7eGMNfQ=
+X-Received: by 2002:a50:9548:: with SMTP id v8mr810826eda.115.1603127794312;
+ Mon, 19 Oct 2020 10:16:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [167.114.26.124]
-X-Mailer: Zimbra 8.8.15_GA_3968 (ZimbraWebClient - FF81 (Linux)/8.8.15_GA_3968)
-Thread-Topic: drivers/virt: vmgenid: add vm generation id driver
-Thread-Index: LGqdszkWAp7MsnjacXz6ZDq20p5wzw==
-Received-SPF: pass client-ip=167.114.26.124; envelope-from=compudj@efficios.com;
- helo=mail.efficios.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 13:15:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <CAKs3XfJPrMGxdAouGCje3ppnWKA6fXpNaywQ5rj9u45VkPuUXg@mail.gmail.com>
+ <CAKs3XfJnyuZi85=7iX2eG2viP+X893qBGG=a7dAtd8=ovN-p9g@mail.gmail.com>
+In-Reply-To: <CAKs3XfJnyuZi85=7iX2eG2viP+X893qBGG=a7dAtd8=ovN-p9g@mail.gmail.com>
+From: Owen Anderson <oanderso@google.com>
+Date: Mon, 19 Oct 2020 10:16:23 -0700
+Message-ID: <CAKs3XfJB03kquRL1X3ENTapy2RCw_CwD_rEPcteO6tOQ5q32Hw@mail.gmail.com>
+Subject: Re: [RFC] Don't lookup full CPU state in the indirect branch fast
+ path on AArch64 when running in user mode.
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, rth@twiddle.net
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=oanderso@google.com; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,134 +83,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Donenfeld <Jason@zx2c4.com>, KVM list <kvm@vger.kernel.org>,
- "open list, DOCUMENTATION" <linux-doc@vger.kernel.org>, ghammer@redhat.com,
- "Weiss, Radu" <raduweis@amazon.com>, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org, Pavel Machek <pavel@ucw.cz>,
- Jonathan Corbet <corbet@lwn.net>, mst@redhat.com,
- Eric Biggers <ebiggers@kernel.org>, "Singh, Balbir" <sblbir@amazon.com>,
- bonzini@gnu.org, "Graf \(AWS\), Alexander" <graf@amazon.de>,
- Michal Hocko <mhocko@kernel.org>, Jann Horn <jannh@google.com>,
- oridgar@gmail.com, "Catangiu, Adrian Costin" <acatan@amazon.com>,
- "MacCarthaigh, Colm" <colmmacc@amazon.com>, Theodore Tso <tytso@mit.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- linux-api <linux-api@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Willy Tarreau <w@1wt.eu>, "Woodhouse, David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
------ On Oct 17, 2020, at 2:10 PM, Andy Lutomirski luto@kernel.org wrote:
+Ping
 
-> On Fri, Oct 16, 2020 at 6:40 PM Jann Horn <jannh@google.com> wrote:
->>
->> [adding some more people who are interested in RNG stuff: Andy, Jason,
->> Theodore, Willy Tarreau, Eric Biggers. also linux-api@, because this
->> concerns some pretty fundamental API stuff related to RNG usage]
->>
->> On Fri, Oct 16, 2020 at 4:33 PM Catangiu, Adrian Costin
->> <acatan@amazon.com> wrote:
->> > - Background
->> >
->> > The VM Generation ID is a feature defined by Microsoft (paper:
->> > http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
->> > multiple hypervisor vendors.
->> >
->> > The feature is required in virtualized environments by apps that work
->> > with local copies/caches of world-unique data such as random values,
->> > uuids, monotonically increasing counters, etc.
->> > Such apps can be negatively affected by VM snapshotting when the VM
->> > is either cloned or returned to an earlier point in time.
->> >
->> > The VM Generation ID is a simple concept meant to alleviate the issue
->> > by providing a unique ID that changes each time the VM is restored
->> > from a snapshot. The hw provided UUID value can be used to
->> > differentiate between VMs or different generations of the same VM.
->> >
->> > - Problem
->> >
->> > The VM Generation ID is exposed through an ACPI device by multiple
->> > hypervisor vendors but neither the vendors or upstream Linux have no
->> > default driver for it leaving users to fend for themselves.
->> >
->> > Furthermore, simply finding out about a VM generation change is only
->> > the starting point of a process to renew internal states of possibly
->> > multiple applications across the system. This process could benefit
->> > from a driver that provides an interface through which orchestration
->> > can be easily done.
->> >
->> > - Solution
->> >
->> > This patch is a driver which exposes the Virtual Machine Generation ID
->> > via a char-dev FS interface that provides ID update sync and async
->> > notification, retrieval and confirmation mechanisms:
->> >
->> > When the device is 'open()'ed a copy of the current vm UUID is
->> > associated with the file handle. 'read()' operations block until the
->> > associated UUID is no longer up to date - until HW vm gen id changes -
->> > at which point the new UUID is provided/returned. Nonblocking 'read()'
->> > uses EWOULDBLOCK to signal that there is no _new_ UUID available.
->> >
->> > 'poll()' is implemented to allow polling for UUID updates. Such
->> > updates result in 'EPOLLIN' events.
->> >
->> > Subsequent read()s following a UUID update no longer block, but return
->> > the updated UUID. The application needs to acknowledge the UUID update
->> > by confirming it through a 'write()'.
->> > Only on writing back to the driver the right/latest UUID, will the
->> > driver mark this "watcher" as up to date and remove EPOLLIN status.
->> >
->> > 'mmap()' support allows mapping a single read-only shared page which
->> > will always contain the latest UUID value at offset 0.
->>
->> It would be nicer if that page just contained an incrementing counter,
->> instead of a UUID. It's not like the application cares *what* the UUID
->> changed to, just that it *did* change and all RNGs state now needs to
->> be reseeded from the kernel, right? And an application can't reliably
->> read the entire UUID from the memory mapping anyway, because the VM
->> might be forked in the middle.
->>
->> So I think your kernel driver should detect UUID changes and then turn
->> those into a monotonically incrementing counter. (Probably 64 bits
->> wide?) (That's probably also a little bit faster than comparing an
->> entire UUID.)
->>
->> An option might be to put that counter into the vDSO, instead of a
->> separate VMA; but I don't know how the other folks feel about that.
->> Andy, do you have opinions on this? That way, normal userspace code
->> that uses this infrastructure wouldn't have to mess around with a
->> special device at all. And it'd be usable in seccomp sandboxes and so
->> on without needing special plumbing. And libraries wouldn't have to
->> call open() and mess with file descriptor numbers.
-> 
-> The vDSO might be annoyingly slow for this.  Something like the rseq
-> page might make sense.  It could be a generic indication of "system
-> went through some form of suspend".
+On Mon, Oct 12, 2020 at 1:52 PM Owen Anderson <oanderso@google.com> wrote:
+>
+> Ping.
+>
+> I'd like to get feedback on how/whether this could be developed into a
+> landable version.
+>
+> Thanks,
+>
+> --Owen
+>
+> On Tue, Sep 29, 2020 at 2:32 PM Owen Anderson <oanderso@google.com> wrote:
+> >
+> > Hello,
+> >
+> > I would like to request feedback on the following patch, which I do
+> > not believe should be applied to master as-is.  The idea here is to
+> > avoid gathering the full CPU state in the fast path of an indirect
+> > branch lookup when running in user mode on a platform where the flags
+> > can only be changed in privileged mode.  I believe this is true on the
+> > AArch64 scenario that I care about, but clearly not true in general.
+> > I'm particularly seeking feedback on how to clean this up into a
+> > version that checks the correct necessary and sufficient conditions to
+> > allow all users that can benefit from it to do so.
+> >
+> > On the workload that I am targeting (aarch64 on x86), this patch
+> > reduces execution wall time by approximately 20%, and eliminates
+> > indirect branch lookups from the hot stack traces entirely.
+> >
+> > Thank you,
+> >
+> > --Owen
+> >
+> > From 3d96db17d3baacb92ef1bc5e70ef06b97d06a0ae Mon Sep 17 00:00:00 2001
+> > From: Owen Anderson <oanderso@google.com>
+> > Date: Tue, 29 Sep 2020 13:47:00 -0700
+> > Subject: [RFC] Don't lookup full CPU state in the indirect branch fast path on
+> >  AArch64 when running in user mode.
+> >
+> > Most of the CPU state can't be changed in user mode, so this is useless work.
+> >
+> > Signed-off-by: Owen Anderson <oanderso@google.com>
+> > ---
+> >  include/exec/tb-lookup.h | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> >
+> > diff --git a/include/exec/tb-lookup.h b/include/exec/tb-lookup.h
+> > index 9cf475bb03..f4ea0eb4c0 100644
+> > --- a/include/exec/tb-lookup.h
+> > +++ b/include/exec/tb-lookup.h
+> > @@ -25,7 +25,15 @@ tb_lookup__cpu_state(CPUState *cpu, target_ulong
+> > *pc, target_ulong *cs_base,
+> >      TranslationBlock *tb;
+> >      uint32_t hash;
+> >
+> > +#if !defined(TARGET_ARM) || !defined(CONFIG_USER_ONLY)
+> >      cpu_get_tb_cpu_state(env, pc, cs_base, flags);
+> > +#else
+> > +    if (is_a64(env)) {
+> > +      *pc = env->pc;
+> > +    } else {
+> > +      *pc = env->regs[15];
+> > +    }
+> > +#endif
+> >      hash = tb_jmp_cache_hash_func(*pc);
+> >      tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
+> >
+> > @@ -34,12 +42,19 @@ tb_lookup__cpu_state(CPUState *cpu, target_ulong
+> > *pc, target_ulong *cs_base,
+> >
+> >      if (likely(tb &&
+> >                 tb->pc == *pc &&
+> > +#if !defined(TARGET_ARM) || !defined(CONFIG_USER_ONLY)
+> >                 tb->cs_base == *cs_base &&
+> >                 tb->flags == *flags &&
+> > +#endif
+> >                 tb->trace_vcpu_dstate == *cpu->trace_dstate &&
+> >                 (tb_cflags(tb) & (CF_HASH_MASK | CF_INVALID)) == cf_mask)) {
+> >          return tb;
+> >      }
+> > +
+> > +#ifdef CONFIG_USER_ONLY
+> > +    cpu_get_tb_cpu_state(env, pc, cs_base, flags);
+> > +#endif
+> > +
+> >      tb = tb_htable_lookup(cpu, *pc, *cs_base, *flags, cf_mask);
+> >      if (tb == NULL) {
+> >          return NULL;
+> > --
+> > 2.28.0.709.gb0816b6eb0-goog
 
-This might indeed fit nicely as an extension of my KTLS prototype (extensible rseq):
 
-https://lore.kernel.org/lkml/20200925181518.4141-1-mathieu.desnoyers@efficios.com/
-
-There are a few ways we could wire things up. One might be to add the
-UUID field into the extended KTLS structure (so it's always updated after it
-changes on next return to user-space). For this I assume that the Linux scheduler
-within the guest VM always preempts all threads before a VM is suspended (is that
-indeed true ?).
-
-This leads to one important question though: how is the UUID check vs commit operation
-made atomic with respect to suspend ? Unless we use rseq critical sections in assembly,
-where the kernel will abort the rseq critical section on preemption, I don't see how we
-can ensure that the UUID value does not change right after it has been checked, before
-the "commit" side-effect. And what is the expected "commit" side-effect ? Is it a store
-to a variable in user-space memory, or is it issuing a system call which sends a packet over
-the network ?
-
-Thanks,
-
-Mathieu
 
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+--Owen
 
