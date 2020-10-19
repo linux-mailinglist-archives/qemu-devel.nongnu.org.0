@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391A2292A59
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:26:32 +0200 (CEST)
-Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EA7292A5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:27:10 +0200 (CEST)
+Received: from localhost ([::1]:32774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUX3P-0005go-9Y
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42154)
+	id 1kUX41-0006DM-9l
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:27:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUWqe-0006xa-G3
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:20 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52578)
+ id 1kUX0R-0002VV-BB
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:23:28 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:35624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUWqa-0002m8-Pl
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:20 -0400
-Received: by mail-wm1-x342.google.com with SMTP id e23so186660wme.2
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:13:16 -0700 (PDT)
+ id 1kUX0L-0003xq-CU
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:23:25 -0400
+Received: by mail-ed1-x541.google.com with SMTP id cq12so10694709edb.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:23:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=60CXa9EVUwZSuD/TaM/4vLu3CrMpUPxjQs1jlsMOoMs=;
- b=hNmizyZDP2pel4ajJU+5apBtwUYjPPBUb09FuMN+454ruGVlIT/Lv7mFjkf5k3y3Gw
- MlnrqIVe3OkfhcDaKts6K3XWI647o00iY+UytB93+UwAy7fKfxvlYmLDCKK3bws2H/CF
- r9KTMuGelHm/QgqbJgj9qY5muEHuoYBuKhV5heBi6wU5Gmo2Mq+wVdmbm2hhTud0x+Zu
- lX/TydvOT7RyhzFtV6WdTaI6ONSnV1i2dNy6LEU8+QqFFbCuAJGWtH0vSys1kUlDlLbX
- 1SPrjDpmrGJxyJWzRLF2rRXu7p9+XLluMVwd3cBpxvsHjoG4YewStN/jQXtqL9t534du
- F2lA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rEF8vCp0ne68s88LSiZAalVd6SH2xeZNXOAKExoOtKE=;
+ b=kr5wNKDm58CZNtiJgvXFBKp9c3+gbXYA62C3UKX153CcgyvaEFH5t2Jc6JO+3O7J6I
+ 4BpYo4iLK1ZMb99ku2yfMys2bo5/ZtRRUdyvisTUJpr9HmIPTJxjLXBXWzLinZhPgiL0
+ AIMaSw0ENxU3tEctr6sHY/E63fzbO9tXLaIsn5z5mlSWBuDLz+8Kr5ZaVqKxtMEVsHp7
+ qAy08+fk9v4TZDWhsFNLFNe6ROKDTc0pLD4Ve7c678ei2f7cM5ch/l2/F+qjVuqx8OkZ
+ cRnrAd6g5ZySAufzy5ziCqRBjfoTxzi016RnR9iimL6W98U6QXe4ln43PfC0tPA5TpFV
+ oG7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=60CXa9EVUwZSuD/TaM/4vLu3CrMpUPxjQs1jlsMOoMs=;
- b=dLpANoKvbiz8Twa/qaYdvdx2usSlvWfWqp5tqdHgkaOoy75FsvobUk4S5S0n6GvNrU
- cqCxk1d4JLUrrZCms3WxXdUSD0i91wKghV38WHCBjAGqUOMSltmsmeE5uQjGGG7vl+0S
- iRWhyjVOrmgyj6KrCufF82AhyswTR05JXGXiJu5nqWLNbnpBrZrIYK/PMyUkYAR/3GCn
- yX8jFxdzxT7yXxNhP7Nra6Lywwz2lmuHWuYteOb1YQRmXobWyYDwN8BZb9fLu0bOARgz
- DI7Dkx9ztlcQ/zGwws4MJkx5y8c/u1CmCe1BDu+ywqivduab34ZoKLxYPBWsBLcOMbQj
- hfag==
-X-Gm-Message-State: AOAM532jwThkeWikyF5mf5HYbrZWKkFV+WiD5TGCq/q1b4Cw+2Zyh4Jx
- tjxdF46NUoOMsguonargX223Lw==
-X-Google-Smtp-Source: ABdhPJzH6su9dHghAQc0/Hx2azguF8lQWioUtOU6jGIGgJVm2Y4UUJS4bK/cpzZ71Rti1niuIURkfA==
-X-Received: by 2002:a1c:59c3:: with SMTP id n186mr46877wmb.32.1603120395484;
- Mon, 19 Oct 2020 08:13:15 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y14sm309918wma.48.2020.10.19.08.13.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Oct 2020 08:13:14 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 10/10] target/arm: Implement FPSCR.LTPSIZE for M-profile
- LOB extension
-Date: Mon, 19 Oct 2020 16:13:01 +0100
-Message-Id: <20201019151301.2046-11-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201019151301.2046-1-peter.maydell@linaro.org>
-References: <20201019151301.2046-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rEF8vCp0ne68s88LSiZAalVd6SH2xeZNXOAKExoOtKE=;
+ b=Gj6nThL30mZwUMhGaCJbG79de2uYwOrsvqJFspHARXHq1mq4WYIsbKFmkplB0RbebV
+ oukzyDwihPVDbt+phNsKcLejz9qT3tIfSJdMWiLBWeLo58kVv5mkxZnhYe+xqoFpz3EU
+ w+shFybW2NOazvlyNZkRIVyc16+Q0jyZifQBH4RqdupnzgDZW/SFKvBNU60HoyK9kLi5
+ 4Ff5pfVtT7SSV6iFFe6S2bsg5UEhvEIxdoOJewB1S262mAJRHW8I5F/WGV3LeVTjLQfw
+ YeHKaxpatylZF22ay14djFYLpQM5x4byNP1w/US2CHk5ODe9iLEXtqi7E81uMupoQA1A
+ 8SWA==
+X-Gm-Message-State: AOAM531Qv8VwBfcoy7QOcMRAcv3Dnuq4Aw3QRQe1/8+OLwmNi9eEbVXV
+ dllDERDgVkihzlMKdVFua4EdyGQqDBMWd7RDVLy6sg==
+X-Google-Smtp-Source: ABdhPJwaSQo4DgM1Frso9tKu8F1xU24jTB4teY1uN4/mTvMq+DtdJ/YnxqhkFXaUcuzRT1YsqTZUpAF1kYgnpgah4mA=
+X-Received: by 2002:aa7:c7d7:: with SMTP id o23mr353827eds.44.1603120998221;
+ Mon, 19 Oct 2020 08:23:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+References: <20201014213601.205222-1-f4bug@amsat.org>
+In-Reply-To: <20201014213601.205222-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Oct 2020 16:23:07 +0100
+Message-ID: <CAFEAcA9GxfBR-vFeT=QdmRwD1Y_6orED1bruXEsvyD73osV2WQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/strongarm: Fix 'time to transmit a char' unit
+ comment
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,85 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the M-profile low-overhead-branch extension is implemented, FPSCR
-bits [18:16] are a new field LTPSIZE.  If MVE is not implemented
-(currently always true for us) then this field always reads as 4 and
-ignores writes.
+On Wed, 14 Oct 2020 at 22:36, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> The time to transmit a char is expressed in nanoseconds, not in ticks.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/arm/strongarm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
+> index d7133eea6f9..ca7c385f313 100644
+> --- a/hw/arm/strongarm.c
+> +++ b/hw/arm/strongarm.c
+> @@ -935,7 +935,7 @@ struct StrongARMUARTState {
+>      uint8_t rx_start;
+>      uint8_t rx_len;
+>
+> -    uint64_t char_transmit_time; /* time to transmit a char in ticks*/
+> +    uint64_t char_transmit_time; /* time to transmit a char in nanosecon=
+ds */
+>      bool wait_break_end;
+>      QEMUTimer *rx_timeout_timer;
+>      QEMUTimer *tx_timer;
 
-These bits used to be the vector-length field for the old
-short-vector extension, so we need to take care that they are not
-misinterpreted as setting vec_len. We do this with a rearrangement
-of the vfp_set_fpscr() code that deals with vec_len, vec_stride
-and also the QC bit; this obviates the need for the M-profile
-only masking step that we used to have at the start of the function.
 
-We provide a new field in CPUState for LTPSIZE, even though this
-will always be 4, in preparation for MVE, so we don't have to
-come back later and split it out of the vfp.xregs[FPSCR] value.
-(This state struct field will be saved and restored as part of
-the FPSCR value via the vmstate_fpscr in machine.c.)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.h        | 1 +
- target/arm/cpu.c        | 9 +++++++++
- target/arm/vfp_helper.c | 6 ++++++
- 3 files changed, 16 insertions(+)
+Applied to target-arm.next, thanks.
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a432f301f11..49cd5cabcf2 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -549,6 +549,7 @@ typedef struct CPUARMState {
-         uint32_t fpdscr[M_REG_NUM_BANKS];
-         uint32_t cpacr[M_REG_NUM_BANKS];
-         uint32_t nsacr;
-+        int ltpsize;
-     } v7m;
- 
-     /* Information associated with an exception about to be taken:
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 186ee621a65..07492e9f9a4 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -255,6 +255,15 @@ static void arm_cpu_reset(DeviceState *dev)
-         uint8_t *rom;
-         uint32_t vecbase;
- 
-+        if (cpu_isar_feature(aa32_lob, cpu)) {
-+            /*
-+             * LTPSIZE is constant 4 if MVE not implemented, and resets
-+             * to an UNKNOWN value if MVE is implemented. We choose to
-+             * always reset to 4.
-+             */
-+            env->v7m.ltpsize = 4;
-+        }
-+
-         if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-             env->v7m.secure = true;
-         } else {
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index c3d01d781b6..bf608d7aef3 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -174,6 +174,12 @@ uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
-             | (env->vfp.vec_len << 16)
-             | (env->vfp.vec_stride << 20);
- 
-+    /*
-+     * M-profile LTPSIZE overlaps A-profile Stride; whichever of the
-+     * two is not applicable to this CPU will always be zero.
-+     */
-+    fpscr |= env->v7m.ltpsize << 16;
-+
-     fpscr |= vfp_get_fpscr_from_host(env);
- 
-     i = env->vfp.qc[0] | env->vfp.qc[1] | env->vfp.qc[2] | env->vfp.qc[3];
--- 
-2.20.1
-
+-- PMM
 
