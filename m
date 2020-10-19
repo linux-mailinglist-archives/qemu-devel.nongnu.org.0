@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78422923A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 10:32:22 +0200 (CEST)
-Received: from localhost ([::1]:55612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CAF2923B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 10:35:15 +0200 (CEST)
+Received: from localhost ([::1]:33680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUQab-00025Q-N2
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 04:32:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34276)
+	id 1kUQdO-0004v2-AD
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 04:35:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kUQYQ-00015c-OC
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:30:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40079)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUQb6-0003J6-3g
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:32:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kUQYM-0004fl-GO
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:30:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUQb2-0005fj-Ql
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:32:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603096199;
+ s=mimecast20190719; t=1603096364;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hsc3fFHAR3r6TZ6h0ZE8QOMSPDwdyYyBTeCZV2JmWSU=;
- b=Ihof0CDEiT6hDDlRMqLtYeMyj/3YjIg22qAoezh9+g+oAv2Tf0FLk/MQrdYEE+JNz7nTlK
- GCrk/FBB+QgpJ9NGJuCrMEvxQ+1v33Ym84gaS0ybpgbZZd4FZ8rwuZH7zUxoIk7xjiMB3D
- hHv4SOJhxzsqT4bLyGKPKKHWOoAvOeE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-95-rR_Sil-wNbCMckA5GZhIcQ-1; Mon, 19 Oct 2020 04:29:56 -0400
-X-MC-Unique: rR_Sil-wNbCMckA5GZhIcQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51C20393BA;
- Mon, 19 Oct 2020 08:29:55 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-114-6.ams2.redhat.com [10.36.114.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 518CF75132;
- Mon, 19 Oct 2020 08:29:54 +0000 (UTC)
-Subject: Re: [PATCH v2 0/9] iOS and Apple Silicon host support
-To: Joelle van Dyne <j@getutm.app>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20201019013928.72770-1-j@getutm.app>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <e96f95a1-70ae-b64f-3208-6cdbdef46ec5@redhat.com>
-Date: Mon, 19 Oct 2020 10:29:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=wbwLflhmkiULMtKyfyda6km5Kzz93JkQZU4miCkExu8=;
+ b=iCDheynv2LVowocdncaVD6WjXOWR9RJuSUIROEApLxamf2rHvwQstHLjo7aPpJ0QXz53Rh
+ dqKowz6n+YBPJOxsbKPccN2+0cHFAqUTVe79YMjp76gvt6hUknWwToAc3v4o9NqMBTxxLH
+ XNjcIXYzI7wWQHy+AtR2L5/bfjjARnQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-344-5MOtIktSN1iwc0PbaRQ0Nw-1; Mon, 19 Oct 2020 04:32:43 -0400
+X-MC-Unique: 5MOtIktSN1iwc0PbaRQ0Nw-1
+Received: by mail-wr1-f69.google.com with SMTP id i6so7083910wrx.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 01:32:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wbwLflhmkiULMtKyfyda6km5Kzz93JkQZU4miCkExu8=;
+ b=QtgEBuQCZX8yvIzcwTAo5DXBqZqk5M1rxE8QwGZdi6gZinWksbgosUH0W0Lv1eSt3Y
+ HnZ5Ag6iTbjCnpH6D2KvOafFPKj4RJd424b8pkLQf6575uCTAFyCuPA99nvLFvYwNbMo
+ 5EYhgpTDLa23JZ/m+DeQAFKQFc0YHiu/MBIyXDL3ww4mLzpZhCrSw6YTwiLcNkJhDWzh
+ wQTqkrQPZdBNLuApRZw+CttBRSQPCay2Z9pOiP8Z1Xn91Dik0mvahxeQXcm/4RrfF+EW
+ OBsnMYYSOoBf4WXEbppzRtavpgNlIlNUq4XQBkm9EwFxBEf9X36KdUZfMVDQqy+4y7qc
+ tOVQ==
+X-Gm-Message-State: AOAM530XQ6JU2M+C6bc/WEGGVBYj3n/M0krvFoRO46CuJj4ClvZ1h4mN
+ MkOwd3W7PYSF/EvbH0J5es2F546JkdmGKxiHaTB4Ln2UXO7Viy7o/pJ4rjBIozOF87jeWESu+J4
+ yM6jdYQkRu8dKvCk=
+X-Received: by 2002:adf:bc0f:: with SMTP id s15mr18326465wrg.83.1603096361819; 
+ Mon, 19 Oct 2020 01:32:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUwOfHX0WT4BoXo8PXFzt8L4wayNnOZIXdpDEDfpRwN7Ftpby52Xc0BLMdOfrvVEtjFlPT4A==
+X-Received: by 2002:adf:bc0f:: with SMTP id s15mr18326453wrg.83.1603096361644; 
+ Mon, 19 Oct 2020 01:32:41 -0700 (PDT)
+Received: from [192.168.1.36] (36.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.36])
+ by smtp.gmail.com with ESMTPSA id x22sm1865177wmj.25.2020.10.19.01.32.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Oct 2020 01:32:40 -0700 (PDT)
+Subject: Re: [PATCH 0/4] RfC: microvm: add second ioapic
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20201016114328.18835-1-kraxel@redhat.com>
+ <ffd81f03-b2a0-2c58-9f13-c956dfd1ca17@redhat.com>
+ <20201019070704.a2tjfea4sycivmnt@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7f84056d-e5b6-cc5d-20ea-4fe3f9f8ee9d@redhat.com>
+Date: Mon, 19 Oct 2020 10:32:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201019013928.72770-1-j@getutm.app>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201019070704.a2tjfea4sycivmnt@sirius.home.kraxel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 01:44:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,56 +101,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/2020 03.39, Joelle van Dyne wrote:
-> These set of changes brings QEMU TCG to iOS devices and future Apple Silicon
-> devices. They were originally developed last year and have been working in the
-> UTM app. Recently, we ported the changes to master, re-wrote a lot of the build
-> script changes for meson, and broke up the patches into more distinct units.
+On 10/19/20 9:07 AM, Gerd Hoffmann wrote:
+> On Fri, Oct 16, 2020 at 03:16:20PM +0200, Philippe Mathieu-DaudÃ© wrote:
+>> On 10/16/20 1:43 PM, Gerd Hoffmann wrote:
+>>> Add a second ioapic to microvm.  Gives us more IRQ lines we can
+>>> use for virtio-mmio devices.  Bump number of possible virtio-mmio
+>>> devices from 8 to 24.
+>>>
+>>> Gerd Hoffmann (4):
+>>>     microvm: make number of virtio transports runtime configurable
+>>>     microvm: make pcie irq base runtime configurable
+>>>     microvm: add second ioapic
+>>>     microvm: reconfigure irqs if second ioapic is available
+>>
+>> After looking at Laurent's m68k virt machine,
+>> I wonder if it is possible to use the Goldfish-PIC
+>> with the MicroVM instead (or another Goldfish machine
+>> type).
 > 
-> A summary of the changes:
+> /me updates the WIP microvm blog post ;)
 > 
-> * `CONFIG_IOS` and `CONFIG_IOS_JIT` defined when building for iOS and
->   iOS specific changes (as well as unsupported code) are gated behind it.
-> * A new dependency, libucontext is added since iOS does not have native ucontext
->   and broken support for sigaltstack. libucontext is available as a new option
->   for coroutine backend.
-> * On stock iOS devices, there is a workaround for running JIT code without
->   any special entitlement. It requires the JIT region to be mirror mapped with
->   one region RW and another one RX. To support this style of JIT, TCG is changed
->   to support writing to a different code_ptr. These changes are gated by the
->   `CONFIG_IOS_JIT`.
-> * For (recent) jailbroken iOS devices as well as upcoming Apple Silicon devices,
->   there are new rules for applications supporting JIT (with the proper
->   entitlement). These rules are implemented as well.
+> Problem with goldfish is that it tries to drag over stuff from the arm
+> world to x86.  Specifically device trees.  On arm this works reasonable
+> well meanwhile.  Firmware and bootloaders have support for using device
+> trees and passing them on in the boot chain, so the linux kernel has a
+> device tree which it can use to figure which hardware is present on the
+> system.
 > 
-> Since v2:
+> On x86 this doesn't work at all, so you'll end up building a custom
+> kernel for the goldfish platform.  A stock distro kernel is not going
+> to work.
 > 
-> * Changed getting mirror pointer from a macro to inline functions
-> * Split constification of TCG code pointers to separate patch
-> * Removed slirp updates (will send future patch once slirp changes are in)
-> * Removed shared library patch (will send future patch)
-> 
-> -j
-> 
-> osy (9):
->   configure: option to disable host block devices
->   configure: cross-compiling without cross_prefix
->   qemu: add support for iOS host
->   coroutine: add libucontext as external library
->   tcg: add const hints for code pointers
->   tcg: implement mirror mapped JIT for iOS
->   tcg: mirror mapping RWX pages for iOS optional
->   tcg: support JIT on Apple Silicon
->   block: check availablity for preadv/pwritev on mac
+> I'm to driving microvm the opposite direction:  Add acpi support.  That
+> is the standard x86 way to do hardware discovery (for hardware you can't
+> detect in other ways like pci devices).  Which in turn allows us to drop
+> microvm-specific quirks (like adding virtio-mmio devices to the kernel
+> command line) when booting linux.
 
-Is there maybe also a way to compile-test this automatically in a macOS
-container on Cirrus-CI or Travis, too? ... otherwise I'm a little bit afraid
-that this support might bit-rot quite fast again, since most developers
-don't have the corresponding setup...
+My x86 knowledge is limited to asm, not to the architecture.
+While this might be obvious for some, it helped me to better
+understand, so thank you for the explanation :)
 
- Thomas
+> So, for microvm this is not going to happen.  But feel free to add a
+> goldfish machine type if you want play with that.  The microvm merge
+> also cleaned up the x86 code base which in turn should make this
+> relatively easy now.
+> 
+> take care,
+>    Gerd
+> 
 
 
