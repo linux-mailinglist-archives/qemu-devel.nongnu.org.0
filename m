@@ -2,51 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F57E2939A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:11:51 +0200 (CEST)
-Received: from localhost ([::1]:49042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E36292F8A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 22:36:26 +0200 (CEST)
+Received: from localhost ([::1]:43792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpYU-0006ez-5t
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49464)
+	id 1kUbtJ-0004jC-GR
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 16:36:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kUpRJ-00071K-5L; Tue, 20 Oct 2020 07:04:25 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:45564 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kUpRE-0006sk-Fp; Tue, 20 Oct 2020 07:04:24 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id A031EA5BB60AC3ECDB7A;
- Tue, 20 Oct 2020 19:04:15 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Tue, 20 Oct 2020
- 19:03:50 +0800
-From: Gan Qixin <ganqixin@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 10/10] hw/riscv/:split some lines containing more than 80
- characters
-Date: Tue, 20 Oct 2020 04:30:23 +0800
-Message-ID: <20201019203023.658555-11-ganqixin@huawei.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20201019203023.658555-1-ganqixin@huawei.com>
-References: <20201019203023.658555-1-ganqixin@huawei.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kUbsR-0004AZ-LZ
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 16:35:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kUbsO-0004Nh-QC
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 16:35:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603139727;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lTUu9QvrNkYv40O6iKHau2L0wvTijiBSehqfHgFDpiI=;
+ b=EKB3mU3ErLNRZWjqlMdXFvCdotqNQ//caEzubnHCNZcuQvZvwauYmBUHE7EUjIXC8fILoe
+ y3OQwUIHsP43E20tcVcdp1hohL805u/onL2ks03evs2rNcXtQ9YN3mtIQ2KrHQ+jhe+DLu
+ MEj/zWB4cgor8lliZYHU4WD1l0EgK+o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-nkYYGVQrP7ivY44r9cMAVA-1; Mon, 19 Oct 2020 16:35:22 -0400
+X-MC-Unique: nkYYGVQrP7ivY44r9cMAVA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6291A8049CB;
+ Mon, 19 Oct 2020 20:35:21 +0000 (UTC)
+Received: from [10.3.112.28] (ovpn-112-28.phx2.redhat.com [10.3.112.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EED7710013C1;
+ Mon, 19 Oct 2020 20:35:20 +0000 (UTC)
+Subject: Re: [PATCH 6/30] semihosting: Fix Lesser GPL version number
+To: Chetan Pant <chetan4windows@gmail.com>, qemu-trivial@nongnu.org
+References: <20201016143509.26692-1-chetan4windows@gmail.com>
+ <20201016144243.26817-1-chetan4windows@gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <9a927711-58b5-c891-9713-dd735ec9fb59@redhat.com>
+Date: Mon, 19 Oct 2020 15:35:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=ganqixin@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 07:04:17
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201016144243.26817-1-chetan4windows@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 15:28:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,114 +84,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, f4bug@amsat.org,
- alistair.francis@wdc.com, Gan Qixin <ganqixin@huawei.com>,
- kuhn.chenqun@huawei.com, david@gibson.dropbear.id.au
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By using scripts/checkpatch.pl, it is found that many files in hw/riscv/
-contain lines with more than 80 characters.
+On 10/16/20 9:42 AM, Chetan Pant wrote:
+> There is no "version 2" of the "Lesser" General Public License.
 
-Signed-off-by: Gan Qixin <ganqixin@huawei.com>
----
- hw/riscv/opentitan.c |  6 ++++--
- hw/riscv/sifive_e.c  |  6 ++++--
- hw/riscv/sifive_u.c  | 12 ++++++++----
- 3 files changed, 16 insertions(+), 8 deletions(-)
+Meta-comment: Looking in the archives, I see some odd threading going on:
 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 0531bd879b..f587d5993e 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -121,7 +121,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-         memmap[IBEX_DEV_ROM].base, &s->rom);
- 
-     /* Flash memory */
--    memory_region_init_rom(&s->flash_mem, OBJECT(dev_soc), "riscv.lowrisc.ibex.flash",
-+    memory_region_init_rom(&s->flash_mem, OBJECT(dev_soc),
-+                           "riscv.lowrisc.ibex.flash",
-                            memmap[IBEX_DEV_FLASH].size, &error_fatal);
-     memory_region_add_subregion(sys_mem, memmap[IBEX_DEV_FLASH].base,
-                                 &s->flash_mem);
-@@ -172,7 +173,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-     create_unimplemented_device("riscv.lowrisc.ibex.pinmux",
-         memmap[IBEX_DEV_PINMUX].base, memmap[IBEX_DEV_PINMUX].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.alert_handler",
--        memmap[IBEX_DEV_ALERT_HANDLER].base, memmap[IBEX_DEV_ALERT_HANDLER].size);
-+        memmap[IBEX_DEV_ALERT_HANDLER].base,
-+        memmap[IBEX_DEV_ALERT_HANDLER].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.nmi_gen",
-         memmap[IBEX_DEV_NMI_GEN].base, memmap[IBEX_DEV_NMI_GEN].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.usbdev",
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index fcfac16816..80ef2f857e 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -111,7 +111,8 @@ static void sifive_e_machine_init(MachineState *machine)
-         reset_vec[i] = cpu_to_le32(reset_vec[i]);
-     }
-     rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
--                          memmap[SIFIVE_E_DEV_MROM].base, &address_space_memory);
-+                          memmap[SIFIVE_E_DEV_MROM].base,
-+                          &address_space_memory);
- 
-     if (machine->kernel_filename) {
-         riscv_load_kernel(machine->kernel_filename, NULL);
-@@ -227,7 +228,8 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
-     }
- 
-     /* Map GPIO registers */
--    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, memmap[SIFIVE_E_DEV_GPIO0].base);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0,
-+                    memmap[SIFIVE_E_DEV_GPIO0].base);
- 
-     /* Pass all GPIOs to the SOC layer so they are available to the board */
-     qdev_pass_gpios(DEVICE(&s->gpio), dev, NULL);
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 6ad975d692..2c06d1a319 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -528,7 +528,8 @@ static void sifive_u_machine_init(MachineState *machine)
-         reset_vec[i] = cpu_to_le32(reset_vec[i]);
-     }
-     rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
--                          memmap[SIFIVE_U_DEV_MROM].base, &address_space_memory);
-+                          memmap[SIFIVE_U_DEV_MROM].base,
-+                          &address_space_memory);
- 
-     riscv_rom_copy_firmware_info(memmap[SIFIVE_U_DEV_MROM].base,
-                                  memmap[SIFIVE_U_DEV_MROM].size,
-@@ -542,7 +543,8 @@ static bool sifive_u_machine_get_start_in_flash(Object *obj, Error **errp)
-     return s->start_in_flash;
- }
- 
--static void sifive_u_machine_set_start_in_flash(Object *obj, bool value, Error **errp)
-+static void sifive_u_machine_set_start_in_flash(Object *obj, bool value,
-+                                                Error **errp)
- {
-     SiFiveUState *s = RISCV_U_MACHINE(obj);
- 
-@@ -731,13 +733,15 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->prci), errp)) {
-         return;
-     }
--    sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0, memmap[SIFIVE_U_DEV_PRCI].base);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0,
-+                    memmap[SIFIVE_U_DEV_PRCI].base);
- 
-     qdev_prop_set_uint32(DEVICE(&s->gpio), "ngpio", 16);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
-         return;
-     }
--    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, memmap[SIFIVE_U_DEV_GPIO].base);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0,
-+                    memmap[SIFIVE_U_DEV_GPIO].base);
- 
-     /* Pass all GPIOs to the SOC layer so they are available to the board */
-     qdev_pass_gpios(DEVICE(&s->gpio), dev, NULL);
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/threads.html#04020
+
+You sent 1/30 and 2/30 as independent threads, then deeply threaded 
+3-8/30, but I don't see a 0/30 cover letter, nor 9-30/30.
+
+When you use deep threading, it gets awkward to read replies in mailers 
+that group by thread depth before date:
+
++ 1/30
+  \+ re: 1/30
++ 2/30
+  \+ re: 1/30
++ 3/30
+| + 4/30
+| | + 5/30
+| | | + 6/30
+| | | | + 7/30
+| | | | | + 8/30
+| | | | |  \+ re: 8/30
+| | | |  \+ re: 7/30
+| | |  \+ re: 6/30
+| |  \+ re: 5/30
+|  \+ re: 4/30
+  \+ re: 3/30
+
+instead of the more typical
+
++ 0/30
+| + 1/30
+|  \+ re: 1/30
+| + 2/30
+|  \+ re: 2/30
+| + 3/30
+|  \+ re: 3/30
+| + 4/30
+|  \+ re: 4/30
+...
+| + 30/30
+|  \+ re: 30/30
+  \+ re: 0/30
+
+Figuring out how to make your mailer thread properly will make it easier 
+to interact with your future patches.
+
 -- 
-2.23.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
