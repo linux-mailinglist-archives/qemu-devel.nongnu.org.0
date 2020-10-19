@@ -2,85 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76259292122
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 04:26:37 +0200 (CEST)
-Received: from localhost ([::1]:56742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F79D292173
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 05:32:05 +0200 (CEST)
+Received: from localhost ([::1]:57760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUKse-0001FC-Ix
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 22:26:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56352)
+	id 1kULtz-0000vW-MF
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 23:32:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=5541069a6=dmitry.fomichev@wdc.com>)
- id 1kUKkN-0000D5-Cw; Sun, 18 Oct 2020 22:18:03 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44147)
+ (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
+ id 1kULso-0000S5-8B
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 23:30:50 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:52844 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=5541069a6=dmitry.fomichev@wdc.com>)
- id 1kUKkI-0004JR-7i; Sun, 18 Oct 2020 22:18:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603073878; x=1634609878;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=fuuX0wK/clVu0dfU7G8Ccc31uXLe2PXHzQgnXocAqvc=;
- b=auwWx2XW/0wdLHPz74djJ1C5DzCTZSi3tUBQrfAgJIU2joM2QMRFwE4a
- AwOhdeV+NcfvwYuiWtK66PewsTDkLn7ykPVvJCz+7lhEbFVnQPBCLEtzD
- 6ssOg6qGtmVx76jKNbh12lCg1zZ+kHOhcCCP0ThEnMyX2f9wAjHY/qix1
- v0Qm78kxOnS5F+GEe/dOCBG+tCZC0BCuVVi7wIuhQYJ4PZKH2tfZyuf64
- ryFulz8dWj0izc4fuWwDtjOPjrogCcrMew+dDeRs+M0PybyNNDMDPmOqx
- H2Ui+4Yoq+jjWghS31UTBvOO+jvMsnWuqVBtbT0e1WDLsJ9iJIEI9oUSu w==;
-IronPort-SDR: rNIabVQcA/2g0lN5ineLvbPoIJI8Y86Bcblpj8W586GfG38Xv5bS8IEY6cGFNMQ/8fgt2WT+B1
- IvThZSoizW5miD2Ouhrb0Z1hK+X0fcA2YMuXnGNrYauQkcWH5MK+nXYwThdp/AzoGAmkoGtfE4
- ZO7UhxTN5EU4fO+NAjkPvPrI9/SutAd7N7zyy+3dPnP2pbgkadhArGmf9fU/51As3Wu5mkWqlk
- txJn132O50XA2JSYXenEYD29FJJYU1wDVsC5PLRAogx7zFUJEQMRNSuBVji2lfnocPIYhgf025
- ruI=
-X-IronPort-AV: E=Sophos;i="5.77,393,1596470400"; d="scan'208";a="150207989"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 19 Oct 2020 10:17:56 +0800
-IronPort-SDR: B+0C1gidDlU6cOvx4JD/Yg9rc+Al8q+XO7Ty+k8NmRyWk848gs9RGYiTzWYDNGJRbfRSSG/QCq
- iBB0CKl1zz4nmuFTTAc1WUEEgJh2imfeWQs2/OEHvCQJJr5qD8w6zEPlJWBB2PiGObr5mAgx5h
- GRACu7v2wku0ZHJkKNPTRO2HmZszfUMl1SGwgG7D0FRUEh0Ozn1PH4cjPiXCeU+4Se1qdUytJJ
- iCUn59uSm5e6fY/J73OR/PJ9PJFMoSEnJTSNs5g2DQY15ftdCombA5byndsr1kHyfZm8MlaudI
- CewLBFAtxDRPbqem+nwu7LIB
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2020 19:03:33 -0700
-IronPort-SDR: 5R869P/8XumV35KmKMYAuaAvKoD4zmNMbekQXwW4N3g9xzFXKJ5eTlS+mRtZ2YA/twOKvdUDBH
- GH97WweMYH7hY2IBS46FrV2f9Rfn4/E59eRhK9qP1TLFoIDUh6/HN4wXJt2T3RPqs8GTr9UCfJ
- yxasPjEKMJIpwUCPm4wl2zLfzrVwVWXq/6zCJtyio3Zyp8aUEq9ToFeYQcsdwAmTn+f9DADa0A
- v3DICXTEyECdCmbBDXy5pwjtYaXSIeI97jos0CU3tqMgKT8r+XwCGhl6xk6QKK7UFryx0KYqOH
- RwI=
-WDCIronportException: Internal
-Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 18 Oct 2020 19:17:54 -0700
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH v7 11/11] hw/block/nvme: Merge nvme_write_zeroes() with
- nvme_write()
-Date: Mon, 19 Oct 2020 11:17:26 +0900
-Message-Id: <20201019021726.12048-12-dmitry.fomichev@wdc.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20201019021726.12048-1-dmitry.fomichev@wdc.com>
-References: <20201019021726.12048-1-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
+ id 1kULsk-0000W5-NQ
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 23:30:49 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 9EC25EE67AD099E54427;
+ Mon, 19 Oct 2020 11:30:27 +0800 (CST)
+Received: from [10.174.186.14] (10.174.186.14) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 19 Oct 2020 11:30:21 +0800
+Subject: Re: [PATCH v1] migration: using trace_ to replace DPRINTF
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <quintela@redhat.com>, <eblake@redhat.com>, <dgilbert@redhat.com>,
+ <berrange@redhat.com>
+References: <1602927347-15669-1-git-send-email-yubihong@huawei.com>
+ <1bd1c3f7-4c88-c93f-127c-9576fed176c7@redhat.com>
+From: Bihong Yu <yubihong@huawei.com>
+Message-ID: <6e93294c-a7d9-2853-d902-8d479bccdd1d@huawei.com>
+Date: Mon, 19 Oct 2020 11:30:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <1bd1c3f7-4c88-c93f-127c-9576fed176c7@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=5541069a6=dmitry.fomichev@wdc.com; helo=esa4.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/18 22:17:33
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+X-Originating-IP: [10.174.186.14]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=yubihong@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/18 23:30:28
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,166 +65,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: david.edmondson@oracle.com, zhang.zhanghailiang@huawei.com,
+ qemu-devel@nongnu.org, xiexiangyou@huawei.com, alex.chen@huawei.com,
+ wanghao232@huawei.com, zhengchuan@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nvme_write() now handles WRITE, WRITE ZEROES and ZONE_APPEND.
+Thank you for your review.OK ,I will adapt them.
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- hw/block/nvme.c       | 95 +++++++++++++------------------------------
- hw/block/trace-events |  1 -
- 2 files changed, 28 insertions(+), 68 deletions(-)
-
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 5ec4ce5e28..aa929d1edf 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1529,53 +1529,7 @@ invalid:
-     return status | NVME_DNR;
- }
- 
--static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
--{
--    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
--    NvmeNamespace *ns = req->ns;
--    uint64_t slba = le64_to_cpu(rw->slba);
--    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
--    NvmeZone *zone;
--    uint64_t offset = nvme_l2b(ns, slba);
--    uint32_t count = nvme_l2b(ns, nlb);
--    BlockBackend *blk = ns->blkconf.blk;
--    uint16_t status;
--
--    trace_pci_nvme_write_zeroes(nvme_cid(req), nvme_nsid(ns), slba, nlb);
--
--    status = nvme_check_bounds(n, ns, slba, nlb);
--    if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
--        return status;
--    }
--
--    if (ns->params.zoned) {
--        zone = nvme_get_zone_by_slba(ns, slba);
--
--        status = nvme_check_zone_write(n, ns, zone, slba, nlb, false);
--        if (status != NVME_SUCCESS) {
--            goto invalid;
--        }
--
--        status = nvme_auto_open_zone(ns, zone);
--        if (status != NVME_SUCCESS) {
--            goto invalid;
--        }
--
--        req->cqe.result64 = nvme_advance_zone_wp(ns, zone, nlb);
--    }
--
--    block_acct_start(blk_get_stats(blk), &req->acct, 0, BLOCK_ACCT_WRITE);
--    req->aiocb = blk_aio_pwrite_zeroes(blk, offset, count,
--                                       BDRV_REQ_MAY_UNMAP, nvme_rw_cb, req);
--    return NVME_NO_COMPLETE;
--
--invalid:
--    block_acct_invalid(blk_get_stats(blk), BLOCK_ACCT_WRITE);
--    return status | NVME_DNR;
--}
--
--static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req, bool append)
-+static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req, bool append, bool wrz)
- {
-     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-     NvmeNamespace *ns = req->ns;
-@@ -1590,10 +1544,12 @@ static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req, bool append)
-     trace_pci_nvme_write(nvme_cid(req), nvme_io_opc_str(rw->opcode),
-                          nvme_nsid(ns), nlb, data_size, slba);
- 
--    status = nvme_check_mdts(n, data_size);
--    if (status) {
--        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
--        goto invalid;
-+    if (!wrz) {
-+        status = nvme_check_mdts(n, data_size);
-+        if (status) {
-+            trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
-+            goto invalid;
-+        }
-     }
- 
-     status = nvme_check_bounds(n, ns, slba, nlb);
-@@ -1628,21 +1584,26 @@ static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req, bool append)
- 
-     data_offset = nvme_l2b(ns, slba);
- 
--    status = nvme_map_dptr(n, data_size, req);
--    if (status) {
--        goto invalid;
--    }
-+    if (!wrz) {
-+        status = nvme_map_dptr(n, data_size, req);
-+        if (status) {
-+            goto invalid;
-+        }
- 
--    data_offset = nvme_l2b(ns, slba);
--
--    block_acct_start(blk_get_stats(blk), &req->acct, data_size,
--                     BLOCK_ACCT_WRITE);
--    if (req->qsg.sg) {
--        req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
--                                   BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+        block_acct_start(blk_get_stats(blk), &req->acct, data_size,
-+                         BLOCK_ACCT_WRITE);
-+        if (req->qsg.sg) {
-+            req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
-+                                       BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+        } else {
-+            req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
-+                                         nvme_rw_cb, req);
-+        }
-     } else {
--        req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
--                                     nvme_rw_cb, req);
-+        block_acct_start(blk_get_stats(blk), &req->acct, 0, BLOCK_ACCT_WRITE);
-+        req->aiocb = blk_aio_pwrite_zeroes(blk, data_offset, data_size,
-+                                           BDRV_REQ_MAY_UNMAP, nvme_rw_cb,
-+                                           req);
-     }
-     return NVME_NO_COMPLETE;
- 
-@@ -2126,11 +2087,11 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     case NVME_CMD_FLUSH:
-         return nvme_flush(n, req);
-     case NVME_CMD_WRITE_ZEROES:
--        return nvme_write_zeroes(n, req);
-+        return nvme_write(n, req, false, true);
-     case NVME_CMD_ZONE_APPEND:
--        return nvme_write(n, req, true);
-+        return nvme_write(n, req, true, false);
-     case NVME_CMD_WRITE:
--        return nvme_write(n, req, false);
-+        return nvme_write(n, req, false, false);
-     case NVME_CMD_READ:
-         return nvme_read(n, req);
-     case NVME_CMD_ZONE_MGMT_SEND:
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 7ee90a50c3..5a3cd4c5dc 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -43,7 +43,6 @@ pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opna
- pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
--pci_nvme_write_zeroes(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
- pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize, uint16_t qflags) "create submission queue, addr=0x%"PRIx64", sqid=%"PRIu16", cqid=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16""
- pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size, uint16_t qflags, int ien) "create completion queue, addr=0x%"PRIx64", cqid=%"PRIu16", vector=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16", ien=%d"
- pci_nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
--- 
-2.21.0
-
+On 2020/10/17 17:57, Philippe Mathieu-Daudé wrote:
+> On 10/17/20 11:35 AM, Bihong Yu wrote:
+>> Signed-off-by: Bihong Yu <yubihong@huawei.com>
+>> ---
+>>   migration/block.c      | 36 ++++++++++++++++++------------------
+>>   migration/page_cache.c | 13 +++----------
+>>   migration/trace-events | 13 +++++++++++++
+>>   3 files changed, 34 insertions(+), 28 deletions(-)
+> ...
+>> diff --git a/migration/trace-events b/migration/trace-events
+>> index 338f38b..772bb81 100644
+>> --- a/migration/trace-events
+>> +++ b/migration/trace-events
+>> @@ -325,3 +325,16 @@ get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock n
+>>   calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
+>>   skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
+>>   find_page_matched(const char *idstr) "ramblock %s addr or size changed"
+>> +
+>> +# block.c
+>> +init_blk_migration_shared(const char *blk_device_name) "Start migration for %s with shared base image"
+>> +init_blk_migration_full(const char *blk_device_name) "Start full migration for %s"
+>> +mig_save_device_dirty(int64_t sector) "Error reading sector %" PRId64
+>> +flush_blks(const char *action, int submitted, int read_done, int transferred) "%s submitted %d read_done %d transferred %d"
+>> +block_save(const char *mig_stage, int submitted, int transferred) "Enter save live %s submitted %d transferred %d"
+>> +block_save_complete(void) "Block migration completed"
+>> +block_save_pending(uint64_t pending) "Enter save live pending  %" PRIu64
+>> +
+>> +# page_cache.c
+>> +cache_init(int64_t max_num_items) "Setting cache buckets to %" PRId64
+>> +cache_insert(void) "Error allocating page"
+> 
+> The patch is good, but I strongly recommend to have trace events
+> starting with the subsystem prefix (here migration). So we can
+> keep using the 'block*' rule to match all events from the block
+> subsystem, without including the migration events.
+> 
+> Thanks,
+> 
+> Phil.
+> 
+> .
 
