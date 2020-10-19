@@ -2,82 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7365729321B
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 01:44:25 +0200 (CEST)
-Received: from localhost ([::1]:46690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE19293222
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 01:51:28 +0200 (CEST)
+Received: from localhost ([::1]:60400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUepE-0003Dc-FW
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 19:44:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48478)
+	id 1kUew3-00016k-Kb
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 19:51:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUemP-0001B7-F1
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 19:41:30 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:39373)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUemM-0002x6-Aj
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 19:41:28 -0400
-Received: by mail-pf1-x431.google.com with SMTP id e15so28649pfh.6
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 16:41:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dmcIylvRW0RIkEQJdZPT7p0luDVtrc+Yev19FlNzkVo=;
- b=gXchbvjiFrvkHZxciPUrX7llKlnrMjgVb8ScQQU5MlNSkrThEnu8M8pHh/nRJoRT7H
- qajJtjfZaKwtFUrLf1MEWkIXYNHPg6OFvqldOqsarbJ0KfGnE0b0Muevu0I84YGJqTzQ
- mrv7j1D/z23kJJrNe7auP0EYl1cSC+mi+KeURCyXy5OmqzTqgXXD67o7HE07EbqY8gbq
- qavGAalS/f85FPhwDU2U5fJveB4PLMcHCTSJnVzbAVfkwgDHIT8iQUd2dZ+424gW/Jrg
- y6qBoy2LJnLnrIl5vAR+AMvuDEazKTFc2Buj1vNreW1fbNjfqMT2DLNtIb4j/nQopcPL
- MmuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dmcIylvRW0RIkEQJdZPT7p0luDVtrc+Yev19FlNzkVo=;
- b=LOeVk0dDKv1XjD+vmmoRctMTMvw8Uj8PE0xdE7W4CHAK1lM2XtGM/EwCmZz3XGC6wf
- eeruuNNAhd6smDKmAUJ6UHke9598RYocCTDUbHOAABbcVB5pdJrst1lI5K7qjuWw/5ad
- HvjIJbn6kl+WTKnEXOtTFcWzGLogVy5duqIaM9XGWd5cMyQysXmEsA/FXbU1pTeABHIR
- fGwkcn5dn632lHJXiCRUzT5qr78JpYkko3gFP5xm6+YbPOCeBXHElYJMBQXmqe34G38d
- ZHsvh2NP7xgyEmyG7t7lbHf6iivnAFVtIr9xqrrUWjLffjyBed1EUwV/KfnhIQyg+Y+r
- 9sOQ==
-X-Gm-Message-State: AOAM533mIIj8WcxaVwwCwfr0Yio78X6JbKJi088is5Oc2LLFo35P738q
- IpkWmiMVIN7nkQf/ItrXsT1LYY9kbzMDng==
-X-Google-Smtp-Source: ABdhPJxYqRYMyf2kvC8TKfNQiV8mO6nvDBORsgV3lUXwws7VSOk0DRB2sWF9hmR4igfbfQdHlUD8zg==
-X-Received: by 2002:a63:d90d:: with SMTP id r13mr223765pgg.99.1603150880769;
- Mon, 19 Oct 2020 16:41:20 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id w2sm575837pgi.56.2020.10.19.16.41.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Oct 2020 16:41:20 -0700 (PDT)
-Subject: Re: [PATCH v2 5/9] tcg: add const hints for code pointers
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kUeql-0006HN-Ml
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 19:45:59 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:21264)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kUeqh-0003hN-M0
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 19:45:58 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CC7F6746383;
+ Tue, 20 Oct 2020 01:45:52 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 898E9745953; Tue, 20 Oct 2020 01:45:52 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 87FB974594E;
+ Tue, 20 Oct 2020 01:45:52 +0200 (CEST)
+Date: Tue, 20 Oct 2020 01:45:52 +0200 (CEST)
 To: Joelle van Dyne <j@getutm.app>
+Subject: Re: [PATCH v2 6/9] tcg: implement mirror mapped JIT for iOS
+In-Reply-To: <CA+E+eSAYV50ACGaAvd_e-eR3FoSiBq6EXqDVRH7vJZyYHvhA8w@mail.gmail.com>
+Message-ID: <5d2ac3fc-cb2f-4a69-3d6-b834edc8ff8c@eik.bme.hu>
 References: <20201019013928.72770-1-j@getutm.app>
- <20201019013928.72770-6-j@getutm.app>
- <11912dd5-2740-1d7c-c691-1174fa7ef390@linaro.org>
- <CA+E+eSBdg6ZMXOD2LQQfuv5DPBuah45SpwM8bL-Jn-c+FdKs9Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a317a7d7-fd35-156e-ae2d-ab3fb59c82a6@linaro.org>
-Date: Mon, 19 Oct 2020 16:41:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20201019013928.72770-7-j@getutm.app>
+ <aa4c227-c33-72dc-92c6-75792f60b58e@eik.bme.hu>
+ <CA+E+eSAYV50ACGaAvd_e-eR3FoSiBq6EXqDVRH7vJZyYHvhA8w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+E+eSBdg6ZMXOD2LQQfuv5DPBuah45SpwM8bL-Jn-c+FdKs9Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,18 +63,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On 10/19/20 4:36 PM, Joelle van Dyne wrote:
-> Seems like I missed a few. Sorry about that. Will fix.
+On Mon, 19 Oct 2020, Joelle van Dyne wrote:
+>> Explicit cast may not be needed here so this could be a macro if caling it
+>> differently helps or why don't you just use tcg_mirror_prr_rw directly
+>> everywhere?
+>
+> There are quite a bit of code that depends on tcg_insn_unit * type such as
+>
+> *tcg_code_ptr_rw(s, code_ptr) = insn;
+>
+> and
+>
+> (tcg_code_ptr_rw(s, p))[i] = NOP;
 
-I'll keep looking, Just In Case.  ;-)
+OK that explains it, haven't looked at it at that detail.
 
->>      s->code_gen_epilogue = tb_ret_addr = s->code_ptr;
+> I think it's cleaner to not have to manually cast in every one of 30+
+> instances of this. In v1, I used a macro but was told to use an inline
+> function instead.
 
-In this case, just splitting the chained assignment to two statements is
-sufficient to fix.
+Definitely cleaner to have the cast either in a macro or inline func than 
+manually having it everywhere. The static inline in v2 looks better than 
+the macro in v1 so unless others disagree it's fine this way, I'm not the 
+one who decides, I was just asking if we can avoid having two static 
+inlines relying on casting void * but if you also dereference as above 
+then returning the right type is needed. Let's see what Richard says who 
+suggested the function instead of a macro but it does look more readable 
+than the previous macro.
 
+>> Is that !defined or are you missing an implementation and #else here?
+> No, `flush_dcache_range` is only needed when mirror mapped (after
+> writing to the RW mirror). Now there is no iOS compatible compiler for
+> any other arch than x86 and ARM. However, in the slim chance that
 
-r~
+But this was in tcg/arm/tcg-target.h which is ARM but maybe you mean only 
+x86 and 64bit ARM which is aarch64 but not 32bit ARM. I've noticed this 
+only after sending the question.
 
+> Apple decides to change arch again in the future and moves to RISC-V
+> or something, then we get a nice compiler error.
+>
+>> Maybe this patch could be split up some more, making the RW offset
+>> handling and cache management separate patches even if they don't work
+>> separately just to make it easier to review.
+>
+> I can probably do that for v3 but imo most of the LOC here is because
+> the same change has to be done to every TCG target. No matter how you
+> split up the patches, it will look like a lot of changes.
+
+Sure but it's easier to review if a single patch has only similar changes 
+even if it touches a lot of files than if it does independent stuff 
+intermixed unless it's a small patch (but even then QEMU tends to prefer a 
+lot of smaller patches instead of combining changes in a single patch). 
+That's also good for bisectability so that's also something to consider 
+when splitting patches. Not sure if in this case this can be split up into 
+two working changes because RW mapping may not work without cache flushes 
+and cache flushes may not be added before having the RW split but having 
+two patches for the review that can be squashed in the final series may 
+still help. But lets see if this gets reviewed without further splitting 
+or what others say.
+
+Not sure you're aware of this: https://wiki.qemu.org/Planning/5.2 but if 
+this series does not get merged this week don't be surprised if your next 
+opportunity to pick it up will be in December (when most people who can 
+review it will be on holyday so it can be easily take longer). So maybe 
+you could try pushing it and do everything to make reviewers' job easier 
+if you want it in the next release. Otherwise you'll have time to polish 
+it until next year.
+
+Also it may be good to fix checkpatch errors (warnings may be OK but 
+errors are not) that are reported even if it's not in your code (it could 
+be a separate clean up patch before your changes or for small things in 
+the same patch) otherwise automated tests may not run which can also delay 
+reviews and merging:
+
+https://patchew.org/QEMU/20201019051953.90107-1-j@getutm.app/
+
+and I assume you already know this:
+
+https://wiki.qemu.org/Contribute/SubmitAPatch
+
+It might be overwhelming and off putting sometimes to try getting series 
+into QEMU but please don't give up.
+
+Regards,
+BALATON Zoltan
 
