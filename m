@@ -2,54 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D70292B14
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:06:20 +0200 (CEST)
-Received: from localhost ([::1]:43032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59BB292B25
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:08:28 +0200 (CEST)
+Received: from localhost ([::1]:50476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUXfu-0002WM-T9
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:06:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52436)
+	id 1kUXhz-0005fW-M6
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kUXX6-0005MT-Pz; Mon, 19 Oct 2020 11:57:12 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:39217)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kUXXM-0005fG-4l
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:57:28 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:36200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kUXWy-0000Rq-LI; Mon, 19 Oct 2020 11:57:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=cNLd+JfL2FLsCROt1LaDV4KxuAN33oh5yij5FucIgPg=; 
- b=mdb4YWSnF14WjZ4VCIC7oHl/FKTCN/mVVP97KpqgnixFsmrL40rbYNWoJ/piaJRzcwxwQd1BlSqLrF9HCy7P4N+4/p/06i1NynBOfr3Gl+/4GlqEo5utjX/Tjysv03u2+ePfR2aoLFM/1bcJzTd69ByzUa77uSR7Tjm0vRTqz+Ouhk6ZoqBp5bIGQDNUQVdo3jAUAeZmOup5V5DkJdMVliWpEefMVbGgHnHAkOa7cdUFGEg01snF/yVIr7JGiULHNCSsTdqCCfcXnfGA10+yEaMxAhwcxKsD83ge4xS4JipyXJOo2vsRYXPO5rs9Ns2IjVHZooFgksohod1+7C2H/A==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kUXWr-000195-6V; Mon, 19 Oct 2020 17:56:57 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1kUXWq-0001RO-Qd; Mon, 19 Oct 2020 17:56:56 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-Subject: Re: Plans to bring QMP 'x-blockdev-reopen' out of experimental?
-In-Reply-To: <20201006091001.GA64583@paraplu>
-References: <20201006091001.GA64583@paraplu>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Mon, 19 Oct 2020 17:56:56 +0200
-Message-ID: <w51mu0ifbuf.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kUXXK-0000Vp-L9
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:57:27 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id a1so10852pjd.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=vAhVBxMYUODQU0vjWNSBtUAbQfWsvWH/MyQUcKmeFEQ=;
+ b=fczoxVaKF7j5Ka5EDrEBV9cOTLcrAO5BIuSKGcLzG3/qMNvRB23ZP8Mr7hOLNncUE8
+ Lo5oEvXAVMxXclZEl0qCsW8RGsUb3+0nas4Zmqt17z6gaZJaF1Y+TF8os5OcPv9G0V2R
+ KF+Dn80cwfLwJakoVSpeNOhfGAR6QlT9IkHfOZP7JSb+j8EM4waxBI5DY3ZgzFYN2ARb
+ 8DuRr4mmlixVOHbW/fx7KwCHbAZjm5r9r1dVxFQv4i+qrA/EXTdCYdEbIte32WrzUuXq
+ ypo21isluuuGJEWuhCh+Zu+YYqC6bklZasWowJPxmsyqmtb5uXEe6vD2rC1/WRuKz31x
+ v6Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vAhVBxMYUODQU0vjWNSBtUAbQfWsvWH/MyQUcKmeFEQ=;
+ b=LjMzeRG+cctR6oYcBxxp7nxdVMCvQfLMekytgEo1VdjZINUaCgtgE64FzoUNs7fFda
+ KRkNk/7fkG0LDuKL3NFxez7iCXtStDNkHKUeqvuA+5j/rqhyZgPLHCFLpvy7tmfp9wWU
+ KoXc8GwReJjZNrI95MVC6K8dseX/7++k9dQo7DBCPkT/XsL+qIfa+PLaEMKuMXi8Qeiy
+ BMLmP/IGFeCl78VxpjHyGqZsWyS8o7dWH2Uiaanv2Yydef4INA1YmgrcuWlIcTAdDlRv
+ pUh+ZpVLWEtHCyTAgzbnJ2WpDOs2zgM8bo17J5022pl13kRnioHTMeWIoP1Gn0drYA/s
+ vhhw==
+X-Gm-Message-State: AOAM531CdwjsSy5vw9Y0LjEN0BDSmgCDbt6fEahz2qwvUI7YM0KvrlKS
+ EZaATmvJNUeHJuvgbwwMeoA0RFbOzEYpEg==
+X-Google-Smtp-Source: ABdhPJybzXf7/bGbnnD6vIdSDYa5pfbWpcs/+3OeSonndu1x2tftfkbCVeqv3hjW4iJyIgoQZNFd0g==
+X-Received: by 2002:a17:902:8205:b029:d5:dc92:a1d4 with SMTP id
+ x5-20020a1709028205b02900d5dc92a1d4mr271567pln.41.1603123044644; 
+ Mon, 19 Oct 2020 08:57:24 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id n18sm254382pff.129.2020.10.19.08.57.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Oct 2020 08:57:23 -0700 (PDT)
+Subject: Re: [PATCH v2 09/10] target/arm: Allow M-profile CPUs with FP16 to
+ set FPSCR.FP16
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20201019151301.2046-1-peter.maydell@linaro.org>
+ <20201019151301.2046-10-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e3fc4b0e-d6c1-05e3-451e-e17419a02858@linaro.org>
+Date: Mon, 19 Oct 2020 08:57:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 11:56:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+In-Reply-To: <20201019151301.2046-10-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,28 +92,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue 06 Oct 2020 11:10:01 AM CEST, Kashyap Chamarthy wrote:
-> Hi, folks
->
-> If this was already discussed on the list, please point me to the
-> thread.  I took a quick look at my local archives, I didn't find any,
-> besides patches to tests.
+On 10/19/20 8:13 AM, Peter Maydell wrote:
+> M-profile CPUs with half-precision floating point support should
+> be able to write to FPSCR.FZ16, but an M-profile specific masking
+> of the value at the top of vfp_set_fpscr() currently prevents that.
+> This is not yet an active bug because we have no M-profile
+> FP16 CPUs, but needs to be fixed before we can add any.
+> 
+> The bits that the masking is effectively preventing from being
+> set are the A-profile only short-vector Len and Stride fields,
+> plus the Neon QC bit. Rearrange the order of the function so
+> that those fields are handled earlier and only under a suitable
+> guard; this allows us to drop the M-profile specific masking,
+> making FZ16 writeable.
+> 
+> This change also makes the QC bit correctly RAZ/WI for older
+> no-Neon A-profile cores.
+> 
+> This refactoring also paves the way for the low-overhead-branch
+> LTPSIZE field, which uses some of the bits that are used for
+> A-profile Stride and Len.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/vfp_helper.c | 47 ++++++++++++++++++++++++-----------------
+>  1 file changed, 28 insertions(+), 19 deletions(-)
 
-I think this is the last time that I was discussed:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-   https://lists.gnu.org/archive/html/qemu-block/2020-02/msg00558.html
+r~
 
-And this one in particular:
-
-   https://lists.gnu.org/archive/html/qemu-block/2020-02/msg00601.html
-
-But Kevin fixed this one month later:
-
-   https://lists.gnu.org/archive/html/qemu-block/2020-03/msg00266.html
-
-Berto
 
