@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB6D2926A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 13:45:04 +0200 (CEST)
-Received: from localhost ([::1]:54060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F202926B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 13:51:18 +0200 (CEST)
+Received: from localhost ([::1]:58160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUTb5-000281-65
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 07:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47456)
+	id 1kUTh7-000452-6U
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 07:51:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kUTXX-0007ob-Ta
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 07:41:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kUTXR-0008G1-Ue
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 07:41:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603107673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=imURWLYKJS+A51CJcY/PS/bBsr96bRuJgtDpMzjyaU4=;
- b=GeuYlfg+sO5hFccVP/Ce+cI9OJfku7tin0qYpr8dH9blvLwHFNhl2ASB5zVbLnAmXsCCXu
- +E5GoxzEAK6AgznL8qOmzs6Ao2xYLOyv+jetxK+i/ymaKjhTMm09EZGpEkMrJYCrtAg9U2
- IcENSArsuwNv22zUwteOvv4G2zFJSGE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-hjm_bP6ePjGMfc1Q1Q6GSg-1; Mon, 19 Oct 2020 07:41:10 -0400
-X-MC-Unique: hjm_bP6ePjGMfc1Q1Q6GSg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 424259CC0D
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 11:41:09 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F4555C1A3
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 11:41:09 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: use b_staticpic=false for meson >=0.56.0
-Date: Mon, 19 Oct 2020 07:41:08 -0400
-Message-Id: <20201019114108.1779369-2-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kUTYn-0000Ds-6l; Mon, 19 Oct 2020 07:42:41 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:39607)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kUTYk-0008NM-PG; Mon, 19 Oct 2020 07:42:40 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id D2D6E340;
+ Mon, 19 Oct 2020 07:42:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 19 Oct 2020 07:42:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=bNunAICK0DwTzC4dKY9RkLQT4q8
+ uE7a0C83wfeZ58uU=; b=HMaH4K16tw6DFfzuhQ9WF1XWI11WjNT1lyDO+EILcde
+ VuTV07rJsbwmwGGLHyXkPfUkJVGnoyXSwHrVXLoITqB88tH1XYZQq77yg+AsEnKK
+ sHUw517DaZ5G0u2RwuZNylOOP3VfKyUwhkNzb41wCAef/7S4dY//hb9A4zCYujjS
+ EDHfK9mVzB8yVN1OBZTAPaeOp4tKAql/CEIYFgelx+HhLwfzlliSnNrmLXEoAMCk
+ VXXsYTgN/9dH1elyvxwyAQ56b3+OzPh8nJ2WmMJracyPrmf3g9Br+oT46FOJakul
+ YKuViM0gTlixwAmzgnc+qkjLqv+rTabRgXnBjslGCeg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=bNunAI
+ CK0DwTzC4dKY9RkLQT4q8uE7a0C83wfeZ58uU=; b=ick9uLYJZK6od0FJMbYGOV
+ 6ltGKQvo3rD4RLzBrKwpUiipMDJykXj/947WWrjJJCdvsbyXQnqsWqpcElTNc+zr
+ bFuuO/zZm3K7kNbnRY5uajvVmI1sqogJD8jnKXkIALdHrMwDPXrOxTWKLwue5Y4K
+ qT7blfbL/8Icf+W4tyBuzXAwbuUg/cZaPkAarux5WLTz0c+sOAUIpG6Cdccx+F1i
+ T7KXYoPRgZyvRFJiijiby8YeQsjnmZna84l2Y75rG4aCxdtlVgwcl3J/gLsV/abX
+ wgvYXQ7PpGrrwVx1o+zdh4qQvi+o3IBIJ0l1fLWwoIMK/4PA5u1mR7TAbysaYQ6A
+ ==
+X-ME-Sender: <xms:qnuNX3wVm3JtZdc00ojLgFYrTktPtEYTDW99eOh84aFnCQ_zhwFgPg>
+ <xme:qnuNX_Spm78fRKPEDny7QhEQT1n_FRg2PpBrqL7GFnWpDLkU_5TNbTs-G3FDl5rEZ
+ PpKV0DyA8xfkbdcvJk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjedugdeggecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:qnuNXxXtSKw3e65_py8hfDBvPeFxU2nbmsY5szLr_jEmtRs3lMVDTw>
+ <xmx:qnuNXxg8TeqwORJpmHJ8L9F5JaTlvl4W4LcF8f6Qg2IMUiw65KbKqg>
+ <xmx:qnuNX5DqQ5k7wjF5N7S-qBRUa-7z6j4U9kvVXAHpmDBGW9xzUV0uvQ>
+ <xmx:q3uNX-IauxkPnw5xsRSw0hJh5HgXJcGgDhvPfUthgKRX10f63BY50H1Mr9aOiIC4>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4B14A306467E;
+ Mon, 19 Oct 2020 07:42:32 -0400 (EDT)
+Date: Mon, 19 Oct 2020 13:42:30 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v7 08/11] hw/block/nvme: Add injection of
+ Offline/Read-Only zones
+Message-ID: <20201019114230.GB10549@apples.localdomain>
+References: <20201019021726.12048-1-dmitry.fomichev@wdc.com>
+ <20201019021726.12048-9-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="l76fUT7nc3MelDdI"
+Content-Disposition: inline
+In-Reply-To: <20201019021726.12048-9-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
+ helo=wnew4-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 07:30:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,57 +97,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson 0.56.0 correctly builds non-PIC static libraries with -fPIE if
-b_pie=true.  We do not have to pass b_staticpic=true if PIE is requested
-if Meson is new-enough, which improves performance.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure   | 6 +++++-
- meson.build | 4 ++--
- 2 files changed, 7 insertions(+), 3 deletions(-)
+--l76fUT7nc3MelDdI
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/configure b/configure
-index 7b0589a0c4..b7253b1b8e 100755
---- a/configure
-+++ b/configure
-@@ -6987,6 +6987,10 @@ fi
- mv $cross config-meson.cross
- 
- rm -rf meson-private meson-info meson-logs
-+unset staticpic
-+if ! version_ge "$($meson --version)" 0.56.0; then
-+  staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi)
-+fi
- NINJA=$ninja $meson setup \
-         --prefix "$prefix" \
-         --libdir "$libdir" \
-@@ -7004,7 +7008,7 @@ NINJA=$ninja $meson setup \
-         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
-         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
--        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-+        ${staticpic:+-Db_staticpic=$staticpic} \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
-         -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
-         -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
-diff --git a/meson.build b/meson.build
-index d1155aea65..88eb4a6b7a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,6 +1,6 @@
- project('qemu', ['c'], meson_version: '>=0.55.0',
--        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11',
--                          'b_colorout=auto'],
-+        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11', 'b_colorout=auto'] +
-+                         (meson.version().version_compare('>=0.56.0') ? [ 'b_staticpic=false' ] : []),
-         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
- 
- not_found = dependency('', required: false)
--- 
-2.26.2
+On Oct 19 11:17, Dmitry Fomichev wrote:
+> ZNS specification defines two zone conditions for the zones that no
+> longer can function properly, possibly because of flash wear or other
+> internal fault. It is useful to be able to "inject" a small number of
+> such zones for testing purposes.
+>=20
+> This commit defines two optional device properties, "offline_zones"
+> and "rdonly_zones". Users can assign non-zero values to these variables
+> to specify the number of zones to be initialized as Offline or
+> Read-Only. The actual number of injected zones may be smaller than the
+> requested amount - Read-Only and Offline counts are expected to be much
+> smaller than the total number of zones on a drive.
+>=20
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> ---
+>  hw/block/nvme-ns.c | 64 ++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/block/nvme-ns.h |  2 ++
+>  2 files changed, 66 insertions(+)
+>=20
+> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+> index 255ded2b43..d050f97909 100644
+> --- a/hw/block/nvme-ns.c
+> +++ b/hw/block/nvme-ns.c
+> @@ -21,6 +21,7 @@
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/block-backend.h"
+>  #include "qapi/error.h"
+> +#include "crypto/random.h"
+> =20
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-core.h"
+> @@ -132,6 +133,32 @@ static int nvme_calc_zone_geometry(NvmeNamespace *ns=
+, Error **errp)
+>          return -1;
+>      }
+> =20
+> +    if (ns->params.zd_extension_size) {
+> +        if (ns->params.zd_extension_size & 0x3f) {
+> +            error_setg(errp,
+> +                "zone descriptor extension size must be a multiple of 64=
+B");
+> +            return -1;
+> +        }
+> +        if ((ns->params.zd_extension_size >> 6) > 0xff) {
+> +            error_setg(errp, "zone descriptor extension size is too larg=
+e");
+> +            return -1;
+> +        }
+> +    }
 
+Looks like this should have been added in the previous patch.
+
+--l76fUT7nc3MelDdI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+Ne6MACgkQTeGvMW1P
+DenAsggAkvuxQLC5ADkQyCUVpI/ZtYu44yadhDSQa1NkR2dAcarpIyxSNWsqWPwb
+6vshuF99+LzgTouhNQh5y1X68FvZDSzqJEhe1Ugsv0YrNiIjY6gYNiMlTGgfzMwF
+2rkExRN6FYZDY0AimvQYELfaQu2f1YrL72h5hFp4A9oe9Fi16ejZWjzFJz/1KB8k
+nGXTDddioUIx6ie1X3NELoRDT+lBG33mC+KiWT70CimnqMmFYd605MaOWqusu5vN
+XdiQ04s9smQ3EvkUJJbul6o8w4OtnN71S7raYFw14Xo6qMo3o/kh7kjuKlI4k28t
+gCyqoWILzN+lRg6P+f/httLiphzwog==
+=7s1E
+-----END PGP SIGNATURE-----
+
+--l76fUT7nc3MelDdI--
 
