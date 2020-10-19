@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963CB292B2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:10:52 +0200 (CEST)
-Received: from localhost ([::1]:55644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0F2292B4B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:17:28 +0200 (CEST)
+Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUXkJ-00085U-9Z
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:10:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54638)
+	id 1kUXqh-0005vW-Ef
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUXeK-0001iA-1H; Mon, 19 Oct 2020 12:04:40 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36576)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUXf2-0002Bv-BL
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:05:24 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:43622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUXeH-0001TT-VN; Mon, 19 Oct 2020 12:04:39 -0400
-Received: by mail-wr1-x442.google.com with SMTP id x7so361797wrl.3;
- Mon, 19 Oct 2020 09:04:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=D4ItctQ3TsnRGygDCoAL5T8+QFcunk3G8AXUmBowc5k=;
- b=QFKkLNj4aMP7jjBxXjdXABcjpTaYrIhP8IYYjCRbONsgPhsWbJTLtC6AlLF5NZ0WNR
- EQaXJ15z/ijVGWKyu/hAa8v9SiZK+sdja6zVXAWK8kaCX0mad3uSRBPpD7ZAJigIehIK
- VnwHK0wlXmajD6hbu/9gWAUld0kGVynNscfswtwBadtUCGATKi5Ol0tRveLZRo2nA3/p
- 7twTuxNuUDY1gHIUkpAy8mx86j/vaOpX+8497FTpfcwie2hJbEw/8gvJr9z0DTPbxNsk
- kWMZ2x3Ksm4Bc5UxjchR6tqEOfVnrxFSfnjtmGDq7c3tRrghgABJxjima8xqOcXeBO3T
- TQnw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUXex-0001ZJ-FA
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:05:23 -0400
+Received: by mail-ed1-x541.google.com with SMTP id dn5so10805358edb.10
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 09:05:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Y0F4Dy8wjAXlmgJZ42mM6NFtPD4hAKyMvW1OqoNDMjk=;
+ b=e5aMnY2gEaBbZ3GYOIHoFFb2TR+Rm31g44bw+rdcon5qM/ZxLTuJpGIPbJUNWPaOUi
+ fqJFW8nD//4/hhExFZ2TTNyrnvHflUhJVjMMBXlxSHMwKxYct2DF9qJHeQlrXl699s2E
+ sLqTXe36kM7NOYb9hc9YFoKpH/cmDAVWroojiCC5WzpW6qYBpmgQBlEqaitJy9FdSDbb
+ gBlNroqlYm7clQiqv9XLV9W9VkoTvDsjfEi3xDCO3dwds1Obye41czazF4vWNZbIZDA2
+ nhKzyxmj3oMBHxZ/fBoOpsjRwUOVplbiIgDzwj5PPR+Sk5jokTtN3vAnpMoU3iEpYehw
+ FmhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=D4ItctQ3TsnRGygDCoAL5T8+QFcunk3G8AXUmBowc5k=;
- b=LvkCmAwNb2y3jI2u2MTshBiuo1IuDR2gndUWEzK+Zu/JXVasYJiNigIPY8vb3/r1RM
- DsosE+RcYdemg0X4XCOFYrmu/dcRbSEmGwmJ7BfiVUHxgOvNZoisCvd6cv1CKs6XpQMz
- tfDnZ8bo1ns/oKiYX+1tnmdJlTGJi1EeuSlYOMQq9nxBsojA+4Vrk4dkrY5jkLlIo3q6
- IbYHK5/t6CgBMm/NnFoJv+bjDMTh1IDFAvlI/y+PFavbFbP5eoHKmy5TmbUdXyFCjiif
- ozlAY6d5F/RNGtcA1XHxPKJNX0+PkoGvmuVRZkHC2DR07afThWxlCY4lVHLr8HJ3nH7i
- 1y1Q==
-X-Gm-Message-State: AOAM53068OxIO+3oSA/E2YWK+rS5q7kwkZ7ICRTGJXv4A+dWaQw8bZzk
- 25to4Xgbkusph042gHbW2yU=
-X-Google-Smtp-Source: ABdhPJzq7VNLtWgzwHejjvCDCz+H63OFS8YRI3QHXSv5lJ5FhGf8EsZpszyYVcmlXyfVMR1ZJWp48A==
-X-Received: by 2002:adf:e744:: with SMTP id c4mr285219wrn.222.1603123475133;
- Mon, 19 Oct 2020 09:04:35 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id s11sm204154wrm.56.2020.10.19.09.04.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Oct 2020 09:04:34 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] hw/ssi: Rename SSI 'slave' as 'peripheral'
-To: qemu-devel@nongnu.org
-References: <20201012124955.3409127-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e15493bf-f31e-daf2-d216-b9d67ea638b1@amsat.org>
-Date: Mon, 19 Oct 2020 18:04:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Y0F4Dy8wjAXlmgJZ42mM6NFtPD4hAKyMvW1OqoNDMjk=;
+ b=Nkt1AjHSuvgcz0zIk7g3V4dencW6g1h4KgmCvB7K42wBrFeHEnVsHRdLiMUdfBeqgk
+ Q5dYX6UUG4+EPFh+GZjTx3+5D3uzqYqeAfcLpN2LGk5xPgEfd79gwFhFCIfRLV5hScNN
+ maZFs//m6f5jKo6PePNH2lWX9kNZbIwojiu3fAZDv+DgeX2Ij3nHYHztCuNlxDADU7ky
+ 9sGrqfuhaG68KLnSeClLfJlo0aKzOfCoTpneQSDun06Nzhy4nsj2L1qKu2o3ieE66Ifk
+ OWMYRNH9zi9XWZG66NjhJFU03Pf3/9KQrfIB8j4cuHd1IlpoSN831ocArUV50yCxnJdh
+ zeew==
+X-Gm-Message-State: AOAM5303OOSQH7eiJNjjVotQoUL2y2hYOYHuHSEwMQZEISPibEggNtla
+ LwYyg7XaAQOGyoQftdKCqzsgvwP7ZgeJ0Cqm6QrxKw==
+X-Google-Smtp-Source: ABdhPJzZwD2zoGapJC0ZFIwbSsbjXm+6CJ4arHDW5bCC4KPf9DDJeMR1D4yvCekPmRKOFPCXL/SpeUvzDCKYHVSTqW8=
+X-Received: by 2002:aa7:c7d7:: with SMTP id o23mr537553eds.44.1603123516553;
+ Mon, 19 Oct 2020 09:05:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201012124955.3409127-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+References: <20200915171639.1355800-1-f4bug@amsat.org>
+In-Reply-To: <20200915171639.1355800-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Oct 2020 17:05:05 +0100
+Message-ID: <CAFEAcA-YEYbLiDpx37cPF40giyr340Gx+V+Vbx+mdxiDZC_qxA@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/block/nand: Decommission the NAND museum
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,50 +80,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>, Max Reitz <mreitz@redhat.com>,
- qemu-trivial@nongnu.org, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping for review?
+On Tue, 15 Sep 2020 at 18:52, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> This is the QEMU equivalent of this Linux commit (but 7 years later):
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3Df7025a43a9da2
+>
+>     The MTD subsystem has its own small museum of ancient NANDs
+>     in a form of the CONFIG_MTD_NAND_MUSEUM_IDS configuration option.
+>     The museum contains stone age NANDs with 256 bytes pages, as well
+>     as iron age NANDs with 512 bytes per page and up to 8MiB page size.
+>
+>     It is with great sorrow that I inform you that the museum is being
+>     decommissioned. The MTD subsystem is out of budget for Kconfig
+>     options and already has too many of them, and there is a general
+>     kernel trend to simplify the configuration menu.
+>
+>     We remove the stone age exhibits along with closing the museum,
+>     but some of the iron age ones are transferred to the regular NAND
+>     depot. Namely, only those which have unique device IDs are
+>     transferred, and the ones which have conflicting device IDs are
+>     removed.
+>
+> The machine using this device are:
+> - axis-dev88
+> - tosa (via tc6393xb_init)
+> - spitz based (akita, borzoi, terrier)
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Peter, as 4 of the 5 machines are ARM-based, can this go via your tree?
+> ---
+>  hw/block/nand.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/block/nand.c b/hw/block/nand.c
+> index 5c8112ed5a4..5f01ba2bc44 100644
+> --- a/hw/block/nand.c
+> +++ b/hw/block/nand.c
+> @@ -138,7 +138,7 @@ static void mem_and(uint8_t *dest, const uint8_t *src=
+, size_t n)
+>  # define ADDR_SHIFT            16
+>  # include "nand.c"
+>
+> -/* Information based on Linux drivers/mtd/nand/nand_ids.c */
+> +/* Information based on Linux drivers/mtd/nand/raw/nand_ids.c */
+>  static const struct {
+>      int size;
+>      int width;
+> @@ -154,15 +154,14 @@ static const struct {
+>      [0xe8] =3D { 1,      8,      8, 4, 0 },
+>      [0xec] =3D { 1,      8,      8, 4, 0 },
+>      [0xea] =3D { 2,      8,      8, 4, 0 },
+> -    [0xd5] =3D { 4,      8,      9, 4, 0 },
+>      [0xe3] =3D { 4,      8,      9, 4, 0 },
+>      [0xe5] =3D { 4,      8,      9, 4, 0 },
+> -    [0xd6] =3D { 8,      8,      9, 4, 0 },
+>
+> -    [0x39] =3D { 8,      8,      9, 4, 0 },
+> -    [0xe6] =3D { 8,      8,      9, 4, 0 },
+> -    [0x49] =3D { 8,      16,     9, 4, NAND_BUSWIDTH_16 },
+> -    [0x59] =3D { 8,      16,     9, 4, NAND_BUSWIDTH_16 },
+> +    [0x6b] =3D { 4,        8,        9, 4, 0 },
+> +    [0xe3] =3D { 4,        8,        9, 4, 0 },
+> +    [0xe5] =3D { 4,        8,        9, 4, 0 },
 
-On 10/12/20 2:49 PM, Philippe Mathieu-Daudé wrote:
-> Since v1:
-> - Fixed patch #1 subject (Kevin)
-> 
-> In order to use inclusive terminology, rename SSI 'slave' as
-> 'peripheral', following the resolution Paolo pointed in [*]:
-> https://www.oshwa.org/a-resolution-to-redefine-spi-signal-names/
-> 
-> Candidate to be merged via the ARM or Trivial trees.
-> 
-> [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg739108.html
-> 
-> Philippe Mathieu-Daudé (3):
->    hw/ssi/aspeed_smc: Rename 'max_slaves' variable as 'max_peripherals'
->    hw/ssi: Update coding style to make checkpatch.pl happy
->    hw/ssi: Rename SSI 'slave' as 'peripheral'
-> 
->   include/hw/misc/max111x.h   |  2 +-
->   include/hw/ssi/aspeed_smc.h |  2 +-
->   include/hw/ssi/ssi.h        | 56 +++++++++++++++++++------------------
->   hw/arm/spitz.c              | 32 ++++++++++-----------
->   hw/arm/stellaris.c          |  4 +--
->   hw/arm/tosa.c               | 12 ++++----
->   hw/arm/z2.c                 | 14 +++++-----
->   hw/block/m25p80.c           | 14 +++++-----
->   hw/display/ads7846.c        | 12 ++++----
->   hw/display/ssd0323.c        | 12 ++++----
->   hw/misc/max111x.c           | 18 ++++++------
->   hw/sd/ssi-sd.c              | 12 ++++----
->   hw/ssi/aspeed_smc.c         | 53 ++++++++++++++++++-----------------
->   hw/ssi/pl022.c              |  2 +-
->   hw/ssi/ssi.c                | 48 +++++++++++++++----------------
->   hw/ssi/xilinx_spips.c       |  7 +++--
->   16 files changed, 152 insertions(+), 148 deletions(-)
-> 
+This line adds an entry for 0xe5, but there is already one
+further up in the array (you can see it in this hunk).
+
+More generally, it doesn't seem to match the referenced
+kernel commit, which deletes 14 lines and adds 5
+(which are a subset of the 14 deleted, really, so
+they probably show up for us as "9 deletions" since
+we don't have the #ifdef...#endif the kernel does).
+
+> +    [0xd6] =3D { 8,        8,        9, 4, 0 },
+> +    [0xe6] =3D { 8,        8,        9, 4, 0 },
+>
+>      [0x33] =3D { 16,     8,      9, 5, 0 },
+>      [0x73] =3D { 16,     8,      9, 5, 0 },
+
+thanks
+-- PMM
 
