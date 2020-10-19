@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36A529399F
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:09:10 +0200 (CEST)
-Received: from localhost ([::1]:40928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F57E2939A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:11:51 +0200 (CEST)
+Received: from localhost ([::1]:49042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpVt-00036d-Oo
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49462)
+	id 1kUpYU-0006ez-5t
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kUpRH-0006xf-Qd; Tue, 20 Oct 2020 07:04:23 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:45562 helo=huawei.com)
+ id 1kUpRJ-00071K-5L; Tue, 20 Oct 2020 07:04:25 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:45564 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kUpRE-0006sl-Cb; Tue, 20 Oct 2020 07:04:23 -0400
+ id 1kUpRE-0006sk-Fp; Tue, 20 Oct 2020 07:04:24 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 990A0A079AE851536F90;
+ by Forcepoint Email with ESMTP id A031EA5BB60AC3ECDB7A;
  Tue, 20 Oct 2020 19:04:15 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Tue, 20 Oct 2020
- 19:03:49 +0800
+ 19:03:50 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 09/10] hw/input/:split some lines containing more than 80
+Subject: [PATCH 10/10] hw/riscv/:split some lines containing more than 80
  characters
-Date: Tue, 20 Oct 2020 04:30:22 +0800
-Message-ID: <20201019203023.658555-10-ganqixin@huawei.com>
+Date: Tue, 20 Oct 2020 04:30:23 +0800
+Message-ID: <20201019203023.658555-11-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201019203023.658555-1-ganqixin@huawei.com>
 References: <20201019203023.658555-1-ganqixin@huawei.com>
@@ -66,96 +66,106 @@ Cc: lvivier@redhat.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By using scripts/checkpatch.pl, it is found that many files in hw/input/
+By using scripts/checkpatch.pl, it is found that many files in hw/riscv/
 contain lines with more than 80 characters.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
- hw/input/hid.c               |  3 ++-
- hw/input/milkymist-softusb.c | 16 ++++++++++------
- hw/input/pxa2xx_keypad.c     |  3 ++-
- hw/input/virtio-input.c      |  3 ++-
- 4 files changed, 16 insertions(+), 9 deletions(-)
+ hw/riscv/opentitan.c |  6 ++++--
+ hw/riscv/sifive_e.c  |  6 ++++--
+ hw/riscv/sifive_u.c  | 12 ++++++++----
+ 3 files changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/hw/input/hid.c b/hw/input/hid.c
-index 89239b5634..f3074e3b07 100644
---- a/hw/input/hid.c
-+++ b/hw/input/hid.c
-@@ -100,7 +100,8 @@ void hid_set_next_idle(HIDState *hs)
-         uint64_t expire_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-                                NANOSECONDS_PER_SECOND * hs->idle * 4 / 1000;
-         if (!hs->idle_timer) {
--            hs->idle_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, hid_idle_timer, hs);
-+            hs->idle_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, hid_idle_timer,
-+                                          hs);
-         }
-         timer_mod_ns(hs->idle_timer, expire_time);
-     } else {
-diff --git a/hw/input/milkymist-softusb.c b/hw/input/milkymist-softusb.c
-index 5acd7a6f7d..7f7a87be28 100644
---- a/hw/input/milkymist-softusb.c
-+++ b/hw/input/milkymist-softusb.c
-@@ -259,13 +259,15 @@ static void milkymist_softusb_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(sbd, &s->regs_region);
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 0531bd879b..f587d5993e 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -121,7 +121,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+         memmap[IBEX_DEV_ROM].base, &s->rom);
  
-     /* register pmem and dmem */
--    memory_region_init_ram_nomigrate(&s->pmem, OBJECT(s), "milkymist-softusb.pmem",
--                           s->pmem_size, &error_fatal);
-+    memory_region_init_ram_nomigrate(&s->pmem, OBJECT(s),
-+                                     "milkymist-softusb.pmem", s->pmem_size,
-+                                     &error_fatal);
-     vmstate_register_ram_global(&s->pmem);
-     s->pmem_ptr = memory_region_get_ram_ptr(&s->pmem);
-     sysbus_init_mmio(sbd, &s->pmem);
--    memory_region_init_ram_nomigrate(&s->dmem, OBJECT(s), "milkymist-softusb.dmem",
--                           s->dmem_size, &error_fatal);
-+    memory_region_init_ram_nomigrate(&s->dmem, OBJECT(s),
-+                                     "milkymist-softusb.dmem", s->dmem_size,
-+                                     &error_fatal);
-     vmstate_register_ram_global(&s->dmem);
-     s->dmem_ptr = memory_region_get_ram_ptr(&s->dmem);
-     sysbus_init_mmio(sbd, &s->dmem);
-@@ -289,8 +291,10 @@ static const VMStateDescription vmstate_milkymist_softusb = {
- };
- 
- static Property milkymist_softusb_properties[] = {
--    DEFINE_PROP_UINT32("pmem_size", MilkymistSoftUsbState, pmem_size, 0x00001000),
--    DEFINE_PROP_UINT32("dmem_size", MilkymistSoftUsbState, dmem_size, 0x00002000),
-+    DEFINE_PROP_UINT32("pmem_size", MilkymistSoftUsbState,
-+                       pmem_size, 0x00001000),
-+    DEFINE_PROP_UINT32("dmem_size", MilkymistSoftUsbState,
-+                       dmem_size, 0x00002000),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/input/pxa2xx_keypad.c b/hw/input/pxa2xx_keypad.c
-index 7f2f739fb3..7999fc2430 100644
---- a/hw/input/pxa2xx_keypad.c
-+++ b/hw/input/pxa2xx_keypad.c
-@@ -101,7 +101,8 @@ struct PXA2xxKeyPadState {
-     uint32_t    kpkdi;
- };
- 
--static void pxa27x_keypad_find_pressed_key(PXA2xxKeyPadState *kp, int *row, int *col)
-+static void pxa27x_keypad_find_pressed_key(PXA2xxKeyPadState *kp, int *row,
-+                                           int *col)
- {
-     int i;
-     for (i = 0; i < 4; i++)
-diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
-index 54bcb46c74..c7fa659e92 100644
---- a/hw/input/virtio-input.c
-+++ b/hw/input/virtio-input.c
-@@ -61,7 +61,8 @@ void virtio_input_send(VirtIOInput *vinput, virtio_input_event *event)
-     for (i = 0; i < vinput->qindex; i++) {
-         elem = vinput->queue[i].elem;
-         len = iov_from_buf(elem->in_sg, elem->in_num,
--                           0, &vinput->queue[i].event, sizeof(virtio_input_event));
-+                           0, &vinput->queue[i].event,
-+                           sizeof(virtio_input_event));
-         virtqueue_push(vinput->evt, elem, len);
-         g_free(elem);
+     /* Flash memory */
+-    memory_region_init_rom(&s->flash_mem, OBJECT(dev_soc), "riscv.lowrisc.ibex.flash",
++    memory_region_init_rom(&s->flash_mem, OBJECT(dev_soc),
++                           "riscv.lowrisc.ibex.flash",
+                            memmap[IBEX_DEV_FLASH].size, &error_fatal);
+     memory_region_add_subregion(sys_mem, memmap[IBEX_DEV_FLASH].base,
+                                 &s->flash_mem);
+@@ -172,7 +173,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+     create_unimplemented_device("riscv.lowrisc.ibex.pinmux",
+         memmap[IBEX_DEV_PINMUX].base, memmap[IBEX_DEV_PINMUX].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.alert_handler",
+-        memmap[IBEX_DEV_ALERT_HANDLER].base, memmap[IBEX_DEV_ALERT_HANDLER].size);
++        memmap[IBEX_DEV_ALERT_HANDLER].base,
++        memmap[IBEX_DEV_ALERT_HANDLER].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.nmi_gen",
+         memmap[IBEX_DEV_NMI_GEN].base, memmap[IBEX_DEV_NMI_GEN].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.usbdev",
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index fcfac16816..80ef2f857e 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -111,7 +111,8 @@ static void sifive_e_machine_init(MachineState *machine)
+         reset_vec[i] = cpu_to_le32(reset_vec[i]);
      }
+     rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
+-                          memmap[SIFIVE_E_DEV_MROM].base, &address_space_memory);
++                          memmap[SIFIVE_E_DEV_MROM].base,
++                          &address_space_memory);
+ 
+     if (machine->kernel_filename) {
+         riscv_load_kernel(machine->kernel_filename, NULL);
+@@ -227,7 +228,8 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     /* Map GPIO registers */
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, memmap[SIFIVE_E_DEV_GPIO0].base);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0,
++                    memmap[SIFIVE_E_DEV_GPIO0].base);
+ 
+     /* Pass all GPIOs to the SOC layer so they are available to the board */
+     qdev_pass_gpios(DEVICE(&s->gpio), dev, NULL);
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 6ad975d692..2c06d1a319 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -528,7 +528,8 @@ static void sifive_u_machine_init(MachineState *machine)
+         reset_vec[i] = cpu_to_le32(reset_vec[i]);
+     }
+     rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
+-                          memmap[SIFIVE_U_DEV_MROM].base, &address_space_memory);
++                          memmap[SIFIVE_U_DEV_MROM].base,
++                          &address_space_memory);
+ 
+     riscv_rom_copy_firmware_info(memmap[SIFIVE_U_DEV_MROM].base,
+                                  memmap[SIFIVE_U_DEV_MROM].size,
+@@ -542,7 +543,8 @@ static bool sifive_u_machine_get_start_in_flash(Object *obj, Error **errp)
+     return s->start_in_flash;
+ }
+ 
+-static void sifive_u_machine_set_start_in_flash(Object *obj, bool value, Error **errp)
++static void sifive_u_machine_set_start_in_flash(Object *obj, bool value,
++                                                Error **errp)
+ {
+     SiFiveUState *s = RISCV_U_MACHINE(obj);
+ 
+@@ -731,13 +733,15 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->prci), errp)) {
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0, memmap[SIFIVE_U_DEV_PRCI].base);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0,
++                    memmap[SIFIVE_U_DEV_PRCI].base);
+ 
+     qdev_prop_set_uint32(DEVICE(&s->gpio), "ngpio", 16);
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, memmap[SIFIVE_U_DEV_GPIO].base);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0,
++                    memmap[SIFIVE_U_DEV_GPIO].base);
+ 
+     /* Pass all GPIOs to the SOC layer so they are available to the board */
+     qdev_pass_gpios(DEVICE(&s->gpio), dev, NULL);
 -- 
 2.23.0
 
