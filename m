@@ -2,70 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A73E2929F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:03:48 +0200 (CEST)
-Received: from localhost ([::1]:33652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63EF12929FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:04:57 +0200 (CEST)
+Received: from localhost ([::1]:35962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUWhP-0006UP-Gp
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38204)
+	id 1kUWiW-0007Ql-FT
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUWeE-00057F-47
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:00:30 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:45578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUWeB-000139-IV
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:00:29 -0400
-Received: by mail-ed1-x534.google.com with SMTP id dg9so10549431edb.12
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:00:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PmJ2bARyOEExaWmdn95Gfu/EQleGksaAz+WndZDE3iI=;
- b=Ayxi2tobBXyltp0TUay0Cq40iQRpFbHE6frFT+jergAcWtosRB64FQ5k8rNwj1n+W8
- ypQMWnMNM823HomnBGlQ/orFvrDrF8e6HO3zCapmXcH7ZSWoAMESsIK4aEVI6WGoHBrq
- YVh18SaYYP3+7K4aIjIePeHGGX5VBqTUSI2UENo7Ja+UUENvmf+AfXe/KfYHYHVSN7OH
- lsBDTwsgaHIGU1aX2qGExvVmC6vNdIB8b6upBpEuKKof65MaIj0NwANKRs9QBDEn+vBZ
- AigDaisddDpH2WyWUDeVnErVWrQXgQmcKU8pIb0Fx5ATkp0y7bVJvKf3nkdWSdG36Gk7
- 92Ew==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kUWel-0005eL-3S
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:01:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kUWed-0001CV-Sj
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:01:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603119653;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eeEwkWd2inwelOxnZFWrV6qJ4loEm7oC47tsgU5zrNE=;
+ b=iA8HNFocT1/DkBga57FL/R8kedhw7xfgit+abZdmC0wkt7fqZrEsVKh4/Xj8Y48AyqxoVf
+ 6KnmXMwx6f/Q2yjJjUUeSylDIOOC1csSEdDgS848zWe0eavhXxJ/z1ksHfsrHsCNBZxR83
+ 3Fefa4962dSXPR2sxcVveSEm5L+7s6o=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-gEySVzTQNgWs78SB8_3Iwg-1; Mon, 19 Oct 2020 11:00:52 -0400
+X-MC-Unique: gEySVzTQNgWs78SB8_3Iwg-1
+Received: by mail-wr1-f71.google.com with SMTP id p6so7473375wrm.23
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:00:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PmJ2bARyOEExaWmdn95Gfu/EQleGksaAz+WndZDE3iI=;
- b=uKhN9x9/K3Wb3/LzLsj9DZs/jxwZLmS9va8745kumE9YL7jaTvGzZOro2YijZ6W6aq
- uf/5mKXeZKb1ozgFL0URyGIAMnOf9O3HpxHyIaZsCoueoRaIgIbKNWKwqlmdxciLeF7n
- zvzxsFEFgWIj5oWx8wLEZYRY/mUOVuu8fcMWqD0gficbrx+QHSanJy52UMDf0WZT/FU8
- ZiWjSy6njNx9fSlnsvAizl6XhV++17xg7EhauMFIItkk1whn1mG6tOL+zPWrmMj8mt75
- nAHnUqN60IRispNB2yw7xP2tq4A4dRDsxEEtokW8yK//FPpstlUGv8v8kIH9AUESRkk+
- HicQ==
-X-Gm-Message-State: AOAM533Kn3abdd01CttSklhv3zP62PHagrd6NCT63yKpRT191I6hKXKP
- 3+8qVdSbPnVDYvst+h5FjC8FSwYCkg81WfizEyggFw==
-X-Google-Smtp-Source: ABdhPJwjZQLJ/8Y47Zk2AGFhn5eEd1ljRya0ikj9C/tajlZ2d/Si9+Uw1XJI3eqDNILhbdCXFM3mPNpKbG9ccHXphbg=
-X-Received: by 2002:a50:9ea6:: with SMTP id a35mr261100edf.52.1603119625365;
- Mon, 19 Oct 2020 08:00:25 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eeEwkWd2inwelOxnZFWrV6qJ4loEm7oC47tsgU5zrNE=;
+ b=oT6vvnhC9yPom7UREKAE9oQVcjZF81BujF7WQPwtknXKOx1JMl8Nl1fEdDNHHUWZ0K
+ 7Az5v7CNraUiUYTx2AwM7i4ArjoZjwaOmtDn84sup6H/NcNIS00gE86yNvheBYsBxUp8
+ d2IiCatXFh3dqOlyHzLkyLzCzs/0M5qgf4p2z6A1Riy4wS+RtyCVzxyaHTYOytOvo4Nt
+ s66/8nDrlTY1uVoQwGOfcAQs4wqpfe306UkTUMgbj0dOSqKnm+u5uYglV/odWfaGJRfv
+ godJBbqx4Cwivc8Ke5Ma+xt0d7aGMKmOqNDBY0jEo7t3VPs9JM3uIDRKIhbtV08Zcvam
+ YLYw==
+X-Gm-Message-State: AOAM532aP1lgi3U/rfQ4BNzcDN0dalkMl3jW7ffNUspga22wC5lGMu2z
+ ivbR8Ngui5UiYzBKQ494goP8nmHVJ3BnjgVhM/aBW7hV30KkU2t+cOifGjLihxO4RBp5i68Lxwh
+ 9eDhQ2/PH0x/js2Y=
+X-Received: by 2002:a7b:c081:: with SMTP id r1mr17940616wmh.158.1603119650859; 
+ Mon, 19 Oct 2020 08:00:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1K7foO6zAsERSnzDbqpvWg8Yzks+2b30SB3/GCrweUhcJIelqhNOTssKhNwAEMU36/iuvgw==
+X-Received: by 2002:a7b:c081:: with SMTP id r1mr17940572wmh.158.1603119650551; 
+ Mon, 19 Oct 2020 08:00:50 -0700 (PDT)
+Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
+ by smtp.gmail.com with ESMTPSA id e15sm8898wro.13.2020.10.19.08.00.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Oct 2020 08:00:49 -0700 (PDT)
+Date: Mon, 19 Oct 2020 11:00:45 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+Message-ID: <20201019105118-mutt-send-email-mst@kernel.org>
+References: <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+ <20201017053712.GA14105@1wt.eu>
+ <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+ <20201017064442.GA14117@1wt.eu>
+ <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
+ <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com>
+ <20201018114625-mutt-send-email-mst@kernel.org>
+ <CALCETrXBJZnKXo2QLKVWSgAhSMdwEVHeut6pRw4P92CR_5A-fQ@mail.gmail.com>
+ <20201018115524-mutt-send-email-mst@kernel.org>
+ <CALCETrUeRAhmEFR6EFXz8HzDYd2doZ2TMyZmu1pU_-yAPA6KDw@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1603111175.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1603111175.git.qemu_oss@crudebyte.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Oct 2020 16:00:14 +0100
-Message-ID: <CAFEAcA-rL1cTReJuQdX=V0wjhCe1535UAqw8k-WUj-HAa7-PUQ@mail.gmail.com>
-Subject: Re: [PULL v3 0/6] 9p queue (previous 2020-10-17)
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <CALCETrUeRAhmEFR6EFXz8HzDYd2doZ2TMyZmu1pU_-yAPA6KDw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,46 +101,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, KVM list <kvm@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, ghammer@redhat.com,
+ "Weiss, Radu" <raduweis@amazon.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Pavel Machek <pavel@ucw.cz>, Colm MacCarthaigh <colmmacc@amazon.com>,
+ Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Eric Biggers <ebiggers@kernel.org>, "Singh, Balbir" <sblbir@amazon.com>,
+ bonzini@gnu.org, "Graf \(AWS\), Alexander" <graf@amazon.de>,
+ Jann Horn <jannh@google.com>, oridgar@gmail.com, "Catangiu,
+ Adrian Costin" <acatan@amazon.com>, Michal Hocko <mhocko@kernel.org>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ kernel list <linux-kernel@vger.kernel.org>,
+ Linux API <linux-api@vger.kernel.org>, Willy Tarreau <w@1wt.eu>, "Woodhouse,
+ David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Oct 2020 at 13:55, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
->
-> The following changes since commit ba2a9a9e6318bfd93a2306dec40137e198205b86:
->
->   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-macppc-20201019' into staging (2020-10-19 11:46:03 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20201019
->
-> for you to fetch changes up to 653daf38978d101d8810f96b9337ebc6b7b1423f:
->
->   tests/9pfs: add local Tmkdir test (2020-10-19 14:25:40 +0200)
->
-> ----------------------------------------------------------------
-> 9pfs: add tests using local fs driver
->
-> The currently existing 9pfs test cases are all solely using the 9pfs 'synth'
-> fileystem driver, which is a very simple and purely simulated (in RAM only)
-> filesystem. There are issues though where the 'synth' fs driver is not
-> sufficient. For example the following two bugs need test cases running the
-> 9pfs 'local' fs driver:
->
-> https://bugs.launchpad.net/qemu/+bug/1336794
-> https://bugs.launchpad.net/qemu/+bug/1877384
->
-> This patch set for that reason introduces 9pfs test cases using the 9pfs
-> 'local' filesystem driver along to the already existing tests on 'synth'.
->
+On Sun, Oct 18, 2020 at 09:14:00AM -0700, Andy Lutomirski wrote:
+> On Sun, Oct 18, 2020 at 8:59 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Sun, Oct 18, 2020 at 08:54:36AM -0700, Andy Lutomirski wrote:
+> > > On Sun, Oct 18, 2020 at 8:52 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Sat, Oct 17, 2020 at 03:24:08PM +0200, Jason A. Donenfeld wrote:
+> > > > > 4c. The guest kernel maintains an array of physical addresses that are
+> > > > > MADV_WIPEONFORK. The hypervisor knows about this array and its
+> > > > > location through whatever protocol, and before resuming a
+> > > > > moved/snapshotted/duplicated VM, it takes the responsibility for
+> > > > > memzeroing this memory. The huge pro here would be that this
+> > > > > eliminates all races, and reduces complexity quite a bit, because the
+> > > > > hypervisor can perfectly synchronize its bringup (and SMP bringup)
+> > > > > with this, and it can even optimize things like on-disk memory
+> > > > > snapshots to simply not write out those pages to disk.
+> > > > >
+> > > > > A 4c-like approach seems like it'd be a lot of bang for the buck -- we
+> > > > > reuse the existing mechanism (MADV_WIPEONFORK), so there's no new
+> > > > > userspace API to deal with, and it'd be race free, and eliminate a lot
+> > > > > of kernel complexity.
+> > > >
+> > > > Clearly this has a chance to break applications, right?
+> > > > If there's an app that uses this as a non-system-calls way
+> > > > to find out whether there was a fork, it will break
+> > > > when wipe triggers without a fork ...
+> > > > For example, imagine:
+> > > >
+> > > > MADV_WIPEONFORK
+> > > > copy secret data to MADV_DONTFORK
+> > > > fork
+> > > >
+> > > >
+> > > > used to work, with this change it gets 0s instead of the secret data.
+> > > >
+> > > >
+> > > > I am also not sure it's wise to expose each guest process
+> > > > to the hypervisor like this. E.g. each process needs a
+> > > > guest physical address of its own then. This is a finite resource.
+> > > >
+> > > >
+> > > > The mmap interface proposed here is somewhat baroque, but it is
+> > > > certainly simple to implement ...
+> > >
+> > > Wipe of fork/vmgenid/whatever could end up being much more problematic
+> > > than it naively appears -- it could be wiped in the middle of a read.
+> > > Either the API needs to handle this cleanly, or we need something more
+> > > aggressive like signal-on-fork.
+> > >
+> > > --Andy
+> >
+> >
+> > Right, it's not on fork, it's actually when process is snapshotted.
+> >
+> > If we assume it's CRIU we care about, then I
+> > wonder what's wrong with something like
+> > MADV_CHANGEONPTRACE_SEIZE
+> > and basically say it's X bytes which change the value...
+> 
+> I feel like we may be approaching this from the wrong end.  Rather
+> than saying "what data structure can the kernel expose that might
+> plausibly be useful", how about we try identifying some specific
+> userspace needs and see what a good solution could look like.  I can
+> identify two major cryptographic use cases:
+
+Well, I'm aware of a non-cryptographic use-case:
+https://bugzilla.redhat.com/show_bug.cgi?id=1118834
+
+this seems to just ask for the guest to have a way to detect that
+a VM cloning triggered.
 
 
-Applied, thanks.
+-- 
+MST
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
 
