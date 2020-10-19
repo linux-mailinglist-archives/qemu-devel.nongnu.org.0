@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA40E292222
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 07:27:17 +0200 (CEST)
-Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F3F292248
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 07:44:54 +0200 (CEST)
+Received: from localhost ([::1]:59986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUNhU-0008UH-LX
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 01:27:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54354)
+	id 1kUNyX-0008CH-6E
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 01:44:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kUNai-000424-29; Mon, 19 Oct 2020 01:20:17 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:53027)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kUNag-0005I3-0n; Mon, 19 Oct 2020 01:20:15 -0400
-Received: by mail-pj1-f68.google.com with SMTP id gm14so4690236pjb.2;
- Sun, 18 Oct 2020 22:20:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aerwzx5CfwUpxb8Z2TCaJlKj8/Zz1MgoB4yIi6WTy8A=;
- b=Yn25EFjxSD/KnPbgQ/qXsuFIm59oqhXvl7T3GO0monq3KSwnxnvTyOjzB7FZ41sbjh
- eKcD8sTn5Y96WBCnUiSM0B38ifikD7UhYecGXGYaq3W7+W/o53M8Gr4BLFXTRIgEook4
- Ef25+HWtkSN0B4og/Z7ELMkzo56HkJfHmLi0w54SdwGH3z1FmWUjKZSbfbC5ecmGqw1U
- ju40G+6NCiWc/r13yHjcOwyw5E3CskOnNEc3ygNUAZotl8/T4om2Ycb6jxhZ8NpDQtGs
- AyePckzZsnjrLAsDsapUmgIeWpLTyYJEWCl3nNA/vy4HpZhKjPUW7VzuPvTKgIsLQJ0c
- Ga8A==
-X-Gm-Message-State: AOAM53264d+ApQGMKNvIP0KZSNuErBs2Kh3Iv/lGdQYedO7OpU10tmS6
- dvo/sJFKAZpKVaEjPQ9DXyzIJBtKdnM=
-X-Google-Smtp-Source: ABdhPJxe/GlykmrbD3o62xgzxaGCOxE4X+EOYKi4s3iXP1fAvON0iWp1Y3QNV55kfaPJrWU1cvViZA==
-X-Received: by 2002:a17:90b:8cc:: with SMTP id
- ds12mr10566252pjb.174.1603084810243; 
- Sun, 18 Oct 2020 22:20:10 -0700 (PDT)
-Received: from localhost.localdomain ([73.93.152.253])
- by smtp.gmail.com with ESMTPSA id p6sm10673904pjd.1.2020.10.18.22.20.09
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 18 Oct 2020 22:20:09 -0700 (PDT)
-From: Joelle van Dyne <j@getutm.app>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v2 9/9] block: check availablity for preadv/pwritev on
- mac
-Date: Sun, 18 Oct 2020 22:19:53 -0700
-Message-Id: <20201019051953.90107-10-j@getutm.app>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kUNwh-0007fR-Md
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 01:43:00 -0400
+Resent-Date: Mon, 19 Oct 2020 01:42:59 -0400
+Resent-Message-Id: <E1kUNwh-0007fR-Md@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kUNwd-0004q5-M4
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 01:42:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1603086166; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=LAD32J8LSzQ1v/aaa/xIuiYH8Dbr7qHGCoxQ/OKBhc8UfLMviDOVUdSsaZTIvVq7IzLJ0UcnRn2UI2afMbdTcZUm2po/7v5Q8J53QgBwsUTECXyWjRVyjGUAerZS3vqyZY+63vLMX+a6gd5VheBR+gEQLnyFd3EH69RtRASUkb0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1603086166;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=p2VGr/RRKo/ea4eBdecAozN2JcCrVfE43V2s7fdbV/0=; 
+ b=UbiMybqyohnv85FEhfeDkJx5Wn8Z+0DJphc45qlfLrtUZP9HB9EfLcPokdk44MAfdPxjvj1u2Y5G5SKiLNkO9s7p8eDZ3Gt6RXMn1yIMvw8Dn4P/Ap4rfse1C9bHZAmsgr3J1bJCwX+WrOl4d2kIBgKLev1bouAKeIRg2N+mGY8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1603086164371756.3179169933933;
+ Sun, 18 Oct 2020 22:42:44 -0700 (PDT)
+Subject: Re: [PATCH RESEND v2 0/9] iOS and Apple Silicon host support
+Message-ID: <160308616327.17996.14265839747904669637@66eaa9a8a123>
 In-Reply-To: <20201019051953.90107-1-j@getutm.app>
-References: <20201019051953.90107-1-j@getutm.app>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.216.68; envelope-from=osy86github@gmail.com;
- helo=mail-pj1-f68.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 01:20:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: j@getutm.app
+Date: Sun, 18 Oct 2020 22:42:44 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 01:42:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,52 +69,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Joelle van Dyne <j@getutm.app>,
- "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: osy <osy86@users.noreply.github.com>
-
-macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configure
-will succeed with CONFIG_PREADV even when targeting a lower OS version. We
-therefore need to check at run time if we can actually use these APIs.
-
-Signed-off-by: Joelle van Dyne <j@getutm.app>
----
- block/file-posix.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index cdc73b5f1d..d7482036a3 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1393,12 +1393,24 @@ static bool preadv_present = true;
- static ssize_t
- qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
-+    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+        preadv_present = false;
-+        return -ENOSYS;
-+    } else
-+#endif
-     return preadv(fd, iov, nr_iov, offset);
- }
- 
- static ssize_t
- qemu_pwritev(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* pwritev introduced in macOS 11 */
-+    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+        preadv_present = false;
-+        return -ENOSYS;
-+    } else
-+#endif
-     return pwritev(fd, iov, nr_iov, offset);
- }
- 
--- 
-2.24.3 (Apple Git-128)
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAxOTA1MTk1My45MDEw
+Ny0xLWpAZ2V0dXRtLmFwcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUg
+Y29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0
+aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMDE5MDUxOTUzLjkwMTA3LTEtakBn
+ZXR1dG0uYXBwClN1YmplY3Q6IFtQQVRDSCBSRVNFTkQgdjIgMC85XSBpT1MgYW5kIEFwcGxlIFNp
+bGljb24gaG9zdCBzdXBwb3J0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
+CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
+dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
+Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
+VXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0
+dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAg
+ICBwYXRjaGV3LzIwMjAxMDE5MDUxOTUzLjkwMTA3LTEtakBnZXR1dG0uYXBwIC0+IHBhdGNoZXcv
+MjAyMDEwMTkwNTE5NTMuOTAxMDctMS1qQGdldHV0bS5hcHAKU3dpdGNoZWQgdG8gYSBuZXcgYnJh
+bmNoICd0ZXN0Jwo5ZmFlYzQwIGJsb2NrOiBjaGVjayBhdmFpbGFibGl0eSBmb3IgcHJlYWR2L3B3
+cml0ZXYgb24gbWFjCjg2YWQ2NTEgdGNnOiBzdXBwb3J0IEpJVCBvbiBBcHBsZSBTaWxpY29uCjI5
+ZGZiYzUgdGNnOiBtaXJyb3IgbWFwcGluZyBSV1ggcGFnZXMgZm9yIGlPUyBvcHRpb25hbApiMTE0
+Y2NhIHRjZzogaW1wbGVtZW50IG1pcnJvciBtYXBwZWQgSklUIGZvciBpT1MKODhkNmRjNCB0Y2c6
+IGFkZCBjb25zdCBoaW50cyBmb3IgY29kZSBwb2ludGVycwpkZDJlNDY0IGNvcm91dGluZTogYWRk
+IGxpYnVjb250ZXh0IGFzIGV4dGVybmFsIGxpYnJhcnkKNDlmMzY0OCBxZW11OiBhZGQgc3VwcG9y
+dCBmb3IgaU9TIGhvc3QKOTBlOGQ4MiBjb25maWd1cmU6IGNyb3NzLWNvbXBpbGluZyB3aXRob3V0
+IGNyb3NzX3ByZWZpeAowMWMyNmNkIGNvbmZpZ3VyZTogb3B0aW9uIHRvIGRpc2FibGUgaG9zdCBi
+bG9jayBkZXZpY2VzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzkgQ2hlY2tpbmcgY29tbWl0IDAx
+YzI2Y2Q4NGZlNiAoY29uZmlndXJlOiBvcHRpb24gdG8gZGlzYWJsZSBob3N0IGJsb2NrIGRldmlj
+ZXMpCldBUk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9p
+ZGVkCiMyMjogRklMRTogYmxvY2svZmlsZS1wb3NpeC5jOjQ0OgorI2lmIGRlZmluZWQoQ09ORklH
+X0hPU1RfQkxPQ0tfREVWSUNFKSAmJiBkZWZpbmVkKF9fQVBQTEVfXykgJiYgKF9fTUFDSF9fKQoK
+dG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2MSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzkg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi85IENoZWNraW5nIGNvbW1pdCA5MGU4ZDgyNTVj
+MTQgKGNvbmZpZ3VyZTogY3Jvc3MtY29tcGlsaW5nIHdpdGhvdXQgY3Jvc3NfcHJlZml4KQozLzkg
+Q2hlY2tpbmcgY29tbWl0IDQ5ZjM2NDhmN2RhZCAocWVtdTogYWRkIHN1cHBvcnQgZm9yIGlPUyBo
+b3N0KQpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZv
+aWRlZAojMjc6IEZJTEU6IGJsb2NrLmM6NTY6CisjaWYgIWRlZmluZWQoX19EcmFnb25GbHlfXykg
+JiYgIWRlZmluZWQoQ09ORklHX0lPUykKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBm
+b3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzQ1OiBGSUxFOiBibG9jay9maWxlLXBvc2l4
+LmM6MTg5OgorICAgIGlmIChzLT5mZCA+PSAwKQpbLi4uXQoKV0FSTklORzogYXJjaGl0ZWN0dXJl
+IHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzc5OiBGSUxFOiBibG9jay9maWxl
+LXBvc2l4LmM6MjMyNToKKyNpZiAhZGVmaW5lZChDT05GSUdfSU9TKSAmJiBkZWZpbmVkKF9fQVBQ
+TEVfXykgJiYgZGVmaW5lZChfX01BQ0hfXykKCldBUk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZp
+YyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiMzNjM6IEZJTEU6IHRjZy9hYXJjaDY0L3RjZy10
+YXJnZXQuaDoxNTE6CisjaWYgZGVmaW5lZChfX0FQUExFX18pCgpXQVJOSU5HOiBhcmNoaXRlY3R1
+cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojMzY5OiBGSUxFOiB0Y2cvYWFy
+Y2g2NC90Y2ctdGFyZ2V0Lmg6MTU3OgorI2lmIGRlZmluZWQoX19BUFBMRV9fKQoKdG90YWw6IDEg
+ZXJyb3JzLCA0IHdhcm5pbmdzLCAzMTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy85IGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCgo0LzkgQ2hlY2tpbmcgY29tbWl0IGRkMmU0NjQ2NzQ0ZSAoY29y
+b3V0aW5lOiBhZGQgbGlidWNvbnRleHQgYXMgZXh0ZXJuYWwgbGlicmFyeSkKV0FSTklORzogYWRk
+ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
+aW5nPwojOTc6IApuZXcgZmlsZSBtb2RlIDE2MDAwMAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5p
+bmdzLCAxNDAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCjUvOSBDaGVja2luZyBjb21taXQgODhkNmRjNGQyMmViICh0Y2c6IGFkZCBjb25zdCBoaW50
+cyBmb3IgY29kZSBwb2ludGVycykKNi85IENoZWNraW5nIGNvbW1pdCBiMTE0Y2NhN2EyOTIgKHRj
+ZzogaW1wbGVtZW50IG1pcnJvciBtYXBwZWQgSklUIGZvciBpT1MpCkVSUk9SOiBleHRlcm5zIHNo
+b3VsZCBiZSBhdm9pZGVkIGluIC5jIGZpbGVzCiM1MTogRklMRTogYWNjZWwvdGNnL3RyYW5zbGF0
+ZS1hbGwuYzo2NToKK2V4dGVybiBrZXJuX3JldHVybl90IG1hY2hfdm1fcmVtYXAodm1fbWFwX3Qg
+dGFyZ2V0X3Rhc2ssCgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
+b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxODc6IApuZXcgZmlsZSBtb2RlIDEwMDY0
+NAoKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lk
+ZWQKIzQxNjogRklMRTogdGNnL2FhcmNoNjQvdGNnLXRhcmdldC5oOjE3MToKKyNpZiBkZWZpbmVk
+KF9fQVBQTEVfXykKCldBUk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3Vs
+ZCBiZSBhdm9pZGVkCiM2MDg6IEZJTEU6IHRjZy9pMzg2L3RjZy10YXJnZXQuaDoyMDk6CisjaWZk
+ZWYgX19BUFBMRV9fCgpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91
+bGQgYmUgYXZvaWRlZAojNjE5OiBGSUxFOiB0Y2cvaTM4Ni90Y2ctdGFyZ2V0Lmg6MjIwOgorI2lm
+IGRlZmluZWQoX19BUFBMRV9fKQoKdG90YWw6IDEgZXJyb3JzLCA0IHdhcm5pbmdzLCAxMjg1IGxp
+bmVzIGNoZWNrZWQKClBhdGNoIDYvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
+ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
+dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNy85IENo
+ZWNraW5nIGNvbW1pdCAyOWRmYmM1NmRhNjQgKHRjZzogbWlycm9yIG1hcHBpbmcgUldYIHBhZ2Vz
+IGZvciBpT1Mgb3B0aW9uYWwpCjgvOSBDaGVja2luZyBjb21taXQgODZhZDY1MWY0Y2ExICh0Y2c6
+IHN1cHBvcnQgSklUIG9uIEFwcGxlIFNpbGljb24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
+ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIwNjogCm5l
+dyBmaWxlIG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5l
+cyBzaG91bGQgYmUgYXZvaWRlZAojMjM4OiBGSUxFOiBpbmNsdWRlL3RjZy90Y2ctYXBwbGUtaml0
+Lmg6Mjg6CisjaWYgZGVmaW5lZChfX2FhcmNoNjRfXykgJiYgZGVmaW5lZChDT05GSUdfREFSV0lO
+KQoKdG90YWw6IDAgZXJyb3JzLCAyIHdhcm5pbmdzLCAyNTkgbGluZXMgY2hlY2tlZAoKUGF0Y2gg
+OC85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
+cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
+c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjkvOSBDaGVja2luZyBjb21taXQgOWZhZWM0
+MDVjZWM4IChibG9jazogY2hlY2sgYXZhaWxhYmxpdHkgZm9yIHByZWFkdi9wd3JpdGV2IG9uIG1h
+YykKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
+ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAy
+MDEwMTkwNTE5NTMuOTAxMDctMS1qQGdldHV0bS5hcHAvdGVzdGluZy5jaGVja3BhdGNoLz90eXBl
+PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
+dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
+dy1kZXZlbEByZWRoYXQuY29t
 
