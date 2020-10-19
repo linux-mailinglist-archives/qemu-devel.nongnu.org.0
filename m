@@ -2,78 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF9A292B47
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:16:57 +0200 (CEST)
-Received: from localhost ([::1]:40272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B5F292B55
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:23:41 +0200 (CEST)
+Received: from localhost ([::1]:54732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUXqB-0005UY-Vb
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57126)
+	id 1kUXwi-0003JV-NH
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUXnE-0003VH-Oz
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:13:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46535)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUXnB-0002sb-2j
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:13:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603124028;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qLkNubfYPfvXxw0XnPwQ0A6ogkIuys7UN91UJw51oco=;
- b=U0dhlUrp4CbnToTy8y3RBc++N7B1PWvF48DgYmLop7IwHoYyVItMTh/+JZP6FgCLQ7AREL
- TbI/L0/+AY8TM4kVEmGF+NgT00WHs9oasr/DVO+FnnCfju7ueRoZnfA5wPB/ANcNql2PA0
- AU0eSc31ik+1vkZdT9ZXprZE8mngZKw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-7LUbepVoMUaKTBneZz-9Tw-1; Mon, 19 Oct 2020 12:13:44 -0400
-X-MC-Unique: 7LUbepVoMUaKTBneZz-9Tw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FCB81009636;
- Mon, 19 Oct 2020 16:13:42 +0000 (UTC)
-Received: from [10.10.114.194] (ovpn-114-194.rdu2.redhat.com [10.10.114.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D584C10023A5;
- Mon, 19 Oct 2020 16:13:34 +0000 (UTC)
-Subject: Re: [PATCH v2 03/15] python: add VERSION file
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>
-References: <20201014142957.763624-1-jsnow@redhat.com>
- <20201014142957.763624-4-jsnow@redhat.com>
- <5d5148df6e51a70b8980945b5259c248c2994969.camel@redhat.com>
- <20201019100207.GD236912@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <355ca901-2586-b0d0-5973-ad4c8aa2e696@redhat.com>
-Date: Mon, 19 Oct 2020 12:13:33 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kUXr9-00078E-EQ; Mon, 19 Oct 2020 12:17:59 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:23887)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kUXr4-0003QN-9t; Mon, 19 Oct 2020 12:17:54 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 672EF746333;
+ Mon, 19 Oct 2020 18:17:34 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 09F8F745953; Mon, 19 Oct 2020 18:17:34 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 082DB74594E;
+ Mon, 19 Oct 2020 18:17:34 +0200 (CEST)
+Date: Mon, 19 Oct 2020 18:17:34 +0200 (CEST)
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH] hw/pci-host/grackle: Verify PIC link is properly set
+In-Reply-To: <9968e60e-99fd-3777-62ca-57decb716886@ilande.co.uk>
+Message-ID: <4d2ab53b-879-a58d-b4b4-1b36f037765f@eik.bme.hu>
+References: <20201011190332.3189611-1-f4bug@amsat.org>
+ <20201011223446.GA4787@yekko.fritz.box>
+ <369509c1-2e90-13cf-8845-892e754516d1@amsat.org>
+ <20201012065436.GB71119@yekko.fritz.box>
+ <9f7e4847-801d-dcd3-b876-bf2d276251@eik.bme.hu>
+ <6e587154-4bc5-c44c-0c85-b46e0dddd3aa@amsat.org>
+ <87k0vm1wny.fsf@dusky.pond.sub.org>
+ <24bcd4-fde2-22a2-d3f4-cd42d9ee13c6@eik.bme.hu>
+ <87d01e48pa.fsf@dusky.pond.sub.org>
+ <9968e60e-99fd-3777-62ca-57decb716886@ilande.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <20201019100207.GD236912@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-936919194-1603124254=:64611"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,174 +65,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben@bwidawsk.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Rohit Shinde <rohit.shinde12194@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Fam Zheng <fam@euphon.net>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ BALATON Zoltan via <qemu-devel@nongnu.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On 10/19/20 6:02 AM, Daniel P. Berrangé wrote:
-> On Mon, Oct 19, 2020 at 11:45:09AM +0200, Andrea Bolognani wrote:
->> On Wed, 2020-10-14 at 10:29 -0400, John Snow wrote:
->>> Python infrastructure as it exists today is not capable reliably of
->>> single-sourcing a package version from a parent directory. The authors
->>> of pip are working to correct this, but as of today this is not possible
->>> to my knowledge.
->>>
->>> The problem is that when using pip to build and install a python
->>> package, it copies files over to a temporary directory and performs its
->>> build there. This loses access to any information in the parent
->>> directory, including git itself.
->>>
->>> Further, Python versions have a standard (PEP 440) that may or may not
->>> follow QEMU's versioning. In general, it does; but naturally QEMU does
->>> not follow PEP 440. To avoid any automatically-generated conflict, a
->>> manual version file is preferred.
->>>
->>>
->>> I am proposing:
->>>
->>> - Python core tooling synchronizes with the QEMU version directly
->>>    (5.2.0, 5.1.1, 5.3.0, etc.)
->>>
->>> - In the event that a Python package needs to be updated independently
->>>    of the QEMU version, a pre-release alpha version should be preferred,
->>>    but *only* after inclusion to the qemu development or stable branches.
->>>
->>>    e.g. 5.2.0a1, 5.2.0a2, and so on should be preferred prior to 5.2.0's
->>>    release.
->>>
->>> - The Python core tooling makes absolutely no version compatibility
->>>    checks or constraints. It *may* work with releases of QEMU from the
->>>    past or future, but it is not required to.
->>>
->>>    i.e., "qemu.core" will always remain in lock-step with QEMU.
->>>
->>> - We reserve the right to split out e.g. qemu.core.qmp to qemu.qmp
->>>    and begin indepedently versioning such a package separately from the
->>>    QEMU version it accompanies.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-936919194-1603124254=:64611
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Mon, 19 Oct 2020, Mark Cave-Ayland wrote:
+> On 19/10/2020 15:00, Markus Armbruster wrote:
+>> BALATON Zoltan via <qemu-devel@nongnu.org> writes:
+>>> On Mon, 19 Oct 2020, Markus Armbruster wrote:
+>>>> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+>>>>> On 10/12/20 1:50 PM, BALATON Zoltan via wrote:
+>>>>>> On Mon, 12 Oct 2020, David Gibson wrote:
+>>>>>>> On Mon, Oct 12, 2020 at 08:21:41AM +0200, Philippe
+>>>>>>> Mathieu-DaudÃƒÆ’Ã‚Â© wrote:
+>>>>>>>> On 10/12/20 12:34 AM, David Gibson wrote:
+>>>>>>>>> On Sun, Oct 11, 2020 at 09:03:32PM +0200, Philippe
+>>>>>>>>> Mathieu-DaudÃƒÆ’Ã‚Â© wrote:
+>>>>>>>>>> The Grackle PCI host model expects the interrupt controller
+>>>>>>>>>> being set, but does not verify it is present. Add a check to
+>>>>>>>>>> help developers using this model.
+>>>>>>>>> 
+>>>>>>>>> I don't think thaqt's very likely, but, sure, applied to ppc-for-5.2
+>>>>>>>> 
+>>>>>>>> Do you want I correct the description as:
+>>>>>>>> "The Grackle PCI host model expects the interrupt controller
+>>>>>>>> being set, but does not verify it is present.
+>>>>>>>> A developer basing its implementation on the Grackle model
+>>>>>>>> might hit this problem. Add a check to help future developers
+>>>>>>>> using this model as reference."?
+>>>>>>> 
+>>>>>>> No, it's fine.Â  All I was saying is that the chances of anyone using
+>>>>>>> Grackle in future seem very low to me.
+>>>>>> So maybe an assert instead of a user visible error would be enough?
+>>>>> 
+>>>>> My understanding is realize() shouldn't abort()
+>>>>> (the caller might choose to by using &error_abort).
+>>>> 
+>>>> assert() is for checking invariants.  A violated invariant is a
+>>>> programming error: developers screwed up, safe recovery is impossible.
+>>>> 
+>>>> Abusing assert() to catch errors that are not programming errors is
+>>>> wrong.
+>>>> 
+>>>> You may check invariants with assert() anywhere in the code.
+>>>> 
+>>>> You should not misuse assert() anywhere in the code.
+>>>> 
+>>>> Sometimes, an error condition that is *not* a programming error in the
+>>>> function where it is detected *is* a programming error for certain
+>>>> calls.  Having these calls pass &error_abort is a common solution for
+>>>> this problem.
+>>>> 
+>>>> Hope this helps.
+>>> 
+>>> Helps just a bit but after reading this I'm still confused if this
+>>> particular case should be assert or ser error.
+>>> 
+>>> I was suggesting assert and I think it's a programming error to use
+>>> the grackle model without setting PIC link but not sure if users can
+>>> also create this instance via command line (even if it does not make
+>>> much sense) in which case it's probably better to return error.
+>> 
+>> They can't: "info qdm" shows
 >>
->> I think this need to be considered very carefully.
+>>      name "grackle-pcihost", bus System, no-user
+>>                                          ~~~~~~~
 >>
->> I'm not overly familiar with the Python ecosystem but it would appear
->> that, despite PEP 440 not mandating this, many (most?) of the
->> packages uploaded to PyPi are using semantic versioning.
-> 
->    https://packaging.python.org/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme
-> 
-> Semver is the recommended approach, but they explicitly list date
-> based versioning as a valid alternative
-> 
->    "Semantic versioning is not a suitable choice for all projects,
->     such as those with a regular time based release cadence and a
->     deprecation process that provides warnings for a number of
->     releases prior to removal of a feature."
-> 
-> That paragraph describes QEMU's scenario.
-> 
-> NB, historically we've made arbitrary changes to the python code
-> since it was not considered public API. If we make it official
-> public API, then we would actually need to start following our
-> deprecation process for the python code too.
-> 
+>>>                                                                  Having
+>>> all devices user creatable via -device without a way to describe their
+>>> dependencies is a nice way to make all sorts of errors possible. But
+>>> maybe aborting with assert during creation of the machine is still
+>>> OK. If people device_add a model later and that crashes then it's
+>>> their problem. Unless we want to avoid that being used as DoS in
+>>> enterprise setting. So maybe we should never abort then if there's a
+>>> way to fail with an error instead.
+>>> 
+>>> I can look at this problem from different angles and all seem to be
+>>> plausible resulting in different solutions.
+>> 
+>> As long as the device is no-user, asserting that properties have sane
+>> values feels reasonable enough to me.
+>> 
+>> Setting an error instead is not wrong, of course.
+>
+> One thing I have thought about is being able to mark a link property as 
+> mandatory so if a value hasn't been set before realize then you receive a 
+> fatal error. This would be for cases like this where 2 internal devices are 
+> connected together without any formal interface, i.e. in cases where -device 
+> wouldn't work anyway.
 
-I think our deprecation process is not tightly compatible with how 
-Python programmers at-large expect packages to work. Semver is more or 
-less the norm, despite the fact that it isn't explicitly required.
+In that case we should have no-user anyway and the device has to be 
+instantiated by board code so then assert is enough to avoid error in 
+board code. More complex way to describe dependencies may only be needed 
+if we want to allow dynamic creation of new boards via the command line 
+which was the original idea but that's quite a long way away if possible 
+at all so I would not worry about that at this point.
 
-setting requirements in requirements.txt, setup.[cfg|py], Pipfile, etc 
-often hinge on a major version, e.g.
-
-qemu >= 5.0
-qemu >= 3.0, < 6.0
-
-would both be common forms of describing a requirement.
-
-Pinning specific versions is considered bad form, but in the context of 
-releasing a package, I often see maintainers hedging their bets and 
-preventing upgrades across a major version line.
-
-For that reason I am a little weary of adopting the deprecation policy 
-as it exists in QEMU directly, and would propose a modification for my 
-purposes here:
-
-- Features must be marked as deprecated
-- They must remain in a deprecated state for [at least] 2 releases
-- Deprecated features may not be removed until a major version change.
-
-In practice, this modification is a change from "2 releases" to "at 
-least 2".
-
-However, I didn't intend to pay any mind to the deprecation policy 
-"yet", as I have the package metadata listing the package status as 
-"Alpha", see below:
-
->> With that in mind, I think it would be unwise for qemu.* not to do
->> the same; in particular, using a version number that's not <1.0.0 for
->> a package that is very much in flux will almost certainly break
->> people's expectations, and is also not something that you can easily
->> take back at a later time.
-> 
-> I don't think it is that big a deal, and there is clear benefit to
-> having the python code version match the QEMU version that it is
-> the companioon to.
-> 
-
-Do you think it's fine if I start versioning at, say, "0.5.2", I could 
-ignore a deprecation policy for now? I have a lot of changes I want to 
-make and expect a lot of breaking changes very quickly.
-
-I just wanted to try -- somehow -- to conjure up a relationship to the 
-QEMU package it's designed to work with.
-
-> Ultimately the versioning scheme just impacts on the version string
-> conditionals people list for their dependancies. Apps consuming QEMU
-> can handle any of the version schemes without much difference.
-> 
-> Regards,
-> Daniel
-> 
-
-Thanks for your input. This is the trickiest part of the process for me.
-
-I believe there is value in distributing these tools for other 
-developers to help them prototype and experiment with new features, but 
-realize it's a tightrope walk because we're flying dangerously close to 
-providing a management utility that needs to care about cross-version 
-compatibility and so on.
-
-I have no interest in providing stringent cross-version compatibility, 
-but at the same time, libraries like QMP are not really at risk of 
-changing all that much, actually. It will *probably* work for most QEMU 
-versions.
-
-I have some further patches where I clean up the scripts in 
-./scripts/qmp and move them to ./python/qemu/qmp -- and that work is 
-making me consider a rework to this series. I think that rework matches 
-the spirit of an earlier suggestion of yours:
-
-- move ./python/qemu/core/qmp.py to ./python/qemu/qmp/qmp.py
-- (in a follow-up series) move ./scripts/qmp/* to ./python/qemu/qmp/*
-- rename ./python/qemu/core/ to ./python/qemu/machine
-     (move accel.py, machine.py and qtest.py to a 'machine' pkg.)
-
-
-In effect, we'd then have:
-
-qemu.machine -- primarily a test interface for QEMU instances
-qemu.qmp -- fairly ageless QMP tools/lib for talking to QEMU
-
-and the different levels of support and "use at your own risk" become 
-slightly more clear between the two packages.
-
---js
-
+Regards,
+BALATON Zoltan
+--3866299591-936919194-1603124254=:64611--
 
