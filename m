@@ -2,74 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D655292F9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 22:43:15 +0200 (CEST)
-Received: from localhost ([::1]:50986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBD929301E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 22:58:55 +0200 (CEST)
+Received: from localhost ([::1]:35202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUbzu-0008DB-EG
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 16:43:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34786)
+	id 1kUcF4-0005mn-Pn
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 16:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kUbye-0007cb-OX
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 16:41:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33925)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kUbyY-0005Gt-In
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 16:41:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603140109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ph3p+vEWnbDD3Zo+obd7qp2UFh+F+DyX3JqeFvKDd/w=;
- b=fr4Gs56AGaYV6aCvWHPzaqAd5A5iffX/w6EjR1bEisLJMmL5GpqgaZp0qzbCL5OvGbIw3e
- ir7nxV+r3zg5/7F+/I4GazYZEeFosPBS3bJfqJbB613455otDc6XwOe3jNBzg20GkTAGle
- 4cim3YXpm4bGSAGT0+LG28cZCCkW/aE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-i5HyksAfMuS-sgwY6JsnCA-1; Mon, 19 Oct 2020 16:41:46 -0400
-X-MC-Unique: i5HyksAfMuS-sgwY6JsnCA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1D361006C83;
- Mon, 19 Oct 2020 20:41:44 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 91D3A6EF42;
- Mon, 19 Oct 2020 20:41:40 +0000 (UTC)
-Date: Mon, 19 Oct 2020 16:41:38 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Erik Skultety <eskultet@redhat.com>
-Subject: Re: [PATCH v4 3/4] Jobs based on custom runners: docs and
- gitlab-runner setup playbook
-Message-ID: <20201019204138.GC1617151@localhost.localdomain>
-References: <20201019015003.1527746-1-crosa@redhat.com>
- <20201019015003.1527746-4-crosa@redhat.com>
- <20201019102610.GB495479@nautilus>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kUcAD-0004Cw-FH; Mon, 19 Oct 2020 16:53:53 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:41543)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kUcAA-0006oq-FD; Mon, 19 Oct 2020 16:53:53 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id CA3E9CF6;
+ Mon, 19 Oct 2020 16:53:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 19 Oct 2020 16:53:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=Tl8dmI7tbDqzhqrcdUalUBXTWzj
+ sKMw0ohyaBwZfSBc=; b=IBqO4ifg2o4JyWQREzfhyFIc4PBv9ZwMgyBELhvu9GR
+ TANCdvFxBKqJb/bYhGlcFgsnTeKzPTmCE+S4ueuarVprUF4pPI90nCjABPEpgu4+
+ MkIEOCZaRMpz7D7iOZ83xq5cbrQbbZnOObIaDvMJphXkW6oRw3WXytfWOIpAHi5O
+ lhiF37lbHQc+b8BoGTk+ktdEYuo3SYEeqKUlJaQ26BXxtrifRGU+YZfZzotfKFUj
+ /5eWhL7ddfnvVD5Hx4989U7fCzoaj5vgo+GqFhuqReXD2Nc223VBpY4jn7d93rW4
+ 9kFWGoVkdJ27/emhJ8fx8XLriyKMTkacFGFqu6XAZjQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Tl8dmI
+ 7tbDqzhqrcdUalUBXTWzjsKMw0ohyaBwZfSBc=; b=CoHilR+8CySbMKL2JDSmN9
+ SLRHwjUZkJhqIQW8kMR37hdUvVa6rf8PytVFJwXZtlzoWh3LZ4BDEAiEmThNqKsB
+ vBmcj8IsXuDwK8DQjLoNtkGZSUvHyZYzN8y4gndBoaRp09yYUqg43CbTaBljnx+P
+ J+eR4mS68czkiibiwUTl0ctmXL4l/0M3SyEtquf0ltY51rTe/VKU+4idEQl7xLZc
+ fRLCm53Zw7D7hw1clby8FyTRYxBbXmvZk41nc0f/gVPifqthp2Scwfrg377xibCl
+ m6k6Jf2nWzQHghd1QXZJuK/ZFkJJ5YIrzQ8+xknDITcD3Z8ZbECvsZLjmYoUKC0A
+ ==
+X-ME-Sender: <xms:1fyNX3O5K8h_cl4xD7gOF2uaPIKix_mz3p8I8nHkoE4VD5TP5c40RA>
+ <xme:1fyNXx9kNXvrilKPAZcDxiO7HtDtqJk4kZLW1ckxx6RxwQ_t7X-l6RC2CYBT7VSfn
+ 0pKJeWx-Eiw5WJ4J6o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjedvgddulecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepfeefgfdvleeitdehhfevffegleduieffgfdujeeuhfeluddthffgjeegkefhkedt
+ necuffhomhgrihhnpehuuhhiugdruggrthgrnecukfhppeektddrudeijedrleekrddule
+ dtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihht
+ shesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:1fyNX2TTo5MxUoNWNLXWEH5cxcCE3LvUaLmunIIi5S_2gzcnDACgDQ>
+ <xmx:1fyNX7tFwOltQV6VccZ0NOwOP0kqnhVpNup1ELlUvwRFqK8t3tlOsg>
+ <xmx:1fyNX_d2K_Thi-mMkf0LrYZnfyWYak8IOFHh4UuAncNLzMNQgPKZUA>
+ <xmx:1_yNX32ZHpnfJvJMglarydSa_7r_ooK2MtkwCoJKJn5aQP1CnLySO6EO8LiHu1JQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 003F7306467D;
+ Mon, 19 Oct 2020 16:53:39 -0400 (EDT)
+Date: Mon, 19 Oct 2020 22:53:38 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v7 03/11] hw/block/nvme: Add support for Namespace Types
+Message-ID: <20201019205338.GI10549@apples.localdomain>
+References: <20201019021726.12048-1-dmitry.fomichev@wdc.com>
+ <20201019021726.12048-4-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20201019102610.GB495479@nautilus>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ALfTUftag+2gvp1h"
+ protocol="application/pgp-signature"; boundary="cf0hFtnykp6aONGL"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 15:28:27
+In-Reply-To: <20201019021726.12048-4-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
+ helo=wnew2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 16:53:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,210 +97,344 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ALfTUftag+2gvp1h
-Content-Type: text/plain; charset=iso-8859-1
+
+--cf0hFtnykp6aONGL
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 19, 2020 at 12:26:10PM +0200, Erik Skultety wrote:
-> On Sun, Oct 18, 2020 at 09:50:02PM -0400, Cleber Rosa wrote:
-> > To have the jobs dispatched to custom runners, gitlab-runner must
-> > be installed, active as a service and properly configured.  The
-> > variables file and playbook introduced here should help with those
-> > steps.
-> >=20
-> > The playbook introduced here covers a number of different Linux
-> > distributions and FreeBSD, and are intended to provide a reproducible
-> > environment.
-> >=20
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > Reviewed-by: Daniel P. Berrang=E9 <berrange@redhat.com>
-> > ---
+On Oct 19 11:17, Dmitry Fomichev wrote:
+> From: Niklas Cassel <niklas.cassel@wdc.com>
 >=20
-> In general, there's been put quite some effort into the playbooks - sorry=
- I'm
-> late to the game - is there a plan to introduce QEMU as a project to lcit=
-ool?
-
-I think it's becoming quite clear that having so much duplication (in
-the dockerfiles, tests/vm, this playbook, etc) is costly and error
-prone.  I don't know if anyone has invested time in a PoC to
-consolidate those (with lcitool), but I can certainly see the upside
-to that.  BTW, are you volunteering (wink wink)? :)
-
-> We've taken care of most of the bits in the playbooks that are being intr=
-oduced
-> and for the remaining ones I think it would be that big of an overhaul to=
- do
-> the adjustments. One major re-factor though would IMO be to break the
-> dependency lcitool has on the machine naming, kind of restricting it to a
-> limited set of hosts and corresponding names (e.g. libvirt-fedora-32) whi=
-ch
-> makes it inconvenient to prepare physical hosts.
->
-
-Right... I wasn't aware of that depedency.  And, this may be a nice
-project to make sure that lcitool doesn't have any other libvirt
-specificities.
-
-> More comments inline...
+> Define the structures and constants required to implement
+> Namespace Types support.
 >=20
-> >  docs/devel/ci.rst                  | 63 ++++++++++++++++++++++++++
-> >  scripts/ci/setup/.gitignore        |  1 +
-> >  scripts/ci/setup/gitlab-runner.yml | 72 ++++++++++++++++++++++++++++++
-> >  scripts/ci/setup/vars.yml.template | 13 ++++++
-> >  4 files changed, 149 insertions(+)
-> >  create mode 100644 scripts/ci/setup/.gitignore
-> >  create mode 100644 scripts/ci/setup/gitlab-runner.yml
-> >  create mode 100644 scripts/ci/setup/vars.yml.template
-> >=20
-> > diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
-> > index 208b5e399b..a234a5e24c 100644
-> > --- a/docs/devel/ci.rst
-> > +++ b/docs/devel/ci.rst
-> > @@ -84,3 +84,66 @@ To run the playbook, execute::
-> > =20
-> >    cd scripts/ci/setup
-> >    ansible-playbook -i inventory build-environment.yml
-> > +
-> > +gitlab-runner setup and registration
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +The gitlab-runner agent needs to be installed on each machine that
-> > +will run jobs.  The association between a machine and a GitLab project
-> > +happens with a registration token.  To find the registration token for
-> > +your repository/project, navigate on GitLab's web UI to:
-> > +
-> > + * Settings (the gears like icon), then
-> > + * CI/CD, then
-> > + * Runners, and click on the "Expand" button, then
-> > + * Under "Set up a specific Runner manually", look for the value under
-> > +   "Use the following registration token during setup"
-> > +
-> > +Copy the ``scripts/ci/setup/vars.yml.template`` file to
-> > +``scripts/ci/setup/vars.yml``.  Then, set the
-> > +``gitlab_runner_registration_token`` variable to the value obtained
-> > +earlier.
-> > +
-> > +.. note:: gitlab-runner is not available from the standard location
-> > +          for all OS and architectures combinations.  For some systems=
-,
-> > +          a custom build may be necessary.  Some builds are avaiable
-> > +          at https://cleber.fedorapeople.org/gitlab-runner/ and this
-> > +          URI may be used as a value on ``vars.yml``
+> Namespace Types introduce a new command set, "I/O Command Sets",
+> that allows the host to retrieve the command sets associated with
+> a namespace. Introduce support for the command set and enable
+> detection for the NVM Command Set.
 >=20
-> Yes, this can be suboptimal...Would it make sense to fall back to build t=
-he
-> binary of a given version from git as a fallback during this playbook if =
-the
-> necessary arch version isn't provided the official way? Just an idea, I'd=
- like
-> to avoid the need for you to become the maintainer of the binaries and ke=
-ep up
-> with the releases.
->
-
-Well, building them during the playbook would be a lot more
-complex... You can have your own repo with your own builds, and just
-tweak your vars.yml.
-
-> > +
-> > +To run the playbook, execute::
-> > +
-> > +  cd scripts/ci/setup
-> > +  ansible-playbook -i inventory gitlab-runner.yml
-> > +
-> > +.. note:: there are currently limitations to gitlab-runner itself when
-> > +          setting up a service under FreeBSD systems.  You will need t=
-o
-> > +          perform steps 4 to 10 manually, as described at
+> The new workflows for identify commands rely heavily on zero-filled
+> identify structs. E.g., certain CNS commands are defined to return
+> a zero-filled identify struct when an inactive namespace NSID
+> is supplied.
 >=20
-> Which one of them is considered an automation problem? In lcitool we made
-> gitlab-runner completely automated on all distros, including FreeBSD:
->
-
-It looks like lcitool went the more practical route.  I was hoping to
-not have to treat gitlab-runner in such a special way in any
-"supported" OS.  What I mean is, I'd rather write the code within
-gitlab-runner (or reespective libraries).  Of course, I did not get to
-it, so that's why I just documented the steps here.
-
-I'll take a look at lcitool's playbook to see if I can easily
-canibalize some of that.  But, at this time, we don't runners for
-FreeBSD anyway, so I guess this is not *that* urgent.
-
-> 4) log file permissions - you're creating the user, you can as well creat=
-e the
-> file with correct permissions
+> Add a helper function in order to avoid code duplication when
+> reporting zero-filled identify structures.
 >=20
-> 5) ensure /usr/local/etc/rc.d exists - once you execute build-environment=
-.yml
-> it will pull a bunch of dependencies which ensure the dir exists
+> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> ---
+>  hw/block/nvme-ns.c    |   2 +
+>  hw/block/nvme-ns.h    |   1 +
+>  hw/block/nvme.c       | 169 +++++++++++++++++++++++++++++++++++-------
+>  hw/block/trace-events |   7 ++
+>  include/block/nvme.h  |  65 ++++++++++++----
+>  5 files changed, 202 insertions(+), 42 deletions(-)
 >=20
-> 6) gitlab_runner service script should IMO provided by this automation as=
- a
-> template and install to the correct location
->=20
-> 7) ensure the service script is executable - template module can do that
->=20
-> 8) register the runner - you're doing that
->=20
-> 9) enable the service - Ansible's service module is generic and supports
-> init/OpenRC
->=20
-> 10) I don't see a step 10
->
+> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+> index de735eb9f3..c0362426cc 100644
+> --- a/hw/block/nvme-ns.c
+> +++ b/hw/block/nvme-ns.c
+> @@ -41,6 +41,8 @@ static void nvme_ns_init(NvmeNamespace *ns)
+> =20
+>      id_ns->nsze =3D cpu_to_le64(nvme_ns_nlbas(ns));
+> =20
+> +    ns->csi =3D NVME_CSI_NVM;
+> +
+>      /* no thin provisioning */
+>      id_ns->ncap =3D id_ns->nsze;
+>      id_ns->nuse =3D id_ns->ncap;
+> diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+> index a38071884a..d795e44bab 100644
+> --- a/hw/block/nvme-ns.h
+> +++ b/hw/block/nvme-ns.h
+> @@ -31,6 +31,7 @@ typedef struct NvmeNamespace {
+>      int64_t      size;
+>      NvmeIdNs     id_ns;
+>      const uint32_t *iocs;
+> +    uint8_t      csi;
+> =20
+>      NvmeNamespaceParams params;
+>  } NvmeNamespace;
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 29139d8a17..ca0d0abf5c 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1503,6 +1503,13 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRe=
+quest *req)
+>      return NVME_SUCCESS;
+>  }
+> =20
+> +static uint16_t nvme_rpt_empty_id_struct(NvmeCtrl *n, NvmeRequest *req)
+> +{
+> +    uint8_t id[NVME_IDENTIFY_DATA_SIZE] =3D {};
 
-This was either a mistake or the installation steps got updated.  I'll
-adjust that.
+[-pedantic] empty initializer list
 
-> IOW I think there should be as little manual intervention as possible and=
- in
-> this case I don't think any manual steps are needed by the user.
->
+> +
+> +    return nvme_dma(n, id, sizeof(id), DMA_DIRECTION_FROM_DEVICE, req);
+> +}
+> +
+>  static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
+>  {
+>      trace_pci_nvme_identify_ctrl();
+> @@ -1511,11 +1518,23 @@ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, N=
+vmeRequest *req)
+>                      DMA_DIRECTION_FROM_DEVICE, req);
+>  }
+> =20
+> +static uint16_t nvme_identify_ctrl_csi(NvmeCtrl *n, NvmeRequest *req)
+> +{
+> +    NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+> +
+> +    trace_pci_nvme_identify_ctrl_csi(c->csi);
+> +
+> +    if (c->csi =3D=3D NVME_CSI_NVM) {
+> +        return nvme_rpt_empty_id_struct(n, req);
+> +    }
+> +
+> +    return NVME_INVALID_FIELD | NVME_DNR;
+> +}
+> +
+>  static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req)
+>  {
+>      NvmeNamespace *ns;
+>      NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+> -    NvmeIdNs *id_ns, inactive =3D { 0 };
+>      uint32_t nsid =3D le32_to_cpu(c->nsid);
+> =20
+>      trace_pci_nvme_identify_ns(nsid);
+> @@ -1526,23 +1545,46 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, Nvm=
+eRequest *req)
+> =20
+>      ns =3D nvme_ns(n, nsid);
+>      if (unlikely(!ns)) {
+> -        id_ns =3D &inactive;
+> -    } else {
+> -        id_ns =3D &ns->id_ns;
+> +        return nvme_rpt_empty_id_struct(n, req);
+>      }
+> =20
+> -    return nvme_dma(n, (uint8_t *)id_ns, sizeof(NvmeIdNs),
+> +    return nvme_dma(n, (uint8_t *)&ns->id_ns, sizeof(NvmeIdNs),
+>                      DMA_DIRECTION_FROM_DEVICE, req);
+>  }
+> =20
+> +static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req)
+> +{
+> +    NvmeNamespace *ns;
+> +    NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+> +    uint32_t nsid =3D le32_to_cpu(c->nsid);
+> +
+> +    trace_pci_nvme_identify_ns_csi(nsid, c->csi);
+> +
+> +    if (!nvme_nsid_valid(n, nsid) || nsid =3D=3D NVME_NSID_BROADCAST) {
+> +        return NVME_INVALID_NSID | NVME_DNR;
+> +    }
+> +
+> +    ns =3D nvme_ns(n, nsid);
+> +    if (unlikely(!ns)) {
+> +        return nvme_rpt_empty_id_struct(n, req);
+> +    }
+> +
+> +    if (c->csi =3D=3D NVME_CSI_NVM) {
+> +        return nvme_rpt_empty_id_struct(n, req);
+> +    }
+> +
+> +    return NVME_INVALID_FIELD | NVME_DNR;
+> +}
+> +
+>  static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
+>  {
+> +    NvmeNamespace *ns;
+>      NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+> -    static const int data_len =3D NVME_IDENTIFY_DATA_SIZE;
+>      uint32_t min_nsid =3D le32_to_cpu(c->nsid);
+> -    uint32_t *list;
+> -    uint16_t ret;
+> -    int j =3D 0;
+> +    uint8_t list[NVME_IDENTIFY_DATA_SIZE] =3D {};
 
-Agreed.  I was not super happy with the current state of this playbook
-wrt FreeBSD, but I decided to pick other battles to fight.  Also,
-newer gitlab-runner versions *may* be using the updated service
-management lib, which may reduce/remove the need for custom handling.
+[-pedantic] empty initializer list
 
-Anyway, I'll look at what can be improved here, considering the cost.
+> +    static const int data_len =3D sizeof(list);
+> +    uint32_t *list_ptr =3D (uint32_t *)list;
+> +    int i, j =3D 0;
+> =20
+>      trace_pci_nvme_identify_nslist(min_nsid);
+> =20
+> @@ -1556,20 +1598,54 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n,=
+ NvmeRequest *req)
+>          return NVME_INVALID_NSID | NVME_DNR;
+>      }
+> =20
+> -    list =3D g_malloc0(data_len);
+> -    for (int i =3D 1; i <=3D n->num_namespaces; i++) {
+> -        if (i <=3D min_nsid || !nvme_ns(n, i)) {
+> +    for (i =3D 1; i <=3D n->num_namespaces; i++) {
+> +        ns =3D nvme_ns(n, i);
+> +        if (!ns) {
+>              continue;
+>          }
+> -        list[j++] =3D cpu_to_le32(i);
+> +        if (ns->params.nsid < min_nsid) {
 
-Thanks!
-- Cleber.
+Since i =3D=3D ns->params.nsid, this should be '<=3D' like the code you
+removed. It really shouldn't be called min_nsid, but oh well.
 
---ALfTUftag+2gvp1h
+> +            continue;
+> +        }
+> +        list_ptr[j++] =3D cpu_to_le32(ns->params.nsid);
+>          if (j =3D=3D data_len / sizeof(uint32_t)) {
+>              break;
+>          }
+>      }
+> -    ret =3D nvme_dma(n, (uint8_t *)list, data_len, DMA_DIRECTION_FROM_DE=
+VICE,
+> -                   req);
+> -    g_free(list);
+> -    return ret;
+> +
+> +    return nvme_dma(n, list, data_len, DMA_DIRECTION_FROM_DEVICE, req);
+> +}
+> +
+> +static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req)
+> +{
+> +    NvmeNamespace *ns;
+> +    NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+> +    uint32_t min_nsid =3D le32_to_cpu(c->nsid);
+> +    uint8_t list[NVME_IDENTIFY_DATA_SIZE] =3D {};
+> +    static const int data_len =3D sizeof(list);
+> +    uint32_t *list_ptr =3D (uint32_t *)list;
+> +    int i, j =3D 0;
+> +
+> +    trace_pci_nvme_identify_nslist_csi(min_nsid, c->csi);
+> +
+> +    if (c->csi !=3D NVME_CSI_NVM) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+
+This is missing the check for 0xffffffff and 0xfffffffe like above.
+
+> +    for (i =3D 1; i <=3D n->num_namespaces; i++) {
+> +        ns =3D nvme_ns(n, i);
+> +        if (!ns) {
+> +            continue;
+> +        }
+> +        if (ns->params.nsid < min_nsid) {
+
+Should be '<=3D'.
+
+> +            continue;
+> +        }
+> +        list_ptr[j++] =3D cpu_to_le32(ns->params.nsid);
+> +        if (j =3D=3D data_len / sizeof(uint32_t)) {
+> +            break;
+> +        }
+> +    }
+> +
+> +    return nvme_dma(n, list, data_len, DMA_DIRECTION_FROM_DEVICE, req);
+>  }
+> =20
+>  static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *re=
+q)
+> @@ -1577,13 +1653,17 @@ static uint16_t nvme_identify_ns_descr_list(NvmeC=
+trl *n, NvmeRequest *req)
+>      NvmeNamespace *ns;
+>      NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
+>      uint32_t nsid =3D le32_to_cpu(c->nsid);
+> -    uint8_t list[NVME_IDENTIFY_DATA_SIZE];
+> +    uint8_t list[NVME_IDENTIFY_DATA_SIZE] =3D {};
+
+[-pedantic] empty initializer list
+
+> =20
+>      struct data {
+>          struct {
+>              NvmeIdNsDescr hdr;
+> -            uint8_t v[16];
+> +            uint8_t v[NVME_NIDL_UUID];
+>          } uuid;
+> +        struct {
+> +            NvmeIdNsDescr hdr;
+> +            uint8_t v;
+> +        } csi;
+>      };
+> =20
+>      struct data *ns_descrs =3D (struct data *)list;
+> @@ -1599,19 +1679,31 @@ static uint16_t nvme_identify_ns_descr_list(NvmeC=
+trl *n, NvmeRequest *req)
+>          return NVME_INVALID_FIELD | NVME_DNR;
+>      }
+> =20
+> -    memset(list, 0x0, sizeof(list));
+> -
+>      /*
+>       * Because the NGUID and EUI64 fields are 0 in the Identify Namespac=
+e data
+>       * structure, a Namespace UUID (nidt =3D 0x3) must be reported in the
+>       * Namespace Identification Descriptor. Add the namespace UUID here.
+>       */
+>      ns_descrs->uuid.hdr.nidt =3D NVME_NIDT_UUID;
+> -    ns_descrs->uuid.hdr.nidl =3D NVME_NIDT_UUID_LEN;
+> -    memcpy(&ns_descrs->uuid.v, ns->params.uuid.data, NVME_NIDT_UUID_LEN);
+> +    ns_descrs->uuid.hdr.nidl =3D NVME_NIDL_UUID;
+> +    memcpy(&ns_descrs->uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
+> =20
+> -    return nvme_dma(n, list, NVME_IDENTIFY_DATA_SIZE,
+> -                    DMA_DIRECTION_FROM_DEVICE, req);
+> +    ns_descrs->csi.hdr.nidt =3D NVME_NIDT_CSI;
+> +    ns_descrs->csi.hdr.nidl =3D NVME_NIDL_CSI;
+> +    ns_descrs->csi.v =3D ns->csi;
+> +
+> +    return nvme_dma(n, list, sizeof(list), DMA_DIRECTION_FROM_DEVICE, re=
+q);
+> +}
+> +
+> +static uint16_t nvme_identify_cmd_set(NvmeCtrl *n, NvmeRequest *req)
+> +{
+> +    uint8_t list[NVME_IDENTIFY_DATA_SIZE] =3D {};
+
+[-pedantic] empty initializer list
+
+> +    static const int data_len =3D sizeof(list);
+> +
+> +    trace_pci_nvme_identify_cmd_set();
+> +
+> +    NVME_SET_CSI(*list, NVME_CSI_NVM);
+> +    return nvme_dma(n, list, data_len, DMA_DIRECTION_FROM_DEVICE, req);
+>  }
+> =20
+
+--=20
+One of us - No more doubt, silence or taboo about mental illness.
+
+--cf0hFtnykp6aONGL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+N+gAACgkQZX6NM6Xy
-CfPf9g/9H+BCKuP9o4F5K2FpVoxv1mtb/CrqvnNZ/ra+TOsyvIkAKmfVhtjcoiqV
-85rcckUt5uwXM06kSqWSVpgQNJnVfn9POIvmTlMYalQuwMf9VuMJCWJ2Gfnkfdan
-/taJrGq+C68fW7WsCjIbb7FmAU7cCDnelXpB0B33TsF2o9RJ78zCDLNYkb04yda6
-YGkpZe8VO75mtcrWiHQeEClrmp4FnqniFlj7DYBRsP4/2RfgL4HB5gQJc7oWB7S/
-oiAe3oQqwDf6pfPKGEKHdK18yw3LjcT6RrnRAm8HUYK1zbgWSU8ozed/Z8GZGcId
-G/qVTOjLPkj+QIIfJ2KQc9df21wC4SMy/bUNPYgSZ4IBS3o9Keru4R5HFJADUn5e
-UAje0Z4dD2M9Zwqq7lYMvCLV6YPtiYbjHAaZQVTGUifL1nLVk54fESkhxrWRq/me
-NbP7pFbif2G8CKGahrsEHUJHfMJMuyLzcxZiFnIBBhTCw2mrnZr5aEYbQcQ/31X7
-KqsFhK5lFEbCTTpFwSCvFyim1ZavI6MP8CPxPWMmonm7LRKhrimSuaPhCjCF0pJ2
-yvMW3uF5JHIMCsf+BUfCwsfImu2TkUcA4ATJIs3WpZQPCElCyRvs7zpfRwafe4/5
-TZ7paQFCC4SEl6h2azfTnJy1cRDhlveX1yuMcgJPrLxUtdwx04I=
-=5+nc
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+N/NAACgkQTeGvMW1P
+Dekmxwf/VPz/E0daSJywwPedvbHFvw8kxa/RzyRaybDWMYYEGOd4ycINpoX7bHSy
+Z9BxI5GgPE75vPLSIo87U61hiMi99R8nfpScYNbCpDMS7epoUTGcnXTk4rjZn/gl
+PhtUs+xUKLdzkjgxMMPfLMARL0TxacnziMEnoseLqEA9Dr/g0cVpERszS82U09/E
+SLOkmBxP8v94Ip7QxToKLlvevTiQBkZRBIKGvKeT7VorR3rk1k0qtanZtmTf5f1q
+W+pWYA0kEoNkMi0kSkho4cf8pj+u7C0VRRkE1HH/AOEdaRzdKEHFjwduDzinz8ZU
+PxpDPd55ppsJg81PkE35zLM9Yh6X7Q==
+=/NB+
 -----END PGP SIGNATURE-----
 
---ALfTUftag+2gvp1h--
-
+--cf0hFtnykp6aONGL--
 
