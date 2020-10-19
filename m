@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABE2292D7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 20:24:33 +0200 (CEST)
-Received: from localhost ([::1]:58814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F9B292D9F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 20:37:13 +0200 (CEST)
+Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUZpg-00031o-4a
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 14:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
+	id 1kUa1w-0000dZ-KG
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 14:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUZoB-00027Q-Ml
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 14:23:01 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41655)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kUa0L-00088x-0L
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 14:35:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUZo8-0003gk-K8
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 14:22:59 -0400
-Received: by mail-pl1-x641.google.com with SMTP id w11so188390pll.8
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 11:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OjzwwSGk6FpHnvMHgn5KZOH5vNctByltTRzz6zUdRYU=;
- b=ZVL0yTO0MZFdLvZ/PK2khml8IDg8XTHa5LOcjxfmEL1ao/4+febTf+N5w2xcL+E6OT
- 2dgYJDIRZL0dWyuyPQd4+x6vuJhKg1U5xYUeXphXGYeyNwK+kXXUQRQcPdNqCQC+ypgo
- 7T6zpi95SwVQQx8i+1vDtm6nAy1W85kBIywCSxnFmmRln9Z963Y9bndrW7FUAkhQBZOY
- qYcAeAxPrDvIQGMRE+EfiBGaxcbEPzD6CsNC4LV1t5YKAAb8ETJDwCC+gwm5CY2gZjsf
- vVFK216ubNT5H5QcYrBTlzv6P3joURmhJ4IBGeeH1z31P16X1e5SNHo02YMNdaOyWTRh
- vn9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OjzwwSGk6FpHnvMHgn5KZOH5vNctByltTRzz6zUdRYU=;
- b=JgfyUXPKCeMQqwE+t9OlfmnuvSwKuyrnMZzmIDs6gsRGjBIkGIQNOzQXDt7B+JPalH
- T9Nu+rGncCN+n7edPNT+Zl/H4DjgLjFFF5LfpmvpOtRG0hKmSS3UjH9GH3AChBLBCdDF
- SM8ZoNvc9y4VE1qwAfiAJpavW8wFjkgZ5JqH9yWtgbTDgLv4+cq8MNRGvxz2W/BmJNaz
- NnGnKFdOFFekGerNPpgVa6+0duS5s/ivngo5Wcm4Ggf1KgEtbGyl4MECd0Wwh/L9f1Mv
- 3mLHrbX4lr7Ot+dYW/KGERjWmsweBXlFk8CEGEQzRMZGdaOfyqFJrc0lZ/cGG7x9rmfR
- agqw==
-X-Gm-Message-State: AOAM5329uEFXoPyT3EvMyeZRrcQqyq4LWjXypVVIXEBebynOe8Uspnns
- ahGAxY+7nE8Pj9ZLs7dHIToq7Q==
-X-Google-Smtp-Source: ABdhPJw1lc61x6kp9apw0X08sDkVXfnwInU97BqxAarumxr6SnLyTQk29hEc6EulrWr/Hivi3He6tw==
-X-Received: by 2002:a17:902:b28b:b029:d4:cb17:d2e4 with SMTP id
- u11-20020a170902b28bb02900d4cb17d2e4mr881619plr.73.1603131775081; 
- Mon, 19 Oct 2020 11:22:55 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id 63sm497767pfv.25.2020.10.19.11.22.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Oct 2020 11:22:54 -0700 (PDT)
-Subject: Re: [RFC] Don't lookup full CPU state in the indirect branch fast
- path on AArch64 when running in user mode.
-To: Owen Anderson <oanderso@google.com>, qemu-devel@nongnu.org
-References: <CAKs3XfJPrMGxdAouGCje3ppnWKA6fXpNaywQ5rj9u45VkPuUXg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7c416109-6431-076e-2284-0f8406931ab9@linaro.org>
-Date: Mon, 19 Oct 2020 11:22:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kUa0I-0005as-TS
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 14:35:32 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kUa0H-0003B6-5m
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 18:35:29 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 04E272E8133
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 18:35:29 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAKs3XfJPrMGxdAouGCje3ppnWKA6fXpNaywQ5rj9u45VkPuUXg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 19 Oct 2020 18:24:39 -0000
+From: srinivasan magudeeswaran <1414466@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: hostfwd qemu trusty ubuntu xenial
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: nagaraju-goruganti pconstantine piotr.orzechowski
+ sergey-e srinirap88 th-huth
+X-Launchpad-Bug-Reporter: Sergey V. Lobanov (sergey-e)
+X-Launchpad-Bug-Modifier: srinivasan magudeeswaran (srinirap88)
+References: <20150125172405.12316.8764.malonedeb@soybean.canonical.com>
+Message-Id: <160313187965.22905.10741029711547659611.malone@gac.canonical.com>
+Subject: [Bug 1414466] Re: -net user,
+ hostfwd=... is not working(qemu-system-aarch64)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
+X-Launchpad-Hash: 4fec69b678add8248906a993f72246a0966767f1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 14:35:29
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,87 +75,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1414466 <1414466@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/20 2:32 PM, Owen Anderson wrote:
-> Hello,
-> 
-> I would like to request feedback on the following patch, which I do
-> not believe should be applied to master as-is.  The idea here is to
-> avoid gathering the full CPU state in the fast path of an indirect
-> branch lookup when running in user mode on a platform where the flags
-> can only be changed in privileged mode.  I believe this is true on the
-> AArch64 scenario that I care about, but clearly not true in general.
-> I'm particularly seeking feedback on how to clean this up into a
-> version that checks the correct necessary and sufficient conditions to
-> allow all users that can benefit from it to do so.
-> 
-> On the workload that I am targeting (aarch64 on x86), this patch
-> reduces execution wall time by approximately 20%, and eliminates
-> indirect branch lookups from the hot stack traces entirely.
+Finally I found what was the issue. in the /etc/ssh/sshd_config  after comm=
+enting the below lines I am able to ssh to the vm.
+# grep -i LISTEN /etc/ssh/sshd_config
+#ListenAddress 127.0.0.1
+#ListenAddress ::
+#
+check your sshd config.
 
-(1) What qemu version are you looking at and,
-(2) Do you have --enable-tcg-debug enabled?
+-- =
 
-Because you should not be seeing anything even close to 20% overhead.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1414466
 
-In e979972a6a1 (included in qemu 4.2), the AArch64 path is
+Title:
+  -net user,hostfwd=3D... is not working(qemu-system-aarch64)
 
-    uint32_t flags = env->hflags;
-    *cs_base = 0;
-    if (FIELD_EX32(flags, TBFLAG_ANY, AARCH64_STATE)) {
-        *pc = env->pc;
-        if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
-            flags = FIELD_DP32(flags, TBFLAG_A64,
-               BTYPE, env->btype);
-        }
-        pstate_for_ss = env->pstate;
-    }
-    if (FIELD_EX32(flags, TBFLAG_ANY, SS_ACTIVE) &&
-        (pstate_for_ss & PSTATE_SS)) {
-        flags = FIELD_DP32(flags, TBFLAG_ANY, PSTATE_SS, 1);
-    }
-    *pflags = flags;
+Status in QEMU:
+  Confirmed
 
-With --enable-tcg-debug, there is an additional step wherein we validate that
-env->hflags has the correct value.  Which has caught a number of bugs.
+Bug description:
+  QEMU version: git a46b3aaf6bb038d4f6f192a84df204f10929e75c
 
-With a silly testcase like so:
+   /opt/qemu.git/bin/qemu-system-aarch64 --version
+  QEMU emulator version 2.2.50, Copyright (c) 2003-2008 Fabrice Bellard
 
-    for (int x = 0; x < 10000000; ++x) {
-        void *tmp;
-        asm volatile("adr %0,1f; br %0; 1:" : "=r"(tmp));
-    }
-
-I see cpu_get_tb_cpu_state no higher than 10% of the total runtime.  Which, I
-admit is higher than I expected, but still nothing like what you're reporting.
- And a "reasonable" test case should surely have a lower proportion of indirect
-branches per dynamic instruction.
+  Hosts:
+  ovs - host machine (Ubuntu 14.04.1, x86_64)
+  debian8-arm64 - guest =
 
 
-> +#if !defined(TARGET_ARM) || !defined(CONFIG_USER_ONLY)
->      cpu_get_tb_cpu_state(env, pc, cs_base, flags);
-> +#else
-> +    if (is_a64(env)) {
-> +      *pc = env->pc;
-> +    } else {
-> +      *pc = env->regs[15];
-> +    }
-> +#endif
-...
-> +#if !defined(TARGET_ARM) || !defined(CONFIG_USER_ONLY)
->                 tb->cs_base == *cs_base &&
->                 tb->flags == *flags &&
-> +#endif
+  Guest start:
+  user@ovs:~$ /opt/qemu.git/bin/qemu-system-aarch64 -machine virt -cpu cort=
+ex-a57 -nographic -smp 1 -m 512 -kernel vmlinuz-run -initrd initrd-run.img =
+-append "root=3D/dev/sda2 console=3DttyAMA0" -global virtio-blk-device.scsi=
+=3Doff -device virtio-scsi-device,id=3Dscsi -drive file=3Ddebian8-arm64.img=
+,id=3Drootimg,cache=3Dunsafe,if=3Dnone -device scsi-hd,drive=3Drootimg -net=
+dev user,id=3Dunet -device virtio-net-device,netdev=3Dunet -net user,hostfw=
+d=3Dtcp:127.0.0.1:1122-:22
 
-This is assuming that all TB have the same flags, and thus the flags don't need
-comparing.  Which is false, even for CONFIG_USER_ONLY.
+  root@debian8-arm64:~# netstat -ntplu | grep ssh
+  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTE=
+N      410/sshd        =
 
-I would guess that testing -cpu cortex-a57 does not use any of the bits that
-might change, but post v8.2 will: SVE, BTI, MTE.  So, this change breaks stuff.
+  tcp6       0      0 :::22                   :::*                    LISTE=
+N      410/sshd       =
 
 
-r~
+  (no firewall in guest vm)
+
+  user@ovs:~$ netstat -ntplu | grep 1122
+  tcp        0      0 127.0.0.1:1122          0.0.0.0:*               LISTE=
+N      18722/qemu-system-a
+
+  user@ovs:~$ time ssh user@127.0.0.1 -p 1122
+  ssh_exchange_identification: read: Connection reset by peer
+
+  real	1m29.341s
+  user	0m0.005s
+  sys	0m0.000s
+
+  Inside guest vm sshd works fine:
+  root@debian8-arm64:~# ssh user@127.0.0.1 -p 22
+  user@127.0.0.1's password: =
+
+  ....
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 127.0.0.1 closed.
+
+  root@debian8-arm64:~# ssh user@10.0.2.15 -p 22
+  user@10.0.2.15's password: =
+
+  ...
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 10.0.2.15 closed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1414466/+subscriptions
 
