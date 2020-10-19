@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2504292322
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 09:55:17 +0200 (CEST)
-Received: from localhost ([::1]:55682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6738E292364
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 10:07:53 +0200 (CEST)
+Received: from localhost ([::1]:56166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUQ0i-0007Ka-MW
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 03:55:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54268)
+	id 1kUQCu-000323-Em
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 04:07:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUPyH-0005BS-Ji
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 03:52:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22587)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUPya-0005b2-Kg
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 03:53:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUPyE-00086d-U8
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 03:52:45 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kUPyW-0008Dj-7J
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 03:53:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603093962;
+ s=mimecast20190719; t=1603093979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6oNdsopwxGeW8FZidNYUY/DdLfskXgln8I19HdBRc88=;
- b=fTZ9dgxoK0aU02mvLHEubKp0Qwo68jXtj4pf0Et4HYWHe9IQw/xLIVr7iXrw6BJzCI9A3O
- zDwvxAVTo2CtTncUE0CtCDNAdoz79PC/DYs5k0HTpOnP1+De/cPFsZKe7QZqjk1kEY1eqk
- 7dv27/CmZwiHo0vBykIqEXxTTldMf6Q=
+ bh=nNvux07/SdqP+pMnqGlzxtbO4m8lLOQgtNVf7KekUGQ=;
+ b=Qe6T3UX14xddc6jxH90OrDvOA0S4yfkenEz7C2BSs75lSg9EOoGPFC6IauvrCgBPrFD0AE
+ P1rywG/QmsCY4hsP8hZNJNZZIE8PeOQ/BhI/CImmx7lUpRfvu0fSBLTV5lhScgZ7CQLROJ
+ /eOdKpv/xEJQbfa775FoxhS13I3WEDM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-VC3LB0jOOA6dqqngUPAZ8Q-1; Mon, 19 Oct 2020 03:52:40 -0400
-X-MC-Unique: VC3LB0jOOA6dqqngUPAZ8Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-561-vRHcZvgENPuFmY5AU2ZWwQ-1; Mon, 19 Oct 2020 03:52:57 -0400
+X-MC-Unique: vRHcZvgENPuFmY5AU2ZWwQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85D20803F42
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 07:52:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E82F8064C1
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 07:52:56 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-56.ams2.redhat.com
  [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4BFDC5C662;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB3FD73672;
  Mon, 19 Oct 2020 07:52:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 962279D10; Mon, 19 Oct 2020 09:52:24 +0200 (CEST)
+ id 9ECF49B31; Mon, 19 Oct 2020 09:52:24 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/14] spice: load module when enabled on the cmdline
-Date: Mon, 19 Oct 2020 09:52:19 +0200
-Message-Id: <20201019075224.14803-10-kraxel@redhat.com>
+Subject: [PATCH 10/14] modules: dependencies infrastructure
+Date: Mon, 19 Oct 2020 09:52:20 +0200
+Message-Id: <20201019075224.14803-11-kraxel@redhat.com>
 In-Reply-To: <20201019075224.14803-1-kraxel@redhat.com>
 References: <20201019075224.14803-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 01:44:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,30 +88,108 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case the spice opts are not registered, try loading the spice module.
+Allow modules depending on other modules.
+
+module_load_file() gets the option to export symbols (by not adding the
+G_MODULE_BIND_LOCAL flag).
+
+module_load_one() will check the module dependency list to figure (a)
+whenever are other modules must be loaded first, or (b) the module
+should export the symbols.
+
+The dependencies are specificed as static list in the source code for
+now as I expect the list will stay small.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- softmmu/vl.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ util/module.c | 32 +++++++++++++++++++++++++++-----
+ 1 file changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 8a06fe8bf77a..14fc527fc6e0 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3705,7 +3705,11 @@ void qemu_init(int argc, char **argv, char **envp)
-                     break;
-                 }
-             case QEMU_OPTION_spice:
--                olist = qemu_find_opts("spice");
-+                olist = qemu_find_opts_err("spice", NULL);
-+                if (!olist) {
-+                    ui_module_load_one("spice-core");
-+                    olist = qemu_find_opts("spice");
-+                }
-                 if (!olist) {
-                     error_report("spice support is disabled");
-                     exit(1);
+diff --git a/util/module.c b/util/module.c
+index f0ed05fbd06b..0c0f258923dc 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -110,7 +110,7 @@ void module_call_init(module_init_type type)
+ }
+ 
+ #ifdef CONFIG_MODULES
+-static int module_load_file(const char *fname, bool mayfail)
++static int module_load_file(const char *fname, bool mayfail, bool export_symbols)
+ {
+     GModule *g_module;
+     void (*sym)(void);
+@@ -118,7 +118,7 @@ static int module_load_file(const char *fname, bool mayfail)
+     int len = strlen(fname);
+     int suf_len = strlen(dsosuf);
+     ModuleEntry *e, *next;
+-    int ret;
++    int ret, flags;
+ 
+     if (len <= suf_len || strcmp(&fname[len - suf_len], dsosuf)) {
+         /* wrong suffix */
+@@ -132,7 +132,11 @@ static int module_load_file(const char *fname, bool mayfail)
+ 
+     assert(QTAILQ_EMPTY(&dso_init_list));
+ 
+-    g_module = g_module_open(fname, G_MODULE_BIND_LAZY | G_MODULE_BIND_LOCAL);
++    flags = G_MODULE_BIND_LAZY;
++    if (!export_symbols) {
++        flags |= G_MODULE_BIND_LOCAL;
++    }
++    g_module = g_module_open(fname, flags);
+     if (!g_module) {
+         if (!mayfail) {
+             fprintf(stderr, "Failed to open module: %s\n",
+@@ -167,6 +171,12 @@ static int module_load_file(const char *fname, bool mayfail)
+ out:
+     return ret;
+ }
++
++static const struct {
++    const char *name;
++    const char *dep;
++} module_deps[] = {
++};
+ #endif
+ 
+ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+@@ -182,7 +192,8 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+     char *dirs[5];
+     char *module_name;
+     int i = 0, n_dirs = 0;
+-    int ret;
++    int ret, dep;
++    bool export_symbols = false;
+     static GHashTable *loaded_modules;
+ 
+     if (!g_module_supported()) {
+@@ -196,6 +207,17 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+ 
+     module_name = g_strdup_printf("%s%s", prefix, lib_name);
+ 
++    for (dep = 0; dep < ARRAY_SIZE(module_deps); dep++) {
++        if (strcmp(module_name, module_deps[dep].name) == 0) {
++            /* we depend on another module */
++            module_load_one("", module_deps[dep].dep, false);
++        }
++        if (strcmp(module_name, module_deps[dep].dep) == 0) {
++            /* another module depends on us */
++            export_symbols = true;
++        }
++    }
++
+     if (!g_hash_table_add(loaded_modules, module_name)) {
+         g_free(module_name);
+         return true;
+@@ -220,7 +242,7 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+     for (i = 0; i < n_dirs; i++) {
+         fname = g_strdup_printf("%s/%s%s",
+                 dirs[i], module_name, CONFIG_HOST_DSOSUF);
+-        ret = module_load_file(fname, mayfail);
++        ret = module_load_file(fname, mayfail, export_symbols);
+         g_free(fname);
+         fname = NULL;
+         /* Try loading until loaded a module file */
 -- 
 2.27.0
 
