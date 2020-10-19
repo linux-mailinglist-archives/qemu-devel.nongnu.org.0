@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6E72923F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 10:54:14 +0200 (CEST)
-Received: from localhost ([::1]:34362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B926B2923ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 10:51:50 +0200 (CEST)
+Received: from localhost ([::1]:55194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUQvl-0001Q3-Po
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 04:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38232)
+	id 1kUQtR-0006kw-Or
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 04:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUQqm-0004Js-CZ
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:49:04 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:56423)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUQr6-0004zV-34
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:49:24 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:52764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUQqk-0002vX-Qr
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:49:04 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUQr4-00032L-Hs
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:49:23 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-P7TqVq-NNC2DzU0OemN32g-1; Mon, 19 Oct 2020 04:48:57 -0400
-X-MC-Unique: P7TqVq-NNC2DzU0OemN32g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-208-NxMkSShpNWKOqL-VLApkkQ-1; Mon, 19 Oct 2020 04:49:15 -0400
+X-MC-Unique: NxMkSShpNWKOqL-VLApkkQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89C4518A0765;
- Mon, 19 Oct 2020 08:48:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB5451060DD8;
+ Mon, 19 Oct 2020 08:49:11 +0000 (UTC)
 Received: from bahia.lan (ovpn-112-78.ams2.redhat.com [10.36.112.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BAECB70105;
- Mon, 19 Oct 2020 08:48:42 +0000 (UTC)
-Subject: [PATCH 4/5] spapr: Pass &error_abort when getting some PC DIMM
- properties
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B21177367B;
+ Mon, 19 Oct 2020 08:49:02 +0000 (UTC)
+Subject: [PATCH 5/5] spapr: Simplify error handling in spapr_memory_plug()
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Mon, 19 Oct 2020 10:48:41 +0200
-Message-ID: <160309732180.2739814.7243774674998010907.stgit@bahia.lan>
+Date: Mon, 19 Oct 2020 10:49:01 +0200
+Message-ID: <160309734178.2739814.3488437759887793902.stgit@bahia.lan>
 In-Reply-To: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
 References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
 User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
+X-Mimecast-Spam-Score: 0.002
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -78,75 +77,143 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both PC_DIMM_SLOT_PROP and PC_DIMM_ADDR_PROP are defined in the
-default property list of the PC DIMM device class:
+As recommended in "qapi/error.h", add a bool return value to
+spapr_add_lmbs() and spapr_add_nvdimm(), and use them instead
+of local_err in spapr_memory_plug().
 
-    DEFINE_PROP_UINT64(PC_DIMM_ADDR_PROP, PCDIMMDevice, addr, 0),
-
-    DEFINE_PROP_INT32(PC_DIMM_SLOT_PROP, PCDIMMDevice, slot,
-                      PC_DIMM_UNASSIGNED_SLOT),
-
-They should thus be always gettable for both PC DIMMs and NVDIMMs.
-An error in getting them can only be the result of a programming
-error. It doesn't make much sense to propagate the error in this
-case. Abort instead.
+This allows to get rid of the error propagation overhead.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr.c |   17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+ hw/ppc/spapr.c                |   23 ++++++++++-------------
+ hw/ppc/spapr_nvdimm.c         |    5 +++--
+ include/hw/ppc/spapr_nvdimm.h |    2 +-
+ 3 files changed, 14 insertions(+), 16 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 1b173861152f..62f217a6b914 100644
+index 62f217a6b914..0cc19b5863a4 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3443,19 +3443,13 @@ static void spapr_memory_plug(HotplugHandler *hotpl=
-ug_dev, DeviceState *dev,
+@@ -3382,7 +3382,7 @@ int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachine=
+State *spapr,
+     return 0;
+ }
 =20
+-static void spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t=
+ size,
++static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t=
+ size,
+                            bool dedicated_hp_event_source, Error **errp)
+ {
+     SpaprDrc *drc;
+@@ -3403,7 +3403,7 @@ static void spapr_add_lmbs(DeviceState *dev, uint64_t=
+ addr_start, uint64_t size,
+                                       addr / SPAPR_MEMORY_BLOCK_SIZE);
+                 spapr_drc_detach(drc);
+             }
+-            return;
++            return false;
+         }
+         if (!hotplugged) {
+             spapr_drc_reset(drc);
+@@ -3425,12 +3425,12 @@ static void spapr_add_lmbs(DeviceState *dev, uint64=
+_t addr_start, uint64_t size,
+                                            nr_lmbs);
+         }
+     }
++    return true;
+ }
+=20
+ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *de=
+v,
+                               Error **errp)
+ {
+-    Error *local_err =3D NULL;
+     SpaprMachineState *ms =3D SPAPR_MACHINE(hotplug_dev);
+     PCDIMMDevice *dimm =3D PC_DIMM(dev);
+     uint64_t size, addr;
+@@ -3444,27 +3444,24 @@ static void spapr_memory_plug(HotplugHandler *hotpl=
+ug_dev, DeviceState *dev,
      if (!is_nvdimm) {
          addr =3D object_property_get_uint(OBJECT(dimm),
--                                        PC_DIMM_ADDR_PROP, &local_err);
--        if (local_err) {
--            goto out_unplug;
--        }
-+                                        PC_DIMM_ADDR_PROP, &error_abort);
-         spapr_add_lmbs(dev, addr, size,
-                        spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT),
-                        &local_err);
+                                         PC_DIMM_ADDR_PROP, &error_abort);
+-        spapr_add_lmbs(dev, addr, size,
+-                       spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT),
+-                       &local_err);
++        if (!spapr_add_lmbs(dev, addr, size,
++                            spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT), errp=
+)) {
++            goto out_unplug;
++        }
      } else {
          slot =3D object_property_get_int(OBJECT(dimm),
--                                       PC_DIMM_SLOT_PROP, &local_err);
--        if (local_err) {
--            goto out_unplug;
--        }
-+                                       PC_DIMM_SLOT_PROP, &error_abort);
+                                        PC_DIMM_SLOT_PROP, &error_abort);
          /* We should have valid slot number at this point */
          g_assert(slot >=3D 0);
-         spapr_add_nvdimm(dev, slot, &local_err);
-@@ -3634,7 +3628,6 @@ static void spapr_memory_unplug_request(HotplugHandle=
-r *hotplug_dev,
-                                         DeviceState *dev, Error **errp)
- {
-     SpaprMachineState *spapr =3D SPAPR_MACHINE(hotplug_dev);
--    Error *local_err =3D NULL;
-     PCDIMMDevice *dimm =3D PC_DIMM(dev);
-     uint32_t nr_lmbs;
-     uint64_t size, addr_start, addr;
-@@ -3650,11 +3643,7 @@ static void spapr_memory_unplug_request(HotplugHandl=
-er *hotplug_dev,
-     nr_lmbs =3D size / SPAPR_MEMORY_BLOCK_SIZE;
-=20
-     addr_start =3D object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PRO=
-P,
--                                         &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
+-        spapr_add_nvdimm(dev, slot, &local_err);
 -    }
-+                                          &error_abort);
+-
+-    if (local_err) {
+-        goto out_unplug;
++        if (!spapr_add_nvdimm(dev, slot, errp)) {
++            goto out_unplug;
++        }
+     }
 =20
-     /*
-      * An existing pending dimm state for this DIMM means that there is an
+     return;
+=20
+ out_unplug:
+     pc_dimm_unplug(dimm, MACHINE(ms));
+-out:
+-    error_propagate(errp, local_err);
+ }
+=20
+ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState=
+ *dev,
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index 9e3d94071fe1..a833a63b5ed3 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -89,7 +89,7 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, N=
+VDIMMDevice *nvdimm,
+ }
+=20
+=20
+-void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
++bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
+ {
+     SpaprDrc *drc;
+     bool hotplugged =3D spapr_drc_hotplugged(dev);
+@@ -98,12 +98,13 @@ void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, =
+Error **errp)
+     g_assert(drc);
+=20
+     if (!spapr_drc_attach(drc, dev, errp)) {
+-        return;
++        return false;
+     }
+=20
+     if (hotplugged) {
+         spapr_hotplug_req_add_by_index(drc);
+     }
++    return true;
+ }
+=20
+ static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
+diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
+index 490b19a009f4..344582d2f5f7 100644
+--- a/include/hw/ppc/spapr_nvdimm.h
++++ b/include/hw/ppc/spapr_nvdimm.h
+@@ -30,6 +30,6 @@ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineSta=
+te *spapr,
+ void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt);
+ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdi=
+mm,
+                            uint64_t size, Error **errp);
+-void spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
++bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
+=20
+ #endif
 
 
 
