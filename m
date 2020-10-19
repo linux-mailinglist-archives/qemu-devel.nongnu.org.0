@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374A529270A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 14:14:36 +0200 (CEST)
-Received: from localhost ([::1]:49712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA5529270B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 14:14:55 +0200 (CEST)
+Received: from localhost ([::1]:50040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUU3e-0005pI-Qe
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 08:14:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55132)
+	id 1kUU3y-0005zL-SN
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 08:14:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kUU1i-0004ty-MQ
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:12:34 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5183 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kUU20-0004xH-R0
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:12:53 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:59363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kUU1e-0004Ga-27
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:12:34 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 03535D6A9D4B611A07CD;
- Mon, 19 Oct 2020 20:12:12 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 19 Oct 2020 20:12:02 +0800
-Message-ID: <5F8D8292.5030302@huawei.com>
-Date: Mon, 19 Oct 2020 20:12:02 +0800
-From: AlexChen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kUU1y-0004HH-Fc
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 08:12:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=QxrBRkiSSgGPvp5U7WU6uNiHvdfe9hmaicxQu8YiGwk=; b=izpBmGW+aGhWCpQZ2qFibu6qUE
+ RMGk1PUF3+sYpOMu2pPsi74ePSW3YQdH6XSvF4fvCvSbAH+8ji7wBzObQqejws3t8JO2IomhkcXPz
+ 8pozE/cdmKMjTgSa4MKZE6W3UIKlsl9B2lJ/N96xEVI5509hFzUuUQ6x5QGdmU1MJqwIlCeqceAdB
+ 5Ik7479OynmbSLkPRo+F6pFYleNsXl+/hGQZdzJVY4o6jC82jRIqdhMPhPPz7qhLXwgiVGG/GxhpK
+ sw/fXRhLwckj7w38isUztjAlMwhp2U/Q5S7TdXyGKH3crbcn2XmHk7df9R2JZfz1qshJCSdy2/hgC
+ TU3W26sA==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 1/1] 9pfs: suppress performance warnings on qtest runs
+Date: Mon, 19 Oct 2020 14:12:46 +0200
+Message-ID: <5026761.SNTRfCqACU@silver>
+In-Reply-To: <20201019134822.047db0fc@bahia.lan>
+References: <a2d2ff2163f8853ea782a7a1d4e6f2afd7c29ffe.1603106145.git.qemu_oss@crudebyte.com>
+ <20201019134822.047db0fc@bahia.lan>
 MIME-Version: 1.0
-To: =?ISO-8859-1?Q?=22Daniel_P=2E_Berrang=E9=22?= <berrange@redhat.com>
-Subject: io: Don't use '#' flag of printf format
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.138]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=alex.chen@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 08:12:12
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 06:27:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,29 +63,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengchuan@huawei.com, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: AlexChen <alex.chen@huawei.com>
----
- io/channel-websock.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Montag, 19. Oktober 2020 13:48:22 CEST Greg Kurz wrote:
+> On Mon, 19 Oct 2020 13:10:18 +0200
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > Don't trigger any performance warning if we're just running test cases,
+> > because tests intentionally run for edge cases.
+> > 
+> > So far performance warnings were suppressed for the 'synth' fs driver
+> > backend only. This patch suppresses them for all 9p fs driver backends.
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> 
+> LGTM
+> 
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
-diff --git a/io/channel-websock.c b/io/channel-websock.c
-index 47a0e941d9..e94a1fcf99 100644
---- a/io/channel-websock.c
-+++ b/io/channel-websock.c
-@@ -746,7 +746,7 @@ static int qio_channel_websock_decode_header(QIOChannelWebsock *ioc,
-             opcode != QIO_CHANNEL_WEBSOCK_OPCODE_CLOSE &&
-             opcode != QIO_CHANNEL_WEBSOCK_OPCODE_PING &&
-             opcode != QIO_CHANNEL_WEBSOCK_OPCODE_PONG) {
--            error_setg(errp, "unsupported opcode: %#04x; only binary, close, "
-+            error_setg(errp, "unsupported opcode: 0x%04x; only binary, close, "
-                        "ping, and pong websocket frames are supported", opcode);
-             qio_channel_websock_write_close(
-                 ioc, QIO_CHANNEL_WEBSOCK_STATUS_INVALID_DATA ,
--- 
-2.19.1
+Thanks Greg!
+
+BTW, if you still have something to be merged, keep in mind freeze for 5.2 
+starts next monday.
+
+Best regards,
+Christian Schoenebeck
+
+
 
