@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C9E292A39
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:20:24 +0200 (CEST)
-Received: from localhost ([::1]:40210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D9D292A5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:28:00 +0200 (CEST)
+Received: from localhost ([::1]:36216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUWxT-0005es-Oq
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42092)
+	id 1kUX4p-0007f3-Bx
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:27:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUWqb-0006uU-GA
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:17 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45574)
+ id 1kUWqf-00070H-Hs
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:21 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUWqX-0002lI-9z
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:17 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id e17so83452wru.12
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:13:12 -0700 (PDT)
+ id 1kUWqZ-0002la-2T
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:21 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n6so74605wrm.13
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:13:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ef3HmBS2nRGxZqZRT4CTCAq+5F2Nv/+vesJZx/y5JRY=;
- b=Bo5wfdDBaCnY1mSbHgE0/YE7wRlWGKYdOxu1Mu6Ofc7qdeo6pOXfpytQOjXZ67gcKV
- jx7NyD7eShUCKcv3MGvCJYBDIVqj0wYQ0CIyJ/M5KtF2GFbEyp94f+h+Rwq1ndBEY7tb
- 4eIrSuzvTCP70UVKw2NSqhQohvzu0nyS7AY9ujsL7H85Go0t6kiyK8nujvT0tocxSRfy
- 5IFl+PTMTN0qn6lAnKUEv6dFMrCXJnc6RqrhF4opjS7IvSHuV+GcSfOmmJ0lUmVhtx5t
- FjcC5GRZV7xWK2gdWEWNI+Jtf9rw9hucVHLlJ8hkfpkUuanKsj8OOFxMEomA0Ua67E/8
- D4tg==
+ bh=6hKic17i51H/7+th1/P5umqhoIFiqn2jr04cBxU9UUU=;
+ b=XO/pELETpBfePYzggX2WerIDXKceQabShhBSBsEq+UtA//1x/7mx6XFoGSmpHtEpIY
+ fYVOjvtUpzEWyyS+ZNP6Z8hQjvuY6kEUfMXJUv7o0f1g6KReHTgio8+9w7xxtUdaOYPa
+ PJr7Ho/0IGO8lca9gLnAmhJG/tK0IjBUnWStzJ5Q/YMUy/elxGLxVTVZ3zbADPeIQwrv
+ JqPeb7n6NiJiRKoWG7ItUZXuJBtCAHyK4uxnQT2sYcCIz4dcTPtw4PTvYr0/Ve6jXUjH
+ wWQOANOZzdpu4UMvYlRdrdI4lSG++qufwTuHiAPOxASxP/R5R21oJ2g2vZc4WRF11VJ2
+ F/gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ef3HmBS2nRGxZqZRT4CTCAq+5F2Nv/+vesJZx/y5JRY=;
- b=Ro8wE17EnXE9cz/wxuZpzGzMe2p1Oh7nSL/nfnxu3ZjLfN9WzdfLeMbn61fgGeGdTV
- q+ZjCEPFEZg6OEnnoAtIA9kOqY0S1NtcW0cNzbi0RQISZNFmO/wg4VlztjAekKiCmK+K
- K48nhv6SrBlhCFBoS41oFw98I/DPhWr4Q48DZf2DuLMs/SoJ8iO7MAin1igH2728QFOd
- RxN8kh7rhDq5LL3TEZLQAs3e+5XBPmMJ1kYl6jt0rbB91xiEayU7sVx0u2mRuye1qmJ5
- P9b1c7W5K9Jilwfq7naUVsXLs6ud8XGud7i8DcI/RpGu2666GF2Vv7w20oyeQdtDkAtr
- aiRg==
-X-Gm-Message-State: AOAM531du3HzTNoCNqvmnYv2kY5rjOjEIFAfal7QDmmanuh2HGUG8ni/
- 0vMq3lZkC7aOjKMFR4izr83cuw==
-X-Google-Smtp-Source: ABdhPJwneFPNx1m/moSuf67oqxeXROwPeSrc/FbvYU6Odpp1Qtcm0sXYdW0pcwzxEsnum7N5sndJqA==
-X-Received: by 2002:a5d:684d:: with SMTP id o13mr8266wrw.302.1603120392001;
- Mon, 19 Oct 2020 08:13:12 -0700 (PDT)
+ bh=6hKic17i51H/7+th1/P5umqhoIFiqn2jr04cBxU9UUU=;
+ b=gjXdzqwMIDb3CT0dSRU3SK1sdt9KGAZx5Pej39wimBnD4rOIM/njycgP+y2HvF7GrP
+ sHoJGQrW2VbLmX+yfLp3W8olHcb0PCw4d6UL3UMLZpGSArQuCzltX/DWC2UV4TxURjXz
+ ulq0UI3zu419C67ke9Dn1Q1eSpZwRA/DWIXmnpDIJ34oC76y0+fo7RCaH69/NCsO3W93
+ 5Ut7zQU4MCkQkqlR74Qjupc83tQa1Kv7tZGasjdjDeZD/KNjDD/w+V5agC/Nd0olCY0l
+ h9Hobhh7d32rTqsPKcodk2QA/o/ktM+FvIh8LRNU/l22JL8XI9l4zqaIR9e7eSFm2hut
+ 7gCQ==
+X-Gm-Message-State: AOAM5315iN6V3ggizHUBmdPZxPJdrwNC94rtMnHfkTETbSoeiI5cRLer
+ /2W17OIKJcbjsjgGrevx3BRKyA==
+X-Google-Smtp-Source: ABdhPJxMd9qOVmibbgB1FDhEnrEoza+fbugjVPKFZaOCwTdMBwemcb/rBW6+X/91QfOTAgGwMQzL8g==
+X-Received: by 2002:adf:8bd4:: with SMTP id w20mr20242969wra.391.1603120393234; 
+ Mon, 19 Oct 2020 08:13:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y14sm309918wma.48.2020.10.19.08.13.11
+ by smtp.gmail.com with ESMTPSA id y14sm309918wma.48.2020.10.19.08.13.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Oct 2020 08:13:11 -0700 (PDT)
+ Mon, 19 Oct 2020 08:13:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 07/10] target/arm: Implement v8.1M low-overhead-loop
- instructions
-Date: Mon, 19 Oct 2020 16:12:58 +0100
-Message-Id: <20201019151301.2046-8-peter.maydell@linaro.org>
+Subject: [PATCH v2 08/10] target/arm: Fix has_vfp/has_neon ID reg squashing
+ for M-profile
+Date: Mon, 19 Oct 2020 16:12:59 +0100
+Message-Id: <20201019151301.2046-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201019151301.2046-1-peter.maydell@linaro.org>
 References: <20201019151301.2046-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,173 +90,87 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v8.1M's "low-overhead-loop" extension has three instructions
-for looping:
- * DLS (start of a do-loop)
- * WLS (start of a while-loop)
- * LE (end of a loop)
+In arm_cpu_realizefn(), if the CPU has VFP or Neon disabled then we
+squash the ID register fields so that we don't advertise it to the
+guest.  This code was written for A-profile and needs some tweaks to
+work correctly on M-profile:
 
-The loop-start instructions are both simple operations to start a
-loop whose iteration count (if any) is in LR.  The loop-end
-instruction handles "decrement iteration count and jump back to loop
-start"; it also caches the information about the branch back to the
-start of the loop to improve performance of the branch on subsequent
-iterations.
+ * A-profile only fields should not be zeroed on M-profile:
+   - MVFR0.FPSHVEC,FPTRAP
+   - MVFR1.SIMDLS,SIMDINT,SIMDSP,SIMDHP
+   - MVFR2.SIMDMISC
+ * M-profile only fields should be zeroed on M-profile:
+   - MVFR1.FP16
 
-As with the branch-future instructions, the architecture permits an
-implementation to discard the LO_BRANCH_INFO cache at any time, and
-QEMU takes the IMPDEF option to never set it in the first place
-(equivalent to discarding it immediately), because for us a "real"
-implementation would be unnecessary complexity.
+In particular, because MVFR1.SIMDHP on A-profile is the same field as
+MVFR1.FP16 on M-profile this code was incorrectly disabling FP16
+support on an M-profile CPU (where has_neon is always false).  This
+isn't a visible bug yet because we don't have any M-profile CPUs with
+FP16 support, but the change is necessary before we introduce any.
 
-(This implementation only provides the simple looping constructs; the
-vector extension MVE (Helium) adds some extra variants to handle
-looping across vectors.  We'll add those later when we implement
-MVE.)
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/t32.decode  |  8 ++++
- target/arm/translate.c | 93 +++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 99 insertions(+), 2 deletions(-)
+ target/arm/cpu.c | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 3015731a8d0..8152739b52b 100644
---- a/target/arm/t32.decode
-+++ b/target/arm/t32.decode
-@@ -659,4 +659,12 @@ BL               1111 0. .......... 11.1 ............         @branch24
-     BF           1111 0 boff:4 10 ----- 1110 - ---------- 1    # BF
-     BF           1111 0 boff:4 11 ----- 1110 0 0000000000 1    # BFX, BFLX
-   ]
-+  [
-+    # LE and WLS immediate
-+    %lob_imm 1:10 11:1 !function=times_2
-+
-+    DLS          1111 0 0000 100     rn:4 1110 0000 0000 0001
-+    WLS          1111 0 0000 100     rn:4 1100 . .......... 1 imm=%lob_imm
-+    LE           1111 0 0000 0 f:1 0 1111 1100 . .......... 1 imm=%lob_imm
-+  ]
- }
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 01b697083a0..5083f828780 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -2490,17 +2490,23 @@ static void gen_goto_tb(DisasContext *s, int n, target_ulong dest)
-     s->base.is_jmp = DISAS_NORETURN;
- }
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 056319859fb..186ee621a65 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1429,17 +1429,22 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         u = cpu->isar.mvfr0;
+         u = FIELD_DP32(u, MVFR0, FPSP, 0);
+         u = FIELD_DP32(u, MVFR0, FPDP, 0);
+-        u = FIELD_DP32(u, MVFR0, FPTRAP, 0);
+         u = FIELD_DP32(u, MVFR0, FPDIVIDE, 0);
+         u = FIELD_DP32(u, MVFR0, FPSQRT, 0);
+-        u = FIELD_DP32(u, MVFR0, FPSHVEC, 0);
+         u = FIELD_DP32(u, MVFR0, FPROUND, 0);
++        if (!arm_feature(env, ARM_FEATURE_M)) {
++            u = FIELD_DP32(u, MVFR0, FPTRAP, 0);
++            u = FIELD_DP32(u, MVFR0, FPSHVEC, 0);
++        }
+         cpu->isar.mvfr0 = u;
  
--static inline void gen_jmp (DisasContext *s, uint32_t dest)
-+/* Jump, specifying which TB number to use if we gen_goto_tb() */
-+static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
- {
-     if (unlikely(is_singlestepping(s))) {
-         /* An indirect jump so that we still trigger the debug exception.  */
-         gen_set_pc_im(s, dest);
-         s->base.is_jmp = DISAS_JUMP;
-     } else {
--        gen_goto_tb(s, 0, dest);
-+        gen_goto_tb(s, tbno, dest);
+         u = cpu->isar.mvfr1;
+         u = FIELD_DP32(u, MVFR1, FPFTZ, 0);
+         u = FIELD_DP32(u, MVFR1, FPDNAN, 0);
+         u = FIELD_DP32(u, MVFR1, FPHP, 0);
++        if (arm_feature(env, ARM_FEATURE_M)) {
++            u = FIELD_DP32(u, MVFR1, FP16, 0);
++        }
+         cpu->isar.mvfr1 = u;
+ 
+         u = cpu->isar.mvfr2;
+@@ -1475,16 +1480,18 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         u = FIELD_DP32(u, ID_ISAR6, FHM, 0);
+         cpu->isar.id_isar6 = u;
+ 
+-        u = cpu->isar.mvfr1;
+-        u = FIELD_DP32(u, MVFR1, SIMDLS, 0);
+-        u = FIELD_DP32(u, MVFR1, SIMDINT, 0);
+-        u = FIELD_DP32(u, MVFR1, SIMDSP, 0);
+-        u = FIELD_DP32(u, MVFR1, SIMDHP, 0);
+-        cpu->isar.mvfr1 = u;
++        if (!arm_feature(env, ARM_FEATURE_M)) {
++            u = cpu->isar.mvfr1;
++            u = FIELD_DP32(u, MVFR1, SIMDLS, 0);
++            u = FIELD_DP32(u, MVFR1, SIMDINT, 0);
++            u = FIELD_DP32(u, MVFR1, SIMDSP, 0);
++            u = FIELD_DP32(u, MVFR1, SIMDHP, 0);
++            cpu->isar.mvfr1 = u;
+ 
+-        u = cpu->isar.mvfr2;
+-        u = FIELD_DP32(u, MVFR2, SIMDMISC, 0);
+-        cpu->isar.mvfr2 = u;
++            u = cpu->isar.mvfr2;
++            u = FIELD_DP32(u, MVFR2, SIMDMISC, 0);
++            cpu->isar.mvfr2 = u;
++        }
      }
- }
  
-+static inline void gen_jmp(DisasContext *s, uint32_t dest)
-+{
-+    gen_jmp_tb(s, dest, 0);
-+}
-+
- static inline void gen_mulxy(TCGv_i32 t0, TCGv_i32 t1, int x, int y)
- {
-     if (x)
-@@ -7953,6 +7959,89 @@ static bool trans_BF(DisasContext *s, arg_BF *a)
-     return true;
- }
- 
-+static bool trans_DLS(DisasContext *s, arg_DLS *a)
-+{
-+    /* M-profile low-overhead loop start */
-+    TCGv_i32 tmp;
-+
-+    if (!dc_isar_feature(aa32_lob, s)) {
-+        return false;
-+    }
-+    if (a->rn == 13 || a->rn == 15) {
-+        /* CONSTRAINED UNPREDICTABLE: we choose to UNDEF */
-+        return false;
-+    }
-+
-+    /* Not a while loop, no tail predication: just set LR to the count */
-+    tmp = load_reg(s, a->rn);
-+    store_reg(s, 14, tmp);
-+    return true;
-+}
-+
-+static bool trans_WLS(DisasContext *s, arg_WLS *a)
-+{
-+    /* M-profile low-overhead while-loop start */
-+    TCGv_i32 tmp;
-+    TCGLabel *nextlabel;
-+
-+    if (!dc_isar_feature(aa32_lob, s)) {
-+        return false;
-+    }
-+    if (a->rn == 13 || a->rn == 15) {
-+        /* CONSTRAINED UNPREDICTABLE: we choose to UNDEF */
-+        return false;
-+    }
-+    if (s->condexec_mask) {
-+        /*
-+         * WLS in an IT block is CONSTRAINED UNPREDICTABLE;
-+         * we choose to UNDEF, because otherwise our use of
-+         * gen_goto_tb(1) would clash with the use of TB exit 1
-+         * in the dc->condjmp condition-failed codepath in
-+         * arm_tr_tb_stop() and we'd get an assertion.
-+         */
-+        return false;
-+    }
-+    nextlabel = gen_new_label();
-+    tcg_gen_brcondi_i32(TCG_COND_EQ, cpu_R[a->rn], 0, nextlabel);
-+    tmp = load_reg(s, a->rn);
-+    store_reg(s, 14, tmp);
-+    gen_jmp_tb(s, s->base.pc_next, 1);
-+
-+    gen_set_label(nextlabel);
-+    gen_jmp(s, read_pc(s) + a->imm);
-+    return true;
-+}
-+
-+static bool trans_LE(DisasContext *s, arg_LE *a)
-+{
-+    /*
-+     * M-profile low-overhead loop end. The architecture permits an
-+     * implementation to discard the LO_BRANCH_INFO cache at any time,
-+     * and we take the IMPDEF option to never set it in the first place
-+     * (equivalent to always discarding it immediately), because for QEMU
-+     * a "real" implementation would be complicated and wouldn't execute
-+     * any faster.
-+     */
-+    TCGv_i32 tmp;
-+
-+    if (!dc_isar_feature(aa32_lob, s)) {
-+        return false;
-+    }
-+
-+    if (!a->f) {
-+        /* Not loop-forever. If LR <= 1 this is the last loop: do nothing. */
-+        arm_gen_condlabel(s);
-+        tcg_gen_brcondi_i32(TCG_COND_LEU, cpu_R[14], 1, s->condlabel);
-+        /* Decrement LR */
-+        tmp = load_reg(s, 14);
-+        tcg_gen_addi_i32(tmp, tmp, -1);
-+        store_reg(s, 14, tmp);
-+    }
-+    /* Jump back to the loop start */
-+    gen_jmp(s, read_pc(s) - a->imm);
-+    return true;
-+}
-+
- static bool op_tbranch(DisasContext *s, arg_tbranch *a, bool half)
- {
-     TCGv_i32 addr, tmp;
+     if (!cpu->has_neon && !cpu->has_vfp) {
 -- 
 2.20.1
 
