@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B62292615
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 12:53:03 +0200 (CEST)
-Received: from localhost ([::1]:50060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7B5292619
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 12:54:51 +0200 (CEST)
+Received: from localhost ([::1]:57246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUSmk-0007Up-CD
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 06:53:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35006)
+	id 1kUSoU-0001yG-R2
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 06:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kUSeM-00080R-AG
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:44:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22559)
+ id 1kUSep-0008OB-Nt
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:44:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kUSeK-0000sa-Fx
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:44:21 -0400
+ id 1kUSek-0000tj-J8
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:44:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603104259;
+ s=mimecast20190719; t=1603104282;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v5B3t3XCxMQs1HUtG1Qyz3lDsRgW8bKPDQ5//xb+e6U=;
- b=G7E6Uy4s1vh7wd5Lozd4e8tipDUApwNA5notfVK282WSFmvib/GQ1VTicLxMUgU0f0rNP/
- QGnHuLSFoLQ+rDrQo8yhzVcj2Lr7q71oP8MoKNUVmTiX5sr/jgBYLYVg9H9mL5ZZOETlUC
- R++rrujcs+7D8Sl192/pcGqbT6mXkwA=
+ bh=2EFiOg7D2B5V0bDgw9aEi/A66o6VokQxnytKxKGWgl8=;
+ b=J3vcUUnWglipEpIZ+x1oxAqlCuK1Wj6cILFIlyxdZT6EeDAKHydtESatt6tTxOx+GCLv79
+ y2DK4uLL/5Bl9bb+MauXpwtLOGF6xELO5WqY2Mhx5l6Uto+0dVsu+YGyfGm8b9Eb4zmDca
+ 25V3n2IYWHBdHhtK01pFf2lHPhjj9s8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-yclZmFcqMi2cabgcfmHVoA-1; Mon, 19 Oct 2020 06:44:17 -0400
-X-MC-Unique: yclZmFcqMi2cabgcfmHVoA-1
+ us-mta-89-FQWYFocRNi--DyEG6KxriQ-1; Mon, 19 Oct 2020 06:44:40 -0400
+X-MC-Unique: FQWYFocRNi--DyEG6KxriQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48044107AD93;
- Mon, 19 Oct 2020 10:44:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B628186DD22;
+ Mon, 19 Oct 2020 10:44:38 +0000 (UTC)
 Received: from eperezma.remote.csb (ovpn-113-59.ams2.redhat.com [10.36.113.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3BBD210013C4;
- Mon, 19 Oct 2020 10:44:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90D1810013C4;
+ Mon, 19 Oct 2020 10:44:16 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v2 3/5] memory: Add IOMMU_NOTIFIER_DEVIOTLB_UNMAP
- IOMMUTLBNotificationType
-Date: Mon, 19 Oct 2020 12:43:30 +0200
-Message-Id: <20201019104332.22033-4-eperezma@redhat.com>
+Subject: [PATCH v2 4/5] intel_iommu: Skip page walking on device iotlb
+ invalidations
+Date: Mon, 19 Oct 2020 12:43:31 +0200
+Message-Id: <20201019104332.22033-5-eperezma@redhat.com>
 In-Reply-To: <20201019104332.22033-1-eperezma@redhat.com>
 References: <20201019104332.22033-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -95,67 +95,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows us to differentiate between regular IOMMU map/unmap events
-and DEVIOTLB unmap. Doing so, notifiers that only need device IOTLB
-invalidations will not receive regular IOMMU unmappings.
+Although they didn't reach the notifier because of the filtering in
+memory_region_notify_iommu_one, the vt-d was still splitting huge
+memory invalidations in chunks. Skipping it.
 
-Adapt intel and vhost to use it.
+This improves performance in case of netperf with vhost-net:
+* TCP_STREAM: From 1923.6Mbit/s to 2175.13Mbit/s (13%)
+* TCP_RR: From 8464.73 trans/s to 8932.703333 trans/s (5.5%)
+* UDP_RR: From 8562.08 trans/s to 9005.62/s (5.1%)
+* UDP_STREAM: No change observed (insignificant 0.1% improvement)
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 ---
- include/exec/memory.h | 7 ++++++-
- hw/i386/intel_iommu.c | 2 +-
- hw/virtio/vhost.c     | 2 +-
- 3 files changed, 8 insertions(+), 3 deletions(-)
+ hw/i386/intel_iommu.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index ab60870c76..f33ee672c6 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -82,9 +82,14 @@ typedef enum {
-     IOMMU_NOTIFIER_UNMAP = 0x1,
-     /* Notify entry changes (newly created entries) */
-     IOMMU_NOTIFIER_MAP = 0x2,
-+    /* Notify changes on device IOTLB entries */
-+    IOMMU_NOTIFIER_DEVIOTLB_UNMAP = 0x04,
- } IOMMUNotifierFlag;
- 
--#define IOMMU_NOTIFIER_ALL (IOMMU_NOTIFIER_MAP | IOMMU_NOTIFIER_UNMAP)
-+#define IOMMU_NOTIFIER_IOTLB_EVENTS (IOMMU_NOTIFIER_MAP | IOMMU_NOTIFIER_UNMAP)
-+#define IOMMU_NOTIFIER_DEVIOTLB_EVENTS IOMMU_NOTIFIER_DEVIOTLB_UNMAP
-+#define IOMMU_NOTIFIER_ALL (IOMMU_NOTIFIER_IOTLB_EVENTS | \
-+                            IOMMU_NOTIFIER_DEVIOTLB_EVENTS)
- 
- struct IOMMUNotifier;
- typedef void (*IOMMUNotify)(struct IOMMUNotifier *notifier,
 diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 3976161317..6cc217742a 100644
+index 6cc217742a..8f1ac137a6 100644
 --- a/hw/i386/intel_iommu.c
 +++ b/hw/i386/intel_iommu.c
-@@ -2468,7 +2468,7 @@ static bool vtd_process_device_iotlb_desc(IntelIOMMUState *s,
-         sz = VTD_PAGE_SIZE;
-     }
+@@ -1478,6 +1478,10 @@ static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
+     VTDContextEntry ce;
+     IOMMUNotifier *n;
  
--    event.type = IOMMU_NOTIFIER_UNMAP;
-+    event.type = IOMMU_NOTIFIER_DEVIOTLB_UNMAP;
-     event.entry.target_as = &vtd_dev_as->as;
-     event.entry.addr_mask = sz - 1;
-     event.entry.iova = addr;
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 3077fa6ef5..6816037d6e 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -728,7 +728,7 @@ static void vhost_iommu_region_add(MemoryListener *listener,
-     iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
-                                                    MEMTXATTRS_UNSPECIFIED);
-     iommu_notifier_init(&iommu->n, vhost_iommu_unmap_notify,
--                        IOMMU_NOTIFIER_UNMAP,
-+                        IOMMU_NOTIFIER_DEVIOTLB_UNMAP,
-                         section->offset_within_region,
-                         int128_get64(end),
-                         iommu_idx);
++    if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
++        return 0;
++    }
++
+     ret = vtd_dev_to_context_entry(vtd_as->iommu_state,
+                                    pci_bus_num(vtd_as->bus),
+                                    vtd_as->devfn, &ce);
 -- 
 2.18.1
 
