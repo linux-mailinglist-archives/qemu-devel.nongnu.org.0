@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D9D292A5F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:28:00 +0200 (CEST)
-Received: from localhost ([::1]:36216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E1B292A45
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:22:55 +0200 (CEST)
+Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUX4p-0007f3-Bx
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:27:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42168)
+	id 1kUWzu-0000if-6V
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:22:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUWqf-00070H-Hs
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:21 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46392)
+ id 1kUWqe-0006wq-76
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:20 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUWqZ-0002la-2T
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:21 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n6so74605wrm.13
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:13:14 -0700 (PDT)
+ id 1kUWqZ-0002lm-Om
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:13:19 -0400
+Received: by mail-wm1-x341.google.com with SMTP id e2so214879wme.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:13:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6hKic17i51H/7+th1/P5umqhoIFiqn2jr04cBxU9UUU=;
- b=XO/pELETpBfePYzggX2WerIDXKceQabShhBSBsEq+UtA//1x/7mx6XFoGSmpHtEpIY
- fYVOjvtUpzEWyyS+ZNP6Z8hQjvuY6kEUfMXJUv7o0f1g6KReHTgio8+9w7xxtUdaOYPa
- PJr7Ho/0IGO8lca9gLnAmhJG/tK0IjBUnWStzJ5Q/YMUy/elxGLxVTVZ3zbADPeIQwrv
- JqPeb7n6NiJiRKoWG7ItUZXuJBtCAHyK4uxnQT2sYcCIz4dcTPtw4PTvYr0/Ve6jXUjH
- wWQOANOZzdpu4UMvYlRdrdI4lSG++qufwTuHiAPOxASxP/R5R21oJ2g2vZc4WRF11VJ2
- F/gA==
+ bh=Qb+QmhGDxs7W6jI1SEIOgXt8J7LxSA55gH0Mjqcc4gY=;
+ b=pxIxatKyEhcRUXh1qsI5nkSqT/GHSQf52wjK3lq1h9a+jqPU9IF8pcWKSPxAGBEfsj
+ oO+zna2VevQ3YMwqhUsYchiwFNhDIhR7zAwTKdlwAIPMe7Uz+i3Lhh69zBlyUhTk483b
+ TbognvcpBKyHV3ssMokRFbIF4CYwvtDgmnBjmq7H2oR55dxuWWaKnaehk0sYs7MBFPyN
+ 0NxoWa8618uSI2S4mycJydWnjuoFbMXdgQc0V9mN7EAu2TsDcdq8nzhAvVc7A/KoRQzB
+ gs7NuT8duuJFz6knVh+HRdJ5o613hmBrnUHls16SBqlplt3q8Yt8tUYIZyajPFqXdKU/
+ D7KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6hKic17i51H/7+th1/P5umqhoIFiqn2jr04cBxU9UUU=;
- b=gjXdzqwMIDb3CT0dSRU3SK1sdt9KGAZx5Pej39wimBnD4rOIM/njycgP+y2HvF7GrP
- sHoJGQrW2VbLmX+yfLp3W8olHcb0PCw4d6UL3UMLZpGSArQuCzltX/DWC2UV4TxURjXz
- ulq0UI3zu419C67ke9Dn1Q1eSpZwRA/DWIXmnpDIJ34oC76y0+fo7RCaH69/NCsO3W93
- 5Ut7zQU4MCkQkqlR74Qjupc83tQa1Kv7tZGasjdjDeZD/KNjDD/w+V5agC/Nd0olCY0l
- h9Hobhh7d32rTqsPKcodk2QA/o/ktM+FvIh8LRNU/l22JL8XI9l4zqaIR9e7eSFm2hut
- 7gCQ==
-X-Gm-Message-State: AOAM5315iN6V3ggizHUBmdPZxPJdrwNC94rtMnHfkTETbSoeiI5cRLer
- /2W17OIKJcbjsjgGrevx3BRKyA==
-X-Google-Smtp-Source: ABdhPJxMd9qOVmibbgB1FDhEnrEoza+fbugjVPKFZaOCwTdMBwemcb/rBW6+X/91QfOTAgGwMQzL8g==
-X-Received: by 2002:adf:8bd4:: with SMTP id w20mr20242969wra.391.1603120393234; 
- Mon, 19 Oct 2020 08:13:13 -0700 (PDT)
+ bh=Qb+QmhGDxs7W6jI1SEIOgXt8J7LxSA55gH0Mjqcc4gY=;
+ b=Iy9o2hCHBbrc8qyyrJu93kj3ikhniY+q3/XunSOK+GJl/knd7J6LcGgg/qgDZf/0vD
+ SJ61sORaEhHv96nZ88T6Bdg0MgQuum89tIPio0KhtQsNnvtEVF4/nl+9376wi2my8jbH
+ CU8xJrBEMALXuBcjtqPeJr5Z59+ifAiCoh6lr+1Bgdxm850u682l5zs0pJBFzg/mBWdD
+ 6eZSzxjvJiSGqiqp4UBUPxrELYEqN0/P8Jrbp+LVKue63/NDElxok3S3rHAo/T4LrBKl
+ /WgbIJNdWuLG7AcUX8Hd/uIOkv+AqiZ/VygAvkDX2WC1JzBkX8PXEoYJQiU/wQMc4Mr4
+ kitA==
+X-Gm-Message-State: AOAM533tafMJx/KG738wbHHCP1duGFF17rEI1YHaRFg+bOP6pupfdm4p
+ DkH1Tj6xubMelTaBMRzsPy7XbA==
+X-Google-Smtp-Source: ABdhPJxnJcj42JOgwM22Ic6uBqs/klmBOjaKDuc9lWRA/1AUIAEKu51ERpuE1BdJ1zxc8cfaI8Zlvw==
+X-Received: by 2002:a1c:2108:: with SMTP id h8mr18009559wmh.63.1603120394344; 
+ Mon, 19 Oct 2020 08:13:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y14sm309918wma.48.2020.10.19.08.13.12
+ by smtp.gmail.com with ESMTPSA id y14sm309918wma.48.2020.10.19.08.13.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Oct 2020 08:13:12 -0700 (PDT)
+ Mon, 19 Oct 2020 08:13:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 08/10] target/arm: Fix has_vfp/has_neon ID reg squashing
- for M-profile
-Date: Mon, 19 Oct 2020 16:12:59 +0100
-Message-Id: <20201019151301.2046-9-peter.maydell@linaro.org>
+Subject: [PATCH v2 09/10] target/arm: Allow M-profile CPUs with FP16 to set
+ FPSCR.FP16
+Date: Mon, 19 Oct 2020 16:13:00 +0100
+Message-Id: <20201019151301.2046-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201019151301.2046-1-peter.maydell@linaro.org>
 References: <20201019151301.2046-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,87 +90,100 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In arm_cpu_realizefn(), if the CPU has VFP or Neon disabled then we
-squash the ID register fields so that we don't advertise it to the
-guest.  This code was written for A-profile and needs some tweaks to
-work correctly on M-profile:
+M-profile CPUs with half-precision floating point support should
+be able to write to FPSCR.FZ16, but an M-profile specific masking
+of the value at the top of vfp_set_fpscr() currently prevents that.
+This is not yet an active bug because we have no M-profile
+FP16 CPUs, but needs to be fixed before we can add any.
 
- * A-profile only fields should not be zeroed on M-profile:
-   - MVFR0.FPSHVEC,FPTRAP
-   - MVFR1.SIMDLS,SIMDINT,SIMDSP,SIMDHP
-   - MVFR2.SIMDMISC
- * M-profile only fields should be zeroed on M-profile:
-   - MVFR1.FP16
+The bits that the masking is effectively preventing from being
+set are the A-profile only short-vector Len and Stride fields,
+plus the Neon QC bit. Rearrange the order of the function so
+that those fields are handled earlier and only under a suitable
+guard; this allows us to drop the M-profile specific masking,
+making FZ16 writeable.
 
-In particular, because MVFR1.SIMDHP on A-profile is the same field as
-MVFR1.FP16 on M-profile this code was incorrectly disabling FP16
-support on an M-profile CPU (where has_neon is always false).  This
-isn't a visible bug yet because we don't have any M-profile CPUs with
-FP16 support, but the change is necessary before we introduce any.
+This change also makes the QC bit correctly RAZ/WI for older
+no-Neon A-profile cores.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This refactoring also paves the way for the low-overhead-branch
+LTPSIZE field, which uses some of the bits that are used for
+A-profile Stride and Len.
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ target/arm/vfp_helper.c | 47 ++++++++++++++++++++++++-----------------
+ 1 file changed, 28 insertions(+), 19 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 056319859fb..186ee621a65 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1429,17 +1429,22 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         u = cpu->isar.mvfr0;
-         u = FIELD_DP32(u, MVFR0, FPSP, 0);
-         u = FIELD_DP32(u, MVFR0, FPDP, 0);
--        u = FIELD_DP32(u, MVFR0, FPTRAP, 0);
-         u = FIELD_DP32(u, MVFR0, FPDIVIDE, 0);
-         u = FIELD_DP32(u, MVFR0, FPSQRT, 0);
--        u = FIELD_DP32(u, MVFR0, FPSHVEC, 0);
-         u = FIELD_DP32(u, MVFR0, FPROUND, 0);
-+        if (!arm_feature(env, ARM_FEATURE_M)) {
-+            u = FIELD_DP32(u, MVFR0, FPTRAP, 0);
-+            u = FIELD_DP32(u, MVFR0, FPSHVEC, 0);
-+        }
-         cpu->isar.mvfr0 = u;
- 
-         u = cpu->isar.mvfr1;
-         u = FIELD_DP32(u, MVFR1, FPFTZ, 0);
-         u = FIELD_DP32(u, MVFR1, FPDNAN, 0);
-         u = FIELD_DP32(u, MVFR1, FPHP, 0);
-+        if (arm_feature(env, ARM_FEATURE_M)) {
-+            u = FIELD_DP32(u, MVFR1, FP16, 0);
-+        }
-         cpu->isar.mvfr1 = u;
- 
-         u = cpu->isar.mvfr2;
-@@ -1475,16 +1480,18 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         u = FIELD_DP32(u, ID_ISAR6, FHM, 0);
-         cpu->isar.id_isar6 = u;
- 
--        u = cpu->isar.mvfr1;
--        u = FIELD_DP32(u, MVFR1, SIMDLS, 0);
--        u = FIELD_DP32(u, MVFR1, SIMDINT, 0);
--        u = FIELD_DP32(u, MVFR1, SIMDSP, 0);
--        u = FIELD_DP32(u, MVFR1, SIMDHP, 0);
--        cpu->isar.mvfr1 = u;
-+        if (!arm_feature(env, ARM_FEATURE_M)) {
-+            u = cpu->isar.mvfr1;
-+            u = FIELD_DP32(u, MVFR1, SIMDLS, 0);
-+            u = FIELD_DP32(u, MVFR1, SIMDINT, 0);
-+            u = FIELD_DP32(u, MVFR1, SIMDSP, 0);
-+            u = FIELD_DP32(u, MVFR1, SIMDHP, 0);
-+            cpu->isar.mvfr1 = u;
- 
--        u = cpu->isar.mvfr2;
--        u = FIELD_DP32(u, MVFR2, SIMDMISC, 0);
--        cpu->isar.mvfr2 = u;
-+            u = cpu->isar.mvfr2;
-+            u = FIELD_DP32(u, MVFR2, SIMDMISC, 0);
-+            cpu->isar.mvfr2 = u;
-+        }
+diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+index 5666393ef79..c3d01d781b6 100644
+--- a/target/arm/vfp_helper.c
++++ b/target/arm/vfp_helper.c
+@@ -194,36 +194,45 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
+         val &= ~FPCR_FZ16;
      }
  
-     if (!cpu->has_neon && !cpu->has_vfp) {
+-    if (arm_feature(env, ARM_FEATURE_M)) {
++    vfp_set_fpscr_to_host(env, val);
++
++    if (!arm_feature(env, ARM_FEATURE_M)) {
+         /*
+-         * M profile FPSCR is RES0 for the QC, STRIDE, FZ16, LEN bits
+-         * and also for the trapped-exception-handling bits IxE.
++         * Short-vector length and stride; on M-profile these bits
++         * are used for different purposes.
++         * We can't make this conditional be "if MVFR0.FPShVec != 0",
++         * because in v7A no-short-vector-support cores still had to
++         * allow Stride/Len to be written with the only effect that
++         * some insns are required to UNDEF if the guest sets them.
++         *
++         * TODO: if M-profile MVE implemented, set LTPSIZE.
+          */
+-        val &= 0xf7c0009f;
++        env->vfp.vec_len = extract32(val, 16, 3);
++        env->vfp.vec_stride = extract32(val, 20, 2);
+     }
+ 
+-    vfp_set_fpscr_to_host(env, val);
++    if (arm_feature(env, ARM_FEATURE_NEON)) {
++        /*
++         * The bit we set within fpscr_q is arbitrary; the register as a
++         * whole being zero/non-zero is what counts.
++         * TODO: M-profile MVE also has a QC bit.
++         */
++        env->vfp.qc[0] = val & FPCR_QC;
++        env->vfp.qc[1] = 0;
++        env->vfp.qc[2] = 0;
++        env->vfp.qc[3] = 0;
++    }
+ 
+     /*
+      * We don't implement trapped exception handling, so the
+      * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES0!)
+      *
+-     * If we exclude the exception flags, IOC|DZC|OFC|UFC|IXC|IDC
+-     * (which are stored in fp_status), and the other RES0 bits
+-     * in between, then we clear all of the low 16 bits.
++     * The exception flags IOC|DZC|OFC|UFC|IXC|IDC are stored in
++     * fp_status; QC, Len and Stride are stored separately earlier.
++     * Clear out all of those and the RES0 bits: only NZCV, AHP, DN,
++     * FZ, RMode and FZ16 are kept in vfp.xregs[FPSCR].
+      */
+     env->vfp.xregs[ARM_VFP_FPSCR] = val & 0xf7c80000;
+-    env->vfp.vec_len = (val >> 16) & 7;
+-    env->vfp.vec_stride = (val >> 20) & 3;
+-
+-    /*
+-     * The bit we set within fpscr_q is arbitrary; the register as a
+-     * whole being zero/non-zero is what counts.
+-     */
+-    env->vfp.qc[0] = val & FPCR_QC;
+-    env->vfp.qc[1] = 0;
+-    env->vfp.qc[2] = 0;
+-    env->vfp.qc[3] = 0;
+ }
+ 
+ void vfp_set_fpscr(CPUARMState *env, uint32_t val)
 -- 
 2.20.1
 
