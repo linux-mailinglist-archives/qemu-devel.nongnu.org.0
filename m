@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D742928C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 16:04:29 +0200 (CEST)
-Received: from localhost ([::1]:36400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314BC292926
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 16:19:49 +0200 (CEST)
+Received: from localhost ([::1]:46972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUVm0-0000oh-2Y
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 10:04:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50958)
+	id 1kUW0p-0007Qo-PW
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 10:19:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUVi7-0007Wz-CK
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 10:00:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUVi5-0001DA-BD
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 10:00:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603116023;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aOX7N1suFPzknT2wZrnDBZ1rsdZkdETvhdvdTadXT3Q=;
- b=UcvS0hqb1cdyfUBVX69dASpFiedMG95xEXv7i/j/suhB/MM0cPdTFEMkL4RMD0owRW3F5h
- 0zhKyzoWTGKWkJg/5PiJI7xrRgZfdU5WcpCyAJXK5REm/mI/hXPZuK7E0n8+aXsfrVG6g/
- N/nFIPcQCyuJzfjIBZYl7mh65tL5w2E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-qhEcgtkuOxO0QM111h7mYw-1; Mon, 19 Oct 2020 10:00:21 -0400
-X-MC-Unique: qhEcgtkuOxO0QM111h7mYw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 555E88030AD;
- Mon, 19 Oct 2020 14:00:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F8226E70C;
- Mon, 19 Oct 2020 14:00:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 931AC1132A08; Mon, 19 Oct 2020 16:00:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: BALATON Zoltan via <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/pci-host/grackle: Verify PIC link is properly set
-References: <20201011190332.3189611-1-f4bug@amsat.org>
- <20201011223446.GA4787@yekko.fritz.box>
- <369509c1-2e90-13cf-8845-892e754516d1@amsat.org>
- <20201012065436.GB71119@yekko.fritz.box>
- <9f7e4847-801d-dcd3-b876-bf2d276251@eik.bme.hu>
- <6e587154-4bc5-c44c-0c85-b46e0dddd3aa@amsat.org>
- <87k0vm1wny.fsf@dusky.pond.sub.org>
- <24bcd4-fde2-22a2-d3f4-cd42d9ee13c6@eik.bme.hu>
-Date: Mon, 19 Oct 2020 16:00:17 +0200
-In-Reply-To: <24bcd4-fde2-22a2-d3f4-cd42d9ee13c6@eik.bme.hu> (BALATON Zoltan
- via's message of "Mon, 19 Oct 2020 13:11:42 +0200 (CEST)")
-Message-ID: <87d01e48pa.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUVza-0006xl-D5
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 10:18:30 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:42794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUVzU-0003ns-MB
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 10:18:29 -0400
+Received: by mail-ej1-x644.google.com with SMTP id h24so14149495ejg.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 07:18:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=P+q5eYuI1k2apwhrOjSGFGRHo5809gNHaxtenpNMuYw=;
+ b=MczSj6+E+TEhn3EmNgvtfVGUNeTN65ETQn8oj+HFePDmEj2lsrhjWodyiSMAg6RpKT
+ 2+kiYIRLNP0W7O2qdRMjCW+j8weNipZVBX2q9w8Ci4ydrIwmGVgNqm5keZV33N7gjPcu
+ 4QX8jUPxFaXeyD+sox2QMUbhMsg3ugWN8xXzPrqIGiTihy80L44c9ASAqPxF0aC6Yg0I
+ g3SDYH33fDJY6vZHkeHmomE3y5rhd+QXpZYGDTRIgTMKjU4B16EAYnexwX21FgxKrnNa
+ V5f9qD4iVZwbTNSyhruBMB8AUn3Ok8PPqVekpDQmYYu8RMfpp2S1aXfuKcXBZBdPznk8
+ qQ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=P+q5eYuI1k2apwhrOjSGFGRHo5809gNHaxtenpNMuYw=;
+ b=lpyEprvcYa6vakdomqs6pFpK/6DQiF1sCp0M8p+KkQFvx4huAti/zfxYBL6JkuPJOz
+ Q6U+zV5Jeyb0j8UMAJrZqDW3qYdgE7z7OXKNxhwKXJjBAG7jySA7a1X+5Pf8NC5lBUEz
+ pLV5wTg7R6S1PzEGM8aXvL26mtGApKqwZ8Oz5xJmVDZMuW9Hbeb9d0Ro0CJn6GYugPid
+ wA/UKB4yHfIR177u2tMgmuAcqkvUqGJfwzrJISa3og2t3Iz+Hh41IXoGlxPe5iZRoV69
+ ymAEgOaoSPW5IbNg2+wX3kWEreOnohmo1sbFEcuDhj8cgtXegk+sgz2G3oJCZCEa2BPs
+ 8tYg==
+X-Gm-Message-State: AOAM532Mrv5s2eOkYOaGB/zP6ArXNiWtL173US+SA5IJTQ0AkpWdzMjW
+ 3v2UhRlVqf7tdLU6kAUItFJthnRDdk4soSoxqpzINg==
+X-Google-Smtp-Source: ABdhPJw3vW4GnAqPbWP30F0VUJ7G6Yt8X9gS2VaxnQj6oSBN9PU9jmUQyfruo6m9TLe6heauDs/6WHB+Df/7MFucyiY=
+X-Received: by 2002:a17:906:c7d9:: with SMTP id
+ dc25mr110314ejb.482.1603117102813; 
+ Mon, 19 Oct 2020 07:18:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201015040639.70C6D414009F@webmail.sinamail.sina.com.cn>
+ <7fecfc67da4caab1d677a8b4cd5386b3@kernel.org>
+ <20201015133505.ubxvbrt6xyvl4362@kamzik.brq.redhat.com>
+ <16400df4bdf79b8b22e824eb1a20e2b4@kernel.org>
+ <20201015144104.ytwzpxjlsgyun3ob@kamzik.brq.redhat.com>
+ <CAFEAcA-LBmbjp-Teb35f=O-1QtMLd8bAuq5XaCz9URdQZ1jxow@mail.gmail.com>
+ <20201019092525.ekvgbcwwtm63pueu@kamzik.brq.redhat.com>
+ <20201019113157.GN32292@arm.com>
+ <CAFEAcA8oncKmGxKGEZBg9Pnm4hjSO8u9KSv4YxFWxX0+LJ5E2g@mail.gmail.com>
+ <20201019134043.vqusmzhqp7owjt6x@kamzik.brq.redhat.com>
+In-Reply-To: <20201019134043.vqusmzhqp7owjt6x@kamzik.brq.redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Oct 2020 15:18:11 +0100
+Message-ID: <CAFEAcA8RB6MTnv0qavxWs28=pbT16i9dT1pd+0Dy9HxPVk+bZA@mail.gmail.com>
+Subject: Re: Kernel patch cases qemu live migration failed.
+To: Andrew Jones <drjones@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,92 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Marc Zyngier <maz@kernel.org>, xu910121@sina.com,
+ Dave Martin <Dave.Martin@arm.com>, kvmarm <kvmarm@lists.cs.columbia.edu>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BALATON Zoltan via <qemu-devel@nongnu.org> writes:
-
-> On Mon, 19 Oct 2020, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
->>> On 10/12/20 1:50 PM, BALATON Zoltan via wrote:
->>>> On Mon, 12 Oct 2020, David Gibson wrote:
->>>>> On Mon, Oct 12, 2020 at 08:21:41AM +0200, Philippe
->>>>> Mathieu-Daud=C3=83=C6=92=C3=86=E2=80=99=C3=83=E2=80=9A=C3=82=C2=A9 wr=
-ote:
->>>>>> On 10/12/20 12:34 AM, David Gibson wrote:
->>>>>>> On Sun, Oct 11, 2020 at 09:03:32PM +0200, Philippe
->>>>>>> Mathieu-Daud=C3=83=C6=92=C3=86=E2=80=99=C3=83=E2=80=9A=C3=82=C2=A9 =
-wrote:
->>>>>>>> The Grackle PCI host model expects the interrupt controller
->>>>>>>> being set, but does not verify it is present. Add a check to
->>>>>>>> help developers using this model.
->>>>>>>
->>>>>>> I don't think thaqt's very likely, but, sure, applied to ppc-for-5.=
-2
->>>>>>
->>>>>> Do you want I correct the description as:
->>>>>> "The Grackle PCI host model expects the interrupt controller
->>>>>> being set, but does not verify it is present.
->>>>>> A developer basing its implementation on the Grackle model
->>>>>> might hit this problem. Add a check to help future developers
->>>>>> using this model as reference."?
->>>>>
->>>>> No, it's fine.=C3=82=C2=A0 All I was saying is that the chances of an=
-yone using
->>>>> Grackle in future seem very low to me.
->>>> So maybe an assert instead of a user visible error would be enough?
->>>
->>> My understanding is realize() shouldn't abort()
->>> (the caller might choose to by using &error_abort).
->>
->> assert() is for checking invariants.  A violated invariant is a
->> programming error: developers screwed up, safe recovery is impossible.
->>
->> Abusing assert() to catch errors that are not programming errors is
->> wrong.
->>
->> You may check invariants with assert() anywhere in the code.
->>
->> You should not misuse assert() anywhere in the code.
->>
->> Sometimes, an error condition that is *not* a programming error in the
->> function where it is detected *is* a programming error for certain
->> calls.  Having these calls pass &error_abort is a common solution for
->> this problem.
->>
->> Hope this helps.
+On Mon, 19 Oct 2020 at 14:40, Andrew Jones <drjones@redhat.com> wrote:
 >
-> Helps just a bit but after reading this I'm still confused if this
-> particular case should be assert or ser error.
+> On Mon, Oct 19, 2020 at 12:43:33PM +0100, Peter Maydell wrote:
+> > Well, ID regs are special in the architecture -- they always exist
+> > and must RAZ/WI, even if they're not actually given any fields yet.
+> > This is different from other "unused" parts of the system register
+> > encoding space, which UNDEF.
 >
-> I was suggesting assert and I think it's a programming error to use
-> the grackle model without setting PIC link but not sure if users can
-> also create this instance via command line (even if it does not make
-> much sense) in which case it's probably better to return error.
+> Table D12-2 confirms the register should be RAZ, as it says the register
+> is "RO, but RAZ if SVE is not implemented". Does "RO" imply "WI", though?
+> For the guest we inject an exception on writes, and for userspace we
+> require the value to be preserved on write.
 
-They can't: "info qdm" shows
+Sorry, I mis-spoke. They're RAZ, but not WI, just RO (which is to say
+they'll UNDEF if you try to write to them).
 
-    name "grackle-pcihost", bus System, no-user
-                                        ~~~~~~~
+> I think we should follow the spec, even for userspace access, and be RAZ
+> for when the feature isn't implemented. As for writes, assuming the
+> exception injection is what we want for the guest (not WI), then that's
+> correct. For userspace, I think we should continue forcing preservation
+> (which will force preservation of zero when it's RAZ).
 
->                                                                 Having
-> all devices user creatable via -device without a way to describe their=20
-> dependencies is a nice way to make all sorts of errors possible. But
-> maybe aborting with assert during creation of the machine is still
-> OK. If people device_add a model later and that crashes then it's
-> their problem. Unless we want to avoid that being used as DoS in
-> enterprise setting. So maybe we should never abort then if there's a
-> way to fail with an error instead.
->
-> I can look at this problem from different angles and all seem to be
-> plausible resulting in different solutions.
+Yes, that sounds right.
 
-As long as the device is no-user, asserting that properties have sane
-values feels reasonable enough to me.
-
-Setting an error instead is not wrong, of course.
-
+thanks
+-- PMM
 
