@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0F2292B4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:17:28 +0200 (CEST)
-Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AE0292B52
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:21:20 +0200 (CEST)
+Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUXqh-0005vW-Ef
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:17:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54822)
+	id 1kUXuR-00011q-TD
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUXf2-0002Bv-BL
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:05:24 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:43622)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUXex-0001ZJ-FA
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:05:23 -0400
-Received: by mail-ed1-x541.google.com with SMTP id dn5so10805358edb.10
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 09:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Y0F4Dy8wjAXlmgJZ42mM6NFtPD4hAKyMvW1OqoNDMjk=;
- b=e5aMnY2gEaBbZ3GYOIHoFFb2TR+Rm31g44bw+rdcon5qM/ZxLTuJpGIPbJUNWPaOUi
- fqJFW8nD//4/hhExFZ2TTNyrnvHflUhJVjMMBXlxSHMwKxYct2DF9qJHeQlrXl699s2E
- sLqTXe36kM7NOYb9hc9YFoKpH/cmDAVWroojiCC5WzpW6qYBpmgQBlEqaitJy9FdSDbb
- gBlNroqlYm7clQiqv9XLV9W9VkoTvDsjfEi3xDCO3dwds1Obye41czazF4vWNZbIZDA2
- nhKzyxmj3oMBHxZ/fBoOpsjRwUOVplbiIgDzwj5PPR+Sk5jokTtN3vAnpMoU3iEpYehw
- FmhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Y0F4Dy8wjAXlmgJZ42mM6NFtPD4hAKyMvW1OqoNDMjk=;
- b=Nkt1AjHSuvgcz0zIk7g3V4dencW6g1h4KgmCvB7K42wBrFeHEnVsHRdLiMUdfBeqgk
- Q5dYX6UUG4+EPFh+GZjTx3+5D3uzqYqeAfcLpN2LGk5xPgEfd79gwFhFCIfRLV5hScNN
- maZFs//m6f5jKo6PePNH2lWX9kNZbIwojiu3fAZDv+DgeX2Ij3nHYHztCuNlxDADU7ky
- 9sGrqfuhaG68KLnSeClLfJlo0aKzOfCoTpneQSDun06Nzhy4nsj2L1qKu2o3ieE66Ifk
- OWMYRNH9zi9XWZG66NjhJFU03Pf3/9KQrfIB8j4cuHd1IlpoSN831ocArUV50yCxnJdh
- zeew==
-X-Gm-Message-State: AOAM5303OOSQH7eiJNjjVotQoUL2y2hYOYHuHSEwMQZEISPibEggNtla
- LwYyg7XaAQOGyoQftdKCqzsgvwP7ZgeJ0Cqm6QrxKw==
-X-Google-Smtp-Source: ABdhPJzZwD2zoGapJC0ZFIwbSsbjXm+6CJ4arHDW5bCC4KPf9DDJeMR1D4yvCekPmRKOFPCXL/SpeUvzDCKYHVSTqW8=
-X-Received: by 2002:aa7:c7d7:: with SMTP id o23mr537553eds.44.1603123516553;
- Mon, 19 Oct 2020 09:05:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kUXkB-0000DA-9R
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:10:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kUXk8-0002aU-Rk
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:10:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603123839;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bXf/sm3rbvlVxPMd+9TZ7dJFZQs3mg1cwfZooT8UbaQ=;
+ b=FT3S294ZZntMn+e4rSX2iuntbEWHve0TIVDcfdi6BnlwOoYcushdKPoEgzqbcS1jk67X/y
+ rp3DAg/owQIEbaTH+ttmToD+zgNCaA+0cWs0T8C04AxWHvYOF4ZSptOb11eCw0QjFpr/H7
+ 5s0ZrfwSjbUxAUwknI+bYjRwGIkqVzM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-SKma8qENNRicNjuHZn0aiQ-1; Mon, 19 Oct 2020 12:10:36 -0400
+X-MC-Unique: SKma8qENNRicNjuHZn0aiQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B3A610055B6;
+ Mon, 19 Oct 2020 16:10:34 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-121.ams2.redhat.com [10.36.114.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 219841A837;
+ Mon, 19 Oct 2020 16:10:27 +0000 (UTC)
+Date: Mon, 19 Oct 2020 18:10:26 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 02/13] block: use return status of bdrv_append()
+Message-ID: <20201019161026.GF6508@merkur.fritz.box>
+References: <20201016171057.6182-1-vsementsov@virtuozzo.com>
+ <20201016171057.6182-3-vsementsov@virtuozzo.com>
+ <20201019121302.GD6508@merkur.fritz.box>
+ <87v9f62p8o.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-References: <20200915171639.1355800-1-f4bug@amsat.org>
-In-Reply-To: <20200915171639.1355800-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Oct 2020 17:05:05 +0100
-Message-ID: <CAFEAcA-YEYbLiDpx37cPF40giyr340Gx+V+Vbx+mdxiDZC_qxA@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/block/nand: Decommission the NAND museum
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <87v9f62p8o.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,95 +80,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, berto@igalia.com,
+ stefanha@redhat.com, qemu-block@nongnu.org, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, pavel.dovgaluk@ispras.ru, pbonzini@redhat.com,
+ den@openvz.org, mreitz@redhat.com, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Sep 2020 at 18:52, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> This is the QEMU equivalent of this Linux commit (but 7 years later):
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3Df7025a43a9da2
->
->     The MTD subsystem has its own small museum of ancient NANDs
->     in a form of the CONFIG_MTD_NAND_MUSEUM_IDS configuration option.
->     The museum contains stone age NANDs with 256 bytes pages, as well
->     as iron age NANDs with 512 bytes per page and up to 8MiB page size.
->
->     It is with great sorrow that I inform you that the museum is being
->     decommissioned. The MTD subsystem is out of budget for Kconfig
->     options and already has too many of them, and there is a general
->     kernel trend to simplify the configuration menu.
->
->     We remove the stone age exhibits along with closing the museum,
->     but some of the iron age ones are transferred to the regular NAND
->     depot. Namely, only those which have unique device IDs are
->     transferred, and the ones which have conflicting device IDs are
->     removed.
->
-> The machine using this device are:
-> - axis-dev88
-> - tosa (via tc6393xb_init)
-> - spitz based (akita, borzoi, terrier)
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> Peter, as 4 of the 5 machines are ARM-based, can this go via your tree?
-> ---
->  hw/block/nand.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/block/nand.c b/hw/block/nand.c
-> index 5c8112ed5a4..5f01ba2bc44 100644
-> --- a/hw/block/nand.c
-> +++ b/hw/block/nand.c
-> @@ -138,7 +138,7 @@ static void mem_and(uint8_t *dest, const uint8_t *src=
-, size_t n)
->  # define ADDR_SHIFT            16
->  # include "nand.c"
->
-> -/* Information based on Linux drivers/mtd/nand/nand_ids.c */
-> +/* Information based on Linux drivers/mtd/nand/raw/nand_ids.c */
->  static const struct {
->      int size;
->      int width;
-> @@ -154,15 +154,14 @@ static const struct {
->      [0xe8] =3D { 1,      8,      8, 4, 0 },
->      [0xec] =3D { 1,      8,      8, 4, 0 },
->      [0xea] =3D { 2,      8,      8, 4, 0 },
-> -    [0xd5] =3D { 4,      8,      9, 4, 0 },
->      [0xe3] =3D { 4,      8,      9, 4, 0 },
->      [0xe5] =3D { 4,      8,      9, 4, 0 },
-> -    [0xd6] =3D { 8,      8,      9, 4, 0 },
->
-> -    [0x39] =3D { 8,      8,      9, 4, 0 },
-> -    [0xe6] =3D { 8,      8,      9, 4, 0 },
-> -    [0x49] =3D { 8,      16,     9, 4, NAND_BUSWIDTH_16 },
-> -    [0x59] =3D { 8,      16,     9, 4, NAND_BUSWIDTH_16 },
-> +    [0x6b] =3D { 4,        8,        9, 4, 0 },
-> +    [0xe3] =3D { 4,        8,        9, 4, 0 },
-> +    [0xe5] =3D { 4,        8,        9, 4, 0 },
+Am 19.10.2020 um 17:45 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Am 16.10.2020 um 19:10 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> >> Now bdrv_append returns status and we can drop all the local_err things
+> >> around it.
+> >> 
+> >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >> Reviewed-by: Greg Kurz <groug@kaod.org>
+> >> Reviewed-by: Alberto Garcia <berto@igalia.com>
+> >> ---
+> >>  block.c                     |  5 +----
+> >>  block/backup-top.c          | 20 ++++++++------------
+> >>  block/commit.c              |  5 +----
+> >>  block/mirror.c              |  6 ++----
+> >>  blockdev.c                  |  4 +---
+> >>  tests/test-bdrv-graph-mod.c |  6 +++---
+> >>  6 files changed, 16 insertions(+), 30 deletions(-)
+> >> 
+> >> diff --git a/block.c b/block.c
+> >> index b05fbff42d..7b6818c681 100644
+> >> --- a/block.c
+> >> +++ b/block.c
+> >> @@ -3161,7 +3161,6 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+> >>      int64_t total_size;
+> >>      QemuOpts *opts = NULL;
+> >>      BlockDriverState *bs_snapshot = NULL;
+> >> -    Error *local_err = NULL;
+> >>      int ret;
+> >>  
+> >>      /* if snapshot, we create a temporary backing file and open it
+> >> @@ -3208,9 +3207,7 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+> >>       * order to be able to return one, we have to increase
+> >>       * bs_snapshot's refcount here */
+> >>      bdrv_ref(bs_snapshot);
+> >> -    bdrv_append(bs_snapshot, bs, &local_err);
+> >> -    if (local_err) {
+> >> -        error_propagate(errp, local_err);
+> >> +    if (bdrv_append(bs_snapshot, bs, errp) < 0) {
+> >
+> > We generally avoid calling functions with side effects inside a
+> > comparison. Let's use the usual pattern:
+> >
+> >     ret = bdrv_append(bs_snapshot, bs, errp);
+> >     if (ret < 0) {
+> >         ...
+> >     }
+> 
+> I'd also advice against buring side effects too deep, but calling a
+> function in a failure-checking conditional is pretty benign.  It's also
+> common:
+> 
+>     $ git-grep 'if ([a-z].*) < 0) {'
+> 
+> coughs up several hundred instances.
+> 
+> That said, there is none in block.c.  Local consistency matters.
 
-This line adds an entry for 0xe5, but there is already one
-further up in the array (you can see it in this hunk).
+Actually, after looking at the rest of the series, I also need to be a
+bit more specific: We do have boolean if (!foo()), it's just the
+negative errno ones that aren't very common in the block layer.
 
-More generally, it doesn't seem to match the referenced
-kernel commit, which deletes 14 lines and adds 5
-(which are a subset of the 14 deleted, really, so
-they probably show up for us as "9 deletions" since
-we don't have the #ifdef...#endif the kernel does).
+And the reason why it's not very common is probably that 0/-errno is
+very common in the block layer and a check for < 0 just throws the
+specific errno away. We had a lot of such code, which was wrong because
+it lost information instead of passing the real error to the caller.
+I guess this is the real origin of the block layer habits to avoid it.
 
-> +    [0xd6] =3D { 8,        8,        9, 4, 0 },
-> +    [0xe6] =3D { 8,        8,        9, 4, 0 },
->
->      [0x33] =3D { 16,     8,      9, 5, 0 },
->      [0x73] =3D { 16,     8,      9, 5, 0 },
+Kevin
 
-thanks
--- PMM
 
