@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AE0292B52
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:21:20 +0200 (CEST)
-Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795D7292B45
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 18:14:26 +0200 (CEST)
+Received: from localhost ([::1]:35486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUXuR-00011q-TD
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:21:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56358)
+	id 1kUXnl-0003DK-Fu
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 12:14:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kUXkB-0000DA-9R
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:10:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kUXk8-0002aU-Rk
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:10:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603123839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bXf/sm3rbvlVxPMd+9TZ7dJFZQs3mg1cwfZooT8UbaQ=;
- b=FT3S294ZZntMn+e4rSX2iuntbEWHve0TIVDcfdi6BnlwOoYcushdKPoEgzqbcS1jk67X/y
- rp3DAg/owQIEbaTH+ttmToD+zgNCaA+0cWs0T8C04AxWHvYOF4ZSptOb11eCw0QjFpr/H7
- 5s0ZrfwSjbUxAUwknI+bYjRwGIkqVzM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-SKma8qENNRicNjuHZn0aiQ-1; Mon, 19 Oct 2020 12:10:36 -0400
-X-MC-Unique: SKma8qENNRicNjuHZn0aiQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B3A610055B6;
- Mon, 19 Oct 2020 16:10:34 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-121.ams2.redhat.com [10.36.114.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 219841A837;
- Mon, 19 Oct 2020 16:10:27 +0000 (UTC)
-Date: Mon, 19 Oct 2020 18:10:26 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 02/13] block: use return status of bdrv_append()
-Message-ID: <20201019161026.GF6508@merkur.fritz.box>
-References: <20201016171057.6182-1-vsementsov@virtuozzo.com>
- <20201016171057.6182-3-vsementsov@virtuozzo.com>
- <20201019121302.GD6508@merkur.fritz.box>
- <87v9f62p8o.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kUXlF-0001io-De
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:11:49 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:33792)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kUXlC-0002fu-Ix
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 12:11:49 -0400
+Received: by mail-pg1-x543.google.com with SMTP id t14so248923pgg.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 09:11:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=vWWfInR+InkSN5sSTc39Bjp/6w7xCgQse7gaM1O3SL8=;
+ b=Uu8oweKM+6OKL1nf+NLU7q+YDR/zcM5dsPfJxhe9t0GzArpxe0tQc+TxV+uXjEVMwb
+ r0MJLpykBCC3YZHgxxcaEkTQ96c5PRwL2sH2gxPW0VP9CYiNY/sCYu/J81t0Wcz9Pfak
+ yRGCvDbpAWrdHwd66Q+yx1U2PPFUNmKPd8/GVSXZZJ+6IMgY3iCayGkG9Y5aTseqZW+L
+ lcUqmtkJaaVljXMtA6ySTYsHZSNvoQ5vFe64K+CnSSkoBWqYliAOwyG/HlKlNmC6rgGz
+ x3pwergW6QYpRI8Vt2Q5rXO+zZdfNaFUgCZRtueHVCX1bPiWwuYwPNXnbWbAoMpYD4NE
+ Oc1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vWWfInR+InkSN5sSTc39Bjp/6w7xCgQse7gaM1O3SL8=;
+ b=DRq+IgIXqQYPEV0NDdM2wWeQSGmEFP1sW2AQZX2abSa1Cpg5lZSlhf26E/JilktcIS
+ raQFWFXzRbxgTVLr2DtW03vlMsnHQk+mhziwteo3Ip6R7/vAm7H+xNn8Cr0bOTcD/VVp
+ rUhmHDb4U0Ic6KmgLmI5SrxKewSPi3e6o1i7oWYMZ5pTzuO+IXUvGEfwn2G0IcglBMjv
+ 6nyYHPlnw60BPsC8b79BYaZ2EOQ+ujmh0xA++1buZa84t4RCc0dDIazOx+KN3XEwglvi
+ VIoxVrTXhT/iZFP6x+iBH3QJ0KclCcdzqlF4jf7/CKRin0Wx/UqyheE1RaoK24h0kak8
+ +zgA==
+X-Gm-Message-State: AOAM530xDKQ/nyn+dmiMs+qTk3KBKuGdwkhIUBWpLVK11kpze/iTFbaz
+ kdFh4rLOw+eyHVJBBswycsYYHyXA3yEXMQ==
+X-Google-Smtp-Source: ABdhPJwYv5FJmb0k0coltf4oD4v0ez7D2zHGby0rG5ouA62O3x6t8YpwYzdtd7u+wdmPGrICWB34ew==
+X-Received: by 2002:a62:1749:0:b029:156:3399:a7f6 with SMTP id
+ 70-20020a6217490000b02901563399a7f6mr251226pfx.79.1603123904568; 
+ Mon, 19 Oct 2020 09:11:44 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id a18sm30461pjs.27.2020.10.19.09.11.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Oct 2020 09:11:43 -0700 (PDT)
+Subject: Re: [PATCH v2 02/10] target/arm: Implement v8.1M NOCP handling
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20201019151301.2046-1-peter.maydell@linaro.org>
+ <20201019151301.2046-3-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <037b3fbf-45e3-eec6-dcf3-76344405b8f6@linaro.org>
+Date: Mon, 19 Oct 2020 09:11:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <87v9f62p8o.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <20201019151301.2046-3-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,81 +91,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, berto@igalia.com,
- stefanha@redhat.com, qemu-block@nongnu.org, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, pavel.dovgaluk@ispras.ru, pbonzini@redhat.com,
- den@openvz.org, mreitz@redhat.com, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 19.10.2020 um 17:45 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
+On 10/19/20 8:12 AM, Peter Maydell wrote:
+> From v8.1M, disabled-coprocessor handling changes slightly:
+>  * coprocessors 8, 9, 14 and 15 are also governed by the
+>    cp10 enable bit, like cp11
+>  * an extra range of instruction patterns is considered
+>    to be inside the coprocessor space
 > 
-> > Am 16.10.2020 um 19:10 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> >> Now bdrv_append returns status and we can drop all the local_err things
-> >> around it.
-> >> 
-> >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >> Reviewed-by: Greg Kurz <groug@kaod.org>
-> >> Reviewed-by: Alberto Garcia <berto@igalia.com>
-> >> ---
-> >>  block.c                     |  5 +----
-> >>  block/backup-top.c          | 20 ++++++++------------
-> >>  block/commit.c              |  5 +----
-> >>  block/mirror.c              |  6 ++----
-> >>  blockdev.c                  |  4 +---
-> >>  tests/test-bdrv-graph-mod.c |  6 +++---
-> >>  6 files changed, 16 insertions(+), 30 deletions(-)
-> >> 
-> >> diff --git a/block.c b/block.c
-> >> index b05fbff42d..7b6818c681 100644
-> >> --- a/block.c
-> >> +++ b/block.c
-> >> @@ -3161,7 +3161,6 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
-> >>      int64_t total_size;
-> >>      QemuOpts *opts = NULL;
-> >>      BlockDriverState *bs_snapshot = NULL;
-> >> -    Error *local_err = NULL;
-> >>      int ret;
-> >>  
-> >>      /* if snapshot, we create a temporary backing file and open it
-> >> @@ -3208,9 +3207,7 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
-> >>       * order to be able to return one, we have to increase
-> >>       * bs_snapshot's refcount here */
-> >>      bdrv_ref(bs_snapshot);
-> >> -    bdrv_append(bs_snapshot, bs, &local_err);
-> >> -    if (local_err) {
-> >> -        error_propagate(errp, local_err);
-> >> +    if (bdrv_append(bs_snapshot, bs, errp) < 0) {
-> >
-> > We generally avoid calling functions with side effects inside a
-> > comparison. Let's use the usual pattern:
-> >
-> >     ret = bdrv_append(bs_snapshot, bs, errp);
-> >     if (ret < 0) {
-> >         ...
-> >     }
+> We previously marked these up with TODO comments; implement the
+> correct behaviour.
 > 
-> I'd also advice against buring side effects too deep, but calling a
-> function in a failure-checking conditional is pretty benign.  It's also
-> common:
+> Unfortunately there is no ID register field which indicates this
+> behaviour.  We could in theory test an unrelated ID register which
+> indicates guaranteed-to-be-in-v8.1M behaviour like ID_ISAR0.CmpBranch
+>> = 3 (low-overhead-loops), but it seems better to simply define a new
+> ARM_FEATURE_V8_1M feature flag and use it for this and other
+> new-in-v8.1M behaviour that isn't identifiable from the ID registers.
 > 
->     $ git-grep 'if ([a-z].*) < 0) {'
-> 
-> coughs up several hundred instances.
-> 
-> That said, there is none in block.c.  Local consistency matters.
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/cpu.h               |  1 +
+>  target/arm/m-nocp.decode       | 10 ++++++----
+>  target/arm/translate-vfp.c.inc | 17 +++++++++++++++--
+>  3 files changed, 22 insertions(+), 6 deletions(-)
 
-Actually, after looking at the rest of the series, I also need to be a
-bit more specific: We do have boolean if (!foo()), it's just the
-negative errno ones that aren't very common in the block layer.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-And the reason why it's not very common is probably that 0/-errno is
-very common in the block layer and a check for < 0 just throws the
-specific errno away. We had a lot of such code, which was wrong because
-it lost information instead of passing the real error to the caller.
-I guess this is the real origin of the block layer habits to avoid it.
-
-Kevin
+r~
 
 
