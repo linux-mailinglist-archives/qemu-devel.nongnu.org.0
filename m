@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA8D292E2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 21:06:52 +0200 (CEST)
-Received: from localhost ([::1]:36156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295E0292E32
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 21:08:27 +0200 (CEST)
+Received: from localhost ([::1]:41484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUaUd-0002tr-8W
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 15:06:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41122)
+	id 1kUaWA-00057k-7I
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 15:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUaPc-0007Qn-At
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 15:01:45 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34650
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUaPV-0000k7-UL
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 15:01:38 -0400
-Received: from host86-148-246-80.range86-148.btcentralplus.com
- ([86.148.246.80] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kUaPP-0001TP-UJ; Mon, 19 Oct 2020 20:01:32 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201012170950.3491912-1-f4bug@amsat.org>
- <20201012170950.3491912-2-f4bug@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <e4f1dab2-e88e-0ea4-2eb7-2f849be3193b@ilande.co.uk>
-Date: Mon, 19 Oct 2020 20:01:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kUaQG-0007XU-Ku
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 15:02:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kUaQB-0000ov-Pu
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 15:02:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603134133;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1hETq2MK5UNR2g0DSGewOEz7HlJgIpcZTAUMJI0/Ruc=;
+ b=IS7JCdku/Jhszuzq00/Bh/8vbuTQpgy/sNless2PcKKXTsMTzVmAAW0WTw2yt9hshtmrsI
+ Pu6eSmMmK1qz5A0JSPNvSMBPzeG49KBukUFbuUQkngP67zxuJ8Z4npWacZ+zf5QPjCoR1M
+ ayRcyhluO9mqc9TuHafKEIanDrBJm10=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-QE4CU-zvNfq_MNPftRHjGQ-1; Mon, 19 Oct 2020 15:02:10 -0400
+X-MC-Unique: QE4CU-zvNfq_MNPftRHjGQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C9BA425DE;
+ Mon, 19 Oct 2020 19:02:08 +0000 (UTC)
+Received: from w520.home (ovpn-112-77.phx2.redhat.com [10.3.112.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6132260DA0;
+ Mon, 19 Oct 2020 19:02:07 +0000 (UTC)
+Date: Mon, 19 Oct 2020 13:02:06 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/1] Skip flatview_simplify() for cpu vendor zhaoxin
+Message-ID: <20201019130206.1d3baffc@w520.home>
+In-Reply-To: <a971c9db-469f-ddc0-1a27-3e21958f6ff7@redhat.com>
+References: <20201016112933.14856-1-FelixCui-oc@zhaoxin.com>
+ <20201016112933.14856-2-FelixCui-oc@zhaoxin.com>
+ <a971c9db-469f-ddc0-1a27-3e21958f6ff7@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201012170950.3491912-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.246.80
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/6] hw/pci-host/sabre: Update documentation link
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,40 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: FelixCuioc <FelixCui-oc@zhaoxin.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ CobeChen-oc@zhaoxin.com, qemu-devel@nongnu.org, TonyWWang-oc@zhaoxin.com,
+ RockCui-oc@zhaoxin.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/2020 18:09, Philippe Mathieu-Daudé wrote:
+On Fri, 16 Oct 2020 13:42:29 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> The current link redirects to https://www.oracle.com/sun/
-> announcing "Oracle acquired Sun Microsystems in 2010, ..."
-> but does not give hint where to find the datasheet.
+> On 16/10/20 13:29, FelixCuioc wrote:
+> > The issue here is that an assinged EHCI device accesses
+> > an adjacent mapping between the delete and add phases
+> > of the VFIO MemoryListener.
+> > We want to skip flatview_simplify() is to prevent EHCI
+> > device IOVA mappings from being unmapped.  
 > 
-> Use the archived PDF on the Wayback Machine, which works.
+> Hi,
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   hw/pci-host/sabre.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> there is indeed a bug, but I have already explained last month
+> (https://mail.gnu.org/archive/html/qemu-devel/2020-09/msg01279.html)
+> that this patch is conceptually wrong:
 > 
-> diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
-> index 5ac62836238..3634f8369b7 100644
-> --- a/hw/pci-host/sabre.c
-> +++ b/hw/pci-host/sabre.c
-> @@ -44,7 +44,7 @@
->   /*
->    * Chipset docs:
->    * PBM: "UltraSPARC IIi User's Manual",
-> - * http://www.sun.com/processors/manuals/805-0087.pdf
-> + * https://web.archive.org/web/20030403110020/http://www.sun.com/processors/manuals/805-0087.pdf
->    */
->   
->   #define PBM_PCI_IMR_MASK    0x7fffffff
+> 1) you're adding host_get_vendor conditioned on compiling the x86
+> emulator, so you are breaking compilation on non-x86 machines.
+> 
+> 2) you're adding a check for the host, but the bug applies to all hosts.
+>  If there is a bug on x86 hardware emulation, it should be fixed even
+> when emulating x86 from ARM.  It should also apply to all CPU vendors.
+> 
+> Alex, the issue here is that the delete+add passes are racing against an
+> assigned device's DMA. For KVM we were thinking of changing the whole
+> memory map with a single ioctl, but that's much easier because KVM
+> builds its page tables lazily. It would be possible for the IOMMU too
+> but it would require a relatively complicated comparison of the old and
+> new memory maps in the kernel.
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+We can only build IOMMU page tables lazily if we get faults, which we
+generally don't.  We also cannot atomically update IOMMU page tables
+relative to a device, so "housekeeping" updates of mappings to (I
+assume) consolidate KVM memory slots doesn't work so well when the
+device is still running.  Stopping the device via something like the
+bus-master enable bit also sounds like a whole set of problems itself.
+I assume these simplified mappings also reduce our resolution for later
+unmaps, which isn't necessarily a win for an assigned device either if
+it exposes the race again each boot.
 
+Maybe the question is why we don't see these errors more regularly, is
+there something unique about the memory layout of this platform versus
+others that causes larger memory regions to be coalesced together only
+to be later unmapped and provide more exposure to this issue?  Thanks,
 
-ATB,
+Alex
 
-Mark.
 
