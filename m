@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3801C2923E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 10:50:39 +0200 (CEST)
-Received: from localhost ([::1]:51518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230242923E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 10:50:47 +0200 (CEST)
+Received: from localhost ([::1]:52198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUQsI-0005Bd-8G
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 04:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38002)
+	id 1kUQsQ-0005SG-3k
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 04:50:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUQq2-0003iq-Jk
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:48:20 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:39966)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUQqE-0003lk-2v
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:48:31 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:30153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUQq1-0002ht-3f
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:48:18 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUQqB-0002kr-TV
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 04:48:28 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-BUdTnnOoMEe6vAsWEdgxnQ-1; Mon, 19 Oct 2020 04:48:12 -0400
-X-MC-Unique: BUdTnnOoMEe6vAsWEdgxnQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-569-4nzfdw2iOnyqW2WV-o2cbg-1; Mon, 19 Oct 2020 04:48:23 -0400
+X-MC-Unique: 4nzfdw2iOnyqW2WV-o2cbg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D508E1084C81;
- Mon, 19 Oct 2020 08:48:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 502638030A4;
+ Mon, 19 Oct 2020 08:48:22 +0000 (UTC)
 Received: from bahia.lan (ovpn-112-78.ams2.redhat.com [10.36.112.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C2FE5D9EF;
- Mon, 19 Oct 2020 08:48:05 +0000 (UTC)
-Subject: [PATCH 1/5] pc-dimm: Drop @errp argument of pc_dimm_plug()
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D2B361983;
+ Mon, 19 Oct 2020 08:48:16 +0000 (UTC)
+Subject: [PATCH 2/5] spapr: Use appropriate getter for PC_DIMM_ADDR_PROP
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Mon, 19 Oct 2020 10:48:04 +0200
-Message-ID: <160309728447.2739814.12831204841251148202.stgit@bahia.lan>
+Date: Mon, 19 Oct 2020 10:48:16 +0200
+Message-ID: <160309729609.2739814.4996614957953215591.stgit@bahia.lan>
 In-Reply-To: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
 References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
 User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
@@ -75,125 +75,35 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pc_dimm_plug() doesn't use it. It only aborts on error.
+The PC_DIMM_ADDR_PROP property is defined as:
 
-Drop @errp and adapt the callers accordingly.
+    DEFINE_PROP_UINT64(PC_DIMM_ADDR_PROP, PCDIMMDevice, addr, 0),
+
+Use object_property_get_uint() instead of object_property_get_int().
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/arm/virt.c            |    9 +--------
- hw/i386/pc.c             |    8 +-------
- hw/mem/pc-dimm.c         |    2 +-
- hw/ppc/spapr.c           |    5 +----
- include/hw/mem/pc-dimm.h |    2 +-
- 5 files changed, 5 insertions(+), 21 deletions(-)
+ hw/ppc/spapr.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index e465a988d683..27dbeb549ef1 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2261,12 +2261,8 @@ static void virt_memory_plug(HotplugHandler *hotplug=
-_dev,
-     VirtMachineState *vms =3D VIRT_MACHINE(hotplug_dev);
-     MachineState *ms =3D MACHINE(hotplug_dev);
-     bool is_nvdimm =3D object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
--    Error *local_err =3D NULL;
-=20
--    pc_dimm_plug(PC_DIMM(dev), MACHINE(vms), &local_err);
--    if (local_err) {
--        goto out;
--    }
-+    pc_dimm_plug(PC_DIMM(dev), MACHINE(vms));
-=20
-     if (is_nvdimm) {
-         nvdimm_plug(ms->nvdimms_state);
-@@ -2274,9 +2270,6 @@ static void virt_memory_plug(HotplugHandler *hotplug_=
-dev,
-=20
-     hotplug_handler_plug(HOTPLUG_HANDLER(vms->acpi_dev),
-                          dev, &error_abort);
--
--out:
--    error_propagate(errp, local_err);
- }
-=20
- static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index e87be5d29a01..38b1be78e707 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1265,24 +1265,18 @@ static void pc_memory_pre_plug(HotplugHandler *hotp=
-lug_dev, DeviceState *dev,
- static void pc_memory_plug(HotplugHandler *hotplug_dev,
-                            DeviceState *dev, Error **errp)
- {
--    Error *local_err =3D NULL;
-     PCMachineState *pcms =3D PC_MACHINE(hotplug_dev);
-     X86MachineState *x86ms =3D X86_MACHINE(hotplug_dev);
-     MachineState *ms =3D MACHINE(hotplug_dev);
-     bool is_nvdimm =3D object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
-=20
--    pc_dimm_plug(PC_DIMM(dev), MACHINE(pcms), &local_err);
--    if (local_err) {
--        goto out;
--    }
-+    pc_dimm_plug(PC_DIMM(dev), MACHINE(pcms));
-=20
-     if (is_nvdimm) {
-         nvdimm_plug(ms->nvdimms_state);
-     }
-=20
-     hotplug_handler_plug(x86ms->acpi_dev, dev, &error_abort);
--out:
--    error_propagate(errp, local_err);
- }
-=20
- static void pc_memory_unplug_request(HotplugHandler *hotplug_dev,
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index c30351070bb8..2ffc986734df 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -64,7 +64,7 @@ void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *m=
-achine,
-                            errp);
- }
-=20
--void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine, Error **errp)
-+void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
- {
-     PCDIMMDeviceClass *ddc =3D PC_DIMM_GET_CLASS(dimm);
-     MemoryRegion *vmstate_mr =3D ddc->get_vmstate_memory_region(dimm,
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index ee716a12af73..4edd31b86915 100644
+index 4edd31b86915..115fc52e3b06 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3438,10 +3438,7 @@ static void spapr_memory_plug(HotplugHandler *hotplu=
-g_dev, DeviceState *dev,
+@@ -3572,8 +3572,8 @@ static SpaprDimmState *spapr_recover_pending_dimm_sta=
+te(SpaprMachineState *ms,
+     uint64_t addr_start, addr;
+     int i;
 =20
-     size =3D memory_device_get_region_size(MEMORY_DEVICE(dev), &error_abor=
-t);
+-    addr_start =3D object_property_get_int(OBJECT(dimm), PC_DIMM_ADDR_PROP=
+,
+-                                         &error_abort);
++    addr_start =3D object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PRO=
+P,
++                                          &error_abort);
 =20
--    pc_dimm_plug(dimm, MACHINE(ms), &local_err);
--    if (local_err) {
--        goto out;
--    }
-+    pc_dimm_plug(dimm, MACHINE(ms));
-=20
-     if (!is_nvdimm) {
-         addr =3D object_property_get_uint(OBJECT(dimm),
-diff --git a/include/hw/mem/pc-dimm.h b/include/hw/mem/pc-dimm.h
-index aec9527fdd96..3d3db82641f8 100644
---- a/include/hw/mem/pc-dimm.h
-+++ b/include/hw/mem/pc-dimm.h
-@@ -72,6 +72,6 @@ struct PCDIMMDeviceClass {
-=20
- void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
-                       const uint64_t *legacy_align, Error **errp);
--void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine, Error **errp)=
-;
-+void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine);
- void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine);
- #endif
+     addr =3D addr_start;
+     for (i =3D 0; i < nr_lmbs; i++) {
 
 
 
