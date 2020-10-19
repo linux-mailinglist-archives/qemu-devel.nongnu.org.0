@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316812925FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 12:46:40 +0200 (CEST)
-Received: from localhost ([::1]:32948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2BE02925FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 12:44:33 +0200 (CEST)
+Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUSgZ-0000FJ-71
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 06:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34110)
+	id 1kUSeW-0006wg-NY
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 06:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kUSbp-0005ci-Pt
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:41:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27570)
+ id 1kUScG-0005xx-Kw
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:42:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kUSbo-0000cb-8H
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:41:45 -0400
+ id 1kUScE-0000fp-SQ
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:42:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603104103;
+ s=mimecast20190719; t=1603104128;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NPvvkGtFAk7jJB28VlhS8s1Gq5q1/zl+n8vmkgrW6U4=;
- b=ZM09UCSKXtTor8ac7MPoEG5hqEn313vpZoaF7+ub6z0/J2aD0MkywSB3mPIib3Xt8hacbW
- bsPEHUUytTC3o0U9fanDEVs5inD89VqxsXpAgDuVS+4F+bS6JSSWYOlaHb2uUPj9FIzEXZ
- r7Qe5FXXJ6S0qPFM0OL/ArQR7aH/5Ik=
+ bh=7p8C2negoEwkGVFLuGhSUb3hAD7u40KjPl9YPQXtkeI=;
+ b=A/Viugp0WKEYWdphAL7ZequlkvUUMHMFJu0teIdmnHw397MC8Xr5xf3UqTzojJfIBvdJxd
+ f83K15isCPe0Uvdud2PAKeLZYybDTpn5EdJ+u3BDqfRFQfp6NTWtGjQlZgaWjz6u2de/Lt
+ iYDUIK7G6ewdYheFPd70iPj+Qiv9tJU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-537-Bgif6YCCOi66VGgPV36hOw-1; Mon, 19 Oct 2020 06:41:39 -0400
-X-MC-Unique: Bgif6YCCOi66VGgPV36hOw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-289-75BqXrQGOR2VtBXxN-_dhA-1; Mon, 19 Oct 2020 06:42:04 -0400
+X-MC-Unique: 75BqXrQGOR2VtBXxN-_dhA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 809B0107464A;
- Mon, 19 Oct 2020 10:41:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF52857057;
+ Mon, 19 Oct 2020 10:42:03 +0000 (UTC)
 Received: from redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 757375C1A3;
- Mon, 19 Oct 2020 10:41:37 +0000 (UTC)
-Date: Mon, 19 Oct 2020 11:41:34 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3D5110013C4;
+ Mon, 19 Oct 2020 10:42:02 +0000 (UTC)
+Date: Mon, 19 Oct 2020 11:41:59 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Chetan Pant <chetan4windows@gmail.com>
-Subject: Re: [PATCH 3/30] crypt: Fix Lesser GPL version number
-Message-ID: <20201019104134.GG236912@redhat.com>
+Subject: Re: [PATCH 4/30] authz: Fix Lesser GPL version number
+Message-ID: <20201019104159.GH236912@redhat.com>
 References: <20201014134248.14146-1-chetan4windows@gmail.com>
+ <20201014134902.14291-1-chetan4windows@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201014134248.14146-1-chetan4windows@gmail.com>
+In-Reply-To: <20201014134902.14291-1-chetan4windows@gmail.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,7 +89,7 @@ Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 14, 2020 at 01:42:48PM +0000, Chetan Pant wrote:
+On Wed, Oct 14, 2020 at 01:49:02PM +0000, Chetan Pant wrote:
 > There is no "version 2" of the "Lesser" General Public License.
 > It is either "GPL version 2.0" or "Lesser GPL version 2.1".
 > This patch replaces all occurrences of "Lesser GPL version 2" with
@@ -96,14 +97,21 @@ On Wed, Oct 14, 2020 at 01:42:48PM +0000, Chetan Pant wrote:
 > 
 > Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
 > ---
->  tests/test-crypto-afsplit.c | 2 +-
->  tests/test-crypto-block.c   | 2 +-
->  tests/test-crypto-cipher.c  | 2 +-
->  tests/test-crypto-hash.c    | 2 +-
->  tests/test-crypto-ivgen.c   | 2 +-
->  tests/test-crypto-secret.c  | 2 +-
->  tests/test-crypto-xts.c     | 2 +-
->  7 files changed, 7 insertions(+), 7 deletions(-)
+>  authz/base.c                | 2 +-
+>  authz/list.c                | 2 +-
+>  authz/listfile.c            | 2 +-
+>  authz/pamacct.c             | 2 +-
+>  authz/simple.c              | 2 +-
+>  include/authz/base.h        | 2 +-
+>  include/authz/list.h        | 2 +-
+>  include/authz/listfile.h    | 2 +-
+>  include/authz/pamacct.h     | 2 +-
+>  include/authz/simple.h      | 2 +-
+>  tests/test-authz-list.c     | 2 +-
+>  tests/test-authz-listfile.c | 2 +-
+>  tests/test-authz-pam.c      | 2 +-
+>  tests/test-authz-simple.c   | 2 +-
+>  14 files changed, 14 insertions(+), 14 deletions(-)
 
 Acked-by: Daniel P. Berrangé <berrange@redhat.com>
 
