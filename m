@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2DF29283B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 15:34:04 +0200 (CEST)
-Received: from localhost ([::1]:45640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D44829283A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 15:33:42 +0200 (CEST)
+Received: from localhost ([::1]:44598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUVIa-0003JP-0p
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 09:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43876)
+	id 1kUVID-0002sy-IK
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 09:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lizhengui@huawei.com>)
- id 1kUVFN-0000wb-9r; Mon, 19 Oct 2020 09:30:45 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5184 helo=huawei.com)
+ id 1kUVG8-0001h0-0S; Mon, 19 Oct 2020 09:31:32 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5185 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lizhengui@huawei.com>)
- id 1kUVFL-0005VX-D2; Mon, 19 Oct 2020 09:30:45 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 70B572FEF5191047ED8C;
- Mon, 19 Oct 2020 21:30:36 +0800 (CST)
+ id 1kUVG6-0005g1-1t; Mon, 19 Oct 2020 09:31:31 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 70A51A8E98B2226C50BA;
+ Mon, 19 Oct 2020 21:31:23 +0800 (CST)
 Received: from DESKTOP-80C7KIU.china.huawei.com (10.174.187.210) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 19 Oct 2020 21:30:27 +0800
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 19 Oct 2020 21:31:15 +0800
 From: Zhengui li <lizhengui@huawei.com>
 To: <pbonzini@redhat.com>, <stefanha@redhat.com>, <mreitz@redhat.com>,
  <kwolf@redhat.com>
-Subject: [PATCH] vhost-user-scsi: fix incorrect print type
-Date: Mon, 19 Oct 2020 13:30:25 +0000
-Message-ID: <1603114225-22628-1-git-send-email-lizhengui@huawei.com>
+Subject: [PATCH] vhost-user: fix incorrect print type
+Date: Mon, 19 Oct 2020 13:31:12 +0000
+Message-ID: <1603114272-25004-1-git-send-email-lizhengui@huawei.com>
 X-Mailer: git-send-email 2.6.4.windows.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -63,22 +63,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 fix incorrect print type.
 ---
- contrib/vhost-user-scsi/vhost-user-scsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/virtio/vhost-user.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/contrib/vhost-user-scsi/vhost-user-scsi.c b/contrib/vhost-user-scsi/vhost-user-scsi.c
-index 3c91238..1527ffd 100644
---- a/contrib/vhost-user-scsi/vhost-user-scsi.c
-+++ b/contrib/vhost-user-scsi/vhost-user-scsi.c
-@@ -182,7 +182,7 @@ static int handle_cmd_sync(struct iscsi_context *ctx,
-         task->iovector_in.niov = in_len;
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 9c5b4f7..db563bd 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -308,7 +308,7 @@ static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
+     /* validate message size is sane */
+     if (msg->hdr.size > VHOST_USER_PAYLOAD_SIZE) {
+         error_report("Failed to read msg header."
+-                " Size %d exceeds the maximum %zu.", msg->hdr.size,
++                " Size %u exceeds the maximum %zu.", msg->hdr.size,
+                 VHOST_USER_PAYLOAD_SIZE);
+         return -1;
      }
+@@ -319,7 +319,7 @@ static int vhost_user_read(struct vhost_dev *dev, VhostUserMsg *msg)
+         r = qemu_chr_fe_read_all(chr, p, size);
+         if (r != size) {
+             error_report("Failed to read msg payload."
+-                         " Read %d instead of %d.", r, msg->hdr.size);
++                         " Read %d instead of %u.", r, msg->hdr.size);
+             return -1;
+         }
+     }
+@@ -740,7 +740,7 @@ static int send_add_regions(struct vhost_dev *dev,
+                  */
+                 if (msg_reply.hdr.size != msg->hdr.size) {
+                     error_report("%s: Unexpected size for postcopy reply "
+-                                 "%d vs %d", __func__, msg_reply.hdr.size,
++                                 "%u vs %u", __func__, msg_reply.hdr.size,
+                                  msg->hdr.size);
+                     return -1;
+                 }
+@@ -905,7 +905,7 @@ static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
+          */
+         if (msg_reply.hdr.size != msg.hdr.size) {
+             error_report("%s: Unexpected size for postcopy reply "
+-                         "%d vs %d", __func__, msg_reply.hdr.size,
++                         "%u vs %u", __func__, msg_reply.hdr.size,
+                          msg.hdr.size);
+             return -1;
+         }
+@@ -1445,7 +1445,7 @@ static void slave_read(void *opaque)
  
--    g_debug("Sending iscsi cmd (cdb_len=%d, dir=%d, task=%p)",
-+    g_debug("Sending iscsi cmd (cdb_len=%d, dir=%u, task=%p)",
-          cdb_len, dir, task);
-     if (!iscsi_scsi_command_sync(ctx, 0, task, NULL)) {
-         g_warning("Error serving SCSI command");
+     if (hdr.size > VHOST_USER_PAYLOAD_SIZE) {
+         error_report("Failed to read msg header."
+-                " Size %d exceeds the maximum %zu.", hdr.size,
++                " Size %u exceeds the maximum %zu.", hdr.size,
+                 VHOST_USER_PAYLOAD_SIZE);
+         goto err;
+     }
 -- 
 1.8.3.1
 
