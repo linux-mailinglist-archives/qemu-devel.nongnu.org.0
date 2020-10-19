@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43EA7292A5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:27:10 +0200 (CEST)
-Received: from localhost ([::1]:32774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C725292A53
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:25:33 +0200 (CEST)
+Received: from localhost ([::1]:56710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUX41-0006DM-9l
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44244)
+	id 1kUX2R-0004Jk-QO
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:25:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUX0R-0002VV-BB
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:23:28 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:35624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUX0L-0003xq-CU
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:23:25 -0400
-Received: by mail-ed1-x541.google.com with SMTP id cq12so10694709edb.2
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:23:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rEF8vCp0ne68s88LSiZAalVd6SH2xeZNXOAKExoOtKE=;
- b=kr5wNKDm58CZNtiJgvXFBKp9c3+gbXYA62C3UKX153CcgyvaEFH5t2Jc6JO+3O7J6I
- 4BpYo4iLK1ZMb99ku2yfMys2bo5/ZtRRUdyvisTUJpr9HmIPTJxjLXBXWzLinZhPgiL0
- AIMaSw0ENxU3tEctr6sHY/E63fzbO9tXLaIsn5z5mlSWBuDLz+8Kr5ZaVqKxtMEVsHp7
- qAy08+fk9v4TZDWhsFNLFNe6ROKDTc0pLD4Ve7c678ei2f7cM5ch/l2/F+qjVuqx8OkZ
- cRnrAd6g5ZySAufzy5ziCqRBjfoTxzi016RnR9iimL6W98U6QXe4ln43PfC0tPA5TpFV
- oG7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rEF8vCp0ne68s88LSiZAalVd6SH2xeZNXOAKExoOtKE=;
- b=Gj6nThL30mZwUMhGaCJbG79de2uYwOrsvqJFspHARXHq1mq4WYIsbKFmkplB0RbebV
- oukzyDwihPVDbt+phNsKcLejz9qT3tIfSJdMWiLBWeLo58kVv5mkxZnhYe+xqoFpz3EU
- w+shFybW2NOazvlyNZkRIVyc16+Q0jyZifQBH4RqdupnzgDZW/SFKvBNU60HoyK9kLi5
- 4Ff5pfVtT7SSV6iFFe6S2bsg5UEhvEIxdoOJewB1S262mAJRHW8I5F/WGV3LeVTjLQfw
- YeHKaxpatylZF22ay14djFYLpQM5x4byNP1w/US2CHk5ODe9iLEXtqi7E81uMupoQA1A
- 8SWA==
-X-Gm-Message-State: AOAM531Qv8VwBfcoy7QOcMRAcv3Dnuq4Aw3QRQe1/8+OLwmNi9eEbVXV
- dllDERDgVkihzlMKdVFua4EdyGQqDBMWd7RDVLy6sg==
-X-Google-Smtp-Source: ABdhPJwaSQo4DgM1Frso9tKu8F1xU24jTB4teY1uN4/mTvMq+DtdJ/YnxqhkFXaUcuzRT1YsqTZUpAF1kYgnpgah4mA=
-X-Received: by 2002:aa7:c7d7:: with SMTP id o23mr353827eds.44.1603120998221;
- Mon, 19 Oct 2020 08:23:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kUX0V-0002WK-Uz
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:23:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34101)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kUX0P-0003yJ-FN
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:23:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603121002;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8qqe4i/Zi2sPJmvXzSJ7X87OrF4YFyucaDslDr3ii2k=;
+ b=cHU5VTk9/jFqXNF7ktDFWhQwS7pl8PR+tphuUlxHuTWIu2tm4QCBorr+L9qohTrXlecTJp
+ vPNzQoUM2XsMLmq3YrnuMFCkYcFQHRGyq9e+2k40FpWvhxwkOyB9OZI/cQGtdR3PH8S9Yd
+ yi6miACOTWFdDFEbJ6iSSBlwhcLf0To=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-cXtUVPOHN9uPi8dHsLPXhg-1; Mon, 19 Oct 2020 11:23:17 -0400
+X-MC-Unique: cXtUVPOHN9uPi8dHsLPXhg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C574A8049C1;
+ Mon, 19 Oct 2020 15:23:15 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.193.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F5F410013D0;
+ Mon, 19 Oct 2020 15:23:13 +0000 (UTC)
+Date: Mon, 19 Oct 2020 17:23:11 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Dave Martin <Dave.Martin@arm.com>
+Subject: Re: Kernel patch cases qemu live migration failed.
+Message-ID: <20201019152311.csxcz52sawia4imi@kamzik.brq.redhat.com>
+References: <20201015133505.ubxvbrt6xyvl4362@kamzik.brq.redhat.com>
+ <16400df4bdf79b8b22e824eb1a20e2b4@kernel.org>
+ <20201015144104.ytwzpxjlsgyun3ob@kamzik.brq.redhat.com>
+ <CAFEAcA-LBmbjp-Teb35f=O-1QtMLd8bAuq5XaCz9URdQZ1jxow@mail.gmail.com>
+ <20201019092525.ekvgbcwwtm63pueu@kamzik.brq.redhat.com>
+ <20201019113157.GN32292@arm.com>
+ <CAFEAcA8oncKmGxKGEZBg9Pnm4hjSO8u9KSv4YxFWxX0+LJ5E2g@mail.gmail.com>
+ <20201019134043.vqusmzhqp7owjt6x@kamzik.brq.redhat.com>
+ <CAFEAcA8RB6MTnv0qavxWs28=pbT16i9dT1pd+0Dy9HxPVk+bZA@mail.gmail.com>
+ <20201019145839.GO32292@arm.com>
 MIME-Version: 1.0
-References: <20201014213601.205222-1-f4bug@amsat.org>
-In-Reply-To: <20201014213601.205222-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Oct 2020 16:23:07 +0100
-Message-ID: <CAFEAcA9GxfBR-vFeT=QdmRwD1Y_6orED1bruXEsvyD73osV2WQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/strongarm: Fix 'time to transmit a char' unit
- comment
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201019145839.GO32292@arm.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,39 +88,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, xu910121@sina.com,
+ kvmarm <kvmarm@lists.cs.columbia.edu>, Marc Zyngier <maz@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 14 Oct 2020 at 22:36, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Mon, Oct 19, 2020 at 03:58:40PM +0100, Dave Martin wrote:
+> On Mon, Oct 19, 2020 at 03:18:11PM +0100, Peter Maydell wrote:
+> > On Mon, 19 Oct 2020 at 14:40, Andrew Jones <drjones@redhat.com> wrote:
+> > >
+> > > On Mon, Oct 19, 2020 at 12:43:33PM +0100, Peter Maydell wrote:
+> > > > Well, ID regs are special in the architecture -- they always exist
+> > > > and must RAZ/WI, even if they're not actually given any fields yet.
+> > > > This is different from other "unused" parts of the system register
+> > > > encoding space, which UNDEF.
+> > >
+> > > Table D12-2 confirms the register should be RAZ, as it says the register
+> > > is "RO, but RAZ if SVE is not implemented". Does "RO" imply "WI", though?
+> > > For the guest we inject an exception on writes, and for userspace we
+> > > require the value to be preserved on write.
+> > 
+> > Sorry, I mis-spoke. They're RAZ, but not WI, just RO (which is to say
+> > they'll UNDEF if you try to write to them).
+> > 
+> > > I think we should follow the spec, even for userspace access, and be RAZ
+> > > for when the feature isn't implemented. As for writes, assuming the
+> > > exception injection is what we want for the guest (not WI), then that's
+> > > correct. For userspace, I think we should continue forcing preservation
+> > > (which will force preservation of zero when it's RAZ).
+> > 
+> > Yes, that sounds right.
+> 
+> [...]
+> 
+> > > > The problem is that you've actually removed registers from
+> > > > the list that were previously in it (because pre-SVE
+> > > > kernels put this ID register in the list as a RAZ/WI register,
+> > > > and now it's not in the list if SVE isn't supported).
+> 
+> Define "previously", though.  IIUC, the full enumeration was added in
+> v4.15 (with ID_AA64ZFR0_EL1 still not supported at all):
+> 
+> v4.15-rc1~110^2~27
+> 93390c0a1b20 ("arm64: KVM: Hide unsupported AArch64 CPU features from guests")
+> 
+> 
+> And then ID_AA64FZR0_EL1 was removed from the enumeration, also in
+> v4.15:
+> 
+> v4.15-rc1~110^2~5
+> 07d79fe7c223 ("arm64/sve: KVM: Hide SVE from CPU features exposed to guests")
+> 
+> 
+> So, are there really two upstram kernel tags that are mismatched on
+> this, or is this just a bisectability issue in v4.14..v4.15?
+> 
+> It's a while since I looked at this, and I may have misunderstood the
+> timeline.
+> 
+> 
+> > > > > So, I think that instead of changing the ID_AA64ZFR0_EL1 behaviour,
+> > > > > parhaps we should move all ID_UNALLOCATED() regs (and possibly
+> > > > > ID_HIDDEN(), not sure about that) to have REG_HIDDEN_USER visibility.
+> > > >
+> > > > What does this do as far as the user-facing list-of-registers
+> > > > is concerned? All these registers need to remain in the
+> > > > KVM_GET_REG_LIST list, or you break migration from an old
+> > > > kernel to a new one.
+> 
+> OK, I think I see where you are coming from, now.
+> 
+> It may make sense to get rid of the REG_HIDDEN_GUEST / REG_HIDDEN_USER
+> distinction, and provide the same visibility for userspace as for MSR/
+> MRS all the time.  This would restore ID_AA64ZFR0_EL1 into the userspace
+> view, and may also allow a bit of simplification in the code.
+> 
+> Won't this will still break migration from the resulting kernel to a
+> current kernel that hides ID_AA64ZFR0_EL1?  Or have I misunderstood
+> something.
 >
-> The time to transmit a char is expressed in nanoseconds, not in ticks.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/arm/strongarm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
-> index d7133eea6f9..ca7c385f313 100644
-> --- a/hw/arm/strongarm.c
-> +++ b/hw/arm/strongarm.c
-> @@ -935,7 +935,7 @@ struct StrongARMUARTState {
->      uint8_t rx_start;
->      uint8_t rx_len;
->
-> -    uint64_t char_transmit_time; /* time to transmit a char in ticks*/
-> +    uint64_t char_transmit_time; /* time to transmit a char in nanosecon=
-ds */
->      bool wait_break_end;
->      QEMUTimer *rx_timeout_timer;
->      QEMUTimer *tx_timer;
 
+Yes, but, while neither direction old -> new nor new -> old is actually
+something that people should do when using host cpu passthrough (they
+should only ever migrate between identical hosts, both hardware and
+host kernel version), migrating from old -> new makes more sense, as
+that's the upgrade path, and it's more supportable - we can workaround
+things on the new side. So, long story short, new -> old will fail due
+to making this change, but it's still probably the right thing to do,
+as we'll be defining a better pattern for ID registers going forward,
+and we never claimed new -> old migrations would work anyway with host
+passthrough.
 
+Thanks,
+drew
 
-Applied to target-arm.next, thanks.
-
--- PMM
 
