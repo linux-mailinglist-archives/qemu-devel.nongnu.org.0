@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CC429279E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 14:46:12 +0200 (CEST)
-Received: from localhost ([::1]:56570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66772927D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 15:03:38 +0200 (CEST)
+Received: from localhost ([::1]:48440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUUYF-0005ld-9Q
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 08:46:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60788)
+	id 1kUUp7-0006t6-RZ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 09:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1kUUTT-00035e-HT; Mon, 19 Oct 2020 08:41:17 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:58066 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1kUUTG-0007jG-9F; Mon, 19 Oct 2020 08:41:08 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id F0309AEF53A4DC87F162;
- Mon, 19 Oct 2020 20:40:48 +0800 (CST)
-Received: from [10.174.185.201] (10.174.185.201) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 19 Oct 2020 20:40:38 +0800
-Subject: Re: [PATCH v1 0/2] Add timeout mechanism to qmp actions
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20200810153811.GF14538@linux.fritz.box>
- <c6d75e49-3e36-6a76-fdc8-cdf09e7c3393@huawei.com>
- <20200914132738.GL579094@stefanha-x1.localdomain>
- <7ad220bd-7ee5-1f66-b2e5-7dc57d72eb2e@huawei.com>
- <20200917154415.GB839531@stefanha-x1.localdomain>
- <20200917160054.GA2453251@dev>
- <5a5822ec-f3bc-a247-2b5a-f764b941c820@huawei.com>
- <20200918140628.GA2509473@dev>
- <1ba06b0d-3fcf-3676-f9e0-52875851ff19@huawei.com>
- <20200921111435.GA2524022@dev>
- <20201013100033.GB164611@stefanha-x1.localdomain>
-From: Zhenyu Ye <yezhenyu2@huawei.com>
-Message-ID: <f70dc6ce-385b-a4f9-04a0-244018f3ddbb@huawei.com>
-Date: Mon, 19 Oct 2020 20:40:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kUUmV-0005AL-Rf
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 09:00:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kUUmT-0001pj-JT
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 09:00:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kUUmQ-00048B-FO
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 13:00:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 63D8C2E8071
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 13:00:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201013100033.GB164611@stefanha-x1.localdomain>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.201]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=yezhenyu2@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 08:40:50
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 19 Oct 2020 12:53:52 -0000
+From: Gerd Hoffmann <1900352@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: azrdev kraxel-redhat
+X-Launchpad-Bug-Reporter: azrdev (azrdev)
+X-Launchpad-Bug-Modifier: Gerd Hoffmann (kraxel-redhat)
+References: <160305441976.24841.13039199321181716252.malonedeb@soybean.canonical.com>
+Message-Id: <160311203256.25689.12508101730156170697.malone@soybean.canonical.com>
+Subject: [Bug 1900352] Re: no sound in spice when VNC enabled
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
+X-Launchpad-Hash: cb1baaac1be0cbd933ea1af84e942f828be7ea14
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 07:01:04
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,55 +71,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, armbru@redhat.com,
- pbonzini@redhat.com, mreitz@redhat.com
+Reply-To: Bug 1900352 <1900352@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
+What is in the libvirt logs (/var/log/libvirt/qemu/${guest}.log) ?
 
-On 2020/10/13 18:00, Stefan Hajnoczi wrote:
-> 
-> Sorry, I lost track of this on-going email thread.
-> 
-> Thanks for the backtrace. It shows the io_submit call is done while the
-> AioContext lock is held. The monitor thread is waiting for the
-> IOThread's AioContext lock. vcpus threads can get stuck waiting on the
-> big QEMU lock (BQL) that is held by the monitor in the meantime.
-> 
-> Please collect the kernel backtrace for io_submit so we can understand
-> why multi-second io_submit latencies happen.
-> 
-> I also suggest trying aio=io_uring to check if Linux io_uring avoids the
-> latency problem.
-> 
+-- =
 
-The kernel backtrace for io_submit in GUEST is:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1900352
 
-	guest# ./offcputime -K -p `pgrep -nx fio`
-	    b'finish_task_switch'
-	    b'__schedule'
-	    b'schedule'
-	    b'io_schedule'
-	    b'blk_mq_get_tag'
-	    b'blk_mq_get_request'
-	    b'blk_mq_make_request'
-	    b'generic_make_request'
-	    b'submit_bio'
-	    b'blkdev_direct_IO'
-	    b'generic_file_read_iter'
-	    b'aio_read'
-	    b'io_submit_one'
-	    b'__x64_sys_io_submit'
-	    b'do_syscall_64'
-	    b'entry_SYSCALL_64_after_hwframe'
-	    -                fio (1464)
-		40031912
+Title:
+  no sound in spice when VNC enabled
 
-And Linux io_uring can avoid the latency problem.
+Status in QEMU:
+  New
 
-Thanks,
-Zhenyu
+Bug description:
+  Running Fedora32 with virt-manager =E2=86=92 libvirt =E2=86=92 qemu  I no=
+ticed that I
+  got no sound in my spice client. The VM is configured with a SPICE-
+  server and a QXL display, and in addition a VNC display.
+
+  Apparently when I remove the VNC display, then the sound is routed
+  just fine to the spice client: I can hear it, and
+  `G_MESSAGES_DEBUG=3Dall remote-viewer --spice-debug
+  spice://localhost:5900` mentions SpicePlaybackChannel and
+  SpiceRecordChannel. With the VNC server configured, such messages are
+  missing, and I cannot hear the sound (which is sent by the guest OS to
+  the virtual hardware).
+
+  qemu-4.2.1-1.fc32
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1900352/+subscriptions
 
