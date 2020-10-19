@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F7229211B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 04:22:47 +0200 (CEST)
-Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50800292124
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 04:27:46 +0200 (CEST)
+Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUKow-0005eS-R1
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 22:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56276)
+	id 1kUKtl-00035O-B9
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 22:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5541069a6=dmitry.fomichev@wdc.com>)
- id 1kUKkG-0008Uj-Ha; Sun, 18 Oct 2020 22:17:56 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44147)
+ id 1kUKkL-000087-LV; Sun, 18 Oct 2020 22:18:01 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:44142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=5541069a6=dmitry.fomichev@wdc.com>)
- id 1kUKkE-0004JR-EV; Sun, 18 Oct 2020 22:17:56 -0400
+ id 1kUKkF-0004J9-Tg; Sun, 18 Oct 2020 22:18:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603073874; x=1634609874;
+ t=1603073875; x=1634609875;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Fhgn/f0fIuWoNzgTIkxKels/TGJIM6EgvI+Hvc5k32w=;
- b=g2I4UgIqimfhEL8hI2TwLryGH5qMIpTAWTScDjSrkXQgE6le85JFhrOt
- wfZBgsAP/Nsj8EBYP8pmqSpM1oMxROqRQIZ7pZCA/tRogXxaZXFqhWElX
- eB8hSKNynlO3WZdx4gibY5XFJFDCUpFZxjo0Gylb6t3llM5hZBhJtT131
- G+yZ/YSyM4h0qi5E9v02DkzZX8n/UzD9dgTB6LvVHgUil2y6svHIX1gMG
- P34YLfy8ewuF2/dQTh9uP0KVobMl0JMvDnNju2VqdJyHtqq8UckriUtch
- SnfYotYMw6256jHQ8b15pjeVozvuuAdSZGhi/HxRQMTTGvNBjaQa+0WIQ A==;
-IronPort-SDR: AsiOGIzF/MDhQT9TNZR61Prnavanx31LqVyCDAUuZbukJBl9nC5VFS/TQ7KuPsbulalLR79/xX
- lc6odLD5YqrxeE1Jd0izoKrWbbQSIkx91bBz4UVDjTt6VtmmFGzgtr3/2DBiJB3Tty0t1IrwbF
- yEpnNask9NXwNnb+LkxC54ELg1pPaL740DCBVf7cAU2usNqbi1NacCqkg2ojy0cCGG5BOkiXU6
- 5dtCLKFhju+S2AeA9PQOYLGZqdZLNz7881ld2fkyf9CBUgkpE8fTnlkJg7IFI6JB4wELqhBlVK
- 3aI=
-X-IronPort-AV: E=Sophos;i="5.77,393,1596470400"; d="scan'208";a="150207980"
+ bh=1iCaLcRtJJI6ux6xIcpSpsgXa0rjaAlQdhmLZREtcPs=;
+ b=quN6jdATFX5XJ9dTETrD3hXJg4fbIPH4eq1mYiO1AFTo4nf7lZg6ix9Z
+ XjNp3GzkPc6MtqWhxOq3ybiT8/l0MZrqf6xwseKhu58tyLGBrOtVxkoX7
+ 2wGqcWvVcaqU0LDsIWsGcZs9Xe+hkhL1dU01+5RNQhr48kGWMnnslzIVx
+ gQhOjTNJfCgyw68lfUHafy5Sof5NtjA+c8jiZLNMlzSJ0pJL7jVM+LpB5
+ ZeYzs0BG0nMVigF3C6x/gYTIKeetjD0nfgtOwW18N+7a6d6SX3RjoZs2n
+ rGnj2pp7T1P86wid400o8aDFltcA0lBW+tCma1W6utHUxYcbiXUyyeU0X w==;
+IronPort-SDR: ov/+7RVXszbCz0ni4vRNjtFLp6ATgThWbbMHuTa7tkfF17hCVdvOpQvQdIDXaeMppPCYIVCOrD
+ HEodd3QzJmdB6uvoem0z5Dn/jkJLxI6p6tlQ8als4NziJRgD0om93b8Mf3+bN/UswhGJqjQ24N
+ lyfslSkY0+AWN0YMdMtDdcx7RlAGbu3f2rb2bOgCpbPUUX4bDTxf0SO5rA+0OYd4oBNbZBGAGw
+ uOT+WNocCVZtxvvQEF06HET716KL/6lrrWyiJ3nzMahF3VryPMz3KMBKQ284hl+n0QbjGXavx6
+ 6Es=
+X-IronPort-AV: E=Sophos;i="5.77,393,1596470400"; d="scan'208";a="150207982"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 19 Oct 2020 10:17:52 +0800
-IronPort-SDR: Q/s5K2Js/xqsphVUyGylsoMTBb1z8BPF7KUsqI8Qlv2oPhgS5yg3Y7j6ysYUHG2o/f2qkAiLic
- nyB545/k1kLi3ZySHARCgjQVxN2OZ8PFENhvmEHTCGvhaFYDtIwsgSot+6MydHQWUCW2xmPgoS
- lhytAk/zXVjaYP40IcNDl4/XSSVRyZxfPADeSqgAb2A/n71CMPawBgtlyXeCjTgh+FTSosdCFe
- cBv924bIDHGncUXAfPIzfcy5Ipz/qP4fH+zZ6agQun5MiL9btAXkDMySfeBAjMtN3hkTxzNYHD
- clWGEJpKChbla9SbTe91z8AP
+ by ob1.hgst.iphmx.com with ESMTP; 19 Oct 2020 10:17:54 +0800
+IronPort-SDR: nhFKUpOnvI/jImUYuc/nAhZtrtHuuW5sUktlf6wT9DCagxth1UzmlzuEq2o58eNywVnkEzXYIr
+ DiGNwsoOsiy71OzlR/PNcEIPB5EAAJ18PIv7V5n4Ep7eipu5Tt5LbiNAwkRECR9KKP5MDQxeJ2
+ 6US8oRyXuZF1jH+T8menYCK1qzAnYC+Q3s0nQvnf6/wlpm2rkHmzOUi6y1VcQdEtZw6VvcW8gT
+ k0uadzExPniKTHMip5kofoKPUXlg3j0PxhrM16oviI9GrpVSd9hrgKaUBmwj+U7FMSG41tr6jC
+ 0HBBQZIsyt66CleKaxugiUiS
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Oct 2020 19:03:29 -0700
-IronPort-SDR: BiiDpf5Up/++2AB4PhO6jA3lOft1bv8Zoh5uPDOYuTaEcGLEA4o9qqJ8IYC6mGMivLwXFHGVHH
- ybHU0G1d9/8htnDgtxWvvqZMOlSFr8pEwcNqhwiXwToNHWmBmfRe3KGt6fhz95qUGVLSA2Ftis
- LUtM/vBhVVOARmiiJzC9mdSAfSvt9qMRAxeMEf8Bkit23dtVaZ1C8P3zEzel0JQdL9uRVHr36w
- XAee4M1IXVuSwh/8iT+X2syfPNRc+mqyWTV74OwVyRDFnKYaSJiBqIeeLIJz9wcGd4Er/GyUhC
- /SY=
+ 18 Oct 2020 19:03:31 -0700
+IronPort-SDR: oGppLOyS0TD5KXnNeT1gRs8w5G9X8rhHeIwI7STcV1Y1aPoq8qc6DKLgSNMJI5mL91+48PgPXe
+ 7SIes05Rabb4cHuuGRxFHRXtWc/WXM0gEQH84rAZqN6LsmdRdHQXIX3tH1lyzEAUegM+Y3ejgD
+ xClZ3HT5QpW/z2QrJbWd64Qk3aD0umoffzzZwFBAkcS/QslgwxycAlvobuZVXsL11Nw4ZAKipt
+ kEVGKBfVOyjOxhEWOdmUxuIi1+COKd1PpDodnQnvSLqLS/wlYl96MNrbuJ1uL8LMu2aCIIYVYR
+ 0g8=
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 18 Oct 2020 19:17:50 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 18 Oct 2020 19:17:52 -0700
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Maxim Levitsky <mlevitsk@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH v7 09/11] hw/block/nvme: Document zoned parameters in usage
- text
-Date: Mon, 19 Oct 2020 11:17:24 +0900
-Message-Id: <20201019021726.12048-10-dmitry.fomichev@wdc.com>
+Subject: [PATCH v7 10/11] hw/block/nvme: Separate read and write handlers
+Date: Mon, 19 Oct 2020 11:17:25 +0900
+Message-Id: <20201019021726.12048-11-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20201019021726.12048-1-dmitry.fomichev@wdc.com>
 References: <20201019021726.12048-1-dmitry.fomichev@wdc.com>
@@ -101,83 +100,292 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added brief descriptions of the new device properties that are
-now available to users to configure features of Zoned Namespace
-Command Set in the emulator.
+With ZNS support in place, the majority of code in nvme_rw() has
+become read- or write-specific. Move these parts to two separate
+handlers, nvme_read() and nvme_write() to make the code more
+readable and to remove multiple is_write checks that so far existed
+in the i/o path.
 
-This patch is for documentation only, no functionality change.
+This is a refactoring patch, no change in functionality.
 
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.c | 41 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
+ hw/block/nvme.c       | 191 +++++++++++++++++++++++++-----------------
+ hw/block/trace-events |   3 +-
+ 2 files changed, 114 insertions(+), 80 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index fbf27a5098..3b9ea326d7 100644
+index 3b9ea326d7..5ec4ce5e28 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -9,7 +9,7 @@
-  */
+@@ -1162,10 +1162,10 @@ typedef struct NvmeReadFillCtx {
+     uint32_t  post_rd_fill_nlb;
+ } NvmeReadFillCtx;
  
- /**
-- * Reference Specs: http://www.nvmexpress.org, 1.2, 1.1, 1.0e
-+ * Reference Specs: http://www.nvmexpress.org, 1.4, 1.3, 1.2, 1.1, 1.0e
-  *
-  *  https://nvmexpress.org/developers/nvme-specification/
-  */
-@@ -23,7 +23,8 @@
-  *              max_ioqpairs=<N[optional]>, \
-  *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
-  *              mdts=<N[optional]>
-- *      -device nvme-ns,drive=<drive_id>,bus=bus_name,nsid=<nsid>
-+ *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>, \
-+ *              zoned=<true|false[optional]>
-  *
-  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-@@ -49,6 +50,42 @@
-  *   completion when there are no oustanding AERs. When the maximum number of
-  *   enqueued events are reached, subsequent events will be dropped.
-  *
-+ * Setting `zoned` to true selects Zoned Command Set at the namespace.
-+ * In this case, the following options are available to configure zoned
-+ * operation:
-+ *     zone_size=<zone size in bytes, default: 128MiB>
-+ *         The number may be followed by K, M, G as in kilo-, mega- or giga.
-+ *
-+ *     zone_capacity=<zone capacity in bytes, default: zone_size>
-+ *         The value 0 (default) forces zone capacity to be the same as zone
-+ *         size. The value of this property may not exceed zone size.
-+ *
-+ *     zone_descr_ext_size=<zone descriptor extension size, default 0>
-+ *         This value needs to be specified in 64B units. If it is zero,
-+ *         namespace(s) will not support zone descriptor extensions.
-+ *
-+ *     max_active=<Maximum Active Resources (zones), default: 0 - no limit>
-+ *
-+ *     max_open=<Maximum Open Resources (zones), default: 0 - no limit>
-+ *
-+ *     zone_append_size_limit=<zone append size limit in bytes, default: 128KiB>
-+ *         The maximum I/O size that can be supported by Zone Append
-+ *         command. Since internally this this value is maintained as
-+ *         ZASL = log2(<maximum append size> / <page size>), some
-+ *         values assigned to this property may be rounded down and
-+ *         result in a lower maximum ZA data size being in effect.
-+ *         By setting this property to 0, user can make ZASL to be
-+ *         equial to MDTS.
-+ *
-+ *     offline_zones=<the number of offline zones to inject, default: 0>
-+ *
-+ *     rdonly_zones=<the number of read-only zones to inject, default: 0>
-+ *
-+ *     cross_zone_read=<enables Read Across Zone Boundaries, default: true>
-+ *
-+ *     fill_pattern=<data fill pattern, default: 0x00>
-+ *         The byte pattern to return for any portions of unwritten data
-+ *         during read.
-  */
+-static uint16_t nvme_check_zone_read(NvmeNamespace *ns, NvmeZone *zone,
+-                                     uint64_t slba, uint32_t nlb,
+-                                     NvmeReadFillCtx *rfc)
++static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
++                                     uint32_t nlb, NvmeReadFillCtx *rfc)
+ {
++    NvmeZone *zone = nvme_get_zone_by_slba(ns, slba);
+     NvmeZone *next_zone;
+     uint64_t bndry = nvme_zone_rd_boundary(ns, zone);
+     uint64_t end = slba + nlb, wp1, wp2;
+@@ -1449,6 +1449,86 @@ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_NO_COMPLETE;
+ }
  
- #include "qemu/osdep.h"
++static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
++{
++    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
++    NvmeNamespace *ns = req->ns;
++    uint64_t slba = le64_to_cpu(rw->slba);
++    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
++    uint32_t fill_len;
++    uint64_t data_size = nvme_l2b(ns, nlb);
++    uint64_t data_offset, fill_ofs;
++    NvmeReadFillCtx rfc;
++    BlockBackend *blk = ns->blkconf.blk;
++    uint16_t status;
++
++    trace_pci_nvme_read(nvme_cid(req), nvme_nsid(ns), nlb, data_size, slba);
++
++    status = nvme_check_mdts(n, data_size);
++    if (status) {
++        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
++        goto invalid;
++    }
++
++    status = nvme_check_bounds(n, ns, slba, nlb);
++    if (status) {
++        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
++        goto invalid;
++    }
++
++    if (ns->params.zoned) {
++        status = nvme_check_zone_read(ns, slba, nlb, &rfc);
++        if (status != NVME_SUCCESS) {
++            trace_pci_nvme_err_zone_read_not_ok(slba, nlb, status);
++            goto invalid;
++        }
++    }
++
++    status = nvme_map_dptr(n, data_size, req);
++    if (status) {
++        goto invalid;
++    }
++
++    if (ns->params.zoned) {
++        if (rfc.pre_rd_fill_nlb) {
++            fill_ofs = nvme_l2b(ns, rfc.pre_rd_fill_slba - slba);
++            fill_len = nvme_l2b(ns, rfc.pre_rd_fill_nlb);
++            nvme_fill_read_data(req, fill_ofs, fill_len,
++                                n->params.fill_pattern);
++        }
++        if (!rfc.read_nlb) {
++            /* No backend I/O necessary, only needed to fill the buffer */
++            req->status = NVME_SUCCESS;
++            return NVME_SUCCESS;
++        }
++        if (rfc.post_rd_fill_nlb) {
++            req->fill_ofs = nvme_l2b(ns, rfc.post_rd_fill_slba - slba);
++            req->fill_len = nvme_l2b(ns, rfc.post_rd_fill_nlb);
++        } else {
++            req->fill_len = 0;
++        }
++        slba = rfc.read_slba;
++        data_size = nvme_l2b(ns, rfc.read_nlb);
++    }
++
++    data_offset = nvme_l2b(ns, slba);
++
++    block_acct_start(blk_get_stats(blk), &req->acct, data_size,
++                     BLOCK_ACCT_READ);
++    if (req->qsg.sg) {
++        req->aiocb = dma_blk_read(blk, &req->qsg, data_offset,
++                                  BDRV_SECTOR_SIZE, nvme_rw_cb, req);
++    } else {
++        req->aiocb = blk_aio_preadv(blk, data_offset, &req->iov, 0,
++                                    nvme_rw_cb, req);
++    }
++    return NVME_NO_COMPLETE;
++
++invalid:
++    block_acct_invalid(blk_get_stats(blk), BLOCK_ACCT_READ);
++    return status | NVME_DNR;
++}
++
+ static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
+@@ -1495,25 +1575,20 @@ invalid:
+     return status | NVME_DNR;
+ }
+ 
+-static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req, bool append)
++static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req, bool append)
+ {
+     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
+     NvmeNamespace *ns = req->ns;
+-    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
+     uint64_t slba = le64_to_cpu(rw->slba);
++    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
+     uint64_t data_size = nvme_l2b(ns, nlb);
+-    uint64_t data_offset, fill_ofs;
+-
++    uint64_t data_offset;
+     NvmeZone *zone;
+-    uint32_t fill_len;
+-    NvmeReadFillCtx rfc;
+-    bool is_write = rw->opcode == NVME_CMD_WRITE || append;
+-    enum BlockAcctType acct = is_write ? BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
+     BlockBackend *blk = ns->blkconf.blk;
+     uint16_t status;
+ 
+-    trace_pci_nvme_rw(nvme_cid(req), nvme_io_opc_str(rw->opcode),
+-                      nvme_nsid(ns), nlb, data_size, slba);
++    trace_pci_nvme_write(nvme_cid(req), nvme_io_opc_str(rw->opcode),
++                         nvme_nsid(ns), nlb, data_size, slba);
+ 
+     status = nvme_check_mdts(n, data_size);
+     if (status) {
+@@ -1530,29 +1605,21 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req, bool append)
+     if (ns->params.zoned) {
+         zone = nvme_get_zone_by_slba(ns, slba);
+ 
+-        if (is_write) {
+-            status = nvme_check_zone_write(n, ns, zone, slba, nlb, append);
+-            if (status != NVME_SUCCESS) {
+-                goto invalid;
+-            }
+-
+-            if (append) {
+-                slba = zone->w_ptr;
+-            }
+-
+-            status = nvme_auto_open_zone(ns, zone);
+-            if (status != NVME_SUCCESS) {
+-                goto invalid;
+-            }
+-
+-            req->cqe.result64 = nvme_advance_zone_wp(ns, zone, nlb);
+-        } else {
+-            status = nvme_check_zone_read(ns, zone, slba, nlb, &rfc);
+-            if (status != NVME_SUCCESS) {
+-                trace_pci_nvme_err_zone_read_not_ok(slba, nlb, status);
+-                goto invalid;
+-            }
++        status = nvme_check_zone_write(n, ns, zone, slba, nlb, append);
++        if (status != NVME_SUCCESS) {
++            goto invalid;
+         }
++
++        status = nvme_auto_open_zone(ns, zone);
++        if (status != NVME_SUCCESS) {
++            goto invalid;
++        }
++
++        if (append) {
++            slba = zone->w_ptr;
++        }
++
++        req->cqe.result64 = nvme_advance_zone_wp(ns, zone, nlb);
+     } else if (append) {
+         trace_pci_nvme_err_invalid_opc(rw->opcode);
+         status = NVME_INVALID_OPCODE;
+@@ -1566,56 +1633,21 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req, bool append)
+         goto invalid;
+     }
+ 
+-    if (ns->params.zoned) {
+-        if (is_write) {
+-            req->cqe.result64 = nvme_advance_zone_wp(ns, zone, nlb);
+-        } else {
+-            if (rfc.pre_rd_fill_nlb) {
+-                fill_ofs = nvme_l2b(ns, rfc.pre_rd_fill_slba - slba);
+-                fill_len = nvme_l2b(ns, rfc.pre_rd_fill_nlb);
+-                nvme_fill_read_data(req, fill_ofs, fill_len,
+-                                    n->params.fill_pattern);
+-            }
+-            if (!rfc.read_nlb) {
+-                /* No backend I/O necessary, only needed to fill the buffer */
+-                req->status = NVME_SUCCESS;
+-                return NVME_SUCCESS;
+-            }
+-            if (rfc.post_rd_fill_nlb) {
+-                req->fill_ofs = nvme_l2b(ns, rfc.post_rd_fill_slba - slba);
+-                req->fill_len = nvme_l2b(ns, rfc.post_rd_fill_nlb);
+-            } else {
+-                req->fill_len = 0;
+-            }
+-            slba = rfc.read_slba;
+-            data_size = nvme_l2b(ns, rfc.read_nlb);
+-        }
+-    }
+-
+     data_offset = nvme_l2b(ns, slba);
+ 
+-    block_acct_start(blk_get_stats(blk), &req->acct, data_size, acct);
++    block_acct_start(blk_get_stats(blk), &req->acct, data_size,
++                     BLOCK_ACCT_WRITE);
+     if (req->qsg.sg) {
+-        if (is_write) {
+-            req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
+-                                       BDRV_SECTOR_SIZE, nvme_rw_cb, req);
+-        } else {
+-            req->aiocb = dma_blk_read(blk, &req->qsg, data_offset,
+-                                      BDRV_SECTOR_SIZE, nvme_rw_cb, req);
+-        }
++        req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
++                                   BDRV_SECTOR_SIZE, nvme_rw_cb, req);
+     } else {
+-        if (is_write) {
+-            req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
+-                                         nvme_rw_cb, req);
+-        } else {
+-            req->aiocb = blk_aio_preadv(blk, data_offset, &req->iov, 0,
+-                                        nvme_rw_cb, req);
+-        }
++        req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
++                                     nvme_rw_cb, req);
+     }
+     return NVME_NO_COMPLETE;
+ 
+ invalid:
+-    block_acct_invalid(blk_get_stats(blk), acct);
++    block_acct_invalid(blk_get_stats(blk), BLOCK_ACCT_WRITE);
+     return status | NVME_DNR;
+ }
+ 
+@@ -2096,10 +2128,11 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     case NVME_CMD_WRITE_ZEROES:
+         return nvme_write_zeroes(n, req);
+     case NVME_CMD_ZONE_APPEND:
+-        return nvme_rw(n, req, true);
++        return nvme_write(n, req, true);
+     case NVME_CMD_WRITE:
++        return nvme_write(n, req, false);
+     case NVME_CMD_READ:
+-        return nvme_rw(n, req, false);
++        return nvme_read(n, req);
+     case NVME_CMD_ZONE_MGMT_SEND:
+         return nvme_zone_mgmt_send(n, req);
+     case NVME_CMD_ZONE_MGMT_RECV:
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 962084e40c..7ee90a50c3 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -40,7 +40,8 @@ pci_nvme_map_prp(uint64_t trans_len, uint32_t len, uint64_t prp1, uint64_t prp2,
+ pci_nvme_map_sgl(uint16_t cid, uint8_t typ, uint64_t len) "cid %"PRIu16" type 0x%"PRIx8" len %"PRIu64""
+ pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid %"PRIu32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
+ pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
+-pci_nvme_rw(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
++pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
++pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
+ pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+ pci_nvme_write_zeroes(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
+ pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize, uint16_t qflags) "create submission queue, addr=0x%"PRIx64", sqid=%"PRIu16", cqid=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16""
 -- 
 2.21.0
 
