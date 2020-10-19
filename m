@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475742930AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 23:40:38 +0200 (CEST)
-Received: from localhost ([::1]:41528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE16C2930A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 23:40:12 +0200 (CEST)
+Received: from localhost ([::1]:39948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUctR-0006D4-BT
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 17:40:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46328)
+	id 1kUct2-0005Uj-08
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 17:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kUcpe-0003YJ-MQ
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 17:36:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32570)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kUcqr-0004V5-Q9
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 17:37:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kUcpZ-0003gP-5L
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 17:36:41 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kUcqp-0003mV-CE
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 17:37:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603143393;
+ s=mimecast20190719; t=1603143474;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/L6GGspEQuZhQDKjsRSCAeqayEQOCjwXf2Z5iOtI9ew=;
- b=SDk3VsAPoxs8L3TGCu24X7UB1U9E9AHYFyiS0u28LCmXRjB8eBZ5096Zgc+bd5gkuJKPO8
- 3VRnw5QC8DpxRFmM3YkRoyffiWcfiX8ECDx0Xz/VBNmHDeNvA5TKA+GEJPnVIOI9ihxl12
- Dot0h45pOW/s1SCjEOfq1P5emj7a8oY=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-cAazFLbjOqGs7kXGjryoAA-1; Mon, 19 Oct 2020 17:36:31 -0400
-X-MC-Unique: cAazFLbjOqGs7kXGjryoAA-1
-Received: by mail-io1-f70.google.com with SMTP id x13so1175027iom.10
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 14:36:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/L6GGspEQuZhQDKjsRSCAeqayEQOCjwXf2Z5iOtI9ew=;
- b=Gtt2hgE8vs6qD+kdEPcz80jCyYSHaM9cMX9Z8S8x7lIgdZYfUxAb/+H12i9aJcKZv3
- ZS5koPeJHrME3Ahg9/WhQMn6+L3dlXOVRcO4Ce4nInOOGUhcHZ7FFTDJc/fdSPsHLMK3
- VQIoR3p5qovVJu1Mq7TkgYeujYUhAs+auIDMb55vGPczTZRnSyOGbOI01lbBgtHd8HrV
- OJpHySC/WkK1L7JNsjzUp2mjgxAZS01MVOkb18ifej9JsZFV/Htar2jEOL/0c2hvz71Y
- I//MFYOWPzFRP6ouj4MyMhWzOCVwlNI75JR/nWasX2qovuEqr9k/8TGlnkCo56ZiorPj
- Bhug==
-X-Gm-Message-State: AOAM530WAauAB+mpKgSC9TRa0jc07/2rgy/unSlFeJ4JsUjfFMjqCY7V
- KijnnN1TZSLZhzuCsFksYM6oXFKCUyvuI/cDH9T+ibrgSXBoa7FLW15xqYYpAno4USA2iKs1pCm
- DowgfnM45bbwlCYE=
-X-Received: by 2002:a05:6638:1508:: with SMTP id
- b8mr1662737jat.25.1603143391065; 
- Mon, 19 Oct 2020 14:36:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwHRLzqa8S8+FigsSkx1Lz5QsMxAi244UrZ6jFfhloDuItHPm8b0/NtnUpgVwZ0MGQEyGI+xQ==
-X-Received: by 2002:a05:6638:1508:: with SMTP id
- b8mr1662724jat.25.1603143390865; 
- Mon, 19 Oct 2020 14:36:30 -0700 (PDT)
-Received: from xz-x1 (toroon474qw-lp140-04-174-95-215-133.dsl.bell.ca.
- [174.95.215.133])
- by smtp.gmail.com with ESMTPSA id z19sm1066570ioz.4.2020.10.19.14.36.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Oct 2020 14:36:30 -0700 (PDT)
-Date: Mon, 19 Oct 2020 17:36:28 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v10 07/10] memory: Add interface to set iommu page size
- mask
-Message-ID: <20201019213628.GE3203@xz-x1>
-References: <20201008171558.410886-1-jean-philippe@linaro.org>
- <20201008171558.410886-8-jean-philippe@linaro.org>
+ bh=/x3KppJkYljO/uyANkNW9HC+rnPTLuX5/9GGzLSaADs=;
+ b=MDvkFZuWpWFO6UkuvEQe5YrkOqW30IfyMcN5M5WDzFIw7pCqqad82hBnDJRgCeK9ihKorw
+ 3AL64TKJswU4+Luk9Gno8PqcjYrdMT1MDWRjltAH8zKwyJqqGXmFoN0/PwqIbditNPFmBm
+ wqWL1dvn83YsSWN5xLmXICTKRG34zeg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-7E4SZBTOMeWFozKR9PUDEA-1; Mon, 19 Oct 2020 17:37:49 -0400
+X-MC-Unique: 7E4SZBTOMeWFozKR9PUDEA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E6D112C6C0;
+ Mon, 19 Oct 2020 21:37:48 +0000 (UTC)
+Received: from [10.3.112.28] (ovpn-112-28.phx2.redhat.com [10.3.112.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 594E010013C1;
+ Mon, 19 Oct 2020 21:37:47 +0000 (UTC)
+Subject: Re: [PATCH v6 06/10] migration: control whether snapshots are
+ ovewritten
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201008155001.3357288-1-berrange@redhat.com>
+ <20201008155001.3357288-7-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <4954a4e9-ecd9-71d8-db65-a89ccf2b20a3@redhat.com>
+Date: Mon, 19 Oct 2020 16:37:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201008171558.410886-8-jean-philippe@linaro.org>
+In-Reply-To: <20201008155001.3357288-7-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 15:28:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,24 +86,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
- alex.williamson@redhat.com, pbonzini@redhat.com, bbhushan2@marvell.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 08, 2020 at 07:15:55PM +0200, Jean-Philippe Brucker wrote:
-> From: Bharat Bhushan <bbhushan2@marvell.com>
+On 10/8/20 10:49 AM, Daniel P. Berrangé wrote:
+> The traditional HMP "savevm" command will overwrite an existing snapshot
+> if it already exists with the requested name. This new flag allows this
+> to be controlled allowing for safer behaviour with a future QMP command.
 > 
-> Allow to set the page size mask supported by an iommu memory region.
-> This enables a vIOMMU to communicate the page size granule supported by
-> an assigned device, on hosts that use page sizes greater than 4kB.
-> 
-> Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
 
-Acked-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
-Peter Xu
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
