@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22472920F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 03:53:14 +0200 (CEST)
-Received: from localhost ([::1]:34994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 790B32920F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 03:52:06 +0200 (CEST)
+Received: from localhost ([::1]:59084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUKMM-0004fQ-1D
-	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 21:53:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50798)
+	id 1kUKLF-0002z9-F5
+	for lists+qemu-devel@lfdr.de; Sun, 18 Oct 2020 21:52:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kUKDX-0004Mw-2N
- for qemu-devel@nongnu.org; Sun, 18 Oct 2020 21:44:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56331)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kUKJY-0001dS-Pw
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 21:50:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kUKDT-0000Vs-HS
- for qemu-devel@nongnu.org; Sun, 18 Oct 2020 21:44:05 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kUKJW-0001EC-HZ
+ for qemu-devel@nongnu.org; Sun, 18 Oct 2020 21:50:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603071840;
+ s=mimecast20190719; t=1603072217;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KQ8jSgO1keelI0bP3ymMEQzb0g29jL70IrNRwGHjvi4=;
- b=ZEWCuZd17OOXNiXY/dKPxuww0gJvaXik5TwK5CH9R7sKzvfgVlgyiUhs8x9zSlv1E2OZst
- M+sjzYcPLf++WTjPFl9hI65RkXY4XqLR+/VXBmdoeSRCuBsfOqN/pqNP0sIC+6qPbl8U4B
- aF83vQ/niaaWtmr2bPqSKrejILLuVSE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1WszalsvNbgQ/HqjKsuDgUuKfOLsLZi7E8HQAhK319E=;
+ b=JzLltVyptqLLzwYopnw+a2KwMpqEWNRXR1Q5GIiuXWYBoBlRxwqsFQrw6TZZHnWyrIsHaW
+ 4MBnJVSE7n99rBbnrweiwVgAffABGxRBh+mkM+PRq7RsVUJR/SGCiidK1/jGiJsNFB10+y
+ Wv5lomfO8RgMh3GFqLVGb14F+YirwvY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-86mqxtTxPVKdlv_-RU0kng-1; Sun, 18 Oct 2020 21:43:57 -0400
-X-MC-Unique: 86mqxtTxPVKdlv_-RU0kng-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-221-YzjzE7scPTqvQu_PEWll3g-1; Sun, 18 Oct 2020 21:50:14 -0400
+X-MC-Unique: YzjzE7scPTqvQu_PEWll3g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4698C802B5D;
- Mon, 19 Oct 2020 01:43:56 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C70B802B47;
+ Mon, 19 Oct 2020 01:50:12 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8922A10013DB;
- Mon, 19 Oct 2020 01:43:51 +0000 (UTC)
-Date: Sun, 18 Oct 2020 21:43:49 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 19AC86EF50;
+ Mon, 19 Oct 2020 01:50:04 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 2/4] Jobs based on custom runners: build environment
- docs and playbook
-Message-ID: <20201019014349.GA1524996@localhost.localdomain>
-References: <20201014052140.1146924-1-crosa@redhat.com>
- <20201014052140.1146924-3-crosa@redhat.com>
- <20201014173009.GU115189@redhat.com>
- <20201014185952.GA1196177@localhost.localdomain>
- <20201014191947.GB1196177@localhost.localdomain>
- <20201015082940.GA163620@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v4 0/4] GitLab Custom Runners and Jobs (was: QEMU Gating CI)
+Date: Sun, 18 Oct 2020 21:49:59 -0400
+Message-Id: <20201019015003.1527746-1-crosa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201015082940.GA163620@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/18 21:44:00
@@ -85,72 +78,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---WIyZ46R2i8wDzkSu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 15, 2020 at 09:29:40AM +0100, Daniel P. Berrang=E9 wrote:
-> On Wed, Oct 14, 2020 at 03:19:47PM -0400, Cleber Rosa wrote:
-> > On Wed, Oct 14, 2020 at 02:59:58PM -0400, Cleber Rosa wrote:
-> > > On Wed, Oct 14, 2020 at 06:30:09PM +0100, Daniel P. Berrang=E9 wrote:
-> > > >=20
-> > > > This needs updating to add meson, and with Paolo's series today you
-> > > > might as well go ahead and add ninja-build immediately too
-> > > >
-> >=20
-> > I replied too quickly, but allow me to get this right: meson is *not*
-> > included in the dockerfiles (and other similar configurations), and
-> > all setups I found rely on the submodule.  Are suggesting to add meson
-> > and diverge from the dockerfiles?
->=20
-> Doh, right, I forgot that we use the submodule for now, since we need
-> such a new meson. So ignore this...
->=20
-> > > > https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04025.html
-> > > >
-> >=20
-> > ^ I'll add meson according to this, of course.
->=20
-> Just ninja is needed
->
-
-Right, I meant ninja there!
-
-Thanks,
-- Cleber.
-
---WIyZ46R2i8wDzkSu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+M71IACgkQZX6NM6Xy
-CfObDg//YuJ40VLkKzU+H0w8nL1awE3c6J34XMq+lDmHxYxjwTkYlsgeZAWS8B6A
-h+TrxVD1srDSq30zwr8A9On6RJxjIeft0bDHiTJfQ4WYpYDuNUaxgU82Svln4n7s
-5GPGeY1zYN3rngq3tNondzwcH3wqeVfVTbLmva2F0we4y/Z1Jn260YjHjhGerYKK
-tW7/2tSxIn+nt8L3p/0xTQdkwLrQD0ylPqff86qyxByid7j7ldi58TJrOj2gH/bH
-gXLpnFxPOzUHMXbOi1ECrWsTqciH4PbGzfm5I0En+yI7yXZFMP7dRs5FbylNt3E9
-nc64JKEDhQRZH/morTw0vczSyfQqH97e52qznMbjGX+ZjIocYhYet6RonrypdLoJ
-LPepa78UzBAHjv+9JmObuixNetXMTjAf+7pYhvg6vJAFqcSUBd6UsQQUn6bWXkOK
-tCQ3w/HETgJpavxtIsTifbdsopnwAs3mfvm0DUVSgbc2Qv+sr+sLsoOXdiWygTI5
-GO3ar0JRla+8lAR+AWM7hQ3TClccKaob16NpD4QRIubFxKVIK7befvpe5RDB2yNj
-PUL7w6Vuf8S+CGLtLPNDjabBG220MG2VVmsRDlgpaAxPZHoXi6RfzfRu9FOKxuPy
-Eub5ah6mpbEdohLuWQ6ZnS+z59KvX3r3+f0vlgLpliJhWVyyg2Y=
-=GsH4
------END PGP SIGNATURE-----
-
---WIyZ46R2i8wDzkSu--
+TL;DR: this should allow the QEMU maintainer to push to the staging=0D
+branch, and have custom jobs running on the project's aarch64 and=0D
+s390x machines.  Simple usage looks like:=0D
+=0D
+   git push remote staging=0D
+   ./scripts/ci/gitlab-pipeline-status --verbose --wait=0D
+=0D
+Long version:=0D
+=0D
+The idea about a public facing Gating CI for QEMU was summarized in an=0D
+RFC[1].  Since then, it was decided that a simpler version should be=0D
+attempted first.=0D
+=0D
+At this point, there are two specific runners (an aarch64 and an s390)=0D
+registered with GitLab, at https://gitlab.com/qemu-project, currently=0D
+setup to the "qemu" repository.=0D
+=0D
+Changes from v3:=0D
+=0D
+- Applied changes to match <20201014135416.1290679-1-pbonzini@redhat.com>,=
+=0D
+  that is, added ninja-build to "build-environment.yml" list of packages=0D
+  and enabled PowerTools repository on CentOS 8.=0D
+=0D
+Changes from v2:=0D
+=0D
+- The overall idea of "Gating CI" has been re-worded "custom runners",=0D
+  given that the other jobs running on shared runners are also=0D
+  considered gating (Daniel)=0D
+=0D
+- Fixed wording and typos on the documentation, including:=0D
+ * update -> up to date (Erik)=0D
+ * a different set of CI jobs -> different CI jobs (Erik)=0D
+ * Pull requests will only be merged -> code will only be merged (Stefan)=
+=0D
+ * Setup -> set up (Stefan)=0D
+ * them -> they (Stefan)=0D
+ * the -> where the (Stefan)=0D
+ * dropped "in the near future" (Stefan)=0D
+=0D
+- Changed comment on "build-environment.yml" regarding the origin of=0D
+  the package list (Stefan)=0D
+=0D
+- Removed inclusion of "vars.yml" from "build-environment.yml", given that=
+=0D
+  no external variable is used there=0D
+=0D
+- Updated package list in "build-environment.yml" from current=0D
+  dockerfiles=0D
+=0D
+- Tested "build-environment" on Fedora 31 and 32 (in addition to Fedora 30)=
+,=0D
+  and noted that it's possible to use it on those distros=0D
+=0D
+- Moved CI documentation from "testing.rst" to its own file (Phillipe)=0D
+=0D
+- Split "GitLab Gating CI: initial set of jobs, documentation and scripts"=
+=0D
+  into (Phillipe):=0D
+  1) Basic documentation and configuration (gitlab-ci.yml) placeholder=0D
+  2) Playbooks for setting up a build environment=0D
+  3) Playbooks for setting up gitlab-runner=0D
+  4) Actual GitLab CI jobs configuration=0D
+=0D
+- Set custom jobs to be on the "build" stage, given that they combine=0D
+  build and test.=0D
+=0D
+- Set custom jobs to not depend on any other job, so they can start=0D
+  right away.=0D
+=0D
+- Set rules for starting jobs so that all pushing to any branch that=0D
+  start with name "staging".  This allows the project maintainer to=0D
+  use the "push to staging" workflow, while also allowing others to=0D
+  generate similar jobs.  If this project has configured custom=0D
+  runners, the jobs will run, if not, the pipeline will be marked as=0D
+  "stuck".=0D
+=0D
+- Changed "scripts" on custom jobs to follow the now common pattern=0D
+  (on other jobs) of creating a "build" directory.=0D
+=0D
+Changes from v1:=0D
+=0D
+- Added jobs that require specific GitLab runners already available=0D
+  (Ubuntu 20.04 on aarch64, and Ubuntu 18.04 on s390x)=0D
+- Removed jobs that require specific GitLab runners not yet available=0D
+  (Fedora 30, FreeBSD 12.1)=0D
+- Updated documentation=0D
+- Added copyright and license to new scripts=0D
+- Moved script to from "contrib" to "scripts/ci/"=0D
+- Moved setup playbooks form "contrib" to "scripts/ci/setup"=0D
+- Moved "gating.yml" to ".gitlab-ci.d" directory=0D
+- Removed "staging" only branch restriction on jobs defined in=0D
+  ".gitlab-ci.yml", assumes that the additional jobs on the staging=0D
+  branch running on the freely available gitlab shared runner are=0D
+  positive=0D
+- Dropped patches 1-3 (already merged)=0D
+- Simplified amount of version specifity on Ubuntu, from 18.04.3 to=0D
+  simply 18.04 (assumes no diverse minor levels will be used or=0D
+  specific runners)=0D
+=0D
+Changes from the RFC patches[2] accompanying the RFC document:=0D
+=0D
+- Moved gating job definitions to .gitlab-ci-gating.yml=0D
+- Added info on "--disable-libssh" build option requirement=0D
+  (https://bugs.launchpad.net/qemu/+bug/1838763) to Ubuntu 18.04 jobs=0D
+- Added info on "--disable-glusterfs" build option requirement=0D
+  (there's no static version of those libs in distro supplied=0D
+  packages) to one=0D
+- Dropped ubuntu-18.04.3-x86_64-notools job definition, because it=0D
+  doesn't fall into the general scope of gating job described by PMM=0D
+  (and it did not run any test)=0D
+- Added w32 and w64 cross builds based on Fedora 30=0D
+- Added a FreeBSD based job that builds all targets and runs `make=0D
+  check`=0D
+- Added "-j`nproc`" and "-j`sysctl -n hw.ncpu`" options to make as a=0D
+  simple but effective way of speeding up the builds and tests by=0D
+  using a number of make jobs matching the number of CPUs=0D
+- Because the Ansible playbooks reference the content on Dockerfiles,=0D
+  some fixes to some Dockerfiles caught in the process were included=0D
+- New patch with script to check or wait on a pipeline execution=0D
+=0D
+[1] - https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg00231.html=
+=0D
+[2] - https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg00154.html=
+=0D
+=0D
+Cleber Rosa (4):=0D
+  Jobs based on custom runners: documentation and configuration=0D
+    placeholder=0D
+  Jobs based on custom runners: build environment docs and playbook=0D
+  Jobs based on custom runners: docs and gitlab-runner setup playbook=0D
+  Jobs based on custom runners: add job definitions for QEMU's machines=0D
+=0D
+ .gitlab-ci.d/custom-runners.yml        | 206 ++++++++++++++++++++++=0D
+ .gitlab-ci.yml                         |   1 +=0D
+ docs/devel/ci.rst                      | 149 ++++++++++++++++=0D
+ docs/devel/index.rst                   |   1 +=0D
+ scripts/ci/setup/.gitignore            |   1 +=0D
+ scripts/ci/setup/build-environment.yml | 233 +++++++++++++++++++++++++=0D
+ scripts/ci/setup/gitlab-runner.yml     |  72 ++++++++=0D
+ scripts/ci/setup/inventory             |   2 +=0D
+ scripts/ci/setup/vars.yml.template     |  13 ++=0D
+ 9 files changed, 678 insertions(+)=0D
+ create mode 100644 .gitlab-ci.d/custom-runners.yml=0D
+ create mode 100644 docs/devel/ci.rst=0D
+ create mode 100644 scripts/ci/setup/.gitignore=0D
+ create mode 100644 scripts/ci/setup/build-environment.yml=0D
+ create mode 100644 scripts/ci/setup/gitlab-runner.yml=0D
+ create mode 100644 scripts/ci/setup/inventory=0D
+ create mode 100644 scripts/ci/setup/vars.yml.template=0D
+=0D
+--=20=0D
+2.25.4=0D
+=0D
 
 
