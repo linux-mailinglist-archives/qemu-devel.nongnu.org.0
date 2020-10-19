@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B90292967
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 16:34:21 +0200 (CEST)
-Received: from localhost ([::1]:45752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA9A292993
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 16:38:13 +0200 (CEST)
+Received: from localhost ([::1]:52680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUWEv-0002Yl-3H
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 10:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
+	id 1kUWIe-0005Z5-Sb
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 10:38:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kUWCM-0001Xt-PG
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 10:31:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43479)
+ id 1kUWCO-0001Z3-Bb
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 10:31:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kUWCI-0005Xv-Uh
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 10:31:41 -0400
+ id 1kUWCL-0005Y0-EV
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 10:31:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603117896;
+ s=mimecast20190719; t=1603117899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=G0gcSsiIncszvnbrbMZTJ9bicNWESHvo60K3Msk/IQc=;
- b=LGHj1zdO3u/QMhavb5lpze4OVKR/GifSbrAEg+/JGwUn/YjvKquOMOciEiSHbydmaThrgU
- thBkmcUu64Va0SEUaDSQ3u5j+aHN5Njogj+trTNleANwTX2Dsc4hDNLBHf1w2Gxe4O62KS
- tZIyPRBqHTOzkU3b7Az2oZE9K77fG8w=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PproBvm60l9BjYV0S1WN8vaY/bM42cEhpEYOBbJqWfQ=;
+ b=YM2uuhM2fMMg3l6WUAJPA2z54ysxw44hXHwjuFXaacSesmleprx0qBHO0Oa3xe3QpSqlt1
+ jx4Z2KQhBU9HTFT5TCfQ3H1dJP6+2pxKeLizLzWqSRv+acYMCa6s6ZsHDWbcc/U1Zpvrzv
+ qk6a2yitm04gHCBHkjAqBrr7ATNfsxw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-jgM2dgOgM5q_fJ8y-E9eTQ-1; Mon, 19 Oct 2020 10:31:34 -0400
-X-MC-Unique: jgM2dgOgM5q_fJ8y-E9eTQ-1
+ us-mta-432-FU2UUl3zNQq2QdkfNXtc-A-1; Mon, 19 Oct 2020 10:31:37 -0400
+X-MC-Unique: FU2UUl3zNQq2QdkfNXtc-A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C528210A1134;
- Mon, 19 Oct 2020 14:31:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E861D10A112D;
+ Mon, 19 Oct 2020 14:31:11 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 674B81002C38;
- Mon, 19 Oct 2020 14:31:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BFA210843F1;
+ Mon, 19 Oct 2020 14:31:11 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] travis: Check if docs can be built with multiple Sphinx
- versions
-Date: Mon, 19 Oct 2020 10:31:08 -0400
-Message-Id: <20201019143109.1034864-1-ehabkost@redhat.com>
+Subject: [PATCH 2/2] travis: Remove docs from "tools and docs" job
+Date: Mon, 19 Oct 2020 10:31:09 -0400
+Message-Id: <20201019143109.1034864-2-ehabkost@redhat.com>
+In-Reply-To: <20201019143109.1034864-1-ehabkost@redhat.com>
+References: <20201019143109.1034864-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -84,63 +86,40 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new jobs to .travis.yml to test if docs can be built with
-multiple Sphinx versions: 1.6.1, latest 1.x, 2.0.0, and latest
-2.x.
+We have other jobs that will test documentation builds, so we
+don't need to build docs in that job.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- .travis.yml | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ .travis.yml | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/.travis.yml b/.travis.yml
-index 1054ec5d29..f5208301d6 100644
+index f5208301d6..626b61b077 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -181,6 +181,43 @@ jobs:
+@@ -166,18 +166,17 @@ jobs:
+         - TEST_CMD="make check-unit -j${JOBS} V=1"
+ 
+ 
+-    # Check we can build docs and tools (out of tree)
+-    - name: "tools and docs (bionic)"
++    # Check we can build tools (out of tree)
++    - name: "tools (bionic)"
+       dist: bionic
+       env:
+         - BUILD_DIR="out-of-tree/build/dir" SRC_DIR="../../.."
+-        - BASE_CONFIG="--enable-tools --enable-docs"
++        - BASE_CONFIG="--enable-tools --disable-docs"
+         - CONFIG="--target-list=x86_64-softmmu,aarch64-linux-user"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+       addons:
+         apt:
+           packages:
+-            - python3-sphinx
              - perl
  
  
-+    # Check we can build docs with multiple Sphinx versions.
-+    # We need --sphinx-build=sphinx-build to ensure we use the
-+    # sphinx-build binary installed by pip.
-+
-+    # 1.6.1 is the oldest Sphinx version we support
-+    - name: "docs (Sphinx 1.6.1)"
-+      env:
-+        - CONFIG="--enable-docs --sphinx-build=sphinx-build"
-+      install:
-+        - pip install -q sphinx==1.6.1
-+      script:
-+        - make -j${JOBS} sphinxdocs
-+    - name: "docs (Sphinx 1.x)"
-+      env:
-+        - CONFIG="--enable-docs --sphinx-build=sphinx-build"
-+      install:
-+        # install latest 1.x version
-+        - pip install -q 'sphinx>=1.0,<2.0'
-+      script:
-+        - make -j${JOBS} sphinxdocs
-+    - name: "docs (Sphinx 2.0.0)"
-+      env:
-+        - CONFIG="--enable-docs --sphinx-build=sphinx-build"
-+      install:
-+        - pip install -q sphinx==2.0.0
-+      script:
-+        - make -j${JOBS} sphinxdocs
-+    - name: "docs (Sphinx 2.x)"
-+      env:
-+        - CONFIG="--enable-docs --sphinx-build=sphinx-build"
-+      install:
-+        # install latest 2.x version
-+        - pip install -q 'sphinx>=2.0,<3.0'
-+      script:
-+        - make -j${JOBS} sphinxdocs
-+
-+
-     # Test with Clang for compile portability (Travis uses clang-5.0)
-     - name: "Clang (user)"
-       env:
 -- 
 2.28.0
 
