@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B39A2925C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 12:27:52 +0200 (CEST)
-Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5952925E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 12:34:17 +0200 (CEST)
+Received: from localhost ([::1]:39022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUSON-0002bO-Mg
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 06:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58838)
+	id 1kUSUa-0006tN-L0
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 06:34:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kUSMC-0001na-Ug
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:25:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22419)
+ (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
+ id 1kUSOb-0003Mg-3d
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:28:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kUSM9-0006pI-Rl
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:25:36 -0400
+ (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
+ id 1kUSOY-0007LX-Gz
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:28:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603103132;
+ s=mimecast20190719; t=1603103281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j2QVX47yrtHuYSJJ62PC7hrU/jIFmUQxHdAh5Q++Plw=;
- b=b/bOXX6rMlybD0KGS4DsKmQkHSqa5vkYGcyIM4VB2HPWOCKZdJosDBrVR7eymj9kxN4aEo
- IFoQAs1FSGkvvUPf/jPCwfcTlPXHyShwX4iu5jW2kPAnduIQe97k/Dm/3gIUxKhjxKCk8U
- Eu61YEaBdZjZW3JSGvlAU4Nso3nFlRM=
+ bh=03yuwmrm1sFZQ9b95H0doBqm6n9cm46vEhKj/dGUlrU=;
+ b=Au1AWNZdhMolpWPnXoVnXB4qlriOZSSqTck6bpDWRBuRkGcYGIwoCAXM+tOsSBZZXX8MhJ
+ KWPZdjX6kWosi8ne2s+C0Zyt884PZilROr3GWm/RX7ArD8q1zPI3PbceHTjaFlp8l5d70Q
+ fBPTSVor5YFwFOEfyaaW9JTzuF/kecM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-80UiZ-npO2SZ_2YZ-vfHHw-1; Mon, 19 Oct 2020 06:25:29 -0400
-X-MC-Unique: 80UiZ-npO2SZ_2YZ-vfHHw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-210-3GRhz4H1M6eYSdC1QUa5oA-1; Mon, 19 Oct 2020 06:26:21 -0400
+X-MC-Unique: 3GRhz4H1M6eYSdC1QUa5oA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D12F10199A8;
- Mon, 19 Oct 2020 10:25:28 +0000 (UTC)
-Received: from localhost (ovpn-115-27.ams2.redhat.com [10.36.115.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 432D627CC9;
- Mon, 19 Oct 2020 10:25:28 +0000 (UTC)
-Date: Mon, 19 Oct 2020 11:25:27 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena Afanasova <eafanasova@gmail.com>
-Subject: Re: [PATCH] softmmu/memory: fix memory_region_ioeventfd_equal()
-Message-ID: <20201019102527.GB83062@stefanha-x1.localdomain>
-References: <20201017210102.26036-1-eafanasova@gmail.com>
- <20201017210102.26036-2-eafanasova@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04A55108E1A6;
+ Mon, 19 Oct 2020 10:26:20 +0000 (UTC)
+Received: from nautilus (unknown [10.40.194.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D8CD6EF41;
+ Mon, 19 Oct 2020 10:26:13 +0000 (UTC)
+Date: Mon, 19 Oct 2020 12:26:10 +0200
+From: Erik Skultety <eskultet@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH v4 3/4] Jobs based on custom runners: docs and
+ gitlab-runner setup playbook
+Message-ID: <20201019102610.GB495479@nautilus>
+References: <20201019015003.1527746-1-crosa@redhat.com>
+ <20201019015003.1527746-4-crosa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201017210102.26036-2-eafanasova@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20201019015003.1527746-4-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eskultet@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pvezYHf7grwyp3Bc"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eskultet@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 01:44:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,95 +83,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---pvezYHf7grwyp3Bc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Oct 17, 2020 at 02:01:02PM -0700, Elena Afanasova wrote:
-> Eventfd can be registered with a zero length when fast_mmio is true.
-> Handle this case properly when dispatching through QEMU.
->=20
-> Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+On Sun, Oct 18, 2020 at 09:50:02PM -0400, Cleber Rosa wrote:
+> To have the jobs dispatched to custom runners, gitlab-runner must
+> be installed, active as a service and properly configured.  The
+> variables file and playbook introduced here should help with those
+> steps.
+> 
+> The playbook introduced here covers a number of different Linux
+> distributions and FreeBSD, and are intended to provide a reproducible
+> environment.
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  softmmu/memory.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
->=20
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 403ff3abc9..3ca2154a64 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -203,10 +203,17 @@ static bool memory_region_ioeventfd_before(MemoryRe=
-gionIoeventfd *a,
->  }
-> =20
->  static bool memory_region_ioeventfd_equal(MemoryRegionIoeventfd *a,
-> -                                          MemoryRegionIoeventfd *b)
-> -{
-> -    return !memory_region_ioeventfd_before(a, b)
-> -        && !memory_region_ioeventfd_before(b, a);
-> +                                          MemoryRegionIoeventfd *mrb)
 
-Why rename b -> mrb?
+In general, there's been put quite some effort into the playbooks - sorry I'm
+late to the game - is there a plan to introduce QEMU as a project to lcitool?
+We've taken care of most of the bits in the playbooks that are being introduced
+and for the remaining ones I think it would be that big of an overhaul to do
+the adjustments. One major re-factor though would IMO be to break the
+dependency lcitool has on the machine naming, kind of restricting it to a
+limited set of hosts and corresponding names (e.g. libvirt-fedora-32) which
+makes it inconvenient to prepare physical hosts.
 
-> +{
-> +    if (int128_eq(a->addr.start, mrb->addr.start) &&
-> +            (!int128_nz(mrb->addr.size) ||
-> +             int128_eq(a->addr.size, mrb->addr.size)) &&
-> +            (a->match_data =3D=3D mrb->match_data) &&
-> +            ((mrb->match_data && (a->data =3D=3D mrb->data)) || !mrb->ma=
-tch_data) &&
-> +            (a->e =3D=3D mrb->e))
-> +        return true;
+More comments inline...
 
-The kernel behaves differently in that a and b are symmetric:
+>  docs/devel/ci.rst                  | 63 ++++++++++++++++++++++++++
+>  scripts/ci/setup/.gitignore        |  1 +
+>  scripts/ci/setup/gitlab-runner.yml | 72 ++++++++++++++++++++++++++++++
+>  scripts/ci/setup/vars.yml.template | 13 ++++++
+>  4 files changed, 149 insertions(+)
+>  create mode 100644 scripts/ci/setup/.gitignore
+>  create mode 100644 scripts/ci/setup/gitlab-runner.yml
+>  create mode 100644 scripts/ci/setup/vars.yml.template
+> 
+> diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
+> index 208b5e399b..a234a5e24c 100644
+> --- a/docs/devel/ci.rst
+> +++ b/docs/devel/ci.rst
+> @@ -84,3 +84,66 @@ To run the playbook, execute::
+>  
+>    cd scripts/ci/setup
+>    ansible-playbook -i inventory build-environment.yml
+> +
+> +gitlab-runner setup and registration
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The gitlab-runner agent needs to be installed on each machine that
+> +will run jobs.  The association between a machine and a GitLab project
+> +happens with a registration token.  To find the registration token for
+> +your repository/project, navigate on GitLab's web UI to:
+> +
+> + * Settings (the gears like icon), then
+> + * CI/CD, then
+> + * Runners, and click on the "Expand" button, then
+> + * Under "Set up a specific Runner manually", look for the value under
+> +   "Use the following registration token during setup"
+> +
+> +Copy the ``scripts/ci/setup/vars.yml.template`` file to
+> +``scripts/ci/setup/vars.yml``.  Then, set the
+> +``gitlab_runner_registration_token`` variable to the value obtained
+> +earlier.
+> +
+> +.. note:: gitlab-runner is not available from the standard location
+> +          for all OS and architectures combinations.  For some systems,
+> +          a custom build may be necessary.  Some builds are avaiable
+> +          at https://cleber.fedorapeople.org/gitlab-runner/ and this
+> +          URI may be used as a value on ``vars.yml``
 
-  static bool
-  ioeventfd_check_collision(struct kvm *kvm, struct _ioeventfd *p)
-  {
-  =09struct _ioeventfd *_p;
+Yes, this can be suboptimal...Would it make sense to fall back to build the
+binary of a given version from git as a fallback during this playbook if the
+necessary arch version isn't provided the official way? Just an idea, I'd like
+to avoid the need for you to become the maintainer of the binaries and keep up
+with the releases.
 
-  =09list_for_each_entry(_p, &kvm->ioeventfds, list)
-  =09=09if (_p->bus_idx =3D=3D p->bus_idx &&
-  =09=09    _p->addr =3D=3D p->addr &&
-  =09=09    (!_p->length || !p->length ||
-  =09=09     (_p->length =3D=3D p->length &&
-  =09=09      (_p->wildcard || p->wildcard ||
-  =09=09       _p->datamatch =3D=3D p->datamatch))))
-  =09=09=09return true;
+> +
+> +To run the playbook, execute::
+> +
+> +  cd scripts/ci/setup
+> +  ansible-playbook -i inventory gitlab-runner.yml
+> +
+> +.. note:: there are currently limitations to gitlab-runner itself when
+> +          setting up a service under FreeBSD systems.  You will need to
+> +          perform steps 4 to 10 manually, as described at
 
-  =09return false;
-  }
+Which one of them is considered an automation problem? In lcitool we made
+gitlab-runner completely automated on all distros, including FreeBSD:
 
-For example, if a->addr.size =3D=3D 0 then the ioeventfd matches whereas
-this patch only does it for b.
+4) log file permissions - you're creating the user, you can as well create the
+file with correct permissions
 
-Please match the kernel behavior.
+5) ensure /usr/local/etc/rc.d exists - once you execute build-environment.yml
+it will pull a bunch of dependencies which ensure the dir exists
 
-A different approach is setting ioeventfd.addr.size to zero when
-mr->ioeventfds[i].addr.size is zero in the
-memory_region_dispatch_write_eventfds() loop. That way
-memory_region_ioeventfd_equal() doesn't need to be modified.
+6) gitlab_runner service script should IMO provided by this automation as a
+template and install to the correct location
 
---pvezYHf7grwyp3Bc
-Content-Type: application/pgp-signature; name="signature.asc"
+7) ensure the service script is executable - template module can do that
 
------BEGIN PGP SIGNATURE-----
+8) register the runner - you're doing that
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+NaZcACgkQnKSrs4Gr
-c8ipnAgAq5Jtfg+FzBOc9Q70+e/zV+rI0mjxaiuUoF4RkN7x0kRY/trjQb2d/IBU
-lPAvcM0AdNvSyZ7+8UjwflN92i4GlE5QR95mmxbADLLeXE7DSeGceJxsHIU1iwxO
-XGMl8tacyfOv8HMieWqOTJ9aUxhI7B46XMwSIq8n2+RGEV/xmekHoazq5s2YUs71
-NpPgyInlpsDOADw2pcVGu9PlStLRc2xa+abhF9x/kJdoGXrwYp92PRZBCmCP8Q9y
-Vral/VRRXLxRbqIYFAFfYcOgU+JW4tkE3N78nDgSdhfpVytmPS3FUZOGVqo68tPT
-pghZnZ7GSqeW9ihcdkHugFG4AB4vyw==
-=FkzS
------END PGP SIGNATURE-----
+9) enable the service - Ansible's service module is generic and supports
+init/OpenRC
 
---pvezYHf7grwyp3Bc--
+10) I don't see a step 10
+
+IOW I think there should be as little manual intervention as possible and in
+this case I don't think any manual steps are needed by the user.
+
+Regards,
+Erik
+
+> +          https://docs.gitlab.com/runner/install/freebsd.html
+> +
+> +Following the registration, it's necessary to configure the runner tags,
+> +and optionally other configurations on the GitLab UI.  Navigate to:
+> +
+> + * Settings (the gears like icon), then
+> + * CI/CD, then
+> + * Runners, and click on the "Expand" button, then
+> + * "Runners activated for this project", then
+> + * Click on the "Edit" icon (next to the "Lock" Icon)
+> +
+> +Under tags, add values matching the jobs a runner should run.  For a
+> +FreeBSD 12.1 x86_64 system, the tags should be set as::
+> +
+> +  freebsd12.1,x86_64
+> +
+> +Because the job definition at ``.gitlab-ci.d/custom-runners.yml``
+> +would contain::
+> +
+> +  freebsd-12.1-x86_64-all:
+> +   tags:
+> +   - freebsd_12.1
+> +   - x86_64
+> +
+> +It's also recommended to:
+> +
+> + * increase the "Maximum job timeout" to something like ``2h``
+> + * uncheck the "Run untagged jobs" check box
+> + * give it a better Description
+> diff --git a/scripts/ci/setup/.gitignore b/scripts/ci/setup/.gitignore
+> new file mode 100644
+> index 0000000000..f112d05dd0
+> --- /dev/null
+> +++ b/scripts/ci/setup/.gitignore
+> @@ -0,0 +1 @@
+> +vars.yml
+> \ No newline at end of file
+> diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
+> new file mode 100644
+> index 0000000000..c2f52dad10
+> --- /dev/null
+> +++ b/scripts/ci/setup/gitlab-runner.yml
+> @@ -0,0 +1,72 @@
+> +---
+> +- name: Installation of gitlab-runner
+> +  hosts: all
+> +  vars_files:
+> +    - vars.yml
+> +  tasks:
+> +    - debug:
+> +        msg: 'Checking for a valid GitLab registration token'
+> +      failed_when: "gitlab_runner_registration_token == 'PLEASE_PROVIDE_A_VALID_TOKEN'"
+> +
+> +    - name: Checks the availability of official gitlab-runner builds in the archive
+> +      uri:
+> +        url: https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-linux-386
+> +        method: HEAD
+> +        status_code:
+> +          - 200
+> +          - 403
+
+Why is 403 an acceptable success status code?
+
+> +      register: gitlab_runner_available_archive
+> +
+> +    - name: Update base url
+> +      set_fact:
+> +        gitlab_runner_base_url: https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-
+> +      when: gitlab_runner_available_archive.status == 200
+> +    - debug:
+> +        msg: Base gitlab-runner url is {{ gitlab_runner_base_url  }}
+> +
+> +    - name: Set OS name (FreeBSD)
+> +      set_fact:
+> +        gitlab_runner_os: freebsd
+> +      when: "ansible_facts['system'] == 'FreeBSD'"
+> +
+> +    - name: Create a group for the gitlab-runner service
+> +      group:
+> +        name: gitlab-runner
+> +
+> +    - name: Create a user for the gitlab-runner service
+> +      user:
+> +        user: gitlab-runner
+> +        group: gitlab-runner
+> +        comment: GitLab Runner
+> +        home: /home/gitlab-runner
+> +        shell: /bin/bash
+> +
+> +    - name: Remove the .bash_logout file when on Ubuntu systems
+> +      file:
+> +        path: /home/gitlab-runner/.bash_logout
+> +        state: absent
+> +      when: "ansible_facts['distribution'] == 'Ubuntu'"
+> +
+> +    - name: Downloads the matching gitlab-runner
+> +      get_url:
+> +        dest: /usr/local/bin/gitlab-runner
+> +        url: "{{ gitlab_runner_base_url }}{{ gitlab_runner_os }}-{{ gitlab_runner_arch }}"
+> +        owner: gitlab-runner
+> +        group: gitlab-runner
+> +        mode: u=rwx,g=rwx,o=rx
+> +
+> +    - name: Register the gitlab-runner
+> +      command: "/usr/local/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell  --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
+> +
+> +    - name: Install the gitlab-runner service using its own functionality
+> +      command: /usr/local/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner
+> +      register: gitlab_runner_install_service_result
+> +      failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
+> +      when: "ansible_facts['os_family'] != 'FreeBSD'"
+> +
+> +    - name: Enable the gitlab-runner service
+> +      service:
+> +        name: gitlab-runner
+> +        state: started
+> +        enabled: yes
+> +      when: "ansible_facts['os_family'] != 'FreeBSD'"
+> diff --git a/scripts/ci/setup/vars.yml.template b/scripts/ci/setup/vars.yml.template
+> new file mode 100644
+> index 0000000000..621435d030
+> --- /dev/null
+> +++ b/scripts/ci/setup/vars.yml.template
+> @@ -0,0 +1,13 @@
+> +# The version of the gitlab-runner to use
+> +gitlab_runner_version: 13.1.1
+> +# The base location of gitlab-runner binaries, this will be suffixed by $OS-$ARCH
+> +gitlab_runner_base_url: https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-
+> +# The URL of the gitlab server to use, usually https://gitlab.com unless you're
+> +# using a private GitLab instance
+> +gitlab_runner_server_url: https://gitlab.com
+> +# Defaults to linux, checks can be used to change this
+> +gitlab_runner_os: linux
+> +# Defaults to amd64 (x86_64), checks can be used to change this
+> +gitlab_runner_arch: amd64
+> +# A unique token made available by GitLab to your project for registering runners
+> +gitlab_runner_registration_token: PLEASE_PROVIDE_A_VALID_TOKEN
+> -- 
+> 2.25.4
+> 
 
 
