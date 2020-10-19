@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA26729262C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 13:03:06 +0200 (CEST)
-Received: from localhost ([::1]:38524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25038292635
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 13:10:01 +0200 (CEST)
+Received: from localhost ([::1]:46138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUSwT-0006GL-GT
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 07:03:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37990)
+	id 1kUT39-0001FE-Nd
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 07:09:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUSuD-0005at-0i
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 07:00:45 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37525)
+ id 1kUT18-0008Ux-OJ
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 07:07:54 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44079)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUSuB-0002fL-6O
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 07:00:44 -0400
-Received: by mail-wr1-x444.google.com with SMTP id h7so10913970wre.4
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 04:00:42 -0700 (PDT)
+ id 1kUT16-0003hx-OE
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 07:07:54 -0400
+Received: by mail-wr1-x434.google.com with SMTP id t9so10878000wrq.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 04:07:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JFNDduS/dhIP3PklVjR1vGIVrXkQwGl/ToogdmJMisQ=;
- b=KxDeJwwlTAfXm5fSgg6IdwO8OkdevGTWBwnO0fQrK2Jj+7sYxK/nL9fF4g1+3IQezO
- ileVci5p7KwIkznaI4qSInFHUUziLhO5YIOFHOso9fCZveQiZPC3wtgKKLM2867vgDgJ
- czHRCbFbRypVyr19pzi79mzWW0TraC4lgFoQrZyxv1OeRgjk7IcGkPZSJojjxo8AU06h
- 2SYtDBcngo6Kegp4MR/rUe8N/9UN7v4tymCTmgsrnxwFEWdbLe+pfTSw+MBx1aYGZ1RB
- pZ1BuWlojVAm4CLcaWwo6DpFYeIXWRNgFx/Gr6r5MjzD7A8hJU5x818o+0zEiSUxyKmB
- k3Mg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pjt13CQmDgkRb8WxGkjM+BURG+rzrHKY/YQd4e1L7i4=;
+ b=WPYocz0QYg5+a6596sPOQ626R6eNIsV4fKh+y08Etac4n6SFE7fZhHiqbx1dkt+vO4
+ WaMKtPMWP1eo2Z80fIBrQwKIrPiGwB96E+y3wLr6LthVd1a/a7hsjCqmVegH++fpOxi8
+ 5CUSEG4msxEb7c1L1HtIsUZxZMWkv1L7mdgkbQENckisgf8uzfevDeqItsdVODxqY4Y4
+ fXinbunR36R211mEctrDBiM3PpT4n4Pz0N/eoXvCxRwbZUQV+WNujx62kij+bLS4vtYR
+ YYGFmKFR8ZBNSp1E3hUA1ln6QBqDUaIzDPNRzLnqR3chrT2MSj3HrJxiC1waLj3SKKer
+ vEIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JFNDduS/dhIP3PklVjR1vGIVrXkQwGl/ToogdmJMisQ=;
- b=bIExOvbNRVFdFgsXKgDSFEoQ9stjqTyM7J7WEo4ZqXpB/ooeNJc3Eymgd2Zl/BbtQ9
- KWsIAZgadIaeRNEiQW6Ue+NCaTnior+EW2eF1mYihU2ZkzX/myx/FM0mHYk6B7LMCBbL
- UMWJ9M+rB20JRav9Ibepj1k2MImZEZ+wc+Wka/ch/G6qrO6bxghkj54em/K0xMIE0ksF
- kkOc4IINunVkSFzzAZ6bSj4goHTtpuBMA63M1DS2RcM/c8WJ48OqecOLKliaA6irnRK3
- Bd2k9AlEc1nDopq7LMmgikzl6bd2ukcyaE5oJcu32PDF3ICsgYQnHptX6ee2gLlBKxb0
- bprw==
-X-Gm-Message-State: AOAM532xvqf9t3SMcoW10RgcF8pIYDr19xvngTMZoOc19KECYqXUnJZe
- km+1TFE2MD13CmtU11rIOj4=
-X-Google-Smtp-Source: ABdhPJwp2wJbihBlbX6B46ooad2j3q97ciHy80hAJbgsFBnP/+9GMvua5he7AWe7i5DgyyXLGurnqw==
-X-Received: by 2002:adf:f54c:: with SMTP id j12mr19400021wrp.413.1603105240942; 
- Mon, 19 Oct 2020 04:00:40 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Pjt13CQmDgkRb8WxGkjM+BURG+rzrHKY/YQd4e1L7i4=;
+ b=HO7nl3t/1jz4izu1BLH1z0rAB8zCNmxDd3TY7sxaYzCc9nEkwKeaOlZmIRv0TeWnGO
+ DE+Y/7Mc/M9tV4fwZ+QYhdpNGgJ2Gp+ecznkv121lWDrAGrA5PHzz5K9/NIGtIce81FW
+ Bbug1igonk9MI4YM4EP8mYJQHRRbaeYQBePgoE4iyUynTJVdNYSB11+U4pWFgeumeOuL
+ GjgQoa1yRoEWdLZPboTHPmiVVZQDCLke/Q6CyMy8x+IixMtp0iiTQSNL6VLcV3/2BOpN
+ xSz1r9Vo/StbiNvFRVNzq8yqR0dTZcm6FuTxPOl7qaWg2xoYIsldIODQ7h05KW21NPPV
+ id6g==
+X-Gm-Message-State: AOAM533v/RTGiwXBHRdeteoIxeJF2LFVtISyj3aVFW6uulDTyWyZPm9N
+ YkwWdQBw+ct9xvfyy4Pvb8fEoS8mgL8=
+X-Google-Smtp-Source: ABdhPJxGew5exoWjN4gqwhZ+hQ6BnWu2d/WFREUbK3k4QgFjsdSR/sKOUaw5uBiQqN5qoLY6uL7lig==
+X-Received: by 2002:a5d:448b:: with SMTP id j11mr18783116wrq.129.1603105670889; 
+ Mon, 19 Oct 2020 04:07:50 -0700 (PDT)
+Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id p9sm15530456wmm.4.2020.10.19.04.00.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Oct 2020 04:00:39 -0700 (PDT)
-Subject: Re: [PATCH v2 5/8] qemu/bswap: Use compiler __builtin_bswap() on Haiku
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- David CARLIER <devnexen@gmail.com>
-References: <20200928131934.739451-1-philmd@redhat.com>
- <20200928131934.739451-6-philmd@redhat.com>
- <CA+XhMqxdb9Y6HL_0Og4Px5OwdTqK5EKJcnKdafd790nJb8yYEQ@mail.gmail.com>
- <20200928141355.GI2230076@redhat.com>
- <9591c70b-68ff-bf02-5ee3-2d1969acd7f9@redhat.com>
-Message-ID: <decf2103-374d-821e-fb7c-bf21db1d78b1@amsat.org>
-Date: Mon, 19 Oct 2020 13:00:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ by smtp.gmail.com with ESMTPSA id p9sm15876388wma.12.2020.10.19.04.07.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Oct 2020 04:07:50 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v3 0/1] tests/vm: Add Haiku VM
+Date: Mon, 19 Oct 2020 13:07:48 +0200
+Message-Id: <20201019110749.1635343-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <9591c70b-68ff-bf02-5ee3-2d1969acd7f9@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -80,7 +70,7 @@ X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -96,33 +86,35 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Carlo Arenas <carenas@gmail.com>,
- Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/20 4:18 PM, Philippe Mathieu-Daudé wrote:
-> On 9/28/20 4:13 PM, Daniel P. Berrangé wrote:
->> On Mon, Sep 28, 2020 at 03:09:01PM +0100, David CARLIER wrote:
->>> Unfortunately it breaks the build.
->>
->> Can you provide details of the errors seen and toolchain versions.
->>
->> I notice we don't have any CI support for Haiku right now, nor
->> any recipe in tests/vm/  for enabling users to setup a VM with
->> Haiku installed. This very much makes Haiku a second class
->> citizen right now in terms of QEMU's supported platforms, with
->> no expectation of whether it'll work at any point in time.
-> 
-> I provided the tests/vm/ build script from Alexander as patch 8/8
-> of this series:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg10022.html
-> 
-> This is what I used to test this patch/series.
-
-I suppose the Haiku VM patch got lost, so I'll repost it separate.
-
-Which tree should I Cc:? Ah, Alex testing tree :)
+Intent to not get Alexander's patch lost.=0D
+=0D
+Since v2:=0D
+- No change, posted as single patch=0D
+=0D
+Since v1:=0D
+- Addressed Thomas Huth review comments=0D
+=0D
+Alexander von Gluck IV (1):=0D
+  tests/vm: Add Haiku test based on their vagrant images=0D
+=0D
+ tests/keys/vagrant        |  27 +++++++++=0D
+ tests/keys/vagrant.pub    |   1 +=0D
+ tests/vm/Makefile.include |   3 +-=0D
+ tests/vm/basevm.py        |   5 +-=0D
+ tests/vm/haiku.x86_64     | 116 ++++++++++++++++++++++++++++++++++++++=0D
+ 5 files changed, 149 insertions(+), 3 deletions(-)=0D
+ create mode 100644 tests/keys/vagrant=0D
+ create mode 100644 tests/keys/vagrant.pub=0D
+ create mode 100755 tests/vm/haiku.x86_64=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
