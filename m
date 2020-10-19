@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4594292459
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 11:08:31 +0200 (CEST)
-Received: from localhost ([::1]:56908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC1729246F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 11:11:20 +0200 (CEST)
+Received: from localhost ([::1]:60334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUR9a-0003AK-P4
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 05:08:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43068)
+	id 1kURCJ-0004vy-Gf
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 05:11:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUR87-0001ex-9p
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 05:06:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24579)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUR9k-0003cH-6B
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 05:08:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUR85-0005ty-Jc
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 05:06:58 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUR9h-00062S-10
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 05:08:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603098416;
+ s=mimecast20190719; t=1603098514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iRYrqw52OCkb/E+c3XzAmYPb4P0vfFjEv4RFEXiivCA=;
- b=fbQYjl9w+oMqqfB3U572LNH6n1Qj3oAfBud/kF0D+Ics65zJztUqM9DTAmbTrpuol9GIHo
- RX4+4wiK1vKwoCFzHs7SISm1SwQbfQJa2Kfa6Zps6w4X79duAVjFCmutyMdaLZHeCOp9Xp
- 70r6KS/9NSU7JsLbefBK52BYEdzkT1o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-ndXMnQjBOXCcYCC8U6BHpA-1; Mon, 19 Oct 2020 05:06:53 -0400
-X-MC-Unique: ndXMnQjBOXCcYCC8U6BHpA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC4A78030B2;
- Mon, 19 Oct 2020 09:06:52 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 77BFA5C225;
- Mon, 19 Oct 2020 09:06:52 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DF1781132A08; Mon, 19 Oct 2020 11:06:50 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v4 4/7] keyval: Parse help options
-References: <20201011073505.1185335-1-armbru@redhat.com>
- <20201011073505.1185335-5-armbru@redhat.com>
- <2f9e1df0-9be8-e63c-8c2d-b1afbe952a0c@redhat.com>
-Date: Mon, 19 Oct 2020 11:06:50 +0200
-In-Reply-To: <2f9e1df0-9be8-e63c-8c2d-b1afbe952a0c@redhat.com> (Eric Blake's
- message of "Mon, 12 Oct 2020 06:51:19 -0500")
-Message-ID: <87wnzmzis5.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=IcrWkVtq6M8tcSBX9LdqNv5TcNxSLD/rGERk43hwxLE=;
+ b=HJf91SQA4o0S06171pCTT6tpH2V5/CaWoW8igxRCgETcC9/bkqBLa8h/k2ckKddnmjWSRh
+ /+/vgEnpOnMbcimbgZNAyCJe8Sq1hLN5AKjcZx0RIX4J8ZP0llV/Pfd1BvMS7ZplLZ/cv2
+ lRSoAcWIMmkHi6cl4l4l1FGE3u2G5ko=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-cQPbaa2QNtSG-H-RrUw4Dw-1; Mon, 19 Oct 2020 05:08:30 -0400
+X-MC-Unique: cQPbaa2QNtSG-H-RrUw4Dw-1
+Received: by mail-wr1-f71.google.com with SMTP id t3so7178383wrq.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 02:08:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IcrWkVtq6M8tcSBX9LdqNv5TcNxSLD/rGERk43hwxLE=;
+ b=Salyqs1ERsJZ91W7cONZi4mfxRNw6BAudRrLe0zTIJTz4NoEi4qn3LFtItprl+I7C8
+ fu5/AAyx4YWhqwL7/GUd0BJmPCwachTugFmpXjfS+trW6mf24/OeCO8IzpYoRCwf2gKz
+ k5Z46/LsIGV5quiMmLAiBrIUeBJprBycflKBFOKcZA/MSd1PkZHZl0arr3EFKaP0Zc/F
+ urI1Gn8GFfqyHXkhitGcR6X8gdNE56aZPft0u0dHjqsaXWnhaw6GKRMYxfTHb8zT0hJr
+ CUl1wgaHXN8RNqhXcdFAkQ2Ew6GYqRxUfCpBFxcADpfLJaAcKhvAXvSrryhsphoEQT7c
+ Hxsw==
+X-Gm-Message-State: AOAM5321tneIiCAeHtK7HcvyIWAdF3mcHmK9aDgJjsFqMaVCgDixoxES
+ BoZ2hh58j1xY4HfDOY/O9rNoHvBmLxKS9xDe7GY5fr6/rCG0LkztNFvWpBRwGPQK5CuNGZv66ho
+ s5Uf0VORuApFkig4=
+X-Received: by 2002:adf:e447:: with SMTP id t7mr18651564wrm.384.1603098509587; 
+ Mon, 19 Oct 2020 02:08:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxMnjZCikVQGo5Vt5Rj6pHq3tPr90DvLj6WX0w1qVI6UvPS8w480y8IU1f9KCuZO5GsNHk7yw==
+X-Received: by 2002:adf:e447:: with SMTP id t7mr18651545wrm.384.1603098509377; 
+ Mon, 19 Oct 2020 02:08:29 -0700 (PDT)
+Received: from [192.168.1.36] (36.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.36])
+ by smtp.gmail.com with ESMTPSA id h16sm17332443wre.87.2020.10.19.02.08.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Oct 2020 02:08:28 -0700 (PDT)
+Subject: Re: [PATCH 3/5] spapr: Use appropriate getter for PC_DIMM_SLOT_PROP
+To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
+ <160309730758.2739814.15821922745424652642.stgit@bahia.lan>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d30860c5-5f96-f60e-2f8f-45e86feb55c7@redhat.com>
+Date: Mon, 19 Oct 2020 11:08:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <160309730758.2739814.15821922745424652642.stgit@bahia.lan>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 01:44:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -69,8 +85,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,106 +100,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+On 10/19/20 10:48 AM, Greg Kurz wrote:
+> The PC_DIMM_SLOT_PROP property is defined as:
+> 
+>      DEFINE_PROP_INT32(PC_DIMM_SLOT_PROP, PCDIMMDevice, slot,
+>                        PC_DIMM_UNASSIGNED_SLOT),
 
-> On 10/11/20 2:35 AM, Markus Armbruster wrote:
->> From: Kevin Wolf <kwolf@redhat.com>
->> This adds a special meaning for 'help' and '?' as options to the
->> keyval
->> parser. Instead of being an error (because of a missing value) or a
->> value for an implied key, they now request help, which is a new boolean
->> output of the parser in addition to the QDict.
->> A new parameter 'p_help' is added to keyval_parse() that contains on
->> return whether help was requested. If NULL is passed, requesting help
->> results in an error and all other cases work like before.
->> 
->
->> +
->> +    /* "help" by itself, without implied key */
->> +    qdict = keyval_parse("help", NULL, &help, &error_abort);
->> +    g_assert_cmpuint(qdict_size(qdict), ==, 0);
->> +    g_assert(help);
->> +    qobject_unref(qdict);
->> +
->> +    /* "help" by itself, with implied key */
->> +    qdict = keyval_parse("help", "implied", &help, &error_abort);
->> +    g_assert_cmpuint(qdict_size(qdict), ==, 0);
->> +    g_assert(help);
->> +    qobject_unref(qdict);
->> +
->> +    /* "help" when no help is available, without implied key */
->> +    qdict = keyval_parse("help", NULL, NULL, &err);
->> +    error_free_or_abort(&err);
->> +    g_assert(!qdict);
->> +
->> +    /* "help" when no help is available, with implied key */
->> +    qdict = keyval_parse("help", "implied", NULL, &err);
->> +    error_free_or_abort(&err);
->> +    g_assert(!qdict);
->> +
->> +    /* Key "help" */
->> +    qdict = keyval_parse("help=on", NULL, &help, &error_abort);
->> +    g_assert_cmpuint(qdict_size(qdict), ==, 1);
->> +    g_assert_cmpstr(qdict_get_try_str(qdict, "help"), ==, "on");
->> +    g_assert(!help);
->> +    qobject_unref(qdict);
->> +
->> +    /* "help" followed by crap, without implied key */
->> +    qdict = keyval_parse("help.abc", NULL, &help, &err);
->> +    error_free_or_abort(&err);
->> +    g_assert(!qdict);
->> +
->> +    /* "help" followed by crap, with implied key */
->> +    qdict = keyval_parse("help.abc", "implied", &help, &err);
->> +    g_assert_cmpuint(qdict_size(qdict), ==, 1);
->> +    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "help.abc");
->> +    g_assert(!help);
->> +    qobject_unref(qdict);
->> +
->> +    /* "help" with other stuff, without implied key */
->> +    qdict = keyval_parse("number=42,help,foo=bar", NULL, &help, &error_abort);
->> +    g_assert_cmpuint(qdict_size(qdict), ==, 2);
->> +    g_assert_cmpstr(qdict_get_try_str(qdict, "number"), ==, "42");
->> +    g_assert_cmpstr(qdict_get_try_str(qdict, "foo"), ==, "bar");
->> +    g_assert(help);
->> +    qobject_unref(qdict);
->> +
->> +    /* "help" with other stuff, with implied key */
->> +    qdict = keyval_parse("val,help,foo=bar", "implied", &help, &error_abort);
->> +    g_assert_cmpuint(qdict_size(qdict), ==, 2);
->> +    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "val");
->> +    g_assert_cmpstr(qdict_get_try_str(qdict, "foo"), ==, "bar");
->> +    g_assert(help);
->> +    qobject_unref(qdict);
->
-> Is it worth checking that "helper" with implied key is a value, not help?
+Worth adding:
 
-Case /* "help" followed by crap, with implied key */ covers this,
-doesn't it?
+       #define PC_DIMM_UNASSIGNED_SLOT -1
 
->> +++ b/util/keyval.c
->> @@ -14,10 +14,11 @@
->>    * KEY=VALUE,... syntax:
->>    *
->>    *   key-vals     = [ key-val { ',' key-val } [ ',' ] ]
->> - *   key-val      = key '=' val
->> + *   key-val      = key '=' val | help
->>    *   key          = key-fragment { '.' key-fragment }
->>    *   key-fragment = / [^=,.]+ /
->>    *   val          = { / [^,]+ / | ',,' }
->> + *   help         = 'help | '?'
->
-> Missing '
+for better understanding why it is signed.
 
-Kevin fixed it up.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> Otherwise
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-
-Thanks!
+> 
+> Use object_property_get_int() instead of object_property_get_uint().
+> Since spapr_memory_plug() only gets called if pc_dimm_pre_plug()
+> succeeded, we expect to have a valid >= 0 slot number, either because
+> the user passed a valid slot number or because pc_dimm_get_free_slot()
+> picked one up for us.
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>   hw/ppc/spapr.c |    9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 115fc52e3b06..1b173861152f 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3433,7 +3433,8 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>       Error *local_err = NULL;
+>       SpaprMachineState *ms = SPAPR_MACHINE(hotplug_dev);
+>       PCDIMMDevice *dimm = PC_DIMM(dev);
+> -    uint64_t size, addr, slot;
+> +    uint64_t size, addr;
+> +    int64_t slot;
+>       bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
+>   
+>       size = memory_device_get_region_size(MEMORY_DEVICE(dev), &error_abort);
+> @@ -3450,11 +3451,13 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>                          spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT),
+>                          &local_err);
+>       } else {
+> -        slot = object_property_get_uint(OBJECT(dimm),
+> -                                        PC_DIMM_SLOT_PROP, &local_err);
+> +        slot = object_property_get_int(OBJECT(dimm),
+> +                                       PC_DIMM_SLOT_PROP, &local_err);
+>           if (local_err) {
+>               goto out_unplug;
+>           }
+> +        /* We should have valid slot number at this point */
+> +        g_assert(slot >= 0);
+>           spapr_add_nvdimm(dev, slot, &local_err);
+>       }
+>   
+> 
+> 
+> 
 
 
