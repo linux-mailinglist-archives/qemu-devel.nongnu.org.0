@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D12292F46
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 22:19:35 +0200 (CEST)
-Received: from localhost ([::1]:58152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75552292F4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 22:22:01 +0200 (CEST)
+Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUbcz-0005oa-IL
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 16:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58182)
+	id 1kUbfM-0007Fe-JQ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 16:22:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kUbbT-0005DF-PC
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 16:17:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52845)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kUbbR-0002Mw-Os
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 16:17:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603138675;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hnfWf9oWz8NkNRFHjIPgXM+LCAHv4aFjd1Ebo4fblWY=;
- b=KHRQWghuW+8d0FnR7PaTM/789sN0J31mVHCv+mNkHnQ0U+m6/+FnW9bq6Vc8QfeNH2tYR3
- IPVbccOqIZzHJcoX4q3pomfFnKGQ4JVxYTF4jNdxhHC0N62OVo8SZDRSdG+tBf+8MNgx1K
- VZ+p0clabrDcol/XbiiQzzG1Qdl00sU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-zQpBWAbaN9WsqRejZERhig-1; Mon, 19 Oct 2020 16:17:52 -0400
-X-MC-Unique: zQpBWAbaN9WsqRejZERhig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D3181006708;
- Mon, 19 Oct 2020 20:17:51 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BEAC1A837;
- Mon, 19 Oct 2020 20:17:44 +0000 (UTC)
-Date: Mon, 19 Oct 2020 16:17:42 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 4/4] Jobs based on custom runners: add job definitions
- for QEMU's machines
-Message-ID: <20201019201742.GA1617151@localhost.localdomain>
-References: <20201019015003.1527746-1-crosa@redhat.com>
- <20201019015003.1527746-5-crosa@redhat.com>
- <4ba04f5d-eb4b-214d-3947-b84737748814@redhat.com>
+ (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
+ id 1kUbdx-0006aU-H7
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 16:20:33 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:33054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <eafanasova@gmail.com>)
+ id 1kUbdv-0002ep-TI
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 16:20:33 -0400
+Received: by mail-lj1-x241.google.com with SMTP id c21so1665388ljj.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 13:20:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=7urB7f92nHfRlxyFk7GnYTz1GZBdxJ9ZfAfPv48p1XY=;
+ b=JjyzqLlzXo6whVwUzg+DYEdOuI0XUsjLUXFt6eDrM0ZnEegLRzobFFHs16LxuoKr7S
+ 2mGRyZzDP2n7yJdCEmhBFpijPecWyJMQaUIL/o6PcjApDi7ROXNQ+ag7spEOo754QKpf
+ wuxY1MzJjk2OGRJA66bXiRjYkblq5/s8C4HGpMQG/GyBHwkhCm3ZjlEt8UukrSeGHnSG
+ AKlYe9trRxeX+gWH4pSta8YEqNPgE1HWnvUl6tUdIGCgqXZzRzi1mUYFlrV1NLEN7DUI
+ S1GJu33o6vKZAPp8XFGepjcDWLWde2vTaHgUkjSgKh/5w+26B/oGX5begEs2+BYl3YOv
+ pQ4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+ :mime-version:content-transfer-encoding;
+ bh=7urB7f92nHfRlxyFk7GnYTz1GZBdxJ9ZfAfPv48p1XY=;
+ b=ABjwgyw8cjlhuNl/N1jXzMdCjMlGFbOUcXmiqxbGzOC1YX+/LpTwEtxCE9cFEIoWi3
+ FwxVp06FRfz/k1zwYM4dhKU9ybu4QSqjpw0Ds7uqrKfdY1j+4YJJcQvtetOGY2qy3U2n
+ uNGlKr7B5oC6b2jF1vWJPvRZTIIfZztAl8Ob2pthYf1pY1I+gKjkduYaWDqSPd+uKnQk
+ hMnksc9q1JFnSyE5lrF4zkROSBdmJ7OhX8F7U0iySce/jZ8Tb7W3nvraQciYJC/Gz2fo
+ sQrh2sxl5eOZa99+ekuFzJKAp2w5qmXnX687clQWlySbJrNRfLbBn7O6XizovGkIe9xC
+ tcwg==
+X-Gm-Message-State: AOAM530zMxbQJTlC+NeIL8FJDW5p7hGeRK6/Je3e3tzrtiX7W1VU/ZRo
+ cmlmhGXrkyECaJvH+nlOZk/qLXyq4lD5yg==
+X-Google-Smtp-Source: ABdhPJzcmWCt9DUCufMUe2kPAH7hx3Ig5bGih4TipveCP9KTntgMrpP657GS6vIgc8WuvMJteXXv4A==
+X-Received: by 2002:a2e:88cb:: with SMTP id a11mr725738ljk.304.1603138828678; 
+ Mon, 19 Oct 2020 13:20:28 -0700 (PDT)
+Received: from [192.168.167.128] (37-145-186-126.broadband.corbina.ru.
+ [37.145.186.126])
+ by smtp.gmail.com with ESMTPSA id q27sm136133lfd.261.2020.10.19.13.20.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Oct 2020 13:20:28 -0700 (PDT)
+Message-ID: <cf71a62eb04e61932ff8ffdd02e0b2aab4f495a0.camel@gmail.com>
+Subject: [PATCH v2] softmmu/memory: fix memory_region_ioeventfd_equal()
+From: Elena Afanasova <eafanasova@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 19 Oct 2020 13:20:13 -0700
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-In-Reply-To: <4ba04f5d-eb4b-214d-3947-b84737748814@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=eafanasova@gmail.com; helo=mail-lj1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,55 +84,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: pbonzini@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---yrj/dFKFPuw6o+aM
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Eventfd can be registered with a zero length when fast_mmio is true.
+Handle this case properly when dispatching through QEMU.
 
-On Mon, Oct 19, 2020 at 12:42:03PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 10/19/20 3:50 AM, Cleber Rosa wrote:
-> > The QEMU project has two machines (aarch64 and s390) that can be used
->=20
-> "s390x" =3D)
->
+Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+---
+ softmmu/memory.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Sure!
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 403ff3abc9..4b5775ae5b 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -205,8 +205,15 @@ static bool memory_region_ioeventfd_before(MemoryRegionIoeventfd *a,
+ static bool memory_region_ioeventfd_equal(MemoryRegionIoeventfd *a,
+                                           MemoryRegionIoeventfd *b)
+ {
+-    return !memory_region_ioeventfd_before(a, b)
+-        && !memory_region_ioeventfd_before(b, a);
++    if (int128_eq(a->addr.start, b->addr.start) &&
++        (!int128_nz(a->addr.size) || !int128_nz(b->addr.size) ||
++         (int128_eq(a->addr.size, b->addr.size) &&
++          (a->match_data == b->match_data) &&
++          ((a->match_data && (a->data == b->data)) || !a->match_data) &&
++          (a->e == b->e))))
++        return true;
++
++    return false;
+ }
+ 
+ /* Range of memory in the global map.  Addresses are absolute. */
+-- 
+2.25.1
 
-Thanks!
-- Cleber.
-
---yrj/dFKFPuw6o+aM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+N9GMACgkQZX6NM6Xy
-CfMjyBAAtfKaojS8GBZcu+ZXUS7jZR5wrXZ3AeAPmLP7RD4ui7IdonRm5zuSmCVe
-yFoSN/M+IGzF1Acwzc3V6Df5Arksa3GO6lQoTbfg1iNwGmPpP69qiFYqR0Ro/WzZ
-GTUkS247rGuMWbXNaz/4U8zQFNxnZB+poXYmic8/pUlOZaJuFJAu2elCamNYKMDr
-8LvUAgzsIMT1HUZKexmt48OuUyMy65jHOhwu65SbPIdUiARuW7Uv7x5CleZt7p8K
-5+5IqDXMVhlzGYZvEFwx2kzL/KKgexiIFj86ncOXBtfp1Wa6/6/y4W8rJYqQC0rH
-RKcrsU6A161qOSGTVoBTS5sTS2ySuD4agc7XuyTDWjguqgtaHCT8shknrJIYabng
-zTOIdANhXqT6HQrMey/dOmkFLgWpldxuGC9gfkSCNAvn26rwBr+nKU3a7ryOKwZd
-SYc2eha51bOD7ddA4DfgVuSEw+xY0EYGLs4jS4lqvsP9ym4rTH70gULJp3espCvZ
-ewUswlVn/5aRcAKweh55jSeu3uHU2JweqFQI4CJUW+dqFcnxcItL8jJoWio+dzMx
-ixOxcD+vnHXSIHVBrVIN4KC1b+y8BPBVSspx1FEdjHUtymCepZbVM2p7j1Rjczqh
-TYlQP0hogV6qfap6JWxrzL83N8VgSQVNWOdVP0vVDpb1p/rrBWw=
-=OZdD
------END PGP SIGNATURE-----
-
---yrj/dFKFPuw6o+aM--
 
 
