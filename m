@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE16C2930A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 23:40:12 +0200 (CEST)
-Received: from localhost ([::1]:39948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9212930C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 23:47:49 +0200 (CEST)
+Received: from localhost ([::1]:46436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUct2-0005Uj-08
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 17:40:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46640)
+	id 1kUd0O-0000As-23
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 17:47:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kUcqr-0004V5-Q9
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 17:37:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46821)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kUcyZ-0007w1-Sb
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 17:45:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kUcqp-0003mV-CE
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 17:37:57 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kUcyU-0004nT-0r
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 17:45:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603143474;
+ s=mimecast20190719; t=1603143946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/x3KppJkYljO/uyANkNW9HC+rnPTLuX5/9GGzLSaADs=;
- b=MDvkFZuWpWFO6UkuvEQe5YrkOqW30IfyMcN5M5WDzFIw7pCqqad82hBnDJRgCeK9ihKorw
- 3AL64TKJswU4+Luk9Gno8PqcjYrdMT1MDWRjltAH8zKwyJqqGXmFoN0/PwqIbditNPFmBm
- wqWL1dvn83YsSWN5xLmXICTKRG34zeg=
+ bh=yx0ifzoiBNXirQFyYRoFmZyz5bk6a2wNJc2ttyCPQT8=;
+ b=MXAGf38ufLYwPaoj9xwqqAyHvjkWIREqY78Qvzm7QnswJ0TXONScihv6NwCy8sqmdXWL13
+ nAWs89h6eDRAl6Am6PVrxjY+bDILB4SuFhLACSXujdItOkK672AojS+EotTs/s8XZ+OdgL
+ HeI2CIwtoMP4R62GKs/tURUVj9vgoho=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-7E4SZBTOMeWFozKR9PUDEA-1; Mon, 19 Oct 2020 17:37:49 -0400
-X-MC-Unique: 7E4SZBTOMeWFozKR9PUDEA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-32-GaeU-PNKPsuv_crDpDsHuA-1; Mon, 19 Oct 2020 17:45:42 -0400
+X-MC-Unique: GaeU-PNKPsuv_crDpDsHuA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E6D112C6C0;
- Mon, 19 Oct 2020 21:37:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 426A11084D62;
+ Mon, 19 Oct 2020 21:45:41 +0000 (UTC)
 Received: from [10.3.112.28] (ovpn-112-28.phx2.redhat.com [10.3.112.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 594E010013C1;
- Mon, 19 Oct 2020 21:37:47 +0000 (UTC)
-Subject: Re: [PATCH v6 06/10] migration: control whether snapshots are
- ovewritten
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 411015C1A3;
+ Mon, 19 Oct 2020 21:45:37 +0000 (UTC)
+Subject: Re: [PATCH v4 4/7] nbd: Update qapi to support exporting multiple
+ bitmaps
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
-References: <20201008155001.3357288-1-berrange@redhat.com>
- <20201008155001.3357288-7-berrange@redhat.com>
+References: <20201009215533.1194742-1-eblake@redhat.com>
+ <20201009215533.1194742-5-eblake@redhat.com>
+ <6ee3ac4f-65c3-fdfd-9adb-9bea5f5739e3@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <4954a4e9-ecd9-71d8-db65-a89ccf2b20a3@redhat.com>
-Date: Mon, 19 Oct 2020 16:37:46 -0500
+Message-ID: <56b413b5-2213-1b4e-5cac-865d8f0e0689@redhat.com>
+Date: Mon, 19 Oct 2020 16:45:36 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201008155001.3357288-7-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <6ee3ac4f-65c3-fdfd-9adb-9bea5f5739e3@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -73,7 +74,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,24 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, rjones@redhat.com, stefanha@redhat.com,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/8/20 10:49 AM, Daniel P. Berrangé wrote:
-> The traditional HMP "savevm" command will overwrite an existing snapshot
-> if it already exists with the requested name. This new flag allows this
-> to be controlled allowing for safer behaviour with a future QMP command.
+On 10/14/20 7:15 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 10.10.2020 00:55, Eric Blake wrote:
+>> Since 'nbd-server-add' is deprecated, and 'block-export-add' is new to
+>> 5.2, we can still tweak the interface.  Allowing 'bitmaps':['str'] is
+>> nicer than 'bitmap':'str'.  This wires up the qapi and qemu-nbd
+>> changes to permit passing multiple bitmaps as distinct metadata
+>> contexts that the NBD client may request, but the actual support for
+>> more than one will require a further patch to the server.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>> ---
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
+> [..]
+> 
+>>               break;
+>>           case 'B':
+>> -            bitmap = optarg;
+>> +            tmp = g_new(strList, 1);
+>> +            tmp->value = g_strdup(optarg);
+>> +            tmp->next = bitmaps;
+>> +            bitmaps = tmp;
+> 
+> If publish QAPI_LIST_ADD, defined in block.c, it would look like:
+> 
+>      QAPI_LIST_ADD(bitmaps, g_strdup(optarg));
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+#define QAPI_LIST_ADD(list, element) do { \
+     typeof(list) _tmp = g_new(typeof(*(list)), 1); \
+     _tmp->value = (element); \
+     _tmp->next = (list); \
+     (list) = _tmp; \
+} while (0)
+
+
+Markus, thoughts on if we should publish this macro, and if so, which 
+header would be best?
+
+
+> 
+> anyway:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
