@@ -2,95 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A55292605
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 12:49:38 +0200 (CEST)
-Received: from localhost ([::1]:40830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A345292618
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 12:54:26 +0200 (CEST)
+Received: from localhost ([::1]:55038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUSjR-0003e2-Gn
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 06:49:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34242)
+	id 1kUSo5-00014U-ER
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 06:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUScG-0005xy-Mg
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:42:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26671)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kUSeH-0007nv-7O
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:44:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUScE-0000fj-TF
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:42:12 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kUSeE-0000r6-AR
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 06:44:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603104128;
+ s=mimecast20190719; t=1603104253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5Nh+AlzCgv/TTMzdgNVBy/zbjSQKtekNGWyDOqD4uac=;
- b=gqcFZ2k4yx0Hw7aNc4el4wzOgk8AfnVMKGc9mlHIG8I3c4xTC5MCxzIo84WUBpBT0NYs5n
- rhZ4C0JHxKorriEO03ujvmn8IIbq6+R41GCSlUbfLHVJLKJGSoYne5YMVWA0MMhRbRbrLf
- MKFt6cJ4UMSc2zDFqzBuIzZD1VvClKw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-BnHWYImzP0mBGq9LTpuUtQ-1; Mon, 19 Oct 2020 06:42:06 -0400
-X-MC-Unique: BnHWYImzP0mBGq9LTpuUtQ-1
-Received: by mail-wr1-f71.google.com with SMTP id 33so7182602wrf.22
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 03:42:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5Nh+AlzCgv/TTMzdgNVBy/zbjSQKtekNGWyDOqD4uac=;
- b=CePZNvlHbV7oe6YkVmYbTz06tJUXR+ehVOaJm2jckurBe9ctMRtOYsXFRoZsSToK1E
- eVA2oGBm6Ljjcc8OJnJoNTZtNJClIIKAp2vNbb5zKR8hdedt+eLfwG2ND2vg5/VQ8qGL
- 9CtV6HJmD+AbTosv/veUixMZFCkuZZ8JWoRua1ODjNNSvXOHQEB2KrZirz88fv8oKH4d
- EZs1nNatOQfFabTkrHZH+kUKFuXrlmORxtIklSHdCh4pcyGZi+8eZLs6/DvABofIQ/85
- F6cd+/U2wFkMHDXlRUfiVpxpyYoI3OFjwQwyokZBZaoN/eNUZyOhvu5mBcz8sS5kGICD
- HgAw==
-X-Gm-Message-State: AOAM532uziZJUCbl6EFB2oMkvvwiTpIxrU4jgilC42dMlVfAZD22exDp
- RZShFgloXjGcvJDDOVY5Oc59LTitpl4CdFLvofXRHVFM7rw+Z3hmE7Hpfkr2u+RT8zgljy4T+2G
- jNu3TH0RXkbZTdPY=
-X-Received: by 2002:a7b:c349:: with SMTP id l9mr2206974wmj.148.1603104125146; 
- Mon, 19 Oct 2020 03:42:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwVR2cqOjwRHx6NirPchlktmR0rllIsUqaftuf17AIxrRkEjpZzNZlVmg5hxx5NJ9QHxCyZRg==
-X-Received: by 2002:a7b:c349:: with SMTP id l9mr2206946wmj.148.1603104124969; 
- Mon, 19 Oct 2020 03:42:04 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id x15sm18065312wrr.36.2020.10.19.03.42.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Oct 2020 03:42:04 -0700 (PDT)
-Subject: Re: [PATCH v4 4/4] Jobs based on custom runners: add job definitions
- for QEMU's machines
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20201019015003.1527746-1-crosa@redhat.com>
- <20201019015003.1527746-5-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4ba04f5d-eb4b-214d-3947-b84737748814@redhat.com>
-Date: Mon, 19 Oct 2020 12:42:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PBFEdwTIx1mYGL3oIUANUBf9mbY7EvKflju80+PQsLA=;
+ b=eeoYwx50lhbbf6LKS2WXGNJXomnGYM82ilDbUPTs/ZCinP9w0lNRGnUCoNz9OakZwfrvAz
+ 3CF7wt5U7xDt7+vQpjDOVKrHJpPgFotJIUPEtbo4iU5hTN3xWrkbk53c/L5cr83vHZ4QVZ
+ uuRg0KrN7RDKzKKFoMpTeYuajHbqvi8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358-6f003FrLNdCfARPcCJ6TVw-1; Mon, 19 Oct 2020 06:43:05 -0400
+X-MC-Unique: 6f003FrLNdCfARPcCJ6TVw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C552F107464B;
+ Mon, 19 Oct 2020 10:43:03 +0000 (UTC)
+Received: from eperezma.remote.csb (ovpn-113-59.ams2.redhat.com [10.36.113.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5EB6E5577A;
+ Mon, 19 Oct 2020 10:42:47 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH v2 0/5] memory: Skip assertion in
+ memory_region_unregister_iommu_notifier
+Date: Mon, 19 Oct 2020 12:42:39 +0200
+Message-Id: <20201019104244.21830-1-eperezma@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201019015003.1527746-5-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 01:44:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,26 +79,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-ppc@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Avi Kivity <avi@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/20 3:50 AM, Cleber Rosa wrote:
-> The QEMU project has two machines (aarch64 and s390) that can be used
+I am able to hit this assertion when a Red Hat 7 guest virtio_net device
+raises an "Invalidation" of all the TLB entries. This happens in the
+guest's startup if 'intel_iommu=on' argument is passed to the guest
+kernel and right IOMMU/ATS devices are declared in qemu's command line.
 
-"s390x" =)
+Command line:
+/home/qemu/x86_64-softmmu/qemu-system-x86_64 -name \
+guest=rhel7-test,debug-threads=on -machine \
+pc-q35-5.1,accel=kvm,usb=off,dump-guest-core=off,kernel_irqchip=split \
+-cpu \
+Broadwell,vme=on,ss=on,vmx=on,f16c=on,rdrand=on,hypervisor=on,arat=on,tsc-adjust=on,umip=on,arch-capabilities=on,xsaveopt=on,pdpe1gb=on,abm=on,skip-l1dfl-vmentry=on,rtm=on,hle=on \
+-m 8096 -realtime mlock=off -smp 2,sockets=2,cores=1,threads=1 -uuid \
+d022ecbf-679e-4755-87ce-eb87fc5bbc5d -display none -no-user-config \
+-nodefaults -rtc base=utc,driftfix=slew -global \
+kvm-pit.lost_tick_policy=delay -no-hpet -no-shutdown -global \
+ICH9-LPC.disable_s3=1 -global ICH9-LPC.disable_s4=1 -boot strict=on \
+-device intel-iommu,intremap=on,device-iotlb=on -device \
+pcie-root-port,port=0x8,chassis=1,id=pci.1,bus=pcie.0,multifunction=on,addr=0x1 \
+-device \
+pcie-root-port,port=0x9,chassis=2,id=pci.2,bus=pcie.0,addr=0x1.0x1 \
+-device \
+pcie-root-port,port=0xa,chassis=3,id=pci.3,bus=pcie.0,addr=0x1.0x2 \
+-device \
+pcie-root-port,port=0xb,chassis=4,id=pci.4,bus=pcie.0,addr=0x1.0x3 \
+-device \
+pcie-root-port,port=0xc,chassis=5,id=pci.5,bus=pcie.0,addr=0x1.0x4 \
+-device \
+pcie-root-port,port=0xd,chassis=6,id=pci.6,bus=pcie.0,addr=0x1.0x5 \
+-device \
+pcie-root-port,port=0xe,chassis=7,id=pci.7,bus=pcie.0,addr=0x1.0x6 \
+-device qemu-xhci,p2=15,p3=15,id=usb,bus=pci.2,addr=0x0 -device \
+virtio-serial-pci,id=virtio-serial0,bus=pci.3,addr=0x0 -drive \
+file=/home/virtio-test2.qcow2,format=qcow2,if=none,id=drive-virtio-disk0 \
+-device \
+virtio-blk-pci,scsi=off,bus=pci.4,addr=0x0,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1 \
+-netdev tap,id=hostnet0,vhost=on,vhostforce=on -device \
+virtio-net-pci,netdev=hostnet0,id=net0,mac=52:54:00:0d:1d:f2,bus=pci.1,addr=0x0,iommu_platform=on,ats=on \
+-device virtio-balloon-pci,id=balloon0,bus=pci.5,addr=0x0 -object \
+rng-random,id=objrng0,filename=/dev/urandom -device \
+virtio-rng-pci,rng=objrng0,id=rng0,bus=pci.6,addr=0x0 -s -msg \
+timestamp=on
 
-> for jobs that do build and run tests.  This introduces those jobs,
-> which are a mapping of custom scripts used for the same purpose.
-> 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->   .gitlab-ci.d/custom-runners.yml | 192 ++++++++++++++++++++++++++++++++
->   1 file changed, 192 insertions(+)
+Full backtrace:
+ #0  0x00007ffff521370f in raise () at /lib64/libc.so.6
+ #1  0x00007ffff51fdb25 in abort () at /lib64/libc.so.6
+ #2  0x00007ffff51fd9f9 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
+ #3  0x00007ffff520bcc6 in .annobin_assert.c_end () at /lib64/libc.so.6
+ #4  0x0000555555888171 in memory_region_notify_one (notifier=0x7ffde0487fa8,
+                                                    entry=0x7ffde5dfe200)
+                          at /home/qemu/memory.c:1918
+ #5  0x0000555555888247 in memory_region_notify_iommu (iommu_mr=0x555556f6c0b0,
+                                                      iommu_idx=0, entry=...)
+                          at /home/qemu/memory.c:1941
+ #6  0x0000555555951c8d in vtd_process_device_iotlb_desc (s=0x555557609000,
+                                                       inv_desc=0x7ffde5dfe2d0)
+                          at /home/qemu/hw/i386/intel_iommu.c:2468
+ #7  0x0000555555951e6a in vtd_process_inv_desc (s=0x555557609000)
+                          at /home/qemu/hw/i386/intel_iommu.c:2531
+ #8  0x0000555555951fa5 in vtd_fetch_inv_desc (s=0x555557609000)
+                          at /home/qemu/hw/i386/intel_iommu.c:2563
+ #9  0x00005555559520e5 in vtd_handle_iqt_write (s=0x555557609000)
+                          at /home/qemu/hw/i386/intel_iommu.c:2590
+ #10 0x0000555555952b45 in vtd_mem_write (opaque=0x555557609000, addr=136,
+                                         val=2688, size=4)
+                          at /home/qemu/hw/i386/intel_iommu.c:2837
+ #11 0x0000555555883e17 in memory_region_write_accessor (mr=0x555557609330,
+                                                        addr=136,
+                                                        value=0x7ffde5dfe478,
+                                                        size=4,
+                                                        shift=0,
+                                                        mask=4294967295,
+                                                        attrs=...)
+                         at /home/qemu/memory.c:483
+ #12 0x000055555588401d in access_with_adjusted_size (addr=136,
+                       value=0x7ffde5dfe478,
+                       size=4,
+                       access_size_min=4,
+                       access_size_max=8,
+                       access_fn=0x555555883d38 <memory_region_write_accessor>,
+                       mr=0x555557609330,
+                       attrs=...)
+                       at /home/qemu/memory.c:544
+ #13 0x0000555555886f37 in memory_region_dispatch_write (mr=0x555557609330,
+                                                       addr=136,
+                                                       data=2688,
+                                                       op=MO_32,
+                                                       attrs=...)
+                         at /home/qemu/memory.c:1476
+ #14 0x0000555555827a03 in flatview_write_continue (fv=0x7ffdd8503150,
+                                                   addr=4275634312,
+                                                   attrs=...,
+                                                   ptr=0x7ffff7ff0028,
+                                                   len=4,
+                                                   addr1=136,
+                                                   l=4,
+                                                   mr=0x555557609330)
+                          at /home/qemu/exec.c:3146
+ #15 0x0000555555827b48 in flatview_write (fv=0x7ffdd8503150,
+                                          addr=4275634312,
+                                          attrs=...,
+                                          buf=0x7ffff7ff0028,
+                                          len=4)
+                          at /home/qemu/exec.c:3186
+ #16 0x0000555555827e9d in address_space_write (
+                                      as=0x5555567ca640 <address_space_memory>,
+                                      addr=4275634312,
+                                      attrs=...,
+                                      buf=0x7ffff7ff0028,
+                                      len=4)
+                          at /home/qemu/exec.c:3277
+ #17 0x0000555555827f0a in address_space_rw (
+                                      as=0x5555567ca640 <address_space_memory>,
+                                      addr=4275634312,
+                                      attrs=...,
+                                      buf=0x7ffff7ff0028,
+                                      len=4,
+                                      is_write=true)
+                          at /home/qemu/exec.c:3287
+ #18 0x000055555589b633 in kvm_cpu_exec (cpu=0x555556b65640)
+                               at /home/qemu/accel/kvm/kvm-all.c:2511
+ #19 0x0000555555876ba8 in qemu_kvm_cpu_thread_fn (arg=0x555556b65640)
+                               at /home/qemu/cpus.c:1284
+ #20 0x0000555555dafff1 in qemu_thread_start (args=0x555556b8c3b0)
+                               at util/qemu-thread-posix.c:521
+ #21 0x00007ffff55a62de in start_thread () at /lib64/libpthread.so.0
+ #22 0x00007ffff52d7e83 in clone () at /lib64/libc.so.6
+
+(gdb) frame 4
+ #4  0x0000555555888171 in memory_region_notify_one
+                      (notifier=0x7ffde0487fa8, entry=0x7ffde5dfe200)
+                      at /home/qemu/memory.c:1918
+1918        assert(entry->iova >= notifier->start && entry_end <=
+notifier->end);
+(gdb) p *entry
+$1 = {target_as = 0x555556f6c050, iova = 0, translated_addr = 0,
+addr_mask = 18446744073709551615, perm = IOMMU_NONE}
+--
+
+Tested with vhost-net and qemu driver, host<->guest communication.
+
+v2: * Delete underflow assertion
+    * Tested again rebased over ("3e407488349 Merge remote-tracking
+      branch 'remotes/rth/tags/pull-mb-20201014' into staging")
+
+v1: * IOMMU_NOTIFIER_ALL now includes IOMMU_NOTIFIER_DEVIOTLB_EVENTS
+      also. VFIO IOMMU notifier will register for all events (as before
+      of the patching)
+    * Cosmetic changes, like:
+      - Expand commit messages
+      - Better naming and checks
+      - Fix alignment issues
+      - Avoid an already present casting from `void *`
+ at https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg01505.html
+
+RFC v8: Fix use of "tmp" notification in memory.c:memory_region_notify_iommu_one
+
+v7: Add IOMMUTLBNotification, and move introduced "type" from
+    IOMMUTLBEntry to the former.
+
+v6: Introduce "type" field for IOMMUTLBEntry. Fill in all uses.
+    Update tests reports with more fine-tuning (CPU, RPS/XPS tunning).
+
+v5: Skip regular IOTLB notifications in dev_iotlb notifiers
+
+v4: Rename IOMMU_NOTIFIER_IOTLB -> IOMMU_NOTIFIER_DEVIOTLB.
+    Make vhost-net notifier just IOMMU_NOTIFIER_DEVIOTLB, not
+    IOMMU_NOTIFIER_UNMAP
+
+v3: Skip the assertion in case notifier is a IOTLB one, since they can manage
+    arbitrary ranges. Using a flag in the notifier for now, as Peter suggested.
+
+v2: Actually delete assertion instead of just commenting out using C99
+
+Eugenio Pérez (5):
+  memory: Rename memory_region_notify_one to
+    memory_region_notify_iommu_one
+  memory: Add IOMMUTLBEvent
+  memory: Add IOMMU_NOTIFIER_DEVIOTLB_UNMAP IOMMUTLBNotificationType
+  intel_iommu: Skip page walking on device iotlb invalidations
+  memory: Skip bad range assertion if notifier is DEVIOTLB_UNMAP type
+
+ include/exec/memory.h | 40 ++++++++++---------
+ hw/arm/smmu-common.c  | 13 +++---
+ hw/arm/smmuv3.c       | 13 +++---
+ hw/i386/intel_iommu.c | 92 +++++++++++++++++++++++++------------------
+ hw/misc/tz-mpc.c      | 32 ++++++++-------
+ hw/ppc/spapr_iommu.c  | 15 +++----
+ hw/virtio/vhost.c     |  2 +-
+ softmmu/memory.c      | 30 ++++++++------
+ 8 files changed, 134 insertions(+), 103 deletions(-)
+
+-- 
+2.18.1
 
 
