@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E303C292A99
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:42:05 +0200 (CEST)
-Received: from localhost ([::1]:59178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D18292AC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 17:47:15 +0200 (CEST)
+Received: from localhost ([::1]:37164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUXIS-0000wP-Eh
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48174)
+	id 1kUXNS-0004au-BR
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 11:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUXGX-0007qf-CI
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:40:05 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37864)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kUXLG-0003di-P8; Mon, 19 Oct 2020 11:44:58 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUXGV-0006Hp-5N
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 11:40:05 -0400
-Received: by mail-pf1-x444.google.com with SMTP id 144so173677pfb.4
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 08:40:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=zUJJLuLH2B8vD9jiO5n3naJXQx6TK1Lz+NHOhom511Y=;
- b=aV+YIUyQHsUGDZMW7DuIia2rKfJpH1B6DLVQMWgRX2SpOwnW8kczQtOzDKFo95Z7Dz
- yyz/1ViIsc6WNt7sZfAFFALDuxPhzx+oarGiobKg9Vcf3Lzv6DQYBP6wcaz0iC1jPfw4
- SjgBQisZ2G0ZCIrooX4y04E7wvU9GUTYURgPzCc0VhFd/fUF55jPQzkUWQepZiINZFSe
- lHYKkOEisaC5gIkjBpGAY07kJCIrAPKRl3hb2JSM7rZ4rGppuXbd1Yoq1VirQStffMjO
- 1BUcpG1FcqWfu0bzBRKnLxkHOTkc5e59SHYLY7LXkU7Am3+Bj2DFRhOm/LTzywMpNs/p
- PZag==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kUXLF-00072f-5k; Mon, 19 Oct 2020 11:44:58 -0400
+Received: by mail-wr1-x441.google.com with SMTP id e17so210327wru.12;
+ Mon, 19 Oct 2020 08:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FDO0Fpq9dLfWvRB7q6PlAIftQwMQiLAYD0HLGsECdoc=;
+ b=vE/lpvvQW6Cw7UAavR5+i13alYOuAK3JsofK739Q+9LIQjDwTtje4yBwYIxivGuFWo
+ aSc1vIPqtljc43rgX686zqJEOkBYdO2ay/v7l+SItbP9H8PqbP4CMMJDU1EbeNaGlkNs
+ +a+y1k4L9L1DN/6oknrEFNtVylWEa4JPWQ1zqjJTpeMOryeZqlK6q+ZJN+qMMzpud9E/
+ RvfLS5jCpoZvmEQ3p+KDKSvPDxx3UDf8AxuN5va8Ir921piF/GB8d9DP7Kxq2QG6fkld
+ zSRzjyMeoxYiHYXUBxPU55iYaM16+TG8EQYCp8W7SRbmhSn4BsEueD2yCDelZZM8IVW6
+ 0Y0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zUJJLuLH2B8vD9jiO5n3naJXQx6TK1Lz+NHOhom511Y=;
- b=BJu93fh8+z2nbcsrBf3AMwZpq8XGZ+J/oCAvxjIhafkXdK/8MEF62HmqG75VWM7RjZ
- v2iNdDJaPcTutcK5e3rO6Kvm1p5ulXiewqawEuoAhV8ZLGzNg6PD4V/jXVxK5WQEfDqO
- 5pvNNGee4NuE2fJ0PN4XLEzlNU05Nxfg8KBsauPq2IbIKdocQsvxonb02p8TelP40J4T
- cjAH/2XxTJ7bIQzf0DYlRWTYtFc7RJI/KcWTrHX5qw4w3RnoJC57v4UKqngHH27FgyS8
- dEJd8g1PCnAqGg2aBJwjwqbxEYv/eMEgpWVuyAG4iWKCAvI7PTeaCJj+ybDSrROgYzeV
- rzMw==
-X-Gm-Message-State: AOAM532P2ZdNnVRmFztQDwZstuuwy+PrvZu1RUKpvT+2+II07g8SpWsJ
- y+LqALIDpwwhRiiF1CrjY8Y1SpId7HOIkw==
-X-Google-Smtp-Source: ABdhPJy3saizpFXrcEAbUNhVZPu4g2gMFRUIO3h+wLNXG8CEAS3rEckbKXUSa0jiDy4nyX52GGvtVw==
-X-Received: by 2002:a62:7657:0:b029:152:4d66:dcb with SMTP id
- r84-20020a6276570000b02901524d660dcbmr182491pfc.74.1603122001215; 
- Mon, 19 Oct 2020 08:40:01 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q2sm185475pfu.193.2020.10.19.08.40.00
+ bh=FDO0Fpq9dLfWvRB7q6PlAIftQwMQiLAYD0HLGsECdoc=;
+ b=MnZC+5tvHDWInpb3YMiZ6dG2dIMQ3NNuc/uXwYagZwokwa78Eg1t0IpHO9qJlVbgjf
+ k9IdFlCPGUrgLJblPoHs2NGPMkcGDImfkYZxOuYr23rp48n5D1Z3Q+0r2+MezZiSxHp2
+ cK//m/p/Ai1FPup20rHRniGsXCBknHTUgmIZ+/Kp0W/sEZdp0a4ucYSSwvZ9cHyv8nKY
+ 45JBx699zcKF2T0kRoKngILNvs6TWzpj8700dbWIyyzn7gi3sB2quO+LDA9yFPh92kB/
+ tUsh++uZzVv9agif4SKT1Refdtx8BDduy5cMbh5N/rzRA/+QKyYMgbOvZmzP9q+Hie4C
+ qRLA==
+X-Gm-Message-State: AOAM531p6tsq6g3tNDOmO877jVmYl1HTwsT6xNgMQTSmQI03V3zk63DU
+ xSgnT6ycjL3wGeCMSiONLJ8=
+X-Google-Smtp-Source: ABdhPJxkrMGow4MZGqEp0+HqC2m0rwpxW62tZY2aVrVe29WMAo/3HB87lCKyvIoJebeulC9AfsOObw==
+X-Received: by 2002:a5d:608f:: with SMTP id w15mr125369wrt.183.1603122294462; 
+ Mon, 19 Oct 2020 08:44:54 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id j13sm103319wru.86.2020.10.19.08.44.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Oct 2020 08:40:00 -0700 (PDT)
-Subject: Re: [PATCH v2 07/10] target/arm: Implement v8.1M low-overhead-loop
- instructions
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20201019151301.2046-1-peter.maydell@linaro.org>
- <20201019151301.2046-8-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <862c3804-bcff-eac6-805e-150d4df643cf@linaro.org>
-Date: Mon, 19 Oct 2020 08:39:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Mon, 19 Oct 2020 08:44:53 -0700 (PDT)
+Subject: Re: [PATCH v3 13/15] hw/misc/bcm2835_cprman: add sane reset values to
+ the registers
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Luc Michel <luc@lmichel.fr>
+References: <20201010135759.437903-1-luc@lmichel.fr>
+ <20201010135759.437903-14-luc@lmichel.fr>
+ <48280560-3642-5367-a46e-53548e77c748@amsat.org>
+ <20201011182608.gfmfvdioiyyaxrfq@sekoia-pc.home.lmichel.fr>
+ <473818a2-b267-881f-b827-425a384a27bd@amsat.org>
+Message-ID: <98d573dc-1e43-17e8-97b6-6f8a869f65e2@amsat.org>
+Date: Mon, 19 Oct 2020 17:44:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201019151301.2046-8-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <473818a2-b267-881f-b827-425a384a27bd@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,42 +93,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Havard Skinnemoen <hskinnemoen@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/19/20 8:12 AM, Peter Maydell wrote:
-> v8.1M's "low-overhead-loop" extension has three instructions
-> for looping:
->  * DLS (start of a do-loop)
->  * WLS (start of a while-loop)
->  * LE (end of a loop)
-> 
-> The loop-start instructions are both simple operations to start a
-> loop whose iteration count (if any) is in LR.  The loop-end
-> instruction handles "decrement iteration count and jump back to loop
-> start"; it also caches the information about the branch back to the
-> start of the loop to improve performance of the branch on subsequent
-> iterations.
-> 
-> As with the branch-future instructions, the architecture permits an
-> implementation to discard the LO_BRANCH_INFO cache at any time, and
-> QEMU takes the IMPDEF option to never set it in the first place
-> (equivalent to discarding it immediately), because for us a "real"
-> implementation would be unnecessary complexity.
-> 
-> (This implementation only provides the simple looping constructs; the
-> vector extension MVE (Helium) adds some extra variants to handle
-> looping across vectors.  We'll add those later when we implement
-> MVE.)
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/t32.decode  |  8 ++++
->  target/arm/translate.c | 93 +++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 99 insertions(+), 2 deletions(-)
+On 10/16/20 7:10 PM, Philippe Mathieu-Daudé wrote:
+> On 10/11/20 8:26 PM, Luc Michel wrote:
+>> On 18:18 Sat 10 Oct     , Philippe Mathieu-Daudé wrote:
+>>> On 10/10/20 3:57 PM, Luc Michel wrote:
+>>>> Those reset values have been extracted from a Raspberry Pi 3 model B
+>>>> v1.2, using the 2020-08-20 version of raspios. The dump was done using
+>>>> the debugfs interface of the CPRMAN driver in Linux (under
+>>>> '/sys/kernel/debug/clk'). Each exposed clock tree stage (PLLs, channels
+>>>> and muxes) can be observed by reading the 'regdump' file (e.g.
+>>>> 'plla/regdump').
+>>>>
+>>>> Those values are set by the Raspberry Pi firmware at boot time (Linux
+>>>> expects them to be set when it boots up).
+>>>>
+>>>> Some stages are not exposed by the Linux driver (e.g. the PLL B). For
+>>>> those, the reset values are unknown and left to 0 which implies a
+>>>> disabled output.
+>>>>
+>>>> Once booted in QEMU, the final clock tree is very similar to the one
+>>>> visible on real hardware. The differences come from some unimplemented
+>>>> devices for which the driver simply disable the corresponding clock.
+>>>>
+>>>> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> Signed-off-by: Luc Michel <luc@lmichel.fr>
+>>>> ---
+>>>>    include/hw/misc/bcm2835_cprman_internals.h | 269 
+>>>> +++++++++++++++++++++
+>>>>    hw/misc/bcm2835_cprman.c                   |  31 +++
+>>>>    2 files changed, 300 insertions(+)
+[...]
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I haven't verified the dumped values with real hardware,
+but for the rest this patch shouldn't introduce regression,
+and it helps to boot up to Linux kernel 5.7, so:
 
-r~
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
