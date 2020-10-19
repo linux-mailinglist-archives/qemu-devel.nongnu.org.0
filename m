@@ -2,78 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A94292C7C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 19:18:00 +0200 (CEST)
-Received: from localhost ([::1]:35750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 259A3292C9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 19:25:00 +0200 (CEST)
+Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUYnH-0001wu-B2
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 13:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
+	id 1kUYu2-0005VO-Ke
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 13:24:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblot.ml@gmail.com>)
- id 1kUYm6-00016F-08
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:16:46 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:38912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <eblot.ml@gmail.com>)
- id 1kUYm4-0003Jj-2G
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:16:45 -0400
-Received: by mail-lf1-x142.google.com with SMTP id 184so398446lfd.6
- for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 10:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=th9JOcV/EgGibZtrjIRRR/ng1hA/m7GKy2qi1b1VUlY=;
- b=W+A/x7Fs7Fc5NUwsaLX6S8PtU5BjV3/7qRO0iRp7PcL5wjpOjM7oxFiGuDCzU1cIMQ
- jmaNa2mwhJoQcgWEQ5YETfOTpB55D9tKAvYo/a7wt5ZAkt81BK+zfMm+/pAzsrZfaBNR
- rHvAxhOZknsad1dX1EHQnsPV4sHZ3JfOgZm2ktToks49NB4658aTVEobh/nlWn8mYSKc
- zUom1oe1Uvlqd5KDHGlY1O8I8N3RzwL4FR4TaPgMz2hHopXS4G0K7fshCbWAGZACZrNM
- eoIEnBUhb4Yk/2IQAMpBWyF/MEX3VF67fz6A5cjUkz2NMOCajmZWB/31/uDdnX+A3i+X
- b4xw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kUYsJ-0004jU-Ne
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:23:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20824)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kUYsH-0004DM-Ja
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:23:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603128188;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iyfaajfaeY0sL3SM1O7r3+L+hK8i+b4BJi1UnSz8L/Q=;
+ b=CrqDb4zQ6VYnhW8K3xqPzIO/dmzXVgQ9KFScgKt+9Cr3flLqXkDQvV1GkC21II5MPlhd82
+ I9otTl/3/WJ/Wcv5tV7SSS9UcmdjQnbvYBexyZOg9X4lKgSRDXl7/qx6zZJjh/DkdW+GHO
+ LjIHlKAsbmsdkEqZdDRMnZ0JBcd3A5k=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-178-HdWKQuP4NM-VLegGJYupOQ-1; Mon, 19 Oct 2020 13:23:05 -0400
+X-MC-Unique: HdWKQuP4NM-VLegGJYupOQ-1
+Received: by mail-wm1-f72.google.com with SMTP id c204so70804wmd.5
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 10:23:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=th9JOcV/EgGibZtrjIRRR/ng1hA/m7GKy2qi1b1VUlY=;
- b=hSlJ06ctGFCjlVQ10K+hREMcp/5AwxjkYWM5DpgLAl2ucKUkhAhiUxHDf2An9nbgGO
- h58gkP1VUJBThlyfmHXu/bikXDTkjVyQxTmRwAxmzvoxXcVFe5L8yFXFPt4ltw0tSY6k
- fIZebxUgt0m4sJOrakkRhrc6NKtbVHUHmV6RRIKGlgsbmbPe9GILw7v3ButZyLM7uohO
- riGwdVxV5PUXiRFUe2rygZY2LOwNM05ousQngfcyY3ZtwG8Lf2AP98vANmsYQhVjyxlV
- 6jAJhI0lBf5Hc3nNzlgFPbZHkiX++rW9S/dSn1cQzJDWMHaRlOsf720V7Z16zcydTOlG
- AXrA==
-X-Gm-Message-State: AOAM530xUqeSjoc6HYZRNOy2q/ZsVIRb6fZC3F5OHcAhXlN8h8NzK35G
- TqWcxSfoYjC1gXNt/UEiC2cpCvBltwYBuloY
-X-Google-Smtp-Source: ABdhPJxmRyDvUins6si9lCCEKJ/vW/nMUfn3RyG5sQR6AGqc77UE5HyNq+Co1zQjMsq4wuB2hNzy2w==
-X-Received: by 2002:ac2:5048:: with SMTP id a8mr230652lfm.60.1603127801804;
- Mon, 19 Oct 2020 10:16:41 -0700 (PDT)
-Received: from [192.168.2.1] (net.iroazh.eu. [109.190.73.171])
- by smtp.gmail.com with ESMTPSA id 137sm63802lfi.246.2020.10.19.10.16.40
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 19 Oct 2020 10:16:41 -0700 (PDT)
-From: "Emmanuel Blot" <eblot.ml@gmail.com>
-To: QEMU <qemu-devel@nongnu.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iyfaajfaeY0sL3SM1O7r3+L+hK8i+b4BJi1UnSz8L/Q=;
+ b=q7M4wkT7bJ0fMPzeVOAmK/YdioE4cPsJezZkwCYUrrP1dfppiDSw4WkZ7KayXbdXvK
+ vpZm/Idl+6T9t34JyG7XwFqA4m4VU8OEPrNaY3PFk4RCPL5V/CuYRryIJoygz8E5VYz/
+ hyRDH9+LAbgN6UzTvEghCI5fpxRPzaa5IYtrUEHv7PMs4vubCNtVlED1AfV7Z59k/0qu
+ t/a+B7bqXhW/MYF87WPaEnpJevsxtlep4/XkSZaoPva75eIGjtUF3TwwLh36jxpSecTW
+ 7tG2JJsuUKOy/1cyeLQqdAplt/DjOuPYQVdzmorO8g8AsIquhhavIFmCkRdu3P2tZW2t
+ ZkRw==
+X-Gm-Message-State: AOAM530J13wrz+d3FaJrz+L5avcv9fzESvIsKupR5T8VougdVSaSviK/
+ cJUNhtwHoZSjeBSA3mc9eK8fdgZxu/P+uMKuJsDbdrI5mjQGSI6ms9TE68x6HL4lzTWndOA0x6m
+ G47rskJI2kwi2srQ=
+X-Received: by 2002:a5d:6cae:: with SMTP id a14mr288577wra.187.1603128183968; 
+ Mon, 19 Oct 2020 10:23:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxp5a3Ur3bzuI2abaNiB2URm2K7WGwncR4g7KiOErx8Yz0Fr298GZ1uww9AHk+v60JRBVo8fw==
+X-Received: by 2002:a5d:6cae:: with SMTP id a14mr288564wra.187.1603128183784; 
+ Mon, 19 Oct 2020 10:23:03 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id m1sm247792wmm.34.2020.10.19.10.23.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Oct 2020 10:23:03 -0700 (PDT)
 Subject: Re: ld: file not found: _PreallocMode_lookup on macOS Catalina
-Date: Mon, 19 Oct 2020 19:16:39 +0200
-X-Mailer: MailMate (1.13.2r5673)
-Message-ID: <3C35D6D8-D9FE-4977-B27F-59CCACFEAA32@gmail.com>
-In-Reply-To: <AA504B32-5134-4CDD-8CDA-6F200C7376CF@gmail.com>
+To: Emmanuel Blot <eblot.ml@gmail.com>, QEMU <qemu-devel@nongnu.org>
 References: <24B952F3-465C-4AB2-AF28-6CA4722D94B7@gmail.com>
  <3869557c-10a0-8f07-a59a-69120a522568@redhat.com>
  <AA504B32-5134-4CDD-8CDA-6F200C7376CF@gmail.com>
+ <3C35D6D8-D9FE-4977-B27F-59CCACFEAA32@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <34bcbf58-141b-35a1-6433-006a369827db@redhat.com>
+Date: Mon, 19 Oct 2020 19:23:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+In-Reply-To: <3C35D6D8-D9FE-4977-B27F-59CCACFEAA32@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=eblot.ml@gmail.com; helo=mail-lf1-x142.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 02:32:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,67 +104,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19 Oct 2020, at 18:40, Emmanuel Blot wrote:
+On 19/10/20 19:16, Emmanuel Blot wrote:
+> --- undef_sh.log    2020-10-19 19:15:08.000000000 +0200
+> +++ undef_py.log    2020-10-19 19:15:20.000000000 +0200
+> @@ -1,3 +1,4 @@
+> +-Wl,-u,
+>  -Wl,-u,_PreallocMode_lookup
+>  -Wl,-u,__TRACE_CURL_CLOSE_DSTATE
+>  -Wl,-u,__TRACE_CURL_OPEN_DSTATE
+> 
+> 
+> I think it can be addressed with the following patch:
+> 
+> From d157bd508d32485dd5cdb3efcff7969a89628cc1 Mon Sep 17 00:00:00 2001
+> From: Emmanuel Blot <emmanuel.blot@sifive.com>
+> Date: Mon, 19 Oct 2020 19:07:03 +0200
+> Subject: [PATCH] Fix regression with undefined symbol filter introduced in
+>  604f3e4e.
+> 
+> ---
+>  scripts/undefsym.py | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/scripts/undefsym.py b/scripts/undefsym.py
+> index 69a895cd26..254c456f25 100644
+> --- a/scripts/undefsym.py
+> +++ b/scripts/undefsym.py
+> @@ -21,6 +21,8 @@ def filter_lines_set(stdout, from_staticlib):
+>                      continue
+>                  if not from_staticlib and tokens[1] != b'U':
+>                      continue
+> +            if not tokens[0]:
+> +                continue
+>              new_line = b'-Wl,-u,' + tokens[0]
+>              if not new_line in linesSet:
+>                  linesSet.add(new_line)
 
-> On 19 Oct 2020, at 17:50, Philippe Mathieu-Daudé wrote:
->
->> Cc'ing Markus/John/Paolo
->
-> 604f3e4e90c011a6b94fdc1d13700f3ec2375f2a is the first bad commit
-> commit 604f3e4e90c011a6b94fdc1d13700f3ec2375f2a
+Great, thanks.  Can you check if my patch would also work, as it would
+adhere more to the pre-conversion logic?
 
-Applying the reverse diff to the current master does “fix” the 
-trouble.
+Paolo
 
-It seems the issue narrows down to an initial empty symbol generated in 
-the generated output file, e.g.:
-
---- undef_sh.log	2020-10-19 19:15:08.000000000 +0200
-+++ undef_py.log	2020-10-19 19:15:20.000000000 +0200
-@@ -1,3 +1,4 @@
-+-Wl,-u,
-  -Wl,-u,_PreallocMode_lookup
-  -Wl,-u,__TRACE_CURL_CLOSE_DSTATE
-  -Wl,-u,__TRACE_CURL_OPEN_DSTATE
-
-
-I think it can be addressed with the following patch:
-
- From d157bd508d32485dd5cdb3efcff7969a89628cc1 Mon Sep 17 00:00:00 2001
- From: Emmanuel Blot <emmanuel.blot@sifive.com>
-Date: Mon, 19 Oct 2020 19:07:03 +0200
-Subject: [PATCH] Fix regression with undefined symbol filter introduced 
-in
-  604f3e4e.
-
----
-  scripts/undefsym.py | 2 ++
-  1 file changed, 2 insertions(+)
-
-diff --git a/scripts/undefsym.py b/scripts/undefsym.py
-index 69a895cd26..254c456f25 100644
---- a/scripts/undefsym.py
-+++ b/scripts/undefsym.py
-@@ -21,6 +21,8 @@ def filter_lines_set(stdout, from_staticlib):
-                      continue
-                  if not from_staticlib and tokens[1] != b'U':
-                      continue
-+            if not tokens[0]:
-+                continue
-              new_line = b'-Wl,-u,' + tokens[0]
-              if not new_line in linesSet:
-                  linesSet.add(new_line)
---
-2.28.0
-
-
-
-HTH,
-Emmanuel.
 
