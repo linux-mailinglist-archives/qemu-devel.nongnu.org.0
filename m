@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361AE292D24
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 19:53:12 +0200 (CEST)
-Received: from localhost ([::1]:38560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F810292D3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Oct 2020 19:59:20 +0200 (CEST)
+Received: from localhost ([::1]:42800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUZLK-0000EW-RQ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 13:53:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53686)
+	id 1kUZRH-0002O0-He
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 13:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kUZK3-0007y3-Es
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:51:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23401)
+ id 1kUZPz-0001Y4-Jk
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:57:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kUZK1-00087h-5L
- for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:51:50 -0400
+ id 1kUZPx-0000Sp-Ni
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 13:57:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603129906;
+ s=mimecast20190719; t=1603130276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eo21jisbshZf5T/V88v75wikjrrNhXPGnz2qkzN0ULI=;
- b=jFeGvsUvMdbNVveRQBH8A4k1MPbFzywtayBKMsQRbj+QeQWqlx4v7MLbJt6yCgYpf5Uv9X
- zz28/3If8omQyT775XP6zT3JlvqPVdBd/JRuAcKgIcaeoEI9RfApkzkLMuFgyJrrGjeT8f
- OwZOVa84EGkrygy3ungrbaLJYor9jOA=
+ bh=moXn6JpMxqIjyBnsPXL9nhlh4+Cc20bGprUXjVwLQ/A=;
+ b=C8+0LkH9ZOYzXW2wJ2NlmXDaiQ57wIPjDu3a1qnIxLF3qiTM74wpkfc9pp4WKl9fxA3dFC
+ ud+N6o5gxUpDo/Xi1ygbkV9Jwp4V8C866JtSmLor6zn7px+YRpKnsdSI0wjioNFz5JnHlj
+ oS8Y3kGzgjnh26MWd2mRmqapMUDWD0M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-0bV0Q-dhMGqvua88d1ZWYg-1; Mon, 19 Oct 2020 13:51:44 -0400
-X-MC-Unique: 0bV0Q-dhMGqvua88d1ZWYg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-508-X3EdGHSkNqmo_Ia2oXFfdA-1; Mon, 19 Oct 2020 13:57:54 -0400
+X-MC-Unique: X3EdGHSkNqmo_Ia2oXFfdA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2203F8049C7;
- Mon, 19 Oct 2020 17:51:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35CFD1006C9B;
+ Mon, 19 Oct 2020 17:57:52 +0000 (UTC)
 Received: from w520.home (ovpn-112-77.phx2.redhat.com [10.3.112.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2E3060C13;
- Mon, 19 Oct 2020 17:51:36 +0000 (UTC)
-Date: Mon, 19 Oct 2020 11:51:36 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 833215C26A;
+ Mon, 19 Oct 2020 17:57:47 +0000 (UTC)
+Date: Mon, 19 Oct 2020 11:57:47 -0600
 From: Alex Williamson <alex.williamson@redhat.com>
 To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v26 05/17] vfio: Add VM state change handler to know
- state of VM
-Message-ID: <20201019115136.70c96820@w520.home>
-In-Reply-To: <c33278af-ab58-5786-9b70-d4f82b75cf96@nvidia.com>
+Subject: Re: [PATCH v26 06/17] vfio: Add migration state change notifier
+Message-ID: <20201019115747.15846824@w520.home>
+In-Reply-To: <048540b5-9e03-e6ec-64e5-a78b99a78c08@nvidia.com>
 References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
- <1600817059-26721-6-git-send-email-kwankhede@nvidia.com>
- <20200925142023.54e2c7c0@x1.home>
- <0fd89808-74b2-49de-da79-ea034d83a5de@nvidia.com>
- <20201017174437.2fb6b699@x1.home>
- <c33278af-ab58-5786-9b70-d4f82b75cf96@nvidia.com>
+ <1600817059-26721-7-git-send-email-kwankhede@nvidia.com>
+ <20200925142032.524c1a79@x1.home>
+ <048540b5-9e03-e6ec-64e5-a78b99a78c08@nvidia.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,60 +96,123 @@ Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 18 Oct 2020 23:13:39 +0530
+On Sun, 18 Oct 2020 02:05:03 +0530
 Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-> <snip>
-> 
-> >>>> +vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
-> >>>> +vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
-> >>>> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> >>>> index 8275c4c68f45..25e3b1a3b90a 100644
-> >>>> --- a/include/hw/vfio/vfio-common.h
-> >>>> +++ b/include/hw/vfio/vfio-common.h
-> >>>> @@ -29,6 +29,7 @@
-> >>>>    #ifdef CONFIG_LINUX
-> >>>>    #include <linux/vfio.h>
-> >>>>    #endif
-> >>>> +#include "sysemu/sysemu.h"
-> >>>>    
-> >>>>    #define VFIO_MSG_PREFIX "vfio %s: "
-> >>>>    
-> >>>> @@ -119,6 +120,9 @@ typedef struct VFIODevice {
-> >>>>        unsigned int flags;
-> >>>>        VFIOMigration *migration;
-> >>>>        Error *migration_blocker;
-> >>>> +    VMChangeStateEntry *vm_state;
-> >>>> +    uint32_t device_state;
-> >>>> +    int vm_running;  
-> >>>
-> >>> Could these be placed in VFIOMigration?  Thanks,
-> >>>     
+> On 9/26/2020 1:50 AM, Alex Williamson wrote:
+> > On Wed, 23 Sep 2020 04:54:08 +0530
+> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> >   
+> >> Added migration state change notifier to get notification on migration state
+> >> change. These states are translated to VFIO device state and conveyed to vendor
+> >> driver.
 > >>
-> >> I think device_state should be part of VFIODevice since its about device
-> >> rather than only related to migration, others can be moved to VFIOMigration.  
+> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> >> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >> ---
+> >>   hw/vfio/migration.c           | 29 +++++++++++++++++++++++++++++
+> >>   hw/vfio/trace-events          |  5 +++--
+> >>   include/hw/vfio/vfio-common.h |  1 +
+> >>   3 files changed, 33 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> >> index a30d628ba963..f650fe9fc3c8 100644
+> >> --- a/hw/vfio/migration.c
+> >> +++ b/hw/vfio/migration.c
+> >> @@ -199,6 +199,28 @@ static void vfio_vmstate_change(void *opaque, int running, RunState state)
+> >>       }
+> >>   }
+> >>   
+> >> +static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+> >> +{
+> >> +    MigrationState *s = data;
+> >> +    VFIODevice *vbasedev = container_of(notifier, VFIODevice, migration_state);
+> >> +    int ret;
+> >> +
+> >> +    trace_vfio_migration_state_notifier(vbasedev->name,
+> >> +                                        MigrationStatus_str(s->state));
+> >> +
+> >> +    switch (s->state) {
+> >> +    case MIGRATION_STATUS_CANCELLING:
+> >> +    case MIGRATION_STATUS_CANCELLED:
+> >> +    case MIGRATION_STATUS_FAILED:
+> >> +        ret = vfio_migration_set_state(vbasedev,
+> >> +                      ~(VFIO_DEVICE_STATE_SAVING | VFIO_DEVICE_STATE_RESUMING),
+> >> +                      VFIO_DEVICE_STATE_RUNNING);
+> >> +        if (ret) {
+> >> +            error_report("%s: Failed to set state RUNNING", vbasedev->name);
+> >> +        }  
 > > 
-> > But these are only valid when migration is supported and thus when
-> > VFIOMigration exists.  Thanks,
+> > Here again the caller assumes success means the device has entered the
+> > desired state, but as implemented it only means the device is in some
+> > non-error state.
+> >   
+> >> +    }
+> >> +}
+> >> +
+> >>   static int vfio_migration_init(VFIODevice *vbasedev,
+> >>                                  struct vfio_region_info *info)
+> >>   {
+> >> @@ -221,6 +243,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+> >>   
+> >>       vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+> >>                                                             vbasedev);
+> >> +    vbasedev->migration_state.notify = vfio_migration_state_notifier;
+> >> +    add_migration_state_change_notifier(&vbasedev->migration_state);
+> >>       return ret;
+> >>   }
+> >>   
+> >> @@ -263,6 +287,11 @@ add_blocker:
+> >>   
+> >>   void vfio_migration_finalize(VFIODevice *vbasedev)
+> >>   {
+> >> +
+> >> +    if (vbasedev->migration_state.notify) {
+> >> +        remove_migration_state_change_notifier(&vbasedev->migration_state);
+> >> +    }
+> >> +
+> >>       if (vbasedev->vm_state) {
+> >>           qemu_del_vm_change_state_handler(vbasedev->vm_state);
+> >>       }
+> >> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> >> index 6524734bf7b4..bcb3fa7314d7 100644
+> >> --- a/hw/vfio/trace-events
+> >> +++ b/hw/vfio/trace-events
+> >> @@ -149,5 +149,6 @@ vfio_display_edid_write_error(void) ""
+> >>   
+> >>   # migration.c
+> >>   vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
+> >> -vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
+> >> -vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
+> >> +vfio_migration_set_state(const char *name, uint32_t state) " (%s) state %d"
+> >> +vfio_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
+> >> +vfio_migration_state_notifier(const char *name, const char *state) " (%s) state %s"
+> >> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> >> index 25e3b1a3b90a..49c7c7a0e29a 100644
+> >> --- a/include/hw/vfio/vfio-common.h
+> >> +++ b/include/hw/vfio/vfio-common.h
+> >> @@ -123,6 +123,7 @@ typedef struct VFIODevice {
+> >>       VMChangeStateEntry *vm_state;
+> >>       uint32_t device_state;
+> >>       int vm_running;
+> >> +    Notifier migration_state;  
+> > 
+> > Can this live in VFIOMigration?  Thanks,
 > >   
 > 
-> Even though it is used when migration is supported, its device's attribute.
+> No, callback vfio_migration_state_notifier() has notifier argument and 
+> to reach its corresponding device structure as below, its should be in 
+> VFIODevice.
+> 
+> VFIODevice *vbasedev = container_of(notifier, VFIODevice, migration_state);
 
-device_state is a local copy of the migration region register, so it
-serves no purpose when a migration region is not present.  In fact the
-initial value would indicate the device is stopped, which is incorrect.
-vm_running is never initialized and cannot be set other than through a
-migration region update of device_state, so at least two of these
-values show incorrect state when migration is not supported by the
-device.  vm_state is unused when migration isn't present, so if nothing
-else the pointer here is wasteful.  It's not clear to me what
-justification is being presented here as a "device's attribute",
-supporting migration as indicated by a non-NULL migration pointer is
-also a device attribute and these are attributes further defining the
-state of that support.
-
-BTW, device_state is used in patch 03/ but only defined here in 05/, so
-the series would fail to compile on bisect.  Thanks,
+An alternative would be to place migration_state within VFIOMigration,
+along with a pointer back to vbasedev (like we do in VFIORegion) then
+the notifier could use container_of to get the VFIOMigration structure,
+from which we could get to the VFIODevice via the vbasedev pointer.
+This would better compartmentalize the migration related data into a
+single structure.  Thanks,
 
 Alex
 
