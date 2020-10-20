@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146ED2940D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:52:50 +0200 (CEST)
-Received: from localhost ([::1]:52542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8892940F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:59:57 +0200 (CEST)
+Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUusT-0000c1-6H
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:52:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49342)
+	id 1kUuzM-0006ge-5H
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:59:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUue1-0007rV-JA
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:53 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38240)
+ id 1kUue7-0007vW-Ag
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:38:00 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUudw-0000yr-GQ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:51 -0400
-Received: by mail-wr1-x443.google.com with SMTP id n18so2977442wrs.5
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:48 -0700 (PDT)
+ id 1kUue2-0000zG-MT
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:59 -0400
+Received: by mail-wm1-x344.google.com with SMTP id c77so2490827wmd.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cI8HSGwWCnif3JZAlzq92xQoHYw4ZrAg/ruryZjOnLA=;
- b=JevuJfS8onUQ+xp4X9CVG/9Y3xqJwIGTUeQMQmRfqGoiGHiTtIMpdf72wp8OxM+D6d
- 00r7QZLh20wJJTj8b+zbfvMdzTXTC+85r0W0O6uqal4US/U9IogVEoz2r7Cl7fZYR72Q
- AITvILNNt/mOVendPby/sIoQoY94MSSTO/bwTmzYpMfkJM16sPNB0D2CZdm4+XoY4Oyc
- s/1rQVI4Ub3Zt5TWnHho6ll/WTf8ZS2vFJt1wycjE8ibVlOovVJcHW8hWK+tKFKhWdM5
- pOAc3ZCXkFb9Qd6XKfxV6EZtEPnBhyCfXc/q1rtW0OgN7rsVuyO5cNuw07tfRvHDm6fH
- i63w==
+ bh=XpldNLE39oyJx0Efh9oGONaLZZynshqlNmAlRNDfdFs=;
+ b=OrxECvIvdhHFefWeSlFdCh51gIHGKv7HEwcvBFShp1oYIV2eZaiydW/IGw2ZYP4c5b
+ dtlCGinly6JbMAwPv6VvBciS3veZdD6M8Xs51P3w5Bc256t9geddCL8jtUtI+XYkQ23q
+ NTDVjtY/OD8nOSL9pntl1GV2TGbK5a78Yxb32puoinzlA/FGLaVJvtpvOo78N8o4RqBt
+ BPGMIunodfVFqHokepznc8o7EW//Oeny8HWDwpkzWlhiiuu4W5AVAe5Rqs6gkg9xJ2nf
+ 6ynLJKB4MXi32DG6gxvKBoX6hkLzhLVxMYOvdlELNwYzRL5xTJHRRZN8buq5lQfT1lvV
+ VFsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cI8HSGwWCnif3JZAlzq92xQoHYw4ZrAg/ruryZjOnLA=;
- b=gCWDYCPuCf6m1l+KET46w7M/3wJw9tu/KRn1UnlQ7BGFFlOTPseZHKRblaVnVKxqal
- dG0ojKAEvippgvJcx8wVJ1vw/McW4ZaUIlkXfKAKbZRyvzTBXuEAZR8argH6cBCeBP9B
- HHSiNq2Kpdu5kFeuw937cRhAwIh52SLfdUoc8cvfqnUI6DWS9pbBFKHKpfUwJyORiUIl
- e2UmQmXW0Cbkk/DlV3HeBD2psmh/tgWAo1dP8yYyWtwYpNfbM7hM0fcDvOjmyzyyxOgR
- xqG8cjlCHRi9BRT1uLaI+1xGOUX41637a+bEtJ8kv8wVGejPO9TtQekOfIoOUMIzS5Tr
- jSTQ==
-X-Gm-Message-State: AOAM530OHbM4QbXQiHo43WEthAzn1AGCZsed87dJ/cpMqMFgPtrgrl7F
- Hl0kTKfBY0vpHat3GjMV0HMLAg==
-X-Google-Smtp-Source: ABdhPJzikJKbzedokXdIM7nQmKI5+50Boao2Sy/MZjmaE3JS1eG+u1aso49OA2K1f9TbcvfiBg4ddw==
-X-Received: by 2002:adf:f104:: with SMTP id r4mr4533876wro.202.1603211867164; 
- Tue, 20 Oct 2020 09:37:47 -0700 (PDT)
+ bh=XpldNLE39oyJx0Efh9oGONaLZZynshqlNmAlRNDfdFs=;
+ b=jTxJwgcc+NP5jo6LWvDZj13DaLMIXWMKU5xcQsA97rk2cIsb2xzlDOkhD3g+yReSKN
+ JcItjYNQfjhMFE5Rlnluh7IAiGEekZlfhYCHE4+KwU7yyr5nAr/dbmYE6tZaCIcz1WZm
+ E9vdik2eU24M0r7FELnuP9YlthUJSn3SeBWSHRRATufmlMvclt6Rz/o47kTakzZclrTE
+ Q9K8BkRVbmIY/8Wo/4dD9kqnxsCwG4bayDIYee9QveP4Oydi7VLUwElACcP0/lBZR2Gb
+ pBepjoTwYeOiJjsC27GLaHqWLQhijyyO1FxXmKqv2kNiZLxhQ85PPylvNItz5nyhMzRR
+ H6Vw==
+X-Gm-Message-State: AOAM533FQznBDtUUK4KH9ADxI8Ncl/KQ8A2GHyRE3P1EwFajGHFFoggK
+ ctMi+GjxjEmAyU6lRL0R9QTT6A==
+X-Google-Smtp-Source: ABdhPJyxEysbvP02GHnr8YrQi3skcoQqF+26oMsRuBQwJWZovjdmUE2NEUAgCpV8d0KHtGth4Vx2Lw==
+X-Received: by 2002:a05:600c:2115:: with SMTP id
+ u21mr3714911wml.2.1603211868544; 
+ Tue, 20 Oct 2020 09:37:48 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v123sm3071360wme.7.2020.10.20.09.37.40
+ by smtp.gmail.com with ESMTPSA id h3sm3832576wrw.78.2020.10.20.09.37.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 09:37:42 -0700 (PDT)
+ Tue, 20 Oct 2020 09:37:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 984CC1FF90;
+ by zen.linaroharston (Postfix) with ESMTP id BF8C91FF91;
  Tue, 20 Oct 2020 17:37:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  4/8] softfloat: Add float_cmask and constants
-Date: Tue, 20 Oct 2020 17:37:34 +0100
-Message-Id: <20201020163738.27700-5-alex.bennee@linaro.org>
+Subject: [RFC PATCH  5/8] softfloat: Inline pick_nan_muladd into its caller
+Date: Tue, 20 Oct 2020 17:37:35 +0100
+Message-Id: <20201020163738.27700-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020163738.27700-1-alex.bennee@linaro.org>
 References: <20201020163738.27700-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,87 +99,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Testing more than one class at a time is better done with masks.
-This reduces the static branch count.
+Because of FloatParts, there will only ever be one caller.
+Inlining allows us to re-use abc_mask for the snan test.
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200925152047.709901-5-richard.henderson@linaro.org>
+Message-Id: <20200925152047.709901-6-richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 31 ++++++++++++++++++++++++-------
- 1 file changed, 24 insertions(+), 7 deletions(-)
+ fpu/softfloat.c | 75 +++++++++++++++++++++++--------------------------
+ 1 file changed, 35 insertions(+), 40 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 9db55d2b11..3e625c47cd 100644
+index 3e625c47cd..e038434a07 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -469,6 +469,20 @@ typedef enum __attribute__ ((__packed__)) {
-     float_class_snan,
- } FloatClass;
+@@ -929,45 +929,6 @@ static FloatParts pick_nan(FloatParts a, FloatParts b, float_status *s)
+     return a;
+ }
  
-+#define float_cmask(bit)  (1u << (bit))
-+
-+enum {
-+    float_cmask_zero    = float_cmask(float_class_zero),
-+    float_cmask_normal  = float_cmask(float_class_normal),
-+    float_cmask_inf     = float_cmask(float_class_inf),
-+    float_cmask_qnan    = float_cmask(float_class_qnan),
-+    float_cmask_snan    = float_cmask(float_class_snan),
-+
-+    float_cmask_infzero = float_cmask_zero | float_cmask_inf,
-+    float_cmask_anynan  = float_cmask_qnan | float_cmask_snan,
-+};
-+
-+
- /* Simple helpers for checking if, or what kind of, NaN we have */
- static inline __attribute__((unused)) bool is_nan(FloatClass c)
- {
-@@ -1335,24 +1349,27 @@ bfloat16 QEMU_FLATTEN bfloat16_mul(bfloat16 a, bfloat16 b, float_status *status)
- static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
-                                 int flags, float_status *s)
- {
--    bool inf_zero = ((1 << a.cls) | (1 << b.cls)) ==
--                    ((1 << float_class_inf) | (1 << float_class_zero));
--    bool p_sign;
-+    bool inf_zero, p_sign;
-     bool sign_flip = flags & float_muladd_negate_result;
-     FloatClass p_class;
-     uint64_t hi, lo;
-     int p_exp;
-+    int ab_mask, abc_mask;
-+
-+    ab_mask = float_cmask(a.cls) | float_cmask(b.cls);
-+    abc_mask = float_cmask(c.cls) | ab_mask;
-+    inf_zero = ab_mask == float_cmask_infzero;
- 
-     /* It is implementation-defined whether the cases of (0,inf,qnan)
-      * and (inf,0,qnan) raise InvalidOperation or not (and what QNaN
-      * they return if they do), so we have to hand this information
+-static FloatParts pick_nan_muladd(FloatParts a, FloatParts b, FloatParts c,
+-                                  bool inf_zero, float_status *s)
+-{
+-    int which;
+-
+-    if (is_snan(a.cls) || is_snan(b.cls) || is_snan(c.cls)) {
+-        s->float_exception_flags |= float_flag_invalid;
+-    }
+-
+-    which = pickNaNMulAdd(a.cls, b.cls, c.cls, inf_zero, s);
+-
+-    if (s->default_nan_mode) {
+-        /* Note that this check is after pickNaNMulAdd so that function
+-         * has an opportunity to set the Invalid flag.
+-         */
+-        which = 3;
+-    }
+-
+-    switch (which) {
+-    case 0:
+-        break;
+-    case 1:
+-        a = b;
+-        break;
+-    case 2:
+-        a = c;
+-        break;
+-    case 3:
+-        return parts_default_nan(s);
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+-    if (is_snan(a.cls)) {
+-        return parts_silence_nan(a, s);
+-    }
+-    return a;
+-}
+-
+ /*
+  * Returns the result of adding or subtracting the values of the
+  * floating-point values `a' and `b'. The operation is performed
+@@ -1366,7 +1327,41 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
       * off to the target-specific pick-a-NaN routine.
       */
--    if (is_nan(a.cls) || is_nan(b.cls) || is_nan(c.cls)) {
-+    if (unlikely(abc_mask & float_cmask_anynan)) {
-         return pick_nan_muladd(a, b, c, inf_zero, s);
+     if (unlikely(abc_mask & float_cmask_anynan)) {
+-        return pick_nan_muladd(a, b, c, inf_zero, s);
++        int which;
++
++        if (unlikely(abc_mask & float_cmask_snan)) {
++            float_raise(float_flag_invalid, s);
++        }
++
++        which = pickNaNMulAdd(a.cls, b.cls, c.cls, inf_zero, s);
++
++        if (s->default_nan_mode) {
++            /*
++             * Note that this check is after pickNaNMulAdd so that function
++             * has an opportunity to set the Invalid flag for inf_zero.
++             */
++            which = 3;
++        }
++
++        switch (which) {
++        case 0:
++            break;
++        case 1:
++            a = b;
++            break;
++        case 2:
++            a = c;
++            break;
++        case 3:
++            return parts_default_nan(s);
++        default:
++            g_assert_not_reached();
++        }
++
++        if (is_snan(a.cls)) {
++            return parts_silence_nan(a, s);
++        }
++        return a;
      }
  
--    if (inf_zero) {
-+    if (unlikely(inf_zero)) {
-         s->float_exception_flags |= float_flag_invalid;
-         return parts_default_nan(s);
-     }
-@@ -1367,9 +1384,9 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
-         p_sign ^= 1;
-     }
- 
--    if (a.cls == float_class_inf || b.cls == float_class_inf) {
-+    if (ab_mask & float_cmask_inf) {
-         p_class = float_class_inf;
--    } else if (a.cls == float_class_zero || b.cls == float_class_zero) {
-+    } else if (ab_mask & float_cmask_zero) {
-         p_class = float_class_zero;
-     } else {
-         p_class = float_class_normal;
+     if (unlikely(inf_zero)) {
 -- 
 2.20.1
 
