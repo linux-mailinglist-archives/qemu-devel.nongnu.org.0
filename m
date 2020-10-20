@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB2E293965
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 12:52:33 +0200 (CEST)
-Received: from localhost ([::1]:40386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A31429396D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 12:54:29 +0200 (CEST)
+Received: from localhost ([::1]:44568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpFo-0007H5-0T
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 06:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46814)
+	id 1kUpHg-0000cj-8h
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 06:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kUpEd-0006N0-AJ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:51:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53200)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kUpEb-0005As-IJ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:51:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603191076;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=u98o9Gz5dIbSk3zFGgR2qDz5whghdbPkATmd+7ouTQQ=;
- b=dJDimuJjVxU5Ci/WkrAnLe6bD4P0aCaVl2FR3tRe9n70M5G8+JnIBE223aremu2o7DYJzs
- WxwIHxIEjZyjHJ/IpbB1RCTVcR0i/vDws0rh6uLs63FhkBWdaK3qZzKnm+zgxdNwXQiYX5
- 60Y37IS8wyHCdP5o9t/wyqZeF2/GI+M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-pIV9x-poMWmCTWERcb6YcA-1; Tue, 20 Oct 2020 06:51:12 -0400
-X-MC-Unique: pIV9x-poMWmCTWERcb6YcA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E35B845EE9;
- Tue, 20 Oct 2020 10:51:11 +0000 (UTC)
-Received: from thuth.com (dhcp-192-238.str.redhat.com [10.33.192.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 462F21002393;
- Tue, 20 Oct 2020 10:51:10 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2] hw/rtc/twl92230: Silence warnings about missing
- fallthrough statements
-Date: Tue, 20 Oct 2020 12:51:08 +0200
-Message-Id: <20201020105108.19733-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUpGv-0008Sf-9B
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:53:41 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:41499)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUpGt-0005MS-4c
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:53:40 -0400
+Received: by mail-ej1-x643.google.com with SMTP id x7so1978224eje.8
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 03:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TpMzdY0jDvV08YNRqq+Nfm6bW0Q1ejlsZL020UWCrm8=;
+ b=Yl3kwqRQ/l8oXPJ21n/R6oJvbw2avZh8G3NA8QTMb9m2Bv5CZsOHbJpiHdasZ7x7un
+ IPFggBhEaDpI9OnE44qQiatj0urcVNvt0gXKUkhaaYcoxKIuNy855DURakI1PodZTBnh
+ r6Ujvp8oxrzN04pwTY8CzwbV+iYUrrv65EJvxDbqikaYi4Ee7AMswRHvEs0n3flpSriB
+ bas2Zo2wwzNE1DqXCbOYoJzM94xZplJNG2ZrFmpYiGrLrcyQqbZcsx7dKHyScciqoJO0
+ KSkETc3fBms/YXqM5NU3pG2SSNY4kT0dlUFTWSCyL8NU9x7o0H/F+0rgJx0h+2Q/KVeJ
+ 1InA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TpMzdY0jDvV08YNRqq+Nfm6bW0Q1ejlsZL020UWCrm8=;
+ b=L3CeVmfAxRNO7LaqVS7ZUbGT5YurRwlwIUx+q+CRLX3xTFqMQwfPcZEBgjOMdKttmR
+ bbhsQmFYnh0Eg5ijq1yYgpMjCTt4+oIjfQTFaDHPObSUDkhMw9U1nugq63B1a0H3Gvg/
+ Igm8qL9OlNJk66qj4y24DFKi4rj2sOJu6CfARIJ/Cly47BH57tuvOkmdEUUHdwl0+wyY
+ 1gz5AxOi1PbyCfO2B0GJAkiJQqXaT6fj9ZiDXc0icVFcJvgdNgR9zIQSq5vaHNkOsta/
+ 22pdiuoKdEN8tbrs28UdnAuKUq6Nb2JBAYK/YYHqraoK69nhbknuEEUB2RoFB0c1hPkj
+ iQfg==
+X-Gm-Message-State: AOAM533uKvnTHEv8fz2ZIhzIU/Ay7pPOjc8ec8TscZYUm+V11ZFUCuY6
+ nB8YmnwOrqTLv1+kttyjiX4XgfTN7WZsKV65CmX4Fg==
+X-Google-Smtp-Source: ABdhPJxthAvBh0h4NN0e6VaGL7divZCAec0RJu6h5mnBaqD0M34W8kHnPel6VjezlihCbnRR9Zkik9sLGDuA9PvZr9k=
+X-Received: by 2002:a17:906:1f42:: with SMTP id
+ d2mr2402364ejk.407.1603191216374; 
+ Tue, 20 Oct 2020 03:53:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <1602654397-35162-1-git-send-email-fnu.vikram@xilinx.com>
+ <1602654397-35162-2-git-send-email-fnu.vikram@xilinx.com>
+In-Reply-To: <1602654397-35162-2-git-send-email-fnu.vikram@xilinx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Oct 2020 11:53:25 +0100
+Message-ID: <CAFEAcA_=eERP_Q49k9oNa6Jun8oWGeE0D+uZaN6QxEZAfZO+mw@mail.gmail.com>
+Subject: Re: [PATCH v11 1/4] hw/net/can: Introduce Xilinx ZynqMP CAN controller
+To: Vikram Garhwal <fnu.vikram@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,121 +80,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-arm@nongnu.org
+Cc: figlesia@xilinx.com, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When compiling with -Werror=implicit-fallthrough, gcc complains about
-missing fallthrough annotations in this file. Looking at the code,
-the fallthrough is indeed wanted here, but instead of adding the
-annotations, it can be done more efficiently by simply calculating
-the offset with a subtraction instead of increasing a local variable
-one by one.
+On Wed, 14 Oct 2020 at 07:04, Vikram Garhwal <fnu.vikram@xilinx.com> wrote:
+>
+> The Xilinx ZynqMP CAN controller is developed based on SocketCAN, QEMU CAN bus
+> implementation. Bus connection and socketCAN connection for each CAN module
+> can be set through command lines.
+>
+> Example for using single CAN:
+>     -object can-bus,id=canbus0 \
+>     -machine xlnx-zcu102.canbus0=canbus0 \
+>     -object can-host-socketcan,id=socketcan0,if=vcan0,canbus=canbus0
+>
+> Example for connecting both CAN to same virtual CAN on host machine:
+>     -object can-bus,id=canbus0 -object can-bus,id=canbus1 \
+>     -machine xlnx-zcu102.canbus0=canbus0 \
+>     -machine xlnx-zcu102.canbus1=canbus1 \
+>     -object can-host-socketcan,id=socketcan0,if=vcan0,canbus=canbus0 \
+>     -object can-host-socketcan,id=socketcan1,if=vcan0,canbus=canbus1
+>
+> To create virtual CAN on the host machine, please check the QEMU CAN docs:
+> https://github.com/qemu/qemu/blob/master/docs/can.txt
+>
+> Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Fixed copy-n-paste bug
 
- hw/rtc/twl92230.c | 50 +++++++++++++++++++++++------------------------
- 1 file changed, 24 insertions(+), 26 deletions(-)
+> +#define MAX_CAN_CTRLS      2
+> +#define XLNX_ZYNQMP_CAN_R_MAX     (0x84 / 4)
+> +#define MAILBOX_CAPACITY   64
+> +#define CAN_TIMER_MAX  0XFFFFUL
 
-diff --git a/hw/rtc/twl92230.c b/hw/rtc/twl92230.c
-index f838913b37..50b97a1fce 100644
---- a/hw/rtc/twl92230.c
-+++ b/hw/rtc/twl92230.c
-@@ -271,37 +271,36 @@ static void menelaus_gpio_set(void *opaque, int line, int level)
- static uint8_t menelaus_read(void *opaque, uint8_t addr)
- {
-     MenelausState *s = (MenelausState *) opaque;
--    int reg = 0;
- 
-     switch (addr) {
-     case MENELAUS_REV:
-         return 0x22;
- 
--    case MENELAUS_VCORE_CTRL5: reg ++;
--    case MENELAUS_VCORE_CTRL4: reg ++;
--    case MENELAUS_VCORE_CTRL3: reg ++;
--    case MENELAUS_VCORE_CTRL2: reg ++;
-+    case MENELAUS_VCORE_CTRL5:
-+    case MENELAUS_VCORE_CTRL4:
-+    case MENELAUS_VCORE_CTRL3:
-+    case MENELAUS_VCORE_CTRL2:
-     case MENELAUS_VCORE_CTRL1:
--        return s->vcore[reg];
-+        return s->vcore[addr - MENELAUS_VCORE_CTRL1];
- 
--    case MENELAUS_DCDC_CTRL3: reg ++;
--    case MENELAUS_DCDC_CTRL2: reg ++;
-+    case MENELAUS_DCDC_CTRL3:
-+    case MENELAUS_DCDC_CTRL2:
-     case MENELAUS_DCDC_CTRL1:
--        return s->dcdc[reg];
--
--    case MENELAUS_LDO_CTRL8: reg ++;
--    case MENELAUS_LDO_CTRL7: reg ++;
--    case MENELAUS_LDO_CTRL6: reg ++;
--    case MENELAUS_LDO_CTRL5: reg ++;
--    case MENELAUS_LDO_CTRL4: reg ++;
--    case MENELAUS_LDO_CTRL3: reg ++;
--    case MENELAUS_LDO_CTRL2: reg ++;
-+        return s->dcdc[addr - MENELAUS_DCDC_CTRL1];
-+
-+    case MENELAUS_LDO_CTRL8:
-+    case MENELAUS_LDO_CTRL7:
-+    case MENELAUS_LDO_CTRL6:
-+    case MENELAUS_LDO_CTRL5:
-+    case MENELAUS_LDO_CTRL4:
-+    case MENELAUS_LDO_CTRL3:
-+    case MENELAUS_LDO_CTRL2:
-     case MENELAUS_LDO_CTRL1:
--        return s->ldo[reg];
-+        return s->ldo[addr - MENELAUS_LDO_CTRL1];
- 
--    case MENELAUS_SLEEP_CTRL2: reg ++;
-+    case MENELAUS_SLEEP_CTRL2:
-     case MENELAUS_SLEEP_CTRL1:
--        return s->sleep[reg];
-+        return s->sleep[addr - MENELAUS_SLEEP_CTRL1];
- 
-     case MENELAUS_DEVICE_OFF:
-         return 0;
-@@ -395,10 +394,10 @@ static uint8_t menelaus_read(void *opaque, uint8_t addr)
-     case MENELAUS_S2_PULL_DIR:
-         return s->pull[3];
- 
--    case MENELAUS_MCT_CTRL3: reg ++;
--    case MENELAUS_MCT_CTRL2: reg ++;
-+    case MENELAUS_MCT_CTRL3:
-+    case MENELAUS_MCT_CTRL2:
-     case MENELAUS_MCT_CTRL1:
--        return s->mmc_ctrl[reg];
-+        return s->mmc_ctrl[addr - MENELAUS_MCT_CTRL1];
-     case MENELAUS_MCT_PIN_ST:
-         /* TODO: return the real Card Detect */
-         return 0;
-@@ -418,7 +417,6 @@ static void menelaus_write(void *opaque, uint8_t addr, uint8_t value)
- {
-     MenelausState *s = (MenelausState *) opaque;
-     int line;
--    int reg = 0;
-     struct tm tm;
- 
-     switch (addr) {
-@@ -496,9 +494,9 @@ static void menelaus_write(void *opaque, uint8_t addr, uint8_t value)
-         s->ldo[7] = value & 3;
-         break;
- 
--    case MENELAUS_SLEEP_CTRL2: reg ++;
-+    case MENELAUS_SLEEP_CTRL2:
-     case MENELAUS_SLEEP_CTRL1:
--        s->sleep[reg] = value;
-+        s->sleep[addr - MENELAUS_SLEEP_CTRL1] = value;
-         break;
- 
-     case MENELAUS_DEVICE_OFF:
--- 
-2.18.2
+"0x" is more usual.
 
+
+> +    if (ARRAY_FIELD_EX32(s->regs, SOFTWARE_RESET_REGISTER, SRST)) {
+> +        trace_xlnx_can_can_receive("Controller is in reset.\n");
+> +        return false;
+> +    }
+
+> --- /dev/null
+> +++ b/hw/net/can/trace-events
+> @@ -0,0 +1,9 @@
+> +# xlnx-zynqmp-can.c
+> +xlnx_can_transfer_fifo(const char *message) "%s"
+> +xlnx_can_srr_pre_write(const char *message) "%s"
+> +xlnx_can_update_rx_fifo(const char *message) "%s"
+> +xlnx_can_rxfifo_pre_read(const char *message) "%s"
+> +xlnx_can_tx_post_write(const char *message) "%s"
+> +xlnx_can_can_receive(const char *message) "%s"
+> +xlnx_can_receive(const char *message) "%s"
+> +xlnx_can_realize(const char *message) "%s"
+
+This is not the usual way to do tracepoints. Generally rather
+than having one trace point which gets passed an opaque string,
+you should have trace points for each interesting event,
+which have an event-specific format string that prints out
+the useful information. Here's an example from a UART model:
+ pl011_can_receive(uint32_t lcr, int read_count, int r) "LCR 0x%08x
+read_count %d returning %d"
+Notice that it's specific to one event (there's only one
+place in the code that calls that tracepoint), it mostly
+relies on the name of the trace event itself to give the
+user context, and it uses the format string to provide some
+information about the internal state of the device (not always
+relevant for all trace events -- sometimes you do just have an
+event).
+
+That way users of tracepoints can enable, for instance,
+all the 'xnlx_can_rxfifo*' tracepoints if they want all
+the logging, or only 'xlnx_can_rxfifo_full' if they only
+care to log the "fifo filled up" event but not others.
+
+thanks
+-- PMM
 
