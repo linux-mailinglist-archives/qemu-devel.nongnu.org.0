@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228922941BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:50:05 +0200 (CEST)
-Received: from localhost ([::1]:38378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6432941BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:52:26 +0200 (CEST)
+Received: from localhost ([::1]:44860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUvls-0006Yc-6R
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:50:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36266)
+	id 1kUvo9-0000q5-8g
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:52:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQx-00039F-Eg
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51349)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvR2-0003Bv-HR
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQm-0000DD-T8
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:27 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQo-0000DP-TS
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603214895;
+ s=mimecast20190719; t=1603214896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jCR9nPhUEyfb2pZOh0loRJBJ/zm18F6ktGBBDc22LJQ=;
- b=EDRNx9k7AteCX9zOQcMIlLdrDcUWZAVLLSYDLtFlwUUbSCS3gNkeuUr4ScFfTriTh2vMcr
- 7mO50+bMWp9iTDyY/fkmgeRuzMQUNJ5WV2TkD8lNDiH468AvNbQIBzGxKGADdOmvjTOwDL
- TtP+WJEa4C9BQo75Tt3vM20LnjPpLXU=
+ bh=sr2UKp2co8IuxzUvwAaEa9pc8c4skAtlt+s6Ajgb4kQ=;
+ b=bnqvs1Uq8fN0DY+IUVD1uvvyxZ0VDERkL80Pu8jxVttZFZRLGB1R0NsiEvKqGZzYTtD0LC
+ cHns0T8oAGxCUzdkDwnUg1qXSRfVgfxfZPQhodYm/zog9QVWeHQ5HcN/5RNzabK8MeCiv6
+ uVpv4kVofXNP7ze3YrZqEXQVSu10J+M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-SCM9_4BzN3Om-F-sHELTkg-1; Tue, 20 Oct 2020 13:28:12 -0400
-X-MC-Unique: SCM9_4BzN3Om-F-sHELTkg-1
+ us-mta-132-kXfP5Mk2MTSRJXVEvyoPJg-1; Tue, 20 Oct 2020 13:28:14 -0400
+X-MC-Unique: kXfP5Mk2MTSRJXVEvyoPJg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB3B1835B47;
- Tue, 20 Oct 2020 17:28:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7297835B48;
+ Tue, 20 Oct 2020 17:28:12 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-115-172.rdu2.redhat.com [10.10.115.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7D8D1992D;
- Tue, 20 Oct 2020 17:28:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D11E32639C;
+ Tue, 20 Oct 2020 17:28:11 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/21] python: add mypy config
-Date: Tue, 20 Oct 2020 13:27:40 -0400
-Message-Id: <20201020172742.1483258-20-jsnow@redhat.com>
+Subject: [PULL 20/21] python/qemu/qmp.py: re-raise OSError when encountered
+Date: Tue, 20 Oct 2020 13:27:41 -0400
+Message-Id: <20201020172742.1483258-21-jsnow@redhat.com>
 In-Reply-To: <20201020172742.1483258-1-jsnow@redhat.com>
 References: <20201020172742.1483258-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
@@ -80,33 +80,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Formalize the options used for checking the python library. You can run
-mypy from the directory that mypy.ini is in by typing `mypy qemu/`.
+Nested if conditions don't change when the exception block fires; we
+need to explicitly re-raise the error if we didn't intend to capture and
+suppress it.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20201009175123.249009-2-jsnow@redhat.com
-[Edit: Added newline; thanks Bin Meng --js]
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20201009175123.249009-3-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/mypy.ini | 4 ++++
- 1 file changed, 4 insertions(+)
- create mode 100644 python/mypy.ini
+ python/qemu/qmp.py | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/python/mypy.ini b/python/mypy.ini
-new file mode 100644
-index 0000000000..1a581c5f1e
---- /dev/null
-+++ b/python/mypy.ini
-@@ -0,0 +1,4 @@
-+[mypy]
-+strict = True
-+python_version = 3.6
-+warn_unused_configs = True
+diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
+index d911999da1..4969e5741c 100644
+--- a/python/qemu/qmp.py
++++ b/python/qemu/qmp.py
+@@ -165,14 +165,15 @@ def __get_events(self, wait: Union[bool, float] = False) -> None:
+         """
+ 
+         # Check for new events regardless and pull them into the cache:
+-        self.__sock.setblocking(False)
+         try:
++            self.__sock.setblocking(False)
+             self.__json_read()
+         except OSError as err:
+-            if err.errno == errno.EAGAIN:
+-                # No data available
+-                pass
+-        self.__sock.setblocking(True)
++            # EAGAIN: No data available; not critical
++            if err.errno != errno.EAGAIN:
++                raise
++        finally:
++            self.__sock.setblocking(True)
+ 
+         # Wait for new events, if needed.
+         # if wait is 0.0, this means "no wait" and is also implicitly false.
 -- 
 2.26.2
 
