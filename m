@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F63294071
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:24:49 +0200 (CEST)
-Received: from localhost ([::1]:60242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B444A294079
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:27:25 +0200 (CEST)
+Received: from localhost ([::1]:38778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuRM-0008PG-Uv
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37694)
+	id 1kUuTs-00038o-Lo
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:27:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu13-0005CQ-GJ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:37 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55012)
+ id 1kUu14-0005F6-MX
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:38 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:50247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu11-0003vi-J1
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:37 -0400
-Received: by mail-wm1-x334.google.com with SMTP id c77so2329457wmd.4
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:35 -0700 (PDT)
+ id 1kUu12-0003vt-SQ
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:38 -0400
+Received: by mail-wm1-x334.google.com with SMTP id 13so2340069wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8KRcR896eTNIkcAGmEKMZi3H1fH2UuiC+mfMQfLP/y4=;
- b=csfqae+4soZWwe2Qt9jYbebR9/DLwOXST/hzsr5BHWWsfDxvIdaGtaiTSSU1wbr6M5
- Ew0jANFUT0V4XzCjXhcegnPWj/lTjN7Mf3pPHxNOaVf8OZTJi3iGAcmThkEuDXFe4Bzb
- JMdI4NkddRGVrpnPAFQoqvPAnsIci3iJ71ceOwvHRl1EqGuygmcLKc3Wv8oQCWX0oPS9
- wQRRtYGAZdwRpDd2RLAFZOgt7GfpjGIoYwC1exFshigrXAQwcAMVq3t5vFX2kD+4n6qo
- rkhEpoVo4uv+Pl0lqPrCRemfUpFFykGZPZZBp2gX57Qu+5cwoRwjXB1SEIAAV4y8xg9l
- 8dQg==
+ bh=452WvsOKSS6Cw7iRBfcJym1U9FO5tRal3JTyFbLON80=;
+ b=t8C/dkCsqvyPn7dIL5MQ1+ppkufVbVX31PaNafhpFmVBC8FN2w+0XCGC/5v45J2kAe
+ kQu3TrqlN1x8nyoduLBvZ7HJUyekjKqjoE+cQrvKa44lADmagVmha9I1cf386gJvKwcn
+ NiMF8LiQiX7ke9DpL7b3nTi5+79TfKpx7aC4NcKTBwSqzIuL23mYiFlJZPm7cdB8tdn4
+ L3MdV1O48E7ScmBGrqbeXGy1TRzOFhMa5iBXdJiA2fGqJTG/ogBoMlp+nF6r0t+iALQU
+ /Q3hy2YhjUmf62WVtSZhelM69T0LK4Tn2lv2pQ1ToeG+FKm4zjLeQwxHfRsc8Cr2+njq
+ vvhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8KRcR896eTNIkcAGmEKMZi3H1fH2UuiC+mfMQfLP/y4=;
- b=JCGcsUYTbP8dU/WY0435yJbPGJ4ER8eIeeDc7tDHORdAA4XcRJeJboEukGiWMbAN4W
- Z0bFrXhMmnqk4Ru/nOVPxCnXKLcEknh5cyeCkU4L2lBJTjFVj9dBOpETfM7Nb+H2EYsh
- 4n78Eb6k6Nva+f0YYXffFG0gIYIHpiNcZlIAxsTXyrEdqIw5CdfsUUDygWG2iCbFtW3h
- f2gBzC9N72rhcLus7uEc4xm6U3kN0xUaI/WrpQPMhbTYWu1g9BUycL3SDWjrQR5mf0LN
- o74lGlTV+w2EGa2eZxwFOYNZiXN4y6h9txdVPYG2F3t589LOgNqLZlwZGz1SJi1BS+GA
- bExw==
-X-Gm-Message-State: AOAM531EtbxU8BXzlo/cxaVN/NBhsuyVmo8TOBvkzHJjgDPe2+K2ZFzf
- f9V3wDwk/3OlMvjFS3PLdgDcr9fNIFtWBA==
-X-Google-Smtp-Source: ABdhPJyllytvVLzUxYolgxYCwnWhCawhs+fGmLSCz5GZ+28cIjGDybUAsUnTwZffjbyPTPfwDYTjag==
-X-Received: by 2002:a7b:c345:: with SMTP id l5mr3586958wmj.123.1603209453793; 
- Tue, 20 Oct 2020 08:57:33 -0700 (PDT)
+ bh=452WvsOKSS6Cw7iRBfcJym1U9FO5tRal3JTyFbLON80=;
+ b=MjruZ9x2iNaLAq1sXVZMrpN9BvDtecjLSmxTFcQmdmaDmzNdFp7lqMEHnSZS5UyY9n
+ dVBqBS5RnIqwL6pA5s9k3UWvswURw3wXXcu+eEMWddlimdnviww2P0cB1pxFe0UZWEuA
+ atXFySdjmRbg9smETta7IDQKb1uQjSnq1fnkOgDSYyse+NWRF9g1se3CzTEtSj7WclOD
+ qxJ14ndBk8R59NjW1nE+kcHLWY3VxZv1bPf7MHoEbAFfK/nSF5Vb+tSLfhpj0/ixNO+w
+ PJvmPPAbsjjca5tiYjVjhMleATXS7zzuTHD99Ths/ij20/KvdxQt9lx8P8mgGxLsk9bP
+ s8kA==
+X-Gm-Message-State: AOAM532uB6LAZIeti4rlEZsFKo2+9X49OlELYZ+mRdGHoA2WVSGhG7yO
+ FrLNIQ/VD5QCgcqt41n+yEuD4Mt8YwJ+YA==
+X-Google-Smtp-Source: ABdhPJxqfsqKu4dgXXRcUtaqhSzCTKGcflmewb1l12iRqK/YK6gXZXcyvF5+nsBM4KiWNosWH7GWHA==
+X-Received: by 2002:a1c:8093:: with SMTP id b141mr3613022wmd.139.1603209455054; 
+ Tue, 20 Oct 2020 08:57:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.32
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:32 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:34 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/41] target/arm: Implement v8.1M conditional-select insns
-Date: Tue, 20 Oct 2020 16:56:37 +0100
-Message-Id: <20201020155656.8045-23-peter.maydell@linaro.org>
+Subject: [PULL 23/41] target/arm: Make the t32 insn[25:23]=111 group
+ non-overlapping
+Date: Tue, 20 Oct 2020 16:56:38 +0100
+Message-Id: <20201020155656.8045-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
@@ -88,107 +89,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v8.1M brings four new insns to M-profile:
- * CSEL  : Rd = cond ? Rn : Rm
- * CSINC : Rd = cond ? Rn : Rm+1
- * CSINV : Rd = cond ? Rn : ~Rm
- * CSNEG : Rd = cond ? Rn : -Rm
+The t32 decode has a group which represents a set of insns
+which overlap with B_cond_thumb because they have [25:23]=111
+(which is an invalid condition code field for the branch insn).
+This group is currently defined using the {} overlap-OK syntax,
+but it is almost entirely non-overlapping patterns. Switch
+it over to use a non-overlapping group.
 
-Implement these.
+For this to be valid syntactically, CPS must move into the same
+overlapping-group as the hint insns (CPS vs hints was the
+only actual use of the overlap facility for the group).
+
+The non-overlapping subgroup for CLREX/DSB/DMB/ISB/SB is no longer
+necessary and so we can remove it (promoting those insns to
+be members of the parent group).
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20201019151301.2046-4-peter.maydell@linaro.org
+Message-id: 20201019151301.2046-5-peter.maydell@linaro.org
 ---
- target/arm/t32.decode  |  3 +++
- target/arm/translate.c | 60 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 63 insertions(+)
+ target/arm/t32.decode | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
 diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 7069d821fde..d8454bd814e 100644
+index d8454bd814e..7d5e000e82c 100644
 --- a/target/arm/t32.decode
 +++ b/target/arm/t32.decode
-@@ -90,6 +90,9 @@ SBC_rrri         1110101 1011 . .... 0 ... .... .... ....     @s_rrr_shi
+@@ -296,8 +296,8 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+ {
+   # Group insn[25:23] = 111, which is cond=111x for the branch below,
+   # or unconditional, which would be illegal for the branch.
+-  {
+-    # Hints
++  [
++    # Hints, and CPS
+     {
+       YIELD      1111 0011 1010 1111 1000 0000 0000 0001
+       WFE        1111 0011 1010 1111 1000 0000 0000 0010
+@@ -310,20 +310,18 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+       # The canonical nop ends in 0000 0000, but the whole rest
+       # of the space is "reserved hint, behaves as nop".
+       NOP        1111 0011 1010 1111 1000 0000 ---- ----
++
++      # If imod == '00' && M == '0' then SEE "Hint instructions", above.
++      CPS        1111 0011 1010 1111 1000 0 imod:2 M:1 A:1 I:1 F:1 mode:5 \
++                 &cps
+     }
+ 
+-    # If imod == '00' && M == '0' then SEE "Hint instructions", above.
+-    CPS          1111 0011 1010 1111 1000 0 imod:2 M:1 A:1 I:1 F:1 mode:5 \
+-                 &cps
+-
+     # Miscellaneous control
+-    [
+-      CLREX      1111 0011 1011 1111 1000 1111 0010 1111
+-      DSB        1111 0011 1011 1111 1000 1111 0100 ----
+-      DMB        1111 0011 1011 1111 1000 1111 0101 ----
+-      ISB        1111 0011 1011 1111 1000 1111 0110 ----
+-      SB         1111 0011 1011 1111 1000 1111 0111 0000
+-    ]
++    CLREX        1111 0011 1011 1111 1000 1111 0010 1111
++    DSB          1111 0011 1011 1111 1000 1111 0100 ----
++    DMB          1111 0011 1011 1111 1000 1111 0101 ----
++    ISB          1111 0011 1011 1111 1000 1111 0110 ----
++    SB           1111 0011 1011 1111 1000 1111 0111 0000
+ 
+     # Note that the v7m insn overlaps both the normal and banked insn.
+     {
+@@ -351,7 +349,7 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+     HVC          1111 0111 1110 ....  1000 .... .... ....     \
+                  &i imm=%imm16_16_0
+     UDF          1111 0111 1111 ----  1010 ---- ---- ----
+-  }
++  ]
+   B_cond_thumb   1111 0. cond:4 ...... 10.0 ............      &ci imm=%imm21
  }
- RSB_rrri         1110101 1110 . .... 0 ... .... .... ....     @s_rrr_shi
  
-+# v8.1M CSEL and friends
-+CSEL             1110101 0010 1 rn:4 10 op:2 rd:4 fcond:4 rm:4
-+
- # Data-processing (register-shifted register)
- 
- MOV_rxrr         1111 1010 0 shty:2 s:1 rm:4 1111 rd:4 0000 rs:4 \
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index d8729e42c48..9f2201ca577 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -8262,6 +8262,66 @@ static bool trans_IT(DisasContext *s, arg_IT *a)
-     return true;
- }
- 
-+/* v8.1M CSEL/CSINC/CSNEG/CSINV */
-+static bool trans_CSEL(DisasContext *s, arg_CSEL *a)
-+{
-+    TCGv_i32 rn, rm, zero;
-+    DisasCompare c;
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
-+        return false;
-+    }
-+
-+    if (a->rm == 13) {
-+        /* SEE "Related encodings" (MVE shifts) */
-+        return false;
-+    }
-+
-+    if (a->rd == 13 || a->rd == 15 || a->rn == 13 || a->fcond >= 14) {
-+        /* CONSTRAINED UNPREDICTABLE: we choose to UNDEF */
-+        return false;
-+    }
-+
-+    /* In this insn input reg fields of 0b1111 mean "zero", not "PC" */
-+    if (a->rn == 15) {
-+        rn = tcg_const_i32(0);
-+    } else {
-+        rn = load_reg(s, a->rn);
-+    }
-+    if (a->rm == 15) {
-+        rm = tcg_const_i32(0);
-+    } else {
-+        rm = load_reg(s, a->rm);
-+    }
-+
-+    switch (a->op) {
-+    case 0: /* CSEL */
-+        break;
-+    case 1: /* CSINC */
-+        tcg_gen_addi_i32(rm, rm, 1);
-+        break;
-+    case 2: /* CSINV */
-+        tcg_gen_not_i32(rm, rm);
-+        break;
-+    case 3: /* CSNEG */
-+        tcg_gen_neg_i32(rm, rm);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    arm_test_cc(&c, a->fcond);
-+    zero = tcg_const_i32(0);
-+    tcg_gen_movcond_i32(c.cond, rn, c.value, zero, rn, rm);
-+    arm_free_cc(&c);
-+    tcg_temp_free_i32(zero);
-+
-+    store_reg(s, a->rd, rn);
-+    tcg_temp_free_i32(rm);
-+
-+    return true;
-+}
-+
- /*
-  * Legacy decoder.
-  */
 -- 
 2.20.1
 
