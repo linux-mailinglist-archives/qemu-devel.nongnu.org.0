@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D4C293D13
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:14:17 +0200 (CEST)
-Received: from localhost ([::1]:40770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1763293D50
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:27:51 +0200 (CEST)
+Received: from localhost ([::1]:58834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUrSy-0006cZ-TX
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:14:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49944)
+	id 1kUrg6-0000Z5-SX
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUrRZ-0005Kk-KL
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:12:49 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:34649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUrRV-0006mg-BX
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:12:49 -0400
-Received: by mail-ej1-x641.google.com with SMTP id u8so2646217ejg.1
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 06:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kcFjEpu1PkbYpdlTE/21YFQzqWpDrKJtELTUvSdxWlY=;
- b=ajO27+Orw3xAiwYD55aPINzenPnhw53mP/6WYR1I1sBeAPymoquy9kxrBPrYm9cEsL
- q4uM+RaGlrYG/4F9S1ZZIkDF8VGaWf3D1Ohq1Gq3jWtM8fYxEv28sGpyvZ5m+NiLJvIY
- 5q2rkfuSSkj8GYFje6wtIxi2CcqqtjY4nHv6G64dbPoBRDJt8wedrzRBd2gPVO6+nawM
- 9hq+YVtkjrTWH5PiaAyEe7KsWF5vQd+4arvmf0Ghw8bMA05Wpgb6mfvlH48M6BpS1Qqi
- zGNv2ipZkE8slcfK6QOttiqePNFlpQTpHduYUN5wNkoCvSj6tOnQbWboPDuVuwbTsReb
- wEIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kcFjEpu1PkbYpdlTE/21YFQzqWpDrKJtELTUvSdxWlY=;
- b=Z3XMw031FzsYd+ftLjuH4Lc7Sl/BKqmGqJh04W4Ol4u9xcoHP5txUlrAOdDlRIMhVd
- FW1zCdgmJYLd0bOovE9i+rMpftJGoLV8d5OtK3zB/TM0zPbAeqQV74+kledFoTWDbG4d
- VWj3qIeVBaM0gJr+18WN7co1RM6EZj6NKPglxMx87FU/s3q7n1H95mgbaWgBGRC/YDYT
- cjfAwqwrEGQixVPeSpDCE/Z3hydkb2xcDwjqHrXrdK964TwzQ00MjN4lyvbQkDC5Zs4E
- iCpa6907qR5fMFW66GhVDKoCAChyU8LMdSYUKNtu9zJ1oJBZUhkfI9WHCoXL/VDjNh6f
- YbTA==
-X-Gm-Message-State: AOAM531pvSLglY/rKBLLr+wVU57PdGtI7lJh+O8UU7J6LR8rUH6Ti2Xt
- G0/YgWOX/EuU8mkSuhzBMg/SsvDLP78ltZiRtIQnaQ==
-X-Google-Smtp-Source: ABdhPJziaVu6ajjuZdTn45lPXvncHO2t6ptbAIj0HWQNfll13gFOezRd6I299BD2bMyjj/lVY+FX/fA8ZSFngsC8/OM=
-X-Received: by 2002:a17:906:1f42:: with SMTP id
- d2mr2950264ejk.407.1603199561269; 
- Tue, 20 Oct 2020 06:12:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kUrS4-0006FN-92
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:13:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kUrS2-0006vP-49
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:13:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603199594;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vVZzARi07qgLmdx6A/Q8nbl2HnAOho4uuxEBCLeO4rU=;
+ b=iDEGhdngrGb+G6zmkEcCFJRHXko4hhzvlfuvRKfqK/ROKcVF9QrrXHwt+PuxDrV+GNl+b4
+ V5BZaAPdyPWPu+x/E2FxDOmOJOGim+Un6hd3hXYjvr29fKQAPgOtQLMM7l/FIHmB4v5gDK
+ MwEP5NPSy6BqK14xUlLceiWGv9DLMJI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-_jPjrPdBMcC8suFVXvpwJQ-1; Tue, 20 Oct 2020 09:13:12 -0400
+X-MC-Unique: _jPjrPdBMcC8suFVXvpwJQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0892F8799EF;
+ Tue, 20 Oct 2020 13:13:11 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-115-203.rdu2.redhat.com [10.10.115.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D859F60CCC;
+ Tue, 20 Oct 2020 13:13:03 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 6DE81220307; Tue, 20 Oct 2020 09:13:03 -0400 (EDT)
+Date: Tue, 20 Oct 2020 09:13:03 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Chirantan Ekbote <chirantan@chromium.org>
+Subject: Re: [Virtio-fs] [PATCH v3] virtiofsd: add container-friendly -o
+ sandbox=chroot option
+Message-ID: <20201020131303.GA380917@redhat.com>
+References: <20201008085534.16070-1-stefanha@redhat.com>
+ <CAJFHJrohwGOvZax=anXZdFeuTT+uZAJ89Hu9CohgnE-tJEKTiw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201008232154.94221-1-hskinnemoen@google.com>
-In-Reply-To: <20201008232154.94221-1-hskinnemoen@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Oct 2020 14:12:29 +0100
-Message-ID: <CAFEAcA8xej=3eVpEYYL1Ly_PPLPuz0NjF0gA4LN=DO1ru_OC1Q@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Additional NPCM7xx features, devices and tests
-To: Havard Skinnemoen <hskinnemoen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <CAJFHJrohwGOvZax=anXZdFeuTT+uZAJ89Hu9CohgnE-tJEKTiw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,39 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
+Cc: vromanso@redhat.com, qemu-devel@nongnu.org, mpatel@redhat.com,
+ virtio-fs-list <virtio-fs@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>,
+ Stefan Hajnoczi <stefanha@redhat.com>, rmohr@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 9 Oct 2020 at 00:22, Havard Skinnemoen <hskinnemoen@google.com> wrote:
->
-> This is an update to the initial NPCM7xx patch series adding
->
->   - A timer test that found several issues that were fixed in the final version
->     of the series (see
->     https://www.mail-archive.com/qemu-devel@nongnu.org/msg739516.html).
->   - Watchdog timer support. This makes the reboot command work.
->   - Random Number Generator device.
->   - USB Host Controllers.
->   - GPIO Controllers.
->
-> The watchdog was implemented by my new teammate Hao Wu. Expect to see more
-> patches from him in the near future.
->
-> This series has also been pushed to the npcm7xx-5.2-update branch of my github
-> repository at
->
->   https://github.com/hskinnemoen/qemu
->
-> Again, thanks a lot for reviewing!
+On Mon, Oct 19, 2020 at 06:43:41PM +0900, Chirantan Ekbote wrote:
+> On Thu, Oct 8, 2020 at 5:55 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > virtiofsd cannot run in a container because CAP_SYS_ADMIN is required to
+> > create namespaces.
+> >
+> 
+> In crosvm we deal with this by also creating a user namespace, which
+> then allows us to create the mount, net, and pid namespaces as well.
+> Could that also work for virtiofsd?
 
-I'm going to take patch 1 (the timer test case) into my target-arm.next
-queue; I've sent some review comments on the other parts of the series.
+I think one key question here is that who does the sandboxing. Is it
+the contatiner runtime environment or virtiofsd itself. I think what
+stefan is trying to do is that container runtime has done the sandboxing
+so virtiofsd has not do it.
 
-thanks
--- PMM
+Having said that, if container runtime has setup things in such a
+way that virtiofsd has CAP_SYS_ADMIN, is it desirable that virtiofsd
+does pivot_root() instead of chroot()?
+
+Thanks
+Vivek
+
 
