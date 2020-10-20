@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00AB29405F
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:21:16 +0200 (CEST)
-Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CF0294059
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:19:16 +0200 (CEST)
+Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuNv-0002H3-P2
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37974)
+	id 1kUuLz-0007gW-Lk
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu1Q-0005hV-09
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:58:00 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37718)
+ id 1kUu1P-0005f4-5y
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:59 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu1L-0003yP-0m
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:59 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id c16so2516622wmd.2
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:54 -0700 (PDT)
+ id 1kUu1N-0003yd-08
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:58 -0400
+Received: by mail-wr1-x443.google.com with SMTP id n18so2800834wrs.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=QqP01R21sgmyFZ/I6+4QMRt1fDE0WU4Y2e7+0/E2OkY=;
- b=GNwmwZm9oGYypAdpzLftVzAn4085kwNhqERV2Cg/ww0sowf/7GgdgKWYG5ZdffamTd
- 2b0mSZKEHDsawhEdZ7UgBGji9WIpsfiaw+SheTUuBAn9CKuqNy1tuAURNLDEAfPjWs5r
- yLG+vX2ixjxXx3lmg25hdzOC8OZWt5wyPoa2rn/LI00HwQKm3shhURjXcczIKUR+jwMH
- E3/a8n/QXgLtohJZL57uHnrUiVebeE6AwmNcgvKsuPRfixe9aeO/TGi73nctWSueTbuj
- Qy3jGA6t4rrRTL4VT/MfFviV1l9ALlToPyA3ELaxqctUMdM1gS34Zbj0W1Xvx1tjiN9R
- UsHA==
+ bh=XT6Iram+4m2dzPuKNhFGf6Ll1daGrbT5FFIybyhVjnU=;
+ b=ddOfYoVovijzVtt/7T8yhNCSKRIw76G+qZX6iaFVStKIH+9a3Clrt5DyzVD7auzW9t
+ rJbrjel8vwN8cBaZbuizZubIOoovRdx8DWbMvkOkoXBl0wWnPIdAB+oDLiMxB17JPgz3
+ l/1+E2JNTbMGDczisPgGtj0SReaTLfSd2fPxtvC9Lt5kVtqAM1YTlofviEOy/r1ppSB5
+ 2JOeRjuHeKhInVvPVsZ0rZDU8J4gDsWbhk3Nxbck8XZxn7RtIH3cdDB2VSyqQU6Pi2dx
+ PyrMf4z2BDikVEA5LiPFAxe+/zMiifX52zmzPDts7PfWgp7yrj3vpv29DpNybp0ZWgHw
+ /GEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QqP01R21sgmyFZ/I6+4QMRt1fDE0WU4Y2e7+0/E2OkY=;
- b=tKeBrmNIv2qm0BFayLJO5/AkkBtQIBdChBSCOxEGf+UtGqMu8K8+9ThzzedXvrZJTi
- ARJgbKLuqS/SV3WMFrflCw8yt6SrTterV+0PIVDw5NTOZIT0hoAqRkjgnkzQHVR76Bcl
- I/5pGAFX649L4RIoF0C7fdl0Hb6PksuQfwmMjoQfnAW6omsyjkk1+pmhUmPiSrW5enD+
- YVPBrBnhX+BDg0Uy6Pwun1LT4zwXdBIHvmzwxDri9zyeW5H3zze1IeFJ9zbO2YD44Nmo
- Ehy8kUhc5C7N2IySuGGycl/2WjV6q0rgr2oEiFnsY9+I6d2mJhU25xP9psZSsnNJQXn/
- CTKg==
-X-Gm-Message-State: AOAM531VlH1csY3eSXYLFxmR25loni2vGoT4o2W7ALGiAE7iRdJhOXv7
- MVTxGC+Wy/QJoM6TEyjaYIgTz3jxDU5Cdg==
-X-Google-Smtp-Source: ABdhPJyg0a6ODJtSNPGFYf3+Oq/RKS3FDhJqPjU0JaU9lWk/DDyn+Wmx3VbuGKLFpyX5iLOTKRMgRA==
-X-Received: by 2002:a7b:c081:: with SMTP id r1mr3592726wmh.158.1603209473039; 
- Tue, 20 Oct 2020 08:57:53 -0700 (PDT)
+ bh=XT6Iram+4m2dzPuKNhFGf6Ll1daGrbT5FFIybyhVjnU=;
+ b=ACV3DtcyYaJvUM2hMhuiLn105SNyCPbKjjYYgS+qN4r5I1yzYPMBvJNZ8e9j8efWcN
+ xTWg0T56GOXU6WuK3lpTGicZY9/cJ5HvwH+nTiv16Baf3/F349RkqYobAFZDRPFC8fju
+ w8FKtgfRH0exENjcqF4zMFwmCtauF50TWLFExk6Litliohls0nK6j1/6Vl+DEM7G/3Qj
+ qIYpJwH6lFu/+RyGBFJ6tcJNxqBIQuS31wxeFDcKxL8RMDsnRYeM9sGGkR2p4cDEPKVh
+ Fsem6xUe7loIA+GdVn6BtlV3DwcG695NACSWfuCOIo/BUncSerXlk/xiHOBI9zan7Xmr
+ NbeA==
+X-Gm-Message-State: AOAM530XBsMQ/yR1QkLQnzGCg/JbuL9stQjOPD0JngXLR/Hmhru2gghy
+ AGEGeaKuq9fK0CA7wFLgpuCO9oXefQo25g==
+X-Google-Smtp-Source: ABdhPJyxGpL9a7/O76L4j2qJ8fUQiO4aa9gpT9QdqSbUVXwyMwcf4pJIzry2yy+ZAVozL8OLq8ZMdw==
+X-Received: by 2002:adf:f3d2:: with SMTP id g18mr4188542wrp.367.1603209474265; 
+ Tue, 20 Oct 2020 08:57:54 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.52
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:52 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:53 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/41] linux-user/elfload: Use Error for load_elf_image
-Date: Tue, 20 Oct 2020 16:56:52 +0100
-Message-Id: <20201020155656.8045-38-peter.maydell@linaro.org>
+Subject: [PULL 38/41] linux-user/elfload: Use Error for load_elf_interp
+Date: Tue, 20 Oct 2020 16:56:53 +0100
+Message-Id: <20201020155656.8045-39-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,136 +91,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is a bit clearer than open-coding some of this
-with a bare c string.
+This is slightly clearer than just using strerror, though
+the different forms produced by error_setg_file_open and
+error_setg_errno isn't entirely convenient.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201016184207.786698-9-richard.henderson@linaro.org
+Message-id: 20201016184207.786698-10-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/elfload.c | 37 ++++++++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 17 deletions(-)
+ linux-user/elfload.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 107a628a9ee..56fbda93d02 100644
+index 56fbda93d02..04c04bc2602 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -12,6 +12,7 @@
- #include "qemu/guest-random.h"
- #include "qemu/units.h"
- #include "qemu/selfmap.h"
-+#include "qapi/error.h"
- 
- #ifdef _ARCH_PPC64
- #undef ARCH_DLINFO
-@@ -2392,15 +2393,16 @@ static void load_elf_image(const char *image_name, int image_fd,
-     struct elf_phdr *phdr;
-     abi_ulong load_addr, load_bias, loaddr, hiaddr, error;
-     int i, retval;
--    const char *errmsg;
+@@ -2675,26 +2675,27 @@ static void load_elf_interp(const char *filename, struct image_info *info,
+                             char bprm_buf[BPRM_BUF_SIZE])
+ {
+     int fd, retval;
 +    Error *err = NULL;
  
-     /* First of all, some simple consistency checks */
--    errmsg = "Invalid ELF image for this architecture";
-     if (!elf_check_ident(ehdr)) {
-+        error_setg(&err, "Invalid ELF image for this architecture");
-         goto exit_errmsg;
-     }
-     bswap_ehdr(ehdr);
-     if (!elf_check_ehdr(ehdr)) {
-+        error_setg(&err, "Invalid ELF image for this architecture");
-         goto exit_errmsg;
-     }
- 
-@@ -2444,13 +2446,11 @@ static void load_elf_image(const char *image_name, int image_fd,
-             g_autofree char *interp_name = NULL;
- 
-             if (*pinterp_name) {
--                errmsg = "Multiple PT_INTERP entries";
-+                error_setg(&err, "Multiple PT_INTERP entries");
-                 goto exit_errmsg;
-             }
-+
-             interp_name = g_malloc(eppnt->p_filesz);
--            if (!interp_name) {
--                goto exit_perror;
--            }
- 
-             if (eppnt->p_offset + eppnt->p_filesz <= BPRM_BUF_SIZE) {
-                 memcpy(interp_name, bprm_buf + eppnt->p_offset,
-@@ -2459,11 +2459,11 @@ static void load_elf_image(const char *image_name, int image_fd,
-                 retval = pread(image_fd, interp_name, eppnt->p_filesz,
-                                eppnt->p_offset);
-                 if (retval != eppnt->p_filesz) {
--                    goto exit_perror;
-+                    goto exit_read;
-                 }
-             }
-             if (interp_name[eppnt->p_filesz - 1] != 0) {
--                errmsg = "Invalid PT_INTERP entry";
-+                error_setg(&err, "Invalid PT_INTERP entry");
-                 goto exit_errmsg;
-             }
-             *pinterp_name = g_steal_pointer(&interp_name);
-@@ -2520,7 +2520,7 @@ static void load_elf_image(const char *image_name, int image_fd,
-                             (ehdr->e_type == ET_EXEC ? MAP_FIXED : 0),
-                             -1, 0);
-     if (load_addr == -1) {
+     fd = open(path(filename), O_RDONLY);
+     if (fd < 0) {
 -        goto exit_perror;
-+        goto exit_mmap;
++        error_setg_file_open(&err, errno, filename);
++        error_report_err(err);
++        exit(-1);
      }
-     load_bias = load_addr - loaddr;
  
-@@ -2587,7 +2587,7 @@ static void load_elf_image(const char *image_name, int image_fd,
-                                     image_fd, eppnt->p_offset - vaddr_po);
- 
-                 if (error == -1) {
--                    goto exit_perror;
-+                    goto exit_mmap;
-                 }
-             }
- 
-@@ -2623,7 +2623,7 @@ static void load_elf_image(const char *image_name, int image_fd,
-         } else if (eppnt->p_type == PT_MIPS_ABIFLAGS) {
-             Mips_elf_abiflags_v0 abiflags;
-             if (eppnt->p_filesz < sizeof(Mips_elf_abiflags_v0)) {
--                errmsg = "Invalid PT_MIPS_ABIFLAGS entry";
-+                error_setg(&err, "Invalid PT_MIPS_ABIFLAGS entry");
-                 goto exit_errmsg;
-             }
-             if (eppnt->p_offset + eppnt->p_filesz <= BPRM_BUF_SIZE) {
-@@ -2633,7 +2633,7 @@ static void load_elf_image(const char *image_name, int image_fd,
-                 retval = pread(image_fd, &abiflags, sizeof(Mips_elf_abiflags_v0),
-                                eppnt->p_offset);
-                 if (retval != sizeof(Mips_elf_abiflags_v0)) {
--                    goto exit_perror;
-+                    goto exit_read;
-                 }
-             }
-             bswap_mips_abiflags(&abiflags);
-@@ -2658,13 +2658,16 @@ static void load_elf_image(const char *image_name, int image_fd,
- 
-  exit_read:
-     if (retval >= 0) {
--        errmsg = "Incomplete read of file header";
--        goto exit_errmsg;
-+        error_setg(&err, "Incomplete read of file header");
-+    } else {
+     retval = read(fd, bprm_buf, BPRM_BUF_SIZE);
+     if (retval < 0) {
+-        goto exit_perror;
 +        error_setg_errno(&err, errno, "Error reading file header");
++        error_reportf_err(err, "%s: ", filename);
++        exit(-1);
      }
++
+     if (retval < BPRM_BUF_SIZE) {
+         memset(bprm_buf + retval, 0, BPRM_BUF_SIZE - retval);
+     }
+ 
+     load_elf_image(filename, fd, info, NULL, bprm_buf);
+-    return;
+-
 - exit_perror:
--    errmsg = strerror(errno);
-+    goto exit_errmsg;
-+ exit_mmap:
-+    error_setg_errno(&err, errno, "Error mapping file");
-+    goto exit_errmsg;
-  exit_errmsg:
--    fprintf(stderr, "%s: %s\n", image_name, errmsg);
-+    error_reportf_err(err, "%s: ", image_name);
-     exit(-1);
+-    fprintf(stderr, "%s: %s\n", filename, strerror(errno));
+-    exit(-1);
  }
  
+ static int symfind(const void *s0, const void *s1)
 -- 
 2.20.1
 
