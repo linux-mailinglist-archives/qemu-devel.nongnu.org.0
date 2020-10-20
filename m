@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA166293881
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 11:53:39 +0200 (CEST)
-Received: from localhost ([::1]:56258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87882293899
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 11:56:17 +0200 (CEST)
+Received: from localhost ([::1]:59864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUoKo-0007oW-U2
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 05:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34500)
+	id 1kUoNM-0000zY-IO
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 05:56:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kUoK3-0007Kd-Vn
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 05:52:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46727)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUoLt-0008U5-C2
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 05:54:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kUoK1-0003bS-8o
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 05:52:51 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUoLr-0004Dh-JK
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 05:54:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603187567;
+ s=mimecast20190719; t=1603187682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ymaw8k7TQhmh3dQDLPi72TUJSjprMiUjTVwjNwKgIjo=;
- b=ZQm3qB12OYdBqURvR75lOoXG+EH9tCgodDOuM5T4tk5mbwk+AKFvg43Z68E6lnAegxxhcy
- zdDuGG+06rQzZOlrQ2gkt69iEtf6CKJPtkEhffwA+XGinFeah2lE51F96Sa8/ik1HqEHhZ
- Dn/vS+1kjIslz9miqLtydkoU5tp4bTk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-_aH2kFJtPLyLx-MZEpiwvg-1; Tue, 20 Oct 2020 05:52:45 -0400
-X-MC-Unique: _aH2kFJtPLyLx-MZEpiwvg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA8C010866AE
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:52:44 +0000 (UTC)
-Received: from localhost (ovpn-115-35.ams2.redhat.com [10.36.115.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 640161A837;
- Tue, 20 Oct 2020 09:52:38 +0000 (UTC)
-Date: Tue, 20 Oct 2020 10:52:37 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH v3 3/5] tools/virtiofsd: xattr name mappings: Map server
- xattr names
-Message-ID: <20201020095237.GC140014@stefanha-x1.localdomain>
-References: <20201014180209.49299-1-dgilbert@redhat.com>
- <20201014180209.49299-4-dgilbert@redhat.com>
+ bh=1KgGYGpnLC1uOVxKz0kFw94mmZd132z/7pJevCY16i4=;
+ b=E5pGKnQV8ll956ws0eFuggQh2OKMDpsZPHjats/32o5D5dfq56QR8qiTrZIJ+YXSmBh0Oj
+ omLt938cWql7QYhEqevsxIM+0VCAlBr3HmvidRoFP/QNdPsBLir4GqXguXr8IExRiWknEa
+ scxw+938UPPY2DWOXGHMDaCLIjeQoos=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-LHNkTootMEyTbai90b9_rg-1; Tue, 20 Oct 2020 05:54:41 -0400
+X-MC-Unique: LHNkTootMEyTbai90b9_rg-1
+Received: by mail-wr1-f69.google.com with SMTP id f11so588731wro.15
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 02:54:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1KgGYGpnLC1uOVxKz0kFw94mmZd132z/7pJevCY16i4=;
+ b=NA9ePAQj1eQh42QKijMpiZG06WDjObt4W6fq2m2SKBKmv5eKNf1sZleMMo6acsqxdY
+ uYzG9JBnCW7XNaSoNBaLzEHO8CECmjAgootgXQ9SniIANcGJyJRlcw7BeuY2oLF4gDKf
+ X25dj3VpFcvbF46CPTT3PccMUY/tUGSvFODSrLkJlHQkX95nodT4iwZqd7Bzg86O3VmF
+ iUu6uX2xFm4H/hGCEsqwKa8l5vwU6DS6vnSZ8WDfnM2DOtUQ8nvVpN0QS5rjf2jfHwIt
+ xrdf+C4m+NzdGj7ebfsxmsRJgTZ7OEfnuhksRKSz6un7cQvSkHV78FdD+4LavO8/0OJO
+ kDDw==
+X-Gm-Message-State: AOAM533rdYNfUnfZ/ptIpa8eMHsaVlOU5maMh2IAM5LdaNi5FE7s5lQC
+ wwbKeVchWUt4hArSxmVEs6b1QtDv5vxMr+YOamZF8ewHykfIo3vNgFBgjTk8oOtT/hQOeMsFltF
+ gA1iAXxMW5i40l78=
+X-Received: by 2002:a1c:59c3:: with SMTP id n186mr2085394wmb.32.1603187679825; 
+ Tue, 20 Oct 2020 02:54:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydol1q2+Nj4hGa9CAigMImUUJF0X9tz3HYOpw4T9xVtmqNecFrnWCeh+GdlqVY19IexcxCmw==
+X-Received: by 2002:a1c:59c3:: with SMTP id n186mr2085372wmb.32.1603187679560; 
+ Tue, 20 Oct 2020 02:54:39 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id b63sm2079535wme.9.2020.10.20.02.54.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Oct 2020 02:54:38 -0700 (PDT)
+Subject: Re: roms/efirom, tests/uefi-test-tools: update edk2's own submodules
+ first
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20201020091605.GA2301@aepfle.de>
+ <3fc07eb7-f99a-516b-9bb9-e48049547928@redhat.com>
+ <20201020094419.GF287149@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0e196d48-6735-5116-ade5-a9b138020aea@redhat.com>
+Date: Tue, 20 Oct 2020 11:54:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201014180209.49299-4-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20201020094419.GF287149@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zCKi3GIZzVBPywwA"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,8 +87,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,45 +102,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dinechin@redhat.com, virtio-fs@redhat.com, qemu-devel@nongnu.org,
- vgoyal@redhat.com
+Cc: Olaf Hering <olaf@aepfle.de>, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---zCKi3GIZzVBPywwA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/20/20 11:44 AM, Daniel P. Berrangé wrote:
+> On Tue, Oct 20, 2020 at 11:29:01AM +0200, Philippe Mathieu-Daudé wrote:
+>> Hi Olaf,
+>>
+>> On 10/20/20 11:16 AM, Olaf Hering wrote:
+>>> This is about qemu.git#ec87b5daca761039bbcf781eedbe4987f790836f
+>>>
+>>> On Mon, Sep 07, Laszlo Ersek wrote:
+>>>
+>>>> In edk2 commit 06033f5abad3 ("BaseTools: Make brotli a submodule",
+>>>> 2020-04-16), part of edk2-stable202005, the Brotli compressor /
+>>>> decompressor source code that edk2 had flattened into BaseTools was
+>>>> replaced with a git submodule.
+>>>>
+>>>> This means we have to initialize edk2's own submodules before building
+>>>> BaseTools not just in "roms/Makefile.edk2", but in "roms/Makefile" (for
+>>>> the sake of the "efirom" target) and "tests/uefi-test-tools/Makefile" as
+>>>> well.
+>>>
+>>>> +++ b/roms/Makefile
+>>>>    edk2-basetools:
+>>>> +	cd edk2/BaseTools && git submodule update --init --force
+>>>>    build-edk2-tools:
+>>>> +	cd $(edk2_dir)/BaseTools && git submodule update --init --force
+>>>
+>>>
+>>> This change can not possibly be correct.
+>>>
+>>> With current qemu.git#master one is forced to have network access to
+>>> build the roms. This fails with exported (and complete) sources in an
+>>> offline environment.
+>>
+>> The EDK2 roms are only used for testing, we certainly don't want them
+>> to be used by distributions. I suppose the question is "why is this
+>> rule called if tests are not built?".
+> 
+> I don't believe that is correct - the pc-bios/edk*  ROMs and the
+> corresponding  pc-bios/descriptor files are there for real world
+> end user consumption.   roms/edk2 should (must) match / reflect
+> the content used to build the pci-bios/edk* blobs.
+> 
+> Many distros have a policy requiring them to build everything
+> from source, so they will ignore the pre-built edk2 ROMs, but
+> regular end users taking QEMU directly from upstream can certainly
+> use our edk2 ROMs.
 
-On Wed, Oct 14, 2020 at 07:02:07PM +0100, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> Map xattr names coming from the server, i.e. the host filesystem;
-> currently this is only from listxattr.
->=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 89 ++++++++++++++++++++++++++++++++
->  1 file changed, 89 insertions(+)
+Well I'm lost (and I don't think mainstream QEMU have the
+bandwidth to follow mainstream EDK2 security fixes) so I'm
+giving up, waiting for clarification from Laszlo.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---zCKi3GIZzVBPywwA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+Os2UACgkQnKSrs4Gr
-c8harwf/QbnDmhsN2ddgSULa0eG4vqrBqKHj7Fqj4d+cf4NGQ8Ff/2jC30T6DgcE
-ilC/kF/f2xp0PgXxRXro3A6pcYVcoqYpnpmyxeatVfSK0j7IPim/R7hBr27wATdF
-0xa2qlPHoxS23e3+BK0M/Mb48jerBHf4lAaun58J4EkxN5GsLw7uI8ySWOKTIQKC
-5sQ3zKXadQ0DvEjfZCd1OYaVyTISO7RPoB/bDsGDP6j1CWdbPer717jiv6JwfU6z
-hCWD5ord9vyyY1Y6Pg8FoWE+uUJtgCRxoTmLKS0E79eu5DNcVfUHWCPRaND5Hrhc
-LiWwR0exq+RsuBB8P1C4+tbrOUY8VA==
-=Szjr
------END PGP SIGNATURE-----
-
---zCKi3GIZzVBPywwA--
+> 
+> 
+> Regards,
+> Daniel
+> 
 
 
