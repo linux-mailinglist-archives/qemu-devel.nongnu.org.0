@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033FE29398D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:03:54 +0200 (CEST)
-Received: from localhost ([::1]:55412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64FF293979
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 12:57:28 +0200 (CEST)
+Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpQn-0005b2-3r
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48444)
+	id 1kUpKZ-0001l2-OO
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 06:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kUpNx-0003FJ-9G
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:00:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kUpNt-0006Sf-C9
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:00:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kUpNr-0002mG-K6
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 11:00:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 92C372E8053
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 11:00:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kUpJ8-0001Jm-SL
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:55:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38976)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kUpJ6-0005pD-IR
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:55:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603191355;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nJXCLkniSpumrpo5/33KeTxARBhqTH2dEuPHMfhlhoI=;
+ b=YOmDiZV2u9TtIBqXaLwjMPYZp+RsMJJSGw4/4OdrMQkmV1l1M3zhIDfTnuU6SQ/xgF/JCC
+ DFXZ4vD7q6cTAGHR0Mu4QuSmdKW9OmznpNBCfkfPWNXN29Rjgf7fHJUKYef5rreeAEmwef
+ crHimeF7ij7n1EraF9d2pLD0Q9+JvMI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-cXSV2ct1NPWBDaip7_o2CQ-1; Tue, 20 Oct 2020 06:55:53 -0400
+X-MC-Unique: cXSV2ct1NPWBDaip7_o2CQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A12E7107465A;
+ Tue, 20 Oct 2020 10:55:51 +0000 (UTC)
+Received: from gondolin (ovpn-114-95.ams2.redhat.com [10.36.114.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D8D66EF40;
+ Tue, 20 Oct 2020 10:55:40 +0000 (UTC)
+Date: Tue, 20 Oct 2020 12:55:37 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v26 06/17] vfio: Add migration state change notifier
+Message-ID: <20201020125537.5920fa8b.cohuck@redhat.com>
+In-Reply-To: <20201019115747.15846824@w520.home>
+References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
+ <1600817059-26721-7-git-send-email-kwankhede@nvidia.com>
+ <20200925142032.524c1a79@x1.home>
+ <048540b5-9e03-e6ec-64e5-a78b99a78c08@nvidia.com>
+ <20201019115747.15846824@w520.home>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Oct 2020 10:53:32 -0000
-From: Andrej Krutak <1856834@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: powerpc ppc softmmu virtio
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andree182 ecsdn laurent-vivier
-X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
-X-Launchpad-Bug-Modifier: Andrej Krutak (andree182)
-References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
-Message-Id: <160319121255.22162.17683775548479385650.malone@gac.canonical.com>
-Subject: [Bug 1856834] Re: PCI broken in qemu ppc e500 in v2.12.0 and other
- versions
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
-X-Launchpad-Hash: 34002fdbc1e6710d0cc8cb706a67205991abf6d1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 07:00:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,99 +83,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, yi.l.liu@intel.com,
+ quintela@redhat.com, ziye.yang@intel.com, armbru@redhat.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com,
+ zhi.a.wang@intel.com, kevin.tian@intel.com, yan.y.zhao@intel.com,
+ dgilbert@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After some research, the problem is that mpc8544ds has only 2 PCI slots
-defined (hw/ppc/mpc8544ds.c -> pmc->pci_nr_slots =3D 2;). This in turn
-results in DTB only contain 2 devices in pci@e0008000/interrupt-map. Too
-bad qemu doesn't complain when more devices are added - the PCI bars
-seem to be OK, just interrupts are not found by linux, hence the error
--22:
+On Mon, 19 Oct 2020 11:57:47 -0600
+Alex Williamson <alex.williamson@redhat.com> wrote:
 
-pci 8000:00:13.0: of_irq_parse_pci: failed with rc=3D-22
+> On Sun, 18 Oct 2020 02:05:03 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+> > On 9/26/2020 1:50 AM, Alex Williamson wrote:  
+> > > On Wed, 23 Sep 2020 04:54:08 +0530
+> > > Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-...and later virtio_rng probe freeze (which freezes linux boot, if a
-module is not used and probed in different process).
+> > >> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> > >> index 25e3b1a3b90a..49c7c7a0e29a 100644
+> > >> --- a/include/hw/vfio/vfio-common.h
+> > >> +++ b/include/hw/vfio/vfio-common.h
+> > >> @@ -123,6 +123,7 @@ typedef struct VFIODevice {
+> > >>       VMChangeStateEntry *vm_state;
+> > >>       uint32_t device_state;
+> > >>       int vm_running;
+> > >> +    Notifier migration_state;    
+> > > 
+> > > Can this live in VFIOMigration?  Thanks,
+> > >     
+> > 
+> > No, callback vfio_migration_state_notifier() has notifier argument and 
+> > to reach its corresponding device structure as below, its should be in 
+> > VFIODevice.
+> > 
+> > VFIODevice *vbasedev = container_of(notifier, VFIODevice, migration_state);  
+> 
+> An alternative would be to place migration_state within VFIOMigration,
+> along with a pointer back to vbasedev (like we do in VFIORegion) then
+> the notifier could use container_of to get the VFIOMigration structure,
+> from which we could get to the VFIODevice via the vbasedev pointer.
+> This would better compartmentalize the migration related data into a
+> single structure.  Thanks,
+> 
+> Alex
 
-Changing pci_nr_slots to bigger number (e.g. 4) seems to work just OK,
-though of course the mpc8544ds simulation is then non-realistic. A
-cleaner solution is adding PCI-PCI bridge, that seems to work too.
++1, I think having everything in VFIOMigration would be nicer.
 
-As a side-note, MSI doesn't seem to work on e500mc neither. Enabling MSI
-support in kernel seems to cause that virtio-blk-pci device probe freeze
-in linux, /proc/interrupts shows:
-
- 19:          0  fsl-msi-224   0 Edge      virtio1-config
- 20:          0  fsl-msi-224   1 Edge      virtio1-req.0
-
-Without MSI, legacy IRQ is used and that seems to work OK:
-
- 17:        743   OpenPIC     3 Level     virtio1
-
-Alternatively, passing vectors=3D0 to the virtio device (-device virtio-
-blk,drive=3Ddrive0,vectors=3D0 -drive ...) does the trick as well.
-
-That was a fun ride... :-)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856834
-
-Title:
-  PCI broken in qemu ppc e500 in v2.12.0 and other versions
-
-Status in QEMU:
-  New
-
-Bug description:
-  The same qemu -M mpc... command that works on qemu-system-ppc version
-  2.8.0 freezes guest on bootup and shows error for qemu-system-ppc
-  version 4.2.0release and 4.19dirtygit:
-
-  qemu-system-ppc: virtio-blk failed to set guest notifier (-24), ensure -a=
-ccel kvm is set.
-  qemu-system-ppc: virtio_bus_start_ioeventfd: failed. Fallback to userspac=
-e (slower).
-
-  ends/freezes at:
-  nbd: registered device at major 43
-  =C2=A0vda:
-
-  I'm using -drive file=3D/home/me/rawimage.dd,if=3Dvirtio and works fine in
-  version 2.8.0 installed with apt-get install (Ubuntu 17.04) and also
-  with 2.8.0 official release from git/github that I compiled/built
-  myself. But both of the newer releases fail on the same exact machine
-  same config.
-
-  I also noticed that qemu-2.8.0 was fine with mtd but the newer ones I tri=
-ed weren't, ie gave
-  qemu-system-ppc: -drive if=3Dmtd: machine type does not support if=3Dmtd,=
-bus=3D0,unit=3D0
-  (but I removed -drive if=3Dmtd since wasn't using it anyway)
-
-  I also tried on windows but I think virtio doesn't work on windows
-  hosts at all? On windows host it fails the same way, even version 2.12
-  as well as 4.1.10...
-
-  used:
-  ./configure --prefix=3D/opt/... --enable-fdt --enable-kvm --enable-debug
-
-  (basically all steps the same on same exact system same config, yet
-  2.8.0 works fine whether apt-get installed or built from source while
-  the others I built, 4.19/4.2.0 or 2.12/4.1.10(win) don't.)
-
-  In case newer qemu versions act weird on various kernels, I did try with =
-both vmlinuz-4.10.0-19-generic and vmlinuz-4.13.12-041312-generic (I didn't=
- compile them but I can provide config-..files. This is on Ubuntu 17.04 x86=
-_64 host emulating e500v2 cpm guest, ie -M mpc... GUEST kernel 2.6.32.44 wh=
-ich is why I can't use -M ppce500 instead..)
-  tx
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ecs
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856834/+subscriptions
 
