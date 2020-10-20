@@ -2,105 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9DF293DF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:58:11 +0200 (CEST)
-Received: from localhost ([::1]:59330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6E8293E0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 16:01:35 +0200 (CEST)
+Received: from localhost ([::1]:35962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUs9S-0000nz-W5
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:58:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33810)
+	id 1kUsCk-000317-6G
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 10:01:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kUs6q-0007j8-DJ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:55:28 -0400
-Received: from mail-co1nam11on2051.outbound.protection.outlook.com
- ([40.107.220.51]:34400 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUsB0-00026m-OF
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:59:46 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:45481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kUs6h-0004Kl-M9
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:55:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lgS1uSRtzi5qq4IUW1LOledpn7gBk2t8aL5tnYVVIzpOhFtUP4J6Bi/H+qGwkQcen/fX70WWq9kREGw4pRnJw2Tjvodsdz+zgfyM7NrjC3Z7VwBEyeBEL0wUFRtEREh65ZQcvM2vfNzmV376x6ygiatlqi3wqsmxXwiAhFqAacsEvqq6NHlnBjjuRDiNxzGDJU5dBlCPmkYTFEj3v9iD5GVCLFOHJNNETfr3YV/Nt/bZkG6TpRmRcHYe0ZcDkYLZKNlshGGXPCF1Ul+CfDS8wgP+YFN9Zw/+V9e+o9+bTGJbGPOgPsD1ZBBGj+fXYGPUzEVN+CmaDmocR45S759I3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UdwIl5B6IX4SKD2dkBQGUZZwjOZRQ2kK2hahs6YhPMU=;
- b=W0MX+odDRMYTjlwxNHGeWdvdyeesiayJpXFCXKL++tznGL8BiLTUw7c+BtOevitQqrZer2YR3GzROE4oky95AltlzQdv0gN2oeAV7aOgFM8wlhEQd+vIFq7TEi05+lVbxV50sAi1kx7j4g2ARoBw7337v3PSX8M4EAX243jPdxMLHWmAlvwdDZTw587nXMxEeKOk/22dUN7x/FQFxgPu7tlBTVGNO6hR86pgEOPQLeR0rz7h/HcDPqPTfmC1bWESoYWc7HChac+8Izsk4LivfJE04NVFMSWi21IlSe6iXMptn54dgBcPOTywovZoHfaMtEbIb/Asy6uR1YjknB10Pw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UdwIl5B6IX4SKD2dkBQGUZZwjOZRQ2kK2hahs6YhPMU=;
- b=Ns7tGuwSrtVtJzmnqi/SkDssJTZwbXL9Xdz3m3vw81ogbTco9utLSJn5x4R/Di2zM+ERNTGZGwQZGAliAZrre88+JAL/k4Y+ZN/iYyZVaMVvAOws08xZ/Pif0MEf1B3ST7EayNkkrqF9ZmgDEB0WHwPvi+gCWUlKXY5AX+hukk0=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BY5PR02MB6275.namprd02.prod.outlook.com (2603:10b6:a03:1b6::12)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUsAv-0004pb-MQ
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:59:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.210])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 34DAD6DD2516;
+ Tue, 20 Oct 2020 15:59:38 +0200 (CEST)
+Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Tue, 20 Oct
- 2020 13:55:15 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15%3]) with mapi id 15.20.3499.018; Tue, 20 Oct 2020
- 13:55:15 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: Gerd Hoffmann <kraxel@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v3 04/10] usb/xhci: fixup xhci kconfig deps
-Thread-Topic: [PATCH v3 04/10] usb/xhci: fixup xhci kconfig deps
-Thread-Index: AQHWprV8HwT4XRr0ckyxnjMy9KWlDamggKUw
-Date: Tue, 20 Oct 2020 13:55:15 +0000
-Message-ID: <BY5PR02MB6772CCC1445BA34D4CD5AF33CA1F0@BY5PR02MB6772.namprd02.prod.outlook.com>
-References: <20201020074844.5304-1-kraxel@redhat.com>
- <20201020074844.5304-5-kraxel@redhat.com>
-In-Reply-To: <20201020074844.5304-5-kraxel@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [149.199.50.129]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 9064e436-f2df-4f10-f9de-08d874ffc5a4
-x-ms-traffictypediagnostic: BY5PR02MB6275:
-x-microsoft-antispam-prvs: <BY5PR02MB62754A2055B8C596F58F6D21CA1F0@BY5PR02MB6275.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2089;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 77y6gKUYgrAf9aoyWKmsM6+SGUsYyjAhBFm7zW5dsTsNchaZfh2db43KibQkoqks/G3XybPgPsE3lOZUINVhXehZLUkuF/v7Uacs+XOpDVUOghQKkGO+HvQK9LV4ANS8cFEyIyyrwkhzVOqK9gGbJw+rtzoUDxUGbzLm/oxfYcI0lyO0sMEQHDfaDnNgi2BTJqOeLoNdpNgQ1mUuqTgL1w4d/NaqR6Whpe/c3zf5gclnnATgkroN0y/ePjOWtbYzrMV3g9vx2Xjg8547FEyDnT8DwJ2HjzKVZmPVCX4ehGp7rkRfeHW7fpiGnMuNxkLpFYMbOBqsL/EosjrGeExoHQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(136003)(366004)(346002)(376002)(39860400002)(186003)(54906003)(7696005)(478600001)(110136005)(316002)(6506007)(53546011)(7416002)(33656002)(26005)(71200400001)(76116006)(83380400001)(8676002)(2906002)(66446008)(8936002)(55016002)(4326008)(9686003)(5660300002)(52536014)(86362001)(66476007)(64756008)(66556008)(66946007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: /FrEvH3iDgnBzMshfD4cXDFfqkIYie5rsbuSqr4qZ/EbigFVOPqa4pE79jGUX+q93DlzK9vxMrGpssbWbl0myOFwqKlX8FW4G9rePGb0EB0LFt0K8jf4cGUPiO2DpUHg88jeJ8hdlaVpL0cfMKdo9X0Z42X1sBhsiffnKWNNjxFaQum9TGO5bNh7QuhDTtbGaORAE09Ok3aKeOI73PAUTspKJe+XU5wnkHcwN4aj5SgqYLUWmh7IA8FEUu2mNyPdBcP95WZepl/JZls5qEYXGUfNm58r0O6DhZ7U8b4EkXxglDtod2TbMfPLONplqfJgcYioyM22YUFQPmhlLcHnA+06GOrfYMJwZr7l2EjJoxnEuI95zT+76BjWgw5hXPQna73GQLmhtY+Ih3FHu0vBt77ooOJ6mkXfTaJlLRh4KVyuNajmFB3WAk5REfqIHxkqA1WF7xwX/yXpd4UesQYdWKQALCMSBYNTjAZpu98FClFRKXyaTFcZ+SuTjGhCEoE/0kPcla5U80Yo0w8ZYFAoKvYGQ8dwIdVkUnt1ZZXcYIDMAX0syDq9AsuokShVNzJyzYk8KgE4pzHuRvmOPKCzMSQhI6hWK5YYaS6qRLe7QtuECrRSR1MyGCAAQdUJ40b9ywGkMwJoswVl+WzySa359Q==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 20 Oct
+ 2020 15:59:37 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006bc0c9eca-3558-4228-abe5-b65982a39bc2,
+ 1DF5E91C91B319FFB92086F2F245FA8D0BCC998A) smtp.auth=groug@kaod.org
+Date: Tue, 20 Oct 2020 15:59:36 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 1/8] tests/9pfs: simplify fs_mkdir()
+Message-ID: <20201020155936.5dc8bed4@bahia.lan>
+In-Reply-To: <2130426.d1XtYRms3g@silver>
+References: <cover.1603149434.git.qemu_oss@crudebyte.com>
+ <03b427019be98d12761924f1e6132eefc82c80ec.1603149434.git.qemu_oss@crudebyte.com>
+ <20201020153536.1fe40e32@bahia.lan> <2130426.d1XtYRms3g@silver>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9064e436-f2df-4f10-f9de-08d874ffc5a4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2020 13:55:15.3235 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GqJb5ySMY/MEncy+MybL1qs49IzsWFROhSSBs6SO8Ahbthoj1+zRjdSC2jM/dfEI0dxlG+wpOVCj5DphpB9F8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6275
-Received-SPF: pass client-ip=40.107.220.51; envelope-from=saipava@xilinx.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 09:55:17
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: d7599a5f-7bdf-4210-bb49-c6c77ea5bdb0
+X-Ovh-Tracer-Id: 17098197463819065754
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrjeefgdeilecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 09:35:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,70 +70,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Tue, 20 Oct 2020 15:43:21 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> -----Original Message-----
-> From: Gerd Hoffmann <kraxel@redhat.com>
-> Sent: Tuesday, October 20, 2020 1:19 PM
-> To: qemu-devel@nongnu.org
-> Cc: Sergio Lopez <slp@redhat.com>; Sai Pavan Boddu <saipava@xilinx.com>;
-> Igor Mammedov <imammedo@redhat.com>; Michael S. Tsirkin
-> <mst@redhat.com>; Marcel Apfelbaum <marcel.apfelbaum@gmail.com>;
-> Paolo Bonzini <pbonzini@redhat.com>; Thomas Huth <thuth@redhat.com>;
-> Richard Henderson <rth@twiddle.net>; Gerd Hoffmann <kraxel@redhat.com>;
-> Eduardo Habkost <ehabkost@redhat.com>; Laurent Vivier
-> <lvivier@redhat.com>
-> Subject: [PATCH v3 04/10] usb/xhci: fixup xhci kconfig deps
->=20
-> USB_XHCI does not depend on PCI any more.
-> USB_XHCI_SYSBUS must select USB_XHCI not USB.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-[Sai Pavan Boddu]=20
-Looks clean now. I forgot to take care of this previously, this was one of =
-our requirements initially.
+> On Dienstag, 20. Oktober 2020 15:35:36 CEST Greg Kurz wrote:
+> > On Tue, 20 Oct 2020 01:13:23 +0200
+> > 
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > Split out walking a directory path to a separate new utility function
+> > > fs_walk_fid() and use that function in fs_mkdir().
+> > > 
+> > > The code difference saved this way is not much, but we'll use that new
+> > > fs_walk_fid() function in the upcoming patches, so it will avoid quite
+> > > some code duplication after all.
+> > > 
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
+> > > 
+> > >  tests/qtest/virtio-9p-test.c | 23 ++++++++++++++++++-----
+> > >  1 file changed, 18 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+> > > index c15908f27b..dc724bbb1e 100644
+> > > --- a/tests/qtest/virtio-9p-test.c
+> > > +++ b/tests/qtest/virtio-9p-test.c
+> > > @@ -967,13 +967,12 @@ static void fs_flush_ignored(void *obj, void *data,
+> > > QGuestAllocator *t_alloc)> 
+> > >      g_free(wnames[0]);
+> > >  
+> > >  }
+> > > 
+> > > -static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
+> > > -                     const char *path, const char *cname)
+> > > +/* utility function: walk to requested dir and return fid for that dir */
+> > > +static uint32_t fs_walk_fid(void *obj, void *data, QGuestAllocator
+> > > *t_alloc, +                            const char *path)
+> > > 
+> > >  {
+> > 
+> > Since fs_walk_fid() is a helper function, ie. not passed to qos_add_test(),
+> > any reason to keep the "void *obj, void *data, QGuestAllocator *t_alloc"
+> > based signature ? data and t_alloc aren't used at all and it seems that the
+> > function should rather take a QVirtio9P * directly instead of casting from
+> > a void *.
+> > 
+> > Something like:
+> > 
+> > static uint32_t fs_walk_fid(QVirtio9P *v9p, const char *path)
+> > {
+> > ...
+> > }
+> > 
+> > 
+> > Same remark applies to fs_mkdir() which isn't a top level test function
+> > either BTW (sorry for not having spotted this earlier).
+> 
+> Good point. Typical case of being copy & waste induced. I'll change that.
+> 
 
-Reviewed-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Well I guess I haven't set a good exemple by calling fs_attach() everywhere
+instead of factoring out an helper in the first place... I have some spare
+time, I'll fix that.
 
-Regards,
-Sai Pavan
-
-> ---
->  hw/usb/Kconfig | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig index
-> 4dd2ba9630cb..a674ce4c542e 100644
-> --- a/hw/usb/Kconfig
-> +++ b/hw/usb/Kconfig
-> @@ -32,8 +32,6 @@ config USB_EHCI_SYSBUS
->=20
->  config USB_XHCI
->      bool
-> -    default y if PCI_DEVICES
-> -    depends on PCI
->      select USB
->=20
->  config USB_XHCI_PCI
-> @@ -50,8 +48,8 @@ config USB_XHCI_NEC
->=20
->  config USB_XHCI_SYSBUS
->      bool
-> -    default y if USB_XHCI
-> -    select USB
-> +    default y
-> +    select USB_XHCI
->=20
->  config USB_MUSB
->      bool
-> --
-> 2.27.0
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
