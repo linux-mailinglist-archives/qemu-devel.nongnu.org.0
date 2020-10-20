@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF9A293CFB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:09:19 +0200 (CEST)
-Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3710293CED
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:06:46 +0200 (CEST)
+Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUrOA-0007eY-Ac
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:09:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47256)
+	id 1kUrLi-00030G-0N
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:06:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kUrIg-0001Ij-Uj; Tue, 20 Oct 2020 09:03:38 -0400
-Received: from mail-vi1eur05on2136.outbound.protection.outlook.com
- ([40.107.21.136]:23328 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1kUrIf-0001Fp-9I; Tue, 20 Oct 2020 09:03:37 -0400
+Received: from mail-eopbgr70093.outbound.protection.outlook.com
+ ([40.107.7.93]:62453 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kUrIe-0005aC-Rm; Tue, 20 Oct 2020 09:03:38 -0400
+ id 1kUrId-0005ZO-6v; Tue, 20 Oct 2020 09:03:37 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UnIzVp41FHj8W7L4jCEEAgFK5y4McZT7pOFHzx0JAoR1Zqr4RVAUbO7QN7+QTOExb7HKywL+P6Ps1H3L53IJTq0mLKDhT/XkwWFNlAf9KHXCNCYZqkvRLBj4fmeIcN83h2UKGa7ys6LxepgoUSGud2CRJZp7Hn0SjUQ0X1iAWgQfloMNxHRbBM+ixpRDeTmv7U9ctdUNYZoDOZ0TOznUCyl85wF9yFnM7uY8z1CPuDa4NERtxrg+owJJVk9nYy6trs+62PEwjeBaqK9VPK2Qg+K/5Fobnf7RmFvtIwarKCaF+t7uc/rZTG+35na+oTwcJqZMbXBcMUQBVDwE5mSTKQ==
+ b=jzJfJzSQJPR/XdCxGiJuMyiAN5GEf72KikCjbrLE1VTZxSH4Fm8GeEsLqvzy7TVMnBx2EmA9F6/3jpJykyeYoZwN/zEF1DLQ6rfgfughHEiNuyaSu3KLBBmA0XX0JuoBlthTSlCTH30fXJyWZWmI8KVkbyyFRCBAWd7Em3Eyt8qOyCp3hKo7rPoZCbXCwGMTy6a8HZa85jDdFJu/epiiMhQZwa/h7wm8TOBCggRKV1FRsiuqanbgUJx78BfEatzff67gw+D+9lskfc9FBQ8uW73mMrTb+n4Rw4wFEpUJiOX6mWqsVp/J9MkNpYNpnUvfYNu996YMsmtTyXPXG7yv/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=08mGRPpwpe1C7I1yJw49EwaOZauF1xlSB+2f+cz1T8U=;
- b=j8V/od1Pyr4pisp2P1IPIFESHjcI/dimf/XtbctT2aTgRyWhlqA32yoa9h9I5rFO65fp+GnPKPAFEEoAKWHVfoYBveTLi1xYCMbSL5I+fH/wo75cgOrFw3fCSeVn6zoLlTnQPjxLPj/i6jMOl5UBiGXRfTgsK3yySaCAZ8VqyaBqWVn3SiJL2BbGnWVcdtZ/dILh6ATdZpwrNQuEEoJ1ptFZlIrOHWxFAT+qWL1Q0hfKuyrN5hwQJpfmhU8i1f5LwrNgzh5FcV/cPtJM9T9IXwtR2cSB5VCRsVTgak0f5r9ZVaTdejnuAcf2e24m8+Ahy+lZH97LDmFKARKDjMGVWw==
+ bh=uo+zKY3MWLEP2lHcnXvoM+kswNlYDYJzaGtMi8vczVw=;
+ b=UePRoWINQnOH09hxuizpDM+4v866aQShBDik3DP41qWBp9gjYkW/LVz4K9POyot6bQ2C7LqvR6urxlTB2o7XlPN/srkKGrigUApzxve9OIRJCxEOjwFW87LrRqVfjPe8/sXmWZzRW1qijIGFi9ZLwzKu731WjoOQlJlI3Z4gbZlLLYCiysUsjS7sFXIYXpuuqaQCdOCM0Y+c/ZUNzIi1Zw7eyQqh65mSJeZGz864livV3DXHNeKG8hb6wtLRmCCL7Ziq27Kk6IeDdNg1GQzJZ2Q9Zkpjy+BbbZkpP3KaM1MMUaz1J7ND0yl+jFFTziWYBqHgR4sPOrqoDtpd9rXTTw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=08mGRPpwpe1C7I1yJw49EwaOZauF1xlSB+2f+cz1T8U=;
- b=DTJ5vXHwiWpyLfwAEmpz0o9Lp+EBqN+Z/frpAyMNmKT4+pxLYrVsgy7a/iPqt3WRWCOJ3HPmCrCiXu7RaIX00mv3XgQ0rwXCJpdPoQ5lK1smRYPVIPG0raOvEiOcxKHPPXL5E4h/LjtseIgpPNZF6PZQfk3v7MtSswvLtiSn/wo=
+ bh=uo+zKY3MWLEP2lHcnXvoM+kswNlYDYJzaGtMi8vczVw=;
+ b=OB2TPcx/WXyaXNDJj9XbZMG+jaDh8rhNsspa4Kh1RfFqJXQZSEYg1KJfBnWitRCsRafAvJxUuEG4ugPebSpFj6qrWzNjjg1oxi8jB69AHX6qIG8emZlXJcwEKujoRmKXpaHndLpq8AuqGMTZeGTZp31kKBF1ixm6M4sq6ue9jQk=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6168.eurprd08.prod.outlook.com (2603:10a6:20b:294::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Tue, 20 Oct
- 2020 13:03:26 +0000
+ 2020 13:03:27 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.018; Tue, 20 Oct 2020
- 13:03:26 +0000
+ 13:03:27 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, berto@igalia.com,
  vsementsov@virtuozzo.com, eblake@redhat.com, jsnow@redhat.com,
  stefanha@redhat.com, pbonzini@redhat.com, pavel.dovgaluk@ispras.ru,
  ari@tuxera.com, mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v4 01/14] block: return status from bdrv_append and friends
-Date: Tue, 20 Oct 2020 16:02:58 +0300
-Message-Id: <20201020130311.14311-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 02/14] block: use return status of bdrv_append()
+Date: Tue, 20 Oct 2020 16:02:59 +0300
+Message-Id: <20201020130311.14311-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20201020130311.14311-1-vsementsov@virtuozzo.com>
 References: <20201020130311.14311-1-vsementsov@virtuozzo.com>
@@ -67,35 +67,35 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.66) by
  FR2P281CA0023.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.9 via Frontend Transport; Tue, 20 Oct 2020 13:03:25 +0000
+ 15.20.3499.9 via Frontend Transport; Tue, 20 Oct 2020 13:03:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3c00eaf2-a2a8-44aa-6803-08d874f8888e
+X-MS-Office365-Filtering-Correlation-Id: 6cb9e3bd-46ae-4bc6-e2a1-08d874f8892a
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6168:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6168E6554946CD83B34E8C40C11F0@AS8PR08MB6168.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:415;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB61683D95C6E4D7798B805295C11F0@AS8PR08MB6168.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:40;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e26KGImCiHy+VZRFNdL+9o+dJs9ZBoih3hkcP3fdfmHT60V3xBse5XDld+4ikkR4ABoam9I3H8eENgqsCMGGth1YYbX/PsCVEwAk/4YQCtOeXEQzfmPOzAK3aZY3kWIE92qeq/+MbUHAvVfIUw4E/2T3mfNV42dJBaqHszeaBI4F+BALqR1payHBWhWpFphLr4Yeg98spmY3U7HgkwlQkyyWV9PaUktzxI/ge+u/ecAOim7w42Gc82SgQYeKTd5uZDFY2E6PIJ2Qjm2pTOtfWzoSmtZpK0mKBpDjFThSi3xiDkNtbRmHkWCY0B06WgHmsojhLuLKH3s9DkVnYHl/9g==
+X-Microsoft-Antispam-Message-Info: o1JE/afNNo9WGgyoFEfKXYQXoffydMNjLIkaug4NjLGowh/TOdcy0rs/MIasSjzRMFju8KSyqnm0zI2S1H9HFC3SyUZZQaywNwb5StFjeWkv3IbW8OCV+VZ+pyaFbr0EntKnBUwjCLbPRUCi5zAUGrFvT6DjBkwih2x9OTrZHg0fJG67hIpmiHPKGIT0TVCPs687E2xWNukJTWiSwAzJRngPR77uPrqVAsS9kJDJspGv68xyGG3OTXYQ+PIlU1Nm2luinVmvl/dHMS5DQHMiNdjVMV8XepiNs4rbKkV52KbWSv6kBIgi/lLWe99mT0XCpyJeM+9ewaZa3JtWp1QvcA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39840400004)(366004)(136003)(376002)(346002)(396003)(8676002)(66946007)(16526019)(478600001)(8936002)(186003)(5660300002)(52116002)(6506007)(6486002)(2906002)(6916009)(316002)(83380400001)(36756003)(2616005)(26005)(7416002)(956004)(1076003)(86362001)(66556008)(4326008)(6512007)(6666004)(66476007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: L8Fm42TIFroLQvOfmoi//WMi3pZkzKkcGGzYPJOm8reVF0HdHV84a2Xr/AV50nYs7kFj6wm1IXAAyPibEcZc/2hdsUSHVH1V2mHOsaRbzhSCRfdw5d8DMoxcdHhS2V8aOlVQFsqzQUn5KqvSUXjtPvmotonlWL/yGFtL482iSa28rqRF4CcET3/wiJfRY+NaskeqAO2IZEgdivIIfwQ7x4Ozq7AbVoJMc/OtdWjiaKksNtBEMdhu2De44s5t6qbaTJvH2pYkErajShesis9ojy9XMYE9Oyx7ZKdRGSyb5co+uSQcnNmBQOR41CyB0h6udStSDtqKTe9Nwlu1GwutWa992Q9fXIccAJkOsQCWMmKii+jjuQcvhGaei58l2/WYi3nPyOLbBWmHNR7P7JX9V6I8DnQLxYWGKRAKrrlLNm9x0x7HGidnmowHnFaHssGAm767i7AQ+4OWhXkMLs1oZjDK+lvDKcsCndhrBnBtPWe0JTXwNUuBKnZVDmbczOnn+A+bwsJQ6aF5St531FQmkBUukP2Iu/FJ824oFIZ7Q11daOm199bx60PdYnhgQBTWbo5hgsSv5MPR5EtrkaQ0IAQtKEkc5T77xszoxkM8ny1eN4XJGelnT/8Y6NDEj0Fsj0Y6ziu8FTOsHNAXIu8tkw==
+X-MS-Exchange-AntiSpam-MessageData: XTgAzT8K5ZpNfLhqx/gm37sZTkIWwwIB6HbSpsmtc0+3VilfplYGYp4OZ7416MTdHSLkh4vskMCOZqHItw1BhhFniqthwlA6eDxz1+1IFGxVPRAQxZhub+WG0VDOHIS0GJu5BKD3BSovoOohL/f4+rpm3LHoJnK7YOXy5acaIYXDiS6f+6HzoYN7PUN9uNPv9F+sIJhOeQQ8JIEP00n4sDd2cYrQDvXhE6YtshY4DWiyNlyTKRWfXPxd7YRwLVf0Hba/35H1vWPWwyU8zB8NZT3jCdGJLDLZb39/NNLBKtjdNdkdr/fg0Sf0+Xi/qS1rzI/W4HYMEOnk4Tps1mHShLHNuFcLuRvY5XM4DKyS1GcMOFTh5dnMi0tu99kJYPlB+0qJxfYfafZIaxDhtJ8jWGesKhcq+VKm9pARzQiDCpeNQy4qILoC3HLdtn9aMQ2tE8Gc19zk3VgdVA3K1zRsDDY/HX8hF6r0HSn0fKOtgEfUki1CXQH/yiGsDN7Vkw1BVqDfeWWbktiXFW45e5bJpaokCZ30FNQirjrDFL0sb7cVRJrb0S9a8BlaGqAT1CDEil0Zj3b0W1ipGYeA562VJ/QmeF9OurMZ1P+vrBmlemAbpcpdVcQRib3/Rb2Clp4I/82CYZZeFB3Q+DU4AOP2Ng==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c00eaf2-a2a8-44aa-6803-08d874f8888e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cb9e3bd-46ae-4bc6-e2a1-08d874f8892a
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2020 13:03:26.6174 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2020 13:03:27.6409 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3UoYZIDMKMQukZJpadZjRzLJ49BxsYeu9BkGPA5ew0k9bpko+sR4qM54sNCjxACsXdwsAAUWUunwBFR/zqqVtaGPW5vHKBLoGgHCJHYnglA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: jL/4aPilSyum6EqCLFrcq66gO46agBiifIrIanjTdBPodUyUxOC4d57wpPW5h2gTlm6Y4JopGMSbzbUSBSKb9xhI8YbdhuVG3Vj9CP8tGvQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6168
-Received-SPF: pass client-ip=40.107.21.136;
+Received-SPF: pass client-ip=40.107.7.93;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 09:03:34
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 09:03:26
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -120,176 +120,203 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The recommended use of qemu error api assumes returning status together
-with setting errp and avoid void functions with errp parameter. Let's
-improve bdrv_append and some friends to reduce error-propagation
-overhead in further patches.
-
-Choose int return status, because bdrv_replace_node() has call to
-bdrv_check_update_perm(), which reports int status, which seems correct
-to propagate.
+Now bdrv_append returns status and we can drop all the local_err things
+around it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block.h | 12 +++++-----
- block.c               | 51 ++++++++++++++++++++++++++++---------------
- 2 files changed, 40 insertions(+), 23 deletions(-)
+ block.c                     |  6 ++----
+ block/backup-top.c          | 23 +++++++++++------------
+ block/commit.c              |  6 ++----
+ block/mirror.c              |  6 ++----
+ blockdev.c                  |  6 +++---
+ tests/test-bdrv-graph-mod.c |  6 +++---
+ 6 files changed, 23 insertions(+), 30 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index d16c401cb4..afb29cdbe4 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -346,10 +346,10 @@ int bdrv_create(BlockDriver *drv, const char* filename,
- int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp);
- 
- BlockDriverState *bdrv_new(void);
--void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
--                 Error **errp);
--void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
--                       Error **errp);
-+int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-+                Error **errp);
-+int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
-+                      Error **errp);
- 
- int bdrv_parse_aio(const char *mode, int *flags);
- int bdrv_parse_cache_mode(const char *mode, int *flags, bool *writethrough);
-@@ -361,8 +361,8 @@ BdrvChild *bdrv_open_child(const char *filename,
-                            BdrvChildRole child_role,
-                            bool allow_none, Error **errp);
- BlockDriverState *bdrv_open_blockdev_ref(BlockdevRef *ref, Error **errp);
--void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
--                         Error **errp);
-+int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-+                        Error **errp);
- int bdrv_open_backing_file(BlockDriverState *bs, QDict *parent_options,
-                            const char *bdref_key, Error **errp);
- BlockDriverState *bdrv_open(const char *filename, const char *reference,
 diff --git a/block.c b/block.c
-index 430edf79bb..31c55faae0 100644
+index 31c55faae0..46d4ad0ea6 100644
 --- a/block.c
 +++ b/block.c
-@@ -2870,14 +2870,15 @@ static BdrvChildRole bdrv_backing_role(BlockDriverState *bs)
-  * Sets the bs->backing link of a BDS. A new reference is created; callers
-  * which don't need their own reference any more must call bdrv_unref().
-  */
--void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-+int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-                          Error **errp)
- {
-+    int ret;
-     bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
-         bdrv_inherits_from_recursive(backing_hd, bs);
+@@ -3163,7 +3163,6 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+     int64_t total_size;
+     QemuOpts *opts = NULL;
+     BlockDriverState *bs_snapshot = NULL;
+-    Error *local_err = NULL;
+     int ret;
  
-     if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
--        return;
-+        return -EPERM;
+     /* if snapshot, we create a temporary backing file and open it
+@@ -3210,9 +3209,8 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+      * order to be able to return one, we have to increase
+      * bs_snapshot's refcount here */
+     bdrv_ref(bs_snapshot);
+-    bdrv_append(bs_snapshot, bs, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    ret = bdrv_append(bs_snapshot, bs, errp);
++    if (ret < 0) {
+         bs_snapshot = NULL;
+         goto out;
      }
- 
-     if (backing_hd) {
-@@ -2896,15 +2897,24 @@ void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
- 
-     bs->backing = bdrv_attach_child(bs, backing_hd, "backing", &child_of_bds,
-                                     bdrv_backing_role(bs), errp);
-+    if (!bs->backing) {
-+        ret = -EPERM;
-+        goto out;
-+    }
-+
-     /* If backing_hd was already part of bs's backing chain, and
-      * inherits_from pointed recursively to bs then let's update it to
-      * point directly to bs (else it will become NULL). */
--    if (bs->backing && update_inherits_from) {
-+    if (update_inherits_from) {
-         backing_hd->inherits_from = bs;
-     }
- 
-+    ret = 0;
-+
- out:
-     bdrv_refresh_limits(bs, NULL);
-+
-+    return ret;
- }
- 
- /*
-@@ -4554,8 +4564,8 @@ static bool should_update_child(BdrvChild *c, BlockDriverState *to)
-     return ret;
- }
- 
--void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
--                       Error **errp)
-+int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
-+                      Error **errp)
- {
-     BdrvChild *c, *next;
-     GSList *list = NULL, *p;
-@@ -4577,6 +4587,7 @@ void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
-             continue;
-         }
-         if (c->frozen) {
-+            ret = -EPERM;
-             error_setg(errp, "Cannot change '%s' link to '%s'",
-                        c->name, from->node_name);
-             goto out;
-@@ -4608,10 +4619,14 @@ void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
-     bdrv_get_cumulative_perm(to, &perm, &shared);
-     bdrv_set_perm(to, perm, shared);
- 
-+    ret = 0;
-+
- out:
-     g_slist_free(list);
-     bdrv_drained_end(from);
-     bdrv_unref(from);
-+
-+    return ret;
- }
- 
- /*
-@@ -4630,28 +4645,30 @@ out:
-  * parents of bs_top after bdrv_append() returns. If the caller needs to keep a
-  * reference of its own, it must call bdrv_ref().
-  */
--void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
--                 Error **errp)
-+int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-+                Error **errp)
+diff --git a/block/backup-top.c b/block/backup-top.c
+index fe6883cc97..46246d46f1 100644
+--- a/block/backup-top.c
++++ b/block/backup-top.c
+@@ -190,7 +190,8 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
+                                          BlockCopyState **bcs,
+                                          Error **errp)
  {
 -    Error *local_err = NULL;
--
--    bdrv_set_backing_hd(bs_new, bs_top, &local_err);
++    ERRP_GUARD();
++    int ret;
+     BDRVBackupTopState *state;
+     BlockDriverState *top;
+     bool appended = false;
+@@ -223,9 +224,9 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
+     bdrv_drained_begin(source);
+ 
+     bdrv_ref(top);
+-    bdrv_append(top, source, &local_err);
 -    if (local_err) {
--        error_propagate(errp, local_err);
-+    int ret = bdrv_set_backing_hd(bs_new, bs_top, errp);
+-        error_prepend(&local_err, "Cannot append backup-top filter: ");
++    ret = bdrv_append(top, source, errp);
 +    if (ret < 0) {
-         goto out;
++        error_prepend(errp, "Cannot append backup-top filter: ");
+         goto fail;
+     }
+     appended = true;
+@@ -235,18 +236,17 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
+      * we want.
+      */
+     state->active = true;
+-    bdrv_child_refresh_perms(top, top->backing, &local_err);
+-    if (local_err) {
+-        error_prepend(&local_err,
+-                      "Cannot set permissions for backup-top filter: ");
++    ret = bdrv_child_refresh_perms(top, top->backing, errp);
++    if (ret < 0) {
++        error_prepend(errp, "Cannot set permissions for backup-top filter: ");
+         goto fail;
      }
  
--    bdrv_replace_node(bs_top, bs_new, &local_err);
+     state->cluster_size = cluster_size;
+     state->bcs = block_copy_state_new(top->backing, state->target,
+-                                      cluster_size, write_flags, &local_err);
 -    if (local_err) {
--        error_propagate(errp, local_err);
-+    ret = bdrv_replace_node(bs_top, bs_new, errp);
-+    if (ret < 0) {
-         bdrv_set_backing_hd(bs_new, NULL, &error_abort);
-         goto out;
+-        error_prepend(&local_err, "Cannot create block-copy-state: ");
++                                      cluster_size, write_flags, errp);
++    if (!state->bcs) {
++        error_prepend(errp, "Cannot create block-copy-state: ");
+         goto fail;
+     }
+     *bcs = state->bcs;
+@@ -264,7 +264,6 @@ fail:
      }
  
--    /* bs_new is now referenced by its new parents, we don't need the
--     * additional reference any more. */
-+    ret = 0;
-+
- out:
-+    /*
-+     * bs_new is now referenced by its new parents, we don't need the
-+     * additional reference any more.
-+     */
-     bdrv_unref(bs_new);
-+
-+    return ret;
+     bdrv_drained_end(source);
+-    error_propagate(errp, local_err);
+ 
+     return NULL;
  }
+diff --git a/block/commit.c b/block/commit.c
+index 1e85c306cc..792418c8f6 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -254,7 +254,6 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+     BlockDriverState *iter;
+     BlockDriverState *commit_top_bs = NULL;
+     BlockDriverState *filtered_base;
+-    Error *local_err = NULL;
+     int64_t base_size, top_size;
+     uint64_t base_perms, iter_shared_perms;
+     int ret;
+@@ -312,10 +311,9 @@ void commit_start(const char *job_id, BlockDriverState *bs,
  
- static void bdrv_delete(BlockDriverState *bs)
+     commit_top_bs->total_sectors = top->total_sectors;
+ 
+-    bdrv_append(commit_top_bs, top, &local_err);
+-    if (local_err) {
++    ret = bdrv_append(commit_top_bs, top, errp);
++    if (ret < 0) {
+         commit_top_bs = NULL;
+-        error_propagate(errp, local_err);
+         goto fail;
+     }
+ 
+diff --git a/block/mirror.c b/block/mirror.c
+index 26acf4af6f..b3778248b8 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1560,7 +1560,6 @@ static BlockJob *mirror_start_job(
+     BlockDriverState *mirror_top_bs;
+     bool target_is_backing;
+     uint64_t target_perms, target_shared_perms;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     if (granularity == 0) {
+@@ -1609,12 +1608,11 @@ static BlockJob *mirror_start_job(
+      * it alive until block_job_create() succeeds even if bs has no parent. */
+     bdrv_ref(mirror_top_bs);
+     bdrv_drained_begin(bs);
+-    bdrv_append(mirror_top_bs, bs, &local_err);
++    ret = bdrv_append(mirror_top_bs, bs, errp);
+     bdrv_drained_end(bs);
+ 
+-    if (local_err) {
++    if (ret < 0) {
+         bdrv_unref(mirror_top_bs);
+-        error_propagate(errp, local_err);
+         return NULL;
+     }
+ 
+diff --git a/blockdev.c b/blockdev.c
+index fe6fb5dc1d..1c74490273 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1432,6 +1432,7 @@ typedef struct ExternalSnapshotState {
+ static void external_snapshot_prepare(BlkActionState *common,
+                                       Error **errp)
+ {
++    int ret;
+     int flags = 0;
+     QDict *options = NULL;
+     Error *local_err = NULL;
+@@ -1591,9 +1592,8 @@ static void external_snapshot_prepare(BlkActionState *common,
+      * can fail, so we need to do it in .prepare; undoing it for abort is
+      * always possible. */
+     bdrv_ref(state->new_bs);
+-    bdrv_append(state->new_bs, state->old_bs, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    ret = bdrv_append(state->new_bs, state->old_bs, errp);
++    if (ret < 0) {
+         goto out;
+     }
+     state->overlay_appended = true;
+diff --git a/tests/test-bdrv-graph-mod.c b/tests/test-bdrv-graph-mod.c
+index 8cff13830e..c4f7d16039 100644
+--- a/tests/test-bdrv-graph-mod.c
++++ b/tests/test-bdrv-graph-mod.c
+@@ -101,7 +101,7 @@ static BlockDriverState *pass_through_node(const char *name)
+  */
+ static void test_update_perm_tree(void)
+ {
+-    Error *local_err = NULL;
++    int ret;
+ 
+     BlockBackend *root = blk_new(qemu_get_aio_context(),
+                                  BLK_PERM_WRITE | BLK_PERM_CONSISTENT_READ,
+@@ -114,8 +114,8 @@ static void test_update_perm_tree(void)
+     bdrv_attach_child(filter, bs, "child", &child_of_bds,
+                       BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY, &error_abort);
+ 
+-    bdrv_append(filter, bs, &local_err);
+-    error_free_or_abort(&local_err);
++    ret = bdrv_append(filter, bs, NULL);
++    g_assert_cmpint(ret, <, 0);
+ 
+     blk_unref(root);
+ }
 -- 
 2.21.3
 
