@@ -2,82 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C922940B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:45:06 +0200 (CEST)
-Received: from localhost ([::1]:59516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33D22940E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:55:30 +0200 (CEST)
+Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUukz-0008C9-VN
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:45:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48776)
+	id 1kUuv3-0002tz-OR
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUuct-0005mp-9i
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:36:43 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43321)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUucr-0000kt-4g
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:36:42 -0400
-Received: by mail-wr1-x441.google.com with SMTP id g12so2959739wrp.10
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:36:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xyOEjw5JKqtGQbd5QrUxBprTklWfkYvZi7yE0Bb7psI=;
- b=enw3uuJuEVWJdpQFo6QFjZUKZjg6I7BRR9r0gGoS58U62LgC6YS6JPuHCmYRp5lGuK
- WiTMvhhvdqR7lw4OzO3bNUvobVaIFBFAtMFr5IU1B2HDZCylQvWh3BTqWkO96zDwh4Dm
- Z4xOPEal/YCbd+aK0E+8pCD7cxBeDhr1tZ8EAfuWxMBSxjX1q8QTjZ6B4rSwrTXFMSdP
- o7KCWZjOhmYM0OjY+a6ugBheZIByOzTWOhNS+5bW0Muh3qPeOhS9VRIu1ui/3Yk8SJaI
- GWw2eLejxPvGorWqPaTDvKwklb9FW+HwqcW4J2Yk9ickQDqPp2SUStTXvg0fFybKh3wF
- Q2sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xyOEjw5JKqtGQbd5QrUxBprTklWfkYvZi7yE0Bb7psI=;
- b=O7W9y5NVWX9Lc6PWRK6x6VMzyLphne2HeahEioFjBR43Cz3EylYnsBxEjypaVZNZlq
- M4fcdkWTFW1zK/bZy+Kw9bDodOPrwTxlIXVu4mC3lVX+yPZmu9PSZPn5BglFezmqCBK6
- i/eJAhB/cb0fq/+ro6GMHQBAMhqdhqmNyuixpFVvX5ImTeeWrRKwiTkftB6NmyablQTo
- Zmz0wVkTO13qzaKg0nJp3LjlgXxmfN1OK80GCkr/6eO77tZbU9VR61etMX//1xWPRV/b
- 0vMvUIYlATAKHVhQLdi1z/mqjjiCPmOGCb5Mm2vIUDvGkdY1edYcHjqbDrqYFnANSkER
- +kUA==
-X-Gm-Message-State: AOAM530qlP83RQGtv+vaXUbOBtBn/YsQmyxAyoBM1v9LtZ+7ZL2M/poC
- /PzsZO9oZN16kyHDly9wIWuea/2n/1o=
-X-Google-Smtp-Source: ABdhPJyEJCOW9MuKI6fMXvUsSSicm2DAsrtyjabBUvH4SCeQwJbC+uHbYvocJ8Qz1zAW4IMlBsZKbg==
-X-Received: by 2002:adf:f88a:: with SMTP id u10mr4467363wrp.1.1603211799268;
- Tue, 20 Oct 2020 09:36:39 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id y21sm3250933wma.19.2020.10.20.09.36.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Oct 2020 09:36:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kUudI-0006eT-DT
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:08 -0400
+Resent-Date: Tue, 20 Oct 2020 12:37:08 -0400
+Resent-Message-Id: <E1kUudI-0006eT-DT@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21360)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kUudF-0000pQ-4T
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1603211814; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=YGBLTJ/fW1wXNsWjZy65UtkPZwDAi6iRTPyomL3d6mrbEaCAWSv2qfV5j+gL7A0OhlXVUoHI2SGufeErm4xi1LwOgYCyp1E5T4EZnN4irGBCOJuw0hHxK293yP/GlP2BNOKWt6OApJh+/4UZGHqu8X4WPJefjsEyHib/cKmUDmE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1603211814;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=8Gw2gDiQ8SoAzJaT/tPXg+gNXwyK0A3yUtH6T+HYhbc=; 
+ b=cNDY7hhXzJ+blV5PBoXWSKM8zkoAATmGqojycAzvvMu77EppJS9JnfHmyQk+3Ig+tx1UFnQAO4sZ2igH0OwoOHu0/HPCHYBdlNyQdJqmK6jxXOxO23vyhnMaB7KG740ubIHRiqoTf92IsMZFfUv8xfiFOxeFwixSXq6H3Fp97VQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1603211813810725.4383210047431;
+ Tue, 20 Oct 2020 09:36:53 -0700 (PDT)
 Subject: Re: [PULL 00/41] target-arm queue
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201020155656.8045-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <abd213a9-9da7-2338-cfe6-1b6915f17615@amsat.org>
-Date: Tue, 20 Oct 2020 18:36:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
+Message-ID: <160321181180.32698.10397204200720162137@66eaa9a8a123>
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Tue, 20 Oct 2020 09:36:53 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 12:37:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,148 +69,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/20/20 5:56 PM, Peter Maydell wrote:
-> The following changes since commit 4c41341af76cfc85b5a6c0f87de4838672ab9f89:
-> 
->    Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20201020' into staging (2020-10-20 11:20:36 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201020
-> 
-> for you to fetch changes up to 6358890cb939192f6169fdf7664d903bf9b1d338:
-> 
->    tests/tcg/aarch64: Add bti smoke tests (2020-10-20 16:12:02 +0100)
-> 
-> ----------------------------------------------------------------
-> target-arm queue:
->   * Fix AArch32 SMLAD incorrect setting of Q bit
->   * AArch32 VCVT fixed-point to float is always round-to-nearest
->   * strongarm: Fix 'time to transmit a char' unit comment
->   * Restrict APEI tables generation to the 'virt' machine
->   * bcm2835: minor code cleanups
-
-Just to clarify, the main part there is a bugfix ;) Only the first
-IRQ from the SYS_timer was delivered to the ARM core. It passed my
-smoke test because when I wrote the model only u-boot was using this
-peripheral, then Linux started to use it.
-
-Fixes: 0e5bbd74064 ("hw/arm/bcm2835_peripherals: Use the SYS_timer")
-
->   * correctly flush TLBs when TBI is enabled
->   * tests/qtest: Add npcm7xx timer test
->   * loads-stores.rst: add footnote that clarifies GETPC usage
->   * Fix reported EL for mte_check_fail
->   * Ignore HCR_EL2.ATA when {E2H,TGE} != 11
->   * microbit_i2c: Fix coredump when dump-vmstate
->   * nseries: Fix loading kernel image on n8x0 machines
->   * Implement v8.1M low-overhead-loops
->   * linux-user: Support AArch64 BTI
-> 
-> ----------------------------------------------------------------
-> Emanuele Giuseppe Esposito (1):
->        loads-stores.rst: add footnote that clarifies GETPC usage
-> 
-> Havard Skinnemoen (1):
->        tests/qtest: Add npcm7xx timer test
-> 
-> Peng Liang (1):
->        microbit_i2c: Fix coredump when dump-vmstate
-> 
-> Peter Maydell (12):
->        target/arm: Fix SMLAD incorrect setting of Q bit
->        target/arm: AArch32 VCVT fixed-point to float is always round-to-nearest
->        decodetree: Fix codegen for non-overlapping group inside overlapping group
->        target/arm: Implement v8.1M NOCP handling
->        target/arm: Implement v8.1M conditional-select insns
->        target/arm: Make the t32 insn[25:23]=111 group non-overlapping
->        target/arm: Don't allow BLX imm for M-profile
->        target/arm: Implement v8.1M branch-future insns (as NOPs)
->        target/arm: Implement v8.1M low-overhead-loop instructions
->        target/arm: Fix has_vfp/has_neon ID reg squashing for M-profile
->        target/arm: Allow M-profile CPUs with FP16 to set FPSCR.FP16
->        target/arm: Implement FPSCR.LTPSIZE for M-profile LOB extension
-> 
-> Philippe Mathieu-Daudé (10):
->        hw/arm/strongarm: Fix 'time to transmit a char' unit comment
->        hw/arm: Restrict APEI tables generation to the 'virt' machine
->        hw/timer/bcm2835: Introduce BCM2835_SYSTIMER_COUNT definition
->        hw/timer/bcm2835: Rename variable holding CTRL_STATUS register
->        hw/timer/bcm2835: Support the timer COMPARE registers
->        hw/arm/bcm2835_peripherals: Correctly wire the SYS_timer IRQs
->        hw/intc/bcm2835_ic: Trace GPU/CPU IRQ handlers
->        hw/intc/bcm2836_control: Use IRQ definitions instead of magic numbers
->        hw/arm/nseries: Fix loading kernel image on n8x0 machines
->        linux-user/elfload: Avoid leaking interp_name using GLib memory API
-> 
-> Richard Henderson (16):
->        accel/tcg: Add tlb_flush_page_bits_by_mmuidx*
->        target/arm: Use tlb_flush_page_bits_by_mmuidx*
->        target/arm: Remove redundant mmu_idx lookup
->        target/arm: Fix reported EL for mte_check_fail
->        target/arm: Ignore HCR_EL2.ATA when {E2H,TGE} != 11
->        linux-user/aarch64: Reset btype for signals
->        linux-user: Set PAGE_TARGET_1 for TARGET_PROT_BTI
->        include/elf: Add defines related to GNU property notes for AArch64
->        linux-user/elfload: Fix coding style in load_elf_image
->        linux-user/elfload: Adjust iteration over phdr
->        linux-user/elfload: Move PT_INTERP detection to first loop
->        linux-user/elfload: Use Error for load_elf_image
->        linux-user/elfload: Use Error for load_elf_interp
->        linux-user/elfload: Parse NT_GNU_PROPERTY_TYPE_0 notes
->        linux-user/elfload: Parse GNU_PROPERTY_AARCH64_FEATURE_1_AND
->        tests/tcg/aarch64: Add bti smoke tests
-> 
->   docs/devel/loads-stores.rst             |   8 +-
->   default-configs/devices/arm-softmmu.mak |   1 -
->   include/elf.h                           |  22 ++
->   include/exec/cpu-all.h                  |   2 +
->   include/exec/exec-all.h                 |  36 ++
->   include/hw/timer/bcm2835_systmr.h       |  17 +-
->   linux-user/qemu.h                       |   4 +
->   linux-user/syscall_defs.h               |   4 +
->   target/arm/cpu.h                        |  13 +
->   target/arm/helper.h                     |  13 +
->   target/arm/internals.h                  |   9 +-
->   target/arm/m-nocp.decode                |  10 +-
->   target/arm/t32.decode                   |  50 ++-
->   accel/tcg/cputlb.c                      | 275 +++++++++++++++-
->   hw/arm/bcm2835_peripherals.c            |  13 +-
->   hw/arm/nseries.c                        |   1 +
->   hw/arm/strongarm.c                      |   2 +-
->   hw/i2c/microbit_i2c.c                   |   1 +
->   hw/intc/bcm2835_ic.c                    |   4 +-
->   hw/intc/bcm2836_control.c               |   8 +-
->   hw/timer/bcm2835_systmr.c               |  57 ++--
->   linux-user/aarch64/signal.c             |  10 +-
->   linux-user/elfload.c                    | 326 ++++++++++++++----
->   linux-user/mmap.c                       |  16 +
->   target/arm/cpu.c                        |  38 ++-
->   target/arm/helper.c                     |  55 +++-
->   target/arm/mte_helper.c                 |  13 +-
->   target/arm/translate-a64.c              |   6 +-
->   target/arm/translate.c                  | 239 +++++++++++++-
->   target/arm/vfp_helper.c                 |  76 +++--
->   tests/qtest/npcm7xx_timer-test.c        | 562 ++++++++++++++++++++++++++++++++
->   tests/tcg/aarch64/bti-1.c               |  62 ++++
->   tests/tcg/aarch64/bti-2.c               | 108 ++++++
->   tests/tcg/aarch64/bti-crt.inc.c         |  51 +++
->   hw/arm/Kconfig                          |   1 +
->   hw/intc/trace-events                    |   4 +
->   hw/timer/trace-events                   |   6 +-
->   scripts/decodetree.py                   |   2 +-
->   target/arm/translate-vfp.c.inc          |  41 ++-
->   tests/qtest/meson.build                 |   1 +
->   tests/tcg/aarch64/Makefile.target       |  10 +
->   tests/tcg/configure.sh                  |   4 +
->   42 files changed, 1973 insertions(+), 208 deletions(-)
->   create mode 100644 tests/qtest/npcm7xx_timer-test.c
->   create mode 100644 tests/tcg/aarch64/bti-1.c
->   create mode 100644 tests/tcg/aarch64/bti-2.c
->   create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
-> 
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAyMDE1NTY1Ni44MDQ1
+LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
+IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
+cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEwMjAxNTU2NTYu
+ODA0NS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZwpTdWJqZWN0OiBbUFVMTCAwMC80MV0gdGFy
+Z2V0LWFybSBxdWV1ZQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQg
+cmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNr
+cGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0
+aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczov
+L2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0
+Y2hldy8yMDIwMTAyMDE1NTY1Ni44MDQ1LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnIC0+IHBh
+dGNoZXcvMjAyMDEwMjAxNTU2NTYuODA0NS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZwpTd2l0
+Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjZhYmM3NDQgdGVzdHMvdGNnL2FhcmNoNjQ6IEFk
+ZCBidGkgc21va2UgdGVzdHMKN2E2OGFmMiBsaW51eC11c2VyL2VsZmxvYWQ6IFBhcnNlIEdOVV9Q
+Uk9QRVJUWV9BQVJDSDY0X0ZFQVRVUkVfMV9BTkQKMDE0OTBlMiBsaW51eC11c2VyL2VsZmxvYWQ6
+IFBhcnNlIE5UX0dOVV9QUk9QRVJUWV9UWVBFXzAgbm90ZXMKYWNmMGJlZSBsaW51eC11c2VyL2Vs
+ZmxvYWQ6IFVzZSBFcnJvciBmb3IgbG9hZF9lbGZfaW50ZXJwCjkxYjdkZDggbGludXgtdXNlci9l
+bGZsb2FkOiBVc2UgRXJyb3IgZm9yIGxvYWRfZWxmX2ltYWdlCjcwNDkxNTEgbGludXgtdXNlci9l
+bGZsb2FkOiBNb3ZlIFBUX0lOVEVSUCBkZXRlY3Rpb24gdG8gZmlyc3QgbG9vcAphMGY2ZjhhIGxp
+bnV4LXVzZXIvZWxmbG9hZDogQWRqdXN0IGl0ZXJhdGlvbiBvdmVyIHBoZHIKZjcyZGVlMiBsaW51
+eC11c2VyL2VsZmxvYWQ6IEZpeCBjb2Rpbmcgc3R5bGUgaW4gbG9hZF9lbGZfaW1hZ2UKNzU5NmRm
+NiBsaW51eC11c2VyL2VsZmxvYWQ6IEF2b2lkIGxlYWtpbmcgaW50ZXJwX25hbWUgdXNpbmcgR0xp
+YiBtZW1vcnkgQVBJCjNmZTI1ZTAgaW5jbHVkZS9lbGY6IEFkZCBkZWZpbmVzIHJlbGF0ZWQgdG8g
+R05VIHByb3BlcnR5IG5vdGVzIGZvciBBQXJjaDY0CjEzMTY0ZmEgbGludXgtdXNlcjogU2V0IFBB
+R0VfVEFSR0VUXzEgZm9yIFRBUkdFVF9QUk9UX0JUSQpjNGI3NmM4IGxpbnV4LXVzZXIvYWFyY2g2
+NDogUmVzZXQgYnR5cGUgZm9yIHNpZ25hbHMKZGM1MjhmMSB0YXJnZXQvYXJtOiBJbXBsZW1lbnQg
+RlBTQ1IuTFRQU0laRSBmb3IgTS1wcm9maWxlIExPQiBleHRlbnNpb24KZGUyZmYzNyB0YXJnZXQv
+YXJtOiBBbGxvdyBNLXByb2ZpbGUgQ1BVcyB3aXRoIEZQMTYgdG8gc2V0IEZQU0NSLkZQMTYKZjJj
+MzUxMiB0YXJnZXQvYXJtOiBGaXggaGFzX3ZmcC9oYXNfbmVvbiBJRCByZWcgc3F1YXNoaW5nIGZv
+ciBNLXByb2ZpbGUKZTBhNTEyYSB0YXJnZXQvYXJtOiBJbXBsZW1lbnQgdjguMU0gbG93LW92ZXJo
+ZWFkLWxvb3AgaW5zdHJ1Y3Rpb25zCjA2YTkyOWEgdGFyZ2V0L2FybTogSW1wbGVtZW50IHY4LjFN
+IGJyYW5jaC1mdXR1cmUgaW5zbnMgKGFzIE5PUHMpCmI0YTcyNjkgdGFyZ2V0L2FybTogRG9uJ3Qg
+YWxsb3cgQkxYIGltbSBmb3IgTS1wcm9maWxlCjhlOTA0YmMgdGFyZ2V0L2FybTogTWFrZSB0aGUg
+dDMyIGluc25bMjU6MjNdPTExMSBncm91cCBub24tb3ZlcmxhcHBpbmcKZTNmY2I4YSB0YXJnZXQv
+YXJtOiBJbXBsZW1lbnQgdjguMU0gY29uZGl0aW9uYWwtc2VsZWN0IGluc25zCmQxNjYzMDMgdGFy
+Z2V0L2FybTogSW1wbGVtZW50IHY4LjFNIE5PQ1AgaGFuZGxpbmcKMmNlYWYyNiBkZWNvZGV0cmVl
+OiBGaXggY29kZWdlbiBmb3Igbm9uLW92ZXJsYXBwaW5nIGdyb3VwIGluc2lkZSBvdmVybGFwcGlu
+ZyBncm91cAo4YzBjMzhmIGh3L2FybS9uc2VyaWVzOiBGaXggbG9hZGluZyBrZXJuZWwgaW1hZ2Ug
+b24gbjh4MCBtYWNoaW5lcwo5OWI4OGIxIG1pY3JvYml0X2kyYzogRml4IGNvcmVkdW1wIHdoZW4g
+ZHVtcC12bXN0YXRlCmU0MzViNjYgdGFyZ2V0L2FybTogSWdub3JlIEhDUl9FTDIuQVRBIHdoZW4g
+e0UySCxUR0V9ICE9IDExCmM1NTY5MGMgdGFyZ2V0L2FybTogRml4IHJlcG9ydGVkIEVMIGZvciBt
+dGVfY2hlY2tfZmFpbApiN2Q5OGQ2IHRhcmdldC9hcm06IFJlbW92ZSByZWR1bmRhbnQgbW11X2lk
+eCBsb29rdXAKODFiYWFlMCBody9pbnRjL2JjbTI4MzZfY29udHJvbDogVXNlIElSUSBkZWZpbml0
+aW9ucyBpbnN0ZWFkIG9mIG1hZ2ljIG51bWJlcnMKNTg2MGZhZiBody9pbnRjL2JjbTI4MzVfaWM6
+IFRyYWNlIEdQVS9DUFUgSVJRIGhhbmRsZXJzCjc2MzU5YjUgbG9hZHMtc3RvcmVzLnJzdDogYWRk
+IGZvb3Rub3RlIHRoYXQgY2xhcmlmaWVzIEdFVFBDIHVzYWdlCmI1MDNmOGYgdGVzdHMvcXRlc3Q6
+IEFkZCBucGNtN3h4IHRpbWVyIHRlc3QKMzdmOTMwNiB0YXJnZXQvYXJtOiBVc2UgdGxiX2ZsdXNo
+X3BhZ2VfYml0c19ieV9tbXVpZHgqCmU0ZDU5NWMgYWNjZWwvdGNnOiBBZGQgdGxiX2ZsdXNoX3Bh
+Z2VfYml0c19ieV9tbXVpZHgqCjMyM2U2ODIgaHcvYXJtL2JjbTI4MzVfcGVyaXBoZXJhbHM6IENv
+cnJlY3RseSB3aXJlIHRoZSBTWVNfdGltZXIgSVJRcwplMTBiZGU1IGh3L3RpbWVyL2JjbTI4MzU6
+IFN1cHBvcnQgdGhlIHRpbWVyIENPTVBBUkUgcmVnaXN0ZXJzCjg2ZDM3NWUgaHcvdGltZXIvYmNt
+MjgzNTogUmVuYW1lIHZhcmlhYmxlIGhvbGRpbmcgQ1RSTF9TVEFUVVMgcmVnaXN0ZXIKNWZmZWQw
+NyBody90aW1lci9iY20yODM1OiBJbnRyb2R1Y2UgQkNNMjgzNV9TWVNUSU1FUl9DT1VOVCBkZWZp
+bml0aW9uCjI1NDBlMjMgaHcvYXJtOiBSZXN0cmljdCBBUEVJIHRhYmxlcyBnZW5lcmF0aW9uIHRv
+IHRoZSAndmlydCcgbWFjaGluZQoyYmFmZWFmIGh3L2FybS9zdHJvbmdhcm06IEZpeCAndGltZSB0
+byB0cmFuc21pdCBhIGNoYXInIHVuaXQgY29tbWVudAo4ZjE4OWNjIHRhcmdldC9hcm06IEFBcmNo
+MzIgVkNWVCBmaXhlZC1wb2ludCB0byBmbG9hdCBpcyBhbHdheXMgcm91bmQtdG8tbmVhcmVzdAph
+NjQ3Njc3IHRhcmdldC9hcm06IEZpeCBTTUxBRCBpbmNvcnJlY3Qgc2V0dGluZyBvZiBRIGJpdAoK
+PT09IE9VVFBVVCBCRUdJTiA9PT0KMS80MSBDaGVja2luZyBjb21taXQgYTY0NzY3NzllYTUxICh0
+YXJnZXQvYXJtOiBGaXggU01MQUQgaW5jb3JyZWN0IHNldHRpbmcgb2YgUSBiaXQpCjIvNDEgQ2hl
+Y2tpbmcgY29tbWl0IDhmMTg5Y2NjMDJkYiAodGFyZ2V0L2FybTogQUFyY2gzMiBWQ1ZUIGZpeGVk
+LXBvaW50IHRvIGZsb2F0IGlzIGFsd2F5cyByb3VuZC10by1uZWFyZXN0KQozLzQxIENoZWNraW5n
+IGNvbW1pdCAyYmFmZWFmOGJmM2YgKGh3L2FybS9zdHJvbmdhcm06IEZpeCAndGltZSB0byB0cmFu
+c21pdCBhIGNoYXInIHVuaXQgY29tbWVudCkKNC80MSBDaGVja2luZyBjb21taXQgMjU0MGUyM2E4
+M2RkIChody9hcm06IFJlc3RyaWN0IEFQRUkgdGFibGVzIGdlbmVyYXRpb24gdG8gdGhlICd2aXJ0
+JyBtYWNoaW5lKQo1LzQxIENoZWNraW5nIGNvbW1pdCA1ZmZlZDA3YjI2YzAgKGh3L3RpbWVyL2Jj
+bTI4MzU6IEludHJvZHVjZSBCQ00yODM1X1NZU1RJTUVSX0NPVU5UIGRlZmluaXRpb24pCjYvNDEg
+Q2hlY2tpbmcgY29tbWl0IDg2ZDM3NWUyNzhiMSAoaHcvdGltZXIvYmNtMjgzNTogUmVuYW1lIHZh
+cmlhYmxlIGhvbGRpbmcgQ1RSTF9TVEFUVVMgcmVnaXN0ZXIpCjcvNDEgQ2hlY2tpbmcgY29tbWl0
+IGUxMGJkZTU5ZTJhNCAoaHcvdGltZXIvYmNtMjgzNTogU3VwcG9ydCB0aGUgdGltZXIgQ09NUEFS
+RSByZWdpc3RlcnMpCjgvNDEgQ2hlY2tpbmcgY29tbWl0IDMyM2U2ODI3ZGJiYyAoaHcvYXJtL2Jj
+bTI4MzVfcGVyaXBoZXJhbHM6IENvcnJlY3RseSB3aXJlIHRoZSBTWVNfdGltZXIgSVJRcykKOS80
+MSBDaGVja2luZyBjb21taXQgZTRkNTk1Y2ZhOTlmIChhY2NlbC90Y2c6IEFkZCB0bGJfZmx1c2hf
+cGFnZV9iaXRzX2J5X21tdWlkeCopCjEwLzQxIENoZWNraW5nIGNvbW1pdCAzN2Y5MzA2YzAzYzkg
+KHRhcmdldC9hcm06IFVzZSB0bGJfZmx1c2hfcGFnZV9iaXRzX2J5X21tdWlkeCopCjExLzQxIENo
+ZWNraW5nIGNvbW1pdCBiNTAzZjhmYTc1MWQgKHRlc3RzL3F0ZXN0OiBBZGQgbnBjbTd4eCB0aW1l
+ciB0ZXN0KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1B
+SU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3Rh
+bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDU2OSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMS80MSBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxMi80MSBDaGVja2luZyBjb21taXQgNzYzNTliNThk
+MTIxIChsb2Fkcy1zdG9yZXMucnN0OiBhZGQgZm9vdG5vdGUgdGhhdCBjbGFyaWZpZXMgR0VUUEMg
+dXNhZ2UpCjEzLzQxIENoZWNraW5nIGNvbW1pdCA1ODYwZmFmNjlmYjEgKGh3L2ludGMvYmNtMjgz
+NV9pYzogVHJhY2UgR1BVL0NQVSBJUlEgaGFuZGxlcnMpCjE0LzQxIENoZWNraW5nIGNvbW1pdCA4
+MWJhYWUwZWQ5NGUgKGh3L2ludGMvYmNtMjgzNl9jb250cm9sOiBVc2UgSVJRIGRlZmluaXRpb25z
+IGluc3RlYWQgb2YgbWFnaWMgbnVtYmVycykKMTUvNDEgQ2hlY2tpbmcgY29tbWl0IGI3ZDk4ZDY3
+ZWUyNSAodGFyZ2V0L2FybTogUmVtb3ZlIHJlZHVuZGFudCBtbXVfaWR4IGxvb2t1cCkKMTYvNDEg
+Q2hlY2tpbmcgY29tbWl0IGM1NTY5MGM1ZWRiMyAodGFyZ2V0L2FybTogRml4IHJlcG9ydGVkIEVM
+IGZvciBtdGVfY2hlY2tfZmFpbCkKMTcvNDEgQ2hlY2tpbmcgY29tbWl0IGU0MzViNjZjZmQ3NSAo
+dGFyZ2V0L2FybTogSWdub3JlIEhDUl9FTDIuQVRBIHdoZW4ge0UySCxUR0V9ICE9IDExKQoxOC80
+MSBDaGVja2luZyBjb21taXQgOTliODhiMWUxMjBhIChtaWNyb2JpdF9pMmM6IEZpeCBjb3JlZHVt
+cCB3aGVuIGR1bXAtdm1zdGF0ZSkKMTkvNDEgQ2hlY2tpbmcgY29tbWl0IDhjMGMzOGZkMjAzMSAo
+aHcvYXJtL25zZXJpZXM6IEZpeCBsb2FkaW5nIGtlcm5lbCBpbWFnZSBvbiBuOHgwIG1hY2hpbmVz
+KQoyMC80MSBDaGVja2luZyBjb21taXQgMmNlYWYyNmU0ZWJjIChkZWNvZGV0cmVlOiBGaXggY29k
+ZWdlbiBmb3Igbm9uLW92ZXJsYXBwaW5nIGdyb3VwIGluc2lkZSBvdmVybGFwcGluZyBncm91cCkK
+MjEvNDEgQ2hlY2tpbmcgY29tbWl0IGQxNjYzMDMyNzhiOCAodGFyZ2V0L2FybTogSW1wbGVtZW50
+IHY4LjFNIE5PQ1AgaGFuZGxpbmcpCjIyLzQxIENoZWNraW5nIGNvbW1pdCBlM2ZjYjhhMTBiZDAg
+KHRhcmdldC9hcm06IEltcGxlbWVudCB2OC4xTSBjb25kaXRpb25hbC1zZWxlY3QgaW5zbnMpCjIz
+LzQxIENoZWNraW5nIGNvbW1pdCA4ZTkwNGJjNmQxNTcgKHRhcmdldC9hcm06IE1ha2UgdGhlIHQz
+MiBpbnNuWzI1OjIzXT0xMTEgZ3JvdXAgbm9uLW92ZXJsYXBwaW5nKQoyNC80MSBDaGVja2luZyBj
+b21taXQgYjRhNzI2OWZlNDgwICh0YXJnZXQvYXJtOiBEb24ndCBhbGxvdyBCTFggaW1tIGZvciBN
+LXByb2ZpbGUpCjI1LzQxIENoZWNraW5nIGNvbW1pdCAwNmE5MjlhOTg0YjMgKHRhcmdldC9hcm06
+IEltcGxlbWVudCB2OC4xTSBicmFuY2gtZnV0dXJlIGluc25zIChhcyBOT1BzKSkKMjYvNDEgQ2hl
+Y2tpbmcgY29tbWl0IGUwYTUxMmFmMmFlYSAodGFyZ2V0L2FybTogSW1wbGVtZW50IHY4LjFNIGxv
+dy1vdmVyaGVhZC1sb29wIGluc3RydWN0aW9ucykKMjcvNDEgQ2hlY2tpbmcgY29tbWl0IGYyYzM1
+MTI5ODg3MyAodGFyZ2V0L2FybTogRml4IGhhc192ZnAvaGFzX25lb24gSUQgcmVnIHNxdWFzaGlu
+ZyBmb3IgTS1wcm9maWxlKQoyOC80MSBDaGVja2luZyBjb21taXQgZGUyZmYzNzA1Y2RjICh0YXJn
+ZXQvYXJtOiBBbGxvdyBNLXByb2ZpbGUgQ1BVcyB3aXRoIEZQMTYgdG8gc2V0IEZQU0NSLkZQMTYp
+CjI5LzQxIENoZWNraW5nIGNvbW1pdCBkYzUyOGYxZDI1NjQgKHRhcmdldC9hcm06IEltcGxlbWVu
+dCBGUFNDUi5MVFBTSVpFIGZvciBNLXByb2ZpbGUgTE9CIGV4dGVuc2lvbikKMzAvNDEgQ2hlY2tp
+bmcgY29tbWl0IGM0Yjc2YzgxNjk1YyAobGludXgtdXNlci9hYXJjaDY0OiBSZXNldCBidHlwZSBm
+b3Igc2lnbmFscykKMzEvNDEgQ2hlY2tpbmcgY29tbWl0IDEzMTY0ZmEzMzdkNyAobGludXgtdXNl
+cjogU2V0IFBBR0VfVEFSR0VUXzEgZm9yIFRBUkdFVF9QUk9UX0JUSSkKMzIvNDEgQ2hlY2tpbmcg
+Y29tbWl0IDNmZTI1ZTBhOWI0NyAoaW5jbHVkZS9lbGY6IEFkZCBkZWZpbmVzIHJlbGF0ZWQgdG8g
+R05VIHByb3BlcnR5IG5vdGVzIGZvciBBQXJjaDY0KQozMy80MSBDaGVja2luZyBjb21taXQgNzU5
+NmRmNjBlMGE3IChsaW51eC11c2VyL2VsZmxvYWQ6IEF2b2lkIGxlYWtpbmcgaW50ZXJwX25hbWUg
+dXNpbmcgR0xpYiBtZW1vcnkgQVBJKQozNC80MSBDaGVja2luZyBjb21taXQgZjcyZGVlMjM2NzA2
+IChsaW51eC11c2VyL2VsZmxvYWQ6IEZpeCBjb2Rpbmcgc3R5bGUgaW4gbG9hZF9lbGZfaW1hZ2Up
+CjM1LzQxIENoZWNraW5nIGNvbW1pdCBhMGY2ZjhhMDZmOGIgKGxpbnV4LXVzZXIvZWxmbG9hZDog
+QWRqdXN0IGl0ZXJhdGlvbiBvdmVyIHBoZHIpCjM2LzQxIENoZWNraW5nIGNvbW1pdCA3MDQ5MTUx
+YjY0OTIgKGxpbnV4LXVzZXIvZWxmbG9hZDogTW92ZSBQVF9JTlRFUlAgZGV0ZWN0aW9uIHRvIGZp
+cnN0IGxvb3ApCjM3LzQxIENoZWNraW5nIGNvbW1pdCA5MWI3ZGQ4NmI2ZjIgKGxpbnV4LXVzZXIv
+ZWxmbG9hZDogVXNlIEVycm9yIGZvciBsb2FkX2VsZl9pbWFnZSkKMzgvNDEgQ2hlY2tpbmcgY29t
+bWl0IGFjZjBiZWVkZDkzMiAobGludXgtdXNlci9lbGZsb2FkOiBVc2UgRXJyb3IgZm9yIGxvYWRf
+ZWxmX2ludGVycCkKMzkvNDEgQ2hlY2tpbmcgY29tbWl0IDAxNDkwZTIzNWU5OCAobGludXgtdXNl
+ci9lbGZsb2FkOiBQYXJzZSBOVF9HTlVfUFJPUEVSVFlfVFlQRV8wIG5vdGVzKQo0MC80MSBDaGVj
+a2luZyBjb21taXQgN2E2OGFmMjFiYmRkIChsaW51eC11c2VyL2VsZmxvYWQ6IFBhcnNlIEdOVV9Q
+Uk9QRVJUWV9BQVJDSDY0X0ZFQVRVUkVfMV9BTkQpCjQxLzQxIENoZWNraW5nIGNvbW1pdCA2YWJj
+NzQ0YTU5Y2IgKHRlc3RzL3RjZy9hYXJjaDY0OiBBZGQgYnRpIHNtb2tlIHRlc3RzKQpXQVJOSU5H
+OiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQg
+dXBkYXRpbmc/CiMzOTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogZXh0ZXJucyBzaG91
+bGQgYmUgYXZvaWRlZCBpbiAuYyBmaWxlcwojMTY3OiBGSUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9i
+dGktMi5jOjU2OgorZXh0ZXJuIGNoYXIgdGVzdF9iZWdpbltdLCB0ZXN0X2VuZFtdOwoKRVJST1I6
+IHVzZSBxZW11X3JlYWxfaG9zdF9wYWdlX3NpemUgaW5zdGVhZCBvZiBnZXRwYWdlc2l6ZSgpCiMy
+MDE6IEZJTEU6IHRlc3RzL3RjZy9hYXJjaDY0L2J0aS0yLmM6OTA6CisgICAgdm9pZCAqcCA9IG1t
+YXAoMCwgZ2V0cGFnZXNpemUoKSwKCkVSUk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGlu
+IC5jIGZpbGVzCiMyMzg6IEZJTEU6IHRlc3RzL3RjZy9hYXJjaDY0L2J0aS1jcnQuaW5jLmM6MTM6
+CitpbnQgbWFpbih2b2lkKTsKCnRvdGFsOiAzIGVycm9ycywgMSB3YXJuaW5ncywgMjQ3IGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDQxLzQxIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
+IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
+byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VU
+UFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwg
+bG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMTAyMDE1NTY1
+Ni44MDQ1LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlw
+ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
+ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
