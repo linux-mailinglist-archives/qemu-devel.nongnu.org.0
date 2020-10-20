@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E3D2A0865
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:49:55 +0100 (CET)
-Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5282A0874
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:52:22 +0100 (CET)
+Received: from localhost ([::1]:55212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVj0-0005nt-9o
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53754)
+	id 1kYVlN-000119-GN
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:52:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <850207b415781436af3af7deeae72bc9d74af749@lizzy.crudebyte.com>)
- id 1kYVeW-0000k5-L9
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:45:16 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:40599)
+ (envelope-from <5b8bfcf197a4c743d4a0511d600c560097f9889c@lizzy.crudebyte.com>)
+ id 1kYVes-0001U5-3j
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:45:38 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:44435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <850207b415781436af3af7deeae72bc9d74af749@lizzy.crudebyte.com>)
- id 1kYVeU-00036e-Q0
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:45:16 -0400
+ (envelope-from <5b8bfcf197a4c743d4a0511d600c560097f9889c@lizzy.crudebyte.com>)
+ id 1kYVeq-000382-N4
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:45:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=aoWMVpHvg2rHeMMDy40wr05kM1klAVxUGDEzPDTlgyg=; b=EE4MC
- wE0a/MAaCS2FyuVAHD/pTaV4UBwlirMSRUZPTUH4WHDeQRtLonoA7srD9aYjha7Rw3lHrGkhDEPqy
- SXH+QNdXJGBgodVG9mN4tSsqSS3jZQAy1sKR2Xt1f5lrBN9JnY74uotwez+Omqd6C2JGnQPn63/OS
- LzUD3VEGG46C8FnE9qJ4y8l48+r1ogmqoetVsmagUL6sGhfnflYITDqt/c4+iJC1V3xpQ9qU7Q1uK
- U8oj7Eefp0amzDpIAT97oQknVh3aM6E3QJtsLuvukiLclahsPv4wvmn5rKpRcLlzWR/Yg51V7NT5w
- G+5xxiAk9LRmIXJTFW4aSmSa1ayZQ==;
-Message-Id: <850207b415781436af3af7deeae72bc9d74af749.1604067568.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=i/2Ay4nVQN5vsTLTHryWOjdOEWLcvxLswWTCeMVJylc=; b=Thudj
+ /bTZC/VZCVpGJoqbfxSUB9SyMHmADh5hAszzYcHvGnOE/CiOngB9Z77BMb4OB/y4OkEfBtAaYMAPf
+ jISccRVRiviGZwzC0l7rN52c6MHiDTO+8Xc5PZxpTRWw6DXmI79lyQag06om6FvxZjPGgg+/rbdG8
+ djtBzdD44Q0xvjmcJeBQr2GHp/JzS2l65YAJE7GxiMiKOZf8qdO7tM5cLES4tBFABbU90Q5S5ZlPD
+ 1IPZY2e3hGE/SemQ7yNHDqyIFt8deuZMCcpJYJWREpWsfAuqyxqQqsB23Nts5+Fw5+65+QWUl4Afa
+ exIyplXR08qUad078GIdo4Ti3JzSg==;
+Message-Id: <5b8bfcf197a4c743d4a0511d600c560097f9889c.1604067568.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1604067568.git.qemu_oss@crudebyte.com>
 References: <cover.1604067568.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 20 Oct 2020 18:09:14 +0200
-Subject: [PULL v2 04/16] tests/9pfs: Factor out do_version() helper
+Date: Tue, 20 Oct 2020 18:09:20 +0200
+Subject: [PULL v2 07/16] tests/9pfs: Turn fs_readdir_split() into a helper
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=850207b415781436af3af7deeae72bc9d74af749@lizzy.crudebyte.com;
+ envelope-from=5b8bfcf197a4c743d4a0511d600c560097f9889c@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 07:59:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,62 +67,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-fs_version() is a top level test function. Factor out the reusable
-code to a separate helper instead of hijacking it in other tests.
+fs_readdir_split() isn't a top level test function and thus shouldn't
+take the "void *obj, void *data, QGuestAllocator *t_alloc" arguments.
+Turn it into a helper to be used by test functions.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160321015403.266767.4533967728943968456.stgit@bahia.lan>
+Message-Id: <160321016084.266767.9501523425012383531.stgit@bahia.lan>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ tests/qtest/virtio-9p-test.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index c15908f27b..59bcea4c30 100644
+index e07292bdb8..3c187cdc08 100644
 --- a/tests/qtest/virtio-9p-test.c
 +++ b/tests/qtest/virtio-9p-test.c
-@@ -567,10 +567,8 @@ static void v9fs_rflush(P9Req *req)
-     v9fs_req_free(req);
+@@ -731,11 +731,8 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
  }
  
--static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
-+static void do_version(QVirtio9P *v9p)
+ /* readdir test where overall request is split over several messages */
+-static void fs_readdir_split(void *obj, void *data, QGuestAllocator *t_alloc,
+-                             uint32_t count)
++static void do_readdir_split(QVirtio9P *v9p, uint32_t count)
  {
 -    QVirtio9P *v9p = obj;
 -    alloc = t_alloc;
-     const char *version = "9P2000.L";
-     uint16_t server_len;
-     char *server_version;
-@@ -585,13 +583,19 @@ static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(server_version);
+     char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
+     uint16_t nqid;
+     v9fs_qid qid;
+@@ -1002,19 +999,22 @@ static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
+ static void fs_readdir_split_128(void *obj, void *data,
+                                  QGuestAllocator *t_alloc)
+ {
+-    fs_readdir_split(obj, data, t_alloc, 128);
++    alloc = t_alloc;
++    do_readdir_split(obj, 128);
  }
  
-+static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
-+{
-+    alloc = t_alloc;
-+    do_version(obj);
-+}
-+
- static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
+ static void fs_readdir_split_256(void *obj, void *data,
+                                  QGuestAllocator *t_alloc)
  {
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     P9Req *req;
+-    fs_readdir_split(obj, data, t_alloc, 256);
++    alloc = t_alloc;
++    do_readdir_split(obj, 256);
+ }
  
--    fs_version(v9p, NULL, t_alloc);
-+    do_version(v9p);
-     req = v9fs_tattach(v9p, 0, getuid(), 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rattach(req, NULL);
-@@ -831,7 +835,7 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
-     v9fs_qid root_qid, *wqid;
-     P9Req *req;
+ static void fs_readdir_split_512(void *obj, void *data,
+                                  QGuestAllocator *t_alloc)
+ {
+-    fs_readdir_split(obj, data, t_alloc, 512);
++    alloc = t_alloc;
++    do_readdir_split(obj, 512);
+ }
  
--    fs_version(v9p, NULL, t_alloc);
-+    do_version(v9p);
-     req = v9fs_tattach(v9p, 0, getuid(), 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rattach(req, &root_qid);
+ 
 -- 
 2.20.1
 
