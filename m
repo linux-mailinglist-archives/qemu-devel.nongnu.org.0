@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE54294037
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:08:17 +0200 (CEST)
-Received: from localhost ([::1]:60508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E223C29403B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:11:13 +0200 (CEST)
+Received: from localhost ([::1]:40552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuBM-0000zw-MF
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37732)
+	id 1kUuEC-0004ZB-SY
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu15-0005Hm-O1
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:39 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:35868)
+ id 1kUu17-0005Ll-C8
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:41 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu14-0003w6-1I
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:39 -0400
-Received: by mail-wm1-x329.google.com with SMTP id e2so2519114wme.1
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:37 -0700 (PDT)
+ id 1kUu15-0003wL-BN
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:40 -0400
+Received: by mail-wr1-x435.google.com with SMTP id g12so2785623wrp.10
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=1TAKmnrXBfL6eR3DBczCUzOiCIS8y/1ety/iZUsCGWo=;
- b=zyunfGmtNVncBEf5Ay26fz6kmDe8+2y54N+7Te8xyjAEL/4mySA6rfhOaeouHKj96h
- TQnT5SLhxbfNDkEqooV/RGvMUGOoR5ND6Wwc39kqW54z1vDtpkIv1+tGJ1FxeYuH+zNO
- sX2fH6LD6We2gIIbp54wcHrMiSJ6Auc3p4fWhsVei1Pjq9k6FFFssDLGCVUbwLKBxQGe
- L3sak0MaU68dS+Ye3Y0St+grK20/Q0KC5TS2/3WtRX++Yjkfag6tS81s06fDRRbtXqOM
- Xv9p7OAWzp2SKnLyFxZoFbUj/ZsMT0tEiMZgFMZ2DczO7KDgp1kvdEKZCfEzHE70cLpT
- 1D/g==
+ bh=HYBBDc+WV+vlafN0QjaHU6ktbJtXUHBdXwQ70Lil4Sw=;
+ b=zSB/BVlD9bCmP/hB44yakp2DAAByNFxjKFSwbGF5P6ha/ipv/FDt3yCyA+yo4L1462
+ rhYbkwAvDRIF/a+reQv0SP6oqLSEHpXhBx9FuPP7OHIv16AtFcIgtqdt4lQjGZinqtSg
+ oaLDjoGEY7ZkEWulRxeu7CcNezaTn7xOUKb3IjHHrv/jA61B5vD/H2J5yDKS98HXbH+L
+ alqnXbnBjv1FGjBOy6fdAttTM+LIiQd14qI/VFWDXAeRb8JBQNLDVOyzaed3RTPPsl9/
+ opmoVSeL+6Ka3IoA85EA79KkGh0l8sD1B9rmSHLzUqXp6G3f/8qkEmp2qX9ah8PUjU0J
+ pJ8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1TAKmnrXBfL6eR3DBczCUzOiCIS8y/1ety/iZUsCGWo=;
- b=M22bPef0idxIKqdT7WWx28VVL2nCdUYhPcuXIW45/igdi/evX0HwdWebaNGNiD9Rr7
- 7U1vtg/imNc8ED2SkExQ3GC50u3FdTD4P+61GeNgnp9wEbNArMjwnLhyZgeVJu/PFM7g
- WF3jHbaH7IA02ck+slEFz8MfN+44rT0L03tkeT3QN+ej5Y8jS0oyKJvXiJoKRUWTGQ+k
- mftiuHqeCJ87IB3ytS8NGeac8yBKul8Kk8oYgcbtfNywq+wKAum9x6IxAjK828LHMDOF
- zPYmIRqIMLCMGlqkebt6w5jvyIqgUoyQcv52PHig8zZRiPCewM8eYTOiEanxxV+Mglqu
- UMuQ==
-X-Gm-Message-State: AOAM533sPXsZDR0k6lP45/xcmusdQLA3mphORMElcvfPLRAVXZC/3c3m
- Fa7NWZ+a9ukr+VUy0okbqWiCCOWyzeOSfQ==
-X-Google-Smtp-Source: ABdhPJxDYBb9c5svNh/4mW31Tb8OxvkbB05ZzqVYUrOSGXyDRFD6f8XcA0BxLGnzUiFNIzxeZoO/9Q==
-X-Received: by 2002:a1c:e403:: with SMTP id b3mr2884543wmh.79.1603209456318;
- Tue, 20 Oct 2020 08:57:36 -0700 (PDT)
+ bh=HYBBDc+WV+vlafN0QjaHU6ktbJtXUHBdXwQ70Lil4Sw=;
+ b=IM5Ntd4Hbzwjut+/XLWwSNFYfWxEbdVtThSzlHq/Dl6clIof3cMKCTRFlYE9De/hzL
+ 7c2qr2ZEHnXYmWnvHlEKVl4cwciOv1+IjMYCyGR+T50bKppcIemCmvkKAmjSaC2oI8id
+ QMDjRQ9Bh68Th+HR3IR0ek+CR6U7GN6aLnjKWyRe4GH+9t6EysrrYYVHFZKlXhPnx7yz
+ e1zgAe88ajKI00/cqYFtTSIRPo8qw9eeFhAN4FOqn106rQQG7UKWrfXyQw7+tzsLEfCf
+ xMha4xFsxiT9vMos0jq7WJFz97h4ifeyurUXmwgrtEislXPcJlHQEmJ2O67mU2ywfFv9
+ KIAA==
+X-Gm-Message-State: AOAM533Hj5WJLHj+EpphZ4PMRkfmBA4hvTeWaiPLgJUdGFNOs2E8YkRE
+ 8SLxVv7YP+TTdKrIzJOD9KixgKUlmBi3bw==
+X-Google-Smtp-Source: ABdhPJwP/GgUSJXYca2Vs8zKHJTVqJtGh1/6FnVP2/ZTc3pu1gA4bTxI72CT/kojKm0nlPLD0QMIow==
+X-Received: by 2002:adf:ee4c:: with SMTP id w12mr4132965wro.22.1603209457536; 
+ Tue, 20 Oct 2020 08:57:37 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.35
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:35 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/41] target/arm: Don't allow BLX imm for M-profile
-Date: Tue, 20 Oct 2020 16:56:39 +0100
-Message-Id: <20201020155656.8045-25-peter.maydell@linaro.org>
+Subject: [PULL 25/41] target/arm: Implement v8.1M branch-future insns (as NOPs)
+Date: Tue, 20 Oct 2020 16:56:40 +0100
+Message-Id: <20201020155656.8045-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,40 +88,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The BLX immediate insn in the Thumb encoding always performs
-a switch from Thumb to Arm state. This would be totally useless
-in M-profile which has no Arm decoder, and so the instruction
-does not exist at all there. Make the encoding UNDEF for M-profile.
+v8.1M implements a new 'branch future' feature, which is a
+set of instructions that request the CPU to perform a branch
+"in the future", when it reaches a particular execution address.
+In hardware, the expected implementation is that the information
+about the branch location and destination is cached and then
+acted upon when execution reaches the specified address.
+However the architecture permits an implementation to discard
+this cached information at any point, and so guest code must
+always include a normal branch insn at the branch point as
+a fallback. In particular, an implementation is specifically
+permitted to treat all BF insns as NOPs (which is equivalent
+to discarding the cached information immediately).
 
-(This part of the encoding space is used for the branch-future
-and low-overhead-loop insns in v8.1M.)
+For QEMU, implementing this caching of branch information
+would be complicated and would not improve the speed of
+execution at all, so we make the IMPDEF choice to implement
+all BF insns as NOPs.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20201019151301.2046-6-peter.maydell@linaro.org
+Message-id: 20201019151301.2046-7-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/arm/cpu.h       |  6 ++++++
+ target/arm/t32.decode  | 13 ++++++++++++-
+ target/arm/translate.c | 20 ++++++++++++++++++++
+ 3 files changed, 38 insertions(+), 1 deletion(-)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 74392fa0295..a432f301f11 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3473,6 +3473,12 @@ static inline bool isar_feature_aa32_arm_div(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_isar0, ID_ISAR0, DIVIDE) > 1;
+ }
+ 
++static inline bool isar_feature_aa32_lob(const ARMISARegisters *id)
++{
++    /* (M-profile) low-overhead loops and branch future */
++    return FIELD_EX32(id->id_isar0, ID_ISAR0, CMPBRANCH) >= 3;
++}
++
+ static inline bool isar_feature_aa32_jazelle(const ARMISARegisters *id)
+ {
+     return FIELD_EX32(id->id_isar1, ID_ISAR1, JAZELLE) != 0;
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index 7d5e000e82c..3015731a8d0 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -648,4 +648,15 @@ MRC              1110 1110 ... 1 .... .... .... ... 1 .... @mcr
+ 
+ B                1111 0. .......... 10.1 ............         @branch24
+ BL               1111 0. .......... 11.1 ............         @branch24
+-BLX_i            1111 0. .......... 11.0 ............         @branch24
++{
++  # BLX_i is non-M-profile only
++  BLX_i          1111 0. .......... 11.0 ............         @branch24
++  # M-profile only: loop and branch insns
++  [
++    # All these BF insns have boff != 0b0000; we NOP them all
++    BF           1111 0 boff:4  ------- 1100 - ---------- 1    # BFL
++    BF           1111 0 boff:4 0 ------ 1110 - ---------- 1    # BFCSEL
++    BF           1111 0 boff:4 10 ----- 1110 - ---------- 1    # BF
++    BF           1111 0 boff:4 11 ----- 1110 0 0000000000 1    # BFX, BFLX
++  ]
++}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 9f2201ca577..dc3a4031db7 100644
+index dc3a4031db7..a5ebe568804 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -7918,6 +7918,14 @@ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
- {
-     TCGv_i32 tmp;
+@@ -7971,6 +7971,26 @@ static bool trans_BLX_suffix(DisasContext *s, arg_BLX_suffix *a)
+     return true;
+ }
  
++static bool trans_BF(DisasContext *s, arg_BF *a)
++{
 +    /*
-+     * BLX <imm> would be useless on M-profile; the encoding space
-+     * is used for other insns from v8.1M onward, and UNDEFs before that.
++     * M-profile branch future insns. The architecture permits an
++     * implementation to implement these as NOPs (equivalent to
++     * discarding the LO_BRANCH_INFO cache immediately), and we
++     * take that IMPDEF option because for QEMU a "real" implementation
++     * would be complicated and wouldn't execute any faster.
 +     */
-+    if (arm_dc_feature(s, ARM_FEATURE_M)) {
++    if (!dc_isar_feature(aa32_lob, s)) {
 +        return false;
 +    }
++    if (a->boff == 0) {
++        /* SEE "Related encodings" (loop insns) */
++        return false;
++    }
++    /* Handle as NOP */
++    return true;
++}
 +
-     /* For A32, ARM_FEATURE_V5 is checked near the start of the uncond block. */
-     if (s->thumb && (a->imm & 2)) {
-         return false;
+ static bool op_tbranch(DisasContext *s, arg_tbranch *a, bool half)
+ {
+     TCGv_i32 addr, tmp;
 -- 
 2.20.1
 
