@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08471293F68
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:18:38 +0200 (CEST)
-Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C66293F70
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:20:22 +0200 (CEST)
+Received: from localhost ([::1]:60328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUtPJ-0003Eu-5A
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
+	id 1kUtQz-0005PR-Hm
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:20:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUtNE-0001wf-Ah; Tue, 20 Oct 2020 11:16:29 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50364)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUtNB-00071w-N2; Tue, 20 Oct 2020 11:16:27 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 13so2188091wmf.0;
- Tue, 20 Oct 2020 08:16:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QirgkDFAKf0YiZ/jzWHgyHK8Ijfewqi/Y+34h9qNbas=;
- b=KVzpnFws7k0bHpUs6R2+qxCP6BtIjpawCVEi9EX2gUcZlURApAZazpmwDN3cWPoF7h
- jReyW8waCCsI/zwvKGuhnm8itGb76ynSRV07CLTg6+AxPXQEI9Rp9u/XgZUtVPuW1SG6
- tZrfntKLSF5gVQQe4qF815oG6EppMi5LQVPjENtf2By9brSghd7cte4OPZeW7/QKx/ym
- 7xalHlT1a+NnLNDmCat8yq0iS5hW1Qx2kLc+JNwVUW3MtyjzBBgMtPwTAEJ5KBncr5HL
- CzsIZUXDt9CKxXPiPMN866DXUnOvuEfHRrcp19I9VSsTlIdiEOZXO5IixDLXEKnc1b1i
- 6AHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QirgkDFAKf0YiZ/jzWHgyHK8Ijfewqi/Y+34h9qNbas=;
- b=IjbEDTY/aHlLjuDgaJDAzbz+gWu7ZWgY4kdJJizjh1g8uxAjHslYJ9wCZiVV2uNUyR
- Q9RZPbd95AbuSvmidtFrbpvw1qmSJ492FilSYxJn2+0awWdHBNCuMOR5BDgLdYqWD3+A
- RvpZnSwOQwPaq+wBfp6U6hVFBsa36iLlW4VZZnfE/TensPs8hjkgsth9NzOuNzgIX32/
- kIxd/wiZfRGd4cp/5xPx+6zpElAT5hvPAgOC98AUVJg+YFmNIfMbHnUwPf9CsDSuRYWN
- boPQRFOrTAJTB+XxTebWCsV3MQV+eD+0xC/MbFThFG5MJOeVVyvDSrdRlH9uy7fZ5dCQ
- DdFg==
-X-Gm-Message-State: AOAM532gYcTeAP1uSjWhIiIWQ7eEkkq0FbPkdzBK+sXprzU6Bs1dmuMS
- nM1UGWTyw+1FImKd6UQ1Qz4=
-X-Google-Smtp-Source: ABdhPJzE4y9Q6K/Jw0oKwL6/OTN47Pj5dLx+mqW7/Mt8LN7MCGlpY+Ut0iH0y7SfiH0n7545nFgUTg==
-X-Received: by 2002:a1c:3d7:: with SMTP id 206mr3586090wmd.155.1603206983154; 
- Tue, 20 Oct 2020 08:16:23 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id e25sm3534251wra.71.2020.10.20.08.16.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Oct 2020 08:16:22 -0700 (PDT)
-Subject: Re: [PULL 22/23] hw/sd: Fix incorrect populated function switch
- status data structure
-To: qemu-devel@nongnu.org
-References: <20200821172916.1260954-1-f4bug@amsat.org>
- <20200821172916.1260954-23-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e378932a-1de3-83c1-834f-ae6526604cb7@amsat.org>
-Date: Tue, 20 Oct 2020 17:16:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kUtQ1-0004c9-Tx
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:19:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kUtPz-0007GY-WA
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:19:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603207159;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pIkwEexk2bVsl+cICWtaZ8IxE30/bxVM7iYp8Kk+yoM=;
+ b=T97dyBfzbaQajaIULzErobNW/SQsS0RQJ/O0OtAb6yTUbtZftmIAZFbGNMxK4encTEhF5Z
+ V2qrPJlHs+nQT/lf/tjwSaddCuHWr7vsh3/yyO2mc+dLYMytKrVknKpRjkeAznWB6zTH87
+ nzpAJUMImUXm505qdpKwPwqyXhzP8hg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-157-nN7ozVRTN4iimbFF-AEoRw-1; Tue, 20 Oct 2020 11:19:13 -0400
+X-MC-Unique: nN7ozVRTN4iimbFF-AEoRw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 356B318BE169;
+ Tue, 20 Oct 2020 15:19:12 +0000 (UTC)
+Received: from localhost (ovpn-115-118.ams2.redhat.com [10.36.115.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4097100238E;
+ Tue, 20 Oct 2020 15:19:11 +0000 (UTC)
+Date: Tue, 20 Oct 2020 16:19:10 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 00/30] Block patches
+Message-ID: <20201020151910.GA279266@stefanha-x1.localdomain>
+References: <20201012182800.157697-1-stefanha@redhat.com>
+ <CAFEAcA8Th3Bf8gN1eDcHMKP4FpvSHaxhV6kjYP92vLwbSwL=3A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200821172916.1260954-23-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA8Th3Bf8gN1eDcHMKP4FpvSHaxhV6kjYP92vLwbSwL=3A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="M9NhX3UHpAaciwkO"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,63 +81,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Bin Meng <bin.meng@windriver.com>, Niek Linnenbank <nieklinnenbank@gmail.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-arm@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Coiby Xu <Coiby.Xu@gmail.com>, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin,
+--M9NhX3UHpAaciwkO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 8/21/20 7:29 PM, Philippe Mathieu-Daudé wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> At present the function switch status data structure bit [399:376]
-> are wrongly pupulated. These 3 bytes encode function switch status
-> for the 6 function groups, with 4 bits per group, starting from
-> function group 6 at bit 399, then followed by function group 5 at
-> bit 395, and so on.
-> 
-> However the codes mistakenly fills in the function group 1 status
-> at bit 399. This fixes the code logic.
-> 
-> Fixes: a1bb27b1e9 ("SD card emulation (initial implementation)")
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Tested-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> Message-Id: <1598021136-49525-1-git-send-email-bmeng.cn@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   hw/sd/sd.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 7c9d956f113..805e21fc883 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -807,11 +807,12 @@ static void sd_function_switch(SDState *sd, uint32_t arg)
->       sd->data[11] = 0x43;
->       sd->data[12] = 0x80;	/* Supported group 1 functions */
->       sd->data[13] = 0x03;
-> +
->       for (i = 0; i < 6; i ++) {
->           new_func = (arg >> (i * 4)) & 0x0f;
->           if (mode && new_func != 0x0f)
->               sd->function_group[i] = new_func;
-> -        sd->data[14 + (i >> 1)] = new_func << ((i * 4) & 4);
-> +        sd->data[16 - (i >> 1)] |= new_func << ((i % 2) * 4);
+On Mon, Oct 12, 2020 at 10:48:17PM +0100, Peter Maydell wrote:
+> On Mon, 12 Oct 2020 at 19:28, Stefan Hajnoczi <stefanha@redhat.com> wrote=
+:
+> >
+> > The following changes since commit 2387df497b4b4bcf754eb7398edca82889e2=
+ef54:
+> >
+> >   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-10-1=
+0' into staging (2020-10-12 11:29:42 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> >
+> > for you to fetch changes up to 3664ec6bbe236126b79d251d4037889e7181ab55=
+:
+> >
+> >   iotests: add commit top->base cases to 274 (2020-10-12 16:47:58 +0100=
+)
+> >
+> > ----------------------------------------------------------------
+> > Pull request
+> >
+> > v2:
+> >  * Rebase and resolve conflict with commit 029a88c9a7e3 ("qemu-nbd: Hon=
+or
+> >    SIGINT and SIGHUP") [Peter]
+> >
+>=20
+> Build failures, OSX and the BSDs:
+>=20
+> Compiling C object
+> contrib/libvhost-user/libvhost-user.a.p/libvhost-user-glib.c.o
+> ../../contrib/libvhost-user/libvhost-user.c:27:10: fatal error:
+> 'sys/eventfd.h' file not found
+> #include <sys/eventfd.h>
+>          ^~~~~~~~~~~~~~~
+> In file included from ../../contrib/libvhost-user/libvhost-user-glib.c:17=
+:
+> In file included from ../../contrib/libvhost-user/libvhost-user-glib.h:19=
+:
+> ../../contrib/libvhost-user/libvhost-user.h:21:10: fatal error:
+> 'linux/vhost.h' file not found
+> #include <linux/vhost.h>
+>          ^~~~~~~~~~~~~~~
+> 1 error generated.
+>=20
+>=20
+> Build failure, 32-bit:
+>=20
+> ../../util/vhost-user-server.c: In function 'vu_message_read':
+> ../../util/vhost-user-server.c:119:30: error: format '%lu' expects
+> argument of type 'long unsigned int', but argument 3 has type 'size_t
+> {aka unsigned int}' [-Werror=3Dformat=3D]
+>                  error_report("A maximum of %zu fds are allowed, "
+>                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> ../../util/vhost-user-server.c:121:39:
+>                               max_fds, vmsg->fd_num + nfds);
+>                                        ~~~~~~~~~~~~~~~~~~~
+> ../../util/vhost-user-server.c:120:45: note: format string is defined her=
+e
+>                               "however got %lu fds now",
+>                                            ~~^
+>                                            %u
+>=20
+> (you might also want to wordsmith the English in that error message)
+>=20
+> Build failure, Windows:
+>=20
+> ../../qemu-nbd.c:158:5: error: "CONFIG_POSIX" is not defined [-Werror=3Du=
+ndef]
+>  #if CONFIG_POSIX
+>      ^
+>=20
+> 'make check' failure, s390x and ppc64 (ie big-endian host):
+>=20
+> ERROR:../../tests/qtest/vhost-user-blk-test.c:448:idx: assertion
+> failed (capacity =3D=3D TEST_IMAGE_SIZE / 512): (2199023255552 =3D=3D 131=
+072)
+> ERROR qtest-i386: qos-test - Bail out!
+> ERROR:../../tests/qtest/vhost-user-blk-test.c:448:idx: assertion
+> failed (capacity =3D=3D TEST_IMAGE_SIZE / 512): (2199023255552 =3D=3D 131=
+072)
+>=20
+> I also got this on aarch64 host:
+>=20
+> ERROR:../../tests/qtest/boot-sector.c:161:boot_sector_test: assertion
+> failed (signature =3D=3D SIGNATURE): (0x00000000 =3D=3D 0x0000dead)
+> ERROR qtest-s390x: cdrom-test - Bail out!
+> ERROR:../../tests/qtest/boot-sector.c:161:boot_sector_test: assertion
+> failed (signature =3D=3D SIGNATURE): (0x00000000 =3D=3D 0x0000dead)
+>=20
+> but it might be an unrelated intermittent.
+>=20
+> Also a hang on x86-64 host running qtest-ppc64 qos-test, ditto.
 
-This patch broke the orangepi machine, reproducible running
-test_arm_orangepi_bionic:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg739449.html
+Thanks for the info. I will send a v2.
 
-Can you have a look?
+Stefan
 
->       }
->       memset(&sd->data[17], 0, 47);
->       stw_be_p(sd->data + 64, sd_crc16(sd->data, 64));
-> 
+--M9NhX3UHpAaciwkO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+O/+4ACgkQnKSrs4Gr
+c8j6cwgAiSWT3PYkUJ7Te9pHCgt2zEGOg1B3Kyqx2x5VcqxIx5iC/mR+d2ZV3oKu
+PtYk/JTOKI5h1SmgxyMmAT7cLQmrkLv5tXSnd1qBQhw61cv9afU6byXtmG10rh1w
+1Ze6Ro6+/BOAR9fNjT7+tcedFDOA1EBH1Lxybw3qySzxVfOQgQ8Bubb5sQSs7qCG
+v7nUaEUkxEdZptdoeKfBfD5Jr+JtJs2WctzyzSAyJ9sRYyIcXT8OrJ8J0KlCHGyG
+iFrrmGlhLtbbHBbcgpB47EvGdOsNIfX0iOlC95fzIHajExSeuURs0oPY1Sy5rsl1
+PVynY5EyqzXUTcuF4DsZdVOqbjUUvg==
+=FWuy
+-----END PGP SIGNATURE-----
+
+--M9NhX3UHpAaciwkO--
+
 
