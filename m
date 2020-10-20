@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B56293F5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:14:49 +0200 (CEST)
-Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A17293F63
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:17:10 +0200 (CEST)
+Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUtLc-0007mv-9s
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54622)
+	id 1kUtNt-0001ht-Dk
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:17:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUtID-0003fV-34
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:17 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kUtIB-0006UR-CV
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:16 -0400
-Received: by mail-pg1-x541.google.com with SMTP id t14so1266559pgg.1
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:11:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=How1s8vldAjAq1q7OzxOvlrtGvGHNZfb8tzuyxAXLng=;
- b=mVUDyWw/I0khaxb18+0WuCH1i6ACW/eNgY7DZLNjHXoB1qTcvNTjLcbjtMmwWsWIl/
- IPKH+XrJWwVetWCe0tXEuZKci1EuHHkTb1OWqFcj1iyOje3MTNo4J2ghLo0JFrj6em6i
- Xd3jDkdIDw6atCZXIS66B1KcjJ4u027lrg17a43u5uysS/euknx7dHR/Ir2LLMlojK/r
- gr7AQc4JnpgL+OpDRQPvSo7FMSG6aPKZNWJjobPzLJSPSHy8zojKiiD42vT3nKo3u/ns
- z9YYAy1dNNEM9nlxCduLuTVOYe3FLTCg7aauAsvsSjuFCvnCBbdBvNpeSglQf1DcY6cR
- kJYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=How1s8vldAjAq1q7OzxOvlrtGvGHNZfb8tzuyxAXLng=;
- b=tKIAuvr0bRfyjrxg9pvN4WBiNVvn/GUmxtd9lfMSaiisKNsx3sRvTFoZJ6ej3yOkqL
- tfAAPlX0mtzDW8IEBrPABpJ7QEPq8yPEndtNstQ5CeNRoGuj/P5Fu3bDBI+ciJH+QVe5
- VOo7ed+diUCM7a4jzA3NC/B6vGU/wmFxDu6HQd4i7DYK2x9/8PgiotLMJFw6P9s47uD9
- BAYlhe8jH137w8f2rNPtSeKS7XRVd7QS1Qma7QzCJsSR3BaMEuilU55FPCYb2o+anuSh
- 6jRzcqtOTPoDgLjSlheYTJ081MF6DbONrkrXKdPVxyQHAd8IPONQtp1Githx2NZ8D8Yj
- BBiA==
-X-Gm-Message-State: AOAM533PmpPhv3p/Qo9GJCZu+wExHAEjbMmQZ/4aBLhNptASR8A82uMc
- cSnSrEw2eUnX/RwvPAA7+zY1sBU5qfs6XQ==
-X-Google-Smtp-Source: ABdhPJy4wNscz7gGaFd3ZEKl+L+XYnlxQTz2y3M1yzG73oc5L1DC9RSa/n1wLuKQDXDztetd7ELA8A==
-X-Received: by 2002:a62:32c5:0:b029:158:7361:58d3 with SMTP id
- y188-20020a6232c50000b0290158736158d3mr1591111pfy.75.1603206671024; 
- Tue, 20 Oct 2020 08:11:11 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id g85sm2613447pfb.4.2020.10.20.08.11.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Oct 2020 08:11:09 -0700 (PDT)
-Subject: Re: [PATCH 4/4] target/s390x: Improve SUB LOGICAL WITH BORROW
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20201017022901.78425-1-richard.henderson@linaro.org>
- <20201017022901.78425-5-richard.henderson@linaro.org>
- <e2bd9942-6fe3-1570-cdc1-2cfd1519e4be@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3d014021-bf0c-c2d8-fcc1-a6a66a843353@linaro.org>
-Date: Tue, 20 Oct 2020 08:11:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIH-0003ms-BH
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:21 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:38854)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIF-0006Uu-Rq
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:21 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-xeswPDDFPrireYi_UfwXUg-1; Tue, 20 Oct 2020 11:11:15 -0400
+X-MC-Unique: xeswPDDFPrireYi_UfwXUg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40FEB1006C90;
+ Tue, 20 Oct 2020 15:11:14 +0000 (UTC)
+Received: from bahia.lan (ovpn-115-53.ams2.redhat.com [10.36.115.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9000D6EF6A;
+ Tue, 20 Oct 2020 15:11:13 +0000 (UTC)
+Subject: [PATCH 2/5] tests/9pfs: Turn fs_readdir_split() into a helper
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Tue, 20 Oct 2020 17:11:12 +0200
+Message-ID: <160320667267.255209.16813057225265843854.stgit@bahia.lan>
+In-Reply-To: <160320655763.255209.3890094487013964615.stgit@bahia.lan>
+References: <160320655763.255209.3890094487013964615.stgit@bahia.lan>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-In-Reply-To: <e2bd9942-6fe3-1570-cdc1-2cfd1519e4be@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 11:11:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,24 +65,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/20/20 7:17 AM, David Hildenbrand wrote:
->> +    case CC_OP_ADDU:
-> 
-> Can you give me a hint how we're converting the carry into a borrow?
-> 
-> Can we apply something similar to compute_carry()?
-> 
->> +        tcg_gen_subi_i64(cc_src, cc_src, 1);
+fs_readdir_split() isn't a top level test function and thus shouldn't
+take the "void *obj, void *data, QGuestAllocator *t_alloc" arguments.
+Turn it into a helper to be used by test functions.
 
-Right here: subtract one.
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ tests/qtest/virtio-9p-test.c |   14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-  carry = {1,0} -> borrow = {0,-1}
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 63f91aaf77e6..d0cdc14fee3e 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -727,11 +727,8 @@ static void fs_readdir(void *obj, void *data, QGuestAl=
+locator *t_alloc)
+ }
+=20
+ /* readdir test where overall request is split over several messages */
+-static void fs_readdir_split(void *obj, void *data, QGuestAllocator *t_all=
+oc,
+-                             uint32_t count)
++static void do_fs_readdir_split(QVirtio9P *v9p, uint32_t count)
+ {
+-    QVirtio9P *v9p =3D obj;
+-    alloc =3D t_alloc;
+     char *const wnames[] =3D { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
+     uint16_t nqid;
+     v9fs_qid qid;
+@@ -998,19 +995,22 @@ static void fs_mkdir(void *obj, void *data, QGuestAll=
+ocator *t_alloc,
+ static void fs_readdir_split_128(void *obj, void *data,
+                                  QGuestAllocator *t_alloc)
+ {
+-    fs_readdir_split(obj, data, t_alloc, 128);
++    alloc =3D t_alloc;
++    do_fs_readdir_split(obj, 128);
+ }
+=20
+ static void fs_readdir_split_256(void *obj, void *data,
+                                  QGuestAllocator *t_alloc)
+ {
+-    fs_readdir_split(obj, data, t_alloc, 256);
++    alloc =3D t_alloc;
++    do_fs_readdir_split(obj, 256);
+ }
+=20
+ static void fs_readdir_split_512(void *obj, void *data,
+                                  QGuestAllocator *t_alloc)
+ {
+-    fs_readdir_split(obj, data, t_alloc, 512);
++    alloc =3D t_alloc;
++    do_fs_readdir_split(obj, 512);
+ }
+=20
+=20
 
-I'll add some more comments for v2.
 
-
-r~
 
