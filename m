@@ -2,78 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763AE293898
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 11:56:13 +0200 (CEST)
-Received: from localhost ([::1]:59616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA5E2937CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 11:17:36 +0200 (CEST)
+Received: from localhost ([::1]:44240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUoNI-0000tW-HI
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 05:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
+	id 1kUnlv-0005JI-Qg
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 05:17:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kUoLq-0008Pa-Ik
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 05:54:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1kUoLo-0004BG-75
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 05:54:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603187678;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=knNX1pADE7o5rH3C+e31nqrcOC5OrLvB5qMybW8+R/0=;
- b=Y42zQkRWcS8nNYqdTK2+O+CtC+PCb2OJeyzJl7Vg3Vb2W3xLgybeHugve53NsCaxDxNrkh
- ENnJMieuUFJaZPSUYeccvNMNal3GlmyzxEJ9jM/eu+3OJ/5LZpm7Mz/xZMG8vjCrbGX8iR
- K0nk81+M7VQQaAimP3hof9gx96V+z+o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-hByrcpMVOiW4yqemIfPG3A-1; Tue, 20 Oct 2020 05:54:35 -0400
-X-MC-Unique: hByrcpMVOiW4yqemIfPG3A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FD3910866A3;
- Tue, 20 Oct 2020 09:54:32 +0000 (UTC)
-Received: from harajuku.usersys.redhat.com (unknown [10.40.195.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B8B05C1A3;
- Tue, 20 Oct 2020 09:54:18 +0000 (UTC)
-Message-ID: <189d580a8493caa95b303dde4185ac3df0ab06e5.camel@redhat.com>
-Subject: Re: [PATCH v2 03/15] python: add VERSION file
-From: Andrea Bolognani <abologna@redhat.com>
-To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
-In-Reply-To: <20201020090623.GD287149@redhat.com>
-References: <20201014142957.763624-1-jsnow@redhat.com>
- <20201014142957.763624-4-jsnow@redhat.com>
- <5d5148df6e51a70b8980945b5259c248c2994969.camel@redhat.com>
- <20201019100207.GD236912@redhat.com>
- <bec8bd228f9d3627cb848241f2df413d917bd500.camel@redhat.com>
- <20201020090623.GD287149@redhat.com>
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1kUnke-0004gH-2J
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 05:16:16 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.161]:27750)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1kUnkb-0007fQ-QX
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 05:16:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1603185369;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=Message-ID:Subject:To:From:Date:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+ Subject:Sender;
+ bh=dXlDQJPDO+wMHe79PpLS2sKjop5QKPKG39Fpjc56hLE=;
+ b=FckB2Eg9yw7WyedZfM2MPV+LEEnnAWf0is1/InzmI0ueFfdvaqQve+XqsLVJk/cXX+
+ lMLmtKZjK1hqipItiX0rUNYkqQrbioqhVtmCJM98NAmEzgbVpT1eAJxzneuKMPUe+A5H
+ vjCsIyt4crCPW94Y8O7KCnwlIlnwa2VfpHhPLDDeOooUMhA6pOb6KW2nY4IFTg63VCp8
+ 8WFkKOx4C8n9s2pt9SOfrmC0KcfVFBiIpceDxW/+JRn1UW5DqN38boTNWFApsTnhZXmx
+ vqc0IhQMucyLMEPhnB8g1k32qqKjrJ3GKrFz3SPcYDbjk8/wMXKnkGjy7HSFWYZGL2s8
+ S2fg==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzBW/OdlBZQ4AHSS3G1Jjw=="
+X-RZG-CLASS-ID: mo00
+Received: from aepfle.de by smtp.strato.de (RZmta 47.2.1 DYNA|AUTH)
+ with ESMTPSA id e003b5w9K9G8AtM
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Tue, 20 Oct 2020 11:16:08 +0200 (CEST)
+Date: Tue, 20 Oct 2020 11:16:05 +0200
+From: Olaf Hering <olaf@aepfle.de>
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: roms/efirom, tests/uefi-test-tools: update edk2's own submodules
+ first
+Message-ID: <20201020091605.GA2301@aepfle.de>
 MIME-Version: 1.0
-Date: Tue, 20 Oct 2020 11:14:35 +0200
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
+Content-Disposition: inline
+Received-SPF: none client-ip=81.169.146.161; envelope-from=olaf@aepfle.de;
+ helo=mo4-p00-ob.smtp.rzone.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 05:16:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,30 +68,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben@bwidawsk.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Rohit Shinde <rohit.shinde12194@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Fam Zheng <fam@euphon.net>, Max Reitz <mreitz@redhat.com>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2020-10-20 at 10:06 +0100, Daniel P. Berrangé wrote:
-> The QEMU python modules are not like other python modules though,
-> precisely because they are talking to QEMU. If we are shipping
-> QEMU python releases on the same schedule as QEMU, then we can
-> expect the normal ase to be updating both QEMU & Python together.
 
-Once you start uploading the Python packages to PyPi, you really have
-no way to ensure this will be the case.
+--ZGiS0Q5IWpPtfppv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Andrea Bolognani / Red Hat / Virtualization
+This is about qemu.git#ec87b5daca761039bbcf781eedbe4987f790836f
 
+On Mon, Sep 07, Laszlo Ersek wrote:
+
+> In edk2 commit 06033f5abad3 ("BaseTools: Make brotli a submodule",
+> 2020-04-16), part of edk2-stable202005, the Brotli compressor /
+> decompressor source code that edk2 had flattened into BaseTools was
+> replaced with a git submodule.
+>=20
+> This means we have to initialize edk2's own submodules before building
+> BaseTools not just in "roms/Makefile.edk2", but in "roms/Makefile" (for
+> the sake of the "efirom" target) and "tests/uefi-test-tools/Makefile" as
+> well.
+
+> +++ b/roms/Makefile
+>  edk2-basetools:
+> +	cd edk2/BaseTools && git submodule update --init --force
+>  build-edk2-tools:
+> +	cd $(edk2_dir)/BaseTools && git submodule update --init --force
+
+
+This change can not possibly be correct.
+
+With current qemu.git#master one is forced to have network access to
+build the roms. This fails with exported (and complete) sources in an
+offline environment.
+
+
+Please revert this patch.
+
+
+Olaf
+
+--ZGiS0Q5IWpPtfppv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl+Oqs8ACgkQ86SN7mm1
+DoBeWA/9GWILDsXPx05epbmarzkrBBES4qSLQH5SEebOQ3nkEYgtFY59d2y24JfG
+GG4akrzZPrKEzDaxThe4SW4eNEeiinqMLxNw9HpIkxpdCyOCfrJJr+IDLTTQuo0w
+b0yBXQcQLT+v/2A2iStsn7tp4QxYPvpjJ6plOARblJQyFEAuNrv26R16mVGQ94Ti
+DDrI37Bo/8uWeMYUnk0xVgcQpxvoIBVaF7NSfcFco+8DpUUwc8VrMyd9uJG7dAkv
+ZOWKb2wLZaII1hQl47afF6cjjJqvDoT3Rr7DmwUKEqj+i9gVqYTN/GxUj7PXOeOM
+osppXRZzlj9gwADeNTOlLMgzzMqjMvisIYlaPRKEgUBTHvDH1DlMjPLI3eDGg3tt
+ascPTS1kqwHwCW0RuC7LjM30PFOcRZLoSVGKeEEULI5Qa9iobNkgA/RepP0a9pbD
+AOB76EiJppFt83unNWV1HMgo8vPL2CJwXZ8inAlzzGVXNyxZwPETg1ye6YMCbsTG
+PYiArIIfabUxBSn8MTb8UWWdxGjx/azbfltTd3jGraAmwRzfiQxmXvGEhN3cQNkw
+wNx9zOmp/mkLR+EdjTtx3eJSIuJbaJVcOuf7/INTacL1kZwe4M7HYBJkahg5eQ2C
+15/ER133wOzX5m74r0cpWG3UfI+kLl5dgf6RggpXjUgKp1dFtcY=
+=iQa+
+-----END PGP SIGNATURE-----
+
+--ZGiS0Q5IWpPtfppv--
 
