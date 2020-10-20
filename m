@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF78C293EF2
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 16:45:47 +0200 (CEST)
-Received: from localhost ([::1]:54904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30017293EFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 16:49:06 +0200 (CEST)
+Received: from localhost ([::1]:35090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUstV-0003Fp-4z
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 10:45:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47252)
+	id 1kUswj-0006tI-93
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 10:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kUsqO-0000rw-CJ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 10:42:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57217)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUsuI-0005JJ-Eh
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 10:46:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kUsqJ-0002Fm-LU
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 10:42:32 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUsuC-0002vK-Lj
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 10:46:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603204944;
+ s=mimecast20190719; t=1603205184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cyHVh5UNAJnlZVWe1WuMTVBLHHRV+vwMiv5b/10uRLA=;
- b=JAeN9Po5nAoHRs2zmiRm8C3Qji8ZEMAQ+P+24NDQ8hUiceR0u/pFq8uAtg0dCANRdnm7BL
- sCM5F1ULC6RgOIxtMwKowOjkXnb0rEaU8AzbJcFk5JMP6TDlMhATgXJhc9D2f0ARyPWR5I
- a3AwFpmp9b+hZD0EKxGsATgW/zrRDoo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-JxUzIVRPNSKkFWPE4ClX5A-1; Tue, 20 Oct 2020 10:42:20 -0400
-X-MC-Unique: JxUzIVRPNSKkFWPE4ClX5A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 250B561266;
- Tue, 20 Oct 2020 14:42:19 +0000 (UTC)
-Received: from localhost (ovpn-114-98.ams2.redhat.com [10.36.114.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C092F5B4C5;
- Tue, 20 Oct 2020 14:42:18 +0000 (UTC)
-Date: Tue, 20 Oct 2020 15:42:17 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: Question on Compression for Raw Image
-Message-ID: <20201020144217.GT30079@redhat.com>
-References: <516589845d6f42d0b00784d16b59b5dc@intel.com>
- <20201020080051.GA4452@merkur.fritz.box>
- <6124d55766e4477299a5796a002276a0@intel.com>
- <ec72d814-109c-4ed9-cb26-32b9d903f8c2@redhat.com>
+ bh=0G36GHbZa+UlPZIHqHqUoGXic9k5ct0p+jcqz+RNf6s=;
+ b=QOZROP+i1dpLR3cUmARwQ4BRLDDrlZaaYbTPi4EJNvu4hC/Pj6tw00f6xmaw0KqSwDtxfG
+ Xr3ZR11XE4saO93aVXk3X9zhPT3sqnpU0XN35ktXRWRtT/zSbhjectvUwIRN/yvcPK+tcw
+ hdOkcoSJXOmaiDDVjgm0z4ARmp7kw2w=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-NwdZf-JhPR6WgttvCrCuOw-1; Tue, 20 Oct 2020 10:46:22 -0400
+X-MC-Unique: NwdZf-JhPR6WgttvCrCuOw-1
+Received: by mail-wr1-f69.google.com with SMTP id m20so902947wrb.21
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 07:46:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0G36GHbZa+UlPZIHqHqUoGXic9k5ct0p+jcqz+RNf6s=;
+ b=FIoR/rQg+J1FIAj71qVHIn4huufMjCMom896SU8N/Uzz31zh0JcmkjSbk56O+Y6xRC
+ Z9E6bg9SNB3BM2GXy0YnluPvePTt8J7+7F84tKslgs1WPOYA531AYSigDywOEkvmZ1YK
+ K2rQiRx1wHj+cEOxJg4OZtRhquMz5AW3ih3cg9HdrpnRVuVkWVxmv+hMGhN3c4j6NnSt
+ ImBsikL1rGmD64HFv9QVceDUAE14pyAxfJldXRBNNKuXFu3AAhchmrjATBBVTPK0Hpx2
+ k8MQp5T8yAinLBxfWZI0XJbbp3GLvBD/fMFk2ynDYOoPYRhN061PQ5Kma3jkt8tKSRv2
+ SBYQ==
+X-Gm-Message-State: AOAM530b0qp7j0TAmrOGoLYNdmSK7qfUkok8xR+j+S1OPqt6bC1BbwRU
+ x7qHsvzA6wfdaLT3hBhKTv3TPLrfoZifw1/0s5MhQZDIQscwinX6yYH6hs6SRp/tfonQ8rfdC0O
+ N2IDZDaaILnYCwN4=
+X-Received: by 2002:a1c:9a10:: with SMTP id c16mr3114545wme.96.1603205180935; 
+ Tue, 20 Oct 2020 07:46:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1xN6A/I0qbVBPQ0a4VMCw0+lBSsEgGPHe73yqIezdsyaBtaqTj2d3X6kAbWp21j86OXTvWQ==
+X-Received: by 2002:a1c:9a10:: with SMTP id c16mr3114514wme.96.1603205180667; 
+ Tue, 20 Oct 2020 07:46:20 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id u15sm2863625wml.21.2020.10.20.07.46.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Oct 2020 07:46:20 -0700 (PDT)
+Subject: Re: [PATCH v2] net: remove an assert call in eth_get_gso_type
+To: P J P <ppandit@redhat.com>, Jason Wang <jasowang@redhat.com>
+References: <20201020140050.1623109-1-ppandit@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e1d4ef00-2beb-e905-a42d-a0df16ec07aa@redhat.com>
+Date: Tue, 20 Oct 2020 16:46:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <ec72d814-109c-4ed9-cb26-32b9d903f8c2@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201020140050.1623109-1-ppandit@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,8 +84,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,77 +99,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>, "Wang, Wei W" <wei.w.wang@intel.com>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: Gaoning Pan <pgn@zju.edu.cn>, QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 20, 2020 at 09:32:23AM -0500, Eric Blake wrote:
-> On 10/20/20 9:22 AM, Wang, Wei W wrote:
-> > On Tuesday, October 20, 2020 4:01 PM, Kevin Wolf wrote:
-> >> Am 20.10.2020 um 03:31 hat Wang, Wei W geschrieben:
-> >>> Hi,
-> >>>
-> >>> Does anyone know the reason why raw-format.c doesn't have
-> >> compression
-> >>> support (but qcow has the supported added)?  For example, raw image
-> >>> backup with compression, "qemu-img convert -c -O raw origin.img
-> >>> dist.img", doesn't work.
-> >>
-> >> A raw image is by definition a file that contains the exact same sequence of
-> >> bytes as the guest sees, without any additional information or encoding. If
-> >> you compress a raw file, the guest will see compressed data on its hard disk
-> >> instead of the real data.
-> > 
-> > Ok, thanks. I'm thinking QEMU could do decompression of the compressed data in raw.img when guest reads data.
-> > 
-> >>
-> >> Anything you could do to add transparent compression to it would mean that
-> >> it's not a raw image any more, but a new image format.
-> >>
-> > Yes, decompression makes it transparent to the guest. Would you think it's good to reuse the raw image implementation, just add the compress/decompress option?
+On 10/20/20 4:00 PM, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 > 
-> My recommendation would be implementing a new BDS filter that does
-> uncompression.  Then, you could do things like:
+> eth_get_gso_type() routine returns segmentation offload type based on
+> L3 protocol type. It calls g_assert_not_reached if L3 protocol is
+> unknown, making the following return statement unreachable. Remove the
+> g_assert call, as it maybe triggered by a guest user.
 > 
-> raw -> decompress -> file.xz
+> Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> ---
+>   net/eth.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> or even
+> Update v2: add qemu_log()
+>    -> https://lists.nongnu.org/archive/html/qemu-devel/2020-10/msg05576.html
 > 
-> qcow2 -> decompress -> file.qcow2.xz
+> diff --git a/net/eth.c b/net/eth.c
+> index 0c1d413ee2..fd76e349eb 100644
+> --- a/net/eth.c
+> +++ b/net/eth.c
+> @@ -16,6 +16,7 @@
+>    */
 > 
-> By the way, the notion of filters is already possible in other ways.
-> For example, you can point qemu to read from an NBD server, and then use
-> nbdkit to do the decompression with its filters:
+>   #include "qemu/osdep.h"
+> +#include "qemu/log.h"
+>   #include "net/eth.h"
+>   #include "net/checksum.h"
+>   #include "net/tap.h"
+> @@ -71,9 +72,7 @@ eth_get_gso_type(uint16_t l3_proto, uint8_t *l3_hdr, uint8_t l4proto)
+>               return VIRTIO_NET_HDR_GSO_TCPV6 | ecn_state;
+>           }
+>       }
+> -
+> -    /* Unsupported offload */
+> -    g_assert_not_reached();
+> +    qemu_log("Probably not GSO frame, unknown L3 protocol: %hd\n", l3_proto);
+
+Not sure why you choose decimal, the usual format is "0x%04"PRIx16.
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > 
-> nbdkit --filter=xz file file.xz
-> raw -> nbd://localhost:10809
-
-nbdkit can already act as a front-end to qemu-nbd, allowing you to use
-the rich nbdkit filter ecosystem with qemu block devices.  There are
-some examples in the link below, but --filter=xz could also be used
-here:
-
-https://libguestfs.org/nbdkit-nbd-plugin.1.html#Use-qemu-nbd-to-open-a-qcow2-file
-
-> Also note that serving a decompressed view of a compressed image tends
-> to be a read-only proposition (you really CAN'T write to the image
-> without recompressing, but even if recompression has been blocked for
-> parallelism, you would end up writing far more of the file after
-> recompression than the amount of data written by a guest).
-
-Yup!
-
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-p2v converts physical machines to virtual machines.  Boot with a
-live CD or over the network (PXE) and turn machines into KVM guests.
-http://libguestfs.org/virt-v2v
+>       return VIRTIO_NET_HDR_GSO_NONE | ecn_state;
+>   }
+> --
+> 2.26.2
+> 
 
 
