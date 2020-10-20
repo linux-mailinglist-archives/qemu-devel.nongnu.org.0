@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E8C29404C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:15:23 +0200 (CEST)
-Received: from localhost ([::1]:54334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5306294035
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:08:12 +0200 (CEST)
+Received: from localhost ([::1]:60016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuIE-0002A2-8R
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:15:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37488)
+	id 1kUuBH-0000ne-RJ
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0r-0004hM-Lc
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:25 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:56274)
+ id 1kUu0s-0004jX-De
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:26 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0p-0003tJ-3z
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:25 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id a72so2329650wme.5
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:22 -0700 (PDT)
+ id 1kUu0q-0003tZ-Ip
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:26 -0400
+Received: by mail-wr1-x434.google.com with SMTP id n18so2798417wrs.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=L0lYmOUonCsI2H/sVY4IV71YZ7WBk/jN9yG1LepsCeQ=;
- b=VSpgnK1LEpn0kGA3tyU60mbWTI15NvlO9OZqUz/GPAqw/w6xLBJ5J5Lrlphy/szOBP
- fcGUMkCjVJYYEM6i+TDKoyXwQy+R0yCl/Fz9Z6AGBurZMrWCu94DSZSn5oyu6FTwuj5M
- CvZg+Yv7P0kcw4J7cvY2wI450FDjglYedmDTl64NGIBBxDVEPhllVso/Tp3nOo/smaLO
- zIp3OHTi6IiNgFrm2ZNiiOd2dabrTiqhvtn0T2lvU8WAYBHJxf7qY8+/wFKfHng6lHiM
- BV/stjT/Wv8J7WNeTvVIW+tjG4pQRFtCPKvhSEutNoSuTp0fR6v7ACJzOGRqKgh5HXxo
- Q4Ig==
+ bh=2iFviitDl5greJ6XddSkN6uHSPkj+fpazfKldoUVZt8=;
+ b=kd4VcaY0DFoqvGN15E4DZTFUflmEr6vKYi124fLVdTnq9H7I4/+McAm9p7MKmyNO9B
+ Ws4Iac3TfkpZ1PDOe2ZLw9wBayJJJK4Y8gE1d+DbF3VAFlcIpDJ8AGa/qNAY+hJtMfTF
+ JzdBtGMQrJ10WH68DUKwCrK3UNFhZ5Mi6d/Fj4jw6GYhVZmfxMzXvEQ6Qpq42Pa7f3u2
+ LBatwBJXs7YJY3bqBNO4XqBMePA/JX5Cwqck3rr3S+m0tgxUfe1c72GfqkGaKxROdfSJ
+ hzORFx3nyETdKN9I70EhUiuDOHkaKdpx7/QftKRFPj+VFTyQ1RBdXzJ3mKMk/rYEuldt
+ 9y5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=L0lYmOUonCsI2H/sVY4IV71YZ7WBk/jN9yG1LepsCeQ=;
- b=N2iDOgcxzc97zsBTJ52PuGJrkdIL3HbGAX++WpjZzBbIPAchD93SL6YRp1DPep/1ea
- /6JagGoCy/sQnMFZ45abchq16l4cV7n2YyacP1q8cpkDVyoA1Cs06df3yymsDCNCTVKl
- g5arT3rQOJGJRTTf+IDFk6zL6ScJ8t7cVo2MLGwjOxXsG/J9kfXafDAm/7znJV3Q9QGT
- HbxqUmqspDgWSeMij1kgmP02q7/bxBRx9OhVeohbu6mqBk65AK2rNtKpFd0opEhi7uXN
- lG+nqUsZwpPjzqs3DDbPffwFCdV9Bi6InsHHToX3mV8lXU18wQw0BX/QLtH6G/6UWjvC
- NXsA==
-X-Gm-Message-State: AOAM5307SiPs2mzldfi0n4/HIXgMXhxiFg9kLT3bh2jA+rYL+3NT3Ys2
- IPSxHye5sExRGRPH8Yq1013ElPWXwykgyA==
-X-Google-Smtp-Source: ABdhPJw9xpDEM6/8lvjdRXuPRhqj3rooHKWmbhCBef9cHUlvi+ezrysOKpV6h2RyDPY10GnD5rFM0A==
-X-Received: by 2002:a1c:b40b:: with SMTP id d11mr3543359wmf.152.1603209441497; 
- Tue, 20 Oct 2020 08:57:21 -0700 (PDT)
+ bh=2iFviitDl5greJ6XddSkN6uHSPkj+fpazfKldoUVZt8=;
+ b=IkDMnFxnH4reVLVEw26fZDRVWeS5YxpSlX5XtDcT7vWFhVidy7SX5a65HOAKUQqVdo
+ cPkWQMoC8o5/laLUOi0CrAjKbDhhjbh91ySl+Mo+FmuCCsVI5oQopZZQygHJdTmkg61U
+ zWiEgFdRbwpd3cATkLjEaL96VHcAZjRCk4Xt8IEy8GATp5KC2x7gypC+iLUScO570gkY
+ sXNlhRaNocDDLtvkzI72/oO2K2t2Y/e0NES7C//8vH30xnrQrKkqGu3kNdL6f4085nNR
+ fpXtusIKioNPKaKeqdjP1n8xSu8S2yITJ0qGJn2OUpRIDhJK4AuNS+vVoH+J7KBQDbBg
+ m9Lw==
+X-Gm-Message-State: AOAM533f9JuJiR3ipX1Lqy8Z5Ht4qsFf7kh8wWS7Q/2BRAxBVx0fvB/y
+ 8Lebzd8hQdoPDcdfmkQbCo68MtnhHUwZ5Q==
+X-Google-Smtp-Source: ABdhPJyaNyiUXbbVS8jl4Uo4DTPTgpqM5rP7hNatAxHg8K3JKp6D9bb95g4cN/7gd8vj/xU6J6Y4Ag==
+X-Received: by 2002:adf:ee4c:: with SMTP id w12mr4132007wro.22.1603209442814; 
+ Tue, 20 Oct 2020 08:57:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.20
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:20 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/41] hw/intc/bcm2835_ic: Trace GPU/CPU IRQ handlers
-Date: Tue, 20 Oct 2020 16:56:28 +0100
-Message-Id: <20201020155656.8045-14-peter.maydell@linaro.org>
+Subject: [PULL 14/41] hw/intc/bcm2836_control: Use IRQ definitions instead of
+ magic numbers
+Date: Tue, 20 Oct 2020 16:56:29 +0100
+Message-Id: <20201020155656.8045-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,65 +92,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Add trace events for GPU and CPU IRQs.
+The IRQ values are defined few lines earlier, use them instead of
+the magic numbers.
 
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201017180731.1165871-2-f4bug@amsat.org
+Message-id: 20201017180731.1165871-3-f4bug@amsat.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/bcm2835_ic.c | 4 +++-
- hw/intc/trace-events | 4 ++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ hw/intc/bcm2836_control.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/intc/bcm2835_ic.c b/hw/intc/bcm2835_ic.c
-index 53ab8f58810..9000d995e81 100644
---- a/hw/intc/bcm2835_ic.c
-+++ b/hw/intc/bcm2835_ic.c
-@@ -18,6 +18,7 @@
- #include "migration/vmstate.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "trace.h"
+diff --git a/hw/intc/bcm2836_control.c b/hw/intc/bcm2836_control.c
+index 53dba0080ca..2ead76ffdce 100644
+--- a/hw/intc/bcm2836_control.c
++++ b/hw/intc/bcm2836_control.c
+@@ -157,22 +157,22 @@ static void bcm2836_control_set_local_irq(void *opaque, int core, int local_irq,
  
- #define GPU_IRQS 64
- #define ARM_IRQS 8
-@@ -51,7 +52,6 @@ static void bcm2835_ic_update(BCM2835ICState *s)
-     set = (s->gpu_irq_level & s->gpu_irq_enable)
-         || (s->arm_irq_level & s->arm_irq_enable);
-     qemu_set_irq(s->irq, set);
--
+ static void bcm2836_control_set_local_irq0(void *opaque, int core, int level)
+ {
+-    bcm2836_control_set_local_irq(opaque, core, 0, level);
++    bcm2836_control_set_local_irq(opaque, core, IRQ_CNTPSIRQ, level);
  }
  
- static void bcm2835_ic_set_gpu_irq(void *opaque, int irq, int level)
-@@ -59,6 +59,7 @@ static void bcm2835_ic_set_gpu_irq(void *opaque, int irq, int level)
-     BCM2835ICState *s = opaque;
- 
-     assert(irq >= 0 && irq < 64);
-+    trace_bcm2835_ic_set_gpu_irq(irq, level);
-     s->gpu_irq_level = deposit64(s->gpu_irq_level, irq, 1, level != 0);
-     bcm2835_ic_update(s);
+ static void bcm2836_control_set_local_irq1(void *opaque, int core, int level)
+ {
+-    bcm2836_control_set_local_irq(opaque, core, 1, level);
++    bcm2836_control_set_local_irq(opaque, core, IRQ_CNTPNSIRQ, level);
  }
-@@ -68,6 +69,7 @@ static void bcm2835_ic_set_arm_irq(void *opaque, int irq, int level)
-     BCM2835ICState *s = opaque;
  
-     assert(irq >= 0 && irq < 8);
-+    trace_bcm2835_ic_set_cpu_irq(irq, level);
-     s->arm_irq_level = deposit32(s->arm_irq_level, irq, 1, level != 0);
-     bcm2835_ic_update(s);
+ static void bcm2836_control_set_local_irq2(void *opaque, int core, int level)
+ {
+-    bcm2836_control_set_local_irq(opaque, core, 2, level);
++    bcm2836_control_set_local_irq(opaque, core, IRQ_CNTHPIRQ, level);
  }
-diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 527c3f76cae..22782b3f089 100644
---- a/hw/intc/trace-events
-+++ b/hw/intc/trace-events
-@@ -199,3 +199,7 @@ nvic_sysreg_write(uint64_t addr, uint32_t value, unsigned size) "NVIC sysreg wri
- heathrow_write(uint64_t addr, unsigned int n, uint64_t value) "0x%"PRIx64" %u: 0x%"PRIx64
- heathrow_read(uint64_t addr, unsigned int n, uint64_t value) "0x%"PRIx64" %u: 0x%"PRIx64
- heathrow_set_irq(int num, int level) "set_irq: num=0x%02x level=%d"
-+
-+# bcm2835_ic.c
-+bcm2835_ic_set_gpu_irq(int irq, int level) "GPU irq #%d level %d"
-+bcm2835_ic_set_cpu_irq(int irq, int level) "CPU irq #%d level %d"
+ 
+ static void bcm2836_control_set_local_irq3(void *opaque, int core, int level)
+ {
+-    bcm2836_control_set_local_irq(opaque, core, 3, level);
++    bcm2836_control_set_local_irq(opaque, core, IRQ_CNTVIRQ, level);
+ }
+ 
+ static void bcm2836_control_set_gpu_irq(void *opaque, int irq, int level)
 -- 
 2.20.1
 
