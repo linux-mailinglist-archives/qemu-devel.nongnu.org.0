@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131EC293D4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:26:28 +0200 (CEST)
-Received: from localhost ([::1]:52680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4911B293D3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:21:02 +0200 (CEST)
+Received: from localhost ([::1]:59934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUrel-0006PP-3Q
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50608)
+	id 1kUrZU-0006L6-Vg
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:21:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kUrU9-0000OR-Sj; Tue, 20 Oct 2020 09:15:29 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5268 helo=huawei.com)
+ id 1kUrU4-0000GS-Pg; Tue, 20 Oct 2020 09:15:24 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:48380 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kUrU0-00077Q-Op; Tue, 20 Oct 2020 09:15:29 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 5270886DE4E3BFBC85C7;
- Tue, 20 Oct 2020 21:15:13 +0800 (CST)
-Received: from localhost (10.174.186.67) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Tue, 20 Oct 2020
- 21:15:03 +0800
+ id 1kUrTz-00076r-9s; Tue, 20 Oct 2020 09:15:24 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 7C862407BC9C087D99D8;
+ Tue, 20 Oct 2020 21:15:10 +0800 (CST)
+Received: from localhost (10.174.186.67) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Tue, 20 Oct 2020
+ 21:15:04 +0800
 From: Ying Fang <fangying1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH v2 09/13] hw/arm/virt-acpi-build: add PPTT table
-Date: Tue, 20 Oct 2020 21:14:36 +0800
-Message-ID: <20201020131440.1090-10-fangying1@huawei.com>
+Subject: [RFC PATCH v2 10/13] target/arm/cpu: Add CPU cache description for arm
+Date: Tue, 20 Oct 2020 21:14:37 +0800
+Message-ID: <20201020131440.1090-11-fangying1@huawei.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201020131440.1090-1-fangying1@huawei.com>
 References: <20201020131440.1090-1-fangying1@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.186.67]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=fangying1@huawei.com;
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=fangying1@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 09:15:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 07:04:17
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -65,82 +65,128 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the Processor Properties Topology Table (PPTT) to present CPU topology
-information to the guest.
+Add the CPUCacheInfo structure to hold CPU cache information for ARM cpus.
+A classic three level cache topology is used here. The default cache
+capacity is given and userspace can overwrite these values.
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- hw/arm/virt-acpi-build.c | 42 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ target/arm/cpu.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ target/arm/cpu.h | 27 +++++++++++++++++++++++++++
+ 2 files changed, 69 insertions(+)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index fae5a26741..e1f3ea50ad 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -429,6 +429,42 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-                  "SRAT", table_data->len - srat_start, 3, NULL, NULL);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 056319859f..f1bac7452c 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -27,6 +27,7 @@
+ #include "qapi/visitor.h"
+ #include "cpu.h"
+ #include "internals.h"
++#include "qemu/units.h"
+ #include "exec/exec-all.h"
+ #include "hw/qdev-properties.h"
+ #if !defined(CONFIG_USER_ONLY)
+@@ -997,6 +998,45 @@ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
+     return (Aff1 << ARM_AFF1_SHIFT) | Aff0;
  }
  
-+static void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms)
-+{
-+    int pptt_start = table_data->len;
-+    int uid = 0, cpus = 0, socket;
-+    unsigned int smp_cores = ms->smp.cores;
-+    unsigned int smp_threads = ms->smp.threads;
++static CPUCaches default_cache_info = {
++    .l1d_cache = &(CPUCacheInfo) {
++    .type = DATA_CACHE,
++        .level = 1,
++        .size = 64 * KiB,
++        .line_size = 64,
++        .associativity = 4,
++        .sets = 256,
++        .attributes = 0x02,
++    },
++    .l1i_cache = &(CPUCacheInfo) {
++        .type = INSTRUCTION_CACHE,
++        .level = 1,
++        .size = 64 * KiB,
++        .line_size = 64,
++        .associativity = 4,
++        .sets = 256,
++        .attributes = 0x04,
++    },
++    .l2_cache = &(CPUCacheInfo) {
++        .type = UNIFIED_CACHE,
++        .level = 2,
++        .size = 512 * KiB,
++        .line_size = 64,
++        .associativity = 8,
++        .sets = 1024,
++        .attributes = 0x0a,
++    },
++    .l3_cache = &(CPUCacheInfo) {
++        .type = UNIFIED_CACHE,
++        .level = 3,
++        .size = 65536 * KiB,
++        .line_size = 64,
++        .associativity = 15,
++        .sets = 2048,
++        .attributes = 0x0a,
++    },
++};
 +
-+    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-+
-+    for (socket = 0; cpus < ms->possible_cpus->len; socket++) {
-+        uint32_t socket_offset = table_data->len - pptt_start;
-+        int core;
-+
-+        build_socket_hierarchy(table_data, 0, socket);
-+
-+        for (core = 0; core < smp_cores; core++) {
-+            uint32_t core_offset = table_data->len - pptt_start;
-+            int thread;
-+
-+            if (smp_threads <= 1) {
-+                build_processor_hierarchy(table_data, 2, socket_offset, uid++);
-+             } else {
-+                build_processor_hierarchy(table_data, 0, socket_offset, core);
-+                for (thread = 0; thread < smp_threads; thread++) {
-+                    build_smt_hierarchy(table_data, core_offset, uid++);
-+                }
-+             }
-+        }
-+        cpus += smp_cores * smp_threads;
-+    }
-+
-+    build_header(linker, table_data,
-+                 (void *)(table_data->data + pptt_start), "PPTT",
-+                 table_data->len - pptt_start, 2, NULL, NULL);
-+}
-+
- /* GTDT */
- static void
- build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-@@ -669,6 +705,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-     unsigned dsdt, xsdt;
-     GArray *tables_blob = tables->table_data;
-     MachineState *ms = MACHINE(vms);
-+    bool cpu_topology_enabled = !vmc->ignore_cpu_topology;
+ static void cpreg_hashtable_data_destroy(gpointer data)
+ {
+     /*
+@@ -1841,6 +1881,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         }
+     }
  
-     table_offsets = g_array_new(false, true /* clear */,
-                                         sizeof(uint32_t));
-@@ -688,6 +725,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-     acpi_add_table(table_offsets, tables_blob);
-     build_madt(tables_blob, tables->linker, vms);
- 
-+    if (cpu_topology_enabled) {
-+        acpi_add_table(table_offsets, tables_blob);
-+        build_pptt(tables_blob, tables->linker, ms);
-+    }
++    cpu->caches = default_cache_info;
 +
-     acpi_add_table(table_offsets, tables_blob);
-     build_gtdt(tables_blob, tables->linker, vms);
+     qemu_init_vcpu(cs);
+     cpu_reset(cs);
  
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index cfff1b5c8f..dbc33a9802 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -746,6 +746,30 @@ typedef enum ARMPSCIState {
+ 
+ typedef struct ARMISARegisters ARMISARegisters;
+ 
++/* Cache information type */
++enum CacheType {
++    DATA_CACHE,
++    INSTRUCTION_CACHE,
++    UNIFIED_CACHE
++};
++
++typedef struct CPUCacheInfo {
++    enum CacheType type;      /* Cache Type*/
++    uint8_t level;
++    uint32_t size;            /* Size in bytes */
++    uint16_t line_size;       /* Line size in bytes */
++    uint8_t associativity;    /* Cache associativity */
++    uint32_t sets;            /* Number of sets */
++    uint8_t attributes;       /* Cache attributest  */
++} CPUCacheInfo;
++
++typedef struct CPUCaches {
++        CPUCacheInfo *l1d_cache;
++        CPUCacheInfo *l1i_cache;
++        CPUCacheInfo *l2_cache;
++        CPUCacheInfo *l3_cache;
++} CPUCaches;
++
+ /**
+  * ARMCPU:
+  * @env: #CPUARMState
+@@ -987,6 +1011,9 @@ struct ARMCPU {
+ 
+     /* Generic timer counter frequency, in Hz */
+     uint64_t gt_cntfrq_hz;
++
++    /* CPU cache information */
++    CPUCaches caches;
+ };
+ 
+ unsigned int gt_cntfrq_period_ns(ARMCPU *cpu);
 -- 
 2.23.0
 
