@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEE6293D72
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:38:57 +0200 (CEST)
-Received: from localhost ([::1]:56850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2865293D8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:43:07 +0200 (CEST)
+Received: from localhost ([::1]:39246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUrqq-0003e2-GE
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:38:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56340)
+	id 1kUrus-00005k-R4
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:43:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kUrnQ-0008AU-KB
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:35:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kUrnN-0001YW-Qn
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:35:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603200920;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Q5wF88JL0QdclagRgYtwbNc7/5Wm60uvA6tierOxAx0=;
- b=VIiRJoWNSPPwz/cM3d7LrtuPHcb7mPmhhnzlUWThikGk+2KGYu3RU5FIn4mQE4UtZBHu7Z
- 8XjLs/+Bk5VwAErwhV+0p/ZZUeKK0s8BynzI43hZX1QgGkRcD7/fOUe0BkiyCCu2xabikg
- U4LJet/1inB1tcKGGESKsKD3nsTTBPU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-Z2ea6qRtOaWImJ3e14v3vA-1; Tue, 20 Oct 2020 09:35:18 -0400
-X-MC-Unique: Z2ea6qRtOaWImJ3e14v3vA-1
-Received: by mail-wr1-f71.google.com with SMTP id 33so816974wrf.22
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 06:35:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=Q5wF88JL0QdclagRgYtwbNc7/5Wm60uvA6tierOxAx0=;
- b=grK77RuylUFaWjyCqx+VJnirhsySEJpy62DRwIQ9A4mY7nVe7kgUVPMBrP1gFdWotZ
- 7gPUMt4i7ej5uYEVTaopDFnGjiMTzBPE6cGyx3HiBFkbMknkxUWHVc9IXTnWcKkNDhKR
- QfVbcKfMbO8Hu7OZCr96oF/ya3zAtpPLRlkfbGUHoYCQqEZZNPIh8A1UCGDSyb5b9cPg
- z2Depuc28q8abDAM/uQs+0ukofo+5Em0d0vKva5Tji7GVLSR11nIKdTqkPWCwzFJdEzB
- 1xAiQP+qYIwxqCf6r0m1R6+jNj//dlwvZklNu5EGlkKqdlS8v5HC5wwrU8Wuvj93ITU/
- Oc1A==
-X-Gm-Message-State: AOAM531LFGqvhjmXA7AFtfaTYKsDLvQ7+MhzvU+y/v33RABvwkRDHUL6
- XlrUHxYlpqJHMBPWo2SdtUFCMBPnKxK1UbfItIF7ehyW/B9hptyrn+qblz6vQ+oqzdJeZPynwTR
- /VmXJTWXWllaCiws=
-X-Received: by 2002:a5d:6247:: with SMTP id m7mr3627661wrv.34.1603200917795;
- Tue, 20 Oct 2020 06:35:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvv/yHLngktllT7hmArntYVn9XCmjNG2NP72AYA/kyEywBFYLrcvxhLbZqx6cFU+vQT96m1Q==
-X-Received: by 2002:a5d:6247:: with SMTP id m7mr3627644wrv.34.1603200917652;
- Tue, 20 Oct 2020 06:35:17 -0700 (PDT)
-Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id e15sm2993329wro.13.2020.10.20.06.35.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 06:35:17 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Bihong Yu <yubihong@huawei.com>
-Subject: Re: [PATCH v3 6/8] migration: Do not initialise statics and globals
- to 0 or NULL
-In-Reply-To: <1603163448-27122-7-git-send-email-yubihong@huawei.com> (Bihong
- Yu's message of "Tue, 20 Oct 2020 11:10:46 +0800")
-References: <1603163448-27122-1-git-send-email-yubihong@huawei.com>
- <1603163448-27122-7-git-send-email-yubihong@huawei.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 20 Oct 2020 15:35:16 +0200
-Message-ID: <87k0vlc963.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUrnk-0000JP-Cf
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:35:44 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:45711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUrni-0001fW-5F
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:35:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.90])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 657276DD0689;
+ Tue, 20 Oct 2020 15:35:38 +0200 (CEST)
+Received: from kaod.org (37.59.142.96) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 20 Oct
+ 2020 15:35:37 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001953a5d14-0556-4a49-966f-ca500c141e66,
+ 1DF5E91C91B319FFB92086F2F245FA8D0BCC998A) smtp.auth=groug@kaod.org
+Date: Tue, 20 Oct 2020 15:35:36 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 1/8] tests/9pfs: simplify fs_mkdir()
+Message-ID: <20201020153536.1fe40e32@bahia.lan>
+In-Reply-To: <03b427019be98d12761924f1e6132eefc82c80ec.1603149434.git.qemu_oss@crudebyte.com>
+References: <cover.1603149434.git.qemu_oss@crudebyte.com>
+ <03b427019be98d12761924f1e6132eefc82c80ec.1603149434.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: c3793e09-477f-4a19-b4c8-e2c1e5bea85d
+X-Ovh-Tracer-Id: 16693154972390234522
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrjeefgdeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 09:35:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,18 +69,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: zhengchuan@huawei.com, qemu-trivial@nongnu.org, armbru@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, alex.chen@huawei.com,
- wanghao232@huawei.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bihong Yu <yubihong@huawei.com> wrote:
-> Signed-off-by: Bihong Yu <yubihong@huawei.com>
-> Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Tue, 20 Oct 2020 01:13:23 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Split out walking a directory path to a separate new utility function
+> fs_walk_fid() and use that function in fs_mkdir().
+> 
+> The code difference saved this way is not much, but we'll use that new
+> fs_walk_fid() function in the upcoming patches, so it will avoid quite
+> some code duplication after all.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  tests/qtest/virtio-9p-test.c | 23 ++++++++++++++++++-----
+>  1 file changed, 18 insertions(+), 5 deletions(-)
+> 
+> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+> index c15908f27b..dc724bbb1e 100644
+> --- a/tests/qtest/virtio-9p-test.c
+> +++ b/tests/qtest/virtio-9p-test.c
+> @@ -967,13 +967,12 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+>      g_free(wnames[0]);
+>  }
+>  
+> -static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
+> -                     const char *path, const char *cname)
+> +/* utility function: walk to requested dir and return fid for that dir */
+> +static uint32_t fs_walk_fid(void *obj, void *data, QGuestAllocator *t_alloc,
+> +                            const char *path)
+>  {
+
+Since fs_walk_fid() is a helper function, ie. not passed to qos_add_test(),
+any reason to keep the "void *obj, void *data, QGuestAllocator *t_alloc" based
+signature ? data and t_alloc aren't used at all and it seems that the function
+should rather take a QVirtio9P * directly instead of casting from a void *.
+
+Something like:
+
+static uint32_t fs_walk_fid(QVirtio9P *v9p, const char *path)
+{
+...
+}
+
+
+Same remark applies to fs_mkdir() which isn't a top level test function
+either BTW (sorry for not having spotted this earlier).
+
+>      QVirtio9P *v9p = obj;
+> -    alloc = t_alloc;
+>      char **wnames;
+> -    char *const name = g_strdup(cname);
+>      P9Req *req;
+>      const uint32_t fid = genfid();
+>  
+> @@ -983,12 +982,26 @@ static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, NULL, NULL);
+>  
+> +    split_free(&wnames);
+> +    return fid;
+> +}
+> +
+> +static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
+> +                     const char *path, const char *cname)
+> +{
+> +    QVirtio9P *v9p = obj;
+> +    alloc = t_alloc;
+> +    char *const name = g_strdup(cname);
+> +    uint32_t fid;
+> +    P9Req *req;
+> +
+> +    fid = fs_walk_fid(v9p, data, t_alloc, path);
+> +
+>      req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rmkdir(req, NULL);
+>  
+>      g_free(name);
+> -    split_free(&wnames);
+>  }
+>  
+>  static void fs_readdir_split_128(void *obj, void *data,
 
 
