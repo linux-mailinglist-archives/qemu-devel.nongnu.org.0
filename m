@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4A62940F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:58:18 +0200 (CEST)
-Received: from localhost ([::1]:34022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B45512940CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:49:24 +0200 (CEST)
+Received: from localhost ([::1]:44366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuxl-0004nC-IS
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49268)
+	id 1kUup9-0005SO-QD
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:49:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUudt-0007g6-2q
+ id 1kUudt-0007hg-Fo
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:45 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34824)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUudr-0000x0-21
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:44 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n15so2988218wrq.2
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:42 -0700 (PDT)
+ id 1kUudr-0000xC-LJ
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:45 -0400
+Received: by mail-wr1-x443.google.com with SMTP id n15so2988283wrq.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gUvzyLC3S8ewGAtFOTjsW1yymYYHuK0/PP7tAupcgoQ=;
- b=pwyEunGAnhbEna2alNctA+cz7Y9PGHNGD6tHNg8dnNVvrG8GsjYKmOD7mwcd6sjTab
- boYQGBFISOwYj7THCv2trajUsoyY1uY47bNtpin/TJV2AAt6YTd31E28SLzzU+BUuKnV
- 7lUQlft1ykfMP3tCqM71ANuGh14DWB3BAef2zNvqnipY0uXyuHQHS94Je759H4iNz/y6
- zyWJUJqigc3F3uttaPc1+wYRTl/4482UJni3EITzvE0387jEuKTNYvltpktPktkTU9V9
- 0StpxBbOkWstkB7l0px9muFfU+2mZyDoE/8MWK5y98vTDalAPb2F1jyqBAsGGJShNPMN
- sFFw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=QWLXVwtDu65vCD1CaNwfFzInaZDsuzIveGR3ZrqO5Rg=;
+ b=aWZ24J1xg7NBdDXmrSIHd6kfQbwttHNJW9m6jAo316wJAlpsL0wYM/TC08jCRUsIU0
+ 1PrJApvp6g7xadoMT3o7XPzu5oe8Igkp8XeTtZl/ez0MAEU2y8AA5zZ8q0LjvCh07tHp
+ hzli0oeBB8InEJKffyj0B2IwzNBPwJv0t+aJfmlXiql4T+sxMTlsijdfijjBz7SnOZr0
+ EMezFUo05YHyk2thYQ7j2gvZMo/EocbXsMSok/C0snSsb+7Y1UYEegs/F3bCCz91R2bC
+ nT2PunFSs9mSK5A9ofHVWwMRAqovLwaLFrPw8K47UCbVkRRJlCITz6V/aq5gpH6KLKIz
+ +IgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gUvzyLC3S8ewGAtFOTjsW1yymYYHuK0/PP7tAupcgoQ=;
- b=jFiDCXgajkQmT0bqXl3DuWRU+xRtTsAUDR1gkZhg1OPgRwzlrovAgrHVLB6cyKRiKi
- nwPvviSDhpPSSVD3A6oFBp82O1CfJUYOy9+IP62BIGrWYSkxn7Z4k7QAAgFK0PTwAwxD
- jE7xyeVF2VdI5he6ebgUPz3HzCoXZ9/x5byVsv5X8y8tliLGdOLdwL8B7vCs46PWcgs9
- OLgcO9fKgbDSBtfNvx0wwBJbxYFqOJE76fBhowtLDKxszXJEqv49mkVrfnhmdB/LuKad
- ilorY3tskWTTiJjKlAqACZ3Jhl5j5aqQg26wr6m3zm5OPX/8HsR2Ri4gVa3aKC0sQ29r
- 5VJw==
-X-Gm-Message-State: AOAM533XdRBDWWjPIxPOEHV36w9AP74u4xKACvbnEx6AVCLtdL6cjdr3
- 9dyn3CV+PWNI048IuGxg/tfLhA==
-X-Google-Smtp-Source: ABdhPJypIGFR8tFQRVeYRZ/V1KtOZs7ts7TQQz+zxMNGLlE+nUEYu/8XnGdRc3YveXt6fBv/OH5fgw==
-X-Received: by 2002:adf:82e5:: with SMTP id 92mr4291989wrc.192.1603211860901; 
- Tue, 20 Oct 2020 09:37:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=QWLXVwtDu65vCD1CaNwfFzInaZDsuzIveGR3ZrqO5Rg=;
+ b=BERygg1fpQiNa7vMhVLh5QmRqyfdjLUJ+WDkIFWHB4FB2TYMrXyNgsmaTx3ocVHcEG
+ fR719ukoaQx8YKI56sIUXjhfiShi14/6HaBFKEB0DGDBjJ4U9IfIhv4URw0z3KET5VuS
+ Bpa4S/ShWVwsCF4BZ2fzOmW5Ftjs+02dx8DSwks9MsQrBL/U3DMpy6FwPWGDWhiOS3HH
+ e6yBQB6YfxXxyPOsadW1zsN9L9sR+niyP773B8NwnpJkUDoGBdlHSDQBMiRtDDPRZxS6
+ XGLF5wxCL3Z7new+OIQtYtxc5NJZbNQsETGCZOtuSCDkOYCy9rO4pBSuWMQz6c10ZOaY
+ WQ7A==
+X-Gm-Message-State: AOAM530F3l50sw6jTTW+kXujsEvwwREpMWNnfXSYnOnNN/U5yRW+B1ws
+ PTnDrhwFDeURb4zcN8wD246laA==
+X-Google-Smtp-Source: ABdhPJy9QQyIOasnj4ql6wfai/PU4IGSJ8xggHaOzMidzqaxsdW7htE0k/3aTteIQYwR98jKpfM29w==
+X-Received: by 2002:adf:fd49:: with SMTP id h9mr4745812wrs.115.1603211861770; 
+ Tue, 20 Oct 2020 09:37:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v123sm3071305wme.7.2020.10.20.09.37.39
+ by smtp.gmail.com with ESMTPSA id j17sm3636816wrw.68.2020.10.20.09.37.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Oct 2020 09:37:39 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DFCA21FF7E;
- Tue, 20 Oct 2020 17:37:38 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1AFFB1FF87;
+ Tue, 20 Oct 2020 17:37:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  0/8] fpu: experimental conversion of float128_addsub
-Date: Tue, 20 Oct 2020 17:37:30 +0100
-Message-Id: <20201020163738.27700-1-alex.bennee@linaro.org>
+Subject: [RFC PATCH  1/8] softfloat: Use mulu64 for mul64To128
+Date: Tue, 20 Oct 2020 17:37:31 +0100
+Message-Id: <20201020163738.27700-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201020163738.27700-1-alex.bennee@linaro.org>
+References: <20201020163738.27700-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,58 +88,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+From: Richard Henderson <richard.henderson@linaro.org>
 
-This is the current state of my experiment to convert a 128 bit float
-function (in this case addsub). The actual conversion was fairly
-simple (basically a copy & paste with some tweaks for using the
-unint128 inline functions). However I ran into a number of stumbles
-with the int128.h support including casting of values like ~(Uint128)0
-and messing around to handle things like missing __builtin support for
-clz. I suspect having some of the #defines expand into uint128_*
-functions plays some part in the 4x growth in code compared to the old
-version. However the drop in performance is a lot less than that.
+Via host-utils.h, we use a host widening multiply for
+64-bit hosts, and a common subroutine for 32-bit hosts.
 
-In terms of total code churn we replace each deleted line in
-softfloat.c with 2 lines of new code although I suspect if we pressed
-on we could reduce the diffstat deficit. Debugging the actual failures
-was relatively painless with rr and the new code - perhaps because I
-just find it easier to follow.
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200925152047.709901-2-richard.henderson@linaro.org>
+---
+ include/fpu/softfloat-macros.h | 24 ++++--------------------
+ 1 file changed, 4 insertions(+), 20 deletions(-)
 
-I've included your early patches as that happened to be the state of
-my tree when I branched off. If we want to go forward with a more
-complete conversion I guess we would need:
-
-  - a more complete int128.h conversion (including fallback for non CONFIG_INT128)
-  - seeing if some of the resulting code bloat can be reduced
-  - seeing what scope there is for commonality of special case handling
-
-I'm not a fan of having so much duplication but at least I personally
-find the code is more readable.
-
-Alex Bennée (3):
-  int128.h: add bunch of uint128 utility functions (INCOMPLETE)
-  tests/fp: add quad support to the benchmark utility
-  softfloat: implement addsub_floats128 using Uint128 and new style code
-
-Richard Henderson (5):
-  softfloat: Use mulu64 for mul64To128
-  softfloat: Use int128.h for some operations
-  softfloat: Tidy a * b + inf return
-  softfloat: Add float_cmask and constants
-  softfloat: Inline pick_nan_muladd into its caller
-
- include/fpu/softfloat-macros.h |  80 ++--
- include/qemu/int128.h          | 122 ++++++
- fpu/softfloat.c                | 697 ++++++++++++++++++++-------------
- tests/fp/fp-bench.c            |  88 ++++-
- fpu/softfloat-specialize.c.inc |  39 ++
- 5 files changed, 711 insertions(+), 315 deletions(-)
-
+diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macros.h
+index a35ec2893a..57845f8af0 100644
+--- a/include/fpu/softfloat-macros.h
++++ b/include/fpu/softfloat-macros.h
+@@ -83,6 +83,7 @@ this code that are retained.
+ #define FPU_SOFTFLOAT_MACROS_H
+ 
+ #include "fpu/softfloat-types.h"
++#include "qemu/host-utils.h"
+ 
+ /*----------------------------------------------------------------------------
+ | Shifts `a' right by the number of bits given in `count'.  If any nonzero
+@@ -515,27 +516,10 @@ static inline void
+ | `z0Ptr' and `z1Ptr'.
+ *----------------------------------------------------------------------------*/
+ 
+-static inline void mul64To128( uint64_t a, uint64_t b, uint64_t *z0Ptr, uint64_t *z1Ptr )
++static inline void
++mul64To128(uint64_t a, uint64_t b, uint64_t *z0Ptr, uint64_t *z1Ptr)
+ {
+-    uint32_t aHigh, aLow, bHigh, bLow;
+-    uint64_t z0, zMiddleA, zMiddleB, z1;
+-
+-    aLow = a;
+-    aHigh = a>>32;
+-    bLow = b;
+-    bHigh = b>>32;
+-    z1 = ( (uint64_t) aLow ) * bLow;
+-    zMiddleA = ( (uint64_t) aLow ) * bHigh;
+-    zMiddleB = ( (uint64_t) aHigh ) * bLow;
+-    z0 = ( (uint64_t) aHigh ) * bHigh;
+-    zMiddleA += zMiddleB;
+-    z0 += ( ( (uint64_t) ( zMiddleA < zMiddleB ) )<<32 ) + ( zMiddleA>>32 );
+-    zMiddleA <<= 32;
+-    z1 += zMiddleA;
+-    z0 += ( z1 < zMiddleA );
+-    *z1Ptr = z1;
+-    *z0Ptr = z0;
+-
++    mulu64(z1Ptr, z0Ptr, a, b);
+ }
+ 
+ /*----------------------------------------------------------------------------
 -- 
 2.20.1
 
