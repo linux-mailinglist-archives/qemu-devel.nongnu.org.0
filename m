@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 611E5293448
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 07:32:04 +0200 (CEST)
-Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8978229346D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 07:51:20 +0200 (CEST)
+Received: from localhost ([::1]:35890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUkFe-0000U3-Va
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 01:32:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37190)
+	id 1kUkYJ-0007ol-6i
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 01:51:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUkE6-0008OA-2o
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 01:30:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28496)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUkE4-00040m-7R
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 01:30:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603171822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+qgAmRfkWmJkmfMGLo1s9y5eXeYS3wclTOhKQRC+oUE=;
- b=I6HL86CuiPkOJ+dmj2YX/UQ7B8tm6Sgk2RnUZy8mIHw0NGMjyqyhEBs9ar1+JdE/+jwuu6
- f8bZISJiRCBkcuKA99pq2FrMC2EkD1AsWYSnusUAB0QON2FECCYurR+L5drd24sNuj5Puy
- w7Iw7gpxeSKa+ASuiTLYyDQI6C0PBsc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-LeyoCm0qNZG64HhonvvPMw-1; Tue, 20 Oct 2020 01:30:18 -0400
-X-MC-Unique: LeyoCm0qNZG64HhonvvPMw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C033C107AFB6;
- Tue, 20 Oct 2020 05:30:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DCA1E5C1C2;
- Tue, 20 Oct 2020 05:30:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3C9F11132A08; Tue, 20 Oct 2020 07:30:14 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH] hw/pci-host/grackle: Verify PIC link is properly set
-References: <20201011190332.3189611-1-f4bug@amsat.org>
- <20201011223446.GA4787@yekko.fritz.box>
- <369509c1-2e90-13cf-8845-892e754516d1@amsat.org>
- <20201012065436.GB71119@yekko.fritz.box>
- <9f7e4847-801d-dcd3-b876-bf2d276251@eik.bme.hu>
- <6e587154-4bc5-c44c-0c85-b46e0dddd3aa@amsat.org>
- <87k0vm1wny.fsf@dusky.pond.sub.org>
- <24bcd4-fde2-22a2-d3f4-cd42d9ee13c6@eik.bme.hu>
- <87d01e48pa.fsf@dusky.pond.sub.org>
- <9968e60e-99fd-3777-62ca-57decb716886@ilande.co.uk>
-Date: Tue, 20 Oct 2020 07:30:14 +0200
-In-Reply-To: <9968e60e-99fd-3777-62ca-57decb716886@ilande.co.uk> (Mark
- Cave-Ayland's message of "Mon, 19 Oct 2020 15:38:28 +0100")
-Message-ID: <877drl1n2x.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kUkWx-0007GD-U1
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 01:49:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kUkWv-0001vr-2t
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 01:49:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kUkWt-0001uU-C7
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 05:49:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 547AD2E811E
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 05:49:51 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 20 Oct 2020 05:37:30 -0000
+From: Thomas Huth <1414466@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: hostfwd qemu trusty ubuntu xenial
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: nagaraju-goruganti pconstantine piotr.orzechowski
+ sergey-e srinirap88 th-huth
+X-Launchpad-Bug-Reporter: Sergey V. Lobanov (sergey-e)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20150125172405.12316.8764.malonedeb@soybean.canonical.com>
+Message-Id: <160317225090.7133.6892292057322475296.malone@chaenomeles.canonical.com>
+Subject: [Bug 1414466] Re: -net user,
+ hostfwd=... is not working(qemu-system-aarch64)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="58bb2f3096f16f0e0acc917602669aecb4ffaf54"; Instance="production"
+X-Launchpad-Hash: 8f19904e2eef8534ee3d901285e82878401806aa
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 00:25:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,30 +75,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- BALATON Zoltan via <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Reply-To: Bug 1414466 <1414466@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+So is this now working for everybody with the correct ssh config (maybe
+also check your firewall settings)? Could we close this ticket nowadays?
+Or is somebody still having trouble?
 
-> One thing I have thought about is being able to mark a link property
-> as mandatory so if a value hasn't been set before realize then you
+** Changed in: qemu
+       Status: Confirmed =3D> Incomplete
 
-A non-null value, I presume.
+-- =
 
-> receive a fatal error. This would be for cases like this where 2
-> internal devices are connected together without any formal interface,
-> i.e. in cases where -device wouldn't work anyway.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1414466
 
-Moves the check from code one step closer to data: from the realize
-method to the object_property_add_link() call.
+Title:
+  -net user,hostfwd=3D... is not working(qemu-system-aarch64)
 
-I like doing things in data, because data is easier to reason about than
-code.
+Status in QEMU:
+  Incomplete
 
-[...]
+Bug description:
+  QEMU version: git a46b3aaf6bb038d4f6f192a84df204f10929e75c
 
+   /opt/qemu.git/bin/qemu-system-aarch64 --version
+  QEMU emulator version 2.2.50, Copyright (c) 2003-2008 Fabrice Bellard
+
+  Hosts:
+  ovs - host machine (Ubuntu 14.04.1, x86_64)
+  debian8-arm64 - guest =
+
+
+  Guest start:
+  user@ovs:~$ /opt/qemu.git/bin/qemu-system-aarch64 -machine virt -cpu cort=
+ex-a57 -nographic -smp 1 -m 512 -kernel vmlinuz-run -initrd initrd-run.img =
+-append "root=3D/dev/sda2 console=3DttyAMA0" -global virtio-blk-device.scsi=
+=3Doff -device virtio-scsi-device,id=3Dscsi -drive file=3Ddebian8-arm64.img=
+,id=3Drootimg,cache=3Dunsafe,if=3Dnone -device scsi-hd,drive=3Drootimg -net=
+dev user,id=3Dunet -device virtio-net-device,netdev=3Dunet -net user,hostfw=
+d=3Dtcp:127.0.0.1:1122-:22
+
+  root@debian8-arm64:~# netstat -ntplu | grep ssh
+  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTE=
+N      410/sshd        =
+
+  tcp6       0      0 :::22                   :::*                    LISTE=
+N      410/sshd       =
+
+
+  (no firewall in guest vm)
+
+  user@ovs:~$ netstat -ntplu | grep 1122
+  tcp        0      0 127.0.0.1:1122          0.0.0.0:*               LISTE=
+N      18722/qemu-system-a
+
+  user@ovs:~$ time ssh user@127.0.0.1 -p 1122
+  ssh_exchange_identification: read: Connection reset by peer
+
+  real	1m29.341s
+  user	0m0.005s
+  sys	0m0.000s
+
+  Inside guest vm sshd works fine:
+  root@debian8-arm64:~# ssh user@127.0.0.1 -p 22
+  user@127.0.0.1's password: =
+
+  ....
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 127.0.0.1 closed.
+
+  root@debian8-arm64:~# ssh user@10.0.2.15 -p 22
+  user@10.0.2.15's password: =
+
+  ...
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 10.0.2.15 closed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1414466/+subscriptions
 
