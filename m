@@ -2,124 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FF929394F
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 12:41:52 +0200 (CEST)
-Received: from localhost ([::1]:59668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596EC293966
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 12:52:42 +0200 (CEST)
+Received: from localhost ([::1]:41028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUp5T-000365-GS
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 06:41:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45068)
+	id 1kUpFx-0007YL-E8
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 06:52:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kUp3c-0001uv-8t; Tue, 20 Oct 2020 06:39:56 -0400
-Received: from mail-eopbgr80090.outbound.protection.outlook.com
- ([40.107.8.90]:57152 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kUp3Y-0003bQ-W8; Tue, 20 Oct 2020 06:39:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IfjnYtg2wK1SL1a2qBq70IyZGm2RblRdBWH72NDXyT1wK5qsTdPC+cqsonNN7a5A7Sq7eOtvOEcHkuRxjZZZHJwC8KbJBAAA1LLvdXQbOX5QI2v/E/GGP//+KMzBi0iKk9Fm23FFIuXwNKJ80nPe+RP0sK376UPqT79j5Cnbct2cbutovJLD1exyZj7ATcmtUBr45GOB6JwcLagNASynTM8fXogoCxU29CcOU3+trTpskAA9DRMyZmWeprakKUnw8WJtQgVIRcB/9M++hQpzz9nIhUKjP0JgXMr5c2trUlRs9Eyim3Mma5GjNEdQWTtISa1jyJIOaQx7V9igQV9OSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=csgk6mHzrpq2jF67YCXTQabVovCmFmrUGkdmNyxgH9s=;
- b=AoFanqW5ZzUSkyc3TrRf0KjI9NPiav7qLbkr+E22/U1oT+ofD2SJpPzkJiacB7VWoYmNNTqjyxsbdB83xvQxLMKcBQu1PpyaJ7qnhvzuN/wNALzyNrQXdItE7jGB6kAUNWYqGwaqqt1XnmGSB7VNLzhWSqvK3uY+HGIDNYHzd0/4+zMWSfENn55khjvYGza66HVuPustu5jQmjiZbdAZWLi1rQqdz9zLixppFpsmIu6Y3HkEtxchp8WdmhS9dWgASgCgUT6ilIA3s5OI4srly/UFSn064GHvN/H4dAzs3C9unDiaPnvMxcp4EDAfp7in655ReZQuEytyHgCAia4aTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=csgk6mHzrpq2jF67YCXTQabVovCmFmrUGkdmNyxgH9s=;
- b=qhUJqAL6MSAcoolfumC1CSbS3F9SC52WGI0M1xBcp4VAMD/12Mi3eUvZ7y1/i15RrgB64fNVdJUxsPU3iRxI3gt4qGnQ/DuQdw3PYiXe7qv8gXZKg4oxcCXMRt0fFzCht3L2mYMABFnQcE4iODmEjirfaQoqlnql3FAzFGSzT5c=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB2981.eurprd08.prod.outlook.com (2603:10a6:209:44::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 20 Oct
- 2020 10:39:47 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.018; Tue, 20 Oct 2020
- 10:39:47 +0000
-Subject: Re: [PATCH v3] migration/block-dirty-bitmap: fix uninitialized
- variable warning
-To: Laurent Vivier <laurent@vivier.eu>,
- "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Cc: "mreitz@redhat.com" <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>, "fam@euphon.net"
- <fam@euphon.net>, "eblake@redhat.com" <eblake@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- ganqixin <ganqixin@huawei.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>, Euler Robot <euler.robot@huawei.com>,
- Li Qiang <liq3ea@gmail.com>
-References: <20201014114430.1898684-1-kuhn.chenqun@huawei.com>
- <c3a75c21-d9a6-a13b-7076-936867376ac6@virtuozzo.com>
- <7412CDE03601674DA8197E2EBD8937E83B9DA561@dggemm511-mbx.china.huawei.com>
- <4f87bb6e-96ab-897c-5361-78ae9b1db7ef@vivier.eu>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <bdfcf8f1-fa9c-55e9-38ed-820b4eb8b248@virtuozzo.com>
-Date: Tue, 20 Oct 2020 13:39:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
-In-Reply-To: <4f87bb6e-96ab-897c-5361-78ae9b1db7ef@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.66]
-X-ClientProxiedBy: AM4PR0302CA0023.eurprd03.prod.outlook.com
- (2603:10a6:205:2::36) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kUpEm-0006fE-Tr
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:51:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34723)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kUpEk-0005Br-QM
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:51:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603191085;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3cDw3VRKRbMAkFlFs/0zt4rwR+MHUvK2Ir2xgJ56UGA=;
+ b=deG8qb4OpWty10ndPyx1kKxKNZsOKGLnX7Q+iE5e1fnP0vmkzaud0OdP+4FTSc4b+8L/L+
+ rz5weIkJThvdO5LuywIVkes2raRXg/5vrEwwohbS7AxW//yAcMuf3WxgfE/MlD0iQG0yYr
+ 4q4B8Eh8tK4+CHr7PNZFkJS/rqZBECQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-298-EQxDtG0QO0Kv_Kh0IBu_Yw-1; Tue, 20 Oct 2020 06:51:24 -0400
+X-MC-Unique: EQxDtG0QO0Kv_Kh0IBu_Yw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46122107AD65;
+ Tue, 20 Oct 2020 10:51:21 +0000 (UTC)
+Received: from gondolin (ovpn-114-95.ams2.redhat.com [10.36.114.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A17F12C31E;
+ Tue, 20 Oct 2020 10:51:08 +0000 (UTC)
+Date: Tue, 20 Oct 2020 12:51:05 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v26 05/17] vfio: Add VM state change handler to know
+ state of VM
+Message-ID: <20201020125105.5cd790df.cohuck@redhat.com>
+In-Reply-To: <3dd3fe95-c81a-de40-47b0-24f0772974d4@nvidia.com>
+References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
+ <1600817059-26721-6-git-send-email-kwankhede@nvidia.com>
+ <20200924170220.0a9836fe.cohuck@redhat.com>
+ <20200929110312.GF2826@work-vm>
+ <3dd3fe95-c81a-de40-47b0-24f0772974d4@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.66) by
- AM4PR0302CA0023.eurprd03.prod.outlook.com (2603:10a6:205:2::36) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21 via Frontend
- Transport; Tue, 20 Oct 2020 10:39:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3182341c-a1ae-41ce-556c-08d874e47724
-X-MS-TrafficTypeDiagnostic: AM6PR08MB2981:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB2981DBB63978892C7B46B739C11F0@AM6PR08MB2981.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1169;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 786kvwzPlsVMU1gE3GGBHHvkqyQP+PlVQeWEc+s9Bls4405DExUog0MHdKBeVdPuK5li7pKlzMSa0wVG5XgTxJtpjHt3fb9eEqs8SsEFicOLB2+WSWqKEE+q6pyjeYewVUYLARLfsK41/M/IQpbyvwWvUH4OIWUsjVoE8EwBeJUUcsAJm3o7MUAV+Qxo+dqfDQ76Ecp/yqvp8gUfvXLpXd09bVKCiAYMFb6IMfL3WahRWfWSpFdxJqXpWH7Xgb6tPzoj2TPCZfYJG1G4rQOR9/f3Arw6Tjb/RIsW9pinI/SQ+56RJhRR2+l8xMS69+5UK13JCYeuWexIWUZhRvreeicDf8Whf9cB/wQ+ar3ljesmgTh+TrigCo3HSzzYEhKRDWksFvCFGzyorzUEJ8/dSA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(346002)(366004)(39840400004)(136003)(6486002)(8676002)(26005)(186003)(110136005)(16576012)(16526019)(316002)(54906003)(478600001)(7416002)(52116002)(31686004)(31696002)(86362001)(53546011)(4326008)(8936002)(2906002)(36756003)(956004)(66556008)(66476007)(66946007)(5660300002)(66574015)(2616005)(83380400001)(14143004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: jPfErmmOZiySCxSpScEDN8CjOZnpTgps7LAOs8HAb30J60GUPokzWC1ylSyrnN6UttGIXLUujVxAT6dsIjPnt5WS2/85JjPOKRAw+gLIxoxZ6OiQFL7S7LfVudLaMtZI2FH4WSXeeVXPYf9rRiz7gNaGLH+bPw4uLIh4+rcCRf5N4EW7Wsk6DVGnWeACn5qRtRU/JOpxWTpGgh9JnPqnP5NGZvy8tqDYEzodd9o+AMAb+knZlbDx4CX9Ssxeh8gjonsqqotwwcIDPszXgw37S7K6odXFVC54VuHhoP7Y2WYq081JR6aRUZnwXQIGi/jVlO0euZyXtc2guAVkqByGtl680xD6mmfYM5Sp1sNd6jP1rnDsKa0aboiCgQivE5dWgI6fHw7pZatVRCzQkWfUdRTorkDfcLlcMd/+Jaref67FdPVnQYOh9Cwyqk6J9rT0VngBMU/4A4LvrBmZmMfmQkugxKJUChU2llmr0pxT65tVF04Sz+KnMwYGZlUhMi2tHJtBi/NsJ6Bt1F41SXpBV9QLwUbhWufvTe9yYtNfo/ktGsj18K85BZ/ojSKh47HDpwMDtl0pL729+lvh9ry299LOG1Mdz7X5fVtztuwQUy0Ki0B5moTVpb8xxCYN4he9VNo334V/+t4esE17uWKS5g==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3182341c-a1ae-41ce-556c-08d874e47724
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2020 10:39:47.5320 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aQ+F1GEvEedA+LC8BUrtKcAFAofXKQ8NC3ja0PchUKe6hsYIbv6hbCC9U1KlTf52UEukpj1xCjyhCvA5KxtCYcIXIgCdUD72IupE3ClAziU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB2981
-Received-SPF: pass client-ip=40.107.8.90;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 06:39:49
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,70 +84,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eauger@redhat.com, yi.l.liu@intel.com, quintela@redhat.com,
+ ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, alex.williamson@redhat.com,
+ changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
+ jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-20.10.2020 11:16, Laurent Vivier wrote:
-> Le 20/10/2020 à 09:36, Chenqun (kuhn) a écrit :
->> Ping!
->>
->> Hello,
->>
->>    Maybe this patch, some people have any other suggestions?   Or, maybe missed to queue?
+On Sun, 18 Oct 2020 01:54:56 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
+
+> On 9/29/2020 4:33 PM, Dr. David Alan Gilbert wrote:
+> > * Cornelia Huck (cohuck@redhat.com) wrote:  
+> >> On Wed, 23 Sep 2020 04:54:07 +0530
+> >> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> >>  
+> >>> VM state change handler gets called on change in VM's state. This is used to set
+> >>> VFIO device state to _RUNNING.
+> >>>
+> >>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> >>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >>> ---
+> >>>   hw/vfio/migration.c           | 136 ++++++++++++++++++++++++++++++++++++++++++
+> >>>   hw/vfio/trace-events          |   3 +-
+> >>>   include/hw/vfio/vfio-common.h |   4 ++
+> >>>   3 files changed, 142 insertions(+), 1 deletion(-)
+> >>>  
+> >>
+> >> (...)
+> >>  
+> >>> +static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+> >>> +                                    uint32_t value)  
+> >>
+> >> I think I've mentioned that before, but this function could really
+> >> benefit from a comment what mask and value mean.
+> >>  
 > 
-> Hi,
+> Adding a comment as:
 > 
-> As we've seen by reviewing previous versions, this change is not really
-> trivial, so I will not take it via the trivial queue.
+> /*
+>   *  Write device_state field to inform the vendor driver about the 
+> device state
+>   *  to be transitioned to.
+>   *  vbasedev: VFIO device
+>   *  mask : bits set in the mask are preserved in device_state
+>   *  value: bits set in the value are set in device_state
+>   *  Remaining bits in device_state are cleared.
+>   */
+
+Maybe:
+
+"Change the device_state register for device @vbasedev. Bits set in
+@mask are preserved, bits set in @value are set, and bits not set in
+either @mask or @value are cleared in device_state. If the register
+cannot be accessed, the resulting state would be invalid, or the device
+enters an error state, an error is returned." ?
+
 > 
-> Perhaps via block I/O queue (Stefan?), Dirty Bitmaps (John?) or
-> Migration (Juan?).
+> 
+> >>> +{
+> >>> +    VFIOMigration *migration = vbasedev->migration;
+> >>> +    VFIORegion *region = &migration->region;
+> >>> +    off_t dev_state_off = region->fd_offset +
+> >>> +                      offsetof(struct vfio_device_migration_info, device_state);
+> >>> +    uint32_t device_state;
+> >>> +    int ret;
+> >>> +
+> >>> +    ret = vfio_mig_read(vbasedev, &device_state, sizeof(device_state),
+> >>> +                        dev_state_off);
+> >>> +    if (ret < 0) {
+> >>> +        return ret;
+> >>> +    }
+> >>> +
+> >>> +    device_state = (device_state & mask) | value;
+> >>> +
+> >>> +    if (!VFIO_DEVICE_STATE_VALID(device_state)) {
+> >>> +        return -EINVAL;
+> >>> +    }
+> >>> +
+> >>> +    ret = vfio_mig_write(vbasedev, &device_state, sizeof(device_state),
+> >>> +                         dev_state_off);
+> >>> +    if (ret < 0) {
+> >>> +        ret = vfio_mig_read(vbasedev, &device_state, sizeof(device_state),
+> >>> +                          dev_state_off);
+> >>> +        if (ret < 0) {
+> >>> +            return ret;
+> >>> +        }
+> >>> +
+> >>> +        if (VFIO_DEVICE_STATE_IS_ERROR(device_state)) {
+> >>> +            hw_error("%s: Device is in error state 0x%x",
+> >>> +                     vbasedev->name, device_state);
+> >>> +            return -EFAULT;  
+> >>
+> >> Is -EFAULT a good return value here? Maybe -EIO?
+> >>  
+> 
+> Ok. Changing to -EIO.
+> 
+> >>> +        }
+> >>> +    }
+> >>> +
+> >>> +    vbasedev->device_state = device_state;
+> >>> +    trace_vfio_migration_set_state(vbasedev->name, device_state);
+> >>> +    return 0;
+> >>> +}
+> >>> +
+> >>> +static void vfio_vmstate_change(void *opaque, int running, RunState state)
+> >>> +{
+> >>> +    VFIODevice *vbasedev = opaque;
+> >>> +
+> >>> +    if ((vbasedev->vm_running != running)) {
+> >>> +        int ret;
+> >>> +        uint32_t value = 0, mask = 0;
+> >>> +
+> >>> +        if (running) {
+> >>> +            value = VFIO_DEVICE_STATE_RUNNING;
+> >>> +            if (vbasedev->device_state & VFIO_DEVICE_STATE_RESUMING) {
+> >>> +                mask = ~VFIO_DEVICE_STATE_RESUMING;  
+> >>
+> >> I've been staring at this for some time and I think that the desired
+> >> result is
+> >> - set _RUNNING
+> >> - if _RESUMING was set, clear it, but leave the other bits intact  
+> 
+> Upto here, you're correct.
+> 
+> >> - if _RESUMING was not set, clear everything previously set
+> >> This would really benefit from a comment (or am I the only one
+> >> struggling here?)
+> >>  
+> 
+> Here mask should be ~0. Correcting it.
+
+Hm, now I'm confused. With value == _RUNNING, ~_RUNNING and ~0 as mask
+should be equivalent, shouldn't they?
+
+> 
+> 
+> >>> +            }
+> >>> +        } else {
+> >>> +            mask = ~VFIO_DEVICE_STATE_RUNNING;
+> >>> +        }
+> >>> +
+> >>> +        ret = vfio_migration_set_state(vbasedev, mask, value);
+> >>> +        if (ret) {
+> >>> +            /*
+> >>> +             * vm_state_notify() doesn't support reporting failure. If such
+> >>> +             * error reporting support added in furure, migration should be
+> >>> +             * aborted.  
+> >>
+> >>
+> >> "We should abort the migration in this case, but vm_state_notify()
+> >> currently does not support reporting failures."
+> >>
+> >> ?
+> >>  
+> 
+> Ok. Updating comment as suggested here.
+> 
+> >> Can/should we mark the failing device in some way?  
+> > 
+> > I think you can call qemu_file_set_error on the migration stream to
+> > force an error.
+> >   
+> 
+> It should be as below, right?
+> qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
+
+Does this indicate in any way which device was causing problems? (I'm
+not sure how visible the error_report would be?)
+
+> 
+> 
+> Thanks,
+> Kirti
+> 
+> > Dave
+> >   
+> >>> +             */
+> >>> +            error_report("%s: Failed to set device state 0x%x",
+> >>> +                         vbasedev->name, value & mask);
+> >>> +        }
+> >>> +        vbasedev->vm_running = running;
+> >>> +        trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
+> >>> +                                  value & mask);
+> >>> +    }
+> >>> +}
+> >>> +
+> >>>   static int vfio_migration_init(VFIODevice *vbasedev,
+> >>>                                  struct vfio_region_info *info)
+> >>>   {  
+> >>
+> >> (...)  
 > 
 
-Correct would be Eric's bitmaps tree.
-
-> 
->> Thanks,
->> Chen Qun
->>
->>> -----Original Message-----
->>> From: Vladimir Sementsov-Ogievskiy [mailto:vsementsov@virtuozzo.com]
->>> Sent: Wednesday, October 14, 2020 11:56 PM
->>> To: Chenqun (kuhn) <kuhn.chenqun@huawei.com>; qemu-devel@nongnu.org;
->>> qemu-trivial@nongnu.org
->>> Cc: mreitz@redhat.com; stefanha@redhat.com; fam@euphon.net;
->>> eblake@redhat.com; jsnow@redhat.com; quintela@redhat.com;
->>> dgilbert@redhat.com; Zhanghailiang <zhang.zhanghailiang@huawei.com>;
->>> ganqixin <ganqixin@huawei.com>; qemu-block@nongnu.org; Euler Robot
->>> <euler.robot@huawei.com>; Laurent Vivier <laurent@vivier.eu>; Li Qiang
->>> <liq3ea@gmail.com>
->>> Subject: Re: [PATCH v3] migration/block-dirty-bitmap: fix uninitialized variable
->>> warning
->>>
->>> 14.10.2020 14:44, Chen Qun wrote:
->>>> A default value is provided for the variable 'bitmap_name' to avoid compiler
->>> warning.
->>>>
->>>> The compiler show warning:
->>>> migration/block-dirty-bitmap.c:1090:13: warning: ‘bitmap_name’
->>>> may be used uninitialized in this function [-Wmaybe-uninitialized]
->>>>          g_strlcpy(s->bitmap_name, bitmap_name,
->>> sizeof(s->bitmap_name));
->>>>
->>> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>
->>>> Reported-by: Euler Robot<euler.robot@huawei.com>
->>>> Signed-off-by: Chen Qun<kuhn.chenqun@huawei.com>
->>>
->>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>
->>> --
->>> Best regards,
->>> Vladimir
-> 
-
-
--- 
-Best regards,
-Vladimir
 
