@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D412941B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:49:41 +0200 (CEST)
-Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9832941C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:58:48 +0200 (CEST)
+Received: from localhost ([::1]:36590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUvlU-0006Gf-4X
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36312)
+	id 1kUvuJ-0000hu-AR
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvR2-0003Cg-O4
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48960)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQo-0000Df-Uq
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603214897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KoRk17fUILbdEtaVg4nN+aoYI2z78GD802D03LsPzrE=;
- b=UmzmEQ05MEQFNwCYut/XW9yt4zX3ddcXzYXrZjO3bRJ6Qn8Y2Q90BCdmI4sZ9vz2vzF1lE
- z/KdfNGinnhRXlghSLELuMGXDQVKGOBmGTZHoBc/2LBx44PtZDhJ9Rk0SfrBVj6c2JhbCK
- yK3mxs3zQyj7oM4mL5Rt+LEafoexCJc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-nbemKrk4MZqLxLcavn2zGQ-1; Tue, 20 Oct 2020 13:28:15 -0400
-X-MC-Unique: nbemKrk4MZqLxLcavn2zGQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10B101006C8E;
- Tue, 20 Oct 2020 17:28:14 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-115-172.rdu2.redhat.com [10.10.115.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 098E71992D;
- Tue, 20 Oct 2020 17:28:12 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 21/21] python/qemu/qmp.py: Fix settimeout operation
-Date: Tue, 20 Oct 2020 13:27:42 -0400
-Message-Id: <20201020172742.1483258-22-jsnow@redhat.com>
-In-Reply-To: <20201020172742.1483258-1-jsnow@redhat.com>
-References: <20201020172742.1483258-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kUvia-0002eL-QG
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:46:41 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36547)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kUviY-0002Xi-3o
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:46:39 -0400
+Received: by mail-wm1-x342.google.com with SMTP id e2so2953393wme.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 10:46:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8V2Slx5tD9PTSE5xqYsvaksAO0OiuvgS8+CETC5+GhQ=;
+ b=V6sUAiUNGhc+wN8LAZo5eNU6wIbfPn9j39DEzSuWHPSORDOafbUQtajB4LVt8IHDIg
+ pWrR2qpIpFrWwJY3NaN0YbaShpsdNSo8G3DiG7986EQKEm41E5BB/60SsAWZ0wSHVaJ6
+ WXlVWKdKodhlXMDyTNVwDWePH2zrmz3VIh6cRGZ7cNo3X31aZgOGrjZPoDpFIw0aR8h1
+ P4+dos7TSM0K9bnALDZAc81DCZ5u89ZjfNVRAnR8SEnUZ79bidst+iUN3jJACbs8DAYl
+ v75BuUBhwJaG6PXkHAtGFIz6lPmX+pXA5b7ZejaacFSNqzOo3GaMgJgglp4OrhFhaKRB
+ cenQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8V2Slx5tD9PTSE5xqYsvaksAO0OiuvgS8+CETC5+GhQ=;
+ b=k2UusUBE7jqZEE9dWArzGap6PdjErUeaEBRQcFiWCFlDZNKov8fldbBs+UjktZJyT9
+ CJp1U7Duo5nlhVJX+W7Lj0hjeJwXex49eeSgFtaL4Rdvl+htwL1p7cfxbY+fCvEx8azT
+ jSDCx1ndbILbNrhVh4NjWnfG9V9kCeNy3d4UpePvB9AAzjt5ZZKX34haKRrZlryQsIsn
+ ulw08ZtXhrZgAxoqh9cv3daQZBRj4yO3U/AcFd4yzsO4pPa/buUwGvaBSKMCw+U7aA04
+ Kz4x0YFT4IA8RPhI3Fl76W1aqItOjQ+UPMAZauPDrJ8ePlQ4eSACzCdqOAWIkOXyotzO
+ iU0A==
+X-Gm-Message-State: AOAM530Hgq8zgqrOy8at9wbaNu+xB9Tm0pikZKn7o6JwTJ0z5/7ZD6ab
+ EqBvJbu3+KSLRY/KoiIpLVg=
+X-Google-Smtp-Source: ABdhPJzzy2Dwv7442naJgE399jZMUQlve8SQhl8VJA+0bZFdnvMky8nNK5mHB5C6UORifPMQ0ki4NQ==
+X-Received: by 2002:a1c:98d2:: with SMTP id a201mr3980122wme.166.1603215994315; 
+ Tue, 20 Oct 2020 10:46:34 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id x10sm4073214wrp.62.2020.10.20.10.46.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Oct 2020 10:46:33 -0700 (PDT)
+Subject: Re: [PULL 09/31] hw/core/clock: introduce clock object
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200430115142.13430-1-peter.maydell@linaro.org>
+ <20200430115142.13430-10-peter.maydell@linaro.org>
+ <f295c99f-0405-1c26-6f58-12abdec8bd3d@amsat.org>
+ <9fc9b0cf-4919-40b5-0430-cfac6fd7bbef@amsat.org>
+ <CAFEAcA-pZ_=FvPC7TtzhcfM3rdgL8c_VOyDHo5ycBb5ezUPufw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0e4c70ce-9c26-a2d6-9308-827774656882@amsat.org>
+Date: Tue, 20 Oct 2020 19:46:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAFEAcA-pZ_=FvPC7TtzhcfM3rdgL8c_VOyDHo5ycBb5ezUPufw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,107 +94,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We enabled callers to interface directly with settimeout, but this
-reacts poorly with blocking/nonblocking operation; as they are using the
-same internal mechanism.
+On 10/20/20 6:46 PM, Peter Maydell wrote:
+> On Tue, 20 Oct 2020 at 17:06, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 10/17/20 1:47 PM, Philippe Mathieu-Daudé wrote:
+>>> Hi Damien, Peter,
+>>>
+>>>> +/*
+>>>> + * macro helpers to convert to hertz / nanosecond
+>>>> + */
+>>>> +#define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_SECOND / 1000000000llu))
+>>>> +#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_SECOND / 1000000000llu))
+>>>> +#define CLOCK_PERIOD_FROM_HZ(hz) (((hz) != 0) ? CLOCK_SECOND / (hz) :
+>>>> 0u)
+>>>
+>>> I'm having Floating Point Exception using a frequency of 1GHz.
+>>>
+>>> Using frequency >=1GHz we have CLOCK_PERIOD_FROM_HZ(hz) > 0x100000000.
+>>>
+>>> Then CLOCK_PERIOD_TO_NS(0x100000000) = 0.
+>>>
+>>> So for frequency >=1GHz clock_get_ns() returns 0.
+>>
+>> So Peter suggested on IRC to rewrite the code consuming this API
+>> to avoid reaching this limit :)
+>>
+>> Still some assert would help other developers triggering the same
+>> issue to quicker figure how to bypass the problem.
+> 
+> The fundamental problem here is that if you have a 2GHz
+> clock then it is just not possible to have an API which
+> says "give me the period of this clock in nanoseconds
+> as an integer".
+> 
+> Even for clocks which have lower frequencies, there is
+> still a rounding/accuracy problem when converting to
+> a nanoseconds count. I think these macros and the
+> functions that wrap them are in retrospect a mistake,
+> and we should replace them with other APIs that allow
+> calculations which can avoid the rounding problem
+> (eg if what you need is "how many nanoseconds is it
+> until 5000 ticks have expired" we would need an API
+> for that, rather than trying to calculate it as
+> 5000 * nanoseconds_per_tick).
+> 
+> It looks like currently the only uses of CLOCK_PERIOD_TO_NS()
+> and clock_get_ns() are:
+>   * some tracepoints in the clock code itself
+>   * mips_cp0_period_set(), which does:
+>      env->cp0_count_ns = cpu->cp0_count_rate
+>                          * clock_get_ns(MIPS_CPU(cpu)->clock);
+>     so I think it is trying to calculate "nanoseconds for
+>     X ticks of the clock".
+> 
+> CLOCK_PERIOD_TO_HZ() and clock_get_hz() are used by:
+>   * the qdev_print() code that prints a human-readable
+>     description of the clock
+>   * hw/char/cadence_uart.c and hw/char/ibex_uart.c code
+>     that calculates a baud rate given the input clock
+> 
+> CLOCK_PERIOD_FROM_HZ and CLOCK_PERIOD_FROM_NS are
+> used only in the clock_update*() and clock_set*()
+> functions. I think those should all be OK, because
+> they're just setting the period of the clock (possibly
+> propagating it to connected clocks), and we can
+> assume the caller uses whatever unit they naturally
+> have available as the accurate way to set the clock.
+> 
+> So that suggests to me that we should look at designing
+> APIs for:
+>   * "give me the time in nanoseconds for X ticks of this clock"
+>   * "give me a human-readable string describing this clock"
+>     for the qdev_print() monitor output
 
-1. Whenever we change the blocking mechanism temporarily, always set it
-back to what it was afterwards.
+Half of it is commit 709616c713f
+("util/cutils: Introduce freq_to_str() to display Hertz units")
 
-2. Disallow callers from setting a timeout of "0", which means
-Non-blocking mode. This is going to create more weird problems than
-anybody wants, so just forbid it.
+Other half on the list:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg749603.html
 
-I opt not to coerce '0' to 'None' to maintain the principal of least
-surprise in mirroring the semantics of Python's interface.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20201009175123.249009-4-jsnow@redhat.com
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- python/qemu/qmp.py | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
-
-diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index 4969e5741c..f64517fb0a 100644
---- a/python/qemu/qmp.py
-+++ b/python/qemu/qmp.py
-@@ -164,16 +164,19 @@ def __get_events(self, wait: Union[bool, float] = False) -> None:
-                                 retrieved or if some other error occurred.
-         """
- 
-+        # Current timeout and blocking status
-+        current_timeout = self.__sock.gettimeout()
-+
-         # Check for new events regardless and pull them into the cache:
-         try:
--            self.__sock.setblocking(False)
-+            self.__sock.settimeout(0)  # i.e. setblocking(False)
-             self.__json_read()
-         except OSError as err:
-             # EAGAIN: No data available; not critical
-             if err.errno != errno.EAGAIN:
-                 raise
-         finally:
--            self.__sock.setblocking(True)
-+            self.__sock.settimeout(current_timeout)
- 
-         # Wait for new events, if needed.
-         # if wait is 0.0, this means "no wait" and is also implicitly false.
-@@ -187,9 +190,11 @@ def __get_events(self, wait: Union[bool, float] = False) -> None:
-             except Exception as err:
-                 msg = "Error while reading from socket"
-                 raise QMPConnectError(msg) from err
-+            finally:
-+                self.__sock.settimeout(current_timeout)
-+
-             if ret is None:
-                 raise QMPConnectError("Error while reading from socket")
--            self.__sock.settimeout(None)
- 
-     def __enter__(self) -> 'QEMUMonitorProtocol':
-         # Implement context manager enter function.
-@@ -219,7 +224,7 @@ def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
-             return self.__negotiate_capabilities()
-         return None
- 
--    def accept(self, timeout: float = 15.0) -> QMPMessage:
-+    def accept(self, timeout: Optional[float] = 15.0) -> QMPMessage:
-         """
-         Await connection from QMP Monitor and perform capabilities negotiation.
- 
-@@ -338,13 +343,19 @@ def close(self) -> None:
-         if self.__sockfile:
-             self.__sockfile.close()
- 
--    def settimeout(self, timeout: float) -> None:
-+    def settimeout(self, timeout: Optional[float]) -> None:
-         """
-         Set the socket timeout.
- 
--        @param timeout (float): timeout in seconds, or None.
-+        @param timeout (float): timeout in seconds (non-zero), or None.
-         @note This is a wrap around socket.settimeout
-+
-+        @raise ValueError: if timeout was set to 0.
-         """
-+        if timeout == 0:
-+            msg = "timeout cannot be 0; this engages non-blocking mode."
-+            msg += " Use 'None' instead to disable timeouts."
-+            raise ValueError(msg)
-         self.__sock.settimeout(timeout)
- 
-     def get_sock_fd(self) -> int:
--- 
-2.26.2
-
+> 
+> and we should adjust the clock_set and clock_update tracepoints
+> to trace the raw period values (perhaps with an extra
+> "approx %"PRIu64" ns" for the benefit of humans reading traces).
+> Then we can delete CLOCK_PERIOD_TO_NS() and clock_get_ns().
+> 
+> Not sure about what the UART code should be doing. Given
+> that it's basically calculating baud rates it does eventually
+> want to get a frequency in hz but maybe we should arrange
+> for the frequency-division part to happen before we
+> convert from clock-period to hz rather than after.
+> 
+> thanks
+> -- PMM
+> 
 
