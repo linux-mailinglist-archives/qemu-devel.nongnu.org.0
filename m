@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F58A2940D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:51:26 +0200 (CEST)
-Received: from localhost ([::1]:50128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF2D2940C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:46:44 +0200 (CEST)
+Received: from localhost ([::1]:35324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUur7-0007uf-5H
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:51:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49296)
+	id 1kUumZ-0001eT-Eo
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUudv-0007mA-BQ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:47 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52575)
+ id 1kUudz-0007qN-GL
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:51 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUudt-0000xv-JV
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:47 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id c194so2488229wme.2
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:45 -0700 (PDT)
+ id 1kUudv-0000yW-Eb
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:49 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id j7so2951882wrt.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nLpmmB1zOrX5GCXrMDbuop25AXmZfJe8hra4fgaIWd0=;
- b=QonyN7yRTAG6bfAQcdXVscZSU0F1Xep4neuChQGQe38azhQFAcmTT7muZMxKmAfnn7
- NHeJYmwz4REvYd0nmwbY1u+hn+GawJ9FSFmVuJKD58/DAiQKd84C0uxymABCuROtyZXy
- 68t65wqqKNfVVwUmDcE0NaGCEl79lmWKQj2zYnlLr52/x6IpcfVzkyolaNtTGQK2s8Fw
- msZpmqrQVf9YuDz0xljO+5yXj8wW//7WxsbfuBDfGnehknXt4/mxMq6Ymsl9ZXEoXfku
- n0hf1yPK06V2dbEPE50tzPKon4BB4DeRge77ndN7QmWJjsaiI3oDLNlXUO9DdLpA8P8I
- dzLQ==
+ bh=Ug2244h7gF1bgNo40QYky11fMBkQqW8reR6QCk5vxV0=;
+ b=CM5bax9P6btdbc0tSV77+acjSdBLr782cvsQX/dbzD/UC3DdsBs5nYjz/9E/J24LZU
+ n+RURlQeehPcA3UzOjhr1QpKoTfIZhaq5fFlDeerN9oKTUoo/CZjjbjFEyOFK8Ef33fu
+ rxgPOc02gAPQGx7aitZ8ttsJutrGicxpLo3Ejj/7uld6QV7W88SgxUdFk5Zy+Hcs57WK
+ N4if4q5C3RPrNISPodU00qywmReVWLh3uiLyVFqnPt99v6g7CbNFJYW0RPdols3O2dDD
+ hXJ2ao8O4L2heKyVfIDkQzc27VvhgM7kNi1Db7yhxKq980Wa2QJcb3Bomm1X3Y4A7uBP
+ o6bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nLpmmB1zOrX5GCXrMDbuop25AXmZfJe8hra4fgaIWd0=;
- b=Np1GOTrNJrUuDpvM/2roSj1Sy0drpXtirvzumxABsiXxLbKCovvoWHigamXLX/9zkj
- CNR1t9oIa8O6YPeZjM3V3Tnblb8RcCh9XwDmhNNU5w6SQg0NQYTJZJxiO2cPuxgjpLvF
- TS3EO+AYc1EQ62Db0YGFWaRsjgiTWnNEFGAVNjoRNADAtFtyTuwszgnlHV7DiRMonHQh
- MfiT+qULIoh5kl7QRjbDWvUMRkb24TwsJQHpnIKHzMmgVxVhjcp4y9OqCNM5SywV7fmh
- iD3xRZ48GuD/E0PMv1h1Ocm3ZxTc8j6Pl0bpj8+ynmapPGwR5f280gEQet+V5IplJMJq
- Lk8Q==
-X-Gm-Message-State: AOAM5335lgbR6r2ts0eP2eSC/kIGuEENKUrTr3pPwexYwrIZi6yd6gLt
- t95GqTg6RCHHo91oSWZf09dEqw==
-X-Google-Smtp-Source: ABdhPJw2ZMF03y7F+e6uvlRg94jQtX78bXUiHIyLCrsIsieUf1HEjZI6Sq/pb9SgydUDW/cZKuiIGg==
-X-Received: by 2002:a1c:3b8a:: with SMTP id i132mr3852324wma.178.1603211864038; 
- Tue, 20 Oct 2020 09:37:44 -0700 (PDT)
+ bh=Ug2244h7gF1bgNo40QYky11fMBkQqW8reR6QCk5vxV0=;
+ b=T1Tr7EdFkNyD5Ubl/TTMgJ/9ia9IcSwqlrvVjDpcStNh23z2swxUumIGDiAL3M/VXB
+ B204dfvmObC99TJqXVroY5Oav2g5Z21Jfo3liMi4MKUED2ofc5qzt795+RXg/ZrgUopq
+ pgoq30SKhUN/6wqofhqQXqkT3EasDofT08HSydpNhfbVM9Gj8extwuMeRe8Y2X4y1HBZ
+ qZJWDN913BLpETt7Jm9a+gNyZzp2544AKMhU8cuASXUUfrbdJtTQUflYipmAQflKXuFR
+ Fn81og/2lPeuEaH3CYgJGyDnqLESFZah3vZyoKglRfAPs/OuMHUrJd/6mhd2ZuVC3zZT
+ 1q/A==
+X-Gm-Message-State: AOAM531mR3PP6tpOV0nzPo+M59SbRCGdZG2SfUGzlBJkQY0j7hzGh1tc
+ ODKCfMqTjzYXuVW7LiAyKCROrg==
+X-Google-Smtp-Source: ABdhPJz+WvHPHGVXOawnQ7+h9CHPslxYhp+674jKrbXBScL6nyPVyurGLjFeQlxlix65YbYnFfJpDA==
+X-Received: by 2002:a5d:4c4b:: with SMTP id n11mr4361381wrt.171.1603211866078; 
+ Tue, 20 Oct 2020 09:37:46 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b190sm3469958wmd.35.2020.10.20.09.37.39
+ by smtp.gmail.com with ESMTPSA id v6sm3933801wrp.69.2020.10.20.09.37.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 09:37:40 -0700 (PDT)
+ Tue, 20 Oct 2020 09:37:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3FA4C1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 731DD1FF8F;
  Tue, 20 Oct 2020 17:37:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  2/8] softfloat: Use int128.h for some operations
-Date: Tue, 20 Oct 2020 17:37:32 +0100
-Message-Id: <20201020163738.27700-3-alex.bennee@linaro.org>
+Subject: [RFC PATCH  3/8] softfloat: Tidy a * b + inf return
+Date: Tue, 20 Oct 2020 17:37:33 +0100
+Message-Id: <20201020163738.27700-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020163738.27700-1-alex.bennee@linaro.org>
 References: <20201020163738.27700-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,94 +98,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Use our Int128, which wraps the compiler's __int128_t,
-instead of open-coding left shifts and arithmetic.
-We'd need to extend Int128 to have unsigned operations
-to replace more than these three.
+No reason to set values in 'a', when we already
+have float_class_inf in 'c', and can flip that sign.
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200925152047.709901-3-richard.henderson@linaro.org>
+Message-Id: <20200925152047.709901-4-richard.henderson@linaro.org>
 ---
- include/fpu/softfloat-macros.h | 39 +++++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 19 deletions(-)
+ fpu/softfloat.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macros.h
-index 57845f8af0..95d88d05b8 100644
---- a/include/fpu/softfloat-macros.h
-+++ b/include/fpu/softfloat-macros.h
-@@ -84,6 +84,7 @@ this code that are retained.
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 67cfa0fd82..9db55d2b11 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -1380,9 +1380,8 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
+             s->float_exception_flags |= float_flag_invalid;
+             return parts_default_nan(s);
+         } else {
+-            a.cls = float_class_inf;
+-            a.sign = c.sign ^ sign_flip;
+-            return a;
++            c.sign ^= sign_flip;
++            return c;
+         }
+     }
  
- #include "fpu/softfloat-types.h"
- #include "qemu/host-utils.h"
-+#include "qemu/int128.h"
- 
- /*----------------------------------------------------------------------------
- | Shifts `a' right by the number of bits given in `count'.  If any nonzero
-@@ -352,13 +353,11 @@ static inline void shortShift128Left(uint64_t a0, uint64_t a1, int count,
- static inline void shift128Left(uint64_t a0, uint64_t a1, int count,
-                                 uint64_t *z0Ptr, uint64_t *z1Ptr)
- {
--    if (count < 64) {
--        *z1Ptr = a1 << count;
--        *z0Ptr = count == 0 ? a0 : (a0 << count) | (a1 >> (-count & 63));
--    } else {
--        *z1Ptr = 0;
--        *z0Ptr = a1 << (count - 64);
--    }
-+    Int128 a = int128_make128(a1, a0);
-+    Int128 z = int128_lshift(a, count);
-+
-+    *z0Ptr = int128_gethi(z);
-+    *z1Ptr = int128_getlo(z);
- }
- 
- /*----------------------------------------------------------------------------
-@@ -405,15 +404,15 @@ static inline void
- *----------------------------------------------------------------------------*/
- 
- static inline void
-- add128(
--     uint64_t a0, uint64_t a1, uint64_t b0, uint64_t b1, uint64_t *z0Ptr, uint64_t *z1Ptr )
-+add128(uint64_t a0, uint64_t a1, uint64_t b0, uint64_t b1,
-+       uint64_t *z0Ptr, uint64_t *z1Ptr)
- {
--    uint64_t z1;
--
--    z1 = a1 + b1;
--    *z1Ptr = z1;
--    *z0Ptr = a0 + b0 + ( z1 < a1 );
-+    Int128 a = int128_make128(a1, a0);
-+    Int128 b = int128_make128(b1, b0);
-+    Int128 z = int128_add(a, b);
- 
-+    *z0Ptr = int128_gethi(z);
-+    *z1Ptr = int128_getlo(z);
- }
- 
- /*----------------------------------------------------------------------------
-@@ -463,13 +462,15 @@ static inline void
- *----------------------------------------------------------------------------*/
- 
- static inline void
-- sub128(
--     uint64_t a0, uint64_t a1, uint64_t b0, uint64_t b1, uint64_t *z0Ptr, uint64_t *z1Ptr )
-+sub128(uint64_t a0, uint64_t a1, uint64_t b0, uint64_t b1,
-+       uint64_t *z0Ptr, uint64_t *z1Ptr)
- {
-+    Int128 a = int128_make128(a1, a0);
-+    Int128 b = int128_make128(b1, b0);
-+    Int128 z = int128_sub(a, b);
- 
--    *z1Ptr = a1 - b1;
--    *z0Ptr = a0 - b0 - ( a1 < b1 );
--
-+    *z0Ptr = int128_gethi(z);
-+    *z1Ptr = int128_getlo(z);
- }
- 
- /*----------------------------------------------------------------------------
 -- 
 2.20.1
 
