@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637DB29417B
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:34:08 +0200 (CEST)
-Received: from localhost ([::1]:42400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB9729418F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:39:46 +0200 (CEST)
+Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUvWR-0000w9-Dr
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:34:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35680)
+	id 1kUvbt-0000iT-JN
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQP-0002YA-7h
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:27:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52426)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQR-0002dC-CK
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:27:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQN-0008W9-B7
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:27:52 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQP-00005c-9Q
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:27:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603214870;
+ s=mimecast20190719; t=1603214872;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=38l43bFMAeTPB/kXmffxzr0rFB5Z1ElU3lCOZZacp3I=;
- b=Y9LU/7sku8zbfwxT1GJ+QGMBfKp8yZfNBrRTsS2o16dgzgUAc9MqzPy61krz0zmdEGCSQU
- 3ljrv3nRvAX4gGjrlRPAv68BRI121dyPRJcDpbABidAYnkqbRx0YXQVOK9j8Fp5J35zFJF
- d9ZveQNbDatmYPe7nqQi3Bcn78xquSw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uRUoT07906sFVWIUUFYkWYYD5IjjfCeylwHHA3Kl8SY=;
+ b=X0yCfT799F9R3FCZk51v8Dtu1SaNZxXbOAVAeTF5rZC8e0IpRmi6AvOxBJ/BApiNafneXP
+ XMaUerAz+u18d2oFf2TyjKHVJnjlpKB/JSCI1raXCbh8CaknaZmH5FGOKFX67AUbfrW9My
+ gvPT2djrW7eKkfv0AdN07ZgTEzFJN10=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-urBM2DHDOMGJJKB64fry2w-1; Tue, 20 Oct 2020 13:27:45 -0400
-X-MC-Unique: urBM2DHDOMGJJKB64fry2w-1
+ us-mta-549-yuy1YmGiOU-cZPXPF1tkUA-1; Tue, 20 Oct 2020 13:27:49 -0400
+X-MC-Unique: yuy1YmGiOU-cZPXPF1tkUA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AAD51006C8E;
- Tue, 20 Oct 2020 17:27:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE1801006C90;
+ Tue, 20 Oct 2020 17:27:47 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-115-172.rdu2.redhat.com [10.10.115.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1055E26372;
- Tue, 20 Oct 2020 17:27:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4014A2639C;
+ Tue, 20 Oct 2020 17:27:44 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/21] Python patches
-Date: Tue, 20 Oct 2020 13:27:21 -0400
-Message-Id: <20201020172742.1483258-1-jsnow@redhat.com>
+Subject: [PULL 01/21] MAINTAINERS: Add Python library stanza
+Date: Tue, 20 Oct 2020 13:27:22 -0400
+Message-Id: <20201020172742.1483258-2-jsnow@redhat.com>
+In-Reply-To: <20201020172742.1483258-1-jsnow@redhat.com>
+References: <20201020172742.1483258-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,69 +80,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4c41341af76cfc85b5a6c0f87de4838672ab9f89=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20201020' int=
-o staging (2020-10-20 11:20:36 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/jsnow/qemu.git tags/python-pull-request=0D
-=0D
-for you to fetch changes up to 5e44bef7cc532cd89ee46c78341266caa66f4437:=0D
-=0D
-  python/qemu/qmp.py: Fix settimeout operation (2020-10-20 09:37:57 -0400)=
-=0D
-=0D
-----------------------------------------------------------------=0D
-Pull request=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-John Snow (21):=0D
-  MAINTAINERS: Add Python library stanza=0D
-  python/qemu: use isort to lay out imports=0D
-  python/machine.py: Fix monitor address typing=0D
-  python/machine.py: reorder __init__=0D
-  python/machine.py: Don't modify state in _base_args()=0D
-  python/machine.py: Handle None events in events_wait=0D
-  python/machine.py: use qmp.command=0D
-  python/machine.py: Add _qmp access shim=0D
-  python/machine.py: fix _popen access=0D
-  python/qemu: make 'args' style arguments immutable=0D
-  iotests.py: Adjust HMP kwargs typing=0D
-  python/qemu: Add mypy type annotations=0D
-  python/qemu/console_socket.py: Correct type of recv()=0D
-  python/qemu/console_socket.py: fix typing of settimeout=0D
-  python/qemu/console_socket.py: Clarify type of drain_thread=0D
-  python/qemu/console_socket.py: Add type hint annotations=0D
-  python/qemu/console_socket.py: avoid encoding to/from string=0D
-  python/qemu/qmp.py: Preserve error context on re-raise=0D
-  python: add mypy config=0D
-  python/qemu/qmp.py: re-raise OSError when encountered=0D
-  python/qemu/qmp.py: Fix settimeout operation=0D
-=0D
- MAINTAINERS                   |   9 +-=0D
- python/mypy.ini               |   4 +=0D
- python/qemu/.isort.cfg        |   7 +=0D
- python/qemu/accel.py          |   9 +-=0D
- python/qemu/console_socket.py |  54 +++---=0D
- python/qemu/machine.py        | 306 +++++++++++++++++++++-------------=0D
- python/qemu/qmp.py            |  89 ++++++----=0D
- python/qemu/qtest.py          |  55 +++---=0D
- tests/qemu-iotests/iotests.py |   2 +-=0D
- 9 files changed, 325 insertions(+), 210 deletions(-)=0D
- create mode 100644 python/mypy.ini=0D
- create mode 100644 python/qemu/.isort.cfg=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+I'm proposing that I split the actual Python library off from the other
+miscellaneous python scripts we have and declare it maintained. Add
+myself as a maintainer of this folder, along with Cleber.
+
+I will be actively working to add CI style guide checks, strict typing,
+and an actual package infrastructure to this folder specifically which
+differentiates it from loose, miscellaneous scripts which are generally
+maintained by other individuals with subject matter expertise.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: Cleber Rosa <crosa@redhat.com>
+Acked-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ MAINTAINERS | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a7f0acf866..6a197bd358 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2373,11 +2373,18 @@ S: Maintained
+ F: include/sysemu/cryptodev*.h
+ F: backends/cryptodev*.c
+ 
++Python library
++M: John Snow <jsnow@redhat.com>
++M: Cleber Rosa <crosa@redhat.com>
++R: Eduardo Habkost <ehabkost@redhat.com>
++S: Maintained
++F: python/
++T: git https://gitlab.com/jsnow/qemu.git python
++
+ Python scripts
+ M: Eduardo Habkost <ehabkost@redhat.com>
+ M: Cleber Rosa <crosa@redhat.com>
+ S: Odd fixes
+-F: python/qemu/*py
+ F: scripts/*.py
+ F: tests/*.py
+ 
+-- 
+2.26.2
 
 
