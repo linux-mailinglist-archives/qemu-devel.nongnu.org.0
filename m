@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B4C2941B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:47:10 +0200 (CEST)
-Received: from localhost ([::1]:56236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78482941B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:48:39 +0200 (CEST)
+Received: from localhost ([::1]:60696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUvj3-0002Ll-KO
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:47:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36154)
+	id 1kUvkU-00049Z-TA
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:48:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQp-00033V-6R
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQp-00033Z-8W
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48170)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQf-0000Bc-H5
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:17 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQh-0000CV-O6
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603214887;
+ s=mimecast20190719; t=1603214891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mU75RHHzFC7gQ5DS7Khzv/NDdxI3ENG1gh7VLj3KTvg=;
- b=ULHAnfSCZ0N7BKBFyc5tueP+hcxv2u++qHK3zzl1yz+nQrHX/qbg3oLHJHdaHyboMmkfIt
- YGVVulQLkOQuDIirDCIqkv+Wg0jqBvFgUOzEpB4X+vmCl1tgAxx69DCSEKkYVrRGAhtX74
- 9NFc9DCEwXO0R8+8U7VosUT5OgybQUs=
+ bh=K/4JaS/5chTTcznkuUBQV5ElmPQUPB22BqHhkRvztlI=;
+ b=Dxuyymo7tD9ixcl2XwBZVh8NvKX5NwYNewMdB0AuKGfqWh5ar3FDhG8Ve2r/1n2itrPKxp
+ q0lLpeBnkDZaj+JkskV5Mk3d5lS9SQpUX7CQqmdxSgC7vUqYgf3oZolI4ZrR9YjOSiLVCW
+ NMWvkZz8d42y1YRYkIP+wsLeC3GIJdI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-oBXu5DiqMHOb2KSLuJTHlw-1; Tue, 20 Oct 2020 13:28:04 -0400
-X-MC-Unique: oBXu5DiqMHOb2KSLuJTHlw-1
+ us-mta-533-uR1fG6OgP0WP-cpmy7nWSQ-1; Tue, 20 Oct 2020 13:28:06 -0400
+X-MC-Unique: uR1fG6OgP0WP-cpmy7nWSQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B400A803F62;
- Tue, 20 Oct 2020 17:28:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D1591006C90;
+ Tue, 20 Oct 2020 17:28:05 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-115-172.rdu2.redhat.com [10.10.115.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C39DB1992D;
- Tue, 20 Oct 2020 17:28:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA06E2639C;
+ Tue, 20 Oct 2020 17:28:03 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/21] python/qemu/console_socket.py: Correct type of recv()
-Date: Tue, 20 Oct 2020 13:27:34 -0400
-Message-Id: <20201020172742.1483258-14-jsnow@redhat.com>
+Subject: [PULL 14/21] python/qemu/console_socket.py: fix typing of settimeout
+Date: Tue, 20 Oct 2020 13:27:35 -0400
+Message-Id: <20201020172742.1483258-15-jsnow@redhat.com>
 In-Reply-To: <20201020172742.1483258-1-jsnow@redhat.com>
 References: <20201020172742.1483258-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +55,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,41 +85,52 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The type and parameter names of recv() should match socket.socket().
-
-OK, easy enough, but in the cases we don't pass straight through to the
-real socket implementation, we probably can't accept such flags. OK, for
-now, assert that we don't receive flags in such cases.
+The types and names of the parameters must match the socket.socket interface.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-id: 20201006235817.3280413-13-jsnow@redhat.com
+Message-id: 20201006235817.3280413-14-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/console_socket.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ python/qemu/console_socket.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-index 69f604c77f..cb3400a038 100644
+index cb3400a038..3945682506 100644
 --- a/python/qemu/console_socket.py
 +++ b/python/qemu/console_socket.py
-@@ -92,13 +92,14 @@ def _drain_socket(self):
-         for c in string:
-             self._buffer.extend(c)
+@@ -17,6 +17,7 @@
+ import socket
+ import threading
+ import time
++from typing import Optional
  
--    def recv(self, bufsize=1):
-+    def recv(self, bufsize: int = 1, flags: int = 0) -> bytes:
-         """Return chars from in memory buffer.
-            Maintains the same API as socket.socket.recv.
-         """
+ 
+ class ConsoleSocket(socket.socket):
+@@ -31,6 +32,7 @@ class ConsoleSocket(socket.socket):
+     """
+     def __init__(self, address, file=None, drain=False):
+         self._recv_timeout_sec = 300
++        self._recv_timeout_sec = 300.0
+         self._sleep_time = 0.5
+         self._buffer = deque()
+         socket.socket.__init__(self, socket.AF_UNIX, socket.SOCK_STREAM)
+@@ -120,11 +122,11 @@ def setblocking(self, value):
          if self._drain_thread is None:
-             # Not buffering the socket, pass thru to socket.
--            return socket.socket.recv(self, bufsize)
-+            return socket.socket.recv(self, bufsize, flags)
-+        assert not flags, "Cannot pass flags to recv() in drained mode"
-         start_time = time.time()
-         while len(self._buffer) < bufsize:
-             time.sleep(self._sleep_time)
+             socket.socket.setblocking(self, value)
+ 
+-    def settimeout(self, seconds):
++    def settimeout(self, value: Optional[float]) -> None:
+         """When not draining we pass thru to the socket,
+            since when draining we control the timeout.
+         """
+-        if seconds is not None:
+-            self._recv_timeout_sec = seconds
++        if value is not None:
++            self._recv_timeout_sec = value
+         if self._drain_thread is None:
+-            socket.socket.settimeout(self, seconds)
++            socket.socket.settimeout(self, value)
 -- 
 2.26.2
 
