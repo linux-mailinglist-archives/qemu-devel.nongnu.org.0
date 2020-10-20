@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9718A294043
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:12:56 +0200 (CEST)
-Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6A129401F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:01:59 +0200 (CEST)
+Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuFr-0007Bo-I5
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37400)
+	id 1kUu5G-000127-OC
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:01:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0n-0004WX-3Q
+ id 1kUu0n-0004YN-VH
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:21 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44989)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0k-0003sM-HI
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:20 -0400
-Received: by mail-wr1-x433.google.com with SMTP id t9so2775048wrq.11
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:18 -0700 (PDT)
+ id 1kUu0m-0003sf-2l
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:21 -0400
+Received: by mail-wr1-x443.google.com with SMTP id n6so2772777wrm.13
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Eh5U8ecL6PCEaGskhTVfu/80Yf2oWMJ0K7Nr8DysFCQ=;
- b=GokfDeyfM4zb4ZFnTXSUr9kgnWs8ouqsUMHliPR7c0uTybuYAa+GjesYO3MwaZnEqM
- U2E0tiXJSJcs+yvO+cVk1SVG67j+4DUgRR9p1kg49o1oKtojRMATPf81jHN/Ag3UML+0
- jntLZeOFZ0aZ9IwIjJ2G5yr8G5gLlLGt6BbMzmvkCPmqG2sfOEKGtiR7Y6uyR3nH/4BO
- gPpZeTx7zH00xk1eLFQgxvlZz8TG8prsGwI39CQ443pJDzKdXNQ2Ka8qmAxvdvYfjXPt
- HHq9xXD/Y0q+B7s87PHY1363sIxNnaOwVJSkcGVr6eIAY7zU/M2luTl2Cbb4tHrZmhzO
- aV+w==
+ bh=ZvUBhs8RA0L3oiYr8jUE+scCdZBTj6SeAlZ2duNtda0=;
+ b=iHlezuf2Dmzh+kmjYhmqYYFr5xWzf/KVMuDjkqhkt8JatnldzMkAXxaWzZVJvZxslG
+ mK/TChnR50enmMo3FVqUYAy2YILJ95hDEdq9Zd9eOvO9K/2PP25VySPSDgBrVM1VESRc
+ 2KVvB40LB08Vf0GNHb0y3kh9rDanAvquW1eApQSj6oT2m0rp//OBJicqxEJICfPK9HLp
+ CnTbAFp1O2LlCYW+KAmA4QaBow7WJibOBaTiYguK9uGsgJIME+HSMAUTnwEedOYcWQi+
+ mg4ej/rlPTzOyzYLGLJ90ovuC/ad3AcgR2iXqu4r6RL/ju6cnr6OlUy25TcbmdsaiV5W
+ V9qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Eh5U8ecL6PCEaGskhTVfu/80Yf2oWMJ0K7Nr8DysFCQ=;
- b=NcI55m6ntfHLmaQPe9vv6673awGJTwV1b2q+6sxiJxUswKeM9JiPTYKIVOJN1nuwA2
- syCyck0gjWvQtTSSk3a67WH/bgKnxOosPMwzCOdHL3A6RrNx1GlnS4GlkF1d6r94nT/q
- xTMX5wNGXtUyLOaF+lzeOtTYHpnq3Gtmsl5Wl3cGkRV6Be1eOOcI1dAyNrEZIK6B8Pe2
- 1se0WTF8P+mHz38M06oztnEMWFBcyYBYZyF3jpOo5mvw9dgZjK9RxELUSfHX7K1TtMUr
- Sv4wQ43SrHm8Lnw8DWeSaaWS1XVfPtDFaMop19ogXQ5+AtozxsO9nM/5VCffI7T+SR2H
- nphQ==
-X-Gm-Message-State: AOAM532VRNx5ysD54Gk7PfPawiqSSmBHvpPk2kxYHDR+A4t6wbhZJ8iJ
- KwOQwt2wTpNQ+XC0uwQUZjmOKQw2xz7eaQ==
-X-Google-Smtp-Source: ABdhPJyAV112sVTSq2aNnEBR6JUapoWBtaxeX0Zcv4tF+NI62oeERZtldYzoZFlj0p6Nf8UXSGj4zw==
-X-Received: by 2002:a05:6000:10c6:: with SMTP id
- b6mr4437028wrx.10.1603209436532; 
- Tue, 20 Oct 2020 08:57:16 -0700 (PDT)
+ bh=ZvUBhs8RA0L3oiYr8jUE+scCdZBTj6SeAlZ2duNtda0=;
+ b=iDRpdn5vjvWyFw+ntNSutW3X7NcnBhuaHPfhDsgEyrwMEJte5EQ8u/vMx3xVd5Bk/a
+ oime0N9UpQ7FbLyWMscNF5GQWgpAStTVb1qm4LVIlmSSiJ/drFIhc0qcgdWaXSVEiJ7x
+ S8fMB87oLkoJGLks8AKyCFFh79ZmYSm/wCajzjex3HABCpBzPIgl73ka+JNOwKLjNc4d
+ qedDE+j/zdtKoPs2pkft2+Vl5RuZYkNQOqQV7mbN+Ypk8L3r1s9NoT0wpqcgqqvlLFnM
+ YKSPECgBaZMYL/Mx+PiYb+Ms26ZFW6DofPwh3L8wUlQdz2BST7I3w+2BbeL1HXMvq3RO
+ 0lAw==
+X-Gm-Message-State: AOAM533/wo5lhgBYF+PZEuo1IJB5mo8VsuwmQkw140LQh5Y3K8TSMh4g
+ 6sL2eIObHoWWA2Ons4dUWeVGjjhXIsDjSw==
+X-Google-Smtp-Source: ABdhPJzs0Pizu/S+W1UYbsc4UVF7VhlSljqfzPAih0x3zv2VlAw8am6x0QbyXUfoxV/zf5bxqdC7Ng==
+X-Received: by 2002:a5d:448b:: with SMTP id j11mr4194618wrq.129.1603209438183; 
+ Tue, 20 Oct 2020 08:57:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.15
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:15 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/41] accel/tcg: Add tlb_flush_page_bits_by_mmuidx*
-Date: Tue, 20 Oct 2020 16:56:24 +0100
-Message-Id: <20201020155656.8045-10-peter.maydell@linaro.org>
+Subject: [PULL 10/41] target/arm: Use tlb_flush_page_bits_by_mmuidx*
+Date: Tue, 20 Oct 2020 16:56:25 +0100
+Message-Id: <20201020155656.8045-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,400 +91,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-On ARM, the Top Byte Ignore feature means that only 56 bits of
-the address are significant in the virtual address.  We are
-required to give the entire 64-bit address to FAR_ELx on fault,
-which means that we do not "clean" the top byte early in TCG.
+When TBI is enabled in a given regime, 56 bits of the address
+are significant and we need to clear out any other matching
+virtual addresses with differing tags.
 
-This new interface allows us to flush all 256 possible aliases
-for a given page, currently missed by tlb_flush_page*.
+The other uses of tlb_flush_page (without mmuidx) in this file
+are only used by aarch32 mode.
 
+Fixes: 38d931687fa1
+Reported-by: Jordan Frank <jordanfrank@fb.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20201016210754.818257-2-richard.henderson@linaro.org
+Message-id: 20201016210754.818257-3-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/exec-all.h |  36 ++++++
- accel/tcg/cputlb.c      | 275 ++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 302 insertions(+), 9 deletions(-)
+ target/arm/helper.c | 46 ++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 39 insertions(+), 7 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 66f9b4cca67..4707ac140ce 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -251,6 +251,25 @@ void tlb_flush_by_mmuidx_all_cpus(CPUState *cpu, uint16_t idxmap);
-  * depend on when the guests translation ends the TB.
-  */
- void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu, uint16_t idxmap);
-+
-+/**
-+ * tlb_flush_page_bits_by_mmuidx
-+ * @cpu: CPU whose TLB should be flushed
-+ * @addr: virtual address of page to be flushed
-+ * @idxmap: bitmap of mmu indexes to flush
-+ * @bits: number of significant bits in address
-+ *
-+ * Similar to tlb_flush_page_mask, but with a bitmap of indexes.
-+ */
-+void tlb_flush_page_bits_by_mmuidx(CPUState *cpu, target_ulong addr,
-+                                   uint16_t idxmap, unsigned bits);
-+
-+/* Similarly, with broadcast and syncing. */
-+void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *cpu, target_ulong addr,
-+                                            uint16_t idxmap, unsigned bits);
-+void tlb_flush_page_bits_by_mmuidx_all_cpus_synced
-+    (CPUState *cpu, target_ulong addr, uint16_t idxmap, unsigned bits);
-+
- /**
-  * tlb_set_page_with_attrs:
-  * @cpu: CPU to add this TLB entry for
-@@ -337,6 +356,23 @@ static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu,
-                                                        uint16_t idxmap)
- {
- }
-+static inline void tlb_flush_page_bits_by_mmuidx(CPUState *cpu,
-+                                                 target_ulong addr,
-+                                                 uint16_t idxmap,
-+                                                 unsigned bits)
-+{
-+}
-+static inline void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *cpu,
-+                                                          target_ulong addr,
-+                                                          uint16_t idxmap,
-+                                                          unsigned bits)
-+{
-+}
-+static inline void
-+tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *cpu, target_ulong addr,
-+                                              uint16_t idxmap, unsigned bits)
-+{
-+}
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index cd0779ff5fa..f49b045d366 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -50,6 +50,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
  #endif
- /**
-  * probe_access:
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 2bbbb3ab290..42ab79c1a58 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -409,12 +409,21 @@ void tlb_flush_all_cpus_synced(CPUState *src_cpu)
-     tlb_flush_by_mmuidx_all_cpus_synced(src_cpu, ALL_MMUIDX_BITS);
- }
  
-+static bool tlb_hit_page_mask_anyprot(CPUTLBEntry *tlb_entry,
-+                                      target_ulong page, target_ulong mask)
-+{
-+    page &= mask;
-+    mask &= TARGET_PAGE_MASK | TLB_INVALID_MASK;
-+
-+    return (page == (tlb_entry->addr_read & mask) ||
-+            page == (tlb_addr_write(tlb_entry) & mask) ||
-+            page == (tlb_entry->addr_code & mask));
-+}
-+
- static inline bool tlb_hit_page_anyprot(CPUTLBEntry *tlb_entry,
-                                         target_ulong page)
+ static void switch_mode(CPUARMState *env, int mode);
++static int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx);
+ 
+ static int vfp_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
  {
--    return tlb_hit_page(tlb_entry->addr_read, page) ||
--           tlb_hit_page(tlb_addr_write(tlb_entry), page) ||
--           tlb_hit_page(tlb_entry->addr_code, page);
-+    return tlb_hit_page_mask_anyprot(tlb_entry, page, -1);
- }
- 
- /**
-@@ -427,31 +436,45 @@ static inline bool tlb_entry_is_empty(const CPUTLBEntry *te)
- }
- 
- /* Called with tlb_c.lock held */
--static inline bool tlb_flush_entry_locked(CPUTLBEntry *tlb_entry,
--                                          target_ulong page)
-+static bool tlb_flush_entry_mask_locked(CPUTLBEntry *tlb_entry,
-+                                        target_ulong page,
-+                                        target_ulong mask)
- {
--    if (tlb_hit_page_anyprot(tlb_entry, page)) {
-+    if (tlb_hit_page_mask_anyprot(tlb_entry, page, mask)) {
-         memset(tlb_entry, -1, sizeof(*tlb_entry));
-         return true;
-     }
-     return false;
- }
- 
-+static inline bool tlb_flush_entry_locked(CPUTLBEntry *tlb_entry,
-+                                          target_ulong page)
-+{
-+    return tlb_flush_entry_mask_locked(tlb_entry, page, -1);
-+}
-+
- /* Called with tlb_c.lock held */
--static inline void tlb_flush_vtlb_page_locked(CPUArchState *env, int mmu_idx,
--                                              target_ulong page)
-+static void tlb_flush_vtlb_page_mask_locked(CPUArchState *env, int mmu_idx,
-+                                            target_ulong page,
-+                                            target_ulong mask)
- {
-     CPUTLBDesc *d = &env_tlb(env)->d[mmu_idx];
-     int k;
- 
-     assert_cpu_is_self(env_cpu(env));
-     for (k = 0; k < CPU_VTLB_SIZE; k++) {
--        if (tlb_flush_entry_locked(&d->vtable[k], page)) {
-+        if (tlb_flush_entry_mask_locked(&d->vtable[k], page, mask)) {
-             tlb_n_used_entries_dec(env, mmu_idx);
-         }
+@@ -4457,6 +4458,33 @@ static int vae1_tlbmask(CPUARMState *env)
      }
  }
  
-+static inline void tlb_flush_vtlb_page_locked(CPUArchState *env, int mmu_idx,
-+                                              target_ulong page)
++/* Return 56 if TBI is enabled, 64 otherwise. */
++static int tlbbits_for_regime(CPUARMState *env, ARMMMUIdx mmu_idx,
++                              uint64_t addr)
 +{
-+    tlb_flush_vtlb_page_mask_locked(env, mmu_idx, page, -1);
++    uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
++    int tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
++    int select = extract64(addr, 55, 1);
++
++    return (tbi >> select) & 1 ? 56 : 64;
 +}
 +
- static void tlb_flush_page_locked(CPUArchState *env, int midx,
-                                   target_ulong page)
++static int vae1_tlbbits(CPUARMState *env, uint64_t addr)
++{
++    ARMMMUIdx mmu_idx;
++
++    /* Only the regime of the mmu_idx below is significant. */
++    if (arm_is_secure_below_el3(env)) {
++        mmu_idx = ARMMMUIdx_SE10_0;
++    } else if ((env->cp15.hcr_el2 & (HCR_E2H | HCR_TGE))
++               == (HCR_E2H | HCR_TGE)) {
++        mmu_idx = ARMMMUIdx_E20_0;
++    } else {
++        mmu_idx = ARMMMUIdx_E10_0;
++    }
++    return tlbbits_for_regime(env, mmu_idx, addr);
++}
++
+ static void tlbi_aa64_vmalle1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                       uint64_t value)
  {
-@@ -666,6 +689,240 @@ void tlb_flush_page_all_cpus_synced(CPUState *src, target_ulong addr)
-     tlb_flush_page_by_mmuidx_all_cpus_synced(src, addr, ALL_MMUIDX_BITS);
+@@ -4593,8 +4621,9 @@ static void tlbi_aa64_vae1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     CPUState *cs = env_cpu(env);
+     int mask = vae1_tlbmask(env);
+     uint64_t pageaddr = sextract64(value << 12, 0, 56);
++    int bits = vae1_tlbbits(env, pageaddr);
+ 
+-    tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr, mask);
++    tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr, mask, bits);
  }
  
-+static void tlb_flush_page_bits_locked(CPUArchState *env, int midx,
-+                                       target_ulong page, unsigned bits)
-+{
-+    CPUTLBDesc *d = &env_tlb(env)->d[midx];
-+    CPUTLBDescFast *f = &env_tlb(env)->f[midx];
-+    target_ulong mask = MAKE_64BIT_MASK(0, bits);
-+
-+    /*
-+     * If @bits is smaller than the tlb size, there may be multiple entries
-+     * within the TLB; otherwise all addresses that match under @mask hit
-+     * the same TLB entry.
-+     *
-+     * TODO: Perhaps allow bits to be a few bits less than the size.
-+     * For now, just flush the entire TLB.
-+     */
-+    if (mask < f->mask) {
-+        tlb_debug("forcing full flush midx %d ("
-+                  TARGET_FMT_lx "/" TARGET_FMT_lx ")\n",
-+                  midx, page, mask);
-+        tlb_flush_one_mmuidx_locked(env, midx, get_clock_realtime());
-+        return;
-+    }
-+
-+    /* Check if we need to flush due to large pages.  */
-+    if ((page & d->large_page_mask) == d->large_page_addr) {
-+        tlb_debug("forcing full flush midx %d ("
-+                  TARGET_FMT_lx "/" TARGET_FMT_lx ")\n",
-+                  midx, d->large_page_addr, d->large_page_mask);
-+        tlb_flush_one_mmuidx_locked(env, midx, get_clock_realtime());
-+        return;
-+    }
-+
-+    if (tlb_flush_entry_mask_locked(tlb_entry(env, midx, page), page, mask)) {
-+        tlb_n_used_entries_dec(env, midx);
-+    }
-+    tlb_flush_vtlb_page_mask_locked(env, midx, page, mask);
-+}
-+
-+typedef struct {
-+    target_ulong addr;
-+    uint16_t idxmap;
-+    uint16_t bits;
-+} TLBFlushPageBitsByMMUIdxData;
-+
-+static void
-+tlb_flush_page_bits_by_mmuidx_async_0(CPUState *cpu,
-+                                      TLBFlushPageBitsByMMUIdxData d)
-+{
-+    CPUArchState *env = cpu->env_ptr;
-+    int mmu_idx;
-+
-+    assert_cpu_is_self(cpu);
-+
-+    tlb_debug("page addr:" TARGET_FMT_lx "/%u mmu_map:0x%x\n",
-+              d.addr, d.bits, d.idxmap);
-+
-+    qemu_spin_lock(&env_tlb(env)->c.lock);
-+    for (mmu_idx = 0; mmu_idx < NB_MMU_MODES; mmu_idx++) {
-+        if ((d.idxmap >> mmu_idx) & 1) {
-+            tlb_flush_page_bits_locked(env, mmu_idx, d.addr, d.bits);
-+        }
-+    }
-+    qemu_spin_unlock(&env_tlb(env)->c.lock);
-+
-+    tb_flush_jmp_cache(cpu, d.addr);
-+}
-+
-+static bool encode_pbm_to_runon(run_on_cpu_data *out,
-+                                TLBFlushPageBitsByMMUIdxData d)
-+{
-+    /* We need 6 bits to hold to hold @bits up to 63. */
-+    if (d.idxmap <= MAKE_64BIT_MASK(0, TARGET_PAGE_BITS - 6)) {
-+        *out = RUN_ON_CPU_TARGET_PTR(d.addr | (d.idxmap << 6) | d.bits);
-+        return true;
-+    }
-+    return false;
-+}
-+
-+static TLBFlushPageBitsByMMUIdxData
-+decode_runon_to_pbm(run_on_cpu_data data)
-+{
-+    target_ulong addr_map_bits = (target_ulong) data.target_ptr;
-+    return (TLBFlushPageBitsByMMUIdxData){
-+        .addr = addr_map_bits & TARGET_PAGE_MASK,
-+        .idxmap = (addr_map_bits & ~TARGET_PAGE_MASK) >> 6,
-+        .bits = addr_map_bits & 0x3f
-+    };
-+}
-+
-+static void tlb_flush_page_bits_by_mmuidx_async_1(CPUState *cpu,
-+                                                  run_on_cpu_data runon)
-+{
-+    tlb_flush_page_bits_by_mmuidx_async_0(cpu, decode_runon_to_pbm(runon));
-+}
-+
-+static void tlb_flush_page_bits_by_mmuidx_async_2(CPUState *cpu,
-+                                                  run_on_cpu_data data)
-+{
-+    TLBFlushPageBitsByMMUIdxData *d = data.host_ptr;
-+    tlb_flush_page_bits_by_mmuidx_async_0(cpu, *d);
-+    g_free(d);
-+}
-+
-+void tlb_flush_page_bits_by_mmuidx(CPUState *cpu, target_ulong addr,
-+                                   uint16_t idxmap, unsigned bits)
-+{
-+    TLBFlushPageBitsByMMUIdxData d;
-+    run_on_cpu_data runon;
-+
-+    /* If all bits are significant, this devolves to tlb_flush_page. */
-+    if (bits >= TARGET_LONG_BITS) {
-+        tlb_flush_page_by_mmuidx(cpu, addr, idxmap);
-+        return;
-+    }
-+    /* If no page bits are significant, this devolves to tlb_flush. */
-+    if (bits < TARGET_PAGE_BITS) {
-+        tlb_flush_by_mmuidx(cpu, idxmap);
-+        return;
-+    }
-+
-+    /* This should already be page aligned */
-+    d.addr = addr & TARGET_PAGE_MASK;
-+    d.idxmap = idxmap;
-+    d.bits = bits;
-+
-+    if (qemu_cpu_is_self(cpu)) {
-+        tlb_flush_page_bits_by_mmuidx_async_0(cpu, d);
-+    } else if (encode_pbm_to_runon(&runon, d)) {
-+        async_run_on_cpu(cpu, tlb_flush_page_bits_by_mmuidx_async_1, runon);
-+    } else {
-+        TLBFlushPageBitsByMMUIdxData *p
-+            = g_new(TLBFlushPageBitsByMMUIdxData, 1);
-+
-+        /* Otherwise allocate a structure, freed by the worker.  */
-+        *p = d;
-+        async_run_on_cpu(cpu, tlb_flush_page_bits_by_mmuidx_async_2,
-+                         RUN_ON_CPU_HOST_PTR(p));
-+    }
-+}
-+
-+void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
-+                                            target_ulong addr,
-+                                            uint16_t idxmap,
-+                                            unsigned bits)
-+{
-+    TLBFlushPageBitsByMMUIdxData d;
-+    run_on_cpu_data runon;
-+
-+    /* If all bits are significant, this devolves to tlb_flush_page. */
-+    if (bits >= TARGET_LONG_BITS) {
-+        tlb_flush_page_by_mmuidx_all_cpus(src_cpu, addr, idxmap);
-+        return;
-+    }
-+    /* If no page bits are significant, this devolves to tlb_flush. */
-+    if (bits < TARGET_PAGE_BITS) {
-+        tlb_flush_by_mmuidx_all_cpus(src_cpu, idxmap);
-+        return;
-+    }
-+
-+    /* This should already be page aligned */
-+    d.addr = addr & TARGET_PAGE_MASK;
-+    d.idxmap = idxmap;
-+    d.bits = bits;
-+
-+    if (encode_pbm_to_runon(&runon, d)) {
-+        flush_all_helper(src_cpu, tlb_flush_page_bits_by_mmuidx_async_1, runon);
-+    } else {
-+        CPUState *dst_cpu;
-+        TLBFlushPageBitsByMMUIdxData *p;
-+
-+        /* Allocate a separate data block for each destination cpu.  */
-+        CPU_FOREACH(dst_cpu) {
-+            if (dst_cpu != src_cpu) {
-+                p = g_new(TLBFlushPageBitsByMMUIdxData, 1);
-+                *p = d;
-+                async_run_on_cpu(dst_cpu,
-+                                 tlb_flush_page_bits_by_mmuidx_async_2,
-+                                 RUN_ON_CPU_HOST_PTR(p));
-+            }
-+        }
-+    }
-+
-+    tlb_flush_page_bits_by_mmuidx_async_0(src_cpu, d);
-+}
-+
-+void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-+                                                   target_ulong addr,
-+                                                   uint16_t idxmap,
-+                                                   unsigned bits)
-+{
-+    TLBFlushPageBitsByMMUIdxData d;
-+    run_on_cpu_data runon;
-+
-+    /* If all bits are significant, this devolves to tlb_flush_page. */
-+    if (bits >= TARGET_LONG_BITS) {
-+        tlb_flush_page_by_mmuidx_all_cpus_synced(src_cpu, addr, idxmap);
-+        return;
-+    }
-+    /* If no page bits are significant, this devolves to tlb_flush. */
-+    if (bits < TARGET_PAGE_BITS) {
-+        tlb_flush_by_mmuidx_all_cpus_synced(src_cpu, idxmap);
-+        return;
-+    }
-+
-+    /* This should already be page aligned */
-+    d.addr = addr & TARGET_PAGE_MASK;
-+    d.idxmap = idxmap;
-+    d.bits = bits;
-+
-+    if (encode_pbm_to_runon(&runon, d)) {
-+        flush_all_helper(src_cpu, tlb_flush_page_bits_by_mmuidx_async_1, runon);
-+        async_safe_run_on_cpu(src_cpu, tlb_flush_page_bits_by_mmuidx_async_1,
-+                              runon);
-+    } else {
-+        CPUState *dst_cpu;
-+        TLBFlushPageBitsByMMUIdxData *p;
-+
-+        /* Allocate a separate data block for each destination cpu.  */
-+        CPU_FOREACH(dst_cpu) {
-+            if (dst_cpu != src_cpu) {
-+                p = g_new(TLBFlushPageBitsByMMUIdxData, 1);
-+                *p = d;
-+                async_run_on_cpu(dst_cpu, tlb_flush_page_bits_by_mmuidx_async_2,
-+                                 RUN_ON_CPU_HOST_PTR(p));
-+            }
-+        }
-+
-+        p = g_new(TLBFlushPageBitsByMMUIdxData, 1);
-+        *p = d;
-+        async_safe_run_on_cpu(src_cpu, tlb_flush_page_bits_by_mmuidx_async_2,
-+                              RUN_ON_CPU_HOST_PTR(p));
-+    }
-+}
-+
- /* update the TLBs so that writes to code in the virtual page 'addr'
-    can be detected */
- void tlb_protect_code(ram_addr_t ram_addr)
+ static void tlbi_aa64_vae1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -4608,11 +4637,12 @@ static void tlbi_aa64_vae1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     CPUState *cs = env_cpu(env);
+     int mask = vae1_tlbmask(env);
+     uint64_t pageaddr = sextract64(value << 12, 0, 56);
++    int bits = vae1_tlbbits(env, pageaddr);
+ 
+     if (tlb_force_broadcast(env)) {
+-        tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr, mask);
++        tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr, mask, bits);
+     } else {
+-        tlb_flush_page_by_mmuidx(cs, pageaddr, mask);
++        tlb_flush_page_bits_by_mmuidx(cs, pageaddr, mask, bits);
+     }
+ }
+ 
+@@ -4621,9 +4651,10 @@ static void tlbi_aa64_vae2is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ {
+     CPUState *cs = env_cpu(env);
+     uint64_t pageaddr = sextract64(value << 12, 0, 56);
++    int bits = tlbbits_for_regime(env, ARMMMUIdx_E2, pageaddr);
+ 
+-    tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr,
+-                                             ARMMMUIdxBit_E2);
++    tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
++                                                  ARMMMUIdxBit_E2, bits);
+ }
+ 
+ static void tlbi_aa64_vae3is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -4631,9 +4662,10 @@ static void tlbi_aa64_vae3is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ {
+     CPUState *cs = env_cpu(env);
+     uint64_t pageaddr = sextract64(value << 12, 0, 56);
++    int bits = tlbbits_for_regime(env, ARMMMUIdx_SE3, pageaddr);
+ 
+-    tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr,
+-                                             ARMMMUIdxBit_SE3);
++    tlb_flush_page_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
++                                                  ARMMMUIdxBit_SE3, bits);
+ }
+ 
+ static CPAccessResult aa64_zva_access(CPUARMState *env, const ARMCPRegInfo *ri,
 -- 
 2.20.1
 
