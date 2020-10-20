@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996702938DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 12:07:11 +0200 (CEST)
-Received: from localhost ([::1]:57052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1D62938E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 12:08:43 +0200 (CEST)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUoXu-0003Zj-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 06:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37486)
+	id 1kUoZO-0006mi-HJ
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 06:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kUoTw-00088f-3t
+ id 1kUoTw-0008AL-Rq
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:03:04 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:49467)
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:49475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kUoTt-0007Dz-V4
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:03:03 -0400
+ id 1kUoTu-0007Eg-W1
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:03:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1603188181;
+ d=citrix.com; s=securemail; t=1603188182;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OpXFFycQpm63jLyG0eJbtosSLwARUWOqqFYJe8oF60I=;
- b=JKmZ25XmE5x56kv2Y/5SJUnpIbbozN9mk0JuZFKD/L+Rj8D2wnm5j/3Y
- 5AhvW7T4EMd6HsujuNrWNpvkJSEZ6BeICUfHtRClqAxENMEwNhk2eiVvI
- XBiD4RO6ncCysy8saaph95t7I7X6Obad3PtGvPB8aSOTBJdYkIwIMTqsc U=;
+ bh=3eqI4wA+3uMajVVyTgFTOFTM3SrnL7w/R6m8eV3YUOc=;
+ b=GMS6Lb7vn6sNGvLz9uihv+y3Kzey7twX4ojqYKsbd26MRZvgsOATghTu
+ lLMlehsgssLhfqNihQBDFPxdrgnT9+PaQEiyuyq3c154y0rcJtBo5XFNf
+ aO9PuVm7MBSPNrfX97Uoy7WYRCX9VrdmVJJIAqaNZdmWEUEVOYQwLyFIg s=;
 Authentication-Results: esa4.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
-IronPort-SDR: HUdtSCvk176Hqd5za+zmg5siqa+utctAw0qDn5VOihY2m3fWBEkzyDek0qB7FeC/8NVbXQq6Ns
- X1WhSO0X9B78I7Ez7jYVV9P3po9ayOsPasOoVxYcSPGQeUZY1XrA8KVMsvjSHt+13/wrTY1YDr
- +cf2FiamsVjK8u7hLS0mZQOaCYDG9FNP0nTGDAE0KqnmtM9MSLzA+3OixVQV1zBWzc/eptn8KD
- v8F2jfZwSzt3zUJ+bjDH6IHbItNqiQ5WXAYmGL4ZUq2exeXZxlfqp6jMty28R2xTdxy5LVImFF
- mjE=
+IronPort-SDR: IrOYJOs2fXFA5tGCOikbfFkm1HJ60nzd3zCJuRzXMwTvfdLsq/CsC5pNoDuW8zn0LAFy638Gi5
+ tgl8ZJ8xkG6AXCWBkzQU1rh4+J1gFrDOUS+BBHLv70dyd5rtVfustp4iwHJqDI69nsuGAkXKAp
+ GHMM8YoD1LxCVGOvWD7qnb0UOso52rvtPYuO8LkQ2R5KqXCEakRXMzcIi8Fyo4Dpoyy1Rcawwg
+ oEGKNSxVBJ0+7db9YfKc4rx3BbuT3pEn1a9Qc48BCUuPc0Y00JzCC7ei3U/SLsqAST1PAieogo
+ HDY=
 X-SBRS: None
-X-MesageID: 30419947
+X-MesageID: 30419948
 X-Ironport-Server: esa4.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.77,396,1596513600"; d="scan'208";a="30419947"
+X-IronPort-AV: E=Sophos;i="5.77,396,1596513600"; d="scan'208";a="30419948"
 To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant
- <pdurrant@amazon.com>, Anthony PERARD <anthony.perard@citrix.com>
-Subject: [PULL 3/4] xen-bus: reduce scope of backend watch
-Date: Tue, 20 Oct 2020 11:02:38 +0100
-Message-ID: <20201020100239.272748-4-anthony.perard@citrix.com>
+CC: Peter Maydell <peter.maydell@linaro.org>, Jason Andryuk
+ <jandryuk@gmail.com>, Anthony PERARD <anthony.perard@citrix.com>
+Subject: [PULL 4/4] hw/xen: Set suppress-vmdesc for Xen machines
+Date: Tue, 20 Oct 2020 11:02:39 +0100
+Message-ID: <20201020100239.272748-5-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201020100239.272748-1-anthony.perard@citrix.com>
 References: <20201020100239.272748-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 Received-SPF: pass client-ip=216.71.155.144;
  envelope-from=anthony.perard@citrix.com; helo=esa4.hc3370-68.iphmx.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 06:02:54
@@ -80,160 +80,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Anthony PERARD <anthony.perard@citrix.com>
 From: Anthony PERARD via <qemu-devel@nongnu.org>
 
-From: Paul Durrant <pdurrant@amazon.com>
+From: Jason Andryuk <jandryuk@gmail.com>
 
-Currently a single watch on /local/domain/X/backend is registered by each
-QEMU process running in service domain X (where X is usually 0). The purpose
-of this watch is to ensure that QEMU is notified when the Xen toolstack
-creates a new device backend area.
-Such a backend area is specific to a single frontend area created for a
-specific guest domain and, since each QEMU process is also created to service
-a specfic guest domain, it is unnecessary and inefficient to notify all QEMU
-processes.
-Only the QEMU process associated with the same guest domain need
-receive the notification. This patch re-factors the watch registration code
-such that notifications are targetted appropriately.
+xen-save-devices-state doesn't currently generate a vmdesc, so restore
+always triggers "Expected vmdescription section, but got 0".  This is
+not a problem when restore comes from a file.  However, when QEMU runs
+in a linux stubdom and comes over a console, EOF is not received.  This
+causes a delay restoring - though it does restore.
 
-Reported-by: Jerome Leseinne <jerome.leseinne@gmail.com>
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20201001081500.1026-1-paul@xen.org>
+Setting suppress-vmdesc skips looking for the vmdesc during restore and
+avoids the wait.
+
+The other approach would be generate a vmdesc in qemu_save_device_state.
+Since COLO shared that function, and the vmdesc is just discarded on
+restore, we choose to skip it.
+
+Reported-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+Acked-by: Anthony PERARD <anthony.perard@citrix.com>
+Message-Id: <20201013190506.3325-1-jandryuk@gmail.com>
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- hw/xen/xen-backend.c         | 11 ++++++++++
- hw/xen/xen-bus.c             | 40 ++++++++++++++++++++++++++++--------
- include/hw/xen/xen-backend.h |  1 +
- include/hw/xen/xen-bus.h     |  3 ++-
- 4 files changed, 46 insertions(+), 9 deletions(-)
+ hw/i386/pc_piix.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/xen/xen-backend.c b/hw/xen/xen-backend.c
-index 10199fb58d10..5b0fb76eaeb3 100644
---- a/hw/xen/xen-backend.c
-+++ b/hw/xen/xen-backend.c
-@@ -41,6 +41,12 @@ static void xen_backend_table_add(XenBackendImpl *impl)
-     g_hash_table_insert(xen_backend_table_get(), (void *)impl->type, impl);
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 3c2ae0612b23..0cf22a57ad14 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -987,7 +987,7 @@ static void xenfv_4_2_machine_options(MachineClass *m)
+     pc_i440fx_4_2_machine_options(m);
+     m->desc = "Xen Fully-virtualized PC";
+     m->max_cpus = HVM_MAX_VCPUS;
+-    m->default_machine_opts = "accel=xen";
++    m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
  }
  
-+static const char **xen_backend_table_keys(unsigned int *count)
-+{
-+    return (const char **)g_hash_table_get_keys_as_array(
-+        xen_backend_table_get(), count);
-+}
-+
- static const XenBackendImpl *xen_backend_table_lookup(const char *type)
- {
-     return g_hash_table_lookup(xen_backend_table_get(), type);
-@@ -70,6 +76,11 @@ void xen_backend_register(const XenBackendInfo *info)
-     xen_backend_table_add(impl);
+ DEFINE_PC_MACHINE(xenfv_4_2, "xenfv-4.2", pc_xen_hvm_init,
+@@ -999,7 +999,7 @@ static void xenfv_3_1_machine_options(MachineClass *m)
+     m->desc = "Xen Fully-virtualized PC";
+     m->alias = "xenfv";
+     m->max_cpus = HVM_MAX_VCPUS;
+-    m->default_machine_opts = "accel=xen";
++    m->default_machine_opts = "accel=xen,suppress-vmdesc=on";
  }
  
-+const char **xen_backend_get_types(unsigned int *count)
-+{
-+    return xen_backend_table_keys(count);
-+}
-+
- static QLIST_HEAD(, XenBackendInstance) backend_list;
- 
- static void xen_backend_list_add(XenBackendInstance *backend)
-diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index 9ce1c9540b9e..8c588920d9fc 100644
---- a/hw/xen/xen-bus.c
-+++ b/hw/xen/xen-bus.c
-@@ -430,7 +430,15 @@ static void xen_bus_unrealize(BusState *bus)
-     trace_xen_bus_unrealize();
- 
-     if (xenbus->backend_watch) {
--        xen_bus_remove_watch(xenbus, xenbus->backend_watch, NULL);
-+        unsigned int i;
-+
-+        for (i = 0; i < xenbus->backend_types; i++) {
-+            if (xenbus->backend_watch[i]) {
-+                xen_bus_remove_watch(xenbus, xenbus->backend_watch[i], NULL);
-+            }
-+        }
-+
-+        g_free(xenbus->backend_watch);
-         xenbus->backend_watch = NULL;
-     }
- 
-@@ -446,8 +454,11 @@ static void xen_bus_unrealize(BusState *bus)
- 
- static void xen_bus_realize(BusState *bus, Error **errp)
- {
-+    char *key = g_strdup_printf("%u", xen_domid);
-     XenBus *xenbus = XEN_BUS(bus);
-     unsigned int domid;
-+    const char **type;
-+    unsigned int i;
-     Error *local_err = NULL;
- 
-     trace_xen_bus_realize();
-@@ -469,19 +480,32 @@ static void xen_bus_realize(BusState *bus, Error **errp)
- 
-     module_call_init(MODULE_INIT_XEN_BACKEND);
- 
--    xenbus->backend_watch =
--        xen_bus_add_watch(xenbus, "", /* domain root node */
--                          "backend", xen_bus_backend_changed, &local_err);
--    if (local_err) {
--        /* This need not be treated as a hard error so don't propagate */
--        error_reportf_err(local_err,
--                          "failed to set up enumeration watch: ");
-+    type = xen_backend_get_types(&xenbus->backend_types);
-+    xenbus->backend_watch = g_new(XenWatch *, xenbus->backend_types);
-+
-+    for (i = 0; i < xenbus->backend_types; i++) {
-+        char *node = g_strdup_printf("backend/%s", type[i]);
-+
-+        xenbus->backend_watch[i] =
-+            xen_bus_add_watch(xenbus, node, key, xen_bus_backend_changed,
-+                              &local_err);
-+        if (local_err) {
-+            /* This need not be treated as a hard error so don't propagate */
-+            error_reportf_err(local_err,
-+                              "failed to set up '%s' enumeration watch: ",
-+                              type[i]);
-+        }
-+
-+        g_free(node);
-     }
- 
-+    g_free(type);
-+    g_free(key);
-     return;
- 
- fail:
-     xen_bus_unrealize(bus);
-+    g_free(key);
- }
- 
- static void xen_bus_unplug_request(HotplugHandler *hotplug,
-diff --git a/include/hw/xen/xen-backend.h b/include/hw/xen/xen-backend.h
-index 010d71263876..aac2fd454d44 100644
---- a/include/hw/xen/xen-backend.h
-+++ b/include/hw/xen/xen-backend.h
-@@ -31,6 +31,7 @@ void xen_backend_set_device(XenBackendInstance *backend,
- XenDevice *xen_backend_get_device(XenBackendInstance *backend);
- 
- void xen_backend_register(const XenBackendInfo *info);
-+const char **xen_backend_get_types(unsigned int *nr);
- 
- void xen_backend_device_create(XenBus *xenbus, const char *type,
-                                const char *name, QDict *opts, Error **errp);
-diff --git a/include/hw/xen/xen-bus.h b/include/hw/xen/xen-bus.h
-index 3df696136f7b..6bdbf3ff8220 100644
---- a/include/hw/xen/xen-bus.h
-+++ b/include/hw/xen/xen-bus.h
-@@ -66,7 +66,8 @@ struct XenBus {
-     domid_t backend_id;
-     struct xs_handle *xsh;
-     XenWatchList *watch_list;
--    XenWatch *backend_watch;
-+    unsigned int backend_types;
-+    XenWatch **backend_watch;
-     QLIST_HEAD(, XenDevice) inactive_devices;
- };
- 
+ DEFINE_PC_MACHINE(xenfv, "xenfv-3.1", pc_xen_hvm_init,
 -- 
 Anthony PERARD
 
