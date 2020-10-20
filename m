@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8892940F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:59:57 +0200 (CEST)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA21D2940AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:40:17 +0200 (CEST)
+Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuzM-0006ge-5H
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
+	id 1kUugK-0001GF-Mo
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:40:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUue7-0007vW-Ag
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:38:00 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54343)
+ id 1kUue6-0007uu-Hv
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:58 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUue2-0000zG-MT
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:59 -0400
-Received: by mail-wm1-x344.google.com with SMTP id c77so2490827wmd.4
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:49 -0700 (PDT)
+ id 1kUue2-0000zr-Kv
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:57 -0400
+Received: by mail-wm1-x343.google.com with SMTP id b127so2688343wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XpldNLE39oyJx0Efh9oGONaLZZynshqlNmAlRNDfdFs=;
- b=OrxECvIvdhHFefWeSlFdCh51gIHGKv7HEwcvBFShp1oYIV2eZaiydW/IGw2ZYP4c5b
- dtlCGinly6JbMAwPv6VvBciS3veZdD6M8Xs51P3w5Bc256t9geddCL8jtUtI+XYkQ23q
- NTDVjtY/OD8nOSL9pntl1GV2TGbK5a78Yxb32puoinzlA/FGLaVJvtpvOo78N8o4RqBt
- BPGMIunodfVFqHokepznc8o7EW//Oeny8HWDwpkzWlhiiuu4W5AVAe5Rqs6gkg9xJ2nf
- 6ynLJKB4MXi32DG6gxvKBoX6hkLzhLVxMYOvdlELNwYzRL5xTJHRRZN8buq5lQfT1lvV
- VFsw==
+ bh=ynL+ImLU8/MZiwy8JbT5zQ/0QgGC9xGdCjTroVHDtRY=;
+ b=OKlA4pTpDYGoYJp1GCr28VzKFsKuZTGzmoSHGMK1pUZn0wYy9IxiZ7ZgjgtL2E9nj0
+ +xPrXoXf4RFwL67aOG77Phv5n7nTwvOE1Be0Mj9qJF3LL+Wg8bIuQ7Myzz9Uy/PhmOKM
+ OeZaqEY4x2EeNX5L12hEzBBNpxyPO25Ne1BtLdtrOO4J4LH6/+Zgn6N0ak03/F+zE8IO
+ HCKaTPSixcRcEJBf08Nr087hJS3+ligp7wmViTiEHE5nL+URSKqBqIbjZHydmBs3kEO7
+ d4pdjI+uC7FUFqeLbIUPQWN1eTf7GtrLuRv4KE+bDYOJSmF4nS8p19Z737Yt68luOLrF
+ QBmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XpldNLE39oyJx0Efh9oGONaLZZynshqlNmAlRNDfdFs=;
- b=jTxJwgcc+NP5jo6LWvDZj13DaLMIXWMKU5xcQsA97rk2cIsb2xzlDOkhD3g+yReSKN
- JcItjYNQfjhMFE5Rlnluh7IAiGEekZlfhYCHE4+KwU7yyr5nAr/dbmYE6tZaCIcz1WZm
- E9vdik2eU24M0r7FELnuP9YlthUJSn3SeBWSHRRATufmlMvclt6Rz/o47kTakzZclrTE
- Q9K8BkRVbmIY/8Wo/4dD9kqnxsCwG4bayDIYee9QveP4Oydi7VLUwElACcP0/lBZR2Gb
- pBepjoTwYeOiJjsC27GLaHqWLQhijyyO1FxXmKqv2kNiZLxhQ85PPylvNItz5nyhMzRR
- H6Vw==
-X-Gm-Message-State: AOAM533FQznBDtUUK4KH9ADxI8Ncl/KQ8A2GHyRE3P1EwFajGHFFoggK
- ctMi+GjxjEmAyU6lRL0R9QTT6A==
-X-Google-Smtp-Source: ABdhPJyxEysbvP02GHnr8YrQi3skcoQqF+26oMsRuBQwJWZovjdmUE2NEUAgCpV8d0KHtGth4Vx2Lw==
-X-Received: by 2002:a05:600c:2115:: with SMTP id
- u21mr3714911wml.2.1603211868544; 
- Tue, 20 Oct 2020 09:37:48 -0700 (PDT)
+ bh=ynL+ImLU8/MZiwy8JbT5zQ/0QgGC9xGdCjTroVHDtRY=;
+ b=j7b4494pV47EH06JLwWTQlCSzFAzjPJ4yM5uj3/cipG5lbE2zIQZvLmZUFSWMmza/j
+ YTKseCO1XuSX8yE/GAjnTCGGF0GvR5Q0bbAmFyqoJzDYH3gzjt8vnLD+XIVdLGEZ8GVr
+ JZy7g5VvdWR68hQ48jrS3WW1kVllj9AdsVpC5ds7CZ0Xg+E+FV/RxJa6YOVTsZzkP9FR
+ +wvRS6u3LUGiMkZdsu7AmmNhojNF3Jw68mwMxunUW/N6LJcM9hskGIsne1qPz/5urthO
+ byjWgoB002OVsYpylvy49hwrPvlVDSGIesT/TUU8+vlC5C3jo4mBkgx+cJqGxOolKzPN
+ WfZQ==
+X-Gm-Message-State: AOAM531+RwINazmX6K0F/N/RvegpCp84seNIWyA0T4IjUhRqaQLBRsT4
+ 5369JBbQFsfzar0YaCe675/mYA==
+X-Google-Smtp-Source: ABdhPJyCKkQyGxAve0SGv9njdbT2dNTMKc5Y8MlsICzltaLGesAnxoXKrnadPChsTwzJpPzt6y/QNg==
+X-Received: by 2002:a1c:a1c2:: with SMTP id k185mr3832355wme.39.1603211871942; 
+ Tue, 20 Oct 2020 09:37:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h3sm3832576wrw.78.2020.10.20.09.37.41
+ by smtp.gmail.com with ESMTPSA id i14sm3305204wml.24.2020.10.20.09.37.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Oct 2020 09:37:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BF8C91FF91;
+ by zen.linaroharston (Postfix) with ESMTP id EEE021FF92;
  Tue, 20 Oct 2020 17:37:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  5/8] softfloat: Inline pick_nan_muladd into its caller
-Date: Tue, 20 Oct 2020 17:37:35 +0100
-Message-Id: <20201020163738.27700-6-alex.bennee@linaro.org>
+Subject: [RFC PATCH 6/8] int128.h: add bunch of uint128 utility functions
+ (INCOMPLETE)
+Date: Tue, 20 Oct 2020 17:37:36 +0100
+Message-Id: <20201020163738.27700-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020163738.27700-1-alex.bennee@linaro.org>
 References: <20201020163738.27700-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,120 +89,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: cota@braap.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+These will be useful for softfloat. I've included the extract/desposit
+functions with the main Int128 header and not with cutils as we need
+alternate versions for systems that don't have compiler support for
+Uint128. Even with compiler support some stuff we need to
+hand-hack (like clz128).
 
-Because of FloatParts, there will only ever be one caller.
-Inlining allows us to re-use abc_mask for the snan test.
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200925152047.709901-6-richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 75 +++++++++++++++++++++++--------------------------
- 1 file changed, 35 insertions(+), 40 deletions(-)
+ include/qemu/int128.h | 122 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 122 insertions(+)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 3e625c47cd..e038434a07 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -929,45 +929,6 @@ static FloatParts pick_nan(FloatParts a, FloatParts b, float_status *s)
+diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+index 76ea405922..38c8b1ab29 100644
+--- a/include/qemu/int128.h
++++ b/include/qemu/int128.h
+@@ -3,8 +3,10 @@
+ 
+ #ifdef CONFIG_INT128
+ #include "qemu/bswap.h"
++#include "qemu/host-utils.h"
+ 
+ typedef __int128_t Int128;
++typedef __uint128_t Uint128;
+ 
+ static inline Int128 int128_make64(uint64_t a)
+ {
+@@ -16,6 +18,11 @@ static inline Int128 int128_make128(uint64_t lo, uint64_t hi)
+     return (__uint128_t)hi << 64 | lo;
+ }
+ 
++static inline Uint128 uint128_make128(uint64_t lo, uint64_t hi)
++{
++    return (__uint128_t)hi << 64 | lo;
++}
++
+ static inline uint64_t int128_get64(Int128 a)
+ {
+     uint64_t r = a;
+@@ -28,16 +35,31 @@ static inline uint64_t int128_getlo(Int128 a)
      return a;
  }
  
--static FloatParts pick_nan_muladd(FloatParts a, FloatParts b, FloatParts c,
--                                  bool inf_zero, float_status *s)
--{
--    int which;
--
--    if (is_snan(a.cls) || is_snan(b.cls) || is_snan(c.cls)) {
--        s->float_exception_flags |= float_flag_invalid;
--    }
--
--    which = pickNaNMulAdd(a.cls, b.cls, c.cls, inf_zero, s);
--
--    if (s->default_nan_mode) {
--        /* Note that this check is after pickNaNMulAdd so that function
--         * has an opportunity to set the Invalid flag.
--         */
--        which = 3;
--    }
--
--    switch (which) {
--    case 0:
--        break;
--    case 1:
--        a = b;
--        break;
--    case 2:
--        a = c;
--        break;
--    case 3:
--        return parts_default_nan(s);
--    default:
--        g_assert_not_reached();
--    }
--
--    if (is_snan(a.cls)) {
--        return parts_silence_nan(a, s);
--    }
--    return a;
--}
--
- /*
-  * Returns the result of adding or subtracting the values of the
-  * floating-point values `a' and `b'. The operation is performed
-@@ -1366,7 +1327,41 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
-      * off to the target-specific pick-a-NaN routine.
-      */
-     if (unlikely(abc_mask & float_cmask_anynan)) {
--        return pick_nan_muladd(a, b, c, inf_zero, s);
-+        int which;
++static inline uint64_t uint128_getlo(Uint128 a)
++{
++    return a;
++}
 +
-+        if (unlikely(abc_mask & float_cmask_snan)) {
-+            float_raise(float_flag_invalid, s);
-+        }
-+
-+        which = pickNaNMulAdd(a.cls, b.cls, c.cls, inf_zero, s);
-+
-+        if (s->default_nan_mode) {
-+            /*
-+             * Note that this check is after pickNaNMulAdd so that function
-+             * has an opportunity to set the Invalid flag for inf_zero.
-+             */
-+            which = 3;
-+        }
-+
-+        switch (which) {
-+        case 0:
-+            break;
-+        case 1:
-+            a = b;
-+            break;
-+        case 2:
-+            a = c;
-+            break;
-+        case 3:
-+            return parts_default_nan(s);
-+        default:
-+            g_assert_not_reached();
-+        }
-+
-+        if (is_snan(a.cls)) {
-+            return parts_silence_nan(a, s);
-+        }
-+        return a;
-     }
+ static inline int64_t int128_gethi(Int128 a)
+ {
+     return a >> 64;
+ }
  
-     if (unlikely(inf_zero)) {
++static inline uint64_t uint128_gethi(Uint128 a)
++{
++    return a >> 64;
++}
++
+ static inline Int128 int128_zero(void)
+ {
+     return 0;
+ }
+ 
++static inline Uint128 uint128_zero(void)
++{
++    return 0;
++}
++
+ static inline Int128 int128_one(void)
+ {
+     return 1;
+@@ -58,21 +80,51 @@ static inline Int128 int128_and(Int128 a, Int128 b)
+     return a & b;
+ }
+ 
++static inline Uint128 uint128_and(Uint128 a, Uint128 b)
++{
++    return a & b;
++}
++
++static inline Int128 int128_or(Int128 a, Int128 b)
++{
++    return a | b;
++}
++
++static inline Uint128 uint128_or(Uint128 a, Uint128 b)
++{
++    return a | b;
++}
++
+ static inline Int128 int128_rshift(Int128 a, int n)
+ {
+     return a >> n;
+ }
+ 
++static inline Uint128 uint128_rshift(Uint128 a, int n)
++{
++    return a >> n;
++}
++
+ static inline Int128 int128_lshift(Int128 a, int n)
+ {
+     return a << n;
+ }
+ 
++static inline Uint128 uint128_lshift(Uint128 a, int n)
++{
++    return a << n;
++}
++
+ static inline Int128 int128_add(Int128 a, Int128 b)
+ {
+     return a + b;
+ }
+ 
++static inline Uint128 uint128_add(Uint128 a, Uint128 b)
++{
++    return a + b;
++}
++
+ static inline Int128 int128_neg(Int128 a)
+ {
+     return -a;
+@@ -83,6 +135,11 @@ static inline Int128 int128_sub(Int128 a, Int128 b)
+     return a - b;
+ }
+ 
++static inline Uint128 uint128_sub(Uint128 a, Uint128 b)
++{
++    return a - b;
++}
++
+ static inline bool int128_nonneg(Int128 a)
+ {
+     return a >= 0;
+@@ -93,6 +150,11 @@ static inline bool int128_eq(Int128 a, Int128 b)
+     return a == b;
+ }
+ 
++static inline bool uint128_eq(Uint128 a, Uint128 b)
++{
++    return a == b;
++}
++
+ static inline bool int128_ne(Int128 a, Int128 b)
+ {
+     return a != b;
+@@ -148,6 +210,66 @@ static inline Int128 bswap128(Int128 a)
+     return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_getlo(a)));
+ }
+ 
++/**
++ * extract128:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 128 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 128 bit word. It is valid to request that
++ * all 128 bits are returned (ie @length 128 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline Uint128 extract128(Uint128 value, int start, int length)
++{
++    assert(start >= 0 && length > 0 && length <= 128 - start);
++    Uint128 mask = ~(Uint128)0 >> (128 - length);
++    Uint128 shifted = value >> start;
++    return shifted & mask;
++}
++
++/**
++ * deposit128:
++ * @value: initial value to insert bit field into
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ * @fieldval: the value to insert into the bit field
++ *
++ * Deposit @fieldval into the 128 bit @value at the bit field specified
++ * by the @start and @length parameters, and return the modified
++ * @value. Bits of @value outside the bit field are not modified.
++ * Bits of @fieldval above the least significant @length bits are
++ * ignored. The bit field must lie entirely within the 128 bit word.
++ * It is valid to request that all 128 bits are modified (ie @length
++ * 128 and @start 0).
++ *
++ * Returns: the modified @value.
++ */
++static inline Uint128 deposit128(Uint128 value, int start, int length,
++                                 Uint128 fieldval)
++{
++    assert(start >= 0 && length > 0 && length <= 128 - start);
++    Uint128 mask = (~(Uint128)0 >> (128 - length)) << start;
++    return (value & ~mask) | ((fieldval << start) & mask);
++}
++
++static inline int clz128(Uint128 val)
++{
++    if (val) {
++        uint64_t hi = uint128_gethi(val);
++        if (hi) {
++            return clz64(hi);
++        } else {
++            return 64 + clz64(uint128_getlo(val));
++        }
++    } else {
++        return 128;
++    }
++}
++
+ #else /* !CONFIG_INT128 */
+ 
+ typedef struct Int128 Int128;
 -- 
 2.20.1
 
