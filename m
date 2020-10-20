@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D7D293D8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:44:49 +0200 (CEST)
-Received: from localhost ([::1]:43872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37F8293D84
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 15:42:03 +0200 (CEST)
+Received: from localhost ([::1]:35844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUrwW-0002BO-Fk
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57152)
+	id 1kUrtq-0006rB-Vz
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 09:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kUrpq-0002s9-5M
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:37:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52667)
+ id 1kUrrd-0005Ne-M0
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:39:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kUrpn-0001y8-GZ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:37:53 -0400
+ id 1kUrrc-00025q-1Z
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 09:39:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603201069;
+ s=mimecast20190719; t=1603201183;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
  bh=Q5wF88JL0QdclagRgYtwbNc7/5Wm60uvA6tierOxAx0=;
- b=WuSlEYSYQQ6WyicxKyWNIrpPg+LtiQdfK5SHG5n+/YxIig3IN0SOTNFCxFa4cGSWi9LhLz
- zalcDa2Zx36IqSY2Q1I+L82e3+V4r62Pc/Ne4NaK/maer41zJkmHJsskVxlDDRiO14Dg+N
- XJiHO8spIZhmGZRGJ1fwfk4XA8/5a5g=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-WQfry9PzP7KYXzBu2IkKVQ-1; Tue, 20 Oct 2020 09:37:47 -0400
-X-MC-Unique: WQfry9PzP7KYXzBu2IkKVQ-1
-Received: by mail-wm1-f71.google.com with SMTP id f191so407502wmf.9
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 06:37:47 -0700 (PDT)
+ b=iW0vjsrthjZCxRHreSMPLkP7MNtSd2fwxS/ldpxbMYwVle0EkzzdFIKObg3gzQa9+3k5jG
+ sC5f0NR0qP44qjXoR514iotksEUvzSsxdoMh5G8uZHfgsh0l1nf9XUhFqQ4mR3Vdte7wrz
+ M77hbn5y9DlSxP4J1pyQM6VIMd0Vakw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-LdxOM11AM4Kcz9eWE5hXKw-1; Tue, 20 Oct 2020 09:39:41 -0400
+X-MC-Unique: LdxOM11AM4Kcz9eWE5hXKw-1
+Received: by mail-wr1-f71.google.com with SMTP id 31so832784wrg.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 06:39:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
  bh=Q5wF88JL0QdclagRgYtwbNc7/5Wm60uvA6tierOxAx0=;
- b=kDv1lX4bJiMLOs727DWuEjWxdgg32BX71qEgPwdH1FPBkV9LapeUHEs9MbvcO5sG48
- zLm7FGOC3mVafSsivQvjQKc2T/ZkjpTfI/VZp/cBXmaasvtxRLvgYfr6I2W1DdRLgaDz
- ImCkQbkTbAacEgnHvOyJucpI3FsepZ4vARoJbHKV9IH29zO8z6tYRBAx3yDwZu1AMLqt
- +OOV0FDKLW9yHUxnkh2AgMV42R2VroNu6iPbhEJP7fzTmlo6VsNZiBTNfz+MeISlH1Mv
- 83w0Oh0WoMGisnyM9DBgvvUrvUTI6J6wnDMJ0Z+5ePALDXtf/G210MfGI6ci7DLqHlAM
- ir3w==
-X-Gm-Message-State: AOAM532uXuq2XdJoQp1SRsDw+BYTJdJBipSc8hXr60a96gsj1gddpD0n
- xcqyckaZ5Gh81pJnEoU2fnIjKJNRsRIvfAe7vks+Ecao/UO6lfcfihvKO3Ycod8/XALlWh2xG9v
- 93AzyOMM5ECVEh2Y=
-X-Received: by 2002:adf:f903:: with SMTP id b3mr3695473wrr.142.1603201066871; 
- Tue, 20 Oct 2020 06:37:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxNL5nS+K8fS7CPdrqCU6BXLyASYXLanWpDlMyDFb1YjqQ+6h7ljb46l1skumtpKGC2SxzG8g==
-X-Received: by 2002:adf:f903:: with SMTP id b3mr3695460wrr.142.1603201066732; 
- Tue, 20 Oct 2020 06:37:46 -0700 (PDT)
+ b=RexaOhzl/n60WHZmDIeclUYG1Sz3PSL9LDzqIfsrVzTUE2y/PmAifk5XtfFfRspv+X
+ 8PxtByGB4fL0XVXfFa5hPpSR5RnFdRvjOXyNS9dfwaUe90rmuoKLjDq3z/9ELEFfbLTe
+ gQshreOM75DxlX77Tn4zowmh9DnYXtfqIKWQHlF+Enrb/FB7Ztyb+W8cxqLsLdm1RrpY
+ d+U1qXsdMAiTNwg/1+f2xKx0TpFBYPK817Gwe8gLj1liTqMqvQyzjUCKg+bj/l520syJ
+ MFmwYWlNp4gAHIeeF6Ucs5zu9qnQMhleUkLMcaZiXUc3KKFkVjdYNJzdbFmm4tTb9lBC
+ OpiA==
+X-Gm-Message-State: AOAM5316fVZvnEbXie42Y+S3QZSXzsMCpK5xUGXVpS0gpG2OliL4p/3v
+ yPFi32wMKTxtc60tF8yz/+9V0R07MYErZtBgNxdeOUixdPjGcGskCOIXEsLU+RzvG73DeT2GALT
+ 6bxyxFHOBCQgNHrU=
+X-Received: by 2002:a1c:b6d5:: with SMTP id g204mr2982192wmf.65.1603201180410; 
+ Tue, 20 Oct 2020 06:39:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxKSCkn1DH2hJiSsSPFRlpWYR7I8rQRi7jOVxx10O4cB2vNpI0K/M6q109lDxJnt+iv1PkRg==
+X-Received: by 2002:a1c:b6d5:: with SMTP id g204mr2982173wmf.65.1603201180214; 
+ Tue, 20 Oct 2020 06:39:40 -0700 (PDT)
 Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id 40sm3257225wrc.46.2020.10.20.06.37.45
+ by smtp.gmail.com with ESMTPSA id e5sm2988171wrw.93.2020.10.20.06.39.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 06:37:46 -0700 (PDT)
+ Tue, 20 Oct 2020 06:39:39 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Bihong Yu <yubihong@huawei.com>
-Subject: Re: [PATCH v3 4/8] migration: Open brace '{' following struct go on
- the same line
-In-Reply-To: <1603163448-27122-5-git-send-email-yubihong@huawei.com> (Bihong
- Yu's message of "Tue, 20 Oct 2020 11:10:44 +0800")
+Subject: Re: [PATCH v3 8/8] migration: Delete redundant spaces
+In-Reply-To: <1603163448-27122-9-git-send-email-yubihong@huawei.com> (Bihong
+ Yu's message of "Tue, 20 Oct 2020 11:10:48 +0800")
 References: <1603163448-27122-1-git-send-email-yubihong@huawei.com>
- <1603163448-27122-5-git-send-email-yubihong@huawei.com>
+ <1603163448-27122-9-git-send-email-yubihong@huawei.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 20 Oct 2020 15:37:45 +0200
-Message-ID: <875z75c91y.fsf@secure.mitica>
+Date: Tue, 20 Oct 2020 15:39:38 +0200
+Message-ID: <87tuupaued.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
