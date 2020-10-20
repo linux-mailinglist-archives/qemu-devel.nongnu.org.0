@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62CFF293521
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 08:44:45 +0200 (CEST)
-Received: from localhost ([::1]:54250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C492B293527
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 08:46:32 +0200 (CEST)
+Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUlNz-000331-RP
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 02:44:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50824)
+	id 1kUlPj-0005I7-Ra
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 02:46:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUlLz-0002Jl-L5; Tue, 20 Oct 2020 02:42:39 -0400
-Received: from mail-ej1-f65.google.com ([209.85.218.65]:40766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUlLx-00036h-Ow; Tue, 20 Oct 2020 02:42:39 -0400
-Received: by mail-ej1-f65.google.com with SMTP id z5so1022911ejw.7;
- Mon, 19 Oct 2020 23:42:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=n5wA3F/wNadLtgZKL7hEJNVuHrBuhC/d+3AOnovrj7s=;
- b=F0wyKRSEyovPqLJEAFMHrNL06pLkdznSKBOGwgFIfaUhuHAmoQPDFQld89zRNOCsda
- 22H8IXc9mUO/2081tigrhsbcF2LBKTeLFU6olzgbS0/wFn6+56SG0N8QDO8tq3eI3wKU
- a9kX38ToWTuT0AXrO7Jx9ztwtHEGcjtVy5rhkgVzpmS06efiJf74gug07HD29yvS1Vwu
- 3U3l/UeVPbBmaMATGRPc9ot4ueLvF0eTAeV4NzqdLgBTQu9lILUC6sVe9PC30ltfnjT+
- 79TWt3ABkaImPGMZclqBdcbNjhhKrk2wILDTy1c5Giq5BcuP7QMYbLdh7Pe56dEFh6a7
- DU6g==
-X-Gm-Message-State: AOAM530yiz7NOZwPvuKiz3+mvdzU/Z/cm1KcOHxsMX9n5nGIDHhABPxE
- 2n2nDd/c7+3tQNRpAS/vVmV8IVUHvfjKc4DgwG8=
-X-Google-Smtp-Source: ABdhPJzOTKSm0mIIS2FPQf0RDVsv4FcrMyx267Rcq9bvKebT0LHe5ufxq7CB+qm+iBIC7DACIM25SfCFe2EcbAciBsk=
-X-Received: by 2002:a17:906:fb86:: with SMTP id
- lr6mr1609234ejb.510.1603176155998; 
- Mon, 19 Oct 2020 23:42:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUlN4-0003NW-Lx
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 02:43:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49287)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kUlMx-0003Ut-RR
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 02:43:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603176213;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=R4jEHvIvoM75qhL8seV1ZdJ/dmZyrzsk21S+XyG3qCc=;
+ b=DBIIoJf1WxXIJ6Lxtq8oFm3r3sihCiT2UP/ut9y2W162b8ooQZPNM5X8+M5XD0k4I1y30O
+ shF/hxHwWT/3fAfi7hPvqWSzWsvWyLDhfNpAhsPG+Tpze5VwmtsjTooM1gHLaW1KE8jsdM
+ tUsdzpr2FPMlPux908C4/IbNjTM4Vq0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-DdAsJ-P1MG2VwpSaJysG-A-1; Tue, 20 Oct 2020 02:43:31 -0400
+X-MC-Unique: DdAsJ-P1MG2VwpSaJysG-A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 093C88030C4;
+ Tue, 20 Oct 2020 06:43:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B398860DA0;
+ Tue, 20 Oct 2020 06:43:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1FB101132A08; Tue, 20 Oct 2020 08:43:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Edmondson <david.edmondson@oracle.com>
+Subject: Re: [PATCH] qmp-shell: Sort by key when pretty-printing
+References: <20201013141414.18398-1-david.edmondson@oracle.com>
+Date: Tue, 20 Oct 2020 08:43:28 +0200
+In-Reply-To: <20201013141414.18398-1-david.edmondson@oracle.com> (David
+ Edmondson's message of "Tue, 13 Oct 2020 15:14:14 +0100")
+Message-ID: <87wnzlz9bj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20201009064449.2336-1-zhaolichang@huawei.com>
- <a5a68476-0ed8-08f9-f993-464317d798bf@huawei.com>
-In-Reply-To: <a5a68476-0ed8-08f9-f993-464317d798bf@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Tue, 20 Oct 2020 08:42:24 +0200
-Message-ID: <CAAdtpL5HZzb+_gAyNGQfM1N7vBxmLck2TXiGohv9D9dgO16cRw@mail.gmail.com>
-Subject: Re: [PATCH V2 00/14] fix some comment spelling errors
-To: Lichang Zhao <zhaolichang@huawei.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.218.65;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-f65.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 02:42:36
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,75 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You forgot to Cc qemu-devel@.
+David Edmondson <david.edmondson@oracle.com> writes:
 
-(See https://wiki.qemu.org/Contribute/SubmitAPatch#CC_the_relevant_maintain=
-er)
-
-On Tue, Oct 20, 2020 at 4:46 AM Lichang Zhao <zhaolichang@huawei.com> wrote=
-:
-
-Now your name is properly displayed, so I assume you finally ran:
-
-$ git config user.name "Lichang Zhao".
-
-To fix how your name is displayed in your previous contributions,
-consider sending this patch:
-
--- >8 --
-diff --git a/.mailmap b/.mailmap
-index 663819fb017..a56c5ba5ee1 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -113,6 +113,7 @@ Liu Yu <yu.liu@freescale.com>
-Liu Yu <Yu.Liu@freescale.com>
-Li Zhang <zhlcindy@gmail.com>
-Li Zhang <zhlcindy@linux.vnet.ibm.com>
-+Lichang Zhao <zhaolichang@huawei.com>
-Llu=C3=ADs Vilanova <vilanova@ac.upc.edu>
-Llu=C3=ADs Vilanova <xscript@gmx.net>
-Longpeng (Mike) <longpeng2@huawei.com>
-
----
-
-(or Ack-by it here and I'll send it).
-
+> If the user selects pretty-printing (-p) the contents of any
+> dictionaries in the output are sorted by key.
 >
-> On 2020/10/9 14:44, zhaolichang wrote:
-> > I found that there are many spelling errors in the comments of qemu/tar=
-get/.
-> >
-> > I used spellcheck to check the spelling errors and found some errors in=
- the folder.
-> >
-> >
-> >
-> > The checkpatch.pl file in the Linux kernel can check spelling errors in=
- patches.
-> >
-> > I'm trying to add this function to the checkpatch.pl in qemu,
-> >
-> > so that no similar spelling errors will occur in the feture.
-> >
-> > It's not done yet and I will commit the patch when it's done.
-> >
-> >
-> >
-> > v1 -> v2:
-> >
-> >   add reviewed-by for patch
-> >
-> >
-> >
-> > Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-> >
+> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+> ---
+>  scripts/qmp/qmp-shell | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> ping
-> This series of patches have been reviewed. Can you help me to pull them?
->
+> diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
+> index c5eef06f3f..b4d06096ab 100755
+> --- a/scripts/qmp/qmp-shell
+> +++ b/scripts/qmp/qmp-shell
+> @@ -260,7 +260,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+>          indent = None
+>          if self._pretty:
+>              indent = 4
+> -        jsobj = json.dumps(qmp, indent=indent)
+> +        jsobj = json.dumps(qmp, indent=indent, sort_keys=self._pretty)
+>          print(str(jsobj))
+>  
+>      def _execute_cmd(self, cmdline):
+
+Queued, thanks!
+
 
