@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1794D2939B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:20:19 +0200 (CEST)
-Received: from localhost ([::1]:40044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D482939D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:22:08 +0200 (CEST)
+Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpgg-00070n-4U
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:20:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52364)
+	id 1kUpiR-0000Yt-RC
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:22:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUpeT-0005yw-5y
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:18:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38125)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUpgG-0007EC-0f
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:19:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUpeR-0000IR-IM
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:18:00 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUpgD-0000P9-M7
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:19:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603192678;
+ s=mimecast20190719; t=1603192787;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oWEbSFnTLkseVlOjOLaK6om3VaPCN0vE+qGHKWT8qrg=;
- b=YJ1Moud5lXbUvEX4jYpLzQ09/yiqlUN100tGRSBvl3+VBunWi7N6TCvwKpTCeYnBP+3vvb
- urFzZiymFcBuwaR9T9rgV3IJGRHunzG76XKjMzmh5rWRG0rdonf72+aZTTa6cbuHLahpzg
- WGUzXPkCP9tVySWE2Cgv9CKNqj4295Q=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-m6qEDjzZOX2SfKge4RrfMw-1; Tue, 20 Oct 2020 07:17:57 -0400
-X-MC-Unique: m6qEDjzZOX2SfKge4RrfMw-1
-Received: by mail-wm1-f70.google.com with SMTP id f191so283671wmf.9
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 04:17:57 -0700 (PDT)
+ bh=EMcFP8byCQyMzL0oop4bwWNTFqjXIbIoyTgbUn4Aiqo=;
+ b=GYUc9j4P328PATGQBcwQPPIZikm9ND2fRUOJyw/MNZ5zJk8CpIQPURCb20fqo0g9TQCkKo
+ vwU+yN2ylroS9YROS2XMDQfKFHk/OgIDS8Y6BwqaJVpoabN1EPcISD5XVG7DsIZIo2gf8+
+ lXhHGORTzv+6TUG/Dl2U9FQT050vBtQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-Fw-hZIlmPueWSXxk_wjBiQ-1; Tue, 20 Oct 2020 07:19:45 -0400
+X-MC-Unique: Fw-hZIlmPueWSXxk_wjBiQ-1
+Received: by mail-wr1-f69.google.com with SMTP id q15so682033wrw.8
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 04:19:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oWEbSFnTLkseVlOjOLaK6om3VaPCN0vE+qGHKWT8qrg=;
- b=orlpCnmVcDQ+nuSb9zluPYxX5MhI/AjkIfd6s1ogDtuhaHvGGibY/Kka4GXpknvPK3
- Jv99jOi3z7emziHyE7OdDz4Ieh0SaHfy99/pMuTqmL2wn4SfzDYHuD0fT17AtfDJjOET
- HnvV1fhf+yebOLTvlEy+DlGqG4B8XjmYmZtQxUEay0moUvaa8uiuNdlqDqZpsPJ4V5m8
- qhM/0n/LV3eSK6LVU/fZvOzQbzwt5zDKUWKbiVAeKkGs8Jrj4HTMpSnUAcCBCajcQCym
- On/Oy10mHL8gibJBdOa/dRtwZ6ysp2pUJs+FZHRgfq0+EJs8Pt2xv5RdAXM1Sytm8rHs
- jHfg==
-X-Gm-Message-State: AOAM531PxRd0LpLzTmoZvozPBHwAJnUmTCIes1t3xaVHLZrX/n6ivwzt
- hSKHbxzgIdmb2dlbCA2CVjE+9VUrgiTfn4hTeCx8JKkCe3VIdn+gU6HSVL4cifLJClV0r1MGZEA
- Wx4TPwVx1hmj4ohc=
-X-Received: by 2002:a7b:c3d3:: with SMTP id t19mr710645wmj.139.1603192676015; 
- Tue, 20 Oct 2020 04:17:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzR07YGqsZwzjUp+0JV69TIFhP+WUrJ+X+m+Gq/NfjN6XQhUYHY9OViC5hwKA+osKwlgG7Ulg==
-X-Received: by 2002:a7b:c3d3:: with SMTP id t19mr710632wmj.139.1603192675868; 
- Tue, 20 Oct 2020 04:17:55 -0700 (PDT)
-Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EMcFP8byCQyMzL0oop4bwWNTFqjXIbIoyTgbUn4Aiqo=;
+ b=ShXTAzbBOZGROB8IENWRjDfu+/SSFi9N0jtP1xH6cq8y4+JcIl3Rf8vG/QaY4U2IXi
+ Vdn6w8Urj5e7pVEF8FMSe3MJDcpmqkMsECBJ2cTxISBiR8iDEBEpdZxXaNek5+xPvCGp
+ AfqLYch/6agPH3Q6uZf1DiG/+AwM4pMfcGnFrrkom0Ndr2SwW+hNZULG5e+lNRvG9qXC
+ /XRm6BFCAqpwKu9x8WrhkTiQKNQxbg1Zbosc4u1JV99pg8OlDvuzpjT503L0246pgFLv
+ 1L34FhDv16qbbGXf+tN7idxkcwyAK4sUUOjGJHONzhy9q11h1ZtWhmQetdJz/3zKLb/C
+ bYug==
+X-Gm-Message-State: AOAM533ZV4EShyp8DymEURWX57osPnVy4sMCbrEgDtyr3veRe/PToSa6
+ 7LlVD6lbJpK57ES8MJSiy5Z9YoBtHXWabtZXuquqMSAk4ODgYY/hEaKcLUBTQErXkAFa0qC2Grr
+ 9hRRUI7nUmHl8jOk=
+X-Received: by 2002:a1c:7d49:: with SMTP id y70mr2393738wmc.103.1603192784391; 
+ Tue, 20 Oct 2020 04:19:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxvJXiSbO5KWUHdMfMGQ91E/OVPO7XbOUEhjA0izUMBra/xzFBtBKM6IkpWhA3+13WwvZD+w==
+X-Received: by 2002:a1c:7d49:: with SMTP id y70mr2393718wmc.103.1603192784162; 
+ Tue, 20 Oct 2020 04:19:44 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id q8sm2510936wro.32.2020.10.20.04.17.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 04:17:55 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v4 2/2] util/oslib: Assert qemu_try_memalign() alignment is a
- power of 2
-Date: Tue, 20 Oct 2020 13:17:43 +0200
-Message-Id: <20201020111743.2074694-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201020111743.2074694-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id d129sm1206416wmd.5.2020.10.20.04.19.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Oct 2020 04:19:43 -0700 (PDT)
+Subject: Re: [PATCH v4 1/2] util/oslib-win32: Use _aligned_malloc for
+ qemu_try_memalign
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
 References: <20201020111743.2074694-1-philmd@redhat.com>
+ <20201020111743.2074694-2-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e223770b-c8ca-387b-cd6e-e1196fe04d41@redhat.com>
+Date: Tue, 20 Oct 2020 13:19:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <20201020111743.2074694-2-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,8 +86,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,56 +101,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_try_memalign() expects a power of 2 alignment:
+On 10/20/20 1:17 PM, Philippe Mathieu-Daudé wrote:
+> From: Richard Henderson <richard.henderson@linaro.org>
+> 
+> We do not need or want to be allocating page sized quanta.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Reviewed-by: Stefan Weil <sw@weilnetz.de>
+> Message-Id: <20201018164836.1149452-1-richard.henderson@linaro.org>
 
-- posix_memalign(3):
-
-  The address of the allocated memory will be a multiple of alignment,
-  which must be a power of two and a multiple of sizeof(void *).
-
-- _aligned_malloc()
-
-  The alignment value, which must be an integer power of 2.
-
+Oops I forgot:
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- util/oslib-posix.c | 3 +++
- util/oslib-win32.c | 1 +
- 2 files changed, 4 insertions(+)
 
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index f15234b5c03..9d6451f9239 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -200,6 +200,9 @@ void *qemu_try_memalign(size_t alignment, size_t size)
- 
-     if (alignment < sizeof(void*)) {
-         alignment = sizeof(void*);
-+    } else {
-+        g_assert(QEMU_IS_ALIGNED(alignment, sizeof(void *)));
-+        g_assert(is_power_of_2(alignment));
-     }
- 
- #if defined(CONFIG_POSIX_MEMALIGN)
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 29dd05d59d7..72e4ee910ce 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -58,6 +58,7 @@ void *qemu_try_memalign(size_t alignment, size_t size)
-     void *ptr;
- 
-     g_assert(size != 0);
-+    g_assert(is_power_of_2(alignment));
-     ptr = _aligned_malloc(alignment, size);
-     trace_qemu_memalign(alignment, size, ptr);
-     return ptr;
--- 
-2.26.2
+> ---
+>   util/oslib-win32.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index e99debfb8dd..29dd05d59d7 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -39,6 +39,7 @@
+>   #include "trace.h"
+>   #include "qemu/sockets.h"
+>   #include "qemu/cutils.h"
+> +#include <malloc.h>
+>   
+>   /* this must come after including "trace.h" */
+>   #include <shlobj.h>
+> @@ -56,10 +57,8 @@ void *qemu_try_memalign(size_t alignment, size_t size)
+>   {
+>       void *ptr;
+>   
+> -    if (!size) {
+> -        abort();
+> -    }
+> -    ptr = VirtualAlloc(NULL, size, MEM_COMMIT, PAGE_READWRITE);
+> +    g_assert(size != 0);
+> +    ptr = _aligned_malloc(alignment, size);
+>       trace_qemu_memalign(alignment, size, ptr);
+>       return ptr;
+>   }
+> @@ -93,9 +92,7 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, bool shared)
+>   void qemu_vfree(void *ptr)
+>   {
+>       trace_qemu_vfree(ptr);
+> -    if (ptr) {
+> -        VirtualFree(ptr, 0, MEM_RELEASE);
+> -    }
+> +    _aligned_free(ptr);
+>   }
+>   
+>   void qemu_anon_ram_free(void *ptr, size_t size)
+> 
 
 
