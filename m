@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CAD29400B
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:57:44 +0200 (CEST)
-Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98E6294015
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:58:46 +0200 (CEST)
+Received: from localhost ([::1]:60250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUu19-00045f-1x
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
+	id 1kUu29-000604-Sl
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:58:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kUtzq-0003FG-0V
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:56:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55276)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kUtzo-0003jo-Ba
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:56:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603209379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qtWvl8nlLkFHzSOYM9skQyMfI3OVf/eTkUnCggWZHxY=;
- b=hGTTkUG0sfO7GClsD/R1uGQBSAlnNCaWC32X58gDSeHHdpOdwnWXpee5X5KVlAaO118qdL
- jKMsn26+vcpdCGtCTeR39byfsRmokSkIHayikIZKMJTpsyQppeiC7MX+i1EKt7nK9fgDYp
- eNNY/spw7vRYbeHGrfB19IdTaK45uvw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-P0hIQncKOIKDXzTVbz3yhA-1; Tue, 20 Oct 2020 11:56:15 -0400
-X-MC-Unique: P0hIQncKOIKDXzTVbz3yhA-1
-Received: by mail-wr1-f70.google.com with SMTP id v5so1000583wrr.0
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:56:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUu0X-00049C-Dw
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:06 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:51983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUu0U-0003oJ-Hh
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:04 -0400
+Received: by mail-wm1-x330.google.com with SMTP id d81so2327333wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qwYzM2Xl3u4ZLBTe5e7+Xs7N+RxPtCXjkk0yxV7aJS8=;
+ b=NCy90LdMO91Yqq7nKgyqXUBa9YpWMN5d+BMKQMslqYdZPUv+Zjs3lNNS4InZIHQKu1
+ UsKYeO6DF3uE4hygyHg9jFskhngfh755rByo93pre6MNkQ7Rm0znM9XCxqaof/1D9wKy
+ TMYAfLtBLVwbhSiL+kEChRQwfxNsr2MqPyl1sFAFONsz7m2CUkvky1nGiKBUKgW8LHiu
+ Co+qBysIGbmiIl2BuHMH9OwkuUNvotDAP76jvJx4/w2Q76TM4WgMzSWQORTcbn5tYi2U
+ ozJT9lP1uLJ8HE3Ava7g/s5NYdhoYPmMTYhYaYTVafKZrDmDxYoHphVPhh7Z9Wl/OYQI
+ O3Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qtWvl8nlLkFHzSOYM9skQyMfI3OVf/eTkUnCggWZHxY=;
- b=HNNNeAlycFxbtAKqpQIWUspOdiliwYb4idRAK+6CyzvZXUdbolYBy3oDwnOcf2fGKc
- keoGhQmXmD4RC9JTewjmDsLalQYBuPkT1HyjGJBvrQx9qNvTRm5AAj90cC4g0SwNR02W
- mEYzArLqDhgiZ1yENbTsKwe0VhWnc9t/nNV84t6Fwtd5PuX8cpCxV5bKfrhoNoAA/gkW
- gTxAJ1APLKFOLnkrZJZ4fpy84B9lSL/XcjqO+X9WyHhbDsZlnqE2XbZ0yL4Xl5VDrWdw
- +WsWcleLyD/VC+YaDaYF7JUVu5hEy8exLcM05a6BkI/cryAEkA3mrcBeDWQVLwmL1dUx
- 1awA==
-X-Gm-Message-State: AOAM533ZdVD2nqS7YWR3DPOjm5gZp9B9khA40m1EkhXLq8iu1QxqpfaU
- Qkbw2nJVVgegUYyVYguH+jfUYKM2wGadrazGEE7Kwg0lcBdaAfsX5g2KNUMSU1z+Vte0/AlSsok
- 16xUGBgt+63FFa9s=
-X-Received: by 2002:a1c:5f46:: with SMTP id t67mr3517474wmb.173.1603209374228; 
- Tue, 20 Oct 2020 08:56:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxJ1oHO0/ErRe6BrHvDOp0Djk8qGyUpEoeRpvuWcD0LE7DXYf+CtaFbDigXNNungqohOYlmIw==
-X-Received: by 2002:a1c:5f46:: with SMTP id t67mr3517452wmb.173.1603209374026; 
- Tue, 20 Oct 2020 08:56:14 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n9sm3548869wrq.72.2020.10.20.08.56.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Oct 2020 08:56:11 -0700 (PDT)
-Subject: Re: [PATCH v5] sev: add sev-inject-launch-secret
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201015143713.14682-1-tobin@linux.ibm.com>
- <2f1be055-58c8-dcf8-debc-8956636d8ef8@redhat.com>
- <20201020135444.GR5733@habkost.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e4bc6348-cda5-e7f5-3753-61f4d3ba0116@redhat.com>
-Date: Tue, 20 Oct 2020 17:56:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ bh=qwYzM2Xl3u4ZLBTe5e7+Xs7N+RxPtCXjkk0yxV7aJS8=;
+ b=J8zOlh+QWPP9i6oAoNlED6h1woI2+l+8rPeNauCvcvKB6hUDlNcDuxi5YXdMb1alK8
+ RX/Rwr8n8GtFoj/dlLcEXDk48SbMjrZb06zX/3F9Lze8jCQRxRk8MHhj88buBj//y7vh
+ 9ieZ9DaXAu1eWROO0RySK4YYmsoAMuzzAFPgHc4nBnWVaWEx6VHwt2AevKjH0ounFKjo
+ 1fwlZ9ITe3qprm0xVCqI9YBBMaqquX8JKINjZtID592FqKmEwDxYA+Bho4dJLYPJKteO
+ oFcIXTiz17lCStocBC6F1yuf2RslhdZ46vnkk7Ny7rnROME6pEA1nXiBq83yUwhAGIed
+ XFSA==
+X-Gm-Message-State: AOAM533iv42T9TV34j8G6F+NZbetrMNjzJrTqAKWWwmVrYWYyINoLOY1
+ E4tdTJAwJvgcqA36GtAlSv4huUc9r3jvBg==
+X-Google-Smtp-Source: ABdhPJwhLo0G4nLhcfJRJnxbcX+tr/waKLkePrnEknVpXou82Gfa+KStUdQMa+VGgot06Vsf75Hhjg==
+X-Received: by 2002:a1c:8093:: with SMTP id b141mr3610605wmd.139.1603209419054; 
+ Tue, 20 Oct 2020 08:56:59 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.56.57
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Oct 2020 08:56:57 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/41] target-arm queue
+Date: Tue, 20 Oct 2020 16:56:15 +0100
+Message-Id: <20201020155656.8045-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201020135444.GR5733@habkost.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,41 +84,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, jejb@linux.ibm.com,
- tobin@ibm.com, qemu-devel@nongnu.org, dgilbert@redhat.com, tobin@linux.ibm.com,
- berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/10/20 15:54, Eduardo Habkost wrote:
-> On Tue, Oct 20, 2020 at 11:03:51AM +0200, Paolo Bonzini wrote:
->> On 15/10/20 16:37, tobin@linux.ibm.com wrote:
->>> -static void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, Error **errp)
->>> +void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, uint64_t size, Error **errp)
->>>  {
->>>      MemoryRegionSection mrs = memory_region_find(get_system_memory(),
->>> -                                                 addr, 1);
->>> +                                                 addr, size);
->>
->> You need to check size against mrs.size and fail if mrs.size is smaller.
->>  Otherwise, the ioctl can access memory out of range.
-> 
-> Good catch!  I'm dequeuing it.
-> 
-> Is there a reason memory_region_find() doesn't ensure that by
-> default?
+The following changes since commit 4c41341af76cfc85b5a6c0f87de4838672ab9f89:
 
-IIRC memory_region_find() was used to do DMA in the very first versions
-of "virtio-blk dataplane" so you would call it multiple times in a loop.
- So it's like that because it maps the way address_space_map() works.
+  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20201020' into staging (2020-10-20 11:20:36 +0100)
 
-> The call at virtio_balloon_handle_output() looks suspicious,
-> though, because it looks for a BALLOON_PAGE_SIZE range, but
-> there's no check for the returned section size.
+are available in the Git repository at:
 
-I think it's not a bug because ultimately it's checked in
-ram_block_discard_range, but it's not pretty.
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201020
 
-Paolo
+for you to fetch changes up to 6358890cb939192f6169fdf7664d903bf9b1d338:
 
+  tests/tcg/aarch64: Add bti smoke tests (2020-10-20 16:12:02 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Fix AArch32 SMLAD incorrect setting of Q bit
+ * AArch32 VCVT fixed-point to float is always round-to-nearest
+ * strongarm: Fix 'time to transmit a char' unit comment
+ * Restrict APEI tables generation to the 'virt' machine
+ * bcm2835: minor code cleanups
+ * correctly flush TLBs when TBI is enabled
+ * tests/qtest: Add npcm7xx timer test
+ * loads-stores.rst: add footnote that clarifies GETPC usage
+ * Fix reported EL for mte_check_fail
+ * Ignore HCR_EL2.ATA when {E2H,TGE} != 11
+ * microbit_i2c: Fix coredump when dump-vmstate
+ * nseries: Fix loading kernel image on n8x0 machines
+ * Implement v8.1M low-overhead-loops
+ * linux-user: Support AArch64 BTI
+
+----------------------------------------------------------------
+Emanuele Giuseppe Esposito (1):
+      loads-stores.rst: add footnote that clarifies GETPC usage
+
+Havard Skinnemoen (1):
+      tests/qtest: Add npcm7xx timer test
+
+Peng Liang (1):
+      microbit_i2c: Fix coredump when dump-vmstate
+
+Peter Maydell (12):
+      target/arm: Fix SMLAD incorrect setting of Q bit
+      target/arm: AArch32 VCVT fixed-point to float is always round-to-nearest
+      decodetree: Fix codegen for non-overlapping group inside overlapping group
+      target/arm: Implement v8.1M NOCP handling
+      target/arm: Implement v8.1M conditional-select insns
+      target/arm: Make the t32 insn[25:23]=111 group non-overlapping
+      target/arm: Don't allow BLX imm for M-profile
+      target/arm: Implement v8.1M branch-future insns (as NOPs)
+      target/arm: Implement v8.1M low-overhead-loop instructions
+      target/arm: Fix has_vfp/has_neon ID reg squashing for M-profile
+      target/arm: Allow M-profile CPUs with FP16 to set FPSCR.FP16
+      target/arm: Implement FPSCR.LTPSIZE for M-profile LOB extension
+
+Philippe Mathieu-Daudé (10):
+      hw/arm/strongarm: Fix 'time to transmit a char' unit comment
+      hw/arm: Restrict APEI tables generation to the 'virt' machine
+      hw/timer/bcm2835: Introduce BCM2835_SYSTIMER_COUNT definition
+      hw/timer/bcm2835: Rename variable holding CTRL_STATUS register
+      hw/timer/bcm2835: Support the timer COMPARE registers
+      hw/arm/bcm2835_peripherals: Correctly wire the SYS_timer IRQs
+      hw/intc/bcm2835_ic: Trace GPU/CPU IRQ handlers
+      hw/intc/bcm2836_control: Use IRQ definitions instead of magic numbers
+      hw/arm/nseries: Fix loading kernel image on n8x0 machines
+      linux-user/elfload: Avoid leaking interp_name using GLib memory API
+
+Richard Henderson (16):
+      accel/tcg: Add tlb_flush_page_bits_by_mmuidx*
+      target/arm: Use tlb_flush_page_bits_by_mmuidx*
+      target/arm: Remove redundant mmu_idx lookup
+      target/arm: Fix reported EL for mte_check_fail
+      target/arm: Ignore HCR_EL2.ATA when {E2H,TGE} != 11
+      linux-user/aarch64: Reset btype for signals
+      linux-user: Set PAGE_TARGET_1 for TARGET_PROT_BTI
+      include/elf: Add defines related to GNU property notes for AArch64
+      linux-user/elfload: Fix coding style in load_elf_image
+      linux-user/elfload: Adjust iteration over phdr
+      linux-user/elfload: Move PT_INTERP detection to first loop
+      linux-user/elfload: Use Error for load_elf_image
+      linux-user/elfload: Use Error for load_elf_interp
+      linux-user/elfload: Parse NT_GNU_PROPERTY_TYPE_0 notes
+      linux-user/elfload: Parse GNU_PROPERTY_AARCH64_FEATURE_1_AND
+      tests/tcg/aarch64: Add bti smoke tests
+
+ docs/devel/loads-stores.rst             |   8 +-
+ default-configs/devices/arm-softmmu.mak |   1 -
+ include/elf.h                           |  22 ++
+ include/exec/cpu-all.h                  |   2 +
+ include/exec/exec-all.h                 |  36 ++
+ include/hw/timer/bcm2835_systmr.h       |  17 +-
+ linux-user/qemu.h                       |   4 +
+ linux-user/syscall_defs.h               |   4 +
+ target/arm/cpu.h                        |  13 +
+ target/arm/helper.h                     |  13 +
+ target/arm/internals.h                  |   9 +-
+ target/arm/m-nocp.decode                |  10 +-
+ target/arm/t32.decode                   |  50 ++-
+ accel/tcg/cputlb.c                      | 275 +++++++++++++++-
+ hw/arm/bcm2835_peripherals.c            |  13 +-
+ hw/arm/nseries.c                        |   1 +
+ hw/arm/strongarm.c                      |   2 +-
+ hw/i2c/microbit_i2c.c                   |   1 +
+ hw/intc/bcm2835_ic.c                    |   4 +-
+ hw/intc/bcm2836_control.c               |   8 +-
+ hw/timer/bcm2835_systmr.c               |  57 ++--
+ linux-user/aarch64/signal.c             |  10 +-
+ linux-user/elfload.c                    | 326 ++++++++++++++----
+ linux-user/mmap.c                       |  16 +
+ target/arm/cpu.c                        |  38 ++-
+ target/arm/helper.c                     |  55 +++-
+ target/arm/mte_helper.c                 |  13 +-
+ target/arm/translate-a64.c              |   6 +-
+ target/arm/translate.c                  | 239 +++++++++++++-
+ target/arm/vfp_helper.c                 |  76 +++--
+ tests/qtest/npcm7xx_timer-test.c        | 562 ++++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/bti-1.c               |  62 ++++
+ tests/tcg/aarch64/bti-2.c               | 108 ++++++
+ tests/tcg/aarch64/bti-crt.inc.c         |  51 +++
+ hw/arm/Kconfig                          |   1 +
+ hw/intc/trace-events                    |   4 +
+ hw/timer/trace-events                   |   6 +-
+ scripts/decodetree.py                   |   2 +-
+ target/arm/translate-vfp.c.inc          |  41 ++-
+ tests/qtest/meson.build                 |   1 +
+ tests/tcg/aarch64/Makefile.target       |  10 +
+ tests/tcg/configure.sh                  |   4 +
+ 42 files changed, 1973 insertions(+), 208 deletions(-)
+ create mode 100644 tests/qtest/npcm7xx_timer-test.c
+ create mode 100644 tests/tcg/aarch64/bti-1.c
+ create mode 100644 tests/tcg/aarch64/bti-2.c
+ create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
 
