@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5306294035
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:08:12 +0200 (CEST)
-Received: from localhost ([::1]:60016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8063B29403A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:11:07 +0200 (CEST)
+Received: from localhost ([::1]:40074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuBH-0000ne-RJ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
+	id 1kUuE6-0004Mb-I2
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0s-0004jX-De
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:26 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37994)
+ id 1kUu0u-0004pL-Iv
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:28 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0q-0003tZ-Ip
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:26 -0400
-Received: by mail-wr1-x434.google.com with SMTP id n18so2798417wrs.5
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:24 -0700 (PDT)
+ id 1kUu0s-0003u2-OP
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:28 -0400
+Received: by mail-wm1-x342.google.com with SMTP id d3so2505672wma.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2iFviitDl5greJ6XddSkN6uHSPkj+fpazfKldoUVZt8=;
- b=kd4VcaY0DFoqvGN15E4DZTFUflmEr6vKYi124fLVdTnq9H7I4/+McAm9p7MKmyNO9B
- Ws4Iac3TfkpZ1PDOe2ZLw9wBayJJJK4Y8gE1d+DbF3VAFlcIpDJ8AGa/qNAY+hJtMfTF
- JzdBtGMQrJ10WH68DUKwCrK3UNFhZ5Mi6d/Fj4jw6GYhVZmfxMzXvEQ6Qpq42Pa7f3u2
- LBatwBJXs7YJY3bqBNO4XqBMePA/JX5Cwqck3rr3S+m0tgxUfe1c72GfqkGaKxROdfSJ
- hzORFx3nyETdKN9I70EhUiuDOHkaKdpx7/QftKRFPj+VFTyQ1RBdXzJ3mKMk/rYEuldt
- 9y5g==
+ bh=3DOt0L/FWDsEDahIMvaggmBdwk9GrrLY6As/3hpqnqg=;
+ b=nVk0pXBGBImtakvLTzo/t2hY05/ucoSTfUGEtHXF1oeyZ9bieTnk+NKyqOWpfJG4Kr
+ 9eFZJdJoyH2UvwgiyaOrdkcrc667q1h/RANQ9vf/TxOsUpioN9J+VMH0wG2iQMjM96Pz
+ iyV3rWjtcjlR24I0435qDUur9MCPunX51Lvgp/H1UpSCbbUKXTVnwgPz4oOps0Rr3HV9
+ GmCNnBsden/6ubydHF31pWMeFYTfE7u39AI0TGP3qLFlerSA46ukHGqxdIX47XVobwy9
+ cTgSjl1X+PwNqWTV/+w4kUsk+S3dDfdsRWXr+LYiBybGK6MOeom2H02ckxyfkkpcvRXe
+ Tv4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2iFviitDl5greJ6XddSkN6uHSPkj+fpazfKldoUVZt8=;
- b=IkDMnFxnH4reVLVEw26fZDRVWeS5YxpSlX5XtDcT7vWFhVidy7SX5a65HOAKUQqVdo
- cPkWQMoC8o5/laLUOi0CrAjKbDhhjbh91ySl+Mo+FmuCCsVI5oQopZZQygHJdTmkg61U
- zWiEgFdRbwpd3cATkLjEaL96VHcAZjRCk4Xt8IEy8GATp5KC2x7gypC+iLUScO570gkY
- sXNlhRaNocDDLtvkzI72/oO2K2t2Y/e0NES7C//8vH30xnrQrKkqGu3kNdL6f4085nNR
- fpXtusIKioNPKaKeqdjP1n8xSu8S2yITJ0qGJn2OUpRIDhJK4AuNS+vVoH+J7KBQDbBg
- m9Lw==
-X-Gm-Message-State: AOAM533f9JuJiR3ipX1Lqy8Z5Ht4qsFf7kh8wWS7Q/2BRAxBVx0fvB/y
- 8Lebzd8hQdoPDcdfmkQbCo68MtnhHUwZ5Q==
-X-Google-Smtp-Source: ABdhPJyaNyiUXbbVS8jl4Uo4DTPTgpqM5rP7hNatAxHg8K3JKp6D9bb95g4cN/7gd8vj/xU6J6Y4Ag==
-X-Received: by 2002:adf:ee4c:: with SMTP id w12mr4132007wro.22.1603209442814; 
- Tue, 20 Oct 2020 08:57:22 -0700 (PDT)
+ bh=3DOt0L/FWDsEDahIMvaggmBdwk9GrrLY6As/3hpqnqg=;
+ b=e999erS4w1u6J4G+e0njK4Ucx/C8u65ONmQteYGc/bLIvtgcy2mEypY16guwZg5aDd
+ Lw2KrbKTTgWgzPcYlhuAPjmUGXaRLz3k7nwZWUb4EMnN0vACH7ZAR5TuuMTNuu580MJg
+ xtam10WdV+tT6nthEmUmIqsY7+9rfWONRJQHvGfIjoc2RY3fWz8PlB0MPtAq7ZPmK0VF
+ f2BEtuhq6OUE4k9nMFIaDZX21Phw5OIPz1kP2ACdAWG8Y7rYtMXfHQwbcNVD/MnR7I0J
+ 7z63KjLhfcB2a8Ek8l5S9g9K10ymFG6saDxCFEN2BESqrb7X6UDo8C9f5wL7pGWyiuBb
+ hiOg==
+X-Gm-Message-State: AOAM532MnKFoyRwgKl8mvPJ94owSn7cjl8mge+XVrM6dM1nQarjkCYox
+ o085HT9gXd2wmEamAJsvs8TVuvO1owf8dg==
+X-Google-Smtp-Source: ABdhPJzGCyh8O0+5A5R763WRXTjvCYpMaY4jMhbEls1wWIhN7g33oC2OrFr/xgpnFY+3XTShE2vIHA==
+X-Received: by 2002:a05:600c:210f:: with SMTP id
+ u15mr3799312wml.53.1603209444999; 
+ Tue, 20 Oct 2020 08:57:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.21
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:21 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/41] hw/intc/bcm2836_control: Use IRQ definitions instead of
- magic numbers
-Date: Tue, 20 Oct 2020 16:56:29 +0100
-Message-Id: <20201020155656.8045-15-peter.maydell@linaro.org>
+Subject: [PULL 15/41] target/arm: Remove redundant mmu_idx lookup
+Date: Tue, 20 Oct 2020 16:56:30 +0100
+Message-Id: <20201020155656.8045-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,50 +90,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The IRQ values are defined few lines earlier, use them instead of
-the magic numbers.
+We already have the full ARMMMUIdx as computed from the
+function parameter.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201017180731.1165871-3-f4bug@amsat.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+For the purpose of regime_has_2_ranges, we can ignore any
+difference between AccType_Normal and AccType_Unpriv, which
+would be the only difference between the passed mmu_idx
+and arm_mmu_idx_el.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Tested-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-id: 20201008162155.161886-2-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/bcm2836_control.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/arm/mte_helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/intc/bcm2836_control.c b/hw/intc/bcm2836_control.c
-index 53dba0080ca..2ead76ffdce 100644
---- a/hw/intc/bcm2836_control.c
-+++ b/hw/intc/bcm2836_control.c
-@@ -157,22 +157,22 @@ static void bcm2836_control_set_local_irq(void *opaque, int core, int local_irq,
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 5615c6706cb..734cc5ca675 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -563,8 +563,7 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
  
- static void bcm2836_control_set_local_irq0(void *opaque, int core, int level)
- {
--    bcm2836_control_set_local_irq(opaque, core, 0, level);
-+    bcm2836_control_set_local_irq(opaque, core, IRQ_CNTPSIRQ, level);
- }
- 
- static void bcm2836_control_set_local_irq1(void *opaque, int core, int level)
- {
--    bcm2836_control_set_local_irq(opaque, core, 1, level);
-+    bcm2836_control_set_local_irq(opaque, core, IRQ_CNTPNSIRQ, level);
- }
- 
- static void bcm2836_control_set_local_irq2(void *opaque, int core, int level)
- {
--    bcm2836_control_set_local_irq(opaque, core, 2, level);
-+    bcm2836_control_set_local_irq(opaque, core, IRQ_CNTHPIRQ, level);
- }
- 
- static void bcm2836_control_set_local_irq3(void *opaque, int core, int level)
- {
--    bcm2836_control_set_local_irq(opaque, core, 3, level);
-+    bcm2836_control_set_local_irq(opaque, core, IRQ_CNTVIRQ, level);
- }
- 
- static void bcm2836_control_set_gpu_irq(void *opaque, int irq, int level)
+     case 2:
+         /* Tag check fail causes asynchronous flag set.  */
+-        mmu_idx = arm_mmu_idx_el(env, el);
+-        if (regime_has_2_ranges(mmu_idx)) {
++        if (regime_has_2_ranges(arm_mmu_idx)) {
+             select = extract64(dirty_ptr, 55, 1);
+         } else {
+             select = 0;
 -- 
 2.20.1
 
