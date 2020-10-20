@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7872294058
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:18:52 +0200 (CEST)
-Received: from localhost ([::1]:37186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E90229409D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:34:45 +0200 (CEST)
+Received: from localhost ([::1]:55720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuLb-00077a-Uz
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:18:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37896)
+	id 1kUuay-0002Y8-HD
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:34:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu1J-0005Z4-G8
+ id 1kUu1K-0005a9-RD
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:54 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51981)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu1G-0003xd-VY
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:53 -0400
-Received: by mail-wm1-x329.google.com with SMTP id d81so2330608wmc.1
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:49 -0700 (PDT)
+ id 1kUu1H-0003xo-0F
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:54 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h5so2783520wrv.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Z0HMWgiSgaHAnfHC4nGM232rOSwhB2ZkX8mExK/8DHQ=;
- b=G6ljUV3lqm+5uTyg2aKi5HDLvCYnCRKuE4qYkWIxTlt0VJtFg4kGGxouDq9B2q58gd
- Bn55M20jqF3aKx2Bj6TjNGK3fTvmUSu09uTdLyUDa2BBRtX6xQl3hVZvWpbHgru/ocpG
- yorRThli/rEdYw5Ev02ca/FdjrAwQnowSgirvgkWm2JctModYdtSTS2hS38EAk9AJUDp
- t6CFlIKNOsBroPpatgxuXqDzBUoyHSjrLZW85D6+6gqIY9zVX8LX0oJjNgXJ0oapc/q0
- jjeNYqL5M0FE3SZKwydGZ/uDowviPX13KTiArQHFjA3t7Lb/d1E2U9/tsSaepAXEL8HK
- 4TLg==
+ bh=5nfpzWU6BWZQ/unvn/jtnNuBbIIj9jq3hDXWSf3EW64=;
+ b=HGoG4XUh3DL0F8obt22WCybl0g//prPVx+o72G1ITdvpwt3pyGpCEw0RPz+d5yZVDE
+ AjswTHNn2R2CBtgmbz5wdheTTbAJCI8xTv04TGDvPdaIQPfgh1sflPXgUsTeyQGrpJL9
+ Sl93tWpzSjP+wjiiCSOTq3IuSrfxy15Kzwf7sy+i6jqr0ayejP8aI/OmbsO0SmiwX7HW
+ IDtWZpD2oCj6cWh/BF8Z3ZDoDfpBbpeiYKjbq5wqR/UBdAZA2FfR44SPMEeLo0Tg/+TY
+ uo1uDzT/5vG/gLbEA43TSBFwx+Z47UnyB4MGwT2iP9QeTeD3w4hjkEvv/tLuj39Mr0fR
+ 2AnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z0HMWgiSgaHAnfHC4nGM232rOSwhB2ZkX8mExK/8DHQ=;
- b=nwnDSsljjKpbQwire8mGcen+m25ES2EKWA6jE/DAZyi1Q8S4YlCXJpD1n9rMyNlXFw
- +NXxmeOTQBFIyNSCkJPBkqX1Qoo928UxHt37xIj4kTjxROXurL7sNBnGRc01mqNU4bLA
- O15ShpQgBSiMX6+wxJMFvGAtP6okl/B0a9vHQGwsaVJDMl4OaWFmA6i3nGMncG9yYPxB
- wp7PlWChDrsRi/umcs5+21kzUijLPZXX+JcHm0ZvIsAySMwVYBs0Y1WW451GoCjPAqc2
- l4uiZ5ksPsfX/1NrmjlK55/5Chc3Xr6cLuBM81FmRh8B+trXVvvTshgnno3Y2F2/O0vZ
- lHaA==
-X-Gm-Message-State: AOAM531SetcQ3HM3uV+97MtpZV/7fzuUWzQFRz1IXmVoPQSJoo04Pi4N
- Wp0NQ9n1uFyLxYx4Y7bZtKz9qFAm3m4Vaw==
-X-Google-Smtp-Source: ABdhPJwdWIW9lWwtB9bcHX5smUjYTCMPsuyu+AKGnByy9Q3D5OHdaYWc6wLY+a24/qFzfIL9p0mb6A==
-X-Received: by 2002:a7b:c750:: with SMTP id w16mr3458978wmk.136.1603209468042; 
- Tue, 20 Oct 2020 08:57:48 -0700 (PDT)
+ bh=5nfpzWU6BWZQ/unvn/jtnNuBbIIj9jq3hDXWSf3EW64=;
+ b=FTKO+oa65Sf2OhcrKiGfDiQXCmXKUIoErtiuAZQhny1m3wMqaZT9MeRJhkKtAjixfC
+ ybA9kCuGTFIgo+4oJ2ej74YJt9aVBArxNSYY8424hLmWMZHbnCb7alzlIvfalRfLdu9f
+ z+duudx3/IPE6M2SmacpdzTqzUOq5Vd68i3agFFPefs19sXKNgOSnEot/3Wp/j6TRjFB
+ KC8qpqBEJeiKkfYfT8eR6OWzlfnbjiVQodKXIiifTr7KI5iPHxkGOiVslvjXGkj98Pjc
+ 03s3E24Z/CGEVfTSh68gOyuMuCaru0sGvqPDkIbZ/aokwo0QAJixvpPlTr8zOSx2rbyc
+ K4lw==
+X-Gm-Message-State: AOAM530Y6yK/JExWYCSD2UnrqCHDeyqBKaxgp/8fmFewxztELMYNLoXc
+ GphZRfmJz8pxn6I1ruADz3pBocJU6eoJTg==
+X-Google-Smtp-Source: ABdhPJwZMerkEdTq3/vyE5ficgxRR5GfXmsi2uHVXgNYWwOaDMdDDO0s7bwLmOjPRkpsOQDNzT185w==
+X-Received: by 2002:a5d:4ed2:: with SMTP id s18mr4281079wrv.36.1603209469250; 
+ Tue, 20 Oct 2020 08:57:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.47
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:47 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/41] linux-user/elfload: Avoid leaking interp_name using GLib
- memory API
-Date: Tue, 20 Oct 2020 16:56:48 +0100
-Message-Id: <20201020155656.8045-34-peter.maydell@linaro.org>
+Subject: [PULL 34/41] linux-user/elfload: Fix coding style in load_elf_image
+Date: Tue, 20 Oct 2020 16:56:49 +0100
+Message-Id: <20201020155656.8045-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,60 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Fix an unlikely memory leak in load_elf_image().
+Fixing this now will clarify following patches.
 
-Fixes: bf858897b7 ("linux-user: Re-use load_elf_image for the main binary.")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201016184207.786698-5-richard.henderson@linaro.org
-Message-Id: <20201003174944.1972444-1-f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20201016184207.786698-6-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/elfload.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ linux-user/elfload.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index f6022fd7049..1a3150df7c0 100644
+index 1a3150df7c0..290ef70222b 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -2584,13 +2584,13 @@ static void load_elf_image(const char *image_name, int image_fd,
-                 info->brk = vaddr_em;
-             }
-         } else if (eppnt->p_type == PT_INTERP && pinterp_name) {
--            char *interp_name;
-+            g_autofree char *interp_name = NULL;
+@@ -2531,9 +2531,15 @@ static void load_elf_image(const char *image_name, int image_fd,
+             abi_ulong vaddr, vaddr_po, vaddr_ps, vaddr_ef, vaddr_em, vaddr_len;
+             int elf_prot = 0;
  
-             if (*pinterp_name) {
-                 errmsg = "Multiple PT_INTERP entries";
-                 goto exit_errmsg;
-             }
--            interp_name = malloc(eppnt->p_filesz);
-+            interp_name = g_malloc(eppnt->p_filesz);
-             if (!interp_name) {
-                 goto exit_perror;
-             }
-@@ -2609,7 +2609,7 @@ static void load_elf_image(const char *image_name, int image_fd,
-                 errmsg = "Invalid PT_INTERP entry";
-                 goto exit_errmsg;
-             }
--            *pinterp_name = interp_name;
-+            *pinterp_name = g_steal_pointer(&interp_name);
- #ifdef TARGET_MIPS
-         } else if (eppnt->p_type == PT_MIPS_ABIFLAGS) {
-             Mips_elf_abiflags_v0 abiflags;
-@@ -2961,7 +2961,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
-     if (elf_interpreter) {
-         info->load_bias = interp_info.load_bias;
-         info->entry = interp_info.entry;
--        free(elf_interpreter);
-+        g_free(elf_interpreter);
-     }
+-            if (eppnt->p_flags & PF_R) elf_prot =  PROT_READ;
+-            if (eppnt->p_flags & PF_W) elf_prot |= PROT_WRITE;
+-            if (eppnt->p_flags & PF_X) elf_prot |= PROT_EXEC;
++            if (eppnt->p_flags & PF_R) {
++                elf_prot |= PROT_READ;
++            }
++            if (eppnt->p_flags & PF_W) {
++                elf_prot |= PROT_WRITE;
++            }
++            if (eppnt->p_flags & PF_X) {
++                elf_prot |= PROT_EXEC;
++            }
  
- #ifdef USE_ELF_CORE_DUMP
+             vaddr = load_bias + eppnt->p_vaddr;
+             vaddr_po = TARGET_ELF_PAGEOFFSET(vaddr);
 -- 
 2.20.1
 
