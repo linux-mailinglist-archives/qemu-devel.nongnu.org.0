@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91229294034
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:07:26 +0200 (CEST)
-Received: from localhost ([::1]:57568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4F6294016
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:58:56 +0200 (CEST)
+Received: from localhost ([::1]:33182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuAX-0008E3-Kl
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37246)
+	id 1kUu2J-0006Sr-Uh
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0e-0004E1-Ab
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:13 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:40223)
+ id 1kUu0i-0004KI-9v
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:16 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0c-0003r3-GL
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:12 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id k18so2508274wmj.5
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:09 -0700 (PDT)
+ id 1kUu0f-0003rN-Q8
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:15 -0400
+Received: by mail-wm1-x330.google.com with SMTP id c77so2327929wmd.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fcvS5KwPH9BB5sdq/tDFX01ywohiKwH2/PzxO6MFTBs=;
- b=K3DX9XUSEK3FlPH1aQN7+eCgkbAkO2G+wEI+cYNdxGzCW/Q0xbQm44+MpoehGGyou3
- FGOK6nlWrgolZqbzDXDoT5SrovcWi+YO9MCBU4uUrwvorkZmZEqpSzIps8xosg+qZnGk
- HS+mP0/O54e7cWOTCHlU/4hr7vwTr+qLdvp/EoifYYM2+p/5Kx8TtXisMZSgoYjcMkeB
- nyEJLJoQCoweZDmfSkD4YwRrB1sI50wwzFwyRqN4Mbi1E7Fomo+irC8eOtrMT1it+KhS
- 27vPwEww+HhA6z53YFMXdP1DAywPLUhpGL5B410lKhkAaYPDAnYS1NJromwK9OfJOrv3
- 0j4Q==
+ bh=AWepJclKfiAgqPbSX9Qr68AN9+jPvNJVchxr+m/neyg=;
+ b=aOmEgptLo8ivpRy4C4v9dFBWdO8AJR1ZGoQiFmcKw+lhRZP/pAdJuKBPEaYBf0v5AX
+ S4l1UcwM8WlcTP6cj3KQL6iUipsz5yWGuxTICw2ZnHe4IB64jiIwfHHb/AXZEm2IJ36E
+ 5Yug/0mp3qm/anPDSz/5WM7weiR9AvinvCZvvET88MFqGZi+Em7l9S586MnqaMXGund8
+ i8AbgeNvurYQq8vYkdjQiFwquAcJhtNcrwMKtkrKMj/sk2cSUFSRQ4z8tRSqCwS/8fva
+ rJ1vMhZh5hkcAA8oA8iI6xIqp6s4DHBIY6TTGyAIDdSC1fbWCWOTRdgzrVX8k2WTAi8z
+ sNZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fcvS5KwPH9BB5sdq/tDFX01ywohiKwH2/PzxO6MFTBs=;
- b=fOnyrKN2EJ3AjjOf07X+JBWNmzGI6/O7M2gCnTdT7703prbcyHzoYbnDHdg9f4t4fF
- fgZrHCJ3yjV5qFnsnzbK4v/uVFmUN6WfLZ6lpsJHc2ibJ+21nU3uVAGwBWIHl7lUCu1K
- IO3v2eL4XGlwF3K3mt1zudog3ssU8njF2aviHMp2KlMb6RPSUn1vEfl6K0cp4Cci9SOt
- pkw9J0PMbpLAaq3aZ7TcTnENfCzH2oJANPWXjwHaYLpi51iJLeGpZL3/6zHcd84tOVW4
- RtMT3HEVzW654q7vcNuv6uOzEFLVHWj2BtiwI7+mCn5/WszuMeX3Al7p2rKqQ6edng8s
- BNaQ==
-X-Gm-Message-State: AOAM533T81Wi6xG+0oitpGIuQZRt5ruFP3Ezqv0hZGBJkz2o/5tfZ2nl
- rR9gjRdNHPW7ChNQwPZHKEtFgiChfSvZmQ==
-X-Google-Smtp-Source: ABdhPJwii4ueGHX7QUXzAhF3XO4da7VD4BbngoPASGEJBDYTgeSTCloHng9xECvtJ/+FbARxx0U4lg==
-X-Received: by 2002:a1c:9d8e:: with SMTP id g136mr3660010wme.18.1603209428447; 
- Tue, 20 Oct 2020 08:57:08 -0700 (PDT)
+ bh=AWepJclKfiAgqPbSX9Qr68AN9+jPvNJVchxr+m/neyg=;
+ b=Wrzr+AtToU0hUwetzwDN35i/f13Xz03Od1cmWChpYhtpgnPnxgCbDRk2OvHlBg83tU
+ X/G9ictEOQDQupau3koxTOO3fVNLBojH2nbf6xoG+EfxcRLt3jH+Ilzn+L7qL37bPdpG
+ z45sBuBUKBXVvfIPvlnR9Odi5zwoIAg0fpSOHtZX/eCLXH1kZr1i9vmgN7g+GjQWEC8u
+ Y+BCBzmUyOBmRlIoPUmU9GEnyF24jEqhlBqvbYq0KvyI9XHiaJ9M1onoG//dvf0d1fQU
+ oyDoDqOyRkvdav3OUCbQQfWpY6JV6aOC5O+9nMWBn3J0rmE+SINgoHyWM+Yq/89XdDTb
+ gnzQ==
+X-Gm-Message-State: AOAM532/OuyueP1QWRaPkHdrbL58KiL0jWzPiLrqfWer6NZvYejsIGS+
+ aeLse/lkJMTOe3ZVwoSNUNf6LermQ0damw==
+X-Google-Smtp-Source: ABdhPJzo/0yJme5lZisgA92dZ8ogifTeu6MabP+aXJMVSR0tfRARevb8sUkEDoudvAQNnYH2UnE0dQ==
+X-Received: by 2002:a1c:e403:: with SMTP id b3mr2883073wmh.79.1603209429793;
+ Tue, 20 Oct 2020 08:57:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.06
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:07 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/41] hw/arm: Restrict APEI tables generation to the 'virt'
- machine
-Date: Tue, 20 Oct 2020 16:56:19 +0100
-Message-Id: <20201020155656.8045-5-peter.maydell@linaro.org>
+Subject: [PULL 05/41] hw/timer/bcm2835: Introduce BCM2835_SYSTIMER_COUNT
+ definition
+Date: Tue, 20 Oct 2020 16:56:20 +0100
+Message-Id: <20201020155656.8045-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,50 +90,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-While APEI is a generic ACPI feature (usable by X86 and ARM64), only
-the 'virt' machine uses it, by enabling the RAS Virtualization. See
-commit 2afa8c8519: "hw/arm/virt: Introduce a RAS machine option").
+Use the BCM2835_SYSTIMER_COUNT definition instead of the
+magic '4' value.
 
-Restrict the APEI tables generation code to the single user: the virt
-machine. If another machine wants to use it, it simply has to 'select
-ACPI_APEI' in its Kconfig.
-
-Fixes: aa16508f1d ("ACPI: Build related register address fields via hardware error fw_cfg blob")
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Dongjiu Geng <gengdongjiu@huawei.com>
-Acked-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20201008161414.2672569-1-philmd@redhat.com
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20201010203709.3116542-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- default-configs/devices/arm-softmmu.mak | 1 -
- hw/arm/Kconfig                          | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ include/hw/timer/bcm2835_systmr.h | 4 +++-
+ hw/timer/bcm2835_systmr.c         | 3 ++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
-index 9a94ebd0bef..08a32123b4c 100644
---- a/default-configs/devices/arm-softmmu.mak
-+++ b/default-configs/devices/arm-softmmu.mak
-@@ -43,4 +43,3 @@ CONFIG_FSL_IMX7=y
- CONFIG_FSL_IMX6UL=y
- CONFIG_SEMIHOSTING=y
- CONFIG_ALLWINNER_H3=y
--CONFIG_ACPI_APEI=y
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index f303c6bead2..7d040827af4 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -26,6 +26,7 @@ config ARM_VIRT
-     select ACPI_MEMORY_HOTPLUG
-     select ACPI_HW_REDUCED
-     select ACPI_NVDIMM
-+    select ACPI_APEI
+diff --git a/include/hw/timer/bcm2835_systmr.h b/include/hw/timer/bcm2835_systmr.h
+index 7ce8f6ef4d8..43df7ee488c 100644
+--- a/include/hw/timer/bcm2835_systmr.h
++++ b/include/hw/timer/bcm2835_systmr.h
+@@ -16,6 +16,8 @@
+ #define TYPE_BCM2835_SYSTIMER "bcm2835-sys-timer"
+ OBJECT_DECLARE_SIMPLE_TYPE(BCM2835SystemTimerState, BCM2835_SYSTIMER)
  
- config CHEETAH
-     bool
++#define BCM2835_SYSTIMER_COUNT 4
++
+ struct BCM2835SystemTimerState {
+     /*< private >*/
+     SysBusDevice parent_obj;
+@@ -26,7 +28,7 @@ struct BCM2835SystemTimerState {
+ 
+     struct {
+         uint32_t status;
+-        uint32_t compare[4];
++        uint32_t compare[BCM2835_SYSTIMER_COUNT];
+     } reg;
+ };
+ 
+diff --git a/hw/timer/bcm2835_systmr.c b/hw/timer/bcm2835_systmr.c
+index 3387a6214a2..ff8c5536610 100644
+--- a/hw/timer/bcm2835_systmr.c
++++ b/hw/timer/bcm2835_systmr.c
+@@ -134,7 +134,8 @@ static const VMStateDescription bcm2835_systmr_vmstate = {
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(reg.status, BCM2835SystemTimerState),
+-        VMSTATE_UINT32_ARRAY(reg.compare, BCM2835SystemTimerState, 4),
++        VMSTATE_UINT32_ARRAY(reg.compare, BCM2835SystemTimerState,
++                             BCM2835_SYSTIMER_COUNT),
+         VMSTATE_END_OF_LIST()
+     }
+ };
 -- 
 2.20.1
 
