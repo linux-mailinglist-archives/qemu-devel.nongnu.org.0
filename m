@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A3829406A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:23:50 +0200 (CEST)
-Received: from localhost ([::1]:57404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8562940BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:45:26 +0200 (CEST)
+Received: from localhost ([::1]:32816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuQP-0007Fl-3K
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:23:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41042)
+	id 1kUulJ-0000Rj-8Y
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUuCK-0003W8-Sc
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:09:16 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:32109)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUuCR-0003qF-AY
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:09:23 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:23103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUuCJ-0005MR-2l
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:09:16 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUuCP-0005NC-OR
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:09:23 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-MRou7UYQMva4E0rU7pWsrA-1; Tue, 20 Oct 2020 12:09:09 -0400
-X-MC-Unique: MRou7UYQMva4E0rU7pWsrA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-312-GYHXPfOYPYKkywLysNM6og-1; Tue, 20 Oct 2020 12:09:16 -0400
+X-MC-Unique: GYHXPfOYPYKkywLysNM6og-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C574B18A0760;
- Tue, 20 Oct 2020 16:09:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94F6718A0760;
+ Tue, 20 Oct 2020 16:09:15 +0000 (UTC)
 Received: from bahia.lan (ovpn-115-53.ams2.redhat.com [10.36.115.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21F6C60C0F;
- Tue, 20 Oct 2020 16:09:07 +0000 (UTC)
-Subject: [PATCH v2 0/5] tests/9pfs: Code refactoring
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E5F43389;
+ Tue, 20 Oct 2020 16:09:14 +0000 (UTC)
+Subject: [PATCH v2 1/5] tests/9pfs: Factor out do_version() helper
 From: Greg Kurz <groug@kaod.org>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 20 Oct 2020 18:09:07 +0200
-Message-ID: <160320977352.266767.5622969302437522296.stgit@bahia.lan>
+Date: Tue, 20 Oct 2020 18:09:14 +0200
+Message-ID: <160321015403.266767.4533967728943968456.stgit@bahia.lan>
+In-Reply-To: <160320977352.266767.5622969302437522296.stgit@bahia.lan>
+References: <160320977352.266767.5622969302437522296.stgit@bahia.lan>
 User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
@@ -69,26 +71,62 @@ Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some code refactoring to have a clear distinction between top level
-test functions and helper functions.
+fs_version() is a top level test function. Factor out the reusable
+code to a separate helper instead of hijacking it in other tests.
 
-v2: - use "do_" prefix instead of "do_fs_"
-
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
+ tests/qtest/virtio-9p-test.c |   14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-Greg Kurz (5):
-      tests/9pfs: Factor out do_version() helper
-      tests/9pfs: Turn fs_readdir_split() into a helper
-      tests/9pfs: Set alloc in fs_create_dir()
-      tests/9pfs: Factor out do_attach() helper
-      tests/9pfs: Turn fs_mkdir() into a helper
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index c15908f27b3d..59bcea4c3091 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -567,10 +567,8 @@ static void v9fs_rflush(P9Req *req)
+     v9fs_req_free(req);
+ }
+=20
+-static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
++static void do_version(QVirtio9P *v9p)
+ {
+-    QVirtio9P *v9p =3D obj;
+-    alloc =3D t_alloc;
+     const char *version =3D "9P2000.L";
+     uint16_t server_len;
+     char *server_version;
+@@ -585,13 +583,19 @@ static void fs_version(void *obj, void *data, QGuestA=
+llocator *t_alloc)
+     g_free(server_version);
+ }
+=20
++static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
++{
++    alloc =3D t_alloc;
++    do_version(obj);
++}
++
+ static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p =3D obj;
+     alloc =3D t_alloc;
+     P9Req *req;
+=20
+-    fs_version(v9p, NULL, t_alloc);
++    do_version(v9p);
+     req =3D v9fs_tattach(v9p, 0, getuid(), 0);
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rattach(req, NULL);
+@@ -831,7 +835,7 @@ static void fs_walk_dotdot(void *obj, void *data, QGues=
+tAllocator *t_alloc)
+     v9fs_qid root_qid, *wqid;
+     P9Req *req;
+=20
+-    fs_version(v9p, NULL, t_alloc);
++    do_version(v9p);
+     req =3D v9fs_tattach(v9p, 0, getuid(), 0);
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rattach(req, &root_qid);
 
-
- tests/qtest/virtio-9p-test.c |   62 +++++++++++++++++++++++---------------=
-----
- 1 file changed, 34 insertions(+), 28 deletions(-)
-
---
-Greg
 
 
