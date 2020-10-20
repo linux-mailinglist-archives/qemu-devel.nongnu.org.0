@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE742294215
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 20:26:16 +0200 (CEST)
-Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC92F294216
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 20:26:17 +0200 (CEST)
+Received: from localhost ([::1]:35816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUwKt-0005Oe-PQ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 14:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50044)
+	id 1kUwKu-0005Qh-Tt
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 14:26:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUwFZ-0001LS-I5
+ id 1kUwFa-0001LY-Ur
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 14:20:47 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35296)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kUwFU-00071D-83
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 14:20:43 -0400
-Received: by mail-wm1-x344.google.com with SMTP id q5so3062698wmq.0
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 11:20:25 -0700 (PDT)
+ id 1kUwFZ-00072j-J3
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 14:20:46 -0400
+Received: by mail-wr1-x444.google.com with SMTP id s9so3347588wro.8
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 11:20:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LlhPHIkLgnc2X3iIuYASqYyROrzSjxY4qWSO0bD5GDk=;
- b=VY2LTrHRsp+FHTTI6eNiyB9FbHAEvWmbwiG0O+xcNTVL/tK1Xm0925ondCwNBYhKAF
- 0BBgnnObtpyRicB4W+fRAF7K+GPsN6DEKzatL88y5AYR91Aveacl09lHvuLpmigXd0Lk
- mMfKBWC+kPa+GZ+rNObWO8jaoI0rGyXNbzvLQyVDs24cNGnXZsS+Fb65MLxykXWwFAvh
- 2ZAXuAN282Qmi5FVmODzTooqXCVqeDG21gsT1oVa+foMFKseJNzrqFeIZAoM+IyMI8CD
- asGjNVUpTy91C8R2SG3JQSgpD5mUZqBE6l8OK5LaiHEWlyUzkwNHKwsf+aPbdFXN1R97
- 5kPg==
+ bh=LQrTFKXWCLSqqSOpapSwwXPnnslLjbgCl2fGT7u9jw0=;
+ b=tVXKYBrlySX4y89GL32QgH7h5/3ZT9bsnd/8LCsCuEa8Cb4pPlFcMQJSjmpA/MsNQc
+ wxypXE0dJVIdGSWW53+36BdL8pI661IhgCCJVYkfsOabz8/OMyv+mdo6bKSb7AHyq1I8
+ VKfP0y+f+mSZLomDqSOaCT+0Ax6EixynAzkbyuQgO2UWNFLqG6QMmPXIA0NxV+Ps0hGF
+ OX2359yqMIhxs3gYfaSRBZz+c1LiD2cYYWKaWXrpdglfIbLYDkNNnp+5uodI9PXVsRHG
+ n7BUOPUkqCDFVXwekyshYr7NzO4Ri+VVpnyNg8eupncxipwkQNZjR+LFLCLkA6ig/4RL
+ v2Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LlhPHIkLgnc2X3iIuYASqYyROrzSjxY4qWSO0bD5GDk=;
- b=URzgu0ckMVvbNC+YSS4T+EhIjrKeh5UQfn+HXd6/k3EZezjqCQ1Lz2/S+KIkzvB1uH
- 9l4JFo0HMB8P3n8pQM8m0zYsyZ8aZ/66B5BfazDoqnKTC8Kly6KVZgpkeo9FVPd80/z0
- nrsQBNDh1gP9cnzhrqXD3Nh7d8Zb+YYsf+OfgGyoMlaa+fAtKq2x7hvJQhryL4w72f2Z
- x7PznsTjaif8bVPkMWyw2uKB56UokaLCHw1R/x5imNIIvq6/d9bYlWDY9jyzLG2LGSXP
- 3LViQOunGby9MCjU9DOm6JE913DLdXAX36qKFGddhGizfpIUysRoRuOC8LfRZFQCgsWk
- W/9w==
-X-Gm-Message-State: AOAM5326evh7At1CMAOt5Cdh9SOb/mCHdXjlb61/zEk+/ycC/rhEy//F
- yqfjRKJe6U6r8lx6zSa+vbTSs1fEmMk=
-X-Google-Smtp-Source: ABdhPJxHR+y9WC8u/4TV6Y+y9C6UNcW/vUdA1yMPG6t/VvJZD3YCFgIyrp7ylTJz5cpFUcuXMDjJpw==
-X-Received: by 2002:a1c:f414:: with SMTP id z20mr4272674wma.110.1603218024717; 
- Tue, 20 Oct 2020 11:20:24 -0700 (PDT)
+ bh=LQrTFKXWCLSqqSOpapSwwXPnnslLjbgCl2fGT7u9jw0=;
+ b=ujfx/8WzfACKBlM+odvt8yESX5YE825CHs5VlGkdVuFMBR3JaBtKeLdvEnMkXeu7a5
+ g878lyzlflAWlq9HQwy/9s4Q+7H+WRK9MMS0L2bUiQWoImUyJg0nGCrfS52vUv10cUnS
+ nodgNjrPJbO7reh3zT+DHD0m0i5V4JJ/zJELBjQlKRfhSxq4d8U4TI2zi5MoaYrMjCKD
+ ETS4qpCwEl7kZGfB0cd5bAPg3fbPWHOCuIGLEYWy1Yfyq7qLI+EmyzWJmkM66uW6gRSc
+ TmZzIq7rWNj2McRFrqmUtKgYG3mOPI38cz021Epc45tjF9dYrkZKGM81F68oCKQ3+yy7
+ RCwA==
+X-Gm-Message-State: AOAM532dilJSsp29KFR1oLkw+vS9rHUj017h0mpdFiY69YdrsdaJYRhN
+ +94M+XmHN+D3QZ7En4pE1FOiq+RCcW4=
+X-Google-Smtp-Source: ABdhPJxGeMKf57nyBJuXqB3UpANGvvvS7jEECJvnzXo3B1NVbkxk7AvTodWQv/i/AJo2TU9Jn7dApw==
+X-Received: by 2002:adf:a553:: with SMTP id j19mr4875776wrb.349.1603218029290; 
+ Tue, 20 Oct 2020 11:20:29 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id n83sm2998389wma.39.2020.10.20.11.20.23
+ by smtp.gmail.com with ESMTPSA id p11sm4139024wrm.44.2020.10.20.11.20.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 11:20:24 -0700 (PDT)
+ Tue, 20 Oct 2020 11:20:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] hw/clock: Inline and remove CLOCK_PERIOD_TO_HZ()
-Date: Tue, 20 Oct 2020 20:20:07 +0200
-Message-Id: <20201020182008.2240590-4-f4bug@amsat.org>
+Subject: [RFC PATCH 4/4] hw/clock: Inline and remove CLOCK_PERIOD_TO_NS()
+Date: Tue, 20 Oct 2020 20:20:08 +0200
+Message-Id: <20201020182008.2240590-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201020182008.2240590-1-f4bug@amsat.org>
 References: <20201020182008.2240590-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -97,41 +97,52 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This macro is only used once. Inline and remove it.
+This macro is only used once. Inline caring about 64-bit
+multiplication, and remove it.
 
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/clock.h | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ include/hw/clock.h | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/include/hw/clock.h b/include/hw/clock.h
-index cbc5e6ced1e..b58038f1e7d 100644
+index b58038f1e7d..f329fcf0ea5 100644
 --- a/include/hw/clock.h
 +++ b/include/hw/clock.h
-@@ -40,7 +40,6 @@ typedef void ClockCallback(void *opaque);
+@@ -16,6 +16,7 @@
+ 
+ #include "qom/object.h"
+ #include "qemu/queue.h"
++#include "qemu/host-utils.h"
+ 
+ #define TYPE_CLOCK "clock"
+ OBJECT_DECLARE_SIMPLE_TYPE(Clock, CLOCK)
+@@ -38,7 +39,6 @@ typedef void ClockCallback(void *opaque);
+  * macro helpers to convert to hertz / nanosecond
+  */
  #define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_PERIOD_1SEC / 1000000000llu))
- #define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_PERIOD_1SEC / 1000000000llu))
+-#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_PERIOD_1SEC / 1000000000llu))
  #define CLOCK_PERIOD_FROM_HZ(hz) (((hz) != 0) ? CLOCK_PERIOD_1SEC / (hz) : 0u)
--#define CLOCK_PERIOD_TO_HZ(per) (((per) != 0) ? CLOCK_PERIOD_1SEC / (per) : 0u)
  
  /**
-  * Clock:
-@@ -203,9 +202,12 @@ static inline uint64_t clock_get(const Clock *clk)
-     return clk->period;
+@@ -210,9 +210,14 @@ static inline uint64_t clock_get_hz(Clock *clk)
+     return CLOCK_PERIOD_1SEC / clk->period;
  }
  
--static inline unsigned clock_get_hz(Clock *clk)
-+static inline uint64_t clock_get_hz(Clock *clk)
+-static inline unsigned clock_get_ns(Clock *clk)
++static inline uint64_t clock_get_ns(Clock *clk)
  {
--    return CLOCK_PERIOD_TO_HZ(clock_get(clk));
-+    if (!clk->period) {
-+        return 0u;
-+    }
-+    return CLOCK_PERIOD_1SEC / clk->period;
+-    return CLOCK_PERIOD_TO_NS(clock_get(clk));
++    uint64_t lo, hi;
++
++    mulu64(&lo, &hi, clock_get(clk), 1000000000llu);
++    divu128(&lo, &hi, CLOCK_PERIOD_1SEC);
++
++    return lo;
  }
  
- static inline unsigned clock_get_ns(Clock *clk)
+ /**
 -- 
 2.26.2
 
