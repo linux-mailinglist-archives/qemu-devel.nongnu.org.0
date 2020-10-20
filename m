@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612FB29398A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:02:25 +0200 (CEST)
-Received: from localhost ([::1]:52410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 948482939A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:11:50 +0200 (CEST)
+Received: from localhost ([::1]:48832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpPM-0004Jf-GD
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:02:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48072)
+	id 1kUpYT-0006Xw-Kc
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:11:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kUpMq-0002Yi-QR
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:59:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kUpMn-00064X-P9
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:59:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603191583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=b8dt7Ngk6ivHozgFhpCN03VTvz2toPLe9gvyAeHfzlw=;
- b=L7Ijnuok6679WJmG49arGRnsBehrJfznbBnhKJcvReI9NCaQCD2ci2iu0WhS2I8zpxnJR4
- ukqKt+nE9MHxKq8yKV2ROGcxlR/cKfy1zqCsnMt+jD/ozhyZf48Wlk3cmz1mPQc44EaxRM
- /lRj/WHLY18WV7d094TTmSMGG+qxAKk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-ZCzRoFVlPGKQkOnL5t2Krg-1; Tue, 20 Oct 2020 06:59:42 -0400
-X-MC-Unique: ZCzRoFVlPGKQkOnL5t2Krg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD76064082;
- Tue, 20 Oct 2020 10:59:40 +0000 (UTC)
-Received: from thuth.com (dhcp-192-238.str.redhat.com [10.33.192.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD9485D9D2;
- Tue, 20 Oct 2020 10:59:39 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PATCH] hw/arm/highbank: Silence warnings about missing fallthrough
- statements
-Date: Tue, 20 Oct 2020 12:59:38 +0200
-Message-Id: <20201020105938.23209-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUpS0-0007ga-IT
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:05:08 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39843)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kUpRy-0006xL-HD
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:05:08 -0400
+Received: by mail-ed1-x535.google.com with SMTP id t21so1370246eds.6
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 04:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=19qn0BCYWTM0zx/HwCCABK7hV/xe9G+1LyV7NGMXlQU=;
+ b=Ze+dZL+aSJSyQyvOV24FW+TcTcJ4hKvSue+XKEjS9cR6zBBkjaBZBMt6awYUppzhh5
+ fBRuBN+wv0IAOGiWtN0DY5Wd8Rkz+MTmgzFKKJkCK9SIQ/qxrHGU0N7rk+Byd455zA7Y
+ vSZsQF+h604Fd4CdXBq0MkiAGHaoh3oRxlWn+5F4Ll0r8Dt56mU9Er4VVYIk3bGRXvbo
+ w9JVrJK5qpgy+Bxtskb/Xcz/m/pzygG2tuvy2SoUvLVHpK03hobVVT0eC6HhNQh0az+P
+ nYxhwtk0cVd8+xGoZ9Pl/UvyfWWbMEQ490J94y9lvnaTbcueAssKX6mCjAiJnmn7yGyM
+ NYcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=19qn0BCYWTM0zx/HwCCABK7hV/xe9G+1LyV7NGMXlQU=;
+ b=uLNrzZnW3dYd7Sz8joeV6ThPi+WVnNb8YprG8y7qoIpOWADFrmPR1QV8B9nTKTZNHj
+ lIz5YcjWoWJGbj8K77idlC+e6ccFNStbpnyOXOXTB8Gqt1Gpb1ztofrnYNYikUHR5XMs
+ EEr3wqu6WEc1S//j3vF3RFUFp22J/cysFVPv+nbYVgNhcztQ3kRh3c5PujvY/d+Purjx
+ Jr3CNRXaHKyNUIbkp2JpVLogJ04JueitzMsXZXyvj1WXd0RDX0/D5m8divXcCriGcsmP
+ Pvz8MZ8gv69esvB8D1rJwz0x4VO5egvDWOGt90hl+cLNoaMwz7hMcw2MRf3pTJexLEkw
+ 2qEQ==
+X-Gm-Message-State: AOAM531VHY1HnsC7qZMWDXztBhc1LiXgBUVUvg03OIly+nGfn1FoUGR7
+ xNzLs4bL5/GDNnMo5SYIP09GF9xeCQx20sk4vG+FlQ==
+X-Google-Smtp-Source: ABdhPJyxgQ1NUIDElmJPF32wlaL+q6lIGOZ6SS+mmUFF3b6UdtFwUNurBr+pczB3pHND2ZDQUpmCeZsgP0D2mo4LuYg=
+X-Received: by 2002:a05:6402:3133:: with SMTP id
+ dd19mr2232319edb.100.1603191904687; 
+ Tue, 20 Oct 2020 04:05:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201020100239.272748-1-anthony.perard@citrix.com>
+In-Reply-To: <20201020100239.272748-1-anthony.perard@citrix.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Oct 2020 12:04:53 +0100
+Message-ID: <CAFEAcA-_w_tve3MfUnPLMJyerox_f8JQAu2SsvCV29O=ZKY9Gg@mail.gmail.com>
+Subject: Re: [PULL 0/4] xen queue 2020-10-20
+To: Anthony PERARD <anthony.perard@citrix.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,38 +79,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Rob Herring <robh@kernel.org>, qemu-arm@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When compiling with -Werror=implicit-fallthrough, gcc complains about
-missing fallthrough annotations in this file. Looking at the code,
-the fallthrough is very likely intended here, so add some comments
-to silence the compiler warnings.
+On Tue, 20 Oct 2020 at 11:02, Anthony PERARD <anthony.perard@citrix.com> wrote:
+>
+> The following changes since commit d76f4f97eb2772bf85fe286097183d0c7db19ae8:
+>
+>   Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20201019' into staging (2020-10-19 14:39:27 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20201020
+>
+> for you to fetch changes up to 8959e0a63a3a681a31ff8397d9345a88e6d905bf:
+>
+>   hw/xen: Set suppress-vmdesc for Xen machines (2020-10-19 16:33:28 +0100)
+>
+> ----------------------------------------------------------------
+> Xen queue
+>
+> * cleanup patches.
+> * improve xen backend setup performance when other xen guests are
+>   running/booting.
+> * improve xen guest migration when running in a stubdomain.
+>
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/arm/highbank.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
-index da0510d7ce..f71087860d 100644
---- a/hw/arm/highbank.c
-+++ b/hw/arm/highbank.c
-@@ -92,10 +92,12 @@ static void hb_reset_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
-         address_space_stl_notdirty(&address_space_memory,
-                                    SMP_BOOT_REG + 0x30, 0,
-                                    MEMTXATTRS_UNSPECIFIED, NULL);
-+        /* fallthrough */
-     case 3:
-         address_space_stl_notdirty(&address_space_memory,
-                                    SMP_BOOT_REG + 0x20, 0,
-                                    MEMTXATTRS_UNSPECIFIED, NULL);
-+        /* fallthrough */
-     case 2:
-         address_space_stl_notdirty(&address_space_memory,
-                                    SMP_BOOT_REG + 0x10, 0,
--- 
-2.18.2
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
