@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A27E2939AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:19:06 +0200 (CEST)
-Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426AB2939B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:20:45 +0200 (CEST)
+Received: from localhost ([::1]:41600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpfV-0005V9-64
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51888)
+	id 1kUph6-0007fE-8P
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:20:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUpbd-00045m-Tm
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:15:06 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:39431)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUpbb-0008Lz-VV
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:15:05 -0400
-Received: by mail-ej1-x644.google.com with SMTP id lw21so2083128ejb.6
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 04:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UTBTM6kZdyting9dnwCgnfuL7yXsGIQ9CBVlep2Z6Us=;
- b=gE5GIkdqzL6orVBKg3zUhZGYN4flOeAZi2nlpDjgUAuA1IbSyfh6zlm0PjA1TeNtSZ
- Azn8K2vumwvLzf99y8Wmt8jjHNrIon9OzZf6A6nsRgFbMhri459GWF9upZKP0Lo7IC6u
- NEmMozFmr0Aezu0Hwbvqrq2i3C4AmUd9/TalzVx+Ji0eEq4o/ayJbZaXqQv1cASKikna
- zxvaLk8cAKAwpX1kjjgHQ1vyAeiQAFE4vXsgwyTCbMT/ummx6PHWw//TzXOSMvvwxDJd
- NXNDiMp0/oJkZgwT8k222Bbw5o2xRCdUz32I3qJxbnbv2tqIzuOMrbVfxo+Cl16rUWRP
- Mzbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UTBTM6kZdyting9dnwCgnfuL7yXsGIQ9CBVlep2Z6Us=;
- b=HxHSg00Qb9SqaxlfjjSiZ6r0DlABYU+iMRcRFO3A645YSJnPpQfLZFNf9XIZLhG90w
- WvtQcOD+sM9AU5o+mVyqmcO38lLDMSUDk5sIJgGkkRnJVMBtkadlfnUCH1dPn76q1GQm
- K/CLeaUi3kNuEi8waXvyzDDc3mNcv7geC5BzYjjpJgUMc91UaRPfBaws+ABuPW5Cy7Xa
- k7cxfE0Gr7ou/DYThoNm1yKgAwyZiAPY9Uw+L51gQSAAIkrDNWNqxyJ6wgRGiIEpff7W
- hoEfJcXyi1uRXX0wzKn2JBQndPbmuIZy97CWanVCxbuzC2DpNa0ODgiYg+3CTyYcORnm
- ym2Q==
-X-Gm-Message-State: AOAM532L6OtMDIunD2KU9DuGemgMKuzzzcRHxn8le3DXykJUtjRkSNxJ
- wDrxbL0yh91Wi57lGsZwZstU0Ffmtsf9pOOmI95UFA==
-X-Google-Smtp-Source: ABdhPJwNGtqheOecRNSzzNj0gcnZ9M0CyUlaELiqjp2Kjr94XKhwTh6Xug7/DKXgwCzPjR9y+qEkkWKs6b9VvqDULCw=
-X-Received: by 2002:a17:906:c7d9:: with SMTP id
- dc25mr2556236ejb.482.1603192502132; 
- Tue, 20 Oct 2020 04:15:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1kUpe1-0005TR-5i; Tue, 20 Oct 2020 07:17:33 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2548 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1kUpdy-0000Fd-Hr; Tue, 20 Oct 2020 07:17:32 -0400
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.53])
+ by Forcepoint Email with ESMTP id 49C1CC818518428D0A5E;
+ Tue, 20 Oct 2020 19:17:19 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Tue, 20 Oct 2020 19:17:19 +0800
+Received: from [10.174.185.187] (10.174.185.187) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Tue, 20 Oct 2020 19:17:18 +0800
+Subject: Re: [PATCH] microbit_i2c: Fix coredump when dump-vmstate
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20201019093401.2993833-1-liangpeng10@huawei.com>
+ <786deb83-b6f4-d778-d5ed-19f3901ad211@redhat.com>
+From: Peng Liang <liangpeng10@huawei.com>
+Message-ID: <0c174303-50bc-128a-26ab-c062f98cd6cd@huawei.com>
+Date: Tue, 20 Oct 2020 19:17:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-References: <20201019203023.658555-1-ganqixin@huawei.com>
-In-Reply-To: <20201019203023.658555-1-ganqixin@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Oct 2020 12:14:51 +0100
-Message-ID: <CAFEAcA-NPcXxh7QPtUtY5CornQjb-vTb_kCzRUSwMCZqkVVkBg@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Fix line over 80 characters warning
-To: Gan Qixin <ganqixin@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <786deb83-b6f4-d778-d5ed-19f3901ad211@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.185.187]
+X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=liangpeng10@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 07:17:20
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,36 +68,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, joel@jms.id.au, xiexiangyou@huawei.com,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Oct 2020 at 12:03, Gan Qixin <ganqixin@huawei.com> wrote:
->
-> Hi all,
->     I used scripts/checkpatch.pl to find that many files in the hw directory
-> contain lines with more than 80 characters. Therefore, I splited some lines to
-> fix this warning.
+On 10/19/2020 6:35 PM, Philippe Mathieu-Daudé wrote:
+> On 10/19/20 11:34 AM, Peng Liang wrote:
+>> VMStateDescription.fields should be end with VMSTATE_END_OF_LIST().
+>> However, microbit_i2c_vmstate doesn't follow it.  Let's change it.
+> 
+> It might be easy to add a Coccinelle script to avoid future errors.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
 
-I personally have come round to the idea that we should instead
-adjust checkpatch so that it doesn't have a hard 80 character
-complaint limit.
+I tried to add a Coccinelle script to add VMSTATE_END_OF_LIST() to the
+end of VMStateDescription.fields.  For those who are not defined as
+compound literals, it works well.  However, I cannot make it work for
+those defined as compound literals.  And Julia doesn't think compound
+literals are supported currently[1].  So maybe currently it's hard to
+check the error using Coccinelle :(
 
-Compare the kernel coding style change:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bdc48fa11e46f867ea4d75fa59ee87a7f48be144
+Thanks for my colleague Biaoxiang Ye, who wrote a shell script to find
+the errors, I didn't find other similar errors.
 
-whose rationale I agree with. We should *prefer* 80 character
-wrapping, but there are some places where an 85-character
-line is much more readable and sensible style than inserting
-a line break just to please checkpatch.
+[1]
+https://lore.kernel.org/cocci/alpine.DEB.2.22.394.2010201143330.2736@hadrien/T/#t
 
-thanks
--- PMM
+Thanks,
+Peng
+
+>>
+>> Fixes: 9d68bf564e ("arm: Stub out NRF51 TWI magnetometer/accelerometer
+>> detection")
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+>> ---
+>>   hw/i2c/microbit_i2c.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/hw/i2c/microbit_i2c.c b/hw/i2c/microbit_i2c.c
+>> index 802473982082..e92f9f84ea81 100644
+>> --- a/hw/i2c/microbit_i2c.c
+>> +++ b/hw/i2c/microbit_i2c.c
+>> @@ -83,6 +83,7 @@ static const VMStateDescription microbit_i2c_vmstate
+>> = {
+>>       .fields = (VMStateField[]) {
+>>           VMSTATE_UINT32_ARRAY(regs, MicrobitI2CState,
+>> MICROBIT_I2C_NREGS),
+>>           VMSTATE_UINT32(read_idx, MicrobitI2CState),
+>> +        VMSTATE_END_OF_LIST()
+>>       },
+>>   };
+>>  
+> 
+> 
+> .
 
