@@ -2,89 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B3F2936E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 10:34:54 +0200 (CEST)
-Received: from localhost ([::1]:55378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2052936D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 10:31:19 +0200 (CEST)
+Received: from localhost ([::1]:52760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUn6b-0001Cx-4S
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 04:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44402)
+	id 1kUn38-0007vj-CS
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 04:31:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kUn18-00076U-8Q; Tue, 20 Oct 2020 04:29:14 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:56117)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kUn16-0007Ht-Fl; Tue, 20 Oct 2020 04:29:13 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 0D0A79E7;
- Tue, 20 Oct 2020 04:29:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 20 Oct 2020 04:29:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=4Md/RH6R/JODYqrDMQ+BP8xCRJW
- X9txwAmGCTkc9Yw4=; b=VDsV3RIDRCqX0NlmNwh0yvt/W1trFTIBzyK38He6JsJ
- /3E3w7XVzH89nKIuAAtW0mKB/MVSxZDtNlcyRTC++bf2BLQrGqvNYDU2qj87wDOT
- r/GTYFgVBk1Gr/4icDVmpTCEfVTbkocJKs24lt0amGpIJpOojW9rfyuXZEK2t/P5
- GcvFQgwnXiy84siR5DDYt1oVfzzwX2fNwp50+TCBeqlGaWVa/sgCY+0Ak3yMN3l/
- 6dUUHmIeUAamGtq+M/x7TcGSGOuwVWH6pKBeHkNBuIUp4EfJLbxyiQfe9qfrWZmQ
- 4cFt9znz+Hd7Bj3CEwnEmYq/BFVu0zrT0Y/dADQFyoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4Md/RH
- 6R/JODYqrDMQ+BP8xCRJWX9txwAmGCTkc9Yw4=; b=Qylv8xthy5Xe4ev7qhE34n
- EuET6k/03aO/y26BimgdeqNVplUDnI/F22GV2Yx3GfQFiR7JKOR1HaUGDp+vWUAm
- 93Eouyy/KOYM7iux3RXDIrzm/ExGLtqIhA6wa7lpvM4Z6Hqe0wDuJvwFg3xbGCDp
- apVDX2Nig9D1bnFXR+EPS8LldjFDGaby5Qq/bL2SoKZXXEzhkTqhW9WIFXtytLMg
- TQfF0B4w7pMffmByWVN+p90F1TdVI31yRENuAZBGQGHUChRRVbB/KQkLdKha4kvF
- P+Hlw7mAOLWq8DBuFv+DTJh3Ug6s7t+5G3/zKyboRYtLzSVFUubdQ6VSLzyj/WyA
- ==
-X-ME-Sender: <xms:1Z-OX53jHm4ztqBDgzbMG4PW4RChRT9mNeTVktMzCVSufuyk-6jmUg>
- <xme:1Z-OXwEUWOYkSHzK8aXXwwW-6jB3ymZmJC2Xa0xI1yN83qv9Wi1DEHGxDv0BGYOcc
- WHz7Iv-jTQIqDM5a4k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeefgddtfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepudenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:1Z-OX57CxXuDM-VLhldQwxwv0SItdDci1iINrHPDoxpRHqb9SWlqCA>
- <xmx:1Z-OX209mRKUjlPs5CVTDvpIST9xBy3WkvO1p13As08kP8goZl_QUA>
- <xmx:1Z-OX8HZLvtaIhQYP7gKshEyKs5G-w-nKSQtNaT63-gS2nS5DVOa_g>
- <xmx:1Z-OX_8pLD_EH4o9pnb-KrJPRV57xJ-CloX0RuWUPg1IzdABFNIx8z24YBg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id C6B323064684;
- Tue, 20 Oct 2020 04:29:07 -0400 (EDT)
-Date: Tue, 20 Oct 2020 10:29:06 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v7 11/11] hw/block/nvme: Merge nvme_write_zeroes() with
- nvme_write()
-Message-ID: <20201020082906.GC178548@apples.localdomain>
-References: <20201019021726.12048-1-dmitry.fomichev@wdc.com>
- <20201019021726.12048-12-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kUn1Q-0007FB-Al
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 04:29:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29708)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kUn1N-0007Ms-NW
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 04:29:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603182567;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MBHfkinYj4WQ8dP9GBaM1IYz1RFJaMySOcSUl9MBr2g=;
+ b=OSdEDwakmUrmcmSXPeoCRCdq6uixX7UK90+8i6tm2lH/RuPXMAOCFjWjCliYp6zR+LbOnn
+ trEdPL7RsyUPuzcoikZliygBB5uQD2cg4kdH/bxFLFVQ+Vk4d7bcWkd+UE6fZ1d2CpG03+
+ JO6uMLiQA64hQjCBKbREFI/3OBGcw20=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-0LoHRz6sM3ObF4gbeVOurQ-1; Tue, 20 Oct 2020 04:29:25 -0400
+X-MC-Unique: 0LoHRz6sM3ObF4gbeVOurQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A0061006C83;
+ Tue, 20 Oct 2020 08:29:24 +0000 (UTC)
+Received: from redhat.com (ovpn-114-206.ams2.redhat.com [10.36.114.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37521100238C;
+ Tue, 20 Oct 2020 08:29:14 +0000 (UTC)
+Date: Tue, 20 Oct 2020 09:29:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Erik Skultety <eskultet@redhat.com>
+Subject: Re: [PATCH v4 3/4] Jobs based on custom runners: docs and
+ gitlab-runner setup playbook
+Message-ID: <20201020082911.GB287149@redhat.com>
+References: <20201019015003.1527746-1-crosa@redhat.com>
+ <20201019015003.1527746-4-crosa@redhat.com>
+ <20201019102610.GB495479@nautilus>
+ <20201019204138.GC1617151@localhost.localdomain>
+ <20201020065839.GE495479@nautilus>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="E/DnYTRukya0zdZ1"
+In-Reply-To: <20201020065839.GE495479@nautilus>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201019021726.12048-12-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=64.147.123.26; envelope-from=its@irrelevant.dk;
- helo=wnew1-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 04:21:24
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,43 +88,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+ Andrea Bolognani <abologna@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Oct 20, 2020 at 08:58:39AM +0200, Erik Skultety wrote:
+> On Mon, Oct 19, 2020 at 04:41:38PM -0400, Cleber Rosa wrote:
+> > On Mon, Oct 19, 2020 at 12:26:10PM +0200, Erik Skultety wrote:
+> > > On Sun, Oct 18, 2020 at 09:50:02PM -0400, Cleber Rosa wrote:
+> > > > To have the jobs dispatched to custom runners, gitlab-runner must
+> > > > be installed, active as a service and properly configured.  The
+> > > > variables file and playbook introduced here should help with those
+> > > > steps.
+> > > > 
+> > > > The playbook introduced here covers a number of different Linux
+> > > > distributions and FreeBSD, and are intended to provide a reproducible
+> > > > environment.
+> > > > 
+> > > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > > ---
+> > > 
+> > > In general, there's been put quite some effort into the playbooks - sorry I'm
+> > > late to the game - is there a plan to introduce QEMU as a project to lcitool?
+> > 
+> > I think it's becoming quite clear that having so much duplication (in
+> > the dockerfiles, tests/vm, this playbook, etc) is costly and error
+> > prone.  I don't know if anyone has invested time in a PoC to
+> > consolidate those (with lcitool), but I can certainly see the upside
+> > to that.  BTW, are you volunteering (wink wink)? :)
+> 
+> I don't think I was trying to :), but sure, I can dedicate some time to it.
+> I'll need a bit of guidance in the QEMU world though for sure.
 
---E/DnYTRukya0zdZ1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think the obvious and easy place is start using lcitool is for the
+tests/docker/dockerfiles/*.  All that's required is to add mappings
+to lcitool for the various deps that QEMU has which libvirt does not
+already have. Then we should be able to start auto-generating the
+dockerfiles without too much difficulty. This will be a significant
+step forward because it will help us keep te package lists in sync
+across all the dockerfiles which is a major fail in QEMU right now.
 
-On Oct 19 11:17, Dmitry Fomichev wrote:
-> nvme_write() now handles WRITE, WRITE ZEROES and ZONE_APPEND.
->=20
 
-Same here, Acked, but maybe move it in front as a preparation patch as
-well?
+Dealing with tests/vm replacement or these ansible recipes is likely
+to be a significantly more challenging proposition. Perhaps we can
+again start by just automating creation of the package lists that
+the tests/vm and ansibile recipes need, as again those are all
+inconsistent.
 
---E/DnYTRukya0zdZ1
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+On9AACgkQTeGvMW1P
-DenpIAf/SYhr8M114IqdPYVz9k4rCd10gBTvxqsikdMAifftPlwSEkDliQ3pf9a5
-MK5Lfa0wdVTI/6E2dKZhGE5MQybQ1uj+/sXbXxQHwWLocOv5U1S1GAI1pPrDQsuD
-8PkxbgR33etU6wLthK3IAMNgcT8SohK13P9fTnCVOSFwJ7nigGGdQXF+9QZDQOgI
-rpfXk0Gv0xu9R6hixMxjbx7o9AxoWsMhVFIDTXFauwgYmt9flD6gqjZTNsicHxa5
-iP5D5Ss+L4v9WP8dm5MDc4iE93USlbZqqdX+rVfqg4+dJ6/wMUrRrTY9z0kK6/A8
-LXzuFJqqchnvgUjhPmLT+XOaWMlPpQ==
-=0M6y
------END PGP SIGNATURE-----
-
---E/DnYTRukya0zdZ1--
 
