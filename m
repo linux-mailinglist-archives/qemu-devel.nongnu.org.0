@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7403929408A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:31:35 +0200 (CEST)
-Received: from localhost ([::1]:48260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC393294040
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:11:52 +0200 (CEST)
+Received: from localhost ([::1]:41888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuXu-0007Su-Ev
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:31:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37820)
+	id 1kUuEp-00059u-R8
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu1F-0005VT-J8
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:50 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:50248)
+ id 1kUu1H-0005WI-BJ
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:51 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu1B-0003x7-LN
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:49 -0400
-Received: by mail-wm1-x334.google.com with SMTP id 13so2340673wmf.0
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:44 -0700 (PDT)
+ id 1kUu1D-0003xE-Bs
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:51 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 13so2340750wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Gsl0pskRk7KVMoTzUTHvyTGRlhYkpRENSDWVHkehmtc=;
- b=m73dAuA1JZ5oC/Y422H3e6Rk5ZBmkNMz4sMcY0MC5dWSCslKWfbnQQtzX9hDvY2F2/
- C9/xiGkJYw60eRuA0RzDP/M9i1MC+b5woh7CQ6y9UTX949yMB0/zcTqQtv3P0VQ5w6Ak
- i8CutoqYIW/kxo8YcbBOVwW/6EnmZ/PNYHt1Sip0pnwODXXmlqg6rIBY0+TnRPBLCHbB
- o0qJrPmpG8T6+nl+K5ZgpQNUWpW7ykGp5QYKJ5ldwPb1b1V+4XHaXfxV1BaePJredD1m
- 8zAu83+OKnnG+dux4U+kPT1MsxIPkfQQ/5PXmrqql8Y7f5L+ahe0BYpFIyUqYdAxbDYH
- RDcQ==
+ bh=uyEwIt2mg5JkbXvyiGTkqHRg5zYJZwzlbNrkrnMgxtg=;
+ b=afJQHmT9Ni6S4be+PKiH8C8N/xKG93yKBoObSbCpQ8pRzfHxMAEmVQYIy5N4w7nx5l
+ 92QS0zrwN4kHvI27MMrki5+YUoz/X5JQlE+fzM5R/KK6YkS8KaLazOOrEh3lrK3jJyj6
+ lEAJLQyExJeCREbGEuiqFcw2pWBgZZzy8d1u5oH3g6geqL0nL18SYWMFuoOaJnjIrYSy
+ UtmOECvX6IELIsqPQ9xFBkvnIOndTuozGcCvYk50mnB1TNAX5Sq2IpfajJocRCNWOTWA
+ WCpv/XIs8vURF85tdWMFhcuR1souB4QeT2NUoC3Mqc3aLnaHQZaJkCdeYSqzJmSD7WGH
+ 9kdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Gsl0pskRk7KVMoTzUTHvyTGRlhYkpRENSDWVHkehmtc=;
- b=f5f6dHwU5qqcBPz84u/G/YEz7RUstZU3H6mUAcsiwXOv68MOTkabtQL5FfKotLpZ5h
- tnAUTJpcVBmNCl5bu7Y7wwKLIUtNs1zko/Znl5rxIh58WW+s/o+mzbLj0FMzxFrT3kss
- PNppzyY4FQNSCZl3+1Xa/k/YC1dy60GaT17uI6ZShBv28RuTg93QP/XYWnbO5VKX1ezW
- fCbJkp8LYnyq03ZPuRCdw6DIEtwQpaaSZvfsJpjpPO75NMxR68eDSxLjxWzfj3ZR76Kl
- CM081NDnUzlcf/URAobSMvcreqxXw7kEtoCUuW4TNPuFmKj7nmtSbej5deBCl0PgEMGZ
- GciQ==
-X-Gm-Message-State: AOAM530mjR0LVLVoQUFr2owdjdDauENPS9Y/A5bre+YNb8bOjNHe20UW
- WmeRB0r2KrwzOXF60bmoM3fYRo8y0KDxGg==
-X-Google-Smtp-Source: ABdhPJy2AbGgFOhJoA08OHIBZHGZpfZyzw6iLTCdbZ69rkSXV4fUkwWScINli6CVCPhuMrx3fn4HKw==
-X-Received: by 2002:a7b:c189:: with SMTP id y9mr3436297wmi.141.1603209463092; 
- Tue, 20 Oct 2020 08:57:43 -0700 (PDT)
+ bh=uyEwIt2mg5JkbXvyiGTkqHRg5zYJZwzlbNrkrnMgxtg=;
+ b=PZJcOxiXEDve7+oL8TP60KJNBmCtOQvBER+EP5cR3v6MgIQ/XOmJONn7s7cDytDGup
+ YPY0VRc6E0OloPj4H0LgIddJEP6skOTtkB6vpzD+FYERRfOHikvK+9wUDTWMZXerc3xz
+ 4ctOvVB5j3/YeFOHu5a8BdC77NIKmVXWekV61Zryj0OB/cEbTQWKBZdYljZeEO7wxqU8
+ 32zY5ZocLqaLvNF+7JQC5CVEf/4CcyFg4BT5+9Gs9QiCUj9wBo4j62+ZbU+VUCmAE7bu
+ cZVMmew31HUNENjVcGKC3vbqs+424PSYjb9Ab1WCRXIp71kI7bsoNz7U2QscBLyBuBMC
+ kljw==
+X-Gm-Message-State: AOAM532doWdA7PFIBxkIeThbK31tRlIt4bPYemQcS96iWIyUB5oHKinb
+ i/5mquy5hsKni4uvM0acHxL/8wgNx2tyhg==
+X-Google-Smtp-Source: ABdhPJw9Iti8CF7NkgwkzybBsEy7qyNpF6vbNjAHP7gZyCBenXbexJX0F/L67oMmyAkaHLfp/77aGg==
+X-Received: by 2002:a7b:c4cb:: with SMTP id g11mr3659843wmk.88.1603209464484; 
+ Tue, 20 Oct 2020 08:57:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.41
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:41 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/41] target/arm: Implement FPSCR.LTPSIZE for M-profile LOB
- extension
-Date: Tue, 20 Oct 2020 16:56:44 +0100
-Message-Id: <20201020155656.8045-30-peter.maydell@linaro.org>
+Subject: [PULL 30/41] linux-user/aarch64: Reset btype for signals
+Date: Tue, 20 Oct 2020 16:56:45 +0100
+Message-Id: <20201020155656.8045-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,82 +88,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the M-profile low-overhead-branch extension is implemented, FPSCR
-bits [18:16] are a new field LTPSIZE.  If MVE is not implemented
-(currently always true for us) then this field always reads as 4 and
-ignores writes.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-These bits used to be the vector-length field for the old
-short-vector extension, so we need to take care that they are not
-misinterpreted as setting vec_len. We do this with a rearrangement
-of the vfp_set_fpscr() code that deals with vec_len, vec_stride
-and also the QC bit; this obviates the need for the M-profile
-only masking step that we used to have at the start of the function.
+The kernel sets btype for the signal handler as if for a call.
 
-We provide a new field in CPUState for LTPSIZE, even though this
-will always be 4, in preparation for MVE, so we don't have to
-come back later and split it out of the vfp.xregs[FPSCR] value.
-(This state struct field will be saved and restored as part of
-the FPSCR value via the vmstate_fpscr in machine.c.)
-
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20201016184207.786698-2-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201019151301.2046-11-peter.maydell@linaro.org
 ---
- target/arm/cpu.h        | 1 +
- target/arm/cpu.c        | 9 +++++++++
- target/arm/vfp_helper.c | 6 ++++++
- 3 files changed, 16 insertions(+)
+ linux-user/aarch64/signal.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a432f301f11..49cd5cabcf2 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -549,6 +549,7 @@ typedef struct CPUARMState {
-         uint32_t fpdscr[M_REG_NUM_BANKS];
-         uint32_t cpacr[M_REG_NUM_BANKS];
-         uint32_t nsacr;
-+        int ltpsize;
-     } v7m;
- 
-     /* Information associated with an exception about to be taken:
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 186ee621a65..07492e9f9a4 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -255,6 +255,15 @@ static void arm_cpu_reset(DeviceState *dev)
-         uint8_t *rom;
-         uint32_t vecbase;
- 
-+        if (cpu_isar_feature(aa32_lob, cpu)) {
-+            /*
-+             * LTPSIZE is constant 4 if MVE not implemented, and resets
-+             * to an UNKNOWN value if MVE is implemented. We choose to
-+             * always reset to 4.
-+             */
-+            env->v7m.ltpsize = 4;
-+        }
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index d50c1ae5838..b591790c22e 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -506,10 +506,16 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
+             + offsetof(struct target_rt_frame_record, tramp);
+     }
+     env->xregs[0] = usig;
+-    env->xregs[31] = frame_addr;
+     env->xregs[29] = frame_addr + fr_ofs;
+-    env->pc = ka->_sa_handler;
+     env->xregs[30] = return_addr;
++    env->xregs[31] = frame_addr;
++    env->pc = ka->_sa_handler;
 +
-         if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-             env->v7m.secure = true;
-         } else {
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 364856498c4..01b9d8557f7 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -174,6 +174,12 @@ uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
-             | (env->vfp.vec_len << 16)
-             | (env->vfp.vec_stride << 20);
- 
-+    /*
-+     * M-profile LTPSIZE overlaps A-profile Stride; whichever of the
-+     * two is not applicable to this CPU will always be zero.
-+     */
-+    fpscr |= env->v7m.ltpsize << 16;
++    /* Invoke the signal handler as if by indirect call.  */
++    if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
++        env->btype = 2;
++    }
 +
-     fpscr |= vfp_get_fpscr_from_host(env);
- 
-     i = env->vfp.qc[0] | env->vfp.qc[1] | env->vfp.qc[2] | env->vfp.qc[3];
+     if (info) {
+         tswap_siginfo(&frame->info, info);
+         env->xregs[1] = frame_addr + offsetof(struct target_rt_sigframe, info);
 -- 
 2.20.1
 
