@@ -2,79 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7CB2940EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:56:11 +0200 (CEST)
-Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D081C2940F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:58:42 +0200 (CEST)
+Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUuvi-0003HQ-Pv
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52222)
+	id 1kUuy8-0005FP-BR
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUumc-0002kZ-RY
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:46:46 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUuma-0002e2-RA
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:46:46 -0400
-Received: by mail-ed1-x541.google.com with SMTP id x1so2574307eds.1
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8VUKOvb7t27OBfri8uZVhBBoeOO/8pALQKsOrPy4vgw=;
- b=gOnJ52/BiHGzYZP/OKhud8mcUkd0BsHYkR3weeD9rfsFadABPfwxLh8FtzCtw+qIoz
- K5BDTmGPPaEMrTq7zlDv9KL3mDVL75VX6ZcfVost3Ta/FpqUd1FZKJi1JTCFBpoCCC4d
- XSuV0yFFBfo1g8jsYEYGEv7IFpH3c1ikPTKzDpD9jqCWwLemhUsul/IJLxLQUspSU1LH
- E+nCTlM9djqaN47/b1nyGaygAe6OmeiqVWJru/aul4LnXX1aLVgjXG2DXTL+UmYcH6s5
- aEpubdajwy/82ArC8QSYTXtlRKF1GwnQCqXQZKuSIHC6FSK5CYu0F5krHtlTh0JKjCqq
- VmSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8VUKOvb7t27OBfri8uZVhBBoeOO/8pALQKsOrPy4vgw=;
- b=nkY8fO5Bz0ckaq7lGLC+wStF2MgY9vdfYNdpa4oeOYBX/5pN2xDX2wfr2/svbuelGi
- UCVp3/PiCaHjQWiM/IQWwaUmsfpWNmEJW+SPjJqUo2g0XEsC1aF22T5R+9cZq5dbtAXf
- e4VybYwvo7SEOJz0k09HRnPRppnd06PDbbRc1tl0pCRplC+E9vlNP57j2eUJDyQKNz+j
- 0VqhRbY0pj4P4FW/QfVLOIWgFH0fRXqbGh+3p7406mr+/SicKejAt3brQ2xzlSonfVe9
- EM5Adf0JdQP6otT6i9WH3eWDvFRlTvqTpsRSABi51h7u//iisMGXITxNAjn2JrywYA9q
- fO0w==
-X-Gm-Message-State: AOAM5320btTVbcQq6H7ieCJr19Q54GaLWYHggaT6tfPW8LRCqc9AX7D7
- MUXr1+ARShNo/6NRjifMVYl3zhWiGZ7eIGewIxW6+w==
-X-Google-Smtp-Source: ABdhPJxgrxUOPc+5ml/mYWX896mtT2n35E25wEM4YYyWjDeb2J+9T5YHr+CIY/9QqTh3ggcd6Z8t696VZMIjMX5s+fU=
-X-Received: by 2002:aa7:d79a:: with SMTP id s26mr3620836edq.251.1603212402978; 
- Tue, 20 Oct 2020 09:46:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <prvs=5550c0b6f=acatan@amazon.com>)
+ id 1kUuuK-0002Xm-02
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:54:44 -0400
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:16477)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=5550c0b6f=acatan@amazon.com>)
+ id 1kUuuI-0003fW-6g
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:54:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1603212882; x=1634748882;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:mime-version: content-transfer-encoding;
+ bh=+bj8U8RezaG268JdXw29LicrkbrnImce7j6a9Ka41Fw=;
+ b=Xvn9fzCqFxG26aOelWRp+RsdzuGvi7a7Xq6Wos7M0fJIY610uXTvhFep
+ 8pQs1IiwOPsPiHDQmwDDOSYtVtW3KuaDZ/j+IqJZ7OGc0K3KhSSBIevfl
+ tliCD5TzplUjfe5Ep5Z3hpRuDYnZjNP0F5AbfsSSk08l1C0XIUOafROWU k=;
+X-IronPort-AV: E=Sophos;i="5.77,397,1596499200"; d="scan'208";a="60147548"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP;
+ 20 Oct 2020 16:54:33 +0000
+Received: from EX13D07EUB001.ant.amazon.com
+ (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+ by email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com (Postfix) with ESMTPS
+ id 1185CA18F0; Tue, 20 Oct 2020 16:54:25 +0000 (UTC)
+Received: from EX13D08EUB004.ant.amazon.com (10.43.166.158) by
+ EX13D07EUB001.ant.amazon.com (10.43.166.214) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 20 Oct 2020 16:54:24 +0000
+Received: from EX13D08EUB004.ant.amazon.com ([10.43.166.158]) by
+ EX13D08EUB004.ant.amazon.com ([10.43.166.158]) with mapi id 15.00.1497.006;
+ Tue, 20 Oct 2020 16:54:24 +0000
+From: "Catangiu, Adrian Costin" <acatan@amazon.com>
+To: "Graf (AWS), Alexander" <graf@amazon.de>, "Jason A. Donenfeld"
+ <Jason@zx2c4.com>, Jann Horn <jannh@google.com>
+CC: Willy Tarreau <w@1wt.eu>, "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+ "Andy Lutomirski" <luto@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
+ "Eric Biggers" <ebiggers@kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ "Woodhouse, David" <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>,
+ "Singh, Balbir" <sblbir@amazon.com>, "Weiss, Radu" <raduweis@amazon.com>,
+ "oridgar@gmail.com" <oridgar@gmail.com>, "ghammer@redhat.com"
+ <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Michael S. Tsirkin" <mst@redhat.com>, "Qemu
+ Developers" <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, "Michal
+ Hocko" <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, "Pavel
+ Machek" <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>, "Christian
+ Borntraeger" <borntraeger@de.ibm.com>, "mpe@ellerman.id.au"
+ <mpe@ellerman.id.au>, "Mathiske, Bernd" <mathiske@amazon.com>, "Hohensee,
+ Paul" <hohensee@amazon.com>
+Subject: Re: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+Thread-Topic: [PATCH] drivers/virt: vmgenid: add vm generation id driver
+Thread-Index: AQHWpLCgyRz7zwEeX0C0PpiPp4JTxamg7DuA
+Date: Tue, 20 Oct 2020 16:54:24 +0000
+Message-ID: <9CB99FC7-3EDF-488E-B52C-DE0368A4BC81@amazon.com>
+References: <788878CE-2578-4991-A5A6-669DCABAC2F2@amazon.com>
+ <CAG48ez0EanBvDyfthe+hAP0OC8iGLNSq2e5wJVz-=ENNGF97_w@mail.gmail.com>
+ <20201017033606.GA14014@1wt.eu>
+ <CAG48ez0x2S9XuCrANAQbXNi8Jjwm822-fnQSmr-Zr07JgrEs1g@mail.gmail.com>
+ <6CC3DB03-27BA-4F5E-8ADA-BE605D83A85C@amazon.com>
+ <CAG48ez1ZtvjOs2CEq8-EMosPCd_o7WQ3Mz_+1mDe7OrH2arxFA@mail.gmail.com>
+ <20201017053712.GA14105@1wt.eu>
+ <CAG48ez1h0ynXfGap_KiHiPVTfcB8NBQJ-2dnj08ZNfuhrW0jWA@mail.gmail.com>
+ <20201017064442.GA14117@1wt.eu>
+ <CAG48ez3pXLC+eqAXDCniM0a+5yP2XJODDkZqiUTZUOttCE_LbA@mail.gmail.com>
+ <CAHmME9qHGSF8w3DoyCP+ud_N0MAJ5_8zsUWx=rxQB1mFnGcu9w@mail.gmail.com>
+ <aacdff7a-2af1-4f46-6ab2-2a9d5b865d35@amazon.de>
+In-Reply-To: <aacdff7a-2af1-4f46-6ab2-2a9d5b865d35@amazon.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.164.78]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D222EABD850A32409B803CF44A854938@amazon.com>
 MIME-Version: 1.0
-References: <20200430115142.13430-1-peter.maydell@linaro.org>
- <20200430115142.13430-10-peter.maydell@linaro.org>
- <f295c99f-0405-1c26-6f58-12abdec8bd3d@amsat.org>
- <9fc9b0cf-4919-40b5-0430-cfac6fd7bbef@amsat.org>
-In-Reply-To: <9fc9b0cf-4919-40b5-0430-cfac6fd7bbef@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Oct 2020 17:46:30 +0100
-Message-ID: <CAFEAcA-pZ_=FvPC7TtzhcfM3rdgL8c_VOyDHo5ycBb5ezUPufw@mail.gmail.com>
-Subject: Re: [PULL 09/31] hw/core/clock: introduce clock object
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Precedence: Bulk
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=72.21.196.25;
+ envelope-from=prvs=5550c0b6f=acatan@amazon.com; helo=smtp-fw-2101.amazon.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 12:54:38
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -145
+X-Spam_score: -14.6
+X-Spam_bar: --------------
+X-Spam_report: (-14.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,101 +115,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Oct 2020 at 17:06, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> On 10/17/20 1:47 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Hi Damien, Peter,
-> >
-> >> +/*
-> >> + * macro helpers to convert to hertz / nanosecond
-> >> + */
-> >> +#define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_SECOND / 1000000000ll=
-u))
-> >> +#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_SECOND / 1000000000ll=
-u))
-> >> +#define CLOCK_PERIOD_FROM_HZ(hz) (((hz) !=3D 0) ? CLOCK_SECOND / (hz)=
- :
-> >> 0u)
-> >
-> > I'm having Floating Point Exception using a frequency of 1GHz.
-> >
-> > Using frequency >=3D1GHz we have CLOCK_PERIOD_FROM_HZ(hz) > 0x100000000=
-.
-> >
-> > Then CLOCK_PERIOD_TO_NS(0x100000000) =3D 0.
-> >
-> > So for frequency >=3D1GHz clock_get_ns() returns 0.
->
-> So Peter suggested on IRC to rewrite the code consuming this API
-> to avoid reaching this limit :)
->
-> Still some assert would help other developers triggering the same
-> issue to quicker figure how to bypass the problem.
+SGkgYWxsLA0KDQrvu79PbiAxNy8xMC8yMDIwLCAyMTowOSwgIkdyYWYgKEFXUyksIEFsZXhhbmRl
+ciIgPGdyYWZAYW1hem9uLmRlPiB3cm90ZToNCiAgICANCiAgICBPbiAxNy4xMC4yMCAxNToyNCwg
+SmFzb24gQS4gRG9uZW5mZWxkIHdyb3RlOg0KICAgID4gDQogICAgPiBBZnRlciBkaXNjdXNzaW5n
+IHRoaXMgb2ZmbGluZSB3aXRoIEphbm4gYSBiaXQsIEkgaGF2ZSBhIGZldyBnZW5lcmFsDQogICAg
+PiBjb21tZW50cyBvbiB0aGUgZGVzaWduIG9mIHRoaXMuDQogICAgPiANCiAgICA+IEZpcnN0LCB0
+aGUgVVVJRCBjb21tdW5pY2F0ZWQgYnkgdGhlIGh5cGVydmlzb3Igc2hvdWxkIGJlIGNvbnN1bWVk
+IGJ5DQogICAgPiB0aGUga2VybmVsIC0tIGFkZGVkIGFzIGFub3RoZXIgaW5wdXQgdG8gdGhlIHJu
+ZyAtLSBhbmQgdGhlbiB1c2Vyc3BhY2UNCiAgICANCiAgICBXZSBkZWZpbml0ZWx5IHdhbnQgYSBr
+ZXJuZWwgaW50ZXJuYWwgbm90aWZpZXIgYXMgd2VsbCwgeWVzIDopLg0KDQpXaGF0IHdvdWxkIGJl
+IGEgZ2VuZXJpYyBldmVudCB0cmlnZ2VyIG1lY2hhbmlzbSB3ZSBjb3VsZCB1c2UgZnJvbSBhIGtl
+cm5lbA0KbW9kdWxlL2RyaXZlciBmb3IgdHJpZ2dlcmluZyBybmcgcmVzZWVkIChwb3NzaWJseSBh
+ZGRpbmcgdGhlIHV1aWQgdG8gdGhlIG1peA0KYXMgd2VsbCk/DQoNCiAgDQoNCgoKCkFtYXpvbiBE
+ZXZlbG9wbWVudCBDZW50ZXIgKFJvbWFuaWEpIFMuUi5MLiByZWdpc3RlcmVkIG9mZmljZTogMjdB
+IFNmLiBMYXphciBTdHJlZXQsIFVCQzUsIGZsb29yIDIsIElhc2ksIElhc2kgQ291bnR5LCA3MDAw
+NDUsIFJvbWFuaWEuIFJlZ2lzdGVyZWQgaW4gUm9tYW5pYS4gUmVnaXN0cmF0aW9uIG51bWJlciBK
+MjIvMjYyMS8yMDA1Lgo=
 
-The fundamental problem here is that if you have a 2GHz
-clock then it is just not possible to have an API which
-says "give me the period of this clock in nanoseconds
-as an integer".
-
-Even for clocks which have lower frequencies, there is
-still a rounding/accuracy problem when converting to
-a nanoseconds count. I think these macros and the
-functions that wrap them are in retrospect a mistake,
-and we should replace them with other APIs that allow
-calculations which can avoid the rounding problem
-(eg if what you need is "how many nanoseconds is it
-until 5000 ticks have expired" we would need an API
-for that, rather than trying to calculate it as
-5000 * nanoseconds_per_tick).
-
-It looks like currently the only uses of CLOCK_PERIOD_TO_NS()
-and clock_get_ns() are:
- * some tracepoints in the clock code itself
- * mips_cp0_period_set(), which does:
-    env->cp0_count_ns =3D cpu->cp0_count_rate
-                        * clock_get_ns(MIPS_CPU(cpu)->clock);
-   so I think it is trying to calculate "nanoseconds for
-   X ticks of the clock".
-
-CLOCK_PERIOD_TO_HZ() and clock_get_hz() are used by:
- * the qdev_print() code that prints a human-readable
-   description of the clock
- * hw/char/cadence_uart.c and hw/char/ibex_uart.c code
-   that calculates a baud rate given the input clock
-
-CLOCK_PERIOD_FROM_HZ and CLOCK_PERIOD_FROM_NS are
-used only in the clock_update*() and clock_set*()
-functions. I think those should all be OK, because
-they're just setting the period of the clock (possibly
-propagating it to connected clocks), and we can
-assume the caller uses whatever unit they naturally
-have available as the accurate way to set the clock.
-
-So that suggests to me that we should look at designing
-APIs for:
- * "give me the time in nanoseconds for X ticks of this clock"
- * "give me a human-readable string describing this clock"
-   for the qdev_print() monitor output
-
-and we should adjust the clock_set and clock_update tracepoints
-to trace the raw period values (perhaps with an extra
-"approx %"PRIu64" ns" for the benefit of humans reading traces).
-Then we can delete CLOCK_PERIOD_TO_NS() and clock_get_ns().
-
-Not sure about what the UART code should be doing. Given
-that it's basically calculating baud rates it does eventually
-want to get a frequency in hz but maybe we should arrange
-for the frequency-division part to happen before we
-convert from clock-period to hz rather than after.
-
-thanks
--- PMM
 
