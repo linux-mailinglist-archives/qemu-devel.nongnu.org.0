@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D482939D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:22:08 +0200 (CEST)
-Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0069293A07
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:27:59 +0200 (CEST)
+Received: from localhost ([::1]:53136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpiR-0000Yt-RC
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52560)
+	id 1kUpo6-0004DD-Mt
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUpgG-0007EC-0f
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:19:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20890)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUpnM-0003fz-0z
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:27:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUpgD-0000P9-M7
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:19:51 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kUpnJ-0001ZK-OJ
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:27:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603192787;
+ s=mimecast20190719; t=1603193228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EMcFP8byCQyMzL0oop4bwWNTFqjXIbIoyTgbUn4Aiqo=;
- b=GYUc9j4P328PATGQBcwQPPIZikm9ND2fRUOJyw/MNZ5zJk8CpIQPURCb20fqo0g9TQCkKo
- vwU+yN2ylroS9YROS2XMDQfKFHk/OgIDS8Y6BwqaJVpoabN1EPcISD5XVG7DsIZIo2gf8+
- lXhHGORTzv+6TUG/Dl2U9FQT050vBtQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-Fw-hZIlmPueWSXxk_wjBiQ-1; Tue, 20 Oct 2020 07:19:45 -0400
-X-MC-Unique: Fw-hZIlmPueWSXxk_wjBiQ-1
-Received: by mail-wr1-f69.google.com with SMTP id q15so682033wrw.8
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 04:19:45 -0700 (PDT)
+ bh=LP5PNTd9mm9d+qqKCCt6fyeiLsJDCPQtN+P5klOE2As=;
+ b=AN/hZtkGCzfYDjjY+gWRs8iCpc1M7Rvh/pJKaycjddXj5pTZJqvEENN+Ra/gI8ESDPx+Rd
+ gmO2cT8966atRWRqGeM+aytJVTCk90S7QHJ31+RVAd/5ZYUEJApQCWD6wo+BxI7wkWFEJd
+ +Obs50JFaLN0RJSWcaMwIvTjNi54beo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-0fWsSxRXN3uD6WbqHxtpuA-1; Tue, 20 Oct 2020 07:27:06 -0400
+X-MC-Unique: 0fWsSxRXN3uD6WbqHxtpuA-1
+Received: by mail-wr1-f72.google.com with SMTP id x16so687983wrg.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 04:27:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EMcFP8byCQyMzL0oop4bwWNTFqjXIbIoyTgbUn4Aiqo=;
- b=ShXTAzbBOZGROB8IENWRjDfu+/SSFi9N0jtP1xH6cq8y4+JcIl3Rf8vG/QaY4U2IXi
- Vdn6w8Urj5e7pVEF8FMSe3MJDcpmqkMsECBJ2cTxISBiR8iDEBEpdZxXaNek5+xPvCGp
- AfqLYch/6agPH3Q6uZf1DiG/+AwM4pMfcGnFrrkom0Ndr2SwW+hNZULG5e+lNRvG9qXC
- /XRm6BFCAqpwKu9x8WrhkTiQKNQxbg1Zbosc4u1JV99pg8OlDvuzpjT503L0246pgFLv
- 1L34FhDv16qbbGXf+tN7idxkcwyAK4sUUOjGJHONzhy9q11h1ZtWhmQetdJz/3zKLb/C
- bYug==
-X-Gm-Message-State: AOAM533ZV4EShyp8DymEURWX57osPnVy4sMCbrEgDtyr3veRe/PToSa6
- 7LlVD6lbJpK57ES8MJSiy5Z9YoBtHXWabtZXuquqMSAk4ODgYY/hEaKcLUBTQErXkAFa0qC2Grr
- 9hRRUI7nUmHl8jOk=
-X-Received: by 2002:a1c:7d49:: with SMTP id y70mr2393738wmc.103.1603192784391; 
- Tue, 20 Oct 2020 04:19:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxvJXiSbO5KWUHdMfMGQ91E/OVPO7XbOUEhjA0izUMBra/xzFBtBKM6IkpWhA3+13WwvZD+w==
-X-Received: by 2002:a1c:7d49:: with SMTP id y70mr2393718wmc.103.1603192784162; 
- Tue, 20 Oct 2020 04:19:44 -0700 (PDT)
+ bh=LP5PNTd9mm9d+qqKCCt6fyeiLsJDCPQtN+P5klOE2As=;
+ b=lpjJGbanT9rzPuJzTFtI/8IzQxDAiUnsmjGH5htksoVQVBRX4fCHc1hSXBXpxa2TtC
+ 5QxSo46mex/rR08Q5s8otIVM5r40U4goLknXDK3vXlnZ18Ap9xAJ7CZo1G05vHFAUh34
+ GDeOvpFXrBWSGzM3ubQsJMeGfXhSef0dsUV4Mvhrs/p8edl5fZLuan0Ylunh44M2Z/qp
+ kJbRgnYPvir+ff3UTr6v1xCSLrtoeyiY2chTGBZ4AKwZe0nrOxyk5zVf8bRHKsjNuGgx
+ KvQJfKkP8kzzCRrZWgDQXHDhMfFcE+YIYFfF0wMqNN8eC39xJc+7P8SKr84WaLRMZfkC
+ Qygw==
+X-Gm-Message-State: AOAM530oKPhZrvvTUoEzJ792uw4q4o8DI+bFhE+T+S1hfuI0ddpLdGiS
+ SuPnfXEeApS0GzqUs7D3mC/xcQ+oGZ90TsCmprc4fVTL4uQ1GIMjCOXSz/JvbOFlMt6eFKlepyK
+ PO8HCcBRslYV0IWM=
+X-Received: by 2002:adf:94e3:: with SMTP id 90mr2769049wrr.380.1603193225487; 
+ Tue, 20 Oct 2020 04:27:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx68UJxv10RdP0ZOwuylAshiNsDasTG9394Y7eM/v7+lCS+ZIVFeFUaQ9eKZx3SJd1oLknlaw==
+X-Received: by 2002:adf:94e3:: with SMTP id 90mr2769014wrr.380.1603193225144; 
+ Tue, 20 Oct 2020 04:27:05 -0700 (PDT)
 Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id d129sm1206416wmd.5.2020.10.20.04.19.43
+ by smtp.gmail.com with ESMTPSA id w1sm2558382wrp.95.2020.10.20.04.27.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Oct 2020 04:19:43 -0700 (PDT)
-Subject: Re: [PATCH v4 1/2] util/oslib-win32: Use _aligned_malloc for
- qemu_try_memalign
-To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-References: <20201020111743.2074694-1-philmd@redhat.com>
- <20201020111743.2074694-2-philmd@redhat.com>
+ Tue, 20 Oct 2020 04:27:04 -0700 (PDT)
+Subject: Re: [PATCH] microbit_i2c: Fix coredump when dump-vmstate
+To: Peng Liang <liangpeng10@huawei.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20201019093401.2993833-1-liangpeng10@huawei.com>
+ <786deb83-b6f4-d778-d5ed-19f3901ad211@redhat.com>
+ <0c174303-50bc-128a-26ab-c062f98cd6cd@huawei.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e223770b-c8ca-387b-cd6e-e1196fe04d41@redhat.com>
-Date: Tue, 20 Oct 2020 13:19:42 +0200
+Message-ID: <d45ce658-f628-ae9d-1db2-68a14d815333@redhat.com>
+Date: Tue, 20 Oct 2020 13:27:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201020111743.2074694-2-philmd@redhat.com>
+In-Reply-To: <0c174303-50bc-128a-26ab-c062f98cd6cd@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,7 +89,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,63 +102,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>
+Cc: peter.maydell@linaro.org, joel@jms.id.au, xiexiangyou@huawei.com,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/20/20 1:17 PM, Philippe Mathieu-Daudé wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
+On 10/20/20 1:17 PM, Peng Liang wrote:
+> On 10/19/2020 6:35 PM, Philippe Mathieu-Daudé wrote:
+>> On 10/19/20 11:34 AM, Peng Liang wrote:
+>>> VMStateDescription.fields should be end with VMSTATE_END_OF_LIST().
+>>> However, microbit_i2c_vmstate doesn't follow it.  Let's change it.
+>>
+>> It might be easy to add a Coccinelle script to avoid future errors.
+>>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>
 > 
-> We do not need or want to be allocating page sized quanta.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Stefan Weil <sw@weilnetz.de>
-> Message-Id: <20201018164836.1149452-1-richard.henderson@linaro.org>
+> I tried to add a Coccinelle script to add VMSTATE_END_OF_LIST() to the
+> end of VMStateDescription.fields.  For those who are not defined as
+> compound literals, it works well.  However, I cannot make it work for
+> those defined as compound literals.  And Julia doesn't think compound
+> literals are supported currently[1].  So maybe currently it's hard to
+> check the error using Coccinelle :(
 
-Oops I forgot:
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Interesting.
 
-> ---
->   util/oslib-win32.c | 11 ++++-------
->   1 file changed, 4 insertions(+), 7 deletions(-)
 > 
-> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> index e99debfb8dd..29dd05d59d7 100644
-> --- a/util/oslib-win32.c
-> +++ b/util/oslib-win32.c
-> @@ -39,6 +39,7 @@
->   #include "trace.h"
->   #include "qemu/sockets.h"
->   #include "qemu/cutils.h"
-> +#include <malloc.h>
->   
->   /* this must come after including "trace.h" */
->   #include <shlobj.h>
-> @@ -56,10 +57,8 @@ void *qemu_try_memalign(size_t alignment, size_t size)
->   {
->       void *ptr;
->   
-> -    if (!size) {
-> -        abort();
-> -    }
-> -    ptr = VirtualAlloc(NULL, size, MEM_COMMIT, PAGE_READWRITE);
-> +    g_assert(size != 0);
-> +    ptr = _aligned_malloc(alignment, size);
->       trace_qemu_memalign(alignment, size, ptr);
->       return ptr;
->   }
-> @@ -93,9 +92,7 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, bool shared)
->   void qemu_vfree(void *ptr)
->   {
->       trace_qemu_vfree(ptr);
-> -    if (ptr) {
-> -        VirtualFree(ptr, 0, MEM_RELEASE);
-> -    }
-> +    _aligned_free(ptr);
->   }
->   
->   void qemu_anon_ram_free(void *ptr, size_t size)
+> Thanks for my colleague Biaoxiang Ye, who wrote a shell script to find
+> the errors, I didn't find other similar errors.
+
+Thanks for giving it a try. We could commit and run the script
+in a gitlab-ci job to avoid such regressions.
+
+> 
+> [1]
+> https://lore.kernel.org/cocci/alpine.DEB.2.22.394.2010201143330.2736@hadrien/T/#t
+> 
+> Thanks,
+> Peng
+> 
+>>>
+>>> Fixes: 9d68bf564e ("arm: Stub out NRF51 TWI magnetometer/accelerometer
+>>> detection")
+>>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>>> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+>>> ---
+>>>    hw/i2c/microbit_i2c.c | 1 +
+>>>    1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/hw/i2c/microbit_i2c.c b/hw/i2c/microbit_i2c.c
+>>> index 802473982082..e92f9f84ea81 100644
+>>> --- a/hw/i2c/microbit_i2c.c
+>>> +++ b/hw/i2c/microbit_i2c.c
+>>> @@ -83,6 +83,7 @@ static const VMStateDescription microbit_i2c_vmstate
+>>> = {
+>>>        .fields = (VMStateField[]) {
+>>>            VMSTATE_UINT32_ARRAY(regs, MicrobitI2CState,
+>>> MICROBIT_I2C_NREGS),
+>>>            VMSTATE_UINT32(read_idx, MicrobitI2CState),
+>>> +        VMSTATE_END_OF_LIST()
+>>>        },
+>>>    };
+>>>   
+>>
+>>
+>> .
 > 
 
 
