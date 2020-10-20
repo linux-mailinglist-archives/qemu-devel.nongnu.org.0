@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A55293EF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 16:43:16 +0200 (CEST)
-Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25D8293EFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 16:48:05 +0200 (CEST)
+Received: from localhost ([::1]:60564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUsr5-0000Y1-Mk
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 10:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
+	id 1kUsvk-0005iY-PW
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 10:48:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhengui@huawei.com>)
- id 1kUsob-0006ql-Mu; Tue, 20 Oct 2020 10:40:41 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5707 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhengui@huawei.com>)
- id 1kUsoZ-0001uy-7o; Tue, 20 Oct 2020 10:40:41 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 22A4C24200025F8071F5;
- Tue, 20 Oct 2020 22:40:23 +0800 (CST)
-Received: from DESKTOP-80C7KIU.china.huawei.com (10.174.187.210) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 20 Oct 2020 22:40:14 +0800
-From: Zhengui li <lizhengui@huawei.com>
-To: <pbonzini@redhat.com>, <stefanha@redhat.com>, <mreitz@redhat.com>,
- <kwolf@redhat.com>
-Subject: [PATCH v2 2/2] qemu-img: add support for rate limit in qemu-img
- convert
-Date: Tue, 20 Oct 2020 14:39:59 +0000
-Message-ID: <1603204799-17544-3-git-send-email-lizhengui@huawei.com>
-X-Mailer: git-send-email 2.6.4.windows.1
-In-Reply-To: <1603204799-17544-1-git-send-email-lizhengui@huawei.com>
-References: <1603204799-17544-1-git-send-email-lizhengui@huawei.com>
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kUsp6-0007LC-Dw
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 10:41:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38734)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kUsow-00025M-FT
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 10:41:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603204858;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=A6qUlKOLJ6PcnsgGPUJvvy3f6Y4JF1AoGuO1v3bdNTM=;
+ b=eZpdWIg8hKdQfB7lYHWpdfgpmp6PsF1ATb+rpcw74yI5BnoIZE+5IANuCLU/TtiU7eOMyv
+ EHHyN6MUlXUEj0H6owgoPxSNdEKgy0LiBML9xkH38Asb/EipFFlWospMtKpfj/1ybaFT7y
+ QHxVFVs5I43vyXygAmuxfxwXtu5B1ic=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548--G83bxSSP3iJgbYVU39QLg-1; Tue, 20 Oct 2020 10:40:52 -0400
+X-MC-Unique: -G83bxSSP3iJgbYVU39QLg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C8D91074656
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 14:40:51 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-115-203.rdu2.redhat.com [10.10.115.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7486C5B4A3;
+ Tue, 20 Oct 2020 14:40:42 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 038F7220307; Tue, 20 Oct 2020 10:40:41 -0400 (EDT)
+Date: Tue, 20 Oct 2020 10:40:41 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 4/5] tools/virtiofsd: xattr name mapping examples
+Message-ID: <20201020144041.GC380917@redhat.com>
+References: <20201014180209.49299-1-dgilbert@redhat.com>
+ <20201014180209.49299-5-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.210]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=lizhengui@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 09:15:07
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201014180209.49299-5-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,143 +80,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, lizhengui@huawei.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: dinechin@redhat.com, virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhengui <lizhengui@huawei.com>
+On Wed, Oct 14, 2020 at 07:02:08PM +0100, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> Add a few examples of xattrmaps to the documentation.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  docs/tools/virtiofsd.rst | 50 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+> 
+> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+> index a3a120da2f..5cb64612ed 100644
+> --- a/docs/tools/virtiofsd.rst
+> +++ b/docs/tools/virtiofsd.rst
+> @@ -163,6 +163,56 @@ in which case a 'server' rule will always match on all names from
+>  the server.
+>  
+>  
+> +xattr-mapping Examples
+> +----------------------
+> +
+> +1) Prefix all attributes with 'user.virtiofs.'
+> +
+> +::
+> +
+> +-o xattrmap=":prefix:all::user.virtiofs.::bad:all:::"
+> +
 
-add support for rate limit in qemu-img convert.
+Staring at rule.
 
-Signed-off-by: Zhengui <lizhengui@huawei.com>
----
- docs/tools/qemu-img.rst |  6 +++++-
- qemu-img-cmds.hx        |  4 ++--
- qemu-img.c              | 27 ++++++++++++++++++++++++++-
- 3 files changed, 33 insertions(+), 4 deletions(-)
+":bad:all:::"
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index bcb11b0..b615aa8 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -188,6 +188,10 @@ Parameters to convert subcommand:
-   allocated target image depending on the host support for getting allocation
-   information.
- 
-+.. option:: -r
-+
-+   Rate limit for the convert process
-+
- .. option:: --salvage
- 
-   Try to ignore I/O errors when reading.  Unless in quiet mode (``-q``), errors
-@@ -410,7 +414,7 @@ Command description:
-   4
-     Error on reading data
- 
--.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
-+.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
- 
-   Convert the disk image *FILENAME* or a snapshot *SNAPSHOT_PARAM*
-   to disk image *OUTPUT_FILENAME* using format *OUTPUT_FMT*. It can
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index 2a31806..7eb489b 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -46,9 +46,9 @@ SRST
- ERST
- 
- DEF("convert", img_convert,
--    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
-+    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-r rate_limit] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
- SRST
--.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
-+.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
- ERST
- 
- DEF("create", img_create,
-diff --git a/qemu-img.c b/qemu-img.c
-index 3023abe..a968c74 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -50,6 +50,8 @@
- #include "block/qapi.h"
- #include "crypto/init.h"
- #include "trace/control.h"
-+#include "qemu/throttle.h"
-+#include "block/throttle-groups.h"
- 
- #define QEMU_IMG_VERSION "qemu-img version " QEMU_FULL_VERSION \
-                           "\n" QEMU_COPYRIGHT "\n"
-@@ -1669,6 +1671,7 @@ enum ImgConvertBlockStatus {
- };
- 
- #define MAX_COROUTINES 16
-+#define CONVERT_THROTTLE_GROUP "img_convert"
- 
- typedef struct ImgConvertState {
-     BlockBackend **src;
-@@ -2184,6 +2187,17 @@ static int convert_copy_bitmaps(BlockDriverState *src, BlockDriverState *dst)
- 
- #define MAX_BUF_SECTORS 32768
- 
-+static void set_rate_limit(BlockBackend *blk, int64_t rate_limit)
-+{
-+    ThrottleConfig cfg;
-+
-+    throttle_config_init(&cfg);
-+    cfg.buckets[THROTTLE_BPS_WRITE].avg = rate_limit;
-+
-+    blk_io_limits_enable(blk, CONVERT_THROTTLE_GROUP);
-+    blk_set_io_limits(blk, &cfg);
-+}
-+
- static int img_convert(int argc, char **argv)
- {
-     int c, bs_i, flags, src_flags = 0;
-@@ -2204,6 +2218,7 @@ static int img_convert(int argc, char **argv)
-     bool force_share = false;
-     bool explict_min_sparse = false;
-     bool bitmaps = false;
-+    int64_t rate_limit = 0;
- 
-     ImgConvertState s = (ImgConvertState) {
-         /* Need at least 4k of zeros for sparse detection */
-@@ -2226,7 +2241,7 @@ static int img_convert(int argc, char **argv)
-             {"bitmaps", no_argument, 0, OPTION_BITMAPS},
-             {0, 0, 0, 0}
-         };
--        c = getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
-+        c = getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WUr:",
-                         long_options, NULL);
-         if (c == -1) {
-             break;
-@@ -2323,6 +2338,12 @@ static int img_convert(int argc, char **argv)
-         case 'U':
-             force_share = true;
-             break;
-+        case 'r':
-+            rate_limit = cvtnum("rate limit", optarg);
-+            if (rate_limit < 0) {
-+                goto fail_getopt;
-+            }
-+            break;
-         case OPTION_OBJECT: {
-             QemuOpts *object_opts;
-             object_opts = qemu_opts_parse_noisily(&qemu_object_opts,
-@@ -2712,6 +2733,10 @@ static int img_convert(int argc, char **argv)
-         s.cluster_sectors = bdi.cluster_size / BDRV_SECTOR_SIZE;
-     }
- 
-+    if (rate_limit) {
-+        set_rate_limit(s.target, rate_limit);
-+    }
-+
-     ret = convert_do_copy(&s);
- 
-     /* Now copy the bitmaps */
--- 
-2.6.4.windows.1
+and trying to map this to ":type:scope:key:prepend:"
+
+type==bad
+scope==all
+key==""
+prepend==""
+
+> +
+> +This uses two rules, using : as the field separator;
+> +the first rule prefixes and strips 'user.virtiofs.',
+> +the second rule hides any non-prefixed attributes that
+> +the host set.
+
+What is non-prefixed xattr in this context. If client sends
+"security.selinux", is prefixed or non-prefixed.
+
+Documentation in first patch said.
+
++- 'bad' - If a client tries to use this name it's
++  denied using EPERM; when the server passes an attribute
++  name matching it's hidden.
+
+I am not sure which xattr name will be blocked if key=="" and prepend==""
+
+> +
+> +2) Prefix 'trusted.' attributes, allow others through
+> +
+> +::
+> +
+> +   "/prefix/all/trusted./user.virtiofs./
+> +    /bad/server//trusted./
+> +    /bad/client/user.virtiofs.//
+> +    /ok/all///"
+> +
+> +
+> +Here there are four rules, using / as the field
+> +separator, and also demonstrating that new lines can
+> +be included between rules.
+> +The first rule is the prefixing of 'trusted.' and
+> +stripping of 'user.virtiofs.'.
+
+So this is bidrectional rule, right. For setxattr(), "trusted."
+will be replaced with "user.virtiofs" and for listxattr(),
+server will replace user.virtiofs with trusted. ?
+
+> +The second rule hides unprefixed 'trusted.' attributes
+> +on the host.
+
+If host has "trusted.*", we are not hiding it and as per first
+rule we are converting it to "user.virtiofs.trusted.*", right?
+So why this second rule is needed.
+
+> +The third rule stops a guest from explicitly setting
+> +the 'user.viritofs.' path directly.
+> +Finally, the fourth rule lets all remaining attributes
+> +through.
+
+So If I don't specify third rule, and client does
+setxattr(user.virtiofs.*), it will simply be a passthrough?
+
+Thanks
+Vivek
+
+> +
+> +3) Hide 'security.' attributes, and allow everything else
+> +
+> +::
+> +
+> +    "/bad/all/security./security./
+> +     /ok/all///'
+> +
+> +The first rule combines what could be separate client and server
+> +rules into a single 'all' rule, matching 'security.' in either
+> +client arguments or lists returned from the host.  This stops
+> +the client seeing any 'security.' attributes on the server and
+> +stops it setting any.
+> +
+>  Examples
+>  --------
+>  
+> -- 
+> 2.28.0
+> 
 
 
