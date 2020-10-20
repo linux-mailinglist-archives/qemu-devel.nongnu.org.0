@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6432941BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:52:26 +0200 (CEST)
-Received: from localhost ([::1]:44860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D412941B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 19:49:41 +0200 (CEST)
+Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUvo9-0000q5-8g
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:52:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36308)
+	id 1kUvlU-0006Gf-4X
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 13:49:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvR2-0003Bv-HR
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvR2-0003Cg-O4
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48564)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQo-0000DP-TS
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUvQo-0000Df-Uq
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 13:28:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603214896;
+ s=mimecast20190719; t=1603214897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sr2UKp2co8IuxzUvwAaEa9pc8c4skAtlt+s6Ajgb4kQ=;
- b=bnqvs1Uq8fN0DY+IUVD1uvvyxZ0VDERkL80Pu8jxVttZFZRLGB1R0NsiEvKqGZzYTtD0LC
- cHns0T8oAGxCUzdkDwnUg1qXSRfVgfxfZPQhodYm/zog9QVWeHQ5HcN/5RNzabK8MeCiv6
- uVpv4kVofXNP7ze3YrZqEXQVSu10J+M=
+ bh=KoRk17fUILbdEtaVg4nN+aoYI2z78GD802D03LsPzrE=;
+ b=UmzmEQ05MEQFNwCYut/XW9yt4zX3ddcXzYXrZjO3bRJ6Qn8Y2Q90BCdmI4sZ9vz2vzF1lE
+ z/KdfNGinnhRXlghSLELuMGXDQVKGOBmGTZHoBc/2LBx44PtZDhJ9Rk0SfrBVj6c2JhbCK
+ yK3mxs3zQyj7oM4mL5Rt+LEafoexCJc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-kXfP5Mk2MTSRJXVEvyoPJg-1; Tue, 20 Oct 2020 13:28:14 -0400
-X-MC-Unique: kXfP5Mk2MTSRJXVEvyoPJg-1
+ us-mta-184-nbemKrk4MZqLxLcavn2zGQ-1; Tue, 20 Oct 2020 13:28:15 -0400
+X-MC-Unique: nbemKrk4MZqLxLcavn2zGQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7297835B48;
- Tue, 20 Oct 2020 17:28:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10B101006C8E;
+ Tue, 20 Oct 2020 17:28:14 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-115-172.rdu2.redhat.com [10.10.115.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D11E32639C;
- Tue, 20 Oct 2020 17:28:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 098E71992D;
+ Tue, 20 Oct 2020 17:28:12 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/21] python/qemu/qmp.py: re-raise OSError when encountered
-Date: Tue, 20 Oct 2020 13:27:41 -0400
-Message-Id: <20201020172742.1483258-21-jsnow@redhat.com>
+Subject: [PULL 21/21] python/qemu/qmp.py: Fix settimeout operation
+Date: Tue, 20 Oct 2020 13:27:42 -0400
+Message-Id: <20201020172742.1483258-22-jsnow@redhat.com>
 In-Reply-To: <20201020172742.1483258-1-jsnow@redhat.com>
 References: <20201020172742.1483258-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -86,43 +86,98 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nested if conditions don't change when the exception block fires; we
-need to explicitly re-raise the error if we didn't intend to capture and
-suppress it.
+We enabled callers to interface directly with settimeout, but this
+reacts poorly with blocking/nonblocking operation; as they are using the
+same internal mechanism.
+
+1. Whenever we change the blocking mechanism temporarily, always set it
+back to what it was afterwards.
+
+2. Disallow callers from setting a timeout of "0", which means
+Non-blocking mode. This is going to create more weird problems than
+anybody wants, so just forbid it.
+
+I opt not to coerce '0' to 'None' to maintain the principal of least
+surprise in mirroring the semantics of Python's interface.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20201009175123.249009-3-jsnow@redhat.com
+Message-id: 20201009175123.249009-4-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/qmp.py | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ python/qemu/qmp.py | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index d911999da1..4969e5741c 100644
+index 4969e5741c..f64517fb0a 100644
 --- a/python/qemu/qmp.py
 +++ b/python/qemu/qmp.py
-@@ -165,14 +165,15 @@ def __get_events(self, wait: Union[bool, float] = False) -> None:
+@@ -164,16 +164,19 @@ def __get_events(self, wait: Union[bool, float] = False) -> None:
+                                 retrieved or if some other error occurred.
          """
  
++        # Current timeout and blocking status
++        current_timeout = self.__sock.gettimeout()
++
          # Check for new events regardless and pull them into the cache:
--        self.__sock.setblocking(False)
          try:
-+            self.__sock.setblocking(False)
+-            self.__sock.setblocking(False)
++            self.__sock.settimeout(0)  # i.e. setblocking(False)
              self.__json_read()
          except OSError as err:
--            if err.errno == errno.EAGAIN:
--                # No data available
--                pass
--        self.__sock.setblocking(True)
-+            # EAGAIN: No data available; not critical
-+            if err.errno != errno.EAGAIN:
-+                raise
-+        finally:
-+            self.__sock.setblocking(True)
+             # EAGAIN: No data available; not critical
+             if err.errno != errno.EAGAIN:
+                 raise
+         finally:
+-            self.__sock.setblocking(True)
++            self.__sock.settimeout(current_timeout)
  
          # Wait for new events, if needed.
          # if wait is 0.0, this means "no wait" and is also implicitly false.
+@@ -187,9 +190,11 @@ def __get_events(self, wait: Union[bool, float] = False) -> None:
+             except Exception as err:
+                 msg = "Error while reading from socket"
+                 raise QMPConnectError(msg) from err
++            finally:
++                self.__sock.settimeout(current_timeout)
++
+             if ret is None:
+                 raise QMPConnectError("Error while reading from socket")
+-            self.__sock.settimeout(None)
+ 
+     def __enter__(self) -> 'QEMUMonitorProtocol':
+         # Implement context manager enter function.
+@@ -219,7 +224,7 @@ def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
+             return self.__negotiate_capabilities()
+         return None
+ 
+-    def accept(self, timeout: float = 15.0) -> QMPMessage:
++    def accept(self, timeout: Optional[float] = 15.0) -> QMPMessage:
+         """
+         Await connection from QMP Monitor and perform capabilities negotiation.
+ 
+@@ -338,13 +343,19 @@ def close(self) -> None:
+         if self.__sockfile:
+             self.__sockfile.close()
+ 
+-    def settimeout(self, timeout: float) -> None:
++    def settimeout(self, timeout: Optional[float]) -> None:
+         """
+         Set the socket timeout.
+ 
+-        @param timeout (float): timeout in seconds, or None.
++        @param timeout (float): timeout in seconds (non-zero), or None.
+         @note This is a wrap around socket.settimeout
++
++        @raise ValueError: if timeout was set to 0.
+         """
++        if timeout == 0:
++            msg = "timeout cannot be 0; this engages non-blocking mode."
++            msg += " Use 'None' instead to disable timeouts."
++            raise ValueError(msg)
+         self.__sock.settimeout(timeout)
+ 
+     def get_sock_fd(self) -> int:
 -- 
 2.26.2
 
