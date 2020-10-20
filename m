@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A17293F63
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:17:10 +0200 (CEST)
-Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DEC6293F59
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:13:46 +0200 (CEST)
+Received: from localhost ([::1]:40314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUtNt-0001ht-Dk
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:17:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54660)
+	id 1kUtKb-0005US-6E
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIH-0003ms-BH
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:21 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:38854)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIQ-0003uk-GR
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:30 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:41989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIF-0006Uu-Rq
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:21 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIN-0006Vj-V7
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:29 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-xeswPDDFPrireYi_UfwXUg-1; Tue, 20 Oct 2020 11:11:15 -0400
-X-MC-Unique: xeswPDDFPrireYi_UfwXUg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-530-DrCPJKLPPoyPR0O3pUDjSw-1; Tue, 20 Oct 2020 11:11:22 -0400
+X-MC-Unique: DrCPJKLPPoyPR0O3pUDjSw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40FEB1006C90;
- Tue, 20 Oct 2020 15:11:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1164E107AFD1;
+ Tue, 20 Oct 2020 15:11:21 +0000 (UTC)
 Received: from bahia.lan (ovpn-115-53.ams2.redhat.com [10.36.115.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9000D6EF6A;
- Tue, 20 Oct 2020 15:11:13 +0000 (UTC)
-Subject: [PATCH 2/5] tests/9pfs: Turn fs_readdir_split() into a helper
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6132E5C1C2;
+ Tue, 20 Oct 2020 15:11:20 +0000 (UTC)
+Subject: [PATCH 3/5] tests/9pfs: Set alloc in fs_create_dir()
 From: Greg Kurz <groug@kaod.org>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 20 Oct 2020 17:11:12 +0200
-Message-ID: <160320667267.255209.16813057225265843854.stgit@bahia.lan>
+Date: Tue, 20 Oct 2020 17:11:19 +0200
+Message-ID: <160320667949.255209.17461135536728398203.stgit@bahia.lan>
 In-Reply-To: <160320655763.255209.3890094487013964615.stgit@bahia.lan>
 References: <160320655763.255209.3890094487013964615.stgit@bahia.lan>
 User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
@@ -69,61 +69,26 @@ Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fs_readdir_split() isn't a top level test function and thus shouldn't
-take the "void *obj, void *data, QGuestAllocator *t_alloc" arguments.
-Turn it into a helper to be used by test functions.
+fs_create_dir() is a top level test function. It should set alloc.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- tests/qtest/virtio-9p-test.c |   14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ tests/qtest/virtio-9p-test.c |    1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 63f91aaf77e6..d0cdc14fee3e 100644
+index d0cdc14fee3e..95638662e14d 100644
 --- a/tests/qtest/virtio-9p-test.c
 +++ b/tests/qtest/virtio-9p-test.c
-@@ -727,11 +727,8 @@ static void fs_readdir(void *obj, void *data, QGuestAl=
-locator *t_alloc)
- }
-=20
- /* readdir test where overall request is split over several messages */
--static void fs_readdir_split(void *obj, void *data, QGuestAllocator *t_all=
-oc,
--                             uint32_t count)
-+static void do_fs_readdir_split(QVirtio9P *v9p, uint32_t count)
+@@ -1019,6 +1019,7 @@ static void fs_readdir_split_512(void *obj, void *dat=
+a,
+ static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
  {
--    QVirtio9P *v9p =3D obj;
--    alloc =3D t_alloc;
-     char *const wnames[] =3D { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-     uint16_t nqid;
-     v9fs_qid qid;
-@@ -998,19 +995,22 @@ static void fs_mkdir(void *obj, void *data, QGuestAll=
-ocator *t_alloc,
- static void fs_readdir_split_128(void *obj, void *data,
-                                  QGuestAllocator *t_alloc)
- {
--    fs_readdir_split(obj, data, t_alloc, 128);
+     QVirtio9P *v9p =3D obj;
 +    alloc =3D t_alloc;
-+    do_fs_readdir_split(obj, 128);
- }
-=20
- static void fs_readdir_split_256(void *obj, void *data,
-                                  QGuestAllocator *t_alloc)
- {
--    fs_readdir_split(obj, data, t_alloc, 256);
-+    alloc =3D t_alloc;
-+    do_fs_readdir_split(obj, 256);
- }
-=20
- static void fs_readdir_split_512(void *obj, void *data,
-                                  QGuestAllocator *t_alloc)
- {
--    fs_readdir_split(obj, data, t_alloc, 512);
-+    alloc =3D t_alloc;
-+    do_fs_readdir_split(obj, 512);
- }
-=20
-=20
+     struct stat st;
+     char *root_path =3D virtio_9p_test_path("");
+     char *new_dir =3D virtio_9p_test_path("01");
 
 
 
