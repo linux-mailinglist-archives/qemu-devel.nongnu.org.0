@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04242933A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 05:29:34 +0200 (CEST)
-Received: from localhost ([::1]:45998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83F52933AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 05:39:23 +0200 (CEST)
+Received: from localhost ([::1]:50794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUiL7-0007uJ-Nt
-	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 23:29:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45382)
+	id 1kUiUc-0002OP-HD
+	for lists+qemu-devel@lfdr.de; Mon, 19 Oct 2020 23:39:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kUiJg-00077c-GY; Mon, 19 Oct 2020 23:28:09 -0400
-Resent-Date: Mon, 19 Oct 2020 23:28:04 -0400
-Resent-Message-Id: <E1kUiJg-00077c-GY@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kUiJd-0002Kp-3A; Mon, 19 Oct 2020 23:28:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1603164464; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MHeFRe11wwaYxSXjekwmuLa5APPexu3LoKcG7HaLbVgpNWzYHj4EsYZ8IfUU26IIhF0RyBxwn3N+p6o1OwqhPHR4zD0mZMY7QjCCb7BB+FamcoKqP085PHbBcNyLRtLa9YiBiJ93ZpFYjS7dDylfI+Z7JlgmlvulP+iHVu6TRMo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1603164464;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=m71fKW4pA8XVGxvAhTG3jvu1JGUw5HBPCi/NX7Vb8L0=; 
- b=J5JD7yjGnL2iUVeXAOaAtI33EowoJylrFaPMyBKms0M/H8vPwbF6te62AjLxKoallW1/dEigq7DYQbTlKrFmKTDpQF/B3bBrcbB79gro72Lt76uhSRlTWF3CNE/Hf+9aRkrEixC1j/E2TCT/a7ZCAf++T/8bmOKVF8b51xz+pSc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1603164463689563.7576093448332;
- Mon, 19 Oct 2020 20:27:43 -0700 (PDT)
-Subject: Re: [PATCH v3 0/8] Fix some style problems in migration
-Message-ID: <160316446187.18439.7746821496766547264@66eaa9a8a123>
-In-Reply-To: <1603163448-27122-1-git-send-email-yubihong@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: yubihong@huawei.com
-Date: Mon, 19 Oct 2020 20:27:43 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/19 23:27:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
+ id 1kUiTA-00011K-Pn
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 23:37:52 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:36896)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <green.wan@sifive.com>)
+ id 1kUiT7-0005qS-Sn
+ for qemu-devel@nongnu.org; Mon, 19 Oct 2020 23:37:52 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id hk7so232486pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Oct 2020 20:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=ZH52s4LoHThXm6aIFtR0f0FaXqffjPFa8rABq7nj/Uk=;
+ b=cS0Ktl5TWXmMWZVvaYn5n2sDutfxVZhlLZ2czC4Zkppu112IpRP6k0dG26E611d4br
+ bqfRYr1+/HO9Wn5MGqoHq3CVVLf7mvPixTVmzj/1ssak+A+/47zHceaA5Q4I1aiDvOPY
+ hjOH7BoZkvkySPgRdflIxGhFavhYufS1lsAt5roRJZj/ErFgzdOMEC6sm4M04S1Pg/5s
+ 9taX/W6pE6lFCONrpbf8gKKP5WuWHlDP8bjkDP/Ci5X65+h7DjGs9otbOKPqgeLP3imf
+ vJ/KKOtIvaN8XH19ifWAAS9dXikOWFbl0aFqvtjyqfVggtYTlYITnvi69uwjqSNu3PxY
+ V4fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=ZH52s4LoHThXm6aIFtR0f0FaXqffjPFa8rABq7nj/Uk=;
+ b=tjTJaR19UcHiO6t23tYkAC/Ojh0j09ZUbtN8Z4b/hVDF2vOLrck15seiZDSIyfycGV
+ 3GHyuS5Qmfv9pCLxEozTRbPf6ltrNAEO6f6hfZd6ph18+25az4oAvK5sSGk+kmanjT6R
+ Wkwh+LaeH7hnBA4qMFUdh/gFEGd8PgtwK5xXqOzL3eztcZIkJswVx9rWfkxdbmrTS5BA
+ OugIBuTUlwPdGG//ZQGzaotFadFgpnJGQxBVR32RD1XKqXcfCLroPVC98Kzc2YKR4kL3
+ 8ixzBHz2PQA2kyI74mGNYBMBLFJx6hN0rXUzYTDjmBDmjAL8ZXhasMpaOLWuPJrxkDIS
+ 8dxA==
+X-Gm-Message-State: AOAM532LvSzhEHRtFLeqaLeUFTGc/fu+o8w/FcaXPkIiw8a90jFI56Wd
+ A9IRKto4EAXqqgymGD8MGyNcKq0w23tHQQ==
+X-Google-Smtp-Source: ABdhPJxboW/xRRdIPx9Ir3v6PW2AUYjj3duKHKeSh3Q/wv8Ebp1w1LEYQhjz6EPczTeBLA6ZHSCKSQ==
+X-Received: by 2002:a17:90a:2e06:: with SMTP id
+ q6mr1035674pjd.46.1603165068043; 
+ Mon, 19 Oct 2020 20:37:48 -0700 (PDT)
+Received: from localhost.localdomain (111-243-184-51.dynamic-ip.hinet.net.
+ [111.243.184.51])
+ by smtp.gmail.com with ESMTPSA id gd14sm260489pjb.31.2020.10.19.20.37.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Oct 2020 20:37:47 -0700 (PDT)
+From: Green Wan <green.wan@sifive.com>
+To: 
+Subject: [PATCH v8 0/2] Add file-backed and write-once features to OTP
+Date: Tue, 20 Oct 2020 11:37:30 +0800
+Message-Id: <20201020033732.12921-1-green.wan@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=green.wan@sifive.com; helo=mail-pj1-x1044.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,62 +80,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: yubihong@huawei.com, alex.chen@huawei.com, quintela@redhat.com,
- qemu-trivial@nongnu.org, armbru@redhat.com, dgilbert@redhat.com,
- qemu-devel@nongnu.org, zhengchuan@huawei.com, wanghao232@huawei.com
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, green.wan@sifive.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNjAzMTYzNDQ4LTI3MTIyLTEt
-Z2l0LXNlbmQtZW1haWwteXViaWhvbmdAaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDE2MDMxNjM0
-NDgtMjcxMjItMS1naXQtc2VuZC1lbWFpbC15dWJpaG9uZ0BodWF3ZWkuY29tClN1YmplY3Q6IFtQ
-QVRDSCB2MyAwLzhdIEZpeCBzb21lIHN0eWxlIHByb2JsZW1zIGluIG1pZ3JhdGlvbgoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
-L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
-YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4Nzgy
-MTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1w
-cm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8xNjAzMTYzNDQ4LTI3MTIy
-LTEtZ2l0LXNlbmQtZW1haWwteXViaWhvbmdAaHVhd2VpLmNvbSAtPiBwYXRjaGV3LzE2MDMxNjM0
-NDgtMjcxMjItMS1naXQtc2VuZC1lbWFpbC15dWJpaG9uZ0BodWF3ZWkuY29tCiAtIFt0YWcgdXBk
-YXRlXSAgICAgIHBhdGNoZXcvY292ZXIuMTYwMjYzNDUyNC5naXQuYWxpc3RhaXIuZnJhbmNpc0B3
-ZGMuY29tIC0+IHBhdGNoZXcvY292ZXIuMTYwMjYzNDUyNC5naXQuYWxpc3RhaXIuZnJhbmNpc0B3
-ZGMuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYjMzZWRlYSBtaWdyYXRpb246
-IERlbGV0ZSByZWR1bmRhbnQgc3BhY2VzCjI3NzU2M2QgbWlncmF0aW9uOiBPcGVuIGJyYWNlICd7
-JyBmb2xsb3dpbmcgZnVuY3Rpb24gZGVjbGFyYXRpb25zIGdvIG9uIHRoZSBuZXh0IGxpbmUKN2Rk
-MGFkMCBtaWdyYXRpb246IERvIG5vdCBpbml0aWFsaXNlIHN0YXRpY3MgYW5kIGdsb2JhbHMgdG8g
-MCBvciBOVUxMCjU1NDBmZDEgbWlncmF0aW9uOiBBZGQgYnJhY2VzIHt9IGZvciBpZiBzdGF0ZW1l
-bnQKODljMWExMiBtaWdyYXRpb246IE9wZW4gYnJhY2UgJ3snIGZvbGxvd2luZyBzdHJ1Y3QgZ28g
-b24gdGhlIHNhbWUgbGluZQoyM2U3ZjNmIG1pZ3JhdGlvbjogQWRkIHNwYWNlcyBhcm91bmQgb3Bl
-cmF0b3IKY2M5ZWM5OSBtaWdyYXRpb246IERvbid0IHVzZSAnIycgZmxhZyBvZiBwcmludGYgZm9y
-bWF0CjEyMmRjNjggbWlncmF0aW9uOiBEbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwoKPT09IE9V
-VFBVVCBCRUdJTiA9PT0KMS84IENoZWNraW5nIGNvbW1pdCAxMjJkYzY4ZGEzZGYgKG1pZ3JhdGlv
-bjogRG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMpCjIvOCBDaGVja2luZyBjb21taXQgY2M5ZWM5
-OWM1YWMwIChtaWdyYXRpb246IERvbid0IHVzZSAnIycgZmxhZyBvZiBwcmludGYgZm9ybWF0KQoz
-LzggQ2hlY2tpbmcgY29tbWl0IDIzZTdmM2ZiNTFjMiAobWlncmF0aW9uOiBBZGQgc3BhY2VzIGFy
-b3VuZCBvcGVyYXRvcikKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0
-eDpXeFYpCiM2MjogRklMRTogbWlncmF0aW9uL3NhdmV2bS5jOjUyNDoKKyAgICAuc3Vic2VjdGlv
-bnMgPSAoY29uc3QgVk1TdGF0ZURlc2NyaXB0aW9uICpbXSkgewogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdz
-LCA1OSBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-CjQvOCBDaGVja2luZyBjb21taXQgODljMWExMjE1ZWYwIChtaWdyYXRpb246IE9wZW4gYnJhY2Ug
-J3snIGZvbGxvd2luZyBzdHJ1Y3QgZ28gb24gdGhlIHNhbWUgbGluZSkKNS84IENoZWNraW5nIGNv
-bW1pdCA1NTQwZmQxMjFmMTkgKG1pZ3JhdGlvbjogQWRkIGJyYWNlcyB7fSBmb3IgaWYgc3RhdGVt
-ZW50KQo2LzggQ2hlY2tpbmcgY29tbWl0IDdkZDBhZDBjNWI4NiAobWlncmF0aW9uOiBEbyBub3Qg
-aW5pdGlhbGlzZSBzdGF0aWNzIGFuZCBnbG9iYWxzIHRvIDAgb3IgTlVMTCkKNy84IENoZWNraW5n
-IGNvbW1pdCAyNzc1NjNkMjdjMzMgKG1pZ3JhdGlvbjogT3BlbiBicmFjZSAneycgZm9sbG93aW5n
-IGZ1bmN0aW9uIGRlY2xhcmF0aW9ucyBnbyBvbiB0aGUgbmV4dCBsaW5lKQo4LzggQ2hlY2tpbmcg
-Y29tbWl0IGIzM2VkZWE1ODRiNCAobWlncmF0aW9uOiBEZWxldGUgcmVkdW5kYW50IHNwYWNlcykK
-PT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRo
-ZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTYwMzE2
-MzQ0OC0yNzEyMi0xLWdpdC1zZW5kLWVtYWlsLXl1Ymlob25nQGh1YXdlaS5jb20vdGVzdGluZy5j
-aGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxs
-eSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVl
-ZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+patch [1/2] - add write function and wrire-once feature
+patch [2/2] - add file backend support
+
+Test Steps: (should work even only 1/2 is applied)
+ 1) Follow instructions to prepare fw_payload - https://github.com/riscv/opensbi/blob/master/docs/platform/sifive_fu540.md
+    a) build 1-round opensbi
+       $ cd opensbi
+       $ OBJCOPY=riscv64-buildroot-linux-gnu-objcopy \
+       LD=riscv64-buildroot-linux-gnu-ld \
+       CC=riscv64-buildroot-linux-gnu-gcc \
+       make PLATFORM=sifive/fu540
+    b) build u-boot
+       # Make sure the 'CONFIG_SIFIVE_OTP=y' is set
+       $ cd u-boot
+       $ OPENSBI=/xxx/opensbi/build/platform/sifive/fu540/firmware/fw_dynamic.bin \
+       ARCH=riscv \
+       CROSS_COMPILE=riscv64-buildroot-linux-gnu- \
+       make
+    c) generate fw_payload.elf
+       $ cd opensbi
+       $ OBJCOPY=riscv64-buildroot-linux-gnu-objcopy \
+       LD=riscv64-buildroot-linux-gnu-ld \
+       CC=riscv64-buildroot-linux-gnu-gcc \
+       make PLATFORM=sifive/fu540 FW_PAYLOAD_PATH=/xxx/u-boot/u-boot.bin
+ 2) Apply uboot test patch - http://patchwork.ozlabs.org/project/uboot/patch/1602657292-82815-1-git-send-email-bmeng.cn@gmail.com/
+    Rebuild u-boot and fw_payload.elf
+ 3) Generate empty otp image. (skip this if only 1/2 is applied.)
+    $ dd if=/dev/zero of=./otp.img bs=1k count=16
+ 4) run qemu with fw_payload.elf
+    $ qemu-system-riscv64 -M sifive_u -m 256M -nographic -bios none \
+      -kernel ../opensbi/build/platform/sifive/fu540/firmware/fw_payload.elf \
+      -d guest_errors -drive if=none,format=raw,file=otp.img 
+ 5) (uboot otp driver should do some read/write already) Run read/write in u-boot
+
+# dump mem before test
+=> md 80200000 10
+80200000: 84ae822a 00061297 7642b283 10529073    *.........Bvs.R.
+80200010: 10401073 031b52c1 13134010 71330153    s.@..R...@..S.3q
+80200020: 850a0053 28c0b0ef 812a81aa 00062297    S......(..*.."..
+80200030: 94c2b283 a92f4905 16630862 22970209    .....I/.b.c...."
+=> md 80400000 10
+80400000: 00000000 00000000 00000000 00000000    ................
+80400010: 00000000 00000000 00000000 00000000    ................
+80400020: 00000000 00000000 00000000 00000000    ................
+80400030: 00000000 00000000 00000000 00000000    ................
+
+# check read function and see if serial is set
+=> misc read  otp@10070000 3f0 80400000 10
+=> md 80400000 10
+80400000: 00000001 fffffffe 00000000 00000000    ................
+80400010: 00000000 00000000 00000000 00000000    ................
+80400020: 00000000 00000000 00000000 00000000    ................
+80400030: 00000000 00000000 00000000 00000000    ................
+
+# check write function
+=> misc write otp@10070000 0 80200000 10
+=> misc read  otp@10070000 0 80400000 10
+=> md 80400000 10
+80400000: 84ae822a 00061297 7642b283 10529073    *.........Bvs.R.
+80400010: 00000000 00000000 00000000 00000000    ................
+80400020: 00000000 00000000 00000000 00000000    ................
+80400030: 00000000 00000000 00000000 00000000    ................
+=>
+
+Changelogs:
+v6 to v7:
+ - Rebase to the latest and move debug message patch
+   from patch [2/2] to [1/2]
+ - Remove RFC tag and add credit
+
+v6 to v7:
+ - Fix bug in MACRO, SET_FUSEARRAY_BIT.
+ - Add serial initialization in sifive_u_otp_reset().
+ - revise write-once error message.
+
+v5 to v6:
+ - Rebase to latest. (sifive_u_otp.* are moved to hw/misc)
+ - Put the example command to commit message.
+ - Refine errp handle when check backend drive.
+ - Remove unnecessary debug message.
+
+v4 to v5:
+ - Change the patch order
+ - Add write operation to update pdin to fuse[] bit by bit 
+ - Fix wrong protection for offset 0x0~0x38
+ - Add SIFIVE_U_OTP_PWE_EN definition
+ - Refine access macro for fuse[] and fuse_wo[]
+
+Summary of Patches 
+ - First patch is to add write opertion to update pdin data to fuse[] bit
+   by bit. Add 'write-once' feature to block second write to same bit of
+   the OTP memory.
+
+ - Second patch is to add file-backed implementation to allow users to use
+   '-drive' to assign an OTP raw image file. OTP image file must be bigger
+   than 16K.
+
+       For example, '-drive if=none,format=raw,file=otp.img'
+
+Testing
+ - Tested on sifive_u for both qemu and u-boot.
+
+Green Wan (2):
+  hw/misc/sifive_u_otp: Add write function and write-once protection
+  hw/misc/sifive_u_otp: Add backend drive support
+
+ hw/misc/sifive_u_otp.c         | 95 +++++++++++++++++++++++++++++++++-
+ include/hw/misc/sifive_u_otp.h |  5 ++
+ 2 files changed, 99 insertions(+), 1 deletion(-)
+
+-- 
+2.17.1
+
 
