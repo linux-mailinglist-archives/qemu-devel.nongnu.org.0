@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF77293F23
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:01:43 +0200 (CEST)
-Received: from localhost ([::1]:57680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D34F0293F58
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:13:36 +0200 (CEST)
+Received: from localhost ([::1]:39274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUt8w-0008P4-6F
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:01:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51382)
+	id 1kUtKR-00054a-Tj
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:13:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUt6m-0007et-6R
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 10:59:28 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36759)
+ id 1kUtIB-0003fE-Tk
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:15 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:38557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUt6k-0004ZZ-CQ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 10:59:27 -0400
-Received: by mail-ej1-x643.google.com with SMTP id qp15so3212043ejb.3
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 07:59:25 -0700 (PDT)
+ id 1kUtHy-0006QQ-3P
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:15 -0400
+Received: by mail-ej1-x644.google.com with SMTP id ce10so3258708ejc.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:10:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7bkquVpcEoY4NqgXc3bLKM+R+Z+x8Z9TEoN7lITSYec=;
- b=Wtv8ZrF2lwHUaqWYCidG6l9VKHHZXbuD6WHEtoXMw2gbonZbvEgCpl3nkBrEfm3dPp
- IW61Y0BIZyOruefASV2QiKnc5ULC3HcnF8UOKQSNyTi+jS/mJyR6a9J8Z5uQtYcfkKvD
- v2EIBI5QQJin5CuYIQCywQopnE5ayB0g9CrhmeBsCxlnWIuHW0dBQzaLqWakRCCCmUja
- NNZ5SHICQaV1QpqWFGuDSg5I2EKKs715aBVUVt0YbMyko9lzU6kC1T5Tg/A7kMi+/8uL
- BUrHB/aGbjvu1iP0Cgs+pyOKyCvroyi1Xezo3s8PKHI0V6WqxEMFwqHNTI0DZGiKPjhS
- ulcg==
+ :cc; bh=1xaArn65ufOMwZocAes/NaZx/wzEkuh8mICC1mT2r+c=;
+ b=XmDhOM2I2z+QtiuvCMEw0lo7FXo04jrB9AZWvNJ+k/0PM24kVkf0lzjpAxSz/mdjEO
+ y7ITb0qUquKYKyDBEQeIgbkd3k7+pEELWl8sBzCCNLCXMZge4y9EANgqJB2APEHt24Tn
+ kVEkxNVCUeRyPjgwGDWulOnzVwb8HBxW49FQmzZXnsPdYEj61zxAMZC/1mFRG+xgTdBw
+ ddyEUo79GbuHFYHgCsIGJzJG4d3TMjCA3v1pqTm2N12a3N5Z+6KkDmDS+du1EPGssQvL
+ zp7RybhdSb69eJAqBOuhTyYoyTRuPd67lHCfecRz312W5EcuY/62EcnsxwUJutu3RVMP
+ lrMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7bkquVpcEoY4NqgXc3bLKM+R+Z+x8Z9TEoN7lITSYec=;
- b=Y6v4zHQ44rXQlogIabvC9WactdZnOCai+Z/xVK68AaUfNXKi8GS9CwMQKo8wZV7SI3
- sORPuI2mp5oHuy2MkER+IZ5+8nP9WTfoog0zwPYRTNd9GSLqlABW+ts968YaBVROeLGP
- TfFgzPf4dv7hI7d/rkAoZs1hHnYdV29+tLXJVxfD3/rGvg3jBc8OTA4OmPzis3PWMZ2w
- /ufMy0CgP2K4SSmEIhuPQ3nitaFHmMlNSRvn6OTaJUqRHb/Ws9LR29GdSCLEu3LCAqqC
- BgUmpNRiDEf02O+KOBDago+ZOWrYrlaxxZ2la/UO2MvKdN2kjaU83nsbt76QJVTwgvhF
- MfDw==
-X-Gm-Message-State: AOAM532bUJsnm1AMuOm50msr5KZBfb3EvHmWL0kZRgJt5cjpaUw2/f+O
- p9y0tbk+4M5fAwDgro/I9fPYSrFK4cr+3W6RaD8FRg==
-X-Google-Smtp-Source: ABdhPJwiIWP4ZgP7rw2DvquwHSxNsrNS//2UKedOwf510yYoamEB8jw+BsyXTF7pZvQflUu6FcOQ7tXdpSCDmDX+XLo=
-X-Received: by 2002:a17:906:c7d9:: with SMTP id
- dc25mr3537819ejb.482.1603205964676; 
- Tue, 20 Oct 2020 07:59:24 -0700 (PDT)
+ bh=1xaArn65ufOMwZocAes/NaZx/wzEkuh8mICC1mT2r+c=;
+ b=OO1Y8bsdU8FnUkF+3WKdd4IZbYoF8Jm40ggYNZmOg1rzrbWIzOzltOLKNUvG0/m6Xy
+ QtZRJF4gqCrmH+EKbXQ9cSl/s9O3SMpr5/HewanZ2xU7uTf8mJWEeziM4Av7lSxCnN9x
+ tb1L+W7Er8tguZY5X3xl4o0CgpHxHRv+zWqdZCA9Yn1l+s5Vwo+qjZF/kVZvj3gmPhpC
+ rO+KP89CglG1mTCK3178+SXSAO9nTWEoOKb/BFHb3VcfcdLajuOd+bzuhvuuX8RZV82L
+ cimiOO8Q7TtCkwgD3HG9xoxoc4Y5wrYgGqZd7RCl5BT3uCcz2UzQ3N/6qGx1Qrz3Ve5Y
+ Ir7A==
+X-Gm-Message-State: AOAM530ug8iZpimRkU1+lJgFG1pedpELbZDb4d0R0cLvPYi9C0H/hBnx
+ lvvHkG3Tz8SNhXVefZqGmCS4QSM+Nh5qq94Q0yGvSctwClc=
+X-Google-Smtp-Source: ABdhPJx0a4a+myXseYf2fe+bkzXT6t7hKsUxAV7wGhpNA9ShZx3HBB/r8RdY1D+46KFlWC+rwhLhOFilvfaKKxQJxak=
+X-Received: by 2002:a17:906:1f42:: with SMTP id
+ d2mr3436764ejk.407.1603206314387; 
+ Tue, 20 Oct 2020 08:05:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201016184207.786698-1-richard.henderson@linaro.org>
-In-Reply-To: <20201016184207.786698-1-richard.henderson@linaro.org>
+References: <20201020140050.1623109-1-ppandit@redhat.com>
+In-Reply-To: <20201020140050.1623109-1-ppandit@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Oct 2020 15:59:13 +0100
-Message-ID: <CAFEAcA9PAz0_r0HGqgcmXmFnB_of6f2X_QA4M=yV5WmoonFYbQ@mail.gmail.com>
-Subject: Re: [PATCH v11 00/12] linux-user: User support for AArch64 BTI
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 20 Oct 2020 16:05:03 +0100
+Message-ID: <CAFEAcA_Bg12kvGAjg127_XpfeJdj9er-e2VEF9YnkNyVUDQ9OQ@mail.gmail.com>
+Subject: Re: [PATCH v2] net: remove an assert call in eth_get_gso_type
+To: P J P <ppandit@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,33 +79,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Jason Wang <jasowang@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 16 Oct 2020 at 19:42, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, 20 Oct 2020 at 15:05, P J P <ppandit@redhat.com> wrote:
 >
-> The kernel abi for this was merged in v5.8, just as the qemu 5.1
-> merge window was closing, so this slipped to the next dev cycle.
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 >
-> Changes from v10:
->   * Include Phil's plug of interp_name memory leak.
->   * Convert error reporting to Error api.
->   * Mirror the kernel's code structure for parsing notes
->     (though Error means that it's not exactly the same).
->   * Split aarch64 stuff from basic note parsing patch.
+> eth_get_gso_type() routine returns segmentation offload type based on
+> L3 protocol type. It calls g_assert_not_reached if L3 protocol is
+> unknown, making the following return statement unreachable. Remove the
+> g_assert call, as it maybe triggered by a guest user.
 >
-> Changes from v9:
->   * Split what is now patch 7 into 3 more (pmm).
->   * All prerequisites are now upstream.
+> Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> ---
+>  net/eth.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
+> Update v2: add qemu_log()
+>   -> https://lists.nongnu.org/archive/html/qemu-devel/2020-10/msg05576.html
+>
+> diff --git a/net/eth.c b/net/eth.c
+> index 0c1d413ee2..fd76e349eb 100644
+> --- a/net/eth.c
+> +++ b/net/eth.c
+> @@ -16,6 +16,7 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> +#include "qemu/log.h"
+>  #include "net/eth.h"
+>  #include "net/checksum.h"
+>  #include "net/tap.h"
+> @@ -71,9 +72,7 @@ eth_get_gso_type(uint16_t l3_proto, uint8_t *l3_hdr, uint8_t l4proto)
+>              return VIRTIO_NET_HDR_GSO_TCPV6 | ecn_state;
+>          }
+>      }
+> -
+> -    /* Unsupported offload */
+> -    g_assert_not_reached();
+> +    qemu_log("Probably not GSO frame, unknown L3 protocol: %hd\n", l3_proto);
 
+It's generally not a good idea to use qemu_log() without a
+particular mask, as then it will get printed if the user turns
+on any logging but not otherwise.
 
+If the guest must have done something wrong to get us here:
+ use LOG_GUEST_ERROR
+If this is some functionality we ought to implement but have
+not, and so something will now be broken:
+ use LOG_UNIMP
+If the fallback for what happens in this situation is fine,
+and maybe it's just suboptimal performance, or an unusual
+case that might be interesting to know about but which
+we're handling within the spec:
+ consider a tracepoint instead
 
-Applied to target-arm.next, thanks.
-
+thanks
 -- PMM
 
