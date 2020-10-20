@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6B329435E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 21:41:43 +0200 (CEST)
-Received: from localhost ([::1]:56614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B951294368
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 21:44:07 +0200 (CEST)
+Received: from localhost ([::1]:37334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUxVu-00034t-L8
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 15:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42664)
+	id 1kUxYE-0006pv-Bw
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 15:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUxQh-000677-A9
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUxQh-00067v-UC
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 15:36:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21834)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUxQe-0000yQ-6K
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 15:36:18 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kUxQe-0000ye-6i
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 15:36:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603222572;
+ s=mimecast20190719; t=1603222574;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N00sznQw1fc3FzISv2Kqoi2O4X0SNyxs5vwWVLwNv90=;
- b=bhxI9alGC4UHRe/W9/hPjjPvRWokXy6mG9izCymwQh0klXkloOj5ChO5nR4QXAOsUL5/5A
- WCjmPuwesTwpqHsWDfZNkkMr2VlLOg9sGVkCsRZbE8BK4A4aA/24AX4fuGFjFRaPHLmVoV
- CqmINp/AoPEkRLxsou9NB6o4vay71HY=
+ bh=dKUvLoe1F+LpREDo9JJoOt/3t4Y/T5crpLJPTHUXyAk=;
+ b=YDFSXaUprt5y4Qvw7TAxTvXi//8JnUocBr7liw4hioJPoNe9TlAcYz5ASLbAm61OcX8k3L
+ YAsNXF0QGJGFz8EC4mApbNejiCZHTrhPfzfS6s0mKI8yk/ctj62nbsh4USapgf5VSCI8CL
+ KOeTuDB52HSTnjfO8zr6r3wEkJvKO1M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-IWrSV4rqOnq-CBtoSzGrqg-1; Tue, 20 Oct 2020 15:36:10 -0400
-X-MC-Unique: IWrSV4rqOnq-CBtoSzGrqg-1
+ us-mta-193-M6H5cBYPNoy8ezWaUuYugg-1; Tue, 20 Oct 2020 15:36:11 -0400
+X-MC-Unique: M6H5cBYPNoy8ezWaUuYugg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B73D1006C8E;
- Tue, 20 Oct 2020 19:36:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 932B71074649;
+ Tue, 20 Oct 2020 19:36:10 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-115-172.rdu2.redhat.com [10.10.115.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85A465C1C2;
- Tue, 20 Oct 2020 19:36:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C6E0F5C1C2;
+ Tue, 20 Oct 2020 19:36:08 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/15] python: add VERSION file
-Date: Tue, 20 Oct 2020 15:35:43 -0400
-Message-Id: <20201020193555.1493936-4-jsnow@redhat.com>
+Subject: [PATCH v3 04/15] python: add directory structure README.rst files
+Date: Tue, 20 Oct 2020 15:35:44 -0400
+Message-Id: <20201020193555.1493936-5-jsnow@redhat.com>
 In-Reply-To: <20201020193555.1493936-1-jsnow@redhat.com>
 References: <20201020193555.1493936-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -92,75 +92,103 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Python infrastructure as it exists today is not capable reliably of
-single-sourcing a package version from a parent directory. The authors
-of pip are working to correct this, but as of today this is not possible
-to my knowledge.
+Add short readmes to python/, python/qemu/, python/qemu/machine, and
+python/qemu/machine that explain the directory hierarchy. These readmes
+are visible when browsing the source on e.g. gitlab/github and are
+designed to help new developers/users quickly make sense of the source
+tree.
 
-The problem is that when using pip to build and install a python
-package, it copies files over to a temporary directory and performs its
-build there. This loses access to any information in the parent
-directory, including git itself.
-
-Further, Python versions have a standard (PEP 440) that may or may not
-follow QEMU's versioning. In general, it does; but naturally QEMU does
-not follow PEP 440. To avoid any automatically-generated conflict, a
-manual version file is preferred.
-
-
-I am proposing:
-
-- Python tooling follows the QEMU version, indirectly, but with a major
-  version of 0 to indicate that the API is not expected to be
-  stable. This would mean version 0.5.2.0, 0.5.1.1, 0.5.3.0, etc.
-
-- In the event that a Python package needs to be updated independently
-  of the QEMU version, a pre-release alpha version should be preferred,
-  but *only* after inclusion to the qemu development or stable branches.
-
-  e.g. 0.5.2.0a1, 0.5.2.0a2, and so on should be preferred prior to
-  5.2.0's release.
-
-- The Python core tooling makes absolutely no version compatibility
-  checks or constraints. It *may* work with releases of QEMU from the
-  past or future, but it is not required to.
-
-  i.e., "qemu.machine" will always remain in lock-step with QEMU.
-
-- We reserve the right to split the qemu package into independently
-  versioned subpackages at a later date. This might allow for us to
-  begin versioning QMP independently from QEMU at a later date, if
-  we so choose.
-
-
-Implement this versioning scheme by adding a VERSION file and setting it
-to 0.5.2.0a1.
+They are not designed for inclusion in a published manual.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/VERSION   | 1 +
- python/setup.cfg | 1 +
- 2 files changed, 2 insertions(+)
- create mode 100644 python/VERSION
+ python/README.rst              | 27 +++++++++++++++++++++++++++
+ python/qemu/README.rst         |  8 ++++++++
+ python/qemu/machine/README.rst |  9 +++++++++
+ python/qemu/qmp/README.rst     |  9 +++++++++
+ 4 files changed, 53 insertions(+)
+ create mode 100644 python/README.rst
+ create mode 100644 python/qemu/README.rst
+ create mode 100644 python/qemu/machine/README.rst
+ create mode 100644 python/qemu/qmp/README.rst
 
-diff --git a/python/VERSION b/python/VERSION
+diff --git a/python/README.rst b/python/README.rst
 new file mode 100644
-index 0000000000..ceef7e1ad0
+index 0000000000..ff40e4c931
 --- /dev/null
-+++ b/python/VERSION
-@@ -0,0 +1 @@
-+0.5.2.0a1
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 12b99a796e..260f7f4e94 100755
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -1,5 +1,6 @@
- [metadata]
- name = qemu
-+version = file:VERSION
- maintainer = QEMU Developer Team
- maintainer_email = qemu-devel@nongnu.org
- url = https://www.qemu.org/
++++ b/python/README.rst
+@@ -0,0 +1,27 @@
++QEMU Python Tooling
++===================
++
++This directory houses Python tooling used by the QEMU project to build,
++configure, and test QEMU. It is organized by namespace (``qemu``), and
++then by package (``qemu/machine``, ``qemu/qmp``).
++
++``setup.py`` is used by ``pip`` to install this tooling to the current
++environment. You will generally invoke it by doing one of the following:
++
++1. ``pip3 install .`` will install these packages to your current
++   environment. If you are inside a virtual environment, they will
++   install there. If you are not, it will attempt to install to the
++   global environment, which is not recommended.
++
++2. ``pip3 install --user .`` will install these packages to your user's
++   local python packages. If you are inside of a virtual environment,
++   this will fail.
++
++If you amend the ``-e`` argument, pip will install in "editable" mode;
++which installs a version of the package that uses symlinks to these
++files, such that the package always reflects the latest version in your
++git tree.
++
++See `Installing packages using pip and virtual environments
++<https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
++for more information.
+diff --git a/python/qemu/README.rst b/python/qemu/README.rst
+new file mode 100644
+index 0000000000..31209c80a5
+--- /dev/null
++++ b/python/qemu/README.rst
+@@ -0,0 +1,8 @@
++QEMU Python Namespace
++=====================
++
++This directory serves as the root of a `Python PEP 420 implicit
++namespace package <<https://www.python.org/dev/peps/pep-0420/>`_.
++
++Each directory below is assumed to be an installable Python package that
++is available under the ``qemu.<package>`` namespace.
+diff --git a/python/qemu/machine/README.rst b/python/qemu/machine/README.rst
+new file mode 100644
+index 0000000000..73ad23c501
+--- /dev/null
++++ b/python/qemu/machine/README.rst
+@@ -0,0 +1,9 @@
++qemu.machine Package
++====================
++
++This package provides core utilities used for testing and debugging
++QEMU. It is used by the iotests, vm tests, and several other utilities
++in the ./scripts directory. It is not a fully-fledged SDK and it is
++subject to change at any time.
++
++See the documentation in ``__init__.py`` for more information.
+diff --git a/python/qemu/qmp/README.rst b/python/qemu/qmp/README.rst
+new file mode 100644
+index 0000000000..f35dffe582
+--- /dev/null
++++ b/python/qemu/qmp/README.rst
+@@ -0,0 +1,9 @@
++qemu.qmp Package
++================
++
++This package provides a library used for connecting to and communicating
++with QMP servers. It is used extensively by iotests, vm tests, and other
++utilities in the ./scripts directory. It is not a fully-fledged SDK and
++is subject to change at any time.
++
++See the documentation in ``__init__.py`` for more information.
 -- 
 2.26.2
 
