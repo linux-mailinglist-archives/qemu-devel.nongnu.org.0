@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAD8293F64
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:17:18 +0200 (CEST)
-Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87D5293F6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:19:16 +0200 (CEST)
+Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUtO1-0001l9-9B
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:17:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54810)
+	id 1kUtPv-00044L-OA
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIa-000439-8p
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:40 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:42590)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kUtJK-0004wq-9B
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:12:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIY-0006WT-Q3
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:39 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kUtJG-0006aH-EQ
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:12:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603206740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dj+TOnvvZZ5vmfM8lwC0G0qMF8jX4le6TVB5sIfrB5s=;
+ b=bowTzD6zU+UjDsvnTGmcjsctBjnlULc8ZA4/270isPmhmbMfJCcHbPGFgumrpaSlv4ZXow
+ xlF3O1ZuEb7Sg3J2xuSlVkEwUoKsAApND+0VUu439u/SY/e71yUtBx3s2qzIj+vJk2D68E
+ /4GzauQVPOFduBg+rZx9wliLtzuSxh0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-svRMrcQqP66xpFx8bgD4rw-1; Tue, 20 Oct 2020 11:11:36 -0400
-X-MC-Unique: svRMrcQqP66xpFx8bgD4rw-1
+ us-mta-162-CNpotVffPPW4WIMx97vDbQ-1; Tue, 20 Oct 2020 11:12:17 -0400
+X-MC-Unique: CNpotVffPPW4WIMx97vDbQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E82D71074656;
- Tue, 20 Oct 2020 15:11:34 +0000 (UTC)
-Received: from bahia.lan (ovpn-115-53.ams2.redhat.com [10.36.115.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 445C01002C18;
- Tue, 20 Oct 2020 15:11:34 +0000 (UTC)
-Subject: [PATCH 5/5] tests/9pfs: Turn fs_mkdir() into a helper
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 20 Oct 2020 17:11:33 +0200
-Message-ID: <160320669332.255209.15848887356639293774.stgit@bahia.lan>
-In-Reply-To: <160320655763.255209.3890094487013964615.stgit@bahia.lan>
-References: <160320655763.255209.3890094487013964615.stgit@bahia.lan>
-User-Agent: StGit/0.21
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 455161084C85;
+ Tue, 20 Oct 2020 15:12:16 +0000 (UTC)
+Received: from [10.36.114.141] (ovpn-114-141.ams2.redhat.com [10.36.114.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D5471002C0E;
+ Tue, 20 Oct 2020 15:12:15 +0000 (UTC)
+Subject: Re: [PATCH 4/4] target/s390x: Improve SUB LOGICAL WITH BORROW
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201017022901.78425-1-richard.henderson@linaro.org>
+ <20201017022901.78425-5-richard.henderson@linaro.org>
+ <e2bd9942-6fe3-1570-cdc1-2cfd1519e4be@redhat.com>
+ <3d014021-bf0c-c2d8-fcc1-a6a66a843353@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <2a48d29a-6fa5-6557-e929-9434f0f1723e@redhat.com>
+Date: Tue, 20 Oct 2020 17:12:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <3d014021-bf0c-c2d8-fcc1-a6a66a843353@linaro.org>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 11:11:37
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:15:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,48 +86,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fs_mkdir() isn't a top level test function and thus shouldn't take
-the "void *obj, void *data, QGuestAllocator *t_alloc" arguments.
-Turn it into a helper to be used by test functions.
+On 20.10.20 17:11, Richard Henderson wrote:
+> On 10/20/20 7:17 AM, David Hildenbrand wrote:
+>>> +    case CC_OP_ADDU:
+>>
+>> Can you give me a hint how we're converting the carry into a borrow?
+>>
+>> Can we apply something similar to compute_carry()?
+>>
+>>> +        tcg_gen_subi_i64(cc_src, cc_src, 1);
+> 
+> Right here: subtract one.
+> 
+>   carry = {1,0} -> borrow = {0,-1}
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- tests/qtest/virtio-9p-test.c |    7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Ok, so it's really that simple :)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 1e1b1433014b..155d327fd9f5 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -972,11 +972,8 @@ static void fs_flush_ignored(void *obj, void *data, QG=
-uestAllocator *t_alloc)
-     g_free(wnames[0]);
- }
-=20
--static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
--                     const char *path, const char *cname)
-+static void do_fs_mkdir(QVirtio9P *v9p, const char *path, const char *cnam=
-e)
- {
--    QVirtio9P *v9p =3D obj;
--    alloc =3D t_alloc;
-     char **wnames;
-     char *const name =3D g_strdup(cname);
-     P9Req *req;
-@@ -1031,7 +1028,7 @@ static void fs_create_dir(void *obj, void *data, QGue=
-stAllocator *t_alloc)
-     g_assert(root_path !=3D NULL);
-=20
-     do_fs_attach(v9p);
--    fs_mkdir(v9p, data, t_alloc, "/", "01");
-+    do_fs_mkdir(v9p, "/", "01");
-=20
-     /* check if created directory really exists now ... */
-     g_assert(stat(new_dir, &st) =3D=3D 0);
+Thanks!
 
+-- 
+Thanks,
+
+David / dhildenb
 
 
