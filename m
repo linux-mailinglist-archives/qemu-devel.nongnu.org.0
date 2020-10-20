@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948482939A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:11:50 +0200 (CEST)
-Received: from localhost ([::1]:48832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3384B2939B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 13:20:32 +0200 (CEST)
+Received: from localhost ([::1]:36124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUpYT-0006Xw-Kc
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49620)
+	id 1kUpgt-0005LY-4V
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 07:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUpS0-0007ga-IT
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:05:08 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUpRy-0006xL-HD
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 07:05:08 -0400
-Received: by mail-ed1-x535.google.com with SMTP id t21so1370246eds.6
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 04:05:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=19qn0BCYWTM0zx/HwCCABK7hV/xe9G+1LyV7NGMXlQU=;
- b=Ze+dZL+aSJSyQyvOV24FW+TcTcJ4hKvSue+XKEjS9cR6zBBkjaBZBMt6awYUppzhh5
- fBRuBN+wv0IAOGiWtN0DY5Wd8Rkz+MTmgzFKKJkCK9SIQ/qxrHGU0N7rk+Byd455zA7Y
- vSZsQF+h604Fd4CdXBq0MkiAGHaoh3oRxlWn+5F4Ll0r8Dt56mU9Er4VVYIk3bGRXvbo
- w9JVrJK5qpgy+Bxtskb/Xcz/m/pzygG2tuvy2SoUvLVHpK03hobVVT0eC6HhNQh0az+P
- nYxhwtk0cVd8+xGoZ9Pl/UvyfWWbMEQ490J94y9lvnaTbcueAssKX6mCjAiJnmn7yGyM
- NYcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=19qn0BCYWTM0zx/HwCCABK7hV/xe9G+1LyV7NGMXlQU=;
- b=uLNrzZnW3dYd7Sz8joeV6ThPi+WVnNb8YprG8y7qoIpOWADFrmPR1QV8B9nTKTZNHj
- lIz5YcjWoWJGbj8K77idlC+e6ccFNStbpnyOXOXTB8Gqt1Gpb1ztofrnYNYikUHR5XMs
- EEr3wqu6WEc1S//j3vF3RFUFp22J/cysFVPv+nbYVgNhcztQ3kRh3c5PujvY/d+Purjx
- Jr3CNRXaHKyNUIbkp2JpVLogJ04JueitzMsXZXyvj1WXd0RDX0/D5m8divXcCriGcsmP
- Pvz8MZ8gv69esvB8D1rJwz0x4VO5egvDWOGt90hl+cLNoaMwz7hMcw2MRf3pTJexLEkw
- 2qEQ==
-X-Gm-Message-State: AOAM531VHY1HnsC7qZMWDXztBhc1LiXgBUVUvg03OIly+nGfn1FoUGR7
- xNzLs4bL5/GDNnMo5SYIP09GF9xeCQx20sk4vG+FlQ==
-X-Google-Smtp-Source: ABdhPJyxgQ1NUIDElmJPF32wlaL+q6lIGOZ6SS+mmUFF3b6UdtFwUNurBr+pczB3pHND2ZDQUpmCeZsgP0D2mo4LuYg=
-X-Received: by 2002:a05:6402:3133:: with SMTP id
- dd19mr2232319edb.100.1603191904687; 
- Tue, 20 Oct 2020 04:05:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kUpVt-0004LW-4p; Tue, 20 Oct 2020 07:09:09 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:38807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kUpVq-0007Tt-5d; Tue, 20 Oct 2020 07:09:08 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id B71B39BB;
+ Tue, 20 Oct 2020 07:09:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 20 Oct 2020 07:09:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=rkkANjUEmk9AiHck3nmkkDVCxsd
+ JkoyluQDidlpuNyc=; b=vqbxv6qYhu5+F0+BlZGrpr/24a8Z5oslpQDEA4VF8IA
+ n+STidQkdFG4VOfRiLbeGwXtdOC+AReYzA8tqffz9WQOs0ExtZRL2oxzGUOT8A3O
+ SnVjrDG5F8PAnVOlSaGHjS1H4tO9IxIIgA5Hg11veYxOEEJVmmQOd4CQnEG1gweT
+ zIhfRYnkPq1tnnRcsXpHEPB8ihtHs0QbXpl4xYnkcyGqDXsQkZDB0lLmKgGGWyDc
+ XF1/VWwr1pb7SHBsBu2v7o3kwiBdeoA7OI02P39WSut6blzO5rFbi0jQjmSkuaME
+ w1rmZwnx92/XEd/nIni/jtxNOV/Ei5OQOCPmeDOItqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=rkkANj
+ UEmk9AiHck3nmkkDVCxsdJkoyluQDidlpuNyc=; b=n06uR3+8Jccd3/coaXu8Rj
+ Tt5lWk+Gyl+3uokgeTEeQ/8jjmm+Sht7O8fRC1Orb+xfBKk7GIOL2MbI3CVGDiWS
+ TnGq075UMjgRAYq4as09RxGIuN5bpZoW9HCEXRpSjwnEVk3RwuYFplkVuDzZnKkb
+ kewXW0mKP7ue0jNNbhkCL6lBaW38h7b4n/7OshDno6dj7Aydnnp9WnG9LeBkw35H
+ W/tOHUUDWdR3RR94rurf1NOj6FeRiRsY/Xd6uS5VCb7cEq10Z3hqDv331TYvg6gQ
+ D6EjK5fAboLdbS5fPQSChlT1IKvrQIDwsIVhwGQnjI6fL7mPn9RdS2GqlLgdcs7Q
+ ==
+X-ME-Sender: <xms:TcWOXwttsS3SVs41rUoNE170bq4BVOsGwivl-vmxSX-nQO-y2SGfEw>
+ <xme:TcWOX9drnTRsBVjoXVBgutoPqyzYaq6X8Yr5pxQ-ahbCMUJZWP9xZwWTQEHdNQoXt
+ VXhGCqTEIQFg3bjBas>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeefgdefhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:TcWOX7xsfqlhVPnrLIMIViXIUmB0eRA0mp2kxb968QwWy4qkVdkpyw>
+ <xmx:TcWOXzOguEoT0NAtNPcjl7lFM6neNlFGAEJCF3h0w3cTp16JphS6vg>
+ <xmx:TcWOXw_M0dWKoVuoTJhrTPxbjXeaNEjlqA8mvKFM8gm82RYakfXcFg>
+ <xmx:TsWOX7Wi7dnm7wnp8OQ75p75PLlO79ZdN6BlUq3MEjR_xqz3Zep5z4OvT18>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6A11D328005D;
+ Tue, 20 Oct 2020 07:08:59 -0400 (EDT)
+Date: Tue, 20 Oct 2020 13:08:57 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v7 05/11] hw/block/nvme: Support Zoned Namespace Command
+ Set
+Message-ID: <20201020110857.GE178548@apples.localdomain>
+References: <20201019021726.12048-1-dmitry.fomichev@wdc.com>
+ <20201019021726.12048-6-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-References: <20201020100239.272748-1-anthony.perard@citrix.com>
-In-Reply-To: <20201020100239.272748-1-anthony.perard@citrix.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Oct 2020 12:04:53 +0100
-Message-ID: <CAFEAcA-_w_tve3MfUnPLMJyerox_f8JQAu2SsvCV29O=ZKY9Gg@mail.gmail.com>
-Subject: Re: [PULL 0/4] xen queue 2020-10-20
-To: Anthony PERARD <anthony.perard@citrix.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SNIs70sCzqvszXB4"
+Content-Disposition: inline
+In-Reply-To: <20201019021726.12048-6-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
+ helo=wnew2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 07:09:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,38 +97,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Oct 2020 at 11:02, Anthony PERARD <anthony.perard@citrix.com> wrote:
->
-> The following changes since commit d76f4f97eb2772bf85fe286097183d0c7db19ae8:
->
->   Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20201019' into staging (2020-10-19 14:39:27 +0100)
->
-> are available in the Git repository at:
->
->   https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20201020
->
-> for you to fetch changes up to 8959e0a63a3a681a31ff8397d9345a88e6d905bf:
->
->   hw/xen: Set suppress-vmdesc for Xen machines (2020-10-19 16:33:28 +0100)
->
-> ----------------------------------------------------------------
-> Xen queue
->
-> * cleanup patches.
-> * improve xen backend setup performance when other xen guests are
->   running/booting.
-> * improve xen guest migration when running in a stubdomain.
->
 
+--SNIs70sCzqvszXB4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Applied, thanks.
+On Oct 19 11:17, Dmitry Fomichev wrote:
+> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+> index 974aea33f7..fedfad595c 100644
+> --- a/hw/block/nvme-ns.c
+> +++ b/hw/block/nvme-ns.c
+> @@ -133,6 +320,12 @@ static Property nvme_ns_props[] = {
+>      DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
+>      DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
+>      DEFINE_PROP_BOOL("attached", NvmeNamespace, params.attached, true),
+> +    DEFINE_PROP_BOOL("zoned", NvmeNamespace, params.zoned, false),
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+Instead of using a 'zoned' property here, can we add an 'iocs' or 'csi'
+property in the namespace types patch? Then, in the future if we add
+additional command sets we won't need another property (like 'kv').
 
--- PMM
+> +    DEFINE_PROP_SIZE("zone_size", NvmeNamespace, params.zone_size_bs,
+> +                     NVME_DEFAULT_ZONE_SIZE),
+> +    DEFINE_PROP_SIZE("zone_capacity", NvmeNamespace, params.zone_cap_bs, 0),
+
+I would like that the zone_size and zone_capacity were named zoned.zsze
+and zoned.zcap and were in terms of logical blocks, like in the spec.
+Putting them in a pseudo-namespace makes it clear that the options
+affect the zoned command set and reduces the risk of anything clashing
+with the addition of other command sets (like 'kv') in the future.
+
+> +    DEFINE_PROP_BOOL("cross_zone_read", NvmeNamespace,
+> +                     params.cross_zone_read, false),
+
+Instead of cluttering the parameters with a bunch of these when others
+zone operational characteristics are added, can we use a 'zoned.zoc'
+parameter that matches the spec?
+
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 93728e51b3..34d0d0250d 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -3079,6 +4001,9 @@ static Property nvme_props[] = {
+>      DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queued, 64),
+>      DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
+>      DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
+> +    DEFINE_PROP_UINT8("fill_pattern", NvmeCtrl, params.fill_pattern, 0),
+> +    DEFINE_PROP_SIZE32("zone_append_size_limit", NvmeCtrl, params.zasl_bs,
+> +                       NVME_DEFAULT_MAX_ZA_SIZE),
+
+Similar to my reasoning above, I would like this to be zoned.zasl and in
+terms of logical blocks like the spec. Also, I think '0' is a better
+default since zero values typically identify a default value in the spec
+as well.
+
+I know this might sound like bikeshedding, but I wanna make sure that we
+get the parameters right since we cannot get rid of them once they are
+there. Following the definitions of the spec makes it very clear what
+their meaning are and should be. 'mdts' is currently the only other
+parameter like this, but that is also specified as in the spec, and not
+as an absolute value.
+
+My preference also applies to subsequent patches, like using `zoned.mor`
+and `zoned.mar` for the resource limits.
+
+--SNIs70sCzqvszXB4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+OxUcACgkQTeGvMW1P
+Demx+Qf9FD2fnVC1UCrwIBQ8CAx/y2lHdRQrUGt+QkR8VnIGOol0jfMEqTXXOFu7
+gj3jQjnoDNhX4WEUju6fYKbTppYgvr+bDKvkX6jL0e5YMdxbYFZfJ4HJHzBW6US0
+RLZy+naBLBoKAobzFgkVfsJE7HDvFEFWkqc/N2sq7UYcjh7LwUjOCr4oJ7GNzbDM
+snvG7mQvDi0H7CF3UJ58Q2KOxd29Aj8fdIL41i283mXH3gaFuyjoakNmhzQZsbLC
+/pXEOn0MYsockSiaWf769ZR4REXnz34S92Jwg5DPSVL1pgCn5pSl/EyyKW5LWFAu
+dqLRPUNvRf0fNEAzAwcRUv0GN1fl8Q==
+=HT2i
+-----END PGP SIGNATURE-----
+
+--SNIs70sCzqvszXB4--
 
