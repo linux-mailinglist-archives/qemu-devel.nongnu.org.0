@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D88A29401E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:01:59 +0200 (CEST)
-Received: from localhost ([::1]:40588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 103E729402A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:04:52 +0200 (CEST)
+Received: from localhost ([::1]:49148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUu5G-00011w-Jq
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:01:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37212)
+	id 1kUu83-0004iW-3c
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0b-0004Ab-2e
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:09 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37715)
+ id 1kUu0d-0004CP-M1
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:11 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kUu0Y-0003qa-KR
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:08 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id c16so2512821wmd.2
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:05 -0700 (PDT)
+ id 1kUu0a-0003qu-Na
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:57:11 -0400
+Received: by mail-wr1-x444.google.com with SMTP id h5so2780235wrv.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 08:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=hW/WffD7mpSuczr6jlz/cmphSo0bxHD9q1xWU7+BhZQ=;
- b=xPXLm48ZYbt4HC4VSmZz+LNnqFa5dakGiNH4VPmRXD0Zvyu9uYe/Tx8GalckW56+S+
- tYTOG76sXKD+Xv7nlvyEclil0FEA9NL8b55cHTvVkb200YArW+8NmBfxFMG9imKXXp4S
- WZlMiMsF+oA77zXvt6oS6Q966mECvJQz+8RHgRvpj/QnJmBmN1KVMOIyvuPZ+hwZ+hbG
- 5bWwXYEqZWgLuVK88amys5KFGj6EqDiYU31Uic8FIb9+BWMuOKSUE+7BHfBfOKXiHGWS
- poawm/R3VdNzy1cnWp5ZlihYSCYwKwa+khH6shmzddpc6CHZFX8kQtjwlxRGtcJ8u2VC
- 8D+g==
+ bh=kmrpujIYHxAX8yVXk3nU79vFEhUn765LzbagDMPL/ls=;
+ b=I3Ekgn0PHJPOIjnwrPCcE+WZy1gNdgfDsmr8ZZaMos4fdqWIJNxR87/wP2sbEzODgV
+ f7CgMoIuiAHDTAsKnMS2syKds55dJRVTK4d2duk+jpOTymbxnEdp36aTFYg/6TFVOMkL
+ /2lVZm12T2QzWvaPSiJ14u0jbVUiTwYHVH0RpGHDJJ+pMb6iw+CoeUNFvX8NWVI+R24E
+ V+2OaNh7vf2sTdfpJC70iATITolgSbn2zEvrv4vMDEDwwW0SiLBxnWMybk2D27XzP9bm
+ 6ewLHI2M6Jj2KY7gJqTNz1ti6ooHOq/7odMzX2iwkoUTeL7ANiiTgUQSnt1frlyVmGob
+ TVIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hW/WffD7mpSuczr6jlz/cmphSo0bxHD9q1xWU7+BhZQ=;
- b=NiGi96OjahCvRE3rmMgVuLKqErrq+su70ZX7ZCnBLMf3mWDnLtx9m1fCOLwYvb/fJl
- mh1nyGQaceZqRnCTlYZNYQcxeErUmoW6LSOsWjTFuCvomDcr7vMLQxQXudOkzA9NHmMi
- d/BE/aAQKOP2Vw/svDalC50ZqNKXoNrm/kJN5PrUUm+vsAblvczrInO165MDCZEA6Qoq
- sSZzxyHY7YLFNzKJ9uQNYZkTxQYKDqnz6qMGjQqHX5OpXu1NWkAcseMpI/BQY1wfOjCz
- 9VUiI3the8IKnlXbmrFFrn8fMFEmZe1Xm48MqosfiyEwwRvhVMFw4xZbNqdvo/JJ197v
- osBw==
-X-Gm-Message-State: AOAM533jf3FltCSEMmoAWFWS+t3qA094bb1MtWlz2FvD52LZwhbR5ebb
- bLjROLQQP1iUj+9EcxRUb1cNOehor3CWfw==
-X-Google-Smtp-Source: ABdhPJw1AUZpeYO3CaeOq9AJ69ixoaj3dwfwKyI0M2R6zJCWT91tdhsrc9kzLvyiFCPQoRHgeosb0Q==
-X-Received: by 2002:a7b:c0d8:: with SMTP id s24mr3564224wmh.156.1603209424179; 
- Tue, 20 Oct 2020 08:57:04 -0700 (PDT)
+ bh=kmrpujIYHxAX8yVXk3nU79vFEhUn765LzbagDMPL/ls=;
+ b=M5b2CcedyQUZofYtw0wPet/1rx4zjz1TS+XNOmVXDlz7b6+a4/vo4+0RSKlvnYKgQT
+ mCutrzyBt6BTaY1mAmEtShNVIYHbttFtVTeD+nwUMpVLcneL734iagiDBUu0nN3JAqDN
+ a9CWBDkS9GaL0VLtDGnHJlKz5OH4f8NuCfW5NVmchkck/PfpDCw/sBHGwXSLELesF5pR
+ 9WkNInws3DKXey8xUYisJUup8ftqcl00Vg/LlzJznNc5PMRoUmtef8EY4+lRei+yrJkA
+ jnBaTb7+7QruTpuMryqTlK7DnK6vLGEsmEhphJ7+jBXZEDHbsbcnMWRqfd8bq14o/53s
+ jU0g==
+X-Gm-Message-State: AOAM532tNpu8Rkp/EzboK9PV4+MMDoVacdfHYeTEl8xMPf9Em19Pr7Yp
+ aewqMWtSrHtPW6NZRNg8bUMWi2jZqTaSmQ==
+X-Google-Smtp-Source: ABdhPJx54GDznd2ryeFbsiLZ5EtK0ItJAIbYO3FCVv0P/b9LYu26RCKAeJgXOIyxQScJNqotN5clCQ==
+X-Received: by 2002:a5d:698e:: with SMTP id g14mr4134926wru.232.1603209426703; 
+ Tue, 20 Oct 2020 08:57:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.00
+ by smtp.gmail.com with ESMTPSA id v6sm3780205wrp.69.2020.10.20.08.57.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 08:57:01 -0700 (PDT)
+ Tue, 20 Oct 2020 08:57:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/41] target/arm: AArch32 VCVT fixed-point to float is always
- round-to-nearest
-Date: Tue, 20 Oct 2020 16:56:17 +0100
-Message-Id: <20201020155656.8045-3-peter.maydell@linaro.org>
+Subject: [PULL 03/41] hw/arm/strongarm: Fix 'time to transmit a char' unit
+ comment
+Date: Tue, 20 Oct 2020 16:56:18 +0100
+Message-Id: <20201020155656.8045-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020155656.8045-1-peter.maydell@linaro.org>
 References: <20201020155656.8045-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,166 +90,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For AArch32, unlike the VCVT of integer to float, which honours the
-rounding mode specified by the FPSCR, VCVT of fixed-point to float is
-always round-to-nearest. (AArch64 fixed-point-to-float conversions
-always honour the FPCR rounding mode.)
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Implement this by providing _round_to_nearest versions of the
-relevant helpers which set the rounding mode temporarily when making
-the call to the underlying softfloat function.
+The time to transmit a char is expressed in nanoseconds, not in ticks.
 
-We only need to change the VFP VCVT instructions, because the
-standard- FPSCR value used by the Neon VCVT is always set to
-round-to-nearest, so we don't need to do the extra work of saving
-and restoring the rounding mode.
-
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20201014213601.205222-1-f4bug@amsat.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201013103532.13391-1-peter.maydell@linaro.org
 ---
- target/arm/helper.h            | 13 +++++++++++++
- target/arm/vfp_helper.c        | 23 ++++++++++++++++++++++-
- target/arm/translate-vfp.c.inc | 24 ++++++++++++------------
- 3 files changed, 47 insertions(+), 13 deletions(-)
+ hw/arm/strongarm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 8defd7c8019..774d2cddb5c 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -213,6 +213,19 @@ DEF_HELPER_3(vfp_ultoh, f16, i32, i32, ptr)
- DEF_HELPER_3(vfp_sqtoh, f16, i64, i32, ptr)
- DEF_HELPER_3(vfp_uqtoh, f16, i64, i32, ptr)
+diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
+index d7133eea6f9..ca7c385f313 100644
+--- a/hw/arm/strongarm.c
++++ b/hw/arm/strongarm.c
+@@ -935,7 +935,7 @@ struct StrongARMUARTState {
+     uint8_t rx_start;
+     uint8_t rx_len;
  
-+DEF_HELPER_3(vfp_shtos_round_to_nearest, f32, i32, i32, ptr)
-+DEF_HELPER_3(vfp_sltos_round_to_nearest, f32, i32, i32, ptr)
-+DEF_HELPER_3(vfp_uhtos_round_to_nearest, f32, i32, i32, ptr)
-+DEF_HELPER_3(vfp_ultos_round_to_nearest, f32, i32, i32, ptr)
-+DEF_HELPER_3(vfp_shtod_round_to_nearest, f64, i64, i32, ptr)
-+DEF_HELPER_3(vfp_sltod_round_to_nearest, f64, i64, i32, ptr)
-+DEF_HELPER_3(vfp_uhtod_round_to_nearest, f64, i64, i32, ptr)
-+DEF_HELPER_3(vfp_ultod_round_to_nearest, f64, i64, i32, ptr)
-+DEF_HELPER_3(vfp_shtoh_round_to_nearest, f16, i32, i32, ptr)
-+DEF_HELPER_3(vfp_uhtoh_round_to_nearest, f16, i32, i32, ptr)
-+DEF_HELPER_3(vfp_sltoh_round_to_nearest, f16, i32, i32, ptr)
-+DEF_HELPER_3(vfp_ultoh_round_to_nearest, f16, i32, i32, ptr)
-+
- DEF_HELPER_FLAGS_2(set_rmode, TCG_CALL_NO_RWG, i32, i32, ptr)
- 
- DEF_HELPER_FLAGS_3(vfp_fcvt_f16_to_f32, TCG_CALL_NO_RWG, f32, f16, ptr, i32)
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 5666393ef79..abfdb6a8e23 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -393,12 +393,32 @@ float32 VFP_HELPER(fcvts, d)(float64 x, CPUARMState *env)
-     return float64_to_float32(x, &env->vfp.fp_status);
- }
- 
--/* VFP3 fixed point conversion.  */
-+/*
-+ * VFP3 fixed point conversion. The AArch32 versions of fix-to-float
-+ * must always round-to-nearest; the AArch64 ones honour the FPSCR
-+ * rounding mode. (For AArch32 Neon the standard-FPSCR is set to
-+ * round-to-nearest so either helper will work.) AArch32 float-to-fix
-+ * must round-to-zero.
-+ */
- #define VFP_CONV_FIX_FLOAT(name, p, fsz, ftype, isz, itype)            \
- ftype HELPER(vfp_##name##to##p)(uint##isz##_t  x, uint32_t shift,      \
-                                      void *fpstp) \
- { return itype##_to_##float##fsz##_scalbn(x, -shift, fpstp); }
- 
-+#define VFP_CONV_FIX_FLOAT_ROUND(name, p, fsz, ftype, isz, itype)      \
-+    ftype HELPER(vfp_##name##to##p##_round_to_nearest)(uint##isz##_t  x, \
-+                                                     uint32_t shift,   \
-+                                                     void *fpstp)      \
-+    {                                                                  \
-+        ftype ret;                                                     \
-+        float_status *fpst = fpstp;                                    \
-+        FloatRoundMode oldmode = fpst->float_rounding_mode;            \
-+        fpst->float_rounding_mode = float_round_nearest_even;          \
-+        ret = itype##_to_##float##fsz##_scalbn(x, -shift, fpstp);      \
-+        fpst->float_rounding_mode = oldmode;                           \
-+        return ret;                                                    \
-+    }
-+
- #define VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype, ROUND, suff) \
- uint##isz##_t HELPER(vfp_to##name##p##suff)(ftype x, uint32_t shift,      \
-                                             void *fpst)                   \
-@@ -412,6 +432,7 @@ uint##isz##_t HELPER(vfp_to##name##p##suff)(ftype x, uint32_t shift,      \
- 
- #define VFP_CONV_FIX(name, p, fsz, ftype, isz, itype)            \
- VFP_CONV_FIX_FLOAT(name, p, fsz, ftype, isz, itype)              \
-+VFP_CONV_FIX_FLOAT_ROUND(name, p, fsz, ftype, isz, itype)        \
- VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype,        \
-                          float_round_to_zero, _round_to_zero)    \
- VFP_CONV_FLOAT_FIX_ROUND(name, p, fsz, ftype, isz, itype,        \
-diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 28e0dba5f14..9b11b81f80d 100644
---- a/target/arm/translate-vfp.c.inc
-+++ b/target/arm/translate-vfp.c.inc
-@@ -3141,16 +3141,16 @@ static bool trans_VCVT_fix_hp(DisasContext *s, arg_VCVT_fix_sp *a)
-     /* Switch on op:U:sx bits */
-     switch (a->opc) {
-     case 0:
--        gen_helper_vfp_shtoh(vd, vd, shift, fpst);
-+        gen_helper_vfp_shtoh_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 1:
--        gen_helper_vfp_sltoh(vd, vd, shift, fpst);
-+        gen_helper_vfp_sltoh_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 2:
--        gen_helper_vfp_uhtoh(vd, vd, shift, fpst);
-+        gen_helper_vfp_uhtoh_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 3:
--        gen_helper_vfp_ultoh(vd, vd, shift, fpst);
-+        gen_helper_vfp_ultoh_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 4:
-         gen_helper_vfp_toshh_round_to_zero(vd, vd, shift, fpst);
-@@ -3200,16 +3200,16 @@ static bool trans_VCVT_fix_sp(DisasContext *s, arg_VCVT_fix_sp *a)
-     /* Switch on op:U:sx bits */
-     switch (a->opc) {
-     case 0:
--        gen_helper_vfp_shtos(vd, vd, shift, fpst);
-+        gen_helper_vfp_shtos_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 1:
--        gen_helper_vfp_sltos(vd, vd, shift, fpst);
-+        gen_helper_vfp_sltos_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 2:
--        gen_helper_vfp_uhtos(vd, vd, shift, fpst);
-+        gen_helper_vfp_uhtos_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 3:
--        gen_helper_vfp_ultos(vd, vd, shift, fpst);
-+        gen_helper_vfp_ultos_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 4:
-         gen_helper_vfp_toshs_round_to_zero(vd, vd, shift, fpst);
-@@ -3265,16 +3265,16 @@ static bool trans_VCVT_fix_dp(DisasContext *s, arg_VCVT_fix_dp *a)
-     /* Switch on op:U:sx bits */
-     switch (a->opc) {
-     case 0:
--        gen_helper_vfp_shtod(vd, vd, shift, fpst);
-+        gen_helper_vfp_shtod_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 1:
--        gen_helper_vfp_sltod(vd, vd, shift, fpst);
-+        gen_helper_vfp_sltod_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 2:
--        gen_helper_vfp_uhtod(vd, vd, shift, fpst);
-+        gen_helper_vfp_uhtod_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 3:
--        gen_helper_vfp_ultod(vd, vd, shift, fpst);
-+        gen_helper_vfp_ultod_round_to_nearest(vd, vd, shift, fpst);
-         break;
-     case 4:
-         gen_helper_vfp_toshd_round_to_zero(vd, vd, shift, fpst);
+-    uint64_t char_transmit_time; /* time to transmit a char in ticks*/
++    uint64_t char_transmit_time; /* time to transmit a char in nanoseconds */
+     bool wait_break_end;
+     QEMUTimer *rx_timeout_timer;
+     QEMUTimer *tx_timer;
 -- 
 2.20.1
 
