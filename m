@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF2D2940C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:46:44 +0200 (CEST)
-Received: from localhost ([::1]:35324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146ED2940D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 18:52:50 +0200 (CEST)
+Received: from localhost ([::1]:52542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUumZ-0001eT-Eo
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:46:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49330)
+	id 1kUusT-0000c1-6H
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 12:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUudz-0007qN-GL
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:51 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42283)
+ id 1kUue1-0007rV-JA
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:53 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kUudv-0000yW-Eb
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:49 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id j7so2951882wrt.9
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:46 -0700 (PDT)
+ id 1kUudw-0000yr-GQ
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 12:37:51 -0400
+Received: by mail-wr1-x443.google.com with SMTP id n18so2977442wrs.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 09:37:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ug2244h7gF1bgNo40QYky11fMBkQqW8reR6QCk5vxV0=;
- b=CM5bax9P6btdbc0tSV77+acjSdBLr782cvsQX/dbzD/UC3DdsBs5nYjz/9E/J24LZU
- n+RURlQeehPcA3UzOjhr1QpKoTfIZhaq5fFlDeerN9oKTUoo/CZjjbjFEyOFK8Ef33fu
- rxgPOc02gAPQGx7aitZ8ttsJutrGicxpLo3Ejj/7uld6QV7W88SgxUdFk5Zy+Hcs57WK
- N4if4q5C3RPrNISPodU00qywmReVWLh3uiLyVFqnPt99v6g7CbNFJYW0RPdols3O2dDD
- hXJ2ao8O4L2heKyVfIDkQzc27VvhgM7kNi1Db7yhxKq980Wa2QJcb3Bomm1X3Y4A7uBP
- o6bQ==
+ bh=cI8HSGwWCnif3JZAlzq92xQoHYw4ZrAg/ruryZjOnLA=;
+ b=JevuJfS8onUQ+xp4X9CVG/9Y3xqJwIGTUeQMQmRfqGoiGHiTtIMpdf72wp8OxM+D6d
+ 00r7QZLh20wJJTj8b+zbfvMdzTXTC+85r0W0O6uqal4US/U9IogVEoz2r7Cl7fZYR72Q
+ AITvILNNt/mOVendPby/sIoQoY94MSSTO/bwTmzYpMfkJM16sPNB0D2CZdm4+XoY4Oyc
+ s/1rQVI4Ub3Zt5TWnHho6ll/WTf8ZS2vFJt1wycjE8ibVlOovVJcHW8hWK+tKFKhWdM5
+ pOAc3ZCXkFb9Qd6XKfxV6EZtEPnBhyCfXc/q1rtW0OgN7rsVuyO5cNuw07tfRvHDm6fH
+ i63w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ug2244h7gF1bgNo40QYky11fMBkQqW8reR6QCk5vxV0=;
- b=T1Tr7EdFkNyD5Ubl/TTMgJ/9ia9IcSwqlrvVjDpcStNh23z2swxUumIGDiAL3M/VXB
- B204dfvmObC99TJqXVroY5Oav2g5Z21Jfo3liMi4MKUED2ofc5qzt795+RXg/ZrgUopq
- pgoq30SKhUN/6wqofhqQXqkT3EasDofT08HSydpNhfbVM9Gj8extwuMeRe8Y2X4y1HBZ
- qZJWDN913BLpETt7Jm9a+gNyZzp2544AKMhU8cuASXUUfrbdJtTQUflYipmAQflKXuFR
- Fn81og/2lPeuEaH3CYgJGyDnqLESFZah3vZyoKglRfAPs/OuMHUrJd/6mhd2ZuVC3zZT
- 1q/A==
-X-Gm-Message-State: AOAM531mR3PP6tpOV0nzPo+M59SbRCGdZG2SfUGzlBJkQY0j7hzGh1tc
- ODKCfMqTjzYXuVW7LiAyKCROrg==
-X-Google-Smtp-Source: ABdhPJz+WvHPHGVXOawnQ7+h9CHPslxYhp+674jKrbXBScL6nyPVyurGLjFeQlxlix65YbYnFfJpDA==
-X-Received: by 2002:a5d:4c4b:: with SMTP id n11mr4361381wrt.171.1603211866078; 
- Tue, 20 Oct 2020 09:37:46 -0700 (PDT)
+ bh=cI8HSGwWCnif3JZAlzq92xQoHYw4ZrAg/ruryZjOnLA=;
+ b=gCWDYCPuCf6m1l+KET46w7M/3wJw9tu/KRn1UnlQ7BGFFlOTPseZHKRblaVnVKxqal
+ dG0ojKAEvippgvJcx8wVJ1vw/McW4ZaUIlkXfKAKbZRyvzTBXuEAZR8argH6cBCeBP9B
+ HHSiNq2Kpdu5kFeuw937cRhAwIh52SLfdUoc8cvfqnUI6DWS9pbBFKHKpfUwJyORiUIl
+ e2UmQmXW0Cbkk/DlV3HeBD2psmh/tgWAo1dP8yYyWtwYpNfbM7hM0fcDvOjmyzyyxOgR
+ xqG8cjlCHRi9BRT1uLaI+1xGOUX41637a+bEtJ8kv8wVGejPO9TtQekOfIoOUMIzS5Tr
+ jSTQ==
+X-Gm-Message-State: AOAM530OHbM4QbXQiHo43WEthAzn1AGCZsed87dJ/cpMqMFgPtrgrl7F
+ Hl0kTKfBY0vpHat3GjMV0HMLAg==
+X-Google-Smtp-Source: ABdhPJzikJKbzedokXdIM7nQmKI5+50Boao2Sy/MZjmaE3JS1eG+u1aso49OA2K1f9TbcvfiBg4ddw==
+X-Received: by 2002:adf:f104:: with SMTP id r4mr4533876wro.202.1603211867164; 
+ Tue, 20 Oct 2020 09:37:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v6sm3933801wrp.69.2020.10.20.09.37.39
+ by smtp.gmail.com with ESMTPSA id v123sm3071360wme.7.2020.10.20.09.37.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Oct 2020 09:37:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 731DD1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 984CC1FF90;
  Tue, 20 Oct 2020 17:37:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  3/8] softfloat: Tidy a * b + inf return
-Date: Tue, 20 Oct 2020 17:37:33 +0100
-Message-Id: <20201020163738.27700-4-alex.bennee@linaro.org>
+Subject: [RFC PATCH  4/8] softfloat: Add float_cmask and constants
+Date: Tue, 20 Oct 2020 17:37:34 +0100
+Message-Id: <20201020163738.27700-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201020163738.27700-1-alex.bennee@linaro.org>
 References: <20201020163738.27700-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,33 +98,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-No reason to set values in 'a', when we already
-have float_class_inf in 'c', and can flip that sign.
+Testing more than one class at a time is better done with masks.
+This reduces the static branch count.
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200925152047.709901-4-richard.henderson@linaro.org>
+Message-Id: <20200925152047.709901-5-richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ fpu/softfloat.c | 31 ++++++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 67cfa0fd82..9db55d2b11 100644
+index 9db55d2b11..3e625c47cd 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -1380,9 +1380,8 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
-             s->float_exception_flags |= float_flag_invalid;
-             return parts_default_nan(s);
-         } else {
--            a.cls = float_class_inf;
--            a.sign = c.sign ^ sign_flip;
--            return a;
-+            c.sign ^= sign_flip;
-+            return c;
-         }
+@@ -469,6 +469,20 @@ typedef enum __attribute__ ((__packed__)) {
+     float_class_snan,
+ } FloatClass;
+ 
++#define float_cmask(bit)  (1u << (bit))
++
++enum {
++    float_cmask_zero    = float_cmask(float_class_zero),
++    float_cmask_normal  = float_cmask(float_class_normal),
++    float_cmask_inf     = float_cmask(float_class_inf),
++    float_cmask_qnan    = float_cmask(float_class_qnan),
++    float_cmask_snan    = float_cmask(float_class_snan),
++
++    float_cmask_infzero = float_cmask_zero | float_cmask_inf,
++    float_cmask_anynan  = float_cmask_qnan | float_cmask_snan,
++};
++
++
+ /* Simple helpers for checking if, or what kind of, NaN we have */
+ static inline __attribute__((unused)) bool is_nan(FloatClass c)
+ {
+@@ -1335,24 +1349,27 @@ bfloat16 QEMU_FLATTEN bfloat16_mul(bfloat16 a, bfloat16 b, float_status *status)
+ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
+                                 int flags, float_status *s)
+ {
+-    bool inf_zero = ((1 << a.cls) | (1 << b.cls)) ==
+-                    ((1 << float_class_inf) | (1 << float_class_zero));
+-    bool p_sign;
++    bool inf_zero, p_sign;
+     bool sign_flip = flags & float_muladd_negate_result;
+     FloatClass p_class;
+     uint64_t hi, lo;
+     int p_exp;
++    int ab_mask, abc_mask;
++
++    ab_mask = float_cmask(a.cls) | float_cmask(b.cls);
++    abc_mask = float_cmask(c.cls) | ab_mask;
++    inf_zero = ab_mask == float_cmask_infzero;
+ 
+     /* It is implementation-defined whether the cases of (0,inf,qnan)
+      * and (inf,0,qnan) raise InvalidOperation or not (and what QNaN
+      * they return if they do), so we have to hand this information
+      * off to the target-specific pick-a-NaN routine.
+      */
+-    if (is_nan(a.cls) || is_nan(b.cls) || is_nan(c.cls)) {
++    if (unlikely(abc_mask & float_cmask_anynan)) {
+         return pick_nan_muladd(a, b, c, inf_zero, s);
      }
  
+-    if (inf_zero) {
++    if (unlikely(inf_zero)) {
+         s->float_exception_flags |= float_flag_invalid;
+         return parts_default_nan(s);
+     }
+@@ -1367,9 +1384,9 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
+         p_sign ^= 1;
+     }
+ 
+-    if (a.cls == float_class_inf || b.cls == float_class_inf) {
++    if (ab_mask & float_cmask_inf) {
+         p_class = float_class_inf;
+-    } else if (a.cls == float_class_zero || b.cls == float_class_zero) {
++    } else if (ab_mask & float_cmask_zero) {
+         p_class = float_class_zero;
+     } else {
+         p_class = float_class_normal;
 -- 
 2.20.1
 
