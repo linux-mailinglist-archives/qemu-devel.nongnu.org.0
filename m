@@ -2,80 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2052936D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 10:31:19 +0200 (CEST)
-Received: from localhost ([::1]:52760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC412936E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 10:34:55 +0200 (CEST)
+Received: from localhost ([::1]:60046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUn38-0007vj-CS
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 04:31:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44506)
+	id 1kUn6c-0003D5-SN
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 04:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kUn1Q-0007FB-Al
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 04:29:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kUn1N-0007Ms-NW
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 04:29:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603182567;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MBHfkinYj4WQ8dP9GBaM1IYz1RFJaMySOcSUl9MBr2g=;
- b=OSdEDwakmUrmcmSXPeoCRCdq6uixX7UK90+8i6tm2lH/RuPXMAOCFjWjCliYp6zR+LbOnn
- trEdPL7RsyUPuzcoikZliygBB5uQD2cg4kdH/bxFLFVQ+Vk4d7bcWkd+UE6fZ1d2CpG03+
- JO6uMLiQA64hQjCBKbREFI/3OBGcw20=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-0LoHRz6sM3ObF4gbeVOurQ-1; Tue, 20 Oct 2020 04:29:25 -0400
-X-MC-Unique: 0LoHRz6sM3ObF4gbeVOurQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A0061006C83;
- Tue, 20 Oct 2020 08:29:24 +0000 (UTC)
-Received: from redhat.com (ovpn-114-206.ams2.redhat.com [10.36.114.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37521100238C;
- Tue, 20 Oct 2020 08:29:14 +0000 (UTC)
-Date: Tue, 20 Oct 2020 09:29:11 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Erik Skultety <eskultet@redhat.com>
-Subject: Re: [PATCH v4 3/4] Jobs based on custom runners: docs and
- gitlab-runner setup playbook
-Message-ID: <20201020082911.GB287149@redhat.com>
-References: <20201019015003.1527746-1-crosa@redhat.com>
- <20201019015003.1527746-4-crosa@redhat.com>
- <20201019102610.GB495479@nautilus>
- <20201019204138.GC1617151@localhost.localdomain>
- <20201020065839.GE495479@nautilus>
+ (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
+ id 1kUn4v-0001l2-0D; Tue, 20 Oct 2020 04:33:09 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:49796 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yubihong@huawei.com>)
+ id 1kUn4p-0000Cp-E8; Tue, 20 Oct 2020 04:33:08 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id E489C925E32503E4F55C;
+ Tue, 20 Oct 2020 16:32:55 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Tue, 20 Oct 2020
+ 16:32:49 +0800
+From: Bihong Yu <yubihong@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH v4] migration: using trace_ to replace DPRINTF
+Date: Tue, 20 Oct 2020 16:31:46 +0800
+Message-ID: <1603182706-2421-1-git-send-email-yubihong@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201020065839.GE495479@nautilus>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 01:16:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=yubihong@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 04:32:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,69 +55,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: yubihong@huawei.com, zhengchuan@huawei.com, dgilbert@redhat.com,
+ alex.chen@huawei.com, wanghao232@huawei.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 20, 2020 at 08:58:39AM +0200, Erik Skultety wrote:
-> On Mon, Oct 19, 2020 at 04:41:38PM -0400, Cleber Rosa wrote:
-> > On Mon, Oct 19, 2020 at 12:26:10PM +0200, Erik Skultety wrote:
-> > > On Sun, Oct 18, 2020 at 09:50:02PM -0400, Cleber Rosa wrote:
-> > > > To have the jobs dispatched to custom runners, gitlab-runner must
-> > > > be installed, active as a service and properly configured.  The
-> > > > variables file and playbook introduced here should help with those
-> > > > steps.
-> > > > 
-> > > > The playbook introduced here covers a number of different Linux
-> > > > distributions and FreeBSD, and are intended to provide a reproducible
-> > > > environment.
-> > > > 
-> > > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > > ---
-> > > 
-> > > In general, there's been put quite some effort into the playbooks - sorry I'm
-> > > late to the game - is there a plan to introduce QEMU as a project to lcitool?
-> > 
-> > I think it's becoming quite clear that having so much duplication (in
-> > the dockerfiles, tests/vm, this playbook, etc) is costly and error
-> > prone.  I don't know if anyone has invested time in a PoC to
-> > consolidate those (with lcitool), but I can certainly see the upside
-> > to that.  BTW, are you volunteering (wink wink)? :)
-> 
-> I don't think I was trying to :), but sure, I can dedicate some time to it.
-> I'll need a bit of guidance in the QEMU world though for sure.
+Signed-off-by: Bihong Yu <yubihong@huawei.com>
+---
+ migration/block.c      | 36 ++++++++++++++++++------------------
+ migration/page_cache.c | 13 +++----------
+ migration/trace-events | 13 +++++++++++++
+ 3 files changed, 34 insertions(+), 28 deletions(-)
 
-I think the obvious and easy place is start using lcitool is for the
-tests/docker/dockerfiles/*.  All that's required is to add mappings
-to lcitool for the various deps that QEMU has which libvirt does not
-already have. Then we should be able to start auto-generating the
-dockerfiles without too much difficulty. This will be a significant
-step forward because it will help us keep te package lists in sync
-across all the dockerfiles which is a major fail in QEMU right now.
-
-
-Dealing with tests/vm replacement or these ansible recipes is likely
-to be a significantly more challenging proposition. Perhaps we can
-again start by just automating creation of the package lists that
-the tests/vm and ansibile recipes need, as again those are all
-inconsistent.
-
-
-Regards,
-Daniel
+diff --git a/migration/block.c b/migration/block.c
+index 273392b..a950977 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -26,6 +26,7 @@
+ #include "qemu-file.h"
+ #include "migration/vmstate.h"
+ #include "sysemu/block-backend.h"
++#include "trace.h"
+ 
+ #define BLK_MIG_BLOCK_SIZE           (1 << 20)
+ #define BDRV_SECTORS_PER_DIRTY_CHUNK (BLK_MIG_BLOCK_SIZE >> BDRV_SECTOR_BITS)
+@@ -434,10 +435,9 @@ static int init_blk_migration(QEMUFile *f)
+         block_mig_state.total_sector_sum += sectors;
+ 
+         if (bmds->shared_base) {
+-            DPRINTF("Start migration for %s with shared base image\n",
+-                    bdrv_get_device_name(bs));
++            trace_migration_block_init_shared(bdrv_get_device_name(bs));
+         } else {
+-            DPRINTF("Start full migration for %s\n", bdrv_get_device_name(bs));
++            trace_migration_block_init_full(bdrv_get_device_name(bs));
+         }
+ 
+         QSIMPLEQ_INSERT_TAIL(&block_mig_state.bmds_list, bmds, entry);
+@@ -592,7 +592,7 @@ static int mig_save_device_dirty(QEMUFile *f, BlkMigDevState *bmds,
+     return (bmds->cur_dirty >= bmds->total_sectors);
+ 
+ error:
+-    DPRINTF("Error reading sector %" PRId64 "\n", sector);
++    trace_migration_block_save_device_dirty(sector);
+     g_free(blk->buf);
+     g_free(blk);
+     return ret;
+@@ -628,9 +628,9 @@ static int flush_blks(QEMUFile *f)
+     BlkMigBlock *blk;
+     int ret = 0;
+ 
+-    DPRINTF("%s Enter submitted %d read_done %d transferred %d\n",
+-            __func__, block_mig_state.submitted, block_mig_state.read_done,
+-            block_mig_state.transferred);
++    trace_migration_block_flush_blks("Enter", block_mig_state.submitted,
++                                     block_mig_state.read_done,
++                                     block_mig_state.transferred);
+ 
+     blk_mig_lock();
+     while ((blk = QSIMPLEQ_FIRST(&block_mig_state.blk_list)) != NULL) {
+@@ -656,9 +656,9 @@ static int flush_blks(QEMUFile *f)
+     }
+     blk_mig_unlock();
+ 
+-    DPRINTF("%s Exit submitted %d read_done %d transferred %d\n", __func__,
+-            block_mig_state.submitted, block_mig_state.read_done,
+-            block_mig_state.transferred);
++    trace_migration_block_flush_blks("Exit", block_mig_state.submitted,
++                                     block_mig_state.read_done,
++                                     block_mig_state.transferred);
+     return ret;
+ }
+ 
+@@ -727,8 +727,8 @@ static int block_save_setup(QEMUFile *f, void *opaque)
+ {
+     int ret;
+ 
+-    DPRINTF("Enter save live setup submitted %d transferred %d\n",
+-            block_mig_state.submitted, block_mig_state.transferred);
++    trace_migration_block_save("setup", block_mig_state.submitted,
++                               block_mig_state.transferred);
+ 
+     qemu_mutex_lock_iothread();
+     ret = init_blk_migration(f);
+@@ -759,8 +759,8 @@ static int block_save_iterate(QEMUFile *f, void *opaque)
+     int64_t last_ftell = qemu_ftell(f);
+     int64_t delta_ftell;
+ 
+-    DPRINTF("Enter save live iterate submitted %d transferred %d\n",
+-            block_mig_state.submitted, block_mig_state.transferred);
++    trace_migration_block_save("iterate", block_mig_state.submitted,
++                               block_mig_state.transferred);
+ 
+     ret = flush_blks(f);
+     if (ret) {
+@@ -825,8 +825,8 @@ static int block_save_complete(QEMUFile *f, void *opaque)
+ {
+     int ret;
+ 
+-    DPRINTF("Enter save live complete submitted %d transferred %d\n",
+-            block_mig_state.submitted, block_mig_state.transferred);
++    trace_migration_block_save("complete", block_mig_state.submitted,
++                               block_mig_state.transferred);
+ 
+     ret = flush_blks(f);
+     if (ret) {
+@@ -851,7 +851,7 @@ static int block_save_complete(QEMUFile *f, void *opaque)
+     /* report completion */
+     qemu_put_be64(f, (100 << BDRV_SECTOR_BITS) | BLK_MIG_FLAG_PROGRESS);
+ 
+-    DPRINTF("Block migration completed\n");
++    trace_migration_block_save_complete();
+ 
+     qemu_put_be64(f, BLK_MIG_FLAG_EOS);
+ 
+@@ -884,7 +884,7 @@ static void block_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
+         pending = max_size + BLK_MIG_BLOCK_SIZE;
+     }
+ 
+-    DPRINTF("Enter save live pending  %" PRIu64 "\n", pending);
++    trace_migration_block_save_pending(pending);
+     /* We don't do postcopy */
+     *res_precopy_only += pending;
+ }
+diff --git a/migration/page_cache.c b/migration/page_cache.c
+index 775582f..098b436 100644
+--- a/migration/page_cache.c
++++ b/migration/page_cache.c
+@@ -18,14 +18,7 @@
+ #include "qapi/error.h"
+ #include "qemu/host-utils.h"
+ #include "page_cache.h"
+-
+-#ifdef DEBUG_CACHE
+-#define DPRINTF(fmt, ...) \
+-    do { fprintf(stdout, "cache: " fmt, ## __VA_ARGS__); } while (0)
+-#else
+-#define DPRINTF(fmt, ...) \
+-    do { } while (0)
+-#endif
++#include "trace.h"
+ 
+ /* the page in cache will not be replaced in two cycles */
+ #define CACHED_PAGE_LIFETIME 2
+@@ -75,7 +68,7 @@ PageCache *cache_init(int64_t new_size, size_t page_size, Error **errp)
+     cache->num_items = 0;
+     cache->max_num_items = num_pages;
+ 
+-    DPRINTF("Setting cache buckets to %" PRId64 "\n", cache->max_num_items);
++    trace_migration_pagecache_init(cache->max_num_items);
+ 
+     /* We prefer not to abort if there is no memory */
+     cache->page_cache = g_try_malloc((cache->max_num_items) *
+@@ -169,7 +162,7 @@ int cache_insert(PageCache *cache, uint64_t addr, const uint8_t *pdata,
+     if (!it->it_data) {
+         it->it_data = g_try_malloc(cache->page_size);
+         if (!it->it_data) {
+-            DPRINTF("Error allocating page\n");
++            trace_migration_pagecache_insert();
+             return -1;
+         }
+         cache->num_items++;
+diff --git a/migration/trace-events b/migration/trace-events
+index 338f38b..bd2fecb 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -325,3 +325,16 @@ get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock n
+ calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
+ skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
+ find_page_matched(const char *idstr) "ramblock %s addr or size changed"
++
++# block.c
++migration_block_init_shared(const char *blk_device_name) "Start migration for %s with shared base image"
++migration_block_init_full(const char *blk_device_name) "Start full migration for %s"
++migration_block_save_device_dirty(int64_t sector) "Error reading sector %" PRId64
++migration_block_flush_blks(const char *action, int submitted, int read_done, int transferred) "%s (submitted %d, read_done %d, transferred %d)"
++migration_block_save(const char *mig_stage, int submitted, int transferred) "Enter save live %s submitted %d transferred %d"
++migration_block_save_complete(void) "Block migration completed"
++migration_block_save_pending(uint64_t pending) "Save live (blocks pending: %" PRIu64 ")"
++
++# page_cache.c
++migration_pagecache_init(int64_t max_num_items) "Setting cache to %" PRId64 " buckets"
++migration_pagecache_insert(void) "Error allocating page"
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+1.8.3.1
 
 
