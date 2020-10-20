@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A06F2936A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 10:19:34 +0200 (CEST)
-Received: from localhost ([::1]:53552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83DD2936A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 10:19:29 +0200 (CEST)
+Received: from localhost ([::1]:53150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUmrl-0004sR-59
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 04:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41200)
+	id 1kUmrg-0004iS-RU
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 04:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kUmmJ-0006i7-OC
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 04:13:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43204)
+ id 1kUmmR-0006kc-7x
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 04:14:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kUmmH-0001ic-8X
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 04:13:55 -0400
+ id 1kUmmN-0001kD-4t
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 04:14:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603181632;
+ s=mimecast20190719; t=1603181637;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4HegxmTuUwmkrYCTtISK3mquAYj5KpbIrtQxrdaR1lE=;
- b=SW+oNiYHBQQKu745BvkEwUra3airmjDGuAQ6+RNenjRTt+GWjT1jSrVP/tJdMMA/RTvECV
- Z5YjwyuYuflwKU8/F5fibMR3Spb+xheTzWenHN3kRSxT6oj+4xWtXkoMDmJj9vMkO8N941
- yhAhd3Hi/nwe4owXpW3jp06JYdN3Tq4=
+ bh=wyqyNvcpwklgle2vcLDz7KiAMPo1Fql7UvmvwberulA=;
+ b=EwvsuKOj4qkQsWxDpd7WjzWdoHg3MFsQLxTVdCewzIziIw9/MxjvVbsFnwjrDU+oliRjos
+ aaEhXqYvypZvxSqjNJ/Fj/KY9Ty5YAWlcJc/qvTcOPZpTINrxKePfkb1/jHmE8uX8IAB4E
+ ozIZDyA/vy/ATvy/PnAXNMQPvbRblmo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-lgN6xWmUNLK2kMsrqAoomA-1; Tue, 20 Oct 2020 04:13:50 -0400
-X-MC-Unique: lgN6xWmUNLK2kMsrqAoomA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-28-GMhO8zupP2KKs6nisdHrSg-1; Tue, 20 Oct 2020 04:13:55 -0400
+X-MC-Unique: GMhO8zupP2KKs6nisdHrSg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 283D78049D5;
- Tue, 20 Oct 2020 08:13:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FB8E803F47;
+ Tue, 20 Oct 2020 08:13:54 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E157B1992D;
- Tue, 20 Oct 2020 08:13:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6487555785;
+ Tue, 20 Oct 2020 08:13:53 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/7] qga: add *reset argument to ssh-add-authorized-keys
-Date: Tue, 20 Oct 2020 12:12:55 +0400
-Message-Id: <20201020081257.2054548-6-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 6/7] meson: minor simplification
+Date: Tue, 20 Oct 2020 12:12:56 +0400
+Message-Id: <20201020081257.2054548-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20201020081257.2054548-1-marcandre.lureau@redhat.com>
 References: <20201020081257.2054548-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,154 +88,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-I prefer 'reset' over 'clear', since 'clear' and keys may have some
-other relations or meaning.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- qga/commands-posix-ssh.c | 53 ++++++++++++++++++++++++++++++++++++----
- qga/qapi-schema.json     |  3 ++-
- 2 files changed, 50 insertions(+), 6 deletions(-)
+ qga/meson.build | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/qga/commands-posix-ssh.c b/qga/commands-posix-ssh.c
-index a7bc9a1c24..f974bc4b64 100644
---- a/qga/commands-posix-ssh.c
-+++ b/qga/commands-posix-ssh.c
-@@ -168,6 +168,7 @@ read_authkeys(const char *path, Error **errp)
+diff --git a/qga/meson.build b/qga/meson.build
+index 6315bb357e..8340892139 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -22,12 +22,7 @@ qga_qapi_files = custom_target('QGA QAPI files',
+                                depend_files: qapi_gen_depends)
  
- void
- qmp_guest_ssh_add_authorized_keys(const char *username, strList *keys,
-+                                  bool has_reset, bool reset,
-                                   Error **errp)
- {
-     g_autofree struct passwd *p = NULL;
-@@ -178,6 +179,7 @@ qmp_guest_ssh_add_authorized_keys(const char *username, strList *keys,
-     size_t nkeys, nauthkeys;
- 
-     ERRP_GUARD();
-+    reset = has_reset && reset;
- 
-     if (!check_openssh_pub_keys(keys, &nkeys, errp)) {
-         return;
-@@ -191,7 +193,9 @@ qmp_guest_ssh_add_authorized_keys(const char *username, strList *keys,
-     ssh_path = g_build_filename(p->pw_dir, ".ssh", NULL);
-     authkeys_path = g_build_filename(ssh_path, "authorized_keys", NULL);
- 
--    authkeys = read_authkeys(authkeys_path, NULL);
-+    if (!reset) {
-+        authkeys = read_authkeys(authkeys_path, NULL);
-+    }
-     if (authkeys == NULL) {
-         if (!g_file_test(ssh_path, G_FILE_TEST_IS_DIR) &&
-             !mkdir_for_user(ssh_path, p, 0700, errp)) {
-@@ -318,7 +322,7 @@ test_invalid_user(void)
- {
-     Error *err = NULL;
- 
--    qmp_guest_ssh_add_authorized_keys("", NULL, &err);
-+    qmp_guest_ssh_add_authorized_keys("", NULL, FALSE, FALSE, &err);
-     error_free_or_abort(&err);
- 
-     qmp_guest_ssh_remove_authorized_keys("", NULL, &err);
-@@ -333,7 +337,8 @@ test_invalid_key(void)
-     };
-     Error *err = NULL;
- 
--    qmp_guest_ssh_add_authorized_keys(g_get_user_name(), &key, &err);
-+    qmp_guest_ssh_add_authorized_keys(g_get_user_name(), &key,
-+                                      FALSE, FALSE, &err);
-     error_free_or_abort(&err);
- 
-     qmp_guest_ssh_remove_authorized_keys(g_get_user_name(), &key, &err);
-@@ -346,13 +351,17 @@ test_add_keys(void)
-     Error *err = NULL;
- 
-     qmp_guest_ssh_add_authorized_keys(g_get_user_name(),
--                                      (strList *)&test_key2, &err);
-+                                      (strList *)&test_key2,
-+                                      FALSE, FALSE,
-+                                      &err);
-     g_assert_null(err);
- 
-     test_authorized_keys_equal("algo key2 comments");
- 
-     qmp_guest_ssh_add_authorized_keys(g_get_user_name(),
--                                      (strList *)&test_key1_2, &err);
-+                                      (strList *)&test_key1_2,
-+                                      FALSE, FALSE,
-+                                      &err);
-     g_assert_null(err);
- 
-     /*  key2 came first, and should'nt be duplicated */
-@@ -360,6 +369,39 @@ test_add_keys(void)
-                                "algo key1 comments");
- }
- 
-+static void
-+test_add_reset_keys(void)
-+{
-+    Error *err = NULL;
-+
-+    qmp_guest_ssh_add_authorized_keys(g_get_user_name(),
-+                                      (strList *)&test_key1_2,
-+                                      FALSE, FALSE,
-+                                      &err);
-+    g_assert_null(err);
-+
-+    /* reset with key2 only */
-+    test_authorized_keys_equal("algo key1 comments\n"
-+                               "algo key2 comments");
-+
-+    qmp_guest_ssh_add_authorized_keys(g_get_user_name(),
-+                                      (strList *)&test_key2,
-+                                      TRUE, TRUE,
-+                                      &err);
-+    g_assert_null(err);
-+
-+    test_authorized_keys_equal("algo key2 comments");
-+
-+    /* empty should clear file */
-+    qmp_guest_ssh_add_authorized_keys(g_get_user_name(),
-+                                      (strList *)NULL,
-+                                      TRUE, TRUE,
-+                                      &err);
-+    g_assert_null(err);
-+
-+    test_authorized_keys_equal("");
-+}
-+
- static void
- test_remove_keys(void)
- {
-@@ -393,6 +435,7 @@ int main(int argc, char *argv[])
-     g_test_add_func("/qga/ssh/invalid_user", test_invalid_user);
-     g_test_add_func("/qga/ssh/invalid_key", test_invalid_key);
-     g_test_add_func("/qga/ssh/add_keys", test_add_keys);
-+    g_test_add_func("/qga/ssh/add_reset_keys", test_add_reset_keys);
-     g_test_add_func("/qga/ssh/remove_keys", test_remove_keys);
- 
-     return g_test_run();
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index 90615f95d4..6b7cb86dee 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1312,6 +1312,7 @@
- #
- # @username: the user account to add the authorized keys
- # @keys: the public keys to add (in OpenSSH/sshd(8) authorized_keys format)
-+# @reset: ignore the existing content, set it with the given keys only
- #
- # Append public keys to user .ssh/authorized_keys on Unix systems (not
- # implemented for other systems).
-@@ -1321,7 +1322,7 @@
- # Since: 5.2
- ##
- { 'command': 'guest-ssh-add-authorized-keys',
--  'data': { 'username': 'str', 'keys': ['str'] },
-+  'data': { 'username': 'str', 'keys': ['str'], '*reset': 'bool' },
-   'if': 'defined(CONFIG_POSIX)' }
- 
- ##
+ qga_ss = ss.source_set()
+-i = 0
+-foreach output: qga_qapi_outputs
+-  qga_ss.add(qga_qapi_files[i])
+-  i = i + 1
+-endforeach
+-
++qga_ss.add(qga_qapi_files.to_list())
+ qga_ss.add(files(
+   'commands.c',
+   'guest-agent-command-state.c',
 -- 
 2.28.0
 
