@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F6B2938D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 12:05:50 +0200 (CEST)
-Received: from localhost ([::1]:53952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE1F2938D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 12:05:14 +0200 (CEST)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUoWb-0002CR-NX
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 06:05:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37456)
+	id 1kUoW1-0001KM-QO
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 06:05:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kUoTt-00082D-He
+ id 1kUoTt-00082N-NR
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:03:01 -0400
-Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:1688)
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:49467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kUoTo-0007Dt-RX
+ id 1kUoTo-0007Dz-KY
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 06:03:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=citrix.com; s=securemail; t=1603188176;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=zf0xNBg2rvKZ1PY17/ruG8OT28rHF2w1XniqvoCnWWs=;
- b=RoLhxgc94Qn+XEDofc5zVfn1nx5eE8KZZNPcZCHOxl2q5JZe+e5BxkzP
- mt8pcPyHaPR+QtTEeq2g4T+HbLmUSyFw9DcNGs6y5KLhOH+YLv7t7Xw2Z
- WpbHWc3IzN4/n+aTiSoCx8GBczdZ/JMLpsOZVN7a72WuzWLGQlYfG2dTs s=;
-Authentication-Results: esa5.hc3370-68.iphmx.com;
+ bh=DivzlSEYGx5djsY+aVmVgrz7JhYnipPXWYC1o2Q+IOY=;
+ b=FEr/WzXe3IEdzhU5CFheOwPm1dhK6+rPue/oXtp039q2qXw8wq16nZnx
+ AmMLPWRtJs6Gfuw7JbV440XRXoXhj/tBN4fAVv8eIylMX6CNsWv7FOAph
+ x1YWY8dnSmmRPsSeadZGaKw9hvaDXo/88w0PSKgIl2RG25D4NR0X/EUoy c=;
+Authentication-Results: esa4.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
-IronPort-SDR: 6WoSkRcgJM0A9EMx6tkY2Qb3gLwxcXjvfMn6Q7JwGLst5NK3NnHUxrDxi50oq/PQSwTUzcJb/T
- 28O8LcJNWkpnh0oVqjDmMb7Q+CQqUh+Khr1dhQ2c78bPF/aJOzVafBGscXkDXycYZ4XSJzR8mU
- 5nQ8g65S6PT+AhDUfYR9V8UhN39ax6ilY2pvp2+CWAPmrPmLTDlU9quWCJvq1EDNx6tKYw4dDb
- gPXw2nZC5ESqyK6U9kki7xsHqqBFPORRsJHVMstG/KAwc/7bNvr/21dBkNhsGj3fK8I7sQqrnp
- +zM=
+IronPort-SDR: KOdXoYAQ7gfB2dkNWG5ae5SEjLEq9NRTtwCY4ufZRI37zY+J8r7ho/vqPKxH0MwI8k/zQ/2cuK
+ 316I9BBk+J9K5JsikXoMVDU4LQdqniPqfZooJ56q1g9/cptOpPRF2T/FKx9pQmu3l39VS+dzj7
+ h1rH7td9o8tlttUIBqjh90ByMgp6llet3jYPnrFwmnXA3J0o/9WPTUen3SNpt75yG/LOD9rmFq
+ d3uU9BLY9vRAH4ylvAas39y1Nyfbh1wMtp5uDwqG2M/KT+WfNcTOHFVzunVrFZH+Pvx0HqnQpS
+ bi4=
 X-SBRS: None
-X-MesageID: 29425539
-X-Ironport-Server: esa5.hc3370-68.iphmx.com
+X-MesageID: 30419945
+X-Ironport-Server: esa4.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.77,396,1596513600"; d="scan'208";a="29425539"
+X-IronPort-AV: E=Sophos;i="5.77,396,1596513600"; d="scan'208";a="30419945"
 To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Michael Tokarev
- <mjt@tls.msk.ru>, Anthony PERARD <anthony.perard@citrix.com>
-Subject: [PULL 1/4] xen: xenguest is not used so is not needed
-Date: Tue, 20 Oct 2020 11:02:36 +0100
-Message-ID: <20201020100239.272748-2-anthony.perard@citrix.com>
+CC: Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost
+ <ehabkost@redhat.com>, Anthony PERARD <anthony.perard@citrix.com>
+Subject: [PULL 2/4] xen: Rename XENBACKEND_DEVICE to XENBACKEND
+Date: Tue, 20 Oct 2020 11:02:37 +0100
+Message-ID: <20201020100239.272748-3-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201020100239.272748-1-anthony.perard@citrix.com>
 References: <20201020100239.272748-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.155.168;
- envelope-from=anthony.perard@citrix.com; helo=esa5.hc3370-68.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 06:02:53
+Received-SPF: pass client-ip=216.71.155.144;
+ envelope-from=anthony.perard@citrix.com; helo=esa4.hc3370-68.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 06:02:54
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -80,57 +80,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Anthony PERARD <anthony.perard@citrix.com>
 From: Anthony PERARD via <qemu-devel@nongnu.org>
 
-From: Michael Tokarev <mjt@tls.msk.ru>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-There's no references in only file which includes xenguest.h
-to any xen definitions. And there's no references to -lxenguest
-in qemu, either. Drop it.
+Make the type checking macro name consistent with the TYPE_*
+constant.
 
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20200727140048.19779-1-mjt@msgid.tls.msk.ru>
-[perard: rebased]
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Acked-by: Anthony PERARD <anthony.perard@citrix.com>
+Message-Id: <20200902224311.1321159-58-ehabkost@redhat.com>
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- configure                  | 4 ++--
- hw/i386/xen/xen_platform.c | 2 --
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ include/hw/xen/xen-legacy-backend.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index a73fb8756ef1..e6754c1e872c 100755
---- a/configure
-+++ b/configure
-@@ -2532,7 +2532,7 @@ if test "$xen" != "disabled" ; then
-     xen_ctrl_version="$(printf '%d%02d%02d' \
-       $($pkg_config --modversion xencontrol | sed 's/\./ /g') )"
-     xen=enabled
--    xen_pc="xencontrol xenstore xenguest xenforeignmemory xengnttab"
-+    xen_pc="xencontrol xenstore xenforeignmemory xengnttab"
-     xen_pc="$xen_pc xenevtchn xendevicemodel"
-     if $pkg_config --exists xentoolcore; then
-       xen_pc="$xen_pc xentoolcore"
-@@ -2541,7 +2541,7 @@ if test "$xen" != "disabled" ; then
-     xen_libs="$($pkg_config --libs $xen_pc)"
-   else
+diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
+index ba7a3c59bbcc..be281e1f38eb 100644
+--- a/include/hw/xen/xen-legacy-backend.h
++++ b/include/hw/xen/xen-legacy-backend.h
+@@ -11,7 +11,7 @@
+ #define TYPE_XENBACKEND "xen-backend"
  
--    xen_libs="-lxenstore -lxenctrl -lxenguest"
-+    xen_libs="-lxenstore -lxenctrl"
-     xen_stable_libs="-lxenforeignmemory -lxengnttab -lxenevtchn"
+ typedef struct XenLegacyDevice XenLegacyDevice;
+-DECLARE_INSTANCE_CHECKER(XenLegacyDevice, XENBACKEND_DEVICE,
++DECLARE_INSTANCE_CHECKER(XenLegacyDevice, XENBACKEND,
+                          TYPE_XENBACKEND)
  
-     # First we test whether Xen headers and libraries are available.
-diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
-index e9601031bfd9..7c4db35debbd 100644
---- a/hw/i386/xen/xen_platform.c
-+++ b/hw/i386/xen/xen_platform.c
-@@ -37,8 +37,6 @@
- #include "sysemu/block-backend.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
--
--#include <xenguest.h>
- #include "qom/object.h"
- 
- //#define DEBUG_PLATFORM
+ /* variables */
 -- 
 Anthony PERARD
 
