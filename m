@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2614293F5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:14:56 +0200 (CEST)
-Received: from localhost ([::1]:46620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAD8293F64
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:17:18 +0200 (CEST)
+Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUtLk-00085m-0w
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:14:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54770)
+	id 1kUtO1-0001l9-9B
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:17:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIW-0003zU-Gt
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:36 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:57263)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIa-000439-8p
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:40 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:42590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIU-0006WB-TR
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:36 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtIY-0006WT-Q3
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:11:39 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-h4eWMekeMWGKlyXWzHtp2w-1; Tue, 20 Oct 2020 11:11:29 -0400
-X-MC-Unique: h4eWMekeMWGKlyXWzHtp2w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-305-svRMrcQqP66xpFx8bgD4rw-1; Tue, 20 Oct 2020 11:11:36 -0400
+X-MC-Unique: svRMrcQqP66xpFx8bgD4rw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19DF41074656;
- Tue, 20 Oct 2020 15:11:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E82D71074656;
+ Tue, 20 Oct 2020 15:11:34 +0000 (UTC)
 Received: from bahia.lan (ovpn-115-53.ams2.redhat.com [10.36.115.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4198C6EF69;
- Tue, 20 Oct 2020 15:11:27 +0000 (UTC)
-Subject: [PATCH 4/5] tests/9pfs: Factor out do_fs_attach() helper
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 445C01002C18;
+ Tue, 20 Oct 2020 15:11:34 +0000 (UTC)
+Subject: [PATCH 5/5] tests/9pfs: Turn fs_mkdir() into a helper
 From: Greg Kurz <groug@kaod.org>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 20 Oct 2020 17:11:26 +0200
-Message-ID: <160320668629.255209.17942580749099373236.stgit@bahia.lan>
+Date: Tue, 20 Oct 2020 17:11:33 +0200
+Message-ID: <160320669332.255209.15848887356639293774.stgit@bahia.lan>
 In-Reply-To: <160320655763.255209.3890094487013964615.stgit@bahia.lan>
 References: <160320655763.255209.3890094487013964615.stgit@bahia.lan>
 User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-44.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 11:11:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 11:11:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -11
 X-Spam_score: -1.2
@@ -71,135 +71,44 @@ Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fs_attach() is a top level test function. Factor out the sugar
-to a separate helper instead of hijacking it in other tests.
+fs_mkdir() isn't a top level test function and thus shouldn't take
+the "void *obj, void *data, QGuestAllocator *t_alloc" arguments.
+Turn it into a helper to be used by test functions.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- tests/qtest/virtio-9p-test.c |   28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ tests/qtest/virtio-9p-test.c |    7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 95638662e14d..1e1b1433014b 100644
+index 1e1b1433014b..155d327fd9f5 100644
 --- a/tests/qtest/virtio-9p-test.c
 +++ b/tests/qtest/virtio-9p-test.c
-@@ -589,10 +589,8 @@ static void fs_version(void *obj, void *data, QGuestAl=
-locator *t_alloc)
-     do_fs_version(obj);
+@@ -972,11 +972,8 @@ static void fs_flush_ignored(void *obj, void *data, QG=
+uestAllocator *t_alloc)
+     g_free(wnames[0]);
  }
 =20
--static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
-+static void do_fs_attach(QVirtio9P *v9p)
+-static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
+-                     const char *path, const char *cname)
++static void do_fs_mkdir(QVirtio9P *v9p, const char *path, const char *cnam=
+e)
  {
 -    QVirtio9P *v9p =3D obj;
 -    alloc =3D t_alloc;
+     char **wnames;
+     char *const name =3D g_strdup(cname);
      P9Req *req;
-=20
-     do_fs_version(v9p);
-@@ -601,6 +599,12 @@ static void fs_attach(void *obj, void *data, QGuestAll=
-ocator *t_alloc)
-     v9fs_rattach(req, NULL);
- }
-=20
-+static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
-+{
-+    alloc =3D t_alloc;
-+    do_fs_attach(obj);
-+}
-+
- static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p =3D obj;
-@@ -615,7 +619,7 @@ static void fs_walk(void *obj, void *data, QGuestAlloca=
-tor *t_alloc)
-         wnames[i] =3D g_strdup_printf(QTEST_V9FS_SYNTH_WALK_FILE, i);
-     }
-=20
--    fs_attach(v9p, NULL, t_alloc);
-+    do_fs_attach(v9p);
-     req =3D v9fs_twalk(v9p, 0, 1, P9_MAXWELEM, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, &nwqid, &wqid);
-@@ -684,7 +688,7 @@ static void fs_readdir(void *obj, void *data, QGuestAll=
-ocator *t_alloc)
-     struct V9fsDirent *entries =3D NULL;
-     P9Req *req;
-=20
--    fs_attach(v9p, NULL, t_alloc);
-+    do_fs_attach(v9p);
-     req =3D v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, &nqid, NULL);
-@@ -738,7 +742,7 @@ static void do_fs_readdir_split(QVirtio9P *v9p, uint32_=
-t count)
-     int fid;
-     uint64_t offset;
-=20
--    fs_attach(v9p, NULL, t_alloc);
-+    do_fs_attach(v9p);
-=20
-     fid =3D 1;
-     offset =3D 0;
-@@ -814,7 +818,7 @@ static void fs_walk_no_slash(void *obj, void *data, QGu=
-estAllocator *t_alloc)
-     P9Req *req;
-     uint32_t err;
-=20
--    fs_attach(v9p, NULL, t_alloc);
-+    do_fs_attach(v9p);
-     req =3D v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rlerror(req, &err);
-@@ -854,7 +858,7 @@ static void fs_lopen(void *obj, void *data, QGuestAlloc=
-ator *t_alloc)
-     char *const wnames[] =3D { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
-     P9Req *req;
-=20
--    fs_attach(v9p, NULL, t_alloc);
-+    do_fs_attach(v9p);
-     req =3D v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
-@@ -876,7 +880,7 @@ static void fs_write(void *obj, void *data, QGuestAlloc=
-ator *t_alloc)
-     uint32_t count;
-     P9Req *req;
-=20
--    fs_attach(v9p, NULL, t_alloc);
-+    do_fs_attach(v9p);
-     req =3D v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
-@@ -903,7 +907,7 @@ static void fs_flush_success(void *obj, void *data, QGu=
-estAllocator *t_alloc)
-     uint32_t reply_len;
-     uint8_t should_block;
-=20
--    fs_attach(v9p, NULL, t_alloc);
-+    do_fs_attach(v9p);
-     req =3D v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
-@@ -940,7 +944,7 @@ static void fs_flush_ignored(void *obj, void *data, QGu=
-estAllocator *t_alloc)
-     uint32_t count;
-     uint8_t should_block;
-=20
--    fs_attach(v9p, NULL, t_alloc);
-+    do_fs_attach(v9p);
-     req =3D v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
-@@ -1026,7 +1030,7 @@ static void fs_create_dir(void *obj, void *data, QGue=
+@@ -1031,7 +1028,7 @@ static void fs_create_dir(void *obj, void *data, QGue=
 stAllocator *t_alloc)
-=20
      g_assert(root_path !=3D NULL);
 =20
--    fs_attach(v9p, NULL, t_alloc);
-+    do_fs_attach(v9p);
-     fs_mkdir(v9p, data, t_alloc, "/", "01");
+     do_fs_attach(v9p);
+-    fs_mkdir(v9p, data, t_alloc, "/", "01");
++    do_fs_mkdir(v9p, "/", "01");
 =20
      /* check if created directory really exists now ... */
+     g_assert(stat(new_dir, &st) =3D=3D 0);
 
 
 
