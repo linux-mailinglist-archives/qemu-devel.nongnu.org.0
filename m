@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3C5293FDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:46:08 +0200 (CEST)
-Received: from localhost ([::1]:39588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4C0293FCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:44:17 +0200 (CEST)
+Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUtpv-0005D7-Em
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:46:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33352)
+	id 1kUto8-000358-4z
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kUtkF-0007f5-HZ
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:40:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28550)
+ id 1kUtkS-00086N-8H
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:40:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kUtkD-0001a0-Lm
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:40:15 -0400
+ id 1kUtkQ-0001hB-EU
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:40:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603208412;
+ s=mimecast20190719; t=1603208425;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VARkBn82hSX0plF3A+pV2d6fXSAAPb/MX/ilbfJcNA0=;
- b=W1lOjvUONuczLxvfMUddSn2j77idX3QVOLY5HQlmv0bR9R3i7YqyDlhRLdgoNAri+d7wiR
- GQcZ5EkPxcRRMupT2NHl94cKSluVSPMWZLEtqL3Su/2ymexOvPaJA+BDYpydSrxgNxLRdo
- igHvaIgebS6T2msThpZOLKW8+Ulr1k8=
+ bh=ivrAlSQjzB1ohlViu0yg91vzMnhnRAE9smbzOMC/vLM=;
+ b=hv2fpC9HciDDHU49nJgedC4zGnNqp1wagTel+Aq/IfFTVN8z/Qs8JWZzo5cMCviH0onW/h
+ TEEGRqKo4Zd6qzTFigtPiyWvgaSPjs5bQzJKp+7/ZawuLw8HtRQBDqxcNGl5P177IwLJCd
+ iMwuYLFY7RfVqeqoyUamUKqVlrmFZ8w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-8NBWoz0qNsCT2sC8bPS4ww-1; Tue, 20 Oct 2020 11:40:08 -0400
-X-MC-Unique: 8NBWoz0qNsCT2sC8bPS4ww-1
+ us-mta-539-gTetuEI3MCa9w3AVtT2xtw-1; Tue, 20 Oct 2020 11:40:22 -0400
+X-MC-Unique: gTetuEI3MCa9w3AVtT2xtw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D01680BCA3;
- Tue, 20 Oct 2020 15:40:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BA41875060;
+ Tue, 20 Oct 2020 15:40:21 +0000 (UTC)
 Received: from localhost (ovpn-115-118.ams2.redhat.com [10.36.115.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD877389;
- Tue, 20 Oct 2020 15:40:05 +0000 (UTC)
-Date: Tue, 20 Oct 2020 16:40:04 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E26627C2A;
+ Tue, 20 Oct 2020 15:40:20 +0000 (UTC)
+Date: Tue, 20 Oct 2020 16:40:19 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Elena Afanasova <eafanasova@gmail.com>
-Subject: Re: [PATCH] accel/kvm: add PIO ioeventfds only in case
- kvm_eventfds_allowed is true
-Message-ID: <20201020154004.GC279266@stefanha-x1.localdomain>
-References: <20201017210102.26036-1-eafanasova@gmail.com>
+Subject: Re: [PATCH v2] softmmu/memory: fix memory_region_ioeventfd_equal()
+Message-ID: <20201020154019.GD279266@stefanha-x1.localdomain>
+References: <cf71a62eb04e61932ff8ffdd02e0b2aab4f495a0.camel@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201017210102.26036-1-eafanasova@gmail.com>
+In-Reply-To: <cf71a62eb04e61932ff8ffdd02e0b2aab4f495a0.camel@gmail.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="adJ1OR3c6QgCpb/j"
+ protocol="application/pgp-signature"; boundary="ZARJHfwaSJQLOEUz"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,37 +84,40 @@ Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---adJ1OR3c6QgCpb/j
+--ZARJHfwaSJQLOEUz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 17, 2020 at 02:01:01PM -0700, Elena Afanasova wrote:
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Mon, Oct 19, 2020 at 01:20:13PM -0700, Elena Afanasova wrote:
+> Eventfd can be registered with a zero length when fast_mmio is true.
+> Handle this case properly when dispatching through QEMU.
+>=20
 > Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
 > ---
->  accel/kvm/kvm-all.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  softmmu/memory.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 
-Thanks, applied just this patch to my block-next tree:
+Thanks, applied to my block-next tree:
 https://github.com/stefanha/qemu/commits/block-next
 
 Stefan
 
---adJ1OR3c6QgCpb/j
+--ZARJHfwaSJQLOEUz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+PBNQACgkQnKSrs4Gr
-c8hfLwf+MZghYDQW9AUuzDtEBKncXLYkNwG3Pfgg6qOs8d1bdH5reHEO7tw+2zV2
-vRoB+D4PG5zGFIgmtqEH4SdKRpzNhKKo2OGMhwVo60+f7FioN1yPI0aNfTjjzJRn
-sBMpXoBHUJMYBwH7b4J2/LJIyKvDoOGNQa8PKkMQlYHv9r/b9CKBlpBA6Bqf/tph
-1nmPh0Wg6Qs5j/RlnQ4HFL26nG+toF7+C7u8DwaDhW+sYy9KpQznQJLf8AJLJJp7
-mBfgIyVbY7KvnR8a4+qwZoIrHhUMOI7ahSkYq+eV/NFic/f49oA0WIrtZWNV6sFC
-Mcfg8FhFpHhu6zuU+knnm2G8SRw1IQ==
-=zEJ6
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+PBOMACgkQnKSrs4Gr
+c8gsfwf/biubScXIZjH7e955ZiXyMqFwy0E/PA9vXpE62QRa7Agw54ACUuw7qaOx
++GMedfdmcJkqDRmwZPRmaN+/LQX58a93WkOhf3A2abm2dZsAd+1GFpTRZyPzX+iz
+wSqmbiUoKc9BFfj0F/VTBuHTKYzNLnpQQQbDPYYIl/cnVbZhVAVn6y9ylmXxH7+P
+eP4vcxPC1xS9JrIsXYIW7iXS5dnA3IyLAHt04ZobgeNGSL4pymUtPEhkslwhw/EC
+MrgAtzQvsV7JzZW///SsPpQSLK5+TtPCXW+PNcg5xE2ZYKD1ZgDPAd0AjUDSfM/T
+lzbH1q2dx6PhgYCyuolORbrBIb7r1g==
+=fWUE
 -----END PGP SIGNATURE-----
 
---adJ1OR3c6QgCpb/j--
+--ZARJHfwaSJQLOEUz--
 
 
