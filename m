@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C017293FC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:44:08 +0200 (CEST)
-Received: from localhost ([::1]:34218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69BA294007
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Oct 2020 17:57:03 +0200 (CEST)
+Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kUtnz-0002t2-8O
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:44:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
+	id 1kUu0V-0003U5-1W
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 11:57:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtlz-000172-7x
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:42:03 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:57095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kUtlx-0001wr-5b
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 11:42:02 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id CE52D6DDA3E1;
- Tue, 20 Oct 2020 17:41:57 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 20 Oct
- 2020 17:41:57 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0011d4c026b-4f92-4dcf-b45a-e0cd5136e208,
- 1DF5E91C91B319FFB92086F2F245FA8D0BCC998A) smtp.auth=groug@kaod.org
-Date: Tue, 20 Oct 2020 17:41:56 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 1/5] tests/9pfs: Factor out do_fs_version() helper
-Message-ID: <20201020174156.229f8008@bahia.lan>
-In-Reply-To: <3517148.drKrQmItIC@silver>
-References: <160320655763.255209.3890094487013964615.stgit@bahia.lan>
- <160320666564.255209.11628044710614310582.stgit@bahia.lan>
- <3517148.drKrQmItIC@silver>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kUtzW-0002ts-Og; Tue, 20 Oct 2020 11:56:02 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:38923)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kUtzV-0003hW-7i; Tue, 20 Oct 2020 11:56:02 -0400
+Received: by mail-io1-xd43.google.com with SMTP id q9so4149893iow.6;
+ Tue, 20 Oct 2020 08:56:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=83hd+ye/iHHwjZAPOumzN0PKVfzmhUiqzIB84R3ibc8=;
+ b=bHs1auKachxRG9sYeAjFj/onbju1Wd1o5PZ6kzGCY32k3DlPr7PnmaFjoBJSDxxSwt
+ xIuhDxem0HETWS0JKLIDXxOoX94WGEWC3HODl7/6+MiYt03OB9ooTzbY6Opk88WzdLJm
+ q+IfZKEcQLfC0FePw9rQ+pgyIFO5x/njzYCm5HZTaPiw74SQJ1C9pfKWP93xnN1ruAln
+ J7Xxvdaq7Krua98qZxpSM1kxu6j9nqpwcDumEcRgKxqKfzfqFESZeG3V2kGfaHncnE6f
+ mEaE7ai8mrTP4y3aRk4uS8572KScpfg5qBn9Woc7RBms7TtK6ysMuXYXz7TMEldF66h5
+ EonQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=83hd+ye/iHHwjZAPOumzN0PKVfzmhUiqzIB84R3ibc8=;
+ b=gYL+4TXhIa3lSF+rFGSxhjcXN8L/s6EM9XRMq1dYiClYC6AzufMpa+C45BxA5VFVSc
+ l9fzz7cIaNgssrY3D9BDD3rT6eyiM+g6EKKzuqDXoveTt4u6vCFnXSfomR4L3udz7wtN
+ sYCsNqRWOZqr47mUDpnqVoPs9B73teVslPrLQXRGG12lQaK9fBhiGbgE0VLC8Mcl0cLW
+ oz0cXAk2i6B0TWhNlB/gaoOb4Ns+wEeRQpfvmXemseQDmW9DdI0qIb4/vojhJEMaTDy4
+ 3TeTqN3zmIs9X+whfaLUvacj0JvscJh+78oKN6Bj/WbEoRIMQdIix9YHGViDJ0qublA5
+ FMBg==
+X-Gm-Message-State: AOAM533Y8ywJrMR/evARaWpjtUxfITJaS4yg2eW1TDrdEFqzbee6y3Bc
+ C+JgRfEjODZfW30oUQsGD3BCNbVlsoTlG5MCBX0=
+X-Google-Smtp-Source: ABdhPJwf5oAM0X3aCa0VD2xj1Aw2lQzsRFZrmwQXu52GmL11T4P9FAZHLEIwxbSfEjW04oGkCRQaykAAh2Cv5AMs394=
+X-Received: by 2002:a6b:c9c9:: with SMTP id z192mr2602920iof.175.1603209359530; 
+ Tue, 20 Oct 2020 08:55:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: ff9009a7-ff7c-43fb-a98f-fc662f12538b
-X-Ovh-Tracer-Id: 379709747007101338
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrjeefgdeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 09:35:38
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <cover.1602634524.git.alistair.francis@wdc.com>
+In-Reply-To: <cover.1602634524.git.alistair.francis@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 20 Oct 2020 08:44:15 -0700
+Message-ID: <CAKmqyKPP1y3BcVR9csdWO=63=3Eg68q_6CKgf8B8FNMye-9+VA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] Allow loading a no MMU kernel
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,57 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Oct 2020 17:34:05 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On Tue, Oct 13, 2020 at 5:28 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> This series allows loading a noMMU kernel using the -kernel option.
+> Currently if using -kernel QEMU assumes you also have firmware and loads
+> the kernel at a hardcoded offset. This series changes that so we only
+> load the kernel at an offset if a firmware (-bios) was loaded.
+>
+> This series also adds a function to check if the CPU is 32-bit. This is
+> a step towards running 32-bit and 64-bit CPUs on the 64-bit RISC-V build
+> by using run time checks instead of compile time checks. We also allow
+> the user to sepcify a CPU for the sifive_u machine.
+>
+> Alistair Francis (4):
+>   hw/riscv: sifive_u: Allow specifying the CPU
+>   hw/riscv: Return the end address of the loaded firmware
+>   hw/riscv: Add a riscv_is_32_bit() function
+>   hw/riscv: Load the kernel after the firmware
 
-> On Dienstag, 20. Oktober 2020 17:11:05 CEST Greg Kurz wrote:
-> > fs_version() is a top level test function. Factor out the sugar
-> > to a separate helper instead of hijacking it in other tests.
-> > 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  tests/qtest/virtio-9p-test.c |   14 +++++++++-----
-> >  1 file changed, 9 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> > index c15908f27b3d..63f91aaf77e6 100644
-> > --- a/tests/qtest/virtio-9p-test.c
-> > +++ b/tests/qtest/virtio-9p-test.c
-> > @@ -567,10 +567,8 @@ static void v9fs_rflush(P9Req *req)
-> >      v9fs_req_free(req);
-> >  }
-> > 
-> > -static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
-> > +static void do_fs_version(QVirtio9P *v9p)
-> >  {
-> > -    QVirtio9P *v9p = obj;
-> > -    alloc = t_alloc;
-> >      const char *version = "9P2000.L";
-> >      uint16_t server_len;
-> >      char *server_version;
-> > @@ -585,13 +583,19 @@ static void fs_version(void *obj, void *data,
-> > QGuestAllocator *t_alloc) g_free(server_version);
-> >  }
-> 
-> So the naming convention from now on shall be do_fs_*() for non-toplevel 
-> functions there. Not that I care too much about the precise prefix, but how 
-> about just do_*() for them instead?
-> 
+Thanks!
 
-I've prepended "do_" to the existing names by pure laziness but I'm
-fine with any prefix or naming convention actually.
+Applied to riscv-to-apply.next
 
-So just tell me what you prefer and I'll send a v2.
+Alistair
 
-> Except of that, your patches look fine to me.
-> 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
-
+>
+>  include/hw/riscv/boot.h     | 13 ++++++---
+>  include/hw/riscv/sifive_u.h |  1 +
+>  hw/riscv/boot.c             | 56 ++++++++++++++++++++++++++-----------
+>  hw/riscv/opentitan.c        |  3 +-
+>  hw/riscv/sifive_e.c         |  3 +-
+>  hw/riscv/sifive_u.c         | 28 ++++++++++++++-----
+>  hw/riscv/spike.c            | 11 ++++++--
+>  hw/riscv/virt.c             | 11 ++++++--
+>  8 files changed, 91 insertions(+), 35 deletions(-)
+>
+> --
+> 2.28.0
+>
 
