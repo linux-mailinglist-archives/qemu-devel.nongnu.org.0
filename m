@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2D7294DD6
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:46:14 +0200 (CEST)
-Received: from localhost ([::1]:47616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EBC0294DDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:48:14 +0200 (CEST)
+Received: from localhost ([::1]:52664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVERR-00076J-Ki
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:46:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
+	id 1kVETN-0000rS-6o
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:48:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1kVEPL-0005qn-OJ; Wed, 21 Oct 2020 09:44:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17440
- helo=mx0a-001b2d01.pphosted.com)
+ id 1kVEQK-000781-I7; Wed, 21 Oct 2020 09:45:05 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1kVEPJ-0006UN-2A; Wed, 21 Oct 2020 09:44:03 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09LDgR0E106775; Wed, 21 Oct 2020 09:43:57 -0400
+ id 1kVEQH-0006Z2-Vy; Wed, 21 Oct 2020 09:45:04 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09LDXgDr192887; Wed, 21 Oct 2020 09:44:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=dVliiDtCkD8myCUYPi1HxnZYvwqqMcc0mBlZeudvQUM=;
- b=XxxEEg9vWqFkwFva2xGTW93HrvXunPQJvRD35jiiwXZTjMm1C5WMuRxfwqav4HYdhH/F
- Hs6v7mnIVQ++LxREdE8hw5K2gFs37l022W6CdXdyhsMbjn8tSubrWVULlHxc+7Eh/4Tu
- 3oRFXb/W6Fb6LihlB0qzDIbW7sfbCLk0niInCFMyiqGZFu3MPH5NI1D1sYQPt0fYl0fm
- W8fY2GmL7BXEDG1iS/LvFuFfydot0YXlLJql109+83OWlKkwfP8prudJlPFyz6iNLfUg
- Ic1tVXMOAgsEwtncyHi2yh06afgD/yB1/W36iwH1LXEQFhjN4OprlbcsrmZGl16+drAI pw== 
+ bh=49G3bSDWQYjcldBk0Fo4veCK0xIVuTlGHuQc7ticxBk=;
+ b=hGZWJmb2cvCW5Dt9FksjeOXEcsKlQfJx6qQkbQuub4R5dDhb/8BbJyZic6YOY+6mmmVy
+ QQ1s67amFxLk1barcB2ZRYCgzZbtXfh0PoT3ap+fNpjgQjYm0y2f3Es2Wg+KEN5HShmv
+ TyR+/a75RLQ4H+O04FSpko0c6I+FD5PrMMKO4hWXLFgA0b4QHhuEyd9eKyNJXHWsr2/f
+ dlsSbnUFvhQ9DYnNtBnPDCKnYOHsSO7pTDopV/VuSwlo284qNdmyVapJuKcjRKO+/20H
+ ipZFnbuKf3a6RY6SSONDZprqPpylX+axYBKu6AlsWQPFDNlKgojcJGzbFfL3dV0lh564 kw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34anv288kx-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34ajunexrn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Oct 2020 09:43:57 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09LDhu7p110352;
- Wed, 21 Oct 2020 09:43:56 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34anv288kd-1
+ Wed, 21 Oct 2020 09:44:59 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09LDXpOH193736;
+ Wed, 21 Oct 2020 09:44:58 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34ajunexqp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Oct 2020 09:43:56 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09LDcVY3007995;
- Wed, 21 Oct 2020 13:43:55 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03fra.de.ibm.com with ESMTP id 347r87t95b-1
+ Wed, 21 Oct 2020 09:44:58 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09LDb84K009362;
+ Wed, 21 Oct 2020 13:43:56 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03ams.nl.ibm.com with ESMTP id 348d5quh39-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Oct 2020 13:43:54 +0000
+ Wed, 21 Oct 2020 13:43:56 +0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09LDhqN525035126
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09LDhrhN32702778
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 21 Oct 2020 13:43:52 GMT
+ Wed, 21 Oct 2020 13:43:53 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D8DA2A405B;
- Wed, 21 Oct 2020 13:43:51 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 051C9A4040;
+ Wed, 21 Oct 2020 13:43:53 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E7EBEA4057;
- Wed, 21 Oct 2020 13:43:50 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 15B3EA404D;
+ Wed, 21 Oct 2020 13:43:52 +0000 (GMT)
 Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 21 Oct 2020 13:43:50 +0000 (GMT)
+ Wed, 21 Oct 2020 13:43:51 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] s390x: pv: Remove sclp boundary checks
-Date: Wed, 21 Oct 2020 09:43:44 -0400
-Message-Id: <20201021134345.110173-2-frankja@linux.ibm.com>
+Subject: [PATCH 2/2] s390x: pv: Fix diag318 PV fencing
+Date: Wed, 21 Oct 2020 09:43:45 -0400
+Message-Id: <20201021134345.110173-3-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201021134345.110173-1-frankja@linux.ibm.com>
 References: <20201021134345.110173-1-frankja@linux.ibm.com>
@@ -81,15 +80,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
  definitions=2020-10-21_06:2020-10-20,
  2020-10-21 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=1 clxscore=1015
- spamscore=0 priorityscore=1501 adultscore=0 malwarescore=0
- lowpriorityscore=0 impostorscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=1
+ mlxlogscore=999 mlxscore=0 spamscore=0 adultscore=0 impostorscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2010210103
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 09:43:58
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 09:43:57
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -115,36 +114,61 @@ Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SCLP boundary cross check is done by the Ultravisor for a
-protected guest, hence we don't need to do it. As QEMU doesn't get a
-valid SCCB address in protected mode this is even problematic and can
-lead to QEMU reporting a false boundary cross error.
+Diag318 fencing needs to be determined on the current VM PV state and
+not on the state that the VM has when we create the CPU model.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-Fixes: db13387ca0 ("s390/sclp: rework sclp boundary checks")
 Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Fixes: fabdada935 ("s390: guest support for diagnose 0x318")
 Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
 ---
- hw/s390x/sclp.c | 5 -----
- 1 file changed, 5 deletions(-)
+ hw/s390x/sclp.c    | 10 ++++++++++
+ target/s390x/kvm.c |  3 +--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index 00f1e4648d..0cf2290826 100644
+index 0cf2290826..69aba402d3 100644
 --- a/hw/s390x/sclp.c
 +++ b/hw/s390x/sclp.c
-@@ -285,11 +285,6 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-         goto out_write;
+@@ -22,6 +22,7 @@
+ #include "hw/s390x/event-facility.h"
+ #include "hw/s390x/s390-pci-bus.h"
+ #include "hw/s390x/ipl.h"
++#include "hw/s390x/pv.h"
+ 
+ static inline SCLPDevice *get_sclp_device(void)
+ {
+@@ -142,6 +143,15 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+     if (s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB)) {
+         s390_get_feat_block(S390_FEAT_TYPE_SCLP_FAC134,
+                             &read_info->fac134);
++        /*
++         * Diag318 is not available in protected mode and will result
++         * in an operation exception. As we can dynamically move in
++         * and out of protected mode, we need to fence the feature
++         * here rather than when creating the CPU model.
++         */
++        if (s390_is_pv()) {
++            read_info->fac134 &= ~0x80;
++        }
      }
  
--    if (!sccb_verify_boundary(sccb, be16_to_cpu(work_sccb->h.length), code)) {
--        work_sccb->h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
--        goto out_write;
--    }
--
-     sclp_c->execute(sclp, work_sccb, code);
- out_write:
-     s390_cpu_pv_mem_write(env_archcpu(env), 0, work_sccb,
+     read_info->facilities = cpu_to_be64(SCLP_HAS_CPU_INFO |
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index f13eff688c..baa070fdf7 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -2498,8 +2498,7 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
+      */
+     set_bit(S390_FEAT_EXTENDED_LENGTH_SCCB, model->features);
+ 
+-    /* DIAGNOSE 0x318 is not supported under protected virtualization */
+-    if (!s390_is_pv() && kvm_check_extension(kvm_state, KVM_CAP_S390_DIAG318)) {
++    if (kvm_check_extension(kvm_state, KVM_CAP_S390_DIAG318)) {
+         set_bit(S390_FEAT_DIAG_318, model->features);
+     }
+ 
 -- 
 2.25.1
 
