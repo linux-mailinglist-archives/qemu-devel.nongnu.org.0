@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2787C2953D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 23:06:07 +0200 (CEST)
-Received: from localhost ([::1]:54142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A01C2953DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 23:09:17 +0200 (CEST)
+Received: from localhost ([::1]:34304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVLJ8-0005ye-5U
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 17:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40406)
+	id 1kVLMC-0001at-1h
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 17:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVLAz-0005Zq-2R
+ id 1kVLAz-0005aE-7o
  for qemu-devel@nongnu.org; Wed, 21 Oct 2020 16:57:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39558)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVLAv-0006gs-9e
+ id 1kVLAv-0006gz-AU
  for qemu-devel@nongnu.org; Wed, 21 Oct 2020 16:57:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603313852;
+ s=mimecast20190719; t=1603313853;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hEmG+5DMurtuugiP1AkAOY/uZr4pKnlUz7Ec9go+dTg=;
- b=ElyAGYKSzuc5aKlcRRte/BFmfSz2Yei3lvli4xYdcxbK7JJVaO6XGgftoza3hXnmbd5XBs
- Om5yOsoA02x98tubYmE5vWXI3vCqNJQwb8pgDVuHxw5DpZ4V698AU+eCROd+YIgV2kVbaL
- 3UqT2IdGGPbm6zqRXy10venU49O4mPc=
+ bh=sjO3LEWU1B+vyfhOtmKRmrtOL9ZWXQ7OGar1eX5wPng=;
+ b=RWZQMCJsdK9YIWS9Ckqk9PAje6Ha5QmAVTpwd/gqmbEXHk+jX8yJRxpSz8c1DUKX8qgfsm
+ 0Z9dJxB2Nf+3hisXrTl4CfHp46GGCUITaBtKhPxUxPHyigbMfdXpKu0zLYNHKGpUPxICty
+ 0clC+mO2B5BCjd4gk7X0e7e7/kbMJjo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-OrkrzfU3M9GNMWIMwXdP2w-1; Wed, 21 Oct 2020 16:57:30 -0400
-X-MC-Unique: OrkrzfU3M9GNMWIMwXdP2w-1
+ us-mta-482-s-xvwK2dM72ao_u5E8FBYQ-1; Wed, 21 Oct 2020 16:57:31 -0400
+X-MC-Unique: s-xvwK2dM72ao_u5E8FBYQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04E31186DD23
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A88E2107AFA5
  for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 20:57:30 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7571D6EF6E;
- Wed, 21 Oct 2020 20:57:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 25C596EF62;
+ Wed, 21 Oct 2020 20:57:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/22] vl: preconfig and loadvm are mutually exclusive
-Date: Wed, 21 Oct 2020 16:57:08 -0400
-Message-Id: <20201021205716.2359430-15-pbonzini@redhat.com>
+Subject: [PATCH 15/22] vl: extract various command line desugaring snippets to
+ a new function
+Date: Wed, 21 Oct 2020 16:57:09 -0400
+Message-Id: <20201021205716.2359430-16-pbonzini@redhat.com>
 In-Reply-To: <20201021205716.2359430-1-pbonzini@redhat.com>
 References: <20201021205716.2359430-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +59,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 22:12:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,45 +87,110 @@ Cc: jsnow@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just like -incoming.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ softmmu/vl.c | 39 +++++++++++++++++++++------------------
+ 1 file changed, 21 insertions(+), 18 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index f8b1ffb46e..3607cd4357 100644
+index 3607cd4357..122bf1821b 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -124,6 +124,7 @@ static const char *mem_path;
- static const char *boot_order;
- static const char *boot_once;
+@@ -126,6 +126,7 @@ static const char *boot_once;
  static const char *incoming;
-+static const char *loadvm;
+ static const char *loadvm;
  enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
++int mem_prealloc; /* force preallocation of physical target memory */
  int display_opengl;
  const char* keyboard_layout = NULL;
-@@ -2886,6 +2887,11 @@ static void qemu_validate_options(void)
-           }
+ ram_addr_t ram_size;
+@@ -159,7 +160,7 @@ int fd_bootchk = 1;
+ static int no_reboot;
+ int no_shutdown = 0;
+ int graphic_rotate = 0;
+-const char *watchdog;
++static const char *watchdog;
+ QEMUOptionRom option_rom[MAX_OPTION_ROMS];
+ int nb_option_roms;
+ int old_param = 0;
+@@ -2906,6 +2907,24 @@ static void qemu_validate_options(void)
+ #endif
+ }
+ 
++static void qemu_process_sugar_options(void)
++{
++    if (mem_prealloc) {
++        char *val;
++
++        val = g_strdup_printf("%ld", qemu_opt_get_number(qemu_find_opts_singleton("smp-opts"), "cpus", 1));
++        object_register_sugar_prop("memory-backend", "prealloc-threads", val);
++        g_free(val);
++        object_register_sugar_prop("memory-backend", "prealloc", "on");
++    }
++
++    if (watchdog) {
++        int i = select_watchdog(watchdog);
++        if (i > 0)
++            exit (i == 1 ? 1 : 0);
++    }
++}
++
+ static void qemu_process_early_options(void)
+ {
+     char **dirs;
+@@ -3160,7 +3179,6 @@ void qemu_finish_machine_init(void)
+ 
+ void qemu_init(int argc, char **argv, char **envp)
+ {
+-    int i;
+     int snapshot = 0;
+     QemuOpts *opts, *machine_opts;
+     QemuOpts *icount_opts = NULL, *accel_opts = NULL;
+@@ -3179,7 +3197,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     bool have_custom_ram_size;
+     BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
+     QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+-    int mem_prealloc = 0; /* force preallocation of physical target memory */
+ 
+     qemu_add_opts(&qemu_drive_opts);
+     qemu_add_drive_opts(&qemu_legacy_drive_opts);
+@@ -4086,6 +4103,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     loc_set_none();
+ 
+     qemu_validate_options();
++    qemu_process_sugar_options();
+ 
+     /* These options affect everything else and should be processed
+      * before daemonizing.
+@@ -4137,15 +4155,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     machine_smp_parse(current_machine,
+         qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
+ 
+-    if (mem_prealloc) {
+-        char *val;
+-
+-        val = g_strdup_printf("%d", current_machine->smp.cpus);
+-        object_register_sugar_prop("memory-backend", "prealloc-threads", val);
+-        g_free(val);
+-        object_register_sugar_prop("memory-backend", "prealloc", "on");
+-    }
+-
+     /*
+      * Get the default machine options from the machine if it is not already
+      * specified either by the configuration file or by the command line.
+@@ -4404,12 +4413,6 @@ void qemu_init(int argc, char **argv, char **envp)
+         select_vgahw(machine_class, vga_model);
      }
  
-+    if (loadvm && !preconfig_exit_requested) {
-+        error_report("'preconfig' and 'loadvm' options are "
-+                     "mutually exclusive");
-+        exit(EXIT_FAILURE);
-+    }
-     if (incoming && !preconfig_exit_requested) {
-         error_report("'preconfig' and 'incoming' options are "
-                      "mutually exclusive");
-@@ -3161,7 +3167,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     QemuOptsList *olist;
-     int optind;
-     const char *optarg;
--    const char *loadvm = NULL;
-     MachineClass *machine_class;
-     const char *vga_model = NULL;
-     bool userconfig = true;
+-    if (watchdog) {
+-        i = select_watchdog(watchdog);
+-        if (i > 0)
+-            exit (i == 1 ? 1 : 0);
+-    }
+-
+     /* This checkpoint is required by replay to separate prior clock
+        reading from the other reads, because timer polling functions query
+        clock values from the log. */
 -- 
 2.26.2
 
