@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7061294DAC
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:36:02 +0200 (CEST)
-Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC24294DAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:36:28 +0200 (CEST)
+Received: from localhost ([::1]:37670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVEHZ-0001m1-S8
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34066)
+	id 1kVEHz-0002XK-K0
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVEE5-00072a-1U
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:32:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37126)
+ id 1kVEFL-0000kD-29
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:33:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVEE2-0004vS-Jc
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:32:24 -0400
+ id 1kVEFH-00057h-Pf
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:33:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603287141;
+ s=mimecast20190719; t=1603287219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q8JybUft5gn8Sj6ByinpAR0ozFeNpX8UBH70GeqYSIY=;
- b=Owo+lbSmIEtWpcsnmvwaiPIA/dmKXwf3SOi0ebyfAyoJNxuaTUPpb9Qszuepi9jOQ/pA++
- JBcNCXfnK2YPovgjmFpA5q82YwGPP+8/WuRpeVXR0+Hs96Pf955GuNu6u45giJKYAj44xk
- WzeXx8LIxzF8iQkYgiIaZH/Hbg+dLgI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-ReAtRYHzO9eaK90mjVDW2Q-1; Wed, 21 Oct 2020 09:32:19 -0400
-X-MC-Unique: ReAtRYHzO9eaK90mjVDW2Q-1
-Received: by mail-wm1-f72.google.com with SMTP id 13so1602579wmf.0
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 06:32:19 -0700 (PDT)
+ bh=EP3Z3L9MkqOU66HQnEjwd5+BYLBLuaH8zmp+qPSjKxU=;
+ b=J6M+gyEZhD49Ps56ORoOin34qFogJxY75T3AmtNXscVDWFchLsKNiwSu+cQSkB87vD/liz
+ d4z5qIad44OoY81oRpswJgjs9spBMy9nXnOM7J8unyHz23ZGPbQsV2mT90IUbIt3Olqcab
+ R3DrEkD3jTecFQWAq1v6do8DwlG258c=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-QHPxvlBrMhq7wBoyv9amYQ-1; Wed, 21 Oct 2020 09:33:34 -0400
+X-MC-Unique: QHPxvlBrMhq7wBoyv9amYQ-1
+Received: by mail-wr1-f69.google.com with SMTP id i1so2663211wrb.18
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 06:33:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Q8JybUft5gn8Sj6ByinpAR0ozFeNpX8UBH70GeqYSIY=;
- b=grLj6NmWtCUPAnZL1eJSmAoIswtsxYqYV0L8fa6KIPNKKqjiNvMOW/ziYW1mufTajb
- R62rnZCe61nTwL6NLsp9TdTy0BmRv/Elz0wb22U6xYfx8HUTcJYv/8n6P+evlkWVclIf
- TUKtimzgFmJF1UXKYX0VQMvH7UwZnUOoApbBzsVuNF8qG/55t4Nca2wV3YM98cSdQN2q
- EmIrXMOR5N8ym/WRuyrcObxCpZpf+Zebc44l9sSmddvaRH6d1Au88hdTDlhjemdmWXH9
- 14iTZRk9eqPZcWdbi6ouJPG86KF7UlwNcI6qRpTDc9ZCR3u43E5bdFIAXthSsbBHf54J
- RSRw==
-X-Gm-Message-State: AOAM532Dy9W28itKQs0FLZUiicDF8lNSmSg6m5xlLHuGAw+o7grr+Xcw
- 3EQBB2GvQpEy+a009s807rD/lXcV4EPkqYZslFrPbQKd/aAzXuq+3hPbtoqE4Dontophc+Pg/vv
- v0mhOAbsdk2azJyY=
-X-Received: by 2002:a5d:6944:: with SMTP id r4mr4847129wrw.151.1603287138798; 
- Wed, 21 Oct 2020 06:32:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyeVt/CiTCD2Z14aHbtAGvomHJ2nqXbtyrNr3YfLEumlz15IOrhBnsVzoKTZ9DePpggh+pwGg==
-X-Received: by 2002:a5d:6944:: with SMTP id r4mr4847106wrw.151.1603287138606; 
- Wed, 21 Oct 2020 06:32:18 -0700 (PDT)
+ bh=EP3Z3L9MkqOU66HQnEjwd5+BYLBLuaH8zmp+qPSjKxU=;
+ b=rJwY3t2XMaXJGxafJbD5Xu/khJbnkoAwmzBQIH0UIRNf8eL0BSSPtjzvGEcWURe/Ma
+ qQFNCLOIWgg/5nVLdCzLHjshZEBqRPPs8srjEHMA1Ardrjsz5PSaTb0baVcOhC2sKt+B
+ LGBqqLlLpWHpqdnRHxYmG4FSHh7Jgq2Qg0W2H3HwXtiIt99JNe8cRk8lAS4C45rhiO8o
+ LykAwkBadPyOtLRgeDapWqKNoV84SulE+wQTuyA/5OgsTAetseJeNDPWXmTE599zFEQC
+ KNzNuxPKptQFoqJaP7xwt4/k64vPn6sYvJw1I7CPCCIJcSLzkS66mhu23IkeFgsg3VJP
+ XAkw==
+X-Gm-Message-State: AOAM531VeCJDVo7zvmJG3FPpflT4S8RkjyaaGzZFhCa2fz0R2t6UMIPw
+ u9WnABdY0j7o67BYCsUKxFrzkdvz9hMsy3vAweLoj/h3mDHRkieER24N3hbjdODTGpqzf8qwwRD
+ /mmBHY5qYjH3W+W8=
+X-Received: by 2002:a5d:6cad:: with SMTP id a13mr5207814wra.347.1603287212328; 
+ Wed, 21 Oct 2020 06:33:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy48Vd0aC9ygdhE7YJx6jdA93D3IqDTEIb8e8QQdoM0yt+p5/68jLq3qeMfmf+PyoDmQfVpNw==
+X-Received: by 2002:a5d:6cad:: with SMTP id a13mr5207796wra.347.1603287212111; 
+ Wed, 21 Oct 2020 06:33:32 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id a2sm3910663wrs.55.2020.10.21.06.32.17
+ by smtp.gmail.com with ESMTPSA id y14sm3312925wma.48.2020.10.21.06.33.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Oct 2020 06:32:17 -0700 (PDT)
-Subject: Re: [PATCH v2] pc: Implement -no-hpet as sugar for -machine
- allow-hpet=no
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20201021131353.1450143-1-ehabkost@redhat.com>
+ Wed, 21 Oct 2020 06:33:30 -0700 (PDT)
+Subject: Re: [PATCH 0/1] Do not stop guest when panic event is received
+To: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>, qemu-devel@nongnu.org
+References: <1601606494-1154-1-git-send-email-alejandro.j.jimenez@oracle.com>
+ <74a8c57d-4f2d-64cd-f2d2-32dc88b64f9b@redhat.com>
+ <1c9cdb1d-5dd5-a783-96e9-8f62a498951a@oracle.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <cb3553a5-5c81-72c1-cc00-aa55eaf3d971@redhat.com>
-Date: Wed, 21 Oct 2020 15:32:16 +0200
+Message-ID: <e197a153-43e9-d517-de09-2ce163571453@redhat.com>
+Date: Wed, 21 Oct 2020 15:33:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201021131353.1450143-1-ehabkost@redhat.com>
+In-Reply-To: <1c9cdb1d-5dd5-a783-96e9-8f62a498951a@oracle.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -102,23 +103,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/20 15:13, Eduardo Habkost wrote:
-> Get rid of yet another global variable.
+On 21/10/20 15:26, Alejandro Jimenez wrote:
 > 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Changes v1 -> v2:
-> * Rename property to "allow-hpet" to make its semantic clearer,
->   as it won't make sure HPET is created if CONFIG_HPET=n
-> ---
+> 
+> On 10/20/2020 1:14 PM, Paolo Bonzini wrote:
+>> On 02/10/20 04:41, Alejandro Jimenez wrote:
+>>> The fact that the behavior of hv-crash is also affected is why I
+>>> chose to implement this change as an independent
+>>> option, as opposed to making it a property of the pvpanic device
+>>> (e.g. -device pvpanic,no-panicstop).
+>>>
+>>> Please let me know if you have any comments or suggestions.
+>> Hi Alejandro, sorry for the delayed response.
+>>
+>> The concept is fine, and I agree this should not be a device property.
+>>
+>> On the other hand, we already have many similar options: -no-reboot,
+>> -no-shutdown, -watchdog-action and now --no-panicstop.
+>>
+>> I think it's time to group them into a single option:
+>>
+>> * -action reboot=pause|shutdown|none
+>> * -action shutdown=pause|poweroff|none
+>> * -action panic=pause|shutdown|none
+>> * -action watchdog=reset|shutdown|poweroff|pause|debug|none|inject-nmi
+>>
+>> where the existing options would translate to the new option, like:
+>>
+>> * -no-reboot "-action reboot=shutdown"
+>> * -no-shutdown "-action shutdown=pause"
+>>
+>> The implementation should be relatively easy too; there's already an
+>> enum WatchdogAction (that can be renamed to e.g. RunstateAction) and a
+>> parsing function select_watchdog_action that can be changed to just
+>> return the RunstateAction.
+>>
+>> Would you like to take a look at this?
+> Hi Paolo,
+> 
+> Thank you for your reply and the advice/hints above. I'll take a look
+> and try to implement what you propose.
 
-No, please try to do it with "hpet".  It's ugly to make it different
-from the others.  I outlined how to do it in the reply to v1.
+Just one thing, for the parsing you can place it close to the existing
+
+    qemu_opts_foreach(qemu_find_opts("name"),
+                      parse_name, NULL, &error_fatal);
 
 Paolo
 
