@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4395294972
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 10:41:46 +0200 (CEST)
-Received: from localhost ([::1]:54210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21908294973
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 10:41:50 +0200 (CEST)
+Received: from localhost ([::1]:54448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV9gn-000083-Uk
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 04:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58260)
+	id 1kV9gr-0000EM-3W
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 04:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <likejun6@huawei.com>)
- id 1kV8do-0002nB-3p; Wed, 21 Oct 2020 03:34:36 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5711 helo=huawei.com)
+ id 1kV8dp-0002ni-2n; Wed, 21 Oct 2020 03:34:37 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5197 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <likejun6@huawei.com>)
- id 1kV8dl-0004Je-0p; Wed, 21 Oct 2020 03:34:35 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 04E976EB4376A049350F;
- Wed, 21 Oct 2020 15:34:19 +0800 (CST)
+ id 1kV8dm-0004LO-RU; Wed, 21 Oct 2020 03:34:36 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 166D8F0BEA3EAEAD8D1B;
+ Wed, 21 Oct 2020 15:34:24 +0800 (CST)
 Received: from DESKTOP-IB00AOP.china.huawei.com (10.174.184.163) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 21 Oct 2020 15:34:12 +0800
+ 14.3.487.0; Wed, 21 Oct 2020 15:34:13 +0800
 From: <likejun6@huawei.com>
 To: <qemu-block@nongnu.org>
-Subject: [PATCH 2/4] qemu-iotest: add 309 testcase
-Date: Wed, 21 Oct 2020 15:33:53 +0800
-Message-ID: <20201021073355.2499-3-likejun6@huawei.com>
+Subject: [PATCH 3/4] qemu-iotest: add 310 testcase
+Date: Wed, 21 Oct 2020 15:33:54 +0800
+Message-ID: <20201021073355.2499-4-likejun6@huawei.com>
 X-Mailer: git-send-email 2.22.0.windows.1
 In-Reply-To: <20201021073355.2499-1-likejun6@huawei.com>
 References: <20201021073355.2499-1-likejun6@huawei.com>
@@ -36,9 +36,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.163]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=likejun6@huawei.com;
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=likejun6@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 03:34:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 03:34:24
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -47,7 +47,7 @@ X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 21 Oct 2020 04:40:12 -0400
+X-Mailman-Approved-At: Wed, 21 Oct 2020 04:40:16 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,26 +66,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: likejun <likejun6@huawei.com>
 
-Test raw thin provisioned image creation, size and rw
+Test falloc image creation, size and rw
 
 Signed-off-by: likejun <likejun6@huawei.com>
 ---
- tests/qemu-iotests/309     | 102 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/309.out |  21 ++++++++
+ tests/qemu-iotests/310     | 104 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/310.out |  21 ++++++++
  tests/qemu-iotests/group   |   1 +
- 3 files changed, 124 insertions(+)
- create mode 100755 tests/qemu-iotests/309
- create mode 100644 tests/qemu-iotests/309.out
+ 3 files changed, 126 insertions(+)
+ create mode 100755 tests/qemu-iotests/310
+ create mode 100644 tests/qemu-iotests/310.out
 
-diff --git a/tests/qemu-iotests/309 b/tests/qemu-iotests/309
+diff --git a/tests/qemu-iotests/310 b/tests/qemu-iotests/310
 new file mode 100755
-index 0000000000..7bbe5a1704
+index 0000000000..af9f03e91f
 --- /dev/null
-+++ b/tests/qemu-iotests/309
-@@ -0,0 +1,102 @@
++++ b/tests/qemu-iotests/310
+@@ -0,0 +1,104 @@
 +#!/bin/bash
 +#
-+# Test raw thin provisioned image creation, size and rw
++# Test falloc image creation, size and rw
 +#
 +# Copyright (C) 2020 Huawei, Inc
 +#
@@ -161,6 +161,8 @@ index 0000000000..7bbe5a1704
 +        done
 +}
 +
++IMGOPTS="preallocation=falloc"
++
 +echo "=== Check qemu-img info output ==="
 +echo
 +size=64M
@@ -185,20 +187,20 @@ index 0000000000..7bbe5a1704
 +echo "*** done"
 +rm -f $seq.full
 +status=0
-diff --git a/tests/qemu-iotests/309.out b/tests/qemu-iotests/309.out
+diff --git a/tests/qemu-iotests/310.out b/tests/qemu-iotests/310.out
 new file mode 100644
-index 0000000000..c5e7757a15
+index 0000000000..dcca649360
 --- /dev/null
-+++ b/tests/qemu-iotests/309.out
++++ b/tests/qemu-iotests/310.out
 @@ -0,0 +1,21 @@
-+QA output created by 309
++QA output created by 310
 +=== Check qemu-img info output ===
 +
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 preallocation=falloc
 +image: TEST_DIR/t.IMGFMT
 +file format: IMGFMT
 +virtual size: 64 MiB (67108864 bytes)
-+disk size: 196 KiB
++disk size: 64.3 MiB
 +
 +== reading whole image ==
 +read 67108864/67108864 bytes at offset 0
@@ -213,14 +215,14 @@ index 0000000000..c5e7757a15
 +64 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 +*** done
 diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 25a876ef20..632a05b25e 100644
+index 632a05b25e..e8b6480890 100644
 --- a/tests/qemu-iotests/group
 +++ b/tests/qemu-iotests/group
-@@ -316,3 +316,4 @@
- 305 rw quick
+@@ -317,3 +317,4 @@
  307 rw quick export
  308 rw auto quick
-+309 rw auto quick
+ 309 rw auto quick
++310 rw auto quick
 -- 
 2.19.1
 
