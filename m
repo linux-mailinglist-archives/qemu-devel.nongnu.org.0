@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFF4294F45
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 16:56:35 +0200 (CEST)
-Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD4A294F7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:05:35 +0200 (CEST)
+Received: from localhost ([::1]:53062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVFXU-00075s-OJ
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 10:56:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55992)
+	id 1kVFgE-0001yv-4I
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:05:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQX-0006cg-DB
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40621)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQi-00076E-NX
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQU-0006n5-Og
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:21 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQg-0006pE-Vx
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603291757;
+ s=mimecast20190719; t=1603291770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WSiN89+WnqOUhyTtlI8MGeAG5fcGTpIx44MBB+cdTd8=;
- b=U11Vt/UkOtReEJB+QkIvd97Q1xBTvrE96EG8szylwVntSPH4iGkyHIVRTdEGpMOPxUtDMQ
- c4NSLFtT8veWGlN9ktyghVJNUoAm3Tc4E9TSVJs8dsow5hUMsoN/ZICVBwQEov1RsL8qnS
- 2Pc4QngXdMfxSP4CF0EuaBreOJi94Cg=
+ bh=i/vMkkxoee50PVpVAFi+/9V1+X0Gl2Ohdjs6Ek36mjE=;
+ b=e6SDIK10+5QWuAeQlkK3PSIr6k6Uuv21bfxqyU2fYx4P7dl22GRY1mxQCeRAPlo6m3OO+q
+ VIdtqlGdeawV5IOdn9aLcUBOru/tbCGLuXnwDfRdPpFjhP7RiD5Oqgtp+/FSH2Q/dmSd7P
+ w8ZjggCPStKYpy1A/qvQnULeqwcTBSE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-kt4AvNEPOYCwJ-wle8oSeg-1; Wed, 21 Oct 2020 10:49:15 -0400
-X-MC-Unique: kt4AvNEPOYCwJ-wle8oSeg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-385-aZbNERyDOoe-FjXpL0HxOw-1; Wed, 21 Oct 2020 10:49:26 -0400
+X-MC-Unique: aZbNERyDOoe-FjXpL0HxOw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3E7418A0735;
- Wed, 21 Oct 2020 14:48:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C9518BE438;
+ Wed, 21 Oct 2020 14:49:03 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74C835B4A9;
- Wed, 21 Oct 2020 14:48:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5663319C4F;
+ Wed, 21 Oct 2020 14:48:53 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C3BAE31E59; Wed, 21 Oct 2020 16:48:52 +0200 (CEST)
+ id 3667F9D0E; Wed, 21 Oct 2020 16:48:52 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/17] tests/acpi: update expected data files
-Date: Wed, 21 Oct 2020 16:48:52 +0200
-Message-Id: <20201021144852.16665-18-kraxel@redhat.com>
+Subject: [PULL 03/17] x86: make pci irqs runtime configurable
+Date: Wed, 21 Oct 2020 16:48:38 +0200
+Message-Id: <20201021144852.16665-4-kraxel@redhat.com>
 In-Reply-To: <20201021144852.16665-1-kraxel@redhat.com>
 References: <20201021144852.16665-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 22:12:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,52 +88,63 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a variable to x86 machine state instead of
+hard-coding the PCI interrupts.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20201020074844.5304-11-kraxel@redhat.com
+Message-id: 20201016113835.17465-4-kraxel@redhat.com
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   2 --
- tests/data/acpi/microvm/DSDT.rtc            | Bin 0 -> 404 bytes
- tests/data/acpi/microvm/DSDT.usb            | Bin 0 -> 414 bytes
- 3 files changed, 2 deletions(-)
+ include/hw/i386/x86.h | 2 ++
+ hw/i386/acpi-common.c | 3 +--
+ hw/i386/x86.c         | 1 +
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index afd6b04a475a..dfb8523c8bf4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/microvm/DSDT.usb",
--"tests/data/acpi/microvm/DSDT.rtc",
-diff --git a/tests/data/acpi/microvm/DSDT.rtc b/tests/data/acpi/microvm/DSDT.rtc
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..5960d6929a2f88d76aaa324b88b80908ff0698dc 100644
-GIT binary patch
-literal 404
-zcmXv~%TB^T6ur|@C{v1~(GX2c2#H%WV2JB>I+P{_YNvonO@>ckYuq3U64&|xe1f0i
-z=ddE)p}Lv-I_KVVCQ?!HMF1=w&cs-C!{<yy*uxf>+(b6L(kj&D_I|V!BUg`;$bXWP
-zIp=%;u2w}rJy(ldo%@u=ggMM1tyd_w12LQQPxw~w;}BQRlL%i!II9SZ`Y}1!2OHcT
-z1H-w?3!(ox9<DcgPp~ztfw(;&2A0-i8C5tx5Lv=`{{g{xz{kNKtxdg;I@qL%CXlp|
-zxs0I&us_mT`R<ugNF~$m<*k;BqPaH3YR^93R@4G&?XqPa(oMO&Hc4eXn`T^aQQblz
-zVQrD~$7+^N^BI21uo}_^iWdPIHWqGZXV(M*?e8O40H}+Q&Pf+zFGx^BebJ~<2V1|a
-Cp;Z9@
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/microvm/DSDT.usb b/tests/data/acpi/microvm/DSDT.usb
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..14423381ea235ed42f6f0f7d98e793c271a4e7c1 100644
-GIT binary patch
-literal 414
-zcmY+A%}T>S6ov1kO`A@eI*M2ngyI9}v{KxfOr}YoKQZYaM3_E;bSG|V76o^Ld+8(i
-zC_YYC#XB8cxS6^4-1#`?PLKtYPXb`A{IQ6#w!cV3fEr4mYkjlmOl7{xi|hVe^c@w&
-zf%_nbQ_gu89F<KxT6dI4vtyUikT9Fsr11=S(G}xi=kUJaecQxQ(>TCW14jm6)D6k5
-zv@3yg#XvKIN+<(mOgxdqoOf=~1W6YMSZSXot-n>EL~580p|wn92n~Sko|g01x^9Kc
-z<e+_espM=@d(zEv%RXL~)B<X4l6mUWbzYq7!k8tagbOZ=7Y6amvy|VN*<h58aoe65
-z(kiA99&VzuT+r601_YX4d$0g77a=W^tGHQ2BL4dTm;DFeeGm7)06hSVJ)%R_Qzz9j
-HwNd&31|3%c
-
-literal 0
-HcmV?d00001
-
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index d5dcf7a07fdc..bfa9cb2a258b 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -58,6 +58,7 @@ struct X86MachineState {
+ 
+     /* CPU and apic information: */
+     bool apic_xrupt_override;
++    unsigned pci_irq_mask;
+     unsigned apic_id_limit;
+     uint16_t boot_cpus;
+     unsigned smp_dies;
+@@ -114,6 +115,7 @@ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
+ /* Global System Interrupts */
+ 
+ #define GSI_NUM_PINS IOAPIC_NUM_PINS
++#define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+ 
+ typedef struct GSIState {
+     qemu_irq i8259_irq[ISA_NUM_IRQS];
+diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+index ab9b00581a15..1584abb3e6b0 100644
+--- a/hw/i386/acpi-common.c
++++ b/hw/i386/acpi-common.c
+@@ -115,8 +115,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+ 
+     if (has_pci) {
+         for (i = 1; i < 16; i++) {
+-#define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+-            if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
++            if (!(x86ms->pci_irq_mask & (1 << i))) {
+                 /* No need for a INT source override structure. */
+                 continue;
+             }
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 3137a2008588..5944fc44edca 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1178,6 +1178,7 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->smm = ON_OFF_AUTO_AUTO;
+     x86ms->acpi = ON_OFF_AUTO_AUTO;
+     x86ms->smp_dies = 1;
++    x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+ }
+ 
+ static void x86_machine_class_init(ObjectClass *oc, void *data)
 -- 
 2.27.0
 
