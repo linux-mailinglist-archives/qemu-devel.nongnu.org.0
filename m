@@ -2,78 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E93229457E
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 01:43:33 +0200 (CEST)
-Received: from localhost ([::1]:53248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB9229464F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 03:27:32 +0200 (CEST)
+Received: from localhost ([::1]:50522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV1Hv-0004mm-SM
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 19:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60248)
+	id 1kV2uZ-0000kH-R9
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 21:27:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1kV1Ew-0003hj-Df
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 19:40:26 -0400
-Received: from mail-vk1-xa42.google.com ([2607:f8b0:4864:20::a42]:45990)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1kV1Et-0003xv-DM
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 19:40:26 -0400
-Received: by mail-vk1-xa42.google.com with SMTP id m3so60923vki.12
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 16:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ny4GZITxBl1x7gXJeqDFvluB75Neh/+3KKa1M6hbhzs=;
- b=GYThPspjV41J7fmrlcpFxnMAFOH3rbatOr8xIITZGrggDRi3rwLU9d/mtm1DNhSvZ7
- rT1p89FE7e87Bv9fuUZsJE9PZyvBopVOQvkhy9QdeRoN6xhMPt4pmeuqWr5flWw/lNI8
- iW8U0bJWtJmPZKCfTXEvJ9R3lav3XrU7ikgxxk4t9qKtiAT7PBjsZy9rL+DksO1o/+AS
- inR9KAfoMXl4vODivKJTvXz0RFskJ1bdCmqJ93QRVKMXhXfXT4dwDosRZG0oF/cHNIXX
- bpvmx7RxFewgqXI5br8OUosUF8Nzk/Do87TtFu2+CiVc3kIhPnVxhVhws+OrGg+6t535
- RhBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ny4GZITxBl1x7gXJeqDFvluB75Neh/+3KKa1M6hbhzs=;
- b=YmgvazYP3fDtEe5bU3LowX8dMpmpNocg32hN9I9tWGDh0CzS3bp56A8H9Ss7JI/7ZH
- IS13ufZYbMBZfYnQHU8cGnx3N90dxF7QdkcxkZXPOAtt40x64Sohcbe1Dl3vTZzDgyzK
- 3QE0TNKmFpY1opdDcA1aJLf3ZOBjxHgKJkADzBW5UWm3aoTIsWXKdK7O48BR1yi2GtVb
- jrwm9pJHpbXQnw948eCBl2X5db3kXtCT1jvbu0C0oe13AS11qg+ulFLnr7VNWQbFd/+3
- RsSOrF1ZJl90gM2HXyf/rmNErEVL1STChYo49Yzp9pCJgqANH/lVIg1jBPkNBhu0qkr4
- v30w==
-X-Gm-Message-State: AOAM530p+wsykbVtEQgA2EKDOQSSTa6HE95NPLsM7p0V2OF8Ij2gcnHR
- WIBXIsgkUm1cChpMZylywF+kX3RHRdVtmCCjH6/6rw==
-X-Google-Smtp-Source: ABdhPJwEgaGjYneAncTWKOmZ0QVLCZMfs60SwUJj2STn7ZWCcHVGewRDlGL0KVAMt7XYEYt9Vn0ICykskYJImBXoIJs=
-X-Received: by 2002:a1f:25d0:: with SMTP id l199mr296976vkl.18.1603237220705; 
- Tue, 20 Oct 2020 16:40:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2qO-00068R-5d
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:23:12 -0400
+Received: from mail-eopbgr750127.outbound.protection.outlook.com
+ ([40.107.75.127]:17083 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2qL-0006NI-Pw
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:23:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BlFB7OzYs6Vusy0yWNHwBlijEoJGNFWrv8goCtRlG3iBnBJ0jqmxglZOU8mEDlUkful0VOYshuxYTdxeXafE7UN18knm/STQSWemHKD72IXC2nlFSRwbu3uIv6WbeqYtOZKD71Ps7Cc4lG2f/33HcTNcEWYJiDG29OsZg4/ha4d0SYF1z49JAcOcCEMLOs9WJh1sl80bgHqQ+lTt/0zbg2rb4oU7I4x7QUa+Xo/VD1/2s2etr3e9c1l3OzneJAkLJ+ir+Jnfnz9mL6T/FTUrSZQ41l0efFpJXQhWvSrPkL1mRI3Vpmwd0pyPEZoYTClS1fQQbYx7exXmJgbmc98xXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n1eILD0pZknDWpNIJwfyNbytvrfSGhuI/81Mtp2sku4=;
+ b=KUDXwQalyAsdTJf9Y4d+h3bJs3bkzvHDPDiHRkAbVRunwwwQAqCavPfNM5jFRnOO4W4dOJQ6ytQ59pXknHdxt4wKd5iZs8UMFkZVic/31AK3YFz6EGVC8pgibSKcFv5Rpny++tJMtoAi20s0XOAGPF9n8At6txrKI4QGVboUCV6hZV2vOnywCRj+6DtgMRt7HT/a6jONlI67IVxwvC/bPoSaCc7XvdMjQRmdSA/UGBXbqmDnGYum7lUAL8aSHBFLzBE6slTcOZIT11k4wDZHD4t6su1zAcQ/hefazJc5pIwKP5J4f+HcwQ4ZntE8YVi36uzyAChRqkIiIydw4PyHzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n1eILD0pZknDWpNIJwfyNbytvrfSGhuI/81Mtp2sku4=;
+ b=KlVK+D7GFWW4tXpN7CYhLI/u49Yv7cfbhDs5fxn0yvifT3/zevKsm2fLvnE/nu/ZslietD/BUkrEcqF4k3tTib1PyR/s7Nn0jWcAnz2x4kALgGVOvMTU9tAKB/+xNZyeR6hH56CnJPoIvBCxIMRghK7YDKg7SJ0mJcvUh/pfTKE=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN2PR03MB2333.namprd03.prod.outlook.com (2603:10b6:804:c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22; Wed, 21 Oct
+ 2020 01:08:04 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
+ 01:08:03 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/16] Add a Generic Virtual Device Fuzzer
+Date: Tue, 20 Oct 2020 21:07:36 -0400
+Message-Id: <20201021010752.973230-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [72.93.72.163]
+X-ClientProxiedBy: BL1PR13CA0119.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::34) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-References: <20201008232154.94221-1-hskinnemoen@google.com>
- <20201008232154.94221-5-hskinnemoen@google.com>
- <CAFEAcA_-sWHjQ4ct66h=9ZMRqwnuFT+LWPFYLHGuuur2-+C9yg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_-sWHjQ4ct66h=9ZMRqwnuFT+LWPFYLHGuuur2-+C9yg@mail.gmail.com>
-From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Tue, 20 Oct 2020 16:40:09 -0700
-Message-ID: <CAFQmdRbTxH_NPnnekFC_6uw1KLkf5uNvwL32hezTTo129Xs=RA@mail.gmail.com>
-Subject: Re: [PATCH 4/6] hw/misc: Add npcm7xx random number generator
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>, 
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- CS20 KFTing <kfting@nuvoton.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a42;
- envelope-from=hskinnemoen@google.com; helo=mail-vk1-xa42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.93.72.163) by
+ BL1PR13CA0119.namprd13.prod.outlook.com (2603:10b6:208:2b9::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.8 via Frontend
+ Transport; Wed, 21 Oct 2020 01:08:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 67d73458-53bc-42ba-52e1-08d8755dc2ef
+X-MS-TrafficTypeDiagnostic: SN2PR03MB2333:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN2PR03MB233384BC478720FC1B8A631DBA1C0@SN2PR03MB2333.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nVnIjGDeKpdhVTc2B8rTLLssxPlYPIQXPFKy9NGs+/QoGl2VD4qyfl3gOPmFo/usZqG/HW2UHeoDey9jTdIqpV3qjZKSHPvYVxDIxl7n4Mxf4gTESNfb5HbYyB1bKbYRHYjjsPE4GWaH6quSJaIXPQgjPaFisXvQPLeLBM9nI8CqqwMPrSUwfQDx2e2KTz5yI0s2HU0kfzVOCBVsneQcpc20FBKHrmYGWoFqkx+lm0zzH5ynkLsQpOFn61ZwowJcrecOzN3OWONayikGgb5/XBs/YIwqQy4fsWkjDAu0KaZhtsQM0L5rQNqaQn+2JPVFfaNQrGr626DQdQZAfvmajD1VfqZABhvHqwhx5Q/X0YDK5Nn5eMiHsy4y9mCW2xxOb7blVPlgxrCwITEbN95ri8e4OY0TfC5n74/wMCc8s2H9PkobQaNI3C9uAHGdtjxlF3TjRIkcGwxw46KJqCECew==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(52116002)(2616005)(8676002)(6512007)(6916009)(6506007)(36756003)(786003)(316002)(956004)(83380400001)(478600001)(1076003)(4326008)(6486002)(75432002)(8936002)(86362001)(5660300002)(26005)(16526019)(186003)(966005)(6666004)(66946007)(2906002)(66476007)(66556008)(41533002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 9WxZwct6sNkEDxGC8zVB22prdHiNDopRoxz2CScx/IQX4qHPBt7a6/W6BX2ZO+IJ93K90rn5JFWurNklRqUOq/YQ/MG9+m6hhZJWJtceIQTdnI0/uCV5+lCZNcAq6CpBbpMFNOqOPO4viLvHQX1ydxPebOu1qY3F1bc9MRaGxYqFUOM8atzbVKRmFCEI4ep0rInVHlC//11t78OJSoLJnRPiwXHMVBK86ja5457dsGtxC8eWxE15N7yrT/gPIJNwjMFfI3BeU0u1kNWMLparFnJvcdsD4hVdDdPnyYfq7h4k1jHf4CarpsUIYIQ/vZWn87NIuVUzlGrji0Y0TG7pzENCE1gBLxC5JIYiOavapK/U5wNh59LbVrGYuCiKtlYhXRhzP30iK39GVdPwF8OD9/O1P2tIESb/OdrS/Ju7zdHWVijUHgW8yGOqSC6kRHm30dN2g3FaZS66zuMUoQF8yZXZ7rytXuN6ta2qIBuZcnar8s+Bf/S8tmWWgodRFTzM1vGPSoY92ti4XAiYgFn9vC3In7htRibRwKlxPCtIrGNXNvRNSKVH7OPiCrY0NPNN7t9hAd83kgkXunfJkjldyQIJo5fNYXIoEvjhuUmH1u2pzSFbIXGTatJcJoMoQ/qpWQjF0v5xJGtTuJoDKlknug==
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67d73458-53bc-42ba-52e1-08d8755dc2ef
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 01:08:03.9325 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LceV5uNiiUGnXlVzwHjn9jOdnTnNNZ1r/62kaNRWOfHmMbXQOCAA5kWc8D2+32g0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2333
+Received-SPF: pass client-ip=40.107.75.127; envelope-from=alxndr@bu.edu;
+ helo=NAM02-BL2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 21:23:08
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.441,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,95 +111,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
+ bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+ dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 20, 2020 at 6:02 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 9 Oct 2020 at 00:22, Havard Skinnemoen <hskinnemoen@google.com> wrote:
-> >
-> > The RNG module returns a byte of randomness when the Data Valid bit is
-> > set.
-> >
-> > This implementation ignores the prescaler setting, and loads a new value
-> > into RNGD every time RNGCS is read while the RNG is enabled and random
-> > data is available.
-> >
-> > A qtest featuring some simple randomness tests is included.
-> >
-> > Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-> > Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
->
->
-> > +static const VMStateDescription vmstate_npcm7xx_rng = {
-> > +    .name = "npcm7xx-rng",
-> > +    .version_id = 0,
-> > +    .minimum_version_id = 0,
-> > +    .fields = (VMStateField[]) {
-> > +        VMSTATE_UINT8(rngcs, NPCM7xxRNGState),
-> > +        VMSTATE_UINT8(rngd, NPCM7xxRNGState),
-> > +        VMSTATE_UINT8(rngmode, NPCM7xxRNGState),
-> > +    },
->
-> This is missing the VMSTATE_END_OF_LIST() terminator.
->
-> > +};
-> > +
->
-> > --- /dev/null
-> > +++ b/tests/qtest/npcm7xx_rng-test.c
-> > @@ -0,0 +1,278 @@
-> > +/*
-> > + * QTest testcase for the Nuvoton NPCM7xx Random Number Generator
-> > + *
-> > + * Copyright 2020 Google LLC
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify it
-> > + * under the terms of the GNU General Public License as published by the
-> > + * Free Software Foundation; either version 2 of the License, or
-> > + * (at your option) any later version.
-> > + *
-> > + * This program is distributed in the hope that it will be useful, but WITHOUT
-> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> > + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-> > + * for more details.
-> > + */
-> > +
-> > +#include <math.h>
-> > +
-> > +#include "qemu/osdep.h"
->
-> osdep.h must always be the first #include line, before anything
-> else, including system includes.
->
-> > + * Verifies that the first data byte collected after enabling the RNG satisfies
-> > + * a monobit test.
->
-> Some of this "is this really a random number" testing seems a bit
-> overkill given that the RNG device is just plumbing through the
-> qemu_guest_getrandom() result, but since you've written the code
-> we may as well keep it :-)
+v5:
+    - Replace GArray-based predefined fuzzer configs with a static
+      struct array
+    - "General" -> "Generic"
+    - Fix bugs with wrong timeout denominator and skipping DMA memwrites
+      without QTEST_LOG
+v4:
+    - Replace yaml + c template-based oss-fuzz configs, with C code to
+      register a FuzzTarget for each config (as suggested by Paolo)
+    - Replicate the functionality of address_space_write_rom to ensure
+      matching behavior when QTEST_LOG is enabled
+    - Improve code documentation/comments
+    - Small formatting changes
+v3:
+	- Use flatviews to help select regions for fuzzing 
+	- Meson-related changes
+    - Add some documentation
+	- Improve minimalization script to trim write{bwlq} commands
+v2:
+	- Remove QOS dependency.
+	- Add a custom crossover function
+	- Fix broken minimization scripts
+	- Fixes to the IO region and DMA handling code
 
-You may be right, though there were a couple of reasons why I added it.
+This is a general virtual-device fuzzer, designed to fuzz devices over Port IO,
+MMIO, and DMA.
 
-One is that rngd was complaining about /dev/hwrng failing randomness
-tests, so I wanted to make sure my device wasn't doing anything to
-ruin the randomness. In the end, it turned out to be a kernel bug:
-https://lkml.org/lkml/2020/9/23/1021
+To get started with this:
+ 1. Build the fuzzers (see docs/devel/fuzzing.txt)
+    Note: Build with --enable-sanitizers, or create a "dictionary file":
+    echo kw1=\"FUZZ\" > dict
+    and pass it as an argument to libFuzzer with -dict=./dict
+    This magic value is a command separator that lets the fuzzer perform
+    multiple IO actions with a single input.
 
-Another reason is that the value from qemu_guest_getrandom() isn't
-consumed directly when reading the data register; it's latched when
-reading the status register and returned on the next read from the
-data register. So it's possible to imagine a bug causing the same
-value to be returned over and over, which should cause the randomness
-test to fail.
+ 2. Pick the qemu arguments you wish to fuzz:
+    export QEMU_FUZZ_ARGS="-M q35 -device virtio-balloon"
 
-> If you fix the #include order and the missing terminator then
+ 3. Tell the fuzzer which QOM objects or MemoryRegion names to fuzz. I find the
+ "info qom-tree", "info qtree" and "info mtree" commands useful for identifying
+ these. Supports globbing. Here I will try to simultaneously fuzz(for no good
+ reason) virtio-balloon and e1000e, which is included by default in the q35:
+    export QEMU_FUZZ_OBJECTS='virtio* e1000*'
+    You can also try to fuzz the whole machine:
+    export QEMU_FUZZ_OBJECTS='*'
 
-Will do, thanks!
+ 4. Run the fuzzer for 0 inputs. The fuzzer should output a list of
+ MemoryRegions/PCI Devices it will try to fuzz. Confirm that these match your
+ expectations.
+    ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-fuzz -runs=0
 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->
-> thanks
-> -- PMM
+ 5. Run the fuzzer:
+    ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-fuzz 
+
+
+Basically, at the core, this fuzzer is an interpreter that splits the input
+into a series of commands, such as mmio_write, pio_write, etc. We structure
+these commands to hit only MemoryRegions that are associated with the devices
+specified in QEMU_FUZZ_OBJECTS. Additionally, these patches add "hooks" to
+functions that are typically used by virtual-devices to read from RAM (DMA).
+These hooks attempt to populate these DMA regions with fuzzed data, just in
+time.
+
+Some of the issues I have found or reproduced with this fuzzer:
+https://bugs.launchpad.net/bugs/1525123
+https://bugs.launchpad.net/bugs/1681439
+https://bugs.launchpad.net/bugs/1777315
+https://bugs.launchpad.net/bugs/1878034
+https://bugs.launchpad.net/bugs/1878043
+https://bugs.launchpad.net/bugs/1878054
+https://bugs.launchpad.net/bugs/1878057
+https://bugs.launchpad.net/bugs/1878067
+https://bugs.launchpad.net/bugs/1878134
+https://bugs.launchpad.net/bugs/1878136
+https://bugs.launchpad.net/bugs/1878253
+https://bugs.launchpad.net/bugs/1878255
+https://bugs.launchpad.net/bugs/1878259
+https://bugs.launchpad.net/bugs/1878263
+https://bugs.launchpad.net/bugs/1878323
+https://bugs.launchpad.net/bugs/1878641
+https://bugs.launchpad.net/bugs/1878642
+https://bugs.launchpad.net/bugs/1878645
+https://bugs.launchpad.net/bugs/1878651
+https://bugs.launchpad.net/bugs/1879223
+https://bugs.launchpad.net/bugs/1879227
+https://bugs.launchpad.net/bugs/1879531
+https://bugs.launchpad.net/bugs/1880355
+https://bugs.launchpad.net/bugs/1880539
+https://bugs.launchpad.net/bugs/1884693
+https://bugs.launchpad.net/bugs/1886362
+https://bugs.launchpad.net/bugs/1887303
+https://bugs.launchpad.net/bugs/1887309
+https://bugs.launchpad.net/bugs/697510
+
+Alexander Bulekov (16):
+  memory: Add FlatView foreach function
+  fuzz: Add general virtual-device fuzzer
+  fuzz: Add PCI features to the general fuzzer
+  fuzz: Add DMA support to the generic-fuzzer
+  fuzz: Declare DMA Read callback function
+  fuzz: Add fuzzer callbacks to DMA-read functions
+  fuzz: Add support for custom crossover functions
+  fuzz: add a DISABLE_PCI op to general-fuzzer
+  fuzz: add a crossover function to generic-fuzzer
+  scripts/oss-fuzz: Add script to reorder a general-fuzzer trace
+  scripts/oss-fuzz: Add crash trace minimization script
+  fuzz: Add instructions for using general-fuzz
+  fuzz: add an "opaque" to the FuzzTarget struct
+  fuzz: add general-fuzz configs for oss-fuzz
+  fuzz: register predefined general-fuzz configs
+  scripts/oss-fuzz: remove the general-fuzz target
+
+ docs/devel/fuzzing.txt                        |  39 +
+ include/exec/memory.h                         |  21 +
+ include/exec/memory_ldst_cached.h.inc         |   3 +
+ memory_ldst.c.inc                             |   4 +
+ scripts/oss-fuzz/build.sh                     |   6 +
+ scripts/oss-fuzz/minimize_qtest_trace.py      | 157 +++
+ .../oss-fuzz/reorder_fuzzer_qtest_trace.py    | 103 ++
+ softmmu/memory.c                              |  23 +
+ softmmu/physmem.c                             |   2 +
+ tests/qtest/fuzz/fuzz.c                       |  13 +
+ tests/qtest/fuzz/fuzz.h                       |  28 +
+ tests/qtest/fuzz/generic_fuzz.c               | 948 ++++++++++++++++++
+ tests/qtest/fuzz/generic_fuzz_configs.h       | 121 +++
+ tests/qtest/fuzz/meson.build                  |   1 +
+ 14 files changed, 1469 insertions(+)
+ create mode 100755 scripts/oss-fuzz/minimize_qtest_trace.py
+ create mode 100755 scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
+ create mode 100644 tests/qtest/fuzz/generic_fuzz.c
+ create mode 100644 tests/qtest/fuzz/generic_fuzz_configs.h
+
+-- 
+2.28.0
+
 
