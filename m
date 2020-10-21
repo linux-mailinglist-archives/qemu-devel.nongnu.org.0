@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21908294973
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 10:41:50 +0200 (CEST)
-Received: from localhost ([::1]:54448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC780294975
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 10:43:48 +0200 (CEST)
+Received: from localhost ([::1]:33200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV9gr-0000EM-3W
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 04:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58270)
+	id 1kV9im-00035T-05
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 04:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <likejun6@huawei.com>)
- id 1kV8dp-0002ni-2n; Wed, 21 Oct 2020 03:34:37 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5197 helo=huawei.com)
+ id 1kV8do-0002nZ-PH; Wed, 21 Oct 2020 03:34:36 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5196 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <likejun6@huawei.com>)
- id 1kV8dm-0004LO-RU; Wed, 21 Oct 2020 03:34:36 -0400
+ id 1kV8dm-0004LN-Es; Wed, 21 Oct 2020 03:34:36 -0400
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 166D8F0BEA3EAEAD8D1B;
+ by Forcepoint Email with ESMTP id 1151A157D69E328213EB;
  Wed, 21 Oct 2020 15:34:24 +0800 (CST)
 Received: from DESKTOP-IB00AOP.china.huawei.com (10.174.184.163) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 21 Oct 2020 15:34:13 +0800
+ 14.3.487.0; Wed, 21 Oct 2020 15:34:14 +0800
 From: <likejun6@huawei.com>
 To: <qemu-block@nongnu.org>
-Subject: [PATCH 3/4] qemu-iotest: add 310 testcase
-Date: Wed, 21 Oct 2020 15:33:54 +0800
-Message-ID: <20201021073355.2499-4-likejun6@huawei.com>
+Subject: [PATCH 4/4] qemu-iotest: add 311 testcase
+Date: Wed, 21 Oct 2020 15:33:55 +0800
+Message-ID: <20201021073355.2499-5-likejun6@huawei.com>
 X-Mailer: git-send-email 2.22.0.windows.1
 In-Reply-To: <20201021073355.2499-1-likejun6@huawei.com>
 References: <20201021073355.2499-1-likejun6@huawei.com>
@@ -47,7 +47,7 @@ X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 21 Oct 2020 04:40:16 -0400
+X-Mailman-Approved-At: Wed, 21 Oct 2020 04:40:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,26 +66,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: likejun <likejun6@huawei.com>
 
-Test falloc image creation, size and rw
+Test backing file is raw
 
 Signed-off-by: likejun <likejun6@huawei.com>
 ---
- tests/qemu-iotests/310     | 104 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/310.out |  21 ++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 126 insertions(+)
- create mode 100755 tests/qemu-iotests/310
- create mode 100644 tests/qemu-iotests/310.out
+ tests/qemu-iotests/311     | 70 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/311.out | 30 ++++++++++++++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 101 insertions(+)
+ create mode 100755 tests/qemu-iotests/311
+ create mode 100644 tests/qemu-iotests/311.out
 
-diff --git a/tests/qemu-iotests/310 b/tests/qemu-iotests/310
+diff --git a/tests/qemu-iotests/311 b/tests/qemu-iotests/311
 new file mode 100755
-index 0000000000..af9f03e91f
+index 0000000000..6c2b9f987f
 --- /dev/null
-+++ b/tests/qemu-iotests/310
-@@ -0,0 +1,104 @@
++++ b/tests/qemu-iotests/311
+@@ -0,0 +1,70 @@
 +#!/bin/bash
 +#
-+# Test falloc image creation, size and rw
++# Test backing file is raw
 +#
 +# Copyright (C) 2020 Huawei, Inc
 +#
@@ -125,50 +125,16 @@ index 0000000000..af9f03e91f
 +_supported_proto file
 +_supported_os Linux
 +
-+_img_info_tmp()
-+{
-+    if [[ "$1" == "--format-specific" ]]; then
-+        local format_specific=1
-+        shift
-+    else
-+        local format_specific=0
-+    fi
-+
-+    discard=0
-+    regex_json_spec_start='^ *"format-specific": \{'
-+    $QEMU_IMG info "$@" "$TEST_IMG" 2>&1 | \
-+        sed -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-+            -e "s#$TEST_DIR#TEST_DIR#g" \
-+            -e "s#$IMGFMT#IMGFMT#g" \
-+            -e "/actual-size/ D" | \
-+        while IFS='' read line; do
-+            if [[ $format_specific == 1 ]]; then
-+                discard=0
-+            elif [[ $line == "Format specific information:" ]]; then
-+                discard=1
-+            elif [[ $line =~ $regex_json_spec_start ]]; then
-+                discard=2
-+                regex_json_spec_end="^${line%%[^ ]*}\\},? *$"
-+            fi
-+            if [[ $discard == 0 ]]; then
-+                echo "$line"
-+            elif [[ $discard == 1 && ! $line ]]; then
-+                echo
-+                discard=0
-+            elif [[ $discard == 2 && $line =~ $regex_json_spec_end ]]; then
-+                discard=0
-+            fi
-+        done
-+}
-+
-+IMGOPTS="preallocation=falloc"
-+
 +echo "=== Check qemu-img info output ==="
 +echo
 +size=64M
 +
-+_make_test_img $size
-+_img_info_tmp | _filter_img_info
++$QEMU_IMG create -f raw $TEST_IMG $size | _filter_img_create
++_img_info | _filter_img_info
++mv "$TEST_IMG" "$TEST_IMG.base"
++
++_make_test_img -b $TEST_IMG.base -F raw
++_img_info --backing-chain | _filter_img_info
 +
 +echo
 +echo "== reading whole image =="
@@ -187,20 +153,29 @@ index 0000000000..af9f03e91f
 +echo "*** done"
 +rm -f $seq.full
 +status=0
-diff --git a/tests/qemu-iotests/310.out b/tests/qemu-iotests/310.out
+diff --git a/tests/qemu-iotests/311.out b/tests/qemu-iotests/311.out
 new file mode 100644
-index 0000000000..dcca649360
+index 0000000000..03b8374c04
 --- /dev/null
-+++ b/tests/qemu-iotests/310.out
-@@ -0,0 +1,21 @@
-+QA output created by 310
++++ b/tests/qemu-iotests/311.out
+@@ -0,0 +1,30 @@
++QA output created by 311
 +=== Check qemu-img info output ===
 +
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 preallocation=falloc
++Formatting 'TEST_DIR/t.IMGFMT', fmt=raw size=67108864
++image: TEST_DIR/t.IMGFMT
++file format: raw
++virtual size: 64 MiB (67108864 bytes)
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=raw
 +image: TEST_DIR/t.IMGFMT
 +file format: IMGFMT
 +virtual size: 64 MiB (67108864 bytes)
-+disk size: 64.3 MiB
++backing file: TEST_DIR/t.IMGFMT.base
++backing file format: raw
++
++image: TEST_DIR/t.IMGFMT.base
++file format: raw
++virtual size: 64 MiB (67108864 bytes)
 +
 +== reading whole image ==
 +read 67108864/67108864 bytes at offset 0
@@ -215,14 +190,14 @@ index 0000000000..dcca649360
 +64 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 +*** done
 diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 632a05b25e..e8b6480890 100644
+index e8b6480890..ec57e16f07 100644
 --- a/tests/qemu-iotests/group
 +++ b/tests/qemu-iotests/group
-@@ -317,3 +317,4 @@
- 307 rw quick export
+@@ -318,3 +318,4 @@
  308 rw auto quick
  309 rw auto quick
-+310 rw auto quick
+ 310 rw auto quick
++311 rw auto quick
 -- 
 2.19.1
 
