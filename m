@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0009A294F7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:06:22 +0200 (CEST)
-Received: from localhost ([::1]:56034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0562F294F97
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:10:23 +0200 (CEST)
+Received: from localhost ([::1]:41114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVFh0-0003Jw-1O
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56268)
+	id 1kVFkr-0000Zf-Pw
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:10:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVFRW-0007YR-1v
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:50:22 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:37945)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVFRU-0006z6-6a
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:50:21 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 09LEnCaO006204
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 21 Oct 2020 10:49:15 -0400
-Date: Wed, 21 Oct 2020 10:49:12 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v5 02/16] fuzz: Add general virtual-device fuzzer
-Message-ID: <20201021144912.x6nb4654t4a3gmpo@mozz.bu.edu>
-References: <20201021010752.973230-1-alxndr@bu.edu>
- <20201021010752.973230-3-alxndr@bu.edu>
- <675e45e4-3de1-bf0a-b7d3-117710b7fba2@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kVFTG-00019A-7S
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:52:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41138)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kVFTD-0007Di-Qm
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:52:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603291925;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KJqgfzgMH2OdIBrTsR3fX2xulgE2o1i8/h/EYcWdKsA=;
+ b=AGrEmnKZSImrEVOMEQ9tx8xEL9dBilRpRfxKOm9Dhfhh3JLEPkjMZgvuhHx2lfO5PToJVW
+ ZuOEoXDBFu6SX8h4JXU6a3wZG6CWjMeB2syKBvbKBUJFUN1nWtBSUdunPbEGITpvQUOPJr
+ u2wOFOlVQxQV5P25qcVw7Bxda/ANrbs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-3K9h8S7wN2iNRu6n3nWF1A-1; Wed, 21 Oct 2020 10:52:02 -0400
+X-MC-Unique: 3K9h8S7wN2iNRu6n3nWF1A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F40ED10866A3;
+ Wed, 21 Oct 2020 14:52:00 +0000 (UTC)
+Received: from localhost (ovpn-113-74.ams2.redhat.com [10.36.113.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73EA16EF74;
+ Wed, 21 Oct 2020 14:52:00 +0000 (UTC)
+Date: Wed, 21 Oct 2020 15:51:59 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Volker =?iso-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH] qmp: fix aio_poll() assertion failure on Windows
+Message-ID: <20201021145159.GA615462@stefanha-x1.localdomain>
+References: <20201021064033.8600-1-vr_qemu@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20201021064033.8600-1-vr_qemu@t-online.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
 Content-Disposition: inline
-In-Reply-To: <675e45e4-3de1-bf0a-b7d3-117710b7fba2@redhat.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 10:03:58
-X-ACL-Warn: Detected OS   = Linux 2.6.x
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 22:12:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.454, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,46 +80,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, f4bug@amsat.org, darren.kenny@oracle.com,
- bsd@redhat.com, stefanha@redhat.com, dimastep@yandex-team.ru
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201021 1444, Paolo Bonzini wrote:
-> On 21/10/20 03:07, Alexander Bulekov wrote:
-> > +static GString *generic_fuzz_cmdline(FuzzTarget *t)
->                    ^^^^^^^
-> 
-> > +{
-> > +    GString *cmd_line = g_string_new(TARGET_NAME);
-> > +    if (!getenv("QEMU_FUZZ_ARGS")) {
-> > +        usage();
-> > +    }
-> > +    g_string_append_printf(cmd_line, " -display none \
-> > +                                      -machine accel=qtest, \
-> > +                                      -m 512M %s ", getenv("QEMU_FUZZ_ARGS"));
-> > +    return cmd_line;
-> > +}
-> > +
-> > +static void register_generic_fuzz_targets(void)
-> > +{
-> > +    fuzz_add_target(&(FuzzTarget){
-> > +            .name = "generic-fuzz",
-> > +            .description = "Fuzz based on any qemu command-line args. ",
-> > +            .get_init_cmdline = general_fuzz_cmdline,
->                                    ^^^^^^^
-> 
-> Does this actually compile?
-> 
-> Paolo
+--sdtB3X0nJg68CQEu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Oops I fix-uped the general->generic change into the wrong commit. I'll
-build-test after each commit.
--Alex
+On Wed, Oct 21, 2020 at 08:40:33AM +0200, Volker R=FCmelin wrote:
+> Commit 9ce44e2ce2 "qmp: Move dispatcher to a coroutine" modified
+> aio_poll() in util/aio-posix.c to avoid an assertion failure. This
+> change is missing in util/aio-win32.c.
+>=20
+> Apply the changes to util/aio-posix.c to util/aio-win32.c too.
+> This fixes an assertion failure on Windows whenever QEMU exits.
+>=20
+> $ ./qemu-system-x86_64.exe -machine pc,accel=3Dtcg -display gtk
+> **
+> ERROR:../qemu/util/aio-win32.c:337:aio_poll: assertion failed:
+> (in_aio_context_home_thread(ctx))
+> Bail out! ERROR:../qemu/util/aio-win32.c:337:aio_poll: assertion
+> failed: (in_aio_context_home_thread(ctx))
+>=20
+> Fixes: 9ce44e2ce2 ("qmp: Move dispatcher to a coroutine")
+> Signed-off-by: Volker R=FCmelin <vr_qemu@t-online.de>
+> ---
+>  util/aio-win32.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 
-> 
-> > +            .pre_fuzz = general_pre_fuzz,
-> > +            .fuzz = general_fuzz});
-> 
+Thanks, applied to my block-next tree:
+https://gitlab.com/stefanha/qemu/commits/block-next
+
+Stefan
+
+--sdtB3X0nJg68CQEu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+QSw8ACgkQnKSrs4Gr
+c8heiggAyOCuL8d4kPpRFm8BTehbnz70W/HX3qDgVhrqKkzVjt/u0Na13wRJZZjy
+KrZbx6GNrhD6y/zqc3UeSWdnIx2DASElnRzwNXVFuak2CmTOAVsjE2QL9MDpk3di
+14nns+IW2pEvShC78bJzGhwDzKOImkGZVvgjMbZQAR9h2vQMaN9iZQCBo8aas/tE
+Tzfq5u4b6uz6Y4B1dZucy5QwtNwIqOf8xb/dnASHyrVANkx9xL+BGih4Osmc7W59
+oVL5qeZWoCVi34QP6xDh/3V+6XBzomonuk/zLUuK6K3uBjgBasc2p+p2jaEssF3c
+E7hMvqbLuew4NkLUuWRFNhzQ+MyNpw==
+=zyx9
+-----END PGP SIGNATURE-----
+
+--sdtB3X0nJg68CQEu--
+
 
