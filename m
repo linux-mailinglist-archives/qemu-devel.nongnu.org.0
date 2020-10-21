@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03F52A0867
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:49:59 +0100 (CET)
-Received: from localhost ([::1]:47174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D91332A0894
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:57:49 +0100 (CET)
+Received: from localhost ([::1]:43914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVj4-00065a-Ts
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:49:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53962)
+	id 1kYVqe-0008Ay-TK
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <0364a281a649eb6eb2ef1e5c92c700fb1d1ad1dc@lizzy.crudebyte.com>)
- id 1kYVf2-0001gA-LY
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:45:48 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:55991)
+ (envelope-from <0047a767512b1a6fdd148f419a91bf0067bfd532@lizzy.crudebyte.com>)
+ id 1kYVf7-0001jX-Un
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:45:54 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:33263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <0364a281a649eb6eb2ef1e5c92c700fb1d1ad1dc@lizzy.crudebyte.com>)
- id 1kYVez-00038v-M1
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:45:47 -0400
+ (envelope-from <0047a767512b1a6fdd148f419a91bf0067bfd532@lizzy.crudebyte.com>)
+ id 1kYVf6-00039i-HG
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:45:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=9wx9tN7qlWoS6hALtpkXOw4Corur4LktIe88EM4Me8A=; b=lv64F
- wYmJps2siisHE5ramtXEUUTtZT9bP3xqR4uzSSEGJ8bTQ1VB0G11h/K7ns5EsYqxx4bSJvFfek/8f
- YVXwtD0svoPBQ8Xetp2wQpVmKoz7k+9LThS5AKyzmg49iKU8MIuMB+U6zS50rExQ06VTj9c0K/m5D
- xVfqKCJ+arQoOSCWAF2wQ9yYPviCbT2K4zvY/eXZa/WJzp5CwjrQJRQk4wmnqgRp2M0FA8OOoiacL
- O5ScDOYqmKCLKJsyh9OhHE2Ep4hxALN7kutOa5FGbE0bD4jvXpO5Nlxc03lv6WAuLLaNd0H18NHD/
- qiHguFXUmG3eRiFZ0MemmZT5ib/Yw==;
-Message-Id: <0364a281a649eb6eb2ef1e5c92c700fb1d1ad1dc.1604067568.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=9ifmdLPDMaqG5Wb2AjtogbTpfUi00Bi4jhLYWV8cvng=; b=WlJOb
+ U14vI52LO/Ifu25te50v+E/MTuM0vathzcWP9cjvLiX6fWcJmYmgyiY6sZgxnIQsZffK3Ur2RWM7m
+ InLrrFUzR8zHPAH6+EJqNdjHM8Zf71m+8vE+GU4Hba/l5pLWmRwkeJEEOoDGu/AH+CMGCWsTkCEp1
+ sKoOCwV5j+AvtvPzXMkfMlLSnUkpKTStKHnyY0z6EWmKulW+Kgq9n5uxcOTPggOA2ocgL4j36/NqH
+ 6Iuht+1desnVL4b9cImQbPuIDLIojW+CDCyEABTJ6vWVVBuG46BfGVHC5crTR36V586oCz8a0q4N0
+ /7diRNDBnZlOY1r8PfGByRsFbUoMQ==;
+Message-Id: <0047a767512b1a6fdd148f419a91bf0067bfd532.1604067568.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1604067568.git.qemu_oss@crudebyte.com>
 References: <cover.1604067568.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 20 Oct 2020 18:09:41 +0200
-Subject: [PULL v2 08/16] tests/9pfs: Turn fs_mkdir() into a helper
+Date: Wed, 21 Oct 2020 14:06:53 +0200
+Subject: [PULL v2 09/16] tests/9pfs: simplify do_mkdir()
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=0364a281a649eb6eb2ef1e5c92c700fb1d1ad1dc@lizzy.crudebyte.com;
+ envelope-from=0047a767512b1a6fdd148f419a91bf0067bfd532@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 07:59:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -65,45 +65,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+Split out walking a directory path to a separate new utility function
+do_walk() and use that function in do_mkdir().
 
-fs_mkdir() isn't a top level test function and thus shouldn't take
-the "void *obj, void *data, QGuestAllocator *t_alloc" arguments.
-Turn it into a helper to be used by test functions.
+The code difference saved this way is not much, but we'll use that new
+do_walk() function in the upcoming patches, so it will avoid quite
+some code duplication after all.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160321018148.266767.15959608711038504029.stgit@bahia.lan>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <4d7275b2363f122438a443ce079cbb355285e9d6.1603285620.git.qemu_oss@crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ tests/qtest/virtio-9p-test.c | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
 diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 3c187cdc08..2ea555fa04 100644
+index 2ea555fa04..21807037df 100644
 --- a/tests/qtest/virtio-9p-test.c
 +++ b/tests/qtest/virtio-9p-test.c
-@@ -972,11 +972,8 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(wnames[0]);
+@@ -583,6 +583,23 @@ static void do_version(QVirtio9P *v9p)
+     g_free(server_version);
  }
  
--static void fs_mkdir(void *obj, void *data, QGuestAllocator *t_alloc,
--                     const char *path, const char *cname)
-+static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
++/* utility function: walk to requested dir and return fid for that dir */
++static uint32_t do_walk(QVirtio9P *v9p, const char *path)
++{
++    char **wnames;
++    P9Req *req;
++    const uint32_t fid = genfid();
++
++    int nwnames = split(path, "/", &wnames);
++
++    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rwalk(req, NULL, NULL);
++
++    split_free(&wnames);
++    return fid;
++}
++
+ static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
  {
--    QVirtio9P *v9p = obj;
--    alloc = t_alloc;
-     char **wnames;
+     alloc = t_alloc;
+@@ -974,23 +991,17 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+ 
+ static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
+ {
+-    char **wnames;
      char *const name = g_strdup(cname);
++    uint32_t fid;
      P9Req *req;
-@@ -1031,7 +1028,7 @@ static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_assert(root_path != NULL);
+-    const uint32_t fid = genfid();
  
-     do_attach(v9p);
--    fs_mkdir(v9p, data, t_alloc, "/", "01");
-+    do_mkdir(v9p, "/", "01");
+-    int nwnames = split(path, "/", &wnames);
+-
+-    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rwalk(req, NULL, NULL);
++    fid = do_walk(v9p, path);
  
-     /* check if created directory really exists now ... */
-     g_assert(stat(new_dir, &st) == 0);
+     req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rmkdir(req, NULL);
+ 
+     g_free(name);
+-    split_free(&wnames);
+ }
+ 
+ static void fs_readdir_split_128(void *obj, void *data,
 -- 
 2.20.1
 
