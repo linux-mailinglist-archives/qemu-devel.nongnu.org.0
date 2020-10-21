@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAECB295115
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 18:49:23 +0200 (CEST)
-Received: from localhost ([::1]:58962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAF82950FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 18:40:49 +0200 (CEST)
+Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVHIg-0001iq-S6
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 12:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60648)
+	id 1kVHAO-0000ih-3l
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 12:40:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVH1p-0006TZ-Q4
+ id 1kVH1p-0006TL-JS
  for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:31:57 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35883)
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVH1j-0005Zg-Kj
+ id 1kVH1f-0005Za-FG
  for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:31:56 -0400
-Received: by mail-wr1-x432.google.com with SMTP id x7so3866117wrl.3
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 09:31:46 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id a72so2810738wme.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 09:31:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lv4v4zlzR8QidECUdhB6cFe3aFKAbs5ejTx2hQvhsq4=;
- b=qs2+rZTWpAmK5XzFxv4CkPF3kktEOrMHTxgI3ERon13JT7/uf8Go/01qqwoWtIfBh5
- O8KIX2mM3tBvcSgHteyk2NKhMTV1k6j7eWhmV9ircdXcnBylPbz3cWoeRMHgqbnqApAt
- xs4ZIKqbaJv92CMWbOevXRucCTLhps7i1jYtZJaPBizdJ5txRHJKHbZUsxMDVVBYU2od
- PtgL2FN+osqAFURP0Q19cWkeDJ6xgHW6ffztPcjdeXHKDI4av0JtaUknWxlfYZOpuJAl
- Chl9bXJ904uVSEhxYi+KgHh/DCqmcZZy9cgJwRMw5s1rPsok0uZHSkwP31pLAvBCPND7
- 2aHw==
+ bh=LhygKOKV71hOHLVNgr5mPedwpcPQ3omR/3pUMR7xNGA=;
+ b=X/0pcr7ziNndg4fZdf2oV+GKR+NTK0JpV0HqhbZ49vqija666WSl6uIDWtPNbF9zF5
+ 5LTrz1k7QwZ6ob89dyMd2ksXSCaixADH9uaUtdIjGuVl6pYjxXlAQX/orf3RAFqDTway
+ rv7CVIYyGSAFLqbppUkZaaCuve1TKykSwUNrdHy+zTVy5+T6naLyLp9VoWoyPkDLGvcY
+ EY750KFYqTSusZ8d7vA+txSZbPAAmumvCXRBZ+3CssW3YJSLdCPL6X7k84LfIJiuUhoJ
+ ZfFOuoZ95f76PilvnwYFp9WSFd6ezcmugYlI7ATswymDGDN+3zIZR48QHtGc6K4XPeXJ
+ 1ajw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lv4v4zlzR8QidECUdhB6cFe3aFKAbs5ejTx2hQvhsq4=;
- b=p59iN26KQK2uqce9uKM5mDDPJJIoR0iWqnwG7iWMUNWz31Y/4orcEO9PBgdbTtc6ZY
- 2cbkz+a39xOkpCQ8Bf3qkrhAYI2pa1AqzaN3fPYBfgkFK8HzI1yGMMs8hKsyOymQnTS8
- CBiprcDooRGiPEWin3uAIkO4hEGqQ6hTuzYFY1dXM9irPoVrb0mP4g6AmrthKfQgAjA1
- peQQMCEDuE0R8/5XnzE2WgbP+84nNlnD+qsJvGBYi0pXk8/TSNl+0tuMAiU/gjxsO71o
- +5QktQM/J5PlqFJKQIfOfi29hfHYntdvycB4gk5qZnYJdh1/MkXknKot8xrx+7As+ose
- VQcw==
-X-Gm-Message-State: AOAM5323wK6FbgRqpckMx/w6xEQnkEoRGUsAtJByWHucBsC5O4nJHHmn
- ommjXQjcgXCyq5dmvlWHetyr3A==
-X-Google-Smtp-Source: ABdhPJzOZ3vY8J/bK1jM2nPuiuOa9z4CD1g33pk46WHXaYZ8qrbWPzmbWw1Yh38KalgJwIlED7u9fQ==
-X-Received: by 2002:a5d:5086:: with SMTP id a6mr5674540wrt.283.1603297905883; 
- Wed, 21 Oct 2020 09:31:45 -0700 (PDT)
+ bh=LhygKOKV71hOHLVNgr5mPedwpcPQ3omR/3pUMR7xNGA=;
+ b=Hy06E+/6dvem5IVewr157LEDXNPVwFgEJZNkNGKgjJCzGbDzdu4zEmB7nhhZ9HrXZw
+ zkSbAqEXOa7SBfzpH5OoUAhR00oWfzDOOnSQeqPRtE0N8Qg7lnFiVioNmqtziL/6icjG
+ ixUBxPLoW5h8nMbFkYj64sw3XSJXB/OivP0pDtEZkDPuRsRRuLfT0xNhCyU29lYKAqbb
+ UrdTyV/vT/gsN2qLL5xMhm1/BVN3swnMWysaLEUUnLrkfoPlC6alWSpUoUXCxh0wFqee
+ dxGMLghG/mlTRgnVreEeADMfF2PWAChg7BzvNnn2M+MtFwcLLfrqBhVE/bglsgEdSE0f
+ nAgQ==
+X-Gm-Message-State: AOAM530UqSCDM0cUXGNY69TJf2oSalgFLSltl8G5XzFtGhuStSqN1bg/
+ GPGrDN0sHpI3r4ZR00hKIp5fujeyO2bNJw==
+X-Google-Smtp-Source: ABdhPJwpyEKFN885QoEpngNFuQNnaIkJiiR1kGZrfo2oldq4IRm8SMDGNbTdXI6VqKso5C5PEHh4lQ==
+X-Received: by 2002:a1c:8057:: with SMTP id b84mr4449411wmd.116.1603297903878; 
+ Wed, 21 Oct 2020 09:31:43 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p9sm4132354wmm.4.2020.10.21.09.31.37
+ by smtp.gmail.com with ESMTPSA id h7sm4633865wrt.45.2020.10.21.09.31.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 21 Oct 2020 09:31:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1F8561FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 34E7A1FF90;
  Wed, 21 Oct 2020 17:31:37 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/6] tests/docker/dockerfiles/centos: Use SDL2 instead of
- SDL1
-Date: Wed, 21 Oct 2020 17:31:33 +0100
-Message-Id: <20201021163136.27324-4-alex.bennee@linaro.org>
+Subject: [PATCH v1 4/6] gitlab: skip checkpatch.pl checks if no commit delta
+ on branch
+Date: Wed, 21 Oct 2020 17:31:34 +0100
+Message-Id: <20201021163136.27324-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201021163136.27324-1-alex.bennee@linaro.org>
 References: <20201021163136.27324-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,53 +89,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-We do not support SDL1 in QEMU anymore. Use SDL2 instead.
+If the current branch is synced to the current upstream git master,
+there are no commits that need checking. This causes checkpatch.pl
+to print an error that it found no commits. We need to avoid calling
+checkpatch.pl in this case.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20201021072308.9224-1-thuth@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20201019143537.283094-2-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/centos7.docker | 2 +-
- tests/docker/dockerfiles/centos8.docker | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .gitlab-ci.d/check-patch.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
-index 8b273725ee..6f11af1989 100644
---- a/tests/docker/dockerfiles/centos7.docker
-+++ b/tests/docker/dockerfiles/centos7.docker
-@@ -31,7 +31,7 @@ ENV PACKAGES \
-     perl-Test-Harness \
-     pixman-devel \
-     python3 \
--    SDL-devel \
-+    SDL2-devel \
-     spice-glib-devel \
-     spice-server-devel \
-     tar \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 585dfad9be..f86931f955 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -2,7 +2,7 @@ FROM centos:8.1.1911
+diff --git a/.gitlab-ci.d/check-patch.py b/.gitlab-ci.d/check-patch.py
+index 5a14a25b13..0ff30ee077 100755
+--- a/.gitlab-ci.d/check-patch.py
++++ b/.gitlab-ci.d/check-patch.py
+@@ -33,8 +33,16 @@ ancestor = subprocess.check_output(["git", "merge-base",
  
- RUN dnf -y update
- ENV PACKAGES \
--    SDL-devel \
-+    SDL2-devel \
-     bzip2 \
-     bzip2-devel \
-     dbus-daemon \
+ ancestor = ancestor.strip()
+ 
++log = subprocess.check_output(["git", "log", "--format=%H %s",
++                               ancestor + "..."],
++                              universal_newlines=True)
++
+ subprocess.check_call(["git", "remote", "rm", "check-patch"])
+ 
++if log == "":
++    print("\nNo commits since %s, skipping checks\n" % ancestor)
++    sys.exit(0)
++
+ errors = False
+ 
+ print("\nChecking all commits since %s...\n" % ancestor)
 -- 
 2.20.1
 
