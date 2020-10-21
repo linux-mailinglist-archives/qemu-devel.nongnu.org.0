@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38CC8294F81
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:07:48 +0200 (CEST)
-Received: from localhost ([::1]:59798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0239294F8F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:09:49 +0200 (CEST)
+Received: from localhost ([::1]:39662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVFiN-0004wd-9U
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:07:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
+	id 1kVFkK-0008MX-MQ
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kVFaF-0005eK-Jx; Wed, 21 Oct 2020 10:59:23 -0400
+ id 1kVFaI-0005n4-KP; Wed, 21 Oct 2020 10:59:26 -0400
 Received: from mail-eopbgr70109.outbound.protection.outlook.com
  ([40.107.7.109]:36743 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kVFaD-00085a-S6; Wed, 21 Oct 2020 10:59:23 -0400
+ id 1kVFaG-00085a-AJ; Wed, 21 Oct 2020 10:59:26 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qtc/Hhg3uG/nbWJDtesaN/Hea54DbU+0J4+5E4AfPyhQ11mx1CuGhuWQRbq/YBQNwtY4SFzbMHZJjG4wk189TfC2jWNWb+HRtylmxfOF3tLz9ooa0cH/G+ZVpgFbSSzHVsVA/jBWKlSD7INuyYM/kWawVgC/PE/KEfQcv3hlh1OXDJQKRXEy2E7j1ZNXVJtq3bN2D+9fk5ECCxKIxIAWDv7f/Hg+GTQRDVMXiwxxM5WH9R9O1G2kpTAtcE5WKARgjybMpLaeqjTaWJjNfTGWl0I6CWmXZckGTx9/LUmymaaA7dHEi3MUsRMRAbgp5T7NAtdgBU/bsP85Z8NBlO//xQ==
+ b=TbDyhYt4ivaH1OpFNXMUEI44ep956FMgBj2EvacG9nbvSnAdPjRQRZ0YbwRYMwU7TqWrLAkHF5l1YuTPrpuLTZq/mCzR5DtYaWNX5Ez9zNj2oRu0m15pAI3jL/ecVYGEpJCI2ql32mtocCWhtRcN9VmMGLjUpZB+51lwlZKNVhf27AzzOemrKQhjztv1MLIn+t/cM9FpnpILc71GoRNzSqWgWb9l4GTfFuweoxgdu9lXi5NnI3QsosJjRD1Z/YNxkcM6JU/qgk1glD2E/DJMfTq1pAQwEkmz5WzxfZsgCOEAm0ZImNcwmhbuXVRARKslqN/tc1maCSupKNgoHv8Z2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zf/LmbYuMhBReqWOOKVX8Uhmh/n39p9Hx7Rhe29Odqw=;
- b=YhtUzq1kUDzQJAS4PidcjYMYCF0mrE9pOWco7sDlafejw9F1ODjxVDl5rEIa0M9PVeT6oJqDMh7xpC9pwuWkTu0S0dAQwDFQcr7QSQqRCthElLrTJWQdmMDtRXbhsEvy2w9YFLyn5FC5WK9FJZWBV+TSeCtIfUg8bRibSOriMdVINTmUFnfer8pnkfOyEeQ6dMVBDp6O1PlkA2/zhWiMwbqleBwIRLrvTzRniT5JPcca3zu+fIq0ZhQT5IA/1hjb1zv8bQvX+iG/5ZGYOfFGwZW2gmboQCX9AQ4hqY3gZ9OxgCNESUWQOo/4Vb9vKFhBPNE+dGVVhm3TgTgXAOvcyQ==
+ bh=687hmuyWvjwZgQ+nk9PUlLDrOovkaiK6JIJv01VVUMA=;
+ b=NEAd/hUt8rNeucTs924x3KMy5sE33ryL29yWE8k4gteSm0rFicQX6XS9G/CnXUp0k3kvhTlqh0fd+tAH6RPUujAssp81WdxmXz5R0jsVcqVh8t/hfr/aY1+uMKLVyxjDaBUz38IpxLJGeBv12slndvVhsYChYJo/xCvoqnXlRlDA2i0V27py00RfuL3fptzc6hFMcn19iLkxFCX15+o8ZVOE0UBqirVFzbvYYl2CuUeR4jvc/tRrkUZ+F1ZxybLsEEczKzPDITx7p0HH7HEA9izau6JWURNwyl8jW7+lJLpPEaqI8QkGwzYunr3Peu6kqCk8Va0duqPH9DdIO5gvEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zf/LmbYuMhBReqWOOKVX8Uhmh/n39p9Hx7Rhe29Odqw=;
- b=LjBk6EFNtGAIqt6Tb/OtdJmunVtITMyCBWFSmsvxEGPyJsWwY003M8AjJngW9Z9MV9HosbMP1L4tMgCfRYUXnJuHc+1MJAzDMzGzj4K03OO8kzIPkleQ9KFoP+wdfSE47TJxxihd78iX1ZiBYHO4WD8UPQf0nmpSOIYKTlxT9oY=
+ bh=687hmuyWvjwZgQ+nk9PUlLDrOovkaiK6JIJv01VVUMA=;
+ b=qdS48w4tjrsJi/5iiaIgX4tRv60kfBy3q5rkKQVuVSHpKzQhMqpZFnirf5O7eJYADoKg429YmwaeNKN3uGRUvjsxAm7BCYmlp8s2MJGueidIz+wctVviY6f2Vy+2zGR9atpyyajGC6JHpd3NlL0dXZZumzoeZmdPWOCp6e07xXE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4472.eurprd08.prod.outlook.com (2603:10a6:20b:bf::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Wed, 21 Oct
- 2020 14:59:16 +0000
+ 2020 14:59:17 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.018; Wed, 21 Oct 2020
- 14:59:16 +0000
+ 14:59:17 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, eblake@redhat.com,
  armbru@redhat.com, fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com,
  kwolf@redhat.com, den@virtuozzo.com
-Subject: [PATCH v7 04/21] block/io: bdrv_wait_serialising_requests_locked:
- drop extra bs arg
-Date: Wed, 21 Oct 2020 17:58:42 +0300
-Message-Id: <20201021145859.11201-5-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 05/21] block: bdrv_mark_request_serialising: split
+ non-waiting function
+Date: Wed, 21 Oct 2020 17:58:43 +0300
+Message-Id: <20201021145859.11201-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20201021145859.11201-1-vsementsov@virtuozzo.com>
 References: <20201021145859.11201-1-vsementsov@virtuozzo.com>
@@ -67,30 +67,30 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.82) by
  AM0PR03CA0091.eurprd03.prod.outlook.com (2603:10a6:208:69::32) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Wed, 21 Oct 2020 14:59:15 +0000
+ 15.20.3499.18 via Frontend Transport; Wed, 21 Oct 2020 14:59:16 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3aa26421-6589-450a-0a7a-08d875d1e17b
+X-MS-Office365-Filtering-Correlation-Id: 7067125f-4d9f-462d-2586-08d875d1e1f2
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4472:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4472689ECC48A1B97D36A50FC11C0@AM6PR08MB4472.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB447207E600FBCFFD6DD00039C11C0@AM6PR08MB4472.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: k+nHUfyEjdY88aB6cp6fRXBlc8pMzzGflyguwfczgDJUy74odQ72mqhL+5iXW+EXR+NZNaojrwup6vNYqK96pmTwxelX/mXuiT8UKkkDuiUQGfPY7/j7J95uiqXuvoYyvla8L5XoDls51AHB/s23bOKRx96T2rh0cMs1rk8YIRqs4i+S41k0OnZtVtE2TL4m/edhsGH8/Mlm15D0Rl2D60Jf6v1wWCKBjk50LLIZKNeXa7uZy1J05IsYZdwr7HmTa5HR3yBrpzJu9aeSVz1dAvpiIypJ0Q0di6w50zg/6l6IBq13q+qsPFdejrfiQsM2N1euqSxVlckg8lNdrbmrRA==
+X-Microsoft-Antispam-Message-Info: be/7dvBSVnYT3pshXU8XzSXpVhwrQC90k33tLyWpL0gfvpMJaH1lZs/4aAjT6yPo5DTCii+SI9OwPEx8eMWY67+HTNyu5fWUb7647JZQsiXx3/vbdpGplip1911Y/sIeofu1tpFa4CKk08lXV/RpqRt4KS0GfDeaNFySDniQPdD+LAJ4W9hSih9N0SnmCvqPYnSaQQM+DzIyMkieG1+p6u7Y4G2bEsC8XqFbtK4QgaLi+GIKeFOe8CYpYS+30xVho/dSEEQEMGTV51W/h64t91AFdxXkw4ZDMLM/k4HuBHNFGfewUUYMzj21I63RVK4cgS29auAsk3U+iIpvdpGZ0A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(366004)(136003)(346002)(39840400004)(66556008)(16526019)(66476007)(83380400001)(6512007)(26005)(45080400002)(478600001)(66946007)(186003)(6506007)(6916009)(86362001)(1076003)(6486002)(8936002)(2906002)(5660300002)(52116002)(8676002)(2616005)(6666004)(316002)(956004)(107886003)(4326008)(36756003);
+ SFS:(4636009)(396003)(376002)(366004)(136003)(346002)(39840400004)(66556008)(16526019)(66476007)(83380400001)(6512007)(26005)(478600001)(66946007)(186003)(6506007)(6916009)(86362001)(1076003)(6486002)(8936002)(2906002)(5660300002)(52116002)(8676002)(2616005)(6666004)(316002)(956004)(107886003)(4326008)(36756003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 4JWjo33z4pJ7uPDVX6lSs46wAFZGaRkcowfq7HukvIJS52YT/iJC23QS9RImDnZgpA6LJ9wPB38q+tP8LrQsJHZyZcUqmCmOIkih9N9iPQaZDJ0UAmzyqgHkX369CN6KnEbiJ/7Ziv8WuX86NvPFI8EGvU9YMAZFSxiCU7sHzdutmC+lKwTJcT0JjcVCHIPRf8l3PWfzdje2/YgPNI+7pb1GIg4p57QiPjDi/s1sCuFW5+wVSk3a95owxY64X22saPivYmXms3zz61FaYQIXfZ8RDYRZBIaW9TGJlh0pACUc+FnbZ2Ihs1cj0eULsK4dNH1kvT/lBlOjQH8N7RjqGXGQhe+MDl3aLrdULT4N31AjffXDEXPLkuWmiRiDH1UVgNK6WspHGT7Jiu9E61gJvYaMbbGj/nHwe5kcjf1J6CBJ4hf432H7WL0COzLfbUlgC7o4U5E42AHcovB9c0IPw33kiqm/k16wS/63oG3SjnplxAPnc/WVKBrEbK678pmDB8JZjsvrjT1IGaFAY3RJgF/YiMMRePhrTtcbtVwnmD/QH4o/wKD1g+l+o8n3DFEVFic3mWzkDlpqX0N7ZpTyWdyqlqAByu2DhU1l0HyQCKlDlCYPsp5kv6+cph37tO+FOphGf/XMw6rS90Be6f4SWg==
+X-MS-Exchange-AntiSpam-MessageData: jF+1M2XdLJjUGkVGPaQK+3IzLw5+aH/U74sSjAs6uaSlxpcm4iopgJ5M1aWOLHtQlTRbg2ecJxZfDVZrfolJmfu7BockoBCTTHipcneT100b772I/TJlawcAyswQ9F4o5sEi/t3ycCMYbjWmBk0VVJGFs9nNE8S2NzeyjDGyYgIIwjKxfYfYBxlv52vUKTgjRO4ttL0T9xbgDjwt5PGbpsx1cQr6KrwhUthZmNUXc2ZeLvG8/q2uN0cbOP/uKwjSd3AcZAa+tvNWC6Ez5iGFNFNKVFVia9G86UmPGKk+Z0n/Rm9wYdcgRddi8/vI7mfQpWO/+aW8g4KsReKMHmFbX8eHdzVl8jaH56DgU/xGu8qX3J9y4/mYq+7p9OCFnZq5NO4m12VAFJGUiIBSucy6FQbeCGVkSujSM/YJ4rMtJBthIHG2ndKEOiELVquMvDMkUSrshXaARISFy6U94g5C6whrkRh06p1WzSKTWFezrpTxt8UrZYl+9hKroBv88qoqikaJJIvbFczcsByqVGeJjqMqDYoBZdnJ91oEBD98Z4siqhwC7EMav9kysgocuIur7LWBaXZzgL/nPhZtahmdQglT9z0DN30R78WPGdTju6OcDfBzcS1G46k5NqljL6bX/MATNTSj2jPqt+VoyYdvOg==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3aa26421-6589-450a-0a7a-08d875d1e17b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7067125f-4d9f-462d-2586-08d875d1e1f2
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 14:59:16.5701 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 14:59:17.3397 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MLsnSxQd0RQlNei/ktWOpI5CrmTxTsxilBO2Nm4GhW6r8EvQhD+PqZ8l2/IkKbAYwrtvDVQqbxGnzGR/msfmq+XasyLzpnPXWbmpVBQKIQ4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: iDJEgl+22iPuiC5dzLDSBEIp9KcvjfNxMHk92uO6QMQGbcoSv12fFgcEC7k/jwJvXHmXd94j54IURnY9usLBTSbIVd9f86uqny/l8WErImM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4472
 Received-SPF: pass client-ip=40.107.7.109;
  envelope-from=vsementsov@virtuozzo.com;
@@ -119,60 +119,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bs is linked in req, so no needs to pass it separately. Most of
-tracked-requests API doesn't have bs argument. Actually, after this
-patch only tracked_request_begin has it, but it's for purpose.
+We'll need a separate function, which will only "mark" request
+serialising with specified align but not wait for conflicting
+requests. So, it will be like old bdrv_mark_request_serialising(),
+before merging bdrv_wait_serialising_requests_locked() into it.
 
-While being here, also add a comment about what "_locked" is.
+To reduce the possible mess, let's do the following:
+
+Public function that does both marking and waiting will be called
+bdrv_make_request_serialising, and private function which will only
+"mark" will be called tracked_request_set_serialising().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/io.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/block/block_int.h |  3 ++-
+ block/file-posix.c        |  2 +-
+ block/io.c                | 35 +++++++++++++++++++++++------------
+ 3 files changed, 26 insertions(+), 14 deletions(-)
 
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 38cad9d15c..887b0668d8 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -1052,7 +1052,8 @@ extern unsigned int bdrv_drain_all_count;
+ void bdrv_apply_subtree_drain(BdrvChild *child, BlockDriverState *new_parent);
+ void bdrv_unapply_subtree_drain(BdrvChild *child, BlockDriverState *old_parent);
+ 
+-bool coroutine_fn bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align);
++bool coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
++                                                uint64_t align);
+ BdrvTrackedRequest *coroutine_fn bdrv_co_get_self_request(BlockDriverState *bs);
+ 
+ int get_tmp_filename(char *filename, int size);
+diff --git a/block/file-posix.c b/block/file-posix.c
+index c63926d592..37d9266f6a 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2953,7 +2953,7 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int bytes,
+         req->bytes = end - req->offset;
+         req->overlap_bytes = req->bytes;
+ 
+-        bdrv_mark_request_serialising(req, bs->bl.request_alignment);
++        bdrv_make_request_serialising(req, bs->bl.request_alignment);
+     }
+ #endif
+ 
 diff --git a/block/io.c b/block/io.c
-index c2d9b1f849..5c1a1b388b 100644
+index 5c1a1b388b..24ff8d804b 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -762,16 +762,16 @@ bdrv_find_conflicting_request(BdrvTrackedRequest *self)
-     return NULL;
+@@ -779,15 +779,14 @@ bdrv_wait_serialising_requests_locked(BdrvTrackedRequest *self)
+     return waited;
  }
  
-+/* Called with self->bs->reqs_lock held */
- static bool coroutine_fn
--bdrv_wait_serialising_requests_locked(BlockDriverState *bs,
--                                      BdrvTrackedRequest *self)
-+bdrv_wait_serialising_requests_locked(BdrvTrackedRequest *self)
+-bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
++/* Called with req->bs->reqs_lock held */
++static void tracked_request_set_serialising(BdrvTrackedRequest *req,
++                                            uint64_t align)
  {
-     BdrvTrackedRequest *req;
-     bool waited = false;
+-    BlockDriverState *bs = req->bs;
+     int64_t overlap_offset = req->offset & ~(align - 1);
+     uint64_t overlap_bytes = ROUND_UP(req->offset + req->bytes, align)
+                                - overlap_offset;
+-    bool waited;
  
-     while ((req = bdrv_find_conflicting_request(self))) {
-         self->waiting_for = req;
--        qemu_co_queue_wait(&req->wait_queue, &bs->reqs_lock);
-+        qemu_co_queue_wait(&req->wait_queue, &self->bs->reqs_lock);
-         self->waiting_for = NULL;
-         waited = true;
-     }
-@@ -795,7 +795,7 @@ bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
+-    qemu_co_mutex_lock(&bs->reqs_lock);
+     if (!req->serialising) {
+         qatomic_inc(&req->bs->serialising_in_flight);
+         req->serialising = true;
+@@ -795,9 +794,6 @@ bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
  
      req->overlap_offset = MIN(req->overlap_offset, overlap_offset);
      req->overlap_bytes = MAX(req->overlap_bytes, overlap_bytes);
--    waited = bdrv_wait_serialising_requests_locked(bs, req);
-+    waited = bdrv_wait_serialising_requests_locked(req);
-     qemu_co_mutex_unlock(&bs->reqs_lock);
+-    waited = bdrv_wait_serialising_requests_locked(req);
+-    qemu_co_mutex_unlock(&bs->reqs_lock);
+-    return waited;
+ }
+ 
+ /**
+@@ -883,6 +879,21 @@ static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self
      return waited;
  }
-@@ -877,7 +877,7 @@ static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self
+ 
++bool coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
++                                                uint64_t align)
++{
++    bool waited;
++
++    qemu_co_mutex_lock(&req->bs->reqs_lock);
++
++    tracked_request_set_serialising(req, align);
++    waited = bdrv_wait_serialising_requests_locked(req);
++
++    qemu_co_mutex_unlock(&req->bs->reqs_lock);
++
++    return waited;
++}
++
+ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
+                                    size_t size)
+ {
+@@ -1395,7 +1406,7 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
+          * with each other for the same cluster.  For example, in copy-on-read
+          * it ensures that the CoR read and write operations are atomic and
+          * guest writes cannot interleave between them. */
+-        bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
++        bdrv_make_request_serialising(req, bdrv_get_cluster_size(bs));
+     } else {
+         bdrv_wait_serialising_requests(req);
+     }
+@@ -1806,7 +1817,7 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
+     assert(!(flags & ~BDRV_REQ_MASK));
+ 
+     if (flags & BDRV_REQ_SERIALISING) {
+-        bdrv_mark_request_serialising(req, bdrv_get_cluster_size(bs));
++        bdrv_make_request_serialising(req, bdrv_get_cluster_size(bs));
+     } else {
+         bdrv_wait_serialising_requests(req);
+     }
+@@ -1972,7 +1983,7 @@ static int coroutine_fn bdrv_co_do_zero_pwritev(BdrvChild *child,
+ 
+     padding = bdrv_init_padding(bs, offset, bytes, &pad);
+     if (padding) {
+-        bdrv_mark_request_serialising(req, align);
++        bdrv_make_request_serialising(req, align);
+ 
+         bdrv_padding_rmw_read(child, req, &pad, true);
+ 
+@@ -2086,7 +2097,7 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
      }
  
-     qemu_co_mutex_lock(&bs->reqs_lock);
--    waited = bdrv_wait_serialising_requests_locked(bs, self);
-+    waited = bdrv_wait_serialising_requests_locked(self);
-     qemu_co_mutex_unlock(&bs->reqs_lock);
+     if (bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad)) {
+-        bdrv_mark_request_serialising(&req, align);
++        bdrv_make_request_serialising(&req, align);
+         bdrv_padding_rmw_read(child, &req, &pad, false);
+     }
  
-     return waited;
+@@ -3139,7 +3150,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
+      * new area, we need to make sure that no write requests are made to it
+      * concurrently or they might be overwritten by preallocation. */
+     if (new_bytes) {
+-        bdrv_mark_request_serialising(&req, 1);
++        bdrv_make_request_serialising(&req, 1);
+     }
+     if (bs->read_only) {
+         error_setg(errp, "Image is read-only");
 -- 
 2.21.3
 
