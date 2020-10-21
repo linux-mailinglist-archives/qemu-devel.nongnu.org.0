@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F7A2953B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 22:59:20 +0200 (CEST)
-Received: from localhost ([::1]:37212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC892953B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 22:59:40 +0200 (CEST)
+Received: from localhost ([::1]:37796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVLCZ-000798-JO
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 16:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40270)
+	id 1kVLCt-0007Nj-4t
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 16:59:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVLAt-0005TT-DF
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 16:57:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52361)
+ id 1kVLAy-0005Yi-ET
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 16:57:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVLAh-0006ea-JH
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 16:57:34 -0400
+ id 1kVLAh-0006ef-Jf
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 16:57:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603313840;
+ s=mimecast20190719; t=1603313841;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IZHcolpJh9GUkCtn3jobejedGZlFkRyLFKL54dVNaLU=;
- b=EhpQ83q/6l/EqezDC0P0+DUtt6U8ocgN31lIQvDMFxBDIG2Og29CTyIQ6SJuUqrvFlvxpu
- ZLt9iNReKQcprjd/lgbxNakJsfOKmjyBliJAg61pTc1AGJ28wlqpt/6eEn2vFDKqDt2VRB
- mQEaVAM1SRb75zbguxzxjxSzx1phP9M=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WGr2zrfGyqftWBpF5ZVoBd91ihPhB/CBzX/ru9n2bC4=;
+ b=TLL5ZrM1g2j3FVydkMu+fHMHGPHoHYzDqcjZ0gkT6F1UBq7zL7dHrZdhqpnEXzSqTe7yxf
+ qZq4hajUI7U6ujQ8ty9f3G+pKkZypKo85Bd581Kj/7hzJB/FEvlaDp2Gs6tDuap71ij4nh
+ 5gVANsH6YGKP5ZWuVnqeVtSeTzQRl8s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-HdUbXz9uPeeaZaCTaRgoRg-1; Wed, 21 Oct 2020 16:57:19 -0400
-X-MC-Unique: HdUbXz9uPeeaZaCTaRgoRg-1
+ us-mta-194--r_UCunkMG27L25kcetI_w-1; Wed, 21 Oct 2020 16:57:19 -0400
+X-MC-Unique: -r_UCunkMG27L25kcetI_w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 182E01006C94
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F0801868431
  for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 20:57:18 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CFBF6EF62;
- Wed, 21 Oct 2020 20:57:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 321066EF62;
+ Wed, 21 Oct 2020 20:57:18 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/22] cleanup qemu_init and make sense of command line
- processing
-Date: Wed, 21 Oct 2020 16:56:54 -0400
-Message-Id: <20201021205716.2359430-1-pbonzini@redhat.com>
+Subject: [PATCH 01/22] semihosting: fix order of initialization functions
+Date: Wed, 21 Oct 2020 16:56:55 -0400
+Message-Id: <20201021205716.2359430-2-pbonzini@redhat.com>
+In-Reply-To: <20201021205716.2359430-1-pbonzini@redhat.com>
+References: <20201021205716.2359430-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -66,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,102 +86,41 @@ Cc: jsnow@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series cleans up qemu_init, grouping together code that does
-a similar function.  In particular:
+qemu_semihosting_console_init uses semihosting.chardev which is set
+by qemu_semihosting_connect_chardevs.  Thus qemu_semihosting_connect_chardevs
+has to be called first.
 
-* generic initialization of various subsystemd is placed in separate
-functions
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ softmmu/vl.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-* code that was randomly placed in vl.c is moved to machine.c
-
-* early options that affect the whole program are grouped
-together (-sandbox, -name, -trace, -L)
-
-* pure syntactic sugar options (-mem-prealloc, -watchdog)
-are grouped together
-
-* the creation of backends is split into an "early" (before -machine)
-and a "late" (after -machine) part
-
-
-The remaining code that I have not split deals mostly with setting
-up the machine object; this includes -smp, -boot, -m, -numa.  With
-this refactoring, one can (almost) see some clearly delimited phases:
-
-* before the machine is created, only backends can be created
-(e.g. early -object processing).  In principle more initialization
-could be moved before the machine is created: the machine class is
-available and it can be used to decide which default devices to create.
-
-* after the machine is created, the accelerator needs to be established
-
-* after the accelerator is established, board setup can
-proceed and devices can be created
-
-
-Apart from the obvious absence of commands like machine-set and accel-set
-(and making chardev-add, blockdev-add etc. available in preconfig mode),
-the following complications are the blockers for pure-QMP configuration
-of machines:
-
-* as usual, there is no hook into board creation code to communicate
-the backends for on-board devices.  This is because serial_hd,
-nd_table etc. don't have a QAPI/QMP representation.
-
-* the current "preconfig" loop does not let you configure enough, since it
-ends before devices can be created and the regular monitor loop only
-starts after qdev_machine_creation_done.  Perhaps x-exit-preconfig would
-execute everything up to (and excluding) qdev_machine_creation_done,
-while the rest would be deferred to the first "cont" command using a vm
-state change notifier.
-
-Paolo
-
-Paolo Bonzini (22):
-  semihosting: fix order of initialization functions
-  machine: remove deprecated -machine enforce-config-section option
-  machine: move UP defaults to class_base_init
-  machine: move SMP initialization from vl.c
-  vl: extract validation of -smp to machine.c
-  vl: remove bogus check
-  trace: remove argument from trace_init_file
-  vl: split various early command line options to a separate function
-  vl: move various initialization routines out of qemu_init
-  vl: extract qemu_init_subsystems
-  vl: move prelaunch part of qemu_init to a new function
-  vl: move bios_name out of softmmu/vl.c
-  vl: extract various command line validation snippets to a new function
-  vl: preconfig and loadvm are mutually exclusive
-  vl: extract various command line desugaring snippets to a new function
-  vl: create "-net nic -net user" default earlier
-  vl: load plugins as late as possible
-  vl: move semihosting command line fallback to qemu_finish_machine_init
-  vl: extract default devices to separate functions
-  vl: move CHECKPOINT_INIT after preconfig
-  vl: separate qemu_create_early_backends
-  vl: separate qemu_create_late_backends
-
- bsd-user/main.c                      |    6 +-
- docs/system/deprecated.rst           |   12 +-
- hw/core/machine.c                    |   68 +-
- include/hw/boards.h                  |    2 +-
- include/hw/qdev-core.h               |    8 -
- include/sysemu/sysemu.h              |    1 +
- linux-user/main.c                    |    6 +-
- migration/migration.c                |   12 +-
- qemu-img.c                           |    6 +-
- qemu-io.c                            |    6 +-
- qemu-nbd.c                           |    6 +-
- qemu-options.hx                      |    8 -
- scsi/qemu-pr-helper.c                |    6 +-
- softmmu/qdev-monitor.c               |    6 -
- softmmu/vl.c                         | 1249 +++++++++++++-------------
- storage-daemon/qemu-storage-daemon.c |    9 +-
- trace/control.c                      |   10 +-
- trace/control.h                      |   12 +-
- 18 files changed, 704 insertions(+), 729 deletions(-)
-
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 6f5b000f07..42314e6ff9 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -4288,7 +4288,8 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_opts_foreach(qemu_find_opts("mon"),
+                       mon_init_func, NULL, &error_fatal);
+ 
+-    /* connect semihosting console input if requested */
++    /* now chardevs have been created we may have semihosting to connect */
++    qemu_semihosting_connect_chardevs();
+     qemu_semihosting_console_init();
+ 
+     if (foreach_device_config(DEV_SERIAL, serial_parse) < 0)
+@@ -4298,9 +4299,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
+         exit(1);
+ 
+-    /* now chardevs have been created we may have semihosting to connect */
+-    qemu_semihosting_connect_chardevs();
+-
+     /* If no default VGA is requested, the default is "none".  */
+     if (default_vga) {
+         vga_model = get_default_vga_model(machine_class);
 -- 
 2.26.2
+
 
 
