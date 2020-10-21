@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CCC0294702
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 05:36:25 +0200 (CEST)
-Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E582946FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 05:34:57 +0200 (CEST)
+Received: from localhost ([::1]:51096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV4vI-00088b-0q
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 23:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42890)
+	id 1kV4ts-0005ud-Tp
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 23:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s6-0004II-C2
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s6-0004IR-Ej
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27723)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s3-0001Y6-6B
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s3-0001ZI-CD
  for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603251182;
@@ -23,36 +23,35 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FvCBLHwDCjYXjJa2+mcg+A8fGqoFuq64vG+oZlIMljY=;
- b=X3TnwpLyNsLsxG/zBva/D3Lv4NZCgQtsT9YMb21gevMBhPOxSof4129UR20q+g1sT68lrm
- MoDKecgGAQiwvcT2UF+7oxlMvQ8wi72ggd5kHVyfZYvnGsMXkw90UPHSRX41G2BjdCFGHy
- itfR/BkSQ6YMjWm/EYSqxz0k0tSRyJ4=
+ bh=vqn3cZ5hp1usWsWARkAh7JYwIsM2YAQoWABRtHVjJYU=;
+ b=g9Rz3NbLuTy48ov7dPL6U14TZpxlfd8e3kj9m3nhsz8J/f5R5hqfhgm9NXVC3CJ0nAavhW
+ ambNpeOrL5sulDs9ogw3KDHO/kRdWW8fLZ2I5WnXaX/YbPNxf+ljddvfFAJe7C7ogxNxxs
+ +f9shL12+/s3/2Pnpii4cJvBKrtvJ2o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-ueGxpkrANViWT3ypMO-0EQ-1; Tue, 20 Oct 2020 23:33:00 -0400
-X-MC-Unique: ueGxpkrANViWT3ypMO-0EQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-503-It7BWVN_MTCzG_Gr5OJviQ-1; Tue, 20 Oct 2020 23:33:00 -0400
+X-MC-Unique: It7BWVN_MTCzG_Gr5OJviQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 427281074656;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D403803F4D;
  Wed, 21 Oct 2020 03:32:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DC83575123;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EFADC5B4A3;
  Wed, 21 Oct 2020 03:32:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7BA5B112991E; Wed, 21 Oct 2020 05:32:57 +0200 (CEST)
+ id 7EFE811275C0; Wed, 21 Oct 2020 05:32:57 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] qapi: Restrict 'system wakeup/reset/powerdown' commands to
- machine.json
-Date: Wed, 21 Oct 2020 05:32:54 +0200
-Message-Id: <20201021033257.2126624-3-armbru@redhat.com>
+Subject: [PULL 3/5] qapi: Restrict '(p)memsave' command to machine code
+Date: Wed, 21 Oct 2020 05:32:55 +0200
+Message-Id: <20201021033257.2126624-4-armbru@redhat.com>
 In-Reply-To: <20201021033257.2126624-1-armbru@redhat.com>
 References: <20201021033257.2126624-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,189 +89,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Restricting system_wakeup/system_reset/system_powerdown to
-machine.json pulls slightly less QAPI-generated code into
-user-mode and tools.
+Restricting memsave/pmemsave to machine.json pulls slightly
+less QAPI-generated code into user-mode and tools.
 
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201012121536.3381997-3-philmd@redhat.com>
+Message-Id: <20201012121536.3381997-4-philmd@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/machine.json | 57 +++++++++++++++++++++++++++++++++++++++++++++++
- qapi/misc.json    | 57 -----------------------------------------------
- ui/gtk.c          |  1 +
- ui/cocoa.m        |  1 +
- 4 files changed, 59 insertions(+), 57 deletions(-)
+ qapi/machine.json | 61 +++++++++++++++++++++++++++++++++++++++++++++++
+ qapi/misc.json    | 61 -----------------------------------------------
+ 2 files changed, 61 insertions(+), 61 deletions(-)
 
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 073b1c98b2..55328d4f3c 100644
+index 55328d4f3c..5a3bbcae01 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -452,6 +452,63 @@
- ##
- { 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
+@@ -887,6 +887,67 @@
+ { 'enum': 'HostMemPolicy',
+   'data': [ 'default', 'preferred', 'bind', 'interleave' ] }
  
 +##
-+# @system_reset:
++# @memsave:
 +#
-+# Performs a hard reset of a guest.
++# Save a portion of guest memory to a file.
 +#
-+# Since: 0.14.0
++# @val: the virtual address of the guest to start from
 +#
-+# Example:
++# @size: the size of memory region to save
 +#
-+# -> { "execute": "system_reset" }
-+# <- { "return": {} }
++# @filename: the file to save the memory to as binary data
 +#
-+##
-+{ 'command': 'system_reset' }
-+
-+##
-+# @system_powerdown:
++# @cpu-index: the index of the virtual CPU to use for translating the
++#             virtual address (defaults to CPU 0)
 +#
-+# Requests that a guest perform a powerdown operation.
++# Returns: Nothing on success
 +#
 +# Since: 0.14.0
 +#
-+# Notes: A guest may or may not respond to this command.  This command
-+#        returning does not indicate that a guest has accepted the request or
-+#        that it has shut down.  Many guests will respond to this command by
-+#        prompting the user in some way.
++# Notes: Errors were not reliably returned until 1.1
++#
 +# Example:
 +#
-+# -> { "execute": "system_powerdown" }
++# -> { "execute": "memsave",
++#      "arguments": { "val": 10,
++#                     "size": 100,
++#                     "filename": "/tmp/virtual-mem-dump" } }
 +# <- { "return": {} }
 +#
 +##
-+{ 'command': 'system_powerdown' }
++{ 'command': 'memsave',
++  'data': {'val': 'int', 'size': 'int', 'filename': 'str', '*cpu-index': 'int'} }
 +
 +##
-+# @system_wakeup:
++# @pmemsave:
 +#
-+# Wake up guest from suspend. If the guest has wake-up from suspend
-+# support enabled (wakeup-suspend-support flag from
-+# query-current-machine), wake-up guest from suspend if the guest is
-+# in SUSPENDED state. Return an error otherwise.
++# Save a portion of guest physical memory to a file.
 +#
-+# Since:  1.1
++# @val: the physical address of the guest to start from
 +#
-+# Returns:  nothing.
++# @size: the size of memory region to save
 +#
-+# Note: prior to 4.0, this command does nothing in case the guest
-+#       isn't suspended.
++# @filename: the file to save the memory to as binary data
++#
++# Returns: Nothing on success
++#
++# Since: 0.14.0
++#
++# Notes: Errors were not reliably returned until 1.1
 +#
 +# Example:
 +#
-+# -> { "execute": "system_wakeup" }
++# -> { "execute": "pmemsave",
++#      "arguments": { "val": 10,
++#                     "size": 100,
++#                     "filename": "/tmp/physical-mem-dump" } }
 +# <- { "return": {} }
 +#
 +##
-+{ 'command': 'system_wakeup' }
++{ 'command': 'pmemsave',
++  'data': {'val': 'int', 'size': 'int', 'filename': 'str'} }
 +
  ##
- # @LostTickPolicy:
+ # @Memdev:
  #
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 3fe9cc21b4..90fd862a6c 100644
+index 90fd862a6c..9fa702b0f6 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -177,40 +177,6 @@
+@@ -177,67 +177,6 @@
  ##
  { 'command': 'stop' }
  
 -##
--# @system_reset:
+-# @memsave:
 -#
--# Performs a hard reset of a guest.
+-# Save a portion of guest memory to a file.
 -#
--# Since: 0.14.0
+-# @val: the virtual address of the guest to start from
 -#
--# Example:
+-# @size: the size of memory region to save
 -#
--# -> { "execute": "system_reset" }
--# <- { "return": {} }
+-# @filename: the file to save the memory to as binary data
 -#
--##
--{ 'command': 'system_reset' }
--
--##
--# @system_powerdown:
+-# @cpu-index: the index of the virtual CPU to use for translating the
+-#             virtual address (defaults to CPU 0)
 -#
--# Requests that a guest perform a powerdown operation.
+-# Returns: Nothing on success
 -#
 -# Since: 0.14.0
 -#
--# Notes: A guest may or may not respond to this command.  This command
--#        returning does not indicate that a guest has accepted the request or
--#        that it has shut down.  Many guests will respond to this command by
--#        prompting the user in some way.
--# Example:
--#
--# -> { "execute": "system_powerdown" }
--# <- { "return": {} }
--#
--##
--{ 'command': 'system_powerdown' }
--
- ##
- # @memsave:
- #
-@@ -318,29 +284,6 @@
- ##
- { 'command': 'x-exit-preconfig', 'allow-preconfig': true }
- 
--##
--# @system_wakeup:
--#
--# Wake up guest from suspend. If the guest has wake-up from suspend
--# support enabled (wakeup-suspend-support flag from
--# query-current-machine), wake-up guest from suspend if the guest is
--# in SUSPENDED state. Return an error otherwise.
--#
--# Since:  1.1
--#
--# Returns:  nothing.
--#
--# Note: prior to 4.0, this command does nothing in case the guest
--#       isn't suspended.
+-# Notes: Errors were not reliably returned until 1.1
 -#
 -# Example:
 -#
--# -> { "execute": "system_wakeup" }
+-# -> { "execute": "memsave",
+-#      "arguments": { "val": 10,
+-#                     "size": 100,
+-#                     "filename": "/tmp/virtual-mem-dump" } }
 -# <- { "return": {} }
 -#
 -##
--{ 'command': 'system_wakeup' }
+-{ 'command': 'memsave',
+-  'data': {'val': 'int', 'size': 'int', 'filename': 'str', '*cpu-index': 'int'} }
+-
+-##
+-# @pmemsave:
+-#
+-# Save a portion of guest physical memory to a file.
+-#
+-# @val: the physical address of the guest to start from
+-#
+-# @size: the size of memory region to save
+-#
+-# @filename: the file to save the memory to as binary data
+-#
+-# Returns: Nothing on success
+-#
+-# Since: 0.14.0
+-#
+-# Notes: Errors were not reliably returned until 1.1
+-#
+-# Example:
+-#
+-# -> { "execute": "pmemsave",
+-#      "arguments": { "val": 10,
+-#                     "size": 100,
+-#                     "filename": "/tmp/physical-mem-dump" } }
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'pmemsave',
+-  'data': {'val': 'int', 'size': 'int', 'filename': 'str'} }
 -
  ##
- # @human-monitor-command:
+ # @cont:
  #
-diff --git a/ui/gtk.c b/ui/gtk.c
-index b11594d817..a752aa22be 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -33,6 +33,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-control.h"
-+#include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qemu/cutils.h"
- 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 0910b4a716..f32adc3074 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -35,6 +35,7 @@
- #include "sysemu/cpu-throttle.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-block.h"
-+#include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
- #include "sysemu/blockdev.h"
- #include "qemu-version.h"
 -- 
 2.26.2
 
