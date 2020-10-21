@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44122294903
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 09:39:44 +0200 (CEST)
-Received: from localhost ([::1]:50864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76AF7294912
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 09:45:42 +0200 (CEST)
+Received: from localhost ([::1]:60650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV8il-0006vF-A4
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 03:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
+	id 1kV8oX-0003AJ-Au
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 03:45:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kV8hD-0005o7-3g
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 03:38:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55974)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kV8n4-0002M4-7b
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 03:44:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kV8h9-0005hy-OK
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 03:38:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kV8my-0007qU-Aj
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 03:44:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603265878;
+ s=mimecast20190719; t=1603266242;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tsBvKrF9yFaxeg5LaqOccXuiuNBlghcD9UOQytUvFRI=;
- b=E4l+FoirhaqmvoGIOYRIcEF4lqyxtstGFqQJWK0htRcQpHw6mT85vfi+6Hbbmtg8UJqNpE
- 4HiUVqjbu+NeqSAEumprAbRF2DBJJuZahKzYfx6fdnXuFoVVD6T5eqEGk9x/YmIJJfm3l+
- M9gYeoMpQNAJXVJj+o9rsJeuiiwdJU0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-m4HK_4nbO5-vFdep9OGlPQ-1; Wed, 21 Oct 2020 03:37:56 -0400
-X-MC-Unique: m4HK_4nbO5-vFdep9OGlPQ-1
-Received: by mail-wr1-f72.google.com with SMTP id 47so1109269wrc.19
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 00:37:56 -0700 (PDT)
+ bh=LC+vWQH3t71oKb0keKRkjZOm3wPav/L1gR43+fPwNkI=;
+ b=hMPYRFInVTBLB5m4+n33yjmj8uYZi17/1hUkzn8Jwk2d1KTdq7chtq/EninlaggKd6l36f
+ pk+40/8g3dCkt3LrN0B2wXNhJ5OcDpJ2AciPRltq0pSBaQDpeHydp5fdkpmAo23H6A6J+U
+ cBGb/UwodI30c2sTSmrzAb46QO0XBs8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-YID68XTEMNS3J34T2cuyUA-1; Wed, 21 Oct 2020 03:39:34 -0400
+X-MC-Unique: YID68XTEMNS3J34T2cuyUA-1
+Received: by mail-wr1-f69.google.com with SMTP id b6so1126506wrn.17
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 00:39:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tsBvKrF9yFaxeg5LaqOccXuiuNBlghcD9UOQytUvFRI=;
- b=fQb93xC5e6/lb7t+09R9uQ6/AqBsYB2Y2Mnua/hK/tx3JD8pN6mQND80zE4CYTFlCi
- webe1T6JjIfNLmsWhi7yY6WDcgjLGQwrbEodwQBnhNghjXq9BPeT/FiH+sbzdDPHkS3z
- nO/NAyNq2++FvoLSr/06bZ/zSn1m3Nd6xpYXvwhp1V66V68rewSt1v1NuptZsHU0FljD
- byBmEDKx2VgSI+9DeDxCvSkU3Lnae1JsBoR+CXuXD43gYfO/VYeeTIFV/5S2BZMal51x
- dbr4ZZxrfqXcnbhatXBHA+e9o6sjl4hlGX8kG2PBqmQRXTf9Umj572mskN3c1zaDdNd0
- vD2w==
-X-Gm-Message-State: AOAM530MN3wJSCBgsNqM4vnRRravtlAUXO2brCtC1J0y0OevX3yuIect
- 7XwflXdbv+uoXsJjam5bHLnzZUOjubuyef/CcIPdtIiivsPlbEQTb9seJa9VARdLIskfM8vg4r8
- YGc8FKu1log13d3E=
-X-Received: by 2002:a5d:6341:: with SMTP id b1mr2921367wrw.373.1603265875359; 
- Wed, 21 Oct 2020 00:37:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxA7Hx2bRRw4PE5VdLC8wBQ0TD5+wp/HrJC4gzZrbI7Jboj80gHvwfNgwQLqr/9UnemkgpqTg==
-X-Received: by 2002:a5d:6341:: with SMTP id b1mr2921342wrw.373.1603265875102; 
- Wed, 21 Oct 2020 00:37:55 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id y7sm1863687wmg.40.2020.10.21.00.37.53
+ bh=LC+vWQH3t71oKb0keKRkjZOm3wPav/L1gR43+fPwNkI=;
+ b=J2++cHEL9J1eGIW69ki1Tvt+dtN9DP/0XrtHIQ4kwSyDL6Tuajh4Ur3DLQxnnxkIYb
+ 7d/WePx9qznGgYgWKhrl2Na1QJJsDpMV+nWT5W2TMan2L+6dVGbatJCKP9zg2Xjl381I
+ RV45IGUqYmINLNIeYaYsYx4Kn/NUJh7QpoiwKtSuQ7I0GMtkc90QtkDYNoWDR6BKRuHi
+ GEqaNefjgM/A6rkN5tLsa5WT59iVYR1hR9Doo95M/fLJFPQGW+MjNJkPkumll0GIVCrt
+ dRX0Is2+C0d3UeY6xBgyA0byMKYnnS3QY9ooGOlg8xBVVI7qRoxrxAcibD6g1Gva3YuM
+ DAWQ==
+X-Gm-Message-State: AOAM531qWeGmDiQBAXl4wKHNe8SSP+Z4DklAfAARnhF96cYDAQh7vW1C
+ xhtXGaaooot2xEsvReYxXOsE6YY52ymydYY8pM2mq8CXlMPhyrou+HsNYlM/AsL1Xwm4bQpqdag
+ IZ1Ej04ZFXg+P9AU=
+X-Received: by 2002:a5d:688c:: with SMTP id h12mr3158393wru.92.1603265973265; 
+ Wed, 21 Oct 2020 00:39:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRc9SljaJ5jgIbU5DBPqaAUczF9lCsk5Mq762pJU1t4JLcYAH4yxZbEiDztN25hAFpQALHgQ==
+X-Received: by 2002:a5d:688c:: with SMTP id h12mr3158372wru.92.1603265973077; 
+ Wed, 21 Oct 2020 00:39:33 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id x15sm2450581wrr.36.2020.10.21.00.39.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Oct 2020 00:37:54 -0700 (PDT)
-Subject: Re: [PATCH 1/1] Skip flatview_simplify() for cpu vendor zhaoxin
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20201016112933.14856-1-FelixCui-oc@zhaoxin.com>
- <20201016112933.14856-2-FelixCui-oc@zhaoxin.com>
- <a971c9db-469f-ddc0-1a27-3e21958f6ff7@redhat.com>
- <20201019130206.1d3baffc@w520.home>
- <4d2b96cb-8f7f-2598-39e6-4cf0f61d567b@redhat.com>
- <20201020164437.5e3cb4ce@w520.home>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <783b5ef0-277c-363d-f342-7c0351f9ac16@redhat.com>
-Date: Wed, 21 Oct 2020 09:37:53 +0200
+ Wed, 21 Oct 2020 00:39:32 -0700 (PDT)
+Subject: Re: [PATCH 3/4] qga-win: Fix guest-get-devices error API violations
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20201021071520.2168877-1-armbru@redhat.com>
+ <20201021071520.2168877-4-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <4dc47c4e-4824-ae97-c589-c37591b1221f@redhat.com>
+Date: Wed, 21 Oct 2020 09:39:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201020164437.5e3cb4ce@w520.home>
+In-Reply-To: <20201021071520.2168877-4-armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 22:12:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -106,36 +100,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: FelixCuioc <FelixCui-oc@zhaoxin.com>, Eduardo Habkost <ehabkost@redhat.com>,
- CobeChen-oc@zhaoxin.com, qemu-devel@nongnu.org, TonyWWang-oc@zhaoxin.com,
- RockCui-oc@zhaoxin.com, Richard Henderson <rth@twiddle.net>
+Cc: marcandre.lureau@redhat.com, tgolembi@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/20 00:44, Alex Williamson wrote:
-> Do we necessarily need a memory map ioctl for this or could it be the
-> QEMU code that compares the old and new maps to trigger map and unmap
-> ioctls?  For example (aiui) our race is that if we have contiguous
-> memory regions A and B and flatview_simplify() tries to expand A and
-> delete B we'll see a series of listener notifications deleting A and B
-> and adding A'.  But the vfio QEMU code could parse the memory map to
-> determine that old A + B is functionally equivalent to A' and do
-> nothing.
+On 10/21/20 9:15 AM, Markus Armbruster wrote:
+> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+> pointer to a variable containing NULL.  Passing an argument of the
+> latter kind twice without clearing it in between is wrong: if the
+> first call sets an error, it no longer points to NULL for the second
+> call.
+> 
+> qmp_guest_get_devices() is wrong that way: it calls error_setg() in a
+> loop.
+> 
+> If no iteration fails, the function returns a value and sets no error.
+> Okay.
+> 
+> If exactly one iteration fails, the function returns a value and sets
+> an error.  Wrong.
+> 
+> If multiple iterations fail, the function trips error_setv()'s
+> assertion.
+> 
+> Fix it to return immediately on error.
+> 
+> Perhaps the failure to convert the driver version to UTF-8 should not
+> be an error.  We could simply not report the botched version string
+> instead.
+> 
+> Drop a superfluous continue while there.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   qga/commands-win32.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 
-I think the issue is a bit different, and in fact there are two sides of
-the same issue.  Say you have A (large) and it is replaced by A'
-(smaller) + B, then:
-
-* the first part of A disappears for a moment before A' appears.  This
-is something that QEMU can work around, by not doing anything
-
-* the second part of A disappears for a moment before B appears.  This
-is the root API issue and not something that QEMU can work around; and
-in fact it is not even fixed by removing flatview_simplify.
-
-Felix, did you identify the regions whose simplification causes the bug?
- Is this RAM (for example due to the PAM registers) or something else?
-
-Paolo
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
