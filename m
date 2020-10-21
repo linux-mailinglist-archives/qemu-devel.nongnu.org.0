@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8C7294D6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:24:41 +0200 (CEST)
-Received: from localhost ([::1]:60604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAEA294D41
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:11:30 +0200 (CEST)
+Received: from localhost ([::1]:50656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVE6a-00049P-T7
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:24:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59788)
+	id 1kVDtp-0007P1-Ds
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:11:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <9bec33a7d8f006ef8f80517985d0d6ac48650d53@lizzy.crudebyte.com>)
- id 1kVE4u-0002hh-7k
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:22:56 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:34253)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <9bec33a7d8f006ef8f80517985d0d6ac48650d53@lizzy.crudebyte.com>)
- id 1kVE4s-0003U4-KV
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:22:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=TVMsne8188a4RW0D3nqmiiAJmCUTVKNn2lpr0tyvPPc=; b=XxriJ
- PESi7zRAiM891OQjdMGgb1B8IIm+yqPIBcjCFx36/yjWLfXjXm4ELam4rvJVUMIAcZM6iRJHxp8pD
- MgbpIp0UYf3NpwQ9jsNcNC0F0oBF0+LZ+Lx5NESnBw3jeFUZfiT6IakwmrQeVrVHpSzyKvHAZ26kU
- bn1cCKKe0m3voM42e2HWenmdagXnP//M4b9fydCn8+qDlmGalzdVjRuQ9Mz0yKWsiD+H1Z8rvKP+R
- pM9IEW7IihWlhUmLBz7iZr41tv37qSj79gnSKtsD07V3NLHZn/Zf7fu5AUSFpExO9CJBjVj9kIcxP
- ZIms5+ITfc4TiejErAuFNQkfbiuGQ==;
-Message-Id: <cover.1603285620.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 21 Oct 2020 15:07:00 +0200
-Subject: [PATCH v2 0/8] 9pfs: more local tests
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=9bec33a7d8f006ef8f80517985d0d6ac48650d53@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 09:21:52
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kVDsW-0006iS-W2
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:10:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kVDsS-0001ll-Bp
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:10:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603285802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qvs2ABlZS0aZZwJRffryyjzSoB/ux6XNxcNKjDnjric=;
+ b=gNRieLqMsErXvFHsbUwnmu+yZLPKreDUp2eqsDpeTVkGP5r/8uRLyUn0qeLSjefbBsJrG4
+ 2xDBAF1UAL52CS84eJO2SeNy0PDQYZ0BkNmNj3zoXRVj9JS0YMcZadloOp6B4iaqwC10H1
+ hEZgwoHXoHhSRp/jipEzYTqkh9DFMEk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-PQtl8vlRPCu-22Edu1_vXg-1; Wed, 21 Oct 2020 09:09:57 -0400
+X-MC-Unique: PQtl8vlRPCu-22Edu1_vXg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D94C689BBDA;
+ Wed, 21 Oct 2020 13:09:35 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 966826EF62;
+ Wed, 21 Oct 2020 13:09:26 +0000 (UTC)
+Date: Wed, 21 Oct 2020 15:09:24 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 0/3] qom: Simplify pointer property getters/setters
+Message-ID: <20201021150924.5187602e@redhat.com>
+In-Reply-To: <20201009191520.1799419-1-ehabkost@redhat.com>
+References: <20201009191520.1799419-1-ehabkost@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,40 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just a bunch of more test cases using the 9pfs 'local' fs driver backend,
-namely for these 9p requests:
+On Fri,  9 Oct 2020 15:15:17 -0400
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-  * Tunlinkat, Tlcreate, Tsymlink and Tlink.
+> The existing pointer property getters/setters are awkward because
+> they are expected to work with const variables.  If we remove
+> that requirement, they can become a lot simpler and simply call
+> the visit_type_uint*() functions directly.
 
-v1->v2:
+see my reply on 'qom: Make all -object types use only class properties' thread.
+we should drop  pointer property getters/setter instead of extending it.
 
-  * Rebased on latest 9p.next queue HEAD.
-
-  * Use do_*() as new naming convention for utility functions.
-
-  * Drop unnecessary arguments of utility functions.
-
-  * Always do 'alloc = t_alloc;' in toplevel test functions.
-
-  * Split out do_hardlink() as utility function [patch 6].
-
-Christian Schoenebeck (8):
-  tests/9pfs: simplify do_mkdir()
-  tests/9pfs: add local Tunlinkat directory test
-  tests/9pfs: add local Tlcreate test
-  tests/9pfs: add local Tunlinkat file test
-  tests/9pfs: add local Tsymlink test
-  tests/9pfs: add local Tunlinkat symlink test
-  tests/9pfs: add local Tlink test
-  tests/9pfs: add local Tunlinkat hard link test
-
- tests/qtest/virtio-9p-test.c | 405 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 397 insertions(+), 8 deletions(-)
-
--- 
-2.20.1
+> 
+> Git tree: https://github.com/ehabkost/qemu work/qom-ptr-prop-not-const
+> Based-on: 20201009160122.1662082-1-ehabkost@redhat.com
+> 
+> Eduardo Habkost (3):
+>   acpi: Don't pass const pointers to object_property_add_uint*_ptr()
+>   qom: Make object_property_add_uint*_ptr() get non-const pointers
+>   qom: Simplify and merge pointer property getters/setters
+> 
+>  include/qom/object.h |   8 +--
+>  hw/acpi/ich9.c       |   2 +-
+>  hw/acpi/piix4.c      |  10 ++--
+>  hw/isa/lpc_ich9.c    |   4 +-
+>  qom/object.c         | 122 +++++++++----------------------------------
+>  5 files changed, 38 insertions(+), 108 deletions(-)
+> 
 
 
