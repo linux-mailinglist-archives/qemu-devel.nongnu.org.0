@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FDA29462B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 03:14:39 +0200 (CEST)
-Received: from localhost ([::1]:51584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14176294633
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 03:16:22 +0200 (CEST)
+Received: from localhost ([::1]:54714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV2i6-00063u-Lf
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 21:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44388)
+	id 1kV2jl-0007LP-10
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 21:16:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2c7-0000xM-Ar
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:27 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2c9-0000z8-Ca
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:29 -0400
 Received: from mail-co1nam11on2130.outbound.protection.outlook.com
  ([40.107.220.130]:28640 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2c5-0004s9-Td
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:27 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2c7-0004s9-Od
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:29 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Auz5SfwJN5rtL88b8Xz2eNv7OGrqipLe8/FtC6E6jtWFxct3cgsylHisVJdOUe67yf1LbIuzDLOL0uWjfptCLrO4K/vQ7n2w+iVOsrSfqPEybh5lEvh+Mn+3NRIKP6HQaBh41X2vNoZeGAsnUFfEDnuRLQC4tRsJlNF5p3VgeHzHT7SRCGXInm9ogmQUgo2FJ19DsuQrp9jJNvBPHbSG3y8h9zf/TVj/fEkDgcugDNAnZ/q7/otEwmSh6mnMsFoLLMyxtvutnybgI394pHUT08p6NIbVOHRREwjyEvb9VEqQuLkTgiy/8EK2a5dacG3YzFG3LA8OG7ioJhKeHLWnzQ==
+ b=Mg7CzsWsBiPRl/98FPrt5hZwzC9E7SbmjqGuvFmkfgwzo+tp50XeABkof77sD8emBD0dFUFxA9luhCb31Se0VOdwSLRaMMWViRsNRqWjtbBdiLSPGmOb2FsfpWBI21AzY8iTEm1d10hBse8rMKOnHC/ogcINmj8Zm3+Rq38S/j8GzDJ3n06cKvwLAnIaTPJuEiFIp9CF7O9RMteBGqx9xFG/ig/WI/QmvIr+QoOu7BKR9UD01IeSPpVcOFxPVBzs7XSAWGS3AQTd9nNE2nDhuH9ayuUE1eYy2pA0FoJEW6tJT32CckePSNkXSwVM4yInUxm/+LAytrDPfDukxmqI7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RzBnGDRyU66W2x50rl7hIybaGOx/maD6IfktlgFZWW8=;
- b=jccuX/HMqL6HWRjaM5PTLww8l1FHzUGQxvylFrkqoe8kRDnI1it/Qr2H0GrvHbv3MluLK3IdLinFVkyVlTUP5JKtVa8iKNzgMO0O0W0NE/sOvCOYp1DVpzoUGZIRzOut/wo8keUczv2hLqizzxzrDDJMOAlxjQXqpup9ySCu+9st2Yic5yqS5jXwm2UJsUXOWw33xMRYDUrU455NvmWDSOfHoFTdevNm0hjN9R09u1AHoHQxVtRESzDDGAYuwtPya/pc7j6OBqQSfB2cyz8HeGzQXKAow6yFoLFuu8osN2Xe0QcqCihEmRxzalUOMJOTRzYr8jg6dl30/MHKYzUPxQ==
+ bh=zibG1vb8DHFZlDj8ORt0e1CO8t0QRuCdfxBn+zf9/uo=;
+ b=K+9Vdaz1sKPGpJ5lswHExU1Mxx1wYdG6EQcaZzW4lqTXgTQUYpRAwOcgzNOKqCSy0q+AOjfg661oWk/KoHUsdrySY3yfsPmPCYIt4OJMv1fjuEoR42/KKwc0RZ7/g95ayJj9qRA7sYmXLzjaKNZiJ8Qq3Q4tKfIedfEMARL82w5ABpyEXh2TV48E/KhdotdYaUTgJjq4Ua9sSQJo1+eEen7YtGDVjA7w98Hp2rZul/ZydXAf0D3oyOv8HWknzhOQNowRSF41MeY7gw5RDY1JZ9rG9gKu2vSMvZQ6bketool3jg3rDi1zOyQdX6mN4j/iJfwCynZETdkXT2AqkTnULg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RzBnGDRyU66W2x50rl7hIybaGOx/maD6IfktlgFZWW8=;
- b=v0tYHMfcVD+Nah2mlzsK5ZlEQgTqMn9W5u7x9V6/Sxn7JMV9ekoIc0yahftzuE3p/970Be+jYhyAetRLyIv/XTRtzZ7waydYROZ3UGzogd1kwSYTVVXf0NZi7MfO5xilpiLbtilKwYRGfB2VrnuiIAbQD3p0tTJCRa54J2Aetmw=
+ bh=zibG1vb8DHFZlDj8ORt0e1CO8t0QRuCdfxBn+zf9/uo=;
+ b=OH38rhc5rzcICkXywXAiTZuqhrQW74fVAh5ERcUiaFYwvy5Ud137IUYj2+p6IcHy147VllUGKBWTWMJFee05AkzKwgqoTQiY51OWjAMNRJJHN8nXSSKiU/TuR40sY2//Xmdb0p+W6xluZueME9zr8c+7gtZkz2n2Wel5EXwVWvo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN2PR03MB2333.namprd03.prod.outlook.com (2603:10b6:804:c::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22; Wed, 21 Oct
- 2020 01:08:11 +0000
+ 2020 01:08:12 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 01:08:11 +0000
+ 01:08:12 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 05/16] fuzz: Declare DMA Read callback function
-Date: Tue, 20 Oct 2020 21:07:41 -0400
-Message-Id: <20201021010752.973230-6-alxndr@bu.edu>
+Subject: [PATCH v5 06/16] fuzz: Add fuzzer callbacks to DMA-read functions
+Date: Tue, 20 Oct 2020 21:07:42 -0400
+Message-Id: <20201021010752.973230-7-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201021010752.973230-1-alxndr@bu.edu>
 References: <20201021010752.973230-1-alxndr@bu.edu>
@@ -64,30 +64,30 @@ Received: from stormtrooper.vrmnet (72.93.72.163) by
  BL1PR13CA0119.namprd13.prod.outlook.com (2603:10b6:208:2b9::34) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.8 via Frontend
- Transport; Wed, 21 Oct 2020 01:08:10 +0000
+ Transport; Wed, 21 Oct 2020 01:08:11 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a90b7bfa-bef2-4517-a453-08d8755dc739
+X-MS-Office365-Filtering-Correlation-Id: 75bdbd98-c45c-4df6-78c8-08d8755dc7fb
 X-MS-TrafficTypeDiagnostic: SN2PR03MB2333:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN2PR03MB23339A80A8371D227D970CFDBA1C0@SN2PR03MB2333.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2512;
+X-Microsoft-Antispam-PRVS: <SN2PR03MB2333ECC85CC7BA94EA9A04B4BA1C0@SN2PR03MB2333.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:308;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uvV1R51ZtfYpBGiJmm4+PsSkWfJIqIPhn+3gPXDcYMOtM9ZRPHvi+QRLfNS+ARxmwczcybTYon8klR51IKYca0II6s8SMF5iUKOq3zePdm+kBr2yBFfsJqX9YvH8TfYbHd0SaSbpTbZ8a7vUfDnNCnw2VWt+u3ic8x+omysoN5u412qy9b5lEUF99tAPxK9H7ST4IfWQwN8gq+NLGai8nGI3lvamMtZUJg5D0+X6W4khus9j4ugM6CKA8BtsoVT2IY0WyWuK42q9Zr7t9x5UOHhUDlAfCIoUBUG4tvmWAvLLo0YPUwRpRVknxWxubgvDe40bC+caq8bbkVlYXG8gYw==
+X-Microsoft-Antispam-Message-Info: isGhfwFUc2W1SzQ1PqEitORf7OEVulgKtAnMDzKYKtt4RdVQnODKhxGToDhlxrcQItvS56gksK0v5COc/PLd0nSbhFwWZ7ikDlonETpQLOhoAl5Lj7JhjVG7iB3HfVH1luimYSh1jyx7BeAm4Lh6eUQWYhJ/nlzdPIiUOVk0CGxnCglyOsm3jFZqe6dNJvJTw3hYNYQ/n9fCTKRkmEHxNak0kwbP6gZ+M0sFRGEwgyoPDgbEYDhFC575U26M362HRT5NeiHNmQlypmTA8klvr6TAFdCPuA5K34QLzmyGkV9oHcgXMc7rmFdpTK55FjYeU8Hdwbr/v5ybKG6NPcfP5A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(52116002)(2616005)(8676002)(6512007)(6916009)(6506007)(36756003)(786003)(316002)(956004)(478600001)(1076003)(4326008)(6486002)(75432002)(8936002)(86362001)(5660300002)(26005)(16526019)(186003)(6666004)(66946007)(2906002)(66476007)(66556008);
+ SFS:(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(52116002)(2616005)(8676002)(6512007)(6916009)(6506007)(36756003)(786003)(316002)(956004)(83380400001)(478600001)(1076003)(4326008)(6486002)(75432002)(8936002)(86362001)(5660300002)(26005)(16526019)(186003)(6666004)(66946007)(2906002)(66476007)(66556008);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: QsF0RNWQn0fIrPOw/pqwaumUSB4z/pss4lG401Ygmuh8yv9s3uBkBPc/Cp4eqWILIFKoe7797WQc5H00DPTro0z6jobjHLtWPYD7h9qBXJTzNtfpLO+az2pTpiG+yZ13UgRq4JyDYKGwF8RlXfwj6dTpmuQS3WvYziTSEwJUAxWDSzzU9HC0Eq9ks3x4Fr2DkbxG/MALv59CitZdjnFd0IhcY7+ydkFQ0BVeESCHuswGC+vsgUDw1P6r2xUZU61GIVYeARn5R+FjtiBZAaW3o7eUCDxQpwFC54r9NXxUWJsw0yGExaR2a2FPYPVaEFWJz9CgtOgsCkpoFZesGulgOVFq/w7XIPXT8VAYkYpn9OMfufd7VcO2IACVYkOPTDkdsNPRy5mJRTVlmMyqXJ01q/qZFMFljFQs9edwC5E5b17CyVLttjfOahb7tgS0Ld0woWUFgV6yDvy/cTjWpxiEZUyJNw58fRcxfW84nMO0cq8t7fTgrjZPjP0z8QSQjSw96UqXL82ctnQa/bGYrwxHLg0JwYX9hWtxel5mJ8vv8ecr6qSkfgDl6crPatB/EmD4ksbRRdZqnbgNQuUZD092uK1e8QD2fR8LxDlXtdsWOV5uKNbV3IY10/CoZplhpV6i+Va+Ii7iRMrkE3c7LTIalg==
+X-MS-Exchange-AntiSpam-MessageData: ntFD+0iumfitxoXpH8+Zv96lynNRFBct4QBMnfulm3rQkFjFjWJzDapYXAHVyYu92F3B0D+1Q18ElUikYjiBKdeqhg7IWLfiS5eK5SYlDbIYyQtnRs9YL+cMIkRRkF8Y50BoquhH1FwMmptA8BagvJyWiyZ71GArOGOwoHf93CrGOtDHJ3sAz5uRBkoOGtb+t8H2MgAIPZWL097qbLvRdnI4iMF93x/NAKWhpVAqpTRjmcK2N+SfhKKziQRfxpulPIdgH8t68nu+QOzhb81dOQaJr2IS1X9T+y9of5DrwUog/krHDatT4elbKNl1qCOVDecHcI3gi9h2yC7Jz8T5HIy/Aoq9IpX7al4aIHG+PKfI46kvHOIEBVAu0jErkFJZ5/jdBi2UNt1+oCzoXnXHnfteqmuYTgUgRI4k9hHqXZIIehLyqhMHG0znbEI9tOqG2LCZPZviHamRwBxlMjxGBoyMZOWd95au85foz4btJRMTHJSlF3SZwZOwES7/8YpIi3PTlb99lPl6dxHoME+SwLfubxUW/AtCUgiXaUB9ZWj1Go9YVOjMukzxtlioKrPVaPjwmcTGACoixwgODzl6r//5evu3bZITJCDzPXfIDRDG60Y3T4ToKX47q3dzbLCfO0Uj01Lr+BP0+laZzHV79Q==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: a90b7bfa-bef2-4517-a453-08d8755dc739
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75bdbd98-c45c-4df6-78c8-08d8755dc7fb
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 01:08:11.1375 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 01:08:12.2408 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GSNXfo1Wuae5O3r+MOna6+LG82r8i3cJ+aGNXDsCWwz+F/qY1gA98qKZEHCUHyRy
+X-MS-Exchange-CrossTenant-UserPrincipalName: VBpMy18i/E79r2+Att6joMkGNx1z9vGiVuh2BD/BIoPKqfWBV7Pw/CLgYRhbq6ez
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2333
 Received-SPF: pass client-ip=40.107.220.130; envelope-from=alxndr@bu.edu;
  helo=NAM11-CO1-obe.outbound.protection.outlook.com
@@ -119,70 +119,127 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch declares the fuzz_dma_read_cb function and uses the
-preprocessor and linker(weak symbols) to handle these cases:
-
-When we build softmmu/all with --enable-fuzzing, there should be no
-strong symbol defined for fuzz_dma_read_cb, and we link against a weak
-stub function.
-
-When we build softmmu/fuzz with --enable-fuzzing, we link against the
-strong symbol in general_fuzz.c
-
-When we build softmmu/all without --enable-fuzzing, fuzz_dma_read_cb is
-an empty, inlined function. As long as we don't call any other functions
-when building the arguments, there should be no overhead.
+We should be careful to not call any functions besides fuzz_dma_read_cb.
+Without --enable-fuzzing, fuzz_dma_read_cb is an empty inlined function.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- include/exec/memory.h |  8 ++++++++
- softmmu/memory.c      | 13 +++++++++++++
- 2 files changed, 21 insertions(+)
+ include/exec/memory.h                 | 1 +
+ include/exec/memory_ldst_cached.h.inc | 3 +++
+ memory_ldst.c.inc                     | 4 ++++
+ softmmu/memory.c                      | 1 +
+ softmmu/physmem.c                     | 2 ++
+ 5 files changed, 11 insertions(+)
 
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 61c2aac943..854480859d 100644
+index 854480859d..588668547b 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -47,6 +47,14 @@ void fuzz_dma_read_cb(size_t addr,
-                       size_t len,
-                       MemoryRegion *mr,
-                       bool is_write);
-+#else
-+static inline void fuzz_dma_read_cb(size_t addr,
-+                                    size_t len,
-+                                    MemoryRegion *mr,
-+                                    bool is_write)
-+{
-+    /* Do Nothing */
-+}
- #endif
- 
- extern bool global_dirty_log;
+@@ -2462,6 +2462,7 @@ address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
+                           void *buf, hwaddr len)
+ {
+     assert(addr < cache->len && len <= cache->len - addr);
++    fuzz_dma_read_cb(cache->xlat + addr, len, cache->mrs.mr, false);
+     if (likely(cache->ptr)) {
+         memcpy(buf, cache->ptr + addr, len);
+         return MEMTX_OK;
+diff --git a/include/exec/memory_ldst_cached.h.inc b/include/exec/memory_ldst_cached.h.inc
+index fd4bbb40e7..aff574039f 100644
+--- a/include/exec/memory_ldst_cached.h.inc
++++ b/include/exec/memory_ldst_cached.h.inc
+@@ -28,6 +28,7 @@ static inline uint32_t ADDRESS_SPACE_LD_CACHED(l)(MemoryRegionCache *cache,
+     hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
+ {
+     assert(addr < cache->len && 4 <= cache->len - addr);
++    fuzz_dma_read_cb(cache->xlat + addr, 4, cache->mrs.mr, false);
+     if (likely(cache->ptr)) {
+         return LD_P(l)(cache->ptr + addr);
+     } else {
+@@ -39,6 +40,7 @@ static inline uint64_t ADDRESS_SPACE_LD_CACHED(q)(MemoryRegionCache *cache,
+     hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
+ {
+     assert(addr < cache->len && 8 <= cache->len - addr);
++    fuzz_dma_read_cb(cache->xlat + addr, 8, cache->mrs.mr, false);
+     if (likely(cache->ptr)) {
+         return LD_P(q)(cache->ptr + addr);
+     } else {
+@@ -50,6 +52,7 @@ static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
+     hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
+ {
+     assert(addr < cache->len && 2 <= cache->len - addr);
++    fuzz_dma_read_cb(cache->xlat + addr, 2, cache->mrs.mr, false);
+     if (likely(cache->ptr)) {
+         return LD_P(uw)(cache->ptr + addr);
+     } else {
+diff --git a/memory_ldst.c.inc b/memory_ldst.c.inc
+index c54aee4a95..8d45d2eeff 100644
+--- a/memory_ldst.c.inc
++++ b/memory_ldst.c.inc
+@@ -42,6 +42,7 @@ static inline uint32_t glue(address_space_ldl_internal, SUFFIX)(ARG1_DECL,
+                                         MO_32 | devend_memop(endian), attrs);
+     } else {
+         /* RAM case */
++        fuzz_dma_read_cb(addr, 4, mr, false);
+         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
+         switch (endian) {
+         case DEVICE_LITTLE_ENDIAN:
+@@ -110,6 +111,7 @@ static inline uint64_t glue(address_space_ldq_internal, SUFFIX)(ARG1_DECL,
+                                         MO_64 | devend_memop(endian), attrs);
+     } else {
+         /* RAM case */
++        fuzz_dma_read_cb(addr, 8, mr, false);
+         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
+         switch (endian) {
+         case DEVICE_LITTLE_ENDIAN:
+@@ -175,6 +177,7 @@ uint32_t glue(address_space_ldub, SUFFIX)(ARG1_DECL,
+         r = memory_region_dispatch_read(mr, addr1, &val, MO_8, attrs);
+     } else {
+         /* RAM case */
++        fuzz_dma_read_cb(addr, 1, mr, false);
+         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
+         val = ldub_p(ptr);
+         r = MEMTX_OK;
+@@ -212,6 +215,7 @@ static inline uint32_t glue(address_space_lduw_internal, SUFFIX)(ARG1_DECL,
+                                         MO_16 | devend_memop(endian), attrs);
+     } else {
+         /* RAM case */
++        fuzz_dma_read_cb(addr, 2, mr, false);
+         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
+         switch (endian) {
+         case DEVICE_LITTLE_ENDIAN:
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index c46b0c6d65..d3cdb46459 100644
+index d3cdb46459..d7fdca2603 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -3242,6 +3242,19 @@ void memory_region_init_rom_device(MemoryRegion *mr,
-     vmstate_register_ram(mr, owner_dev);
- }
+@@ -1429,6 +1429,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
+     unsigned size = memop_size(op);
+     MemTxResult r;
  
-+/*
-+ * Support softmmu builds with CONFIG_FUZZ using a weak symbol and a stub for
-+ * the fuzz_dma_read_cb callback
-+ */
-+#ifdef CONFIG_FUZZ
-+void __attribute__((weak)) fuzz_dma_read_cb(size_t addr,
-+                      size_t len,
-+                      MemoryRegion *mr,
-+                      bool is_write)
-+{
-+}
-+#endif
-+
- static const TypeInfo memory_region_info = {
-     .parent             = TYPE_OBJECT,
-     .name               = TYPE_MEMORY_REGION,
++    fuzz_dma_read_cb(addr, size, mr, false);
+     if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
+         *pval = unassigned_mem_read(mr, addr, size);
+         return MEMTX_DECODE_ERROR;
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index e319fb2a1e..a9adedb9f8 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2832,6 +2832,7 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
+             stn_he_p(buf, l, val);
+         } else {
+             /* RAM case */
++            fuzz_dma_read_cb(addr, len, mr, false);
+             ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
+             memcpy(buf, ram_ptr, l);
+         }
+@@ -3192,6 +3193,7 @@ void *address_space_map(AddressSpace *as,
+     memory_region_ref(mr);
+     *plen = flatview_extend_translation(fv, addr, len, mr, xlat,
+                                         l, is_write, attrs);
++    fuzz_dma_read_cb(addr, *plen, mr, is_write);
+     ptr = qemu_ram_ptr_length(mr->ram_block, xlat, plen, true);
+ 
+     return ptr;
 -- 
 2.28.0
 
