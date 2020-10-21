@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D344294F3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 16:55:56 +0200 (CEST)
-Received: from localhost ([::1]:50678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5385B294F19
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 16:54:04 +0200 (CEST)
+Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVFWt-0005g0-13
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 10:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56058)
+	id 1kVFV5-0003Rp-Bu
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 10:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQa-0006l1-JW
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40093)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQX-0006c9-4v
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQX-0006nT-4K
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:24 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQV-0006nA-3B
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603291759;
+ s=mimecast20190719; t=1603291758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zENGj/qAqOTZO+Ict1knDJ8MM4TC9iDXKQWndHvaoRc=;
- b=BXB33db98nVSryvzC3Ur3lMeTtinV0PSqBI+hbG9YWwzUTLvOnJ9mncBmuZ+adr4h7IpqJ
- 079rIMPOG+aNL5cfHgAcVYmYzGMSN8x5EN/9aADXckxT2HdzQbWVAPRwHTRccz0GMUmioz
- TgaCCypFH7gnvUKjARIQuuvL+x7PWgg=
+ bh=y1R62GdBNvcK8krhKygspqZWH5w6J/4zx2j2lY/aXZ0=;
+ b=YoZcTmRwRRuACnfJrxie0idairvrMiEtmrG8shEF9K1Hn8vxNO5jxOG93Flx9dnk97Y6J1
+ G0YbOMr1dU13jbT9at5iu+ADnRGuiG2N3O+RgOem0jNzgfHh0f1WKx+/bf1nTORxLTmf/P
+ CH5HmOSq0RMVLCSwkan0YfeUuqvB5l4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-PqeevhICM92Ngyn3moHxKw-1; Wed, 21 Oct 2020 10:49:15 -0400
-X-MC-Unique: PqeevhICM92Ngyn3moHxKw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-402-Y5sk4E8ePzysVUCrpodD0g-1; Wed, 21 Oct 2020 10:49:15 -0400
+X-MC-Unique: Y5sk4E8ePzysVUCrpodD0g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD55B1888A32;
- Wed, 21 Oct 2020 14:48:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B935B18A072C;
+ Wed, 21 Oct 2020 14:48:55 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 857D56EF6B;
- Wed, 21 Oct 2020 14:48:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70EFA5C1C7;
+ Wed, 21 Oct 2020 14:48:55 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8C6A5204AC; Wed, 21 Oct 2020 16:48:52 +0200 (CEST)
+ id A2E47204B8; Wed, 21 Oct 2020 16:48:52 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/17] usb/xhci: fixup xhci kconfig deps
-Date: Wed, 21 Oct 2020 16:48:46 +0200
-Message-Id: <20201021144852.16665-12-kraxel@redhat.com>
+Subject: [PULL 13/17] tests/acpi: allow updates for expected data files
+Date: Wed, 21 Oct 2020 16:48:48 +0200
+Message-Id: <20201021144852.16665-14-kraxel@redhat.com>
 In-Reply-To: <20201021144852.16665-1-kraxel@redhat.com>
 References: <20201021144852.16665-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,47 +82,26 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-USB_XHCI does not depend on PCI any more.
-USB_XHCI_SYSBUS must select USB_XHCI not USB.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Message-id: 20201020074844.5304-5-kraxel@redhat.com
+Message-id: 20201020074844.5304-7-kraxel@redhat.com
 ---
- hw/usb/Kconfig | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index 4dd2ba9630cb..a674ce4c542e 100644
---- a/hw/usb/Kconfig
-+++ b/hw/usb/Kconfig
-@@ -32,8 +32,6 @@ config USB_EHCI_SYSBUS
- 
- config USB_XHCI
-     bool
--    default y if PCI_DEVICES
--    depends on PCI
-     select USB
- 
- config USB_XHCI_PCI
-@@ -50,8 +48,8 @@ config USB_XHCI_NEC
- 
- config USB_XHCI_SYSBUS
-     bool
--    default y if USB_XHCI
--    select USB
-+    default y
-+    select USB_XHCI
- 
- config USB_MUSB
-     bool
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8bf4..afd6b04a475a 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/microvm/DSDT.usb",
++"tests/data/acpi/microvm/DSDT.rtc",
 -- 
 2.27.0
 
