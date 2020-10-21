@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0DC294DA4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:33:14 +0200 (CEST)
-Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68927294DAD
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:36:17 +0200 (CEST)
+Received: from localhost ([::1]:37186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVEEr-0006vv-4E
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33766)
+	id 1kVEHo-0002Hv-Eu
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kVECh-0004yP-89
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:30:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32244)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kVEDL-0005ZU-9Q
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:31:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kVECZ-0004oB-TT
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:30:58 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kVEDI-0004rU-N0
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:31:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603287049;
+ s=mimecast20190719; t=1603287095;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N0T8XO9idDdAwSP4d//3eITX7a7yEAKI3OG+c97Ozt4=;
- b=Y6X4eSINxyswypCz46u/pedwtQT57CBnjuaEvrx+SXOg8URa78QzlxFhhR7E/fm/Z7tGw+
- 5DhJFDkk5ppBndCPaZJ+TQcgHccIv3x97cMhP30qDTU2rSZjyW1UY/U2uFGUhDuBdba3xT
- KU2fq4iNicGIBB2b0Tnhh8POlLcGzHE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-Uc-l9i43NgG7IMDCZ0Ea0A-1; Wed, 21 Oct 2020 09:30:46 -0400
-X-MC-Unique: Uc-l9i43NgG7IMDCZ0Ea0A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED5749CC01
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 13:30:45 +0000 (UTC)
-Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 26F121002C01;
- Wed, 21 Oct 2020 13:30:42 +0000 (UTC)
-Date: Wed, 21 Oct 2020 09:30:41 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 03/12] qom: Make object_class_property_add_uint*_ptr()
- get offset
-Message-ID: <20201021133041.GT5733@habkost.net>
-References: <20201009160122.1662082-1-ehabkost@redhat.com>
- <20201009160122.1662082-4-ehabkost@redhat.com>
- <20201021142408.72d2b92f@redhat.com>
+ bh=nTDnNNR+QgubYC3+rAUl/ezF8IHeL8H9H6c3VVfpacE=;
+ b=fecfbgeheZBqlInJIQrbuu+F3cj+guk0dxSofGSWFU2w8lc139n0OvQMfBw2drxibJIzOO
+ u6n1b6YSzMkNyK2Mf/GdyWc90I4GsPHL26CYG4o3O+Oi51fMB3H+1dNuZLRf/hAU8acfco
+ DQCSoxnBIucKCyffO7fBt5d0IGS4J8s=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-NHmvipkBNca7SWNqE6UXSA-1; Wed, 21 Oct 2020 09:31:34 -0400
+X-MC-Unique: NHmvipkBNca7SWNqE6UXSA-1
+Received: by mail-wr1-f72.google.com with SMTP id n14so2700377wrp.1
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 06:31:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nTDnNNR+QgubYC3+rAUl/ezF8IHeL8H9H6c3VVfpacE=;
+ b=LHdX3CRQqg6Ys2Xu0SRFUIhmrynQOhLNYFnq/UdVSjboAZ0i0yMaJmIAhkoO7nJzkU
+ WeSZBSo/9Q/h1PqCwdxMDesG5ZxYJBTGBFQnr6bvHEVWR7AaQWgZLVXFlHbV3un6L9AX
+ e6gmWneUob5mCjLgAOa0aPm9p4PE+lwb4FqbuGqFcEnZxLnJGBDb8dqcn6FFbGpTn26d
+ cirIoJKhw40Ay+jFqk1FYFkucvPgBxX+mZmCcMnkDImQxNT5Mx5gVwez1wy1CzE0aSgE
+ aQBuWwPUWSfa6I9SmNOhqR8+WUffTRuw60LU4tTIs+r7l38yfKGqzCi6R+QZL563/lfs
+ SRtw==
+X-Gm-Message-State: AOAM533u8s/HhERrjEsfCO9lQr0AvEfEsQlv/3VswlKbSWPjR3bMknHN
+ Hxlw0v20lvdKTlCsLGz+CnnrTtDtA6BEyHp7vI+TsEY3ud0e2Ir9afv28Oh1Ac1/XDK5zIri8Zk
+ SQj3Ovq57xMKh17c=
+X-Received: by 2002:a1c:c28a:: with SMTP id s132mr3560314wmf.67.1603287092898; 
+ Wed, 21 Oct 2020 06:31:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJycX3GBucqn66q/g99rIjfwVeGw1ExrR38IMiuPg/I3t2wHGjlR6OF3wRFCGbkfDjb35m+0Aw==
+X-Received: by 2002:a1c:c28a:: with SMTP id s132mr3560284wmf.67.1603287092646; 
+ Wed, 21 Oct 2020 06:31:32 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u133sm3415268wmb.6.2020.10.21.06.31.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Oct 2020 06:31:32 -0700 (PDT)
+Subject: Re: [PATCH] pc: Implement -no-hpet as sugar for -machine hpet=off
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20201020220150.1326086-1-ehabkost@redhat.com>
+ <50e184db-bf46-48c1-b3a2-f4151d00cdf6@redhat.com>
+ <20201021123920.GS5733@habkost.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9d8ec809-6764-48cd-75b7-8f4450756849@redhat.com>
+Date: Wed, 21 Oct 2020 15:31:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201021142408.72d2b92f@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201021123920.GS5733@habkost.net>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 22:12:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,292 +103,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 21, 2020 at 02:24:08PM +0200, Igor Mammedov wrote:
-> On Fri,  9 Oct 2020 12:01:13 -0400
-> Eduardo Habkost <ehabkost@redhat.com> wrote:
-> 
-> > The existing object_class_property_add_uint*_ptr() functions are
-> > not very useful, because they need a pointer to the property
-> > value, which can't really be provided before the object is
-> > created.
-> > 
-> > Replace the pointer parameter in those functions with a
-> > `ptrdiff_t offset` parameter.
-> > 
-> > Include a uint8 class property in check-qom-proplist unit tests,
-> > to ensure the feature is working.
-> 
-> 
-> Not sure I like approach, it's reinventing qdev pointer properties in QOM form.
+On 21/10/20 14:39, Eduardo Habkost wrote:
+>> Should this be within #ifdef CONFIG_HPET?  [...]
+> Oops, I wasn't aware of CONFIG_HPET
 
-Yes, and that's on purpose.  If we want to eventually merge the
-two competing APIs into a single one, we need to make them
-converge.
+That's just a config-devices.h (aka CONFIG_DEVICES) definition.
 
-> I had an impression that Paolo wanted qdev pointer properties be gone
-> and replaced by something like link properties.
-
-This is completely unrelated to qdev pointer properties and link
-properties.  The properties that use object_property_add_uint*_ptr()
-today are not qdev pointer properties and will never be link
-properties.  They are just integer properties.
-
+> , and hadn't noticed that
+> pc_basic_device_init() uses qdev_try_new().  I agree that not
+> failing if hpet=on is explicitly set and CONFIG_HPET=n is wrong.
 > 
-> object_property_add_uintXX_ptr() were introduced as a quick hack,
-> when ACPI code generation was moved from Seabios, to avoid more
-> code shuffling in device models and adding more boiler plate in
-> form of custom setters/getters (the later didn't seem to bother
-> us everywhere else where we use object_[class_]property_add() ).
-> Then it spread little bit to another places.
-> 
-> I'd rather get rid of object_property_add_uintXX_ptr() API altogether
-> in favor of object_[class_]property_add() like it is used in other places
-> to handle intXX properties.
-> Adding helpers similar to object_property_add_bool() for intXX
-> could reduce boiler plate need for converting current instances of
-> _ptr(), and such helpers would also help with reducing boilerplate
-> for the rest of instances where object_[class_]property_add()
-> currently is used for dealing with integers.
+> Supporting a "require hpet to be on" use case would be a new
+> feature and out of scope of this work, though.  I will just
+> rename the property to "allow-hpet".  We can still implement a
+> OnOfAuto "hpet" property in the future, if we think it's useful.
 
-I find object_property_add_bool() terrible.  It requires too much
-boilerplate.  I actually have plans to introduce
-object*_property_add_bool_ptr() to simplify existing
-object_property_add_bool() callers.
+You don't need OnOffAuto; you can just change the qdev_try_new() to
+qdev_new() if you default it to true only if CONFIG_HPET is defined.  It
+should work properly, defaulting to on/off depending on CONFIG_HPET and
+failing if hpet=on is explicitly set with CONFIG_HPET=n.
 
-I don't love object*_property_add_*_ptr() either.  I consider the
-qdev property API better.  But we need a reasonable alternative,
-because the qdev API can't be used by non-device objects yet.
-I don't think object*_property_add() and
-object*_property_add_bool() are reasonable alternatives.
-
-> 
-> 
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-> > Cc: Eduardo Habkost <ehabkost@redhat.com>
-> > Cc: qemu-devel@nongnu.org
-> > ---
-> >  include/qom/object.h       |  8 ++++----
-> >  qom/object.c               | 36 +++++++++++++++++++++++-------------
-> >  tests/check-qom-proplist.c | 10 ++++++++--
-> >  3 files changed, 35 insertions(+), 19 deletions(-)
-> > 
-> > diff --git a/include/qom/object.h b/include/qom/object.h
-> > index d378f13a11..1634294e4f 100644
-> > --- a/include/qom/object.h
-> > +++ b/include/qom/object.h
-> > @@ -1747,7 +1747,7 @@ ObjectProperty *object_property_add_uint8_ptr(Object *obj, const char *name,
-> >  
-> >  ObjectProperty *object_class_property_add_uint8_ptr(ObjectClass *klass,
-> >                                           const char *name,
-> > -                                         const uint8_t *v,
-> > +                                         ptrdiff_t offset,
-> >                                           ObjectPropertyFlags flags);
-> >  
-> >  /**
-> > @@ -1768,7 +1768,7 @@ ObjectProperty *object_property_add_uint16_ptr(Object *obj, const char *name,
-> >  
-> >  ObjectProperty *object_class_property_add_uint16_ptr(ObjectClass *klass,
-> >                                            const char *name,
-> > -                                          const uint16_t *v,
-> > +                                          ptrdiff_t offset,
-> >                                            ObjectPropertyFlags flags);
-> >  
-> >  /**
-> > @@ -1789,7 +1789,7 @@ ObjectProperty *object_property_add_uint32_ptr(Object *obj, const char *name,
-> >  
-> >  ObjectProperty *object_class_property_add_uint32_ptr(ObjectClass *klass,
-> >                                            const char *name,
-> > -                                          const uint32_t *v,
-> > +                                          ptrdiff_t offset,
-> >                                            ObjectPropertyFlags flags);
-> >  
-> >  /**
-> > @@ -1810,7 +1810,7 @@ ObjectProperty *object_property_add_uint64_ptr(Object *obj, const char *name,
-> >  
-> >  ObjectProperty *object_class_property_add_uint64_ptr(ObjectClass *klass,
-> >                                            const char *name,
-> > -                                          const uint64_t *v,
-> > +                                          ptrdiff_t offset,
-> >                                            ObjectPropertyFlags flags);
-> >  
-> >  /**
-> > diff --git a/qom/object.c b/qom/object.c
-> > index 17692ed5c3..bb32f5d3ad 100644
-> > --- a/qom/object.c
-> > +++ b/qom/object.c
-> > @@ -2450,13 +2450,22 @@ static char *object_get_type(Object *obj, Error **errp)
-> >  }
-> >  
-> >  typedef struct {
-> > -    /* Pointer to property value */
-> > -    void *ptr;
-> > +    bool is_offset;
-> > +    union {
-> > +        /* Pointer to property value.  Valid if is_offset=false */
-> > +        void *ptr;
-> > +        /* Offset in Object struct.  Valid if is_offset=true */
-> > +        ptrdiff_t offset;
-> > +    };
-> >  } PointerProperty;
-> >  
-> >  static void *pointer_property_get_ptr(Object *obj, PointerProperty *prop)
-> >  {
-> > -    return prop->ptr;
-> > +    if (prop->is_offset) {
-> > +        return (void *)obj + prop->offset;
-> > +    } else {
-> > +        return prop->ptr;
-> > +    }
-> >  }
-> >  
-> >  static void property_get_uint8_ptr(Object *obj, Visitor *v, const char *name,
-> > @@ -2573,10 +2582,11 @@ object_class_property_add_uint_ptr(ObjectClass *oc, const char *name,
-> >                                     ObjectPropertyAccessor getter,
-> >                                     ObjectPropertyAccessor setter,
-> >                                     ObjectPropertyFlags flags,
-> > -                                   void *ptr)
-> > +                                   ptrdiff_t offset)
-> >  {
-> >      PointerProperty *prop = g_new0(PointerProperty, 1);
-> > -    prop->ptr = ptr;
-> > +    prop->is_offset = true;
-> > +    prop->offset = offset;
-> >      return object_class_property_add(oc, name, type,
-> >                                       (flags & OBJ_PROP_FLAG_READ) ? getter : NULL,
-> >                                       (flags & OBJ_PROP_FLAG_WRITE) ? setter : NULL,
-> > @@ -2597,13 +2607,13 @@ object_property_add_uint8_ptr(Object *obj, const char *name,
-> >  
-> >  ObjectProperty *
-> >  object_class_property_add_uint8_ptr(ObjectClass *klass, const char *name,
-> > -                                    const uint8_t *v,
-> > +                                    ptrdiff_t offset,
-> >                                      ObjectPropertyFlags flags)
-> >  {
-> >      return object_class_property_add_uint_ptr(klass, name, "uint8",
-> >                                                property_get_uint8_ptr,
-> >                                                property_set_uint8_ptr,
-> > -                                              flags, (void *)v);
-> > +                                              flags, offset);
-> >  }
-> >  
-> >  ObjectProperty *
-> > @@ -2620,13 +2630,13 @@ object_property_add_uint16_ptr(Object *obj, const char *name,
-> >  
-> >  ObjectProperty *
-> >  object_class_property_add_uint16_ptr(ObjectClass *klass, const char *name,
-> > -                                     const uint16_t *v,
-> > +                                     ptrdiff_t offset,
-> >                                       ObjectPropertyFlags flags)
-> >  {
-> >      return object_class_property_add_uint_ptr(klass, name, "uint16",
-> >                                                property_get_uint16_ptr,
-> >                                                property_set_uint16_ptr,
-> > -                                              flags, (void *)v);
-> > +                                              flags, offset);
-> >  }
-> >  
-> >  ObjectProperty *
-> > @@ -2643,13 +2653,13 @@ object_property_add_uint32_ptr(Object *obj, const char *name,
-> >  
-> >  ObjectProperty *
-> >  object_class_property_add_uint32_ptr(ObjectClass *klass, const char *name,
-> > -                                     const uint32_t *v,
-> > +                                     ptrdiff_t offset,
-> >                                       ObjectPropertyFlags flags)
-> >  {
-> >      return object_class_property_add_uint_ptr(klass, name, "uint32",
-> >                                                property_get_uint32_ptr,
-> >                                                property_set_uint32_ptr,
-> > -                                              flags, (void *)v);
-> > +                                              flags, offset);
-> >  }
-> >  
-> >  ObjectProperty *
-> > @@ -2666,13 +2676,13 @@ object_property_add_uint64_ptr(Object *obj, const char *name,
-> >  
-> >  ObjectProperty *
-> >  object_class_property_add_uint64_ptr(ObjectClass *klass, const char *name,
-> > -                                     const uint64_t *v,
-> > +                                     ptrdiff_t offset,
-> >                                       ObjectPropertyFlags flags)
-> >  {
-> >      return object_class_property_add_uint_ptr(klass, name, "uint64",
-> >                                                property_get_uint64_ptr,
-> >                                                property_set_uint64_ptr,
-> > -                                              flags, (void *)v);
-> > +                                              flags, offset);
-> >  }
-> >  
-> >  typedef struct {
-> > diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
-> > index 1b76581980..fba30c20b2 100644
-> > --- a/tests/check-qom-proplist.c
-> > +++ b/tests/check-qom-proplist.c
-> > @@ -61,6 +61,7 @@ struct DummyObject {
-> >      bool bv;
-> >      DummyAnimal av;
-> >      char *sv;
-> > +    uint8_t u8v;
-> >  };
-> >  
-> >  struct DummyObjectClass {
-> > @@ -141,6 +142,9 @@ static void dummy_class_init(ObjectClass *cls, void *data)
-> >                                     &dummy_animal_map,
-> >                                     dummy_get_av,
-> >                                     dummy_set_av);
-> > +    object_class_property_add_uint8_ptr(cls, "u8v",
-> > +                                        offsetof(DummyObject, u8v),
-> > +                                        OBJ_PROP_FLAG_READWRITE);
-> >  }
-> >  
-> >  
-> > @@ -385,12 +389,14 @@ static void test_dummy_createlist(void)
-> >                     "bv", "yes",
-> >                     "sv", "Hiss hiss hiss",
-> >                     "av", "platypus",
-> > +                   "u8v", "42",
-> >                     NULL));
-> >  
-> >      g_assert(err == NULL);
-> >      g_assert_cmpstr(dobj->sv, ==, "Hiss hiss hiss");
-> >      g_assert(dobj->bv == true);
-> >      g_assert(dobj->av == DUMMY_PLATYPUS);
-> > +    g_assert_cmpint(dobj->u8v, ==, 42);
-> >  
-> >      g_assert(object_resolve_path_component(parent, "dummy0")
-> >               == OBJECT(dobj));
-> > @@ -531,7 +537,7 @@ static void test_dummy_iterator(void)
-> >  {
-> >      const char *expected[] = {
-> >          "type",                 /* inherited from TYPE_OBJECT */
-> > -        "sv", "av",             /* class properties */
-> > +        "sv", "av", "u8v",      /* class properties */
-> >          "bv"};                  /* instance property */
-> >      Object *parent = object_get_objects_root();
-> >      DummyObject *dobj = DUMMY_OBJECT(
-> > @@ -552,7 +558,7 @@ static void test_dummy_iterator(void)
-> >  
-> >  static void test_dummy_class_iterator(void)
-> >  {
-> > -    const char *expected[] = { "type", "av", "sv" };
-> > +    const char *expected[] = { "type", "av", "sv", "u8v" };
-> >      ObjectPropertyIterator iter;
-> >      ObjectClass *klass = object_class_by_name(TYPE_DUMMY);
-> >  
-> 
-
--- 
-Eduardo
+Paolo
 
 
