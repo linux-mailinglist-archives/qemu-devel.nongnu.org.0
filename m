@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75F0295153
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 19:10:59 +0200 (CEST)
-Received: from localhost ([::1]:48984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8827295161
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 19:15:09 +0200 (CEST)
+Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVHda-0002iM-Ve
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 13:10:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43604)
+	id 1kVHhc-0006q1-SG
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 13:15:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVHbc-0001MB-Ng
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:08:56 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42592)
+ id 1kVHft-0005co-89
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:13:21 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVHba-0002MN-Jt
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:08:56 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j7so3879920wrt.9
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:08:53 -0700 (PDT)
+ id 1kVHfr-0002wh-Mg
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:13:20 -0400
+Received: by mail-wm1-x342.google.com with SMTP id k18so3406148wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:13:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=C35h4gzeWKOzuL3ecpIsHo4GhJGpUZG/jcU7/ZLk4Mk=;
- b=R973wmhhQbg4UmllLtVHMBQH3UBvSaLkxbUY+vsJqU9RgTucL4bMHHbQ3WQBv06kLb
- Vy4mEWpmh6O1uTXeEe2+0xHqe6qnBvaj6IYJNjHSKIIiGh2vfkYR1BL+aRBBpATgCtfn
- UBPxdsabAtvOw55kM13j1zYOZ+O1IknRK/n/jUrsKZxNZsd/YEaVZBxwdJiuoHbOKPei
- lTAi+PWZzybjjBpb9PFsryCMKeO/FPO+DAnXWPiXt7/NA6D6UYkwPDJsDkAV1wd6dOvy
- xruswNbq8CC3CGuqTzxA6bFNQEDyVQswbtbJMLB0OCn749oHdaQHR+RXkWewGdtWXtly
- Whtw==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=mxhig2gVDmSghykOAO6fmLdZDLQ0prvd8aB88BZmbhFd0C5+DSCGDdnQ+tyDNIC1bQ
+ b2aUaxSRtpBIDaWx3MAJvFH62ditaGRbNZTqr8Jc3ZChqgWGXMAfRn8HpFtxzHHTKaEV
+ mJoyLROwchNIoVd8uyiC+UnDjtNRZAw7ullQxN+EIFbfcesIoYJ86G47UFKUXdej6XS3
+ rJ3Y2GDAHtHgo5SCv7AuK8eOlyGuTNpRbJFIJuJmk46vXTSsuExi4wQdAK9rPoB4V0fU
+ NdFUvCVBoBkuTNFRs11gAURWWUiC1Q301jpGH+9sqAXweJNVsOY+PFbtvsRrEFj7KCi0
+ 9dEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=C35h4gzeWKOzuL3ecpIsHo4GhJGpUZG/jcU7/ZLk4Mk=;
- b=hD0BeBNmb6yppCB1Uz+y35xLEPWS6vPCHeaEFBPl7mXuMFTlv8cIaAW1Ak3b+ua8/K
- zNt9dg0SBvPa2xR2f0Mwg81ckGw2+nqpVdsAR+amLOOK3f91YhtyyFcXRyESRIodJJML
- F3DwL+V7MJBM2dHr6iMI8KoN4aDM3wapDyHpEHmfuJfjW2Ri17zYtb6HafiPwKbahc8j
- AzO66j5+36AopIZAq+apPudvSeVyd8MiM24uebz3uHQ3BwPTMD9TiqtFZoA0ePRpgcU+
- XzjUYpB/BaL30rYt2danbfgRRor/JuDZJOvVoW2WWDTHTje2dZ5NMDe8cWWv5/xwqlD4
- qXCA==
-X-Gm-Message-State: AOAM532hFKWHXcDApJ8yKm8cctdYXYg42yafYzuWKPg6aegGzidQJK4w
- X8iuibjj5mnKAzaoXJ0L2fzuoA==
-X-Google-Smtp-Source: ABdhPJwPT8NoVOWSQ8c0wVWJQkDPSFO8KkA/knF+CCSLG1465vbIMwS6akimQ9EYxtzX1JQJYKsRzg==
-X-Received: by 2002:adf:f986:: with SMTP id f6mr6246868wrr.38.1603300132904;
- Wed, 21 Oct 2020 10:08:52 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=HdpIxE9v7V0oxHMOCTXEdNpwxdWdGZGUMPogxFbVlQdFi5KmZS1t8/zZ+pZHdPPC/3
+ 64fnqhMLWek+1eiG7rPUwTDWpJQC37+FPPyOXuXuXSNe0w3WBI/qcWXlmnhUTTIIYqzJ
+ iYDpfPA5Hv6egRuLmz7maPNcoSHhJ42fGcKF5+KK9xONvc+Uby8TH1rYCLHCexulbimE
+ q8gusg/WSQ0HoqhUCRYh2eJKrl3/l0Cw9WOFSZdDi71q3axaIN8cJc+LSgr2/1Mh4bbY
+ uO00tN5WEOmGD1psZudBdWqeA0DiqkU73kubN7J07kioNLzRXF6SEI2owaNjS5srCHzD
+ R9YA==
+X-Gm-Message-State: AOAM5338WLOV1SXeZM4PbDpK+4NeFURK1F7iiN6iA4xwfFLDWdnAo3DQ
+ J4+pGpYANfhCBPJqHWSDi/8sBw==
+X-Google-Smtp-Source: ABdhPJynZaxaRYvb+QFD8rJiFC372JjQKr7Bh4BMeQq++asSMSHZLiXh/vbqHm1Z54jGmD9cuAkcqw==
+X-Received: by 2002:a1c:7708:: with SMTP id t8mr4596357wmi.6.1603300398257;
+ Wed, 21 Oct 2020 10:13:18 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x21sm9202767wmi.3.2020.10.21.10.08.43
+ by smtp.gmail.com with ESMTPSA id l6sm5104894wrt.7.2020.10.21.10.13.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 10:08:46 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4E4641FF90;
- Wed, 21 Oct 2020 18:08:43 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 4/4] hw/core: implement a guest-loader to support static
- hypervisor guests
-Date: Wed, 21 Oct 2020 18:08:42 +0100
-Message-Id: <20201021170842.25762-5-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201021170842.25762-1-alex.bennee@linaro.org>
-References: <20201021170842.25762-1-alex.bennee@linaro.org>
+ Wed, 21 Oct 2020 10:13:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6F3D81FF7E;
+ Wed, 21 Oct 2020 18:13:16 +0100 (BST)
+References: <20201021045149.1582203-1-richard.henderson@linaro.org>
+ <20201021045149.1582203-2-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [RFC PATCH 01/15] qemu/int128: Add int128_or
+In-reply-to: <20201021045149.1582203-2-richard.henderson@linaro.org>
+Date: Wed, 21 Oct 2020 18:13:16 +0100
+Message-ID: <87zh4fv6xf.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,233 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
- stefano.stabellini@linaro.org, takahiro.akashi@linaro.org,
- stefano.stabellini@xilinx.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- stratos-dev@op-lists.linaro.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hypervisors, especially type-1 ones, need the firmware/bootcode to put
-their initial guest somewhere in memory and pass the information to it
-via platform data. The guest-loader is modelled after the generic
-loader for exactly this sort of purpose:
 
-  $QEMU $ARGS  -kernel ~/xen.git/xen/xen \
-    -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
-    -device guest-loader,addr=0x42000000,kernel=Image,bootargs="root=/dev/sda2 ro console=hvc0 earlyprintk=xen" \
-    -device guest-loader,addr=0x47000000,initrd=rootfs.cpio
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- hw/core/guest-loader.h |  34 ++++++++++
- hw/core/guest-loader.c | 140 +++++++++++++++++++++++++++++++++++++++++
- hw/core/meson.build    |   2 +
- 3 files changed, 176 insertions(+)
- create mode 100644 hw/core/guest-loader.h
- create mode 100644 hw/core/guest-loader.c
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/core/guest-loader.h b/hw/core/guest-loader.h
-new file mode 100644
-index 0000000000..07f4b4884b
---- /dev/null
-+++ b/hw/core/guest-loader.h
-@@ -0,0 +1,34 @@
-+/*
-+ * Guest Loader
-+ *
-+ * Copyright (C) 2020 Linaro
-+ * Written by Alex Bennée <alex.bennee@linaro.org>
-+ * (based on the generic-loader by Li Guang <lig.fnst@cn.fujitsu.com>)
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef GUEST_LOADER_H
-+#define GUEST_LOADER_H
-+
-+#include "hw/qdev-core.h"
-+#include "qom/object.h"
-+
-+struct GuestLoaderState {
-+    /* <private> */
-+    DeviceState parent_obj;
-+
-+    /* <public> */
-+    uint64_t addr;
-+    char *kernel;
-+    char *args;
-+    char *initrd;
-+};
-+
-+#define TYPE_GUEST_LOADER "guest-loader"
-+OBJECT_DECLARE_SIMPLE_TYPE(GuestLoaderState, GUEST_LOADER)
-+
-+#endif
-diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
-new file mode 100644
-index 0000000000..1ce39842be
---- /dev/null
-+++ b/hw/core/guest-loader.c
-@@ -0,0 +1,140 @@
-+/*
-+ * Guest Loader
-+ *
-+ * Copyright (C) 2020 Linaro
-+ * Written by Alex Bennée <alex.bennee@linaro.org>
-+ * (based on the generic-loader by Li Guang <lig.fnst@cn.fujitsu.com>)
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+/*
-+ * Much like the generic-loader this is treated as a special device
-+ * inside QEMU. However unlike the generic-loader this device is used
-+ * to load guest images for hypervisors. As part of that process the
-+ * hypervisor needs to have platform information passed to it by the
-+ * lower levels of the stack (e.g. firmware/bootloader). If you boot
-+ * the hypervisor directly you use the guest-loader to load the Dom0
-+ * or equivalent guest images in the right place in the same way a
-+ * boot loader would.
-+ *
-+ * This is only relevant for full system emulation.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/core/cpu.h"
-+#include "hw/sysbus.h"
-+#include "sysemu/dma.h"
-+#include "hw/loader.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
-+#include "guest-loader.h"
-+#include "sysemu/device_tree.h"
-+#include "hw/boards.h"
-+
-+/*
-+ * Insert some FDT nodes for the loaded blob.
-+ */
-+static void loader_insert_platform_data(GuestLoaderState *s, int size, Error **errp)
-+{
-+    MachineState *machine = MACHINE(qdev_get_machine());
-+    void *fdt = machine->fdt;
-+    g_autofree char *node = g_strdup_printf("/chosen/module@%#08lx", s->addr);
-+    uint64_t reg_attr[2] = {cpu_to_be64(s->addr), cpu_to_be64(size)};
-+
-+    if (!fdt) {
-+        error_setg(errp, "Cannot modify FDT fields if the machine has none");
-+        return;
-+    }
-+
-+    qemu_fdt_add_subnode(fdt, node);
-+    qemu_fdt_setprop(fdt, node, "reg", &reg_attr, sizeof(reg_attr));
-+
-+    if (s->kernel) {
-+        const char *compat[2] = { "multiboot,module", "multiboot,kernel" };
-+        if (qemu_fdt_setprop_string_array
-+            (fdt, node, "compatible", (char **) &compat, ARRAY_SIZE(compat)) < 0) {
-+            error_setg(errp, "couldn't set %s/compatible", node);
-+            return;
-+        }
-+        if (s->args) {
-+            if (qemu_fdt_setprop_string(fdt, node, "bootargs", s->args) < 0) {
-+                error_setg(errp, "couldn't set %s/bootargs", node);
-+            }
-+        }
-+    } else if (s->initrd) {
-+        const char * compat[2] = { "multiboot,module", "multiboot,ramdisk" };
-+        if (qemu_fdt_setprop_string_array
-+            (fdt, node, "compatible", (char **) &compat, ARRAY_SIZE(compat)) < 0) {
-+            error_setg(errp, "couldn't set %s/compatible", node);
-+            return;
-+        }
-+    }
-+}
-+
-+static void guest_loader_realize(DeviceState *dev, Error **errp)
-+{
-+    GuestLoaderState *s = GUEST_LOADER(dev);
-+    char *file = s->kernel ? s->kernel : s->initrd;
-+    int size = 0;
-+
-+    /* Perform some error checking on the user's options */
-+    if (s->kernel && s->initrd) {
-+        error_setg(errp, "Cannot specify a kernel and initrd in the same stanza");
-+        return;
-+    } else if (!s->kernel && !s->initrd)  {
-+        error_setg(errp, "Need to specify a kernel or initrd image");
-+        return;
-+    } else if (!s->addr) {
-+        error_setg(errp, "Need to specify the address of guest blob");
-+        return;
-+    } else if (s->args && !s->kernel) {
-+        error_setg(errp, "Boot args only relevant to kernel blobs");
-+    }
-+
-+    /* Default to the maximum size being the machine's ram size */
-+    size = load_image_targphys_as(file, s->addr, ram_size, NULL);
-+    if (size < 0) {
-+        error_setg(errp, "Cannot load specified image %s", file);
-+        return;
-+    }
-+
-+    /* Now the image is loaded we need to update the platform data */
-+    loader_insert_platform_data(s, size, errp);
-+}
-+
-+static Property guest_loader_props[] = {
-+    DEFINE_PROP_UINT64("addr", GuestLoaderState, addr, 0),
-+    DEFINE_PROP_STRING("kernel", GuestLoaderState, kernel),
-+    DEFINE_PROP_STRING("bootargs", GuestLoaderState, args),
-+    DEFINE_PROP_STRING("initrd", GuestLoaderState, initrd),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void guest_loader_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = guest_loader_realize;
-+    device_class_set_props(dc, guest_loader_props);
-+    dc->desc = "Guest Loader";
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+}
-+
-+static TypeInfo guest_loader_info = {
-+    .name = TYPE_GUEST_LOADER,
-+    .parent = TYPE_DEVICE,
-+    .instance_size = sizeof(GuestLoaderState),
-+    .class_init = guest_loader_class_init,
-+};
-+
-+static void guest_loader_register_type(void)
-+{
-+    type_register_static(&guest_loader_info);
-+}
-+
-+type_init(guest_loader_register_type)
-diff --git a/hw/core/meson.build b/hw/core/meson.build
-index 4a744f3b5e..27a69fc578 100644
---- a/hw/core/meson.build
-+++ b/hw/core/meson.build
-@@ -37,6 +37,8 @@ softmmu_ss.add(files(
-   'clock-vmstate.c',
- ))
- 
-+softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('guest-loader.c'))
-+
- specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
-   'machine-qmp-cmds.c',
-   'numa.c',
--- 
-2.20.1
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
