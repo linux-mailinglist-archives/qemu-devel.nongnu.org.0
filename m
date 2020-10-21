@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527DE295045
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:57:53 +0200 (CEST)
-Received: from localhost ([::1]:40668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CC929505E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 18:05:36 +0200 (CEST)
+Received: from localhost ([::1]:57760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVGUq-0005Gp-07
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
+	id 1kVGcI-0004D6-OL
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 12:05:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kVGTd-0004a1-OK
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 11:56:37 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36007)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kVGY5-00085B-Ub
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:01:14 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kVGTb-0000Kg-Mf
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 11:56:37 -0400
-Received: by mail-ej1-x630.google.com with SMTP id w27so55215ejb.3
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 08:56:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kVGY1-00010g-QW
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:01:13 -0400
+Received: by mail-pl1-x644.google.com with SMTP id t4so1413694plq.13
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 09:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=T/nt0HmUOjpMSa61ZahDw+tiEyvkBpINbyq2D/vxEaQ=;
- b=eGAdSeVrScHGUpVg4RluWROkCuRXiFcOOe5aOpIA7OCjHgEUByc5N0lcM0ZLA5LBXB
- fUXfQt4rU34qFzK1WwLqIteIW0wC5Geuv+8NnAozBjj1kYq6aVPehVh61qLB9zPwyQqG
- +c5mTYbd76aq+cDvVB5f6vC3bsq4FiMAgr0JyrjYp3Wr2sVHfYEvvp3cxtR8xPQa1yvc
- vkRQRU696JzYG+siZ2SxgGHCLxdApFR2NsbQxHKw1WWD3Nq9WcjaVhip9YGeHcr61NfI
- B0Nks8Cv3K8RUpnDDHGBK9iYZxMrq+XlTsyWwpzmwnPfYzjExijBCDGRD4q6WuE3LLwg
- GTCQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0xLJwhjUoNXO/jjblBKyHUPr4cOn9Tt9inel8+vWTsM=;
+ b=KouGEELL1+36VIs3VSLVLN0kBmjcEnusw4TvQ5XDgL/VEl0Nem9D6QTBW43ts2s6Ie
+ 0YLaNMarjXtDUm+uar2YRlxpS7vBZqbo5K1CU9xB6AYzEXB0QyHnpIJWdclh3jez2rh9
+ 0mKoUmCehl3WZ70nkOOCK5s3xAlluPO36641EhYl7KQhsIztUQq8Ns9I8WNOf4UO0iiO
+ kydqwdaPPmJZE5UKUoFKtTfZWi7+OHyMJnYxSuz6VETyWRZlGbGtPVHcQ7ttziGamGHY
+ +ojUWNbV4Omk5DBQJEAJnkd2hZo702jhE8ugfzSOLsZzDJTgy9jqzL3soTvRDQGpahgj
+ N0iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=T/nt0HmUOjpMSa61ZahDw+tiEyvkBpINbyq2D/vxEaQ=;
- b=JPv8YM1h4eY+F2j+Qhpj9xk7GxuGKONnfhF+EuRS6ZumKW1HRYnmYLoYVjxMShnm90
- VryyeSDwgF5hUHeYsjQNNnM7FPgviZ58HUO/NtyVcTcsc3DVyfkSH3gXpzf6aiarRWXJ
- OGLldZRutCZ+nJGGe+1foX/f7XUE1AW4r7uzkxWLpsMZvfVag7vbYLgJ0EnFgM/u+K69
- 6D4x7y1B/KPhBf0B2P8hYhHcEBAlY2DDYWfrAHrbwuyVVO1Dx0ywGxFMIeoX7u6DiiBA
- QVJZ5naWnZ7VFIOJC6LK3dN7nk/PFO23j54BDy/LXT5njnIOOYsDpowGkc1MrcJhUIdA
- HvtA==
-X-Gm-Message-State: AOAM530MC6omKn9wFWttcfS2eHlUKIFSuIANNEPWqJTJZRHIwfar7hdF
- ytZWqnT9lsEAlphmsmjOiPdFZDU/e+N6EOiHBxGpSw==
-X-Google-Smtp-Source: ABdhPJw3hEUR942Hu/kGUi/qmRPq7805lJdqS30vK/fGKqZJjm9BF6I4xyoq0u2WZ8YQ9ryhXc+zaRyXIGDxmC4Sjw0=
-X-Received: by 2002:a17:906:af8d:: with SMTP id
- mj13mr4118437ejb.85.1603295793752; 
- Wed, 21 Oct 2020 08:56:33 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0xLJwhjUoNXO/jjblBKyHUPr4cOn9Tt9inel8+vWTsM=;
+ b=ft9QO7pW493QYijzq0rlqlYqfAYKr++kBVXgYZkVRodKpjiaQgbmGT5tcq0bw/TdC6
+ zRkbt0ykBcJzxywPeCoAkFgWt8eHC37M4cyEr7ZxAiPS9xgV2/zEFEwlPKb1vpdfio/4
+ bwTBqehveo6vfLP0xkrpnXVtxjI4udQ6dFtJ5AKulSjR73HiDlTMmfmR0Bol4DqLRZSv
+ DLTM6rhRP1gi4W0o16dDviPaw9XMmk86rjg83Pwiw+qu7xjHlBJK0rTRnZuti7sIzl6w
+ Pi2Jr5iSC+jsE3W7wodzA5QzRy1T8KmlpLMHapfKBhoGKmc+sU68TTgD634+yuwdfCSB
+ CFWg==
+X-Gm-Message-State: AOAM530rZ54oIYkkxuoJPKQjPWYpWt6p3i+LaAMFpWOC5B9+zlxivEAl
+ 4jtrgGnjR9sJXQdF3PDYDrMulA==
+X-Google-Smtp-Source: ABdhPJxxKrA8zNMrn6CV1QpiKCJiRpMSn1aD8K1essNmuMh7xkpfyRzATUMzdSNOtlLmlDt4von+gw==
+X-Received: by 2002:a17:90a:109:: with SMTP id b9mr4174567pjb.35.1603296068354; 
+ Wed, 21 Oct 2020 09:01:08 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id v129sm2794886pfc.76.2020.10.21.09.01.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Oct 2020 09:01:07 -0700 (PDT)
+Subject: Re: [PATCH v4 2/2] util/oslib: Assert qemu_try_memalign() alignment
+ is a power of 2
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201020111743.2074694-1-philmd@redhat.com>
+ <20201020111743.2074694-3-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9c578c16-ad57-33d8-9900-b6513cf207e1@linaro.org>
+Date: Wed, 21 Oct 2020 09:01:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <3d61f127-d3b0-c8b5-877b-434228bcf275@redhat.com>
-In-Reply-To: <3d61f127-d3b0-c8b5-877b-434228bcf275@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 21 Oct 2020 16:56:22 +0100
-Message-ID: <CAFEAcA91302TiXbL9rnRRRsZwK8jYLZtd17JtaFXXr+1P2k5Uw@mail.gmail.com>
-Subject: Re: [PULL v2 00/21] Python patches
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+In-Reply-To: <20201020111743.2074694-3-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,36 +91,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Oct 2020 at 20:10, John Snow <jsnow@redhat.com> wrote:
->
-> The following changes since commit 4c41341af76cfc85b5a6c0f87de4838672ab9f89:
->
->    Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20201020'
-> into staging (2020-10-20 11:20:36 +0100)
->
-> are available in the Git repository at:
->
->    https://gitlab.com/jsnow/qemu.git tags/python-pull-request
->
-> for you to fetch changes up to 39cf73c3494045b4418c9c1db8e803640e2150dc:
->
->    python/qemu/qmp.py: Fix settimeout operation (2020-10-20 15:00:06 -0400)
->
-> ----------------------------------------------------------------
-> Pull request V2 - Squashed small change in from Nir on 20/21.
->
+On 10/20/20 4:17 AM, Philippe Mathieu-Daudé wrote:
+> @@ -200,6 +200,9 @@ void *qemu_try_memalign(size_t alignment, size_t size)
+>  
+>      if (alignment < sizeof(void*)) {
+>          alignment = sizeof(void*);
+> +    } else {
+> +        g_assert(QEMU_IS_ALIGNED(alignment, sizeof(void *)));
+
+This is redundant with the if above, and the assert below.
+
+> +        g_assert(is_power_of_2(alignment));
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
+r~
 
