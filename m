@@ -2,109 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F81829464B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 03:24:39 +0200 (CEST)
-Received: from localhost ([::1]:43398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1548294651
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 03:37:29 +0200 (CEST)
+Received: from localhost ([::1]:54188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV2rm-0006AJ-BS
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 21:24:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44570)
+	id 1kV34B-0003NL-2y
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 21:37:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2cn-00027B-QS
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:09:09 -0400
-Received: from mail-co1nam11on2130.outbound.protection.outlook.com
- ([40.107.220.130]:28640 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2cm-0004s9-BY
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:09:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MGjmwzHr59oNcpLTf4EMRWuHRNVwTSM9D4AN6hK9JNqNyY1D7Oe9IJTsB3ndXoCOG0lxlKpw/PuWyjYjHNBm1rNKP/ZG6dQSYBX4j5oSOazOQ8WRjV+RoR9ByA0mttYLiCAzH7LrWeuOl90G/4yScfGNXojiRoJH825DVHkdAC7YjhA+hMycHO/Uo8ONaYk0nO4L4sS24Iefo1u54flHu4FjZ/FLADE8DyUVU+OufdEiQeBBoOCQuZFIUv0htR22AblXJM5UtgOlRetNNgAaLScd0IaQpG1vUorx198loaSz8z3UBiq3OPInJCBO60fOcP+4VEbZA6tIgjiOi/wVTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qzftJy83Kkyh0SvycGdUAqsn3APx2vCrNfLWB5KU5aw=;
- b=autACgSdJNxoCVKWHn+WTAjpuFRCacZB0kH6NDn2l8MFjOXLM1r3iXsvjL3O8Hygf7a3xZmwzg8mJvVP/UlSM4N7UpapGFM5ykEeStgKvmjUQ2E0baF5BEzXTZlYDm+u9d+4j6K4J72kod/TxReDC7AS/lhrqEUYR4hQjTGe07L+n9qQSCfbMvfd3HzmvSPL7ouoz2HkG/SOJmGW8qCpY+xqBxpaW3qEEumzqKulQl3wmesSgTnvVnygZ7z4PEC1npopfjrq02knPD1dB2QLJdNK3xuJuf8gWLRcpAf8mp+hcZlOaY7uKbJMhVaEkuqk80/HTryna+rs0y1dfvWDlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qzftJy83Kkyh0SvycGdUAqsn3APx2vCrNfLWB5KU5aw=;
- b=dXp2hMEiv6RuXTl+RNyjZy6/yPXL7IgiTUc2hj0oPwmAz1RnLjQ9B2LZX96A1IbIcgSZSVgfS7gZWxVaVmEUkrveKeKda/e4PEEbhxHdEmapiLYQDW2yIe2U/M2jgSNcDkQVwgre1NCJRzAkVk8i3Wnc4kldorncb63uRVCZwok=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN2PR03MB2333.namprd03.prod.outlook.com (2603:10b6:804:c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22; Wed, 21 Oct
- 2020 01:08:28 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 01:08:28 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 16/16] scripts/oss-fuzz: remove the general-fuzz target
-Date: Tue, 20 Oct 2020 21:07:52 -0400
-Message-Id: <20201021010752.973230-17-alxndr@bu.edu>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201021010752.973230-1-alxndr@bu.edu>
-References: <20201021010752.973230-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [72.93.72.163]
-X-ClientProxiedBy: BL1PR13CA0119.namprd13.prod.outlook.com
- (2603:10b6:208:2b9::34) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kV32O-0002ta-Bn
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:35:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kV32M-0007v4-2v
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:35:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kV32J-0003SI-Qu
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 01:35:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7CDFD2E8042
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 01:35:31 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from stormtrooper.vrmnet (72.93.72.163) by
- BL1PR13CA0119.namprd13.prod.outlook.com (2603:10b6:208:2b9::34) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.8 via Frontend
- Transport; Wed, 21 Oct 2020 01:08:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5bf79c84-b71a-402f-3f9f-08d8755dd17d
-X-MS-TrafficTypeDiagnostic: SN2PR03MB2333:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN2PR03MB23339190C6CE6BDC2F13F288BA1C0@SN2PR03MB2333.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NjmGIoCqezQgTAkVPJ38JhK3mM89RX17k6XAdN+oT7TNdlBeKiTd7T82lWOxwBhntVe121vSAQp5ur7N03qWG1NkX2KhnmlTKAYzqG5ogyWIqW9bIePffd0HXMajwSaGKsXYlrIpYFz6KW3hYUOBvSklNn2ajv9pnjkdHLkVhh/B1bYtjW8/1D+QRTJQckXKjoHq6VfP+SbsendPAvlpS69eeurmFBaCW0DTqo21lDN6l2HZ9PrLhnMY2lshWZ9nOJ09EmpgC1hRvzqZXmIV4Y25JZWpmdWVyqWzmolZ00R230QkbzxPFAwTcwmIbKqxH4PJu5I1IcyNPixlr2DXxg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(52116002)(2616005)(8676002)(6512007)(6916009)(6506007)(36756003)(786003)(316002)(956004)(478600001)(1076003)(4326008)(6486002)(75432002)(8936002)(54906003)(86362001)(5660300002)(26005)(16526019)(186003)(6666004)(66946007)(2906002)(66476007)(66556008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 6WcWdqJIhFidizEQJNc2vs0AwTu9/PnAWWsR7G9l4UffgS2kuQvPCcLmGS5UmLyaYd/l9yY7TYOF/5qXnqasTbVpJP3EuUVbXX3aeA/MflZPJMSKZQq3ZGUyVQCfGBnUAjiwHBLaATTW1yHceVdiDrzic/5N8snLeXhrPhhSA/IGRTUzPQFD4nQyGnICC5emyD+kB2YJuz9hs0+M4L0hxWTRr9JZrKsNOw8AmbmNIAl+6dznth+CSYFoq/THQOrpLROAvd1JAyX8RrIx6iTeFlHqlziSoNV4IFrf7k30WrnYZaQdUoHsY5qGrwhP/oWWwweDEKQg/iD757EyqQyTSY+ydKeQBqJn5UxcAXvV5PbV/7hFEpBBZ8QX3fvHC8HoRWsWyQdDKvAmF60rG0nOXdjxa+uuL9+wJz+CIw4Vzu6NFlvmez7yLWF7pMyB2YFxeqxYV/EYtEdj3GtIUwSgEBQoKmoTsBtvqkJb9p7+P4tmle2PLzAXYYbiznX32lnT4KydzZGlzdPSu9tXccK/EBlyaMu5opdOY5/D7HrwsXDDyiDo4RAM5n4gfgKrbFu8c9hLhMebHgAZz4Dvi2mUEPUU1i8Se9URfNUi0bVofb9SqdJaJ3RvNWc97/1WLKwl2dk/L3Shreo180tEGcrQyg==
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bf79c84-b71a-402f-3f9f-08d8755dd17d
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 01:08:28.2268 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XxABPzdIz4kpP2kbjsXr5qqmoeuuhDbDGmKmxk56x5IVm59mjjkHBfRotsyQtA5n
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2333
-Received-SPF: pass client-ip=40.107.220.130; envelope-from=alxndr@bu.edu;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 21:08:14
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.441,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Oct 2020 01:25:35 -0000
+From: Chaoscode <1900779@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: bytes disassembly mixes
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dennis-restle
+X-Launchpad-Bug-Reporter: Chaoscode (dennis-restle)
+X-Launchpad-Bug-Modifier: Chaoscode (dennis-restle)
+Message-Id: <160324353545.18570.15111142462284405315.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1900779] [NEW] xp /16i on arm mixes DWords
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="82ef3cb779698368c64f0c310863c3535f60eea0"; Instance="production"
+X-Launchpad-Hash: f452d87b6ec657a3f4c4065ebcd6e6e997614070
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 21:35:32
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -113,40 +71,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- f4bug@amsat.org, darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, dimastep@yandex-team.ru
+Reply-To: Bug 1900779 <1900779@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-general-fuzz is not a standalone fuzzer - it requires some env variables
-to be set. On oss-fuzz, we set these with some predefined
-general-fuzz-{...} targets, that are thin wrappers around general-fuzz.
-Remove general-fuzz from the oss-fuzz build, so oss-fuzz does not treat
-it as a standalone fuzzer.
+Public bug reported:
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- scripts/oss-fuzz/build.sh | 6 ++++++
- 1 file changed, 6 insertions(+)
+I was working with qemuand wanted to understag ATAG structure.
+In Monitor mode I used xp /16i 0x100 and I got really confused.
+with xp /16i 0x100:
+At address 0x120 the DWords are 0x00000000, 0x00000004, 0x54410009, 0x74736=
+574
+with xp /16x 0x100:
+At address 0x120 the DWords are 0x54410001, 0x00000001, 0x00000001, 0x00000=
+000
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 0c3ca9e06f..eed73ea410 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -97,5 +97,11 @@ do
-     cp qemu-fuzz-i386 "$DEST_DIR/qemu-fuzz-i386-target-$target"
- done
- 
-+# Remove the general-fuzz target, as it requires some environment variables to
-+# be configured. We have some general-fuzz-{pc-q35, floppy, ...} targets that
-+# are thin wrappers around this target that set the required environment
-+# variables according to predefined configs.
-+rm "$DEST_DIR/qemu-fuzz-i386-target-general-fuzz"
-+
- echo "Done. The fuzzers are located in $DEST_DIR"
- exit 0
--- 
-2.28.0
+from my Terminal:
 
+(qemu) xp /16x 0x100
+0000000000000100: 0x00000005 0x54410001 0x00000001 0x00001000
+0000000000000110: 0x00000000 0x00000004 0x54410002 0x3c000000
+0000000000000120: 0x00000000 0x00000004 0x54410009 0x74736574
+0000000000000130: 0x00000000 0x00000000 0x00000000 0x00000000
+(qemu) xp /16i 0x100
+0x00000100:  00000005  andeq    r0, r0, r5
+0x00000104:  54410001  strbpl   r0, [r1], #-1
+0x00000108:  00000001  andeq    r0, r0, r1
+0x0000010c:  00001000  andeq    r1, r0, r0
+0x00000110:  00000000  andeq    r0, r0, r0
+0x00000114:  00000004  andeq    r0, r0, r4
+0x00000118:  54410002  strbpl   r0, [r1], #-2
+0x0000011c:  3c000000  .byte    0x00, 0x00, 0x00, 0x3c
+0x00000120:  54410001  strbpl   r0, [r1], #-1
+0x00000124:  00000001  andeq    r0, r0, r1
+0x00000128:  00001000  andeq    r1, r0, r0
+0x0000012c:  00000000  andeq    r0, r0, r0
+0x00000130:  00000004  andeq    r0, r0, r4
+0x00000134:  54410002  strbpl   r0, [r1], #-2
+0x00000138:  3c000000  .byte    0x00, 0x00, 0x00, 0x3c
+0x0000013c:  00000000  andeq    r0, r0, r0
+(increasing length only results in more 00000000  andeq    r0, r0, r0 Lines)
+
+Version:
+4.2.1Debian 1:4.2-3ubuntu6.6
+Commandline:
+qemu-system-arm -machine raspi2 --nographic -S -s -kernel ./vmlinuz --appen=
+d "test"
+./vmlinuz is a x64 linux kernel. I didn't care about architecture because i=
+ just wanted to see ATAG structure.
+I also tried
+qemu-system-arm -machine raspi2 --nographic -S -s -kernel ./overview.pdf --=
+append "test"
+same result.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: bytes disassembly mixes
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1900779
+
+Title:
+  xp /16i on arm mixes DWords
+
+Status in QEMU:
+  New
+
+Bug description:
+  I was working with qemuand wanted to understag ATAG structure.
+  In Monitor mode I used xp /16i 0x100 and I got really confused.
+  with xp /16i 0x100:
+  At address 0x120 the DWords are 0x00000000, 0x00000004, 0x54410009, 0x747=
+36574
+  with xp /16x 0x100:
+  At address 0x120 the DWords are 0x54410001, 0x00000001, 0x00000001, 0x000=
+00000
+
+  from my Terminal:
+
+  (qemu) xp /16x 0x100
+  0000000000000100: 0x00000005 0x54410001 0x00000001 0x00001000
+  0000000000000110: 0x00000000 0x00000004 0x54410002 0x3c000000
+  0000000000000120: 0x00000000 0x00000004 0x54410009 0x74736574
+  0000000000000130: 0x00000000 0x00000000 0x00000000 0x00000000
+  (qemu) xp /16i 0x100
+  0x00000100:  00000005  andeq    r0, r0, r5
+  0x00000104:  54410001  strbpl   r0, [r1], #-1
+  0x00000108:  00000001  andeq    r0, r0, r1
+  0x0000010c:  00001000  andeq    r1, r0, r0
+  0x00000110:  00000000  andeq    r0, r0, r0
+  0x00000114:  00000004  andeq    r0, r0, r4
+  0x00000118:  54410002  strbpl   r0, [r1], #-2
+  0x0000011c:  3c000000  .byte    0x00, 0x00, 0x00, 0x3c
+  0x00000120:  54410001  strbpl   r0, [r1], #-1
+  0x00000124:  00000001  andeq    r0, r0, r1
+  0x00000128:  00001000  andeq    r1, r0, r0
+  0x0000012c:  00000000  andeq    r0, r0, r0
+  0x00000130:  00000004  andeq    r0, r0, r4
+  0x00000134:  54410002  strbpl   r0, [r1], #-2
+  0x00000138:  3c000000  .byte    0x00, 0x00, 0x00, 0x3c
+  0x0000013c:  00000000  andeq    r0, r0, r0
+  (increasing length only results in more 00000000  andeq    r0, r0, r0 Lin=
+es)
+
+  Version:
+  4.2.1Debian 1:4.2-3ubuntu6.6
+  Commandline:
+  qemu-system-arm -machine raspi2 --nographic -S -s -kernel ./vmlinuz --app=
+end "test"
+  ./vmlinuz is a x64 linux kernel. I didn't care about architecture because=
+ i just wanted to see ATAG structure.
+  I also tried
+  qemu-system-arm -machine raspi2 --nographic -S -s -kernel ./overview.pdf =
+--append "test"
+  same result.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1900779/+subscriptions
 
