@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F62294639
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 03:18:51 +0200 (CEST)
-Received: from localhost ([::1]:59140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7578329462F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 03:14:49 +0200 (CEST)
+Received: from localhost ([::1]:51964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV2mB-0000vT-0b
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 21:18:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44446)
+	id 1kV2iG-0006D6-DS
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 21:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2cF-00018t-MS
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:35 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2cH-0001EQ-QT
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:37 -0400
 Received: from mail-co1nam11on2130.outbound.protection.outlook.com
  ([40.107.220.130]:28640 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2cD-0004s9-Rw
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:35 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2cF-0004s9-Vl
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:37 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IIlAFYas3jRDxvuPwmRUR013i3wBshX9onF8t2X83J+5prwa665eoppypKqYqT3CX1rRMX1Vmw1kiTf102IKAHpaWdRl3yOfNuBxuZetPVG/sZIZjmtGIXg24NiuPauNMFoE6VExmEb032Y4vgTIsxWzFgbtMdik97YqR8/dD1KNzjCWSQFjYR6UQsO4PtWuuzkp36gHMhxsXafJCK0TRA2uaiyPYbNbja0awCeHopLA3UjHXUJFbz7gtHi+eqdotRIe5oztjzu7ttoWX29MMurhNdbH3nBtDWjX8YSwotV/9tJvYrcX47GpjZvNoj9/KVtylF5K/SUdX4uwNnKNEA==
+ b=dqBnv7FCQHE339pD3btpr9BL7dCyxaM8IN0CKzKL+/TJFbe5qSsK04VLad1b4dsU7SIiivje+47KZAaVJ7wdZuMgbWS+dDkxIX9SaVQx2FRiuNNAIbi8FjaOKdD/PCj83dgX1CZ82BoaU1w78Yfv41M2WBLAYb6UYFFiCjfCvX08oMMnN09OXAlJy7vT8J3wBnlWasLesYqkE6Z+z+FkT0XXhsCoyf7B/r2TIGpVBbSxWiL3MFWEI5DdAuj8stSPOKLFEKQ5lycsqSIR8qV0/ajVsrovyB9lCjAm6LjV+W2bKcmG9EFKJ3tbGr9oMaOwbv4y3CPU5FMXl+WwyRaV8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=suH9REkuZLTDDMTO84INf7b5sOMP9r7ertN0K+0wW7o=;
- b=h5jyiNhRpoX7Lk4TGeeehebSi89vLE4NOzZTYyvOYNaTv26Z1qGf2N436rlmKDonjDgMOtwlqnUb8NZQh8S7bs80Q34qMQUFjCkY0+vIv3eoDYA3v9zaCClJ5EIiuGHsjBakO6ppOR9dQrZnt8Ab5lsTkk9X3C0FZlHAW9aYe9e+Dre69o+Uiln3v4gNQ0cwd/ONPPP8ZSPJuw8xoOOE1SnhK4SueANMfDVLN5Ry7PmD4uZH22N3aR9IoVOydXrdqFnsuzyKjHNBbJvhqZ1x7tnNDfVeVXxPoB4b7AMDHPTaQXcudAQffJrphpQ20UFoqkLJ2Sl/GIeFku5LUDwIMQ==
+ bh=+CZ8jI8JlveaKoFzMY2XehdwH81CyN3BV46AVRbR4hk=;
+ b=LGMV0ruOKsOL/6yRtcUqVVZqHkHiErchCG/Iv340fCXisLzNWGKytkc0eyPr2fL2zo/7pTRyIWxs9H1zZKZu3l+AjbL4mjBleMWRwDEg4B8j9ICO2KmD4FYPcH25QvcUGcJl9gE1mXoVqsW3Noujhv5YK6PICKD1BcW3/j7422oLkBOrHAVm9w286CvfhH2Nh77en8/qkPDVRWvCqYHGDBWXqE3lNxaf4be3pIzqBi/QqjfcLCd2Uo/yMjqfnGaNyVc5tbUIKQplhJDacVx5VklbOGgpHUpnFuCN7c3Y4COAZC6HPf2heK1+rM/Y3qNwtS0pUmHsMrPg72TMA23HiA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=suH9REkuZLTDDMTO84INf7b5sOMP9r7ertN0K+0wW7o=;
- b=55FsZvUSTxE+BOK7oMSymoJJuoYHPid2LEMClY3Uq8Lrd4hU/22UW3OGVwW6VbK1J4/Z9gnD/xkmWWhvsteV5+yWG/pmUVTdnbqoIB9thHAEfCAREFF73hBgYaX1Bvi/nalB80jRifHI+cOy+IzH5Xa6vkITuvaNBoK5CHIVBps=
+ bh=+CZ8jI8JlveaKoFzMY2XehdwH81CyN3BV46AVRbR4hk=;
+ b=i3OaJRYGcnAFuKuxAUUGtVcCujd8Dkp4mrWUzxuX3l1B4h6visMKZbT2nW2WuHYdDDQ7OfWwW/worGnVuN8G8+prkf+5S+/jL8SNyOZ25Q85FTUOYCPVmKCghKcUyVm60CABBAxGb4HcqGkTHugGuJktMUBDCgoNtvLrmntHs6c=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN2PR03MB2333.namprd03.prod.outlook.com (2603:10b6:804:c::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22; Wed, 21 Oct
- 2020 01:08:16 +0000
+ 2020 01:08:18 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 01:08:16 +0000
+ 01:08:18 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 09/16] fuzz: add a crossover function to generic-fuzzer
-Date: Tue, 20 Oct 2020 21:07:45 -0400
-Message-Id: <20201021010752.973230-10-alxndr@bu.edu>
+Subject: [PATCH v5 10/16] scripts/oss-fuzz: Add script to reorder a
+ general-fuzzer trace
+Date: Tue, 20 Oct 2020 21:07:46 -0400
+Message-Id: <20201021010752.973230-11-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201021010752.973230-1-alxndr@bu.edu>
 References: <20201021010752.973230-1-alxndr@bu.edu>
@@ -64,30 +65,30 @@ Received: from stormtrooper.vrmnet (72.93.72.163) by
  BL1PR13CA0119.namprd13.prod.outlook.com (2603:10b6:208:2b9::34) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.8 via Frontend
- Transport; Wed, 21 Oct 2020 01:08:15 +0000
+ Transport; Wed, 21 Oct 2020 01:08:17 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ddac3663-5b90-4287-65a9-08d8755dca92
+X-MS-Office365-Filtering-Correlation-Id: 56570c0d-c0cc-407a-a33e-08d8755dcb85
 X-MS-TrafficTypeDiagnostic: SN2PR03MB2333:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN2PR03MB2333CF33F7382102BB0827D1BA1C0@SN2PR03MB2333.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <SN2PR03MB233327D110EE0C87D953BCC5BA1C0@SN2PR03MB2333.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: okHzYEZXcKxdZwgMZDjK3NLZN6BpJVrh+RyU746UnTJQBmaEaRwprf2OeifzCdrzmCP5Mpz73b1uRUZlQCn0CWgYxcF1F2Gh8qIHH8yLGZYIdDl5ZO0tWz4H287v9gpjlwyY9r6a5NY+7Cbv3jwSiRCKROfLzfEzeLPrPZwFjfwc3DrEtK8jbNTWhywslHFCdUZo02pcb5xXkqrczAmDyHb+lxdiij0Cd5ZbpUul1dVg/5GG4n2+rfsS0JsngnofHBfe8wO4J4tGtMGtAHmdeve+bPCL/AbXizfh7Xs64NHyGtmYiLRQU2AS7DWHF7oMCg1X0FQJsgEm0bqdHhBEBI1XV0V/89qKv8LN3IIjmWOVnYrPPqfg0cWRmFoWHOni
+X-Microsoft-Antispam-Message-Info: azzL3Q2hDy6eCA6P8lH2Mx10YB0+SuyNKRtMcIAIRCP0oPCcaArWaPc/vcApan4tfIyFA+Bt4dGJ/T8Trz41rHUjattCy7HgwUqX92frlH1cTCBUv7ctd6uXI/k8bceDherA8YTT7J+o7AJtfAaJUJlDK2UND2pAvTZj69lAzz+2tiTGrcmNzXfI/cub8GcIjUF6/tRrLALpqUycq48NCFxbOxTzpiXnnlKv5Q+WCPKNO+CgjfCWTsIu77tsJc1fyLdi1baeF5fk2fXoWhq5CgXR+vHAJBYnhlosK0OeGJv0Rs4lZWhu7boTb4AEoXtwQukN05oKiwyKfGaA0HYoRA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(52116002)(2616005)(8676002)(6512007)(6916009)(6506007)(36756003)(786003)(316002)(956004)(83380400001)(478600001)(1076003)(4326008)(6486002)(75432002)(8936002)(54906003)(86362001)(5660300002)(26005)(16526019)(186003)(6666004)(66946007)(2906002)(66476007)(66556008)(41533002);
+ SFS:(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(52116002)(2616005)(8676002)(6512007)(6916009)(6506007)(36756003)(786003)(316002)(956004)(83380400001)(478600001)(1076003)(4326008)(6486002)(75432002)(8936002)(54906003)(86362001)(5660300002)(26005)(16526019)(186003)(6666004)(66946007)(2906002)(66476007)(66556008);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: eSh2MWYziB8b6DrSgjYlbYIq9df3mz7O/5tDHr6D+IRLGC+eU684yA3Jr5GNSNNXZat7LMcG38n1iPUD9kwBUarUorj2vVRBbmX/oAyKZT8/NTW4lvHMNl3L+90JSTq4OhFnLH+2sFBPh8aAF3x0y+xrTURREN6Wu2Y5CmrNpS9oRC6+PcvJXRf+dIGAuOrdcIH+Jkikbtl9lhqjuY6Uf3VtYr7pcbFvIW97UKhqaL/ZC6/2VdRdeOE+PVbxkfWuV73PcRCisWlwmAsS4DX06olKCBQq5G01wuUg9Hvyh9rZu2Gdabp5oOwGY2ivzYa0vGEaEAZYPtOg1qNzRy11Vroyj1bLFRgaDhv7nDPns/byItDrsiJs/iSt0ZDueyGq1O44HUjXnhmKc93zXvv8vRZQCAQuuG+xAHHcRLzmQEnAi/1gbrcIw5XR3TwOEBSYwUUYQcAo9nr/2ItfKes88HHnkGhJulnE1G+6c60yDrgh7V31UcjSMSd2Pqv2OJYVup6Hv/bx/cJ03F7CPve8KY+bmY5tmN4JWRY3Sq9J7SueJF6Ln7VXksyCcTBNkqQlQi/5+quUMC2cYGL6oYMJu2LMRcx3B9wmZEMPdY2su/NJli3Ag9csdU9i4m6MtE95fGekDi//RVPN0Lsy7KO6sg==
+X-MS-Exchange-AntiSpam-MessageData: 6DJBZ/Kpk8z8wGgloEJwVXgepuiHb+D2+fzQPZkDnm9Bs6pZOW2UO8Q5rcxe7HXMlKfur/sVqCCAgyT8ftyFzP4f1++3rURqNIp/wk9otnDNd634q+IvxiFgYwlE2j23IPdGgCxZ8Akq28NYCQXBXm5ntSJSX9J0qw9jA58QDP0wcKURzlyfOftBGVu3vq1v+6lHSH5BOtHvwDb1wrp1D5y0YUGNIvmrGzqnEcqcim76oW2QPjhh8P6wwBExGwSdKUwSxAX5Cb06IfQzffdwzc7OYwdP8teiTRGlCEYzTA21VsZ0d5bt7eyEOhUoCYoTDW4xFHNMyI3EiE5cdmtPKCMcNYxHQQkwDSNptCPYEThRZbDA4b2HBKLrxWhPffLY9hVp4S9QEVNeTlzW37Vbbdqc35ac+AVX4VLIFcfLyW9E5DNJmER0ejh/UU4JDidieySfvK+X0cdki4ZirRh+g2AGP+67r4v2abhzq28WRuBY5DN7x+Aa8T7+GghF9TCz/mF3VKB3cFKSJ35UKI2lkla2jFuQ2/2Yw8fhn1SqfPROQjvgFj93KqFldZtwFdwVpNwkEqC4NQlH+BqT3o9Hdd61aionzvvFafkmG85FJtQ2HmKXkr/KL2RWiqfqV2EjOAt2KVsiUAk2joxEKDDHow==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: ddac3663-5b90-4287-65a9-08d8755dca92
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56570c0d-c0cc-407a-a33e-08d8755dcb85
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 01:08:16.6424 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 01:08:18.4343 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L22tAV9wU3wfaxfihbj83hv+LY0+Emm8txp+7jykn4+FHFK/7+N/YvCLdt06MX/h
+X-MS-Exchange-CrossTenant-UserPrincipalName: z13ocWOo5b3jIg5GiCC5NEJW372CQc9Iu6t6mIOadOtS1lBhP2bB6UZG0mG9sif8
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2333
 Received-SPF: pass client-ip=40.107.220.130; envelope-from=alxndr@bu.edu;
  helo=NAM11-CO1-obe.outbound.protection.outlook.com
@@ -113,130 +114,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
- bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
- dimastep@yandex-team.ru
+Cc: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ f4bug@amsat.org, darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qtest/fuzz/generic_fuzz.c | 93 +++++++++++++++++++++++++++++++--
- 1 file changed, 90 insertions(+), 3 deletions(-)
+The general-fuzzer uses hooks to fulfill DMA requests just-in-time.
+This means that if we try to use QTEST_LOG=1 to build a reproducer, the
+DMA writes will be logged _after_ the in/out/read/write that triggered
+the DMA read. To work work around this, the general-fuzzer annotates
+these just-in time DMA fulfilments with a tag that we can use to
+discern them. This script simply iterates over a raw qtest
+trace (including log messages, errors, timestamps etc), filters it and
+re-orders it so that DMA fulfillments are placed directly _before_ the
+qtest command that will cause the DMA access.
 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index b1254f4e63..356d171c65 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -804,6 +804,91 @@ static void generic_pre_fuzz(QTestState *s)
-     counter_shm_init();
- }
- 
-+/*
-+ * When libfuzzer gives us two inputs to combine, return a new input with the
-+ * following structure:
-+ *
-+ * Input 1 (data1)
-+ * SEPARATOR
-+ * Clear out the DMA Patterns
-+ * SEPARATOR
-+ * Disable the pci_read/write instructions
-+ * SEPARATOR
-+ * Input 2 (data2)
-+ *
-+ * The idea is to collate the core behaviors of the two inputs.
-+ * For example:
-+ * Input 1: maps a device's BARs, sets up three DMA patterns, and triggers
-+ *          device functionality A
-+ * Input 2: maps a device's BARs, sets up one DMA pattern, and triggers device
-+ *          functionality B
-+ *
-+ * This function attempts to produce an input that:
-+ * Ouptut: maps a device's BARs, set up three DMA patterns, triggers
-+ *          functionality A device, replaces the DMA patterns with a single
-+ *          patten, and triggers device functionality B.
-+ */
-+static size_t generic_fuzz_crossover(const uint8_t *data1, size_t size1, const
-+                                     uint8_t *data2, size_t size2, uint8_t *out,
-+                                     size_t max_out_size, unsigned int seed)
-+{
-+    size_t copy_len = 0, size = 0;
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+---
+ .../oss-fuzz/reorder_fuzzer_qtest_trace.py    | 103 ++++++++++++++++++
+ 1 file changed, 103 insertions(+)
+ create mode 100755 scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
+
+diff --git a/scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py b/scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
+new file mode 100755
+index 0000000000..47295c9e69
+--- /dev/null
++++ b/scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
+@@ -0,0 +1,103 @@
++#!/usr/bin/env python3
++# -*- coding: utf-8 -*-
 +
-+    /* Check that we have enough space for data1 and at least part of data2 */
-+    if (max_out_size <= size1 + strlen(SEPARATOR) * 3 + 2) {
-+        return 0;
-+    }
++"""
++Use this to convert qtest log info from a generic fuzzer input into a qtest
++trace that you can feed into a standard qemu-system process. Example usage:
 +
-+    /* Copy_Len in the first input */
-+    copy_len = size1;
-+    memcpy(out + size, data1, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++QEMU_FUZZ_ARGS="-machine q35,accel=qtest" QEMU_FUZZ_OBJECTS="*" \
++        ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-pci-fuzz
++# .. Finds some crash
++QTEST_LOG=1 FUZZ_SERIALIZE_QTEST=1 \
++QEMU_FUZZ_ARGS="-machine q35,accel=qtest" QEMU_FUZZ_OBJECTS="*" \
++        ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=general-pci-fuzz
++        /path/to/crash 2> qtest_log_output
++scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py qtest_log_output > qtest_trace
++./i386-softmmu/qemu-fuzz-i386 -machine q35,accel=qtest \
++        -qtest stdin < qtest_trace
 +
-+    /* Append a separator */
-+    copy_len = strlen(SEPARATOR);
-+    memcpy(out + size, SEPARATOR, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++### Details ###
 +
-+    /* Clear out the DMA Patterns */
-+    copy_len = 1;
-+    if (copy_len) {
-+        out[size] = OP_CLEAR_DMA_PATTERNS;
-+    }
-+    size += copy_len;
-+    max_out_size -= copy_len;
++Some fuzzer make use of hooks that allow us to populate some memory range, just
++before a DMA read from that range. This means that the fuzzer can produce
++activity that looks like:
++    [start] read from mmio addr
++    [end]   read from mmio addr
++    [start] write to pio addr
++        [start] fill a DMA buffer just in time
++        [end]   fill a DMA buffer just in time
++        [start] fill a DMA buffer just in time
++        [end]   fill a DMA buffer just in time
++    [end]   write to pio addr
++    [start] read from mmio addr
++    [end]   read from mmio addr
 +
-+    /* Append a separator */
-+    copy_len = strlen(SEPARATOR);
-+    memcpy(out + size, SEPARATOR, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++We annotate these "nested" DMA writes, so with QTEST_LOG=1 the QTest trace
++might look something like:
++[R +0.028431] readw 0x10000
++[R +0.028434] outl 0xc000 0xbeef  # Triggers a DMA read from 0xbeef and 0xbf00
++[DMA][R +0.034639] write 0xbeef 0x2 0xAAAA
++[DMA][R +0.034639] write 0xbf00 0x2 0xBBBB
++[R +0.028431] readw 0xfc000
 +
-+    /* Disable PCI ops. Assume data1 took care of setting up PCI */
-+    copy_len = 1;
-+    if (copy_len) {
-+        out[size] = OP_DISABLE_PCI;
-+    }
-+    size += copy_len;
-+    max_out_size -= copy_len;
++This script would reorder the above trace so it becomes:
++readw 0x10000
++write 0xbeef 0x2 0xAAAA
++write 0xbf00 0x2 0xBBBB
++outl 0xc000 0xbeef
++readw 0xfc000
 +
-+    /* Append a separator */
-+    copy_len = strlen(SEPARATOR);
-+    memcpy(out + size, SEPARATOR, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++I.e. by the time, 0xc000 tries to read from DMA, those DMA buffers have already
++been set up, removing the need for the DMA hooks. We can simply provide this
++reordered trace via -qtest stdio to reproduce the input
 +
-+    /* Copy_Len over the second input */
-+    copy_len = MIN(size2, max_out_size);
-+    memcpy(out + size, data2, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++Note: this won't work for traces where the device tries to read from the same
++DMA region twice in between MMIO/PIO commands. E.g:
++    [R +0.028434] outl 0xc000 0xbeef
++    [DMA][R +0.034639] write 0xbeef 0x2 0xAAAA
++    [DMA][R +0.034639] write 0xbeef 0x2 0xBBBB
 +
-+    return  size;
-+}
++The fuzzer will annotate suspected double-fetches with [DOUBLE-FETCH]. This
++script looks for these tags and warns the users that the resulting trace might
++not reproduce the bug.
++"""
++
++import sys
++
++__author__     = "Alexander Bulekov <alxndr@bu.edu>"
++__copyright__  = "Copyright (C) 2020, Red Hat, Inc."
++__license__    = "GPL version 2 or (at your option) any later version"
++
++__maintainer__ = "Alexander Bulekov"
++__email__      = "alxndr@bu.edu"
 +
 +
- static GString *generic_fuzz_cmdline(FuzzTarget *t)
- {
-     GString *cmd_line = g_string_new(TARGET_NAME);
-@@ -821,9 +906,11 @@ static void register_generic_fuzz_targets(void)
-     fuzz_add_target(&(FuzzTarget){
-             .name = "generic-fuzz",
-             .description = "Fuzz based on any qemu command-line args. ",
--            .get_init_cmdline = general_fuzz_cmdline,
--            .pre_fuzz = general_pre_fuzz,
--            .fuzz = general_fuzz});
-+            .get_init_cmdline = generic_fuzz_cmdline,
-+            .pre_fuzz = generic_pre_fuzz,
-+            .fuzz = generic_fuzz,
-+            .crossover = generic_fuzz_crossover
-+    });
- }
- 
- fuzz_target_init(register_generic_fuzz_targets);
++def usage():
++    sys.exit("Usage: {} /path/to/qtest_log_output".format((sys.argv[0])))
++
++
++def main(filename):
++    with open(filename, "r") as f:
++        trace = f.readlines()
++
++    # Leave only lines that look like logged qtest commands
++    trace[:] = [x.strip() for x in trace if "[R +" in x
++                or "[S +" in x and "CLOSED" not in x]
++
++    for i in range(len(trace)):
++        if i+1 < len(trace):
++            if "[DMA]" in trace[i+1]:
++                if "[DOUBLE-FETCH]" in trace[i+1]:
++                    sys.stderr.write("Warning: Likely double fetch on line"
++                                     "{}.\n There will likely be problems "
++                                     "reproducing behavior with the "
++                                     "resulting qtest trace\n\n".format(i+1))
++                trace[i], trace[i+1] = trace[i+1], trace[i]
++    for line in trace:
++        print(line.split("]")[-1].strip())
++
++
++if __name__ == '__main__':
++    if len(sys.argv) == 1:
++        usage()
++    main(sys.argv[1])
 -- 
 2.28.0
 
