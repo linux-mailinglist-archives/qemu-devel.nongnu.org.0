@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C8C295202
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:11:29 +0200 (CEST)
-Received: from localhost ([::1]:52618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C595295208
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:15:30 +0200 (CEST)
+Received: from localhost ([::1]:60620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVIa6-0004oZ-Sr
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:11:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54280)
+	id 1kVIe1-0008SM-Dg
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:15:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVICC-0006Km-3q
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:46:45 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35272)
+ (Exim 4.90_1) (envelope-from <bruno.otavio@gmail.com>)
+ id 1kVIHd-00045F-Tq
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:52:21 -0400
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:44351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVIC8-0007qT-Px
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:46:42 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n15so4112689wrq.2
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=3VbJA+1nBSntIUhT99eRWLIrheQR0iNHPQZZ9kWVVAQ=;
- b=K8yuIFjcJZWA1pJHAuUhIB6xCkeLN7XCj1AJLfLhS2GhAweVSpsF17UL9H8vctqbyb
- wjD55EKgscKjGAxOv3Thbm5biz/AbKnPwhgDgNDzvD7FK1xF5QNjX1xHN/LSbgDzblq+
- KvE7DIBpzok13/HFZVv3JKbAo3CGCJUfE0ljCvS8q0lzuiJItlYAPIBNGv5zyZ/qZq+L
- xeUpcMjqd0ka/Zs6yP6RQO3Db1cLIvhT6XFAYtJKwajGTCDkQJ2ltBxhYwaonEjyScIt
- 16Z/vb41DJgXArgru6b2Ce22VpGOia/qpzP0R0wtfMSOn6ZOa4iBWRl7eBR7T6NyoCNK
- purA==
+ (Exim 4.90_1) (envelope-from <bruno.otavio@gmail.com>)
+ id 1kVIHa-000098-UM
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:52:21 -0400
+Received: by mail-ot1-x333.google.com with SMTP id e20so2608888otj.11
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dcomp-ufs-br.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Si1gVFuSHE8pBxE93w1UHIBgpLN4Q83x/rQP4ycTsQQ=;
+ b=EuJsonGGrCf/bbGeNCI44aw69zHUxDj6BZnpRQPaBwvc03+PPgxZIAuBitYS/VFLE2
+ qZi3/ycJCfePDxagykL930iSxHNqIYYbUAu922fkiKbKUGknJ13Xk+CsaB1vewczLY1Z
+ WsAAL6JTyaGCYyIsCqJf56UG6SZIHcgLnYvDV83E5IGy+ZlaB7Y+WKvGad40zmhv+SGG
+ SoVYFi22UXW0KqHHSBcILfpPu8v1nLMUAtQjvXkNFM1FyOIKC2vFZX+JG1/DyLqw6x/U
+ Q2W+xRzJS07AUen5ve2s/dahkdR7bk01Obh/4svEaMEj/8q8T1K5unT/EPb6nube/hOf
+ SFKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=3VbJA+1nBSntIUhT99eRWLIrheQR0iNHPQZZ9kWVVAQ=;
- b=mLUtlO1/BYKfJHdqnxzMnpwRSRFTExj0k0WPvFx7MbPrMQ2PkGFK2I0/VKPI2vQzlu
- BjlHSnQA2mvleEj5spjmQpM2w29bHwg/BSUIwSnx11iRcunANYcRjc8QxJG+vLEjI+sp
- xQA43ahDBznuSO66da6flGbMyDvRZ2igOQq1bxngB7RO9iJ0wBG6OkOFcrWN0Y+iA2u5
- 1JXI41VshR9djnHkBC0cSTo5Srv4csIk68AAOam4sMI4CMSGV1yU1oCXE5H/B199QIlQ
- ChiWW/Zc2JqjfpVY/a6Pax4to9UVnxLs+LAAIUxTWd7iyQvo4SGJ3e1J0LP1MzCikNr5
- u+Cg==
-X-Gm-Message-State: AOAM533xAN2PUB3Rtbif8vOKg3Ut3JCsscVNl4pmP4zQphItEFeKkEqz
- R4SP6z37ht3Tz1v2yL+cP50IFQ==
-X-Google-Smtp-Source: ABdhPJy9L81KHbnL2tEtvfS+37Raf0EIjNOCE/sMVN1BA4PSUVHbKr86Uqm4s1Txu/HogT9wNScQWA==
-X-Received: by 2002:adf:bbc6:: with SMTP id z6mr6040052wrg.298.1603302398569; 
- Wed, 21 Oct 2020 10:46:38 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o129sm4581179wmb.25.2020.10.21.10.46.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 10:46:37 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C7E171FF7E;
- Wed, 21 Oct 2020 18:46:36 +0100 (BST)
-References: <20201021045149.1582203-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [RFC PATCH 00/15] softfloat: alternate conversion of
- float128_addsub
-In-reply-to: <20201021045149.1582203-1-richard.henderson@linaro.org>
-Date: Wed, 21 Oct 2020 18:46:36 +0100
-Message-ID: <87o8kvv5dv.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Si1gVFuSHE8pBxE93w1UHIBgpLN4Q83x/rQP4ycTsQQ=;
+ b=NQWJkOHHt5pxCj8ZJtJC+BefQlIttIZctST0MXcmabET17uAcfuz7c1pPmZGlHLBfI
+ cPrsC85VjPlA8SA/TGhDPMS2hRHNAEDb+RK9aiQ3njJS5A3SMP2GUMmI97H/OO5cZCd0
+ SIEQN4Ku7Nq9AN/5lHletaKz0rNwg8gYhFo/JINayhKkb5IunKEOiSVTG7DJ6f95tLM5
+ S1hzwzVdOcoGKiR84vRry3Ypvhw5V9XeeEQ3ak+w9OcTkiQnS8BtGIy3h0abQfLwpOAI
+ wFksyzKAduyaresmEzWhmuCUSJb2iNrumaJG9rXsH73g/nXxaauiLd6a/ZjBZxLYtMmT
+ mKbA==
+X-Gm-Message-State: AOAM533DaW+CHy6KJ4uUOSzD5i37VyQnwt3iPP90eBis5XKUF/yUBHS5
+ EHat4W/G+DiAsBomBY1VEIuxryU3qjqiDsNLWyQ=
+X-Google-Smtp-Source: ABdhPJxQcICexQoLjQ/TSEgsKn1eJyIidpfQl9JvN63q0MEyQw7ae0oo4uy9CL/L7xD6LfW/7BRv9ewOj/marsUmzrs=
+X-Received: by 2002:a9d:3a09:: with SMTP id j9mr3560602otc.312.1603302736695; 
+ Wed, 21 Oct 2020 10:52:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+References: <CAD5Umjr6Nu6fddP2LgkfxtTTKduHEMs=C49C2r_ZcMkopsYidw@mail.gmail.com>
+ <CAFEAcA_AjzNKzrHBU7QQzB=dxia9mYuw5oAsya3h42JEQAemaA@mail.gmail.com>
+ <CAD5UmjrjORJbP0sj-DnGQFaQ443-vYMBa-1qCBzJsnUG+gU=jw@mail.gmail.com>
+ <CAFEAcA9JecdSwd=gXSu7mhDHVysLP5JP4dtRBgBVr7=bt=j6Tw@mail.gmail.com>
+ <CAD5UmjrFgv1pCKGW813dzmYcEEWLdvu9FmGi0ymvXbvfw-aonQ@mail.gmail.com>
+ <CAD5UmjqDGmOksXSk31q3asXLogSggc7rqOXuo2K2yLLs81ccQQ@mail.gmail.com>
+ <875z73wpkq.fsf@linaro.org>
+In-Reply-To: <875z73wpkq.fsf@linaro.org>
+From: Bruno Prado <bruno@dcomp.ufs.br>
+Date: Wed, 21 Oct 2020 14:51:40 -0300
+Message-ID: <CAD5UmjpZ=6-oORRyOXUxuD0Uc0eU=Zx4SJZ=U0ur6fCt=N=s9Q@mail.gmail.com>
+Subject: Re: ARM semihosting issue
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000001694c105b23202fe"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=bruno.otavio@gmail.com; helo=mail-ot1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,136 +86,326 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000001694c105b23202fe
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Thanks a lot! I will check it out.
 
-> Hi Alex,
->
-> Here's my first adjustment to your conversion for 128-bit floats.
->
-> The Idea is to use a set of macros and an include file so that we
-> can re-use the same large chunk of code that performs the basic
-> operations on various fraction lengths.  It's ugly, but without
-> proper language support it seems to be less ugly than most.
->
-> While I've just gone and added lots of stuff to int128... I have
-> had another idea, half-baked because I'm tired and it's late:
->
-> typedef struct {
->     FloatClass cls;
->     int exp;
->     bool sign;
->     uint64_t frac[];
-> } FloatPartsBase;
->
-> typedef struct {
->     FloatPartsBase base;
->     uint64_t frac;
-> } FloatParts64;
->
-> typedef struct {
->     FloatPartsBase base;
->     uint64_t frac_hi, frac_lo;
-> } FloatParts128;
->
-> typedef struct {
->     FloatPartsBase base;
->     uint64_t frac[4]; /* big endian word ordering */
-> } FloatParts256;
->
-> This layout, with the big-endian ordering, means that storage
-> can be shared between them, just by ignoring the least significant
-> words of the fraction as needed.  Which may make muladd more
-> understandable.
-
-Would the big-endian formatting hamper the compiler on x86 where it can
-do extra wide operations?
-
-I am still seeing a multi MFlop drop in performance when converting the
-float128_addsub to the new code. If this allows the compiler to do
-better on the code I can live with it.
-
->
-> E.g.
->
-> static void muladd_floats64(FloatParts128 *r, FloatParts64 *a,
->                             FloatParts64 *b, FloatParts128 *c, ...)
-> {
->     // handle nans
->     // produce 128-bit product into r
->     // handle p vs c special cases.
->     // zero-extend c to 128-bits
->     c->frac[1] =3D 0;
->     // perform 128-bit fractional addition
->     addsub_floats128(r, c, ...);
->     // fold 128-bit fraction to 64-bit sticky bit.
->     r->frac[0] |=3D r->frac[1] !=3D 0;
-> }
->
-> float64 float64_muladd(float64 a, float64 b, float64 c, ...)
-> {
->     FloatParts64 pa, pb;
->     FloatParts128 pc, pr;
->
->     float64_unpack_canonical(&pa.base, a, status);
->     float64_unpack_canonical(&pb.base, b, status);
->     float64_unpack_canonical(&pc.base, c, status);
->     muladd_floats64(&pr, &pa, &pb, &pc, flags, status);
->
->     return float64_round_pack_canonical(&pr.base, status);
-> }
->
-> Similarly, muladd_floats128 would use addsub_floats256.
->
-> However, the big-endian word ordering means that Int128
-> cannot be used directly; so a set of wrappers are needed.
-> If added the Int128 routine just for use here, then it's
-> probably easier to bypass Int128 and just code it here.
-
-Are you talking about all our operations? Will we still need to#ifdef
-CONFIG_INT128 in the softfloat code?
-
->
-> Thoughts?
->
->
-> r~
->
->
-> Richard Henderson (15):
->   qemu/int128: Add int128_or
->   qemu/int128: Add int128_clz, int128_ctz
->   qemu/int128: Rename int128_rshift, int128_lshift
->   qemu/int128: Add int128_shr
->   qemu/int128: Add int128_geu
->   softfloat: Use mulu64 for mul64To128
->   softfloat: Use int128.h for some operations
->   softfloat: Tidy a * b + inf return
->   softfloat: Add float_cmask and constants
->   softfloat: Inline float_raise
->   Test split to softfloat-parts.c.inc
->   softfloat: Streamline FloatFmt
->   Test float128_addsub
->   softfloat: Use float_cmask for addsub_floats
->   softfloat: Improve subtraction of equal exponent
->
->  include/fpu/softfloat-macros.h |  89 ++--
->  include/fpu/softfloat.h        |   5 +-
->  include/qemu/int128.h          |  61 ++-
->  fpu/softfloat.c                | 802 ++++++++++-----------------------
->  softmmu/physmem.c              |   4 +-
->  target/ppc/int_helper.c        |   4 +-
->  tests/test-int128.c            |  44 +-
->  fpu/softfloat-parts.c.inc      | 339 ++++++++++++++
->  fpu/softfloat-specialize.c.inc |  45 +-
->  9 files changed, 716 insertions(+), 677 deletions(-)
->  create mode 100644 fpu/softfloat-parts.c.inc
+----
+Bruno Prado
 
 
---=20
-Alex Benn=C3=A9e
+On Wed, Oct 21, 2020 at 12:45 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+
+>
+> Bruno Prado <bruno@dcomp.ufs.br> writes:
+>
+> > Hello, is it really a bug?
+> >
+> > ----
+> > Bruno Prado
+> >
+> >
+> > On Fri, Oct 2, 2020 at 8:09 AM Bruno Prado <bruno@dcomp.ufs.br> wrote:
+> >
+> >> I am including some syscall functions:
+> >>
+> >> int _fstat(int file, struct stat* st) {
+> >>        register int value asm("r0");
+> >>        uint32_t p[] =3D { file };
+> >>        R0(0x0C);
+> >>        R1(p);
+> >>        BKPT();
+> >>        return value;
+> >> }
+> >>
+> >> int _read(int file, char* ptr, int len) {
+> >>        register int value asm("r0");
+> >>        uint32_t p[] =3D { file, (uint32_t)(ptr), len };
+> >>        R0(0x06);
+> >>        R1(p);
+> >>        BKPT();
+> >>        return value;
+> >> }
+> >>
+> >> int _write(int file, char* ptr, int len) {
+> >>        register int value asm("r0");
+> >>        uint32_t p[] =3D { file, (uint32_t)(ptr), len };
+> >>        R0(0x05);
+> >>        R1(p);
+> >>        BKPT();
+> >>        return value;
+> >> }
+> >>
+> >> Also the interruption output from execution:
+> >>
+> >> $ qemu-system-arm -M netduino2 -nographic -semihosting -kernel vp2.bin
+> -d
+> >> int
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x1
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x1
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x1
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x1
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0xc
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x5
+> >> What is your name?
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x5
+> >> Reading from file...
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0xc
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x6
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0xc
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x6
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x5
+> >> My name is Turing
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x5
+> >> I am alive!!!
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0xa
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0xa
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x2
+> >> Taking exception 16 [Semihosting call]
+> >> ...handling as semihosting call 0x20
+> >>
+> >> Could you please provide any working example using ARM semihosting on
+> >> stdin?
+>
+> We have a test which you can run by hand:
+>
+>    ./tests/tcg/arm-linux-user/semiconsole
+>
+> >>
+> >> Thanks,
+> >> ----
+> >> Bruno Prado
+> >>
+> >>
+> >> On Fri, Oct 2, 2020 at 7:25 AM Peter Maydell <peter.maydell@linaro.org=
+>
+> >> wrote:
+> >>
+> >>> On Thu, 1 Oct 2020 at 22:21, Bruno Prado <bruno@dcomp.ufs.br> wrote:
+> >>> > Thanks for the reply... I am attaching some code and output:
+> >>> >
+> >>> > #include <stdio.h>
+> >>> > int main() {
+> >>> >        char name[50] =3D "Nobody";
+> >>> >        FILE* file =3D fopen("name", "r");
+> >>> >        printf("What is your name?\n");
+> >>> >        fprintf(stdout, "Reading from file...\n");
+> >>> >        fscanf(file, "%s", name);
+> >>> >        fscanf(stdin, "%s", name);
+> >>> >        printf("My name is %s\n", name);
+> >>> >        fprintf(stderr, "I am alive!!!\n");
+> >>> >        fclose(file);
+> >>> >        return 0;
+> >>> > }
+> >>>
+> >>> This is not making direct semihosting calls. The behaviour
+> >>> of these function calls will depend on whatever the C
+> >>> standard library implementation you're linking with is doing.
+> >>>
+> >>> You're not checking for errors from any of your function
+> >>> calls, incidentally.
+> >>>
+> >>> thanks
+> >>> -- PMM
+> >>>
+> >>
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
+
+--0000000000001694c105b23202fe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thanks a lot! I will check it out.<div><br clear=3D"all"><=
+div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_sign=
+ature">----<br>Bruno Prado</div></div><br></div></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 21, 2020 at 12:=
+45 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.b=
+ennee@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex"><br>
+Bruno Prado &lt;<a href=3D"mailto:bruno@dcomp.ufs.br" target=3D"_blank">bru=
+no@dcomp.ufs.br</a>&gt; writes:<br>
+<br>
+&gt; Hello, is it really a bug?<br>
+&gt;<br>
+&gt; ----<br>
+&gt; Bruno Prado<br>
+&gt;<br>
+&gt;<br>
+&gt; On Fri, Oct 2, 2020 at 8:09 AM Bruno Prado &lt;<a href=3D"mailto:bruno=
+@dcomp.ufs.br" target=3D"_blank">bruno@dcomp.ufs.br</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; I am including some syscall functions:<br>
+&gt;&gt;<br>
+&gt;&gt; int _fstat(int file, struct stat* st) {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 register int value asm(&quot;r0&quot;);=
+<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t p[] =3D { file };<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 R0(0x0C);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 R1(p);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 BKPT();<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 return value;<br>
+&gt;&gt; }<br>
+&gt;&gt;<br>
+&gt;&gt; int _read(int file, char* ptr, int len) {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 register int value asm(&quot;r0&quot;);=
+<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t p[] =3D { file, (uint32_t)(ptr=
+), len };<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 R0(0x06);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 R1(p);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 BKPT();<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 return value;<br>
+&gt;&gt; }<br>
+&gt;&gt;<br>
+&gt;&gt; int _write(int file, char* ptr, int len) {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 register int value asm(&quot;r0&quot;);=
+<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t p[] =3D { file, (uint32_t)(ptr=
+), len };<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 R0(0x05);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 R1(p);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 BKPT();<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 return value;<br>
+&gt;&gt; }<br>
+&gt;&gt;<br>
+&gt;&gt; Also the interruption output from execution:<br>
+&gt;&gt;<br>
+&gt;&gt; $ qemu-system-arm -M netduino2 -nographic -semihosting -kernel vp2=
+.bin -d<br>
+&gt;&gt; int<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x1<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x1<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x1<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x1<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0xc<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x5<br>
+&gt;&gt; What is your name?<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x5<br>
+&gt;&gt; Reading from file...<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0xc<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x6<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0xc<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x6<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x5<br>
+&gt;&gt; My name is Turing<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x5<br>
+&gt;&gt; I am alive!!!<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0xa<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0xa<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x2<br>
+&gt;&gt; Taking exception 16 [Semihosting call]<br>
+&gt;&gt; ...handling as semihosting call 0x20<br>
+&gt;&gt;<br>
+&gt;&gt; Could you please provide any working example using ARM semihosting=
+ on<br>
+&gt;&gt; stdin?<br>
+<br>
+We have a test which you can run by hand:<br>
+<br>
+=C2=A0 =C2=A0./tests/tcg/arm-linux-user/semiconsole<br>
+<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks,<br>
+&gt;&gt; ----<br>
+&gt;&gt; Bruno Prado<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; On Fri, Oct 2, 2020 at 7:25 AM Peter Maydell &lt;<a href=3D"mailto=
+:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&g=
+t;<br>
+&gt;&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt;&gt; On Thu, 1 Oct 2020 at 22:21, Bruno Prado &lt;<a href=3D"mailto=
+:bruno@dcomp.ufs.br" target=3D"_blank">bruno@dcomp.ufs.br</a>&gt; wrote:<br=
+>
+&gt;&gt;&gt; &gt; Thanks for the reply... I am attaching some code and outp=
+ut:<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; #include &lt;stdio.h&gt;<br>
+&gt;&gt;&gt; &gt; int main() {<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 char name[50] =3D &quot;Nobody=
+&quot;;<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 FILE* file =3D fopen(&quot;nam=
+e&quot;, &quot;r&quot;);<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;What is your name=
+?\n&quot;);<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stdout, &quot;Reading =
+from file...\n&quot;);<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 fscanf(file, &quot;%s&quot;, n=
+ame);<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 fscanf(stdin, &quot;%s&quot;, =
+name);<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;My name is %s\n&q=
+uot;, name);<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;I am ali=
+ve!!!\n&quot;);<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 fclose(file);<br>
+&gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
+&gt;&gt;&gt; &gt; }<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; This is not making direct semihosting calls. The behaviour<br>
+&gt;&gt;&gt; of these function calls will depend on whatever the C<br>
+&gt;&gt;&gt; standard library implementation you&#39;re linking with is doi=
+ng.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; You&#39;re not checking for errors from any of your function<b=
+r>
+&gt;&gt;&gt; calls, incidentally.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; thanks<br>
+&gt;&gt;&gt; -- PMM<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div>
+
+--0000000000001694c105b23202fe--
 
