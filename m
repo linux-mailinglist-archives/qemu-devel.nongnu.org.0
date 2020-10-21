@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C8E2954CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 00:27:36 +0200 (CEST)
-Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7070E2954C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 00:27:35 +0200 (CEST)
+Received: from localhost ([::1]:37138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVMZz-0003GW-Nv
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 18:27:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60766)
+	id 1kVMZy-0003E8-GB
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 18:27:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kVMY8-0002A0-4e
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 18:25:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37892)
+ id 1kVMY7-00029m-EN
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 18:25:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kVMY6-0000y8-Cc
+ id 1kVMY5-0000xv-Ds
  for qemu-devel@nongnu.org; Wed, 21 Oct 2020 18:25:39 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kVMY4-0001Ex-TN
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 22:25:36 +0000
+ id 1kVMY3-0001Eu-LX
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 22:25:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DC7922E812F
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 22:25:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9ED2B2E8025
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 22:25:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2020 22:19:12 -0000
-From: bwidawsk <1900918@bugs.launchpad.net>
+Date: Wed, 21 Oct 2020 22:19:39 -0000
+From: bwidawsk <1900919@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -40,14 +40,14 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: bwidawsk
 X-Launchpad-Bug-Reporter: bwidawsk (bwidawsk)
 X-Launchpad-Bug-Modifier: bwidawsk (bwidawsk)
-Message-Id: <160331875272.12077.2782132166583123288.malonedeb@soybean.canonical.com>
-Subject: [Bug 1900918] [NEW] PXB devices
+Message-Id: <160331877993.30496.14778848047318719784.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1900919] [NEW] PXB selected as root bus incorrectly
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bc5a16cfdc4ba776ecdf84a052201ef8fb1f3321"; Instance="production"
-X-Launchpad-Hash: 00c87a166ad8ffd2e1529f853b5f9ec31686c523
+X-Launchpad-Hash: 1ad83dfd113bb0ed8ffe6166528aa9310bc6e89d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 18:25:35
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900918 <1900918@bugs.launchpad.net>
+Reply-To: Bug 1900919 <1900919@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -105,10 +105,10 @@ more sense to just allow expanders to have endpoint devices.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900918
+https://bugs.launchpad.net/bugs/1900919
 
 Title:
-  PXB devices
+  PXB selected as root bus incorrectly
 
 Status in QEMU:
   New
@@ -137,5 +137,5 @@ d so if you either
   makes more sense to just allow expanders to have endpoint devices.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900918/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1900919/+subscriptions
 
