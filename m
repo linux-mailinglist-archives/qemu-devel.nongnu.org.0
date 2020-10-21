@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDE22952A8
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 21:03:00 +0200 (CEST)
-Received: from localhost ([::1]:57378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B122952AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 21:04:53 +0200 (CEST)
+Received: from localhost ([::1]:35274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVJO0-0000qI-0e
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 15:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42690)
+	id 1kVJPo-0003Vu-37
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 15:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDz-00068a-U7
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30941)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJE0-0006Aq-TG
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDq-0008Am-51
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:39 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDu-0008Ao-R2
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603306335;
+ s=mimecast20190719; t=1603306336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z0oxI2PUcLgUzpYRMei2EJb6wcsK5dRvY7pXJDv189Y=;
- b=PLUtme8eKB60uIeq4zpLQj2Da0VgnCiDSxwIUXaD5NFgvkIPNvCd1St06z19gBwJhvjgHf
- yLtlEi8iwE+W5C3O2niTttHUMFNXzNx63qfSe2+mUD+UiB8DtOuY2BWI+amJ6R4kndKp7F
- W1QE50zmhCJJlynaQLpQ/TnGCEGqdMA=
+ bh=PSFK5YVxuw88iCvicYvxpihP3Np7r5+wo0sUBRYqgMg=;
+ b=Yj6bES4Kx6FpyWmOdVaiqjHTijzHCboNG+VETRdm7PDMMAbp52XAZ0Q+ScgT6GSbvtVaQF
+ pEpk7w+yGT3Pu7jT4MXrdyhSHVnbQJSicjAm+YaL6Yyh2477E9j/CI1V115eZbQy2Xuf32
+ hLigSyVSfQ9PbERXh76o2h9wZk8z2x8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-VWmQ12uEOjC2-0dlR66SRA-1; Wed, 21 Oct 2020 14:52:13 -0400
-X-MC-Unique: VWmQ12uEOjC2-0dlR66SRA-1
+ us-mta-258-PSYy8VU9OLeuqx9v2Kz2Dw-1; Wed, 21 Oct 2020 14:52:14 -0400
+X-MC-Unique: PSYy8VU9OLeuqx9v2Kz2Dw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B94F45F9C1
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 18:52:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A07804B60
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 18:52:13 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A8BA1002C01;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE65610027A5;
  Wed, 21 Oct 2020 18:52:12 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/15] scripts/qom-fuse: apply isort rules
-Date: Wed, 21 Oct 2020 14:51:57 -0400
-Message-Id: <20201021185208.1611145-5-jsnow@redhat.com>
+Subject: [PATCH 05/15] scripts/qom-fuse: apply flake8 rules
+Date: Wed, 21 Oct 2020 14:51:58 -0400
+Message-Id: <20201021185208.1611145-6-jsnow@redhat.com>
 In-Reply-To: <20201021185208.1611145-1-jsnow@redhat.com>
 References: <20201021185208.1611145-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,43 +83,146 @@ Cc: Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hint: you can use symlinks to create qom_fuse.py in python/qemu/qmp/ and
-point to scripts/qom-fuse to apply the standard linting rules to this
-script.
+flake8 still has one warning because of the sys.path hack, but that will
+be going away by the end of this patch series.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qom-fuse | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ scripts/qmp/qom-fuse | 81 +++++++++++++++++++++++---------------------
+ 1 file changed, 43 insertions(+), 38 deletions(-)
 
 diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
-index 7c7cff8edf..62deb9adb1 100755
+index 62deb9adb1..ca30e92867 100755
 --- a/scripts/qmp/qom-fuse
 +++ b/scripts/qmp/qom-fuse
-@@ -13,14 +13,20 @@
- # the COPYING file in the top-level directory.
+@@ -9,13 +9,12 @@
+ #  Anthony Liguori   <aliguori@us.ibm.com>
+ #  Markus Armbruster <armbru@redhat.com>
+ #
+-# This work is licensed under the terms of the GNU GPL, version 2 or later.  See
+-# the COPYING file in the top-level directory.
++# This work is licensed under the terms of the GNU GPL, version 2 or later.
++# See the COPYING file in the top-level directory.
  ##
  
--import fuse, stat
--from fuse import FUSE, FuseOSError, Operations
--import os, posix, sys
- from errno import *
-+import os
-+import posix
-+import stat
-+import sys
-+
-+import fuse
-+from fuse import FUSE, FuseOSError, Operations
-+
+-from errno import *
++from errno import ENOENT, EPERM
+ import os
+-import posix
+ import stat
+ import sys
  
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu.qmp import QEMUMonitorProtocol
+@@ -29,6 +28,7 @@ from qemu.qmp import QEMUMonitorProtocol
  
-+
  fuse.fuse_python_api = (0, 2)
  
++
  class QOMFS(Operations):
+     def __init__(self, qmp):
+         self.qmp = qmp
+@@ -45,7 +45,7 @@ class QOMFS(Operations):
+ 
+     def is_object(self, path):
+         try:
+-            items = self.qmp.command('qom-list', path=path)
++            self.qmp.command('qom-list', path=path)
+             return True
+         except:
+             return False
+@@ -85,7 +85,7 @@ class QOMFS(Operations):
+             path = '/'
+         try:
+             data = self.qmp.command('qom-get', path=path, property=prop)
+-            data += '\n' # make values shell friendly
++            data += '\n'  # make values shell friendly
+         except:
+             raise FuseOSError(EPERM)
+ 
+@@ -104,38 +104,44 @@ class QOMFS(Operations):
+ 
+     def getattr(self, path, fh=None):
+         if self.is_link(path):
+-            value = { 'st_mode': 0o755 | stat.S_IFLNK,
+-                      'st_ino': self.get_ino(path),
+-                      'st_dev': 0,
+-                      'st_nlink': 2,
+-                      'st_uid': 1000,
+-                      'st_gid': 1000,
+-                      'st_size': 4096,
+-                      'st_atime': 0,
+-                      'st_mtime': 0,
+-                      'st_ctime': 0 }
++            value = {
++                'st_mode': 0o755 | stat.S_IFLNK,
++                'st_ino': self.get_ino(path),
++                'st_dev': 0,
++                'st_nlink': 2,
++                'st_uid': 1000,
++                'st_gid': 1000,
++                'st_size': 4096,
++                'st_atime': 0,
++                'st_mtime': 0,
++                'st_ctime': 0
++            }
+         elif self.is_object(path):
+-            value = { 'st_mode': 0o755 | stat.S_IFDIR,
+-                      'st_ino': self.get_ino(path),
+-                      'st_dev': 0,
+-                      'st_nlink': 2,
+-                      'st_uid': 1000,
+-                      'st_gid': 1000,
+-                      'st_size': 4096,
+-                      'st_atime': 0,
+-                      'st_mtime': 0,
+-                      'st_ctime': 0 }
++            value = {
++                'st_mode': 0o755 | stat.S_IFDIR,
++                'st_ino': self.get_ino(path),
++                'st_dev': 0,
++                'st_nlink': 2,
++                'st_uid': 1000,
++                'st_gid': 1000,
++                'st_size': 4096,
++                'st_atime': 0,
++                'st_mtime': 0,
++                'st_ctime': 0
++            }
+         elif self.is_property(path):
+-            value = { 'st_mode': 0o644 | stat.S_IFREG,
+-                      'st_ino': self.get_ino(path),
+-                      'st_dev': 0,
+-                      'st_nlink': 1,
+-                      'st_uid': 1000,
+-                      'st_gid': 1000,
+-                      'st_size': 4096,
+-                      'st_atime': 0,
+-                      'st_mtime': 0,
+-                      'st_ctime': 0 }
++            value = {
++                'st_mode': 0o644 | stat.S_IFREG,
++                'st_ino': self.get_ino(path),
++                'st_dev': 0,
++                'st_nlink': 1,
++                'st_uid': 1000,
++                'st_gid': 1000,
++                'st_size': 4096,
++                'st_atime': 0,
++                'st_mtime': 0,
++                'st_ctime': 0
++            }
+         else:
+             raise FuseOSError(ENOENT)
+         return value
+@@ -146,8 +152,7 @@ class QOMFS(Operations):
+         for item in self.qmp.command('qom-list', path=path):
+             yield str(item['name'])
+ 
++
+ if __name__ == '__main__':
+-    import os
+-
+     fuse = FUSE(QOMFS(QEMUMonitorProtocol(os.environ['QMP_SOCKET'])),
+                 sys.argv[1], foreground=True)
 -- 
 2.26.2
 
