@@ -2,55 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F24D295228
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:22:22 +0200 (CEST)
-Received: from localhost ([::1]:43000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2551B29526E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:50:17 +0200 (CEST)
+Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVIkd-0004ru-6f
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:22:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35096)
+	id 1kVJBf-0005J8-Ov
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:50:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kVIif-0003pz-Aj
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:20:17 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:35031)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kVIic-0003tj-Ie
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:20:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=DzIIvcW0jqpX+hgjCbbHw+OHOOEcuDH3wIg69JwNABY=; b=Ts75TdHMCr8hIVWAWcHOXvmftS
- rTN+3DaHiIaYqXKYW67SBiX/otURgB3fJADGEzRVrgEw3QY1BgMEXrMo2+pTzRazSC6RS8QZ0k4To
- AvHxe/fmlrRo1xrEiydg7t/c/lL6WAQ8MzZ/bbQTwaqwAMpDzbA4r/WHf4O8IcGjiISrxOy0qVtKp
- 1Lv7oqeQ9D2jXINtQLTNu5Fedgl/SeUTu7zn7Jsn2iL48LS59JJ8g6TkPJnOf0ft/qmgWgVaEhdbZ
- +DvE6PjaBLC+AnKa2IpN4Qwc/N/eDSzuOJblhY1lSL+oco1b0G9MKZvU5Zs4qd/WiMdhii3s6U17Q
- kpByehJQ==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 7/8] tests/9pfs: add local Tlink test
-Date: Wed, 21 Oct 2020 20:20:08 +0200
-Message-ID: <5874251.7R3Ejnc4BG@silver>
-In-Reply-To: <f0d869770ad23ee5ce10f7da90fdb742cadcad72.1603285620.git.qemu_oss@crudebyte.com>
-References: <cover.1603285620.git.qemu_oss@crudebyte.com>
- <f0d869770ad23ee5ce10f7da90fdb742cadcad72.1603285620.git.qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kVJAn-0004tp-8Z
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:49:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48429)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kVJAj-0007pN-GS
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:49:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603306154;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v9mBWl8fBOtUD1GAlH7+LqHCUcCd2BUaiB4fwY6CoZQ=;
+ b=JDbH87qSO3bxtPXifV+iF7rCincYzKf9kk/c3f/tLFw92owbydh/TPFnHommTyERTkWSW1
+ jcEFI8MbC0TDMpmU7/K2Ux3jkqwYpHSbp2Wjhu2NiY5/hZtjpnhIC0U0Bf3usWuvkyBOvj
+ xiRhjW6g43PXBgX/T2JwDkchYg0dPFE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-95-5b7chJ06PkOGkGkD5MbbdQ-1; Wed, 21 Oct 2020 14:49:12 -0400
+X-MC-Unique: 5b7chJ06PkOGkGkD5MbbdQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 480A5876E3A;
+ Wed, 21 Oct 2020 18:49:11 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58C9D5B4A1;
+ Wed, 21 Oct 2020 18:49:10 +0000 (UTC)
+Date: Wed, 21 Oct 2020 12:49:08 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/1] Skip flatview_simplify() for cpu vendor zhaoxin
+Message-ID: <20201021124908.53c7a98b@w520.home>
+In-Reply-To: <783b5ef0-277c-363d-f342-7c0351f9ac16@redhat.com>
+References: <20201016112933.14856-1-FelixCui-oc@zhaoxin.com>
+ <20201016112933.14856-2-FelixCui-oc@zhaoxin.com>
+ <a971c9db-469f-ddc0-1a27-3e21958f6ff7@redhat.com>
+ <20201019130206.1d3baffc@w520.home>
+ <4d2b96cb-8f7f-2598-39e6-4cf0f61d567b@redhat.com>
+ <20201020164437.5e3cb4ce@w520.home>
+ <783b5ef0-277c-363d-f342-7c0351f9ac16@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 14:20:10
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,143 +87,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: FelixCuioc <FelixCui-oc@zhaoxin.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ CobeChen-oc@zhaoxin.com, qemu-devel@nongnu.org, TonyWWang-oc@zhaoxin.com,
+ RockCui-oc@zhaoxin.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 21. Oktober 2020 14:51:09 CEST Christian Schoenebeck wrote:
-> This test case uses a Tlink request to create a hard link to a regular
-> file using the 9pfs 'local' fs driver.
-> 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->  tests/qtest/virtio-9p-test.c | 71 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 71 insertions(+)
-> 
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index 33cba24b18..460fa49fe3 100644
-> --- a/tests/qtest/virtio-9p-test.c
-> +++ b/tests/qtest/virtio-9p-test.c
-> @@ -260,6 +260,7 @@ static const char *rmessage_name(uint8_t id)
->          id == P9_RMKDIR ? "RMKDIR" :
->          id == P9_RLCREATE ? "RLCREATE" :
->          id == P9_RSYMLINK ? "RSYMLINK" :
-> +        id == P9_RLINK ? "RLINK" :
->          id == P9_RUNLINKAT ? "RUNLINKAT" :
->          id == P9_RFLUSH ? "RFLUSH" :
->          id == P9_RREADDIR ? "READDIR" :
-> @@ -767,6 +768,33 @@ static void v9fs_rsymlink(P9Req *req, v9fs_qid *qid)
->      v9fs_req_free(req);
->  }
-> 
-> +/* size[4] Tlink tag[2] dfid[4] fid[4] name[s] */
-> +static P9Req *v9fs_tlink(QVirtio9P *v9p, uint32_t dfid, uint32_t fid,
-> +                         const char *name, uint16_t tag)
-> +{
-> +    P9Req *req;
-> +
-> +    uint32_t body_size = 4 + 4;
-> +    uint16_t string_size = v9fs_string_size(name);
-> +
-> +    g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-> +    body_size += string_size;
-> +
-> +    req = v9fs_req_init(v9p, body_size, P9_TLINK, tag);
-> +    v9fs_uint32_write(req, dfid);
-> +    v9fs_uint32_write(req, fid);
-> +    v9fs_string_write(req, name);
-> +    v9fs_req_send(req);
-> +    return req;
-> +}
-> +
-> +/* size[4] Rlink tag[2] */
-> +static void v9fs_rlink(P9Req *req)
-> +{
-> +    v9fs_req_recv(req, P9_RLINK);
-> +    v9fs_req_free(req);
-> +}
-> +
->  /* size[4] Tunlinkat tag[2] dirfd[4] name[s] flags[4] */
->  static P9Req *v9fs_tunlinkat(QVirtio9P *v9p, uint32_t dirfd, const char
-> *name, uint32_t flags, uint16_t tag)
-> @@ -1142,6 +1170,21 @@ static void do_symlink(QVirtio9P *v9p, const char
-> *path, const char *clink, g_free(name);
->  }
-> 
-> +/* create a hard link named @a clink in directory @a path pointing to @a to
-> */ +static void do_hardlink(QVirtio9P *v9p, const char *path, const char
-> *clink, +                        const char *to)
-> +{
-> +    uint32_t dfid, fid;
-> +    P9Req *req;
-> +
-> +    dfid = do_walk(v9p, path);
-> +    fid = do_walk(v9p, to);
-> +
-> +    req = v9fs_tlink(v9p, dfid, fid, clink, 0);
-> +    v9fs_req_wait_for_reply(req, NULL);
-> +    v9fs_rlink(req);
-> +}
-> +
->  static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char
-> *rpath, uint32_t flags)
->  {
-> @@ -1321,6 +1364,33 @@ static void fs_unlinkat_symlink(void *obj, void
-> *data, g_free(real_file);
->  }
-> 
-> +static void fs_hardlink_file(void *obj, void *data, QGuestAllocator
-> *t_alloc) +{
-> +    QVirtio9P *v9p = obj;
-> +    alloc = t_alloc;
-> +    struct stat st_real, st_link;
-> +    char *real_file = virtio_9p_test_path("07/real_file");
-> +    char *hardlink_file = virtio_9p_test_path("07/hardlink_file");
-> +
-> +    do_attach(v9p);
-> +    do_mkdir(v9p, "/", "07");
-> +    do_lcreate(v9p, "07", "real_file");
-> +    g_assert(stat(real_file, &st_real) == 0);
-> +    g_assert((st_real.st_mode & S_IFMT) == S_IFREG);
-> +
-> +    do_hardlink(v9p, "07", "hardlink_file", "07/real_file");
-> +
-> +    /* check if link exists now ... */
-> +    g_assert(stat(hardlink_file, &st_link) == 0);
-> +    /* ... and it's a hard link, right? */
-> +    g_assert((st_link.st_mode & S_IFMT) == S_IFREG);
-> +    g_assert(st_link.st_dev == st_real.st_dev);
-> +    g_assert(st_link.st_ino == st_real.st_ino);
-> +
-> +    g_free(hardlink_file);
-> +    g_free(real_file);
-> +}
-> +
->  static void *assign_9p_local_driver(GString *cmd_line, void *arg)
->  {
->      virtio_9p_assign_local_driver(cmd_line, "security_model=mapped-xattr");
-> @@ -1367,6 +1437,7 @@ static void register_virtio_9p_test(void)
->      qos_add_test("local/symlink_file", "virtio-9p", fs_symlink_file,
-> &opts); qos_add_test("local/unlinkat_symlink", "virtio-9p",
-> fs_unlinkat_symlink, &opts);
-> +    qos_add_test("local/hardlink_file", "virtio-9p", fs_hardlink_file,
-> &opts); }
-> 
->  libqos_init(register_virtio_9p_test);
+On Wed, 21 Oct 2020 09:37:53 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Ok, I found the problem on the mentioned box that failed to create hard links 
-with 9p: it is libvirt auto generating AppArmor policy rules for 9p export 
-pathes, which libvirt generates with "rw" AA (AppArmor) permissions. Once I 
-manually adjusted the AA rule to "rwl", creating hard links worked again.
+> On 21/10/20 00:44, Alex Williamson wrote:
+> > Do we necessarily need a memory map ioctl for this or could it be the
+> > QEMU code that compares the old and new maps to trigger map and unmap
+> > ioctls?  For example (aiui) our race is that if we have contiguous
+> > memory regions A and B and flatview_simplify() tries to expand A and
+> > delete B we'll see a series of listener notifications deleting A and B
+> > and adding A'.  But the vfio QEMU code could parse the memory map to
+> > determine that old A + B is functionally equivalent to A' and do
+> > nothing.  
+> 
+> I think the issue is a bit different, and in fact there are two sides of
+> the same issue.  Say you have A (large) and it is replaced by A'
+> (smaller) + B, then:
+> 
+> * the first part of A disappears for a moment before A' appears.  This
+> is something that QEMU can work around, by not doing anything
+> 
+> * the second part of A disappears for a moment before B appears.  This
+> is the root API issue and not something that QEMU can work around; and
+> in fact it is not even fixed by removing flatview_simplify.
 
-I guess I'll send a patch for libvirt to change that. At least IMO creating 
-hard links with 9pfs is a very basic operation and should be enabled for the 
-respective 9p export path by default.
+Right, our current uAPI does not support a mechanism to atomically
+change a mapping, but likewise we're probably not going to have devices
+performing DMA to regions that are being remapped.  We know that
+removing flatview_simplify() resolves this issue and FelixCui's update
+suggests we do have a case where the permission changes of an adjacent
+range is triggering a range consolidation, which we see as the range
+being removed and added as something else, larger or smaller.
 
-Actually I think it should also include "k" which means "file locking", as 
-file locking is also a fundamental operation with 9pfs, right?
+I can understand the general benefit of flatview_simplify(), but I
+wonder if the best short term solution is to skip operating on the x86
+PAM range, which I understand to be a small number of memory chunks
+below 1MB.  I might also wonder why the EHCI controller on this
+platform is choosing that range for DMA.  Thanks,
 
-Best regards,
-Christian Schoenebeck
-
+Alex
 
 
