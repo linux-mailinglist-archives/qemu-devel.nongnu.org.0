@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F128B295100
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 18:41:44 +0200 (CEST)
-Received: from localhost ([::1]:39206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6920029510C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 18:44:48 +0200 (CEST)
+Received: from localhost ([::1]:46300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVHBI-0001Zo-1Q
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 12:41:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34128)
+	id 1kVHEF-0004fz-G5
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 12:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVH8j-0007sk-R5
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:39:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45933)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVH9V-0000NH-8m
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:39:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVH8h-0006KN-Ta
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:39:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVH9S-0006Nd-OE
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:39:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603298342;
+ s=mimecast20190719; t=1603298390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QxWJG0ffhPChzDF7ELDLcdBh2KyEnKwLjbNVcDW+cVM=;
- b=Tnq80iTLEPBz4+iIoDp2pOGpdBvWRjEX0E8NoQ70q3J/392lhtGuhqVMCj1AnXbX6MEgq6
- YDwA4+d7aXDbEWI4ooe7j55jeAXjWG2fTUxDunPIjJVcfRrvsePgWF++EK8fJGR+OEFqwB
- 9vNOI0/SbKfJRXUcEu537qFO790S0Mo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-lXuXm6e2PamICduvS3ZZsg-1; Wed, 21 Oct 2020 12:39:00 -0400
-X-MC-Unique: lXuXm6e2PamICduvS3ZZsg-1
-Received: by mail-wm1-f71.google.com with SMTP id f2so1777682wml.6
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 09:39:00 -0700 (PDT)
+ bh=Twe1BNksLp3aDH+oZ7NIZ5jAC6elkRAHXk1D7/MLUms=;
+ b=Afx8ZNDlMGHsIVeuuunpGt3PWGVkHzOZhkihHqImsm8Aw/bdmnUWGsAh2TEtdfWjFyXErl
+ IwX4h1SajkKY+VIQBWFdWmrVd+cUjXq1O1Ue0AkPEXz/366jrXntJDpIeZNbCNKhRjdT1k
+ cuyCp2T+xzUl1Q1FN/ZymAf5CuizmAE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-Yn5R-UjOOw2qqqleN3aaLA-1; Wed, 21 Oct 2020 12:39:47 -0400
+X-MC-Unique: Yn5R-UjOOw2qqqleN3aaLA-1
+Received: by mail-wm1-f69.google.com with SMTP id c204so1826892wmd.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 09:39:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=QxWJG0ffhPChzDF7ELDLcdBh2KyEnKwLjbNVcDW+cVM=;
- b=rxI8e1yqqeIKbJrQeXm53OjtwvhQ1uLjH5Vm7W2arxkWp6Bdq9eAwJE50cgqQpPJiu
- LOEznULeYtr2se9GThnUxkl1gqkgvWaDh2hdszYY5tvF2TWqOuGvRS0RSK+h2DyBMfpU
- 0dHzxflry7Tm4Wgrlnq+GrYOCZ/b976YiLlgHKTYzenvq7XRAuzMqlIbCEgIvZCqRPQk
- p4dO3GkfzpB+apx04VieA5Fk08/OpW/Y3zWxOvYJbibZj8o9ej+79UOfq9+j05U9oMey
- EWGsMsZJvjkAjbzFr1h0OIOxUfZ8C0+7+YYrncebJm2h7UBC6gP4PV3BE0zbUI37pg9w
- 5A1A==
-X-Gm-Message-State: AOAM532Xfr2dZ7wL3QHcBesRm/8w0PiuyPBkMIQ7StA2jLk0LScLdtBl
- tMYVvHFeCUe595c/Ehien9pYCiW8bxrIq4tmKU8WiYqWJEhXprMxng+f/EdrKLmiMPxTieQfdCU
- ZHRnJelYtS0Omun8=
-X-Received: by 2002:a1c:9ed8:: with SMTP id h207mr1467023wme.75.1603298339454; 
- Wed, 21 Oct 2020 09:38:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxi+P09tLcGZcvIz6ifxzwUOHRdbwJTwKQ/IXFiFYEw+wFyQOIIpUOUfRMR2WlHu3TwS7vq6A==
-X-Received: by 2002:a1c:9ed8:: with SMTP id h207mr1466998wme.75.1603298339257; 
- Wed, 21 Oct 2020 09:38:59 -0700 (PDT)
+ bh=Twe1BNksLp3aDH+oZ7NIZ5jAC6elkRAHXk1D7/MLUms=;
+ b=pG5ttUjHcporTwk+oMnRZrL7NtfR60G1skt184Z0MXSNzSX7AgtIj82cjTdjIhAOzb
+ XASZczg9LBqbAJafbir92AZMS0zjobLmVWVMEs5buWsXylUxWmxZd45vUZGXliwecG6W
+ 9wNohopL5eNbqG01fdChzTMviqa13UEBdlaJnA92eSdcQqk2cpJ4vNh/hjLnXQ/NvxzH
+ GBCswZZ5HlsCFgxw2+T76a8ZqIZG66OTfoGIEU9IKwcqLS9ce3C50G/mnSubQyAomqKt
+ rhS05gRZaAtG/fTyw75+Ee/l4uVpiSI9yRNUGMazyWwIRzDSfRm8ODHhzAaqBVf4D7Ur
+ Vhxg==
+X-Gm-Message-State: AOAM532dyTksA/Fs4nSyE0EvfSsPdI5tGVEW3zZ7lV8yqI0cQ55/axFS
+ wpJZK8Czt8g3GcHRXUpnPiHf5jSim+5lCA2vQ5Wd2rUQUrikqlgTjhtzGfttgFbHgoI5dg2MT4u
+ y6gxaU4o5NVHyIf4=
+X-Received: by 2002:adf:ed06:: with SMTP id a6mr5580576wro.375.1603298386400; 
+ Wed, 21 Oct 2020 09:39:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyjP9Ihbbbzy4KfooubxeFJlodwR7mFkq3gVvBwV9kredm4dWZouz48MPy1F64oIkx91SYCbw==
+X-Received: by 2002:adf:ed06:: with SMTP id a6mr5580546wro.375.1603298386098; 
+ Wed, 21 Oct 2020 09:39:46 -0700 (PDT)
 Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id c1sm4973322wru.49.2020.10.21.09.38.57
+ by smtp.gmail.com with ESMTPSA id i14sm4007987wml.24.2020.10.21.09.39.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Oct 2020 09:38:58 -0700 (PDT)
-Subject: Re: [PATCH v7 08/11] migration: wire up support for snapshot device
- selection
+ Wed, 21 Oct 2020 09:39:45 -0700 (PDT)
+Subject: Re: [PATCH v7 09/11] migration: introduce a delete_snapshot wrapper
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20201021162704.3652555-1-berrange@redhat.com>
- <20201021162704.3652555-9-berrange@redhat.com>
+ <20201021162704.3652555-10-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <76fc47c5-abbf-9b2f-76ac-82cfef6ec1b5@redhat.com>
-Date: Wed, 21 Oct 2020 18:38:56 +0200
+Message-ID: <3c4c2ea2-b972-9f76-f60d-1d4f86f0216c@redhat.com>
+Date: Wed, 21 Oct 2020 18:39:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201021162704.3652555-9-berrange@redhat.com>
+In-Reply-To: <20201021162704.3652555-10-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,7 +88,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,18 +111,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/21/20 6:27 PM, Daniel P. Berrangé wrote:
-> Modify load_snapshot/save_snapshot to accept the device list and vmstate
-> node name parameters previously added to the block layer.
+> Make snapshot deletion consistent with the snapshot save
+> and load commands by using a wrapper around the blockdev
+> layer. The main difference is that we get upfront validation
+> of the passed in device list (if any).
 > 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   include/migration/snapshot.h | 18 ++++++++++++++++--
->   migration/savevm.c           | 28 +++++++++++++++++-----------
->   monitor/hmp-cmds.c           |  5 +++--
->   replay/replay-debugging.c    |  4 ++--
->   replay/replay-snapshot.c     |  5 +++--
->   softmmu/vl.c                 |  2 +-
->   6 files changed, 42 insertions(+), 20 deletions(-)
+>   include/migration/snapshot.h | 13 +++++++++++++
+>   migration/savevm.c           | 14 ++++++++++++++
+>   monitor/hmp-cmds.c           |  2 +-
+>   3 files changed, 28 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
