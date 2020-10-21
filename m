@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A2F2947A2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 07:02:35 +0200 (CEST)
-Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D902947B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 07:14:01 +0200 (CEST)
+Received: from localhost ([::1]:39370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV6Gg-0002c7-Ma
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 01:02:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57714)
+	id 1kV6Rk-0000Mo-Kb
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 01:14:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kV66g-0000ut-Ak
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 00:52:14 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46886)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kV66e-0005mt-Fe
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 00:52:13 -0400
-Received: by mail-pf1-x442.google.com with SMTP id y14so727954pfp.13
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 21:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=L/Y6IwJodXEJY+Oy5VNijd3IS8AKx3LhqtUy8JRkWdQ=;
- b=iJDvrXl9zWkq2jwrDeahTjDp8NnichL4yv/1Pv0bCUmrKQi2O523YzH1E0t7pHPCLg
- hsppbRX46wG4J3JgmuXJ8ewmuVieAI7f8TWRA3ZtweMOOnjwBnBmm3TAo2sfjunuj5fb
- ovh/sJUmPG62JVQceH+rLUXPVw4nu4k5y776ud2xbL6mviGunhtBAXtfhl3YwwLuyY5h
- GsJfjHsPNcZyZsRI/Fr0QiZpMHh2KQQIthWKJ0ceX4SmSgCj2GoM468ieWA7MghES3Hm
- u/enTPsM+XETk9YYoolnRNO05pDGSVzKHhLC7I/0T4qE8L4hWhUlezuim07moKFn5OLe
- Nddw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=L/Y6IwJodXEJY+Oy5VNijd3IS8AKx3LhqtUy8JRkWdQ=;
- b=HqKVikiv17IYlObV/iMTamYQ1ospvPZki1m9Jx02LZbXDv68NhIHIhndO5HQcnC2Yi
- Xk1L3nztLDoBLJbDX8nkWCKcphIkQZKsR6JH2WsguqXyOXlJJ/HO3myt+NZNkwHD+Of0
- h0QIKjSA5L27O0MWy+VP4uBX+9WPmjm2CHb2bIEws8mTXlXfJxqP4TDAYLBSM90V1cN/
- hOCwrS29ORn18kvqRo5AJ8IrZPxfwIgweYVBMzD6hfg27MMD+2O897h+FeaVKVqsIZu6
- RJM+25e1gUc6cTe6sAZbCNkU6Mmv/MkkBYbPrpI4c8I+xzminighCuVnzWMwEArFMbJY
- MKIQ==
-X-Gm-Message-State: AOAM533RJbXV9K2W09tU/KTMBajrNrdfxUgLaOwNPB2cm0wEZ4H8rA0s
- VmLSnn4FN1+7PT1MLvIwE059xVo5i+XxRA==
-X-Google-Smtp-Source: ABdhPJzA6HrJBf3u2liKs+EtMWIFq2FglvQh+R/4W48SNa8MOfGMZPXfhfVZVHo9GhEtoxO4HhgbFw==
-X-Received: by 2002:aa7:9f0f:0:b029:155:ef07:6ae0 with SMTP id
- g15-20020aa79f0f0000b0290155ef076ae0mr1576797pfr.70.1603255930700; 
- Tue, 20 Oct 2020 21:52:10 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j11sm620070pfh.143.2020.10.20.21.52.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 21:52:10 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 15/15] softfloat: Improve subtraction of equal exponent
-Date: Tue, 20 Oct 2020 21:51:49 -0700
-Message-Id: <20201021045149.1582203-16-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kV6Ql-0008LP-MV
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 01:12:59 -0400
+Resent-Date: Wed, 21 Oct 2020 01:12:59 -0400
+Resent-Message-Id: <E1kV6Ql-0008LP-MV@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kV6Qh-0004G1-6X
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 01:12:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1603257169; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Gfz/Zl/Yy6m8qtagWiioOUlm6wlhbF7ikO8h6BKH6lg5mEdFIibGkK2p6DXHHl6D7RWTZ/dV4F3TeABnMBL/T2KQIGnbyBs/AcHTElaijquyahLRvmGHyUy5PqAkW3JMS4HYn3JVk6VqWMh4As3Ee+eHsQcq3LDDqlP+FVFRyWU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1603257169;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=lMrPsgzo6J2BosNYlYUZ3JJRx5bWnpuTlM5KalDih8U=; 
+ b=Lf5+Jmbiim/TCqvSsdUVDp2PFfHTKNyp9njxo2YQzlPtSk5mKp+1asH4oJzkIQXoaCJ45bIvhJJY5qqOkdk7c1LitPtq9KCJKrwgEzW6uMK5eP/c1VtJ5ZOQXf0hcbx5F+HPP/G07lMse2WNwfVxA0dYdFE83h/jy2PCJE5xWoE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1603257166891824.1905939055705;
+ Tue, 20 Oct 2020 22:12:46 -0700 (PDT)
+Subject: Re: [RFC PATCH 00/15] softfloat: alternate conversion of
+ float128_addsub
+Message-ID: <160325716572.32698.11470178782490534065@66eaa9a8a123>
 In-Reply-To: <20201021045149.1582203-1-richard.henderson@linaro.org>
-References: <20201021045149.1582203-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: richard.henderson@linaro.org
+Date: Tue, 20 Oct 2020 22:12:46 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 01:12:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,114 +70,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Reply-To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than compare the fractions before subtracting, do the
-subtract and examine the result, possibly negating it.
-
-Looking toward re-using addsub_floats(N**2) for the addition
-stage of muladd_floats(N), this will important because of the
-longer fraction sizes.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- fpu/softfloat.c           |  4 ++++
- fpu/softfloat-parts.c.inc | 32 ++++++++++++++++++++------------
- 2 files changed, 24 insertions(+), 12 deletions(-)
-
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 294c573fb9..bf808a1b74 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -732,6 +732,7 @@ static FloatParts pick_nan_muladd(FloatParts a, FloatParts b, FloatParts c,
- #define EQ0(P)            ((P) == 0)
- #define EQ(P1, P2)        ((P1) == (P2))
- #define GEU(P1, P2)       ((P1) >= (P2))
-+#define NEG(P)            (-(P))
- #define OR(P1, P2)        ((P1) | (P2))
- #define SHL(P, C)         ((P) << (C))
- #define SHR(P, C)         ((P) >> (C))
-@@ -755,6 +756,7 @@ static FloatParts pick_nan_muladd(FloatParts a, FloatParts b, FloatParts c,
- #undef EQ0
- #undef EQ
- #undef GEU
-+#undef NEG
- #undef OR
- #undef SHL
- #undef SHR
-@@ -777,6 +779,7 @@ static FloatParts pick_nan_muladd(FloatParts a, FloatParts b, FloatParts c,
- #define EQ0(P)            (!int128_nz(P))
- #define EQ(P1, P2)        int128_eq(P1, P2)
- #define GEU(P1, P2)       int128_geu(P1, P2)
-+#define NEG(P)            int128_neg(P)
- #define OR(P1, P2)        int128_or(P1, P2)
- #define SHL(P, C)         int128_shl(P, C)
- #define SHR(P, C)         int128_shr(P, C)
-@@ -801,6 +804,7 @@ static FloatParts pick_nan_muladd(FloatParts a, FloatParts b, FloatParts c,
- #undef EQ0
- #undef EQ
- #undef GEU
-+#undef NEG
- #undef SHL
- #undef SHR
- #undef SHR_JAM
-diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index d2b6454903..9762cf8b66 100644
---- a/fpu/softfloat-parts.c.inc
-+++ b/fpu/softfloat-parts.c.inc
-@@ -254,29 +254,37 @@ FUNC(addsub_floats)(PARTS_TYPE a, PARTS_TYPE b,
-         /* Subtraction */
- 
-         if (likely(ab_mask == float_cmask_normal)) {
--            if (a.exp > b.exp || (a.exp == b.exp && GEU(a.frac, b.frac))) {
--                b.frac = SHR_JAM(b.frac, a.exp - b.exp);
-+            int shift, diff_exp = a.exp - b.exp;
-+
-+            if (diff_exp > 0) {
-+                b.frac = SHR_JAM(b.frac, diff_exp);
-                 a.frac = SUB(a.frac, b.frac);
--            } else {
--                a.frac = SHR_JAM(a.frac, b.exp - a.exp);
-+            } else if (diff_exp < 0) {
-+                a.frac = SHR_JAM(a.frac, -diff_exp);
-                 a.frac = SUB(b.frac, a.frac);
-                 a.exp = b.exp;
-                 a.sign ^= 1;
-+            } else {
-+                a.frac = SUB(b.frac, a.frac);
-+                /* a.frac < b.frac results in carry into the overflow bit. */
-+                if (HI(a.frac) & DECOMPOSED_OVERFLOW_BIT) {
-+                    a.frac = NEG(a.frac);
-+                    a.sign ^= 1;
-+                } else if (EQ0(a.frac)) {
-+                    a.cls = float_class_zero;
-+                    goto sub_zero;
-+                }
-             }
- 
--            if (EQ0(a.frac)) {
--                a.cls = float_class_zero;
--                a.sign = s->float_rounding_mode == float_round_down;
--            } else {
--                int shift = CLZ(a.frac) - 1;
--                a.frac = SHL(a.frac, shift);
--                a.exp -= shift;
--            }
-+            shift = CLZ(a.frac) - 1;
-+            a.frac = SHL(a.frac, shift);
-+            a.exp -= shift;
-             return a;
-         }
- 
-         /* 0 - 0 */
-         if (ab_mask == float_cmask_zero) {
-+ sub_zero:
-             a.sign = s->float_rounding_mode == float_round_down;
-             return a;
-         }
--- 
-2.25.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAyMTA0NTE0OS4xNTgy
+MjAzLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
+ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
+IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMDIx
+MDQ1MTQ5LjE1ODIyMDMtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtS
+RkMgUEFUQ0ggMDAvMTVdIHNvZnRmbG9hdDogYWx0ZXJuYXRlIGNvbnZlcnNpb24gb2YgZmxvYXQx
+MjhfYWRkc3ViCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
+cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
+bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
+aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
+M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
+aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
+LzIwMjAxMDIxMDQ1MTQ5LjE1ODIyMDMtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnIC0+
+IHBhdGNoZXcvMjAyMDEwMjEwNDUxNDkuMTU4MjIwMy0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFy
+by5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwphZDEyMGMxIHNvZnRmbG9hdDog
+SW1wcm92ZSBzdWJ0cmFjdGlvbiBvZiBlcXVhbCBleHBvbmVudAoxMmViNWE0IHNvZnRmbG9hdDog
+VXNlIGZsb2F0X2NtYXNrIGZvciBhZGRzdWJfZmxvYXRzCmEwNGZmN2QgVGVzdCBmbG9hdDEyOF9h
+ZGRzdWIKZmM5NTM3ZSBzb2Z0ZmxvYXQ6IFN0cmVhbWxpbmUgRmxvYXRGbXQKOTc5YmViNiBUZXN0
+IHNwbGl0IHRvIHNvZnRmbG9hdC1wYXJ0cy5jLmluYwo0MzE3OTkxIHNvZnRmbG9hdDogSW5saW5l
+IGZsb2F0X3JhaXNlCjQ2ODliZDIgc29mdGZsb2F0OiBBZGQgZmxvYXRfY21hc2sgYW5kIGNvbnN0
+YW50cwpiMTE0MWVlIHNvZnRmbG9hdDogVGlkeSBhICogYiArIGluZiByZXR1cm4KMTk3MjczYyBz
+b2Z0ZmxvYXQ6IFVzZSBpbnQxMjguaCBmb3Igc29tZSBvcGVyYXRpb25zCmFhNGFmYTIgc29mdGZs
+b2F0OiBVc2UgbXVsdTY0IGZvciBtdWw2NFRvMTI4CjAxN2QyNzYgcWVtdS9pbnQxMjg6IEFkZCBp
+bnQxMjhfZ2V1CjcxZGQ1ZjEgcWVtdS9pbnQxMjg6IEFkZCBpbnQxMjhfc2hyCjkxNDRkZjkgcWVt
+dS9pbnQxMjg6IFJlbmFtZSBpbnQxMjhfcnNoaWZ0LCBpbnQxMjhfbHNoaWZ0CmI2YzlhZmIgcWVt
+dS9pbnQxMjg6IEFkZCBpbnQxMjhfY2x6LCBpbnQxMjhfY3R6CjBjZWZmOWEgcWVtdS9pbnQxMjg6
+IEFkZCBpbnQxMjhfb3IKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTUgQ2hlY2tpbmcgY29tbWl0
+IDBjZWZmOWExNGFhNiAocWVtdS9pbnQxMjg6IEFkZCBpbnQxMjhfb3IpCjIvMTUgQ2hlY2tpbmcg
+Y29tbWl0IGI2YzlhZmI1ODM1NyAocWVtdS9pbnQxMjg6IEFkZCBpbnQxMjhfY2x6LCBpbnQxMjhf
+Y3R6KQozLzE1IENoZWNraW5nIGNvbW1pdCA5MTQ0ZGY5OTBiMTcgKHFlbXUvaW50MTI4OiBSZW5h
+bWUgaW50MTI4X3JzaGlmdCwgaW50MTI4X2xzaGlmdCkKNC8xNSBDaGVja2luZyBjb21taXQgNzFk
+ZDVmMTU3YTM5IChxZW11L2ludDEyODogQWRkIGludDEyOF9zaHIpCjUvMTUgQ2hlY2tpbmcgY29t
+bWl0IDAxN2QyNzYyNzExMiAocWVtdS9pbnQxMjg6IEFkZCBpbnQxMjhfZ2V1KQo2LzE1IENoZWNr
+aW5nIGNvbW1pdCBhYTRhZmEyMmVlNzggKHNvZnRmbG9hdDogVXNlIG11bHU2NCBmb3IgbXVsNjRU
+bzEyOCkKNy8xNSBDaGVja2luZyBjb21taXQgMTk3MjczYzBhZWRhIChzb2Z0ZmxvYXQ6IFVzZSBp
+bnQxMjguaCBmb3Igc29tZSBvcGVyYXRpb25zKQo4LzE1IENoZWNraW5nIGNvbW1pdCBiMTE0MWVl
+Y2MzNjggKHNvZnRmbG9hdDogVGlkeSBhICogYiArIGluZiByZXR1cm4pCjkvMTUgQ2hlY2tpbmcg
+Y29tbWl0IDQ2ODliZDI2ZmQ2NiAoc29mdGZsb2F0OiBBZGQgZmxvYXRfY21hc2sgYW5kIGNvbnN0
+YW50cykKMTAvMTUgQ2hlY2tpbmcgY29tbWl0IDQzMTc5OTFkY2JkOCAoc29mdGZsb2F0OiBJbmxp
+bmUgZmxvYXRfcmFpc2UpCjExLzE1IENoZWNraW5nIGNvbW1pdCA5NzliZWI2NzZlODkgKFRlc3Qg
+c3BsaXQgdG8gc29mdGZsb2F0LXBhcnRzLmMuaW5jKQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1
+c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNTU3OiBGSUxFOiBmcHUvc29mdGZs
+b2F0LmM6Njg1OgorICAgICAgICAvKiBOb3RlIHRoYXQgdGhpcyBjaGVjayBpcyBhZnRlciBwaWNr
+TmFOTXVsQWRkIHNvIHRoYXQgZnVuY3Rpb24KCkVSUk9SOiBNaXNzaW5nIFNpZ25lZC1vZmYtYnk6
+IGxpbmUocykKCnRvdGFsOiAxIGVycm9ycywgMSB3YXJuaW5ncywgNzg2IGxpbmVzIGNoZWNrZWQK
+ClBhdGNoIDExLzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
+ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
+bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxMi8xNSBDaGVja2luZyBj
+b21taXQgZmM5NTM3ZTY2YjczIChzb2Z0ZmxvYXQ6IFN0cmVhbWxpbmUgRmxvYXRGbXQpCjEzLzE1
+IENoZWNraW5nIGNvbW1pdCBhMDRmZjdkY2IwMDMgKFRlc3QgZmxvYXQxMjhfYWRkc3ViKQpFUlJP
+UjogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0b3RhbDogMSBlcnJvcnMsIDAgd2Fy
+bmluZ3MsIDQwNSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMy8xNSBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgoKMTQvMTUgQ2hlY2tpbmcgY29tbWl0IDEyZWI1YTQ4NjcyMCAoc29mdGZsb2F0OiBV
+c2UgZmxvYXRfY21hc2sgZm9yIGFkZHN1Yl9mbG9hdHMpCjE1LzE1IENoZWNraW5nIGNvbW1pdCBh
+ZDEyMGMxZDFhZTggKHNvZnRmbG9hdDogSW1wcm92ZSBzdWJ0cmFjdGlvbiBvZiBlcXVhbCBleHBv
+bmVudCkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
+MQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
+MjAyMDEwMjEwNDUxNDkuMTU4MjIwMy0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvdGVz
+dGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21h
+dGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlv
+dXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
