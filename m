@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD1529533D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 22:05:21 +0200 (CEST)
-Received: from localhost ([::1]:52978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777BA295382
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 22:36:28 +0200 (CEST)
+Received: from localhost ([::1]:45798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVKMK-0002Z4-5u
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 16:05:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56988)
+	id 1kVKqQ-0005Pi-W4
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 16:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kVKKg-00022m-A8; Wed, 21 Oct 2020 16:03:38 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40718
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kVKKa-0000F7-D0; Wed, 21 Oct 2020 16:03:33 -0400
-Received: from host86-148-246-80.range86-148.btcentralplus.com
- ([86.148.246.80] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kVKKZ-0000W7-EZ; Wed, 21 Oct 2020 21:03:36 +0100
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20201020200242.1497705-1-jsnow@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <53fabf87-357f-bf46-c364-801e2fa4d1fe@ilande.co.uk>
-Date: Wed, 21 Oct 2020 21:03:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kVKny-0004bA-2G; Wed, 21 Oct 2020 16:33:54 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:45580)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kVKnr-0003x8-MR; Wed, 21 Oct 2020 16:33:53 -0400
+Received: by mail-il1-x144.google.com with SMTP id g7so3742432ilr.12;
+ Wed, 21 Oct 2020 13:33:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UfnLJVxvS7tlgzkX75GEVoAMSTkpG0UmfBuTjtue+Fg=;
+ b=SAYXmDJO7+9Pd/r/7XMZXHd3StO8dsxpDF77JJvz2+tuVkxy8Pgo4Q0j/NiWjwkLql
+ hmX2HCZRwM8ghH4TEBDEl3gISxoqIR/cGO6ED73n0XX8S0kSQG3xeQViAny79X5Mlst1
+ YwuePtOMnBPdcHqhVoqpXJs2rvvroETJC/vTjN9t3UAJBZ/q9k901s/uJxgmnRjrd23d
+ FPGoE32ACZ0fOvN8v9xZRzTK41VfynrFf4K3YVe64KFQazJgo8yCkM1U7+Bz/NT9gcQ+
+ xnl3VSIEaEqCrlnT3KM5O5qch3Je1DOA2SDfq7jlMwFtlbSWRveHssCr9XJ93NMAIwNF
+ LQbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UfnLJVxvS7tlgzkX75GEVoAMSTkpG0UmfBuTjtue+Fg=;
+ b=c5/UwnC+a8WAzt/yBvG9HjOtumBiNyJ6e7+79jVItb2Wrgh0oe2YCLBTz16hUoxoqa
+ 4XAz3qUjo9BtyivSbdcmN1WRqQTbfQIJtmHp51fr2x63UyOrw63Zl7lRaz0TQwlA+Ue9
+ APjGoHU2zP/SfqQXIO//TLOSXjLhQ9+r8jvoXMR8bPbOXuVsXKq3fFWrU8KD4oSJfMyl
+ oI9WMfjR3ZyhL3W0ULKvAWMTyWkX6fnTtYfkkbkOF2JqYxBJ6GFSIwys3euMlZ02gpGp
+ +XgnN4LqrFV2maS9uXg4tYf1qL3dOrYJdZ+OUrQ+SYFDnRWqDBwFnei/LjQ7FKx1Xg0V
+ cshw==
+X-Gm-Message-State: AOAM530D1tVP5mVt3gE3HApMKy8ytmZNf0ycmWMSQBZAGke98vRTHJJ0
+ TZxsUtarBP6WsWSMyYZy4e9DDPybFzIREEIoam0=
+X-Google-Smtp-Source: ABdhPJzkFHoo5or1zZlgbNWRfFgXLG+49i5yQcHpODhZvqtsHPsZn9f4Yc8nnwiG+w4alqDMvZ7saxyBOQgh5Fr85w0=
+X-Received: by 2002:a92:c5ce:: with SMTP id s14mr3961681ilt.40.1603312426041; 
+ Wed, 21 Oct 2020 13:33:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201020200242.1497705-1-jsnow@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.148.246.80
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/3] ide: fix SRST (again)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+References: <20201017071154.20642-1-space.monkey.delivers@gmail.com>
+ <20201017071154.20642-2-space.monkey.delivers@gmail.com>
+In-Reply-To: <20201017071154.20642-2-space.monkey.delivers@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 21 Oct 2020 13:22:02 -0700
+Message-ID: <CAKmqyKPdsmfZwnnTpGM70BZ3nQMZ8_5sS9NiVswj8vrfQpSHgg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] [RISCV_PM] Add J-extension into RISC-V
+To: Alexey Baturo <baturo.alexey@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,35 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-block@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ space.monkey.delivers@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ kupokupokupopo@gmail.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/10/2020 21:02, John Snow wrote:
+On Sat, Oct 17, 2020 at 12:15 AM Alexey Baturo <baturo.alexey@gmail.com> wrote:
+>
+> Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
+> ---
+>  target/riscv/cpu.c | 4 ++++
+>  target/riscv/cpu.h | 2 ++
+>  2 files changed, 6 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 0bbfd7f457..fe6bab4a52 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -438,6 +438,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>          if (cpu->cfg.ext_h) {
+>              target_misa |= RVH;
+>          }
+> +        if (cpu->cfg.ext_j) {
+> +            target_misa |= RVJ;
+> +        }
+>          if (cpu->cfg.ext_v) {
+>              target_misa |= RVV;
+>              if (!is_power_of_2(cpu->cfg.vlen)) {
+> @@ -516,6 +519,7 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+>      /* This is experimental so mark with 'x-' */
+>      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+> +    DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
 
-> My last fix for SRST wasn't entirely correct and caused a regression;
-> namely we need to mime execution of the diagnostic command. If we don't,
-> Linux bins the IDE device as 'horked'.
-> 
-> For detailed reading on the SRST protocol, I recommend checking out the
-> ATA8-APT specification.
-> 
-> John Snow (3):
->    ide: run diagnostic after SRST
->    ide: perform SRST as early as possible
->    ide: clear SRST after SRST finishes
-> 
->   hw/ide/core.c | 12 +++++-------
->   1 file changed, 5 insertions(+), 7 deletions(-)
+Usually you only want to allow the user to enable the extension at the
+end of the series. That way if someone checks out QEMU between patch 1
+and patch 5 they don't have a half working implementation (it will be
+there, but they can't enable it).
 
-I tried this in 3 combinations: HD only, HD + CD, and CD only and I didn't notice any 
-error messages during my boot tests on qemu-system-sparc64 so:
+Alistair
 
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-
-ATB,
-
-Mark.
+>      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+>      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+>      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index de275782e6..eca611a367 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -66,6 +66,7 @@
+>  #define RVS RV('S')
+>  #define RVU RV('U')
+>  #define RVH RV('H')
+> +#define RVJ RV('J')
+>
+>  /* S extension denotes that Supervisor mode exists, however it is possible
+>     to have a core that support S mode but does not have an MMU and there
+> @@ -277,6 +278,7 @@ struct RISCVCPU {
+>          bool ext_s;
+>          bool ext_u;
+>          bool ext_h;
+> +        bool ext_j;
+>          bool ext_v;
+>          bool ext_counters;
+>          bool ext_ifencei;
+> --
+> 2.20.1
+>
+>
 
