@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0AD294DD7
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:46:30 +0200 (CEST)
-Received: from localhost ([::1]:49078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DA5294DEA
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:48:43 +0200 (CEST)
+Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVERh-0007ot-IP
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37634)
+	id 1kVETq-0001RF-W1
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:48:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kVEPi-0006RJ-Ix
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:44:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43989)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kVES2-0000Xx-92
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:46:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kVEPf-0006XJ-N6
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:44:25 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kVERw-0006tQ-Jl
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:46:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603287862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1603288004;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EDTfTyjgClGcv87eNOUpAB2vsdgpJ80iCtUh1j9L/DY=;
- b=PqeXYbti7TS0AYHd4Qx3FFZ/6f/BctBIdD3rUMMnAl+hu0zhV+c5IF0hjv6HJpTZd2gM38
- j9egVgaXsT2sIKevTL4Sts58dIwWcuIrChz3Q43PAkzdbXKQRzQkSR0QOkyx7oU/ipFOQA
- 9PwSzCaYwhdFJ5ilWwCyV2SUPWxvV+U=
+ bh=cHRYuqIpbfaSN7xj9sj94r/81iSjS6HAex6KKOGxh9s=;
+ b=FjvBVRx6QvOJLbYo1db0nxUXSsSdIJwwAXhVC6mIybuwjnruH12nzOE5jgjgOcjw0k6jFR
+ 8/9nYCe1yo6rBOZGtZ5DlsobcG5DyvpOpKbnkltNVWuriqR+GbfrX5/4MFaQHYiPLUtMR8
+ 2DiIRU3nRFfT1KSWQ56k80ww1Py/sWg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-n28DB1RHOq2srroo2Pt7Hg-1; Wed, 21 Oct 2020 09:44:20 -0400
-X-MC-Unique: n28DB1RHOq2srroo2Pt7Hg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-305-i3CpnlyeOgaUi9icduEomA-1; Wed, 21 Oct 2020 09:46:40 -0400
+X-MC-Unique: i3CpnlyeOgaUi9icduEomA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E56F68799EF
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 13:44:18 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-107.rdu2.redhat.com [10.10.116.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 986A160DA0;
- Wed, 21 Oct 2020 13:44:08 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 130D8222F9C; Wed, 21 Oct 2020 09:44:08 -0400 (EDT)
-Date: Wed, 21 Oct 2020 09:44:08 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v3 4/5] tools/virtiofsd: xattr name mapping examples
-Message-ID: <20201021134408.GA442437@redhat.com>
-References: <20201014180209.49299-1-dgilbert@redhat.com>
- <20201014180209.49299-5-dgilbert@redhat.com>
- <20201020144041.GC380917@redhat.com>
- <20201020153443.GD2962@work-vm>
- <20201020175600.GE380917@redhat.com>
- <20201020190237.GG2962@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 387C918C89C2;
+ Wed, 21 Oct 2020 13:46:39 +0000 (UTC)
+Received: from redhat.com (ovpn-114-86.ams2.redhat.com [10.36.114.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9DF85D9CA;
+ Wed, 21 Oct 2020 13:46:37 +0000 (UTC)
+Date: Wed, 21 Oct 2020 14:46:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: roms/efirom, tests/uefi-test-tools: update edk2's own submodules
+ first
+Message-ID: <20201021134634.GN412988@redhat.com>
+References: <20201020091605.GA2301@aepfle.de>
+ <3fc07eb7-f99a-516b-9bb9-e48049547928@redhat.com>
+ <20201020094419.GF287149@redhat.com>
+ <0e196d48-6735-5116-ade5-a9b138020aea@redhat.com>
+ <46f7af9f-4a18-4352-dad2-cc176ed890e1@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201020190237.GG2962@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <46f7af9f-4a18-4352-dad2-cc176ed890e1@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -84,122 +88,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dinechin@redhat.com, virtio-fs@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Olaf Hering <olaf@aepfle.de>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 20, 2020 at 08:02:37PM +0100, Dr. David Alan Gilbert wrote:
-
-[..]
-> > > > > +2) Prefix 'trusted.' attributes, allow others through
-> > > > > +
-> > > > > +::
-> > > > > +
-> > > > > +   "/prefix/all/trusted./user.virtiofs./
-> > > > > +    /bad/server//trusted./
-> > > > > +    /bad/client/user.virtiofs.//
-> > > > > +    /ok/all///"
-> > > > > +
-> > > > > +
-> > > > > +Here there are four rules, using / as the field
-> > > > > +separator, and also demonstrating that new lines can
-> > > > > +be included between rules.
-> > > > > +The first rule is the prefixing of 'trusted.' and
-> > > > > +stripping of 'user.virtiofs.'.
-> > > > 
-> > > > So this is bidrectional rule, right. For setxattr(), "trusted."
-> > > > will be replaced with "user.virtiofs" and for listxattr(),
-> > > > server will replace user.virtiofs with trusted. ?
-> > > 
-> > > prefixed not replaced; so it'll turn "trusted." into
-> > > "user.virtiofs.trusted." and strip it back off for listxattr.
+On Wed, Oct 21, 2020 at 02:05:18PM +0200, Laszlo Ersek wrote:
+> On 10/20/20 11:54, Philippe Mathieu-Daudé wrote:
+> > On 10/20/20 11:44 AM, Daniel P. Berrangé wrote:
+> >> On Tue, Oct 20, 2020 at 11:29:01AM +0200, Philippe Mathieu-Daudé wrote:
+> >>> Hi Olaf,
+> >>>
+> >>> On 10/20/20 11:16 AM, Olaf Hering wrote:
+> >>>> This is about qemu.git#ec87b5daca761039bbcf781eedbe4987f790836f
+> >>>>
+> >>>> On Mon, Sep 07, Laszlo Ersek wrote:
+> >>>>
+> >>>>> In edk2 commit 06033f5abad3 ("BaseTools: Make brotli a submodule",
+> >>>>> 2020-04-16), part of edk2-stable202005, the Brotli compressor /
+> >>>>> decompressor source code that edk2 had flattened into BaseTools was
+> >>>>> replaced with a git submodule.
+> >>>>>
+> >>>>> This means we have to initialize edk2's own submodules before building
+> >>>>> BaseTools not just in "roms/Makefile.edk2", but in "roms/Makefile"
+> >>>>> (for
+> >>>>> the sake of the "efirom" target) and
+> >>>>> "tests/uefi-test-tools/Makefile" as
+> >>>>> well.
+> >>>>
+> >>>>> +++ b/roms/Makefile
+> >>>>>    edk2-basetools:
+> >>>>> +    cd edk2/BaseTools && git submodule update --init --force
+> >>>>>    build-edk2-tools:
+> >>>>> +    cd $(edk2_dir)/BaseTools && git submodule update --init --force
+> >>>>
+> >>>>
+> >>>> This change can not possibly be correct.
+> >>>>
+> >>>> With current qemu.git#master one is forced to have network access to
+> >>>> build the roms. This fails with exported (and complete) sources in an
+> >>>> offline environment.
+> >>>
+> >>> The EDK2 roms are only used for testing, we certainly don't want them
+> >>> to be used by distributions. I suppose the question is "why is this
+> >>> rule called if tests are not built?".
+> >>
+> >> I don't believe that is correct - the pc-bios/edk*  ROMs and the
+> >> corresponding  pc-bios/descriptor files are there for real world
+> >> end user consumption.   roms/edk2 should (must) match / reflect
+> >> the content used to build the pci-bios/edk* blobs.
+> >>
+> >> Many distros have a policy requiring them to build everything
+> >> from source, so they will ignore the pre-built edk2 ROMs, but
+> >> regular end users taking QEMU directly from upstream can certainly
+> >> use our edk2 ROMs.
 > > 
-> > Ok. Got it. I am wondering how will I specify these rules so that
-> > they work in nested configuration. Say I have L0 host, L1 guest and
-> > L2 guest. Say virtiofsd0 is running on L0 and virtiofsd1 is running
-> > on L1. 
-> > 
-> > I am wondering how will I specify the rules on virtiofsd0 and virtiofsd1
-> > so that it works. Will it be same or rules are level dependent.
+> > Well I'm lost (and I don't think mainstream QEMU have the
+> > bandwidth to follow mainstream EDK2 security fixes) so I'm
+> > giving up, waiting for clarification from Laszlo.
 > 
-> I'm hoping it'll be the same, see below.
-> 
-> > > 
-> > > > > +The second rule hides unprefixed 'trusted.' attributes
-> > > > > +on the host.
-> > > > 
-> > > > If host has "trusted.*", we are not hiding it and as per first
-> > > > rule we are converting it to "user.virtiofs.trusted.*", right?
-> > > > So why this second rule is needed.
-> > > 
-> > > No, the first rule will only prefix strings provided by the guest
-> > > and strip strings provided by the server. This rule hides
-> > > existing server 'trusted.' xattrs - so if the guest sets
-> > > trusted.foo it's not confused by also seeing a server trusted.foo
-> > > 
-> > > > > +The third rule stops a guest from explicitly setting
-> > > > > +the 'user.viritofs.' path directly.
-> > > > > +Finally, the fourth rule lets all remaining attributes
-> > > > > +through.
-> > > > 
-> > > > So If I don't specify third rule, and client does
-> > > > setxattr(user.virtiofs.*), it will simply be a passthrough?
-> > > 
-> > > Right; and that's dangerous, because a non-privileged guest
-> > > process can set a user. xattr; so a non-priv guest process could
-> > > set user.virtiofs.trusted.foo and then it would get read back
-> > > and be used as trusted.foo that has an impact on priviliged processes.
-> > 
-> > Right. We don't want unpriviliged process to be able to setup
-> > user.virtiofs.trusted.*. But that's what precisely happen in
-> > a nested configuration.
-> > 
-> > In above example, L2 will set trusted.foo, virtiofsd1 wil convert it
-> > to user.virtiofs.trusted.foo and virtiofsd0 will reject it, breaking
-> > the nested virtiofs.
-> 
-> So to allow nesting you need to nest the user.virtiofs. as well, not
-> just the trusted. So either you do an all, or if you want to be more
-> selective then I think the following would work:
-> 
->  1  /prefix/client/trusted./user.virtiofs./
->  2  /prefix/client/user.virtiofs./user.virtiofs./
+> I definitely don't have time for keeping the edk2 blobs bundled with
+> QEMU fresh wrt. security fixes in upstream edk2, so anyone expecting
+> that is in for a bad surprise. The blobs are provided, from my
+> perspective, (a) for some tests in the test suite (such as
+> bios-tables-test for the aarch64 target), (b) as a convenience for
+> end-users that desire to build QEMU from source, without wanting to
+> build OVMF from source.
 
-Ok, so basically instead of blocking user.virtiofs.trusted. from client,
-prefix it with "user.virtiofs." one more time. IOW, allow client to
-set user.virtiofs.trusted. because it will get back user.virtiofs.trusted.
-and not "trusted." which is ok. Now client user space can't fool client
-kernel with setting arbitrary user.virtiofs.trusted xattrs.
+The issue with security is not unique to EDK2. Essentially all the
+binary blob firmwares that QEMU distributes have this problem, since
+we dont update any of them in response to upstream security issues
+in any reliable timeframe.  EDK2 is probably most dangerous since
+its code base is relatively larger than other firmwares, but they
+are all essentially doomed.
 
-And if client kernel sends, trusted., it will get back trusted.
+This is why distros should generall ybuild as many of the ROMs as
+possible from scratch using latest available upstream source, not
+what QEMU distributes.
 
-Only thing which can happen is that client1 sets user.virtiofs.trusted.
-and nested client2 will get it as trusted. So client1 user space can
-fool nested client's kernel. But given client1 has launched nested
-client2, we should be able to trust some user on client1 and make
-sure other users can't see this shared dir and this probably is
-not an issue.
+I wish we would actually ship a qemu tarball which excluded all the
+pre-built ROMs and bundle them in a separate add-on tarball, with a
+warning that they shouldn't be used in any "virtualization" use case
+in production, only for non-virtualization use cases, as described in
 
->  3  /prefix/server//user.virtiofs./
->  4  /bad/server//trusted./
->  5  /ok/all///
-> 
-> 1 causes any getattr/setattr to convert 'trusted.'
->                                    to   'user.virtiofs.trusted.'
-> 2 causes any getattr/setattr to convert 'user.virtiofs.'
->                                    to   'user.virtiofs.user.virtiofs.'
-> 3 causes any listattr to lose a layer of user.virtiofs.
-> 4 blocks any trusted. from the layer beneath
-> 5 lets anything else through
-> 
-> (I'm trying to convince myself if we need a
-> /bad/server//user.virtiofs.trusted.  to stop the previous level being
-> visible).
+  https://www.qemu.org/docs/master/system/security.html
 
-user.virtiofs.trusted on server will be converted to trusted., right?
-Can't block it otherwise L1 client breaks, isn't it?
+because the latter is where security does not matter.
 
-Vivek
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
