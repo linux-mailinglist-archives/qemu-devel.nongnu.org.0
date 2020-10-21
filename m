@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990402951AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 19:42:53 +0200 (CEST)
-Received: from localhost ([::1]:41532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C762951AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 19:42:41 +0200 (CEST)
+Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVI8R-0000dp-58
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 13:42:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50994)
+	id 1kVI8G-0000H5-IN
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 13:42:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVI14-00035y-7u
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:35:15 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:35900)
+ id 1kVI18-0003DZ-W5
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:35:19 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVI12-00064a-So
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:35:13 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id e2so3471181wme.1
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:35:12 -0700 (PDT)
+ id 1kVI17-00067O-J9
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:35:18 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id n18so4023102wrs.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:35:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qenmuCcnJ1D62WnJyuSqdVB8Tn5y6BCbZljNKEVfJGQ=;
- b=jfGUQlnEjIHR8AoZTx+A5arMjqBjO1NEUwl7ZOOotDGbIAoakyVz/IRSAjVTIam89A
- SP7ihZ7r4XTXJn4bZehNFVG3loQlfMRrE41PHzrF79xmmoZUdXUZcz0vMnyTNhFxVK2D
- 12izHK73q7xFqaBiN0VIWIkNQuFMD9ileL52I0kvtAgymROxPBLie39iA+ehu3ig54LO
- AmbqpAasvPAYb1/H/PCINvpW6lHSLbWz8sLpgKni0HV/TK90iRA5eS2GBGHJxpwXOHgj
- gR7x9aV/96BuM/RlE6lFz2wV5ZfpNJRJCGstSiaOMpRyOb/ug5H96n2I/H/Uz3Uw+CF0
- A6jQ==
+ bh=/ytGsokUFsJElQ21X2X5EL4wzQhSW3vyhSdpuBM3Iy0=;
+ b=nbqb3u28VHRphmKZEzSFjsdEdoWb6g510uG/iCvddSmNhxu0cAi71HdNQtp486yHFg
+ 6Wj7B5GJrJTFwn9RAIVi1ymprnLRIAYv1T4bqrAwRv1UqcxZgAG21dUxvtQ8oweWAfnP
+ YKAk6NjgNzWn6ZR9gp/YwYtB2O35FLeMkW+DCgBX7FrKPtOSLR7+Kjn93ZNNHYIURQ2g
+ tW61TFHYTGy1K7Z8A0Wk+7xtDgedGmVR/mtLAZ4dAhFi2ETCYSGJeDBNK61qiA5wqo1+
+ yffuZeUumRsDjez4FOitRw8p+RmOC2MwJKecNK+NtZajJEHZvY/O1aRblFJ+Wvdabrfl
+ jNBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qenmuCcnJ1D62WnJyuSqdVB8Tn5y6BCbZljNKEVfJGQ=;
- b=YPZqxRz+ErJdjY/sBN2PaMhmjbdK2h/X6ZHWbCg1DboHH56WG1NYeUry16qjtNG/VT
- QfrhCQU2PHpu29k21L+BNp+XIwaYtCtvtoIlC95r3V37cpMVvpCxVHiYqU4RA/lT5Fgk
- indW32+m3Je4HIVSpegco/a5wXmCybpq1BodE1XINyaqb2XxkKjSWrnzljaWv8IbckYn
- khDhcSeQScaUlGBDQ3OXXLlntG+z2qlVAoGx4KngQ3T+PAUiO5LjoFbyFJA4iocS52is
- YS3V5Rd73pn+DfNXuvlSBi6Yrlr2oB+v3vV9iRIcEe4m5KQh2KlMlMNpQmEiGAD/j8nL
- g41w==
-X-Gm-Message-State: AOAM533PZVAmB5cRs9V//Ud55A4Hz6sv+48Lqs28Bz/H9Nc8kTeVcbQF
- KZp059q6ihchIeJmkQbGeXH819wdmSk=
-X-Google-Smtp-Source: ABdhPJxS5ezFrvPd0MHkWnh8QXM41bcr50V0Qz4hiz21TfvGE4xSkp4NZl5kFe+Gr38JitOK2YANAg==
-X-Received: by 2002:a1c:8057:: with SMTP id b84mr4679185wmd.116.1603301711436; 
- Wed, 21 Oct 2020 10:35:11 -0700 (PDT)
+ bh=/ytGsokUFsJElQ21X2X5EL4wzQhSW3vyhSdpuBM3Iy0=;
+ b=QEsvIcmGqUTdeiYYOhVy1wfHwu+yJpv1m6pkcgJQfDnCF/JPt3Aqa5LqRD4zemO7yM
+ hf0td+/kyYbCuhliHUOnmu3jWttrowYjsmyT9slmms0C57w3Ai9Y7h7kXQ8p09Efr5YU
+ C1pm3n/fuFqaTWjoTfGghs3z2wGfv9595YaX0mOIOR5D1vNDdPHROBixtetbwZ79vtCy
+ GMfLgqvS/6lO8pv/LrigLeWpWmfslwiDjVllNgx5aIPWxa5CzF5hbqGVgmucNqEUWjk8
+ i5j6p0QECMz/wxGWNEPY2aAB7wQOk9jKfPRqQtMVv8BA+hQGXXi/b4lZ3+6cWYIXzns0
+ Nm4Q==
+X-Gm-Message-State: AOAM532wIvAhPbjecqk5zCMOwbr+kqIqcByB2h+2Z2Vy8hGue5cdzaR0
+ de7xK2MwYAq5kawS9I8bpvDzeVQRm+o=
+X-Google-Smtp-Source: ABdhPJw3Ykui0kKbtPN1zUJZUG2Lfz3PHxhrCmEw/cYAMRh3lABSC4TWJVB9VWK/qq2adF9/6VbPcA==
+X-Received: by 2002:adf:f810:: with SMTP id s16mr5758443wrp.424.1603301716086; 
+ Wed, 21 Oct 2020 10:35:16 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id s2sm4900028wmf.45.2020.10.21.10.35.10
+ by smtp.gmail.com with ESMTPSA id b63sm4643367wme.9.2020.10.21.10.35.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 10:35:10 -0700 (PDT)
+ Wed, 21 Oct 2020 10:35:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/13] hw/sd/sdhci: Stop multiple transfers when block count is
- cleared
-Date: Wed, 21 Oct 2020 19:34:41 +0200
-Message-Id: <20201021173450.2616910-5-f4bug@amsat.org>
+Subject: [PULL 05/13] hw/sd/sdhci: Resume pending DMA transfers on MMIO
+ accesses
+Date: Wed, 21 Oct 2020 19:34:42 +0200
+Message-Id: <20201021173450.2616910-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201021173450.2616910-1-f4bug@amsat.org>
 References: <20201021173450.2616910-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -93,45 +93,53 @@ Cc: Alexander Bulekov <alxndr@bu.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clearing BlockCount stops multiple transfers.
-
-See "SD Host Controller Simplified Specification Version 2.00":
-
-- 2.2.3. Block Count Register (Offset 006h)
-- Table 2-8 : Determination of Transfer Type
+If we have pending DMA requests scheduled, process them first.
+So far we don't need to implement a bottom half to process them.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20200903172806.489710-2-f4bug@amsat.org>
+Message-Id: <20200903172806.489710-3-f4bug@amsat.org>
 ---
- hw/sd/sdhci.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/sd/sdhci.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index c849c3d99b8..61e469bd32f 100644
+index 61e469bd32f..4db77decf87 100644
 --- a/hw/sd/sdhci.c
 +++ b/hw/sd/sdhci.c
-@@ -731,6 +731,12 @@ static void sdhci_do_adma(SDHCIState *s)
-     ADMADescr dscr = {};
-     int i;
+@@ -948,11 +948,21 @@ sdhci_buff_access_is_sequential(SDHCIState *s, unsigned byte_num)
+     return true;
+ }
  
-+    if (s->trnmod & SDHC_TRNS_BLK_CNT_EN && !s->blkcnt) {
-+        /* Stop Multiple Transfer */
-+        sdhci_end_transfer(s);
-+        return;
++static void sdhci_resume_pending_transfer(SDHCIState *s)
++{
++    timer_del(s->transfer_timer);
++    sdhci_data_transfer(s);
++}
++
+ static uint64_t sdhci_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     SDHCIState *s = (SDHCIState *)opaque;
+     uint32_t ret = 0;
+ 
++    if (timer_pending(s->transfer_timer)) {
++        sdhci_resume_pending_transfer(s);
 +    }
 +
-     for (i = 0; i < SDHC_ADMA_DESCS_PER_DELAY; ++i) {
-         s->admaerr &= ~SDHC_ADMAERR_LENGTH_MISMATCH;
+     switch (offset & ~0x3) {
+     case SDHC_SYSAD:
+         ret = s->sdmasysad;
+@@ -1096,6 +1106,10 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+     uint32_t value = val;
+     value <<= shift;
  
-@@ -756,7 +762,6 @@ static void sdhci_do_adma(SDHCIState *s)
- 
-         switch (dscr.attr & SDHC_ADMA_ATTR_ACT_MASK) {
-         case SDHC_ADMA_ATTR_ACT_TRAN:  /* data transfer */
--
-             if (s->trnmod & SDHC_TRNS_READ) {
-                 while (length) {
-                     if (s->data_count == 0) {
++    if (timer_pending(s->transfer_timer)) {
++        sdhci_resume_pending_transfer(s);
++    }
++
+     switch (offset & ~0x3) {
+     case SDHC_SYSAD:
+         s->sdmasysad = (s->sdmasysad & mask) | value;
 -- 
 2.26.2
 
