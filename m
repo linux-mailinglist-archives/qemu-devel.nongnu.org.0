@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF037295450
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 23:38:47 +0200 (CEST)
-Received: from localhost ([::1]:43406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2765295464
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 23:42:22 +0200 (CEST)
+Received: from localhost ([::1]:53102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVLok-00054C-Sd
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 17:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48688)
+	id 1kVLsD-0000nS-LC
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 17:42:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3tamQXwsKCk4x80y33u24u3w44w1u.s426u2A-tuBu1343w3A.47w@flex--hskinnemoen.bounces.google.com>)
- id 1kVLlx-0003DJ-OQ
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 17:35:53 -0400
-Received: from mail-pj1-x104a.google.com ([2607:f8b0:4864:20::104a]:37583)
+ <3tqmQXwsKCk8y91z44v35v4x55x2v.t537v3B-uvCv2454x4B.58x@flex--hskinnemoen.bounces.google.com>)
+ id 1kVLm5-0003QI-At
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 17:36:01 -0400
+Received: from mail-qt1-x849.google.com ([2607:f8b0:4864:20::849]:50693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3tamQXwsKCk4x80y33u24u3w44w1u.s426u2A-tuBu1343w3A.47w@flex--hskinnemoen.bounces.google.com>)
- id 1kVLlv-00036w-Ks
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 17:35:53 -0400
-Received: by mail-pj1-x104a.google.com with SMTP id y7so1945220pjt.2
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 14:35:50 -0700 (PDT)
+ <3tqmQXwsKCk8y91z44v35v4x55x2v.t537v3B-uvCv2454x4B.58x@flex--hskinnemoen.bounces.google.com>)
+ id 1kVLlw-000377-8T
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 17:36:00 -0400
+Received: by mail-qt1-x849.google.com with SMTP id e19so2595750qtq.17
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 14:35:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:message-id:mime-version:subject:from:to:cc;
- bh=ScjJWFhv2NX/VPNsattIHwK733aeo0c/y9UBZ2zVqfw=;
- b=uUpwoPniT75PwzBJLexNgelXa6ohCcxW7YcuzwopeDxiz1GTT/egjmJH25vjcjUtfp
- LdySthy9bDFFo+GiUvH/g6rj1ftK5UaYs3yUwRkfKfKuVEzqASOtp0eznfypsnhFqTT7
- qxZ7LyvsxXxOnK1DvNFk6Xx5brppLYt8u6SQzTq10Yx2q+tbBMzyY3hRLLawo4WGXF1K
- k+NXRx9MmX62pDgSYK3a76hWxkKshGQWStS4SXpph4Pk76Yz36kIAYIZfyqvvIcjDfma
- U4Su1E/rkM/s9xcG0GYyBPjKKiM0hLkULBj91TI8XyJhfwg1XOlp17N9xrLCdyeLrJc0
- rM4Q==
+ h=sender:date:in-reply-to:message-id:mime-version:references:subject
+ :from:to:cc:content-transfer-encoding;
+ bh=ouqoL7S29tD4PVEuJKzZnMTGGD9JXqB31xNOhXsD6FQ=;
+ b=jG/AVq5nBj7eTAhu/Qc2wBztX508DEWEu3fOV13uYkzvyPw5/vGuDp0DCwCBSY79GE
+ CDSDSc3Vm6JjMWZauxYsUTM0TOqs4Ooe0MTfj+2XAMUdnl9ELLgze5iUgkG5qVgXV6/z
+ ZR2RnOgNA6ulPeKISZWw3nqzE/SAQ9REm12ufRVtl9Ws12IHEpSxwyl+1oc1gyylE/Er
+ SPb4aPbIS04vNSqfjLviLU7X1vDP4qMyFySP3f8R5Y+hggywC1Yhjv3RPNQQ2b/geyvs
+ PK/xCy2WHK9HAngDe74WJ/uf8kUIjHScwBcU/5YDR9CeSN4Qsk/U0p55nWtTCy4PKYE5
+ ydBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
- :to:cc;
- bh=ScjJWFhv2NX/VPNsattIHwK733aeo0c/y9UBZ2zVqfw=;
- b=jZszJOuS2NBej6qhWn394p+sfiabbqyP7hLCa6rBK+Wyo8WtsD8hyezpsCx1uQagBc
- /sWb7FMxB9fiSHhEnwYzfNEcmbUUJfo/xxHntL2KbMkcgDty00V+RSy4bZJYoupHkDbd
- 8lBk7c9qbfyWhTNrszCvS84GjB3Ak7uzS4tj8wMCoejZceUxiRHkiIDxJhnaXgR6bGF2
- J14dSexF6uEV8Zje7F9Uu0hK8fr41gEc5drtthCiVjUuqZnEXQokqXFEsXQfkOtrAFzU
- tvXic5V10k+979DOQ95uBgM1zKagzYMf9b5T0xCrbTNssJOSXTPDxMdbpkH+Tg7xzx0v
- B07A==
-X-Gm-Message-State: AOAM532TYsSEXCLrmNhz0md7NPizdEeMI07ZeTQxksidPTpjhVN1xLOJ
- M/yk6BboQOqyQzGoFXZDxDupVjY86a51mXJwcQ==
-X-Google-Smtp-Source: ABdhPJz/l8Z4dxpRv1C5Wp7nMEI3z3DZKl9OukfUQCJTIkkJman3DOKeJkgAPRrdXsD7bQPIad8U4l89TgoW7vsSCQ==
+ h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc:content-transfer-encoding;
+ bh=ouqoL7S29tD4PVEuJKzZnMTGGD9JXqB31xNOhXsD6FQ=;
+ b=RVUWCuDA1FxIVfN3AKenHWBBK5i4iMzPjVB4aAc0E252MEzyXa2j5qlx2eJxv9WrOH
+ UOhsoqU2ss2UaxCXBOH8zjUaZ7y31Dz1g2uDNR8jBJY5GWKWcrCc7mLnlK8M/IRc24OK
+ djSOSYlXe6S2JCLr/cHrhYO9j/R0UaNpLgOHzDPEIzoP6U77fLryC545wDp8gVxB+Gzq
+ uIn7ZFboQca4jJsg+EI+7EW1ePZH3+XWkFYVsvJiHS8UElxvq/EAdgRjGp2vfRfb3Fdy
+ LNz4PzkYZB3Gww0wDfUV3xLdbATAcCU1USE6GwpvpGA2bF9BcuDx4BYaE0R/xYPkZu0N
+ pVfQ==
+X-Gm-Message-State: AOAM5319frWLU7KSSbk14Y5PL47xmwpte1r7o/NBsQJx/LbVMfo2gsC2
+ trQR0uyV+oX/qv92cd2cYi3qhmaR6h/RoKVemg==
+X-Google-Smtp-Source: ABdhPJyP8YKPG3XRg7cjRMbGH5DrzXObGqxEujYCt9oaAQedV9Eady11tPtdwcm+ehTQxO3h48QZKTnYkINkwhDfDQ==
 X-Received: from skybert.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:3107])
- (user=hskinnemoen job=sendgmr) by 2002:a17:90a:e00c:: with SMTP id
- u12mr5240012pjy.185.1603316149176;
- Wed, 21 Oct 2020 14:35:49 -0700 (PDT)
-Date: Wed, 21 Oct 2020 14:35:39 -0700
-Message-Id: <20201021213544.3399271-1-hskinnemoen@google.com>
+ (user=hskinnemoen job=sendgmr) by 2002:ad4:55ad:: with SMTP id
+ f13mr4558qvx.21.1603316150574; Wed, 21 Oct 2020 14:35:50 -0700 (PDT)
+Date: Wed, 21 Oct 2020 14:35:40 -0700
+In-Reply-To: <20201021213544.3399271-1-hskinnemoen@google.com>
+Message-Id: <20201021213544.3399271-2-hskinnemoen@google.com>
 Mime-Version: 1.0
+References: <20201021213544.3399271-1-hskinnemoen@google.com>
 X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
-Subject: [PATCH v2 0/5] Additional NPCM7xx features, devices and tests
+Subject: [PATCH v2 1/5] Move npcm7xx_timer_reached_zero call out of
+ npcm7xx_timer_pause
 To: peter.maydell@linaro.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
  kfting@nuvoton.com, venture@google.com, wuhaotsh@google.com, 
- Havard Skinnemoen <hskinnemoen@google.com>
+ Havard Skinnemoen <hskinnemoen@google.com>, 
+ "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::104a;
- envelope-from=3tamQXwsKCk4x80y33u24u3w44w1u.s426u2A-tuBu1343w3A.47w@flex--hskinnemoen.bounces.google.com;
- helo=mail-pj1-x104a.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::849;
+ envelope-from=3tqmQXwsKCk8y91z44v35v4x55x2v.t537v3B-uvCv2454x4B.58x@flex--hskinnemoen.bounces.google.com;
+ helo=mail-qt1-x849.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -95
@@ -71,7 +76,7 @@ X-Spam_bar: ---------
 X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,76 +94,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Havard Skinnemoen <hskinnemoen@google.com>
 From: Havard Skinnemoen via <qemu-devel@nongnu.org>
 
-This is an update to the initial NPCM7xx patch series adding
+This allows us to reuse npcm7xx_timer_pause for the watchdog timer.
 
-  - Watchdog timer support. This makes the reboot command work.
-  - Random Number Generator device.
-  - USB Host Controllers.
-  - GPIO Controllers.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+---
+ hw/timer/npcm7xx_timer.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-The watchdog was implemented by my new teammate Hao Wu. Expect to see more
-patches from him in the near future.
-
-This series has also been pushed to the npcm7xx-5.2-update branch of my github
-repository at
-
-  https://github.com/hskinnemoen/qemu
-
-Changes since v1:
-
-  - Dropped the timer test since it's already applied (thanks Peter).
-  - Watchdog reset signaling is now using GPIOs instead of a custom API
-    (thanks Peter for suggesting, and Hao for implementing it).
-  - A few comment updates for the watchdog timer.
-  - VMState added to GPIO device.
-  - Missing VMstate terminator added to RNG device.
-  - Include order in RNG test fixed.
-
-Again, thanks a lot for reviewing!
-
-Havard
-
-Hao Wu (1):
-  hw/timer: Adding watchdog for NPCM7XX Timer.
-
-Havard Skinnemoen (4):
-  Move npcm7xx_timer_reached_zero call out of npcm7xx_timer_pause
-  hw/misc: Add npcm7xx random number generator
-  hw/arm/npcm7xx: Add EHCI and OHCI controllers
-  hw/gpio: Add GPIO model for Nuvoton NPCM7xx
-
- docs/system/arm/nuvoton.rst               |   6 +-
- hw/usb/hcd-ehci.h                         |   1 +
- include/hw/arm/npcm7xx.h                  |   8 +
- include/hw/gpio/npcm7xx_gpio.h            |  55 +++
- include/hw/misc/npcm7xx_clk.h             |   2 +
- include/hw/misc/npcm7xx_rng.h             |  34 ++
- include/hw/timer/npcm7xx_timer.h          |  48 ++-
- hw/arm/npcm7xx.c                          | 126 ++++++-
- hw/gpio/npcm7xx_gpio.c                    | 424 ++++++++++++++++++++++
- hw/misc/npcm7xx_clk.c                     |  28 ++
- hw/misc/npcm7xx_rng.c                     | 180 +++++++++
- hw/timer/npcm7xx_timer.c                  | 270 +++++++++++---
- hw/usb/hcd-ehci-sysbus.c                  |  19 +
- tests/qtest/npcm7xx_gpio-test.c           | 385 ++++++++++++++++++++
- tests/qtest/npcm7xx_rng-test.c            | 278 ++++++++++++++
- tests/qtest/npcm7xx_watchdog_timer-test.c | 313 ++++++++++++++++
- MAINTAINERS                               |   1 +
- hw/gpio/meson.build                       |   1 +
- hw/gpio/trace-events                      |   7 +
- hw/misc/meson.build                       |   1 +
- hw/misc/trace-events                      |   4 +
- tests/qtest/meson.build                   |   3 +
- 22 files changed, 2133 insertions(+), 61 deletions(-)
- create mode 100644 include/hw/gpio/npcm7xx_gpio.h
- create mode 100644 include/hw/misc/npcm7xx_rng.h
- create mode 100644 hw/gpio/npcm7xx_gpio.c
- create mode 100644 hw/misc/npcm7xx_rng.c
- create mode 100644 tests/qtest/npcm7xx_gpio-test.c
- create mode 100644 tests/qtest/npcm7xx_rng-test.c
- create mode 100644 tests/qtest/npcm7xx_watchdog_timer-test.c
-
--- 
+diff --git a/hw/timer/npcm7xx_timer.c b/hw/timer/npcm7xx_timer.c
+index 5703e43d40..2df9e3e496 100644
+--- a/hw/timer/npcm7xx_timer.c
++++ b/hw/timer/npcm7xx_timer.c
+@@ -157,9 +157,6 @@ static void npcm7xx_timer_pause(NPCM7xxTimer *t)
+     timer_del(&t->qtimer);
+     now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+     t->remaining_ns =3D t->expires_ns - now;
+-    if (t->remaining_ns <=3D 0) {
+-        npcm7xx_timer_reached_zero(t);
+-    }
+ }
+=20
+ /*
+@@ -239,6 +236,9 @@ static void npcm7xx_timer_write_tcsr(NPCM7xxTimer *t, u=
+int32_t new_tcsr)
+         } else {
+             t->tcsr &=3D ~NPCM7XX_TCSR_CACT;
+             npcm7xx_timer_pause(t);
++            if (t->remaining_ns <=3D 0) {
++                npcm7xx_timer_reached_zero(t);
++            }
+         }
+     }
+ }
+--=20
 2.29.0.rc1.297.gfa9743e501-goog
 
 
