@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C252951F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:03:42 +0200 (CEST)
-Received: from localhost ([::1]:42964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244BF2951FB
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:06:51 +0200 (CEST)
+Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVISb-0000IP-Ao
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:03:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52024)
+	id 1kVIVe-0002Cm-6a
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVI4A-0006sX-J4
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:38:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54508)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kVI5S-0007LS-6k
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:39:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVI48-0006We-E6
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:38:25 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kVI5J-0006ck-Ji
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:39:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603301898;
+ s=mimecast20190719; t=1603301976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WMGo54MOAQhEJMWck8zBqfGUrL7xPSbuYgDgiKKm1lI=;
- b=c/cCOY9utAh6TUbIW/K9CMRy3XDo3jKznZx11bYQ4GNImM52PtndpAmrVPxtUL3vlIlzmM
- d1Q1bbS5cZfWrpAQC2+uM8gJql0vxbb7nLEjSgPX7RZYVKxaDX7/nSbkGR1coC/BOwdaLd
- XyoNrmE4SVoFOfpdwQH/YqrH25qLyJI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-vQrX_7i2MQi-wwtQI8OLHw-1; Wed, 21 Oct 2020 13:38:16 -0400
-X-MC-Unique: vQrX_7i2MQi-wwtQI8OLHw-1
-Received: by mail-wm1-f71.google.com with SMTP id 13so1887350wmf.0
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:38:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WMGo54MOAQhEJMWck8zBqfGUrL7xPSbuYgDgiKKm1lI=;
- b=Rgw5Ik6yPyd4nBmKGEbpqgLAP9keonNS/dFbl/Bb7oVOWpr1nnPHe9CRhRjZu5eoPS
- KcsuGfSW6pnc44wNx9ycrTkGdaBNv7LGYDUxLVSfSdZIjI0xhjk+4elnAfkfdDVKQ/72
- p69PZxL8Qr4pGzEK62MuBhtDzHGoSmmbciIrr4eUI49dsh/lNgGd66u9LMeNnF1ToDdj
- w+LVfwNXk20q8VbtXCa9o54F2j7J22p118ZckKc4qA3FCkx8xjEIazsUqwe4H4rFcfmY
- IdwCTjxEiMSG6iGzzoSLKkkIPiJTeQ/4KTTV7k+hI1PUozQXOHx8H5mnNi9j+TLaoliP
- 21DA==
-X-Gm-Message-State: AOAM531Zwpg1D6yC2vNatokj9yXyDRbrLWLJqoyLTY1dkuqeg8fFRVYL
- KLBkxtoVrQnqqoYhAI2bJiEajgIq4qDgG+Hi/JFv7gqjZ61zs+Glbe4mEpn0++y8FNIXJfmbi+2
- 2rinxMEnH5X7axis=
-X-Received: by 2002:adf:bbcb:: with SMTP id z11mr5960172wrg.130.1603301895420; 
- Wed, 21 Oct 2020 10:38:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyqWwaPMFs9HY/4pT1v+LVeU18l21LHFTPFgJ+N9JgO19NPb9P7gX+ExBtD/x7p9gOZ+Qy8Qw==
-X-Received: by 2002:adf:bbcb:: with SMTP id z11mr5960158wrg.130.1603301895246; 
- Wed, 21 Oct 2020 10:38:15 -0700 (PDT)
-Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id o5sm4650076wrw.76.2020.10.21.10.38.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 10:38:14 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v5 2/2] util/oslib: Assert qemu_try_memalign() alignment is a
- power of 2
-Date: Wed, 21 Oct 2020 19:38:03 +0200
-Message-Id: <20201021173803.2619054-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201021173803.2619054-1-philmd@redhat.com>
-References: <20201021173803.2619054-1-philmd@redhat.com>
+ bh=GxiyDmAtzWlI0E2kaQlwXXdR924Mr3Q8R8bDdWozd4Y=;
+ b=A6j6sh2AuBlexWh7HCHUI9kN0gpwLumx3jc0upmZRM2KboSUgmIcSAT5nYhBcNl8UjHcTJ
+ Rh7VoC+1J6YavnonIl/N8GLI1cbq2MWV2d7CE24W5V/qh81L7Jd6poYl7L7VM+5PfmdvsK
+ YKNR8KtXxQF2aD4/xFTCfh2vBVu5r2g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-dTdLGyUpNj-6z_UUt2jdFA-1; Wed, 21 Oct 2020 13:39:33 -0400
+X-MC-Unique: dTdLGyUpNj-6z_UUt2jdFA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85E9318A0763
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 17:39:32 +0000 (UTC)
+Received: from work-vm (ovpn-114-232.ams2.redhat.com [10.36.114.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A91835D9DD;
+ Wed, 21 Oct 2020 17:39:22 +0000 (UTC)
+Date: Wed, 21 Oct 2020 18:39:19 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v3 4/5] tools/virtiofsd: xattr name mapping examples
+Message-ID: <20201021173919.GF3671@work-vm>
+References: <20201014180209.49299-1-dgilbert@redhat.com>
+ <20201014180209.49299-5-dgilbert@redhat.com>
+ <20201020144041.GC380917@redhat.com>
+ <20201020153443.GD2962@work-vm>
+ <20201020175600.GE380917@redhat.com>
+ <20201020190237.GG2962@work-vm>
+ <20201021134408.GA442437@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20201021134408.GA442437@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 22:12:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -97,55 +86,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
+Cc: dinechin@redhat.com, virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_try_memalign() expects a power of 2 alignment:
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> On Tue, Oct 20, 2020 at 08:02:37PM +0100, Dr. David Alan Gilbert wrote:
+> 
+> [..]
+> > > > > > +2) Prefix 'trusted.' attributes, allow others through
+> > > > > > +
+> > > > > > +::
+> > > > > > +
+> > > > > > +   "/prefix/all/trusted./user.virtiofs./
+> > > > > > +    /bad/server//trusted./
+> > > > > > +    /bad/client/user.virtiofs.//
+> > > > > > +    /ok/all///"
+> > > > > > +
+> > > > > > +
+> > > > > > +Here there are four rules, using / as the field
+> > > > > > +separator, and also demonstrating that new lines can
+> > > > > > +be included between rules.
+> > > > > > +The first rule is the prefixing of 'trusted.' and
+> > > > > > +stripping of 'user.virtiofs.'.
+> > > > > 
+> > > > > So this is bidrectional rule, right. For setxattr(), "trusted."
+> > > > > will be replaced with "user.virtiofs" and for listxattr(),
+> > > > > server will replace user.virtiofs with trusted. ?
+> > > > 
+> > > > prefixed not replaced; so it'll turn "trusted." into
+> > > > "user.virtiofs.trusted." and strip it back off for listxattr.
+> > > 
+> > > Ok. Got it. I am wondering how will I specify these rules so that
+> > > they work in nested configuration. Say I have L0 host, L1 guest and
+> > > L2 guest. Say virtiofsd0 is running on L0 and virtiofsd1 is running
+> > > on L1. 
+> > > 
+> > > I am wondering how will I specify the rules on virtiofsd0 and virtiofsd1
+> > > so that it works. Will it be same or rules are level dependent.
+> > 
+> > I'm hoping it'll be the same, see below.
+> > 
+> > > > 
+> > > > > > +The second rule hides unprefixed 'trusted.' attributes
+> > > > > > +on the host.
+> > > > > 
+> > > > > If host has "trusted.*", we are not hiding it and as per first
+> > > > > rule we are converting it to "user.virtiofs.trusted.*", right?
+> > > > > So why this second rule is needed.
+> > > > 
+> > > > No, the first rule will only prefix strings provided by the guest
+> > > > and strip strings provided by the server. This rule hides
+> > > > existing server 'trusted.' xattrs - so if the guest sets
+> > > > trusted.foo it's not confused by also seeing a server trusted.foo
+> > > > 
+> > > > > > +The third rule stops a guest from explicitly setting
+> > > > > > +the 'user.viritofs.' path directly.
+> > > > > > +Finally, the fourth rule lets all remaining attributes
+> > > > > > +through.
+> > > > > 
+> > > > > So If I don't specify third rule, and client does
+> > > > > setxattr(user.virtiofs.*), it will simply be a passthrough?
+> > > > 
+> > > > Right; and that's dangerous, because a non-privileged guest
+> > > > process can set a user. xattr; so a non-priv guest process could
+> > > > set user.virtiofs.trusted.foo and then it would get read back
+> > > > and be used as trusted.foo that has an impact on priviliged processes.
+> > > 
+> > > Right. We don't want unpriviliged process to be able to setup
+> > > user.virtiofs.trusted.*. But that's what precisely happen in
+> > > a nested configuration.
+> > > 
+> > > In above example, L2 will set trusted.foo, virtiofsd1 wil convert it
+> > > to user.virtiofs.trusted.foo and virtiofsd0 will reject it, breaking
+> > > the nested virtiofs.
+> > 
+> > So to allow nesting you need to nest the user.virtiofs. as well, not
+> > just the trusted. So either you do an all, or if you want to be more
+> > selective then I think the following would work:
+> > 
+> >  1  /prefix/client/trusted./user.virtiofs./
+> >  2  /prefix/client/user.virtiofs./user.virtiofs./
+> 
+> Ok, so basically instead of blocking user.virtiofs.trusted. from client,
+> prefix it with "user.virtiofs." one more time. IOW, allow client to
+> set user.virtiofs.trusted. because it will get back user.virtiofs.trusted.
+> and not "trusted." which is ok. Now client user space can't fool client
+> kernel with setting arbitrary user.virtiofs.trusted xattrs.
 
-- posix_memalign(3):
+Right.
 
-  The address of the allocated memory will be a multiple of alignment,
-  which must be a power of two and a multiple of sizeof(void *).
+> And if client kernel sends, trusted., it will get back trusted.
 
-- _aligned_malloc()
+Right.
 
-  The alignment value, which must be an integer power of 2.
+> Only thing which can happen is that client1 sets user.virtiofs.trusted.
+> and nested client2 will get it as trusted. So client1 user space can
+> fool nested client's kernel. But given client1 has launched nested
+> client2, we should be able to trust some user on client1 and make
+> sure other users can't see this shared dir and this probably is
+> not an issue.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- util/oslib-posix.c | 2 ++
- util/oslib-win32.c | 1 +
- 2 files changed, 3 insertions(+)
+Yes, that does depend a bit on how you're intending to share your
+filesystems etc
 
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index f15234b5c03..3e022d7206b 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -200,6 +200,8 @@ void *qemu_try_memalign(size_t alignment, size_t size)
- 
-     if (alignment < sizeof(void*)) {
-         alignment = sizeof(void*);
-+    } else {
-+        g_assert(is_power_of_2(alignment));
-     }
- 
- #if defined(CONFIG_POSIX_MEMALIGN)
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 29dd05d59d7..72e4ee910ce 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -58,6 +58,7 @@ void *qemu_try_memalign(size_t alignment, size_t size)
-     void *ptr;
- 
-     g_assert(size != 0);
-+    g_assert(is_power_of_2(alignment));
-     ptr = _aligned_malloc(alignment, size);
-     trace_qemu_memalign(alignment, size, ptr);
-     return ptr;
+> >  3  /prefix/server//user.virtiofs./
+> >  4  /bad/server//trusted./
+> >  5  /ok/all///
+> > 
+> > 1 causes any getattr/setattr to convert 'trusted.'
+> >                                    to   'user.virtiofs.trusted.'
+> > 2 causes any getattr/setattr to convert 'user.virtiofs.'
+> >                                    to   'user.virtiofs.user.virtiofs.'
+> > 3 causes any listattr to lose a layer of user.virtiofs.
+> > 4 blocks any trusted. from the layer beneath
+> > 5 lets anything else through
+> > 
+> > (I'm trying to convince myself if we need a
+> > /bad/server//user.virtiofs.trusted.  to stop the previous level being
+> > visible).
+> 
+> user.virtiofs.trusted on server will be converted to trusted., right?
+> Can't block it otherwise L1 client breaks, isn't it?
+
+True.
+
+Dave
+
+> Vivek
 -- 
-2.26.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
