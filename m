@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868F5294646
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 03:22:54 +0200 (CEST)
-Received: from localhost ([::1]:39650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3302729464C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 03:25:24 +0200 (CEST)
+Received: from localhost ([::1]:46036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV2q5-0004eI-JK
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 21:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44520)
+	id 1kV2sV-0007Fm-8U
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 21:25:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2ca-0001ou-0I
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:56 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2cm-00025V-1O
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:09:08 -0400
 Received: from mail-co1nam11on2130.outbound.protection.outlook.com
  ([40.107.220.130]:28640 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2cY-0004s9-DF
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:08:55 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kV2ck-0004s9-Bx
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 21:09:07 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eYHvVTs+bGE5IK+1pCNsJXmnWqK8fJmexyMim25RjEnw84EszUPu53eH4wp5J9vpbzEKwdIX08CdEwp1KGT0v6pGC1GvP7RcFVQ7oWZfpHsOs/0i0Di77c8B0wKa8hbeT0t9SYbYFboWh3KTITkyTThDhlMVnvpL+ttxOrX4c/GuhCYHHCBkJk8SYLmZUlq0o01gca8xA4Kl4MnRYjRFpMXFwmnu0R3bEeDG1NFJDeieke1CF6hqJ885jyNAyM3RM3uET9szEnOfE3y2SiwcYzoXvPQY1GJ75lJs2kP6mOe3Ot3QFrdsoXNLhg+hIb/hTsJR879qgjfFb26+02FcCg==
+ b=FXOnZ8hh69Ivvgy11dMOFMnAGCW87nv4Xe5b46ITcJ6sKcOoz54sKKMEoUWtasRmFvre+skJec6+0eFj5j8d98Tz+jIiHrytdXwozNYnjvXuJspGi/HiXAsLsMjVrsL/1ZeOC2sDmY+yZIobyq5gs0vU+C7dS7DAQcZzbbajDOrOI+YD4H72VnCHreJgeXa/7mu+4put+R8SEuHmQSSVlicrl3bKdrQas/C1NaOIKskb8e/Q6v1BU8NcvzeaDLcqy8jZvgFScUAVfZJ9I9h+T3LyOpG5Llj6QQZb1fNKVG7dCFDXwx3a85hrV3s3iz8zOXbfCXZ2c+wWqaPgxRFavw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bDTJqGKM64aaMzk3wc49Mh3OiMmPjRoJGLGBFubJf7o=;
- b=HwtkTLrJvDIvqi0IqjxBrrcRMJK7nmses/CiKjWJzxMTUSAG2J9jQqwBz/pKC+RtuzzCCPLkpPwvRytHUryZLnNGLcpbw5LCAp3HdFDUzY0zT4O+sr/QwezESe3NjnYzg89kQqdqUZFnsK3WeRkSEOePKhNgqBzb7/lOUBvO9m8NXakfyfzUzbrK3av10TeYh1mHruIfvQEzzow1d+HIimbPKIG9YaQHXvwmO1q7weB2PhJX7jebuOCTeTB98h3n7a9PCcSXvl1Rv5RrnOBpYzmvmNVqKkx+pFelRGSpQPJQg6aJbXIPhAapNlnNB3053ulBiR94Xztcd6Kr5An49Q==
+ bh=PI7IdsneBURJqy0L2kkLiK29fqZpK9/o2tf77wJ0uvM=;
+ b=B6pSdDm7Kb5TiMdcMRj+gatgr8EIVPWYaoRzmk9rLGCYO7p/6i/3lKxP564qeR+Zam/0VQVRcmATT0CL8n/EojZkbUqR1oSi57qKaXxOTvjVHCL1KSKhm5NcWxjXf5II5pcxuxKC5jLIi6kZT8ciSoF89dEmWc/dYPwXxnoY7fP4Ghdyf7YSHynd9vNLbZxophjfXWD6jMqB2n48wJwROOH9y1mXzvMetEYncrOnB931TeSSlzwBQ7zghL9oIv2El3g8z8VhgVx2Cvit1pWOd1kYQ0y0jr2uXI3gmWnlhj5grO68Z6UntQP0Fh6TrYknQT3HfRya/8uCZb3jCa5PXg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bDTJqGKM64aaMzk3wc49Mh3OiMmPjRoJGLGBFubJf7o=;
- b=dAnwOdnhgd8qida4RrsxoWUZvHmD+ZFKjWWVgsaF4k7RBALu4Ifrp8lpEKMBNrvMbuWH0K1tom0jHS3wZQhR8O6hnJpgrwvR6U3rzipq6wClIfTCPy36K+2w6xBhl1rpxqsZ4rkGrhd49goa/RRwkFDypHqFOZWwBhyOGDwUN+Q=
+ bh=PI7IdsneBURJqy0L2kkLiK29fqZpK9/o2tf77wJ0uvM=;
+ b=VgK9fv9iKiIXjQoRod8acXoaAHfFOd+lfYCPbBumtcDYqCGTrUR1jeiZ0qDQLfZw6KtnqG+LHdt6EDQOKbWMGcsnQZurKYf7Mwqj69P6eJf1e7czlBExaoOIHkfHCTErRVENUnE+Fe74p27Z+oATHhIpwdR4YG1UVJmkzrl/3Hc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN2PR03MB2333.namprd03.prod.outlook.com (2603:10b6:804:c::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22; Wed, 21 Oct
- 2020 01:08:25 +0000
+ 2020 01:08:27 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 01:08:25 +0000
+ 01:08:27 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 14/16] fuzz: add general-fuzz configs for oss-fuzz
-Date: Tue, 20 Oct 2020 21:07:50 -0400
-Message-Id: <20201021010752.973230-15-alxndr@bu.edu>
+Subject: [PATCH v5 15/16] fuzz: register predefined general-fuzz configs
+Date: Tue, 20 Oct 2020 21:07:51 -0400
+Message-Id: <20201021010752.973230-16-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201021010752.973230-1-alxndr@bu.edu>
 References: <20201021010752.973230-1-alxndr@bu.edu>
@@ -64,30 +64,30 @@ Received: from stormtrooper.vrmnet (72.93.72.163) by
  BL1PR13CA0119.namprd13.prod.outlook.com (2603:10b6:208:2b9::34) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.8 via Frontend
- Transport; Wed, 21 Oct 2020 01:08:24 +0000
+ Transport; Wed, 21 Oct 2020 01:08:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d869fc95-8c91-4803-f213-08d8755dcfb6
+X-MS-Office365-Filtering-Correlation-Id: a433a283-84e4-47e9-4420-08d8755dd0bb
 X-MS-TrafficTypeDiagnostic: SN2PR03MB2333:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN2PR03MB23332B54EEBAB55539039E00BA1C0@SN2PR03MB2333.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <SN2PR03MB2333791E2B4284CAAD0427D5BA1C0@SN2PR03MB2333.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vdCqnpuWPdt9VlyAoLhxj+JBdRnpLzaiokYsAs7HSlk7dOpuhn7ENZvZ/5YHY3scaV2JxRm0HAr6vxU1KP/tIJVKWCWbTHWiAScHo7iyxkCXOecKXkfCv0byc1c8EozTHoli7x95FD/pM776tH8/GNNpdS0soKdqTyFpvdfbdohU+yTRUHHU8agzkUXjo/8s44E7QovDiYNSz0dd4O3okSU05UpKGxHtAyQPU+evIl7dmHf+H9xGu7AvvGBpEOJGtjpS4NmKHfwmTw1EdcCg5Cb2dyYFtT75zmXL0UR2mvmnW0TTuyo8cbaknoQ5CtMc
+X-Microsoft-Antispam-Message-Info: ipC1GX47xNiCSWpq6OrqdCQWVqvMHLv1BpiTsmkp7zrhy0LrXEKxm5dPZ8i8BMsWM4UUv7Wk5mqo484yh74EyhnOxl5+TyKxnkFPJh3dzqmC8LkEHptrckMl4ygN6UtEeA0P0wLatsD/K0Sll1bQqUMK06MpUlRzQIDcoUz3Y5FRi6+D8cMEt+zfILVkSfzP919MERTan+1SP0SG1Nw0aEL6ApCcani3IdsRrBbJB0HJeVA6WS28szPbcvesp713OGh8Awu5HmwFKbMIiqgVQ+sFBfDZ8Ox3JETUSZe3A9XCvtuoysRlmE90aPvAfYX9uPNi95lj+EjB083XN0rUUg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(52116002)(2616005)(8676002)(6512007)(6916009)(6506007)(36756003)(786003)(316002)(956004)(478600001)(1076003)(4326008)(6486002)(75432002)(8936002)(54906003)(86362001)(5660300002)(26005)(16526019)(186003)(6666004)(66946007)(2906002)(66476007)(66556008);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: Y5wFmgmCFoTJcsxW4bXlR1NGQC84s0PTJbgtUv7yA7FZjZ8iqGsRA/1vWCbM2cyJT/Jnvo/eQJKPLpP7jBqlSArwLuLAiP+DfC0Fugk0Cq5VGVAjmfu3e2F5wd2uc3kT/wXHsJU2NM3B4EzqiDhuvFx9FoDbD8odiDo7ffunjqrlI11V8ZOSV0+Fn4tpipb5PYIKzbgthw+5XllJHIT/U8AMcQ4TVGvMG+GmOwejFfkIqkwhoA2X0BoVv4tPDHerEReFKD427cX1AXpixZ/g8ZbDrgXFYfOZLWn/FUMLqrdY4TUL5hWOV389K54kELX27Q/+onyKk41TZCjTeXpTVUmf1m6BTn3Ww+O2vLge6JYPmX40KTDz5ZnxXqAN7D2+BfqH32N8A2Xx8BE/FvnwvMjpUjWLhS8giF2Z6ROD9+io14fBl9HU8QgVZ7RrWIPU4Ut6ZGBsTyspLpdAgSE2m2YAtyniHkP4yyYU/h+Bt0VZuCNS/89MbKirMraEwd8AFSIAFvjobxwfzQJMZqVGe8BrnT++Ulkw2xI5wXgwOWhoknJUbpT28L2d3sYTBN4d5KxpTuCegtQSJMUgkXEpMDG1iLXZdN4BG32bnvQUR8usctAqGlJAF3YNyWHyv0bbEO7W7cgdaiBJhtWzfMz6iw==
+X-MS-Exchange-AntiSpam-MessageData: 8ff+x66lPEmLZuf1t8+T4x4jRh4K9I2db/Lz1K/FCrgqvGnSQPm8/0TtjbaXS3W96wWumPcyOxmOvfSEBo0rIXiTR7yX6l9GsG8RNs3dQOqMZTdp6qwcZ+s2kGnErwiLW999VvCN6KW4YRMrv7kg6cy6/lu4Jp+EJ9JVvTa4U6qsiyZ1lddLkF/kgG2ZAaWnR7edM8HnXWr5qiAelzOIiwu2bgprpRHPFhntC7vrcaJCvzhQ2bIPatobWXKEfoVEzGTEmrzd+ld0hkiQLyCOawzwbNMlDMTd/Nqlejk849GiUdBuOvEs9yzXzbUfN9txenteQ09OVUosjxPOYn4uOB/q0nMgfOkEx58G0EqAohq7RMk5gjnn/BVjW9UxrVjm5BcUiTia4nCACiL3a95EXBV2HdIc+5DbOJ5LEP8cDFPBDuK1xvYkSDFyAdZf/VpLH0U/zBweeRSkBa+f+QB8X5K3ECW7GPNCuK55nEbajXJFqa8z5/pycR6ydXBI9tdejWyMMp24TGD+yM1ZLyhHiFuLmovZtZKHiVgFet2jqu08972+Rmu5KfbLnpCNkifafw7FSTdc/7yNF7ZUml90Rk84OeEAdZlaq/r+vtd5LSmXnjQTuniekkbRS/JNBL+EOXvctiDbb17MW47rLf6XJg==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: d869fc95-8c91-4803-f213-08d8755dcfb6
+X-MS-Exchange-CrossTenant-Network-Message-Id: a433a283-84e4-47e9-4420-08d8755dd0bb
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 01:08:25.8212 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 01:08:27.1774 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UPf/N5uYbzRuOaUKvaIxj0lbFvqzNMO3TGc8ayxRM3MXqBUbemxn9Srtk8ce/RVc
+X-MS-Exchange-CrossTenant-UserPrincipalName: MM1m9ZsEt9PMWkiVDfnx/LLzuVbE4OkNK771SdUPP3VPAJ7zzIl3C82l6sZfvCXO
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2333
 Received-SPF: pass client-ip=40.107.220.130; envelope-from=alxndr@bu.edu;
  helo=NAM11-CO1-obe.outbound.protection.outlook.com
@@ -120,143 +120,73 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Predefine some general-fuzz configs. For each of these, we will create a
-separate FuzzTarget that can be selected through argv0 and, therefore,
-fuzzed on oss-fuzz.
+We call get_general_fuzz_configs, which fills an array with
+predefined {name, args, objects} triples. For each of these, we add a
+new FuzzTarget, that uses a small wrapper to set
+QEMU_FUZZ_{ARGS,OBJECTS} to the corresponding predefined values.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- tests/qtest/fuzz/generic_fuzz_configs.h | 121 ++++++++++++++++++++++++
- 1 file changed, 121 insertions(+)
- create mode 100644 tests/qtest/fuzz/generic_fuzz_configs.h
+ tests/qtest/fuzz/generic_fuzz.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-new file mode 100644
-index 0000000000..e1a933f18d
---- /dev/null
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -0,0 +1,121 @@
-+/*
-+ * Generic Virtual-Device Fuzzing Target Configs
-+ *
-+ * Copyright Red Hat Inc., 2020
-+ *
-+ * Authors:
-+ *  Alexander Bulekov   <alxndr@bu.edu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index 356d171c65..d159d64d8b 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -26,6 +26,7 @@
+ #include "hw/qdev-core.h"
+ #include "hw/pci/pci.h"
+ #include "hw/boards.h"
++#include "generic_fuzz_configs.h"
+ 
+ /*
+  * SEPARATOR is used to separate "operations" in the fuzz input
+@@ -901,6 +902,17 @@ static GString *generic_fuzz_cmdline(FuzzTarget *t)
+     return cmd_line;
+ }
+ 
++static GString *generic_fuzz_predefined_config_cmdline(FuzzTarget *t)
++{
++    const generic_fuzz_config *config;
++    g_assert(t->opaque);
 +
-+#ifndef GENERIC_FUZZ_CONFIGS_H
-+#define GENERIC_FUZZ_CONFIGS_H
++    config = t->opaque;
++    setenv("QEMU_FUZZ_ARGS", config->args, 1);
++    setenv("QEMU_FUZZ_OBJECTS", config->objects, 1);
++    return generic_fuzz_cmdline(t);
++}
 +
-+#include "qemu/osdep.h"
+ static void register_generic_fuzz_targets(void)
+ {
+     fuzz_add_target(&(FuzzTarget){
+@@ -911,6 +923,26 @@ static void register_generic_fuzz_targets(void)
+             .fuzz = generic_fuzz,
+             .crossover = generic_fuzz_crossover
+     });
 +
-+typedef struct generic_fuzz_config {
-+    const char *name, *args, *objects;
-+} generic_fuzz_config;
++    GString *name;
++    const generic_fuzz_config *config;
 +
-+const generic_fuzz_config predefined_configs[] = {
-+    {
-+        .name = "virtio-net-pci-slirp",
-+        .args = "-M q35 -nodefaults "
-+        "-device virtio-net,netdev=net0 -netdev user,id=net0",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-blk",
-+        .args = "-machine q35 -device virtio-blk,drive=disk0 "
-+        "-drive file=null-co://,id=disk0,if=none,format=raw",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-scsi",
-+        .args = "-machine q35 -device virtio-scsi,num_queues=8 "
-+        "-device scsi-hd,drive=disk0 "
-+        "-drive file=null-co://,id=disk0,if=none,format=raw",
-+        .objects = "scsi* virtio*",
-+    },{
-+        .name = "virtio-gpu",
-+        .args = "-machine q35 -nodefaults -device virtio-gpu",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-vga",
-+        .args = "-machine q35 -nodefaults -device virtio-vga",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-rng",
-+        .args = "-machine q35 -nodefaults -device virtio-rng",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-balloon",
-+        .args = "-machine q35 -nodefaults -device virtio-balloon",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-serial",
-+        .args = "-machine q35 -nodefaults -device virtio-serial",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-mouse",
-+        .args = "-machine q35 -nodefaults -device virtio-mouse",
-+        .objects = "virtio*",
-+    },{
-+        .name = "e1000",
-+        .args = "-M q35 -nodefaults "
-+        "-device e1000,netdev=net0 -netdev user,id=net0",
-+        .objects = "e1000",
-+    },{
-+        .name = "e1000e",
-+        .args = "-M q35 -nodefaults "
-+        "-device e1000e,netdev=net0 -netdev user,id=net0",
-+        .objects = "e1000e",
-+    },{
-+        .name = "cirrus-vga",
-+        .args = "-machine q35 -nodefaults -device cirrus-vga",
-+        .objects = "cirrus*",
-+    },{
-+        .name = "bochs-display",
-+        .args = "-machine q35 -nodefaults -device bochs-display",
-+        .objects = "bochs*",
-+    },{
-+        .name = "intel-hda",
-+        .args = "-machine q35 -nodefaults -device intel-hda,id=hda0 "
-+        "-device hda-output,bus=hda0.0 -device hda-micro,bus=hda0.0 "
-+        "-device hda-duplex,bus=hda0.0",
-+        .objects = "intel-hda",
-+    },{
-+        .name = "ide-hd",
-+        .args = "-machine q35 -nodefaults "
-+        "-drive file=null-co://,if=none,format=raw,id=disk0 "
-+        "-device ide-hd,drive=disk0",
-+        .objects = "ahci*",
-+    },{
-+        .name = "floppy",
-+        .args = "-machine pc -nodefaults -device floppy,id=floppy0 "
-+        "-drive id=disk0,file=null-co://,file.read-zeroes=on,if=none "
-+        "-device floppy,drive=disk0,drive-type=288",
-+        .objects = "fd* floppy*",
-+    },{
-+        .name = "xhci",
-+        .args = "-machine q35 -nodefaults"
-+        "-drive file=null-co://,if=none,format=raw,id=disk0 "
-+        "-device qemu-xhci,id=xhci -device usb-tablet,bus=xhci.0 "
-+        "-device usb-bot -device usb-storage,drive=disk0 "
-+        "-chardev null,id=cd0 -chardev null,id=cd1 "
-+        "-device usb-braille,chardev=cd0 -device usb-ccid -device usb-ccid "
-+        "-device usb-kbd -device usb-mouse -device usb-serial,chardev=cd1 "
-+        "-device usb-tablet -device usb-wacom-tablet -device usb-audio",
-+        .objects = "*usb* *uhci* *xhci*",
-+    },{
-+        .name = "pc-i440fx",
-+        .args = "-machine pc",
-+        .objects = "*",
-+    },{
-+        .name = "pc-q35",
-+        .args = "-machine q35",
-+        .objects = "*",
++    for (int i = 0;
++         i < sizeof(predefined_configs) / sizeof(generic_fuzz_config);
++         i++) {
++        config = predefined_configs + i;
++        name = g_string_new("generic-fuzz");
++        g_string_append_printf(name, "-%s", config->name);
++        fuzz_add_target(&(FuzzTarget){
++                .name = name->str,
++                .description = "Predefined generic-fuzz config.",
++                .get_init_cmdline = generic_fuzz_predefined_config_cmdline,
++                .pre_fuzz = generic_pre_fuzz,
++                .fuzz = generic_fuzz,
++                .crossover = generic_fuzz_crossover,
++                .opaque = (void *)config
++        });
 +    }
-+};
-+
-+#endif
+ }
+ 
+ fuzz_target_init(register_generic_fuzz_targets);
 -- 
 2.28.0
 
