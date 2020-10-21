@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A2A294B7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 12:52:22 +0200 (CEST)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1096C294B82
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 12:53:47 +0200 (CEST)
+Received: from localhost ([::1]:58248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVBjB-0006DZ-9s
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 06:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49394)
+	id 1kVBkY-0008M6-5A
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 06:53:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVBho-0004wP-Aq
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 06:50:56 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:54820)
+ id 1kVBhs-000560-NS
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 06:51:00 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVBhm-0000hz-CM
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 06:50:55 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id c77so1373840wmd.4
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 03:50:53 -0700 (PDT)
+ id 1kVBhr-0000iM-16
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 06:51:00 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id d78so1374906wmd.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 03:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HDkuFBTSf9PfxMFUSQsII/3TQvG3KWBBsCKA4dEtXq0=;
- b=bK5GYPDt7cantE00Sw1249BE4KvqtYpbDr/Sxxt37k1cYqjeoedUB9/p/VtP/1D/KI
- m3E0hXW/+KVxc2P/tN97AlUpI6+1yTl8tLlF9+yOQQcisHdqhqAdi6QM4BVVaZixINIp
- jwTtaBGqKy970mkL+1ibPoNXAesw2opNEyqpazTtjET4JHgAFRViNRlyuP9nFbkz7Wik
- u7twqUTVs834DOPVD2MA5034WsZCG7105beHpA0ROkiIDfEVKBObR7kMTZTYPaE2W6Us
- uq/S1s+0Haoi+7YiCj9gOzI9Pt8ZAt7eewDcy6hdbiSb9QpLraHRSCcMw81493gXcZr/
- 8DuA==
+ bh=u8MIW0fZuo8s+yk9Tsr3op5QbGANqrFw34tCgPBF3cw=;
+ b=fSoX3I/r74xELcpRZ3OdZaYY+ZfCUTskrMBMgjWVe4FbwR/txGkVTyawTWQQ+vHKNE
+ sBU0L5sSs0pfSJ70pK4frMRhldqv2Z7tXM9WPaoM+mz/tfY6bcD0m1nVIq+YHckx1gNJ
+ FP8Tzo8xvRYGx29Ih/bbYAsCTYvE5YGeFOzhaa0kSZjskFdcCmcsWKn32Z/X6jYIMhSc
+ WTsXhgxyKPJkLsoL3Px3FdmLCeV8+DsyGvq0S/0DTEr0H6b6cvzq+mR4YMuUWDvxrwg5
+ 5zEFwzEe4fiVCPkJPtEilvh2QOIx9tKo51DZ7BB04JQyyxSsqw4GoT+qAN2qPs7qWOoz
+ 6LBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HDkuFBTSf9PfxMFUSQsII/3TQvG3KWBBsCKA4dEtXq0=;
- b=LFzxA63yP0uHEMDjhvd/5dYCb5cRByyTG5xkfxXeUEVqD63+OmCbozRwS2FB5zgKBx
- fyyaMPh4fu24th6sQpUfy0ruf7geAWr8z0l8NA3R9v2M7Twnn/GWD0Jc/4QQ9WG6UZtD
- WFMTiYEncdqvLCLlJAfRuZ/F5qFY+nSNLmM4ueCJPpmSgu4soMnye5WhIBfjZT+z0eI0
- uOD3UhRomj7GNCUHa2WIkekesBsQKXMOMOOf+OSAGQsZdACazFWTLtRfle4tHws2yTtf
- GW0ZTlqLrQOaUhegWzPUOTMpybuJjB1IsGunkbbMx+iaWZwHTdD3upj4c7JdrakWDmrf
- D++Q==
-X-Gm-Message-State: AOAM530Ys9W2TVUHyadL+oB0Drajj78TdvZBgmBmCfwru3Q947peZKR3
- vfEHE06GBSCld5XRvl8z6uOu3XSQNQA=
-X-Google-Smtp-Source: ABdhPJx5HxH9RBzULE6fqH/E7B8THu1Q/w0fZwryntr0toSwRMSG3bwXy1kqIBv6rjpDEHop8wuKjg==
-X-Received: by 2002:a1c:4856:: with SMTP id v83mr2948606wma.118.1603277452507; 
- Wed, 21 Oct 2020 03:50:52 -0700 (PDT)
+ bh=u8MIW0fZuo8s+yk9Tsr3op5QbGANqrFw34tCgPBF3cw=;
+ b=FstXIH7cQSiZGV8/RpSHssHx6U3TyN2noUedYxFYccEyiHotu5hO2NU6xx63LwqAmr
+ LUfkf75apEeQ8Fn398Aox6oBAMzIBIdSz/xPhF4HkkT/q4YMEP4ZFBXeA/8NmQ8YAL/a
+ Vm4NOJSLGLw5aZFCrfEeoDH0vuA0Pe9/IAM2WbfEzUy1ALgWN5tcBlAc71KMRNjLYcDK
+ uZyojICkLqvHdIKUuRImXw/+5tHaXIW6tMTp24uPjZWC9w/Di+3Uxx9SwLqNa3pK2qDj
+ jkmqqh29TIy5IWfg/8jwNxIQO+XcSGdrC6hTZCGepLB5unVhcDjtN1uGMl8umh6HwYwU
+ zKMg==
+X-Gm-Message-State: AOAM530TKHeQvjOd7Qnyak5IAf6X/0RI/I6mzTbEgkD9dzSdnPAP1Wh5
+ GSHLtBFx8g+o3x+SC0DXJeYH+vxz7Wc=
+X-Google-Smtp-Source: ABdhPJw4WuLXr4fMv1GVowlFCqxkzdgn0xn2wi9PmCKKIJ7Wo0gIYde7vbK77YJLUEIvrk8XzROSRA==
+X-Received: by 2002:a7b:cb81:: with SMTP id m1mr3065574wmi.140.1603277457309; 
+ Wed, 21 Oct 2020 03:50:57 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id x65sm3079700wmg.1.2020.10.21.03.50.51
+ by smtp.gmail.com with ESMTPSA id z6sm2781092wmi.28.2020.10.21.03.50.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 03:50:51 -0700 (PDT)
+ Wed, 21 Oct 2020 03:50:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] tests/acceptance: Extract tesseract_available() helper in
- new namespace
-Date: Wed, 21 Oct 2020 12:50:32 +0200
-Message-Id: <20201021105035.2477784-4-f4bug@amsat.org>
+Subject: [PATCH 4/6] tests/acceptance: Introduce tesseract_ocr() helper
+Date: Wed, 21 Oct 2020 12:50:33 +0200
+Message-Id: <20201021105035.2477784-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201021105035.2477784-1-f4bug@amsat.org>
 References: <20201021105035.2477784-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -100,103 +99,99 @@ Cc: Huacai Chen <zltjiangshi@gmail.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to reuse tesseract_available(). Extract it to
-a new 'tesseract_utils' namespace.
+We are going to reuse the tesseract OCR code.
+Create a new tesseract_ocr() helper and use it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/machine_m68k_nextcube.py | 25 +++-----------------
- tests/acceptance/tesseract_utils.py       | 28 +++++++++++++++++++++++
- 2 files changed, 31 insertions(+), 22 deletions(-)
- create mode 100644 tests/acceptance/tesseract_utils.py
+ tests/acceptance/machine_m68k_nextcube.py | 21 +++++----------------
+ tests/acceptance/tesseract_utils.py       | 18 ++++++++++++++++++
+ 2 files changed, 23 insertions(+), 16 deletions(-)
 
 diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptance/machine_m68k_nextcube.py
-index 2baba5fdc26..3c7400c43e4 100644
+index 3c7400c43e4..09e2745cc52 100644
 --- a/tests/acceptance/machine_m68k_nextcube.py
 +++ b/tests/acceptance/machine_m68k_nextcube.py
-@@ -1,19 +1,19 @@
- # Functional test that boots a VM and run OCR on the framebuffer
- #
--# Copyright (c) Philippe Mathieu-Daudé <f4bug@amsat.org>
-+# Copyright (c) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
- #
- # This work is licensed under the terms of the GNU GPL, version 2 or
- # later.  See the COPYING file in the top-level directory.
+@@ -7,13 +7,11 @@
  
  import os
--import re
  import time
- import logging
+-import logging
  
  from avocado_qemu import Test
  from avocado import skipUnless
- from avocado.utils import process
--from avocado.utils.path import find_command, CmdNotFoundError
-+
-+from tesseract_utils import tesseract_available
+-from avocado.utils import process
+ 
+-from tesseract_utils import tesseract_available
++from tesseract_utils import tesseract_available, tesseract_ocr
  
  PIL_AVAILABLE = True
  try:
-@@ -22,25 +22,6 @@
-     PIL_AVAILABLE = False
+@@ -61,12 +59,8 @@ def test_bootrom_framebuffer_size(self):
+     def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
+         screenshot_path = os.path.join(self.workdir, "dump.ppm")
+         self.check_bootrom_framebuffer(screenshot_path)
+-
+-        console_logger = logging.getLogger('console')
+-        text = process.run("tesseract %s stdout" % screenshot_path).stdout_text
+-        for line in text.split('\n'):
+-            if len(line):
+-                console_logger.debug(line)
++        lines = tesseract_ocr(screenshot_path, tesseract_version=3)
++        text = '\n'.join(lines)
+         self.assertIn('Backplane', text)
+         self.assertIn('Ethernet address', text)
  
- 
--def tesseract_available(expected_version):
--    try:
--        find_command('tesseract')
--    except CmdNotFoundError:
--        return False
--    res = process.run('tesseract --version')
--    try:
--        version = res.stdout_text.split()[1]
--    except IndexError:
--        version = res.stderr_text.split()[1]
--    return int(version.split('.')[0]) == expected_version
+@@ -77,13 +71,8 @@ def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
+     def test_bootrom_framebuffer_ocr_with_tesseract_v4(self):
+         screenshot_path = os.path.join(self.workdir, "dump.ppm")
+         self.check_bootrom_framebuffer(screenshot_path)
 -
--    match = re.match(r'tesseract\s(\d)', res)
--    if match is None:
--        return False
--    # now this is guaranteed to be a digit
--    return int(match.groups()[0]) == expected_version
--
--
- class NextCubeMachine(Test):
-     """
-     :avocado: tags=arch:m68k
+-        console_logger = logging.getLogger('console')
+-        proc = process.run("tesseract --oem 1 %s stdout" % screenshot_path)
+-        text = proc.stdout_text
+-        for line in text.split('\n'):
+-            if len(line):
+-                console_logger.debug(line)
++        lines = tesseract_ocr(screenshot_path, tesseract_version=4)
++        text = '\n'.join(lines)
+         self.assertIn('Testing the FPU, SCC', text)
+         self.assertIn('System test failed. Error code', text)
+         self.assertIn('Boot command', text)
 diff --git a/tests/acceptance/tesseract_utils.py b/tests/acceptance/tesseract_utils.py
-new file mode 100644
-index 00000000000..acd6e8c2faa
---- /dev/null
+index acd6e8c2faa..72cd9ab7989 100644
+--- a/tests/acceptance/tesseract_utils.py
 +++ b/tests/acceptance/tesseract_utils.py
-@@ -0,0 +1,28 @@
-+# ...
-+#
-+# Copyright (c) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later. See the COPYING file in the top-level directory.
+@@ -6,7 +6,9 @@
+ # later. See the COPYING file in the top-level directory.
+ 
+ import re
++import logging
+ 
++from avocado.utils import process
+ from avocado.utils.path import find_command, CmdNotFoundError
+ 
+ def tesseract_available(expected_version):
+@@ -26,3 +28,19 @@ def tesseract_available(expected_version):
+         return False
+     # now this is guaranteed to be a digit
+     return int(match.groups()[0]) == expected_version
 +
-+import re
 +
-+from avocado.utils.path import find_command, CmdNotFoundError
-+
-+def tesseract_available(expected_version):
-+    try:
-+        find_command('tesseract')
-+    except CmdNotFoundError:
-+        return False
-+    res = process.run('tesseract --version')
-+    try:
-+        version = res.stdout_text.split()[1]
-+    except IndexError:
-+        version = res.stderr_text.split()[1]
-+    return int(version.split('.')[0]) == expected_version
-+
-+    match = re.match(r'tesseract\s(\d)', res)
-+    if match is None:
-+        return False
-+    # now this is guaranteed to be a digit
-+    return int(match.groups()[0]) == expected_version
++def tesseract_ocr(image_path, tesseract_args='', tesseract_version=3):
++    console_logger = logging.getLogger('tesseract')
++    console_logger.debug(image_path)
++    if tesseract_version == 4:
++        tesseract_args += ' --oem 1'
++    proc = process.run("tesseract {} {} stdout".format(tesseract_args,
++                                                       image_path))
++    lines = []
++    for line in proc.stdout_text.split('\n'):
++        sline = line.strip()
++        if len(sline):
++            console_logger.debug(sline)
++            lines += [sline]
++    return lines
 -- 
 2.26.2
 
