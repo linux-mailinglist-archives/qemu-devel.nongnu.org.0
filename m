@@ -2,94 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18605294DA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:35:05 +0200 (CEST)
-Received: from localhost ([::1]:34008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9B9294DA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:33:06 +0200 (CEST)
+Received: from localhost ([::1]:56652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVEGe-0000ww-43
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:35:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60874)
+	id 1kVEEj-0006gZ-LL
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:33:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kVE8m-0008Hy-A3
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:26:56 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:49862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kVE8j-000470-2Y
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:26:55 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09LDOTsV162142;
- Wed, 21 Oct 2020 13:26:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=xhjukGmCPuCvtLYU0I/ZDOlAyAnOkjOmWVwSWu2PNtU=;
- b=M1W94WEveggzGYcVQ3bB/vunDFHSBZHbBBZCisjsd13Gsa6a8kjgvkneprhYRk2FrHNM
- jxv6f3PZro0Std7YcQT01ystacUzRmY8JDSvGLV0lMR9FIUguqLfDCvXOTABZoPAG1VS
- eh+vt40QrvkV/37nzsVmh+Th7vvqGAy5VVjIVEGfqdGAmVL0wukZIV3bRso8DLAOENQQ
- 4VAjaMJ1nkE9vhDYGUN4Tj6hRUDEtftXRR61mshM2mJZziC2/dGCWfm5Y2SifUmQlCrR
- HbEUV/VvnepyJe5B882wapOjpNivmn840wx6WDb+cSyQ9MAabo8HVSWWG6lfNt45wDUy 3Q== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 34ak16gsb4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 21 Oct 2020 13:26:46 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09LDOwkY002676;
- Wed, 21 Oct 2020 13:26:46 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 348ahxkbfm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 21 Oct 2020 13:26:46 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09LDQjJv011280;
- Wed, 21 Oct 2020 13:26:45 GMT
-Received: from [10.39.238.185] (/10.39.238.185)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 21 Oct 2020 06:26:45 -0700
-Subject: Re: [PATCH 0/1] Do not stop guest when panic event is received
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <1601606494-1154-1-git-send-email-alejandro.j.jimenez@oracle.com>
- <74a8c57d-4f2d-64cd-f2d2-32dc88b64f9b@redhat.com>
-From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <1c9cdb1d-5dd5-a783-96e9-8f62a498951a@oracle.com>
-Date: Wed, 21 Oct 2020 09:26:43 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kVEB4-00032S-5c
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:29:18 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kVEB1-0004Pe-4J
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:29:17 -0400
+Received: by mail-wm1-x342.google.com with SMTP id d78so2210202wmd.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 06:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Fcw20/vqy27vm36joKNYVny4BgkPZ7tAybECxUoAUtc=;
+ b=GtYx431VsykDs1UxibC9IVNn+IhHpxf/Ua/fhZb8FkFBrp+4Za3kIKHT6+6RbDWAF6
+ TTB08HZRKheif9PMaPQzb0RMsHFUmM5e6AI5YjcBBSijpz+Eqh4yCNP8QM5wT0le5JAd
+ KulKWhnMDzY3sxLTI2YymeZeL8zffWrL9MRZTl8L9BqCNNjHGnL9MZJfDlTFQBsqTsUs
+ xwTEMuE9/oUlOdHMhQUHvncpp7DuFR4tki625pQPwGFpL6SeaY3E9p22KesL97C+NzBb
+ kCyu43xa75OslkpRueD3BjqmOvAaN0yRqOf7KWMQlWDr3J2rM/kor06TYB/A/XRzO+Fq
+ QajQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Fcw20/vqy27vm36joKNYVny4BgkPZ7tAybECxUoAUtc=;
+ b=Nf+WLFfLGOrus/hZhzo/JWkbbLODqZoyUTqnrqZbxsBQ3RrQ1YRhxQez62QuWYBDE6
+ 9dnjgeTOdY6HbTsfZLkcq8vRKwNDysmhg6VlJ01TmHxRCaKgBI/Co2z9QnTY8SZjpgjK
+ z0sNq6RcWVpNWDH6WfgYTWYWgLQm4bxWXiKeD+skewNLP6L3or/bduaNLiwutYItd/l/
+ Hna3J25UCM+xLvbGyQP7A6SbUKJOyv0tuMeEcvGFj/LzF4ysgGWB32S+N5jXtem3JFFN
+ fwn8ljhdbiIG2tc7IrO9zqPW41QBzvT2LEXivtlIXXWsn7zfV/QRhRtKbmn76S9Q3ljv
+ cPjQ==
+X-Gm-Message-State: AOAM5313YvaWh+9d+DLbjr+4eDUDX8Z4UIX5n5nnV2NdoiFw5AIVEU03
+ yUH6Gp8yJQsGfiTJje56t12moA==
+X-Google-Smtp-Source: ABdhPJxseCc7FQwcFH8BjPDSnvnJXSQki/d77vriqK06tWOaVSm7MjBfWl05L8wxcXIcEgZYpB22jw==
+X-Received: by 2002:a7b:c741:: with SMTP id w1mr3676701wmk.67.1603286953255;
+ Wed, 21 Oct 2020 06:29:13 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v6sm3982425wrp.69.2020.10.21.06.29.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Oct 2020 06:29:12 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B78E31FF7E;
+ Wed, 21 Oct 2020 14:29:10 +0100 (BST)
+References: <20201013222330.173525-1-richard.henderson@linaro.org>
+ <20201013222330.173525-2-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/2] tcg: Do not kill globals at conditional branches
+In-reply-to: <20201013222330.173525-2-richard.henderson@linaro.org>
+Date: Wed, 21 Oct 2020 14:29:10 +0100
+Message-ID: <87blgvwvvd.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <74a8c57d-4f2d-64cd-f2d2-32dc88b64f9b@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9780
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 bulkscore=0
- malwarescore=0 spamscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010210102
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9780
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0
- priorityscore=1501 clxscore=1015 malwarescore=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010210102
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=alejandro.j.jimenez@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 09:26:49
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,53 +89,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On 10/20/2020 1:14 PM, Paolo Bonzini wrote:
-> On 02/10/20 04:41, Alejandro Jimenez wrote:
->> The fact that the behavior of hv-crash is also affected is why I chose to implement this change as an independent
->> option, as opposed to making it a property of the pvpanic device (e.g. -device pvpanic,no-panicstop).
->>
->> Please let me know if you have any comments or suggestions.
-> Hi Alejandro, sorry for the delayed response.
+> We can easily register allocate the entire extended basic block
+> (in this case, the set of blocks connected by fallthru), simply
+> by not discarding the register state at the branch.
 >
-> The concept is fine, and I agree this should not be a device property.
+> This does not help blocks starting with a label, as they are
+> reached via a taken branch, and that would require saving the
+> complete register state at the branch.
 >
-> On the other hand, we already have many similar options: -no-reboot,
-> -no-shutdown, -watchdog-action and now --no-panicstop.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/tcg/tcg-opc.h |  7 +++---
+>  include/tcg/tcg.h     |  4 +++-
+>  tcg/tcg.c             | 55 +++++++++++++++++++++++++++++++++++++++++--
+>  3 files changed, 60 insertions(+), 6 deletions(-)
 >
-> I think it's time to group them into a single option:
->
-> * -action reboot=pause|shutdown|none
-> * -action shutdown=pause|poweroff|none
-> * -action panic=pause|shutdown|none
-> * -action watchdog=reset|shutdown|poweroff|pause|debug|none|inject-nmi
->
-> where the existing options would translate to the new option, like:
->
-> * -no-reboot "-action reboot=shutdown"
-> * -no-shutdown "-action shutdown=pause"
->
-> The implementation should be relatively easy too; there's already an
-> enum WatchdogAction (that can be renamed to e.g. RunstateAction) and a
-> parsing function select_watchdog_action that can be changed to just
-> return the RunstateAction.
->
-> Would you like to take a look at this?
-Hi Paolo,
+<snip>
+>=20=20
+> +/*
+> + * liveness analysis: conditional branch: all temps are dead,
+> + * globals and local temps should be synced.
+> + */
+> +static void la_bb_sync(TCGContext *s, int ng, int nt)
+> +{
+> +    la_global_sync(s, ng);
+> +
+> +    for (int i =3D ng; i < nt; ++i) {
+> +        if (s->temps[i].temp_local) {
+> +            int state =3D s->temps[i].state;
+> +            s->temps[i].state =3D state | TS_MEM;
+> +            if (state !=3D TS_DEAD) {
+> +                continue;
 
-Thank you for your reply and the advice/hints above. I'll take a look 
-and try to implement what you propose.
+It took me a few scans of this function before I realised the continue
+was to avoid the la_reset_pref at the end. Not sure if it can be made
+any neater though:
 
-Regards,
-Alejandro
->
-> Thanks,
->
-> Paolo
->
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
