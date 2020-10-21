@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3172E295448
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 23:35:55 +0200 (CEST)
-Received: from localhost ([::1]:37230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B18F4295452
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 23:39:04 +0200 (CEST)
+Received: from localhost ([::1]:44670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVLly-0002Cf-7T
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 17:35:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46826)
+	id 1kVLp1-0005a4-PW
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 17:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kVLe4-0003H7-Cp
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 17:27:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35106)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kVLe5-0003J0-Q6
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 17:27:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kVLdz-00025w-Dk
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 17:27:44 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kVLe0-000261-G1
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 17:27:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603315654;
+ s=mimecast20190719; t=1603315656;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cXAIBJAlfQRCJ7NOr2j/4Mg/y+8/XbU5hJsy4VMjNYE=;
- b=TnSffA8/Yd8fxyy965khc32qh7RVMpy2dnai8v58TodwUdlz1KyZe1DzvOUy3XTIfpgbwj
- sLKtUB4BpqZ4Xf3+XmHYvO6mm+RzDDFcnkWRmYBcrIEz8hdoe3MG3C1V8hWv11cMs7lqJV
- aHvtut31aGKFFsOQQcVRZy1a0tokHnk=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-FSw4oeMwP4m7bSn8XytjLg-1; Wed, 21 Oct 2020 17:27:33 -0400
-X-MC-Unique: FSw4oeMwP4m7bSn8XytjLg-1
-Received: by mail-qk1-f197.google.com with SMTP id s14so2639859qke.1
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 14:27:33 -0700 (PDT)
+ bh=5YSDXbpiN58TIENBWrzuM3dPsDH2GwMJZmdPK3XRXc4=;
+ b=JCBN4fo+I5hzjpvsGZY0dZZrC1fkAEH7Z7wuOA0hTEJzET2IdQV2o8FN4+Wtb5a0Rvo0Bj
+ dXMPRECnF9p0p3xC7judW2fjEHX4qFlohePpQDuJqb8R7uoNMO7W0/lUlWt+W4aKLVWYJG
+ AVwdCfKfcfaXFTj7DY+bGLcO/9N9WSI=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-7aKQIljoPzubjwG5wGSB5g-1; Wed, 21 Oct 2020 17:27:34 -0400
+X-MC-Unique: 7aKQIljoPzubjwG5wGSB5g-1
+Received: by mail-qk1-f200.google.com with SMTP id d5so2590460qkg.16
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 14:27:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cXAIBJAlfQRCJ7NOr2j/4Mg/y+8/XbU5hJsy4VMjNYE=;
- b=MBVMMRFUvD7er3OmNCxYQyI0xx8tlR/ndsJRZkTRKlTYBL7xCiV9marLSEOzplos/J
- yWK7buKLDSsvNvUFmxuu9+lRqQiDuhGkgWoKN4z2tllWyujAn9uVG4kOYd9elUBLAhDo
- LM842EbYq/Gx9ZQpEHBFDTeMSx7Go5MPw7E+7vabxXKfDr9xDRHoicaWw8Flcr9vhdXA
- TQ6b5ax2CvnaMDppOOdXejcIECGK0oswUtsv30Rauc0MQjlGUQrrpwL20TbZl8MsR2XK
- 4a4+i/BV5jU3WzCa/WuB0BPQoIkGKltrxjzrRPsofO+PmjyB8VmLnXiUM0Ygmrki3PMO
- Zu+Q==
-X-Gm-Message-State: AOAM532y3A0nWNdGFxHG6/n1BVr72lYuqqJ9rrTN3ocgBL2dUPRMt1G0
- mZJdfq8MK9NtIRqbSC+5OwfjQafiLZPgje5bnI+7gWWghuAD+yMngI+3nDs0mDaFzkuNVG4OYih
- amrEzIKinArZo3/k=
-X-Received: by 2002:a05:622a:1d4:: with SMTP id
- t20mr5161521qtw.173.1603315652167; 
- Wed, 21 Oct 2020 14:27:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9vIjo4GQc6sAWwEBA9I+Tq3BUZgW2AY0FmipYOLK3dgBv+KaZ/BZxBqhk58ytGUfUmf04yA==
-X-Received: by 2002:a05:622a:1d4:: with SMTP id
- t20mr5161500qtw.173.1603315651936; 
- Wed, 21 Oct 2020 14:27:31 -0700 (PDT)
+ bh=5YSDXbpiN58TIENBWrzuM3dPsDH2GwMJZmdPK3XRXc4=;
+ b=B/K89BPEjnbIeC23zn+0JCRbQwZ2ZOq/jdKs2IoUsHGJEoiTh+52v2UctDedRpYpwy
+ GCUUe/oqxBg3KDeXwVhw5AliR2wEuNnPjZ0LvJVMD1y+IJOOpOIuXNQ/Egf9idgI580o
+ 3/hapxBRqL9pZGdHqYhE1DLZgj7f048DlUoGYydm9H/aBiugC1DHk6EMAJj1MuisyF7o
+ Xc22ws9gSbxV54/4Mbo6OokeaVTC4oT/dyuGpDTfCRHDWziIwViSsvjG3AmAwNrgaSZ2
+ 5YcsQXzM9fn5rMOhtuI5r8NdcnlvHxV3GjGw98wMZsRPf1ZEHRVatZ0dKfMaREkwwTF3
+ SjvA==
+X-Gm-Message-State: AOAM532oMWO7fCT0es46DVhkWyuIBysP9qJwoYURZCeSeST5103wpmef
+ wfQgThip6x4EWElgplZo7uw6iKwxtzJzlCGx7JUQZEPdhXR9RRc4gMouItGgU+FlYvdqr5U+bSB
+ an8BCdtBw53MYD+A=
+X-Received: by 2002:aed:22fa:: with SMTP id q55mr4936237qtc.229.1603315653849; 
+ Wed, 21 Oct 2020 14:27:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsRwuH2QsIYASdsuMXVXoN/2xH0WiD1HQK507D0oTnZ/ZpSmgHCpR9KK+6J+5GGLaMiWjBrw==
+X-Received: by 2002:aed:22fa:: with SMTP id q55mr4936217qtc.229.1603315653616; 
+ Wed, 21 Oct 2020 14:27:33 -0700 (PDT)
 Received: from xz-x1.redhat.com
  (toroon474qw-lp140-04-174-95-215-133.dsl.bell.ca. [174.95.215.133])
- by smtp.gmail.com with ESMTPSA id p187sm2089145qkf.70.2020.10.21.14.27.30
+ by smtp.gmail.com with ESMTPSA id p187sm2089145qkf.70.2020.10.21.14.27.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 14:27:31 -0700 (PDT)
+ Wed, 21 Oct 2020 14:27:32 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 5/6] migration/postcopy: Release fd before going into
- 'postcopy-pause'
-Date: Wed, 21 Oct 2020 17:27:20 -0400
-Message-Id: <20201021212721.440373-6-peterx@redhat.com>
+Subject: [PATCH v6 6/6] migration-test: Only hide error if !QTEST_LOG
+Date: Wed, 21 Oct 2020 17:27:21 -0400
+Message-Id: <20201021212721.440373-7-peterx@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201021212721.440373-1-peterx@redhat.com>
 References: <20201021212721.440373-1-peterx@redhat.com>
@@ -75,16 +72,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 22:12:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,61 +101,43 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Logically below race could trigger with the old code:
+The errors are very useful when debugging qtest failures, especially when
+QTEST_LOG=1 is set.  Let's allow override MigrateStart.hide_stderr when
+QTEST_LOG=1 is specified, because that means the user wants to be verbose.
 
-          test program                        migration thread
-          ------------                        ----------------
-       wait_until('postcopy-pause')
-                                          postcopy_pause()
-                                            set_state('postcopy-pause')
-       do_postcopy_recover()
-         arm s->to_dst_file with new fd
-                                            release s->to_dst_file [1]
+Not very nice to introduce the first QTEST_LOG env access in migration-test.c,
+however it should be handy.  Without this patch, I was hacking error_report()
+when debugging such errors.  Let's make things easier.
 
-Here [1] could have released the just-installed recoverying channel.  Then the
-migration could hang without really resuming.
-
-Instead, it should be very safe to release the fd before setting the state into
-'postcopy-pause', because there's no reason for any other thread to touch it
-during 'postcopy-active'.
-
-Dave reported a very rare postcopy recovery hang that the migration-test
-program waited for the migration to complete in migrate_postcopy_complete().
-We do suspect it's the same thing that we're gonna fix here.  Hard to tell.
-However since we've noticed this, fix this irrelevant of the hang report.
-
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qtest/migration-test.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index e3a958b299..20e04855d9 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3178,9 +3178,6 @@ static MigThrError postcopy_pause(MigrationState *s)
-     while (true) {
-         QEMUFile *file;
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index f410ec5996..f2142fbd3c 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -464,6 +464,10 @@ static void migrate_postcopy_start(QTestState *from, QTestState *to)
+ }
  
--        migrate_set_state(&s->state, s->state,
--                          MIGRATION_STATUS_POSTCOPY_PAUSED);
--
-         /* Current channel is possibly broken. Release it. */
-         assert(s->to_dst_file);
-         qemu_mutex_lock(&s->qemu_file_lock);
-@@ -3191,6 +3188,9 @@ static MigThrError postcopy_pause(MigrationState *s)
-         qemu_file_shutdown(file);
-         qemu_fclose(file);
+ typedef struct {
++    /*
++     * QTEST_LOG=1 may override this.  When QTEST_LOG=1, we always dump errors
++     * unconditionally, because it means the user would like to be verbose.
++     */
+     bool hide_stderr;
+     bool use_shmem;
+     /* only launch the target process */
+@@ -557,7 +561,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
  
-+        migrate_set_state(&s->state, s->state,
-+                          MIGRATION_STATUS_POSTCOPY_PAUSED);
-+
-         error_report("Detected IO failure for postcopy. "
-                      "Migration paused.");
+     g_free(bootpath);
  
+-    if (args->hide_stderr) {
++    if (!getenv("QTEST_LOG") && args->hide_stderr) {
+         ignore_stderr = "2>/dev/null";
+     } else {
+         ignore_stderr = "";
 -- 
 2.26.2
 
