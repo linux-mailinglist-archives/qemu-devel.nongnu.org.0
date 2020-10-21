@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A268295297
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:59:47 +0200 (CEST)
-Received: from localhost ([::1]:50288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E3829528A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:57:06 +0200 (CEST)
+Received: from localhost ([::1]:42108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVJKs-0006FA-7D
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42612)
+	id 1kVJIH-0002lg-9I
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDw-00060j-Bn
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58136)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDv-0005yj-7i
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDq-0008Au-43
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDq-0008B3-2q
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603306337;
+ s=mimecast20190719; t=1603306338;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F0NESFGUQXG6ybm+bjon34dn9KP5qyhyKAeHJriut3w=;
- b=JZbafFD3VXH/OeaPvOaslzmp7Wf1hXJcT2JbYsAeDbu2yGCgiDhLireRsVlbz32IfYpeIp
- qC1Cd9IULtjgjXZPBRjQMV9JP81r2fj1gwdrQ2llEEEGyyQ3OO19qIglCAchYdmsXLSqB3
- j+D5SuOrAoL2C5PiaUtz63igsgg78Xg=
+ bh=XDwlV6jl4lTRqbwWn3GfiZY5n43RP2QRc/WLUFkH5Nw=;
+ b=Pb9FbNPgbBzQPVPEdFMOS7GfkYz/0+nVD0ggGVLGUEY99D8GyhFBGvFcLCMeFPHrwoTWS5
+ h1Ga34mrFx5uDmTbj//rhRT3OD7BUnvabCIlXf2qtSr2dXVNxoSpDMMhNvt6Kn4aMVxClK
+ ClFG3HpuBcq3Ctfdp7FrsW6583CJHnk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-OhmdrPhaNU6g5-FoGZYFvw-1; Wed, 21 Oct 2020 14:52:15 -0400
-X-MC-Unique: OhmdrPhaNU6g5-FoGZYFvw-1
+ us-mta-23-qA354TSoN0aClw8L71lumw-1; Wed, 21 Oct 2020 14:52:16 -0400
+X-MC-Unique: qA354TSoN0aClw8L71lumw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36EDE804B6A
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 18:52:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A9518A0763
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 18:52:15 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A9B010023A5;
- Wed, 21 Oct 2020 18:52:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82B4A10027A5;
+ Wed, 21 Oct 2020 18:52:14 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/15] python: Add 'fh' to known-good variable names
-Date: Wed, 21 Oct 2020 14:51:59 -0400
-Message-Id: <20201021185208.1611145-7-jsnow@redhat.com>
+Subject: [PATCH 07/15] scripts/qom-fuse: Apply pylint rules
+Date: Wed, 21 Oct 2020 14:52:00 -0400
+Message-Id: <20201021185208.1611145-8-jsnow@redhat.com>
 In-Reply-To: <20201021185208.1611145-1-jsnow@redhat.com>
 References: <20201021185208.1611145-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,37 +83,76 @@ Cc: Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fd and fh are fine: we often use these for "file descriptor" or "file
-handle" accordingly. It is rarely the case that you need to enforce a
-more semantically meaningful name beyond "This is the file we are using
-right now."
-
-While we're here: add comments for all of the non-standard pylint
-names. (And the underscore.)
+- Catch specific exceptions from QMP
+- Reraise errors with explicit context
+- method parameters should match parent's names
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/setup.cfg | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ scripts/qmp/qom-fuse | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 506944ef6b..58cf48aaed 100755
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -56,9 +56,10 @@ good-names=i,
-            k,
-            ex,
-            Run,
--           _,
--           fd,
--           c,
-+           _,   # By convention: Unused variable
-+           fh,  # fh = open(...)
-+           fd,  # fd = os.open(...)
-+           c,   # for c in string: ...
+diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
+index ca30e92867..805e99c8ec 100755
+--- a/scripts/qmp/qom-fuse
++++ b/scripts/qmp/qom-fuse
+@@ -23,7 +23,7 @@ from fuse import FUSE, FuseOSError, Operations
  
- [pylint.similarities]
- # Ignore imports when computing similarities.
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu.qmp import QEMUMonitorProtocol
++from qemu.qmp import QEMUMonitorProtocol, QMPResponseError
+ 
+ 
+ fuse.fuse_python_api = (0, 2)
+@@ -47,7 +47,7 @@ class QOMFS(Operations):
+         try:
+             self.qmp.command('qom-list', path=path)
+             return True
+-        except:
++        except QMPResponseError:
+             return False
+ 
+     def is_property(self, path):
+@@ -59,7 +59,7 @@ class QOMFS(Operations):
+                 if item['name'] == prop:
+                     return True
+             return False
+-        except:
++        except QMPResponseError:
+             return False
+ 
+     def is_link(self, path):
+@@ -73,10 +73,10 @@ class QOMFS(Operations):
+                         return True
+                     return False
+             return False
+-        except:
++        except QMPResponseError:
+             return False
+ 
+-    def read(self, path, length, offset, fh):
++    def read(self, path, size, offset, fh):
+         if not self.is_property(path):
+             return -ENOENT
+ 
+@@ -86,13 +86,13 @@ class QOMFS(Operations):
+         try:
+             data = self.qmp.command('qom-get', path=path, property=prop)
+             data += '\n'  # make values shell friendly
+-        except:
+-            raise FuseOSError(EPERM)
++        except QMPResponseError as err:
++            raise FuseOSError(EPERM) from err
+ 
+         if offset > len(data):
+             return ''
+ 
+-        return bytes(data[offset:][:length], encoding='utf-8')
++        return bytes(data[offset:][:size], encoding='utf-8')
+ 
+     def readlink(self, path):
+         if not self.is_link(path):
 -- 
 2.26.2
 
