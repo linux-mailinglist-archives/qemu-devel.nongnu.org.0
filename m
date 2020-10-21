@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06ABD294F17
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 16:53:34 +0200 (CEST)
-Received: from localhost ([::1]:42380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F9B294F55
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 16:58:09 +0200 (CEST)
+Received: from localhost ([::1]:33850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVFUb-0002JC-0H
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 10:53:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56032)
+	id 1kVFZ2-0001wh-8W
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 10:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQZ-0006hg-9v
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQZ-0006ii-PA
  for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28773)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQU-0006mv-Ak
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:22 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVFQX-0006nV-0z
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 10:49:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603291757;
+ s=mimecast20190719; t=1603291759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2FuwpDBEnVj2laN/AiM4TV9zBVx76cM26cJNZL2RLuY=;
- b=gebJJIMTUZVPVoJ8zAcx5iGvrlFYJARY8ikN/UG54uRD1lU/X4bMtr+RrnafXD/JcQtUn1
- DgENWzA2fCOa5r2eFQhkSQAYM+u7xJjp4hgragZ7BYPR7xroT4vXTyG7bZtfUlOTwhmi7y
- hitncxfTzdRtW71wGZrDaJUJGAhtMYw=
+ bh=L3/xjd36rO/UhE3zJqy7mEsWuSSW5Ek96DdfJGwklM4=;
+ b=BC7GLvze3gP5ohJrp95xKua/5dBQ4wk1zqK3G48UxyRdB0VFq7cxnxjrJ1sRRMAUrryInJ
+ Az1rtOdkDrrrsM3zxbRxBRfx0anXLA8s26oFm7/z9dwjVcV7GXvQI322zhB2KmtwKpnrb8
+ dJxRuEUvtjbhnFhDe0DF9w/tYPLA4uk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-L7ljziLINgO0l19dlV80pQ-1; Wed, 21 Oct 2020 10:49:15 -0400
-X-MC-Unique: L7ljziLINgO0l19dlV80pQ-1
+ us-mta-415-tsSuh5gANiaszzLo1Sy_-w-1; Wed, 21 Oct 2020 10:49:14 -0400
+X-MC-Unique: tsSuh5gANiaszzLo1Sy_-w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D448510E21A3;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D673D100E23E;
  Wed, 21 Oct 2020 14:48:54 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80A335C22D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 808B85C22A;
  Wed, 21 Oct 2020 14:48:54 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5F3011FCF5; Wed, 21 Oct 2020 16:48:52 +0200 (CEST)
+ id 670F0204A1; Wed, 21 Oct 2020 16:48:52 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/17] tests/acpi: disallow changes for microvm/APIC.pcie
-Date: Wed, 21 Oct 2020 16:48:42 +0200
-Message-Id: <20201021144852.16665-8-kraxel@redhat.com>
+Subject: [PULL 08/17] acpi: add aml builder stubs
+Date: Wed, 21 Oct 2020 16:48:43 +0200
+Message-Id: <20201021144852.16665-9-kraxel@redhat.com>
 In-Reply-To: <20201021144852.16665-1-kraxel@redhat.com>
 References: <20201021144852.16665-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 22:12:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,19 +88,40 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20201016113835.17465-8-kraxel@redhat.com
----
- tests/qtest/bios-tables-test-allowed-diff.h | 1 -
- 1 file changed, 1 deletion(-)
+Add stubs for aml_interrupt and aml_memory32_fixed,
+these will be needed by followup patches,
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 0c37ccebc5ba..dfb8523c8bf4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/microvm/APIC.pcie",
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20201020074844.5304-2-kraxel@redhat.com
+---
+ hw/acpi/aml-build-stub.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/hw/acpi/aml-build-stub.c b/hw/acpi/aml-build-stub.c
+index 58b2e162277f..8d8ad1a31497 100644
+--- a/hw/acpi/aml-build-stub.c
++++ b/hw/acpi/aml-build-stub.c
+@@ -57,6 +57,20 @@ Aml *aml_irq_no_flags(uint8_t irq)
+     return NULL;
+ }
+ 
++Aml *aml_interrupt(AmlConsumerAndProducer con_and_pro,
++                   AmlLevelAndEdge level_and_edge,
++                   AmlActiveHighAndLow high_and_low, AmlShared shared,
++                   uint32_t *irq_list, uint8_t irq_count)
++{
++    return NULL;
++}
++
++Aml *aml_memory32_fixed(uint32_t addr, uint32_t size,
++                        AmlReadAndWrite read_and_write)
++{
++    return NULL;
++}
++
+ Aml *aml_int(const uint64_t val)
+ {
+     return NULL;
 -- 
 2.27.0
 
