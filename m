@@ -2,94 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC6B294CFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 14:46:36 +0200 (CEST)
-Received: from localhost ([::1]:60718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE690294D7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:26:59 +0200 (CEST)
+Received: from localhost ([::1]:39976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVDVj-0005cI-F4
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 08:46:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47762)
+	id 1kVE8p-0007Su-15
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:26:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVDUB-000573-Bi
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 08:44:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVDU9-0006dg-Pu
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 08:44:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603284296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Il08k/FCl+ku1iFiG+fSrcgUS3s9ecpQz+nrDNgQzls=;
- b=TtWHfByJb32ejuRWrVdEl6KcPf+8XKJZwtaAJfoyc+9XzxeHyDQZZxWdgFIRpjajm8Mbm1
- OB54pVpOrVQEJxVmTb5g32VbxCmxkGe5Z1BQlR7YsM4g01ZYDiz7UEn5Pv7jpfNmNXofXf
- GbWllkQ1z7EQjSE4yx7C+6V5m0dO+YY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-HbRku61HP7-k4stXi6Cc4A-1; Wed, 21 Oct 2020 08:44:54 -0400
-X-MC-Unique: HbRku61HP7-k4stXi6Cc4A-1
-Received: by mail-wm1-f72.google.com with SMTP id o15so1473947wmh.1
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 05:44:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Il08k/FCl+ku1iFiG+fSrcgUS3s9ecpQz+nrDNgQzls=;
- b=XGHeZKucikM4Wde+YzdFOXiy2QCKSW00mYpLTAEGcj4qU5vdmqoV1hkID62AUXUITH
- FBtNKO91snZK9yleI/RshkXU+upoDOpjJWV4Qa14HLGMOy59owDNGSJJMvO932RpYaWa
- JKu8MES8rneFKFpiszKI5ZKBgUYvCHpmyuw/5zSADHJD+dER7vQLx+DAoy9WwwIWQJ8p
- 4tioL6ROOfrkGp/VdkNqjoi27gdQ+G/QBypgEFwnsvjV4SoQ0wzFcOhADSQbfeYD6eIK
- i8NPBhWKwXSicsX9PRd2YWmhEgMvzcjC3ZATr3gnJqD1NeXtiX88dnBE8nP9rgC5DKAX
- atZw==
-X-Gm-Message-State: AOAM530XCXklfLXVRoegZdD3jL5yFJp33LEv+FNnv7vSGW7EkxdLpeHX
- eJPvJUcPcAvnKJsJj16mkcNnsaWWvJmJNfvzCU0MnRQ7hqsr93Fw1P2N8EhCV/7WnvQ5nYORp8u
- eGrC6+9WUxobQxQU=
-X-Received: by 2002:adf:fc0d:: with SMTP id i13mr4721920wrr.156.1603284293244; 
- Wed, 21 Oct 2020 05:44:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqI2XK0EjuG388HLQ9RgY5qP2Z14gEZnDrHXr++Jwqm6WWMuft+mhk9uPjx/OTisSlCq5E7g==
-X-Received: by 2002:adf:fc0d:: with SMTP id i13mr4721895wrr.156.1603284292957; 
- Wed, 21 Oct 2020 05:44:52 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id t199sm3244214wmt.46.2020.10.21.05.44.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Oct 2020 05:44:52 -0700 (PDT)
-Subject: Re: [PATCH v5 02/16] fuzz: Add general virtual-device fuzzer
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20201021010752.973230-1-alxndr@bu.edu>
- <20201021010752.973230-3-alxndr@bu.edu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <675e45e4-3de1-bf0a-b7d3-117710b7fba2@redhat.com>
-Date: Wed, 21 Oct 2020 14:44:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <20201021010752.973230-3-alxndr@bu.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
+ (Exim 4.90_1)
+ (envelope-from <4d7275b2363f122438a443ce079cbb355285e9d6@lizzy.crudebyte.com>)
+ id 1kVE50-0002li-7n
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:23:03 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:56297)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <4d7275b2363f122438a443ce079cbb355285e9d6@lizzy.crudebyte.com>)
+ id 1kVE4w-0003UE-TV
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:23:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=jPv90ogvE1yLkYJEbd3gMSVSQi2C/uVPumjs570j7TA=; b=QIIxR
+ zdFM+boVEyJSeqc1NulY3RUlGNir0cgUUgSuzXwVVPiFtRV9XgOKSm2hrxwJL/FIxM23Oa+rnE45P
+ glmuhuANWGQmGVuWRiqXQmOhe2hLQqWiqVp7YpqB9jliZ4ekq7fEekrnfTa0q5/eutK5WnQoeS1pm
+ LtV5F6i4QYSXI2RUfNguy2nxIkSw8iJ0I31nNQ3r/5D9m73IUiMZxj3Enog2JiotmH6F3ddOZh3zr
+ pjlnBCCY29iBiuAiYvq+UNhp8U84PE3h3v4F+DspJbpfFwUty0WrbFp7a9E4G6h2ajeoQWhXc6A/D
+ IS/UovEd2PZvXCql+/m7bv7Ooux1w==;
+Message-Id: <4d7275b2363f122438a443ce079cbb355285e9d6.1603285620.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1603285620.git.qemu_oss@crudebyte.com>
+References: <cover.1603285620.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Wed, 21 Oct 2020 14:06:53 +0200
+Subject: [PATCH v2 1/8] tests/9pfs: simplify do_mkdir()
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=4d7275b2363f122438a443ce079cbb355285e9d6@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 09:21:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,40 +61,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- f4bug@amsat.org, darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/20 03:07, Alexander Bulekov wrote:
-> +static GString *generic_fuzz_cmdline(FuzzTarget *t)
-                   ^^^^^^^
+Split out walking a directory path to a separate new utility function
+do_walk() and use that function in do_mkdir().
 
-> +{
-> +    GString *cmd_line = g_string_new(TARGET_NAME);
-> +    if (!getenv("QEMU_FUZZ_ARGS")) {
-> +        usage();
-> +    }
-> +    g_string_append_printf(cmd_line, " -display none \
-> +                                      -machine accel=qtest, \
-> +                                      -m 512M %s ", getenv("QEMU_FUZZ_ARGS"));
-> +    return cmd_line;
-> +}
-> +
-> +static void register_generic_fuzz_targets(void)
-> +{
-> +    fuzz_add_target(&(FuzzTarget){
-> +            .name = "generic-fuzz",
-> +            .description = "Fuzz based on any qemu command-line args. ",
-> +            .get_init_cmdline = general_fuzz_cmdline,
-                                   ^^^^^^^
+The code difference saved this way is not much, but we'll use that new
+do_walk() function in the upcoming patches, so it will avoid quite
+some code duplication after all.
 
-Does this actually compile?
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/virtio-9p-test.c | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-Paolo
-
-> +            .pre_fuzz = general_pre_fuzz,
-> +            .fuzz = general_fuzz});
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 2ea555fa04..21807037df 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -583,6 +583,23 @@ static void do_version(QVirtio9P *v9p)
+     g_free(server_version);
+ }
+ 
++/* utility function: walk to requested dir and return fid for that dir */
++static uint32_t do_walk(QVirtio9P *v9p, const char *path)
++{
++    char **wnames;
++    P9Req *req;
++    const uint32_t fid = genfid();
++
++    int nwnames = split(path, "/", &wnames);
++
++    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rwalk(req, NULL, NULL);
++
++    split_free(&wnames);
++    return fid;
++}
++
+ static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     alloc = t_alloc;
+@@ -974,23 +991,17 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+ 
+ static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
+ {
+-    char **wnames;
+     char *const name = g_strdup(cname);
++    uint32_t fid;
+     P9Req *req;
+-    const uint32_t fid = genfid();
+ 
+-    int nwnames = split(path, "/", &wnames);
+-
+-    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rwalk(req, NULL, NULL);
++    fid = do_walk(v9p, path);
+ 
+     req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rmkdir(req, NULL);
+ 
+     g_free(name);
+-    split_free(&wnames);
+ }
+ 
+ static void fs_readdir_split_128(void *obj, void *data,
+-- 
+2.20.1
 
 
