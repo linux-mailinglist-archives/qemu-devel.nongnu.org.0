@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9822C2951E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 19:58:22 +0200 (CEST)
-Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C708D2951EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:00:22 +0200 (CEST)
+Received: from localhost ([::1]:37386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVINR-0003nB-NE
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 13:58:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51996)
+	id 1kVIPN-00060m-P6
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:00:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVI48-0006pe-NP
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:38:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56182)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kVI89-0001Ye-66
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:42:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVI3z-0006Vt-AF
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:38:21 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kVI85-0007BA-EF
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:42:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603301894;
+ s=mimecast20190719; t=1603302148;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wCTQX4mLqj2f5H121RmQ/r4zkcw4nXTmcR2H90CkbeE=;
- b=GN9uua4Vph1kvPHjpSKdzX7lJciqNh+5ngYDK/oanthrpo1hZr3u8mkVLlzgt79N2WU+wy
- B1dygeiJ88nSUNUt2FMPyxdpi9lgcqyzRJ2G2RBqoWxjwEqnLh6sd2JXYI6NTRgNv0O1HG
- /65xatdwri3/5WC+STLWrFnMMKMsH74=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-UZHwNRgqNgqRGk4exizU8A-1; Wed, 21 Oct 2020 13:38:11 -0400
-X-MC-Unique: UZHwNRgqNgqRGk4exizU8A-1
-Received: by mail-wr1-f72.google.com with SMTP id x16so2989789wrg.7
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:38:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wCTQX4mLqj2f5H121RmQ/r4zkcw4nXTmcR2H90CkbeE=;
- b=WU68ZXThmT49aLtPE7KTvZ0FsA9kVsFnCt72uK0NRGQE5Xqg1mFA3sh025vTmJrIAc
- VKdQwVCc/XKcmfhD1yXhCQB+8RrjqkB2agpiq9vcWTVxQzDv0BTYc2DP9yklKE4oCeAG
- BNW1eTF0ypI+LajnDfAvlY/X6IgRD0RyM8FMu9uyxK8mHFWX3fXhiYwSA6S6E/KxRiX5
- 09mU+WdrbgzqKyuWhuFLdGQsenc+0vWGIh0MhnqJfRpbpTQ3RwrrXjF6l6Gr/FGn40Yg
- VDs5LJIIXm7S4FJ4d+ugz3tKLTGpQs6UkGp6WzeUB2mDJn7dYa1mjMWPIRhtCQpPgpxD
- sduQ==
-X-Gm-Message-State: AOAM533EOrFTwK1lB4zv4sA4K/LA7ymHbjEbUq0A5XmAIihSaMlgVsxm
- I8YPktx/f6eXaax2OXvyrzLEKUj/IEaxvm8Qlr/yNt1iix3dJ/GVDc6hMF+HByZF86ByE/NqnPr
- AIZVUU6bThNG/wTw=
-X-Received: by 2002:adf:bbc6:: with SMTP id z6mr6011345wrg.298.1603301890709; 
- Wed, 21 Oct 2020 10:38:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+gInbogEgvA5LYqMVO8Vqg0xBxVjoml4Dg59/ixdlEM5N1rJJS542EuRfO8pbKPGigDLclQ==
-X-Received: by 2002:adf:bbc6:: with SMTP id z6mr6011330wrg.298.1603301890496; 
- Wed, 21 Oct 2020 10:38:10 -0700 (PDT)
-Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id x81sm4606765wmb.11.2020.10.21.10.38.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 10:38:09 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v5 1/2] util/oslib-win32: Use _aligned_malloc for
- qemu_try_memalign
-Date: Wed, 21 Oct 2020 19:38:02 +0200
-Message-Id: <20201021173803.2619054-2-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201021173803.2619054-1-philmd@redhat.com>
-References: <20201021173803.2619054-1-philmd@redhat.com>
+ bh=kq8dSN2DFw31Xq/yOPUrrXkVW9zONSQ+3288eTjfptY=;
+ b=OhVspkTmuykmdKHXxj1+KkdExh/s0TgHkRe0IBFy6PbWyhAJHcHYyXf3VnWbZFGdbOdosl
+ v7BZbD/t6MR8Bnl40AQ4qD44BLit4HIJ9O/A2cqFFyZB4PP6M9dAwSKhtCmYYBBX0en0em
+ kOX0cxZNs4di4bf+Ex6D8ekQNGZVG78=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-137-oBqj0aBNMxi1gc3gpu6Y3Q-1; Wed, 21 Oct 2020 13:42:27 -0400
+X-MC-Unique: oBqj0aBNMxi1gc3gpu6Y3Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0F80804032;
+ Wed, 21 Oct 2020 17:42:25 +0000 (UTC)
+Received: from work-vm (ovpn-114-232.ams2.redhat.com [10.36.114.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 986875C225;
+ Wed, 21 Oct 2020 17:42:21 +0000 (UTC)
+Date: Wed, 21 Oct 2020 18:42:19 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v5 3/6] migration: Maintain postcopy faulted addresses
+Message-ID: <20201021174219.GG3671@work-vm>
+References: <20201019225720.172743-1-peterx@redhat.com>
+ <20201019225720.172743-4-peterx@redhat.com>
+ <20201021142345.GC3671@work-vm> <20201021155016.GH200400@xz-x1>
 MIME-Version: 1.0
+In-Reply-To: <20201021155016.GH200400@xz-x1>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -97,63 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Weil <sw@weilnetz.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+* Peter Xu (peterx@redhat.com) wrote:
+> On Wed, Oct 21, 2020 at 03:23:45PM +0100, Dr. David Alan Gilbert wrote:
+> > > @@ -354,8 +368,33 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+> > >  }
+> > >  
+> > >  int migrate_send_rp_req_pages(MigrationIncomingState *mis,
+> > > -                              RAMBlock *rb, ram_addr_t start)
+> > > +                              RAMBlock *rb, ram_addr_t start, uint64_t haddr)
+> > >  {
+> > > +    void *aligned = (void *)(uintptr_t)(haddr & qemu_real_host_page_mask);
+> > 
+> > Can you remind me, what happens here for hugepages?
+> 
+> Sure.  Previously it was:
+> 
+>   (haddr & (-qemu_target_page_size())
+> 
+> Now it is:
+> 
+>   (haddr & qemu_real_host_page_mask)
+> 
+> Basically we changed the psize alignment from guest to host.
+> 
+> The bug triggered previously on ppc64 where host_psize=64k, then when guest
+> psize is smaller, e.g., 4k, we can have some addr that aligned to 4k rather
+> than 64k, so we failed later on checking the host psize alignment (because this
+> pointer should point to a host page, so it should align with host psize).
 
-We do not need or want to be allocating page sized quanta.
+But my question is what happens when we have say a 2MB hugepage?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20201018164836.1149452-1-richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- util/oslib-win32.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Dave
 
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index e99debfb8dd..29dd05d59d7 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -39,6 +39,7 @@
- #include "trace.h"
- #include "qemu/sockets.h"
- #include "qemu/cutils.h"
-+#include <malloc.h>
- 
- /* this must come after including "trace.h" */
- #include <shlobj.h>
-@@ -56,10 +57,8 @@ void *qemu_try_memalign(size_t alignment, size_t size)
- {
-     void *ptr;
- 
--    if (!size) {
--        abort();
--    }
--    ptr = VirtualAlloc(NULL, size, MEM_COMMIT, PAGE_READWRITE);
-+    g_assert(size != 0);
-+    ptr = _aligned_malloc(alignment, size);
-     trace_qemu_memalign(alignment, size, ptr);
-     return ptr;
- }
-@@ -93,9 +92,7 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, bool shared)
- void qemu_vfree(void *ptr)
- {
-     trace_qemu_vfree(ptr);
--    if (ptr) {
--        VirtualFree(ptr, 0, MEM_RELEASE);
--    }
-+    _aligned_free(ptr);
- }
- 
- void qemu_anon_ram_free(void *ptr, size_t size)
+> -- 
+> Peter Xu
+> 
 -- 
-2.26.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
