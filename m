@@ -2,61 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72942951FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:06:39 +0200 (CEST)
-Received: from localhost ([::1]:46572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD18029522A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:23:24 +0200 (CEST)
+Received: from localhost ([::1]:45254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVIVS-00022m-4V
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
+	id 1kVIlf-0005nB-Sk
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:23:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kVISr-000125-JO
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:03:58 -0400
-Resent-Date: Wed, 21 Oct 2020 14:03:57 -0400
-Resent-Message-Id: <E1kVISr-000125-JO@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21343)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kVISn-0001kr-F9
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:03:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1603303427; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=T+rRBYAPhdMINZ86TJd/aCLOYZjs3sAMao48NFqmd4WXB9D+JJ0Nj9OjaOgxVIxacwzC+oeJ/+qyMUWtFPiDrO4kYsEdFDVes1CVIvOV1EoJ0KwC2kjU8SJ9+Y94Qu+/dmegJoqvp1yNZaLGMbIfRkmtWzY1cR8vlNF6PWPohMQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1603303427;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=a0IJjPYTk99yIKXRIOxiJD6tNvNKOt73vl82HRvbcLo=; 
- b=HINggZn9AJGzw0IggndSs/+K729eXtRApeAlCIzN2l9mj1TJMqgDgjtu+Fm4Py3xO7gRt4xX6Gm2+Zaunv5jwEF1H1beYy/eP7DtV/FafAena9UbDq5keJmcP/SE3m6d7Xj8U6iUZMwVB1iZIs1m0ILvcaYnzOOaifCNWD8hjLU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1603303425646430.3900865503083;
- Wed, 21 Oct 2020 11:03:45 -0700 (PDT)
-Subject: Re: [PATCH v12 00/12] linux-user: User support for AArch64 BTI
-Message-ID: <160330342447.17333.14606008407043150963@66eaa9a8a123>
-In-Reply-To: <20201021173749.111103-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kVITN-0001Qi-24
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:04:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kVITJ-0001ox-5K
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:04:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603303463;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RPNIwnLb3M4COoKC7f83RGuFgI2Q9r/pYtwfNk7wF38=;
+ b=Ws2ndbtyDDMR0xRCY2F+z903FnKK5MI0BiFjpHe7m0axviDgbd9d6qZlLjSogTXMsUyJv+
+ zhgU+p1/GcOgzvAmYuo93V9vTkaalvk1ap3vUqHKjyZ0VUMOg8PjKWS7xM9MMPz4s/vRFO
+ +kgmA8LNFUqeB1M0k9DCXxssmNCOCFI=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-zh9dl3OGMF-745vTYOprmQ-1; Wed, 21 Oct 2020 14:04:18 -0400
+X-MC-Unique: zh9dl3OGMF-745vTYOprmQ-1
+Received: by mail-qt1-f198.google.com with SMTP id e8so2250886qtp.18
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 11:04:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RPNIwnLb3M4COoKC7f83RGuFgI2Q9r/pYtwfNk7wF38=;
+ b=SH38xCelrH0rHFVp6XB5e3usW3VTrgH4wiPrGMlvAAZUlEC2yuuIuu6uuPbqapnRG/
+ 2Zsgolr3JqFWSxHN4i5Cj7oEMsWE1Yn70fRlMTeqej1CqvWqWuo/ZVupZiwG0bmg8sGw
+ Nlhrdn9EB8jeXT0QVkHbA7QyOEp8PlbNKPhsV09ZCqyV3tNq8A2yAdu/GJGr2sdd+ikL
+ fQDGukOf9EccdnVTfza5LdzLsIyS3d3crObLPQHyH/w3CZxUbeK3nAAiEq1rF2ServTk
+ +Vl7aNSGDBEpEkk/VgbMUYDrpSo45e2ap9FGXgPLWe2vagNbYu1qD5ZEoS0dyXvfbo/N
+ cyJQ==
+X-Gm-Message-State: AOAM531QW+0eX2Cd+cMBFV8SFGIHkmAf5vYXQwC1fB2/HaFFVu5QEiTu
+ zqXkd2VmaGvb7vkeZeCmc+/tochStugAOHnHn813ucH2pc/WEARTJkXhjwrI8mUmN15Vx4oFO/h
+ aGAlBAr+XB+DDgns=
+X-Received: by 2002:a37:a5c9:: with SMTP id o192mr2201889qke.302.1603303458291; 
+ Wed, 21 Oct 2020 11:04:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwx/EQqcJobU/kuU7ICeh2DOm6AUjKKkRdBOiYnfTmYS0eer2KuwnkJspL3dw9Aj+bIRAgTXw==
+X-Received: by 2002:a37:a5c9:: with SMTP id o192mr2201869qke.302.1603303458003; 
+ Wed, 21 Oct 2020 11:04:18 -0700 (PDT)
+Received: from xz-x1 (toroon474qw-lp140-04-174-95-215-133.dsl.bell.ca.
+ [174.95.215.133])
+ by smtp.gmail.com with ESMTPSA id t13sm1650535qtw.23.2020.10.21.11.04.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Oct 2020 11:04:16 -0700 (PDT)
+Date: Wed, 21 Oct 2020 14:04:14 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v5 3/6] migration: Maintain postcopy faulted addresses
+Message-ID: <20201021180414.GB248275@xz-x1>
+References: <20201019225720.172743-1-peterx@redhat.com>
+ <20201019225720.172743-4-peterx@redhat.com>
+ <20201021142345.GC3671@work-vm> <20201021155016.GH200400@xz-x1>
+ <20201021174219.GG3671@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Wed, 21 Oct 2020 11:03:45 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 14:03:50
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201021174219.GG3671@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,73 +96,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAyMTE3Mzc0OS4xMTEx
-MDMtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEwMjEx
-NzM3NDkuMTExMTAzLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUEFU
-Q0ggdjEyIDAwLzEyXSBsaW51eC11c2VyOiBVc2VyIHN1cHBvcnQgZm9yIEFBcmNoNjQgQlRJCgo9
-PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+
-IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQg
-MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxi
-YWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFm
-Zjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRj
-aGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAxMDIxMTcz
-NzQ5LjExMTEwMy0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIw
-MTAyMTE3Mzc0OS4xMTExMDMtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3aXRjaGVk
-IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYTI5MDk0YiB0ZXN0cy90Y2cvYWFyY2g2NDogQWRkIGJ0
-aSBzbW9rZSB0ZXN0cwpmMThkODdlIGxpbnV4LXVzZXIvZWxmbG9hZDogUGFyc2UgR05VX1BST1BF
-UlRZX0FBUkNINjRfRkVBVFVSRV8xX0FORAo3MGJmYzdkIGxpbnV4LXVzZXIvZWxmbG9hZDogUGFy
-c2UgTlRfR05VX1BST1BFUlRZX1RZUEVfMCBub3Rlcwo1Njg1NDQ2IGxpbnV4LXVzZXIvZWxmbG9h
-ZDogVXNlIEVycm9yIGZvciBsb2FkX2VsZl9pbnRlcnAKODg5MjI3ZCBsaW51eC11c2VyL2VsZmxv
-YWQ6IFVzZSBFcnJvciBmb3IgbG9hZF9lbGZfaW1hZ2UKNjQ4ODg0OSBsaW51eC11c2VyL2VsZmxv
-YWQ6IE1vdmUgUFRfSU5URVJQIGRldGVjdGlvbiB0byBmaXJzdCBsb29wCmYxNDZjY2QgbGludXgt
-dXNlci9lbGZsb2FkOiBBZGp1c3QgaXRlcmF0aW9uIG92ZXIgcGhkcgo5NTMyN2VkIGxpbnV4LXVz
-ZXIvZWxmbG9hZDogRml4IGNvZGluZyBzdHlsZSBpbiBsb2FkX2VsZl9pbWFnZQplN2NhZTI4IGxp
-bnV4LXVzZXIvZWxmbG9hZDogQXZvaWQgbGVha2luZyBpbnRlcnBfbmFtZSB1c2luZyBHTGliIG1l
-bW9yeSBBUEkKM2IyMDQyYyBpbmNsdWRlL2VsZjogQWRkIGRlZmluZXMgcmVsYXRlZCB0byBHTlUg
-cHJvcGVydHkgbm90ZXMgZm9yIEFBcmNoNjQKNzcyNzhjYiBsaW51eC11c2VyOiBTZXQgUEFHRV9U
-QVJHRVRfMSBmb3IgVEFSR0VUX1BST1RfQlRJCjM2NjEwOWEgbGludXgtdXNlci9hYXJjaDY0OiBS
-ZXNldCBidHlwZSBmb3Igc2lnbmFscwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xMiBDaGVja2lu
-ZyBjb21taXQgMzY2MTA5YTQ0NTU3IChsaW51eC11c2VyL2FhcmNoNjQ6IFJlc2V0IGJ0eXBlIGZv
-ciBzaWduYWxzKQoyLzEyIENoZWNraW5nIGNvbW1pdCA3NzI3OGNiOTEzMTUgKGxpbnV4LXVzZXI6
-IFNldCBQQUdFX1RBUkdFVF8xIGZvciBUQVJHRVRfUFJPVF9CVEkpCjMvMTIgQ2hlY2tpbmcgY29t
-bWl0IDNiMjA0MmM3OGU2NiAoaW5jbHVkZS9lbGY6IEFkZCBkZWZpbmVzIHJlbGF0ZWQgdG8gR05V
-IHByb3BlcnR5IG5vdGVzIGZvciBBQXJjaDY0KQo0LzEyIENoZWNraW5nIGNvbW1pdCBlN2NhZTI4
-M2Y2NTAgKGxpbnV4LXVzZXIvZWxmbG9hZDogQXZvaWQgbGVha2luZyBpbnRlcnBfbmFtZSB1c2lu
-ZyBHTGliIG1lbW9yeSBBUEkpCjUvMTIgQ2hlY2tpbmcgY29tbWl0IDk1MzI3ZWQzMjgwZSAobGlu
-dXgtdXNlci9lbGZsb2FkOiBGaXggY29kaW5nIHN0eWxlIGluIGxvYWRfZWxmX2ltYWdlKQo2LzEy
-IENoZWNraW5nIGNvbW1pdCBmMTQ2Y2NkNTU2ZjQgKGxpbnV4LXVzZXIvZWxmbG9hZDogQWRqdXN0
-IGl0ZXJhdGlvbiBvdmVyIHBoZHIpCjcvMTIgQ2hlY2tpbmcgY29tbWl0IDY0ODg4NDkwOTk5ZiAo
-bGludXgtdXNlci9lbGZsb2FkOiBNb3ZlIFBUX0lOVEVSUCBkZXRlY3Rpb24gdG8gZmlyc3QgbG9v
-cCkKOC8xMiBDaGVja2luZyBjb21taXQgODg5MjI3ZDY3Y2FhIChsaW51eC11c2VyL2VsZmxvYWQ6
-IFVzZSBFcnJvciBmb3IgbG9hZF9lbGZfaW1hZ2UpCjkvMTIgQ2hlY2tpbmcgY29tbWl0IDU2ODU0
-NDZhYTdhZCAobGludXgtdXNlci9lbGZsb2FkOiBVc2UgRXJyb3IgZm9yIGxvYWRfZWxmX2ludGVy
-cCkKMTAvMTIgQ2hlY2tpbmcgY29tbWl0IDcwYmZjN2RjNzk5MCAobGludXgtdXNlci9lbGZsb2Fk
-OiBQYXJzZSBOVF9HTlVfUFJPUEVSVFlfVFlQRV8wIG5vdGVzKQoxMS8xMiBDaGVja2luZyBjb21t
-aXQgZjE4ZDg3ZTUyOWJjIChsaW51eC11c2VyL2VsZmxvYWQ6IFBhcnNlIEdOVV9QUk9QRVJUWV9B
-QVJDSDY0X0ZFQVRVUkVfMV9BTkQpCjEyLzEyIENoZWNraW5nIGNvbW1pdCBhMjkwOTRiNDYyZDgg
-KHRlc3RzL3RjZy9hYXJjaDY0OiBBZGQgYnRpIHNtb2tlIHRlc3RzKQpXQVJOSU5HOiBhZGRlZCwg
-bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
-CiMzNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogdXNlIHFlbXVfcmVhbF9ob3N0X3Bh
-Z2Vfc2l6ZSBpbnN0ZWFkIG9mIGdldHBhZ2VzaXplKCkKIzE5ODogRklMRTogdGVzdHMvdGNnL2Fh
-cmNoNjQvYnRpLTIuYzo4OToKKyAgICB2b2lkICpwID0gbW1hcCgwLCBnZXRwYWdlc2l6ZSgpLAoK
-RVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzI0NDogRklMRTog
-dGVzdHMvdGNnL2FhcmNoNjQvYnRpLWNydC5pbmMuYzoxMzoKK2ludCBtYWluKHZvaWQpOwoKdG90
-YWw6IDIgZXJyb3JzLCAxIHdhcm5pbmdzLCAyNTUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTIvMTIg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21t
-YW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAxMDIxMTczNzQ5LjExMTEwMy0xLXJpY2hhcmQuaGVu
-ZGVyc29uQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpF
-bWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcu
-b3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQu
-Y29t
+On Wed, Oct 21, 2020 at 06:42:19PM +0100, Dr. David Alan Gilbert wrote:
+> * Peter Xu (peterx@redhat.com) wrote:
+> > On Wed, Oct 21, 2020 at 03:23:45PM +0100, Dr. David Alan Gilbert wrote:
+> > > > @@ -354,8 +368,33 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+> > > >  }
+> > > >  
+> > > >  int migrate_send_rp_req_pages(MigrationIncomingState *mis,
+> > > > -                              RAMBlock *rb, ram_addr_t start)
+> > > > +                              RAMBlock *rb, ram_addr_t start, uint64_t haddr)
+> > > >  {
+> > > > +    void *aligned = (void *)(uintptr_t)(haddr & qemu_real_host_page_mask);
+> > > 
+> > > Can you remind me, what happens here for hugepages?
+> > 
+> > Sure.  Previously it was:
+> > 
+> >   (haddr & (-qemu_target_page_size())
+> > 
+> > Now it is:
+> > 
+> >   (haddr & qemu_real_host_page_mask)
+> > 
+> > Basically we changed the psize alignment from guest to host.
+> > 
+> > The bug triggered previously on ppc64 where host_psize=64k, then when guest
+> > psize is smaller, e.g., 4k, we can have some addr that aligned to 4k rather
+> > than 64k, so we failed later on checking the host psize alignment (because this
+> > pointer should point to a host page, so it should align with host psize).
+> 
+> But my question is what happens when we have say a 2MB hugepage?
+
+Oops, I definitely misread.
+
+Good point, I think it can break hugepages.  So the mask should really be
+"(qemu_ram_pagesize(rb) - 1)".
+
+I'll fix and smoke it with some huge pages before another repost.
+
+Thanks!
+
+-- 
+Peter Xu
+
 
