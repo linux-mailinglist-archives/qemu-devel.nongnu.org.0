@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CE1294A90
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 11:31:39 +0200 (CEST)
-Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10F2294A9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 11:34:30 +0200 (CEST)
+Received: from localhost ([::1]:36670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVAT4-0001R3-5h
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 05:31:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60054)
+	id 1kVAVp-0003O3-Vg
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 05:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1kVARv-0000ef-Bj
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 05:30:27 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5713 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kVAV8-0002u1-5K
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 05:33:46 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:44158 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1kVARs-000565-An
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 05:30:27 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 9267EDCBFFAFB47D868B;
- Wed, 21 Oct 2020 17:30:16 +0800 (CST)
-Received: from [10.174.185.179] (10.174.185.179) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 21 Oct 2020 17:30:06 +0800
-Subject: Re: [PATCH v26 03/17] vfio: Add save and load functions for VFIO PCI
- devices
-To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
- <kwankhede@nvidia.com>
-References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
- <1600817059-26721-4-git-send-email-kwankhede@nvidia.com>
- <20200924164905.1a2f1384@x1.home>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <c37eebe4-45d1-ea55-0540-3a2aecea442b@huawei.com>
-Date: Wed, 21 Oct 2020 17:30:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kVAV4-0006KR-Hl
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 05:33:45 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 9B0277745AB07B8E9066;
+ Wed, 21 Oct 2020 17:33:34 +0800 (CST)
+Received: from [10.174.186.51] (10.174.186.51) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 21 Oct 2020 17:33:28 +0800
+Subject: Re: [PATCH v3 00/18] Support Multifd for RDMA migration
+To: Zhanghailiang <zhang.zhanghailiang@huawei.com>, "quintela@redhat.com"
+ <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>
+References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
+ <2ea09ca2cc8c494390b506877f6e5e2c@huawei.com>
+From: Zheng Chuan <zhengchuan@huawei.com>
+Message-ID: <d9a87b5a-f524-fd79-6e11-f95430a4c29f@huawei.com>
+Date: Wed, 21 Oct 2020 17:33:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200924164905.1a2f1384@x1.home>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <2ea09ca2cc8c494390b506877f6e5e2c@huawei.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.179]
+X-Originating-IP: [10.174.186.51]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=yuzenghui@huawei.com;
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhengchuan@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 03:34:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 05:33:35
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -66,50 +64,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, wanghaibin.wang@huawei.com, Ken.Xue@amd.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- changpeng.liu@intel.com, quintela@redhat.com, lushenming@huawei.com,
- zhi.a.wang@intel.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
+Cc: "Chenzhendong \(alex\)" <alex.chen@huawei.com>,
+ yubihong <yubihong@huawei.com>, "wanghao \(O\)" <wanghao232@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Xiexiangyou <xiexiangyou@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/9/25 6:49, Alex Williamson wrote:
->> +    } else if (interrupt_type == VFIO_INT_MSIX) {
->> +        uint16_t offset;
->> +
->> +        msix_load(pdev, f);
->> +        offset = pci_default_read_config(pdev,
->> +                                       pdev->msix_cap + PCI_MSIX_FLAGS + 1, 2);
->> +        /* load enable bit and maskall bit */
->> +        vfio_pci_write_config(pdev, pdev->msix_cap + PCI_MSIX_FLAGS + 1,
->> +                              offset, 2);
 
-It isn't clear that what purpose this load operation serves.  The config
-space has already been restored and we'll see that MSI-X _was_ and _is_
-enabled (or disabled).  vfio_msix_enable() will therefore not be invoked
-and no vectors would actually be enabled...  Not sure if I had missed
-something.
 
->> +    }
->> +    return 0;
+On 2020/10/21 17:25, Zhanghailiang wrote:
+> Hi zhengchuan,
 > 
-> It seems this could be simplified down to:
+>> -----Original Message-----
+>> From: zhengchuan
+>> Sent: Saturday, October 17, 2020 12:26 PM
+>> To: quintela@redhat.com; dgilbert@redhat.com
+>> Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>; Chenzhendong (alex)
+>> <alex.chen@huawei.com>; Xiexiangyou <xiexiangyou@huawei.com>; wanghao
+>> (O) <wanghao232@huawei.com>; yubihong <yubihong@huawei.com>;
+>> fengzhimin1@huawei.com; qemu-devel@nongnu.org
+>> Subject: [PATCH v3 00/18] Support Multifd for RDMA migration
+>>
+>> Now I continue to support multifd for RDMA migration based on my colleague
+>> zhiming's work:)
+>>
+>> The previous RFC patches is listed below:
+>> v1:
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg669455.html
+>> v2:
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg679188.html
+>>
+>> As descried in previous RFC, the RDMA bandwidth is not fully utilized for over
+>> 25Gigabit NIC because of single channel for RDMA migration.
+>> This patch series is going to support multifd for RDMA migration based on multifd
+>> framework.
+>>
+>> Comparsion is between origion and multifd RDMA migration is re-tested for v3.
+>> The VM specifications for migration are as follows:
+>> - VM use 4k page;
+>> - the number of VCPU is 4;
+>> - the total memory is 16Gigabit;
+>> - use 'mempress' tool to pressurize VM(mempress 8000 500);
+>> - use 25Gigabit network card to migrate;
+>>
+>> For origin RDMA and MultiRDMA migration, the total migration times of VM are
+>> as follows:
+>> +++++++++++++++++++++++++++++++++++++++++++++++++
+>> |             | NOT rdma-pin-all | rdma-pin-all |
+>> +++++++++++++++++++++++++++++++++++++++++++++++++
+>> | origin RDMA |       26 s       |     29 s     |
+>> -------------------------------------------------
+>> |  MultiRDMA  |       16 s       |     17 s     |
+>> +++++++++++++++++++++++++++++++++++++++++++++++++
+>>
+>> Test the multifd RDMA migration like this:
+>> virsh migrate --live --multiFd --migrateuri
 > 
-> if (msi_enabled(pdev)) {
->      vfio_msi_enable(vdev);
-> } else if (msix_enabled(pdev)) {
->      msix_load(pdev, f);
->      vfio_msix_enable(vdev);
-> }
+> There is no option '--multiFd' for virsh commands, It seems that, we added this private option for internal usage.
+> It's better to provide testing method by using qemu commands.
+> 
+> 
+Hi, Hailiang
+Yes, it should be, will update in V4.
 
-And it seems that this has fixed something :-)
+Also, Ping.
 
+Dave, Juan.
 
-Thanks,
-Zenghui
+Any suggestion and comment about this series? Hope this feature could catch up with qemu 5.2.
+
+> Thanks.
+> 
+>> rdma://192.168.1.100 [VM] --listen-address 0.0.0.0
+>> qemu+tcp://192.168.1.100/system --verbose
+>>
+>> v2 -> v3:
+>>     create multifd ops for both tcp and rdma
+>>     do not export rdma to avoid multifd code in mess
+>>     fix build issue for non-rdma
+>>     fix some codestyle and buggy code
+>>
+>> Chuan Zheng (18):
+>>   migration/rdma: add the 'migrate_use_rdma_pin_all' function
+>>   migration/rdma: judge whether or not the RDMA is used for migration
+>>   migration/rdma: create multifd_setup_ops for Tx/Rx thread
+>>   migration/rdma: add multifd_setup_ops for rdma
+>>   migration/rdma: do not need sync main for rdma
+>>   migration/rdma: export MultiFDSendParams/MultiFDRecvParams
+>>   migration/rdma: add rdma field into multifd send/recv param
+>>   migration/rdma: export getQIOChannel to get QIOchannel in rdma
+>>   migration/rdma: add multifd_rdma_load_setup() to setup multifd rdma
+>>   migration/rdma: Create the multifd recv channels for RDMA
+>>   migration/rdma: record host_port for multifd RDMA
+>>   migration/rdma: Create the multifd send channels for RDMA
+>>   migration/rdma: Add the function for dynamic page registration
+>>   migration/rdma: register memory for multifd RDMA channels
+>>   migration/rdma: only register the memory for multifd channels
+>>   migration/rdma: add rdma_channel into Migrationstate field
+>>   migration/rdma: send data for both rdma-pin-all and NOT rdma-pin-all
+>>     mode
+>>   migration/rdma: RDMA cleanup for multifd migration
+>>
+>>  migration/migration.c |  24 +++
+>>  migration/migration.h |  11 ++
+>>  migration/multifd.c   |  97 +++++++++-
+>>  migration/multifd.h   |  24 +++
+>>  migration/qemu-file.c |   5 +
+>>  migration/qemu-file.h |   1 +
+>>  migration/rdma.c      | 503
+>> +++++++++++++++++++++++++++++++++++++++++++++++++-
+>>  7 files changed, 653 insertions(+), 12 deletions(-)
+>>
+>> --
+>> 1.8.3.1
+> 
+> .
+> 
+
+-- 
+Regards.
+Chuan
 
