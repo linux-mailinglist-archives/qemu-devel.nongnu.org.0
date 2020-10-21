@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC78F294F9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:12:10 +0200 (CEST)
-Received: from localhost ([::1]:48056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A01C9294FAF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:14:50 +0200 (CEST)
+Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVFmb-0003e1-Su
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58642)
+	id 1kVFpB-0006dh-O5
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kVFaR-0006E2-Bg; Wed, 21 Oct 2020 10:59:35 -0400
-Received: from mail-db8eur05on2117.outbound.protection.outlook.com
- ([40.107.20.117]:60672 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1kVFaT-0006KC-HJ; Wed, 21 Oct 2020 10:59:37 -0400
+Received: from mail-eopbgr70109.outbound.protection.outlook.com
+ ([40.107.7.109]:36743 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kVFaO-00086M-Lh; Wed, 21 Oct 2020 10:59:34 -0400
+ id 1kVFaP-00085a-Vz; Wed, 21 Oct 2020 10:59:37 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=npqAiHkuEH85VpFIJMV+9n13eHLMVFoMEpiCQsowvOzOZod0pmW4VrWK8sEsIZH1hvX1mWY1vCUNX1Ze9FUretQYhyjDQNHWTS4ZEPW4j/H/ff1hFPXnU6MhTPwW9qdP8EWTSZa2S9J221ol3gsbsB3QPZNl2jw3HOOB1DNxgzEjEaBxLyIQX7KCtOi9eOJwuavWjFB6IjiGaGI1Ha+7biW1QXDU9oBo7DTXF8ab2izwY8PHQ7lpdggglYFXhZlOFl6MWidBd0DqXW80WoCVcPq4W7E3U4hC1T0R18IM+ykn/xwdtglMIYuzXYDkigl/MPEMkFYPR8tOitMDJ+tbEQ==
+ b=FH1Ah0DQgkY54V8axLt46CzxrHJzNtmKlurp/csRr7n4fl3eZhG60GfEVMQJPilAlCY7wI4gXPfa68lRSRQBhHZ51w5KfoCKgtc7Po2kNBSOkCmL/RDE0AgC/OO5qDn3xQWhSh6quhiMJHYiID07CvZDwMxdGpDEloeiBr9ZDP7G7MixZZOJNjbU9qhCPawWNRyzg4QEh2AH7J+nXz5n08bXpjTBuHN/0Xlf13r9z6K3B/YligqX4NkJkAkt/qOQrytMzsUR3EqFm9tGkVjBIdOaJ2BAzyxK1RCHCOAuNiGTwgLTLXnNdJe6ucwPtZZWlPfdqJLSOnTBNwWolDRZWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Rw2wlyYIzYr8C8keOmOJrvsrrg+g73sKNyB+liX08M=;
- b=K20AKxFtRmHPcbh3bg/yuywj5cf/L/VADI6WfCbbX2gkfITSuxzIdVsW99YIeq87FrDyoZLVBff7Dc9fvIOyxBHkJVkp1MCnhb8p6H8xrO7cliuWNQ9zYeQAnsUB9s43nl2uW8QBA9rWBKiZ33+oKoKj0z3iXi6PmXnBr+vCSnynugppF/gLZw3yBQgnWuzVaMz1qgOF3iuAQkuUpDdXzWd27aTB28vHARYicIMHOFC+uUJcPaL/J5JVEynRLgR1LTnunIU8gllarrR6ikAZnytpKwWIzhCI0sH90vg8gXYDZa0wSSpM20pTXHudHkkQ3icMw0L2yhGvjSpAauJ07w==
+ bh=oR0ONDRoF+5EK3YWXkG8xZVzxx8Bn9qVxrPG41lbUIo=;
+ b=SdygHUUlfgwzzM0GTGs18IGcG8d96sRuGjQTRp973dnUGMBFv4ffGFHbhJYbWwQ0Lp9naTlWUZsLxuwanm93pXsY9sssIkDgMfG3Sajd0FF+/w3cl8j9XYju2++XoooFyZbPiz+fgENf6eWzFZ0zQU5dmNnwJxZ/EHs53bYkKtPHEDDYhOaw5gmkHHmyf3KqU9KMY9COPf3wS4iS6RHJIkYV0yzQa621epdY9BB7ASWY7BakOIIhYScfl8ErwwSM35vUrDju+A+Ehf/kuFVSzolpvJWXrQ+9k1maervT/okBNY6RIEjwqu2gKj8zmg5HiNocLhIPomfJUB+jSu/w6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Rw2wlyYIzYr8C8keOmOJrvsrrg+g73sKNyB+liX08M=;
- b=s+PmGkklaeBuakxmynu9HgyvTy4Yf7WQhse65vM0q6JA8/47V08WxRgAwHbeP9X2IA5iU0qYvBK3stV1iYw2pF2r8J45PwWzttss26k8p+9B3q4C3ViJ+ZpWokjshAKDwTfMnFixZtcVwWCsAYdR2fKXzP9qCdeKJeqtx1ARZOs=
+ bh=oR0ONDRoF+5EK3YWXkG8xZVzxx8Bn9qVxrPG41lbUIo=;
+ b=Rz/VEsZ3gC+IA2UbqHXDYsD1q+M5dq7R/IwIGEcm3kOVvt8bXkzD02CZDtTqgJ3nfe7iGQtR+6AurQQRFico77KLFBezt1IOll1z49ivmT9h+LEEDcfju4rj+n9iRJJBd817hGf/pYbssxuDabJseZMtw3OWLa/8KC3zDHhi8RY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4472.eurprd08.prod.outlook.com (2603:10a6:20b:bf::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Wed, 21 Oct
- 2020 14:59:21 +0000
+ 2020 14:59:22 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.018; Wed, 21 Oct 2020
- 14:59:21 +0000
+ 14:59:22 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, eblake@redhat.com,
  armbru@redhat.com, fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com,
  kwolf@redhat.com, den@virtuozzo.com
-Subject: [PATCH v7 10/21] iotests: qemu_io_silent: support --image-opts
-Date: Wed, 21 Oct 2020 17:58:48 +0300
-Message-Id: <20201021145859.11201-11-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 11/21] iotests.py: execute_setup_common(): add
+ required_fmts argument
+Date: Wed, 21 Oct 2020 17:58:49 +0300
+Message-Id: <20201021145859.11201-12-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20201021145859.11201-1-vsementsov@virtuozzo.com>
 References: <20201021145859.11201-1-vsementsov@virtuozzo.com>
@@ -66,44 +67,43 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.82) by
  AM0PR03CA0091.eurprd03.prod.outlook.com (2603:10a6:208:69::32) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Wed, 21 Oct 2020 14:59:20 +0000
+ 15.20.3499.18 via Frontend Transport; Wed, 21 Oct 2020 14:59:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e4a57862-af3e-48e9-3993-08d875d1e469
+X-MS-Office365-Filtering-Correlation-Id: eee0852b-3f37-4d21-af35-08d875d1e4dc
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4472:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4472F2516047D87512BC66AAC11C0@AM6PR08MB4472.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4472375540202A94023A2E22C11C0@AM6PR08MB4472.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WrnA/N/jUUFmVFjEPHzIrfFQwVARmUCYELE/TzgN2LVpfUuZid5M09fEYCgd8RjxrT1ohP3CaexxGxk2me2OFmOICg2L200asv8+2o2it7wvtbpQ2otznozJD3gMFNbxyfg2TyqRQ4vqNyqQpk77OJwkSkfA6OY3B9byqGXMf6dphyJ4/9s4QO7+AeMBMwblWY7YTkZEUltsCK6OH1XkcG/x44t5Y3qjNncIqglZrr0u6wWAysUa9/OR0rr26fkfbgemw2rJQQe3vCxCT2c+12A6E6PZ11KZ2/naBpN2Y7uoUc/CKoLKF9YW2fwCDtfDa2kvQbXMf8tIQbZVeh7u5g==
+X-Microsoft-Antispam-Message-Info: eaRd9JQqcVY9mCROnJ85r/yN/SkZMnMDpZqF/IGX3lFOtY5UKurTKeJ4x0x0sBZznFMZswCQ6+j7WKs6OH8j1xQ7ytQ7dwkhY7I9CXmIcK76Ez7797W1Znm4pZCeX5415B3rtxtzC87XsJxx7YWWkVYMzWJKwFYozktbI9Zn3f9oNKr7YQScyw9V0gf9LbjXR7CUIb5Ad8winX1+6E69Q/CiBNQ8neOHJt07EHKwFaDkV8ymA+Vtkx0wsF5NbK9lcGX3PHHwS0/GBg800RLKXfQ9ejVb+F7lFK9d00Epg0YwhxlqNBapyom4+NBi5THa3fi6A9lGtVCrUGoeXBKdWA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(366004)(136003)(346002)(39840400004)(66556008)(16526019)(66476007)(83380400001)(6512007)(26005)(478600001)(66946007)(186003)(6506007)(6916009)(86362001)(1076003)(6486002)(4744005)(8936002)(2906002)(5660300002)(52116002)(8676002)(2616005)(6666004)(316002)(956004)(107886003)(4326008)(36756003);
+ SFS:(4636009)(396003)(376002)(366004)(136003)(346002)(39840400004)(66556008)(16526019)(66476007)(83380400001)(6512007)(26005)(478600001)(66946007)(186003)(6506007)(6916009)(86362001)(1076003)(6486002)(8936002)(2906002)(5660300002)(52116002)(8676002)(2616005)(6666004)(316002)(956004)(107886003)(4326008)(36756003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: UsXcauNcIpnheQIuHoVNJicpO5U7zJjmURCWwmzMpp8GlLpeJCRm7vowsEIYbY4WfvbeYVMor7X6rBndahKo2pY7sBfp4JXf3wPRSkpYsiIR7tz7OrP9WaH/1l5GCNVtANflsdQOan2A16HXNRzcTStLPDoaSyeUDY6hmTjAMDVqfcJRaPY1f24+YPsOSiaKRtTIdsTQjyispFtJ+gxBgP55dJxXfBn6vzkAGNsvNT01FezPmQdIiHPobytVaAK6VHfdeaU4aSO3dQTGyiq1gAkavFym7QvLA95KIPu022m9FvGFwkAvQgZorpRtAqWhXiZTGsgXeSloRfw9ec5tIpcaez3Gn2KBCCOWCGSMb8Lx5AGhqalZZnJdmrxyHYLfLdN3mh4sfS3O6HmEz3c0BzygYjHlPGeftI7TR6KwLQE6um7KpDL770RQwRIJ1esmUX/Kw2icq7PvFhWWUgXOvERnijcTuRcNNWoHW5hVe5GRt3aH8GHwPvw6/7TTFfTlZe0pW/IQIVHAgQRvZismXs8rfdTz7QiV4ii4S2lSOm5UhYP7Zl8aD6aCSsRbSM4wDU8LLrlHIyhgCaqqLGuBac+wVUQ8j5Ir5Dqxhm3yTwXrL3Nf3xjlTMs92pki0ii0WXp9Mjhpf3EIUCY4pVWvJQ==
+X-MS-Exchange-AntiSpam-MessageData: fNaSr8K159Gujp6iOX2IXF5nbXqOvzbK8KydD+RvwMkRE0jIyfnvEcpJAJoYskLoHFvvZB/ACdqugJeKkHgjzv1FqVIZNbr4Zd3lik+f0d6bodmnorOR6OP6RtMmlmoNlzpztFuGD7l2YB+CMBIiutxXiXkXPtIHK2hb3ZrqUMiIM82d696li/H0YzcOFGgxghQKAy3SiVLz5HYxajA5CpCcS2Ha1LshrazqEl2N6tURLkFv0GUypiZf+8vNqZpXehWmyvM9FVTvS3Yp1wYbd5qtstoGk4ROcPGVBEyks7TjMniywczxUILl2hDGGcrmBzziwbtbHWAhy577nQn+RgKCoP3Q6YsdKeH7Ct/xXCDlEgjXhJyOWAy8Ea7IgSbX8B6T+XWsxqljFoj5Y/3loRreNSBw9G+3ufhr5pvJfpbb2IueNKeAjXYk2NTaulnuQXxUXkVDA8KAbPau/SOVKT2lGWhcn67UiJeHHcMPHXeefNn/dUxmDKSr4Pj8hf2GNeO7e+BpUTPzS4xWAIVUJB7Vm4skvm7eBaB/7vxVIKXBpyIqU5Q2YmSNDW06ymjDZ7jFhZplUFvDFfhQCxNNQvQMayQ4SKTnuTbUA8ulIndm1BE45Rag+GA1DynSmDx1ozgLW/gGdPvhF3RW/2zk/g==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4a57862-af3e-48e9-3993-08d875d1e469
+X-MS-Exchange-CrossTenant-Network-Message-Id: eee0852b-3f37-4d21-af35-08d875d1e4dc
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 14:59:21.4825 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 14:59:22.2661 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XeqKvNLZm6+xOpQsmIhQ/VQmIMnUMtX08LeXYFiTiIKRFZtpsVhhWyW9Z9MJXlxJdykWv235N3wK8209DYGCgvrKVowBIseJ8j+9xr2qvUU=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5RkgVJjlHNmCKvgZwNk9O9WsRILBvAV6QBlmGfllnIiNJD3nstkSCateo3RoagY+jEDC0SizVKS3ysZUbaC+FXSvCDLW1qUN2UCcqu9CXbE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4472
-Received-SPF: pass client-ip=40.107.20.117;
+Received-SPF: pass client-ip=40.107.7.109;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 10:59:20
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 10:59:15
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,30 +119,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a parameter to skip test if some needed additional formats are not
+supported (for example filter drivers).
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/iotests.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index f212cec446..0e3d1d0ba3 100644
+index 0e3d1d0ba3..274396b14e 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -205,7 +205,12 @@ def qemu_io_log(*args):
+@@ -1109,6 +1109,11 @@ def _verify_aio_mode(supported_aio_modes: Sequence[str] = ()) -> None:
+     if supported_aio_modes and (aiomode not in supported_aio_modes):
+         notrun('not suitable for this aio mode: %s' % aiomode)
  
- def qemu_io_silent(*args):
-     '''Run qemu-io and return the exit code, suppressing stdout'''
--    args = qemu_io_args + list(args)
-+    if '-f' in args or '--image-opts' in args:
-+        default_args = qemu_io_args_no_fmt
-+    else:
-+        default_args = qemu_io_args
++def _verify_formats(required_formats: Sequence[str] = ()) -> None:
++    usf_list = list(set(required_formats) - set(supported_formats()))
++    if usf_list:
++        notrun(f'formats {usf_list} are not whitelisted')
 +
-+    args = default_args + list(args)
-     exitcode = subprocess.call(args, stdout=open('/dev/null', 'w'))
-     if exitcode < 0:
-         sys.stderr.write('qemu-io received signal %i: %s\n' %
+ def supports_quorum():
+     return 'quorum' in qemu_img_pipe('--help')
+ 
+@@ -1266,7 +1271,8 @@ def execute_setup_common(supported_fmts: Sequence[str] = (),
+                          supported_aio_modes: Sequence[str] = (),
+                          unsupported_fmts: Sequence[str] = (),
+                          supported_protocols: Sequence[str] = (),
+-                         unsupported_protocols: Sequence[str] = ()) -> bool:
++                         unsupported_protocols: Sequence[str] = (),
++                         required_fmts: Sequence[str] = ()) -> bool:
+     """
+     Perform necessary setup for either script-style or unittest-style tests.
+ 
+@@ -1292,6 +1298,7 @@ def execute_setup_common(supported_fmts: Sequence[str] = (),
+     _verify_platform(supported=supported_platforms)
+     _verify_cache_mode(supported_cache_modes)
+     _verify_aio_mode(supported_aio_modes)
++    _verify_formats(required_fmts)
+ 
+     return debug
+ 
 -- 
 2.21.3
 
