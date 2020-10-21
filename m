@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605C1294FC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:19:24 +0200 (CEST)
-Received: from localhost ([::1]:40720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC78F294F9C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 17:12:10 +0200 (CEST)
+Received: from localhost ([::1]:48056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVFtb-0004HZ-Es
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58618)
+	id 1kVFmb-0003e1-Su
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 11:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kVFaP-00067Z-65; Wed, 21 Oct 2020 10:59:33 -0400
-Received: from mail-eopbgr70109.outbound.protection.outlook.com
- ([40.107.7.109]:36743 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1kVFaR-0006E2-Bg; Wed, 21 Oct 2020 10:59:35 -0400
+Received: from mail-db8eur05on2117.outbound.protection.outlook.com
+ ([40.107.20.117]:60672 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kVFaL-00085a-Or; Wed, 21 Oct 2020 10:59:32 -0400
+ id 1kVFaO-00086M-Lh; Wed, 21 Oct 2020 10:59:34 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KiKTGbuwSKknjjZUi2UkwvJRdMjiYMr1Rul5O1K3kWyjLJ7RyUW3+2ZhpNyjuo9Cuw1vzKNe8w4Iseo1U5qK3EuuaTGY3WFUJs6aOqrs1P+jsIvUKlBJqQIxm3f7ZCMDoKcz9dDfcAw3v6xBa1ky0FbR8xjo1tPGWebkhHrZ78UF3QhFyPp3wI+TKgCRcGznM5ETqllA41NJzGxcpRlXHxLLaLHbbDc34o7JjeTNxpqk/j0rILEb8k+4WZRHJVM9y67/cFdURgJBdHqevRjL6NflKw9fyBkL7cT3NQZHpJhSHPyr/PRV+calwC/MUe7mtI4J3ycMhLg4XSr+CRaeIA==
+ b=npqAiHkuEH85VpFIJMV+9n13eHLMVFoMEpiCQsowvOzOZod0pmW4VrWK8sEsIZH1hvX1mWY1vCUNX1Ze9FUretQYhyjDQNHWTS4ZEPW4j/H/ff1hFPXnU6MhTPwW9qdP8EWTSZa2S9J221ol3gsbsB3QPZNl2jw3HOOB1DNxgzEjEaBxLyIQX7KCtOi9eOJwuavWjFB6IjiGaGI1Ha+7biW1QXDU9oBo7DTXF8ab2izwY8PHQ7lpdggglYFXhZlOFl6MWidBd0DqXW80WoCVcPq4W7E3U4hC1T0R18IM+ykn/xwdtglMIYuzXYDkigl/MPEMkFYPR8tOitMDJ+tbEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iCsMwp8on7gc4u06kqzDbEnADVRaXIT9MVKHZXcDDWI=;
- b=LQnPO4VhydCPBmHtdPFADLnJDVQccToA/3dFvY+ZI2Nm4u6OKPpriW0Ufqf6qw/hTrRbsHY8uxlgMnTRYQETGfq9fp75JY2+gPhrK53nKmNMuRqabmbSVo78+r6Berk6W4eP2fD0t1vH1fNQpmwHNkAht/Pny4n7QIVH0gSgR/1dCRaohJQ3Uyg7xaCSGiwCc/LVQG+HK+WNPTFVTp/VTX+dlZQK53weaWoBDd6UZMcNCYd0voA/hNAGkGqKHPO6CPc/rD90iaNMC1S0ADc/5/pTZPAJLQ4NsjspyJ5ly2KmGtOhrnjJNabV0VRQfwt42KJvh0gKmLDEywZ/aQZ9xg==
+ bh=6Rw2wlyYIzYr8C8keOmOJrvsrrg+g73sKNyB+liX08M=;
+ b=K20AKxFtRmHPcbh3bg/yuywj5cf/L/VADI6WfCbbX2gkfITSuxzIdVsW99YIeq87FrDyoZLVBff7Dc9fvIOyxBHkJVkp1MCnhb8p6H8xrO7cliuWNQ9zYeQAnsUB9s43nl2uW8QBA9rWBKiZ33+oKoKj0z3iXi6PmXnBr+vCSnynugppF/gLZw3yBQgnWuzVaMz1qgOF3iuAQkuUpDdXzWd27aTB28vHARYicIMHOFC+uUJcPaL/J5JVEynRLgR1LTnunIU8gllarrR6ikAZnytpKwWIzhCI0sH90vg8gXYDZa0wSSpM20pTXHudHkkQ3icMw0L2yhGvjSpAauJ07w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iCsMwp8on7gc4u06kqzDbEnADVRaXIT9MVKHZXcDDWI=;
- b=F8Yq/jr/q1/Wa9JF+B59sz4tkem1jPNh/6Hg9tW/as9Uwlk2DpKFb8RXI62rH2YaJ+wBOyEWPdHFWhBn1ut+rQ9K5K4MZ9oQK7ynGjb549o/YlNhKWoTavKJuF5v1QW8EQCH1utmDu71ZT0880AK+2utdivmGf2BapWUBXqzKFg=
+ bh=6Rw2wlyYIzYr8C8keOmOJrvsrrg+g73sKNyB+liX08M=;
+ b=s+PmGkklaeBuakxmynu9HgyvTy4Yf7WQhse65vM0q6JA8/47V08WxRgAwHbeP9X2IA5iU0qYvBK3stV1iYw2pF2r8J45PwWzttss26k8p+9B3q4C3ViJ+ZpWokjshAKDwTfMnFixZtcVwWCsAYdR2fKXzP9qCdeKJeqtx1ARZOs=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4472.eurprd08.prod.outlook.com (2603:10a6:20b:bf::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Wed, 21 Oct
- 2020 14:59:20 +0000
+ 2020 14:59:21 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.018; Wed, 21 Oct 2020
- 14:59:20 +0000
+ 14:59:21 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, eblake@redhat.com,
  armbru@redhat.com, fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com,
  kwolf@redhat.com, den@virtuozzo.com
-Subject: [PATCH v7 09/21] qemu-io: add preallocate mode parameter for truncate
- command
-Date: Wed, 21 Oct 2020 17:58:47 +0300
-Message-Id: <20201021145859.11201-10-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 10/21] iotests: qemu_io_silent: support --image-opts
+Date: Wed, 21 Oct 2020 17:58:48 +0300
+Message-Id: <20201021145859.11201-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20201021145859.11201-1-vsementsov@virtuozzo.com>
 References: <20201021145859.11201-1-vsementsov@virtuozzo.com>
@@ -69,41 +68,42 @@ Received: from kvm.sw.ru (185.215.60.82) by
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.3499.18 via Frontend Transport; Wed, 21 Oct 2020 14:59:20 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 63ffadfa-f7f1-4006-6f41-08d875d1e3eb
+X-MS-Office365-Filtering-Correlation-Id: e4a57862-af3e-48e9-3993-08d875d1e469
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4472:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4472947AFFE2A32B1FECD50AC11C0@AM6PR08MB4472.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4472F2516047D87512BC66AAC11C0@AM6PR08MB4472.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PoLVBgDrjX+I7+fj4JS7rX1z5uJ60Rtfn4lHlnELnSsnqs/XJIrT4w6fj96jBRoUANVOwgCND4DsbOyPPxhuQ3P4ET29/3/GoBBjKqZ+GhBA4FNdHLPkD77ejLKQ4jaAXw6waF8H/VTxmd2ExBNSO0E48C8JK+nixIoFUx31GaXBruJV7vc2gcjE56kSjUlkv8h3g5MhVzDCJWw+nu2krggZ4RooYDiuVIpza+xw9dXTWO3wFLzhceoALAveoswy6T2X+CzTJdC+A9gb8JDAJJfHx7OPwW1Yl4hfyaKXCviRLwvNatMj8u6xUgQczLIHk/IspaNWk2be0d41H+RKGA==
+X-Microsoft-Antispam-Message-Info: WrnA/N/jUUFmVFjEPHzIrfFQwVARmUCYELE/TzgN2LVpfUuZid5M09fEYCgd8RjxrT1ohP3CaexxGxk2me2OFmOICg2L200asv8+2o2it7wvtbpQ2otznozJD3gMFNbxyfg2TyqRQ4vqNyqQpk77OJwkSkfA6OY3B9byqGXMf6dphyJ4/9s4QO7+AeMBMwblWY7YTkZEUltsCK6OH1XkcG/x44t5Y3qjNncIqglZrr0u6wWAysUa9/OR0rr26fkfbgemw2rJQQe3vCxCT2c+12A6E6PZ11KZ2/naBpN2Y7uoUc/CKoLKF9YW2fwCDtfDa2kvQbXMf8tIQbZVeh7u5g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(366004)(136003)(346002)(39840400004)(66556008)(16526019)(66476007)(83380400001)(6512007)(26005)(478600001)(66946007)(186003)(6506007)(6916009)(86362001)(1076003)(6486002)(8936002)(2906002)(5660300002)(52116002)(8676002)(2616005)(6666004)(316002)(956004)(107886003)(4326008)(36756003);
+ SFS:(4636009)(396003)(376002)(366004)(136003)(346002)(39840400004)(66556008)(16526019)(66476007)(83380400001)(6512007)(26005)(478600001)(66946007)(186003)(6506007)(6916009)(86362001)(1076003)(6486002)(4744005)(8936002)(2906002)(5660300002)(52116002)(8676002)(2616005)(6666004)(316002)(956004)(107886003)(4326008)(36756003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 9cUe9dtkZHLfliJnfkaK4b+3RN2Q9z50AtudxyElveYyHMJuTiLq2P9j8A5hXNrz2KnJguRDJWXvlSXXrtclZrxgT5JoyiiQXk7yYKXZfsdbvmwdDM8PPLxEC7H3kkfCzN/8uEOolx9YVmXStS6umKOLZ3mW7yHQ+jKoEHvEk0rlpOpUnGRNb/e8FlD7pswcjhTCi1xZojruL7TXHn7kxcImXxyXqPpVVF06ObWsaLXNa0tzgBztIBoUZSsvTtD59Wj5OWKt9ntWDIGyobsEPnVD+pi7oF0JJ0JZ6Equ350tNmRELgosN/SUFTWbAvupdkdvhT1wEUV7+BXselHg7F4wBeMTJmA0lIiA4cm324HDcHMra5AkbnkMCwUKWF36vq27Bkc40/5F+WH06JFJxhJo9b28/WYdwneGYeYjFkYF0Jcl/GD6TsigX5NswpGin5NyvatD+nqZcop+k0KqSq0DWbtlU5ZmS0rTBLdhhwtOz0pOyQUvYlv2npZT9MTmisaAn1dyBHpgdMB1cJNHx8w5JAa3UEAhzSsSM7GM6VYQtXxwn/Mc37O4B7gwInegsgpSWBQrXDdcw+01jL8uPAA5SBDsebyduYOdE+zrM/OoOu/C+DQKkw1GKQ6VPNignnQFTiO97Fd5ugcd9aBBYQ==
+X-MS-Exchange-AntiSpam-MessageData: UsXcauNcIpnheQIuHoVNJicpO5U7zJjmURCWwmzMpp8GlLpeJCRm7vowsEIYbY4WfvbeYVMor7X6rBndahKo2pY7sBfp4JXf3wPRSkpYsiIR7tz7OrP9WaH/1l5GCNVtANflsdQOan2A16HXNRzcTStLPDoaSyeUDY6hmTjAMDVqfcJRaPY1f24+YPsOSiaKRtTIdsTQjyispFtJ+gxBgP55dJxXfBn6vzkAGNsvNT01FezPmQdIiHPobytVaAK6VHfdeaU4aSO3dQTGyiq1gAkavFym7QvLA95KIPu022m9FvGFwkAvQgZorpRtAqWhXiZTGsgXeSloRfw9ec5tIpcaez3Gn2KBCCOWCGSMb8Lx5AGhqalZZnJdmrxyHYLfLdN3mh4sfS3O6HmEz3c0BzygYjHlPGeftI7TR6KwLQE6um7KpDL770RQwRIJ1esmUX/Kw2icq7PvFhWWUgXOvERnijcTuRcNNWoHW5hVe5GRt3aH8GHwPvw6/7TTFfTlZe0pW/IQIVHAgQRvZismXs8rfdTz7QiV4ii4S2lSOm5UhYP7Zl8aD6aCSsRbSM4wDU8LLrlHIyhgCaqqLGuBac+wVUQ8j5Ir5Dqxhm3yTwXrL3Nf3xjlTMs92pki0ii0WXp9Mjhpf3EIUCY4pVWvJQ==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63ffadfa-f7f1-4006-6f41-08d875d1e3eb
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4a57862-af3e-48e9-3993-08d875d1e469
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 14:59:20.6751 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 14:59:21.4825 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DGhUmhLFFTHzle/amu3bH/B+uEY0x+ojOlxXR+H1kTRr0g3b/1k9hsWpVNQqHJNkEdbTD3JBVcvVNExFsP4TPvwe+soNSHbV7JkEjRbzLqE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: XeqKvNLZm6+xOpQsmIhQ/VQmIMnUMtX08LeXYFiTiIKRFZtpsVhhWyW9Z9MJXlxJdykWv235N3wK8209DYGCgvrKVowBIseJ8j+9xr2qvUU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4472
-Received-SPF: pass client-ip=40.107.7.109;
+Received-SPF: pass client-ip=40.107.20.117;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 10:59:15
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 10:59:20
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,90 +119,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be used in further test.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- qemu-io-cmds.c | 46 ++++++++++++++++++++++++++++++++--------------
- 1 file changed, 32 insertions(+), 14 deletions(-)
+ tests/qemu-iotests/iotests.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 4153f1c0b0..97611969cb 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -1698,13 +1698,42 @@ static const cmdinfo_t flush_cmd = {
-     .oneline    = "flush all in-core file state to disk",
- };
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index f212cec446..0e3d1d0ba3 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -205,7 +205,12 @@ def qemu_io_log(*args):
  
-+static int truncate_f(BlockBackend *blk, int argc, char **argv);
-+static const cmdinfo_t truncate_cmd = {
-+    .name       = "truncate",
-+    .altname    = "t",
-+    .cfunc      = truncate_f,
-+    .perm       = BLK_PERM_WRITE | BLK_PERM_RESIZE,
-+    .argmin     = 1,
-+    .argmax     = 3,
-+    .args       = "[-m prealloc_mode] off",
-+    .oneline    = "truncates the current file at the given offset",
-+};
+ def qemu_io_silent(*args):
+     '''Run qemu-io and return the exit code, suppressing stdout'''
+-    args = qemu_io_args + list(args)
++    if '-f' in args or '--image-opts' in args:
++        default_args = qemu_io_args_no_fmt
++    else:
++        default_args = qemu_io_args
 +
- static int truncate_f(BlockBackend *blk, int argc, char **argv)
- {
-     Error *local_err = NULL;
-     int64_t offset;
--    int ret;
-+    int c, ret;
-+    PreallocMode prealloc = PREALLOC_MODE_OFF;
- 
--    offset = cvtnum(argv[1]);
-+    while ((c = getopt(argc, argv, "m:")) != -1) {
-+        switch (c) {
-+        case 'm':
-+            prealloc = qapi_enum_parse(&PreallocMode_lookup, optarg,
-+                                       PREALLOC_MODE__MAX, NULL);
-+            if (prealloc == PREALLOC_MODE__MAX) {
-+                error_report("Invalid preallocation mode '%s'", optarg);
-+                return -EINVAL;
-+            }
-+            break;
-+        default:
-+            qemuio_command_usage(&truncate_cmd);
-+            return -EINVAL;
-+        }
-+    }
-+
-+    offset = cvtnum(argv[optind]);
-     if (offset < 0) {
-         print_cvtnum_err(offset, argv[1]);
-         return offset;
-@@ -1715,7 +1744,7 @@ static int truncate_f(BlockBackend *blk, int argc, char **argv)
-      * exact=true.  It is better to err on the "emit more errors" side
-      * than to be overly permissive.
-      */
--    ret = blk_truncate(blk, offset, false, PREALLOC_MODE_OFF, 0, &local_err);
-+    ret = blk_truncate(blk, offset, false, prealloc, 0, &local_err);
-     if (ret < 0) {
-         error_report_err(local_err);
-         return ret;
-@@ -1724,17 +1753,6 @@ static int truncate_f(BlockBackend *blk, int argc, char **argv)
-     return 0;
- }
- 
--static const cmdinfo_t truncate_cmd = {
--    .name       = "truncate",
--    .altname    = "t",
--    .cfunc      = truncate_f,
--    .perm       = BLK_PERM_WRITE | BLK_PERM_RESIZE,
--    .argmin     = 1,
--    .argmax     = 1,
--    .args       = "off",
--    .oneline    = "truncates the current file at the given offset",
--};
--
- static int length_f(BlockBackend *blk, int argc, char **argv)
- {
-     int64_t size;
++    args = default_args + list(args)
+     exitcode = subprocess.call(args, stdout=open('/dev/null', 'w'))
+     if exitcode < 0:
+         sys.stderr.write('qemu-io received signal %i: %s\n' %
 -- 
 2.21.3
 
