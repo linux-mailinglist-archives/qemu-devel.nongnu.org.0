@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5FA294B7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 12:52:20 +0200 (CEST)
-Received: from localhost ([::1]:53092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15FD3294B81
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 12:53:46 +0200 (CEST)
+Received: from localhost ([::1]:58306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVBj9-00069M-OE
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 06:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49356)
+	id 1kVBkX-0008Na-5J
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 06:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVBhh-0004u9-4k
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 06:50:49 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38903)
+ id 1kVBhk-0004ux-M1
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 06:50:53 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVBhd-0000bw-9y
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 06:50:48 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id n18so2530717wrs.5
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 03:50:44 -0700 (PDT)
+ id 1kVBhh-0000eu-Jq
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 06:50:50 -0400
+Received: by mail-wr1-x442.google.com with SMTP id j7so2479223wrt.9
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 03:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SenI/m4MVR8+NEEf8DYCWuc6xCFneoK33J1yat7CMnQ=;
- b=ShXjz51LTHeUnMo9Z93PYgblwftpUaBC/j4xroc7mvpmzWc2GAXbMBcCPni1SkOsMs
- 9KWoQ2TUawPOR9a/jQDWpuEk7h3dlgh6k4Ns2b5oO68YHu0464xnwY71MyQP+rMrtcXc
- ruQ3jsGIEeFPFxDiVPZXJb78/qv/5BXrkJCbd3Ac5wkCxFXAq+NSiv5sdjpEGLMIPnZA
- 611QuJz73yRGUvYznoKIL8KIqjPCYWiQNFU1nuqdE0ylSRsg9avsT+dYla056KKoMfy9
- menkbXbaSM/eSygNX8e1VwbTQjpCW+8qaJNi7T6KolXNwsA7vyLvPP/lZz0IA3HaRjvW
- 0cVQ==
+ bh=TrWltPVKZu3fU5m7eJ+qSkFoeHPVQwlD70De7kBRthI=;
+ b=Jxw3uhmzxtmX/xDddqhba3465aOVohWrpqzkJxfq5XIrMGrJ2rM6ZdGHy6jd+SViE+
+ kO5NYcQT2rIo/20h9eiSPsOI69HnqklJhSdK8KG0ueFHyo/a+eiBfDMTnBeoyDVnWzfI
+ DqmNdGyM2Aj16Rf5kYuBovHeuwNPtjzummX15RZDlsr3ndnXTr3HV+Q8pB7QHhTFvmVo
+ ijfGrPt628m71PlzceDW3OGixe0q1KP8jij/ojo/yu/OpJIgvOm2OL79MrLUx/3/Gub2
+ 0KSYwl/LPECeudDCErKqe2T0zDeEdPcHwKHMamCPWYTCKaVmNiH2/I19njtB25ST6N2o
+ pveg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SenI/m4MVR8+NEEf8DYCWuc6xCFneoK33J1yat7CMnQ=;
- b=jEnOJPML1/EK5pRvb7VpQ8NaeHziszzf73QcvVWYf8c4kcV6Nv/5YxaP2CQ+/CWiK0
- QQVCY5FMMnRurFIawYckm4/WKz9lbiSG85yhthLwYrsC6xcLHbz5/kjGa978sY21/Bcs
- wyo0/a93k82A2HKDZNblKK+LshxZtP7skZTC6CTBx6bA7dguWDq2iBcC+aiEfs9qs4oo
- SeJSBP9PYHcYMtWsduXjZQof5j4gRr36PzsMISRlloDNt7M5grgmCFqy/Yi/s1ah2+G9
- TyRyGvJadGwO6lrjUMcMZXmAXA9y6NTvxCLZSt1WAwVMxzXiiUobQNI7sMYH6aUZQJKB
- fjyw==
-X-Gm-Message-State: AOAM531j4r4xMejHowaIa7FhMcW2C1/Dt5LZqa1sTIBhhW7pLdXn6VJu
- GyFlztFHcUZpX4FOoqS/a4t47dzA/dA=
-X-Google-Smtp-Source: ABdhPJzQASHdZneSo8xHkPK+4PCMLsJ7tmRs70aOHofxRuo8HOc8WbWzB7eED4dEA/gGy3O6E6J6xA==
-X-Received: by 2002:adf:e685:: with SMTP id r5mr4302071wrm.340.1603277442931; 
- Wed, 21 Oct 2020 03:50:42 -0700 (PDT)
+ bh=TrWltPVKZu3fU5m7eJ+qSkFoeHPVQwlD70De7kBRthI=;
+ b=nV3F2fAmGyTDhzn7Q+8Tqtf8wnpaIpQjsvflMDm7fZ0cXBzrgazayCoMWEAH4dOHvH
+ dqfDTwas0TmAthw7TJPRVLP0wzQ3zzxWYE5lX03dH1FKKVU62qVBrG5GK9gpl5NnGM+s
+ 6dq4EmlA50mEgNNBy652sLLBQjigRn+kg0aDGABIcO9gqklyK2e6VZEqdSiDXeYUAgAF
+ UPMLT1hNZkPano9oB5QAeP9BHnvGvBkgqD9ZP4QM+rxTUemy+yyodQuCnOBL7mgZ7Y04
+ SnIyzFX+7dRLjYKHINOQX7YpJQCHYXZfbSwDXtqX4XWvWb+KJHczb7Y0TOfRE46NpUlN
+ 5/Kw==
+X-Gm-Message-State: AOAM531c7lqIPEG1lk/5A3c9IiCvhLTXH77Oab8IWapiU9R0IQ8KP0qF
+ Ur/tFra7RIM4Egd+AkL54Bx6SL2IpNw=
+X-Google-Smtp-Source: ABdhPJxZLPxY0g4osL9oBzgd18iCn7IwfEu0pBwR2z1+TpCiKBdhjKLPLs4Ac0GdiyJzni01fnRqcg==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr4008117wrm.295.1603277447789; 
+ Wed, 21 Oct 2020 03:50:47 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id u195sm2910068wmu.18.2020.10.21.03.50.41
+ by smtp.gmail.com with ESMTPSA id e12sm2798621wme.32.2020.10.21.03.50.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 03:50:42 -0700 (PDT)
+ Wed, 21 Oct 2020 03:50:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] tests/acceptance: Remove unused import
-Date: Wed, 21 Oct 2020 12:50:30 +0200
-Message-Id: <20201021105035.2477784-2-f4bug@amsat.org>
+Subject: [PATCH 2/6] tests/acceptance: Use .ppm extention for Portable PixMap
+ files
+Date: Wed, 21 Oct 2020 12:50:31 +0200
+Message-Id: <20201021105035.2477784-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201021105035.2477784-1-f4bug@amsat.org>
 References: <20201021105035.2477784-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -99,23 +100,45 @@ Cc: Huacai Chen <zltjiangshi@gmail.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The HMP 'screendump' command generates Portable PixMap files.
+Make it obvious by using the .ppm file extention.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/machine_m68k_nextcube.py | 1 -
- 1 file changed, 1 deletion(-)
+ tests/acceptance/machine_m68k_nextcube.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptance/machine_m68k_nextcube.py
-index 32cf571f948..9d289f2fab7 100644
+index 9d289f2fab7..2baba5fdc26 100644
 --- a/tests/acceptance/machine_m68k_nextcube.py
 +++ b/tests/acceptance/machine_m68k_nextcube.py
-@@ -9,7 +9,6 @@
- import re
- import time
- import logging
--import distutils.spawn
+@@ -69,7 +69,7 @@ def check_bootrom_framebuffer(self, screenshot_path):
  
- from avocado_qemu import Test
- from avocado import skipUnless
+     @skipUnless(PIL_AVAILABLE, 'Python PIL not installed')
+     def test_bootrom_framebuffer_size(self):
+-        screenshot_path = os.path.join(self.workdir, "dump.png")
++        screenshot_path = os.path.join(self.workdir, "dump.ppm")
+         self.check_bootrom_framebuffer(screenshot_path)
+ 
+         width, height = Image.open(screenshot_path).size
+@@ -78,7 +78,7 @@ def test_bootrom_framebuffer_size(self):
+ 
+     @skipUnless(tesseract_available(3), 'tesseract v3 OCR tool not available')
+     def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
+-        screenshot_path = os.path.join(self.workdir, "dump.png")
++        screenshot_path = os.path.join(self.workdir, "dump.ppm")
+         self.check_bootrom_framebuffer(screenshot_path)
+ 
+         console_logger = logging.getLogger('console')
+@@ -94,7 +94,7 @@ def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
+     # that it is still alpha-level software.
+     @skipUnless(tesseract_available(4), 'tesseract v4 OCR tool not available')
+     def test_bootrom_framebuffer_ocr_with_tesseract_v4(self):
+-        screenshot_path = os.path.join(self.workdir, "dump.png")
++        screenshot_path = os.path.join(self.workdir, "dump.ppm")
+         self.check_bootrom_framebuffer(screenshot_path)
+ 
+         console_logger = logging.getLogger('console')
 -- 
 2.26.2
 
