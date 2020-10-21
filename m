@@ -2,70 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE9D2A087B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:52:47 +0100 (CET)
-Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E44A2A0904
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:02:07 +0100 (CET)
+Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVlm-0001NY-Rg
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:52:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54416)
+	id 1kYVuo-0005Vc-3f
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYVga-0003vz-8C
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:47:24 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37204)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYVgX-0003YA-Q6
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:47:23 -0400
-Received: by mail-pg1-x541.google.com with SMTP id h6so5399194pgk.4
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:47:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=45FXYFF3j1vdIPopUUAd5Urhixk5oA2LuWDIjFKJxFA=;
- b=gWrTv2bVAHPgjBsPDbMwE1pCiCN+/VNVlwQOPqOLwgpTUb+0Bmd+ayOJUi/cDP/pum
- YSQ994WYvcz+2RHVZkypM4CHbQn02+vI5JJvrp7EjmSkXpVQtxgOSAKjT1hV/P9YxOJq
- igzbv5sm+zFAlc1J7G/gUFUxvTV+53u8Q1CA6ikEbvZM1SlVVLVKIXmDy5vlf/4WhGRd
- XM3JJx6SWItLhEngBPFiasd8psouMQfxz34xjzfu3h6K6gGqDPgz7mUsiK9fZYaeDvls
- cj5TzOgMrwyrQdfLXwoIWVE++b4N6VJK7MvcnxVN9F6qIO/wLx56UJxEgNtbfCwGGIe8
- Ip1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=45FXYFF3j1vdIPopUUAd5Urhixk5oA2LuWDIjFKJxFA=;
- b=Krzw1fU4aZp/TmxQ5Q/LtJoOU/Im496aNUQMPSwGGI9c430Ab6Exavnch5Rn8V2hO9
- gHDgCrMq1ruhG9DLokWGaqJQVaF5pGuQgN9hoJHFJ0KoDJPivFjMPrdxNEbDBBur4STs
- VLlE7iVjFgCq7kTXVH67kTEPnIRqUB290kv1Zft8U+8VYb8w7l0FQfq6yHNz1lkMB4Z2
- j6IAAhOEZp40RvoBIXYD8gvQClcF/z0kgun86x/n31b5F/YOy41wODRrdkL9xHcRCMoe
- /rEHlnvw+CbVmnE3kdxohkdVMbSc9SzVVYgTJ5AD65+Itgu6IHOlO26yOLG5q4upatQp
- VGog==
-X-Gm-Message-State: AOAM532RvczEj385gTeMq0SYvur8GyO+eomtu4muvWOxUt2aptYFDNry
- B1byI0fie5E+onaxIlnmVvK1i+kf6/znG5uoY6WJ4oBoVd4=
-X-Google-Smtp-Source: ABdhPJzCdz8KX796UaHfJeMeOGFGg7EYfcUlh6ARYfdVJuUuFsLQd35yjHOO8pTjl9epRtgjYZ8Udlce/5x8iXYO7Yw=
-X-Received: by 2002:a63:6d4e:: with SMTP id i75mr2539192pgc.305.1604069240523; 
- Fri, 30 Oct 2020 07:47:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201022164408.13214-1-peter.maydell@linaro.org>
-In-Reply-To: <20201022164408.13214-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Oct 2020 14:47:09 +0000
-Message-ID: <CAFEAcA9BZ=njKsnErZf9tgAmZXw4=rEiNLkPoPS-phbT2ptxmg@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Get correct MMU index for other-security-state
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <96b8ba44336e37f6fc641b36fdff0a960a3d0869@lizzy.crudebyte.com>)
+ id 1kYVff-0002Gl-2J
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:46:27 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:47715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <96b8ba44336e37f6fc641b36fdff0a960a3d0869@lizzy.crudebyte.com>)
+ id 1kYVfd-0003KY-Di
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:46:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=RRYV2V8efYiYdm3SDBKXqfdnY+J0tgfzztDfqmMM+x4=; b=NTGK8
+ 82nVFoYWs1KOI3aLrtkHrFwdHdw6wRykKKo+19S4D06gAdSfGipDuU/oc4ZwOEg1FDaaN37wDC/Fv
+ lITT9Bt58PH2Y9L7mgTFHXzbhkDPz/jlbaoHTkJ9YEJR3wAmCBZbHRP+1XvhA7DvPZQzqurBzyP+m
+ 8Hpun2Xye1vDYGViaioxUCgGxYZyAJ6dmZKu9g1eXqMtCZsw6GMHk5MvoA3r5fe+O0nBa7EQHawEN
+ Yi9AOVlQgEMnidsRrnm3obUJb8je30X9Wjt4ToPZACqQ6jY208UhDXru6mc9m/VAWIYwJqR+12mTh
+ 7JdG+2oFFXuXNXVwANjXujdyJUtYQ==;
+Message-Id: <96b8ba44336e37f6fc641b36fdff0a960a3d0869.1604067568.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1604067568.git.qemu_oss@crudebyte.com>
+References: <cover.1604067568.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Wed, 21 Oct 2020 14:36:23 +0200
+Subject: [PULL v2 14/16] tests/9pfs: add local Tunlinkat symlink test
+To: qemu-devel@nongnu.org,
+    Peter Maydell <peter.maydell@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=96b8ba44336e37f6fc641b36fdff0a960a3d0869@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 07:59:50
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: 13
+X-Spam_score: 1.3
+X-Spam_bar: +
+X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,49 +65,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping for code review, please ?
+This test case uses a Tunlinkat request to remove a symlink using
+the 9pfs 'local' fs driver.
 
-thanks
--- PMM
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <a23cd4d2ab6d8d3048addab8cbf0416fe5ead43e.1603285620.git.qemu_oss@crudebyte.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/virtio-9p-test.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-On Thu, 22 Oct 2020 at 17:44, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> In arm_v7m_mmu_idx_for_secstate() we get the 'priv' level to pass to
-> armv7m_mmu_idx_for_secstate_and_priv() by calling arm_current_el().
-> This is incorrect when the security state being queried is not the
-> current one, because arm_current_el() uses the current security state
-> to determine which of the banked CONTROL.nPRIV bits to look at.
-> The effect was that if (for instance) Secure state was in privileged
-> mode but Non-Secure was not then we would return the wrong MMU index.
->
-> The only places where we are using this function in a way that could
-> trigger this bug are for the stack loads during a v8M function-return
-> and for the instruction fetch of a v8M SG insn.
->
-> Fix the bug by expanding out the M-profile version of the
-> arm_current_el() logic inline so it can use the passed in secstate
-> rather than env->v7m.secure.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/m_helper.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-> index 036454234c7..aad01ea0127 100644
-> --- a/target/arm/m_helper.c
-> +++ b/target/arm/m_helper.c
-> @@ -2719,7 +2719,8 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate_and_priv(CPUARMState *env,
->  /* Return the MMU index for a v7M CPU in the specified security state */
->  ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
->  {
-> -    bool priv = arm_current_el(env) != 0;
-> +    bool priv = arm_v7m_is_handler_mode(env) ||
-> +        !(env->v7m.control[secstate] & 1);
->
->      return arm_v7m_mmu_idx_for_secstate_and_priv(env, secstate, priv);
->  }
-> --
-> 2.20.1
->
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 0c11417236..33cba24b18 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -1295,6 +1295,32 @@ static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_free(real_file);
+ }
+ 
++static void fs_unlinkat_symlink(void *obj, void *data,
++                                QGuestAllocator *t_alloc)
++{
++    QVirtio9P *v9p = obj;
++    alloc = t_alloc;
++    struct stat st;
++    char *real_file = virtio_9p_test_path("06/real_file");
++    char *symlink_file = virtio_9p_test_path("06/symlink_file");
++
++    do_attach(v9p);
++    do_mkdir(v9p, "/", "06");
++    do_lcreate(v9p, "06", "real_file");
++    g_assert(stat(real_file, &st) == 0);
++    g_assert((st.st_mode & S_IFMT) == S_IFREG);
++
++    do_symlink(v9p, "06", "symlink_file", "real_file");
++    g_assert(stat(symlink_file, &st) == 0);
++
++    do_unlinkat(v9p, "06", "symlink_file", 0);
++    /* symlink should be gone now */
++    g_assert(stat(symlink_file, &st) != 0);
++
++    g_free(symlink_file);
++    g_free(real_file);
++}
++
+ static void *assign_9p_local_driver(GString *cmd_line, void *arg)
+ {
+     virtio_9p_assign_local_driver(cmd_line, "security_model=mapped-xattr");
+@@ -1339,6 +1365,8 @@ static void register_virtio_9p_test(void)
+     qos_add_test("local/create_file", "virtio-9p", fs_create_file, &opts);
+     qos_add_test("local/unlinkat_file", "virtio-9p", fs_unlinkat_file, &opts);
+     qos_add_test("local/symlink_file", "virtio-9p", fs_symlink_file, &opts);
++    qos_add_test("local/unlinkat_symlink", "virtio-9p", fs_unlinkat_symlink,
++                 &opts);
+ }
+ 
+ libqos_init(register_virtio_9p_test);
+-- 
+2.20.1
+
 
