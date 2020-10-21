@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3432946FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 05:34:54 +0200 (CEST)
-Received: from localhost ([::1]:50906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCC0294702
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 05:36:25 +0200 (CEST)
+Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV4tp-0005p8-5v
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 23:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42858)
+	id 1kV4vI-00088b-0q
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 23:36:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s4-0004Gn-Ql
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22263)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s6-0004II-C2
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s3-0001Y7-4r
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:04 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s3-0001Y6-6B
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603251182;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Uni1qvjGHMaANTbnZtIIi8Nfns0CbkGHuXPIotwgEcs=;
- b=MFfLAxTDHgD4Lka6ZWlJCNqIdhs8cN1lhfVvkZTo64h/ClpA/Ijn/iKuejbw07qTh4Npid
- 0hT2NQriZ84WkUyMfBS245FXyoy60AuknK1laa+qCaoVXIZXoznE39FtndV2X6exMvMu6N
- zkH/jVkYmN1joke6b+6/Jt5CQKsmowc=
+ bh=FvCBLHwDCjYXjJa2+mcg+A8fGqoFuq64vG+oZlIMljY=;
+ b=X3TnwpLyNsLsxG/zBva/D3Lv4NZCgQtsT9YMb21gevMBhPOxSof4129UR20q+g1sT68lrm
+ MoDKecgGAQiwvcT2UF+7oxlMvQ8wi72ggd5kHVyfZYvnGsMXkw90UPHSRX41G2BjdCFGHy
+ itfR/BkSQ6YMjWm/EYSqxz0k0tSRyJ4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-ewZOdjprNUK5kRiL189ypw-1; Tue, 20 Oct 2020 23:33:00 -0400
-X-MC-Unique: ewZOdjprNUK5kRiL189ypw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-11-ueGxpkrANViWT3ypMO-0EQ-1; Tue, 20 Oct 2020 23:33:00 -0400
+X-MC-Unique: ueGxpkrANViWT3ypMO-0EQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15A981006C91;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 427281074656;
  Wed, 21 Oct 2020 03:32:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D781A5C1C7;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC83575123;
  Wed, 21 Oct 2020 03:32:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 782BC11329AD; Wed, 21 Oct 2020 05:32:57 +0200 (CEST)
+ id 7BA5B112991E; Wed, 21 Oct 2020 05:32:57 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] qapi: Restrict 'inject-nmi' command to machine code
-Date: Wed, 21 Oct 2020 05:32:53 +0200
-Message-Id: <20201021033257.2126624-2-armbru@redhat.com>
+Subject: [PULL 2/5] qapi: Restrict 'system wakeup/reset/powerdown' commands to
+ machine.json
+Date: Wed, 21 Oct 2020 05:32:54 +0200
+Message-Id: <20201021033257.2126624-3-armbru@redhat.com>
 In-Reply-To: <20201021033257.2126624-1-armbru@redhat.com>
 References: <20201021033257.2126624-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,94 +90,189 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Restricting 'inject-nmi' to machine.json pulls slightly
-less QAPI-generated code into user-mode and tools.
+Restricting system_wakeup/system_reset/system_powerdown to
+machine.json pulls slightly less QAPI-generated code into
+user-mode and tools.
 
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201012121536.3381997-2-philmd@redhat.com>
+Message-Id: <20201012121536.3381997-3-philmd@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/machine.json | 20 ++++++++++++++++++++
- qapi/misc.json    | 20 --------------------
- softmmu/cpus.c    |  1 +
- 3 files changed, 21 insertions(+), 20 deletions(-)
+ qapi/machine.json | 57 +++++++++++++++++++++++++++++++++++++++++++++++
+ qapi/misc.json    | 57 -----------------------------------------------
+ ui/gtk.c          |  1 +
+ ui/cocoa.m        |  1 +
+ 4 files changed, 59 insertions(+), 57 deletions(-)
 
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 756dacb06f..073b1c98b2 100644
+index 073b1c98b2..55328d4f3c 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -484,6 +484,26 @@
- { 'enum': 'LostTickPolicy',
-   'data': ['discard', 'delay', 'slew' ] }
+@@ -452,6 +452,63 @@
+ ##
+ { 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
  
 +##
-+# @inject-nmi:
++# @system_reset:
 +#
-+# Injects a Non-Maskable Interrupt into the default CPU (x86/s390) or all CPUs (ppc64).
-+# The command fails when the guest doesn't support injecting.
++# Performs a hard reset of a guest.
 +#
-+# Returns:  If successful, nothing
-+#
-+# Since:  0.14.0
-+#
-+# Note: prior to 2.1, this command was only supported for x86 and s390 VMs
++# Since: 0.14.0
 +#
 +# Example:
 +#
-+# -> { "execute": "inject-nmi" }
++# -> { "execute": "system_reset" }
 +# <- { "return": {} }
 +#
 +##
-+{ 'command': 'inject-nmi' }
++{ 'command': 'system_reset' }
++
++##
++# @system_powerdown:
++#
++# Requests that a guest perform a powerdown operation.
++#
++# Since: 0.14.0
++#
++# Notes: A guest may or may not respond to this command.  This command
++#        returning does not indicate that a guest has accepted the request or
++#        that it has shut down.  Many guests will respond to this command by
++#        prompting the user in some way.
++# Example:
++#
++# -> { "execute": "system_powerdown" }
++# <- { "return": {} }
++#
++##
++{ 'command': 'system_powerdown' }
++
++##
++# @system_wakeup:
++#
++# Wake up guest from suspend. If the guest has wake-up from suspend
++# support enabled (wakeup-suspend-support flag from
++# query-current-machine), wake-up guest from suspend if the guest is
++# in SUSPENDED state. Return an error otherwise.
++#
++# Since:  1.1
++#
++# Returns:  nothing.
++#
++# Note: prior to 4.0, this command does nothing in case the guest
++#       isn't suspended.
++#
++# Example:
++#
++# -> { "execute": "system_wakeup" }
++# <- { "return": {} }
++#
++##
++{ 'command': 'system_wakeup' }
 +
  ##
- # @NumaOptionsType:
+ # @LostTickPolicy:
  #
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 7d1e2e9aae..3fe9cc21b4 100644
+index 3fe9cc21b4..90fd862a6c 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -341,26 +341,6 @@
+@@ -177,40 +177,6 @@
  ##
- { 'command': 'system_wakeup' }
+ { 'command': 'stop' }
  
 -##
--# @inject-nmi:
+-# @system_reset:
 -#
--# Injects a Non-Maskable Interrupt into the default CPU (x86/s390) or all CPUs (ppc64).
--# The command fails when the guest doesn't support injecting.
+-# Performs a hard reset of a guest.
 -#
--# Returns:  If successful, nothing
--#
--# Since:  0.14.0
--#
--# Note: prior to 2.1, this command was only supported for x86 and s390 VMs
+-# Since: 0.14.0
 -#
 -# Example:
 -#
--# -> { "execute": "inject-nmi" }
+-# -> { "execute": "system_reset" }
 -# <- { "return": {} }
 -#
 -##
--{ 'command': 'inject-nmi' }
+-{ 'command': 'system_reset' }
+-
+-##
+-# @system_powerdown:
+-#
+-# Requests that a guest perform a powerdown operation.
+-#
+-# Since: 0.14.0
+-#
+-# Notes: A guest may or may not respond to this command.  This command
+-#        returning does not indicate that a guest has accepted the request or
+-#        that it has shut down.  Many guests will respond to this command by
+-#        prompting the user in some way.
+-# Example:
+-#
+-# -> { "execute": "system_powerdown" }
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'system_powerdown' }
+-
+ ##
+ # @memsave:
+ #
+@@ -318,29 +284,6 @@
+ ##
+ { 'command': 'x-exit-preconfig', 'allow-preconfig': true }
+ 
+-##
+-# @system_wakeup:
+-#
+-# Wake up guest from suspend. If the guest has wake-up from suspend
+-# support enabled (wakeup-suspend-support flag from
+-# query-current-machine), wake-up guest from suspend if the guest is
+-# in SUSPENDED state. Return an error otherwise.
+-#
+-# Since:  1.1
+-#
+-# Returns:  nothing.
+-#
+-# Note: prior to 4.0, this command does nothing in case the guest
+-#       isn't suspended.
+-#
+-# Example:
+-#
+-# -> { "execute": "system_wakeup" }
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'system_wakeup' }
 -
  ##
  # @human-monitor-command:
  #
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 47cceddd80..e46ac68ad0 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -26,6 +26,7 @@
- #include "qemu-common.h"
- #include "monitor/monitor.h"
+diff --git a/ui/gtk.c b/ui/gtk.c
+index b11594d817..a752aa22be 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -33,6 +33,7 @@
+ #include "qemu/osdep.h"
  #include "qapi/error.h"
+ #include "qapi/qapi-commands-control.h"
 +#include "qapi/qapi-commands-machine.h"
  #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-events-run-state.h"
- #include "qapi/qmp/qerror.h"
+ #include "qemu/cutils.h"
+ 
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 0910b4a716..f32adc3074 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -35,6 +35,7 @@
+ #include "sysemu/cpu-throttle.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-block.h"
++#include "qapi/qapi-commands-machine.h"
+ #include "qapi/qapi-commands-misc.h"
+ #include "sysemu/blockdev.h"
+ #include "qemu-version.h"
 -- 
 2.26.2
 
