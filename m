@@ -2,99 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83176295322
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 21:51:38 +0200 (CEST)
-Received: from localhost ([::1]:44738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FA2295363
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 22:12:56 +0200 (CEST)
+Received: from localhost ([::1]:57924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVK92-0006Jz-W4
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 15:51:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54286)
+	id 1kVKTe-0005JZ-Rm
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 16:12:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVK7s-0005PW-LM
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 15:50:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55183)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVK7q-00070a-37
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 15:50:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603309820;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0LlUSXIB7K9K0NSGyfVQxqOVi5F0uuU0PhEcDTpuJ0g=;
- b=LHW9UkxARjNaMdtGYfepNWc7HAyr5NQv6U38vP2F5wzPaoxs9ApYd8fU3MHQavJxc+3oA2
- BHKcdfLVO6Ta4Tr95w7aE9n4EAPonqwQ6xUgLp/IGdE9qEhzWxpVHcp8d0MT8gH3vvxEhW
- 4lM34Tf6qiETX8xAsJsNeSlctwMCB8M=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-BawNU3cbOo6WhXr2r_gjIw-1; Wed, 21 Oct 2020 15:50:18 -0400
-X-MC-Unique: BawNU3cbOo6WhXr2r_gjIw-1
-Received: by mail-wr1-f72.google.com with SMTP id 47so3096822wrc.19
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 12:50:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kVKSV-0004ps-PO; Wed, 21 Oct 2020 16:11:43 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:33319)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kVKSS-0001EF-Oc; Wed, 21 Oct 2020 16:11:43 -0400
+Received: by mail-il1-x142.google.com with SMTP id j8so3753810ilk.0;
+ Wed, 21 Oct 2020 13:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=93q7BQqx5rUbCi70bvvfoPbKm2H2zHdRENnENNFvy5s=;
+ b=D3raUR92l8bVNU2JsLy6zNZLVMSVFg8e4Ket9thTArbcxd7Z4CEYy0DbDqAiCdLo2x
+ XfJQMzbJ5m0r2PHUUOC24MSnQRGvZpwgt6oOce6WbTUvE2oY6EpZbEfSdPKw6Aufksjt
+ TxcMzHxNIs9rce9wyA047i/EWnTsYoaUog/8RCpovnpkb3pBVBnUF+IGbbhPVqjjSmdJ
+ xfuBsBrdPk3PG/8SenRE+jrrsptnzTBnFc0HEIixJXo+1he9hlTerNQ/ClbjXkAt9U/p
+ GkPc1RD2pnWPP5sk4SOf7f6Z5fHwPV0kX/AlqG2f4Kgdj00CxN/WjEJCztFp9dR/kd2K
+ TQ0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0LlUSXIB7K9K0NSGyfVQxqOVi5F0uuU0PhEcDTpuJ0g=;
- b=PpAmHWIlD8Ho7FDrEy4qxCnEAsS4X1Ve3oX3DsQlms7ezj2lPgLFvi7vo4mtNpx06c
- pO1yZiQ58qHM3EINsfTAUj5MWfb7e2jhGu00Ddgv96b6PV5ZMyajB2m8hHfkmLTOt/uv
- 1eEKSLG48sArIBGyo/o4M4YTfUQw55KxPa6hiGDqFSP73QMEsPchyw0bzWJeHEIGS0zp
- A1OvqPuKwbIjHon71D4Mwe7GGFa6tmZHguaBq9lM1xxCmCNpETpvJLe93DC7+BLA9Fdd
- k1z3RgXemDEaqWNeXR5DGA8wtMq+SsNXI9YClZJv9xWcdGzSKkevJKlGoxOFeBCpxx2t
- qVOA==
-X-Gm-Message-State: AOAM532HP/FE/CBsOO9Lttyy0CCtpHfNXzk3uD3HyxyZal/l4r4FxrPq
- 3YMKs9giEq8x3Hk0hbtQze+SuEIBxs14iqGjhw2su+EkTOT9pTPPVcZIn/NaEZO9LA5HC8Dr0q1
- 3UHwUj/s5drHcFfs=
-X-Received: by 2002:a1c:7707:: with SMTP id t7mr5388541wmi.54.1603309817585;
- Wed, 21 Oct 2020 12:50:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJytMlKjGWtMIlywjs8rYZ1y5tekCcb8IxtL9OQSXkAG8xfSiQTNZl2FXsj6aWGdLwLeK5fLqA==
-X-Received: by 2002:a1c:7707:: with SMTP id t7mr5388528wmi.54.1603309817376;
- Wed, 21 Oct 2020 12:50:17 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id 4sm5678958wrn.48.2020.10.21.12.50.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Oct 2020 12:50:16 -0700 (PDT)
-Subject: Re: [PATCH 1/1] Skip flatview_simplify() for cpu vendor zhaoxin
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20201016112933.14856-1-FelixCui-oc@zhaoxin.com>
- <20201016112933.14856-2-FelixCui-oc@zhaoxin.com>
- <a971c9db-469f-ddc0-1a27-3e21958f6ff7@redhat.com>
- <20201019130206.1d3baffc@w520.home>
- <4d2b96cb-8f7f-2598-39e6-4cf0f61d567b@redhat.com>
- <20201020164437.5e3cb4ce@w520.home>
- <783b5ef0-277c-363d-f342-7c0351f9ac16@redhat.com>
- <20201021124908.53c7a98b@w520.home>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <eaab570f-741e-7397-09c2-8e47f0a6d32c@redhat.com>
-Date: Wed, 21 Oct 2020 21:50:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=93q7BQqx5rUbCi70bvvfoPbKm2H2zHdRENnENNFvy5s=;
+ b=YXvmkqVWTBGqrM9fEjfvtJU+7XYoZrTfPt4mugq8CLf/XeBiPqgvJ5SI+l+zWPzHwH
+ ntkEkAVCUb3UuaVyEfUnkC6pMFtT9caP5cNDbaoC3ZNQ15mdpqHE8kPp9619Ci48ce0R
+ NoCilYs9mZx+QTtgiHrkz57pkgb0wSywBdP9SXR8akkd3E7CFobwjYvXyKOo/AuCWQnJ
+ JMm9Exw7QWLfdzGDBZ7MxDXRJSgGgSJOkR0649U2AJOFfY4lxjhGyg5Hi9eXkZi8kc6f
+ ULaEMuNSC/DqlhAVLxCHpLuyHMDtIa/1JorFM3giaTLtfBrQBCYxKhS9jpDxK9ADfS+0
+ 5saQ==
+X-Gm-Message-State: AOAM533dG2qFS/K8h9oyJkiLJZKUnLFPXu0jmYSvJFiJ196uCv6W4pXB
+ cMhu7Ov35RlJ1BwCNkKAo80OsrJzUM3JaUAyu2o=
+X-Google-Smtp-Source: ABdhPJwjROsPed2/X+rDU/kuJEv3Vl84ovNtdKKx8rrmYOMF5WuvvN1L0J5iIoQrJECKYyM/ab464UEKrC7ozsMdiEs=
+X-Received: by 2002:a05:6e02:c:: with SMTP id
+ h12mr3906995ilr.177.1603311098965; 
+ Wed, 21 Oct 2020 13:11:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201021124908.53c7a98b@w520.home>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20201014101728.848-1-jiangyifei@huawei.com>
+ <ee4b99ec-5842-6638-ecff-54096ec0b0e8@linaro.org>
+ <cd12acc6aa7b4f1d84859f14200cf75d@huawei.com>
+In-Reply-To: <cd12acc6aa7b4f1d84859f14200cf75d@huawei.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 21 Oct 2020 12:59:54 -0700
+Message-ID: <CAKmqyKMQ+Kood7dO=esi9J5eTVYZPPq2QiVzSgHfEHta_cpZ+g@mail.gmail.com>
+Subject: Re: [PATCH V3] target/riscv: raise exception to HS-mode at
+ get_physical_address
+To: Jiangyifei <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,29 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: FelixCuioc <FelixCui-oc@zhaoxin.com>, Eduardo Habkost <ehabkost@redhat.com>,
- CobeChen-oc@zhaoxin.com, qemu-devel@nongnu.org, TonyWWang-oc@zhaoxin.com,
- RockCui-oc@zhaoxin.com, Richard Henderson <rth@twiddle.net>
+Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
+ "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
+ "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Alistair.Francis@wdc.com" <Alistair.Francis@wdc.com>,
+ yinyipeng <yinyipeng1@huawei.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>,
+ "Wubin \(H\)" <wu.wubin@huawei.com>, "dengkai \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/20 20:49, Alex Williamson wrote:
-> I can understand the general benefit of flatview_simplify(), but I
-> wonder if the best short term solution is to skip operating on the x86
-> PAM range, which I understand to be a small number of memory chunks
-> below 1MB.
+On Wed, Oct 14, 2020 at 6:59 PM Jiangyifei <jiangyifei@huawei.com> wrote:
+>
+>
+> > -----Original Message-----
+> > From: Richard Henderson [mailto:richard.henderson@linaro.org]
+> > Sent: Thursday, October 15, 2020 4:22 AM
+> > To: Jiangyifei <jiangyifei@huawei.com>; qemu-devel@nongnu.org;
+> > qemu-riscv@nongnu.org
+> > Cc: palmer@dabbelt.com; Alistair.Francis@wdc.com;
+> > sagark@eecs.berkeley.edu; kbastian@mail.uni-paderborn.de; Zhangxiaofeng
+> > (F) <victor.zhangxiaofeng@huawei.com>; Wubin (H) <wu.wubin@huawei.com>;
+> > Zhanghailiang <zhang.zhanghailiang@huawei.com>; dengkai (A)
+> > <dengkai1@huawei.com>; yinyipeng <yinyipeng1@huawei.com>
+> > Subject: Re: [PATCH V3] target/riscv: raise exception to HS-mode at
+> > get_physical_address
+> >
+> > On 10/14/20 3:17 AM, Yifei Jiang wrote:
+> > > +                if (fault_pte_addr) {
+> > > +                    *fault_pte_addr = (base + idx * ptesize) >> 2;
+> >
+> > The shift is wrong.  It should be exactly like...
+> >
+>
+> We have tested in the VM migration.
+>
+> fault_pte_addr will eventually be assigned to htval register.
+>
+> Description of htval register according to the specification:
+> When a guest-page-fault trap is taken into HS-mode, htval is written with either zero
+> or the guest physical address that faulted, shifted right by 2 bits.
 
-I'd rather remove flatview_simplify altogether, it probably triggers
-relatively rarely.  Possibly do not let it operate on RAM/ROM regions,
-only on I/O regions.
+Yep, I agree that the shift is correct, it's what we do when we set
+guest_phys_fault_addr in other places.
 
-> I might also wonder why the EHCI controller on this
-> platform is choosing that range for DMA.
+It is a little confusing that we shift it in get_physical_address(),
+instead of when guest_phys_fault_addr is set. In this case you are
+setting guest_phys_fault_addr directly when calling
+get_physical_address(... &env->guest_phys_fault_addr ...).
 
-I assume it's the BIOS's driver and it's choosing a range in low memory,
-but still I'm not sure why its DMA is racing against the PAM update
-(which is done very early).  Felix, do you know the answer?
+I have added this comment to make sure it's clear and applied it, I
+hope that's ok.
 
-Paolo
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 4ea9510c07..4652082df1 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -318,6 +318,7 @@ void riscv_cpu_set_mode(CPURISCVState *env,
+target_ulong newpriv)
+  * @addr: The virtual address to be translated
+  * @fault_pte_addr: If not NULL, this will be set to fault pte address
+  *                  when a error occurs on pte address translation.
++ *                  This will already be shifted to match htval.
+  * @access_type: The type of MMU access
+  * @mmu_idx: Indicates current privilege level
+  * @first_stage: Are we in first stage translation?
 
+Alistair
+
+>
+> In addition, fault_pte_addr is named after env->guest_phys_fault_addr, which makes
+> sense in a sense.
+>
+> Yifei
+>
+> > > +                }
+> > > +                return TRANSLATE_G_STAGE_FAIL;
+> > >              }
+> > >
+> > >              pte_addr = vbase + idx * ptesize;
+> >
+> > ... this.
+> >
+> >
+> > r~
 
