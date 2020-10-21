@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEB7294901
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 09:39:20 +0200 (CEST)
-Received: from localhost ([::1]:49444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FD329490B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 09:40:58 +0200 (CEST)
+Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV8iN-0006Cz-32
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 03:39:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59180)
+	id 1kV8jx-0008UN-2f
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 03:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kV8gC-0005Fp-9j
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 03:37:04 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:39553)
+ id 1kV8gw-0005id-PB
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 03:37:50 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:34310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kV8gA-0005QJ-8R
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 03:37:03 -0400
-Received: by mail-ej1-x643.google.com with SMTP id lw21so1748327ejb.6
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 00:37:01 -0700 (PDT)
+ id 1kV8gq-0005e3-7p
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 03:37:50 -0400
+Received: by mail-ed1-x543.google.com with SMTP id x1so1588902eds.1
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 00:37:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nQFgrTOS09pTXFb0Fm5sIX6jY0r0sw83iMxZrEr+tvQ=;
- b=BEYsfuiVM6RrYgfgfddVrWYOBndeo9RKfLym9IitQtAtuNs+MCnlLpcn94RkY8pSw+
- uh31Q92atEr3UL/FOmhlOhOcHzsYMILylpMo1sGpD1ySIuNp2epUPNWQYhx7zPDdZzpn
- AUT9YQ/w5qLqAHrgHw/vXKFuxXHqkpUzNTtPLnWpgOykIpQMq+aX9QoVJ/HBRy3x4DLt
- KxBSlJlOdpcEf5RwnKd/GFHxN4sZhT6ia1HVSRE0PaQad+r3ozsmkmA+TxrMUuCNWX+H
- E/Mk4Mf+hDNnTK+g1o0dqLhKDIBC/9lJBS0h2vuKUWREvWRcOFaOB4UQKTIe91lTHSgt
- al6A==
+ :cc; bh=+VVkhlQLWO9Utq6tZKTBXQJKQBGR0v46MXlIFHvNQdM=;
+ b=YtVEn6GZO1PPrc/mcQtR4tfaGzirmonn+Vn6t1F6g+mg6Na/od/VmHi7p6JaKbxWzF
+ vK5hfd7hMQEx48Rqwhj+fqonP/Vl1hcr5ZaKYzoYeUca6dA9gT/u+aKyE+h3StRMi+gq
+ 1NFyqdicGPVxgbsICX7T6CnVLdwfHcG5Lef2VABPFyYyRopGnaBci8WrIFl2o4h1l5WI
+ VEXH1ACkgGmgKynhU/e4j/gxHSifVs0rXKONXWHWkpD1Qw4dIyA+3defEqmVRu26r30M
+ AnRM31TRvFkCdzAXQ04zyt2Q6wZfjp0yMgDjGZwtcAnN2HHrxZ+q4WmWnyqxMX7tO7Ge
+ 6qtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nQFgrTOS09pTXFb0Fm5sIX6jY0r0sw83iMxZrEr+tvQ=;
- b=isIdgrlX8TbA3mtsbvbT4LXdjl6I77blb/9meZ+glii8siIldCJEurKEjk3eKdBOYk
- n/HVQTEuF8a20HoWpb1HemUUrsnlD1gGyOMJ/XAOqRIPPIe0/RkNPQB95Z4N+CjTCJXC
- DiWrQrRcqUuX/8q1a551E7ITObLiWC2a1aLXjCFp7Garvg/GKh7jsDDGhVGxyi82YM5x
- lGHMqcwmdZBq1K61fbEzNeudOuf2ysK5n2fBUQfY/JXGqM7ExQQ6aeJqBPc+lu8GumFv
- BUlq+9hWm2WGobo2y+CEQs+a9Pn27AY3xYmlPexC5KBZuf5z4GKz4svm/xgrWP+Bym0H
- Aj3A==
-X-Gm-Message-State: AOAM530AJeVtvVZ2vqfMd4ZCDCE9/x/w2yy4U57n81kHm0zsSXp56auL
- v9/SOsgo8KDvHDfq4XR2hQ56npBJEP4dYq2xUmU=
-X-Google-Smtp-Source: ABdhPJyeP0Uc4M2FpwasZUqROncsgcrnTJbLxnJB0lCCEhYZqFHJIPdk5hedg1bKEiL86Ihnr0nSeyvIfaDi4eLesQ8=
-X-Received: by 2002:a17:906:1a11:: with SMTP id
- i17mr2080114ejf.381.1603265820066; 
- Wed, 21 Oct 2020 00:37:00 -0700 (PDT)
+ bh=+VVkhlQLWO9Utq6tZKTBXQJKQBGR0v46MXlIFHvNQdM=;
+ b=nlJJb7wEGeeV3HlYB6Wba1gkmw5hGyse9GjdDrWG3ooERUxAAUAZO50KxDdmZ14AVo
+ 8pinASF2Tp/tkz7HNutoYBIphYf/ggQuRLth64tojmavKBz6neSLYyKyVN/hNI9xxGHp
+ T06HEkenKFBJobAoFNhv+Xa+XkoIOdmzlNjS7kzQJ/g85G3Fc3MifTyNeHsw7wrM3meq
+ aQ9dgg2ZoPkrb0UrMuGClF4lGt6148dhrAGJueto4y2eZJOHfbNmA5Sy39is1Z9qvJGj
+ YuWJQtN38Q/LdFy8Kqx1Gv9/v4xdYOpgvp2xIEi7RfjtPM/3hMxgtQHg7uFUmvmJPntu
+ zh9Q==
+X-Gm-Message-State: AOAM5332pSuajd7G8JKu3kxtzPiCjhvBSwRNANUN8LhVcFl7ZjiNkN+W
+ yvjhUx/htBodDjjo3bqusI45/bTyqvM8r6y7BF4=
+X-Google-Smtp-Source: ABdhPJxb0faR/scPicLzL9b4VBWOBp27XOFaVkYK3mnP+TlxtO/bMD7n6B4jTaba3I3tJVTiUIkqZ+zWFekvkWucoDc=
+X-Received: by 2002:aa7:ca45:: with SMTP id j5mr1809668edt.245.1603265861824; 
+ Wed, 21 Oct 2020 00:37:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201021071520.2168877-1-armbru@redhat.com>
- <20201021071520.2168877-5-armbru@redhat.com>
-In-Reply-To: <20201021071520.2168877-5-armbru@redhat.com>
+ <20201021071520.2168877-4-armbru@redhat.com>
+In-Reply-To: <20201021071520.2168877-4-armbru@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 21 Oct 2020 11:36:48 +0400
-Message-ID: <CAJ+F1C+Pp72UX1wDAxirOpaJbg0SBO9r2dGWKcRf2ynG-VKh5g@mail.gmail.com>
-Subject: Re: [PATCH 4/4] qga: Flatten simple union GuestDeviceId
+Date: Wed, 21 Oct 2020 11:37:29 +0400
+Message-ID: <CAJ+F1CLvg+nE0yHtpZB5M19EYmXHvebDzJ+NjXDVsKw8jWt1Og@mail.gmail.com>
+Subject: Re: [PATCH 3/4] qga-win: Fix guest-get-devices error API violations
 To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000af89c705b2296956"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
+Content-Type: multipart/alternative; boundary="0000000000002cb3c005b2296caf"
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,83 +85,84 @@ Cc: =?UTF-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000af89c705b2296956
+--0000000000002cb3c005b2296caf
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 21, 2020 at 11:16 AM Markus Armbruster <armbru@redhat.com>
+On Wed, Oct 21, 2020 at 11:19 AM Markus Armbruster <armbru@redhat.com>
 wrote:
 
-> Simple unions are simpler than flat unions in the schema, but more
-> complicated in C and on the QMP wire: there's extra indirection in C
-> and extra nesting on the wire, both pointless.  They should be avoided
-> in new code.
+> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+> pointer to a variable containing NULL.  Passing an argument of the
+> latter kind twice without clearing it in between is wrong: if the
+> first call sets an error, it no longer points to NULL for the second
+> call.
 >
-> GuestDeviceId was recently added for guest-get-devices.  Convert it to
-> a flat union.
+> qmp_guest_get_devices() is wrong that way: it calls error_setg() in a
+> loop.
+>
+> If no iteration fails, the function returns a value and sets no error.
+> Okay.
+>
+> If exactly one iteration fails, the function returns a value and sets
+> an error.  Wrong.
+>
+> If multiple iterations fail, the function trips error_setv()'s
+> assertion.
+>
+> Fix it to return immediately on error.
+>
+> Perhaps the failure to convert the driver version to UTF-8 should not
+> be an error.  We could simply not report the botched version string
+> instead.
+>
+> Drop a superfluous continue while there.
 >
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 >
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
----
->  qga/qapi-schema.json | 8 ++++++++
->  qga/commands-win32.c | 9 ++++-----
->  2 files changed, 12 insertions(+), 5 deletions(-)
+
+> ---
+>  qga/commands-win32.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index c7bfb8bf6a..fe10631e4c 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -1256,6 +1256,12 @@
->  { 'command': 'guest-get-osinfo',
->    'returns': 'GuestOSInfo' }
->
-> +##
-> +# @GuestDeviceType:
-> +##
-> +{ 'enum': 'GuestDeviceType',
-> +  'data': [ 'pci' ] }
-> +
->  ##
->  # @GuestDeviceIdPCI:
->  #
-> @@ -1276,6 +1282,8 @@
->  # Since: 5.2
->  ##
->  { 'union': 'GuestDeviceId',
-> +  'base': { 'type': 'GuestDeviceType' },
-> +  'discriminator': 'type',
->    'data': { 'pci': 'GuestDeviceIdPCI' } }
->
->  ##
 > diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index 1efe3ba076..0c33d48aaa 100644
+> index b01616a992..1efe3ba076 100644
 > --- a/qga/commands-win32.c
 > +++ b/qga/commands-win32.c
-> @@ -2400,16 +2400,15 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error
+> @@ -2385,7 +2385,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error
 > **errp)
->              }
->              skip =3D false;
+>          device->driver_name =3D g_utf16_to_utf8(name, -1, NULL, NULL, NU=
+LL);
+>          if (device->driver_name =3D=3D NULL) {
+>              error_setg(errp, "conversion to utf8 failed (driver name)");
+> -            continue;
+> +            return NULL;
+>          }
+>          slog("querying device: %s", device->driver_name);
+>          hw_ids =3D ga_get_hardware_ids(dev_info_data.DevInst);
+> @@ -2428,7 +2428,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error
+> **errp)
+>              NULL, NULL);
+>          if (device->driver_version =3D=3D NULL) {
+>              error_setg(errp, "conversion to utf8 failed (driver
+> version)");
+> -            continue;
+> +            return NULL;
+>          }
+>          device->has_driver_version =3D true;
 >
-> -            id =3D g_new0(GuestDeviceIdPCI, 1);
->              vendor_id =3D g_match_info_fetch(match_info, 1);
->              device_id =3D g_match_info_fetch(match_info, 2);
-> -            id->vendor_id =3D g_ascii_strtoull(vendor_id, NULL, 16);
-> -            id->device_id =3D g_ascii_strtoull(device_id, NULL, 16);
+> @@ -2452,7 +2452,6 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error
+> **errp)
+>              cur_item->next =3D item;
+>              cur_item =3D item;
+>          }
+> -        continue;
+>      }
 >
->              device->id =3D g_new0(GuestDeviceId, 1);
->              device->has_id =3D true;
-> -            device->id->type =3D GUEST_DEVICE_ID_KIND_PCI;
-> -            device->id->u.pci.data =3D id;
-> +            device->id->type =3D GUEST_DEVICE_TYPE_PCI;
-> +            id =3D &device->id->u.pci;
-> +            id->vendor_id =3D g_ascii_strtoull(vendor_id, NULL, 16);
-> +            id->device_id =3D g_ascii_strtoull(device_id, NULL, 16);
->
->              g_match_info_free(match_info);
->              break;
+>      if (dev_info !=3D INVALID_HANDLE_VALUE) {
 > --
 > 2.26.2
 >
@@ -172,104 +172,95 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000af89c705b2296956
+--0000000000002cb3c005b2296caf
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 21, 2020 at 11:16 AM Mark=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 21, 2020 at 11:19 AM Mark=
 us Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a=
 >&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sim=
-ple unions are simpler than flat unions in the schema, but more<br>
-complicated in C and on the QMP wire: there&#39;s extra indirection in C<br=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The=
+ Error ** argument must be NULL, &amp;error_abort, &amp;error_fatal, or a<b=
+r>
+pointer to a variable containing NULL.=C2=A0 Passing an argument of the<br>
+latter kind twice without clearing it in between is wrong: if the<br>
+first call sets an error, it no longer points to NULL for the second<br>
+call.<br>
+<br>
+qmp_guest_get_devices() is wrong that way: it calls error_setg() in a<br>
+loop.<br>
+<br>
+If no iteration fails, the function returns a value and sets no error.<br>
+Okay.<br>
+<br>
+If exactly one iteration fails, the function returns a value and sets<br>
+an error.=C2=A0 Wrong.<br>
+<br>
+If multiple iterations fail, the function trips error_setv()&#39;s<br>
+assertion.<br>
+<br>
+Fix it to return immediately on error.<br>
+<br>
+Perhaps the failure to convert the driver version to UTF-8 should not<br>
+be an error.=C2=A0 We could simply not report the botched version string<br=
 >
-and extra nesting on the wire, both pointless.=C2=A0 They should be avoided=
+instead.<br>
 <br>
-in new code.<br>
-<br>
-GuestDeviceId was recently added for guest-get-devices.=C2=A0 Convert it to=
-<br>
-a flat union.<br>
+Drop a superfluous continue while there.<br>
 <br>
 Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
 arget=3D"_blank">armbru@redhat.com</a>&gt;<br></blockquote><div><br></div><=
-div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
-eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
+div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandr=
+e.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> </div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0qga/qapi-schema.json | 8 ++++++++<br>
-=C2=A0qga/commands-win32.c | 9 ++++-----<br>
-=C2=A02 files changed, 12 insertions(+), 5 deletions(-)<br>
+=C2=A0qga/commands-win32.c | 5 ++---<br>
+=C2=A01 file changed, 2 insertions(+), 3 deletions(-)<br>
 <br>
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json<br>
-index c7bfb8bf6a..fe10631e4c 100644<br>
---- a/qga/qapi-schema.json<br>
-+++ b/qga/qapi-schema.json<br>
-@@ -1256,6 +1256,12 @@<br>
-=C2=A0{ &#39;command&#39;: &#39;guest-get-osinfo&#39;,<br>
-=C2=A0 =C2=A0&#39;returns&#39;: &#39;GuestOSInfo&#39; }<br>
-<br>
-+##<br>
-+# @GuestDeviceType:<br>
-+##<br>
-+{ &#39;enum&#39;: &#39;GuestDeviceType&#39;,<br>
-+=C2=A0 &#39;data&#39;: [ &#39;pci&#39; ] }<br>
-+<br>
-=C2=A0##<br>
-=C2=A0# @GuestDeviceIdPCI:<br>
-=C2=A0#<br>
-@@ -1276,6 +1282,8 @@<br>
-=C2=A0# Since: 5.2<br>
-=C2=A0##<br>
-=C2=A0{ &#39;union&#39;: &#39;GuestDeviceId&#39;,<br>
-+=C2=A0 &#39;base&#39;: { &#39;type&#39;: &#39;GuestDeviceType&#39; },<br>
-+=C2=A0 &#39;discriminator&#39;: &#39;type&#39;,<br>
-=C2=A0 =C2=A0&#39;data&#39;: { &#39;pci&#39;: &#39;GuestDeviceIdPCI&#39; } =
-}<br>
-<br>
-=C2=A0##<br>
 diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
-index 1efe3ba076..0c33d48aaa 100644<br>
+index b01616a992..1efe3ba076 100644<br>
 --- a/qga/commands-win32.c<br>
 +++ b/qga/commands-win32.c<br>
-@@ -2400,16 +2400,15 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **=
-errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0skip =3D false;<br>
+@@ -2385,7 +2385,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **er=
+rp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0device-&gt;driver_name =3D g_utf16_to_utf=
+8(name, -1, NULL, NULL, NULL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (device-&gt;driver_name =3D=3D NULL) {=
 <br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 id =3D g_new0(GuestDeviceIdPCI, =
-1);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vendor_id =3D g_match_info_=
-fetch(match_info, 1);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0device_id =3D g_match_info_=
-fetch(match_info, 2);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 id-&gt;vendor_id =3D g_ascii_str=
-toull(vendor_id, NULL, 16);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 id-&gt;device_id =3D g_ascii_str=
-toull(device_id, NULL, 16);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;conv=
+ersion to utf8 failed (driver name)&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0slog(&quot;querying device: %s&quot;, dev=
+ice-&gt;driver_name);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hw_ids =3D ga_get_hardware_ids(dev_info_d=
+ata.DevInst);<br>
+@@ -2428,7 +2428,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **er=
+rp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (device-&gt;driver_version =3D=3D NULL=
+) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;conv=
+ersion to utf8 failed (driver version)&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0device-&gt;has_driver_version =3D true;<b=
+r>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0device-&gt;id =3D g_new0(Gu=
-estDeviceId, 1);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0device-&gt;has_id =3D true;=
+@@ -2452,7 +2452,6 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **er=
+rp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cur_item-&gt;next =3D item;=
 <br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 device-&gt;id-&gt;type =3D GUEST=
-_DEVICE_ID_KIND_PCI;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 device-&gt;id-&gt;u.pci.data =3D=
- id;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 device-&gt;id-&gt;type =3D GUEST=
-_DEVICE_TYPE_PCI;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 id =3D &amp;device-&gt;id-&gt;u.=
-pci;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 id-&gt;vendor_id =3D g_ascii_str=
-toull(vendor_id, NULL, 16);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 id-&gt;device_id =3D g_ascii_str=
-toull(device_id, NULL, 16);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cur_item =3D item;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_match_info_free(match_inf=
-o);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0if (dev_info !=3D INVALID_HANDLE_VALUE) {<br>
 -- <br>
 2.26.2<br>
 <br>
@@ -277,5 +268,5 @@ o);<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000af89c705b2296956--
+--0000000000002cb3c005b2296caf--
 
