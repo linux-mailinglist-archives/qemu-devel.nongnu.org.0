@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B29295299
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 20:59:52 +0200 (CEST)
-Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBDE22952A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 21:03:00 +0200 (CEST)
+Received: from localhost ([::1]:57378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVJKx-0006Rm-5a
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 14:59:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42680)
+	id 1kVJO0-0000qI-0e
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 15:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDz-00067P-Ev
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDz-00068a-U7
  for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46490)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDu-0008Bx-QW
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVJDq-0008Am-51
  for qemu-devel@nongnu.org; Wed, 21 Oct 2020 14:52:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603306344;
+ s=mimecast20190719; t=1603306335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zbCR7fQkLjWnOTNR0Qkqpyrb0I9uDM1rc5gkFa/PhUo=;
- b=WzTtafAxJ2iwLW2tF7OQp3qrbkM90scfxOornbUnZdLgRxz1o1lmYuX61B5UJUZogVxDUj
- DrlxwAemkKWhOVouM4lfDu7kqsdgPzM+QYlf9cLKBHP1wxsPFoVwHNilgE9FTNNy60/g5/
- OzmV9jopxKBN8Xm+CjK1+ADaBt7kC74=
+ bh=z0oxI2PUcLgUzpYRMei2EJb6wcsK5dRvY7pXJDv189Y=;
+ b=PLUtme8eKB60uIeq4zpLQj2Da0VgnCiDSxwIUXaD5NFgvkIPNvCd1St06z19gBwJhvjgHf
+ yLtlEi8iwE+W5C3O2niTttHUMFNXzNx63qfSe2+mUD+UiB8DtOuY2BWI+amJ6R4kndKp7F
+ W1QE50zmhCJJlynaQLpQ/TnGCEGqdMA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-uluZQkOmOeqHtdJ-2SqCQA-1; Wed, 21 Oct 2020 14:52:22 -0400
-X-MC-Unique: uluZQkOmOeqHtdJ-2SqCQA-1
+ us-mta-226-VWmQ12uEOjC2-0dlR66SRA-1; Wed, 21 Oct 2020 14:52:13 -0400
+X-MC-Unique: VWmQ12uEOjC2-0dlR66SRA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 895AB1009E20
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 18:52:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B94F45F9C1
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 18:52:12 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED26E1002C01;
- Wed, 21 Oct 2020 18:52:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A8BA1002C01;
+ Wed, 21 Oct 2020 18:52:12 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/15] scripts/qom-fuse: add redirection shim to
- python/qemu/qmp/qom-fuse.py
-Date: Wed, 21 Oct 2020 14:52:07 -0400
-Message-Id: <20201021185208.1611145-15-jsnow@redhat.com>
+Subject: [PATCH 04/15] scripts/qom-fuse: apply isort rules
+Date: Wed, 21 Oct 2020 14:51:57 -0400
+Message-Id: <20201021185208.1611145-5-jsnow@redhat.com>
 In-Reply-To: <20201021185208.1611145-1-jsnow@redhat.com>
 References: <20201021185208.1611145-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,32 +83,43 @@ Cc: Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By leaving the script absent for a commit, git-blame travels to the new
-file instead of staying on the shim.
+Hint: you can use symlinks to create qom_fuse.py in python/qemu/qmp/ and
+point to scripts/qom-fuse to apply the standard linting rules to this
+script.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qom-fuse | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100755 scripts/qmp/qom-fuse
+ scripts/qmp/qom-fuse | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
-new file mode 100755
-index 0000000000..a58c8ef979
---- /dev/null
+index 7c7cff8edf..62deb9adb1 100755
+--- a/scripts/qmp/qom-fuse
 +++ b/scripts/qmp/qom-fuse
-@@ -0,0 +1,11 @@
-+#!/usr/bin/env python3
-+
+@@ -13,14 +13,20 @@
+ # the COPYING file in the top-level directory.
+ ##
+ 
+-import fuse, stat
+-from fuse import FUSE, FuseOSError, Operations
+-import os, posix, sys
+ from errno import *
 +import os
++import posix
++import stat
 +import sys
 +
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.qmp.qom_fuse import QOMFuse
++import fuse
++from fuse import FUSE, FuseOSError, Operations
 +
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu.qmp import QEMUMonitorProtocol
+ 
 +
-+if __name__ == '__main__':
-+    sys.exit(QOMFuse.entry_point())
+ fuse.fuse_python_api = (0, 2)
+ 
+ class QOMFS(Operations):
 -- 
 2.26.2
 
