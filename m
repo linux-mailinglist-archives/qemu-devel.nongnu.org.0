@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A927E2951C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 19:49:34 +0200 (CEST)
-Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032212951CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 19:51:53 +0200 (CEST)
+Received: from localhost ([::1]:36928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVIEv-0007hD-Ly
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 13:49:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51264)
+	id 1kVIHA-0002Lc-01
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 13:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVI1j-0004G3-4j
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:35:55 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35339)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kVI3u-0006XF-B5
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:38:10 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:54872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVI1h-0006IZ-Ok
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:35:54 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id q5so3462708wmq.0
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:35:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+Fm7KbLir3gbzmjKy+27eSKs45PUg9V/AzuCpZDRK/Q=;
- b=BJckA9U2TgiC+CxfBuvijCXXMaUfzkPWmqaDBx8HO6JNH6gaogOPzZLGozrWjTu46x
- XTz0jbJQLeBLigFgBopZdMMy2E+5xv6p9TCrb16908nc1++1fC1wVpp6OhLG0VWLbda5
- 5e42Re/cufcyukyEKQj6h7+UUiwq3BrTl0p6ozYbipJ9dLn3WYut1QuBVf+S1B9N+Gk1
- KkQgV/RBgEwpgtH1uDSm5vfI5BI7r9DJfxe9T4gMgMpMGQe92+SMg4z3S4v3L0Qk338I
- d5vhhlW1cnou8N77tkIaOmHeNMehe3389IXkCNTEkp0juq9azyvS3XNuJ/6XwE/ua9xy
- HeOA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kVI3j-0006Rc-2h
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 13:38:05 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id az3so1514834pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 10:37:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RWsMXGKyEk1eHtmX0ja7euL/DCUMqSl+fI54xHCZl8I=;
+ b=wxexDAuse5548oe1HDBe8pEgV6XPtv1uAW6dMToHrPdFmS/HP4l0WL6KiSXdxsGtSa
+ +W28yqOcNcxRKs02Rd+m7mAI1pCzOvMfqFSf7wjlJfF8xjaXC7mV6QaG8J0ozaBtWTBO
+ e+p0ZEMsnjmEljZ4YaWNV7mv/jJBFNMrm2mvCySTpuimWH3vuuT0ZBL/nO2VHBMm88BH
+ KLRulNgOCZrLaeOWwH/QoDcccuEEGfgs/SUT/jNyL0IpNzmu/G90zaGZl76HiEEVwk3a
+ ZNGBMGAWVmxUQ2j+qR3/cbLlZt21EaXiZen17AZ/rqy+QPhlBJi54+lh7J6Ft0ZsV5N3
+ vLqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+Fm7KbLir3gbzmjKy+27eSKs45PUg9V/AzuCpZDRK/Q=;
- b=PUXobAKqJFFcPfxf3FVN1nJKY/8DT1JxLjDR00NRV8xdaZwAvSP6FSF72dQ3QsBMJ5
- SAGw3eCVpz8b5fDU+oSPIUIMBMW5TyQZ38yAIMz1XdAPXgBYZvpkty/KqVc/5HLyKDi9
- MXJwhdr+vbmEieg+K3uWH9It4av2RebosMDfeeTVpbz2BGAzrp4UlW3O8X47ZV9xgyTg
- pcY9zWGqz7PZkKrCJ6UHFRkpHNhPymn0ke26v165RYbd7baxiIADfPgWG70aharWDuX+
- 9TU33Xfjb4FI4qfywejwyfS8r8sJbVt/WjrAluZRmRqaNZIvXd97MzKljgVELcU1133C
- QXpg==
-X-Gm-Message-State: AOAM5304TgQVnttgmz3V4KY4el9JNYxljyxPx2xyTOP1Kk5KJn5NVHAl
- oTakaqh6h/1HiuR0k8hh1D1eXS1V+KY=
-X-Google-Smtp-Source: ABdhPJyXZR7NSQEPtzfFgA+cILOxyz/oir9OSDeP9Ffxb2N9bdWfaYwgiQ6vdyLLGtlnl4JBwr9PrA==
-X-Received: by 2002:a7b:c418:: with SMTP id k24mr4913652wmi.118.1603301752277; 
- Wed, 21 Oct 2020 10:35:52 -0700 (PDT)
-Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id 133sm8735201wmb.2.2020.10.21.10.35.51
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RWsMXGKyEk1eHtmX0ja7euL/DCUMqSl+fI54xHCZl8I=;
+ b=obDqpXywtpEmhgaSQhtXlPQ5eGDtqkpmHnWbPL3NQ7atBtCRex1curm4tS8WrCkiho
+ oXC+gvR1Pi6vR77MGA8njTKnRqnwVWwhS83PnVm6r8I+8iYxenANuhxg5fr32JG0wi5N
+ OuAMFEhHPEDQ3sRM4IRwd7MjRzet+cmsn64lQKQ9YMbqeOQJlEbLimsUFdzUxkKNuSah
+ ia1uM9NlFGOauniMtpW4OivgsAM6xdD705bCBnYzCvabNVwY7I/dZo8CqdYOSYupHM0M
+ dZ4IggsoSinxFQYCy+lUIHv4rw7sM0F6j4Qsf25SLa4wb3kn38GRcYLbOMqDRtWYDBNK
+ kKxw==
+X-Gm-Message-State: AOAM532ORXzGYCEiy4+1LcLXFAyIHhZXBdFy4Iz8in7Lp2FtBSu9N2N3
+ 6eMk+zLiwQcITO688OnsD0FGesjD8OXEAA==
+X-Google-Smtp-Source: ABdhPJwz0/yaz9fQpSZvcNhVqj6XSZQURGe2alM9h5MA7UbhWznNPAZqcEklot0nk0/F98Geu7pwhg==
+X-Received: by 2002:a17:90a:c388:: with SMTP id
+ h8mr4418417pjt.100.1603301871479; 
+ Wed, 21 Oct 2020 10:37:51 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id h5sm2928829pfh.9.2020.10.21.10.37.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 10:35:51 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Wed, 21 Oct 2020 10:37:50 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/13] hw/sd/sdcard: Assert if accessing an illegal group
-Date: Wed, 21 Oct 2020 19:34:50 +0200
-Message-Id: <20201021173450.2616910-14-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201021173450.2616910-1-f4bug@amsat.org>
-References: <20201021173450.2616910-1-f4bug@amsat.org>
+Subject: [PATCH v12 00/12] linux-user: User support for AArch64 BTI
+Date: Wed, 21 Oct 2020 10:37:37 -0700
+Message-Id: <20201021173749.111103-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,42 +84,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can not have more group than 'wpgrps_size'.
-Assert if we are accessing a group above this limit.
+The kernel abi for this was merged in v5.8, just as the qemu 5.1
+merge window was closing, so this slipped to the next dev cycle.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201015063824.212980-7-f4bug@amsat.org>
----
- hw/sd/sd.c | 2 ++
- 1 file changed, 2 insertions(+)
+Changes from v11:
+  * Fix the reported bti-2 crash.
+    Work around a bug in ld from binutils 2.34 (in our docker image,
+    and Linaro's aarch64 ubuntu 20 host), which has been fixed in
+    binutils 2.35 (in my laptop's cross-compiler installation).
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 4454d168e2f..c3febed2434 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -780,6 +780,7 @@ static void sd_erase(SDState *sd)
-     sd->csd[14] |= 0x40;
- 
-     for (i = erase_start; i <= erase_end; i++) {
-+        assert(i < sd->wpgrps_size);
-         if (test_bit(i, sd->wp_groups)) {
-             sd->card_status |= WP_ERASE_SKIP;
-         }
-@@ -794,6 +795,7 @@ static uint32_t sd_wpbits(SDState *sd, uint64_t addr)
-     wpnum = sd_addr_to_wpnum(addr);
- 
-     for (i = 0; i < 32; i++, wpnum++, addr += WPGROUP_SIZE) {
-+        assert(wpnum < sd->wpgrps_size);
-         if (addr < sd->size && test_bit(wpnum, sd->wp_groups)) {
-             ret |= (1 << i);
-         }
+Changes from v10:
+  * Include Phil's plug of interp_name memory leak.
+  * Convert error reporting to Error api.
+  * Mirror the kernel's code structure for parsing notes
+    (though Error means that it's not exactly the same).
+  * Split aarch64 stuff from basic note parsing patch.
+
+Changes from v9:
+  * Split what is now patch 7 into 3 more (pmm).
+  * All prerequisites are now upstream.
+
+
+r~
+
+
+Philippe Mathieu-Daudé (1):
+  linux-user/elfload: Avoid leaking interp_name using GLib memory API
+
+Richard Henderson (11):
+  linux-user/aarch64: Reset btype for signals
+  linux-user: Set PAGE_TARGET_1 for TARGET_PROT_BTI
+  include/elf: Add defines related to GNU property notes for AArch64
+  linux-user/elfload: Fix coding style in load_elf_image
+  linux-user/elfload: Adjust iteration over phdr
+  linux-user/elfload: Move PT_INTERP detection to first loop
+  linux-user/elfload: Use Error for load_elf_image
+  linux-user/elfload: Use Error for load_elf_interp
+  linux-user/elfload: Parse NT_GNU_PROPERTY_TYPE_0 notes
+  linux-user/elfload: Parse GNU_PROPERTY_AARCH64_FEATURE_1_AND
+  tests/tcg/aarch64: Add bti smoke tests
+
+ include/elf.h                     |  22 ++
+ include/exec/cpu-all.h            |   2 +
+ linux-user/qemu.h                 |   4 +
+ linux-user/syscall_defs.h         |   4 +
+ target/arm/cpu.h                  |   5 +
+ linux-user/aarch64/signal.c       |  10 +-
+ linux-user/elfload.c              | 326 +++++++++++++++++++++++++-----
+ linux-user/mmap.c                 |  16 ++
+ target/arm/translate-a64.c        |   6 +-
+ tests/tcg/aarch64/bti-1.c         |  62 ++++++
+ tests/tcg/aarch64/bti-2.c         | 116 +++++++++++
+ tests/tcg/aarch64/bti-crt.inc.c   |  51 +++++
+ tests/tcg/aarch64/Makefile.target |  10 +
+ tests/tcg/configure.sh            |   4 +
+ 14 files changed, 577 insertions(+), 61 deletions(-)
+ create mode 100644 tests/tcg/aarch64/bti-1.c
+ create mode 100644 tests/tcg/aarch64/bti-2.c
+ create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
+
 -- 
-2.26.2
+2.25.1
 
 
