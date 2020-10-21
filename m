@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBCF2294799
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 06:56:46 +0200 (CEST)
-Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A15F29479C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 06:59:02 +0200 (CEST)
+Received: from localhost ([::1]:49482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV6B3-0005Yz-PS
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 00:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57616)
+	id 1kV6DF-00005Y-2e
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 00:59:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kV66Z-0000dj-4v
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 00:52:07 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:40874)
+ id 1kV66e-0000qJ-Jc
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 00:52:12 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:37701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kV66X-0005jX-5J
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 00:52:06 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id l2so499209pjt.5
- for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 21:52:04 -0700 (PDT)
+ id 1kV66a-0005ks-9Z
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 00:52:12 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id 144so751937pfb.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Oct 2020 21:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rP/Ck9XlqBeLFMh5U31GkmO/lp+0+vlL//subLjhvvI=;
- b=t7YtLAHiDU5HiHmbepp4UnO7hvx0qwzDTsq3sEn2Fzvqtvu+hFShib9Af1FNTp2opo
- LiMgLsuyWpmJCAD0zVTuUDHXxkJHKMnB5KFx2VFE45a1M5hVuyGjFtMvodHlzKcHlfip
- NWSGYk0yfHo/eaupPhEp6wPLTWtPn0x8GQyes3VXMFGPdNYhwdlfyYUWh9Grgedh8ide
- yiVrVMDV2aaZQcUJWz+8d9JiWSEbYQI30hdF4R/gg2L59fGKYVeKwQCKmKuqvqN8YwDv
- jsmOmeTizBZsG6t2OeKGA6ruhw0h8VSgsD51CVe2wPCtfjvkhv/REcz0yxSF9wdcrqb/
- QFRA==
+ bh=lMJF5WFnPn+3ql6O6oXn1myeHt1X9LIPANXZ/hV9clY=;
+ b=p06kQwLO2eznOwkOCu1LzJQadgEu4FH84B+snpg+BKGGqlRK3c6AP9Hd1xwyi1nQZ1
+ t1+xUxRnXaE5j9G5VXMWbkhTDe0ynyeJRduIWBtmvjRnDnXu0O/Rf/GREtjhgP99Loio
+ 4j9U+t4/5cSseYrzwkKl4eFP6F1NFnMUfpW615s/Z6viF0A3s6y1PlNdJfsGAp8cnROQ
+ gv85B0Ngk9R/grDuslPgETNU0v5cA1aWCFfeDSkP1KyWrE2QwPvS+zbqprWMQQuXv9GO
+ gTmAU8sbLpU78ObdjiMgVvxgwUpeKxiDFLUOK4W12+anwL88lC8yzp7HjAlCjR/YDjYv
+ ii2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rP/Ck9XlqBeLFMh5U31GkmO/lp+0+vlL//subLjhvvI=;
- b=PIef2cX3F6K9oKJYqiljM2vl7LnqXIC81Kzg7qG6X94Ih1/Y4DCxVCfzdZfnY9dIdM
- HkZu5Z3Im1oMLUiYuE98H9OaCqWDWC6/KSQOaN5s7OgNnO7jfi+9v14J7LurRcbQ+yuS
- AAgfoFyMoR+PWlzXZHSw0zmPh6MvGojxcXmKeDjiW/+5p7KaxjkZ/TZa3+LiPhOA2tjH
- c1ioC0ZDdeNv+wd0nk6pNaEGH5byLQGvw0oM3SuG9asOEOfvRgNtJL7jGVboufTcU7NX
- j97w1FDNWgTJqKlXuOp1wMuVh1waH97o6luenZX7yN1UFq6obxgiUNY5A7Gnoa+/dYwj
- JUsw==
-X-Gm-Message-State: AOAM533ICKq95KyFP4E2QFsrs6gl2uUWXITZOWFROOVCalVGiXPsFXCX
- r+RdRGU0QFV31lnrc9tYUtXZ4/yh1JwN7g==
-X-Google-Smtp-Source: ABdhPJw73kUhtXqM5rGtRKpgC05bD8aqVXC7uGyo61SmU7a7MeEzyiNzbdHQtYJjvkdMzJYMWKscnw==
-X-Received: by 2002:a17:90a:f617:: with SMTP id
- bw23mr1413214pjb.95.1603255923354; 
- Tue, 20 Oct 2020 21:52:03 -0700 (PDT)
+ bh=lMJF5WFnPn+3ql6O6oXn1myeHt1X9LIPANXZ/hV9clY=;
+ b=B+bmwpq/z++Xt2N3c2isMQOfvE/SDe9Bm0RNTIs0CUJk4X6udjsDqMIEl/1kDoxNFs
+ zo+jCkMkvzI0oTAdu0ab5JeVQMqizqCAGGmZ3vV+NOsUn0L3gsIaegCBpPrBRijau6by
+ YxLtC/cafHdK8DDZoOWPvvAYkKTEt2QW/sp5w/20YpPgUchYUBXGwNN5t3sFDqa2PIv2
+ 0ogY06NX5O5kz5e1GtVGxA8pYTe9ZEabdIl2inSS1UQ7wKpRh3hsPzmi5w4+RvOmZFnx
+ Ys4S0KGIwq2hG/b+DE99/AB1U+Mc20xQiEBm31se9vA/ctxqiiz+rTxIGEcE+3vMr3Ce
+ D0tA==
+X-Gm-Message-State: AOAM532965ZZ09ksJTy34cf1DgzbxM8xBjvf7e3m7JBxDWNx4OGfRDgY
+ 4ga4xwrUy0qakqc7sz18Af7yOAghsLYQxA==
+X-Google-Smtp-Source: ABdhPJyHanNuVEwI4OrWqKGFy5V9+BFifUbHKpirZzQOEpP9bgeE8ss4QtCj7PjYPS0RjQQ/CrU17A==
+X-Received: by 2002:a65:50c5:: with SMTP id s5mr1549186pgp.399.1603255926048; 
+ Tue, 20 Oct 2020 21:52:06 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id j11sm620070pfh.143.2020.10.20.21.52.02
+ by smtp.gmail.com with ESMTPSA id j11sm620070pfh.143.2020.10.20.21.52.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Oct 2020 21:52:02 -0700 (PDT)
+ Tue, 20 Oct 2020 21:52:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 09/15] softfloat: Add float_cmask and constants
-Date: Tue, 20 Oct 2020 21:51:43 -0700
-Message-Id: <20201021045149.1582203-10-richard.henderson@linaro.org>
+Subject: [RFC PATCH 11/15] Test split to softfloat-parts.c.inc
+Date: Tue, 20 Oct 2020 21:51:45 -0700
+Message-Id: <20201021045149.1582203-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201021045149.1582203-1-richard.henderson@linaro.org>
 References: <20201021045149.1582203-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,90 +84,814 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, David Hildenbrand <david@redhat.com>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Testing more than one class at a time is better done with masks.
-This reduces the static branch count.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 31 ++++++++++++++++++++++++-------
- 1 file changed, 24 insertions(+), 7 deletions(-)
+ fpu/softfloat.c           | 438 ++++++++------------------------------
+ fpu/softfloat-parts.c.inc | 327 ++++++++++++++++++++++++++++
+ 2 files changed, 421 insertions(+), 344 deletions(-)
+ create mode 100644 fpu/softfloat-parts.c.inc
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 9db55d2b11..3e625c47cd 100644
+index 3e625c47cd..3651f4525d 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -469,6 +469,20 @@ typedef enum __attribute__ ((__packed__)) {
-     float_class_snan,
- } FloatClass;
+@@ -651,191 +651,109 @@ static inline float64 float64_pack_raw(FloatParts p)
+ *----------------------------------------------------------------------------*/
+ #include "softfloat-specialize.c.inc"
  
-+#define float_cmask(bit)  (1u << (bit))
-+
-+enum {
-+    float_cmask_zero    = float_cmask(float_class_zero),
-+    float_cmask_normal  = float_cmask(float_class_normal),
-+    float_cmask_inf     = float_cmask(float_class_inf),
-+    float_cmask_qnan    = float_cmask(float_class_qnan),
-+    float_cmask_snan    = float_cmask(float_class_snan),
-+
-+    float_cmask_infzero = float_cmask_zero | float_cmask_inf,
-+    float_cmask_anynan  = float_cmask_qnan | float_cmask_snan,
-+};
-+
-+
- /* Simple helpers for checking if, or what kind of, NaN we have */
- static inline __attribute__((unused)) bool is_nan(FloatClass c)
+-/* Canonicalize EXP and FRAC, setting CLS.  */
+-static FloatParts sf_canonicalize(FloatParts part, const FloatFmt *parm,
+-                                  float_status *status)
++static FloatParts return_nan(FloatParts a, float_status *s)
  {
-@@ -1335,24 +1349,27 @@ bfloat16 QEMU_FLATTEN bfloat16_mul(bfloat16 a, bfloat16 b, float_status *status)
- static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
-                                 int flags, float_status *s)
- {
--    bool inf_zero = ((1 << a.cls) | (1 << b.cls)) ==
--                    ((1 << float_class_inf) | (1 << float_class_zero));
--    bool p_sign;
-+    bool inf_zero, p_sign;
-     bool sign_flip = flags & float_muladd_negate_result;
-     FloatClass p_class;
-     uint64_t hi, lo;
-     int p_exp;
-+    int ab_mask, abc_mask;
+-    if (part.exp == parm->exp_max && !parm->arm_althp) {
+-        if (part.frac == 0) {
+-            part.cls = float_class_inf;
+-        } else {
+-            part.frac <<= parm->frac_shift;
+-            part.cls = (parts_is_snan_frac(part.frac, status)
+-                        ? float_class_snan : float_class_qnan);
+-        }
+-    } else if (part.exp == 0) {
+-        if (likely(part.frac == 0)) {
+-            part.cls = float_class_zero;
+-        } else if (status->flush_inputs_to_zero) {
+-            float_raise(float_flag_input_denormal, status);
+-            part.cls = float_class_zero;
+-            part.frac = 0;
+-        } else {
+-            int shift = clz64(part.frac) - 1;
+-            part.cls = float_class_normal;
+-            part.exp = parm->frac_shift - parm->exp_bias - shift + 1;
+-            part.frac <<= shift;
+-        }
+-    } else {
+-        part.cls = float_class_normal;
+-        part.exp -= parm->exp_bias;
+-        part.frac = DECOMPOSED_IMPLICIT_BIT + (part.frac << parm->frac_shift);
+-    }
+-    return part;
+-}
+-
+-/* Round and uncanonicalize a floating-point number by parts. There
+- * are FRAC_SHIFT bits that may require rounding at the bottom of the
+- * fraction; these bits will be removed. The exponent will be biased
+- * by EXP_BIAS and must be bounded by [EXP_MAX-1, 0].
+- */
+-
+-static FloatParts round_canonical(FloatParts p, float_status *s,
+-                                  const FloatFmt *parm)
+-{
+-    const uint64_t frac_lsb = parm->frac_lsb;
+-    const uint64_t frac_lsbm1 = parm->frac_lsbm1;
+-    const uint64_t round_mask = parm->round_mask;
+-    const uint64_t roundeven_mask = parm->roundeven_mask;
+-    const int exp_max = parm->exp_max;
+-    const int frac_shift = parm->frac_shift;
+-    uint64_t frac, inc;
+-    int exp, flags = 0;
+-    bool overflow_norm;
+-
+-    frac = p.frac;
+-    exp = p.exp;
+-
+-    switch (p.cls) {
+-    case float_class_normal:
+-        switch (s->float_rounding_mode) {
+-        case float_round_nearest_even:
+-            overflow_norm = false;
+-            inc = ((frac & roundeven_mask) != frac_lsbm1 ? frac_lsbm1 : 0);
+-            break;
+-        case float_round_ties_away:
+-            overflow_norm = false;
+-            inc = frac_lsbm1;
+-            break;
+-        case float_round_to_zero:
+-            overflow_norm = true;
+-            inc = 0;
+-            break;
+-        case float_round_up:
+-            inc = p.sign ? 0 : round_mask;
+-            overflow_norm = p.sign;
+-            break;
+-        case float_round_down:
+-            inc = p.sign ? round_mask : 0;
+-            overflow_norm = !p.sign;
+-            break;
+-        case float_round_to_odd:
+-            overflow_norm = true;
+-            inc = frac & frac_lsb ? 0 : round_mask;
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-
+-        exp += parm->exp_bias;
+-        if (likely(exp > 0)) {
+-            if (frac & round_mask) {
+-                flags |= float_flag_inexact;
+-                frac += inc;
+-                if (frac & DECOMPOSED_OVERFLOW_BIT) {
+-                    frac >>= 1;
+-                    exp++;
+-                }
+-            }
+-            frac >>= frac_shift;
+-
+-            if (parm->arm_althp) {
+-                /* ARM Alt HP eschews Inf and NaN for a wider exponent.  */
+-                if (unlikely(exp > exp_max)) {
+-                    /* Overflow.  Return the maximum normal.  */
+-                    flags = float_flag_invalid;
+-                    exp = exp_max;
+-                    frac = -1;
+-                }
+-            } else if (unlikely(exp >= exp_max)) {
+-                flags |= float_flag_overflow | float_flag_inexact;
+-                if (overflow_norm) {
+-                    exp = exp_max - 1;
+-                    frac = -1;
+-                } else {
+-                    p.cls = float_class_inf;
+-                    goto do_inf;
+-                }
+-            }
+-        } else if (s->flush_to_zero) {
+-            flags |= float_flag_output_denormal;
+-            p.cls = float_class_zero;
+-            goto do_zero;
+-        } else {
+-            bool is_tiny = s->tininess_before_rounding
+-                        || (exp < 0)
+-                        || !((frac + inc) & DECOMPOSED_OVERFLOW_BIT);
+-
+-            shift64RightJamming(frac, 1 - exp, &frac);
+-            if (frac & round_mask) {
+-                /* Need to recompute round-to-even.  */
+-                switch (s->float_rounding_mode) {
+-                case float_round_nearest_even:
+-                    inc = ((frac & roundeven_mask) != frac_lsbm1
+-                           ? frac_lsbm1 : 0);
+-                    break;
+-                case float_round_to_odd:
+-                    inc = frac & frac_lsb ? 0 : round_mask;
+-                    break;
+-                default:
+-                    break;
+-                }
+-                flags |= float_flag_inexact;
+-                frac += inc;
+-            }
+-
+-            exp = (frac & DECOMPOSED_IMPLICIT_BIT ? 1 : 0);
+-            frac >>= frac_shift;
+-
+-            if (is_tiny && (flags & float_flag_inexact)) {
+-                flags |= float_flag_underflow;
+-            }
+-            if (exp == 0 && frac == 0) {
+-                p.cls = float_class_zero;
+-            }
+-        }
+-        break;
+-
+-    case float_class_zero:
+-    do_zero:
+-        exp = 0;
+-        frac = 0;
+-        break;
+-
+-    case float_class_inf:
+-    do_inf:
+-        assert(!parm->arm_althp);
+-        exp = exp_max;
+-        frac = 0;
+-        break;
+-
+-    case float_class_qnan:
++    switch (a.cls) {
+     case float_class_snan:
+-        assert(!parm->arm_althp);
+-        exp = exp_max;
+-        frac >>= parm->frac_shift;
++        s->float_exception_flags |= float_flag_invalid;
++        a = parts_silence_nan(a, s);
++        /* fall through */
++    case float_class_qnan:
++        if (s->default_nan_mode) {
++            return parts_default_nan(s);
++        }
+         break;
+ 
+     default:
+         g_assert_not_reached();
+     }
+-
+-    float_raise(flags, s);
+-    p.exp = exp;
+-    p.frac = frac;
+-    return p;
++    return a;
+ }
+ 
++static FloatParts pick_nan_muladd(FloatParts a, FloatParts b, FloatParts c,
++                                  bool inf_zero, float_status *s)
++{
++    int which;
 +
-+    ab_mask = float_cmask(a.cls) | float_cmask(b.cls);
-+    abc_mask = float_cmask(c.cls) | ab_mask;
-+    inf_zero = ab_mask == float_cmask_infzero;
++    if (is_snan(a.cls) || is_snan(b.cls) || is_snan(c.cls)) {
++        s->float_exception_flags |= float_flag_invalid;
++    }
++
++    which = pickNaNMulAdd(a.cls, b.cls, c.cls, inf_zero, s);
++
++    if (s->default_nan_mode) {
++        /* Note that this check is after pickNaNMulAdd so that function
++         * has an opportunity to set the Invalid flag.
++         */
++        which = 3;
++    }
++
++    switch (which) {
++    case 0:
++        break;
++    case 1:
++        a = b;
++        break;
++    case 2:
++        a = c;
++        break;
++    case 3:
++        return parts_default_nan(s);
++    default:
++        g_assert_not_reached();
++    }
++
++    if (is_snan(a.cls)) {
++        return parts_silence_nan(a, s);
++    }
++    return a;
++}
++
++#define FUNC(X)           X
++#define FRAC_TYPE         uint64_t
++#define PARTS_TYPE        FloatParts
++
++#define HI(P)             (P)
++#define LO(P)             (P)
++#define ZERO              0
++#define ONE               1
++#define MONE              -1
++
++#define ADD(P1, P2)       ((P1) + (P2))
++#define ADDI(P, I)        ((P) + (I))
++#define CLZ(P)            clz64(P)
++#define EQ0(P)            ((P) == 0)
++#define EQ(P1, P2)        ((P1) == (P2))
++#define GEU(P1, P2)       ((P1) >= (P2))
++#define OR(P1, P2)        ((P1) | (P2))
++#define SHL(P, C)         ((P) << (C))
++#define SHR(P, C)         ((P) >> (C))
++#define SHR_JAM(P, C) \
++    ({ uint64_t _r; shift64RightJamming((P), (C), &_r); _r; })
++#define SUB(P1, P2)       ((P1) - (P2))
++
++#include "softfloat-parts.c.inc"
++
++#undef FUNC
++#undef FRAC_TYPE
++#undef PARTS_TYPE
++#undef HI
++#undef LO
++#undef ZERO
++#undef MONE
++#undef ONE
++#undef ADD
++#undef ADDI
++#undef CLZ
++#undef EQ0
++#undef EQ
++#undef GEU
++#undef OR
++#undef SHL
++#undef SHR
++#undef SHR_JAM
++#undef SUB
++
+ /* Explicit FloatFmt version */
+ static FloatParts float16a_unpack_canonical(float16 f, float_status *s,
+                                             const FloatFmt *params)
+@@ -889,174 +807,6 @@ static float64 float64_round_pack_canonical(FloatParts p, float_status *s)
+     return float64_pack_raw(round_canonical(p, s, &float64_params));
+ }
  
-     /* It is implementation-defined whether the cases of (0,inf,qnan)
-      * and (inf,0,qnan) raise InvalidOperation or not (and what QNaN
-      * they return if they do), so we have to hand this information
-      * off to the target-specific pick-a-NaN routine.
-      */
--    if (is_nan(a.cls) || is_nan(b.cls) || is_nan(c.cls)) {
-+    if (unlikely(abc_mask & float_cmask_anynan)) {
-         return pick_nan_muladd(a, b, c, inf_zero, s);
-     }
- 
--    if (inf_zero) {
-+    if (unlikely(inf_zero)) {
-         s->float_exception_flags |= float_flag_invalid;
-         return parts_default_nan(s);
-     }
-@@ -1367,9 +1384,9 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
-         p_sign ^= 1;
-     }
- 
--    if (a.cls == float_class_inf || b.cls == float_class_inf) {
-+    if (ab_mask & float_cmask_inf) {
-         p_class = float_class_inf;
--    } else if (a.cls == float_class_zero || b.cls == float_class_zero) {
-+    } else if (ab_mask & float_cmask_zero) {
-         p_class = float_class_zero;
-     } else {
-         p_class = float_class_normal;
+-static FloatParts return_nan(FloatParts a, float_status *s)
+-{
+-    switch (a.cls) {
+-    case float_class_snan:
+-        s->float_exception_flags |= float_flag_invalid;
+-        a = parts_silence_nan(a, s);
+-        /* fall through */
+-    case float_class_qnan:
+-        if (s->default_nan_mode) {
+-            return parts_default_nan(s);
+-        }
+-        break;
+-
+-    default:
+-        g_assert_not_reached();
+-    }
+-    return a;
+-}
+-
+-static FloatParts pick_nan(FloatParts a, FloatParts b, float_status *s)
+-{
+-    if (is_snan(a.cls) || is_snan(b.cls)) {
+-        s->float_exception_flags |= float_flag_invalid;
+-    }
+-
+-    if (s->default_nan_mode) {
+-        return parts_default_nan(s);
+-    } else {
+-        if (pickNaN(a.cls, b.cls,
+-                    a.frac > b.frac ||
+-                    (a.frac == b.frac && a.sign < b.sign), s)) {
+-            a = b;
+-        }
+-        if (is_snan(a.cls)) {
+-            return parts_silence_nan(a, s);
+-        }
+-    }
+-    return a;
+-}
+-
+-static FloatParts pick_nan_muladd(FloatParts a, FloatParts b, FloatParts c,
+-                                  bool inf_zero, float_status *s)
+-{
+-    int which;
+-
+-    if (is_snan(a.cls) || is_snan(b.cls) || is_snan(c.cls)) {
+-        s->float_exception_flags |= float_flag_invalid;
+-    }
+-
+-    which = pickNaNMulAdd(a.cls, b.cls, c.cls, inf_zero, s);
+-
+-    if (s->default_nan_mode) {
+-        /* Note that this check is after pickNaNMulAdd so that function
+-         * has an opportunity to set the Invalid flag.
+-         */
+-        which = 3;
+-    }
+-
+-    switch (which) {
+-    case 0:
+-        break;
+-    case 1:
+-        a = b;
+-        break;
+-    case 2:
+-        a = c;
+-        break;
+-    case 3:
+-        return parts_default_nan(s);
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+-    if (is_snan(a.cls)) {
+-        return parts_silence_nan(a, s);
+-    }
+-    return a;
+-}
+-
+-/*
+- * Returns the result of adding or subtracting the values of the
+- * floating-point values `a' and `b'. The operation is performed
+- * according to the IEC/IEEE Standard for Binary Floating-Point
+- * Arithmetic.
+- */
+-
+-static FloatParts addsub_floats(FloatParts a, FloatParts b, bool subtract,
+-                                float_status *s)
+-{
+-    bool a_sign = a.sign;
+-    bool b_sign = b.sign ^ subtract;
+-
+-    if (a_sign != b_sign) {
+-        /* Subtraction */
+-
+-        if (a.cls == float_class_normal && b.cls == float_class_normal) {
+-            if (a.exp > b.exp || (a.exp == b.exp && a.frac >= b.frac)) {
+-                shift64RightJamming(b.frac, a.exp - b.exp, &b.frac);
+-                a.frac = a.frac - b.frac;
+-            } else {
+-                shift64RightJamming(a.frac, b.exp - a.exp, &a.frac);
+-                a.frac = b.frac - a.frac;
+-                a.exp = b.exp;
+-                a_sign ^= 1;
+-            }
+-
+-            if (a.frac == 0) {
+-                a.cls = float_class_zero;
+-                a.sign = s->float_rounding_mode == float_round_down;
+-            } else {
+-                int shift = clz64(a.frac) - 1;
+-                a.frac = a.frac << shift;
+-                a.exp = a.exp - shift;
+-                a.sign = a_sign;
+-            }
+-            return a;
+-        }
+-        if (is_nan(a.cls) || is_nan(b.cls)) {
+-            return pick_nan(a, b, s);
+-        }
+-        if (a.cls == float_class_inf) {
+-            if (b.cls == float_class_inf) {
+-                float_raise(float_flag_invalid, s);
+-                return parts_default_nan(s);
+-            }
+-            return a;
+-        }
+-        if (a.cls == float_class_zero && b.cls == float_class_zero) {
+-            a.sign = s->float_rounding_mode == float_round_down;
+-            return a;
+-        }
+-        if (a.cls == float_class_zero || b.cls == float_class_inf) {
+-            b.sign = a_sign ^ 1;
+-            return b;
+-        }
+-        if (b.cls == float_class_zero) {
+-            return a;
+-        }
+-    } else {
+-        /* Addition */
+-        if (a.cls == float_class_normal && b.cls == float_class_normal) {
+-            if (a.exp > b.exp) {
+-                shift64RightJamming(b.frac, a.exp - b.exp, &b.frac);
+-            } else if (a.exp < b.exp) {
+-                shift64RightJamming(a.frac, b.exp - a.exp, &a.frac);
+-                a.exp = b.exp;
+-            }
+-            a.frac += b.frac;
+-            if (a.frac & DECOMPOSED_OVERFLOW_BIT) {
+-                shift64RightJamming(a.frac, 1, &a.frac);
+-                a.exp += 1;
+-            }
+-            return a;
+-        }
+-        if (is_nan(a.cls) || is_nan(b.cls)) {
+-            return pick_nan(a, b, s);
+-        }
+-        if (a.cls == float_class_inf || b.cls == float_class_zero) {
+-            return a;
+-        }
+-        if (b.cls == float_class_inf || a.cls == float_class_zero) {
+-            b.sign = b_sign;
+-            return b;
+-        }
+-    }
+-    g_assert_not_reached();
+-}
+-
+ /*
+  * Returns the result of adding or subtracting the floating-point
+  * values `a' and `b'. The operation is performed according to the
+diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
+new file mode 100644
+index 0000000000..49bde45521
+--- /dev/null
++++ b/fpu/softfloat-parts.c.inc
+@@ -0,0 +1,327 @@
++/*
++ * QEMU float support
++ *
++ * The code in this source file is derived from release 2a of the SoftFloat
++ * IEC/IEEE Floating-point Arithmetic Package. Those parts of the code (and
++ * some later contributions) are provided under that license, as detailed below.
++ * It has subsequently been modified by contributors to the QEMU Project,
++ * so some portions are provided under:
++ *  the SoftFloat-2a license
++ *  the BSD license
++ *  GPL-v2-or-later
++ *
++ * Any future contributions to this file after December 1st 2014 will be
++ * taken to be licensed under the Softfloat-2a license unless specifically
++ * indicated otherwise.
++ */
++
++static PARTS_TYPE
++FUNC(pick_nan)(PARTS_TYPE a, PARTS_TYPE b, float_status *status)
++{
++    bool a_larger_sig;
++
++    if (is_snan(a.cls) || is_snan(b.cls)) {
++        float_raise(float_flag_invalid, status);
++    }
++
++    if (status->default_nan_mode) {
++        return FUNC(parts_default_nan)(status);
++    }
++
++    if (EQ(a.frac, b.frac)) {
++        a_larger_sig = a.sign < b.sign;
++    } else {
++        a_larger_sig = GEU(a.frac, b.frac);
++    }
++
++    if (pickNaN(a.cls, b.cls, a_larger_sig, status)) {
++        a = b;
++    }
++    if (is_snan(a.cls)) {
++        return FUNC(parts_silence_nan)(a, status);
++    }
++    return a;
++}
++
++/* Canonicalize EXP and FRAC, setting CLS.  */
++static PARTS_TYPE
++FUNC(sf_canonicalize)(PARTS_TYPE p, const FloatFmt *parm, float_status *status)
++{
++    if (p.exp == 0) {
++        if (likely(EQ0(p.frac))) {
++            p.cls = float_class_zero;
++        } else if (status->flush_inputs_to_zero) {
++            float_raise(float_flag_input_denormal, status);
++            p.cls = float_class_zero;
++            p.frac = ZERO;
++        } else {
++            int shift = CLZ(p.frac) - 1;
++            p.cls = float_class_normal;
++            p.exp = parm->frac_shift - parm->exp_bias - shift + 1;
++            p.frac = SHL(p.frac, shift);
++        }
++    } else if (likely(p.exp < parm->exp_max) || parm->arm_althp) {
++        p.cls = float_class_normal;
++        p.exp -= parm->exp_bias;
++        /* Set implicit bit. */
++        p.frac = OR(p.frac, SHL(ONE, parm->frac_size));
++        p.frac = SHL(p.frac, parm->frac_shift);
++    } else if (likely(EQ0(p.frac))) {
++        p.cls = float_class_inf;
++    } else {
++        p.frac = SHL(p.frac, parm->frac_shift);
++        p.cls = (parts_is_snan_frac(HI(p.frac), status)
++                 ? float_class_snan : float_class_qnan);
++    }
++    return p;
++}
++
++/* Round and uncanonicalize a floating-point number by parts. There
++ * are FRAC_SHIFT bits that may require rounding at the bottom of the
++ * fraction; these bits will be removed. The exponent will be biased
++ * by EXP_BIAS and must be bounded by [EXP_MAX-1, 0].
++ */
++
++static PARTS_TYPE
++FUNC(round_canonical)(PARTS_TYPE p, float_status *s, const FloatFmt *parm)
++{
++    const int exp_max = parm->exp_max;
++    const int frac_shift = parm->frac_shift;
++    const uint64_t frac_lsb = 1ull << frac_shift;
++    const uint64_t frac_lsbm1 = 1ull << (frac_shift - 1);
++    const uint64_t round_mask = frac_lsb - 1;
++    const uint64_t roundeven_mask = round_mask | frac_lsb;
++    int flags = 0;
++
++    switch (p.cls) {
++    case float_class_normal:
++        {
++            bool overflow_norm;
++            uint64_t inc, frac_lo;
++            int exp;
++
++            frac_lo = LO(p.frac);
++            switch (s->float_rounding_mode) {
++            case float_round_nearest_even:
++                overflow_norm = false;
++                inc = ((frac_lo & roundeven_mask) != frac_lsbm1
++                       ? frac_lsbm1 : 0);
++                break;
++            case float_round_ties_away:
++                overflow_norm = false;
++                inc = frac_lsbm1;
++                break;
++            case float_round_to_zero:
++                overflow_norm = true;
++                inc = 0;
++                break;
++            case float_round_up:
++                inc = p.sign ? 0 : round_mask;
++                overflow_norm = p.sign;
++                break;
++            case float_round_down:
++                inc = p.sign ? round_mask : 0;
++                overflow_norm = !p.sign;
++                break;
++            case float_round_to_odd:
++                overflow_norm = true;
++                inc = frac_lo & frac_lsb ? 0 : round_mask;
++                break;
++            default:
++                g_assert_not_reached();
++            }
++
++            exp = p.exp + parm->exp_bias;
++            if (likely(exp > 0)) {
++                if (frac_lo & round_mask) {
++                    flags |= float_flag_inexact;
++                    p.frac = ADDI(p.frac, inc);
++                    if (HI(p.frac) & DECOMPOSED_OVERFLOW_BIT) {
++                        p.frac = SHR(p.frac, 1);
++                        exp++;
++                    }
++                }
++                p.frac = SHR(p.frac, frac_shift);
++
++                if (parm->arm_althp) {
++                    /* ARM Alt HP eschews Inf and NaN for a wider exponent.  */
++                    if (unlikely(exp > exp_max)) {
++                        /* Overflow.  Return the maximum normal.  */
++                        flags = float_flag_invalid;
++                        exp = exp_max;
++                        p.frac = MONE;
++                    }
++                } else if (unlikely(exp >= exp_max)) {
++                    flags |= float_flag_overflow | float_flag_inexact;
++                    if (overflow_norm) {
++                        exp = exp_max - 1;
++                        p.frac = MONE;
++                    } else {
++                        p.cls = float_class_inf;
++                        goto do_inf;
++                    }
++                }
++            } else if (s->flush_to_zero) {
++                flags |= float_flag_output_denormal;
++                p.cls = float_class_zero;
++                goto do_zero;
++            } else {
++                bool is_tiny = s->tininess_before_rounding || exp < 0;
++                if (!is_tiny) {
++                    FRAC_TYPE frac_inc = ADDI(p.frac, inc);
++                    if (HI(frac_inc) & DECOMPOSED_OVERFLOW_BIT) {
++                        is_tiny = true;
++                    }
++                }
++
++                p.frac = SHR_JAM(p.frac, 1 - exp);
++                frac_lo = LO(p.frac);
++
++                if (frac_lo & round_mask) {
++                    /* Need to recompute round-to-even / round-to-odd.  */
++                    switch (s->float_rounding_mode) {
++                    case float_round_nearest_even:
++                        inc = ((frac_lo & roundeven_mask) != frac_lsbm1
++                               ? frac_lsbm1 : 0);
++                        break;
++                    case float_round_to_odd:
++                        inc = frac_lo & frac_lsb ? 0 : round_mask;
++                        break;
++                    default:
++                        break;
++                    }
++                    flags |= float_flag_inexact;
++                    p.frac = ADDI(p.frac, inc);
++                }
++
++                exp = (HI(p.frac) & DECOMPOSED_IMPLICIT_BIT ? 1 : 0);
++                p.frac = SHR(p.frac, frac_shift);
++
++                if (is_tiny && (flags & float_flag_inexact)) {
++                    flags |= float_flag_underflow;
++                }
++                if (exp == 0 && EQ0(p.frac)) {
++                    p.cls = float_class_zero;
++                }
++            }
++            p.exp = exp;
++        }
++        break;
++
++    case float_class_zero:
++    do_zero:
++        p.exp = 0;
++        p.frac = ZERO;
++        break;
++
++    case float_class_inf:
++    do_inf:
++        g_assert(!parm->arm_althp);
++        p.exp = exp_max;
++        p.frac = ZERO;
++        break;
++
++    case float_class_qnan:
++    case float_class_snan:
++        g_assert(!parm->arm_althp);
++        p.exp = exp_max;
++        p.frac = SHR(p.frac, parm->frac_shift);
++        break;
++
++    default:
++        g_assert_not_reached();
++    }
++
++    float_raise(flags, s);
++    return p;
++}
++
++/*
++ * Returns the result of adding or subtracting the values of the
++ * floating-point values `a' and `b'. The operation is performed
++ * according to the IEC/IEEE Standard for Binary Floating-Point
++ * Arithmetic.
++ */
++
++static PARTS_TYPE
++FUNC(addsub_floats)(PARTS_TYPE a, PARTS_TYPE b,
++                    bool subtract, float_status *s)
++{
++    bool a_sign = a.sign;
++    bool b_sign = b.sign ^ subtract;
++
++    if (a_sign != b_sign) {
++        /* Subtraction */
++
++        if (a.cls == float_class_normal && b.cls == float_class_normal) {
++            if (a.exp > b.exp || (a.exp == b.exp && GEU(a.frac, b.frac))) {
++                b.frac = SHR_JAM(b.frac, a.exp - b.exp);
++                a.frac = SUB(a.frac, b.frac);
++            } else {
++                a.frac = SHR_JAM(a.frac, b.exp - a.exp);
++                a.frac = SUB(b.frac, a.frac);
++                a.exp = b.exp;
++                a_sign ^= 1;
++            }
++
++            if (EQ0(a.frac)) {
++                a.cls = float_class_zero;
++                a.sign = s->float_rounding_mode == float_round_down;
++            } else {
++                int shift = CLZ(a.frac) - 1;
++                a.frac = SHL(a.frac, shift);
++                a.exp = a.exp - shift;
++                a.sign = a_sign;
++            }
++            return a;
++        }
++        if (is_nan(a.cls) || is_nan(b.cls)) {
++            return FUNC(pick_nan)(a, b, s);
++        }
++        if (a.cls == float_class_inf) {
++            if (b.cls == float_class_inf) {
++                float_raise(float_flag_invalid, s);
++                return FUNC(parts_default_nan)(s);
++            }
++            return a;
++        }
++        if (a.cls == float_class_zero && b.cls == float_class_zero) {
++            a.sign = s->float_rounding_mode == float_round_down;
++            return a;
++        }
++        if (a.cls == float_class_zero || b.cls == float_class_inf) {
++            b.sign = a_sign ^ 1;
++            return b;
++        }
++        if (b.cls == float_class_zero) {
++            return a;
++        }
++    } else {
++        /* Addition */
++        if (a.cls == float_class_normal && b.cls == float_class_normal) {
++            if (a.exp > b.exp) {
++                b.frac = SHR_JAM(b.frac, a.exp - b.exp);
++            } else if (a.exp < b.exp) {
++                a.frac = SHR_JAM(a.frac, b.exp - a.exp);
++                a.exp = b.exp;
++            }
++            a.frac = ADD(a.frac, b.frac);
++            if (HI(a.frac) & DECOMPOSED_OVERFLOW_BIT) {
++                a.frac = SHR_JAM(a.frac, 1);
++                a.exp += 1;
++            }
++            return a;
++        }
++        if (is_nan(a.cls) || is_nan(b.cls)) {
++            return FUNC(pick_nan)(a, b, s);
++        }
++        if (a.cls == float_class_inf || b.cls == float_class_zero) {
++            return a;
++        }
++        if (b.cls == float_class_inf || a.cls == float_class_zero) {
++            b.sign = b_sign;
++            return b;
++        }
++    }
++    g_assert_not_reached();
++}
 -- 
 2.25.1
 
