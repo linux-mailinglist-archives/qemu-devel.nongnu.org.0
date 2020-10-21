@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E582946FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 05:34:57 +0200 (CEST)
-Received: from localhost ([::1]:51096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E962946FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 05:34:54 +0200 (CEST)
+Received: from localhost ([::1]:50926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kV4ts-0005ud-Tp
-	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 23:34:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42892)
+	id 1kV4tp-0005pY-Fk
+	for lists+qemu-devel@lfdr.de; Tue, 20 Oct 2020 23:34:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s6-0004IR-Ej
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32432)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s5-0004Hi-J3
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s3-0001ZI-CD
- for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kV4s3-0001Y8-3E
+ for qemu-devel@nongnu.org; Tue, 20 Oct 2020 23:33:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603251182;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vqn3cZ5hp1usWsWARkAh7JYwIsM2YAQoWABRtHVjJYU=;
- b=g9Rz3NbLuTy48ov7dPL6U14TZpxlfd8e3kj9m3nhsz8J/f5R5hqfhgm9NXVC3CJ0nAavhW
- ambNpeOrL5sulDs9ogw3KDHO/kRdWW8fLZ2I5WnXaX/YbPNxf+ljddvfFAJe7C7ogxNxxs
- +f9shL12+/s3/2Pnpii4cJvBKrtvJ2o=
+ bh=nA0lpC6z+xG0DdUBM6SNAsPlbMblmsB8FWQCEeJdlks=;
+ b=DicPiizVSZES020vtzCnuwGEEeXN+46TVlq9wqHySDMDqMOWZn4mmiEQ6ad/Wa+3eFU9+b
+ zyJ8U4FLPb33KUoY37EKvuU4/19ybyH86SJcw/XR9gzt4jwliGvQ9N0YccNYV5ykUxDWn/
+ oG1rpE2mGSvLx9BaUzwySekv7nFX1hg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-It7BWVN_MTCzG_Gr5OJviQ-1; Tue, 20 Oct 2020 23:33:00 -0400
-X-MC-Unique: It7BWVN_MTCzG_Gr5OJviQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-11-v5p3VvmfO3KVArismKreww-1; Tue, 20 Oct 2020 23:33:00 -0400
+X-MC-Unique: v5p3VvmfO3KVArismKreww-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D403803F4D;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F07857053;
  Wed, 21 Oct 2020 03:32:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFADC5B4A3;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF9951000232;
  Wed, 21 Oct 2020 03:32:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7EFE811275C0; Wed, 21 Oct 2020 05:32:57 +0200 (CEST)
+ id 8311111275C2; Wed, 21 Oct 2020 05:32:57 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] qapi: Restrict '(p)memsave' command to machine code
-Date: Wed, 21 Oct 2020 05:32:55 +0200
-Message-Id: <20201021033257.2126624-4-armbru@redhat.com>
+Subject: [PULL 4/5] qapi: Restrict 'query-kvm' command to machine code
+Date: Wed, 21 Oct 2020 05:32:56 +0200
+Message-Id: <20201021033257.2126624-5-armbru@redhat.com>
 In-Reply-To: <20201021033257.2126624-1-armbru@redhat.com>
 References: <20201021033257.2126624-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,162 +89,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Restricting memsave/pmemsave to machine.json pulls slightly
+Restricting query-kvm to machine.json pulls slightly
 less QAPI-generated code into user-mode and tools.
 
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201012121536.3381997-4-philmd@redhat.com>
+Message-Id: <20201012121536.3381997-5-philmd@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/machine.json | 61 +++++++++++++++++++++++++++++++++++++++++++++++
- qapi/misc.json    | 61 -----------------------------------------------
- 2 files changed, 61 insertions(+), 61 deletions(-)
+ qapi/machine.json | 30 ++++++++++++++++++++++++++++++
+ qapi/misc.json    | 30 ------------------------------
+ 2 files changed, 30 insertions(+), 30 deletions(-)
 
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 55328d4f3c..5a3bbcae01 100644
+index 5a3bbcae01..7c9a263778 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -887,6 +887,67 @@
- { 'enum': 'HostMemPolicy',
-   'data': [ 'default', 'preferred', 'bind', 'interleave' ] }
+@@ -561,6 +561,36 @@
+ ##
+ { 'command': 'inject-nmi' }
  
 +##
-+# @memsave:
++# @KvmInfo:
 +#
-+# Save a portion of guest memory to a file.
++# Information about support for KVM acceleration
 +#
-+# @val: the virtual address of the guest to start from
++# @enabled: true if KVM acceleration is active
 +#
-+# @size: the size of memory region to save
-+#
-+# @filename: the file to save the memory to as binary data
-+#
-+# @cpu-index: the index of the virtual CPU to use for translating the
-+#             virtual address (defaults to CPU 0)
-+#
-+# Returns: Nothing on success
++# @present: true if KVM acceleration is built into this executable
 +#
 +# Since: 0.14.0
-+#
-+# Notes: Errors were not reliably returned until 1.1
-+#
-+# Example:
-+#
-+# -> { "execute": "memsave",
-+#      "arguments": { "val": 10,
-+#                     "size": 100,
-+#                     "filename": "/tmp/virtual-mem-dump" } }
-+# <- { "return": {} }
-+#
 +##
-+{ 'command': 'memsave',
-+  'data': {'val': 'int', 'size': 'int', 'filename': 'str', '*cpu-index': 'int'} }
++{ 'struct': 'KvmInfo', 'data': {'enabled': 'bool', 'present': 'bool'} }
 +
 +##
-+# @pmemsave:
++# @query-kvm:
 +#
-+# Save a portion of guest physical memory to a file.
++# Returns information about KVM acceleration
 +#
-+# @val: the physical address of the guest to start from
-+#
-+# @size: the size of memory region to save
-+#
-+# @filename: the file to save the memory to as binary data
-+#
-+# Returns: Nothing on success
++# Returns: @KvmInfo
 +#
 +# Since: 0.14.0
 +#
-+# Notes: Errors were not reliably returned until 1.1
-+#
 +# Example:
 +#
-+# -> { "execute": "pmemsave",
-+#      "arguments": { "val": 10,
-+#                     "size": 100,
-+#                     "filename": "/tmp/physical-mem-dump" } }
-+# <- { "return": {} }
++# -> { "execute": "query-kvm" }
++# <- { "return": { "enabled": true, "present": true } }
 +#
 +##
-+{ 'command': 'pmemsave',
-+  'data': {'val': 'int', 'size': 'int', 'filename': 'str'} }
++{ 'command': 'query-kvm', 'returns': 'KvmInfo' }
 +
  ##
- # @Memdev:
+ # @NumaOptionsType:
  #
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 90fd862a6c..9fa702b0f6 100644
+index 9fa702b0f6..363115c1ed 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -177,67 +177,6 @@
+@@ -68,36 +68,6 @@
  ##
- { 'command': 'stop' }
+ { 'command': 'query-name', 'returns': 'NameInfo', 'allow-preconfig': true }
  
 -##
--# @memsave:
+-# @KvmInfo:
 -#
--# Save a portion of guest memory to a file.
+-# Information about support for KVM acceleration
 -#
--# @val: the virtual address of the guest to start from
+-# @enabled: true if KVM acceleration is active
 -#
--# @size: the size of memory region to save
--#
--# @filename: the file to save the memory to as binary data
--#
--# @cpu-index: the index of the virtual CPU to use for translating the
--#             virtual address (defaults to CPU 0)
--#
--# Returns: Nothing on success
+-# @present: true if KVM acceleration is built into this executable
 -#
 -# Since: 0.14.0
--#
--# Notes: Errors were not reliably returned until 1.1
--#
--# Example:
--#
--# -> { "execute": "memsave",
--#      "arguments": { "val": 10,
--#                     "size": 100,
--#                     "filename": "/tmp/virtual-mem-dump" } }
--# <- { "return": {} }
--#
 -##
--{ 'command': 'memsave',
--  'data': {'val': 'int', 'size': 'int', 'filename': 'str', '*cpu-index': 'int'} }
+-{ 'struct': 'KvmInfo', 'data': {'enabled': 'bool', 'present': 'bool'} }
 -
 -##
--# @pmemsave:
+-# @query-kvm:
 -#
--# Save a portion of guest physical memory to a file.
+-# Returns information about KVM acceleration
 -#
--# @val: the physical address of the guest to start from
--#
--# @size: the size of memory region to save
--#
--# @filename: the file to save the memory to as binary data
--#
--# Returns: Nothing on success
+-# Returns: @KvmInfo
 -#
 -# Since: 0.14.0
 -#
--# Notes: Errors were not reliably returned until 1.1
--#
 -# Example:
 -#
--# -> { "execute": "pmemsave",
--#      "arguments": { "val": 10,
--#                     "size": 100,
--#                     "filename": "/tmp/physical-mem-dump" } }
--# <- { "return": {} }
+-# -> { "execute": "query-kvm" }
+-# <- { "return": { "enabled": true, "present": true } }
 -#
 -##
--{ 'command': 'pmemsave',
--  'data': {'val': 'int', 'size': 'int', 'filename': 'str'} }
+-{ 'command': 'query-kvm', 'returns': 'KvmInfo' }
 -
  ##
- # @cont:
+ # @IOThreadInfo:
  #
 -- 
 2.26.2
