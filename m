@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73692953D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 23:06:09 +0200 (CEST)
-Received: from localhost ([::1]:54326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B242953E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 23:12:49 +0200 (CEST)
+Received: from localhost ([::1]:41558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVLJA-000637-Rl
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 17:06:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40466)
+	id 1kVLPc-000504-Rw
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 17:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVLB1-0005fc-C8
+ id 1kVLB1-0005g2-F1
  for qemu-devel@nongnu.org; Wed, 21 Oct 2020 16:57:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44676)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVLAv-0006hM-J0
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 16:57:42 -0400
+ id 1kVLAx-0006iI-AZ
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 16:57:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603313854;
+ s=mimecast20190719; t=1603313855;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kdzKqU40Mrkt2ehEsXWNYxvEj9MX/Xb2GS8n9gTpND4=;
- b=CYB5ofy/ioQiDaAvEzwjkCKCaF1Vw1qm6PjZQl2jd+bJ1G9qnM360aN2ucIgkJfZmUSm1K
- zb2Qh306WdvtUSPSlNS2s4HiJS6mEpvwGOcWtyR1jykmQhhnJJmIFEvJCAvCtQobbdWuMA
- 5NxbP5qHS12ldAM2t236mbSCG3kLvnA=
+ bh=yUI3M4ipd89OmxngsbbB8zIQpi1LjWQ0a+wUYL8SpBM=;
+ b=bsRqYHsuuyYsxeIkKrKdJhUDmEpi7kcYcgXsTCfiVxycYkuAxup9UzTdeqaMO8IeK6X/ow
+ eUScOOIwy9xBJJ0H7UsWLur3Gh2sKK/Sn2HaSTTkFVn2Bu0OtGfBdsTJjcBQyN9JkzdX3y
+ qhiEH1+nkiZb99Qdf5jIeiP0H4ydBLA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-9VBGNAs1OxmaGqDCZxfwDQ-1; Wed, 21 Oct 2020 16:57:32 -0400
-X-MC-Unique: 9VBGNAs1OxmaGqDCZxfwDQ-1
+ us-mta-261-8AQQP2oIMbCIkaCTFAHxrQ-1; Wed, 21 Oct 2020 16:57:33 -0400
+X-MC-Unique: 8AQQP2oIMbCIkaCTFAHxrQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 096641006C94
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC8A6186DD23
  for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 20:57:32 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 796196EF62;
- Wed, 21 Oct 2020 20:57:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2996F6EF62;
+ Wed, 21 Oct 2020 20:57:32 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/22] vl: load plugins as late as possible
-Date: Wed, 21 Oct 2020 16:57:11 -0400
-Message-Id: <20201021205716.2359430-18-pbonzini@redhat.com>
+Subject: [PATCH 18/22] vl: move semihosting command line fallback to
+ qemu_finish_machine_init
+Date: Wed, 21 Oct 2020 16:57:12 -0400
+Message-Id: <20201021205716.2359430-19-pbonzini@redhat.com>
 In-Reply-To: <20201021205716.2359430-1-pbonzini@redhat.com>
 References: <20201021205716.2359430-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +59,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/20 22:12:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 02:16:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,66 +87,43 @@ Cc: jsnow@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no need to load plugins in the middle of default device processing,
-move -plugin handling just before preconfig is entered.
+Move more sane parts of the huge qemu_init function out of it.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ softmmu/vl.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 8577667b8f..75e57133ad 100644
+index 75e57133ad..e58572dbd8 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -125,6 +125,7 @@ static const char *boot_order;
- static const char *boot_once;
- static const char *incoming;
- static const char *loadvm;
-+static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
- enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
- int mem_prealloc; /* force preallocation of physical target memory */
- int display_opengl;
-@@ -3064,12 +3065,18 @@ void qemu_finish_machine_init(void)
-     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
-     DisplayState *ds;
+@@ -3067,6 +3067,11 @@ void qemu_finish_machine_init(void)
  
-+    /* from here on runstate is RUN_STATE_PRELAUNCH */
+     /* from here on runstate is RUN_STATE_PRELAUNCH */
+ 
++    if (semihosting_enabled() && !semihosting_get_argc() && current_machine->kernel_filename) {
++        /* fall back to the -kernel/-append */
++        semihosting_arg_fallback(current_machine->kernel_filename, current_machine->kernel_cmdline);
++    }
 +
      if (machine_class->default_ram_id && current_machine->ram_size &&
          numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
          create_default_memdev(current_machine, mem_path);
+@@ -4372,13 +4377,6 @@ void qemu_init(int argc, char **argv, char **envp)
+         boot_order = machine_class->default_boot_order;
      }
  
--    /* from here on runstate is RUN_STATE_PRELAUNCH */
-+    /* process plugin before CPUs are created, but once -smp has been parsed */
-+    if (qemu_plugin_load_list(&plugin_list)) {
-+        exit(1);
-+    }
-+
-     machine_run_board_init(current_machine);
- 
-     /*
-@@ -3196,7 +3203,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     Error *err = NULL;
-     bool have_custom_ram_size;
-     BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
--    QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
- 
-     qemu_add_opts(&qemu_drive_opts);
-     qemu_add_drive_opts(&qemu_legacy_drive_opts);
-@@ -4164,11 +4170,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                                machine_class->default_machine_opts, 0);
-     }
- 
--    /* process plugin before CPUs are created, but once -smp has been parsed */
--    if (qemu_plugin_load_list(&plugin_list)) {
--        exit(1);
+-    if (semihosting_enabled() && !semihosting_get_argc()) {
+-        const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
+-        const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
+-        /* fall back to the -kernel/-append */
+-        semihosting_arg_fallback(kernel_filename, kernel_cmdline);
 -    }
 -
-     qemu_opts_foreach(qemu_find_opts("device"),
-                       default_driver_check, NULL, NULL);
-     qemu_opts_foreach(qemu_find_opts("global"),
+     if (net_init_clients(&err) < 0) {
+         error_report_err(err);
+         exit(1);
 -- 
 2.26.2
 
