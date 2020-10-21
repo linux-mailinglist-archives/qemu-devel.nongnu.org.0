@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4042950F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 18:39:16 +0200 (CEST)
-Received: from localhost ([::1]:60686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAECB295115
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 18:49:23 +0200 (CEST)
+Received: from localhost ([::1]:58962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVH8t-00075q-0Z
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 12:39:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60626)
+	id 1kVHIg-0001iq-S6
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 12:49:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVH1l-0006Ql-W5
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:31:56 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40002)
+ id 1kVH1p-0006TZ-Q4
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:31:57 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVH1e-0005ZT-Ji
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:31:53 -0400
-Received: by mail-wr1-x443.google.com with SMTP id h5so3783441wrv.7
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 09:31:43 -0700 (PDT)
+ id 1kVH1j-0005Zg-Kj
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 12:31:56 -0400
+Received: by mail-wr1-x432.google.com with SMTP id x7so3866117wrl.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 09:31:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zfEkT9MWpUgAX/CaZqQt5HHYDxo93m40+dqR7AiebzI=;
- b=OJz6jueV2oYleN9bmgRUR2QIu/UA7VQPYy/c9trxBR7PKmn9aXXEb0WPDUcpnnhQzo
- rP1A7Xg1higfuGuwT386NRklR3lCNFAXocfs5Qa8cwIxpd27UiKyZ7FlhORcsaXx5Xb+
- Q8J1pzYSM4/Zdtsz9Cv+ougWynoluJAZP34t3zXORSKFd/6Gdg+6pFP2edq1tTZ0cf0a
- Vg+V2q1HQPK1uLHPNoaDG6+wcsRmvvfsYZZrS2DfBgK9BOK1XjQikvg6q3iezz46QwAd
- 2A65U34IYjR88NX9p68gFrzQqtO6cV6sur7j4+Dweo/GFQUjry9+k3oAN94jlLWX5Dvh
- VTKA==
+ bh=lv4v4zlzR8QidECUdhB6cFe3aFKAbs5ejTx2hQvhsq4=;
+ b=qs2+rZTWpAmK5XzFxv4CkPF3kktEOrMHTxgI3ERon13JT7/uf8Go/01qqwoWtIfBh5
+ O8KIX2mM3tBvcSgHteyk2NKhMTV1k6j7eWhmV9ircdXcnBylPbz3cWoeRMHgqbnqApAt
+ xs4ZIKqbaJv92CMWbOevXRucCTLhps7i1jYtZJaPBizdJ5txRHJKHbZUsxMDVVBYU2od
+ PtgL2FN+osqAFURP0Q19cWkeDJ6xgHW6ffztPcjdeXHKDI4av0JtaUknWxlfYZOpuJAl
+ Chl9bXJ904uVSEhxYi+KgHh/DCqmcZZy9cgJwRMw5s1rPsok0uZHSkwP31pLAvBCPND7
+ 2aHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zfEkT9MWpUgAX/CaZqQt5HHYDxo93m40+dqR7AiebzI=;
- b=oPbHf23heE7RoyF7LOb3/JimibRdu3xb7HSXr+D5F8DlNgUolGanlscjCdBXizJDE8
- fww4iXuAxh2HChHYX0bRTz0HWWxUpbHfyQJJ98OsxpowlUOPvQMTOgmd3j2QCcPlzM6h
- toepBTeo2fJvUtLhSml0SJ7bzOcR+P7J5OdHLrz7FOLt7jMQmzkopFgsyodcXxq0be3D
- N+/8fEDivWMTMQ6uHz0sTmCWnflpMo+G04OJxTO2RzjdgkzCsn+/5ij6YRK2AWMEb6ly
- UxWhABi2qaCvYoh0X5hlQNX+7irq5juh38d1x/Q9ZrTaeFBidJmct4G0C3Z0ZErtx8YZ
- q3QA==
-X-Gm-Message-State: AOAM532Dq3xHeZIpfUcipWfs+ZTw33GTiKaPm5m72LLZeR8Kjq7gHLYO
- hRGmu6xbxFEiSZdXticR1mGsOg==
-X-Google-Smtp-Source: ABdhPJxD9TNkAHgUNNVH60yu25lpjpS7Skqwii89ntIUJipUU9Z7z5mTZUoBd50o/iqVp5uk39n2JA==
-X-Received: by 2002:adf:f182:: with SMTP id h2mr5737179wro.199.1603297902957; 
- Wed, 21 Oct 2020 09:31:42 -0700 (PDT)
+ bh=lv4v4zlzR8QidECUdhB6cFe3aFKAbs5ejTx2hQvhsq4=;
+ b=p59iN26KQK2uqce9uKM5mDDPJJIoR0iWqnwG7iWMUNWz31Y/4orcEO9PBgdbTtc6ZY
+ 2cbkz+a39xOkpCQ8Bf3qkrhAYI2pa1AqzaN3fPYBfgkFK8HzI1yGMMs8hKsyOymQnTS8
+ CBiprcDooRGiPEWin3uAIkO4hEGqQ6hTuzYFY1dXM9irPoVrb0mP4g6AmrthKfQgAjA1
+ peQQMCEDuE0R8/5XnzE2WgbP+84nNlnD+qsJvGBYi0pXk8/TSNl+0tuMAiU/gjxsO71o
+ +5QktQM/J5PlqFJKQIfOfi29hfHYntdvycB4gk5qZnYJdh1/MkXknKot8xrx+7As+ose
+ VQcw==
+X-Gm-Message-State: AOAM5323wK6FbgRqpckMx/w6xEQnkEoRGUsAtJByWHucBsC5O4nJHHmn
+ ommjXQjcgXCyq5dmvlWHetyr3A==
+X-Google-Smtp-Source: ABdhPJzOZ3vY8J/bK1jM2nPuiuOa9z4CD1g33pk46WHXaYZ8qrbWPzmbWw1Yh38KalgJwIlED7u9fQ==
+X-Received: by 2002:a5d:5086:: with SMTP id a6mr5674540wrt.283.1603297905883; 
+ Wed, 21 Oct 2020 09:31:45 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e11sm4759973wrj.75.2020.10.21.09.31.37
+ by smtp.gmail.com with ESMTPSA id p9sm4132354wmm.4.2020.10.21.09.31.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 21 Oct 2020 09:31:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0530E1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 1F8561FF8F;
  Wed, 21 Oct 2020 17:31:37 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 2/6] contrib/gitdm: Add more individual contributors
-Date: Wed, 21 Oct 2020 17:31:32 +0100
-Message-Id: <20201021163136.27324-3-alex.bennee@linaro.org>
+Subject: [PATCH v1 3/6] tests/docker/dockerfiles/centos: Use SDL2 instead of
+ SDL1
+Date: Wed, 21 Oct 2020 17:31:33 +0100
+Message-Id: <20201021163136.27324-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201021163136.27324-1-alex.bennee@linaro.org>
 References: <20201021163136.27324-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,38 +89,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>, James Hogan <jhogan@kernel.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, Michael Rolnik <mrolnik@gmail.com>,
+Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: <20201004182506.2038515-1-f4bug@amsat.org>
-Acked-by: Subbaraya Sundeep <sundeep.lkml@gmail.com>
-Acked-by: Michael Rolnik <mrolnik@gmail.com>
-Acked-by: Subbaraya Sundeep <sundeep.lkml@gmail.com>
-Acked-by: Thomas Huth <huth@tuxfamily.org>
-Acked-by: James Hogan <jhogan@kernel.org>
-Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
----
- contrib/gitdm/group-map-individuals | 5 +++++
- 1 file changed, 5 insertions(+)
+From: Thomas Huth <thuth@redhat.com>
 
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index d135f4b143..36bbb77c39 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -24,3 +24,8 @@ nieklinnenbank@gmail.com
- devnexen@gmail.com
- pauldzim@gmail.com
- ani@anisinha.ca
-+sundeep.lkml@gmail.com
-+mrolnik@gmail.com
-+huth@tuxfamily.org
-+jhogan@kernel.org
-+atar4qemu@gmail.com
+We do not support SDL1 in QEMU anymore. Use SDL2 instead.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20201021072308.9224-1-thuth@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/docker/dockerfiles/centos7.docker | 2 +-
+ tests/docker/dockerfiles/centos8.docker | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
+index 8b273725ee..6f11af1989 100644
+--- a/tests/docker/dockerfiles/centos7.docker
++++ b/tests/docker/dockerfiles/centos7.docker
+@@ -31,7 +31,7 @@ ENV PACKAGES \
+     perl-Test-Harness \
+     pixman-devel \
+     python3 \
+-    SDL-devel \
++    SDL2-devel \
+     spice-glib-devel \
+     spice-server-devel \
+     tar \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 585dfad9be..f86931f955 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -2,7 +2,7 @@ FROM centos:8.1.1911
+ 
+ RUN dnf -y update
+ ENV PACKAGES \
+-    SDL-devel \
++    SDL2-devel \
+     bzip2 \
+     bzip2-devel \
+     dbus-daemon \
 -- 
 2.20.1
 
