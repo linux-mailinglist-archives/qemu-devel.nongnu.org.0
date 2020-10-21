@@ -2,53 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363EF294D8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:32:15 +0200 (CEST)
-Received: from localhost ([::1]:53978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18605294DA9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Oct 2020 15:35:05 +0200 (CEST)
+Received: from localhost ([::1]:34008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVEDu-0005Jp-7m
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60182)
+	id 1kVEGe-0000ww-43
+	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 09:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <9bec33a7d8f006ef8f80517985d0d6ac48650d53@lizzy.crudebyte.com>)
- id 1kVE5g-0004DS-Cp
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:23:44 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:47749)
+ (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
+ id 1kVE8m-0008Hy-A3
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:26:56 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:49862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <9bec33a7d8f006ef8f80517985d0d6ac48650d53@lizzy.crudebyte.com>)
- id 1kVE5e-0003Z0-NJ
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:23:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=Akr9UuK1L3lZF7Xsio4Ln5H3B2b/JHGraEuk31vJZJw=; b=QY17O
- RFPmIPvL7OCpaydWsKOCfUdarMtH3Icmf3GFi/8ElOP6vbmNCWyyvgqYjZJrp8z6KBDOzQwgK9tjz
- Gj1x6lc4XewN2NNaeYykAwQoJ6td9xoSXuiUtCsYfD67Su6nuU7B7Fp3O7Uk3HngTDS9dmsew0eOH
- 8xCDftr8dooj+v1REmHLqvS4UErkkDcf4MQW1iRURdIH3h/mtIzTIejxqtz7PaKanByiMr0QmejGx
- dWChq6npqhxt3Pn4VutQ/4LDWwWmPBS7AAonC7THHxDd0Tk7dN/lBUQuI74kATnQR/oHYbniAZIAK
- jTRkgboXdI2mnh+49XaP8Yms8GWjQ==;
-Message-Id: <9bec33a7d8f006ef8f80517985d0d6ac48650d53.1603285620.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1603285620.git.qemu_oss@crudebyte.com>
-References: <cover.1603285620.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 21 Oct 2020 14:55:46 +0200
-Subject: [PATCH v2 8/8] tests/9pfs: add local Tunlinkat hard link test
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=9bec33a7d8f006ef8f80517985d0d6ac48650d53@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 09:21:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
+ id 1kVE8j-000470-2Y
+ for qemu-devel@nongnu.org; Wed, 21 Oct 2020 09:26:55 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09LDOTsV162142;
+ Wed, 21 Oct 2020 13:26:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=xhjukGmCPuCvtLYU0I/ZDOlAyAnOkjOmWVwSWu2PNtU=;
+ b=M1W94WEveggzGYcVQ3bB/vunDFHSBZHbBBZCisjsd13Gsa6a8kjgvkneprhYRk2FrHNM
+ jxv6f3PZro0Std7YcQT01ystacUzRmY8JDSvGLV0lMR9FIUguqLfDCvXOTABZoPAG1VS
+ eh+vt40QrvkV/37nzsVmh+Th7vvqGAy5VVjIVEGfqdGAmVL0wukZIV3bRso8DLAOENQQ
+ 4VAjaMJ1nkE9vhDYGUN4Tj6hRUDEtftXRR61mshM2mJZziC2/dGCWfm5Y2SifUmQlCrR
+ HbEUV/VvnepyJe5B882wapOjpNivmn840wx6WDb+cSyQ9MAabo8HVSWWG6lfNt45wDUy 3Q== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 34ak16gsb4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 21 Oct 2020 13:26:46 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09LDOwkY002676;
+ Wed, 21 Oct 2020 13:26:46 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 348ahxkbfm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 21 Oct 2020 13:26:46 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09LDQjJv011280;
+ Wed, 21 Oct 2020 13:26:45 GMT
+Received: from [10.39.238.185] (/10.39.238.185)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 21 Oct 2020 06:26:45 -0700
+Subject: Re: [PATCH 0/1] Do not stop guest when panic event is received
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <1601606494-1154-1-git-send-email-alejandro.j.jimenez@oracle.com>
+ <74a8c57d-4f2d-64cd-f2d2-32dc88b64f9b@redhat.com>
+From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <1c9cdb1d-5dd5-a783-96e9-8f62a498951a@oracle.com>
+Date: Wed, 21 Oct 2020 09:26:43 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
+MIME-Version: 1.0
+In-Reply-To: <74a8c57d-4f2d-64cd-f2d2-32dc88b64f9b@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9780
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 bulkscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010210102
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9780
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 mlxscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010210102
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=alejandro.j.jimenez@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 09:26:49
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,63 +105,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test case uses a Tunlinkat request to remove a previously hard
-linked file by using the 9pfs 'local' fs driver.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- tests/qtest/virtio-9p-test.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 460fa49fe3..23433913bb 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1391,6 +1391,34 @@ static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(real_file);
- }
- 
-+static void fs_unlinkat_hardlink(void *obj, void *data,
-+                                 QGuestAllocator *t_alloc)
-+{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    struct stat st_real, st_link;
-+    char *real_file = virtio_9p_test_path("08/real_file");
-+    char *hardlink_file = virtio_9p_test_path("08/hardlink_file");
-+
-+    do_attach(v9p);
-+    do_mkdir(v9p, "/", "08");
-+    do_lcreate(v9p, "08", "real_file");
-+    g_assert(stat(real_file, &st_real) == 0);
-+    g_assert((st_real.st_mode & S_IFMT) == S_IFREG);
-+
-+    do_hardlink(v9p, "08", "hardlink_file", "08/real_file");
-+    g_assert(stat(hardlink_file, &st_link) == 0);
-+
-+    do_unlinkat(v9p, "08", "hardlink_file", 0);
-+    /* symlink should be gone now */
-+    g_assert(stat(hardlink_file, &st_link) != 0);
-+    /* and old file should still exist */
-+    g_assert(stat(real_file, &st_real) == 0);
-+
-+    g_free(hardlink_file);
-+    g_free(real_file);
-+}
-+
- static void *assign_9p_local_driver(GString *cmd_line, void *arg)
- {
-     virtio_9p_assign_local_driver(cmd_line, "security_model=mapped-xattr");
-@@ -1438,6 +1466,8 @@ static void register_virtio_9p_test(void)
-     qos_add_test("local/unlinkat_symlink", "virtio-9p", fs_unlinkat_symlink,
-                  &opts);
-     qos_add_test("local/hardlink_file", "virtio-9p", fs_hardlink_file, &opts);
-+    qos_add_test("local/unlinkat_hardlink", "virtio-9p", fs_unlinkat_hardlink,
-+                 &opts);
- }
- 
- libqos_init(register_virtio_9p_test);
--- 
-2.20.1
+On 10/20/2020 1:14 PM, Paolo Bonzini wrote:
+> On 02/10/20 04:41, Alejandro Jimenez wrote:
+>> The fact that the behavior of hv-crash is also affected is why I chose to implement this change as an independent
+>> option, as opposed to making it a property of the pvpanic device (e.g. -device pvpanic,no-panicstop).
+>>
+>> Please let me know if you have any comments or suggestions.
+> Hi Alejandro, sorry for the delayed response.
+>
+> The concept is fine, and I agree this should not be a device property.
+>
+> On the other hand, we already have many similar options: -no-reboot,
+> -no-shutdown, -watchdog-action and now --no-panicstop.
+>
+> I think it's time to group them into a single option:
+>
+> * -action reboot=pause|shutdown|none
+> * -action shutdown=pause|poweroff|none
+> * -action panic=pause|shutdown|none
+> * -action watchdog=reset|shutdown|poweroff|pause|debug|none|inject-nmi
+>
+> where the existing options would translate to the new option, like:
+>
+> * -no-reboot "-action reboot=shutdown"
+> * -no-shutdown "-action shutdown=pause"
+>
+> The implementation should be relatively easy too; there's already an
+> enum WatchdogAction (that can be renamed to e.g. RunstateAction) and a
+> parsing function select_watchdog_action that can be changed to just
+> return the RunstateAction.
+>
+> Would you like to take a look at this?
+Hi Paolo,
+
+Thank you for your reply and the advice/hints above. I'll take a look 
+and try to implement what you propose.
+
+Regards,
+Alejandro
+>
+> Thanks,
+>
+> Paolo
+>
 
 
