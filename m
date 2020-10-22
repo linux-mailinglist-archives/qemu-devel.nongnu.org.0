@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29A42957D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 07:21:12 +0200 (CEST)
-Received: from localhost ([::1]:59430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C522957CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 07:18:56 +0200 (CEST)
+Received: from localhost ([::1]:53224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVT2F-0006Xf-Rc
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 01:21:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33120)
+	id 1kVT03-0003wZ-D1
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 01:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVSuB-0003qJ-Gp
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:12:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51535)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVSuD-0003sA-PX
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:12:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVSu6-0003z9-EY
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:12:51 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVSu6-0003z6-Cy
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:12:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603343563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qha+9NtEWPSLnz/grVGF9D4kfTA/XaaDFcqMGN+6PSY=;
- b=ZiYWEZV/4Ra2w0rCAvJTlt88ILz7A1PT+AzuCR8Av+Jr/PAD/R1WJAtaIYrIDHWMGknroO
- FmNk1lpZ4PiHWStUj2h9ohPrM29AO0nE5oU6N6K1k4xN21WzbsBPkOCR/a/kZMmfdYjqQu
- fLKpE//tBNuNs1Rbwq5xNNaxUAsLhpQ=
+ bh=ujqFnpe2lE/+KB5mvSfPgLbiFsYoy8v/3VePd0G5WSE=;
+ b=azVlSVt6ZVifWNHLayDtB35fngrFtBzLEVARXMxwRUhl7H2xstH2om2aCwUUSQPXHAjoCs
+ /lPTAxbxHchKvV+C6zy581n51BUgscwHUztA9av8PK5PjIIUdvz08EWtKFqhZxaRpPF4mL
+ lshTjgDnAgXsDVybgv0UwZBGFx0ju+Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-5qDq9kgGPqyV2Nrfeh2ZPw-1; Thu, 22 Oct 2020 01:12:41 -0400
-X-MC-Unique: 5qDq9kgGPqyV2Nrfeh2ZPw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-215-aNdVDe9MMkmijQY91CX_lw-1; Thu, 22 Oct 2020 01:12:41 -0400
+X-MC-Unique: aNdVDe9MMkmijQY91CX_lw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83983835B5D
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FEE11084D69
  for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 05:12:40 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5085A5C1C7;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 501205B4B2;
  Thu, 22 Oct 2020 05:12:31 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AF3129D10; Thu, 22 Oct 2020 07:12:23 +0200 (CEST)
+ id BE91C43BFA1; Thu, 22 Oct 2020 07:12:23 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/14] spice: move add_interface() to QemuSpiceOps.
-Date: Thu, 22 Oct 2020 07:12:14 +0200
-Message-Id: <20201022051223.6181-6-kraxel@redhat.com>
+Subject: [PULL 06/14] spice: move auth functions to QemuSpiceOps.
+Date: Thu, 22 Oct 2020 07:12:15 +0200
+Message-Id: <20201022051223.6181-7-kraxel@redhat.com>
 In-Reply-To: <20201022051223.6181-1-kraxel@redhat.com>
 References: <20201022051223.6181-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 23:30:42
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 00:54:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,146 +88,157 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Move qemu_spice_set_passwd() and qemu_spice_set_pw_expire() functions to
+QemuSpiceOps.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-id: 20201019075224.14803-6-kraxel@redhat.com
+Message-id: 20201019075224.14803-7-kraxel@redhat.com
 ---
- include/ui/qemu-spice-module.h | 7 +++++++
- include/ui/qemu-spice.h        | 1 -
- audio/spiceaudio.c             | 4 ++--
- chardev/spice.c                | 2 +-
- ui/spice-core.c                | 5 +++--
- ui/spice-input.c               | 6 +++---
- 6 files changed, 16 insertions(+), 9 deletions(-)
+ include/ui/qemu-spice-module.h |  3 +++
+ include/ui/qemu-spice.h        | 14 --------------
+ monitor/qmp-cmds.c             |  4 ++--
+ ui/spice-core.c                | 10 ++++++----
+ ui/spice-module.c              | 14 ++++++++++++++
+ 5 files changed, 25 insertions(+), 20 deletions(-)
 
 diff --git a/include/ui/qemu-spice-module.h b/include/ui/qemu-spice-module.h
-index dbe09035dade..f93acde5743c 100644
+index f93acde5743c..1ea3a999ce8a 100644
 --- a/include/ui/qemu-spice-module.h
 +++ b/include/ui/qemu-spice-module.h
-@@ -18,10 +18,17 @@
- #ifndef QEMU_SPICE_MODULE_H
- #define QEMU_SPICE_MODULE_H
- 
-+#ifdef CONFIG_SPICE
-+#include <spice.h>
-+#endif
-+
- struct QemuSpiceOps {
+@@ -26,6 +26,9 @@ struct QemuSpiceOps {
      void (*init)(void);
      void (*display_init)(void);
      int (*migrate_info)(const char *h, int p, int t, const char *s);
-+#ifdef CONFIG_SPICE
-+    int (*add_interface)(SpiceBaseInstance *sin);
-+#endif
- };
- 
- extern int using_spice;
++    int (*set_passwd)(const char *passwd,
++                      bool fail_if_connected, bool disconnect_if_connected);
++    int (*set_pw_expire)(time_t expires);
+ #ifdef CONFIG_SPICE
+     int (*add_interface)(SpiceBaseInstance *sin);
+ #endif
 diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
-index a3fd1ea5ade8..6018577c5278 100644
+index 6018577c5278..921b7a38d023 100644
 --- a/include/ui/qemu-spice.h
 +++ b/include/ui/qemu-spice.h
-@@ -29,7 +29,6 @@
- void qemu_spice_input_init(void);
- void qemu_spice_display_init(void);
+@@ -31,9 +31,6 @@ void qemu_spice_display_init(void);
  int qemu_spice_display_add_client(int csock, int skipauth, int tls);
--int qemu_spice_add_interface(SpiceBaseInstance *sin);
  bool qemu_spice_have_display_interface(QemuConsole *con);
  int qemu_spice_add_display_interface(QXLInstance *qxlin, QemuConsole *con);
- int qemu_spice_set_passwd(const char *passwd,
-diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-index ed6dff1dcc41..8967cca12925 100644
---- a/audio/spiceaudio.c
-+++ b/audio/spiceaudio.c
-@@ -106,7 +106,7 @@ static int line_out_init(HWVoiceOut *hw, struct audsettings *as,
-     out->active = 0;
+-int qemu_spice_set_passwd(const char *passwd,
+-                          bool fail_if_connected, bool disconnect_if_connected);
+-int qemu_spice_set_pw_expire(time_t expires);
+ int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
+                             const char *subject);
  
-     out->sin.base.sif = &playback_sif.base;
--    qemu_spice_add_interface (&out->sin.base);
-+    qemu_spice.add_interface(&out->sin.base);
- #if SPICE_INTERFACE_PLAYBACK_MAJOR > 1 || SPICE_INTERFACE_PLAYBACK_MINOR >= 3
-     spice_server_set_playback_rate(&out->sin, settings.freq);
- #endif
-@@ -215,7 +215,7 @@ static int line_in_init(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-     in->active = 0;
+@@ -48,17 +45,6 @@ int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
+ #include "qemu/error-report.h"
  
-     in->sin.base.sif = &record_sif.base;
--    qemu_spice_add_interface (&in->sin.base);
-+    qemu_spice.add_interface(&in->sin.base);
- #if SPICE_INTERFACE_RECORD_MAJOR > 2 || SPICE_INTERFACE_RECORD_MINOR >= 3
-     spice_server_set_record_rate(&in->sin, settings.freq);
- #endif
-diff --git a/chardev/spice.c b/chardev/spice.c
-index 7d1fb1771894..1104426e3a11 100644
---- a/chardev/spice.c
-+++ b/chardev/spice.c
-@@ -110,7 +110,7 @@ static void vmc_register_interface(SpiceChardev *scd)
-         return;
-     }
-     scd->sin.base.sif = &vmc_interface.base;
--    qemu_spice_add_interface(&scd->sin.base);
-+    qemu_spice.add_interface(&scd->sin.base);
-     scd->active = true;
-     trace_spice_vmc_register_interface(scd);
- }
+ #define spice_displays 0
+-static inline int qemu_spice_set_passwd(const char *passwd,
+-                                        bool fail_if_connected,
+-                                        bool disconnect_if_connected)
+-{
+-    return -1;
+-}
+-static inline int qemu_spice_set_pw_expire(time_t expires)
+-{
+-    return -1;
+-}
+-
+ static inline int qemu_spice_display_add_client(int csock, int skipauth,
+                                                 int tls)
+ {
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 1abef70a8959..8ac59977e661 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -197,7 +197,7 @@ void qmp_set_password(const char *protocol, const char *password,
+         if (!qemu_using_spice(errp)) {
+             return;
+         }
+-        rc = qemu_spice_set_passwd(password, fail_if_connected,
++        rc = qemu_spice.set_passwd(password, fail_if_connected,
+                                    disconnect_if_connected);
+         if (rc != 0) {
+             error_setg(errp, QERR_SET_PASSWD_FAILED);
+@@ -243,7 +243,7 @@ void qmp_expire_password(const char *protocol, const char *whenstr,
+         if (!qemu_using_spice(errp)) {
+             return;
+         }
+-        rc = qemu_spice_set_pw_expire(when);
++        rc = qemu_spice.set_pw_expire(when);
+         if (rc != 0) {
+             error_setg(errp, QERR_SET_PASSWD_FAILED);
+         }
 diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 82d5dbda3e26..483d880a3362 100644
+index 483d880a3362..4fe543aba058 100644
 --- a/ui/spice-core.c
 +++ b/ui/spice-core.c
-@@ -800,7 +800,7 @@ static void qemu_spice_init(void)
-     migration_state.notify = migration_state_notifier;
-     add_migration_state_change_notifier(&migration_state);
-     spice_migrate.base.sif = &migrate_interface.base;
--    qemu_spice_add_interface(&spice_migrate.base);
-+    qemu_spice.add_interface(&spice_migrate.base);
- 
-     qemu_spice_input_init();
- 
-@@ -829,7 +829,7 @@ static void qemu_spice_init(void)
- #endif
+@@ -727,7 +727,7 @@ static void qemu_spice_init(void)
+                              tls_ciphers);
+     }
+     if (password) {
+-        qemu_spice_set_passwd(password, false, false);
++        qemu_spice.set_passwd(password, false, false);
+     }
+     if (qemu_opt_get_bool(opts, "sasl", 0)) {
+         if (spice_server_set_sasl(spice_server, 1) == -1) {
+@@ -941,8 +941,8 @@ static int qemu_spice_set_ticket(bool fail_if_conn, bool disconnect_if_conn)
+                                    fail_if_conn, disconnect_if_conn);
  }
  
--int qemu_spice_add_interface(SpiceBaseInstance *sin)
-+static int qemu_spice_add_interface(SpiceBaseInstance *sin)
+-int qemu_spice_set_passwd(const char *passwd,
+-                          bool fail_if_conn, bool disconnect_if_conn)
++static int qemu_spice_set_passwd(const char *passwd,
++                                 bool fail_if_conn, bool disconnect_if_conn)
  {
-     if (!spice_server) {
-         if (QTAILQ_FIRST(&qemu_spice_opts.head) != NULL) {
-@@ -997,6 +997,7 @@ static struct QemuSpiceOps real_spice_ops = {
+     if (strcmp(auth, "spice") != 0) {
+         return -1;
+@@ -953,7 +953,7 @@ int qemu_spice_set_passwd(const char *passwd,
+     return qemu_spice_set_ticket(fail_if_conn, disconnect_if_conn);
+ }
+ 
+-int qemu_spice_set_pw_expire(time_t expires)
++static int qemu_spice_set_pw_expire(time_t expires)
+ {
+     auth_expires = expires;
+     return qemu_spice_set_ticket(false, false);
+@@ -997,6 +997,8 @@ static struct QemuSpiceOps real_spice_ops = {
      .init         = qemu_spice_init,
      .display_init = qemu_spice_display_init,
      .migrate_info = qemu_spice_migrate_info,
-+    .add_interface = qemu_spice_add_interface,
++    .set_passwd   = qemu_spice_set_passwd,
++    .set_pw_expire = qemu_spice_set_pw_expire,
+     .add_interface = qemu_spice_add_interface,
  };
  
- static void spice_register_config(void)
-diff --git a/ui/spice-input.c b/ui/spice-input.c
-index 21990fa9962b..bbd502564edf 100644
---- a/ui/spice-input.c
-+++ b/ui/spice-input.c
-@@ -231,7 +231,7 @@ static void mouse_mode_notifier(Notifier *notifier, void *data)
-     }
+diff --git a/ui/spice-module.c b/ui/spice-module.c
+index 56868aaffe9a..299aeb479be5 100644
+--- a/ui/spice-module.c
++++ b/ui/spice-module.c
+@@ -40,8 +40,22 @@ static int qemu_spice_migrate_info_stub(const char *h, int p, int t,
+     return -1;
+ }
  
-     if (is_absolute) {
--        qemu_spice_add_interface(&pointer->tablet.base);
-+        qemu_spice.add_interface(&pointer->tablet.base);
-     } else {
-         spice_server_remove_interface(&pointer->tablet.base);
-     }
-@@ -245,13 +245,13 @@ void qemu_spice_input_init(void)
- 
-     kbd = g_malloc0(sizeof(*kbd));
-     kbd->sin.base.sif = &kbd_interface.base;
--    qemu_spice_add_interface(&kbd->sin.base);
-+    qemu_spice.add_interface(&kbd->sin.base);
-     qemu_add_led_event_handler(kbd_leds, kbd);
- 
-     pointer = g_malloc0(sizeof(*pointer));
-     pointer->mouse.base.sif  = &mouse_interface.base;
-     pointer->tablet.base.sif = &tablet_interface.base;
--    qemu_spice_add_interface(&pointer->mouse.base);
-+    qemu_spice.add_interface(&pointer->mouse.base);
- 
-     pointer->absolute = false;
-     pointer->mouse_mode.notify = mouse_mode_notifier;
++static int qemu_spice_set_passwd_stub(const char *passwd,
++                                      bool fail_if_connected,
++                                      bool disconnect_if_connected)
++{
++    return -1;
++}
++
++static int qemu_spice_set_pw_expire_stub(time_t expires)
++{
++    return -1;
++}
++
+ struct QemuSpiceOps qemu_spice = {
+     .init         = qemu_spice_init_stub,
+     .display_init = qemu_spice_display_init_stub,
+     .migrate_info = qemu_spice_migrate_info_stub,
++    .set_passwd   = qemu_spice_set_passwd_stub,
++    .set_pw_expire = qemu_spice_set_pw_expire_stub,
+ };
 -- 
 2.27.0
 
