@@ -2,73 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A8E2961B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 17:31:06 +0200 (CEST)
-Received: from localhost ([::1]:56180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8D82961B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 17:32:57 +0200 (CEST)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVcYQ-0008R0-MN
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 11:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39136)
+	id 1kVcaG-0002Lu-HG
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 11:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kVcWc-0007G3-6e
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 11:29:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27664)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kVcXN-0008Cy-LX
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 11:29:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kVcWZ-0004nW-QG
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 11:29:09 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kVcXL-0004vD-Vc
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 11:29:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603380545;
+ s=mimecast20190719; t=1603380594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZjaBXpCi50QUKdprf0Z1NBDbQv++rRSWW7L2YG1G71I=;
- b=GUijZLalkvAfxLp+NpkKIguNHQZ7BWmV/5o1OJ/IM0mejvM+xzbXKEMQ78j9EJ3+WL2zgr
- RulGokX8tPWX3UfHRC4xNPEKI6QEiz6HExbHS7M0D2QaSJMj7j+H8RiCRZ2JaYMto0lZ45
- rH5nNIxuHVMbjdDo2+6ZhPM1vNeyO9A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-RG7wKXXtMayQigbjvexQQw-1; Thu, 22 Oct 2020 11:29:04 -0400
-X-MC-Unique: RG7wKXXtMayQigbjvexQQw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C8039CC04
- for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 15:29:03 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-67.rdu2.redhat.com [10.10.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68CBF10013D0;
- Thu, 22 Oct 2020 15:28:54 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 8E192222F9C; Thu, 22 Oct 2020 11:28:53 -0400 (EDT)
-Date: Thu, 22 Oct 2020 11:28:53 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH v3 2/5] tools/virtiofsd: xattr name mappings: Map client
- xattr names
-Message-ID: <20201022152853.GC512900@redhat.com>
-References: <20201014180209.49299-1-dgilbert@redhat.com>
- <20201014180209.49299-3-dgilbert@redhat.com>
+ bh=jkiSTsiwDrNQ72v/SazVSSbk21cua5TJ5JZP+u5sNmw=;
+ b=HqRjquizpOVUn7+mXB4/tyLdIYHIBDskP/q1ZmK77+Oz71eGJi8kdzCVKfE8ldvEQoStV9
+ S/8wh+p7yl6DfeoKAaSsYX5RaD3X7tyrgYZomCAnf6TdKwrtTJmpbi6XUg7jY2pFKTAll/
+ 3YE97xe6WmHb9WfiT6H97poMeIFL/2g=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-Od1z4Fz-PYCq1G5Rd6rcEw-1; Thu, 22 Oct 2020 11:29:52 -0400
+X-MC-Unique: Od1z4Fz-PYCq1G5Rd6rcEw-1
+Received: by mail-wm1-f70.google.com with SMTP id o15so725631wmh.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 08:29:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jkiSTsiwDrNQ72v/SazVSSbk21cua5TJ5JZP+u5sNmw=;
+ b=hBgv4VZ+fbB7fOMByp2N2DNKGarfy4zeIFgNdBnj+vPFy+smI/MDaXI2p4VIutqg4c
+ xgGILjb9Dt0SO4B1k1gEzsW8VVby0isT2ZrvdnwCXRMtPjp+Q1kYXv48ZRJz8iMHrYRT
+ URxL2s6EKZaFyrY5GFM9c/0eQXW/HVWmt/+26Hlg3FASWua6RJzbrS693w/Py7pmklBw
+ 6yWMYyNndf5naX8ec+CgnugRD3b3rtqWsd56bsTnhtNO8dDVC3JCociMgPe8pcTnkB6j
+ qGG6TzSxXcC5lPlZz9A9aLpY0c4FchndjR++ZVxmJq/kkMbIiUE3fk5xk5BhZk/xXkT+
+ HpJQ==
+X-Gm-Message-State: AOAM532H5gtbokpBnjndIIIaSRkM+3vsMhNh1Blc/8M7QpSt9ccHlOsT
+ SqMO5phaMxE22BXAAeMYc0mI6vsp7ymvhlIOFgdpXpyxVTPJBRZq9dV6Y4TetnM9Doj+aLlyFeJ
+ OdEj9DakxBLlppbs=
+X-Received: by 2002:a1c:7ec7:: with SMTP id z190mr3064253wmc.8.1603380591398; 
+ Thu, 22 Oct 2020 08:29:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGX5JjI76ENng2y9LttGQf7DnpCKaOVKsBzUv2Ybaho8Ek92Wpmo5+190HqXDZuCF8ZiFmCQ==
+X-Received: by 2002:a1c:7ec7:: with SMTP id z190mr3064228wmc.8.1603380591192; 
+ Thu, 22 Oct 2020 08:29:51 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id h7sm4766264wrt.45.2020.10.22.08.29.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Oct 2020 08:29:50 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] Add Xen CpusAccel
+To: Jason Andryuk <jandryuk@gmail.com>
+References: <20201013140511.5681-1-jandryuk@gmail.com>
+ <ddb5c9c2-c206-28d6-2d9d-7954e7022c23@redhat.com>
+ <CAKf6xpvpuG1jVdf3+heXzHFd_kc5kVHYdJgC+8iazFLciqOMZw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d9f23eee-c0af-d2dd-9b9d-f0255fc8e3d1@redhat.com>
+Date: Thu, 22 Oct 2020 17:29:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201014180209.49299-3-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <CAKf6xpvpuG1jVdf3+heXzHFd_kc5kVHYdJgC+8iazFLciqOMZw@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:09:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,84 +103,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dinechin@redhat.com, virtio-fs@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ QEMU <qemu-devel@nongnu.org>, Claudio Fontana <cfontana@suse.de>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ xen-devel <xen-devel@lists.xenproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 14, 2020 at 07:02:06PM +0100, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 22/10/20 17:17, Jason Andryuk wrote:
+> On Tue, Oct 13, 2020 at 1:16 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> On 13/10/20 16:05, Jason Andryuk wrote:
+>>> Xen was left behind when CpusAccel became mandatory and fails the assert
+>>> in qemu_init_vcpu().  It relied on the same dummy cpu threads as qtest.
+>>> Move the qtest cpu functions to a common location and reuse them for
+>>> Xen.
+>>>
+>>> v2:
+>>>   New patch "accel: Remove _WIN32 ifdef from qtest-cpus.c"
+>>>   Use accel/dummy-cpus.c for filename
+>>>   Put prototype in include/sysemu/cpus.h
+>>>
+>>> Jason Andryuk (3):
+>>>   accel: Remove _WIN32 ifdef from qtest-cpus.c
+>>>   accel: move qtest CpusAccel functions to a common location
+>>>   accel: Add xen CpusAccel using dummy-cpus
+>>>
+>>>  accel/{qtest/qtest-cpus.c => dummy-cpus.c} | 27 ++++------------------
+>>>  accel/meson.build                          |  8 +++++++
+>>>  accel/qtest/meson.build                    |  1 -
+>>>  accel/qtest/qtest-cpus.h                   | 17 --------------
+>>>  accel/qtest/qtest.c                        |  5 +++-
+>>>  accel/xen/xen-all.c                        |  8 +++++++
+>>>  include/sysemu/cpus.h                      |  3 +++
+>>>  7 files changed, 27 insertions(+), 42 deletions(-)
+>>>  rename accel/{qtest/qtest-cpus.c => dummy-cpus.c} (71%)
+>>>  delete mode 100644 accel/qtest/qtest-cpus.h
+>>>
+>>
+>> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 > 
-> Map xattr names originating at the client; from get/set/remove xattr.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 101 ++++++++++++++++++++++++++++++-
->  1 file changed, 98 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index f5a33014f9..57ebe17ed6 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -2183,20 +2183,80 @@ static XattrMapEntry *parse_xattrmap(struct lo_data *lo)
->      return res;
->  }
->  
-> -static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
-> +/*
-> + * For use with getxattr/setxattr/removexattr, where the client
-> + * gives us a name and we may need to choose a different one.
-> + * Allocates a buffer for the result placing it in *out_name.
-> + *   If there's no change then *out_name is not set.
-> + * Returns 0 on success
-> + * Can return -EPERM to indicate we block a given attribute
-> + *   (in which case out_name is not allocated)
-> + * Can return -ENOMEM to indicate out_name couldn't be allocated.
-> + */
-> +static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-> +                            char **out_name)
-> +{
-> +    const XattrMapEntry *cur_entry;
-> +
-> +    for (cur_entry = lo->xattr_map_list; ; cur_entry++) {
-> +        if ((cur_entry->flags & XATTR_MAP_FLAG_CLIENT) &&
-> +            (strstart(client_name, cur_entry->key, NULL))) {
-> +            if (cur_entry->flags & XATTR_MAP_FLAG_END_BAD) {
-> +                return -EPERM;
-> +            }
-> +            if (cur_entry->flags & XATTR_MAP_FLAG_END_OK) {
-> +                /* Unmodified name */
-> +                return 0;
-> +            }
-> +            if (cur_entry->flags & XATTR_MAP_FLAG_PREFIX) {
+> Thank you, Paolo.  Also Anthony Acked and Claudio Reviewed patch 3.
+> How can we get this into the tree?
 
-I am wondering why do have "END" substring in BAD and OK flags while
-we don't have one in PREFIX flag. IOW, why not simply call these
-flags as XATTR_MAP_FLAG_OK and XATTR_MAP_FLAG_BAD respectively.
+I think Anthony should send a pull request?
 
-> +                *out_name = g_try_malloc(strlen(client_name) +
-> +                                         strlen(cur_entry->prepend) + 1);
-
-Should we check for cur_entry->prepend to be NULL before we try to
-allocate out_name. One could say.
-
-"prefix:client:trusted.::". In that case we are not supposed to prefix
-anything?
-
-> +                if (!*out_name) {
-> +                    return -ENOMEM;
-> +                }
-> +                sprintf(*out_name, "%s%s", cur_entry->prepend, client_name);
-> +                return 0;
-> +            }
-> +        }
-> +    }
-> +
-> +    /* Shouldn't get here - rules should have an END_* */
-> +    abort();
-> +}
-
-Thanks
-Vivek
+Paolo
 
 
