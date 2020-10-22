@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52EFA295FE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:22:54 +0200 (CEST)
-Received: from localhost ([::1]:59350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A44296000
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:29:13 +0200 (CEST)
+Received: from localhost ([::1]:41920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVaYP-0005M3-8M
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60430)
+	id 1kVaeW-0001ag-3M
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kVaT0-0002Sl-81; Thu, 22 Oct 2020 09:17:18 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:57937)
+ id 1kVaZf-0007he-6w; Thu, 22 Oct 2020 09:24:11 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:46957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kVaSx-0002YK-Bi; Thu, 22 Oct 2020 09:17:17 -0400
+ id 1kVaZd-0003NJ-Cm; Thu, 22 Oct 2020 09:24:10 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 133D25C0108;
- Thu, 22 Oct 2020 09:17:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 22 Oct 2020 09:17:09 -0400
+ by mailout.nyi.internal (Postfix) with ESMTP id 339BA5C008D;
+ Thu, 22 Oct 2020 09:24:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 22 Oct 2020 09:24:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=CoBZMOgpLA5jgvUzZ8PriJE97ay
- fSZXAHhnXEBsRyiE=; b=fjT/rvC6QwfrGPfHf2GsU6SaPzOv9MnjFWxxXhLoOtn
- 46lT+KYD/cOE6Qa/w+fDCkGToNNCGm0pqx80J9+PpEHv6IYXf95MiHaBOUnvkbH9
- 73hGLR01aMpGKBec3RZjXI3ItKirDugBhhUjxsOAyEwN9TPu2lbAWF3eNyOk4xPD
- BGLXSiQHWKkoTbqetDgQ743JCsXHSIUfxcYUGefEA9UBP86GcDUpiW3ElQ9M4jav
- XJ6l5NQHDB4xndlMEcPLUexHdX96u4cI8+YEt3/nU5fbn+dfVSFyjQmiMncpv8qJ
- qo2dm9ZnrtATNj5338BUs2j1Vpp1hVUxrlWitsmmyOA==
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=fUyH1eoaisWO5xBgLBt/UAnCq3
+ 6mL4eXkkp4rTKtucw=; b=h+DUjAIiENWBQWxwFJLWWLUpoeQakdZx0USs/1kdeE
+ 3Ac+t6DYfduFPV2OJPlWbwScmxiwzvmGc23IfKXgChTBQsefgMq86oFks8Qt/80F
+ TjUWhu3/wngRId07eLBDU++2PH+h0X4y/+dErD0bh+XNYHuWaQUYJQMnPCsMPZJW
+ f4v346SPwS/vKkyUob5aSrSIClTF0OIWR4S8NtgXuWBQZRc5W0eIieK5ceqfy155
+ Wh7HuPGsW5IIZUQO8PY3On+98EhAfAeXdtPllevYXqfYWNhTHO9LW7T5S9p5NnNX
+ ka855qHVD+oE1HQMOyPBGkn65bMEBPhZ5QLRAHqtmrVg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=CoBZMO
- gpLA5jgvUzZ8PriJE97ayfSZXAHhnXEBsRyiE=; b=ACROONp+ACd7O2ee1gY80T
- lcLM6NiC+J+wra6i6g89t5+A7iEQuXwazbxdHeZ0mI7WxXNMYBSbgVgYbBGwAS2F
- nAOSK3V/IUcNZkshgvS5ycqcJh5ZfG1PQI6vLPXYREUvWR5P7+QOZWOlPCjSncWV
- QPwJmAgPNi1JodWCm7OEZH2aLsTS8tMyFxFv6xyr7A8tfIBLOeE66bIO68AQb0eB
- NdS0eyTDT2XxgJeslEgmxNN1gM/hFCF6I1cIo0xtsG+qJaUDLyKGSb4QdfJFRQr4
- b0cAFqRP/oLzgCbznMDMnEh2Vwrkfb/m8MubftOGzG2DfaSiZ42c+jW6nZx2/l2w
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=fUyH1e
+ oaisWO5xBgLBt/UAnCq36mL4eXkkp4rTKtucw=; b=UqLDR2VoPGilzxS5GW0EX3
+ wsky7vqkMmuvTKsEIu7CLYmYKZ3x7UQebh3JOAK8Ii571NaptUYi4AyideIGwtJG
+ CGtHiPfLUQDjXNnJMzx+6P1ceGHklqpMPk7lc4StrWUYj44cqiitpRaRy+laATUe
+ 51FxYvoNZg2tGcSz6qdogL18mkPwnm47+GuOFT3CuJ4LsWRSP5uHc8wdvYkuklCY
+ 7I0JS+yCyCLxAD6AeGG4VPkMPVd+8cKpc7MLuGLZUdJRwIr/YBoz/UiB2a6haboQ
+ qbbJkp2ueZRs1jI1mJ94KBV837OSHTyGgBv/e4erOethj5g5DaOIMYPfRz3NDdpQ
  ==
-X-ME-Sender: <xms:VIaRX375Edk5A1wkVFpebVBDMyf_CTTjTjefhxQ4htT_1dIRintMkg>
- <xme:VIaRX86K7B4DP4RKJeotVdd6fbkrhzfcTwz2djsGEBJ-yg2mgwI9bi7-_yXH6Z2N-
- EOgrv2osY8JwRpLfhg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeejgdeiudcutefuodetggdotefrodftvf
+X-ME-Sender: <xms:94eRX1ZPoqp91e6bdzMRl2NRaF_pNdrQPWKCMoPgoLqXj1YzI-juog>
+ <xme:94eRX8YnoXkC6TH0MZciuTJpDSF1iapMHlg50l04p-ESig6V_g5z4RxNk5OsdVFHx
+ TLmQRh19plvCBohLhM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeejgdeivdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:VIaRX-eFtEA4Zwx7drcgHP4Q2VYJgZHxCh2oOZkvPrNsG9wSICViLg>
- <xmx:VIaRX4L5AcVcLLvCwL4aGPi4BFcYCfkQzGDmpaoqgCuOevDnPa9T7w>
- <xmx:VIaRX7LMHaRidipVH4_D34TaZXdNHojF7J_SNBt6VDRf4uOI44TpGA>
- <xmx:VYaRXxjTIU5HnROc3SwroJugZ7YX10id_aPSnWQwIhhXcuXlciKMww>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpefhgeevkeeigfekvedvteejjeekkedugfdvheeijeffgfekffdvveelffetvdeghfen
+ ucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:94eRX38rQukTM9P0GMOOLKyD7IANbALKcyhcvFO4geL0SPNX7E5z1Q>
+ <xmx:94eRXzoLOEQYfIV1a7aZ40iCdGJ4nFoqG4Wvzm1Sh2PrWqi0nwZPhQ>
+ <xmx:94eRXwqorkftIdZdLdb_83C68E6kc7laXPokYvZzgB74XOjQsQwJ8g>
+ <xmx:-IeRX5nyy4x1bwXb30x_geE1ZMMP4fPOB5uctmvgkV7svahtSqdDZQ>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2B0C93280060;
- Thu, 22 Oct 2020 09:17:07 -0400 (EDT)
-Date: Thu, 22 Oct 2020 15:17:05 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7EBEA3064686;
+ Thu, 22 Oct 2020 09:24:06 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v2] hw/block/nvme: fix prp mapping status codes
-Message-ID: <20201022131705.GB148638@apples.localdomain>
-References: <20201019173538.129854-1-its@irrelevant.dk>
- <20201019182045.GC1435260@dhcp-10-100-145-180.wdc.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] hw/block/nvme: two fixes for create sq/cq
+Date: Thu, 22 Oct 2020 15:24:02 +0200
+Message-Id: <20201022132404.190695-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.28.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="U+BazGySraz5kW0T"
-Content-Disposition: inline
-In-Reply-To: <20201019182045.GC1435260@dhcp-10-100-145-180.wdc.com>
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
  helo=out4-smtp.messagingengine.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:17:09
@@ -97,51 +94,26 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
---U+BazGySraz5kW0T
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Oct 19 11:20, Keith Busch wrote:
-> On Mon, Oct 19, 2020 at 07:35:38PM +0200, Klaus Jensen wrote:
-> > From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> >=20
-> > Address 0 is not an invalid address. Remove those invalikd checks.
-> >=20
-> > Unaligned PRP2 and PRP list entries should result in Invalid PRP Offset
-> > status code and not Invalid Field. Fix that.
-> >=20
-> > See NVMe Express v1.3d, Section 4.3 ("Physical Region Page Entry and
-> > List").
->=20
-> Looks good to me.
->=20
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
->=20
-
-Thanks, added to nvme-next.
-
---U+BazGySraz5kW0T
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+Rhk8ACgkQTeGvMW1P
-DemXZAf9GITDu2CNPn9USmlBXTeWYjZb6TRNwgdF74JdKp5D8X/FAvhjefV/no5f
-QFutHN13UQtJtjB78KOlK67OFkzx5NjS/YYd78fqXWfWTZnH6ZuWpvh3dniEP+Wd
-YWz0QfubVfD+ZE6fIzNPrl3G9ToZFuCOIEqOHWdzjxH69oSlkGtdc+FMDDRmiIw0
-s6ArAOzy4e5pOJnEQ+EkOHKT8ueqA6rJLy7qKKWGOuc8tzSRPd+XRa6P6MNsb+9C
-pZk5merqeghD30aL+ex25cXTGSEWKaqkveQUPSqLdHmiT6UbcTqu/0BUfE0xVhpx
-tpntkXw0waiQz9WsEVC815ZyQijGNA==
-=y5Ri
------END PGP SIGNATURE-----
-
---U+BazGySraz5kW0T--
+The first patch is a follow up to "hw/block/nvme: fix prp mapping status=0D
+codes" and fixes some status codes in the nvme_create_{sq,cq} functions.=0D
+=0D
+The second patch fixes a faulty check on the given queue identifier.=0D
+=0D
+Gollu Appalanaidu (2):=0D
+  nvme: fix create IO SQ/CQ status codes=0D
+  nvme: fix queue identifer validation=0D
+=0D
+ hw/block/nvme.c | 16 +++++++++-------=0D
+ 1 file changed, 9 insertions(+), 7 deletions(-)=0D
+=0D
+-- =0D
+2.28.0=0D
+=0D
 
