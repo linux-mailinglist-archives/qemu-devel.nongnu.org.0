@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3F0296074
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:54:31 +0200 (CEST)
-Received: from localhost ([::1]:51244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 112D8296076
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:55:13 +0200 (CEST)
+Received: from localhost ([::1]:55378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVb30-0001kY-CN
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40214)
+	id 1kVb3g-0003Qn-4D
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVb12-0008Qw-CI; Thu, 22 Oct 2020 09:52:28 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVb10-00078B-E4; Thu, 22 Oct 2020 09:52:27 -0400
-Received: by mail-wr1-x443.google.com with SMTP id g12so2524254wrp.10;
- Thu, 22 Oct 2020 06:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Flyhmf/QdxgNE8A1Ie89A3W4LOBnGXKziXmqRHYv31U=;
- b=cbqhs0fv91Epni/S0e9mgRnCDETuM0flnd4oNKyZZPdsIK6Px+BgAf6Z90pZ1Cmi0T
- Oi1ec+PZMPbxSqGuxnVrWHXVrdiPhu2iGQKFIGTUhEB7FgmXDZfzkZTnKDR0AApFpQAR
- s+8W1HrHKCZxMBNqk0shflPnbB3+EshfDcIpETLuBJWaXU/hhOmnVRGGvn3ylt4ZOuJU
- k7hYLLN63riFo94fAdUX7joqHGOApx9edz7e04Ph39ZrS4CjiBzQxtedffOQkrf/7lHk
- kpIYWMSTKfCg5bypOrUC42sVr/M/96u0Cjis21cuyfhdp1VeB4Eg1d8/0IKiDCdJ/S68
- NiZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Flyhmf/QdxgNE8A1Ie89A3W4LOBnGXKziXmqRHYv31U=;
- b=thQ0XjVVVrGjxTgnHoUZXq+BjWO03Qgk35gXckYOxHeOSacy2KEqsljdGOhtmdOD5F
- CwQPBbkYbqonxapOqPTB9bqomSDWrVjgEvGBADui1s3lHMbGW+//E9hNGG897Oi9w2uH
- uung2h/vjOB04IuexrgMAizS2KjYeY07qn1b7u6WphyUJxxr1fUktkLdDT8OdfL7j6Bu
- M/MfG+2427nMYoyEkAboDk6+EbuFVVXNLayts9HSG/HZVuCbzB8ToFdvJRJ8k2UHt4PE
- /W4CU5AOMjdWeG9NNgjHeq7yGUmz3ioRElD1lEOSpslXIqTs545XeTvDRM9ZVN3mHsGQ
- toiA==
-X-Gm-Message-State: AOAM533MSomI90BGtMr/EmtQou0FIwVjQmfh1uI6p+Y/F/EGjs/74xbb
- gl/RKxJ3gdEyylD0cu4WT5gMhFCFhos=
-X-Google-Smtp-Source: ABdhPJzjVQ/b/yTKFd+P/XmkEGi53ceXPoQwjs5UOEupcwCYrbeOHNfZYqizwJEyqUzANFQ+BjUIYA==
-X-Received: by 2002:adf:fa8a:: with SMTP id h10mr2818840wrr.336.1603374744050; 
- Thu, 22 Oct 2020 06:52:24 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id 32sm4165232wro.31.2020.10.22.06.52.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Oct 2020 06:52:23 -0700 (PDT)
-Subject: Re: [PATCH] disas/capstone: Fix monitor disassembly of >32 bytes
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201022132445.25039-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b073898a-4be2-3b06-96d6-7551a9d1a6f3@amsat.org>
-Date: Thu, 22 Oct 2020 15:52:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kVb1Q-0000g8-Gx
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:52:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kVb1O-0007AK-1m
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:52:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603374768;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zeQ1NgVmUqpUmwNP4n6O58F1+Hl4L1ClL8zsi8HMqco=;
+ b=aUcReu9ETYGckkPTU8/robN/7nXGsblKQm+RDJcgSEwWbIkxDCRUM0fRhbTs0Gfm+3YDW4
+ M++YX7m/Zk3QGl/EUrTBneQOzHBRQle8pRYzcFb8CydV/vYhNv+uh/5MtKWzVCyS8JDL/H
+ qaLyxMI4XAhpQEOt40zcu192QXdLU2c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-309-D4UBQPY4PuGDfLdU_YW_tA-1; Thu, 22 Oct 2020 09:52:46 -0400
+X-MC-Unique: D4UBQPY4PuGDfLdU_YW_tA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19A16107ACF5;
+ Thu, 22 Oct 2020 13:52:45 +0000 (UTC)
+Received: from localhost (ovpn-114-229.ams2.redhat.com [10.36.114.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3EEA85C1C7;
+ Thu, 22 Oct 2020 13:52:38 +0000 (UTC)
+Date: Thu, 22 Oct 2020 14:52:37 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 01/16] block/nvme: Correct minimum device page size
+Message-ID: <20201022135237.GB761187@stefanha-x1.localdomain>
+References: <20201020172428.2220726-1-philmd@redhat.com>
+ <20201020172428.2220726-2-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201022132445.25039-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.107,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201020172428.2220726-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="gatW/ieO32f1wygP"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:33:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,78 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/20 3:24 PM, Peter Maydell wrote:
-> If we're using the capstone disassembler, disassembly of a run of
-> instructions more than 32 bytes long disassembles the wrong data for
-> instructions beyond the 32 byte mark:
-> 
-> (qemu) xp /16x 0x100
-> 0000000000000100: 0x00000005 0x54410001 0x00000001 0x00001000
-> 0000000000000110: 0x00000000 0x00000004 0x54410002 0x3c000000
-> 0000000000000120: 0x00000000 0x00000004 0x54410009 0x74736574
-> 0000000000000130: 0x00000000 0x00000000 0x00000000 0x00000000
-> (qemu) xp /16i 0x100
-> 0x00000100: 00000005 andeq r0, r0, r5
-> 0x00000104: 54410001 strbpl r0, [r1], #-1
-> 0x00000108: 00000001 andeq r0, r0, r1
-> 0x0000010c: 00001000 andeq r1, r0, r0
-> 0x00000110: 00000000 andeq r0, r0, r0
-> 0x00000114: 00000004 andeq r0, r0, r4
-> 0x00000118: 54410002 strbpl r0, [r1], #-2
-> 0x0000011c: 3c000000 .byte 0x00, 0x00, 0x00, 0x3c
-> 0x00000120: 54410001 strbpl r0, [r1], #-1
-> 0x00000124: 00000001 andeq r0, r0, r1
-> 0x00000128: 00001000 andeq r1, r0, r0
-> 0x0000012c: 00000000 andeq r0, r0, r0
-> 0x00000130: 00000004 andeq r0, r0, r4
-> 0x00000134: 54410002 strbpl r0, [r1], #-2
-> 0x00000138: 3c000000 .byte 0x00, 0x00, 0x00, 0x3c
-> 0x0000013c: 00000000 andeq r0, r0, r0
-> 
-> Here the disassembly of 0x120..0x13f is using the data that is in
-> 0x104..0x123.
-> 
-> This is caused by passing the wrong value to the read_memory_func().
-> The intention is that at this point in the loop the 'cap_buf' buffer
-> already contains 'csize' bytes of data for the instruction at guest
-> addr 'pc', and we want to read in an extra 'tsize' bytes.  Those
-> extra bytes are therefore at 'pc + csize', not 'pc'.  On the first
-> time through the loop 'csize' happens to be zero, so the initial read
-> of 32 bytes into cap_buf is correct and as long as the disassembly
-> never needs to read more data we return the correct information.
-> 
-> Use the correct guest address in the call to read_memory_func().
-> 
-> Cc: qemu-stable@nongnu.org
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1900779
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Note for qemu-stable: in 5.1 this function was in disas.c so the
-> patch won't literally apply to it, but the same change in that
-> file should be correct.
-> ---
->   disas/capstone.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/disas/capstone.c b/disas/capstone.c
-> index 0a9ef9c8927..7462c0e3053 100644
-> --- a/disas/capstone.c
-> +++ b/disas/capstone.c
-> @@ -286,7 +286,7 @@ bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
->   
->           /* Make certain that we can make progress.  */
->           assert(tsize != 0);
-> -        info->read_memory_func(pc, cap_buf + csize, tsize, info);
-> +        info->read_memory_func(pc + csize, cap_buf + csize, tsize, info);
->           csize += tsize;
->   
->           if (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
-> 
+--gatW/ieO32f1wygP
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Tue, Oct 20, 2020 at 07:24:13PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> While trying to simplify the code using a macro, we forgot
+> the 12-bit shift... Correct that.
+>=20
+> Fixes: fad1eb68862 ("block/nvme: Use register definitions from 'block/nvm=
+e.h'")
+> Reported-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+>  block/nvme.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--gatW/ieO32f1wygP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+RjqQACgkQnKSrs4Gr
+c8gqlQf+Nae3m2x472hlGLqVhHCOFUqwyqc3bl+wkcK2pSu8+Az/0/z3E7/vPzt7
+wFb66aGPDrrG4h5vckEnRwFxu/dT9xQHL+ifg3BCG9SBWro7HySfnqFRazyaKPrL
+rakF9LOfmmF/ayrw8MYIhkpLAc32VjTwr4orEA+9aXFNEsaK5Q/HFyrfqNtWZJKt
+0BsVEa7pNtuelWPXUR1RyTrHw1ws8I2KQYPPVfX/1Ycxc+WtelITgaiSUjyK6p4r
+E8edt8RLTb1ouE9URDGSZGPhOCp5hEP/RJoBOFR/5rKke531NdvJURa4sHQeUbic
+ZtHQdfzXvG/m8D6dWesKx0+J7h4Nlw==
+=LDmM
+-----END PGP SIGNATURE-----
+
+--gatW/ieO32f1wygP--
 
 
