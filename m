@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283592964A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:24:48 +0200 (CEST)
-Received: from localhost ([::1]:39464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32E4296485
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:18:29 +0200 (CEST)
+Received: from localhost ([::1]:51606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVfGZ-0001Eq-7I
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48562)
+	id 1kVfAS-0002wU-Rx
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:18:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf64-0000WC-VF; Thu, 22 Oct 2020 14:14:01 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52088 helo=relay3.sw.ru)
+ id 1kVf60-0000Vo-HL; Thu, 22 Oct 2020 14:13:52 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52102 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf5x-0001nq-Hf; Thu, 22 Oct 2020 14:13:56 -0400
+ id 1kVf5x-0001ns-JX; Thu, 22 Oct 2020 14:13:52 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf5r-005dVw-JD; Thu, 22 Oct 2020 21:13:43 +0300
+ id 1kVf5r-005dVw-M5; Thu, 22 Oct 2020 21:13:43 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
  kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
  eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
  andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v12 06/14] copy-on-read: pass bottom node name to COR driver
-Date: Thu, 22 Oct 2020 21:13:35 +0300
-Message-Id: <1603390423-980205-7-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v12 07/14] copy-on-read: limit COR operations to bottom node
+Date: Thu, 22 Oct 2020 21:13:36 +0300
+Message-Id: <1603390423-980205-8-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -58,66 +58,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-We are going to use the COR-filter for a block-stream job.
-To limit COR operations by the base node in the backing chain during
-stream job, pass the bottom node name, that is the first non-filter
-overlay of the base, to the copy-on-read driver as the base node itself
-may change due to possible concurrent jobs.
-The rest of the functionality will be implemented in the patch that
-follows.
+Limit COR operations to the bottom node (inclusively) in the backing
+chain when the bottom node name is given. It will be useful for a block
+stream job when the COR-filter is applied. The bottom node is passed as
+the base itself may change due to concurrent commit jobs on the same
+backing chain.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- block/copy-on-read.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ block/copy-on-read.c | 42 ++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 40 insertions(+), 2 deletions(-)
 
 diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 618c4c4..3d8e4db 100644
+index 3d8e4db..8178a91 100644
 --- a/block/copy-on-read.c
 +++ b/block/copy-on-read.c
-@@ -24,18 +24,24 @@
- #include "block/block_int.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qerror.h"
-+#include "qapi/qmp/qdict.h"
- #include "block/copy-on-read.h"
- 
- 
- typedef struct BDRVStateCOR {
-     bool active;
-+    BlockDriverState *bottom_bs;
- } BDRVStateCOR;
- 
- 
- static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-                     Error **errp)
+@@ -123,8 +123,46 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
+                                            size_t qiov_offset,
+                                            int flags)
  {
-+    BlockDriverState *bottom_bs = NULL;
-     BDRVStateCOR *state = bs->opaque;
-+    /* Find a bottom node name, if any */
-+    const char *bottom_node = qdict_get_try_str(options, "bottom");
- 
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
-@@ -51,7 +57,17 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-         ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-             bs->file->bs->supported_zero_flags);
- 
-+    if (bottom_node) {
-+        bottom_bs = bdrv_lookup_bs(NULL, bottom_node, errp);
-+        if (!bottom_bs) {
-+            error_setg(errp, QERR_BASE_NOT_FOUND, bottom_node);
-+            qdict_del(options, "bottom");
-+            return -EINVAL;
-+        }
-+        qdict_del(options, "bottom");
+-    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
+-                               flags | BDRV_REQ_COPY_ON_READ);
++    int64_t n = 0;
++    int local_flags;
++    int ret;
++    BDRVStateCOR *state = bs->opaque;
++
++    if (!state->bottom_bs) {
++        return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
++                                   flags | BDRV_REQ_COPY_ON_READ);
 +    }
-     state->active = true;
-+    state->bottom_bs = bottom_bs;
++
++    while (bytes) {
++        local_flags = flags;
++
++        /* In case of failure, try to copy-on-read anyway */
++        ret = bdrv_is_allocated(bs->file->bs, offset, bytes, &n);
++        if (!ret || ret < 0) {
++            ret = bdrv_is_allocated_above(bdrv_backing_chain_next(bs->file->bs),
++                                          state->bottom_bs, true, offset,
++                                          n, &n);
++            if (ret == 1 || ret < 0) {
++                local_flags |= BDRV_REQ_COPY_ON_READ;
++            }
++            /* Finish earlier if the end of a backing file has been reached */
++            if (ret == 0 && n == 0) {
++                break;
++            }
++        }
++
++        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
++                                  local_flags);
++        if (ret < 0) {
++            return ret;
++        }
++
++        offset += n;
++        qiov_offset += n;
++        bytes -= n;
++    }
++
++    return 0;
+ }
  
-     /*
-      * We don't need to call bdrv_child_refresh_perms() now as the permissions
+ 
 -- 
 1.8.3.1
 
