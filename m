@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE68295A3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 10:26:12 +0200 (CEST)
-Received: from localhost ([::1]:55808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C510E295A5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 10:31:55 +0200 (CEST)
+Received: from localhost ([::1]:41712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVVvH-0004qe-Ja
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 04:26:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47970)
+	id 1kVW0o-0002FT-RC
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 04:31:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kVVtp-0003ek-Ar
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 04:24:45 -0400
-Received: from 5.mo52.mail-out.ovh.net ([188.165.45.220]:35398)
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1kVVuh-0004PY-3k; Thu, 22 Oct 2020 04:25:35 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kVVtl-0005sE-S7
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 04:24:41 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.244])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id B26C81FFF9E;
- Thu, 22 Oct 2020 10:24:32 +0200 (CEST)
-Received: from kaod.org (37.59.142.106) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 22 Oct
- 2020 10:24:31 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006d18d9999-817b-4a5c-a397-007ed2bc184a,
- 519BB44447FDA57395BBEBCDF0C34CC9BD4694BF) smtp.auth=groug@kaod.org
-Date: Thu, 22 Oct 2020 10:24:30 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 1/8] tests/9pfs: simplify do_mkdir()
-Message-ID: <20201022102430.3631ca23@bahia.lan>
-In-Reply-To: <4d7275b2363f122438a443ce079cbb355285e9d6.1603285620.git.qemu_oss@crudebyte.com>
-References: <cover.1603285620.git.qemu_oss@crudebyte.com>
- <4d7275b2363f122438a443ce079cbb355285e9d6.1603285620.git.qemu_oss@crudebyte.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: c6bde1d0-9e01-4d3c-9c55-f12062881f18
-X-Ovh-Tracer-Id: 4737786811507251610
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrjeejgddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=188.165.45.220; envelope-from=groug@kaod.org;
- helo=5.mo52.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 04:24:33
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1kVVuf-0006BQ-0m; Thu, 22 Oct 2020 04:25:34 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8OWbm008879;
+ Thu, 22 Oct 2020 08:25:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
+ bh=McEgxfLupcUsisyIkVt9vm0XuapJufKvR//mdzCdlyk=;
+ b=YQCxHhVtBtxDwsWPbDAGVQkQb4+lRpEQWc6SzEW0Z6f15w99c8fWOZA94ZZjMYeYLdEu
+ MPAxe1TnYXsjNWD6eIChf1rTK5yMYW0eRkJJyZqVxMwY0E8MofWI3LMqTHxI8CNfuwlr
+ 0HTPVfWzE5JknwwCK6DACa34q746eKxGqkaDpvRJl6jUPV4YxALl706ynbScw/aFCaXi
+ vCfKVhzxVA0tHdbQHVu1OQIFOMleylanpBlYYH65f7yqMVDW4rbaR3bh4hEaTWC3WUFh
+ p58KaSbopDUpym+Eprb4D7tunqptBZ75QHs+s6LD3/rshXGuHyyOkWZsSLRn3dU1/QIV hg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 34ak16mvt5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 22 Oct 2020 08:25:29 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8G9a1095051;
+ Thu, 22 Oct 2020 08:25:29 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 348a6qbcqp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 22 Oct 2020 08:25:29 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09M8PSug020707;
+ Thu, 22 Oct 2020 08:25:28 GMT
+Received: from mihai.localdomain (/10.153.73.25)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 22 Oct 2020 01:25:28 -0700
+From: Mihai Carabas <mihai.carabas@oracle.com>
+To: peter.maydell@linaro.org, shannon.zhaosl@gmail.com, mst@redhat.com,
+ imammedo@redhat.com
+Subject: [PATCH 4/8] hw/arm/virt: Use the pvpanic device
+Date: Thu, 22 Oct 2020 10:42:52 +0300
+Message-Id: <1603352576-21671-5-git-send-email-mihai.carabas@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
+References: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxlogscore=999
+ bulkscore=0 spamscore=0 adultscore=0 suspectscore=4 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010220055
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 mlxscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
+ suspectscore=4 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010220056
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=mihai.carabas@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 04:09:38
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,81 +93,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Mihai Carabas <mihai.carabas@oracle.com>, Peng Hao <peng.hao2@zte.com.cn>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 21 Oct 2020 14:06:53 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+From: Peng Hao <peng.hao2@zte.com.cn>
 
-> Split out walking a directory path to a separate new utility function
-> do_walk() and use that function in do_mkdir().
-> 
-> The code difference saved this way is not much, but we'll use that new
-> do_walk() function in the upcoming patches, so it will avoid quite
-> some code duplication after all.
-> 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
+Add pvpanic device in arm virt machine.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+---
+ hw/arm/virt.c         | 25 +++++++++++++++++++++++++
+ include/hw/arm/virt.h |  2 ++
+ 2 files changed, 27 insertions(+)
 
->  tests/qtest/virtio-9p-test.c | 27 +++++++++++++++++++--------
->  1 file changed, 19 insertions(+), 8 deletions(-)
-> 
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index 2ea555fa04..21807037df 100644
-> --- a/tests/qtest/virtio-9p-test.c
-> +++ b/tests/qtest/virtio-9p-test.c
-> @@ -583,6 +583,23 @@ static void do_version(QVirtio9P *v9p)
->      g_free(server_version);
->  }
->  
-> +/* utility function: walk to requested dir and return fid for that dir */
-> +static uint32_t do_walk(QVirtio9P *v9p, const char *path)
-> +{
-> +    char **wnames;
-> +    P9Req *req;
-> +    const uint32_t fid = genfid();
-> +
-> +    int nwnames = split(path, "/", &wnames);
-> +
-> +    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-> +    v9fs_req_wait_for_reply(req, NULL);
-> +    v9fs_rwalk(req, NULL, NULL);
-> +
-> +    split_free(&wnames);
-> +    return fid;
-> +}
-> +
->  static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
->  {
->      alloc = t_alloc;
-> @@ -974,23 +991,17 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
->  
->  static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
->  {
-> -    char **wnames;
->      char *const name = g_strdup(cname);
-> +    uint32_t fid;
->      P9Req *req;
-> -    const uint32_t fid = genfid();
->  
-> -    int nwnames = split(path, "/", &wnames);
-> -
-> -    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-> -    v9fs_req_wait_for_reply(req, NULL);
-> -    v9fs_rwalk(req, NULL, NULL);
-> +    fid = do_walk(v9p, path);
->  
->      req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rmkdir(req, NULL);
->  
->      g_free(name);
-> -    split_free(&wnames);
->  }
->  
->  static void fs_readdir_split_128(void *obj, void *data,
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index e465a98..63f09a6 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -78,6 +78,7 @@
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/char/pl011.h"
+ #include "qemu/guest-random.h"
++#include "hw/misc/pvpanic.h"
+ 
+ #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+@@ -152,6 +153,7 @@ static const MemMapEntry base_memmap[] = {
+     [VIRT_ACPI_GED] =           { 0x09080000, ACPI_GED_EVT_SEL_LEN },
+     [VIRT_NVDIMM_ACPI] =        { 0x09090000, NVDIMM_ACPI_IO_LEN},
+     [VIRT_PVTIME] =             { 0x090a0000, 0x00010000 },
++    [VIRT_PVPANIC] =            { 0x090b0000, 0x00000002 },
+     [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
+     /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
+     [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
+@@ -226,6 +228,27 @@ static void create_kaslr_seed(VirtMachineState *vms, const char *node)
+     qemu_fdt_setprop_u64(vms->fdt, node, "kaslr-seed", seed);
+ }
+ 
++static void create_pvpanic_device(const VirtMachineState *vms)
++{
++    char *nodename;
++    hwaddr base = vms->memmap[VIRT_PVPANIC].base;
++    hwaddr size = vms->memmap[VIRT_PVPANIC].size;
++
++    if (!vms->pvpanic) {
++        return;
++    }
++    sysbus_create_simple(TYPE_PVPANIC_MMIO, base, NULL);
++
++    nodename = g_strdup_printf("/pvpanic-mmio@%" PRIx64, base);
++    qemu_fdt_add_subnode(vms->fdt, nodename);
++    qemu_fdt_setprop_string(vms->fdt, nodename,
++                            "compatible", "qemu,pvpanic-mmio");
++    qemu_fdt_setprop_sized_cells(vms->fdt, nodename, "reg",
++                                 2, base, 2, size);
++
++    g_free(nodename);
++}
++
+ static void create_fdt(VirtMachineState *vms)
+ {
+     MachineState *ms = MACHINE(vms);
+@@ -1957,6 +1980,8 @@ static void machvirt_init(MachineState *machine)
+ 
+     virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
+ 
++    create_pvpanic_device(vms);
++
+     create_gic(vms);
+ 
+     virt_cpu_post_init(vms, possible_cpus->len, sysmem);
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index aad6d69..e6410c3 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -69,6 +69,7 @@ enum {
+     VIRT_GIC_ITS,
+     VIRT_GIC_REDIST,
+     VIRT_SMMU,
++    VIRT_PVPANIC,
+     VIRT_UART,
+     VIRT_MMIO,
+     VIRT_RTC,
+@@ -139,6 +140,7 @@ struct VirtMachineState {
+     bool highmem;
+     bool highmem_ecam;
+     bool its;
++    bool pvpanic;
+     bool virt;
+     bool ras;
+     bool mte;
+-- 
+1.8.3.1
 
 
