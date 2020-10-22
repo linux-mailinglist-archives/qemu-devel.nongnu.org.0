@@ -2,51 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA58C29646F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:09:38 +0200 (CEST)
-Received: from localhost ([::1]:45436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CAF62964A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:23:48 +0200 (CEST)
+Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVf1t-0007vK-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47458)
+	id 1kVfFb-0000QQ-Kx
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVf0q-0007S5-DH
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 14:08:32 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:38291)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kVf6Q-0000oS-Dn; Thu, 22 Oct 2020 14:14:18 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52078 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVf0o-0001Dw-2Q
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 14:08:31 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 09MI7td9032495
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 22 Oct 2020 14:07:59 -0400
-Date: Thu, 22 Oct 2020 14:07:55 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: Ramping up Continuous Fuzzing of Virtual Devices in QEMU
-Message-ID: <20201022180755.5ouxjmzwfdsp2q2t@mozz.bu.edu>
-References: <20201022161938.7clfymu6a3zl46s2@mozz.bu.edu>
- <20201022162416.iccjosbeg753qbzc@mozz.bu.edu>
- <20201022163925.GE428835@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201022163925.GE428835@redhat.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 14:08:28
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.502, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kVf6K-0001nh-GQ; Thu, 22 Oct 2020 14:14:18 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kVf5r-005dVw-CC; Thu, 22 Oct 2020 21:13:43 +0300
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
+ kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
+ eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
+ andrey.shinkevich@virtuozzo.com
+Subject: [PATCH v12 00/14] Apply COR-filter to the block-stream permanently
+Date: Thu, 22 Oct 2020 21:13:29 +0300
+Message-Id: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 14:13:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,127 +51,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, rjones@redhat.com,
- 0ops@0ops.net, liq3ea@gmail.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, andrey.shinkevich@virtuozzo.com, ppandit@redhat.com,
- dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-On 201022 1739, Daniel P. Berrangé wrote:
-> On Thu, Oct 22, 2020 at 12:24:16PM -0400, Alexander Bulekov wrote:
-> > +CC Prasad
-> > 
-> > On 201022 1219, Alexander Bulekov wrote:
-> > > Hello,
-> > > QEMU was accepted into Google's oss-fuzz continuous-fuzzing platform [1]
-> > > earlier this year. The fuzzers currently running on oss-fuzz are based on my
-> > > 2019 Google Summer of Code Project, which leveraged libfuzzer, qtest and libqos
-> > > to provide a framework for writing virtual-device fuzzers. At the moment, there
-> > > are a handful of fuzzers upstream and running on oss-fuzz(located in
-> > > tests/qtest/fuzz/). They fuzz only a few devices and serve mostly as
-> > > examples.
-> > > 
-> > > If everything goes well, soon a generic fuzzer [2] will land upstream, which
-> > > allows us to fuzz many configurations of QEMU, without any device-specific
-> > > code. To date this fuzzer has led to ~50 bug reports on launchpad. Once the
-> > > generic-fuzzer lands upstream, OSS-Fuzz will automatically start fuzzing a
-> > > bunch [3] of fuzzer configurations, and it is likely to find bugs.  Others will
-> > > also be able to send simple patches to add additional device configurations for
-> > > fuzzing.
-> > > 
-> > > The oss-fuzz process looks roughly like this:
-> > >     1. oss-fuzz fuzzes QEMU
-> > >     2. When oss-fuzz finds a bug, it reports it to a few [4] people that have
-> > >     access to reports and reproducers.
-> > >     3. If a fix is merged upstream, oss-fuzz will figure this out and mark the
-> > >     bug as fixed and make the report public 30 days later.
-> > >     3. After 90 days the bug(fixed or not) becomes public, so anyone can view
-> > >     it here https://bugs.chromium.org/p/oss-fuzz/issues/list
-> > > 
-> > > The oss-fuzz reports look like this:
-> > > https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=23701&q=qemu&can=2
-> > > 
-> > > This means that when oss-fuzz find new bugs, the relevant developers do not
-> > > know about them unless someone with access files a separate report to the
-> > > list/launchpad. So far this hasn't been a problem, since oss-fuzz has only been
-> > > running some small example fuzzers. Once [2] lands upstream, we should
-> > > see a significant uptick in oss-fuzz reports, and I hope that we can develop a
-> > > process to ensure these bugs are properly dealt with. One option we have is to
-> > > make the reports public immediately and send notifications to
-> > > qemu-devel. This is the approach taken by some other projects on
-> > > oss-fuzz, such as LLVM. Though its not on oss-fuzz, bugs found by
-> > > syzkaller in the kernel, are also automatically sent to a public list.
-> > > The question is: 
-> > > 
-> > > What approach should we take for dealing with bugs found on oss-fuzz?
-> 
-> If we assume that a non-negligible number of fuzz bugs will be exploitable
-> by a malicious guest OS to break out into the host, then I think it is
-> likely undesirable to make them public immediately without at least a basic
-> human triage step to catch possibly serious security issues.
-> 
-> Still a large % are likely to be low impact / not urgent to deal with so
-> we want a low overhead way to handle the fuzz output, which doesn't create
-> a bottleneck on a small number of people.
-> 
-> Overall my feeling is that we want to be able to farm out triage to the
-> respective subsystem maintainers, who can then decide whether the bug
-> needs notifying to the security team, or can be made public immediately.
-> 
-> I think ideally we would be doing triage in QEMU's own bug tracker, so
-> we don't need to have maintainers create accounts on a 3rd party tracker
-> to see reports.
-> 
-> Is is practical to identify a primary affected source file from the fuzz
-> crash report with any level reliablility such that we could file a private
-> launchpad bug, automatically CC'ing a subsystem maintainer (and the security
-> team)  ?
+The node insert/remove functions were added at the block generic layer.
+COR-filter options structure was added to the QAPI.
+The test case #310 was added to check the 'bottom' node limit for COR.
+The 'supported_read_flags' member was added to the BDS structure
+(with the flags check at the block generic layer for drivers).
 
-Hi Daniel,
-As far as I know, there is currently no API for accessing oss-fuzz
-results. We could use email-based scripts to parse the automated reports
-(e.g.  [1]) and follow the links to automatically download crash-traces
-and reproducers. However, accessing those requires a login through
-google.com which might be tough to script against in a reliable way.
+v12:
+  02: New.
+  03: Only the temporary drop filter function left.
+  05: New (suggested by Max)
+  06: 'base' -> 'bottom' option.
+  07: Fixes based on the review of the v11.
+  08: New.
+  09: The comment ext was modified.
+  10: The read flags check at the block generic layer.
+  11: COR flag was added.
+  12: The condition was fixed.
+  13: The 'backing-file' parameter returned. No deprecation.
+  14: The COR-filter 'add' function replaced with the 'insert node' generic
+      function. Fixes based on the review of the v11.
 
-Assuming we have found a way to automatically download the binary fuzzer
-reproducer, we should be able to automatically convert it into a qtest
-reproducer that we could send to the right people. 
-There are a few approaches I can think of to automatically identify the
-maintainers to CC:
- 1. Walk the stack-trace until we find the line likely responsible for
- the bug. This can be tricky, since the buggy line is often not the
- first line. E.g. from [2]
-    #3 __GI___assert_fail assert.c:101
-    #4 iov_from_buf_full util/iov.c:40
-    #5 iov_from_buf iov.h:49
-    #6 net_tx_pkt_update_ip_checksums hw/net/net_tx_pkt.c:139
-    #7 e1000e_setup_tx_offloads hw/net/e1000e_core.c:638
+Andrey Shinkevich (14):
+  copy-on-read: support preadv/pwritev_part functions
+  block: add insert/remove node functions
+  copy-on-read: add filter drop function
+  qapi: add filter-node-name to block-stream
+  qapi: create BlockdevOptionsCor structure for COR driver
+  copy-on-read: pass bottom node name to COR driver
+  copy-on-read: limit COR operations to bottom node
+  iotests: add #310 to test bottom node in COR driver
+  block: modify the comment for BDRV_REQ_PREFETCH flag
+  block: include supported_read_flags into BDS structure
+  copy-on-read: add support for read flags to COR-filter
+  copy-on-read: skip non-guest reads if no copy needed
+  stream: skip filters when writing backing file name to QCOW2 header
+  block: apply COR-filter to block-stream jobs
 
-  Do we cc the iov maintainer, the net_tx_pkt maintainer, or the e1000e
-  maintainer? Might be tough to figure out automatically.
+ block.c                        |  49 ++++++++++++++
+ block/copy-on-read.c           | 144 +++++++++++++++++++++++++++++++++++++----
+ block/copy-on-read.h           |  32 +++++++++
+ block/io.c                     |  12 +++-
+ block/monitor/block-hmp-cmds.c |   4 +-
+ block/stream.c                 | 117 ++++++++++++++++++++++-----------
+ blockdev.c                     |  13 ++--
+ include/block/block.h          |  11 +++-
+ include/block/block_int.h      |  11 +++-
+ qapi/block-core.json           |  27 +++++++-
+ tests/qemu-iotests/030         |  51 ++-------------
+ tests/qemu-iotests/030.out     |   4 +-
+ tests/qemu-iotests/141.out     |   2 +-
+ tests/qemu-iotests/245         |  22 +++++--
+ tests/qemu-iotests/310         | 109 +++++++++++++++++++++++++++++++
+ tests/qemu-iotests/310.out     |  15 +++++
+ tests/qemu-iotests/group       |   3 +-
+ 17 files changed, 503 insertions(+), 123 deletions(-)
+ create mode 100644 block/copy-on-read.h
+ create mode 100755 tests/qemu-iotests/310
+ create mode 100644 tests/qemu-iotests/310.out
 
- 2. git bisect until we find the commit where the reproducer started to
- crash and CC everyone who signed-off or reviewed that commit and who is
- in MAINTAINERS. This is also not a silver bullet, since reproducers
- might stop working due to reasons unrelated to the bug: e.g.  the MMIO
- range for a device changed, so the qtest reproducer now interacts with
- the wrong addresses, or the bug was obscured by another bug.
+-- 
+1.8.3.1
 
- [1] https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=23701&q=qemu&can=2
- [2] https://bugs.launchpad.net/qemu/+bug/1878250
-
--Alex
-
-> 
-> 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
 
