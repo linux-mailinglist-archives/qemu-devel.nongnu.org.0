@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F101D295FFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:26:32 +0200 (CEST)
-Received: from localhost ([::1]:39880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0152A29602D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:38:57 +0200 (CEST)
+Received: from localhost ([::1]:55550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVabv-0000hl-Rj
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33948)
+	id 1kVant-0007mL-QK
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:38:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kVaaJ-0008IG-GO
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:24:51 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36105)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kVaaG-0003Si-VA
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:24:50 -0400
-Received: by mail-wm1-x342.google.com with SMTP id e2so2234797wme.1
- for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 06:24:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/LpKtLRbxpCz3EwrDGeI6q7oF5uI3Zuu0uQQlFRPJQ0=;
- b=vL3OWtiFCwbhrxb9oCn1xiLfmGVGxJlSxb68qEtJwc1diKNN1eTjI4EVUPo8DRftnL
- Vyew3lCaEVv7rc+cGM0A0S/pVQpJWu/+a2wIvdXhRtSrkIeepmpJamVKMknEdtIBF77q
- klQNSth9XlmScTOVpdaf4lS2Tlb69vsdRkE+2PzWrSrkRtalrzfxz3Cmr1Z8DngY4uXa
- //A1NNibe+G0Al/NF3O6jupFGmPD+VX9eZ1CSNt80sMTmGriL/1JyCOcFJFZpYUXFGAM
- Md2JOoSub18NjD1sRkW23Zuabojdz1WChSwPAdY4U1HaB1HL3E7UuO9JedByLRDdbAFB
- bUoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/LpKtLRbxpCz3EwrDGeI6q7oF5uI3Zuu0uQQlFRPJQ0=;
- b=iC/tlizHiSwAwG9gFk/sLmL6MwUg6wne1r8X+WJosvos7hDs8KjBaCHJ7+I3+vkm8a
- NVeWLJH9vZLpdjnIX1xXCQfIHpnbUwNOEPj2ALHl0IMU2CjyEWRigXvNGPdQ+kpeWP3U
- JV29HFd/+NcJYk8GSlCgjsLG6BS2V6Ac+UdcfrVccnZUswT7CHL4iffyq87lN6Jabg0V
- 51xf0uz4f+ZiPWy7g3kcYJEzbnJUy4dFW3ZrFsJTktLN8as705X+G14awFyy4Pm06f30
- 3uudPRPxVknOw19wBsKtS+9DeRLuHU+FXDCnTG67c5mDRyEcZY90Db8UWdWJkdfwo0vq
- lFoQ==
-X-Gm-Message-State: AOAM532nua3nJt9HEVP+GVYUZfTm3jAeutc/3Ezhn8y09YO9Ku88o9Ne
- f4YWfHXWaZMwWeFQ5qlz/FtdWKEHqRktmQ==
-X-Google-Smtp-Source: ABdhPJyH56ubPsQwnQYRtk20Gz40snXekRSi5nNbaLBgV2zXxko7bOXswfF2uqdHa1smnG6UkbryfA==
-X-Received: by 2002:a1c:2ed3:: with SMTP id u202mr2600906wmu.85.1603373087215; 
- Thu, 22 Oct 2020 06:24:47 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t6sm4525632wre.30.2020.10.22.06.24.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Oct 2020 06:24:46 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kVaZf-0007iD-IV; Thu, 22 Oct 2020 09:24:11 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:43325)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kVaZd-0003O9-PM; Thu, 22 Oct 2020 09:24:11 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id F1FBB5C0138;
+ Thu, 22 Oct 2020 09:24:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 22 Oct 2020 09:24:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=QoRKagGBtngGi
+ X0d3aHQKdOjVuGkdsnPPfn8jCZ4n7s=; b=c3tYvwzAQux8NHHv0AeZQl2jZO6Ft
+ 126xEQtzVcnzhE5y+RbBxdawVTa7USYXqsVTOaOu8l7s6DxmkUBg9VuckHIvnf/H
+ z+VaxVdvUM0rjL/zT1fRIFaUR3NcQnDbHnTDw+mWpFJA+q3Nynj/vs0oOW3i+8yJ
+ RrVGZtvF/wEwtgqzUUFIg6kCqITaUwCWMIYJzj/Zyig8iJMYk6myiz/Gh1f7fsDk
+ ncCr08JWRta3d+D/HGPkN4ZQY3SJ1/CwYovNHBb6dgEFX9DAZNcz41Dl97kG+mMX
+ rWE1rVRLiJSj/eltvrUXT/px/Z+NDAbBaVowPYBU0RoynL3QsR1oxPtVA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=QoRKagGBtngGiX0d3aHQKdOjVuGkdsnPPfn8jCZ4n7s=; b=pli+7+dx
+ lSkwumNfrXlN9oRPZBZBBzSom4pdUhB56znu81HEN+wuaeO+g6W45iUP213GkWLJ
+ 2L34mMxfqOe3dG1/b0Vfv+daaSo6pmpjCJdYVe3UFYTece8S5hWhAyTJ2680PUdR
+ b8oVaY8/sGjpw4SkRNF7oQqTxXQMBKnBobBx0BsemNXxnbOId/9DNPlAqjbvQgeV
+ gX2Q9dIvz4ia+9S/4ABYU68l2DxGamBSkYQ9/+Pff4emw2IYSmNLvmq/48U+OteU
+ c0zhQE/JSPu9kBfQwqeF6Dyyy3vSNzjBTNJZJ/lNn4bAzBK5uMLiDn43jKPa6b6m
+ fkeoKpb0QjvtMg==
+X-ME-Sender: <xms:-IeRX3Msxf25kC9fAdvpxEZIfeVEi5FKO-g-0iT1u0sQAY0fjYSbLw>
+ <xme:-IeRXx9b3S6jALGcWe1HNJLdTlXKnWbV8WUxxBs_0FLw9CKCFkny1Fwk2rhd15Ufk
+ GFiJ6I_ozh-d7QsPbU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeejgdeivdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:-IeRX2T-Ea5uDuq0QdpSoA_wtIJlmNFK1FMxlkjNLAzVgNSc1MAGiw>
+ <xmx:-IeRX7uUSskJl6aIxv2JC2jo2B0QvizkuQ_XTAhwaNjxF8WX2xYNfQ>
+ <xmx:-IeRX_cZCTkQ99fhiz0xJK572TAP4wwcdh5kAAzYOxM0m0O8qjsqSQ>
+ <xmx:-IeRXwHZnYrbU73RY_r9ZAa-LQFva_jxhuxWWSBiurMxBLPCLUIZhg>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B13FA306467E;
+ Thu, 22 Oct 2020 09:24:07 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] disas/capstone: Fix monitor disassembly of >32 bytes
-Date: Thu, 22 Oct 2020 14:24:45 +0100
-Message-Id: <20201022132445.25039-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+Subject: [PATCH 1/2] nvme: fix create IO SQ/CQ status codes
+Date: Thu, 22 Oct 2020 15:24:03 +0200
+Message-Id: <20201022132404.190695-2-its@irrelevant.dk>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201022132404.190695-1-its@irrelevant.dk>
+References: <20201022132404.190695-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:17:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,76 +94,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we're using the capstone disassembler, disassembly of a run of
-instructions more than 32 bytes long disassembles the wrong data for
-instructions beyond the 32 byte mark:
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-(qemu) xp /16x 0x100
-0000000000000100: 0x00000005 0x54410001 0x00000001 0x00001000
-0000000000000110: 0x00000000 0x00000004 0x54410002 0x3c000000
-0000000000000120: 0x00000000 0x00000004 0x54410009 0x74736574
-0000000000000130: 0x00000000 0x00000000 0x00000000 0x00000000
-(qemu) xp /16i 0x100
-0x00000100: 00000005 andeq r0, r0, r5
-0x00000104: 54410001 strbpl r0, [r1], #-1
-0x00000108: 00000001 andeq r0, r0, r1
-0x0000010c: 00001000 andeq r1, r0, r0
-0x00000110: 00000000 andeq r0, r0, r0
-0x00000114: 00000004 andeq r0, r0, r4
-0x00000118: 54410002 strbpl r0, [r1], #-2
-0x0000011c: 3c000000 .byte 0x00, 0x00, 0x00, 0x3c
-0x00000120: 54410001 strbpl r0, [r1], #-1
-0x00000124: 00000001 andeq r0, r0, r1
-0x00000128: 00001000 andeq r1, r0, r0
-0x0000012c: 00000000 andeq r0, r0, r0
-0x00000130: 00000004 andeq r0, r0, r4
-0x00000134: 54410002 strbpl r0, [r1], #-2
-0x00000138: 3c000000 .byte 0x00, 0x00, 0x00, 0x3c
-0x0000013c: 00000000 andeq r0, r0, r0
+Replace the Invalid Field in Command with the Invalid PRP Offset status
+code in the nvme_create_{cq,sq} functions. Also, allow PRP1 to be
+address 0x0.
 
-Here the disassembly of 0x120..0x13f is using the data that is in
-0x104..0x123.
+Also replace the Completion Queue Invalid status code returned in
+nvme_create_cq when the the queue identifier is invalid with the Invalid
+Queue Identifier. The Completion Queue Invalid status code is
+exclusively for indicating that the completion queue identifer given
+when creating a submission queue is invalid.
 
-This is caused by passing the wrong value to the read_memory_func().
-The intention is that at this point in the loop the 'cap_buf' buffer
-already contains 'csize' bytes of data for the instruction at guest
-addr 'pc', and we want to read in an extra 'tsize' bytes.  Those
-extra bytes are therefore at 'pc + csize', not 'pc'.  On the first
-time through the loop 'csize' happens to be zero, so the initial read
-of 32 bytes into cap_buf is correct and as long as the disassembly
-never needs to read more data we return the correct information.
+See NVM Express v1.3d, Section 5.3 ("Create I/O Completion Queue
+command") and 5.4("Create I/O Submission Queue command").
 
-Use the correct guest address in the call to read_memory_func().
-
-Cc: qemu-stable@nongnu.org
-Fixes: https://bugs.launchpad.net/qemu/+bug/1900779
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
-Note for qemu-stable: in 5.1 this function was in disas.c so the
-patch won't literally apply to it, but the same change in that
-file should be correct.
----
- disas/capstone.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/nvme.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/disas/capstone.c b/disas/capstone.c
-index 0a9ef9c8927..7462c0e3053 100644
---- a/disas/capstone.c
-+++ b/disas/capstone.c
-@@ -286,7 +286,7 @@ bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 2896bb49b9c0..5dfef0204c2c 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1151,9 +1151,9 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_create_sq_size(qsize);
+         return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
+     }
+-    if (unlikely(!prp1 || prp1 & (n->page_size - 1))) {
++    if (unlikely(prp1 & (n->page_size - 1))) {
+         trace_pci_nvme_err_invalid_create_sq_addr(prp1);
+-        return NVME_INVALID_FIELD | NVME_DNR;
++        return NVME_INVALID_PRP_OFFSET | NVME_DNR;
+     }
+     if (unlikely(!(NVME_SQ_FLAGS_PC(qflags)))) {
+         trace_pci_nvme_err_invalid_create_sq_qflags(NVME_SQ_FLAGS_PC(qflags));
+@@ -1400,15 +1400,15 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
  
-         /* Make certain that we can make progress.  */
-         assert(tsize != 0);
--        info->read_memory_func(pc, cap_buf + csize, tsize, info);
-+        info->read_memory_func(pc + csize, cap_buf + csize, tsize, info);
-         csize += tsize;
- 
-         if (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
+     if (unlikely(!cqid || !nvme_check_cqid(n, cqid))) {
+         trace_pci_nvme_err_invalid_create_cq_cqid(cqid);
+-        return NVME_INVALID_CQID | NVME_DNR;
++        return NVME_INVALID_QID | NVME_DNR;
+     }
+     if (unlikely(!qsize || qsize > NVME_CAP_MQES(n->bar.cap))) {
+         trace_pci_nvme_err_invalid_create_cq_size(qsize);
+         return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
+     }
+-    if (unlikely(!prp1)) {
++    if (unlikely(prp1 & (n->page_size - 1))) {
+         trace_pci_nvme_err_invalid_create_cq_addr(prp1);
+-        return NVME_INVALID_FIELD | NVME_DNR;
++        return NVME_INVALID_PRP_OFFSET | NVME_DNR;
+     }
+     if (unlikely(!msix_enabled(&n->parent_obj) && vector)) {
+         trace_pci_nvme_err_invalid_create_cq_vector(vector);
 -- 
-2.20.1
+2.28.0
 
 
