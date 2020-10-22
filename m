@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD2D296080
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:57:11 +0200 (CEST)
-Received: from localhost ([::1]:60666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6900E296086
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:59:05 +0200 (CEST)
+Received: from localhost ([::1]:37410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVb5a-0005i6-PH
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40514)
+	id 1kVb7Q-0007od-Gk
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:59:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVb2F-0001XK-K4
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:53:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVb2C-0007OS-H4
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:53:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603374819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Oy0smOPzsRvxIKHhTNVRMswqzgzqCJp7ERjXBEuilwo=;
- b=iUFTli5oGV2yN60oBwk5cV+yZu88TOQeJGWy3zGp4NO+hn+HE3gvT1E0psbeHOQNQMYc0U
- V5odeKIP9M4CPyNVAmNQX4q3ZraRm4zCVHOJfRaypDlU74bsejoJcL+ydJ8JYzgbKwPZqM
- u+F7GCP+TjW5G6eeteJzMq7WkBEW558=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-2FrYtvo4PIWqo8b6tU1pYg-1; Thu, 22 Oct 2020 09:53:37 -0400
-X-MC-Unique: 2FrYtvo4PIWqo8b6tU1pYg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 452CD1009E32;
- Thu, 22 Oct 2020 13:53:36 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-115-72.ams2.redhat.com [10.36.115.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B4E05B4B1;
- Thu, 22 Oct 2020 13:53:31 +0000 (UTC)
-Subject: Re: [PATCH] tests/acceptance: Enable AVOCADO_ALLOW_UNTRUSTED_CODE in
- the gitlab-CI
-From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201022120145.207094-1-thuth@redhat.com>
-Message-ID: <2ffb46ea-9949-b79e-2fcc-c0eaf712868a@redhat.com>
-Date: Thu, 22 Oct 2020 15:53:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1kVb3v-0004fJ-Vn
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:55:28 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:33578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1kVb3r-0007g2-Ml
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:55:25 -0400
+Received: by mail-il1-x143.google.com with SMTP id j8so1811281ilk.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 06:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rsQE9mGTtLLqOBRx2J0ZWQOWAWuInwkOiR8hb+gl3e4=;
+ b=XGADzQb8ZHWKHkbcmJg6KNt0HrOnEuKUUwfvUiWuoQVd6t180Wv0xQRtSLfnJnl1ta
+ G2opNFwdycYav1eAhiVh2ioCIPVmtHhIksmbdNBGt8n2EPH8ZS49Ai8Lp8x/3DMd0oNw
+ vrU8QBGu1xzQFgiMQ3pAARuF2fJdN81nA9+98w5iwh6I2jpV8V/h3Gr6i1y8t8NapCpa
+ n+ef45NxQMdlAURkwsEwny3YVpgs/YglDR6HpFFrT4WTe7MgnjT+j9hgV94/PGurj5iP
+ CUi1aoT6X+/17Oyh4CjIPp1NV+bfBOQyrmMx/7fPPeQLckeCzmkKHI7Ruq9a2OaAUDaA
+ 5IJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rsQE9mGTtLLqOBRx2J0ZWQOWAWuInwkOiR8hb+gl3e4=;
+ b=iDGO7TQ/bBveE4O6Ey3cCSYxbeKFNhkjPMhU/l6cWLPk+SzPNV8b+S9ct0jKAtcSzF
+ At1FLcgUadFs8PmnaSevARX/fr4tO9V2XkhI8hCR67FmpQQSIf1P4KR8SFtoRGvZVfDG
+ /TcFHdnTj+W0bXAumvebMjeQDWnaqDcICOR5+TbF/5H68s9/dvKJjMP3Jx9hrYOIeLrz
+ zA5p5Sw8/0soB1JqmAdOiUC2fufd5sF0z4WzUTS75TJbWEsTOfGylsMt/oG/EGfrtIBQ
+ wbz/PuZKQkPim29AXcepdUpJxshbnMqLC0rkC2FE1xsyYxUPkcNY4atKgeTmImWem17m
+ q4wg==
+X-Gm-Message-State: AOAM530sHESD274mkBduA/g7l+HDcx3i7AUgRw2yQtR4jwGy2pOhcFJp
+ 0HBq5ZtCKrP3GxWYefZi+XJhhjbQQZFjJOHStL0=
+X-Google-Smtp-Source: ABdhPJwwFUbCmIevaf5jJv104jI333iLJB1bzd2e8Ij8+qPhbc02e5pl8oso/AwXfnsHhEJBwacgeQ2Hh8IgnY4wFfY=
+X-Received: by 2002:a92:c94b:: with SMTP id i11mr1800375ilq.149.1603374920966; 
+ Thu, 22 Oct 2020 06:55:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201022120145.207094-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:09:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
+ <20201022080354-mutt-send-email-mst@kernel.org>
+ <20201022235632.7f69ddc9@yekko.fritz.box>
+In-Reply-To: <20201022235632.7f69ddc9@yekko.fritz.box>
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Date: Thu, 22 Oct 2020 16:55:10 +0300
+Message-ID: <CAC_L=vVi6ngD6j0sZ2uLZ-NHF2WGzKfiOvmsHxOZaBRv6FuBug@mail.gmail.com>
+Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
+ not ready
+To: David Gibson <dgibson@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009b26fa05b242d029"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=marcel.apfelbaum@gmail.com; helo=mail-il1-x143.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,20 +81,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Julia Suvorova <jusual@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/10/2020 14.01, Thomas Huth wrote:
-> The tests are running in containers here, so it should be OK to
-> run with AVOCADO_ALLOW_UNTRUSTED_CODE enabled in this case.
-> We also have to set CONTINUOUS_INTEGRATION in this case to avoid that
-> some tests from ppc_prep_40p.py are failing in the CI.
+--0000000000009b26fa05b242d029
+Content-Type: text/plain; charset="UTF-8"
 
-Please disregard this patch ... CONTINUOUS_INTEGRATION also disables a test
-that has been working in the CI before ... so this should be handled
-differently.
+Hi David, Michael,
 
- Thomas
+On Thu, Oct 22, 2020 at 3:56 PM David Gibson <dgibson@redhat.com> wrote:
 
+> On Thu, 22 Oct 2020 08:06:55 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+>
+> > On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:
+> > > From: Marcel Apfelbaum <marcel@redhat.com>
+> > >
+> > > During PCIe Root Port's transition from Power-Off to Power-ON (or
+> vice-versa)
+> > > the "Slot Control Register" has the "Power Indicator Control"
+> > > set to "Blinking" expressing a "power transition" mode.
+> > >
+> > > Any hotplug operation during the "power transition" mode is not
+> permitted
+> > > or at least not expected by the Guest OS leading to strange failures.
+> > >
+> > > Detect and refuse hotplug operations in such case.
+> > >
+> > > Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > > ---
+> > >  hw/pci/pcie.c | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >
+> > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> > > index 5b48bae0f6..2fe5c1473f 100644
+> > > --- a/hw/pci/pcie.c
+> > > +++ b/hw/pci/pcie.c
+> > > @@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler
+> *hotplug_dev, DeviceState *dev,
+> > >      PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
+> > >      uint8_t *exp_cap = hotplug_pdev->config +
+> hotplug_pdev->exp.exp_cap;
+> > >      uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
+> > > +    uint32_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
+> > >
+> > >      /* Check if hot-plug is disabled on the slot */
+> > >      if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
+> > > @@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler
+> *hotplug_dev, DeviceState *dev,
+> > >          return;
+> > >      }
+> > >
+> > > +    if ((sltctl & PCI_EXP_SLTCTL_PIC) ==
+> PCI_EXP_SLTCTL_PWR_IND_BLINK) {
+> > > +        error_setg(errp, "Hot-plug failed: %s is in Power Transition",
+> > > +                   DEVICE(hotplug_pdev)->id);
+> > > +        return;
+> > > +    }
+> > > +
+> > >      pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
+> > >  }
+> >
+> > Probably the only way to handle for existing machine types.
+>
+
+I agree
+
+
+> > For new ones, can't we queue it in host memory somewhere?
+>
+>
+I am not sure I understand what will be the flow.
+  - The user asks for a hotplug operation.
+  -  QEMU deferred operation.
+After that the operation may still fail, how would the user know if the
+operation
+succeeded or not?
+
+
+
+> I'm not actually convinced we can't do that even for existing machine
+> types.
+
+
+Is a Guest visible change, I don't think we can do it.
+
+
+> So I'm a bit hesitant to suggest going ahead with this without
+> looking a bit closer at whether we can implement a wait-for-ready in
+> qemu, rather than forcing every user of qemu (human or machine) to do
+> so.
+>
+
+While I agree it is a pain from the usability point of view, hotplug
+operations
+are allowed to fail. This is not more than a corner case, ensuring the right
+response (gracefully erroring out) may be enough.
+
+Thanks,
+Marcel
+
+
+
+>
+>
+> --
+> David Gibson <dgibson@redhat.com>
+> Principal Software Engineer, Virtualization, Red Hat
+>
+
+--0000000000009b26fa05b242d029
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi David, Michael,</div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 22, 2020 at=
+ 3:56 PM David Gibson &lt;<a href=3D"mailto:dgibson@redhat.com">dgibson@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Thu, 22 Oct 2020 08:06:55 -0400<br>
+&quot;Michael S. Tsirkin&quot; &lt;<a href=3D"mailto:mst@redhat.com" target=
+=3D"_blank">mst@redhat.com</a>&gt; wrote:<br>
+<br>
+&gt; On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:<br>
+&gt; &gt; From: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel@redhat.com" t=
+arget=3D"_blank">marcel@redhat.com</a>&gt;<br>
+&gt; &gt; <br>
+&gt; &gt; During PCIe Root Port&#39;s transition from Power-Off to Power-ON=
+ (or vice-versa)<br>
+&gt; &gt; the &quot;Slot Control Register&quot; has the &quot;Power Indicat=
+or Control&quot;<br>
+&gt; &gt; set to &quot;Blinking&quot; expressing a &quot;power transition&q=
+uot; mode.<br>
+&gt; &gt; <br>
+&gt; &gt; Any hotplug operation during the &quot;power transition&quot; mod=
+e is not permitted<br>
+&gt; &gt; or at least not expected by the Guest OS leading to strange failu=
+res.<br>
+&gt; &gt; <br>
+&gt; &gt; Detect and refuse hotplug operations in such case.<br>
+&gt; &gt; <br>
+&gt; &gt; Signed-off-by: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel.apfe=
+lbaum@gmail.com" target=3D"_blank">marcel.apfelbaum@gmail.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 hw/pci/pcie.c | 7 +++++++<br>
+&gt; &gt;=C2=A0 1 file changed, 7 insertions(+)<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c<br>
+&gt; &gt; index 5b48bae0f6..2fe5c1473f 100644<br>
+&gt; &gt; --- a/hw/pci/pcie.c<br>
+&gt; &gt; +++ b/hw/pci/pcie.c<br>
+&gt; &gt; @@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler=
+ *hotplug_dev, DeviceState *dev,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 PCIDevice *hotplug_pdev =3D PCI_DEVICE(hotplu=
+g_dev);<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 uint8_t *exp_cap =3D hotplug_pdev-&gt;config =
++ hotplug_pdev-&gt;exp.exp_cap;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 uint32_t sltcap =3D pci_get_word(exp_cap + PC=
+I_EXP_SLTCAP);<br>
+&gt; &gt; +=C2=A0 =C2=A0 uint32_t sltctl =3D pci_get_word(exp_cap + PCI_EXP=
+_SLTCTL);<br>
+&gt; &gt;=C2=A0 <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 /* Check if hot-plug is disabled on the slot =
+*/<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 if (dev-&gt;hotplugged &amp;&amp; (sltcap &am=
+p; PCI_EXP_SLTCAP_HPC) =3D=3D 0) {<br>
+&gt; &gt; @@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandle=
+r *hotplug_dev, DeviceState *dev,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt;=C2=A0 <br>
+&gt; &gt; +=C2=A0 =C2=A0 if ((sltctl &amp; PCI_EXP_SLTCTL_PIC) =3D=3D PCI_E=
+XP_SLTCTL_PWR_IND_BLINK) {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Hot-plug fail=
+ed: %s is in Power Transition&quot;,<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0DEVICE(hotplug_pdev)-&gt;id);<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; &gt; +=C2=A0 =C2=A0 }<br>
+&gt; &gt; +<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_=
+dev), dev, errp);<br>
+&gt; &gt;=C2=A0 }=C2=A0 <br>
+&gt; <br>
+&gt; Probably the only way to handle for existing machine types.<br></block=
+quote><div><br></div><div>I agree</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+&gt; For new ones, can&#39;t we queue it in host memory somewhere?<br>
+<br></blockquote><div><br></div><div>I am not sure I understand what will b=
+e the flow.</div><div>=C2=A0 - The user asks for a hotplug operation.</div>=
+<div>=C2=A0 -=C2=A0 QEMU deferred operation.</div><div>After that the opera=
+tion may still fail, how would the user know if the operation</div><div>suc=
+ceeded or not?</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
+I&#39;m not actually convinced we can&#39;t do that even for existing machi=
+ne<br>
+types.=C2=A0</blockquote><div><br></div><div>Is a Guest visible change, I d=
+on&#39;t think we can do it.</div><div>=C2=A0<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex"> So I&#39;m a bit hesitant to suggest going a=
+head with this without<br>
+looking a bit closer at whether we can implement a wait-for-ready in<br>
+qemu, rather than forcing every user of qemu (human or machine) to do<br>
+so.<br></blockquote><div><br></div><div>While I agree it is a pain from the=
+ usability point of view, hotplug operations</div><div>are allowed to fail.=
+ This is not more than a corner case, ensuring the right</div><div>response=
+ (gracefully erroring out) may be enough.</div><div><br></div><div>Thanks,<=
+/div><div>Marcel</div><div><br></div><div>=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+<br>
+<br>
+-- <br>
+David Gibson &lt;<a href=3D"mailto:dgibson@redhat.com" target=3D"_blank">dg=
+ibson@redhat.com</a>&gt;<br>
+Principal Software Engineer, Virtualization, Red Hat<br>
+</blockquote></div></div>
+
+--0000000000009b26fa05b242d029--
 
