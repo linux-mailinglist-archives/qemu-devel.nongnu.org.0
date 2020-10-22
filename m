@@ -2,23 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E3C295E35
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:19:14 +0200 (CEST)
-Received: from localhost ([::1]:43672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5CF295E54
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:26:12 +0200 (CEST)
+Received: from localhost ([::1]:59666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVZYn-0002hz-AJ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:19:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42660)
+	id 1kVZfX-0001Jk-RI
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:26:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kVZUx-0000x8-Mp; Thu, 22 Oct 2020 08:15:49 -0400
-Resent-Date: Thu, 22 Oct 2020 08:15:15 -0400
-Resent-Message-Id: <E1kVZUx-0000x8-Mp@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21759)
+ id 1kVZWo-00029T-8E
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 08:17:10 -0400
+Resent-Date: Thu, 22 Oct 2020 08:17:10 -0400
+Resent-Message-Id: <E1kVZWo-00029T-8E@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kVZT1-00018k-1S; Thu, 22 Oct 2020 08:15:15 -0400
+ id 1kVZUz-0001Lt-CX
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 08:17:09 -0400
 ARC-Seal: i=1; a=rsa-sha256; t=1603368773; cv=none; 
  d=zohomail.com; s=zohoarc; 
  b=bG5Ue5mfQkfkgL1EI5TpWHHeP95XwrtHkG32OGITdOVSZTZnr6NQpDCaHzia1ZYvSO0kF+jtBx604yuhmRNvJUF1o2882TwzenhUVtG4jpMxyqloXLajKlS8tarJgPTOdDU86a1Vuf2XCHCsnxEl2Ju1riixsEopapZkW455dvc=
@@ -49,6 +51,13 @@ Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
  helo=sender4-of-o57.zoho.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:13:11
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
