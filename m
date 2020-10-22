@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2A5295DC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 13:51:24 +0200 (CEST)
-Received: from localhost ([::1]:58544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD53295DE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:00:49 +0200 (CEST)
+Received: from localhost ([::1]:33532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVZ7r-0006PM-CN
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 07:51:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40396)
+	id 1kVZGy-0002Tw-Qz
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:00:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ2Z-0001Eh-MX
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:45:59 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:8081)
+ id 1kVZ2f-0001IV-At
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:05 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:8092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ2L-0007JQ-6e
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:45:53 -0400
+ id 1kVZ2U-0007Mw-R5
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:01 -0400
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
  hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f9170d70001>; Thu, 22 Oct 2020 04:45:27 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Oct
- 2020 11:45:29 +0000
+ id <B5f9170de0000>; Thu, 22 Oct 2020 04:45:34 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Oct
+ 2020 11:45:37 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by mail.nvidia.com
  (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 22 Oct 2020 11:45:21 +0000
+ Transport; Thu, 22 Oct 2020 11:45:29 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v27 06/17] vfio: Add migration state change notifier
-Date: Thu, 22 Oct 2020 16:41:56 +0530
-Message-ID: <1603365127-14202-7-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v27 07/17] vfio: Register SaveVMHandlers for VFIO device
+Date: Thu, 22 Oct 2020 16:41:57 +0530
+Message-ID: <1603365127-14202-8-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
 References: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
@@ -40,15 +40,15 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603367127; bh=PZx0vwb5+/oem8Fj22SPkzrd6LJO+TSfiDJ78tPQ7LU=;
+ t=1603367134; bh=3Qu1gjBeyA2yFsqSJXKPIpQstRrwi9t0ZpKM1JWSgWA=;
  h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
  References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=WYGt/TOgluupD15h+b4gVvYX6gKae3ILwJce7jqTuluUYf1jrHbOCkdIasYd3vdkD
- YArSQCgxy0P9mihDCTxxSyidfp2WKrB8jGffZRIFIU/buJBtrehq4UrM9V9/nGpdHt
- 1vJPadfcB8rFkPS8bk6UEKjJ1AgH22pdbvMyg6/iJD+2i3X6osB6g2otT93dpyLJ/b
- CPQV2pCRIEMIUbELakpNBuICY8DFFdpWBr3XWeB3kduRp9xAYIIlcCo5Y7k17y6vwq
- KgS8reYZm2maEbsS+xMVJ/JRbfmx7kyOZzPbt2VMnZ+UFV1W7bMLjj5SH4zltAkyH5
- bKP0txd7dAyIw==
+ b=oLbZCCdWBOGcZ+ntUJhaVjcXwXnCL3jwO2mp+zEdzlIfHzQ32EGnq1UampQFwRggl
+ xnaA/m8f91nf9tUQ1n8JkKz4BvP+kuu5PxPZHSCQpc3nvj8t28h6dy02cwP0PNqEEe
+ 76texbTj6m4CKKANai/im8NbjBOgUE/eaOEsayRCx0H+BlJFFQf2xxbG5Ol4UbCeFk
+ MUlL4Xv9uodDlVvJkEY4u2XIEe1vl019YxPco9WUY0SMZzm8rPa9cj37Cw+9RkNU9o
+ wq7PSOtad5RrCX+E00O7DWW5Mq718HPZ8+7kJzbbUOBNDq/sCuEP5aqPSLXdNOUMAu
+ 6Uj/hLhVHnKZQ==
 Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
  helo=hqnvemgate26.nvidia.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 07:45:39
@@ -85,109 +85,172 @@ Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added migration state change notifier to get notification on migration state
-change. These states are translated to VFIO device state and conveyed to
-vendor driver.
+Define flags to be used as delimiter in migration stream for VFIO devices.
+Added .save_setup and .save_cleanup functions. Map & unmap migration
+region from these functions at source during saving or pre-copy phase.
+
+Set VFIO device state depending on VM's state. During live migration, VM is
+running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
+device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/vfio/migration.c           | 37 +++++++++++++++++++++++++++++++++++--
- hw/vfio/trace-events          |  1 +
- include/hw/vfio/vfio-common.h |  2 ++
- 3 files changed, 38 insertions(+), 2 deletions(-)
+ hw/vfio/migration.c  | 96 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/trace-events |  2 ++
+ 2 files changed, 98 insertions(+)
 
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 34f39c7e2e28..7c4fa0d08ea6 100644
+index 7c4fa0d08ea6..2e1054bf7f43 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -175,6 +175,30 @@ static void vfio_vmstate_change(void *opaque, int running, RunState state)
-             (migration->device_state & mask) | value);
+@@ -8,12 +8,15 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/main-loop.h"
++#include "qemu/cutils.h"
+ #include <linux/vfio.h>
+ 
+ #include "sysemu/runstate.h"
+ #include "hw/vfio/vfio-common.h"
+ #include "cpu.h"
+ #include "migration/migration.h"
++#include "migration/vmstate.h"
+ #include "migration/qemu-file.h"
+ #include "migration/register.h"
+ #include "migration/blocker.h"
+@@ -25,6 +28,22 @@
+ #include "trace.h"
+ #include "hw/hw.h"
+ 
++/*
++ * Flags to be used as unique delimiters for VFIO devices in the migration
++ * stream. These flags are composed as:
++ * 0xffffffff => MSB 32-bit all 1s
++ * 0xef10     => Magic ID, represents emulated (virtual) function IO
++ * 0x0000     => 16-bits reserved for flags
++ *
++ * The beginning of state information is marked by _DEV_CONFIG_STATE,
++ * _DEV_SETUP_STATE, or _DEV_DATA_STATE, respectively. The end of a
++ * certain state information is marked by _END_OF_STATE.
++ */
++#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
++#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
++#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
++#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
++
+ static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int count,
+                                   off_t off, bool iswrite)
+ {
+@@ -129,6 +148,69 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+     return 0;
  }
  
-+static void vfio_migration_state_notifier(Notifier *notifier, void *data)
++/* ---------------------------------------------------------------------- */
++
++static int vfio_save_setup(QEMUFile *f, void *opaque)
 +{
-+    MigrationState *s = data;
-+    VFIOMigration *migration = container_of(notifier, VFIOMigration,
-+                                            migration_state);
-+    VFIODevice *vbasedev = migration->vbasedev;
++    VFIODevice *vbasedev = opaque;
++    VFIOMigration *migration = vbasedev->migration;
 +    int ret;
 +
-+    trace_vfio_migration_state_notifier(vbasedev->name,
-+                                        MigrationStatus_str(s->state));
++    trace_vfio_save_setup(vbasedev->name);
 +
-+    switch (s->state) {
-+    case MIGRATION_STATUS_CANCELLING:
-+    case MIGRATION_STATUS_CANCELLED:
-+    case MIGRATION_STATUS_FAILED:
-+        ret = vfio_migration_set_state(vbasedev,
-+                      ~(VFIO_DEVICE_STATE_SAVING | VFIO_DEVICE_STATE_RESUMING),
-+                      VFIO_DEVICE_STATE_RUNNING);
++    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
++
++    if (migration->region.mmaps) {
++        /*
++         * vfio_region_mmap() called from migration thread. Memory API called
++         * from vfio_regio_mmap() need it when called from outdide the main loop
++         * thread.
++         */
++        qemu_mutex_lock_iothread();
++        ret = vfio_region_mmap(&migration->region);
++        qemu_mutex_unlock_iothread();
 +        if (ret) {
-+            error_report("%s: Failed to set state RUNNING", vbasedev->name);
++            error_report("%s: Failed to mmap VFIO migration region: %s",
++                         vbasedev->name, strerror(-ret));
++            error_report("%s: Falling back to slow path", vbasedev->name);
 +        }
 +    }
-+}
 +
- static void vfio_migration_region_exit(VFIODevice *vbasedev)
- {
-     VFIOMigration *migration = vbasedev->migration;
-@@ -223,8 +247,11 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-     }
- 
-     vbasedev->migration = migration;
-+    migration->vbasedev = vbasedev;
-     migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
-                                                           vbasedev);
-+    migration->migration_state.notify = vfio_migration_state_notifier;
-+    add_migration_state_change_notifier(&migration->migration_state);
-     return 0;
- 
- err:
-@@ -272,8 +299,14 @@ add_blocker:
- 
- void vfio_migration_finalize(VFIODevice *vbasedev)
- {
--    if (vbasedev->migration->vm_state) {
--        qemu_del_vm_change_state_handler(vbasedev->migration->vm_state);
-+    VFIOMigration *migration = vbasedev->migration;
-+
-+    if (migration->migration_state.notify) {
-+        remove_migration_state_change_notifier(&migration->migration_state);
++    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_MASK,
++                                   VFIO_DEVICE_STATE_SAVING);
++    if (ret) {
++        error_report("%s: Failed to set state SAVING", vbasedev->name);
++        return ret;
 +    }
 +
-+    if (migration->vm_state) {
-+        qemu_del_vm_change_state_handler(migration->vm_state);
-     }
++    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
++
++    ret = qemu_file_get_error(f);
++    if (ret) {
++        return ret;
++    }
++
++    return 0;
++}
++
++static void vfio_save_cleanup(void *opaque)
++{
++    VFIODevice *vbasedev = opaque;
++    VFIOMigration *migration = vbasedev->migration;
++
++    if (migration->region.mmaps) {
++        vfio_region_unmap(&migration->region);
++    }
++    trace_vfio_save_cleanup(vbasedev->name);
++}
++
++static SaveVMHandlers savevm_vfio_handlers = {
++    .save_setup = vfio_save_setup,
++    .save_cleanup = vfio_save_cleanup,
++};
++
++/* ---------------------------------------------------------------------- */
++
+ static void vfio_vmstate_change(void *opaque, int running, RunState state)
+ {
+     VFIODevice *vbasedev = opaque;
+@@ -219,6 +301,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+     int ret;
+     Object *obj;
+     VFIOMigration *migration;
++    char id[256] = "";
++    g_autofree char *path = NULL, *oid;
  
-     if (vbasedev->migration_blocker) {
+     if (!vbasedev->ops->vfio_get_object) {
+         return -EINVAL;
+@@ -248,6 +332,18 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+ 
+     vbasedev->migration = migration;
+     migration->vbasedev = vbasedev;
++
++    oid = vmstate_if_get_id(VMSTATE_IF(DEVICE(obj)));
++    if (oid) {
++        path = g_strdup_printf("%s/vfio", oid);
++    } else {
++        path = g_strdup("vfio");
++    }
++    strpadcpy(id, sizeof(id), path, '\0');
++
++    register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1, &savevm_vfio_handlers,
++                         vbasedev);
++
+     migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+                                                           vbasedev);
+     migration->migration_state.notify = vfio_migration_state_notifier;
 diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 41de81f12f60..78d7d83b5ef8 100644
+index 78d7d83b5ef8..f148b5e828c1 100644
 --- a/hw/vfio/trace-events
 +++ b/hw/vfio/trace-events
-@@ -150,3 +150,4 @@ vfio_display_edid_write_error(void) ""
- vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
+@@ -151,3 +151,5 @@ vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
  vfio_migration_set_state(const char *name, uint32_t state) " (%s) state %d"
  vfio_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
-+vfio_migration_state_notifier(const char *name, const char *state) " (%s) state %s"
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 9a571f1fb552..2bd593ba38bb 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -59,10 +59,12 @@ typedef struct VFIORegion {
- } VFIORegion;
- 
- typedef struct VFIOMigration {
-+    struct VFIODevice *vbasedev;
-     VMChangeStateEntry *vm_state;
-     VFIORegion region;
-     uint32_t device_state;
-     int vm_running;
-+    Notifier migration_state;
- } VFIOMigration;
- 
- typedef struct VFIOAddressSpace {
+ vfio_migration_state_notifier(const char *name, const char *state) " (%s) state %s"
++vfio_save_setup(const char *name) " (%s)"
++vfio_save_cleanup(const char *name) " (%s)"
 -- 
 2.7.0
 
