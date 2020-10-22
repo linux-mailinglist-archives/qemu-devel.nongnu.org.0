@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D3F295E24
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:17:17 +0200 (CEST)
-Received: from localhost ([::1]:39806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBBA295E55
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:26:31 +0200 (CEST)
+Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVZWu-0000t1-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:17:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41814)
+	id 1kVZfq-0001ay-39
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVZP9-0003D3-8I
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 08:09:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVZOx-0000hc-Jt
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 08:09:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603368541;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r1AjBK3CTFNG7adSOtbztt/PngT8GDJUkYUm30ne4nk=;
- b=AxPdYJ9cq2qme2FnCUkTX7+a24NmigdWwn3Wo/MLV5vrSJDcKjaap0bpJwad3NG6QfLU6C
- tpxzb0Yli8oM2jVhsKg6pbEaBxTOaQbTqF0R8tTDBs0luZOvlt1Bf0XMYNiKqAn3Oyz88g
- bW4HvYrHa4zVMRsQQjfn1pgSDBNkZ30=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-7GC9gQKJPue6hDtHY-YiAQ-1; Thu, 22 Oct 2020 08:07:04 -0400
-X-MC-Unique: 7GC9gQKJPue6hDtHY-YiAQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AF961006CA7;
- Thu, 22 Oct 2020 12:07:03 +0000 (UTC)
-Received: from redhat.com (ovpn-113-117.ams2.redhat.com [10.36.113.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E5F7819C4F;
- Thu, 22 Oct 2020 12:06:58 +0000 (UTC)
-Date: Thu, 22 Oct 2020 08:06:55 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
- not ready
-Message-ID: <20201022080354-mutt-send-email-mst@kernel.org>
-References: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kVZOh-00026a-Ok
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 08:08:48 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39176)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kVZOV-0000Zm-Co
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 08:08:47 -0400
+Received: by mail-wm1-x343.google.com with SMTP id d3so1887105wma.4
+ for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 05:08:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qLPB1dB+Oklmp5dhgjQooB7fphLzdqsSaIVwxQvRp+M=;
+ b=KbNEXuCOgFL3tTz71uZbBvC1OR2lqbN0QcpMKadeHeRWZIWq/JTCwpuOA9I5m1IwSS
+ mblPC6h1rGx/DJBqcK/ZW0FWa5mqdVF1+jRJoQxPyZWvBW04supVKea5SI40qBFbUMgv
+ urdd7dfr0cU/ertF2YEhbVRj4aMqBVJnDZKMvNHoNDmmK1aQeD2sFMbSYyg65c6t/1P0
+ gN7HFtWWRD6ITmO4MdiOdVAfYUkmALCBu1aR5LkEaPZk9oWzb8r0ZkLXT06RAPILEqm3
+ rSp43X7yO7Sj0SxTY1iKfG4PddIB1NscMAzkRsnSUWmkjCcq/VOsx/lrP5j0yk9ZE/Sd
+ T8OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qLPB1dB+Oklmp5dhgjQooB7fphLzdqsSaIVwxQvRp+M=;
+ b=qzuUTPFvjgGrn70EZvcOQNCUsV/YYIGcCfQbe/6qwcXsSS7r4iJzWi/jRZhZXi/krj
+ AV1Xy7swISpAHpBvdLxfmuysxeuOceLzHpAAL5HSngY6G3SE00f1c4eoTnh80+ayEx9H
+ xaX3+BQrHGjmrwqLli/+ZsNsYIw9p1MCNt4Y+bnE1nOROT/jZtMFaEy9J0G0kwNnKDEl
+ /c2n+eEpHhxRTrYR7XZZl01xMltBFUTAmEsV+rwxlmB26lPCVsfYS3z8KjD5zmuKcUHq
+ pJRn9eglbEkJnoZYa4KAWjZdk7kT4QfvSI4pRxPYGpMBKQnbvnFLt8DKvfIWAcjKaYI2
+ fdxg==
+X-Gm-Message-State: AOAM531Hp0/BeKPVK+SL5xLM7gtz2NZ4DED50iM70Ta7n1VhlICklxN/
+ HkJoPenYzeb1+xHFl4D1q1PuVbv2/GXlYA==
+X-Google-Smtp-Source: ABdhPJyWAOBkCwluaG2Ot0edeqAf0H0GjO3K8ziM7CC4S2epV3Yd692Ehtl6jl1SMHFevFoKVHWyWw==
+X-Received: by 2002:a1c:1946:: with SMTP id 67mr2215910wmz.15.1603368513039;
+ Thu, 22 Oct 2020 05:08:33 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id x81sm3406210wmb.11.2020.10.22.05.08.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Oct 2020 05:08:31 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] migration: Drop unused VMSTATE_FLOAT64 support
+Date: Thu, 22 Oct 2020 13:08:30 +0100
+Message-Id: <20201022120830.5938-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:09:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,56 +82,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dgibson@redhat.com, jusual@redhat.com, qemu-devel@nongnu.org
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:
-> From: Marcel Apfelbaum <marcel@redhat.com>
-> 
-> During PCIe Root Port's transition from Power-Off to Power-ON (or vice-versa)
-> the "Slot Control Register" has the "Power Indicator Control"
-> set to "Blinking" expressing a "power transition" mode.
-> 
-> Any hotplug operation during the "power transition" mode is not permitted
-> or at least not expected by the Guest OS leading to strange failures.
-> 
-> Detect and refuse hotplug operations in such case.
-> 
-> Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> ---
->  hw/pci/pcie.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index 5b48bae0f6..2fe5c1473f 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
->      PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
->      uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
->      uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
-> +    uint32_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
->  
->      /* Check if hot-plug is disabled on the slot */
->      if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
-> @@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
->          return;
->      }
->  
-> +    if ((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_BLINK) {
-> +        error_setg(errp, "Hot-plug failed: %s is in Power Transition",
-> +                   DEVICE(hotplug_pdev)->id);
-> +        return;
-> +    }
-> +
->      pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
->  }
+Commit ef96e3ae9698d6 in January 2019 removed the last user of the
+VMSTATE_FLOAT64* macros. These were used by targets which defined
+their floating point register file as an array of 'float64'.
 
-Probably the only way to handle for existing machine types.
-For new ones, can't we queue it in host memory somewhere?
+We used to try to maintain a stricter distinction between
+'float64' (a type for holding an integer representing an IEEE float)
+and 'uint64_t', including having a debug option for 'float64' being
+a struct and supposedly mandatory macros for converting between
+float64 and uint64_t. We no longer think that's a usefully
+strong distinction to draw and we allow ourselves to freely
+assume that float64 really is just a 64-bit integer type, so
+for new targets we would simply recommend use of the uint64_t type
+for a floating point register file. The float64 type remains
+as a useful way of documenting in the type signature of helper
+functions and the like that they expect to receive an IEEE float
+from the TCG generated code rather than an arbitrary integer.
 
-> -- 
-> 2.17.2
+Since the VMSTATE_FLOAT64* macros have no remaining users and
+we don't recommend new code uses them, delete them.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/migration/vmstate.h | 13 -------------
+ migration/vmstate-types.c   | 26 --------------------------
+ 2 files changed, 39 deletions(-)
+
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index f68ed7db13c..4d71dc8fbaa 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -219,7 +219,6 @@ extern const VMStateInfo vmstate_info_uint64;
+ #define VMS_NULLPTR_MARKER (0x30U) /* '0' */
+ extern const VMStateInfo vmstate_info_nullptr;
+ 
+-extern const VMStateInfo vmstate_info_float64;
+ extern const VMStateInfo vmstate_info_cpudouble;
+ 
+ extern const VMStateInfo vmstate_info_timer;
+@@ -997,12 +996,6 @@ extern const VMStateInfo vmstate_info_qlist;
+     VMSTATE_SINGLE_TEST(_f, _s, _t, 0, vmstate_info_uint64, uint64_t)
+ 
+ 
+-#define VMSTATE_FLOAT64_V(_f, _s, _v)                                 \
+-    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_float64, float64)
+-
+-#define VMSTATE_FLOAT64(_f, _s)                                       \
+-    VMSTATE_FLOAT64_V(_f, _s, 0)
+-
+ #define VMSTATE_TIMER_PTR_TEST(_f, _s, _test)                             \
+     VMSTATE_POINTER_TEST(_f, _s, _test, vmstate_info_timer, QEMUTimer *)
+ 
+@@ -1114,12 +1107,6 @@ extern const VMStateInfo vmstate_info_qlist;
+ #define VMSTATE_INT64_ARRAY(_f, _s, _n)                               \
+     VMSTATE_INT64_ARRAY_V(_f, _s, _n, 0)
+ 
+-#define VMSTATE_FLOAT64_ARRAY_V(_f, _s, _n, _v)                       \
+-    VMSTATE_ARRAY(_f, _s, _n, _v, vmstate_info_float64, float64)
+-
+-#define VMSTATE_FLOAT64_ARRAY(_f, _s, _n)                             \
+-    VMSTATE_FLOAT64_ARRAY_V(_f, _s, _n, 0)
+-
+ #define VMSTATE_CPUDOUBLE_ARRAY_V(_f, _s, _n, _v)                     \
+     VMSTATE_ARRAY(_f, _s, _n, _v, vmstate_info_cpudouble, CPU_DoubleU)
+ 
+diff --git a/migration/vmstate-types.c b/migration/vmstate-types.c
+index 35e784c9d93..e22d41d73d6 100644
+--- a/migration/vmstate-types.c
++++ b/migration/vmstate-types.c
+@@ -420,32 +420,6 @@ const VMStateInfo vmstate_info_uint16_equal = {
+     .put  = put_uint16,
+ };
+ 
+-/* floating point */
+-
+-static int get_float64(QEMUFile *f, void *pv, size_t size,
+-                       const VMStateField *field)
+-{
+-    float64 *v = pv;
+-
+-    *v = make_float64(qemu_get_be64(f));
+-    return 0;
+-}
+-
+-static int put_float64(QEMUFile *f, void *pv, size_t size,
+-                       const VMStateField *field, QJSON *vmdesc)
+-{
+-    uint64_t *v = pv;
+-
+-    qemu_put_be64(f, float64_val(*v));
+-    return 0;
+-}
+-
+-const VMStateInfo vmstate_info_float64 = {
+-    .name = "float64",
+-    .get  = get_float64,
+-    .put  = put_float64,
+-};
+-
+ /* CPU_DoubleU type */
+ 
+ static int get_cpudouble(QEMUFile *f, void *pv, size_t size,
+-- 
+2.20.1
 
 
