@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C87296757
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 00:34:08 +0200 (CEST)
-Received: from localhost ([::1]:50076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1A429675A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 00:35:05 +0200 (CEST)
+Received: from localhost ([::1]:52522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVj9p-0006j2-UQ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 18:34:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44856)
+	id 1kVjAm-0007lt-M6
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 18:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kVj6k-0005jJ-Ez
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:30:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kVj6d-0007h6-Ht
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:30:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kVj6b-0007iC-AC
- for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 22:30:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 468582E812F
- for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 22:30:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kVj7l-0006IL-Qf
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:31:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31092)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kVj7f-0007qP-5w
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:31:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603405909;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xY3o6hMFppe8hIPTgdlOJeSrzqaRxIHBYgm6a9ByaaY=;
+ b=Z/vikHREWOh2JCLTUc/2Naw2uUdklol0oOOmdnc//TwwTeLK9r63Psjy0pnEpOSf/Utc7c
+ MzXt1oaG0T7jy6Ho8lJ6rsfzHHZDv4u67cjsCogDFdGHRi6jO2pkO+hntOtD56HTZSaQHN
+ trsdfktcIEwt8oFWbcv+sHOoVxuU7JY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549-qNRMkNEANLqxQniVJtF8TA-1; Thu, 22 Oct 2020 18:31:46 -0400
+X-MC-Unique: qNRMkNEANLqxQniVJtF8TA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45CE6800050;
+ Thu, 22 Oct 2020 22:31:45 +0000 (UTC)
+Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58E02196F3;
+ Thu, 22 Oct 2020 22:31:41 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] qom: Introduce object*_property_add_bool_ptr() functions
+Date: Thu, 22 Oct 2020 18:31:36 -0400
+Message-Id: <20201022223140.2083123-1-ehabkost@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Oct 2020 22:24:12 -0000
-From: Bug Watch Updater <1894869@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=None; component=None;
- status=Invalid; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: chelsio t4
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 1butteryadmin alex-l-williamson stefan-proxmox
-X-Launchpad-Bug-Reporter: Nick Bauer (1butteryadmin)
-X-Launchpad-Bug-Modifier: Bug Watch Updater (bug-watch-updater)
-References: <159958042175.17914.10047848067927369523.malonedeb@soybean.canonical.com>
-Message-Id: <160340545385.24817.12611068643944650683.launchpad@loganberry.canonical.com>
-Subject: [Bug 1894869] Re: Chelsio T4 has old MSIX PBA offset bug
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bc5a16cfdc4ba776ecdf84a052201ef8fb1f3321"; Instance="production"
-X-Launchpad-Hash: ccef2fafd666f0d5fcb2e52843bd157a218c218f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 18:30:45
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:33:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,61 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1894869 <1894869@bugs.launchpad.net>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: debian
-       Status: In Progress =3D> Invalid
+Based-on: 20201009160122.1662082-1-ehabkost@redhat.com=0D
+Git branch: https://github.com/ehabkost/qemu work/qom-bool-ptr-prop=0D
+=0D
+This series introduces a helper to make it easier to register=0D
+simple boolan QOM properties.  It will be useful for simplifying=0D
+existing property code in some types that can't use=0D
+QDEV_PROP_BOOL yet (because they are not TYPE_DEVICE subtypes).=0D
+As examples, some TYPE_MACHINE and TYPE_QAUTHZ_LIST_FILE=0D
+properties are converted to use the new functions.=0D
+=0D
+This depends on the QOM property code cleanup that was also=0D
+submitted as part of:=0D
+=0D
+  https://lore.kernel.org/qemu-devel/20201009160122.1662082-1-ehabkost@redh=
+at.com=0D
+  Subject: [PATCH 00/12] qom: Make all -object types use only class propert=
+ies<=0D
+=0D
+Eduardo Habkost (4):=0D
+  qom: object*_property_add_bool_ptr() functions=0D
+  autz/listfile: Use object_class_property_add_bool_ptr()=0D
+  machine: Use object_class_property_add_bool_ptr() when possible=0D
+  pc: Use object_class_property_add_bool_ptr()=0D
+=0D
+ include/qom/object.h | 23 +++++++++++++=0D
+ authz/listfile.c     | 27 ++-------------=0D
+ hw/core/machine.c    | 78 ++++++++------------------------------------=0D
+ hw/i386/pc.c         | 57 +++++---------------------------=0D
+ qom/object.c         | 31 ++++++++++++++++++=0D
+ 5 files changed, 79 insertions(+), 137 deletions(-)=0D
+=0D
+--=20=0D
+2.28.0=0D
+=0D
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1894869
-
-Title:
-  Chelsio T4 has old MSIX PBA offset bug
-
-Status in QEMU:
-  Invalid
-Status in Debian:
-  Invalid
-
-Bug description:
-  There exists a bug with Chelsio NICs T4 that causes the following
-  error:
-
-  kvm: -device vfio-
-  pci,host=3D0000:83:00.7,id=3Dhostpci1.7,bus=3Dpci.0,addr=3D0x11.7: vfio
-  0000:83:00.7: hardware reports invalid configuration, MSIX PBA outside
-  of specified BAR
-
-  I discovered this bug on a Proxmox system, and I was working with a
-  downstream Proxmox developer to try to fix this issue. They provided
-  me with the following change to make from line 1484 of hw/vfio/pci.c:
-
-  static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* is 0x1000, =
-so we hard code that here.
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0*/
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (vdev->vendor_id=
- =3D=3D PCI_VENDOR_ID_CHELSIO &&
-  -            (vdev->device_id & 0xff00) =3D=3D 0x5800) {
-  +            ((vdev->device_id & 0xff00) =3D=3D 0x5800 ||
-  +             (vdev->device_id & 0xff00) =3D=3D 0x1425)) {
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0msix->pba_offset =3D 0x1000;
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} else if (vdev->ms=
-ix_relo =3D=3D OFF_AUTOPCIBAR_OFF) {
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0error_setg(errp, "hardware reports invalid configuration, "
-
-  However, I found that this did not fix the issue, so the bug appears
-  to work differently than the one that was present on the T5 NICs which
-  has already been patched. I have attached the output of my lspci
-  -nnkvv
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1894869/+subscriptions
 
