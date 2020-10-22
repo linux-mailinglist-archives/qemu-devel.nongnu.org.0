@@ -2,50 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DE7295F7E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:14:42 +0200 (CEST)
-Received: from localhost ([::1]:48256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4E1295F76
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:12:46 +0200 (CEST)
+Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVaQT-0000JL-Of
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:14:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57270)
+	id 1kVaOb-0006lc-5M
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kVaG7-00052v-It; Thu, 22 Oct 2020 09:03:59 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5715 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kVaFx-0000gn-Rm; Thu, 22 Oct 2020 09:03:59 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 1F3A5716043171552079;
- Thu, 22 Oct 2020 21:03:43 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 22 Oct 2020
- 21:03:34 +0800
-From: Jiahui Cen <cenjiahui@huawei.com>
-To: <qemu-devel@nongnu.org>, <kwolf@redhat.com>, <mreitz@redhat.com>,
- <eblake@redhat.com>
-Subject: [PATCH v3 9/9] docs: add a doc about I/O hang
-Date: Thu, 22 Oct 2020 21:03:03 +0800
-Message-ID: <20201022130303.1092-10-cenjiahui@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201022130303.1092-1-cenjiahui@huawei.com>
-References: <20201022130303.1092-1-cenjiahui@huawei.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kVaJY-00087u-GB
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:07:32 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kVaJP-0001B8-QM
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:07:32 -0400
+Received: by mail-wm1-x344.google.com with SMTP id d78so2002923wmd.3
+ for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 06:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gVXnh6jzWr8EcyQ4w7GWw0ffnF/hzVsKPQf9uPHgFhw=;
+ b=bzcqCcByL+J4nYVh/kZGqkEioMZ1dqtKzdKZmjutk7QrrotWDgYJ5Y/FBKazFzYA59
+ hXdMEkRdx8zwponOSDiMGjZgqFt6NNPXYsWNtr3N1rfJR0DcnePEwfMeo/ok7N8jiPu0
+ lUf/WWsxau8ioBGAweWml5qfJ4iJK1BT3JN2VIAFbzKwHsyhAZg12fRazjAALCumLg+u
+ MxPem2ZeguOcGseJfM5MV2OZjVDi+eCMdrgucD0M9WFM2/vJ8B9zVPdeoyVARbPZuEHR
+ hf2EJvhgZ+u7Eea2uRprkyxbeYApLGcmdJQSi1FVTW7Mcf5NmFMV8o7xWbCXJiqYR0ld
+ 3GlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=gVXnh6jzWr8EcyQ4w7GWw0ffnF/hzVsKPQf9uPHgFhw=;
+ b=kZ3bq4vTrTfLPuFuQVhV1GoBv0LCSjE7D29QVQT1J29preCJMTc2f7q2+yqx3UavWG
+ R+c0nvXIH2HNsQwPVEJ+dlwoCCdFyaM0Y7RCnNiaYdPImU77ZoK1SbNt9e2zaxeulV/L
+ DJ+dyIGQbG4nBVbx0nIAgGAgIjFImpmFc4LABUm39PN/JVEH8cxhj0pVa0Jd1KVYOBX4
+ fHPHOBN4Zw1uQJNAJ2b1kHWqcgakgEPndHyy1yBXf29Q28PAbOkMkbvP+VNo/UkkB+iS
+ DAVnofdN7AchQXKxNnbIn6HSTv3CBjPIdqStGhUH+mibIDeGOHC/1XiAT0voTeQAYjxh
+ df+Q==
+X-Gm-Message-State: AOAM5318uE6W1BtiWu8aZyWEuyGyFXc2K6g3pi5PeNCOBPpV7Dq1bK2a
+ KoF8F4nXNTP3VEGhUkjX9mg3DQ==
+X-Google-Smtp-Source: ABdhPJz3GU73KJoXlQ9q/zWL+GJNTvvYL6WyhfuF+tSbTfMAWxeAn5aemcLOugTUpZ7QteVvvCHITg==
+X-Received: by 2002:a1c:2d97:: with SMTP id t145mr2313995wmt.132.1603372041996; 
+ Thu, 22 Oct 2020 06:07:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e25sm4268185wra.71.2020.10.22.06.07.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Oct 2020 06:07:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0F4271FF7E;
+ Thu, 22 Oct 2020 14:07:20 +0100 (BST)
+References: <20201021163136.27324-1-alex.bennee@linaro.org>
+ <20201021163136.27324-7-alex.bennee@linaro.org>
+ <546fc49b-bde8-99f5-8489-295764afe44f@redhat.com>
+ <8682564e-6ea1-d8eb-dc12-bf0a926c156b@amsat.org>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v1 6/6] tests/acceptance: pick a random gdb port for
+ reverse debugging
+In-reply-to: <8682564e-6ea1-d8eb-dc12-bf0a926c156b@amsat.org>
+Date: Thu, 22 Oct 2020 14:07:20 +0100
+Message-ID: <87a6wev27r.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.184.155]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:03:44
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,72 +92,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cenjiahui@huawei.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- stefanha@redhat.com, fangying1@huawei.com, jsnow@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Give some details about the I/O hang and how to use it.
 
-Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
-Signed-off-by: Ying Fang <fangying1@huawei.com>
----
- docs/io-hang.rst | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
- create mode 100644 docs/io-hang.rst
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-diff --git a/docs/io-hang.rst b/docs/io-hang.rst
-new file mode 100644
-index 0000000000..53356ceed2
---- /dev/null
-+++ b/docs/io-hang.rst
-@@ -0,0 +1,45 @@
-+========
-+I/O hang
-+========
-+
-+Introduction
-+============
-+
-+I/O hang is a mechanism to automatically rehandle AIOs when an error occurs on
-+the backend block device, which is unperceivable for Guest. If the error on the
-+backend device is temporary, like NFS returns EIO due to network fluctuations,
-+once the device is recovered, the AIOs will be resent automatically and done
-+successfully. If the error on the device is unrecoverable, the failed AIOs will
-+be returned to Guest after rehandle timeout.
-+
-+This mechanism can provide self-recovery and high availability to VM. From the
-+view of Guest, AIOs sent to the device are hung for a time and the finished, and
-+any other unrelated service in Guest can work as usual.
-+
-+Implementation
-+==============
-+
-+Each BlockBackend will have a list to store AIOs which need be rehandled and a
-+timer to monitor the timeout.
-+
-+If I/O hang is enabled, all returned AIOs will be checked and the failed ones
-+will be inserted into BlockBackend's list. The timer will be started and the
-+AIOs in the list will be resent to the backend device. Once the result of AIOs
-+relevant to this backend device is success, the AIOs will be returned back to
-+Guest. Otherwise, those AIOs will be rehandled periodically until timeout.
-+
-+I/O hang provides interfaces to drain all the AIOs in BlockBackend's list. There
-+are some situations to drain the rehandling AIOs, eg. resetting virtio-blk.
-+
-+I/O hang also provides qapi events, which can be used for manager tools like
-+libvirt to monitor.
-+
-+Examples
-+========
-+
-+Enable I/O hang when launching QEMU::
-+
-+      $ qemu-system-x86_64                                      \
-+          -machine pc,accel=kvm -smp 1 -m 2048                  \
-+          -drive file=shared.img,format=raw,cache=none,aio=native,iohang-timeout=60
-+
--- 
-2.19.1
+> On 10/22/20 7:20 AM, Thomas Huth wrote:
+>> On 21/10/2020 18.31, Alex Benn=C3=A9e wrote:
+>>> Currently the test randomly fails if you are using a shared machine
+>>> due to contention on the well known port 1234. We can ameliorate this
+>>> a bit by picking a random non-ephemeral port although it doesn't
+>>> totally avoid the problem. While we could use a totally unique socket
+>>> address for debugging it's impossible to probe for gdb support of the
+>>> feature which makes this a sub-optimal but less fiddly option.
+>>>
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> ---
+>>>   tests/acceptance/reverse_debugging.py | 6 ++++--
+>>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>=20
+>> Certainly better than before!
+>
+> I'd prefer another chardev that tcp, but as you said this is
+> already an improvement, so:
 
+We've supported sockets gdb and softmmu emulation for some time:
+
+  -gdb unix:path=3Dgdb.sock,server
+
+the trouble is detecting if the host installed gdb is going to connect
+before we try and fail after launching the VM. I think we might get away
+with a version probe:
+
+  > luispm: I want to know ahead of time for my scripts if gdb can do a
+      "target remote gdb.sock"
+  <luispm> ajb-linaro, I don't think so. My guess is that GDB will
+      always attempt to stablish a connection if the socket is valid.
+  <luispm> ajb-linaro, Can you check the validity of the file before
+      invoking GDB?
+  <luispm> ajb-linaro, No concept of "is this particular remote target
+      available?".
+  > luispm: it's not that - I know the socket will exist but the older
+      gdb just bombs out trying to read it.
+  <luispm> ajb-linaro, Not good.
+  <luispm> ajb-linaro, So is this a matter of an older GDB that doesn't
+      support using socket files and a newer one that does?
+  > luispm: I thought I might probe "help target remote" text but it's
+      unchanged between versions
+  > luispm: yes
+  <luispm> ajb-linaro, I think the code is probably hidden within the
+      "target remote" implementation.
+  > luispm: and most distro gdb's don't at the moment
+  > luispm: if I could work out the version it was added that might help
+  <luispm> ajb-linaro, I see some bits of it were reverted at some
+      point.
+  <luispm> ajb-linaro, Let me check.
+  <luispm> ajb-linaro, It looks like GDB 8.3 was the first stable to get
+      it.
+  > luispm: thanks - I'll see if I can script that up
+  <luispm> ajb-linaro, Looks like they initially went with an explicit
+      prefix of "unix:" before the socket. But then dropped that in
+      favor of autodetecting the socket file.
+  <luispm> ajb-linaro, The only thing I get for a GDB that doesn't
+      support socket connections if
+      "/run/user/1000/at-spi2-QTZBS0/socket: No such device or address."
+  <luispm> *is*
+  <luispm> This is 8.1 in Ubuntu 18.04.
+  <luispm> master GDB says "Remote communication error.  Target
+      disconnected.: Connection reset by peer."
+
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+>>=20
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
 
