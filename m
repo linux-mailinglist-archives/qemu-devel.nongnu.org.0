@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52116295D62
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 13:30:40 +0200 (CEST)
-Received: from localhost ([::1]:54094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F5E295DD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 13:56:20 +0200 (CEST)
+Received: from localhost ([::1]:44920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVYnn-00063k-05
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 07:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36206)
+	id 1kVZCd-00048O-5u
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 07:56:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kVYlU-00049a-W5
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:28:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kVYlP-00052k-Hd
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:28:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603366090;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r/vM8uz2r0r9gdL4b3AEy4UiXb/2h/7H59pl5AF6Y+g=;
- b=PHHPGBz8blcs1aMirV9etZKZyl0HXyo/lWDwIwU6dGWce+ABFdRcvivkMe9bVoUUaiu3IP
- ttFYA4nogXGlHcIBiDdfiDEL/R565UCJ4SQS8upz5yQoKIeu7juhD0wHPM3nqWPNJx7OXk
- D20icqoUVum0IJm9Nr9yKEhmUaG7rtU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-l9_99nTnNoSqOTWS_u0f8Q-1; Thu, 22 Oct 2020 07:28:08 -0400
-X-MC-Unique: l9_99nTnNoSqOTWS_u0f8Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27CA31084D65;
- Thu, 22 Oct 2020 11:28:07 +0000 (UTC)
-Received: from localhost (ovpn-114-229.ams2.redhat.com [10.36.114.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F84C1002388;
- Thu, 22 Oct 2020 11:27:59 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 05/28] block: move logical block size check function to a
- common utility function
-Date: Thu, 22 Oct 2020 12:27:03 +0100
-Message-Id: <20201022112726.736757-6-stefanha@redhat.com>
-In-Reply-To: <20201022112726.736757-1-stefanha@redhat.com>
-References: <20201022112726.736757-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kVZ2O-00019K-2F
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:45:44 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kVZ1W-00073g-QD
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:45:43 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f9170510007>; Thu, 22 Oct 2020 04:43:13 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Oct
+ 2020 11:44:38 +0000
+Received: from kwankhede-dev.nvidia.com (10.124.1.5) by mail.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 22 Oct 2020 11:44:30 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v27 00/17] Add migration support for VFIO devices
+Date: Thu, 22 Oct 2020 16:41:50 +0530
+Message-ID: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 06:53:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1603366993; bh=yQptNLJn7NkLvIHnujn2dKcWZwWkyxz6nw9znH/Dzr4=;
+ h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
+ MIME-Version:Content-Type;
+ b=jC32xNWedM/lizFXUYZfGXE1Sliqc6/PM+aD8ezROoJicxDqFfDEJ5cBHyg9kMGCB
+ fqL60MkkoyRLn0MkcpPr67oFhSe5+VzkZOvgEhTBT33ZQFpmo02+MREoJq3kFoF4Wx
+ 6yO8epJmuJWwl0u5wJ5U0S4LBmh9iay3PUAzVtcvhxM+KQbofjzL+U6/IABibeO+DY
+ e9V4KfP8xh2p3lQBEkhNf/DMwp1QPZ5KJehLCZYWxQkl5swsJ6tyVnA9QK7Coml/KC
+ vwJNf6a3eQfOvyeivkcNPMBpDkNChFA4ay2zX7iwgupC2TGGtqF21Y/+8hI+kL9qzW
+ dKPE0XMHK7VcQ==
+Received-SPF: pass client-ip=216.228.121.143;
+ envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 07:44:48
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,123 +70,286 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Coiby Xu <coiby.xu@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, yi.l.liu@intel.com,
+ quintela@redhat.com, ziye.yang@intel.com, armbru@redhat.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com,
+ zhi.a.wang@intel.com, mcrossley@nvidia.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
+ eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com, dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogQ29pYnkgWHUgPGNvaWJ5Lnh1QGdtYWlsLmNvbT4KCk1vdmUgdGhlIGNvbnN0YW50cyBm
-cm9tIGh3L2NvcmUvcWRldi1wcm9wZXJ0aWVzLmMgdG8KdXRpbC9ibG9jay1oZWxwZXJzLmggc28g
-dGhhdCBrbm93bGVkZ2Ugb2YgdGhlIG1pbi9tYXggdmFsdWVzIGlzCgpTaWduZWQtb2ZmLWJ5OiBT
-dGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+ClNpZ25lZC1vZmYtYnk6IENvaWJ5
-IFh1IDxjb2lieS54dUBnbWFpbC5jb20+ClJldmlld2VkLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0
-ZWZhbmhhQHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBNYXJjLUFuZHLDqSBMdXJlYXUgPG1hcmNh
-bmRyZS5sdXJlYXVAcmVkaGF0LmNvbT4KQWNrZWQtYnk6IEVkdWFyZG8gSGFia29zdCA8ZWhhYmtv
-c3RAcmVkaGF0LmNvbT4KTWVzc2FnZS1pZDogMjAyMDA5MTgwODA5MTIuMzIxMjk5LTUtY29pYnku
-eHVAZ21haWwuY29tClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVk
-aGF0LmNvbT4KLS0tCiB1dGlsL2Jsb2NrLWhlbHBlcnMuaCAgICAgICAgICAgICB8IDE5ICsrKysr
-KysrKysrKysKIGh3L2NvcmUvcWRldi1wcm9wZXJ0aWVzLXN5c3RlbS5jIHwgMzEgKysrKy0tLS0t
-LS0tLS0tLS0tLS0tCiB1dGlsL2Jsb2NrLWhlbHBlcnMuYyAgICAgICAgICAgICB8IDQ2ICsrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrCiB1dGlsL21lc29uLmJ1aWxkICAgICAgICAgICAg
-ICAgICB8ICAxICsKIDQgZmlsZXMgY2hhbmdlZCwgNzEgaW5zZXJ0aW9ucygrKSwgMjYgZGVsZXRp
-b25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgdXRpbC9ibG9jay1oZWxwZXJzLmgKIGNyZWF0ZSBt
-b2RlIDEwMDY0NCB1dGlsL2Jsb2NrLWhlbHBlcnMuYwoKZGlmZiAtLWdpdCBhL3V0aWwvYmxvY2st
-aGVscGVycy5oIGIvdXRpbC9ibG9jay1oZWxwZXJzLmgKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5k
-ZXggMDAwMDAwMDAwMC4uYjUzMjk1YTUyOQotLS0gL2Rldi9udWxsCisrKyBiL3V0aWwvYmxvY2st
-aGVscGVycy5oCkBAIC0wLDAgKzEsMTkgQEAKKyNpZm5kZWYgQkxPQ0tfSEVMUEVSU19ICisjZGVm
-aW5lIEJMT0NLX0hFTFBFUlNfSAorCisjaW5jbHVkZSAicWVtdS91bml0cy5oIgorCisvKiBsb3dl
-ciBsaW1pdCBpcyBzZWN0b3Igc2l6ZSAqLworI2RlZmluZSBNSU5fQkxPQ0tfU0laRSAgICAgICAg
-ICBJTlQ2NF9DKDUxMikKKyNkZWZpbmUgTUlOX0JMT0NLX1NJWkVfU1RSICAgICAgIjUxMiBCIgor
-LyoKKyAqIHVwcGVyIGxpbWl0IGlzIGFyYml0cmFyeSwgMiBNaUIgbG9va3Mgc3VmZmljaWVudCBm
-b3IgYWxsIHNlbnNpYmxlIHVzZXMsIGFuZAorICogbWF0Y2hlcyBxY293MiBjbHVzdGVyIHNpemUg
-bGltaXQKKyAqLworI2RlZmluZSBNQVhfQkxPQ0tfU0laRSAgICAgICAgICAoMiAqIE1pQikKKyNk
-ZWZpbmUgTUFYX0JMT0NLX1NJWkVfU1RSICAgICAgIjIgTWlCIgorCit2b2lkIGNoZWNrX2Jsb2Nr
-X3NpemUoY29uc3QgY2hhciAqaWQsIGNvbnN0IGNoYXIgKm5hbWUsIGludDY0X3QgdmFsdWUsCisg
-ICAgICAgICAgICAgICAgICAgICAgRXJyb3IgKiplcnJwKTsKKworI2VuZGlmIC8qIEJMT0NLX0hF
-TFBFUlNfSCAqLwpkaWZmIC0tZ2l0IGEvaHcvY29yZS9xZGV2LXByb3BlcnRpZXMtc3lzdGVtLmMg
-Yi9ody9jb3JlL3FkZXYtcHJvcGVydGllcy1zeXN0ZW0uYwppbmRleCA0OWJkZDEyNTgxLi5iODFh
-NGU4ZDE0IDEwMDY0NAotLS0gYS9ody9jb3JlL3FkZXYtcHJvcGVydGllcy1zeXN0ZW0uYworKysg
-Yi9ody9jb3JlL3FkZXYtcHJvcGVydGllcy1zeXN0ZW0uYwpAQCAtMzAsNiArMzAsNyBAQAogI2lu
-Y2x1ZGUgInN5c2VtdS9ibG9ja2Rldi5oIgogI2luY2x1ZGUgIm5ldC9uZXQuaCIKICNpbmNsdWRl
-ICJody9wY2kvcGNpLmgiCisjaW5jbHVkZSAidXRpbC9ibG9jay1oZWxwZXJzLmgiCiAKIHN0YXRp
-YyBib29sIGNoZWNrX3Byb3Bfc3RpbGxfdW5zZXQoRGV2aWNlU3RhdGUgKmRldiwgY29uc3QgY2hh
-ciAqbmFtZSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29uc3Qgdm9pZCAq
-b2xkX3ZhbCwgY29uc3QgY2hhciAqbmV3X3ZhbCwKQEAgLTU3NiwxNiArNTc3LDYgQEAgY29uc3Qg
-UHJvcGVydHlJbmZvIHFkZXZfcHJvcF9sb3N0dGlja3BvbGljeSA9IHsKIAogLyogLS0tIGJsb2Nr
-c2l6ZSAtLS0gKi8KIAotLyogbG93ZXIgbGltaXQgaXMgc2VjdG9yIHNpemUgKi8KLSNkZWZpbmUg
-TUlOX0JMT0NLX1NJWkUgICAgICAgICAgNTEyCi0jZGVmaW5lIE1JTl9CTE9DS19TSVpFX1NUUiAg
-ICAgICI1MTIgQiIKLS8qCi0gKiB1cHBlciBsaW1pdCBpcyBhcmJpdHJhcnksIDIgTWlCIGxvb2tz
-IHN1ZmZpY2llbnQgZm9yIGFsbCBzZW5zaWJsZSB1c2VzLCBhbmQKLSAqIG1hdGNoZXMgcWNvdzIg
-Y2x1c3RlciBzaXplIGxpbWl0Ci0gKi8KLSNkZWZpbmUgTUFYX0JMT0NLX1NJWkUgICAgICAgICAg
-KDIgKiBNaUIpCi0jZGVmaW5lIE1BWF9CTE9DS19TSVpFX1NUUiAgICAgICIyIE1pQiIKLQogc3Rh
-dGljIHZvaWQgc2V0X2Jsb2Nrc2l6ZShPYmplY3QgKm9iaiwgVmlzaXRvciAqdiwgY29uc3QgY2hh
-ciAqbmFtZSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgdm9pZCAqb3BhcXVlLCBFcnJvciAq
-KmVycnApCiB7CkBAIC01OTMsNiArNTg0LDcgQEAgc3RhdGljIHZvaWQgc2V0X2Jsb2Nrc2l6ZShP
-YmplY3QgKm9iaiwgVmlzaXRvciAqdiwgY29uc3QgY2hhciAqbmFtZSwKICAgICBQcm9wZXJ0eSAq
-cHJvcCA9IG9wYXF1ZTsKICAgICB1aW50MzJfdCAqcHRyID0gcWRldl9nZXRfcHJvcF9wdHIoZGV2
-LCBwcm9wKTsKICAgICB1aW50NjRfdCB2YWx1ZTsKKyAgICBFcnJvciAqbG9jYWxfZXJyID0gTlVM
-TDsKIAogICAgIGlmIChkZXYtPnJlYWxpemVkKSB7CiAgICAgICAgIHFkZXZfcHJvcF9zZXRfYWZ0
-ZXJfcmVhbGl6ZShkZXYsIG5hbWUsIGVycnApOwpAQCAtNjAyLDI0ICs1OTQsMTEgQEAgc3RhdGlj
-IHZvaWQgc2V0X2Jsb2Nrc2l6ZShPYmplY3QgKm9iaiwgVmlzaXRvciAqdiwgY29uc3QgY2hhciAq
-bmFtZSwKICAgICBpZiAoIXZpc2l0X3R5cGVfc2l6ZSh2LCBuYW1lLCAmdmFsdWUsIGVycnApKSB7
-CiAgICAgICAgIHJldHVybjsKICAgICB9Ci0gICAgLyogdmFsdWUgb2YgMCBtZWFucyAidW5zZXQi
-ICovCi0gICAgaWYgKHZhbHVlICYmICh2YWx1ZSA8IE1JTl9CTE9DS19TSVpFIHx8IHZhbHVlID4g
-TUFYX0JMT0NLX1NJWkUpKSB7Ci0gICAgICAgIGVycm9yX3NldGcoZXJycCwKLSAgICAgICAgICAg
-ICAgICAgICAiUHJvcGVydHkgJXMuJXMgZG9lc24ndCB0YWtlIHZhbHVlICUiIFBSSXU2NAotICAg
-ICAgICAgICAgICAgICAgICIgKG1pbmltdW06ICIgTUlOX0JMT0NLX1NJWkVfU1RSCi0gICAgICAg
-ICAgICAgICAgICAgIiwgbWF4aW11bTogIiBNQVhfQkxPQ0tfU0laRV9TVFIgIikiLAotICAgICAg
-ICAgICAgICAgICAgIGRldi0+aWQgPyA6ICIiLCBuYW1lLCB2YWx1ZSk7CisgICAgY2hlY2tfYmxv
-Y2tfc2l6ZShkZXYtPmlkID8gOiAiIiwgbmFtZSwgdmFsdWUsICZsb2NhbF9lcnIpOworICAgIGlm
-IChsb2NhbF9lcnIpIHsKKyAgICAgICAgZXJyb3JfcHJvcGFnYXRlKGVycnAsIGxvY2FsX2Vycik7
-CiAgICAgICAgIHJldHVybjsKICAgICB9Ci0KLSAgICAvKiBXZSByZWx5IG9uIHBvd2VyLW9mLTIg
-YmxvY2tzaXplcyBmb3IgYml0bWFza3MgKi8KLSAgICBpZiAoKHZhbHVlICYgKHZhbHVlIC0gMSkp
-ICE9IDApIHsKLSAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLAotICAgICAgICAgICAgICAgICAgIlBy
-b3BlcnR5ICVzLiVzIGRvZXNuJ3QgdGFrZSB2YWx1ZSAnJSIgUFJJZDY0ICInLCAiCi0gICAgICAg
-ICAgICAgICAgICAiaXQncyBub3QgYSBwb3dlciBvZiAyIiwgZGV2LT5pZCA/OiAiIiwgbmFtZSwg
-KGludDY0X3QpdmFsdWUpOwotICAgICAgICByZXR1cm47Ci0gICAgfQotCiAgICAgKnB0ciA9IHZh
-bHVlOwogfQogCmRpZmYgLS1naXQgYS91dGlsL2Jsb2NrLWhlbHBlcnMuYyBiL3V0aWwvYmxvY2st
-aGVscGVycy5jCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAuLmM0ODUxNDMy
-ZjUKLS0tIC9kZXYvbnVsbAorKysgYi91dGlsL2Jsb2NrLWhlbHBlcnMuYwpAQCAtMCwwICsxLDQ2
-IEBACisvKgorICogQmxvY2sgdXRpbGl0eSBmdW5jdGlvbnMKKyAqCisgKiBDb3B5cmlnaHQgSUJN
-LCBDb3JwLiAyMDExCisgKiBDb3B5cmlnaHQgKGMpIDIwMjAgQ29pYnkgWHUgPGNvaWJ5Lnh1QGdt
-YWlsLmNvbT4KKyAqCisgKiBUaGlzIHdvcmsgaXMgbGljZW5zZWQgdW5kZXIgdGhlIHRlcm1zIG9m
-IHRoZSBHTlUgR1BMLCB2ZXJzaW9uIDIgb3IgbGF0ZXIuCisgKiBTZWUgdGhlIENPUFlJTkcgZmls
-ZSBpbiB0aGUgdG9wLWxldmVsIGRpcmVjdG9yeS4KKyAqLworCisjaW5jbHVkZSAicWVtdS9vc2Rl
-cC5oIgorI2luY2x1ZGUgInFhcGkvZXJyb3IuaCIKKyNpbmNsdWRlICJxYXBpL3FtcC9xZXJyb3Iu
-aCIKKyNpbmNsdWRlICJibG9jay1oZWxwZXJzLmgiCisKKy8qKgorICogY2hlY2tfYmxvY2tfc2l6
-ZToKKyAqIEBpZDogVGhlIHVuaXF1ZSBJRCBvZiB0aGUgb2JqZWN0CisgKiBAbmFtZTogVGhlIG5h
-bWUgb2YgdGhlIHByb3BlcnR5IGJlaW5nIHZhbGlkYXRlZAorICogQHZhbHVlOiBUaGUgYmxvY2sg
-c2l6ZSBpbiBieXRlcworICogQGVycnA6IEEgcG9pbnRlciB0byBhbiBhcmVhIHRvIHN0b3JlIGFu
-IGVycm9yCisgKgorICogVGhpcyBmdW5jdGlvbiBjaGVja3MgdGhhdCB0aGUgYmxvY2sgc2l6ZSBt
-ZWV0cyB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6CisgKiAxLiBBdCBsZWFzdCBNSU5fQkxPQ0tf
-U0laRQorICogMi4gTm8gbGFyZ2VyIHRoYW4gTUFYX0JMT0NLX1NJWkUKKyAqIDMuIEEgcG93ZXIg
-b2YgMgorICovCit2b2lkIGNoZWNrX2Jsb2NrX3NpemUoY29uc3QgY2hhciAqaWQsIGNvbnN0IGNo
-YXIgKm5hbWUsIGludDY0X3QgdmFsdWUsCisgICAgICAgICAgICAgICAgICAgICAgRXJyb3IgKipl
-cnJwKQoreworICAgIC8qIHZhbHVlIG9mIDAgbWVhbnMgInVuc2V0IiAqLworICAgIGlmICh2YWx1
-ZSAmJiAodmFsdWUgPCBNSU5fQkxPQ0tfU0laRSB8fCB2YWx1ZSA+IE1BWF9CTE9DS19TSVpFKSkg
-eworICAgICAgICBlcnJvcl9zZXRnKGVycnAsIFFFUlJfUFJPUEVSVFlfVkFMVUVfT1VUX09GX1JB
-TkdFLAorICAgICAgICAgICAgICAgICAgIGlkLCBuYW1lLCB2YWx1ZSwgTUlOX0JMT0NLX1NJWkUs
-IE1BWF9CTE9DS19TSVpFKTsKKyAgICAgICAgcmV0dXJuOworICAgIH0KKworICAgIC8qIFdlIHJl
-bHkgb24gcG93ZXItb2YtMiBibG9ja3NpemVzIGZvciBiaXRtYXNrcyAqLworICAgIGlmICgodmFs
-dWUgJiAodmFsdWUgLSAxKSkgIT0gMCkgeworICAgICAgICBlcnJvcl9zZXRnKGVycnAsCisgICAg
-ICAgICAgICAgICAgICAgIlByb3BlcnR5ICVzLiVzIGRvZXNuJ3QgdGFrZSB2YWx1ZSAnJSIgUFJJ
-ZDY0CisgICAgICAgICAgICAgICAgICAgIicsIGl0J3Mgbm90IGEgcG93ZXIgb2YgMiIsCisgICAg
-ICAgICAgICAgICAgICAgaWQsIG5hbWUsIHZhbHVlKTsKKyAgICAgICAgcmV0dXJuOworICAgIH0K
-K30KZGlmZiAtLWdpdCBhL3V0aWwvbWVzb24uYnVpbGQgYi91dGlsL21lc29uLmJ1aWxkCmluZGV4
-IDM5MjE5ODFjY2YuLjIyOTZlODFiMzQgMTAwNjQ0Ci0tLSBhL3V0aWwvbWVzb24uYnVpbGQKKysr
-IGIvdXRpbC9tZXNvbi5idWlsZApAQCAtNjcsNiArNjcsNyBAQCBpZiBoYXZlX2Jsb2NrCiAgIHV0
-aWxfc3MuYWRkKGZpbGVzKCdudmRpbW0tdXRpbHMuYycpKQogICB1dGlsX3NzLmFkZChmaWxlcygn
-cWVtdS1jb3JvdXRpbmUuYycsICdxZW11LWNvcm91dGluZS1sb2NrLmMnLCAncWVtdS1jb3JvdXRp
-bmUtaW8uYycpKQogICB1dGlsX3NzLmFkZCh3aGVuOiAnQ09ORklHX0xJTlVYJywgaWZfdHJ1ZTog
-ZmlsZXMoJ3Zob3N0LXVzZXItc2VydmVyLmMnKSkKKyAgdXRpbF9zcy5hZGQoZmlsZXMoJ2Jsb2Nr
-LWhlbHBlcnMuYycpKQogICB1dGlsX3NzLmFkZChmaWxlcygncWVtdS1jb3JvdXRpbmUtc2xlZXAu
-YycpKQogICB1dGlsX3NzLmFkZChmaWxlcygncWVtdS1jby1zaGFyZWQtcmVzb3VyY2UuYycpKQog
-ICB1dGlsX3NzLmFkZChmaWxlcygndGhyZWFkLXBvb2wuYycsICdxZW11LXRpbWVyLmMnKSkKLS0g
-CjIuMjYuMgoK
+Hi,
+
+This Patch set adds migration support for VFIO devices in QEMU.
+
+This Patch set include patches as below:
+Patch 1-2:
+- Few code refactor
+
+Patch 3:
+- Added save and restore functions for PCI configuration space. Used
+  pci_device_save() and pci_device_load() so that config space cache is saved
+  and restored.
+
+Patch 4-9:
+- Generic migration functionality for VFIO device.
+  * This patch set adds functionality for PCI devices, but can be
+    extended to other VFIO devices.
+  * Added all the basic functions required for pre-copy, stop-and-copy and
+    resume phases of migration.
+  * Added state change notifier and from that notifier function, VFIO
+    device's state changed is conveyed to VFIO device driver.
+  * During save setup phase and resume/load setup phase, migration region
+    is queried and is used to read/write VFIO device data.
+  * .save_live_pending and .save_live_iterate are implemented to use QEMU's
+    functionality of iteration during pre-copy phase.
+  * In .save_live_complete_precopy, that is in stop-and-copy phase,
+    iteration to read data from VFIO device driver is implemented till pending
+    bytes returned by driver are zero.
+
+Patch 10
+- Set DIRTY_MEMORY_MIGRATION flag in dirty log mask for migration with vIOMMU
+  enabled.
+
+Patch 11:
+- Get migration capability from kernel module.
+
+Patch 12-13:
+- Add function to start and stop dirty pages tracking.
+- Add vfio_listerner_log_sync to mark dirty pages. Dirty pages bitmap is queried
+  per container. All pages pinned by vendor driver through vfio_pin_pages
+  external API has to be marked as dirty during  migration.
+  When there are CPU writes, CPU dirty page tracking can identify dirtied
+  pages, but any page pinned by vendor driver can also be written by
+  device. As of now there is no device which has hardware support for
+  dirty page tracking. So all pages which are pinned by vendor driver
+  should be considered as dirty.
+  In Qemu, marking pages dirty is only done when device is in stop-and-copy
+  phase because if pages are marked dirty during pre-copy phase and content is
+  transfered from source to distination, there is no way to know newly dirtied
+  pages from the point they were copied earlier until device stops. To avoid
+  repeated copy of same content, pinned pages are marked dirty only during
+  stop-and-copy phase.
+
+Patch 14:
+  When vIOMMU is enabled, used IOMMU notifier to get call back for mapped pages
+  on replay during stop-and-copy phase.
+
+Patch 15:
+- With vIOMMU, IO virtual address range can get unmapped while in pre-copy
+  phase of migration. In that case, unmap ioctl should return pages pinned
+  in that range and QEMU should report corresponding guest physical pages
+  dirty.
+
+Patch 16:
+- Make VFIO PCI device migration capable. If migration region is not provided by
+  driver, migration is blocked.
+
+Patch 17:
+- Added VFIO device stats to MigrationInfo
+
+Yet TODO:
+Since there is no device which has hardware support for system memmory
+dirty bitmap tracking, right now there is no other API from vendor driver
+to VFIO IOMMU module to report dirty pages. In future, when such hardware
+support will be implemented, an API will be required in kernel such that
+vendor driver could report dirty pages to VFIO module during migration phases.
+
+Below is the flow of state change for live migration where states in brackets
+represent VM state, migration state and VFIO device state as:
+    (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
+
+Live migration save path:
+        QEMU normal running state
+        (RUNNING, _NONE, _RUNNING)
+                        |
+    migrate_init spawns migration_thread.
+    (RUNNING, _SETUP, _RUNNING|_SAVING)
+    Migration thread then calls each device's .save_setup()
+                        |
+    (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+    If device is active, get pending bytes by .save_live_pending()
+    if pending bytes >= threshold_size,  call save_live_iterate()
+    Data of VFIO device for pre-copy phase is copied.
+    Iterate till total pending bytes converge and are less than threshold
+                        |
+    On migration completion, vCPUs stops and calls .save_live_complete_precopy
+    for each active device. VFIO device is then transitioned in
+     _SAVING state.
+    (FINISH_MIGRATE, _DEVICE, _SAVING)
+    For VFIO device, iterate in .save_live_complete_precopy until
+    pending data is 0.
+    (FINISH_MIGRATE, _DEVICE, _STOPPED)
+                        |
+    (FINISH_MIGRATE, _COMPLETED, _STOPPED)
+    Migraton thread schedule cleanup bottom half and exit
+
+Live migration resume path:
+    Incomming migration calls .load_setup for each device
+    (RESTORE_VM, _ACTIVE, _STOPPED)
+                        |
+    For each device, .load_state is called for that device section data
+    (RESTORE_VM, _ACTIVE, _RESUMING)
+                        |
+    At the end, called .load_cleanup for each device and vCPUs are started.
+                        |
+        (RUNNING, _NONE, _RUNNING)
+
+Note that:
+- Migration post copy is not supported.
+
+v26 -> 27
+- Major change in Patch 3 -PCI config space save and long using VMSTATE_*
+- Major change in Patch 14 - Dirty page tracking when vIOMMU is enabled using IOMMU notifier and
+  its replay functionality - as suggested by Alex.
+- Some Structure changes to keep all migration related members at one place.
+- Pulled fix suggested by Zhi Wang <zhi.wang.linux@gmail.com>
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg743722.html
+- Add comments where even suggested and required.
+
+v25 -> 26
+- Removed emulated_config_bits cache and vdev->pdev.wmask from config space save
+  load functions.
+- Used VMStateDescription for config space save and load functionality.
+- Major fixes from previous version review.
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg714625.html
+
+v23 -> 25
+- Updated config space save and load to save config cache, emulated bits cache
+  and wmask cache.
+- Created idr string as suggested by Dr Dave that includes bus path.
+- Updated save and load function to read/write data to mixed regions, mapped or
+  trapped.
+- When vIOMMU is enabled, created mapped iova range list which also keeps
+  translated address. This list is used to mark dirty pages. This reduces
+  downtime significantly with vIOMMU enabled than migration patches from
+   previous version. 
+- Removed get_address_limit() function from v23 patch as this not required now.
+
+v22 -> v23
+-- Fixed issue reported by Yan
+https://lore.kernel.org/kvm/97977ede-3c5b-c5a5-7858-7eecd7dd531c@nvidia.com/
+- Sending this version to test v23 kernel version patches:
+https://lore.kernel.org/kvm/1589998088-3250-1-git-send-email-kwankhede@nvidia.com/
+
+v18 -> v22
+- Few fixes from v18 review. But not yet fixed all concerns. I'll address those
+  concerns in subsequent iterations.
+- Sending this version to test v22 kernel version patches:
+https://lore.kernel.org/kvm/1589781397-28368-1-git-send-email-kwankhede@nvidia.com/
+
+v16 -> v18
+- Nit fixes
+- Get migration capability flags from container
+- Added VFIO stats to MigrationInfo
+- Fixed bug reported by Yan
+    https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg00004.html
+
+v9 -> v16
+- KABI almost finalised on kernel patches.
+- Added support for migration with vIOMMU enabled.
+
+v8 -> v9:
+- Split patch set in 2 sets, Kernel and QEMU sets.
+- Dirty pages bitmap is queried from IOMMU container rather than from
+  vendor driver for per device. Added 2 ioctls to achieve this.
+
+v7 -> v8:
+- Updated comments for KABI
+- Added BAR address validation check during PCI device's config space load as
+  suggested by Dr. David Alan Gilbert.
+- Changed vfio_migration_set_state() to set or clear device state flags.
+- Some nit fixes.
+
+v6 -> v7:
+- Fix build failures.
+
+v5 -> v6:
+- Fix build failure.
+
+v4 -> v5:
+- Added decriptive comment about the sequence of access of members of structure
+  vfio_device_migration_info to be followed based on Alex's suggestion
+- Updated get dirty pages sequence.
+- As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+  get_object, save_config and load_config.
+- Fixed multiple nit picks.
+- Tested live migration with multiple vfio device assigned to a VM.
+
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration, that
+  is removed assumption that data will be till end of migration region.
+- If vendor driver supports mappable sparsed region, map those region during
+  setup state of save/load, similarly unmap those from cleanup routines.
+- Handles race condition that causes data corruption in migration region during
+  save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Splitted into multiple functional patches.
+
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2 bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined action
+  on read and write access on its members.
+
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with region
+  type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed at 0th
+  offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section of the
+  region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested pages
+  are copied.
+
+Thanks,
+Kirti
+
+Kirti Wankhede (17):
+  vfio: Add function to unmap VFIO region
+  vfio: Add vfio_get_object callback to VFIODeviceOps
+  vfio: Add save and load functions for VFIO PCI devices
+  vfio: Add migration region initialization and finalize function
+  vfio: Add VM state change handler to know state of VM
+  vfio: Add migration state change notifier
+  vfio: Register SaveVMHandlers for VFIO device
+  vfio: Add save state functions to SaveVMHandlers
+  vfio: Add load state functions to SaveVMHandlers
+  memory: Set DIRTY_MEMORY_MIGRATION when IOMMU is enabled
+  vfio: Get migration capability flags for container
+  vfio: Add function to start and stop dirty pages tracking
+  vfio: Add vfio_listener_log_sync to mark dirty pages
+  vfio: Dirty page tracking when vIOMMU is enabled
+  vfio: Add ioctl to get dirty pages bitmap during dma unmap
+  vfio: Make vfio-pci device migration capable
+  qapi: Add VFIO devices migration stats in Migration stats
+
+ hw/vfio/common.c              | 449 +++++++++++++++++++-
+ hw/vfio/meson.build           |   1 +
+ hw/vfio/migration.c           | 935 ++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/pci.c                 |  84 +++-
+ hw/vfio/pci.h                 |   1 -
+ hw/vfio/trace-events          |  20 +
+ include/hw/vfio/vfio-common.h |  24 ++
+ include/qemu/vfio-helpers.h   |   3 +
+ migration/migration.c         |  14 +
+ monitor/hmp-cmds.c            |   6 +
+ qapi/migration.json           |  17 +
+ softmmu/memory.c              |   2 +-
+ 12 files changed, 1512 insertions(+), 44 deletions(-)
+ create mode 100644 hw/vfio/migration.c
+
+-- 
+2.7.0
 
 
