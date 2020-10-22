@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559AC296075
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:55:10 +0200 (CEST)
-Received: from localhost ([::1]:55080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD2D296080
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:57:11 +0200 (CEST)
+Received: from localhost ([::1]:60666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVb3d-0003JF-Cv
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40442)
+	id 1kVb5a-0005i6-PH
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:57:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kVb1u-0001N5-Hv
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:53:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29777)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVb2F-0001XK-K4
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:53:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kVb1s-0007Iz-Bs
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:53:22 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVb2C-0007OS-H4
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:53:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603374799;
+ s=mimecast20190719; t=1603374819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dnJLpZiA5bYnmKJQENBfTAplw7okbITT3dI5N48I76Q=;
- b=OLSAhGrqTD70fvt67HcRexVXIwo4oGxLHJmynIB+BWlFTLL2PV7HenzxD/JAU9KXJAY6H6
- YOakQyocNNfDRwj4OJFzau+xI0YZzpTriWM4m6P7syQgR4Q8jzlp/nDIoZMpFW+HPH+XFq
- QUviAB32GxAcEKW9kUoDlNci+GboiNs=
+ bh=Oy0smOPzsRvxIKHhTNVRMswqzgzqCJp7ERjXBEuilwo=;
+ b=iUFTli5oGV2yN60oBwk5cV+yZu88TOQeJGWy3zGp4NO+hn+HE3gvT1E0psbeHOQNQMYc0U
+ V5odeKIP9M4CPyNVAmNQX4q3ZraRm4zCVHOJfRaypDlU74bsejoJcL+ydJ8JYzgbKwPZqM
+ u+F7GCP+TjW5G6eeteJzMq7WkBEW558=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-RTkLpyFpPRuZc-LhJLuO4Q-1; Thu, 22 Oct 2020 09:53:17 -0400
-X-MC-Unique: RTkLpyFpPRuZc-LhJLuO4Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-548-2FrYtvo4PIWqo8b6tU1pYg-1; Thu, 22 Oct 2020 09:53:37 -0400
+X-MC-Unique: 2FrYtvo4PIWqo8b6tU1pYg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4056F804B64;
- Thu, 22 Oct 2020 13:53:16 +0000 (UTC)
-Received: from localhost (ovpn-114-229.ams2.redhat.com [10.36.114.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B215E55781;
- Thu, 22 Oct 2020 13:53:12 +0000 (UTC)
-Date: Thu, 22 Oct 2020 14:53:11 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 02/16] util/vfio-helpers: Improve reporting unsupported
- IOMMU type
-Message-ID: <20201022135311.GC761187@stefanha-x1.localdomain>
-References: <20201020172428.2220726-1-philmd@redhat.com>
- <20201020172428.2220726-3-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 452CD1009E32;
+ Thu, 22 Oct 2020 13:53:36 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-115-72.ams2.redhat.com [10.36.115.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B4E05B4B1;
+ Thu, 22 Oct 2020 13:53:31 +0000 (UTC)
+Subject: Re: [PATCH] tests/acceptance: Enable AVOCADO_ALLOW_UNTRUSTED_CODE in
+ the gitlab-CI
+From: Thomas Huth <thuth@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201022120145.207094-1-thuth@redhat.com>
+Message-ID: <2ffb46ea-9949-b79e-2fcc-c0eaf712868a@redhat.com>
+Date: Thu, 22 Oct 2020 15:53:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201020172428.2220726-3-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201022120145.207094-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Y5rl02BVI9TCfPar"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:33:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:09:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,52 +85,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Y5rl02BVI9TCfPar
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 22/10/2020 14.01, Thomas Huth wrote:
+> The tests are running in containers here, so it should be OK to
+> run with AVOCADO_ALLOW_UNTRUSTED_CODE enabled in this case.
+> We also have to set CONTINUOUS_INTEGRATION in this case to avoid that
+> some tests from ppc_prep_40p.py are failing in the CI.
 
-On Tue, Oct 20, 2020 at 07:24:14PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Change the confuse "VFIO IOMMU check failed" error message by
-> the explicit "VFIO IOMMU Type1 is not supported" once.
->=20
-> Example on POWER:
->=20
->  $ qemu-system-ppc64 -drive if=3Dnone,id=3Dnvme0,file=3Dnvme://0001:01:00=
-.0/1,format=3Draw
->  qemu-system-ppc64: -drive if=3Dnone,id=3Dnvme0,file=3Dnvme://0001:01:00.=
-0/1,format=3Draw: VFIO IOMMU Type1 is not supported
->=20
-> Suggested-by: Alex Williamson <alex.williamson@redhat.com>
-> Reviewed-by: Fam Zheng <fam@euphon.net>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  util/vfio-helpers.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Please disregard this patch ... CONTINUOUS_INTEGRATION also disables a test
+that has been working in the CI before ... so this should be handled
+differently.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---Y5rl02BVI9TCfPar
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+RjscACgkQnKSrs4Gr
-c8icAgf7BGICuYx7L9VG1VF1SzZjg7WcAGG2QZrojwFWo8Z2UiTqeM/5lSOScT/r
-upS0MoAx8eezGTuClHj46i78OeRItYPJrMkAEObEB/2ycfVzKtFBhXnUcDtynh5x
-YptfWCx2aUIykY3tW8icAoQZiM+mKyxO59MYJ/VaQ3n2mcnO2cQ+ouIoNFRgayLE
-O7ZW3S/Ch8Xk655MTmL9QLKH49hM88V7Dh80SQ/p7Sn8hTQyh/XJUE9EVCo7hA8f
-1fjEKC9lstiDeqpAG1Xlm1qfGpQbwsWzIvUt6eUi9pwoHnK3RpXWiCrpWYu10TJa
-kd6oQiO4L1NdGAv13Ga9ATOfSbgZiQ==
-=RoXo
------END PGP SIGNATURE-----
-
---Y5rl02BVI9TCfPar--
+ Thomas
 
 
