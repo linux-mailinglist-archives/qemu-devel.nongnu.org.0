@@ -2,74 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894EC295993
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 09:47:09 +0200 (CEST)
-Received: from localhost ([::1]:57994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A19E2959B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 09:56:27 +0200 (CEST)
+Received: from localhost ([::1]:45372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVVJU-0005Gv-KX
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 03:47:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37802)
+	id 1kVVSU-0004Fp-DV
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 03:56:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1kVVG6-00014r-3q; Thu, 22 Oct 2020 03:43:38 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1kVVFr-0007eb-8g; Thu, 22 Oct 2020 03:43:37 -0400
-Received: by mail-lj1-x243.google.com with SMTP id i2so894145ljg.4;
- Thu, 22 Oct 2020 00:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=O+goKHHTPNQf+byU52c8msGIZZ/A616sN7JzkzNgsEM=;
- b=PRVMlwH3p9cdDtK/AJjNTto6KpeLjgX0dzV39nTWtIGeQQBLVi65h5aun2g4RA8nhf
- lRW4AmyV1C2HDSn7t+oqfo0mVRpCfTUIfWseFi9YAsY9aZh2j2/RJ4XJWguOthgxw51r
- 9NL7u0VspkU+pxFuCq+gsvdM10aUiEvZSZe50ZIrCoHDCHNvC835qYXanB4fsVKo4t+b
- C0+zy9nlN/OVThqggR6JHQ+RuTIu8d26Myyrp6kBWxreHmMX10ep1jDtDzsI5XFJqQpl
- zrG5aPo5vFXepnMjYkl+6CmIK8Kev60HMUkjbkS5532VVW87B55OudRXcYyREzlr2GpE
- ePPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=O+goKHHTPNQf+byU52c8msGIZZ/A616sN7JzkzNgsEM=;
- b=b6ILhd0Mmjraenu/mgas4+14kRAkDEsJXU2jx7Cs38vHah/Tz25MXvLkrF/FODErMd
- gkW4MXHOi1u3xhbPxdrwud8QXIJK07qp8OYmdCh1gXpsLqySiaIUCvXoKySOcjnvNDKo
- 6K8XtMvza6Ik+E7P3qwowHjBGNmBysTmg2560f8hvjhzS8M3jGGVnta2j60hJlgax/wC
- J8rMW9qxNrk0jib6Sdffrao3rsZsmeW4h5eEuFoEj0qO3Q5Bu9C9kfrmoekBAKYYwo2y
- l6NpZXD4KAw1eFSTFS1v8k4oYEmYGCImr84V6IAPYKSioAqyRYJRuffi//SrES3/yInw
- oJfw==
-X-Gm-Message-State: AOAM5323X6kv5CR5Gw7nxSSuAK0iV39IIV8Ir1DH2o3I744Ol2us5FQn
- psHD6CtUDtmq5HpG437e7EU=
-X-Google-Smtp-Source: ABdhPJxTOrqgaVLzeKl/VvMQW/Bc2T5j2fVDZFWAjonNuJ+3L1Yyj3kEKpNOjivNK47y6+8HDzHwbQ==
-X-Received: by 2002:a2e:9d3:: with SMTP id 202mr518428ljj.449.1603352601388;
- Thu, 22 Oct 2020 00:43:21 -0700 (PDT)
-Received: from neptune.lab ([46.39.229.104])
- by smtp.googlemail.com with ESMTPSA id n19sm138887lfe.142.2020.10.22.00.43.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Oct 2020 00:43:20 -0700 (PDT)
-From: Alexey Baturo <baturo.alexey@gmail.com>
-X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
-To: 
-Subject: [PATCH v5 6/6] [RISCV_PM] Allow experimental J-ext to be turned on
-Date: Thu, 22 Oct 2020 10:43:09 +0300
-Message-Id: <20201022074309.3210-7-space.monkey.delivers@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201022074309.3210-1-space.monkey.delivers@gmail.com>
-References: <20201022074309.3210-1-space.monkey.delivers@gmail.com>
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1kVVJ7-0005la-OF; Thu, 22 Oct 2020 03:46:47 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:26742)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1kVVJ4-0000Ma-8l; Thu, 22 Oct 2020 03:46:45 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 2316345EC0;
+ Thu, 22 Oct 2020 09:46:33 +0200 (CEST)
+Subject: Re: [PATCH] migration/block-dirty-bitmap: fix larger granularity
+ bitmaps
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ quintela@redhat.com, dgilbert@redhat.com
+References: <20201021144456.1072-1-s.reiter@proxmox.com>
+ <0f3e0eba-28a3-7c6d-d8db-6831ab6a54f5@virtuozzo.com>
+From: Stefan Reiter <s.reiter@proxmox.com>
+Message-ID: <f7ad1bf2-067e-5de2-8ba4-6000761c7367@proxmox.com>
+Date: Thu, 22 Oct 2020 09:46:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <0f3e0eba-28a3-7c6d-d8db-6831ab6a54f5@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=baturo.alexey@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 03:46:33
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,31 +58,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
- Alistair.Francis@wdc.com, kupokupokupopo@gmail.com, palmer@dabbelt.com
+Cc: fam@euphon.net, qemu-block@nongnu.org, jsnow@redhat.com,
+ qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
----
- target/riscv/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+On 10/21/20 5:17 PM, Vladimir Sementsov-Ogievskiy wrote:
+> 21.10.2020 17:44, Stefan Reiter wrote:
+>> sectors_per_chunk is a 64 bit integer, but the calculation is done in 32
+>> bits, leading to an overflow for coarse bitmap granularities.
+>>
+>> If that results in the value 0, it leads to a hang where no progress is
+>> made but send_bitmap_bits is constantly called with nr_sectors being 0.
+>>
+>> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+>> ---
+>>   migration/block-dirty-bitmap.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/migration/block-dirty-bitmap.c 
+>> b/migration/block-dirty-bitmap.c
+>> index 5bef793ac0..5398869e2b 100644
+>> --- a/migration/block-dirty-bitmap.c
+>> +++ b/migration/block-dirty-bitmap.c
+>> @@ -562,8 +562,9 @@ static int add_bitmaps_to_list(DBMSaveState *s, 
+>> BlockDriverState *bs,
+>>           dbms->bitmap_alias = g_strdup(bitmap_alias);
+>>           dbms->bitmap = bitmap;
+>>           dbms->total_sectors = bdrv_nb_sectors(bs);
+>> -        dbms->sectors_per_chunk = CHUNK_SIZE * 8 *
+>> +        dbms->sectors_per_chunk = CHUNK_SIZE * 8lu *
+> 
+> I'd prefer 8llu for absolute safety.
+> 
+>>               bdrv_dirty_bitmap_granularity(bitmap) >> BDRV_SECTOR_BITS;
+>> +        assert(dbms->sectors_per_chunk != 0);
+> 
+> I doubt that we need this assertion. Bug fixed, and it's obviously 
+> impossible.
+> And if we really want to assert that there is no overflow (assuming 
+> future changes),
+> it should look like this:
+> 
+>    assert(bdrv_dirty_bitmap_granularity(bitmap) < (1ull << 63) / 
+> CHUNK_SIZE / 8 >> BDRV_SECTOR_BITS);
+> 
+> to cover not only corner case but any overflow.. And of course we should 
+> modify original expression
+> to do ">> BDRV_SECTOR_BITS" earlier than all multiplies, like
+> 
+>    dbms->sectors_per_chunk = CHUNK_SIZE * 8llu * 
+> (bdrv_dirty_bitmap_granularity(bitmap) >> BDRV_SECTOR_BITS);
+> 
+> 
+> But I think that only s/8/8ull/ change is enough.
+>
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1c00d9ea26..56633c14eb 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -465,6 +465,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         }
-         if (cpu->cfg.ext_j) {
-             env->mmte |= PM_EXT_INITIAL;
-+            target_misa |= RVJ;
-         }
-         if (cpu->cfg.ext_v) {
-             target_misa |= RVV;
--- 
-2.20.1
+I agree, and I wouldn't mind removing the assert, but just to clarify it 
+was mostly meant to prevent the case where the migration gets stuck 
+entirely. Even if the calculation is wrong, it would at least do 
+_something_ instead of endlessly looping.
+
+Maybe an
+
+     assert(nr_sectors != 0);
+
+in send_bitmap_bits instead for that?
+
+>>           if (bdrv_dirty_bitmap_enabled(bitmap)) {
+>>               dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_ENABLED;
+>>           }
+>>
+> 
+> 
+> With 8llu and with or without assertion:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
 
 
