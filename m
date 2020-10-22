@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696CF295FA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:18:35 +0200 (CEST)
-Received: from localhost ([::1]:53256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52EFA295FE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:22:54 +0200 (CEST)
+Received: from localhost ([::1]:59350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVaUE-0002fu-FS
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:18:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60042)
+	id 1kVaYP-0005M3-8M
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVaRY-0001TC-16
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:15:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25830)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVaRU-0002Dg-C0
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:15:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603372539;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wnj7eDLYQb68RxOKX0qL9Uk3bXQYXvYL8lznyRGCBTA=;
- b=GaYsFAHFSp9myesC88/75JYzqiXABQ7VOzjCjdwFJiIKrLJPFHEMhLGdJiHcPI5EsLHka1
- FDr7UgTJ3VPiA24JuPf0CPx/GBVhZN5TAfHZLtdfsRUEc3D+3tk3MvlwL5CDx1lEzgr1bb
- y9eLomVfZeKVviIc9iJz2/123gzc1IA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-vzNnW07kMfaQPgA01TMH8g-1; Thu, 22 Oct 2020 09:15:37 -0400
-X-MC-Unique: vzNnW07kMfaQPgA01TMH8g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B99B18B9EC3;
- Thu, 22 Oct 2020 13:15:36 +0000 (UTC)
-Received: from redhat.com (ovpn-113-117.ams2.redhat.com [10.36.113.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BCB36EF42;
- Thu, 22 Oct 2020 13:15:31 +0000 (UTC)
-Date: Thu, 22 Oct 2020 09:15:28 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Gibson <dgibson@redhat.com>
-Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
- not ready
-Message-ID: <20201022091500-mutt-send-email-mst@kernel.org>
-References: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
- <20201022080354-mutt-send-email-mst@kernel.org>
- <20201022235632.7f69ddc9@yekko.fritz.box>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kVaT0-0002Sl-81; Thu, 22 Oct 2020 09:17:18 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:57937)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kVaSx-0002YK-Bi; Thu, 22 Oct 2020 09:17:17 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 133D25C0108;
+ Thu, 22 Oct 2020 09:17:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 22 Oct 2020 09:17:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=CoBZMOgpLA5jgvUzZ8PriJE97ay
+ fSZXAHhnXEBsRyiE=; b=fjT/rvC6QwfrGPfHf2GsU6SaPzOv9MnjFWxxXhLoOtn
+ 46lT+KYD/cOE6Qa/w+fDCkGToNNCGm0pqx80J9+PpEHv6IYXf95MiHaBOUnvkbH9
+ 73hGLR01aMpGKBec3RZjXI3ItKirDugBhhUjxsOAyEwN9TPu2lbAWF3eNyOk4xPD
+ BGLXSiQHWKkoTbqetDgQ743JCsXHSIUfxcYUGefEA9UBP86GcDUpiW3ElQ9M4jav
+ XJ6l5NQHDB4xndlMEcPLUexHdX96u4cI8+YEt3/nU5fbn+dfVSFyjQmiMncpv8qJ
+ qo2dm9ZnrtATNj5338BUs2j1Vpp1hVUxrlWitsmmyOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=CoBZMO
+ gpLA5jgvUzZ8PriJE97ayfSZXAHhnXEBsRyiE=; b=ACROONp+ACd7O2ee1gY80T
+ lcLM6NiC+J+wra6i6g89t5+A7iEQuXwazbxdHeZ0mI7WxXNMYBSbgVgYbBGwAS2F
+ nAOSK3V/IUcNZkshgvS5ycqcJh5ZfG1PQI6vLPXYREUvWR5P7+QOZWOlPCjSncWV
+ QPwJmAgPNi1JodWCm7OEZH2aLsTS8tMyFxFv6xyr7A8tfIBLOeE66bIO68AQb0eB
+ NdS0eyTDT2XxgJeslEgmxNN1gM/hFCF6I1cIo0xtsG+qJaUDLyKGSb4QdfJFRQr4
+ b0cAFqRP/oLzgCbznMDMnEh2Vwrkfb/m8MubftOGzG2DfaSiZ42c+jW6nZx2/l2w
+ ==
+X-ME-Sender: <xms:VIaRX375Edk5A1wkVFpebVBDMyf_CTTjTjefhxQ4htT_1dIRintMkg>
+ <xme:VIaRX86K7B4DP4RKJeotVdd6fbkrhzfcTwz2djsGEBJ-yg2mgwI9bi7-_yXH6Z2N-
+ EOgrv2osY8JwRpLfhg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeejgdeiudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:VIaRX-eFtEA4Zwx7drcgHP4Q2VYJgZHxCh2oOZkvPrNsG9wSICViLg>
+ <xmx:VIaRX4L5AcVcLLvCwL4aGPi4BFcYCfkQzGDmpaoqgCuOevDnPa9T7w>
+ <xmx:VIaRX7LMHaRidipVH4_D34TaZXdNHojF7J_SNBt6VDRf4uOI44TpGA>
+ <xmx:VYaRXxjTIU5HnROc3SwroJugZ7YX10id_aPSnWQwIhhXcuXlciKMww>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2B0C93280060;
+ Thu, 22 Oct 2020 09:17:07 -0400 (EDT)
+Date: Thu, 22 Oct 2020 15:17:05 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v2] hw/block/nvme: fix prp mapping status codes
+Message-ID: <20201022131705.GB148638@apples.localdomain>
+References: <20201019173538.129854-1-its@irrelevant.dk>
+ <20201019182045.GC1435260@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20201022235632.7f69ddc9@yekko.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="U+BazGySraz5kW0T"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:33:10
+In-Reply-To: <20201019182045.GC1435260@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:17:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,74 +96,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jusual@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 22, 2020 at 11:56:32PM +1100, David Gibson wrote:
-> On Thu, 22 Oct 2020 08:06:55 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel Apfelbaum wrote:
-> > > From: Marcel Apfelbaum <marcel@redhat.com>
-> > > 
-> > > During PCIe Root Port's transition from Power-Off to Power-ON (or vice-versa)
-> > > the "Slot Control Register" has the "Power Indicator Control"
-> > > set to "Blinking" expressing a "power transition" mode.
-> > > 
-> > > Any hotplug operation during the "power transition" mode is not permitted
-> > > or at least not expected by the Guest OS leading to strange failures.
-> > > 
-> > > Detect and refuse hotplug operations in such case.
-> > > 
-> > > Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > > ---
-> > >  hw/pci/pcie.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > > 
-> > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> > > index 5b48bae0f6..2fe5c1473f 100644
-> > > --- a/hw/pci/pcie.c
-> > > +++ b/hw/pci/pcie.c
-> > > @@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > >      PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
-> > >      uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
-> > >      uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
-> > > +    uint32_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
-> > >  
-> > >      /* Check if hot-plug is disabled on the slot */
-> > >      if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
-> > > @@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > >          return;
-> > >      }
-> > >  
-> > > +    if ((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_BLINK) {
-> > > +        error_setg(errp, "Hot-plug failed: %s is in Power Transition",
-> > > +                   DEVICE(hotplug_pdev)->id);
-> > > +        return;
-> > > +    }
-> > > +
-> > >      pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
-> > >  }  
-> > 
-> > Probably the only way to handle for existing machine types.
-> > For new ones, can't we queue it in host memory somewhere?
-> 
-> I'm not actually convinced we can't do that even for existing machine
-> types.
 
-The difficulty would be in migrating the extra "reuested but defferred"
-state.
+--U+BazGySraz5kW0T
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->  So I'm a bit hesitant to suggest going ahead with this without
-> looking a bit closer at whether we can implement a wait-for-ready in
-> qemu, rather than forcing every user of qemu (human or machine) to do
-> so.
-> 
-> 
-> -- 
-> David Gibson <dgibson@redhat.com>
-> Principal Software Engineer, Virtualization, Red Hat
+On Oct 19 11:20, Keith Busch wrote:
+> On Mon, Oct 19, 2020 at 07:35:38PM +0200, Klaus Jensen wrote:
+> > From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> >=20
+> > Address 0 is not an invalid address. Remove those invalikd checks.
+> >=20
+> > Unaligned PRP2 and PRP list entries should result in Invalid PRP Offset
+> > status code and not Invalid Field. Fix that.
+> >=20
+> > See NVMe Express v1.3d, Section 4.3 ("Physical Region Page Entry and
+> > List").
+>=20
+> Looks good to me.
+>=20
+> Reviewed-by: Keith Busch <kbusch@kernel.org>
+>=20
 
+Thanks, added to nvme-next.
 
+--U+BazGySraz5kW0T
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+Rhk8ACgkQTeGvMW1P
+DemXZAf9GITDu2CNPn9USmlBXTeWYjZb6TRNwgdF74JdKp5D8X/FAvhjefV/no5f
+QFutHN13UQtJtjB78KOlK67OFkzx5NjS/YYd78fqXWfWTZnH6ZuWpvh3dniEP+Wd
+YWz0QfubVfD+ZE6fIzNPrl3G9ToZFuCOIEqOHWdzjxH69oSlkGtdc+FMDDRmiIw0
+s6ArAOzy4e5pOJnEQ+EkOHKT8ueqA6rJLy7qKKWGOuc8tzSRPd+XRa6P6MNsb+9C
+pZk5merqeghD30aL+ex25cXTGSEWKaqkveQUPSqLdHmiT6UbcTqu/0BUfE0xVhpx
+tpntkXw0waiQz9WsEVC815ZyQijGNA==
+=y5Ri
+-----END PGP SIGNATURE-----
+
+--U+BazGySraz5kW0T--
 
