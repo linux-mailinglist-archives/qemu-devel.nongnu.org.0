@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51EC0295DF6
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:04:52 +0200 (CEST)
-Received: from localhost ([::1]:41966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B3E295E0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:09:08 +0200 (CEST)
+Received: from localhost ([::1]:50530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVZKt-0006CJ-6i
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40458)
+	id 1kVZP1-0001gp-PM
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:09:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ2u-0001Ra-E8
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:18 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15066)
+ id 1kVZ3K-0002Au-Vl
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:43 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ2r-0007Pe-Cj
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:15 -0400
+ id 1kVZ3I-0007S7-MH
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:42 -0400
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f9170a50001>; Thu, 22 Oct 2020 04:44:37 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Oct
- 2020 11:46:03 +0000
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f9170ef0000>; Thu, 22 Oct 2020 04:45:51 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Oct
+ 2020 11:46:29 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by mail.nvidia.com
  (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 22 Oct 2020 11:45:55 +0000
+ Transport; Thu, 22 Oct 2020 11:46:21 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v27 10/17] memory: Set DIRTY_MEMORY_MIGRATION when IOMMU is
- enabled
-Date: Thu, 22 Oct 2020 16:42:00 +0530
-Message-ID: <1603365127-14202-11-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v27 13/17] vfio: Add vfio_listener_log_sync to mark dirty pages
+Date: Thu, 22 Oct 2020 16:42:03 +0530
+Message-ID: <1603365127-14202-14-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
 References: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
@@ -41,18 +40,18 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603367077; bh=YXNa3H8eNeL3Vmem7X3LxVv9sAfs1VFH6OWaXoloGWw=;
+ t=1603367151; bh=oXVs05Rx1O1PMyZIocDJJgcHvtd8zomPVHKuaITvJJ0=;
  h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
  References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=aOrhWOef1GE4gPN2VFuzp7Iua3ivjzpyk8Pxx7ExVTfZbGXu5yt+013CEJy83dhjQ
- NhZ4twlcLATEDXCdYxIa+p7iljpB04WAGh7mpbEXSDYEjPpRb0rvjo+AMlRPVqCCuD
- s+1fyKx8eH4U9CO5LlN9iODdTLE3zkypDgKo5J5fT89Baw7mn2dM+akNuP0mv7Qn6Q
- PzInFjpcDAWuhjoAKhP2+x7jFv7jhainQKrslgHT6bLyASjT96YDdoBpNwXGdiYjSC
- Jh4cVChRwICRIdBv3qvW5gcwu7LnDGwwJjNH+kL/IqrEySfTLDiqS/Z9/+3jaxt9q4
- cuhH/4kP3Kddw==
-Received-SPF: pass client-ip=216.228.121.143;
- envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 07:44:48
+ b=k8MtkMyRBWhCj3LZGqmCqMWhGbucOq5zimDXQrcxGV0WU+jbJyqiNgSMl1BCgFX4N
+ kSR3iE8g8zmgQ5nPlCIwFKwjkDysZe2Zk1a3BZ1gjRpe/JjO89cBbgVhdWsZfgAc4P
+ FlfMflTBe9GtqeNk2HC6+cEb3m0SxnLaMZvpwcXUHbQ+xZtzHMLjRzERHgsBr+q7Gt
+ KFE5NbRrdlo0+6ArayKdtMI/EFr0S/f2TXZmEX73wmsVNhZx+nWT2fJvS6CZl0lS98
+ x7NICTi7A4e1w2LdiZLIMu8cGn2/0k9Nc7jRlA1njQGwssUfBP+RdgUpbTEeJNKXJE
+ 39ODPDRBd28eg==
+Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate25.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 07:44:53
 X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
 X-Spam_score_int: -70
 X-Spam_score: -7.1
@@ -86,30 +85,178 @@ Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mr->ram_block is NULL when mr->is_iommu is true, then fr.dirty_log_mask
-wasn't set correctly due to which memory listener's log_sync doesn't
-get called.
-This patch returns log_mask with DIRTY_MEMORY_MIGRATION set when
-IOMMU is enabled.
+vfio_listener_log_sync gets list of dirty pages from container using
+VFIO_IOMMU_GET_DIRTY_BITMAP ioctl and mark those pages dirty when all
+devices are stopped and saving state.
+Return early for the RAM block section of mapped MMIO region.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- softmmu/memory.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/vfio/common.c     | 116 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/trace-events |   1 +
+ 2 files changed, 117 insertions(+)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 403ff3abc99b..94f606e9d9d9 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1792,7 +1792,7 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
- uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
- {
-     uint8_t mask = mr->dirty_log_mask;
--    if (global_dirty_log && mr->ram_block) {
-+    if (global_dirty_log && (mr->ram_block || memory_region_is_iommu(mr))) {
-         mask |= (1 << DIRTY_MEMORY_MIGRATION);
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index d4959c036dd1..2634387df948 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -29,6 +29,7 @@
+ #include "hw/vfio/vfio.h"
+ #include "exec/address-spaces.h"
+ #include "exec/memory.h"
++#include "exec/ram_addr.h"
+ #include "hw/hw.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+@@ -37,6 +38,7 @@
+ #include "sysemu/reset.h"
+ #include "trace.h"
+ #include "qapi/error.h"
++#include "migration/migration.h"
+ 
+ VFIOGroupList vfio_group_list =
+     QLIST_HEAD_INITIALIZER(vfio_group_list);
+@@ -287,6 +289,39 @@ const MemoryRegionOps vfio_region_ops = {
+ };
+ 
+ /*
++ * Device state interfaces
++ */
++
++static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
++{
++    VFIOGroup *group;
++    VFIODevice *vbasedev;
++    MigrationState *ms = migrate_get_current();
++
++    if (!migration_is_setup_or_active(ms->state)) {
++        return false;
++    }
++
++    QLIST_FOREACH(group, &container->group_list, container_next) {
++        QLIST_FOREACH(vbasedev, &group->device_list, next) {
++            VFIOMigration *migration = vbasedev->migration;
++
++            if (!migration) {
++                return false;
++            }
++
++            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
++                !(migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
++                continue;
++            } else {
++                return false;
++            }
++        }
++    }
++    return true;
++}
++
++/*
+  * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
+  */
+ static int vfio_dma_unmap(VFIOContainer *container,
+@@ -812,9 +847,90 @@ static void vfio_listener_region_del(MemoryListener *listener,
      }
-     return mask;
+ }
+ 
++static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
++                                 uint64_t size, ram_addr_t ram_addr)
++{
++    struct vfio_iommu_type1_dirty_bitmap *dbitmap;
++    struct vfio_iommu_type1_dirty_bitmap_get *range;
++    uint64_t pages;
++    int ret;
++
++    dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
++
++    dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
++    dbitmap->flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
++    range = (struct vfio_iommu_type1_dirty_bitmap_get *)&dbitmap->data;
++    range->iova = iova;
++    range->size = size;
++
++    /*
++     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
++     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
++     * TARGET_PAGE_SIZE.
++     */
++    range->bitmap.pgsize = TARGET_PAGE_SIZE;
++
++    pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
++    range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
++                                         BITS_PER_BYTE;
++    range->bitmap.data = g_try_malloc0(range->bitmap.size);
++    if (!range->bitmap.data) {
++        ret = -ENOMEM;
++        goto err_out;
++    }
++
++    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
++    if (ret) {
++        error_report("Failed to get dirty bitmap for iova: 0x%llx "
++                "size: 0x%llx err: %d",
++                range->iova, range->size, errno);
++        goto err_out;
++    }
++
++    cpu_physical_memory_set_dirty_lebitmap((uint64_t *)range->bitmap.data,
++                                            ram_addr, pages);
++
++    trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
++                                range->bitmap.size, ram_addr);
++err_out:
++    g_free(range->bitmap.data);
++    g_free(dbitmap);
++
++    return ret;
++}
++
++static int vfio_sync_dirty_bitmap(VFIOContainer *container,
++                                  MemoryRegionSection *section)
++{
++    ram_addr_t ram_addr;
++
++    ram_addr = memory_region_get_ram_addr(section->mr) +
++               section->offset_within_region;
++
++    return vfio_get_dirty_bitmap(container,
++                       TARGET_PAGE_ALIGN(section->offset_within_address_space),
++                       int128_get64(section->size), ram_addr);
++}
++
++static void vfio_listerner_log_sync(MemoryListener *listener,
++        MemoryRegionSection *section)
++{
++    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++
++    if (vfio_listener_skipped_section(section) ||
++        !container->dirty_pages_supported) {
++        return;
++    }
++
++    if (vfio_devices_all_stopped_and_saving(container)) {
++        vfio_sync_dirty_bitmap(container, section);
++    }
++}
++
+ static const MemoryListener vfio_memory_listener = {
+     .region_add = vfio_listener_region_add,
+     .region_del = vfio_listener_region_del,
++    .log_sync = vfio_listerner_log_sync,
+ };
+ 
+ static void vfio_listener_release(VFIOContainer *container)
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index 4804cc266d44..c3b35aa2cce8 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -162,3 +162,4 @@ vfio_save_complete_precopy(const char *name) " (%s)"
+ vfio_load_device_config_state(const char *name) " (%s)"
+ vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
+ vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
++vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
 -- 
 2.7.0
 
