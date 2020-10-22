@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAF62964A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:23:48 +0200 (CEST)
-Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FED29649D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:22:48 +0200 (CEST)
+Received: from localhost ([::1]:32852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVfFb-0000QQ-Kx
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48634)
+	id 1kVfEd-0006wu-6E
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:22:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf6Q-0000oS-Dn; Thu, 22 Oct 2020 14:14:18 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52078 helo=relay3.sw.ru)
+ id 1kVf6A-0000XD-GJ; Thu, 22 Oct 2020 14:14:02 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52122 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf6K-0001nh-GQ; Thu, 22 Oct 2020 14:14:18 -0400
+ id 1kVf5x-0001np-K4; Thu, 22 Oct 2020 14:14:02 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf5r-005dVw-CC; Thu, 22 Oct 2020 21:13:43 +0300
+ id 1kVf5r-005dVw-DR; Thu, 22 Oct 2020 21:13:43 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
  kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
  eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
  andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v12 00/14] Apply COR-filter to the block-stream permanently
-Date: Thu, 22 Oct 2020 21:13:29 +0300
-Message-Id: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v12 01/14] copy-on-read: support preadv/pwritev_part functions
+Date: Thu, 22 Oct 2020 21:13:30 +0300
+Message-Id: <1603390423-980205-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 Received-SPF: pass client-ip=185.231.240.75;
  envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 14:13:46
@@ -56,65 +58,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-The node insert/remove functions were added at the block generic layer.
-COR-filter options structure was added to the QAPI.
-The test case #310 was added to check the 'bottom' node limit for COR.
-The 'supported_read_flags' member was added to the BDS structure
-(with the flags check at the block generic layer for drivers).
+Add support for the recently introduced functions
+bdrv_co_preadv_part()
+and
+bdrv_co_pwritev_part()
+to the COR-filter driver.
 
-v12:
-  02: New.
-  03: Only the temporary drop filter function left.
-  05: New (suggested by Max)
-  06: 'base' -> 'bottom' option.
-  07: Fixes based on the review of the v11.
-  08: New.
-  09: The comment ext was modified.
-  10: The read flags check at the block generic layer.
-  11: COR flag was added.
-  12: The condition was fixed.
-  13: The 'backing-file' parameter returned. No deprecation.
-  14: The COR-filter 'add' function replaced with the 'insert node' generic
-      function. Fixes based on the review of the v11.
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/copy-on-read.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-Andrey Shinkevich (14):
-  copy-on-read: support preadv/pwritev_part functions
-  block: add insert/remove node functions
-  copy-on-read: add filter drop function
-  qapi: add filter-node-name to block-stream
-  qapi: create BlockdevOptionsCor structure for COR driver
-  copy-on-read: pass bottom node name to COR driver
-  copy-on-read: limit COR operations to bottom node
-  iotests: add #310 to test bottom node in COR driver
-  block: modify the comment for BDRV_REQ_PREFETCH flag
-  block: include supported_read_flags into BDS structure
-  copy-on-read: add support for read flags to COR-filter
-  copy-on-read: skip non-guest reads if no copy needed
-  stream: skip filters when writing backing file name to QCOW2 header
-  block: apply COR-filter to block-stream jobs
-
- block.c                        |  49 ++++++++++++++
- block/copy-on-read.c           | 144 +++++++++++++++++++++++++++++++++++++----
- block/copy-on-read.h           |  32 +++++++++
- block/io.c                     |  12 +++-
- block/monitor/block-hmp-cmds.c |   4 +-
- block/stream.c                 | 117 ++++++++++++++++++++++-----------
- blockdev.c                     |  13 ++--
- include/block/block.h          |  11 +++-
- include/block/block_int.h      |  11 +++-
- qapi/block-core.json           |  27 +++++++-
- tests/qemu-iotests/030         |  51 ++-------------
- tests/qemu-iotests/030.out     |   4 +-
- tests/qemu-iotests/141.out     |   2 +-
- tests/qemu-iotests/245         |  22 +++++--
- tests/qemu-iotests/310         | 109 +++++++++++++++++++++++++++++++
- tests/qemu-iotests/310.out     |  15 +++++
- tests/qemu-iotests/group       |   3 +-
- 17 files changed, 503 insertions(+), 123 deletions(-)
- create mode 100644 block/copy-on-read.h
- create mode 100755 tests/qemu-iotests/310
- create mode 100644 tests/qemu-iotests/310.out
-
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index 2816e61..cb03e0f 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -74,21 +74,25 @@ static int64_t cor_getlength(BlockDriverState *bs)
+ }
+ 
+ 
+-static int coroutine_fn cor_co_preadv(BlockDriverState *bs,
+-                                      uint64_t offset, uint64_t bytes,
+-                                      QEMUIOVector *qiov, int flags)
++static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
++                                           uint64_t offset, uint64_t bytes,
++                                           QEMUIOVector *qiov,
++                                           size_t qiov_offset,
++                                           int flags)
+ {
+-    return bdrv_co_preadv(bs->file, offset, bytes, qiov,
+-                          flags | BDRV_REQ_COPY_ON_READ);
++    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
++                               flags | BDRV_REQ_COPY_ON_READ);
+ }
+ 
+ 
+-static int coroutine_fn cor_co_pwritev(BlockDriverState *bs,
+-                                       uint64_t offset, uint64_t bytes,
+-                                       QEMUIOVector *qiov, int flags)
++static int coroutine_fn cor_co_pwritev_part(BlockDriverState *bs,
++                                            uint64_t offset,
++                                            uint64_t bytes,
++                                            QEMUIOVector *qiov,
++                                            size_t qiov_offset, int flags)
+ {
+-
+-    return bdrv_co_pwritev(bs->file, offset, bytes, qiov, flags);
++    return bdrv_co_pwritev_part(bs->file, offset, bytes, qiov, qiov_offset,
++                                flags);
+ }
+ 
+ 
+@@ -137,8 +141,8 @@ static BlockDriver bdrv_copy_on_read = {
+ 
+     .bdrv_getlength                     = cor_getlength,
+ 
+-    .bdrv_co_preadv                     = cor_co_preadv,
+-    .bdrv_co_pwritev                    = cor_co_pwritev,
++    .bdrv_co_preadv_part                = cor_co_preadv_part,
++    .bdrv_co_pwritev_part               = cor_co_pwritev_part,
+     .bdrv_co_pwrite_zeroes              = cor_co_pwrite_zeroes,
+     .bdrv_co_pdiscard                   = cor_co_pdiscard,
+     .bdrv_co_pwritev_compressed         = cor_co_pwritev_compressed,
 -- 
 1.8.3.1
 
