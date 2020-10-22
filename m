@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637992957C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 07:16:39 +0200 (CEST)
-Received: from localhost ([::1]:44482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516CC2957D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 07:20:19 +0200 (CEST)
+Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVSxq-0000NG-BQ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 01:16:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33104)
+	id 1kVT1O-0005tJ-Ax
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 01:20:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVSu9-0003mm-3U
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:12:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29080)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVSu6-0003kO-Kd
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:12:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVStv-0003wJ-BB
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:12:47 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVStv-0003wR-L3
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:12:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603343554;
+ s=mimecast20190719; t=1603343555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GLDKr3bJJcW7BQ8I0BkGaifRf+4XyADj4mdQgXyXSzQ=;
- b=KUObFf4+d6+Wc0a/F+D4+ITAr+08/mKA+0E+AdxhPl8HymLykEmhVG7uHUNX521ItUTFoF
- H1QOgWNuGyVXqVb4pPIJeTdbUsGBU8yODRpAEqn9J2owLLBRwlRPWmjmo98RG8VDbawIVU
- RH/RdP7o3fGOzH9CyRRM9IIfXh2khjo=
+ bh=64f7Avxke8Zz3NS9yGXFYLUZfTJGps7pBALxKZB9KPU=;
+ b=JZpGfif46sD3d3x1Tc+vE4Q0EcCdBqTRC4u265freZX5QFOR22bCWNM5lM58gBo1LNH5e8
+ +ogGPqHzm4UcOTrVe0BdoQxFPecJNL3puyfuxuKOplXqk58HWyFEZflmFUVJggQTD/zC9C
+ 4+xXDIYj+luAtfa1CHBXSi31Pn7zSoc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-BTJxZpHPMHKX3CnfcQhyrg-1; Thu, 22 Oct 2020 01:12:32 -0400
-X-MC-Unique: BTJxZpHPMHKX3CnfcQhyrg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-41-w0Jvt8xVMZK9KwU5ZbV0Tg-1; Thu, 22 Oct 2020 01:12:32 -0400
+X-MC-Unique: w0Jvt8xVMZK9KwU5ZbV0Tg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 979BB1006CA3
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A190A803F76
  for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 05:12:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F2D760C47;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D16A1002C04;
  Thu, 22 Oct 2020 05:12:31 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F3762204A6; Thu, 22 Oct 2020 07:12:23 +0200 (CEST)
+ id 07D98204A7; Thu, 22 Oct 2020 07:12:24 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/14] modules: add spice dependencies
-Date: Thu, 22 Oct 2020 07:12:20 +0200
-Message-Id: <20201022051223.6181-12-kraxel@redhat.com>
+Subject: [PULL 12/14] spice: flip modules switch
+Date: Thu, 22 Oct 2020 07:12:21 +0200
+Message-Id: <20201022051223.6181-13-kraxel@redhat.com>
 In-Reply-To: <20201022051223.6181-1-kraxel@redhat.com>
 References: <20201022051223.6181-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -68,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,29 +88,46 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Build spice core code as module.  This removes libspice-server and a
+handful of indirect dependencies from core qemu.  The number of shared
+libraries for qemu-system-x86_64 goes down from 73 to 66 on my system.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-id: 20201019075224.14803-12-kraxel@redhat.com
+Message-id: 20201019075224.14803-13-kraxel@redhat.com
 ---
- util/module.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ ui/meson.build | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/util/module.c b/util/module.c
-index 0c0f258923dc..21237dcc24df 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -176,6 +176,11 @@ static const struct {
-     const char *name;
-     const char *dep;
- } module_deps[] = {
-+    { "audio-spice",    "ui-spice-core" },
-+    { "chardev-spice",  "ui-spice-core" },
-+    { "hw-display-qxl", "ui-spice-core" },
-+    { "ui-spice-app",   "ui-spice-core" },
-+    { "ui-spice-app",   "chardev-spice" },
- };
- #endif
+diff --git a/ui/meson.build b/ui/meson.build
+index e89e298643a3..509739709ef2 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -15,7 +15,6 @@ softmmu_ss.add(files(
+ softmmu_ss.add([spice_headers, files('spice-module.c')])
  
+ softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('input-linux.c'))
+-softmmu_ss.add(when: [spice, 'CONFIG_SPICE'], if_true: files('spice-core.c', 'spice-input.c', 'spice-display.c'))
+ softmmu_ss.add(when: cocoa, if_true: files('cocoa.m'))
+ 
+ vnc_ss = ss.source_set()
+@@ -71,6 +70,16 @@ if sdl.found()
+   ui_modules += {'sdl' : sdl_ss}
+ endif
+ 
++if config_host.has_key('CONFIG_SPICE')
++  spice_core_ss = ss.source_set()
++  spice_core_ss.add(spice, pixman, files(
++    'spice-core.c',
++    'spice-input.c',
++    'spice-display.c'
++  ))
++  ui_modules += {'spice-core' : spice_core_ss}
++endif
++
+ if config_host.has_key('CONFIG_SPICE') and config_host.has_key('CONFIG_GIO')
+   spice_ss = ss.source_set()
+   spice_ss.add(spice, gio, pixman, files('spice-app.c'))
 -- 
 2.27.0
 
