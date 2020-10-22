@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50932964EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:57:03 +0200 (CEST)
-Received: from localhost ([::1]:44076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0313F2964ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 21:00:18 +0200 (CEST)
+Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVflm-00082l-FD
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56178)
+	id 1kVfov-0002YM-2V
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 15:00:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kVff8-0005yZ-Vt; Thu, 22 Oct 2020 14:50:11 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:48231)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kVff3-0006UQ-Ru; Thu, 22 Oct 2020 14:50:10 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id EC4365C0118;
- Thu, 22 Oct 2020 14:50:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 22 Oct 2020 14:50:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=3/mNTvLOvDrm0
- k9yBJIGN48aTE/HO1iQ7yTEk4G+foQ=; b=SjqNSidP73+f6wKWdR7x27y94LWVK
- WYIdoBzFMwoULUVeIdxHzilnW+28JX9T4wSWteEECXaCnDO3ignmU/rbzxByv2RW
- rE00yGCBYgGVkr5c2o8B+vS8ZnerIOCvfRmV6+msCHnZoNJgjaseQ6EgVEQHAGzn
- rRFc3Xgl7xki3tLQqq5STj30SPhoq/p7X0hYm30oScv4JBlYQ9f5WvRqDH+YKEBC
- 7c0mVuXZsK1mxmU51p1lxJIbMo8PEJhPoCIoggsDLGNXJhgmHq6Hnvy5BJ87H9tv
- FUq5SgODxMSZiq5nbT1ce2ornoSY6zpeoWIrk9E1sjn2UhHkban37Zp3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=3/mNTvLOvDrm0k9yBJIGN48aTE/HO1iQ7yTEk4G+foQ=; b=JNc963Sr
- U6ucmYJY5VIYysqCqj4Dc8hilePLuxTeYjlkWOoEWR58q2n1vAhmT7459osbBdb7
- 6DihmhAo3kuoR2AHAhFCzFe1kRoaEZselSShFErLreA7yug1/xoXeAOwWeFYeACI
- MyS+vbiVX+y0daOjwLPF7cJh/QbGe/xQfp3gzUYo0K250YZlxLQxThna6xjaowGH
- LF0CwAX9Pu5DsB4MZZswtd9goUgpLLJhkAuMJoicqBvPMl/OSAEQnTDFT0HVVHnx
- 1L+1KyHmU3ihNWbtCpI+p+5Aa1bMNbjgt0WPrKBBR5Coz0lk47beFELUidbhPAAd
- QWsMn0W6Pnj6VQ==
-X-ME-Sender: <xms:XNSRXzXKAnBb9dHeh0Ka-iKNRzlnNYFM9dbzWidI96xlaL5xYoOyuA>
- <xme:XNSRX7nSrdnJA-yXxYzFB_CpzhpibmwCcQf3lYsG-KXzk9X5hXzLANjF__SsuzLoK
- eZC1On2r30NeAAhaDg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeekgdegkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:XNSRX_ZGQYKrJ6VrJAuTAlRlHWgOtedREkCAe4-uq5B4J1UyYyQW1Q>
- <xmx:XNSRX-WmNx84umAE3Yrb01YNOWNSTblVq1_qX9S0sLM2kpc4QYAu7A>
- <xmx:XNSRX9mRA_gm5LxpoBAVVBmAaelQRn8m_E2TkwRfXeG20EY7mt2UAA>
- <xmx:XNSRX2Dk-CVqN9_uwK-e_tx3yxT9uc2vXoEuaKTFWp1KJS5soRAPnw>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id BEB79306468C;
- Thu, 22 Oct 2020 14:50:03 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/2] hw/block/nvme: add the dataset management command
-Date: Thu, 22 Oct 2020 20:49:59 +0200
-Message-Id: <20201022184959.240505-3-its@irrelevant.dk>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201022184959.240505-1-its@irrelevant.dk>
-References: <20201022184959.240505-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kVfgK-0006a7-Ha
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 14:51:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kVfgH-0006l5-Jd
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 14:51:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603392681;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mqSdji05VzyezNfyvMtPfPWDBtwjtehJD9JR0yKy8kc=;
+ b=djzj0hUnjsLqhc2cTBJD+jCvqF7UnSdVRZfijCcs/anGG007kaqsolgI5HzBz0M73FJNoo
+ IONo2DCb8ucQe7OR+uspFZlbuF9a24DsjeIMhlhVwezWWase/hrtoG970SonWMmeuUybT8
+ YFCQIfGAll7oBvRkJv4D+ChKw9x+vwU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-Y2_iOSI5NNeRx_ner3P9kA-1; Thu, 22 Oct 2020 14:51:17 -0400
+X-MC-Unique: Y2_iOSI5NNeRx_ner3P9kA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 519D987505D;
+ Thu, 22 Oct 2020 18:51:14 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 962D919D61;
+ Thu, 22 Oct 2020 18:51:08 +0000 (UTC)
+Date: Thu, 22 Oct 2020 12:51:08 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v27 07/17] vfio: Register SaveVMHandlers for VFIO device
+Message-ID: <20201022125108.6137e462@w520.home>
+In-Reply-To: <1603365127-14202-8-git-send-email-kwankhede@nvidia.com>
+References: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
+ <1603365127-14202-8-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 13:43:37
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:33:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,281 +82,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: cohuck@redhat.com, cjia@nvidia.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
+ jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On Thu, 22 Oct 2020 16:41:57 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Add support for the Dataset Management command and the Deallocate
-attribute. Deallocation results in discards being sent to the underlying
-block device. Whether of not the blocks are actually deallocated is
-affected by the same factors as Write Zeroes (see previous commit).
+> Define flags to be used as delimiter in migration stream for VFIO devices.
+> Added .save_setup and .save_cleanup functions. Map & unmap migration
+> region from these functions at source during saving or pre-copy phase.
+> 
+> Set VFIO device state depending on VM's state. During live migration, VM is
+> running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
+> device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  hw/vfio/migration.c  | 96 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events |  2 ++
+>  2 files changed, 98 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 7c4fa0d08ea6..2e1054bf7f43 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -8,12 +8,15 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qemu/main-loop.h"
+> +#include "qemu/cutils.h"
+>  #include <linux/vfio.h>
+>  
+>  #include "sysemu/runstate.h"
+>  #include "hw/vfio/vfio-common.h"
+>  #include "cpu.h"
+>  #include "migration/migration.h"
+> +#include "migration/vmstate.h"
+>  #include "migration/qemu-file.h"
+>  #include "migration/register.h"
+>  #include "migration/blocker.h"
+> @@ -25,6 +28,22 @@
+>  #include "trace.h"
+>  #include "hw/hw.h"
+>  
+> +/*
+> + * Flags to be used as unique delimiters for VFIO devices in the migration
+> + * stream. These flags are composed as:
+> + * 0xffffffff => MSB 32-bit all 1s
+> + * 0xef10     => Magic ID, represents emulated (virtual) function IO
+> + * 0x0000     => 16-bits reserved for flags
+> + *
+> + * The beginning of state information is marked by _DEV_CONFIG_STATE,
+> + * _DEV_SETUP_STATE, or _DEV_DATA_STATE, respectively. The end of a
+> + * certain state information is marked by _END_OF_STATE.
+> + */
+> +#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
+> +#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
+> +#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+> +#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+> +
+>  static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int count,
+>                                    off_t off, bool iswrite)
+>  {
+> @@ -129,6 +148,69 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+>      return 0;
+>  }
+>  
+> +/* ---------------------------------------------------------------------- */
+> +
+> +static int vfio_save_setup(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    int ret;
+> +
+> +    trace_vfio_save_setup(vbasedev->name);
+> +
+> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
+> +
+> +    if (migration->region.mmaps) {
+> +        /*
+> +         * vfio_region_mmap() called from migration thread. Memory API called
+> +         * from vfio_regio_mmap() need it when called from outdide the main loop
+> +         * thread.
+> +         */
 
-     format | discard | dsm (512b)  dsm (4kb)  dsm (64kb)
-    ------------------------------------------------------
-      qcow2    ignore   n           n          n
-      qcow2    unmap    n           n          y
-      raw      ignore   n           n          n
-      raw      unmap    n           y          y
+Thanks for adding this detail, maybe refine slightly as:
 
-Again, a raw format and 4kb LBAs are preferable.
+  Calling vfio_region_mmap() from migration thread.  Memory APIs called
+  from this function require locking the iothread when called from
+  outside the main loop thread.
 
-In order to set the Namespace Preferred Deallocate Granularity and
-Alignment fields (NPDG and NPDA), choose a sane minimum discard
-granularity of 4kb. If we are using a passthru device supporting discard
-at a 512b granularity, user should set the discard_granularity property
-explicitly. NPDG and NPDA will also account for the cluster_size of the
-block driver if required (i.e. for QCOW2).
+Does that capture the intent?
 
-See NVM Express 1.3d, Section 6.7 ("Dataset Management command").
+> +        qemu_mutex_lock_iothread();
+> +        ret = vfio_region_mmap(&migration->region);
+> +        qemu_mutex_unlock_iothread();
+> +        if (ret) {
+> +            error_report("%s: Failed to mmap VFIO migration region: %s",
+> +                         vbasedev->name, strerror(-ret));
+> +            error_report("%s: Falling back to slow path", vbasedev->name);
+> +        }
+> +    }
+> +
+> +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_MASK,
+> +                                   VFIO_DEVICE_STATE_SAVING);
+> +    if (ret) {
+> +        error_report("%s: Failed to set state SAVING", vbasedev->name);
+> +        return ret;
+> +    }
+> +
+> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+> +
+> +    ret = qemu_file_get_error(f);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static void vfio_save_cleanup(void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    VFIOMigration *migration = vbasedev->migration;
+> +
+> +    if (migration->region.mmaps) {
+> +        vfio_region_unmap(&migration->region);
+> +    }
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.h      |   2 +
- include/block/nvme.h |   7 ++-
- hw/block/nvme-ns.c   |  36 +++++++++++++--
- hw/block/nvme.c      | 101 ++++++++++++++++++++++++++++++++++++++++++-
- 4 files changed, 140 insertions(+), 6 deletions(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index e080a2318a50..574333caa3f9 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -28,6 +28,7 @@ typedef struct NvmeRequest {
-     struct NvmeNamespace    *ns;
-     BlockAIOCB              *aiocb;
-     uint16_t                status;
-+    void                    *opaque;
-     NvmeCqe                 cqe;
-     NvmeCmd                 cmd;
-     BlockAcctCookie         acct;
-@@ -60,6 +61,7 @@ static inline const char *nvme_io_opc_str(uint8_t opc)
-     case NVME_CMD_WRITE:            return "NVME_NVM_CMD_WRITE";
-     case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
-     case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
-+    case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
-     default:                        return "NVME_NVM_CMD_UNKNOWN";
-     }
- }
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 966c3bb304bd..e95ff6ca9b37 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -990,7 +990,12 @@ typedef struct QEMU_PACKED NvmeIdNs {
-     uint16_t    nabspf;
-     uint16_t    noiob;
-     uint8_t     nvmcap[16];
--    uint8_t     rsvd64[40];
-+    uint16_t    npwg;
-+    uint16_t    npwa;
-+    uint16_t    npdg;
-+    uint16_t    npda;
-+    uint16_t    nows;
-+    uint8_t     rsvd74[30];
-     uint8_t     nguid[16];
-     uint64_t    eui64;
-     NvmeLBAF    lbaf[16];
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index f1cc734c60f5..840651db7256 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -28,10 +28,14 @@
- #include "nvme.h"
- #include "nvme-ns.h"
- 
--static void nvme_ns_init(NvmeNamespace *ns)
-+#define MIN_DISCARD_GRANULARITY (4 * KiB)
-+
-+static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
- {
-+    BlockDriverInfo bdi;
-     NvmeIdNs *id_ns = &ns->id_ns;
-     int lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
-+    int npdg, ret;
- 
-     ns->id_ns.dlfeat = 0x9;
- 
-@@ -43,8 +47,25 @@ static void nvme_ns_init(NvmeNamespace *ns)
-     id_ns->ncap = id_ns->nsze;
-     id_ns->nuse = id_ns->ncap;
- 
--    /* support DULBE */
--    id_ns->nsfeat |= 0x4;
-+    /* support DULBE and I/O optimization fields */
-+    id_ns->nsfeat |= (0x4 | 0x10);
-+
-+    npdg = ns->blkconf.discard_granularity / ns->blkconf.logical_block_size;
-+
-+    ret = bdrv_get_info(blk_bs(ns->blkconf.blk), &bdi);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "could not get block driver info");
-+        return ret;
-+    }
-+
-+    if (bdi.cluster_size &&
-+        bdi.cluster_size > ns->blkconf.discard_granularity) {
-+        npdg = bdi.cluster_size / ns->blkconf.logical_block_size;
-+    }
-+
-+    id_ns->npda = id_ns->npdg = npdg - 1;
-+
-+    return 0;
- }
- 
- static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-@@ -59,6 +80,11 @@ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-         return -1;
-     }
- 
-+    if (ns->blkconf.discard_granularity == -1) {
-+        ns->blkconf.discard_granularity =
-+            MAX(ns->blkconf.logical_block_size, MIN_DISCARD_GRANULARITY);
-+    }
-+
-     ns->size = blk_getlength(ns->blkconf.blk);
-     if (ns->size < 0) {
-         error_setg_errno(errp, -ns->size, "could not get blockdev size");
-@@ -92,7 +118,9 @@ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-         return -1;
-     }
- 
--    nvme_ns_init(ns);
-+    if (nvme_ns_init(ns, errp)) {
-+        return -1;
-+    }
- 
-     if (nvme_register_namespace(n, ns, errp)) {
-         return -1;
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 4ab0705f5a92..7acb9e9dc38a 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -959,6 +959,103 @@ static void nvme_rw_cb(void *opaque, int ret)
-     nvme_enqueue_req_completion(nvme_cq(req), req);
- }
- 
-+static void nvme_aio_discard_cb(void *opaque, int ret)
-+{
-+    NvmeRequest *req = opaque;
-+    int *discards = req->opaque;
-+
-+    trace_pci_nvme_aio_discard_cb(nvme_cid(req));
-+
-+    if (ret) {
-+        req->status = NVME_INTERNAL_DEV_ERROR;
-+        trace_pci_nvme_err_aio(nvme_cid(req), strerror(ret),
-+                               req->status);
-+    }
-+
-+    if (discards && --(*discards) > 0) {
-+        return;
-+    }
-+
-+    g_free(req->opaque);
-+    req->opaque = NULL;
-+
-+    nvme_enqueue_req_completion(nvme_cq(req), req);
-+}
-+
-+static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeNamespace *ns = req->ns;
-+    NvmeDsmCmd *dsm = (NvmeDsmCmd *) &req->cmd;
-+    NvmeDsmRange *range = NULL;
-+    int *discards = NULL;
-+
-+    uint32_t attr = le32_to_cpu(dsm->attributes);
-+    uint32_t nr = (le32_to_cpu(dsm->nr) & 0xff) + 1;
-+
-+    uint16_t status = NVME_SUCCESS;
-+
-+    trace_pci_nvme_dsm(nvme_cid(req), nvme_nsid(ns), nr, attr);
-+
-+    if (attr & NVME_DSMGMT_AD) {
-+        int64_t offset;
-+        size_t len;
-+
-+        range = g_new(NvmeDsmRange, nr);
-+
-+        status = nvme_dma(n, (uint8_t *)range, nr * sizeof(NvmeDsmRange),
-+                          DMA_DIRECTION_TO_DEVICE, req);
-+        if (status) {
-+            goto out;
-+        }
-+
-+        discards = g_new(int, 1);
-+        *discards = 1;
-+        req->opaque = discards;
-+
-+        for (int i = 0; i < nr; i++) {
-+            uint64_t slba = le64_to_cpu(range[i].slba);
-+            uint32_t nlb = le32_to_cpu(range[i].nlb);
-+
-+            if (nvme_check_bounds(n, ns, slba, nlb)) {
-+                trace_pci_nvme_err_invalid_lba_range(slba, nlb,
-+                                                     ns->id_ns.nsze);
-+                continue;
-+            }
-+
-+            trace_pci_nvme_dsm_deallocate(nvme_cid(req), nvme_nsid(ns), slba,
-+                                          nlb);
-+
-+            offset = nvme_l2b(ns, slba);
-+            len = nvme_l2b(ns, nlb);
-+
-+            while (len) {
-+                size_t bytes = MIN(BDRV_REQUEST_MAX_BYTES, len);
-+
-+                (*discards)++;
-+
-+                blk_aio_pdiscard(ns->blkconf.blk, offset, bytes,
-+                                 nvme_aio_discard_cb, req);
-+
-+                offset += bytes;
-+                len -= bytes;
-+            }
-+        }
-+
-+        if (--(*discards)) {
-+            status = NVME_NO_COMPLETE;
-+        } else {
-+            g_free(discards);
-+            req->opaque = NULL;
-+            status = req->status;
-+        }
-+    }
-+
-+out:
-+    g_free(range);
-+
-+    return status;
-+}
-+
- static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
- {
-     block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
-@@ -1088,6 +1185,8 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     case NVME_CMD_WRITE:
-     case NVME_CMD_READ:
-         return nvme_rw(n, req);
-+    case NVME_CMD_DSM:
-+        return nvme_dsm(n, req);
-     default:
-         trace_pci_nvme_err_invalid_opc(req->cmd.opcode);
-         return NVME_INVALID_OPCODE | NVME_DNR;
-@@ -2813,7 +2912,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->cqes = (0x4 << 4) | 0x4;
-     id->nn = cpu_to_le32(n->num_namespaces);
-     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
--                           NVME_ONCS_FEATURES);
-+                           NVME_ONCS_FEATURES | NVME_ONCS_DSM);
- 
-     id->vwc = 0x1;
-     id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
--- 
-2.28.0
+Are we in a different thread context here that we don't need that same
+iothread locking?
+
+
+> +    trace_vfio_save_cleanup(vbasedev->name);
+> +}
+> +
+> +static SaveVMHandlers savevm_vfio_handlers = {
+> +    .save_setup = vfio_save_setup,
+> +    .save_cleanup = vfio_save_cleanup,
+> +};
+> +
+> +/* ---------------------------------------------------------------------- */
+> +
+>  static void vfio_vmstate_change(void *opaque, int running, RunState state)
+>  {
+>      VFIODevice *vbasedev = opaque;
+> @@ -219,6 +301,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>      int ret;
+>      Object *obj;
+>      VFIOMigration *migration;
+> +    char id[256] = "";
+> +    g_autofree char *path = NULL, *oid;
+
+
+AIUI, oid must also be initialized as a g_autofree variable.
+
+>  
+>      if (!vbasedev->ops->vfio_get_object) {
+>          return -EINVAL;
+> @@ -248,6 +332,18 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>  
+>      vbasedev->migration = migration;
+>      migration->vbasedev = vbasedev;
+> +
+> +    oid = vmstate_if_get_id(VMSTATE_IF(DEVICE(obj)));
+> +    if (oid) {
+> +        path = g_strdup_printf("%s/vfio", oid);
+> +    } else {
+> +        path = g_strdup("vfio");
+
+
+If we get here then all vfio devices have the same id string.  Isn't
+that a problem?  Thanks,
+
+Alex
+
+
+> +    }
+> +    strpadcpy(id, sizeof(id), path, '\0');
+> +
+> +    register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1, &savevm_vfio_handlers,
+> +                         vbasedev);
+> +
+>      migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+>                                                            vbasedev);
+>      migration->migration_state.notify = vfio_migration_state_notifier;
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 78d7d83b5ef8..f148b5e828c1 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -151,3 +151,5 @@ vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
+>  vfio_migration_set_state(const char *name, uint32_t state) " (%s) state %d"
+>  vfio_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
+>  vfio_migration_state_notifier(const char *name, const char *state) " (%s) state %s"
+> +vfio_save_setup(const char *name) " (%s)"
+> +vfio_save_cleanup(const char *name) " (%s)"
 
 
