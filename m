@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6968729570F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 06:19:06 +0200 (CEST)
-Received: from localhost ([::1]:36864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79ECC295713
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 06:22:38 +0200 (CEST)
+Received: from localhost ([::1]:42706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVS49-0004jh-Ff
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 00:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49882)
+	id 1kVS7Z-0007NY-Iu
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 00:22:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kVS2v-0003DJ-HR; Thu, 22 Oct 2020 00:17:50 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37453 helo=ozlabs.org)
+ id 1kVS2v-0003DK-HR; Thu, 22 Oct 2020 00:17:50 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37019 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kVS2s-0000Ed-Hd; Thu, 22 Oct 2020 00:17:48 -0400
+ id 1kVS2s-0000Ec-Ax; Thu, 22 Oct 2020 00:17:49 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CGvGP3HNfz9sVK; Thu, 22 Oct 2020 15:17:33 +1100 (AEDT)
+ id 4CGvGP4BtTz9sVL; Thu, 22 Oct 2020 15:17:33 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1603340253;
- bh=THEf6+olDZKx0/d/9mnlKgZDwqVHlqPAqh43xMoN+rU=;
+ bh=f0lrXbEkm7W9rbLNzXhHJpsktJtewaAbnFC2o15VGS0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S40iZZnPB2uX0WPd/YvbBNoV4GdnlFW+wAuES+Fc6GeYpCLiWvivOjvHC4rlzMVsD
- aVuxHpOchPUTgw7HXlmmGHgadL+w7ST6PoxVWR7055k1oPDKpC6446brGQht/TgRAk
- aZoc0IgNbzLtth1FcleGE3QNTTqq1GRkn9b2/7ls=
-Date: Thu, 22 Oct 2020 15:08:17 +1100
+ b=aHSmVIfSsYmpGePhTaeh37Q5FkR6bLQAVaxt05qXk1LL1spc1gDMjG+pprGeI7H12
+ hJR1lDTsDT5vjeqsHOeA8mf2SCV3kr16P3okcYuBqgmeKKPzLAJgPMvo7OM+a7uySJ
+ qxQEWJA5gy9BdiZkUT2zfMSkz/VyD2DOFnhBhPbo=
+Date: Thu, 22 Oct 2020 15:11:42 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 3/5] spapr: Use appropriate getter for PC_DIMM_SLOT_PROP
-Message-ID: <20201022040817.GF1821515@yekko.fritz.box>
+Subject: Re: [PATCH 0/5] spapr: Error handling fixes and cleanups (round 3)
+Message-ID: <20201022041142.GG1821515@yekko.fritz.box>
 References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
- <160309730758.2739814.15821922745424652642.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1Y7d0dPL928TPQbc"
+ protocol="application/pgp-signature"; boundary="VACxsDaSTfeluoxK"
 Content-Disposition: inline
-In-Reply-To: <160309730758.2739814.15821922745424652642.stgit@bahia.lan>
+In-Reply-To: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -71,65 +70,67 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---1Y7d0dPL928TPQbc
+--VACxsDaSTfeluoxK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 19, 2020 at 10:48:27AM +0200, Greg Kurz wrote:
-> The PC_DIMM_SLOT_PROP property is defined as:
+On Mon, Oct 19, 2020 at 10:47:52AM +0200, Greg Kurz wrote:
+> Hi,
 >=20
->     DEFINE_PROP_INT32(PC_DIMM_SLOT_PROP, PCDIMMDevice, slot,
->                       PC_DIMM_UNASSIGNED_SLOT),
+> This is a followup to a previous cleanup for the sPAPR code:
 >=20
-> Use object_property_get_int() instead of object_property_get_uint().
-> Since spapr_memory_plug() only gets called if pc_dimm_pre_plug()
-> succeeded, we expect to have a valid >=3D 0 slot number, either because
-> the user passed a valid slot number or because pc_dimm_get_free_slot()
-> picked one up for us.
+> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg04860.html
 >=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> The last two patches had to be dropped because they were wrongly assuming
+> that object_property_get_uint() returning zero meant failure. This led to
+> a discussion in which arose a consensus that most of the time (not to say
+> always) object property getters should never fail actually, ie. failure
+> is very likely the result of a programming error and QEMU should abort.
+>=20
+> This series aims at demonstrating a revelant case I've found while auditi=
+ng
+> object property getters (this is patch 4 that I've isolated from a huge
+> 50-patch series I haven't dared to post yet). The sPAPR memory hotplug co=
+de
+> is tailored to support either regular PC DIMMs or NVDIMMs, which inherit
+> from PC DIMMs. They expect to get some properties from the DIMM object,
+> which happens to be set by default at the PC DIMM class level. It thus
+> doesn't make sense to pass an error object and propagate it when getting
+> them since this would lure the user into thinking they did something wron=
+g.
+>=20
+> Some preliminary cleanup is done on the way, especially dropping an unused
+> @errp argument of pc_dimm_plug(). This affects several platforms other th=
+an
+> sPAPR but I guess the patch is trivial enough to go through David's tree
+> if it gets acks from the relevant maintainers.
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Since this series mostly affects ppc, I've applied it to ppc-for-5.2.
 
+It would be nice to have an acked-by from Igor or Michael for the
+first patch, though.
+
+>=20
 > ---
->  hw/ppc/spapr.c |    9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 115fc52e3b06..1b173861152f 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3433,7 +3433,8 @@ static void spapr_memory_plug(HotplugHandler *hotpl=
-ug_dev, DeviceState *dev,
->      Error *local_err =3D NULL;
->      SpaprMachineState *ms =3D SPAPR_MACHINE(hotplug_dev);
->      PCDIMMDevice *dimm =3D PC_DIMM(dev);
-> -    uint64_t size, addr, slot;
-> +    uint64_t size, addr;
-> +    int64_t slot;
->      bool is_nvdimm =3D object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
-> =20
->      size =3D memory_device_get_region_size(MEMORY_DEVICE(dev), &error_ab=
-ort);
-> @@ -3450,11 +3451,13 @@ static void spapr_memory_plug(HotplugHandler *hot=
-plug_dev, DeviceState *dev,
->                         spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT),
->                         &local_err);
->      } else {
-> -        slot =3D object_property_get_uint(OBJECT(dimm),
-> -                                        PC_DIMM_SLOT_PROP, &local_err);
-> +        slot =3D object_property_get_int(OBJECT(dimm),
-> +                                       PC_DIMM_SLOT_PROP, &local_err);
->          if (local_err) {
->              goto out_unplug;
->          }
-> +        /* We should have valid slot number at this point */
-> +        g_assert(slot >=3D 0);
->          spapr_add_nvdimm(dev, slot, &local_err);
->      }
-> =20
+> Greg Kurz (5):
+>       pc-dimm: Drop @errp argument of pc_dimm_plug()
+>       spapr: Use appropriate getter for PC_DIMM_ADDR_PROP
+>       spapr: Use appropriate getter for PC_DIMM_SLOT_PROP
+>       spapr: Pass &error_abort when getting some PC DIMM properties
+>       spapr: Simplify error handling in spapr_memory_plug()
 >=20
+>=20
+>  hw/arm/virt.c                 |    9 +-------
+>  hw/i386/pc.c                  |    8 +------
+>  hw/mem/pc-dimm.c              |    2 +-
+>  hw/ppc/spapr.c                |   48 +++++++++++++++--------------------=
+------
+>  hw/ppc/spapr_nvdimm.c         |    5 +++-
+>  include/hw/mem/pc-dimm.h      |    2 +-
+>  include/hw/ppc/spapr_nvdimm.h |    2 +-
+>  7 files changed, 25 insertions(+), 51 deletions(-)
 >=20
 
 --=20
@@ -138,25 +139,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---1Y7d0dPL928TPQbc
+--VACxsDaSTfeluoxK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+RBbEACgkQbDjKyiDZ
-s5IovBAAnXemXa+W3qx7H/MIW/15BmyQChWxgl+XdQVWwQpPP9RdvMLYjpNa8unI
-m/seKNHBURH7xV0LDboE+XjrvougeLAIG4inY+2lnSj6I0K/PP4GgQh4TGZz5yD9
-GfwABbyoeC6E5H7HE+cu5Guw6jtD6KbNUJQ2hC9ltWmH4FapDWlu0K+ykzPxXvMh
-H4Qfy/lCbH9hsQk+6elAUScZio37SmXsxbWo9sU+s9IkzZZxTifiUDS1xLOYWEvU
-ERMnckIAmXYbTqy/6CClVOT1Xl3E2ynU3kDZBpDYVttQ1sewl/YfENwPqmdW42Pj
-W0V7uPtwsFg1x8qMSnrldnk+UYzF79JpxYR1iKRzlPvw3wHZ/4Cl37zJBuPEcYI2
-QS71E9MZzGg7KCq97ShhCExTmKXCN5Qmf3DTJjvO2ZGSUsX5vos8dKSPHXJBwOj3
-hrz30OkXJsGt6BP1YbBtO7noJOGvh/pwJCdaR2kR8HSOwEssbo75EYRrHuM2qXyN
-C8Vjo0NiEWTiThNLUYgENTOBDOISRUDt5LRMy96WjbRSgUDrRZJmpRF9Lc1pSXIw
-JHxYK5E0Z6YmlfZ5pxUFMk0LJ5vE/3J8UJkWULWaxdxwozxKaAzCi6XWzBNlbbV/
-Q7ligCeQ7rPvL6px1O69+8ZN29Scb+MrMcTufd1aX4ezB+iVsRk=
-=MQdP
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+RBn4ACgkQbDjKyiDZ
+s5LNzRAAqZbv1akSrktSILJwjJrS6/IPo8nINXXyMKVPKpBcE2m4qg6PyyEY7w98
+8qft/j8DGIhio4d1TmYRqKlrG0JFQTCKKc959oIgo3T9lX9cRLTjfmKGOeJYo/uD
+Gv1PHs5EfEH6qG05un/3SaPU8UEcfzH1r0IMREJMy1xoAQkU6277BZVB/UVf1dzS
+/Fj9Lg8Puy58qlhf0wtlLtXoIW/p88sREjbmDe3accgPdyVmRHp/uLZ/W+Zssah3
+Ps4wmIgWKEcCPF7IPULz69w8qdossVRY4URRFnu6fpD4+tbG2lWCnTKyai3BEpu3
+AAMgTDrSdfAjT3HRimBLtCjWApERCjSDs4QU90Iz3SlE5GMp+1mvGu+8adW+VloT
+eGx5mURQNqNUYK1T68A4UtgJXZrJvUUv1gC86AUg9MWaq6vpxXIbNe/qfecYhELP
+srJgWxob04iHAwrdJhhXV5oW5MZZpEmrk+5d1bBDwfpQ/bADNbcnDk0DlZLSA5YL
+S+sOsSOJ26Xkj8vxmPxQX1XKsjiv66Un7uWerolsegNcdjrUyTLAvL0AbAmeyXD2
+3FSYN2Ypicc1nnDjPcTjwLq4HsbUILQKyisVk+ZkWq1AEpQQ0s9QapSYNgQgAjPh
+Uf9ek0jtJk4TJv515rYnVLQQtsgzFrNTCoOgMyluJJUSh4QgJm0=
+=Jk27
 -----END PGP SIGNATURE-----
 
---1Y7d0dPL928TPQbc--
+--VACxsDaSTfeluoxK--
 
