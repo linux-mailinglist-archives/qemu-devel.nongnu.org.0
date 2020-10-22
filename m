@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1A429675A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 00:35:05 +0200 (CEST)
-Received: from localhost ([::1]:52522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967A8296759
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 00:35:03 +0200 (CEST)
+Received: from localhost ([::1]:52268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVjAm-0007lt-M6
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 18:35:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45058)
+	id 1kVjAk-0007fU-LY
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 18:35:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kVj7l-0006IL-Qf
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:31:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31092)
+ id 1kVj7p-0006Ji-08
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:32:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kVj7f-0007qP-5w
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:31:56 -0400
+ id 1kVj7l-0007qj-6R
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:32:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603405909;
+ s=mimecast20190719; t=1603405913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xY3o6hMFppe8hIPTgdlOJeSrzqaRxIHBYgm6a9ByaaY=;
- b=Z/vikHREWOh2JCLTUc/2Naw2uUdklol0oOOmdnc//TwwTeLK9r63Psjy0pnEpOSf/Utc7c
- MzXt1oaG0T7jy6Ho8lJ6rsfzHHZDv4u67cjsCogDFdGHRi6jO2pkO+hntOtD56HTZSaQHN
- trsdfktcIEwt8oFWbcv+sHOoVxuU7JY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DbvZDt2YjT+OqOP+SYWN4gNFNx/iigt/9Fry3BpCckE=;
+ b=Gk+60wrQo7Xu9/VLFHvEodh/3tVRBzws7MbrRptEEtUwhXad55SDvjIqGdsSYpDmtbYSzr
+ NmNAOVolKvadVuE+pJmmZMuDJ2T7Lr1sZ+uFNsZrXg6wohtxvsCNxGVGD7aMxiS31oDyLS
+ wMSSwtCASpeKoJ+xNe6rPWfWh1QEJZc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-qNRMkNEANLqxQniVJtF8TA-1; Thu, 22 Oct 2020 18:31:46 -0400
-X-MC-Unique: qNRMkNEANLqxQniVJtF8TA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-518-m8O5ulxoO92EE6qiO8qzhg-1; Thu, 22 Oct 2020 18:31:51 -0400
+X-MC-Unique: m8O5ulxoO92EE6qiO8qzhg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45CE6800050;
- Thu, 22 Oct 2020 22:31:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D393800050;
+ Thu, 22 Oct 2020 22:31:50 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58E02196F3;
- Thu, 22 Oct 2020 22:31:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C1B76266E;
+ Thu, 22 Oct 2020 22:31:45 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] qom: Introduce object*_property_add_bool_ptr() functions
-Date: Thu, 22 Oct 2020 18:31:36 -0400
-Message-Id: <20201022223140.2083123-1-ehabkost@redhat.com>
+Subject: [PATCH 1/4] qom: object*_property_add_bool_ptr() functions
+Date: Thu, 22 Oct 2020 18:31:37 -0400
+Message-Id: <20201022223140.2083123-2-ehabkost@redhat.com>
+In-Reply-To: <20201022223140.2083123-1-ehabkost@redhat.com>
+References: <20201022223140.2083123-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:33:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:09:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,39 +88,98 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: 20201009160122.1662082-1-ehabkost@redhat.com=0D
-Git branch: https://github.com/ehabkost/qemu work/qom-bool-ptr-prop=0D
-=0D
-This series introduces a helper to make it easier to register=0D
-simple boolan QOM properties.  It will be useful for simplifying=0D
-existing property code in some types that can't use=0D
-QDEV_PROP_BOOL yet (because they are not TYPE_DEVICE subtypes).=0D
-As examples, some TYPE_MACHINE and TYPE_QAUTHZ_LIST_FILE=0D
-properties are converted to use the new functions.=0D
-=0D
-This depends on the QOM property code cleanup that was also=0D
-submitted as part of:=0D
-=0D
-  https://lore.kernel.org/qemu-devel/20201009160122.1662082-1-ehabkost@redh=
-at.com=0D
-  Subject: [PATCH 00/12] qom: Make all -object types use only class propert=
-ies<=0D
-=0D
-Eduardo Habkost (4):=0D
-  qom: object*_property_add_bool_ptr() functions=0D
-  autz/listfile: Use object_class_property_add_bool_ptr()=0D
-  machine: Use object_class_property_add_bool_ptr() when possible=0D
-  pc: Use object_class_property_add_bool_ptr()=0D
-=0D
- include/qom/object.h | 23 +++++++++++++=0D
- authz/listfile.c     | 27 ++-------------=0D
- hw/core/machine.c    | 78 ++++++++------------------------------------=0D
- hw/i386/pc.c         | 57 +++++---------------------------=0D
- qom/object.c         | 31 ++++++++++++++++++=0D
- 5 files changed, 79 insertions(+), 137 deletions(-)=0D
-=0D
---=20=0D
-2.28.0=0D
-=0D
+Provide helpers for registering boolean properties that simply
+read/write a struct field, to reduce the need to manually write
+property getters and setters.
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org
+---
+ include/qom/object.h | 23 +++++++++++++++++++++++
+ qom/object.c         | 31 +++++++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+
+diff --git a/include/qom/object.h b/include/qom/object.h
+index a124cf897d..954a26c567 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1815,6 +1815,29 @@ ObjectProperty *object_class_property_add_uint64_ptr(ObjectClass *klass,
+                                           ptrdiff_t offset,
+                                           ObjectPropertyFlags flags);
+ 
++/**
++ * object_property_add_bool_ptr:
++ * @obj: the object to add a property to
++ * @name: the name of the property
++ * @v: pointer to value
++ * @flags: bitwise-or'd ObjectPropertyFlags
++ *
++ * Add an bool property in memory.  This function will add a
++ * property of type 'bool'.
++ *
++ * Returns: The newly added property on success, or %NULL on failure.
++ */
++ObjectProperty *
++object_property_add_bool_ptr(Object *obj, const char *name,
++                             bool *v,
++                             ObjectPropertyFlags flags);
++
++ObjectProperty *
++object_class_property_add_bool_ptr(ObjectClass *klass,
++                                   const char *name,
++                                   ptrdiff_t offset,
++                                   ObjectPropertyFlags flags);
++
+ /**
+  * object_property_add_alias:
+  * @obj: the object to add a property to
+diff --git a/qom/object.c b/qom/object.c
+index 73f27b8b7e..2abc2bda33 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -2713,6 +2713,37 @@ object_class_property_add_uint64_ptr(ObjectClass *klass, const char *name,
+                                               flags, offset);
+ }
+ 
++static void property_visit_bool_ptr(Object *obj, Visitor *v, const char *name,
++                                    void *opaque, Error **errp)
++{
++    PointerProperty *prop = opaque;
++    bool *field = pointer_property_get_ptr(obj, prop);
++    visit_type_bool(v, name, field, errp);
++}
++
++ObjectProperty *
++object_property_add_bool_ptr(Object *obj, const char *name,
++                             bool *v,
++                             ObjectPropertyFlags flags)
++{
++    return object_property_add_uint_ptr(obj, name, "bool",
++                                        property_visit_bool_ptr,
++                                        property_visit_bool_ptr,
++                                        flags,
++                                        (void *)v);
++}
++
++ObjectProperty *
++object_class_property_add_bool_ptr(ObjectClass *klass, const char *name,
++                                   ptrdiff_t offset,
++                                   ObjectPropertyFlags flags)
++{
++    return object_class_property_add_uint_ptr(klass, name, "bool",
++                                              property_visit_bool_ptr,
++                                              property_visit_bool_ptr,
++                                              flags, offset);
++}
++
+ typedef struct {
+     Object *target_obj;
+     char *target_name;
+-- 
+2.28.0
 
 
