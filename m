@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC0F296133
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 16:54:04 +0200 (CEST)
-Received: from localhost ([::1]:45278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E13CA29614F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 16:59:19 +0200 (CEST)
+Received: from localhost ([::1]:53568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVbya-0006vl-EV
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 10:54:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
+	id 1kVc3j-0002AN-1N
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 10:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVbwN-0004fW-8j
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 10:51:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55587)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kVbxa-00060n-Q4
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 10:52:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kVbwG-0006uE-R4
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 10:51:41 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kVbxX-00072t-Sw
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 10:52:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603378295;
+ s=mimecast20190719; t=1603378374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zLtAiCYFDHw50n3cD7Vg+88kzvzZQn9iSghMW8kTIAk=;
- b=Xfc8H4zwhNr6sDfHzaL8VpQ0Oebdzbfj2c/weyOK0O/nKUZNdUq3mHScmXSVgv/YwlGfkq
- 1L4ZxS+TrX7kqCwm9mFg1ERvdit0AkfsVKKV9yHsACr1OTjEHwQw7qT7Fh0rF1EfnIZvs5
- HCq0b5mpnrLIPp9KbtEnurODWutdz8A=
+ bh=LZacxOFxCwwy1lOIHBoHctijbhS8us2FglirGZtkW7E=;
+ b=YDcTBJoeNfcwdzue07ElbcXHCkL4qW3HFomi1EnFB25hIuMXWu4uVjKgQvEm+2Mab/aAmk
+ QJB34gzkVD0avBgwyzJqWbalqaVEBq0kKJiysYGAP3yHKnpNTGCqYBTOekbpopYELogRyO
+ Is0E8wzwdPoleJ1mK9+t/wI622DhdgA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-i-mE_adQN7WJ_h7TFNV_BA-1; Thu, 22 Oct 2020 10:51:31 -0400
-X-MC-Unique: i-mE_adQN7WJ_h7TFNV_BA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-402-FNZFGLg6MBybq0Cx93TX5A-1; Thu, 22 Oct 2020 10:52:53 -0400
+X-MC-Unique: FNZFGLg6MBybq0Cx93TX5A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AEB7801817;
- Thu, 22 Oct 2020 14:51:30 +0000 (UTC)
-Received: from [10.10.119.13] (ovpn-119-13.rdu2.redhat.com [10.10.119.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E11FE19C4F;
- Thu, 22 Oct 2020 14:51:29 +0000 (UTC)
-Subject: Re: [PATCH 00/25] qapi: static typing conversion, pt6
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200922224501.4087749-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <c2fb9926-4fd5-5419-934f-90c355ca9203@redhat.com>
-Date: Thu, 22 Oct 2020 10:51:29 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CC821882FB6
+ for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 14:52:52 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-67.rdu2.redhat.com [10.10.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8DD8F1002388;
+ Thu, 22 Oct 2020 14:52:43 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id D6033222F9C; Thu, 22 Oct 2020 10:52:42 -0400 (EDT)
+Date: Thu, 22 Oct 2020 10:52:42 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 1/5] tools/virtiofsd: xattr name mappings: Add option
+Message-ID: <20201022145242.GB512900@redhat.com>
+References: <20201014180209.49299-1-dgilbert@redhat.com>
+ <20201014180209.49299-2-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200922224501.4087749-1-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20201014180209.49299-2-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:33:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 08:09:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,75 +80,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: dinechin@redhat.com, virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/20 6:44 PM, John Snow wrote:
-> based-on: <20200922223525.4085762-1-jsnow@redhat.com>
->            [PATCH 00/26] qapi: static typing conversion, pt5
-> 
-> Hi, this series adds static type hints to the QAPI module.
-> This is the final part, part six!
-> 
-> Part 6 (Everything):
->      https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6
-> 
+On Wed, Oct 14, 2020 at 07:02:05PM +0100, Dr. David Alan Gilbert (git) wrote:
 
-Note: I have rebased and updated the pt6 branch. I am currently working 
-on respinning pt2, which now contains the introspect.py patches that 
-were formerly in pt1.
+[..]
+> +/*
+> + * Exit; process attribute unmodified if matched.
+> + * An empty key applies to all.
+> + */
+> +#define XATTR_MAP_FLAG_END_OK  (1 <<  0)
+> +/*
+> + * The attribute is unwanted;
+> + * EPERM on write hidden on read.
+> + */
+> +#define XATTR_MAP_FLAG_END_BAD (1 <<  1)
+> +/*
+> + * For attr that start with 'key' prepend 'prepend'
+> + * 'key' maybe empty to prepend for all attrs
+> + * key is defined from set/remove point of view.
+> + * Automatically reversed on read
+> + */
+> +#define XATTR_MAP_FLAG_PREFIX  (1 <<  2)
+> +/* Apply rule to get/set/remove */
+> +#define XATTR_MAP_FLAG_CLIENT  (1 << 16)
+> +/* Apply rule to list */
+> +#define XATTR_MAP_FLAG_SERVER  (1 << 17)
+> +/* Apply rule to all */
+> +#define XATTR_MAP_FLAG_ALL   (XATTR_MAP_FLAG_SERVER | XATTR_MAP_FLAG_CLIENT)
+> +
+> +/* Last rule in the XATTR_MAP */
+> +#define XATTR_MAP_FLAG_LAST    (1 << 30)
 
-Thanks,
---js
+I see that you are using bit positions for flags. Not clear why you
+used bit 0,1,2 and then jumped to 16,17 and then to 30. May be you
+are doing some sort of reservation of bits. Will be nice to explain
+that a bit so that next person modifying it can use bits from
+correct pool.
 
-> - Requires Python 3.6+
-> - Requires mypy 0.770 or newer (for type analysis only)
-> - Requires pylint 2.6.0 or newer (for lint checking only)
-> 
-> This part of the series focuses on schema.py.
-> 
-> Type hints are added in patches that add *only* type hints and change no
-> other behavior. Any necessary changes to behavior to accommodate typing
-> are split out into their own tiny patches.
-> 
-> Every commit should pass with:
->   - flake8 qapi/
->   - pylint --rcfile=qapi/pylintrc qapi/
->   - mypy --config-file=qapi/mypy.ini qapi/
-> 
-> John Snow (25):
->    qapi/schema: add Visitable mixin
->    qapi/schema.py: Move meta-type into class instances
->    qapi/schema.py: add assert in stub methods
->    qapi/schema.py: constrain QAPISchemaObjectType base type
->    qapi/schema.py: constrain QAPISchemaObjectTypeMember arg_type type
->    qapi/schema.py: constrain QAPISchemaEvent arg_type type
->    qapi/schema.py: constrain tag_member type
->    qapi/schema.py: Allow alternate_type to assert
->    qapi/schema.py: remove superfluous assert
->    qapi/schema.py: Add assertion to ifcond property
->    qapi/schema.py: Constrain type of QAPISchemaObjectType members field
->    qapi/schema.py: remove 'and' from non-bool rvalue expressions
->    qapi/schema.py: Test type of self.ret_type instead of local temp
->    qapi/schema.py: Assert variants of an object are also objects
->    qapi/schema.py: add type hint annotations
->    qapi/schema.py: enable checking
->    qapi: Disable similarity checks in pylint entirely
->    qapi/schema.py: Add pylint warning suppressions
->    qapi/schema.py: Convert several methods to classmethods
->    qapi/schema.py: Replace one-letter variable names
->    qapi/schema.py: disable pylint line limit
->    qapi/schema.py: Ignore unused argument for check()
->    qapi/schema.py: enable pylint checks
->    qapi/schema.py: Add module docstring
->    qapi/schema.py: Use python3 style super()
-> 
->   scripts/qapi/mypy.ini  |   6 -
->   scripts/qapi/pylintrc  |   6 +-
->   scripts/qapi/schema.py | 848 +++++++++++++++++++++++++++--------------
->   3 files changed, 557 insertions(+), 303 deletions(-)
-> 
+> +
+> +static XattrMapEntry *add_xattrmap_entry(XattrMapEntry *orig_map,
+> +                                         size_t *nentries,
+> +                                         const XattrMapEntry *new_entry)
+> +{
+> +    XattrMapEntry *res = g_realloc_n(orig_map, ++*nentries,
+> +                                     sizeof(XattrMapEntry));
+> +    res[*nentries - 1] = *new_entry;
+> +
+> +    return res;
+> +}
+> +
+> +static void free_xattrmap(XattrMapEntry *map)
+> +{
+> +    XattrMapEntry *curr = map;
+> +
+> +    if (!map) {
+> +        return;
+> +    };
+
+; after } is not needed.
+
+> +
+> +    do {
+> +        g_free(curr->key);
+> +        g_free(curr->prepend);
+> +    } while (!(curr++->flags & XATTR_MAP_FLAG_LAST));
+> +
+> +    g_free(map);
+> +}
+> +
+> +static XattrMapEntry *parse_xattrmap(struct lo_data *lo)
+> +{
+> +    XattrMapEntry *res = NULL;
+> +    XattrMapEntry tmp_entry;
+> +    size_t nentries = 0;
+
+If you are calculating number of entries (nentries), may be this could
+be stored in lo_data so that can be later used to free entries or loop
+through rules etc.
+
+> +    const char *map = lo->xattrmap;
+> +    const char *tmp;
+> +
+> +    while (*map) {
+> +        char sep;
+> +
+> +        if (isspace(*map)) {
+> +            map++;
+> +            continue;
+> +        }
+> +        /* The separator is the first non-space of the rule */
+> +        sep = *map++;
+> +        if (!sep) {
+> +            break;
+> +        }
+
+When can sep be NULL? In that case while loop will not even continue.
+
+> +
+> +        /* Start of 'type' */
+> +        if (strstart(map, "prefix", &map)) {
+> +            tmp_entry.flags |= XATTR_MAP_FLAG_PREFIX;
+> +        } else if (strstart(map, "ok", &map)) {
+> +            tmp_entry.flags |= XATTR_MAP_FLAG_END_OK;
+> +        } else if (strstart(map, "bad", &map)) {
+> +            tmp_entry.flags |= XATTR_MAP_FLAG_END_BAD;
+> +        } else {
+> +            fuse_log(FUSE_LOG_ERR,
+> +                     "%s: Unexpected type;"
+> +                     "Expecting 'prefix', 'ok', or 'bad' in rule %zu\n",
+> +                     __func__, nentries);
+> +            exit(1);
+> +        }
+> +
+> +        if (*map++ != sep) {
+> +            fuse_log(FUSE_LOG_ERR,
+> +                     "%s: Missing '%c' at end of type field of rule %zu\n",
+> +                     __func__, sep, nentries);
+> +            exit(1);
+> +        }
+> +
+> +        /* Start of 'scope' */
+> +        if (strstart(map, "client", &map)) {
+> +            tmp_entry.flags |= XATTR_MAP_FLAG_CLIENT;
+> +        } else if (strstart(map, "server", &map)) {
+> +            tmp_entry.flags |= XATTR_MAP_FLAG_SERVER;
+> +        } else if (strstart(map, "all", &map)) {
+> +            tmp_entry.flags |= XATTR_MAP_FLAG_ALL;
+> +        } else {
+> +            fuse_log(FUSE_LOG_ERR,
+> +                     "%s: Unexpected scope;"
+> +                     " Expecting 'client', 'server', or 'all', in rule %zu\n",
+> +                     __func__, nentries);
+> +            exit(1);
+> +        }
+> +
+> +        if (*map++ != sep) {
+> +            fuse_log(FUSE_LOG_ERR,
+> +                     "%s: Expecting '%c' found '%c'"
+> +                     " after scope in rule %zu\n",
+> +                     __func__, sep, *map, nentries);
+> +            exit(1);
+> +        }
+> +
+> +        /* At start of 'key' field */
+> +        tmp = strchr(map, sep);
+> +        if (!tmp) {
+> +            fuse_log(FUSE_LOG_ERR,
+> +                     "%s: Missing '%c' at end of key field of rule %zu",
+> +                     __func__, sep, nentries);
+> +            exit(1);
+> +        }
+> +        tmp_entry.key = g_strndup(map, tmp - map);
+> +        map = tmp + 1;
+> +
+> +        /* At start of 'prepend' field */
+> +        tmp = strchr(map, sep);
+> +        if (!tmp) {
+> +            fuse_log(FUSE_LOG_ERR,
+> +                     "%s: Missing '%c' at end of prepend field of rule %zu",
+> +                     __func__, sep, nentries);
+> +            exit(1);
+> +        }
+> +        tmp_entry.prepend = g_strndup(map, tmp - map);
+> +        map = tmp + 1;
+> +
+> +        lo->xattr_map_list = add_xattrmap_entry(lo->xattr_map_list, &nentries,
+> +                                                &tmp_entry);
+> +        /* End of rule - go around again for another rule */
+> +    }
+> +
+> +    if (!nentries) {
+> +        fuse_log(FUSE_LOG_ERR, "Empty xattr map\n");
+> +        exit(1);
+> +    }
+> +
+> +    /* Add a terminator to error in cases the user hasn't specified */
+> +    tmp_entry.flags = XATTR_MAP_FLAG_ALL | XATTR_MAP_FLAG_END_BAD |
+> +                      XATTR_MAP_FLAG_LAST;
+> +    tmp_entry.key = g_strdup("");
+> +    tmp_entry.prepend = g_strdup("");
+> +    lo->xattr_map_list = add_xattrmap_entry(lo->xattr_map_list, &nentries,
+> +                                            &tmp_entry);
+
+Not sure why this default rule is needed when user has not specified one.
+
+This seems to be equivalent of ":bad:all:::". Will this not block all
+the xattrs which have not been caught by previous rules. And user
+probably did not want it. 
+
+Thanks
+Vivek
 
 
