@@ -2,55 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504C3295F6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:10:52 +0200 (CEST)
-Received: from localhost ([::1]:38838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64678295FA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:19:13 +0200 (CEST)
+Received: from localhost ([::1]:56642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVaMl-0004l4-Cg
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:10:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58688)
+	id 1kVaUq-00045z-GP
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:19:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kVaLF-00031o-Hw
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:09:17 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:38963)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kVaPG-00085q-1m
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:13:27 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:58782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kVaLD-0001WP-95
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:09:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=MWUHg3jkjck8QMMoh3MU2EGpI3cw2pWWMdnHQXPFJ2I=; b=VkEXzPOktEqUdkl1Qbc7+vAJwB
- UxK/pz07MqKnRpOTa5fHDIfVPAnfY3DNYeW2EjKSmoh3t9ipNzvj8fkB+MT1RtvLngMjzRPUJqiD3
- EsACAaVJ+zcTCcc4ufyeUEuD+wOcGMWiZC5uD89oqi/OTusRa5daxwemkcLxXxmFobotq8oXuB5oy
- R+HDetn+/eUs1FvUXv5QYZlNzHQlP2ohdYl/OPKX2TSzH+8oBXKe6O/PlWYLD202Ct92od1loWSWe
- HbKpDtzJI2S3nFa4OBuq0EUDHWdLCGHL1DgR5YZk+kIWycKwuxlAffNmVkvTmnmepi+4u7e7/vOjO
- //pUXnOA==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 7/8] tests/9pfs: add local Tlink test
-Date: Thu, 22 Oct 2020 15:09:09 +0200
-Message-ID: <17621213.e7m4f8aTQE@silver>
-In-Reply-To: <20201022110749.15488113@bahia.lan>
-References: <cover.1603285620.git.qemu_oss@crudebyte.com>
- <5874251.7R3Ejnc4BG@silver> <20201022110749.15488113@bahia.lan>
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kVaP8-00022R-IN
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:13:23 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09MDAEJ9163449;
+ Thu, 22 Oct 2020 13:13:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=rUccZpMrHXogrCdNKE9nh8zuo2uuBUW0Z1aY+vKPcvg=;
+ b=qYU/TZolKGdVRV0kF9zYF3by5k15MDJR9ofBbm/ubzgvnz00QFmdf9fHJ4kHrwzNZcd0
+ D/moQuPsURReyeuyiVVmHgpMNb3eKSyF6TLOatddwPLp/3yzw5+yn971uQq8I95eQurI
+ Z3/HOCyF5dNrzD6u+cCq06MHHv4WCd1i6xCUTGY2x+M2w3VWlhfWL+4X/L6bby8+dp9U
+ Z8ZVRN2v2C/Dbijsv8sog5qqC6PPazsp+nvv8Cu3eha0CEVMhkc/mrwhOxXjoJDN97AV
+ HTMj3TDVj05BlfMyX2Y+20UH9C3PL7gH4g4gbGcVRkbynETKL+w4c3W3Bd8IDsoKhgD4 Yg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 34ak16p401-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 22 Oct 2020 13:13:15 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09MDA9cZ113718;
+ Thu, 22 Oct 2020 13:13:14 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 348a6qjyj9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 22 Oct 2020 13:13:14 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09MDDCnZ029210;
+ Thu, 22 Oct 2020 13:13:12 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 22 Oct 2020 06:13:11 -0700
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id C60ED1D7B307; Thu, 22 Oct 2020 14:13:09 +0100 (IST)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Subject: Re: [PATCH v6 16/16] scripts/oss-fuzz: remove the generic-fuzz target
+In-Reply-To: <20201022130123.5bjijh5cupwujeox@mozz.bu.edu>
+References: <20201021210922.572955-1-alxndr@bu.edu>
+ <20201021210922.572955-17-alxndr@bu.edu> <m2o8ku7ghw.fsf@oracle.com>
+ <20201022130123.5bjijh5cupwujeox@mozz.bu.edu>
+Date: Thu, 22 Oct 2020 14:13:09 +0100
+Message-ID: <m2eelq76ai.fsf@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:09:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxlogscore=904
+ bulkscore=0 spamscore=0 adultscore=0 suspectscore=2 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010220089
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 mlxscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=913
+ suspectscore=2 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010220089
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=darren.kenny@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:13:17
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,80 +100,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, f4bug@amsat.org,
+ bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+ dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 22. Oktober 2020 11:07:49 CEST Greg Kurz wrote:
-> > Ok, I found the problem on the mentioned box that failed to create hard
-> > links with 9p: it is libvirt auto generating AppArmor policy rules for 9p
-> > export pathes, which libvirt generates with "rw" AA (AppArmor)
-> > permissions. Once I manually adjusted the AA rule to "rwl", creating hard
-> > links worked again.
-> > 
-> > I guess I'll send a patch for libvirt to change that. At least IMO
-> > creating
-> > hard links with 9pfs is a very basic operation and should be enabled for
-> > the respective 9p export path by default.
-> > 
-> > Actually I think it should also include "k" which means "file locking", as
-> > file locking is also a fundamental operation with 9pfs, right?
-> 
-> Well, I don't know exactly why libvirt is generating a strict AppArmor
-> policy but I'm not that surprised. If the user can _easily_ change the
-> policy to fit its needs, it's fine to have a "better safe than sorry"
-> default.
+On Thursday, 2020-10-22 at 09:01:23 -04, Alexander Bulekov wrote:
+> On 201022 1032, Darren Kenny wrote:
+>> Hi Alex,
+>> 
+>> On Wednesday, 2020-10-21 at 17:09:22 -04, Alexander Bulekov wrote:
+>> > generic-fuzz is not a standalone fuzzer - it requires some env variables
+>> > to be set. On oss-fuzz, we set these with some predefined
+>> > generic-fuzz-{...} targets, that are thin wrappers around generic-fuzz.
+>> > Remove generic-fuzz from the oss-fuzz build, so oss-fuzz does not treat
+>> > it as a standalone fuzzer.
+>> >
+>> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+>> > ---
+>> >  scripts/oss-fuzz/build.sh | 6 ++++++
+>> >  1 file changed, 6 insertions(+)
+>> >
+>> > diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+>> > index 0c3ca9e06f..37cd7f9e25 100755
+>> > --- a/scripts/oss-fuzz/build.sh
+>> > +++ b/scripts/oss-fuzz/build.sh
+>> > @@ -97,5 +97,11 @@ do
+>> 
+>
+> Hi Darren,
+>
+>> I'm presuming that the target that you're removing is being created by
+>> this line, maybe we should just specifically skip it here instead?
+>
+> Sounds good.
+>
+>> The comment below on the removal probably would still apply though.
+>> 
+>> >      cp qemu-fuzz-i386 "$DEST_DIR/qemu-fuzz-i386-target-$target"
+>> 
+>> Also, did you look into using hard-links, or even sym-links - they would
+>> require less duplication of the binaries, which may be important, or may
+>> not, and quicker creation too, e.g.
+>> 
+>>       ln qemu-fuzz-i386 "$DEST_DIR/qemu-fuzz-i386-target-$target"
+>
+> This is what I tried, when I was putting together the patch-series, and
+> it raised an error when I was testing it in the oss-fuzz
+> docker-containers. I blamed it on Docker, originally, but I just took a
+> closer look, and the problem was that "qemu-fuzz-i386" isn't on the same
+> file-system as $DEST_DIR in the oss-fuzz Docker. If I copy
+> qemu-fuzz-i386 to $DEST_DIR/lib, and do 
+>     ln "$DEST_DIR/lib/qemu-fuzz-i386" \
+>        "$DEST_DIR/qemu-fuzz-i386-target-$target"
+> everything works :)
 
-Alone identifying the root cause of this is not that easy I would say. And if
-it takes me quite some time to find it, then I imagine that other people would
-struggle with this even more.
+Fair enough then!
 
-A large portion of software, even scripts, rely on being able to create hard
-links and locking files. Right now they typically error out on guest with no
-helpful error message.
+Thanks,
 
-So you start looking into the logs, don't find something obvious, then strace
-on guest side to find the most relevant failing syscall on guest side and see
-it was probably link(). Then you have to check several security layers: file
-permissions on guest, file permissions on host, effective UID of qemu process.
-You try creating hard links directly on host with that UID, works. Next you
-check is it qemu's seccomp? Is it host's SELinux? Is it AppArmor?
+Darren.
 
-Even for an experienced sysadmin I doubt it'll be a matter of minutes to
-resolve this issue. Now imagine a regular user who just wants to sandbox
-something on a workstation.
-
-Looking at libvirt git log, it seems this security policy exists more or less
-since day one (SHA-1 29ea8a9b64aac60251d283f74d57690e4edb5a6b, Mar 9 2014).
-And I don't see an explanation that would suggest a specific reason for
-exactly "rw".
-
-I think something has to be improved here, so I'll challenge by sending a
-simple libvirt patch, CCing involved authors, and seeing the feedback:
-
-diff --git a/src/security/virt-aa-helper.c b/src/security/virt-aa-helper.c
-index 12429278fb..ce243e304b 100644
---- a/src/security/virt-aa-helper.c
-+++ b/src/security/virt-aa-helper.c
-@@ -1142,7 +1142,7 @@ get_files(vahControl * ctl)
-             /* We don't need to add deny rw rules for readonly mounts,
-              * this can only lead to troubles when mounting / readonly.
-              */
--            if (vah_add_path(&buf, fs->src->path, fs->readonly ? "R" : "rw", true) != 0)
-+            if (vah_add_path(&buf, fs->src->path, fs->readonly ? "R" : "rwlk", true) != 0)
-                 goto cleanup;
-         }
-     }
-
-Even after this change, this is not a global policy. Allowing hard links and
-file locks would only be lifted for the 9p export path.
-
-There would be other options as well of course: e.g. detecting on 9pfs side
-whether AppArmor and co are enabled, and log a warning to the user a syscall
-failed for that reason. But that would be much more complicated and I wonder
-whether it would be worth it.
-
-Best regards,
-Christian Schoenebeck
-
-
+> Thanks
+> -Alex
+>
+>> 
+>> It's something that has been done for years, for example if you do:
+>> 
+>>       ls -il /sbin/{e2fsck,fsck.ext*}
+>> 
+>> you will see they share the same inode. Similarly for vi and ex, they
+>> use symlinks (hardlinks on some OSes, but seems not Linux):
+>> 
+>>       ls -il /bin/{vi,ex}
+>> 
+>> The main point is that argv[0] will be the name of link itself, not the
+>> thing pointed to.
+>> 
+>> Thanks,
+>> 
+>> Darren.
+>> 
+>> >  done
+>> >  
+>> > +# Remove the generic-fuzz target, as it requires some environment variables to
+>> > +# be configured. We have some generic-fuzz-{pc-q35, floppy, ...} targets that
+>> > +# are thin wrappers around this target that set the required environment
+>> > +# variables according to predefined configs.
+>> > +rm "$DEST_DIR/qemu-fuzz-i386-target-generic-fuzz"
+>> > +
+>> >  echo "Done. The fuzzers are located in $DEST_DIR"
+>> >  exit 0
+>> > -- 
+>> > 2.28.0
 
