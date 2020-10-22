@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13E92964D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:49:38 +0200 (CEST)
-Received: from localhost ([::1]:37786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B56252964EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:59:24 +0200 (CEST)
+Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVfeb-00056c-Tx
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54788)
+	id 1kVfo3-0000NR-LU
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kVfYo-0003Th-Ap; Thu, 22 Oct 2020 14:43:39 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:34515)
+ id 1kVff7-0005xv-4T; Thu, 22 Oct 2020 14:50:10 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:54975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kVfYk-0005mY-L6; Thu, 22 Oct 2020 14:43:37 -0400
+ id 1kVff2-0006UC-MT; Thu, 22 Oct 2020 14:50:08 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id CCCA75C00C6;
- Thu, 22 Oct 2020 14:43:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 22 Oct 2020 14:43:31 -0400
+ by mailout.nyi.internal (Postfix) with ESMTP id B62D65C013A;
+ Thu, 22 Oct 2020 14:50:03 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 22 Oct 2020 14:50:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=nbVA8FVxi7D+ac6Isya3SbmKAus
- O2gAtCXx7x5hslD4=; b=RwjjNDTuFbzmI/gzOnf4oIa/KBoPysPHbizPexlHbSV
- qMpXY2G+/6OYNlZcdUgqwlhHZB9j3msla8w0OfeQ2gi2efO+v0tshslzEbePEGDu
- 5U3NwqyZ6iSWjCOxC3x/NWI+xufGJcKmvIAygrjYUSNVuXliUYrKZf2epSFpoGMk
- qGMJ9yrJ/ltuXpnSflNfW2zqKI8PXU4qABMC741hFpzq6KH/KdaKqmW5zjbBYpyx
- HKajnD0WmUabiQEjYzJMbhQni8l5zMfIQDGwDw1AZrYSgd1O0G1x4Xbk9z79GWJ4
- eaSLhlAgNKMxz0GwU0WI6Cvaz4s4eZ994xH7mn95P6w==
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=TJn0lNJzSh+0v00CPIuPFlfQaT
+ CZSaCOmPPr1sn125w=; b=pyPwzabZngcJZ72uocBiP3ZYW/Fi4szgoBY2GaNaUE
+ OXSiyXDcA6RJRErfEBPzJJbXjQ6C+I1VlOdLiIbmPEjZb8mDMmk3gVeT/ueanLhx
+ 6x+kzzCC1yznqbCglWkO8ZUjlGxiSJblI4G4nYQd3Psn0GTrOovDWXBy83mxnJXa
+ I5BGAQXtrPLOl8FMG+rx6hpPAUumh1+4zkwd7MmG82HceqNf90sQ5IuJmTtLOae0
+ KhrSrZit+q8y5OyvBxXQ/t8JOY/3ADuqONNFPv1qHQ5I0jl+M2Hj7+qrPf7rnOw9
+ XYJEKh8eFRgXmIH8QbHVEXeVanbu6hbvqw8PG5qbusLA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=nbVA8F
- Vxi7D+ac6Isya3SbmKAusO2gAtCXx7x5hslD4=; b=j2TFUdBp4ni6rFm7xDVeSn
- Bmm88WBMAIO0qWA0/B8LapBNMAxHAUxLqxPsZmf5pP6JRxUPOJpeFtlhSo0loScZ
- 2EKNioqp46yl2fen8OsnJgUJ950uaU+gkmYMy08Ee7h3u2X2/RW+nbfuK50ADdd5
- ZWat/scl+2pz/Hfx/ILFtVShLl0/6QVC9A1t1MzeAlGdPeTP+3fP2z6wW6qW0XCY
- yu0hDKcefKnR10bG9otwJ+dFIsTu+E7Uf/nOTy8N6Mi5byudWgFYCNqsmco5xt86
- bCL6uO0z8btKt4KWWAoJigo+7GeHllktXjqXCj4tNCICU85nAgwNh11jnNU7obRw
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TJn0lN
+ JzSh+0v00CPIuPFlfQaTCZSaCOmPPr1sn125w=; b=lvpgRTTh/Nuyxuk21yzvk7
+ VyWc7iqMw7do3P74mzNWXSNSB8jeVLgZ9b6iGm19z//HSUjP6nu2+48eu19dEMvq
+ +hp/T4KcIFOWnnanVxd0C+3GBpInUNXlEBh5h6Z+GbdDHKCUwzvtKBYsPJ2JQxbx
+ OMf45Jv1+BfHaG7MMlL6QdegfWKCyb4TO9OV/rnfUofgYRH6aAuvHxHZHVsxTHC2
+ fNobY3JWm2w9nmKqdHW7aQun6Ga3fKLzem8gbsfb7mDIO2KipZogw1h+rkoOos9D
+ HRofnJRWgwP5cYcOH99GbdLCGPw12EWAhKvn+oJl3GLLBdLzvv711dbBAH+0m7iQ
  ==
-X-ME-Sender: <xms:0tKRX2oIlAf-TWsn8NcFNPwO_sLl76K3FQx_Zk2xl_Uy2ch0gFUmiw>
- <xme:0tKRX0rtRC-ek-5BZNS99-7AAnul5Kf7ULKAu4ibkt0ewA3ZVW-lS5U8d5U3zlzb4
- 9OdQQryrOfNdvVBHDE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeekgdegjecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:WtSRX9zJ0MmelrVUxgj6jczAgY696Sjlbj0lZxyEj7F1LNaGOcecNQ>
+ <xme:WtSRX9S2B6pYDmS7JsipwXdkliwCraIp6GISPIHzbUC81kDTNoqivJj4RY5KLl-G1
+ l1JBqh1gEF551CkmKw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeekgdegkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:0tKRX7PcIfFwZdx3mUnjBbUS-00mjSZcVCGghPILdaJS5wyInfVKhw>
- <xmx:0tKRX142mwv_HYIn8CUMn_57WIn7_emJ2bBZp-nrKwHqCgSGMFHtzA>
- <xmx:0tKRX15e2kINaia1G7GCZZqd4YAUdNZcUiHMNLsoYqBPYXn5uqYaeQ>
- <xmx:09KRX40d9_HJcr04YdFBivqvoHui7JesnsdVqY_Rgjq2KWy5AGH9sA>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpeehgeehueekteejuddvfeekvdduudehtdejtdetudegjeegvefhkeevtddvueffleen
+ ucffohhmrghinhepihhrrhgvlhgvvhgrnhhtrdgukhenucfkphepkedtrdduieejrdelke
+ drudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+ pehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:WtSRX3WoW65mnVmcERgaGYO8xXAYxLjmnXI8b2houbl3hs5xbhCUDA>
+ <xmx:WtSRX_hDH53JAUicEAs6W31XeGxsj-8yMfgODtl9J0AYlWxiZAmV0w>
+ <xmx:WtSRX_CERPLq15tdK3tg-1GfcJSsqGLRluvnBwJyqsJI9PcXwmhsVg>
+ <xmx:W9SRX6-9BCKeG4AabXT2bUKod48fT12p6MvGxDcjdGmlUz5p-vvIGw>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id E0BD6328005D;
- Thu, 22 Oct 2020 14:43:29 -0400 (EDT)
-Date: Thu, 22 Oct 2020 20:43:28 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2B64D3064684;
+ Thu, 22 Oct 2020 14:50:01 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v4 2/2] hw/block/nvme: add the dataset management command
-Message-ID: <20201022184328.GC209677@apples.localdomain>
-References: <20201022073313.143794-1-its@irrelevant.dk>
- <20201022073313.143794-3-its@irrelevant.dk>
- <20201022150103.GA1665151@dhcp-10-100-145-180.wdc.com>
- <20201022174333.GA209677@apples.localdomain>
- <20201022175023.GA1694294@dhcp-10-100-145-180.wdc.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/2] hw/block/nvme: dulbe and dsm support
+Date: Thu, 22 Oct 2020 20:49:57 +0200
+Message-Id: <20201022184959.240505-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.28.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WfZ7S8PLGjBY9Voh"
-Content-Disposition: inline
-In-Reply-To: <20201022175023.GA1694294@dhcp-10-100-145-180.wdc.com>
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
  helo=out5-smtp.messagingengine.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 13:43:37
@@ -99,70 +94,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
---WfZ7S8PLGjBY9Voh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Oct 22 10:50, Keith Busch wrote:
-> On Thu, Oct 22, 2020 at 07:43:33PM +0200, Klaus Jensen wrote:
-> > On Oct 22 08:01, Keith Busch wrote:
-> > > On Thu, Oct 22, 2020 at 09:33:13AM +0200, Klaus Jensen wrote:
-> > > > +        if (--(*discards)) {
-> > > > +            status =3D NVME_NO_COMPLETE;
-> > > > +        } else {
-> > > > +            g_free(discards);
-> > > > +            req->opaque =3D NULL;
-> > >=20
-> > > This case needs a
-> > >=20
-> > >             status =3D req->status;
-> > >=20
-> > > So that we get the error set in the callback.
-> > >=20
-> >=20
-> > There are no cases that result in a non-zero status code here.
->=20
-> Your callback has a case that sets NVME_INTERNAL_DEV_ERROR status. That
-> would get ignored if the final discard reference is dropped from the
-> submission side.
->=20
-
-Oh. Crap. You are right. Nice catch!
-
-> +static void nvme_aio_discard_cb(void *opaque, int ret)
-> +{
-> +    NvmeRequest *req =3D opaque;
-> +    int *discards =3D req->opaque;
-> +
-> +    trace_pci_nvme_aio_discard_cb(nvme_cid(req));
-> +
-> +    if (ret) {
-> +        req->status =3D NVME_INTERNAL_DEV_ERROR;
-> +        trace_pci_nvme_err_aio(nvme_cid(req), strerror(ret),
-> +                               req->status);
-> +    }
-
---WfZ7S8PLGjBY9Voh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+R0s4ACgkQTeGvMW1P
-DenAWwgArVP/fMR8EKwOYJU633J4aGagglNF9VDj7o9cSf+dDTogysYYPGh98p4f
-YuPc9qAn5lTkufHCbgMXFJIeJpdB+juwa7fNXO+NItU4Fs32DsScpHRC7CpSRwCs
-RRvZeNUUbSdYvqD+FlLtvoZXxbSx4ea0R6RTaehPk2LGST0hob7I5WFJhisyHyf5
-/+tuKJCW2nPfJ5F5NH5Eemk1Co2fZ0EP6Jg/WnqduTWbUyP1DAEQaXoxCGCXHEFL
-ggTWqs5zfZG30OhAa4U37R9g9EVqjVeB4qNFDuehZ58sSXXVHjOoMX88odBtiy/E
-v96iJMP1+/Hnkbk4z5bjkSVNlH5HDw==
-=Wuuy
------END PGP SIGNATURE-----
-
---WfZ7S8PLGjBY9Voh--
+This adds support for the Deallocated or Unwritten Logical Block error=0D
+recovery feature as well as the Dataset Management command.=0D
+=0D
+I wanted to add support for the NPDG and NPDA fields such that the host=0D
+could get a hint on how many blocks to request deallocation of for the=0D
+deallocation to actually happen, but I cannot find a realiable way to=0D
+get the actual block size of the underlying device. If it is an image on=0D
+a file system we could typically use the host page size, but if it is a=0D
+raw device, we might have 512 byte sectors that we can issue discards=0D
+on. And QEMU doesn't seem to provide this without root privileges at=0D
+least.=0D
+=0D
+See the two patches for some gotchas.=0D
+=0D
+I also integrated this into my zoned proposal. I'll spare you the v4, nobod=
+y=0D
+cares anyway. But I put it in my repo[1] for posterity.=0D
+=0D
+  [1]: https://irrelevant.dk/g/pci-nvme.git/tag/?h=3Dzoned-v4.=0D
+=0D
+v5:=0D
+  - Restore status code from callback (Keith)=0D
+=0D
+v4:=0D
+  - Removed mixed declaration and code (Keith)=0D
+  - Set NPDG and NPDA and account for the blockdev cluster size.=0D
+=0D
+Klaus Jensen (2):=0D
+  hw/block/nvme: add dulbe support=0D
+  hw/block/nvme: add the dataset management command=0D
+=0D
+ hw/block/nvme-ns.h    |   4 +=0D
+ hw/block/nvme.h       |   2 +=0D
+ include/block/nvme.h  |  12 ++-=0D
+ hw/block/nvme-ns.c    |  40 +++++++--=0D
+ hw/block/nvme.c       | 184 +++++++++++++++++++++++++++++++++++++++++-=0D
+ hw/block/trace-events |   4 +=0D
+ 6 files changed, 237 insertions(+), 9 deletions(-)=0D
+=0D
+-- =0D
+2.28.0=0D
+=0D
 
