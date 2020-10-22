@@ -2,60 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90870295B4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 11:03:26 +0200 (CEST)
-Received: from localhost ([::1]:53422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5AE295B6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 11:09:22 +0200 (CEST)
+Received: from localhost ([::1]:34690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVWVJ-0003fd-LF
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 05:03:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58784)
+	id 1kVWb3-0007zb-Lr
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 05:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kVWTS-0002a5-Pk
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 05:01:30 -0400
-Received: from 4.mo51.mail-out.ovh.net ([188.165.42.229]:53808)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kVWTN-0002Hf-2M
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 05:01:30 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.52])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id D4FFA22E828;
- Thu, 22 Oct 2020 11:01:21 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 22 Oct
- 2020 11:01:21 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001e0398319-34a5-4305-a30a-8f5ff5f17d37,
- 519BB44447FDA57395BBEBCDF0C34CC9BD4694BF) smtp.auth=groug@kaod.org
-Date: Thu, 22 Oct 2020 11:01:20 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 6/8] tests/9pfs: add local Tunlinkat symlink test
-Message-ID: <20201022110120.6ea5bcba@bahia.lan>
-In-Reply-To: <a23cd4d2ab6d8d3048addab8cbf0416fe5ead43e.1603285620.git.qemu_oss@crudebyte.com>
-References: <cover.1603285620.git.qemu_oss@crudebyte.com>
- <a23cd4d2ab6d8d3048addab8cbf0416fe5ead43e.1603285620.git.qemu_oss@crudebyte.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kVWV9-0004Am-Q0; Thu, 22 Oct 2020 05:03:16 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:48660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kVWUv-0002cB-7x; Thu, 22 Oct 2020 05:03:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=t95Yv07Xt1H46vKv+YJXcLtvUiwAVQUaK3CvHb8bg/Q=; 
+ b=qHZyvNlMhcDoueyB/Q/YeGMUcbGG0idzJARYgVED9wnBdXzaSZDzfwhRUCeImfyDcQBm1wCPqIS7w7jdXJC8bUU44LrmfymJwCVrqzl3OuBBCZzPwuD70vVxhW1s+ux87TKu3SMqQUp2PBjicBKBbMLVfYS78zjWBhEj1v1SeOwWVjLQXYCmlbhY2S5HpUT6s027gR0rEHOdQtTOruFIZWjiB+knbpjtAnMjMhAQWLLNwoROx3RGxbHVncLQTgSPnfEKAabWem00T2YrVccaQlMCACePEcshH4dewrAP8EuogmN9slNEtcr3U/8f7JkEVUlkCaTJVhReFCPjPzn2gg==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kVWUX-0007iS-IW; Thu, 22 Oct 2020 11:02:37 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kVWUX-0007ow-8o; Thu, 22 Oct 2020 11:02:37 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 0/2] Skip copy-on-write when allocating a zero cluster
+In-Reply-To: <cover.1600698425.git.berto@igalia.com>
+References: <cover.1600698425.git.berto@igalia.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 22 Oct 2020 11:02:37 +0200
+Message-ID: <w511rhqd45u.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 2815ae9f-980c-4b0f-a386-39064e6d1f1c
-X-Ovh-Tracer-Id: 5359565032456296858
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrjeejgdduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=groug@kaod.org;
- helo=4.mo51.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 05:01:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 05:02:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,69 +61,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 21 Oct 2020 14:36:23 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+ping
 
-> This test case uses a Tunlinkat request to remove a symlink using
-> the 9pfs 'local' fs driver.
-> 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  tests/qtest/virtio-9p-test.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index 0c11417236..33cba24b18 100644
-> --- a/tests/qtest/virtio-9p-test.c
-> +++ b/tests/qtest/virtio-9p-test.c
-> @@ -1295,6 +1295,32 @@ static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
->      g_free(real_file);
->  }
->  
-> +static void fs_unlinkat_symlink(void *obj, void *data,
-> +                                QGuestAllocator *t_alloc)
-> +{
-> +    QVirtio9P *v9p = obj;
-> +    alloc = t_alloc;
-> +    struct stat st;
-> +    char *real_file = virtio_9p_test_path("06/real_file");
-> +    char *symlink_file = virtio_9p_test_path("06/symlink_file");
-> +
-> +    do_attach(v9p);
-> +    do_mkdir(v9p, "/", "06");
-> +    do_lcreate(v9p, "06", "real_file");
-> +    g_assert(stat(real_file, &st) == 0);
-> +    g_assert((st.st_mode & S_IFMT) == S_IFREG);
-> +
-> +    do_symlink(v9p, "06", "symlink_file", "real_file");
-> +    g_assert(stat(symlink_file, &st) == 0);
-> +
-> +    do_unlinkat(v9p, "06", "symlink_file", 0);
-> +    /* symlink should be gone now */
-> +    g_assert(stat(symlink_file, &st) != 0);
-> +
-> +    g_free(symlink_file);
-> +    g_free(real_file);
-> +}
-> +
->  static void *assign_9p_local_driver(GString *cmd_line, void *arg)
->  {
->      virtio_9p_assign_local_driver(cmd_line, "security_model=mapped-xattr");
-> @@ -1339,6 +1365,8 @@ static void register_virtio_9p_test(void)
->      qos_add_test("local/create_file", "virtio-9p", fs_create_file, &opts);
->      qos_add_test("local/unlinkat_file", "virtio-9p", fs_unlinkat_file, &opts);
->      qos_add_test("local/symlink_file", "virtio-9p", fs_symlink_file, &opts);
-> +    qos_add_test("local/unlinkat_symlink", "virtio-9p", fs_unlinkat_symlink,
-> +                 &opts);
->  }
->  
->  libqos_init(register_virtio_9p_test);
-
+On Mon 21 Sep 2020 04:30:48 PM CEST, Alberto Garcia wrote:
+> I had to rebase the series due to conflicting changes on master. There
+> are no other differences.
+>
+> Berto
+>
+> v4:
+> - Fix rebase conflicts after cb8503159a
+>
+> v3: https://lists.gnu.org/archive/html/qemu-block/2020-09/msg00912.html
+> - Add a new patch to improve the reporting of BDRV_BLOCK_ZERO [Vladimir]
+> - Rename function to bdrv_co_is_zero_fast() [Vladimir, Kevin]
+> - Don't call bdrv_common_block_status_above() if bytes == 0
+>
+> v2: https://lists.gnu.org/archive/html/qemu-block/2020-08/msg01165.html
+> - Add new, simpler API: bdrv_is_unallocated_or_zero_above()
+>
+> v1: https://lists.gnu.org/archive/html/qemu-block/2020-08/msg00403.html
 
