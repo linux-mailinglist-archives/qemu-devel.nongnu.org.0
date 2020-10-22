@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7852964A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:27:44 +0200 (CEST)
-Received: from localhost ([::1]:44980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC02D296483
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:18:27 +0200 (CEST)
+Received: from localhost ([::1]:51392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVfJP-0003bk-4b
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48572)
+	id 1kVfAQ-0002oN-JY
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:18:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf6A-0000Wq-7W; Thu, 22 Oct 2020 14:14:02 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52084 helo=relay3.sw.ru)
+ id 1kVf6A-0000XB-E6; Thu, 22 Oct 2020 14:14:02 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52090 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf5x-0001nn-Mc; Thu, 22 Oct 2020 14:14:01 -0400
+ id 1kVf5x-0001ni-Lz; Thu, 22 Oct 2020 14:14:02 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf5r-005dVw-RZ; Thu, 22 Oct 2020 21:13:43 +0300
+ id 1kVf5r-005dVw-T7; Thu, 22 Oct 2020 21:13:43 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
  kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
  eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
  andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v12 10/14] block: include supported_read_flags into BDS
- structure
-Date: Thu, 22 Oct 2020 21:13:39 +0300
-Message-Id: <1603390423-980205-11-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v12 11/14] copy-on-read: add support for read flags to
+ COR-filter
+Date: Thu, 22 Oct 2020 21:13:40 +0300
+Message-Id: <1603390423-980205-12-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -59,72 +59,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-Add the new member supported_read_flags to the BlockDriverState
-structure. It will control the flags set for copy-on-read operations.
-Make the block generic layer evaluate supported read flags before they
-go to a block driver.
+Add the BDRV_REQ_COPY_ON_READ and BDRV_REQ_PREFETCH flags to the
+supported_read_flags of the COR-filter.
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- block/io.c                | 12 ++++++++++--
- include/block/block_int.h |  4 ++++
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ block/copy-on-read.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/io.c b/block/io.c
-index 54f0968..78ddf13 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1392,6 +1392,9 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
-     if (flags & BDRV_REQ_COPY_ON_READ) {
-         int64_t pnum;
- 
-+        /* The flag BDRV_REQ_COPY_ON_READ has reached its addressee */
-+        flags &= ~BDRV_REQ_COPY_ON_READ;
-+
-         ret = bdrv_is_allocated(bs, offset, bytes, &pnum);
-         if (ret < 0) {
-             goto out;
-@@ -1413,9 +1416,13 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
-         goto out;
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index 8178a91..a2b180a 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -50,6 +50,8 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+         return -EINVAL;
      }
  
-+    if (flags & ~bs->supported_read_flags) {
-+        abort();
-+    }
++    bs->supported_read_flags = BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH;
 +
-     max_bytes = ROUND_UP(MAX(0, total_bytes - offset), align);
-     if (bytes <= max_bytes && bytes <= max_transfer) {
--        ret = bdrv_driver_preadv(bs, offset, bytes, qiov, qiov_offset, 0);
-+        ret = bdrv_driver_preadv(bs, offset, bytes, qiov, qiov_offset, flags);
-         goto out;
-     }
+     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
+         (BDRV_REQ_FUA & bs->file->bs->supported_write_flags);
  
-@@ -1428,7 +1435,8 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
- 
-             ret = bdrv_driver_preadv(bs, offset + bytes - bytes_remaining,
-                                      num, qiov,
--                                     qiov_offset + bytes - bytes_remaining, 0);
-+                                     qiov_offset + bytes - bytes_remaining,
-+                                     flags);
-             max_bytes -= num;
-         } else {
-             num = bytes_remaining;
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index f782737..474174c 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -873,6 +873,10 @@ struct BlockDriverState {
-     /* I/O Limits */
-     BlockLimits bl;
- 
-+    /*
-+     * Flags honored during pread
-+     */
-+    unsigned int supported_read_flags;
-     /* Flags honored during pwrite (so far: BDRV_REQ_FUA,
-      * BDRV_REQ_WRITE_UNCHANGED).
-      * If a driver does not support BDRV_REQ_WRITE_UNCHANGED, those
 -- 
 1.8.3.1
 
