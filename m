@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A71295E47
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:23:27 +0200 (CEST)
-Received: from localhost ([::1]:54738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4578F295DF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:04:16 +0200 (CEST)
+Received: from localhost ([::1]:39316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVZcs-0007SN-CJ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:23:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
+	id 1kVZKJ-00053I-Bn
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:04:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ3y-0002y8-Td
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:47:24 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ3u-0007X1-QU
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:47:22 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f9170e10002>; Thu, 22 Oct 2020 04:45:37 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Oct
- 2020 11:47:03 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by mail.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 22 Oct 2020 11:46:55 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v27 17/17] qapi: Add VFIO devices migration stats in Migration
- stats
-Date: Thu, 22 Oct 2020 16:42:07 +0530
-Message-ID: <1603365127-14202-18-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
-References: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kVYnE-0006gm-IE
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:30:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57214)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kVYn4-0005DW-K3
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:30:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603366190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qFGmSQHsWrrOfWOH+/peX5MRwaUCO4cXU4Gw5k/UjVE=;
+ b=F+IY6cHFo5VL7WnBuTuYSKwglTSH1XkxWk93jrJ4kOOVVjT4xgpZGH4wGjkisDJU5Zeou6
+ dQRoVW9AKOKkvyDvECCCBvXt72/+kchZI1Z/XHsNCV8R4jJlzIxhKNrRVBp2belL895Eyz
+ GLRMV519xN1m80teiFUgjsIy+QFk+K0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-46-rCPiPFv-OFiyoenwopvM2A-1; Thu, 22 Oct 2020 07:29:46 -0400
+X-MC-Unique: rCPiPFv-OFiyoenwopvM2A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0367F804B62;
+ Thu, 22 Oct 2020 11:29:45 +0000 (UTC)
+Received: from localhost (ovpn-114-229.ams2.redhat.com [10.36.114.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D16536EF69;
+ Thu, 22 Oct 2020 11:29:41 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL v2 25/28] block/io: bdrv_common_block_status_above: support
+ include_base
+Date: Thu, 22 Oct 2020 12:27:23 +0100
+Message-Id: <20201022112726.736757-26-stefanha@redhat.com>
+In-Reply-To: <20201022112726.736757-1-stefanha@redhat.com>
+References: <20201022112726.736757-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603367137; bh=OFspOLIjCQHaYlRP5L/Rg+M8yveUe+Q4XGbnX2cIMQc=;
- h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
- References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=jprt8kr0wnNMBpIfuEmajAh7iwRR77Vh8ZZ6GuAvG8kN09/qxVomab+yAsy2aHqE8
- a7Ps4tg9KF1Y5InVXOhOE1hrhu94gEvgDWGzC1ersl1iz9gwa/T/betDwSiA+slsjN
- retsFwIywqgldUTVDh5PYEqbNI1XQNfbUqAYMstKUwnPXR1VuFe1WPldkDHD0F0frB
- Uyc94U8aOmwc4QF3Gt2FJwxy8naCYOjhF66aPJBXC8uRj1frhA++qRMxs+vVntvxT0
- ed0vY38+H8lWIAVh99kXHn6kHvjuO+YUTXfhYxH3WERHjog4xPZTPkMeg6sMDWcDDx
- P7ZlW1kHVnv2Q==
-Received-SPF: pass client-ip=216.228.121.143;
- envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 07:44:48
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 06:53:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,236 +83,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, yi.l.liu@intel.com,
- quintela@redhat.com, ziye.yang@intel.com, armbru@redhat.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com,
- zhi.a.wang@intel.com, mcrossley@nvidia.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
- eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
- pbonzini@redhat.com, dnigam@nvidia.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added amount of bytes transferred to the VM at destination by all VFIO
-devices
-
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hw/vfio/common.c            | 20 ++++++++++++++++++++
- hw/vfio/migration.c         | 10 ++++++++++
- include/qemu/vfio-helpers.h |  3 +++
- migration/migration.c       | 14 ++++++++++++++
- monitor/hmp-cmds.c          |  6 ++++++
- qapi/migration.json         | 17 +++++++++++++++++
- 6 files changed, 70 insertions(+)
-
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 9c879e5c0f62..8d0758eda9fa 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -39,6 +39,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "migration/migration.h"
-+#include "qemu/vfio-helpers.h"
- 
- VFIOGroupList vfio_group_list =
-     QLIST_HEAD_INITIALIZER(vfio_group_list);
-@@ -292,6 +293,25 @@ const MemoryRegionOps vfio_region_ops = {
-  * Device state interfaces
-  */
- 
-+bool vfio_mig_active(void)
-+{
-+    VFIOGroup *group;
-+    VFIODevice *vbasedev;
-+
-+    if (QLIST_EMPTY(&vfio_group_list)) {
-+        return false;
-+    }
-+
-+    QLIST_FOREACH(group, &vfio_group_list, next) {
-+        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-+            if (vbasedev->migration_blocker) {
-+                return false;
-+            }
-+        }
-+    }
-+    return true;
-+}
-+
- static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
- {
-     VFIOGroup *group;
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 77ee60a43ea5..b23e21c6de2b 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -28,6 +28,7 @@
- #include "pci.h"
- #include "trace.h"
- #include "hw/hw.h"
-+#include "qemu/vfio-helpers.h"
- 
- /*
-  * Flags to be used as unique delimiters for VFIO devices in the migration
-@@ -45,6 +46,8 @@
- #define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
- #define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
- 
-+static int64_t bytes_transferred;
-+
- static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int count,
-                                   off_t off, bool iswrite)
- {
-@@ -255,6 +258,7 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
-         *size = data_size;
-     }
- 
-+    bytes_transferred += data_size;
-     return ret;
- }
- 
-@@ -776,6 +780,7 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
-     case MIGRATION_STATUS_CANCELLING:
-     case MIGRATION_STATUS_CANCELLED:
-     case MIGRATION_STATUS_FAILED:
-+        bytes_transferred = 0;
-         ret = vfio_migration_set_state(vbasedev,
-                       ~(VFIO_DEVICE_STATE_SAVING | VFIO_DEVICE_STATE_RESUMING),
-                       VFIO_DEVICE_STATE_RUNNING);
-@@ -862,6 +867,11 @@ err:
- 
- /* ---------------------------------------------------------------------- */
- 
-+int64_t vfio_mig_bytes_transferred(void)
-+{
-+    return bytes_transferred;
-+}
-+
- int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
- {
-     VFIOContainer *container = vbasedev->group->container;
-diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
-index 4491c8e1a6e9..7f7a46e6ef2d 100644
---- a/include/qemu/vfio-helpers.h
-+++ b/include/qemu/vfio-helpers.h
-@@ -29,4 +29,7 @@ void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
- int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
-                            int irq_type, Error **errp);
- 
-+bool vfio_mig_active(void);
-+int64_t vfio_mig_bytes_transferred(void);
-+
- #endif
-diff --git a/migration/migration.c b/migration/migration.c
-index 0575ecb37953..8b2865d25ef4 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -56,6 +56,7 @@
- #include "net/announce.h"
- #include "qemu/queue.h"
- #include "multifd.h"
-+#include "qemu/vfio-helpers.h"
- 
- #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
- 
-@@ -1002,6 +1003,17 @@ static void populate_disk_info(MigrationInfo *info)
-     }
- }
- 
-+static void populate_vfio_info(MigrationInfo *info)
-+{
-+#ifdef CONFIG_LINUX
-+    if (vfio_mig_active()) {
-+        info->has_vfio = true;
-+        info->vfio = g_malloc0(sizeof(*info->vfio));
-+        info->vfio->transferred = vfio_mig_bytes_transferred();
-+    }
-+#endif
-+}
-+
- static void fill_source_migration_info(MigrationInfo *info)
- {
-     MigrationState *s = migrate_get_current();
-@@ -1026,6 +1038,7 @@ static void fill_source_migration_info(MigrationInfo *info)
-         populate_time_info(info, s);
-         populate_ram_info(info, s);
-         populate_disk_info(info);
-+        populate_vfio_info(info);
-         break;
-     case MIGRATION_STATUS_COLO:
-         info->has_status = true;
-@@ -1034,6 +1047,7 @@ static void fill_source_migration_info(MigrationInfo *info)
-     case MIGRATION_STATUS_COMPLETED:
-         populate_time_info(info, s);
-         populate_ram_info(info, s);
-+        populate_vfio_info(info);
-         break;
-     case MIGRATION_STATUS_FAILED:
-         info->has_status = true;
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 9789f4277f50..56e9bad33d94 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -357,6 +357,12 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-         }
-         monitor_printf(mon, "]\n");
-     }
-+
-+    if (info->has_vfio) {
-+        monitor_printf(mon, "vfio device transferred: %" PRIu64 " kbytes\n",
-+                       info->vfio->transferred >> 10);
-+    }
-+
-     qapi_free_MigrationInfo(info);
- }
- 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index a5da513c9e05..3c7582052725 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -147,6 +147,18 @@
-             'active', 'postcopy-active', 'postcopy-paused',
-             'postcopy-recover', 'completed', 'failed', 'colo',
-             'pre-switchover', 'device', 'wait-unplug' ] }
-+##
-+# @VfioStats:
-+#
-+# Detailed VFIO devices migration statistics
-+#
-+# @transferred: amount of bytes transferred to the target VM by VFIO devices
-+#
-+# Since: 5.2
-+#
-+##
-+{ 'struct': 'VfioStats',
-+  'data': {'transferred': 'int' } }
- 
- ##
- # @MigrationInfo:
-@@ -208,11 +220,16 @@
- #
- # @socket-address: Only used for tcp, to know what the real port is (Since 4.0)
- #
-+# @vfio: @VfioStats containing detailed VFIO devices migration statistics,
-+#        only returned if VFIO device is present, migration is supported by all
-+#        VFIO devices and status is 'active' or 'completed' (since 5.2)
-+#
- # Since: 0.14.0
- ##
- { 'struct': 'MigrationInfo',
-   'data': {'*status': 'MigrationStatus', '*ram': 'MigrationStats',
-            '*disk': 'MigrationStats',
-+           '*vfio': 'VfioStats',
-            '*xbzrle-cache': 'XBZRLECacheStats',
-            '*total-time': 'int',
-            '*expected-downtime': 'int',
--- 
-2.7.0
+RnJvbTogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8u
+Y29tPgoKSW4gb3JkZXIgdG8gcmV1c2UgYmRydl9jb21tb25fYmxvY2tfc3RhdHVzX2Fib3ZlIGlu
+CmJkcnZfaXNfYWxsb2NhdGVkX2Fib3ZlLCBsZXQncyBzdXBwb3J0IGluY2x1ZGVfYmFzZSBwYXJh
+bWV0ZXIuCgpTaWduZWQtb2ZmLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2Vt
+ZW50c292QHZpcnR1b3p6by5jb20+ClJldmlld2VkLWJ5OiBBbGJlcnRvIEdhcmNpYSA8YmVydG9A
+aWdhbGlhLmNvbT4KUmV2aWV3ZWQtYnk6IEVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPgpN
+ZXNzYWdlLWlkOiAyMDIwMDkyNDE5NDAwMy4yMjA4MC0zLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNv
+bQpTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+Ci0t
+LQogYmxvY2svY29yb3V0aW5lcy5oIHwgIDIgKysKIGJsb2NrL2lvLmMgICAgICAgICB8IDIxICsr
+KysrKysrKysrKysrLS0tLS0tLQogMiBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCA3
+IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2Jsb2NrL2Nvcm91dGluZXMuaCBiL2Jsb2NrL2Nv
+cm91dGluZXMuaAppbmRleCBmNjkxNzlmNWVmLi4xY2IzMTI4Yjk0IDEwMDY0NAotLS0gYS9ibG9j
+ay9jb3JvdXRpbmVzLmgKKysrIGIvYmxvY2svY29yb3V0aW5lcy5oCkBAIC00MSw2ICs0MSw3IEBA
+IGJkcnZfcHdyaXRldihCZHJ2Q2hpbGQgKmNoaWxkLCBpbnQ2NF90IG9mZnNldCwgdW5zaWduZWQg
+aW50IGJ5dGVzLAogaW50IGNvcm91dGluZV9mbgogYmRydl9jb19jb21tb25fYmxvY2tfc3RhdHVz
+X2Fib3ZlKEJsb2NrRHJpdmVyU3RhdGUgKmJzLAogICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIEJsb2NrRHJpdmVyU3RhdGUgKmJhc2UsCisgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgYm9vbCBpbmNsdWRlX2Jhc2UsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgYm9vbCB3YW50X3plcm8sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+aW50NjRfdCBvZmZzZXQsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50NjRf
+dCBieXRlcywKQEAgLTUwLDYgKzUxLDcgQEAgYmRydl9jb19jb21tb25fYmxvY2tfc3RhdHVzX2Fi
+b3ZlKEJsb2NrRHJpdmVyU3RhdGUgKmJzLAogaW50IGdlbmVyYXRlZF9jb193cmFwcGVyCiBiZHJ2
+X2NvbW1vbl9ibG9ja19zdGF0dXNfYWJvdmUoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsCiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgQmxvY2tEcml2ZXJTdGF0ZSAqYmFzZSwKKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBib29sIGluY2x1ZGVfYmFzZSwKICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBib29sIHdhbnRfemVybywKICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBpbnQ2NF90IG9mZnNldCwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBp
+bnQ2NF90IGJ5dGVzLApkaWZmIC0tZ2l0IGEvYmxvY2svaW8uYyBiL2Jsb2NrL2lvLmMKaW5kZXgg
+YTcxOGQ1MGNhMi4uODZmNzZkMDRiZiAxMDA2NDQKLS0tIGEvYmxvY2svaW8uYworKysgYi9ibG9j
+ay9pby5jCkBAIC0yMzQzLDYgKzIzNDMsNyBAQCBlYXJseV9vdXQ6CiBpbnQgY29yb3V0aW5lX2Zu
+CiBiZHJ2X2NvX2NvbW1vbl9ibG9ja19zdGF0dXNfYWJvdmUoQmxvY2tEcml2ZXJTdGF0ZSAqYnMs
+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQmxvY2tEcml2ZXJTdGF0ZSAqYmFz
+ZSwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBib29sIGluY2x1ZGVfYmFzZSwK
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBib29sIHdhbnRfemVybywKICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQ2NF90IG9mZnNldCwKICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBpbnQ2NF90IGJ5dGVzLApAQCAtMjM1NCwxMCArMjM1NSwx
+MSBAQCBiZHJ2X2NvX2NvbW1vbl9ibG9ja19zdGF0dXNfYWJvdmUoQmxvY2tEcml2ZXJTdGF0ZSAq
+YnMsCiAgICAgQmxvY2tEcml2ZXJTdGF0ZSAqcDsKICAgICBpbnQ2NF90IGVvZiA9IDA7CiAKLSAg
+ICBhc3NlcnQoYnMgIT0gYmFzZSk7CisgICAgYXNzZXJ0KGluY2x1ZGVfYmFzZSB8fCBicyAhPSBi
+YXNlKTsKKyAgICBhc3NlcnQoIWluY2x1ZGVfYmFzZSB8fCBiYXNlKTsgLyogQ2FuJ3QgaW5jbHVk
+ZSBOVUxMIGJhc2UgKi8KIAogICAgIHJldCA9IGJkcnZfY29fYmxvY2tfc3RhdHVzKGJzLCB3YW50
+X3plcm8sIG9mZnNldCwgYnl0ZXMsIHBudW0sIG1hcCwgZmlsZSk7Ci0gICAgaWYgKHJldCA8IDAg
+fHwgKnBudW0gPT0gMCB8fCByZXQgJiBCRFJWX0JMT0NLX0FMTE9DQVRFRCkgeworICAgIGlmIChy
+ZXQgPCAwIHx8ICpwbnVtID09IDAgfHwgcmV0ICYgQkRSVl9CTE9DS19BTExPQ0FURUQgfHwgYnMg
+PT0gYmFzZSkgewogICAgICAgICByZXR1cm4gcmV0OwogICAgIH0KIApAQCAtMjM2OCw3ICsyMzcw
+LDcgQEAgYmRydl9jb19jb21tb25fYmxvY2tfc3RhdHVzX2Fib3ZlKEJsb2NrRHJpdmVyU3RhdGUg
+KmJzLAogICAgIGFzc2VydCgqcG51bSA8PSBieXRlcyk7CiAgICAgYnl0ZXMgPSAqcG51bTsKIAot
+ICAgIGZvciAocCA9IGJkcnZfZmlsdGVyX29yX2Nvd19icyhicyk7IHAgIT0gYmFzZTsKKyAgICBm
+b3IgKHAgPSBiZHJ2X2ZpbHRlcl9vcl9jb3dfYnMoYnMpOyBpbmNsdWRlX2Jhc2UgfHwgcCAhPSBi
+YXNlOwogICAgICAgICAgcCA9IGJkcnZfZmlsdGVyX29yX2Nvd19icyhwKSkKICAgICB7CiAgICAg
+ICAgIHJldCA9IGJkcnZfY29fYmxvY2tfc3RhdHVzKHAsIHdhbnRfemVybywgb2Zmc2V0LCBieXRl
+cywgcG51bSwgbWFwLApAQCAtMjQwNiw2ICsyNDA4LDExIEBAIGJkcnZfY29fY29tbW9uX2Jsb2Nr
+X3N0YXR1c19hYm92ZShCbG9ja0RyaXZlclN0YXRlICpicywKICAgICAgICAgICAgIGJyZWFrOwog
+ICAgICAgICB9CiAKKyAgICAgICAgaWYgKHAgPT0gYmFzZSkgeworICAgICAgICAgICAgYXNzZXJ0
+KGluY2x1ZGVfYmFzZSk7CisgICAgICAgICAgICBicmVhazsKKyAgICAgICAgfQorCiAgICAgICAg
+IC8qCiAgICAgICAgICAqIE9LLCBbb2Zmc2V0LCBvZmZzZXQgKyAqcG51bSkgcmVnaW9uIGlzIHVu
+YWxsb2NhdGVkIG9uIHRoaXMgbGF5ZXIsCiAgICAgICAgICAqIGxldCdzIGNvbnRpbnVlIHRoZSBk
+aXZpbmcuCkBAIC0yNDI1LDcgKzI0MzIsNyBAQCBpbnQgYmRydl9ibG9ja19zdGF0dXNfYWJvdmUo
+QmxvY2tEcml2ZXJTdGF0ZSAqYnMsIEJsb2NrRHJpdmVyU3RhdGUgKmJhc2UsCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgaW50NjRfdCBvZmZzZXQsIGludDY0X3QgYnl0ZXMsIGludDY0X3Qg
+KnBudW0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50NjRfdCAqbWFwLCBCbG9ja0Ry
+aXZlclN0YXRlICoqZmlsZSkKIHsKLSAgICByZXR1cm4gYmRydl9jb21tb25fYmxvY2tfc3RhdHVz
+X2Fib3ZlKGJzLCBiYXNlLCB0cnVlLCBvZmZzZXQsIGJ5dGVzLAorICAgIHJldHVybiBiZHJ2X2Nv
+bW1vbl9ibG9ja19zdGF0dXNfYWJvdmUoYnMsIGJhc2UsIGZhbHNlLCB0cnVlLCBvZmZzZXQsIGJ5
+dGVzLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcG51bSwgbWFw
+LCBmaWxlKTsKIH0KIApAQCAtMjQ0Miw5ICsyNDQ5LDkgQEAgaW50IGNvcm91dGluZV9mbiBiZHJ2
+X2lzX2FsbG9jYXRlZChCbG9ja0RyaXZlclN0YXRlICpicywgaW50NjRfdCBvZmZzZXQsCiAgICAg
+aW50IHJldDsKICAgICBpbnQ2NF90IGR1bW15OwogCi0gICAgcmV0ID0gYmRydl9jb21tb25fYmxv
+Y2tfc3RhdHVzX2Fib3ZlKGJzLCBiZHJ2X2ZpbHRlcl9vcl9jb3dfYnMoYnMpLCBmYWxzZSwKLSAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgb2Zmc2V0LCBieXRlcywgcG51
+bSA/IHBudW0gOiAmZHVtbXksCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIE5VTEwsIE5VTEwpOworICAgIHJldCA9IGJkcnZfY29tbW9uX2Jsb2NrX3N0YXR1c19hYm92
+ZShicywgYnMsIHRydWUsIGZhbHNlLCBvZmZzZXQsCisgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIGJ5dGVzLCBwbnVtID8gcG51bSA6ICZkdW1teSwgTlVMTCwKKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTlVMTCk7CiAgICAgaWYgKHJldCA8
+IDApIHsKICAgICAgICAgcmV0dXJuIHJldDsKICAgICB9Ci0tIAoyLjI2LjIKCg==
 
 
