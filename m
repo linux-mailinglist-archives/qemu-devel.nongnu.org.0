@@ -2,117 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74432959B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 09:58:06 +0200 (CEST)
-Received: from localhost ([::1]:48226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE072959AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 09:52:59 +0200 (CEST)
+Received: from localhost ([::1]:39004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVVU5-0005S6-Pd
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 03:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39366)
+	id 1kVVP8-0001V5-E0
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 03:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVVN3-0000Fh-Oq; Thu, 22 Oct 2020 03:50:49 -0400
-Received: from mail-eopbgr50118.outbound.protection.outlook.com
- ([40.107.5.118]:16992 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVVN1-0001iT-0A; Thu, 22 Oct 2020 03:50:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ipdNZ2UfRO8TT7UT6k+Aw5dV5SPBjw6FN4hB0ND4YLGhczR2VgCh+En9RvzRrrDL7JuEM25ljx5gmrcQBgN22rz7OWAXRFgvvW+zcd6bMSqnsf+h+FowwEIBZQ5l/4HL10J2hYrdot+xKvHn2tXx0a1v7oPWzT3w88nJqQVlpI2TuC+KQs+Ev0NQQSepbu6RCJhOT0lFVV4fIRf9BZxqEve5SzYEA1tFN8IQfc99q7h801dekJYSQREJoPBRT8fbMzF6K6CEQUZFkVcB09QKT4ZTcLV/cTMWvlK6ukA5TPQ6NaghVIcRHO8V9UXq1xkFMOTWoIugTgzFcU15tFfeNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zO7ryGqh9zysYM32qG3HvUVA3auNqtjyHwQT69R3QkU=;
- b=nZTzkXKnfzBLbE19qkj1GsAR62ixAD7S3/Y9yGzbFkPOIZK+JZyXpc1jdHiXL+XtxahZg5QNl1DIIwBUEJ4FbcsHoANumfdCj3Zm3m6o5dHXqVnxfFjZ/BIBk5wnx9eUbYzIFbqX8etHqPGdzmuVPJge+XVncmLuwjcwKNUd5qUEOQijuKQdl6mgE7aFZ4iahxN25zgxbgHRTpXWTbOknPhNgesJNyasNPuvRSSBtz2OQi3OjBi1U2ZkBCnhS+Wpr7+3oSIGZh9fSYw4uJD5n2LcCEw/6/3WK+an7QbdRlSJa7+CrP3Zp0agr3l3PbQ262eYYpMp1Xeslk685a24/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zO7ryGqh9zysYM32qG3HvUVA3auNqtjyHwQT69R3QkU=;
- b=p7bQ6YwbstFI6WjOgZA1+PzjqFuAFUEUEEtC9qZRXWljmhoPjemjHB37D/hN4ygWQCTnXuRzLiDfk6KWOzDoDesQVV1afsZxBRzgxHsxVBoGa5fPtPiSbxEeiw9Zh39rSGOs5+5wejs2q0ABcMkSxpI4K/nOZFoN0eHOla5dplQ=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
- by HE1PR0802MB2219.eurprd08.prod.outlook.com (2603:10a6:3:c3::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Thu, 22 Oct
- 2020 07:50:42 +0000
-Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
- ([fe80::fd10:fc33:1bb0:1036]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
- ([fe80::fd10:fc33:1bb0:1036%6]) with mapi id 15.20.3477.028; Thu, 22 Oct 2020
- 07:50:42 +0000
-Subject: Re: [PATCH v11 09/13] copy-on-read: skip non-guest reads if no copy
- needed
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, fam@euphon.net,
- stefanha@redhat.com, armbru@redhat.com, jsnow@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, den@openvz.org
-References: <1602524605-481160-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1602524605-481160-10-git-send-email-andrey.shinkevich@virtuozzo.com>
- <59ff1f29-149a-0870-b600-1a54f0421c05@redhat.com>
- <c363d263-1854-d766-e9d3-c8ae8008740f@virtuozzo.com>
- <519fd52f-cb9e-0ab1-6d50-a9b3004d86fe@virtuozzo.com>
-Message-ID: <4ae47559-af39-1dcc-5e22-f7259b55dfee@virtuozzo.com>
-Date: Thu, 22 Oct 2020 10:50:39 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <519fd52f-cb9e-0ab1-6d50-a9b3004d86fe@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [109.252.114.22]
-X-ClientProxiedBy: AM0PR10CA0044.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::24) To HE1PR0801MB2124.eurprd08.prod.outlook.com
- (2603:10a6:3:89::22)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kVVO5-0000nt-AX
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 03:51:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40330)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kVVO0-0002C6-Nk
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 03:51:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603353103;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SZ/XVAKkZ1zDBviSqaM2X5dmqUA6nYddxvyZHoutGz4=;
+ b=G7jw1h58e5bTT5FBeDb1PDcP07MnaeI1AoP2V2OgcJP5j6ivnG7GeL8nvQTYFOI7LI93m7
+ tn1A7md1xGtPIkVV3OC0BuvTJc5yJqnr/LSgF1IgLX7S0u3PAuSjw5PIdjcNqemdGvBV68
+ SszlSAvqVNj4XKQLcf9NL0ZrTitHBDc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-dA86uxx_PUOLKqWKu8k3_Q-1; Thu, 22 Oct 2020 03:51:41 -0400
+X-MC-Unique: dA86uxx_PUOLKqWKu8k3_Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A8CD800050;
+ Thu, 22 Oct 2020 07:51:39 +0000 (UTC)
+Received: from gondolin (ovpn-112-67.ams2.redhat.com [10.36.112.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 509DF6EF42;
+ Thu, 22 Oct 2020 07:51:28 +0000 (UTC)
+Date: Thu, 22 Oct 2020 09:51:25 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v26 05/17] vfio: Add VM state change handler to know
+ state of VM
+Message-ID: <20201022095125.60319084.cohuck@redhat.com>
+In-Reply-To: <245abdf6-245d-5f88-e04b-35fad763560c@nvidia.com>
+References: <1600817059-26721-1-git-send-email-kwankhede@nvidia.com>
+ <1600817059-26721-6-git-send-email-kwankhede@nvidia.com>
+ <20200924170220.0a9836fe.cohuck@redhat.com>
+ <20200929110312.GF2826@work-vm>
+ <3dd3fe95-c81a-de40-47b0-24f0772974d4@nvidia.com>
+ <20201020125105.5cd790df.cohuck@redhat.com>
+ <245abdf6-245d-5f88-e04b-35fad763560c@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.114.22) by
- AM0PR10CA0044.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
- Transport; Thu, 22 Oct 2020 07:50:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4c51cb49-6b93-4fb3-f719-08d8765f2cec
-X-MS-TrafficTypeDiagnostic: HE1PR0802MB2219:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <HE1PR0802MB221980EDA0406C4967C50A73F41D0@HE1PR0802MB2219.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BJmk16T8dO1I69KQvIk+2nETs2+eUyUFD74CUVWIhMsPbEFDLKdJjupU91pcaOt2OXS03BsL44wHFQYmKhgogab64v2XZoG5PgBivBQGAWQZT0Nmq1d9d5nPJ7h1Nrbcs4HEPVR6reaV3Gg6LQwyLY9uiymMuW5KARWgE2/+nOHuq3idxo4ZxAG/kor4EHZFV43f5zRTT4w3dFicpmt0p54uXRB11AyGL/G123QrbB38cG3q4kt9PkaQ3WKn+PXkdpcfCMjY1YVhK0Zu1P212LzDj+t24ng0OkyH8WYk04Ok8P0wj4sPIxrVr7gYSMwKYyaCscZbCRFSucQSNTffQ7PWl7nNlMtNwrbWN69t4ScklZOaCGqw8cNBdNmIBeSA
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39850400004)(396003)(376002)(366004)(136003)(346002)(2906002)(6512007)(107886003)(186003)(31686004)(83380400001)(316002)(478600001)(36756003)(16526019)(52116002)(8676002)(53546011)(8936002)(6506007)(44832011)(6486002)(4326008)(66556008)(66476007)(956004)(5660300002)(66946007)(26005)(31696002)(7416002)(86362001)(2616005)(110136005)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: Gdf7E0pVrm7NA4Me3awCMr/iYcREF3nIvXOQOWkpuAAIic4MpvM0fOCSV3JbhbdSXjxcpTaHkSpg1p+xszRLVuGD+eOWu9xkSaBGR3yfyxnO2YCJ8TpXJzw1DV9si40xmYkf1KiqmnoeQmUpWMQ5T2dm2sIPQhBSyU93CL6vdUztLscjYmLNIVhaZuE6SFCw+VyIXBxVCCzVBxkFpfgm8LJUMs4NdtlHM8KqvLNyfko7OAMtNI+jE8gHj39Kmy26fe0PB9Giufqt9KGgj9K6EgS8pfvZybq+vo5jAI5a5xRmszu8dAV6srPh+r5V0l6a+gJmKTyj+q/oH2orqe50Fuo3wpbLtwXuG4OPdimYN/tfc5ihtdK5uh4ulXbwIRe3lHB5CPZDV9oFit9cLFmiea1sb2MYEgkD/ZOdxIf24QRHjK9yHT3eliQKWxsPtEyLBJqyLYPT6+0qDC/NsvAAI9RPVU0pxk6Fhegt0el+EobIt9Krfn2noiAQ+PvL0eYiOTvqGR1ve5yjSHvASuDUf15XGBRBO8e22Cnd7YUs764kfqbxqTUWATzfZNJ8SVVjKSEmamcrRh6nk3G4cpOPWwMF1azVp+wB3uxZBLe8l94RMFr/xX6NSSjC3o1IKDPnKm3mRHii9oeTiXrrtVKx7A==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c51cb49-6b93-4fb3-f719-08d8765f2cec
-X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2020 07:50:42.3691 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R/5k1h2Us1sw9cWWpSa4givj7NIwkH9cR2pUHO2Yn9Aqxe7vJMEKpLtL8SJKrSIzwYElV/PkmYMRtye7PiSPG6slC8gwCDa4DK6VRm+B1rQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2219
-Received-SPF: pass client-ip=40.107.5.118;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 03:50:44
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 00:54:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,67 +86,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eauger@redhat.com, yi.l.liu@intel.com, quintela@redhat.com,
+ ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, alex.williamson@redhat.com,
+ changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
+ jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 21 Oct 2020 11:03:23 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-On 21.10.2020 23:43, Andrey Shinkevich wrote:
-> On 14.10.2020 18:22, Vladimir Sementsov-Ogievskiy wrote:
->> 14.10.2020 15:51, Max Reitz wrote:
->>> On 12.10.20 19:43, Andrey Shinkevich wrote:
->>>> If the flag BDRV_REQ_PREFETCH was set, pass it further to the
->>>> COR-driver to skip unneeded reading. It can be taken into account for
->>>> the COR-algorithms optimization. That check is being made during the
->>>> block stream job by the moment.
->>>>
->>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>>> ---
+> On 10/20/2020 4:21 PM, Cornelia Huck wrote:
+> > On Sun, 18 Oct 2020 01:54:56 +0530
+> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> >   
+> >> On 9/29/2020 4:33 PM, Dr. David Alan Gilbert wrote:  
+> >>> * Cornelia Huck (cohuck@redhat.com) wrote:  
+> >>>> On Wed, 23 Sep 2020 04:54:07 +0530
+> >>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-[...]
-
->>>> diff --git a/block/io.c b/block/io.c
->>>> index 11df188..bff1808 100644
->>>> --- a/block/io.c
->>>> +++ b/block/io.c
->>>> @@ -1512,7 +1512,8 @@ static int coroutine_fn 
->>>> bdrv_aligned_preadv(BdrvChild *child,
->>>>       max_bytes = ROUND_UP(MAX(0, total_bytes - offset), align);
->>>>       if (bytes <= max_bytes && bytes <= max_transfer) {
->>>> -        ret = bdrv_driver_preadv(bs, offset, bytes, qiov, 
->>>> qiov_offset, 0);
->>>> +        ret = bdrv_driver_preadv(bs, offset, bytes, qiov, qiov_offset,
->>>> +                                 flags & bs->supported_read_flags);
->>
->>
->> When BDRV_REQ_PREFETCH is passed, qiov may be (and generally should 
->> be) NULL. This means, that we can't just drop the flag when call the 
->> driver that doesn't support it.
->>
->> Actually, if driver doesn't support the PREFETCH flag we should do 
->> nothing.
->>
->>
->>>
->>> Ah, OK.  I see.  I expected this to be a separate patch.  I still wonder
->>> why it isn’t.
->>>
->>
->>
->> Could it be part of patch 07? I mean introduce new field 
->> supported_read_flags and handle it in generic code in one patch, prior 
->> to implementing support for it in COR driver.
->>
->>
+> >>>>> +static void vfio_vmstate_change(void *opaque, int running, RunState state)
+> >>>>> +{
+> >>>>> +    VFIODevice *vbasedev = opaque;
+> >>>>> +
+> >>>>> +    if ((vbasedev->vm_running != running)) {
+> >>>>> +        int ret;
+> >>>>> +        uint32_t value = 0, mask = 0;
+> >>>>> +
+> >>>>> +        if (running) {
+> >>>>> +            value = VFIO_DEVICE_STATE_RUNNING;
+> >>>>> +            if (vbasedev->device_state & VFIO_DEVICE_STATE_RESUMING) {
+> >>>>> +                mask = ~VFIO_DEVICE_STATE_RESUMING;  
+> >>>>
+> >>>> I've been staring at this for some time and I think that the desired
+> >>>> result is
+> >>>> - set _RUNNING
+> >>>> - if _RESUMING was set, clear it, but leave the other bits intact  
+> >>
+> >> Upto here, you're correct.
+> >>  
+> >>>> - if _RESUMING was not set, clear everything previously set
+> >>>> This would really benefit from a comment (or am I the only one
+> >>>> struggling here?)
+> >>>>     
+> >>
+> >> Here mask should be ~0. Correcting it.  
+> > 
+> > Hm, now I'm confused. With value == _RUNNING, ~_RUNNING and ~0 as mask
+> > should be equivalent, shouldn't they?
+> >   
 > 
-> We have to add the supported flags for the COR driver in the same patch. 
-> Or before handling the supported_read_flags at the generic layer 
-> (handling zero does not make a sence). Otherwise, the test #216 (where 
-> the COR-filter is applied) will not pass.
+> I too got confused after reading your comment.
+> Lets walk through the device states and transitions can happen here:
 > 
-> Andrey
+> if running
+>   - device state could be either _SAVING or _RESUMING or _STOP. Both 
+> _SAVING and _RESUMING can't be set at a time, that is the error state. 
+> _STOP means 0.
+>   - Transition from _SAVING to _RUNNING can happen if there is migration 
+> failure, in that case we have to clear _SAVING
+> - Transition from _RESUMING to _RUNNING can happen on resuming and we 
+> have to clear _RESUMING.
+> - In both the above cases, we have to set _RUNNING and clear rest 2 bits.
+> Then:
+> mask = ~VFIO_DEVICE_STATE_MASK;
+> value = VFIO_DEVICE_STATE_RUNNING;
 
-I have found a workaround and am going to send all the related patches 
-as a separate series.
+ok
 
-Andrey
+> 
+> if !running
+> - device state could be either _RUNNING or _SAVING|_RUNNING. Here we 
+> have to reset running bit.
+> Then:
+> mask = ~VFIO_DEVICE_STATE_RUNNING;
+> value = 0;
+
+ok
+
+> 
+> I'll add comment in the code above.
+
+That will help.
+
+I'm a bit worried though that all that reasoning which flags are set or
+cleared when is quite complex, and it's easy to make mistakes.
+
+Can we model this as a FSM, where an event (running state changes)
+transitions the device state from one state to another? I (personally)
+find FSMs easier to comprehend, but I'm not sure whether that change
+would be too invasive. If others can parse the state changes with that
+mask/value interface, I won't object to it.
+
+> 
+> 
+> >>
+> >>  
+> >>>>> +            }
+> >>>>> +        } else {
+> >>>>> +            mask = ~VFIO_DEVICE_STATE_RUNNING;
+> >>>>> +        }
+
 
