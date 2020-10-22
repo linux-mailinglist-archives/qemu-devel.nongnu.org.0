@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD29B295A4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 10:28:05 +0200 (CEST)
-Received: from localhost ([::1]:33610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94ED3295A4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 10:26:58 +0200 (CEST)
+Received: from localhost ([::1]:57976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVVx6-0007I0-VM
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 04:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48266)
+	id 1kVVw1-0005jA-Kq
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 04:26:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kVVuZ-00049y-3a; Thu, 22 Oct 2020 04:25:27 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:42188)
+ id 1kVVue-0004JM-27; Thu, 22 Oct 2020 04:25:32 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:34168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kVVuW-00066a-5n; Thu, 22 Oct 2020 04:25:26 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8OEIA008774;
- Thu, 22 Oct 2020 08:25:18 GMT
+ id 1kVVub-00069s-D3; Thu, 22 Oct 2020 04:25:31 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8P3a2114710;
+ Thu, 22 Oct 2020 08:25:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=eQHLQiP0pOQUmU48nt08dYJM5zU3ME8PIvW/dXLfPa8=;
- b=AtnKBis5JpfwAIB8iCRuc2CcG45alolMJwgBQ6udgEyl8HL1BHXZS4oxrwPq+2W++K/+
- vI5dw54z8/mTQPph04wX37O3JFVickpJREpE4TH2gMTqXFrBF4B+oEZ5VQO+WTbO0azV
- IWxYoRieJ7MiEEBHLvv77e4azjBigurbw9YqPn0UCMi7X3aJcC8kJ5AHGXTxuh21y2Eo
- p9sVVThrP7p243DDY0Z8j0Td3AZWx9YZIIRtmqHrRwfps9O8SuuZalKNVH9SW9xFWJXD
- typlY+Khb/O89h/dhTJ4uGuz4dF+Tw7cCPIlsca1kCmavc43MbemNy0anA/VgUVWvvM3 2w== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 34ak16mvsf-1
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=XD4dw2R3d9CjulMuyr2n4XX5/s6JuRNb97NWKT6eQTE=;
+ b=RhXfk7QWGxWIcZlXsNrzrEJtJ3uoSseewoqROLFr31kCuXKADDN0GjWUczT4RP5Cx37i
+ lC+gz/R8Nj+d6F+G+yTasbdj7v2S5OPUFSZartzNNp+rHHxymX6BwHjvWPVwEKlKkEFq
+ MyeHqOSyj+BQhGeVMxo9Swzuy/oYjd81cxTtCFgZFvhhf6fMBtrVfQ4ImVuTUOlUuYoy
+ 1iY2kF6kklrjcyg/VDdT1EUFP6zfJzIc57ekAQ0iXRJkVCpIx1Oc+R14/7pZeuzVhPmY
+ lcZZ0SpJfygedbzo+JPvHJG0t3BPdX4JhTtX2dvdHTDG+vUJ2r1wSPFuq5CQcfNSjNvQ TQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 347p4b4nw6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 22 Oct 2020 08:25:17 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8Fjif083192;
- Thu, 22 Oct 2020 08:25:17 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 348ah0k2gq-1
+ Thu, 22 Oct 2020 08:25:26 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8G0Th024182;
+ Thu, 22 Oct 2020 08:25:25 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 34ak19kdvc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 22 Oct 2020 08:25:17 +0000
+ Thu, 22 Oct 2020 08:25:25 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09M8PG9A013938;
- Thu, 22 Oct 2020 08:25:16 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09M8PLY7000454;
+ Thu, 22 Oct 2020 08:25:21 GMT
 Received: from mihai.localdomain (/10.153.73.25)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 22 Oct 2020 01:25:16 -0700
+ with ESMTP ; Thu, 22 Oct 2020 01:25:21 -0700
 From: Mihai Carabas <mihai.carabas@oracle.com>
 To: peter.maydell@linaro.org, shannon.zhaosl@gmail.com, mst@redhat.com,
  imammedo@redhat.com
-Subject: [PATCH 0/8] Add support for pvpanic mmio device
-Date: Thu, 22 Oct 2020 10:42:48 +0300
-Message-Id: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
+Subject: [PATCH 1/8] hw/misc/pvpanic: Build the pvpanic device for any machine
+Date: Thu, 22 Oct 2020 10:42:49 +0300
+Message-Id: <1603352576-21671-2-git-send-email-mihai.carabas@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
+References: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  mlxscore=0 phishscore=0
- malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
+ spamscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2010220055
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0
- priorityscore=1501 clxscore=1011 malwarescore=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010220056
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=mihai.carabas@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 04:09:38
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ priorityscore=1501
+ clxscore=1015 malwarescore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0
+ phishscore=0 adultscore=0 mlxlogscore=999 impostorscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010220056
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=mihai.carabas@oracle.com; helo=aserp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 04:25:28
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -95,56 +97,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mihai Carabas <mihai.carabas@oracle.com>, qemu-arm@nongnu.org,
+Cc: Mihai Carabas <mihai.carabas@oracle.com>, Peng Hao <peng.hao2@zte.com.cn>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patchset was assembled from chuncks from some old patches from 2018 [1]
-which were left unmerged and some additions from me. Surprisingly their Linux
-kernel counterpart were merged (so the pvpanic driver from the kernel supports
-mmio).
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-I have seen the discussions about moving the pvpanic to PCI [1]. Those patches
-were sent but nothing happened. Also they are not trivial and require major
-modifications at the driver level also. Given the fact that we already have
-mmio driver support for pvpanic in the Linux kernel, I have sent these patches
-to ask again the maintainers if this can be merged.
+The 'pvpanic' ISA device can be use by any machine with an ISA bus.
 
-How to test this:
-/usr/bin/qemu-system-aarch64 \
-        -machine virt,gic-version=3,pvpanic=on
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+---
+ hw/misc/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-There is a new property for machine virt called pvpanic which is by default
-turned off.
-
-[1] http://patchwork.ozlabs.org/project/qemu-devel/cover/1543865209-50994-1-git-send-email-peng.hao2@zte.com.cn/
-
-Mihai Carabas (1):
-  pvpanic: break dependency on ISA_BUS
-
-Peng Hao (5):
-  hw/misc/pvpanic: Add the MMIO interface
-  hw/arm/virt: Use the pvpanic device
-  hw/arm/virt: add pvpanic device in virt acpi table
-  hw/arm/virt: add configure interface for pvpanic-mmio
-  pvpanic : update pvpanic document
-
-Philippe Mathieu-Daudé (2):
-  hw/misc/pvpanic: Build the pvpanic device for any machine
-  hw/misc/pvpanic: Cosmetic renaming
-
- docs/specs/pvpanic.txt    | 12 ++++++-
- hw/arm/Kconfig            |  1 +
- hw/arm/virt-acpi-build.c  | 17 ++++++++++
- hw/arm/virt.c             | 47 +++++++++++++++++++++++++++
- hw/misc/Kconfig           |  2 +-
- hw/misc/meson.build       |  2 +-
- hw/misc/pvpanic.c         | 83 ++++++++++++++++++++++++++++++++++++++---------
- include/hw/arm/virt.h     |  2 ++
- include/hw/misc/pvpanic.h |  5 +--
- 9 files changed, 150 insertions(+), 21 deletions(-)
-
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 793d45b..cb250dd 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -11,6 +11,7 @@ softmmu_ss.add(when: 'CONFIG_TMP105', if_true: files('tmp105.c'))
+ softmmu_ss.add(when: 'CONFIG_TMP421', if_true: files('tmp421.c'))
+ softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
+ softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.c'))
++softmmu_ss.add(when: 'CONFIG_PVPANIC', if_true: files('pvpanic.c'))
+ 
+ # ARM devices
+ softmmu_ss.add(when: 'CONFIG_PL310', if_true: files('arm_l2x0.c'))
+@@ -90,7 +91,6 @@ softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSINFO', if_true: files('iotkit-sysinfo.c')
+ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
+ softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c'))
+ 
+-softmmu_ss.add(when: 'CONFIG_PVPANIC', if_true: files('pvpanic.c'))
+ softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
+ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_scu.c', 'aspeed_sdmc.c', 'aspeed_xdma.c'))
+ softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
 -- 
 1.8.3.1
 
