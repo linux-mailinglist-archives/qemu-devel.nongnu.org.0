@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C941F295F5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:07:14 +0200 (CEST)
-Received: from localhost ([::1]:52084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E09C295F67
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:09:22 +0200 (CEST)
+Received: from localhost ([::1]:60798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVaJF-00076K-S4
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57132)
+	id 1kVaLJ-0002D6-IK
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kVaG0-0004qv-Ty; Thu, 22 Oct 2020 09:03:52 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5202 helo=huawei.com)
+ id 1kVaG3-0004ul-0p; Thu, 22 Oct 2020 09:03:55 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:57164 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kVaFx-0000g5-IR; Thu, 22 Oct 2020 09:03:52 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 0C25668FD8703F687B9F;
+ id 1kVaFx-0000gG-M9; Thu, 22 Oct 2020 09:03:54 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id B751AA64C74A8280319E;
  Thu, 22 Oct 2020 21:03:38 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 22 Oct 2020
- 21:03:30 +0800
+Received: from localhost (10.174.184.155) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Thu, 22 Oct 2020
+ 21:03:31 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>, <kwolf@redhat.com>, <mreitz@redhat.com>,
  <eblake@redhat.com>
-Subject: [PATCH v3 3/9] block-backend: add I/O hang timeout
-Date: Thu, 22 Oct 2020 21:02:57 +0800
-Message-ID: <20201022130303.1092-4-cenjiahui@huawei.com>
+Subject: [PATCH v3 4/9] block-backend: add I/O rehandle pause/unpause
+Date: Thu, 22 Oct 2020 21:02:58 +0800
+Message-ID: <20201022130303.1092-5-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201022130303.1092-1-cenjiahui@huawei.com>
 References: <20201022130303.1092-1-cenjiahui@huawei.com>
@@ -37,9 +37,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.155]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:03:38
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:03:40
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -64,163 +64,122 @@ Cc: cenjiahui@huawei.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not all errors would be fixed, so it is better to add a rehandle timeout
-for I/O hang.
+Sometimes there is no need to rehandle AIOs although I/O hang is enabled. For
+example, when deleting a block backend, we have to wait AIO completed by calling
+blk_drain(), but not care about the results. So a pause interface of I/O hang
+is helpful to bypass the rehandle mechanism.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- block/block-backend.c          | 99 +++++++++++++++++++++++++++++++++-
- include/sysemu/block-backend.h |  2 +
- 2 files changed, 100 insertions(+), 1 deletion(-)
+ block/block-backend.c          | 60 +++++++++++++++++++++++++++++++---
+ include/sysemu/block-backend.h |  2 ++
+ 2 files changed, 58 insertions(+), 4 deletions(-)
 
 diff --git a/block/block-backend.c b/block/block-backend.c
-index 8050669d23..90fcc678b5 100644
+index 90fcc678b5..c16d95a2c9 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -38,6 +38,11 @@ static AioContext *blk_aiocb_get_aio_context(BlockAIOCB *acb);
+@@ -37,6 +37,9 @@ static AioContext *blk_aiocb_get_aio_context(BlockAIOCB *acb);
+ 
  /* block backend rehandle timer interval 5s */
  #define BLOCK_BACKEND_REHANDLE_TIMER_INTERVAL   5000
++#define BLOCK_BACKEND_REHANDLE_NORMAL           1
++#define BLOCK_BACKEND_REHANDLE_DRAIN_REQUESTED  2
++#define BLOCK_BACKEND_REHANDLE_DRAINED          3
  
-+enum BlockIOHangStatus {
-+    BLOCK_IO_HANG_STATUS_NORMAL = 0,
-+    BLOCK_IO_HANG_STATUS_HANG,
-+};
-+
- typedef struct BlockBackendRehandleInfo {
-     bool enable;
-     QEMUTimer *ts;
-@@ -109,6 +114,11 @@ struct BlockBackend {
+ enum BlockIOHangStatus {
+     BLOCK_IO_HANG_STATUS_NORMAL = 0,
+@@ -50,6 +53,8 @@ typedef struct BlockBackendRehandleInfo {
+ 
      unsigned int in_flight;
- 
-     BlockBackendRehandleInfo reinfo;
+     QTAILQ_HEAD(, BlkAioEmAIOCB) re_aios;
 +
-+    int64_t iohang_timeout; /* The I/O hang timeout value in sec. */
-+    int64_t iohang_time;    /* The I/O hang start time */
-+    bool is_iohang_timeout;
-+    int iohang_status;
- };
++    int status;
+ } BlockBackendRehandleInfo;
  
- typedef struct BlockBackendAIOCB {
-@@ -2481,20 +2491,107 @@ static void blk_rehandle_timer_cb(void *opaque)
-     aio_context_release(blk_get_aio_context(blk));
+ typedef struct BlockBackendAioNotifier {
+@@ -2461,6 +2466,51 @@ static void blk_rehandle_remove_aiocb(BlockBackend *blk, BlkAioEmAIOCB *acb)
+     qatomic_dec(&blk->reinfo.in_flight);
  }
  
-+static bool blk_iohang_handle(BlockBackend *blk, int new_status)
++static void blk_rehandle_drain(BlockBackend *blk)
 +{
-+    int64_t now;
-+    int old_status = blk->iohang_status;
-+    bool need_rehandle = false;
-+
-+    switch (new_status) {
-+    case BLOCK_IO_HANG_STATUS_NORMAL:
-+        if (old_status == BLOCK_IO_HANG_STATUS_HANG) {
-+            /* Case when I/O Hang is recovered */
-+            blk->is_iohang_timeout = false;
-+            blk->iohang_time = 0;
-+        }
-+        break;
-+    case BLOCK_IO_HANG_STATUS_HANG:
-+        if (old_status != BLOCK_IO_HANG_STATUS_HANG) {
-+            /* Case when I/O hang is first triggered */
-+            blk->iohang_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
-+            need_rehandle = true;
-+        } else {
-+            if (!blk->is_iohang_timeout) {
-+                now = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
-+                if (now >= (blk->iohang_time + blk->iohang_timeout)) {
-+                    /* Case when I/O hang is timeout */
-+                    blk->is_iohang_timeout = true;
-+                } else {
-+                    /* Case when I/O hang is continued */
-+                    need_rehandle = true;
-+                }
-+            }
-+        }
-+        break;
-+    default:
-+        break;
++    if (blk_bs(blk)) {
++        bdrv_drained_begin(blk_bs(blk));
++        BDRV_POLL_WHILE(blk_bs(blk), qatomic_read(&blk->reinfo.in_flight) > 0);
++        bdrv_drained_end(blk_bs(blk));
 +    }
-+
-+    blk->iohang_status = new_status;
-+    return need_rehandle;
 +}
 +
-+static bool blk_rehandle_aio(BlkAioEmAIOCB *acb, bool *has_timeout)
++static bool blk_rehandle_is_paused(BlockBackend *blk)
 +{
-+    bool need_rehandle = false;
-+
-+    /* Rehandle aio which returns EIO before hang timeout */
-+    if (acb->rwco.ret == -EIO) {
-+        if (acb->rwco.blk->is_iohang_timeout) {
-+            /* I/O hang has timeout and not recovered */
-+            *has_timeout = true;
-+        } else {
-+            need_rehandle = blk_iohang_handle(acb->rwco.blk,
-+                                              BLOCK_IO_HANG_STATUS_HANG);
-+            /* I/O hang timeout first trigger */
-+            if (acb->rwco.blk->is_iohang_timeout) {
-+                *has_timeout = true;
-+            }
-+        }
-+    }
-+
-+    return need_rehandle;
++    return blk->reinfo.status == BLOCK_BACKEND_REHANDLE_DRAIN_REQUESTED ||
++           blk->reinfo.status == BLOCK_BACKEND_REHANDLE_DRAINED;
 +}
 +
- static void blk_rehandle_aio_complete(BlkAioEmAIOCB *acb)
- {
-+    bool has_timeout = false;
-+    bool need_rehandle = false;
-+
-     if (acb->has_returned) {
-         blk_dec_in_flight(acb->rwco.blk);
--        if (acb->rwco.ret == -EIO) {
-+        need_rehandle = blk_rehandle_aio(acb, &has_timeout);
-+        if (need_rehandle) {
-             blk_rehandle_insert_aiocb(acb->rwco.blk, acb);
-             return;
-         }
- 
-         acb->common.cb(acb->common.opaque, acb->rwco.ret);
-+
-+        /* I/O hang return to normal status */
-+        if (!has_timeout) {
-+            blk_iohang_handle(acb->rwco.blk, BLOCK_IO_HANG_STATUS_NORMAL);
-+        }
-+
-         qemu_aio_unref(acb);
-     }
- }
- 
-+void blk_iohang_init(BlockBackend *blk, int64_t iohang_timeout)
++void blk_rehandle_pause(BlockBackend *blk)
 +{
-+    if (!blk) {
++    BlockBackendRehandleInfo *reinfo = &blk->reinfo;
++
++    aio_context_acquire(blk_get_aio_context(blk));
++    if (!reinfo->enable || reinfo->status == BLOCK_BACKEND_REHANDLE_DRAINED) {
++        aio_context_release(blk_get_aio_context(blk));
 +        return;
 +    }
 +
-+    blk->is_iohang_timeout = false;
-+    blk->iohang_time = 0;
-+    blk->iohang_timeout = 0;
-+    blk->iohang_status = BLOCK_IO_HANG_STATUS_NORMAL;
-+    if (iohang_timeout > 0) {
-+        blk->iohang_timeout = iohang_timeout;
-+    }
++    reinfo->status = BLOCK_BACKEND_REHANDLE_DRAIN_REQUESTED;
++    blk_rehandle_drain(blk);
++    reinfo->status = BLOCK_BACKEND_REHANDLE_DRAINED;
++    aio_context_release(blk_get_aio_context(blk));
 +}
 +
- void blk_register_buf(BlockBackend *blk, void *host, size_t size)
++void blk_rehandle_unpause(BlockBackend *blk)
++{
++    BlockBackendRehandleInfo *reinfo = &blk->reinfo;
++
++    aio_context_acquire(blk_get_aio_context(blk));
++    if (!reinfo->enable || reinfo->status == BLOCK_BACKEND_REHANDLE_NORMAL) {
++        aio_context_release(blk_get_aio_context(blk));
++        return;
++    }
++
++    reinfo->status = BLOCK_BACKEND_REHANDLE_NORMAL;
++    aio_context_release(blk_get_aio_context(blk));
++}
++
+ static void blk_rehandle_timer_cb(void *opaque)
  {
-     bdrv_register_buf(blk_bs(blk), host, size);
+     BlockBackend *blk = opaque;
+@@ -2560,10 +2610,12 @@ static void blk_rehandle_aio_complete(BlkAioEmAIOCB *acb)
+ 
+     if (acb->has_returned) {
+         blk_dec_in_flight(acb->rwco.blk);
+-        need_rehandle = blk_rehandle_aio(acb, &has_timeout);
+-        if (need_rehandle) {
+-            blk_rehandle_insert_aiocb(acb->rwco.blk, acb);
+-            return;
++        if (!blk_rehandle_is_paused(acb->rwco.blk)) {
++            need_rehandle = blk_rehandle_aio(acb, &has_timeout);
++            if (need_rehandle) {
++                blk_rehandle_insert_aiocb(acb->rwco.blk, acb);
++                return;
++            }
+         }
+ 
+         acb->common.cb(acb->common.opaque, acb->rwco.ret);
 diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index 8203d7f6f9..bfebe3a960 100644
+index bfebe3a960..391a047444 100644
 --- a/include/sysemu/block-backend.h
 +++ b/include/sysemu/block-backend.h
-@@ -268,4 +268,6 @@ const BdrvChild *blk_root(BlockBackend *blk);
+@@ -268,6 +268,8 @@ const BdrvChild *blk_root(BlockBackend *blk);
  
  int blk_make_empty(BlockBackend *blk, Error **errp);
  
-+void blk_iohang_init(BlockBackend *blk, int64_t iohang_timeout);
-+
++void blk_rehandle_pause(BlockBackend *blk);
++void blk_rehandle_unpause(BlockBackend *blk);
+ void blk_iohang_init(BlockBackend *blk, int64_t iohang_timeout);
+ 
  #endif
 -- 
 2.19.1
