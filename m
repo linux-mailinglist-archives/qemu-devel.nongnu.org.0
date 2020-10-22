@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6772962F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 18:44:19 +0200 (CEST)
-Received: from localhost ([::1]:50778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC6B2962F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 18:44:15 +0200 (CEST)
+Received: from localhost ([::1]:50584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVdhK-0005ap-B1
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 12:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57250)
+	id 1kVdhG-0005WF-7C
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 12:44:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kVdfA-0003qy-24
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 12:42:04 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:42746)
+ id 1kVdfc-0004HE-Ua
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 12:42:33 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:40188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kVdf5-0006v0-6F
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 12:42:03 -0400
-Received: by mail-ej1-x643.google.com with SMTP id h24so3238955ejg.9
- for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 09:41:55 -0700 (PDT)
+ id 1kVdfb-0006zw-A9
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 12:42:32 -0400
+Received: by mail-ed1-x543.google.com with SMTP id p13so2411853edi.7
+ for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 09:42:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=e8Q+b+DQpGDx9jLTMEX7U+5d3ur3f5M/g5L9+KehmHE=;
- b=L21vttSz+KFCHDEexIh+QoeuWN+tD6emoZYdvSsubkDaZVaQig+dzz/9OYbLod1C3I
- V0rbiQsmIF4xQoC63Wr700Z7tAJt5z2WeEJl+DIerBUM+cLPCufmchWLSODyjHQ9X7jR
- LhA4riK4xrr4m84jK881Q/fVLl0SsHP70W89YF4u4Sqj5TkjoEvRGuxtPEQtel95Jup7
- 7Td4eOcDFom04dOLehLmooqYCaEyZlN2weMVZdIk6/KNOsl4+Co3mJAOZKtkxxsmJzyD
- oCxRo9tOHPieVys+6pcJemf7JAukbx2pGsjF82XBYYVpVgpTFU5p+xg5xDwOT0tGv+o9
- pJTg==
+ bh=dyhBC52eRH4HAs8jzj6F4GMDv13zQ2T1IHonUg0kYEM=;
+ b=xo+LFOUN2lnoqrtDnJFdJpvYONjmrZQoz9F4zfTOh7ryKMLusHkEnAi6RjZYNW0dXS
+ sVnlY9uKztuvXKx60BdFvZjMeWgINfRVHBgLzAGAmcEH+jW4WAvrAG1JWDUVew+Dp+AL
+ tBPSFRMlC8HoYgqJcXiZ/xeZVA4c2kmL5uQtMBvvU4NfVGlIJONppSSjTZmXv96wiGGH
+ cXftyN1KgAqXttc5QYQlVEOuCmdHBdgtutBx8qWwU9zvcXyhK3yfS4dlstYE6zmhneCO
+ 8+4EKLDr9pNyOez3RYtiu+7j3ZRQrLOBgEw+3wlkYX/xgpguhsyhJfis991x/vVp5VQo
+ 8hYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=e8Q+b+DQpGDx9jLTMEX7U+5d3ur3f5M/g5L9+KehmHE=;
- b=NASvkFkuKmi0DBNWiVnX0SbujDhJ8xuQ3Xek3yqStN+d/CJk2jpO0tzEEo8gFLUi6O
- LX1gnvAcvfVtXgEleFUJQNoMbPWkjd3fKGxBxeMtWS/MTocxR4X1BqlixowlVks+J/5N
- N2RBwzQbkAibNi2KZYyzmP4lJfLarihNKHoNmschG0i6M0SQsh3asXuJup332/zR9tJl
- asCEhqXWuXanQ7gkXb4JMDGOg6MtXNx/T5hXqCOuifBoQjUgYYLM4bToC8uRi4XagBwr
- lRRol9L6E+IJWHtBUE/ChQYovgLS4tXKudWpvhW/PeuZGWyrC6/T4p3q/tZpFlHpDOxz
- kBxw==
-X-Gm-Message-State: AOAM531EDx/RdEjacPtvxyP9HSRLuC/om1p2APDeGdUBO3ipFYWImc1W
- R1MhJeyvm+em2Sq4RDgtyntDwA==
-X-Google-Smtp-Source: ABdhPJxKTFdtwGPwd/Osoe7cqVy0Qop1yYNeM46jkU58iGEyiOmEt0x2yuCXgDmQ4ZB6wHYFd2NaeQ==
-X-Received: by 2002:a17:906:444:: with SMTP id
- e4mr3369665eja.218.1603384914687; 
- Thu, 22 Oct 2020 09:41:54 -0700 (PDT)
+ bh=dyhBC52eRH4HAs8jzj6F4GMDv13zQ2T1IHonUg0kYEM=;
+ b=YCAwNFGbCFp0xMTG8Kf6TI4TUgSJ0I/EuFHXNQWOM7xRrjCeaZVIyupF7mLjMZxs6T
+ VP6SN4JEI87DdkT9IwgwMk77Aem5A7h8DxS6nSqQotBDuIXyTNmlZV9R62uTNwXav1UE
+ C3f3dDOnfFKyEB1XeBzUJ/KF7m47sXo1BnS9ERfwwJrxZi8Nj5VRztIgpIGwNyO1ARE6
+ A0SIL2EMDUyRD4JgyOn6xe/4Z7Dw85zWmFpVpdEG0796d6qamOQ6S+2JaPKkhTjHMpBV
+ p4d/GF+eIvMn/03Sr3ZSUmW6FNDF4hOqRUjH7BCyJfRpkk/hFD83urpvNXk4a64pxeU4
+ YVmQ==
+X-Gm-Message-State: AOAM533aWc7AlBzz4W5RtKxDTj5SAPW1KDBISpI/+VUlXJShuHRLomM8
+ 87384AlfMyQmm4L6u39ottD1jR6dpExgvg==
+X-Google-Smtp-Source: ABdhPJwZ/P9GOLwwkiB4mzuhRNFAzUvP0Ep41TVRcWBP4GhOixxNaU29wAa3D6X/alOGDb5dfbNLWw==
+X-Received: by 2002:a50:d751:: with SMTP id i17mr3060060edj.337.1603384949819; 
+ Thu, 22 Oct 2020 09:42:29 -0700 (PDT)
 Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id s12sm1150881ejy.25.2020.10.22.09.41.53
+ by smtp.gmail.com with ESMTPSA id v6sm1136513ejx.101.2020.10.22.09.42.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Oct 2020 09:41:53 -0700 (PDT)
-Date: Thu, 22 Oct 2020 18:41:34 +0200
+ Thu, 22 Oct 2020 09:42:29 -0700 (PDT)
+Date: Thu, 22 Oct 2020 18:42:09 +0200
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [PATCH v10 03/10] virtio-iommu: Add memory notifiers for map/unmap
-Message-ID: <20201022164134.GC1808268@myrica>
+Subject: Re: [PATCH v10 05/10] virtio-iommu: Add replay() memory region
+ callback
+Message-ID: <20201022164209.GD1808268@myrica>
 References: <20201008171558.410886-1-jean-philippe@linaro.org>
- <20201008171558.410886-4-jean-philippe@linaro.org>
- <bacbb642-ba18-77b7-3776-617b0e577540@redhat.com>
+ <20201008171558.410886-6-jean-philippe@linaro.org>
+ <056334ec-583d-83c0-74e3-4f87fea365db@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bacbb642-ba18-77b7-3776-617b0e577540@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x643.google.com
+In-Reply-To: <056334ec-583d-83c0-74e3-4f87fea365db@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,33 +92,25 @@ Cc: mst@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 16, 2020 at 09:58:28AM +0200, Auger Eric wrote:
-> > +static void virtio_iommu_notify_map(IOMMUMemoryRegion *mr, hwaddr virt_start,
-> > +                                    hwaddr virt_end, hwaddr paddr)
+On Fri, Oct 16, 2020 at 11:12:35AM +0200, Auger Eric wrote:
+> > +static gboolean virtio_iommu_remap(gpointer key, gpointer value, gpointer data)
 > > +{
-> > +    IOMMUTLBEntry entry;
-> > +    IOMMUNotifierFlag flags = mr->iommu_notify_flags;
+> > +    VirtIOIOMMUMapping *mapping = (VirtIOIOMMUMapping *) value;
+> > +    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
+> > +    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
 > > +
-> > +    if (!(flags & IOMMU_NOTIFIER_MAP)) {
-> > +        return;
-> > +    }
-> > +
-> > +    trace_virtio_iommu_notify_map(mr->parent_obj.name, virt_start, virt_end,
-> > +                                  paddr);
-> > +
-> > +    entry.target_as = &address_space_memory;
-> > +    entry.addr_mask = virt_end - virt_start;
-> > +    entry.iova = virt_start;
-> > +    entry.perm = IOMMU_RW;
-> logically you should be able to cascade the struct virtio_iommu_req_map
-> *req flags field instead.
+> > +    trace_virtio_iommu_remap(mr->parent_obj.name, interval->low, interval->high,
+> > +                             mapping->phys_addr);
+> > +    virtio_iommu_notify_unmap(mr, interval->low, interval->high);
+> > +    virtio_iommu_notify_map(mr, interval->low, interval->high,
+> > +                            mapping->phys_addr);
+> I don't get the preliminary unmap with the same data. Why isn't the map
+> sufficient to replay?
+> 
+> The default implementation only notifies for valid entries.
 
-Agreed.
-
-I'm also thinking of adding a check for VIRTIO_IOMMU_MAP_F_MMIO, to avoid
-going further into the notifier and maybe do the same for unmap.
+Yes it should be enough, I'll remove the unmap
 
 Thanks,
 Jean
-
 
