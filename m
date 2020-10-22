@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27427295E07
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:08:17 +0200 (CEST)
-Received: from localhost ([::1]:47990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CEA295E14
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:11:44 +0200 (CEST)
+Received: from localhost ([::1]:58272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVZOC-0000Ye-6i
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37070)
+	id 1kVZRY-000561-2j
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kVYnK-0006iI-AL
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:30:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kVYnE-0005FK-9j
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:30:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603366202;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Itz/H77O8YQ99CGzsq9afhukogYzz/U6DlCXeUrgRFQ=;
- b=F753wHuWgsSE9Xhwb1TQ3XpVojsJKZyzjgRhJVS1ihGfBrGvaonf+mo73rhxg2kgdKeIVq
- q3SYFdPqD6pcJlchWZBo7djlKn5PVZUZqrpPz7wCW5pyCQDwS+/7HiUhqN3i0opELyo3pE
- W3Z7MvVmM34Ssmczv1vOPn9ds7k5BDo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-w5VJ63psMaWWBzrKB8jnpw-1; Thu, 22 Oct 2020 07:29:57 -0400
-X-MC-Unique: w5VJ63psMaWWBzrKB8jnpw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66362AD743;
- Thu, 22 Oct 2020 11:29:56 +0000 (UTC)
-Received: from localhost (ovpn-114-229.ams2.redhat.com [10.36.114.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B96A1002388;
- Thu, 22 Oct 2020 11:29:52 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1kVYxN-0003yd-KX
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:40:33 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1kVYxL-0006KD-Le
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:40:33 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 13so1705037wmf.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 04:40:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=7vlc1q9nKe/z3Et5stKE6k9iGpG1kYAK5TMYr8yFI6U=;
+ b=IJnOPNT6M9aESXlBIBLH8wF8A+a3pVAibF5prpKZOGInmHySsj6Ljhc5zCzxfNd2kM
+ gXmNnMSALUNqn7D1fWw72aZ4oOos/7yFufGBDWpYEs/HtQ8w1bjwiB2R09jYE8Urhles
+ QDYZzOcfHLbKPrpyW7TRJPX+5YDJBk0lvosZztgUqqon+PCFrKqt4Lnhdmr3ggHZxupb
+ 4pxXyGny/ZnnuXBpxVumt06HvyUU+7mpevH9RNr8OAH+pgk1B4GxmHdkbem8T29Da5mn
+ fvs/3MVGd22kVlGexR4Bk8kBNGVjTjmbRgosFU5DjZUiN9MNzziU24vZmNm3wPsl4KOA
+ +PCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=7vlc1q9nKe/z3Et5stKE6k9iGpG1kYAK5TMYr8yFI6U=;
+ b=pvb8Cnc6iqGX6gR1pt2gq5bPiKcu/xY/1dsI8R8wgca7HmEq80tK+lgwjjR6WRcbqO
+ gO3Ii6cUYyDJggBJuS83aepJN2v8aGxdZWWCSh2+4SQunWkwletiMFnMv09HrASRM+IS
+ +18aFZF6D+6v/VaLcrEH0mxtUuqPbt2rchWAHZ3VD8awz2zQIsbYZNehxWyhx7hMvNZb
+ MdEPwNAKbLgKO9s9JU0rvOjr62iAzGD6YUAcvyOKfDssh3O3CtcBUvPmhJRbZNEYicA6
+ wQgDQW9Df//iGHQonmy/t/VaQx+8KCk3Me5t1FXTrxQ1i4R0FKEiEekyHamQY2gE8+V9
+ hNpQ==
+X-Gm-Message-State: AOAM530UrV1P4W5cfj7u0lf19y2+c9NCGvn/sX4ud3PD1O8n4ka8/Ou1
+ 6A5rghpTrvWQDgn44u3axOQKyrLypG0oOA==
+X-Google-Smtp-Source: ABdhPJxVIv8in8tXnH+ulc6zBKfVKk0GJK//JL4+VYtWEENNzdZhz9eafJ+8Vxt9D83ztRDh67Vfbg==
+X-Received: by 2002:a1c:6289:: with SMTP id w131mr2054880wmb.109.1603366829553; 
+ Thu, 22 Oct 2020 04:40:29 -0700 (PDT)
+Received: from localhost.localdomain ([77.138.162.106])
+ by smtp.gmail.com with ESMTPSA id 10sm3574622wmn.9.2020.10.22.04.40.28
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 22 Oct 2020 04:40:28 -0700 (PDT)
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 28/28] iotests: add commit top->base cases to 274
-Date: Thu, 22 Oct 2020 12:27:26 +0100
-Message-Id: <20201022112726.736757-29-stefanha@redhat.com>
-In-Reply-To: <20201022112726.736757-1-stefanha@redhat.com>
-References: <20201022112726.736757-1-stefanha@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 00:54:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+	mst@redhat.com
+Subject: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is not
+ ready
+Date: Thu, 22 Oct 2020 14:40:26 +0300
+Message-Id: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
+X-Mailer: git-send-email 2.17.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=marcel.apfelbaum@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,111 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Alberto Garcia <berto@igalia.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: dgibson@redhat.com, jusual@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8u
-Y29tPgoKVGhlc2UgY2FzZXMgYXJlIGZpeGVkIGJ5IHByZXZpb3VzIHBhdGNoZXMgYXJvdW5kIGJs
-b2NrX3N0YXR1cyBhbmQKaXNfYWxsb2NhdGVkLgoKU2lnbmVkLW9mZi1ieTogVmxhZGltaXIgU2Vt
-ZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPgpSZXZpZXdlZC1ieTog
-RXJpYyBCbGFrZSA8ZWJsYWtlQHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBBbGJlcnRvIEdhcmNp
-YSA8YmVydG9AaWdhbGlhLmNvbT4KTWVzc2FnZS1pZDogMjAyMDA5MjQxOTQwMDMuMjIwODAtNi12
-c2VtZW50c292QHZpcnR1b3p6by5jb20KU2lnbmVkLW9mZi1ieTogU3RlZmFuIEhham5vY3ppIDxz
-dGVmYW5oYUByZWRoYXQuY29tPgotLS0KIHRlc3RzL3FlbXUtaW90ZXN0cy8yNzQgICAgIHwgMjAg
-KysrKysrKysrKysKIHRlc3RzL3FlbXUtaW90ZXN0cy8yNzQub3V0IHwgNjggKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgODggaW5zZXJ0aW9u
-cygrKQoKZGlmZiAtLWdpdCBhL3Rlc3RzL3FlbXUtaW90ZXN0cy8yNzQgYi90ZXN0cy9xZW11LWlv
-dGVzdHMvMjc0CmluZGV4IGQ0NTcxYzU0NjUuLjc2YjFiYTZhNTIgMTAwNzU1Ci0tLSBhL3Rlc3Rz
-L3FlbXUtaW90ZXN0cy8yNzQKKysrIGIvdGVzdHMvcWVtdS1pb3Rlc3RzLzI3NApAQCAtMTE1LDYg
-KzExNSwyNiBAQCB3aXRoIGlvdGVzdHMuRmlsZVBhdGgoJ2Jhc2UnKSBhcyBiYXNlLCBcCiAgICAg
-aW90ZXN0cy5xZW11X2lvX2xvZygnLWMnLCAncmVhZCAtUCAxIDAgJWQnICUgc2l6ZV9zaG9ydCwg
-bWlkKQogICAgIGlvdGVzdHMucWVtdV9pb19sb2coJy1jJywgJ3JlYWQgLVAgMCAlZCAlZCcgJSAo
-c2l6ZV9zaG9ydCwgc2l6ZV9kaWZmKSwgbWlkKQogCisgICAgaW90ZXN0cy5sb2coJz09PSBUZXN0
-aW5nIHFlbXUtaW1nIGNvbW1pdCAodG9wIC0+IGJhc2UpID09PScpCisKKyAgICBjcmVhdGVfY2hh
-aW4oKQorICAgIGlvdGVzdHMucWVtdV9pbWdfbG9nKCdjb21taXQnLCAnLWInLCBiYXNlLCB0b3Ap
-CisgICAgaW90ZXN0cy5pbWdfaW5mb19sb2coYmFzZSkKKyAgICBpb3Rlc3RzLnFlbXVfaW9fbG9n
-KCctYycsICdyZWFkIC1QIDEgMCAlZCcgJSBzaXplX3Nob3J0LCBiYXNlKQorICAgIGlvdGVzdHMu
-cWVtdV9pb19sb2coJy1jJywgJ3JlYWQgLVAgMCAlZCAlZCcgJSAoc2l6ZV9zaG9ydCwgc2l6ZV9k
-aWZmKSwgYmFzZSkKKworICAgIGlvdGVzdHMubG9nKCc9PT0gVGVzdGluZyBRTVAgYWN0aXZlIGNv
-bW1pdCAodG9wIC0+IGJhc2UpID09PScpCisKKyAgICBjcmVhdGVfY2hhaW4oKQorICAgIHdpdGgg
-Y3JlYXRlX3ZtKCkgYXMgdm06CisgICAgICAgIHZtLmxhdW5jaCgpCisgICAgICAgIHZtLnFtcF9s
-b2coJ2Jsb2NrLWNvbW1pdCcsIGRldmljZT0ndG9wJywgYmFzZV9ub2RlPSdiYXNlJywKKyAgICAg
-ICAgICAgICAgICAgICBqb2JfaWQ9J2pvYjAnLCBhdXRvX2Rpc21pc3M9RmFsc2UpCisgICAgICAg
-IHZtLnJ1bl9qb2IoJ2pvYjAnLCB3YWl0PTUpCisKKyAgICBpb3Rlc3RzLmltZ19pbmZvX2xvZyht
-aWQpCisgICAgaW90ZXN0cy5xZW11X2lvX2xvZygnLWMnLCAncmVhZCAtUCAxIDAgJWQnICUgc2l6
-ZV9zaG9ydCwgYmFzZSkKKyAgICBpb3Rlc3RzLnFlbXVfaW9fbG9nKCctYycsICdyZWFkIC1QIDAg
-JWQgJWQnICUgKHNpemVfc2hvcnQsIHNpemVfZGlmZiksIGJhc2UpCiAKICAgICBpb3Rlc3RzLmxv
-ZygnPT0gUmVzaXplIHRlc3RzID09JykKIApkaWZmIC0tZ2l0IGEvdGVzdHMvcWVtdS1pb3Rlc3Rz
-LzI3NC5vdXQgYi90ZXN0cy9xZW11LWlvdGVzdHMvMjc0Lm91dAppbmRleCBiZjVhYmQ0YzEwLi5j
-ZmUxN2E4NjU5IDEwMDY0NAotLS0gYS90ZXN0cy9xZW11LWlvdGVzdHMvMjc0Lm91dAorKysgYi90
-ZXN0cy9xZW11LWlvdGVzdHMvMjc0Lm91dApAQCAtMTM1LDYgKzEzNSw3NCBAQCByZWFkIDEwNDg1
-NzYvMTA0ODU3NiBieXRlcyBhdCBvZmZzZXQgMAogcmVhZCAxMDQ4NTc2LzEwNDg1NzYgYnl0ZXMg
-YXQgb2Zmc2V0IDEwNDg1NzYKIDEgTWlCLCBYIG9wczsgWFg6WFg6WFguWCAoWFhYIFlZWS9zZWMg
-YW5kIFhYWCBvcHMvc2VjKQogCis9PT0gVGVzdGluZyBxZW11LWltZyBjb21taXQgKHRvcCAtPiBi
-YXNlKSA9PT0KK0Zvcm1hdHRpbmcgJ1RFU1RfRElSL1BJRC1iYXNlJywgZm10PXFjb3cyIGNsdXN0
-ZXJfc2l6ZT02NTUzNiBleHRlbmRlZF9sMj1vZmYgY29tcHJlc3Npb25fdHlwZT16bGliIHNpemU9
-MjA5NzE1MiBsYXp5X3JlZmNvdW50cz1vZmYgcmVmY291bnRfYml0cz0xNgorCitGb3JtYXR0aW5n
-ICdURVNUX0RJUi9QSUQtbWlkJywgZm10PXFjb3cyIGNsdXN0ZXJfc2l6ZT02NTUzNiBleHRlbmRl
-ZF9sMj1vZmYgY29tcHJlc3Npb25fdHlwZT16bGliIHNpemU9MTA0ODU3NiBiYWNraW5nX2ZpbGU9
-VEVTVF9ESVIvUElELWJhc2UgYmFja2luZ19mbXQ9cWNvdzIgbGF6eV9yZWZjb3VudHM9b2ZmIHJl
-ZmNvdW50X2JpdHM9MTYKKworRm9ybWF0dGluZyAnVEVTVF9ESVIvUElELXRvcCcsIGZtdD1xY293
-MiBjbHVzdGVyX3NpemU9NjU1MzYgZXh0ZW5kZWRfbDI9b2ZmIGNvbXByZXNzaW9uX3R5cGU9emxp
-YiBzaXplPTIwOTcxNTIgYmFja2luZ19maWxlPVRFU1RfRElSL1BJRC1taWQgYmFja2luZ19mbXQ9
-cWNvdzIgbGF6eV9yZWZjb3VudHM9b2ZmIHJlZmNvdW50X2JpdHM9MTYKKword3JvdGUgMjA5NzE1
-Mi8yMDk3MTUyIGJ5dGVzIGF0IG9mZnNldCAwCisyIE1pQiwgWCBvcHM7IFhYOlhYOlhYLlggKFhY
-WCBZWVkvc2VjIGFuZCBYWFggb3BzL3NlYykKKworSW1hZ2UgY29tbWl0dGVkLgorCitpbWFnZTog
-VEVTVF9JTUcKK2ZpbGUgZm9ybWF0OiBJTUdGTVQKK3ZpcnR1YWwgc2l6ZTogMiBNaUIgKDIwOTcx
-NTIgYnl0ZXMpCitjbHVzdGVyX3NpemU6IDY1NTM2CitGb3JtYXQgc3BlY2lmaWMgaW5mb3JtYXRp
-b246CisgICAgY29tcGF0OiAxLjEKKyAgICBjb21wcmVzc2lvbiB0eXBlOiB6bGliCisgICAgbGF6
-eSByZWZjb3VudHM6IGZhbHNlCisgICAgcmVmY291bnQgYml0czogMTYKKyAgICBjb3JydXB0OiBm
-YWxzZQorICAgIGV4dGVuZGVkIGwyOiBmYWxzZQorCityZWFkIDEwNDg1NzYvMTA0ODU3NiBieXRl
-cyBhdCBvZmZzZXQgMAorMSBNaUIsIFggb3BzOyBYWDpYWDpYWC5YIChYWFggWVlZL3NlYyBhbmQg
-WFhYIG9wcy9zZWMpCisKK3JlYWQgMTA0ODU3Ni8xMDQ4NTc2IGJ5dGVzIGF0IG9mZnNldCAxMDQ4
-NTc2CisxIE1pQiwgWCBvcHM7IFhYOlhYOlhYLlggKFhYWCBZWVkvc2VjIGFuZCBYWFggb3BzL3Nl
-YykKKworPT09IFRlc3RpbmcgUU1QIGFjdGl2ZSBjb21taXQgKHRvcCAtPiBiYXNlKSA9PT0KK0Zv
-cm1hdHRpbmcgJ1RFU1RfRElSL1BJRC1iYXNlJywgZm10PXFjb3cyIGNsdXN0ZXJfc2l6ZT02NTUz
-NiBleHRlbmRlZF9sMj1vZmYgY29tcHJlc3Npb25fdHlwZT16bGliIHNpemU9MjA5NzE1MiBsYXp5
-X3JlZmNvdW50cz1vZmYgcmVmY291bnRfYml0cz0xNgorCitGb3JtYXR0aW5nICdURVNUX0RJUi9Q
-SUQtbWlkJywgZm10PXFjb3cyIGNsdXN0ZXJfc2l6ZT02NTUzNiBleHRlbmRlZF9sMj1vZmYgY29t
-cHJlc3Npb25fdHlwZT16bGliIHNpemU9MTA0ODU3NiBiYWNraW5nX2ZpbGU9VEVTVF9ESVIvUElE
-LWJhc2UgYmFja2luZ19mbXQ9cWNvdzIgbGF6eV9yZWZjb3VudHM9b2ZmIHJlZmNvdW50X2JpdHM9
-MTYKKworRm9ybWF0dGluZyAnVEVTVF9ESVIvUElELXRvcCcsIGZtdD1xY293MiBjbHVzdGVyX3Np
-emU9NjU1MzYgZXh0ZW5kZWRfbDI9b2ZmIGNvbXByZXNzaW9uX3R5cGU9emxpYiBzaXplPTIwOTcx
-NTIgYmFja2luZ19maWxlPVRFU1RfRElSL1BJRC1taWQgYmFja2luZ19mbXQ9cWNvdzIgbGF6eV9y
-ZWZjb3VudHM9b2ZmIHJlZmNvdW50X2JpdHM9MTYKKword3JvdGUgMjA5NzE1Mi8yMDk3MTUyIGJ5
-dGVzIGF0IG9mZnNldCAwCisyIE1pQiwgWCBvcHM7IFhYOlhYOlhYLlggKFhYWCBZWVkvc2VjIGFu
-ZCBYWFggb3BzL3NlYykKKworeyJleGVjdXRlIjogImJsb2NrLWNvbW1pdCIsICJhcmd1bWVudHMi
-OiB7ImF1dG8tZGlzbWlzcyI6IGZhbHNlLCAiYmFzZS1ub2RlIjogImJhc2UiLCAiZGV2aWNlIjog
-InRvcCIsICJqb2ItaWQiOiAiam9iMCJ9fQoreyJyZXR1cm4iOiB7fX0KK3siZXhlY3V0ZSI6ICJq
-b2ItY29tcGxldGUiLCAiYXJndW1lbnRzIjogeyJpZCI6ICJqb2IwIn19Cit7InJldHVybiI6IHt9
-fQoreyJkYXRhIjogeyJkZXZpY2UiOiAiam9iMCIsICJsZW4iOiAxMDQ4NTc2LCAib2Zmc2V0Ijog
-MTA0ODU3NiwgInNwZWVkIjogMCwgInR5cGUiOiAiY29tbWl0In0sICJldmVudCI6ICJCTE9DS19K
-T0JfUkVBRFkiLCAidGltZXN0YW1wIjogeyJtaWNyb3NlY29uZHMiOiAiVVNFQ1MiLCAic2Vjb25k
-cyI6ICJTRUNTIn19Cit7ImRhdGEiOiB7ImRldmljZSI6ICJqb2IwIiwgImxlbiI6IDEwNDg1NzYs
-ICJvZmZzZXQiOiAxMDQ4NTc2LCAic3BlZWQiOiAwLCAidHlwZSI6ICJjb21taXQifSwgImV2ZW50
-IjogIkJMT0NLX0pPQl9DT01QTEVURUQiLCAidGltZXN0YW1wIjogeyJtaWNyb3NlY29uZHMiOiAi
-VVNFQ1MiLCAic2Vjb25kcyI6ICJTRUNTIn19Cit7ImV4ZWN1dGUiOiAiam9iLWRpc21pc3MiLCAi
-YXJndW1lbnRzIjogeyJpZCI6ICJqb2IwIn19Cit7InJldHVybiI6IHt9fQoraW1hZ2U6IFRFU1Rf
-SU1HCitmaWxlIGZvcm1hdDogSU1HRk1UCit2aXJ0dWFsIHNpemU6IDEgTWlCICgxMDQ4NTc2IGJ5
-dGVzKQorY2x1c3Rlcl9zaXplOiA2NTUzNgorYmFja2luZyBmaWxlOiBURVNUX0RJUi9QSUQtYmFz
-ZQorYmFja2luZyBmaWxlIGZvcm1hdDogSU1HRk1UCitGb3JtYXQgc3BlY2lmaWMgaW5mb3JtYXRp
-b246CisgICAgY29tcGF0OiAxLjEKKyAgICBjb21wcmVzc2lvbiB0eXBlOiB6bGliCisgICAgbGF6
-eSByZWZjb3VudHM6IGZhbHNlCisgICAgcmVmY291bnQgYml0czogMTYKKyAgICBjb3JydXB0OiBm
-YWxzZQorICAgIGV4dGVuZGVkIGwyOiBmYWxzZQorCityZWFkIDEwNDg1NzYvMTA0ODU3NiBieXRl
-cyBhdCBvZmZzZXQgMAorMSBNaUIsIFggb3BzOyBYWDpYWDpYWC5YIChYWFggWVlZL3NlYyBhbmQg
-WFhYIG9wcy9zZWMpCisKK3JlYWQgMTA0ODU3Ni8xMDQ4NTc2IGJ5dGVzIGF0IG9mZnNldCAxMDQ4
-NTc2CisxIE1pQiwgWCBvcHM7IFhYOlhYOlhYLlggKFhYWCBZWVkvc2VjIGFuZCBYWFggb3BzL3Nl
-YykKKwogPT0gUmVzaXplIHRlc3RzID09CiA9PT0gcHJlYWxsb2NhdGlvbj1vZmYgPT09CiBGb3Jt
-YXR0aW5nICdURVNUX0RJUi9QSUQtYmFzZScsIGZtdD1xY293MiBjbHVzdGVyX3NpemU9NjU1MzYg
-ZXh0ZW5kZWRfbDI9b2ZmIGNvbXByZXNzaW9uX3R5cGU9emxpYiBzaXplPTY0NDI0NTA5NDQgbGF6
-eV9yZWZjb3VudHM9b2ZmIHJlZmNvdW50X2JpdHM9MTYKLS0gCjIuMjYuMgoK
+From: Marcel Apfelbaum <marcel@redhat.com>
+
+During PCIe Root Port's transition from Power-Off to Power-ON (or vice-versa)
+the "Slot Control Register" has the "Power Indicator Control"
+set to "Blinking" expressing a "power transition" mode.
+
+Any hotplug operation during the "power transition" mode is not permitted
+or at least not expected by the Guest OS leading to strange failures.
+
+Detect and refuse hotplug operations in such case.
+
+Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+---
+ hw/pci/pcie.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index 5b48bae0f6..2fe5c1473f 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+     PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
+     uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
+     uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
++    uint32_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
+ 
+     /* Check if hot-plug is disabled on the slot */
+     if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
+@@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+         return;
+     }
+ 
++    if ((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_BLINK) {
++        error_setg(errp, "Hot-plug failed: %s is in Power Transition",
++                   DEVICE(hotplug_pdev)->id);
++        return;
++    }
++
+     pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
+ }
+ 
+-- 
+2.17.2
 
 
