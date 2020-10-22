@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C32F295A59
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 10:29:58 +0200 (CEST)
-Received: from localhost ([::1]:37362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DA22959D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 10:06:31 +0200 (CEST)
+Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVVyv-0000My-Jx
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 04:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49312)
+	id 1kVVcE-0001Q2-2x
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 04:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kVVwq-0007Xb-Vk; Thu, 22 Oct 2020 04:27:48 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:44444)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kVVwo-00076J-9p; Thu, 22 Oct 2020 04:27:48 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8ODRg008760;
- Thu, 22 Oct 2020 08:27:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=P73tB6V8HboKqkNO+5D1J1iSewP3IjymN3EA3sKR3mI=;
- b=EtkGSem9MnPRURgxNGpYS5WPtaE0WTY6BswM22CL0NrSDQdiU5MCMiUHOmavqdX1yCBy
- G95zn2Hm3gNlW9/mYFf5yIw4HKEZrg95oT9tFUemYD42XmXAy2X/fsSqdsfHjpUzVcLJ
- midjW3QvRjpdjfxJGYJgpBL5Hw5VJWhNTGXkDistuNcNIo/JkH6dEfW4PW9iqh7dUfjc
- +g7b+u8GUvt5u0IjGY1l9wMHrzc6k8+d3QaTRkry0XvFC07+ltFDQiAL7qRl++LRK3QT
- TjbkNH2Tih7vwwpvNfCTKNRA2gy3EzwEWCxRWHtXjlvp9HUlzIKu08l0tgBetxQpcsbN zA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 34ak16mw97-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 22 Oct 2020 08:27:42 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8G8aV094847;
- Thu, 22 Oct 2020 08:25:42 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 348a6qbcux-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 22 Oct 2020 08:25:42 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09M8Peb6015325;
- Thu, 22 Oct 2020 08:25:41 GMT
-Received: from mihai.localdomain (/10.153.73.25)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 22 Oct 2020 01:25:40 -0700
-From: Mihai Carabas <mihai.carabas@oracle.com>
-To: peter.maydell@linaro.org, shannon.zhaosl@gmail.com, mst@redhat.com,
- imammedo@redhat.com
-Subject: [PATCH 8/8] pvpanic: break dependency on ISA_BUS
-Date: Thu, 22 Oct 2020 10:42:56 +0300
-Message-Id: <1603352576-21671-9-git-send-email-mihai.carabas@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
-References: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=999
- bulkscore=0 spamscore=0 adultscore=0 suspectscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010220055
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0
- priorityscore=1501 clxscore=1015 malwarescore=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010220056
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=mihai.carabas@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 04:09:38
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1kVVaY-000870-V1; Thu, 22 Oct 2020 04:04:46 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:37059)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1kVVaX-0006su-7U; Thu, 22 Oct 2020 04:04:46 -0400
+Received: by mail-lf1-x144.google.com with SMTP id j30so1110745lfp.4;
+ Thu, 22 Oct 2020 01:04:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z+NfY8aVGlMJqARH9WMsBcDgAzwTThmmJiicXC1vCYc=;
+ b=lPRtHXprLgs5b2jHZB63A6gL8DrSmScND3YuORQmgmNMIxonKzkAw4EwWTc1Wwn2hp
+ U93X6Z3gAu2vxhyUyWxRRLNx39XCIh72vtjVJMizqfk7co0aSybK/cIyogrKKHO9gig8
+ 1fZFfejLIe8rLVT0XDn/eVGUpgZa0UZ8R+O15M2cmcJZ8FFMrPeks9KC+XU+EJ47Tj1f
+ Ah3EBzq9PKZ3hDxzh6OQqoKtn26w7u4qwgexWWDbIdZslhdej+SwZhF61Z6ZPUtwgJNo
+ lRT5LhcvYH1KKdekDSZt0pJ09yJSnGSn29/N4L1aZr+Oehgli7HuxNs9p8dQRgF0ItUk
+ t7kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z+NfY8aVGlMJqARH9WMsBcDgAzwTThmmJiicXC1vCYc=;
+ b=PuwnDQmxOV44M/thADQegvOCpAQlhsJ/1tJNM9bkk17eHssJ8NXWC1J8ljC9h5emAh
+ wd2FXqQzdxqrkh9dm1ob/wjMdueNerkGwcz4ZjiK2YqmSpZkmphrKdwLNkgkBm3ayiYa
+ c4Xc1O8eHSndO9KzO/rE5ZEmv2r7qUY3yU/uuylUZS9f6LAdJgGIDT4ZRXMTY6DKVKAG
+ egNtn6lEfKkD7KHsUeJLF9DiURpEnxmcxv1nFSIVrhljFdmCNJajmEabHAb5P9K5o0AS
+ NgtEfZwwlpwGZzwSR593JGQSRQAVtHWE8xKGlzHf4WcrMLyVTuqQDyzFKvU+2OzMBwn5
+ Ldxw==
+X-Gm-Message-State: AOAM533jxel1x55fYiW9a/3CsyfHvsz7fSLMqtkCdG6eBuvd//Oi5P4E
+ 3pzy5c7x1QF0ik2jgLFH5S4=
+X-Google-Smtp-Source: ABdhPJyLoVe5DQvoS0R+NmcNxo1HiDjPYyY/tY/HQ3uP3qcu+oefCJZmmqCsdDAe8ZnEpJtEOfUUaQ==
+X-Received: by 2002:a19:4c45:: with SMTP id z66mr404030lfa.168.1603353882964; 
+ Thu, 22 Oct 2020 01:04:42 -0700 (PDT)
+Received: from neptune.lab ([46.39.229.104])
+ by smtp.googlemail.com with ESMTPSA id l8sm143682lfk.203.2020.10.22.01.04.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Oct 2020 01:04:42 -0700 (PDT)
+From: Alexey Baturo <baturo.alexey@gmail.com>
+X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
+To: 
+Subject: [PATCH v6 0/6] RISC-V Pointer Masking implementation
+Date: Thu, 22 Oct 2020 11:04:34 +0300
+Message-Id: <20201022080440.10069-1-space.monkey.delivers@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::144;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-lf1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,77 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mihai Carabas <mihai.carabas@oracle.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
+ Alistair.Francis@wdc.com, kupokupokupopo@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pvpanic is supported on ARM VIRT MACHINE as an MMIO device, no need for an ISA
-bus.
+Hi,
 
-Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
----
- hw/arm/Kconfig    | 1 +
- hw/misc/Kconfig   | 2 +-
- hw/misc/pvpanic.c | 4 ++++
- 3 files changed, 6 insertions(+), 1 deletion(-)
+Added missing sign-off on the first patch.
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index f303c6b..0dd570b 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -26,6 +26,7 @@ config ARM_VIRT
-     select ACPI_MEMORY_HOTPLUG
-     select ACPI_HW_REDUCED
-     select ACPI_NVDIMM
-+    select PVPANIC
- 
- config CHEETAH
-     bool
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index 3185456..5924e70 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -117,7 +117,7 @@ config IOTKIT_SYSINFO
- 
- config PVPANIC
-     bool
--    depends on ISA_BUS
-+    depends on ISA_BUS || ARM_VIRT
- 
- config AUX
-     bool
-diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
-index 136f1d6..a70adb8 100644
---- a/hw/misc/pvpanic.c
-+++ b/hw/misc/pvpanic.c
-@@ -105,6 +105,7 @@ static const MemoryRegionOps pvpanic_ops = {
-     },
- };
- 
-+#ifdef CONFIG_ISA_BUS
- static void pvpanic_isa_initfn(Object *obj)
- {
-     PVPanicISAState *s = PVPANIC_ISA_DEVICE(obj);
-@@ -152,6 +153,7 @@ static TypeInfo pvpanic_isa_info = {
-     .instance_init = pvpanic_isa_initfn,
-     .class_init    = pvpanic_isa_class_init,
- };
-+#endif
- 
- static void pvpanic_mmio_initfn(Object *obj)
- {
-@@ -180,7 +182,9 @@ static TypeInfo pvpanic_mmio_info = {
- 
- static void pvpanic_register_types(void)
- {
-+#ifdef CONFIG_ISA_BUS
-     type_register_static(&pvpanic_isa_info);
-+#endif
-     type_register_static(&pvpanic_mmio_info);
- }
- 
+Thanks
+
+Alexey Baturo (5):
+  [RISCV_PM] Add J-extension into RISC-V
+  [RISCV_PM] Support CSRs required for RISC-V PM extension except for
+    ones in hypervisor mode
+  [RISCV_PM] Print new PM CSRs in QEMU logs
+  [RISCV_PM] Support pointer masking for RISC-V for i/c/f/d/a types of
+    instructions
+  [RISCV_PM] Allow experimental J-ext to be turned on
+
+Anatoly Parshintsev (1):
+  [RISCV_PM] Implement address masking functions required for RISC-V
+    Pointer Masking extension
+
+ target/riscv/cpu.c                      |  30 +++
+ target/riscv/cpu.h                      |  33 +++
+ target/riscv/cpu_bits.h                 |  66 ++++++
+ target/riscv/csr.c                      | 271 ++++++++++++++++++++++++
+ target/riscv/insn_trans/trans_rva.c.inc |   3 +
+ target/riscv/insn_trans/trans_rvd.c.inc |   2 +
+ target/riscv/insn_trans/trans_rvf.c.inc |   2 +
+ target/riscv/insn_trans/trans_rvi.c.inc |   2 +
+ target/riscv/translate.c                |  44 ++++
+ 9 files changed, 453 insertions(+)
+
 -- 
-1.8.3.1
+2.20.1
 
 
