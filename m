@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C510E295A5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 10:31:55 +0200 (CEST)
-Received: from localhost ([::1]:41712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6EC295A66
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 10:34:56 +0200 (CEST)
+Received: from localhost ([::1]:46194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVW0o-0002FT-RC
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 04:31:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48434)
+	id 1kVW3j-0004H8-DX
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 04:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kVVuh-0004PY-3k; Thu, 22 Oct 2020 04:25:35 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:42334)
+ id 1kVVui-0004SF-2c; Thu, 22 Oct 2020 04:25:36 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:34230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kVVuf-0006BQ-0m; Thu, 22 Oct 2020 04:25:34 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8OWbm008879;
- Thu, 22 Oct 2020 08:25:29 GMT
+ id 1kVVug-0006Bw-62; Thu, 22 Oct 2020 04:25:35 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8PVeG114849;
+ Thu, 22 Oct 2020 08:25:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=McEgxfLupcUsisyIkVt9vm0XuapJufKvR//mdzCdlyk=;
- b=YQCxHhVtBtxDwsWPbDAGVQkQb4+lRpEQWc6SzEW0Z6f15w99c8fWOZA94ZZjMYeYLdEu
- MPAxe1TnYXsjNWD6eIChf1rTK5yMYW0eRkJJyZqVxMwY0E8MofWI3LMqTHxI8CNfuwlr
- 0HTPVfWzE5JknwwCK6DACa34q746eKxGqkaDpvRJl6jUPV4YxALl706ynbScw/aFCaXi
- vCfKVhzxVA0tHdbQHVu1OQIFOMleylanpBlYYH65f7yqMVDW4rbaR3bh4hEaTWC3WUFh
- p58KaSbopDUpym+Eprb4D7tunqptBZ75QHs+s6LD3/rshXGuHyyOkWZsSLRn3dU1/QIV hg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 34ak16mvt5-1
+ bh=KSW4vd9JXP6+2XOuGpp+0xEta4oQs7CUNpzyXUTRHZw=;
+ b=TjrKZ6MuYhsCmDFjv1NIIOnzKGlghDCOpBDg49CEXILnfZATEqpQuyyBQy3F+H6KupUV
+ Gep+qBBVCuHFvmvq3j6UNNiG6fspsVs35NOWKzvExvGCUbZQbtkwmGms0C3soW1m6ti0
+ yDv8fWjmlKRuwhgLZi7A6R7Et2T7f1gRK1rjJZaOqKjR8YlruYgnAMka6xiidkFD8t5z
+ JbU7KsxvcuS0gHjsWcFaVePzApZcYwhFN507q6gHDPUncjSeIaZzPWCisNXX3KJ9wZjS
+ jHTBqoW0p406yDCziya90dDewLkZXvaxd6NwUs3wuD5xXxk0SvbG2YcTExt8DwyB5CYU 3g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 347p4b4nwf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 22 Oct 2020 08:25:29 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8G9a1095051;
- Thu, 22 Oct 2020 08:25:29 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 348a6qbcqp-1
+ Thu, 22 Oct 2020 08:25:31 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09M8Fxb6024118;
+ Thu, 22 Oct 2020 08:25:30 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 34ak19kdwm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 22 Oct 2020 08:25:29 +0000
+ Thu, 22 Oct 2020 08:25:30 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09M8PSug020707;
- Thu, 22 Oct 2020 08:25:28 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09M8PTb8013989;
+ Thu, 22 Oct 2020 08:25:29 GMT
 Received: from mihai.localdomain (/10.153.73.25)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 22 Oct 2020 01:25:28 -0700
+ with ESMTP ; Thu, 22 Oct 2020 01:25:29 -0700
 From: Mihai Carabas <mihai.carabas@oracle.com>
 To: peter.maydell@linaro.org, shannon.zhaosl@gmail.com, mst@redhat.com,
  imammedo@redhat.com
-Subject: [PATCH 4/8] hw/arm/virt: Use the pvpanic device
-Date: Thu, 22 Oct 2020 10:42:52 +0300
-Message-Id: <1603352576-21671-5-git-send-email-mihai.carabas@oracle.com>
+Subject: [PATCH 5/8] hw/arm/virt: add pvpanic device in virt acpi table
+Date: Thu, 22 Oct 2020 10:42:53 +0300
+Message-Id: <1603352576-21671-6-git-send-email-mihai.carabas@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
 References: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=999
- bulkscore=0 spamscore=0 adultscore=0 suspectscore=4 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010220055
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ mlxscore=0 phishscore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010220055
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9781
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0
- priorityscore=1501 clxscore=1015 malwarescore=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- suspectscore=4 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010220056
-Received-SPF: pass client-ip=156.151.31.85;
- envelope-from=mihai.carabas@oracle.com; helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 04:09:38
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ priorityscore=1501
+ clxscore=1015 malwarescore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0
+ phishscore=0 adultscore=0 mlxlogscore=999 impostorscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010220056
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=mihai.carabas@oracle.com; helo=aserp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 04:25:28
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -100,93 +100,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peng Hao <peng.hao2@zte.com.cn>
 
-Add pvpanic device in arm virt machine.
+Add pvpanic device in virt acpi table, so when kernel command line
+uses acpi=force, kernel can get info from acpi table.
 
-Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
 ---
- hw/arm/virt.c         | 25 +++++++++++++++++++++++++
- include/hw/arm/virt.h |  2 ++
- 2 files changed, 27 insertions(+)
+ hw/arm/virt-acpi-build.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index e465a98..63f09a6 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -78,6 +78,7 @@
- #include "hw/virtio/virtio-iommu.h"
- #include "hw/char/pl011.h"
- #include "qemu/guest-random.h"
-+#include "hw/misc/pvpanic.h"
- 
- #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
-     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-@@ -152,6 +153,7 @@ static const MemMapEntry base_memmap[] = {
-     [VIRT_ACPI_GED] =           { 0x09080000, ACPI_GED_EVT_SEL_LEN },
-     [VIRT_NVDIMM_ACPI] =        { 0x09090000, NVDIMM_ACPI_IO_LEN},
-     [VIRT_PVTIME] =             { 0x090a0000, 0x00010000 },
-+    [VIRT_PVPANIC] =            { 0x090b0000, 0x00000002 },
-     [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
-     /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
-     [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
-@@ -226,6 +228,27 @@ static void create_kaslr_seed(VirtMachineState *vms, const char *node)
-     qemu_fdt_setprop_u64(vms->fdt, node, "kaslr-seed", seed);
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 9747a64..f64bf89 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -87,6 +87,20 @@ static void acpi_dsdt_add_uart(Aml *scope, const MemMapEntry *uart_memmap,
+     aml_append(scope, dev);
  }
  
-+static void create_pvpanic_device(const VirtMachineState *vms)
++static void acpi_dsdt_add_pvpanic(Aml *scope, const MemMapEntry *pvpanic_memmap)
 +{
-+    char *nodename;
-+    hwaddr base = vms->memmap[VIRT_PVPANIC].base;
-+    hwaddr size = vms->memmap[VIRT_PVPANIC].size;
++    Aml *dev = aml_device("PEVT");
++    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0001")));
++    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
 +
-+    if (!vms->pvpanic) {
-+        return;
-+    }
-+    sysbus_create_simple(TYPE_PVPANIC_MMIO, base, NULL);
++    Aml *crs = aml_resource_template();
++    aml_append(crs, aml_memory32_fixed(pvpanic_memmap->base,
++               pvpanic_memmap->size, AML_READ_WRITE));
 +
-+    nodename = g_strdup_printf("/pvpanic-mmio@%" PRIx64, base);
-+    qemu_fdt_add_subnode(vms->fdt, nodename);
-+    qemu_fdt_setprop_string(vms->fdt, nodename,
-+                            "compatible", "qemu,pvpanic-mmio");
-+    qemu_fdt_setprop_sized_cells(vms->fdt, nodename, "reg",
-+                                 2, base, 2, size);
-+
-+    g_free(nodename);
++    aml_append(dev, aml_name_decl("_CRS", crs));
++    aml_append(scope, dev);
 +}
 +
- static void create_fdt(VirtMachineState *vms)
+ static void acpi_dsdt_add_fw_cfg(Aml *scope, const MemMapEntry *fw_cfg_memmap)
  {
-     MachineState *ms = MACHINE(vms);
-@@ -1957,6 +1980,8 @@ static void machvirt_init(MachineState *machine)
- 
-     virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
- 
-+    create_pvpanic_device(vms);
-+
-     create_gic(vms);
- 
-     virt_cpu_post_init(vms, possible_cpus->len, sysmem);
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index aad6d69..e6410c3 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -69,6 +69,7 @@ enum {
-     VIRT_GIC_ITS,
-     VIRT_GIC_REDIST,
-     VIRT_SMMU,
-+    VIRT_PVPANIC,
-     VIRT_UART,
-     VIRT_MMIO,
-     VIRT_RTC,
-@@ -139,6 +140,7 @@ struct VirtMachineState {
-     bool highmem;
-     bool highmem_ecam;
-     bool its;
-+    bool pvpanic;
-     bool virt;
-     bool ras;
-     bool mte;
+     Aml *dev = aml_device("FWCF");
+@@ -605,6 +619,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     if (vmc->acpi_expose_flash) {
+         acpi_dsdt_add_flash(scope, &memmap[VIRT_FLASH]);
+     }
++    if (vms->pvpanic) {
++        acpi_dsdt_add_pvpanic(scope, &memmap[VIRT_PVPANIC]);
++    }
+     acpi_dsdt_add_fw_cfg(scope, &memmap[VIRT_FW_CFG]);
+     acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
+                     (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANSPORTS);
 -- 
 1.8.3.1
 
