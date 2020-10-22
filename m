@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D31D295E40
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:21:57 +0200 (CEST)
-Received: from localhost ([::1]:49850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D69DC295E13
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 14:11:39 +0200 (CEST)
+Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVZbQ-0005J8-DJ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40612)
+	id 1kVZRS-0004ph-Ua
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 08:11:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ3T-0002Sm-Ba
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:51 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16636)
+ id 1kVZ3Y-0002eF-D9
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:56 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:8147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ3Q-0007TL-Uq
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:50 -0400
+ id 1kVZ3W-0007U5-AZ
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:56 -0400
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f9170f70000>; Thu, 22 Oct 2020 04:45:59 -0700
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f9171200000>; Thu, 22 Oct 2020 04:46:40 -0700
 Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL111.nvidia.com
  (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Oct
- 2020 11:46:38 +0000
+ 2020 11:46:46 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by mail.nvidia.com
  (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 22 Oct 2020 11:46:29 +0000
+ Transport; Thu, 22 Oct 2020 11:46:38 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v27 14/17] vfio: Dirty page tracking when vIOMMU is enabled
-Date: Thu, 22 Oct 2020 16:42:04 +0530
-Message-ID: <1603365127-14202-15-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v27 15/17] vfio: Add ioctl to get dirty pages bitmap during
+ dma unmap
+Date: Thu, 22 Oct 2020 16:42:05 +0530
+Message-ID: <1603365127-14202-16-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
 References: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
@@ -40,18 +41,18 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603367159; bh=UPfkpH3ngxrQ8s+bhFQMFnGvHA8MwzVkEKuL3a9+LwM=;
+ t=1603367200; bh=ObUgIExkBtETup9UMJTPrHyR0h6A8fwqr+kbqh83/d4=;
  h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
  References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=TzAoyOl4ZV67+CSPI/Nuel7D6GiLL95EIjVtsxpR0QGgzk9VdaGQn+nGNJ7VoJgo1
- iQa9UIBq+xIhb3umhVRwzoP5kBG9RXfV6IrHY1XgtZot0ogEfzWDLvWeQbOK/8Ax1P
- DEWuqcOtdg2iEYK7N7eEfiVE2LB35QU4+R2WnGDVxNiQMoNk3ZRZkQu3fHX4SmNTIf
- VDHIYTNGoe3xVQkn+RDON9kNjKuKTiaIvXz4+qT7VsUdh7xdfkmqqS6uAyRbDYJT0K
- 5ACWVsGdi9CeRfFTt1a6lWiMT9OuOlbUKSDqj/2ivlmeq9J9P13fr9LisEI0G0LCR5
- kDAIwtWBb5Ung==
-Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate25.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 07:44:53
+ b=Xo1WnPNtwppcm5dVn17b/3Lm3x+Soj+58ZF5+mQGHLggJX7aZXsSSh1F1X1rK4OVW
+ CBgmtBvVBC3gbgmG0n5cT3VrNrv29QY2/wm3xalbmyDDesYQ1qj6M/YAMKEntW6nKK
+ i6Evrs3eDasNCH2eYznTP9cVEJROYKLlBBJyhWeaVF8oWPO6bv5ANYqRAhmQMhzS5L
+ XMRmzl8AHnydEMP0isTQpMFg46iyPDMnVjCX4wQE+y2wqJgxF84xvmkhYDa7T72QZi
+ lCIKkAguzaRA5gjxZn0scnTdHc6iY1hx8OI5X70tv51/nxLoqnD0MkHAegP64deBX7
+ FU7hfYWqhKcCQ==
+Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate26.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 07:45:39
 X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
 X-Spam_score_int: -70
 X-Spam_score: -7.1
@@ -85,178 +86,157 @@ Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When vIOMMU is enabled, register MAP notifier from log_sync when all
-devices in container are in stop and copy phase of migration. Call replay
-and get dirty pages from notifier callback.
+With vIOMMU, IO virtual address range can get unmapped while in pre-copy
+phase of migration. In that case, unmap ioctl should return pages pinned
+in that range and QEMU should find its correcponding guest physical
+addresses and report those dirty.
 
 Suggested-by: Alex Williamson <alex.williamson@redhat.com>
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- hw/vfio/common.c              | 95 ++++++++++++++++++++++++++++++++++++++++---
- hw/vfio/trace-events          |  1 +
- include/hw/vfio/vfio-common.h |  1 +
- 3 files changed, 91 insertions(+), 6 deletions(-)
+ hw/vfio/common.c | 96 +++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 92 insertions(+), 4 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 2634387df948..98c2b1f9b190 100644
+index 98c2b1f9b190..9c879e5c0f62 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -442,8 +442,8 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
- }
- 
- /* Called with rcu_read_lock held.  */
--static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
--                           bool *read_only)
-+static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-+                               ram_addr_t *ram_addr, bool *read_only)
- {
-     MemoryRegion *mr;
-     hwaddr xlat;
-@@ -474,8 +474,17 @@ static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb, void **vaddr,
-         return false;
-     }
- 
--    *vaddr = memory_region_get_ram_ptr(mr) + xlat;
--    *read_only = !writable || mr->readonly;
-+    if (vaddr) {
-+        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
-+    }
-+
-+    if (ram_addr) {
-+        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
-+    }
-+
-+    if (read_only) {
-+        *read_only = !writable || mr->readonly;
-+    }
- 
+@@ -321,11 +321,94 @@ static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
      return true;
  }
-@@ -485,7 +494,6 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-     VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
-     VFIOContainer *container = giommu->container;
-     hwaddr iova = iotlb->iova + giommu->iommu_offset;
--    bool read_only;
-     void *vaddr;
-     int ret;
  
-@@ -501,7 +509,9 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-     rcu_read_lock();
- 
-     if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
--        if (!vfio_get_vaddr(iotlb, &vaddr, &read_only)) {
-+        bool read_only;
-+
-+        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
-             goto out;
-         }
-         /*
-@@ -899,11 +909,84 @@ err_out:
-     return ret;
- }
- 
-+static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
++static bool vfio_devices_all_running_and_saving(VFIOContainer *container)
 +{
-+    VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, dirty_notify);
-+    VFIOContainer *container = giommu->container;
-+    hwaddr iova = iotlb->iova + giommu->iommu_offset;
-+    ram_addr_t translated_addr;
++    VFIOGroup *group;
++    VFIODevice *vbasedev;
++    MigrationState *ms = migrate_get_current();
 +
-+    trace_vfio_iommu_map_dirty_notify(iova, iova + iotlb->addr_mask);
-+
-+    if (iotlb->target_as != &address_space_memory) {
-+        error_report("Wrong target AS \"%s\", only system memory is allowed",
-+                     iotlb->target_as->name ? iotlb->target_as->name : "none");
-+        return;
++    if (!migration_is_setup_or_active(ms->state)) {
++        return false;
 +    }
 +
-+    rcu_read_lock();
++    QLIST_FOREACH(group, &container->group_list, container_next) {
++        QLIST_FOREACH(vbasedev, &group->device_list, next) {
++            VFIOMigration *migration = vbasedev->migration;
 +
-+    if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL)) {
-+        int ret;
++            if (!migration) {
++                return false;
++            }
 +
-+        ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
-+                                    translated_addr);
-+        if (ret) {
-+            error_report("vfio_iommu_map_dirty_notify(%p, 0x%"HWADDR_PRIx", "
-+                         "0x%"HWADDR_PRIx") = %d (%m)",
-+                         container, iova,
-+                         iotlb->addr_mask + 1, ret);
-+        }
-+    }
-+
-+    rcu_read_unlock();
-+}
-+
- static int vfio_sync_dirty_bitmap(VFIOContainer *container,
-                                   MemoryRegionSection *section)
- {
-     ram_addr_t ram_addr;
- 
-+    if (memory_region_is_iommu(section->mr)) {
-+        VFIOGuestIOMMU *giommu;
-+        int ret = 0;
-+
-+        QLIST_FOREACH(giommu, &container->giommu_list, giommu_next) {
-+            if (MEMORY_REGION(giommu->iommu) == section->mr &&
-+                giommu->n.start == section->offset_within_region) {
-+                Int128 llend;
-+                Error *err = NULL;
-+                int idx = memory_region_iommu_attrs_to_index(giommu->iommu,
-+                                                       MEMTXATTRS_UNSPECIFIED);
-+
-+                llend = int128_add(int128_make64(section->offset_within_region),
-+                                   section->size);
-+                llend = int128_sub(llend, int128_one());
-+
-+                iommu_notifier_init(&giommu->dirty_notify,
-+                                    vfio_iommu_map_dirty_notify,
-+                                    IOMMU_NOTIFIER_MAP,
-+                                    section->offset_within_region,
-+                                    int128_get64(llend),
-+                                    idx);
-+                ret = memory_region_register_iommu_notifier(section->mr,
-+                                                  &giommu->dirty_notify, &err);
-+                if (ret) {
-+                    error_report_err(err);
-+                    break;
-+                }
-+
-+                memory_region_iommu_replay(giommu->iommu,
-+                                           &giommu->dirty_notify);
-+
-+                memory_region_unregister_iommu_notifier(section->mr,
-+                                                        &giommu->dirty_notify);
-+                break;
++            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
++                (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
++                continue;
++            } else {
++                return false;
 +            }
 +        }
-+        return ret;
++    }
++    return true;
++}
++
++static int vfio_dma_unmap_bitmap(VFIOContainer *container,
++                                 hwaddr iova, ram_addr_t size,
++                                 IOMMUTLBEntry *iotlb)
++{
++    struct vfio_iommu_type1_dma_unmap *unmap;
++    struct vfio_bitmap *bitmap;
++    uint64_t pages = TARGET_PAGE_ALIGN(size) >> TARGET_PAGE_BITS;
++    int ret;
++
++    unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
++
++    unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
++    unmap->iova = iova;
++    unmap->size = size;
++    unmap->flags |= VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP;
++    bitmap = (struct vfio_bitmap *)&unmap->data;
++
++    /*
++     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
++     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap_pgsize to
++     * TARGET_PAGE_SIZE.
++     */
++
++    bitmap->pgsize = TARGET_PAGE_SIZE;
++    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
++                   BITS_PER_BYTE;
++
++    if (bitmap->size > container->max_dirty_bitmap_size) {
++        error_report("UNMAP: Size of bitmap too big 0x%llx", bitmap->size);
++        ret = -E2BIG;
++        goto unmap_exit;
 +    }
 +
-     ram_addr = memory_region_get_ram_addr(section->mr) +
-                section->offset_within_region;
++    bitmap->data = g_try_malloc0(bitmap->size);
++    if (!bitmap->data) {
++        ret = -ENOMEM;
++        goto unmap_exit;
++    }
++
++    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
++    if (!ret) {
++        cpu_physical_memory_set_dirty_lebitmap((uint64_t *)bitmap->data,
++                iotlb->translated_addr, pages);
++    } else {
++        error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
++    }
++
++    g_free(bitmap->data);
++unmap_exit:
++    g_free(unmap);
++    return ret;
++}
++
+ /*
+  * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
+  */
+ static int vfio_dma_unmap(VFIOContainer *container,
+-                          hwaddr iova, ram_addr_t size)
++                          hwaddr iova, ram_addr_t size,
++                          IOMMUTLBEntry *iotlb)
+ {
+     struct vfio_iommu_type1_dma_unmap unmap = {
+         .argsz = sizeof(unmap),
+@@ -334,6 +417,11 @@ static int vfio_dma_unmap(VFIOContainer *container,
+         .size = size,
+     };
  
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index c3b35aa2cce8..d9cb8998a228 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -163,3 +163,4 @@ vfio_load_device_config_state(const char *name) " (%s)"
- vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
- vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
- vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
-+vfio_iommu_map_dirty_notify(uint64_t iova_start, uint64_t iova_end) "iommu dirty @ 0x%"PRIx64" - 0x%"PRIx64
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index b1c1b18fd228..92872fae59ee 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -99,6 +99,7 @@ typedef struct VFIOGuestIOMMU {
-     IOMMUMemoryRegion *iommu;
-     hwaddr iommu_offset;
-     IOMMUNotifier n;
-+    IOMMUNotifier dirty_notify;
-     QLIST_ENTRY(VFIOGuestIOMMU) giommu_next;
- } VFIOGuestIOMMU;
++    if (iotlb && container->dirty_pages_supported &&
++        vfio_devices_all_running_and_saving(container)) {
++        return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
++    }
++
+     while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+         /*
+          * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
+@@ -381,7 +469,7 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+      * the VGA ROM space.
+      */
+     if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0 ||
+-        (errno == EBUSY && vfio_dma_unmap(container, iova, size) == 0 &&
++        (errno == EBUSY && vfio_dma_unmap(container, iova, size, NULL) == 0 &&
+          ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0)) {
+         return 0;
+     }
+@@ -531,7 +619,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+                          iotlb->addr_mask + 1, vaddr, ret);
+         }
+     } else {
+-        ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1);
++        ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1, iotlb);
+         if (ret) {
+             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+                          "0x%"HWADDR_PRIx") = %d (%m)",
+@@ -834,7 +922,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
+     }
  
+     if (try_unmap) {
+-        ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
++        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+         if (ret) {
+             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+                          "0x%"HWADDR_PRIx") = %d (%m)",
 -- 
 2.7.0
 
