@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8C6295DD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 13:56:43 +0200 (CEST)
-Received: from localhost ([::1]:47210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6190B295DDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 13:58:15 +0200 (CEST)
+Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVZD0-00052f-OE
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 07:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40428)
+	id 1kVZEU-0006uC-Cp
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 07:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ2k-0001M2-1Q
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:06 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15049)
+ id 1kVZ36-0001Zy-6v
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:28 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVZ2h-0007O7-IX
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:05 -0400
+ id 1kVZ33-0007QF-Nn
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 07:46:27 -0400
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
  hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f91709b0001>; Thu, 22 Oct 2020 04:44:27 -0700
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Oct
- 2020 11:45:55 +0000
+ id <B5f9170b20000>; Thu, 22 Oct 2020 04:44:50 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 22 Oct
+ 2020 11:46:12 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by mail.nvidia.com
  (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 22 Oct 2020 11:45:46 +0000
+ Transport; Thu, 22 Oct 2020 11:46:03 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v27 09/17] vfio: Add load state functions to SaveVMHandlers
-Date: Thu, 22 Oct 2020 16:41:59 +0530
-Message-ID: <1603365127-14202-10-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v27 11/17] vfio: Get migration capability flags for container
+Date: Thu, 22 Oct 2020 16:42:01 +0530
+Message-ID: <1603365127-14202-12-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
 References: <1603365127-14202-1-git-send-email-kwankhede@nvidia.com>
@@ -40,15 +40,15 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603367067; bh=WxIGx/3W40ornldvUstvD4j9udIq/hBsfOaCyYkBiWs=;
+ t=1603367090; bh=+ZtZEoys5pMkAU3zCjgZH0ObiN31k81jwatqeae6sQw=;
  h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
  References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=O0GsZlhR0RHejFxyXoU2QRyMVHJrhdJWOJIs+e/bBt51P2L4SMLTbIOnM/uFTWFAW
- /HO+X3PslKycMbRikbwfdo5wu4m/8cPPPw2q05znEaITFlsR4C06l99Io+OEIpUCHI
- aRImcjPZkL/3ibys6y6l9gMknWp0jq6J3Ffo7gzlCr1tYJuxh6Sc9newW0K1StYbML
- DoUI4mHjdWZxAhnQv8KfoteL7OpaTB++TE6KusE6bVjewUCWpXuKs1tYFoa6fkWOA0
- +2U6m0dGARNBPZRkUJtr444SHfz2HVXhrLCJrqGiCBQzQdG9Ed39JL56sqCI4lAjaI
- I6ls9bdRc77Aw==
+ b=nwW0MNnfSU9c8pKdUyVmU0C43YuZSFjKHzUBgSPGB+ImILazhfEjKC3ktlINp0cPN
+ 5TEc5Bn37AZdsoFB/V3qMs9q0t9IrWfZsi5VqImy3GyOgG7HQLCpFqWu4ukV2jlYG1
+ PiKN7Q14eRcce636MZYTGViluKTu+H/0+srMIwzWUvjC+ZZ7U/494XzVywE1vYlKW6
+ MpTAp9TSDAcU0X4wUc/8ap96KE5H1WWE8LFHwDsoE+F1i3yl3nl29D9AC8axW0t+Vf
+ luGdIAhgTirryDPjxwpBJpadDY6q9+NfbKSovMA9OnXq2Uk/97w2fX1uvp1vFSyxB5
+ Eu/dxqgWrdrcg==
 Received-SPF: pass client-ip=216.228.121.143;
  envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 07:44:48
@@ -79,264 +79,190 @@ Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
  quintela@redhat.com, ziye.yang@intel.com, armbru@redhat.com,
  mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com,
  zhi.a.wang@intel.com, mcrossley@nvidia.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
- eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
- pbonzini@redhat.com, dnigam@nvidia.com
+ yan.y.zhao@intel.com, dgilbert@redhat.com, Eric Auger <eric.auger@redhat.com>,
+ changpeng.liu@intel.com, eskultet@redhat.com,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, Ken.Xue@amd.com,
+ jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sequence  during _RESUMING device state:
-While data for this device is available, repeat below steps:
-a. read data_offset from where user application should write data.
-b. write data of data_size to migration region from data_offset.
-c. write data_size which indicates vendor driver that data is written in
-   staging buffer.
+Added helper functions to get IOMMU info capability chain.
+Added function to get migration capability information from that
+capability chain for IOMMU container.
 
-For user, data is opaque. User should write data in the same order as
-received.
+Similar change was proposed earlier:
+https://lists.gnu.org/archive/html/qemu-devel/2018-05/msg03759.html
+
+Disable migration for devices if IOMMU module doesn't support migration
+capability.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Cc: Eric Auger <eric.auger@redhat.com>
 ---
- hw/vfio/migration.c  | 192 +++++++++++++++++++++++++++++++++++++++++++++++++++
- hw/vfio/trace-events |   3 +
- 2 files changed, 195 insertions(+)
+ hw/vfio/common.c              | 90 +++++++++++++++++++++++++++++++++++++++----
+ hw/vfio/migration.c           |  7 +++-
+ include/hw/vfio/vfio-common.h |  3 ++
+ 3 files changed, 91 insertions(+), 9 deletions(-)
 
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index c6e98b8d61be..d4959c036dd1 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1228,6 +1228,75 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
+     return 0;
+ }
+ 
++static int vfio_get_iommu_info(VFIOContainer *container,
++                               struct vfio_iommu_type1_info **info)
++{
++
++    size_t argsz = sizeof(struct vfio_iommu_type1_info);
++
++    *info = g_new0(struct vfio_iommu_type1_info, 1);
++again:
++    (*info)->argsz = argsz;
++
++    if (ioctl(container->fd, VFIO_IOMMU_GET_INFO, *info)) {
++        g_free(*info);
++        *info = NULL;
++        return -errno;
++    }
++
++    if (((*info)->argsz > argsz)) {
++        argsz = (*info)->argsz;
++        *info = g_realloc(*info, argsz);
++        goto again;
++    }
++
++    return 0;
++}
++
++static struct vfio_info_cap_header *
++vfio_get_iommu_info_cap(struct vfio_iommu_type1_info *info, uint16_t id)
++{
++    struct vfio_info_cap_header *hdr;
++    void *ptr = info;
++
++    if (!(info->flags & VFIO_IOMMU_INFO_CAPS)) {
++        return NULL;
++    }
++
++    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
++        if (hdr->id == id) {
++            return hdr;
++        }
++    }
++
++    return NULL;
++}
++
++static void vfio_get_iommu_info_migration(VFIOContainer *container,
++                                         struct vfio_iommu_type1_info *info)
++{
++    struct vfio_info_cap_header *hdr;
++    struct vfio_iommu_type1_info_cap_migration *cap_mig;
++
++    hdr = vfio_get_iommu_info_cap(info, VFIO_IOMMU_TYPE1_INFO_CAP_MIGRATION);
++    if (!hdr) {
++        return;
++    }
++
++    cap_mig = container_of(hdr, struct vfio_iommu_type1_info_cap_migration,
++                            header);
++
++    /*
++     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
++     * TARGET_PAGE_SIZE to mark those dirty.
++     */
++    if (cap_mig->pgsize_bitmap & TARGET_PAGE_SIZE) {
++        container->dirty_pages_supported = true;
++        container->max_dirty_bitmap_size = cap_mig->max_dirty_bitmap_size;
++        container->dirty_pgsizes = cap_mig->pgsize_bitmap;
++    }
++}
++
+ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+                                   Error **errp)
+ {
+@@ -1297,6 +1366,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     container->space = space;
+     container->fd = fd;
+     container->error = NULL;
++    container->dirty_pages_supported = false;
+     QLIST_INIT(&container->giommu_list);
+     QLIST_INIT(&container->hostwin_list);
+ 
+@@ -1309,7 +1379,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     case VFIO_TYPE1v2_IOMMU:
+     case VFIO_TYPE1_IOMMU:
+     {
+-        struct vfio_iommu_type1_info info;
++        struct vfio_iommu_type1_info *info;
+ 
+         /*
+          * FIXME: This assumes that a Type1 IOMMU can map any 64-bit
+@@ -1318,15 +1388,19 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+          * existing Type1 IOMMUs generally support any IOVA we're
+          * going to actually try in practice.
+          */
+-        info.argsz = sizeof(info);
+-        ret = ioctl(fd, VFIO_IOMMU_GET_INFO, &info);
+-        /* Ignore errors */
+-        if (ret || !(info.flags & VFIO_IOMMU_INFO_PGSIZES)) {
++        ret = vfio_get_iommu_info(container, &info);
++
++        if (ret || !(info->flags & VFIO_IOMMU_INFO_PGSIZES)) {
+             /* Assume 4k IOVA page size */
+-            info.iova_pgsizes = 4096;
++            info->iova_pgsizes = 4096;
+         }
+-        vfio_host_win_add(container, 0, (hwaddr)-1, info.iova_pgsizes);
+-        container->pgsizes = info.iova_pgsizes;
++        vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
++        container->pgsizes = info->iova_pgsizes;
++
++        if (!ret) {
++            vfio_get_iommu_info_migration(container, info);
++        }
++        g_free(info);
+         break;
+     }
+     case VFIO_SPAPR_TCE_v2_IOMMU:
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 5506cef15d88..46d05d230e2a 100644
+index 46d05d230e2a..ea5e0f1b8489 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -257,6 +257,77 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
-     return ret;
- }
+@@ -828,9 +828,14 @@ err:
  
-+static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
-+                            uint64_t data_size)
-+{
-+    VFIORegion *region = &vbasedev->migration->region;
-+    uint64_t data_offset = 0, size, report_size;
-+    int ret;
-+
-+    do {
-+        ret = vfio_mig_read(vbasedev, &data_offset, sizeof(data_offset),
-+                      region->fd_offset + VFIO_MIG_STRUCT_OFFSET(data_offset));
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        if (data_offset + data_size > region->size) {
-+            /*
-+             * If data_size is greater than the data section of migration region
-+             * then iterate the write buffer operation. This case can occur if
-+             * size of migration region at destination is smaller than size of
-+             * migration region at source.
-+             */
-+            report_size = size = region->size - data_offset;
-+            data_size -= size;
-+        } else {
-+            report_size = size = data_size;
-+            data_size = 0;
-+        }
-+
-+        trace_vfio_load_state_device_data(vbasedev->name, data_offset, size);
-+
-+        while (size) {
-+            void *buf;
-+            uint64_t sec_size;
-+            bool buf_alloc = false;
-+
-+            buf = get_data_section_size(region, data_offset, size, &sec_size);
-+
-+            if (!buf) {
-+                buf = g_try_malloc(sec_size);
-+                if (!buf) {
-+                    error_report("%s: Error allocating buffer ", __func__);
-+                    return -ENOMEM;
-+                }
-+                buf_alloc = true;
-+            }
-+
-+            qemu_get_buffer(f, buf, sec_size);
-+
-+            if (buf_alloc) {
-+                ret = vfio_mig_write(vbasedev, buf, sec_size,
-+                        region->fd_offset + data_offset);
-+                g_free(buf);
-+
-+                if (ret < 0) {
-+                    return ret;
-+                }
-+            }
-+            size -= sec_size;
-+            data_offset += sec_size;
-+        }
-+
-+        ret = vfio_mig_write(vbasedev, &report_size, sizeof(report_size),
-+                        region->fd_offset + VFIO_MIG_STRUCT_OFFSET(data_size));
-+        if (ret < 0) {
-+            return ret;
-+        }
-+    } while (data_size);
-+
-+    return 0;
-+}
-+
- static int vfio_update_pending(VFIODevice *vbasedev)
+ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
  {
-     VFIOMigration *migration = vbasedev->migration;
-@@ -293,6 +364,33 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
-     return qemu_file_get_error(f);
- }
++    VFIOContainer *container = vbasedev->group->container;
+     struct vfio_region_info *info = NULL;
+     Error *local_err = NULL;
+-    int ret;
++    int ret = -ENOTSUP;
++
++    if (!container->dirty_pages_supported) {
++        goto add_blocker;
++    }
  
-+static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
-+{
-+    VFIODevice *vbasedev = opaque;
-+    uint64_t data;
-+
-+    if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
-+        int ret;
-+
-+        ret = vbasedev->ops->vfio_load_config(vbasedev, f);
-+        if (ret) {
-+            error_report("%s: Failed to load device config space",
-+                         vbasedev->name);
-+            return ret;
-+        }
-+    }
-+
-+    data = qemu_get_be64(f);
-+    if (data != VFIO_MIG_FLAG_END_OF_STATE) {
-+        error_report("%s: Failed loading device config space, "
-+                     "end flag incorrect 0x%"PRIx64, vbasedev->name, data);
-+        return -EINVAL;
-+    }
-+
-+    trace_vfio_load_device_config_state(vbasedev->name);
-+    return qemu_file_get_error(f);
-+}
-+
- /* ---------------------------------------------------------------------- */
- 
- static int vfio_save_setup(QEMUFile *f, void *opaque)
-@@ -477,12 +575,106 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
-     return ret;
- }
- 
-+static int vfio_load_setup(QEMUFile *f, void *opaque)
-+{
-+    VFIODevice *vbasedev = opaque;
-+    VFIOMigration *migration = vbasedev->migration;
-+    int ret = 0;
-+
-+    if (migration->region.mmaps) {
-+        ret = vfio_region_mmap(&migration->region);
-+        if (ret) {
-+            error_report("%s: Failed to mmap VFIO migration region %d: %s",
-+                         vbasedev->name, migration->region.nr,
-+                         strerror(-ret));
-+            error_report("%s: Falling back to slow path", vbasedev->name);
-+        }
-+    }
-+
-+    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
-+                                   VFIO_DEVICE_STATE_RESUMING);
-+    if (ret) {
-+        error_report("%s: Failed to set state RESUMING", vbasedev->name);
-+        if (migration->region.mmaps) {
-+            vfio_region_unmap(&migration->region);
-+        }
-+    }
-+    return ret;
-+}
-+
-+static int vfio_load_cleanup(void *opaque)
-+{
-+    vfio_save_cleanup(opaque);
-+    return 0;
-+}
-+
-+static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
-+{
-+    VFIODevice *vbasedev = opaque;
-+    int ret = 0;
-+    uint64_t data;
-+
-+    data = qemu_get_be64(f);
-+    while (data != VFIO_MIG_FLAG_END_OF_STATE) {
-+
-+        trace_vfio_load_state(vbasedev->name, data);
-+
-+        switch (data) {
-+        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
-+        {
-+            ret = vfio_load_device_config_state(f, opaque);
-+            if (ret) {
-+                return ret;
-+            }
-+            break;
-+        }
-+        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
-+        {
-+            data = qemu_get_be64(f);
-+            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
-+                return ret;
-+            } else {
-+                error_report("%s: SETUP STATE: EOS not found 0x%"PRIx64,
-+                             vbasedev->name, data);
-+                return -EINVAL;
-+            }
-+            break;
-+        }
-+        case VFIO_MIG_FLAG_DEV_DATA_STATE:
-+        {
-+            uint64_t data_size = qemu_get_be64(f);
-+
-+            if (data_size) {
-+                ret = vfio_load_buffer(f, vbasedev, data_size);
-+                if (ret < 0) {
-+                    return ret;
-+                }
-+            }
-+            break;
-+        }
-+        default:
-+            error_report("%s: Unknown tag 0x%"PRIx64, vbasedev->name, data);
-+            return -EINVAL;
-+        }
-+
-+        data = qemu_get_be64(f);
-+        ret = qemu_file_get_error(f);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+    return ret;
-+}
-+
- static SaveVMHandlers savevm_vfio_handlers = {
-     .save_setup = vfio_save_setup,
-     .save_cleanup = vfio_save_cleanup,
-     .save_live_pending = vfio_save_pending,
-     .save_live_iterate = vfio_save_iterate,
-     .save_live_complete_precopy = vfio_save_complete_precopy,
-+    .load_setup = vfio_load_setup,
-+    .load_cleanup = vfio_load_cleanup,
-+    .load_state = vfio_load_state,
- };
- 
- /* ---------------------------------------------------------------------- */
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 9f5712dab1ea..4804cc266d44 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -159,3 +159,6 @@ vfio_save_device_config_state(const char *name) " (%s)"
- vfio_save_pending(const char *name, uint64_t precopy, uint64_t postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible 0x%"PRIx64
- vfio_save_iterate(const char *name, int data_size) " (%s) data_size %d"
- vfio_save_complete_precopy(const char *name) " (%s)"
-+vfio_load_device_config_state(const char *name) " (%s)"
-+vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
-+vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+     ret = vfio_get_dev_region_info(vbasedev, VFIO_REGION_TYPE_MIGRATION,
+                                    VFIO_REGION_SUBTYPE_MIGRATION, &info);
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index f4ebdae013ad..b1c1b18fd228 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -84,6 +84,9 @@ typedef struct VFIOContainer {
+     unsigned iommu_type;
+     Error *error;
+     bool initialized;
++    bool dirty_pages_supported;
++    uint64_t dirty_pgsizes;
++    uint64_t max_dirty_bitmap_size;
+     unsigned long pgsizes;
+     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
 -- 
 2.7.0
 
