@@ -2,104 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD742956CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 05:31:47 +0200 (CEST)
-Received: from localhost ([::1]:52610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833C8295710
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 06:19:06 +0200 (CEST)
+Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVRKM-00039V-A7
-	for lists+qemu-devel@lfdr.de; Wed, 21 Oct 2020 23:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39984)
+	id 1kVS49-0004m4-JQ
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 00:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVRJR-0002hd-Go
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 23:30:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28060)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVRJM-0000AA-Re
- for qemu-devel@nongnu.org; Wed, 21 Oct 2020 23:30:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603337442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZbEzL39UwHPzed5dXHZVGSR8O0Zg+l594+sIhvZ7GKo=;
- b=KblytfLc0qisZ0xb6URgK36JUzmJrGn7Ei0B/gwdtpxP7Dk/SqbIM92AUJpujuiA9ojUjU
- DCfY97pXn9Rz+waAg5aox/r/ofnf9LOnUXLMxpZpROHLrRWBbdHwvCVa8Q5/9iG8sc+1BB
- /+2e3aMRQKchCq/c5mRsHzjtWrQ+S8U=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-BzTkTafaNL6NcxuasXTBhg-1; Wed, 21 Oct 2020 23:30:40 -0400
-X-MC-Unique: BzTkTafaNL6NcxuasXTBhg-1
-Received: by mail-wr1-f70.google.com with SMTP id m20so54036wrb.21
- for <qemu-devel@nongnu.org>; Wed, 21 Oct 2020 20:30:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZbEzL39UwHPzed5dXHZVGSR8O0Zg+l594+sIhvZ7GKo=;
- b=nq5WJMo1mcY5eElglee4RMyFs7GosYp6RVUI3rJpah0iAiqPIChQx2trasJSCoadx4
- ALHEUVVMATaMdxxzXzZDsRsAQ6HUxibuFBJl67BtmzWp7xwzPEoM4U8eZ6R91xdz8OQC
- ZnsOHbeZYDem7dFeX+6Zc4CAW4qoxwJn7B597+zXbVe1c/cc+3PB4pk4gBMf8XKUDwW7
- BdGKOYdYxRjpnIpWNEWjqaJqOfp6z7W1Jf55lRoPTrIIFY616V6TOa0GDx7xLqmGJLFc
- pRHrGkFDKyqWf4qHLekPbtGmEc0RhYs3kKz05M4oNLLzynLf2Ljx/6EEZVFTHyA88dkw
- AS2A==
-X-Gm-Message-State: AOAM531gSd0tog7isxAbBHxwKLcAnFvT7TyYTkiDkBgkV/reqIEwIa5K
- oPhhKNldLsPchslQdemyidur3in739uVr7pF5wXZDAZ5V6plP7MgHj8E4JZcpy/R/kDPLmKiYlF
- U3mB0nt3RpylMozY=
-X-Received: by 2002:a1c:cc01:: with SMTP id h1mr482617wmb.114.1603337439190;
- Wed, 21 Oct 2020 20:30:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJysfObg9K3nV0dg1JeW/3a00K4Z+2T/KDsNZqn09z+oU4cUAaKxQ+N+bs2CgRTr5x2fFC+bTA==
-X-Received: by 2002:a1c:cc01:: with SMTP id h1mr482607wmb.114.1603337438997;
- Wed, 21 Oct 2020 20:30:38 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id y2sm685774wrh.0.2020.10.21.20.30.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Oct 2020 20:30:38 -0700 (PDT)
-Subject: =?UTF-8?B?UmU6IOetlOWkjTogW1BBVENIIDEvMV0gU2tpcCBmbGF0dmlld19zaW1w?=
- =?UTF-8?Q?lify=28=29_for_cpu_vendor_zhaoxin?=
-To: FelixCui-oc <FelixCui-oc@zhaoxin.com>,
- Alex Williamson <alex.williamson@redhat.com>
-References: <20201016112933.14856-1-FelixCui-oc@zhaoxin.com>
- <20201016112933.14856-2-FelixCui-oc@zhaoxin.com>
- <a971c9db-469f-ddc0-1a27-3e21958f6ff7@redhat.com>
- <20201019130206.1d3baffc@w520.home>
- <4d2b96cb-8f7f-2598-39e6-4cf0f61d567b@redhat.com>
- <20201020164437.5e3cb4ce@w520.home>
- <783b5ef0-277c-363d-f342-7c0351f9ac16@redhat.com>
- <20201021124908.53c7a98b@w520.home>
- <eaab570f-741e-7397-09c2-8e47f0a6d32c@redhat.com>
- <0e275d4de640431cb07de7fafb4d9ef1@zhaoxin.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <606cf65a-a614-5c9b-705f-3a8f3707fb10@redhat.com>
-Date: Thu, 22 Oct 2020 05:30:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kVS2v-0003DH-Gl; Thu, 22 Oct 2020 00:17:50 -0400
+Received: from ozlabs.org ([203.11.71.1]:45599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kVS2s-0000EX-9x; Thu, 22 Oct 2020 00:17:49 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CGvGP142rz9sTc; Thu, 22 Oct 2020 15:17:33 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1603340253;
+ bh=fhySXl1U8HmOPDZAzv6+7BZizPjqUcEc0XL1pS5/XsU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pLJU7JZY9goUfGV2uvPFFjec3XxR5+aAMw2cBNfTainURHisKlHQaeHTXRqYoVudW
+ +HYnCB/cWPAFhj8wZnN5SKd1HDvM0wOAL7x/WyUEwXNNbn+oENtYkniwmfU/gkthwN
+ PfqgnrINirR10NhxPlbV7bz3wGnlfJ8dhwf8IhNI=
+Date: Thu, 22 Oct 2020 15:02:36 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 0/5] spapr: Fix and cleanups for sPAPR CPU core
+Message-ID: <20201022040236.GC1821515@yekko.fritz.box>
+References: <160279669833.1808373.9524145092720289601.stgit@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <0e275d4de640431cb07de7fafb4d9ef1@zhaoxin.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 23:30:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DSayHWYpDlRfCAAQ"
+Content-Disposition: inline
+In-Reply-To: <160279669833.1808373.9524145092720289601.stgit@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 00:17:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,28 +59,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: CobeChen-oc <CobeChen-oc@zhaoxin.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>, RockCui-oc <RockCui-oc@zhaoxin.com>,
- Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/10/20 05:02, FelixCui-oc wrote:
-> In addition, before write pam registers, flatview_simplify() has merged
-> a very large range.For example,
-> 
-> this large range is 0xc0000-0xbfffffff. So even if EHCI is configured to
-> not allocate buffers in low memory,
-> 
-> this bug will still occur.Thanks.
 
-So removing flatview_simplify() works because the higher area (0x10000
-and above) remains the same.  I guess the simplest thing to do is to
-apply flatview_simplify() only to I/O areas, though we can also consider
-removing it completely.  I'm not sure in which case it would provide a
-noticeable improvement.
+--DSayHWYpDlRfCAAQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On Thu, Oct 15, 2020 at 11:18:18PM +0200, Greg Kurz wrote:
+> While reading the code _again_ I spotted a memory leak and I realized
+> that the realize/unrealize paths are uselessly complex and not really
+> symmetrical.
+>=20
+> This series fixes the leak and re-shuffles the code to make it cleaner.
+>=20
+> Tested with 'make check', travis-ci and manual hotplug/unplug of CPU
+> cores. Also tested error paths by simulating failures when creating
+> interrupt presenters or when setting the vCPU id.
+>=20
+> v2: - enforce symmetry between realize and unrealize
+>     - unrealize vCPUs with qdev_unrealize()
+>     - one loop to create/realize and to unrealize/delete vCPUs
 
+Applied to ppc-for-5.2.
+
+>=20
+> ---
+>=20
+> Greg Kurz (5):
+>       spapr: Fix leak of CPU machine specific data
+>       spapr: Unrealize vCPUs with qdev_unrealize()
+>       spapr: Drop spapr_delete_vcpu() unused argument
+>       spapr: Make spapr_cpu_core_unrealize() idempotent
+>       spapr: Simplify spapr_cpu_core_realize() and spapr_cpu_core_unreali=
+ze()
+>=20
+>=20
+>  accel/tcg/user-exec-stub.c      |    4 ++
+>  hw/ppc/spapr_cpu_core.c         |   69 ++++++++++++++++++---------------=
+------
+>  target/ppc/translate_init.c.inc |    2 +
+>  3 files changed, 37 insertions(+), 38 deletions(-)
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--DSayHWYpDlRfCAAQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+RBFwACgkQbDjKyiDZ
+s5JWihAAtlZ1MFw1Bv7jwyuMj2IEjdYG/8VeMZaglUyNVLU55mqgq4gelRCk+AmV
+g5Vvgk7k2GJzMuG9WIsAxMje2N7Sb8d91iMj5sZcMIgV5SKNg/bv1lRamY7zEUmX
+x+GWQmw+gohtYrP/Y2oHql0Y+etGSIRNjTXRgJpruzBAws20cZF0qgy233EDCMn7
+uNhiZGEycv6fT6RfKOpuoppkhEDsaDisso3SQOeUtQe5ZYGMYBNXPZe4CRMjqtYg
+kY/Wjr3oXG/43SfKu4DBI+2dLCJGuF8Eqk2jtVAF7H4FrUJu8+8j0P/HR+JA5XM5
+BcHrwvi+Og53q3y97+jir8xiBy6xzMr4n8vgqtRAa8Tu/Oe8nZY4O+shOHtH2q7z
+FWdbojZ+GAaiErxg7wJ3nnz3pMqL99dSQX5mOTn5ML1zb3+pCl0BFgh5Leb+NsB9
+vxrhuQlWDZiosy+9HwUwa+OEmStMnTHxHBMeo07iunfYsjcRMgFdvwdASVXt07KW
+sdyPX+EBTSXcXVo+m8A2xhUQrLyLdp12q+B9A54AJmy2eSQX5+JxdQLkxs8lDDJG
+9ADBHMEfIC736UnIUrLNo4V0NSqoyEHiDLHRZsJ7g/iHQZJMV9R/Fn6NzIFFegB/
+XmmF7eCv+8Y4dFi6HtVkPl0Dh/ywPv/XZr+8J1qv60xPjN9hbak=
+=mqAe
+-----END PGP SIGNATURE-----
+
+--DSayHWYpDlRfCAAQ--
 
