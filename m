@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FED29649D
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:22:48 +0200 (CEST)
-Received: from localhost ([::1]:32852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F69296486
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 20:18:35 +0200 (CEST)
+Received: from localhost ([::1]:52210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVfEd-0006wu-6E
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48578)
+	id 1kVfAY-0003CL-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 14:18:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf6A-0000XD-GJ; Thu, 22 Oct 2020 14:14:02 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52122 helo=relay3.sw.ru)
+ id 1kVf60-0000Vm-OT; Thu, 22 Oct 2020 14:13:56 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52070 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf5x-0001np-K4; Thu, 22 Oct 2020 14:14:02 -0400
+ id 1kVf5x-0001nf-Mt; Thu, 22 Oct 2020 14:13:51 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kVf5r-005dVw-DR; Thu, 22 Oct 2020 21:13:43 +0300
+ id 1kVf5r-005dVw-Eb; Thu, 22 Oct 2020 21:13:43 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
  kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
  eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
  andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v12 01/14] copy-on-read: support preadv/pwritev_part functions
-Date: Thu, 22 Oct 2020 21:13:30 +0300
-Message-Id: <1603390423-980205-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v12 02/14] block: add insert/remove node functions
+Date: Thu, 22 Oct 2020 21:13:31 +0300
+Message-Id: <1603390423-980205-3-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -58,69 +58,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-Add support for the recently introduced functions
-bdrv_co_preadv_part()
-and
-bdrv_co_pwritev_part()
-to the COR-filter driver.
+Provide API for a node insertion to and removal from a backing chain.
 
+Suggested-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/copy-on-read.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ block.c               | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ include/block/block.h |  3 +++
+ 2 files changed, 52 insertions(+)
 
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 2816e61..cb03e0f 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -74,21 +74,25 @@ static int64_t cor_getlength(BlockDriverState *bs)
+diff --git a/block.c b/block.c
+index 430edf7..502b483 100644
+--- a/block.c
++++ b/block.c
+@@ -4670,6 +4670,55 @@ static void bdrv_delete(BlockDriverState *bs)
+     g_free(bs);
  }
  
++BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *node_options,
++                                   int flags, Error **errp)
++{
++    BlockDriverState *new_node_bs;
++    Error *local_err = NULL;
++
++    new_node_bs =  bdrv_open(NULL, NULL, node_options, flags, errp);
++    if (new_node_bs == NULL) {
++        error_prepend(errp, "Could not create node: ");
++        return NULL;
++    }
++
++    bdrv_drained_begin(bs);
++    bdrv_replace_node(bs, new_node_bs, &local_err);
++    bdrv_drained_end(bs);
++
++    if (local_err) {
++        bdrv_unref(new_node_bs);
++        error_propagate(errp, local_err);
++        return NULL;
++    }
++
++    return new_node_bs;
++}
++
++void bdrv_remove_node(BlockDriverState *bs)
++{
++    BdrvChild *child;
++    BlockDriverState *inferior_bs;
++
++    child = bdrv_filter_or_cow_child(bs);
++    if (!child) {
++        return;
++    }
++    inferior_bs = child->bs;
++
++    /* Retain the BDS until we complete the graph change. */
++    bdrv_ref(inferior_bs);
++    /* Hold a guest back from writing while permissions are being reset. */
++    bdrv_drained_begin(inferior_bs);
++    /* Refresh permissions before the graph change. */
++    bdrv_child_refresh_perms(bs, child, &error_abort);
++    bdrv_replace_node(bs, inferior_bs, &error_abort);
++
++    bdrv_drained_end(inferior_bs);
++    bdrv_unref(inferior_bs);
++    bdrv_unref(bs);
++}
++
+ /*
+  * Run consistency checks on an image
+  *
+diff --git a/include/block/block.h b/include/block/block.h
+index d16c401..ae7612f 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -350,6 +350,9 @@ void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+                  Error **errp);
+ void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+                        Error **errp);
++BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *node_options,
++                                   int flags, Error **errp);
++void bdrv_remove_node(BlockDriverState *bs);
  
--static int coroutine_fn cor_co_preadv(BlockDriverState *bs,
--                                      uint64_t offset, uint64_t bytes,
--                                      QEMUIOVector *qiov, int flags)
-+static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
-+                                           uint64_t offset, uint64_t bytes,
-+                                           QEMUIOVector *qiov,
-+                                           size_t qiov_offset,
-+                                           int flags)
- {
--    return bdrv_co_preadv(bs->file, offset, bytes, qiov,
--                          flags | BDRV_REQ_COPY_ON_READ);
-+    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
-+                               flags | BDRV_REQ_COPY_ON_READ);
- }
- 
- 
--static int coroutine_fn cor_co_pwritev(BlockDriverState *bs,
--                                       uint64_t offset, uint64_t bytes,
--                                       QEMUIOVector *qiov, int flags)
-+static int coroutine_fn cor_co_pwritev_part(BlockDriverState *bs,
-+                                            uint64_t offset,
-+                                            uint64_t bytes,
-+                                            QEMUIOVector *qiov,
-+                                            size_t qiov_offset, int flags)
- {
--
--    return bdrv_co_pwritev(bs->file, offset, bytes, qiov, flags);
-+    return bdrv_co_pwritev_part(bs->file, offset, bytes, qiov, qiov_offset,
-+                                flags);
- }
- 
- 
-@@ -137,8 +141,8 @@ static BlockDriver bdrv_copy_on_read = {
- 
-     .bdrv_getlength                     = cor_getlength,
- 
--    .bdrv_co_preadv                     = cor_co_preadv,
--    .bdrv_co_pwritev                    = cor_co_pwritev,
-+    .bdrv_co_preadv_part                = cor_co_preadv_part,
-+    .bdrv_co_pwritev_part               = cor_co_pwritev_part,
-     .bdrv_co_pwrite_zeroes              = cor_co_pwrite_zeroes,
-     .bdrv_co_pdiscard                   = cor_co_pdiscard,
-     .bdrv_co_pwritev_compressed         = cor_co_pwritev_compressed,
+ int bdrv_parse_aio(const char *mode, int *flags);
+ int bdrv_parse_cache_mode(const char *mode, int *flags, bool *writethrough);
 -- 
 1.8.3.1
 
