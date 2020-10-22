@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967A8296759
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 00:35:03 +0200 (CEST)
-Received: from localhost ([::1]:52268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E39296762
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 00:37:35 +0200 (CEST)
+Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVjAk-0007fU-LY
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 18:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45090)
+	id 1kVjDC-0001bp-Kq
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 18:37:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kVj7p-0006Ji-08
+ id 1kVj7p-0006Jt-4F
  for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:32:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51261)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kVj7l-0007qj-6R
+ id 1kVj7m-0007qu-Px
  for qemu-devel@nongnu.org; Thu, 22 Oct 2020 18:32:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603405913;
+ s=mimecast20190719; t=1603405917;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DbvZDt2YjT+OqOP+SYWN4gNFNx/iigt/9Fry3BpCckE=;
- b=Gk+60wrQo7Xu9/VLFHvEodh/3tVRBzws7MbrRptEEtUwhXad55SDvjIqGdsSYpDmtbYSzr
- NmNAOVolKvadVuE+pJmmZMuDJ2T7Lr1sZ+uFNsZrXg6wohtxvsCNxGVGD7aMxiS31oDyLS
- wMSSwtCASpeKoJ+xNe6rPWfWh1QEJZc=
+ bh=CNrl9xgpABbIubEhK/YTHIB6JhzyiVoLX/QpInLarwk=;
+ b=faBRSKQMy3+5R/e3hMHmNHUQv5MpYvqyyOs7GpDoAG3EqTK0x3+280CT6icZ1J89pivJ+p
+ pQXxdod+pS5by7PyGUdvPzCfCHmrpKx1hJ2hft8TFk2IZHmt9NYVaN2CPVjYH84iTJZIpN
+ N0vweswh5xSgTPw7eC1VzGVyTsbA5rU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-m8O5ulxoO92EE6qiO8qzhg-1; Thu, 22 Oct 2020 18:31:51 -0400
-X-MC-Unique: m8O5ulxoO92EE6qiO8qzhg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-46-vULoavbYOYe8wtqTZWFm6A-1; Thu, 22 Oct 2020 18:31:55 -0400
+X-MC-Unique: vULoavbYOYe8wtqTZWFm6A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D393800050;
- Thu, 22 Oct 2020 22:31:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12839107AFA5;
+ Thu, 22 Oct 2020 22:31:54 +0000 (UTC)
 Received: from localhost (ovpn-66-44.rdu2.redhat.com [10.10.66.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C1B76266E;
- Thu, 22 Oct 2020 22:31:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA07F5B4A2;
+ Thu, 22 Oct 2020 22:31:50 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] qom: object*_property_add_bool_ptr() functions
-Date: Thu, 22 Oct 2020 18:31:37 -0400
-Message-Id: <20201022223140.2083123-2-ehabkost@redhat.com>
+Subject: [PATCH 2/4] autz/listfile: Use object_class_property_add_bool_ptr()
+Date: Thu, 22 Oct 2020 18:31:38 -0400
+Message-Id: <20201022223140.2083123-3-ehabkost@redhat.com>
 In-Reply-To: <20201022223140.2083123-1-ehabkost@redhat.com>
 References: <20201022223140.2083123-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,97 +88,59 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide helpers for registering boolean properties that simply
-read/write a struct field, to reduce the need to manually write
-property getters and setters.
-
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/qom/object.h | 23 +++++++++++++++++++++++
- qom/object.c         | 31 +++++++++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+ authz/listfile.c | 27 +++------------------------
+ 1 file changed, 3 insertions(+), 24 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index a124cf897d..954a26c567 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1815,6 +1815,29 @@ ObjectProperty *object_class_property_add_uint64_ptr(ObjectClass *klass,
-                                           ptrdiff_t offset,
-                                           ObjectPropertyFlags flags);
- 
-+/**
-+ * object_property_add_bool_ptr:
-+ * @obj: the object to add a property to
-+ * @name: the name of the property
-+ * @v: pointer to value
-+ * @flags: bitwise-or'd ObjectPropertyFlags
-+ *
-+ * Add an bool property in memory.  This function will add a
-+ * property of type 'bool'.
-+ *
-+ * Returns: The newly added property on success, or %NULL on failure.
-+ */
-+ObjectProperty *
-+object_property_add_bool_ptr(Object *obj, const char *name,
-+                             bool *v,
-+                             ObjectPropertyFlags flags);
-+
-+ObjectProperty *
-+object_class_property_add_bool_ptr(ObjectClass *klass,
-+                                   const char *name,
-+                                   ptrdiff_t offset,
-+                                   ObjectPropertyFlags flags);
-+
- /**
-  * object_property_add_alias:
-  * @obj: the object to add a property to
-diff --git a/qom/object.c b/qom/object.c
-index 73f27b8b7e..2abc2bda33 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -2713,6 +2713,37 @@ object_class_property_add_uint64_ptr(ObjectClass *klass, const char *name,
-                                               flags, offset);
+diff --git a/authz/listfile.c b/authz/listfile.c
+index aaf930453d..911c4e45f2 100644
+--- a/authz/listfile.c
++++ b/authz/listfile.c
+@@ -184,27 +184,6 @@ qauthz_list_file_prop_get_filename(Object *obj,
  }
  
-+static void property_visit_bool_ptr(Object *obj, Visitor *v, const char *name,
-+                                    void *opaque, Error **errp)
-+{
-+    PointerProperty *prop = opaque;
-+    bool *field = pointer_property_get_ptr(obj, prop);
-+    visit_type_bool(v, name, field, errp);
-+}
-+
-+ObjectProperty *
-+object_property_add_bool_ptr(Object *obj, const char *name,
-+                             bool *v,
-+                             ObjectPropertyFlags flags)
-+{
-+    return object_property_add_uint_ptr(obj, name, "bool",
-+                                        property_visit_bool_ptr,
-+                                        property_visit_bool_ptr,
-+                                        flags,
-+                                        (void *)v);
-+}
-+
-+ObjectProperty *
-+object_class_property_add_bool_ptr(ObjectClass *klass, const char *name,
-+                                   ptrdiff_t offset,
-+                                   ObjectPropertyFlags flags)
-+{
-+    return object_class_property_add_uint_ptr(klass, name, "bool",
-+                                              property_visit_bool_ptr,
-+                                              property_visit_bool_ptr,
-+                                              flags, offset);
-+}
-+
- typedef struct {
-     Object *target_obj;
-     char *target_name;
+ 
+-static void
+-qauthz_list_file_prop_set_refresh(Object *obj,
+-                                  bool value,
+-                                  Error **errp G_GNUC_UNUSED)
+-{
+-    QAuthZListFile *fauthz = QAUTHZ_LIST_FILE(obj);
+-
+-    fauthz->refresh = value;
+-}
+-
+-
+-static bool
+-qauthz_list_file_prop_get_refresh(Object *obj,
+-                                  Error **errp G_GNUC_UNUSED)
+-{
+-    QAuthZListFile *fauthz = QAUTHZ_LIST_FILE(obj);
+-
+-    return fauthz->refresh;
+-}
+-
+-
+ static void
+ qauthz_list_file_finalize(Object *obj)
+ {
+@@ -227,9 +206,9 @@ qauthz_list_file_class_init(ObjectClass *oc, void *data)
+     object_class_property_add_str(oc, "filename",
+                                   qauthz_list_file_prop_get_filename,
+                                   qauthz_list_file_prop_set_filename);
+-    object_class_property_add_bool(oc, "refresh",
+-                                   qauthz_list_file_prop_get_refresh,
+-                                   qauthz_list_file_prop_set_refresh);
++    object_class_property_add_bool_ptr(oc, "refresh",
++                                       offsetof(QAuthZListFile, refresh),
++                                       OBJ_PROP_FLAG_READWRITE);
+ 
+     authz->is_allowed = qauthz_list_file_is_allowed;
+ }
 -- 
 2.28.0
 
