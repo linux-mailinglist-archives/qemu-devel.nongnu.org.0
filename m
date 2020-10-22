@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BA029650C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 21:09:50 +0200 (CEST)
-Received: from localhost ([::1]:41492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCE329651B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 21:14:17 +0200 (CEST)
+Received: from localhost ([::1]:50630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVfy9-0002Zt-Ce
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 15:09:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57816)
+	id 1kVg2R-0006e1-5a
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 15:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kVfll-0000sM-Rm; Thu, 22 Oct 2020 14:57:01 -0400
-Received: from mail-am6eur05on2090.outbound.protection.outlook.com
- ([40.107.22.90]:46561 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ id 1kVflp-0000vi-V8; Thu, 22 Oct 2020 14:57:09 -0400
+Received: from mail-am6eur05on2108.outbound.protection.outlook.com
+ ([40.107.22.108]:5089 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kVflj-0007YP-FN; Thu, 22 Oct 2020 14:57:01 -0400
+ id 1kVflm-0007Y8-8l; Thu, 22 Oct 2020 14:57:05 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m8dtCpVgQVxOm5ciZ70RZXWbQqBImDosckIfjr2ncMdUQDuhKIO8xegGFwkiJViEL/7q+/r/LwuSR9jQzR3oSN5rR4IUbSw89/mxYObkSaMcuBaKfYdb8w/e2cVloEaAp75A+cuM/eHXlb2Tronuh6j1KxdwOcawqqFTopJ0mGZVk+1UWeMwImcvPipd8fz4jCENZsQeKXTvPgjWQ6H0R9i7LqMnh4jcmlIQioyqE/ihVA4tzPVkEZ02M9gCxbx5nj5n16awc+c7FkE1gQ8yOq+N+BO+MxDATAdpFnRXw5qx5NbuW6Nyxt94tuOIhKkIyJW9DzkEneNzP08KXmLWLw==
+ b=RClMpP2dmGwCGJE072oMPMbkb9PODMsec8toZoprb1cInaLCtDSGl64E1NeyUOoME1gAszb06gQK/lO0BqU9ll5K+heWjZ48CoE0EfbDUnPryHC5rW5UyZuocsY0QvrLvXS26tw/+F9H16KVOzWjTlBOFAaOLCkDaA4nWgBc4aagVBEaLiBbtuN238uwtSMDTJOfJCr/ZBp+b5A99K7XwFpKQ2iehgdYPgVhkWvv2iMqco3EkcXLNHwz8dX+9Tg1NSvo7mstqQORTRZoQXO5VNaViP6QIwsYIbVmsOBQlsIdPmJHJEmaxpr4IWSBeFVaUzqtKF2INUkNIqDv7TTNUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XK2eGIcI2lg8dI9kF7IczM5Qgl05Zzvj/xw1CQleWYc=;
- b=mp150k4WJnpifuRsvlF11Jn498v2pFlcmSYFmTlM5ZpISvj1dtTjyu/dr9nbdOni9SpQyb5l1Dh2blDQ/GM9AyjCmTSQqNY8ZiwcoOArZ6IZCkQZOx8y+AlsPe2fglrVvk2YbbAHjyWjP+SjHEQVfGlI/q1hJL9lzD/1M8r1PQACvUu12LGkg3MEQkNvgXcDIEVKxA1YD6nn2WWCEmxlILVilAgWSbWKHrkAiCc66D2QyNVJoEWKl/pbio4D00okp2++py4MHBKT7Z7mmWGP4UVjXhZIqJWmfEARGDSQRK80XEOrVXw7zgSguemDOhfTRI+/rD76I2gIzOk4uBlK3w==
+ bh=4ISTEaQFcAYgXIMTkH+PJ3kCLXOxUs4QNHe2XMiq5M0=;
+ b=aFY0Uy7dPakk2Ls8B2p3UOigsotOgYVyPrpRVItcRMkhokRd1LFmbBACExys3xCi+E5om0xB40amcWw/q2lC6ev8EGRGAbPn7fzkxd8gpxUs/BFfKE/4TH/reyTYHRNzACB/JGp5B+10iVSqtP+2LBTiujM7nxtTvoE/8mz3epSUK6jME4Lfs4tIsF/hyPBzZk/jQjlJWLsMPHwyFz0MQqjYhK4I1cqtUHTTYSc3w5Cvcln3/PV9I4Nl5igDUMIWct4OXGwXvzDqHt+6UzFnE5KCs8AuWXzGol+mIPDUjAaL8mcHraXOyAyVSGJVMxel0pf5BChAB9OCAX4ewuglZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XK2eGIcI2lg8dI9kF7IczM5Qgl05Zzvj/xw1CQleWYc=;
- b=K1N4NLZ/wkmWb8Epr0SrB06/ddh9KM0GY/CPKB2lPeaYy2VjVK16+A+JGxlEwe8JThimt+vBuMDqFPDVi2fCHpJykeTQZMKpshUBEa9JIv7qH2MxPEwA7z2OoLf7NBE0Hu19O7F+118/Ysp3oy2oXmXmkC9c9XbJhhsXmi/dYTI=
+ bh=4ISTEaQFcAYgXIMTkH+PJ3kCLXOxUs4QNHe2XMiq5M0=;
+ b=lgyDP0Lzc8GuEjslYFzZh3vSZLGb2PfixCElRtVo5c2qQ8DBHM5fu3Z9ymUNfeGT8F/KsAFS1tOWQshbo5bA/NgdI5xF4rcwzOr9ZZIj9LmE2fGaeUSzG/R0Dk0Q59HBr82Si7eL+pKImZHrn9O+xSR5CXiCfDi/XVTaLG/qrUI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6309.eurprd08.prod.outlook.com (2603:10a6:20b:29f::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.24; Thu, 22 Oct
- 2020 18:56:48 +0000
+ 2020 18:56:49 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.018; Thu, 22 Oct 2020
- 18:56:48 +0000
+ 18:56:49 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org, eblake@redhat.com,
  jsnow@redhat.com
-Subject: [PATCH v5 10/12] iotests: add testrunner.py
-Date: Thu, 22 Oct 2020 21:56:25 +0300
-Message-Id: <20201022185627.16987-11-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 11/12] iotests: rewrite check into python
+Date: Thu, 22 Oct 2020 21:56:26 +0300
+Message-Id: <20201022185627.16987-12-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20201022185627.16987-1-vsementsov@virtuozzo.com>
 References: <20201022185627.16987-1-vsementsov@virtuozzo.com>
@@ -67,35 +67,35 @@ Received: from kvm.sw.ru (185.215.60.82) by
  AM0PR01CA0089.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::30) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22 via Frontend
- Transport; Thu, 22 Oct 2020 18:56:47 +0000
+ Transport; Thu, 22 Oct 2020 18:56:48 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 49eee21d-0bb9-4ff4-45c8-08d876bc3a8f
+X-MS-Office365-Filtering-Correlation-Id: 686306f5-c24f-434b-49d9-08d876bc3afb
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6309:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6309FA325FD48ABFF1841E2BC11D0@AS8PR08MB6309.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6309C47A43F21C4C40BAADC8C11D0@AS8PR08MB6309.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1051;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EGK3faNAanl9yey3ZUMgS8KpKrJ6GuVvA3S11W7Hyx6EbxMfUb1EZGpItMMfJOZZGT/R7cDf623XhFNDzru7dDEUFLNpGmL0CTLayLQCHDDkLgDSxsZ2N8LX1iquQZGOvIglAvCesb32S5S07XtMXTFl54GBlOwrn9PdtZaEFUFfTjzlC6i8eSdsBgHepJe6/P+s/YLo6NY1EvLvHGzfrs0PZln57TZv9MIh6trVFUbsx6VHTW/K9prSI6zdmQ/TN1VWnWzUqJ25Lszb6dMqFYR975iLBBDXdDK7iCBfBnXiA+OoqZkraP8q2lkbjK54SeHH0W/PYenoicezmSfGWGZrAKAMc/HaKWqv1l5lc0K4jeVGGUdP9qBaerpjbsmjKfHjntCOM5tykLjlI5TOdwkZ2d6dHriWP4PfQmtLJYhkqbGXRZBoiD/1gKglVnrQf1FpNdIy642d5Xrsb57mbQ==
+X-Microsoft-Antispam-Message-Info: dikPoIHEELfpWk2WREiV+fMuR86J3giTS5qtF7ODYmQCD2GG40WsRJjBfnOHHLHE16EFF3u1biw3yuAiePLFpdXG0pSnvW56bJXjT+pRHK1yB8OTS+hq/wCK7OG6YtZu4GuOqhP6TIIuxzLgYlCn2KH0UFWvrm6wtm0d6gNFBvFtByr6hjIKnQElq+y9M/begfWuJhb4LdBCxXu+OoOokHMgAlS/wugMsRFeSd0Gn3uFmEM6UZOx1Y3sMAyKsYRK46URqv/I83aLwMhKqIwRkiLX872uDssi4si3dXuOYcGXjQoOYtcXFQx5E49BxNbEYFcx7kNx4HQ2a7wfYbgOaR47MBdsa/ECv2ksJJUXuoXEZnqIc95M7BSWub8Lw823L2vX4imkHF7FZ/STCWKUM3z27zlrtV1PWifgA7r1vrImggQQZMR0/ezooNWqlj8T4BGOTKquw7eSIJFRqfM+kg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39840400004)(366004)(346002)(396003)(136003)(376002)(478600001)(6512007)(36756003)(2906002)(30864003)(52116002)(4326008)(5660300002)(26005)(16526019)(2616005)(956004)(186003)(6916009)(6666004)(8936002)(66476007)(83380400001)(316002)(66946007)(1076003)(6506007)(8676002)(86362001)(66556008)(6486002)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: Fu+c+MqsaojBu5Q1iE9iLsvRMvMbzVVeChexdi9ZbuMFRZKe+dkUOctOwYJkJFlYpjiigcEvZ6tgMuOP93+au1m0Fefe9DVK537Br6yTfvION3BJ3STQeGvvY1XUyUDemZIfGlfu9zCYZrsov2TcJoo6SFknKyc6KAA84EJwKUuAcPCis+kWLBMSmfvA9k5NANScqSv1FtWd+OYKuqkWS0VshCtsnqfUGRV4v9LdA4MnYaO7BgvRQYChOoMTP03h6emxbpm5+OF1rV6NNDEynAXjI5vjsj9g1/Bqmrs0pHOG78EBGomDwL7j47HvgClCiSC8N5VAaEFsWwlxujrE3qQbBkYsPUUSPSdhCX7ugchxjGYCYiB+D5LS0LYlSaOP8bR3yh3xFpW/NNHZcREW7Cvt0ws5XI/m6zmsuX9pRwgVk8MqolUH9/2XgqS/cKzmpwoo6Jsx1LBUAnoAnfx9JD3nWxvQvOs20ChKZdN9ajEwKHrYd0ePNCWZbt5taa4u29emvxX8qApz9yQCanVP+qYLeXRtNOKpSgkF4RW3htXE+Z4gFWfVzEM7Dd5tpFu9IH1mUcyhrzunw8aruBobU4qnbVuPmJoEnrfPaP9K0l4cTTZs2x1liZXXfJ77lMoCbgo0akLQBdBBjfsDwBZKBA==
+X-MS-Exchange-AntiSpam-MessageData: sqsY6ruRua0lLVu7vqRaWsx6sOKqgH3Z9S88I5RjWW204Ea38B9/3nlW5vNX2g69zySh6gItnu++WMB0yQKMnc1B5M4H2+sw3ABwL+fszDeLynR5yeOr25eQzQKqJ9joa2RbYt7Oj+/j3EYjOqdS4E2yD929371JDPhi0EYep3uQgN4rsfMw4D9dR4GLOPfNQfnAHHkqyk+xEme10tALGwd/GYKP1tt3XU3YeMXgpOOpJ9g0j2lh9SGQWfRMBlYWFov4+XZT1MOqS9gJxfnO8YrMPwS9pYR7pG/1NBu3xrwxQax22i99FgtwLSmsDXWuayqV1+4Nmb0eX68+eMcgDeNhNSlI861wUUrBVO3+JuSS0fJ2DM0iS+FjDrZIBj2+fRtfXbiNnqAIQfeGysa6VYcDMAZb4HerCSmPbLh93MOFHqtoHQN4+fQRGKPtCMAXWJgtS4Tfu4pzZ11adbXycSHZoLDLqnCp9MZkfG8zFT3VwhaDlMJuk9hRJoNjFFYsH98LEF2ZD1uEVFTW9yswCT0LJ4AoR7vtspVJaqCiQdGwrHDqfjOca13UrSoYVCVytYip0tNZ/snRLTyyjaNhwOdRLRJg+j4KfqTDHEXkDQn7I5rG8+QOah+DKTeH1kKjjLWRnOkfnsfi7Sad6MamMA==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49eee21d-0bb9-4ff4-45c8-08d876bc3a8f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 686306f5-c24f-434b-49d9-08d876bc3afb
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2020 18:56:48.2497 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2020 18:56:49.0253 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bz5KMmiXTAqXUzccZW1d7B7Waps5i7GApA/mgKonjkXpJBcvLT0JcYYmBtPjaCwjbjoaiW1czcvu1qiP9mtXIUb3ue2/eY20faWgkkf9+9M=
+X-MS-Exchange-CrossTenant-UserPrincipalName: PPyMgfv+YNlZ4OJz0NbA0ACVIftIRH8p6EvW326SZ0D/bLYomg+jV+sXx7uJuJYePR3MRuo0fqiMx6bdc9CIEqJ5QPMQLnN1GkWa6XbqOQE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6309
-Received-SPF: pass client-ip=40.107.22.90;
+Received-SPF: pass client-ip=40.107.22.108;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 14:56:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 14:56:41
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -120,381 +120,1332 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add TestRunner class, which will run tests in a new python iotests
-running framework.
+Just use classes introduced in previous three commits. Behavior
+difference is described in these three commits.
 
-There are some differences with current ./check behavior, most
-significant are:
-- Consider all tests self-executable, just run them, don't run python
-  by hand.
-- Elapsed time is cached in json file
-- Elapsed time precision increased a bit
-- use python difflib instead of "diff -w", to ignore spaces at line
-  ends strip lines by hand. Do not ignore other spaces.
+Drop group file, as it becomes unused.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/testrunner.py | 351 +++++++++++++++++++++++++++++++
- 1 file changed, 351 insertions(+)
- create mode 100644 tests/qemu-iotests/testrunner.py
+ tests/qemu-iotests/check | 977 ++-------------------------------------
+ tests/qemu-iotests/group | 317 -------------
+ 2 files changed, 28 insertions(+), 1266 deletions(-)
+ delete mode 100644 tests/qemu-iotests/group
 
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-new file mode 100644
-index 0000000000..e395877882
---- /dev/null
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -0,0 +1,351 @@
-+# Class for actual tests running.
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index 678b6e4910..48bb3128c3 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -1,7 +1,8 @@
+-#!/usr/bin/env bash
++#!/usr/bin/env python3
+ #
+-# Copyright (C) 2009 Red Hat, Inc.
+-# Copyright (c) 2000-2002,2006 Silicon Graphics, Inc.  All Rights Reserved.
++# Configure environment and run group of tests in it.
 +#
 +# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import random
-+from pathlib import Path
-+import datetime
-+import time
-+import difflib
-+import subprocess
-+import collections
-+import contextlib
-+import json
-+import argparse
-+import termios
+ #
+ # This program is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU General Public License as
+@@ -14,950 +15,28 @@
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-#
+-#
+-# Control script for QA
+-#
+-
+-status=0
+-needwrap=true
+-try=0
+-n_bad=0
+-bad=""
+-notrun=""
+-casenotrun=""
+-interrupt=true
+-makecheck=false
+-
+-_init_error()
+-{
+-    echo "check: $1" >&2
+-    exit 1
+-}
+-
+-if [ -L "$0" ]
+-then
+-    # called from the build tree
+-    source_iotests=$(dirname "$(readlink "$0")")
+-    if [ -z "$source_iotests" ]
+-    then
+-        _init_error "failed to obtain source tree name from check symlink"
+-    fi
+-    source_iotests=$(cd "$source_iotests"; pwd) || _init_error "failed to enter source tree"
+-    build_iotests=$(cd "$(dirname "$0")"; pwd)
+-else
+-    # called from the source tree
+-    source_iotests=$PWD
+-    # this may be an in-tree build (note that in the following code we may not
+-    # assume that it truly is and have to test whether the build results
+-    # actually exist)
+-    build_iotests=$PWD
+-fi
+-
+-build_root="$build_iotests/../.."
+-
+-# we need common.env
+-if ! . "$build_iotests/common.env"
+-then
+-    _init_error "failed to source common.env (make sure the qemu-iotests are run from tests/qemu-iotests in the build tree)"
+-fi
+-
+-# we need common.config
+-if ! . "$source_iotests/common.config"
+-then
+-    _init_error "failed to source common.config"
+-fi
+-
+-_full_imgfmt_details()
+-{
+-    if [ -n "$IMGOPTS" ]; then
+-        echo "$IMGFMT ($IMGOPTS)"
+-    else
+-        echo "$IMGFMT"
+-    fi
+-}
+-
+-_full_platform_details()
+-{
+-    os=$(uname -s)
+-    host=$(hostname -s)
+-    kernel=$(uname -r)
+-    platform=$(uname -m)
+-    echo "$os/$platform $host $kernel"
+-}
+-
+-_full_env_details()
+-{
+-    cat <<EOF
+-QEMU          -- "$QEMU_PROG" $QEMU_OPTIONS
+-QEMU_IMG      -- "$QEMU_IMG_PROG" $QEMU_IMG_OPTIONS
+-QEMU_IO       -- "$QEMU_IO_PROG" $QEMU_IO_OPTIONS
+-QEMU_NBD      -- "$QEMU_NBD_PROG" $QEMU_NBD_OPTIONS
+-IMGFMT        -- $FULL_IMGFMT_DETAILS
+-IMGPROTO      -- $IMGPROTO
+-PLATFORM      -- $FULL_HOST_DETAILS
+-TEST_DIR      -- $TEST_DIR
+-SOCK_DIR      -- $SOCK_DIR
+-SOCKET_SCM_HELPER -- $SOCKET_SCM_HELPER
+-
+-EOF
+-}
+-
+-# $1 = prog to look for
+-set_prog_path()
+-{
+-    p=$(command -v $1 2> /dev/null)
+-    if [ -n "$p" -a -x "$p" ]; then
+-        type -p "$p"
+-    else
+-        return 1
+-    fi
+-}
+-
+-if [ -z "$TEST_DIR" ]; then
+-        TEST_DIR=$PWD/scratch
+-fi
+-mkdir -p "$TEST_DIR" || _init_error 'Failed to create TEST_DIR'
+-
+-tmp_sock_dir=false
+-if [ -z "$SOCK_DIR" ]; then
+-    SOCK_DIR=$(mktemp -d)
+-    tmp_sock_dir=true
+-fi
+-mkdir -p "$SOCK_DIR" || _init_error 'Failed to create SOCK_DIR'
+-
+-diff="diff -u"
+-verbose=false
+-debug=false
+-group=false
+-xgroup=false
+-imgopts=false
+-showme=false
+-sortme=false
+-expunge=true
+-have_test_arg=false
+-cachemode=false
+-aiomode=false
+-
+-tmp="${TEST_DIR}"/$$
+-rm -f $tmp.list $tmp.tmp $tmp.sed
+-
+-export IMGFMT=raw
+-export IMGFMT_GENERIC=true
+-export IMGPROTO=file
+-export IMGOPTS=""
+-export CACHEMODE="writeback"
+-export AIOMODE="threads"
+-export QEMU_IO_OPTIONS=""
+-export QEMU_IO_OPTIONS_NO_FMT=""
+-export CACHEMODE_IS_DEFAULT=true
+-export VALGRIND_QEMU=
+-export IMGKEYSECRET=
+-export IMGOPTSSYNTAX=false
+-
+-# Save current tty settings, since an aborting qemu call may leave things
+-# screwed up
+-STTY_RESTORE=
+-if test -t 0; then
+-    STTY_RESTORE=$(stty -g)
+-fi
+-
+-for r
+-do
+-
+-    if $group
+-    then
+-        # arg after -g
+-        group_list=$(sed -n <"$source_iotests/group" -e 's/$/ /' -e "/^[0-9][0-9][0-9].* $r /"'{
+-s/ .*//p
+-}')
+-        if [ -z "$group_list" ]
+-        then
+-            echo "Group \"$r\" is empty or not defined?"
+-            exit 1
+-        fi
+-        [ ! -s $tmp.list ] && touch $tmp.list
+-        for t in $group_list
+-        do
+-            if grep -s "^$t\$" $tmp.list >/dev/null
+-            then
+-                :
+-            else
+-                echo "$t" >>$tmp.list
+-            fi
+-        done
+-        group=false
+-        continue
+-
+-    elif $xgroup
+-    then
+-        # arg after -x
+-        # Populate $tmp.list with all tests
+-        awk '/^[0-9]{3,}/ {print $1}' "${source_iotests}/group" > $tmp.list 2>/dev/null
+-        group_list=$(sed -n <"$source_iotests/group" -e 's/$/ /' -e "/^[0-9][0-9][0-9].* $r /"'{
+-s/ .*//p
+-}')
+-        if [ -z "$group_list" ]
+-        then
+-            echo "Group \"$r\" is empty or not defined?"
+-            exit 1
+-        fi
+-        numsed=0
+-        rm -f $tmp.sed
+-        for t in $group_list
+-        do
+-            if [ $numsed -gt 100 ]
+-            then
+-                sed -f $tmp.sed <$tmp.list >$tmp.tmp
+-                mv $tmp.tmp $tmp.list
+-                numsed=0
+-                rm -f $tmp.sed
+-            fi
+-            echo "/^$t\$/d" >>$tmp.sed
+-            numsed=$(expr $numsed + 1)
+-        done
+-        sed -f $tmp.sed <$tmp.list >$tmp.tmp
+-        mv $tmp.tmp $tmp.list
+-        xgroup=false
+-        continue
+-
+-    elif $imgopts
+-    then
+-        IMGOPTS="$r"
+-        imgopts=false
+-        continue
+-    elif $cachemode
+-    then
+-        CACHEMODE="$r"
+-        CACHEMODE_IS_DEFAULT=false
+-        cachemode=false
+-        continue
+-    elif $aiomode
+-    then
+-        AIOMODE="$r"
+-        aiomode=false
+-        continue
+-    fi
+-
+-    xpand=true
+-    case "$r"
+-    in
+-
+-        -\? | -h | --help)        # usage
+-            echo "Usage: $0 [options] [testlist]"'
+-
+-common options
+-    -v                  verbose
+-    -d                  debug
+-
+-image format options
+-    -raw                test raw (default)
+-    -bochs              test bochs
+-    -cloop              test cloop
+-    -parallels          test parallels
+-    -qcow               test qcow
+-    -qcow2              test qcow2
+-    -qed                test qed
+-    -vdi                test vdi
+-    -vpc                test vpc
+-    -vhdx               test vhdx
+-    -vmdk               test vmdk
+-    -luks               test luks
+-    -dmg                test dmg
+-
+-image protocol options
+-    -file               test file (default)
+-    -rbd                test rbd
+-    -sheepdog           test sheepdog
+-    -nbd                test nbd
+-    -ssh                test ssh
+-    -nfs                test nfs
+-
+-other options
+-    -xdiff              graphical mode diff
+-    -nocache            use O_DIRECT on backing file
+-    -misalign           misalign memory allocations
+-    -n                  show me, do not run tests
+-    -o options          -o options to pass to qemu-img create/convert
+-    -c mode             cache mode
+-    -i mode             AIO mode
+-    -makecheck          pretty print output for make check
+-
+-testlist options
+-    -g group[,group...]        include tests from these groups
+-    -x group[,group...]        exclude tests from these groups
+-    NNN                        include test NNN
+-    NNN-NNN                    include test range (eg. 012-021)
+-'
+-            exit 0
+-            ;;
+-
+-        -raw)
+-            IMGFMT=raw
+-            xpand=false
+-            ;;
+-
+-        -bochs)
+-            IMGFMT=bochs
+-            IMGFMT_GENERIC=false
+-            xpand=false
+-            ;;
+-
+-        -cloop)
+-            IMGFMT=cloop
+-            IMGFMT_GENERIC=false
+-            xpand=false
+-            ;;
+-
+-        -parallels)
+-            IMGFMT=parallels
+-            xpand=false
+-            ;;
+-
+-        -qcow)
+-            IMGFMT=qcow
+-            xpand=false
+-            ;;
+-
+-        -qcow2)
+-            IMGFMT=qcow2
+-            xpand=false
+-            ;;
+-
+-        -luks)
+-            IMGOPTSSYNTAX=true
+-            IMGFMT=luks
+-            IMGKEYSECRET=123456
+-            xpand=false
+-            ;;
+-
+-        -dmg)
+-            IMGFMT=dmg
+-            IMGFMT_GENERIC=false
+-            xpand=false
+-            ;;
+-
+-        -qed)
+-            IMGFMT=qed
+-            xpand=false
+-            ;;
+-
+-        -vdi)
+-            IMGFMT=vdi
+-            xpand=false
+-            ;;
+-
+-        -vmdk)
+-            IMGFMT=vmdk
+-            xpand=false
+-            ;;
+-
+-        -vpc)
+-            IMGFMT=vpc
+-            xpand=false
+-            ;;
+-
+-        -vhdx)
+-            IMGFMT=vhdx
+-            xpand=false
+-            ;;
+-
+-        -file)
+-            IMGPROTO=file
+-            xpand=false
+-            ;;
+-
+-        -rbd)
+-            IMGPROTO=rbd
+-            xpand=false
+-            ;;
+-
+-        -sheepdog)
+-            IMGPROTO=sheepdog
+-            xpand=false
+-            ;;
+-
+-        -nbd)
+-            IMGPROTO=nbd
+-            xpand=false
+-            ;;
+-
+-        -ssh)
+-            IMGPROTO=ssh
+-            xpand=false
+-            ;;
+-
+-        -nfs)
+-            IMGPROTO=nfs
+-            xpand=false
+-            ;;
+-
+-        -nocache)
+-            CACHEMODE="none"
+-            CACHEMODE_IS_DEFAULT=false
+-            xpand=false
+-            ;;
+-
+-        -misalign)
+-            QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --misalign"
+-            xpand=false
+-            ;;
+-
+-        -valgrind)
+-            VALGRIND_QEMU='y'
+-            xpand=false
+-            ;;
+-
+-        -g)        # -g group ... pick from group file
+-            group=true
+-            xpand=false
+-            ;;
+-
+-        -xdiff)        # graphical diff mode
+-            xpand=false
+-
+-            if [ ! -z "$DISPLAY" ]
+-            then
+-                command -v xdiff >/dev/null 2>&1 && diff=xdiff
+-                command -v gdiff >/dev/null 2>&1 && diff=gdiff
+-                command -v tkdiff >/dev/null 2>&1 && diff=tkdiff
+-                command -v xxdiff >/dev/null 2>&1 && diff=xxdiff
+-            fi
+-            ;;
+-        -makecheck)   # makecheck friendly output
+-            makecheck=true
+-            xpand=false
+-            ;;
+-        -n)        # show me, don't do it
+-            showme=true
+-            xpand=false
+-            ;;
+-        -o)
+-            imgopts=true
+-            xpand=false
+-            ;;
+-        -c)
+-            cachemode=true
+-            xpand=false
+-            ;;
+-        -i)
+-            aiomode=true
+-            xpand=false
+-            ;;
+-        -T)        # deprecated timestamp option
+-            xpand=false
+-            ;;
+-        -v)
+-            verbose=true
+-            xpand=false
+-            ;;
+-        -d)
+-            debug=true
+-            xpand=false
+-            ;;
+-        -x)        # -x group ... exclude from group file
+-            xgroup=true
+-            xpand=false
+-            ;;
+-        '[0-9][0-9][0-9] [0-9][0-9][0-9][0-9]')
+-            echo "No tests?"
+-            status=1
+-            exit $status
+-            ;;
+-
+-        [0-9]*-[0-9]*)
+-            eval $(echo $r | sed -e 's/^/start=/' -e 's/-/ end=/')
+-            ;;
+-
+-        [0-9]*-)
+-            eval $(echo $r | sed -e 's/^/start=/' -e 's/-//')
+-            end=$(echo [0-9][0-9][0-9] [0-9][0-9][0-9][0-9] | sed -e 's/\[0-9]//g' -e 's/  *$//' -e 's/.* //')
+-            if [ -z "$end" ]
+-            then
+-                echo "No tests in range \"$r\"?"
+-                status=1
+-                exit $status
+-            fi
+-            ;;
+-
+-        *)
+-            start=$r
+-            end=$r
+-            ;;
+-
+-    esac
+-
+-    # get rid of leading 0s as can be interpreted as octal
+-    start=$(echo $start | sed 's/^0*//')
+-    end=$(echo $end | sed 's/^0*//')
+-
+-    if $xpand
+-    then
+-        have_test_arg=true
+-        awk </dev/null '
+-BEGIN        { for (t='$start'; t<='$end'; t++) printf "%03d\n",t }' \
+-        | while read id
+-        do
+-            if grep -s "^$id\( \|\$\)" "$source_iotests/group" >/dev/null
+-            then
+-                # in group file ... OK
+-                echo $id >>$tmp.list
+-            else
+-                if [ -f expunged ] && $expunge && egrep "^$id([         ]|\$)" expunged >/dev/null
+-                then
+-                    # expunged ... will be reported, but not run, later
+-                    echo $id >>$tmp.list
+-                else
+-                    # oops
+-                    if [ "$start" == "$end" -a "$id" == "$end" ]
+-                    then
+-                        echo "$id - unknown test"
+-                        exit 1
+-                    else
+-                        echo "$id - unknown test, ignored"
+-                    fi
+-                fi
+-            fi
+-        done || exit 1
+-    fi
+-
+-done
+-
+-# Set qemu-io cache mode with $CACHEMODE we have
+-QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --cache $CACHEMODE"
+-# Set qemu-io aio mode with $AIOMODE we have
+-QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --aio $AIOMODE"
+-
+-QEMU_IO_OPTIONS_NO_FMT="$QEMU_IO_OPTIONS"
+-if [ "$IMGOPTSSYNTAX" != "true" ]; then
+-    QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS -f $IMGFMT"
+-fi
+-
+-# Set default options for qemu-img create -o if they were not specified
+-if [ "$IMGFMT" == "qcow2" ] && ! (echo "$IMGOPTS" | grep "compat=" > /dev/null); then
+-    IMGOPTS=$(_optstr_add "$IMGOPTS" "compat=1.1")
+-fi
+-if [ "$IMGFMT" == "luks" ] && ! (echo "$IMGOPTS" | grep "iter-time=" > /dev/null); then
+-    IMGOPTS=$(_optstr_add "$IMGOPTS" "iter-time=10")
+-fi
+-if [ "$IMGFMT" == "vmdk" ] && ! (echo "$IMGOPTS" | grep "zeroed_grain=" > /dev/null); then
+-    IMGOPTS=$(_optstr_add "$IMGOPTS" "zeroed_grain=on")
+-fi
+-
+-if [ -z "$SAMPLE_IMG_DIR" ]; then
+-        SAMPLE_IMG_DIR="$source_iotests/sample_images"
+-fi
+-
+-export TEST_DIR
+-export SOCK_DIR
+-export SAMPLE_IMG_DIR
+-
+-if [ -s $tmp.list ]
+-then
+-    # found some valid test numbers ... this is good
+-    :
+-else
+-    if $have_test_arg
+-    then
+-        # had test numbers, but none in group file ... do nothing
+-        touch $tmp.list
+-    else
+-        # no test numbers, do everything from group file
+-        sed -n -e '/^[0-9][0-9][0-9]*/s/^\([0-9]*\).*/\1/p' <"$source_iotests/group" >$tmp.list
+-    fi
+-fi
+-
+-# should be sort -n, but this did not work for Linux when this
+-# was ported from IRIX
+-#
+-list=$(sort $tmp.list)
+-rm -f $tmp.list $tmp.tmp $tmp.sed
+-
+-if [ -z "$QEMU_PROG" ]
+-then
+-    if [ -x "$build_iotests/qemu" ]; then
+-        export QEMU_PROG="$build_iotests/qemu"
+-    elif [ -x "$build_root/qemu-system-${qemu_arch}" ]; then
+-        export QEMU_PROG="$build_root/qemu-system-${qemu_arch}"
+-    else
+-        pushd "$build_root" > /dev/null
+-        for binary in qemu-system-*
+-        do
+-            if [ -x "$binary" ]
+-            then
+-                export QEMU_PROG="$build_root/$binary"
+-                break
+-            fi
+-        done
+-        popd > /dev/null
+-        [ "$QEMU_PROG" = "" ] && _init_error "qemu not found"
+-    fi
+-fi
+-export QEMU_PROG="$(type -p "$QEMU_PROG")"
+-
+-export QEMU_OPTIONS="-nodefaults -display none -accel qtest"
+-case "$QEMU_PROG" in
+-    *qemu-system-arm|*qemu-system-aarch64)
+-        export QEMU_OPTIONS="$QEMU_OPTIONS -machine virt"
+-        ;;
+-    *qemu-system-avr)
+-        export QEMU_OPTIONS="$QEMU_OPTIONS -machine mega2560"
+-        ;;
+-    *qemu-system-rx)
+-        export QEMU_OPTIONS="$QEMU_OPTIONS -machine gdbsim-r5f562n8"
+-        ;;
+-    *qemu-system-tricore)
+-        export QEMU_OPTIONS="-$QEMU_OPTIONS -machine tricore_testboard"
+-        ;;
+-esac
+-
+-if [ -z "$QEMU_IMG_PROG" ]; then
+-    if [ -x "$build_iotests/qemu-img" ]; then
+-        export QEMU_IMG_PROG="$build_iotests/qemu-img"
+-    elif [ -x "$build_root/qemu-img" ]; then
+-        export QEMU_IMG_PROG="$build_root/qemu-img"
+-    else
+-        _init_error "qemu-img not found"
+-    fi
+-fi
+-export QEMU_IMG_PROG="$(type -p "$QEMU_IMG_PROG")"
+-
+-if [ -z "$QEMU_IO_PROG" ]; then
+-    if [ -x "$build_iotests/qemu-io" ]; then
+-        export QEMU_IO_PROG="$build_iotests/qemu-io"
+-    elif [ -x "$build_root/qemu-io" ]; then
+-        export QEMU_IO_PROG="$build_root/qemu-io"
+-    else
+-        _init_error "qemu-io not found"
+-    fi
+-fi
+-export QEMU_IO_PROG="$(type -p "$QEMU_IO_PROG")"
+-
+-if [ -z $QEMU_NBD_PROG ]; then
+-    if [ -x "$build_iotests/qemu-nbd" ]; then
+-        export QEMU_NBD_PROG="$build_iotests/qemu-nbd"
+-    elif [ -x "$build_root/qemu-nbd" ]; then
+-        export QEMU_NBD_PROG="$build_root/qemu-nbd"
+-    else
+-        _init_error "qemu-nbd not found"
+-    fi
+-fi
+-export QEMU_NBD_PROG="$(type -p "$QEMU_NBD_PROG")"
+-
+-if [ -x "$build_iotests/socket_scm_helper" ]
+-then
+-    export SOCKET_SCM_HELPER="$build_iotests/socket_scm_helper"
+-fi
+-
+-python_usable=false
+-if $PYTHON -c 'import sys; sys.exit(0 if sys.version_info >= (3,6) else 1)'
+-then
+-    # Our python framework also requires virtio-blk
+-    if "$QEMU_PROG" -M none -device help | grep -q virtio-blk >/dev/null 2>&1
+-    then
+-        python_usable=true
+-    else
+-        python_unusable_because="Missing virtio-blk in QEMU binary"
+-    fi
+-else
+-    python_unusable_because="Unsupported Python version"
+-fi
+-
+-default_machine=$($QEMU_PROG -machine help | sed -n '/(default)/ s/ .*//p')
+-default_alias_machine=$($QEMU_PROG -machine help | \
+-   sed -n "/(alias of $default_machine)/ { s/ .*//p; q; }")
+-if [[ "$default_alias_machine" ]]; then
+-    default_machine="$default_alias_machine"
+-fi
+-
+-export QEMU_DEFAULT_MACHINE="$default_machine"
+-
+-TIMESTAMP_FILE=check.time-$IMGPROTO-$IMGFMT
+-
+-_wallclock()
+-{
+-    date "+%H %M %S" | awk '{ print $1*3600 + $2*60 + $3 }'
+-}
+-
+-_wrapup()
+-{
+-    if $showme
+-    then
+-        :
+-    elif $needwrap
+-    then
+-        if [ -f $TIMESTAMP_FILE -a -f $tmp.time ]
+-        then
+-            cat $TIMESTAMP_FILE $tmp.time \
+-            | awk '
+-        { t[$1] = $2 }
+-END        { if (NR > 0) {
+-            for (i in t) print i " " t[i]
+-          }
+-        }' \
+-            | sort -n >$tmp.out
+-            mv $tmp.out $TIMESTAMP_FILE
+-        fi
+-
+-        if [ -f $tmp.expunged ]
+-        then
+-            notrun=$(wc -l <$tmp.expunged | sed -e 's/  *//g')
+-            try=$(expr $try - $notrun)
+-            list=$(echo "$list" | sed -f $tmp.expunged)
+-        fi
+-
+-        echo "" >>check.log
+-        date >>check.log
+-        echo $list | fmt | sed -e 's/^/    /' >>check.log
+-        $interrupt && echo "Interrupted!" >>check.log
+-
+-        if [ ! -z "$notrun" ]
+-        then
+-            echo "Not run:$notrun"
+-            echo "Not run:$notrun" >>check.log
+-        fi
+-        if [ ! -z "$casenotrun" ]
+-        then
+-            echo "Some cases not run in:$casenotrun"
+-            echo "Some cases not run in:$casenotrun" >>check.log
+-        fi
+-        if [ ! -z "$n_bad" -a $n_bad != 0 ]
+-        then
+-            echo "Failures:$bad"
+-            echo "Failed $n_bad of $try iotests"
+-            echo "Failures:$bad" | fmt >>check.log
+-            echo "Failed $n_bad of $try iotests" >>check.log
+-        else
+-            echo "Passed all $try iotests"
+-            echo "Passed all $try iotests" >>check.log
+-        fi
+-        needwrap=false
+-    fi
+-
+-    if test -n "$STTY_RESTORE"; then
+-        stty $STTY_RESTORE
+-    fi
+-    rm -f "${TEST_DIR}"/*.out "${TEST_DIR}"/*.err "${TEST_DIR}"/*.time
+-    rm -f "${TEST_DIR}"/check.pid "${TEST_DIR}"/check.sts
+-    rm -f $tmp.*
+-
+-    if $tmp_sock_dir
+-    then
+-        rm -rf "$SOCK_DIR"
+-    fi
+-}
+-
+-trap "_wrapup; exit \$status" 0 1 2 3 15
+-
+-# Report the test start and results. For makecheck we want to pretty
+-# print the whole report at the end of the execution.
+-# args: $seq, $starttime, $lasttime
+-_report_test_start()
+-{
+-    if ! $makecheck; then
+-        if [ -n "$3" ]; then
+-            local lasttime=" (last: $3s)"
+-        fi
+-        printf "%-8s %-10s [%s]            %4s%-14s\r" "$1" "..." "$2" "..." "$lasttime"
+-    fi
+-}
+-# args:$seq $status $starttime $lasttime $thistime $details
+-_report_test_result()
+-{
+-    local status lasttime thistime
+-    if $makecheck; then
+-        if [ -n "$2" ] && [ "$2" != "pass" ]; then
+-            status=" [$2]"
+-        fi
+-        printf "  TEST    iotest-$IMGFMT: %s%s\n" "$1" "$status"
+-        return
+-    fi
+-
+-    if [ -n "$4" ]; then
+-        lasttime=" (last: $4s)"
+-    fi
+-    if [ -n "$5" ]; then
+-        thistime=" $5s"
+-    fi
+-    case "$2" in
+-        "pass")     status=$(printf "\e[32m%-10s\e[0m" "$2") ;;
+-        "fail")     status=$(printf "\e[1m\e[31m%-10s\e[0m" "$2") ;;
+-        "not run")  status=$(printf "\e[33m%-10s\e[0m" "$2") ;;
+-        *)          status=$(printf "%-10s" "$2") ;;
+-    esac
+-
+-    printf "%-8s %s [%s] [%s] %4s%-14s %s\n" "$1" "$status" "$3" "$(date '+%T')" "$thistime" "$lasttime" "$6"
+-}
+-
+-[ -f $TIMESTAMP_FILE ] || touch $TIMESTAMP_FILE
+-
+-FULL_IMGFMT_DETAILS=$(_full_imgfmt_details)
+-FULL_HOST_DETAILS=$(_full_platform_details)
+-
+-if ! $makecheck; then
+-    _full_env_details
+-fi
+-
+-seq="check"
+-
+-[ -n "$TESTS_REMAINING_LOG" ] && echo $list > $TESTS_REMAINING_LOG
+-
+-for seq in $list
+-do
+-    err=false       # error flag
+-    printdiff=false # show diff to reference output?
+-    status=""       # test result summary
+-    results=""      # test result details
+-    thistime=""     # time the test took
+-
+-    if [ -n "$TESTS_REMAINING_LOG" ] ; then
+-        sed -e "s/$seq//" -e 's/  / /' -e 's/^ *//' $TESTS_REMAINING_LOG > $TESTS_REMAINING_LOG.tmp
+-        mv $TESTS_REMAINING_LOG.tmp $TESTS_REMAINING_LOG
+-        sync
+-    fi
+-
+-    lasttime=$(sed -n -e "/^$seq /s/.* //p" <$TIMESTAMP_FILE)
+-    starttime=$(date "+%T")
+-    _report_test_start $seq $starttime $lasttime
+-
+-    if $showme
+-    then
+-        status="not run"
+-    elif [ -f expunged ] && $expunge && egrep "^$seq([         ]|\$)" expunged >/dev/null
+-    then
+-        status="not run"
+-        results="expunged"
+-        rm -f $seq.out.bad
+-        echo "/^$seq\$/d" >>$tmp.expunged
+-    elif [ ! -f "$source_iotests/$seq" ]
+-    then
+-        status="not run"
+-        results="no such test?"
+-        echo "/^$seq\$/d" >>$tmp.expunged
+-    else
+-        # really going to try and run this one
+-        #
+-        rm -f $seq.out.bad
+-        rm -f core $seq.notrun
+-        rm -f $seq.casenotrun
+-
+-        start=$(_wallclock)
+-
+-        if [ "$(head -n 1 "$source_iotests/$seq")" == "#!/usr/bin/env python3" ]; then
+-            if $python_usable; then
+-                run_command="$PYTHON $seq"
+-            else
+-                run_command="false"
+-                echo "$python_unusable_because" > $seq.notrun
+-            fi
+-        else
+-            run_command="./$seq"
+-        fi
+-        export OUTPUT_DIR=$PWD
+-        if $debug; then
+-            (cd "$source_iotests";
+-            MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(($RANDOM % 255 + 1))} \
+-                    $run_command -d 2>&1 | tee $tmp.out)
+-        else
+-            (cd "$source_iotests";
+-            MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(($RANDOM % 255 + 1))} \
+-                    $run_command >$tmp.out 2>&1)
+-        fi
+-        sts=$?
+-        stop=$(_wallclock)
+-
+-        if [ -f core ]
+-        then
+-            mv core $seq.core
+-            status="fail"
+-            results="[dumped core] $seq.core"
+-            err=true
+-        fi
+-
+-        if [ -f $seq.notrun ]
+-        then
+-            # overwrites timestamp output
+-            status="not run"
+-            results="$(cat $seq.notrun)"
+-        else
+-            if [ $sts -ne 0 ]
+-            then
+-                status="fail"
+-                results=$(printf %s "[failed, exit status $sts]")
+-                err=true
+-            fi
+-
+-            reference="$source_iotests/$seq.out"
+-            reference_machine="$source_iotests/$seq.$QEMU_DEFAULT_MACHINE.out"
+-            if [ -f "$reference_machine" ]; then
+-                reference="$reference_machine"
+-            fi
+-
+-            reference_format="$source_iotests/$seq.out.$IMGFMT"
+-            if [ -f "$reference_format" ]; then
+-                reference="$reference_format"
+-            fi
+-
+-            if [ "$CACHEMODE" = "none" ]; then
+-                [ -f "$source_iotests/$seq.out.nocache" ] && reference="$source_iotests/$seq.out.nocache"
+-            fi
+-
+-            if [ ! -f "$reference" ]
+-            then
+-                status="fail"
+-                results="no qualified output"
+-                err=true
+-            else
+-                if diff -w "$reference" $tmp.out >/dev/null 2>&1
+-                then
+-                    if ! $err; then
+-                        status="pass"
+-                        thistime=$(expr $stop - $start)
+-                        echo "$seq $thistime" >>$tmp.time
+-                    fi
+-                else
+-                    mv $tmp.out $seq.out.bad
+-                    status="fail"
+-                    results="output mismatch (see $seq.out.bad)"
+-                    printdiff=true
+-                    err=true
+-                fi
+-            fi
+-        fi
+-        if [ -f $seq.casenotrun ]
+-        then
+-            cat $seq.casenotrun
+-            casenotrun="$casenotrun $seq"
+-        fi
+-    fi
+-
+-    # come here for each test, except when $showme is true
+-    #
+-    _report_test_result $seq "$status" "$starttime" "$lasttime" "$thistime" "$results"
+-    case "$status" in
+-        "pass")
+-            try=$(expr $try + 1)
+-            ;;
+-        "fail")
+-            try=$(expr $try + 1)
+-            if $makecheck; then
+-                _full_env_details
+-            fi
+-            if $printdiff; then
+-                $diff -w "$reference" "$PWD"/$seq.out.bad
+-            fi
+-            bad="$bad $seq"
+-            n_bad=$(expr $n_bad + 1)
+-            quick=false
+-            ;;
+-        "not run")
+-            notrun="$notrun $seq"
+-            ;;
+-    esac
+-
+-    seq="after_$seq"
+-done
+ 
+-interrupt=false
+-status=$(expr $n_bad)
+-exit
 +import sys
-+from contextlib import contextmanager
-+from typing import List, Optional, Iterator
-+
++import os
++from findtests import find_tests, TestFinder
 +from testenv import TestEnv
-+
-+
-+def silent_unlink(path: Path) -> None:
-+    try:
-+        path.unlink()
-+    except OSError:
-+        pass
-+
-+
-+def file_diff(file1: str, file2: str) -> List[str]:
-+    with open(file1) as f1, open(file2) as f2:
-+        # We want to ignore spaces at line ends. There are a lot of mess about
-+        # it in iotests.
-+        # TODO: fix all tests to not produce extra spaces, fix all .out files
-+        # and use strict diff here!
-+        seq1 = [line.rstrip() for line in f1]
-+        seq2 = [line.rstrip() for line in f2]
-+        return list(difflib.unified_diff(seq1, seq2, file1, file2))
-+
-+
-+# We want to save current tty settings during test run,
-+# since an aborting qemu call may leave things screwed up.
-+@contextmanager
-+def savetty() -> Iterator:
-+    isterm = sys.stdin.isatty()
-+    if isterm:
-+        fd = sys.stdin.fileno()
-+        attr = termios.tcgetattr(0)
-+
-+    try:
-+        yield
-+    finally:
-+        if isterm:
-+            termios.tcsetattr(fd, termios.TCSADRAIN, attr)
-+
-+
-+class LastElapsedTime:
-+    """ Cache for elapsed time for tests, to show it during new test run
-+
-+    Use get() in any time. But, if use update you should then call save(),
-+    or use update() inside with-block.
-+    """
-+    def __init__(self, cache_file: str, env: TestEnv) -> None:
-+        self.env = env
-+        self.cache_file = cache_file
-+
-+        try:
-+            with open(cache_file) as f:
-+                self.cache = json.load(f)
-+        except (OSError, ValueError):
-+            self.cache = {}
-+
-+    def get(self, test: str,
-+            default: Optional[float] = None) -> Optional[float]:
-+        if test not in self.cache:
-+            return default
-+
-+        if self.env.imgproto not in self.cache[test]:
-+            return default
-+
-+        return self.cache[test][self.env.imgproto].get(self.env.imgfmt,
-+                                                       default)
-+
-+    def update(self, test: str, elapsed: float) -> None:
-+        d = self.cache.setdefault(test, {})
-+        d = d.setdefault(self.env.imgproto, {})
-+        d[self.env.imgfmt] = elapsed
-+
-+    def save(self) -> None:
-+        with open(self.cache_file, 'w') as f:
-+            json.dump(self.cache, f)
-+
-+    def __enter__(self) -> 'LastElapsedTime':
-+        return self
-+
-+    def __exit__(self, *args) -> None:
-+        self.save()
-+
-+
-+TestResult = collections.namedtuple(
-+    'TestResult',
-+    ['status', 'description', 'elapsed', 'diff', 'casenotrun'],
-+    defaults=('', '', '', ''))
-+
-+
-+class TestRunner:
-+    _argparser = None
-+    @classmethod
-+    def get_argparser(cls) -> argparse.ArgumentParser:
-+        if cls._argparser is not None:
-+            return cls._argparser
-+
-+        p = argparse.ArgumentParser(description="= test running options =",
-+                                    add_help=False, usage=argparse.SUPPRESS)
-+
-+        p.add_argument('-makecheck', action='store_true',
-+                       help='pretty print output for make check')
-+
-+        cls._argparser = p
-+        return p
-+
-+    def __init__(self, argv: List[str], env: TestEnv) -> None:
-+        self.env = env
-+        self.test_run_env = self.env.get_env()
-+        if 'MALLOC_PERTURB_' not in os.environ and \
-+                'MALLOC_PERTURB_' not in self.test_run_env:
-+            x = random.randrange(1, 255)
-+            self.test_run_env['MALLOC_PERTURB_'] = str(x)
-+
-+        args, self.remaining_argv = self.get_argparser().parse_known_args(argv)
-+        self.makecheck = args.makecheck
-+
-+        self.last_elapsed = LastElapsedTime('.last-elapsed-cache', env)
-+
-+    def __enter__(self) -> 'TestRunner':
-+        self._stack = contextlib.ExitStack()
-+        self._stack.enter_context(self.env)
-+        self._stack.enter_context(self.last_elapsed)
-+        self._stack.enter_context(savetty())
-+        return self
-+
-+    def __exit__(self, *args) -> None:
-+        self._stack.close()
-+
-+    def test_print_one_line(self, test: str, starttime: str,
-+                            endtime: Optional[str] = None, status: str = '...',
-+                            lasttime: Optional[float] = None,
-+                            thistime: Optional[str] = None,
-+                            description: str = '',
-+                            test_field_width: Optional[int] = None,
-+                            end: str = '\n') -> None:
-+        """ Print short test info before/after test run """
-+        test = os.path.basename(test)
-+
-+        if test_field_width is None:
-+            test_field_width = 8
-+
-+        if self.makecheck and status != '...':
-+            if status and status != 'pass':
-+                status = f' [{status}]'
-+            else:
-+                status = ''
-+
-+            print(f'  TEST   iotest-{self.env.imgfmt}: {test}{status}')
-+            return
-+
-+        if lasttime:
-+            lasttime_s = f' (last: {lasttime}s)'
-+        else:
-+            lasttime_s = ''
-+        if thistime:
-+            thistime = f'{thistime:.1f}s'
-+        else:
-+            thistime = '...'
-+
-+        if endtime:
-+            endtime = f'[{endtime}]'
-+        else:
-+            endtime = ''
-+
-+        if status == 'pass':
-+            col = '\033[32m'
-+        elif status == 'fail':
-+            col = '\033[1m\033[31m'
-+        elif status == 'not run':
-+            col = '\033[33m'
-+        else:
-+            col = ''
-+
-+        col_end = '\033[0m'
-+
-+        print(f'{test:{test_field_width}} {col}{status:10}{col_end} '
-+              f'[{starttime}] {endtime:13}{thistime:5} {lasttime_s:14} '
-+              f'{description}', end=end)
-+
-+    def find_reference(self, test: str) -> str:
-+        if self.env.cachemode == 'none':
-+            ref = f'{test}.out.nocache'
-+            if os.path.isfile(ref):
-+                return ref
-+
-+        ref = f'{test}.out.{self.env.imgfmt}'
-+        if os.path.isfile(ref):
-+            return ref
-+
-+        ref = f'{test}.{self.env.qemu_default_machine}.out'
-+        if os.path.isfile(ref):
-+            return ref
-+
-+        return f'{test}.out'
-+
-+    def do_run_test(self, test: str) -> TestResult:
-+        f_test = Path(test)
-+        f_bad = Path(f_test.name + '.out.bad')
-+        f_notrun = Path(f_test.name + '.notrun')
-+        f_casenotrun = Path(f_test.name + '.casenotrun')
-+        f_reference = Path(self.find_reference(test))
-+
-+        if not f_test.exists():
-+            return TestResult(status='fail',
-+                              description=f'No such test file: {f_test}')
-+
-+        if not os.access(str(f_test), os.X_OK):
-+            exit(f'Not executable: {f_test}')
-+
-+        if not f_reference.exists():
-+            return TestResult(status='fail',
-+                              description='No qualified output '
-+                                          f'(expected {f_reference})')
-+
-+        for p in (f_bad, f_notrun, f_casenotrun):
-+            silent_unlink(p)
-+
-+        args = [str(f_test.resolve())]
-+        if self.env.debug:
-+            args.append('-d')
-+
-+        env = os.environ.copy()
-+        env.update(self.test_run_env)
-+
-+        t0 = time.time()
-+        with f_bad.open('w') as f:
-+            ret = subprocess.run(args, cwd=str(f_test.parent), env=env,
-+                                 stdout=f, stderr=subprocess.STDOUT).returncode
-+        elapsed = round(time.time() - t0, 1)
-+
-+        if ret != 0:
-+            return TestResult(status='fail', elapsed=elapsed,
-+                              description=f'failed, exit status {ret}',
-+                              diff=file_diff(str(f_reference), str(f_bad)))
-+
-+        if f_notrun.exists():
-+            return TestResult(status='not run', elapsed=elapsed,
-+                              description=f_notrun.read_text().strip())
-+
-+        casenotrun = None
-+        if f_casenotrun.exists():
-+            casenotrun = f_casenotrun.read_text()
-+
-+        diff = file_diff(str(f_reference), str(f_bad))
-+        if diff:
-+            return TestResult(status='fail', elapsed=elapsed,
-+                              description='output mismatch (see {f_bad})',
-+                              diff=diff, casenotrun=casenotrun)
-+        else:
-+            f_bad.unlink()
-+            self.last_elapsed.update(test, elapsed)
-+            return TestResult(status='pass', elapsed=elapsed,
-+                              casenotrun=casenotrun)
-+
-+    def run_test(self, test: str,
-+                 test_field_width: Optional[int] = None) -> TestResult:
-+        last_el = self.last_elapsed.get(test)
-+        start = datetime.datetime.now().strftime('%H:%M:%S')
-+
-+        self.test_print_one_line(test=test, starttime=start, lasttime=last_el,
-+                                 end='\r', test_field_width=test_field_width)
-+
-+        res = self.do_run_test(test)
-+
-+        end = datetime.datetime.now().strftime('%H:%M:%S')
-+        self.test_print_one_line(test=test, status=res.status,
-+                                 starttime=start, endtime=end,
-+                                 lasttime=last_el, thistime=res.elapsed,
-+                                 description=res.description,
-+                                 test_field_width=test_field_width)
-+
-+        if res.casenotrun:
-+            print(res.casenotrun)
-+
-+        return res
-+
-+    def run_tests(self, tests: List[str]) -> None:
-+        n_run = 0
-+        failed = []
-+        notrun = []
-+        casenotrun = []
-+
-+        if not self.makecheck:
-+            self.env.print_env()
-+            print()
-+
-+        test_field_width = max(len(os.path.basename(t)) for t in tests) + 2
-+
-+        for t in tests:
-+            name = os.path.basename(t)
-+            res = self.run_test(t, test_field_width=test_field_width)
-+
-+            assert res.status in ('pass', 'fail', 'not run')
-+
-+            if res.casenotrun:
-+                casenotrun.append(t)
-+
-+            if res.status != 'not run':
-+                n_run += 1
-+
-+            if res.status == 'fail':
-+                failed.append(name)
-+                if self.makecheck:
-+                    self.env.print_env()
-+                if res.diff:
-+                    print('\n'.join(res.diff))
-+            elif res.status == 'not run':
-+                notrun.append(name)
-+
-+        if notrun:
-+            print('Not run:', ' '.join(notrun))
-+
-+        if casenotrun:
-+            print('Some cases not run in:', ' '.join(casenotrun))
-+
-+        if failed:
-+            print('Failures:', ' '.join(failed))
-+            print(f'Failed {len(failed)} of {n_run} iotests')
-+        else:
-+            print(f'Passed all {n_run} iotests')
++from testrunner import TestRunner
++
++if __name__ == '__main__':
++    if len(sys.argv) == 2 and sys.argv[1] in ['-h', '--help']:
++        print('Usage: ./check [options] [testlist]')
++        print()
++        TestFinder.get_argparser().print_help()
++        print()
++        TestEnv.get_argparser().print_help()
++        print()
++        TestRunner.get_argparser().print_help()
++        exit()
++
++    env = TestEnv(sys.argv[1:])
++    tests, remaining_argv = find_tests(env.remaining_argv,
++                                       test_dir=env.source_iotests)
++
++    with TestRunner(remaining_argv, env) as tr:
++        assert not tr.remaining_argv
++        tr.run_tests([os.path.join(env.source_iotests, t) for t in tests])
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+deleted file mode 100644
+index 3432989283..0000000000
+--- a/tests/qemu-iotests/group
++++ /dev/null
+@@ -1,317 +0,0 @@
+-#
+-# QA groups control file
+-# Defines test groups
+-#
+-# Some notes about the groups:
+-#
+-# - do not start group names with a digit
+-#
+-# - quick : Tests in this group should finish within some few seconds.
+-#
+-# - img : Tests in this group can be used to excercise the qemu-img tool.
+-#
+-# - auto : Tests in this group are used during "make check" and should be
+-#   runnable in any case. That means they should run with every QEMU binary
+-#   (also non-x86), with every QEMU configuration (i.e. must not fail if
+-#   an optional feature is not compiled in - but reporting a "skip" is ok),
+-#   work at least with the qcow2 file format, work with all kind of host
+-#   filesystems and users (e.g. "nobody" or "root") and must not take too
+-#   much memory and disk space (since CI pipelines tend to fail otherwise).
+-#
+-
+-#
+-# test-group association ... one line per test
+-#
+-001 rw auto quick
+-002 rw auto quick
+-003 rw auto
+-004 rw auto quick
+-005 img auto quick
+-# 006 was removed, do not reuse
+-007 snapshot auto
+-008 rw auto quick
+-009 rw auto quick
+-010 rw auto quick
+-011 rw auto quick
+-012 auto quick
+-013 rw auto
+-014 rw
+-015 rw snapshot
+-# 016 was removed, do not reuse
+-017 rw backing auto quick
+-018 rw backing auto quick
+-019 rw backing auto quick
+-020 rw backing auto quick
+-021 io auto quick
+-022 rw snapshot auto
+-023 rw
+-024 rw backing auto quick
+-025 rw auto quick
+-026 rw blkdbg
+-027 rw auto quick
+-028 rw backing quick
+-029 rw auto quick
+-030 rw auto backing
+-031 rw auto quick
+-032 rw auto quick
+-033 rw auto quick
+-034 rw auto backing quick
+-035 rw auto quick
+-036 rw auto quick
+-037 rw auto backing quick
+-038 rw auto backing quick
+-039 rw auto quick
+-040 rw auto
+-041 rw auto backing
+-042 rw auto quick
+-043 rw auto backing
+-044 rw
+-045 rw quick
+-046 rw auto aio quick
+-047 rw auto quick
+-048 img auto quick
+-049 rw auto
+-050 rw auto backing quick
+-051 rw
+-052 rw auto backing quick
+-053 rw auto quick
+-054 rw auto quick
+-055 rw
+-056 rw backing
+-057 rw
+-058 rw quick
+-059 rw quick
+-060 rw auto quick
+-061 rw auto
+-062 rw auto quick
+-063 rw auto quick
+-064 rw quick
+-065 rw quick
+-066 rw auto quick
+-# 067 was removed, do not reuse
+-068 rw quick
+-069 rw auto quick
+-070 rw quick
+-071 rw auto quick
+-072 rw auto quick
+-073 rw auto quick
+-074 rw auto quick
+-075 rw quick
+-076 io
+-077 rw quick
+-078 rw quick
+-079 rw auto
+-080 rw auto
+-081 rw quick
+-082 rw quick
+-083 rw
+-084 img quick
+-085 rw
+-086 rw auto quick
+-087 rw quick
+-088 rw quick
+-089 rw auto quick
+-090 rw auto quick
+-091 rw migration quick
+-092 rw quick
+-093 throttle
+-094 rw quick
+-095 rw quick
+-096 rw quick
+-097 rw auto backing
+-098 rw auto backing quick
+-099 rw auto quick
+-# 100 was removed, do not reuse
+-101 rw quick
+-102 rw quick
+-103 rw auto quick
+-104 rw auto
+-105 rw auto quick
+-106 rw quick
+-107 rw auto quick
+-108 rw auto quick
+-109 rw
+-110 rw auto backing quick
+-111 rw auto quick
+-112 rw
+-113 rw quick
+-114 rw auto quick
+-115 rw
+-116 rw quick
+-117 rw auto
+-118 rw
+-119 rw quick
+-120 rw auto quick
+-121 rw
+-122 rw
+-123 rw quick
+-124 rw backing
+-125 rw
+-126 rw auto backing
+-127 rw auto backing quick
+-128 rw quick
+-129 rw quick
+-130 rw quick
+-131 rw quick
+-132 rw quick
+-133 auto quick
+-134 rw auto quick
+-135 rw
+-136 rw
+-137 rw auto
+-138 rw auto quick
+-139 rw quick
+-140 rw auto quick
+-141 rw auto quick
+-142
+-143 auto quick
+-144 rw quick
+-145 quick
+-146 quick
+-147 img
+-148 rw quick
+-149 rw sudo
+-150 rw auto quick
+-151 rw
+-152 rw quick
+-153 rw quick
+-154 rw auto backing quick
+-155 rw
+-156 rw auto quick
+-157 quick
+-158 rw auto quick
+-159 rw auto quick
+-160 rw quick
+-161 rw auto quick
+-162 quick
+-163 rw
+-165 rw quick
+-169 rw migration
+-170 rw auto quick
+-171 rw quick
+-172 auto
+-173 rw
+-174 auto
+-175 quick
+-176 rw auto backing
+-177 rw auto quick
+-178 img
+-179 rw auto quick
+-181 rw auto migration quick
+-182 rw quick
+-183 rw migration quick
+-184 rw auto quick
+-185 rw
+-186 rw auto
+-187 rw auto
+-188 rw quick
+-189 rw
+-190 rw auto quick
+-191 rw auto
+-192 rw auto quick
+-194 rw migration quick
+-195 rw auto quick
+-196 rw quick migration
+-197 rw quick
+-198 rw
+-199 rw migration
+-200 rw
+-201 rw migration quick
+-202 rw quick
+-203 rw auto migration quick
+-204 rw quick
+-205 rw quick
+-206 rw
+-207 rw
+-208 rw quick
+-209 rw quick
+-210 rw
+-211 rw quick
+-212 rw quick
+-213 rw quick
+-214 rw auto
+-215 rw quick
+-216 rw quick
+-217 rw auto quick
+-218 rw quick
+-219 rw
+-220 rw auto
+-221 rw quick
+-222 rw quick
+-223 rw quick
+-224 rw quick
+-225 rw quick
+-226 auto quick
+-227 quick
+-228 rw quick
+-229 auto quick
+-231 quick
+-232 quick
+-233 quick
+-234 quick migration
+-235 quick
+-236 quick
+-237 rw quick
+-238 quick
+-239 rw quick
+-240 quick
+-241 rw quick
+-242 rw quick
+-243 rw quick
+-244 rw auto quick
+-245 rw
+-246 rw quick
+-247 rw quick
+-248 rw quick
+-249 rw auto quick
+-250 rw quick
+-251 rw auto quick
+-252 rw auto backing quick
+-253 rw quick
+-254 rw backing quick
+-255 rw quick
+-256 rw auto quick
+-257 rw
+-258 rw quick
+-259 rw auto quick
+-260 rw quick
+-261 rw
+-262 rw quick migration
+-263 rw quick
+-264 rw
+-265 rw auto quick
+-266 rw quick
+-267 rw auto quick snapshot
+-268 rw auto quick
+-270 rw backing quick
+-271 rw auto
+-272 rw
+-273 backing quick
+-274 rw backing
+-277 rw quick
+-279 rw backing quick
+-280 rw migration quick
+-281 rw quick
+-282 rw img quick
+-283 auto quick
+-284 rw
+-286 rw quick
+-287 auto quick
+-288 quick
+-289 rw quick
+-290 rw auto quick
+-291 rw quick
+-292 rw auto quick
+-293 rw
+-294 rw quick
+-295 rw
+-296 rw
+-297 meta
+-299 auto quick
+-300 migration
+-301 backing quick
+-302 quick
+-303 rw quick
+-304 rw quick
+-305 rw quick
+-307 rw quick export
 -- 
 2.21.3
 
