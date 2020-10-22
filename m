@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE928295F71
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:11:11 +0200 (CEST)
-Received: from localhost ([::1]:39918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B66C8295F63
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:08:34 +0200 (CEST)
+Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVaN4-0005FS-VU
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57186)
+	id 1kVaKX-0000XC-Pb
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kVaG3-0004wB-HP; Thu, 22 Oct 2020 09:03:55 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:57162 helo=huawei.com)
+ id 1kVaG5-000508-Hc; Thu, 22 Oct 2020 09:03:57 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5716 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kVaFx-0000gF-MT; Thu, 22 Oct 2020 09:03:55 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id E437CE30195E75003329;
- Thu, 22 Oct 2020 21:03:38 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Thu, 22 Oct 2020
+ id 1kVaFx-0000gl-QH; Thu, 22 Oct 2020 09:03:57 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 38A7C7EC1835727B615C;
+ Thu, 22 Oct 2020 21:03:43 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Thu, 22 Oct 2020
  21:03:32 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>, <kwolf@redhat.com>, <mreitz@redhat.com>,
  <eblake@redhat.com>
-Subject: [PATCH v3 5/9] block-backend: enable I/O hang when timeout is set
-Date: Thu, 22 Oct 2020 21:02:59 +0800
-Message-ID: <20201022130303.1092-6-cenjiahui@huawei.com>
+Subject: [PATCH v3 6/9] virtio-blk: pause I/O hang when resetting
+Date: Thu, 22 Oct 2020 21:03:00 +0800
+Message-ID: <20201022130303.1092-7-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201022130303.1092-1-cenjiahui@huawei.com>
 References: <20201022130303.1092-1-cenjiahui@huawei.com>
@@ -37,9 +37,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.155]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:03:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:03:44
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -64,101 +64,42 @@ Cc: cenjiahui@huawei.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setting a non-zero timeout of I/O hang indicates I/O hang is enabled for the
-block backend. And when the block backend is going to be deleted, we should
-disable I/O hang.
+When resetting virtio-blk, we have to drain all AIOs but do not care about the
+results. So it is necessary to disable I/O hang before resetting virtio-blk,
+and enable it after resetting.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- block/block-backend.c          | 40 ++++++++++++++++++++++++++++++++++
- include/sysemu/block-backend.h |  1 +
- 2 files changed, 41 insertions(+)
+ hw/block/virtio-blk.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index c16d95a2c9..c812b3a9c7 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -34,6 +34,7 @@
- #define NOT_DONE 0x7fffffff /* used while emulated sync operation in progress */
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index bac2d6fa2b..f96e4ac274 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -899,6 +899,10 @@ static void virtio_blk_reset(VirtIODevice *vdev)
+     AioContext *ctx;
+     VirtIOBlockReq *req;
  
- static AioContext *blk_aiocb_get_aio_context(BlockAIOCB *acb);
-+static void blk_rehandle_disable(BlockBackend *blk);
- 
- /* block backend rehandle timer interval 5s */
- #define BLOCK_BACKEND_REHANDLE_TIMER_INTERVAL   5000
-@@ -476,6 +477,8 @@ static void blk_delete(BlockBackend *blk)
-     assert(!blk->refcnt);
-     assert(!blk->name);
-     assert(!blk->dev);
-+    assert(qatomic_read(&blk->reinfo.in_flight) == 0);
-+    blk_rehandle_disable(blk);
-     if (blk->public.throttle_group_member.throttle_state) {
-         blk_io_limits_disable(blk);
-     }
-@@ -2629,6 +2632,42 @@ static void blk_rehandle_aio_complete(BlkAioEmAIOCB *acb)
-     }
- }
- 
-+static void blk_rehandle_enable(BlockBackend *blk)
-+{
-+    BlockBackendRehandleInfo *reinfo = &blk->reinfo;
-+
-+    aio_context_acquire(blk_get_aio_context(blk));
-+    if (reinfo->enable) {
-+        aio_context_release(blk_get_aio_context(blk));
-+        return;
++    if (blk_iohang_is_enabled(s->blk)) {
++        blk_rehandle_pause(s->blk);
 +    }
 +
-+    reinfo->ts = aio_timer_new(blk_get_aio_context(blk), QEMU_CLOCK_REALTIME,
-+                               SCALE_MS, blk_rehandle_timer_cb, blk);
-+    reinfo->timer_interval_ms = BLOCK_BACKEND_REHANDLE_TIMER_INTERVAL;
-+    reinfo->status = BLOCK_BACKEND_REHANDLE_NORMAL;
-+    reinfo->enable = true;
-+    aio_context_release(blk_get_aio_context(blk));
-+}
+     ctx = blk_get_aio_context(s->blk);
+     aio_context_acquire(ctx);
+     blk_drain(s->blk);
+@@ -916,6 +920,10 @@ static void virtio_blk_reset(VirtIODevice *vdev)
+ 
+     assert(!s->dataplane_started);
+     blk_set_enable_write_cache(s->blk, s->original_wce);
 +
-+static void blk_rehandle_disable(BlockBackend *blk)
-+{
-+    if (!blk->reinfo.enable) {
-+        return;
++    if (blk_iohang_is_enabled(s->blk)) {
++        blk_rehandle_unpause(s->blk);
 +    }
-+
-+    blk_rehandle_pause(blk);
-+    timer_del(blk->reinfo.ts);
-+    timer_free(blk->reinfo.ts);
-+    blk->reinfo.ts = NULL;
-+    blk->reinfo.enable = false;
-+}
-+
-+bool blk_iohang_is_enabled(BlockBackend *blk)
-+{
-+    return blk->iohang_timeout != 0;
-+}
-+
- void blk_iohang_init(BlockBackend *blk, int64_t iohang_timeout)
- {
-     if (!blk) {
-@@ -2641,6 +2680,7 @@ void blk_iohang_init(BlockBackend *blk, int64_t iohang_timeout)
-     blk->iohang_status = BLOCK_IO_HANG_STATUS_NORMAL;
-     if (iohang_timeout > 0) {
-         blk->iohang_timeout = iohang_timeout;
-+        blk_rehandle_enable(blk);
-     }
  }
  
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index 391a047444..851b90b99b 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -270,6 +270,7 @@ int blk_make_empty(BlockBackend *blk, Error **errp);
- 
- void blk_rehandle_pause(BlockBackend *blk);
- void blk_rehandle_unpause(BlockBackend *blk);
-+bool blk_iohang_is_enabled(BlockBackend *blk);
- void blk_iohang_init(BlockBackend *blk, int64_t iohang_timeout);
- 
- #endif
+ /* coalesce internal state, copy to pci i/o region 0
 -- 
 2.19.1
 
