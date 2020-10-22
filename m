@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66C8295F63
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:08:34 +0200 (CEST)
-Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF60295F6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:10:36 +0200 (CEST)
+Received: from localhost ([::1]:37102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVaKX-0000XC-Pb
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:08:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
+	id 1kVaMV-00043K-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:10:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kVaG5-000508-Hc; Thu, 22 Oct 2020 09:03:57 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:5716 helo=huawei.com)
+ id 1kVaG4-0004ym-UC; Thu, 22 Oct 2020 09:03:56 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:57204 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kVaFx-0000gl-QH; Thu, 22 Oct 2020 09:03:57 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 38A7C7EC1835727B615C;
- Thu, 22 Oct 2020 21:03:43 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Thu, 22 Oct 2020
- 21:03:32 +0800
+ id 1kVaFx-0000gH-OB; Thu, 22 Oct 2020 09:03:56 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id A83354301B903ACF7234;
+ Thu, 22 Oct 2020 21:03:40 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Thu, 22 Oct 2020
+ 21:03:33 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>, <kwolf@redhat.com>, <mreitz@redhat.com>,
  <eblake@redhat.com>
-Subject: [PATCH v3 6/9] virtio-blk: pause I/O hang when resetting
-Date: Thu, 22 Oct 2020 21:03:00 +0800
-Message-ID: <20201022130303.1092-7-cenjiahui@huawei.com>
+Subject: [PATCH v3 7/9] qemu-option: add I/O hang timeout option
+Date: Thu, 22 Oct 2020 21:03:01 +0800
+Message-ID: <20201022130303.1092-8-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201022130303.1092-1-cenjiahui@huawei.com>
 References: <20201022130303.1092-1-cenjiahui@huawei.com>
@@ -37,9 +37,9 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.155]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
  helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:03:44
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:03:40
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -64,42 +64,52 @@ Cc: cenjiahui@huawei.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When resetting virtio-blk, we have to drain all AIOs but do not care about the
-results. So it is necessary to disable I/O hang before resetting virtio-blk,
-and enable it after resetting.
+I/O hang timeout should be different under different situations. So it is
+better to provide an option for user to determine I/O hang timeout for
+each block device.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- hw/block/virtio-blk.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ blockdev.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index bac2d6fa2b..f96e4ac274 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -899,6 +899,10 @@ static void virtio_blk_reset(VirtIODevice *vdev)
-     AioContext *ctx;
-     VirtIOBlockReq *req;
+diff --git a/blockdev.c b/blockdev.c
+index fe6fb5dc1d..0a77eedfc4 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -501,6 +501,7 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
+     BlockdevDetectZeroesOptions detect_zeroes =
+         BLOCKDEV_DETECT_ZEROES_OPTIONS_OFF;
+     const char *throttling_group = NULL;
++    int64_t iohang_timeout = 0;
  
-+    if (blk_iohang_is_enabled(s->blk)) {
-+        blk_rehandle_pause(s->blk);
-+    }
+     /* Check common options by copying from bs_opts to opts, all other options
+      * stay in bs_opts for processing by bdrv_open(). */
+@@ -623,6 +624,12 @@ static BlockBackend *blockdev_init(const char *file, QDict *bs_opts,
+ 
+         bs->detect_zeroes = detect_zeroes;
+ 
++        /* init timeout value for I/O Hang */
++        iohang_timeout = qemu_opt_get_number(opts, "iohang-timeout", 0);
++        if (iohang_timeout > 0) {
++            blk_iohang_init(blk, iohang_timeout);
++        }
 +
-     ctx = blk_get_aio_context(s->blk);
-     aio_context_acquire(ctx);
-     blk_drain(s->blk);
-@@ -916,6 +920,10 @@ static void virtio_blk_reset(VirtIODevice *vdev)
+         block_acct_setup(blk_get_stats(blk), account_invalid, account_failed);
  
-     assert(!s->dataplane_started);
-     blk_set_enable_write_cache(s->blk, s->original_wce);
-+
-+    if (blk_iohang_is_enabled(s->blk)) {
-+        blk_rehandle_unpause(s->blk);
-+    }
- }
- 
- /* coalesce internal state, copy to pci i/o region 0
+         if (!parse_stats_intervals(blk_get_stats(blk), interval_list, errp)) {
+@@ -3796,6 +3803,10 @@ QemuOptsList qemu_common_drive_opts = {
+             .type = QEMU_OPT_BOOL,
+             .help = "whether to account for failed I/O operations "
+                     "in the statistics",
++        },{
++            .name = "iohang-timeout",
++            .type = QEMU_OPT_NUMBER,
++            .help = "timeout value for I/O Hang",
+         },
+         { /* end of list */ }
+     },
 -- 
 2.19.1
 
