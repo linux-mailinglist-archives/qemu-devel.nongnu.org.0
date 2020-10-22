@@ -2,83 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4E1295F76
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:12:46 +0200 (CEST)
-Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 504C3295F6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 15:10:52 +0200 (CEST)
+Received: from localhost ([::1]:38838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVaOb-0006lc-5M
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58250)
+	id 1kVaMl-0004l4-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 09:10:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVaJY-00087u-GB
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:07:32 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53641)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kVaJP-0001B8-QM
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:07:32 -0400
-Received: by mail-wm1-x344.google.com with SMTP id d78so2002923wmd.3
- for <qemu-devel@nongnu.org>; Thu, 22 Oct 2020 06:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=gVXnh6jzWr8EcyQ4w7GWw0ffnF/hzVsKPQf9uPHgFhw=;
- b=bzcqCcByL+J4nYVh/kZGqkEioMZ1dqtKzdKZmjutk7QrrotWDgYJ5Y/FBKazFzYA59
- hXdMEkRdx8zwponOSDiMGjZgqFt6NNPXYsWNtr3N1rfJR0DcnePEwfMeo/ok7N8jiPu0
- lUf/WWsxau8ioBGAweWml5qfJ4iJK1BT3JN2VIAFbzKwHsyhAZg12fRazjAALCumLg+u
- MxPem2ZeguOcGseJfM5MV2OZjVDi+eCMdrgucD0M9WFM2/vJ8B9zVPdeoyVARbPZuEHR
- hf2EJvhgZ+u7Eea2uRprkyxbeYApLGcmdJQSi1FVTW7Mcf5NmFMV8o7xWbCXJiqYR0ld
- 3GlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=gVXnh6jzWr8EcyQ4w7GWw0ffnF/hzVsKPQf9uPHgFhw=;
- b=kZ3bq4vTrTfLPuFuQVhV1GoBv0LCSjE7D29QVQT1J29preCJMTc2f7q2+yqx3UavWG
- R+c0nvXIH2HNsQwPVEJ+dlwoCCdFyaM0Y7RCnNiaYdPImU77ZoK1SbNt9e2zaxeulV/L
- DJ+dyIGQbG4nBVbx0nIAgGAgIjFImpmFc4LABUm39PN/JVEH8cxhj0pVa0Jd1KVYOBX4
- fHPHOBN4Zw1uQJNAJ2b1kHWqcgakgEPndHyy1yBXf29Q28PAbOkMkbvP+VNo/UkkB+iS
- DAVnofdN7AchQXKxNnbIn6HSTv3CBjPIdqStGhUH+mibIDeGOHC/1XiAT0voTeQAYjxh
- df+Q==
-X-Gm-Message-State: AOAM5318uE6W1BtiWu8aZyWEuyGyFXc2K6g3pi5PeNCOBPpV7Dq1bK2a
- KoF8F4nXNTP3VEGhUkjX9mg3DQ==
-X-Google-Smtp-Source: ABdhPJz3GU73KJoXlQ9q/zWL+GJNTvvYL6WyhfuF+tSbTfMAWxeAn5aemcLOugTUpZ7QteVvvCHITg==
-X-Received: by 2002:a1c:2d97:: with SMTP id t145mr2313995wmt.132.1603372041996; 
- Thu, 22 Oct 2020 06:07:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e25sm4268185wra.71.2020.10.22.06.07.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Oct 2020 06:07:20 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0F4271FF7E;
- Thu, 22 Oct 2020 14:07:20 +0100 (BST)
-References: <20201021163136.27324-1-alex.bennee@linaro.org>
- <20201021163136.27324-7-alex.bennee@linaro.org>
- <546fc49b-bde8-99f5-8489-295764afe44f@redhat.com>
- <8682564e-6ea1-d8eb-dc12-bf0a926c156b@amsat.org>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v1 6/6] tests/acceptance: pick a random gdb port for
- reverse debugging
-In-reply-to: <8682564e-6ea1-d8eb-dc12-bf0a926c156b@amsat.org>
-Date: Thu, 22 Oct 2020 14:07:20 +0100
-Message-ID: <87a6wev27r.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kVaLF-00031o-Hw
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:09:17 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:38963)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kVaLD-0001WP-95
+ for qemu-devel@nongnu.org; Thu, 22 Oct 2020 09:09:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=MWUHg3jkjck8QMMoh3MU2EGpI3cw2pWWMdnHQXPFJ2I=; b=VkEXzPOktEqUdkl1Qbc7+vAJwB
+ UxK/pz07MqKnRpOTa5fHDIfVPAnfY3DNYeW2EjKSmoh3t9ipNzvj8fkB+MT1RtvLngMjzRPUJqiD3
+ EsACAaVJ+zcTCcc4ufyeUEuD+wOcGMWiZC5uD89oqi/OTusRa5daxwemkcLxXxmFobotq8oXuB5oy
+ R+HDetn+/eUs1FvUXv5QYZlNzHQlP2ohdYl/OPKX2TSzH+8oBXKe6O/PlWYLD202Ct92od1loWSWe
+ HbKpDtzJI2S3nFa4OBuq0EUDHWdLCGHL1DgR5YZk+kIWycKwuxlAffNmVkvTmnmepi+4u7e7/vOjO
+ //pUXnOA==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 7/8] tests/9pfs: add local Tlink test
+Date: Thu, 22 Oct 2020 15:09:09 +0200
+Message-ID: <17621213.e7m4f8aTQE@silver>
+In-Reply-To: <20201022110749.15488113@bahia.lan>
+References: <cover.1603285620.git.qemu_oss@crudebyte.com>
+ <5874251.7R3Ejnc4BG@silver> <20201022110749.15488113@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 09:09:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,88 +63,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Donnerstag, 22. Oktober 2020 11:07:49 CEST Greg Kurz wrote:
+> > Ok, I found the problem on the mentioned box that failed to create hard
+> > links with 9p: it is libvirt auto generating AppArmor policy rules for 9p
+> > export pathes, which libvirt generates with "rw" AA (AppArmor)
+> > permissions. Once I manually adjusted the AA rule to "rwl", creating hard
+> > links worked again.
+> > 
+> > I guess I'll send a patch for libvirt to change that. At least IMO
+> > creating
+> > hard links with 9pfs is a very basic operation and should be enabled for
+> > the respective 9p export path by default.
+> > 
+> > Actually I think it should also include "k" which means "file locking", as
+> > file locking is also a fundamental operation with 9pfs, right?
+> 
+> Well, I don't know exactly why libvirt is generating a strict AppArmor
+> policy but I'm not that surprised. If the user can _easily_ change the
+> policy to fit its needs, it's fine to have a "better safe than sorry"
+> default.
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Alone identifying the root cause of this is not that easy I would say. And if
+it takes me quite some time to find it, then I imagine that other people would
+struggle with this even more.
 
-> On 10/22/20 7:20 AM, Thomas Huth wrote:
->> On 21/10/2020 18.31, Alex Benn=C3=A9e wrote:
->>> Currently the test randomly fails if you are using a shared machine
->>> due to contention on the well known port 1234. We can ameliorate this
->>> a bit by picking a random non-ephemeral port although it doesn't
->>> totally avoid the problem. While we could use a totally unique socket
->>> address for debugging it's impossible to probe for gdb support of the
->>> feature which makes this a sub-optimal but less fiddly option.
->>>
->>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>> ---
->>>   tests/acceptance/reverse_debugging.py | 6 ++++--
->>>   1 file changed, 4 insertions(+), 2 deletions(-)
->>=20
->> Certainly better than before!
->
-> I'd prefer another chardev that tcp, but as you said this is
-> already an improvement, so:
+A large portion of software, even scripts, rely on being able to create hard
+links and locking files. Right now they typically error out on guest with no
+helpful error message.
 
-We've supported sockets gdb and softmmu emulation for some time:
+So you start looking into the logs, don't find something obvious, then strace
+on guest side to find the most relevant failing syscall on guest side and see
+it was probably link(). Then you have to check several security layers: file
+permissions on guest, file permissions on host, effective UID of qemu process.
+You try creating hard links directly on host with that UID, works. Next you
+check is it qemu's seccomp? Is it host's SELinux? Is it AppArmor?
 
-  -gdb unix:path=3Dgdb.sock,server
+Even for an experienced sysadmin I doubt it'll be a matter of minutes to
+resolve this issue. Now imagine a regular user who just wants to sandbox
+something on a workstation.
 
-the trouble is detecting if the host installed gdb is going to connect
-before we try and fail after launching the VM. I think we might get away
-with a version probe:
+Looking at libvirt git log, it seems this security policy exists more or less
+since day one (SHA-1 29ea8a9b64aac60251d283f74d57690e4edb5a6b, Mar 9 2014).
+And I don't see an explanation that would suggest a specific reason for
+exactly "rw".
 
-  > luispm: I want to know ahead of time for my scripts if gdb can do a
-      "target remote gdb.sock"
-  <luispm> ajb-linaro, I don't think so. My guess is that GDB will
-      always attempt to stablish a connection if the socket is valid.
-  <luispm> ajb-linaro, Can you check the validity of the file before
-      invoking GDB?
-  <luispm> ajb-linaro, No concept of "is this particular remote target
-      available?".
-  > luispm: it's not that - I know the socket will exist but the older
-      gdb just bombs out trying to read it.
-  <luispm> ajb-linaro, Not good.
-  <luispm> ajb-linaro, So is this a matter of an older GDB that doesn't
-      support using socket files and a newer one that does?
-  > luispm: I thought I might probe "help target remote" text but it's
-      unchanged between versions
-  > luispm: yes
-  <luispm> ajb-linaro, I think the code is probably hidden within the
-      "target remote" implementation.
-  > luispm: and most distro gdb's don't at the moment
-  > luispm: if I could work out the version it was added that might help
-  <luispm> ajb-linaro, I see some bits of it were reverted at some
-      point.
-  <luispm> ajb-linaro, Let me check.
-  <luispm> ajb-linaro, It looks like GDB 8.3 was the first stable to get
-      it.
-  > luispm: thanks - I'll see if I can script that up
-  <luispm> ajb-linaro, Looks like they initially went with an explicit
-      prefix of "unix:" before the socket. But then dropped that in
-      favor of autodetecting the socket file.
-  <luispm> ajb-linaro, The only thing I get for a GDB that doesn't
-      support socket connections if
-      "/run/user/1000/at-spi2-QTZBS0/socket: No such device or address."
-  <luispm> *is*
-  <luispm> This is 8.1 in Ubuntu 18.04.
-  <luispm> master GDB says "Remote communication error.  Target
-      disconnected.: Connection reset by peer."
+I think something has to be improved here, so I'll challenge by sending a
+simple libvirt patch, CCing involved authors, and seeing the feedback:
 
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
->>=20
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>=20
+diff --git a/src/security/virt-aa-helper.c b/src/security/virt-aa-helper.c
+index 12429278fb..ce243e304b 100644
+--- a/src/security/virt-aa-helper.c
++++ b/src/security/virt-aa-helper.c
+@@ -1142,7 +1142,7 @@ get_files(vahControl * ctl)
+             /* We don't need to add deny rw rules for readonly mounts,
+              * this can only lead to troubles when mounting / readonly.
+              */
+-            if (vah_add_path(&buf, fs->src->path, fs->readonly ? "R" : "rw", true) != 0)
++            if (vah_add_path(&buf, fs->src->path, fs->readonly ? "R" : "rwlk", true) != 0)
+                 goto cleanup;
+         }
+     }
+
+Even after this change, this is not a global policy. Allowing hard links and
+file locks would only be lifted for the 9p export path.
+
+There would be other options as well of course: e.g. detecting on 9pfs side
+whether AppArmor and co are enabled, and log a warning to the user a syscall
+failed for that reason. But that would be much more complicated and I wonder
+whether it would be worth it.
+
+Best regards,
+Christian Schoenebeck
 
 
---=20
-Alex Benn=C3=A9e
 
