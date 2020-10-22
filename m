@@ -2,76 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2C52957DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 07:23:26 +0200 (CEST)
-Received: from localhost ([::1]:37022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C342957F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 07:34:51 +0200 (CEST)
+Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVT4P-0000bz-RL
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 01:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34714)
+	id 1kVTFR-0004Zl-SU
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 01:34:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVT1e-0006gd-Si
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:20:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVT1d-0006i8-2M
- for qemu-devel@nongnu.org; Thu, 22 Oct 2020 01:20:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603344031;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GPkoM/Zgne2IINrvxAw2UZXbmXtFPYdM57khGOy8S/M=;
- b=B2CCewM3OMzy3yfMIptMtRUzWwgZMVTqWOrj0AFmfOH7H4wWHZq/TS6hC4rY80fa2B5EXx
- q+CuxzS8USEMRov+otFzM8uQ1NH0qWowk1NLLheoASnJHswlV4M/8ndL1+RRpVDV4mJgUY
- W2OmOY3FEDo/MknY49UQLgkrW8etv2U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-cJ5LmISyO_KB77_YUui_VQ-1; Thu, 22 Oct 2020 01:20:29 -0400
-X-MC-Unique: cJ5LmISyO_KB77_YUui_VQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D63C1074645;
- Thu, 22 Oct 2020 05:20:28 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-77.ams2.redhat.com [10.36.112.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB54E1002C07;
- Thu, 22 Oct 2020 05:20:22 +0000 (UTC)
-Subject: Re: [PATCH v1 6/6] tests/acceptance: pick a random gdb port for
- reverse debugging
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20201021163136.27324-1-alex.bennee@linaro.org>
- <20201021163136.27324-7-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <546fc49b-bde8-99f5-8489-295764afe44f@redhat.com>
-Date: Thu, 22 Oct 2020 07:20:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20201021163136.27324-7-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <prvs=557099d69=Anup.Patel@wdc.com>)
+ id 1kVTDl-0003KS-DO; Thu, 22 Oct 2020 01:33:05 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:55748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=557099d69=Anup.Patel@wdc.com>)
+ id 1kVTDi-00031Y-IG; Thu, 22 Oct 2020 01:33:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1603344782; x=1634880782;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=UOT+6+YwQKFaGF9dGGePpVcHmQwu3fb313Oke9fBcbo=;
+ b=g8E5j1GJ82q3sB4KIn3XaDpVDUT7hCkDel44MO/qFj9qqpNlLSrqcHJt
+ SLGrkbDRFX1SWBDwHm7KDz3br7KS2OM6Zvq2m2eZ3p7/WTlfdd6Fjy2Cv
+ 3Cbi2aysc95ABD3GE11p+nkNBbaiqDh1xpxwVI11n7pNDuTZjauaW64SU
+ jxVxkscr6sEIfv532A+fHIne5ppGNI5Qkke8gbsX/rlqEqSKnxFobEhKb
+ 8Mw5c/G8JrTfoZd4Ubk6MKTYYjoq0OFt8iYrgCTWacq7CFzkUUzl7n9fC
+ 3XAYtoo2LNgz1quHxjE1NWzrQihJ1F+oBmZWgbR+q2QqpAAUaNFkY4AqT Q==;
+IronPort-SDR: xSAGQbDILOOISC04HgMAysvZ9YmgV/pSEd5hCnhh3qviLxg3oM4laa4KynahhEvIF8naN/luun
+ hu1p2+SzIBl+4G7g6eqmbkIVECLUq7+NBqomZb3wnq4WsMUuAu9lEDBdSMuJKP5zUaLyNQoRou
+ jYCTrjOg/95ibdA4pjNwdQC1DAnMirJ2sxLrFDBNfNYD60QkGmQSSt37FgE3NCuRckDBZTjjwm
+ m+OfgT8hWOdWSEJjUSYGYc5Ioo7NLhHVAkksb9OH1VC+9K0p+Kz2bSM+9AkGimlkMCH02gMsyM
+ mp0=
+X-IronPort-AV: E=Sophos;i="5.77,403,1596470400"; d="scan'208";a="155025555"
+Received: from mail-bl2nam02lp2054.outbound.protection.outlook.com (HELO
+ NAM02-BL2-obe.outbound.protection.outlook.com) ([104.47.38.54])
+ by ob1.hgst.iphmx.com with ESMTP; 22 Oct 2020 13:32:53 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jDS7Gfq86SZ0K3+IFs/k/7lHXyfgrg0x6DOEKqItF577NN+mKZ3uV72bIxwxXdSv2miDL37IqdkRiC8/ZO85vqfmZ5xBXe7H9lJdi4230gG6U7/oY0x58z2T74gXG/8GZovjqTaUo5AKZACzPVxMRn5yyqgN3GL5azqAeg7sFbkp+k4ZnN+zQTlAP9BtyhkieSOxHju3f9+Yq4g7XbV/drJQUQwd4JP5qIKnsZKQlPLis3fWNzHIPR1juxQccStCE/VMg3FESI+UCM3hpc0aVxRMQrASAZkfOERCdqxMBEQvzmDr99616yDbW9rtzS6rKEK9gBLyPVw1Aptoc9IFgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n/yPYBI3qV0mLaT8Zi4oPUUDkaYwoJSxccurVTac3BI=;
+ b=IcJm8XMSqVVgUQPDWtQLIR4HbcFdEWcw+R5lyrBOAbH6sGJ8mQR8jZGESayDNHMrTgGjhaiXlJRpHP0Hd0+2Az7waJiC6jWaxGBNJmyJ8B/4XJ0QnxpqMRYnnB009bTFIQJSbWYq6UMhGTN0/A7UBj9edvVMUk1T4U8kiUOgUPMG3/3e39vfZUmdjPiMzxnkHAIk1/fvV7h8qxu4qKvzdA1j7mkRTzx99Wyhn9Vw9K7XQjUhfYPO+tT72BKgPxFqTqQFHz0hFWUm5/F3rgm4J12cDyaGXzMWlL4lejrMFEcDtscw8KawpivDRZW0DbotDG2Qo9ONTDJ1xvnUOPikWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n/yPYBI3qV0mLaT8Zi4oPUUDkaYwoJSxccurVTac3BI=;
+ b=sBkFas71sQejjW67La4TUYs7+XSvdaWqR0STNgxiwIL6aTjRBsIVl70Lt9KTwonUXLU1TjRRQBiizk6uM7oUOpZnQ0CISKumYHi3MpcMUbCXwUmT/vqvVSs3yGUpP0w10tf4mE4cPoTudLt12xfUVdRuXLBb36tsjzhUzRuOICw=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=wdc.com;
+Received: from DM6PR04MB6201.namprd04.prod.outlook.com (2603:10b6:5:127::32)
+ by DM5PR0401MB3509.namprd04.prod.outlook.com (2603:10b6:4:78::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.26; Thu, 22 Oct
+ 2020 05:32:51 +0000
+Received: from DM6PR04MB6201.namprd04.prod.outlook.com
+ ([fe80::d035:e2c6:c11:51dd]) by DM6PR04MB6201.namprd04.prod.outlook.com
+ ([fe80::d035:e2c6:c11:51dd%6]) with mapi id 15.20.3477.028; Thu, 22 Oct 2020
+ 05:32:50 +0000
+From: Anup Patel <anup.patel@wdc.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Subject: [PATCH 1/2] hw/riscv: sifive_u: Allow passing custom DTB
+Date: Thu, 22 Oct 2020 11:02:24 +0530
+Message-Id: <20201022053225.2596110-1-anup.patel@wdc.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/21 23:30:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [122.179.78.74]
+X-ClientProxiedBy: MA1PR01CA0139.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:35::33) To DM6PR04MB6201.namprd04.prod.outlook.com
+ (2603:10b6:5:127::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from wdc.com (122.179.78.74) by
+ MA1PR01CA0139.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:35::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Thu, 22 Oct 2020 05:32:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 863e50c2-c25f-44cd-9578-08d8764beaca
+X-MS-TrafficTypeDiagnostic: DM5PR0401MB3509:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR0401MB3509B3ACBD6015C605B024028D1D0@DM5PR0401MB3509.namprd04.prod.outlook.com>
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Oob-TLC-OOBClassifiers: OLM:33;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f26FqLwjjiiaWo68J9uQanf7zg3CX4L9eVmI3bfSgxPPC9/6aWR8JPxJIUVAm9wcKcj1Yf4zbjJsW1NgfAOcCknYcSmdwxzGrLJIdtPwq8w+JD7dfUxdrUJlLPXVy6I7/cNR+eseIqEL6phNjRWiOldhPuedzUBkrg9+Lv5En/TmhLFTLFZjsDyNdsctdtSOKon9bZ3iaeingpIGN2CsJxAvsj5Dl92I/GBCPIE6mK5/VWeQTczLo/JqyYZWD0H4syUXwxLJW0w+ujLaq71etJv2ntukIjI+XWEWmRqna/vJ/nOdVF2A01/E9rm5E39DWdq7RcNAaPK8qRqBNHetVQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR04MB6201.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(346002)(396003)(136003)(39860400002)(7696005)(52116002)(4326008)(1076003)(55016002)(6666004)(44832011)(8886007)(110136005)(2906002)(5660300002)(54906003)(83380400001)(316002)(66946007)(26005)(86362001)(2616005)(8936002)(956004)(66556008)(36756003)(478600001)(66476007)(186003)(16526019)(8676002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: Sk6cTnaPIRg9l5ukdIZDhB25NeKUmixzpD06TF/ymyKW2ARIkWnyAK5nCnImks42wNDq4z5y0OVqtRdPP44YvP3hvx4Fyon7m2X66tFFyueiqg6yTsRc4LtExnaAVshwNnmnJYqGpWcUs4PPMijJ/KLe9BzZbIFECd8y6iJGPFa4hgnX1vxRstDK/GoDWsxfEyBfbkw23cRT6E64jxW+0hgZSgc0pTFq2VsJqH3FUB0DAz0cMVqcRlSBJ64suIfdyPTbfiC6SDpr/LD6cTC5r96OgY4YMvQ0th2sWWeO3htqDC8+zXr7yGgCByaeH09ynBrXyruOhQu/AIhFBSE7Bkg+yuxGTjfRHPTAeYxTntAgR+MQ+4VSbgebH8zCEqEtm8DobL3ppEGHVQSKJZV81LH5SNqOEU9yxQCmkN9W9leJiz1/mqamZNRZd1JK7YoJopOgn/cczvs5NdIMH4DX0g1UADWsSm2ijG44/qgSa0eoCY7dnnjC0ifpYRZw0/APqq78fwHEqOoOVlA1Cafgn2T1lyf7l0W1wdQxrgfBOX6qufSeuRVoQSOhNOuaH0pJcbuxfB5nFdDCqTPCWj+fgkiRGTjwICQLJyThpGMEApRHGLOByu5DNKBmq38TbwRThydawt9H4II7YGljFZgUYQ==
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 863e50c2-c25f-44cd-9578-08d8764beaca
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB6201.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2020 05:32:50.8533 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lq2ldipKKPHHLZrixzKlvYLI3+jx454CQOik1bwtiL4SQ5kLYuOxElqTvyCteiKQ2KggpIdGAsgkSyYrJUm6Rw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0401MB3509
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=557099d69=Anup.Patel@wdc.com; helo=esa3.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 01:32:54
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,29 +134,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/2020 18.31, Alex Bennée wrote:
-> Currently the test randomly fails if you are using a shared machine
-> due to contention on the well known port 1234. We can ameliorate this
-> a bit by picking a random non-ephemeral port although it doesn't
-> totally avoid the problem. While we could use a totally unique socket
-> address for debugging it's impossible to probe for gdb support of the
-> feature which makes this a sub-optimal but less fiddly option.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  tests/acceptance/reverse_debugging.py | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+Extend sifive_u machine to allow passing custom DTB using "-dtb"
+command-line parameter. This will help users pass modified DTB
+or Linux SiFive DTB to sifive_u machine.
 
-Certainly better than before!
+Signed-off-by: Anup Patel <anup.patel@wdc.com>
+---
+ hw/riscv/sifive_u.c | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 6ad975d692..554e38abf0 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -100,14 +100,25 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     int cpu;
+     uint32_t *cells;
+     char *nodename;
++    const char *dtb_filename;
+     char ethclk_names[] = "pclk\0hclk";
+     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
+     uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
+ 
+-    fdt = s->fdt = create_device_tree(&s->fdt_size);
+-    if (!fdt) {
+-        error_report("create_device_tree() failed");
+-        exit(1);
++    dtb_filename = qemu_opt_get(qemu_get_machine_opts(), "dtb");
++    if (dtb_filename) {
++        fdt = s->fdt = load_device_tree(dtb_filename, &s->fdt_size);
++        if (!fdt) {
++            error_report("load_device_tree() failed");
++            exit(1);
++        }
++        goto update_bootargs;
++    } else {
++        fdt = s->fdt = create_device_tree(&s->fdt_size);
++        if (!fdt) {
++            error_report("create_device_tree() failed");
++            exit(1);
++        }
+     }
+ 
+     qemu_fdt_setprop_string(fdt, "/", "model", "SiFive HiFive Unleashed A00");
+@@ -390,13 +401,14 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+ 
+     qemu_fdt_add_subnode(fdt, "/chosen");
+     qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", nodename);
+-    if (cmdline) {
+-        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+-    }
+-
+     qemu_fdt_setprop_string(fdt, "/aliases", "serial0", nodename);
+ 
+     g_free(nodename);
++
++update_bootargs:
++    if (cmdline) {
++        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
++    }
+ }
+ 
+ static void sifive_u_machine_reset(void *opaque, int n, int level)
+-- 
+2.25.1
 
 
