@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A55295712
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 06:21:17 +0200 (CEST)
-Received: from localhost ([::1]:40604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6968729570F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Oct 2020 06:19:06 +0200 (CEST)
+Received: from localhost ([::1]:36864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVS6G-0006QV-HV
-	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 00:21:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1kVS49-0004jh-Ff
+	for lists+qemu-devel@lfdr.de; Thu, 22 Oct 2020 00:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kVS2v-0003DL-H0; Thu, 22 Oct 2020 00:17:50 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58677 helo=ozlabs.org)
+ id 1kVS2v-0003DJ-HR; Thu, 22 Oct 2020 00:17:50 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37453 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kVS2s-0000Eh-Az; Thu, 22 Oct 2020 00:17:49 -0400
+ id 1kVS2s-0000Ed-Hd; Thu, 22 Oct 2020 00:17:48 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CGvGP2PMTz9sTt; Thu, 22 Oct 2020 15:17:33 +1100 (AEDT)
+ id 4CGvGP3HNfz9sVK; Thu, 22 Oct 2020 15:17:33 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1603340253;
- bh=3FEdsWkuEBEu/YbMBMtwwMLmFe8Ep/66aPDpncMaCos=;
+ bh=THEf6+olDZKx0/d/9mnlKgZDwqVHlqPAqh43xMoN+rU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MBcpkj0jDewF+vvhY4JtiLkfwXQrONjdq9690wEvlHU4pxVIjbLzctTvrrI4QZiTR
- TtI8yfzp2HFiimYOMBGkD8G5mSdWk2ughn6lvnl9Z6rmXmvh3vAOLj/V5x4K4cYJ9C
- MOoGRQ0Judj34jUlK4vZXSb133dshvSHvK4gdvj4=
-Date: Thu, 22 Oct 2020 15:07:31 +1100
+ b=S40iZZnPB2uX0WPd/YvbBNoV4GdnlFW+wAuES+Fc6GeYpCLiWvivOjvHC4rlzMVsD
+ aVuxHpOchPUTgw7HXlmmGHgadL+w7ST6PoxVWR7055k1oPDKpC6446brGQht/TgRAk
+ aZoc0IgNbzLtth1FcleGE3QNTTqq1GRkn9b2/7ls=
+Date: Thu, 22 Oct 2020 15:08:17 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 2/5] spapr: Use appropriate getter for PC_DIMM_ADDR_PROP
-Message-ID: <20201022040731.GE1821515@yekko.fritz.box>
+Subject: Re: [PATCH 3/5] spapr: Use appropriate getter for PC_DIMM_SLOT_PROP
+Message-ID: <20201022040817.GF1821515@yekko.fritz.box>
 References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
- <160309729609.2739814.4996614957953215591.stgit@bahia.lan>
+ <160309730758.2739814.15821922745424652642.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Rgf3q3z9SdmXC6oT"
+ protocol="application/pgp-signature"; boundary="1Y7d0dPL928TPQbc"
 Content-Disposition: inline
-In-Reply-To: <160309729609.2739814.4996614957953215591.stgit@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <160309730758.2739814.15821922745424652642.stgit@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/22 00:17:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -71,44 +71,64 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Rgf3q3z9SdmXC6oT
+--1Y7d0dPL928TPQbc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 19, 2020 at 10:48:16AM +0200, Greg Kurz wrote:
-> The PC_DIMM_ADDR_PROP property is defined as:
+On Mon, Oct 19, 2020 at 10:48:27AM +0200, Greg Kurz wrote:
+> The PC_DIMM_SLOT_PROP property is defined as:
 >=20
->     DEFINE_PROP_UINT64(PC_DIMM_ADDR_PROP, PCDIMMDevice, addr, 0),
+>     DEFINE_PROP_INT32(PC_DIMM_SLOT_PROP, PCDIMMDevice, slot,
+>                       PC_DIMM_UNASSIGNED_SLOT),
 >=20
-> Use object_property_get_uint() instead of object_property_get_int().
+> Use object_property_get_int() instead of object_property_get_uint().
+> Since spapr_memory_plug() only gets called if pc_dimm_pre_plug()
+> succeeded, we expect to have a valid >=3D 0 slot number, either because
+> the user passed a valid slot number or because pc_dimm_get_free_slot()
+> picked one up for us.
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/ppc/spapr.c |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  hw/ppc/spapr.c |    9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 4edd31b86915..115fc52e3b06 100644
+> index 115fc52e3b06..1b173861152f 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -3572,8 +3572,8 @@ static SpaprDimmState *spapr_recover_pending_dimm_s=
-tate(SpaprMachineState *ms,
->      uint64_t addr_start, addr;
->      int i;
+> @@ -3433,7 +3433,8 @@ static void spapr_memory_plug(HotplugHandler *hotpl=
+ug_dev, DeviceState *dev,
+>      Error *local_err =3D NULL;
+>      SpaprMachineState *ms =3D SPAPR_MACHINE(hotplug_dev);
+>      PCDIMMDevice *dimm =3D PC_DIMM(dev);
+> -    uint64_t size, addr, slot;
+> +    uint64_t size, addr;
+> +    int64_t slot;
+>      bool is_nvdimm =3D object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
 > =20
-> -    addr_start =3D object_property_get_int(OBJECT(dimm), PC_DIMM_ADDR_PR=
-OP,
-> -                                         &error_abort);
-> +    addr_start =3D object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_P=
-ROP,
-> +                                          &error_abort);
+>      size =3D memory_device_get_region_size(MEMORY_DEVICE(dev), &error_ab=
+ort);
+> @@ -3450,11 +3451,13 @@ static void spapr_memory_plug(HotplugHandler *hot=
+plug_dev, DeviceState *dev,
+>                         spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT),
+>                         &local_err);
+>      } else {
+> -        slot =3D object_property_get_uint(OBJECT(dimm),
+> -                                        PC_DIMM_SLOT_PROP, &local_err);
+> +        slot =3D object_property_get_int(OBJECT(dimm),
+> +                                       PC_DIMM_SLOT_PROP, &local_err);
+>          if (local_err) {
+>              goto out_unplug;
+>          }
+> +        /* We should have valid slot number at this point */
+> +        g_assert(slot >=3D 0);
+>          spapr_add_nvdimm(dev, slot, &local_err);
+>      }
 > =20
->      addr =3D addr_start;
->      for (i =3D 0; i < nr_lmbs; i++) {
 >=20
 >=20
 
@@ -118,25 +138,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Rgf3q3z9SdmXC6oT
+--1Y7d0dPL928TPQbc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+RBYMACgkQbDjKyiDZ
-s5I7/A/+KMixAmLnq0fILvZCdYto8twfp/hiH9UXSSlhF+H5pEx2yrXJJFDKAhFZ
-bls+RRG8o72LSJlGVnR+u/RwqJZuKs6DOMUWblrHHvqMTwRdkZ85PwmgZa2egJc6
-zZO2GqsWHfeYaO7XcaBMa0qpHYYA1WVenvDL84Sz4UUW2v4n3CYPEUxXOZRX0LY8
-4qzFMWIX0DzJedYvVT3AKK5UbKONKBfvZ7pWA5MlDVMU1H67rR34lgNG/pepPtcR
-+YsKa6kQL7hhUKfAMFhJMnY7Qj8qp/eHJDij74eTPcQ67sIl6iU/Vc7pIBj4BfvY
-ynuAo8atKOHXVXZqlHy+TuXJWTsF+IOuIQI9trPqWBp8IPARQ7M7W2PYnlMa9N4K
-jUc/kF1iZKG7Z/4kzW12c3SBSxOBao7bIdjSZCX2UyH3CVOb+DcOa82MpYWMAWEa
-MSJbk2bKlHKgBeiIDF6BOUAipSFDj02J9CFPrGLx5x4a9WMyKS8ly5eMsk/TTWPd
-Nivryv4G/ZZAtbjfQmGEuT8JBBwnP011FleRUxdZnV6Wo3QbUNfi8KgzGBOUjBCB
-2g9TGUMxtxlwgfcLbOlHESVFt8j+ZS050myeoaMybWqcODOPi/hfjneHkFpf/CGC
-Y+qL3aNVMOSz+PyMLWdNnQfyNajEoiQ6iaSOlOiDoYGQA8RNCnk=
-=W8N+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+RBbEACgkQbDjKyiDZ
+s5IovBAAnXemXa+W3qx7H/MIW/15BmyQChWxgl+XdQVWwQpPP9RdvMLYjpNa8unI
+m/seKNHBURH7xV0LDboE+XjrvougeLAIG4inY+2lnSj6I0K/PP4GgQh4TGZz5yD9
+GfwABbyoeC6E5H7HE+cu5Guw6jtD6KbNUJQ2hC9ltWmH4FapDWlu0K+ykzPxXvMh
+H4Qfy/lCbH9hsQk+6elAUScZio37SmXsxbWo9sU+s9IkzZZxTifiUDS1xLOYWEvU
+ERMnckIAmXYbTqy/6CClVOT1Xl3E2ynU3kDZBpDYVttQ1sewl/YfENwPqmdW42Pj
+W0V7uPtwsFg1x8qMSnrldnk+UYzF79JpxYR1iKRzlPvw3wHZ/4Cl37zJBuPEcYI2
+QS71E9MZzGg7KCq97ShhCExTmKXCN5Qmf3DTJjvO2ZGSUsX5vos8dKSPHXJBwOj3
+hrz30OkXJsGt6BP1YbBtO7noJOGvh/pwJCdaR2kR8HSOwEssbo75EYRrHuM2qXyN
+C8Vjo0NiEWTiThNLUYgENTOBDOISRUDt5LRMy96WjbRSgUDrRZJmpRF9Lc1pSXIw
+JHxYK5E0Z6YmlfZ5pxUFMk0LJ5vE/3J8UJkWULWaxdxwozxKaAzCi6XWzBNlbbV/
+Q7ligCeQ7rPvL6px1O69+8ZN29Scb+MrMcTufd1aX4ezB+iVsRk=
+=MQdP
 -----END PGP SIGNATURE-----
 
---Rgf3q3z9SdmXC6oT--
+--1Y7d0dPL928TPQbc--
 
