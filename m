@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F05297348
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:13:34 +0200 (CEST)
-Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E76629735D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:16:21 +0200 (CEST)
+Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzh7-0006nZ-0Q
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:13:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32824)
+	id 1kVzjk-0001u7-7s
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kVz1K-0007ht-JJ
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:30:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38255)
+ id 1kVz1M-0007jX-D9
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:30:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kVz1G-0001p2-Eu
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:30:22 -0400
+ id 1kVz1K-0001sa-Kn
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:30:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603467017;
+ s=mimecast20190719; t=1603467021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ofjx9eklJguHvhd4j2ZPUixoPBImc5PsFAy+CiMpW10=;
- b=WnkTbTxH3fg6ryHKQynV7YINEiW9mRY4vwGxE8oHIm/MB/Wz3c7TJ9+KgE/0WQ2Xppgzpy
- M6kYOjbRJVOvR0MsMFJPZCZnc94lRebTR6LVMwA+H551JLgBs2hfsxoHj4xStB9EuLE5lm
- qeqJkO0RZVMUA3A/trATxlKlacYyycE=
+ bh=J8he3c9/fm4RZIZ48oFtpBP3I47PrHLYDnfqvmDMej4=;
+ b=eVthOTHSSziVSdseJRNc3TJKGqG/YKj0X7pgEuV5F0AzplzeMcQCbdqwLBCAIkUp3YTRqn
+ br8BKWGgEU/p9Yqm9B9buluGxJe45DtSBTPs8m+jWcs7T16osSudheVe4MfPzPDylAtPIv
+ KLLqHvTzmF0VdEMl+r7zVZkzFQcnxok=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-8b9oN-laNR-F4s0kFUNPtw-1; Fri, 23 Oct 2020 11:30:11 -0400
-X-MC-Unique: 8b9oN-laNR-F4s0kFUNPtw-1
+ us-mta-105-MNOkz_CcN86ynMXOLTWRaw-1; Fri, 23 Oct 2020 11:30:19 -0400
+X-MC-Unique: MNOkz_CcN86ynMXOLTWRaw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4D068049F4
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 15:30:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 493E4100F7BE
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 15:30:10 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-113-189.ams2.redhat.com
  [10.36.113.189])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66E2E5B4AC;
- Fri, 23 Oct 2020 15:30:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1321F5B4BE;
+ Fri, 23 Oct 2020 15:30:08 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH 5/7] Simplify and restructure the page footer
-Date: Fri, 23 Oct 2020 16:29:55 +0100
-Message-Id: <20201023152957.488974-6-berrange@redhat.com>
+Subject: [qemu-web PATCH 6/7] Add link to "edit this page" for all pages
+Date: Fri, 23 Oct 2020 16:29:56 +0100
+Message-Id: <20201023152957.488974-7-berrange@redhat.com>
 In-Reply-To: <20201023152957.488974-1-berrange@redhat.com>
 References: <20201023152957.488974-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -86,275 +86,59 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The page footer currently has a large wall of links.
-
-Many of the links duplicate what is already present in the page header
-navbar. The header is styled to have a fixed position, it will always
-be on screen. The footer meanwhile is often off the bottom of the
-screen.
-
-Other links from the footer are already present in the 'contribute' and
-'documentation' pages, with more descriptive text.
-
-The wiki link would be better placed in the top header where it is more
-obviously visible to users.
-
-With this change the footer is slimmed down to avoid link duplication,
-leaving it primarily focused on providing links to the related external
-sites.
-
-The wiki link is moved to the header nav which has extra space after the
-previous patch.
-
-Finally the conservancy link pulled out and placed just below the footer
-adjacent to the licensing link, giving it more prominence.
+The link takes the user directly to the source markdown file in gitlab,
+where they can press the "Edit" button and make changes directly in the
+browser. They will be prompted to fork the project when committing the
+changes if they don't already have a fork.  The result is a commit which
+can be submitted for review per the contributing guidelines.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- _includes/copyright.html     |  8 --------
- _includes/footer.html        | 30 +++++++++---------------------
- _includes/nav.html           |  1 +
- _layouts/blog.html           |  1 -
- _layouts/home.html           |  1 -
- _layouts/page.html           |  1 -
- assets/css/style-desktop.css | 24 ++++--------------------
- assets/css/style-mobile.css  | 13 +------------
- assets/css/style.css         | 36 ++++++++++++++++++++++++++----------
- 9 files changed, 41 insertions(+), 74 deletions(-)
- delete mode 100644 _includes/copyright.html
+ _includes/footer.html        | 3 +++
+ assets/css/style-desktop.css | 4 ++++
+ assets/css/style.css         | 2 +-
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/_includes/copyright.html b/_includes/copyright.html
-deleted file mode 100644
-index cdcd98f..0000000
---- a/_includes/copyright.html
-+++ /dev/null
-@@ -1,8 +0,0 @@
--<div id="copyright">
--	<div id="copyright-inner">
--	  <div class="container">
--	    This site is made available under the terms of
--	    <a href="{{ relative_root }}/license.html">a number of licenses</a>.
--	  </div>
--	</div>
--</div>
 diff --git a/_includes/footer.html b/_includes/footer.html
-index b614795..2dd247b 100644
+index 2dd247b..0a77d8e 100644
 --- a/_includes/footer.html
 +++ b/_includes/footer.html
-@@ -1,30 +1,18 @@
+@@ -1,4 +1,7 @@
  <div id="footer">
--	<div id="footer-inner">
-+	<div id="external-links">
++	<div id="edit-page">
++		<a href="https://gitlab.com/qemu-project/qemu-web/-/blob/master/{{page.path}}">edit this page</a>
++	</div>
+ 	<div id="external-links">
  		<ul class="style">
--			<li><a href="{{ relative_root }}/">Home</a></li>
--			<li><a href="{{ relative_root }}/download">Download</a></li>
--			<li><a href="{{ relative_root }}/conservancy/">Conservancy / Committee</a></li>
--			<li><a href="http://qemu-advent-calendar.org">QEMU advent calendar</a></li>
--		</ul>
--		<ul class="style">
--			<li><a href="{{ relative_root }}/contribute">Contribute</a></li>
--			<li><a href="{{ relative_root }}/contribute/report-a-bug">Reporting a bug</a></li>
--			<li><a href="https://wiki.qemu.org/Documentation/GettingStartedDevelopers">New contributors</a></li>
--			<li><a href="https://wiki.qemu.org/Contribute/SubmitAPatch">Submitting a patch</a></li>
--			<li><a href="https://wiki.qemu.org/Contribute/FAQ">Contributor FAQ</a></li>
--		</ul>
--		<ul class="style">
--			<li><a href="{{ relative_root }}/documentation">Documentation</a></li>
--			<li><a href="https://www.qemu.org/docs/master/">Main docs</a></li>
--			<li><a href="https://wiki.qemu.org/Category:Developer_documentation">Developer docs</a></li>
--			<li><a href="https://wiki.qemu.org/">Wiki</a></li>
--		</ul>
--		<ul class="style">
--			<li><a href="https://planet.virt-tools.org/">virt tools planet</a></li>
-+			<li><a href="http://qemu-advent-calendar.org">Advent calendar</a></li>
-+			<li><a href="https://planet.virt-tools.org/">Blog planet</a></li>
- 			<li><a href="https://www.linux-kvm.org/">KVM</a></li>
- 			<li><a href="http://libguestfs.org/">Libguestfs</a></li>
- 			<li><a href="https://libvirt.org/">Libvirt</a></li>
- 			<li><a href="https://xenproject.org">Xen</a></li>
- 		</ul>
- 	</div>
-+	<div id="conservancy">
-+	  QEMU is a member of <a href="{{ relative_root }}/conservancy/">Software Freedom Conservancy</a>
-+	</div>
-+	<div id="licenses">
-+	  <a href="{{ relative_root }}/license.html">Website licenses</a>
-+	</div>
- </div>
-diff --git a/_includes/nav.html b/_includes/nav.html
-index c66ee92..73b39b3 100644
---- a/_includes/nav.html
-+++ b/_includes/nav.html
-@@ -7,6 +7,7 @@
- 			</li><li {% if current[1] == 'support' %}class='current'{% endif %}><a href="{{ relative_root }}/support">Support</a>
- 			</li><li {% if current[1] == 'contribute' %}class='current'{% endif %}><a href="{{ relative_root }}/contribute">Contribute</a>
- 			</li><li {% if current[1] == 'documentation' %}class='current'{% endif %}><a href="{{ relative_root }}/documentation">Docs</a>
-+			</li><li><a href="https://wiki.qemu.org">Wiki</a>
- 			</li><li {% if current[1] == 'blog' %}class='current'{% endif %}><a href="{{ relative_root }}/blog">Blog</a></li>
- 		</ul>
- 	</nav>
-diff --git a/_layouts/blog.html b/_layouts/blog.html
-index b300636..b7fcdbf 100644
---- a/_layouts/blog.html
-+++ b/_layouts/blog.html
-@@ -21,7 +21,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
- 	
- 	{% include sidebar.html %}
- 	{% include footer.html %}
--	{% include copyright.html %}
- 
- </body>
- </html>
-diff --git a/_layouts/home.html b/_layouts/home.html
-index d94c9b0..f7b6931 100644
---- a/_layouts/home.html
-+++ b/_layouts/home.html
-@@ -18,7 +18,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
- 	{{ content }}
- 
- 	{% include footer.html %}
--	{% include copyright.html %}
- 
- </body>
- </html>
-diff --git a/_layouts/page.html b/_layouts/page.html
-index d650054..765d204 100644
---- a/_layouts/page.html
-+++ b/_layouts/page.html
-@@ -23,7 +23,6 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
- 	</div>
- 	
- 	{% include footer.html %}
--	{% include copyright.html %}
- 
- </body>
- </html>
+ 			<li><a href="http://qemu-advent-calendar.org">Advent calendar</a></li>
 diff --git a/assets/css/style-desktop.css b/assets/css/style-desktop.css
-index b7e403a..d45ec15 100644
+index d45ec15..19272ad 100644
 --- a/assets/css/style-desktop.css
 +++ b/assets/css/style-desktop.css
-@@ -101,29 +101,13 @@
- /*********************************************************************************/
+@@ -102,6 +102,10 @@
  /* Footer                                                                        */
  /*********************************************************************************/
--	
--	#footer
--	{
--		padding: 1em 0em;
--	}
--	
--	#footer-inner
--	{
--		width: 95%;
--		display: table;
--		margin: auto;
--	}
  
--	#footer ul
--	{
--		width: 25%;
--		display: table-cell;
--		padding-left: 2em;
-+	#licenses {
-+		float: right;
++	#edit-page {
++		text-align: right;
++	}
++
+ 	#licenses {
+ 		float: right;
  	}
- 
--	#footer ul:first-child
--	{
--		padding-left: 0px;
-+	#conservancy {
-+		float: left;
- 	}
- 
- /*********************************************************************************/
-diff --git a/assets/css/style-mobile.css b/assets/css/style-mobile.css
-index 8910e71..652650b 100644
---- a/assets/css/style-mobile.css
-+++ b/assets/css/style-mobile.css
-@@ -242,7 +242,7 @@
- /* Columns                                                                       */
- /*********************************************************************************/
- 
--	#main, #footer-inner, #copyright-inner
-+	#main, #copyright-inner
- 	{
- 		margin-left: 0%;
- 		width: 100%;
-@@ -283,19 +283,8 @@
- 	
- 	#footer
- 	{
--		padding: 1em;
--	}
--	
--	#footer ul
--	{
--		padding: 0.6em 0px;
--		border-top: 1px solid white;
- 	}
- 
--	#footer ul:first-child
--	{
--		border-top: 0px;
--	}
- 	
- /*********************************************************************************/
- /* Featured                                                                      */
 diff --git a/assets/css/style.css b/assets/css/style.css
-index e09b383..e2fee29 100644
+index e2fee29..50bbcd1 100644
 --- a/assets/css/style.css
 +++ b/assets/css/style.css
-@@ -503,24 +503,40 @@
- 	{
- 		position: relative;
- 		clear: left;
--		background: #401200;
--		color: #FFF;
- 	}
- 	
- 	#footer a
- 	{
- 		color: inherit;
- 	}
--	
--	#footer ul
--	{
--		vertical-align: top;
-+
-+	#footer ul {
-+		margin: 0em;
+@@ -514,7 +514,7 @@
+ 		margin: 0em;
  	}
  
--	#footer ul, #footer ul > li
--	{
--		padding: 0;
--		margin: 0
-+	#conservancy, #licenses {
-+		padding: 0em;
-+		padding-left: 1em;
-+		padding-right: 1em;
-+		font-size: smaller;
-+		color: #707070;
-+		margin: 0em;
-+	}
-+
-+	#external-links {
-+		padding: 0em;
-+		padding-top: 0.3em;
-+		padding-bottom: 0.3em;
-+		background: #401200;
-+		color: #FFF;
-+		text-align: center;
-+	}
-+
-+	#external-links li {
-+		display: inline;
-+	}
-+	#external-links li a {
-+		padding-left: 1em;
- 	}
- 
- /*********************************************************************************/
+-	#conservancy, #licenses {
++	#conservancy, #licenses, #edit-page {
+ 		padding: 0em;
+ 		padding-left: 1em;
+ 		padding-right: 1em;
 -- 
 2.26.2
 
