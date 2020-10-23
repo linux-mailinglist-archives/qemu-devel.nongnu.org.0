@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7F429727C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:38:16 +0200 (CEST)
-Received: from localhost ([::1]:41464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E842972A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:44:58 +0200 (CEST)
+Received: from localhost ([::1]:36668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVz8x-0008GT-2c
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:38:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
+	id 1kVzFR-00017V-1P
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kVyu2-0005Za-VB
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:22:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30990)
+ id 1kVyu6-0005b5-Tb
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:22:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kVytz-0000gm-Tg
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:22:50 -0400
+ id 1kVyu3-0000gz-3T
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:22:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603466567;
+ s=mimecast20190719; t=1603466570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gdbjx4jC6RspLuWlx++Rq0O/3VtjqAWAahM++epM/XA=;
- b=BL9Y1b+TPMOlNgdikX78mky47EsR9sjl0gUzX3folvOD9n+jzHvIXNZdu9TIXv3bQTz5cm
- wb+rMOlSwuC/Q4mEjydGaqiR8zQ4mQoWJXlr5l7+a1J2LAkToNwJBs29iFzXZNP9xcmIZv
- tt5C5t844N4KCTMq0y5YD+zwgoLWXYI=
+ bh=cZ50qLLD6k1ryEay4NPbvsMG0Teqrn3RbrK7K8ZngAE=;
+ b=IPYHCuA3e+Nk1ilz2/A1zak77h2Yv/rDpcQSRAzREXFysmICVvuqxEK718zt8b0nfc2U6n
+ m+yRBzXViXIvKTP/OxSNbBlweoWMg9NA+a7LGEYmwTjkMkMKXM0nGi2kzFKNqEHP7qt1LO
+ skBabs45yOxJ/v7d131HYE2mqtkcPzQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-wsLY2S3XNFKxoNVCcF-c4A-1; Fri, 23 Oct 2020 11:22:45 -0400
-X-MC-Unique: wsLY2S3XNFKxoNVCcF-c4A-1
+ us-mta-126-jp5XyUSpOwaDShd-nBnoIw-1; Fri, 23 Oct 2020 11:22:47 -0400
+X-MC-Unique: jp5XyUSpOwaDShd-nBnoIw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD3BD8049E5;
- Fri, 23 Oct 2020 15:22:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8624810E2181;
+ Fri, 23 Oct 2020 15:22:45 +0000 (UTC)
 Received: from localhost (ovpn-114-178.ams2.redhat.com [10.36.114.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 926E25C1CF;
- Fri, 23 Oct 2020 15:22:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26E6A5C1CF;
+ Fri, 23 Oct 2020 15:22:44 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v3 08/28] util/vhost-user-server: s/fileds/fields/ typo fix
-Date: Fri, 23 Oct 2020 16:21:27 +0100
-Message-Id: <20201023152147.1016281-9-stefanha@redhat.com>
+Subject: [PULL v3 09/28] util/vhost-user-server: drop unnecessary QOM cast
+Date: Fri, 23 Oct 2020 16:21:28 +0100
+Message-Id: <20201023152147.1016281-10-stefanha@redhat.com>
 In-Reply-To: <20201023152147.1016281-1-stefanha@redhat.com>
 References: <20201023152147.1016281-1-stefanha@redhat.com>
 MIME-Version: 1.0
@@ -91,18 +91,22 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-U2lnbmVkLW9mZi1ieTogU3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRoYXQuY29tPgpNZXNz
-YWdlLWlkOiAyMDIwMDkyNDE1MTU0OS45MTM3MzctMy1zdGVmYW5oYUByZWRoYXQuY29tClNpZ25l
-ZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0tCiB1dGls
-L3Zob3N0LXVzZXItc2VydmVyLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
-KyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS91dGlsL3Zob3N0LXVzZXItc2VydmVyLmMg
-Yi91dGlsL3Zob3N0LXVzZXItc2VydmVyLmMKaW5kZXggYjE4OTk0NDg1Ni4uOWJkMzNlMGZkYiAx
-MDA2NDQKLS0tIGEvdXRpbC92aG9zdC11c2VyLXNlcnZlci5jCisrKyBiL3V0aWwvdmhvc3QtdXNl
-ci1zZXJ2ZXIuYwpAQCAtNDA3LDcgKzQwNyw3IEBAIGJvb2wgdmhvc3RfdXNlcl9zZXJ2ZXJfc3Rh
-cnQoVnVTZXJ2ZXIgKnNlcnZlciwKICAgICAgICAgcmV0dXJuIGZhbHNlOwogICAgIH0KIAotICAg
-IC8qIHplcm8gb3V0IHVuc3BlY2lmaWVkIGZpbGVkcyAqLworICAgIC8qIHplcm8gb3V0IHVuc3Bl
-Y2lmaWVkIGZpZWxkcyAqLwogICAgICpzZXJ2ZXIgPSAoVnVTZXJ2ZXIpIHsKICAgICAgICAgLmxp
-c3RlbmVyICAgICAgICAgICAgICA9IGxpc3RlbmVyLAogICAgICAgICAudnVfaWZhY2UgICAgICAg
-ICAgICAgID0gdnVfaWZhY2UsCi0tIAoyLjI2LjIKCg==
+V2UgYWxyZWFkeSBoYXZlIGFjY2VzcyB0byB0aGUgdmFsdWUgd2l0aCB0aGUgY29ycmVjdCB0eXBl
+IChpb2MgYW5kIHNpb2MKYXJlIHRoZSBzYW1lIFFJT0NoYW5uZWwpLgoKU2lnbmVkLW9mZi1ieTog
+U3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRoYXQuY29tPgpNZXNzYWdlLWlkOiAyMDIwMDky
+NDE1MTU0OS45MTM3MzctNC1zdGVmYW5oYUByZWRoYXQuY29tClNpZ25lZC1vZmYtYnk6IFN0ZWZh
+biBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0tCiB1dGlsL3Zob3N0LXVzZXItc2Vy
+dmVyLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKCmRpZmYgLS1naXQgYS91dGlsL3Zob3N0LXVzZXItc2VydmVyLmMgYi91dGlsL3Zob3N0LXVz
+ZXItc2VydmVyLmMKaW5kZXggOWJkMzNlMGZkYi4uNDQzYWI3NDQ4YyAxMDA2NDQKLS0tIGEvdXRp
+bC92aG9zdC11c2VyLXNlcnZlci5jCisrKyBiL3V0aWwvdmhvc3QtdXNlci1zZXJ2ZXIuYwpAQCAt
+MzM3LDcgKzMzNyw3IEBAIHN0YXRpYyB2b2lkIHZ1X2FjY2VwdChRSU9OZXRMaXN0ZW5lciAqbGlz
+dGVuZXIsIFFJT0NoYW5uZWxTb2NrZXQgKnNpb2MsCiAgICAgc2VydmVyLT5pb2MgPSBRSU9fQ0hB
+Tk5FTChzaW9jKTsKICAgICBvYmplY3RfcmVmKE9CSkVDVChzZXJ2ZXItPmlvYykpOwogICAgIHFp
+b19jaGFubmVsX2F0dGFjaF9haW9fY29udGV4dChzZXJ2ZXItPmlvYywgc2VydmVyLT5jdHgpOwot
+ICAgIHFpb19jaGFubmVsX3NldF9ibG9ja2luZyhRSU9fQ0hBTk5FTChzZXJ2ZXItPnNpb2MpLCBm
+YWxzZSwgTlVMTCk7CisgICAgcWlvX2NoYW5uZWxfc2V0X2Jsb2NraW5nKHNlcnZlci0+aW9jLCBm
+YWxzZSwgTlVMTCk7CiAgICAgdnVfY2xpZW50X3N0YXJ0KHNlcnZlcik7CiB9CiAKLS0gCjIuMjYu
+MgoK
 
 
