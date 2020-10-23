@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A285F296F92
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:43:02 +0200 (CEST)
-Received: from localhost ([::1]:40612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17455296FB7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:51:46 +0200 (CEST)
+Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVwPN-00016i-Ke
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43988)
+	id 1kVwXp-0003MY-69
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:51:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVwNl-0007ur-PV
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:41:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47447)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVwO8-0000Cq-Pt
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:41:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVwNk-0004GJ-3d
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:41:21 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kVwO6-0004Ia-ID
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:41:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603456878;
+ s=mimecast20190719; t=1603456901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yzq4J3sOY5zkSx62OH/QIJyJ7bZWXQAchRMEeF754j0=;
- b=S9c/NchMZONVF1le73NnsY+XLSLflzzcImzWQon9lEuyr/bXbki40J36wlGsjFhmmuImbV
- mHc3N7iexWSxwtL2HBPRitWclquspCRrpHKjEtoTdLLcN1DtJUAfv9zZiRUEljzcFvixoO
- o7+ulPK2q9mA6L5bwhFhYNMmf8IDMYQ=
+ bh=yKcSvOIL99/kENo093Zdr9SjhDITf32yO6lhiP+AZaQ=;
+ b=D3ENDKu/W6SeDMzUag4YAyWrZcupCSZUanLSlagm/icRkONpGvFIi94LtI47HHaDQzjsty
+ 5yXj6UGsF9S2bcNBtNvUXkC6jPQGpPVpChLodTPhYby9LUOXDabaGQZpUJFHThq7ANYZDH
+ SViW3Hry1DdzjKaP6YLv24ShruXcFGA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-QCb1dIvpMFKp6lSFhG2yuA-1; Fri, 23 Oct 2020 08:41:17 -0400
-X-MC-Unique: QCb1dIvpMFKp6lSFhG2yuA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-496-klSf6juXMtWtXOunCGJ8sg-1; Fri, 23 Oct 2020 08:41:38 -0400
+X-MC-Unique: klSf6juXMtWtXOunCGJ8sg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73B8364096;
- Fri, 23 Oct 2020 12:41:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A49B8049FF;
+ Fri, 23 Oct 2020 12:41:37 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-115-61.ams2.redhat.com [10.36.115.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 901D155762;
- Fri, 23 Oct 2020 12:41:13 +0000 (UTC)
-Subject: Re: [PATCH 12/30] xtensa tcg cpus: Fix Lesser GPL version number
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2023127C29;
+ Fri, 23 Oct 2020 12:41:35 +0000 (UTC)
+Subject: Re: [PATCH 13/30] tricore tcg cpus: Fix Lesser GPL version number
 To: Chetan Pant <chetan4windows@gmail.com>, qemu-trivial@nongnu.org
 References: <20201014134248.14146-1-chetan4windows@gmail.com>
- <20201023122051.19274-1-chetan4windows@gmail.com>
+ <20201023122157.19321-1-chetan4windows@gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <0992df32-4e95-eb6a-41fb-22820341aca5@redhat.com>
-Date: Fri, 23 Oct 2020 14:41:12 +0200
+Message-ID: <ee3cbeac-a3cb-d474-b033-80066cfe3989@redhat.com>
+Date: Fri, 23 Oct 2020 14:41:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201023122051.19274-1-chetan4windows@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201023122157.19321-1-chetan4windows@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,11 +83,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jcmvbkbc@gmail.com, qemu-devel@nongnu.org
+Cc: kbastian@mail.uni-paderborn.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/10/2020 14.20, Chetan Pant wrote:
+On 23/10/2020 14.21, Chetan Pant wrote:
 > There is no "version 2" of the "Lesser" General Public License.
 > It is either "GPL version 2.0" or "Lesser GPL version 2.1".
 > This patch replaces all occurrences of "Lesser GPL version 2" with
@@ -95,14 +95,28 @@ On 23/10/2020 14.20, Chetan Pant wrote:
 > 
 > Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
 > ---
->  target/xtensa/gdbstub.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/tricore/tricore_testboard.c | 2 +-
+>  target/tricore/gdbstub.c       | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/target/xtensa/gdbstub.c b/target/xtensa/gdbstub.c
-> index 4d43f13..b669606 100644
-> --- a/target/xtensa/gdbstub.c
-> +++ b/target/xtensa/gdbstub.c
-> @@ -7,7 +7,7 @@
+> diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboard.c
+> index 8ec2b5b..12ea149 100644
+> --- a/hw/tricore/tricore_testboard.c
+> +++ b/hw/tricore/tricore_testboard.c
+> @@ -6,7 +6,7 @@
+>   * This library is free software; you can redistribute it and/or
+>   * modify it under the terms of the GNU Lesser General Public
+>   * License as published by the Free Software Foundation; either
+> - * version 2 of the License, or (at your option) any later version.
+> + * version 2.1 of the License, or (at your option) any later version.
+>   *
+>   * This library is distributed in the hope that it will be useful,
+>   * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> diff --git a/target/tricore/gdbstub.c b/target/tricore/gdbstub.c
+> index 0f4e612..3ce55ab 100644
+> --- a/target/tricore/gdbstub.c
+> +++ b/target/tricore/gdbstub.c
+> @@ -6,7 +6,7 @@
 >   * This library is free software; you can redistribute it and/or
 >   * modify it under the terms of the GNU Lesser General Public
 >   * License as published by the Free Software Foundation; either
