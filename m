@@ -2,84 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE8C2973BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:30:31 +0200 (CEST)
-Received: from localhost ([::1]:46086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607D4297382
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:23:46 +0200 (CEST)
+Received: from localhost ([::1]:49440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzxW-0006Wk-6s
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:30:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
+	id 1kVzqz-0004NR-Bp
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVzFu-0002yj-9y; Fri, 23 Oct 2020 11:45:27 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:6188)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kVzB3-0004Qw-1P
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:40:26 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:51783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVzFl-0003kI-3e; Fri, 23 Oct 2020 11:45:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603467917; x=1635003917;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=O3sfZ2KzydHNy1g6w/eUT+Fc1jPN29GudGPR1+ohh/U=;
- b=dxtlUfDRhzlP8GEip96j4Vh9GQB4wOErBIqSF3B5ZXlML4Ezb7h6345P
- bNII8BkO+VjNpwwJN444q4IhHmNwzTX1NGhe96/WjxTKlLzmNxXc8pH0b
- V31oE8MyMNeKcVVRMfBSsFLStjqIR/xT3x3bV/pSajJJ90+JJomyUO07L
- jv51hta6MBdaenKowzuJRRaGR+o7pA/juwv00IKt9jIyIsNxVP30JlLJp
- gJtpHwwbKmSyu7t5F7cj4+XCeDvSoVb+6XJmA00ac934jkyqdivmrMFKf
- xOmqeljogFG5sTEi7NoLFapOAMUO6HTkYyrqhvUJUhfLZOBd0CL7+Rjc4 g==;
-IronPort-SDR: UUC7FZCjz5revNemiNGnSEhq9GIOHN4ZvubZIKpERdb4mK9iC8JoBI6L04qVNtvKZ+B+BPmFu6
- 4BXgkqg0MzccNvys51eaEZ4UB6iYi8baCjoEoxqRy19yxnSvZ5h9zacfjz948SrR6sWN+DY8VC
- RQlizlGqbbKC4HhRiAgwb2wLv154LVy9/S+8b70YNCjAwxxoae+vjNjGnSIPzClRyBVDqPSV1L
- gGce3pCjsIQzRn207Bk/Wyjbn4pOx2Fiea/Q+B31Ax3d9N9nOkBjK9iSt+eKJvJa55Y9Rnsuuv
- aC4=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="151960178"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:45:15 +0800
-IronPort-SDR: zkVkEUPiNQ5aiYWrclyzHCLRTCFm7ijOUva5nqNJc3pLsa2XTjzCvNu04gmdP1cip44/+gGYnN
- VrPWxnnsr6l2V76jb/Dex0rH0ISID4tl1GA7UHYfv+AI09KV0+wn3yK/S1E8JkQpU197p8bVYy
- QUhfJuq2Ut/1abVfJl/cw7cRXDAwJXzpSojPAgAM5g5gayNQ266N4INSydmyJ4irjPYeIpWvKs
- Clld3YAdBPeI8PKLO400LWLM2BpYKasSgHQUI56rlij6zp23woUVsEtaczWUee0Q++4yzE/J9F
- pzFz/ImBqrEeODpHWMxbHvk5
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2020 08:31:37 -0700
-IronPort-SDR: mhye8snEVw+tCpwrYf2DWCtoGdjkDEukkz9JFm1qRmwELw1v0BuG/d2UlTr2bQCNFK4xhLhkfu
- bZtyGYkspua8IoruSWxf325mUXi8nTtlzschfNd4I5JpWUZE02QYCUCOQ5bgxSLdLAr+PqZ2xP
- 5vQj0CGRGPRT1fGA9DatBT2VgTlBIMTk79IwuXChnssIVI1gXSG68agxV8+EciyZO9M+4wG7Z6
- B/aRDMpZoGRw2y7x04uwYPfFByXmwpiqY3ClCT5gEqaf6VBRG40ewdNLrim8pINOx7HddQwCxp
- O00=
-WDCIronportException: Internal
-Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.60.46])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Oct 2020 08:45:15 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 15/16] target/riscv: Convert the get/set_field() to support
- 64-bit values
-Date: Fri, 23 Oct 2020 08:33:54 -0700
-Message-Id: <b1d3b41c49c5c7373ffde9908ffd340731807d13.1603467169.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1603467169.git.alistair.francis@wdc.com>
-References: <cover.1603467169.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kVzB0-0003Av-Rk
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:40:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=YOh4Y7I8iR4iwmRb1Tv4RepzFuYfoG+/0OBsIE7sL2A=; b=VaiuLswQqdUKYU01K6C1fMCeep
+ izyK7hBvgyzc+Yrr6jVA17MQ/G1UAIgFx/KPASnxgt9FunxVtzjp20dwzLqr/JJ/XKYoqkGIBvzkS
+ FCRTu83Qbv0oPkNFNF0eaQ5J/+FVFtiqj0yFhnlaNVnHAGoLdlKNnIhRRoCyV64HBSp8mx9gqszjx
+ 6S1bnk/Vai/XLHkIyDmvR9L+GwPFAjq/N+5PJ1m4d7/QmNTAClX1lejAKVT5h2p7sfLoFwa3AagVC
+ guakAF5mS5yL4qeMwiQOQSxVGNIOrB2QhO+CIufVuaVTVtuA5XR+AwlbtUK8uLn1EtKaRJ8UkyYek
+ cb0feKLg==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Greg Kurz <groug@kaod.org>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 01/13] tests/9pfs: Factor out do_version() helper
+Date: Fri, 23 Oct 2020 17:40:13 +0200
+Message-ID: <4875106.geqTqo5ub7@silver>
+In-Reply-To: <20201023172950.4b148e3f@bahia.lan>
+References: <cover.1603452058.git.qemu_oss@crudebyte.com>
+ <ccc858509ddfa3f6244cc4caf92c4149b7269b43.1603452058.git.qemu_oss@crudebyte.com>
+ <20201023172950.4b148e3f@bahia.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=558518344=alistair.francis@wdc.com;
- helo=esa6.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 11:44:34
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 11:40:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,39 +64,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow the get_field() and set_field() macros to work on 64-bit values
-even on 32-bit RISC-V.
+On Freitag, 23. Oktober 2020 17:32:02 CEST Greg Kurz wrote:
+> It feels weird to receive a mail I didn't send with my address
+> in the top From: header. I would have expected yours instead and
+> another From: with my address in the changelog...
+> 
+> 
+> On Tue, 20 Oct 2020 18:09:14 +0200
+> Greg Kurz <groug@kaod.org> wrote:
+> 
+> ... here.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu_bits.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Yep, I noticed that too late. I'll take care about it next time. Sorry!
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index d9ad694b3f..db46739b1c 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -4,10 +4,10 @@
- #define TARGET_RISCV_CPU_BITS_H
- 
- #define get_field(reg, mask) (((reg) & \
--                 (target_ulong)(mask)) / ((mask) & ~((mask) << 1)))
--#define set_field(reg, mask, val) (((reg) & ~(target_ulong)(mask)) | \
--                 (((target_ulong)(val) * ((mask) & ~((mask) << 1))) & \
--                 (target_ulong)(mask)))
-+                 (uint64_t)(mask)) / ((mask) & ~((mask) << 1)))
-+#define set_field(reg, mask, val) (((reg) & ~(uint64_t)(mask)) | \
-+                 (((uint64_t)(val) * ((mask) & ~((mask) << 1))) & \
-+                 (uint64_t)(mask)))
- 
- /* Floating point round mode */
- #define FSR_RD_SHIFT        5
--- 
-2.28.0
+Best regards,
+Christian Schoenebeck
+
 
 
