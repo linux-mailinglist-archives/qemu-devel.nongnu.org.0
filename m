@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB48297557
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:54:29 +0200 (CEST)
-Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD695297560
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:57:07 +0200 (CEST)
+Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0Ki-0003qP-3j
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54578)
+	id 1kW0NG-0007Z5-UD
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:57:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kW0JB-0002Xv-1J
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:52:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kW0J7-0004KN-U3
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:52:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603471966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+9ZHDIItoBkNCpoUhd+bx3jiDXyEpQWXHlUfgY02Lso=;
- b=XJ0ACi/kkwK2xL3JcIuFGlYBJggXrT2ju2O58MbGOsXPt5CnmwFOmqWqkF6b5Hrh3xnXsY
- p6L82f1nUpfGl+EEh0esdoi8131IrSlyYgbMNwo/vS6ET4Cj6j0k1JB5UKXYHHW5EuYSj5
- KczYmL4ao9Yn74nXT42uVyNoRujtQc4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-2A9So9zCNxiXbJrhwiZeDA-1; Fri, 23 Oct 2020 12:52:45 -0400
-X-MC-Unique: 2A9So9zCNxiXbJrhwiZeDA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0530D107B46F;
- Fri, 23 Oct 2020 16:52:42 +0000 (UTC)
-Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABEBB10013D7;
- Fri, 23 Oct 2020 16:52:36 +0000 (UTC)
-Date: Fri, 23 Oct 2020 10:52:36 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v28 04/17] vfio: Add migration region initialization and
- finalize function
-Message-ID: <20201023105236.4e9ae566@w520.home>
-In-Reply-To: <1603449643-12851-5-git-send-email-kwankhede@nvidia.com>
-References: <1603449643-12851-1-git-send-email-kwankhede@nvidia.com>
- <1603449643-12851-5-git-send-email-kwankhede@nvidia.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kW0Ls-0006GW-7x
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:55:40 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:39832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kW0Lq-0004kS-7V
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:55:39 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id o7so1702133pgv.6
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:55:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gLvUfrphDwZ2K++jmWO2A1JJHtXH+x3MhJqdTjBYNjE=;
+ b=VGICWJQlWWp4aPXV96ePhgji9wf6WSv/exuSyeqZq8zotPP86u6pevsdJjLeuvALKb
+ X9IpeqIzVFnTE0K8VRdLNHpQKh3IzRvKm7dcW0yVJwXocywB+TsVs4dKYzH+tu2wkcA+
+ w5egXZwGhdTGADTILUEQhA8fp0WDFjPTscZ59WiMahriQw9JqpyV8ZS8T9fkXVzsJGV3
+ yKiR2j0UBuCKXCjo5/G9a/l6+0M87DssseR56J8V4nl+fTo1KHS+HQ3/xoxd55fmFZvl
+ dkd2/1QnSTSdhmGX/pVSufut4fCgGOR/sNEBIVnKiwU4Pu0V8yo6EMKkImYew6fIInrS
+ I1aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gLvUfrphDwZ2K++jmWO2A1JJHtXH+x3MhJqdTjBYNjE=;
+ b=hICJLgxDBxP6yCwi/QPjq6l4qUX7LLp+RMKj9/xRKGcfsXZfZHmaV72320rug/M7bq
+ 1hfIitoNFBFUp/BHrAOpVC3IvsrBttQao7FX6KFtPpIyC86TXy1a4IEtte/+XOrDO04F
+ yqrIBMWpwwd+S57gA+PeAdDKj6fUYx3sRGpvvhMH+FtbOpe9SwXAYOsvsSVjv/UKsreU
+ 4XnRz8upN/30s5+cXlDnbWnfh+wn8LpSxSY7sSrCRSU6JYAhC1+54Vd00ZbRad9x8viT
+ Hq9eYnFdvup6D7HsWxn7kfHQbdQdO/3if0kZFSw7eQLYMxnTpps7zBcEuzH+1BJ1+KfN
+ RngA==
+X-Gm-Message-State: AOAM530ESIQnaiuW3JkQNpFmM0E+zWTEQwDBPLd1ocQTSY7ZeRAN5l1R
+ bBrPWiZr3pVCeSba/5c8UdOx0A==
+X-Google-Smtp-Source: ABdhPJx5dj7VAvfjFLTtUZiGdWTwELic4Aa4AoXUwALk33KYPtXzZHNhE+dh52CM0nchZPpds+WY6Q==
+X-Received: by 2002:a62:644c:0:b029:155:fdf4:52ed with SMTP id
+ y73-20020a62644c0000b0290155fdf452edmr97002pfb.9.1603472136259; 
+ Fri, 23 Oct 2020 09:55:36 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id h21sm2459692pgi.88.2020.10.23.09.55.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Oct 2020 09:55:35 -0700 (PDT)
+Subject: Re: [PATCH v1 16/16] target/riscv: Consolidate *statush registers
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <cover.1603467169.git.alistair.francis@wdc.com>
+ <ce9e33fdd36df39878df6657ecdc10e42c629b85.1603467169.git.alistair.francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8c6d868d-6ce1-0b8c-587b-f555f35a636e@linaro.org>
+Date: Fri, 23 Oct 2020 09:55:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <ce9e33fdd36df39878df6657ecdc10e42c629b85.1603467169.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.108,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,241 +91,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com, artemp@nvidia.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
- jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 16:10:30 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+On 10/23/20 8:33 AM, Alistair Francis wrote:
+> +        qemu_fprintf(f, " %s %016lx\n", "vsstatus ", env->vsstatus);
 
-> Whether the VFIO device supports migration or not is decided based of
-> migration region query. If migration region query is successful and migration
-> region initialization is successful then migration is supported else
-> migration is blocked.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  hw/vfio/meson.build           |   1 +
->  hw/vfio/migration.c           | 133 ++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/trace-events          |   3 +
->  include/hw/vfio/vfio-common.h |   9 +++
->  4 files changed, 146 insertions(+)
->  create mode 100644 hw/vfio/migration.c
-> 
-> diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
-> index 37efa74018bc..da9af297a0c5 100644
-> --- a/hw/vfio/meson.build
-> +++ b/hw/vfio/meson.build
-> @@ -2,6 +2,7 @@ vfio_ss = ss.source_set()
->  vfio_ss.add(files(
->    'common.c',
->    'spapr.c',
-> +  'migration.c',
->  ))
->  vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
->    'display.c',
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> new file mode 100644
-> index 000000000000..bbe6e0b7a6cc
-> --- /dev/null
-> +++ b/hw/vfio/migration.c
-> @@ -0,0 +1,133 @@
-> +/*
-> + * Migration support for VFIO devices
-> + *
-> + * Copyright NVIDIA, Inc. 2020
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See
-> + * the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include <linux/vfio.h>
-> +
-> +#include "hw/vfio/vfio-common.h"
-> +#include "cpu.h"
-> +#include "migration/migration.h"
-> +#include "migration/qemu-file.h"
-> +#include "migration/register.h"
-> +#include "migration/blocker.h"
-> +#include "migration/misc.h"
-> +#include "qapi/error.h"
-> +#include "exec/ramlist.h"
-> +#include "exec/ram_addr.h"
-> +#include "pci.h"
-> +#include "trace.h"
-> +
-> +static void vfio_migration_region_exit(VFIODevice *vbasedev)
-> +{
-> +    VFIOMigration *migration = vbasedev->migration;
-> +
-> +    if (!migration) {
-> +        return;
-> +    }
-> +
-> +    vfio_region_exit(&migration->region);
-> +    vfio_region_finalize(&migration->region);
+You need PRIx64 here.
 
-I think it would make sense to also:
 
-g_free(migration);
-vbasedev->migration = NULL;
-
-here as well so the callers don't need to.  Not worth a re-spin itself,
-maybe a follow-up if there's no other reason for a re-spin.  Thanks,
-
-Alex
-
-> +}
-> +
-> +static int vfio_migration_init(VFIODevice *vbasedev,
-> +                               struct vfio_region_info *info)
-> +{
-> +    int ret;
-> +    Object *obj;
-> +    VFIOMigration *migration;
-> +
-> +    if (!vbasedev->ops->vfio_get_object) {
-> +        return -EINVAL;
-> +    }
-> +
-> +    obj = vbasedev->ops->vfio_get_object(vbasedev);
-> +    if (!obj) {
-> +        return -EINVAL;
-> +    }
-> +
-> +    migration = g_new0(VFIOMigration, 1);
-> +
-> +    ret = vfio_region_setup(obj, vbasedev, &migration->region,
-> +                            info->index, "migration");
-> +    if (ret) {
-> +        error_report("%s: Failed to setup VFIO migration region %d: %s",
-> +                     vbasedev->name, info->index, strerror(-ret));
-> +        goto err;
-> +    }
-> +
-> +    vbasedev->migration = migration;
-> +
-> +    if (!migration->region.size) {
-> +        error_report("%s: Invalid zero-sized of VFIO migration region %d",
-> +                     vbasedev->name, info->index);
-> +        ret = -EINVAL;
-> +        goto err;
-> +    }
-> +    return 0;
-> +
-> +err:
-> +    vfio_migration_region_exit(vbasedev);
-> +    g_free(migration);
-> +    vbasedev->migration = NULL;
-> +    return ret;
-> +}
-> +
-> +/* ---------------------------------------------------------------------- */
-> +
-> +int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
-> +{
-> +    struct vfio_region_info *info = NULL;
-> +    Error *local_err = NULL;
-> +    int ret;
-> +
-> +    ret = vfio_get_dev_region_info(vbasedev, VFIO_REGION_TYPE_MIGRATION,
-> +                                   VFIO_REGION_SUBTYPE_MIGRATION, &info);
-> +    if (ret) {
-> +        goto add_blocker;
-> +    }
-> +
-> +    ret = vfio_migration_init(vbasedev, info);
-> +    if (ret) {
-> +        goto add_blocker;
-> +    }
-> +
-> +    g_free(info);
-> +    trace_vfio_migration_probe(vbasedev->name, info->index);
-> +    return 0;
-> +
-> +add_blocker:
-> +    error_setg(&vbasedev->migration_blocker,
-> +               "VFIO device doesn't support migration");
-> +    g_free(info);
-> +
-> +    ret = migrate_add_blocker(vbasedev->migration_blocker, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        error_free(vbasedev->migration_blocker);
-> +        vbasedev->migration_blocker = NULL;
-> +    }
-> +    return ret;
-> +}
-> +
-> +void vfio_migration_finalize(VFIODevice *vbasedev)
-> +{
-> +    VFIOMigration *migration = vbasedev->migration;
-> +
-> +    if (migration) {
-> +        vfio_migration_region_exit(vbasedev);
-> +        g_free(vbasedev->migration);
-> +        vbasedev->migration = NULL;
-> +    }
-> +
-> +    if (vbasedev->migration_blocker) {
-> +        migrate_del_blocker(vbasedev->migration_blocker);
-> +        error_free(vbasedev->migration_blocker);
-> +        vbasedev->migration_blocker = NULL;
-> +    }
-> +}
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index a0c7b49a2ebc..9ced5ec6277c 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -145,3 +145,6 @@ vfio_display_edid_link_up(void) ""
->  vfio_display_edid_link_down(void) ""
->  vfio_display_edid_update(uint32_t prefx, uint32_t prefy) "%ux%u"
->  vfio_display_edid_write_error(void) ""
-> +
-> +# migration.c
-> +vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index ba6169cd926e..8275c4c68f45 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -57,6 +57,10 @@ typedef struct VFIORegion {
->      uint8_t nr; /* cache the region number for debug */
->  } VFIORegion;
->  
-> +typedef struct VFIOMigration {
-> +    VFIORegion region;
-> +} VFIOMigration;
-> +
->  typedef struct VFIOAddressSpace {
->      AddressSpace *as;
->      QLIST_HEAD(, VFIOContainer) containers;
-> @@ -113,6 +117,8 @@ typedef struct VFIODevice {
->      unsigned int num_irqs;
->      unsigned int num_regions;
->      unsigned int flags;
-> +    VFIOMigration *migration;
-> +    Error *migration_blocker;
->  } VFIODevice;
->  
->  struct VFIODeviceOps {
-> @@ -204,4 +210,7 @@ int vfio_spapr_create_window(VFIOContainer *container,
->  int vfio_spapr_remove_window(VFIOContainer *container,
->                               hwaddr offset_within_address_space);
->  
-> +int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
-> +void vfio_migration_finalize(VFIODevice *vbasedev);
-> +
->  #endif /* HW_VFIO_VFIO_COMMON_H */
-
+r~
 
