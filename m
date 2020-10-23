@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607AF297337
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:07:50 +0200 (CEST)
-Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B583A29732A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:05:42 +0200 (CEST)
+Received: from localhost ([::1]:46178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzbZ-0006vZ-1a
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60456)
+	id 1kVzZV-0003qb-O2
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:05:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyz4-0004M1-4r
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:03 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26168)
+ id 1kVyzB-0004Ns-BL
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:11 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyy-0001Xq-64
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:00 -0400
+ id 1kVyz0-0001Y4-S6
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603466875; x=1635002875;
+ t=1603466878; x=1635002878;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rylK4+/QKjR1osrkrXuVvxRCm6C/UTtTufbeph92suw=;
- b=AUg9zMwD/VA7xK868+ux/Ro30sJaGlckTor1ZXsPsS8ddhWhi0uVzDaX
- FZvRBlxAEotQlKWQYE5aK7ve3PKtDn8Oi6ffDDv24EU5Koo1lWGDUnMqT
- eiqItrrRngh3wJhzyAY2Aex1aDMkrkDs6N8eg1QsHsz9TByYcIB9QJbT9
- ZMEP0V3VJqqRlJ+Ktfk35O1pzh37j+sj1KWSlOA9yPexf1OW7YtZB1BnZ
- N8Vm2UwlBU9uM4102S77Go1wHMqilwqrYj3S/hVnHWfslFw0nC4kDaV9g
- t1yJmymcxOe8M/GjTEq26ywgbPISth55qTVk4KS05FjZmbpucjve2HEpv w==;
-IronPort-SDR: GgwE7OwvYCg41w/9xmzAdVbcp3e4UHu8bcHSexo23BG9iRHRlQ9v/tKcWIY3GgVJ14lFCqmoIY
- fpzwj6ISrSJbgJcyPtuewIbvyYF6lBgvVaLxdIfQ4CCU7mGbbKH6skyBFcGYMLTUFTKVvjBanJ
- otxBJm3yFNaJC2FUJPn0T3AWBnXoEzJF9uUCYhaixAsMphMTh/yD/sjDfcmN49b73M81GZuJdD
- ekoJzrpx9LNKx2N+NkkhVzr47FpVMPS1HfGUU1C0vohjEvB8zKLnHcwARg/KcQSfuloUA+TEhl
- JTo=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652325"
+ bh=5LshL2NkcHA1RDGV9snQE3sw9voWmOvgUlT4WW/q4e0=;
+ b=HOlI6UeF90UAztDeBaJm/b+5NEFlGPJyllPKtPPIgyvxVM9UjRGU0Iia
+ 3fnyaTwBB0r6iKtnTWzdaDLvFk6bRPBy7e41WSop6Qscnof9AJkyTmuzP
+ H+0670s3DLeuXK5RecOdD4pwAIv1TGE4blz4e2fbNqUl6cxRcVjXzPDNs
+ 1xI/5fZPzYM6APpeq0c76sRysJxXwWbsF70P2GEZV1d4+48r9wsxACOyl
+ ZMDHsh3ZuxPHu2P5qiphnItFFq5c9q6LYHoQ8YcKWUbVJ/Q5mZAygmiaL
+ Skew3l3ksEEGIo7/DLpQ0YoDry2xtxIe30CrbDSqBnbr40ztrQ2VDpNtu w==;
+IronPort-SDR: 9GdCm0geRiWfAv7p+gTGpiPuFQSVtsnrp1++bP/FJKCLwgRvD3b9QpMx7mnZ5HpKFk4t+1f+rN
+ z0auT74gd/EnK+U/44mjjj1PZsMTWeyUderp7Bwq1+zZR8mPSQo058/pP5Z+MXlgbH2iGkZCrm
+ CrxmWTjkccBNbxTRSLYixnFS/J7bsNlwbqPnFu0UClg1smvUuxbMCudSAYOfI+5R+uPhx8kFvI
+ YkYgPswivvgyK14zKtBeytBiYf+Q85BhrGH7tulp+9bh8x7dU3mJcmSJBplOfnkZW+SGdyALRw
+ 1O4=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652326"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:44 +0800
-IronPort-SDR: Wl24X0LsIe1M8iMK94iBg/oq24PPy2gFUXaDVVfa/MAb0P+FKtmB+8AvDkq5UtGeybO9lK1C94
- B0X67gM6ehJSJs8Y7N/OI24KW8Fk8nuair8Tg/BIWlPSKZkFF7JdclaDFYKRc9ydkJceTF2TvJ
- ZvZp3iXheBZw0UGSkVUc+ctnzbYLKLsHpMcRHnZBIC3DHMn8fKxS3tXcyoHxnB2bLK5Pkc1D85
- 3oq6QwMVGoTtLseJVDCfpZqvXuZHHjQE3CKCORyuDMhNhgcTfLpZ0/T9i52ELBrVOqe8loxY+T
- AXngaOZDt/1t2HgIwX9nyvc7
+ by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:45 +0800
+IronPort-SDR: UxWvT9DUC+oLSgQ0HQwN8Hk2yV48mQnsDKglEm0FLF7O8/i9RYxd5SI9DqGIdazq7JTcpXwgHg
+ l3+CUtNH0Qc60B22v61EF/BPjX3n7dNmWU0SFTxA6OSctqoXXTzCC0qULR2oOvvER+GK2CPd9b
+ Z8koTpWYBrnMoZIlu3o0X/UQHR0lHi7KJGMAB2yUVpVS/E2/g20uBTrW/A59buj2K8jmBgD4i0
+ jGa+YoLBBS1VLlfzGIbukVzm7A/6mBR+udskPPO90qRDybJ/8KqCsdSVYLCoTxgeXirmMyydDH
+ Huo1hCLA1WTNNjkRyFJzmFGq
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Oct 2020 08:13:00 -0700
-IronPort-SDR: zjIWhA6HeGu2itWzrA8SlqzxgzxvvpJ3/8xEUIyMHI17wqIqhCljLYQstaxNbvtr+Mp80LFhKP
- Mb/x0YpAmlgLiFcg2JxHi+7NiaRrsPtFhC0MWEmP6PJ6W2DX82Ec27Rk+BLhqL91rL+lJxtlHK
- CC7XOn9V/pjXIXHb18O4my/wmRad5zwJhHGY5Ov1cioYJDyuH+T1f2nICIdptVyVlMDTDgSuK/
- 25p5+g/dFmCQeGPH+XG/jUe4L+uScpm0wHUrEYMoZbziwEnIn8KdG6T1OGCD4jjsBOoYofFV3u
- G30=
+IronPort-SDR: zc6MpyBZw7AP1W4jEM4xryJatBXrK2SrJcenL4QGN5jVnf/DRIOojpyDrBFcUYhIZxE4nxmg72
+ jRTxqG6QMZI8W3oUPPSRfb69b7Atw7RBbCQxBD9REoiDtMmHQC0hAky7KG6U9TzZmYy6VQ/L1K
+ cJwbWsLISKUz+f5zxFQtHNdGr9YQo2/Vh1HJ3P1HxeMxxfiWmmDa9EUXlhbSvZLKU0FZUH5Ybo
+ bHQ7j1qkKVrxYxYIULHq5+abLEU26WYPNJk7H5wzJJF9mbdXp3ySN6/rAQ80Xtsx6KjdVYN243
+ 82E=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
@@ -62,9 +62,10 @@ Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 09/12] hw/riscv: Load the kernel after the firmware
-Date: Fri, 23 Oct 2020 08:16:16 -0700
-Message-Id: <20201023151619.3175155-10-alistair.francis@wdc.com>
+Subject: [PULL 10/12] target/riscv: raise exception to HS-mode at
+ get_physical_address
+Date: Fri, 23 Oct 2020 08:16:17 -0700
+Message-Id: <20201023151619.3175155-11-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023151619.3175155-1-alistair.francis@wdc.com>
 References: <20201023151619.3175155-1-alistair.francis@wdc.com>
@@ -94,229 +95,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, alistair23@gmail.com,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Yifei Jiang <jiangyifei@huawei.com>, Yipeng Yin <yinyipeng1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of loading the kernel at a hardcoded start address, let's load
-the kernel at the next aligned address after the end of the firmware.
+From: Yifei Jiang <jiangyifei@huawei.com>
 
-This should have no impact for current users of OpenSBI, but will
-allow loading a noMMU kernel at the start of memory.
+VS-stage translation at get_physical_address needs to translate pte
+address by G-stage translation. But the G-stage translation error
+can not be distinguished from VS-stage translation error in
+riscv_cpu_tlb_fill. On migration, destination needs to rebuild pte,
+and this G-stage translation error must be handled by HS-mode. So
+introduce TRANSLATE_STAGE2_FAIL so that riscv_cpu_tlb_fill could
+distinguish and raise it to HS-mode.
 
+Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20201014101728.848-1-jiangyifei@huawei.com
+[ Change by AF:
+ - Clarify the fault_pte_addr shift
+]
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
-Tested-by: Bin Meng <bin.meng@windriver.com>
-Message-id: 46c00c4f15b42feb792090e3d74359e180a6d954.1602634524.git.alistair.francis@wdc.com
 ---
- include/hw/riscv/boot.h |  3 +++
- hw/riscv/boot.c         | 19 ++++++++++++++-----
- hw/riscv/opentitan.c    |  3 ++-
- hw/riscv/sifive_e.c     |  3 ++-
- hw/riscv/sifive_u.c     | 10 ++++++++--
- hw/riscv/spike.c        | 11 ++++++++---
- hw/riscv/virt.c         | 11 ++++++++---
- 7 files changed, 45 insertions(+), 15 deletions(-)
+ target/riscv/cpu.h        | 10 +++++++---
+ target/riscv/cpu_helper.c | 36 +++++++++++++++++++++++++++---------
+ 2 files changed, 34 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index 2975ed1a31..0b01988727 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -25,6 +25,8 @@
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index de275782e6..de4705bb57 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -82,9 +82,13 @@ enum {
  
- bool riscv_is_32_bit(MachineState *machine);
+ #define VEXT_VERSION_0_07_1 0x00000701
  
-+target_ulong riscv_calc_kernel_start_addr(MachineState *machine,
-+                                          target_ulong firmware_end_addr);
- target_ulong riscv_find_and_load_firmware(MachineState *machine,
-                                           const char *default_machine_firmware,
-                                           hwaddr firmware_load_addr,
-@@ -34,6 +36,7 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
-                                  hwaddr firmware_load_addr,
-                                  symbol_fn_t sym_cb);
- target_ulong riscv_load_kernel(const char *kernel_filename,
-+                               target_ulong firmware_end_addr,
-                                symbol_fn_t sym_cb);
- hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
-                          uint64_t kernel_entry, hwaddr *start);
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 5dea644f47..9b3fe3fb1e 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -33,10 +33,8 @@
- #include <libfdt.h>
- 
- #if defined(TARGET_RISCV32)
--# define KERNEL_BOOT_ADDRESS 0x80400000
- #define fw_dynamic_info_data(__val)     cpu_to_le32(__val)
- #else
--# define KERNEL_BOOT_ADDRESS 0x80200000
- #define fw_dynamic_info_data(__val)     cpu_to_le64(__val)
- #endif
- 
-@@ -49,6 +47,15 @@ bool riscv_is_32_bit(MachineState *machine)
-     }
- }
- 
-+target_ulong riscv_calc_kernel_start_addr(MachineState *machine,
-+                                          target_ulong firmware_end_addr) {
-+    if (riscv_is_32_bit(machine)) {
-+        return QEMU_ALIGN_UP(firmware_end_addr, 4 * MiB);
-+    } else {
-+        return QEMU_ALIGN_UP(firmware_end_addr, 2 * MiB);
-+    }
-+}
+-#define TRANSLATE_PMP_FAIL 2
+-#define TRANSLATE_FAIL 1
+-#define TRANSLATE_SUCCESS 0
++enum {
++    TRANSLATE_SUCCESS,
++    TRANSLATE_FAIL,
++    TRANSLATE_PMP_FAIL,
++    TRANSLATE_G_STAGE_FAIL
++};
 +
- target_ulong riscv_find_and_load_firmware(MachineState *machine,
-                                           const char *default_machine_firmware,
-                                           hwaddr firmware_load_addr,
-@@ -123,7 +130,9 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
-     exit(1);
- }
+ #define MMU_USER_IDX 3
  
--target_ulong riscv_load_kernel(const char *kernel_filename, symbol_fn_t sym_cb)
-+target_ulong riscv_load_kernel(const char *kernel_filename,
-+                               target_ulong kernel_start_addr,
-+                               symbol_fn_t sym_cb)
+ #define MAX_RISCV_PMPS (16)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f363c1013c..4652082df1 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -316,6 +316,9 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+  * @physical: This will be set to the calculated physical address
+  * @prot: The returned protection attributes
+  * @addr: The virtual address to be translated
++ * @fault_pte_addr: If not NULL, this will be set to fault pte address
++ *                  when a error occurs on pte address translation.
++ *                  This will already be shifted to match htval.
+  * @access_type: The type of MMU access
+  * @mmu_idx: Indicates current privilege level
+  * @first_stage: Are we in first stage translation?
+@@ -324,6 +327,7 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+  */
+ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+                                 int *prot, target_ulong addr,
++                                target_ulong *fault_pte_addr,
+                                 int access_type, int mmu_idx,
+                                 bool first_stage, bool two_stage)
  {
-     uint64_t kernel_entry;
+@@ -447,11 +451,14 @@ restart:
  
-@@ -138,9 +147,9 @@ target_ulong riscv_load_kernel(const char *kernel_filename, symbol_fn_t sym_cb)
-         return kernel_entry;
+             /* Do the second stage translation on the base PTE address. */
+             int vbase_ret = get_physical_address(env, &vbase, &vbase_prot,
+-                                                 base, MMU_DATA_LOAD,
++                                                 base, NULL, MMU_DATA_LOAD,
+                                                  mmu_idx, false, true);
+ 
+             if (vbase_ret != TRANSLATE_SUCCESS) {
+-                return vbase_ret;
++                if (fault_pte_addr) {
++                    *fault_pte_addr = (base + idx * ptesize) >> 2;
++                }
++                return TRANSLATE_G_STAGE_FAIL;
+             }
+ 
+             pte_addr = vbase + idx * ptesize;
+@@ -632,13 +639,13 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+     int prot;
+     int mmu_idx = cpu_mmu_index(&cpu->env, false);
+ 
+-    if (get_physical_address(env, &phys_addr, &prot, addr, 0, mmu_idx,
++    if (get_physical_address(env, &phys_addr, &prot, addr, NULL, 0, mmu_idx,
+                              true, riscv_cpu_virt_enabled(env))) {
+         return -1;
      }
  
--    if (load_image_targphys_as(kernel_filename, KERNEL_BOOT_ADDRESS,
-+    if (load_image_targphys_as(kernel_filename, kernel_start_addr,
-                                ram_size, NULL) > 0) {
--        return KERNEL_BOOT_ADDRESS;
-+        return kernel_start_addr;
-     }
+     if (riscv_cpu_virt_enabled(env)) {
+-        if (get_physical_address(env, &phys_addr, &prot, phys_addr,
++        if (get_physical_address(env, &phys_addr, &prot, phys_addr, NULL,
+                                  0, mmu_idx, false, true)) {
+             return -1;
+         }
+@@ -727,19 +734,30 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     if (riscv_cpu_virt_enabled(env) ||
+         (riscv_cpu_two_stage_lookup(env) && access_type != MMU_INST_FETCH)) {
+         /* Two stage lookup */
+-        ret = get_physical_address(env, &pa, &prot, address, access_type,
++        ret = get_physical_address(env, &pa, &prot, address,
++                                   &env->guest_phys_fault_addr, access_type,
+                                    mmu_idx, true, true);
  
-     error_report("could not load kernel '%s'", kernel_filename);
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 0531bd879b..cc758b78b8 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -75,7 +75,8 @@ static void opentitan_board_init(MachineState *machine)
-     }
- 
-     if (machine->kernel_filename) {
--        riscv_load_kernel(machine->kernel_filename, NULL);
-+        riscv_load_kernel(machine->kernel_filename,
-+                          memmap[IBEX_DEV_RAM].base, NULL);
-     }
- }
- 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index fcfac16816..59bac4cc9a 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machine)
-                           memmap[SIFIVE_E_DEV_MROM].base, &address_space_memory);
- 
-     if (machine->kernel_filename) {
--        riscv_load_kernel(machine->kernel_filename, NULL);
-+        riscv_load_kernel(machine->kernel_filename,
-+                          memmap[SIFIVE_E_DEV_DTIM].base, NULL);
-     }
- }
- 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 5f3ad9bc0f..b2472c6627 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -415,6 +415,7 @@ static void sifive_u_machine_init(MachineState *machine)
-     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *flash0 = g_new(MemoryRegion, 1);
-     target_ulong start_addr = memmap[SIFIVE_U_DEV_DRAM].base;
-+    target_ulong firmware_end_addr, kernel_start_addr;
-     uint32_t start_addr_hi32 = 0x00000000;
-     int i;
-     uint32_t fdt_load_addr;
-@@ -474,10 +475,15 @@ static void sifive_u_machine_init(MachineState *machine)
-         break;
-     }
- 
--    riscv_find_and_load_firmware(machine, BIOS_FILENAME, start_addr, NULL);
-+    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                                     start_addr, NULL);
- 
-     if (machine->kernel_filename) {
--        kernel_entry = riscv_load_kernel(machine->kernel_filename, NULL);
-+        kernel_start_addr = riscv_calc_kernel_start_addr(machine,
-+                                                         firmware_end_addr);
++        /*
++         * A G-stage exception may be triggered during two state lookup.
++         * And the env->guest_phys_fault_addr has already been set in
++         * get_physical_address().
++         */
++        if (ret == TRANSLATE_G_STAGE_FAIL) {
++            first_stage_error = false;
++            access_type = MMU_DATA_LOAD;
++        }
 +
-+        kernel_entry = riscv_load_kernel(machine->kernel_filename,
-+                                         kernel_start_addr, NULL);
+         qemu_log_mask(CPU_LOG_MMU,
+                       "%s 1st-stage address=%" VADDR_PRIx " ret %d physical "
+                       TARGET_FMT_plx " prot %d\n",
+                       __func__, address, ret, pa, prot);
  
-         if (machine->initrd_filename) {
-             hwaddr start;
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 3fd152a035..facac6e7d2 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -195,6 +195,7 @@ static void spike_board_init(MachineState *machine)
-     MemoryRegion *system_memory = get_system_memory();
-     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-+    target_ulong firmware_end_addr, kernel_start_addr;
-     uint32_t fdt_load_addr;
-     uint64_t kernel_entry;
-     char *soc_name;
-@@ -261,12 +262,16 @@ static void spike_board_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
-                                 mask_rom);
+-        if (ret != TRANSLATE_FAIL) {
++        if (ret == TRANSLATE_SUCCESS) {
+             /* Second stage lookup */
+             im_address = pa;
  
--    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
--                                 memmap[SPIKE_DRAM].base,
--                                 htif_symbol_callback);
-+    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                                     memmap[SPIKE_DRAM].base,
-+                                                     htif_symbol_callback);
+-            ret = get_physical_address(env, &pa, &prot2, im_address,
++            ret = get_physical_address(env, &pa, &prot2, im_address, NULL,
+                                        access_type, mmu_idx, false, true);
  
-     if (machine->kernel_filename) {
-+        kernel_start_addr = riscv_calc_kernel_start_addr(machine,
-+                                                         firmware_end_addr);
-+
-         kernel_entry = riscv_load_kernel(machine->kernel_filename,
-+                                         kernel_start_addr,
-                                          htif_symbol_callback);
+             qemu_log_mask(CPU_LOG_MMU,
+@@ -768,8 +786,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+         }
+     } else {
+         /* Single stage lookup */
+-        ret = get_physical_address(env, &pa, &prot, address, access_type,
+-                                   mmu_idx, true, false);
++        ret = get_physical_address(env, &pa, &prot, address, NULL,
++                                   access_type, mmu_idx, true, false);
  
-         if (machine->initrd_filename) {
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 41bd2f38ba..6bfd10dfc7 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -493,6 +493,7 @@ static void virt_machine_init(MachineState *machine)
-     char *plic_hart_config, *soc_name;
-     size_t plic_hart_config_len;
-     target_ulong start_addr = memmap[VIRT_DRAM].base;
-+    target_ulong firmware_end_addr, kernel_start_addr;
-     uint32_t fdt_load_addr;
-     uint64_t kernel_entry;
-     DeviceState *mmio_plic, *virtio_plic, *pcie_plic;
-@@ -602,11 +603,15 @@ static void virt_machine_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
-                                 mask_rom);
- 
--    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
--                                 memmap[VIRT_DRAM].base, NULL);
-+    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                                     start_addr, NULL);
- 
-     if (machine->kernel_filename) {
--        kernel_entry = riscv_load_kernel(machine->kernel_filename, NULL);
-+        kernel_start_addr = riscv_calc_kernel_start_addr(machine,
-+                                                         firmware_end_addr);
-+
-+        kernel_entry = riscv_load_kernel(machine->kernel_filename,
-+                                         kernel_start_addr, NULL);
- 
-         if (machine->initrd_filename) {
-             hwaddr start;
+         qemu_log_mask(CPU_LOG_MMU,
+                       "%s address=%" VADDR_PRIx " ret %d physical "
 -- 
 2.28.0
 
